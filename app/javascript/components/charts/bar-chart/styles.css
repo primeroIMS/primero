@@ -1,0 +1,10 @@
+.description {
+  font-size: $(theme.typography.pxToRem(14));
+  line-height: 1em;
+  color: $(theme.primero.colors.darkGrey);
+  padding: 0 16px;
+  margin: 0 10px 15px 0;
+}
+.bartChartContainer {
+  height: 350px;
+}

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {
   InputLabel,
   FormControl,
+  FormHelperText,
   MenuItem,
   Input,
   ListItemText,
@@ -36,6 +37,7 @@ const SelectField = ({
   name,
   field,
   label,
+  helperText,
   InputLabelProps,
   InputProps,
   mode,
@@ -72,26 +74,29 @@ const SelectField = ({
     input: <Input />,
     renderValue: selected => {
       return field.multi_select
-        ? selected.map(s => findOptionDisplayText(s)).join(", ")
-        : findOptionDisplayText(selected);
+        ? selected.map(s => findOptionDisplayText(s)).join(", ") ||
+            i18n.t("fields.select_multiple")
+        : findOptionDisplayText(selected) || i18n.t("fields.select_single");
     },
     MenuProps,
     multiple: field.multi_select,
     IconComponent: !mode.isShow ? ArrowDropDownIcon : () => null
   };
 
+  const fieldError = getIn(formik.errors, name);
+  const fieldTouched = getIn(formik.touched, name);
+
   if (!isEmpty(formik.values)) {
     return (
-      <FormControl fullWidth className={css.selectField}>
+      <FormControl
+        fullWidth
+        className={css.selectField}
+        error={fieldError && fieldTouched}
+      >
         <InputLabel shrink htmlFor={other.name} {...InputLabelProps}>
           {label}
         </InputLabel>
         <FastField {...fieldProps}>
-          <MenuItem value="">
-            {field.multi_select
-              ? i18n.t("fields.select_multiple")
-              : i18n.t("fields.select_single")}
-          </MenuItem>
           {options.length > 0 &&
             options.map(o => (
               <MenuItem key={o.id} value={o.id}>
@@ -102,6 +107,9 @@ const SelectField = ({
               </MenuItem>
             ))}
         </FastField>
+        <FormHelperText>
+          {fieldError && fieldTouched ? fieldError : helperText}
+        </FormHelperText>
       </FormControl>
     );
   }
@@ -113,6 +121,7 @@ SelectField.propTypes = {
   name: PropTypes.string.isRequired,
   field: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
+  helperText: PropTypes.string,
   InputLabelProps: PropTypes.object,
   InputProps: PropTypes.object,
   mode: PropTypes.object,

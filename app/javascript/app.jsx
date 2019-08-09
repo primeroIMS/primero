@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import createGenerateClassName from "@material-ui/styles/createGenerateClassName";
 import jssPreset from "@material-ui/styles/jssPreset";
@@ -44,33 +46,43 @@ const App = () => {
     <Provider store={store}>
       <I18nProvider>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <ThemeProvider theme={theme}>
-            <StylesProvider
-              injectFirst
-              jss={jss}
-              generateClassName={generateClassName}
-            >
+          <StylesProvider
+            injectFirst
+            jss={jss}
+            generateClassName={generateClassName}
+          >
+            <ThemeProvider theme={theme}>
               <SnackbarProvider maxSnack={3}>
                 <ConnectedRouter history={history}>
                   <Switch>
                     <Route exact path="/">
                       <Redirect to="/login" />
                     </Route>
-                    {routes.map(route => {
-                      if (route.layout === "LoginLayout") {
-                        return route.routes.map(loginLayout => (
-                          <LoginLayoutRoute {...loginLayout} />
-                        ));
+                    {routes.map((route, index) => {
+                      switch (route.layout) {
+                        case "LoginLayout":
+                          return route.routes.map((loginLayout, subIndex) => (
+                            <LoginLayoutRoute
+                              {...loginLayout}
+                              key={`login-${subIndex}`}
+                            />
+                          ));
+                        case "AppLayout":
+                          return route.routes.map((appLayout, subIndex) => (
+                            <AppLayoutRoute
+                              {...appLayout}
+                              key={`app-${subIndex}`}
+                            />
+                          ));
+                        default:
+                          return <Route {...route} key={`route-${index}`} />;
                       }
-                      return route.routes.map(appLayout => (
-                        <AppLayoutRoute {...appLayout} />
-                      ));
                     })}
                   </Switch>
                 </ConnectedRouter>
               </SnackbarProvider>
-            </StylesProvider>
-          </ThemeProvider>
+            </ThemeProvider>
+          </StylesProvider>
         </MuiPickersUtilsProvider>
       </I18nProvider>
     </Provider>

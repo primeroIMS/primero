@@ -33,7 +33,7 @@ gem 'writeexcel',        '~> 1.0'
 gem 'spreadsheet',       '~> 1.1'
 
 gem 'will_paginate',     '~> 3.1'
-gem 'mini_magick',       '~> 4.9'
+gem 'mini_magick',       '~> 4.9.4'
 gem 'i18n-js',           '~> 3.2'
 
 gem 'rufus-scheduler',   '~> 3.4', require: false

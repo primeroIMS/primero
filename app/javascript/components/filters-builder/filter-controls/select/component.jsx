@@ -1,13 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import {
-  MenuItem,
-  FormControl,
-  Select,
-  OutlinedInput
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { MenuItem, FormControl, Select } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
@@ -31,7 +26,7 @@ const SelectFilter = ({
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const { id, options } = props;
-  const { values } = options;
+  const { values, defaultValue } = options;
 
   return (
     <div className={css.root}>
@@ -43,18 +38,12 @@ const SelectFilter = ({
             setSelectValue(
               {
                 id,
-                data: event.target.value
+                data: event.target.value,
+                defaultValue
               },
               recordType
             );
           }}
-          input={
-            <OutlinedInput
-              name={id}
-              id={id}
-              classes={{ root: css.inputSelect }}
-            />
-          }
           MenuProps={MenuProps}
         >
           {values.map(v => (

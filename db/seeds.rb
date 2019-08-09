@@ -10,7 +10,7 @@ def should_seed? model
 end
 
 def table_empty?(model)
-  model.count > 0
+  model.all.empty?
 end
 
 #Reseed the lookups
@@ -52,7 +52,7 @@ Dir[File.dirname(__FILE__) + '/reports/*.rb'].each {|file| require file } if sho
 
 if should_seed? ContactInformation
   #A little hacky, but no need to write a create_or_update method
-  ContactInformation.create(:id=>"administrator") if table_empty?(ContactInformation)
+  ContactInformation.create(name: 'administrator') if table_empty?(ContactInformation)
 end
 
 #TODO: This is being temporarily removed: v1.5 and v1.6 GBV field keys are mismatched. Need to reconcile before re-enabling

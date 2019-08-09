@@ -1,6 +1,45 @@
-.loading {
-  justify-content: center;
+.loadingIndicator {
   display: flex;
-  height: 100%;
+  justify-content: center;
+  flex: 1;
+  height: 80%;
   align-items: center;
+}
+
+.errorContainer,
+.emptyContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+}
+
+.error,
+.empty {
+  text-align: center;
+  color: $(theme.primero.colors.warmGrey1);
+
+  & svg {
+    font-size: $(theme.typography.pxToRem(96));
+  }
+}
+
+.errorButton {
+  color: $(theme.primero.colors.warmGrey1) !important;
+}
+
+.errorMessage,
+.emptyMessage {
+  font-size: $(theme.typography.pxToRem(17));
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 0.2em 0 1em;
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .error,
+  .empty,
+  .loadingIndicator {
+    margin-top: 6em;
+  }
 }

@@ -51,6 +51,15 @@ export default [
         component: Page.TracingRequestList
       },
       {
+        path: "/reports",
+        exact: true,
+        component: Page.Reports
+      },
+      {
+        path: "/reports/:id",
+        component: Page.ReportDetail
+      },
+      {
         path: "/matches",
         component: Page.PotentialMatches
       },
@@ -67,5 +76,8 @@ export default [
         component: Page.Support
       }
     ]
+  },
+  {
+    component: Page.NotFound
   }
 ];

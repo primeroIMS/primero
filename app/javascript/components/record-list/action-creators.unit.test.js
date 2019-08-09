@@ -35,7 +35,7 @@ describe("<RecordList /> - Action Creators", () => {
     });
 
     expect(dispatch).to.have.been.calledWithMatch({
-      api: { params: options, path: "/cases" },
+      api: { params: options, path: "cases" },
       type: "cases/RECORDS"
     });
   });

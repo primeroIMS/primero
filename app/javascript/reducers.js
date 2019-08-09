@@ -7,13 +7,13 @@ import * as Login from "components/pages/login";
 import * as Nav from "./components/nav";
 import * as CaseList from "./components/pages/case-list";
 import * as Dashboard from "./components/pages/dashboard";
+import * as Reports from "./components/pages/reports";
 import * as PotentialMatches from "./components/pages/potential-matches";
 import * as TaskList from "./components/pages/task-list";
 import * as RecordForms from "./components/record-form";
 import * as ExportList from "./components/pages/export-list";
 import * as Filter from "./components/filters";
 import * as FiltersBuilder from "./components/filters-builder";
-import * as Filters from "./components/filters-builder/filter-controls";
 import * as Support from "./components/pages/support";
 import * as Notifier from "./components/notifier";
 
@@ -25,17 +25,16 @@ const rootReducer = {
     ...PotentialMatches.reducers,
     ...TaskList.reducers,
     ...Dashboard.reducers,
+    ...Reports.reducers,
     ...ExportList.reducers,
-    ...Filter.reducers,
-    ...FiltersBuilder.reducers,
-    ...Filters.chipsReducer,
-    ...Filters.radioButtonsReducer,
-    ...Filters.rangeButtonReducer,
-    ...Filters.selectReducer,
-    ...Filters.checkboxReducer,
     ...Support.reducers
   }),
-  ui: combineReducers({ ...Nav.reducers, ...I18n.reducers }),
+  ui: combineReducers({
+    ...Nav.reducers,
+    ...I18n.reducers,
+    ...Filter.reducers,
+    ...FiltersBuilder.reducers
+  }),
   ...RecordForms.reducers,
   ...Login.reducers,
   ...Notifier.reducers

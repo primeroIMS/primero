@@ -1,13 +1,5 @@
-.Chip {
-  border-radius: 16px;
-  font-family: $(theme.typography.fontFamily);
-  font-size: 11px;
+.chip {
   font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  height: 18px;
   color: $(theme.primero.colors.white);
   text-transform: uppercase;
 

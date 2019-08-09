@@ -1,7 +1,41 @@
-.OptionsBox {
+.card {
   margin-bottom: 20px;
 }
 
-.CardShadow {
-  box-shadow: $(theme.primero.shadows[0]);
+.content {
+  padding: 0 !important;
+
+  & td,
+  & th {
+    padding: 6px 15px;
+  }
+}
+
+.title {
+  padding: 14px 16px 0 16px;
+
+  & span {
+    font-weight: 900 !important;
+    font-size: $(theme.typography.pxToRem(17)) !important;
+    text-transform: uppercase;
+  }
+}
+
+@media $(theme.breakpoints.up("sm")) {
+  .content {
+    & table tr:last-child td {
+      border-bottom: none;
+    }
+  }
+}
+
+.cardLink {
+  text-decoration: none;
+  font-size: $(theme.typography.pxToRem(17));
+  font-weight: bold;
+  color: #231e1f;
+
+  &:hover {
+    color: $(theme.primero.colors.darkGrey);
+  }
 }

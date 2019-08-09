@@ -1,18 +1,23 @@
 .toggleContainer {
-  margin: 10px;
+  display: flex;
+  justify-content: center;
+  flex: 1;
 }
 
-.toogleButton {
+.toggleButton {
   color: $(theme.primero.colors.blue);
   border: 1px solid $(theme.primero.colors.blue);
+
+  &:first-child {
+    border-radius: 0.25em 0 0 0.25em;
+  }
+
+  &:last-child {
+    border-radius: 0 0.25em 0.25em 0;
+  }
 }
-.toogleButton:first-child{
-  border-radius: .25em 0 0 .25em;
-}
-.toogleButton:last-child{
-  border-radius: 0 .25em .25em 0;
-}
-.toogleButtonSelected {
-  color: #FFF !important;
+
+.toggleButtonSelected {
+  color: #fff !important;
   background-color: #0093ba !important;
 }

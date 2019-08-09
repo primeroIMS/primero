@@ -1,33 +1,36 @@
-.Root {
-  flexGrow: 1;
+.root {
+  flexgrow: 1;
   padding: 15px;
 }
 
-.OverviewList {
+.overviewList {
   list-style: none;
   font-size: 14px;
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
   line-height: 1.29;
-  letter-spacing: normal;
   color: #231e1f;
 }
 
-.OverviewList li:first-child {
+.overviewList li:first-child {
   font-size: 14px;
   font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
   color: #231e1f;
   padding: 0 0 8px 0;
   text-transform: uppercase;
 }
 
-.DashboardChart {
+.dashboardChart {
   margin: 0 0 16px 0;
   border-right: 1px solid lightgray;
   padding: 0;
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .overviewList {
+    padding: 0;
+  }
+
+  .dashboardChart {
+    margin: 0;
+    border-right: none;
+  }
 }

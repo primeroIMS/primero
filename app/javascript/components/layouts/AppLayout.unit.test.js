@@ -10,7 +10,19 @@ describe("<AppLayout />", () => {
   let component;
 
   before(() => {
-    const state = Map({ ui: Map({ Nav: Map({ drawerOpen: true }) }) });
+    const state = Map({
+      ui: Map({
+        Nav: Map({
+          drawerOpen: true
+        })
+      }),
+      user: Map({
+        module: "primero",
+        agency: "unicef",
+        isAuthenticated: true,
+        messages: null
+      })
+    });
     component = setupMountedComponent(AppLayout, { route: routes[1] }, state)
       .component;
   });

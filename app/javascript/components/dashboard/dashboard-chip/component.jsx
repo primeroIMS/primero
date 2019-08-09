@@ -7,7 +7,10 @@ import styles from "./styles.css";
 
 const DashboardChip = ({ label, type }) => {
   const css = makeStyles(styles)();
-  return <Chip label={label} className={clsx(css.Chip, css[type])} />;
+
+  return (
+    <Chip label={label} className={clsx(css.chip, css[type])} size="small" />
+  );
 };
 
 DashboardChip.propTypes = {

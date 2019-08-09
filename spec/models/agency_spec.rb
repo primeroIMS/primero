@@ -31,6 +31,23 @@ describe Agency do
         expect(agency1).to be_valid
       end
     end
+
+    context 'when unique_id is empty' do
+      it 'is not valid' do
+        agency1 = Agency.new(name: 'agency test',  agency_code: 'agency-test')
+        agency1.unique_id = nil
+        expect(agency1).not_to be_valid
+        expect(agency1.errors[:unique_id]).to eq(["can't be blank"])
+      end
+    end
+
+    context 'when agency code present the unique_id is generated' do
+      it 'is valid' do
+        agency1 = Agency.new(name: 'agency test',  agency_code: 'agency-test')
+        expect(agency1).to be_valid
+        expect(agency1.unique_id).to eq("agency-agency-test")
+      end
+    end
   end
 
   describe 'agency id' do

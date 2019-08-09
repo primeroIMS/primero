@@ -77,3 +77,8 @@ export const getOption = (state, option) => {
 };
 
 export const getRecord = state => state.getIn([NAMESPACE, "selectedRecord"]);
+
+export const getLoadingState = state =>
+  state.getIn([NAMESPACE, "loading"], false);
+
+export const getErrors = state => state.getIn([NAMESPACE, "errors"], false);

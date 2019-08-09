@@ -1,5 +1,5 @@
-import React from "react";
-import { Grid, Button, Typography, Link } from "@material-ui/core";
+import React, { useEffect } from "react";
+import { Grid, Button, Link } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles";
 import { connect, useDispatch } from "react-redux";
@@ -7,6 +7,8 @@ import { Redirect, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
+import { enqueueSnackbar } from "components/notifier";
+import { PageHeading } from "components/page-container";
 import styles from "./styles.css";
 import { attemptLogin, attemptSignout } from "./action-creators";
 import * as Selectors from "./selectors";
@@ -20,6 +22,10 @@ const Login = ({ isAuthenticated, match, authErrors }) => {
     dispatch(attemptLogin(values));
     setSubmitting(false);
   };
+
+  useEffect(() => {
+    dispatch(enqueueSnackbar(authErrors, "error"));
+  }, [authErrors]);
 
   if (match.path.includes("signout")) {
     dispatch(attemptSignout());
@@ -52,14 +58,14 @@ const Login = ({ isAuthenticated, match, authErrors }) => {
   };
 
   // TODO: Need to pass agency and logo path from api
+  // TODO: Add yup validations
   return (
     <>
-      <Typography component="h1">{i18n.t("login.label")}</Typography>
-      {authErrors}
+      <PageHeading title={i18n.t("login.label")} />
       <Formik
         {...formProps}
         render={() => (
-          <Form className={css.loginForm}>
+          <Form className={css.loginForm} autoComplete="off" noValidate>
             <Field
               name="user_name"
               label={i18n.t("login.username")}

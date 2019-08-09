@@ -12,7 +12,7 @@
     }
 
     & svg {
-      color: $(theme.primero.colors.darkGrey);
+      color: $(theme.primero.colors.black);
       width: 24px;
     }
   }

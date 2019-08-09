@@ -1,45 +1,43 @@
-import React from "react";
+/* eslint-disable jsx-a11y/label-has-for */
+
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import {
-  SimpleFileUpload,
-  TextField as MuiTextField
-} from "formik-material-ui";
 import { FastField, FieldArray, connect, getIn } from "formik";
 import { Box, IconButton, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
+import AddIcon from "@material-ui/icons/Add";
 import { useI18n } from "components/i18n";
-import DateField from "./DateField";
 import styles from "./styles.css";
+import DocumentField from "./DocumentField";
 
 // TODO: No link to display / download upload
-const AttachmentField = ({
-  name,
-  field,
-  label,
-  disabled,
-  formik,
-  mode,
-  ...props
-}) => {
+const AttachmentField = ({ name, field, label, disabled, formik, mode }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
-
-  const fieldProps = {
-    component: SimpleFileUpload,
-    ...props
-  };
-
   const values = getIn(formik.values, name);
-
   const attachment = {
     photo_upload_box: "image",
     audio_upload_box: "audio",
     document_upload_box: "document"
   }[field.type];
 
+  const [openLastDialog, setOpenLastDialog] = useState(false);
+
   let initialAttachmentValue = {
-    [attachment]: null
+    [attachment]: ""
+  };
+
+  const handleAttachmentAddition = arrayHelpers => {
+    arrayHelpers.push(initialAttachmentValue);
+
+    if (attachment === "document") {
+      setOpenLastDialog(true);
+    }
+  };
+
+  const resetOpenLastDialog = () => {
+    setOpenLastDialog(false);
   };
 
   if (attachment === "document") {
@@ -50,91 +48,87 @@ const AttachmentField = ({
     });
   }
 
-  const supportingInputsProps = {
-    readOnly: mode.isShow,
-    fullWidth: true,
-    autoComplete: "off",
-    InputProps: {
-      readOnly: mode.isShow,
-      classes: {
-        root: css.input
-      }
-    },
-    InputLabelProps: {
-      shrink: true,
-      classes: {
-        root: css.inputLabel
-      }
-    }
-  };
+  const valuesSize = values.length;
 
   return (
     <FieldArray
       name={name}
       render={arrayHelpers => (
         <Box>
-          <h4>{label}</h4>
+          <div className={css.attachmentHeading}>
+            <h4>{label}</h4>
+            {disabled && !mode.isShow && (
+              <div>
+                <IconButton
+                  variant="contained"
+                  onClick={() => handleAttachmentAddition(arrayHelpers)}
+                >
+                  <AddIcon />
+                </IconButton>
+              </div>
+            )}
+          </div>
+
           {values.length > 0 &&
             values.map((a, index) => {
               return (
-                <Box className={css.uploadBox}>
-                  <Box display="flex" my={2}>
-                    <Box flexGrow="1">
-                      {!mode.isShow && (
-                        <FastField
-                          {...fieldProps}
-                          name={`${name}[${index}][${attachment}]`}
-                        />
-                      )}
+                // eslint-disable-next-line react/no-array-index-key
+                <div key={`${attachment}-${index}`}>
+                  {attachment === "document" ? (
+                    <DocumentField
+                      title={`${i18n.t("fields.add")} ${label}`}
+                      index={index}
+                      name={name}
+                      mode={mode}
+                      open={valuesSize === index + 1 && openLastDialog}
+                      resetOpenLastDialog={resetOpenLastDialog}
+                      value={a}
+                      removeFunc={arrayHelpers.remove}
+                    />
+                  ) : (
+                    <Box className={css.uploadBox}>
+                      <Box display="flex" my={2} alignItems="center">
+                        <Box flexGrow="1">
+                          {!mode.isShow && (
+                            <>
+                              <label
+                                htmlFor={`${name}[${index}][${attachment}]`}
+                              >
+                                <Button
+                                  variant="outlined"
+                                  color="primary"
+                                  component="span"
+                                >
+                                  {i18n.t(
+                                    "fields.file_upload_box.select_file_button_text"
+                                  )}
+                                </Button>
+                              </label>
+                              <div className={css.inputField}>
+                                <FastField
+                                  id={`${name}[${index}][${attachment}]`}
+                                  name={`${name}[${index}][${attachment}]`}
+                                  type="file"
+                                />
+                              </div>
+                            </>
+                          )}
+                        </Box>
+                        {disabled && !mode.isShow && (
+                          <div>
+                            <IconButton
+                              onClick={() => arrayHelpers.remove(index)}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </div>
+                        )}
+                      </Box>
                     </Box>
-                    {disabled && !mode.isShow && (
-                      <Box mx={4}>
-                        <IconButton onClick={() => arrayHelpers.remove(index)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </Box>
-                    )}
-                  </Box>
-                  {attachment === "document" && (
-                    <>
-                      <Box my={2}>
-                        <FastField
-                          component={MuiTextField}
-                          {...supportingInputsProps}
-                          label={i18n.t("fields.name")}
-                          name={`${name}[${index}][document_description]`}
-                        />
-                      </Box>
-                      <Box my={2}>
-                        <DateField
-                          {...supportingInputsProps}
-                          readOnly={mode.isShow}
-                          name={`${name}[${index}][date]`}
-                          label={i18n.t("fields.date")}
-                        />
-                      </Box>
-                      <Box my={2}>
-                        <FastField
-                          component={MuiTextField}
-                          {...supportingInputsProps}
-                          multiline
-                          label={i18n.t("fields.comments")}
-                          name={`${name}[${index}][comments]`}
-                        />
-                      </Box>
-                    </>
                   )}
-                </Box>
+                </div>
               );
             })}
-          {disabled && !mode.isShow && (
-            <Button
-              variant="contained"
-              onClick={() => arrayHelpers.insert(initialAttachmentValue)}
-            >
-              {i18n.t("form_section.buttons.add")}
-            </Button>
-          )}
         </Box>
       )}
     />

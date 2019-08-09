@@ -15,14 +15,30 @@ describe("<RecordList />", () => {
   const fetchRecords = sinon.spy();
 
   before(() => {
-    component = setupMountedComponent(RecordList, {
-      data: { meta: Map({ per: 5, page: 1 }), records: [Map({ id: "test" })] },
+    const initialState = Map({
+      records: Map({
+        FiltersTabs: Map({
+          current: 0
+        })
+      })
+    });
+    component = setupMountedComponent(
+      RecordList, {
+      data: {
+        meta: Map({ per: 5, page: 1 }),
+        records: [Map({ id: "test" })],
+        filters: Map({ fields: "short", record_state: true })
+      },
       columns: [],
       title: "Record List",
       path: "/records",
       namespace: "TestRecordType",
-      getRecords: fetchRecords
-    }).component;
+      getRecords: fetchRecords,
+      recordType: "TestRecordType",
+      primeroModule: "primeromodule-cp"
+    },
+    initialState
+  ).component;
   });
 
   it("renders record list table", () => {

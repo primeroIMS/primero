@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Tabs, Tab } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
+import { Tabs, Tab } from "@material-ui/core";
+import { Map } from "immutable";
 import { FiltersBuilder } from "components/filters-builder";
 import {
   setUpCheckBoxes,
   setupSelect,
   setupRangeButton,
   setUpChips,
-  setupRadioButtons
+  setupRadioButtons,
+  setupDatesRange,
+  setSwitchButton
 } from "components/filters-builder/filter-controls";
 import { useI18n } from "components/i18n";
 import filterTypes from "./mocked-filters";
@@ -25,7 +28,9 @@ const Filters = ({
   setSelect,
   setRangeButton,
   setRadioButtons,
-  setChips
+  setChips,
+  setDatesRange,
+  setSwitch
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -41,8 +46,8 @@ const Filters = ({
         case "select":
           payloadFilter[filter.id] = [];
           return setSelect(payloadFilter, recordType);
-        case "multi_toogle":
-          payloadFilter[filter.id] = "";
+        case "multi_toggle":
+          payloadFilter[filter.id] = [];
           return setRangeButton(payloadFilter, recordType);
         case "radio":
           payloadFilter[filter.id] = "";
@@ -50,6 +55,16 @@ const Filters = ({
         case "chips":
           payloadFilter[filter.id] = [];
           return setChips(payloadFilter, recordType);
+        case "dates":
+          payloadFilter[filter.id] = Map({
+            from: null,
+            to: null,
+            value: ""
+          });
+          return setDatesRange(payloadFilter, recordType);
+        case "switch":
+          payloadFilter[filter.id] = [];
+          return setSwitch(payloadFilter, recordType);
         default:
           return null;
       }
@@ -60,30 +75,33 @@ const Filters = ({
     resetPanels();
   }, []);
 
+  const tabs = [
+    { name: i18n.t("saved_search.filters_tab"), selected: true },
+    { name: i18n.t("saved_search.saved_searches_tab") }
+  ];
+
   return (
     <div className={css.root}>
-      <AppBar position="static" color="default" classes={{ root: css.appbar }}>
-        <Tabs
-          value={tabValue}
-          onChange={(e, value) => setTabValue(value)}
-          TabIndicatorProps={{
-            style: {
-              backgroundColor: "transparent"
-            }
-          }}
-          variant="fullWidth"
-        >
+      <Tabs
+        value={tabValue}
+        onChange={(e, value) => setTabValue({ recordType, value })}
+        TabIndicatorProps={{
+          style: {
+            backgroundColor: "transparent"
+          }
+        }}
+        classes={{ root: css.tabs }}
+        variant="fullWidth"
+      >
+        {tabs.map(tab => (
           <Tab
-            label={i18n.t("saved_search.filters_tab")}
+            label={tab.name}
+            key={tab.name}
             classes={{ root: css.tab, selected: css.tabselected }}
-            selected
+            selected={tab.selected}
           />
-          <Tab
-            label={i18n.t("saved_search.saved_searches_tab")}
-            classes={{ root: css.tab, selected: css.tabselected }}
-          />
-        </Tabs>
-      </AppBar>
+        ))}
+      </Tabs>
       {tabValue === 0 && (
         <FiltersBuilder
           recordType={recordType}
@@ -104,11 +122,13 @@ Filters.propTypes = {
   setSelect: PropTypes.func,
   setRangeButton: PropTypes.func,
   setRadioButtons: PropTypes.func,
-  setChips: PropTypes.func
+  setChips: PropTypes.func,
+  setDatesRange: PropTypes.func,
+  setSwitch: PropTypes.func
 };
 
-const mapStateToProps = state => ({
-  tabValue: Selectors.getTab(state)
+const mapStateToProps = (state, props) => ({
+  tabValue: Selectors.getTab(state, props.recordType)
 });
 
 const mapDispatchToProps = {
@@ -117,7 +137,9 @@ const mapDispatchToProps = {
   setSelect: setupSelect,
   setRangeButton: setupRangeButton,
   setRadioButtons: setupRadioButtons,
-  setChips: setUpChips
+  setChips: setUpChips,
+  setDatesRange: setupDatesRange,
+  setSwitch: setSwitchButton
 };
 
 export default connect(

@@ -1,5 +1,6 @@
 import qs from "qs";
 import { attemptSignout } from "components/pages/login";
+import { FETCH_TIMEOUT } from "config";
 
 export const queryParams = {
   toString: obj => qs.stringify(obj),
@@ -22,13 +23,20 @@ const restMiddleware = options => store => next => action => {
     headers.Authorization = `Bearer ${token}`;
   }
 
+  const controller = new AbortController();
+
+  setTimeout(() => {
+    controller.abort();
+  }, FETCH_TIMEOUT);
+
   const defaultFetchOptions = {
     method: "GET",
     mode: "same-origin",
     credentials: "same-origin",
     cache: "no-cache",
     redirect: "follow",
-    headers: new Headers(headers)
+    headers: new Headers(headers),
+    signal: controller.signal
   };
 
   const { type, api } = action;
@@ -51,33 +59,40 @@ const restMiddleware = options => store => next => action => {
       payload: true
     });
 
-    const response = await window.fetch(fetchPath, fetchOptions);
-    const json = await response.json();
+    try {
+      const response = await window.fetch(fetchPath, fetchOptions);
+      const json = await response.json();
 
-    if (!response.ok) {
+      if (!response.ok) {
+        store.dispatch({
+          type: `${type}_FAILURE`,
+          payload: json
+        });
+
+        if (response.status === 401) {
+          store.dispatch(attemptSignout());
+        }
+      } else {
+        store.dispatch({
+          type: `${type}_SUCCESS`,
+          payload: normalizeFunc ? normalizeFunc(json.data).entities : json
+        });
+
+        if (successCallback) {
+          successCallback(response, json);
+        }
+      }
+
+      store.dispatch({
+        type: `${type}_FINISHED`,
+        payload: false
+      });
+    } catch (e) {
       store.dispatch({
         type: `${type}_FAILURE`,
-        payload: json
+        payload: true
       });
-
-      if (response.status === 401) {
-        store.dispatch(attemptSignout());
-      }
-    } else {
-      store.dispatch({
-        type: `${type}_SUCCESS`,
-        payload: normalizeFunc ? normalizeFunc(json.data).entities : json
-      });
-
-      if (successCallback) {
-        successCallback(response, json);
-      }
     }
-
-    store.dispatch({
-      type: `${type}_FINISHED`,
-      payload: false
-    });
   };
 
   return fetch();
