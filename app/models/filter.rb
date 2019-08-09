@@ -1,16 +1,16 @@
 class Filter < ValueObject
 
-  attr_accessor :name, :field_name, :type, :options, :option_strings_source, :option_strings_text
+  attr_accessor :name, :field_name, :type, :options, :option_strings_source
 
   FLAGGED_CASE = Filter.new(
     name: 'cases.filter_by.flag',
     field_name: 'flagged',
-    option_strings_text: [{ id: 'true', display_name: I18n.t("cases.filter_by.flag_label") }]
+    options: [{ id: 'true', display_name: FieldI18nService.all_values_for("cases.filter_by.flag_label") }]
   )
   MOBILE_CASE = Filter.new(
     name: 'cases.filter_by.mobile',
     field_name: "marked_for_mobile",
-    option_strings_text: [{ id: 'true', display_name: I18n.t("cases.filter_by.mobile_label") }]
+    options: [{ id: 'true', display_name: FieldI18nService.all_values_for("cases.filter_by.mobile_label") }]
   )
   SOCIAL_WORKER = Filter.new(name: 'cases.filter_by.social_worker', field_name: 'owned_by')
   MY_CASES = Filter.new(name: 'cases.filter_by.my_cases', field_name: 'my_cases')
@@ -42,7 +42,7 @@ class Filter < ValueObject
   PROTECTION_CONCERNS = Filter.new(
     name: 'cases.filter_by.protection_concerns',
     field_name: 'protection_concerns',
-    options_strings_source: 'lookup-protection-concerns'
+    option_strings_source: 'lookup-protection-concerns'
   )
   GBV_DISPLACEMENT_STATUS = Filter.new(
     name: 'cases.filter_by.displacement_status',
@@ -86,7 +86,7 @@ class Filter < ValueObject
     Filter.new(
       name: "location.base_types.#{label}", 
       field_name: "#{admin_level}",
-      options_strings_source: 'location',
+      option_strings_source: 'reporting_location',
       type: 'multi_select',
       
     ) 
@@ -94,16 +94,16 @@ class Filter < ValueObject
   RECORD_STATE = Filter.new(
     name: 'cases.filter_by.record_state',
     field_name: 'record_state',
-    option_strings_text: [ 
-      { id: 'true', display_text: I18n.t("valid") },
-      { id: 'false', display_text: I18n.t("invalid") }
+    options: [ 
+      { id: 'true', display_text: FieldI18nService.all_values_for("valid") },
+      { id: 'false', display_text: FieldI18nService.all_values_for("invalid") }
     ]
   )
   PHOTO = Filter.new(
     name: 'cases.filter_by.photo',
     field_name: 'has_photo',
-    option_strings_text: [
-      { id: 'photo', display_text: I18n.t("cases.filter_by.photo_label") }
+    options: [
+      { id: 'photo', display_text: FieldI18nService.all_values_for("cases.filter_by.photo_label") }
     ]
   )
   # TODO: This field requires values from the concern IncidentMonitoringRecording which apparently will not be migrated.
@@ -116,10 +116,10 @@ class Filter < ValueObject
   CHILDREN = Filter.new(
     name: 'incidents.filter_by.children',
     field_name: 'child_types',
-    option_strings_text: [
-      { id: 'boys', display_text: I18n.t("incidents.filter_by.boys") },
-      { id: 'girls', display_text: I18n.t("incidents.filter_by.girls") },
-      { id: 'unknown', display_text: I18n.t("incidents.filter_by.unknown") }
+    options: [
+      { id: 'boys', display_text: FieldI18nService.all_values_for("incidents.filter_by.boys") },
+      { id: 'girls', display_text: FieldI18nService.all_values_for("incidents.filter_by.girls") },
+      { id: 'unknown', display_text: FieldI18nService.all_values_for("incidents.filter_by.unknown") }
     ]
   )
   VERIFICATION_STATUS = Filter.new(
@@ -173,8 +173,8 @@ class Filter < ValueObject
   INQUIRY_DATE = Filter.new(
     name: 'tracing_requests.filter_by.by_date',
     field_name: 'inquiry_date',
-    options_strings_source: [
-      { id: 'inquiry_date' , display_name: I18n.t('tracing_requests.selectable_date_options.inquiry_date') }
+    options: [
+      { id: 'inquiry_date' , display_name: FieldI18nService.all_values_for('tracing_requests.selectable_date_options.inquiry_date') }
     ]
   )
 
@@ -184,7 +184,7 @@ class Filter < ValueObject
   )
 
   class << self
-    def get_filters(user, record_type, lookups = nil, locations = nil, sys = nil)
+    def get_filters(user, record_type, lookups = nil, locations = nil, reporting_locations = nil, sys = nil)
       model_class = Record.model_from_name(record_type)
       filters = case record_type
                   when 'case'
@@ -194,7 +194,7 @@ class Filter < ValueObject
                   when 'tracing_request' then tracing_request_filter(user)
                 end
       filters.each do |filter| 
-        filter.with_options_for(user, record_type, lookups, locations, sys) 
+        filter.with_options_for(user, record_type, lookups, locations, reporting_locations, sys) 
         filter.resolve_type
       end
     end
@@ -285,13 +285,16 @@ class Filter < ValueObject
     super(args)
   end
 
-  def with_options_for(user, record_type = nil, lookups = nil, locations = nil, system_settings = nil)
-    self.options = self.option_strings_text if option_strings_text.present?
+  def with_options_for(user, record_type = nil, lookups = nil, locations = nil, reporting_locations = nil, system_settings = nil)
     if self.option_strings_source.present?
       if self.option_strings_source == 'location'
         self.options = locations
+      elsif self.option_strings_source == 'reporting_location'
+        self.options = reporting_locations
       else
-        self.options = Lookup.values(self.option_strings_source, lookups)
+        self.options = I18n.available_locales.map do |locale|
+          { locale => [] } 
+        end.inject(&:merge).merge(Lookup.all_values(self.option_strings_source, lookups))
       end
     else
       managed_user_names = user.managed_user_names
@@ -318,16 +321,16 @@ class Filter < ValueObject
           end
         when 'cases_by_date'
           self.options = [
-            { id: 'registration_date', display_name: I18n.t('children.selectable_date_options.registration_date') },
-            { id: 'assessment_requested_on', display_name: I18n.t('children.selectable_date_options.assessment_requested_on') },
-            { id: 'date_case_plan', display_name: I18n.t('children.selectable_date_options.date_case_plan_initiated') },
-            { id: 'date_closure', display_name: I18n.t('children.selectable_date_options.closure_approved_date') },
+            { id: 'registration_date', display_name: FieldI18nService.all_values_for('children.selectable_date_options.registration_date') },
+            { id: 'assessment_requested_on', display_name: FieldI18nService.all_values_for('children.selectable_date_options.assessment_requested_on') },
+            { id: 'date_case_plan', display_name: FieldI18nService.all_values_for('children.selectable_date_options.date_case_plan_initiated') },
+            { id: 'date_closure', display_name: FieldI18nService.all_values_for('children.selectable_date_options.closure_approved_date') },
           ]
-          self.options << { id: 'created_at', display_name: I18n.t('children.selectable_date_options.created_at') } if user.has_module?(PrimeroModule::GBV)
+          self.options << { id: 'created_at', display_name: FieldI18nService.all_values_for('children.selectable_date_options.created_at') } if user.has_module?(PrimeroModule::GBV)
         when 'incidents_by_date'
           self.options = []
-          self.options << { id: 'date_of_first_report', display_name: I18n.t('incidents.selectable_date_options.date_of_first_report') } if user.has_module?(PrimeroModule::GBV)
-          self.options << { id: 'incident_date_derived', display_name: I18n.t('incidents.selectable_date_options.incident_date_derived') }
+          self.options << { id: 'date_of_first_report', display_name: FieldI18nService.all_values_for('incidents.selectable_date_options.date_of_first_report') } if user.has_module?(PrimeroModule::GBV)
+          self.options << { id: 'incident_date_derived', display_name: FieldI18nService.all_values_for('incidents.selectable_date_options.incident_date_derived') }
       end
     end
   end

@@ -21,4 +21,10 @@ class FieldI18nService
     merged_props
   end
 
+  def self.all_values_for(key)
+    I18n.available_locales.map do |locale|
+      { locale => I18n.t(key, locale: locale) }
+    end.inject(&:merge)
+  end
+
 end

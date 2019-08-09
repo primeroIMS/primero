@@ -8,7 +8,6 @@ module Api::V2
 
     def index
       authorize! :index, User
-      @extended = params[:extended].present? && params[:extended] == 'true'
       filters = params.permit(:agency, :location, :services, :disabled).to_h
       results = User.find_permitted_users(
         filters.compact, pagination, { user_name: :asc}, current_user)
@@ -18,7 +17,6 @@ module Api::V2
 
     def show
       authorize! :read, User
-      @extended = params[:extended]
     end
 
     def create
@@ -51,9 +49,11 @@ module Api::V2
     end
 
     def load_options
+      @extended = params[:extended].present? && params[:extended] == 'true'
       @system = SystemSettings.current
       @lookups = Lookup.all
       @locations = Location.all_names
+      @reporting_locations = Location.all_names_reporting_locations
     end
 
   end
