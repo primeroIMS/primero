@@ -29,6 +29,11 @@ const overrides = {
       boxShadow: "0 2px 12px 0 rgba(125, 125, 125, 0.23)"
     }
   },
+  MuiExpansionPanelSummary: {
+    content: {
+      margin: "0"
+    }
+  },
   MuiInputLabel: {
     root: {
       color: colors.black,

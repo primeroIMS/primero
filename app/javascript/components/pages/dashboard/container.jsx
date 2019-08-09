@@ -45,7 +45,14 @@ const Dashboard = ({
       fetchCasesOverview();
       fetchServicesStatus();
     });
-  }, []);
+  }, [
+    fetchCasesByCaseWorker,
+    fetchCasesByStatus,
+    fetchCasesOverview,
+    fetchCasesRegistration,
+    fetchFlags,
+    fetchServicesStatus
+  ]);
 
   const css = makeStyles(styles)();
 
@@ -123,7 +130,7 @@ const Dashboard = ({
 
   return (
     <PageContainer>
-      <Grid container spacing={3} className={css.container}>
+      <Grid container spacing={3} classes={{ root: css.container }}>
         <Grid item xs={10}>
           <PageHeading title={i18n.t("navigation.home")} />
         </Grid>
