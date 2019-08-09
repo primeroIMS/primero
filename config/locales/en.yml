@@ -1891,6 +1891,7 @@ en:
         name_present: "must not be blank"
         code_present: "must not be blank"
         logo_dimension: "dimension must be less than or equal to %{width}x%{height} pixels"
+        unique_id: "The unique id '%{unique_id}' is already taken."
 
       primero_program:
         unique_unique_id: "A PrimeroProgram with that unique_id already exists, please enter a different unique_id"

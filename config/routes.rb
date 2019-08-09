@@ -32,6 +32,8 @@ Rails.application.routes.draw do
       resources :incidents
       resources :tracing_requests
       resources :form_sections, as: :forms, path: :forms
+      resources :contact_information, only: [:index]
+      resources :system_settings, only: [:index]
     end
   end
 
