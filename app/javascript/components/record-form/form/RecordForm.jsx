@@ -147,6 +147,8 @@ const RecordForm = ({
       <Formik
         initialValues={initialFormValues}
         validationSchema={validationSchema}
+        validateOnBlur={false}
+        validateOnChange={false}
         onSubmit={(values, { setSubmitting }) => {
           return onSubmit(initialFormValues, values, setSubmitting);
         }}

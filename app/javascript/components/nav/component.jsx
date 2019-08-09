@@ -7,7 +7,7 @@ import {
   useMediaQuery
 } from "@material-ui/core";
 import { AgencyLogo } from "components/agency-logo";
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { ModuleLogo } from "components/module-logo";
 import { NavLink } from "react-router-dom";
 import { useI18n } from "components/i18n";
@@ -25,6 +25,14 @@ const Nav = () => {
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const i18n = useI18n();
   const dispatch = useDispatch();
+
+  const openDrawer = useCallback(value => dispatch(actions.openDrawer(value)), [
+    dispatch
+  ]);
+
+  // TODO: Username should come from redux once user built.
+  const username = useSelector(state => Selectors.selectUsername(state));
+  const drawerOpen = useSelector(state => Selectors.selectDrawerOpen(state));
 
   const nav = [
     { name: i18n.t("navigation.home"), to: "/dashboard", icon: "home" },
@@ -57,20 +65,15 @@ const Nav = () => {
       icon: "support",
       divider: true
     },
-    { name: i18n.t("navigation.my_account"), to: "/account", icon: "account" },
-    { name: i18n.t("navigation.logout"), to: "/signout", icon: "logout" }
+    { name: username, to: "/account", icon: "account" },
+    { name: i18n.t("navigation.logout"), to: "/logout", icon: "logout" }
   ];
-
-  const openDrawer = value => dispatch(actions.openDrawer(value));
-  // TODO: Username should come from redux once user built.
-  const username = useSelector(() => "primero_cp");
-  const drawerOpen = useSelector(state => Selectors.selectDrawerOpen(state));
 
   useEffect(() => {
     if (!mobileDisplay && !drawerOpen) {
       openDrawer(true);
     }
-  }, [mobileDisplay]);
+  }, [drawerOpen, mobileDisplay, openDrawer]);
 
   return (
     <>
