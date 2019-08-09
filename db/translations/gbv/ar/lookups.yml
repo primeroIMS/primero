@@ -395,6 +395,10 @@ ar:
       zone: نطاق
       sub_district: قضاء فرعي
       locality: ناحية
+      prefecture: Prefecture
+      sub-prefecture: Sub-Prefecture
+      commune: Commune
+      payam: Payam
       other: أخرى
   lookup-marital-status:
     name: الوضع العائلي

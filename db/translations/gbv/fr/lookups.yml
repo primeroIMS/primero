@@ -395,6 +395,10 @@ fr:
       zone: Zone
       sub_district: Sous-District
       locality: Localité
+      prefecture: Prefecture
+      sub-prefecture: Sub-Prefecture
+      commune: Commune
+      payam: Payam
       other: Autre
   lookup-marital-status:
     name: Etat civil
