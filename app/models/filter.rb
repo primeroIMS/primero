@@ -1,6 +1,9 @@
 class Filter < ValueObject
-
   attr_accessor :name, :field_name, :type, :options, :option_strings_source
+
+  @primero_module_cp = PrimeroModule.cp
+  @primero_module_gbv = PrimeroModule.gbv
+  @primero_module_mrm = PrimeroModule.mrm
 
   FLAGGED_CASE = Filter.new(
     name: 'cases.filter_by.flag',
@@ -220,18 +223,18 @@ class Filter < ValueObject
       filters << SEX
       # TODO: Approvals field
       filters << PROTECTION_CONCERNS if user.can?(:view_protection_concerns_filter, model_class) && visible_filter_field?('protection_concerns')
-      filters << GBV_DISPLACEMENT_STATUS if user.has_module?(PrimeroModule::GBV) && visible_filter_field?('gbv_displacement_status')
+      filters << GBV_DISPLACEMENT_STATUS if user.has_module?(@primero_module_gbv.id) && visible_filter_field?('gbv_displacement_status')
       filters << PROTECTION_STATUS if visible_filter_field?('protection_status')
-      filters << URGENT_PROTECTION_CONCERN if user.has_module?(PrimeroModule::CP) && visible_filter_field?('urgent_protection_concern')
-      filters << TYPE_OF_RISK if user.has_module?(PrimeroModule::CP) && visible_filter_field?("type_of_risk")
-      filters << RISK_LEVEL if user.has_module?(PrimeroModule::CP)
-      filters << CURRENT_LOCATION if user.has_module?(PrimeroModule::CP)
-      filters << AGENCY_OFFICE if user.has_module?(PrimeroModule::GBV)
-      filters << USER_GROUP if user.has_module?(PrimeroModule::GBV) && user.has_user_group_filter?
+      filters << URGENT_PROTECTION_CONCERN if user.has_module?(@primero_module_cp.id) && visible_filter_field?('urgent_protection_concern')
+      filters << TYPE_OF_RISK if user.has_module?(@primero_module_cp.id) && visible_filter_field?("type_of_risk")
+      filters << RISK_LEVEL if user.has_module?(@primero_module_cp.id)
+      filters << CURRENT_LOCATION if user.has_module?(@primero_module_cp.id)
+      filters << AGENCY_OFFICE if user.has_module?(@primero_module_gbv.id)
+      filters << USER_GROUP if user.has_module?(@primero_module_gbv.id) && user.has_user_group_filter?
       filters << REPORTING_LOCATION.call(reporting_location_label, admin_level)
-      filters << DATE_CASE if user.has_module?(PrimeroModule::CP)
+      filters << DATE_CASE if user.has_module?(@primero_module_cp.id)
       # TODO: CASE_OPEN_DATE filter is not used.
-      filters << PHOTO if user.has_module?(PrimeroModule::CP) && FormSection.has_photo_form
+      filters << PHOTO if user.has_module?(@primero_module_cp.id) && FormSection.has_photo_form
       filters
     end
 
@@ -241,19 +244,19 @@ class Filter < ValueObject
       filters << MOBILE_CASE if user.can?(:sync_mobile, model_class)
       # SEE TODO IN FILTER
       # filters << VIOLATION if user.has_module?(PrimeroModule::MRM)
-      filters << VIOLENCE_TYPE if user.has_module?(PrimeroModule::GBV)
+      filters << VIOLENCE_TYPE if user.has_module?(@primero_module_gbv.id)
       filters << SOCIAL_WORKER if user.is_manager?
-      filters << AGENCY_OFFICE if user.has_module?(PrimeroModule::GBV)
-      filters << USER_GROUP if user.has_module?(PrimeroModule::GBV) && user.has_user_group_filter?
+      filters << AGENCY_OFFICE if user.has_module?(@primero_module_gbv.id)
+      filters << USER_GROUP if user.has_module?(@primero_module_gbv.id) && user.has_user_group_filter?
       filters << STATUS
       filters << AGE_RANGE
-      filters << CHILDREN if user.has_module?(PrimeroModule::MRM)
-      filters << VERIFICATION_STATUS if user.has_module?(PrimeroModule::MRM)
+      filters << CHILDREN if @primero_module_mrm.present? &&  user.has_module?(@primero_module_mrm.id)
+      filters << VERIFICATION_STATUS if  @primero_module_mrm.present? && user.has_module?(@primero_module_mrm.id)
       filters << INCIDENT_LOCATION
       filters << INCIDENT_DATE
-      filters << UNACCOMPANIED_PROTECTION_STATUS if user.has_module?(PrimeroModule::GBV)
-      filters << ARMED_FORCE_GROUP if user.has_module?(PrimeroModule::MRM)
-      filters << ARMED_FORCE_GROUP_TYPE if user.has_module?(PrimeroModule::MRM)
+      filters << UNACCOMPANIED_PROTECTION_STATUS if user.has_module?(@primero_module_gbv.id)
+      filters << ARMED_FORCE_GROUP if @primero_module_mrm.present? && user.has_module?(@primero_module_mrm.id)
+      filters << ARMED_FORCE_GROUP_TYPE if @primero_module_mrm.present? && user.has_module?(@primero_module_mrm.id)
       filters << RECORD_STATE
       filters 
     end

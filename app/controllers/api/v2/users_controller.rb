@@ -28,7 +28,7 @@ module Api::V2
     end
 
     def update
-      authorize! :disable, @user
+      authorize! :disable, @user if @user_params.include?('disabled')
       authorize! :update, @user
       @user.update_attributes(@user_params)
     end
@@ -41,7 +41,7 @@ module Api::V2
     protected
 
     def user_params
-      @user_params = params.require(:data).permit(User.attribute_names)
+      @user_params = params.require(:data).permit(User.attribute_names - User.hidden_attributes)
     end
 
     def load_user
