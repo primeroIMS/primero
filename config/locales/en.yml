@@ -2481,19 +2481,19 @@ en:
           one: "1 error prohibited this %{resource} from being saved:"
           other: "%{count} errors prohibited this %{resource} from being saved:"
   filters:
-    approval_status: 'Approvals Status:'
+    approval_status: 'Approvals Status'
     approval_status_select: 'Approvals Status - Single'
     approval_status_select_multiple: 'Approvals Status - Multiple'
     flagged: 'Flagged'
     flagged_label: 'Flagged?'
     mobile: 'Mobile'
     mark_for_mobile: 'Mark for Mobile?'
-    social_worker: "Field/Case/Social Worker:"
-    child_status: "Status:"
-    age_range: "Age Range:"
-    sex: "Sex:"
-    risk_level: "Risk Level:"
-    by_date: 'By Date:'
+    social_worker: "Field/Case/Social Worker"
+    child_status: "Status"
+    age_range: "Age Range"
+    sex: "Sex"
+    risk_level: "Risk Level"
+    by_date: 'By Date'
     my_cases: "My Cases"
     referred_cases: "Cases referred to me"
     bia: "BIA"
@@ -2516,5 +2516,8 @@ en:
     medium: "Medium"
     low: "Low"
     no_action: "No Action"
+    record_state: "Record State"
+    valid: "Valid"
+    invalid: "Invalid"
     apply_filters: "Apply Filters"
     clear_filters: "Clear All"

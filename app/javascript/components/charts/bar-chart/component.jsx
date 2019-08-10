@@ -75,9 +75,9 @@ const BarChart = ({ data, description, showDetails }) => {
   });
 
   return (
-    <Box className={css.barChartContainer}>
+    <Box>
       {!showDetails ? <p className={css.description}>{description}</p> : null}
-      <canvas ref={chartRef} />
+      <canvas ref={chartRef} height={!showDetails ? null : 400} />
     </Box>
   );
 };
