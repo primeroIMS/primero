@@ -1,5 +1,6 @@
 import React from "react";
 import { dataToJS } from "libs";
+import { Map } from "immutable";
 import { DateCell, ToggleIconCell } from "components/index-table";
 import sortBy from "lodash/sortBy";
 import { pickBy } from "lodash";
@@ -60,7 +61,8 @@ export const cleanUpFilters = filters => {
     return !(
       value === "" ||
       value === null ||
-      (Array.isArray(value) && value.length === 0)
+      (Array.isArray(value) && value.length === 0) ||
+      (Map.isMap(value) && Object.values(value.toJS()).includes(null))
     );
   });
 
@@ -70,7 +72,7 @@ export const cleanUpFilters = filters => {
       filtersArray[key] = value.join(",");
     } else if (
       typeof value === "object" &&
-      !Object.values(value).includes(null)
+      !Object.values(value.toJS()).includes(null)
     ) {
       const valueConverted = {};
       Object.entries(value.toJS()).forEach(keys => {

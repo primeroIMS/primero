@@ -100,8 +100,6 @@ export default [
     }
   },
   {
-    // The type caxn be ToggleButton (https://material-ui.com/components/about-the-lab/)
-    // Let's keep RadioButton for now, to have this other filter type rexady
     id: "sex",
     display_name: "Sex",
     type: "multi_toggle",
@@ -159,6 +157,18 @@ export default [
       defaultValue: "created_at",
       min_date: "",
       max_date: ""
+    }
+  },
+  {
+    id: "record_state",
+    display_name: "Record State",
+    type: "multi_toggle",
+    reset: true,
+    options: {
+      values: [
+        { id: "valid", display_name: "Valid" },
+        { id: "invalid", display_name: "Invalid" }
+      ]
     }
   },
   {

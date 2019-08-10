@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { startCase, camelCase } from "lodash";
 import { Menu, MenuItem, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 
-// TODO: Will have to get list from endpoint
-const primeroModules = [
-  { id: "primeromodule-cp", display_text: "CP" },
-  { id: "primeromodule-gbv", display_text: "GBV" },
-  { id: "primeromodule-mrm", display_text: "MRM" }
-];
-
 const AddRecordMenu = ({ recordType }) => {
+  // TODO: Will have to get list from endpoint
+  const recordLabel = startCase(camelCase(recordType));
+  const primeroModules = [
+    {
+      id: "primeromodule-cp",
+      display_text: `Create CP ${recordLabel}`
+    },
+    {
+      id: "primeromodule-gbv",
+      display_text: `Create GBV ${recordLabel}`
+    },
+    {
+      id: "primeromodule-mrm",
+      display_text: `Create MRM ${recordLabel}`
+    }
+  ];
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {

@@ -3,12 +3,13 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Schedule from "@material-ui/icons/Schedule";
 import PriorityHigh from "@material-ui/icons/PriorityHigh";
-import { NavLink } from "react-router-dom";
+import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import { IndexTable } from "components/index-table";
 import { PageContainer, PageHeading } from "components/page-container";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
+import styles from "./styles.css";
 
 const TaskList = ({ records, fetchTasks, meta }) => {
   useEffect(() => {
@@ -16,20 +17,24 @@ const TaskList = ({ records, fetchTasks, meta }) => {
   }, []);
 
   const i18n = useI18n();
+  const css = makeStyles(styles)();
 
   const columns = [
     {
       label: "",
       name: "overdue",
       options: {
-        customBodyRender: (value, tableMeta) => {
-          if (tableMeta.rowData[4]) {
+        empty: true,
+        customBodyRender: value => {
+          if (value) {
             return <PriorityHigh className="Overdue" fontSize="inherit" />;
           }
 
           return <Schedule className="Scheduled" fontSize="inherit" />;
         },
-        empty: true
+        customHeadRender: columnMeta => {
+          return <th key={columnMeta.name} className={css.overdueHeading} />;
+        }
       }
     },
     {
@@ -38,11 +43,7 @@ const TaskList = ({ records, fetchTasks, meta }) => {
       id: true,
       options: {
         customBodyRender: value => {
-          return (
-            <span className="RowId">
-              <NavLink to={`cases/${value}`}>{value}</NavLink>
-            </span>
-          );
+          return <span className="RowId">{value}</span>;
         }
       }
     },
