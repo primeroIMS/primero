@@ -1,7 +1,21 @@
 ---
 fr:
+  lookup-age-group-type:
+    name: ""
+    lookup_values:
+      adult: ""
+      minor: ""
+      unknown: ""
+  lookup-agency-office:
+    name: ""
+    lookup_values:
+      agency_office_1: ""
+      agency_office_2: ""
+      agency_office_3: ""
+      agency_office_4: ""
+      agency_office_5: ""
   lookup-approval-status:
-    name: Statut de l'approbation
+    name: l'état de l'approbation
     lookup_values:
       requested: Demandé
       pending: En attente
@@ -13,11 +27,6 @@ fr:
       case_plan: Plan du Cas
       action_plan: Plan d'Action
       service_provision: Prestataire de service
-  lookup-gbv-approval-types:
-    name: GBV Approval Types
-    lookup_values:
-      case_plan:
-      closure:
   lookup-armed-force-group-name:
     name: Nom du groupe ou forces armées
     lookup_values:
@@ -28,7 +37,7 @@ fr:
   lookup-armed-force-group-type:
     name: Type de groupe ou forces armées
     lookup_values:
-      national_army: Armée nationale
+      national_army: l'armée nationale
       security_forces: Forces de sécurité
       international_forces: Forces internationales
       police_forces: Forces de police
@@ -36,32 +45,39 @@ fr:
       unknown: Inconnu
       other: Autre
   lookup-assessment-duration:
-    name: ""
+    name: Durée de l'évaluation
     lookup_values:
-      less_than_15_minutes: ""
-      16_30_minutes: ""
-      31_minutes_1_hour: ""
-      1_2_hours: ""
-      more_than_2_hours: ""
+      less_than_15_minutes: Moins de 15 minutes
+      16_30_minutes: 16-30minutes
+      31_minutes_1_hour: 31 minutes à 1 heure
+      1_2_hours: 1-2 heures
+      more_than_2_hours: Plus de 2 heures
   lookup-assessment-progress:
-    name: ""
+    name: L'évolution de l'évaluation
     lookup_values:
-      n_a: ""
-      in_progress: ""
-      met: ""
+      n_a: Non applicable
+      in_progress: En cours
+      met: Accomplis
   lookup-case-status:
-    name: Statut du cas
+    name: L'état du cas
     lookup_values:
       open: Ouvert
       closed: Clôturé
       transferred: "Transféré "
       duplicate: Dupliqué
   lookup-child-minor-age-group:
+    name: "Tranche d'âge Enfant / Mineur "
+    lookup_values:
+      0_5_year_old: 0-5 ans
+      6_12_year_old: 6-12 ans
+      13_17_year_old: 13-17 ans
+  lookup-conference-case-status:
     name: ""
     lookup_values:
-      0_5_year_old: ""
-      6_12_year_old: ""
-      13_17_year_old: ""
+      open: ""
+      closed: ""
+      transferred: ""
+      other: ""
   lookup-country:
     name: Pays
     lookup_values:
@@ -103,8 +119,8 @@ fr:
       china: Chine
       colombia: Colombie
       comoros: Comores
-      congo: "Congo, République du"
-      drc: "Congo, République démocratique du"
+      congo: République du Congo
+      drc: "République démocratique du Congo, "
       costa_rica: Costa Rica
       cote_divoire: Côte d'Ivoire
       croatia: Croatie
@@ -278,17 +294,31 @@ fr:
       mental_disability: Handicap mental
       physical_disability: Handicap physique
       both: Handicap mental et physique
-  lookup-discovery-method:
-    name: ""
+  lookup-disability-type-with-mental-physical:
+    name: Type d'handicap
     lookup_values:
-      family_or_friend: ""
-      referral: ""
-      neighbor: ""
-      community_discussion: ""
-      pamphlet: ""
-      other: ""
+      'no': 'Non'
+      mental_disability: Handicap mental
+      physical_disability: Handicap physique
+      mental_physical_disability: Handicap mental et physique
+  lookup-disability-type-with-no:
+    name: Type d'handicap
+    lookup_values:
+      'no': 'Non'
+      mental_disability: Handicap mental
+      physical_disability: Handicap physique
+      both: Handicap mental et physique
+  lookup-discovery-method:
+    name: Méthode d'identification
+    lookup_values:
+      family_or_friend: Famille ou ami
+      referral: Référencement par une autre organisation
+      neighbor: Voisin ou membre de la communauté
+      community_discussion: Discussion communautaire
+      pamphlet: Dépliant ou brochure que vous avez reçu ou vu
+      other: Autre
   lookup-displacement-status:
-    name: Statut de déplacement au moment de la déclaration des faits
+    name: Statut de déplacement au moment de la déclaration de l'incident
     lookup_values:
       resident: Résidente
       idp: PDIP
@@ -310,13 +340,40 @@ fr:
       ethnicity8: Ethnicité 8
       ethnicity9: Ethnicité 9
       ethnicity10: Ethnicité 10
+  lookup-family-relationship:
+    name: ""
+    lookup_values:
+      mother: ""
+      father: ""
+      aunt: ""
+      uncle: ""
+      grandmother: ""
+      grandfather: ""
+      brother: ""
+      sister: ""
+      husband: ""
+      wife: ""
+      partner: ""
+      other_family: ""
+      other_nonfamily: ""
   lookup-followup-type:
     name: Type de suivi
     lookup_values:
       after_reunification: Suivi après réunification
-      in_care: Suivi en soins
-      for_service: Suivi pour services
-      for_assesment: Suivi pour évaluation
+      in_care: Suivi de la prise en charge
+      for_service: Suivi pour l'accès aux services
+      for_assesment: Suivi pour l'évaluation
+  lookup-further-action_needed:
+    name: ""
+    lookup_values:
+      no_further_action_needed: ""
+      ongoing_monitoring: ""
+      urgent_intervention: ""
+  lookup-gbv-approval-types:
+    name: ""
+    lookup_values:
+      case_plan: ""
+      closure: ""
   lookup-gbv-reported-elsewhere:
     name: "Oui, Non ou Inconnu"
     lookup_values:
@@ -341,9 +398,9 @@ fr:
   lookup-incident-identification:
     name: Identification de l'incident
     lookup_values:
-      disclosure_complaint_by_the_abused_person_or_family_member: Divulgation / plainte par la survivante ou un membre de la famille
+      disclosure_complaint_by_the_abused_person_or_family_member: rapporté / plainte par la survivante ou un membre de la famille
       discovered_by_service_provider: Découvert par le prestataire de service
-      report_by_the_institution_providing_the_service_discovery: Rapport par l'institution fournissant le service (découverte)
+      report_by_the_institution_providing_the_service_discovery: Rapporté par la structure d'offre de service (découverte)
       other: Autre
   lookup-incident-location:
     name: Lieu de l'incident
@@ -354,13 +411,13 @@ fr:
       work_place: Lieu de service / de travail
       other: Autre
   lookup-incident-status:
-    name: Statut de l'incident
+    name: L'état de l'incident
     lookup_values:
       open: Ouvert
       closed: Clôturé
       duplicate: Dupliqué
   lookup-inquiry-status:
-    name: Statut de la requête
+    name: L'état de la requête
     lookup_values:
       open: Ouvert
       closed: Clôturé
@@ -407,6 +464,22 @@ fr:
       married_cohabitating: Mariée / En concubinage
       divorced_separated: Divorcée / Séparée
       widowed: Veuve
+  lookup-marital-status-unknown:
+    name: Etat civil
+    lookup_values:
+      single: Célibataire
+      married_cohabitating: Mariée / En concubinage
+      divorced_separated: Divorcée / Séparée
+      widowed: Veuve
+      unknown_not_applicable: Inconnue/ Sans objet
+  lookup-marital-status-with-spouse:
+    name: Etat civil
+    lookup_values:
+      single: Célibataire
+      married_cohabitating: Mariée / En concubinage
+      divorced_separated: Divorcée / Séparée
+      widowed: Veuve
+      with_spouse: ""
   lookup-nationality:
     name: Nationalité
     lookup_values:
@@ -425,7 +498,7 @@ fr:
     lookup_values:
       intimate_partner_former_partner: Partenaire intime / Ex-partenaire
       primary_caregiver: Tuteur du/de la survivante
-      family_other_than_spouse_or_caregiver: Autre membre de la famille
+      family_other_than_spouse_or_caregiver: Membre de la famille autre que l'époux se ou tuteur
       supervisor_employer: Superviseur / Employeur
       schoolmate: Camarade de classe
       teacher_school_official: Enseignant / Responsable scolaire
@@ -449,14 +522,14 @@ fr:
       disabled: Handicapée
       serious_health_issue: Problème de santé grave
       refugee: Réfugiée
-      caafag: CAAFAG
-      street_child: Enfant des rues
-      child_mother: Mère-enfant
+      caafag: "Enfant associé aux forces et groupes armés "
+      street_child: Enfant de la rue
+      child_mother: Fille mère
       physically_or_mentally_abused: Abusée physiquement ou mentalement
       living_with_vulnerable_person: Vivant avec personne vulnérable
       worst_forms_of_child_labor: Pire forme de travail des enfants
-      child_headed_household: Foyer géré par un enfant
-      mentally_distressed: Mentalement affligée
+      child_headed_household: Enfant chef de menage
+      mentally_distressed: Psychologiquement abusé
       other: Autre
   lookup-protection-status:
     name: Statut de protection
@@ -489,7 +562,7 @@ fr:
       death: Mort
       family_abuse_violence_exploitation: Abus/violence/exploitation familiale
       lack_of_access_to_services_support: Manque d'accès à des services/soutien
-      caafag: CAAFAG
+      caafag: "Enfant associé aux forces et groupes armés "
       sickness_of_family_member: Maladie d'un membre de la famille
       entrusted_into_the_care_of_an_individual: Confié au soin d'un individu
       arrest_and_detention: Arrestation et détention
@@ -509,14 +582,23 @@ fr:
   lookup-service-referred:
     name: Service référé
     lookup_values:
-      referred: Référé(e)
+      referred: Référé
       service_provided_by_your_agency: Service assuré par nous
       services_already_received_from_another_agency: Service déjà assuré avant d'arriver
       service_not_applicable: Service ne s'applique pas
       referral_declined_by_survivor: Service décliné par le/la survivante
       service_unavailable: Service non disponible
+  lookup-service-referred-gbv:
+    name: Service référé GBV
+    lookup_values:
+      referred: Référée
+      no_referral_service_provided_by_your_agency: "Non, Service assuré par nous"
+      no_referral_services_already_received_from_another_agency: "Non, Service déjà assuré avant d'arriver"
+      no_referral_service_not_applicable: "Non, Service ne s'applique pas"
+      no_referral_declined_by_survivor: "Non, Service décliné par le/la survivante"
+      no_referral_service_unavailable: "Non, Service non disponible"
   lookup-service-response-type:
-    name: Type de service de réponse
+    name: Type de réponse du service
     lookup_values:
       care_plan: Plan de soins
       action_plan: Plan d'Action
@@ -524,15 +606,15 @@ fr:
   lookup-service-type:
     name: Type de service
     lookup_values:
-      safehouse_service: Service de maison/abris sûr
+      safehouse_service: Service de d'hébergement/abris sûr
       health_medical_service: Service médical/de santé
       psychosocial_service: Service psychosocial
       police_other_service: Police/autre service de sécurité
       legal_assistance_service: Service d'assistance juridique
-      livelihoods_service: Moyens de susbsistance
-      child_protection_service: Protection de l'Enfance
-      family_mediation_service: Médiation familiale
-      family_seunification_service: Réunification familiale
+      livelihoods_service: Service d'appui au moyens de subsistance
+      child_protection_service: Service de protection de l'Enfance
+      family_mediation_service: Service de médiation familiale
+      family_seunification_service: Service de réunification familiale
       education_service: Education
       nfi_clothes_shoes_service: ANA/Habits/Chaussures
       water_sanitation_service: "Eau/Assainissement "
@@ -546,15 +628,30 @@ fr:
       noon: Après-midi
       evening: Soir
       night: Nuit
+  lookup-tracing-status:
+    name: ""
+    lookup_values:
+      open: ""
+      tracing_in_progress: ""
+      verified: ""
+      reunified: ""
+      closed: ""
+  lookup-transition-type:
+    name: ""
+    lookup_values:
+      referral: ""
+      reassign: ""
+      transfer: ""
+      transfer_request: ""
   lookup-unaccompanied-separated-status:
     name: Statut non accompagné Séparé
     lookup_values:
       'no': 'Non'
       unaccompanied_minor: Mineure non accompagnée
       separated_child: Enfant séparé
-      other_vulnerable_child: Autre enfant vulnérable
+      other_vulnerable_child: Orphelin ou Autre enfant vulnérable
   lookup-unhcr-needs-codes:
-    name: UNHCR besoin codes
+    name: Codes des besoins de l'UNHCR
     lookup_values:
       cr-cp: CR-CP
       cr-cs: CR-CS
@@ -575,25 +672,25 @@ fr:
       ds-ps: DS-PS
       ds-mm: DS-MM
       ds-ms: DS-MS
-      ds-sd: ""
-      sm-mi: ""
-      sm-mn: ""
-      sm-ci: ""
-      sm-cc: ""
-      sm-ot: ""
-      fu-tr: ""
-      fu-fr: ""
-      lp-nd: ""
-      tr-pi: ""
-      tr-ho: ""
-      tr-wv: ""
-      sv-va: ""
-      lp-an: ""
-      lp-md: ""
-      lp-ms: ""
-      lp-rr: ""
+      ds-sd: DS-SD
+      sm-mi: SM-MI
+      sm-mn: SM-MN
+      sm-ci: SM-CI
+      sm-cc: SM-CC
+      sm-ot: SM-OT
+      fu-tr: FU-TR
+      fu-fr: FU-TR
+      lp-nd: LP-ND
+      tr-pi: TR-PI
+      tr-ho: TR-HO
+      tr-wv: TR-WV
+      sv-va: SV-VA
+      lp-an: LP-AN
+      lp-md: LP-MD
+      lp-ms: LP-MS
+      lp-rr: LP-RR
   lookup-verification-status:
-    name: Statut de vérification
+    name: l'état de vérification
     lookup_values:
       verified: Vérifié
       unverified: Non vérifié
@@ -601,13 +698,13 @@ fr:
       falsely_attributed: Faussement attribué
       rejected: Rejeté
   lookup-workflow:
-    name: Workflow
+    name: "flux du travail "
     lookup_values:
       new: Nouveau cas
       closed: Cas clôturé
       reopened: Cas réouvert
       service_provision: Prestataire de service
-      services_implemented: Tous les services de réponse mis en oeuvre
+      services_implemented: Tous les services de réponse mis en oeuvres
       case_plan: Plan du Cas
   lookup-yes-no:
     name: Oui ou Non
@@ -615,17 +712,17 @@ fr:
       'true': 'Oui'
       'false': 'Non'
   lookup-yes-no-not-applicable:
-    name: ""
-    lookup_values:
-      'true': ''
-      'false': ''
-      not_applicable: ""
-  lookup-yes-no-undecided:
-    name: "Oui, Non Ou Pas encore décidé(e)"
+    name: "Oui, Non, Ou Non Applicable"
     lookup_values:
       'true': 'Oui'
       'false': 'Non'
-      undecided: Pas encore décidé(e)
+      not_applicable: Non Applicable
+  lookup-yes-no-undecided:
+    name: "Oui, Non Ou Pas encore décidé"
+    lookup_values:
+      'true': 'Oui'
+      'false': 'Non'
+      undecided: Pas encore décidé
   lookup-yes-no-unknown:
     name: "Oui, Non, Ou Inconnu"
     lookup_values:

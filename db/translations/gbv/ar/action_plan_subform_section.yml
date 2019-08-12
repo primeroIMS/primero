@@ -10,13 +10,6 @@ ar:
         display_name: نوع الاحتياج
       service_referral:
         display_name: عند الحاجة، هل قمت بإحالة الناجية لتلقي هذه الخدمة؟
-        option_strings_text:
-          referred: تمت الإحالة
-          no_referral_service_provided_by_your_agency: لا توجد إحالة، يتم تقديم الخدمة في مؤسستك
-          no_referral_services_already_received_from_another_agency: لا توجد إحالة، تم تلقي الخدمة من قبل مؤسسة أخرى
-          no_referral_service_not_applicable: لا توجد إحالة، الخدمة غير قابلة للتطبيق
-          no_referral_declined_by_survivor: لا توجد إحالة، لم تقبل بها الناجية
-          no_referral_service_unavailable: لا توجد إحالة، الخدمة غير متوفرة
       service_referral_written_consent:
         display_name: هل استلمت موافقة خطية من الناجية للإفصاح عن المعلومات الشخصية لغرض الإحالة؟
       service_appointment_date:
