@@ -58,11 +58,13 @@ export const buildTableColumns = (records, recordType, i18n) => {
 
 export const cleanUpFilters = filters => {
   const filtersArray = pickBy(filters, value => {
+    const isMap = Map.isMap(value);
     return !(
       value === "" ||
       value === null ||
       (Array.isArray(value) && value.length === 0) ||
-      (Map.isMap(value) && Object.values(value.toJS()).includes(null))
+      ((isMap || typeof value === "object") &&
+        Object.values(isMap ? value.toJS() : value).includes(null))
     );
   });
 
@@ -72,10 +74,10 @@ export const cleanUpFilters = filters => {
       filtersArray[key] = value.join(",");
     } else if (
       typeof value === "object" &&
-      !Object.values(value.toJS()).includes(null)
+      !Object.values(value).includes(null)
     ) {
       const valueConverted = {};
-      Object.entries(value.toJS()).forEach(keys => {
+      Object.entries(value).forEach(keys => {
         const [k, v] = keys;
         valueConverted[k] = v;
       });
