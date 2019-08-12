@@ -27,7 +27,8 @@ const TracingRequestList = ({
 
   const defaultFilters = Map({
     fields: "short",
-    inquiry_status: "open",
+    // TODO: Temporarily commenting out for demo
+    // inquiry_status: "open",
     record_state: ["valid"]
   });
 
