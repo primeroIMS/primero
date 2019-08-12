@@ -1804,6 +1804,14 @@ en:
         unique_name: "The name '%{name}' is already taken."
         unique_id: "The unique id '%{unique_id}' is already taken."
 
+      enquiry:
+        presence_of_criteria: "Please add criteria to your enquiry"
+        presence_of_enquirer_name: "Please add enquirer name to your enquiry"
+        presence_of_reporter_details: "Please add reporter details to your enquiry"
+        create_forbidden: "Forbidden"
+        not_found: "Not found"
+        malformed_query: "Invalid request"
+
       role:
         name_present: "Name must not be blank"
         permission_presence: "Please select at least one permission"
