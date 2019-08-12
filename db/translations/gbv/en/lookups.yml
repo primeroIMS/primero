@@ -6,6 +6,14 @@ en:
       adult: Adult
       minor: Minor
       unknown: Unknown
+  lookup-agency-office:
+    name: Agency Office
+    lookup_values:
+      agency_office_1: Agency Office 1
+      agency_office_2: Agency Office 2
+      agency_office_3: Agency Office 3
+      agency_office_4: Agency Office 4
+      agency_office_5: Agency Office 5
   lookup-approval-status:
     name: Approval Status
     lookup_values:
@@ -19,11 +27,6 @@ en:
       case_plan: Case Plan
       action_plan: Action Plan
       service_provision: Service Provision
-  lookup-gbv-approval-types:
-    name: GBV Approval Types
-    lookup_values:
-      case_plan: Case Plan
-      closure: Closure
   lookup-armed-force-group-name:
     name: Armed Force Group Name
     lookup_values:
@@ -292,6 +295,13 @@ en:
       mental_disability: Mental Disability
       physical_disability: Physical Disability
       both: Both
+  lookup-disability-type-with-mental-physical:
+    name: Disability Type With Mental And Physical Combined
+    lookup_values:
+      'no': 'No'
+      mental_disability: Mental Disability
+      physical_disability: Physical Disability
+      mental_physical_disability: Mental & Physical Disability
   lookup-disability-type-with-no:
     name: Disability Type
     lookup_values:
@@ -360,6 +370,11 @@ en:
       no_further_action_needed: No Further Action Needed
       ongoing_monitoring: Ongoing Monitoring
       urgent_intervention: Urgent Intervention
+  lookup-gbv-approval-types:
+    name: Approval Type For Gbv Users
+    lookup_values:
+      case_plan: Case Plan
+      closure: Closure
   lookup-gbv-reported-elsewhere:
     name: Yes, No, Or Unknown
     lookup_values:
@@ -459,6 +474,7 @@ en:
       single: Single
       married_cohabitating: Married/Cohabitating
       divorced_separated: Divorced/Separated
+      widowed: Widowed
       unknown_not_applicable: Unknown/Not Applicable
   lookup-marital-status-with-spouse:
     name: Marital Status
@@ -577,6 +593,17 @@ en:
       service_not_applicable: Service not applicable
       referral_declined_by_survivor: Referral declined by survivor
       service_unavailable: Service unavailable
+  lookup-service-referred-gbv:
+    name: Service Referred Gbv
+    lookup_values:
+      referred: Referred
+      no_referral_service_provided_by_your_agency: No referral, Service provided by
+        your agency
+      no_referral_services_already_received_from_another_agency: No referral, Services
+        already received from another agency
+      no_referral_service_not_applicable: No referral, Service not applicable
+      no_referral_declined_by_survivor: No referral, Declined by survivor
+      no_referral_service_unavailable: No referral, Service unavailable
   lookup-service-response-type:
     name: Service Response Type
     lookup_values:
