@@ -4,7 +4,6 @@ import { useMediaQuery } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
-import { enqueueSnackbar } from "components/notifier";
 import { useI18n } from "components/i18n";
 import { PageContainer } from "components/page-container";
 import { LoadingIndicator } from "components/loading-indicator";
@@ -85,21 +84,11 @@ const RecordForms = ({ match, mode }) => {
             }
           },
           params.id,
-          () => {
-            dispatch(
-              enqueueSnackbar(
-                containerMode.isEdit
-                  ? i18n.t(`${recordType}.messages.update_success`, {
-                      record_id: record.get("short_id")
-                    })
-                  : i18n.t(
-                      `${recordType}.messages.creation_success`,
-                      recordType
-                    ),
-                "success"
-              )
-            );
-          }
+          containerMode.isEdit
+            ? i18n.t(`${recordType}.messages.update_success`, {
+                record_id: record.get("short_id")
+              })
+            : i18n.t(`${recordType}.messages.creation_success`, recordType)
         )
       );
       setSubmitting(false);
@@ -135,7 +124,13 @@ const RecordForms = ({ match, mode }) => {
     if (params.id && (containerMode.isShow || containerMode.isEdit)) {
       dispatch(fetchRecord(params.recordType, params.id));
     }
-  }, []);
+  }, [
+    containerMode.isEdit,
+    containerMode.isShow,
+    dispatch,
+    params.id,
+    params.recordType
+  ]);
 
   return (
     <PageContainer twoCol>
