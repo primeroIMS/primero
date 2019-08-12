@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import * as yup from "yup";
@@ -16,6 +16,17 @@ import styles from "./styles.css";
 import SubformField from "./SubformField";
 import * as C from "../constants";
 
+const ValidationErrors = () => {
+  const dispatch = useDispatch();
+  const i18n = useI18n();
+
+  useEffect(() => {
+    dispatch(enqueueSnackbar(i18n.t("error_message.notice"), "error"));
+  }, [dispatch, i18n]);
+
+  return null;
+};
+
 const RecordForm = ({
   selectedForm,
   forms,
@@ -26,7 +37,6 @@ const RecordForm = ({
   handleToggleNav,
   mobileDisplay
 }) => {
-  const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -35,14 +45,6 @@ const RecordForm = ({
   if (record) {
     initialFormValues = Object.assign({}, initialFormValues, record.toJS());
   }
-
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-
-  useEffect(() => {
-    if (showErrorMessage) {
-      dispatch(enqueueSnackbar(i18n.t("error_message.notice"), "error"));
-    }
-  }, [showErrorMessage]);
 
   const fieldValidations = field => {
     const name = field.get("name");
@@ -153,11 +155,11 @@ const RecordForm = ({
           return onSubmit(initialFormValues, values, setSubmitting);
         }}
       >
-        {({ handleSubmit, submitForm, errors, isSubmitting }) => {
-          setShowErrorMessage(Object.keys(errors).length > 0 && isSubmitting);
+        {({ handleSubmit, submitForm, errors }) => {
           bindSubmitForm(submitForm);
           return (
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+              {!isEmpty(errors) && <ValidationErrors />}
               {renderFormSections(forms)}
             </Form>
           );
