@@ -695,11 +695,11 @@ create_or_update_lookup(
     :name_en => "Service Referred GBV",
     :lookup_values_en => [
         {id: "referred", display_text: "Referred"}.with_indifferent_access,
-        {id: "no_referral_service_provided_by_your_agency", display_text: "Service provided by your agency"}.with_indifferent_access,
-        {id: "no_referral_services_already_received_from_another_agency", display_text: "Services already received from another agency"}.with_indifferent_access,
-        {id: "no_referral_service_not_applicable", display_text: "Service not applicable"}.with_indifferent_access,
-        {id: "no_referral_declined_by_survivor", display_text: "Referral declined by survivor"}.with_indifferent_access,
-        {id: "no_referral_service_unavailable", display_text: "Service unavailable"}.with_indifferent_access
+        {id: "no_referral_service_provided_by_your_agency", display_text: "No referral, Service provided by your agency"}.with_indifferent_access,
+        {id: "no_referral_services_already_received_from_another_agency", display_text: "No referral, Services already received from another agency"}.with_indifferent_access,
+        {id: "no_referral_service_not_applicable", display_text: "No referral, Service not applicable"}.with_indifferent_access,
+        {id: "no_referral_declined_by_survivor", display_text: "No referral, Declined by survivor"}.with_indifferent_access,
+        {id: "no_referral_service_unavailable", display_text: "No referral, Service unavailable"}.with_indifferent_access
     ]
 )
 
