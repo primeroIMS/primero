@@ -165,7 +165,7 @@ action_plan_subform_fields = [
     "mobile_visible" => true,
     "type" => "select_box",
     "display_name_en" => "When appropriate, did you refer the survivor for this service?",
-    "option_strings_source" => "lookup lookup-service-referred"
+    "option_strings_source" => "lookup lookup-service-referred-gbv"
   }),
   Field.new({
       "name" => "service_referral_written_consent",

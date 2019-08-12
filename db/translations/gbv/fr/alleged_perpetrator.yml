@@ -11,9 +11,6 @@ fr:
           secondary: Secondaire
       perpetrator_sex:
         display_name: Sexe de l'auteur présumé
-        option_strings_text:
-          female: Féminin
-          male: Masculin
       former_perpetrator:
         display_name: "Cas de VBG précédents par l'auteur présumé?"
       perpetrator_nationality:
@@ -30,23 +27,10 @@ fr:
           '41_60': 41-60 ans
           '61': 61 ans et Plus
           unknown: Inconnu
+      age_type:
+        display_name: ""
       perpetrator_relationship:
         display_name: Lien entre la survivante et l'auteur présumé
-        option_strings_text:
-          intimate_partner_former_partner: Partenaire intime / Ex-partenaire
-          primary_caregiver: Tuteur du/de la survivante
-          family_other_than_spouse_or_caregiver: Autre membre de la famille
-          supervisor_employer: Superviseur / Employeur
-          schoolmate: Camarade de classe
-          teacher_school_official: Enseignant / Responsable scolaire
-          service_provider: Prestataire de service
-          cotenant_housemate: Colocataire
-          family_friend_neighbor: Ami de la famille / voisin
-          other_refugee_idp_returnee: Autre réfugié / PDIP / Rapatrié
-          other_resident_community_member: Autre membre de la communauté résidente
-          other: Autre lien
-          no_relation: Sans lien
-          unknown: Inconnu
       perpetrator_occupation:
         display_name: Profession de l'auteur présumé (si connue)
         option_strings_text:

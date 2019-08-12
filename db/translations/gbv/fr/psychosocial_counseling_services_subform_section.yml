@@ -1,8 +1,8 @@
 ---
 fr:
   psychosocial_counseling_services_subform_section:
-    name: Sous-formulaire imbriqué pour services de soutien psychosocial
-    description: Sous-formulaire imbriqué pour services de soutien psychosocial
+    name: Sous-formulaire imbriqué pour les services de soutien psychosocial
+    description: Sous-formulaire imbriqué pour les services de soutien psychosocial
     fields:
       service_psycho_referral:
         display_name: "Avez-vous référé la cliente aux services de soutien psychosocial?"

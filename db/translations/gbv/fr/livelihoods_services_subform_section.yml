@@ -1,11 +1,11 @@
 ---
 fr:
   livelihoods_services_subform_section:
-    name: Sous-formulaire imbriqué pour services moyens de subsistance
-    description: Sous-formulaire imbriqué pour services moyens de subsistance
+    name: Sous-formulaire imbriqué pour les services d'appui aux moyens de subsistance
+    description: Sous-formulaire imbriqué pour les services d'appui aux moyens de subsistance
     fields:
       service_livelihoods_referral:
-        display_name: "Avez-vous référé la cliente pour service moyens de subsistance?"
+        display_name: "Avez-vous référé la cliente pour les services d'appui en moyens de subsistance?"
       service_livelihoods_appointment_date:
         display_name: Date du rendez-vous
       service_livelihoods_appointment_time:

@@ -36,5 +36,8 @@ ar:
       consent_overridden:
         display_name: لم يتم تجاوز أي موافقة لمشاركة الإعدادات
         tick_box_label: 'نعم'
+      consent_individual_transfer:
+        display_name: ""
+        tick_box_label: 'نعم'
       created_at:
         display_name: تاريخ الإحالة أو التحويل
