@@ -67,6 +67,7 @@ class Notifier extends Component {
           vertical: "bottom",
           horizontal: "center"
         },
+        preventDuplicate: true,
         autoHideDuration: 6000,
         action: key => {
           const handleSnackClose = () => {

@@ -588,7 +588,7 @@ en:
 
     messages:
       update_success: "Incident %{record_id} was successfully updated."
-      creation_success: "Incident record %{record_id} successfully created."
+      creation_success: "Incident record successfully created."
 
     view: "View Incident %{short_id}"
     edit: "Edit Incident"
@@ -657,7 +657,7 @@ en:
 
     messages:
       update_success: "Tracing Request %{record_id} was successfully updated."
-      creation_success: "Tracing Request record %{record_id} successfully created."
+      creation_success: "Tracing Request record successfully created."
 
     view: "View Tracing Request %{short_id}"
     edit: "Edit Tracing Request"
