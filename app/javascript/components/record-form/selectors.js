@@ -93,7 +93,8 @@ export const getLoadingState = state =>
 
 export const getErrors = state => state.getIn([NAMESPACE, "errors"], false);
 
-export const getDirtyForm = state => state.getIn([NAMESPACE, "dirtyForm"], false);
+export const getDirtyForm = state =>
+  state.getIn([NAMESPACE, "dirtyForm"], false);
 
 export const getCancelClicked = state =>
   state.getIn([NAMESPACE, "cancelClicked"], false);
