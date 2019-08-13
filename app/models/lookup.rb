@@ -33,7 +33,7 @@ class Lookup < ApplicationRecord
       else
         lookup = Lookup.find_by(unique_id: lookup_unique_id)
       end
-      lookup.present? ? (lookup.lookup_values_i18n || []) : []
+      lookup.present? ? ( lookup.lookup_values_i18n || {} ) : {}
     end
     # memoize_in_prod :values
 

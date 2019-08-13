@@ -8,6 +8,8 @@ class Ability
 
     @user = user
 
+    # TODO: This allows any user to read/index User
+    # See: https://bitbucket.org/quoin/primero/commits/37c53f0b2a61b11c9b8852a9554911120b6a5320
     can [:read, :write], User do |uzer|
       uzer.user_name == user.user_name
     end

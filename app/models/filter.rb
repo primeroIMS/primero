@@ -208,8 +208,8 @@ class Filter < ValueObject
     end
 
     def case_filters(user, model_class, sys)
-      reporting_location_label = sys.reporting_location_config.label_key || ReportingLocation::DEFAULT_LABEL_KEY
-      admin_level = sys.reporting_location_config.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      reporting_location_label = sys.reporting_location_config.try(:label_key) || ReportingLocation::DEFAULT_LABEL_KEY
+      admin_level = sys.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
 
       filters = []
       filters << FLAGGED_CASE

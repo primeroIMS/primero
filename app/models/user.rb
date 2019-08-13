@@ -59,6 +59,10 @@ class User < ApplicationRecord
       %w(encrypted_password reset_password_token reset_password_sent_at)
     end
 
+    def password_parameters
+      %w(password password_confirmation)
+    end
+
     def get_unique_instance(attributes)
       find_by_user_name(attributes['user_name'])
     end
