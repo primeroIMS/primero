@@ -21,7 +21,9 @@ import {
   getRecordForms,
   getRecord,
   getLoadingState,
-  getErrors
+  getErrors,
+  getDirtyForm,
+  getCancelClicked
 } from "./selectors";
 import { RECORD_TYPES } from "./constants";
 import { compactValues } from "./helpers";
@@ -55,6 +57,8 @@ const RecordForms = ({ match, mode }) => {
   const firstTab = useSelector(state => getFirstTab(state, selectedModule));
   const loading = useSelector(state => getLoadingState(state));
   const errors = useSelector(state => getErrors(state));
+  const isDirtyForm = useSelector(state => getDirtyForm(state));
+  const cancelClicked = useSelector(state => getCancelClicked(state));
 
   const selectedForm = useSelector(state =>
     state.getIn([NAMESPACE, "selectedForm"])
@@ -112,7 +116,8 @@ const RecordForms = ({ match, mode }) => {
     selectedForm,
     forms,
     mode: containerMode,
-    record
+    record,
+    isDirtyForm
   };
 
   const toolbarProps = {
@@ -120,7 +125,9 @@ const RecordForms = ({ match, mode }) => {
     params,
     recordType,
     handleFormSubmit,
-    shortId: record ? record.get("short_id") : null
+    shortId: record ? record.get("short_id") : null,
+    isDirtyForm,
+    cancelClicked
   };
 
   const navProps = {

@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import { enqueueSnackbar } from "components/notifier";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import { setDirtyForm } from "../action-creators";
 import { constructInitialValues } from "../helpers";
 import FormSectionField from "./FormSectionField";
 import styles from "./styles.css";
@@ -24,7 +25,8 @@ const RecordForm = ({
   bindSubmitForm,
   record,
   handleToggleNav,
-  mobileDisplay
+  mobileDisplay,
+  isDirtyForm
 }) => {
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
@@ -153,7 +155,10 @@ const RecordForm = ({
           return onSubmit(initialFormValues, values, setSubmitting);
         }}
       >
-        {({ handleSubmit, submitForm, errors, isSubmitting }) => {
+        {({ handleSubmit, submitForm, errors, isSubmitting, dirty }) => {
+          if (isDirtyForm !== dirty) {
+            dispatch(setDirtyForm(dirty));
+          }
           setShowErrorMessage(Object.keys(errors).length > 0 && isSubmitting);
           bindSubmitForm(submitForm);
           return (
@@ -177,7 +182,8 @@ RecordForm.propTypes = {
   bindSubmitForm: PropTypes.func,
   record: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
-  mobileDisplay: PropTypes.bool.isRequired
+  mobileDisplay: PropTypes.bool.isRequired,
+  isDirtyForm: PropTypes.bool
 };
 
 export default memo(RecordForm);

@@ -4,7 +4,13 @@ import NAMESPACE from "./namespace";
 import * as Actions from "./actions";
 import * as R from "./records";
 
-const DEFAULT_STATE = Map({ selectedForm: null, formSections: {}, fields: {} });
+const DEFAULT_STATE = Map({
+  selectedForm: null,
+  formSections: {},
+  fields: {},
+  dirtyForm: false,
+  cancelClicked: false
+});
 
 export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
@@ -38,6 +44,10 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("loading", false);
     case Actions.SET_SELECTED_FORM:
       return state.set("selectedForm", payload);
+    case Actions.SET_DIRTY_FORM:
+      return state.set("dirtyForm", payload);
+    case Actions.SET_CANCEL_BUTTON_FORM:
+      return state.set("cancelClicked", payload);
     default:
       return state;
   }

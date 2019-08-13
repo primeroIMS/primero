@@ -5,6 +5,12 @@ import { withRouter, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import CreateIcon from "@material-ui/icons/Create";
+import { useDispatch } from "react-redux";
+import {
+  setDirtyForm,
+  setCancelButtonForm
+} from "components/record-form/action-creators";
+import { AlertDialog } from "components/alert-dialog";
 import styles from "./styles.css";
 
 const RecordFormToolbar = ({
@@ -13,10 +19,13 @@ const RecordFormToolbar = ({
   recordType,
   handleFormSubmit,
   shortId,
-  history
+  history,
+  isDirtyForm,
+  cancelClicked
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const dispatch = useDispatch();
 
   const PageHeading = () => {
     let heading = "";
@@ -35,6 +44,16 @@ const RecordFormToolbar = ({
     history.goBack();
   };
 
+  const setClickedButton = val => dispatch(setCancelButtonForm(val));
+
+  const handleCancelButton = () => {
+    setClickedButton(true);
+    if (!isDirtyForm) {
+      goBack();
+      setClickedButton(false);
+    }
+  };
+
   return (
     <Box
       className={css.toolbar}
@@ -44,6 +63,14 @@ const RecordFormToolbar = ({
       display="flex"
       alignItems="center"
     >
+      <AlertDialog
+        open={isDirtyForm && cancelClicked}
+        successHandler={() => {
+          goBack();
+          dispatch(setDirtyForm(false));
+        }}
+        cancelHandler={() => setClickedButton(false)}
+      />
       <Box flexGrow={1}>
         <PageHeading />
       </Box>
@@ -54,7 +81,7 @@ const RecordFormToolbar = ({
               className={css.actionButtonCancel}
               variant="extended"
               aria-label={i18n.t("buttons.cancel")}
-              onClick={goBack}
+              onClick={handleCancelButton}
             >
               {i18n.t("buttons.cancel")}
             </Fab>
@@ -87,7 +114,9 @@ RecordFormToolbar.propTypes = {
   recordType: PropTypes.string.isRequired,
   handleFormSubmit: PropTypes.func.isRequired,
   shortId: PropTypes.string,
-  history: PropTypes.object
+  history: PropTypes.object,
+  isDirtyForm: PropTypes.bool,
+  cancelClicked: PropTypes.bool
 };
 
 export default withRouter(RecordFormToolbar);

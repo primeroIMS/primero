@@ -64,3 +64,17 @@ export const saveRecord = (
     }
   });
 };
+
+export const setDirtyForm = payload => {
+  return {
+    type: Actions.SET_DIRTY_FORM,
+    payload
+  };
+};
+
+export const setCancelButtonForm = payload => {
+  return {
+    type: Actions.SET_CANCEL_BUTTON_FORM,
+    payload
+  };
+};
