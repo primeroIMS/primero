@@ -1,0 +1,731 @@
+---
+bn:
+  lookup-age-group-type:
+    name: ""
+    lookup_values:
+      adult: ""
+      minor: ""
+      unknown: ""
+  lookup-agency-office:
+    name: ""
+    lookup_values:
+      agency_office_1: ""
+      agency_office_2: ""
+      agency_office_3: ""
+      agency_office_4: ""
+      agency_office_5: ""
+  lookup-approval-status:
+    name: "অনুমোদন এর অবস্থা "
+    lookup_values:
+      requested: "অনুরোধ করা হয়েছে "
+      pending: পেন্ডিং
+      approved: অনুমোদন দেয়া হয়েছে
+      rejected: বাতিল করা হয়েছে
+  lookup-approval-type:
+    name: "অনুমোদন  এর ধরন "
+    lookup_values:
+      case_plan: কেস পরিকল্পনা
+      action_plan: কর্ম পরিকল্পনা
+      service_provision: "সেবা প্রদান "
+  lookup-armed-force-group-name:
+    name: "সশস্ত্র বাহিনী দলের নাম "
+    lookup_values:
+      armed_force_or_group_1: সশস্ত্র বাহিনী বা দল 1
+      armed_force_or_group_2: সশস্ত্র বাহিনী বা দল 2
+      armed_force_or_group_3: সশস্ত্র বাহিনী বা দল 3
+      other_please_specify: "অন্যান্য, অনুগ্রহ করে উল্লেখ করুন"
+  lookup-armed-force-group-type:
+    name: সশস্ত্র বাহিনী দলের ধরন
+    lookup_values:
+      national_army: "রাষ্ট্রীয় সেনাবাহিনী "
+      security_forces: নিরাপত্তা বাহিনীসমুহ
+      international_forces: আন্তর্জাতিক বাহিনী
+      police_forces: পুলিশ বাহিনী
+      para-military_forces: আধা- সামরিক বাহিনী
+      unknown: অজানা
+      other: "অন্যান্য "
+  lookup-assessment-duration:
+    name: মূল্যায়ন এর সময়কাল
+    lookup_values:
+      less_than_15_minutes: "15 মিনিটের কম "
+      16_30_minutes: "16-30  মিনিট "
+      31_minutes_1_hour: 31 মিনিট - 1 ঘন্টা
+      1_2_hours: "1-2 ঘণ্টা "
+      more_than_2_hours: "2 ঘণ্টার বেশি "
+  lookup-assessment-progress:
+    name: মূল্যায়ন এর অগ্রগতি
+    lookup_values:
+      n_a: এন / এ/ প্রযোজ্য নয়
+      in_progress: "অগ্রগতি হচ্ছে "
+      met: পূরণ হয়েছে
+  lookup-case-status:
+    name: কেসের অবস্থা
+    lookup_values:
+      open: খোলা
+      closed: বন্ধ
+      transferred: স্থানান্তরিত
+      duplicate: নকল
+  lookup-child-minor-age-group:
+    name: "শিশু / অপ্রাপ্তবয়স্ক "
+    lookup_values:
+      0_5_year_old: 0-5 বয়সী
+      6_12_year_old: 6 -12 বছর বয়সী
+      13_17_year_old: 13 -17 বছর বয়সী
+  lookup-conference-case-status:
+    name: ""
+    lookup_values:
+      open: ""
+      closed: ""
+      transferred: ""
+      other: ""
+  lookup-country:
+    name: "দেশ "
+    lookup_values:
+      afghanistan: আফগানিস্তান
+      albania: আলবেনিয়া
+      algeria: আলজেরিয়া
+      andorra: এ্যান্ডোরা
+      angola: অ্যাঙ্গোলা
+      antigua_and_barbuda: অ্যান্টিগুয়া ও বার্বুডা
+      argentina: আর্জেন্টিনা
+      armenia: আর্মেনিয়া
+      australia: অস্ট্রেলিয়া
+      austria: অস্ট্রিয়া
+      azerbaijan: আজারবাইজান
+      bahamas: বাহামাস
+      bahrain: বাহরাইন
+      bangladesh: বাংলাদেশ
+      barbados: বারবাদোস
+      belarus: বেলারুশ
+      belgium: বেলজিয়াম
+      belize: বেলিজ
+      benin: বেনিন
+      bhutan: ভুটান
+      bolivia: বলিভিয়া
+      bosnia_and_herzegovina: বসনিয়া ও হার্জেগোভিনা
+      botswana: বতসোয়ানা
+      brazil: ব্রাজিল
+      brunei: ব্রুনাই
+      bulgaria: বুলগেরিয়া
+      burkina_faso: বুর্কিনা ফাসো
+      burundi: বুরুন্ডি
+      cabo_verde: কাবো ভের্দে
+      cambodia: কম্বোডিয়া
+      cameroon: ক্যামেরুন
+      canada: কানাডা
+      central_african_republic: মধ্য আফ্রিকান প্রজাতন্ত্র
+      chad: "চাদ "
+      chile: চিলি
+      china: চীন
+      colombia: কলোম্বিয়া
+      comoros: কমোরোস
+      congo: "কঙ্গো, প্রজাতন্ত্র"
+      drc: "কঙ্গো, গণতান্ত্রিক প্রজাতন্ত্র"
+      costa_rica: কোস্টারিকা
+      cote_divoire: আইভরি কোস্ট
+      croatia: ক্রোয়েশিয়া
+      cuba: কিউবা
+      cyprus: সাইপ্রাস
+      czech_republic: চেক প্রজাতন্ত্র
+      denmark: ডেনমার্ক
+      djibouti: জিবুতি
+      dominica: ডোমিনিকা
+      dominican_republic: ডোমিনিকান প্রজাতন্ত্র
+      ecuador: একুয়েডর
+      egypt: মিশর
+      el_salvador: এল সালভাদর
+      equatorial_guinea: একুয়েটরিয়াল গিনি
+      eritrea: ইরিত্রিয়া
+      estonia: এস্তোনিয়া
+      ethiopia: ইথিওপিয়া
+      fiji: ফিজি
+      finland: ফিনল্যাণ্ড
+      france: ফ্রান্স
+      gabon: গাবোন
+      gambia: গাম্বিয়া
+      georgia: জর্জিয়া
+      germany: জার্মানি
+      ghana: ঘানা
+      greece: গ্রীস
+      grenada: গ্রেনাডা
+      guatemala: "গুয়াতেমালা "
+      guinea: গিনি
+      guinea_bissau: গিনি-বিসাউ
+      guyana: গায়ানা
+      haiti: হাইতি
+      honduras: হন্ডুরাস
+      hungary: হাঙ্গেরি
+      iceland: আইসল্যান্ড
+      india: ভারত
+      indonesia: ইন্দোনেশিয়া
+      iran: ইরান
+      iraq: ইরাক
+      ireland: আয়ারল্যাণ্ড
+      israel: ইসরায়েল
+      italy: ইতালি
+      jamaica: জ্যামাইকা
+      japan: জাপান
+      jordan: জর্ডান
+      kazakhstan: কাজাকিস্তান
+      kenya: কেনিয়া
+      kiribati: কিরিবাতি
+      kosovo: কসোভো
+      kuwait: কুয়েত
+      kyrgyzstan: কিরগিজস্তান
+      laos: লাওস
+      latvia: লাটভিয়া
+      lebanon: লেবানন
+      lesotho: লেসোথো
+      liberia: লাইবেরিয়া
+      libya: লিবিয়া
+      liechtenstein: লিচেনস্টেইন
+      lithuania: লিথুয়ানিয়া
+      luxembourg: "লুক্সেমবার্গ "
+      macedonia: মাসেডোনিয়া
+      madagascar: "মাদাগাস্কার "
+      malawi: মালাউই
+      malaysia: মালয়েশিয়া
+      maldives: মালদ্বীপ
+      mali: মালি
+      malta: মাল্টা
+      marshall_islands: মার্শাল দ্বীপপুঞ্জ
+      mauritania: মরিতানিয়া
+      mauritius: মরিশাস
+      mexico: মেক্সিকো
+      micronesia: মাইক্রোনেশিয়া
+      moldova: মলদোভা
+      monaco: মোনাকো
+      mongolia: "মঙ্গোলিয়া  "
+      montenegro: মন্টিনেগ্রো
+      morocco: মরক্কো
+      mozambique: মোজাম্বিক
+      myanmar: মায়ানমার
+      namibia: নামিবিয়া
+      nauru: নাউরু
+      nepal: নেপাল
+      netherlands: নেদারল্যান্ডস
+      new_zealand: নিউজিল্যান্ড
+      nicaragua: "নিকারাগুয়া "
+      niger: নাইজার
+      nigeria: নাইজেরিয়া
+      north_korea: উত্তর কোরিয়া
+      norway: নরওয়ে
+      oman: ওমান
+      pakistan: পাকিস্তান
+      palau: পালাউ
+      palestine: ফিলিস্তিন
+      panama: পানামা
+      papua_new_guinea: পাপুয়া নিউ গিনি
+      paraguay: প্যারাগুয়ে
+      peru: পেরু
+      philippines: ফিলিপাইন
+      poland: পোল্যান্ড
+      portugal: পর্তুগাল
+      qatar: কাতার
+      romania: রোমানিয়া
+      russia: রাশিয়া
+      rwanda: রুয়ান্ডা
+      st_kitts_and_nevis: সেন্ট কিটস এবং নেভিস
+      st_lucia: সেন্ট লুসিয়া
+      st_vincent_and_the_grenadines: সেন্ট ভিনসেন্ট ও গ্রেনাডাইন দ্বীপপুঞ্জ
+      samoa: সামোয়া
+      san_marino: সান মারিনো
+      sao_tome_and_principe: সাও টোমে এবং প্রিনসিপে
+      saudi_arabia: সৌদি আরব
+      senegal: সেনেগাল
+      serbia: সার্বিয়া
+      seychelles: সিসিলিস
+      sierra_leone: সিয়েরা লিওন
+      singapore: সিঙ্গাপুর
+      slovakia: স্লোভাকিয়া
+      slovenia: স্লোভেনিয়া
+      solomon_islands: সলোমান দ্বীপপুঞ্জ
+      somalia: সোমালিয়া
+      south_africa: দক্ষিন আফ্রিকা
+      south_korea: দক্ষিণ কোরিয়া
+      south_sudan: দক্ষিণ সুদান
+      spain: স্পেন
+      sri_lanka: শ্রীলংকা
+      sudan: সুদান
+      suriname: সুরিনাম
+      swaziland: সোয়াজিল্যান্ড
+      sweden: সুইডেন
+      switzerland: সুইজারল্যান্ড
+      syria: সিরিয়া
+      taiwan: তাইওয়ান
+      tajikistan: "তাজিকিস্তান "
+      tanzania: তানজানিয়া
+      thailand: থাইল্যান্ড
+      timor_leste: পূর্ব তিমুর
+      togo: টোগো
+      tonga: টাঙ্গা
+      trinidad_and_tobago: ত্রিনিদাদ ও টোবাগো
+      tunisia: "তিউনিশিয়া "
+      turkey: তুরস্ক
+      turkmenistan: "তুর্কমেনিস্তান "
+      tuvalu: তুবালু
+      uganda: উগান্ডা
+      ukraine: ইউক্রেইন্
+      united_arab_emirates: সংযুক্ত আরব আমিরাত
+      uk: ইউ কে (যুক্তরাজ্য)
+      usa: ইউ এস এ (মার্কিন যুক্তরাষ্ট্র)
+      uruguay: উরুগুয়ে
+      uzbekistan: "উজবেকিস্তান "
+      vanuatu: ভানুয়াতু
+      vatican: "ভ্যাটিকান সিটি (হোলি সী) "
+      venezuela: ভেনেজুয়েলা
+      vietnam: ভিয়েতনাম
+      yemen: ইয়েমেন
+      zambia: জাম্বিয়া
+      zimbabwe: "জিম্বাবুয়ে "
+  lookup-cp-violence-type:
+    name: "শিশু সুরক্ষা সম্পর্কিত সহিংসতার ধরন "
+    lookup_values:
+      rape: ধর্ষণ
+      sexual_assault: যৌন আক্রমণ
+      physical_assault: শারীরিক নির্যাতন
+      forced_marriage: জোরপূর্বক বিবাহ
+      denial_of_resources_opportunities_or_services: "সম্পদ, সুযোগ বা সেবার অস্বীকৃতি"
+      psychological_emotional_abuse: মানসিক /আবেগীয় নির্যাতন
+      non-gbv: নন- জিবিভি
+  lookup-disability-type:
+    name: প্রতিবন্ধিতার ধরন
+    lookup_values:
+      mental_disability: মানসিক প্রতিবন্ধিতা
+      physical_disability: শারীরিক প্রতিবন্ধিতা
+      both: উভয়ই
+  lookup-disability-type-with-mental-physical:
+    name: প্রতিবন্ধিতার ধরন
+    lookup_values:
+      'no': 'না '
+      mental_disability: মানসিক প্রতিবন্ধিতা
+      physical_disability: শারীরিক প্রতিবন্ধিতা
+      mental_physical_disability: "মানসিক এবং শারীরিক প্রতিবন্ধকতা "
+  lookup-disability-type-with-no:
+    name: প্রতিবন্ধিতার ধরন
+    lookup_values:
+      'no': 'না '
+      mental_disability: মানসিক প্রতিবন্ধিতা
+      physical_disability: শারীরিক প্রতিবন্ধিতা
+      both: উভয়ই
+  lookup-discovery-method:
+    name: "কিভাবে জানা গেছে "
+    lookup_values:
+      family_or_friend: "পরিবার বা বন্ধু "
+      referral: অন্য প্রতিষ্ঠান থেকে রেফারেল
+      neighbor: প্রতিবেশী বা কমিউনিটির সদস্য
+      community_discussion: কমিউনিটি আলোচনা
+      pamphlet: আপনি যেসব প্রচারপত্র বা পুস্তিকা দেখেছেন বা পেয়েছেন
+      other: অন্যান্য
+  lookup-displacement-status:
+    name: "স্থানচ্যুতির অবস্থা "
+    lookup_values:
+      resident: বাসিন্দা
+      idp: আইডিপি
+      refugee: শরণার্থী
+      stateless_person: রাষ্ট্রহীন ব্যক্তি
+      returnee: প্রত্যাগমনকারী
+      foreign_national: বিদেশী
+      asylum_seeker: আশ্রয়প্রার্থী
+  lookup-ethnicity:
+    name: নৃতাত্তিক
+    lookup_values:
+      ethnicity1: নৃতাত্তিক 1
+      ethnicity2: নৃতাত্তিক 2
+      ethnicity3: নৃতাত্তিক 3
+      ethnicity4: নৃতাত্তিক 4
+      ethnicity5: নৃতাত্তিক 5
+      ethnicity6: নৃতাত্তিক 6
+      ethnicity7: নৃতাত্তিক 7
+      ethnicity8: নৃতাত্তিক 8
+      ethnicity9: নৃতাত্তিক 9
+      ethnicity10: নৃতাত্তিক 10
+  lookup-family-relationship:
+    name: ""
+    lookup_values:
+      mother: ""
+      father: ""
+      aunt: ""
+      uncle: ""
+      grandmother: ""
+      grandfather: ""
+      brother: ""
+      sister: ""
+      husband: ""
+      wife: ""
+      partner: ""
+      other_family: ""
+      other_nonfamily: ""
+  lookup-followup-type:
+    name: ফলো আপ এর ধরন
+    lookup_values:
+      after_reunification: পুনরায় একত্রিত হওয়ার পর ফলো আপ
+      in_care: যত্নের ফলো আপ
+      for_service: "সেবার  ফলো আপ "
+      for_assesment: মূল্যায়ন এর  ফলো আপ
+  lookup-further-action_needed:
+    name: ""
+    lookup_values:
+      no_further_action_needed: ""
+      ongoing_monitoring: ""
+      urgent_intervention: ""
+  lookup-gbv-approval-types:
+    name: ""
+    lookup_values:
+      case_plan: ""
+      closure: ""
+  lookup-gbv-reported-elsewhere:
+    name: "হ্যাঁ, না, অথবা অজানা "
+    lookup_values:
+      'no': 'না '
+      gbvims-org: হ্যাঁ - জিবিভিআইএমএস সংগঠন / সংস্থা
+      non-gbvims-org: হ্যাঁ - নন জিবিভিআইএমএস সংগঠন / সংস্থা
+  lookup-gbv-sexual-violence-type:
+    name: জিবিভি এর যৌন সহিংসতার ধরন
+    lookup_values:
+      rape: "ধর্ষণ "
+      sexual_assault: যৌন আক্রমণ
+      physical_assault: শারীরিক আক্রমন
+      forced_marriage: জোরপূর্বক বিবাহ
+      denial_of_resources_opportunities_or_services: "সম্পদ, সুযোগ বা সেবার অস্বীকৃতি"
+      psychological_emotional_abuse: মানসিক/ আবেগীয় নির্যাতন
+      non-gbv: নন - জিবিভি
+  lookup-gender:
+    name: লিঙ্গ
+    lookup_values:
+      male: পুরুষ
+      female: নারী
+  lookup-incident-identification:
+    name: ঘটনা সনাক্তকরণ
+    lookup_values:
+      disclosure_complaint_by_the_abused_person_or_family_member: নির্যাতিত ব্যক্তি বা পরিবারের সদস্য দ্বারা প্রকাশ / অভিযোগ করা
+      discovered_by_service_provider: "সেবা প্রদানকারী দ্বারা জানা গেছে "
+      report_by_the_institution_providing_the_service_discovery: "সেবা প্রদানকারী প্রতিষ্ঠানের রিপোর্ট (উদ্ঘাটন) "
+      other: "অন্যান্য "
+  lookup-incident-location:
+    name: ঘটনার অবস্থান
+    lookup_values:
+      home: বাসা
+      street: রাস্তা
+      school: স্কুল
+      work_place: "কর্মস্থল "
+      other: অন্যান্য
+  lookup-incident-status:
+    name: ঘটনার অবস্থা
+    lookup_values:
+      open: খোলা
+      closed: বন্ধ
+      duplicate: "নকল "
+  lookup-inquiry-status:
+    name: তদন্তের অবস্থা
+    lookup_values:
+      open: খোলা
+      closed: বন্ধ
+  lookup-language:
+    name: ভাষা
+    lookup_values:
+      language1: ভাষা 1
+      language2: ভাষা 2
+      language3: ভাষা 3
+      language4: ভাষা 4
+      language5: ভাষা 5
+      language6: ভাষা 6
+      language7: ভাষা 7
+      language8: ভাষা 8
+      language9: ভাষা 9
+      language10: "ভাষা 10 "
+  lookup-location-type:
+    name: "স্থান এর ধরন "
+    lookup_values:
+      country: দেশ
+      region: এলাকা
+      province: প্রদেশ
+      district: জেলা
+      governorate: "প্রশাসনিক এলাকা "
+      chiefdom: "নেতৃস্থানীয় ব্যক্তি "
+      state: রাষ্ট্র
+      city: শহর
+      county: দেশ
+      camp: ক্যাম্প
+      site: সাইট
+      village: গ্রাম
+      zone: জোন/ব্লক
+      sub_district: উপজেলা
+      locality: এলাকা
+      prefecture: Prefecture
+      sub-prefecture: Sub-Prefecture
+      commune: Commune
+      payam: Payam
+      other: অন্যান্য
+  lookup-marital-status:
+    name: বৈবাহিক অবস্থা
+    lookup_values:
+      single: অবিবাহিত
+      married_cohabitating: বিবাহিত / সহাবস্থান
+      divorced_separated: বিবাহ বিচ্ছেদ / আলাদা থাকা
+      widowed: বিধবা বা বিপত্নীক
+  lookup-marital-status-unknown:
+    name: বৈবাহিক অবস্থা
+    lookup_values:
+      single: অবিবাহিত
+      married_cohabitating: বিবাহিত / সহাবস্থান
+      divorced_separated: বিবাহ বিচ্ছেদ / আলাদা থাকা
+      widowed: বিধবা বা বিপত্নীক
+      unknown_not_applicable: জানা নেই / প্রযোজ্য নয়
+  lookup-marital-status-with-spouse:
+    name: বৈবাহিক অবস্থা
+    lookup_values:
+      single: অবিবাহিত
+      married_cohabitating: বিবাহিত / সহাবস্থান
+      divorced_separated: বিবাহ বিচ্ছেদ / আলাদা থাকা
+      widowed: বিধবা বা বিপত্নীক
+      with_spouse: ""
+  lookup-nationality:
+    name: জাতীয়তা
+    lookup_values:
+      nationality1: "জাতীয়তা 1 "
+      nationality2: জাতীয়তা 2
+      nationality3: জাতীয়তা 3
+      nationality4: জাতীয়তা 4
+      nationality5: জাতীয়তা 5
+      nationality6: জাতীয়তা 6
+      nationality7: জাতীয়তা 7
+      nationality8: জাতীয়তা 8
+      nationality9: জাতীয়তা 9
+      nationality10: জাতীয়তা 10
+  lookup-perpetrator-relationship:
+    name: অপরাধীর/নির্যাতনকারীর সম্পর্ক
+    lookup_values:
+      intimate_partner_former_partner: ঘনিষ্ঠ সঙ্গী / প্রাক্তন সঙ্গী
+      primary_caregiver: প্রাথমিক সেবাদানকারী
+      family_other_than_spouse_or_caregiver: স্বামী - স্ত্রী বা সেবাদানকারী ছাড়া অন্য পরিবার
+      supervisor_employer: সুপারভাইজার/ নিয়োগকারী
+      schoolmate: স্কুল সংগী
+      teacher_school_official: শিক্ষক / স্কুল কর্মকর্তা
+      service_provider: সেবা প্রদানকারী
+      cotenant_housemate: সহ-ভাড়াটিয়া/ একই বাসায় থাকে
+      family_friend_neighbor: পারিবারিক বন্ধু / প্রতিবেশী
+      other_refugee_idp_returnee: অন্য শরণার্থী / আইডিপি / যারা ফিরে গিয়েছে
+      other_resident_community_member: "স্থানীয় অধিবাসীদের সদস্য "
+      other: অন্যান্য
+      no_relation: কোন সম্পর্ক নেই
+      unknown: অজানা
+  lookup-protection-concerns:
+    name: সুরক্ষার বিষয়সমূহ
+    lookup_values:
+      sexually_exploited: "যৌন নিপীড়িনের শিকার "
+      gbv_survivor: জিবিভি সারভাইভার/ জেন্ডার ভিত্তিক সহিংসতার শিকার
+      trafficked_smuggled: "পাচার / চোরাচালানের শিকার "
+      statelessness: "রাষ্ট্রহীনতা "
+      arrested_detained: গ্রেফতার / আটক
+      migrant: অভিবাসী
+      disabled: প্রতিবন্ধী
+      serious_health_issue: গুরুতর স্বাস্থ্য সমস্যা
+      refugee: শরণার্থী
+      caafag: সি এ এ এফ এ জি
+      street_child: পথ শিশু
+      child_mother: "অল্পবয়সী মা "
+      physically_or_mentally_abused: "শারীরিকভাবে বা মানসিকভাবে নির্যাতিত  "
+      living_with_vulnerable_person: "ঝুঁকিপূর্ণ ব্যক্তির সাথে বসবাস "
+      worst_forms_of_child_labor: "নিকৃষ্টতম শিশু শ্রম "
+      child_headed_household: শিশু প্রধান পরিবার
+      mentally_distressed: মানসিকভাবে অসুস্থ
+      other: "অন্যান্য "
+  lookup-protection-status:
+    name: সুরক্ষার অবস্থা
+    lookup_values:
+      unaccompanied: একাকী
+      separated: "বিচ্ছিন্ন "
+  lookup-religion:
+    name: ধর্ম
+    lookup_values:
+      religion1: ধর্ম 1
+      religion2: ধর্ম 2
+      religion3: "ধর্ম 3 "
+      religion4: "ধর্ম 4 "
+      religion5: ধর্ম 5
+      religion6: ধর্ম 6
+      religion7: ধর্ম 7
+      religion8: "ধর্ম 8 "
+      religion9: ধর্ম 9
+      religion10: ধর্ম 10
+  lookup-risk-level:
+    name: ঝুঁকির লেভেল/স্তর
+    lookup_values:
+      high: "উচ্চ "
+      medium: মধ্যম
+      low: নিম্ন
+  lookup-separation-cause:
+    name: আলাদা হওয়ার কারণ
+    lookup_values:
+      conflict: দ্বন্দ্ব/সংঘর্ষ
+      death: "মৃত্যু "
+      family_abuse_violence_exploitation: "পরিবার কর্তৃক অপব্যবহার / সহিংসতা / শোষণ "
+      lack_of_access_to_services_support: "সেবা /সহযোগিতার প্রবেশাধিকারের অভাব "
+      caafag: সি এ এ এফ এ জি
+      sickness_of_family_member: পরিবারের সদস্যর অসুস্থতা
+      entrusted_into_the_care_of_an_individual: "কোন ব্যক্তির  উপর অর্পণ করা হয়েছে কি?"
+      arrest_and_detention: গ্রেফতার এবং আটক
+      abandonment: পরিত্যাগ
+      repatriation: "প্রত্যাবর্তন "
+      population_movement: জনসংখ্যা স্থানান্তর
+      migration: অভিবাসন/মাইগ্রেশন
+      poverty: দারিদ্রতা
+      natural_disaster: প্রাকৃতিক দূর্যোগ
+      divorce_remarriage: বিবাহবিচ্ছেদ / পুনর্বিবাহ
+      other_please_specify: অন্যান্য ( অনুগ্রহ করে উল্লেখ করুন)
+  lookup-service-implemented:
+    name: সেবা বাস্তবায়িত হয়েছে
+    lookup_values:
+      not_implemented: বাস্তবায়িত হয়নি
+      implemented: বাস্তবায়িত  হয়েছে
+  lookup-service-referred:
+    name: "সেবার জন্য রেফার করা হয়েছে "
+    lookup_values:
+      referred: "রেফার করা হয়েছে  "
+      service_provided_by_your_agency: "আপনার প্রতিষ্ঠান থেকে সেবা প্রদান করা হয়েছে  "
+      services_already_received_from_another_agency: "ইতিমধ্যে অন্য প্রতিষ্ঠান থেকে সেবা গৃহিত হয়েছে "
+      service_not_applicable: সেবা প্রযোজ্য নয়
+      referral_declined_by_survivor: "সারভাইভার রেফারেলটি প্রত্যাখ্যান করেছে "
+      service_unavailable: "সেবাটি বর্তমান নেই "
+  lookup-service-referred-gbv:
+    name: সেবার জন্য রেফার করা হয়েছে  GBV
+    lookup_values:
+      referred: "রেফার করা হয়েছে "
+      no_referral_service_provided_by_your_agency: "রেফার করা হয় নি, আপনার প্রতিষ্ঠান সেবা প্রদান করেছে"
+      no_referral_services_already_received_from_another_agency: "রেফার করা হয় নি,  ইতিমধ্যে  অন্য প্রতিষ্ঠান  থেকে সেবা গ্রহন করেছে "
+      no_referral_service_not_applicable: "রেফার করা হয় নি, এই সেবাটি প্রযোজ্য নয় "
+      no_referral_declined_by_survivor: "রেফার করা হয় নি, সারভাইবার  প্রত্যাখ্যান করেছেন"
+      no_referral_service_unavailable: "রেফার করা হয় নি,  সেবাটি  এই ক্যাম্পে নেই  "
+  lookup-service-response-type:
+    name: "সেবার প্রদানের ধরণ "
+    lookup_values:
+      care_plan: যত্নের পরিকল্পনা
+      action_plan: কর্ম পরিকল্পনা
+      service_provision: সেবার বিধান
+  lookup-service-type:
+    name: সেবার ধরণ
+    lookup_values:
+      safehouse_service: নিরাপদ আশ্রয় সেবা
+      health_medical_service: স্বাস্থ্য / চিকিৎসা সেবা
+      psychosocial_service: "মনোসামাজিক সেবা "
+      police_other_service: পুলিশ / অন্যান্য সেবা
+      legal_assistance_service: আইনি সহায়তা সেবা
+      livelihoods_service: "জীবিকা অর্জন সম্পর্কিত সেবা "
+      child_protection_service: শিশু সুরক্ষা সেবা
+      family_mediation_service: পারিবারিক মধ্যস্থতা সেবা
+      family_seunification_service: পারিবারিক পুনর্মিলন সেবা
+      education_service: "শিক্ষা  সেবা "
+      nfi_clothes_shoes_service: "এন এফ আই /বস্ত্র / জুতার সেবা "
+      water_sanitation_service: পানি /স্বাস্থ্যব্যবস্থা সেবা
+      registration_service: "নিবন্ধন সেবা "
+      food_service: খাদ্য সেবা
+      other_service: অন্যান্য সেবা
+  lookup-time-of-day:
+    name: দিনের সময়
+    lookup_values:
+      morning: সকাল
+      noon: দুপুর
+      evening: সন্ধ্যা
+      night: "রাত "
+  lookup-tracing-status:
+    name: ""
+    lookup_values:
+      open: ""
+      tracing_in_progress: ""
+      verified: ""
+      reunified: ""
+      closed: ""
+  lookup-transition-type:
+    name: ""
+    lookup_values:
+      referral: ""
+      reassign: ""
+      transfer: ""
+      transfer_request: ""
+  lookup-unaccompanied-separated-status:
+    name: একাকী  বিচ্ছিন্ন অবস্থা
+    lookup_values:
+      'no': 'না '
+      unaccompanied_minor: একাকী অপ্রাপ্তবয়স্ক
+      separated_child:  বিচ্ছিন্ন শিশু
+      other_vulnerable_child: অনাথ বা অসহায় শিশু
+  lookup-unhcr-needs-codes:
+    name: ইউএনএইচসিআর এর কোড প্রয়োজন
+    lookup_values:
+      cr-cp: সি আর-সিপি
+      cr-cs: সি আর-সি এস
+      cr-cc: সি আর-সিসি
+      cr-tp: সি আর-টিপি
+      cr-lw: "সি আর-এল ডব্লিউ "
+      cr-lo: "সি আর-এল ও "
+      cr-ne: "সি আর-এন ই "
+      cr-se: "সি আর-এস ই "
+      cr-af: সি আর-এ এফ
+      cr-cl: "সি আর-সি এল "
+      sc-ch: এসসি-সিএইচ
+      sc-ic: এসসি-আইসি
+      sc-fc: এসসি-এফসি
+      ds-bd: "ডিএস-বিডি "
+      ds-df: ডিএস-ডিএফ
+      ds-pm: ডিএস-পিএম
+      ds-ps: ডিএস-পিএস
+      ds-mm: ডিএস-এম এম
+      ds-ms: ডিএস-এমএস
+      ds-sd: ডিএস-এসডি
+      sm-mi: এস এম-এমআই
+      sm-mn: এস এম-এম এন
+      sm-ci: এস এম-সি আই
+      sm-cc: এস এম-সিসি
+      sm-ot: "এস এম-ও টি "
+      fu-tr: এফ ইউ-টিআর
+      fu-fr: এফ ইউ-এফ আর
+      lp-nd: "এলপি-এনডি "
+      tr-pi: টিআর-পি আই
+      tr-ho: "টিআর-এইচ ও "
+      tr-wv: "টিআর-ডব্লিউ ভি "
+      sv-va: এস ভি-ভিএ
+      lp-an: এল পি-এ এন
+      lp-md: এল পি-এম ডি
+      lp-ms: এলপি-এম এস
+      lp-rr: এল পি-আর আর
+  lookup-verification-status:
+    name: যাচাই এর অবস্থা 
+    lookup_values:
+      verified: যাচাইকৃত
+      unverified: যাচাই করা হয়নি
+      pending_verification: যাচাই করা শেষ হয়নি
+      falsely_attributed: সঠিকভাবে তুলে ধরা হয়নি
+      rejected: প্রত্যাখ্যাত
+  lookup-workflow:
+    name: কর্মপ্রবাহ
+    lookup_values:
+      new: "নতুন কেস "
+      closed: "কেস বন্ধ করা হয়েছে "
+      reopened: কেস পুনরায় খোলা
+      service_provision: "সেবার বিধান "
+      services_implemented: "প্রয়োজনীয় সেবাসমূহ বাস্তবায়ন করা হয়েছে "
+      case_plan: " কেস পরিকল্পনা"
+  lookup-yes-no:
+    name: হ্যাঁ বা না
+    lookup_values:
+      'true': 'হ্যাঁ '
+      'false': 'না'
+  lookup-yes-no-not-applicable:
+    name: "হ্যাঁ, না, বা প্রযোজ্য নয়"
+    lookup_values:
+      'true': 'হ্যাঁ '
+      'false': 'না'
+      not_applicable: প্রযোজ্য নয়
+  lookup-yes-no-undecided:
+    name: "হ্যাঁ, না, বা সিদ্ধান্ত নেয়া হয়নি"
+    lookup_values:
+      'true': 'হ্যাঁ'
+      'false': 'না'
+      undecided: সিদ্ধান্ত নেয়া হয়নি
+  lookup-yes-no-unknown:
+    name: "হ্যাঁ, না, বা জানা নেই "
+    lookup_values:
+      'true': 'হ্যাঁ '
+      'false': 'না'
+      unknown: " জানা নেই "

@@ -1,0 +1,20 @@
+---
+bn:
+  legal_assistance_services_subform_section:
+    name: আইনি সহায়তা সেবা সাবফর্ম
+    description: আইনি সহায়তা সেবা সাবফর্ম
+    fields:
+      service_legal_referral:
+        display_name: "আপনি কি সারভাইভারকে আইনি সেবার জন্য রেফার করেছিলেন?"
+      service_legal_appointment_date:
+        display_name: সাক্ষাতের তারিখ
+      service_legal_appointment_time:
+        display_name: সাক্ষাতের সময়
+      service_legal_provider:
+        display_name: সেবা প্রদানকারী
+      service_legal_location:
+        display_name: সেবার স্থান
+      service_legal_referral_notes:
+        display_name: নোট
+      pursue_legal_action:
+        display_name: "সারভাইভার কি আইনি পদক্ষেপ গ্রহন করতে চায়?"

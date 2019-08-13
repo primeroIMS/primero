@@ -1,0 +1,44 @@
+---
+bn:
+  alleged_perpetrator:
+    name: উপ অভিযুক্ত অপরাধীর সাবফর্ম
+    description: উপ অভিযুক্ত অপরাধীর সাবফর্ম
+    fields:
+      primary_perpetrator:
+        display_name: "ইহা কি প্রাথমিক অপরাধী?"
+        option_strings_text:
+          primary: প্রাথমিক
+          secondary: আনুষঙ্গিক
+      perpetrator_sex:
+        display_name: "অভিযুক্ত অপরাধীর লিঙ্গ "
+      former_perpetrator:
+        display_name: "অভিযুক্ত অপরাধী  দ্বারা পূর্ব জিবিভি?"
+      perpetrator_nationality:
+        display_name: অভিযুক্ত অপরাধীর জাতীয়তা
+      perpetrator_ethnicity:
+        display_name: "অভিযুক্ত অপরাধীর জাতি বা বংশ "
+      age_group:
+        display_name: অভিযুক্ত অপরাধীর বয়সের কোঠা
+        option_strings_text:
+          '0_11': 0-11
+          '12_17': 12-17
+          '18_25': 18-25
+          '26_40': 26-40
+          '41_60': 41-60
+          '61': 61+
+          unknown: অপরিচিত
+      age_type:
+        display_name: ""
+      perpetrator_relationship:
+        display_name: "অভিযুক্ত অপরাধীর সাথে ভুক্তভোগীর সম্পর্ক "
+      perpetrator_occupation:
+        display_name: অভিযুক্ত অপরাধীর প্রধান পেশা (যদি পরিচিত হয়)
+        option_strings_text:
+          other: অন্যান্য
+          unemployed: বেকার
+          unknown: "অপরিচিত "
+          occupation_1: পেশা 1
+          occupation_2: পেশা 2
+          occupation_3: পেশা 3
+          occupation_4: পেশা 4
+          occupation_5: পেশা 5

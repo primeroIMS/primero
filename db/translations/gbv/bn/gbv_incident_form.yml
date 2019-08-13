@@ -1,0 +1,68 @@
+---
+bn:
+  gbv_incident_form:
+    name: জিবিভি ঘটনা
+    description: জিবিভি ঘটনা
+    form_group_name: " ঘটনা"
+    fields:
+      incident_id:
+        display_name: লং আইডি
+      short_id:
+        display_name: "ঘটনা আইডি "
+      marked_for_mobile:
+        display_name: "মোবাইলের জন্য নির্ধারিত?"
+        tick_box_label: 'হ্যাঁ '
+      incident_code:
+        display_name: ঘটনার কোড
+      incidentid_ir:
+        display_name: ঘটনা আইডি আইআর
+        help_text: আইআর এর জন্য ঘটনা আইডি
+      status:
+        display_name: ঘটনার অবস্থা
+      consent_reporting:
+        display_name: সনাক্ত করা যাবে না এমন তথ্য রিপোর্টে প্রকাশ করার জন্য সম্মতি প্রদান
+      date_of_first_report:
+        display_name: সাক্ষাতকারের তারিখ
+      incident_date:
+        display_name: ঘটনার তারিখ
+      incident_description:
+        display_name: ঘটনার বিবরণ
+      displacement_incident:
+        display_name: "ঘটনার সময় স্থানচ্যুতির / স্থানান্তরের অবস্থা "
+        option_strings_text:
+          not_displaced_home_community: "স্থানান্তরিত নয় / হোম কমিউনিটি   "
+          pre_displacement: প্রাক-স্থানচ্যুতি
+          during_flight: পলায়নের সময়
+          during_refuge: "শরণার্থী থাকাকালীন "
+          during_return_transit: "ফেরত যাওয়ার সময়/ ট্রানজিটের সময়  "
+          post_displacement: "স্থানচ্যুতির পর "
+      incident_timeofday:
+        display_name: দিনের যে সময় ঘটনা ঘটেছে
+        option_strings_text:
+          morning_sunrise_to_noon: সকাল (সূর্যোদয় থেকে দুপুর )
+          afternoon_noon_to_sunset: বিকাল (দুপুর থেকে সূর্যাস্ত )
+          evening_night_sunset_to_sunrise: সন্ধ্যা / রাত (সূর্যাস্ত থেকে সূর্যোদয় )
+          unknown_not_applicable: জানা নেই / প্রযোজ্য নয়
+      incident_location_type:
+        display_name: "যে স্থানে ঘটনাটি ঘটেছে "
+        option_strings_text:
+          bush_forest: ঝোপঝোড় / বন
+          garden_cultivated_field: "বাগান / চাষের মাঠ "
+          school: স্কুল
+          road: রাস্তা
+          client_s_home: সেবাগ্রহীতার বাড়ি
+          perpetrator_s_home: অপরাধীর বাড়ি
+          other: অন্যান্য
+          market: "বাজার / মার্কেট "
+          streamside: "নদীর তীর "
+          beach: সমুদ্র সৈকত
+          farm: খামার-বাড়ি
+          latrine: "শৌচাগার / ল্যাট্রিন "
+          perpetrator_s_friend_s_home: "অপরাধীর বন্ধুর বাসস্থান "
+          entertainment_centre: বিনোদন কেন্দ্র
+          unfinished_house: নির্মাণাধীন বাড়ি
+          guest_house_hotel: অতিথিশালা - হোটেল
+      incident_location:
+        display_name: ঘটনার স্থান
+      incident_camp_town:
+        display_name: ঘটনার ক্যাম্প / শহর
