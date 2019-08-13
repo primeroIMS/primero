@@ -1,0 +1,9 @@
+---
+bn:
+  other_documents:
+    name: অন্যান্য কাগজপত্র
+    description: অন্যান্য কাগজপত্র
+    form_group_name: কাগজপত্র
+    fields:
+      upload_other_document:
+        display_name: অন্যান্য কাগজপত্র

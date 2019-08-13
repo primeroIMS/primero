@@ -1,0 +1,18 @@
+---
+bn:
+  gbv_reported_elsewhere_subform:
+    name: অন্যকোথাও জিবিভি রিপোর্ট করা হলে তার সাবফর্ম
+    description: অন্যকোথাও জিবিভি রিপোর্ট করা হলে তার সাবফর্ম
+    fields:
+      gbv_reported_elsewhere_organization_type:
+        display_name: "কোন ধরনের সেবা প্রদানকারীদের কাছে সারাভাইভার তার ঘটনাটি রিপোর্ট করেছে? "
+        option_strings_text:
+          health_medical_services: স্বাস্থ্য / চিকিৎসা সেবা
+          psychosocial_counseling_services: মনোসামাজিক / কাউন্সেলিং সেবা
+          police_other_security_actor: পুলিশ / অন্যান্য নিরাপত্তা কর্মী
+          legal_assistance_services: আইনি সহায়তা সেবা
+          livelihoods_program: "জীবিকা অর্জন সম্পর্কিত কার্যক্রম "
+          safe_house_shelter: নিরাপদ বাসস্থান / আশ্রয়
+          other: অন্যান্য
+      gbv_reported_elsewhere_organization_provider:
+        display_name: সেবা প্রদানকারীর নাম

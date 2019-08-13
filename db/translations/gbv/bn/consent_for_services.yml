@@ -1,0 +1,12 @@
+---
+bn:
+  consent_for_services:
+    name: সেবা গ্রহনের জন্য সম্মতি
+    description: সেবা গ্রহনের জন্য সম্মতি
+    form_group_name: সেবা গ্রহনের জন্য সম্মতি
+    fields:
+      consent_services_header:
+        display_name: সেবা গ্রহনের জন্য সম্মতি
+      consent_for_services:
+        display_name: "সারভাইবার কি আপনার দ্বারা প্রদত্ত সেবাসমূহ গ্রহনের জন্য অনুমতি দিয়েছে?"
+        tick_box_label: 'হ্যাঁ '

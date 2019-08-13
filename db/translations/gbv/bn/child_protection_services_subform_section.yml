@@ -1,0 +1,18 @@
+---
+bn:
+  child_protection_services_subform_section:
+    name: শিশু সুরক্ষা সেবা সাবফর্ম
+    description: উপ শিশু সুরক্ষা পরিষেবা সাবফর্ম
+    fields:
+      service_protection_referral:
+        display_name: "আপনি কি শিশু সুরক্ষা পরিষেবায় গ্রাহককে উল্লেখ করেছেন?"
+      service_protection_appointment_date:
+        display_name: সাক্ষাৎকারের তারিখ
+      service_protection_appointment_time:
+        display_name: "সাক্ষাৎকারের সময় "
+      service_protection_provider:
+        display_name: সেবা প্রদানকারী
+      service_protection_location:
+        display_name: সেবার স্থান
+      service_protection_referral_notes:
+        display_name: নোট
