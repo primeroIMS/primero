@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { useI18n } from "components/i18n";
-import { Card, CardContent, Grid } from "@material-ui/core";
+import { Card, CardContent } from "@material-ui/core";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { PageContainer } from "components/page-container";
 import styles from "./styles.css";
@@ -10,12 +10,11 @@ import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 
 const Support = ({ supportData, fetchSupportData }) => {
-  const path = "contact_information";
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
   useEffect(() => {
-    fetchSupportData({ path });
+    fetchSupportData();
   }, [fetchSupportData]);
 
   const DisplayData = (title, value) => {
@@ -30,23 +29,14 @@ const Support = ({ supportData, fetchSupportData }) => {
   return (
     <PageContainer>
       <h1 className={css.PageTitle}>{i18n.t("contact.info_label")}</h1>
-      <Grid container direction="row" justify="center" alignItems="center">
-        <Grid item>
-          <Card className={css.Card}>
-            <CardContent>
-              {supportData
-                .keySeq()
-                .toArray()
-                .map(data =>
-                  DisplayData(
-                    i18n.t(`contact.field.${data}`),
-                    supportData.get(data)
-                  )
-                )}
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+      <Card className={css.Card}>
+        <CardContent>
+          {supportData.toSeq().size > 0 &&
+            supportData._keys.map(x => {
+              return DisplayData(i18n.t(`contact.field.${x}`), supportData[x]);
+            })}
+        </CardContent>
+      </Card>
     </PageContainer>
   );
 };

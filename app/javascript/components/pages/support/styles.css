@@ -1,8 +1,7 @@
 .Card {
   box-shadow: $(theme.primero.shadows[0]);
   margin-top: 3em;
-  width: 100%;
-  padding: 10px 80px;
+  width: 40%;
 }
 
 .PageTitle {
