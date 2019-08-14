@@ -1412,30 +1412,4 @@ describe ChildrenController, :type => :controller do
       expect(assigns[:child][:followup_subform_section]).to eq([child_params["1"], child_params["2"], child_params["0"]])
     end
   end
-
-  describe 'Make new Incident Method' do
-    before :each do
-      @child = Child.create(:last_known_location => "London", :short_id => 'short_id',
-                            :created_by => @user.user_name,:module_id => 'primeromodule-cp',
-                            :incident_details => [{:unique_id=>"bbdd4d80-86bc-41fc-99d4-881ad1f2f154",
-                              :cp_incident_consent=>false, :migration_transit_countries=>[],
-                              :migration_reason=>[], :post_migration_plan=>[],
-                              :migration_who_with=>[], :migration_hardships=>[]},
-                            ])
-
-        p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
-        @child.stub(:module).and_return p_module
-        @child.save
-    end
-
-    it 'create new incident' do
-      incident = Incident.make_new_incident(@child.module.id, @child, @child.module.id, @child.incident_details.first[:unique_id], @user)
-
-      expect(incident.present?).to be_truthy
-      expect(incident.incident_case_id).to eq(@child.id)
-      expect(incident.created_at.present?).to be_truthy
-
-    end
-  end
-
 end
