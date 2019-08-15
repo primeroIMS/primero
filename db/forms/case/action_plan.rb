@@ -264,7 +264,7 @@ action_plan_subform_section = FormSection.create_or_update_form_section({
 
 action_plan_fields = [
   Field.new({"name" => "case_plan_approval_type_gbv",
-            "type" => "select_box"
+            "type" => "select_box",
             "editable" => false,
             "disabled" => true,
             "display_name_en" => "Approval Type",
