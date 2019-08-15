@@ -8,7 +8,7 @@ class Location < CouchRest::Model::Base
   include Disableable
 
   #TODO - I18n
-  BASE_TYPES = ['country', 'region', 'province', 'district', 'governorate', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other', 'locality', 'sub-district']
+  BASE_TYPES = ['country', 'region', 'province', 'district', 'governorate', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other', 'locality', 'sub-district', 'cercle', 'commune']
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5]
   ADMIN_LEVEL_OUT_OF_RANGE = 100
 
