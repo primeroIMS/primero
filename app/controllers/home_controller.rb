@@ -464,10 +464,10 @@ class HomeController < ApplicationController
       transfer_status: manager_case_query({ transfer_status: true }),
       transfer_awaiting: manager_case_query({ transfer_awaiting: true }),
       task_overdue: {
-        assessment: manager_case_query({ by_owner: true, assessment_overdue: true}),
-        case_plan: manager_case_query({ by_owner: true, case_plan_overdue: true}),
-        follow_up: manager_case_query({ by_owner: true, followup_overdue: true}),
-        services: manager_case_query({ by_owner: true, services_overdue: true})
+        assessment: manager_case_query({ by_owner: true, assessment_overdue: true, status: Record::STATUS_OPEN }),
+        case_plan: manager_case_query({ by_owner: true, case_plan_overdue: true, status: Record::STATUS_OPEN }),
+        follow_up: manager_case_query({ by_owner: true, followup_overdue: true, status: Record::STATUS_OPEN }),
+        services: manager_case_query({ by_owner: true, services_overdue: true, status: Record::STATUS_OPEN })
       }
     }
 
