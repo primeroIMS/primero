@@ -37,7 +37,7 @@ bn:
         display_name: নিষিদ্ধ  অংশ নির্ধারণ করার জন্য কোন সম্মতি নেই
         tick_box_label: 'হ্যাঁ '
       consent_individual_transfer:
-        display_name: ""
-        tick_box_label: ''
+        display_name: "কেস ওয়ার্কার কি এই হস্তান্তরের জন্য শিশুর থেকে সম্মতি নিয়েছিলো?"
+        tick_box_label: 'হ্যাঁ'
       created_at:
         display_name: রেফারেল বা স্থানান্তরের এর তারিখ

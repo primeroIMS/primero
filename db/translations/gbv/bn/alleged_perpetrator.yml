@@ -28,7 +28,7 @@ bn:
           '61': 61+
           unknown: অপরিচিত
       age_type:
-        display_name: ""
+        display_name: অভিযুক্ত নির্যাতনকারীর বয়সের ধরন
       perpetrator_relationship:
         display_name: "অভিযুক্ত অপরাধীর সাথে ভুক্তভোগীর সম্পর্ক "
       perpetrator_occupation:

@@ -1,19 +1,19 @@
 ---
 bn:
   lookup-age-group-type:
-    name: ""
+    name: বয়স ভিত্তিক দল 
     lookup_values:
-      adult: ""
-      minor: ""
-      unknown: ""
+      adult: প্রাপ্তবয়স্ক
+      minor: অপ্রাপ্তবয়স্ক
+      unknown: অজানা
   lookup-agency-office:
-    name: ""
+    name: এজেন্সি অফিস
     lookup_values:
-      agency_office_1: ""
-      agency_office_2: ""
-      agency_office_3: ""
-      agency_office_4: ""
-      agency_office_5: ""
+      agency_office_1: এজেন্সি অফিস ১
+      agency_office_2: এজেন্সি অফিস ২ 
+      agency_office_3: এজেন্সি অফিস ৩
+      agency_office_4: এজেন্সি অফিস ৪
+      agency_office_5: এজেন্সি অফিস ৬
   lookup-approval-status:
     name: "অনুমোদন এর অবস্থা "
     lookup_values:
@@ -43,7 +43,7 @@ bn:
       police_forces: পুলিশ বাহিনী
       para-military_forces: আধা- সামরিক বাহিনী
       unknown: অজানা
-      other: "অন্যান্য "
+      other: অন্যান্য
   lookup-assessment-duration:
     name: মূল্যায়ন এর সময়কাল
     lookup_values:
@@ -72,12 +72,12 @@ bn:
       6_12_year_old: 6 -12 বছর বয়সী
       13_17_year_old: 13 -17 বছর বয়সী
   lookup-conference-case-status:
-    name: ""
+    name: সম্মেলনের কেস স্থিতি
     lookup_values:
-      open: ""
-      closed: ""
-      transferred: ""
-      other: ""
+      open: মামলা খোলা থাকবে
+      closed: মামলা বন্ধ হয়ে যাবে
+      transferred: মামলা স্থানান্তরিত হবে
+      other: অন্যান্য
   lookup-country:
     name: "দেশ "
     lookup_values:
@@ -341,21 +341,21 @@ bn:
       ethnicity9: নৃতাত্তিক 9
       ethnicity10: নৃতাত্তিক 10
   lookup-family-relationship:
-    name: ""
+    name: পারিবারিক সম্পর্ক
     lookup_values:
-      mother: ""
-      father: ""
-      aunt: ""
-      uncle: ""
-      grandmother: ""
-      grandfather: ""
-      brother: ""
-      sister: ""
-      husband: ""
-      wife: ""
-      partner: ""
-      other_family: ""
-      other_nonfamily: ""
+      mother: মা
+      father: বাবা
+      aunt: মাসি
+      uncle: চাচা
+      grandmother: নানী/দাদী
+      grandfather: নানা/দাদা
+      brother: ভাই
+      sister: বোন
+      husband: স্বামী
+      wife: স্ত্রী
+      partner: সংগী
+      other_family: অন্যান্য পরিবার
+      other_nonfamily: অন্যান্য পরিবারভুক্ত নয় এমন ব্যক্তি
   lookup-followup-type:
     name: ফলো আপ এর ধরন
     lookup_values:
@@ -364,16 +364,16 @@ bn:
       for_service: "সেবার  ফলো আপ "
       for_assesment: মূল্যায়ন এর  ফলো আপ
   lookup-further-action_needed:
-    name: ""
+    name: আর কোন পদক্ষেপ দরকার আছে কিনা
     lookup_values:
-      no_further_action_needed: ""
-      ongoing_monitoring: ""
-      urgent_intervention: ""
+      no_further_action_needed: আর কোন পদক্ষেপের দরকার নেই
+      ongoing_monitoring: চলমান পর্যবেক্ষণ
+      urgent_intervention: জরুরী হস্তক্ষেপ
   lookup-gbv-approval-types:
-    name: ""
+    name: অনুমোদনের ধরণ
     lookup_values:
-      case_plan: ""
-      closure: ""
+      case_plan: কেস পরিকল্পনা
+      closure: বন্ধ
   lookup-gbv-reported-elsewhere:
     name: "হ্যাঁ, না, অথবা অজানা "
     lookup_values:
@@ -479,7 +479,7 @@ bn:
       married_cohabitating: বিবাহিত / সহাবস্থান
       divorced_separated: বিবাহ বিচ্ছেদ / আলাদা থাকা
       widowed: বিধবা বা বিপত্নীক
-      with_spouse: ""
+      with_spouse:  সঙ্গী / স্ত্রী-স্বামী
   lookup-nationality:
     name: জাতীয়তা
     lookup_values:
@@ -629,20 +629,20 @@ bn:
       evening: সন্ধ্যা
       night: "রাত "
   lookup-tracing-status:
-    name: ""
+    name: অবস্থার অনুসন্ধান
     lookup_values:
-      open: ""
-      tracing_in_progress: ""
-      verified: ""
-      reunified: ""
-      closed: ""
+      open: খোলা
+      tracing_in_progress: অনুসন্ধান চলমান
+      verified: যাচাই করা হয়েছে
+      reunified: পুনরায় একত্রিত হওয়া
+      closed: বন্ধ
   lookup-transition-type:
-    name: ""
+    name: রূপান্তরের ধরন
     lookup_values:
-      referral: ""
-      reassign: ""
-      transfer: ""
-      transfer_request: ""
+      referral: রেফারেল
+      reassign: পুনরায় দায়িত্ব অর্পন করা
+      transfer: হস্তান্তর
+      transfer_request: হস্তান্তরের আবেদন
   lookup-unaccompanied-separated-status:
     name: একাকী  বিচ্ছিন্ন অবস্থা
     lookup_values:

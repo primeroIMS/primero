@@ -16,15 +16,15 @@ bn:
       owned_by_agency:
         display_name: সংস্থা
       telephone_agency:
-        display_name: ""
+        display_name: এজেন্সি টেলিফোন
       assigned_user_names:
         display_name: অন্যান্য দায়িত্বপ্রাপ্ত ব্যবহারকারী
       database_operator_user_name:
-        display_name: ""
+        display_name: ডাটাবেস অপারেটর
       address_registration:
-        display_name: ""
+        display_name: নিবন্ধকরণ ঠিকানা
       location_registration:
-        display_name: ""
+        display_name: অবস্থান ঠিকানা
       record_history_separator:
         display_name: রেকর্ডকৃত ইতিহাস
       created_by:
