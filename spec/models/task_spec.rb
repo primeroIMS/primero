@@ -55,6 +55,9 @@ describe Task do
   end
 
   describe "create" do
+    before do
+      SystemSettings.any_instance.stub(:due_date_from_appointment_date).and_return(true)
+    end
 
     it "creates Assessment task" do
       child = create(:child, assessment_due_date: Date.tomorrow)
@@ -174,7 +177,6 @@ describe Task do
         end
       end
     end
-
   end
 
   describe "sort order" do
