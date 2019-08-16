@@ -20,7 +20,7 @@ feature "forms" do
       create_session(@user, 'password123')
     end
 
-    scenario "throws error on invalid required fields" do
+    xscenario "throws error on invalid required fields" do
       visit '/cases'
       click_on('New Case')
       sleep 2
@@ -29,7 +29,7 @@ feature "forms" do
       expect(page).to have_css('input.is-invalid-input', count: 2)
     end
 
-    scenario "generates subforms for new case" do
+    xscenario "generates subforms for new case" do
       visit '/cases'
       click_on('New Case')
       subform = @form_section.fields.first
@@ -37,7 +37,7 @@ feature "forms" do
       expect(page).to have_selector("fieldset#subform_#{subform.name}_1")
     end
 
-    scenario "saves when fields valid" do
+    xscenario "saves when fields valid" do
       visit '/cases'
       click_on('New Case')
 
@@ -53,14 +53,14 @@ feature "forms" do
       expect(page).to have_content(/Case record (.*) successfully created./)
     end
 
-    scenario "agency not avaliable when editing My Account" do
+    xscenario "agency not avaliable when editing My Account" do
       visit '/'
       click_on('My Account')
       click_on('Edit')
       expect(page).to_not have_selector(".default-form .key[for='user_organization']")
     end
 
-    scenario "saves form when subform with required fields removed" do
+    xscenario "saves form when subform with required fields removed" do
       visit '/cases'
       click_on('New Case')
 
@@ -114,7 +114,7 @@ feature "forms" do
       @user2 = setup_user(form_sections: [@form_section], roles: @role2)
     end
 
-    scenario "allows user with correct permission to edit field" do
+    xscenario "allows user with correct permission to edit field" do
       create_session(@user1)
       visit '/cases'
       click_on('New Case')
@@ -136,7 +136,7 @@ feature "forms" do
       expect(page).to have_content('test2')
     end
 
-    scenario "does not show remove referals link for user without correct permission" do
+    xscenario "does not show remove referals link for user without correct permission" do
       create_session(@user2)
       visit '/cases'
       click_on('New Case')

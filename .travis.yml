@@ -11,7 +11,8 @@ addons:
       - google-chrome-stable
 before_script:
 - mkdir -p log
-- curl -X PUT localhost:5984/_config/admins/primero -d '"primero"'
+- export DB_HOST="http://127.0.0.1:5984"
+- curl -X PUT $DB_HOST/_config/admins/primero -d '"primero"'
 - cp config/travis/couchdb.yml config/
 - cp config/travis/sunspot.yml config/
 - cp config/travis/mailers.yml config/
