@@ -2,9 +2,14 @@ module Flaggable
   extend ActiveSupport::Concern
   include Sunspot::Rails::Searchable
 
-  # Add aditional searchable block with the boolean flag field.
-
   included do
+
+    searchable auto_index: self.auto_index? do
+      boolean :flagged do
+        self.flagged?
+      end
+    end
+
     has_many :flags, as: :record
 
     after_save :index_flags, unless: Proc.new{ Rails.env == 'production' }

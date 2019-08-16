@@ -35,21 +35,21 @@ class User < ApplicationRecord
   before_save :make_user_name_lowercase, :update_user_cases_groups_and_location, :update_reporting_location_code
 
 
-  validates_presence_of :full_name, :message => I18n.t("errors.models.user.full_name")
+  validates_presence_of :full_name, :message => "errors.models.user.full_name"
 
-  validates_presence_of :password_confirmation, :message => I18n.t("errors.models.user.password_confirmation"), if: -> { password.present? }
-  validates_presence_of :role_id, :message => I18n.t("errors.models.user.role_ids")
-  validates_presence_of :module_ids, :message => I18n.t("errors.models.user.module_ids")
+  validates_presence_of :password_confirmation, :message => "errors.models.user.password_confirmation", if: -> { password.present? }
+  validates_presence_of :role_id, :message => "errors.models.user.role_ids"
+  validates_presence_of :module_ids, :message => "errors.models.user.module_ids"
 
-  validates_presence_of :organization, :message => I18n.t("errors.models.user.organization")
+  validates_presence_of :organization, :message => "errors.models.user.organization"
 
-  validates_format_of :user_name, :with => /\A[^ ]+\z/, :message => I18n.t("errors.models.user.user_name")
+  validates_format_of :user_name, :with => /\A[^ ]+\z/, :message => "errors.models.user.user_name"
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})$\z/, :if => :email_entered?,
-                      :message => I18n.t("errors.models.user.email")
+                      :message => "errors.models.user.email"
   validates_format_of :password, :with => /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/,
-                      :message => I18n.t("errors.models.user.password_text"), if: -> { password.present? }
+                      :message => "errors.models.user.password_text", if: -> { password.present? }
 
-  validates_confirmation_of :password, :message => I18n.t("errors.models.user.password_mismatch")
+  validates_confirmation_of :password, :message => "errors.models.user.password_mismatch"
 
   validate :is_user_name_unique
   validate :validate_locale
