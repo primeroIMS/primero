@@ -46,6 +46,9 @@ describe Task do
   end
 
   describe "create" do
+    before do
+      SystemSettings.any_instance.stub(:due_date_from_appointment_date).and_return(true)
+    end
 
     it "creates Assessment task" do
       child = create(:child, assessment_due_date: Date.tomorrow)
@@ -93,7 +96,15 @@ describe Task do
       child = create(:child, services_section: [{service_appointment_date: Date.tomorrow}])
       task = Task.from_case(child).first
 
+      expect(task).to be_present
       expect(task.type).to eq('service')
+    end
+    it "creates a Service task" do
+      child = create(:child, services_section: [{service_response_day_time: @date_time,
+                                                 service_appointment_date: Date.tomorrow}])
+      tasks = Task.from_case(child)
+      expect(tasks).not_to be_empty
+      expect(tasks.first.type).to eq('service')
     end
 
     it "doesn't create a Followup task if Followup already took place" do

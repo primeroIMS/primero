@@ -17,13 +17,13 @@ feature "saved search" do
   end
 
   context "when viewing cases" do
-    scenario "should see saved searches tab and save button" do
+    xscenario "should see saved searches tab and save button" do
       visit '/cases'
       expect(page).to have_selector('#saved-searches-label')
       expect(page).to have_selector('.button.save_search')
     end
 
-    scenario "should not be able to save search if there is no name" do
+    xscenario "should not be able to save search if there is no name" do
       visit '/cases'
       check('flag_flag')
       check('marked_for_mobile_true')
@@ -31,7 +31,7 @@ feature "saved search" do
       expect(find('.button.save_user_filters')[:disabled])
     end
 
-    scenario "should be able to save search, see it in saved searches tab" do
+    xscenario "should be able to save search, see it in saved searches tab" do
       visit '/cases'
       check('flag_flag')
       check('marked_for_mobile_true')
@@ -45,7 +45,7 @@ feature "saved search" do
   end
 
   context "when viewing tracing reuqests" do
-    scenario "should see saved searches tab and save button" do
+    xscenario "should see saved searches tab and save button" do
       visit '/tracing_requests'
       expect(page).to have_selector('#saved-searches-label')
       expect(page).to have_selector('.button.save_search')
@@ -53,7 +53,7 @@ feature "saved search" do
   end
 
   context "when viewing incidents" do
-    scenario "should see saved searches tab and save button" do
+    xscenario "should see saved searches tab and save button" do
       visit '/incidents'
       expect(page).to have_selector('#saved-searches-label')
       expect(page).to have_selector('.button.save_search')

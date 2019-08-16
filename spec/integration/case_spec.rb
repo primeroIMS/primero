@@ -15,7 +15,7 @@ feature "index page" do
       create_session(@user, 'password123')
     end
 
-    scenario "it hides photo column if form not visible" do
+    xscenario "it hides photo column if form not visible" do
       visit "/cases"
 
       within("table") do
@@ -23,7 +23,7 @@ feature "index page" do
       end
     end
 
-    scenario "it shows photo column if form is visible" do
+    xscenario "it shows photo column if form is visible" do
       @form_section.visible = true
       @form_section.save!
 
