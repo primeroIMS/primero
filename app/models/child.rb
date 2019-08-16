@@ -176,6 +176,16 @@ class Child < ApplicationRecord
     end
   end
 
+  def self.get_tasks(user, pagination = { per_page: 100, page: 1 })
+    cases = Child.owned_by(user.user_name)
+                 .where('data @> ?', { record_state: true, status: Child::STATUS_OPEN }.to_json)
+    tasks = Task.from_case(cases.to_a)
+    { 
+      total: tasks.size,
+      tasks: tasks.paginate(pagination)
+    }
+  end
+
   alias super_index_for_search index_for_search
   def index_for_search
     super_index_for_search
