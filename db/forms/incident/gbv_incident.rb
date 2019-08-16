@@ -76,7 +76,7 @@ gbv_incident_fields = [
              "type" => "select_box",
              "display_name_en" => "Stage of displacement at time of incident",
              "option_strings_text_en" => [
-               { id: 'not_displaced', display_text: "Not Displaced / Home Community" },
+               { id: 'not_displaced_home_community', display_text: "Not Displaced / Home Community" },
                { id: 'pre_displacement', display_text: "Pre-displacement" },
                { id: 'during_flight', display_text: "During Flight" },
                { id: 'during_refuge', display_text: "During Refuge" },
@@ -89,10 +89,10 @@ gbv_incident_fields = [
              "type" => "select_box",
              "display_name_en" => "Time of day that the Incident took place",
              "option_strings_text_en" => [
-               { id: 'morning', display_text: "Morning (sunrise to noon)" },
-               { id: 'afternoon', display_text: "Afternoon (noon to sunset)" },
-               { id: 'evening_night', display_text: "Evening/Night (sunset to sunrise)" },
-               { id: 'unknown', display_text: "Unknown/Not Applicable" }
+               { id: 'morning_sunrise_to_noon', display_text: "Morning (sunrise to noon)" },
+               { id: 'afternoon_noon_to_sunset', display_text: "Afternoon (noon to sunset)" },
+               { id: 'evening_night_sunset_to_sunrise', display_text: "Evening/Night (sunset to sunrise)" },
+               { id: 'unknown_not_applicable', display_text: "Unknown/Not Applicable" }
              ].map(&:with_indifferent_access)
             }),
   Field.new({"name" => "incident_location_type",
@@ -100,19 +100,19 @@ gbv_incident_fields = [
              "type" => "select_box",
              "display_name_en" => "Type of place where the incident took place",
              "option_strings_text_en" => [
-               { id: 'forest', display_text: "Bush/Forest" },
-               { id: 'garden', display_text: "Garden/Cultivated Field" },
+               { id: 'bush_forest', display_text: "Bush/Forest" },
+               { id: 'garden_cultivated_field', display_text: "Garden/Cultivated Field" },
                { id: 'school', display_text: "School" },
                { id: 'road', display_text: "Road" },
-               { id: 'clients_home', display_text: "Client's Home" },
-               { id: 'perpetrators_home', display_text: "Perpetrator's Home" },
+               { id: 'client_s_home', display_text: "Client's Home" },
+               { id: 'perpetrator_s_home', display_text: "Perpetrator's Home" },
                { id: 'other', display_text: "Other" },
                { id: 'market', display_text: "Market" },
                { id: 'streamside', display_text: "Streamside" },
                { id: 'beach', display_text: "Beach" },
                { id: 'farm', display_text: "Farm" },
                { id: 'latrine', display_text: "Latrine" },
-               { id: 'perpetrators_friends_home', display_text: "Perpetrator's Friend's Home" },
+               { id: 'perpetrator_s_friend_s_home', display_text: "Perpetrator's Friend's Home" },
                { id: 'entertainment_centre', display_text: "Entertainment Centre" },
                { id: 'unfinished_house', display_text: "Unfinished House" },
                { id: 'guest_house_hotel', display_text: "Guest House - Hotel" }

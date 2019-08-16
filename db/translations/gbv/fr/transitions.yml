@@ -36,5 +36,8 @@ fr:
       consent_overridden:
         display_name: Fonction pour outrepasser l'absence de consentement
         tick_box_label: 'Oui'
+      consent_individual_transfer:
+        display_name: ""
+        tick_box_label: ''
       created_at:
         display_name: Date du référencement ou transfert

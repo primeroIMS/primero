@@ -3,7 +3,7 @@ ar:
   gbv_individual_details:
     name: "تفاصيل عن الناجية من العنف القائم على اساس النوع الاجتماعي "
     description: تفاصيل عن الناجية من العنف القائم على اساس النوع الاجتماعي
-    # form_group_name: "تفاصيل عن الناجية من العنف القائم على اساس النوع الاجتماعي "
+    form_group_name: "تفاصيل عن الناجية من العنف القائم على اساس النوع الاجتماعي "
     fields:
       survivor_code:
         display_name: رمز الناجية
@@ -27,17 +27,7 @@ ar:
         display_name: وضع النزوح في وقت الإبلاغ
       maritial_status:
         display_name: "الحالة المدنية / الزوجية "
-        option_strings_text:
-          single: عزباء
-          married_cohabitating: متزوجة / مساكنة بدون زواج
-          divorced_separated: مطلقة / منفصلة عن الشريك
-          widowed: أرملة
       disability_type:
         display_name: نوع الإعاقة
-        option_strings_text:
-          "no": "لا توجد إعاقة"
-          mental_disability: إعاقة ذهنية
-          physical_disability: إعاقة جسدية
-          mental_physical_disability: إعاقة ذهنية وجسدية
       unaccompanied_separated_status:
         display_name: هل الناجية من القصّر غير المصحوبين أو من الأطفال المنفصلين عن ذويهم أو من الأطفال المستضعفين من فئات أخرى؟

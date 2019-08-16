@@ -3,7 +3,7 @@ ar:
   record_owner:
     name: معلومات السجل
     description: معلومات السجل
-    # form_group_name: معلومات السجل
+    form_group_name: معلومات السجل
     fields:
       current_owner_separator:
         display_name: المالك الحالي
@@ -15,8 +15,16 @@ ar:
         display_name: تم إعادة التخصيص / الإحالة
       owned_by_agency:
         display_name: المؤسسة
+      telephone_agency:
+        display_name: ""
       assigned_user_names:
         display_name: المستخدمون المخصصون الآخرون
+      database_operator_user_name:
+        display_name: ""
+      address_registration:
+        display_name: ""
+      location_registration:
+        display_name: ""
       record_history_separator:
         display_name: محفوظات السجل
       created_by:
