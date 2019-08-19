@@ -1,0 +1,9 @@
+---
+bn:
+  alleged_perpetrators_wrapper:
+    name: অভিযুক্ত অপরাধী
+    description: অভিযুক্ত অপরাধী
+    form_group_name: অভিযুক্ত অপরাধী
+    fields:
+      alleged_perpetrator:
+        display_name: অভিযুক্ত অপরাধী

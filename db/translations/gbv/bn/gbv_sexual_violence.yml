@@ -1,0 +1,36 @@
+---
+bn:
+  gbv_sexual_violence:
+    name: "সহিংসতার ধরন "
+    description: সহিংসতার ধরন
+    form_group_name: সহিংসতার ধরন
+    fields:
+      gbv_sexual_violence_type:
+        display_name: "সহিংসতার ঘটনার ধরন "
+        guiding_questions: "জিবিভির মূল ছয় প্রকারভেদ এবং তাদের সংজ্ঞাগুলি হল: -1.  ধর্ষণ -  যোনি, মলদ্বার, বা মুখে যৌনাঙ্গ  বা শরীরের অন্য অংশের অ-সম্মতিসূচক অনুপ্রবেশ (সামান্য হলেও)। এছাড়াও যোনি বা মলদ্বারে একটি বস্তুর অনুপ্রবেশও এর অন্তর্ভুক্ত।  উদাহরণে অন্তর্ভুক্ত থাকতে পারে তবে এতে সীমাবদ্ধ নয়: গণধর্ষণ, বৈবাহিক ধর্ষণ, একই সেক্সের যৌন সম্পর্ক, জোরপূর্বক ওরাল সেক্স। এই ধরনের জিবিভিগুলোকে ধর্ষনের চেষ্টা হিসেবে  অন্তর্ভুক্ত করা যাবেনা যেহেতু কোন অনুপ্রবেশ ঘটেনি। "
+      non_gbv_type_notes:
+        display_name: "যদি নন-জিবিভি থাকে, বর্ননা করুন। "
+      harmful_traditional_practice:
+        display_name: "এই ঘটনা কি একটি ক্ষতিকর গতানুগতিক প্রথা ছিল? "
+        option_strings_text:
+          'no': 'না '
+          type_of_practice_1: প্রথার ধরন 1
+          type_of_practice_2: "প্রথার ধরন ২ "
+          type_of_practice_3: প্রথার ধরন ৩
+          type_of_practice_4: প্রথার ধরন ৪
+          type_of_practice_5: "প্রথার ধরন ৫ "
+      goods_money_exchanged:
+        display_name: "ঘটনার সাথে কি অর্থ, পণ্য, সুবিধা, এবং / অথবা সেবা সম্পর্কিত কোন বিনিময় ছিল?"
+      abduction_status_time_of_incident:
+        display_name: "ঘটনার সময় অপহরণ এর ধরণ "
+        option_strings_text:
+          none: কোনটাই না
+          forced_conscription: জোরপূর্বক  সেনাবাহিনীতে নিয়োগ
+          trafficked: "পাচার করা হয়েছে "
+          other_abduction_kidnapping: অন্য অপহরণ / পাচার
+      gbv_reported_elsewhere:
+        display_name: "সারভাইভার কি এই ঘটনাটি আগে অন্য কোথাও রিপোর্ট করেছে? "
+      gbv_reported_elsewhere_subform:
+        display_name: "যদি হ্যাঁ হয়, তবে কোথায়?"
+      gbv_previous_incidents:
+        display_name: "সারভাইভার কি আগে কোন জেন্ডার ভিত্তিক সহিংসতার  শিকার হয়েছেন? "
