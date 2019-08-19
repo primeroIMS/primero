@@ -1,0 +1,63 @@
+---
+bn:
+  gbv_survivor_information:
+    name: "সারভাইভারের  তথ্য "
+    description: "সারভাইভারের তথ্য "
+    form_group_name: সনাক্তকরণ / নিবন্ধন
+    fields:
+      case_id:
+        display_name: লং আইডি
+      short_id:
+        display_name: কেস আইডি
+      marked_for_mobile:
+        display_name: "মোবাইলের জন্য চিহ্নিত?"
+        tick_box_label: 'হ্যাঁ '
+      child_status:
+        display_name: "কেসের অবস্থা "
+      name:
+        display_name: নাম
+      survivor_code_no:
+        display_name: "সারভাইভার কোড "
+      age:
+        display_name: "বয়স "
+      date_of_birth:
+        display_name: জন্ম তারিখ
+      sex:
+        display_name: লিঙ্গ
+      gbv_ethnicity:
+        display_name: বংশ বা জাতি
+      country_of_origin:
+        display_name: যে দেশের আদিবাসিন্ধা
+      gbv_nationality:
+        display_name: জাতীয়তা ( যদি নিজ দেশ থেকে ভিন্ন হয়ে থাকে )
+      gbv_religion:
+        display_name: ধর্ম
+      maritial_status:
+        display_name: বর্তমান ্নাগরিক/ বৈবাহিক অবস্থা
+      dependents_no:
+        display_name: সন্তান এবং অন্যান্য নির্ভরশীলদের সংখ্যা এবং বয়স
+      occupation:
+        display_name: "পেশা "
+      gbv_displacement_status:
+        display_name: রিপোর্টের সময় স্থানচ্যুতির  অবস্থা
+      gbv_disability_type:
+        display_name: "সারভাইভার কি একজন প্রতিবন্ধী ব্যক্তি?"
+      unaccompanied_separated_status:
+        display_name: "সারভাইভার কি একা অপ্রাপ্তবয়স্ক, বিচ্ছিন্ন বা অন্য কোনভাবে ঝুঁকিপূর্ণ শিশু?"
+      section_heading_child_survivors_less_than_18_years_old:
+        display_name:  শিশু সারভাইভার  (১৮ বছরের কম বয়সী)
+      survivor_lives_alone:
+        display_name: "যদি সারভাইভার শিশু হয়, তবে সে কি একা থাকে?"
+      survivor_caretaker:
+        display_name: "যদি সারভাইভার কারও সাথে থাকে ,তবে তার এবং কেয়ারটেকার  এর মধ্যে সম্পর্ক কী?"
+        option_strings_text:
+          parent_guardian: পিতামাতা / অভিভাবক
+          relative: আত্মীয়
+          spouse_cohabitating: স্বামী বা স্ত্রী / সহাবস্থান
+          other_please_specify: "অন্যান্য , অনুগ্রহ করে উল্লেখ করুন"
+      survivor_caretaker_other:
+        display_name: "তার এবং কেয়ারটেকার এর মধ্যে যদি অন্য সম্পর্ক থাকে, অনুগ্রহ করে উল্লেখ করুন।"
+      caretaker_marital_status:
+        display_name: "কেয়ারটেকার  এর বর্তমান বৈবাহিক অবস্থা কি?"
+      caretaker_occupation:
+        display_name: "কেয়ারটেকার এর প্রধান পেশা কি?"

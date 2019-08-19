@@ -1,0 +1,18 @@
+---
+bn:
+  action_plan_form:
+    name: কর্ম পরিকল্পনা
+    description: কর্ম পরিকল্পনা
+    form_group_name: কর্ম পরিকল্পনা
+    fields:
+      incident_links:
+        display_name: ঘটনার সূত্র
+      action_explanation_header:
+        display_name: 'কর্ম পরিকল্পনা'
+        help_text: মূল্যায়ন/এসেসমেন্টের সময় চিহ্নিত সব প্রয়োজনীয়তাগুলো একসাথে করুন। কর্মপরিকল্পনায় যুক্ত হতে পারে  এমন চাহিদাগুলো সংযুক্ত করতে "এড বাটন" ব্যবহার করুন ।
+      action_plan_section:
+        display_name: কর্ম পরিকল্পনা
+      action_follow_up_header:
+        display_name: ফলো আপ
+      gbv_follow_up_subform_section:
+        display_name: ফলো আপ

@@ -1,0 +1,41 @@
+---
+bn:
+  record_owner:
+    name: রেকর্ডকৃত তথ্য
+    description: রেকর্ডকৃত তথ্য
+    form_group_name: রেকর্ডকৃত তথ্য
+    fields:
+      current_owner_separator:
+        display_name: বর্তমান মালিক
+      owned_by_text:
+        display_name: ফিল্ড / কেস / সমাজকর্মী
+      owned_by:
+        display_name: কেসওয়ার্কার  কোড
+      reassigned_tranferred_on:
+        display_name: পুননির্ধারিত/ স্থানান্তরিত
+      owned_by_agency:
+        display_name: সংস্থা
+      telephone_agency:
+        display_name: এজেন্সি টেলিফোন
+      assigned_user_names:
+        display_name: অন্যান্য দায়িত্বপ্রাপ্ত ব্যবহারকারী
+      database_operator_user_name:
+        display_name: ডাটাবেস অপারেটর
+      address_registration:
+        display_name: নিবন্ধকরণ ঠিকানা
+      location_registration:
+        display_name: অবস্থান ঠিকানা
+      record_history_separator:
+        display_name: রেকর্ডকৃত ইতিহাস
+      created_by:
+        display_name: "যে রেকর্ড তৈরি করা হয়েছে "
+      created_by_agency:
+        display_name: যে সংস্থা তৈরি করেছে
+      previously_owned_by:
+        display_name: পূর্ববর্তী মালিক
+      previous_agency:
+        display_name: পূর্ববর্তী সংস্থা
+      module_id:
+        display_name: "মডিউল "
+      reopened_logs:
+        display_name: কেস পুনরায় খোলা

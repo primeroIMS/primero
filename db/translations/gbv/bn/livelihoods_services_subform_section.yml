@@ -1,0 +1,18 @@
+---
+bn:
+  livelihoods_services_subform_section:
+    name: জীবিকা অর্জন সম্পর্কিত সেবাসমূহের সাব- ফর্ম
+    description: জীবিকা অর্জন সম্পর্কিত সেবাসমূহের সাব- ফর্ম
+    fields:
+      service_livelihoods_referral:
+        display_name: "আপনি কি সারভাইভারকে জীবিকানির্বাহ সম্পর্কিত কোন কর্মসূচিতে রেফার করেছিলেন?"
+      service_livelihoods_appointment_date:
+        display_name: সাক্ষাতের তারিখ
+      service_livelihoods_appointment_time:
+        display_name: সাক্ষাতের সময়
+      service_livelihoods_provider:
+        display_name: সেবা প্রদানকারী
+      service_livelihoods_location:
+        display_name: সেবার স্থান
+      service_livelihoods_referral_notes:
+        display_name: নোট

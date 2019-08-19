@@ -1,0 +1,41 @@
+---
+bn:
+  consent_for_referrals:
+    name: রেফারের জন্য সম্মতি
+    description: রেফারের জন্য সম্মতি
+    form_group_name: রেফারের জন্য সম্মতি
+    fields:
+      consent_release_separator:
+        display_name: রেফারের প্রকারভেদ  অনুযায়ী তথ্য প্রকাশ করার সম্মতি
+      consent_to_share_info_by_security:
+        display_name: নিরাপত্তা সেবাসমূহের প্রদানের জন্য  তথ্য প্রকাশ করার সম্মতি
+      consent_to_share_security_organization:
+        display_name: "উপযুক্ত নিরাপত্তার নাম, সুবিধা বা সংস্থা / সংগঠন নির্দিষ্ট করুন"
+      consent_to_share_info_by_psychosocial:
+        display_name: মনোসামাজিক সেবাসমূহের তথ্য প্রকাশ করার সম্মতি প্রদান
+      consent_to_share_psychosocial_organization:
+        display_name: "উপযুক্ত মনোসামাজিক নাম, সুবিধা বা সংস্থা / সংগঠন নির্দিষ্ট করুন"
+      consent_to_share_info_by_health:
+        display_name: "স্বাস্থ্য / চিকিৎসা সেবাসমূহের  প্রদানের জন্য  তথ্য প্রকাশ করার সম্মতি প্রদান "
+      consent_to_share_health_organization:
+        display_name: "উপযুক্ত স্বাস্থ্য / চিকিৎসা্র নাম, সুবিধা বা সংস্থা / সংগঠন উল্লেখ  করুন"
+      consent_to_share_info_by_safehouse:
+        display_name: নিরাপদ আবাস / আশ্রয়ের জন্য তথ্য প্রকাশ করার সম্মতি প্রদান
+      consent_to_share_safehouse_organization:
+        display_name: "উপযুক্ত নিরাপদ আবাস / আশ্রয়ের নাম, সুবিধা বা সংস্থা / সংগঠন নির্দিষ্ট করুন"
+      consent_to_share_info_by_legal:
+        display_name: "আইনগত সহায়তা প্রদানের জন্য তথ্য প্রকাশ করার সম্মতি "
+      consent_to_share_legal_organization:
+        display_name: "উপযুক্ত আইনগত সহায়তা্র নাম, সুবিধা বা সংস্থা / সংগঠন নির্দিষ্ট করুন "
+      consent_to_share_info_by_protection:
+        display_name: "সুরক্ষা সেবাসমূহ প্রদানের জন্য  তথ্য প্রকাশ করার সম্মতি "
+      consent_to_share_protection_organization:
+        display_name: "উপযুক্ত সুরক্ষা সেবাসমূহের  নাম, সুবিধা বা সংস্থা / সংগঠন নির্দিষ্ট করুন "
+      consent_to_share_info_by_livelihoods:
+        display_name: উপার্জনমূলক / আয়মূলক সেবাসমূহ প্রদানের জন্য তথ্য প্রকাশ করার সম্মতি
+      consent_to_share_livelihoods_organization:
+        display_name: "উপযুক্ত উপার্জনমূলক / আয়মূলক সেবাসমূহের নাম, সুবিধা বা সংস্থা / সংগঠন উল্লেখ  করুন"
+      consent_to_share_info_by_other:
+        display_name: "অন্যান্য সেবাসমূহের প্রদানের জন্য  তথ্য প্রকাশ করার সম্মতি "
+      consent_to_share_info_by_other_details:
+        display_name: "যদি অন্যান্য সেবাসমূহ থাকে, দয়া করে সেবা, নাম এবং সংস্থা  নির্দিষ্ট করুন"

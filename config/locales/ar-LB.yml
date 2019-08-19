@@ -27,9 +27,9 @@ ar-LB:
   clear: "إلغاء"
   messages:
     delete_item: |
-      تحذير: في حالة المتابعة، ستفقد أيّ معلومات مرتبطة بهذا الحقل.
-      إذا كنت غير متأكد، قم بتعطيل الحقل بدلاً من ذلك.
-      انقر على إلغاء للعودة إلى الخلف.اضغط على موافق لحذف الحقل.
+        تحذير: في حالة المتابعة، ستفقد أيّ معلومات مرتبطة بهذا الحقل.
+        إذا كنت غير متأكد، قم بتعطيل الحقل بدلاً من ذلك.
+        انقر على إلغاء للعودة إلى الخلف.اضغط على موافق لحذف الحقل.
     move_item: "أنت على وشك نقل هذا الحقل إلى مقطع نموذج آخر ({{selection_key}}). هل أنت موافق؟"
     enter_valid_date: "الرجاء إدخال التاريخ بالصيغة الصحيحة (يوم-شهر-سنة)"
     enter_valid_field_value: "الرجاء إدخال قيمة صحيحة في الحقل."
@@ -54,9 +54,9 @@ ar-LB:
     logoff_warning_suffix: " ثوانٍ."
     logoff_confirmation: "هل تريد متابعة جلستك؟"
     warning: |
-      تحذير: في حال المتابعة ستفقد أي بيانات مرتبطة بهذا الحقل.
-      إذا كنت غير متأكد، قم بتعطيل الحقل بدلاً من ذلك.
-      انقر على "إلغاء" للرجوع للخلف. انقر على "موافق" لحذف الحقل.
+        تحذير: في حال المتابعة ستفقد أي بيانات مرتبطة بهذا الحقل.
+        إذا كنت غير متأكد، قم بتعطيل الحقل بدلاً من ذلك.
+        انقر على "إلغاء" للرجوع للخلف. انقر على "موافق" لحذف الحقل.
     enter_each_in_one_line: "أدخل كلّ خيار على سطر جديد"
     record_count: "إظهار %{start} إلى %{end} من %{total} السجلات"
     form_sections_help_text_for_edit: "اضغط على زرّ تحرير والتعديل لإضافة تفاصيل %{form_section_name}"
@@ -166,6 +166,7 @@ ar-LB:
     reject: "رفض"
     done: "تمّ/انتهى"
     remove_referrals: "إزالة الإحالات"
+    view: "عرض"
   placeholders:
     subforms: "النقر على زرّ التحرير والتعديل لإضافة تفاصيل %{form}"
     editing_subforms: "%{form}النقر على زرّ الإضافة من أجل إضافة تفاصيل حول "
@@ -206,13 +207,13 @@ ar-LB:
       by_date: 'بحسب التاريخ:'
       date: 'التاريخ'
       approvals:
-        pending: "الموافقات المعلّقة/غير المفصول فيها"
+        pending: "الحالات التي تنتظر الموافقة عليها"
         approved: "تمت الموافقة"
         rejected: "تم رفضه"
     clear_filter: "إلغاء"
     apply_filter: "تطبّيق"
     save_filter: "حفظ"
-    my_filters: "بلدي الفلاتر"
+    my_filters: "الفلاتر الخاصة بالمستخدم"
     order_by:
       most_recently: "الأحدث"
       label: "ترتيب بحسب"
@@ -347,7 +348,7 @@ ar-LB:
     type: "نوع الإجراء"
     due_date: "تاريخ الاستحقاق"
     types:
-      assessment: "التقييم"
+      assessment: "تقييم"
       case_plan: "مخطّط تدخّل"
       follow_up: "متابعة - %{subtype}"
       service: "خدمة - %{subtype}"
@@ -578,6 +579,8 @@ ar-LB:
   tracing_requests:
     register_new_tracing_request: "طلب تتبّع جديد "
     export: "تصديرات"
+    selectable_date_options:
+      inquiry_date: "تاريخ الاستفسار"
     filter_by:
       flag: "وُضع له علامة:"
       flag_label: "هل وُضعت علامة؟"
@@ -606,9 +609,43 @@ ar-LB:
     child_gender: 'الجنس'
     reg_date: 'تاريخ التسجيل'
     social_worker: 'العامل الاجتماعي'
+    social_worker_agency: 'الوكالة'
     score: 'نتيجة'
     show_more: 'إظهار المزيد'
     show_less: 'ّإظهار أقل'
+    case: 'حالة/ملفّ'
+    name: 'الإسم'
+  duplicates:
+    clear_filter: 'إلغاء'
+    filter_by:
+      name: "الإسم"
+      sex: "الجنس"
+      age: "العمر"
+      age_range: "الفئة العمريّة "
+  audit_log:
+    user_name: "إسم المستخدم"
+    action: "إجراء"
+    description: "وصف"
+    record_owner: "الشخص المكلَّف الملفّ"
+  audit_logs:
+    action_options:
+      login: "تسجيل الدخول"
+      logout: "تسجيل الخروج"
+      create: "إنشاء"
+      copy: "جاري النسخ"
+      destroy: "جاري الحذف"
+      show: "قيد العرض"
+      edit: "جاري التحرير و/أو التعديل"
+      update: "جاري التحديث"
+      export: "تصدير بيانات إلى"
+      referral: "جاري الإحالة"
+      reassign: "جاري التخصيص والتعيين"
+      transfer: "قيد التحويل"
+      reopen_case: " قيد إعادة الفتح"
+    filter_by:
+      date: 'التاريخ'
+      timestamp: 'طابع زمني'
+      user: 'إسم المستخدم'
   preposition:
     on_label: "عن"
     because: "بسبب"
@@ -635,6 +672,12 @@ ar-LB:
       label: "الترتيب بحسب"
       full_name: "الإسم الكامل"
       agency: "الوكالة"
+    filter_by:
+      status: "الوضع الحالي"
+      enabled: "مُفعَّل/ممكَّن"
+      disabled: "مُعطَّل "
+      agency: "الوكالة"
+    register_new_user: "إنشاء مستخدم"
   roles:
     label: "الأدوار"
     list: "لائحة الأدوار"
@@ -681,6 +724,10 @@ ar-LB:
       update: "تحديث"
       create: "إنشاء"
       delete: "حذف"
+    filter_by:
+      status: "الوضع الحالي"
+      enabled: "مُفعَّل/ممكَّن"
+      disabled: "مُعطَّل "
     messages:
       confirmation: "هل أنت متأكد من أنّك تريد حذف هذه الوكالة؟ لا يمكن التراجع عن الحذف. انقر على موافق لحذف الوكالة. "
     select_prompt: "الرجاء تحديد وكالة"
@@ -768,6 +815,7 @@ ar-LB:
     code: "رمز المستخدم"
     history_of: "تاريخ %{user_name} "
     disabled: "مُعطل "
+    services: "الخدمات"
     position: منصب
     actions:
       delete: "حذف"
@@ -805,8 +853,8 @@ ar-LB:
   email: "البريد الإلكتروني"
   organization: "المنظمة"
   position: "المنصب"
-  'false': "خطأ"
-  'true': "صحّ"
+  'false': "لا"
+  'true': "نعم"
   mandatory_field: "الحقول ذات علامة إلزاميّة"
   add: "إضافة"
   belonging_to: "ينتمي إلى"
@@ -908,7 +956,7 @@ ar-LB:
       dash_cases_by_workflow: "عرض الحالات بحسب سير العمل"
       dash_cases_by_task_overdue: "عرض الحالات بحسب المهمّات المتأخّرة"
       dash_cases_to_assign: "عرض الحالات التي تستلزم التكليف"
-      dash_show_none_values: "عرض من دون القيم"
+      dash_show_none_values: "لا يوجد اي خطر في لائحة التقيم "
       search_owned_by_others: "البحث عن ملفّات حالات في عهدة مستخدمين آخرين"
       incident_from_case: "إنشاء وقائع/حادثة من حالة"
       incident_details_from_case: "إضافة تفاصيل حادثة لحالة مستخدم آخر"
@@ -1054,6 +1102,7 @@ ar-LB:
     select_box: "حدد القائمة المنسدلة"
     radio_button: "زر انتقاء"
     text_area: "منطقة النص"
+    textarea: "منطقة النص"
     numeric_field: "حقل عددي/رقمي"
     date_field: "حقل التاريخ"
     date_range_field: "نطاق التاريخ"
@@ -1643,6 +1692,7 @@ ar-LB:
         name_present: "لا يجوز أن يكون الإسم فارغًا"
         unique_name: "يوجد برنامج بهذا الإسم أصلاً، الرجاء إدخال إسم مختلف"
       lookup:
+        name_present: "لا يجوز أن يكون الإسم فارغاً"
         value_presence: "الرجاء تحديد قيمة بحث واحدة على الأقل"
         unique_name: "يوجد بحث يحمل هذا الاسم بالفعل، الرجاء إدخال إسم مختلف"
         being_used: "هذا البحث في الاستخدام  ولا يمكن حذفه"
@@ -1776,6 +1826,19 @@ ar-LB:
       all: المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
       one: المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
       selected: تحديد إلى المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
+      female_abbreviation: "أنثى"
+      male_abbreviation: "ذكر"
+      headers:
+        sex: "الجنس"
+        sex_mapping_m_f_u: "الجنس"
+        age: "العمر"
+    duplicate_id_csv:
+      female_abbreviation: "أنثى"
+      male_abbreviation: "ذكر"
+      headers:
+        case_id: "رقم تعريف /الملفّ/الحالة"
+        age: "العمر"
+        sex_mapping_m_f_u: "الجنس"
     mrm_violation_xls:
       all: انتهاكات آلية المراقبة والإبلاغ MRM
       one: انتهاكات آلية المراقبة والإبلاغ MRM
@@ -1814,12 +1877,12 @@ ar-LB:
   referral:
     type_label: "نوع الإحالة"
     existing_user_label: "مستخدم موجود"
-    other_user_label: "مستخدم آخر"
-    other_user_agency_label: "وكالة مستخدم آخر"
-    service_label: "خدمة"
-    consent_label: "لم توفر السجلات الموافقة."
+    other_user_label: "حدد اسم الشخص الذي سوف يتلقى الاحالة"
+    other_user_agency_label: "حدد اسم الجهة التي سوف تتلقى الاحالة"
+    service_label: "نوع الخدمة المطلوبة والتي تقوم بالاحالة"
+    consent_label: "الموافقة على الاحالة غير متوفرة"
     consent_override_label: "هل ترغب في تجاوز هذا الإعداد؟"
-    is_remote_label: "هل تشير إلى النظام البعيد؟"
+    is_remote_label: "هل تود مشاركة الاحالة مع شخص من غير المستخدمين للنظام؟"
     type_of_export: "ما نوع التصدير الذي تريده"
     notes_label: "ملاحظات"
     user_mandatory: "إسم المستخدم مطلوب"
@@ -1836,6 +1899,8 @@ ar-LB:
     user_local_status_done: "انتهى"
     complete_referral_label: "بالضغط على \"موافق\" تشير إلى أنّك أكملت عملك المتصّل بإحالة هذا الملفّ  هذا الملفّ في الوقت الراهن. بعد الضغط على \"موافق\" لن تملك النفاذ إلى ملفّ الحالة هذا."
     done_success_message: "تمت عملية الإحالة"
+    agency_label: "الوكالة"
+    location_label: "الموقع"
   reassign:
     reassign_case_title: "تخصيص/تعيين حالة (حالات) لـ:"
     existing_user_label: "مستخدم موجود"
@@ -1847,7 +1912,7 @@ ar-LB:
     existing_user_label: "مستخدم موجود"
     other_user_label: "مستخدم آخر"
     other_user_agency_label: "وكالة مستخدم آخر"
-    consent_label: "لم توفر السجلات الموافقة."
+    consent_label: ". لم تسجل سجلات الموافقة"
     consent_override_label: "هل ترغب في تجاوز هذا الإعداد؟"
     is_remote_label: "هل تقوم بالتحويل إلى نظام بعيد؟"
     type_of_export: "ما نوع التصدير الذي تريده"
@@ -1872,6 +1937,10 @@ ar-LB:
     search:
       rejected: "تم رفضه"
       in_progress: "عملية جارية"
+    agency_label: "الوكالة"
+    location_label: "الموقع"
+  request_transfer:
+    notes_label: "ملاحظات"
   transition:
     export_type:
       primero: "بريميرو"
@@ -1907,6 +1976,9 @@ ar-LB:
       pending: "معلّق / غير مفصول فيه"
       approved: "تمت الموافقة"
       rejected: "تم رفضه"
+  notes:
+    notes_label: "ملاحظات"
+    no_records_selected: "لم يتمّ اختيار أيّ ملفّات"
   per_page_translation: "قائمة محتويات لكلّ صفحة"
   total: المجموع
   caregiver: "(مقدّم الرعاية)"

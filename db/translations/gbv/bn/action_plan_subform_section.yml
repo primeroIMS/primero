@@ -1,0 +1,30 @@
+---
+bn:
+  action_plan_subform_section:
+    name: কর্মপরিকল্পনা
+    description: কর্মপরিকল্পনার সাবফর্ম
+    fields:
+      action_plan_description:
+        display_name: এই চাহিদা পূরণের জন্য কর্মপরিকল্পনা লিখুন
+      service_type:
+        display_name: চাহিদার প্রকারভেদ
+      service_referral:
+        display_name: "প্রযোজ্য ক্ষেত্রে,  আপনি কি সারভাইবারকে সেবার জন্য রেফার করেছিলেন?"
+      service_referral_written_consent:
+        display_name: "রেফারেলের  প্রয়োজনে সারভাইবারের ব্যক্তিগত তথ্য প্রকাশের জন্য  লিখিত সম্মতি পেয়েছেন কি?"
+      service_appointment_date:
+        display_name: সাক্ষাতের তারিখ
+      service_appointment_time:
+        display_name: সাক্ষাতের সময়
+      service_provider:
+        display_name: সেবা প্রদানকারী
+      service_location:
+        display_name: সেবার স্থান
+      service_referral_notes:
+        display_name: নোট
+      service_referral_mandatory_reporting:
+        display_name: "যদি বাধ্যতামূলক প্রতিবেদন আইন প্রযোজ্য হয়,  তাহলে আপনি কি এই ঘটনাটি পুলিশ / পাবলিক কর্তৃপক্ষের কাছে রির্পোট  করেছেন? "
+      service_referral_mandatory_reporting_inform_survivor:
+        display_name: "যদি হ্যাঁ হয়, বাধ্যতামূলক প্রতিবেদন আইন সম্পর্কে সারভাইবার বা তার কেয়ারগিভারকে কি অবহিত করছেন?"
+      service_referral_case_action_plan_timing:
+        display_name: "এই কেসের ক্ষেত্রে, সারভাইবারের সাথে একশন প্লান করতে কতক্ষন  সময় লেগেছে?"

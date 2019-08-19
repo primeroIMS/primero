@@ -1,0 +1,61 @@
+---
+bn:
+  gbv_follow_up_subform_section:
+    name: " জিবিভি ফলোআপ সাবফর্ম "
+    description: "জিবিভি ফলোআপ সাবফর্ম "
+    fields:
+      service_type_provided:
+        display_name: "আমার / আমার প্রতিষ্ঠান দ্বারা প্রদানকৃত সেবাগুলোর ধরন "
+      followup_date:
+        display_name: ফলো আপ এর তারিখ
+      followup_service_type:
+        display_name: রেফারেল সেবার ধরন
+      action_taken_already:
+        display_name: "কোন পদক্ষেপ গ্রহণ করা হয়েছে কি?"
+      action_taken_details:
+        display_name: বিস্তারিতভাবে গৃহীত পদক্ষেপসমূহ বর্ণনা করুন
+      service_provided_date:
+        display_name: "যদি হ্যাঁ হয়, কখন সেবা প্রদান করা হয়েছিল?"
+      need_follow_up_visit:
+        display_name: "পরবর্তী কোন ফলো আপ সাক্ষাৎ -এর  প্রয়োজন আছে কি?"
+      when_follow_up_visit_should_happen:
+        display_name: "যদি হ্যাঁ হয়, পরবর্তী সাক্ষাতের জন্য কোন সময় সুপারিশ করেন?"
+      follow_up_comments:
+        display_name: "মন্তব্য "
+      follow_up_survivor_share_needs:
+        display_name: "ফলো আপ -এর সময় সারভাইভার  কি কোন নতুন প্রয়োজনের কথা বা  কোন উদ্বেগ প্রকাশ করেছেন?"
+        help_text: "যদি হ্যাঁ হয়, অনুগ্রহ করে তার প্রয়োজনীয়তাগুলো বর্ণনা করুন এবং সেই অনুযায়ী কেস কর্ম পরিকল্পনাটি পুনর্বিবেচনা করুন"
+      survivor_needs_met:
+        display_name: "গৃহীত পদক্ষেপগুলো কি সারভাইভারের চাহিদাগুলো পূরণ করতে পেরেছিল?"
+        help_text: "যদি না হয়, তাহলে তার চাহিদাগুলো অনুযায়ী কেস কর্ম পরিকল্পনাটি আপডেট করুন "
+      referred_for_another_appointment:
+        display_name: "যদি না হয়, আপনি কি সারভাইভারকে আরেকটি সাক্ষাতের জন্য রেফার করেছিলেন?"
+      recommend_case_closed:
+        display_name: "যদি চাহিদাগুলো পূরণ হয়, আপনি কি কেস বন্ধ করার জন্য সুপারিশ করবেন ?"
+      case_action_plan_implementation_timing:
+        display_name: "এই ঘটনার ক্ষেত্রে কেস কর্ম পরিকল্পনাটি বাস্তবায়নে আপনার কতক্ষণ সময় লেগেছে? "
+      progress_made_towards_goals:
+        display_name: "লক্ষ্যসমূহ অর্জনে জন্য কতটুক অগ্রগতি হয়েছে? "
+        help_text: " সারভাইভার এসেসমেন্ট ও কেস কর্ম পরিকল্পনায় নির্ধারিত লক্ষ্যসমূহের অগ্রগতি মূল্যায়ন করুন। "
+      gbv_assessment_progress_safety:
+        display_name: নিরাপত্তা লক্ষ্যেসমূহের অগ্রগতি
+      gbv_assessment_progress_safety_text:
+        display_name: "নিরাপত্তা লক্ষ্যসমূহের অগ্রগতিগুলো ব্যাখ্যা করুন "
+      gbv_assessment_progress_health:
+        display_name: "স্বাস্থ্যসেবা লক্ষ্যসমূহের অগ্রগতি "
+      gbv_assessment_progress_health_text:
+        display_name: স্বাস্থ্যসেবার জন্য নিরধারিত  লক্ষ্যের অগ্রগতি ব্যাখ্যা করুন
+      gbv_assessment_progress_psychosocial:
+        display_name: মনোসামাজিক সহায়তার জন্য নির্ধারিত লক্ষ্যের অগ্রগতি
+      gbv_assessment_progress_psychosocial_text:
+        display_name: মনোসামাজিক সহায়তার জন্য নির্ধারিত লক্ষ্যের  অগ্রগতি ব্যাখ্যা করুন
+      gbv_assessment_progress_justice:
+        display_name: ন্যায়বিচার / আইনি লক্ষ্যের অগ্রগতি
+      gbv_assessment_progress_justice_text:
+        display_name: ন্যায়বিচার / আইনি লক্ষ্যের অগ্রগতিসমূহ ব্যাখ্যা করুন
+      gbv_assessment_other_goals_list:
+        display_name: অন্যান্য লক্ষ্যসমূহ (এখানে তালিকাভুক্ত করুন)
+      gbv_assessment_other_goals:
+        display_name: অন্যান্য লক্ষ্যের অগ্রগতি
+      gbv_assessment_other_goals_text:
+        display_name: অন্যান্য লক্ষ্যেসমূহের অগ্রগতি ব্যাখ্যা করুন

@@ -1,0 +1,10 @@
+---
+bn:
+  reopened_logs:
+    name: "কেস পুনরায় খোলা "
+    description: "কেস পুনরায় খোলার সাবফর্ম "
+    fields:
+      reopened_date:
+        display_name: "পুনরায় খোলার তারিখ "
+      reopened_user:
+        display_name: "পুনরায় খোলা হয়েছে "
