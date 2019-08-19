@@ -19,11 +19,11 @@ module Api::V2
 
     private
     def set_class_name
-      @model_class = if params['case_id'].present? || params['data']['record_type'] == 'case'
+      @model_class = if params['case_id'].present? || (params['data'].present? && params['data']['record_type'] == 'case')
         Child 
-      elsif params['tracing_request_id'].present? || params['data']['record_type'] == 'tracing_request'
+                     elsif params['tracing_request_id'].present? || (params['data'].present? && params['data']['record_type'] == 'tracing_request')
         TracingRequest
-      elsif params['incident_id'].present? || params['data']['record_type'] == 'incident'
+                     elsif params['incident_id'].present? || (params['data'].present? && params['data']['record_type'] == 'incident')
         Incident
       end
     end
