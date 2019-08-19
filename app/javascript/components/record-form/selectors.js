@@ -39,7 +39,6 @@ export const getFormNav = (state, query) => {
   const selectedForms = forms(state, query);
 
   if (!selectedForms) return null;
-
   return selectedForms
     .map(fs =>
       NavRecord({
