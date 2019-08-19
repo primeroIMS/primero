@@ -551,6 +551,44 @@ describe Incident do
     end
   end
 
+  describe 'make new Incident from incident details and child' do
+    before :each do
+      @role = create(:role, permissions_list: [Permission.new(:resource => Permission::CASE, :actions => [
+                      Permission::WRITE,
+                      Permission::READ
+                    ])])
+      @user = setup_user(roles: @role)
+      @case = create(:child, owned_by: @user.user_name, module_id: @user.module_ids.first)
+    end
+
+    it 'should create new incident' do
+      @case[:incident_details] = [{ unique_id: "bbdd4d80-86bc-41fc-99d4-881ad1f2f154",
+                                   cp_incident_consent: false,
+                                   migration_transit_countries: [],
+                                   migration_reason: [],
+                                   post_migration_plan: [],
+                                   migration_who_with: [],
+                                   migration_hardships: []
+                                  }]
+
+      incident = Incident.make_new_incident(@case.module.id, @case, @case.module.id, @case.incident_details.first[:unique_id], @user)
+      incident.save
+      @case.add_incident_links(@case.incident_details.first[:unique_id], incident.id, incident.short_id)
+      @case.save
+
+      expect(incident.persisted?).to be_truthy
+      expect(incident.id).to eq(@case.incident_links.first["incident_id"])
+      expect(incident.incident_case_id).to eq(@case.id)
+      expect(incident.created_by_full_name).to eq(@user.full_name)
+      expect(incident.created_at.present?).to be_truthy
+    end
+
+    it 'should create new incident without user' do
+      incident = Incident.make_new_incident(@case.module.id, @case)
+      expect(incident.present?).to be_truthy
+    end
+  end
+
   private
 
   def create_incident(description, options={})

@@ -73,7 +73,7 @@ gbv_individual_details_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_en" => "Disability Type",
-             "option_strings_source" => "lookup lookup-disability-type-with-no"
+             "option_strings_source" => "lookup lookup-disability-type-with-mental-physical"
             }),
   Field.new({"name" => "unaccompanied_separated_status",
              "mobile_visible" => true,

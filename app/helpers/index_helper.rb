@@ -403,6 +403,7 @@ module IndexHelper
     filters = []
     #get the id's of the forms sections the user is able to view/edit.
     allowed_form_ids = @current_user.modules.map{|m| FormSection.get_allowed_form_ids(m, @current_user)}.flatten
+    display_workflow_filter = @current_user.modules.any?{|m| m.workflow_status_indicator.present?}
     #Retrieve the forms where the fields appears and if is in the allowed for the user.
     #TODO should look on subforms? for now lookup on top forms.
     field_names = ["gbv_displacement_status", "protection_status", "urgent_protection_concern", "protection_concerns", "type_of_risk"]
@@ -413,7 +414,7 @@ module IndexHelper
     filters << "Mobile" if @can_sync_mobile
     filters << "Social Worker" if @is_manager
     filters << "My Cases"
-    filters << "Workflow"
+    filters << "Workflow" if display_workflow_filter
     filters << "Approvals" if @can_approvals && (allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) })
     #Check independently the checkboxes on the view.
     filters << "cp_bia_form" if allowed_form_ids.include?("cp_bia_form") && @can_approval_bia

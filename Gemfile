@@ -4,15 +4,10 @@ ruby '2.4.3'
 gem 'rapidftr_addon', :git => 'https://github.com/rapidftr/rapidftr-addon.git', :branch => 'master'
 gem 'rapidftr_addon_cpims', :git => 'https://github.com/rapidftr/rapidftr-addon-cpims.git', :branch => 'master'
 
-#TODO - bump couchrest from 1.2.1 to 2.0.1
-#TODO - to do this, must upgrade version of couchrest_model.   Version 2.0.4 requires couchrest 1.2.1
-#TODO - BUT... later versions of couchrest_model are still in beta / rc
 gem 'couchrest_model', '2.0.4'
 
-#TODO - Our current version of couchrest has a restriction that mim-types MUST be less than 3.0
 gem 'mime-types',     '1.16'
-
-gem 'mini_magick',    '~> 4.8.0'
+gem 'mini_magick',    '~> 4.9.4'
 gem 'pdf-reader',     '2.0.0'
 gem 'prawn',          '~> 2.2.2'
 gem 'prawn-table',    '~> 0.2.2'
