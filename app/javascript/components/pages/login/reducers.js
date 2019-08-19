@@ -4,7 +4,7 @@ import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = Map({
   module: "primero",
-  agency: "unicef",
+  agency: "agency-unicef",
   isAuthenticated: false
 });
 
