@@ -4,6 +4,7 @@ import * as I18n from "components/i18n";
 import * as TracingRequestList from "components/pages/tracing-request-list";
 import * as IncidentList from "components/pages/incident-list";
 import * as Login from "components/pages/login";
+import * as Flagging from "components/flagging";
 import * as Nav from "./components/nav";
 import * as CaseList from "./components/pages/case-list";
 import * as Dashboard from "./components/pages/dashboard";
@@ -27,7 +28,8 @@ const rootReducer = {
     ...Dashboard.reducers,
     ...Reports.reducers,
     ...ExportList.reducers,
-    ...Support.reducers
+    ...Support.reducers,
+    ...Flagging.reducers
   }),
   ui: combineReducers({
     ...Nav.reducers,

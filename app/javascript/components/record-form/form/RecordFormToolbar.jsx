@@ -5,6 +5,7 @@ import { withRouter, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import CreateIcon from "@material-ui/icons/Create";
+import { Flagging } from "components/flagging";
 import styles from "./styles.css";
 
 const RecordFormToolbar = ({
@@ -48,6 +49,9 @@ const RecordFormToolbar = ({
         <PageHeading />
       </Box>
       <Box>
+        {mode.isShow && params && (
+          <Flagging recordType={params.recordType} records={params.id} />
+        )}
         {(mode.isEdit || mode.isNew) && (
           <>
             <Fab

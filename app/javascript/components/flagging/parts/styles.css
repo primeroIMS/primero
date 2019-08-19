@@ -1,0 +1,12 @@
+.empty {
+  text-align: center;
+  font-size: 7em;
+  color: $(theme.primero.colors.warmGrey1);
+  line-height: 0;
+  margin: 0.5em 0;
+
+  & h3 {
+    font-size: $(theme.typography.pxToRem(14));
+    text-transform: uppercase;
+  }
+}

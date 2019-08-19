@@ -2521,3 +2521,12 @@ en:
     invalid: "Invalid"
     apply_filters: "Apply Filters"
     clear_filters: "Clear All"
+
+  flags:
+    flags_tab: "Flags"
+    add_flag_tab: "Add Flag"
+    flag_reason: "Flag Reason"
+    flag_date: "Flag Date"
+    unflag_reason: "Unflag Reason"
+    unflag: "Unflag"
+    no_flags: "No flags found"
