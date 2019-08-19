@@ -2,6 +2,14 @@ require 'rails_helper'
 
 describe Api::V2::UsersController, type: :request do
   before :each do
+    SystemSettings.stub(:current).and_return(SystemSettings.new(
+      primary_age_range: "primero",
+      age_ranges: {
+        "primero" => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
+        "unhcr" => [0..4, 5..11, 12..17, 18..59, 60..AgeRange::MAX]
+      }
+    ))
+
     @program = PrimeroProgram.create!(
                  unique_id: "primeroprogram-primero",
                  name: "Primero",
@@ -139,7 +147,17 @@ describe Api::V2::UsersController, type: :request do
 
   describe 'GET /api/v2/users/:id' do
     it 'fetches the correct user with code 200' do
-      login_for_test
+      login_for_test({
+        permissions: [
+          Permission.new(:resource => Permission::USER, :actions => [Permission::MANAGE]),
+          Permission.new(:resource => Permission::AGENCY, :actions => [Permission::MANAGE]),
+          Permission.new(:resource => Permission::USER_GROUP, :actions => [Permission::MANAGE]),
+          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE]),
+          Permission.new(:resource => Permission::SYSTEM, :actions => [Permission::MANAGE]),
+          Permission.new(:resource => Permission::ROLE, :actions => [Permission::MANAGE])
+        ],
+        group_permission: Permission::ADMIN_ONLY
+      })
       get "/api/v2/users/#{@user_1.id}"
 
       expect(response).to have_http_status(200)

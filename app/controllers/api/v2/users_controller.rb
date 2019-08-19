@@ -16,7 +16,7 @@ module Api::V2
     end
 
     def show
-      authorize! :read, User
+      authorize! :show_user, @user
     end
 
     def create
@@ -29,7 +29,7 @@ module Api::V2
 
     def update
       authorize! :disable, @user if @user_params.include?('disabled')
-      authorize! :update, @user
+      authorize! :edit_user, @user
       @user.update_attributes!(@user_params)
     end
 
