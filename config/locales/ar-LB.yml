@@ -69,6 +69,7 @@ ar-LB:
     string_sources_failed: "فشل تحميل بعض الحقول، يجب تجديد الصفحة لتحميل جميعها."
     system_settings_failed: "لم تنجح عملية تحميل إعدادات ضبط النظام."
     approval_alert: "الموافقة متوقفة لـ%{form_name}"
+    field_change_alert: "النموذج %{form_name} تمّ تحديثه بواسطة مقدّم الخدمة في%{form_date}"
   data_base:
     delete_all_documents: "جميع وثائق الطفل محذوفة"
     operation_not_allowed: "العملية غير مسموح بها في بيئة %{rails_env}"
@@ -601,6 +602,9 @@ ar-LB:
     inquirer_tr_name: 'طلب تتبّع'
     child_id: 'رقم هوية الطفل '
     child_age: 'العمر'
+    child_gender: 'الجنس'
+    reg_date: 'تاريخ التسجيل'
+    social_worker: 'العامل الاجتماعي'
     social_worker_agency: 'الوكالة'
     score: 'نتيجة'
     show_more: 'إظهار المزيد'
@@ -948,6 +952,7 @@ ar-LB:
       dash_cases_by_workflow: "عرض الحالات بحسب سير العمل"
       dash_cases_by_task_overdue: "عرض الحالات بحسب المهمّات المتأخّرة"
       dash_cases_to_assign: "عرض الحالات التي تستلزم التكليف"
+      dash_show_none_values: "لا يوجد اي خطر في لائحة التقيم "
       search_owned_by_others: "البحث عن ملفّات حالات في عهدة مستخدمين آخرين"
       incident_from_case: "إنشاء وقائع/حادثة من حالة"
       incident_details_from_case: "إضافة تفاصيل حادثة لحالة مستخدم آخر"
