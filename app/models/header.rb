@@ -1,21 +1,21 @@
 class Header < ValueObject
-  attr_accessor :name, :field_name
+  attr_accessor :name, :field_name, :id_search
 
   @primero_module_cp = PrimeroModule.cp
   @primero_module_gbv = PrimeroModule.gbv
   @primero_module_mrm = PrimeroModule.mrm
 
   SHORT_ID = Header.new(name: 'id', field_name: 'short_id')
-  CASE_NAME = Header.new(name: 'sort', field_name: 'sortable_name')
+  CASE_NAME = Header.new(name: 'sort', field_name: 'sortable_name', id_search: true)
   SURVIVOR_CODE = Header.new(name: 'survivor_code', field_name: 'survivor_code_no')
-  AGE= Header.new(name: 'age', field_name: 'age')
-  SEX = Header.new(name: 'sex', field_name: 'sex')
-  REGISTRATION_DATE = Header.new(name: 'registration_date', field_name: 'registration_date')
-  CASE_OPENING_DATE = Header.new(name: 'case_opening_date', field_name: 'case_opening_date')
-  PHOTO = Header.new(name: 'photo', field_name: 'photo')
-  SOCIAL_WORKER = Header.new(name: 'social_worker', field_name: 'owned_by' )
-  OWNED_BY = Header.new(name: 'owned_by', field_name: 'owned_by' )
-  OWNED_BY_AGENCY = Header.new(name: 'owned_by_agency', field_name: 'owned_by_agency' )
+  AGE= Header.new(name: 'age', field_name: 'age', id_search: true)
+  SEX = Header.new(name: 'sex', field_name: 'sex', id_search: true)
+  REGISTRATION_DATE = Header.new(name: 'registration_date', field_name: 'registration_date', id_search: true)
+  CASE_OPENING_DATE = Header.new(name: 'case_opening_date', field_name: 'case_opening_date', id_search: true)
+  PHOTO = Header.new(name: 'photo', field_name: 'photo', id_search: true)
+  SOCIAL_WORKER = Header.new(name: 'social_worker', field_name: 'owned_by', id_search: true)
+  OWNED_BY = Header.new(name: 'owned_by', field_name: 'owned_by', id_search: true)
+  OWNED_BY_AGENCY = Header.new(name: 'owned_by_agency', field_name: 'owned_by_agency', id_search: true)
   DATE_OF_INTERVIEW = Header.new(name: 'date_of_interview', field_name: 'date_of_first_report')
   DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date_derived')
   VIOLENCE_TYPE = Header.new(name: 'violence_type', field_name: 'gbv_sexual_violence_type')
