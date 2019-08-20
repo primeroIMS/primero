@@ -1,18 +1,22 @@
 field_notes_subform_fields = [
   Field.new({"name" => "notes_date",
              "type" => "date_field",
+             "deletable" => false,
              "display_name_en" => "Date"
             }),
   Field.new({"name" => "note_subject",
              "type" => "text_field",
+             "deletable" => false,
              "display_name_en" => "Subject"
             }),
   Field.new({"name" => "field_notes_subform_fields",
              "type" => "textarea",
+             "deletable" => false,
              "display_name_en" => "Notes"
             }),
   Field.new({"name" => "note_created_by",
              "type" => "text_field",
+             "deletable" => false,
              "disabled" => true,
              "display_name_en" => "Manager"
             })
@@ -37,7 +41,9 @@ field_notes_subform_section = FormSection.create_or_update_form_section({
 
 notes_fields = [
   Field.new({"name" => "notes_section",
-             "type" => "subform", "editable" => true,
+             "type" => "subform",
+             "editable" => true,
+             "deletable" => false,
              "subform_section_id" => field_notes_subform_section.unique_id,
              "display_name_en" => "Notes",
              "subform_sort_by" => "notes_date"

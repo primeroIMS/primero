@@ -1,0 +1,50 @@
+---
+bn:
+  incident_service_referrals:
+    name: সার্ভিস রেফারেলসমূহ
+    description: সার্ভিস রেফারেলসমূহ
+    form_group_name: সার্ভিস রেফারেলসমূহ
+    fields:
+      service_referred_from:
+        display_name: "কে সারভাইভারকে আপনার কাছে রেফার করেছে?"
+        option_strings_text:
+          health_medical_services: স্বাস্থ্য / চিকিৎসা সেবা
+          psychosocial_counseling_services: মনোসামাজিক / কাউন্সেলিং সেবা
+          police_other_security_actor: পুলিশ / অন্যান্য নিরাপত্তা কর্মী
+          legal_assistance_services: আইনি সহায়তা সেবা
+          livelihoods_program: "জীবিকা অর্জন সংক্রান্ত কার্যক্রম "
+          self_referral_first_point_of_contact: স্ব রেফারেল / যোগাযোগের প্রথম পয়েন্ট
+          teacher_school_official: শিক্ষক / স্কুল কর্মকর্তা
+          community_or_camp_leader: "কমিউনিটি / ক্যাম্প লিডার "
+          safe_house_shelter: "সেফ হাউজ / আশ্রয়স্থল "
+          other_humanitarian_or_development_actor: "অন্যন্য মানবিক বা উন্নয়ন কর্মকর্তা "
+          other_government_service: অন্যান্য সরকারি সেবা
+          other: অন্যান্য
+      service_referred_from_other:
+        display_name: "যদি সারভাইভার অন্যান্য থেকে রেফার হয়ে থাকে, অনুগ্রহ করে উল্লেখ করুন।"
+      safe_house_safe_shelter_referral:
+        display_name: সেফ হাউজ  / সেফ শেল্টার রেফারেল
+      service_safehouse_referral:
+        display_name: "আপনি কি সারভাইভারকে সেফ হাউজ / সেফ শেল্টার এর জন্য রেফার করেছেন ?"
+      service_safehouse_appointment_date:
+        display_name: সাক্ষাতের তারিখ
+      service_safehouse_appointment_time:
+        display_name: সাক্ষাতের সময়
+      service_safehouse_provider:
+        display_name: সেবা প্রদানকারী
+      service_safehouse_location:
+        display_name: সেবার স্থান
+      service_safehouse_referral_notes:
+        display_name: নোট
+      health_medical_referral_subform_section:
+        display_name: স্বাস্থ্য / মেডিকেল রেফারেল
+      psychosocial_counseling_services_subform_section:
+        display_name: মনোসামাজিক/ কাউন্সেলিং সেবা
+      legal_assistance_services_subform_section:
+        display_name: "আইনি সহায়তা সেবা  "
+      police_or_other_type_of_security_services_subform_section:
+        display_name: পুলিশ বা অন্য ধরনের নিরাপত্তা সেবা
+      livelihoods_services_subform_section:
+        display_name: "জীবিকা অর্জন সংক্রান্ত সেবা "
+      child_protection_services_subform_section:
+        display_name: শিশু সুরক্ষা সেবা

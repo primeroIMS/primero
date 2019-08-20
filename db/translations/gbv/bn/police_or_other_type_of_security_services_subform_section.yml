@@ -1,0 +1,18 @@
+---
+bn:
+  police_or_other_type_of_security_services_subform_section:
+    name: পুলিশ বা অন্য ধরনের সুরক্ষা সেবাসমূহের সাবফর্ম
+    description: পুলিশ বা অন্য ধরনের সুরক্ষা সেবাসমূহের সাবফর্ম
+    fields:
+      service_police_referral:
+        display_name: "আপনি কি সারভাইভারকে পুলিশ / অন্যান্য সেবার জন্য রেফার করেছিলেন?"
+      service_police_appointment_date:
+        display_name: সাক্ষাতের তারিখ
+      service_police_appointment_time:
+        display_name: সাক্ষাতের সময়
+      service_police_provider:
+        display_name: সেবা প্রদানকারী
+      service_police_location:
+        display_name: সেবার স্থান
+      service_police_referral_notes:
+        display_name: নোট

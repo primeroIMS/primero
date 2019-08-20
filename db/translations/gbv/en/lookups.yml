@@ -1,5 +1,19 @@
 ---
 en:
+  lookup-age-group-type:
+    name: Age Group Type
+    lookup_values:
+      adult: Adult
+      minor: Minor
+      unknown: Unknown
+  lookup-agency-office:
+    name: Agency Office
+    lookup_values:
+      agency_office_1: Agency Office 1
+      agency_office_2: Agency Office 2
+      agency_office_3: Agency Office 3
+      agency_office_4: Agency Office 4
+      agency_office_5: Agency Office 5
   lookup-approval-status:
     name: Approval Status
     lookup_values:
@@ -13,11 +27,6 @@ en:
       case_plan: Case Plan
       action_plan: Action Plan
       service_provision: Service Provision
-  lookup-gbv-approval-types:
-    name: GBV Approval Types
-    lookup_values:
-      case_plan: Case Plan
-      closure: Closure
   lookup-armed-force-group-name:
     name: Armed Force Group Name
     lookup_values:
@@ -62,6 +71,13 @@ en:
       0_5_year_old: 0-5 year-old
       6_12_year_old: 6-12 year-old
       13_17_year_old: 13-17 year-old
+  lookup-conference-case-status:
+    name: Conference Case Status
+    lookup_values:
+      open: The case will remain open
+      closed: The case will be closed
+      transferred: The case will be transferred
+      other: Other
   lookup-country:
     name: Country
     lookup_values:
@@ -279,6 +295,20 @@ en:
       mental_disability: Mental Disability
       physical_disability: Physical Disability
       both: Both
+  lookup-disability-type-with-mental-physical:
+    name: Disability Type With Mental And Physical Combined
+    lookup_values:
+      'no': 'No'
+      mental_disability: Mental Disability
+      physical_disability: Physical Disability
+      mental_physical_disability: Mental & Physical Disability
+  lookup-disability-type-with-no:
+    name: Disability Type
+    lookup_values:
+      'no': 'No'
+      mental_disability: Mental Disability
+      physical_disability: Physical Disability
+      both: Both
   lookup-discovery-method:
     name: Discovery Method
     lookup_values:
@@ -311,6 +341,22 @@ en:
       ethnicity8: Ethnicity8
       ethnicity9: Ethnicity9
       ethnicity10: Ethnicity10
+  lookup-family-relationship:
+    name: Family Relationship
+    lookup_values:
+      mother: Mother
+      father: Father
+      aunt: Aunt
+      uncle: Uncle
+      grandmother: Grandmother
+      grandfather: Grandfather
+      brother: Brother
+      sister: Sister
+      husband: Husband
+      wife: Wife
+      partner: Partner
+      other_family: Other Family
+      other_nonfamily: Other Nonfamily
   lookup-followup-type:
     name: Followup Type
     lookup_values:
@@ -318,6 +364,17 @@ en:
       in_care: Follow up in Care
       for_service: Follow up for Service
       for_assesment: Follow up for Assessment
+  lookup-further-action_needed:
+    name: Further Action Needed
+    lookup_values:
+      no_further_action_needed: No Further Action Needed
+      ongoing_monitoring: Ongoing Monitoring
+      urgent_intervention: Urgent Intervention
+  lookup-gbv-approval-types:
+    name: Approval Type For Gbv Users
+    lookup_values:
+      case_plan: Case Plan
+      closure: Closure
   lookup-gbv-reported-elsewhere:
     name: Yes, No, Or Unknown
     lookup_values:
@@ -399,6 +456,10 @@ en:
       zone: Zone
       sub_district: Sub District
       locality: Locality
+      prefecture: Prefecture
+      sub-prefecture: Sub-Prefecture
+      commune: Commune
+      payam: Payam
       other: Other
   lookup-marital-status:
     name: Marital Status
@@ -407,6 +468,22 @@ en:
       married_cohabitating: Married/Cohabitating
       divorced_separated: Divorced/Separated
       widowed: Widowed
+  lookup-marital-status-unknown:
+    name: Marital Status
+    lookup_values:
+      single: Single
+      married_cohabitating: Married/Cohabitating
+      divorced_separated: Divorced/Separated
+      widowed: Widowed
+      unknown_not_applicable: Unknown/Not Applicable
+  lookup-marital-status-with-spouse:
+    name: Marital Status
+    lookup_values:
+      single: Single
+      married_cohabitating: Married/Cohabitating
+      divorced_separated: Divorced/Separated
+      widowed: Widowed
+      with_spouse: With Partner/Spouse
   lookup-nationality:
     name: Nationality
     lookup_values:
@@ -516,6 +593,17 @@ en:
       service_not_applicable: Service not applicable
       referral_declined_by_survivor: Referral declined by survivor
       service_unavailable: Service unavailable
+  lookup-service-referred-gbv:
+    name: Service Referred Gbv
+    lookup_values:
+      referred: Referred
+      no_referral_service_provided_by_your_agency: No referral, Service provided by
+        your agency
+      no_referral_services_already_received_from_another_agency: No referral, Services
+        already received from another agency
+      no_referral_service_not_applicable: No referral, Service not applicable
+      no_referral_declined_by_survivor: No referral, Declined by survivor
+      no_referral_service_unavailable: No referral, Service unavailable
   lookup-service-response-type:
     name: Service Response Type
     lookup_values:
@@ -547,6 +635,21 @@ en:
       noon: Noon
       evening: Evening
       night: Night
+  lookup-tracing-status:
+    name: Tracing Status
+    lookup_values:
+      open: Open
+      tracing_in_progress: Tracing in Progress
+      verified: Verified
+      reunified: Reunified
+      closed: Closed
+  lookup-transition-type:
+    name: Transition Type
+    lookup_values:
+      referral: Referral
+      reassign: Reassign
+      transfer: Transfer
+      transfer_request: Transfer Request
   lookup-unaccompanied-separated-status:
     name: Unaccompanied Separated Status
     lookup_values:

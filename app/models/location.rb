@@ -171,12 +171,8 @@ class Location < CouchRest::Model::Base
 
     def find_names_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL, hierarchy_filter = nil, opts={})
       locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
-      #We need the fully qualified :: separated location name here so the reg_ex filter below will work
-      location_names = Location.find_by_admin_level_enabled(admin_level).map{|r| {id: r.location_code, hierarchy: r.hierarchy, display_text: r.name(locale)}.with_indifferent_access}.sort_by!{|l| l['display_text']}
-      hierarchy_set = hierarchy_filter.to_set if hierarchy_filter.present?
-      location_names = location_names.select{|l| l['hierarchy'].present? && (l['hierarchy'].to_set ^ hierarchy_set).length == 0} if hierarchy_filter.present?
-      #Now reduce the display text down to just the placename for display
-      location_names.each {|l| l['display_text'] = l['display_text'].split('::').last}
+      location_names = Location.find_by_admin_level_enabled(admin_level).map{|r| {id: r.location_code, hierarchy: r.hierarchy, display_text: r.placename(locale)}.with_indifferent_access}.sort_by!{|l| l['display_text']}
+      location_names = location_names.select{|l| l['hierarchy'].present? && hierarchy_filter.any?{|f| l['hierarchy'].include?(f)} } if hierarchy_filter.present? && hierarchy_filter.is_a?(Array)
       location_names
     end
     memoize_in_prod :find_names_by_admin_level_enabled

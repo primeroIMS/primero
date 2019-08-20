@@ -2,23 +2,16 @@
 fr:
   action_plan_subform_section:
     name: Plan d'Action imbriqué
-    description: Sous-formulaire de Plan d'Action
+    description: Sous-formulaire du Plan d'Action
     fields:
       action_plan_description:
         display_name: Décrire le Plan d'Action pour répondre à ce besoin
       service_type:
         display_name: Type de besoin
       service_referral:
-        display_name: ""
-        option_strings_text:
-          referred: Référée
-          no_referral_service_provided_by_your_agency: "Non, Service assuré par nous"
-          no_referral_services_already_received_from_another_agency: "Non, Service déjà assuré avant d'arriver"
-          no_referral_service_not_applicable: "Non, Service ne s'applique pas"
-          no_referral_declined_by_survivor: "Non, Service décliné par le/la survivante"
-          no_referral_service_unavailable: "Non, Service non disponible"
+        display_name: "Si applicable, avez-vous référé la survivante pour ce service?"
       service_referral_written_consent:
-        display_name: ""
+        display_name: "Avez-vous reçu le consentement écrit par la survivante de partager ses informations personnelles en vue du référencement?"
       service_appointment_date:
         display_name: Date du rendez-vous
       service_appointment_time:
@@ -30,8 +23,8 @@ fr:
       service_referral_notes:
         display_name: Commentaires
       service_referral_mandatory_reporting:
-        display_name: ""
+        display_name: "S'il existe des lois sur la déclaration obligatoire, avez-vous rapporté l'incident à la police ou aux autorités publiques?"
       service_referral_mandatory_reporting_inform_survivor:
-        display_name: ""
+        display_name: "Si oui, avez-vous informé la survivante et/ou son tuteur légal de l'existence de lois liées à la déclaration obligatoire avant de rapporter le cas?"
       service_referral_case_action_plan_timing:
-        display_name: ""
+        display_name: "Combien de temps ça vous a pris pour développer le Plan d'Action du cas avec la survivante pour ce cas?"

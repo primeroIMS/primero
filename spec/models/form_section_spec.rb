@@ -141,14 +141,18 @@ describe FormSection do
     end
 
     describe 'format_forms_for_mobile' do
+      before do
+        Primero::Application.stub :locales => [ Primero::Application::LOCALE_ENGLISH, Primero::Application::LOCALE_ARABIC,
+                                                Primero::Application::LOCALE_FRENCH]
+        Primero::Application.stub :default_locale => Primero::Application::LOCALE_ENGLISH
+      end
+
       it 'formats for moble' do
         expected = {"Children"=>
                         [{"unique_id"=>"MOBILE_1",
-                          :name=>{"en"=>"Mobile 1", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"",
-                                  "my"=>"", "th"=>"", "ku"=>""},
+                          :name=>{"en"=>"Mobile 1", "ar"=>"", "fr"=>""},
                           "order"=>0,
-                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"",
-                                       "my"=>"", "th"=>"", "ku"=>""},
+                          :help_text=>{"en"=>"", "ar"=>"", "fr"=>""},
                           "base_language"=>"en",
                           "fields"=>
                               [{"name"=>"mobile_1_nested",
@@ -159,14 +163,9 @@ describe FormSection do
                                 "option_strings_source"=>nil,
                                 "show_on_minify_form"=>false,
                                 "mobile_visible"=>true,
-                                :display_name=>{"en"=>"Mobile 1 Nested", "fr"=>"Mobile 1 Nested", "ar"=>"Mobile 1 Nested",
-                                                "ar-LB"=>"Mobile 1 Nested", "so"=>"Mobile 1 Nested", "es"=>"Mobile 1 Nested",
-                                                "bn"=>"Mobile 1 Nested", "id"=>"Mobile 1 Nested", "my"=>"Mobile 1 Nested",
-                                                "th"=>"Mobile 1 Nested", "ku"=>"Mobile 1 Nested"},
-                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"",
-                                             "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
-                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[],
-                                                       "bn"=>[], "id"=>[], "my"=>[], "th"=>[], "ku"=>[]},
+                                :display_name=>{"en"=>"Mobile 1 Nested", "ar"=>"Mobile 1 Nested", "fr"=>"Mobile 1 Nested"},
+                                :help_text=>{"en"=>"", "ar"=>"", "fr"=>""},
+                                :option_strings_text=>{"en"=>[], "ar"=>[], "fr"=>[]},
                                 "date_validation"=>nil}]}]}
         form_sections = FormSection.group_forms([@form_section_mobile_1])
         expect(FormSection.format_forms_for_mobile(form_sections, :en, 'case')).to eq(expected)

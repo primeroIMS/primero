@@ -1,0 +1,63 @@
+---
+bn:
+  gbv_case_closure_form:
+    name: "কেস ক্লোজার "
+    description: "কেস ক্লোজার "
+    form_group_name: "কেস ক্লোজার "
+    fields:
+      created_at:
+        display_name: নতুন কেস  খোলার তারিখ
+      date_closure:
+        display_name: কেস ক্লোজের  তারিখ
+      child_status:
+        display_name: কেসের অবস্থা
+      closure_assessment:
+        display_name: ক্লোজার  মূল্যায়ন
+      closure_checklist_header_section:
+        display_name: "কেস সমাপ্তির তালিকা "
+      closure_needs_met:
+        display_name: "সারভাইবারের  প্রয়োজন যতটুকু সম্ভব পূরণ করা হয়েছে "
+      closure_needs_met_explain:
+        display_name: ব্যাখ্যা
+      closure_survivor_contact:
+        display_name: "নির্দিষ্ট সময়ের মধ্যে (ধরা যাক 30 দিনের বেশি) সারভাইবারের সাথে কোন যোগাযোগ হয় নি "
+      closure_survivor_contact_explain:
+        display_name: ব্যাখ্যা
+      closure_survivor_request_close:
+        display_name: সারভাইবার  তার কেসটি বন্ধের জন্য অনুরোধ জানান
+      closure_survivor_request_close_explain:
+        display_name: ব্যাখ্যা
+      closure_survivor_left_area:
+        display_name: "সারভাইবার এলাকা পরিত্যাগ করেছেন বা সেখানে আর বাস করেন না "
+      closure_survivor_left_area_explain:
+        display_name: ব্যাখ্যা
+      closure_tranferred_organization:
+        display_name: "কেসটি অন্য সংগঠনে স্থানান্তরিত করা করেছে "
+      closure_tranferred_organization_explain:
+        display_name: ব্যাখ্যা
+      closure_funding_constraints:
+        display_name: সেবা প্রদানকারীর অর্থ স্বল্পতার জন্য কেসটি বন্ধ হয়ে যায়
+      closure_funding_constraints_explain:
+        display_name: ব্যাখ্যা করুন
+      closure_safety_plan:
+        display_name: "সারভাইবারের  নিরাপত্তা পরিকল্পনা পর্যালোচনা করা হয়েছে এবং আছে "
+      closure_safety_plan_explain:
+        display_name: ব্যাখ্যা করুন (নিরাপত্তা পরিকল্পনা)
+      closure_case_plan_complete:
+        display_name: কেস কর্ম পরিকল্পনায় বর্ণিত বর্ণনা অনুযায়ী সারভাইবারের  চাহিদাগুলি পূরণ করা হয়েছে
+      closure_case_plan_complete_explain:
+        display_name: ব্যাখ্যা করুন (সম্পূর্ণ এবং সন্তোষজনক ভাবে)
+      closure_no_further_support:
+        display_name: "সারভাইবারের সেবাগ্রহীতা এবং কেসওয়ার্কার সম্মত হন যে আরও কোনও সহায়তার প্রয়োজন নেই  "
+      closure_no_further_support_explain:
+        display_name: "ব্যাখ্যা করুন (আরও কোনও সহায়তার প্রয়োজন নেই) "
+      closure_resume_notification:
+        display_name: "সারভাইবারকে জানানো হয়েছে যে, সে যে কোন সময় সেবা পুনরায় চালু করতে পারে   "
+      closure_resume_notification_explain:
+        display_name: ব্যাখ্যা করুন (সেবা পুনরায় শুরু করা যাবে)
+      closure_supervisor_review:
+        display_name: "কেস সুপারভাইজার  কেস বন্ধ / সমাপ্তি পরিকল্পনা পর্যালোচনা করেছেন  "
+      closure_supervisor_review_explain:
+        display_name: ব্যাখ্যা করুন (কেস পর্যালোচনা)
+      closure_completion_timing:
+        display_name: "এই ক্ষেত্রে কেস বন্ধ করার জন্য আপনার কতক্ষণ সময় লাগবে?"

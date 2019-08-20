@@ -1,0 +1,29 @@
+---
+bn:
+  incident_record_owner:
+    name: রেকর্ডের মালিক / নথির মালিক
+    description: রেকর্ডের মালিক / নথির মালিক
+    form_group_name: রেকর্ডের মালিক / নথির মালিক
+    fields:
+      current_owner_section:
+        display_name: বর্তমান মালিক
+      caseworker_name:
+        display_name: "ফিল্ড / কেস / সমাজ কর্মী  "
+      owned_by:
+        display_name: "কেসওয়ার্কার কোড "
+      owned_by_agency:
+        display_name: সংস্থা
+      assigned_user_names:
+        display_name: দায়িত্বপ্রাপ্ত অন্য কোন ব্যবহারকারী
+      record_history_section:
+        display_name: "রেকর্ডের ইতিহাস "
+      created_by:
+        display_name: "রেকর্ড তৈরি করা হয়েছে  "
+      created_organization:
+        display_name: "যে সংস্থা তৈরি করেছে "
+      previously_owned_by:
+        display_name: পূর্ববর্তী মালিক
+      previous_agency:
+        display_name: পূর্ববর্তী সংস্থা
+      module_id:
+        display_name: মডিউল

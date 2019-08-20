@@ -11,9 +11,6 @@ ar:
           secondary: ثانوي
       perpetrator_sex:
         display_name: جنس الجاني المزعوم
-        option_strings_text:
-          female: أنثى
-          male: ذكر
       former_perpetrator:
         display_name: هل ارتكب الجاني المزعوم حالات عنف قائم على اساس النوع الاجتماعي سابقة؟
       perpetrator_nationality:
@@ -30,23 +27,10 @@ ar:
           '41_60': 41-60
           '61': فوق 61
           unknown: غير معروف
+      age_type:
+        display_name: ""
       perpetrator_relationship:
         display_name: علاقة الجاني المزعوم مع الناجية
-        option_strings_text:
-          intimate_partner_former_partner: شريك حميم \ شريك حميم سابق
-          primary_caregiver: مقدم الرعاية الرئيسي
-          family_other_than_spouse_or_caregiver: "افراد الاسرة ما عدا الزوج او مقدم الرعاية "
-          supervisor_employer: المشرف / صاحب العمل
-          schoolmate: زميل الدراسة
-          teacher_school_official: المعلم / مسؤول المدرسة
-          service_provider: "مزود خدمات "
-          cotenant_housemate: مستأجر او شريك في السكن
-          family_friend_neighbor: صديق الأسرة / أحد الجيران
-          other_refugee_idp_returnee: أحد اللاجئين أو النازحين أو العائدين
-          other_resident_community_member: أحد أفراد المجتمع المحلي
-          other: آخرون
-          no_relation: لا توجد علاقة
-          unknown: غير معروف
       perpetrator_occupation:
         display_name: المهنة الرئيسية للجاني المزعوم (إذا كانت معروفة)
         option_strings_text:
