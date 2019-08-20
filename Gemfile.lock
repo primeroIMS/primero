@@ -491,6 +491,7 @@ DEPENDENCIES
   mini_magick (~> 4.9.4)
   momentjs-rails (~> 2.17.1)
   multi_json (~> 1.12.2)
+  nokogiri (>= 1.10.4)
   os (~> 1.0.0)
   passenger (= 4.0.59)
   pdf-inspector
@@ -542,4 +543,4 @@ RUBY VERSION
    ruby 2.4.3p205
 
 BUNDLED WITH
-   1.16.1
+   1.16.6
