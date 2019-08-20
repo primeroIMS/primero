@@ -56,6 +56,9 @@ gem 'turbolinks',        '~> 5'
 gem 'momentjs-rails',    '~> 2.20'
 gem 'yui-compressor',    '~> 0.12'
 gem 'closure-compiler',  '~> 1.1'
+
+# Security assertions:
+gem "nokogiri", ">= 1.10.4"
 # ---
 
 group :development, :test do
