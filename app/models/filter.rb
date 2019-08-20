@@ -98,6 +98,10 @@ class Filter < ValueObject
       
     ) 
   }
+  NO_ACTIVITY = Filter.new(
+    name: 'cases.filter_by.no_activity',
+    field_name: 'last_updated_at'
+  )
   RECORD_STATE = Filter.new(
     name: 'cases.filter_by.record_state',
     field_name: 'record_state',
@@ -247,6 +251,7 @@ class Filter < ValueObject
       filters << AGENCY_OFFICE if user.has_module?(@primero_module_gbv.id)
       filters << USER_GROUP if user.has_module?(@primero_module_gbv.id) && user.has_user_group_filter?
       filters << REPORTING_LOCATION.call(reporting_location_label, admin_level)
+      filters << NO_ACTIVITY
       filters << DATE_CASE if user.has_module?(@primero_module_cp.id)
       filters << PHOTO if user.has_module?(@primero_module_cp.id) && FormSection.has_photo_form
       filters
