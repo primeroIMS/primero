@@ -4,7 +4,7 @@ module Api::V2
 
     def index
       authorize! :index, Task
-      results = Child.get_tasks(current_user, pagination)
+      results = current_user.tasks(pagination)
       @tasks = results[:tasks]
       @total = results[:total]
     end
