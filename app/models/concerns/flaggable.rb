@@ -3,6 +3,13 @@ module Flaggable
   include Sunspot::Rails::Searchable
 
   included do
+
+    searchable auto_index: self.auto_index? do
+      boolean :flagged do
+        self.flagged?
+      end
+    end
+
     has_many :flags, as: :record
 
     after_save :index_flags, unless: Proc.new{ Rails.env == 'production' }
@@ -47,7 +54,7 @@ module Flaggable
     def flagged?
       self.flag_count > 0
     end
-    alias_method :flag, :flagged?
+    alias_method :flagged, :flagged?
 
   end
 end
