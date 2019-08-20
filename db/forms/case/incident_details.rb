@@ -47,11 +47,11 @@ incident_details_subform_fields = [
             }),
   Field.new({"name" => "cp_incident_previous_incidents_description",
              "type" => "textarea",
-             "display_name_en" => "If yes please describe in brief"
+             "display_name_en" => "If yes, please describe in brief"
             }),
   Field.new({"name" => "cp_incident_abuser_header",
              "type" => "separator",
-             "display_name_en" => "Perpetrator information",
+             "display_name_en" => "Perpetrator Information",
             }),
   Field.new({"name" => "cp_incident_abuser_name",
              "type" => "text_field",

@@ -1,0 +1,18 @@
+---
+bn:
+  psychosocial_counseling_services_subform_section:
+    name: মনোসামাজিক / কাউন্সেলিং সেবাসমূহের সাবফর্ম
+    description: মনোসামাজিক / কাউন্সেলিং সেবাসমূহের সাবফর্ম
+    fields:
+      service_psycho_referral:
+        display_name: "আপনি কি সারভাইভারকে মনোসামাজিক / কাউন্সেলিং সেবার জন্য রেফার করেছিলেন ?"
+      service_psycho_appointment_date:
+        display_name: সাক্ষাতের তারিখ
+      service_psycho_appointment_time:
+        display_name: সাক্ষাতের সময়
+      service_psycho_provider:
+        display_name: সেবা প্রদানকারী
+      service_psycho_service_location:
+        display_name: সেবার স্থান
+      service_psycho_referral_notes:
+        display_name: নোট

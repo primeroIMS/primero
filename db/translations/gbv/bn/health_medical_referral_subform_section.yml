@@ -1,0 +1,18 @@
+---
+bn:
+  health_medical_referral_subform_section:
+    name: "স্বাস্থ্য/ মেডিকেল রেফারেল সাবফর্ম "
+    description: "স্বাস্থ্য/ মেডিকেল রেফারেল সাবফর্ম "
+    fields:
+      service_medical_referral:
+        display_name: "আপনি কি সেবাগ্রহীতাকে স্বাস্থ্য / মেডিকেল সেবার জন্য রেফার করেছিলেন? "
+      service_medical_appointment_date:
+        display_name: সাক্ষাতের তারিখ
+      service_medical_appointment_time:
+        display_name: সাক্ষাতের সময়
+      service_medical_provider:
+        display_name: সেবা প্রদানকারী
+      service_medical_location:
+        display_name: সেবার স্থান
+      service_medical_referral_notes:
+        display_name: নোট

@@ -147,7 +147,7 @@ survivor_information_fields = [
                { id: 'parent_guardian', display_text: "Parent/Guardian" },
                { id: 'relative', display_text: "Relative" },
                { id: 'spouse_cohabitating', display_text: "Spouse/Cohabitating" },
-               { id: 'other', display_text: "Other, please specify" },
+               { id: 'other_please_specify', display_text: "Other, please specify" },
              ].map(&:with_indifferent_access),
              "field_tags" => ['child']
             }),

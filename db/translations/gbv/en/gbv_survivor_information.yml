@@ -24,9 +24,6 @@ en:
         display_name: Date of Birth
       sex:
         display_name: Sex
-        option_strings_text:
-          female: Female
-          male: Male
       gbv_ethnicity:
         display_name: Clan or Ethnicity
       country_of_origin:
@@ -37,11 +34,6 @@ en:
         display_name: Religion
       maritial_status:
         display_name: Current Civil/Marital Status
-        option_strings_text:
-          single: Single
-          married_cohabitating: Married / Cohabitating
-          divorced_separated: Divorced / Separated
-          widowed: Widowed
       dependents_no:
         display_name: Number and age of children and other dependents
       occupation:
@@ -50,11 +42,6 @@ en:
         display_name: Displacement Status at time of report
       gbv_disability_type:
         display_name: Is the Survivor a Person with Disabilities?
-        option_strings_text:
-          'no': 'No'
-          mental_disability: Mental Disability
-          physical_disability: Physical Disability
-          both: Both
       unaccompanied_separated_status:
         display_name: Is the Survivor an Unaccompanied Minor, Separated Child, or
           Other Vulnerable Child?
@@ -75,11 +62,5 @@ en:
           specify.
       caretaker_marital_status:
         display_name: What is the caretaker's current marital status?
-        option_strings_text:
-          single: Single
-          married_cohabitating: Married/Cohabitating
-          divorced_separated: Divorced/Separated
-          widowed: Widowed
-          unknown_not_applicable: Unknown/Not Applicable
       caretaker_occupation:
         display_name: What is the caretaker's primary occupation?

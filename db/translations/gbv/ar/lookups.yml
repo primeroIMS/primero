@@ -1,5 +1,19 @@
 ---
 ar:
+  lookup-age-group-type:
+    name: ""
+    lookup_values:
+      adult: ""
+      minor: ""
+      unknown: ""
+  lookup-agency-office:
+    name: ""
+    lookup_values:
+      agency_office_1: ""
+      agency_office_2: ""
+      agency_office_3: ""
+      agency_office_4: ""
+      agency_office_5: ""
   lookup-approval-status:
     name: الوضع الراهن للموافقة
     lookup_values:
@@ -13,11 +27,6 @@ ar:
       case_plan: خطة الحالة
       action_plan: خطة العمل
       service_provision: تقديم الخدمات
-  lookup-gbv-approval-types:
-    name: GBV Approval Types
-    lookup_values:
-      case_plan:
-      closure:
   lookup-armed-force-group-name:
     name: اسم مجموعة القوات المسلحة
     lookup_values:
@@ -62,6 +71,13 @@ ar:
       0_5_year_old: 0-5  سنوات
       6_12_year_old: 6-12 سنة
       13_17_year_old: 13-17  سنة
+  lookup-conference-case-status:
+    name: ""
+    lookup_values:
+      open: ""
+      closed: ""
+      transferred: ""
+      other: ""
   lookup-country:
     name: البلد
     lookup_values:
@@ -278,6 +294,20 @@ ar:
       mental_disability: إعاقة ذهنية
       physical_disability: إعاقة جسدية
       both: إعاقة ذهنية وجسدية
+  lookup-disability-type-with-mental-physical:
+    name: ""
+    lookup_values:
+      'no': 'لا توجد إعاقة'
+      mental_disability: إعاقة ذهنية
+      physical_disability: إعاقة جسدية
+      mental_physical_disability: إعاقة ذهنية وجسدية
+  lookup-disability-type-with-no:
+    name: نوع الإعاقة
+    lookup_values:
+      'no': 'لا توجد إعاقة'
+      mental_disability: إعاقة ذهنية
+      physical_disability: إعاقة جسدية
+      both: إعاقة ذهنية وجسدية
   lookup-discovery-method:
     name: طريقة الاكتشاف
     lookup_values:
@@ -310,6 +340,22 @@ ar:
       ethnicity8: إثنية 8
       ethnicity9: إثنية 9
       ethnicity10: إثنية 10
+  lookup-family-relationship:
+    name: ""
+    lookup_values:
+      mother: ""
+      father: ""
+      aunt: ""
+      uncle: ""
+      grandmother: ""
+      grandfather: ""
+      brother: ""
+      sister: ""
+      husband: ""
+      wife: ""
+      partner: ""
+      other_family: ""
+      other_nonfamily: ""
   lookup-followup-type:
     name: نوع المتابعة
     lookup_values:
@@ -317,6 +363,17 @@ ar:
       in_care: متابعة في الرعاية
       for_service: متابعة للخدمات
       for_assesment: متابعة للتقييم
+  lookup-further-action_needed:
+    name: ""
+    lookup_values:
+      no_further_action_needed: ""
+      ongoing_monitoring: ""
+      urgent_intervention: ""
+  lookup-gbv-approval-types:
+    name: ""
+    lookup_values:
+      case_plan: ""
+      closure: ""
   lookup-gbv-reported-elsewhere:
     name: نعم أو لا أو غير معروف
     lookup_values:
@@ -395,6 +452,10 @@ ar:
       zone: نطاق
       sub_district: قضاء فرعي
       locality: ناحية
+      prefecture: Prefecture
+      sub-prefecture: Sub-Prefecture
+      commune: Commune
+      payam: Payam
       other: أخرى
   lookup-marital-status:
     name: الوضع العائلي
@@ -403,6 +464,22 @@ ar:
       married_cohabitating: متزوجة / معاشرة دون زواج
       divorced_separated: مطلقة / منفصلة عن الشريك
       widowed: أرملة
+  lookup-marital-status-unknown:
+    name: الوضع العائلي
+    lookup_values:
+      single: عزباء
+      married_cohabitating: متزوجة / معاشرة دون زواج
+      divorced_separated: مطلقة / منفصلة عن الشريك
+      widowed: أرمل
+      unknown_not_applicable: غير معروف / لا ينطبق
+  lookup-marital-status-with-spouse:
+    name: الوضع العائلي
+    lookup_values:
+      single: عزباء
+      married_cohabitating: متزوجة / معاشرة دون زواج
+      divorced_separated: مطلقة / منفصلة عن الشريك
+      widowed: أرملة
+      with_spouse: ""
   lookup-nationality:
     name: الجنسية
     lookup_values:
@@ -511,6 +588,15 @@ ar:
       service_not_applicable: الخدمة غير قابلة للتطبيق
       referral_declined_by_survivor: لم تقبل الناجية بالإحالة
       service_unavailable: الخدمة غير متوفرة
+  lookup-service-referred-gbv:
+    name: إحالة الخدمة GBV
+    lookup_values:
+      referred: تمت الإحالة
+      no_referral_service_provided_by_your_agency: لا توجد إحالة، يتم تقديم الخدمة في مؤسستك
+      no_referral_services_already_received_from_another_agency: لا توجد إحالة، تم تلقي الخدمة من قبل مؤسسة أخرى
+      no_referral_service_not_applicable: لا توجد إحالة، الخدمة غير قابلة للتطبيق
+      no_referral_declined_by_survivor: لا توجد إحالة، لم تقبل بها الناجية
+      no_referral_service_unavailable: لا توجد إحالة، الخدمة غير متوفرة
   lookup-service-response-type:
     name: نوع استجابة الخدمة
     lookup_values:
@@ -542,6 +628,21 @@ ar:
       noon: الظهر
       evening: المساء
       night: الليل
+  lookup-tracing-status:
+    name: ""
+    lookup_values:
+      open: مفتوحة
+      tracing_in_progress: ""
+      verified: تم التحقق
+      reunified: ""
+      closed: مغلقة
+  lookup-transition-type:
+    name: ""
+    lookup_values:
+      referral: ""
+      reassign: ""
+      transfer: ""
+      transfer_request: ""
   lookup-unaccompanied-separated-status:
     name: الناجية منفصلة وغير مصحوبة
     lookup_values:

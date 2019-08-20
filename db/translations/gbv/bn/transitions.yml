@@ -1,0 +1,43 @@
+---
+bn:
+  transitions:
+    name: "বাসস্থান স্থানান্তরের সাবফর্ম "
+    description: "স্থানান্তরের সাবফর্ম "
+    fields:
+      type:
+        display_name: "ধরন "
+      to_user_local:
+        display_name: স্থানীয় ব্যবহারকারী
+      to_user_remote:
+        display_name: দূরবর্তী ব্যবহারকারী
+      to_user_local_status:
+        display_name: অবস্থান
+        option_strings_text:
+          in_progress: "অগ্রগতি হচ্ছে "
+          pending: "পেন্ডিং "
+          accepted: সম্মত / স্বীকৃত
+          rejected: প্রত্যাখ্যাত
+          done: সম্পন্ন
+      rejected_reason:
+        display_name: প্রত্যাখ্যানের কারণ (যদি প্রযোজ্য হয়)
+      to_user_agency:
+        display_name: দূরবর্তী ব্যবহারকারী সংস্থা
+      notes:
+        display_name: নোট
+      transitioned_by:
+        display_name: স্থানান্তরিত বা রেফার করেছে
+      service:
+        display_name: সেবা
+      is_remote:
+        display_name: "রেফারেল বা স্থানান্তর কি রিমোট সিস্টেমে  করা হয়েছে?"
+        tick_box_label: 'হ্যাঁ'
+      type_of_export:
+        display_name: "আপনি কি ধরনের এক্সপোর্ট করতে চান "
+      consent_overridden:
+        display_name: নিষিদ্ধ  অংশ নির্ধারণ করার জন্য কোন সম্মতি নেই
+        tick_box_label: 'হ্যাঁ '
+      consent_individual_transfer:
+        display_name: "কেস ওয়ার্কার কি এই হস্তান্তরের জন্য শিশুর থেকে সম্মতি নিয়েছিলো?"
+        tick_box_label: 'হ্যাঁ'
+      created_at:
+        display_name: রেফারেল বা স্থানান্তরের এর তারিখ
