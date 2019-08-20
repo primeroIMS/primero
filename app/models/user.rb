@@ -335,6 +335,19 @@ class User < ApplicationRecord
     self.role.try(:is_manager?) || false
   end
 
+
+  def can_approve_bia?
+    self.can?(:approve_bia, Child) || self.can?(:request_approval_bia, Child)
+  end
+
+  def can_approve_case_plan?
+    self.can?(:approve_case_plan, Child) || self.can?(:request_approval_case_plan, Child)
+  end
+
+  def can_approve_closure?
+    self.can?(:approve_closure, Child) || self.can?(:request_approval_closure, Child)
+  end
+
   private
 
   def update_user_cases_groups_and_location

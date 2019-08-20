@@ -27,9 +27,9 @@ class Filter < ValueObject
     field_name: 'cases_by_date',
     type: 'dates'
   )
-  # TODO: There are different fields for approvals I need to create each one by status,
-  # similar to what happens for my_cases.
-  # APPROVALS = []
+  APPROVALS_STATUS_BIA = Filter.new(name: 'approvals.bia', field_name: 'approval_status_bia')
+  APPROVALS_STATUS_CASE_PLAN = Filter.new(name: 'approvals.case_plan', field_name: 'approval_status_case_plan')
+  APPROVALS_STATUS_CLOSURE = Filter.new(name: 'approvals.closure', field_name: 'approval_status_closure')
   AGENCY =  Filter.new(name: 'cases.filter_by.agency', field_name: 'owned_by_agency')
   STATUS =  Filter.new(
     name: 'cases.filter_by.status',
@@ -222,6 +222,7 @@ class Filter < ValueObject
     def case_filters(user, model_class)
       reporting_location_label = SystemSettings.current.reporting_location_config.try(:label_key) || ReportingLocation::DEFAULT_LABEL_KEY
       admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      permitted_form_ids = user.permitted_forms(nil, nil, true).map(&:unique_id)
 
       filters = []
       filters << FLAGGED_CASE
@@ -233,7 +234,9 @@ class Filter < ValueObject
       filters << STATUS
       filters << AGE_RANGE
       filters << SEX
-      # TODO: Approvals field
+      filters << APPROVALS_STATUS_BIA if permitted_form_ids.include?("cp_bia_form") && user.can_approve_bia?
+      filters << APPROVALS_STATUS_CASE_PLAN if permitted_form_ids.include?("cp_case_plan") && user.can_approve_case_plan?
+      filters << APPROVALS_STATUS_CLOSURE if permitted_form_ids.include?("closure_form") && user.can_approve_closure?
       filters << PROTECTION_CONCERNS if user.can?(:view_protection_concerns_filter, model_class) && visible_filter_field?('protection_concerns')
       filters << GBV_DISPLACEMENT_STATUS if user.has_module?(@primero_module_gbv.id) && visible_filter_field?('gbv_displacement_status')
       filters << PROTECTION_STATUS if visible_filter_field?('protection_status')
@@ -340,6 +343,15 @@ class Filter < ValueObject
           locale_options << { id: 'date_of_first_report', display_name: I18n.t('incidents.selectable_date_options.date_of_first_report', locale: locale) } if user.has_module?(PrimeroModule::GBV)
           locale_options << { id: 'incident_date_derived', display_name: I18n.t('incidents.selectable_date_options.incident_date_derived', locale: locale) }
           { locale => locale_options }
+        end.inject(&:merge)
+      when 'approval_status_bia', 'approval_status_case_plan', 'approval_status_closure'
+        id_suffix = field_name.delete_prefix('approval_status_')
+        self.options = I18n.available_locales.map do |locale|
+          { locale => 
+            [ Child::APPROVAL_STATUS_PENDING, Child::APPROVAL_STATUS_APPROVED, Child::APPROVAL_STATUS_REJECTED].map do |status|
+              { id: "#{status}_#{id_suffix}", display_text: I18n.t("cases.filter_by.approvals.#{status}", locale: locale) }
+            end
+          }
         end.inject(&:merge)
     end
   end
