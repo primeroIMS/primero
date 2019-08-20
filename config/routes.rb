@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       resources :users
       resources :contact_information, only: [:index]
       resources :system_settings, only: [:index]
+      resources :tasks, only: [:index]
     end
   end
 

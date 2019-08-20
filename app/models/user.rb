@@ -335,6 +335,12 @@ class User < ApplicationRecord
     self.role.try(:is_manager?) || false
   end
 
+  def tasks(pagination = { per_page: 100, page: 1 })
+    cases = Child.owned_by(self.user_name)
+                 .where('data @> ?', { record_state: true, status: Child::STATUS_OPEN }.to_json)
+    tasks = Task.from_case(cases.to_a)
+    { total: tasks.size, tasks: tasks.paginate(pagination) }
+  end
 
   def can_approve_bia?
     self.can?(:approve_bia, Child) || self.can?(:request_approval_bia, Child)
