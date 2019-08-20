@@ -7,13 +7,9 @@ module Flaggable
 
     after_save :index_flags, unless: Proc.new{ Rails.env == 'production' }
 
-
-    #Add a flag. The caller still need to call save method to persistence the changes by the method.
-    #The method was added to be called in the controller. It returns the flag added to the array.
     def add_flag(message, date, user_name)
       flag = Flag.new(flagged_by: user_name, message: message, date: date, created_at: DateTime.now)
       self.flags << flag
-      flag.persisted?
     end
 
     #TODO: Is this necessary?

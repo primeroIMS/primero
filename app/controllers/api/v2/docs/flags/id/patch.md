@@ -9,7 +9,7 @@ The recordType must be a cases, tracing_requests or incidents.
 
 **Authentication** : YES
 
-**Authorization** : The user must be authorized to flag records in Primero.1
+**Authorization** : The user must be authorized to flag records in Primero.
 
 **Parameters** : 
 
@@ -24,7 +24,7 @@ The recordType must be a cases, tracing_requests or incidents.
 
 ## Success Response
 
-**Condition** : User can update forms.
+**Condition** : User can update flags.
 
 **Code** : `200 OK`
 
@@ -60,7 +60,7 @@ The recordType must be a cases, tracing_requests or incidents.
 
 ---
 
-**Condition** : A form with the provided id doesn't exist in the database.
+**Condition** : A record with the provided id doesn't exist in the database.
 
 **Code** : `404 Not Found`
 
@@ -71,29 +71,8 @@ The recordType must be a cases, tracing_requests or incidents.
   "errors": [
     {
       "code": 404,
-      "resource": "/api/v2/forms/10",
+      "resource": "/api/v2/cases/749e9c6e-60db-45ec-8f5a-69da7c223a79/flags/1",
       "message": "Not Found"
-    }
-  ]
-}
-```
-
----
-
-**Condition** : The form parameters would create an invalid case.
-
-**Code** : `422 Unprocessable Entity`
-
-**Content** :
-
-```json
-{
-  "errors": [
-    {
-      "code": 422,
-      "resource": "/api/v2/forms",
-      "message": "errors.models.form_section.unique_id",
-      "detail": "unique_id"
     }
   ]
 }

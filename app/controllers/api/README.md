@@ -68,3 +68,13 @@ Endpoints for querying contact information
 Endpoints for querying system settings
 
 * [Query for system setting](v2/docs/system_settings/get.md) : `GET /api/v2/system_settings`
+
+
+## Flagging Endpoint
+
+Endpoints for query and manipulating flags for cases, tracing request and incidents
+
+* [Query for flags of a record](v2/docs/flags/get.md) : `GET /api/v2/:recordType/:recordId/flags`
+* [Create a new flag of a record](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`
+* [Unflag a record](v2/docs/flags/id/patch.md) `POST /api/v2/:recordType/:recordId/flags/:id`
+* [Create a bulk of flags for multiple records](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`

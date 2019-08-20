@@ -42,7 +42,7 @@ Rails.application.routes.draw do
       resources :contact_information, only: [:index]
       resources :system_settings, only: [:index]
 
-       match ':record_type/flags' => 'flags#flags', :via => [:post]
+       match ':record_type/flags' => 'flags#create_bulk', :via => [:post]
 
     end
   end
