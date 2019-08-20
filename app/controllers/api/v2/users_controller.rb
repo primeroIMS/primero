@@ -4,7 +4,7 @@ module Api::V2
 
     before_action :user_params, only: [:create, :update]
     before_action :load_user, only: [:show, :update, :destroy]
-    before_action :load_options, only: [:index, :show]
+    before_action :load_extended, only: [:index, :show]
 
     def index
       authorize! :index, User
@@ -50,12 +50,8 @@ module Api::V2
       @user = User.find(params[:id])
     end
 
-    def load_options
+    def load_extended
       @extended = params[:extended].present? && params[:extended] == 'true'
-      @system = SystemSettings.current
-      @lookups = Lookup.all
-      @locations = Location.all_names
-      @reporting_locations = Location.all_names_reporting_locations
     end
 
   end

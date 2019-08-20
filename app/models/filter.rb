@@ -8,12 +8,16 @@ class Filter < ValueObject
   FLAGGED_CASE = Filter.new(
     name: 'cases.filter_by.flag',
     field_name: 'flagged',
-    options: [{ id: 'true', display_name: FieldI18nService.all_values_for("cases.filter_by.flag_label") }]
+    options: I18n.available_locales.map do |locale|
+      { locale => [{ id: 'true', display_name: I18n.t("cases.filter_by.flag_label", locale: locale) }] }
+    end.inject(&:merge)
   )
   MOBILE_CASE = Filter.new(
     name: 'cases.filter_by.mobile',
     field_name: "marked_for_mobile",
-    options: [{ id: 'true', display_name: FieldI18nService.all_values_for("cases.filter_by.mobile_label") }]
+    options: I18n.available_locales.map do |locale|
+      { locale => [{ id: 'true', display_name: I18n.t("cases.filter_by.mobile_label", locale: locale) }] }
+    end.inject(&:merge)
   )
   SOCIAL_WORKER = Filter.new(name: 'cases.filter_by.social_worker', field_name: 'owned_by')
   MY_CASES = Filter.new(name: 'cases.filter_by.my_cases', field_name: 'my_cases')
@@ -97,20 +101,24 @@ class Filter < ValueObject
   RECORD_STATE = Filter.new(
     name: 'cases.filter_by.record_state',
     field_name: 'record_state',
-    options: [ 
-      { id: 'true', display_text: FieldI18nService.all_values_for("valid") },
-      { id: 'false', display_text: FieldI18nService.all_values_for("invalid") }
-    ]
+    options: I18n.available_locales.map do |locale|
+      { locale => [
+          { id: 'true', display_text: I18n.t("valid", locale: locale) },
+          { id: 'false', display_text: I18n.t("invalid", locale: locale) }
+        ]
+      }
+    end
   )
   PHOTO = Filter.new(
     name: 'cases.filter_by.photo',
     field_name: 'has_photo',
-    options: [
-      { id: 'photo', display_text: FieldI18nService.all_values_for("cases.filter_by.photo_label") }
-    ]
+    options: I18n.available_locales.map do |locale|
+      { locale => [
+          { id: 'photo', display_text: I18n.t("cases.filter_by.photo_label", locale: locale) }
+        ]
+      }
+    end
   )
-  # TODO: This field requires values from the concern IncidentMonitoringRecording which apparently will not be migrated.
-  # VIOLATION = Filter.new(name: 'incidents.filter_by.violation', field_name: 'violations')
   VIOLENCE_TYPE = Filter.new(
     name: 'incidents.filter_by.violence_type',
     field_name: 'gbv_sexual_violence_type',
@@ -119,11 +127,14 @@ class Filter < ValueObject
   CHILDREN = Filter.new(
     name: 'incidents.filter_by.children',
     field_name: 'child_types',
-    options: [
-      { id: 'boys', display_text: FieldI18nService.all_values_for("incidents.filter_by.boys") },
-      { id: 'girls', display_text: FieldI18nService.all_values_for("incidents.filter_by.girls") },
-      { id: 'unknown', display_text: FieldI18nService.all_values_for("incidents.filter_by.unknown") }
-    ]
+    options: I18n.available_locales.map do |locale|
+      { locale =>  [
+          { id: 'boys', display_text: I18n.t("incidents.filter_by.boys", locale: locale) },
+          { id: 'girls', display_text: I18n.t("incidents.filter_by.girls", locale: locale) },
+          { id: 'unknown', display_text: I18n.t("incidents.filter_by.unknown", locale: locale) }
+        ]
+      }
+    end
   )
   VERIFICATION_STATUS = Filter.new(
     name: 'incidents.filter_by.verification_status',
@@ -145,7 +156,6 @@ class Filter < ValueObject
     name: 'incidents.filter_by.unaccompanied_separated_status',
     field_name: 'unaccompanied_separated_status',
     option_strings_source: 'lookup-unaccompanied-separated-status'
-
   )
   ARMED_FORCE_GROUP = Filter.new(
     name: 'incidents.filter_by.armed_force_group_name',
@@ -176,28 +186,30 @@ class Filter < ValueObject
   INQUIRY_DATE = Filter.new(
     name: 'tracing_requests.filter_by.by_date',
     field_name: 'inquiry_date',
-    options: [
-      { id: 'inquiry_date' , display_name: FieldI18nService.all_values_for('tracing_requests.selectable_date_options.inquiry_date') }
-    ]
+    options: I18n.available_locales.map do |locale|
+      { locale => [
+          { id: 'inquiry_date' , display_name: I18n.t('tracing_requests.selectable_date_options.inquiry_date', locale: locale) }
+        ]
+      }
+    end
   )
-
   FILTER_FIELD_NAMES = %w(
     gbv_displacement_status protection_status urgent_protection_concern
     protection_concerns type_of_risk
   )
 
   class << self
-    def get_filters(user, record_type, lookups = nil, locations = nil, reporting_locations = nil, sys = nil)
+    def get_filters(user, record_type)
       model_class = Record.model_from_name(record_type)
       filters = case record_type
                   when 'case'
                     @filter_fields = Field.get_by_name(FILTER_FIELD_NAMES).map{|f| [f.name, f]}.to_h
-                    case_filters(user, model_class, sys)
+                    case_filters(user, model_class)
                   when 'incident' then incident_filters(user, model_class)
                   when 'tracing_request' then tracing_request_filter(user)
                 end
-      filters.each do |filter| 
-        filter.with_options_for(user, record_type, lookups, locations, reporting_locations, sys) 
+      filters.each do |filter|
+        filter.with_options_for(user, record_type)
         filter.resolve_type
       end
     end
@@ -207,9 +219,9 @@ class Filter < ValueObject
       field.present? && field.visible?
     end
 
-    def case_filters(user, model_class, sys)
-      reporting_location_label = sys.reporting_location_config.try(:label_key) || ReportingLocation::DEFAULT_LABEL_KEY
-      admin_level = sys.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
+    def case_filters(user, model_class)
+      reporting_location_label = SystemSettings.current.reporting_location_config.try(:label_key) || ReportingLocation::DEFAULT_LABEL_KEY
+      admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
 
       filters = []
       filters << FLAGGED_CASE
@@ -233,7 +245,6 @@ class Filter < ValueObject
       filters << USER_GROUP if user.has_module?(@primero_module_gbv.id) && user.has_user_group_filter?
       filters << REPORTING_LOCATION.call(reporting_location_label, admin_level)
       filters << DATE_CASE if user.has_module?(@primero_module_cp.id)
-      # TODO: CASE_OPEN_DATE filter is not used.
       filters << PHOTO if user.has_module?(@primero_module_cp.id) && FormSection.has_photo_form
       filters
     end
@@ -242,8 +253,6 @@ class Filter < ValueObject
       filters = []
       filters << FLAGGED_CASE
       filters << MOBILE_CASE if user.can?(:sync_mobile, model_class)
-      # SEE TODO IN FILTER
-      # filters << VIOLATION if user.has_module?(PrimeroModule::MRM)
       filters << VIOLENCE_TYPE if user.has_module?(@primero_module_gbv.id)
       filters << SOCIAL_WORKER if user.is_manager?
       filters << AGENCY_OFFICE if user.has_module?(@primero_module_gbv.id)
@@ -269,9 +278,6 @@ class Filter < ValueObject
       filters << INQUIRY_STATUS
       filters << SEPARATION_LOCATION
       filters << SEPARATION_CAUSE
-      #TODO: This is also commented in Tracing Request filters
-      #filters << SEX
-      #filters << AGE_RANGE
       filters << RECORD_STATE
       filters
     end
@@ -288,53 +294,53 @@ class Filter < ValueObject
     super(args)
   end
 
-  def with_options_for(user, record_type = nil, lookups = nil, locations = nil, reporting_locations = nil, system_settings = nil)
-    if self.option_strings_source.present?
-      if self.option_strings_source == 'location'
-        self.options = locations
-      elsif self.option_strings_source == 'reporting_location'
-        self.options = reporting_locations
-      else
+  def with_options_for(user, record_type)
+    system_settings = SystemSettings.current
+    managed_user_names = user.managed_user_names
+    user_modules = user.modules_for_record_type(record_type)
+    # TODO: I18n all the display_name
+    case self.field_name
+      when 'owned_by'
+        self.options = managed_user_names.map do |user_name|
+          { id: user_name, display_name: user_name }
+        end
+      when 'workflow'
+        self.options = Child.workflow_statuses_all_locales(user_modules) 
+      when 'owned_by_agency'
+        self.options = User.agencies_by_user_list(managed_user_names).map do |agency|
+          { 
+            id: agency.id, 
+            display_name: I18n.available_locales.map do |locale| 
+             { locale => agency.name(locale)  }
+            end.inject(&:merge)
+          }
+        end
+      when 'age'
+        self.options = system_settings.age_ranges[system_settings.primary_age_range].map do |age_range|
+          { id: age_range.to_s, display_text: age_range.to_s }
+        end
+      when 'owned_by_groups'
+        self.options =  UserGroup.all.map do |user_group|
+          { id: user_group.id, display_text: user_group.name }
+        end
+      when 'cases_by_date'
         self.options = I18n.available_locales.map do |locale|
-          { locale => [] } 
-        end.inject(&:merge).merge(Lookup.all_values(self.option_strings_source, lookups))
-      end
-    else
-      managed_user_names = user.managed_user_names
-      user_modules = user.modules_for_record_type(record_type)
-      # TODO: I18n all the display_name
-      case self.field_name
-        when 'owned_by'
-          self.options = managed_user_names.map do |user_name|
-            { id: user_name, display_name: user_name } 
-          end
-        when 'workflow'
-          self.options = Child.workflow_statuses(user_modules)
-        when 'owned_by_agency'
-          self.options = User.agencies_by_user_list(managed_user_names).map do |agency| 
-            { id: agency.id, display_name: agency.name }
-          end
-        when 'age'
-          self.options = system_settings.age_ranges[system_settings.primary_age_range].map do |age_range|
-            { id: age_range.to_s, display_text: age_range.to_s }
-          end
-        when 'owned_by_groups'
-          self.options =  UserGroup.all do |user_group| 
-            { id: user_group.id, display_text: user_group.name } 
-          end
-        when 'cases_by_date'
-          self.options = [
-            { id: 'registration_date', display_name: FieldI18nService.all_values_for('children.selectable_date_options.registration_date') },
-            { id: 'assessment_requested_on', display_name: FieldI18nService.all_values_for('children.selectable_date_options.assessment_requested_on') },
-            { id: 'date_case_plan', display_name: FieldI18nService.all_values_for('children.selectable_date_options.date_case_plan_initiated') },
-            { id: 'date_closure', display_name: FieldI18nService.all_values_for('children.selectable_date_options.closure_approved_date') },
+          locale_options = [
+            { id: 'registration_date', display_name: I18n.t('children.selectable_date_options.registration_date', locale: locale) },
+            { id: 'assessment_requested_on', display_name: I18n.t('children.selectable_date_options.assessment_requested_on', locale: locale) },
+            { id: 'date_case_plan', display_name: I18n.t('children.selectable_date_options.date_case_plan_initiated', locale: locale) },
+            { id: 'date_closure', display_name: I18n.t('children.selectable_date_options.closure_approved_date', locale: locale) },
           ]
-          self.options << { id: 'created_at', display_name: FieldI18nService.all_values_for('children.selectable_date_options.created_at') } if user.has_module?(PrimeroModule::GBV)
-        when 'incidents_by_date'
-          self.options = []
-          self.options << { id: 'date_of_first_report', display_name: FieldI18nService.all_values_for('incidents.selectable_date_options.date_of_first_report') } if user.has_module?(PrimeroModule::GBV)
-          self.options << { id: 'incident_date_derived', display_name: FieldI18nService.all_values_for('incidents.selectable_date_options.incident_date_derived') }
-      end
+          locale_options << { id: 'created_at', display_name: I18n.t('children.selectable_date_options.created_at', locale: locale) } if user.has_module?(PrimeroModule::GBV)
+          { locale => locale_options }
+        end.inject(&:merge)
+      when 'incidents_by_date'
+        self.options = I18n.available_locales.map do |locale|
+          locale_options = []
+          locale_options << { id: 'date_of_first_report', display_name: I18n.t('incidents.selectable_date_options.date_of_first_report', locale: locale) } if user.has_module?(PrimeroModule::GBV)
+          locale_options << { id: 'incident_date_derived', display_name: I18n.t('incidents.selectable_date_options.incident_date_derived', locale: locale) }
+          { locale => locale_options }
+        end.inject(&:merge)
     end
   end
   

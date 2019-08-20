@@ -23,17 +23,12 @@ class Lookup < ApplicationRecord
 
     def values(lookup_unique_id, lookups = nil, opts={})
       locale = opts[:locale].presence || I18n.locale
-      all_values = self.all_values(lookup_unique_id, lookups)
-      all_values[locale.to_s] || all_values[I18n.locale.to_s] || []
-    end
-
-    def all_values(lookup_unique_id, lookups = nil)
       if lookups.present?
         lookup = lookups.find {|lkp| lkp.unique_id == lookup_unique_id}
       else
         lookup = Lookup.find_by(unique_id: lookup_unique_id)
       end
-      lookup.present? ? ( lookup.lookup_values_i18n || {} ) : {}
+      lookup.present? ? (lookup.lookup_values(locale) || []) : []
     end
     # memoize_in_prod :values
 
