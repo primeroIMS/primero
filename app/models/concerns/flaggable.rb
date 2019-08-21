@@ -48,8 +48,10 @@ module Flaggable
 
     def self.batch_flag(ids, message, date, user_name)
       records = self.find(ids)
-      records.each do |record|
-        record.add_flag(message, date, user_name)
+      ActiveRecord::Base.transaction do
+        records.each do |record|
+          record.add_flag(message, date, user_name)
+        end
       end
     end
 

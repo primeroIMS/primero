@@ -239,6 +239,16 @@ describe Api::V2::FlagsController, type: :request do
       expect(json['errors'][0]['resource']).to eq("/api/v2/cases/flags")
       expect(json['errors'][0]['message']).to eq('Forbidden')
     end
+
+    it "get a 404 error if one of the ids on the requests isn't exists" do
+      login_for_test(permissions: @permission_flag_record)
+
+      params = { data: { ids: [@incident1.id, '12345'], record_type: 'incident', date: Date.today.to_s, message: 'This is another flag TR' } }
+      post "/api/v2/incidents/flags", params: params
+
+      expect(response).to have_http_status(404)
+      expect(json['errors'][0]['message']).to eq('Not Found')
+    end
   end
 
 end
