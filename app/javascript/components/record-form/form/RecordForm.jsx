@@ -10,7 +10,8 @@ import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import { enqueueSnackbar } from "components/notifier";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
-import { setDirtyForm } from "../action-creators";
+import NavigationPrompt from "react-router-navigation-prompt";
+import { AlertDialog } from "components/alert-dialog";
 import { constructInitialValues } from "../helpers";
 import FormSectionField from "./FormSectionField";
 import styles from "./styles.css";
@@ -36,11 +37,9 @@ const RecordForm = ({
   bindSubmitForm,
   record,
   handleToggleNav,
-  mobileDisplay,
-  isDirtyForm
+  mobileDisplay
 }) => {
   const css = makeStyles(styles)();
-  const dispatch = useDispatch();
   const i18n = useI18n();
 
   let initialFormValues = constructInitialValues(forms);
@@ -159,12 +158,18 @@ const RecordForm = ({
         }}
       >
         {({ handleSubmit, submitForm, errors, dirty }) => {
-          if (isDirtyForm !== dirty) {
-            dispatch(setDirtyForm(dirty));
-          }
           bindSubmitForm(submitForm);
           return (
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+              <NavigationPrompt when={dirty}>
+                {({ onConfirm, onCancel }) => (
+                  <AlertDialog
+                    open
+                    successHandler={onConfirm}
+                    cancelHandler={onCancel}
+                  />
+                )}
+              </NavigationPrompt>
               {!isEmpty(errors) && <ValidationErrors />}
               {renderFormSections(forms)}
             </Form>
@@ -173,7 +178,6 @@ const RecordForm = ({
       </Formik>
     );
   }
-
   return null;
 };
 
@@ -185,8 +189,7 @@ RecordForm.propTypes = {
   bindSubmitForm: PropTypes.func,
   record: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
-  mobileDisplay: PropTypes.bool.isRequired,
-  isDirtyForm: PropTypes.bool
+  mobileDisplay: PropTypes.bool.isRequired
 };
 
 export default memo(RecordForm);
