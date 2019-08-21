@@ -120,7 +120,7 @@ class SystemSettings < ApplicationRecord
 
   class << self
     def current
-      SystemSettings.first
+      @system_settings ||= SystemSettings.first
     end
     # memoize_in_prod :current
   end

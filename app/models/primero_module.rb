@@ -76,6 +76,10 @@ class PrimeroModule < ApplicationRecord
     find_by(unique_id: GBV)
   end
 
+  def self.mrm
+    find_by(unique_id: MRM)
+  end
+
   class << self
 
     alias super_clear clear
