@@ -39,6 +39,7 @@ const RecordForms = ({ match, mode }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const i18n = useI18n();
+  // eslint-disable-next-line no-param-reassign
   const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
 
@@ -54,7 +55,6 @@ const RecordForms = ({ match, mode }) => {
   const firstTab = useSelector(state => getFirstTab(state, selectedModule));
   const loading = useSelector(state => getLoadingState(state));
   const errors = useSelector(state => getErrors(state));
-
   const selectedForm = useSelector(state =>
     state.getIn([NAMESPACE, "selectedForm"])
   );
@@ -72,7 +72,7 @@ const RecordForms = ({ match, mode }) => {
   };
 
   const formProps = {
-    onSubmit: (initialValues, values, setSubmitting) => {
+    onSubmit: (initialValues, values) => {
       dispatch(
         saveRecord(
           params.recordType,
@@ -91,7 +91,8 @@ const RecordForms = ({ match, mode }) => {
             : i18n.t(`${recordType}.messages.creation_success`, recordType)
         )
       );
-      setSubmitting(false);
+      // TODO: Set this if there are any errors on validations
+      // setSubmitting(false);
     },
     bindSubmitForm: boundSubmitForm => {
       submitForm = boundSubmitForm;
