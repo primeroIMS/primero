@@ -72,7 +72,7 @@ const RecordForms = ({ match, mode }) => {
   };
 
   const formProps = {
-    onSubmit: (initialValues, values, setSubmitting) => {
+    onSubmit: (initialValues, values) => {
       dispatch(
         saveRecord(
           params.recordType,
@@ -91,7 +91,8 @@ const RecordForms = ({ match, mode }) => {
             : i18n.t(`${recordType}.messages.creation_success`, recordType)
         )
       );
-      setSubmitting(false);
+      // TODO: Set this if there are any errors on validations
+      // setSubmitting(false);
     },
     bindSubmitForm: boundSubmitForm => {
       submitForm = boundSubmitForm;

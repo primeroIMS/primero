@@ -153,15 +153,13 @@ const RecordForm = ({
         validationSchema={validationSchema}
         validateOnBlur={false}
         validateOnChange={false}
-        onSubmit={(values, { setSubmitting }) => {
-          return onSubmit(initialFormValues, values, setSubmitting);
-        }}
+        onSubmit={values => onSubmit(initialFormValues, values)}
       >
-        {({ handleSubmit, submitForm, errors, dirty }) => {
+        {({ handleSubmit, submitForm, errors, dirty, isSubmitting }) => {
           bindSubmitForm(submitForm);
           return (
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-              <NavigationPrompt when={dirty}>
+              <NavigationPrompt when={dirty && !isSubmitting}>
                 {({ onConfirm, onCancel }) => (
                   <AlertDialog
                     open
