@@ -9,6 +9,21 @@ import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 
+const DisplayData = ({ title, value }) => {
+  const css = makeStyles(styles)();
+  return (
+    <p key={title}>
+      <span className={css.Title}> {title}: </span>
+      {value}
+    </p>
+  );
+};
+
+DisplayData.propTypes = {
+  title: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired
+};
+
 const Support = ({ supportData, fetchSupportData }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -17,15 +32,6 @@ const Support = ({ supportData, fetchSupportData }) => {
     fetchSupportData();
   }, [fetchSupportData]);
 
-  const DisplayData = (title, value) => {
-    return (
-      <p key={title}>
-        <span className={css.Title}> {title}: </span>
-        {value}
-      </p>
-    );
-  };
-
   return (
     <PageContainer>
       <h1 className={css.PageTitle}>{i18n.t("contact.info_label")}</h1>
@@ -33,7 +39,14 @@ const Support = ({ supportData, fetchSupportData }) => {
         <CardContent>
           {supportData.toSeq().size > 0 &&
             supportData._keys.map(x => {
-              return DisplayData(i18n.t(`contact.field.${x}`), supportData[x]);
+              return (
+                <DisplayData
+                  {...{
+                    title: i18n.t(`contact.field.${x}`),
+                    value: supportData[x]
+                  }}
+                />
+              );
             })}
         </CardContent>
       </Card>
