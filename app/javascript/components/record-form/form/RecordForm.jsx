@@ -10,6 +10,8 @@ import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import { enqueueSnackbar } from "components/notifier";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import NavigationPrompt from "react-router-navigation-prompt";
+import { AlertDialog } from "components/alert-dialog";
 import { constructInitialValues } from "../helpers";
 import FormSectionField from "./FormSectionField";
 import styles from "./styles.css";
@@ -151,14 +153,21 @@ const RecordForm = ({
         validationSchema={validationSchema}
         validateOnBlur={false}
         validateOnChange={false}
-        onSubmit={(values, { setSubmitting }) => {
-          return onSubmit(initialFormValues, values, setSubmitting);
-        }}
+        onSubmit={values => onSubmit(initialFormValues, values)}
       >
-        {({ handleSubmit, submitForm, errors }) => {
+        {({ handleSubmit, submitForm, errors, dirty, isSubmitting }) => {
           bindSubmitForm(submitForm);
           return (
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+              <NavigationPrompt when={dirty && !isSubmitting}>
+                {({ onConfirm, onCancel }) => (
+                  <AlertDialog
+                    open
+                    successHandler={onConfirm}
+                    cancelHandler={onCancel}
+                  />
+                )}
+              </NavigationPrompt>
               {!isEmpty(errors) && <ValidationErrors />}
               {renderFormSections(forms)}
             </Form>
@@ -167,7 +176,6 @@ const RecordForm = ({
       </Formik>
     );
   }
-
   return null;
 };
 
