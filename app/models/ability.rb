@@ -8,7 +8,7 @@ class Ability
 
     @user = user
 
-    can [:read, :write], User do |uzer|
+    can [:read_self, :write_self], User do |uzer|
       uzer.user_name == user.user_name
     end
 
@@ -18,6 +18,14 @@ class Ability
 
     can [:read_reports], Report do |report|
       can?(:read, report) || can?(:group_read, report)
+    end
+
+    can [:show_user], User do |uzer|
+      can?(:read_self, uzer) || can?(:read, uzer)
+    end
+  
+    can [:edit_user], User do |uzer|
+      can?(:write_self, uzer) || can?(:edit, uzer)
     end
 
     user.role.permissions.each do |permission|
