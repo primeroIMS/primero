@@ -1,5 +1,5 @@
 import chai, { expect } from "chai";
-import { Map, List } from "immutable";
+import { Map } from "immutable";
 import chaiImmutable from "chai-immutable";
 import * as r from "./reducers";
 
@@ -34,7 +34,8 @@ describe("<Login /> - Reducers", () => {
     const expected = Map({
       module: "primero",
       agency: "unicef",
-      isAuthenticated: true
+      isAuthenticated: undefined,
+      username: undefined
     });
     const action = {
       type: "user/SET_AUTH",
@@ -49,10 +50,13 @@ describe("<Login /> - Reducers", () => {
       module: "primero",
       agency: "unicef",
       isAuthenticated: true,
-      messages: null
+      username: "primero"
     });
     const action = {
-      type: "user/LOGIN_SUCCESS"
+      type: "user/LOGIN_SUCCESS",
+      payload: {
+        user_name: "primero"
+      }
     };
     const newState = r.reducers.user(default_state, action);
     expect(newState).to.deep.equal(expected);
@@ -82,6 +86,7 @@ describe("<Login /> - Reducers", () => {
       module: "primero",
       agency: "unicef",
       isAuthenticated: false,
+      username: null
     });
     const action = {
       type: "user/LOGOUT_SUCCESS"
