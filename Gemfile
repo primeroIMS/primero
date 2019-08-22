@@ -65,6 +65,9 @@ gem 'twitter_cldr'
 
 gem 'puma', '~> 3.7'
 
+#Security assertions:
+gem "nokogiri", ">= 1.10.4"
+
 #TODO: Are these getting installed?
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 4.0.2'
