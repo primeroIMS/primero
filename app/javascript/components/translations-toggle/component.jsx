@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { DropdownDoubleIcon } from "images/primero-icons";
 import { useI18n } from "components/i18n";
-import * as Selectors from "components/i18n/selectors";
+import * as Selectors from "components/application/selectors";
 import styles from "./styles.css";
 
 const TranslationsToggle = () => {

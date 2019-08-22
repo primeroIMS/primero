@@ -7,24 +7,24 @@ import * as actionCreators from "./action-creators";
 
 chai.use(sinonChai);
 
-describe("Modules - Action Creators", () => {
+describe("Application - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = clone(actionCreators);
 
-    expect(creators).to.have.property("fetchModules");
-    delete creators.fetchModules;
+    expect(creators).to.have.property("fetchSystemSettings");
+    delete creators.fetchSystemSettings;
 
     expect(creators).to.deep.equal({});
   });
 
-  it("should check the 'fetchModules' action creator to return the correct object", () => {
+  it("should check the 'fetchSystemSettings' action creator to return the correct object", () => {
     const expected = { path: "system_settings", params: { extended: true } };
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
-    actionCreators.fetchModules()(dispatch);
+    actionCreators.fetchSystemSettings()(dispatch);
     expect(dispatch.getCall(0).returnValue.type).to.eql(
-      "modules/FETCH_MODULES"
+      "application/FETCH_SYSTEM_SETTINGS"
     );
     expect(dispatch.getCall(0).returnValue.api).to.eql(expected);
   });

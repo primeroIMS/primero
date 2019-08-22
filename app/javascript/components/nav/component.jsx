@@ -15,7 +15,7 @@ import { useThemeHelper } from "libs";
 import { useDispatch, useSelector } from "react-redux";
 import { MobileToolbar } from "components/mobile-toolbar";
 import { ListIcon } from "components/list-icon";
-import * as AgencySelectors from "components/agencies";
+import * as applicationSelectors from "components/application/selectors";
 import { TranslationsToggle } from "../translations-toggle";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
@@ -37,7 +37,7 @@ const Nav = () => {
   const drawerOpen = useSelector(state => Selectors.selectDrawerOpen(state));
 
   const agency = useSelector(state =>
-    AgencySelectors.selectAgencies(state)
+    applicationSelectors.selectAgencies(state)
   ).find(data => data.unique_id === userAgency, "");
   let agencyLogo = "";
   let agencyName = "";

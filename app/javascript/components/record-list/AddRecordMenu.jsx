@@ -6,13 +6,11 @@ import { useI18n } from "components/i18n";
 import { Menu, MenuItem, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
-import * as selectors from "components/modules/selectors";
+import * as selectors from "components/application/selectors";
 
 const AddRecordMenu = ({ recordType }) => {
   const i18n = useI18n();
-  const primeroModules = useSelector(state =>
-    selectors.selectUserModules(state)
-  );
+  const primeroModules = useSelector(state => selectors.selectModules(state));
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {

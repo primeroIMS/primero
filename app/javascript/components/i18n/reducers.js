@@ -4,18 +4,13 @@ import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = Map({
   locale: null,
-  dir: "ltr",
-  locales: []
+  dir: "ltr"
 });
 
 export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.SET_LOCALE:
       return state.set("locale", payload.locale).set("dir", payload.dir);
-    case Actions.FETCH_LOCALES_SUCCESS:
-      return state
-        .set("locale", payload.data.default_locale)
-        .set("locales", payload.data.locales);
     default:
       return state;
   }

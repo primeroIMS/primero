@@ -2,6 +2,7 @@ import { fetchForms, fetchOptions } from "components/record-form";
 import { fetchLocales } from "components/i18n";
 import { fetchAgencyLogo } from "components/agencies";
 import { fetchModules } from "components/modules";
+import { fetchSystemSettings } from "components/application";
 import { batch } from "react-redux";
 import * as Actions from "./actions";
 
@@ -21,11 +22,9 @@ export const setAuth = payload => {
 
 export const loadResources = () => async dispatch => {
   batch(() => {
-    dispatch(fetchAgencyLogo());
+    dispatch(fetchSystemSettings());
     dispatch(fetchForms());
     dispatch(fetchOptions());
-    dispatch(fetchLocales());
-    dispatch(fetchModules());
   });
 };
 

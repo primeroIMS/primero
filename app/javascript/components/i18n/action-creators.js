@@ -6,12 +6,3 @@ export const setLocale = payload => {
     payload
   };
 };
-
-export const fetchLocales = () => async dispatch => {
-  dispatch({
-    type: Actions.FETCH_LOCALES,
-    api: {
-      path: "system_settings"
-    }
-  });
-};
