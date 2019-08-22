@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe Api::V2::UsersController, type: :request do
   before :each do
+    PrimeroModule.destroy_all
     SystemSettings.stub(:current).and_return(SystemSettings.new(
       primary_age_range: "primero",
       age_ranges: {
