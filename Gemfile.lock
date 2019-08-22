@@ -369,7 +369,7 @@ DEPENDENCIES
   ci_reporter (~> 2.0)
   deep_merge (~> 1.2)
   devise (= 4.6.2)
-  devise-jwt (~> 0.5.9)
+  devise-jwt (= 0.5.9)
   factory_bot (~> 5.0)
   file_validators (~> 2.3)
   foreman

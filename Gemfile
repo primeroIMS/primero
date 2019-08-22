@@ -3,15 +3,17 @@ ruby '2.6.2'
 
 gem 'rails',            '5.2.3'
 gem 'pg',               '~> 1.1'
+gem 'devise',           '4.6.2'
+gem 'devise-jwt',       '0.5.9'
 gem 'rake',             '~> 12.3'
 gem 'puma',             '~> 3.12'
 gem 'webpacker',        '~> 4.0'
-gem 'devise',           '4.6.2'
-gem 'devise-jwt',       '~> 0.5.9'
-gem 'uglifier',         '~> 4.1'
-gem 'sass-rails',       '~> 5.0'
 gem 'file_validators',  '~> 2.3'
 gem 'jbuilder',         '~> 2.8'
+
+#TODO: Remove after we have disabled the asset pipeline
+gem 'uglifier',         '~> 4.1'
+gem 'sass-rails',       '~> 5.0'
 
 # Note: if upgrading Sunspot, update the corresonding version of Solr in Chef if necessaary.
 # Current Solr version is 5.3.1
@@ -44,18 +46,8 @@ gem 'tzinfo-data',       '~> 1.2019'
 
 gem 'activerecord-nulldb-adapter'
 
-# TODO: Remove/reevaluate the following once UIUX rebuilt
+# TODO: Re-evaluate if we still need this
 gem 'will_paginate',     '~> 3.1'
-#gem 'jquery-rails',      '4.3.1'
-#gem 'ejs',               '~> 1.1'
-#gem 'foundation-rails',  '6.3.0.0' # NOTE: Don't update
-#gem 'compass-rails',     '~> 3.1'
-#gem 'chosen-rails',      '1.5.2'
-#gem 'jquery-turbolinks', '~> 2.1'
-#gem 'turbolinks',        '~> 5'
-#gem 'momentjs-rails',    '~> 2.20'
-#gem 'yui-compressor',    '~> 0.12'
-#gem 'closure-compiler',  '~> 1.1'
 
 # Security assertions:
 gem "nokogiri", ">= 1.10.4"
