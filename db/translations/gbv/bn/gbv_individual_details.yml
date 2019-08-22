@@ -1,0 +1,33 @@
+---
+bn:
+  gbv_individual_details:
+    name: জিবিভি ব্যক্তির বিবরণ
+    description: জিবিভি ব্যক্তির বিবরণ
+    form_group_name: জিবিভি ব্যক্তির বিবরণ
+    fields:
+      survivor_code:
+        display_name: সারভাইভার কোড
+      sex:
+        display_name: "সারভাইভারের সেক্স কি?"
+      date_of_birth:
+        display_name: "সারভাইভারের জন্ম তারিখ কি?"
+      age:
+        display_name: "সারভাইভারের বয়স কত? "
+      estimated:
+        display_name: "বয়সটা কি এখানে আনুমানিক ধরা হয়েছে?"
+      ethnicity:
+        display_name: "সারভাইভারের নৃতাত্তিক পরিচয় কি?"
+      nationality:
+        display_name: "সারভাইভারের জাতিগত পরিচয় কি?"
+      religion:
+        display_name: "সারভাইভারের ধর্মীয় পরিচয় কি?"
+      country_of_origin:
+        display_name: "যে দেশের আদিবাসিন্দা "
+      displacement_status:
+        display_name: "রিপোর্টের সময় স্থানচ্যুতির অবস্থা "
+      maritial_status:
+        display_name: বর্তমান নাগরিক/ বৈবাহিক অবস্থা
+      disability_type:
+        display_name: " প্রতিবন্ধকতার ধরন"
+      unaccompanied_separated_status:
+        display_name: "সারভাইভার কি একজন সংগীহীন অপ্রাপ্তবয়স্ক, বিচ্ছিন্ন শিশু, বা কোন  অসহায় শিশু?"

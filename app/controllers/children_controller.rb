@@ -94,7 +94,7 @@ class ChildrenController < ApplicationController
     end
 
     if from_module.present? && params[:incident_detail_id].present?
-      incident = Incident.make_new_incident(to_module_id, @child, from_module.id, params[:incident_detail_id])
+      incident = Incident.make_new_incident(to_module_id, @child, from_module.id, params[:incident_detail_id], current_user)
       incident.save
       @child.add_incident_links(params[:incident_detail_id], incident.id, incident.short_id)
       @child.save

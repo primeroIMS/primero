@@ -234,6 +234,8 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
       $transfer_modal.find(el).hide();
     })
 
+    $transfer_modal.find('.local_toggle').show();
+
     $transfer_modal.find('form').trigger('reset');
   }
 });

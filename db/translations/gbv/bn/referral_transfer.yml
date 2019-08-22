@@ -1,0 +1,15 @@
+---
+bn:
+  referral_transfer:
+    name: রেফারাল এবং স্থানান্তর
+    description: স্থানান্তর এবং রেফারেল  এর তালিকা
+    form_group_name: রেফারাল এবং স্থানান্তর
+    fields:
+      transfer_status:
+        display_name: "স্থানান্তরের অবস্থা "
+        option_strings_text:
+          in_progress: অগ্রগতি  
+          accepted: গ্রহণ করা হয়েছে  
+          rejected: গ্রহণ করা হয়নি   
+      transitions:
+        display_name: স্থানান্তর এবং রেফারাল

@@ -3,7 +3,7 @@ fr:
   record_owner:
     name: Information de l'enregistrement
     description: Information de l'enregistrement
-    # form_group_name: ""
+    form_group_name: Information de l'enregistrement
     fields:
       current_owner_separator:
         display_name: Propriétaire actuel
@@ -15,8 +15,16 @@ fr:
         display_name: Ré-assigné/ Transféré le
       owned_by_agency:
         display_name: Agence
+      telephone_agency:
+        display_name: ""
       assigned_user_names:
         display_name: Autres utilisateurs assignés
+      database_operator_user_name:
+        display_name: ""
+      address_registration:
+        display_name: ""
+      location_registration:
+        display_name: ""
       record_history_separator:
         display_name: Historique de l'enregistrement
       created_by:

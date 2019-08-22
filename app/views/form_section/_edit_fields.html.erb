@@ -69,18 +69,16 @@
           <td class='field-buttons'>
             <ul class="table_actions">
               <% if @form_section.editable? && field.editable? %>
-                <% if @form_section.editable? && field.editable? %>
-                  <li>
-                    <%= link_to t("buttons.edit"),
-                              edit_form_section_field_path(form_section_id: @form_section.unique_id, id: field.name, module_id: @module_id, parent_form: @parent_form),
-                              :id => "#{field.name}_edit" %>
+                <li>
+                  <%= link_to t("buttons.edit"),
+                            edit_form_section_field_path(form_section_id: @form_section.unique_id, id: field.name, module_id: @module_id, parent_form: @parent_form),
+                            :id => "#{field.name}_edit" %>
 
-                  </li>
-                <% end %>
+                </li>
                 <% if field.type == 'subform' %>
                   <li><%= link_to t("buttons.edit_subform"), edit_form_section_path(field.subform_section_id, module_id: @primero_module, parent_form: @parent_form) %></li>
                 <% end %>
-                <% if field.name.present? && field.type != 'custom' %>
+                <% if field.name.present? && field.type != 'custom' && field.deletable? %>
                   <li>
                     <%= render :partial => "form_section/delete_button", :locals => {:field => field, :url => delete_form_section_fields_path(@form_section.unique_id),
                                                                        :warning => I18n.t("messages.warning")} %> <%= hidden_field_tag "field_name" "#{field.name}" %>
