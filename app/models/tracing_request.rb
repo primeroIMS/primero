@@ -31,7 +31,7 @@ class TracingRequest < ApplicationRecord
   end
 
   def self.summary_field_names
-    %w(short_id name_of_inquirer date_of_inquiry, tracing_requests)
+    %w(short_id name_of_inquirer date_of_inquiry tracing_requests flag_count)
   end
 
   searchable auto_index: self.auto_index? do

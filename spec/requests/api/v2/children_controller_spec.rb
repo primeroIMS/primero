@@ -67,6 +67,17 @@ describe Api::V2::ChildrenController, type: :request do
 
     end
 
+    it 'returns flag_count for the short form ' do
+      @case1.add_flag('This is a flag', Date.today, 'faketest')
+
+      login_for_test(permissions: permission_flag_record)
+      get '/api/v2/cases?fields=short'
+
+      expect(response).to have_http_status(200)
+      expect(json['data'][2]['flag_count']).to eq(1)
+
+    end
+
   end
 
   describe 'GET /api/v2/cases/:id' do
