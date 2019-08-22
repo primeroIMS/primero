@@ -251,4 +251,26 @@ describe Api::V2::FlagsController, type: :request do
     end
   end
 
+  describe 'verification the ids' do
+    it 'verifying the id of the cases' do
+      login_for_test(permissions: @permission_flag_record)
+      get "/api/v2/cases/#{@case1.id}/flags"
+
+      expect(request.path.split('/')[4]).to eq( @case1.id.to_s)
+      expect(json['data'].size).to eq(1)
+      expect(json['data'][0]['record_id']).to eq( @case1.id.to_s)
+    end
+
+    it 'verifying the id of the flags' do
+      login_for_test(permissions: @permission_flag_record)
+      params = { data: { unflag_message: 'This is unflag message' } }
+      patch "/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(1)
+      @case1.reload
+      expect(json['data']['id']).to eq(@case1.id.to_s)
+    end
+  end
+
 end

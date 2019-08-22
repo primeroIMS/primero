@@ -9,7 +9,7 @@ module Api::V2
     end
 
     def find_record
-      record_id = params['case_id'].presence || params['tracing_request_id'].presence || params['incident_id'].presence
+      record_id = request.path.split('/')[4] || params['id'].presence
       @record = @model_class.find(record_id)
     end
   end
