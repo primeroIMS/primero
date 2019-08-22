@@ -18,19 +18,13 @@ describe Api::V2::FlagsController, type: :request do
     @tracing_request1.add_flag('This is a flag TR', Date.today, 'faketest')
     @incident1.add_flag('This is a flag IN', Date.today, 'faketest')
 
-    @permission_flag_record = [ Permission.new(resource: Permission::CASE,
-     actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]),
-    Permission.new(resource: Permission::TRACING_REQUEST,
-     actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]),
-    Permission.new(resource: Permission::INCIDENT,
-     actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG])]
   end
 
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/:recordType/:recordId/flags' do
     it 'list flags of a case' do
-      login_for_test(permissions: @permission_flag_record)
+      login_for_test(permissions: permission_flag_record)
       get "/api/v2/cases/#{@case1.id}/flags"
 
       expect(response).to have_http_status(200)
@@ -42,7 +36,7 @@ describe Api::V2::FlagsController, type: :request do
     end
 
     it 'list flags of a tracing request' do
-      login_for_test(permissions: @permission_flag_record)
+      login_for_test(permissions: permission_flag_record)
       get "/api/v2/tracing_requests/#{@tracing_request1.id}/flags"
 
       expect(response).to have_http_status(200)
@@ -54,7 +48,7 @@ describe Api::V2::FlagsController, type: :request do
     end
 
     it 'list flags of an incident' do
-      login_for_test(permissions: @permission_flag_record)
+      login_for_test(permissions: permission_flag_record)
       get "/api/v2/incidents/#{@incident1.id}/flags"
 
       expect(response).to have_http_status(200)
@@ -78,7 +72,7 @@ describe Api::V2::FlagsController, type: :request do
 
   describe 'POST /api/v2/:recordType/:recordId/flags' do
     it 'creates a new flag to a case' do
-      login_for_test(permissions: @permission_flag_record)
+      login_for_test(permissions: permission_flag_record)
       params = { data: { date: Date.today.to_s, message: 'This is another flag' } }
       post "/api/v2/cases/#{@case1.id}/flags", params: params
 
@@ -91,7 +85,7 @@ describe Api::V2::FlagsController, type: :request do
     end
 
     it 'creates a new flag to a tracing_request' do
-      login_for_test(permissions: @permission_flag_record)
+      login_for_test(permissions: permission_flag_record)
       params = { data: { date: Date.today.to_s, message: 'This is another flag TR' } }
       post "/api/v2/tracing_requests/#{@tracing_request1.id}/flags", params: params
 
@@ -104,7 +98,7 @@ describe Api::V2::FlagsController, type: :request do
     end
 
     it 'creates a new flag to an incident' do
-      login_for_test(permissions: @permission_flag_record)
+      login_for_test(permissions: permission_flag_record)
       params = { data: { date: Date.today.to_s, message: 'This is another flag IN' } }
       post "/api/v2/incidents/#{@incident1.id}/flags", params: params
 
@@ -130,7 +124,7 @@ describe Api::V2::FlagsController, type: :request do
 
   describe 'PATCH /api/v2/:recordType/:recordId/flags/:id' do
     it 'unflag a case' do
-      login_for_test(permissions: @permission_flag_record)
+      login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message' } }
       patch "/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params: params
 
@@ -144,7 +138,7 @@ describe Api::V2::FlagsController, type: :request do
     end
 
     it 'unflag a tracing_request' do
-      login_for_test(permissions: @permission_flag_record)
+      login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message TR' } }
       patch "/api/v2/tracing_requests/#{@tracing_request1.id}/flags/#{@tracing_request1.flags.first.id}", params: params
 
@@ -158,7 +152,7 @@ describe Api::V2::FlagsController, type: :request do
     end
 
     it 'unflag an incident' do
-      login_for_test(permissions: @permission_flag_record)
+      login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message IN' } }
       patch "/api/v2/incidents/#{@incident1.id}/flags/#{@incident1.flags.first.id}", params: params
 
@@ -185,7 +179,7 @@ describe Api::V2::FlagsController, type: :request do
 
   describe 'POST /api/v2/:recordType/flags' do
     it 'flagging cases in bulk' do
-      login_for_test(permissions: @permission_flag_record)
+      login_for_test(permissions: permission_flag_record)
       expect(@case1.flag_count).to eq(1)
       expect(@case2.flag_count).to eq(0)
 
@@ -200,7 +194,7 @@ describe Api::V2::FlagsController, type: :request do
     end
 
     it 'flagging tracing_request in bulk' do
-      login_for_test(permissions: @permission_flag_record)
+      login_for_test(permissions: permission_flag_record)
       expect(@tracing_request1.flag_count).to eq(1)
       expect(@tracing_request2.flag_count).to eq(0)
 
@@ -215,7 +209,7 @@ describe Api::V2::FlagsController, type: :request do
     end
 
     it 'flagging incindet in bulk' do
-      login_for_test(permissions: @permission_flag_record)
+      login_for_test(permissions: permission_flag_record)
       expect(@incident1.flag_count).to eq(1)
       expect(@incident2.flag_count).to eq(0)
 
@@ -241,7 +235,7 @@ describe Api::V2::FlagsController, type: :request do
     end
 
     it "get a 404 error if one of the ids on the requests isn't exists" do
-      login_for_test(permissions: @permission_flag_record)
+      login_for_test(permissions: permission_flag_record)
 
       params = { data: { ids: [@incident1.id, '12345'], record_type: 'incident', date: Date.today.to_s, message: 'This is another flag TR' } }
       post "/api/v2/incidents/flags", params: params
@@ -253,7 +247,7 @@ describe Api::V2::FlagsController, type: :request do
 
   describe 'verification the ids' do
     it 'verifying the id of the cases' do
-      login_for_test(permissions: @permission_flag_record)
+      login_for_test(permissions: permission_flag_record)
       get "/api/v2/cases/#{@case1.id}/flags"
 
       expect(request.path.split('/')[4]).to eq( @case1.id.to_s)
@@ -262,7 +256,7 @@ describe Api::V2::FlagsController, type: :request do
     end
 
     it 'verifying the id of the flags' do
-      login_for_test(permissions: @permission_flag_record)
+      login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message' } }
       patch "/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params: params
 
