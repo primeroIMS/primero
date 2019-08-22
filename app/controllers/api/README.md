@@ -54,3 +54,27 @@ The API behavior is similar to that of cases.
 * [Create a new form](v2/docs/forms/post.md) `POST /api/v2/forms`
 * [Update an existing form](v2/docs/forms/id/patch.md) `PATCH /api/v2/forms/:id`
 * [Delete an existing form with its associated fields](v2/docs/forms/id/delete.md) `DELETE /api/v2/forms/:id`
+
+
+## Contact Information Endpoint
+
+Endpoints for querying contact information
+
+* [Query for contact informationg](v2/docs/contact_information/get.md) : `GET /api/v2/contact_information`
+
+
+## System Setting Endpoints
+
+Endpoints for querying system settings
+
+* [Query for system setting](v2/docs/system_settings/get.md) : `GET /api/v2/system_settings`
+
+
+## Flagging Endpoint
+
+Endpoints for query and manipulating flags for cases, tracing request and incidents
+
+* [Query for flags of a record](v2/docs/flags/get.md) : `GET /api/v2/:recordType/:recordId/flags`
+* [Create a new flag of a record](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`
+* [Unflag a record](v2/docs/flags/id/patch.md) `POST /api/v2/:recordType/:recordId/flags/:id`
+* [Create a bulk of flags for multiple records](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`

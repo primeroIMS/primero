@@ -1,27 +1,27 @@
 import * as Page from "components/pages";
 import { RecordForm } from "components/record-form";
+import { AppLayout, LoginLayout } from "components/layouts";
 
 export default [
   {
-    layout: "LoginLayout",
+    layout: LoginLayout,
     routes: [
       {
         path: "/login",
         component: Page.Login
       },
       {
-        path: "/signout",
+        path: "/logout",
         component: Page.Login
       }
     ]
   },
   {
-    layout: "AppLayout",
+    layout: AppLayout,
     routes: [
       {
         path: "/dashboard",
-        component: Page.Dashboard,
-        exact: true
+        component: Page.Dashboard
       },
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:id/edit",
@@ -52,7 +52,6 @@ export default [
       },
       {
         path: "/reports",
-        exact: true,
         component: Page.Reports
       },
       {

@@ -144,7 +144,7 @@ FormSection.create_or_update_form_section({
   :form_group_id => "referrals_transfers",
   "editable" => false,
   :fields => referral_transfer_fields,
-  :is_first_tab => true,
+  :is_first_tab => false,
   "name_en" => "Referrals and Transfers",
   "description_en" => "List of Transfers and Referrals"
 })

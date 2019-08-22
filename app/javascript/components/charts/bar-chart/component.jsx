@@ -11,12 +11,17 @@ const BarChart = ({ data, description, showDetails }) => {
 
   useEffect(() => {
     const chatCtx = chartRef.current.getContext("2d");
+
     /* eslint-disable no-new */
-    new Chart(chatCtx, {
+    const chartInstance = new Chart(chatCtx, {
       type: "bar",
       data,
       options: {
         responsive: true,
+        animation: {
+          duration: 0
+        },
+        maintainAspectRatio: false,
         legend: {
           display: showDetails
         },
@@ -63,12 +68,16 @@ const BarChart = ({ data, description, showDetails }) => {
         }
       }
     });
+
+    return () => {
+      chartInstance.destroy();
+    };
   });
 
   return (
     <Box>
       {!showDetails ? <p className={css.description}>{description}</p> : null}
-      <canvas className="bartChart" ref={chartRef} />
+      <canvas ref={chartRef} height={!showDetails ? null : 400} />
     </Box>
   );
 };

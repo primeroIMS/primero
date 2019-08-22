@@ -5,7 +5,6 @@ import { Map } from "immutable";
 import { FormGroup, FormControlLabel } from "@material-ui/core";
 import CheckBox from "./component";
 
-
 describe("<CheckBox /> - Component", () => {
   const mockedData = {
     id: "my_cases",

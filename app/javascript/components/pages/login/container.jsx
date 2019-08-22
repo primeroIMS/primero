@@ -2,18 +2,23 @@ import React, { useEffect } from "react";
 import { Grid, Button, Link } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles";
-import { connect, useDispatch } from "react-redux";
-import { Redirect, withRouter } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
 import { enqueueSnackbar } from "components/notifier";
 import { PageHeading } from "components/page-container";
+import * as yup from "yup";
 import styles from "./styles.css";
-import { attemptLogin, attemptSignout } from "./action-creators";
+import { attemptLogin } from "./action-creators";
 import * as Selectors from "./selectors";
 
-const Login = ({ isAuthenticated, match, authErrors }) => {
+const validationSchema = yup.object().shape({
+  user_name: yup.string().required(),
+  password: yup.string().required()
+});
+
+const Login = () => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -23,18 +28,11 @@ const Login = ({ isAuthenticated, match, authErrors }) => {
     setSubmitting(false);
   };
 
+  const authErrors = useSelector(state => Selectors.selectAuthErrors(state));
+
   useEffect(() => {
     dispatch(enqueueSnackbar(authErrors, "error"));
-  }, [authErrors]);
-
-  if (match.path.includes("signout")) {
-    dispatch(attemptSignout());
-    return <Redirect to="/login" />;
-  }
-
-  if (isAuthenticated) {
-    return <Redirect to="/dashboard" />;
-  }
+  }, [authErrors, dispatch]);
 
   const initialValues = {
     user_name: "",
@@ -53,12 +51,14 @@ const Login = ({ isAuthenticated, match, authErrors }) => {
   };
 
   const formProps = {
+    validationSchema,
     initialValues,
-    onSubmit
+    onSubmit,
+    validateOnBlur: false,
+    validateOnChange: false
   };
 
   // TODO: Need to pass agency and logo path from api
-  // TODO: Add yup validations
   return (
     <>
       <PageHeading title={i18n.t("login.label")} />
@@ -91,14 +91,8 @@ const Login = ({ isAuthenticated, match, authErrors }) => {
 };
 
 Login.propTypes = {
-  isAuthenticated: PropTypes.bool,
   match: PropTypes.object,
   authErrors: PropTypes.string
 };
 
-const mapStateToProps = state => ({
-  isAuthenticated: Selectors.selectAuthenticated(state),
-  authErrors: Selectors.selectAuthErrors(state)
-});
-
-export default withRouter(connect(mapStateToProps)(Login));
+export default Login;

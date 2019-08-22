@@ -15,7 +15,7 @@ const FlagList = ({ flags }) => {
       {(flags.get("flags") || []).map(flag => {
         return <FlagBox flag={flag} key={flag.get("id")} />;
       })}
-      <NavLink to="/cases" className={css.SeeAll}>
+      <NavLink to="/cases" className={css.seeAll}>
         {`${i18n.t("dashboard.link_see_all")} (${flags.get("totalCount")})`}
       </NavLink>
     </div>

@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
   end
 
   create_table "agencies", id: :serial, force: :cascade do |t|
+    t.string "unique_id"
     t.string "agency_code", null: false
     t.integer "order", default: 0
     t.jsonb "name_i18n"
@@ -49,6 +50,7 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
     t.boolean "disabled", default: false, null: false
     t.index ["agency_code"], name: "index_agencies_on_agency_code", unique: true
     t.index ["services"], name: "index_agencies_on_services", using: :gin
+    t.index ["unique_id"], name: "index_agencies_on_unique_id", unique: true
   end
 
   create_table "attachment_audios", force: :cascade do |t|
@@ -362,9 +364,9 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
     t.jsonb "welcome_email_text_i18n"
     t.string "primary_age_range"
     t.string "location_limit_for_api"
-    t.string "approval_forms_to_alert"
+    t.jsonb "approval_forms_to_alert"
     t.string "changes_field_to_form"
-    t.string "export_config_id"
+    t.jsonb "export_config_id"
     t.string "duplicate_export_field"
     t.string "primero_version"
     t.jsonb "system_options"
@@ -400,6 +402,7 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
     t.integer "agency_id"
     t.string "position"
     t.string "location"
+    t.string "reporting_location_code"
     t.integer "role_id"
     t.string "time_zone", default: "UTC"
     t.string "locale"

@@ -30,12 +30,7 @@ export const attemptLogin = data => async dispatch => {
       path: "tokens",
       method: "POST",
       body: { user: data },
-      successCallback: (resp, respData) => {
-        if (respData && respData.token) {
-          localStorage.setItem("jwt", respData.token);
-          dispatch(loadResources());
-        }
-      }
+      successCallback: Actions.LOGIN_SUCCESS_CALLBACK
     }
   });
 };
@@ -46,17 +41,16 @@ export const attemptSignout = () => async dispatch => {
     api: {
       path: "tokens",
       method: "DELETE",
-      successCallback: () => {
-        localStorage.removeItem("jwt");
-      }
+      successCallback: Actions.LOGOUT_SUCCESS_CALLBACK
     }
   });
 };
 
 export const checkAuthentication = () => async dispatch => {
   const token = localStorage.getItem("jwt");
+  const username = localStorage.getItem("username");
 
-  dispatch(setAuth(!!token));
+  dispatch(setAuth({ auth: !!token, username }));
 
   if (token) {
     dispatch(loadResources());

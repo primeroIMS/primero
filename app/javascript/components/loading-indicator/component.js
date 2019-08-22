@@ -12,10 +12,17 @@ class LoadingIndicator extends React.Component {
     this.state = {
       error: false
     };
+
+    this.handleTryAgain = this.handleTryAgain.bind(this);
+    this.window = window;
   }
 
   componentDidCatch() {
     this.setState({ error: true });
+  }
+
+  handleTryAgain() {
+    this.window.location.reload();
   }
 
   render() {
@@ -49,6 +56,7 @@ class LoadingIndicator extends React.Component {
                 variant="outlined"
                 size="small"
                 classes={{ root: classes.errorButton }}
+                onClick={this.handleTryAgain}
               >
                 {i18n.t("errors.try_again")}
               </Button>

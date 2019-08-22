@@ -11,7 +11,8 @@ import {
   setupRangeButton,
   setUpChips,
   setupRadioButtons,
-  setupDatesRange
+  setupDatesRange,
+  setSwitchButton
 } from "components/filters-builder/filter-controls";
 import { useI18n } from "components/i18n";
 import filterTypes from "./mocked-filters";
@@ -28,7 +29,8 @@ const Filters = ({
   setRangeButton,
   setRadioButtons,
   setChips,
-  setDatesRange
+  setDatesRange,
+  setSwitch
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -45,7 +47,7 @@ const Filters = ({
           payloadFilter[filter.id] = [];
           return setSelect(payloadFilter, recordType);
         case "multi_toggle":
-          payloadFilter[filter.id] = "";
+          payloadFilter[filter.id] = [];
           return setRangeButton(payloadFilter, recordType);
         case "radio":
           payloadFilter[filter.id] = "";
@@ -55,11 +57,14 @@ const Filters = ({
           return setChips(payloadFilter, recordType);
         case "dates":
           payloadFilter[filter.id] = Map({
-            from: new Date(),
-            to: new Date(),
+            from: null,
+            to: null,
             value: ""
           });
           return setDatesRange(payloadFilter, recordType);
+        case "switch":
+          payloadFilter[filter.id] = [];
+          return setSwitch(payloadFilter, recordType);
         default:
           return null;
       }
@@ -118,7 +123,8 @@ Filters.propTypes = {
   setRangeButton: PropTypes.func,
   setRadioButtons: PropTypes.func,
   setChips: PropTypes.func,
-  setDatesRange: PropTypes.func
+  setDatesRange: PropTypes.func,
+  setSwitch: PropTypes.func
 };
 
 const mapStateToProps = (state, props) => ({
@@ -132,7 +138,8 @@ const mapDispatchToProps = {
   setRangeButton: setupRangeButton,
   setRadioButtons: setupRadioButtons,
   setChips: setUpChips,
-  setDatesRange: setupDatesRange
+  setDatesRange: setupDatesRange,
+  setSwitch: setSwitchButton
 };
 
 export default connect(

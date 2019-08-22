@@ -48,7 +48,6 @@
 }
 
 .actionButtonCancel {
-  color: $(theme.primero.colors.black);
   background: $(theme.primero.colors.grey);
   margin: 0 1em;
 }

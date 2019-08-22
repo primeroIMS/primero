@@ -32,7 +32,6 @@ gem 'rubyzip',           '~> 1.2', require: 'zip'
 gem 'writeexcel',        '~> 1.0'
 gem 'spreadsheet',       '~> 1.1'
 
-gem 'will_paginate',     '~> 3.1'
 gem 'mini_magick',       '~> 4.9.4'
 gem 'i18n-js',           '~> 3.2'
 
@@ -44,6 +43,23 @@ gem 'tzinfo',            '~> 1.2'
 gem 'tzinfo-data',       '~> 1.2019'
 
 gem 'activerecord-nulldb-adapter'
+
+# TODO: Remove/reevaluate the following once UIUX rebuilt
+gem 'will_paginate',     '~> 3.1'
+#gem 'jquery-rails',      '4.3.1'
+#gem 'ejs',               '~> 1.1'
+#gem 'foundation-rails',  '6.3.0.0' # NOTE: Don't update
+#gem 'compass-rails',     '~> 3.1'
+#gem 'chosen-rails',      '1.5.2'
+#gem 'jquery-turbolinks', '~> 2.1'
+#gem 'turbolinks',        '~> 5'
+#gem 'momentjs-rails',    '~> 2.20'
+#gem 'yui-compressor',    '~> 0.12'
+#gem 'closure-compiler',  '~> 1.1'
+
+# Security assertions:
+gem "nokogiri", ">= 1.10.4"
+# ---
 
 group :development, :test do
   gem 'i18n-tasks',                 '~> 0.9'
@@ -60,7 +76,7 @@ group :development, :test do
   gem 'rspec',                      '~> 3.8'
   gem 'rspec-rails',                '~> 3.8'
   gem 'rspec-instafail',            '~> 1.0'
-  gem 'hpricot',                    '~> 0.8'
+  #gem 'hpricot',                    '~> 0.8'
   gem 'json_spec',                  '~> 1.1'
   gem 'rubocop',                    '~> 0.67'
   gem 'rubocop-performance',        '~> 1.1'

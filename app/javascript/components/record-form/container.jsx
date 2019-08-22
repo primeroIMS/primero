@@ -4,11 +4,10 @@ import { useMediaQuery } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
-import { enqueueSnackbar } from "components/notifier";
 import { useI18n } from "components/i18n";
 import { PageContainer } from "components/page-container";
 import { LoadingIndicator } from "components/loading-indicator";
-import { themeHelper } from "libs";
+import { useThemeHelper } from "libs";
 import clsx from "clsx";
 import { Nav } from "./nav";
 import NAMESPACE from "./namespace";
@@ -28,7 +27,7 @@ import { compactValues } from "./helpers";
 
 const RecordForms = ({ match, mode }) => {
   let submitForm = null;
-  const { theme } = themeHelper(styles);
+  const { theme } = useThemeHelper(styles);
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
 
   const containerMode = {
@@ -40,13 +39,11 @@ const RecordForms = ({ match, mode }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const i18n = useI18n();
+  // eslint-disable-next-line no-param-reassign
   const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
 
-  const record =
-    containerMode.isEdit || containerMode.isShow
-      ? useSelector(state => getRecord(state))
-      : null;
+  const record = useSelector(state => getRecord(state, containerMode));
 
   const selectedModule = {
     recordType,
@@ -58,7 +55,6 @@ const RecordForms = ({ match, mode }) => {
   const firstTab = useSelector(state => getFirstTab(state, selectedModule));
   const loading = useSelector(state => getLoadingState(state));
   const errors = useSelector(state => getErrors(state));
-
   const selectedForm = useSelector(state =>
     state.getIn([NAMESPACE, "selectedForm"])
   );
@@ -76,7 +72,7 @@ const RecordForms = ({ match, mode }) => {
   };
 
   const formProps = {
-    onSubmit: (initialValues, values, setSubmitting) => {
+    onSubmit: (initialValues, values) => {
       dispatch(
         saveRecord(
           params.recordType,
@@ -88,24 +84,15 @@ const RecordForms = ({ match, mode }) => {
             }
           },
           params.id,
-          () => {
-            dispatch(
-              enqueueSnackbar(
-                containerMode.isEdit
-                  ? i18n.t(`${recordType}.messages.update_success`, {
-                      record_id: record.get("short_id")
-                    })
-                  : i18n.t(
-                      `${recordType}.messages.creation_success`,
-                      recordType
-                    ),
-                "success"
-              )
-            );
-          }
+          containerMode.isEdit
+            ? i18n.t(`${recordType}.messages.update_success`, {
+                record_id: record.get("short_id")
+              })
+            : i18n.t(`${recordType}.messages.creation_success`, recordType)
         )
       );
-      setSubmitting(false);
+      // TODO: Set this if there are any errors on validations
+      // setSubmitting(false);
     },
     bindSubmitForm: boundSubmitForm => {
       submitForm = boundSubmitForm;
@@ -138,7 +125,13 @@ const RecordForms = ({ match, mode }) => {
     if (params.id && (containerMode.isShow || containerMode.isEdit)) {
       dispatch(fetchRecord(params.recordType, params.id));
     }
-  }, []);
+  }, [
+    containerMode.isEdit,
+    containerMode.isShow,
+    dispatch,
+    params.id,
+    params.recordType
+  ]);
 
   return (
     <PageContainer twoCol>

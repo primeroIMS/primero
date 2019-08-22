@@ -16,7 +16,6 @@ import routes from "config/routes";
 import NAMESPACE from "components/i18n/namespace";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import { LoginLayoutRoute, AppLayoutRoute } from "components/layouts";
 import { checkAuthentication } from "components/pages/login";
 import { SnackbarProvider } from "notistack";
 import configureStore, { history } from "./store";
@@ -59,24 +58,34 @@ const App = () => {
                       <Redirect to="/login" />
                     </Route>
                     {routes.map((route, index) => {
-                      switch (route.layout) {
-                        case "LoginLayout":
-                          return route.routes.map((loginLayout, subIndex) => (
-                            <LoginLayoutRoute
-                              {...loginLayout}
-                              key={`login-${subIndex}`}
-                            />
-                          ));
-                        case "AppLayout":
-                          return route.routes.map((appLayout, subIndex) => (
-                            <AppLayoutRoute
-                              {...appLayout}
-                              key={`app-${subIndex}`}
-                            />
-                          ));
-                        default:
-                          return <Route {...route} key={`route-${index}`} />;
+                      if (route.layout) {
+                        return (
+                          <Route
+                            key={index}
+                            exact={
+                              route.routes
+                                ? route.routes.some(r => r.exact)
+                                : route.exact
+                            }
+                            path={route.routes.map(r => r.path)}
+                          >
+                            <route.layout>
+                              {route.routes.map(subRoute => (
+                                <Route
+                                  key={subRoute.path}
+                                  exact
+                                  path={subRoute.path}
+                                  component={() => (
+                                    <subRoute.component mode={subRoute.mode} />
+                                  )}
+                                />
+                              ))}
+                            </route.layout>
+                          </Route>
+                        );
                       }
+
+                      return <Route key={index} {...route} />;
                     })}
                   </Switch>
                 </ConnectedRouter>

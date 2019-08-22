@@ -106,3 +106,22 @@ export const fetchCasesByAgency = () => async dispatch => {
     }
   });
 };
+
+export const fetchReport = id => dispatch => {
+  switch (id) {
+    case "casesByAgency":
+      dispatch(fetchCasesByAgency());
+      break;
+    case "casesByProtectionConcern":
+      dispatch(fetchCasesByProtectionConcern());
+      break;
+    case "casesByAgeAndSex":
+      dispatch(fetchCasesByAgeAndSex());
+      break;
+    case "casesByNationality":
+      dispatch(fetchCasesByNationality());
+      break;
+    default:
+      break;
+  }
+};

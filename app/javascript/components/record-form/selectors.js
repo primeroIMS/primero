@@ -39,7 +39,6 @@ export const getFormNav = (state, query) => {
   const selectedForms = forms(state, query);
 
   if (!selectedForms) return null;
-
   return selectedForms
     .map(fs =>
       NavRecord({
@@ -67,16 +66,26 @@ export const getRecordForms = (state, query) => {
   return denormalizeData(fromJS(selectedFormKeys), state.getIn(["forms"]));
 };
 
-export const getOption = (state, option) => {
-  const selectedOptions = state
-    .getIn([NAMESPACE, "options"], fromJS([]))
-    .filter(o => o.type === option)
-    .first();
+export const getOption = (state, option, locale) => {
+  if (typeof option === "string") {
+    const selectedOptions = state
+      .getIn([NAMESPACE, "options"], fromJS([]))
+      .filter(o => o.type === option.replace(/lookup /, ""))
+      .first();
 
-  return selectedOptions ? selectedOptions.options : [];
+    return selectedOptions ? selectedOptions.options : [];
+  }
+
+  return option[locale];
 };
 
-export const getRecord = state => state.getIn([NAMESPACE, "selectedRecord"]);
+export const getRecord = (state, mode) => {
+  if (mode.isEdit || mode.isShow) {
+    return state.getIn([NAMESPACE, "selectedRecord"]);
+  }
+
+  return null;
+};
 
 export const getLoadingState = state =>
   state.getIn([NAMESPACE, "loading"], false);
