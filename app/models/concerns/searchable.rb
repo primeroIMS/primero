@@ -93,15 +93,22 @@ module Searchable
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?
     # TODO: Also need integration/unit test for filters.
-    def list_records(filters={}, sort={:created_at => :desc}, pagination_parms={}, associated_user_names=[], query=nil, match=nil)
+    def list_records(filters={}, sort={:created_at => :desc}, pagination_parms={}, associated_user_names=[], query=nil, match=nil, owned_by_groups=[])
       self.search do
         if filters.present?
           build_filters(self, filters)
         end
-        if filter_associated_users?(match, associated_user_names)
+        if filter_associated_users?(match, associated_user_names) || filter_owned_by_groups?(match, owned_by_groups)
           any_of do
-            associated_user_names.each do |user_name|
-              with(:associated_user_names, user_name)
+            if filter_owned_by_groups?(match, owned_by_groups)
+              owned_by_groups.each do |group|
+                with(:owned_by_groups, group)
+              end
+            end
+            if filter_associated_users?(match, associated_user_names)
+              associated_user_names.each do |user_name|
+                with(:associated_user_names, user_name)
+              end
             end
           end
         end
@@ -251,6 +258,10 @@ module Searchable
 
     def filter_associated_users?(match=nil, associated_user_names=nil)
       match.blank? && associated_user_names.present? && associated_user_names.first != ALL_FILTER
+    end
+
+    def filter_owned_by_groups?(match=nil, owned_by_groups=nil)
+      match.blank? && owned_by_groups.present? && owned_by_groups.first != ALL_FILTER
     end
 
     def search_multi_fields?
