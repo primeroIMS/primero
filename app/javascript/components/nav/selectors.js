@@ -5,4 +5,15 @@ export const selectDrawerOpen = state =>
 
 export const selectUsername = state => state.getIn(["user", "username"], "");
 
-export const selectUserAgency = state => state.getIn(["user", "agency"], "");
+export const selectUserAgency = state => {
+  let agency = {};
+  const userAgency = state.getIn(["user", "agency"], "");
+  const agencies = state.getIn(["application", "agencies"], "");
+  if (agencies) {
+    agency = agencies.find(data => data.unique_id === userAgency, "");
+    if (!agency) {
+      return agencies[0];
+    }
+  }
+  return agency;
+};
