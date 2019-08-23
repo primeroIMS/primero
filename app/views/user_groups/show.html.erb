@@ -1,7 +1,0 @@
-<% content_for :resource_show_fields do %>
-  <%= resource_show_field @user_group, 'name', 'user_group.name' %>
-  <%= resource_show_field @user_group, 'description', 'user_group.description' %>
-<% end %>
-
-<%= render partial: 'shared_configuration_resource/show', locals: {object: @user_group} %>
-

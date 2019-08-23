@@ -1,7 +1,0 @@
-<%= hidden_field_tag "tracing_request[posted_from]", "Browser" if @tracing_request.new_record? %>
-<% # Record Owner form %>
-<%= hidden_field_tag('tracing_request[record_state]', @tracing_request.record_state) %>
-<%= hidden_field_tag('tracing_request[owned_by]', @tracing_request.owned_by) %>
-<%= hidden_field_tag('tracing_request[created_by]', @tracing_request.created_by) %>
-<%= hidden_field_tag('tracing_request[previously_owned_by]', @tracing_request.previously_owned_by) %>
-<%= hidden_field_tag('tracing_request[module_id]', @tracing_request.module_id) %>

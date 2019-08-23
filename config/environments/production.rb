@@ -28,9 +28,7 @@ Rails.application.configure do
 
   config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
 
-  config.assets.paths << Rails.root.join("vendor", "assets")
-
-  config.assets.precompile += %w( jplayer.blue.monday.css **.jpg **.png )
+  config.assets.paths << Rails.root.join("assets")
 
   config.eager_load = true
 

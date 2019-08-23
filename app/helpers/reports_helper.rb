@@ -1,3 +1,4 @@
+#TODO: Del;ete after reports API has been created
 module ReportsHelper
 
   # Creates a histogram out of an array, preserving the order and creating
