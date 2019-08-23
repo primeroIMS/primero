@@ -32,6 +32,7 @@ const Nav = () => {
 
   // TODO: Username should come from redux once user built.
   const username = useSelector(state => Selectors.selectUsername(state));
+  const agency = useSelector(state => Selectors.selectUserAgency(state));
   const drawerOpen = useSelector(state => Selectors.selectDrawerOpen(state));
 
   const nav = [
@@ -117,7 +118,12 @@ const Nav = () => {
           ))}
         </List>
         {/* TODO: Need to pass agency and logo path from api */}
-        <AgencyLogo />
+        <AgencyLogo
+          agency={agency && agency.unique_id}
+          logo={`${window.location.protocol}//${
+            window.location.host
+          }${(agency.logo && agency.logo.small) || ""}`}
+        />
         {!mobileDisplay && <TranslationsToggle />}
       </Drawer>
     </>

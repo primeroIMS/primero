@@ -23,6 +23,7 @@ describe Api::V2::TokensController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(authorization_token).to be_present
+      expect(json['id']).to be_present
       expect(json['user_name']).to be_present
       expect(json['token']).to be_present
       expect(json['token']).to eq(authorization_token)

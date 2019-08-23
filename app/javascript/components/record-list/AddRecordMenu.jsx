@@ -1,27 +1,16 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import { startCase, camelCase } from "lodash";
+import { useI18n } from "components/i18n";
 import { Menu, MenuItem, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
+import * as selectors from "components/application/selectors";
 
 const AddRecordMenu = ({ recordType }) => {
-  // TODO: Will have to get list from endpoint
-  const recordLabel = startCase(camelCase(recordType));
-  const primeroModules = [
-    {
-      id: "primeromodule-cp",
-      display_text: `Create CP ${recordLabel}`
-    },
-    {
-      id: "primeromodule-gbv",
-      display_text: `Create GBV ${recordLabel}`
-    },
-    {
-      id: "primeromodule-mrm",
-      display_text: `Create MRM ${recordLabel}`
-    }
-  ];
+  const i18n = useI18n();
+  const primeroModules = useSelector(state => selectors.selectModules(state));
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -45,11 +34,11 @@ const AddRecordMenu = ({ recordType }) => {
       >
         {primeroModules.map(m => (
           <MenuItem
-            key={m.id}
+            key={m.unique_id}
             component={Link}
-            to={`/${recordType}/${m.id}/new`}
+            to={`/${recordType}/${m.unique_id}/new`}
           >
-            {m.display_text}
+            {i18n.t("user.create")} {m.name} {startCase(camelCase(recordType))}
           </MenuItem>
         ))}
       </Menu>

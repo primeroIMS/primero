@@ -9,7 +9,7 @@ module Api::V2
     # for the Devise session create method.
     def respond_with(user, _opts={})
       token_to_cookie
-      render json: { user_name: user.user_name, token: current_token }
+      render json: { id: user.id, user_name: user.user_name, token: current_token }
     end
 
     # Overriding method called by Devise session destroy.

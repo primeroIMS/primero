@@ -22,6 +22,17 @@ describe Api::V2::IncidentsController, type: :request do
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
     end
+
+    it 'returns flag_count for the short form ' do
+      @incident1.add_flag('This is a flag IN', Date.today, 'faketest')
+
+      login_for_test(permissions: permission_flag_record)
+      get '/api/v2/incidents?fields=short'
+
+      expect(response).to have_http_status(200)
+      expect(json['data'][0]['flag_count']).to eq(1)
+
+    end
   end
 
   describe 'GET /api/v2/incidents/:id' do

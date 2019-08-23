@@ -15,6 +15,16 @@ module FakeDeviseLogin
                                                    :actions => [Permission::READ, Permission::WRITE, Permission::CREATE])
   end
 
+  def permission_flag_record
+    @permission_flag_record = [
+      Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]),
+      Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]),
+      Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG])
+    ]
+  end
+
+
+
   def common_permitted_field_names
     @common_permitted_field_names ||= %w(
       name age sex protection_concerns registration_date record_sate status family_details
