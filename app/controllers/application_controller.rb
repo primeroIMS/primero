@@ -1,13 +1,7 @@
 #TODO: This will eventually be am empty class
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception, prepend: true, unless: -> { request.format.json? }
-  before_action :authorize_profiler
-  before_action :authenticate_user!
   around_action :with_timezone
-
-  def authorize_profiler
-    Rack::MiniProfiler.authorize_request if ENV['PROFILE']
-  end
 
   def encrypt_data_to_zip(data, data_filename, password)
     #TODO: The encrypted zipfile is corrupt when data is "". Fix it.
