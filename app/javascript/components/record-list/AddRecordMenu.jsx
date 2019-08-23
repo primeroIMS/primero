@@ -34,9 +34,9 @@ const AddRecordMenu = ({ recordType }) => {
       >
         {primeroModules.map(m => (
           <MenuItem
-            key={m.id}
+            key={m.unique_id}
             component={Link}
-            to={`/${recordType}/${m.id}/new`}
+            to={`/${recordType}/${m.unique_id}/new`}
           >
             {i18n.t("user.create")} {m.name} {startCase(camelCase(recordType))}
           </MenuItem>
