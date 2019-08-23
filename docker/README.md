@@ -123,6 +123,18 @@ you have the environment variables set to.
 
 config option - parameter - description
 
+PRIMERO_HOST - Required. Set this to the server domain hostname.
+If Let's Encrypt is used, this value should match LETS_ENCRYPT_DOMAIN.
+
+PRIMERO_SECRET_KEY_BASE - Required. A secure random number. 
+To generate, can use the command `rails secret`
+
+DEVISE_SECRET_KEY - Required. A secure random number. 
+To generate, can use the command `rails secret`
+
+DEVISE_JWT_SECRET_KEY - Required. A secure random number. 
+To generate, can use the command `rails secret`
+
 APP_ROOT - file path - this is where Primero gets copied to in the app
 container. Changing this parameter has not been tested.
 

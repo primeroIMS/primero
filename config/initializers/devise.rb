@@ -8,8 +8,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # TODO: Set this!!!!!!!
-  # config.secret_key = 'ec11a0f4502f06b80d820b03577225304c7fdb7de8a992e1eb5b2841d568367ef85e4a6bbf1b8881416ec7e65407e06b2e2af6e3b8f51ecd2d4927296167ed70'
+  config.secret_key = ENV['DEVISE_SECRET_KEY']
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -306,8 +305,7 @@ Devise.setup do |config|
 
   # ===> Configuration for :jwt_authenticatable (devise-jwt)
   config.jwt do |jwt|
-    #jwt.secret = ENV['DEVISE_JWT_SECRET_KEY'] #TODO set this!!!!!!!!!!!!!!!
-    jwt.secret = 'DEVISE_JWT_SECRET_KEY' #TODO set this!!!!!!!!!!!!!!!
+    jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
     jwt.dispatch_requests = [
       ['POST', %r{^/api/v2/tokens$}]
     ]

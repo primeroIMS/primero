@@ -58,7 +58,7 @@ When the Vagrant box is up and running, SSH in and go to the Primero development
 ### Install dependecies of MiniMagick used on Active Storage
     $ sudo apt-get install -y imagemagick
 
-#### Install nodejs and yarn
+### Install nodejs and yarn
     $ curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
     $ sudo apt-get install -y nodejs
 
@@ -66,12 +66,17 @@ When the Vagrant box is up and running, SSH in and go to the Primero development
     $ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
     $ sudo apt-get update && sudo apt-get install yarn
+    
+### Make sure you set up secrets
+    $ echo "export PRIMERO_SECRET_KEY_BASE=`rails secret | tail -1`" >> ~/.bashrc
+    $ echo "export DEVISE_SECRET_KEY=`rails secret | tail -1`" >> ~/.bashrc
+    $ echo "export DEVISE_JWT_SECRET_KEY=`rails secret | tail -1`" >> ~/.bashrc
 
-#### Prepare the database
+### Prepare the database
 
-    $ bundle exec rake db:create
-    $ bundle exec rake db:migrate
-    $ bundle exec rake db:seed
+    $ rails db:create
+    $ rails db:migrate
+    $ rails db:seed
     
 ### Pull JS dependencies
 
