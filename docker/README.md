@@ -123,6 +123,9 @@ you have the environment variables set to.
 
 config option - parameter - description
 
+PRIMERO_HOST - Set this to the server domain hostname. This always needs to be set.
+If Let's Encrypt is used, this value should match LETS_ENCRYPT_DOMAIN.
+
 APP_ROOT - file path - this is where Primero gets copied to in the app
 container. Changing this parameter has not been tested.
 
