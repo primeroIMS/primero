@@ -4,11 +4,11 @@ Rails.application.configure do
 
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
-  config.cache_classes = ENV['CACHE_CLASSES'] == 'no' ? false : true
+  config.cache_classes = false
 
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local = true
-  config.action_controller.perform_caching = ENV['CACHE_CLASSES'] == 'no' ? false : true
+  config.action_controller.perform_caching = false
 
   # See everything in the log (default is :info)
   config.log_level = :debug

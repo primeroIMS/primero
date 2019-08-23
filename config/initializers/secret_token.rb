@@ -1,2 +1,1 @@
-#TODO: We need to implement a proper way of handling this!!!
-Rails.application.config.secret_key_base = "secret_key_base"
+Rails.application.config.secret_key_base = ENV['PRIMERO_SECRET_KEY_BASE']
