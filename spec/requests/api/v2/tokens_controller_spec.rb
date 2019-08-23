@@ -16,6 +16,7 @@ describe Api::V2::TokensController, type: :request do
     let(:authorization_token) { response.headers['Authorization'].split(' ')[1] }
     let(:json) { JSON.parse(response.body) }
     let(:jwt_header) { decode_jwt(authorization_token) }
+    let(:token_cookie) { response.cookies['primero_token'] }
 
     it 'generates a new JWT token for valid credentials' do
       post '/api/v2/tokens', params: @params
@@ -26,6 +27,14 @@ describe Api::V2::TokensController, type: :request do
       expect(json['token']).to be_present
       expect(json['token']).to eq(authorization_token)
       expect(jwt_header['sub']).to be_present
+    end
+
+    it 'sets the JWT token as an HTTP-only, domain bound cookie' do
+      post '/api/v2/tokens', params: @params
+
+      expect(response).to have_http_status(200)
+      expect(token_cookie).to be_present
+      expect(token_cookie).to eq(json['token'])
     end
 
     it 'returns nothing for invalid credentials' do

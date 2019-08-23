@@ -8,8 +8,8 @@ module Api::V2
     # that Devise unfortunately still uses. We are overriding it to return a JSON object
     # for the Devise session create method.
     def respond_with(user, _opts={})
+      token_to_cookie
       render json: { user_name: user.user_name, token: current_token }
-
     end
 
     # Overriding method called by Devise session destroy.
@@ -21,8 +21,14 @@ module Api::V2
       request.env['warden-jwt_auth.token']
     end
 
-    def resource_name
-      :user
+    def token_to_cookie
+      cookies[:primero_token] = {
+        value: current_token,
+        domain: Rails.configuration.primero_host,
+        expires: 1.hour,
+        httponly: true,
+        secure: (Rails.env == 'production')
+      }
     end
 
   end
