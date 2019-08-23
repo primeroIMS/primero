@@ -14,3 +14,6 @@ export const selectLoading = (state, namespace) =>
 
 export const selectErrors = (state, namespace) =>
   state.getIn(["records", namespace, "errors"], false);
+
+export const selectListHeaders = (state, namespace) =>
+  state.getIn(["user", "listHeaders", namespace], List([]));

@@ -1,5 +1,6 @@
 import * as Page from "components/pages";
 import { RecordForm } from "components/record-form";
+import { RecordList } from "components/record-list";
 import { AppLayout, LoginLayout } from "components/layouts";
 
 export default [
@@ -39,17 +40,21 @@ export default [
         mode: "show"
       },
       {
-        path: "/cases",
-        component: Page.CaseList
+        path: "/:recordType(cases|incidents|tracing_request)",
+        component: RecordList
       },
-      {
-        path: "/incidents",
-        component: Page.IncidentList
-      },
-      {
-        path: "/tracing_requests",
-        component: Page.TracingRequestList
-      },
+      // {
+      //   path: "/cases",
+      //   component: Page.CaseList
+      // },
+      // {
+      //   path: "/incidents",
+      //   component: Page.IncidentList
+      // },
+      // {
+      //   path: "/tracing_requests",
+      //   component: Page.TracingRequestList
+      // },
       {
         path: "/reports",
         component: Page.Reports

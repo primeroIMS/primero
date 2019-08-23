@@ -9,12 +9,12 @@ import { Map } from "immutable";
 import * as actions from "./action-creators";
 import styles from "./styles.css";
 
-const RecordSearch = ({ namespace, path, data, getRecords }) => {
+const RecordSearch = ({ namespace, path, data, fetchRecords }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
   const searchRecords = () => {
-    getRecords({
+    fetchRecords({
       options: data.filters
         .merge(Map({ query: document.getElementById("search-input").value }))
         .toJS(),
@@ -55,7 +55,7 @@ RecordSearch.propTypes = {
   namespace: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
-  getRecords: PropTypes.func.isRequired
+  fetchRecords: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = {

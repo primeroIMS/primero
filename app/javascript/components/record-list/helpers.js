@@ -1,67 +1,45 @@
 import React from "react";
 import { Map } from "immutable";
 import { DateCell, ToggleIconCell } from "components/index-table";
-import sortBy from "lodash/sortBy";
 import { pickBy } from "lodash";
 
 // TODO: Revist this when user endpoint if finished. Index fields will come
 // this endpoint
-export const buildTableColumns = (records, recordType, i18n) => {
-  const record =
-    records && records.size > 0
-      ? records
-          .map(k => k.keySeq().toArray())
-          .toJS()
-          .flat()
-          .filter((v, i, a) => a.indexOf(v) === i)
-          .filter(i => i !== "id")
-      : false;
-
-  if (record) {
-    const mappedRecords = record.map(k => {
-      const idFields = ["short_id", "case_id_display"];
-
-      const isIdField = idFields.includes(k);
-
-      const column = {
-        label: i18n.t(isIdField ? `${recordType}.label` : `${recordType}.${k}`),
-        name: k,
-        id: isIdField,
-        options: {}
+export const buildTableColumns = (columns, i18n) => {
+  return columns
+    .map(c => {
+      const options = {
+        ...{
+          ...(["photos"].includes(c.name)
+            ? {
+                customBodyRender: value => (
+                  <ToggleIconCell value={value} icon="photo" />
+                )
+              }
+            : {})
+        },
+        ...{
+          ...([
+            "inquiry_date",
+            "registration_date",
+            "case_opening_date",
+            "created_at"
+          ].includes(c.name)
+            ? {
+                customBodyRender: value => <DateCell value={value} />
+              }
+            : {})
+        }
       };
 
-      if (
-        [
-          "inquiry_date",
-          "registration_date",
-          "case_opening_date",
-          "created_at"
-        ].includes(k)
-      ) {
-        column.options.customBodyRender = value => <DateCell value={value} />;
-      }
-
-      if (["flag_count"].includes(k)) {
-        column.options.label = "";
-        column.options.empty = true;
-        column.options.customBodyRender = value => (
-          <ToggleIconCell value={value} icon="flag" />
-        );
-      }
-
-      if (["photos"].includes(k)) {
-        column.options.customBodyRender = value => (
-          <ToggleIconCell value={value} icon="photo" />
-        );
-      }
-
-      return column;
-    });
-
-    return sortBy(mappedRecords, i => i.id).reverse();
-  }
-
-  return [];
+      return {
+        label: i18n.t(c.name),
+        name: c.name,
+        id: c.id_search,
+        ...options
+      };
+    })
+    .toJS();
 };
 
 export const cleanUpFilters = filters => {

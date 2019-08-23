@@ -5,6 +5,27 @@ import { ListIcon } from "components/list-icon";
 import { withI18n } from "components/i18n";
 import styles from "./styles.css";
 
+const Loading = ({ loadingIndicator, loading, classes }) =>
+  loadingIndicator || (
+    <Fade
+      in={loading}
+      style={{
+        transitionDelay: loading ? "800ms" : "0ms"
+      }}
+      unmountOnExit
+    >
+      <div className={classes}>
+        <CircularProgress size={80} />
+      </div>
+    </Fade>
+  );
+
+Loading.propTypes = {
+  classes: PropTypes.string.isRequired,
+  loadingIndicator: PropTypes.node,
+  loading: PropTypes.bool
+};
+
 class LoadingIndicator extends React.Component {
   constructor(props) {
     super(props);
@@ -40,8 +61,15 @@ class LoadingIndicator extends React.Component {
       emptyIndicator,
       type,
       errors,
-      i18n
+      i18n,
+      overlay
     } = this.props;
+
+    const loadingProps = {
+      classes: classes.loadingIndicator,
+      loading,
+      loadingIndicator
+    };
 
     if (error || errors) {
       return (
@@ -66,22 +94,8 @@ class LoadingIndicator extends React.Component {
       );
     }
 
-    if (loading) {
-      return (
-        loadingIndicator || (
-          <Fade
-            in={loading}
-            style={{
-              transitionDelay: loading ? "800ms" : "0ms"
-            }}
-            unmountOnExit
-          >
-            <div className={classes.loadingIndicator}>
-              <CircularProgress size={80} />
-            </div>
-          </Fade>
-        )
-      );
+    if (loading && !overlay) {
+      return <Loading {...loadingProps} />;
     }
 
     if (!loading && !hasData) {
@@ -99,7 +113,12 @@ class LoadingIndicator extends React.Component {
       );
     }
 
-    return children;
+    return (
+      <>
+        {overlay && <Loading {...loadingProps} />}
+        {children}
+      </>
+    );
   }
 }
 
@@ -115,7 +134,8 @@ LoadingIndicator.propTypes = {
   emptyMessage: PropTypes.string,
   children: PropTypes.node.isRequired,
   hasData: PropTypes.bool.isRequired,
-  type: PropTypes.string.isRequired
+  type: PropTypes.string.isRequired,
+  overlay: PropTypes.bool
 };
 
 export default withI18n(withStyles(styles)(LoadingIndicator));

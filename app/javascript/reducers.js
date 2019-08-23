@@ -16,6 +16,7 @@ import * as Filter from "./components/filters";
 import * as FiltersBuilder from "./components/filters-builder";
 import * as Support from "./components/pages/support";
 import * as Notifier from "./components/notifier";
+import * as User from "./components/user";
 
 const rootReducer = {
   records: combineReducers({
@@ -37,7 +38,8 @@ const rootReducer = {
   }),
   ...RecordForms.reducers,
   ...Login.reducers,
-  ...Notifier.reducers
+  ...Notifier.reducers,
+  ...User.reducers
 };
 
 export default rootReducer;

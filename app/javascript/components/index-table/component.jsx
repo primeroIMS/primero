@@ -1,23 +1,41 @@
+/* eslint-disable */
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect } from "react";
 import { dataToJS } from "libs";
+import { useSelector, useDispatch } from "react-redux";
+import { LoadingIndicator } from "components/loading-indicator";
+import { push } from "connected-react-router";
+import isEmpty from "lodash/isEmpty";
+import {
+  selectRecords,
+  selectLoading,
+  selectErrors,
+  selectFilters
+} from "./selectors";
 
 const IndexTable = ({
   columns,
-  data,
+  recordType,
   onTableChange,
   defaultFilters,
-  path,
-  namespace,
-  onRowClick,
   options: tableOptionsProps
 }) => {
-  const { meta, filters, records } = data;
-  const per = meta ? meta.get("per") : 20;
-  const total = meta ? meta.get("total") : 0;
-  const page = meta.get("page");
-  const sortOrder = filters ? filters.get("order") : undefined;
+  const dispatch = useDispatch();
+  const data = useSelector(state => selectRecords(state, recordType));
+  const loading = useSelector(state => selectLoading(state, recordType));
+  const errors = useSelector(state => selectErrors(state, recordType));
+  const filters = useSelector(state => selectFilters(state, recordType));
+
+  useEffect(() => {
+    dispatch(onTableChange({ recordType, options: defaultFilters.toJS() }));
+  }, []);
+
+  const records = data.get("data");
+  const per = data.getIn(["metadata", "per"], 20);
+  const total = data.getIn(["metadata", "total"], 0);
+  const page = data.getIn(["metadata", "page"], null);
+  const sortOrder = !isEmpty(filters) ? filters.order : undefined;
 
   const handleTableChange = (action, tableState) => {
     const options = { per, ...defaultFilters.merge(filters).toJS() };
@@ -55,7 +73,7 @@ const IndexTable = ({
     );
 
     if (validActions.includes(action)) {
-      onTableChange({ namespace, path, options: selectedFilters });
+      dispatch(onTableChange({ recordType, options: selectedFilters }));
     }
   };
 
@@ -78,14 +96,15 @@ const IndexTable = ({
       customToolbarSelect: () => null,
       onTableChange: handleTableChange,
       rowsPerPageOptions: [20, 50, 75, 100],
-      page: page - 1
+      page: page - 1,
+      onRowClick: (rowData, rowMeta) => {
+        dispatch(
+          push(`${recordType}/${records.getIn([rowMeta.dataIndex, "id"])}`)
+        );
+      }
     },
     tableOptionsProps
   );
-
-  if (onRowClick) {
-    options.onRowClick = onRowClick;
-  }
 
   const tableOptions = {
     columns,
@@ -93,7 +112,19 @@ const IndexTable = ({
     data: dataToJS(records)
   };
 
-  const DataTable = () => <MUIDataTable {...tableOptions} />;
+  const loadingIndicatorProps = {
+    overlay: true,
+    hasData: !!records,
+    type: recordType,
+    loading,
+    errors
+  };
+
+  const DataTable = () => (
+    <LoadingIndicator {...loadingIndicatorProps}>
+      <MUIDataTable {...tableOptions} />
+    </LoadingIndicator>
+  );
 
   return <DataTable />;
 };
@@ -101,12 +132,9 @@ const IndexTable = ({
 IndexTable.propTypes = {
   onTableChange: PropTypes.func.isRequired,
   columns: PropTypes.array.isRequired,
-  data: PropTypes.object.isRequired,
   defaultFilters: PropTypes.object,
-  path: PropTypes.string.isRequired,
-  namespace: PropTypes.string.isRequired,
-  options: PropTypes.object,
-  onRowClick: PropTypes.func
+  recordType: PropTypes.string.isRequired,
+  options: PropTypes.object
 };
 
 export default IndexTable;

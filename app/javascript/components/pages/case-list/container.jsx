@@ -1,3 +1,4 @@
+/*  eslint-disable */
 import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
@@ -8,8 +9,7 @@ import {
   selectRecords,
   selectMeta,
   selectFilters,
-  selectLoading,
-  buildTableColumns
+  selectLoading
 } from "components/record-list";
 import { Map } from "immutable";
 import NAMESPACE from "./namespace";
@@ -29,11 +29,11 @@ const CaseList = ({ records, meta, filters, loading, getRecords }) => {
     meta
   };
 
-  const columns = buildTableColumns(records, "case", i18n, "cases");
+  // const columns = buildTableColumns(records, "case", i18n, "cases");
 
   const recordListProps = {
     title: i18n.t("cases.label"),
-    columns,
+    // columns,
     data,
     loading,
     path,
