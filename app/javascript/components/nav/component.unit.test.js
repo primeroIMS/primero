@@ -6,7 +6,6 @@ import { Map } from "immutable";
 import { TranslationsToggle } from "components/translations-toggle";
 import { AgencyLogo } from "components/agency-logo";
 import { ModuleLogo } from "components/module-logo";
-import { AccountMenu } from "components/account-menu";
 import Nav from "./component";
 
 describe("<Nav />", () => {
@@ -22,10 +21,6 @@ describe("<Nav />", () => {
 
   it("renders a module logo", () => {
     expect(component.find(ModuleLogo)).to.have.length(1);
-  });
-
-  it("renders account menu", () => {
-    expect(component.find(AccountMenu)).to.have.length(1);
   });
 
   it("renders an agency logo", () => {

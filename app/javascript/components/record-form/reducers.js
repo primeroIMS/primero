@@ -4,7 +4,11 @@ import NAMESPACE from "./namespace";
 import * as Actions from "./actions";
 import * as R from "./records";
 
-const DEFAULT_STATE = Map({ selectedForm: null, formSections: {}, fields: {} });
+const DEFAULT_STATE = Map({
+  selectedForm: null,
+  formSections: {},
+  fields: {}
+});
 
 export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {

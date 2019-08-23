@@ -10,7 +10,7 @@ describe("<RecordList /> - Reducers", () => {
   const reducer = r.recordListReducer('TestRecordType').TestRecordType
 
   it("should handle RECORDS_STARTED", () => {
-    const expected = Map({ loading: true });
+    const expected = Map({ loading: true, errors: false });
     const action = {
       type: "TestRecordType/RECORDS_STARTED",
       payload: true
@@ -20,10 +20,10 @@ describe("<RecordList /> - Reducers", () => {
     expect(newState).to.deep.equal(expected);
   });
 
-  it("should handle RECORDS_FAILED", () => {
+  it("should handle RECORDS_FAILURE", () => {
     const expected = Map({ errors: List(["some error"]) });
     const action = {
-      type: "TestRecordType/RECORDS_FAILED",
+      type: "TestRecordType/RECORDS_FAILURE",
       payload: ["some error"]
     };
     const newState = reducer(Map({}), action);

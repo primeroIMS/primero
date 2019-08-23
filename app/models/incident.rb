@@ -29,7 +29,7 @@ class Incident < ApplicationRecord
   end
 
   def self.summary_field_names
-    %w(short_id date_of_interview date_of_incident violence_type incident_location violations social_worker)
+    %w(short_id date_of_interview date_of_incident violence_type incident_location violations social_worker flag_count)
   end
 
   searchable auto_index: self.auto_index? do

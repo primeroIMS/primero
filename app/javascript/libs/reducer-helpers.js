@@ -22,3 +22,7 @@ export const mapListToObject = (entries, key, val) => {
     return p;
   }, {});
 };
+
+export const listEntriesToRecord = (entries, record) => {
+  return List(entries.map(entry => record(entry)));
+};
