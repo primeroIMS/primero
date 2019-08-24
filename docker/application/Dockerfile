@@ -13,6 +13,12 @@ ENV APP_ROOT=${APP_ROOT}
 ARG RAILS_LOG_PATH
 ENV RAILS_LOG_PATH=${RAILS_LOG_PATH}
 
+# Temporary build-time secrets needed to run rails processes.
+# These are never persisted in the container images
+ENV PRIMERO_SECRET_KEY_BASE=PRIMERO_SECRET_KEY_BASE
+ENV DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
+ENV DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY
+
 # Test if variables have been defined by build script
 # otherwise return 1 and stop docker build
 RUN set -ex ; \
