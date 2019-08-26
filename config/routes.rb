@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
   root to: 'home#v2'
 
-  match "/404", :to => "errors#not_found", :via => :all
-  match "/500", :to => "errors#internal_server_error", :via => :all
-
   scope :v2 do
     get '/', to: 'home#v2'
     get '*all', to: 'home#v2'
