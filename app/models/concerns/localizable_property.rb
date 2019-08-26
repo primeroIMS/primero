@@ -35,6 +35,12 @@ module LocalizableProperty
   end
 
 
+  #TODO this breaks in 2 scenarios...
+  # 1) fields such as unique_id get confused with the Indonesia locale 'id'
+  # 2) some locales such as ar-LB are more than 2 chars long.  Bad to assume last 2 characters are the locale
+  # Another thing that is bad with this is it loops through all properties, even non-localized properties
+  # It is suspected this is only used by the 'published' api action which is not used by the mobile app
+  # TODO LB-293 removing this method will be addressed in a later ticket.
   def formatted_hash
     properties_hash = {}
     self.properties.map(&:name).each do |property|

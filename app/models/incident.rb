@@ -123,7 +123,7 @@ class Incident < CouchRest::Model::Base
 
   end
 
-  def self.make_new_incident(module_id, child=nil, from_module_id=nil, incident_detail_id=nil)
+  def self.make_new_incident(module_id, child=nil, from_module_id=nil, incident_detail_id=nil, user=nil)
     Incident.new.tap do |incident|
       incident['module_id'] = module_id
 
@@ -147,6 +147,7 @@ class Incident < CouchRest::Model::Base
         #After its creation the date will not have a timezone
         incident.date_of_first_report = DateTime.current.to_date
         incident.status = STATUS_OPEN
+        incident.set_creation_fields_for user if user.present?
       end
     end
   end

@@ -133,7 +133,7 @@ class User < CouchRest::Model::Base
   end
 
 
-  before_save :make_user_name_lowercase, :encrypt_password, :update_user_case_locations
+  before_save :make_user_name_lowercase, :encrypt_password, :update_user_cases_groups_and_location
   after_save :save_devices
 
   before_update :if => :disabled? do |user|
@@ -507,6 +507,26 @@ class User < CouchRest::Model::Base
     self.modules.any? {|m| m.user_group_filter }
   end
 
+  def group_permission_filters
+    filters = {
+      user_group_ids: [],
+      user_names: []
+    }
+
+    if self.has_group_permission?(Permission::ALL)
+      filters[:user_group_ids] = [Searchable::ALL_FILTER]
+      filters[:user_names] = [Searchable::ALL_FILTER]
+    elsif self.has_group_permission?(Permission::GROUP)
+      filters[:user_group_ids] = self.user_group_ids
+      # In the absence of user groups, a user should at least see his own records.
+      filters[:user_names] = [self.user_name]
+    else
+      filters[:user_names] = [self.user_name]
+    end
+
+    filters
+  end
+
   private
 
   def save_devices
@@ -514,15 +534,24 @@ class User < CouchRest::Model::Base
     true
   end
 
-  def update_user_case_locations
+  def update_user_cases_groups_and_location
     # TODO: The following gets all the cases by user and updates the location/district.
     # Performance degrades on save if the user changes their location.
-    if self.changes['location'].present? && !self.changes['location'].eql?([nil,""])
+    if location_changed? || user_group_ids_changed?
       Child.by_owned_by.key(self.user_name).all.each do |child|
-        child.owned_by_location = self.location
+        child.owned_by_location = self.location if location_changed?
+        child.owned_by_groups = self.user_group_ids if user_group_ids_changed?
         child.save!
       end
     end
+  end
+
+  def location_changed?
+    self.changes['location'].present? && !self.changes['location'].eql?([nil,""])
+  end
+
+  def user_group_ids_changed?
+    self.changes['user_group_ids'].present? && !self.changes['user_group_ids'].eql?([nil,""])
   end
 
   def encrypt_password
