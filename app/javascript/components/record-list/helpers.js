@@ -1,11 +1,13 @@
 import React from "react";
 import { Map } from "immutable";
-import { DateCell, ToggleIconCell } from "components/index-table";
+import { ToggleIconCell } from "components/index-table";
 import { pickBy } from "lodash";
 
 // TODO: Revist this when user endpoint if finished. Index fields will come
 // this endpoint
-export const buildTableColumns = (columns, i18n) => {
+export const buildTableColumns = (columns, i18n, recordType) => {
+  const lastColumns = ["photo", "flags"];
+
   return columns
     .map(c => {
       const options = {
@@ -17,29 +19,21 @@ export const buildTableColumns = (columns, i18n) => {
                 )
               }
             : {})
-        },
-        ...{
-          ...([
-            "inquiry_date",
-            "registration_date",
-            "case_opening_date",
-            "created_at"
-          ].includes(c.name)
-            ? {
-                customBodyRender: value => <DateCell value={value} />
-              }
-            : {})
         }
       };
 
+      const noLabelColumns = ["photo"];
+
       return {
-        label: i18n.t(c.name),
-        name: c.name,
+        label: noLabelColumns.includes(c.name)
+          ? ""
+          : i18n.t(`${recordType}.${c.name}`),
+        name: c.field_name,
         id: c.id_search,
-        ...options
+        options
       };
     })
-    .toJS();
+    .sortBy(i => (lastColumns.includes(i.name) ? 1 : 0));
 };
 
 export const cleanUpFilters = filters => {

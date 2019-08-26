@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from "react";
 import PropTypes from "prop-types";
 import { CircularProgress, Fade, withStyles, Button } from "@material-ui/core";
@@ -62,7 +63,6 @@ class LoadingIndicator extends React.Component {
       type,
       errors,
       i18n,
-      overlay
     } = this.props;
 
     const loadingProps = {
@@ -94,7 +94,7 @@ class LoadingIndicator extends React.Component {
       );
     }
 
-    if (loading && !overlay) {
+    if (loading && !hasData) {
       return <Loading {...loadingProps} />;
     }
 
@@ -113,12 +113,7 @@ class LoadingIndicator extends React.Component {
       );
     }
 
-    return (
-      <>
-        {overlay && <Loading {...loadingProps} />}
-        {children}
-      </>
-    );
+    return children;
   }
 }
 

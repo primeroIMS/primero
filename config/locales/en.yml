@@ -261,6 +261,18 @@ en:
     apply_filter: "Apply"
     save_filter: "Save"
     my_filters: "My Filters"
+    id: "ID#"
+    name: "Name"
+    age: "Age"
+    sex: "Sex"
+    registration_date: "Registration Date"
+    status: "Status"
+    social_worker: "Social Worker"
+    survivor_code: "Survivor Code"
+    case_opening_date: "Case Open Date"
+    photos: "Photo"
+    owned_by: 'Record Owner'
+    owned_by_agency: 'Record Owner Agency'
 
     order_by:
       most_recently: "Most recently"
@@ -462,18 +474,6 @@ en:
     another_duplicate_after_link: " to see the duplicate record."
     # TODO: Possibly use another method to label the list view columns
     select: "Select"
-    id: "ID#"
-    name: "Name"
-    age: "Age"
-    sex: "Sex"
-    registration_date: "Registration Date"
-    status: "Status"
-    social_worker: "Social Worker"
-    survivor_code: "Survivor Code"
-    case_opening_date: "Case Open Date"
-    photos: "Photo"
-    owned_by: 'Record Owner'
-    owned_by_agency: 'Record Owner Agency'
 
     messages:
       update_success: "Case %{record_id} was successfully updated."
@@ -527,6 +527,15 @@ en:
     label: "Incidents"
     register_new_incident: "New Incident"
     show_incident: "Incident ID %{short_id}"
+    id: "ID#"
+    survivor_code: "Survivor Code"
+    case_worker_code: "Case Worker Code"
+    date_of_interview: "Date of Interview"
+    date_of_incident: "Date of Incident"
+    violence_type: "Violence Type"
+    incident_location: "Incident Location"
+    violations: "Violations"
+    social_worker: "Social Worker"
     selectable_date_options:
       date_of_first_report: "Interview Date"
       incident_date_derived: "Incident Date"
@@ -673,6 +682,10 @@ en:
     register_new_tracing_request: "New Tracing Request"
     show_tracing_request: "Tracing Request ID %{short_id}"
     export: "Exports"
+    id: "ID"
+    name_of_inquirer: "Name of Inquirer"
+    date_of_inquiry: "Date of Inquiry"
+    tracing_requests: "Tracing Requests"
     selectable_date_options:
       inquiry_date: "Date of Inquiry"
     filter_by:

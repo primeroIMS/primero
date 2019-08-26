@@ -40,21 +40,9 @@ export default [
         mode: "show"
       },
       {
-        path: "/:recordType(cases|incidents|tracing_request)",
+        path: "/:recordType(cases|incidents|tracing_requests)",
         component: RecordList
       },
-      // {
-      //   path: "/cases",
-      //   component: Page.CaseList
-      // },
-      // {
-      //   path: "/incidents",
-      //   component: Page.IncidentList
-      // },
-      // {
-      //   path: "/tracing_requests",
-      //   component: Page.TracingRequestList
-      // },
       {
         path: "/reports",
         component: Page.Reports

@@ -1,1 +1,1 @@
-export default "Tasks";
+export default "tasks";

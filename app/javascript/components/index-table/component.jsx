@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable react-hooks/exhaustive-deps */
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
@@ -6,7 +6,6 @@ import { dataToJS } from "libs";
 import { useSelector, useDispatch } from "react-redux";
 import { LoadingIndicator } from "components/loading-indicator";
 import { push } from "connected-react-router";
-import isEmpty from "lodash/isEmpty";
 import {
   selectRecords,
   selectLoading,
@@ -21,21 +20,39 @@ const IndexTable = ({
   defaultFilters,
   options: tableOptionsProps
 }) => {
+  let componentColumns = columns;
+
   const dispatch = useDispatch();
   const data = useSelector(state => selectRecords(state, recordType));
   const loading = useSelector(state => selectLoading(state, recordType));
   const errors = useSelector(state => selectErrors(state, recordType));
   const filters = useSelector(state => selectFilters(state, recordType));
 
-  useEffect(() => {
-    dispatch(onTableChange({ recordType, options: defaultFilters.toJS() }));
-  }, []);
-
+  const { order, order_by: orderBy } = filters || {};
   const records = data.get("data");
   const per = data.getIn(["metadata", "per"], 20);
   const total = data.getIn(["metadata", "total"], 0);
   const page = data.getIn(["metadata", "page"], null);
-  const sortOrder = !isEmpty(filters) ? filters.order : undefined;
+
+  useEffect(() => {
+    dispatch(
+      onTableChange({
+        recordType,
+        options: { per, ...defaultFilters.merge(filters).toJS() }
+      })
+    );
+  }, [columns]);
+
+  if (order && orderBy) {
+    const sortedColumn = componentColumns.findIndex(c => c.name === orderBy);
+
+    if (sortedColumn) {
+      componentColumns = componentColumns.setIn(
+        [sortedColumn, "options", "sortDirection"],
+        order
+      );
+    }
+  }
 
   const handleTableChange = (action, tableState) => {
     const options = { per, ...defaultFilters.merge(filters).toJS() };
@@ -53,7 +70,7 @@ const IndexTable = ({
               options.order = tableColumns[activeColumn].sortDirection;
             } else {
               options.order =
-                sortOrder === tableColumns[activeColumn].sortDirection
+                order === tableColumns[activeColumn].sortDirection
                   ? "asc"
                   : "desc";
             }
@@ -107,7 +124,7 @@ const IndexTable = ({
   );
 
   const tableOptions = {
-    columns,
+    columns: componentColumns,
     options,
     data: dataToJS(records)
   };
@@ -131,7 +148,7 @@ const IndexTable = ({
 
 IndexTable.propTypes = {
   onTableChange: PropTypes.func.isRequired,
-  columns: PropTypes.array.isRequired,
+  columns: PropTypes.object.isRequired,
   defaultFilters: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   options: PropTypes.object
