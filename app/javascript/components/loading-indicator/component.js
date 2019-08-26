@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from "react";
 import PropTypes from "prop-types";
 import { CircularProgress, Fade, withStyles, Button } from "@material-ui/core";
@@ -62,7 +61,7 @@ class LoadingIndicator extends React.Component {
       emptyIndicator,
       type,
       errors,
-      i18n,
+      i18n
     } = this.props;
 
     const loadingProps = {
