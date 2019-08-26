@@ -3,10 +3,13 @@ import { Map } from "immutable";
 import { DateCell, ToggleIconCell } from "components/index-table";
 import sortBy from "lodash/sortBy";
 import { pickBy } from "lodash";
+import { makeStyles } from "@material-ui/styles";
+import styles from "./styles.css";
 
 // TODO: Revist this when user endpoint if finished. Index fields will come
 // this endpoint
 export const buildTableColumns = (records, recordType, i18n) => {
+  const css = makeStyles(styles)();
   const record =
     records && records.size > 0
       ? records
@@ -18,6 +21,7 @@ export const buildTableColumns = (records, recordType, i18n) => {
       : false;
 
   if (record) {
+    const iconCell = [];
     const mappedRecords = record.map(k => {
       const idFields = ["short_id", "case_id_display"];
 
@@ -41,24 +45,33 @@ export const buildTableColumns = (records, recordType, i18n) => {
         column.options.customBodyRender = value => <DateCell value={value} />;
       }
 
-      if (["flag_count"].includes(k)) {
-        column.options.label = "";
-        column.options.empty = true;
-        column.options.customBodyRender = value => (
-          <ToggleIconCell value={value} icon="flag" />
-        );
-      }
-
       if (["photos"].includes(k)) {
         column.options.customBodyRender = value => (
           <ToggleIconCell value={value} icon="photo" />
         );
+        iconCell.push(column);
       }
 
-      return column;
+      if (["flag_count"].includes(k)) {
+        column.label = "";
+        column.name = "flag_count";
+        column.options.empty = true;
+        column.options.customHeadRender = columnMeta => (
+          <th key={columnMeta.name} className={css.overdueHeading} />
+        );
+        column.options.customBodyRender = value => (
+          <ToggleIconCell value={value} icon="flag" />
+        );
+        iconCell.push(column);
+      }
+
+      return !["photos", "flag_count"].includes(k) && column;
     });
 
-    return sortBy(mappedRecords, i => i.id).reverse();
+    const sortedRecords = sortBy(mappedRecords, i => i.id)
+      .reverse()
+      .filter(Boolean);
+    return sortedRecords.concat(sortBy(iconCell, i => i.name).reverse());
   }
 
   return [];
