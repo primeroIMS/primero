@@ -1,0 +1,36 @@
+.Root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & span {
+    color: $(theme.primero.colors.white);
+    font-size: $(theme.typography.pxToRem(12));
+    font-weight: bold;
+    position: absolute;
+    z-index: 999;
+  }
+}
+.Circle, .CircleForm {
+  font-size: $(theme.typography.pxToRem(28));
+  color: $(theme.primero.colors.moonYellow) !important;
+}
+
+.CircleForm {
+  font-size: 1rem;
+  margin-left: 5px;
+  padding-top: 4px;
+}
+
+@media $(theme.breakpoints.only('md')) {
+  .Root {
+    position: absolute;
+    top: 47%;
+    left: 60%;
+    & span {
+      display: none;
+    }
+  }
+  .Circle {
+    font-size: 1rem;
+  }
+}

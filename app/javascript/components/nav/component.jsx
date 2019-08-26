@@ -15,6 +15,7 @@ import { useThemeHelper } from "libs";
 import { useDispatch, useSelector } from "react-redux";
 import { MobileToolbar } from "components/mobile-toolbar";
 import { ListIcon } from "components/list-icon";
+import { Jewel } from "components/jewel";
 import { TranslationsToggle } from "../translations-toggle";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
@@ -37,12 +38,23 @@ const Nav = () => {
 
   const nav = [
     { name: i18n.t("navigation.home"), to: "/dashboard", icon: "home" },
-    { name: i18n.t("navigation.tasks"), to: "/tasks", icon: "tasks" },
-    { name: i18n.t("navigation.cases"), to: "/cases", icon: "cases" },
+    {
+      name: i18n.t("navigation.tasks"),
+      to: "/tasks",
+      icon: "tasks",
+      jewel_count: 2
+    },
+    {
+      name: i18n.t("navigation.cases"),
+      to: "/cases",
+      icon: "cases",
+      jewel_count: 20
+    },
     {
       name: i18n.t("navigation.incidents"),
       to: "/incidents",
-      icon: "incidents"
+      icon: "incidents",
+      jewel_count: 0
     },
     {
       name: i18n.t("navigation.tracing_request"),
@@ -112,6 +124,12 @@ const Nav = () => {
                     primary={l.name}
                     classes={{ primary: css.listText }}
                   />
+                  {l.jewel_count ? (
+                    <Jewel
+                      value={l.jewel_count}
+                      mobileDisplay={mobileDisplay}
+                    />
+                  ) : null}
                 </NavLink>
               </ListItem>
             </div>
