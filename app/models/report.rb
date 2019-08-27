@@ -100,6 +100,51 @@ class Report < ApplicationRecord
     return @pivot_fields
   end
 
+  # This method transforms the current values format: {["child_mother", "female"] => 1}
+  # to a nested hash: { "child_mother" => { "female" =>{ "_total" => 1 } } }
+  def hashed_values
+    values_tree = {}
+    self.values
+        .select{ |k,_| k.select{ |e| e.to_s.present? }.present? } # Remove empty arrays ["", ""]
+        .each do |key, total|
+          key.each_with_index do |key_value, index|
+            new_value = (key_value == key.last) ? { key_value => { "_total" => total } } : { key_value => {} }
+            values_tree = new_value if values_tree.blank?
+            if index.zero?
+              if !self.has_key_at_level?(values_tree, nil, key_value, index)
+                values_tree = values_tree.merge(new_value)
+              end
+            else
+              parent_tree = self.get_tree_level(values_tree, index - 1)
+              if key_value.to_s.blank?
+                # Get the last non empty value as the parent_key
+                # to_s converts ranges to empty strings.
+                parent_key = key.each_with_index.select { |k,i| k.to_s.present? }.last.first
+                parent_tree[parent_key]["_total"] = total
+              elsif !self.has_key_at_level?(values_tree, key[index - 1], key_value, (index - 1))
+                parent_tree[key[index - 1]] = parent_tree[key[index - 1]].merge(new_value)
+              end
+            end
+          end
+        end
+    values_tree
+  end
+
+  def has_key_at_level?(tree, parent_key, key, level)
+    tree = self.get_tree_level(tree, level)
+    return false if tree.blank? || (parent_key.present? && tree[parent_key].blank?)
+    parent_key.present? ? tree[parent_key].has_key?(key) : tree.has_key?(key)
+  end
+
+  def get_tree_level(tree, level)
+    return tree if level <= 0
+    level.times do
+      return nil if tree.values.blank?
+      tree = tree.values.inject(&:merge)
+    end
+    tree
+  end
+
   # Run the Solr query that calculates the pivots and format the output.
   #TODO: Break up into self contained, testable methods
   def build_report
@@ -188,20 +233,12 @@ class Report < ApplicationRecord
         pivot[(aggregate_limit)..-1]
       end.uniq.compact.sort(&method(:pivot_comparator))
 
-      if is_graph
-        graph_value_range = self.values.keys.map{|k| k[0..1]}.uniq.compact.sort(&method(:pivot_comparator))
-        #Discard all aggegates that are a lower dimensionality thatn the graph
-        graph_value_range = graph_value_range.select{|v| v.last.present?}
-      end
-
       self.data = {
         #total: response['response']['numFound'], #TODO: Do we need the total?
         aggregate_value_range: aggregate_value_range,
         disaggregate_value_range: disaggregate_value_range,
         values: @values
       }
-      self.data[:graph_value_range] = graph_value_range if is_graph
-      self.data = self.translate_data(self.data)
       ""
     end
   end
@@ -257,63 +294,6 @@ class Report < ApplicationRecord
     return d
   end
 
-  def translated_label(label)
-    if label.present?
-      label_selection = translated_label_options.select{|option_list|
-        option_list["id"].to_s.downcase == label.to_s.downcase
-      }.first
-      label = label_selection["display_text"] if label_selection.present?
-    end
-    label
-  end
-
-  def translated_label_options
-    @translated_label_options ||= self.field_map.map{|v, fm| fm.options_list(nil, nil, Location.all_names(locale: I18n.locale), true)}.flatten(1)
-  end
-
-  #TODO: This method currently builds data for 1D and 2D reports
-  def graph_data
-    # Prepopulates pivot fields
-    pivot_fields
-
-    labels = []
-    chart_datasets_hash = {}
-
-    number_of_blanks = dimensionality - self.data[:graph_value_range].first.size
-
-    self.data[:graph_value_range].each do |key|
-      #The key to the global report data
-      data_key = key + [""] * number_of_blanks
-      #The label (as understood by chart.js), is always the first dimension value
-      label =  translated_label(key[0].to_s)
-      labels << label if label != labels.last
-
-      #The key to the
-      chart_datasets_key = (key.size > 1) ? key[1].to_s : ""
-      if chart_datasets_hash.key? chart_datasets_key
-        chart_datasets_hash[chart_datasets_key] << self.data[:values][data_key]
-      else
-        chart_datasets_hash[chart_datasets_key] = [self.data[:values][data_key]]
-      end
-    end
-
-    datasets = []
-    chart_datasets_hash.keys.each do |key|
-      datasets << {
-        label: key,
-        title: translated_label(key.to_s),
-        data: chart_datasets_hash[key]
-      }
-    end
-
-    aggregate_field = Field.find_by_name(aggregate_by.first)
-    aggregate = aggregate_field ? aggregate_field.display_name : aggregate_by.first.humanize
-
-    #We are discarding the totals TODO: will that work for a 1X?
-    return {aggregate: aggregate, labels: labels, datasets: datasets}
-  end
-
-
   # Recursively read through the Solr pivot output and construct a vector of results.
   # The output is an array of arrays (easily convertible into a hash) of the following format:
   # [
@@ -346,7 +326,6 @@ class Report < ApplicationRecord
     end
   end
 
-
   def self.reportable_record_types
     FormSection::RECORD_TYPES + ['violation'] + Report.get_all_nested_reportable_types.map{|nrt| nrt.name.underscore}
   end
@@ -357,30 +336,6 @@ class Report < ApplicationRecord
       default_filters = Record.model_from_name(self.record_type).report_filters
       self.filters = (self.filters + default_filters).uniq
     end
-  end
-
-  def translate_data(data)
-    #TODO: Eventually we want all i18n to be applied through this method
-    [:aggregate_value_range, :disaggregate_value_range, :graph_value_range].each do |k|
-      if data[k].present?
-        data[k] = data[k].map do |value|
-          value.map{|v| translate(v)}
-        end
-      end
-    end
-
-    if data[:values].present?
-      data[:values] = data[:values].map do |key,value|
-        [key.map{|k| translate(k)}, value]
-      end.to_h
-    end
-
-    return data
-  end
-
-  #TODO: When we have true I18n we will discard this method and just use I18n.t()
-  def translate(string)
-    [false, true, 'false', 'true'].include?(string) ? I18n.t(string.to_s) : translated_label(string.to_s)
   end
 
   def pivots
@@ -403,8 +358,6 @@ class Report < ApplicationRecord
   end
 
   private
-
-
 
   def report_values(record_type, pivots, filters)
     result = {}
@@ -456,20 +409,8 @@ class Report < ApplicationRecord
       result_pivots = response['facet_counts']['facet_pivot'][pivots_string]
     end
 
-    translate_solr_response(0, result_pivots)
     result = {'pivot' => result_pivots}
   end
-
-  def translate_solr_response(map_index, response)
-    #The order of the values in the field map corresponds with the order of the pivots
-    field = self.field_map.try(:[], map_index).try(:[], :field)
-
-    response.each do |resp|
-      resp['value'] = field.display_text(resp['value']) if field.present?
-      translate_solr_response((map_index + 1), resp['pivot']) if resp['pivot'].present?
-    end
-  end
-
 
   def build_solr_filter_query(record_type, filters)
 

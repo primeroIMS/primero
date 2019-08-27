@@ -10,4 +10,9 @@ module Api::V2::I18nFieldHelper
     end
     json
   end
+
+  def complete_locales_for_options(options)
+    locales = I18n.available_locales.map{ |locale| { locale.to_s => [] } }.inject(&:merge)
+    locales.merge(options)
+  end
 end
