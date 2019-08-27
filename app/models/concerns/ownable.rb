@@ -4,7 +4,7 @@ module Ownable
 
   included do
 
-    before_save :update_ownership, :update_associated_user_groups
+    before_save :update_ownership
 
     property :owned_by, String
     property :owned_by_full_name, String
@@ -89,14 +89,16 @@ module Ownable
       self.previously_owned_by_agency = self.changes['owned_by_agency'].try(:fetch, 0) || owned_by_agency
       self.previously_owned_by_location = self.changes['owned_by_location'].try(:fetch, 0) || owned_by_location
     end
+
+    if (self.changes['assigned_user_names'].present? || self.new?)
+      self.update_associated_user_groups
+    end
   end
 
   def update_associated_user_groups
-    if (self.changes['assigned_user_names'].present? || self.new?)
-      self.associated_user_groups = (self.assigned_user_names || []).map do |user_name|
-        User.find_by_user_name(user_name).user_group_ids
-      end.flatten.compact
-    end
+    self.associated_user_groups = (self.assigned_user_names || []).map do |user_name|
+      User.find_by_user_name(user_name).user_group_ids
+    end.flatten.compact
   end
 
   def update_last_updated_by(current_user)
