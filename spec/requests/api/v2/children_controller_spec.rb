@@ -124,6 +124,19 @@ describe Api::V2::ChildrenController, type: :request do
       expect(photos.size).to eq(1)
       expect(photos.first).to eq(Rails.application.routes.url_helpers.rails_blob_path(@blob , only_path: true))
     end
+
+    it 'enqueues an audit log job that records the case read attempt' do
+      login_for_test
+      get "/api/v2/cases/#{@case1.id}"
+
+      expect(AuditLogJob).to have_been_enqueued
+        .with(record_type: 'Child',
+              record_id: @case1.id,
+              action: 'show',
+              user_id: fake_user_id, #This is technically wrong, but an artifact of the way we do tests
+              resource_url: request.url,
+              metadata: {user_name: fake_user_name})
+    end
   end
 
   describe 'POST /api/v2/cases' do
