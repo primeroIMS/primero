@@ -5,21 +5,17 @@ import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import { IconButton, InputBase } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
-import { Map } from "immutable";
 import * as actions from "./action-creators";
 import styles from "./styles.css";
 
-const RecordSearch = ({ namespace, path, data, getRecords }) => {
+const RecordSearch = ({ recordType, fetchRecords }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
   const searchRecords = () => {
-    getRecords({
-      options: data.filters
-        .merge(Map({ query: document.getElementById("search-input").value }))
-        .toJS(),
-      path,
-      namespace
+    fetchRecords({
+      options: { query: document.getElementById("search-input").value },
+      recordType
     });
   };
 
@@ -52,10 +48,8 @@ const RecordSearch = ({ namespace, path, data, getRecords }) => {
 };
 
 RecordSearch.propTypes = {
-  namespace: PropTypes.string.isRequired,
-  path: PropTypes.string.isRequired,
-  data: PropTypes.object.isRequired,
-  getRecords: PropTypes.func.isRequired
+  recordType: PropTypes.string.isRequired,
+  fetchRecords: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = {

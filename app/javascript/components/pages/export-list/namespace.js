@@ -1,1 +1,1 @@
-export default "ExportList";
+export default "bulk_exports";

@@ -16,7 +16,7 @@ import routes from "config/routes";
 import NAMESPACE from "components/i18n/namespace";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import { checkAuthentication } from "components/pages/login";
+import { checkUserAuthentication } from "components/user";
 import { SnackbarProvider } from "notistack";
 import configureStore, { history } from "./store";
 
@@ -39,7 +39,7 @@ const App = () => {
     );
   });
 
-  store.dispatch(checkAuthentication());
+  store.dispatch(checkUserAuthentication());
 
   return (
     <Provider store={store}>

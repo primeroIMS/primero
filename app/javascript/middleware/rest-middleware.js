@@ -1,6 +1,6 @@
 /* eslint-disable */
 import qs from "qs";
-import { attemptSignout } from "components/pages/login";
+import { attemptSignout } from "components/user";
 import { FETCH_TIMEOUT } from "config";
 import { push } from "connected-react-router";
 import DB from "../db";
@@ -26,13 +26,18 @@ const savePayloadToDB = async (path, json, normalizeFunc) => {
   }
 };
 
+const getToken = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  return user ? user.token : null;
+};
+
 const restMiddleware = options => store => next => action => {
   if (!(action.api && "path" in action.api)) {
     return next(action);
   }
 
   // TODO: We will store this elsewhere in the future. This is not secure
-  const token = localStorage.getItem("jwt");
+  const token = getToken();
 
   const headers = {
     "content-type": "application/json"

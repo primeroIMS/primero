@@ -17,7 +17,7 @@ const MobileToolbar = ({ drawerOpen, openDrawer, mobileDisplay }) => {
     if (mobileDisplay) {
       openDrawer(false);
     }
-  }, [mobileDisplay]);
+  }, [mobileDisplay, openDrawer]);
 
   if (mobileDisplay) {
     return (
