@@ -4,7 +4,7 @@ class LookupsController < ApplicationController
 
   before_action :load_lookup, :only => [:edit, :update, :destroy]
 
-  include LoggerActions
+  include AuditLogActions
 
   def index
     authorize! :index, Lookup

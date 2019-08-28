@@ -11,7 +11,7 @@ class FieldsController < ApplicationController
 
   FIELD_TYPES = %w{ text_field textarea check_box select_box radio_button numeric_field date_field }
 
-  include LoggerActions
+  include AuditLogActions
 
   def read_form_section
     @form_section = FormSection.find_by(unique_id: params[:form_section_id])
