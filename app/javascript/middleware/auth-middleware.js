@@ -1,11 +1,11 @@
 import {
-  loadResources,
   attemptSignout,
-  LOGIN_SUCCESS_CALLBACK,
-  LOGOUT_FINISHED
-} from "components/pages/login";
-import { push } from "connected-react-router";
+  LOGOUT_FINISHED,
+  setAuthenticatedUser
+} from "components/user";
+import { LOGIN_SUCCESS_CALLBACK } from "components/pages/login";
 import get from "lodash/get";
+import { push } from "connected-react-router";
 
 const authMiddleware = store => next => action => {
   const routeChanged = action.type === "@@router/LOCATION_CHANGE";
@@ -24,16 +24,15 @@ const authMiddleware = store => next => action => {
   }
 
   if (action.type === LOGIN_SUCCESS_CALLBACK) {
-    const { user_name: username, token } = action.payload.json;
-    localStorage.setItem("jwt", token);
-    localStorage.setItem("username", username);
-    store.dispatch(loadResources());
+    const { user_name: username, token, id } = action.payload.json;
+
+    localStorage.setItem("user", JSON.stringify({ token, username, id }));
+    store.dispatch(setAuthenticatedUser({ username, token, id }));
     store.dispatch(push("/dashboard"));
   }
 
   if (action.type === LOGOUT_FINISHED) {
-    localStorage.removeItem("jwt");
-    localStorage.removeItem("username");
+    localStorage.removeItem("user");
     store.dispatch(push("/login"));
   }
 

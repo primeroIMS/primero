@@ -1,9 +1,4 @@
-import { Map, List } from "immutable";
-import NAMESPACE from "./namespace";
+import { List } from "immutable";
 
-export const selectExports = state => {
-  return state.getIn(["records", NAMESPACE, "data"], List([]));
-};
-
-export const selectMeta = state =>
-  state.getIn(["records", NAMESPACE, "metadata"], Map({}));
+export const selectListHeaders = (state, namespace) =>
+  state.getIn(["user", "listHeaders", namespace], List([]));

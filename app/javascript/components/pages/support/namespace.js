@@ -1,1 +1,1 @@
-export default "Support";
+export default "support";

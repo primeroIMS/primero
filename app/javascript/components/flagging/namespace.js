@@ -1,1 +1,1 @@
-export default "Flags";
+export default "flags";
