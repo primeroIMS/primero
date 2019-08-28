@@ -1,11 +1,29 @@
+/* eslint-disable */
 import qs from "qs";
 import { attemptSignout } from "components/pages/login";
 import { FETCH_TIMEOUT } from "config";
 import { push } from "connected-react-router";
+import DB from "../db";
+import * as schemas from "../schemas";
 
 export const queryParams = {
   toString: obj => qs.stringify(obj),
   parse: str => qs.parse(str)
+};
+
+const savePayloadToDB = async (path, json, normalizeFunc) => {
+  switch (path) {
+    case "system_settings":
+      return await DB.put(path, json.data, 1);
+    case "forms":
+      const data = schemas[normalizeFunc](json.data).entities;
+      return {
+        formSections: await DB.bulkAdd("forms", data.formSections),
+        fields: await DB.bulkAdd("fields", data.fields)
+      };
+    default:
+      return null;
+  }
 };
 
 const restMiddleware = options => store => next => action => {
@@ -74,9 +92,12 @@ const restMiddleware = options => store => next => action => {
           store.dispatch(attemptSignout());
         }
       } else {
+        const payloadFromDB = await savePayloadToDB(path, json, normalizeFunc);
+        // Save data to db;
+        // Return data to action from db;
         store.dispatch({
           type: `${type}_SUCCESS`,
-          payload: normalizeFunc ? normalizeFunc(json.data).entities : json
+          payload: payloadFromDB || json
         });
 
         if (successCallback) {
@@ -104,6 +125,7 @@ const restMiddleware = options => store => next => action => {
         payload: false
       });
     } catch (e) {
+      console.warn(e);
       store.dispatch({
         type: `${type}_FAILURE`,
         payload: true

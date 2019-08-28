@@ -8,12 +8,12 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.FETCH_SYSTEM_SETTINGS_SUCCESS:
       return state
-        .set("agencies", payload.data.agencies)
-        .set("modules", payload.data.modules)
-        .set("locales", payload.data.locales)
-        .set("default_locale", payload.data.default_locale)
-        .set("base_language", payload.data.base_language)
-        .set("primero_version", payload.data.primero_version);
+        .set("agencies", payload.agencies)
+        .set("modules", payload.modules)
+        .set("locales", payload.locales)
+        .set("default_locale", payload.default_locale)
+        .set("base_language", payload.base_language)
+        .set("primero_version", payload.primero_version);
     default:
       return state;
   }
