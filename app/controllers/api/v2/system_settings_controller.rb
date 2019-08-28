@@ -11,5 +11,9 @@ module Api::V2
       end
     end
 
+    def model_class
+      SystemSettings
+    end
+
   end
 end

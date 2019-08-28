@@ -1,5 +1,6 @@
 module Api::V2
   class TokensController < Devise::SessionsController
+    include AuditLogActions
     respond_to :json
 
     skip_before_action :verify_authenticity_token
@@ -31,5 +32,14 @@ module Api::V2
       }
     end
 
+    def model_class
+      User
+    end
+
+    def record_id
+      current_user.try(:id)
+    end
+
   end
+
 end
