@@ -1,4 +1,18 @@
 module MigrationHelper
+  #Used to patch legacy data that has known misspellings in the locations
+  def location_map
+    @location_map ||= {
+      'Western Area Urban' => 'Western Area Urban (Freetown)',
+      'Wandor' => 'Wando',
+      'Njaluahun' => 'Jaluahun',
+      'Bombali Sebora' => 'Bombali Shebora',
+      'Paki Masabong' => 'Paki Massabong',
+      'Sanda Magbolontor' => 'Sanda Magbolont',
+      'Kunike' => 'Kunike Barina',
+      'Boama' => 'Baoma'
+    }
+  end
+
   def get_locations
     locations = Location.all_names
     #The display_text_2 is necessary to clean up discrepancies between "Western Area Urban" and "Western Area Urban (Freetown)"
@@ -68,7 +82,13 @@ module MigrationHelper
     field.options_list(nil, nil, locations, true, {locale: Primero::Application::LOCALE_ENGLISH})
   end
 
+  def patch_location(value)
+    lm = location_map
+    value.split('::').map{|el| (lm[el] || el)}.join('::')
+  end
+
   def get_value(value, options)
+    lm = location_map
     if value.present? && options.present?
       if value.is_a?(Array)
         #look for value iin either the ids or in the display text
@@ -77,6 +97,8 @@ module MigrationHelper
         #The display_text_2 is necessary to clean up discrepancies between "Western Area Urban" and "Western Area Urban (Freetown)"
         v = options.select{|o| value.include?(o['id']) || value.include?(o['display_text']) || value.include?(o['display_text_2'])}.map{|option| option['id']}
       else
+        #Hack to try and identify locations
+        v2 = patch_location(value) if value.is_a?(String) && value.include?('::')
         #The to_s is necessary to catch cases where the value is true or false
         #The display_text_2 is necessary to clean up discrepancies between "Western Area Urban" and "Western Area Urban (Freetown)"
         v = options.select{|option| option['id'] == value.to_s || option['display_text'] == value.to_s || option['display_text_2'] == value.to_s}.first.try(:[], 'id')
