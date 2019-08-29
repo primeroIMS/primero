@@ -1,4 +1,5 @@
 require 'rails_helper'
+include ActiveJob::TestHelper
 
 describe Api::V2::ChildrenController, type: :request do
 
@@ -351,6 +352,8 @@ describe Api::V2::ChildrenController, type: :request do
   after :each do
     Child.destroy_all
     AttachmentImage.destroy_all
+    clear_performed_jobs
+    clear_enqueued_jobs
   end
 
 end

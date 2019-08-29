@@ -14,7 +14,7 @@ module AuditLogActions
       action: action_name,
       user_id: current_user.try(:id),
       resource_url: request.url,
-      metadata: {user_name: (current_user.try(:user_name) || params[:user][:user_name])}
+      metadata: {user_name: (current_user.try(:user_name) || params[:user].try(:[], :user_name))}
     }
 
     AuditLogJob.perform_later(audit_log_params)

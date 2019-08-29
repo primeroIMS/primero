@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'devise/jwt/test_helpers'
+include ActiveJob::TestHelper
 
 describe Api::V2::TokensController, type: :request do
 
@@ -68,6 +69,11 @@ describe Api::V2::TokensController, type: :request do
       expect(response).to have_http_status(200)
     end
 
+  end
+
+  after :each do
+    clear_performed_jobs
+    clear_enqueued_jobs
   end
 
   after :all do

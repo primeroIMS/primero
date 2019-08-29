@@ -1,4 +1,5 @@
 require 'rails_helper'
+include ActiveJob::TestHelper
 
 describe Api::V2::FlagsController, type: :request do
   before :each do
@@ -279,6 +280,11 @@ describe Api::V2::FlagsController, type: :request do
       @case1.reload
       expect(json['data']['id']).to eq(@case1.id.to_s)
     end
+  end
+
+  after :each do
+    clear_performed_jobs
+    clear_enqueued_jobs
   end
 
 end

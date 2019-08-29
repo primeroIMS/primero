@@ -4,10 +4,6 @@ module Api::V2
 
     protected
 
-    def model_class
-      @model_class ||= Record.model_from_name(request.path.split('/')[3].singularize)
-    end
-
     def record_id
       @record_id ||= request.path.split('/')[4]
     end
