@@ -7,7 +7,7 @@ module MigrationHelper
       'Njaluahun' => 'Jaluahun',
       'Bombali Sebora' => 'Bombali Shebora',
       'Paki Masabong' => 'Paki Massabong',
-      'Sanda Magbolontor' => 'Sanda Magbolont',
+      'Sanda Magbolont' => 'Sanda Magbolontor',
       'Kunike' => 'Kunike Barina',
       'Boama' => 'Baoma'
     }
@@ -101,7 +101,7 @@ module MigrationHelper
         value = patch_location(value) if value.is_a?(String) && value.include?('::')
         #The to_s is necessary to catch cases where the value is true or false
         #The display_text_2 is necessary to clean up discrepancies between "Western Area Urban" and "Western Area Urban (Freetown)"
-        v = options.select{|option| option['id'] == value.to_s || option['display_text'] == value.to_s || option['display_text_2'] == value.to_s}.first.try(:[], 'id')
+        v = options.select{|option| option['id'] == value.to_s || option['display_text'] == value.to_s.strip || option['display_text_2'] == value.to_s.strip}.first.try(:[], 'id')
         if v == 'true'
           v = true
         elsif v == 'false'
