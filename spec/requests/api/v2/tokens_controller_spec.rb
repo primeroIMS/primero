@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'devise/jwt/test_helpers'
+include ActiveJob::TestHelper
 
 describe Api::V2::TokensController, type: :request do
 
@@ -43,6 +44,17 @@ describe Api::V2::TokensController, type: :request do
       expect(response.status).to eq 401
     end
 
+    it 'enqueues an audit log job that records the login attempt' do
+      post '/api/v2/tokens', params: @params
+      expect(AuditLogJob).to have_been_enqueued
+        .with(record_type: 'User',
+              record_id: @user.id,
+              action: 'create',
+              user_id: @user.id,
+              resource_url: request.url,
+              metadata: {user_name: @user.user_name})
+    end
+
   end
 
   describe 'DELETE /api/v2/tokens' do
@@ -57,6 +69,11 @@ describe Api::V2::TokensController, type: :request do
       expect(response).to have_http_status(200)
     end
 
+  end
+
+  after :each do
+    clear_performed_jobs
+    clear_enqueued_jobs
   end
 
   after :all do

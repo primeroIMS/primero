@@ -1,4 +1,5 @@
 require 'rails_helper'
+include ActiveJob::TestHelper
 
 describe Api::V2::FlagsController, type: :request do
   before :each do
@@ -119,6 +120,20 @@ describe Api::V2::FlagsController, type: :request do
       expect(json['errors'][0]['status']).to eq(403)
       expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}/flags")
       expect(json['errors'][0]['message']).to eq('Forbidden')
+    end
+
+    it 'enqueues an audit log job that records the flag attempt' do
+      login_for_test(permissions: permission_flag_record)
+      params = { data: { date: Date.today.to_s, message: 'This is another flag' } }
+      post "/api/v2/cases/#{@case1.id}/flags", params: params
+
+      expect(AuditLogJob).to have_been_enqueued
+        .with(record_type: 'Child',
+          record_id: @case1.id,
+          action: 'create',
+          user_id: fake_user_id, #This is technically wrong, but an artifact of the way we do tests
+          resource_url: request.url,
+          metadata: {user_name: fake_user_name})
     end
   end
 
@@ -265,6 +280,11 @@ describe Api::V2::FlagsController, type: :request do
       @case1.reload
       expect(json['data']['id']).to eq(@case1.id.to_s)
     end
+  end
+
+  after :each do
+    clear_performed_jobs
+    clear_enqueued_jobs
   end
 
 end

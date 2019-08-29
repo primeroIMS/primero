@@ -354,7 +354,7 @@ class ChildrenController < ApplicationController
     @display_assessment ||= (can?(:view_assessment, Dashboard) || current_user.admin?)
   end
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   def logger_action_name
     if action_name == "hide_name"
       "hide_name.#{params[:protect_action]}"

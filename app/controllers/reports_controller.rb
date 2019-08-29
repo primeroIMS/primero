@@ -15,7 +15,7 @@ class ReportsController < ApplicationController
   before_action :load_age_range, only: [:new, :edit]
   before_action :get_lookups, only: [:lookups_for_field, :edit]
 
-  include LoggerActions
+  include AuditLogActions
 
   def index
     authorize!(:read_reports, Report)
@@ -199,7 +199,7 @@ class ReportsController < ApplicationController
     Report
   end
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   def logger_action_identifier
     if @report.present?
       "#{logger_model_titleize} '#{@report.name}'"

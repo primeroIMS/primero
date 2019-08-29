@@ -9,7 +9,7 @@ class FormSectionController < ApplicationController
   before_action :load_form_sections, :only => [:index, :edit]
   before_action :get_lookups, :only => [:edit]
 
-  include LoggerActions
+  include AuditLogActions
 
   def index
     authorize! :index, FormSection
@@ -172,7 +172,7 @@ class FormSectionController < ApplicationController
   end
 
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   def logger_action_identifier
     if action_name == 'create' && params[:form_section].present?
       action_id = ""
