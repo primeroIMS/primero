@@ -40,6 +40,34 @@ const SubformField = ({
 
   const values = getIn(formik.values, name);
 
+  const handleDeletedSubforms = (
+    subformMode,
+    index,
+    fieldSubform,
+    arrayHelpers
+  ) => {
+    if (subformMode.isEdit) {
+      values[index]._destroy = true;
+      const uniqueId = values[index].unique_id;
+      const formName = fieldSubform.name;
+      if (uniqueId) {
+        let updatedData = subformFields[formName] || [];
+        updatedData = [
+          ...updatedData,
+          {
+            _destroy: true,
+            unique_id: uniqueId
+          }
+        ];
+        setSubformFields({
+          ...subformFields,
+          [formName]: updatedData
+        });
+      }
+    }
+    arrayHelpers.remove(index);
+  };
+
   const renderSubformHeading = (arrayHelpers, index, fieldSubform) => {
     return (
       <Box display="flex">
@@ -50,28 +78,9 @@ const SubformField = ({
           {!mode.isShow && (
             <>
               <IconButton
-                onClick={() => {
-                  if (mode.isEdit) {
-                    values[index]._destroy = true;
-                    const uniqueId = values[index].unique_id;
-                    const formName = fieldSubform.name;
-                    if (uniqueId) {
-                      let updatedData = subformFields[formName] || [];
-                      updatedData = [
-                        ...updatedData,
-                        {
-                          _destroy: true,
-                          unique_id: uniqueId
-                        }
-                      ];
-                      setSubformFields({
-                        ...subformFields,
-                        [formName]: updatedData
-                      });
-                    }
-                  }
-                  arrayHelpers.remove(index);
-                }}
+                onClick={() =>
+                  handleDeletedSubforms(mode, index, fieldSubform, arrayHelpers)
+                }
               >
                 <DeleteIcon />
               </IconButton>
