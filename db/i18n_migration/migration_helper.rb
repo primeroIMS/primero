@@ -98,7 +98,7 @@ module MigrationHelper
         v = options.select{|o| value.include?(o['id']) || value.include?(o['display_text']) || value.include?(o['display_text_2'])}.map{|option| option['id']}
       else
         #Hack to try and identify locations
-        v2 = patch_location(value) if value.is_a?(String) && value.include?('::')
+        value = patch_location(value) if value.is_a?(String) && value.include?('::')
         #The to_s is necessary to catch cases where the value is true or false
         #The display_text_2 is necessary to clean up discrepancies between "Western Area Urban" and "Western Area Urban (Freetown)"
         v = options.select{|option| option['id'] == value.to_s || option['display_text'] == value.to_s || option['display_text_2'] == value.to_s}.first.try(:[], 'id')
