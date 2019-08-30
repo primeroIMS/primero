@@ -1,7 +1,7 @@
 require 'rails_helper'
-include ActiveJob::TestHelper
 
 describe Api::V2::ChildrenController, type: :request do
+  include ActiveJob::TestHelper
 
   before :each do
     @case1 = Child.create!(data: { name: "Test1", age: 5, sex: 'male' })

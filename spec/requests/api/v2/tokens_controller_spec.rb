@@ -1,8 +1,8 @@
 require 'rails_helper'
 require 'devise/jwt/test_helpers'
-include ActiveJob::TestHelper
 
 describe Api::V2::TokensController, type: :request do
+  include ActiveJob::TestHelper
 
   before :all do
     user_name = 'tokenstestuser'
