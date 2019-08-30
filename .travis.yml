@@ -27,7 +27,7 @@ before_script:
 - cp config/travis/core.properties solr/cores/test/
 - yarn install
 script:
-- bundle exec rake sunspot:solr:run
+- bundle exec rake sunspot:solr:start
 - bundle exec rails db:drop
 - bundle exec rails db:create
 - bundle exec rails db:migrate
