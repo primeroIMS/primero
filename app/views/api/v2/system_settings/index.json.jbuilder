@@ -17,6 +17,7 @@ json.data do
   if @primero_modules.present?
     json.modules do
       json.array! @primero_modules do |primero_module|
+        json.id primero_module.id
         json.unique_id primero_module.unique_id
         json.name primero_module.name
         json.associated_record_types primero_module.associated_record_types
@@ -25,4 +26,3 @@ json.data do
     end
   end
 end.compact!
- 
