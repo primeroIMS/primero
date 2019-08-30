@@ -1,9 +1,10 @@
-import mockedData from "./mockData";
 import * as Actions from "./actions";
 
-export const fetchFlags = () => async dispatch => {
+export const fetchFlags = url => async dispatch => {
   dispatch({
-    type: Actions.FETCH_FLAGS_SUCCESS,
-    payload: mockedData.data
+    type: Actions.FETCH_FLAGS,
+    api: {
+      path: `${url.substr(1)}/flags`
+    }
   });
 };

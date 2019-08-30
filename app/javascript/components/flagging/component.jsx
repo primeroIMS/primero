@@ -3,16 +3,18 @@ import { IconButton } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import FlagIcon from "@material-ui/icons/Flag";
+import { withRouter } from "react-router-dom";
 import { FlagForm, ListFlags, FlagDialog } from "./parts";
 import { fetchFlags } from "./action-creators";
 import { selectFlags } from "./selectors";
 
-const Flagging = ({ recordType, records, control }) => {
+const Flagging = ({ recordType, records, control, match }) => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
+  const { url } = match;
 
   useEffect(() => {
-    dispatch(fetchFlags());
+    dispatch(fetchFlags(url));
   }, [dispatch]);
 
   const flags = useSelector(state => selectFlags(state, records, recordType));
@@ -57,7 +59,8 @@ const Flagging = ({ recordType, records, control }) => {
 Flagging.propTypes = {
   recordType: PropTypes.string.isRequired,
   records: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
-  control: PropTypes.node
+  control: PropTypes.node,
+  match: PropTypes.object
 };
 
-export default Flagging;
+export default withRouter(Flagging);
