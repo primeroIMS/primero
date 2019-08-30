@@ -1,8 +1,10 @@
-/* eslint-disable */
 import qs from "qs";
-import { attemptSignout } from "components/user";
+import { attemptSignout, FETCH_USER_DATA } from "components/user";
 import { FETCH_TIMEOUT } from "config";
 import { push } from "connected-react-router";
+import { FETCH_SYSTEM_SETTINGS } from "components/application";
+import { RECORD_FORMS } from "components/record-form";
+import { RECORDS } from "components/record-list";
 import DB from "../db";
 import * as schemas from "../schemas";
 
@@ -11,16 +13,26 @@ export const queryParams = {
   parse: str => qs.parse(str)
 };
 
-const savePayloadToDB = async (path, json, normalizeFunc) => {
-  switch (path) {
-    case "system_settings":
-      return await DB.put(path, json.data, 1);
-    case "forms":
+const savePayloadToDB = async (type, json, normalizeFunc, path) => {
+  switch (type) {
+    case FETCH_USER_DATA:
+      return DB.put("user", json.data);
+    case FETCH_SYSTEM_SETTINGS:
+      return DB.put("system_settings", json.data, { id: 1 });
+    case `${path}/${RECORDS}`: {
+      const { data, metadata } = json;
+      return {
+        data: await DB.bulkAdd("records", data, { index: "type", value: path }),
+        metadata
+      };
+    }
+    case RECORD_FORMS: {
       const data = schemas[normalizeFunc](json.data).entities;
       return {
         formSections: await DB.bulkAdd("forms", data.formSections),
         fields: await DB.bulkAdd("fields", data.fields)
       };
+    }
     default:
       return null;
   }
@@ -97,9 +109,13 @@ const restMiddleware = options => store => next => action => {
           store.dispatch(attemptSignout());
         }
       } else {
-        const payloadFromDB = await savePayloadToDB(path, json, normalizeFunc);
-        // Save data to db;
-        // Return data to action from db;
+        const payloadFromDB = await savePayloadToDB(
+          type,
+          json,
+          normalizeFunc,
+          path
+        );
+
         store.dispatch({
           type: `${type}_SUCCESS`,
           payload: payloadFromDB || json

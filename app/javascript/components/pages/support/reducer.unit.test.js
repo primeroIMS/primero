@@ -17,7 +17,7 @@ describe("<RecordList /> - Reducers", () => {
       location: "United Nations Children’s Fund Lebanon",
       support_forum: "https://google.com",
       other_information: "",
-      primero_version: "1.3.15"
+      primeroVersion: "1.3.15"
     };
     const action = {
       type: "Support/FETCH_DATA_SUCCESS",
@@ -31,7 +31,7 @@ describe("<RecordList /> - Reducers", () => {
           location: "United Nations Children’s Fund Lebanon",
           support_forum: "https://google.com",
           other_information: "",
-          primero_version: "1.3.15"
+          primeroVersion: "1.3.15"
         }
       }
     };
