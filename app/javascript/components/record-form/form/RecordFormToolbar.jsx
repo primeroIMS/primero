@@ -7,6 +7,7 @@ import { useI18n } from "components/i18n";
 import CreateIcon from "@material-ui/icons/Create";
 import { Flagging } from "components/flagging";
 import styles from "./styles.css";
+import WorkFlowIndicator from "./Stepper";
 
 const RecordFormToolbar = ({
   mode,
@@ -47,6 +48,9 @@ const RecordFormToolbar = ({
     >
       <Box flexGrow={1}>
         <PageHeading />
+        {(mode.isShow || mode.isEdit) && params.recordType === "cases" && (
+          <WorkFlowIndicator locale={i18n.locale} />
+        )}
       </Box>
       <Box>
         {mode.isShow && params && (
