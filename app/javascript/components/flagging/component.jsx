@@ -10,12 +10,13 @@ import { selectFlags } from "./selectors";
 
 const Flagging = ({ recordType, records, control, match }) => {
   const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState(0);
   const dispatch = useDispatch();
   const { url } = match;
 
   useEffect(() => {
     dispatch(fetchFlags(url));
-  }, [dispatch]);
+  }, [dispatch, url]);
 
   const flags = useSelector(state => selectFlags(state, records, recordType));
 
@@ -25,16 +26,23 @@ const Flagging = ({ recordType, records, control, match }) => {
     setOpen(!open);
   };
 
+  const handleActiveTab = value => {
+    setTab(value);
+  };
+
   const flagFormProps = {
     recordType,
     records,
-    handleOpen
+    handleOpen,
+    handleActiveTab
   };
 
   const flagDialogProps = {
     isBulkFlags,
     setOpen,
-    open
+    open,
+    tab,
+    setTab
   };
 
   return (

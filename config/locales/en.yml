@@ -2544,3 +2544,5 @@ en:
     unflag_reason: "Unflag Reason"
     unflag: "Unflag"
     no_flags: "No flags found"
+    flag_added: "Flag added successfully"
+    flag_deleted: "Flag deleted"
