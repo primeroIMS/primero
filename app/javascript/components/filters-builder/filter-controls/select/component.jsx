@@ -1,9 +1,12 @@
+/* eslint-disable camelcase */
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { MenuItem, FormControl, Select } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
+import { getOption } from "components/record-form/selectors";
+import { isEmpty } from "lodash";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
@@ -21,12 +24,24 @@ const SelectFilter = ({
   multiple,
   props,
   selectValues,
-  setSelectValue
+  setSelectValue,
+  isDate
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-  const { id, options } = props;
-  const { values, defaultValue } = options;
+  const { field_name, options, option_strings_source } = props;
+
+  let values = [];
+
+  if (!isEmpty(option_strings_source)) {
+    values = useSelector(state =>
+      getOption(state, option_strings_source, i18n)
+    );
+  } else if (Array.isArray(options)) {
+    values = options;
+  } else {
+    values = options[i18n.locale];
+  }
 
   return (
     <div className={css.root}>
@@ -37,9 +52,9 @@ const SelectFilter = ({
           onChange={event => {
             setSelectValue(
               {
-                id,
+                field_name,
                 data: event.target.value,
-                defaultValue
+                isDate
               },
               recordType
             );
@@ -48,7 +63,7 @@ const SelectFilter = ({
         >
           {values.map(v => (
             <MenuItem key={v.id} value={v.id}>
-              {i18n.t(`filters.${v.id}`)}
+              {v.display_name || v.display_text}
             </MenuItem>
           ))}
         </Select>
@@ -62,13 +77,15 @@ SelectFilter.propTypes = {
   multiple: PropTypes.bool,
   props: PropTypes.object,
   options: PropTypes.object,
-  id: PropTypes.string,
+  field_name: PropTypes.string,
+  option_strings_source: PropTypes.string,
   selectValues: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
-  setSelectValue: PropTypes.func
+  setSelectValue: PropTypes.func,
+  isDate: PropTypes.bool
 };
 
 const mapStateToProps = (state, obj) => ({
-  selectValues: Selectors.getSelect(state, obj.props, obj.recordType)
+  selectValues: Selectors.getSelect(state, obj)
 });
 
 const mapDispatchToProps = {

@@ -503,7 +503,6 @@ export default {
         { id: "poverty", display_text: "Poverty" },
         { id: "natural_disaster", display_text: "Natural disaster" },
         { id: "divorce_remarriage", display_text: "Divorce/remarriage" },
-        { id: "poverty", display_text: "Poverty" },
         {
           id: "other_please_specify",
           display_text: "Other (please specify)"
@@ -1128,6 +1127,16 @@ export default {
         { id: "agency_office_3", display_text: "Agency Office 3" },
         { id: "agency_office_4", display_text: "Agency Office 4" },
         { id: "agency_office_5", display_text: "Agency Office 5" }
+      ]
+    },
+    {
+      type: "location",
+      options: [
+        { id: "location_1", display_text: "Location 1" },
+        { id: "location_2", display_text: "Location 2" },
+        { id: "location_3", display_text: "Location 3" },
+        { id: "location_4", display_text: "Location 4" },
+        { id: "location_5", display_text: "Location 5" }
       ]
     }
   ]

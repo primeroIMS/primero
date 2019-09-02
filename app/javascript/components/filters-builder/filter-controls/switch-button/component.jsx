@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -17,26 +18,25 @@ const SwitchButton = ({
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-  const { id, options } = props;
-  const { values } = options;
+  const { field_name, options } = props;
 
   return (
     <div className={css.root}>
-      {values.map(v => (
+      {options.map(v => (
         <div key={v.id} className={css.switchButtonContainer}>
           <span>
-            <ListIcon key={v.id} icon={v.id} />
+            {v.icon ? <ListIcon key={`${v.id}`} icon={v.id} /> : null}
             <span className={css.textSwitchButton}>
-              {i18n.t(`filters.${v.id}`)}
+              {v.display_name[i18n.locale]}
             </span>
           </span>
           <Switch
             key={v.id}
-            checked={switchButtons && switchButtons.includes(v.id)}
+            checked={switchButtons && switchButtons.includes(v.id.toString())}
             onChange={event => {
               setSwitchButton(
                 {
-                  id,
+                  field_name,
                   included: switchButtons.includes(event.target.value),
                   data: event.target.value
                 },
@@ -55,7 +55,7 @@ const SwitchButton = ({
 SwitchButton.propTypes = {
   props: PropTypes.object,
   options: PropTypes.object,
-  id: PropTypes.string,
+  field_name: PropTypes.string,
   recordType: PropTypes.string,
   switchButtons: PropTypes.array,
   setSwitchButton: PropTypes.func

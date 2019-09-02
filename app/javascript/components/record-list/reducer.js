@@ -22,39 +22,42 @@ export const recordListReducer = namespace => ({
       case `${namespace}/${Actions.ADD_SWITCH_BUTTON}`:
       case `${namespace}/${Actions.ADD_CHIP}`:
         return state.setIn(
-          ["filters", payload.id],
-          [...state.getIn(["filters", payload.id]), payload.data]
+          ["filters", payload.field_name],
+          [...state.getIn(["filters", payload.field_name]), payload.data]
         );
       case `${namespace}/${Actions.DELETE_CHECKBOX}`:
       case `${namespace}/${Actions.DELETE_SWITCH_BUTTON}`:
       case `${namespace}/${Actions.DELETE_CHIP}`:
         return state.setIn(
-          ["filters", payload.id],
+          ["filters", payload.field_name],
           state
-            .getIn(["filters", payload.id])
+            .getIn(["filters", payload.field_name])
             .filter(item => item !== payload.data)
         );
       case `${namespace}/${Actions.ADD_SELECT}`:
       case `${namespace}/${Actions.ADD_RANGE_BUTTON}`:
       case `${namespace}/${Actions.ADD_RADIO_BUTTON}`:
-        return state.setIn(["filters", payload.id], payload.data);
+        return state.setIn(["filters", payload.field_name], payload.data);
       case `${namespace}/${Actions.ADD_SELECT_RANGE}`:
-        return state.setIn(["filters", payload.id, "value"], payload.data);
+        return state.setIn(
+          ["filters", payload.field_name, "value"],
+          payload.data
+        );
       case `${namespace}/${Actions.ADD_DATES_RANGE}`:
         return state
           .setIn(
-            ["filters", payload.id, "from"],
-            payload.from || state.getIn(["filters", payload.id, "from"])
+            ["filters", payload.field_name, "from"],
+            payload.from || state.getIn(["filters", payload.field_name, "from"])
           )
           .setIn(
-            ["filters", payload.id, "to"],
-            payload.to || state.getIn(["filters", payload.id, "to"])
+            ["filters", payload.field_name, "to"],
+            payload.to || state.getIn(["filters", payload.field_name, "to"])
           );
       case `${namespace}/${Actions.RESET_CHIPS}`:
-        return state.setIn(["filters", payload.id], []);
+        return state.setIn(["filters", payload.field_name], []);
       case `${namespace}/${Actions.RESET_RANGE_BUTTON}`:
       case `${namespace}/${Actions.RESET_RADIO_BUTTON}`:
-        return state.setIn(["filters", payload.id], "");
+        return state.setIn(["filters", payload.field_name], "");
       case `${namespace}/${Actions.SET_RECORD_SEARCH}`:
         return state.setIn(["filters", "query"], payload);
       default:

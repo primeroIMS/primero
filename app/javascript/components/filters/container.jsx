@@ -15,13 +15,13 @@ import {
   setSwitchButton
 } from "components/filters-builder/filter-controls";
 import { useI18n } from "components/i18n";
-import filterTypes from "./mocked-filters";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
 
 const Filters = ({
   recordType,
+  defaultFilters,
   tabValue,
   setTabValue,
   setCheckBoxes,
@@ -30,50 +30,56 @@ const Filters = ({
   setRadioButtons,
   setChips,
   setDatesRange,
-  setSwitch
+  setSwitch,
+  availableFilters
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
   const resetPanels = () => {
-    filterTypes.map(filter => {
-      const payloadFilter = {};
-      switch (filter.type) {
-        case "checkbox":
-          payloadFilter[filter.id] = [];
-          return setCheckBoxes(payloadFilter, recordType);
-        case "multi_select":
-        case "select":
-          payloadFilter[filter.id] = [];
-          return setSelect(payloadFilter, recordType);
-        case "multi_toggle":
-          payloadFilter[filter.id] = [];
-          return setRangeButton(payloadFilter, recordType);
-        case "radio":
-          payloadFilter[filter.id] = "";
-          return setRadioButtons(payloadFilter, recordType);
-        case "chips":
-          payloadFilter[filter.id] = [];
-          return setChips(payloadFilter, recordType);
-        case "dates":
-          payloadFilter[filter.id] = Map({
-            from: null,
-            to: null,
-            value: ""
-          });
-          return setDatesRange(payloadFilter, recordType);
-        case "switch":
-          payloadFilter[filter.id] = [];
-          return setSwitch(payloadFilter, recordType);
-        default:
-          return null;
-      }
-    });
+    if (availableFilters) {
+      const excludeDefaultFilters = [...defaultFilters.keys()];
+      availableFilters.map(filter => {
+        if (excludeDefaultFilters.includes(filter.field_name)) return null;
+
+        const payloadFilter = {};
+        switch (filter.type) {
+          case "checkbox":
+            payloadFilter[filter.field_name] = [];
+            return setCheckBoxes(payloadFilter, recordType);
+          case "multi_select":
+          case "select":
+            payloadFilter[filter.field_name] = [];
+            return setSelect(payloadFilter, recordType);
+          case "multi_toggle":
+            payloadFilter[filter.field_name] = [];
+            return setRangeButton(payloadFilter, recordType);
+          case "radio":
+            payloadFilter[filter.field_name] = "";
+            return setRadioButtons(payloadFilter, recordType);
+          case "chips":
+            payloadFilter[filter.field_name] = [];
+            return setChips(payloadFilter, recordType);
+          case "dates":
+            payloadFilter[filter.field_name] = Map({
+              from: null,
+              to: null,
+              value: ""
+            });
+            return setDatesRange(payloadFilter, recordType);
+          case "toggle":
+            payloadFilter[filter.field_name] = [];
+            return setSwitch(payloadFilter, recordType);
+          default:
+            return null;
+        }
+      });
+    }
   };
 
   useEffect(() => {
     resetPanels();
-  }, []);
+  }, [availableFilters]);
 
   const tabs = [
     { name: i18n.t("saved_search.filters_tab"), selected: true },
@@ -105,7 +111,7 @@ const Filters = ({
       {tabValue === 0 && (
         <FiltersBuilder
           recordType={recordType}
-          filters={filterTypes}
+          filters={availableFilters}
           resetPanel={resetPanels}
         />
       )}
@@ -116,6 +122,7 @@ const Filters = ({
 
 Filters.propTypes = {
   recordType: PropTypes.string.isRequired,
+  defaultFilters: PropTypes.object,
   tabValue: PropTypes.number.isRequired,
   setTabValue: PropTypes.func,
   setCheckBoxes: PropTypes.func,
@@ -124,11 +131,13 @@ Filters.propTypes = {
   setRadioButtons: PropTypes.func,
   setChips: PropTypes.func,
   setDatesRange: PropTypes.func,
-  setSwitch: PropTypes.func
+  setSwitch: PropTypes.func,
+  availableFilters: PropTypes.object
 };
 
 const mapStateToProps = (state, props) => ({
-  tabValue: Selectors.getTab(state, props.recordType)
+  tabValue: Selectors.getTab(state, props.recordType),
+  availableFilters: Selectors.getFiltersByRecordType(state, props.recordType)
 });
 
 const mapDispatchToProps = {

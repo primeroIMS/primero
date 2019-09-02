@@ -47,8 +47,6 @@ const FiltersBuilder = ({
     collapsePanels();
   };
 
-  // TODO: This need to be changed to store filters and apply selected
-  // Filters depending on each record type
   const handleApplyFilter = () => {
     applyFilters({
       namespace: recordType,
@@ -66,64 +64,70 @@ const FiltersBuilder = ({
       case "select":
         return <SelectFilter recordType={recordType} props={filter} />;
       case "multi_toggle":
-        return <RangeButton recordType={recordType} props={filter} exclusive />;
+        return <RangeButton recordType={recordType} props={filter} />;
       case "radio":
         return <RadioButton recordType={recordType} props={filter} />;
       case "chips":
         return <Chips recordType={recordType} props={filter} />;
       case "dates":
         return <DatesRange recordType={recordType} props={filter} />;
-      case "switch":
+      case "toggle":
         return <SwitchButton recordType={recordType} props={filter} />;
       default:
         return <h2>Not Found</h2>;
     }
   };
 
-  const handleReset = (id, type) => event => {
+  const handleReset = (field, type) => event => {
     event.stopPropagation();
-    resetCurrentPanel({ id, type }, recordType);
+    resetCurrentPanel({ field_name: field, type }, recordType);
   };
+
+  const allowedResetFilterTypes = ["radio", "multi_toggle", "chips"];
 
   return (
     <div className={css.root}>
-      {filters.map(filter => (
-        <ExpansionPanel
-          expanded={expanded && expanded.includes(`${filter.id}`)}
-          onChange={(e, isExpanded) =>
-            setExpanded({
-              expanded: isExpanded,
-              panel: `${filter.id}`,
-              namespace: recordType
-            })
-          }
-          className={css.panel}
-          key={filter.id}
-        >
-          <ExpansionPanelSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="filter-controls-content"
-            id={filter.id}
+      {filters &&
+        filters.toJS().map(filter => (
+          <ExpansionPanel
+            expanded={expanded && expanded.includes(`${filter.field_name}`)}
+            onChange={(e, isExpanded) =>
+              setExpanded({
+                expanded: isExpanded,
+                panel: `${filter.field_name}`,
+                namespace: recordType
+              })
+            }
+            className={css.panel}
+            key={filter.field_name}
           >
-            <div className={css.heading}>
-              <span> {i18n.t(`filters.${filter.id}`)} </span>
-              {filter.reset && filter.reset ? (
-                <IconButton
-                  aria-label="Delete"
-                  justifycontent="flex-end"
-                  size="small"
-                  onClick={handleReset(`${filter.id}`, `${filter.type}`)}
-                >
-                  <RefreshIcon />
-                </IconButton>
-              ) : null}
-            </div>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails className={css.panelDetails}>
-            {renderFilterControl(filter)}
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      ))}
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="filter-controls-content"
+              id={filter.field_name}
+            >
+              <div className={css.heading}>
+                <span> {i18n.t(`${filter.name}`)} </span>
+                {allowedResetFilterTypes.includes(filter.type) ? (
+                  <IconButton
+                    aria-label="Delete"
+                    justifycontent="flex-end"
+                    size="small"
+                    onClick={handleReset(
+                      `${filter.field_name}`,
+                      `${filter.type}`
+                    )}
+                  >
+                    <RefreshIcon />
+                  </IconButton>
+                ) : null}
+              </div>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails className={css.panelDetails}>
+              {renderFilterControl(filter)}
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        ))}
       <div className={css.actionButtons}>
         <Grid
           container
@@ -150,7 +154,7 @@ const FiltersBuilder = ({
 FiltersBuilder.propTypes = {
   recordType: PropTypes.string.isRequired,
   expanded: PropTypes.array.isRequired,
-  filters: PropTypes.array,
+  filters: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   setExpanded: PropTypes.func,
   resetPanel: PropTypes.func,
   resetCurrentPanel: PropTypes.func,

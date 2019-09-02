@@ -1,9 +1,10 @@
-export const getSelect = (state, props, namespace) => {
-  if (props.options.defaultValue) {
+export const getSelect = (state, obj) => {
+  const { recordType, isDate, props } = obj;
+  if (isDate) {
     return state.getIn(
-      ["records", namespace, "filters", props.id, "value"],
+      ["records", recordType, "filters", props.field_name, "value"],
       ""
     );
   }
-  return state.getIn(["records", namespace, "filters", props.id], "");
+  return state.getIn(["records", recordType, "filters", props.field_name], "");
 };
