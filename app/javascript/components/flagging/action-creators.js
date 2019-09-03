@@ -1,20 +1,26 @@
 import { ENQUEUE_SNACKBAR } from "components/notifier";
 import * as Actions from "./actions";
 
-export const fetchFlags = url => async dispatch => {
+export const fetchFlags = (recordType, records) => async dispatch => {
   dispatch({
     type: Actions.FETCH_FLAGS,
     api: {
-      path: `${url.substr(1)}/flags`
+      path: `${recordType}/${records}/flags`
     }
   });
 };
 
-export const unFlag = (url, id, body, message) => async dispatch => {
+export const unFlag = (
+  id,
+  body,
+  message,
+  recordType,
+  records
+) => async dispatch => {
   await dispatch({
     type: Actions.UNFLAG,
     api: {
-      path: `${url.substr(1)}/flags/${id}`,
+      path: `${recordType}/${records}/flags/${id}`,
       method: "PATCH",
       body,
       successCallback: {
@@ -31,11 +37,11 @@ export const unFlag = (url, id, body, message) => async dispatch => {
   });
 };
 
-export const addFlag = (url, body, message) => async dispatch => {
+export const addFlag = (body, message, path) => async dispatch => {
   await dispatch({
     type: Actions.ADD_FLAG,
     api: {
-      path: `${url.substr(1)}/flags`,
+      path,
       method: "POST",
       body,
       successCallback: {

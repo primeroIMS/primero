@@ -4,13 +4,11 @@ import { Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import { Button, Box, Divider } from "@material-ui/core";
 import { useI18n } from "components/i18n";
-import { withRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { unFlag } from "../action-creators";
 
-const Unflag = ({ flag, setDeleteFlag, match }) => {
+const Unflag = ({ flag, setDeleteFlag, recordType, records }) => {
   const i18n = useI18n();
-  const { url } = match;
   const dispatch = useDispatch();
 
   const inputProps = {
@@ -28,7 +26,15 @@ const Unflag = ({ flag, setDeleteFlag, match }) => {
   };
 
   const onSubmit = data => {
-    dispatch(unFlag(url, flag.id, { data }, i18n.t("flags.flag_deleted")));
+    dispatch(
+      unFlag(
+        flag.id,
+        { data },
+        i18n.t("flags.flag_deleted"),
+        recordType,
+        records
+      )
+    );
     handleCancel();
   };
 
@@ -64,7 +70,8 @@ const Unflag = ({ flag, setDeleteFlag, match }) => {
 Unflag.propTypes = {
   flag: PropTypes.object.isRequired,
   setDeleteFlag: PropTypes.func.isRequired,
-  match: PropTypes.object
+  recordType: PropTypes.string.isRequired,
+  records: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
 };
 
-export default withRouter(Unflag);
+export default Unflag;

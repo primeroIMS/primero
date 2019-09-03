@@ -6,7 +6,6 @@ import { Box, Button, InputAdornment } from "@material-ui/core";
 import { DatePicker } from "@material-ui/pickers";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { useI18n } from "components/i18n";
-import { withRouter } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addFlag } from "../action-creators";
 
@@ -15,16 +14,13 @@ const initialFormikValues = {
   message: ""
 };
 
-const FlagForm = ({
-  recordType,
-  records,
-  handleOpen,
-  match,
-  handleActiveTab
-}) => {
+const FlagForm = ({ recordType, records, handleOpen, handleActiveTab }) => {
   const i18n = useI18n();
-  const { url } = match;
   const dispatch = useDispatch();
+
+  const path = Array.isArray(records)
+    ? `${recordType}/flags`
+    : `${recordType}/${records}/flags`;
 
   const inputProps = {
     component: TextField,
@@ -50,16 +46,12 @@ const FlagForm = ({
     }
   };
 
-  function bodyAddFlag(type, ids, data) {
-    return Array.isArray(ids)
-      ? { data: { data, ids, record_type: type } }
-      : { data };
-  }
-
   const onSubmit = (data, actions) => {
-    const body = bodyAddFlag(recordType, records, data);
+    const body = Array.isArray(records)
+      ? { data: { data, records, record_type: recordType } }
+      : { data };
 
-    dispatch(addFlag(url, body, i18n.t("flags.flag_added"))).then(() => {
+    dispatch(addFlag(body, i18n.t("flags.flag_added"), path)).then(() => {
       actions.resetForm(initialFormikValues);
     });
     handleActiveTab(0);
@@ -119,8 +111,7 @@ FlagForm.propTypes = {
   recordType: PropTypes.string.isRequired,
   records: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
   handleOpen: PropTypes.func.isRequired,
-  match: PropTypes.object,
   handleActiveTab: PropTypes.func
 };
 
-export default withRouter(FlagForm);
+export default FlagForm;
