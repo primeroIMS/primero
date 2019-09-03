@@ -1,4 +1,4 @@
-.Root {
+.root {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -10,12 +10,12 @@
     z-index: 999;
   }
 }
-.Circle, .CircleForm {
+.circle, .circleForm {
   font-size: $(theme.typography.pxToRem(28));
   color: $(theme.primero.colors.moonYellow) !important;
 }
 
-.CircleForm {
+.circleForm {
   font-size: 1rem;
   margin-left: 5px;
   padding-top: 4px;
@@ -30,7 +30,7 @@
       display: none;
     }
   }
-  .Circle {
+  .circle {
     font-size: 1rem;
   }
 }

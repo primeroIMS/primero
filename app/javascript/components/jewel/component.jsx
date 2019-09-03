@@ -11,12 +11,12 @@ const Jewel = ({ value, isForm }) => {
       {isForm ? (
         <>
           {value}
-          <Circle className={css.CircleForm} />
+          <Circle className={css.circleForm} />
         </>
       ) : (
-        <div className={css.Root}>
+        <div className={css.root}>
           <span>{value}</span>
-          <Circle className={css.Circle} />
+          <Circle className={css.circle} />
         </div>
       )}
     </>

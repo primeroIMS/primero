@@ -42,19 +42,19 @@ const Nav = () => {
       name: i18n.t("navigation.tasks"),
       to: "/tasks",
       icon: "tasks",
-      jewel_count: 2
+      jewelCount: 2
     },
     {
       name: i18n.t("navigation.cases"),
       to: "/cases",
       icon: "cases",
-      jewel_count: 20
+      jewelCount: 20
     },
     {
       name: i18n.t("navigation.incidents"),
       to: "/incidents",
       icon: "incidents",
-      jewel_count: 0
+      jewelCount: 0
     },
     {
       name: i18n.t("navigation.tracing_request"),
@@ -124,11 +124,8 @@ const Nav = () => {
                     primary={l.name}
                     classes={{ primary: css.listText }}
                   />
-                  {l.jewel_count ? (
-                    <Jewel
-                      value={l.jewel_count}
-                      mobileDisplay={mobileDisplay}
-                    />
+                  {l.jewelCount ? (
+                    <Jewel value={l.jewelCount} mobileDisplay={mobileDisplay} />
                   ) : null}
                 </NavLink>
               </ListItem>
