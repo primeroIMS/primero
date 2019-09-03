@@ -8,25 +8,9 @@ export const queryParams = {
   parse: str => qs.parse(str)
 };
 
-const getToken = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  return user ? user.token : null;
-};
-
 const restMiddleware = options => store => next => action => {
   if (!(action.api && "path" in action.api)) {
     return next(action);
-  }
-
-  // TODO: We will store this elsewhere in the future. This is not secure
-  const token = getToken();
-
-  const headers = {
-    "content-type": "application/json"
-  };
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
   }
 
   const controller = new AbortController();
@@ -41,7 +25,9 @@ const restMiddleware = options => store => next => action => {
     credentials: "same-origin",
     cache: "no-cache",
     redirect: "follow",
-    headers: new Headers(headers),
+    headers: new Headers({
+      "content-type": "application/json"
+    }),
     signal: controller.signal
   };
 
