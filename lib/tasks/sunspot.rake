@@ -39,7 +39,7 @@ namespace :sunspot do
   task :reindex => :wait do
 
     puts 'Reindexing Solr...'
-    [Child, Incident, TracingRequest, BulkExport, User].each {|m| batch_reindex(m) }
+    [Child, Incident, TracingRequest, BulkExport].each {|m| batch_reindex(m) }
 
     puts 'Solr successfully reindexed'
   end
