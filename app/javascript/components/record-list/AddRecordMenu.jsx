@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import { startCase, camelCase } from "lodash";
 import { useI18n } from "components/i18n";
 import { Menu, MenuItem, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
-import * as selectors from "components/application/selectors";
+import { useApp } from "components/application";
 
 const AddRecordMenu = ({ recordType }) => {
   const i18n = useI18n();
-  const primeroModules = useSelector(state => selectors.selectModules(state));
+  const { modules } = useApp();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -32,7 +31,7 @@ const AddRecordMenu = ({ recordType }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {primeroModules.map(m => (
+        {modules.map(m => (
           <MenuItem
             key={m.unique_id}
             component={Link}

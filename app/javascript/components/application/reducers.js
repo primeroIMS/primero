@@ -1,19 +1,34 @@
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
+import { mapEntriesToRecord } from "libs";
 import * as Actions from "./actions";
 import NAMESPACE from "./namespace";
+import { PrimeroModuleRecord } from "./records";
 
 const DEFAULT_STATE = Map({});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.FETCH_SYSTEM_SETTINGS_SUCCESS:
-      return state
-        .set("agencies", payload.data.agencies)
-        .set("modules", payload.data.modules)
-        .set("locales", payload.data.locales)
-        .set("default_locale", payload.data.default_locale)
-        .set("base_language", payload.data.base_language)
-        .set("primero_version", payload.data.primero_version);
+    case Actions.FETCH_SYSTEM_SETTINGS_SUCCESS: {
+      const {
+        agencies,
+        modules,
+        locales,
+        default_locale: defualtLocale,
+        base_language: baseLanguage,
+        primero_version: primeroVersion
+      } = payload.data;
+
+      return state.merge(
+        fromJS({
+          agencies,
+          modules: mapEntriesToRecord(modules, PrimeroModuleRecord),
+          locales,
+          defualtLocale,
+          baseLanguage,
+          primeroVersion
+        })
+      );
+    }
     default:
       return state;
   }

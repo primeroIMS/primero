@@ -10,8 +10,8 @@ field.define({
   subform_section_id: formSection
 });
 
-export const normalizeData = data => normalize(data, [formSection]);
+export const normalizeFormData = data => normalize(data, [formSection]);
 
-export const denormalizeData = (key, enitities) => {
+export const denormalizeFormData = (key, enitities) => {
   return denormalize(key, [formSection], enitities);
 };

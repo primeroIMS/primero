@@ -1,5 +1,4 @@
 import { ENQUEUE_SNACKBAR } from "components/notifier";
-import { normalizeData } from "./schema";
 import * as Actions from "./actions";
 import mockedData from "./mocked-data";
 import { Option } from "./records";
@@ -16,7 +15,7 @@ export const fetchForms = () => async dispatch => {
     type: Actions.RECORD_FORMS,
     api: {
       path: "forms",
-      normalizeFunc: normalizeData
+      normalizeFunc: "normalizeFormData"
     }
   });
 };
