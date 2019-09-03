@@ -7,23 +7,54 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 const RecordActions = ({ recordType, iconColor }) => {
   const i18n = useI18n();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  // eslint-disable-next-line prefer-const
-  let defaultList = [
-    i18n.t("buttons.import"),
-    i18n.t("exports.custom_exports.label"),
-    i18n.t("buttons.mark_for_mobile"),
-    i18n.t("buttons.unmark_for_mobile")
-  ];
 
-  if (recordType.toLowerCase() === "cases") {
-    defaultList = defaultList.concat([
-      `${i18n.t("buttons.referral")} ${recordType}`,
-      `${i18n.t("buttons.reassign")} ${recordType}`,
-      `${i18n.t("buttons.transfer")} ${recordType}`,
-      i18n.t("actions.incident_details_from_case"),
-      i18n.t("actions.services_section_from_case")
-    ]);
-  }
+  const actions = [
+    {
+      name: i18n.t("buttons.import"),
+      action: () => console.log("Some action"),
+      recordType: "all"
+    },
+    {
+      name: i18n.t("exports.custom_exports.label"),
+      action: () => console.log("Some action"),
+      recordType: "all"
+    },
+    {
+      name: i18n.t("buttons.mark_for_mobile"),
+      action: () => console.log("Some action"),
+      recordType: "all"
+    },
+    {
+      name: i18n.t("buttons.unmark_for_mobile"),
+      action: () => console.log("Some action"),
+      recordType: "all"
+    },
+    {
+      name: `${i18n.t("buttons.referral")} ${recordType}`,
+      action: () => console.log("Some action"),
+      recordType: "cases"
+    },
+    {
+      name: `${i18n.t("buttons.reassign")} ${recordType}`,
+      action: () => console.log("Some action"),
+      recordType: "cases"
+    },
+    {
+      name: `${i18n.t("buttons.transfer")} ${recordType}`,
+      action: () => console.log("Some action"),
+      recordType: "cases"
+    },
+    {
+      name: i18n.t("actions.incident_details_from_case"),
+      action: () => console.log("Some action"),
+      recordType: "cases"
+    },
+    {
+      name: i18n.t("actions.services_section_from_case"),
+      action: () => console.log("Some action"),
+      recordType: "cases"
+    }
+  ];
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -50,15 +81,23 @@ const RecordActions = ({ recordType, iconColor }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {defaultList.map(option => (
-          <MenuItem
-            key={option}
-            selected={option === "Pyxis"}
-            onClick={handleClose}
-          >
-            {option}
-          </MenuItem>
-        ))}
+        {actions
+          .filter(a => {
+            return (
+              a.recordType === "all" ||
+              a.recordType === recordType ||
+              (Array.isArray(a.recordType) && a.recordType.includes(recordType))
+            );
+          })
+          .map(action => (
+            <MenuItem
+              key={action.name}
+              selected={action.name === "Pyxis"}
+              onClick={handleClose}
+            >
+              {action.name}
+            </MenuItem>
+          ))}
       </Menu>
     </>
   );
