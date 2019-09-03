@@ -24,10 +24,10 @@ const authMiddleware = store => next => action => {
   }
 
   if (action.type === LOGIN_SUCCESS_CALLBACK) {
-    const { user_name: username, token, id } = action.payload.json;
+    const { user_name: username, id } = action.payload.json;
 
-    localStorage.setItem("user", JSON.stringify({ token, username, id }));
-    store.dispatch(setAuthenticatedUser({ username, token, id }));
+    localStorage.setItem("user", JSON.stringify({ username, id }));
+    store.dispatch(setAuthenticatedUser({ username, id }));
     store.dispatch(push("/dashboard"));
   }
 

@@ -1,5 +1,6 @@
 module Api::V2
   class TokensController < Devise::SessionsController
+    include AuditLogActions
     respond_to :json
 
     skip_before_action :verify_authenticity_token
@@ -14,6 +15,7 @@ module Api::V2
 
     # Overriding method called by Devise session destroy.
     def respond_to_on_destroy
+      cookies.delete(:primero_token, domain: Rails.configuration.primero_host)
       render json: {}
     end
 
@@ -31,5 +33,14 @@ module Api::V2
       }
     end
 
+    def model_class
+      User
+    end
+
+    def record_id
+      current_user.try(:id)
+    end
+
   end
+
 end

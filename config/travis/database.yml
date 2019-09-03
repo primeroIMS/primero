@@ -1,4 +1,3 @@
 test:
   adapter: postgresql
   database: primero_test
-  port: 5433

@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import * as yup from "yup";
@@ -41,7 +41,7 @@ const RecordForm = ({
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-
+  const [subformFields, setSubformFields] = useState({});
   let initialFormValues = constructInitialValues(forms);
 
   if (record) {
@@ -124,7 +124,9 @@ const RecordForm = ({
             {form.fields.map(field => {
               const fieldProps = {
                 field,
-                mode
+                mode,
+                subformFields,
+                setSubformFields
               };
 
               return (
@@ -151,7 +153,7 @@ const RecordForm = ({
         validationSchema={validationSchema}
         validateOnBlur={false}
         validateOnChange={false}
-        onSubmit={values => onSubmit(initialFormValues, values)}
+        onSubmit={values => onSubmit(initialFormValues, values, subformFields)}
       >
         {({ handleSubmit, submitForm, errors, dirty, isSubmitting }) => {
           bindSubmitForm(submitForm);

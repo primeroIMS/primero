@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 describe Api::V2::ChildrenController, type: :request do
+  include ActiveJob::TestHelper
 
   before :each do
     @case1 = Child.create!(data: { name: "Test1", age: 5, sex: 'male' })
-    @case2 = Child.create!(data: {name: "Test2", age: 10, sex: 'female'})
+    @case2 = Child.create!(data: { name: "Test2", age: 10, sex: 'female'})
     @case3 = Child.create!(
         data: {
             name: "Test3", age: 6, sex: 'male',
@@ -123,6 +124,30 @@ describe Api::V2::ChildrenController, type: :request do
       photos = json['data']['photos']
       expect(photos.size).to eq(1)
       expect(photos.first).to eq(Rails.application.routes.url_helpers.rails_blob_path(@blob , only_path: true))
+    end
+
+    it 'enqueues an audit log job that records the case read attempt' do
+      login_for_test
+      get "/api/v2/cases/#{@case1.id}"
+
+      expect(AuditLogJob).to have_been_enqueued
+        .with(record_type: 'Child',
+              record_id: @case1.id,
+              action: 'show',
+              user_id: fake_user_id, #This is technically wrong, but an artifact of the way we do tests
+              resource_url: request.url,
+              metadata: {user_name: fake_user_name})
+    end
+
+    it 'obfuscates the case name when hidden' do
+      @case1.hidden_name = true
+      @case1.save!
+
+      login_for_test(permitted_field_names: %w(name))
+      get "/api/v2/cases/#{@case1.id}"
+
+      expect(json['data']['name']).to eq('*******')
+      expect(json['data']['hidden_name']).to be true
     end
   end
 
@@ -300,6 +325,18 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['errors'][0]['detail']).to eq("registration_date")
     end
 
+    it 'sets the case name to be hidden' do
+      login_for_test
+      params = {data: {hidden_name: true}}
+      patch "/api/v2/cases/#{@case1.id}", params: params
+
+      expect(response).to have_http_status(200)
+
+      case1 = Child.find_by(id: @case1.id)
+      expect(case1.hidden_name).to be true
+
+    end
+
   end
 
   describe 'DELETE /api/v2/cases/:id' do
@@ -338,6 +375,8 @@ describe Api::V2::ChildrenController, type: :request do
   after :each do
     Child.destroy_all
     AttachmentImage.destroy_all
+    clear_performed_jobs
+    clear_enqueued_jobs
   end
 
 end
