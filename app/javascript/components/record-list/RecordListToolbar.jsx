@@ -4,6 +4,7 @@ import { Box, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { PageHeading } from "components/page-container";
+import { RecordActions } from "components/record-actions";
 import AddRecordMenu from "./AddRecordMenu";
 import styles from "./styles.css";
 
@@ -27,6 +28,7 @@ const RecordListToolbar = ({
           </IconButton>
         )}
         <AddRecordMenu recordType={recordType} />
+        <RecordActions recordType={recordType} iconColor="primary" />
       </Box>
     </Box>
   );
