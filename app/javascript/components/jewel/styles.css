@@ -22,7 +22,7 @@
 }
 
 @media $(theme.breakpoints.only('md')) {
-  .Root {
+  .root {
     position: absolute;
     top: 47%;
     left: 60%;
