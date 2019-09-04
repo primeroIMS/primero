@@ -47,7 +47,7 @@ locations.each do |location|
     end
     
     MigrationHelper.create_locales do |locale|
-      location["name_#{locale}"] = location['name']
+      location["name_#{locale}"] = location['name'] if location['name'].present?
     end
 
     location.save
