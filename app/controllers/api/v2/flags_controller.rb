@@ -1,7 +1,7 @@
 module Api::V2
   class FlagsController < RecordResourceController
 
-    before_action { authorize! :flag, @model_class }
+    before_action { authorize! :flag, model_class }
 
     def create
       @record.add_flag(params['data']['message'], params['data']['date'].to_date, current_user.user_name)
@@ -14,7 +14,7 @@ module Api::V2
     end
 
     def create_bulk
-      @model_class.batch_flag(params['data']['ids'], params['data']['message'], params['data']['date'].to_date, current_user.user_name)
+      model_class.batch_flag(params['data']['ids'], params['data']['message'], params['data']['date'].to_date, current_user.user_name)
     end
 
   end

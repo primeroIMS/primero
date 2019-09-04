@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import CreateIcon from "@material-ui/icons/Create";
 import { Flagging } from "components/flagging";
+import { RecordActions } from "components/record-actions";
 import styles from "./styles.css";
 
 const RecordFormToolbar = ({
@@ -80,6 +81,7 @@ const RecordFormToolbar = ({
             <CreateIcon />
           </IconButton>
         )}
+        <RecordActions recordType={params.recordType} />
       </Box>
     </Box>
   );

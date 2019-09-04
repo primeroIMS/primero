@@ -9,7 +9,7 @@ export function I18nProvider({ children }) {
   const locale = useSelector(state =>
     state.length
       ? state.getIn(["ui", "I18n", "locale"]) ||
-        state.getIn(["application", "default_locale"])
+        state.getIn(["application", "defaultLocale"])
       : window.I18n.locale
   );
 

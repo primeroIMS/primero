@@ -22,11 +22,11 @@ const ModuleLogo = ({ moduleLogo, white }) => {
 
   const logo = (l => {
     switch (l) {
-      case "mrm":
+      case "primeromodule-mrm":
         return [white ? MRMLogoWhite : MRMLogo, PrimeroPictorial];
-      case "gbv":
+      case "primeromodule-gbv":
         return [white ? GBVLogoWhite : GBVLogo, GBVPictorial];
-      case "cpims":
+      case "primeromodule-cpims":
         return [white ? CPIMSLogoWhite : CPIMSLogo, CPIMSPictorial];
       default:
         return [white ? PrimeroLogoWhite : PrimeroLogo, PrimeroPictorial];

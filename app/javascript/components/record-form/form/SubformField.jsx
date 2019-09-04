@@ -19,7 +19,13 @@ import FormSectionField from "./FormSectionField";
 import { constructInitialValues } from "../helpers";
 import styles from "./styles.css";
 
-const SubformField = ({ field, formik, mode }) => {
+const SubformField = ({
+  field,
+  formik,
+  mode,
+  subformFields,
+  setSubformFields
+}) => {
   const css = makeStyles(styles)();
 
   const {
@@ -34,7 +40,35 @@ const SubformField = ({ field, formik, mode }) => {
 
   const values = getIn(formik.values, name);
 
-  const renderSubformHeading = (arrayHelpers, index) => {
+  const handleDeletedSubforms = (
+    subformMode,
+    index,
+    fieldSubform,
+    arrayHelpers
+  ) => {
+    if (subformMode.isEdit) {
+      values[index]._destroy = true;
+      const uniqueId = values[index].unique_id;
+      const formName = fieldSubform.name;
+      if (uniqueId) {
+        let updatedData = subformFields[formName] || [];
+        updatedData = [
+          ...updatedData,
+          {
+            _destroy: true,
+            unique_id: uniqueId
+          }
+        ];
+        setSubformFields({
+          ...subformFields,
+          [formName]: updatedData
+        });
+      }
+    }
+    arrayHelpers.remove(index);
+  };
+
+  const renderSubformHeading = (arrayHelpers, index, fieldSubform) => {
     return (
       <Box display="flex">
         <Box flexGrow="1">
@@ -43,7 +77,11 @@ const SubformField = ({ field, formik, mode }) => {
         <Box>
           {!mode.isShow && (
             <>
-              <IconButton onClick={() => arrayHelpers.remove(index)}>
+              <IconButton
+                onClick={() =>
+                  handleDeletedSubforms(mode, index, fieldSubform, arrayHelpers)
+                }
+              >
                 <DeleteIcon />
               </IconButton>
               <IconButton onClick={() => arrayHelpers.push({})}>
@@ -76,6 +114,7 @@ const SubformField = ({ field, formik, mode }) => {
       </ExpansionPanel>
     );
   };
+
   const renderFields = arrayHelpers => {
     if (values && values.length > 0) {
       return values.map((subForm, index) => {
@@ -84,7 +123,7 @@ const SubformField = ({ field, formik, mode }) => {
             {ConditionalWrapper(
               mode.isShow,
               ExpansionWrapper,
-              renderSubformHeading(arrayHelpers, index),
+              renderSubformHeading(arrayHelpers, index, field),
               <div className={css.exandedSubform}>
                 {field.subform_section_id.fields.map(f => {
                   const fieldProps = {
@@ -94,7 +133,6 @@ const SubformField = ({ field, formik, mode }) => {
                     index,
                     parentField: field
                   };
-
                   return (
                     <Box my={3} key={f.name}>
                       <FormSectionField {...fieldProps} />
@@ -138,7 +176,9 @@ const SubformField = ({ field, formik, mode }) => {
 SubformField.propTypes = {
   field: PropTypes.object.isRequired,
   mode: PropTypes.object.isRequired,
-  formik: PropTypes.object.isRequired
+  formik: PropTypes.object.isRequired,
+  subformFields: PropTypes.object.isRequired,
+  setSubformFields: PropTypes.func.isRequired
 };
 
 export default connect(SubformField);

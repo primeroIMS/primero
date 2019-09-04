@@ -1,6 +1,6 @@
 import isEmpty from "lodash/isEmpty";
 import { fromJS } from "immutable";
-import { denormalizeData } from "./schema";
+import { denormalizeFormData } from "../../schemas";
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
 
@@ -63,7 +63,7 @@ export const getRecordForms = (state, query) => {
 
   const [...selectedFormKeys] = selectedForms.keys();
 
-  return denormalizeData(fromJS(selectedFormKeys), state.getIn(["forms"]));
+  return denormalizeFormData(fromJS(selectedFormKeys), state.getIn(["forms"]));
 };
 
 export const getOption = (state, option, locale) => {

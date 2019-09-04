@@ -23,26 +23,26 @@ class ChildrenController < ApplicationController
   end
 
 
-  def hide_name
-    if params[:protect_action] == "protect"
-      hide = true
-    elsif params[:protect_action] == "view"
-      hide = false
-    end
-    authorize! :update, @child
-    @child.hidden_name = hide
-    if @child.save
-      render :json => {:error => false,
-                       :input_field_text => hide ? I18n.t("cases.hidden_text_field_text") : @child.name,
-                       :disable_input_field => hide,
-                       :action_link_action => hide ? "view" : "protect",
-                       :action_link_text => hide ? I18n.t("cases.view_name") : I18n.t("cases.hide_name")
-                      }
-    else
-      puts @child.errors.messages
-      render :json => {:error => true, :text => I18n.t("cases.hide_name_error"), :accept_button_text => I18n.t("cases.ok")}
-    end
-  end
+  # def hide_name
+  #   if params[:protect_action] == "protect"
+  #     hide = true
+  #   elsif params[:protect_action] == "view"
+  #     hide = false
+  #   end
+  #   authorize! :update, @child
+  #   @child.hidden_name = hide
+  #   if @child.save
+  #     render :json => {:error => false,
+  #                      :input_field_text => hide ? I18n.t("cases.hidden_text_field_text") : @child.name,
+  #                      :disable_input_field => hide,
+  #                      :action_link_action => hide ? "view" : "protect",
+  #                      :action_link_text => hide ? I18n.t("cases.view_name") : I18n.t("cases.hide_name")
+  #                     }
+  #   else
+  #     puts @child.errors.messages
+  #     render :json => {:error => true, :text => I18n.t("cases.hide_name_error"), :accept_button_text => I18n.t("cases.ok")}
+  #   end
+  # end
 
   def create_incident
     begin
@@ -354,7 +354,7 @@ class ChildrenController < ApplicationController
     @display_assessment ||= (can?(:view_assessment, Dashboard) || current_user.admin?)
   end
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   def logger_action_name
     if action_name == "hide_name"
       "hide_name.#{params[:protect_action]}"
