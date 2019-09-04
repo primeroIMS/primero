@@ -1,5 +1,6 @@
 import isEmpty from "lodash/isEmpty";
 import { fromJS } from "immutable";
+import includes from "lodash/includes";
 import { denormalizeFormData } from "../../schemas";
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
@@ -9,13 +10,12 @@ const forms = (state, { recordType, primeroModule }) => {
 
   if (isEmpty(formSections)) return null;
 
-  return formSections.filter(fs => {
-    return (
-      fs.get("parent_form") === recordType &&
-      fs.get("module_ids").includes(primeroModule) &&
-      !fs.get("is_nested")
-    );
-  });
+  return formSections.filter(
+    fs =>
+      includes(fs.module_ids, primeroModule) &&
+      fs.parent_form === recordType &&
+      !fs.is_nested
+  );
 };
 
 export const getFirstTab = (state, query) => {
@@ -61,9 +61,10 @@ export const getRecordForms = (state, query) => {
 
   if (!selectedForms) return null;
 
-  const [...selectedFormKeys] = selectedForms.keys();
-
-  return denormalizeFormData(fromJS(selectedFormKeys), state.getIn(["forms"]));
+  return denormalizeFormData(
+    fromJS(selectedForms.map(f => f.id - 1)),
+    state.getIn(["forms"])
+  );
 };
 
 export const getOption = (state, option, locale) => {
