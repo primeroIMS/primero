@@ -31,7 +31,7 @@ Example:
 
 Run the migration scripts
 -------------------------
-- $ bundle exec rails r db/i18n_migration/migrate.rb
+- $ bundle exec rails r db/upgrade_migrations/migration_1.5_to_1.7/migrate.rb
 
 
 Create manually each form-group lookup and use form_group_id instead of form-group-name
@@ -129,7 +129,7 @@ Run the migration
 -----------------
 - $ sudo -Hu primero bash
 - $ cd ~/application/
-- $ RAILS_ENV=production bundle exec rails r db/i18n_migration/migrate_records.rb
+- $ RAILS_ENV=production bundle exec rails r db/upgrade_migrations/migration_1.5_to_1.7/migrate_records.rb
 
 
 Reindex solr (if you want to test the application with the migrated data)
