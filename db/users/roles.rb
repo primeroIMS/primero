@@ -512,8 +512,7 @@ gbv_manager_permissions = [
       Permission::REMOVE_ASSIGNED_USERS,
       Permission::ENABLE_DISABLE_RECORD,
       Permission::APPROVE_CASE_PLAN,
-      Permission::APPROVE_CLOSURE,
-      Permission::REASSIGN
+      Permission::APPROVE_CLOSURE
     ]
   ),
   Permission.new(
