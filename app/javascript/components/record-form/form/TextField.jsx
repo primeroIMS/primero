@@ -47,7 +47,8 @@ const TextField = ({ name, field, ...rest }) => {
               }}
               {...fieldProps}
             />
-            {guidingQuestions && fieldProps.mode.isEdit ? (
+            {guidingQuestions &&
+            (fieldProps.mode.isEdit || fieldProps.mode.isNew) ? (
               <GuidingQuestions
                 label={i18n.t("buttons.guiding_questions")}
                 text={guidingQuestions[i18n.locale]}
