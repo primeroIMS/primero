@@ -785,7 +785,8 @@ class HomeController < ApplicationController
 
   def load_gbv_incidents_information
     @gbv_incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.tomorrow,
-                                                    type: 'incident'})
+                                                    is_manager: current_user.is_manager?, modules: @module_ids,
+                                                    flagged_by: current_user.user_name, type: 'incident'})
     @gbv_incidents_recently_flagged = @gbv_incidents_recently_flagged[0..4]
     @open_gbv_incidents = Incident.open_gbv_incidents(@current_user)
   end
