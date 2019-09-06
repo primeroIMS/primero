@@ -518,6 +518,26 @@ class User < CouchRest::Model::Base
     self.modules.any? {|m| m.user_group_filter }
   end
 
+  def group_permission_filters
+    filters = {
+      user_group_ids: [],
+      user_names: []
+    }
+
+    if self.has_group_permission?(Permission::ALL)
+      filters[:user_group_ids] = [Searchable::ALL_FILTER]
+      filters[:user_names] = [Searchable::ALL_FILTER]
+    elsif self.has_group_permission?(Permission::GROUP)
+      filters[:user_group_ids] = self.user_group_ids
+      # In the absence of user groups, a user should at least see his own records.
+      filters[:user_names] = [self.user_name]
+    else
+      filters[:user_names] = [self.user_name]
+    end
+
+    filters
+  end
+
   private
 
   def save_devices

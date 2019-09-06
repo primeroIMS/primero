@@ -21,9 +21,12 @@ record_classes.each do |record_type|
           if field_options[k].is_a?(Hash)
             v.each_with_index do |sf, index|
               field_options[k].each do |sub_key, sub_options|
-                subform_field_value = record[k][index][sub_key]
+                # Get the data from the raw db query...
+                # to handle case where field type changed which could cause new model to step all over old data
+                # EXAMPLE 'Yes' 'No' now handled as a boolean true/false... old 'Yes' 'No' vales seen as nil by the model
+                subform_field_value = db_records[rec_index][k][index][sub_key]
                 new_value = MigrationHelper.get_value(subform_field_value, sub_options)
-                record[k][index][sub_key] = new_value if new_value.present?
+                record[k][index][sub_key] = new_value if new_value.present? || new_value == false
               end
             end
           elsif field_options[k].is_a?(Array)
