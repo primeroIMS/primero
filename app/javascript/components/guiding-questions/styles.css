@@ -1,0 +1,10 @@
+.root {
+  width: 80%;
+  & p {
+    padding: 16px;
+  }
+}
+
+.link {
+  cursor: pointer;
+}

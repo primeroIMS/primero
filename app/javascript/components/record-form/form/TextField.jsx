@@ -3,9 +3,13 @@ import PropTypes from "prop-types";
 import { subYears } from "date-fns";
 import { TextField as MuiTextField } from "formik-material-ui";
 import { FastField } from "formik";
+import { useI18n } from "components/i18n";
+import { GuidingQuestions } from "components/guiding-questions";
 
 const TextField = ({ name, field, ...rest }) => {
-  const { type, visible } = field;
+  const { type, visible, guiding_questions: guidingQuestions } = field;
+  const i18n = useI18n();
+
   const fieldProps = {
     type: type === "numeric_field" ? "number" : "text",
     multiline: type === "textarea",
@@ -26,22 +30,30 @@ const TextField = ({ name, field, ...rest }) => {
       name={name}
       render={renderProps => {
         return (
-          <MuiTextField
-            form={renderProps.form}
-            field={{
-              ...renderProps.field,
-              onChange(evt) {
-                const { value } = evt.target;
-                updateDateBirthField(renderProps.form, value);
-                return renderProps.form.setFieldValue(
-                  renderProps.field.name,
-                  value,
-                  true
-                );
-              }
-            }}
-            {...fieldProps}
-          />
+          <>
+            <MuiTextField
+              form={renderProps.form}
+              field={{
+                ...renderProps.field,
+                onChange(evt) {
+                  const { value } = evt.target;
+                  updateDateBirthField(renderProps.form, value);
+                  return renderProps.form.setFieldValue(
+                    renderProps.field.name,
+                    value,
+                    true
+                  );
+                }
+              }}
+              {...fieldProps}
+            />
+            {guidingQuestions && fieldProps.mode.isEdit ? (
+              <GuidingQuestions
+                label={i18n.t("buttons.guiding_questions")}
+                text={guidingQuestions[i18n.locale]}
+              />
+            ) : null}
+          </>
         );
       }}
     />

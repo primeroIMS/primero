@@ -21,7 +21,8 @@ const FormSectionField = ({ name, field, mode }) => {
     help_text: helpText,
     display_name: displayName,
     disabled,
-    editable
+    editable,
+    required
   } = field;
 
   const fieldProps = {
@@ -37,6 +38,7 @@ const FormSectionField = ({ name, field, mode }) => {
     },
     InputLabelProps: {
       shrink: true,
+      required,
       classes: {
         root: css.inputLabel
       }
