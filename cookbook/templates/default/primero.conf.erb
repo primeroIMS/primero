@@ -1,4 +1,0 @@
-limit_conn_zone $binary_remote_addr zone=addr:10m;
-limit_conn addr 20;
-limit_req_zone $binary_remote_addr zone=req_limit_per_ip:10m rate=50r/s;
-limit_req zone=req_limit_per_ip burst=20;
