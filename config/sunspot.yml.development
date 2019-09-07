@@ -1,0 +1,13 @@
+development:
+  solr:
+    hostname: localhost
+    port: 8983
+    log_level: INFO
+    pid_dir: tmp/pids
+
+test:
+  solr:
+    hostname: localhost
+    port: 8983
+    log_level: OFF
+    pid_dir: tmp/pids

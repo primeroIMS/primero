@@ -1,0 +1,13 @@
+development:
+  delivery_method: :letter_opener
+  notifications:
+    host: 'localhost:3000'
+  default_options:
+    from: 'development@localhost'
+
+test:
+  delivery_method: :test
+  notifications:
+    host: 'localhost:3000'
+  default_options:
+    from: 'test@localhost'
