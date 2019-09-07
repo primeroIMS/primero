@@ -83,4 +83,5 @@ group :development, :test do
   gem 'pry'
   gem 'pry-byebug'
   gem 'sunspot_test', require: false
+  gem 'listen'
 end

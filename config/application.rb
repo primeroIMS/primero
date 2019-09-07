@@ -18,8 +18,6 @@ module Primero
       #{config.root}/lib
       #{config.root}/lib/primero
       #{config.root}/lib/extensions
-      #{config.root}/app/presenters
-      #{config.root}/app
     )
 
     # I18n deprecation
