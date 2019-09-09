@@ -233,6 +233,8 @@ describe Api::V2::ChildrenController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@case1.id)
+      expect(json['data']['age']).to eq(10)
+      expect(json['data']['sex']).to eq('female')
 
       case1 = Child.find_by(id: @case1.id)
       expect(case1.data['age']).to eq(10)
@@ -265,7 +267,7 @@ describe Api::V2::ChildrenController, type: :request do
       params = {
           data: {
               family_details: [
-                  {unique_id: 'a1', _delete: true},
+                  {unique_id: 'a1', _destroy: true},
                   {unique_id: 'a3', relation_type: 'uncle',  age: 50}
               ]
           }

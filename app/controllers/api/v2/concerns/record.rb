@@ -31,6 +31,7 @@ module Api::V2::Concerns
       params.permit!
       @record = model_class.new_with_user(current_user, record_params)
       @record.save!
+      select_updated_fields
       status = params[:data][:id].present? ? 204 : 200
       render 'api/v2/records/create', status: status
     end
@@ -42,6 +43,7 @@ module Api::V2::Concerns
       params.permit!
       @record.update_properties(record_params, current_user.name)
       @record.save!
+      select_updated_fields
       render 'api/v2/records/update'
     end
 
@@ -64,6 +66,11 @@ module Api::V2::Concerns
 
     def select_fields
       @selected_field_names = FieldSelectionService.select_fields_to_show(params, model_class, @permitted_field_names)
+    end
+
+    def select_updated_fields
+      changes = @record.saved_changes_to_record.keys
+      @updated_field_names = changes & @permitted_field_names
     end
 
     def record_params
