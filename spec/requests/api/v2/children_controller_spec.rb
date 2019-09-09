@@ -265,7 +265,7 @@ describe Api::V2::ChildrenController, type: :request do
       params = {
           data: {
               family_details: [
-                  {unique_id: 'a1', _delete: true},
+                  {unique_id: 'a1', _destroy: true},
                   {unique_id: 'a3', relation_type: 'uncle',  age: 50}
               ]
           }
