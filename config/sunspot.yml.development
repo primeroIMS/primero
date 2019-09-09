@@ -4,6 +4,7 @@ development:
     port: 8983
     log_level: INFO
     pid_dir: tmp/pids
+    path: /solr/primero
 
 test:
   solr:
@@ -11,3 +12,4 @@ test:
     port: 8983
     log_level: OFF
     pid_dir: tmp/pids
+    path: /solr/primero-test

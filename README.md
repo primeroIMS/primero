@@ -18,6 +18,7 @@ All command below assume that you are starting in the Primero root directory.
     $ ./build.sh postgres
     $ ./build.sh solr
     $ ./compose.local.sh up -d postgres
+    $ ./compose.local.sh run solr make-primero-core.sh primero-test
     $ ./compose.local.sh up -d solr
     
 Note that on Linux, where Docker runs as root by default, 
