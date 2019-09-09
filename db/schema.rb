@@ -345,7 +345,7 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
 
   create_table "saved_searches", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.string "module_id"
+    t.string "module_ids", default: [], array: true
     t.string "record_type"
     t.string "user_name"
     t.jsonb "filters"
