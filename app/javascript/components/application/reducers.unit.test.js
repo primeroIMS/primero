@@ -42,9 +42,9 @@ describe("Application - Reducers", () => {
         }
       ],
       locales: ["en", "fr", "ar"],
-      default_locale: "en",
-      base_language: "en",
-      primero_version: "2.0.0.1"
+      defaultLocale: "en",
+      baseLanguage: "en",
+      primeroVersion: "2.0.0.1"
     });
     const action = {
       type: "application/FETCH_SYSTEM_SETTINGS_SUCCESS",
@@ -82,9 +82,9 @@ describe("Application - Reducers", () => {
             }
           ],
           locales: ["en", "fr", "ar"],
-          default_locale: "en",
-          base_language: "en",
-          primero_version: "2.0.0.1"
+          defaultLocale: "en",
+          baseLanguage: "en",
+          primeroVersion: "2.0.0.1"
         }
       }
     };

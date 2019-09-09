@@ -15,6 +15,7 @@ module Api::V2
 
     # Overriding method called by Devise session destroy.
     def respond_to_on_destroy
+      cookies.delete(:primero_token, domain: Rails.configuration.primero_host)
       render json: {}
     end
 

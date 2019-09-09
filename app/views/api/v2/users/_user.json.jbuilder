@@ -1,7 +1,7 @@
 user_hash =  user.attributes.reject{ |k,_| User.hidden_attributes.include?(k) }
 if @extended
   user_hash = user_hash.merge({
-    modules: user.module_ids,
+    modules: user.primero_modules.map(&:unique_id),
     agency: user.agency.try(:id),
     permissions: {
       list: user.role.permissions.map{ |p| { resource: p.resource.pluralize, actions: p.actions } },

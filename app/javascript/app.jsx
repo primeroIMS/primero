@@ -18,6 +18,7 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { checkUserAuthentication } from "components/user";
 import { SnackbarProvider } from "notistack";
+import { ApplicationProvider } from "components/application";
 import configureStore, { history } from "./store";
 
 const store = configureStore();
@@ -52,43 +53,47 @@ const App = () => {
           >
             <ThemeProvider theme={theme}>
               <SnackbarProvider maxSnack={3}>
-                <ConnectedRouter history={history}>
-                  <Switch>
-                    <Route exact path="/">
-                      <Redirect to="/login" />
-                    </Route>
-                    {routes.map((route, index) => {
-                      if (route.layout) {
-                        return (
-                          <Route
-                            key={index}
-                            exact={
-                              route.routes
-                                ? route.routes.some(r => r.exact)
-                                : route.exact
-                            }
-                            path={route.routes.map(r => r.path)}
-                          >
-                            <route.layout>
-                              {route.routes.map(subRoute => (
-                                <Route
-                                  key={subRoute.path}
-                                  exact
-                                  path={subRoute.path}
-                                  component={() => (
-                                    <subRoute.component mode={subRoute.mode} />
-                                  )}
-                                />
-                              ))}
-                            </route.layout>
-                          </Route>
-                        );
-                      }
+                <ApplicationProvider>
+                  <ConnectedRouter history={history}>
+                    <Switch>
+                      <Route exact path="/">
+                        <Redirect to="/login" />
+                      </Route>
+                      {routes.map((route, index) => {
+                        if (route.layout) {
+                          return (
+                            <Route
+                              key={index}
+                              exact={
+                                route.routes
+                                  ? route.routes.some(r => r.exact)
+                                  : route.exact
+                              }
+                              path={route.routes.map(r => r.path)}
+                            >
+                              <route.layout>
+                                {route.routes.map(subRoute => (
+                                  <Route
+                                    key={subRoute.path}
+                                    exact
+                                    path={subRoute.path}
+                                    component={() => (
+                                      <subRoute.component
+                                        mode={subRoute.mode}
+                                      />
+                                    )}
+                                  />
+                                ))}
+                              </route.layout>
+                            </Route>
+                          );
+                        }
 
-                      return <Route key={index} {...route} />;
-                    })}
-                  </Switch>
-                </ConnectedRouter>
+                        return <Route key={index} {...route} />;
+                      })}
+                    </Switch>
+                  </ConnectedRouter>
+                </ApplicationProvider>
               </SnackbarProvider>
             </ThemeProvider>
           </StylesProvider>
