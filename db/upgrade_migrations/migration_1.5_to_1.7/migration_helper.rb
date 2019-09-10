@@ -1,25 +1,7 @@
 module MigrationHelper
-  #Used to patch legacy data that has known misspellings in the locations
-  def location_map
-    @location_map ||= {
-      'Western Area Urban' => 'Western Area Urban (Freetown)',
-      'Wandor' => 'Wando',
-      'Njaluahun' => 'Jaluahun',
-      'Bombali Sebora' => 'Bombali Shebora',
-      'Paki Masabong' => 'Paki Massabong',
-      'Sanda Magbolont' => 'Sanda Magbolontor',
-      'Kunike' => 'Kunike Barina',
-      'Boama' => 'Baoma'
-    }
-  end
 
   def get_locations
     locations = Location.all_names
-    #The display_text_2 is necessary to clean up discrepancies between "Western Area Urban" and "Western Area Urban (Freetown)"
-    locations.each do |loc|
-      loc['display_text_2'] = loc['display_text'].sub('Western Area Urban (Freetown)', 'Western Area Urban') if loc['display_text'].include?('Western Area Urban (Freetown)')
-    end
-    locations
   end
 
   def generate_keyed_value(value)
@@ -83,12 +65,10 @@ module MigrationHelper
   end
 
   def patch_location(value)
-    lm = location_map
     value.split('::').map{|el| (lm[el] || el)}.join('::')
   end
 
   def get_value(value, options)
-    lm = location_map
     if value.present? && options.present?
       if value.is_a?(Array)
         #look for value iin either the ids or in the display text
