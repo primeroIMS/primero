@@ -32,18 +32,15 @@ A user may only set the fields that this user is permitted to access.
 
 **Code** : `200 OK`
 
-**Content** :
+**Content** : A JSON representation of all fields that changed as a result of this update
+that the user is allowed to view.
 
 ```json
 {
   "data": {
       "age": 16,
       "sex": "female",
-      "name": "Edwine Edgemont",
-      "owned_by": "primero",
-      "created_at": "2019-05-10T05:34:59.514Z",
-      "case_id_display": "f15a1a9",
-      "registration_date": "2019-05-10"
+      "name": "Edwine Edgemont"
     }
 }
 ```
