@@ -11,6 +11,7 @@ const colors = {
   darkGrey: "#595952",
   blue: "#0093ba",
   yellow: "#f2c317",
+  moonYellow: "#f2b417",
   red: "#d0021b",
   green: "#839e3c",
   orange: "#e7712d",
