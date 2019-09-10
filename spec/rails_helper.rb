@@ -23,6 +23,8 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # This clears couchdb between tests.
 Mime::Type.register 'application/zip', :mock
 
+ActiveJob::Base.queue_adapter = :test
+
 module VerifyAndResetHelpers
   def verify(object)
     RSpec::Mocks.space.proxy_for(object).verify

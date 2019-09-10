@@ -2,14 +2,14 @@ import { cleanUpFilters } from "./helpers";
 
 export const fetchRecords = data => async dispatch => {
   dispatch({
-    type: `${data.namespace}/SET_FILTERS`,
+    type: `${data.recordType}/SET_FILTERS`,
     payload: data.options
   });
 
   dispatch({
-    type: `${data.namespace}/RECORDS`,
+    type: `${data.recordType}/RECORDS`,
     api: {
-      path: data.path,
+      path: data.recordType,
       params: cleanUpFilters(data.options)
     }
   });

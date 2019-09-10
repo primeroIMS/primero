@@ -21,7 +21,7 @@ import {
   DatesRange,
   SwitchButton
 } from "components/filters-builder/filter-controls";
-import { selectFilters } from "components/record-list";
+import { selectFilters } from "components/index-table";
 import { useI18n } from "components/i18n";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";

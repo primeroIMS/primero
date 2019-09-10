@@ -38,6 +38,7 @@ const NavItem = ({
       }}
     >
       <ListItemText className={groupItem ? css.nestedItem : css.item}>
+        {/* TODO: This will need to be dynamic once connected to endpoint */}
         {name === "Case Plan" ? <Jewel value={name} isForm /> : name}
       </ListItemText>
       {isNested && (open ? <ExpandMore /> : <ExpandLess />)}

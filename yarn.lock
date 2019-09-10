@@ -4679,6 +4679,11 @@ icss-utils@^4.1.0:
   dependencies:
     postcss "^7.0.14"
 
+idb@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/idb/-/idb-4.0.4.tgz#f0c06f58bd78fe557e4de944fd6ba6a3240faa8e"
+  integrity sha512-ZYsaBSNub2yAnjvmRKudQlMIPqZQIefAOwNIPeXC+RLIeXYFc0UNQqONKNuQeBNf8oBOV5L75yJ9zFISjHVj4g==
+
 ieee754@^1.1.4:
   version "1.1.13"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.13.tgz#ec168558e95aa181fd87d37f55c32bbcb6708b84"
@@ -5667,6 +5672,11 @@ lodash._reinterpolate@^3.0.0:
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
   integrity sha1-DM8tiRZq8Ds2Y8eWU4t1rG4RTZ0=
 
+lodash.assign@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/lodash.assign/-/lodash.assign-4.2.0.tgz#0d99f3ccd7a6d261d19bdaeb9245005d285808e7"
+  integrity sha1-DZnzzNem0mHRm9rrkkUAXShYCOc=
+
 lodash.clonedeep@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
@@ -6182,12 +6192,13 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
-mui-datatables@^2.6.4:
-  version "2.6.4"
-  resolved "https://registry.yarnpkg.com/mui-datatables/-/mui-datatables-2.6.4.tgz#7a1de8790cffbd3c22c33b5b08d0a8c2bc3cefba"
-  integrity sha512-jrftXrmHbKn2LnIyr+PEBT6I6JC+55GbN0PJwGgaFRNBfuU4jUR7UFX5wLjr0uhXBNWaCr2ht100wmRBDfH3Zw==
+mui-datatables@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/mui-datatables/-/mui-datatables-2.9.0.tgz#deb01fb257adf4b66c401443fa24de853aebe62d"
+  integrity sha512-YHkDpaAjH7jrsY8TIsHbFP+WTcxWX/riA5H/vcd+qnAkv3aorH0ksm3v4cKcDKt0+K44+rEFMID+EkHGrZG4JQ==
   dependencies:
     classnames "^2.2.5"
+    lodash.assign "^4.2.0"
     lodash.clonedeep "^4.5.0"
     lodash.find "^4.6.0"
     lodash.get "^4.4.2"

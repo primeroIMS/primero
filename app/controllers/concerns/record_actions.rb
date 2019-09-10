@@ -5,7 +5,7 @@ module RecordActions
   include ExportActions
   include TransitionActions
   include MarkForMobileActions
-  include LoggerActions
+  include AuditLogActions
 
   included do
     skip_before_action :verify_authenticity_token, raise: false
@@ -501,7 +501,7 @@ module RecordActions
 
   protected
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   def logger_action_identifier
     if @record.respond_to?(:case_id_display)
       "#{logger_model_titleize} '#{@record.case_id_display}'"
@@ -520,14 +520,14 @@ module RecordActions
     end
   end
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   def logger_display_id
     return @record.display_id if @record.present? && @record.respond_to?(:display_id)
     return @records.map{|r| r.display_id} if @records.present? && @records.first.respond_to?(:display_id)
     super
   end
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   #TODO v1.3: make sure the mobile syncs are audited
   def logger_action_name
     if (action_name == "show" && params[:format].present?) || (action_name == "index" && params[:format].present?)
@@ -556,7 +556,7 @@ module RecordActions
     end
   end
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   def logger_action_suffix
     if (action_name == "show" && params[:format].present?) || (action_name == "index" && params[:format].present?)
       #Action is an export.
@@ -576,7 +576,7 @@ module RecordActions
     end
   end
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   def logger_owned_by
     return @record.owned_by if @record.present? && @record.respond_to?(:owned_by)
     return @records.map{|r| r.owned_by} if @records.present? && @records.first.respond_to?(:owned_by)

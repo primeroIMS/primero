@@ -52,5 +52,9 @@ module Api::V2
       end
       formi18n_props
     end
+
+    def model_class
+      FormSection
+    end
   end
 end

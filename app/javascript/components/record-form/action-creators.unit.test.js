@@ -47,7 +47,7 @@ describe("<RecordForm /> - Action Creators", () => {
     expect(dispatch.getCall(0).returnValue.type).to.eql("forms/RECORD_FORMS");
     expect(dispatch.getCall(0).returnValue.api.path).to.eql("forms");
     expect(typeof dispatch.getCall(0).returnValue.api.normalizeFunc).to.eql(
-      "function"
+      "string"
     );
   });
 

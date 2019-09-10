@@ -2,7 +2,7 @@ class PrimeroModulesController < ApplicationController
 
   @model_class = PrimeroModule
 
-  include LoggerActions
+  include AuditLogActions
 
   def index
     authorize! :index, PrimeroModule

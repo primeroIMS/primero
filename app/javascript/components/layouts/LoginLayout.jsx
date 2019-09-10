@@ -1,5 +1,6 @@
 import React from "react";
-import { selectModule, selectAgency } from "components/pages/login";
+import { selectAgency } from "components/pages/login";
+// import { selectPrimeroModule } from "components/user";
 import { Grid, Box, CssBaseline } from "@material-ui/core";
 import { ModuleLogo } from "components/module-logo";
 import { AgencyLogo } from "components/agency-logo";
@@ -8,14 +9,18 @@ import { TranslationsToggle } from "components/translations-toggle";
 import { NavLink } from "react-router-dom";
 import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Notifier } from "components/notifier";
 import styles from "./login-styles.css";
 
-const LoginLayout = ({ children, primeroModule, agency }) => {
+const LoginLayout = ({ children }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+
+  // TODO: Module hardcoded till we figure out when to switch modules
+  const primeroModule = "cp";
+  const agency = useSelector(state => selectAgency(state));
 
   return (
     <div>
@@ -60,17 +65,7 @@ const LoginLayout = ({ children, primeroModule, agency }) => {
 };
 
 LoginLayout.propTypes = {
-  children: PropTypes.node,
-  primeroModule: PropTypes.string,
-  agency: PropTypes.string
+  children: PropTypes.node
 };
 
-const mapStateToProps = state => ({
-  primeroModule: selectModule(state),
-  agency: selectAgency(state)
-});
-
-export default connect(
-  mapStateToProps,
-  null
-)(LoginLayout);
+export default LoginLayout;

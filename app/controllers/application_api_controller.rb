@@ -1,5 +1,6 @@
 class ApplicationApiController < ActionController::API
   include CanCan::ControllerAdditions
+  include AuditLogActions
 
   #check_authorization #TODO: Uncomment after upgrading to CanCanCan v3
   before_action :authenticate_user!
@@ -14,7 +15,11 @@ class ApplicationApiController < ActionController::API
   end
 
   def model_class
-    self.class.model_class
+    @model_class ||= Record.model_from_name(request.path.split('/')[3].singularize)
+  end
+
+  def record_id
+    params[:id]
   end
 
 end

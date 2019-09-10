@@ -8,7 +8,7 @@ class LocationsController < ApplicationController
   before_action :load_records_according_to_disable_filter, :except => [:destroy]
   before_action :load_types, :only => [:index, :new, :edit]
 
-  include LoggerActions
+  include AuditLogActions
 
   def index
     authorize! :index, Location
@@ -70,7 +70,7 @@ class LocationsController < ApplicationController
     @location_types = Lookup.get_location_types
   end
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   def logger_action_identifier
     if @location.present?
       "#{logger_model_titleize} '#{@location.type} - #{@location.placename}'"

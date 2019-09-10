@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import * as yup from "yup";
@@ -41,7 +41,7 @@ const RecordForm = ({
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-
+  const [subformFields, setSubformFields] = useState({});
   let initialFormValues = constructInitialValues(forms);
 
   if (record) {
@@ -49,9 +49,7 @@ const RecordForm = ({
   }
 
   const fieldValidations = field => {
-    const name = field.get("name");
-    const type = field.get("type");
-
+    const { name, type, required } = field;
     const validations = {};
 
     if (C.NUMERIC_FIELD === type) {
@@ -70,7 +68,7 @@ const RecordForm = ({
       }
     } else if (C.DATE_FIELD === type) {
       validations[name] = yup.date().nullable();
-      if (field.get("date_validation") === "default_date_validation") {
+      if (field.date_validation === "default_date_validation") {
         validations[name] = validations[name].max(
           addDays(new Date(), 1),
           i18n.t("fields.future_date_not_valid")
@@ -85,7 +83,7 @@ const RecordForm = ({
         .of(yup.object().shape(Object.assign({}, ...subformSchema)));
     }
 
-    if (field.get("required")) {
+    if (required) {
       validations[name] = (validations[name] || yup.string()).required(
         i18n.t("form_section.required_field", {
           field: field.display_name[i18n.locale]
@@ -126,7 +124,9 @@ const RecordForm = ({
             {form.fields.map(field => {
               const fieldProps = {
                 field,
-                mode
+                mode,
+                subformFields,
+                setSubformFields
               };
 
               return (
@@ -153,7 +153,7 @@ const RecordForm = ({
         validationSchema={validationSchema}
         validateOnBlur={false}
         validateOnChange={false}
-        onSubmit={values => onSubmit(initialFormValues, values)}
+        onSubmit={values => onSubmit(initialFormValues, values, subformFields)}
       >
         {({ handleSubmit, submitForm, errors, dirty, isSubmitting }) => {
           bindSubmitForm(submitForm);

@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { MobileToolbar } from "components/mobile-toolbar";
 import { ListIcon } from "components/list-icon";
 import { Jewel } from "components/jewel";
+import { useApp } from "components/application";
 import { TranslationsToggle } from "../translations-toggle";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
@@ -31,11 +32,13 @@ const Nav = () => {
     dispatch
   ]);
 
+  const { userModules } = useApp();
+  const module = userModules.first();
+
   // TODO: Username should come from redux once user built.
   const username = useSelector(state => Selectors.selectUsername(state));
   const agency = useSelector(state => Selectors.selectUserAgency(state));
   const drawerOpen = useSelector(state => Selectors.selectDrawerOpen(state));
-
   const nav = [
     { name: i18n.t("navigation.home"), to: "/dashboard", icon: "home" },
     {
@@ -104,7 +107,10 @@ const Nav = () => {
         }}
       >
         {!mobileDisplay && (
-          <ModuleLogo moduleLogo="primero" username={username} />
+          <ModuleLogo
+            moduleLogo={module ? module.unique_id : "primero"}
+            username={username}
+          />
         )}
         <List className={css.navList}>
           {nav.map(l => (
@@ -133,12 +139,14 @@ const Nav = () => {
           ))}
         </List>
         {/* TODO: Need to pass agency and logo path from api */}
-        <AgencyLogo
-          agency={agency && agency.unique_id}
-          logo={`${window.location.protocol}//${
-            window.location.host
-          }${(agency.logo && agency.logo.small) || ""}`}
-        />
+        {agency && (
+          <AgencyLogo
+            agency={agency && agency.unique_id}
+            logo={`${window.location.protocol}//${
+              window.location.host
+            }${(agency.logo && agency.logo.small) || ""}`}
+          />
+        )}
         {!mobileDisplay && <TranslationsToggle />}
       </Drawer>
     </>

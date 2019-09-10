@@ -1,69 +1,63 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import React from "react";
 import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles/";
 import DownloadIcon from "@material-ui/icons/GetApp";
 import { PageContainer, PageHeading } from "components/page-container";
 import { IndexTable } from "components/index-table";
-import * as actions from "./action-creators";
-import * as selectors from "./selectors";
+import { useSelector } from "react-redux";
+import { Map } from "immutable";
+import { fetchExports } from "./action-creators";
 import styles from "./styles.css";
+import { selectListHeaders } from "./selectors";
 
-const ExportList = ({ exportList, getExports, meta }) => {
+const ExportList = () => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  const recordType = "bulk_exports";
 
-  useEffect(() => {
-    getExports();
-  }, []);
+  const listHeaders = useSelector(state =>
+    selectListHeaders(state, recordType)
+  );
 
-  const columns = [
-    {
-      name: "id",
-      options: {
-        display: false
+  const columns = listHeaders.map(c => {
+    const options = {
+      ...{
+        ...(c.name === "file_name"
+          ? {
+              id: true,
+              customBodyRender: value => {
+                return (
+                  <div className={css.link}>
+                    <DownloadIcon />
+                    {value}
+                  </div>
+                );
+              }
+            }
+          : {})
       }
-    },
-    {
-      name: "file",
-      id: true,
-      label: i18n.t("bulk_export.file_name"),
-      options: {
-        customBodyRender: value => {
-          return (
-            <div className={css.link}>
-              <DownloadIcon />
-              {value}
-            </div>
-          );
-        }
-      }
-    },
-    {
-      name: "type",
-      label: i18n.t("bulk_export.record_type")
-    },
-    {
-      name: "started",
-      label: i18n.t("bulk_export.started_on")
-    }
-  ];
+    };
+
+    return {
+      name: c.field_name,
+      label: c.name,
+      options
+    };
+  });
 
   const options = {
     selectableRows: "none"
   };
 
   const tableOptions = {
+    recordType,
     columns,
     options,
-    namespace: "exports",
-    path: "/exports",
-    data: {
-      records: exportList,
-      meta
-    },
-    onTableChange: () => {}
+    defaultFilters: Map({
+      per: 20,
+      page: 1
+    }),
+    onTableChange: fetchExports
   };
 
   return (
@@ -74,22 +68,4 @@ const ExportList = ({ exportList, getExports, meta }) => {
   );
 };
 
-ExportList.propTypes = {
-  exportList: PropTypes.object,
-  getExports: PropTypes.func,
-  meta: PropTypes.object
-};
-
-const mapStateToProps = state => ({
-  exportList: selectors.selectExports(state),
-  meta: selectors.selectMeta(state)
-});
-
-const mapDispatchToProps = {
-  getExports: actions.fetchExports
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ExportList);
+export default ExportList;

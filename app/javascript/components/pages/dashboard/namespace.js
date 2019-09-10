@@ -1,1 +1,1 @@
-export default "Dashboard";
+export default "dashboard";
