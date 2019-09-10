@@ -28,6 +28,8 @@ services:
     env_file:
       - docker/defaults.env
       - docker/local.env
+    ports:
+      - "8983:8983"
   beanstalkd:
     env_file:
       - docker/defaults.env
@@ -40,6 +42,8 @@ services:
     env_file:
       - docker/defaults.env
       - docker/local.env
+    ports:
+      - "5432:5432"
   scheduler:
     env_file:
       - docker/defaults.env
