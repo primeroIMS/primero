@@ -60,9 +60,7 @@ On MacOS:
 
     $ #If xcode-select is not installed yet, install it.
     $ xcode-select --install
-    $ brew install libpq imagemagick
-    $ #In order to install pg gem without postgresql
-    $ bundle config --local build.pg --with-opt-dir="/usr/local/opt/libpq"
+    $ brew install libpq imagemagick postgresql
 
 On Ubuntu:
 
@@ -88,12 +86,14 @@ Set development environment variables:
     $ echo "export DEVISE_SECRET_KEY=DEVISE_SECRET_KEY" >> ~/.bashrc
     $ echo "export DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY" >> ~/.bashrc
 
+If you use a different shell, add these environment variables to the rc file for that shell.
+
 You may be pedantic about the secrets in development, and set them to something truly secret.
 Optionally use the command below to generate a random secret:
 
     $ rails secret
 
-Make sure that the secrets we set earlier are in your environment:
+Make sure that the secrets we set earlier are in your environment (replace .basharc with the rc file for your shell if you use a shell other than bash):
 
     $ source ~/.bashrc
 
