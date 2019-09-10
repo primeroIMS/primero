@@ -5,6 +5,7 @@ import createGenerateClassName from "@material-ui/styles/createGenerateClassName
 import jssPreset from "@material-ui/styles/jssPreset";
 import StylesProvider from "@material-ui/styles/StylesProvider";
 import { ConnectedRouter } from "connected-react-router/immutable";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import { create } from "jss";
 import rtl from "jss-rtl";
 import React from "react";
@@ -24,8 +25,10 @@ import configureStore, { history } from "./store";
 const store = configureStore();
 
 const jss = create({
-  plugins: [...jssPreset().plugins, rtl()]
+  plugins: [...jssPreset().plugins, rtl()],
+  insertionPoint: document.getElementById("jss-insertion-point")
 });
+
 const generateClassName = createGenerateClassName();
 
 const App = () => {
@@ -43,15 +46,12 @@ const App = () => {
   store.dispatch(checkUserAuthentication());
 
   return (
-    <Provider store={store}>
-      <I18nProvider>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <StylesProvider
-            injectFirst
-            jss={jss}
-            generateClassName={generateClassName}
-          >
-            <ThemeProvider theme={theme}>
+    <StylesProvider jss={jss} generateClassName={generateClassName}>
+      <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <I18nProvider>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <SnackbarProvider maxSnack={3}>
                 <ApplicationProvider>
                   <ConnectedRouter history={history}>
@@ -95,11 +95,11 @@ const App = () => {
                   </ConnectedRouter>
                 </ApplicationProvider>
               </SnackbarProvider>
-            </ThemeProvider>
-          </StylesProvider>
-        </MuiPickersUtilsProvider>
-      </I18nProvider>
-    </Provider>
+            </MuiPickersUtilsProvider>
+          </I18nProvider>
+        </Provider>
+      </ThemeProvider>
+    </StylesProvider>
   );
 };
 
