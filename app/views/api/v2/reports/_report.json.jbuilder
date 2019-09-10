@@ -10,11 +10,11 @@ json.merge! complete_locales_for([:name, :description], report_hash)
 if report.values.present?
   horizontal_fields = report.aggregate_by
                             .each_with_index
-                            .map { |f,i| report_field(report.field_map[f], 'horizontal', i, @fields[:aggregate_by][i]) }
+                            .map { |f,i| report_field(report.field_map[f], 'horizontal', i, f) }
                             .map { |rf| complete_locales_for([:display_name], rf.as_json) }
   vertical_fields = report.disaggregate_by
                           .each_with_index
-                          .map { |f,i| report_field(report.field_map[f], 'vertical', i, @fields[:disaggregate_by][i]) }
+                          .map { |f,i| report_field(report.field_map[f], 'vertical', i, f) }
                           .map { |rf| complete_locales_for([:display_name], rf.as_json) }
   json.merge!({
     fields: horizontal_fields + vertical_fields,

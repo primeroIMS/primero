@@ -15,11 +15,6 @@ module Api::V2
       @report = Report.find(params[:id])
       authorize! :read_reports, @report
       @report.permission_filter = report_permission_filter(current_user)
-      # Cache the original fields because they are changed after the report is built.
-      @fields = {
-        aggregate_by: @report.aggregate_by.deep_dup,
-        disaggregate_by: @report.disaggregate_by.deep_dup
-      }
       @report.build_report
     end
 
