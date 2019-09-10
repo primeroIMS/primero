@@ -34,6 +34,8 @@ class User < CouchRest::Model::Base
   alias_method :name, :user_name
 
   attr_accessor :password_confirmation, :password
+  attr_accessor :refresh_associated_user_groups
+
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_ids]
 
   timestamps!
@@ -134,7 +136,7 @@ class User < CouchRest::Model::Base
 
 
   before_save :make_user_name_lowercase, :encrypt_password, :update_user_cases_groups_and_location
-  after_save :save_devices
+  after_save :save_devices, :update_associated_user_groups
 
   before_update :if => :disabled? do |user|
     Session.delete_for user
@@ -543,6 +545,25 @@ class User < CouchRest::Model::Base
         child.owned_by_groups = self.user_group_ids if user_group_ids_changed?
         child.save!
       end
+      @refresh_associated_user_groups = user_group_ids_changed?
+    end
+  end
+
+  def update_associated_user_groups
+    if @refresh_associated_user_groups
+      pagination = { page: 1, per_page: 500}
+      begin
+        results = Child.search do
+          with(:associated_user_names, self.user_name)
+          paginate pagination
+        end.results
+        results.each do |child|
+          child.update_associated_user_groups
+          child.save!
+        end
+        pagination[:page] = results.next_page
+      end until results.next_page.nil?
+      @refresh_associated_user_groups = false
     end
   end
 

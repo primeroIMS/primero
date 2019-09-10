@@ -141,7 +141,7 @@ describe TracingRequestsController, :type => :controller do
           tracing_requests = mock_tracing_request(@stubs)
           scope ||= {"record_state"=>"single||true"}
           tracing_requests.stub(:paginate).and_return(tracing_requests)
-          TracingRequest.should_receive(:list_records).with({"record_state"=>{:type=>"single", :value=>true}}, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil, nil).and_return(tracing_requests)
+          TracingRequest.should_receive(:list_records).with({"record_state"=>{:type=>"single", :value=>true}}, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil, nil, []).and_return(tracing_requests)
 
           get :index, params: { :scope => scope }
           assigns[:tracing_requests].should == tracing_requests

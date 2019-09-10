@@ -40,6 +40,7 @@ module Searchable
         end
       end
       if self.include?(Ownable)
+        string :associated_user_groups, multiple: true
         string :associated_user_names, multiple: true
         string :owned_by
         string :owned_by_groups, multiple: true
@@ -103,6 +104,10 @@ module Searchable
             if filter_owned_by_groups?(match, owned_by_groups)
               owned_by_groups.each do |group|
                 with(:owned_by_groups, group)
+              end
+
+              owned_by_groups.each do |group|
+                with(:associated_user_groups, group)
               end
             end
             if filter_associated_users?(match, associated_user_names)

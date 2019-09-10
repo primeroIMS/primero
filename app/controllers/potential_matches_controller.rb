@@ -23,7 +23,7 @@ class PotentialMatchesController < ApplicationController
     load_potential_matches #@potential_matches, @case, @tracing_request
     #TODO MATCHING: All set visibility code is written by somone who didn't understand how record ownership works in Primero
     #               We don't need to address this now, but it really needs to be done away with.
-    @associated_user_names = users_filter
+    @associated_user_names = users_filter[:user_names]
     set_visibility(@potential_matches, @associated_user_names)
 
     @potential_matches = apply_filter_to_records(@potential_matches, @filters)
