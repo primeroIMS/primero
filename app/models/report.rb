@@ -115,13 +115,13 @@ class Report < ApplicationRecord
                 values_tree = values_tree.merge(new_value)
               end
             else
-              parent_tree = self.get_tree_level(values_tree, index - 1)
               if key_value.to_s.blank?
                 # Get the last non empty value as the parent_key
-                # to_s converts ranges to empty strings.
-                parent_key = key.each_with_index.select { |k,i| k.to_s.present? }.last.first
+                parent_key, tree_level = key.each_with_index.select { |k,i| k.to_s.present? }.last
+                parent_tree = self.get_tree_level(values_tree, tree_level)
                 parent_tree[parent_key]["_total"] = total
               elsif !self.has_key_at_level?(values_tree, key[index - 1], key_value, (index - 1))
+                parent_tree = self.get_tree_level(values_tree, index - 1)
                 parent_tree[key[index - 1]] = parent_tree[key[index - 1]].merge(new_value)
               end
             end
