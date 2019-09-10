@@ -61,10 +61,12 @@ export const getRecordForms = (state, query) => {
 
   if (!selectedForms) return null;
 
-  return denormalizeFormData(
-    fromJS(selectedForms.map(f => f.id - 1)),
+  const denormalizedForms = denormalizeFormData(
+    fromJS(selectedForms.map(f => f.id)),
     state.getIn(["forms"])
   );
+
+  return denormalizedForms.valueSeq();
 };
 
 export const getOption = (state, option, locale) => {
@@ -77,7 +79,7 @@ export const getOption = (state, option, locale) => {
     return selectedOptions ? selectedOptions.options : [];
   }
 
-  return option[locale];
+  return option ? option[locale] : [];
 };
 
 export const getRecord = (state, mode) => {
@@ -92,3 +94,6 @@ export const getLoadingState = state =>
   state.getIn([NAMESPACE, "loading"], false);
 
 export const getErrors = state => state.getIn([NAMESPACE, "errors"], false);
+
+export const getSelectedForm = state =>
+  state.getIn([NAMESPACE, "selectedForm"]);
