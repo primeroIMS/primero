@@ -64,10 +64,6 @@ module MigrationHelper
     field.options_list(nil, nil, locations, true, {locale: Primero::Application::LOCALE_ENGLISH})
   end
 
-  def patch_location(value)
-    value.split('::').map{|el| (lm[el] || el)}.join('::')
-  end
-
   def get_value(value, options)
     if value.present? && options.present?
       if value.is_a?(Array)
@@ -77,10 +73,6 @@ module MigrationHelper
         #The display_text_2 is necessary to clean up discrepancies between "Western Area Urban" and "Western Area Urban (Freetown)"
         v = options.select{|o| value.include?(o['id']) || value.include?(o['display_text']) || value.include?(o['display_text_2'])}.map{|option| option['id']}
       else
-        #Hack to try and identify locations
-        value = patch_location(value) if value.is_a?(String) && value.include?('::')
-        #The to_s is necessary to catch cases where the value is true or false
-        #The display_text_2 is necessary to clean up discrepancies between "Western Area Urban" and "Western Area Urban (Freetown)"
         v = options.select{|option| option['id'] == value.to_s || option['display_text'] == value.to_s.strip || option['display_text_2'] == value.to_s.strip}.first.try(:[], 'id')
         if v == 'true'
           v = true
