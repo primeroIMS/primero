@@ -34,11 +34,6 @@ Run the migration scripts
 - $ bundle exec rails r db/upgrade_migrations/migration_1.5_to_1.7/migrate.rb
 
 
-Create manually each form-group lookup and use form_group_id instead of form-group-name
--------------------------
-
-
-
 Test
 ----
 
@@ -50,6 +45,8 @@ Generate configuration seeds
 This will generate a seed-files directory with the new ruby seeds in the application root directory.
 Move that seed-files directory and its contents to the appropriate directory under primero-configuration.
 
+Create manually each form-group lookup and use form_group_id instead of form-group-name
+-------------------------
 
 ====================================================================================================================
 

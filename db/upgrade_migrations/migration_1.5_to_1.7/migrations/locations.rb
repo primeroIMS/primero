@@ -29,29 +29,6 @@ locations.each do |location|
   unless type.present?
     lookup_values << {id: location['type'], display_text: location['type'].titleize}.with_indifferent_access 
   end
-
-  if location['hierarchy'].present?
-    hierarchy = []
-
-    location['hierarchy'].each do |h|
-      location_code = locations.select{|l| l['placename'] == h}.first
-      if location_code.present?
-        hierarchy << location_code['location_code']
-      else
-        puts "No location code found or already migrated: Location - #{location['_id']} (#{h})"
-      end
-    end
-
-    if hierarchy.present?
-      location['hierarchy'] = hierarchy
-    end
-    
-    MigrationHelper.create_locales do |locale|
-      location["name_#{locale}"] = location['name'] if location['name'].present?
-    end
-
-    location.save
-  end
 end
 
 MigrationHelper.create_or_update_lookup(

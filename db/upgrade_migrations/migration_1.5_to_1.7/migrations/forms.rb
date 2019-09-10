@@ -25,37 +25,17 @@ FormSection.all.rows.map {|r| FormSection.database.get(r["id"]) }.each do |fs|
     default_change = default_changes.select {|dc| dc[:form] == fs['unique_id'] && dc[:field] == field['name']}.first
     field['selected_value'] = default_change[:value] if default_change.present?
 
-    case field['type']
-    when 'check_boxes'
-      field['type'] = Field::FIELD_DISPLAY_TYPES['tick_box']
-
-      value = MigrationHelper.generate_keyed_value('Yes')
-
-      MigrationHelper.create_locales do |locale|
-        field["tick_box_label_#{locale}"] = value
-        field.delete("option_strings_text_#{locale}")
-      end
-    #TODO commenting this out because the incoming data doesn't always respect the business rule that radio_buttons
-    #     are always yes/no
-    # when 'radio_button'
-    #   field['options_string_source'] = "lookup lookup-yes-no"
-    #
-    #   MigrationHelper.create_locales do |locale|
-    #     field.delete("option_strings_text_#{locale}")
-    #   end
+    if field['option_strings_source'] =~ /\Alookup/
+      lookup = field['option_strings_source'].match(/\w+\b(?<!lookup).*/)
+      field['option_strings_source'] = "lookup lookup-#{lookup[0].underscore.dasherize}" if lookup.present?
     else
-      if field['option_strings_source'] =~ /\Alookup/
-        lookup = field['option_strings_source'].match(/\w+\b(?<!lookup).*/)
-        field['option_strings_source'] = "lookup lookup-#{lookup[0].underscore.dasherize}" if lookup.present?
-      else
-        if field['option_strings_text_en'].present?
-          base_value = MigrationHelper.generate_keyed_value(field['option_strings_text_en'])
+      if field['option_strings_text_en'].present?
+        base_value = MigrationHelper.generate_keyed_value(field['option_strings_text_en'])
 
-          MigrationHelper.create_locales do |locale|
-            field["option_strings_text_#{locale}"] = field["option_strings_text_#{locale}"].present? ?
-                                                         MigrationHelper.translate_keyed_value(field["option_strings_text_#{locale}"], base_value) :
-                                                         base_value
-          end
+        MigrationHelper.create_locales do |locale|
+          field["option_strings_text_#{locale}"] = field["option_strings_text_#{locale}"].present? ?
+                                                        MigrationHelper.translate_keyed_value(field["option_strings_text_#{locale}"], base_value) :
+                                                        base_value
         end
       end
     end
