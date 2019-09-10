@@ -79,7 +79,7 @@ export const getOption = (state, option, locale) => {
     return selectedOptions ? selectedOptions.options : [];
   }
 
-  return option[locale];
+  return option ? option[locale] : [];
 };
 
 export const getRecord = (state, mode) => {
