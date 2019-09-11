@@ -51,7 +51,7 @@ const RecordFormToolbar = ({
       </Box>
       <Box>
         {mode.isShow && params && (
-          <Flagging recordType={params.recordType} records={params.id} />
+          <Flagging recordType={params.recordType} record={params.id} />
         )}
         {(mode.isEdit || mode.isNew) && (
           <>

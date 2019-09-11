@@ -15,7 +15,8 @@ module Flaggable
     after_save :index_flags, unless: Proc.new{ Rails.env == 'production' }
 
     def add_flag(message, date, user_name)
-      flag = Flag.new(flagged_by: user_name, message: message, date: date, created_at: DateTime.now)
+      date_flag = date.presence || Date.today
+      flag = Flag.new(flagged_by: user_name, message: message, date: date_flag, created_at: DateTime.now)
       self.flags << flag
     end
 
@@ -35,6 +36,7 @@ module Flaggable
         flag.removed = true
         flag.save!
       end
+      flag
     end
 
     def flag_count

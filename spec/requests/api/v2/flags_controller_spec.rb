@@ -32,7 +32,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
       expect(json['data'][0]['record_id']).to eq( @case1.id.to_s)
-      expect(json['data'][0]['record_type']).to eq( @case1.class.name)
+      expect(json['data'][0]['record_type']).to eq('cases')
       expect(json['data'][0]['message']).to eq( 'This is a flag')
       expect(json['data'][0]['removed']).to be_falsey
     end
@@ -44,7 +44,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
       expect(json['data'][0]['record_id']).to eq( @tracing_request1.id.to_s)
-      expect(json['data'][0]['record_type']).to eq( @tracing_request1.class.name)
+      expect(json['data'][0]['record_type']).to eq('tracing_requests')
       expect(json['data'][0]['message']).to eq( 'This is a flag TR')
       expect(json['data'][0]['removed']).to be_falsey
     end
@@ -56,7 +56,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
       expect(json['data'][0]['record_id']).to eq( @incident1.id.to_s)
-      expect(json['data'][0]['record_type']).to eq( @incident1.class.name)
+      expect(json['data'][0]['record_type']).to eq('incidents')
       expect(json['data'][0]['message']).to eq( 'This is a flag IN')
       expect(json['data'][0]['removed']).to be_falsey
     end
@@ -81,7 +81,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
       expect(json['data'][1]['record_id']).to eq( @case1.id.to_s)
-      expect(json['data'][1]['record_type']).to eq( @case1.class.name)
+      expect(json['data'][1]['record_type']).to eq('cases')
       expect(json['data'][1]['message']).to eq( 'This is another flag')
       expect(json['data'][1]['removed']).to be_falsey
     end
@@ -94,7 +94,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
       expect(json['data'][1]['record_id']).to eq( @tracing_request1.id.to_s)
-      expect(json['data'][1]['record_type']).to eq( @tracing_request1.class.name)
+      expect(json['data'][1]['record_type']).to eq('tracing_requests')
       expect(json['data'][1]['message']).to eq( 'This is another flag TR')
       expect(json['data'][1]['removed']).to be_falsey
     end
@@ -107,7 +107,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
       expect(json['data'][1]['record_id']).to eq( @incident1.id.to_s)
-      expect(json['data'][1]['record_type']).to eq( @incident1.class.name)
+      expect(json['data'][1]['record_type']).to eq('incidents')
       expect(json['data'][1]['message']).to eq( 'This is another flag IN')
       expect(json['data'][1]['removed']).to be_falsey
     end
@@ -279,7 +279,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
       @case1.reload
-      expect(json['data']['id']).to eq(@case1.id.to_s)
+      expect(json['data']['id']).to eq(@case1.flags.first.id)
     end
   end
 

@@ -1,3 +1,3 @@
 json.data do
-  json.id @record.id
+  json.id @flag.id
 end

@@ -1,14 +1,26 @@
 import React from "react";
-import { Formik, Field } from "formik";
+import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
 import PropTypes from "prop-types";
 import { Box, Button, InputAdornment } from "@material-ui/core";
 import { DatePicker } from "@material-ui/pickers";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { useI18n } from "components/i18n";
+import { useDispatch } from "react-redux";
+import { addFlag } from "../action-creators";
 
-const FlagForm = ({ recordType, records, handleOpen }) => {
+const initialFormikValues = {
+  date: null,
+  message: ""
+};
+
+const FlagForm = ({ recordType, record, handleOpen, handleActiveTab }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
+
+  const path = Array.isArray(record)
+    ? `${recordType}/flags`
+    : `${recordType}/${record}/flags`;
 
   const inputProps = {
     component: TextField,
@@ -34,15 +46,18 @@ const FlagForm = ({ recordType, records, handleOpen }) => {
     }
   };
 
-  const onSubmit = data => {
-    console.log({ id: records, ...data, recordType });
+  const onSubmit = async (data, actions) => {
+    const body = Array.isArray(record)
+      ? { data: { data, record, record_type: recordType } }
+      : { data };
+
+    await dispatch(addFlag(body, i18n.t("flags.flag_added"), path));
+    actions.resetForm(initialFormikValues);
+    handleActiveTab(0);
   };
 
   const formProps = {
-    initialValues: {
-      date: null,
-      message: ""
-    },
+    initialValues: initialFormikValues,
     onSubmit
   };
 
@@ -50,7 +65,7 @@ const FlagForm = ({ recordType, records, handleOpen }) => {
     <Box mx={4} mt={4}>
       <Formik {...formProps}>
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Box my={2}>
               <Field
                 name="message"
@@ -84,7 +99,7 @@ const FlagForm = ({ recordType, records, handleOpen }) => {
               <Button onClick={handleOpen}>{i18n.t("buttons.cancel")}</Button>
               <Button type="submit">{i18n.t("buttons.save")}</Button>
             </Box>
-          </form>
+          </Form>
         )}
       </Formik>
     </Box>
@@ -93,8 +108,9 @@ const FlagForm = ({ recordType, records, handleOpen }) => {
 
 FlagForm.propTypes = {
   recordType: PropTypes.string.isRequired,
-  records: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
-  handleOpen: PropTypes.func.isRequired
+  record: PropTypes.string.isRequired,
+  handleOpen: PropTypes.func.isRequired,
+  handleActiveTab: PropTypes.func
 };
 
 export default FlagForm;

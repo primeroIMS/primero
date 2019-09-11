@@ -9,7 +9,13 @@ const DEFAULT_STATE = Map({ data: [] });
 export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.FETCH_FLAGS_SUCCESS:
-      return state.set("data", listEntriesToRecord(payload, R.FlagRecord));
+    case Actions.ADD_FLAG_SUCCESS:
+      return state.set("data", listEntriesToRecord(payload.data, R.FlagRecord));
+    case Actions.UNFLAG_SUCCESS:
+      return state.set(
+        "data",
+        state.get("data").filter(i => i.id !== payload.data.id)
+      );
     default:
       return state;
   }
