@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from "react";
 import PropTypes from "prop-types";
 import { connect, useSelector } from "react-redux";
@@ -14,13 +13,15 @@ import * as Selectors from "./selectors";
 const Chips = ({ recordType, props, chips, setChips }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-  const { field_name, options, option_strings_source } = props;
+  const {
+    field_name: fieldName,
+    options,
+    option_strings_source: optionStringsSource
+  } = props;
   let values = [];
 
-  if (!isEmpty(option_strings_source)) {
-    values = useSelector(state =>
-      getOption(state, option_strings_source, i18n)
-    );
+  if (!isEmpty(optionStringsSource)) {
+    values = useSelector(state => getOption(state, optionStringsSource, i18n));
   } else if (Array.isArray(options)) {
     values = options;
   } else {
@@ -44,7 +45,7 @@ const Chips = ({ recordType, props, chips, setChips }) => {
             variant={chipVariant}
             onClick={() =>
               setChips(
-                { field_name, data: data.id },
+                { fieldName, data: data.id },
                 chips && chips.includes(data.id),
                 recordType
               )
