@@ -1,6 +1,6 @@
 
 module Importers
-  class CSVImporter
+  class CSVImporter < BaseImporter
     def self.id
       'csv'
     end
@@ -12,7 +12,7 @@ module Importers
     def self.import(file_obj)
       rows = CSV.parse(file_obj)
 
-      return Importers.flat_to_nested(rows)
+      return flat_to_nested(rows)
     end
   end
 end

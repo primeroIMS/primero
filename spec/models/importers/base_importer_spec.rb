@@ -1,8 +1,7 @@
 require 'rails_helper'
-require 'models/importers/base'
 
 module Importers
-  describe Importers do
+  describe BaseImporter do
     before :each do
       csv_io = StringIO.new('name, age, family[1]name, family[1]relation, family[2]name, family[2]relation')
     end
@@ -13,7 +12,7 @@ module Importers
         %w[Joe  15     Bob           father            Mary             mother],
         %w[Larry 10    Roy           father           Polly             mother]
       ]
-      hash_data = Importers.flat_to_nested(rows)
+      hash_data = Importers::BaseImporter.flat_to_nested(rows)
 
       hash_data.should == [
         {
@@ -41,7 +40,7 @@ module Importers
         %w[Joe      15     Bob           father            Mary          mother],
           ['Larry', '10',  nil,          'father',         'Polly',      'mother']
       ]
-      hash_data = Importers.flat_to_nested(rows)
+      hash_data = Importers::BaseImporter.flat_to_nested(rows)
       expect(hash_data).to eq(
         [
           {
@@ -71,7 +70,7 @@ module Importers
         ['Larry', '10',  'Roy',         'Rick',        nil,            'Randi']
       ]
 
-      hash_data = Importers.flat_to_nested(rows)
+      hash_data = Importers::BaseImporter.flat_to_nested(rows)
       expect(hash_data).to eq(
         [
           {
