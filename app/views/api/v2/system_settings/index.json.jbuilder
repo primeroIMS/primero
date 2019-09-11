@@ -22,6 +22,19 @@ json.data do
         json.name primero_module.name
         json.associated_record_types primero_module.associated_record_types
         json.options primero_module.module_options
+        #For now only CP case is supported, but the structure can be extended
+        if primero_module.unique_id == PrimeroModule::CP
+          json.workflows do
+            if primero_module.workflow_status_indicator
+              json.array! ['case'] do |record_type|
+                record_class = Record::model_from_name(record_type)
+                json.set! record_type do
+                  json.merge! record_class.workflow_statuses([primero_module] )
+                end
+              end
+            end
+          end
+        end
       end
     end
   end
