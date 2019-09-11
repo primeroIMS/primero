@@ -78,7 +78,7 @@ class Filter < ValueObject
     type: 'chips'
   )
   CURRENT_LOCATION = Filter.new(
-    name: 'cases.filter_by.current_location', 
+    name: 'cases.filter_by.current_location',
     field_name: 'location_current',
     option_strings_source: 'location',
     type: 'multi_select'
@@ -89,14 +89,14 @@ class Filter < ValueObject
     option_strings_source: 'lookup-agency-office'
   )
   USER_GROUP = Filter.new(name: 'permissions.permission.user_group', field_name: 'owned_by_groups')
-  REPORTING_LOCATION = -> (label, admin_level) { 
+  REPORTING_LOCATION = -> (label, admin_level) {
     Filter.new(
-      name: "location.base_types.#{label}", 
+      name: "location.base_types.#{label}",
       field_name: "#{admin_level}",
       option_strings_source: 'reporting_location',
       type: 'multi_select',
-      
-    ) 
+
+    )
   }
   NO_ACTIVITY = Filter.new(
     name: 'cases.filter_by.no_activity',
@@ -275,7 +275,7 @@ class Filter < ValueObject
       filters << ARMED_FORCE_GROUP if @primero_module_mrm.present? && user.has_module?(@primero_module_mrm.id)
       filters << ARMED_FORCE_GROUP_TYPE if @primero_module_mrm.present? && user.has_module?(@primero_module_mrm.id)
       filters << RECORD_STATE
-      filters 
+      filters
     end
 
     def tracing_request_filter(user)
@@ -313,12 +313,12 @@ class Filter < ValueObject
           { id: user_name, display_name: user_name }
         end
       when 'workflow'
-        self.options = Child.workflow_statuses_all_locales(user_modules) 
+        self.options = Child.workflow_statuses(user_modules)
       when 'owned_by_agency'
         self.options = User.agencies_by_user_list(managed_user_names).map do |agency|
-          { 
-            id: agency.id, 
-            display_name: I18n.available_locales.map do |locale| 
+          {
+            id: agency.id,
+            display_name: I18n.available_locales.map do |locale|
              { locale => agency.name(locale)  }
             end.inject(&:merge)
           }
@@ -352,7 +352,7 @@ class Filter < ValueObject
       when 'approval_status_bia', 'approval_status_case_plan', 'approval_status_closure'
         id_suffix = field_name.delete_prefix('approval_status_')
         self.options = I18n.available_locales.map do |locale|
-          { locale => 
+          { locale =>
             [ Child::APPROVAL_STATUS_PENDING, Child::APPROVAL_STATUS_APPROVED, Child::APPROVAL_STATUS_REJECTED].map do |status|
               { id: "#{status}_#{id_suffix}", display_text: I18n.t("cases.filter_by.approvals.#{status}", locale: locale) }
             end
@@ -360,7 +360,7 @@ class Filter < ValueObject
         end.inject(&:merge)
     end
   end
-  
+
   def resolve_type
     if self.type.blank? && self.options.present?
       if self.options.length == 1

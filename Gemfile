@@ -7,7 +7,7 @@ gem 'devise',           '4.6.2'
 gem 'devise-jwt',       '0.5.9'
 gem 'rake',             '~> 12.3'
 gem 'puma',             '~> 3.12'
-gem 'webpacker',        '~> 4.0'
+gem 'webpacker',        '~> 4.0.7'
 gem 'file_validators',  '~> 2.3'
 gem 'jbuilder',         '~> 2.8'
 
@@ -83,4 +83,5 @@ group :development, :test do
   gem 'pry'
   gem 'pry-byebug'
   gem 'sunspot_test', require: false
+  gem 'listen'
 end

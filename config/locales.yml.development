@@ -1,0 +1,7 @@
+development:
+  :default_locale: 'en'
+  :locales: ['en', 'fr', 'ar', 'ar-LB', 'so', 'es', 'bn']
+
+test:
+  :default_locale: 'en'
+  :locales: ['en', 'fr', 'ar', 'ar-LB', 'so', 'es', 'bn']

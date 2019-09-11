@@ -101,7 +101,7 @@ class User < ApplicationRecord
       users = User.all
       if filters.present?
         filters = filters.compact
-        filters['disabled'] = filters['disabled'] == 'true' ? true : false 
+        filters['disabled'] = filters['disabled'] == 'true' ? true : false
         users = users.where(filters)
         if user.present? && user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
           users = users.where(organization: user.organization)
@@ -327,6 +327,19 @@ class User < ApplicationRecord
     permitted_forms.map(&:fields).flatten.uniq(&:name)
   end
 
+  def permitted_field_names(record_modules, model_class)
+    unless @permitted_field_names.present?
+      @permitted_field_names = ['id'] + permitted_fields(record_modules, model_class.parent_form).map(&:name)
+      @permitted_field_names << 'record_state' if can?(:enable_disable_record, model_class)
+      @permitted_field_names << 'hidden_name' if can?(:update, model_class)
+      @permitted_field_names << 'flag_count' if can?(:flag, model_class)
+      if model_class == Child
+        @permitted_field_names += %w[workflow status case_status_reopened]
+      end
+    end
+    @permitted_field_names
+  end
+
   def ability
     @ability ||= Ability.new(self)
   end
@@ -368,7 +381,7 @@ class User < ApplicationRecord
       end
     end
   end
-  
+
   def update_reporting_location_code
     self.reporting_location_code = self.reporting_location.try(:location_code)
   end

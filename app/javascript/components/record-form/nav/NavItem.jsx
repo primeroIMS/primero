@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { ListItem, ListItemText } from "@material-ui/core";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
+import { Jewel } from "components/jewel";
 import { makeStyles } from "@material-ui/styles";
 import styles from "./styles.css";
 
@@ -37,7 +38,8 @@ const NavItem = ({
       }}
     >
       <ListItemText className={groupItem ? css.nestedItem : css.item}>
-        {name}
+        {/* TODO: This will need to be dynamic once connected to endpoint */}
+        {name === "Case Plan" ? <Jewel value={name} isForm /> : name}
       </ListItemText>
       {isNested && (open ? <ExpandMore /> : <ExpandLess />)}
     </ListItem>
