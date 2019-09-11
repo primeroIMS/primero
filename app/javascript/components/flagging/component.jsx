@@ -7,18 +7,18 @@ import { FlagForm, ListFlags, FlagDialog } from "./parts";
 import { fetchFlags } from "./action-creators";
 import { selectFlags } from "./selectors";
 
-const Flagging = ({ recordType, records, control }) => {
+const Flagging = ({ recordType, record, control }) => {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchFlags(recordType, records));
-  }, [dispatch, recordType, records]);
+    dispatch(fetchFlags(recordType, record));
+  }, [dispatch, recordType, record]);
 
-  const flags = useSelector(state => selectFlags(state, records, recordType));
+  const flags = useSelector(state => selectFlags(state, record, recordType));
 
-  const isBulkFlags = Array.isArray(records);
+  const isBulkFlags = Array.isArray(record);
 
   const handleOpen = () => {
     setOpen(!open);
@@ -30,7 +30,7 @@ const Flagging = ({ recordType, records, control }) => {
 
   const flagFormProps = {
     recordType,
-    records,
+    record,
     handleOpen,
     handleActiveTab
   };
@@ -46,7 +46,7 @@ const Flagging = ({ recordType, records, control }) => {
   const listFlagsProps = {
     flags,
     recordType,
-    records
+    record
   };
 
   return (
@@ -70,7 +70,7 @@ const Flagging = ({ recordType, records, control }) => {
 
 Flagging.propTypes = {
   recordType: PropTypes.string.isRequired,
-  records: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
+  record: PropTypes.string,
   control: PropTypes.node
 };
 

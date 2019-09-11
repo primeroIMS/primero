@@ -14,13 +14,13 @@ const initialFormikValues = {
   message: ""
 };
 
-const FlagForm = ({ recordType, records, handleOpen, handleActiveTab }) => {
+const FlagForm = ({ recordType, record, handleOpen, handleActiveTab }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const path = Array.isArray(records)
+  const path = Array.isArray(record)
     ? `${recordType}/flags`
-    : `${recordType}/${records}/flags`;
+    : `${recordType}/${record}/flags`;
 
   const inputProps = {
     component: TextField,
@@ -47,8 +47,8 @@ const FlagForm = ({ recordType, records, handleOpen, handleActiveTab }) => {
   };
 
   const onSubmit = async (data, actions) => {
-    const body = Array.isArray(records)
-      ? { data: { data, records, record_type: recordType } }
+    const body = Array.isArray(record)
+      ? { data: { data, record, record_type: recordType } }
       : { data };
 
     await dispatch(addFlag(body, i18n.t("flags.flag_added"), path));
@@ -108,7 +108,7 @@ const FlagForm = ({ recordType, records, handleOpen, handleActiveTab }) => {
 
 FlagForm.propTypes = {
   recordType: PropTypes.string.isRequired,
-  records: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
+  record: PropTypes.string.isRequired,
   handleOpen: PropTypes.func.isRequired,
   handleActiveTab: PropTypes.func
 };

@@ -7,7 +7,7 @@ import ListFlagsItem from "./ListFlagsItem";
 import Unflag from "./Unflag";
 import styles from "./styles.css";
 
-const ListFlags = ({ flags, recordType, records }) => {
+const ListFlags = ({ flags, recordType, record }) => {
   const [deleteFlag, setDeleteFlag] = useState({ deleteMode: false, id: "" });
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -33,7 +33,7 @@ const ListFlags = ({ flags, recordType, records }) => {
     setDeleteFlag,
     id,
     recordType,
-    records
+    record
   };
 
   return (
@@ -74,7 +74,7 @@ const ListFlags = ({ flags, recordType, records }) => {
 ListFlags.propTypes = {
   flags: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  records: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired
+  record: PropTypes.string
 };
 
 export default ListFlags;
