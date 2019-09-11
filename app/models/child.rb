@@ -75,17 +75,16 @@ class Child < ApplicationRecord
   def self.quicksearch_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
     # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
-    %w(unique_identifier short_id case_id_display name name_nickname name_other
-       ration_card_no icrc_ref_no rc_id_no unhcr_id_no unhcr_individual_no un_no
-       other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
-       family_count_no dss_id camp_id tent_number nfi_distribution_id
-    )
+    %w[ unique_identifier short_id case_id_display name name_nickname name_other
+        ration_card_no icrc_ref_no rc_id_no unhcr_id_no unhcr_individual_no un_no
+        other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
+        family_count_no dss_id camp_id tent_number nfi_distribution_id ]
   end
 
   def self.summary_field_names
-    %w(case_id_display name survivor_code_no age sex registration_date created_at
-       owned_by owned_by_agency photos flag_count hidden_name
-    )
+    %w[ case_id_display name survivor_code_no age sex registration_date created_at
+        owned_by owned_by_agency photos flag_count hidden_name workflow
+        status case_status_reopened ]
   end
 
   searchable auto_index: self.auto_index? do
@@ -96,7 +95,7 @@ class Child < ApplicationRecord
       text(f) { self.data[f] }
     end
 
-    %w(date_case_plan_initiated assessment_requested_on).each{|f| date(f)}
+    %w[date_case_plan_initiated assessment_requested_on].each{|f| date(f)}
 
     boolean :estimated
     integer :day_of_birth
