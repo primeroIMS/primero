@@ -1,8 +1,6 @@
 module Api::V2
   class ReportsController < ApplicationApiController
     include Concerns::Pagination
-    helper I18nFieldHelper
-    helper ReportFieldHelper
 
     def index
       authorize! :index, Report

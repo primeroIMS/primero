@@ -102,7 +102,7 @@ class Report < ApplicationRecord
 
   # This method transforms the current values format: {["child_mother", "female"] => 1}
   # to a nested hash: { "child_mother" => { "female" =>{ "_total" => 1 } } }
-  def hashed_values
+  def values_as_json_hash
     values_tree = {}
     self.values
         .select{ |k,_| k.select{ |e| e.to_s.present? }.present? } # Remove empty arrays ["", ""]
@@ -347,6 +347,10 @@ class Report < ApplicationRecord
       .group_by{|f| f.name}
       .map{|k,v| [k, v.first]}
       .to_h
+  end
+
+  def pivots_map
+    @pivots_map ||= pivots.map { |pivot| [pivot, Field.find_by_name(pivot)] }.to_h
   end
 
   def pivot_index(field_name)
