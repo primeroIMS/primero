@@ -7,7 +7,12 @@ import { useI18n } from "components/i18n";
 import { GuidingQuestions } from "components/guiding-questions";
 
 const TextField = ({ name, field, ...rest }) => {
-  const { type, visible, guiding_questions: guidingQuestions } = field;
+  const {
+    type,
+    visible,
+    guiding_questions: guidingQuestions,
+    hide_on_view_page: hideOnViewPage
+  } = field;
   const i18n = useI18n();
 
   const fieldProps = {
@@ -25,7 +30,7 @@ const TextField = ({ name, field, ...rest }) => {
     }
   };
 
-  return visible ? (
+  return !(rest.mode.isShow && hideOnViewPage) && visible ? (
     <FastField
       name={name}
       render={renderProps => {

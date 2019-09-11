@@ -22,7 +22,8 @@ const FormSectionField = ({ name, field, mode }) => {
     display_name: displayName,
     disabled,
     editable,
-    required
+    required,
+    selected_value: selectedValue
   } = field;
 
   const fieldProps = {
@@ -45,7 +46,8 @@ const FormSectionField = ({ name, field, mode }) => {
     },
     label: displayName[i18n.locale],
     helperText: helpText ? helpText[i18n.locale] : "",
-    disabled: mode.isShow || disabled || !editable
+    disabled: mode.isShow || disabled || !editable,
+    checked: ["t", "true"].includes(selectedValue)
   };
 
   const FieldComponent = (t => {

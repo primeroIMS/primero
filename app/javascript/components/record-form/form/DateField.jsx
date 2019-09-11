@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { differenceInYears } from "date-fns";
-import { DatePicker } from "@material-ui/pickers";
+import { DatePicker, DateTimePicker } from "@material-ui/pickers";
 import { InputAdornment } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import { FastField, connect, getIn } from "formik";
@@ -9,6 +9,12 @@ import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 
 const DateField = ({ name, helperText, formik, ...rest }) => {
   const i18n = useI18n();
+  const {
+    visible,
+    date_include_time: dateIncludeTime,
+    hide_on_view_page: hideOnViewPage,
+    selected_value: selectedValue
+  } = rest.field.toJS();
 
   const fieldProps = {
     name
@@ -22,46 +28,63 @@ const DateField = ({ name, helperText, formik, ...rest }) => {
     }
   };
 
+  const getDateValue = value => {
+    let dateValue = null;
+    if (value) {
+      dateValue = value;
+    } else if (
+      ["TODAY", "NOW"].includes(selectedValue.toUpperCase()) &&
+      rest.mode.isNew
+    ) {
+      dateValue = new Date();
+    } else {
+      dateValue = "";
+    }
+    return dateValue;
+  };
+
   const fieldError = getIn(formik.errors, name);
   const fieldTouched = getIn(formik.touched, name);
 
-  return (
+  return !(rest.mode.isShow && hideOnViewPage) && visible ? (
     <FastField
       {...fieldProps}
       render={({ field, form }) => {
-        return (
-          <DatePicker
-            {...field}
-            {...{
-              format: "dd-MMM-yyyy",
-              helperText:
-                (fieldTouched && fieldError) ||
-                helperText ||
-                i18n.t("fields.date_help"),
-              clearable: true,
-              ...rest
-            }}
-            disableFuture={
-              rest.field &&
-              rest.field.get("date_validation") === "default_date_validation"
-            }
-            error={!!(fieldError && fieldTouched)}
-            onChange={date => {
-              updateAgeField(form, date);
-              return form.setFieldValue(name, date, true);
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <CalendarTodayIcon />
-                </InputAdornment>
-              )
-            }}
-          />
+        const dateProps = {
+          ...field,
+          ...rest,
+          value: getDateValue(field.value),
+          format: dateIncludeTime ? "dd-MMM-yyyy HH:mm" : "dd-MMM-yyyy",
+          helperText:
+            (fieldTouched && fieldError) ||
+            helperText ||
+            i18n.t("fields.date_help"),
+          clearable: true,
+          InputProps: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <CalendarTodayIcon />
+              </InputAdornment>
+            )
+          },
+          onChange: date => {
+            updateAgeField(form, date);
+            return form.setFieldValue(name, date, true);
+          },
+          disableFuture:
+            rest.field &&
+            rest.field.get("date_validation") === "default_date_validation",
+          error: !!(fieldError && fieldTouched)
+        };
+
+        return dateIncludeTime ? (
+          <DateTimePicker {...dateProps} />
+        ) : (
+          <DatePicker {...dateProps} />
         );
       }}
     />
-  );
+  ) : null;
 };
 
 DateField.propTypes = {
