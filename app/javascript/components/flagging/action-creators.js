@@ -1,11 +1,11 @@
 import { ENQUEUE_SNACKBAR } from "components/notifier";
 import * as Actions from "./actions";
 
-export const fetchFlags = (recordType, records) => async dispatch => {
+export const fetchFlags = (recordType, record) => async dispatch => {
   dispatch({
     type: Actions.FETCH_FLAGS,
     api: {
-      path: `${recordType}/${records}/flags`
+      path: `${recordType}/${record}/flags`
     }
   });
 };
@@ -15,12 +15,12 @@ export const unFlag = (
   body,
   message,
   recordType,
-  records
+  record
 ) => async dispatch => {
   await dispatch({
     type: Actions.UNFLAG,
     api: {
-      path: `${recordType}/${records}/flags/${id}`,
+      path: `${recordType}/${record}/flags/${id}`,
       method: "PATCH",
       body,
       successCallback: {

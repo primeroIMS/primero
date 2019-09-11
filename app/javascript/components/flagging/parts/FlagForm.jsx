@@ -46,14 +46,13 @@ const FlagForm = ({ recordType, records, handleOpen, handleActiveTab }) => {
     }
   };
 
-  const onSubmit = (data, actions) => {
+  const onSubmit = async (data, actions) => {
     const body = Array.isArray(records)
       ? { data: { data, records, record_type: recordType } }
       : { data };
 
-    dispatch(addFlag(body, i18n.t("flags.flag_added"), path)).then(() => {
-      actions.resetForm(initialFormikValues);
-    });
+    await dispatch(addFlag(body, i18n.t("flags.flag_added"), path));
+    actions.resetForm(initialFormikValues);
     handleActiveTab(0);
   };
 

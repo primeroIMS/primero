@@ -7,7 +7,7 @@ import { useI18n } from "components/i18n";
 import { useDispatch } from "react-redux";
 import { unFlag } from "../action-creators";
 
-const Unflag = ({ flag, setDeleteFlag, recordType, records }) => {
+const Unflag = ({ flag, setDeleteFlag, recordType, record }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -32,7 +32,7 @@ const Unflag = ({ flag, setDeleteFlag, recordType, records }) => {
         { data },
         i18n.t("flags.flag_deleted"),
         recordType,
-        records
+        record
       )
     );
     handleCancel();
@@ -71,7 +71,7 @@ Unflag.propTypes = {
   flag: PropTypes.object.isRequired,
   setDeleteFlag: PropTypes.func.isRequired,
   recordType: PropTypes.string.isRequired,
-  records: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
+  record: PropTypes.string
 };
 
 export default Unflag;
