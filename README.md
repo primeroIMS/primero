@@ -54,6 +54,15 @@ On Ubuntu:
     $ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
     $ sudo apt-get update && sudo apt-get install -y yarn
 
+On Fedora:
+    $ #Install Node 12.x
+    $ sudo dnf install -y gcc-c++ make
+    $ curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash -
+    $ sudo dnf install nodejs
+    $ #Install Yarn
+    $ curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
+    $ sudo dnf install yarn
+
 ### Install binary dependencies
 
 On MacOS:
@@ -65,6 +74,9 @@ On MacOS:
 On Ubuntu:
 
     $ sudo apt-get install -y libpq imagemagick
+
+On Fedora:
+    $ sudo dnf install postgresql-devel ImageMagick
 
 ### Starting development
 
