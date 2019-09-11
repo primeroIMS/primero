@@ -113,6 +113,7 @@ GEM
       activesupport (>= 4.2.0)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
+    ffi (1.11.1)
     file_validators (2.3.0)
       activemodel (>= 3.2)
       mime-types (>= 1.0)
@@ -151,6 +152,10 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.7.0)
       launchy (~> 2.2)
+    listen (3.1.5)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
+      ruby_dep (~> 1.2)
     loofah (2.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -238,6 +243,9 @@ GEM
       thor (>= 0.19.0, < 2.0)
     rainbow (3.0.0)
     rake (12.3.2)
+    rb-fsevent (0.10.3)
+    rb-inotify (0.10.0)
+      ffi (~> 1.0)
     responders (2.4.1)
       actionpack (>= 4.2.0, < 6.0)
       railties (>= 4.2.0, < 6.0)
@@ -286,6 +294,7 @@ GEM
     ruby-ole (1.2.12.2)
     ruby-prof (0.17.0)
     ruby-progressbar (1.10.0)
+    ruby_dep (1.5.0)
     rubyzip (1.2.2)
     rufus-scheduler (3.5.2)
       fugit (~> 1.1, >= 1.1.5)
@@ -347,7 +356,7 @@ GEM
       dry-configurable (~> 0.8)
       jwt (~> 2.1)
       warden (~> 1.2)
-    webpacker (4.0.2)
+    webpacker (4.0.7)
       activesupport (>= 4.2)
       rack-proxy (>= 0.6.1)
       railties (>= 4.2)
@@ -378,6 +387,7 @@ DEPENDENCIES
   jbuilder (~> 2.8)
   json_spec (~> 1.1)
   letter_opener (~> 1.7)
+  listen
   memory-profiler (~> 1.0)
   mini_magick (~> 4.9.4)
   nokogiri (>= 1.10.4)
@@ -416,7 +426,7 @@ DEPENDENCIES
   tzinfo (~> 1.2)
   tzinfo-data (~> 1.2019)
   uglifier (~> 4.1)
-  webpacker (~> 4.0)
+  webpacker (~> 4.0.7)
   will_paginate (~> 3.1)
   writeexcel (~> 1.0)
 
@@ -424,4 +434,4 @@ RUBY VERSION
    ruby 2.6.2p47
 
 BUNDLED WITH
-   1.17.2
+   1.17.3

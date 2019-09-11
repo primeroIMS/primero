@@ -23,7 +23,9 @@ function difference(object, base) {
 export const compactValues = (initialValues, values) =>
   difference(initialValues, values);
 
-export const constructInitialValues = forms => {
+export const constructInitialValues = formMap => {
+  const [...forms] = formMap;
+
   return !isEmpty(forms)
     ? Object.assign(
         {},

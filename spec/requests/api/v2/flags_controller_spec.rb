@@ -139,7 +139,7 @@ describe Api::V2::FlagsController, type: :request do
   end
 
   describe 'PATCH /api/v2/:recordType/:recordId/flags/:id' do
-    it 'unflag a case' do
+    it 'unflags a case' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message' } }
       patch "/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params: params
@@ -153,7 +153,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(@case1.flags.first.unflagged_by).to eq('faketest')
     end
 
-    it 'unflag a tracing_request' do
+    it 'unflags a tracing_request' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message TR' } }
       patch "/api/v2/tracing_requests/#{@tracing_request1.id}/flags/#{@tracing_request1.flags.first.id}", params: params
@@ -167,7 +167,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(@tracing_request1.flags.first.unflagged_by).to eq('faketest')
     end
 
-    it 'unflag an incident' do
+    it 'unflags an incident' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message IN' } }
       patch "/api/v2/incidents/#{@incident1.id}/flags/#{@incident1.flags.first.id}", params: params
@@ -286,6 +286,13 @@ describe Api::V2::FlagsController, type: :request do
   after :each do
     clear_performed_jobs
     clear_enqueued_jobs
+  end
+
+  after do
+    Flag.destroy_all
+    Child.destroy_all
+    TracingRequest.destroy_all
+    Incident.destroy_all
   end
 
 end
