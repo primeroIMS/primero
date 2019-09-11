@@ -26,7 +26,7 @@ json.data do
         if primero_module.unique_id == PrimeroModule::CP
           json.workflows do
             if primero_module.workflow_status_indicator
-              json.array! ['case'] do |record_type|
+              ['case'].each do |record_type|
                 record_class = Record::model_from_name(record_type)
                 json.set! record_type do
                   json.merge! record_class.workflow_statuses([primero_module] )

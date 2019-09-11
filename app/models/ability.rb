@@ -8,6 +8,9 @@ class Ability
 
     @user = user
 
+    can [:index], SystemSettings
+    can :index, FormSection
+
     can [:read_self, :write_self], User do |uzer|
       uzer.user_name == user.user_name
     end
@@ -23,7 +26,7 @@ class Ability
     can [:show_user], User do |uzer|
       can?(:read_self, uzer) || can?(:read, uzer)
     end
-  
+
     can [:edit_user], User do |uzer|
       can?(:write_self, uzer) || can?(:edit, uzer)
     end
@@ -48,11 +51,6 @@ class Ability
     end
 
     baseline_permissions
-
-    if user.has_permission? Permission::SYNC_MOBILE
-      can :index, FormSection
-      can :index, SystemSettings
-    end
   end
 
   def baseline_permissions
