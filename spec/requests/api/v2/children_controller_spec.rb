@@ -45,7 +45,7 @@ describe Api::V2::ChildrenController, type: :request do
       get '/api/v2/cases'
 
       record = json['data'][0]
-      expect(record.keys).to match_array(%w(id age sex workflow))
+      expect(record.keys).to include('id', 'age', 'sex', 'workflow')
     end
 
     it 'refuses unauthorized access' do
@@ -95,7 +95,7 @@ describe Api::V2::ChildrenController, type: :request do
       get "/api/v2/cases/#{@case1.id}"
 
       expect(response).to have_http_status(200)
-      expect(json['data'].keys).to match_array(%w(id age sex workflow))
+      expect(json['data'].keys).to include('id', 'age', 'sex', 'workflow')
     end
 
     it "returns 403 if user isn't authorized to access" do

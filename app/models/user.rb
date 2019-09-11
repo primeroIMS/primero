@@ -333,7 +333,9 @@ class User < ApplicationRecord
       @permitted_field_names << 'record_state' if can?(:enable_disable_record, model_class)
       @permitted_field_names << 'hidden_name' if can?(:update, model_class)
       @permitted_field_names << 'flag_count' if can?(:flag, model_class)
-      @permitted_field_names << 'workflow' if model_class == Child
+      if model_class == Child
+        @permitted_field_names += %w[workflow status case_status_reopened]
+      end
     end
     @permitted_field_names
   end
