@@ -138,7 +138,7 @@ const Nav = () => {
             </div>
           ))}
         </List>
-        {/* TODO: Need to pass agency and logo path from api */}
+
         {agency && agency.get("logo") && (
           <AgencyLogo
             agency={agency && agency.get("unique_id")}
