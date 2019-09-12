@@ -33,7 +33,7 @@ class Filter < ValueObject
   AGENCY =  Filter.new(name: 'cases.filter_by.agency', field_name: 'owned_by_agency')
   STATUS =  Filter.new(
     name: 'cases.filter_by.status',
-    field_name: 'child_status',
+    field_name: 'status',
     option_strings_source: 'lookup-case-status'
   )
   AGE_RANGE = Filter.new(

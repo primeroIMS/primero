@@ -57,9 +57,6 @@ class Child < ApplicationRecord
     :displacement_status, :marital_status, :disability_type, :incident_details,
     :duplicate, :notes_section, :location_current, :tracing_status, :name_caregiver
 
-
-  alias child_status status ; alias child_status= status=
-
   attach_documents fields: [:other_documents, :bia_documents, :bid_documents]
   attach_images fields: [:photos]
   attach_audio fields: [:recorded_audio]
@@ -100,7 +97,7 @@ class Child < ApplicationRecord
     boolean :estimated
     integer :day_of_birth
 
-    string :child_status, as: 'child_status_sci'
+    string :status, as: 'status_sci'
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
     end
@@ -144,7 +141,7 @@ class Child < ApplicationRecord
 
   def self.report_filters
     [
-        {'attribute' => 'child_status', 'value' => [STATUS_OPEN]},
+        {'attribute' => 'status', 'value' => [STATUS_OPEN]},
         {'attribute' => 'record_state', 'value' => ['true']}
     ]
   end
@@ -155,7 +152,7 @@ class Child < ApplicationRecord
   def self.minimum_reportable_fields
     {
         'boolean' => ['record_state'],
-         'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by', 'workflow', 'workflow_status', 'risk_level'],
+         'string' => ['status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by', 'workflow', 'workflow_status', 'risk_level'],
     'multistring' => ['associated_user_names', 'owned_by_groups'],
            'date' => ['registration_date'],
         'integer' => ['age'],

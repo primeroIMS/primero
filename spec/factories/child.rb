@@ -5,7 +5,7 @@ FactoryBot.define do
     created_by        { "test_user" }
     owned_by          { "test_user" }
     module_id         { "primeromodule-cp" }
-    child_status      { Record::STATUS_OPEN }
+    status      { Record::STATUS_OPEN }
     case_id_display   { "display_1234" }
 
     transient do

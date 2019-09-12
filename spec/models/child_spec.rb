@@ -1046,7 +1046,7 @@ describe Child do
       Field.destroy_all
       FormSection.destroy_all
       fields = [
-          Field.new({"name" => "child_status",
+          Field.new({"name" => "status",
                      "type" => "text_field",
                      "display_name_all" => "Child Status"
                     }),
