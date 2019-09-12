@@ -56,10 +56,6 @@ describe("<Filters /> - Component", () => {
     ).component;
   });
 
-  it("renders the AppBar", () => {
-    expect(component.find(AppBar)).to.have.length(1);
-  });
-
   it("renders the Tabs", () => {
     expect(component.find(Tabs)).to.have.length(1);
   });

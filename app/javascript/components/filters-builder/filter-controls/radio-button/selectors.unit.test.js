@@ -20,22 +20,20 @@ describe("<RadioButton /> - Selectors", () => {
   describe("getRadioButton", () => {
     it("should return records", () => {
       const expected = "female";
-      const records = selectors.getRadioButtons(
-        stateWithRecords,
-        { id: "sex" },
-        "Cases"
-      );
+      const records = selectors.getRadioButtons(stateWithRecords, {
+        recordType: "Cases",
+        props: { field_name: "sex" }
+      });
+
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
-      const records = selectors.getRadioButtons(
-        stateWithNoRecords,
-        { id: "sex" },
-        "Cases"
-      );
-      expect(records).to.deep.equal([]);
+      const records = selectors.getRadioButtons(stateWithNoRecords, {
+        recordType: "Cases",
+        props: { field_name: "sex" }
+      });
+      expect(records).to.deep.equal("");
     });
   });
 });
-

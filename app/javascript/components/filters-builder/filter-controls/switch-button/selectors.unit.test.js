@@ -23,7 +23,7 @@ describe("<SwitchButton /> - Selectors", () => {
       const expected = ["my_cases", "referred_cases"];
       const records = selectors.selectSwitchButtons(
         stateWithRecords,
-        { id: "my_cases" },
+        { field_name: "my_cases" },
         "Cases"
       );
       expect(records).to.deep.equal(expected);
@@ -33,7 +33,7 @@ describe("<SwitchButton /> - Selectors", () => {
       const expected = [];
       const records = selectors.selectSwitchButtons(
         stateWithNoRecords,
-        { id: "my_cases" },
+        { field_name: "my_cases" },
         "Cases"
       );
       expect(records).to.deep.equal(expected);

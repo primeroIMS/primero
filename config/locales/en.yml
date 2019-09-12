@@ -561,6 +561,7 @@ en:
       armed_force_group_type: "Armed Force or Group Type:"
       record_state: "Record State:"
       interview_date: "Interview Date:"
+      by_date: "By Date:"
 
   incident:
     label: "Incident ID"
@@ -697,6 +698,7 @@ en:
       location_separation: "Separation Location:"
       separation_cause: "Separation Cause:"
       record_state: "Record State:"
+      by_date: "By Date:"
 
   potential_matches:
     empty: "Please access matching through Tracing Requests"

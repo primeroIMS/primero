@@ -3,9 +3,9 @@ import * as Actions from "./actions";
 import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = Map({
-  Cases: [],
-  Incidents: [],
-  TracingRequests: []
+  cases: [],
+  incidents: [],
+  tracing_requests: []
 });
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {

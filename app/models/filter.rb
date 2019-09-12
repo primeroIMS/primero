@@ -107,21 +107,21 @@ class Filter < ValueObject
     field_name: 'record_state',
     options: I18n.available_locales.map do |locale|
       { locale => [
-          { id: 'true', display_text: I18n.t("valid", locale: locale) },
-          { id: 'false', display_text: I18n.t("invalid", locale: locale) }
+          { id: 'true', display_name: I18n.t("valid", locale: locale) },
+          { id: 'false', display_name: I18n.t("invalid", locale: locale) }
         ]
       }
-    end
+    end.inject(&:merge)
   )
   PHOTO = Filter.new(
     name: 'cases.filter_by.photo',
     field_name: 'has_photo',
     options: I18n.available_locales.map do |locale|
       { locale => [
-          { id: 'photo', display_text: I18n.t("cases.filter_by.photo_label", locale: locale) }
+          { id: 'photo', display_name: I18n.t("cases.filter_by.photo_label", locale: locale) }
         ]
       }
-    end
+    end.inject(&:merge)
   )
   VIOLENCE_TYPE = Filter.new(
     name: 'incidents.filter_by.violence_type',
@@ -133,12 +133,12 @@ class Filter < ValueObject
     field_name: 'child_types',
     options: I18n.available_locales.map do |locale|
       { locale =>  [
-          { id: 'boys', display_text: I18n.t("incidents.filter_by.boys", locale: locale) },
-          { id: 'girls', display_text: I18n.t("incidents.filter_by.girls", locale: locale) },
-          { id: 'unknown', display_text: I18n.t("incidents.filter_by.unknown", locale: locale) }
+          { id: 'boys', display_name: I18n.t("incidents.filter_by.boys", locale: locale) },
+          { id: 'girls', display_name: I18n.t("incidents.filter_by.girls", locale: locale) },
+          { id: 'unknown', display_name: I18n.t("incidents.filter_by.unknown", locale: locale) }
         ]
       }
-    end
+    end.inject(&:merge)
   )
   VERIFICATION_STATUS = Filter.new(
     name: 'incidents.filter_by.verification_status',
@@ -195,7 +195,7 @@ class Filter < ValueObject
           { id: 'inquiry_date' , display_name: I18n.t('tracing_requests.selectable_date_options.inquiry_date', locale: locale) }
         ]
       }
-    end
+    end.inject(&:merge)
   )
   FILTER_FIELD_NAMES = %w(
     gbv_displacement_status protection_status urgent_protection_concern
@@ -325,11 +325,11 @@ class Filter < ValueObject
         end
       when 'age'
         self.options = system_settings.age_ranges[system_settings.primary_age_range].map do |age_range|
-          { id: age_range.to_s, display_text: age_range.to_s }
+          { id: age_range.to_s, display_name: age_range.to_s }
         end
       when 'owned_by_groups'
         self.options =  UserGroup.all.map do |user_group|
-          { id: user_group.id, display_text: user_group.name }
+          { id: user_group.id, display_name: user_group.name }
         end
       when 'cases_by_date'
         self.options = I18n.available_locales.map do |locale|
@@ -354,7 +354,7 @@ class Filter < ValueObject
         self.options = I18n.available_locales.map do |locale|
           { locale =>
             [ Child::APPROVAL_STATUS_PENDING, Child::APPROVAL_STATUS_APPROVED, Child::APPROVAL_STATUS_REJECTED].map do |status|
-              { id: "#{status}_#{id_suffix}", display_text: I18n.t("cases.filter_by.approvals.#{status}", locale: locale) }
+              { id: "#{status}_#{id_suffix}", display_name: I18n.t("cases.filter_by.approvals.#{status}", locale: locale) }
             end
           }
         end.inject(&:merge)
@@ -362,13 +362,17 @@ class Filter < ValueObject
   end
 
   def resolve_type
-    if self.type.blank? && self.options.present?
-      if self.options.length == 1
-        self.type = 'toggle'
-      elsif self.options.length > 3
+    if self.type.blank?
+      if self.options.present?
+        if self.options.length == 1
+          self.type = 'toggle'
+        elsif self.options.length > 3
+          self.type = 'checkbox'
+        elsif self.options.length == 3 || self.options.length == 2
+          self.type = 'multi_toggle'
+        end
+      else
         self.type = 'checkbox'
-      elsif self.options.length == 3 || self.options.length == 2
-        self.type = 'multi_toggle'
       end
     end
   end

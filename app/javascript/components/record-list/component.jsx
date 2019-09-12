@@ -30,28 +30,30 @@ const RecordList = ({ match }) => {
     selectListHeaders(state, recordType)
   );
 
+  const defaultFilters = Map({
+    short: true,
+    per: 20,
+    page: 1,
+    ...{
+      ...(recordType === "cases"
+        ? { child_status: ["open"], record_state: ["true"] }
+        : {})
+    },
+    ...{
+      ...(recordType === "incidents"
+        ? { child_status: ["open"], record_state: ["true"] }
+        : {})
+    },
+    ...{
+      ...(recordType === "tracing_requests"
+        ? { inquiry_status: ["open"], record_state: ["true"] }
+        : {})
+    }
+  });
+
   const indexTableProps = {
     recordType,
-    defaultFilters: Map({
-      short: true,
-      per: 20,
-      page: 1,
-      ...{
-        ...(recordType === "cases"
-          ? { child_status: ["open"], record_state: true }
-          : {})
-      },
-      ...{
-        ...(recordType === "incidents"
-          ? { inquiry_status: ["open"], record_state: true }
-          : {})
-      },
-      ...{
-        ...(recordType === "tracing_requests"
-          ? { status: ["open"], record_state: true }
-          : {})
-      }
-    }),
+    defaultFilters,
     columns: buildTableColumns(listHeaders, i18n, recordType),
     onTableChange: fetchRecords
   };
@@ -78,6 +80,11 @@ const RecordList = ({ match }) => {
     mobileDisplay
   };
 
+  const filterProps = {
+    recordType,
+    defaultFilters
+  };
+
   return (
     <PageContainer>
       <Box className={css.content}>
@@ -89,7 +96,7 @@ const RecordList = ({ match }) => {
         </Box>
         <FilterContainer {...filterContainerProps}>
           <RecordSearch {...recordSearchProps} />
-          <Filters recordType={recordType} />
+          <Filters {...filterProps} />
         </FilterContainer>
       </Box>
     </PageContainer>
