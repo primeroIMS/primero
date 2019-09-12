@@ -45,7 +45,7 @@ class Child < ApplicationRecord
     :name_first, :name_middle, :name_last, :name_nickname, :name_other,
     :registration_date, :age, :estimated, :date_of_birth, :sex, :address_last,
     :reunited, :reunited_message, :investigated, :verified, #TODO: These are RapidFTR attributes and should be removed
-    :risk_level, :case_status_reopened, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
+    :risk_level, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
     :system_generated_followup,
     :assessment_due_date, :assessment_requested_on,
     :followup_subform_section, :protection_concern_detail_subform_section, #TODO: Do we need followups, protection_concern_details aliases?
@@ -353,12 +353,6 @@ class Child < ApplicationRecord
       match_criteria_subform[:"#{match_field}"] = match_values if match_values.present?
     end
     match_criteria.merge(match_criteria_subform) { |_key, v1, v2| v1 + v2 }.compact
-  end
-
-  def reopen(status, reopen_status, user_name)
-    self.child_status = status
-    self.case_status_reopened = reopen_status
-    self.add_reopened_log(user_name)
   end
 
   #Override method in record concern
