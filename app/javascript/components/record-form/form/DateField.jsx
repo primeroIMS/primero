@@ -7,14 +7,14 @@ import { useI18n } from "components/i18n";
 import { FastField, connect, getIn } from "formik";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 
-const DateField = ({ name, helperText, formik, ...rest }) => {
+const DateField = ({ name, helperText, mode, formik, ...rest }) => {
   const i18n = useI18n();
   const {
     visible,
     date_include_time: dateIncludeTime,
     hide_on_view_page: hideOnViewPage,
     selected_value: selectedValue
-  } = rest.field.toJS();
+  } = rest.field;
 
   const fieldProps = {
     name
@@ -30,11 +30,12 @@ const DateField = ({ name, helperText, formik, ...rest }) => {
 
   const getDateValue = value => {
     let dateValue = null;
+
     if (value) {
       dateValue = value;
     } else if (
       ["TODAY", "NOW"].includes(selectedValue.toUpperCase()) &&
-      rest.mode.isNew
+      mode.isNew
     ) {
       dateValue = new Date();
     } else {
@@ -46,7 +47,7 @@ const DateField = ({ name, helperText, formik, ...rest }) => {
   const fieldError = getIn(formik.errors, name);
   const fieldTouched = getIn(formik.touched, name);
 
-  return !(rest.mode.isShow && hideOnViewPage) && visible ? (
+  return !(mode.isShow && hideOnViewPage) && visible ? (
     <FastField
       {...fieldProps}
       render={({ field, form }) => {
@@ -91,7 +92,8 @@ DateField.propTypes = {
   name: PropTypes.string,
   value: PropTypes.string,
   helperText: PropTypes.string,
-  formik: PropTypes.object.isRequired
+  formik: PropTypes.object.isRequired,
+  mode: PropTypes.object
 };
 
 export default connect(DateField);

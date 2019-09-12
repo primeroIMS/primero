@@ -19,6 +19,7 @@ const GuidingQuestions = ({ label, text }) => {
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
+
   return (
     <>
       <Link onClick={handleClick} className={css.link}>

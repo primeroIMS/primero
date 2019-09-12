@@ -118,16 +118,21 @@ const SubformField = ({
 
   const renderFields = arrayHelpers => {
     if (values && values.length > 0) {
+      let sortedValues = [];
       const sortSubformField = field.subform_sort_by;
-      const sortedValues = sortBy(values, v => {
-        let criteria;
-        if (!Number.isNaN(Date.parse(v[sortSubformField]))) {
-          criteria = new Date(v[sortSubformField]);
-        } else {
-          criteria = sortSubformField;
-        }
-        return criteria;
-      });
+      if (sortSubformField) {
+        sortedValues = sortBy(values, v => {
+          let criteria;
+          if (!Number.isNaN(Date.parse(v[sortSubformField]))) {
+            criteria = new Date(v[sortSubformField]);
+          } else {
+            criteria = sortSubformField;
+          }
+          return criteria;
+        });
+      } else {
+        sortedValues = values;
+      }
 
       return sortedValues.map((subForm, index) => {
         return (
