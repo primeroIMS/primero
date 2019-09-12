@@ -13,7 +13,7 @@ import * as selectors from "./selectors";
 const DatesRange = ({ recordType, props, fromDate, toDate, setDate }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-  const { fieldName, options } = props;
+  const { field_name: fieldName, options } = props;
 
   return (
     <div className={css.root}>
