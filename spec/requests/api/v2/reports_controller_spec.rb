@@ -31,10 +31,10 @@ describe Api::V2::ReportsController, type: :request do
 
     @location_0 = Location.create!(
       placename_en: "Country 1",
-      location_code:"C1", 
+      location_code:"CN",
       admin_level: 0,
       type: "country",
-      hierarchy: ""
+      hierarchy: "CN"
     )
 
     @program = PrimeroProgram.create!(
@@ -54,11 +54,11 @@ describe Api::V2::ReportsController, type: :request do
 
     @report_1 = Report.create({
       id: 1,
-      name_en: 'Protection Concerns by Province and District',
+      name_en: 'Protection Concerns By Location',
       description_en: '',
       module_id: PrimeroModule::CP,
       record_type: 'case',
-      aggregate_by: ['owned_by_location1','owned_by_location2'],
+      aggregate_by: ['owned_by_location'],
       disaggregate_by: ['protection_concerns'],
       filters: [
         {'attribute' => 'child_status', 'value' => [Record::STATUS_OPEN]},
@@ -90,6 +90,10 @@ describe Api::V2::ReportsController, type: :request do
       primero_modules: [@cp],
       location: @location_0.location_code
     )
+
+    Sunspot.setup(Child) do
+      string 'protection_concerns', multiple: true
+    end
 
     @child_concerns_1 = Child.new_with_user(
       @test_user_1, {
@@ -143,8 +147,17 @@ describe Api::V2::ReportsController, type: :request do
 
       get "/api/v2/reports/#{@report_1.id}"
 
+      report_data = {
+        "cn"=> {
+          "migrant" => {"_total"=>1},
+          "sexually_exploited" => {"_total"=>1},
+          "trafficked_smuggled" => {"_total"=>1}, 
+          "_total"=>1
+        }
+      }
+
       expect(response).to have_http_status(200)
-      expect(json['data']["report_data"]).to eq({"c1"=>{"_total"=>1, "c1"=>{"_total"=>1}}})
+      expect(json['data']["report_data"]).to eq(report_data)
     end
 
     it 'refuses unauthorized access' do

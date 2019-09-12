@@ -4,9 +4,9 @@ class FieldI18nService
   #  of the class.
   #  Assuming name as a localized property of klass:
   #  Given the params
-  #  { name: { en: "Lastname", es: "Apellido" } }
+  #  { 'name' => { 'en' => 'Lastname', 'es' => 'Apellido' } }
   #  Returns
-  #  { name_i18n: { en: "Lastname", es: "Apellido" } }
+  #  { 'name_i18n' => { 'en' => 'Lastname', 'es' => 'Apellido' } }
   def self.convert_i18n_properties(klass, params)
     localized_props = klass.localized_properties.map(&:to_s)
     unlocalized_params = params.reject { |k,_| localized_props.include?(k) }
@@ -57,15 +57,17 @@ class FieldI18nService
   #  Returns
   #  { 'name' => { 'en' => "Lastname", 'es' => "Apellido", 'fr' => "" } }
   def self.fill_keys(keys, source)
-    locales = I18n.available_locales.map do |locale|
-      locale = locale.to_s if source.keys.first.is_a?(String)
-      { locale => "" }
-    end.inject(&:merge)
-
     keys = keys.map(&:to_s) if source.keys.first.is_a?(String)
 
     keys.each do |key|
-      source[key] = locales.merge(source[key]) if source[key].present?
+      if source[key].present?
+        locales = I18n.available_locales.map do |locale|
+          locale = locale.to_s if source[key].keys.first.is_a?(String)
+          { locale => "" }
+        end.inject(&:merge)
+
+        source[key] = locales.merge(source[key]) 
+      end
     end
     source
   end
@@ -76,7 +78,7 @@ class FieldI18nService
   #  Given the options
   #  {
   #    en: [{ id: "true", display_name: "True" }],
-  #    es: [{ id: "true", display_name: "Verdadero" }],
+  #    es: [{ id: "true", display_name: "Verdadero" }]
   #  }
   #  Returns
   #  {
