@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -11,7 +10,7 @@ import * as Selectors from "./selectors";
 
 const RangeButton = ({ recordType, props, value, setValue }) => {
   const css = makeStyles(styles)();
-  const { field_name, options } = props;
+  const { field_name: fieldName, options } = props;
 
   return (
     <Box className={css.toggleContainer}>
@@ -20,7 +19,7 @@ const RangeButton = ({ recordType, props, value, setValue }) => {
         classes={{
           root: css.toggleContainer
         }}
-        onChange={(e, v) => setValue({ field_name, data: v }, recordType)}
+        onChange={(e, v) => setValue({ fieldName, data: v }, recordType)}
       >
         {options.map(v => (
           <ToggleButton

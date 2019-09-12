@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -18,7 +17,7 @@ const SwitchButton = ({
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-  const { field_name, options } = props;
+  const { field_name: fieldName, options } = props;
 
   return (
     <div className={css.root}>
@@ -36,7 +35,7 @@ const SwitchButton = ({
             onChange={event => {
               setSwitchButton(
                 {
-                  field_name,
+                  fieldName,
                   included: switchButtons.includes(event.target.value),
                   data: event.target.value
                 },
