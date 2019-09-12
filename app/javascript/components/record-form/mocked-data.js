@@ -1138,6 +1138,16 @@ export default {
         { id: "location_4", display_text: "Location 4" },
         { id: "location_5", display_text: "Location 5" }
       ]
+    },
+    {
+      type: "reporting_location",
+      options: [
+        { id: "reporting_location_1", display_text: "Reporting Location 1" },
+        { id: "reporting_location_2", display_text: "Reporting Location 2" },
+        { id: "reporting_location_3", display_text: "Reporting Location 3" },
+        { id: "reporting_location_4", display_text: "Reporting Location 4" },
+        { id: "reporting_location_5", display_text: "Reporting Location 5" }
+      ]
     }
   ]
 };

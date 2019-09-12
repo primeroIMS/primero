@@ -36,11 +36,14 @@ const SelectFilter = ({
 
   let values = [];
 
-  if (!isEmpty(optionStringsSource)) {
-    values = useSelector(state => getOption(state, optionStringsSource, i18n));
-  } else if (Array.isArray(options)) {
+  values = useSelector(
+    state => getOption(state, optionStringsSource, i18n),
+    []
+  );
+
+  if (isEmpty(optionStringsSource) && Array.isArray(options)) {
     values = options;
-  } else {
+  } else if (Object.keys(values).length <= 0) {
     values = options[i18n.locale];
   }
 
@@ -62,11 +65,12 @@ const SelectFilter = ({
           }}
           MenuProps={MenuProps}
         >
-          {values.map(v => (
-            <MenuItem key={v.id} value={v.id}>
-              {v.display_name || v.display_text}
-            </MenuItem>
-          ))}
+          {values &&
+            values.map(v => (
+              <MenuItem key={v.id} value={v.id}>
+                {v.display_name || v.display_text}
+              </MenuItem>
+            ))}
         </Select>
       </FormControl>
     </div>

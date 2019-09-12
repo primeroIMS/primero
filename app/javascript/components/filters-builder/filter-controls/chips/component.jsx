@@ -20,11 +20,11 @@ const Chips = ({ recordType, props, chips, setChips }) => {
   } = props;
   let values = [];
 
-  if (!isEmpty(optionStringsSource)) {
-    values = useSelector(state => getOption(state, optionStringsSource, i18n));
-  } else if (Array.isArray(options)) {
+  values = useSelector(state => getOption(state, optionStringsSource, i18n));
+
+  if (isEmpty(optionStringsSource) && Array.isArray(options)) {
     values = options;
-  } else {
+  } else if (Object.keys(values).length <= 0) {
     values = options[i18n.locale];
   }
 
