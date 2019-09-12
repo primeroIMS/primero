@@ -15,6 +15,7 @@ import { makeStyles } from "@material-ui/styles";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { sortBy } from "lodash";
 import FormSectionField from "./FormSectionField";
 import { constructInitialValues } from "../helpers";
 import styles from "./styles.css";
@@ -79,9 +80,11 @@ const SubformField = ({
         <Box>
           {!mode.isShow && (
             <>
-              <IconButton onClick={handleDeletedSubforms}>
-                <DeleteIcon />
-              </IconButton>
+              {!subformSectionID.subform_prevent_item_removal ? (
+                <IconButton onClick={handleDeletedSubforms}>
+                  <DeleteIcon />
+                </IconButton>
+              ) : null}
               <IconButton onClick={handleAddSubform}>
                 <AddIcon />
               </IconButton>
@@ -115,7 +118,23 @@ const SubformField = ({
 
   const renderFields = arrayHelpers => {
     if (values && values.length > 0) {
-      return values.map((subForm, index) => {
+      let sortedValues = [];
+      const sortSubformField = field.subform_sort_by;
+      if (sortSubformField) {
+        sortedValues = sortBy(values, v => {
+          let criteria;
+          if (!Number.isNaN(Date.parse(v[sortSubformField]))) {
+            criteria = new Date(v[sortSubformField]);
+          } else {
+            criteria = sortSubformField;
+          }
+          return criteria;
+        });
+      } else {
+        sortedValues = values;
+      }
+
+      return sortedValues.map((subForm, index) => {
         return (
           <div key={index}>
             {ConditionalWrapper(

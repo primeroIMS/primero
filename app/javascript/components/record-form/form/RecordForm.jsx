@@ -164,7 +164,7 @@ const RecordForm = ({
 
           return (
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-              <NavigationPrompt when={dirty && !isSubmitting}>
+              <NavigationPrompt when={dirty && !isSubmitting && !mode.isShow}>
                 {({ onConfirm, onCancel }) => (
                   <AlertDialog
                     open
