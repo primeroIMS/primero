@@ -1,15 +1,15 @@
 ---
 $RAILS_ENV:
-  :delivery_method: $MAILER_DELIVERY_METHOD
-  :smtp_conf:
-    :address: $SMTP_ADDRESS
-    :port: $SMTP_PORT
-    :domain: $SMTP_DOMAIN
-    :authentication: $SMTP_AUTH
-    :user_name: $SMTP_USER
-    :password: $SMTP_PASSWORD
-    :enable_starttls_auto: $SMTP_STARTTLS_AUTO
-  :notifications:
-    :host: $MAILER_NOTIFICATION_HOST
-  :default_options:
-    :from: $MAILER_DEFAULT_FROM
+  delivery_method: $MAILER_DELIVERY_METHOD
+  smtp_conf:
+    address: $SMTP_ADDRESS
+    port: $SMTP_PORT
+    domain: $SMTP_DOMAIN
+    authentication: $SMTP_AUTH
+    user_name: $SMTP_USER
+    password: $SMTP_PASSWORD
+    enable_starttls_auto: $SMTP_STARTTLS_AUTO
+  notifications:
+    host: $MAILER_NOTIFICATION_HOST
+  default_options:
+    from: $MAILER_DEFAULT_FROM

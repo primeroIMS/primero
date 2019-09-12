@@ -5,6 +5,7 @@ import { push } from "connected-react-router";
 import { FETCH_SYSTEM_SETTINGS } from "components/application";
 import { RECORD_FORMS } from "components/record-form";
 import { RECORDS } from "components/record-list";
+import { arrayToObject } from "libs";
 import DB from "../db";
 import * as schemas from "../schemas";
 
@@ -28,9 +29,13 @@ const savePayloadToDB = async (type, json, normalizeFunc, path) => {
     }
     case RECORD_FORMS: {
       const data = schemas[normalizeFunc](json.data).entities;
+
       return {
-        formSections: await DB.bulkAdd("forms", data.formSections),
-        fields: await DB.bulkAdd("fields", data.fields)
+        formSections: arrayToObject(
+          await DB.bulkAdd("forms", data.formSections),
+          "id"
+        ),
+        fields: arrayToObject(await DB.bulkAdd("fields", data.fields), "id")
       };
     }
     default:

@@ -1,5 +1,3 @@
 json.data do
-  json.array! @record.flags do |record|
-    json.merge! record.attributes.except('id')
-  end
+  json.partial! 'api/v2/flags/flag', flags: @record.flags
 end

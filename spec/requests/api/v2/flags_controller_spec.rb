@@ -32,7 +32,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
       expect(json['data'][0]['record_id']).to eq( @case1.id.to_s)
-      expect(json['data'][0]['record_type']).to eq( @case1.class.name)
+      expect(json['data'][0]['record_type']).to eq('cases')
       expect(json['data'][0]['message']).to eq( 'This is a flag')
       expect(json['data'][0]['removed']).to be_falsey
     end
@@ -44,7 +44,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
       expect(json['data'][0]['record_id']).to eq( @tracing_request1.id.to_s)
-      expect(json['data'][0]['record_type']).to eq( @tracing_request1.class.name)
+      expect(json['data'][0]['record_type']).to eq('tracing_requests')
       expect(json['data'][0]['message']).to eq( 'This is a flag TR')
       expect(json['data'][0]['removed']).to be_falsey
     end
@@ -56,7 +56,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
       expect(json['data'][0]['record_id']).to eq( @incident1.id.to_s)
-      expect(json['data'][0]['record_type']).to eq( @incident1.class.name)
+      expect(json['data'][0]['record_type']).to eq('incidents')
       expect(json['data'][0]['message']).to eq( 'This is a flag IN')
       expect(json['data'][0]['removed']).to be_falsey
     end
@@ -81,7 +81,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
       expect(json['data'][1]['record_id']).to eq( @case1.id.to_s)
-      expect(json['data'][1]['record_type']).to eq( @case1.class.name)
+      expect(json['data'][1]['record_type']).to eq('cases')
       expect(json['data'][1]['message']).to eq( 'This is another flag')
       expect(json['data'][1]['removed']).to be_falsey
     end
@@ -94,7 +94,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
       expect(json['data'][1]['record_id']).to eq( @tracing_request1.id.to_s)
-      expect(json['data'][1]['record_type']).to eq( @tracing_request1.class.name)
+      expect(json['data'][1]['record_type']).to eq('tracing_requests')
       expect(json['data'][1]['message']).to eq( 'This is another flag TR')
       expect(json['data'][1]['removed']).to be_falsey
     end
@@ -107,7 +107,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
       expect(json['data'][1]['record_id']).to eq( @incident1.id.to_s)
-      expect(json['data'][1]['record_type']).to eq( @incident1.class.name)
+      expect(json['data'][1]['record_type']).to eq('incidents')
       expect(json['data'][1]['message']).to eq( 'This is another flag IN')
       expect(json['data'][1]['removed']).to be_falsey
     end
@@ -139,7 +139,7 @@ describe Api::V2::FlagsController, type: :request do
   end
 
   describe 'PATCH /api/v2/:recordType/:recordId/flags/:id' do
-    it 'unflag a case' do
+    it 'unflags a case' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message' } }
       patch "/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params: params
@@ -153,7 +153,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(@case1.flags.first.unflagged_by).to eq('faketest')
     end
 
-    it 'unflag a tracing_request' do
+    it 'unflags a tracing_request' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message TR' } }
       patch "/api/v2/tracing_requests/#{@tracing_request1.id}/flags/#{@tracing_request1.flags.first.id}", params: params
@@ -167,7 +167,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(@tracing_request1.flags.first.unflagged_by).to eq('faketest')
     end
 
-    it 'unflag an incident' do
+    it 'unflags an incident' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { unflag_message: 'This is unflag message IN' } }
       patch "/api/v2/incidents/#{@incident1.id}/flags/#{@incident1.flags.first.id}", params: params
@@ -279,13 +279,20 @@ describe Api::V2::FlagsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
       @case1.reload
-      expect(json['data']['id']).to eq(@case1.id.to_s)
+      expect(json['data']['id']).to eq(@case1.flags.first.id)
     end
   end
 
   after :each do
     clear_performed_jobs
     clear_enqueued_jobs
+  end
+
+  after do
+    Flag.destroy_all
+    Child.destroy_all
+    TracingRequest.destroy_all
+    Incident.destroy_all
   end
 
 end

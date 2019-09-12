@@ -31,6 +31,7 @@ module Api::V2::Concerns
       params.permit!
       @record = model_class.new_with_user(current_user, record_params)
       @record.save!
+      select_updated_fields
       status = params[:data][:id].present? ? 204 : 200
       render 'api/v2/records/create', status: status
     end
@@ -42,6 +43,7 @@ module Api::V2::Concerns
       params.permit!
       @record.update_properties(record_params, current_user.name)
       @record.save!
+      select_updated_fields
       render 'api/v2/records/update'
     end
 
@@ -54,16 +56,16 @@ module Api::V2::Concerns
     end
 
     def permit_fields
-      @permitted_fields ||= current_user.permitted_fields(current_user.primero_modules, model_class.parent_form)
-      @permitted_field_names ||= ['id'] + @permitted_fields.map(&:name)
-      @permitted_field_names << 'record_state' if current_user.can?(:enable_disable_record, model_class)
-      @permitted_field_names << 'hidden_name' if current_user.can?(:update, model_class)
-      # TODO flag_count is actually not part of the record fields. But we should be able to display on the API response.
-      @permitted_field_names << 'flag_count' if current_user.can?(:flag, model_class)
+      @permitted_field_names = current_user.permitted_field_names(current_user.primero_modules, model_class)
     end
 
     def select_fields
       @selected_field_names = FieldSelectionService.select_fields_to_show(params, model_class, @permitted_field_names)
+    end
+
+    def select_updated_fields
+      changes = @record.saved_changes_to_record.keys
+      @updated_field_names = changes & @permitted_field_names
     end
 
     def record_params

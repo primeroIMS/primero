@@ -1,6 +1,10 @@
 module ImportActions
   extend ActiveSupport::Concern
 
+  ACTIVE_IMPORTERS = [
+    Importers::CSVImporter, Importers::ExcelImporter, Importers::JSONImporter
+  ].freeze
+
   def import_file
     authorize! :import, model_class
 
@@ -72,7 +76,7 @@ module ImportActions
   end
 
   def import_single_file file, type
-    importer = Importers::ACTIVE_IMPORTERS.select {|imp| imp.id == type}.first
+    importer = ACTIVE_IMPORTERS.select {|imp| imp.id == type}.first
     return false if importer.nil?
 
     handle_import(file, importer)

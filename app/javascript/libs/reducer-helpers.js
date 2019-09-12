@@ -26,3 +26,10 @@ export const mapListToObject = (entries, key, val) => {
 export const listEntriesToRecord = (entries, record) => {
   return List(entries.map(entry => record(entry)));
 };
+
+export const arrayToObject = (data, key) =>
+  data.reduce((obj, item) => {
+    const o = obj;
+    o[item[key]] = item;
+    return o;
+  }, {});

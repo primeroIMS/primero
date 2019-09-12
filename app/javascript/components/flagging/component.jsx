@@ -7,32 +7,46 @@ import { FlagForm, ListFlags, FlagDialog } from "./parts";
 import { fetchFlags } from "./action-creators";
 import { selectFlags } from "./selectors";
 
-const Flagging = ({ recordType, records, control }) => {
+const Flagging = ({ recordType, record, control }) => {
   const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchFlags());
-  }, [dispatch]);
+    dispatch(fetchFlags(recordType, record));
+  }, [dispatch, recordType, record]);
 
-  const flags = useSelector(state => selectFlags(state, records, recordType));
+  const flags = useSelector(state => selectFlags(state, record, recordType));
 
-  const isBulkFlags = Array.isArray(records);
+  const isBulkFlags = Array.isArray(record);
 
   const handleOpen = () => {
     setOpen(!open);
   };
 
+  const handleActiveTab = value => {
+    setTab(value);
+  };
+
   const flagFormProps = {
     recordType,
-    records,
-    handleOpen
+    record,
+    handleOpen,
+    handleActiveTab
   };
 
   const flagDialogProps = {
     isBulkFlags,
     setOpen,
-    open
+    open,
+    tab,
+    setTab
+  };
+
+  const listFlagsProps = {
+    flags,
+    recordType,
+    record
   };
 
   return (
@@ -44,7 +58,7 @@ const Flagging = ({ recordType, records, control }) => {
       )}
       <FlagDialog {...flagDialogProps}>
         <div hidetab={isBulkFlags.toString()}>
-          <ListFlags flags={flags} />
+          <ListFlags {...listFlagsProps} />
         </div>
         <div>
           <FlagForm {...flagFormProps} />
@@ -56,7 +70,7 @@ const Flagging = ({ recordType, records, control }) => {
 
 Flagging.propTypes = {
   recordType: PropTypes.string.isRequired,
-  records: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
+  record: PropTypes.string,
   control: PropTypes.node
 };
 

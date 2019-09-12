@@ -77,31 +77,11 @@ module Workflow
       self.module.use_workflow_assessment
     end
 
-    def workflow_sequence_strings(lookups=nil)
-      status_list = self.class.workflow_statuses([self.module], lookups)
-      if self.case_status_reopened.present?
-        status_list.reject! {|status| status['id'] == WORKFLOW_NEW}
-      else
-        status_list.reject! {|status| status['id'] == WORKFLOW_REOPENED}
-      end
-      status_list.map {|status| [status['display_text'], status['id']]}
-    end
   end
 
   module ClassMethods
-    def workflow_statuses(modules=[], lookups=nil)
-      status_list = []
-      status_list << workflow_key_value(WORKFLOW_NEW)
-      status_list << workflow_key_value(WORKFLOW_REOPENED)
-      status_list << workflow_key_value(WORKFLOW_ASSESSMENT) if modules.try(:any?) {|m| m.use_workflow_assessment}
-      status_list << workflow_key_value(WORKFLOW_CASE_PLAN) if modules.try(:any?) {|m| m.use_workflow_case_plan}
-      status_list += Lookup.values('lookup-service-response-type', lookups, locale: I18n.locale)
-      status_list << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED) if modules.try(:any?) {|m| m.use_workflow_service_implemented}
-      status_list << workflow_key_value(WORKFLOW_CLOSED)
-      status_list
-    end
 
-    def workflow_statuses_all_locales(modules=[], lookups=nil)
+    def workflow_statuses(modules=[], lookups=nil)
       I18n.available_locales.map do |locale|
         status_list = []
         status_list << workflow_key_value(WORKFLOW_NEW, locale)
@@ -117,9 +97,12 @@ module Workflow
 
     private
 
-    #TODO - concept of 'display_text' would fit better in a helper
+    #TODO: - concept of 'display_text' would fit better in a helper
     def workflow_key_value(status, locale = I18n.locale)
-      {'id' => status, 'display_text' => I18n.t("case.workflow.#{status}", locale: locale)}
+      {
+        'id' => status,
+        'display_text' => I18n.t("case.workflow.#{status}", locale: locale)
+      }
     end
   end
 end
