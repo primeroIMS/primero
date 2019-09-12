@@ -142,6 +142,7 @@ const Nav = () => {
         {agency && agency.get("logo") && (
           <AgencyLogo
             agency={agency && agency.get("unique_id")}
+            // TODO: Remove window.location on the task to return full paths for assets next
             logo={`${window.location.protocol}//${
               window.location.host
             }${(agency.get("logo") && agency.getIn(["logo", "small"], "")) ||
