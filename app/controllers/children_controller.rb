@@ -4,7 +4,7 @@ class ChildrenController < ApplicationController
   include IndexHelper
   include RecordFilteringPagination
   include ApprovalActions
-  include FieldsHelper
+  #include FieldsHelper
 
   before_action :filter_params_array_duplicates, :only => [:create, :update]
   before_action :filter_params_by_permission, :only => [:create, :update]
