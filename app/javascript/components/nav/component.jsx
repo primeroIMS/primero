@@ -138,13 +138,15 @@ const Nav = () => {
             </div>
           ))}
         </List>
-        {/* TODO: Need to pass agency and logo path from api */}
-        {agency && (
+
+        {agency && agency.get("logo") && (
           <AgencyLogo
-            agency={agency && agency.unique_id}
+            agency={agency && agency.get("unique_id")}
+            // TODO: Remove window.location on the task to return full paths for assets next
             logo={`${window.location.protocol}//${
               window.location.host
-            }${(agency.logo && agency.logo.small) || ""}`}
+            }${(agency.get("logo") && agency.getIn(["logo", "small"], "")) ||
+              ""}`}
           />
         )}
         {!mobileDisplay && <TranslationsToggle />}
