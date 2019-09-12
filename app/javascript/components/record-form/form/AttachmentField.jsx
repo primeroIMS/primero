@@ -84,6 +84,7 @@ const AttachmentField = ({ name, field, label, disabled, formik, mode }) => {
                       resetOpenLastDialog={resetOpenLastDialog}
                       value={a}
                       removeFunc={arrayHelpers.remove}
+                      field={field}
                     />
                   ) : (
                     <Box className={css.uploadBox}>
