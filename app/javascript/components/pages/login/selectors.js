@@ -9,3 +9,5 @@ export const selectAuthErrors = state =>
 
 export const selectAuthenticated = state =>
   state.getIn([NAMESPACE, "isAuthenticated"], false);
+
+export const currentUser = state => state.getIn([NAMESPACE, "username"]);

@@ -45,6 +45,12 @@ const Filters = ({
         const payloadFilter = {};
         switch (filter.type) {
           case "checkbox":
+            if (filter.field_name === "my_cases") {
+              payloadFilter["my_cases[owned_by]"] = [];
+              setCheckBoxes(payloadFilter, recordType);
+              payloadFilter["my_cases[assigned_user_names]"] = [];
+              return setCheckBoxes(payloadFilter, recordType);
+            }
             payloadFilter[filter.field_name] = [];
             return setCheckBoxes(payloadFilter, recordType);
           case "multi_select":

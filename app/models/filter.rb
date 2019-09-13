@@ -315,14 +315,12 @@ class Filter < ValueObject
       when 'workflow'
         self.options = Child.workflow_statuses(user_modules)
       when 'owned_by_agency'
-        self.options = User.agencies_by_user_list(managed_user_names).map do |agency|
-          {
-            id: agency.id,
-            display_name: I18n.available_locales.map do |locale|
-             { locale => agency.name(locale)  }
-            end.inject(&:merge)
-          }
-        end
+        self.options = I18n.available_locales.map do |locale|
+          locale_options = User.agencies_by_user_list(managed_user_names).map do |agency|
+            { id: agency.id, display_name: agency.name(locale) }
+          end
+          { locale => locale_options }
+        end.inject(&:merge)
       when 'age'
         self.options = system_settings.age_ranges[system_settings.primary_age_range].map do |age_range|
           { id: age_range.to_s, display_name: age_range.to_s }
@@ -364,11 +362,12 @@ class Filter < ValueObject
   def resolve_type
     if self.type.blank?
       if self.options.present?
-        if self.options.length == 1
+        options_length = self.options.is_a?(Array) ? self.options.length : self.options[I18n.default_locale].length
+        if options_length == 1
           self.type = 'toggle'
-        elsif self.options.length > 3
+        elsif options_length > 3
           self.type = 'checkbox'
-        elsif self.options.length == 3 || self.options.length == 2
+        elsif options_length == 3 || options_length == 2
           self.type = 'multi_toggle'
         end
       else
