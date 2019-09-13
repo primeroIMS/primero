@@ -1,14 +1,16 @@
 module AudioUploader
   extend ActiveSupport::Concern
 
-  include AudioHelper
-
   included do
     property :recorded_audio, String
     property :audio_attachments, Hash
 
     validate :validate_audio_size
     validate :validate_audio_file_name
+  end
+
+  def link_to_download_audio_with_key
+    #TODO: Temporary hack to allow this class to be autoloaded. This class will be refactored and deleted for v2
   end
 
   def validate_audio_size

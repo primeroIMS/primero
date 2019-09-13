@@ -14,9 +14,11 @@ describe("<FiltersBuilders /> - Action Creators", () => {
 
     expect(creators).to.have.property("setExpandedPanel");
     expect(creators).to.have.property("collapsePanels");
+    expect(creators).to.have.property("applyFilters");
     expect(creators).to.have.property("resetSinglePanel");
     delete creators.setExpandedPanel;
     delete creators.collapsePanels;
+    delete creators.applyFilters;
     delete creators.resetSinglePanel;
 
     expect(creators).to.deep.equal({});

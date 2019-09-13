@@ -2,8 +2,11 @@ export const RECORDS_FAILURE = "RECORDS_FAILURE";
 export const RECORDS_STARTED = "RECORDS_STARTED";
 export const RECORDS_FINISHED = "RECORDS_FINISHED";
 export const RECORDS_SUCCESS = "RECORDS_SUCCESS";
+export const RECORDS = "RECORDS";
 export const SET_PAGINATION = "SET_PAGINATION";
 export const SET_FILTERS = "SET_FILTERS";
+
+// TODO: Move below filter actions somewhere else
 // Filters
 export const ADD_CHECKBOX = "ADD_CHECKBOX";
 export const DELETE_CHECKBOX = "DELETE_CHECKBOX";

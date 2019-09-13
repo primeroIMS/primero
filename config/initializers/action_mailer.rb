@@ -1,4 +1,5 @@
 email_settings = YAML::load(File.open("#{Rails.root.to_s}/config/mailers.yml"))[Rails.env.to_s]
+  .with_indifferent_access
 
 Rails.application.config.action_mailer.tap do |action_mailer|
   action_mailer.delivery_method = email_settings[:delivery_method]

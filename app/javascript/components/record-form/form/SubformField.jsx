@@ -15,11 +15,18 @@ import { makeStyles } from "@material-ui/styles";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { sortBy } from "lodash";
 import FormSectionField from "./FormSectionField";
 import { constructInitialValues } from "../helpers";
 import styles from "./styles.css";
 
-const SubformField = ({ field, formik, mode }) => {
+const SubformField = ({
+  field,
+  formik,
+  mode,
+  subformFields,
+  setSubformFields
+}) => {
   const css = makeStyles(styles)();
 
   const {
@@ -34,7 +41,37 @@ const SubformField = ({ field, formik, mode }) => {
 
   const values = getIn(formik.values, name);
 
-  const renderSubformHeading = (arrayHelpers, index) => {
+  const renderSubformHeading = (arrayHelpers, index, fieldSubform) => {
+    const handleAddSubform = e => {
+      e.preventDefault();
+      arrayHelpers.push(initialSubformValue);
+    };
+
+    const handleDeletedSubforms = e => {
+      e.preventDefault();
+
+      if (mode.isEdit) {
+        values[index]._destroy = true;
+        const uniqueId = values[index].unique_id;
+        const formName = fieldSubform.name;
+        if (uniqueId) {
+          let updatedData = subformFields[formName] || [];
+          updatedData = [
+            ...updatedData,
+            {
+              _destroy: true,
+              unique_id: uniqueId
+            }
+          ];
+          setSubformFields({
+            ...subformFields,
+            [formName]: updatedData
+          });
+        }
+      }
+      arrayHelpers.remove(index);
+    };
+
     return (
       <Box display="flex">
         <Box flexGrow="1">
@@ -43,10 +80,12 @@ const SubformField = ({ field, formik, mode }) => {
         <Box>
           {!mode.isShow && (
             <>
-              <IconButton onClick={() => arrayHelpers.remove(index)}>
-                <DeleteIcon />
-              </IconButton>
-              <IconButton onClick={() => arrayHelpers.push({})}>
+              {!subformSectionID.subform_prevent_item_removal ? (
+                <IconButton onClick={handleDeletedSubforms}>
+                  <DeleteIcon />
+                </IconButton>
+              ) : null}
+              <IconButton onClick={handleAddSubform}>
                 <AddIcon />
               </IconButton>
             </>
@@ -76,15 +115,32 @@ const SubformField = ({ field, formik, mode }) => {
       </ExpansionPanel>
     );
   };
+
   const renderFields = arrayHelpers => {
     if (values && values.length > 0) {
-      return values.map((subForm, index) => {
+      let sortedValues = [];
+      const sortSubformField = field.subform_sort_by;
+      if (sortSubformField) {
+        sortedValues = sortBy(values, v => {
+          let criteria;
+          if (!Number.isNaN(Date.parse(v[sortSubformField]))) {
+            criteria = new Date(v[sortSubformField]);
+          } else {
+            criteria = sortSubformField;
+          }
+          return criteria;
+        });
+      } else {
+        sortedValues = values;
+      }
+
+      return sortedValues.map((subForm, index) => {
         return (
           <div key={index}>
             {ConditionalWrapper(
               mode.isShow,
               ExpansionWrapper,
-              renderSubformHeading(arrayHelpers, index),
+              renderSubformHeading(arrayHelpers, index, field),
               <div className={css.exandedSubform}>
                 {field.subform_section_id.fields.map(f => {
                   const fieldProps = {
@@ -94,7 +150,6 @@ const SubformField = ({ field, formik, mode }) => {
                     index,
                     parentField: field
                   };
-
                   return (
                     <Box my={3} key={f.name}>
                       <FormSectionField {...fieldProps} />
@@ -138,7 +193,9 @@ const SubformField = ({ field, formik, mode }) => {
 SubformField.propTypes = {
   field: PropTypes.object.isRequired,
   mode: PropTypes.object.isRequired,
-  formik: PropTypes.object.isRequired
+  formik: PropTypes.object.isRequired,
+  subformFields: PropTypes.object.isRequired,
+  setSubformFields: PropTypes.func.isRequired
 };
 
 export default connect(SubformField);

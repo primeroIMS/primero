@@ -1,4 +1,0 @@
-production:
-  couch_watcher:
-    app_hostname: 
-    app_port: 

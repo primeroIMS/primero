@@ -4,7 +4,7 @@ class ChildrenController < ApplicationController
   include IndexHelper
   include RecordFilteringPagination
   include ApprovalActions
-  include FieldsHelper
+  #include FieldsHelper
 
   before_action :filter_params_array_duplicates, :only => [:create, :update]
   before_action :filter_params_by_permission, :only => [:create, :update]
@@ -23,26 +23,26 @@ class ChildrenController < ApplicationController
   end
 
 
-  def hide_name
-    if params[:protect_action] == "protect"
-      hide = true
-    elsif params[:protect_action] == "view"
-      hide = false
-    end
-    authorize! :update, @child
-    @child.hidden_name = hide
-    if @child.save
-      render :json => {:error => false,
-                       :input_field_text => hide ? I18n.t("cases.hidden_text_field_text") : @child.name,
-                       :disable_input_field => hide,
-                       :action_link_action => hide ? "view" : "protect",
-                       :action_link_text => hide ? I18n.t("cases.view_name") : I18n.t("cases.hide_name")
-                      }
-    else
-      puts @child.errors.messages
-      render :json => {:error => true, :text => I18n.t("cases.hide_name_error"), :accept_button_text => I18n.t("cases.ok")}
-    end
-  end
+  # def hide_name
+  #   if params[:protect_action] == "protect"
+  #     hide = true
+  #   elsif params[:protect_action] == "view"
+  #     hide = false
+  #   end
+  #   authorize! :update, @child
+  #   @child.hidden_name = hide
+  #   if @child.save
+  #     render :json => {:error => false,
+  #                      :input_field_text => hide ? I18n.t("cases.hidden_text_field_text") : @child.name,
+  #                      :disable_input_field => hide,
+  #                      :action_link_action => hide ? "view" : "protect",
+  #                      :action_link_text => hide ? I18n.t("cases.view_name") : I18n.t("cases.hide_name")
+  #                     }
+  #   else
+  #     puts @child.errors.messages
+  #     render :json => {:error => true, :text => I18n.t("cases.hide_name_error"), :accept_button_text => I18n.t("cases.ok")}
+  #   end
+  # end
 
   def create_incident
     begin
@@ -112,7 +112,7 @@ class ChildrenController < ApplicationController
     @child.update_last_updated_by(current_user)
     @child.add_alert(Alertable::NEW_FORM, subform, form_sidebar_id) if current_user.user_name != @child.owned_by
     if @child.child_status == Record::STATUS_CLOSED
-      @child.reopen(Record::STATUS_OPEN, true, current_user.user_name)
+      #@child.reopen(Record::STATUS_OPEN, true, current_user.user_name)
     end
 
     respond_to do |format|
@@ -174,15 +174,15 @@ class ChildrenController < ApplicationController
     end
   end
 
-  def reopen_case
-    authorize! :update, model_class
-    @child.reopen(params[:child_status], params[:case_reopened], current_user.user_name)
-    if @child.save
-      render :json => { :success => true, :error_message => "", :reload_page => true }
-    else
-      render :json => { :success => false, :error_message => @child.errors.messages, :reload_page => true }
-    end
-  end
+  # def reopen_case
+  #   authorize! :update, model_class
+  #   @child.reopen(params[:child_status], params[:case_reopened], current_user.user_name)
+  #   if @child.save
+  #     render :json => { :success => true, :error_message => "", :reload_page => true }
+  #   else
+  #     render :json => { :success => false, :error_message => @child.errors.messages, :reload_page => true }
+  #   end
+  # end
 
   def relinquish_referral
     #TODO move Transition business logic to the model.
@@ -354,7 +354,7 @@ class ChildrenController < ApplicationController
     @display_assessment ||= (can?(:view_assessment, Dashboard) || current_user.admin?)
   end
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   def logger_action_name
     if action_name == "hide_name"
       "hide_name.#{params[:protect_action]}"

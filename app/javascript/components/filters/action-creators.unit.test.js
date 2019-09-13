@@ -27,5 +27,4 @@ describe("<Filters /> - Action Creators", () => {
     const actionCreator = actionCreators.setTab(1);
     expect(dispatch).to.have.been.calledWithMatch(actionCreator);
   });
-
 });

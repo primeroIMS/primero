@@ -1,6 +1,0 @@
-<% if (from_value) %>
-  <%= datetime %> <%= t("histories.audio.audio_change") %> <%= link_to_download_audio_with_key(from_value, display_object) %> <%= t("histories.to") %> <%= link_to_download_audio_with_key(to_value, display_object) %> <%=	t("histories.by") %> <%= user_name %> <%=	t("histories.belong_to") %> <%= organization %>
-<% else %>
-  <%= datetime %> <%=	t("histories.audio.audio") %> <%= link_to_download_audio_with_key(to_value, display_object) %> <%= t("histories.added_by") %> <%= user_name %> <%= t("histories.belong_to") %> to <%= organization %>
-<% end %>
-

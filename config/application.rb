@@ -18,8 +18,6 @@ module Primero
       #{config.root}/lib
       #{config.root}/lib/primero
       #{config.root}/lib/extensions
-      #{config.root}/app/presenters
-      #{config.root}/app
     )
 
     # I18n deprecation
@@ -41,8 +39,6 @@ module Primero
     config.assets.version = '1.0'
 
     config.assets.precompile += %w(
-      application_ltr.scss
-      application_rtl.scss
       translations.js
     )
 

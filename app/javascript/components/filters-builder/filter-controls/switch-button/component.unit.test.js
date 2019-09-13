@@ -7,15 +7,13 @@ import SwitchButton from "./component";
 
 describe("<SwitchButton /> - Component", () => {
   const mockedData = {
-    id: "my_cases",
-    display_name: "My Cases",
+    name: "My Cases",
+    field_name: "my_cases",
     type: "switch",
-    options: {
-      values: [
-        { id: "my_cases", display_name: "My Cases" },
-        { id: "referred_cases", display_name: "Cases referred to me" }
-      ]
-    }
+    options: [
+      { id: "my_cases", display_name: "My Cases" },
+      { id: "referred_cases", display_name: "Cases referred to me" }
+    ]
   };
   let component;
 

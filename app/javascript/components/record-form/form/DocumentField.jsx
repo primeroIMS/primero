@@ -28,7 +28,8 @@ const DocumentField = ({
   open,
   resetOpenLastDialog,
   value,
-  removeFunc
+  removeFunc,
+  field
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -49,6 +50,8 @@ const DocumentField = ({
   };
 
   const supportingInputsProps = {
+    field,
+    mode,
     readOnly: mode.isShow,
     fullWidth: true,
     autoComplete: "off",
@@ -160,7 +163,8 @@ DocumentField.propTypes = {
   open: PropTypes.bool,
   resetOpenLastDialog: PropTypes.func.isRequired,
   value: PropTypes.object.isRequired,
-  removeFunc: PropTypes.func.isRequired
+  removeFunc: PropTypes.func.isRequired,
+  field: PropTypes.object
 };
 
 export default DocumentField;

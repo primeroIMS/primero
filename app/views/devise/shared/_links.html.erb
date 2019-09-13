@@ -1,7 +1,0 @@
-<%- if controller_name != 'sessions' %>
-  <%= link_to I18n.t('buttons.login'), new_session_path(resource_name) %><br />
-<% end %>
-
-<%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <%= link_to I18n.t('user.forgot_password'), new_password_path(resource_name) %><br />
-<% end %>

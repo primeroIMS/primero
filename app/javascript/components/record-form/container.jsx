@@ -10,7 +10,6 @@ import { LoadingIndicator } from "components/loading-indicator";
 import { useThemeHelper } from "libs";
 import clsx from "clsx";
 import { Nav } from "./nav";
-import NAMESPACE from "./namespace";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
 import { fetchRecord, saveRecord } from "./action-creators";
@@ -20,7 +19,8 @@ import {
   getRecordForms,
   getRecord,
   getLoadingState,
-  getErrors
+  getErrors,
+  getSelectedForm
 } from "./selectors";
 import { RECORD_TYPES } from "./constants";
 import { compactValues } from "./helpers";
@@ -55,9 +55,7 @@ const RecordForms = ({ match, mode }) => {
   const firstTab = useSelector(state => getFirstTab(state, selectedModule));
   const loading = useSelector(state => getLoadingState(state));
   const errors = useSelector(state => getErrors(state));
-  const selectedForm = useSelector(state =>
-    state.getIn([NAMESPACE, "selectedForm"])
-  );
+  const selectedForm = useSelector(state => getSelectedForm(state));
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -72,7 +70,7 @@ const RecordForms = ({ match, mode }) => {
   };
 
   const formProps = {
-    onSubmit: (initialValues, values, setSubmitting) => {
+    onSubmit: (initialValues, values, subformFields) => {
       dispatch(
         saveRecord(
           params.recordType,
@@ -80,7 +78,10 @@ const RecordForms = ({ match, mode }) => {
           {
             data: {
               ...compactValues(values, initialValues),
-              module_id: selectedModule.primeroModule
+              ...(!containerMode.isEdit
+                ? { module_id: selectedModule.primeroModule }
+                : {}),
+              ...(subformFields || {})
             }
           },
           params.id,
@@ -91,7 +92,8 @@ const RecordForms = ({ match, mode }) => {
             : i18n.t(`${recordType}.messages.creation_success`, recordType)
         )
       );
-      setSubmitting(false);
+      // TODO: Set this if there are any errors on validations
+      // setSubmitting(false);
     },
     bindSubmitForm: boundSubmitForm => {
       submitForm = boundSubmitForm;

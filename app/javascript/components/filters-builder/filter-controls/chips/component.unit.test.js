@@ -8,39 +8,48 @@ import Chips from "./component";
 
 describe("<Chips /> - Component", () => {
   const mockedData = {
-    id: "risk_level",
-    display_name: "Risk Level",
+    name: "Risk Level",
+    field_name: "risk_level",
     type: "chips",
-    reset: true,
     options: {
-      values: [
+      en: [
         {
           id: "high",
-          display_name: "High",
-          css_color: "red",
-          filled: true
+          display_name: "High"
         },
         {
           id: "medium",
-          display_name: "Medium",
-          css_color: "orange",
-          filled: true
+          display_name: "Medium"
         },
         {
           id: "low",
-          display_name: "Low",
-          css_color: "orange",
-          filled: false
+          display_name: "Low"
         },
         {
           id: "no_action",
-          display_name: "No Action",
-          css_color: "darkGrey",
-          filled: false
+          display_name: "No Action"
+        }
+      ],
+      es: [
+        {
+          id: "high",
+          display_name: "Alto"
+        },
+        {
+          id: "medium",
+          display_name: "Medio"
+        },
+        {
+          id: "low",
+          display_name: "Bajo"
+        },
+        {
+          id: "no_action",
+          display_name: "Sin Acción"
         }
       ]
     }
-  }
+  };
   let component;
 
   before(() => {
@@ -62,5 +71,4 @@ describe("<Chips /> - Component", () => {
   it("renders the Chip", () => {
     expect(component.find(Chip)).to.have.length(4);
   });
-
 });

@@ -18,7 +18,6 @@ class TracingRequest < ApplicationRecord
     :location_last
 
   alias inquirer_id tracing_request_id
-  alias inquiry_status status ; alias inquiry_status= status=
 
   def photos ; [] ; end #TODO: delete after refactoring Documents
   def photo_keys ; [] ; end #TODO: delete after refactoring Documents
@@ -31,13 +30,14 @@ class TracingRequest < ApplicationRecord
   end
 
   def self.summary_field_names
-    %w(short_id name_of_inquirer date_of_inquiry, tracing_requests)
+    %w(short_id name_of_inquirer date_of_inquiry tracing_requests flag_count)
   end
 
   searchable auto_index: self.auto_index? do
     extend Matchable::Searchable
     configure_searchable(TracingRequest)
 
+    string :status, as: 'status_sci'
     quicksearch_fields.each do |f|
       text(f) { self.data[f] }
     end
@@ -61,7 +61,7 @@ class TracingRequest < ApplicationRecord
   def self.minimum_reportable_fields
     {
       'boolean' => ['record_state'],
-      'string' => ['inquiry_status', 'owned_by'],
+      'string' => ['status', 'owned_by'],
       'multistring' => ['associated_user_names', 'owned_by_groups'],
       'date' => ['inquiry_date']
     }

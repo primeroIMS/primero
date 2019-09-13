@@ -1,9 +1,0 @@
-<div class="side-nav-container">
-  <div class="scrolling_indicator up"><%= t('messages.scroll_up') %></div>
-  <ul class="tab-handles side-nav">
-    <% tabs.each do |form_group, forms| %>
-      <%= build_form_tabs(form_group, forms, show_summary ||= false) %>
-    <% end %>
-  </ul>
-  <div class="scrolling_indicator down"><%= t('messages.scroll_down') %></div>
-</div>

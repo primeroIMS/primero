@@ -1,6 +1,6 @@
+import "test/test.setup";
 import { setupMountedThemeComponent } from "test";
 import { expect } from "chai";
-import "test/test.setup";
 
 import UnicefLogo from "images/unicef.png";
 import AgencyLogo from "./component";

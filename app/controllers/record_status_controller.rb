@@ -1,9 +1,9 @@
 class RecordStatusController < ApplicationController
   before_action :set_class_name
 
-  include LoggerActions
+  include AuditLogActions
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   def logger_action_name
     if action_name == "set_record_status"
       #The effective action on the record is at the parameter <record_state>.

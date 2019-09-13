@@ -173,9 +173,9 @@ en:
      create_new_record: "Create New %{model}"
      bundle_import: "Configuration Bundle"
      bundle_export: "Configuration Bundle"
-     transfer: "Transfer %{model}"
-     reassign: "Assign %{model}"
-     referral: "Refer %{model}"
+     transfer: "Transfer"
+     reassign: "Assign"
+     referral: "Refer"
      mark_for_mobile: "Mark for mobile"
      unmark_for_mobile: "Un-mark for mobile"
      approve_bia: "Approve BIA"
@@ -261,6 +261,18 @@ en:
     apply_filter: "Apply"
     save_filter: "Save"
     my_filters: "My Filters"
+    id: "ID#"
+    name: "Name"
+    age: "Age"
+    sex: "Sex"
+    registration_date: "Registration Date"
+    status: "Status"
+    social_worker: "Social Worker"
+    survivor_code: "Survivor Code"
+    case_opening_date: "Case Open Date"
+    photos: "Photo"
+    owned_by: 'Record Owner'
+    owned_by_agency: 'Record Owner Agency'
 
     order_by:
       most_recently: "Most recently"
@@ -462,18 +474,6 @@ en:
     another_duplicate_after_link: " to see the duplicate record."
     # TODO: Possibly use another method to label the list view columns
     select: "Select"
-    id: "ID#"
-    name: "Name"
-    age: "Age"
-    sex: "Sex"
-    registration_date: "Registration Date"
-    status: "Status"
-    social_worker: "Social Worker"
-    survivor_code: "Survivor Code"
-    case_opening_date: "Case Open Date"
-    photos: "Photo"
-    owned_by: 'Record Owner'
-    owned_by_agency: 'Record Owner Agency'
 
     messages:
       update_success: "Case %{record_id} was successfully updated."
@@ -527,6 +527,15 @@ en:
     label: "Incidents"
     register_new_incident: "New Incident"
     show_incident: "Incident ID %{short_id}"
+    id: "ID#"
+    survivor_code: "Survivor Code"
+    case_worker_code: "Case Worker Code"
+    date_of_interview: "Date of Interview"
+    date_of_incident: "Date of Incident"
+    violence_type: "Violence Type"
+    incident_location: "Incident Location"
+    violations: "Violations"
+    social_worker: "Social Worker"
     selectable_date_options:
       date_of_first_report: "Interview Date"
       incident_date_derived: "Incident Date"
@@ -552,6 +561,7 @@ en:
       armed_force_group_type: "Armed Force or Group Type:"
       record_state: "Record State:"
       interview_date: "Interview Date:"
+      by_date: "By Date:"
 
   incident:
     label: "Incident ID"
@@ -673,6 +683,10 @@ en:
     register_new_tracing_request: "New Tracing Request"
     show_tracing_request: "Tracing Request ID %{short_id}"
     export: "Exports"
+    id: "ID"
+    name_of_inquirer: "Name of Inquirer"
+    date_of_inquiry: "Date of Inquiry"
+    tracing_requests: "Tracing Requests"
     selectable_date_options:
       inquiry_date: "Date of Inquiry"
     filter_by:
@@ -684,6 +698,7 @@ en:
       location_separation: "Separation Location:"
       separation_cause: "Separation Cause:"
       record_state: "Record State:"
+      by_date: "By Date:"
 
   potential_matches:
     empty: "Please access matching through Tracing Requests"
@@ -1251,6 +1266,7 @@ en:
       other_information: "Other information"
       support_forum: "Support Forum"
       primero_version: "Primero Version"
+      system_version: "System Version"
     updated: "Contact information was successfully updated."
     edit_info: "Edit Contact Information"
     info_label: "Contact Information"
@@ -2521,3 +2537,14 @@ en:
     invalid: "Invalid"
     apply_filters: "Apply Filters"
     clear_filters: "Clear All"
+
+  flags:
+    flags_tab: "Flags"
+    add_flag_tab: "Add Flag"
+    flag_reason: "Flag Reason"
+    flag_date: "Flag Date"
+    unflag_reason: "Unflag Reason"
+    unflag: "Unflag"
+    no_flags: "No flags found"
+    flag_added: "Flag added successfully"
+    flag_deleted: "Flag deleted"

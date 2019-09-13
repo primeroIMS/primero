@@ -12,7 +12,7 @@ class DuplicateBulkExport < BulkExport
 
     begin
       facet_search = self.model_class.search do
-        with(:child_status, Record::STATUS_OPEN)
+        with(:status, Record::STATUS_OPEN)
         with(:record_state, true)
 
         adjust_solr_params do |params|

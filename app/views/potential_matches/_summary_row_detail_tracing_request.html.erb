@@ -1,9 +1,0 @@
-<tr>
-  <td class="id_column">
-    <%= link_to text_to_identify_potential_match_tracing_request(detail), tracing_request_path(detail.tracing_request.id), class: 'id_link ' %>
-  </td>
-  <td><%= detail.tracing_request_relation_name %></td>
-  <td><%= field_format_date(detail.tracing_request_inquiry_date) %></td>
-  <td><%= detail.tracing_request_name %></td>
-  <td><%= I18n.t("potential_match.likelihood.#{detail.likelihood}") %></td>
-</tr>

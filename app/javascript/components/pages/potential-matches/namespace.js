@@ -1,1 +1,1 @@
-export default "PotentialMatches";
+export default "potential_matches";

@@ -83,16 +83,15 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
   end
 
   create_table "audit_logs", id: :serial, force: :cascade do |t|
-    t.string "user_name"
-    t.string "action_name"
-    t.text "display_id"
     t.string "record_type"
     t.string "record_id"
-    t.string "owned_by"
+    t.string "user_id"
+    t.string "action"
+    t.string "resource_url"
     t.datetime "timestamp"
-    t.jsonb "mobile_data"
+    t.jsonb "metadata"
     t.index ["record_type", "record_id"], name: "index_audit_logs_on_record_type_and_record_id"
-    t.index ["user_name"], name: "index_audit_logs_on_user_name"
+    t.index ["user_id"], name: "index_audit_logs_on_user_id"
   end
 
   create_table "bulk_exports", id: :serial, force: :cascade do |t|

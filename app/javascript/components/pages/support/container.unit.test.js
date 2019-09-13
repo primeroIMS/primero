@@ -3,6 +3,7 @@ import { expect } from "chai";
 import { setupMountedComponent } from "test";
 import { fromJS, Map } from "immutable";
 import Support from "./container";
+import * as R from "./records";
 
 describe("<Support />", () => {
   let component;
@@ -14,7 +15,7 @@ describe("<Support />", () => {
       Map({
         records: Map({
           Support: {
-            data: fromJS({
+            data: R.ContactInformationRecord({
               name: "Simon Nehme",
               organization: "UNICEF",
               position: "Child Protection Officer - CPIMS Administrator",
@@ -23,7 +24,7 @@ describe("<Support />", () => {
               location: "United Nations Children’s Fund Lebanon",
               support_forum: "https://google.com",
               other_information: "",
-              primero_version: "1.3.15"
+              primeroVersion: "1.3.15"
             })
           }
         })

@@ -1,6 +1,6 @@
 
 module Importers
-  class CPIMSImporter
+  class CPIMSImporter < BaseImporter
     def self.id
       'cpims'
     end
@@ -26,7 +26,7 @@ module Importers
       rows.shift(2)
       rows.unshift(a)
 
-      cpims_data = Importers.flat_to_nested(rows)
+      cpims_data = flat_to_nested(rows)
 
       #Now translate CPIMS stuff to Primero stuff
       primero_data = []
@@ -49,7 +49,7 @@ module Importers
       case_hash['created_by'] = 'primero'
       case_hash['module_id'] = 'primeromodule-cp'
       case_hash['tracing_status'] = cpims_hash['Status'] if cpims_hash['Status'].present?
-      case_hash['child_status'] = Record::STATUS_OPEN   #TODO is there an incoming value for this?
+      case_hash['status'] = Record::STATUS_OPEN   #TODO is there an incoming value for this?
 
       if cpims_hash['FirstName'].present? && cpims_hash['LastName'].present?
         case_hash['name'] = cpims_hash['FirstName'] + " " + cpims_hash['LastName']

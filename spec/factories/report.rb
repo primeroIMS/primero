@@ -11,7 +11,7 @@ FactoryBot.define do
     filters {
       [
         {
-          "attribute" => "child_status",
+          "attribute" => "status",
           "value" => ["open"]
         },
         {

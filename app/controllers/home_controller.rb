@@ -1,13 +1,11 @@
 class HomeController < ApplicationController
   ALL_FILTER = "all"
 
-  skip_before_action :authenticate_user!, :only => %w{v2}
+  skip_before_action :authenticate_user!, only: %w{v2}, raise: false
 
   before_action :load_default_settings, :only => [:index]
   before_action :can_access_approvals, :only => [:index]
   before_action :load_risk_levels, :only => [:index]
-
-  layout "application_v2", :only => [ :v2 ]
 
   # TODO: This is temp action for v2 home page
   def v2

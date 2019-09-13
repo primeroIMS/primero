@@ -188,7 +188,7 @@ module Record
           result
         end
         append = new_data.reject{|new_record| merged_old_data.find{|r| r['unique_id'] == new_record['unique_id']}}
-        (merged_old_data + append).reject{|record| record['_delete']}
+        (merged_old_data + append).reject{|record| record['_destroy']}
       else
         new_data
       end
