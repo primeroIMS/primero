@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import ReopenAction from "./ReopenAction";
 
-const RecordActions = ({ recordType, iconColor }) => {
+const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const i18n = useI18n();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -53,6 +54,17 @@ const RecordActions = ({ recordType, iconColor }) => {
       name: i18n.t("actions.services_section_from_case"),
       action: () => console.log("Some action"),
       recordType: "cases"
+    },
+    {
+      name: i18n.t("actions.reopen"),
+      action: ReopenAction,
+      recordType: "all",
+      condition:
+        mode &&
+        mode.isShow &&
+        typeof record.find((r, index) => {
+          return index === "child_status" && r === "closed";
+        }) !== "undefined"
     }
   ];
 
@@ -62,6 +74,11 @@ const RecordActions = ({ recordType, iconColor }) => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleItemAction = itemAction => {
+    handleClose();
+    itemAction();
   };
 
   return (
@@ -84,16 +101,18 @@ const RecordActions = ({ recordType, iconColor }) => {
         {actions
           .filter(a => {
             return (
-              a.recordType === "all" ||
-              a.recordType === recordType ||
-              (Array.isArray(a.recordType) && a.recordType.includes(recordType))
+              (a.recordType === "all" ||
+                a.recordType === recordType ||
+                (Array.isArray(a.recordType) &&
+                  a.recordType.includes(recordType))) &&
+              (typeof a.condition === "undefined" || a.condition)
             );
           })
           .map(action => (
             <MenuItem
               key={action.name}
               selected={action.name === "Pyxis"}
-              onClick={handleClose}
+              onClick={() => handleItemAction(action.action)}
             >
               {action.name}
             </MenuItem>
@@ -105,7 +124,9 @@ const RecordActions = ({ recordType, iconColor }) => {
 
 RecordActions.propTypes = {
   recordType: PropTypes.string.isRequired,
-  iconColor: PropTypes.string
+  iconColor: PropTypes.string,
+  record: PropTypes.object,
+  mode: PropTypes.object
 };
 
 export default RecordActions;
