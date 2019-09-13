@@ -16,7 +16,7 @@ describe SavedSearch do
                                   "approval_status" => {
                                     "approval_status_case_plan" => ["or_op", "pending"]
                                   },
-                                  "child_status" => ["list", "open"],
+                                  "status" => ["list", "open"],
                                   "record_state" => ["list", "true"]
                                 })
     end

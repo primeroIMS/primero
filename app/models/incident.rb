@@ -37,6 +37,7 @@ class Incident < ApplicationRecord
       self.incident_date_derived
     end
 
+    string :status, as: 'status_sci'
     quicksearch_fields.each do |f|
       text(f) { self.data[f] }
     end
