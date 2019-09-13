@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       resources :system_settings, only: [:index]
       resources :tasks, only: [:index]
       resources :saved_searches, only: [:index, :create, :destroy]
+      resources :reports, only: [:index, :show]
       match ':record_type/flags' => 'flags#create_bulk', via: [ :post ]
     end
   end

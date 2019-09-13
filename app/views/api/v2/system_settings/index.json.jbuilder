@@ -1,5 +1,5 @@
 json.data do
-  json.merge! complete_locales_for(['welcome_email_text_i18n'], @system_setting.attributes.except('id'))
+  json.merge! FieldI18nService.fill_keys(['welcome_email_text_i18n'], @system_setting.attributes.except('id'))
   if @agencies.present?
     json.agencies do
       json.array! @agencies do |agency|
