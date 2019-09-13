@@ -19,7 +19,7 @@ module Api::V2
 
     def destroy
       @saved_search = SavedSearch.find(params[:id])
-      authorize! :write, SavedSearch
+      authorize! :write, @saved_search
       @saved_search.destroy!
     end
 
