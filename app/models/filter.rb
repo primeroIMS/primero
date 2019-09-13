@@ -173,7 +173,7 @@ class Filter < ValueObject
   )
   INQUIRY_STATUS = Filter.new(
     name: 'tracing_requests.filter_by.inquiry_status',
-    field_name: 'inquiry_status',
+    field_name: 'status',
     option_strings_source: 'lookup-inquiry-status'
   )
   SEPARATION_LOCATION = Filter.new(
