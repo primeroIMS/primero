@@ -87,12 +87,12 @@ describe Api::V2::SavedSearchesController, type: :request do
     it 'creates a new saved search with 200 and returns it as JSON' do
       login_for_test
       params = {
-        "data": {
-          "name": "Search 1",
-          "record_type": "case",
-          "module_ids": ["primeromodule-cp"],
-          "filters": [
-            {"name":  "flag", "value": ["single", "flag"] }
+        "data" => {
+          "name" => "Search 1",
+          "record_type" => "case",
+          "module_ids" => ["primeromodule-cp"],
+          "filters" => [
+            {"name" =>  "flag", "value" => ["single", "flag"] }
           ]
         }
       }
@@ -101,7 +101,9 @@ describe Api::V2::SavedSearchesController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_nil
+      expect(json['data']['filters']).to eq(params['data']['filters'])
       expect(SavedSearch.find_by(id: json['data']['id'])).not_to be_nil
+      
     end
   end
 

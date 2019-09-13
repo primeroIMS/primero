@@ -28,8 +28,11 @@ module Api::V2
     def saved_search_params
       @saved_search_params ||= params.require(:data)
                                      .permit([
-                                        'id', 'name', {'module_ids' => [] }, 
-                                        'record_type', { 'filters' => [] }
+                                        :id,
+                                        :name,
+                                        { :module_ids => [] },
+                                        :record_type,
+                                        { :filters => [:name, :value => []] }
                                       ])
     end
   end
