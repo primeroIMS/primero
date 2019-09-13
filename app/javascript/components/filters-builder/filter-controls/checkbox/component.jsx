@@ -20,10 +20,30 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
     option_strings_source: optionStringsSource
   } = props;
 
+  let values = [];
   const userName = useSelector(state => currentUser(state));
 
-  let values = [];
   values = useSelector(state => getOption(state, optionStringsSource, i18n));
+
+  const getMonthInactivity = months => {
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ];
+    const date = new Date();
+    const month = date.getMonth() - months;
+    return `${date.getUTCDate()}-${monthNames[month]}-${date.getFullYear()}`;
+  };
 
   if (isEmpty(optionStringsSource) && Array.isArray(options)) {
     values = options;
@@ -38,21 +58,21 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
             id: "owned_by",
             value: userName,
             name: "my_cases[owned_by]",
-            display_name: "My Cases"
+            display_name: i18n.t("cases.filter_by.my_cases")
           },
           {
             id: "assigned_user_names",
             value: userName,
             name: "my_cases[assigned_user_names]",
-            display_name: "Cases referred to me"
+            display_name: i18n.t("cases.filter_by.referred_cases")
           }
         ];
         break;
       case "last_updated_at":
         values = [
           {
-            id: "01-Jan-0000.15-Jun-2019",
-            display_name: "For 3+ months"
+            id: `01-Jan-0000.${getMonthInactivity(3)}`,
+            display_name: i18n.t("cases.filter_by.3month_inactivity")
           }
         ];
         break;
