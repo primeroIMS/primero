@@ -276,6 +276,7 @@ class Field < ApplicationRecord
     #      completely based on assumptions.
     #      Also it's inefficient, and potentially inconsistent with itself
     def find_by_name(field_name)
+      field_name = field_name.deep_dup
       field = nil
       if field_name.present?
         if field_name.kind_of?(Array)

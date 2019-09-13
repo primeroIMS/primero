@@ -1,6 +1,5 @@
 module Api::V2
   class SystemSettingsController < ApplicationApiController
-    helper I18nFieldHelper
 
     def index
       authorize! :index, SystemSettings
