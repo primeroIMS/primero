@@ -1,0 +1,46 @@
+---
+en:
+  care_assessment:
+    name: Care Assessment
+    description: Care Assessment
+    fields:
+      intervention_personal_type_needed:
+        display_name: "Personal intervention needed?"
+      intervention_personal_notes:
+        display_name: Personal Intervention Notes
+      intervention_family_type_needed:
+        display_name: "Family intervention needed?"
+      intervention_family_notes:
+        display_name: Family Intervention Notes
+      intervention_medical_type_needed:
+        display_name: "Medical intervention needed?"
+      intervention_medical_notes:
+        display_name: Medical Intervention Notes
+      intervention_community_type_needed:
+        display_name: "Community intervention needed?"
+      intervention_community_notes:
+        display_name: Community Intervention Notes
+      intervention_needed_unhcr:
+        display_name: "UNHCR intervention needed?"
+      intervention_unhcr_notes:
+        display_name: UNHCR Intervention Notes
+      intervention_needed_ngo:
+        display_name: "NGO intervention needed?"
+      intervention_ngo_notes:
+        display_name: NGO Intervention Notes
+      intervention_economical_type_needed:
+        display_name: "Economic intervention needed?"
+      intervention_economical_notes:
+        display_name: Economic Intervention Notes
+      intervention_education_type_needed:
+        display_name: "Education intervention needed?"
+      intervention_education_notes:
+        display_name: Education Intervention Notes
+      intervention_health_type_needed:
+        display_name: "Health intervention needed?"
+      intervention_health_notes:
+        display_name: Health Intervention Notes
+      intervention_other_type_needed:
+        display_name: "Other Intervention needed?"
+      intervention_other_notes:
+        display_name: Other Intervention Notes

@@ -1,0 +1,93 @@
+---
+en:
+  basic_identity:
+    name: Basic Identity
+    description: Basic identity information about a separated or unaccompanied child.
+    fields:
+      case_id_display:
+        display_name: Case ID
+      cpims_id:
+        display_name: CPIMS ID
+        help_text: Legacy CPIMS (or other system) ID
+      marked_for_mobile:
+        display_name: "Marked for mobile?"
+        tick_box_label: 'Yes'
+      child_status:
+        display_name: Case Status
+      case_status_reopened:
+        display_name: "Case Reopened?"
+        tick_box_label: 'Yes'
+      name:
+        display_name: Full Name
+      name_first:
+        display_name: First Name
+      name_middle:
+        display_name: Middle Name
+      name_last:
+        display_name: Surname
+      name_nickname:
+        display_name: Nickname
+      name_other:
+        display_name: Other Name
+      name_given_post_separation:
+        display_name: "Name(s) given to child after separation?"
+      registration_date:
+        display_name: Date of Registration or Interview
+      assessment_due_date:
+        display_name: Date Assessment Due
+      sex:
+        display_name: Sex
+      age:
+        display_name: Age
+      date_of_birth:
+        display_name: Date of Birth
+      estimated:
+        display_name: "Is the age estimated?"
+        tick_box_label: 'Yes'
+      physical_characteristics:
+        display_name: Distinguishing Physical Characteristics
+      ration_card_no:
+        display_name: Ration Card Number
+      icrc_ref_no:
+        display_name: ICRC Ref No.
+      rc_id_no:
+        display_name: RC ID No.
+      biometrics_id:
+        display_name: Biometrics
+        help_text: "For the Biometric ID number, if used."
+      unhcr_id_no:
+        display_name: proGres Case ID
+        help_text: UNHCR Asylum Seeker Certificate Number
+      unhcr_individual_no:
+        display_name: proGres Individual ID
+        help_text: This ID is shown on the tracking sheet.
+      un_no:
+        display_name: UN Number
+      national_id_no:
+        display_name: National ID Number
+      other_id_type:
+        display_name: Type of Other ID Document
+      other_id_no:
+        display_name: Number of Other ID Document
+      other_agency_id:
+        display_name: Other Agency ID
+      other_agency_name:
+        display_name: Other Agency Name
+      documents_carried:
+        display_name: List of documents carried by the child
+      nationality:
+        display_name: Nationality
+      maritial_status:
+        display_name: Current Civil/Marital Status
+      occupation:
+        display_name: Occupation
+      address_current:
+        display_name: Current Address
+      landmark_current:
+        display_name: Landmark
+      location_current:
+        display_name: Current Location
+      address_is_permanent:
+        display_name: "Is this address permanent?"
+      telephone_current:
+        display_name: Current Telephone

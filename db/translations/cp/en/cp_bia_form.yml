@@ -1,0 +1,30 @@
+---
+en:
+  cp_bia_form:
+    name: BIA Form
+    description: BIA Form
+    fields:
+      bia_approved:
+        display_name: Approved by Manager
+        tick_box_label: 'Yes'
+      bia_approved_date:
+        display_name: Date
+      bia_approved_comments:
+        display_name: Manager Comments
+      approval_status_bia:
+        display_name: Approval Status
+      case_id_display:
+        display_name: Primero Case ID
+      bia_header:
+        display_name: ASSESSMENT FORM (for completion for all Child Protection cases including UASC)
+      case_priority:
+        display_name: Priority
+        option_strings_text:
+          2_days: 2 days
+          1_week: 1 week
+          30_days: 30 days
+          non_urgent: Non Urgent (enter date)
+      case_priority_date:
+        display_name: Re-assessment date
+      cpims_id:
+        display_name: CPIMS No

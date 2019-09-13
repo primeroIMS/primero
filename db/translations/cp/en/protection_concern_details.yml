@@ -1,0 +1,10 @@
+---
+en:
+  protection_concern_details:
+    name: Protection Concern Details
+    description: Protection Concern Details
+    fields:
+      protection_concerns:
+        display_name: Protection Concerns
+      protection_concern_detail_subform_section:
+        display_name: Protection Concern Details

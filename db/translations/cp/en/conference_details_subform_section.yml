@@ -1,0 +1,62 @@
+---
+en:
+  conference_details_subform_section:
+    name: Conference Details
+    description: Conference Details
+    fields:
+      conference_date:
+        display_name: Date of meeting
+      conference_type:
+        display_name: Type of meeting
+        option_strings_text:
+          case_plan_review: Case Plan Review
+          case_conference: Case Conference
+          other: Other
+      conference_type_other:
+        display_name: "If Other, please specify"
+      conference_reason:
+        display_name: Reason for Case Conference
+        option_strings_text:
+          removal_child_from_caregiver: Removal of a child from their primary/customary caregiver
+          placement_child_alternative_care: Placement of a child into alternative care
+          complex_child_protection_situation: Complex child protection situation requiring intervention
+          family_reunification: Family Reunification
+          transferred: The child has been or will be relocating - Case transfer
+          other: Other
+      conference_reason_other:
+        display_name: "If Other, please specify"
+      conference_participants:
+        display_name: Participants
+        help_text: "List each participant in the conference. Include their name, their role or relationship to the child, their Organization, and a contact phone number or email"
+      conference_current_situation:
+        display_name: Brief summary of the current situation
+        help_text: "Highlight all major protection issues, the child's current care arrangement, and an overview of the reasons for the case conference"
+      conference_outcome_recommendations:
+        display_name: Outcome and recommendations of the panel
+        help_text: Briefly summarize the justifications for the decisions made and below recommendations
+      conference_case_status:
+        display_name: Status of the case
+        help_text: "If case will be closed, please complete Closure form."
+      conference_case_status_other:
+        display_name: "If Other, please specify"
+      conference_case_transfer_reason:
+        display_name: "If the case will be transferred, please provide reason"
+        guiding_questions: |-
+          Another agency is better placed to manage the case due to specialised services required by child
+          Child / family moving to a new location; the case will be transferred to the Child Protection Agency working in that location.
+          There are organisatonal reasons for transferring this child's case; the case will be closed and transferred to another agency.
+          The child is being relocated due to protection concerns in their family/community.
+          The child has turned 18 and the case is being transferred to a protection authority providing services to people 18 or above as the child has a physical or mental disability and requires ongoing protection.
+          Other
+        option_strings_text:
+          specialized_service: Specialized services required
+          new_location: Moving to new location
+          organisational_reasons: Organisational reasons
+          protection_concerns: Relocation due to protection concerns
+          child_turned_18: Child turned 18 and requires ongoing protection
+          other: Other
+      conference_case_transfer_reason_other:
+        display_name: "If Other, please specify"
+      conference_followup_actions:
+        display_name: Follow up actions/referrals/services required and the persons responsible
+        guiding_questions: Ensure that the child/caregiver are informed of the outcome of the case conference as well as all recommendations and actions required. Planned actions to be updated into individual case plans by Case Workers/Social Worker/Agency staff

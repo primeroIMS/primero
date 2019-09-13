@@ -1,0 +1,24 @@
+---
+en:
+  child_preferences_section:
+    name: Nested Child's Preferences
+    description: Child's Preferences Subform
+    fields:
+      wishes_name:
+        display_name: Person(s) child wishes to locate
+      wishes_preference_relocated:
+        display_name: Preference of the child to be relocated with this person
+        option_strings_text:
+          first_choice: First choice
+          second_choice: Second choice
+          third_choice: Third choice
+      wishes_relationship:
+        display_name: "What is this person's relationship to the child?"
+      wishes_address:
+        display_name: Last Known Address
+      wishes_landmark:
+        display_name: Landmark
+      wishes_location:
+        display_name: Last Known Location
+      wishes_telephone:
+        display_name: Telephone

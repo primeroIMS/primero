@@ -1,0 +1,38 @@
+---
+en:
+  interview_details:
+    name: Interview Details
+    description: Interview Details
+    fields:
+      arrival_date:
+        display_name: Arrival Date
+      interviewer_name:
+        display_name: Interviewer Name
+      interviewer_postion:
+        display_name: Interviewer Position
+      interviewer_agency:
+        display_name: Interviewer Agency
+        option_strings_text:
+          agency_1: Agency 1
+          agency_2: Agency 2
+          agency_3: Agency 3
+          agency_4: Agency 4
+      address_interview:
+        display_name: Interview Address
+      landmark_interview:
+        display_name: Interview Landmark
+      location_interview:
+        display_name: Interview Location
+      source_interview:
+        display_name: Information Obtained From
+        option_strings_text:
+          child: Child
+          caregiver: Caregiver
+          gbv_survivor: GBV Survivor
+          other: "Other, please specify"
+      source_interview_other:
+        display_name: "If information obtained from Other, please specify."
+      other_org_interview_status:
+        display_name: "Has the child been interviewed by another organization?"
+      other_org_reference_no:
+        display_name: Reference No. given to child by other organization

@@ -1,0 +1,43 @@
+---
+en:
+  transitions:
+    name: Nested Transitions Subform
+    description: Transitions Subform
+    fields:
+      type:
+        display_name: Type
+      to_user_local:
+        display_name: Local User
+      to_user_remote:
+        display_name: Remote User
+      to_user_local_status:
+        display_name: Status
+        option_strings_text:
+          in_progress: In Progress
+          pending: Pending
+          accepted: Accepted
+          rejected: Rejected
+          done: Done
+      rejected_reason:
+        display_name: Reason rejected (if applicable)
+      to_user_agency:
+        display_name: Remote User Agency
+      notes:
+        display_name: Notes
+      transitioned_by:
+        display_name: Transferred or Referred By
+      service:
+        display_name: Service
+      is_remote:
+        display_name: "Is the referral or transfer to a remote system?"
+        tick_box_label: 'Yes'
+      type_of_export:
+        display_name: What type of export do you want
+      consent_overridden:
+        display_name: No Consent to Share Setting Overridden
+        tick_box_label: 'Yes'
+      consent_individual_transfer:
+        display_name: "Did the case worker have the child's consent to make this transfer?"
+        tick_box_label: 'Yes'
+      created_at:
+        display_name: Date of referral or transfer

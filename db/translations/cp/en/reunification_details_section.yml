@@ -1,0 +1,45 @@
+---
+en:
+  reunification_details_section:
+    name: Nested Reunification
+    description: Reunification Subform
+    fields:
+      name_reunified_adult:
+        display_name: Name of adult child was reunified with
+      relationship_reunified_adult:
+        display_name: Relationship of adult to child
+      address_reunified_adult:
+        display_name: Address
+      location_reunified_adult:
+        display_name: Location of adult with whom the child was reunified
+      address_reunification:
+        display_name: Address where the reunification is taking place
+      location_reunification:
+        display_name: Location where the reunifcation is taking place
+      reunification_type:
+        display_name: "What type of reunification?"
+        option_strings_text:
+          case_by_case: Case by case
+          informal_spontaneous: Informal/Spontaneous
+          mass_tracing: Mass Tracing
+          mediation: Mediation
+          other: Other (Please Specify)
+          photo_tracing: Photo Tracing
+          spontaneous: Spontaneous
+      date_reunification:
+        display_name: Date of reunification
+      child_reunited_with_verified_adult:
+        display_name: "Was the child reunified with the verfified adult?"
+      not_reunited_with_verified_adult_reason:
+        display_name: "If not, what was the reason for the change?"
+        option_strings_text:
+          change_of_mind: Change of Mind
+          death: Death
+          death_of_adult: Death of Adult
+          failed_verification: Failed Verification
+          n_a: Not Applicable
+          other: Other (Please Specify)
+      reunification_follow_up_needed:
+        display_name: "Is there a need for follow up?"
+      closure_recommendation:
+        display_name: "If not, do you recommend that the case be closed?"

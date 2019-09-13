@@ -1,0 +1,10 @@
+---
+en:
+  reopened_logs:
+    name: Case Reopened
+    description: Case Reopened Subform
+    fields:
+      reopened_date:
+        display_name: Date Reopened
+      reopened_user:
+        display_name: Reopened by

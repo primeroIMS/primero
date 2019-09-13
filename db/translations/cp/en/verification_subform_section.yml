@@ -1,0 +1,57 @@
+---
+en:
+  verification_subform_section:
+    name: Nested Verification Subform
+    description: Nested Verification Subform
+    fields:
+      verification_name_inquirer:
+        display_name: Inquirer's Name
+      verification_inquirer_relationship:
+        display_name: Relationship
+      verification_inquirer_sex:
+        display_name: Sex
+      verification_inquirer_age:
+        display_name: Age
+      verification_inquirer_address_current:
+        display_name: Address
+      verification_inquirer_location:
+        display_name: Current Location
+      verification_phone_inquirer:
+        display_name: Phone
+      verification_inquirer_wants_to_care_for_child:
+        display_name: "Do you want the child to come and live with you?"
+      verification_inquirer_able_to_care_for_child:
+        display_name: "Are you able to care for him/her/them?"
+      verification_alternate_caregiver_exists:
+        display_name: "If not, is there any other family member who could take the child?"
+      verification_alternate_caregiver_name:
+        display_name: Name of alternate caregiver
+      verification_alternate_caregiver_relationship:
+        display_name: Relationship of Alternate Caregiver
+      verification_address_alternate_caregiver:
+        display_name: Address of that person (alternative caregiver)
+      verification_location_alternate_caregiver:
+        display_name: Alternate Caregiver's Village/Area/Physical Address
+      verification_comments:
+        display_name: Comments
+      verification_acceptance_date:
+        display_name: Date of acceptance to take care of child
+      verification_inquirer_known_to_child:
+        display_name: "Does the child know the adult requesting verification?"
+      verification_inquirer_child_wishes_reunification_with:
+        display_name: "Does the child wish to be reunified with that person?"
+      verification_inquirer_information_match:
+        display_name: "Does the information given by the child and adult match?"
+      verification_inquierer_recommendation:
+        display_name: "Do you recommend reunifcation and if not what other action?"
+        option_strings_text:
+          'yes': 'Yes'
+          'no': 'No'
+          further_tracing: Further Tracing
+          long_term_alternative_care: Long Term Alternative Care
+          reunification: Reunification
+          reunification_enhanced_support: Reunification with Enhanced Support
+      verification_inquierer_recommendation_comments:
+        display_name: Additional comments
+      verification_date:
+        display_name: Date of Verification
