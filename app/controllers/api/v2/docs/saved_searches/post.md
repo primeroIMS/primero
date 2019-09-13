@@ -20,10 +20,15 @@ Create a new saved search and optionally return the entire the saved searches.
         "name": "a new filter",
         "record_type": "case",
         "module_ids": ["primeromodule-cp", "primeromodule-gbv"],
-        "filters": {
-            "name":  "flag",
-            "value": ["single", "flag"]
-        }
+        "filters": [
+          {
+            "name": "flag",
+            "value": [
+                "single",
+                "flag"
+            ]
+          }
+        ]
     }
 }
 ```
@@ -50,13 +55,15 @@ No `id` attribute is provided in the `data` hash.
         ],
         "record_type": "case",
         "user_name": "primero",
-        "filters": {
+        "filters": [
+          {
             "name": "flag",
             "value": [
                 "single",
                 "flag"
             ]
-        }
+          }
+        ]
     }
 }
 ```

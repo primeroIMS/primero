@@ -35,13 +35,15 @@ Show a paginated list of all saved searches that are accessible to this user.
             ],
             "record_type": "case",
             "user_name": "primero",
-            "filters": {
+            "filters": [
+              {
                 "name": "flag",
                 "value": [
                     "single",
                     "flag"
                 ]
-            }
+              }
+            ]
         }
     ],
     "metadata": {
