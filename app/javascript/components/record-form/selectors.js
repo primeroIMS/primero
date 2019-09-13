@@ -97,3 +97,7 @@ export const getErrors = state => state.getIn([NAMESPACE, "errors"], false);
 
 export const getSelectedForm = state =>
   state.getIn([NAMESPACE, "selectedForm"]);
+
+export const getIsHiddenName = state => {
+  return state.getIn([NAMESPACE, "selectedRecord", "name"], "");
+};

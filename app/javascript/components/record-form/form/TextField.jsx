@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { subYears } from "date-fns";
 import { TextField as MuiTextField } from "formik-material-ui";
-import { FastField } from "formik";
+import { useSelector, useDispatch } from "react-redux";
+import { IconButton, InputAdornment } from "@material-ui/core";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { FastField, connect } from "formik";
 import { useI18n } from "components/i18n";
 import { GuidingQuestions } from "components/guiding-questions";
+import { getIsHiddenName } from "../selectors";
+import { hideName } from "../action-creators";
 
-const TextField = ({ name, field, ...rest }) => {
+const TextField = ({ name, field, formik, ...rest }) => {
   const {
     type,
     visible,
@@ -14,6 +19,16 @@ const TextField = ({ name, field, ...rest }) => {
     hide_on_view_page: hideOnViewPage
   } = field;
   const i18n = useI18n();
+  const dispatch = useDispatch();
+
+  const recordName = useSelector(state => getIsHiddenName(state));
+  const isHiddenName = recordName === i18n.t("cases.hidden_text_field_text");
+
+  useEffect(() => {
+    if (recordName) {
+      formik.setFieldValue("name", recordName, true);
+    }
+  }, [formik, name, recordName]);
 
   const fieldProps = {
     type: type === "numeric_field" ? "number" : "text",
@@ -28,6 +43,12 @@ const TextField = ({ name, field, ...rest }) => {
       const diff = subYears(new Date(), value);
       form.setFieldValue(`${matches[1]}date_of_birth`, diff, true);
     }
+  };
+
+  const hideFieldValue = renderProps => {
+    dispatch(
+      hideName("cases", renderProps.form.initialValues.id, !isHiddenName)
+    );
   };
 
   return !(rest.mode.isShow && hideOnViewPage) && visible ? (
@@ -51,6 +72,27 @@ const TextField = ({ name, field, ...rest }) => {
                 }
               }}
               {...fieldProps}
+              InputProps={
+                name === "name" && fieldProps.mode.isEdit
+                  ? {
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          {name === "name" ? (
+                            <IconButton
+                              onClick={() => hideFieldValue(renderProps)}
+                            >
+                              {isHiddenName ? (
+                                <Visibility />
+                              ) : (
+                                <VisibilityOff />
+                              )}
+                            </IconButton>
+                          ) : null}
+                        </InputAdornment>
+                      )
+                    }
+                  : null
+              }
             />
             {guidingQuestions &&
             (fieldProps.mode.isEdit || fieldProps.mode.isNew) ? (
@@ -68,7 +110,8 @@ const TextField = ({ name, field, ...rest }) => {
 
 TextField.propTypes = {
   name: PropTypes.string,
-  field: PropTypes.object
+  field: PropTypes.object,
+  formik: PropTypes.object
 };
 
-export default TextField;
+export default connect(TextField);
