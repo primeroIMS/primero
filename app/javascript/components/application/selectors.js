@@ -12,3 +12,6 @@ export const selectUserModules = state =>
     const userModules = state.getIn(["user", "modules"], null);
     return userModules ? userModules.includes(m.unique_id) : false;
   });
+
+export const selectUserIdle = state =>
+  state.getIn([NAMESPACE, "userIdle"], false);
