@@ -2,8 +2,11 @@ module Transitionable
   extend ActiveSupport::Concern
 
   included do
+    #TODO: This will need to be changed toi individual associations per type?
+    has_many :transitions, as: :record
+
     store_accessor :data,
-      :transfer_status, :reassigned_tranferred_on, :transitions
+      :transfer_status, :reassigned_tranferred_on
 
     searchable auto_index: self.auto_index? do
       string :transfer_status, as: 'transfer_status_sci'
@@ -12,50 +15,16 @@ module Transitionable
       time :reassigned_tranferred_on
     end
 
-    def transitions
-      if self.data['transitions'].present?
-        self.data['transitions'].map{|a| Transition.new(a)}
-      else
-        []
-      end
-    end
-
-    def transitions=(transitions)
-      if transitions.is_a? Array
-        self.data['transitions'] = transitions.map(&:to_h)
-      end
-    end
-
-    def add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, to_user_local_status, notes,
-                       is_remote, type_of_export, user_name, consent_overridden,
-                       consent_individual_transfer=false, service = "")
-      transition = Transition.new(
-        :type => transition_type,
-        :to_user_local => to_user_local,
-        :to_user_remote => to_user_remote,
-        :to_user_agency => to_user_agency,
-        :to_user_local_status => to_user_local_status,
-        :transitioned_by => user_name,
-        :notes => notes,
-        :is_remote => is_remote,
-        :type_of_export => type_of_export,
-        :service => service,
-        :consent_overridden => consent_overridden,
-        :consent_individual_transfer => consent_individual_transfer,
-        :created_at => DateTime.now)
-      self.transitions = [transition.to_h] + self.transitions
-    end
-
     def transitions_transfer_status(transfer_id, transfer_status, user, rejected_reason)
-      if transfer_status == Transition::TO_USER_LOCAL_STATUS_ACCEPTED ||
-         transfer_status == Transition::TO_USER_LOCAL_STATUS_REJECTED
+      if transfer_status == Transition::STATUS_ACCEPTED ||
+         transfer_status == Transition::STATUS_REJECTED
         #Retrieve the transfer that user accept/reject.
         transfer = self.transfers.select{|t| t.id == transfer_id }.first
         if transfer.present?
           #Validate that the transitions is in progress and the user is related to.
-          if transfer.is_transfer_in_progress? && transfer.is_assigned_to_user_local?(user.user_name)
+          if transfer.in_progress? && transfer.is_assigned_to_user_local?(user.user_name)
             #Change Status according the action executed.
-            transfer.to_user_local_status = transfer_status
+            transfer.status = transfer_status
             #When is a reject action, there could be a reason.
             if rejected_reason.present?
               transfer.rejected_reason = rejected_reason
@@ -65,7 +34,7 @@ module Transitionable
             #Either way Accept or Reject the current user should be removed from the associated users.
             #So, it will have no access to the record anymore.
             self.assigned_user_names = self.assigned_user_names.reject{|u| u == user.user_name}
-            if transfer_status == Transition::TO_USER_LOCAL_STATUS_ACCEPTED
+            if transfer_status == Transition::STATUS_ACCEPTED
               #In case the transfer is accepted the current user is the new owner of the record.
               self.previously_owned_by = self.owned_by
               self.owned_by = user.user_name
@@ -99,7 +68,7 @@ module Transitionable
   EXPORT_TYPE_PDF = 'pdf_export'
 
   def referrals
-    self.transitions.select{|t| t.type == Transition::TYPE_REFERRAL}
+    self.transitions.select{|t| t.type == Transition::REFERRAL}
   end
 
   def referred_users
@@ -114,7 +83,7 @@ module Transitionable
   end
 
   def transfers
-    self.transitions.select{|t| t.type == Transition::TYPE_TRANSFER}
+    self.transitions.select{|t| t.type == Transition::TRANSFER}
   end
 
   def transition_by_type_and_id(type, id)
@@ -122,7 +91,7 @@ module Transitionable
   end
 
   def transferred_to_users
-    self.transitions.select(&:is_transfer_in_progress?)
+    self.transitions.select(&:in_progress?)
         .map(&:to_user_local).uniq
   end
 
@@ -140,7 +109,7 @@ module Transitionable
     transitions = self.transitions
     if transitions.present?
       ext_referrals = transitions.select do |transition|
-        transition.type == Transition::TYPE_REFERRAL && transition.is_remote
+        transition.type == Transition::REFERRAL && transition.is_remote
       end
       if ext_referrals.present?
         # Expected result is either one or zero element array
@@ -150,11 +119,11 @@ module Transitionable
     referral
   end
 
-  def given_consent(type = Transition::TYPE_REFERRAL)
+  def given_consent(type = Transition::REFERRAL)
     if self.module_id == PrimeroModule::GBV
       self.consent_for_services == true
     elsif self.module_id == PrimeroModule::CP
-      if type == Transition::TYPE_REFERRAL
+      if type == Transition::REFERRAL
         self.disclosure_other_orgs == true && self.consent_for_services == true
       else
         self.disclosure_other_orgs == true

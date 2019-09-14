@@ -162,7 +162,7 @@ class HomeController < ApplicationController
     end
 
     queries[:transferred_by_status].facet(:transfer_status).rows.each do |c|
-      statuses = [Transition::TO_USER_LOCAL_STATUS_INPROGRESS, Transition::TO_USER_LOCAL_STATUS_REJECTED]
+      statuses = [Transition::STATUS_INPROGRESS, Transition::STATUS_REJECTED]
       if statuses.include? c.value
         @aggregated_case_manager_stats[:manager_transfers][c.value] = {}
         @aggregated_case_manager_stats[:manager_transfers][c.value][:total_cases] = c.count
@@ -418,11 +418,11 @@ class HomeController < ApplicationController
 
         facet(:transfer_status, zeros: true, exclude: [referred]) do
           row(:pending) do
-            with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
+            with(:transfer_status, Transition::STATUS_INPROGRESS)
             with(:owned_by, current_user.user_name)
           end
           row(:rejected) do
-            with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_REJECTED)
+            with(:transfer_status, Transition::STATUS_REJECTED)
             with(:owned_by, current_user.user_name)
           end
         end
@@ -431,7 +431,7 @@ class HomeController < ApplicationController
       if query[:transfer_awaiting].present?
         facet(:in_progress_transfers, zeros: true) do
           row(:in_progress) do
-            with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
+            with(:transfer_status, Transition::STATUS_INPROGRESS)
             with(:transferred_to_users, current_user.user_name)
           end
         end
@@ -628,18 +628,18 @@ class HomeController < ApplicationController
 
       facet(:transfer_status, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
+          with(:transfer_status, Transition::STATUS_INPROGRESS)
           with(:owned_by, current_user.user_name)
         end
         row(:rejected) do
-          with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_REJECTED)
+          with(:transfer_status, Transition::STATUS_REJECTED)
           with(:owned_by, current_user.user_name)
         end
       end
 
       facet(:in_progress_transfers, zeros: true) do
         row(:in_progress) do
-          with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
+          with(:transfer_status, Transition::STATUS_INPROGRESS)
           with(:transferred_to_users, current_user.user_name)
         end
       end

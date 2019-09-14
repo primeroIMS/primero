@@ -191,10 +191,10 @@ class ChildrenController < ApplicationController
     # TODO: this may require its own permission in the future.
     authorize! :read, @child
 
-    active_transitions_count = @child.referrals.select { |t| t.id != referral_id && t.is_referral_active? && t.is_assigned_to_user_local?(@current_user.user_name) }.count
+    active_transitions_count = @child.referrals.select { |t| t.id != referral_id && t.in_progress? && t.is_assigned_to_user_local?(@current_user.user_name) }.count
     referral = @child.referrals.select { |r| r.id == referral_id }.first
 
-    referral.to_user_local_status = Transition::TO_USER_LOCAL_STATUS_DONE
+    referral.status = Transition::STATUS_DONE
 
     if active_transitions_count == 0
       @child.assigned_user_names = @child.assigned_user_names.reject{|u| u == @current_user.user_name}
@@ -267,7 +267,7 @@ class ChildrenController < ApplicationController
           format.html { redirect_after_update }
         when :transition_transfer_status_updated
           if @child.save
-            if transition_status == Transition::TO_USER_LOCAL_STATUS_REJECTED
+            if transition_status == Transition::STATUS_REJECTED
               flash[:notice] = t('transfer.rejected', record_type: model_class.parent_form.titleize, id: @child.short_id)
               redirect_to cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
               return

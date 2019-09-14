@@ -52,7 +52,7 @@ class NotificationMailer < ApplicationMailer
         @user_from = User.find_by_user_name(transition.transitioned_by)
         if @user_to.present? && @user_to.email.present? && @user_to.send_mail && @user_from.present?
           @agency_from = @user_from.agency.try(:name)
-          @service_type = (transition_type == Transition::TYPE_REFERRAL ?  Lookup.display_value('lookup-service-type', transition.service) : '')
+          @service_type = (transition_type == Transition::REFERRAL ?  Lookup.display_value('lookup-service-type', transition.service) : '')
           @url = "#{host_url}/#{@model_class.parent_form.pluralize}/#{@record.id}"
           @record_type = @model_class.parent_form.titleize
           mail(:to => @user_to.email,

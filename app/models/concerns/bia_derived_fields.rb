@@ -79,14 +79,14 @@ module BIADerivedFields
   end
 
   def case_transferred_for_bia
-    transfers = self.data['transitions'].select{ |t| t['type'] == Transition::TYPE_TRANSFER }
+    transfers = self.data['transitions'].select{ |t| t['type'] == Transition::TRANSFER }
     return transfers.present? ? true : false
   end
 
   def bia_transfers
     latest_transfer = []
     if case_transferred_for_bia
-      transfers = self.data['transitions'].select{ |t| t['type'] == Transition::TYPE_TRANSFER }
+      transfers = self.data['transitions'].select{ |t| t['type'] == Transition::TRANSFER }
       latest_transfer = [transfers.first]
     end
     latest_transfer

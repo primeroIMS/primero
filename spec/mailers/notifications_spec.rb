@@ -108,7 +108,7 @@ describe NotificationMailer, :type => :mailer do
         Child.stub(:get).with('12345').and_return(@case1)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(Transition::TYPE_REFERRAL, 'Child', @case1.id, @case1.transitions.first.id, @test_url) }
+      let(:mail) { NotificationMailer.transition_notify(Transition::REFERRAL, 'Child', @case1.id, @case1.transitions.first.id, @test_url) }
 
       it "renders the headers" do
         expect(mail.subject).to eq("Case: #{@case1.short_id} - Referral")
@@ -134,7 +134,7 @@ describe NotificationMailer, :type => :mailer do
         Child.stub(:get).with('12345').and_return(@case1)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(Transition::TYPE_TRANSFER, 'Child', @case1.id, @case1.transitions.first.id, @test_url) }
+      let(:mail) { NotificationMailer.transition_notify(Transition::TRANSFER, 'Child', @case1.id, @case1.transitions.first.id, @test_url) }
 
       it "renders the headers" do
         expect(mail.subject).to eq("Case: #{@case1.short_id} - Transfer")
@@ -164,7 +164,7 @@ describe NotificationMailer, :type => :mailer do
         Child.stub(:get).with('12345').and_return(@case1)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(Transition::TYPE_REASSIGN, 'Child', @case1.id, @case1.transitions.first.id, @test_url) }
+      let(:mail) { NotificationMailer.transition_notify(Transition::REASSIGN, 'Child', @case1.id, @case1.transitions.first.id, @test_url) }
 
       it "renders the headers" do
         expect(mail.subject).to eq("Case: #{@case1.short_id} - Assigned to you")

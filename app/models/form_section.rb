@@ -22,7 +22,7 @@ class FormSection < ApplicationRecord
   validate :validate_name_format
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.form_section.unique_id' }
 
-  after_initialize :defaults, :generate_unique_id
+  after_initialize :defaults, :generate_unique_id, unless: :persisted?
   before_validation :calculate_fields_order
   before_save :sync_form_group, :recalculate_editable
   after_save :recalculate_collapsed_fields

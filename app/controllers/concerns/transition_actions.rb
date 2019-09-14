@@ -67,9 +67,14 @@ module TransitionActions
     begin
       load_record
       raise(I18n.t('request_transfer.error.record_not_found')) if @record.blank?
-      @record.add_transition(Transition::TYPE_TRANSFER_REQUEST, @record.owned_by, '', current_user.agency&.id,
-                             Transition::TO_USER_LOCAL_STATUS_INPROGRESS, request_transfer_notes,
-                             false, '', current_user.user_name, false, false, '')
+      transfer_request = Transition.new(type: Transition::TRANSFER_REQUEST, to_user_local: @record.owned_by,
+                                        to_user_agency: current_user.agency&.id, status: Transition::STATUS_INPROGRESS,
+                                        notes: request_transfer_notes, transitioned_by: current_user.user_name)
+      @record.transitions << transfer_request
+
+      # @record.add_transition(Transition::TRANSFER_REQUEST, @record.owned_by, '', current_user.agency&.id,
+      #                        Transition::STATUS_INPROGRESS, request_transfer_notes,
+      #                        false, '', current_user.user_name, false, false, '')
 
       @record.update_last_updated_by(current_user)
       @record.try(:add_alert, Alertable::TRANSFER_REQUEST, Alertable::TRANSFER_REQUEST, transition_form_id, current_user.user_name, current_user.agency&.id)
@@ -115,7 +120,7 @@ module TransitionActions
     #Only update to TRANSFERRED status on Cases
     if model_class == Child
       transfer_records.each do |transfer_record|
-        transfer_record.child_status = Transition::TRANSFERRED_STATUS
+        transfer_record.child_status = Record::STATUS_TRANSFERRED #Transition::TRANSFERRED_STATUS
         transfer_record.record_state = false
         transfer_record.save!
       end
@@ -139,7 +144,7 @@ module TransitionActions
       if transition_valid(record, @new_user)
         record.assigned_user_names |= [@to_user_local] if @to_user_local.present?
         if record.save
-          record.send_transition_email(Transition::TYPE_REFERRAL, request.base_url) if @system_settings.try(:notification_email_enabled)
+          record.send_transition_email(Transition::REFERRAL, request.base_url) if @system_settings.try(:notification_email_enabled)
         else
           failed_count += 1
         end
@@ -170,7 +175,7 @@ module TransitionActions
           elsif is_transfer?
             #Referred users will be on the assigned users until the user accept or reject the referral.
             transfer_record.assigned_user_names |= [@to_user_local] if @to_user_local.present?
-            transfer_record.transfer_status = to_user_local_status
+            transfer_record.transfer_status = status
             transfer_record.reassigned_tranferred_on = DateTime.now
           end
           if transfer_record.save
@@ -214,7 +219,8 @@ module TransitionActions
 
   def log_to_history(records)
     records.each do |record|
-      record.add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, to_user_local_status, notes,
+      #TODO: the method add_transition doesn't exist anymore... why are we doing any of this?
+      record.add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, status, notes,
                             is_remote?, type_of_export, current_user.user_name, consent_overridden(record), consent_individual_transfer, service)
       #TODO - should this be done here or somewhere else?
       #ONLY save the record if remote transfer/referral.  Local transfer/referral will update and save the record(s)
@@ -224,15 +230,15 @@ module TransitionActions
   end
 
   def is_transfer?
-    transition_type == Transition::TYPE_TRANSFER
+    transition_type == Transition::TRANSFER
   end
 
   def is_reassign?
-    transition_type == Transition::TYPE_REASSIGN
+    transition_type == Transition::REASSIGN
   end
 
   def is_referral?
-    transition_type == Transition::TYPE_REFERRAL
+    transition_type == Transition::REFERRAL
   end
 
   def is_remote?
@@ -281,17 +287,17 @@ module TransitionActions
     @to_user_agency ||= (params[:other_user_agency].present? ? params[:other_user_agency] : "")
   end
 
-  def to_user_local_status
-    if is_remote? || transition_type == Transition::TYPE_REASSIGN
+  def status
+    if is_remote? || transition_type == Transition::REASSIGN
       ""
     else
-      @to_user_local_status ||= (params[:to_user_local_status].present? ? params[:to_user_local_status]: default_transition_status)
+      @status ||= (params[:status].present? ? params[:status]: default_transition_status)
     end
   end
 
   def default_transition_status
-    if transition_type == Transition::TYPE_REFERRAL || transition_type == Transition::TYPE_TRANSFER
-      Transition::TO_USER_LOCAL_STATUS_INPROGRESS
+    if transition_type == Transition::REFERRAL || transition_type == Transition::TRANSFER
+      Transition::STATUS_INPROGRESS
     else
       ""
     end
