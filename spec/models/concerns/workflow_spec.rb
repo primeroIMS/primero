@@ -123,7 +123,7 @@ describe Workflow do
 
     context 'when case is open' do
       before :each do
-        @case1.child_status = Record::STATUS_OPEN
+        @case1.status = Record::STATUS_OPEN
       end
 
       context 'and date assesment initiated is set' do
@@ -174,7 +174,7 @@ describe Workflow do
 
     context 'when case is closed' do
       before do
-        @case1.child_status = Record::STATUS_CLOSED
+        @case1.status = Record::STATUS_CLOSED
         @case1.save!
       end
 

@@ -131,4 +131,62 @@ describe Report do
 
   end
 
+  describe 'values_as_json_hash' do
+    it "returns a hash with the values as nested keys" do
+      report = Report.new
+      report.stub(:values).and_return({["female", "country_1"] => 5})
+      values_as_hash = { 'female' => { 'country_1' => { '_total' => 5 } } }
+      expect(report.values_as_json_hash).to eq(values_as_hash)
+    end
+
+    it "returns a hash with the values as nested keys with 2 levels" do
+      report = Report.new
+      report.stub(:values).and_return(
+        {
+          ['female', 'country_1'] => 5,
+          ['female', 'country_2'] => 3,
+          ['female', ''] => 8
+        }
+      )
+      values_as_hash = {
+        'female' => {
+          'country_1' => { '_total' => 5 },
+          'country_2' => { '_total' => 3 },
+          "_total" => 8
+        }
+      }
+      expect(report.values_as_json_hash).to eq(values_as_hash)
+    end
+
+    it "returns a hash with the values as nested keys with 3 levels" do
+      report = Report.new
+      report.stub(:values).and_return(
+        {
+          ['female', 'country_1', 'city_1'] => 2,
+          ['female', 'country_1', 'city_2'] => 2,
+          ['female', 'country_2', 'city_1'] => 3,
+          ['female', 'country_2', 'city_2'] => 2,
+          ['female', 'country_1', ''] => 4,
+          ['female', 'country_2', ''] => 5,
+          ['female', '', ''] => 9
+        }
+      )
+      values_as_hash = {
+        'female' => {
+          'country_1' => {
+            'city_1' => { '_total' => 2 },
+            'city_2' => { '_total' => 2 },
+            '_total' => 4
+          },
+          'country_2' => {
+            'city_1' => { '_total' => 3 },
+            'city_2' => { '_total' => 2 },
+            '_total' => 5
+          },
+          '_total' => 9
+        }
+      }
+      expect(report.values_as_json_hash).to eq(values_as_hash)
+    end
+  end
 end

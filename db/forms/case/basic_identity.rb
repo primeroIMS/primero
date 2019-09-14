@@ -33,7 +33,7 @@ basic_identity_fields = [
              "editable" => false,
              "disabled" => true,
             }),
-  Field.new({"name" => "child_status",
+  Field.new({"name" => "status",
              "type" =>"select_box" ,
              "selected_value" => Record::STATUS_OPEN,
              "display_name_en" => "Case Status",

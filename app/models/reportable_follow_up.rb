@@ -10,7 +10,7 @@ class ReportableFollowUp
 
   def self.report_filters
     [
-      {'attribute' => 'child_status', 'value' => [Record::STATUS_OPEN]},
+      {'attribute' => 'status', 'value' => [Record::STATUS_OPEN]},
       {'attribute' => 'record_state', 'value' => ['true']},
       {'attribute' => 'followup_date', 'constraint' => 'not_null'}
     ]

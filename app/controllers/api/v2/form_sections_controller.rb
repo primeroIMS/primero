@@ -1,6 +1,5 @@
 module Api::V2
   class FormSectionsController < ApplicationApiController
-    helper I18nFieldHelper
     before_action :form_section_params, only: [:create, :update]
 
     def index

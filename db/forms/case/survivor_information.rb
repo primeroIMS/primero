@@ -21,7 +21,7 @@ survivor_information_fields = [
              "editable" => false,
              "disabled" => true
             }),
-  Field.new({"name" => "child_status",
+  Field.new({"name" => "status",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" =>"select_box" ,

@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       resources :contact_information, only: [:index]
       resources :system_settings, only: [:index]
       resources :tasks, only: [:index]
+      resources :reports, only: [:index, :show]
 
       match ':record_type/flags' => 'flags#create_bulk', via: [ :post ]
     end

@@ -28,7 +28,7 @@ module Workflow
     end
 
     def calculate_workflow
-      if self.child_status == Record::STATUS_OPEN
+      if self.status == Record::STATUS_OPEN
         if workflow_case_reopened?
           self.workflow = WORKFLOW_REOPENED
         elsif workflow_services_implemented?
@@ -43,14 +43,14 @@ module Workflow
         elsif workflow_assessment?
           self.workflow = WORKFLOW_ASSESSMENT
         end
-      elsif self.child_status == Record::STATUS_CLOSED
+      elsif self.status == Record::STATUS_CLOSED
         self.workflow = WORKFLOW_CLOSED
       end
     end
 
     def workflow_case_reopened?
       (self.changes_to_save_for_record.key?('case_status_reopened') ||
-       self.changes_to_save_for_record.key?('child_status')) &&
+       self.changes_to_save_for_record.key?('status')) &&
       self.case_status_reopened
     end
 
