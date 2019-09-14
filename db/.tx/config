@@ -492,3 +492,33 @@ file_filter = translations/cp/<lang>/photos_and_audio.yml
 source_file = translations/cp/en/photos_and_audio.yml
 source_lang = en
 type = YML
+
+[cp-forms.tracing_request_subform_sectionyml]
+file_filter = translations/tr/<lang>/tracing_request_subform_section.yml
+source_file = translations/tr/en/tracing_request_subform_section.yml
+source_lang = en
+type = YML
+
+[cp-forms.tracing_request_inquireryml]
+file_filter = translations/tr/<lang>/tracing_request_inquirer.yml
+source_file = translations/tr/en/tracing_request_inquirer.yml
+source_lang = en
+type = YML
+
+[cp-forms.tracing_request_photos_and_audioyml]
+file_filter = translations/tr/<lang>/tracing_request_photos_and_audio.yml
+source_file = translations/tr/en/tracing_request_photos_and_audio.yml
+source_lang = en
+type = YML
+
+[cp-forms.tracing_request_tracing_requestyml]
+file_filter = translations/tr/<lang>/tracing_request_tracing_request.yml
+source_file = translations/tr/en/tracing_request_tracing_request.yml
+source_lang = en
+type = YML
+
+[cp-forms.tracing_request_record_owneryml]
+file_filter = translations/tr/<lang>/tracing_request_record_owner.yml
+source_file = translations/tr/en/tracing_request_record_owner.yml
+source_lang = en
+type = YML
