@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_17_000000) do
+ActiveRecord::Schema.define(version: 2019_09_12_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -121,7 +121,7 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
 
   create_table "configuration_bundles", id: :serial, force: :cascade do |t|
     t.string "applied_by"
-    t.datetime "applied_at", default: -> { "now()" }, null: false
+    t.datetime "applied_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
   create_table "contact_informations", id: :serial, force: :cascade do |t|
@@ -374,6 +374,28 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
   create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.index ["data"], name: "index_tracing_requests_on_data", using: :gin
+  end
+
+  create_table "transitions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "type"
+    t.string "status"
+    t.string "record_id"
+    t.string "record_type"
+    t.string "to_user_name"
+    t.string "to_user_remote"
+    t.string "to_user_agency"
+    t.string "rejected_reason"
+    t.text "notes"
+    t.string "transitioned_by"
+    t.string "service"
+    t.string "service_record_id"
+    t.boolean "remote", default: false, null: false
+    t.string "type_of_export"
+    t.boolean "consent_overridden", default: false, null: false
+    t.boolean "consent_individual_transfer", default: false, null: false
+    t.datetime "created_at"
+    t.index ["id", "type"], name: "index_transitions_on_id_and_type"
+    t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"
   end
 
   create_table "user_groups", id: :serial, force: :cascade do |t|
