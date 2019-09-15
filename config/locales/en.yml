@@ -2213,6 +2213,10 @@ en:
       primero: "Primero"
       non_primero: "Non-Primero"
       pdf_export: "PDF export"
+    errors:
+      consent: "Consent not provided"
+      to_user_can_receive: "This user cannot receive this record"
+
 
   mark_for_mobile:
     no_records_selected: "No records selected"
