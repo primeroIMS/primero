@@ -1,6 +1,7 @@
 class Referral < Transition
 
   def perform
+    self.status = Transition::STATUS_INPROGRESS
     mark_service_object_referred
     if remote
       perform_remote_referral
@@ -10,13 +11,16 @@ class Referral < Transition
   end
 
   def reject
-    # TODO: Unless there are other referrals assigned to you for this record, lose access to this case
+    self.status = Transition::STATUS_DONE
+    return if record.referrals.where(to_user_name: to_user_name).nil?
+    record.assigned_user_names.delete(to_user_name)
   end
 
   def consent_given?
-    if record.module_id == PrimeroModule::GBV
+    case record.module_id
+    when PrimeroModule::GBV
       record.consent_for_services
-    elsif self.module_id == PrimeroModule::CP
+    when PrimeroModule::CP
       record.disclosure_other_orgs && record.consent_for_services
     else
       false
@@ -24,8 +28,7 @@ class Referral < Transition
   end
 
   def user_can_receive?
-    super
-    # TODO: && Role can receive referrals
+    super && to_user.can?(:receive_referral, record.class)
   end
 
   private
@@ -40,9 +43,15 @@ class Referral < Transition
   def perform_system_referral
     return if to_user.nil?
 
-    record.assigned_user_names |= [ to_user_name ]
-    # TODO: record.save
-    # TODO: Send notification email
+    if record.assigned_user_names.present?
+      record.assigned_user_names |= [to_user_name]
+    else
+      record.assigned_user_names = [to_user_name]
+    end
+    record.save
+    # TODO: Send notification email:
+    # record.send_transition_email(Transition::REFERRAL, request.base_url) if @system_settings.try(:notification_email_enabled)
+    # TransitionNotifyJob.perform_later(transition_type, self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
   end
 
   def perform_remote_referral

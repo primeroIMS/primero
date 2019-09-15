@@ -68,7 +68,7 @@ module Transitionable
   EXPORT_TYPE_PDF = 'pdf_export'
 
   def referrals
-    self.transitions.select{|t| t.type == Transition::REFERRAL}
+    transitions.where(type: Referral.name)
   end
 
   def referred_users
