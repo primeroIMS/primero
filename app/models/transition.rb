@@ -22,8 +22,8 @@ class Transition < ApplicationRecord
   end
 
   def perform ; raise NotImplementedError ; end
-  def accept ; raise NotImplementedError ; end
-  def reject ; raise NotImplementedError ; end
+  def accept! ; raise NotImplementedError ; end
+  def reject! ; raise NotImplementedError ; end
 
   def in_progress?
     status == Transition::STATUS_INPROGRESS

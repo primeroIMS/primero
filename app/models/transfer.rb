@@ -1,6 +1,7 @@
 class Transfer < Transition
 
   def perform
+    self.status = Transition::STATUS_INPROGRESS
     if remote
       perform_remote_transfer
     else
@@ -8,36 +9,35 @@ class Transfer < Transition
     end
   end
 
-  def accept
-    #return unless status == Transition::STATUS_ACCEPTED
+  def accept!
+    return unless in_progress?
 
-    return unless in_progress? && assigned_to_user?(user.user_name) #TODO: user????
-
-    self.status = Transition::STATUS_ACCEPTED #TODO: but isnt this the PATCH?
-    record.assigned_user_names = record.assigned_user_names.reject{|u| u == user.user_name} #TODO: Which user? to_user_name?
+    self.status = record.status = Transition::STATUS_ACCEPTED
+    remove_assigned_user
 
     record.previously_owned_by = record.owned_by
     record.owned_by = to_user_name
     record.owned_by_full_name = to_user.full_name
+    record.save! && save!
     # TODO: Error states
   end
 
-  def reject
-    #return unless status == Transition::STATUS_REJECTED
+  def reject!
+    return unless in_progress?
 
-    return unless in_progress? && assigned_to_user?(user.user_name) #TODO: user????
+    self.status = record.status = Transition::STATUS_REJECTED
+    #self.rejected_reason = rejected_reason #TODO: but isnt this the PATCH?
 
-    self.status = Transition::STATUS_REJECTED #TODO: but isnt this the PATCH?
-    self.rejected_reason = rejected_reason #TODO: but isnt this the PATCH?
-
-    record.assigned_user_names = record.assigned_user_names.reject{|u| u == user.user_name} #TODO: Which user? to_user_name?
+    remove_assigned_user
+    record.save! && save!
     # TODO: Error states
   end
 
   def consent_given?
-    if record.module_id == PrimeroModule::GBV
+    case record.module_id
+    when PrimeroModule::GBV
       record.consent_for_services
-    elsif record.module_id == PrimeroModule::CP
+    when PrimeroModule::CP
       record.disclosure_other_orgs
     else
       false
@@ -45,25 +45,35 @@ class Transfer < Transition
   end
 
   def user_can_receive?
-    super
-    # TODO: && Role can receive transfers
+    super && to_user.can?(:receive_transfer, record.class)
   end
 
   private
 
   def perform_remote_transfer
-    @record.status = Record::STATUS_TRANSFERRED
-    # TODO: record.save!
+    record.status = Record::STATUS_TRANSFERRED
+    record.save!
     # TODO: Export record with the constraints of the external user role
   end
 
   def perform_system_transfer
     return if to_user.nil?
 
-    record.assigned_user_names |= [to_user_name]
+    if record.assigned_user_names.present?
+      record.assigned_user_names |= [to_user_name]
+    else
+      record.assigned_user_names = [to_user_name]
+    end
     record.transfer_status = status
     record.reassigned_transferred_on = DateTime.now
-    # TODO: record.save!
+    record.save!
     # TODO: Send notification email
   end
+
+  def remove_assigned_user
+    if record.assigned_user_names.present?
+      record.assigned_user_names.delete(to_user_name)
+    end
+  end
+
 end
