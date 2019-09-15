@@ -145,17 +145,17 @@ class ChildrenController < ApplicationController
     end
   end
 
-  def request_transfer_view
-    authorize! :request_transfer, model_class
-
-    html = ChildrenController.new.render_to_string(partial: "children/request_transfer", layout: false, locals: {
-      child: @child,
-    })
-
-    respond_to do |format|
-      format.html {render plain: html}
-    end
-  end
+  # def request_transfer_view
+  #   authorize! :request_transfer, model_class
+  #
+  #   html = ChildrenController.new.render_to_string(partial: "children/request_transfer", layout: false, locals: {
+  #     child: @child,
+  #   })
+  #
+  #   respond_to do |format|
+  #     format.html {render plain: html}
+  #   end
+  # end
 
   def quick_view
     authorize! :display_view_page, model_class
@@ -191,7 +191,7 @@ class ChildrenController < ApplicationController
     # TODO: this may require its own permission in the future.
     authorize! :read, @child
 
-    active_transitions_count = @child.referrals.select { |t| t.id != referral_id && t.in_progress? && t.is_assigned_to_user_local?(@current_user.user_name) }.count
+    active_transitions_count = @child.referrals.select { |t| t.id != referral_id && t.in_progress? && t.assigned_to_user?(@current_user.user_name) }.count
     referral = @child.referrals.select { |r| r.id == referral_id }.first
 
     referral.status = Transition::STATUS_DONE
