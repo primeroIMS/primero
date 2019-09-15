@@ -6,13 +6,13 @@ module Transitionable
     has_many :transitions, as: :record
 
     store_accessor :data,
-      :transfer_status, :reassigned_tranferred_on
+      :transfer_status, :reassigned_transferred_on
 
     searchable auto_index: self.auto_index? do
       string :transfer_status, as: 'transfer_status_sci'
       string :referred_users, multiple: true
       string :transferred_to_users, multiple: true
-      time :reassigned_tranferred_on
+      time :reassigned_transferred_on
     end
 
     def transitions_transfer_status(transfer_id, transfer_status, user, rejected_reason)
@@ -22,7 +22,7 @@ module Transitionable
         transfer = self.transfers.select{|t| t.id == transfer_id }.first
         if transfer.present?
           #Validate that the transitions is in progress and the user is related to.
-          if transfer.in_progress? && transfer.is_assigned_to_user_local?(user.user_name)
+          if transfer.in_progress? && transfer.assigned_to_user?(user.user_name)
             #Change Status according the action executed.
             transfer.status = transfer_status
             #When is a reject action, there could be a reason.
