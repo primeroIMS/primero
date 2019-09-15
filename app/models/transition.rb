@@ -52,7 +52,7 @@ class Transition < ApplicationRecord
   def user_can_receive?
     (!to_user.disabled) &&
     (to_user.role.permissions.any? { |ps| ps.resource == record.class.parent_form }) &&
-    (to_user.module_ids.include? record.module_id)
+    (to_user.modules.pluck(:unique_id).include? record.module_id)
   end
 
 end

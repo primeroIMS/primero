@@ -17,7 +17,7 @@ describe Assign do
     @group2 = UserGroup.create!(name: 'Group2')
     @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2], modules: [primero_module])
     @user2.save(validate: false)
-    @case = Child.create(data: {'name' => 'Test', 'owned_by' => 'user1', module_id: primero_module.id})
+    @case = Child.create(data: {'name' => 'Test', 'owned_by' => 'user1', module_id: primero_module.unique_id})
   end
 
   it 'changes the record owner' do
