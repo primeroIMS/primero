@@ -10,10 +10,13 @@ class Referral < Transition
     end
   end
 
-  def reject
+  def reject!
     self.status = Transition::STATUS_DONE
     return if record.referrals.where(to_user_name: to_user_name).nil?
-    record.assigned_user_names.delete(to_user_name)
+    if record.assigned_user_names.present?
+      record.assigned_user_names.delete(to_user_name)
+    end
+    record.save! && save!
   end
 
   def consent_given?
