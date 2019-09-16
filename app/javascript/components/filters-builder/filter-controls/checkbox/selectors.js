@@ -15,5 +15,6 @@ export const getCheckBoxes = (state, props, namespace) => {
   } else {
     selector = state.getIn(["records", namespace, "filters", fieldName], []);
   }
+
   return selector;
 };

@@ -41,7 +41,7 @@ const RecordList = ({ match }) => {
     },
     ...{
       ...(recordType === "incidents"
-        ? { child_status: ["open"], record_state: ["true"] }
+        ? { status: ["open"], record_state: ["true"] }
         : {})
     },
     ...{

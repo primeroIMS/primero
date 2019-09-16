@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import {
-  ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
   Button,
@@ -24,18 +23,14 @@ import {
 import { selectFilters } from "components/index-table";
 import { useI18n } from "components/i18n";
 import * as actions from "./action-creators";
-import * as Selectors from "./selectors";
-
+import Panel from "./Panel";
 import styles from "./styles.css";
 
 const FiltersBuilder = ({
   recordType,
   filters,
-  expanded,
-  setExpanded,
   resetPanel,
   resetCurrentPanel,
-  collapsePanels,
   recordFilters,
   applyFilters
 }) => {
@@ -44,7 +39,6 @@ const FiltersBuilder = ({
 
   const handleClearFilters = () => {
     resetPanel();
-    collapsePanels();
   };
 
   const handleApplyFilter = () => {
@@ -89,18 +83,7 @@ const FiltersBuilder = ({
     <div className={css.root}>
       {filters &&
         filters.toJS().map(filter => (
-          <ExpansionPanel
-            expanded={expanded && expanded.includes(`${filter.field_name}`)}
-            onChange={(e, isExpanded) =>
-              setExpanded({
-                expanded: isExpanded,
-                panel: `${filter.field_name}`,
-                namespace: recordType
-              })
-            }
-            className={css.panel}
-            key={filter.field_name}
-          >
+          <Panel key={filter.field_name} name={filter.field_name}>
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="filter-controls-content"
@@ -126,7 +109,7 @@ const FiltersBuilder = ({
             <ExpansionPanelDetails className={css.panelDetails}>
               {renderFilterControl(filter)}
             </ExpansionPanelDetails>
-          </ExpansionPanel>
+          </Panel>
         ))}
       <div className={css.actionButtons}>
         <Grid
@@ -153,25 +136,19 @@ const FiltersBuilder = ({
 
 FiltersBuilder.propTypes = {
   recordType: PropTypes.string.isRequired,
-  expanded: PropTypes.array.isRequired,
   filters: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  setExpanded: PropTypes.func,
   resetPanel: PropTypes.func,
   resetCurrentPanel: PropTypes.func,
-  collapsePanels: PropTypes.func,
   recordFilters: PropTypes.object,
   applyFilters: PropTypes.func
 };
 
 const mapStateToProps = (state, props) => ({
-  expanded: Selectors.selectExpandedPanel(state, props.recordType),
   recordFilters: selectFilters(state, props.recordType)
 });
 
 const mapDispatchToProps = {
-  setExpanded: actions.setExpandedPanel,
   resetCurrentPanel: actions.resetSinglePanel,
-  collapsePanels: actions.collapsePanels,
   applyFilters: actions.applyFilters
 };
 

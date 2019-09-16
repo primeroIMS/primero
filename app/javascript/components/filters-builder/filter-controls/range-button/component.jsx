@@ -61,7 +61,7 @@ RangeButton.propTypes = {
   props: PropTypes.object.isRequired,
   options: PropTypes.object,
   field_name: PropTypes.string,
-  value: PropTypes.array,
+  value: PropTypes.object,
   setValue: PropTypes.func,
   option_strings_source: PropTypes.string
 };

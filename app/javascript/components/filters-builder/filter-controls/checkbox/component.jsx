@@ -4,12 +4,14 @@ import { connect, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { FormGroup, FormControlLabel, Checkbox } from "@material-ui/core";
 import { useI18n } from "components/i18n";
-import { getOption } from "components/record-form/selectors";
+import { getOption } from "components/record-form";
 import { isEmpty } from "lodash";
-import { currentUser } from "components/pages/login/selectors";
-import styles from "./styles.css";
+import { currentUser } from "components/user";
+import { format, subMonths } from "date-fns";
+import { List } from "immutable";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
+import styles from "./styles.css";
 
 const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
   const i18n = useI18n();
@@ -24,26 +26,6 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
   const userName = useSelector(state => currentUser(state));
 
   values = useSelector(state => getOption(state, optionStringsSource, i18n));
-
-  const getMonthInactivity = months => {
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ];
-    const date = new Date();
-    const month = date.getMonth() - months;
-    return `${date.getUTCDate()}-${monthNames[month]}-${date.getFullYear()}`;
-  };
 
   if (isEmpty(optionStringsSource) && Array.isArray(options)) {
     values = options;
@@ -71,7 +53,10 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
       case "last_updated_at":
         values = [
           {
-            id: `01-Jan-0000.${getMonthInactivity(3)}`,
+            id: `01-Jan-0000.${format(
+              subMonths(new Date(), 3),
+              "dd-MMM-yyyy"
+            )}`,
             display_name: i18n.t("cases.filter_by.3month_inactivity")
           }
         ];
@@ -82,11 +67,11 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
   }
 
   const isIncluded = (data, value, name) => {
-    if (Array.isArray(data)) {
+    if (data instanceof List) {
       return checkBoxes.includes(value);
     }
     // This is due to "my_cases" filter
-    return Object.values(data[name]).includes(value);
+    return data && data[name] === value;
   };
 
   return (
