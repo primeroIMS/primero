@@ -127,6 +127,7 @@ export const ROUTES = {
   not_authorized: "/not-authorized",
   reports: "/reports",
   reports_new: "/reports/new",
+  key_performance_indicators: '/key_performance_indicators',
   support: "/support",
   tasks: "/tasks",
   tracing_requests: "/tracing_requests"
@@ -294,6 +295,11 @@ export const APPLICATION_NAV = permissions => {
       disableOffline: true,
       validateWithUserPermissions: true
     },
+    {
+      name: "navigation.key_performance_indicators",
+      to: ROUTES.key_performance_indicators,
+      icon: "key_performance_indicators"
+},
     {
       name: "navigation.bulk_exports",
       to: ROUTES.exports,
