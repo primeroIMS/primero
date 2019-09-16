@@ -14,7 +14,7 @@ module Api::V2
     end
 
     def create_bulk
-      model_class.batch_flag(params['data']['ids'], params['data']['message'], params['data']['date'].to_date, current_user.user_name)
+      model_class.batch_flag(@records, params['data']['message'], params['data']['date'].to_date, current_user.user_name)
     end
 
   end

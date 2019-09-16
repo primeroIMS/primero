@@ -67,12 +67,16 @@ module Transitionable
   EXPORT_TYPE_NON_PRIMERO = 'non_primero'
   EXPORT_TYPE_PDF = 'pdf_export'
 
+  def assigns
+    transitions.where(type: Assign.name)
+  end
+
   def referrals
     transitions.where(type: Referral.name)
   end
 
   def referred_users
-    self.transitions.map{|er| [er.to_user_local, er.to_user_remote]}.flatten.compact.uniq
+    self.transitions.map{|er| [er.to_user_name, er.to_user_remote]}.flatten.compact.uniq
   end
 
   def set_service_as_referred( service_object_id )
@@ -92,7 +96,7 @@ module Transitionable
 
   def transferred_to_users
     self.transitions.select(&:in_progress?)
-        .map(&:to_user_local).uniq
+        .map(&:to_user_name).uniq
   end
 
   def has_referrals

@@ -43,6 +43,26 @@ The API behavior is identical to that of cases. See the case endpoints above for
 * Update an existing tracing request: `PATCH /api/v2/tracing_requests/:id`
 * Disable an existing tracing request: `DELETE /api/v2/tracing_requests/:id`
 
+## Flagging Endpoints
+
+Endpoints for query and manipulating flags for cases, tracing request and incidents
+
+* [Query for flags of a record](v2/docs/flags/get.md) : `GET /api/v2/:recordType/:recordId/flags`
+* [Create a new flag of a record](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`
+* [Unflag a record](v2/docs/flags/id/patch.md) `POST /api/v2/:recordType/:recordId/flags/:id`
+* [Create a bulk of flags for multiple records](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`
+
+## Transitions
+
+Transitions change the access rights of users to records. 
+Currently only case records may be transitioned. We have the following:
+
+### Assigns
+
+An assign changes the record owner of a particular record.
+* [List all record assignments that took place for a record](v2/docs/assigns/id/get.md): `GET /api/v2/cases/:id/assigns`
+* [Assign a record](v2/docs/assigns/id/post.md): `POST /api/v2/cases/:id/assigns`
+* [Assign a set of records in bulk](v2/docs/assigns/post.md): `POST /api/v2/cases/assigns`
 
 ## Form Section Endpoints
 
@@ -68,13 +88,3 @@ Endpoints for querying contact information
 Endpoints for querying system settings
 
 * [Query for system setting](v2/docs/system_settings/get.md) : `GET /api/v2/system_settings`
-
-
-## Flagging Endpoint
-
-Endpoints for query and manipulating flags for cases, tracing request and incidents
-
-* [Query for flags of a record](v2/docs/flags/get.md) : `GET /api/v2/:recordType/:recordId/flags`
-* [Create a new flag of a record](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`
-* [Unflag a record](v2/docs/flags/id/patch.md) `POST /api/v2/:recordType/:recordId/flags/:id`
-* [Create a bulk of flags for multiple records](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`

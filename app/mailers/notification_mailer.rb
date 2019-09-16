@@ -48,7 +48,7 @@ class NotificationMailer < ApplicationMailer
       transition = @record.transition_by_type_and_id(transition_type, transition_id)
       if transition.present?
         @transition_type = transition_type
-        @user_to = User.find_by_user_name(transition.to_user_local)
+        @user_to = User.find_by_user_name(transition.to_user_name)
         @user_from = User.find_by_user_name(transition.transitioned_by)
         if @user_to.present? && @user_to.email.present? && @user_to.send_mail && @user_from.present?
           @agency_from = @user_from.agency.try(:name)

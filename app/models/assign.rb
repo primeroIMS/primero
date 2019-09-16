@@ -1,8 +1,11 @@
 class Assign < Transition
 
+  validates :to_user_name, :transitioned_by, presence: true
+
   def perform
     return if to_user.nil?
 
+    self.status = Transition::STATUS_DONE
     record.previously_owned_by = record.owned_by
     record.owned_by = to_user_name
     record.owned_by_full_name = to_user.full_name
