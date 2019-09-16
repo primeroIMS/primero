@@ -9,6 +9,7 @@ import {
   AccountCircle,
   Help,
   Flag,
+  Favorite,
   MobileScreenShare,
   Person,
   People,
@@ -34,6 +35,8 @@ const ListIcon = ({ icon }) => {
       return <ListAlt />;
     case "matches":
       return <Group />;
+    case "key_performance_indicators":
+      return <Favorite />;
     case "reports":
       return <Assessment />;
     case "exports":

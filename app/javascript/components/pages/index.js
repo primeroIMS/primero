@@ -4,6 +4,7 @@ export { default } from "./login";
 export { default as PotentialMatches } from "./potential-matches";
 export { default as ExportList } from "./export-list";
 export { default as Support } from "./support";
+export { KeyPerformanceIndicators } from "./key-performance-indicators";
 export { NotAuthorized, NotFound } from "./errors";
 export {
   default as Admin,
