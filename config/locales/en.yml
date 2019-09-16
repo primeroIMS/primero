@@ -140,7 +140,7 @@ en:
     lookups: "Lookups"
     users: "Settings"
     replications: "Sync"
-     key_performance_indicators: "KPIs"
+    key_performance_indicators: "Pulse"
     reports: "Reports"
     advanced_search: "Advanced Search"
     go: "Go"
@@ -2467,6 +2467,9 @@ en:
     invalid_token: "invalid session token"
     no_token_provided: "no session token provided"
     no_token_in_header: "no session token in headers or cookies"
+
+  key_performance_indicators:
+    label: "Pulse"
 
   reports:
     register_new_report: "Create Report"
