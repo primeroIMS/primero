@@ -83,7 +83,7 @@ module Transitionable
   end
 
   def transfers
-    self.transitions.select{|t| t.type == Transition::TRANSFER}
+    transitions.where(type: Transfer.name)
   end
 
   def transition_by_type_and_id(type, id)
