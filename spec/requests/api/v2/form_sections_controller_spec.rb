@@ -2,6 +2,17 @@ require 'rails_helper'
 
 describe Api::V2::FormSectionsController, type: :request do
   before :each do
+    Field.where(editable: false).each do |f|
+      f.editable = true
+      f.save!
+    end
+    Field.destroy_all
+    FormSection.where(editable: false).each do |fs|
+      fs.editable = true
+      fs.save!
+    end
+    FormSection.destroy_all
+
     @form_1 = FormSection.create!(
       unique_id: 'form_section_1',
       name_i18n: { en: 'Form Section 1' },
@@ -601,18 +612,4 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
   end
-
-  after :each do
-    Field.where(editable: false).each do |f|
-      f.editable = true
-      f.save!
-    end
-    Field.destroy_all
-    FormSection.where(editable: false).each do |fs|
-      fs.editable = true
-      fs.save!
-    end
-    FormSection.destroy_all
-  end
-
 end
