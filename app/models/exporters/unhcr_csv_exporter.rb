@@ -35,7 +35,7 @@ module Exporters
         'age',
         'separation_cause',
         'country_of_origin',
-        'child_status',
+        'status',
         'family_count_no',
         'national_id_no',
         'name_caregiver'
@@ -122,7 +122,7 @@ module Exporters
             I18n.t("false")
           end
         end,
-        'case_status' => ['child_status'],
+        'case_status' => ['status'],
         'family_count_no' => ['family_count_no'],
         'moha_id' => ['national_id_no'],
         'name_of_child_last_first' => ->(c) do

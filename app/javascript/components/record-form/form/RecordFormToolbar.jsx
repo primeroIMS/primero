@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import CreateIcon from "@material-ui/icons/Create";
 import { Flagging } from "components/flagging";
+import { RecordActions } from "components/record-actions";
 import styles from "./styles.css";
 import WorkFlowIndicator from "./Stepper";
 
@@ -54,7 +55,7 @@ const RecordFormToolbar = ({
       </Box>
       <Box>
         {mode.isShow && params && (
-          <Flagging recordType={params.recordType} records={params.id} />
+          <Flagging recordType={params.recordType} record={params.id} />
         )}
         {(mode.isEdit || mode.isNew) && (
           <>
@@ -84,6 +85,7 @@ const RecordFormToolbar = ({
             <CreateIcon />
           </IconButton>
         )}
+        <RecordActions recordType={params.recordType} />
       </Box>
     </Box>
   );

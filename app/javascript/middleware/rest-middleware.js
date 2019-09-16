@@ -1,32 +1,51 @@
 import qs from "qs";
-import { attemptSignout } from "components/user";
+import { attemptSignout, FETCH_USER_DATA } from "components/user";
 import { FETCH_TIMEOUT } from "config";
 import { push } from "connected-react-router";
+import { FETCH_SYSTEM_SETTINGS } from "components/application";
+import { RECORD_FORMS } from "components/record-form";
+import { RECORDS } from "components/record-list";
+import { arrayToObject } from "libs";
+import DB from "../db";
+import * as schemas from "../schemas";
 
 export const queryParams = {
   toString: obj => qs.stringify(obj),
   parse: str => qs.parse(str)
 };
 
-const getToken = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  return user ? user.token : null;
+const savePayloadToDB = async (type, json, normalizeFunc, path) => {
+  switch (type) {
+    case FETCH_USER_DATA:
+      return DB.put("user", json.data);
+    case FETCH_SYSTEM_SETTINGS:
+      return DB.put("system_settings", json.data, { id: 1 });
+    case `${path}/${RECORDS}`: {
+      const { data, metadata } = json;
+      return {
+        data: await DB.bulkAdd("records", data, { index: "type", value: path }),
+        metadata
+      };
+    }
+    case RECORD_FORMS: {
+      const data = schemas[normalizeFunc](json.data).entities;
+
+      return {
+        formSections: arrayToObject(
+          await DB.bulkAdd("forms", data.formSections),
+          "id"
+        ),
+        fields: arrayToObject(await DB.bulkAdd("fields", data.fields), "id")
+      };
+    }
+    default:
+      return null;
+  }
 };
 
 const restMiddleware = options => store => next => action => {
   if (!(action.api && "path" in action.api)) {
     return next(action);
-  }
-
-  // TODO: We will store this elsewhere in the future. This is not secure
-  const token = getToken();
-
-  const headers = {
-    "content-type": "application/json"
-  };
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
   }
 
   const controller = new AbortController();
@@ -41,7 +60,9 @@ const restMiddleware = options => store => next => action => {
     credentials: "same-origin",
     cache: "no-cache",
     redirect: "follow",
-    headers: new Headers(headers),
+    headers: new Headers({
+      "content-type": "application/json"
+    }),
     signal: controller.signal
   };
 
@@ -79,9 +100,16 @@ const restMiddleware = options => store => next => action => {
           store.dispatch(attemptSignout());
         }
       } else {
+        const payloadFromDB = await savePayloadToDB(
+          type,
+          json,
+          normalizeFunc,
+          path
+        );
+
         store.dispatch({
           type: `${type}_SUCCESS`,
-          payload: normalizeFunc ? normalizeFunc(json.data).entities : json
+          payload: payloadFromDB || json
         });
 
         if (successCallback) {
@@ -109,6 +137,7 @@ const restMiddleware = options => store => next => action => {
         payload: false
       });
     } catch (e) {
+      console.warn(e);
       store.dispatch({
         type: `${type}_FAILURE`,
         payload: true

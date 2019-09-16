@@ -173,9 +173,9 @@ en:
      create_new_record: "Create New %{model}"
      bundle_import: "Configuration Bundle"
      bundle_export: "Configuration Bundle"
-     transfer: "Transfer %{model}"
-     reassign: "Assign %{model}"
-     referral: "Refer %{model}"
+     transfer: "Transfer"
+     reassign: "Assign"
+     referral: "Refer"
      mark_for_mobile: "Mark for mobile"
      unmark_for_mobile: "Un-mark for mobile"
      approve_bia: "Approve BIA"
@@ -561,6 +561,7 @@ en:
       armed_force_group_type: "Armed Force or Group Type:"
       record_state: "Record State:"
       interview_date: "Interview Date:"
+      by_date: "By Date:"
 
   incident:
     label: "Incident ID"
@@ -697,6 +698,7 @@ en:
       location_separation: "Separation Location:"
       separation_cause: "Separation Cause:"
       record_state: "Record State:"
+      by_date: "By Date:"
 
   potential_matches:
     empty: "Please access matching through Tracing Requests"
@@ -2544,3 +2546,5 @@ en:
     unflag_reason: "Unflag Reason"
     unflag: "Unflag"
     no_flags: "No flags found"
+    flag_added: "Flag added successfully"
+    flag_deleted: "Flag deleted"

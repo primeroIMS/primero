@@ -50,6 +50,7 @@ module FakeDeviseLogin
     )
     permitted_field_names = opts[:permitted_field_names] || common_permitted_field_names
     user.stub(:permitted_fields).and_return(permitted_field_names.map{|n| Field.new(name: n.to_s)})
+    user.stub(:modules).and_return(opts[:modules] || [])
     sign_in(user)
   end
 

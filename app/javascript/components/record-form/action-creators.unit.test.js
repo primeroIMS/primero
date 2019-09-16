@@ -3,7 +3,7 @@ import chai, { expect } from "chai";
 import sinon from "sinon";
 import sinonChai from "sinon-chai";
 import configureStore from "redux-mock-store";
-import { normalizeData } from "./schema";
+import { normalizeData } from "schemas";
 import * as actionCreators from "./action-creators";
 import * as actions from "./actions";
 
@@ -47,7 +47,7 @@ describe("<RecordForm /> - Action Creators", () => {
     expect(dispatch.getCall(0).returnValue.type).to.eql("forms/RECORD_FORMS");
     expect(dispatch.getCall(0).returnValue.api.path).to.eql("forms");
     expect(typeof dispatch.getCall(0).returnValue.api.normalizeFunc).to.eql(
-      "function"
+      "string"
     );
   });
 

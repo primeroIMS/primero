@@ -6,7 +6,7 @@ describe Exporters::BaseSelectFields do
     FormSection.all.each &:destroy
     PrimeroModule.all.each &:destroy
     fields = [
-      Field.new({"name" => "child_status",
+      Field.new({"name" => "status",
                  "type" => "text_field",
                  "display_name_all" => "Child Status"
                 }),

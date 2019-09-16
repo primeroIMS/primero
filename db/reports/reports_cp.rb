@@ -3,7 +3,7 @@
 # TODO module_id: It will be numeric after module model migration
 
 default_case_filters = [
-  {'attribute' => 'child_status', 'value' => [Record::STATUS_OPEN]},
+  {'attribute' => 'status', 'value' => [Record::STATUS_OPEN]},
   {'attribute' => 'record_state', 'value' => ['true']}
 ]
 
@@ -65,7 +65,7 @@ Report.create_or_update({
   module_id: PrimeroModule::CP,
   record_type: 'case',
   aggregate_by: ['owned_by'],
-  disaggregate_by: ['child_status'],
+  disaggregate_by: ['status'],
   filters: [{'attribute' => 'record_state', 'value' => ['true']}],
   is_graph: true,
   editable: false
@@ -78,7 +78,7 @@ Report.create_or_update({
   module_id: PrimeroModule::GBV,
   record_type: 'case',
   aggregate_by: ['owned_by'],
-  disaggregate_by: ['child_status'],
+  disaggregate_by: ['status'],
   filters: [{'attribute' => 'record_state', 'value' => ['true']}],
   is_graph: true,
   editable: false
@@ -184,9 +184,9 @@ Report.create_or_update(
   disaggregate_by: ["owned_by_agency_id"],
   filters: [
     {
-      "attribute": "child_status",
+      "attribute": "status",
       "value": [
-        "Open"
+        "open"
       ]
     },
     {
@@ -218,9 +218,9 @@ Report.create_or_update(
   disaggregate_by: ["owned_by_agency_id"],
   filters: [
     {
-      "attribute": "child_status",
+      "attribute": "status",
       "value": [
-        "Open"
+        "open"
       ]
     },
     {

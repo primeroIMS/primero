@@ -4,7 +4,7 @@ class ChildrenController < ApplicationController
   include IndexHelper
   include RecordFilteringPagination
   include ApprovalActions
-  include FieldsHelper
+  #include FieldsHelper
 
   before_action :filter_params_array_duplicates, :only => [:create, :update]
   before_action :filter_params_by_permission, :only => [:create, :update]
@@ -112,7 +112,7 @@ class ChildrenController < ApplicationController
     @child.update_last_updated_by(current_user)
     @child.add_alert(Alertable::NEW_FORM, subform, form_sidebar_id) if current_user.user_name != @child.owned_by
     if @child.child_status == Record::STATUS_CLOSED
-      @child.reopen(Record::STATUS_OPEN, true, current_user.user_name)
+      #@child.reopen(Record::STATUS_OPEN, true, current_user.user_name)
     end
 
     respond_to do |format|
@@ -174,15 +174,15 @@ class ChildrenController < ApplicationController
     end
   end
 
-  def reopen_case
-    authorize! :update, model_class
-    @child.reopen(params[:child_status], params[:case_reopened], current_user.user_name)
-    if @child.save
-      render :json => { :success => true, :error_message => "", :reload_page => true }
-    else
-      render :json => { :success => false, :error_message => @child.errors.messages, :reload_page => true }
-    end
-  end
+  # def reopen_case
+  #   authorize! :update, model_class
+  #   @child.reopen(params[:child_status], params[:case_reopened], current_user.user_name)
+  #   if @child.save
+  #     render :json => { :success => true, :error_message => "", :reload_page => true }
+  #   else
+  #     render :json => { :success => false, :error_message => @child.errors.messages, :reload_page => true }
+  #   end
+  # end
 
   def relinquish_referral
     #TODO move Transition business logic to the model.

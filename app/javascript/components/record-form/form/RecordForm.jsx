@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { Formik, Form } from "formik";
 import { addDays } from "date-fns";
 import isEmpty from "lodash/isEmpty";
+import some from "lodash/some";
 import { Box, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
@@ -42,16 +43,14 @@ const RecordForm = ({
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const [subformFields, setSubformFields] = useState({});
-  let initialFormValues = constructInitialValues(forms);
+  let initialFormValues = constructInitialValues(forms.values());
 
   if (record) {
     initialFormValues = Object.assign({}, initialFormValues, record.toJS());
   }
 
   const fieldValidations = field => {
-    const name = field.get("name");
-    const type = field.get("type");
-
+    const { name, type, required } = field;
     const validations = {};
 
     if (C.NUMERIC_FIELD === type) {
@@ -70,14 +69,14 @@ const RecordForm = ({
       }
     } else if (C.DATE_FIELD === type) {
       validations[name] = yup.date().nullable();
-      if (field.get("date_validation") === "default_date_validation") {
+      if (field.date_validation === "default_date_validation") {
         validations[name] = validations[name].max(
           addDays(new Date(), 1),
           i18n.t("fields.future_date_not_valid")
         );
       }
     } else if (C.SUBFORM_SECTION === type) {
-      const subformSchema = field.subform_section_id.get("fields").map(sf => {
+      const subformSchema = field.subform_section_id.fields.map(sf => {
         return fieldValidations(sf);
       });
       validations[name] = yup
@@ -85,7 +84,7 @@ const RecordForm = ({
         .of(yup.object().shape(Object.assign({}, ...subformSchema)));
     }
 
-    if (field.get("required")) {
+    if (required) {
       validations[name] = (validations[name] || yup.string()).required(
         i18n.t("form_section.required_field", {
           field: field.display_name[i18n.locale]
@@ -97,14 +96,15 @@ const RecordForm = ({
   };
 
   const buildValidationSchema = formSections => {
-    const schema = formSections
-      .map(fs => {
-        return fs.get("fields").map(f => fieldValidations(f));
-      })
-      .toJS()
-      .flat();
-    const t = Object.assign({}, ...schema);
-    return yup.object().shape(t);
+    const schema = formSections.reduce((obj, item) => {
+      return Object.assign(
+        {},
+        obj,
+        ...item.fields.map(f => fieldValidations(f))
+      );
+    }, {});
+
+    return yup.object().shape(schema);
   };
 
   const renderFormSections = fs =>
@@ -149,6 +149,7 @@ const RecordForm = ({
 
   if (!isEmpty(initialFormValues) && !isEmpty(forms)) {
     const validationSchema = buildValidationSchema(forms);
+
     return (
       <Formik
         initialValues={initialFormValues}
@@ -159,9 +160,11 @@ const RecordForm = ({
       >
         {({ handleSubmit, submitForm, errors, dirty, isSubmitting }) => {
           bindSubmitForm(submitForm);
+          const hasErrors = some(errors, e => !isEmpty(e));
+
           return (
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-              <NavigationPrompt when={dirty && !isSubmitting}>
+              <NavigationPrompt when={dirty && !isSubmitting && !mode.isShow}>
                 {({ onConfirm, onCancel }) => (
                   <AlertDialog
                     open
@@ -170,7 +173,7 @@ const RecordForm = ({
                   />
                 )}
               </NavigationPrompt>
-              {!isEmpty(errors) && <ValidationErrors />}
+              {!isEmpty(hasErrors) && <ValidationErrors />}
               {renderFormSections(forms)}
             </Form>
           );

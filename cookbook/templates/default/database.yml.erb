@@ -1,9 +1,0 @@
-<% @environments.each do |env| %>
-<%= env %>:
-  adapter: postgresql
-  database: primero_<%= env %>
-  username: <%= @role %>
-  password: <%= @password %>
-  host: <%= @host %>
-  pool: 5
-<% end %>

@@ -22,8 +22,8 @@ describe("<CheckBox /> - Selectors", () => {
     it("should return records", () => {
       const expected = ["my_cases", "referred_cases"];
       const records = selectors.getCheckBoxes(
-        stateWithRecords, 
-        { id: "my_cases" },
+        stateWithRecords,
+        { field_name: "my_cases" },
         "Cases"
       );
       expect(records).to.deep.equal(expected);
@@ -33,11 +33,10 @@ describe("<CheckBox /> - Selectors", () => {
       const expected = [];
       const records = selectors.getCheckBoxes(
         stateWithNoRecords,
-        { id: "my_cases" },
+        { field_name: "my_cases" },
         "Cases"
       );
       expect(records).to.deep.equal(expected);
     });
   });
 });
-

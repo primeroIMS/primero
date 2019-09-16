@@ -1,6 +1,6 @@
 
 module Importers
-  class JSONImporter
+  class JSONImporter < BaseImporter
     def self.id
       'json'
     end

@@ -41,6 +41,7 @@
     "formik": "^1.5.8",
     "formik-material-ui": "^0.0.20",
     "history": "^4.9.0",
+    "idb": "^4.0.4",
     "immutable": "^4.0.0-rc.12",
     "jss": "^10.0.0-alpha.16",
     "jss-plugin-extend": "^10.0.0-alpha.7",
@@ -67,6 +68,7 @@
     "redux-immutable": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "regenerator-runtime": "^0.13.3",
     "yarn": "^1.16.0",
     "yup": "^0.27.0"
   },

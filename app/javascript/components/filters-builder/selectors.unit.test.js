@@ -7,27 +7,27 @@ import * as selectors from "./selectors";
 chai.use(chaiImmutable);
 
 const stateWithNoRecords = Map({
-  records: Map({
+  ui: Map({
     FiltersBuilder: {
-      Cases: [],
-      Incidents: [],
-      TracingRequest: []
+      cases: [],
+      incidents: [],
+      tracing_requests: []
     }
   })
 });
 const stateWithRecords = Map({
-  records: Map({
+  ui: Map({
     FiltersBuilder: {
-      Cases: ["my_cases", "age_range"],
-      Incidents: [],
-      TracingRequest: []
+      cases: ["my_cases", "age_range"],
+      incidents: [],
+      tracing_requests: []
     }
   })
 });
 
 describe("<FiltersBuilder /> - Selectors", () => {
   describe("selectExpandedPanel", () => {
-    const recordType = "Cases";
+    const recordType = "cases";
 
     it("should return records", () => {
       const expected = ["my_cases", "age_range"];

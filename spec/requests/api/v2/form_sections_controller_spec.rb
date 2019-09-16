@@ -2,6 +2,17 @@ require 'rails_helper'
 
 describe Api::V2::FormSectionsController, type: :request do
   before :each do
+    Field.where(editable: false).each do |f|
+      f.editable = true
+      f.save!
+    end
+    Field.destroy_all
+    FormSection.where(editable: false).each do |fs|
+      fs.editable = true
+      fs.save!
+    end
+    FormSection.destroy_all
+
     @form_1 = FormSection.create!(
       unique_id: 'form_section_1',
       name_i18n: { en: 'Form Section 1' },
@@ -58,11 +69,7 @@ describe Api::V2::FormSectionsController, type: :request do
 
   describe "GET /api/v2/forms" do
     it "list the permitted forms" do
-      login_for_test({
-        permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
-        ]
-      })
+      login_for_test
 
       get '/api/v2/forms'
 
@@ -71,18 +78,6 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(json['data'].map{|c| c['unique_id']}).to include(@form_1.unique_id, @form_2.unique_id, @form_3.unique_id)
     end
 
-    it "refuses unauthorized access" do
-      login_for_test({
-        form_sections: [@form_1, @form_3],
-        permissions: []
-      })
-
-      get '/api/v2/forms'
-
-      expect(response).to have_http_status(403)
-      expect(json['errors'].size).to eq(1)
-      expect(json['errors'][0]['resource']).to eq('/api/v2/forms')
-    end
   end
 
   describe "GET /api/v2/forms/:id" do
@@ -617,18 +612,4 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
   end
-
-  after :each do
-    Field.where(editable: false).each do |f|
-      f.editable = true
-      f.save!
-    end
-    Field.destroy_all
-    FormSection.where(editable: false).each do |fs|
-      fs.editable = true
-      fs.save!
-    end
-    FormSection.destroy_all
-  end
-
 end

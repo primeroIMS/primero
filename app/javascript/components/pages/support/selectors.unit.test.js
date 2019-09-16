@@ -19,7 +19,7 @@ const stateWithRecords = Map({
         location: "United Nations Children’s Fund Lebanon",
         support_forum: "https://google.com",
         other_information: "",
-        primero_version: "1.3.15"
+        primeroVersion: "1.3.15"
       }
     })
   })
@@ -38,7 +38,7 @@ describe("<Support /> - Selectors", () => {
         location: "United Nations Children’s Fund Lebanon",
         support_forum: "https://google.com",
         other_information: "",
-        primero_version: "1.3.15"
+        primeroVersion: "1.3.15"
       };
 
       const records = selectors.selectSupportData(stateWithRecords);

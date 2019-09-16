@@ -1,7 +1,7 @@
 import React from "react";
 import { selectAgency } from "components/pages/login";
-import { selectPrimeroModule } from "components/user";
-import { Grid, Box, CssBaseline } from "@material-ui/core";
+// import { selectPrimeroModule } from "components/user";
+import { Grid, Box } from "@material-ui/core";
 import { ModuleLogo } from "components/module-logo";
 import { AgencyLogo } from "components/agency-logo";
 import { ListIcon } from "components/list-icon";
@@ -18,13 +18,12 @@ const LoginLayout = ({ children }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
-  const primeroModule =
-    useSelector(state => selectPrimeroModule(state)) || "cp";
+  // TODO: Module hardcoded till we figure out when to switch modules
+  const primeroModule = "cp";
   const agency = useSelector(state => selectAgency(state));
 
   return (
-    <div>
-      <CssBaseline />
+    <>
       <Notifier />
       <Box className={[css.primeroBackground, css[primeroModule]].join(" ")}>
         <div className={css.content}>
@@ -60,7 +59,7 @@ const LoginLayout = ({ children }) => {
           </Grid>
         </Grid>
       </Box>
-    </div>
+    </>
   );
 };
 

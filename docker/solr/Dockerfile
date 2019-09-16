@@ -4,7 +4,7 @@ ENV SOLR_PACKAGES gettext libintl
 ENV SOLR_USER=solr
 
 USER root
-COPY --chown=solr ["solr/configsets/primero", "/solr-primero-config"]
+COPY --chown=solr [ "solr/configsets/primero", "/solr-primero-config" ]
 COPY --chown=solr [ "docker/solr/root", "docker/sub.sh", "/" ]
 # Root level solr
 COPY --chown=solr [ "solr/solr.xml", "/opt/solr" ]

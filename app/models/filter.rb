@@ -33,7 +33,7 @@ class Filter < ValueObject
   AGENCY =  Filter.new(name: 'cases.filter_by.agency', field_name: 'owned_by_agency')
   STATUS =  Filter.new(
     name: 'cases.filter_by.status',
-    field_name: 'child_status',
+    field_name: 'status',
     option_strings_source: 'lookup-case-status'
   )
   AGE_RANGE = Filter.new(
@@ -78,7 +78,7 @@ class Filter < ValueObject
     type: 'chips'
   )
   CURRENT_LOCATION = Filter.new(
-    name: 'cases.filter_by.current_location', 
+    name: 'cases.filter_by.current_location',
     field_name: 'location_current',
     option_strings_source: 'location',
     type: 'multi_select'
@@ -89,14 +89,14 @@ class Filter < ValueObject
     option_strings_source: 'lookup-agency-office'
   )
   USER_GROUP = Filter.new(name: 'permissions.permission.user_group', field_name: 'owned_by_groups')
-  REPORTING_LOCATION = -> (label, admin_level) { 
+  REPORTING_LOCATION = -> (label, admin_level) {
     Filter.new(
-      name: "location.base_types.#{label}", 
+      name: "location.base_types.#{label}",
       field_name: "#{admin_level}",
       option_strings_source: 'reporting_location',
       type: 'multi_select',
-      
-    ) 
+
+    )
   }
   NO_ACTIVITY = Filter.new(
     name: 'cases.filter_by.no_activity',
@@ -107,21 +107,21 @@ class Filter < ValueObject
     field_name: 'record_state',
     options: I18n.available_locales.map do |locale|
       { locale => [
-          { id: 'true', display_text: I18n.t("valid", locale: locale) },
-          { id: 'false', display_text: I18n.t("invalid", locale: locale) }
+          { id: 'true', display_name: I18n.t("valid", locale: locale) },
+          { id: 'false', display_name: I18n.t("invalid", locale: locale) }
         ]
       }
-    end
+    end.inject(&:merge)
   )
   PHOTO = Filter.new(
     name: 'cases.filter_by.photo',
     field_name: 'has_photo',
     options: I18n.available_locales.map do |locale|
       { locale => [
-          { id: 'photo', display_text: I18n.t("cases.filter_by.photo_label", locale: locale) }
+          { id: 'photo', display_name: I18n.t("cases.filter_by.photo_label", locale: locale) }
         ]
       }
-    end
+    end.inject(&:merge)
   )
   VIOLENCE_TYPE = Filter.new(
     name: 'incidents.filter_by.violence_type',
@@ -133,12 +133,12 @@ class Filter < ValueObject
     field_name: 'child_types',
     options: I18n.available_locales.map do |locale|
       { locale =>  [
-          { id: 'boys', display_text: I18n.t("incidents.filter_by.boys", locale: locale) },
-          { id: 'girls', display_text: I18n.t("incidents.filter_by.girls", locale: locale) },
-          { id: 'unknown', display_text: I18n.t("incidents.filter_by.unknown", locale: locale) }
+          { id: 'boys', display_name: I18n.t("incidents.filter_by.boys", locale: locale) },
+          { id: 'girls', display_name: I18n.t("incidents.filter_by.girls", locale: locale) },
+          { id: 'unknown', display_name: I18n.t("incidents.filter_by.unknown", locale: locale) }
         ]
       }
-    end
+    end.inject(&:merge)
   )
   VERIFICATION_STATUS = Filter.new(
     name: 'incidents.filter_by.verification_status',
@@ -173,7 +173,7 @@ class Filter < ValueObject
   )
   INQUIRY_STATUS = Filter.new(
     name: 'tracing_requests.filter_by.inquiry_status',
-    field_name: 'inquiry_status',
+    field_name: 'status',
     option_strings_source: 'lookup-inquiry-status'
   )
   SEPARATION_LOCATION = Filter.new(
@@ -195,7 +195,7 @@ class Filter < ValueObject
           { id: 'inquiry_date' , display_name: I18n.t('tracing_requests.selectable_date_options.inquiry_date', locale: locale) }
         ]
       }
-    end
+    end.inject(&:merge)
   )
   FILTER_FIELD_NAMES = %w(
     gbv_displacement_status protection_status urgent_protection_concern
@@ -275,7 +275,7 @@ class Filter < ValueObject
       filters << ARMED_FORCE_GROUP if @primero_module_mrm.present? && user.has_module?(@primero_module_mrm.id)
       filters << ARMED_FORCE_GROUP_TYPE if @primero_module_mrm.present? && user.has_module?(@primero_module_mrm.id)
       filters << RECORD_STATE
-      filters 
+      filters
     end
 
     def tracing_request_filter(user)
@@ -313,23 +313,23 @@ class Filter < ValueObject
           { id: user_name, display_name: user_name }
         end
       when 'workflow'
-        self.options = Child.workflow_statuses_all_locales(user_modules) 
+        self.options = Child.workflow_statuses(user_modules)
       when 'owned_by_agency'
         self.options = User.agencies_by_user_list(managed_user_names).map do |agency|
-          { 
-            id: agency.id, 
-            display_name: I18n.available_locales.map do |locale| 
+          {
+            id: agency.id,
+            display_name: I18n.available_locales.map do |locale|
              { locale => agency.name(locale)  }
             end.inject(&:merge)
           }
         end
       when 'age'
         self.options = system_settings.age_ranges[system_settings.primary_age_range].map do |age_range|
-          { id: age_range.to_s, display_text: age_range.to_s }
+          { id: age_range.to_s, display_name: age_range.to_s }
         end
       when 'owned_by_groups'
         self.options =  UserGroup.all.map do |user_group|
-          { id: user_group.id, display_text: user_group.name }
+          { id: user_group.id, display_name: user_group.name }
         end
       when 'cases_by_date'
         self.options = I18n.available_locales.map do |locale|
@@ -352,23 +352,27 @@ class Filter < ValueObject
       when 'approval_status_bia', 'approval_status_case_plan', 'approval_status_closure'
         id_suffix = field_name.delete_prefix('approval_status_')
         self.options = I18n.available_locales.map do |locale|
-          { locale => 
+          { locale =>
             [ Child::APPROVAL_STATUS_PENDING, Child::APPROVAL_STATUS_APPROVED, Child::APPROVAL_STATUS_REJECTED].map do |status|
-              { id: "#{status}_#{id_suffix}", display_text: I18n.t("cases.filter_by.approvals.#{status}", locale: locale) }
+              { id: "#{status}_#{id_suffix}", display_name: I18n.t("cases.filter_by.approvals.#{status}", locale: locale) }
             end
           }
         end.inject(&:merge)
     end
   end
-  
+
   def resolve_type
-    if self.type.blank? && self.options.present?
-      if self.options.length == 1
-        self.type = 'toggle'
-      elsif self.options.length > 3
+    if self.type.blank?
+      if self.options.present?
+        if self.options.length == 1
+          self.type = 'toggle'
+        elsif self.options.length > 3
+          self.type = 'checkbox'
+        elsif self.options.length == 3 || self.options.length == 2
+          self.type = 'multi_toggle'
+        end
+      else
         self.type = 'checkbox'
-      elsif self.options.length == 3 || self.options.length == 2
-        self.type = 'multi_toggle'
       end
     end
   end

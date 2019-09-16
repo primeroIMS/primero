@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   InputLabel,
@@ -52,6 +52,8 @@ const SelectField = ({
 
   const value = getIn(formik.values, name);
 
+  const selectedValue = field.selected_value;
+
   const options = useSelector(state => getOption(state, option, i18n));
 
   const findOptionDisplayText = v =>
@@ -65,6 +67,7 @@ const SelectField = ({
     ),
     displayEmpty: !mode.isShow,
     input: <Input />,
+    native: false,
     renderValue: selected => {
       if (!options) {
         return i18n.t("string_sources_failed");
@@ -82,6 +85,12 @@ const SelectField = ({
 
   const fieldError = getIn(formik.errors, name);
   const fieldTouched = getIn(formik.touched, name);
+
+  useEffect(() => {
+    if (mode.isNew && selectedValue && value === "") {
+      formik.setFieldValue(name, selectedValue, false);
+    }
+  }, []);
 
   if (!isEmpty(formik.values)) {
     return (

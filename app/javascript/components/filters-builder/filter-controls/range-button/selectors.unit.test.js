@@ -22,7 +22,7 @@ describe("<RangeButton /> - Selectors", () => {
       const expected = "age_6_11";
       const records = selectors.getRangeButton(
         stateWithRecords,
-        { id: "age_range" },
+        { field_name: "age_range" },
         "Cases"
       );
       expect(records).to.deep.equal(expected);
@@ -31,10 +31,10 @@ describe("<RangeButton /> - Selectors", () => {
     it("should return empty object when records empty", () => {
       const records = selectors.getRangeButton(
         stateWithNoRecords,
-        { id: "age_range" },
+        { field_name: "age_range" },
         "Cases"
       );
-      expect(records).to.deep.equal(List([]));
+      expect(records).to.deep.equal([]);
     });
   });
 });

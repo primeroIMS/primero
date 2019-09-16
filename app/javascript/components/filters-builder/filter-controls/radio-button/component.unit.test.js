@@ -7,15 +7,19 @@ import RadioButton from "./component";
 
 describe("<RadioButton /> - Component", () => {
   const mockedData = {
-    id: "sex",
-    display_name: "Sex",
+    name: "Sex",
+    field_name: "sex",
     type: "radio",
-    reset: true,
     options: {
-      values: [
+      en: [
         { id: "female", display_name: "Female" },
         { id: "male", display_name: "Male" },
         { id: "other", display_name: "Other" }
+      ],
+      es: [
+        { id: "female", display_name: "Femenino" },
+        { id: "male", display_name: "Masculino" },
+        { id: "other", display_name: "Otro" }
       ]
     }
   }

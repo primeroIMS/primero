@@ -15,6 +15,7 @@ import { makeStyles } from "@material-ui/styles";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { sortBy } from "lodash";
 import FormSectionField from "./FormSectionField";
 import { constructInitialValues } from "../helpers";
 import styles from "./styles.css";
@@ -40,35 +41,37 @@ const SubformField = ({
 
   const values = getIn(formik.values, name);
 
-  const handleDeletedSubforms = (
-    subformMode,
-    index,
-    fieldSubform,
-    arrayHelpers
-  ) => {
-    if (subformMode.isEdit) {
-      values[index]._destroy = true;
-      const uniqueId = values[index].unique_id;
-      const formName = fieldSubform.name;
-      if (uniqueId) {
-        let updatedData = subformFields[formName] || [];
-        updatedData = [
-          ...updatedData,
-          {
-            _destroy: true,
-            unique_id: uniqueId
-          }
-        ];
-        setSubformFields({
-          ...subformFields,
-          [formName]: updatedData
-        });
-      }
-    }
-    arrayHelpers.remove(index);
-  };
-
   const renderSubformHeading = (arrayHelpers, index, fieldSubform) => {
+    const handleAddSubform = e => {
+      e.preventDefault();
+      arrayHelpers.push(initialSubformValue);
+    };
+
+    const handleDeletedSubforms = e => {
+      e.preventDefault();
+
+      if (mode.isEdit) {
+        values[index]._destroy = true;
+        const uniqueId = values[index].unique_id;
+        const formName = fieldSubform.name;
+        if (uniqueId) {
+          let updatedData = subformFields[formName] || [];
+          updatedData = [
+            ...updatedData,
+            {
+              _destroy: true,
+              unique_id: uniqueId
+            }
+          ];
+          setSubformFields({
+            ...subformFields,
+            [formName]: updatedData
+          });
+        }
+      }
+      arrayHelpers.remove(index);
+    };
+
     return (
       <Box display="flex">
         <Box flexGrow="1">
@@ -77,14 +80,12 @@ const SubformField = ({
         <Box>
           {!mode.isShow && (
             <>
-              <IconButton
-                onClick={() =>
-                  handleDeletedSubforms(mode, index, fieldSubform, arrayHelpers)
-                }
-              >
-                <DeleteIcon />
-              </IconButton>
-              <IconButton onClick={() => arrayHelpers.push({})}>
+              {!subformSectionID.subform_prevent_item_removal ? (
+                <IconButton onClick={handleDeletedSubforms}>
+                  <DeleteIcon />
+                </IconButton>
+              ) : null}
+              <IconButton onClick={handleAddSubform}>
                 <AddIcon />
               </IconButton>
             </>
@@ -117,7 +118,23 @@ const SubformField = ({
 
   const renderFields = arrayHelpers => {
     if (values && values.length > 0) {
-      return values.map((subForm, index) => {
+      let sortedValues = [];
+      const sortSubformField = field.subform_sort_by;
+      if (sortSubformField) {
+        sortedValues = sortBy(values, v => {
+          let criteria;
+          if (!Number.isNaN(Date.parse(v[sortSubformField]))) {
+            criteria = new Date(v[sortSubformField]);
+          } else {
+            criteria = sortSubformField;
+          }
+          return criteria;
+        });
+      } else {
+        sortedValues = values;
+      }
+
+      return sortedValues.map((subForm, index) => {
         return (
           <div key={index}>
             {ConditionalWrapper(

@@ -4,7 +4,7 @@ class ReportsController < ApplicationController
 
   include RecordFilteringPagination
   include ReportsHelper
-  include FieldsHelper
+  #include FieldsHelper
   include DeleteAction
 
   #include RecordActions

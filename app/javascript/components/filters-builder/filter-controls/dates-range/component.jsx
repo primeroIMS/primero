@@ -13,13 +13,12 @@ import * as selectors from "./selectors";
 const DatesRange = ({ recordType, props, fromDate, toDate, setDate }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-  const { id, options } = props;
-  const { values } = options;
+  const { field_name: fieldName, options } = props;
 
   return (
     <div className={css.root}>
-      {values && values.length > 0 ? (
-        <SelectFilter recordType={recordType} props={props} />
+      {options && Object.keys(options).length > 0 ? (
+        <SelectFilter recordType={recordType} props={props} isDate />
       ) : null}
       <Box className={css.datesContainer}>
         <DatePicker
@@ -29,7 +28,7 @@ const DatesRange = ({ recordType, props, fromDate, toDate, setDate }) => {
           className={css.dates}
           label={i18n.t(`fields.date_range.from`)}
           value={fromDate}
-          onChange={date => setDate({ id, from: date }, recordType)}
+          onChange={date => setDate({ fieldName, from: date }, recordType)}
         />
         <DatePicker
           margin="normal"
@@ -38,7 +37,7 @@ const DatesRange = ({ recordType, props, fromDate, toDate, setDate }) => {
           className={css.dates}
           label={i18n.t(`fields.date_range.to`)}
           value={toDate}
-          onChange={date => setDate({ id, to: date }, recordType)}
+          onChange={date => setDate({ fieldName, to: date }, recordType)}
         />
       </Box>
     </div>
@@ -49,7 +48,7 @@ DatesRange.propTypes = {
   recordType: PropTypes.string.isRequired,
   props: PropTypes.object,
   options: PropTypes.object,
-  id: PropTypes.string,
+  field_name: PropTypes.string,
   fromDate: PropTypes.instanceOf(Date),
   toDate: PropTypes.instanceOf(Date),
   setDate: PropTypes.func

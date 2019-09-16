@@ -53,11 +53,12 @@ const TranslationsToggle = () => {
           horizontal: "center"
         }}
       >
-        {locales.map(l => (
-          <MenuItem key={l} onClick={() => handleClose(l)}>
-            {i18n.t(`home.${l}`)}
-          </MenuItem>
-        ))}
+        {locales &&
+          locales.map(l => (
+            <MenuItem key={l} onClick={() => handleClose(l)}>
+              {i18n.t(`home.${l}`)}
+            </MenuItem>
+          ))}
       </Menu>
     </>
   );

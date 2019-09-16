@@ -12,7 +12,7 @@
   justify-content: space-between;
 }
 .switchButtonContainer > span:nth-child(1) {
-  padding-top: 7px;
+  padding-top: 10px;
 }
 .textSwitchButton {
   vertical-align: middle;

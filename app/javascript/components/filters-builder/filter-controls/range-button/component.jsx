@@ -4,16 +4,13 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import Box from "@material-ui/core/Grid";
 import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
-import { useI18n } from "components/i18n";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
 
 const RangeButton = ({ recordType, props, value, setValue }) => {
   const css = makeStyles(styles)();
-  const i18n = useI18n();
-  const { id, options } = props;
-  const { values } = options;
+  const { field_name: fieldName, options } = props;
 
   return (
     <Box className={css.toggleContainer}>
@@ -22,9 +19,9 @@ const RangeButton = ({ recordType, props, value, setValue }) => {
         classes={{
           root: css.toggleContainer
         }}
-        onChange={(e, v) => setValue({ id, data: v }, recordType)}
+        onChange={(e, v) => setValue({ fieldName, data: v }, recordType)}
       >
-        {values.map(v => (
+        {options.map(v => (
           <ToggleButton
             key={v.id}
             value={v.id}
@@ -33,7 +30,7 @@ const RangeButton = ({ recordType, props, value, setValue }) => {
               selected: css.toggleButtonSelected
             }}
           >
-            {i18n.t(`filters.${v.id}`)}
+            {v.display_name || v.display_text}
           </ToggleButton>
         ))}
       </ToggleButtonGroup>
@@ -45,7 +42,7 @@ RangeButton.propTypes = {
   recordType: PropTypes.string.isRequired,
   props: PropTypes.object.isRequired,
   options: PropTypes.object,
-  id: PropTypes.string,
+  field_name: PropTypes.string,
   value: PropTypes.array,
   setValue: PropTypes.func
 };

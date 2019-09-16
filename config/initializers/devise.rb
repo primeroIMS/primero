@@ -1,4 +1,5 @@
 email_settings = YAML::load(File.open( Rails.root.join('config', 'mailers.yml')))[Rails.env]
+  .with_indifferent_access
 
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
