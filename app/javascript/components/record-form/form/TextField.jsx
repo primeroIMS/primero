@@ -22,7 +22,7 @@ const TextField = ({ name, field, formik, ...rest }) => {
   const dispatch = useDispatch();
 
   const recordName = useSelector(state => getIsHiddenName(state));
-  const isHiddenName = recordName === i18n.t("cases.hidden_text_field_text");
+  const isHiddenName = /\*{2,}/.test(recordName);
 
   useEffect(() => {
     if (recordName) {
