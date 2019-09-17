@@ -93,6 +93,7 @@ const SessionTimeoutDialog = () => {
 
     return () => {
       stopAllTimers();
+      window.removeEventListener("storage", localStorageChange);
     };
   }, []);
 
