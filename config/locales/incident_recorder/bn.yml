@@ -1,0 +1,76 @@
+bn:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "রপ্তানী ঘটনার রেকর্ডার এক্সেলস "
+  exports:
+    incident_recorder_xls:
+      all: ঘটনার রেকর্ডার
+      one: ঘটনার রেকর্ডার
+      selected: 'ঘটনার রেকর্ডার নির্বাচন করুন '
+      'yes': "হ্যাঁ"
+      'no': "না "
+      gender:
+        male: "এম"
+        female: "এফ"
+        both: "পুরুষ এবং নারী"
+      age_group:
+        age: "বয়স "
+        61_older: "৬১ এবং তদূর্ধ্ব "
+        unknown: "অপরিচিত "
+        header: "অভিযুক্ত নির্যাতনকারীর বয়সসীমা"
+      age_type:
+        adult: "প্রাপ্তবয়স্ক"
+        minor: "নাবালক"
+        both: "প্রাপ্তবয়স্ক ও নাবালক"
+        unknown: "অপরিচিত "
+        header: "অভিযুক্ত নির্যাতনকারীর বয়সের ধরণ"
+      service_referral:
+        undecided: "রিপোর্টের সময় অনিশ্চিত ছিল "
+      headers:
+        incident_id: "ঘটনার আইডি "
+        survivor_code: "সারভাইবারের কোড "
+        case_manager_code: "কেস ব্যবস্থাপকের কোড"
+        case_worker_code: "কেসওয়ার্কারের কোড "
+        date_of_interview: "সাক্ষাৎকারের তারিখ "
+        date_of_incident: "ঘটনার তারিখ"
+        date_of_birth: "জন্মতারিখ"
+        sex: "লিঙ্গ "
+        ethnicity: "জাতিসত্ত্বা"
+        country_of_origin: "মাতৃভূমি "
+        marital_status: "বৈবাহিক অবস্থা "
+        displacement_status: "রির্পোটের সময়  উৎখাতের অবস্থা"
+        disability_type: "প্রতিবন্ধী ব্যাক্তি?"
+        unaccompanied_separated_status: "কাহারো সাথে নয় বা বিছিন্ন শিশু?  "
+        stage_of_displacement: "ঘটনার সময় উৎখাতের অবস্থা "
+        time_of_day: "ঘটনা দিনের যে সময়ে ঘটেছে "
+        location: "ঘটনার স্থান "
+        county: "ঘটনার দেশ"
+        district: "ঘটনা যে জেলায় ঘটেছে "
+        camp_town: "ঘটনা যে ক্যাম্পে /শহর ঘটেছে "
+        camp: "ঘটনা যে ক্যাম্পে ঘটেছে "
+        gbv_type: "জিবিভির ধরণ"
+        harmful_traditional_practice: "ঐতিহ্যগত  ক্ষতিকর  চর্চা"
+        goods_money_exchanged: "অর্থ, পন্য,সুবিধা এবং/অথবা সেবার  বিনিময়?"
+        abduction_type: "অপহরনের ধরণ"
+        previously_reported: "পূর্বে এই ঘটনা অন্য কোথাও রিপোর্ট করা হয়েছে?"
+        gbv_previous_incidents: "পূর্বের জিবিভি ঘটনা?"
+        number_primary_perpetrators: "সম্পৃক্ত মূল অভিযুক্তের সংখ্যা. () "
+        perpetrator:
+          sex: "অভিযুক্ত নির্যাতনকারীর লিঙ্গ "
+          former: "এই নির্যাতনকারীর পূর্ব ঘটনা "
+          relationship: "অভিযুক্ত নির্যাতনকারী- ভুক্তভোগীর সম্পর্ক"
+          occupation: "অভিযুক্ত নির্যাতনকারীর পেশা "
+          age_group: "অভিযুক্ত নির্যাতনকারীর বয়সসীমা"
+          age_type: "অভিযুক্ত নির্যাতনকারীর বয়সের ধরণ"
+        service:
+          referred_from: "আপনার কাছে কোথা থেকে পাঠানো হয়েছে? "
+          safehouse_referral: "নিরাপদ বাড়ি/ শেল্টার "
+          medical_referral: "স্বাস্থ্য/ মেডিক্যাল সেবা "
+          psycho_referral: "মনোসামাজিক সেবা "
+          wants_legal_action: "আইনানুগ ব্যবস্থা চান? "
+          legal_referral: "আইনি সহায়তা সেবা"
+          police_referral: "পুলিশ/ অন্যান্য নিরাপত্তা বিভাগ"
+          livelihoods_referral: "জীবিকামূলক কর্মসূচি"
+          protection_referral: "শিশুর নিরাপত্তা সেবাসমূহ/ শিক্ষা সেবাসমূহ "
+        consent: "সম্মতি দেওয়া হয়েছে  "
+        agency_code: "রিপোর্টিং সংস্থার কোড "

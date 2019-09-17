@@ -34,6 +34,8 @@ class User < CouchRest::Model::Base
   alias_method :name, :user_name
 
   attr_accessor :password_confirmation, :password
+  attr_accessor :refresh_associated_user_groups
+
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_ids]
 
   timestamps!
@@ -133,8 +135,8 @@ class User < CouchRest::Model::Base
   end
 
 
-  before_save :make_user_name_lowercase, :encrypt_password, :update_user_case_locations
-  after_save :save_devices
+  before_save :make_user_name_lowercase, :encrypt_password, :update_user_cases_groups_and_location
+  after_save :save_devices, :update_associated_user_groups
 
   before_update :if => :disabled? do |user|
     Session.delete_for user
@@ -507,6 +509,26 @@ class User < CouchRest::Model::Base
     self.modules.any? {|m| m.user_group_filter }
   end
 
+  def group_permission_filters
+    filters = {
+      user_group_ids: [],
+      user_names: []
+    }
+
+    if self.has_group_permission?(Permission::ALL)
+      filters[:user_group_ids] = [Searchable::ALL_FILTER]
+      filters[:user_names] = [Searchable::ALL_FILTER]
+    elsif self.has_group_permission?(Permission::GROUP)
+      filters[:user_group_ids] = self.user_group_ids
+      # In the absence of user groups, a user should at least see his own records.
+      filters[:user_names] = [self.user_name]
+    else
+      filters[:user_names] = [self.user_name]
+    end
+
+    filters
+  end
+
   private
 
   def save_devices
@@ -514,15 +536,43 @@ class User < CouchRest::Model::Base
     true
   end
 
-  def update_user_case_locations
+  def update_user_cases_groups_and_location
     # TODO: The following gets all the cases by user and updates the location/district.
     # Performance degrades on save if the user changes their location.
-    if self.changes['location'].present? && !self.changes['location'].eql?([nil,""])
+    if location_changed? || user_group_ids_changed?
       Child.by_owned_by.key(self.user_name).all.each do |child|
-        child.owned_by_location = self.location
+        child.owned_by_location = self.location if location_changed?
+        child.owned_by_groups = self.user_group_ids if user_group_ids_changed?
         child.save!
       end
+      @refresh_associated_user_groups = user_group_ids_changed?
     end
+  end
+
+  def update_associated_user_groups
+    if @refresh_associated_user_groups
+      pagination = { page: 1, per_page: 500}
+      begin
+        results = Child.search do
+          with(:associated_user_names, self.user_name)
+          paginate pagination
+        end.results
+        results.each do |child|
+          child.update_associated_user_groups
+          child.save!
+        end
+        pagination[:page] = results.next_page
+      end until results.next_page.nil?
+      @refresh_associated_user_groups = false
+    end
+  end
+
+  def location_changed?
+    self.changes['location'].present? && !self.changes['location'].eql?([nil,""])
+  end
+
+  def user_group_ids_changed?
+    self.changes['user_group_ids'].present? && !self.changes['user_group_ids'].eql?([nil,""])
   end
 
   def encrypt_password

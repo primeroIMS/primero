@@ -66,13 +66,19 @@ class HomeController < ApplicationController
   end
 
   def search_flags(options={})
-    managed_users = options[:is_manager] ? current_user.managed_user_names : current_user.user_name
+    owner_filters = options[:is_manager] ? current_user.group_permission_filters : { user_names: [current_user.user_name] }
     map_flags(Flag.search{
       with(options[:field]).between(options[:criteria]) if options[:field].present? && options[:criteria].present?
       with(:flag_flagged_by, options[:flagged_by]) if options[:flagged_by].present?
       without(:flag_flagged_by, options[:without_flagged_by]) if options[:without_flagged_by].present?
       with(:flag_record_type, options[:type])
-      with(:flag_record_owner, managed_users)
+      if has_filter_values?(owner_filters[:user_names]) || has_filter_values?(owner_filters[:user_group_ids])
+        any_of do
+          with(:flag_record_owner, owner_filters[:user_names]) if has_filter_values?(owner_filters[:user_names])
+          with(:flag_groups_owner, owner_filters[:user_group_ids]) if has_filter_values?(owner_filters[:user_group_ids])
+          with(:flag_associated_groups, owner_filters[:user_group_ids]) if has_filter_values?(owner_filters[:user_group_ids])
+        end
+      end
       with(:flag_flagged_by_module, options[:modules]) if options[:is_manager].present?
       with(:flag_is_removed, false)
       order_by(:flag_created_at, :desc)
@@ -86,6 +92,8 @@ class HomeController < ApplicationController
         message: flag.stored(:flag_message),
         flagged_by: flag.stored(:flag_flagged_by),
         record_owner: flag.stored(:flag_owner),
+        groups_owner: flag.stored(:flag_groups_owner),
+        associated_groups: flag.stored(:flag_associated_groups),
         date: flag.stored(:flag_date),
         created_at: flag.stored(:flag_created_at),
         system_generated_follow_up: flag.stored(:flag_system_generated_follow_up),
@@ -326,7 +334,16 @@ class HomeController < ApplicationController
 
     results = Child.search do
       with(:record_state, true)
-      with(:associated_user_names, current_user.managed_user_names) unless query[:cases_to_assign].present?
+      unless query[:cases_to_assign].present?
+        group_filters = current_user.group_permission_filters
+        if has_filter_values?(group_filters[:user_names]) || has_filter_values?(group_filters[:user_group_ids])
+          any_of do
+            with(:associated_user_names, group_filters[:user_names]) if has_filter_values?(group_filters[:user_names])
+            with(:owned_by_groups, group_filters[:user_group_ids]) if has_filter_values?(group_filters[:user_group_ids])
+            with(:associated_user_groups, group_filters[:user_group_ids]) if has_filter_values?(group_filters[:user_group_ids])
+          end
+        end
+      end
       with(:child_status, query[:status]) if query[:status].present?
       with(:not_edited_by_owner, true) if query[:new_records].present?
 
@@ -508,7 +525,8 @@ class HomeController < ApplicationController
   end
 
   def load_recent_activities
-    Child.list_records({}, {:last_updated_at => :desc}, {page: 1, per_page: 20}, current_user.managed_user_names)
+    group_filters = current_user.group_permission_filters
+    Child.list_records({}, {:last_updated_at => :desc}, {page: 1, per_page: 20}, group_permission_filters[:user_names], nil, nil, group_permission_filters[:user_group_ids])
   end
 
   def load_case_service_information(timeframe=nil)
@@ -673,24 +691,24 @@ class HomeController < ApplicationController
 
   def load_match_result
     @match_stats = {}
-    associated_users = current_user.managed_user_names
+    group_filters = current_user.group_permission_filters
     search = TracingRequest.search do
-      if associated_users.first != ALL_FILTER
+      if has_filter_values?(group_filters[:user_names]) || has_filter_values?(group_filters[:user_group_ids])
         any_of do
-          associated_users.each do |user_name|
-            with(:associated_user_names, user_name)
-          end
+          with(:associated_user_names, group_filters[:user_names]) if has_filter_values?(group_filters[:user_names])
+          with(:owned_by_groups, group_filters[:user_group_ids]) if has_filter_values?(group_filters[:user_group_ids])
+          with(:associated_user_groups, group_filters[:user_group_ids]) if has_filter_values?(group_filters[:user_group_ids])
         end
       end
     end
     tr_ids = search.results.map { |m| m.id }
 
     search = Child.search do
-      if associated_users.first != ALL_FILTER
+      if has_filter_values?(group_filters[:user_names]) || has_filter_values?(group_filters[:user_group_ids])
         any_of do
-          associated_users.each do |user_name|
-            with(:associated_user_names, user_name)
-          end
+          with(:associated_user_names, group_filters[:user_names]) if has_filter_values?(group_filters[:user_names])
+          with(:owned_by_groups, group_filters[:user_group_ids]) if has_filter_values?(group_filters[:user_group_ids])
+          with(:associated_user_groups, group_filters[:user_group_ids]) if has_filter_values?(group_filters[:user_group_ids])
         end
       end
     end
@@ -783,7 +801,8 @@ class HomeController < ApplicationController
 
   def load_gbv_incidents_information
     @gbv_incidents_recently_flagged = search_flags({field: :flag_created_at, criteria: 1.week.ago.utc..Date.tomorrow,
-                                                    type: 'incident'})
+                                                    is_manager: current_user.is_manager?, modules: @module_ids,
+                                                    flagged_by: current_user.user_name, type: 'incident'})
     @gbv_incidents_recently_flagged = @gbv_incidents_recently_flagged[0..4]
     @open_gbv_incidents = Incident.open_gbv_incidents(@current_user)
   end
@@ -835,7 +854,7 @@ class HomeController < ApplicationController
     #This is necessary because the instance variables can't be seen within the search block below
     admin_level = @admin_level
     reporting_location = @reporting_location
-
+    group_filters = current_user.group_permission_filters
     module_ids = @module_ids
     return Child.search do
       if module_ids.present?
@@ -845,7 +864,13 @@ class HomeController < ApplicationController
           end
         end
       end
-      with(:associated_user_names, current_user.managed_user_names)
+      if has_filter_values?(group_filters[:user_names]) || has_filter_values?(group_filters[:user_group_ids])
+        any_of do
+          with(:associated_user_names, group_filters[:user_names]) if has_filter_values?(group_filters[:user_names])
+          with(:owned_by_groups, group_filters[:user_group_ids]) if has_filter_values?(group_filters[:user_group_ids])
+          with(:associated_user_groups, group_filters[:user_group_ids]) if has_filter_values?(group_filters[:user_group_ids])
+        end
+      end
       with(:record_state, true)
       with(:child_status, query[:status]) if query[:status].present?
       with(:created_at, query[:date_range]) if query[:new].present?
@@ -853,5 +878,9 @@ class HomeController < ApplicationController
       facet("#{reporting_location}#{admin_level}".to_sym, zeros: true) if query[:by_reporting_location].present?
       facet(:protection_concerns, zeros: true) if query[:by_protection_concern].present?
     end
+  end
+
+  def has_filter_values?(values)
+    values.present? && values.first != Searchable::ALL_FILTER
   end
 end

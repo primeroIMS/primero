@@ -134,9 +134,11 @@ class BulkExport < CouchRest::Model::Base
     #TODO: Right now this is duplicated code with what appears in the record_actions controller concern
     pagination_ops = {:page => 1, :per_page => batch_size}
     begin
+      group_filters = self.owner.group_permission_filters
       search = self.model_class.list_records(
         self.filters, self.order, pagination_ops,
-        self.owner.managed_user_names, self.query, self.match_criteria
+        group_filters[:user_names], self.query, self.match_criteria,
+        group_filters[:user_group_ids]
       )
       results = search.results
       yield(results)
