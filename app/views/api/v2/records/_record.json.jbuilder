@@ -1,9 +1,6 @@
 record_data = record.data.compact.select{|k,_| selected_field_names.include?(k)}.to_h
-
-if record.try(:hidden_name)
+if record.try(:hidden_name) && selected_field_names.include?('name')
   record_data.merge!({'name' => '*******'})
-else
-  record_data.merge!({'name' => record.data['name']}) if selected_field_names.include?('hidden_name')
 end
 
 json.id record.id
