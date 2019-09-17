@@ -8,7 +8,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import { Flagging } from "components/flagging";
 import { RecordActions } from "components/record-actions";
 import styles from "./styles.css";
-import WorkFlowIndicator from "./Stepper";
+import WorkFlowIndicator from "./WorkFlowIndicator";
 
 const RecordFormToolbar = ({
   mode,
@@ -16,7 +16,8 @@ const RecordFormToolbar = ({
   recordType,
   handleFormSubmit,
   shortId,
-  history
+  history,
+  primeroModule
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -50,7 +51,11 @@ const RecordFormToolbar = ({
       <Box flexGrow={1}>
         <PageHeading />
         {(mode.isShow || mode.isEdit) && params.recordType === "cases" && (
-          <WorkFlowIndicator locale={i18n.locale} />
+          <WorkFlowIndicator
+            locale={i18n.locale}
+            primeroModule={primeroModule}
+            recordType={params.recordType}
+          />
         )}
       </Box>
       <Box>
@@ -97,7 +102,8 @@ RecordFormToolbar.propTypes = {
   recordType: PropTypes.string.isRequired,
   handleFormSubmit: PropTypes.func.isRequired,
   shortId: PropTypes.string,
-  history: PropTypes.object
+  history: PropTypes.object,
+  primeroModule: PropTypes.string.isRequired
 };
 
 export default withRouter(RecordFormToolbar);

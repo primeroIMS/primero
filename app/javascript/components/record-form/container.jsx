@@ -111,7 +111,8 @@ const RecordForms = ({ match, mode }) => {
     params,
     recordType,
     handleFormSubmit,
-    shortId: record ? record.get("short_id") : null
+    shortId: record ? record.get("short_id") : null,
+    primeroModule: selectedModule.primeroModule
   };
 
   const navProps = {

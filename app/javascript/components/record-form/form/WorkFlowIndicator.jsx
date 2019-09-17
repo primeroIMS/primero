@@ -2,10 +2,17 @@ import React from "react";
 import { Stepper, Step, StepLabel } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
+import { useSelector } from "react-redux";
+import { selectModule } from "components/application";
+
 import styles from "./styles.css";
 
-const WorkFlowIndicator = ({ locale }) => {
+const WorkFlowIndicator = ({ locale, primeroModule }) => {
   const css = makeStyles(styles)();
+  const selectedModule = useSelector(state =>
+    selectModule(state, primeroModule)
+  );
+  console.log(selectedModule);
 
   // TODO: activeStep will come from record and steps will come from systemsettings
   const steps = [
@@ -80,7 +87,8 @@ const WorkFlowIndicator = ({ locale }) => {
 };
 
 WorkFlowIndicator.propTypes = {
-  locale: PropTypes.string.isRequired
+  locale: PropTypes.string.isRequired,
+  primeroModule: PropTypes.string.isRequired
 };
 
 export default WorkFlowIndicator;
