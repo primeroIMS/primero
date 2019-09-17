@@ -274,6 +274,8 @@ en:
     photos: "Photo"
     owned_by: 'Record Owner'
     owned_by_agency: 'Record Owner Agency'
+    reopen_dialog: 'Clicking OK will change the status of this case to Open'
+    reopen_success: 'Successfully reopened case'
 
     order_by:
       most_recently: "Most recently"

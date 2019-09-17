@@ -156,6 +156,7 @@ const RecordForm = ({
         validationSchema={validationSchema}
         validateOnBlur={false}
         validateOnChange={false}
+        enableReinitialize
         onSubmit={values => onSubmit(initialFormValues, values, subformFields)}
       >
         {({ handleSubmit, submitForm, errors, dirty, isSubmitting }) => {

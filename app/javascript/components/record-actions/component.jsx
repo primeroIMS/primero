@@ -1,13 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
-import { useI18n } from "components/i18n";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import ReopenAction from "./ReopenAction";
+import { useI18n } from "components/i18n";
+import { Reopen } from "../record-action-handlers/reopen";
 
 const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const i18n = useI18n();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openReopenDialog, setOpenReopenDialog] = useState(false);
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleItemAction = itemAction => {
+    handleClose();
+    itemAction();
+  };
+
+  const handleReopenDialogOpen = () => {
+    setOpenReopenDialog(true);
+  };
+
+  const handleReopenDialogClose = () => {
+    setOpenReopenDialog(false);
+  };
 
   const actions = [
     {
@@ -57,7 +79,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     },
     {
       name: i18n.t("actions.reopen"),
-      action: ReopenAction,
+      action: handleReopenDialogOpen,
       recordType: "all",
       condition:
         mode &&
@@ -67,19 +89,6 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
         }) !== "undefined"
     }
   ];
-
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleItemAction = itemAction => {
-    handleClose();
-    itemAction();
-  };
 
   return (
     <>
@@ -118,6 +127,12 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
             </MenuItem>
           ))}
       </Menu>
+      <Reopen
+        close={handleReopenDialogClose}
+        openReopenDialog={openReopenDialog}
+        record={record}
+        recordType={recordType}
+      />
     </>
   );
 };

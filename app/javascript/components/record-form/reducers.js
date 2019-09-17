@@ -44,6 +44,12 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("selectedForm", payload);
     case Actions.HIDE_NAME_SUCCESS:
       return state.setIn(["selectedRecord", "name"], payload.data.name);
+    case Actions.SET_REOPEN_SUCCESS: {
+      return state.setIn(
+        ["selectedRecord", "child_status"],
+        payload.data.child_status
+      );
+    }
     default:
       return state;
   }
