@@ -20,8 +20,10 @@ Rails.application.routes.draw do
       resources :children, as: :cases, path: :cases do
         resources :flags, only: [:index, :create, :update]
         resources :assigns, only: [:index, :create]
+        resources :referrals, only: [:index, :create, :destroy]
       end
       match 'cases/assigns' => 'assigns#create_bulk', via: [:post]
+      match 'cases/referrals' => 'referrals#create_bulk', via: [:post]
 
       resources :incidents do
         resources :flags, only: [:index, :create, :update]

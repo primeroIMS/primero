@@ -1,6 +1,6 @@
 module Api::V2
   class RecordResourceController < ApplicationApiController
-    before_action :find_record, only: [:index, :create, :update]
+    before_action :find_record, only: [:index, :create, :update, :destroy]
     before_action :find_records, only: [:create_bulk]
 
     protected

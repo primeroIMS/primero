@@ -1,6 +1,6 @@
-# List all assigns for this record
+# List all referrals for this record
  
-**URL** : `/api/v2/cases/:recordId/assigns`
+**URL** : `/api/v2/cases/:recordId/referrals`
 
 **Method** : `GET`
 
@@ -22,9 +22,9 @@
 {
     "data": [
         {
-            "id": "8165ff68-e406-4258-bb77-004b1f14829a",
-            "type": "Assign",
-            "record_id": "437189fc-cd1c-46ee-8d56-2891fc73605f",
+            "id": "8165ff68-e406-4258-bb77-004b1f148290",
+            "type": "Referral",
+            "record_id": "437189fc-cd1c-46ee-8d56-2891fc736050",
             "record_type": "Child",
             "to_user_name": "primero_cp",
             "transitioned_by": "primero",
@@ -46,7 +46,7 @@
   "errors": [
     {
       "code": 403,
-      "resource": "/api/v2/cases/749e9c6e-60db-45ec-8f5a-69da7c223a79/assigns",
+      "resource": "/api/v2/cases/749e9c6e-60db-45ec-8f5a-69da7c223a79/referrals",
       "message": "Forbidden"
     }
   ]

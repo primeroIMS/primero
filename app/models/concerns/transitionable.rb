@@ -75,6 +75,14 @@ module Transitionable
     transitions.where(type: Referral.name)
   end
 
+  def referrals_for_user(user)
+    if self.owned_by != user.user_name
+      referrals.where(to_user_name: user.user_name)
+    else
+      referrals
+    end
+  end
+
   def referred_users
     self.transitions.map{|er| [er.to_user_name, er.to_user_remote]}.flatten.compact.uniq
   end

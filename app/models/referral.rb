@@ -58,7 +58,7 @@ class Referral < Transition
   end
 
   def perform_remote_referral
-    # TODO: Make sure that only this referral will be visible in the export
+    # TODO: Make sure that only this referral object will be visible in the export
     # TODO: Export record with the constraints of the external user role
   end
 
