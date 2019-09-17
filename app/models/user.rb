@@ -73,7 +73,7 @@ class User < ApplicationRecord
     end
     # memoize_in_prod :user_id_from_name
 
-    def agencies_by_user_list(user_names)
+    def agencies_for_user(user_names)
       where(user_name: user_names).map{ |u| u.organization }.uniq
     end
 

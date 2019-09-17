@@ -315,8 +315,9 @@ class Filter < ValueObject
       when 'workflow'
         self.options = Child.workflow_statuses(user_modules)
       when 'owned_by_agency'
+        agencies = User.agencies_for_user(managed_user_names)
         self.options = I18n.available_locales.map do |locale|
-          locale_options = User.agencies_by_user_list(managed_user_names).map do |agency|
+          locale_options = agencies.map do |agency|
             { id: agency.id, display_name: agency.name(locale) }
           end
           { locale => locale_options }
