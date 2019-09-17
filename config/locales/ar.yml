@@ -603,7 +603,7 @@ ar:
       flag_label: "هل كان مُميز بعلامة؟"
       social_worker: "العامل الميداني/الأخصائي/العامل الإجتماعي:"
       inquiry_date: "تاريخ الإستعلام:"
-      inquiry_status: "حالة الاستعلام:"
+      status: "حالة الاستعلام:"
       location_separation: "موقع الإنفصال:"
       separation_cause: "سبب الإنفصال:"
       record_state: "حالة السجل:"

@@ -511,7 +511,7 @@ es:
       flag_label: "Marcado?"
       social_worker: "Trabajador de terreno/caso/social:"
       inquiry_date: "Fecha de la consulta"
-      inquiry_status: "Estado de la consulta"
+      status: "Estado de la consulta"
       location_separation: "Lugar de separación:"
       separation_cause: "Motivo de separación:"
       record_state: "Estado del registro:"

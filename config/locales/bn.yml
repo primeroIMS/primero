@@ -599,7 +599,7 @@ bn:
       flag_label: "Flagged?"
       social_worker: "ক্ষেত্র / কেস / সামাজিক কর্মী"
       inquiry_date: "তদন্তের তারিখ "
-      inquiry_status: "তদন্তের স্টাটাস "
+      status: "তদন্তের স্টাটাস "
       location_separation: "স্থান পরিবর্তন "
       separation_cause: "কেইস পরিবর্তন "
       record_state: "রেকর্ড স্টেট "

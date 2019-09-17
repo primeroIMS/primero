@@ -56,7 +56,7 @@ class TracingRequestsController < ApplicationController
   end
 
   def redirect_to_list
-    redirect_to tracing_requests_path(scope: {:inquiry_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
+    redirect_to tracing_requests_path(scope: {:status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
   end
 
   def record_filter(filter)

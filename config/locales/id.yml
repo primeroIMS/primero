@@ -603,7 +603,7 @@ id:
       flag_label: "Ditandai dengan Bendera?"
       social_worker: "Kolom/Kasus/Pekerja Sosial:"
       inquiry_date: "Tanggal Penyelidikan:"
-      inquiry_status: "Status Permintaan:"
+      status: "Status Permintaan:"
       location_separation: "Pemisahan Lokasi:"
       separation_cause: "Penyebab Pemisahan:"
       record_state: "Data Menerangkan:"

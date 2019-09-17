@@ -601,7 +601,7 @@ ku:
       flag_label: "دەستنیانکرا؟"
       social_worker: "شوێن/ کەیس/ لێکولەرى کومەلایەتى"
       inquiry_date: "رێککەوتى لێکولینەوە:"
-      inquiry_status: "دوخى لێکولینەوە:"
+      status: "دوخى لێکولینەوە:"
       location_separation: "شوێنى جیابونەوە:"
       separation_cause: "ئەگەرى جیابونەوە:"
       record_state: "دوخى تومارەکە:"

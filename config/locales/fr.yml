@@ -592,7 +592,7 @@ fr:
       flag_label: "Signalé ?"
       social_worker: "Champ/Cas/Travailleur social :"
       inquiry_date: "Date de l'enquête"
-      inquiry_status: "Statut de l'enquête :"
+      status: "Statut de l'enquête :"
       location_separation: "Lieu de séparation :"
       separation_cause: "Cause de  la séparation :"
       record_state: "État du dossier :"

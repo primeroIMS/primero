@@ -696,7 +696,7 @@ en:
       flag_label: "Flagged?"
       social_worker: "Field/Case/Social Worker:"
       inquiry_date: "Date of Inquiry:"
-      inquiry_status: "Inquiry Status:"
+      status: "Inquiry Status:"
       location_separation: "Separation Location:"
       separation_cause: "Separation Cause:"
       record_state: "Record State:"
