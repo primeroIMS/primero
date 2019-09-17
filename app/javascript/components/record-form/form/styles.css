@@ -128,3 +128,23 @@
 .attachmentInputField {
   display: none;
 }
+
+.stepper {
+  max-width: 60%;
+  background: none;
+  padding: 0;
+
+  & div:first-of-type {
+    padding-left: 0;
+  }
+}
+
+.stepLabel {
+  font-size: $(theme.typography.pxToRem(11));
+  font-weight: bold !important;
+  text-transform: uppercase;
+}
+
+.styleLabelActive {
+  color: $(theme.primero.colors.blue) !important;
+}

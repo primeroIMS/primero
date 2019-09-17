@@ -13,5 +13,11 @@ export const selectUserModules = state =>
     return userModules ? userModules.includes(m.unique_id) : false;
   });
 
+export const selectModule = (state, id) => {
+  return selectUserModules(state)
+    .filter(f => f.unique_id === id)
+    .first();
+};
+
 export const selectUserIdle = state =>
   state.getIn([NAMESPACE, "userIdle"], false);
