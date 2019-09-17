@@ -1,6 +1,5 @@
 import { combineReducers } from "redux-immutable";
 import reduceReducers from "reduce-reducers";
-
 import { RECORD_TYPES } from "config";
 
 import * as I18n from "components/i18n";
@@ -25,7 +24,7 @@ const rootReducer = {
   records: combineReducers({
     ...Object.assign(
       {},
-      RECORD_TYPES.reduce((r, i) => {
+      Object.keys(RECORD_TYPES).reduce((r, i) => {
         const o = r;
         o[i] = reduceReducers(
           RecordList.recordListReducer(i),

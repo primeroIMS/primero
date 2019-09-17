@@ -49,6 +49,7 @@ module.exports = function(api) {
         require("babel-plugin-module-resolver"),
         { root: ["./app/javascript/"] }
       ],
+      require("@babel/plugin-proposal-optional-chaining"),
       require("@babel/plugin-syntax-dynamic-import").default,
       isTestEnv && require("babel-plugin-dynamic-import-node"),
       require("@babel/plugin-transform-destructuring").default,

@@ -17,7 +17,8 @@ const RecordFormToolbar = ({
   handleFormSubmit,
   shortId,
   history,
-  primeroModule
+  primeroModule,
+  record
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -55,6 +56,7 @@ const RecordFormToolbar = ({
             locale={i18n.locale}
             primeroModule={primeroModule}
             recordType={params.recordType}
+            record={record}
           />
         )}
       </Box>
@@ -103,7 +105,8 @@ RecordFormToolbar.propTypes = {
   handleFormSubmit: PropTypes.func.isRequired,
   shortId: PropTypes.string,
   history: PropTypes.object,
-  primeroModule: PropTypes.string.isRequired
+  primeroModule: PropTypes.string.isRequired,
+  record: PropTypes.object
 };
 
 export default withRouter(RecordFormToolbar);
