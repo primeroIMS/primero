@@ -9,7 +9,7 @@ en:
         display_name: Case Opening Date
       date_closure:
         display_name: Case Closure Date
-      child_status:
+      status:
         display_name: Case Status
       closure_assessment:
         display_name: Closure Assessement

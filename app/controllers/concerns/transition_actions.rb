@@ -115,7 +115,7 @@ module TransitionActions
     #Only update to TRANSFERRED status on Cases
     if model_class == Child
       transfer_records.each do |transfer_record|
-        transfer_record.child_status = Transition::TRANSFERRED_STATUS
+        transfer_record.status = Transition::TRANSFERRED_STATUS
         transfer_record.record_state = false
         transfer_record.save!
       end

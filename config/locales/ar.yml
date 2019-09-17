@@ -1425,10 +1425,10 @@ ar:
     high_risk_level: "مرتفع"
     medium_risk_level: "متوسط"
     low_risk_level: "منخفض"
-    child_status_open: "مفتوح"
-    child_status_closed: "مغلق"
-    child_status_transferred: "تم النقل"
-    child_status_duplicate: "مكرر"
+    status_open: "مفتوح"
+    status_closed: "مغلق"
+    status_transferred: "تم النقل"
+    status_duplicate: "مكرر"
   dashboard:
     total: 'المجموع'
     new: 'جديد ومحدث'
@@ -1815,7 +1815,7 @@ ar:
     referral: "تمت الإحالة إلى %{to_user} بواسطة %{by_user}"
     transfer: "تم النقل إلى %{to_user} بواسطة %{by_user}"
     record_by: "أُنشيء السجل بواسطة"
-    child_status_changed: "تغيرت حالة الطفل إلى اعادة لم الشمل بواسطة"
+    status_changed: "تغيرت حالة الطفل إلى اعادة لم الشمل بواسطة"
     system_logs:
       records_performed_by: "تم تنفيذ السجلات بواسطة"
       performed_by: "تم التنفيذ بواسطة"
@@ -1833,7 +1833,7 @@ ar:
       mark_as_investigated_by: "تم تعليم السجل بعلامة تم التحقق منه بواسطة"
       mark_as_not_investigated_by: "تم تعليم السجل بعلامة لم يتم التحقق منه بواسطة"
     reunited:
-      child_status_changed: "تغيير حالة الطفل إلى نشط بواسطة"
+      status_changed: "تغيير حالة الطفل إلى نشط بواسطة"
       with_details: "بهذه التفاصيل:"
   actions:
     button: "إجراءات"

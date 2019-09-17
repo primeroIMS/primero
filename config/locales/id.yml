@@ -1423,10 +1423,10 @@ id:
     high_risk_level: "Tinggi"
     medium_risk_level: "Sedang"
     low_risk_level: "Rendah"
-    child_status_open: "Buka"
-    child_status_closed: "Tutup"
-    child_status_transferred: "Dipindahkan"
-    child_status_duplicate: "Duplikasi"
+    status_open: "Buka"
+    status_closed: "Tutup"
+    status_transferred: "Dipindahkan"
+    status_duplicate: "Duplikasi"
   dashboard:
     total: 'Total'
     new: 'Baru dan Telah Diperbarui'
@@ -1723,7 +1723,7 @@ id:
     referral: "Ditujukan ke %{to_user} oleh %{by_user}"
     transfer: "Ditransfer ke %{to_user} oleh %{by_user}"
     record_by: "Data dibuat oleh"
-    child_status_changed: "Status anak berubah menjadi penyatuan kembali oleh"
+    status_changed: "Status anak berubah menjadi penyatuan kembali oleh"
     system_logs:
       records_performed_by: "data dilakukan oleh"
       performed_by: "dilakukan oleh"
@@ -1741,7 +1741,7 @@ id:
       mark_as_investigated_by: "Rekaman yang ditandai diselidiki oleh"
       mark_as_not_investigated_by: "Rekaman yang ditandai tidak diselidiki oleh"
     reunited:
-      child_status_changed: "Status anak di ubah menjadi aktif oleh"
+      status_changed: "Status anak di ubah menjadi aktif oleh"
       with_details: "Dengan rincian ini:"
   actions:
     button: "Tindakan"

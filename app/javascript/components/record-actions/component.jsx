@@ -85,7 +85,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
         mode &&
         mode.isShow &&
         typeof record.find((r, index) => {
-          return index === "child_status" && r === "closed";
+          return index === "status" && r === "closed";
         }) !== "undefined"
     }
   ];

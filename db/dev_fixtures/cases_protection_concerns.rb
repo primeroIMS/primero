@@ -27,7 +27,7 @@ def create_case(id, names, lastnames, protection_concerns, number_of_children, r
         location = locations.sample
 
         c.module_id = 'primeromodule-cp'
-        c.child_status = ['Open', 'Closed'].sample
+        c.status = ['Open', 'Closed'].sample
         c.record_state = [true, false].sample
         c.name_first = first_name
         c.name_last = last_name

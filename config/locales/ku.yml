@@ -1396,10 +1396,10 @@ ku:
     high_risk_level: "بەرز"
     medium_risk_level: "ناوەند"
     low_risk_level: "نزم"
-    child_status_open: "کردنەوە"
-    child_status_closed: "داخراو"
-    child_status_transferred: "گواستراو"
-    child_status_duplicate: "دووبارە"
+    status_open: "کردنەوە"
+    status_closed: "داخراو"
+    status_transferred: "گواستراو"
+    status_duplicate: "دووبارە"
   dashboard:
     total: 'سەرجەم'
     new: 'نوێ & نوێکراو'
@@ -1714,7 +1714,7 @@ ku:
     referral: "پێشنیارکرا بو %{to_user} لەلایەن %{by_user}"
     transfer: "گواستەوە بو %{to_user} لەلایەن %{by_user}"
     record_by: "تومار دروستکرا لەلایەن"
-    child_status_changed: "دوخى منال گورا بو یەکگرتەوە لەلایەن"
+    status_changed: "دوخى منال گورا بو یەکگرتەوە لەلایەن"
     system_logs:
       records_performed_by: "تومارەکان ئەنجامدران لەلایەن"
       performed_by: "ئەنجامدرا لەلایەن"
@@ -1732,7 +1732,7 @@ ku:
       mark_as_investigated_by: "تومارەکە دەستنیشانکرا وەک لێکولینەوى بو کراوە لەلایەن"
       mark_as_not_investigated_by: "تومارەکە دەستنیشانکرا وەک لێکولینەوى بو نەکراوە لەلایەن"
     reunited:
-      child_status_changed: "دوخى منال گورا بو چالاک لەلایەن"
+      status_changed: "دوخى منال گورا بو چالاک لەلایەن"
       with_details: "لەگەل ئەم زانیاریانە:"
   actions:
     button: "کردارەکان"

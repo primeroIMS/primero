@@ -3,7 +3,7 @@ puts 'Migrating (i18n): FormSections'
 include MigrationHelper
 
 default_changes = [
-    {form: 'basic_identity', field: 'child_status', value: Record::STATUS_OPEN},
+    {form: 'basic_identity', field: 'status', value: Record::STATUS_OPEN},
     {form: 'basic_identity', field: 'registration_date', value: 'today'},
     {form: 'other_reportable_fields_case', field: 'record_state', value: true},
     {form: 'cp_incident_form', field: 'status', value: Record::STATUS_OPEN},

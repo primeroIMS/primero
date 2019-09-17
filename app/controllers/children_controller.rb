@@ -111,7 +111,7 @@ class ChildrenController < ApplicationController
     @child[subform] << new_subform
     @child.update_last_updated_by(current_user)
     @child.add_alert(Alertable::NEW_FORM, subform, form_sidebar_id) if current_user.user_name != @child.owned_by
-    if @child.child_status == Record::STATUS_CLOSED
+    if @child.status == Record::STATUS_CLOSED
       #@child.reopen(Record::STATUS_OPEN, true, current_user.user_name)
     end
 
@@ -176,7 +176,7 @@ class ChildrenController < ApplicationController
 
   # def reopen_case
   #   authorize! :update, model_class
-  #   @child.reopen(params[:child_status], params[:case_reopened], current_user.user_name)
+  #   @child.reopen(params[:status], params[:case_reopened], current_user.user_name)
   #   if @child.save
   #     render :json => { :success => true, :error_message => "", :reload_page => true }
   #   else
@@ -203,7 +203,7 @@ class ChildrenController < ApplicationController
     respond_to do |format|
       if @child.save
         flash[:notice] = t("referral.done_success_message")
-        redirect_to cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
+        redirect_to cases_path(scope: {:status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
         return
       else
         flash[:notice] = @child.errors.messages
@@ -269,7 +269,7 @@ class ChildrenController < ApplicationController
           if @child.save
             if transition_status == Transition::TO_USER_LOCAL_STATUS_REJECTED
               flash[:notice] = t('transfer.rejected', record_type: model_class.parent_form.titleize, id: @child.short_id)
-              redirect_to cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
+              redirect_to cases_path(scope: {:status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
               return
             else
               flash[:notice] = t('transfer.success', record_type: model_class.parent_form.titleize, id: @child.short_id)
@@ -340,7 +340,7 @@ class ChildrenController < ApplicationController
   end
 
   def redirect_to_list
-    redirect_to cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
+    redirect_to cases_path(scope: {:status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
   end
 
   #TODO: We need to define the filter values as Constants

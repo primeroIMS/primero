@@ -9,7 +9,7 @@ ar:
         display_name: تاريخ فتح ملف الحالة
       date_closure:
         display_name: تاريخ إغلاق ملف الحالة
-      child_status:
+      status:
         display_name: الوضع الراهن للحالة
       closure_assessment:
         display_name: التقييم عند الإغلاق

@@ -1358,10 +1358,10 @@ fr:
     high_risk_level: "Élevé"
     medium_risk_level: "Moyen"
     low_risk_level: "Faible"
-    child_status_open: "Ouvert"
-    child_status_closed: "Clos"
-    child_status_transferred: "Transféré"
-    child_status_duplicate: "Doublon"
+    status_open: "Ouvert"
+    status_closed: "Clos"
+    status_transferred: "Transféré"
+    status_duplicate: "Doublon"
   dashboard:
     total: 'Total'
     new: 'Nouveau et mis à jour'
@@ -1669,7 +1669,7 @@ fr:
     referral: "Orienté vers %{to_user} par %{by_user}"
     transfer: "Transféré à %{to_user} par %{by_user}"
     record_by: "Cas créer par "
-    child_status_changed: "Le statut d'enfant a été modifié pour être réunifié par"
+    status_changed: "Le statut d'enfant a été modifié pour être réunifié par"
     system_logs:
       records_performed_by: "enregistrements effectués par"
       performed_by: "effectué par"
@@ -1687,7 +1687,7 @@ fr:
       mark_as_investigated_by: "Le dossier a été marqué comme Enquête menée par"
       mark_as_not_investigated_by: "Le dossier a été marqué comme Enquête non menée par"
     reunited:
-      child_status_changed: "Le statut de l'enfant a été changé en actif par"
+      status_changed: "Le statut de l'enfant a été changé en actif par"
       with_details: "avec les renseignements suivants :"
   actions:
     button: "Actions"

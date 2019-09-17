@@ -9,7 +9,7 @@ fr:
         display_name: Date d'ouverture du cas
       date_closure:
         display_name: Date de clôture du cas
-      child_status:
+      status:
         display_name: Statut du cas
       closure_assessment:
         display_name: Evaluation de clôture du cas

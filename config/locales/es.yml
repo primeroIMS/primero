@@ -1167,10 +1167,10 @@ es:
     high_risk_level: "Alta"
     medium_risk_level: "Media"
     low_risk_level: "Baja"
-    child_status_open: "Abierto"
-    child_status_closed: "Cerrado"
-    child_status_transferred: "Transferido"
-    child_status_duplicate: "Duplicado"
+    status_open: "Abierto"
+    status_closed: "Cerrado"
+    status_transferred: "Transferido"
+    status_duplicate: "Duplicado"
 
   dashboard:
     flagged_by: "Marcado por"
@@ -1433,7 +1433,7 @@ es:
       mark_as_not_investigated_by: "El registro fue marcado como No investigado por"
 
     reunited:
-      child_status_changed: "Estado del menor cambiado a activo por"
+      status_changed: "Estado del menor cambiado a activo por"
       with_details: "con esta información:"
 
   actions:

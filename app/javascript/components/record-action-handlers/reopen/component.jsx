@@ -29,7 +29,7 @@ function Reopen(props) {
       dispatch(
         setReopen(
           record.get("id"),
-          { data: { child_status: "open", case_reopened: true } },
+          { data: { status: "open", case_reopened: true } },
           i18n.t("cases.reopen_success"),
           recordType
         )

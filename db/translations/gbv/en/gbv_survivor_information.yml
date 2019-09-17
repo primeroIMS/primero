@@ -12,7 +12,7 @@ en:
       marked_for_mobile:
         display_name: Marked for mobile?
         tick_box_label: 'Yes'
-      child_status:
+      status:
         display_name: Case Status
       name:
         display_name: Name

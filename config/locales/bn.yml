@@ -1368,10 +1368,10 @@ bn:
     high_risk_level: "High"
     medium_risk_level: "Medium"
     low_risk_level: "Low"
-    child_status_open: "Open"
-    child_status_closed: "Closed"
-    child_status_transferred: "Transferred"
-    child_status_duplicate: "Duplicate"
+    status_open: "Open"
+    status_closed: "Closed"
+    status_transferred: "Transferred"
+    status_duplicate: "Duplicate"
   dashboard:
     total: 'মোট '
     new: 'নতুন এবং আপডেট'
@@ -1691,7 +1691,7 @@ bn:
     referral: "%{by_user}দ্বারা %{to_user}এ Referred"
     transfer: "%{by_user}দ্বারা %{to_user}তে স্থানান্তরিত "
     record_by: "Record created by"
-    child_status_changed: "শিশু অবস্থা পুনর্মুদ্রিত পরিবর্তিত "
+    status_changed: "শিশু অবস্থা পুনর্মুদ্রিত পরিবর্তিত "
     system_logs:
       records_performed_by: "records performed by "
       performed_by: "performed by"
@@ -1709,7 +1709,7 @@ bn:
       mark_as_investigated_by: "রেকর্ড চিহ্নিত করা হয় কিছু দ্বারা তদন্ত করা হয়েছে এমন "
       mark_as_not_investigated_by: "রেকর্ড চিহ্নিত করা হয় কিছু দ্বারা তদন্ত করা হয় নি এমন "
     reunited:
-      child_status_changed: "শিশু অবস্থা সক্রিয় দ্বারা পরিবর্তিত"
+      status_changed: "শিশু অবস্থা সক্রিয় দ্বারা পরিবর্তিত"
       with_details: " সঙ্গে এই বিস্তারিত: "
   actions:
     button: "ক্রিয়াকলাপ"

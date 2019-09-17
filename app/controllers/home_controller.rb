@@ -144,7 +144,7 @@ class HomeController < ApplicationController
       end
     end
 
-    queries[:manager_totals].facet(:child_status).rows.each do |c|
+    queries[:manager_totals].facet(:status).rows.each do |c|
       @aggregated_case_manager_stats[:manager_totals][c.value] = c.count
     end
 
@@ -330,7 +330,7 @@ class HomeController < ApplicationController
     results = Child.search do
       with(:record_state, true)
       with(:associated_user_names, current_user.managed_user_names) unless query[:cases_to_assign].present?
-      with(:child_status, query[:status]) if query[:status].present?
+      with(:status, query[:status]) if query[:status].present?
       with(:not_edited_by_owner, true) if query[:new_records].present?
 
       facet(:assigned_user_names, zeros: true) if query[:referred].present?
@@ -383,7 +383,7 @@ class HomeController < ApplicationController
         end
       end
 
-      facet(:child_status, zeros: true) if query[:by_case_status].present?
+      facet(:status, zeros: true) if query[:by_case_status].present?
 
       if query[:by_risk_level].present?
         facet(:risk_level, zeros: true) do
@@ -513,7 +513,7 @@ class HomeController < ApplicationController
     ]
 
     Child.search do
-      with(:child_status, Record::STATUS_OPEN)
+      with(:status, Record::STATUS_OPEN)
       with(:record_state, true)
       with(:associated_user_names, current_user.user_name)
 
@@ -540,7 +540,7 @@ class HomeController < ApplicationController
 
     @stats = Child.search do
       # TODO: Check for valid
-      with(:child_status, Record::STATUS_OPEN)
+      with(:status, Record::STATUS_OPEN)
       with(:record_state, true)
       associated_users = with(:associated_user_names, current_user.user_name)
       referred = with(:assigned_user_names, current_user.user_name)
@@ -571,7 +571,7 @@ class HomeController < ApplicationController
           with(:not_edited_by_owner, true)
         end
         row(:total) do
-          with(:child_status, Record::STATUS_OPEN)
+          with(:status, Record::STATUS_OPEN)
         end
       end
 
@@ -580,7 +580,7 @@ class HomeController < ApplicationController
           without(:last_updated_by, current_user.user_name)
         end
         row(:total) do
-          with(:child_status, Record::STATUS_OPEN)
+          with(:status, Record::STATUS_OPEN)
         end
       end
 
@@ -842,7 +842,7 @@ class HomeController < ApplicationController
       end
       with(:associated_user_names, current_user.managed_user_names)
       with(:record_state, true)
-      with(:child_status, query[:status]) if query[:status].present?
+      with(:status, query[:status]) if query[:status].present?
       with(:created_at, query[:date_range]) if query[:new].present?
       with(:date_closure, query[:date_range]) if query[:closed].present?
       facet("#{reporting_location}#{admin_level}".to_sym, zeros: true) if query[:by_reporting_location].present?

@@ -12,7 +12,7 @@ ar:
       marked_for_mobile:
         display_name: تم تأشيرة في الهاتف المحمول
         tick_box_label: 'نعم'
-      child_status:
+      status:
         display_name: الوضع الراهن للحالة
       name:
         display_name: الاسم

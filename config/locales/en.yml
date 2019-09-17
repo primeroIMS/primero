@@ -1585,10 +1585,10 @@ en:
     high_risk_level: "High"
     medium_risk_level: "Medium"
     low_risk_level: "Low"
-    child_status_open: "Open"
-    child_status_closed: "Closed"
-    child_status_transferred: "Transferred"
-    child_status_duplicate: "Duplicate"
+    status_open: "Open"
+    status_closed: "Closed"
+    status_transferred: "Transferred"
+    status_duplicate: "Duplicate"
 
   dashboard:
     total: 'Total'
@@ -1957,7 +1957,7 @@ en:
     referral: "Referred to %{to_user} by %{by_user}"
     transfer: "Transferred to %{to_user} by %{by_user}"
     record_by: "Record created by"
-    child_status_changed: "Child status changed to reunited by"
+    status_changed: "Child status changed to reunited by"
 
     system_logs:
       records_performed_by: "records performed by"
@@ -1981,7 +1981,7 @@ en:
       mark_as_not_investigated_by: "Record was marked as Not Investigated by"
 
     reunited:
-      child_status_changed: "Child status changed to active by"
+      status_changed: "Child status changed to active by"
       with_details: "with these details:"
 
   actions:
@@ -2507,7 +2507,7 @@ en:
     mobile: 'Mobile'
     mark_for_mobile: 'Mark for Mobile?'
     social_worker: "Field/Case/Social Worker"
-    child_status: "Status"
+    status: "Status"
     age_range: "Age Range"
     sex: "Sex"
     risk_level: "Risk Level"
