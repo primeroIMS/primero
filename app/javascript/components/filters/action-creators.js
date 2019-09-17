@@ -6,3 +6,10 @@ export const setTab = payload => {
     payload
   };
 };
+
+export const setInitialFilterValues = (recordType, payload) => {
+  return {
+    type: `${recordType}/SET_FILTERS`,
+    payload
+  };
+};

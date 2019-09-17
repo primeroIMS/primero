@@ -1,4 +1,4 @@
-import * as RecordListActions from "components/record-list/actions";
+import * as RecordListActions from "../../actions";
 
 export const setUpChips = (payload, namespace) => {
   return {
