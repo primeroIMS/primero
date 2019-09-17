@@ -1,5 +1,8 @@
 record_data = record.data.compact.select{|k,_| selected_field_names.include?(k)}.to_h
-record_data.merge!({'name' => '*******'}) if record.try(:hidden_name) && selected_field_names.include?('name')
+if record.try(:hidden_name) && selected_field_names.include?('name')
+  record_data.merge!({'name' => '*******'})
+end
+
 json.id record.id
 json.merge! record_data
 if selected_field_names.include?("photos") && record.photos.count > 0

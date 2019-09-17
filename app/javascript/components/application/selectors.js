@@ -18,3 +18,6 @@ export const selectModule = (state, id) => {
     .filter(f => f.unique_id === id)
     .first();
 };
+
+export const selectUserIdle = state =>
+  state.getIn([NAMESPACE, "userIdle"], false);

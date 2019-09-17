@@ -12,50 +12,14 @@ describe("<FiltersBuilders /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = clone(actionCreators);
 
-    expect(creators).to.have.property("setExpandedPanel");
     expect(creators).to.have.property("collapsePanels");
     expect(creators).to.have.property("applyFilters");
     expect(creators).to.have.property("resetSinglePanel");
-    delete creators.setExpandedPanel;
     delete creators.collapsePanels;
     delete creators.applyFilters;
     delete creators.resetSinglePanel;
 
     expect(creators).to.deep.equal({});
-  });
-
-  it("should check the 'setExpandedPanel' action creator when 'expanded' is true to return the correct object", () => {
-    const options = { expanded: true, panel: "my_cases", namespace: "Cases" };
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
-
-    actionCreators.setExpandedPanel({
-      expanded: true,
-      panel: "my_cases",
-      namespace: "Cases"
-    })(dispatch);
-
-    expect(dispatch).to.have.been.calledWithMatch({
-      type: actions.SET_EXPANSION_PANEL,
-      payload: options
-    });
-  });
-
-  it("should check the 'setExpandedPanel' action creator when 'expanded' is false to return the correct object", () => {
-    const options = { expanded: false, panel: "my_cases", namespace: "Cases" };
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
-
-    actionCreators.setExpandedPanel({
-      expanded: false,
-      panel: "my_cases",
-      namespace: "Cases"
-    })(dispatch);
-
-    expect(dispatch).to.have.been.calledWithMatch({
-      type: actions.REMOVE_EXPANDED_PANEL,
-      payload: options
-    });
   });
 
   it("should check the 'collapsePanels' action creator to return the correct object", () => {

@@ -4,7 +4,7 @@ import * as Actions from "./actions";
 import NAMESPACE from "./namespace";
 import { PrimeroModuleRecord } from "./records";
 
-const DEFAULT_STATE = Map({});
+const DEFAULT_STATE = Map({ userIdle: false });
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
@@ -13,7 +13,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         agencies,
         modules,
         locales,
-        default_locale: defualtLocale,
+        default_locale: defaultLocale,
         base_language: baseLanguage,
         primero_version: primeroVersion
       } = payload.data;
@@ -23,12 +23,14 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           agencies,
           modules: mapEntriesToRecord(modules, PrimeroModuleRecord),
           locales,
-          defualtLocale,
+          defaultLocale,
           baseLanguage,
           primeroVersion
         })
       );
     }
+    case Actions.SET_USER_IDLE:
+      return state.set("userIdle", payload);
     default:
       return state;
   }

@@ -750,17 +750,17 @@
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
   integrity sha512-5a6wqoJV/xEdbRNKVo6I4hO3VjyDq//8q2f9I6PBAvMesJHFauXDorcNCsr9RzvsZnaWi5NYCcfyqP1QeFHFbw==
 
-"@date-io/core@^1.3.8":
-  version "1.3.8"
-  resolved "https://registry.yarnpkg.com/@date-io/core/-/core-1.3.8.tgz#a20da7125f1444631dd96a6e8baa8982665aaa95"
-  integrity sha512-XlvpzhipF/badZEJPAfgXRX9bFG2UpFl1T6O0hn1RzWJf3yexf9/M2wcEm6jh7RVyrlSayttkXtGPqVPdoJQ7Q==
+"@date-io/core@^1.3.11":
+  version "1.3.11"
+  resolved "https://registry.yarnpkg.com/@date-io/core/-/core-1.3.11.tgz#98e3c366794dfff571e39227e5d718ac7f26b729"
+  integrity sha512-Yxf2ei0vjU38Fizswr/Uwub5QeRiLOHiTRiHUuTdg+biVB+1EUk+h5szas9SEWA2pZDlSo73F5TPuu+zKqOIBQ==
 
-"@date-io/date-fns@^1.3.7":
-  version "1.3.8"
-  resolved "https://registry.yarnpkg.com/@date-io/date-fns/-/date-fns-1.3.8.tgz#820553ba0136027b20d3a696ab9b300f2fa23c5c"
-  integrity sha512-vlMRbaCIC1NTjGXL8QWsc9v/7EJwtciUYWCYw1+PXkmpPr1W4GbckvLYvFhGSlQ8ibIh0JKB1yP4bozSb3Tu+w==
+"@date-io/date-fns@^1.3.11":
+  version "1.3.11"
+  resolved "https://registry.yarnpkg.com/@date-io/date-fns/-/date-fns-1.3.11.tgz#f0b320b9c5993b9914e3b4d71155ea40814a8d75"
+  integrity sha512-6Pvk4gwCU4L19XYzDUrro861JCQjZkJQjugxAA+M8wsDTW75A5rmSZGa6g2rQQXfg6ox4B7HBx9p6JYDsSPX0g==
   dependencies:
-    "@date-io/core" "^1.3.8"
+    "@date-io/core" "^1.3.11"
 
 "@emotion/hash@^0.7.1":
   version "0.7.2"
@@ -2943,10 +2943,10 @@ data-urls@^1.1.0:
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
 
-date-fns@^2.0.0-beta.2:
-  version "2.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.0.0-beta.3.tgz#2e28f5af945930f774ddd778e184d68227101d55"
-  integrity sha512-z5O262BvHPhwUvA1weXH+AZodygnZUcORERw8hjwBUrRPGrAo2e/rjXfC8Ykf1OGJZGDuLnK/WXbEZBIc0exGQ==
+date-fns@^2.0.0:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.2.1.tgz#b3f79cf56760af106050c686f4c72586a3383ee9"
+  integrity sha512-4V1i5CnTinjBvJpXTq7sDHD4NY6JPcl15112IeSNNLUWQOQ+kIuCvRGOFZMQZNvkadw8F9QTyZxz59rIRU6K+w==
 
 date-now@^0.1.4:
   version "0.1.4"
@@ -5672,10 +5672,10 @@ lodash._reinterpolate@^3.0.0:
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
   integrity sha1-DM8tiRZq8Ds2Y8eWU4t1rG4RTZ0=
 
-lodash.assign@^4.2.0:
+lodash.assignwith@^4.2.0:
   version "4.2.0"
-  resolved "https://registry.yarnpkg.com/lodash.assign/-/lodash.assign-4.2.0.tgz#0d99f3ccd7a6d261d19bdaeb9245005d285808e7"
-  integrity sha1-DZnzzNem0mHRm9rrkkUAXShYCOc=
+  resolved "https://registry.yarnpkg.com/lodash.assignwith/-/lodash.assignwith-4.2.0.tgz#127a97f02adc41751a954d24b0de17e100e038eb"
+  integrity sha1-EnqX8CrcQXUalU0ksN4X4QDgOOs=
 
 lodash.clonedeep@^4.5.0:
   version "4.5.0"
@@ -6192,13 +6192,13 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
-mui-datatables@^2.9.0:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/mui-datatables/-/mui-datatables-2.9.0.tgz#deb01fb257adf4b66c401443fa24de853aebe62d"
-  integrity sha512-YHkDpaAjH7jrsY8TIsHbFP+WTcxWX/riA5H/vcd+qnAkv3aorH0ksm3v4cKcDKt0+K44+rEFMID+EkHGrZG4JQ==
+mui-datatables@^2.11.1:
+  version "2.11.1"
+  resolved "https://registry.yarnpkg.com/mui-datatables/-/mui-datatables-2.11.1.tgz#2b02db3a01d65f3535c5f4775015b4ff36de2490"
+  integrity sha512-0zftII4OeOcizKZR9wp85vvxkBmnzJYXvQLDsC0OulflY+xSa+wLul+6ai/EDhCfod4U+sYbp9f/TynLi7qVUA==
   dependencies:
     classnames "^2.2.5"
-    lodash.assign "^4.2.0"
+    lodash.assignwith "^4.2.0"
     lodash.clonedeep "^4.5.0"
     lodash.find "^4.6.0"
     lodash.get "^4.4.2"
@@ -8101,6 +8101,11 @@ react-i18next@^10.11.2:
   dependencies:
     "@babel/runtime" "^7.3.1"
     html-parse-stringify2 "2.0.1"
+
+react-idle-timer@^4.2.9:
+  version "4.2.9"
+  resolved "https://registry.yarnpkg.com/react-idle-timer/-/react-idle-timer-4.2.9.tgz#9054dc508953521e76fd5255f692ec8a816c304c"
+  integrity sha512-Bj1SaHdCS+YiWgASgmZtr5MEWfsyIg9AWGdpSKbrzlsjpEXYuCe1dsuAetY0ES81w3sz98oUBBj25T4Hl7JXqg==
 
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.6:
   version "16.8.6"
