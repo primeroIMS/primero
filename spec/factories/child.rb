@@ -4,7 +4,7 @@ FactoryBot.define do
     name { "Test Child #{counter}" }
     created_by "test_user"
     owned_by "test_user"
-    module_id "CP"
+    module_id "primeromodule-cp"
     child_status Record::STATUS_OPEN
     case_id_display "display_1234"
 
