@@ -58,9 +58,8 @@ en:
     record_navigation_confirmation_message: "Clicking OK will discard any unsaved changes and navigate to the requested page . Click cancel to return to the record."
     confirmation_message: "Clicking OK will discard any unsaved changes and return to the list view . Click cancel to return to the record."
     cancel_confirmation: "Are you sure you want to cancel?"
-    logoff_warning_prefix: "You will be logged off in"
-    logoff_warning_suffix: "seconds."
-    logoff_confirmation: "Do you want to continue your session?"
+    logout_warning: "You will be logged off in 5 minutes"
+    logout_confirmation: "Do you want to continue your session?"
     warning: |
       Warning: If you continue, any data associated with this field will be lost.
       If you're uncertain, disable the field instead.
@@ -146,6 +145,8 @@ en:
      save: "Save"
      save_and_add_service_provision: "Save and Add Service Provision"
      login: "Log in"
+     logout: "Log out"
+     continue: "Continue"
      reunite: "Reunite"
      edit: "Edit"
      back: "Back"

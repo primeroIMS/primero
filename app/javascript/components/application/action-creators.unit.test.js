@@ -12,7 +12,12 @@ describe("Application - Action Creators", () => {
     const creators = clone(actionCreators);
 
     expect(creators).to.have.property("fetchSystemSettings");
+    expect(creators).to.have.property("loadApplicationResources");
+    expect(creators).to.have.property("setUserIdle");
+
     delete creators.fetchSystemSettings;
+    delete creators.loadApplicationResources;
+    delete creators.setUserIdle;
 
     expect(creators).to.deep.equal({});
   });
@@ -27,5 +32,14 @@ describe("Application - Action Creators", () => {
       "application/FETCH_SYSTEM_SETTINGS"
     );
     expect(dispatch.getCall(0).returnValue.api).to.eql(expected);
+  });
+
+  it("should create an action to set the user to idle", () => {
+    const expectedAction = {
+      type: "application/SET_USER_IDLE",
+      payload: true
+    };
+
+    expect(actionCreators.setUserIdle(true)).to.eql(expectedAction);
   });
 });

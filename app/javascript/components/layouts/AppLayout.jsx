@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Notifier } from "components/notifier";
+import { SessionTimeoutDialog } from "components/session-timeout-dialog";
 import styles from "./styles.css";
 
 const AppLayout = ({ children, drawerOpen }) => {
@@ -14,6 +15,7 @@ const AppLayout = ({ children, drawerOpen }) => {
     <div className={css.root}>
       <Notifier />
       <Nav />
+      <SessionTimeoutDialog />
       <main
         className={clsx(css.content, {
           [css.contentShift]: drawerOpen
