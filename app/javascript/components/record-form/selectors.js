@@ -14,6 +14,7 @@ const forms = (state, { recordType, primeroModule }) => {
     fs =>
       includes(fs.module_ids, primeroModule) &&
       fs.parent_form === recordType &&
+      fs.visible &&
       !fs.is_nested
   );
 };

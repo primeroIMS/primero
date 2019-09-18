@@ -42,7 +42,7 @@ fields = [
 
 FormSection.create_or_update_form_section({
   :unique_id=>"cp_other_reportable_fields",
-  :parent_form=>"case",
+  :parent_form=>"incident",
   "visible" => false,
   :order => 1000,
   :order_form_group => 1000,
