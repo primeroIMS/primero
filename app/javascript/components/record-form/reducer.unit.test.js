@@ -168,7 +168,7 @@ describe("<RecordForm /> - Reducers", () => {
         fields: [1],
         is_nested: null
       }
-    ]
+    ];
     const fields = [
       {
         name: "name_first",
@@ -266,6 +266,38 @@ describe("<RecordForm /> - Reducers", () => {
     const action = {
       type: "forms/SET_SELECTED_FORM",
       payload: "referral_transfer"
+    };
+
+    const newState = r.reducers.forms(defaultState, action);
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SET_REOPEN_SUCCESS", () => {
+    const defaultSelectedRecord = { status: "open" };
+    const selectedRecord = { status: "open" };
+
+    const reopenDefaultState = Map({
+      selectedForm: null,
+      formSections: Map({}),
+      selectedRecord: Map(defaultSelectedRecord),
+      fields: Map({})
+    });
+
+    const expected = Map({
+      selectedForm: null,
+      formSections: Map({}),
+      selectedRecord: Map(selectedRecord),
+      fields: Map({})
+    });
+
+    const action = {
+      type: "SET_REOPEN_SUCCESS",
+      payload: {
+        data: {
+          id: "e3cd16e5-2f13-4f46-a2a4-8c3ba48a7c0a",
+          status: "open"
+        }
+      }
     };
 
     const newState = r.reducers.forms(defaultState, action);
