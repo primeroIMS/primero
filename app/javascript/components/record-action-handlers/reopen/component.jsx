@@ -7,21 +7,13 @@ import { useDispatch } from "react-redux";
 import { useI18n } from "components/i18n";
 import { BasicDialog } from "../../basic-dialog";
 import { setReopen } from "./action-creators";
-
-const useStyles = makeStyles(theme => ({
-  button: {
-    margin: theme.spacing(1)
-  },
-  input: {
-    display: "none"
-  }
-}));
+import styles from "./styles.css";
 
 function Reopen(props) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { close, openReopenDialog, record, recordType } = props;
-  const classes = useStyles();
+  const css = makeStyles(styles)();
 
   const ReopenDialogContent = () => {
     const handleOk = () => {
@@ -38,18 +30,23 @@ function Reopen(props) {
     };
 
     return (
-      <div>
+      <div className={css.dialogButtonContainer}>
         <DialogTitle id="simple-dialog-title">
           {i18n.t("cases.reopen_dialog")}
         </DialogTitle>
         <Button
+          color="primary"
           variant="contained"
-          className={classes.button}
+          className={css.dialogButton}
           onClick={handleOk}
         >
           OK
         </Button>
-        <Button variant="contained" className={classes.button} onClick={close}>
+        <Button
+          variant="contained"
+          className={css.dialogButton}
+          onClick={close}
+        >
           Cancel
         </Button>
       </div>
