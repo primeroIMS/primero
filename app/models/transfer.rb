@@ -19,18 +19,15 @@ class Transfer < Transition
     record.owned_by = to_user_name
     record.owned_by_full_name = to_user.full_name
     record.save! && save!
-    # TODO: Error states
   end
 
   def reject!
     return unless in_progress?
 
     self.status = record.status = Transition::STATUS_REJECTED
-    #self.rejected_reason = rejected_reason #TODO: but isnt this the PATCH?
 
     remove_assigned_user
     record.save! && save!
-    # TODO: Error states
   end
 
   def consent_given?

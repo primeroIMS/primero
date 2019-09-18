@@ -1,7 +1,5 @@
 class Assign < Transition
 
-  validates :to_user_name, :transitioned_by, presence: true
-
   def perform
     return if to_user.nil?
 

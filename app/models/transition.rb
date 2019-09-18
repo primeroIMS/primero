@@ -1,7 +1,5 @@
 class Transition < ApplicationRecord
 
-  #REFERRAL = "referral" ; REASSIGN = "reassign" ; TRANSFER = "transfer" ; TRANSFER_REQUEST = "transfer_request"
-
   STATUS_PENDING = "pending" ; STATUS_ACCEPTED = "accepted" ; STATUS_REJECTED = "rejected"
   STATUS_INPROGRESS = "in_progress" ; STATUS_DONE = "done"
 
@@ -11,6 +9,7 @@ class Transition < ApplicationRecord
   belongs_to :transitioned_by_user, class_name: 'User', 'foreign_key': 'transitioned_by',
              primary_key: 'user_name'
 
+  validates :to_user_name, :transitioned_by, presence: true
   validate :consent_given_or_overridden
   validate :user_can_receive
 

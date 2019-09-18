@@ -21,19 +21,24 @@ Rails.application.routes.draw do
         resources :flags, only: [:index, :create, :update]
         resources :assigns, only: [:index, :create]
         resources :referrals, only: [:index, :create, :destroy]
+        resources :transfers, only: [:index, :create, :update]
+        collection do
+          post :flags, to: 'flags#create_bulk'
+          post :assigns, to: 'assigns#create_bulk'
+          post :referrals, to: 'referrals#create_bulk'
+          post :transfers, to: 'transfers#create_bulk'
+        end
       end
-      match 'cases/assigns' => 'assigns#create_bulk', via: [:post]
-      match 'cases/referrals' => 'referrals#create_bulk', via: [:post]
 
       resources :incidents do
         resources :flags, only: [:index, :create, :update]
+        post :flags, to: 'flags#create_bulk', on: :collection
       end
 
       resources :tracing_requests do
         resources :flags, only: [:index, :create, :update]
+        post :flags, to: 'flags#create_bulk', on: :collection
       end
-
-      match ':record_type/flags' => 'flags#create_bulk', via: [:post]
 
       resources :form_sections, as: :forms, path: :forms
       resources :users

@@ -64,6 +64,25 @@ An assign changes the record owner of a particular record.
 * [Assign a record](v2/docs/assigns/id/post.md): `POST /api/v2/cases/:id/assigns`
 * [Assign a set of records in bulk](v2/docs/assigns/post.md): `POST /api/v2/cases/assigns`
 
+### Referrals
+
+A referral grants an additional user access to this record.
+* [List all referrals that took place for a record](v2/docs/referrals/id/get.md): `GET /api/v2/cases/:id/referrals`
+* [Refer a record](v2/docs/referrals/id/post.md): `POST /api/v2/cases/:id/referrals`
+* [Refer a set of records in bulk](v2/docs/referrals/post.md): `POST /api/v2/cases/referrals`
+* [Relinquish or retract a referral](v2/docs/referrals/id/delete.md): `DELETE /api/v2/cases/:id/referrals/:referral_id`
+
+
+### Transfers
+
+A transfer initiates a process to switch the record owner. 
+The receiving user must accept or reject the transfer before becoming the record owner.
+* [List all transfers that took place for a record](v2/docs/transfers/id/get.md): `GET /api/v2/cases/:id/transfers`
+* [Transfer a record](v2/docs/transfers/id/post.md): `POST /api/v2/cases/:id/transfers`
+* [Transfer a set of records in bulk](v2/docs/transfers/post.md): `POST /api/v2/cases/transfers`
+* [Accept or decline a transfer](v2/docs/referrals/id/patch.md): `PATCH /api/v2/cases/:id/transfers/:referral_id`
+
+
 ## Form Section Endpoints
 
 Endpoints for querying and manipulating individual form sections and related resources in Primero.
