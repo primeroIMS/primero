@@ -16,7 +16,7 @@ import { AlertDialog } from "components/alert-dialog";
 import { constructInitialValues } from "../helpers";
 import FormSectionField from "./FormSectionField";
 import styles from "./styles.css";
-import SubformField from "./SubformField";
+import { SubformField } from "./subforms";
 import * as C from "../constants";
 
 const ValidationErrors = () => {

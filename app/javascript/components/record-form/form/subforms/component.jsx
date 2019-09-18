@@ -1,5 +1,6 @@
+/* eslint-disable */
 /* eslint-disable react/no-array-index-key  */
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { FieldArray, connect, getIn } from "formik";
 import {
@@ -8,17 +9,18 @@ import {
   IconButton,
   ExpansionPanel,
   ExpansionPanelDetails,
-  ExpansionPanelSummary
+  ExpansionPanelSummary,
+  Dialog,
+  DialogContent
 } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { sortBy } from "lodash";
-import FormSectionField from "./FormSectionField";
-import { constructInitialValues } from "../helpers";
-import styles from "./styles.css";
+import SubformFieldArray from "./SubformFieldArray";
+import { constructInitialValues } from "../../helpers";
+import styles from "../styles.css";
 
 const SubformField = ({
   field,
@@ -38,8 +40,6 @@ const SubformField = ({
   const i18n = useI18n();
 
   const initialSubformValue = constructInitialValues([subformSectionID]);
-
-  const values = getIn(formik.values, name);
 
   const renderSubformHeading = (arrayHelpers, index, fieldSubform) => {
     const handleAddSubform = e => {
@@ -73,14 +73,14 @@ const SubformField = ({
     };
 
     return (
-      <Box display="flex">
+      <Box display="flex" alignItems="center">
         <Box flexGrow="1">
           <h3 className={css.subformHeading}>{displayName[i18n.locale]}</h3>
         </Box>
         <Box>
           {!mode.isShow && (
             <>
-              {!subformSectionID.subform_prevent_item_removal ? (
+              {!subformSectionID.subform_prevent_item_removal || mode.isNew ? (
                 <IconButton onClick={handleDeletedSubforms}>
                   <DeleteIcon />
                 </IconButton>
@@ -116,76 +116,21 @@ const SubformField = ({
     );
   };
 
-  const renderFields = arrayHelpers => {
-    if (values && values.length > 0) {
-      let sortedValues = [];
-      const sortSubformField = field.subform_sort_by;
-      if (sortSubformField) {
-        sortedValues = sortBy(values, v => {
-          let criteria;
-          if (!Number.isNaN(Date.parse(v[sortSubformField]))) {
-            criteria = new Date(v[sortSubformField]);
-          } else {
-            criteria = sortSubformField;
-          }
-          return criteria;
-        });
-      } else {
-        sortedValues = values;
-      }
-
-      return sortedValues.map((subForm, index) => {
-        return (
-          <div key={index}>
-            {ConditionalWrapper(
-              mode.isShow,
-              ExpansionWrapper,
-              renderSubformHeading(arrayHelpers, index, field),
-              <div className={css.exandedSubform}>
-                {field.subform_section_id.fields.map(f => {
-                  const fieldProps = {
-                    name: `${field.name}[${index}].${f.name}`,
-                    field: f,
-                    mode,
-                    index,
-                    parentField: field
-                  };
-                  return (
-                    <Box my={3} key={f.name}>
-                      <FormSectionField {...fieldProps} />
-                    </Box>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        );
-      });
-    }
-
-    return null;
-  };
-
-  const renderFieldArray = arrayHelpers => {
-    return (
-      <>
-        {renderFields(arrayHelpers)}
-        {!mode.isShow && (
-          <Button
-            size="medium"
-            variant="contained"
-            onClick={() => arrayHelpers.push(initialSubformValue)}
-          >
-            {i18n.t("form_section.buttons.add")}
-          </Button>
-        )}
-      </>
-    );
-  };
-
   return (
     <>
-      <FieldArray name={name} render={renderFieldArray} />
+      <FieldArray name={name}>
+        {arrayHelpers => (
+          <SubformFieldArray
+            arrayHelpers={arrayHelpers}
+            field={field}
+            mode={mode}
+            initialSubformValue={initialSubformValue}
+            subformFields={subformFields}
+            locale={i18n.locale}
+            formik={formik}
+          />
+        )}
+      </FieldArray>
     </>
   );
 };
