@@ -11,10 +11,10 @@ class TransferRequest < Transition
   def accept!
     self.status = Transition::STATUS_ACCEPTED
     save!
-    # TODO: How do we handle consent for the transfer from the beneficiary?
     Transfer.create!(
       to_user_name: transitioned_by, transitioned_by: to_user_name,
-      notes: notes, to_user_agency: to_user_agency, record: record
+      notes: notes, to_user_agency: to_user_agency, record: record,
+      consent_overridden: consent_individual_transfer
     )
   end
 

@@ -33,8 +33,10 @@ module Api::V2
 
     def transfer_request(record)
       notes = params[:data][:notes]
+      consent_individual_transfer = params[:data][:consent_individual_transfer] || false
       TransferRequest.create!(
         transitioned_by: current_user.user_name,
+        consent_individual_transfer: consent_individual_transfer,
         to_user_name: record.owned_by,
         notes: notes, record: record
       )
