@@ -151,7 +151,11 @@ module Exporters
           # TODO: RENAME Child to Case like we should have done months ago
           model_type = {'Child' => 'Case'}.fetch(m.class.name, m.class.name)
           row = [m.id, model_type] + emit_columns.call(properties) do |prop_tree|
-            translate_value(prop_tree, get_value_from_prop_tree(m, prop_tree))
+            if (m.try(:hidden_name) && prop_tree.present? && m.class.try(:hidden_field_names).include?(prop_tree.first.name))
+              ""
+            else
+              translate_value(prop_tree, get_value_from_prop_tree(m, prop_tree))
+            end
           end
 
           yield row
