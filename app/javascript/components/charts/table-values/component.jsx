@@ -1,4 +1,5 @@
 import React from "react";
+import { isArray } from "lodash";
 import PropTypes from "prop-types";
 import {
   Paper,
@@ -14,6 +15,23 @@ import styles from "./styles.css";
 const TableValues = ({ columns, values }) => {
   const css = makeStyles(styles)();
 
+  const singleRowRender = rowValues => (
+    <TableRow key={`${rowValues[0]}-data`}>
+      {rowValues.map(row => (
+        <TableCell key={`${row}-${Math.floor(Math.random() * 100 + 1)}-value`}>
+          {row}
+        </TableCell>
+      ))}
+    </TableRow>
+  );
+
+  const rowRender = rowValues => {
+    if (isArray(rowValues[0])) {
+      return rowValues.map(row => rowRender(row));
+    }
+    return singleRowRender(rowValues);
+  };
+
   return (
     <Paper className={css.root}>
       <Table className={css.table}>
@@ -24,19 +42,7 @@ const TableValues = ({ columns, values }) => {
             })}
           </TableRow>
         </TableHead>
-        <TableBody>
-          {values.map(value => (
-            <TableRow key={`${value[0]}-row-data`}>
-              {value.map(row => (
-                <TableCell
-                  key={`${row}-${Math.floor(Math.random() * 100 + 1)}-value`}
-                >
-                  {row}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
+        <TableBody>{rowRender(values)}</TableBody>
       </Table>
     </Paper>
   );

@@ -5,26 +5,15 @@ import { fromJS } from "immutable";
 import { Grid, Box, IconButton } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import { OptionsBox, ActionMenu } from "components/dashboard";
-import { BarChart } from "components/charts/bar-chart";
 import AddIcon from "@material-ui/icons/Add";
 import { PageContainer } from "components/page-container";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { useI18n } from "components/i18n";
-import { buildDataForReport } from "./helpers";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 import styles from "./styles.css";
 
-const Reports = ({
-  fetchCasesByNationality,
-  fetchCasesByAgeAndSex,
-  fetchCasesByProtectionConcern,
-  fetchCasesByAgency,
-  casesByNationality,
-  casesByAgeAndSex,
-  casesByProtectionConcern,
-  casesByAgency
-}) => {
+const Reports = ({ fetchReports, reports }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const actionMenuItems = fromJS([
@@ -44,35 +33,10 @@ const Reports = ({
       onClick: () => console.log("Do Something")
     }
   ]);
-  const reports = [
-    {
-      id: "casesByNationality",
-      title: "CASE BY NATIONALITY",
-      data: casesByNationality
-    },
-    {
-      id: "casesByAgeAndSex",
-      title: "CASES BY AGE AND SEX",
-      data: casesByAgeAndSex
-    },
-    {
-      id: "casesByProtectionConcern",
-      title: "CASES BY PROTECTION CONCERN",
-      data: casesByProtectionConcern
-    },
-    {
-      id: "casesByAgency",
-      title: "CASES BY AGENCY",
-      data: casesByAgency
-    }
-  ];
 
   useEffect(() => {
     batch(() => {
-      fetchCasesByNationality();
-      fetchCasesByAgeAndSex();
-      fetchCasesByProtectionConcern();
-      fetchCasesByAgency();
+      fetchReports({});
     });
   }, []);
 
@@ -92,17 +56,20 @@ const Reports = ({
           </Box>
         </Grid>
         <Grid container spacing={2}>
-          {reports.map(report => (
-            <Grid item xs={5} md={6} key={report.id}>
+          <Grid item md={12}>
+            {reports.map(report => (
               <OptionsBox
-                title={report.title}
+                key={report.id}
+                title={report.name[i18n.locale]}
                 to={`reports/${report.id}`}
                 action={<ActionMenu open={false} items={actionMenuItems} />}
               >
-                <BarChart {...buildDataForReport(report.data)} />
+                <div className={css.reportDescription}>
+                  {report.description[i18n.locale]}
+                </div>
               </OptionsBox>
-            </Grid>
-          ))}
+            ))}
+          </Grid>
         </Grid>
       </PageContainer>
     </div>
@@ -110,30 +77,18 @@ const Reports = ({
 };
 
 Reports.propTypes = {
-  fetchCasesByNationality: PropTypes.func,
-  fetchCasesByAgeAndSex: PropTypes.func,
-  fetchCasesByProtectionConcern: PropTypes.func,
-  fetchCasesByAgency: PropTypes.func,
-  casesByNationality: PropTypes.object,
-  casesByAgeAndSex: PropTypes.object,
-  casesByProtectionConcern: PropTypes.object,
-  casesByAgency: PropTypes.object
+  fetchReports: PropTypes.func,
+  reports: PropTypes.object
 };
 
 const mapStateToProps = state => {
   return {
-    casesByNationality: selectors.selectCasesByNationality(state),
-    casesByAgeAndSex: selectors.selectCasesByAgeAndSex(state),
-    casesByProtectionConcern: selectors.selectCasesByProtectionConcern(state),
-    casesByAgency: selectors.selectCasesByAgency(state)
+    reports: selectors.selectReports(state)
   };
 };
 
 const mapDispatchToProps = {
-  fetchCasesByNationality: actions.fetchCasesByNationality,
-  fetchCasesByAgeAndSex: actions.fetchCasesByAgeAndSex,
-  fetchCasesByProtectionConcern: actions.fetchCasesByProtectionConcern,
-  fetchCasesByAgency: actions.fetchCasesByAgency
+  fetchReports: actions.fetchReports
 };
 
 export default withRouter(

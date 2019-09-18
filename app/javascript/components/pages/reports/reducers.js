@@ -1,25 +1,25 @@
 import { fromJS, Map } from "immutable";
-import * as Actions from "./actions";
+import { mapEntriesToRecord } from "libs";
 import NAMESPACE from "./namespace";
+import * as Actions from "./actions";
+import * as R from "./records";
 
 const DEFAULT_STATE = Map({});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.CASES_BY_NATIONALITY:
-      return state.set(
-        "casesByNationality",
-        fromJS(payload.casesByNationality)
-      );
-    case Actions.CASES_BY_AGENCY:
-      return state.set("casesByAgency", fromJS(payload.casesByAgency));
-    case Actions.CASES_BY_AGE_AND_SEX:
-      return state.set("casesByAgeAndSex", fromJS(payload.casesByAgeAndSex));
-    case Actions.CASES_BY_PROTECTION_CONCERN:
-      return state.set(
-        "casesByProtectionConcern",
-        fromJS(payload.casesByProtectionConcern)
-      );
+    case Actions.FETCH_REPORTS_SUCCESS:
+      return state
+        .set("reports", mapEntriesToRecord(payload.data, R.ReportRecord))
+        .set("errors", false);
+    case Actions.FETCH_REPORTS_FAILURE:
+      return state.set("errors", true);
+    case Actions.FETCH_REPORT_SUCCESS:
+      return state
+        .set("selectedReport", fromJS(payload.data))
+        .set("errors", false);
+    case Actions.FETCH_REPORT_FAILURE:
+      return state.set("errors", true);
     default:
       return state;
   }

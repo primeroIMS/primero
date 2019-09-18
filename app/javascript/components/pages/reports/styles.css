@@ -11,3 +11,7 @@
 .new {
   color: $(theme.primero.colors.blue);
 }
+
+.reportDescription {
+  padding: 0 16px 10px 16px;
+}

@@ -6,7 +6,8 @@ import { withRouter, Link } from "react-router-dom";
 import { BarChart as BarChartGraphic, TableValues } from "components/charts";
 import { ArrowBackIos, TableChart, BarChart } from "@material-ui/icons";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { buildDataForReport, buildDataForTable } from "../helpers";
+import { useI18n } from "components/i18n";
+import { buildDataForGraph, buildDataForTable } from "../helpers";
 import * as selectors from "../selectors";
 import * as actions from "../action-creators";
 import styles from "./styles.css";
@@ -14,6 +15,7 @@ import styles from "./styles.css";
 const ReportDetail = ({ report, match, fetchReport }) => {
   const css = makeStyles(styles)();
   const { params } = match;
+  const i18n = useI18n();
 
   useEffect(() => {
     fetchReport(params.id);
@@ -51,10 +53,10 @@ const ReportDetail = ({ report, match, fetchReport }) => {
           </Box>
         </Grid>
         <Grid item xs={12}>
-          <BarChartGraphic {...buildDataForReport(report)} showDetails />
+          <BarChartGraphic {...buildDataForGraph(report, i18n)} showDetails />
         </Grid>
         <Grid item xs={12}>
-          <TableValues {...buildDataForTable(report)} />
+          <TableValues {...buildDataForTable(report, i18n)} />
         </Grid>
       </Grid>
     </div>
