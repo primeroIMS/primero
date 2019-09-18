@@ -80,7 +80,14 @@ The receiving user must accept or reject the transfer before becoming the record
 * [List all transfers that took place for a record](v2/docs/transfers/id/get.md): `GET /api/v2/cases/:id/transfers`
 * [Transfer a record](v2/docs/transfers/id/post.md): `POST /api/v2/cases/:id/transfers`
 * [Transfer a set of records in bulk](v2/docs/transfers/post.md): `POST /api/v2/cases/transfers`
-* [Accept or decline a transfer](v2/docs/referrals/id/patch.md): `PATCH /api/v2/cases/:id/transfers/:referral_id`
+* [Accept or decline a transfer](v2/docs/transfers/id/patch.md): `PATCH /api/v2/cases/:id/transfers/:transfer_id`
+
+### Transfer Requests
+
+A transfer request starts the workflow for initiating a transfer to the requesting user.
+* [List all transfer requests that took place for a record](v2/docs/transfer_requests/id/get.md): `GET /api/v2/cases/:id/transfer_requests`
+* [Make a transfer request for a record](v2/docs/transfer_requests/id/post.md): `POST /api/v2/cases/:id/transfer_requests`
+* [Accept or decline a transfer request](v2/docs/transfer_requests/id/patch.md): `PATCH /api/v2/cases/:id/transfer_requests/:transfer_request_id`
 
 
 ## Form Section Endpoints

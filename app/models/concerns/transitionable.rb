@@ -98,6 +98,10 @@ module Transitionable
     transitions.where(type: Transfer.name)
   end
 
+  def transfer_requests
+    transitions.where(type: TransferRequest.name)
+  end
+
   def transition_by_type_and_id(type, id)
     self.transitions.select{|t| t.type == type && t.id == id}.first
   end

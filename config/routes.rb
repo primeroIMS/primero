@@ -22,6 +22,7 @@ Rails.application.routes.draw do
         resources :assigns, only: [:index, :create]
         resources :referrals, only: [:index, :create, :destroy]
         resources :transfers, only: [:index, :create, :update]
+        resources :transfer_requests, only: [:index, :create, :update]
         collection do
           post :flags, to: 'flags#create_bulk'
           post :assigns, to: 'assigns#create_bulk'
