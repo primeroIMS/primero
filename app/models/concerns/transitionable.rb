@@ -76,7 +76,7 @@ module Transitionable
   end
 
   def referrals_for_user(user)
-    if self.owned_by != user.user_name
+    if owned_by != user.user_name
       referrals.where(to_user_name: user.user_name)
     else
       referrals
@@ -100,6 +100,23 @@ module Transitionable
 
   def transfer_requests
     transitions.where(type: TransferRequest.name)
+  end
+
+  def transitions_for_user(user, types=[])
+    unless types.present?
+      types = [Assign.name, Transfer.name, Referral.name, TransferRequest.name]
+    end
+    if (owned_by != user.user_name) && types.include?(Referral.name)
+      types.delete(Referral.name)
+      transitions.where(type: types).or(
+        transitions.where(
+          type: Referral.name,
+          to_user_name: user.user_name
+        )
+      )
+    else
+      transitions.where(type: types)
+    end
   end
 
   def transition_by_type_and_id(type, id)

@@ -60,14 +60,14 @@ Currently only case records may be transitioned. We have the following:
 ### Assigns
 
 An assign changes the record owner of a particular record.
-* [List all record assignments that took place for a record](v2/docs/assigns/id/get.md): `GET /api/v2/cases/:id/assigns`
+* [List all record assignments that took place for a record](v2/docs/assigns/get.md): `GET /api/v2/cases/:id/assigns`
 * [Assign a record](v2/docs/assigns/id/post.md): `POST /api/v2/cases/:id/assigns`
 * [Assign a set of records in bulk](v2/docs/assigns/post.md): `POST /api/v2/cases/assigns`
 
 ### Referrals
 
 A referral grants an additional user access to this record.
-* [List all referrals that took place for a record](v2/docs/referrals/id/get.md): `GET /api/v2/cases/:id/referrals`
+* [List all referrals that took place for a record](v2/docs/referrals/get.md): `GET /api/v2/cases/:id/referrals`
 * [Refer a record](v2/docs/referrals/id/post.md): `POST /api/v2/cases/:id/referrals`
 * [Refer a set of records in bulk](v2/docs/referrals/post.md): `POST /api/v2/cases/referrals`
 * [Relinquish or retract a referral](v2/docs/referrals/id/delete.md): `DELETE /api/v2/cases/:id/referrals/:referral_id`
@@ -77,7 +77,7 @@ A referral grants an additional user access to this record.
 
 A transfer initiates a process to switch the record owner. 
 The receiving user must accept or reject the transfer before becoming the record owner.
-* [List all transfers that took place for a record](v2/docs/transfers/id/get.md): `GET /api/v2/cases/:id/transfers`
+* [List all transfers that took place for a record](v2/docs/transfers/get.md): `GET /api/v2/cases/:id/transfers`
 * [Transfer a record](v2/docs/transfers/id/post.md): `POST /api/v2/cases/:id/transfers`
 * [Transfer a set of records in bulk](v2/docs/transfers/post.md): `POST /api/v2/cases/transfers`
 * [Accept or decline a transfer](v2/docs/transfers/id/patch.md): `PATCH /api/v2/cases/:id/transfers/:transfer_id`
@@ -85,10 +85,14 @@ The receiving user must accept or reject the transfer before becoming the record
 ### Transfer Requests
 
 A transfer request starts the workflow for initiating a transfer to the requesting user.
-* [List all transfer requests that took place for a record](v2/docs/transfer_requests/id/get.md): `GET /api/v2/cases/:id/transfer_requests`
+* [List all transfer requests that took place for a record](v2/docs/transfer_requests/get.md): `GET /api/v2/cases/:id/transfer_requests`
 * [Make a transfer request for a record](v2/docs/transfer_requests/id/post.md): `POST /api/v2/cases/:id/transfer_requests`
 * [Accept or decline a transfer request](v2/docs/transfer_requests/id/patch.md): `PATCH /api/v2/cases/:id/transfer_requests/:transfer_request_id`
 
+### Transitions
+
+A transition is a Transfer, Assign, Referral, or TransferRequests.
+* [List all transitions for this record](v2/docs/transitions/get.md): `GET /api/v2/cases/:id/transitions`
 
 ## Form Section Endpoints
 
