@@ -74,7 +74,7 @@ SwitchButton.propTypes = {
   options: PropTypes.object,
   field_name: PropTypes.string,
   recordType: PropTypes.string,
-  switchButtons: PropTypes.object,
+  switchButtons: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   setSwitchButton: PropTypes.func,
   option_strings_source: PropTypes.string
 };

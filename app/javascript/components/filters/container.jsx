@@ -108,6 +108,7 @@ const Filters = ({ recordType, defaultFilters }) => {
           recordType={recordType}
           filters={availableFilters}
           resetPanel={resetFilterValues}
+          defaultFilters={defaultFilters}
         />
       )}
       {tabValue === 1 && <h1 style={{ textAlign: "center" }}>NYI</h1>}
