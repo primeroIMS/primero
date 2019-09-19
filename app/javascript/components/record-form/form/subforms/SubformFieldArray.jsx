@@ -1,9 +1,9 @@
-/* eslint-disable */
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { IconButton, Box } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import SubformFields from "./SubformFields";
 import { getIn } from "formik";
+import SubformFields from "./SubformFields";
 import SubformDialog from "./SubformDialog";
 
 const SubformFieldArray = ({
@@ -11,7 +11,7 @@ const SubformFieldArray = ({
   mode,
   initialSubformValue,
   field,
-  locale,
+  i18n,
   formik
 }) => {
   const { display_name: displayName, name } = field;
@@ -24,12 +24,15 @@ const SubformFieldArray = ({
   };
 
   const { open, index } = openDialog;
+  const title = displayName?.[i18n.locale];
 
   return (
     <>
-      <Box display="flex">
+      <Box display="flex" alignItems="center">
         <Box flexGrow={1}>
-          <h4>{displayName?.[locale]}</h4>
+          <h4>
+            {!mode.isShow && i18n.t("fields.add")} {title}
+          </h4>
         </Box>
         <Box>
           {!mode.isShow && (
@@ -47,7 +50,7 @@ const SubformFieldArray = ({
         arrayHelpers={arrayHelpers}
         field={field}
         values={values}
-        locale={locale}
+        locale={i18n.locale}
         mode={mode}
         setOpen={setOpenDialog}
       />
@@ -57,9 +60,20 @@ const SubformFieldArray = ({
         mode={mode}
         open={open}
         setOpen={setOpenDialog}
+        title={title}
+        i18n={i18n}
       />
     </>
   );
+};
+
+SubformFieldArray.propTypes = {
+  formik: PropTypes.object.isRequired,
+  arrayHelpers: PropTypes.object.isRequired,
+  initialSubformValue: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired,
+  field: PropTypes.object.isRequired,
+  mode: PropTypes.object.isRequired
 };
 
 export default SubformFieldArray;

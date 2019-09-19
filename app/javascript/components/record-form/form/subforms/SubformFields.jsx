@@ -1,9 +1,11 @@
-/* eslint-disable */
-import React, { useState } from "react";
+/* eslint-disable  react/no-array-index-key */
+import React from "react";
+import PropTypes from "prop-types";
 import { sortBy } from "lodash";
 import { Box, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
+import SubformHeader from "./SubformHeader";
 
 const SubformFields = ({
   arrayHelpers,
@@ -20,30 +22,19 @@ const SubformFields = ({
     name
   } = field;
 
-  const { isShow, isEdit } = mode;
+  const { isEdit, isNew } = mode;
 
   const handleDelete = index => {
-    if (isEdit) {
-      values[index]._destroy = true;
+    if (isEdit || isNew) {
+      // eslint-disable-next-line camelcase
       const uniqueId = values?.[index]?.unique_id;
 
       if (uniqueId) {
-        let updatedData = name || [];
-        updatedData = [
-          ...updatedData,
-          {
-            _destroy: true,
-            unique_id: uniqueId
-          }
-        ];
-        setSubformFields({
-          ...subformFields,
-          [formName]: updatedData
-        });
+        arrayHelpers.replace(index, { _destroy: true, unique_id: uniqueId });
+      } else {
+        arrayHelpers.remove(index);
       }
     }
-
-    arrayHelpers.remove(index);
   };
 
   const handleEdit = index => {
@@ -70,11 +61,21 @@ const SubformFields = ({
     return (
       <>
         {sortedValues.map((c, index) => {
+          if (values?.[index]?._destroy) return false;
+
           return (
-            <Box key={`${name}-${index}`} display="flex">
-              <Box flexGrow={1}>{displayName?.[locale]}</Box>
+            <Box key={`${name}-${index}`} display="flex" alignItems="center">
+              <Box flexGrow={1}>
+                <SubformHeader
+                  field={field}
+                  index={index}
+                  displayName={displayName}
+                  locale={locale}
+                  values={values}
+                />
+              </Box>
               <Box>
-                {!subformPreventItemRemoval || mode.isNew ? (
+                {!subformPreventItemRemoval && !mode.isShow ? (
                   <IconButton onClick={() => handleDelete(index)}>
                     <DeleteIcon />
                   </IconButton>
@@ -91,6 +92,15 @@ const SubformFields = ({
   }
 
   return null;
+};
+
+SubformFields.propTypes = {
+  arrayHelpers: PropTypes.object.isRequired,
+  field: PropTypes.object.isRequired,
+  values: PropTypes.array.isRequired,
+  locale: PropTypes.string.isRequired,
+  mode: PropTypes.object.isRequired,
+  setOpen: PropTypes.func.isRequired
 };
 
 export default SubformFields;
