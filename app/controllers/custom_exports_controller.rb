@@ -1,6 +1,5 @@
 class CustomExportsController < ApplicationController
 
-  include ReportsHelper
   include ExportActions
   include Exporters
 
@@ -24,6 +23,26 @@ class CustomExportsController < ApplicationController
       true
     )
     render json: permitted_fields
+  end
+
+  def select_options_fields_grouped_by_form(grouped_fields, include_type=false)
+    unique_fields = Set.new
+    grouped_fields_options = []
+    if grouped_fields.present?
+      grouped_fields.keys.each do |module_name|
+        grouped_fields[module_name].each do |form|
+          form_array = ["#{form[0]} (#{module_name})", []]
+          form[1].each do |field|
+            if unique_fields.add? field[0]
+              form_array[1] << [field[1], field[0]]
+              form_array[1].last << field[2] if include_type
+            end
+          end
+          grouped_fields_options << form_array
+        end
+      end
+    end
+    return grouped_fields_options
   end
 
   private
