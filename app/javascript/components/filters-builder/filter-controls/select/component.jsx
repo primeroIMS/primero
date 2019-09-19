@@ -84,7 +84,7 @@ SelectFilter.propTypes = {
   options: PropTypes.object,
   field_name: PropTypes.string,
   option_strings_source: PropTypes.string,
-  selectValues: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  selectValues: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   setSelectValue: PropTypes.func,
   isDate: PropTypes.bool
 };

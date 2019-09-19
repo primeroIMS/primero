@@ -36,7 +36,7 @@ const RecordList = ({ match }) => {
     page: 1,
     ...{
       ...(recordType === "cases"
-        ? { child_status: ["open"], record_state: ["true"] }
+        ? { status: ["open"], record_state: ["true"] }
         : {})
     },
     ...{
@@ -46,7 +46,7 @@ const RecordList = ({ match }) => {
     },
     ...{
       ...(recordType === "tracing_requests"
-        ? { inquiry_status: ["open"], record_state: ["true"] }
+        ? { status: ["open"], record_state: ["true"] }
         : {})
     }
   });
