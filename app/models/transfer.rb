@@ -64,7 +64,6 @@ class Transfer < Transition
     record.transfer_status = status
     record.reassigned_transferred_on = DateTime.now
     record.save!
-    # TODO: Send notification email
   end
 
   def remove_assigned_user

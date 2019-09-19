@@ -51,10 +51,7 @@ class Referral < Transition
     else
       record.assigned_user_names = [to_user_name]
     end
-    record.save
-    # TODO: Send notification email:
-    # record.send_transition_email(Transition::REFERRAL, request.base_url) if @system_settings.try(:notification_email_enabled)
-    # TransitionNotifyJob.perform_later(transition_type, self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
+    record.save!
   end
 
   def perform_remote_referral

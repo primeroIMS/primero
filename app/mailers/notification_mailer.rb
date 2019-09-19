@@ -1,4 +1,6 @@
 class NotificationMailer < ApplicationMailer
+  helper :application
+
   def manager_approval_request(user_id, manager_id, record_id, approval_type, host_url)
     @user = User.find_by(id: user_id)
     @manager = User.find_by(id: manager_id)
@@ -41,32 +43,31 @@ class NotificationMailer < ApplicationMailer
     end
   end
 
-  def transition_notify(transition_type, record_class, record_id, transition_id, host_url)
-    @model_class = record_class.constantize
-    @record = @model_class.find_by(id: record_id)
-    if @record.present? && @record.transitions.present?
-      transition = @record.transition_by_type_and_id(transition_type, transition_id)
-      if transition.present?
-        @transition_type = transition_type
-        @user_to = User.find_by_user_name(transition.to_user_name)
-        @user_from = User.find_by_user_name(transition.transitioned_by)
-        if @user_to.present? && @user_to.email.present? && @user_to.send_mail && @user_from.present?
-          @agency_from = @user_from.agency.try(:name)
-          @service_type = (transition_type == Transition::REFERRAL ?  Lookup.display_value('lookup-service-type', transition.service) : '')
-          @url = "#{host_url}/#{@model_class.parent_form.pluralize}/#{@record.id}"
-          @record_type = @model_class.parent_form.titleize
-          mail(:to => @user_to.email,
-               :subject => t("email_notification.#{transition_type}_subject", record_type: @record_type, id: @record.short_id))
-        else
-          Rails.logger.error "#{transition_type} Mail not sent - Valid user not found for [RecordType: #{record_class}  "\
-                             "ID: #{record_id}  To User: #{@user_to.try(:id)}  To User Email: #{@user_to.try(:email)}  "\
-                             "To User send_mail: #{@user_to.try(:send_mail)}  From User: #{@user_from.try(:id)}]"
-        end
+  def transition_notify(transition_id)
+    @transition = Transition.find_by(id: transition_id)
+    if @transition.present?
+      record = @transition.record
+      transitioned_to_user = @transition.to_user
+      if transitioned_to_user&.email && transitioned_to_user&.send_mail
+        mail(
+          to: transitioned_to_user.email,
+          subject: t(
+            "email_notification.#{@transition.key}_subject",
+            record_type: t("forms.record_types.#{record.class.parent_form}"),
+            id: record.short_id
+          )
+        )
       else
-        Rails.logger.error "#{transition_type} Mail not sent - Transition not found for [RecordType: #{record_class} ID: #{record_id}]"
+        Rails.logger.error(
+          "Mail not sent - Valid user not found for Transition #{transition_id} "\
+          "To User: #{@transition.to_user_name} "\
+          "To User Email: #{transitioned_to_user&.email} "\
+          "To User send_mail: #{transitioned_to_user&.send_mail} "\
+          "From User: #{@transition.transitioned_by}]"
+        )
       end
     else
-      Rails.logger.error "#{transition_type} Mail not sent - Transition not found for [RecordType: #{record_class} ID: #{record_id}]"
+      Rails.logger.error "Mail not sent - Transition #{transition_id} not found"
     end
   end
 

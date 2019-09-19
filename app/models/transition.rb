@@ -15,6 +15,7 @@ class Transition < ApplicationRecord
 
   after_initialize :defaults, unless: :persisted?
   before_create :perform
+  after_commit :notify_by_email
 
   def defaults
     self.created_at ||= DateTime.now
@@ -52,6 +53,14 @@ class Transition < ApplicationRecord
     (!to_user.disabled) &&
     (to_user.role.permissions.any? { |ps| ps.resource == record.class.parent_form }) &&
     (to_user.modules.pluck(:unique_id).include? record.module_id)
+  end
+
+  def key
+    type.underscore
+  end
+
+  def notify_by_email
+    TransitionNotifyJob.perform_later(id)
   end
 
 end
