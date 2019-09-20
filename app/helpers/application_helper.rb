@@ -30,7 +30,7 @@ module ApplicationHelper
   }
 
   def url_for_v2(model_object)
-    "https://#{host_url}/v2/#{resource_for_v2(model_object)}/#{model_object.id}"
+    "#{root_url}v2/#{resource_for_v2(model_object)}/#{model_object.id}"
   end
 
   def resource_for_v2(model_object)
