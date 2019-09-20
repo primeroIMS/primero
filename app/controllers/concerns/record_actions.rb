@@ -3,7 +3,6 @@ module RecordActions
 
   include ImportActions
   include ExportActions
-  include TransitionActions
   include MarkForMobileActions
   include AuditLogActions
 

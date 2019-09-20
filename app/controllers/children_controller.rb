@@ -4,7 +4,6 @@ class ChildrenController < ApplicationController
   include IndexHelper
   include RecordFilteringPagination
   include ApprovalActions
-  #include FieldsHelper
 
   before_action :filter_params_array_duplicates, :only => [:create, :update]
   before_action :filter_params_by_permission, :only => [:create, :update]
@@ -22,27 +21,6 @@ class ChildrenController < ApplicationController
   def new_search
   end
 
-
-  # def hide_name
-  #   if params[:protect_action] == "protect"
-  #     hide = true
-  #   elsif params[:protect_action] == "view"
-  #     hide = false
-  #   end
-  #   authorize! :update, @child
-  #   @child.hidden_name = hide
-  #   if @child.save
-  #     render :json => {:error => false,
-  #                      :input_field_text => hide ? I18n.t("cases.hidden_text_field_text") : @child.name,
-  #                      :disable_input_field => hide,
-  #                      :action_link_action => hide ? "view" : "protect",
-  #                      :action_link_text => hide ? I18n.t("cases.view_name") : I18n.t("cases.hide_name")
-  #                     }
-  #   else
-  #     puts @child.errors.messages
-  #     render :json => {:error => true, :text => I18n.t("cases.hide_name_error"), :accept_button_text => I18n.t("cases.ok")}
-  #   end
-  # end
 
   def create_incident
     begin
@@ -145,18 +123,6 @@ class ChildrenController < ApplicationController
     end
   end
 
-  # def request_transfer_view
-  #   authorize! :request_transfer, model_class
-  #
-  #   html = ChildrenController.new.render_to_string(partial: "children/request_transfer", layout: false, locals: {
-  #     child: @child,
-  #   })
-  #
-  #   respond_to do |format|
-  #     format.html {render plain: html}
-  #   end
-  # end
-
   def quick_view
     authorize! :display_view_page, model_class
     form_sections = @child.present? ? current_user.permitted_forms(@child.module, @child.class.parent_form, true) : nil
@@ -174,43 +140,6 @@ class ChildrenController < ApplicationController
     end
   end
 
-  # def reopen_case
-  #   authorize! :update, model_class
-  #   @child.reopen(params[:child_status], params[:case_reopened], current_user.user_name)
-  #   if @child.save
-  #     render :json => { :success => true, :error_message => "", :reload_page => true }
-  #   else
-  #     render :json => { :success => false, :error_message => @child.errors.messages, :reload_page => true }
-  #   end
-  # end
-
-  def relinquish_referral
-    #TODO move Transition business logic to the model.
-    referral_id = params[:transition_id]
-
-    # TODO: this may require its own permission in the future.
-    authorize! :read, @child
-
-    active_transitions_count = @child.referrals.select { |t| t.id != referral_id && t.in_progress? && t.assigned_to_user?(@current_user.user_name) }.count
-    referral = @child.referrals.select { |r| r.id == referral_id }.first
-
-    referral.status = Transition::STATUS_DONE
-
-    if active_transitions_count == 0
-      @child.assigned_user_names = @child.assigned_user_names.reject{|u| u == @current_user.user_name}
-    end
-
-    respond_to do |format|
-      if @child.save
-        flash[:notice] = t("referral.done_success_message")
-        redirect_to cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
-        return
-      else
-        flash[:notice] = @child.errors.messages
-        format.html { redirect_after_update }
-      end
-    end
-  end
 
   def match_record
     load_tracing_request
@@ -245,42 +174,6 @@ class ChildrenController < ApplicationController
     @sex_field = Field.get_by_name('sex')
     @agency_offices = Lookup.values('lookup-agency-office')
     @user_group_ids = UserGroup.all.ids
-  end
-
-  def transfer_status
-    authorize! :read, model_class
-
-    transfer_id = params[:transition_id]
-    transition_status = params[:transition_status]
-
-    respond_to do |format|
-      status = @child.transitions_transfer_status(transfer_id, transition_status, @current_user, params[:rejected_reason])
-      case status
-        when :transition_unknown_transfer_status
-          flash[:notice] = t('transfer.unknown_status', status: transition_status)
-          format.html { redirect_after_update }
-        when :transition_unknown_transfer
-          flash[:notice] = t('transfer.unknown_transfer', record_type: model_class.parent_form.titleize, id: @child.short_id)
-          format.html { redirect_after_update }
-        when :transition_not_valid_transfer
-          flash[:notice] = t('transfer.not_valid_transfer', record_type: model_class.parent_form.titleize, id: @child.short_id)
-          format.html { redirect_after_update }
-        when :transition_transfer_status_updated
-          if @child.save
-            if transition_status == Transition::STATUS_REJECTED
-              flash[:notice] = t('transfer.rejected', record_type: model_class.parent_form.titleize, id: @child.short_id)
-              redirect_to cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
-              return
-            else
-              flash[:notice] = t('transfer.success', record_type: model_class.parent_form.titleize, id: @child.short_id)
-              format.html { redirect_after_update }
-            end
-          else
-            flash[:notice] = @child.errors.messages
-            format.html { redirect_after_update }
-          end
-      end
-    end
   end
 
   #override method in record_actions to handle instances that use child_id instead of id
