@@ -10,22 +10,15 @@ module Api::V2
     def create
       authorize! :request_transfer, @record.class
       @transition = transfer_request(@record)
+      updates_for_record
       render 'api/v2/transitions/create'
     end
 
     def update
       authorize! :read, @record
       @transition = TransferRequest.find(params[:id])
-      transition_status = params[:data][:status]
-      if transition_status != @transition.status
-        case transition_status
-        when Transition::STATUS_ACCEPTED
-          @transition.accept!
-        when Transition::STATUS_REJECTED
-          @transition.rejected_reason = params[:data][:rejected_reason]
-          @transition.reject!
-        end
-      end
+      @transition.respond!(params[:data])
+      updates_for_record
       render 'api/v2/transitions/update'
     end
 

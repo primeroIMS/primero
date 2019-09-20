@@ -22,6 +22,12 @@ module Record
     end
   end
 
+  def self.map_name(name)
+    name = name.underscore
+    name = 'case' if name == 'child'
+    name
+  end
+
   module ClassMethods
 
     def new_with_user(user, data = {})

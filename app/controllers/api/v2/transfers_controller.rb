@@ -10,12 +10,14 @@ module Api::V2
     def create
       authorize! :transfer, @record
       @transition = transfer(@record)
+      updates_for_record
       render 'api/v2/transitions/create'
     end
 
     def create_bulk
       authorize_all!(:transfer, @records)
       @transitions = @records.map { |record| transfer(record) }
+      updates_for_records
       render 'api/v2/transitions/create_bulk'
     end
 
@@ -32,6 +34,7 @@ module Api::V2
           @transition.reject!
         end
       end
+      updates_for_record
       render 'api/v2/transitions/update'
     end
 

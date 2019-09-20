@@ -7,6 +7,19 @@ class TransferRequest < Transition
     record.save!
   end
 
+  def respond!(params)
+    status = params[:status]
+    return if status == self.status
+
+    case status
+    when Transition::STATUS_ACCEPTED
+      accept!
+    when Transition::STATUS_REJECTED
+      self.rejected_reason = params[:rejected_reason]
+      reject!
+    end
+  end
+
   def accept!
     self.status = Transition::STATUS_ACCEPTED
     save!

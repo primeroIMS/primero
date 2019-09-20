@@ -10,12 +10,14 @@ module Api::V2
     def create
       authorize! :assign, @record
       @transition = assign(@record)
+      updates_for_record
       render 'api/v2/transitions/create'
     end
 
     def create_bulk
       authorize_all!(:assign, @records)
       @transitions = @records.map { |record| assign(record) }
+      updates_for_records
       render 'api/v2/transitions/create_bulk'
     end
 
