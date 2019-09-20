@@ -57,8 +57,8 @@ describe("<RecordForms /> - Helpers", () => {
           }
         ]
       };
-
-      expect(helpers.compactValues(values, initialValues)).to.eql(expected);
+      console.log(helpers.compactValues(values, initialValues), expected)
+      expect(helpers.compactValues(values, initialValues)).to.deep.equal(expected);
     });
   });
 });

@@ -1,21 +1,41 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-shadow */
 /* eslint-disable func-names */
-import { isEmpty, transform, isEqual, isObject } from "lodash";
+import { isArray, isEmpty, transform, isEqualWith, isObject, isEqual } from "lodash";
 import { isDate, format } from "date-fns";
 import * as C from "./constants";
 
+function customizer(baseValue, value) {
+  if (Array.isArray(baseValue) && Array.isArray(value)) {
+    return isEqual(baseValue.sort(), value.sort());
+  }
+}
+
 function difference(object, base, nested) {
+  let arrayIndexCounter = 0;
+
   return transform(object, (result, value, key) => {
-    if (!isEqual(value, base[key]) || (nested && key === "unique_id")) {
+    if (
+      !isEqualWith(value, base[key], customizer) ||
+      (nested && key === "unique_id")
+    ) {
       let val = value;
       if (isDate(val)) {
         val = format(value, "dd-MMM-yyyy");
       }
-      result[key] =
+
+      let resultKey = isArray(base) ? arrayIndexCounter++ : key;
+
+      result[resultKey] =
         isObject(value) && isObject(base[key])
           ? difference(value, base[key], true)
           : val;
+
+      if (isObject(result[resultKey]) && isEmpty(result[resultKey])) {
+        delete result[resultKey];
+      } else if (isEmpty(result[resultKey])) {
+        result[resultKey] = null;
+      }
     }
   });
 }

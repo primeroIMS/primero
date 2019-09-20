@@ -8,8 +8,9 @@ import * as R from "./records";
 import * as selectors from "./selectors";
 
 chai.use(chaiImmutable);
-const formSections = [
-  {
+
+const formSections = {
+  62: {
     id: 62,
     unique_id: "basic_identity",
     name: {
@@ -39,9 +40,10 @@ const formSections = [
     fields: [1],
     is_nested: null
   }
-];
-const fields = [
-  {
+};
+
+const fields = {
+  1: {
     name: "name_first",
     type: "text_field",
     editable: true,
@@ -64,7 +66,7 @@ const fields = [
     required: true,
     date_validation: "default_date_validation"
   }
-];
+};
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
   ui: Map({
@@ -160,12 +162,12 @@ describe("<RecordForm /> - Selectors", () => {
         sex: "male",
         short_id: "2063a4b"
       });
-      const record = selectors.getRecord(stateWithRecords);
+      const record = selectors.getRecord(stateWithRecords, { isEdit: true });
       expect(record).to.deep.equal(expected);
     });
 
     it("should return undefined when there is not any record selected", () => {
-      const record = selectors.getRecord(stateWithNoRecords);
+      const record = selectors.getRecord(stateWithNoRecords, { isEdit: true });
       expect(record).to.be.an("undefined");
     });
   });
@@ -225,16 +227,18 @@ describe("<RecordForm /> - Selectors", () => {
           is_nested: null
         })
       ]);
-      const record = selectors.getRecordForms(stateWithRecords, {
+      const forms = selectors.getRecordForms(stateWithRecords, {
         primeroModule: "primeromodule-cp",
         recordType: "case"
       });
 
-      expect(List(Object.keys(record.toJS()[0]))).to.deep.equal(
+      const [...formValues] = forms.values()
+
+      expect(List(Object.keys(formValues['0'].toJS()))).to.deep.equal(
         List(Object.keys(expected.toJS()[0]))
       );
 
-      expect(Object.values(record.toJS()[0]).length).to.be.equal(
+      expect(Object.values(formValues['0'].toJS()).length).to.be.equal(
         Object.values(expected.toJS()[0]).length
       );
     });
@@ -249,7 +253,7 @@ describe("<RecordForm /> - Selectors", () => {
     it("should return the forms nav", () => {
       const expected = OrderedMap({
         identification_registration: OrderedMap({
-          0: R.NavRecord({
+          "62": R.NavRecord({
             group: "identification_registration",
             groupName: "Identification / Registration",
             groupOrder: 30,
@@ -319,5 +323,4 @@ describe("<RecordForm /> - Selectors", () => {
       expect(record).to.be.equal(null);
     });
   });
-
 });
