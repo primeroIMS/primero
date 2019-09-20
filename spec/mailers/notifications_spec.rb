@@ -60,6 +60,7 @@ describe NotificationMailer, type: :mailer do
       @user1 = User.new(
         user_name: 'user1', role: @role, user_groups: [@group1],
         modules: [@primero_module],
+        email: 'uzer1@test.com', send_mail: true,
         agency: agency
       )
       @user1.save(validate: false)
@@ -80,54 +81,71 @@ describe NotificationMailer, type: :mailer do
       )
     end
 
-    describe "referral" do
+    describe 'referral' do
       before do
         @referral = Referral.create!(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
       end
 
       let(:mail) { NotificationMailer.transition_notify(@referral.id) }
 
-      it "renders the headers" do
+      it 'renders the headers' do
         expect(mail.subject).to eq("Case: #{@case.short_id} - Referral")
         expect(mail.to).to eq(['uzer_to@test.com'])
       end
 
-      it "renders the body" do
-        expect(mail.body.encoded).to match("user1 from Test Agency has referred the following Case to you")
+      it 'renders the body' do
+        expect(mail.body.encoded).to match('user1 from Test Agency has referred the following Case to you')
       end
     end
 
-    describe "transfer" do
+    describe 'transfer' do
       before do
         @transfer = Transfer.create!(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
       end
 
       let(:mail) { NotificationMailer.transition_notify(@transfer.id)}
 
-      it "renders the headers" do
+      it 'renders the headers' do
         expect(mail.subject).to eq("Case: #{@case.short_id} - Transfer")
         expect(mail.to).to eq(['uzer_to@test.com'])
       end
 
-      it "renders the body" do
-        expect(mail.body.encoded).to match("user1 has transferred the following Case to you")
+      it 'renders the body' do
+        expect(mail.body.encoded).to match('user1 has transferred the following Case to you')
       end
     end
 
-    describe "assign" do
+    describe 'assign' do
       before do
         @assign = Assign.create!(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
       end
 
       let(:mail) { NotificationMailer.transition_notify(@assign.id) }
 
-      it "renders the headers" do
+      it 'renders the headers' do
         expect(mail.subject).to eq("Case: #{@case.short_id} - Assigned to you")
         expect(mail.to).to eq(['uzer_to@test.com'])
       end
 
-      it "renders the body" do
-        expect(mail.body.encoded).to match("user1 has assigned the following Case to you")
+      it 'renders the body' do
+        expect(mail.body.encoded).to match('user1 has assigned the following Case to you')
+      end
+    end
+
+    describe 'transition request' do
+      before do
+        @transfer_request = TransferRequest.create!(transitioned_by: 'user2', to_user_name: 'user1', record: @case)
+      end
+
+      let(:mail) { NotificationMailer.transition_notify(@transfer_request.id) }
+
+      it 'renders the headers' do
+        expect(mail.subject).to eq('Transfer request for one of your cases')
+        expect(mail.to).to eq(['uzer1@test.com'])
+      end
+
+      it 'renders the body' do
+        expect(mail.body.encoded).to match('Primero user user2 from Test Agency is requesting that you transfer ownership')
       end
     end
 

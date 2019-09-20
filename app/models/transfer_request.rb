@@ -5,7 +5,6 @@ class TransferRequest < Transition
     record.update_last_updated_by(transitioned_by_user)
     # TODO: Add alert on referrals and transfers form for record
     record.save!
-    # TODO: Send notification email to the record owner
   end
 
   def accept!
@@ -27,5 +26,9 @@ class TransferRequest < Transition
 
   def user_can_receive?
     super && (record.owned_by == to_user_name)
+  end
+
+  def notify_by_email
+    RequestTransferJob.perform_later(id)
   end
 end

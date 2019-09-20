@@ -5,9 +5,9 @@ class Transition < ApplicationRecord
 
   belongs_to :record, polymorphic: true
   belongs_to :to_user, class_name: 'User', foreign_key: 'to_user_name',
-             primary_key: 'user_name', optional: true
-  belongs_to :transitioned_by_user, class_name: 'User', 'foreign_key': 'transitioned_by',
              primary_key: 'user_name'
+  belongs_to :transitioned_by_user, class_name: 'User',
+             foreign_key: 'transitioned_by', primary_key: 'user_name'
 
   validates :to_user_name, :transitioned_by, presence: true
   validate :consent_given_or_overridden
