@@ -417,6 +417,9 @@ en:
       delete_error: "Delete failed."
       saved_searches_tab: "Saved Searches"
       filters_tab: "Filters"
+      not_found: "No saved searches found"
+      title_modal: "Delete saved searches"
+      title_description: "Are you sure you want to delete this saved search?"
 
   task:
     id: "ID#"

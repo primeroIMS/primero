@@ -5,6 +5,7 @@ import { RECORD_TYPES } from "config";
 import * as I18n from "components/i18n";
 import * as Login from "components/pages/login";
 import * as Flagging from "components/flagging";
+import * as SavedSearches from "components/saved-searches";
 import * as Nav from "./components/nav";
 import * as Dashboard from "./components/pages/dashboard";
 import * as Reports from "./components/pages/reports";
@@ -39,7 +40,8 @@ const rootReducer = {
     ...Reports.reducers,
     ...ExportList.reducers,
     ...Support.reducers,
-    ...Flagging.reducers
+    ...Flagging.reducers,
+    ...SavedSearches.reducers
   }),
   ui: combineReducers({
     ...Nav.reducers,

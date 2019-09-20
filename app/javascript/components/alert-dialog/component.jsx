@@ -10,7 +10,13 @@ import {
   DialogTitle
 } from "@material-ui/core";
 
-const AlertDialog = ({ open, successHandler, cancelHandler }) => {
+const AlertDialog = ({
+  open,
+  successHandler,
+  cancelHandler,
+  title,
+  description
+}) => {
   const i18n = useI18n();
 
   const handleClose = () => {
@@ -31,11 +37,11 @@ const AlertDialog = ({ open, successHandler, cancelHandler }) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {i18n.t("record_panel.record_information")}
+          {title || i18n.t("record_panel.record_information")}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {i18n.t("messages.confirmation_message")}
+            {description || i18n.t("messages.confirmation_message")}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -54,7 +60,9 @@ const AlertDialog = ({ open, successHandler, cancelHandler }) => {
 AlertDialog.propTypes = {
   open: PropTypes.bool,
   successHandler: PropTypes.func,
-  cancelHandler: PropTypes.func
+  cancelHandler: PropTypes.func,
+  title: PropTypes.string,
+  description: PropTypes.string
 };
 
 export default AlertDialog;

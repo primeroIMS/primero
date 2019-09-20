@@ -1,0 +1,21 @@
+.searchesForm {
+  padding: 2px 8px;
+  display: flex;
+  align-items: center;
+  border: 1px solid $(theme.primero.colors.lightGrey);
+
+  & div {
+    width: 100%;
+  }
+}
+
+.listSavedSearches {
+  padding: 5px 10px;
+  background-color: $(theme.primero.colors.white);
+  margin-top: 8px;
+  border: 1px solid $(theme.primero.colors.lightGrey);
+
+  & h3 {
+    color: $(theme.primero.colors.darkGrey);
+  }
+}

@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/styles";
 import { Tabs, Tab } from "@material-ui/core";
 import { Map, List } from "immutable";
 import { FiltersBuilder } from "components/filters-builder";
+import { SavedSearches } from "components/saved-searches";
 import { useI18n } from "components/i18n";
 import { setInitialFilterValues, setTab } from "./action-creators";
 import styles from "./styles.css";
@@ -110,7 +111,7 @@ const Filters = ({ recordType, defaultFilters }) => {
           resetPanel={resetFilterValues}
         />
       )}
-      {tabValue === 1 && <h1 style={{ textAlign: "center" }}>NYI</h1>}
+      {tabValue === 1 && <SavedSearches recordType={recordType} />}
     </div>
   );
 };
