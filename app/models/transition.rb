@@ -1,7 +1,7 @@
 class Transition < ApplicationRecord
 
-  STATUS_PENDING = "pending" ; STATUS_ACCEPTED = "accepted" ; STATUS_REJECTED = "rejected"
-  STATUS_INPROGRESS = "in_progress" ; STATUS_DONE = "done"
+  STATUS_PENDING = 'pending' ; STATUS_ACCEPTED = 'accepted' ; STATUS_REJECTED = 'rejected'
+  STATUS_INPROGRESS = 'in_progress' ; STATUS_DONE = 'done'
 
   belongs_to :record, polymorphic: true
   belongs_to :to_user, class_name: 'User', foreign_key: 'to_user_name',
@@ -27,10 +27,6 @@ class Transition < ApplicationRecord
 
   def in_progress?
     status == Transition::STATUS_INPROGRESS
-  end
-
-  def assigned_to_user?(user_name)
-    to_user_name == user_name
   end
 
   def consent_given_or_overridden
