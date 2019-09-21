@@ -12,6 +12,7 @@ class User < ApplicationRecord
   belongs_to :role
   belongs_to :agency
 
+  has_many :saved_searches
   has_and_belongs_to_many :user_groups
   has_and_belongs_to_many :primero_modules
 
@@ -73,7 +74,7 @@ class User < ApplicationRecord
     end
     # memoize_in_prod :user_id_from_name
 
-    def agencies_by_user_list(user_names)
+    def agencies_for_user(user_names)
       where(user_name: user_names).map{ |u| u.organization }.uniq
     end
 

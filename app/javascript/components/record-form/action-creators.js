@@ -63,3 +63,18 @@ export const saveRecord = (
     }
   });
 };
+
+export const hideName = (namespace, id, value) => dispatch => {
+  dispatch({
+    type: Actions.HIDE_NAME,
+    api: {
+      path: `${namespace}/${id}`,
+      method: "PATCH",
+      body: {
+        data: {
+          hidden_name: value
+        }
+      }
+    }
+  });
+};

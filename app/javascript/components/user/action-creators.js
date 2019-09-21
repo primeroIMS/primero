@@ -48,3 +48,13 @@ export const checkUserAuthentication = () => async dispatch => {
     dispatch(setAuthenticatedUser(user));
   }
 };
+
+export const refreshToken = () => async dispatch => {
+  dispatch({
+    type: Actions.REFRESH_USER_TOKEN,
+    api: {
+      path: "tokens",
+      method: "POST"
+    }
+  });
+};

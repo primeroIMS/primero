@@ -8,6 +8,20 @@ chai.use(chaiImmutable);
 describe("Application - Reducers", () => {
   const defaultState = Map({});
 
+  it("should handle SET_USER_IDLE", () => {
+    const expected = Map({
+      userIdle: true
+    });
+
+    const action = {
+      type: "application/SET_USER_IDLE",
+      payload: true
+    };
+
+    const newState = r.reducers.application(defaultState, action);
+    expect(newState.toJS()).to.eql(expected.toJS());
+  });
+
   it("should handle FETCH_SYSTEM_SETTINGS_SUCCESS", () => {
     const expected = Map({
       agencies: [
@@ -82,9 +96,9 @@ describe("Application - Reducers", () => {
             }
           ],
           locales: ["en", "fr", "ar"],
-          defaultLocale: "en",
-          baseLanguage: "en",
-          primeroVersion: "2.0.0.1"
+          default_locale: "en",
+          base_language: "en",
+          primero_version: "2.0.0.1"
         }
       }
     };

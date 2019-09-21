@@ -284,6 +284,13 @@ ActiveRecord::Schema.define(version: 2019_09_12_000000) do
     t.index ["unique_id"], name: "index_primero_modules_on_unique_id", unique: true
   end
 
+  create_table "primero_modules_saved_searches", id: :serial, force: :cascade do |t|
+    t.integer "primero_module_id"
+    t.integer "saved_search_id"
+    t.index ["primero_module_id"], name: "index_primero_modules_saved_searches_on_primero_module_id"
+    t.index ["saved_search_id"], name: "index_primero_modules_saved_searches_on_saved_search_id"
+  end
+
   create_table "primero_modules_users", id: :serial, force: :cascade do |t|
     t.integer "user_id"
     t.integer "primero_module_id"
@@ -344,10 +351,10 @@ ActiveRecord::Schema.define(version: 2019_09_12_000000) do
 
   create_table "saved_searches", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.string "module_id"
     t.string "record_type"
-    t.string "user_name"
+    t.integer "user_id"
     t.jsonb "filters"
+    t.index ["user_id"], name: "index_saved_searches_on_user_id"
   end
 
   create_table "system_settings", id: :serial, force: :cascade do |t|

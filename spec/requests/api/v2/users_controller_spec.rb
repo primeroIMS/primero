@@ -2,7 +2,13 @@ require 'rails_helper'
 
 describe Api::V2::UsersController, type: :request do
   before :each do
+    FormSection.destroy_all
     PrimeroModule.destroy_all
+    Role.destroy_all
+    User.destroy_all
+    Agency.destroy_all
+    PrimeroProgram.destroy_all
+
     SystemSettings.stub(:current).and_return(SystemSettings.new(
       primary_age_range: "primero",
       age_ranges: {
@@ -467,14 +473,4 @@ describe Api::V2::UsersController, type: :request do
       expect(json['errors'][0]['resource']).to eq('/api/v2/users/thisdoesntexist')
     end
   end
-
-  after :each do
-    FormSection.destroy_all
-    PrimeroModule.destroy_all
-    Role.destroy_all
-    User.destroy_all
-    Agency.destroy_all
-    PrimeroProgram.destroy_all
-  end
-
 end

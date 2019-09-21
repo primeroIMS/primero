@@ -3,6 +3,7 @@ const path = require("path");
 const developmentEnv = process.env.NODE_ENV === "development";
 
 module.exports = {
+  parser: "babel-eslint",
   extends: ["airbnb", "prettier", "prettier/react"],
   plugins: ["react", "prettier", "react-hooks"],
   rules: {

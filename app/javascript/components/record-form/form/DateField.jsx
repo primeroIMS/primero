@@ -31,7 +31,6 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
 
   const getDateValue = value => {
     let dateValue = null;
-
     if (value) {
       dateValue = value;
     } else if (
@@ -39,8 +38,6 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
       mode.isNew
     ) {
       dateValue = new Date();
-    } else {
-      dateValue = "";
     }
     return dateValue;
   };

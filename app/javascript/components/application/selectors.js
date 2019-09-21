@@ -12,3 +12,12 @@ export const selectUserModules = state =>
     const userModules = state.getIn(["user", "modules"], null);
     return userModules ? userModules.includes(m.unique_id) : false;
   });
+
+export const selectModule = (state, id) => {
+  return selectUserModules(state)
+    .filter(f => f.unique_id === id)
+    .first();
+};
+
+export const selectUserIdle = state =>
+  state.getIn([NAMESPACE, "userIdle"], false);

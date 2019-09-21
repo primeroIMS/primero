@@ -15,7 +15,9 @@ Rails.application.routes.draw do
 
 
   namespace :api do
-    namespace :v2, defaults: { format: :json }, constraints: { format: :json }, only: [:index, :create, :show, :update, :destroy ] do
+    namespace :v2, defaults: { format: :json },
+                   constraints: { format: :json },
+                   only: [:index, :create, :show, :update, :destroy ] do
 
       resources :children, as: :cases, path: :cases do
         resources :flags, only: [:index, :create, :update]
@@ -47,7 +49,9 @@ Rails.application.routes.draw do
       resources :contact_information, only: [:index]
       resources :system_settings, only: [:index]
       resources :tasks, only: [:index]
+      resources :saved_searches, only: [:index, :create, :destroy]
       resources :reports, only: [:index, :show]
+
     end
   end
 

@@ -9,6 +9,7 @@ import { PageContainer } from "components/page-container";
 import { LoadingIndicator } from "components/loading-indicator";
 import { useThemeHelper } from "libs";
 import clsx from "clsx";
+import { RECORD_TYPES } from "config";
 import { Nav } from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
@@ -22,7 +23,7 @@ import {
   getErrors,
   getSelectedForm
 } from "./selectors";
-import { RECORD_TYPES } from "./constants";
+
 import { compactValues } from "./helpers";
 
 const RecordForms = ({ match, mode }) => {
@@ -111,7 +112,9 @@ const RecordForms = ({ match, mode }) => {
     params,
     recordType,
     handleFormSubmit,
-    shortId: record ? record.get("short_id") : null
+    shortId: record ? record.get("short_id") : null,
+    primeroModule: selectedModule.primeroModule,
+    record
   };
 
   const navProps = {

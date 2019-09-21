@@ -1,7 +1,7 @@
 import React from "react";
-import { Map } from "immutable";
 import { ToggleIconCell } from "components/index-table";
 import { pickBy } from "lodash";
+import { Map } from "immutable";
 
 // TODO: Revist this when user endpoint if finished. Index fields will come
 // this endpoint
@@ -37,7 +37,9 @@ export const buildTableColumns = (columns, i18n, recordType) => {
 };
 
 export const cleanUpFilters = filters => {
-  const filtersArray = pickBy(filters, value => {
+  const filterSelector = filters instanceof Map ? filters.toJS() : filters;
+
+  const filtersArray = pickBy(filterSelector, value => {
     const isMap = Map.isMap(value);
     return !(
       value === "" ||

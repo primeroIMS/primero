@@ -19,3 +19,10 @@ export const loadApplicationResources = () => async dispatch => {
     dispatch(fetchOptions());
   });
 };
+
+export const setUserIdle = payload => {
+  return {
+    type: Actions.SET_USER_IDLE,
+    payload
+  };
+};

@@ -14,6 +14,7 @@ const forms = (state, { recordType, primeroModule }) => {
     fs =>
       includes(fs.module_ids, primeroModule) &&
       fs.parent_form === recordType &&
+      fs.visible &&
       !fs.is_nested
   );
 };
@@ -97,3 +98,7 @@ export const getErrors = state => state.getIn([NAMESPACE, "errors"], false);
 
 export const getSelectedForm = state =>
   state.getIn([NAMESPACE, "selectedForm"]);
+
+export const getIsHiddenName = state => {
+  return state.getIn([NAMESPACE, "selectedRecord", "name"], "");
+};
