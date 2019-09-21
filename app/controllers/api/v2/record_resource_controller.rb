@@ -25,12 +25,12 @@ module Api::V2
                  end
     end
 
-    def updates_for_record
-      @updated_field_names = record_updated_fields(@record)
+    def updates_for_record(record)
+      @updated_field_names = record_updated_fields(record)
     end
 
-    def updates_for_records
-      @updated_field_names_hash = @records.inject({}) do |record, hash|
+    def updates_for_records(records)
+      @updated_field_names_hash = records.inject({}) do |hash, record|
         hash[record.id] = record_updated_fields(record) && hash
       end
     end

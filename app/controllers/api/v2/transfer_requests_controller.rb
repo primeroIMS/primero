@@ -10,7 +10,7 @@ module Api::V2
     def create
       authorize! :request_transfer, @record.class
       @transition = transfer_request(@record)
-      updates_for_record
+      updates_for_record(@record)
       render 'api/v2/transitions/create'
     end
 
@@ -18,7 +18,7 @@ module Api::V2
       authorize! :read, @record
       @transition = TransferRequest.find(params[:id])
       @transition.respond!(params[:data])
-      updates_for_record
+      updates_for_record(@transition.record)
       render 'api/v2/transitions/update'
     end
 

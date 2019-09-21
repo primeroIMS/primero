@@ -108,6 +108,8 @@ module Historical
   end
 
   def saved_changes_to_record
+    return {} unless saved_changes?
+
     saved_changes_to_record = {}
     old_values = self.saved_change_to_attribute('data')[0] || {}
     new_values = self.saved_change_to_attribute('data')[1] || {}
