@@ -12,10 +12,10 @@ class Referral < Transition
 
   def reject!
     self.status = Transition::STATUS_DONE
-    return if record.referrals.where(to_user_name: to_user_name).nil?
+    return if record.referrals.where(transitioned_to: transitioned_to).nil?
 
     if record.assigned_user_names.present?
-      record.assigned_user_names.delete(to_user_name)
+      record.assigned_user_names.delete(transitioned_to)
     end
     record.save! && save!
   end
@@ -32,7 +32,7 @@ class Referral < Transition
   end
 
   def user_can_receive?
-    super && to_user.can?(:receive_referral, record.class)
+    super && transitioned_to_user.can?(:receive_referral, record.class)
   end
 
   private
@@ -45,12 +45,12 @@ class Referral < Transition
   end
 
   def perform_system_referral
-    return if to_user.nil?
+    return if transitioned_to_user.nil?
 
     if record.assigned_user_names.present?
-      record.assigned_user_names |= [to_user_name]
+      record.assigned_user_names |= [transitioned_to]
     else
-      record.assigned_user_names = [to_user_name]
+      record.assigned_user_names = [transitioned_to]
     end
     record.save!
   end

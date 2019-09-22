@@ -30,8 +30,8 @@ describe Api::V2::TransitionsController, type: :request do
   describe 'GET /api/v2/case/:id/transitions' do
 
     before :each do
-      @assign1 = Assign.create!(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
-      @assign2 = Assign.create!(transitioned_by: 'user2', to_user_name: 'user1', record: @case)
+      @assign1 = Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      @assign2 = Assign.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case)
     end
 
     it 'lists the assigns for a case' do

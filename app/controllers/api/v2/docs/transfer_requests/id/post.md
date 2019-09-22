@@ -38,7 +38,7 @@ Request the transfer of an individual case to a single user.
         "record_id": "437189fc-cd1c-46ee-8d56-2891fc73605f",
         "record_type": "Child",
         "status": "inprogress",
-        "to_user_name": "primero_cp",
+        "transitioned_to": "primero_cp",
         "transitioned_by": "primero",
         "notes": "This is a transfer request",
         "created_at": "2019-09-16T18:37:16.078Z"

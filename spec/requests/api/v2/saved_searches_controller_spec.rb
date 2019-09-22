@@ -103,7 +103,7 @@ describe Api::V2::SavedSearchesController, type: :request do
       expect(json['data']['id']).not_to be_nil
       expect(json['data']['filters']).to eq(params['data']['filters'])
       expect(SavedSearch.find_by(id: json['data']['id'])).not_to be_nil
-      
+
     end
   end
 
@@ -139,5 +139,9 @@ describe Api::V2::SavedSearchesController, type: :request do
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq("/api/v2/saved_searches/thisdoesntexist")
     end
+  end
+
+  after :each do
+    [SavedSearch, FormSection, Role, Agency, User, PrimeroModule, PrimeroProgram].each(&:destroy_all)
   end
 end

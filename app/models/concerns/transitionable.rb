@@ -26,7 +26,7 @@ module Transitionable
 
   def referrals_for_user(user)
     if owned_by != user.user_name
-      referrals.where(to_user_name: user.user_name)
+      referrals.where(transitioned_to: user.user_name)
     else
       referrals
     end
@@ -49,7 +49,7 @@ module Transitionable
       transitions.where(type: types).or(
         transitions.where(
           type: Referral.name,
-          to_user_name: user.user_name
+          transitioned_to: user.user_name
         )
       )
     else
@@ -60,13 +60,13 @@ module Transitionable
   def transferred_to_users
     transfers
       .where(status: Transition::STATUS_INPROGRESS)
-      .pluck(:to_user_name).uniq
+      .pluck(:transitioned_to).uniq
   end
 
   def referred_users
     referrals
       .where(status: Transition::STATUS_INPROGRESS)
-      .pluck(:to_user_name).uniq
+      .pluck(:transitioned_to).uniq
   end
 
 end

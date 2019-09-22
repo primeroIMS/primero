@@ -24,10 +24,10 @@ module Api::V2
     private
 
     def assign(record)
-      to_user_name = params[:data][:to_user_name]
+      transitioned_to = params[:data][:transitioned_to]
       notes = params[:data][:notes]
       transitioned_by = current_user.user_name
-      Assign.create!(record: record, to_user_name: to_user_name,
+      Assign.create!(record: record, transitioned_to: transitioned_to,
                      transitioned_by: transitioned_by, notes: notes)
     end
 

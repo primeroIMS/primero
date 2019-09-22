@@ -42,7 +42,7 @@ module Api::V2
 
     def transfer(record)
       permitted = params.require(:data).permit(
-        :to_user_name, :to_user_remote, :to_user_agency,
+        :transitioned_to, :transitioned_to_remote, :transitioned_to_agency,
         :remote, :type_of_export, :notes,
         :consent_overridden, :consent_individual_transfer
       )

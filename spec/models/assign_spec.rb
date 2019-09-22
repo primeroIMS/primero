@@ -21,7 +21,7 @@ describe Assign do
   end
 
   it 'changes the record owner' do
-    Assign.create!(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
+    Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
 
     expect(@case.owned_by).to eq('user2')
   end
@@ -34,7 +34,7 @@ describe Assign do
     @role.permissions_list = [permission_case]
     @role.save(validate: false)
 
-    assign = Assign.create(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
+    assign = Assign.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
 
     expect(assign.valid?).to be_falsey
     expect(@case.owned_by).to eq('user1')

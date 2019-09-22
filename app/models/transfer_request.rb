@@ -24,9 +24,9 @@ class TransferRequest < Transition
     self.status = Transition::STATUS_ACCEPTED
     save!
     Transfer.create!(
-      to_user_name: transitioned_by, transitioned_by: to_user_name,
-      notes: notes, to_user_agency: to_user_agency, record: record,
-      consent_overridden: consent_individual_transfer
+      transitioned_to: transitioned_by, transitioned_by: transitioned_to,
+      notes: notes, transitioned_to_agency: transitioned_to_agency,
+      record: record, consent_overridden: consent_individual_transfer
     )
   end
 
@@ -38,7 +38,7 @@ class TransferRequest < Transition
   def consent_given? ; true ; end
 
   def user_can_receive?
-    super && (record.owned_by == to_user_name)
+    super && (record.owned_by == transitioned_to)
   end
 
   def notify_by_email

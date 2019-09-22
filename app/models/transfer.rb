@@ -16,8 +16,8 @@ class Transfer < Transition
     remove_assigned_user
 
     record.previously_owned_by = record.owned_by
-    record.owned_by = to_user_name
-    record.owned_by_full_name = to_user.full_name
+    record.owned_by = transitioned_to
+    record.owned_by_full_name = transitioned_to_user.full_name
     record.save! && save!
   end
 
@@ -42,7 +42,7 @@ class Transfer < Transition
   end
 
   def user_can_receive?
-    super && to_user.can?(:receive_transfer, record.class)
+    super && transitioned_to_user.can?(:receive_transfer, record.class)
   end
 
   private
@@ -54,12 +54,12 @@ class Transfer < Transition
   end
 
   def perform_system_transfer
-    return if to_user.nil?
+    return if transitioned_to_user.nil?
 
     if record.assigned_user_names.present?
-      record.assigned_user_names |= [to_user_name]
+      record.assigned_user_names |= [transitioned_to]
     else
-      record.assigned_user_names = [to_user_name]
+      record.assigned_user_names = [transitioned_to]
     end
     record.transfer_status = status
     record.reassigned_transferred_on = DateTime.now
@@ -68,7 +68,7 @@ class Transfer < Transition
 
   def remove_assigned_user
     if record.assigned_user_names.present?
-      record.assigned_user_names.delete(to_user_name)
+      record.assigned_user_names.delete(transitioned_to)
     end
   end
 

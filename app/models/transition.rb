@@ -4,12 +4,12 @@ class Transition < ApplicationRecord
   STATUS_INPROGRESS = 'in_progress' ; STATUS_DONE = 'done'
 
   belongs_to :record, polymorphic: true
-  belongs_to :to_user, class_name: 'User', foreign_key: 'to_user_name',
-             primary_key: 'user_name'
+  belongs_to :transitioned_to_user, class_name: 'User',
+             foreign_key: 'transitioned_to', primary_key: 'user_name'
   belongs_to :transitioned_by_user, class_name: 'User',
              foreign_key: 'transitioned_by', primary_key: 'user_name'
 
-  validates :to_user_name, :transitioned_by, presence: true
+  validates :transitioned_to, :transitioned_by, presence: true
   validate :consent_given_or_overridden
   validate :user_can_receive
 
@@ -42,13 +42,13 @@ class Transition < ApplicationRecord
   def user_can_receive
     return if user_can_receive?
 
-    errors.add(:to_user_name, 'transition.errors.to_user_can_receive')
+    errors.add(:transitioned_to, 'transition.errors.to_user_can_receive')
   end
 
   def user_can_receive?
-    (!to_user.disabled) &&
-    (to_user.role.permissions.any? { |ps| ps.resource == record.class.parent_form }) &&
-    (to_user.modules.pluck(:unique_id).include? record.module_id)
+    !transitioned_to_user.disabled &&
+    transitioned_to_user.role.permissions.any? { |ps| ps.resource == record.class.parent_form } &&
+    transitioned_to_user.modules.pluck(:unique_id).include?(record.module_id)
   end
 
   def key

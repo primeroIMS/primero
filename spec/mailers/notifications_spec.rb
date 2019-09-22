@@ -83,7 +83,7 @@ describe NotificationMailer, type: :mailer do
 
     describe 'referral' do
       before do
-        @referral = Referral.create!(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
+        @referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       end
 
       let(:mail) { NotificationMailer.transition_notify(@referral.id) }
@@ -100,7 +100,7 @@ describe NotificationMailer, type: :mailer do
 
     describe 'transfer' do
       before do
-        @transfer = Transfer.create!(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
+        @transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       end
 
       let(:mail) { NotificationMailer.transition_notify(@transfer.id)}
@@ -117,7 +117,7 @@ describe NotificationMailer, type: :mailer do
 
     describe 'assign' do
       before do
-        @assign = Assign.create!(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
+        @assign = Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       end
 
       let(:mail) { NotificationMailer.transition_notify(@assign.id) }
@@ -134,7 +134,7 @@ describe NotificationMailer, type: :mailer do
 
     describe 'transition request' do
       before do
-        @transfer_request = TransferRequest.create!(transitioned_by: 'user2', to_user_name: 'user1', record: @case)
+        @transfer_request = TransferRequest.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case)
       end
 
       let(:mail) { NotificationMailer.transition_notify(@transfer_request.id) }

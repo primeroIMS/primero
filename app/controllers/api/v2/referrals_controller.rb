@@ -33,7 +33,7 @@ module Api::V2
 
     def refer(record)
       permitted = params.require(:data).permit(
-        :to_user_name, :to_user_remote, :to_user_agency,
+        :transitioned_to, :transitioned_to_remote, :transitioned_to_agency,
         :service, :service_record_id, :remote, :type_of_export, :notes,
         :consent_overridden
       )

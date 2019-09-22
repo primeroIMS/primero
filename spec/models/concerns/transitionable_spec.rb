@@ -34,11 +34,11 @@ describe Transitionable do
   describe 'transitions_for_user' do
 
     before :each do
-      @assign1 = Assign.create!(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
-      @assign2 = Assign.create!(transitioned_by: 'user2', to_user_name: 'user1', record: @case)
-      @transfer = Transfer.create!(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
-      @referral1 = Referral.create!(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
-      @referral2 = Referral.create!(transitioned_by: 'user1', to_user_name: 'user3', record: @case)
+      @assign1 = Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      @assign2 = Assign.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case)
+      @transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      @referral1 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      @referral2 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user3', record: @case)
     end
 
     it 'lists all transitions' do

@@ -46,11 +46,11 @@ class NotificationMailer < ApplicationMailer
   def transition_notify(transition_id)
     @transition = Transition.find_by(id: transition_id)
     return log_transition_not_found(transition_id) unless @transition
-    return log_notifications_disabled(@transition) unless @transition.to_user.send_mail
+    return log_notifications_disabled(@transition) unless @transition&.transitioned_to_user&.send_mail
 
     record = @transition&.record
     mail(
-      to: @transition.to_user.email,
+      to: @transition&.transitioned_to_user&.email,
       subject: t(
         "email_notification.#{@transition.key}_subject",
         record_type: t("forms.record_types.#{record.class.parent_form}"),
@@ -62,10 +62,10 @@ class NotificationMailer < ApplicationMailer
   def transfer_request(transfer_request_id)
     @transition = TransferRequest.find_by(id: transfer_request_id)
     return log_transition_not_found(transfer_request_id) unless @transition
-    return log_notifications_disabled(@transition) unless @transition.to_user.send_mail
+    return log_notifications_disabled(@transition) unless @transition&.transitioned_to_user&.send_mail
 
     mail(
-      to: @transition.to_user.email,
+      to: @transition&.transitioned_to_user&.email,
       subject: t('email_notification.transfer_request_subject')
     )
   end
@@ -80,7 +80,7 @@ class NotificationMailer < ApplicationMailer
 
   def log_notifications_disabled(transition)
     Rails.logger.info(
-      "Mail not sent. Notifications disabled for #{transition.to_user_name}"
+      "Mail not sent. Notifications disabled for #{transition.transitioned_to}"
     )
   end
 end

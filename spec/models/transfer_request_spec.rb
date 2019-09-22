@@ -29,14 +29,14 @@ describe TransferRequest do
   describe 'accept' do
 
     it 'initiates a transfer' do
-      transfer_request = TransferRequest.create!(transitioned_by: 'user2', to_user_name: 'user1', record: @case)
+      transfer_request = TransferRequest.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case)
       transfer_request.accept!
 
       transfer = @case.transfers.first
 
       expect(transfer_request.status).to eq(Transition::STATUS_ACCEPTED)
       expect(@case.transfers.size).to eq(1)
-      expect(transfer.to_user_name).to eq('user2')
+      expect(transfer.transitioned_to).to eq('user2')
       expect(transfer.transitioned_by).to eq('user1')
       expect(transfer.status).to eq(Transition::STATUS_INPROGRESS)
 

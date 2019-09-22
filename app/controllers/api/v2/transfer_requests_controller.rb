@@ -30,7 +30,7 @@ module Api::V2
       TransferRequest.create!(
         transitioned_by: current_user.user_name,
         consent_individual_transfer: consent_individual_transfer,
-        to_user_name: record.owned_by,
+        transitioned_to: record.owned_by,
         notes: notes, record: record
       )
     end

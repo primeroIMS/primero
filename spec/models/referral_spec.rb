@@ -30,20 +30,20 @@ describe Referral do
 
     it 'denies consent for referring records if consent properties are not set' do
       @case.update_attributes(consent_for_services: nil, disclosure_other_orgs: nil )
-      referral = Referral.new(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
+      referral = Referral.new(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
 
       expect(referral.consent_given?).to be_falsey
     end
 
     it 'consents for referring GBV records if referral_for_other_services is set to true' do
       @case.update_attributes(module_id: @module_gbv.unique_id)
-      referral = Referral.new(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
+      referral = Referral.new(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
 
       expect(referral.consent_given?).to be_truthy
     end
 
     it 'consents for referring CP records if referral_for_other_services and disclosure_other_orgs are set to true' do
-      referral = Referral.new(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
+      referral = Referral.new(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
 
       expect(referral.consent_given?).to be_truthy
     end
@@ -55,9 +55,9 @@ describe Referral do
     context 'in-system' do
 
       it 'adds the target user to the assigned users list for this record' do
-        referral = Referral.create!(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
+        referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
         expect(referral.status).to eq(Referral::STATUS_INPROGRESS)
-        expect(@case.assigned_user_names).to include(referral.to_user_name)
+        expect(@case.assigned_user_names).to include(referral.transitioned_to)
       end
 
       it 'does not perform the referral if the receiving user is not allowed to receive referrals' do
@@ -67,7 +67,7 @@ describe Referral do
         )
         @role.permissions_list = [permission_case]
         @role.save(validate: false)
-        referral = Referral.create(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
+        referral = Referral.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
 
         expect(referral.valid?).to be_falsey
         expect(@case.assigned_user_names.present?).to be_falsey
@@ -81,7 +81,7 @@ describe Referral do
 
     it 'removes the referred user' do
       @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true )
-      referral = Referral.create!(transitioned_by: 'user1', to_user_name: 'user2', record: @case)
+      referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       referral.reject!
       expect(referral.status).to eq(Transition::STATUS_DONE)
       expect(@case.assigned_user_names).not_to include('user2')

@@ -1,6 +1,6 @@
 user_hash =  user.attributes.reject{ |k,_| User.hidden_attributes.include?(k) }
 if @extended
-  user_hash = user_hash.merge({
+  user_hash = user_hash.merge(
     modules: user.primero_modules.map(&:unique_id),
     agency: user.agency.try(:id),
     permissions: {
@@ -26,7 +26,7 @@ if @extended
       { user_groups: Header.user_group_headers }
     ]).inject(&:merge),
     is_manager: user.is_manager?
-  })
+  )
 end
 
 json.merge! user_hash.compact

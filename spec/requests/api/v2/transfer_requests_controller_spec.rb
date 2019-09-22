@@ -34,7 +34,7 @@ describe Api::V2::TransferRequestsController, type: :request do
   describe 'GET /api/v2/case/:id/transfer_requests' do
 
     before :each do
-      @transfer1 = TransferRequest.create!(transitioned_by: 'user2', to_user_name: 'user1', record: @case)
+      @transfer1 = TransferRequest.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case)
     end
 
     it 'lists the transfer requests for a case' do
@@ -44,7 +44,7 @@ describe Api::V2::TransferRequestsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
       expect(json['data'][0]['record_id']).to eq(@case.id.to_s)
-      expect(json['data'][0]['to_user_name']).to eq('user1')
+      expect(json['data'][0]['transitioned_to']).to eq('user1')
       expect(json['data'][0]['transitioned_by']).to eq('user2')
     end
 
@@ -70,7 +70,7 @@ describe Api::V2::TransferRequestsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['record_id']).to eq(@case.id.to_s)
       expect(json['data']['status']).to eq(Transition::STATUS_INPROGRESS)
-      expect(json['data']['to_user_name']).to eq('user1')
+      expect(json['data']['transitioned_to']).to eq('user1')
       expect(json['data']['transitioned_by']).to eq('user2')
       expect(json['data']['notes']).to eq('Test Notes')
     end
@@ -90,7 +90,7 @@ describe Api::V2::TransferRequestsController, type: :request do
   describe 'PATCH /api/v2/cases/:id/transfer_requests/:transfer_request_id' do
 
     before :each do
-      @transfer1 = TransferRequest.create!(transitioned_by: 'user2', to_user_name: 'user1', record: @case)
+      @transfer1 = TransferRequest.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case)
     end
 
     it 'accepts this transfer request' do
@@ -105,7 +105,7 @@ describe Api::V2::TransferRequestsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['status']).to eq(Transition::STATUS_ACCEPTED)
       expect(json['data']['record_id']).to eq(@case.id.to_s)
-      expect(json['data']['to_user_name']).to eq('user1')
+      expect(json['data']['transitioned_to']).to eq('user1')
       expect(json['data']['transitioned_by']).to eq('user2')
 
       @case.reload
@@ -124,7 +124,7 @@ describe Api::V2::TransferRequestsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['status']).to eq(Transition::STATUS_REJECTED)
       expect(json['data']['record_id']).to eq(@case.id.to_s)
-      expect(json['data']['to_user_name']).to eq('user1')
+      expect(json['data']['transitioned_to']).to eq('user1')
       expect(json['data']['transitioned_by']).to eq('user2')
 
       @case.reload

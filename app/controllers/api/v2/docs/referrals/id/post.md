@@ -16,7 +16,7 @@ Refer an individual case to a single user.
 ```json
 {
   "data": {
-      "to_user_name": "primero_cp",
+      "transitioned_to": "primero_cp",
       "notes": "This is a referral"
     }
 }
@@ -27,7 +27,7 @@ Refer an individual case to a single user.
 **Code** : `200 OK`
 
 **Condition** : User is authorized to refer, 
-and the `to_user_name` user is authorized to receive referrals. 
+and the `transitioned_to` user is authorized to receive referrals. 
 
 
 **Content** : The created referral records.
@@ -39,7 +39,7 @@ and the `to_user_name` user is authorized to receive referrals.
         "type": "Referral",
         "record_id": "437189fc-cd1c-46ee-8d56-2891fc73605f",
         "record_type": "Child",
-        "to_user_name": "primero_cp",
+        "transitioned_to": "primero_cp",
         "transitioned_by": "primero",
         "notes": "This is a referral",
         "created_at": "2019-09-16T18:37:16.078Z"
