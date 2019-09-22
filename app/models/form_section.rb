@@ -462,15 +462,13 @@ class FormSection < ApplicationRecord
       end
     end
 
-    def list_or_filter_by_record_type_and_module_id(record_type = nil, module_id = nil)
-      return FormSection.all if record_type.blank? && module_id.blank?
-      form_sections = self
-      if module_id.present?
-        form_sections = form_sections.joins(:primero_modules).where(primero_modules: { unique_id: module_id })
-      end
-      form_sections = form_sections.where(parent_form: record_type) if record_type.present?
+    def list(params={})
+      form_sections = all.includes(:fields, :collapsed_fields, :primero_modules)
+      form_sections = form_sections.where(parent_form: params[:record_type]) if params[:record_type]
+      form_sections = form_sections.where(primero_modules: { unique_id: params[:module_id] }) if params[:module_id]
       form_sections
     end
+
 
   end
 

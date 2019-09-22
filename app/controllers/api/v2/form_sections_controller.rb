@@ -4,7 +4,7 @@ module Api::V2
 
     def index
       authorize! :index, FormSection
-      @form_sections = FormSection.list_or_filter_by_record_type_and_module_id(params[:record_type], params[:module_id])
+      @form_sections = FormSection.list(params)
     end
 
     def show
