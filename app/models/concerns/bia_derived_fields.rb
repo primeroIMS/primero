@@ -78,22 +78,12 @@ module BIADerivedFields
     self.data['followup_subform_section']
   end
 
-  def case_transferred_for_bia
-    transfers = self.data['transitions'].select{ |t| t['type'] == Transition::TRANSFER }
-    return transfers.present? ? true : false
-  end
-
   def bia_transfers
-    latest_transfer = []
-    if case_transferred_for_bia
-      transfers = self.data['transitions'].select{ |t| t['type'] == Transition::TRANSFER }
-      latest_transfer = [transfers.first]
-    end
-    latest_transfer
+    latest_transfer = transfers.order(created_at: :desc).limit(1)
   end
 
   def bia_consent_for_services
-     self.data['consent_for_services']
+    self.consent_for_services
   end
 
   private
