@@ -13,7 +13,7 @@ describe Transitionable do
         Permission::ASSIGN, Permission::TRANSFER, Permission::RECEIVE_TRANSFER
       ]
     )
-    @role = Role.new(permissions_list: [permission_case])
+    @role = Role.new(permissions: [permission_case])
     @role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
     @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1], modules: [@module_cp])
