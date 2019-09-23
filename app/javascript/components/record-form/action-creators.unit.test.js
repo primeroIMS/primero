@@ -18,11 +18,13 @@ describe("<RecordForm /> - Action Creators", () => {
     expect(creators).to.have.property("fetchRecord");
     expect(creators).to.have.property("fetchOptions");
     expect(creators).to.have.property("saveRecord");
+    expect(creators).to.have.property("hideName")
     delete creators.setSelectedForm;
     delete creators.fetchForms;
     delete creators.fetchRecord;
     delete creators.fetchOptions;
     delete creators.saveRecord;
+    delete creators.hideName;
 
     expect(creators).to.deep.equal({});
   });
@@ -70,7 +72,7 @@ describe("<RecordForm /> - Action Creators", () => {
     actionCreators.fetchOptions()(dispatch);
 
     expect(dispatch.getCall(0).returnValue.type).to.eql("forms/SET_OPTIONS");
-    expect(dispatch.getCall(0).returnValue.payload.length).to.eql(61);
+    expect(dispatch.getCall(0).returnValue.payload.length).to.eql(63);
   });
 
   describe("should check the 'saveRecord' action creator", () => {

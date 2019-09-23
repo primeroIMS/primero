@@ -7,7 +7,7 @@ import { selectModule } from "components/application";
 import { RECORD_TYPES } from "config";
 import styles from "./styles.css";
 
-const WorkFlowIndicator = ({ locale, primeroModule, recordType, record }) => {
+const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
   const css = makeStyles(styles)();
 
   const selectedModuleWorkflow = useSelector(state =>
@@ -49,11 +49,11 @@ const WorkFlowIndicator = ({ locale, primeroModule, recordType, record }) => {
   );
 };
 
-WorkFlowIndicator.propTypes = {
+WorkflowIndicator.propTypes = {
   locale: PropTypes.string.isRequired,
   primeroModule: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
   record: PropTypes.object.isRequired
 };
 
-export default WorkFlowIndicator;
+export default WorkflowIndicator;

@@ -1,0 +1,4 @@
+.secondarySubformHeader {
+  font-size: $(theme.typography.pxToRem(11));
+  color: $(theme.primero.colors.darkGrey);
+}

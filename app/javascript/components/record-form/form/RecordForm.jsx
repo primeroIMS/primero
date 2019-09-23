@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import * as yup from "yup";
@@ -16,7 +16,7 @@ import { AlertDialog } from "components/alert-dialog";
 import { constructInitialValues } from "../helpers";
 import FormSectionField from "./FormSectionField";
 import styles from "./styles.css";
-import SubformField from "./SubformField";
+import { SubformField } from "./subforms";
 import * as C from "../constants";
 
 const ValidationErrors = () => {
@@ -42,7 +42,7 @@ const RecordForm = ({
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-  const [subformFields, setSubformFields] = useState({});
+
   let initialFormValues = constructInitialValues(forms.values());
 
   if (record) {
@@ -126,9 +126,7 @@ const RecordForm = ({
             {form.fields.map(field => {
               const fieldProps = {
                 field,
-                mode,
-                subformFields,
-                setSubformFields
+                mode
               };
 
               return (
@@ -156,7 +154,9 @@ const RecordForm = ({
         validationSchema={validationSchema}
         validateOnBlur={false}
         validateOnChange={false}
-        onSubmit={values => onSubmit(initialFormValues, values, subformFields)}
+        onSubmit={values => {
+          onSubmit(initialFormValues, values);
+        }}
       >
         {({ handleSubmit, submitForm, errors, dirty, isSubmitting }) => {
           bindSubmitForm(submitForm);
