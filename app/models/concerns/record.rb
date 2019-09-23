@@ -1,12 +1,12 @@
 module Record
   extend ActiveSupport::Concern
 
-  STATUS_OPEN = 'open' ; STATUS_CLOSED = 'closed'
+  STATUS_OPEN = 'open' ; STATUS_CLOSED = 'closed' ; STATUS_TRANSFERRED = 'transferred'
 
   included do
     store_accessor :data, :unique_identifier, :short_id, :record_state, :status, :marked_for_mobile
 
-    after_initialize :defaults
+    after_initialize :defaults, unless: :persisted?
     before_create :create_identification
     before_save :populate_subform_ids
     after_save :index_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
@@ -20,6 +20,12 @@ module Record
       when 'violation' then Incident
       else Object.const_get(name.camelize)
     end
+  end
+
+  def self.map_name(name)
+    name = name.underscore
+    name = 'case' if name == 'child'
+    name
   end
 
   module ClassMethods

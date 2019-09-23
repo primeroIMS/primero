@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Api::V2::ReportsController, type: :request do
   before :each do
-    [ 
+    [
       PrimeroModule, PrimeroProgram, Report, User,
       Role, Agency, Child, Location, FormSection
     ].each(&:destroy_all)
@@ -151,7 +151,7 @@ describe Api::V2::ReportsController, type: :request do
         "cn"=> {
           "migrant" => {"_total"=>1},
           "sexually_exploited" => {"_total"=>1},
-          "trafficked_smuggled" => {"_total"=>1}, 
+          "trafficked_smuggled" => {"_total"=>1},
           "_total"=>1
         }
       }
@@ -183,6 +183,14 @@ describe Api::V2::ReportsController, type: :request do
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/reports/thisdoesntexist')
     end
+  end
+
+  after :each do
+    [
+      PrimeroModule, PrimeroProgram, Report, User,
+      Role, Agency, Child, Location, FormSection
+    ].each(&:destroy_all)
+
   end
 
 end

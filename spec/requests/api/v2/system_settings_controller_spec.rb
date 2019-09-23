@@ -85,7 +85,15 @@ describe Api::V2::SystemSettingsController, type: :request do
       expect(json['data']['modules'][0]['workflows']['case']['en'].length).to be > 0
     end
 
+  end
 
+  after :each do
+    Field.destroy_all
+    FormSection.destroy_all
+    Agency.destroy_all
+    PrimeroProgram.destroy_all
+    PrimeroModule.destroy_all
+    SystemSettings.destroy_all
   end
 
 end

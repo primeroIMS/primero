@@ -137,7 +137,7 @@ referral_transfer_fields = [
 FormSection.create_or_update_form_section({
   :unique_id=>"referral_transfer",
   :parent_form=>"case",
-  "visible" => true,
+  "visible" => false,
   :order_form_group => 150,
   :order => 10,
   :order_subform => 0,
