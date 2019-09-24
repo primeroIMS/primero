@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Api::V2::TransferRequestsController, type: :request do
 
   before :each do
+    clean_all
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
     @permission_transfer_case = Permission.new(
@@ -134,12 +135,11 @@ describe Api::V2::TransferRequestsController, type: :request do
   end
 
   after :each do
-    PrimeroModule.destroy_all
-    UserGroup.destroy_all
-    Role.destroy_all
-    User.destroy_all
-    Child.destroy_all
-    Transition.destroy_all
+    clean_all
+  end
+
+  def clean_all
+    [PrimeroModule, UserGroup, Role, User, Child, Transition].map(&:delete_all)
   end
 
 
