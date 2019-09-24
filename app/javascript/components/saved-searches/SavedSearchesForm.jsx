@@ -13,8 +13,7 @@ import {
   Button,
   Dialog,
   DialogContent,
-  DialogTitle,
-  Divider
+  DialogTitle
 } from "@material-ui/core";
 import { applyFilters } from "components/filters-builder/action-creators";
 import { saveSearch, fetchSavedSearches } from "./action-creators";
@@ -111,7 +110,6 @@ const SavedSearchesForm = ({ recordType, open, setOpen }) => {
                 justifyContent="flex-end"
                 style={{ marginBottom: "5" }}
               >
-                <Divider light />
                 <Button onClick={closeModal} color="primary">
                   {i18n.t("buttons.cancel")}
                 </Button>
