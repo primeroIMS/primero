@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { useI18n } from "components/i18n";
-import { Reopen } from "../record-action-handlers/reopen";
+import { Reopen } from "./reopen";
 
 const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const i18n = useI18n();
