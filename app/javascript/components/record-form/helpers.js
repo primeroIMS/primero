@@ -53,9 +53,7 @@ function difference(object, base, nested) {
       } else if (isObject(val) && isObject(base[key])) {
         result[key] = difference(val, base[key], true);
       } else {
-        if (val) {
-          result[key] = val;
-        }
+        result[key] = val;
       }
 
       if (isObject(result[key]) && isEmpty(result[key])) {

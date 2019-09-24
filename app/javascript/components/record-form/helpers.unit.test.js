@@ -9,8 +9,9 @@ describe("<RecordForms /> - Helpers", () => {
         name: "John",
         phone: "555-555-5555",
         sex: null,
-        un_no: [],
+        un_no: null,
         caregiver_name: "",
+        caregiver_number: "234-323-2353",
         services: [
           {
             unique_id: "123",
@@ -37,7 +38,6 @@ describe("<RecordForms /> - Helpers", () => {
         name: "John",
         phone: "555-555-5556",
         sex: null,
-        un_no: null,
         services: [
           {
             _destroy: true,
@@ -48,6 +48,7 @@ describe("<RecordForms /> - Helpers", () => {
         past_locations: ["loc-3"],
         future_locations: [],
         test_locations: [],
+        caregiver_number: "",
         incident_details: [
           {
             cp_incident_perpetrator_national_id_no: "",
@@ -73,6 +74,7 @@ describe("<RecordForms /> - Helpers", () => {
       };
 
       const expected = {
+        caregiver_number: "",
         phone: "555-555-5556",
         services: [
           {
