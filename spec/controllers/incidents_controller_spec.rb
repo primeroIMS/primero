@@ -124,7 +124,7 @@ describe IncidentsController, :type => :controller do
           incidents = mock_incident(@stubs)
           scope ||= {}
           incidents.stub(:paginate).and_return(incidents)
-          Incident.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakemrmadmin"], nil, nil).and_return(incidents)
+          Incident.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakemrmadmin"], nil, nil, []).and_return(incidents)
 
           get :index, params: {:scope => scope}
           assigns[:incidents].should == incidents

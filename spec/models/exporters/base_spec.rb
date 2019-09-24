@@ -113,5 +113,38 @@ module Exporters
         expect(props_with_metadata['primeromodule-gbv']['__record__'].values.first).to be_an(CouchRest::Model::Property)
       end
     end
+
+    describe "to_2D_array with hidden_name in true or false on Child Model" do
+
+      before :each do
+        @child = build(:child, name: 'Test name')
+      end
+
+      it "should be not return name" do
+        @child.hidden_name = true
+        arr = []
+        BaseExporter.to_2D_array([ @child ], @model_class.properties) do |row|
+          arr << row
+        end
+
+        arr.length.should == 2
+        expect(arr[0]).to include("name")
+        arr[1][arr[0].index("name")].should == ""
+      end
+
+      it "should be return name" do
+        @child.hidden_name = false
+        arr = []
+        BaseExporter.to_2D_array([ @child ], @model_class.properties) do |row|
+          arr << row
+        end
+
+        arr.length.should == 2
+        expect(arr[0]).to include("name")
+        arr[1][arr[0].index("name")].should == @child.name
+      end
+
+    end
+
   end
 end

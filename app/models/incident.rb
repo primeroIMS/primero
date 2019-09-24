@@ -241,7 +241,8 @@ class Incident < CouchRest::Model::Base
                 "module_id" => {:type => "single", :value => PrimeroModule::MRM},
                 "status" => {:type => "single", :value => STATUS_OPEN},
               }
-    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
+    group_filters = user.group_permission_filters
+    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, group_filters[:user_names], nil, nil, group_filters[:user_group_ids]).results
   end
 
   def self.open_gbv_incidents(user)
@@ -249,7 +250,8 @@ class Incident < CouchRest::Model::Base
                 "module_id" => {:type => "single", :value => PrimeroModule::GBV},
                 "status" => {:type => "single", :value => STATUS_OPEN},
               }
-    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
+    group_filters = user.group_permission_filters
+    self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, group_filters[:user_names], nil, nil, group_filters[:user_group_ids]).results
   end
 
   # Each violation type has a field that is used as part of the identification

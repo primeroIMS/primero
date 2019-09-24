@@ -66,6 +66,12 @@ class Flag
     string :flag_record_owner, :stored => true do
       base_doc.owned_by
     end
+    string :flag_groups_owner, :stored => true, :multiple => true do
+      base_doc.owned_by_groups
+    end
+    string :flag_associated_groups, :stored => true, :multiple => true do
+      base_doc.associated_user_groups
+    end
   end
 
   def initialize *args

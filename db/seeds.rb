@@ -62,10 +62,11 @@ if should_seed? ContactInformation
   ContactInformation.create(:id=>"administrator") if isTableEmpty?(ContactInformation)
 end
 
-
-puts "Loading Form Translations"
-Dir[File.dirname(__FILE__) + '/translations/gbv/{ar,fr,bn}/*.yml'].each do |file|
-  puts file
-  clazz = file.end_with?('lookups.yml') ? Lookup : FormSection
-  Importers::YamlI18nImporter.import(file, clazz)
+if ENV['NO_RESEED'] != 'true'
+  puts "Loading Form Translations"
+  Dir[File.dirname(__FILE__) + '/translations/gbv/{ar,fr,bn}/*.yml'].each do |file|
+    puts file
+    clazz = file.end_with?('lookups.yml') ? Lookup : FormSection
+    Importers::YamlI18nImporter.import(file, clazz)
+  end
 end
