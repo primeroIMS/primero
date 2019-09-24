@@ -1,7 +1,14 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-shadow */
 /* eslint-disable func-names */
-import { isArray, isEmpty, transform, isEqualWith, isObject, isEqual } from "lodash";
+import {
+  isArray,
+  isEmpty,
+  transform,
+  isEqualWith,
+  isObject,
+  isEqual
+} from "lodash";
 import { isDate, format } from "date-fns";
 import * as C from "./constants";
 
@@ -9,6 +16,8 @@ function customizer(baseValue, value) {
   if (Array.isArray(baseValue) && Array.isArray(value)) {
     return isEqual(baseValue.sort(), value.sort());
   }
+
+  return false;
 }
 
 function difference(object, base, nested) {
@@ -24,7 +33,7 @@ function difference(object, base, nested) {
         val = format(value, "dd-MMM-yyyy");
       }
 
-      let resultKey = isArray(base) ? arrayIndexCounter++ : key;
+      const resultKey = isArray(base) ? (arrayIndexCounter += 1) : key;
 
       result[resultKey] =
         isObject(value) && isObject(base[key])
