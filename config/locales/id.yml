@@ -603,7 +603,7 @@ id:
       flag_label: "Ditandai dengan Bendera?"
       social_worker: "Kolom/Kasus/Pekerja Sosial:"
       inquiry_date: "Tanggal Penyelidikan:"
-      status: "Status Permintaan:"
+      inquiry_status: "Status Permintaan:"
       location_separation: "Pemisahan Lokasi:"
       separation_cause: "Penyebab Pemisahan:"
       record_state: "Data Menerangkan:"
@@ -1723,7 +1723,7 @@ id:
     referral: "Ditujukan ke %{to_user} oleh %{by_user}"
     transfer: "Ditransfer ke %{to_user} oleh %{by_user}"
     record_by: "Data dibuat oleh"
-    status_changed: "Status anak berubah menjadi penyatuan kembali oleh"
+    child_status_changed: "Status anak berubah menjadi penyatuan kembali oleh"
     system_logs:
       records_performed_by: "data dilakukan oleh"
       performed_by: "dilakukan oleh"
@@ -1741,7 +1741,7 @@ id:
       mark_as_investigated_by: "Rekaman yang ditandai diselidiki oleh"
       mark_as_not_investigated_by: "Rekaman yang ditandai tidak diselidiki oleh"
     reunited:
-      status_changed: "Status anak di ubah menjadi aktif oleh"
+      child_status_changed: "Status anak di ubah menjadi aktif oleh"
       with_details: "Dengan rincian ini:"
   actions:
     button: "Tindakan"

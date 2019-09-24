@@ -511,7 +511,7 @@ es:
       flag_label: "Marcado?"
       social_worker: "Trabajador de terreno/caso/social:"
       inquiry_date: "Fecha de la consulta"
-      status: "Estado de la consulta"
+      inquiry_status: "Estado de la consulta"
       location_separation: "Lugar de separación:"
       separation_cause: "Motivo de separación:"
       record_state: "Estado del registro:"
@@ -1167,10 +1167,10 @@ es:
     high_risk_level: "Alta"
     medium_risk_level: "Media"
     low_risk_level: "Baja"
-    status_open: "Abierto"
-    status_closed: "Cerrado"
-    status_transferred: "Transferido"
-    status_duplicate: "Duplicado"
+    child_status_open: "Abierto"
+    child_status_closed: "Cerrado"
+    child_status_transferred: "Transferido"
+    child_status_duplicate: "Duplicado"
 
   dashboard:
     flagged_by: "Marcado por"
@@ -1433,7 +1433,7 @@ es:
       mark_as_not_investigated_by: "El registro fue marcado como No investigado por"
 
     reunited:
-      status_changed: "Estado del menor cambiado a activo por"
+      child_status_changed: "Estado del menor cambiado a activo por"
       with_details: "con esta información:"
 
   actions:
