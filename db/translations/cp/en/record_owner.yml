@@ -1,0 +1,32 @@
+---
+en:
+  record_owner:
+    name: Record Information
+    description: Record Information
+    fields:
+      current_owner_separator:
+        display_name: Current Owner
+      owned_by_text:
+        display_name: Field/Case/Social Worker
+      owned_by:
+        display_name: Caseworker Code
+      reassigned_tranferred_on:
+        display_name: Reassigned / Transferred On
+      owned_by_agency:
+        display_name: Agency
+      assigned_user_names:
+        display_name: Other Assigned Users
+      record_history_separator:
+        display_name: Record History
+      created_by:
+        display_name: Record created by
+      created_by_agency:
+        display_name: Created by agency
+      previously_owned_by:
+        display_name: Previous Owner
+      previous_agency:
+        display_name: Previous Agency
+      module_id:
+        display_name: Module
+      reopened_logs:
+        display_name: Case Reopened

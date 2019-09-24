@@ -1,0 +1,106 @@
+---
+en:
+  caafag_profile:
+    name: CAAFAG Profile
+    description: CAAFAG Profile
+    fields:
+      un_ddr_no:
+        display_name: UN DDR Number
+      cafaag_name_armed_group:
+        display_name: "With which Armed Force or Armed Group was the child associated?"
+        option_strings_text:
+          government_force: Government Force
+          ltte: LTTE
+          ml24: Ml24
+          non_government_forces: Non government forces
+          none: None
+          other_paramilitary_group: Other Paramilitary group
+          sf: SF
+          sla: SLA
+          spla: SPLA
+          tmvp: TMVP
+          unknown: Unknown
+      cafaag_enrollment_reason_not_forced:
+        display_name: "If not forced, what was the main reason why the child became involved in the Armed Force or Armed Group? (type of recruitment)"
+        option_strings_text:
+          voluntary_enrollment: Voluntary enrollment
+          family_problems_abuse: Family problems/abuse
+          financial_reasons: Financial reasons
+          lack_of_access_to_essential_services: Lack of access to essential services
+          poverty: Poverty
+          wanted_to_fight_for_their_beliefs: Wanted to fight for their beliefs
+          wanted_to_follow_friends: Wanted to follow friends
+          other: Other
+      cafaag_enrollment_reason_not_forced_text:
+        display_name: Other reason for enrollment
+      cafaag_name_militaryunit:
+        display_name: Name of Military Unit
+      cafaag_name_commander:
+        display_name: Commander's Name
+      address_cafaag_militaryunit:
+        display_name: Area of Military Unit
+      location_cafaag_militaryunit:
+        display_name: Location of Military Unit
+      cafaag_child_role:
+        display_name: "What was the main role of the child?"
+        option_strings_text:
+          combat: Combat
+          combat_support: Combat support
+          combattant: Combattant
+          commander_ranked_position: Commander/Ranked position
+          girlfriend: Girlfriend
+          girlfriend_wife_forced_sexual_activity: Girlfriend/Wife/Forced Sexual Activity
+          non_combat: Non-Combat
+          non_combat_cook_guide_porter_etc: "Non-Combat (cook, guide, porter, etc.)"
+          other: Other
+      cafaag_child_owned_weapon:
+        display_name: Did the child own/use a weapon
+      cafaag_weapon_type:
+        display_name: Type of Weapon
+      cafaag_date_child_join:
+        display_name: "When did the child join the Armed Force or Armed Group?"
+      address_cafaag_registration:
+        display_name: Place of registration (Village/Address/Area) - Address
+      address_cafaag_mobilization:
+        display_name: Area of Mobilization
+      location_cafaag_mobilization:
+        display_name: Location of Mobilization
+      cafaag_date_child_leave:
+        display_name: "When did the child leave the Armed Force or Armed Group?"
+      cafaag_how_did_child_leave_armed_group:
+        display_name: "How did the child leave the Armed Force or Armed Group?"
+        option_strings_text:
+          captured: Captured
+          deceased: Deceased
+          dissolution_of_the_group: Dissolution of the group
+          escape_runaway: Escape/Runaway
+          formal_ddr_program: Formal DDR program
+          locally_negotiated_demobilization: Locally negotiated demobilization
+          normal: Normal
+          other: Other (Please specify)
+          released_handover_to_family: Released/Handover to family
+          released_handover_to_government: Released/Handover to government
+          released_handover_to_organization: Released/Handover to Organization
+          runaway: Runaway
+          surrendered: Surrendered
+          unicef_ddr: UNICEF DDR
+      cafaag_how_child_left_other:
+        display_name: "If Other, please specify"
+      address_cafaag_demobilization:
+        display_name: Address of Demobilization
+      location_cafaag_demobilization:
+        display_name: Location of Demobilization
+      cafaag_demobilization_papers_served:
+        display_name: "Has the Child been served any demobilization papers?"
+      cafaag_reason_for_release_from_military:
+        display_name: Reason for release from Military
+        option_strings_text:
+          captured: Captured
+          deceased: Deceased
+          dissolution_of_the_group: Dissolution of the group
+          formal_ddr_program: Formal DDR program
+          released_handover_to_government: Released/Handover to government
+          released_handover_to_organization: Released/Handover to organization
+          released_handover_to_family: Released/Handover to family
+          runaway: Runaway
+          surrendered: Surrendered

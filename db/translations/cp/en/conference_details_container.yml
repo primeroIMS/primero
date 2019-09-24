@@ -1,0 +1,8 @@
+---
+en:
+  conference_details_container:
+    name: Case Conference Details
+    description: Case Conference Details
+    fields:
+      conference_details_subform:
+        display_name: Case Conference Details

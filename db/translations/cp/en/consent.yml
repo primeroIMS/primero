@@ -1,0 +1,42 @@
+---
+en:
+  consent:
+    name: Data Confidentiality
+    description: Data Confidentiality
+    fields:
+      interview_subject:
+        display_name: Consent Obtained From
+        option_strings_text:
+          individual: Individual
+          caregiver: Caregiver
+          other: Other (please specify)
+      consent_source_other:
+        display_name: "If Other, please specify"
+      consent_for_services:
+        display_name: Consent has been obtained for the child to receive case management services
+        help_text: This includes consent for sharing information with other organizations providing services
+        tick_box_label: 'Yes'
+      consent_reporting:
+        display_name: Consent is given share non-identifiable information for reporting
+      consent_for_tracing:
+        display_name: Consent has been obtained to disclose information for tracing purposes
+        help_text: "If this field is 'No', the child's case record will not show up in Matches with Inquirer Tracing Requests."
+      disclosure_other_orgs:
+        display_name: "The individual providing consent agrees to share collected information with other organizations for service provision?"
+        help_text: "This includes sharing information with other oranizations providing services, this does not include sharing information with UNHCR."
+        tick_box_label: 'Yes'
+      unhcr_export_opt_out:
+        display_name: "Has the child stated that he/she does not want to share personal details with UNHCR?"
+        help_text: "If the child does not want to share information with UNHCR, select 'Yes' to this question (the child's personal details will not be included in the UNHCR export if this is set to 'Yes)."
+      consent_share_separator:
+        display_name: Consent Details for Sharing Information
+      disclosure_deny_details:
+        display_name: What information should be withheld from a particular person or individual
+      withholding_info_reason:
+        display_name: Reason for withholding information
+        option_strings_text:
+          fear: Fear of harm to themselves or others
+          communicate_information: Want to communicate information themselves
+          others: "Other reason, please specify"
+      withholding_info_other_reason:
+        display_name: "If other reason for withholding information, please specify"

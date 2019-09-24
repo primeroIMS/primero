@@ -1,0 +1,13 @@
+---
+en:
+  assessment:
+    name: Assessment
+    description: Assessment form
+    fields:
+      assessment_requested_by:
+        display_name: Assessment requested by
+      assessment_requested_on:
+        display_name: Assessment requested on
+        help_text: This field is used for the Workflow status.
+      case_plan_due_date:
+        display_name: Date Case Plan Due

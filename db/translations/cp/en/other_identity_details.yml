@@ -1,0 +1,32 @@
+---
+en:
+  other_identity_details:
+    name: Other Identity Details
+    description: Other Identity Details
+    fields:
+      nationality:
+        display_name: Nationality
+      place_of_birth:
+        display_name: Place of Birth
+      country_of_birth:
+        display_name: Birth Country
+      country_of_origin:
+        display_name: Country of Origin
+      address_last:
+        display_name: Last Address
+      landmark_last:
+        display_name: Last Landmark
+      location_last:
+        display_name: Last Location
+      telephone_last:
+        display_name: Last Telephone
+      ethnicity:
+        display_name: Ethnicity/Clan/Tribe
+      sub_ethnicity_1:
+        display_name: Sub Ethnicity 1
+      sub_ethnicity_2:
+        display_name: Sub Ethnicity 2
+      language:
+        display_name: Language
+      religion:
+        display_name: Religion

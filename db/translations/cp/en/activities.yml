@@ -1,0 +1,65 @@
+---
+en:
+  activities:
+    name: Activities
+    description: Activities
+    fields:
+      activities_child_in_school_or_training:
+        display_name: "Is the Child in school or training?"
+      activities_school_name:
+        display_name: Name of School
+      activities_reason_not_in_school:
+        display_name: "If not, why not?"
+        option_strings_text:
+          child_labour: Child Labour
+          early_marriage: Early Marriage
+          financial_constraints: Financial Constraints
+          ignorance: Ignorance
+          lack_of_infrastructure: Lack of Infrastructure
+          lack_of_access: Lack of Access
+          lack_of_interest: Lack of interest
+          children: Children
+          pregnancy_child: Pregnancy/Child
+          sent_abroad_for_job: Sent abroad for job
+          Other: Other
+      activities_education_type:
+        display_name: "If yes, what type of education?"
+        option_strings_text:
+          accelerated_learning: Accelerated learning
+          early_childhood: Early Childhood
+          non_formal_education: Non-Formal Education
+          primary: Primary
+          secondary: Secondary
+          vocational: Vocational
+          vocational_training: Vocational training
+      activities_level_achieved:
+        display_name: "If relevant, what level have they achieved?"
+        option_strings_text:
+          carpentry: Carpentry
+          gs1: GS1
+          gs2: GS2
+          gs3: GS3
+          level_1: level 1
+          level_2: level 2
+          level_3: level 3
+          level_4: level 4
+          ss1: SS1
+          ss2: SS2
+          ss3: SS3
+          tailoring: Tailoring
+          woodwork: Woodwork
+          hairdressing: Hairdressing
+      activities_training_start_date:
+        display_name: Start Date of Training
+      activities_training_duration:
+        display_name: Duration of Training
+      activities_notes:
+        display_name: Other details about school or training
+      activities_other:
+        display_name: "What other activities is the child involved in?"
+        option_strings_text:
+          community_activities: Community Activities
+          livelihood_activities: Livelihood Activities
+          recreational_activities: Recreational Activities
+      activities_other_notes:
+        display_name: Other details about additional activities

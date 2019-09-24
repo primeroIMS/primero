@@ -1,0 +1,38 @@
+---
+en:
+  child_under_5:
+    name: Child Under 5
+    description: Child Under 5
+    fields:
+      date_child_found:
+        display_name: Date child was found
+      location_child_found:
+        display_name: Location where child was found
+      address_child_found:
+        display_name: Found in Village/Area/Physical Address
+      found_child_details:
+        display_name: Please describe in detail how the child was found or taken in the family/children's center
+      location_found_child_people_was_with:
+        display_name: "Where are the people who were part of the group that was displaced at the same time?"
+      address_found_child_people_was_with:
+        display_name: Village/Area/Physical Address
+      child_finder:
+        display_name: "Name of person who gave the child to the family/children's center?"
+      relationship_child_finder:
+        display_name: "What is this person's relationship to the child?"
+      location_child_finder:
+        display_name: Location of person who found the child
+      address_child_finder:
+        display_name: Address of person who found the child
+      child_finder_notes:
+        display_name: "If that person's address is not known, how could we find him or her and/or provide name(s) and address(es) who may know the person who found the child?"
+      child_belongings:
+        display_name: "Are there any clothes and belongings the child was found with?"
+      child_belongings_details:
+        display_name: "Please list and describe (including medals, bracelets, hair ties, etc.)"
+      child_stories_songs_words:
+        display_name: "Please write down any stories, songs, words, most often repeated by the child"
+      child_accent_details:
+        display_name: "If the child speaks with an accent and if the family separation has been short (few months), from what region do you think the child comes from?"
+      child_specific_behavior:
+        display_name: "Please write down any behavior specific to the child that may help a parent identify him/her later on such as child's games, and main interests or specific things he/she likes to do"

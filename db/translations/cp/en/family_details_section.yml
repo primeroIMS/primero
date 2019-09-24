@@ -1,0 +1,64 @@
+---
+en:
+  family_details_section:
+    name: Nested Family Details
+    description: Family Details Subform
+    fields:
+      relation_name:
+        display_name: Name
+      relation:
+        display_name: "How are they related to the child?"
+      relation_is_caregiver:
+        display_name: "Is this person the caregiver?"
+      relation_child_lived_with_pre_separation:
+        display_name: "Did the child live with this person before separation?"
+      relation_child_is_in_contact:
+        display_name: "Is the child in contact with this person?"
+      relation_child_is_separated_from:
+        display_name: "Is the child separated from this person?"
+      relation_identifiers:
+        display_name: List any agency identifiers as a comma separated list
+      relation_nickname:
+        display_name: Nickname
+      relation_is_alive:
+        display_name: "Is this family member alive?"
+        option_strings_text:
+          unknown: Unknown
+          alive: Alive
+          dead: Dead
+      relation_death_details:
+        display_name: "If dead, please provide details"
+      relation_age:
+        display_name: Age
+      relation_date_of_birth:
+        display_name: Date of Birth
+      relation_language:
+        display_name: Language
+      relation_religion:
+        display_name: Religion
+      relation_ethnicity:
+        display_name: Ethnicity
+      relation_sub_ethnicity1:
+        display_name: Sub Ethnicity 1
+      relation_sub_ethnicity2:
+        display_name: Sub Ethnicity 2
+      relation_nationality:
+        display_name: Nationality
+      relation_comments:
+        display_name: Comments
+      relation_occupation:
+        display_name: Occupation
+      relation_address_current:
+        display_name: Current Address
+      relation_address_is_permanent:
+        display_name: "Is this a permanent location?"
+      relation_location_current:
+        display_name: Current Location
+      relation_address_last:
+        display_name: Last Known Address
+      relation_location_last:
+        display_name: Last Known Location
+      relation_telephone:
+        display_name: Telephone
+      relation_other_family:
+        display_name: Other persons well known to the child

@@ -1,0 +1,48 @@
+---
+en:
+  tracing:
+    name: Tracing
+    description: Tracing
+    fields:
+      matched_tracing_request_id:
+        display_name: Matched Tracing Request ID
+      separation_separator:
+        display_name: Separation History
+      tracing_status:
+        display_name: Tracing Status
+      date_of_separation:
+        display_name: Date of Separation
+      separation_cause:
+        display_name: "What was the main cause of separation?"
+      separation_cause_other:
+        display_name: "If Other, please specify"
+      separation_other_applicable_causes:
+        display_name: 'If applicable, what were other causes of separation? '
+      separation_details:
+        display_name: Circumstances of Separation (please provide details)
+      separation_additional_movements:
+        display_name: Describe additional movements between place of separation and current location
+      separation_witnessed_violence:
+        display_name: "Did the child face or witness any type of violence, threat or harm during his/her journey?"
+      separation_witnessed_violence_comments:
+        display_name: Details about what the child faced / witnessed
+      address_separation:
+        display_name: Separation Address (Place)
+      location_separation:
+        display_name: Separation Location
+      additional_tracing_info:
+        display_name: "Additional info that could help in tracing?"
+      evacuation_status:
+        display_name: "Has child been evacuated?"
+      evacuation_agent:
+        display_name: "If yes, through which organization?"
+      evacuation_from:
+        display_name: Evacuated From
+      evacuation_date:
+        display_name: Evacuation Date
+      evacuation_to:
+        display_name: Evacuated To
+      care_arrangements_arrival_date:
+        display_name: Arrival Date
+      tracing_actions_section:
+        display_name: Tracing Actions

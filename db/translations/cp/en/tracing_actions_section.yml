@@ -1,0 +1,30 @@
+---
+en:
+  tracing_actions_section:
+    name: Nested Tracing Action
+    description: Tracing Action Subform
+    fields:
+      date_tracing:
+        display_name: Date of tracing
+      tracing_type:
+        display_name: Type of action taken
+        option_strings_text:
+          case_by_case_tracing: Case by Case Tracing
+          individual_tracing: Individual Tracing
+          mass_tracing: Mass Tracing
+          photo_tracing: Photo Tracing
+          referral_to_ngo: Referral to NGO
+          referral_to_icrc: Referral to ICRC
+      address_tracing:
+        display_name: Address/Village where the tracing action took place
+      location_tracing:
+        display_name: Location of Tracing
+      tracing_action_description:
+        display_name: Action taken and remarks
+      tracing_outcome:
+        display_name: Outcome of tracing action
+        option_strings_text:
+          pending: Pending
+          successful: Successful
+          unsuccessful: Unsuccessful
+          'yes': 'Yes'

@@ -181,3 +181,344 @@ source_file = translations/gbv/en/transitions.yml
 source_lang = en
 type = YML
 
+[cp-forms.verificationyml]
+file_filter = translations/cp/<lang>/verification.yml
+source_file = translations/cp/en/verification.yml
+source_lang = en
+type = YML
+
+[cp-forms.protection_concernyml]
+file_filter = translations/cp/<lang>/protection_concern.yml
+source_file = translations/cp/en/protection_concern.yml
+source_lang = en
+type = YML
+
+[cp-forms.closure_formyml]
+file_filter = translations/cp/<lang>/closure_form.yml
+source_file = translations/cp/en/closure_form.yml
+source_lang = en
+type = YML
+
+[cp-forms.cp_case_planyml]
+file_filter = translations/cp/<lang>/cp_case_plan.yml
+source_file = translations/cp/en/cp_case_plan.yml
+source_lang = en
+type = YML
+
+[cp-forms.interview_detailsyml]
+file_filter = translations/cp/<lang>/interview_details.yml
+source_file = translations/cp/en/interview_details.yml
+source_lang = en
+type = YML
+
+[cp-forms.incident_details_containeryml]
+file_filter = translations/cp/<lang>/incident_details_container.yml
+source_file = translations/cp/en/incident_details_container.yml
+source_lang = en
+type = YML
+
+[cp-forms.conference_details_containeryml]
+file_filter = translations/cp/<lang>/conference_details_container.yml
+source_file = translations/cp/en/conference_details_container.yml
+source_lang = en
+type = YML
+
+[cp-forms.referral_transferyml]
+file_filter = translations/cp/<lang>/referral_transfer.yml
+source_file = translations/cp/en/referral_transfer.yml
+source_lang = en
+type = YML
+
+[cp-forms.followup_subform_sectionyml]
+file_filter = translations/cp/<lang>/followup_subform_section.yml
+source_file = translations/cp/en/followup_subform_section.yml
+source_lang = en
+type = YML
+
+[cp-forms.family_detailsyml]
+file_filter = translations/cp/<lang>/family_details.yml
+source_file = translations/cp/en/family_details.yml
+source_lang = en
+type = YML
+
+[cp-forms.servicesyml]
+file_filter = translations/cp/<lang>/services.yml
+source_file = translations/cp/en/services.yml
+source_lang = en
+type = YML
+
+[cp-forms.protection_concern_detail_subform_sectionyml]
+file_filter = translations/cp/<lang>/protection_concern_detail_subform_section.yml
+source_file = translations/cp/en/protection_concern_detail_subform_section.yml
+source_lang = en
+type = YML
+
+[cp-forms.consentyml]
+file_filter = translations/cp/<lang>/consent.yml
+source_file = translations/cp/en/consent.yml
+source_lang = en
+type = YML
+
+[cp-forms.lookupsyml]
+file_filter = translations/cp/<lang>/lookups.yml
+source_file = translations/cp/en/lookups.yml
+source_lang = en
+type = YML
+
+[cp-forms.conference_details_subform_sectionyml]
+file_filter = translations/cp/<lang>/conference_details_subform_section.yml
+source_file = translations/cp/en/conference_details_subform_section.yml
+source_lang = en
+type = YML
+
+[cp-forms.care_arrangementsyml]
+file_filter = translations/cp/<lang>/care_arrangements.yml
+source_file = translations/cp/en/care_arrangements.yml
+source_lang = en
+type = YML
+
+[cp-forms.services_sectionyml]
+file_filter = translations/cp/<lang>/services_section.yml
+source_file = translations/cp/en/services_section.yml
+source_lang = en
+type = YML
+
+[cp-forms.record_owneryml]
+file_filter = translations/cp/<lang>/record_owner.yml
+source_file = translations/cp/en/record_owner.yml
+source_lang = en
+type = YML
+
+[cp-forms.cp_offender_detailsyml]
+file_filter = translations/cp/<lang>/cp_offender_details.yml
+source_file = translations/cp/en/cp_offender_details.yml
+source_lang = en
+type = YML
+
+[cp-forms.transitionsyml]
+file_filter = translations/cp/<lang>/transitions.yml
+source_file = translations/cp/en/transitions.yml
+source_lang = en
+type = YML
+
+[cp-forms.reunification_details_sectionyml]
+file_filter = translations/cp/<lang>/reunification_details_section.yml
+source_file = translations/cp/en/reunification_details_section.yml
+source_lang = en
+type = YML
+
+[cp-forms.caafag_profileyml]
+file_filter = translations/cp/<lang>/caafag_profile.yml
+source_file = translations/cp/en/caafag_profile.yml
+source_lang = en
+type = YML
+
+[cp-forms.notesyml]
+file_filter = translations/cp/<lang>/notes.yml
+source_file = translations/cp/en/notes.yml
+source_lang = en
+type = YML
+
+[cp-forms.other_documentsyml]
+file_filter = translations/cp/<lang>/other_documents.yml
+source_file = translations/cp/en/other_documents.yml
+source_lang = en
+type = YML
+
+[cp-forms.family_details_sectionyml]
+file_filter = translations/cp/<lang>/family_details_section.yml
+source_file = translations/cp/en/family_details_section.yml
+source_lang = en
+type = YML
+
+[cp-forms.reunification_detailsyml]
+file_filter = translations/cp/<lang>/reunification_details.yml
+source_file = translations/cp/en/reunification_details.yml
+source_lang = en
+type = YML
+
+[cp-forms.cp_case_plan_subform_case_plan_interventionsyml]
+file_filter = translations/cp/<lang>/cp_case_plan_subform_case_plan_interventions.yml
+source_file = translations/cp/en/cp_case_plan_subform_case_plan_interventions.yml
+source_lang = en
+type = YML
+
+[cp-forms.other_identity_detailsyml]
+file_filter = translations/cp/<lang>/other_identity_details.yml
+source_file = translations/cp/en/other_identity_details.yml
+source_lang = en
+type = YML
+
+[cp-forms.cp_bia_formyml]
+file_filter = translations/cp/<lang>/cp_bia_form.yml
+source_file = translations/cp/en/cp_bia_form.yml
+source_lang = en
+type = YML
+
+[cp-forms.child_wishesyml]
+file_filter = translations/cp/<lang>/child_wishes.yml
+source_file = translations/cp/en/child_wishes.yml
+source_lang = en
+type = YML
+
+[cp-forms.activitiesyml]
+file_filter = translations/cp/<lang>/activities.yml
+source_file = translations/cp/en/activities.yml
+source_lang = en
+type = YML
+
+[cp-forms.basic_identityyml]
+file_filter = translations/cp/<lang>/basic_identity.yml
+source_file = translations/cp/en/basic_identity.yml
+source_lang = en
+type = YML
+
+[cp-forms.approvalsyml]
+file_filter = translations/cp/<lang>/approvals.yml
+source_file = translations/cp/en/approvals.yml
+source_lang = en
+type = YML
+
+[cp-forms.child_under_5yml]
+file_filter = translations/cp/<lang>/child_under_5.yml
+source_file = translations/cp/en/child_under_5.yml
+source_lang = en
+type = YML
+
+[cp-forms.notes_sectionyml]
+file_filter = translations/cp/<lang>/notes_section.yml
+source_file = translations/cp/en/notes_section.yml
+source_lang = en
+type = YML
+
+[cp-forms.protection_concern_detailsyml]
+file_filter = translations/cp/<lang>/protection_concern_details.yml
+source_file = translations/cp/en/protection_concern_details.yml
+source_lang = en
+type = YML
+
+[cp-forms.followupyml]
+file_filter = translations/cp/<lang>/followup.yml
+source_file = translations/cp/en/followup.yml
+source_lang = en
+type = YML
+
+[cp-forms.partner_detailsyml]
+file_filter = translations/cp/<lang>/partner_details.yml
+source_file = translations/cp/en/partner_details.yml
+source_lang = en
+type = YML
+
+[cp-forms.assessmentyml]
+file_filter = translations/cp/<lang>/assessment.yml
+source_file = translations/cp/en/assessment.yml
+source_lang = en
+type = YML
+
+[cp-forms.best_interestyml]
+file_filter = translations/cp/<lang>/best_interest.yml
+source_file = translations/cp/en/best_interest.yml
+source_lang = en
+type = YML
+
+[cp-forms.cp_incident_record_owneryml]
+file_filter = translations/cp/<lang>/cp_incident_record_owner.yml
+source_file = translations/cp/en/cp_incident_record_owner.yml
+source_lang = en
+type = YML
+
+[cp-forms.reopened_logsyml]
+file_filter = translations/cp/<lang>/reopened_logs.yml
+source_file = translations/cp/en/reopened_logs.yml
+source_lang = en
+type = YML
+
+[cp-forms.tracingyml]
+file_filter = translations/cp/<lang>/tracing.yml
+source_file = translations/cp/en/tracing.yml
+source_lang = en
+type = YML
+
+[cp-forms.care_assessmentyml]
+file_filter = translations/cp/<lang>/care_assessment.yml
+source_file = translations/cp/en/care_assessment.yml
+source_lang = en
+type = YML
+
+[cp-forms.cp_individual_detailsyml]
+file_filter = translations/cp/<lang>/cp_individual_details.yml
+source_file = translations/cp/en/cp_individual_details.yml
+source_lang = en
+type = YML
+
+[cp-forms.tracing_actions_sectionyml]
+file_filter = translations/cp/<lang>/tracing_actions_section.yml
+source_file = translations/cp/en/tracing_actions_section.yml
+source_lang = en
+type = YML
+
+[cp-forms.verification_subform_sectionyml]
+file_filter = translations/cp/<lang>/verification_subform_section.yml
+source_file = translations/cp/en/verification_subform_section.yml
+source_lang = en
+type = YML
+
+[cp-forms.cp_incident_formyml]
+file_filter = translations/cp/<lang>/cp_incident_form.yml
+source_file = translations/cp/en/cp_incident_form.yml
+source_lang = en
+type = YML
+
+[cp-forms.child_preferences_sectionyml]
+file_filter = translations/cp/<lang>/child_preferences_section.yml
+source_file = translations/cp/en/child_preferences_section.yml
+source_lang = en
+type = YML
+
+[cp-forms.approval_subformsyml]
+file_filter = translations/cp/<lang>/approval_subforms.yml
+source_file = translations/cp/en/approval_subforms.yml
+source_lang = en
+type = YML
+
+[cp-forms.incident_details_subform_sectionyml]
+file_filter = translations/cp/<lang>/incident_details_subform_section.yml
+source_file = translations/cp/en/incident_details_subform_section.yml
+source_lang = en
+type = YML
+
+[cp-forms.photos_and_audioyml]
+file_filter = translations/cp/<lang>/photos_and_audio.yml
+source_file = translations/cp/en/photos_and_audio.yml
+source_lang = en
+type = YML
+
+[cp-forms.tracing_request_subform_sectionyml]
+file_filter = translations/tr/<lang>/tracing_request_subform_section.yml
+source_file = translations/tr/en/tracing_request_subform_section.yml
+source_lang = en
+type = YML
+
+[cp-forms.tracing_request_inquireryml]
+file_filter = translations/tr/<lang>/tracing_request_inquirer.yml
+source_file = translations/tr/en/tracing_request_inquirer.yml
+source_lang = en
+type = YML
+
+[cp-forms.tracing_request_photos_and_audioyml]
+file_filter = translations/tr/<lang>/tracing_request_photos_and_audio.yml
+source_file = translations/tr/en/tracing_request_photos_and_audio.yml
+source_lang = en
+type = YML
+
+[cp-forms.tracing_request_tracing_requestyml]
+file_filter = translations/tr/<lang>/tracing_request_tracing_request.yml
+source_file = translations/tr/en/tracing_request_tracing_request.yml
+source_lang = en
+type = YML
+
+[cp-forms.tracing_request_record_owneryml]
+file_filter = translations/tr/<lang>/tracing_request_record_owner.yml
+source_file = translations/tr/en/tracing_request_record_owner.yml
+source_lang = en
+type = YML
