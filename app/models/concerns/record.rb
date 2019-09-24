@@ -13,13 +13,14 @@ module Record
     after_destroy :unindex_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
   end
 
-  #TODO: Refactor when making names
   def self.model_from_name(name)
     case name
-      when 'case' then Child
-      when 'violation' then Incident
-      else Object.const_get(name.camelize)
+    when 'case' then Child
+    when 'violation' then Incident
+    else Object.const_get(name.camelize)
     end
+  rescue NameError
+    nil
   end
 
   def self.map_name(name)

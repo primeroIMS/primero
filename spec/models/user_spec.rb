@@ -7,17 +7,17 @@ describe User do
   end
 
   def build_user(options = {})
-    options.reverse_merge!({
-                               user_name: "user_name_#{rand(10000)}",
-                               full_name: 'full name',
-                               password: 'b00h00h00',
-                               password_confirmation: options[:password] || 'b00h00h00',
-                               email: 'email@ddress.net',
-                               agency_id: options[:agency_id] || Agency.try(:last).try(:id),
-                               disabled: 'false',
-                               role_id: options[:role_id] || Role.try(:last).try(:id),
-                               module_ids: [options[:module_ids] || PrimeroModule.try(:last).try(:id)]
-                           })
+    options.reverse_merge!(
+      user_name: "user_name_#{rand(10_000)}",
+      full_name: 'full name',
+      password: 'b00h00h00',
+      password_confirmation: options[:password] || 'b00h00h00',
+      email: 'email@ddress.net',
+      agency_id: options[:agency_id] || Agency.try(:last).try(:id),
+      disabled: 'false',
+      role_id: options[:role_id] || Role.try(:last).try(:id),
+      module_ids: [options[:module_ids] || PrimeroModule.try(:last).try(:id)]
+    )
     user = User.new(options)
     user
   end
@@ -37,6 +37,133 @@ describe User do
     User.stub(:find_by_user_name).and_return(user)
     user.stub(:authenticate).and_return true
     AuditLog.create(user_name: user_name, action_name: 'login', record_type: 'user')
+  end
+
+  describe 'transition queries' do
+
+    describe 'users_for_assign' do
+      before :each do
+        @group1 = UserGroup.create!(name: 'Group1')
+        @group2 = UserGroup.create!(name: 'Group2')
+        @group3 = UserGroup.create!(name: 'Group3')
+        @agency1 = Agency.create!(name: 'Agency1', agency_code: 'A1')
+        @agency2 = Agency.create!(name: 'Agency2', agency_code: 'A2')
+        @user1 = User.new(user_name: 'user1', user_groups: [@group1, @group2], agency: @agency1)
+        @user2 = User.new(user_name: 'user2', user_groups: [@group1], agency: @agency1)
+        @user2.save(validate: false)
+        @user3 = User.new(user_name: 'user3', user_groups: [@group2], agency: @agency1)
+        @user3.save(validate: false)
+        @user4 = User.new(user_name: 'user4', user_groups: [@group3], agency: @agency2)
+        @user4.save(validate: false)
+      end
+
+      it 'shows all users for a user with the :assign permission' do
+        permission = Permission.new(
+          resource: Permission::CASE, actions: [Permission::ASSIGN]
+        )
+        role = Role.new(permissions: [permission])
+        role.save(validate: false)
+        @user1.role = role
+        @user1.save(validate: false)
+
+
+        users = User.users_for_assign(@user1, Child)
+        expect(users.map(&:user_name)).to match_array(%w[user2 user3 user4])
+      end
+
+      it 'shows only users in the agency for a user with the :assign_within_agency permission' do
+        permission = Permission.new(
+          resource: Permission::CASE, actions: [Permission::ASSIGN_WITHIN_AGENCY]
+        )
+        role = Role.new(permissions: [permission])
+        role.save(validate: false)
+        @user1.role = role
+        @user1.save(validate: false)
+
+        users = User.users_for_assign(@user1, Child)
+        expect(users.map(&:user_name)).to match_array(%w[user2 user3])
+      end
+
+      it 'shows only users in the user groups for a user with the :assign_within_user_group permission' do
+        permission = Permission.new(
+          resource: Permission::CASE, actions: [Permission::ASSIGN_WITHIN_USER_GROUP]
+        )
+        role = Role.new(permissions: [permission])
+        role.save(validate: false)
+        @user1.role = role
+        @user1.save(validate: false)
+
+        users = User.users_for_assign(@user1, Child)
+        expect(users.map(&:user_name)).to match_array(%w[user2 user3])
+      end
+
+    end
+
+    describe 'users_for_referral' do
+      before :each do
+        permission_receive = Permission.new(
+          resource: Permission::CASE, actions: [Permission::RECEIVE_REFERRAL]
+        )
+        role_receive = Role.new(permissions: [permission_receive])
+        role_receive.save(validate: false)
+
+        permission_cannot = Permission.new(
+          resource: Permission::CASE, actions: [Permission::READ]
+        )
+        role_cannot = Role.new(permissions: [permission_cannot])
+        role_cannot.save(validate: false)
+
+
+        @user1 = User.new(user_name: 'user1', role: role_receive)
+        @user1.save(validate: false)
+        @user2 = User.new(user_name: 'user2', role: role_receive)
+        @user2.save(validate: false)
+        @user3 = User.new(user_name: 'user3', role: role_receive)
+        @user3.save(validate: false)
+        @user4 = User.new(user_name: 'user4', role: role_cannot)
+        @user4.save(validate: false)
+      end
+
+      it 'shows all users that can be referred to based on permission' do
+        users = User.users_for_referral(@user1, Child, {})
+        expect(users.map(&:user_name)).to match_array(%w[user2 user3])
+      end
+    end
+
+    describe 'users_for_transfer' do
+      before :each do
+        permission_receive = Permission.new(
+          resource: Permission::CASE, actions: [Permission::RECEIVE_TRANSFER]
+        )
+        role_receive = Role.new(permissions: [permission_receive])
+        role_receive.save(validate: false)
+
+        permission_cannot = Permission.new(
+          resource: Permission::CASE, actions: [Permission::READ]
+        )
+        role_cannot = Role.new(permissions: [permission_cannot])
+        role_cannot.save(validate: false)
+
+
+        @user1 = User.new(user_name: 'user1', role: role_receive)
+        @user1.save(validate: false)
+        @user2 = User.new(user_name: 'user2', role: role_receive)
+        @user2.save(validate: false)
+        @user3 = User.new(user_name: 'user3', role: role_receive)
+        @user3.save(validate: false)
+        @user4 = User.new(user_name: 'user4', role: role_cannot)
+        @user4.save(validate: false)
+      end
+
+      it 'shows all users that can be referred to based on permission' do
+        users = User.users_for_transfer(@user1, Child, {})
+        expect(users.map(&:user_name)).to match_array(%w[user2 user3])
+      end
+    end
+
+    after :each do
+      [UserGroup, User, Agency, Role].each(&:delete_all)
+    end
   end
 
   describe "last login timestamp" do
@@ -313,7 +440,7 @@ describe User do
       @form_section_c = create(:form_section, unique_id: "C", name: "C")
       @primero_module = create(:primero_module, form_sections: [@form_section_a, @form_section_b])
       @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
-      @role = Role.create!(form_sections: [@form_section_b, @form_section_c], name: "Test Role", permissions_list: [@permission_case_read])
+      @role = Role.create!(form_sections: [@form_section_b, @form_section_c], name: "Test Role", permissions: [@permission_case_read])
     end
 
     let(:user) { build(:user, user_name: "test_user", role: @role, module_ids: [@primero_module.id]) }
@@ -334,8 +461,8 @@ describe User do
 
       @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
       @permission_user_read = Permission.new(resource: Permission::USER, actions: [Permission::READ])
-      @manager_role = create(:role, permissions_list: [@permission_user_read_write], group_permission: Permission::GROUP, is_manager: true)
-      @grunt_role = create :role, permissions_list: [@permission_user_read]
+      @manager_role = create(:role, permissions: [@permission_user_read_write], group_permission: Permission::GROUP, is_manager: true)
+      @grunt_role = create :role, permissions: [@permission_user_read]
       @group_a = create(:user_group, name: "A")
       @group_b = create(:user_group, name: "B")
 
@@ -361,7 +488,7 @@ describe User do
     end
 
     it "has a record scope of 'all' if it an manage all users" do
-      manager_role = create(:role, permissions_list: [@permission_user_read_write], group_permission: Permission::ALL, is_manager: true)
+      manager_role = create(:role, permissions: [@permission_user_read_write], group_permission: Permission::ALL, is_manager: true)
       manager = create :user, role_id: manager_role.id
       expect(manager.record_scope).to eq([Searchable::ALL_FILTER])
     end
@@ -381,7 +508,7 @@ describe User do
                            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::SYNC_MOBILE, Permission::APPROVE_CASE_PLAN]),
                            Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ]),
                          ]
-      @role = create(:role, permissions_list: @permission_list, group_permission: Permission::SELF)
+      @role = create(:role, permissions: @permission_list, group_permission: Permission::SELF)
       @user_perm = create(:user, user_name: 'fake_self', role: @role)
     end
 
@@ -411,7 +538,7 @@ describe User do
     context "when logged in with SELF permissions" do
       before :each do
         @user_group = User.new(:user_name => 'fake_self')
-        @user_group.stub(:roles).and_return([Role.new(permissions_list: @permission_list, group_permission: Permission::SELF)])
+        @user_group.stub(:roles).and_return([Role.new(permissions: @permission_list, group_permission: Permission::SELF)])
       end
 
       it "should not have GROUP permission" do
@@ -425,7 +552,7 @@ describe User do
 
     context "when logged in with GROUP permissions" do
       before :each do
-        @role = create(:role, permissions_list: @permission_list, group_permission: Permission::GROUP)
+        @role = create(:role, permissions: @permission_list, group_permission: Permission::GROUP)
         @user_group = create(:user, user_name: 'fake_group', role: @role)
       end
 
@@ -440,7 +567,7 @@ describe User do
 
     context "when logged in with ALL permissions" do
       before do
-        @role = create(:role, permissions_list: @permission_list, group_permission: Permission::ALL)
+        @role = create(:role, permissions: @permission_list, group_permission: Permission::ALL)
         @user_group = create(:user, user_name: 'fake_all', role: @role)
       end
 
@@ -547,7 +674,7 @@ describe User do
       Role.all.each &:destroy
 
       @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE])
-      @role = create :role, permissions_list: [@permission_user_read_write], group_permission: Permission::GROUP
+      @role = create :role, permissions: [@permission_user_read_write], group_permission: Permission::GROUP
     end
 
     # TODO Fix on importer
