@@ -3,7 +3,7 @@ import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
 import { Map } from "immutable";
-import { Reopen } from "components/record-action-handlers/reopen";
+import { Reopen } from "components/record-actions/reopen";
 import RecordActions from "./component";
 
 describe("<RecordActions /> - Component", () => {
