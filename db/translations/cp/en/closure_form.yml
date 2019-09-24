@@ -1,0 +1,38 @@
+---
+en:
+  closure_form:
+    name: Closure
+    description: Closure
+    fields:
+      closure_approved:
+        display_name: Approved by Manager
+        tick_box_label: 'Yes'
+      closure_approved_date:
+        display_name: Date
+      closure_approved_comments:
+        display_name: Manager Comments
+      approval_status_closure:
+        display_name: Approval Status
+      child_status:
+        display_name: Case Status
+      closure_reason:
+        display_name: "What is the reason for closing the child's file?"
+        option_strings_text:
+          death_of_child: Death of Child
+          formal_closing: Formal Closing
+          not_seen_during_verification: Not Seen During Verification
+          repatriated: Repatriated
+          transferred: Transferred
+          other: Other
+      closure_reason_other:
+        display_name: 'If other, please specify '
+      date_closure:
+        display_name: Date of Closure
+      name_caregiver_closing:
+        display_name: Caregiver Name
+      relationship_caregiver_closing:
+        display_name: Caregiver Relationship
+      address_caregiver_closing:
+        display_name: Caregiver Address
+      location_caregiver_closing:
+        display_name: Caregiver Location

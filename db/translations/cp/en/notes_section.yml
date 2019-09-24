@@ -1,0 +1,14 @@
+---
+en:
+  notes_section:
+    name: Nested Notes Subform
+    description: Nested Notes Subform
+    fields:
+      notes_date:
+        display_name: Date
+      note_subject:
+        display_name: Subject
+      field_notes_subform_fields:
+        display_name: Notes
+      note_created_by:
+        display_name: Manager

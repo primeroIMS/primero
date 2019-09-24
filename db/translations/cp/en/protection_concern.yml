@@ -1,0 +1,22 @@
+---
+en:
+  protection_concern:
+    name: Protection Concerns
+    description: Protection concerns
+    fields:
+      protection_status:
+        display_name: Protection Status
+      urgent_protection_concern:
+        display_name: "Urgent Protection Concern?"
+      risk_level:
+        display_name: Risk Level
+      displacement_status:
+        display_name: Displacement Status
+      protection_concerns:
+        display_name: Protection Concerns
+      protection_concerns_other:
+        display_name: "If Other, please specify"
+      unhcr_needs_codes:
+        display_name: UNHCR Needs Codes
+      disability_type:
+        display_name: Disability Type

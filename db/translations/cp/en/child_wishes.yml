@@ -1,0 +1,46 @@
+---
+en:
+  child_wishes:
+    name: Child's Wishes
+    description: Child's Wishes
+    fields:
+      wishes_child_family_tracing:
+        display_name: "Does child want to trace family members?"
+      wishes_reason_no_tracing:
+        display_name: "If the child does NOT want family tracing , explain why"
+      wishes_reunification:
+        display_name: "Does the child want family reunification?"
+        option_strings_text:
+          yes_as_soon_as_possible: "Yes, as soon as possible"
+          yes_but_later: "Yes, but later"
+          not_sure: Not sure
+          'no': 'No'
+      wishes_reason_no_reunification:
+        display_name: "If 'No', 'Not sure', or 'Yes, but later', explain why"
+      wishes_contacted:
+        display_name: "Has the child heard from/been in contact with any relatives?"
+      wishes_contacted_details:
+        display_name: Please Give Details
+      child_preferences_section:
+        display_name: Child's Preferences
+      wishes_care_arrangement_desired:
+        display_name: "Does the child wish to continue in the current care arrangement?"
+      wishes_reason_no_care_arrangement:
+        display_name: "If the child does NOT want to stay in the current care arrangement, explain why"
+      wishes_care_arrangement_type_desired:
+        display_name: Type of care arrangement child wishes to have
+        option_strings_text:
+          independent_living: Independent Living
+          alternative_interim_care: Alternative interim care
+          with_husband_wife_partner: With husband/wife/partner
+          other_family: Other family
+          dont_know: Don't know
+          other: Other
+      wishes_care_arrangement_type_other:
+        display_name: "If type of care arrangement child wishes to have is Other, specify"
+      wishes_location_plan_live:
+        display_name: "Where does the child wish/plan to live?"
+      wishes_address_plan_live:
+        display_name: "Street where does the child wish/plan to live?"
+      wishes_landmarks_plan_live:
+        display_name: "Landmarks where does the child wish/plan to live?"

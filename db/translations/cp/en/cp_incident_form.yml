@@ -1,0 +1,30 @@
+---
+en:
+  cp_incident_form:
+    name: CP Incident
+    description: CP Incident
+    fields:
+      cp_short_id:
+        display_name: Short ID
+      status:
+        display_name: Incident Status
+      cp_incident_identification_violence:
+        display_name: Identification of Violence Case
+      cp_incident_date:
+        display_name: Date of Incident
+      cp_incident_location_type:
+        display_name: Area of the Incident
+      cp_incident_location_type_other:
+        display_name: "If 'Other', please specify"
+      cp_incident_location:
+        display_name: Location of the Incident
+      cp_incident_timeofday:
+        display_name: Time of Incident
+      cp_incident_timeofday_actual:
+        display_name: Please specify the actual time of the Incident
+      cp_incident_violence_type:
+        display_name: Type of Violence
+      cp_incident_previous_incidents:
+        display_name: "Has the case been previously abused?"
+      cp_incident_previous_incidents_description:
+        display_name: If yes please describe in brief

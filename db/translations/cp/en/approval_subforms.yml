@@ -1,0 +1,28 @@
+---
+en:
+  approval_subforms:
+    name: Approval Subform
+    description: Approval Subform
+    fields:
+      approval_requested_for:
+        display_name: Approval requested for
+        option_strings_text:
+          bia: Bia
+          case_plan: Case Plan
+          closure: Closure
+      approval_response_for:
+        display_name: Approval for
+        option_strings_text:
+          bia: Bia
+          case_plan: Case Plan
+          closure: Closure
+      approval_for_type:
+        display_name: Case Plan type
+      approval_date:
+        display_name: Date
+      approval_manager_comments:
+        display_name: Manager Comments
+      approval_status:
+        display_name: Approval Status
+      approved_by:
+        display_name: Approved by

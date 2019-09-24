@@ -1,0 +1,28 @@
+---
+en:
+  cp_case_plan:
+    name: Case Plan
+    description: Case Plan
+    fields:
+      case_plan_approval_type:
+        display_name: Approval Type
+      case_plan_approved:
+        display_name: Approved by Manager
+        tick_box_label: 'Yes'
+      case_plan_approved_date:
+        display_name: Date
+      case_plan_approved_comments:
+        display_name: Manager Comments
+      approval_status_case_plan:
+        display_name: Approval Status
+      case_plan_section_header:
+        display_name: Case Plan
+      date_case_plan:
+        display_name: Date Case Plan Initiated
+        help_text: This field is used for the Workflow status
+      protection_concerns:
+        display_name: Protection Concerns
+      case_plan_header:
+        display_name: Intervention Plans and Services to be Provided
+      cp_case_plan_subform_case_plan_interventions:
+        display_name: Intervention plans and services details

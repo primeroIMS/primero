@@ -142,6 +142,10 @@ class Report < CouchRest::Model::Base
     if permission_filter.present?
       filters << permission_filter
     end
+    if modules_present
+      filters << module_filter
+    end
+
     if pivots.present?
       self.values = report_values(record_type, pivots, filters)
       if aggregate_counts_from.present?
@@ -249,6 +253,10 @@ class Report < CouchRest::Model::Base
       return true
     end
     return I18n.t("errors.models.report.module_presence")
+  end
+
+  def module_filter
+    { "attribute" => "module_id", "value" => self.module_ids }
   end
 
   def has_data?

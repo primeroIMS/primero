@@ -1,0 +1,24 @@
+---
+en:
+  cp_incident_record_owner:
+    name: CP Record Owner
+    description: Record Owner
+    fields:
+      current_owner_section:
+        display_name: Current Owner
+      owned_by:
+        display_name: Caseworker Code
+      assigned_user_names:
+        display_name: Other Assigned Users
+      record_history_section:
+        display_name: Record History
+      created_by:
+        display_name: Record created by
+      created_organization:
+        display_name: Created by agency
+      previously_owned_by:
+        display_name: Previous Owner
+      previous_agency:
+        display_name: Previous Agency
+      module_id:
+        display_name: Module

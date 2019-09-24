@@ -1,0 +1,64 @@
+---
+en:
+  care_arrangements:
+    name: Care Arrangements
+    description: Care Arrangements
+    fields:
+      child_caregiver_status:
+        display_name: "Is this a same caregiver as was previously entered for the child?"
+      child_caregiver_reason_change:
+        display_name: "If this is a new caregiver, give the reason for the change"
+        option_strings_text:
+          abuse_exploitation: Abuse & Exploitation
+          death_of_caregiver: Death of Caregiver
+          Education: Education
+          ill_health_of_caregiver: Ill health of caregiver
+          other: Other
+          poverty: Poverty
+          relationship_breakdown: Relationship Breakdown
+      care_arrangements_type:
+        display_name: "What are the child's current care arrangements?"
+        option_strings_text:
+          stays_with_related_caregiver: Stays with related caregiver
+          stays_with_unrelated_caregiver: Stays with unrelated caregiver
+          residential_care_center: Residential Care Center
+          child_headed_household: Child Headed Household
+          lives_with_peers_other_children: Lives with peers/other children
+          independent_living: Independent Living
+          other: Other (Please specify)
+      care_arrangements_type_notes:
+        display_name: Care Arrangement Notes
+      care_agency_name:
+        display_name: Name of Agency Providing Care Arrangements
+      name_caregiver:
+        display_name: Name of Current Caregiver
+      relationship_caregiver:
+        display_name: Relationship of the Caregiver to the Child
+      caregiver_id_type_and_no:
+        display_name: Caregiver's Identification - Type and Number
+      caregiver_age:
+        display_name: Caregiver's Age
+      address_caregiver:
+        display_name: "Address where the child is currently living?"
+      location_caregiver:
+        display_name: Caregiver's Location
+      telephone_caregiver:
+        display_name: Caregiver's Telephone
+      care_arrangement_started_date:
+        display_name: "When did this care arrangement start?"
+      caregiver_location_status:
+        display_name: Is the caregiver's current location temporary
+      address_caregiver_future:
+        display_name: "If yes, what is the future address?"
+      location_caregiver_future:
+        display_name: "What is the future location?"
+      telephone_caregiver_future:
+        display_name: "What is the future telephone?"
+      caregiver_willing_to_continue:
+        display_name: "Is caregiver willing to continue taking care of the child?"
+      caregiver_willing_to_continue_for_how_long:
+        display_name: "If yes, for how long?"
+      caregiver_know_family:
+        display_name: "Does the caregiver know the family of the child?"
+      other_information_from_caregiver:
+        display_name: Other information from the caregiver about the child and his/her family

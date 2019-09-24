@@ -1,0 +1,56 @@
+---
+en:
+  followup_subform_section:
+    name: Nested Followup Subform
+    description: Nested Followup Subform
+    fields:
+      followup_type:
+        display_name: Type of follow up
+      followup_service_type:
+        display_name: Type of service
+      followup_assessment_type:
+        display_name: Type of assessment
+        option_strings_text:
+          personal_intervention_assessment: Personal Intervention Assessment
+          medical_intervention_assessment: Medical Intervention Assessment
+          family_intervention_assessment: Family Intervention Assessment
+          community_intervention_assessment: Community Intervention Assessment
+          unhcr_intervention_assessment: UNHCR Intervention Assessment
+          ngo_intervention_assessment: NGO Intervention Assessment
+          economic_intervention_assessment: Economic Intervention Assessment
+          education_intervention_assessment: Education Intervention Assessment
+          health_intervention_assessment: Health Intervention Assessment
+          other_intervention_assessment: Other Intervention Assessment
+      followup_needed_by_date:
+        display_name: Follow up needed by
+      followup_date:
+        display_name: Follow up date
+      child_was_seen:
+        display_name: "Was the child/adult seen during the visit?"
+      reason_child_not_seen:
+        display_name: "If not, why?"
+        option_strings_text:
+          abducted: Abducted
+          at_school: At School
+          child_in_detention: Child in Detention
+          moved_onto_street: Moved onto street/Market
+          moved_to_live_with_another_caregiver: Moved to live with another caregiver
+          visiting_friends_relatives: Visiting Friends/Relatives
+          working: Working /At work
+          other: "Other, please specify"
+      reason_child_not_seen_other_details:
+        display_name: "If other, please specify"
+      action_taken_already:
+        display_name: "Has action been taken?"
+      action_taken_details:
+        display_name: Details about action taken
+      action_taken_date:
+        display_name: "Date action taken?"
+      need_follow_up_visit:
+        display_name: "Is there a need for further follow up visits?"
+      when_follow_up_visit_should_happen:
+        display_name: "If yes, when do you recommend the next visit to take place?"
+      recommend_case_closed:
+        display_name: "If not, do you recommend that the case be closed?"
+      followup_comments:
+        display_name: Comments

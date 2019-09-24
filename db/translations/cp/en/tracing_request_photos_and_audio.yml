@@ -1,0 +1,9 @@
+---
+en:
+  tracing_request_photos_and_audio:
+    name: Photos and Audio
+    fields:
+      current_photo_key:
+        display_name: Current Photo Key
+      recorded_audio:
+        display_name: Recorded Audio

@@ -1,0 +1,37 @@
+---
+en:
+  best_interest:
+    name: Best Interest
+    description: Best Interest
+    fields:
+      best_interest_report_submitted:
+        display_name: "Was the report submitted to the body that decides the best interest of the child?"
+        option_strings_text:
+          submitted: Submitted
+          pending: Pending
+          'no': 'No'
+      best_interest_date_submitted:
+        display_name: Date of submission
+      best_interest_recommendation:
+        display_name: Recommendation
+        option_strings_text:
+          local_integration: Local integration
+          maintain_change_current_arrangements: Maintain/Change current arrangements
+          medical: Medical
+          repatriation: Repatriation
+          resettlement_to_3rd_country: Resettlement to 3rd country
+          reunification: Reunification
+      best_interest_recommendation_date:
+        display_name: Date of Recommendation
+      best_interest_proposed_support:
+        display_name: Proposed Support
+      best_interest_agency_responsible:
+        display_name: Agency Responsible
+      best_interest_proposed_support_accepted:
+        display_name: "Does the child accept the proposed support?"
+      best_interest_why_support_refused:
+        display_name: "If refused, why?"
+      best_interest_date_implementation:
+        display_name: Date of Implementation
+      best_interest_implementing_agency:
+        display_name: Implementing Agency

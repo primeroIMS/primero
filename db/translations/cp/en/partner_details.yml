@@ -1,0 +1,30 @@
+---
+en:
+  partner_details:
+    name: Partner/Spouse Details
+    description: Partner/Spouse Details
+    fields:
+      maritial_status:
+        display_name: Current Civil/Marital Status
+      partner_details:
+        display_name: Partner/Spouse Details
+      relationship_length:
+        display_name: Length of Marriage/Relationship
+      number_of_children:
+        display_name: Number of Children
+      marital_status_during_separation:
+        display_name: Marital Status During Separation
+      partner_details_during_separation:
+        display_name: Partner/Spouse Details During Separation
+      relationship_length_during_separation:
+        display_name: Length of Marriage/Relationship During Separation
+      number_of_children_during_separation:
+        display_name: Number of Children During Separation
+      marital_status_pre_separation:
+        display_name: Marital Status Prior to Separation
+      partner_details_pre_separation:
+        display_name: Partner/Spouse Details Prior to Separation
+      relationship_length_pre_separation:
+        display_name: Length of Marriage/Relationship Prior to Separation
+      number_of_children_pre_separation:
+        display_name: Number of Children Prior to Separation

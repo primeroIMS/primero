@@ -1,0 +1,58 @@
+---
+en:
+  tracing_request_subform_section:
+    name: Nested Tracing Request Subform
+    description: Nested Tracing Request Subform
+    fields:
+      matched_case_id:
+        display_name: Matched Case ID
+      tracing_request_status:
+        display_name: Tracing status
+      individual_details_section:
+        display_name: Individual Details
+      name:
+        display_name: Name
+      relation:
+        display_name: How is the inquirer related to the child?
+      relation_child_lived_with_pre_separation:
+        display_name: Did the child live with the inquirer before separation?
+      name_nickname:
+        display_name: Nickname
+      name_other:
+        display_name: Other Name
+      sex:
+        display_name: Sex
+      age:
+        display_name: Age
+      date_of_birth:
+        display_name: Date of Birth
+      physical_characteristics:
+        display_name: Distinguishing Physical Characteristics
+      inquirer_special_message:
+        display_name: Special Message for the person being sought
+      same_separation_details:
+        display_name: Same separation details as on Inquirer form?
+      separation_details_section:
+        display_name: Separation Details (if different from Inquirer form)
+      date_of_separation:
+        display_name: Date of Separation
+      separation_cause:
+        display_name: What was the main cause of separation?
+      separation_evacuation:
+        display_name: Did the separation occur in relation to evacuation?
+      separation_details:
+        display_name: Circumstances of Separation (please provide details)
+      address_separation:
+        display_name: Separation Address (Place)
+      location_separation:
+        display_name: Separation Location
+      address_last:
+        display_name: Last Address
+      landmark_last:
+        display_name: Last Landmark
+      location_last:
+        display_name: Last Location
+      telephone_last:
+        display_name: Last Telephone
+      additional_tracing_info:
+        display_name: Additional info that could help in tracing?
