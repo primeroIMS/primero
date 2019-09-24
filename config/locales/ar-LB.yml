@@ -584,7 +584,7 @@ ar-LB:
       flag_label: "هل وُضعت علامة؟"
       social_worker: "العامل الميداني/الأخصائي/العامل الإجتماعي:"
       inquiry_date: "تاريخ الإستعلام:"
-      status: "وضع/مرحلة الاستعلام:"
+      inquiry_status: "وضع/مرحلة الاستعلام:"
       location_separation: "موقع الإنفصال:"
       separation_cause: "سبب الإنفصال:"
       record_state: "وضع الملفّ:"
@@ -1704,7 +1704,7 @@ ar-LB:
       mark_as_investigated_by: "تمّ وضع علامة \"تمّ التحقّق\" للملفّ من قبل"
       mark_as_not_investigated_by: "تمّ وضع علامة \"لم يتم التحقّق بعد\" للملفّ من قبل"
     reunited:
-      status_changed: "تغيير وضع الطفل إلى ناشط من قبل"
+      child_status_changed: "تغيير وضع الطفل إلى ناشط من قبل"
       with_details: "بهذه التفاصيل:"
   actions:
     button: "إجراءات"

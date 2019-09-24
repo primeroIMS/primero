@@ -1423,10 +1423,10 @@ id:
     high_risk_level: "Tinggi"
     medium_risk_level: "Sedang"
     low_risk_level: "Rendah"
-    status_open: "Buka"
-    status_closed: "Tutup"
-    status_transferred: "Dipindahkan"
-    status_duplicate: "Duplikasi"
+    child_status_open: "Buka"
+    child_status_closed: "Tutup"
+    child_status_transferred: "Dipindahkan"
+    child_status_duplicate: "Duplikasi"
   dashboard:
     total: 'Total'
     new: 'Baru dan Telah Diperbarui'
