@@ -48,7 +48,7 @@ class RecordFlagController < ApplicationController
       if params[:apply_to_all] == "true"
         pagination_ops = {:page => 1, :per_page => 100}
         begin
-          search = @model_class.list_records(child_filters||filter, order, pagination_ops, users_filter, params[:query])
+          search = @model_class.list_records(child_filters||filter, order, pagination_ops, users_filter[:user_names], params[:query], nil, users_filter[:user_group_ids])
           results = search.results
           records_to_flag.concat(results)
           pagination_ops[:page] = results.next_page
