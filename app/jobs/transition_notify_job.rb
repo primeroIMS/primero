@@ -1,7 +1,10 @@
 class TransitionNotifyJob < ApplicationJob
   queue_as :mailer
 
-  def perform(transition_type, record_class, record_id, transition_id, host_url)
-    NotificationMailer.transition_notify(transition_type, record_class, record_id, transition_id, host_url).deliver_later
+  def perform(transition_id)
+    system_settings = SystemSettings.current
+    if system_settings.notification_email_enabled
+      NotificationMailer.transition_notify(transition_id).deliver_later
+    end
   end
 end

@@ -7,7 +7,7 @@ import { IconButton, InputAdornment } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { FastField, connect } from "formik";
 import { useI18n } from "components/i18n";
-import { GuidingQuestions } from "components/guiding-questions";
+import { GuidingQuestions } from "./components";
 import { getIsHiddenName } from "../selectors";
 import { hideName } from "../action-creators";
 

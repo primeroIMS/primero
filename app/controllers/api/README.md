@@ -43,6 +43,56 @@ The API behavior is identical to that of cases. See the case endpoints above for
 * Update an existing tracing request: `PATCH /api/v2/tracing_requests/:id`
 * Disable an existing tracing request: `DELETE /api/v2/tracing_requests/:id`
 
+## Flagging Endpoints
+
+Endpoints for query and manipulating flags for cases, tracing request and incidents
+
+* [Query for flags of a record](v2/docs/flags/get.md) : `GET /api/v2/:recordType/:recordId/flags`
+* [Create a new flag of a record](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`
+* [Unflag a record](v2/docs/flags/id/patch.md) `POST /api/v2/:recordType/:recordId/flags/:id`
+* [Create a bulk of flags for multiple records](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`
+
+## Transitions
+
+Transitions change the access rights of users to records. 
+Currently only case records may be transitioned. We have the following:
+
+### Assigns
+
+An assign changes the record owner of a particular record.
+* [List all record assignments that took place for a record](v2/docs/assigns/get.md): `GET /api/v2/cases/:id/assigns`
+* [Assign a record](v2/docs/assigns/id/post.md): `POST /api/v2/cases/:id/assigns`
+* [Assign a set of records in bulk](v2/docs/assigns/post.md): `POST /api/v2/cases/assigns`
+
+### Referrals
+
+A referral grants an additional user access to this record.
+* [List all referrals that took place for a record](v2/docs/referrals/get.md): `GET /api/v2/cases/:id/referrals`
+* [Refer a record](v2/docs/referrals/id/post.md): `POST /api/v2/cases/:id/referrals`
+* [Refer a set of records in bulk](v2/docs/referrals/post.md): `POST /api/v2/cases/referrals`
+* [Relinquish or retract a referral](v2/docs/referrals/id/delete.md): `DELETE /api/v2/cases/:id/referrals/:referral_id`
+
+
+### Transfers
+
+A transfer initiates a process to switch the record owner. 
+The receiving user must accept or reject the transfer before becoming the record owner.
+* [List all transfers that took place for a record](v2/docs/transfers/get.md): `GET /api/v2/cases/:id/transfers`
+* [Transfer a record](v2/docs/transfers/id/post.md): `POST /api/v2/cases/:id/transfers`
+* [Transfer a set of records in bulk](v2/docs/transfers/post.md): `POST /api/v2/cases/transfers`
+* [Accept or decline a transfer](v2/docs/transfers/id/patch.md): `PATCH /api/v2/cases/:id/transfers/:transfer_id`
+
+### Transfer Requests
+
+A transfer request starts the workflow for initiating a transfer to the requesting user.
+* [List all transfer requests that took place for a record](v2/docs/transfer_requests/get.md): `GET /api/v2/cases/:id/transfer_requests`
+* [Make a transfer request for a record](v2/docs/transfer_requests/id/post.md): `POST /api/v2/cases/:id/transfer_requests`
+* [Accept or decline a transfer request](v2/docs/transfer_requests/id/patch.md): `PATCH /api/v2/cases/:id/transfer_requests/:transfer_request_id`
+
+### Transitions
+
+A transition is a Transfer, Assign, Referral, or TransferRequests.
+* [List all transitions for this record](v2/docs/transitions/get.md): `GET /api/v2/cases/:id/transitions`
 
 ## Form Section Endpoints
 
@@ -68,13 +118,3 @@ Endpoints for querying contact information
 Endpoints for querying system settings
 
 * [Query for system setting](v2/docs/system_settings/get.md) : `GET /api/v2/system_settings`
-
-
-## Flagging Endpoint
-
-Endpoints for query and manipulating flags for cases, tracing request and incidents
-
-* [Query for flags of a record](v2/docs/flags/get.md) : `GET /api/v2/:recordType/:recordId/flags`
-* [Create a new flag of a record](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`
-* [Unflag a record](v2/docs/flags/id/patch.md) `POST /api/v2/:recordType/:recordId/flags/:id`
-* [Create a bulk of flags for multiple records](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`

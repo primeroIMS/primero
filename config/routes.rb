@@ -15,18 +15,35 @@ Rails.application.routes.draw do
 
 
   namespace :api do
-    namespace :v2, defaults: { format: :json }, constraints: { format: :json }, only: [:index, :create, :show, :update, :destroy ] do
+    namespace :v2, defaults: { format: :json },
+                   constraints: { format: :json },
+                   only: [:index, :create, :show, :update, :destroy ] do
 
       resources :children, as: :cases, path: :cases do
         resources :flags, only: [:index, :create, :update]
+        resources :assigns, only: [:index, :create]
+        resources :referrals, only: [:index, :create, :destroy]
+        resources :transfers, only: [:index, :create, :update]
+        resources :transfer_requests, only: [:index, :create, :update]
+        resources :transitions, only: [:index]
+        collection do
+          post :flags, to: 'flags#create_bulk'
+          post :assigns, to: 'assigns#create_bulk'
+          post :referrals, to: 'referrals#create_bulk'
+          post :transfers, to: 'transfers#create_bulk'
+        end
       end
 
       resources :incidents do
         resources :flags, only: [:index, :create, :update]
+        post :flags, to: 'flags#create_bulk', on: :collection
       end
+
       resources :tracing_requests do
         resources :flags, only: [:index, :create, :update]
+        post :flags, to: 'flags#create_bulk', on: :collection
       end
+
       resources :form_sections, as: :forms, path: :forms
       resources :users
       resources :contact_information, only: [:index]
@@ -34,7 +51,7 @@ Rails.application.routes.draw do
       resources :tasks, only: [:index]
       resources :saved_searches, only: [:index, :create, :destroy]
       resources :reports, only: [:index, :show]
-      match ':record_type/flags' => 'flags#create_bulk', via: [ :post ]
+
     end
   end
 

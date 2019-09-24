@@ -185,4 +185,12 @@ describe Api::V2::ReportsController, type: :request do
     end
   end
 
+  after :each do
+    [
+      PrimeroModule, PrimeroProgram, Report, User,
+      Role, Agency, Child, Location, FormSection
+    ].each(&:destroy_all)
+
+  end
+
 end

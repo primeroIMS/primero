@@ -71,7 +71,7 @@ const RecordForms = ({ match, mode }) => {
   };
 
   const formProps = {
-    onSubmit: (initialValues, values, subformFields) => {
+    onSubmit: (initialValues, values) => {
       dispatch(
         saveRecord(
           params.recordType,
@@ -81,8 +81,7 @@ const RecordForms = ({ match, mode }) => {
               ...compactValues(values, initialValues),
               ...(!containerMode.isEdit
                 ? { module_id: selectedModule.primeroModule }
-                : {}),
-              ...(subformFields || {})
+                : {})
             }
           },
           params.id,

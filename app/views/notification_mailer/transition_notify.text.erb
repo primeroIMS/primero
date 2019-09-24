@@ -1,4 +1,11 @@
 ===============================================
 
-<%= t("email_notification.#{@transition_type}", user: @user_from.user_name, agency: @agency_from, record_type: @record_type,
-      record_id: link_to(@record.short_id, @url), service_type: @service_type).html_safe %>
+<%= t("email_notification.#{@transition.key}",
+      user: @transition.transitioned_by,
+      agency: @transition&.transitioned_by_user&.agency&.name,
+      record_type: t("forms.record_types.#{@transition&.record.class.parent_form}"),
+      record_id: link_to(
+          @transition&.record&.short_id, url_for_v2(@transition&.record)
+      ),
+      service_type: @transition.service).html_safe
+%>

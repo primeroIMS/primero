@@ -160,6 +160,19 @@ const overrides = {
       height: "21px",
       fontSize: ".7rem"
     }
+  },
+  MuiDialogActions: {
+    root: {
+      justifyContent: "flex-start",
+      margin: "1em"
+    }
+  },
+  MuiDialogTitle: {
+    root: {
+      textTransform: "uppercase",
+      fontSize: muiTheme.typography.pxToRem(17),
+      fontWeight: "bold"
+    }
   }
 };
 

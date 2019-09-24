@@ -194,6 +194,7 @@ en:
      view: "View"
      request_transfer: "Request Transfer"
      add_note: "Add Notes"
+     add: "Add"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -2222,6 +2223,10 @@ en:
       primero: "Primero"
       non_primero: "Non-Primero"
       pdf_export: "PDF export"
+    errors:
+      consent: "Consent not provided"
+      to_user_can_receive: "This user cannot receive this record"
+
 
   mark_for_mobile:
     no_records_selected: "No records selected"
@@ -2384,18 +2389,18 @@ en:
     referral_subject: "%{record_type}: %{id} - Referral"
     transfer_subject: "%{record_type}: %{id} - Transfer"
     transfer_request_subject: "Transfer request for one of your cases"
-    reassign_subject: "%{record_type}: %{id} - Assigned to you"
+    assign_subject: "%{record_type}: %{id} - Assigned to you"
     approval_request: "The user %{user} is requesting approval for %{approval_type} on case %{case_id}."
     approval_response: "%{user} has %{status} the request for approval for %{approval_type} for case %{case_id}."
     referral: "%{user} from %{agency} has referred the following %{record_type} to you: %{record_id} for %{service_type}."
     transfer: "%{user} has transferred the following %{record_type} to you: %{record_id}."
-    reassign: "%{user} has assigned the following %{record_type} to you: %{record_id}."
+    assign: "%{user} has assigned the following %{record_type} to you: %{record_id}."
     transfer_request: "Primero user %{user} from %{agency} is requesting that you transfer ownership of this %{record_type} record %{record_id} so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer."
     approval_request_html: "The user <strong>%{user}</strong> is requesting approval for <strong> %{approval_type}</strong> on case <strong>%{case_id}</strong>."
     approval_response_html: "<strong>%{user}</strong> has <strong>%{status}</strong> the request for approval for <strong>%{approval_type}</strong> for case <strong>%{case_id}</strong>."
     referral_html: "<strong>%{user}</strong> from %{agency} has referred the following %{record_type} to you: <strong>%{record_id}</strong> for %{service_type}."
     transfer_html: "<strong>%{user}</strong> has transferred the following %{record_type} to you: <strong>%{record_id}</strong>."
-    reassign_html: "<strong>%{user}</strong> has assigned the following %{record_type} to you: <strong>%{record_id}</strong>."
+    assign_html: "<strong>%{user}</strong> has assigned the following %{record_type} to you: <strong>%{record_id}</strong>."
     transfer_request_html: "Primero user <strong>%{user}</strong> from %{agency} is requesting that you transfer ownership of this %{record_type} record <strong>%{record_id}</strong> so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer."
     transfer_request_notes_html: "Notes from the individual making the request: %{request_transfer_notes}"
   will_paginate:

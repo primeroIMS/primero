@@ -40,16 +40,15 @@ module Flaggable
     end
 
     def flag_count
-      self.flags.where(removed: false).count
+      flags.where(removed: false).count
     end
 
     def flagged?
-      self.flag_count > 0
+      flag_count.positive?
     end
     alias_method :flagged, :flagged?
 
-    def self.batch_flag(ids, message, date, user_name)
-      records = self.find(ids)
+    def self.batch_flag(records, message, date, user_name)
       ActiveRecord::Base.transaction do
         records.each do |record|
           record.add_flag(message, date, user_name)

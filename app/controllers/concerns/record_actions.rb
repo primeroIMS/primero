@@ -3,7 +3,6 @@ module RecordActions
 
   include ImportActions
   include ExportActions
-  include TransitionActions
   include MarkForMobileActions
   include AuditLogActions
 
@@ -443,8 +442,8 @@ module RecordActions
   #TODO: Refactor UIUX
   def load_consent
     if @record.present? && @record.respond_to?(:given_consent) #Yuck!
-      @referral_consent = @record.given_consent(Transition::TYPE_REFERRAL)
-      @transfer_consent = @record.given_consent(Transition::TYPE_TRANSFER)
+      @referral_consent = @record.given_consent(Transition::REFERRAL)
+      @transfer_consent = @record.given_consent(Transition::TRANSFER)
     end
   end
 
