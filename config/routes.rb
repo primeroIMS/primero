@@ -45,7 +45,13 @@ Rails.application.routes.draw do
       end
 
       resources :form_sections, as: :forms, path: :forms
-      resources :users
+      resources :users do
+        collection do
+          get :'assign-to', to: 'users_transitions#assign_to'
+          get :'transfer-to', to: 'users_transitions#transfer_to'
+          get :'refer-to', to: 'users_transitions#refer_to'
+        end
+      end
       resources :contact_information, only: [:index]
       resources :system_settings, only: [:index]
       resources :tasks, only: [:index]
