@@ -4,13 +4,14 @@ class CreateRoles < ActiveRecord::Migration[5.0]
       t.string  'unique_id'
       t.string  'name'
       t.string  'description'
-      t.jsonb   'permissions_list', array: true, default: []
+      t.jsonb   'permissions'
       t.string  'group_permission', default: Permission::SELF
       t.boolean 'referral', null: false, default: false
       t.boolean 'transfer', null: false, default: false
       t.boolean 'is_manager', null: false,  default: false
     end
     add_index :roles, :unique_id, unique: true
+    add_index :roles, :permissions, using: :gin
 
     create_table :form_sections_roles, :id => false do |t|
       t.integer :role_id

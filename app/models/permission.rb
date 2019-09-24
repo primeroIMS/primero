@@ -280,4 +280,22 @@ class Permission < ValueObject
   def action_symbols
     actions.map{|a| a.to_sym}
   end
+
+  class PermissionSerializer
+    def self.dump(permissions)
+      permissions.inject({}) do |hash, permission|
+        hash[permission.resource] = permission.actions
+        hash
+      end
+    end
+
+    def self.load(json_hash)
+      return nil if json_hash.nil?
+
+      json_hash.map do |resource, actions|
+        Permission.new(resource: resource, actions: actions)
+      end
+    end
+  end
+
 end

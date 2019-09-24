@@ -9,7 +9,7 @@ describe Api::V2::TransitionsController, type: :request do
       resource: Permission::CASE,
       actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::ASSIGN]
     )
-    @role = Role.new(permissions_list: [@permission_assign_case])
+    @role = Role.new(permissions: [@permission_assign_case])
     @role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
     @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1], modules: [@primero_module])
