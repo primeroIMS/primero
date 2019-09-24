@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   List,
   ListItem,
@@ -14,18 +14,35 @@ import {
 import { useI18n } from "components/i18n";
 import { AlertDialog } from "components/alert-dialog";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { removeSavedSearch } from "./action-creators";
+import { setTab } from "components/filters/action-creators";
+import { removeSavedSearch, setSavedSearch } from "./action-creators";
+import { selectSavedSearchesById } from "./selectors";
+import { buildFiltersState } from "./helpers";
 import styles from "./styles.css";
 
-const ListSavedSearches = ({ savedSearches }) => {
+const ListSavedSearches = ({ recordType, savedSearches, resetFilters }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
+  const [selectedSavedSearch, setSelectedSavedSearch] = useState(null);
   const [open, setOpenDialog] = useState(false);
   const [deleteSavedSearch, setDeleteSavedSearch] = useState(null);
 
+  const selectedSearch = useSelector(state =>
+    selectSavedSearchesById(state, recordType, selectedSavedSearch).first()
+  );
+
+  useEffect(() => {
+    if (selectedSavedSearch) {
+      const { filters } = selectedSearch.toJS();
+      resetFilters();
+      dispatch(setSavedSearch(recordType, buildFiltersState(filters)));
+      dispatch(setTab({ recordType, value: 0 }));
+    }
+  }, [selectedSavedSearch]);
+
   const handleApplyFilter = (_e, id) => {
-    console.log(`Item list click ${id}`);
+    setSelectedSavedSearch(id);
   };
 
   const handleDeleteFilter = id => {
@@ -77,7 +94,9 @@ const ListSavedSearches = ({ savedSearches }) => {
 };
 
 ListSavedSearches.propTypes = {
-  savedSearches: PropTypes.object
+  recordType: PropTypes.string.isRequired,
+  savedSearches: PropTypes.object.isRequired,
+  resetFilters: PropTypes.func
 };
 
 export default ListSavedSearches;

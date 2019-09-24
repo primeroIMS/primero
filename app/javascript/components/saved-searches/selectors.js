@@ -1,4 +1,4 @@
-import { List } from "immutable";
+import { List, Map } from "immutable";
 import NAMESPACE from "./namespace";
 
 export const selectSavedSearches = (state, recordType) => {
@@ -7,4 +7,12 @@ export const selectSavedSearches = (state, recordType) => {
     .filter(f => f.record_type === recordType);
 
   return savedSearches.size ? savedSearches : List([]);
+};
+
+export const selectSavedSearchesById = (state, recordType, id) => {
+  const savedSearches = state
+    .getIn(["records", NAMESPACE, "data"])
+    .filter(f => f.record_type === recordType && f.id === id);
+
+  return savedSearches.size ? savedSearches : Map({});
 };

@@ -420,6 +420,7 @@ en:
       not_found: "No saved searches found"
       title_modal: "Delete saved searches"
       title_description: "Are you sure you want to delete this saved search?"
+      no_filters: "There are not filters selected"
 
   task:
     id: "ID#"
@@ -2538,8 +2539,9 @@ en:
     record_state: "Record State"
     valid: "Valid"
     invalid: "Invalid"
-    apply_filters: "Apply Filters"
-    clear_filters: "Clear All"
+    apply_filters: "Apply"
+    clear_filters: "Clear"
+    save_filters: "Save"
 
   flags:
     flags_tab: "Flags"

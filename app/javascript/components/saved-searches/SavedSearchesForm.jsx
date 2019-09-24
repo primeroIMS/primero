@@ -1,68 +1,136 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Formik, Field, Form } from "formik";
+import { TextField } from "formik-material-ui";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { compact } from "lodash";
+import { useSelector, useDispatch } from "react-redux";
+import { enqueueSnackbar } from "components/notifier";
+import { useI18n } from "components/i18n";
 import { selectFiltersByRecordType } from "components/filters-builder/selectors";
-import { makeStyles } from "@material-ui/styles";
-import { Paper, InputBase, IconButton } from "@material-ui/core";
-import Save from "@material-ui/icons/Save";
-import styles from "./styles.css";
+import { selectModules } from "components/pages/login/selectors";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Divider
+} from "@material-ui/core";
+import { applyFilters } from "components/filters-builder/action-creators";
+import { saveSearch, fetchSavedSearches } from "./action-creators";
+import { buildFiltersApi } from "./helpers";
 
-const SavedSearchesForm = ({ recordType }) => {
-  const css = makeStyles(styles)();
-  const excludeDefaultFiltersKeys = ["short", "per", "page"];
+const initialValues = { name: "" };
+
+const FormErrors = () => {
+  const dispatch = useDispatch();
+  const i18n = useI18n();
+
+  useEffect(() => {
+    dispatch(enqueueSnackbar(i18n.t("saved_search.no_filters"), "error"));
+  }, [dispatch, i18n]);
+
+  return null;
+};
+
+const SavedSearchesForm = ({ recordType, open, setOpen }) => {
+  const i18n = useI18n();
+  const dispatch = useDispatch();
+  const [formErrors, setFormErrors] = useState(false);
 
   const selectedFilters = useSelector(state =>
     selectFiltersByRecordType(state, recordType)
   );
 
-  const buildFilters = filters => {
-    return filters.reduce((obj, filter) => {
-      const o = obj;
-      const [key, value] = filter;
-      if (!excludeDefaultFiltersKeys.includes(key)) {
-        const isArrayWithData = Array.isArray(value) && value.length > 0;
-        const isObjectWithData =
-          !Array.isArray(value) &&
-          typeof value === "object" &&
-          !Object.values(value).includes(null);
+  const userModules = useSelector(state => selectModules(state));
 
-        if (isArrayWithData || isObjectWithData) {
-          o[key] = value;
-        }
-      }
-      return o;
-    }, {});
+  const closeModal = () => {
+    setOpen(false);
+    setFormErrors(false);
   };
 
-  const handleSavedSearches = () => {
-    // TODO: Get all applied filters according to <recordType>
-    // and make request to save, also clear form
+  const handleSaveSearches = (values, actions) => {
     if (selectedFilters) {
-      const data = buildFilters(Object.entries(selectedFilters.toJS()));
-      if (Object.keys(data).length > 0) {
-        console.log("TODO: Save saved Search", data);
-        // Reset Filters
+      const filters = buildFiltersApi(
+        Object.entries(selectedFilters.toJS())
+      ).filter(f => Object.keys(f).length);
+
+      if (filters.length) {
+        const body = {
+          data: {
+            name: values.name,
+            record_type: recordType,
+            module_ids: userModules.toJS(),
+            filters: compact(filters)
+          }
+        };
+        dispatch(saveSearch(body, i18n.t("saved_search.save_success")));
+        dispatch(fetchSavedSearches());
+        actions.resetForm(initialValues);
+        setFormErrors(false);
+        closeModal();
+        dispatch(
+          applyFilters({
+            namespace: recordType,
+            options: selectedFilters,
+            path: `/${recordType.toLowerCase()}`
+          })
+        );
       } else {
-        console.log("No filters selected");
+        actions.setSubmitting(false);
+        setFormErrors(true);
       }
     }
   };
 
+  const inputProps = {
+    component: TextField,
+    autoFocus: true,
+    required: true
+  };
+
+  const formProps = {
+    initialValues,
+    onSubmit: handleSaveSearches
+  };
+
   return (
-    <Paper className={css.searchesForm} elevation={0}>
-      <InputBase
-        placeholder="Name..."
-        inputProps={{ "aria-label": "saved searches" }}
-      />
-      <IconButton aria-label="saved" onClick={handleSavedSearches}>
-        <Save />
-      </IconButton>
-    </Paper>
+    <Formik {...formProps}>
+      {({ handleSubmit }) => (
+        <Dialog open={open} onClose={closeModal} maxWidth="md">
+          <DialogTitle id="form-dialog-title">
+            {i18n.t("saved_searches.save_search")}
+          </DialogTitle>
+          <DialogContent>
+            <Form onSubmit={handleSubmit}>
+              <Field name="name" placeholder="Name..." {...inputProps} />
+              {formErrors && <FormErrors />}
+              <Box
+                display="flex"
+                my={3}
+                justifyContent="flex-end"
+                style={{ marginBottom: "5" }}
+              >
+                <Divider light />
+                <Button onClick={closeModal} color="primary">
+                  {i18n.t("buttons.cancel")}
+                </Button>
+                <Button type="submit" variant="contained" color="primary">
+                  {i18n.t("buttons.save")}
+                </Button>
+              </Box>
+            </Form>
+          </DialogContent>
+        </Dialog>
+      )}
+    </Formik>
   );
 };
 
 SavedSearchesForm.propTypes = {
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  open: PropTypes.bool.isRequired,
+  setOpen: PropTypes.func.isRequired
 };
 
 export default SavedSearchesForm;

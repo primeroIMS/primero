@@ -1,45 +1,33 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles, Typography, Box } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useI18n } from "components/i18n";
-import { fetchSavedSearches } from "./action-creators";
-import SavedSearchesForm from "./SavedSearchesForm";
 import ListSavedSearches from "./ListSavedSearches";
 import { selectSavedSearches } from "./selectors";
 import styles from "./styles.css";
 
-const SavedSearches = ({ recordType }) => {
+const SavedSearches = ({ recordType, resetFilters }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchSavedSearches());
-  }, [dispatch]);
 
   const savedSearches = useSelector(state =>
     selectSavedSearches(state, recordType)
   );
 
   const listSavedSearchesProps = {
-    savedSearches
-  };
-
-  const formSavedSearchesProps = {
-    recordType
+    recordType,
+    savedSearches,
+    resetFilters
   };
 
   return (
     <>
-      <SavedSearchesForm {...formSavedSearchesProps} />
       {savedSearches.size ? (
         <ListSavedSearches {...listSavedSearchesProps} />
       ) : (
-        <Box className={css.listSavedSearches} textAlign="center">
-          <Typography variant="h6">
-            {i18n.t("saved_search.not_found")}
-          </Typography>
+        <Box className={css.listSavedSearches}>
+          <Typography>{i18n.t("saved_searches.no_save_searches")}</Typography>
         </Box>
       )}
     </>
@@ -47,7 +35,8 @@ const SavedSearches = ({ recordType }) => {
 };
 
 SavedSearches.propTypes = {
-  recordType: PropTypes.string
+  recordType: PropTypes.string.isRequired,
+  resetFilters: PropTypes.func
 };
 
 export default SavedSearches;
