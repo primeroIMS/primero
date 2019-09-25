@@ -92,14 +92,17 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
 
   return (
     <>
-      <IconButton
-        aria-label="more"
-        aria-controls="long-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
-        <MoreVertIcon color={iconColor} />
-      </IconButton>
+      {mode && mode.isShow ? (
+        <IconButton
+          aria-label="more"
+          aria-controls="long-menu"
+          aria-haspopup="true"
+          onClick={handleClick}
+        >
+          <MoreVertIcon color={iconColor} />
+        </IconButton>
+      ) : null}
+
       <Menu
         id="long-menu"
         anchorEl={anchorEl}
@@ -127,6 +130,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
             </MenuItem>
           ))}
       </Menu>
+
       <Reopen
         close={handleReopenDialogClose}
         openReopenDialog={openReopenDialog}
