@@ -87,8 +87,9 @@ const FiltersBuilder = ({
 
   const filterValues = filter => {
     const { field_name: fieldName } = filter;
+
     return (
-      defaultFilters.toJS()[fieldName]?.length > 0 ||
+      defaultFilters.get(fieldName)?.length > 0 ||
       savedFilters[fieldName]?.length > 0
     );
   };
