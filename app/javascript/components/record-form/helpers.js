@@ -17,11 +17,11 @@ function customizer(baseValue, value) {
     return isEqual(baseValue.sort(), value.sort());
   }
 
-  return false;
+  return isEqual(baseValue, value);
 }
 
 function difference(object, base, nested) {
-  let arrayIndexCounter = 0;
+  let arrayIndexCounter = -1;
 
   return transform(object, (result, value, key) => {
     if (
