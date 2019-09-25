@@ -1,0 +1,14 @@
+---
+en:
+  family_details:
+    name: Family Details
+    description: Family Details
+    fields:
+      family_size:
+        display_name: Size of Family
+      family_notes:
+        display_name: Notes about Family
+      childs_intended_address:
+        display_name: "What is the child’s intended address?"
+      family_details_section:
+        display_name: Family Details

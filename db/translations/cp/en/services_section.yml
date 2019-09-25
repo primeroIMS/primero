@@ -1,0 +1,45 @@
+---
+en:
+  services_section:
+    name: Nested Services
+    description: Services Subform
+    fields:
+      service_response_type:
+        display_name: Type of Response
+      service_type:
+        display_name: Type of Service
+      service_response_day_time:
+        display_name: Created on
+      service_response_timeframe:
+        display_name: Implementation Timeframe
+        help_text: Enter the Implementation Timeframe for the service; the timeframe is used in the dashboard to indicate if services are overdue.
+        option_strings_text:
+          1_hour: One hour
+          3_hours: Three hours
+          1_day: One day
+          3_days: Three days
+      service_referral:
+        display_name: "Did you refer the client for this service?"
+      service_appointment_date:
+        display_name: Appointment Date
+      service_appointment_time:
+        display_name: Appointment Time
+      service_implementing_agency:
+        display_name: Implementing Agency
+      service_provider:
+        display_name: Service Provider
+      service_delivery_location:
+        display_name: Service delivery location
+      service_implementing_agency_individual:
+        display_name: Service provider name
+      service_status_referred:
+        display_name: "Referred?"
+        tick_box_label: 'Yes'
+      service_location:
+        display_name: Service Location
+      service_referral_notes:
+        display_name: Notes
+      service_implemented:
+        display_name: Service implemented
+      service_implemented_day_time:
+        display_name: Service Implemented On

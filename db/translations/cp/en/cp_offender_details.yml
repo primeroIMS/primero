@@ -1,0 +1,24 @@
+---
+en:
+  cp_offender_details:
+    name: Perpetrator Details
+    description: Perpetrator Details
+    fields:
+      cp_incident_perpetrator_nationality:
+        display_name: Nationality
+      perpetrator_sex:
+        display_name: Sex
+      cp_incident_perpetrator_age:
+        display_name: Age
+      cp_incident_perpetrator_national_id_no:
+        display_name: National ID Number
+      cp_incident_perpetrator_other_id_type:
+        display_name: Type of Other ID Document
+      cp_incident_perpetrator_other_id_no:
+        display_name: Number of Other ID Document
+      cp_incident_perpetrator_marital_status:
+        display_name: Social Status
+      cp_incident_perpetrator_occupation:
+        display_name: Occupation
+      cp_incident_perpetrator_relationship:
+        display_name: Relationship with the abused

@@ -686,4 +686,44 @@ describe User do
       end
     end
   end
+
+  describe 'update user groups in the cases where the user is assigned', search: true do
+    before do
+      User.all.each(&:destroy)
+      Child.all.each(&:destroy)
+
+      Sunspot.setup(Child) do
+        string 'associated_user_groups',  multiple: true
+      end
+
+      @current_user = User.create!(
+                      :user_name => "user_name_#{rand(10000)}",
+                      :full_name => 'full name',
+                      :password => 'b00h00h00',
+                      :password_confirmation => 'b00h00h00',
+                      :email => 'email@ddress.net',
+                      :organization => 'TW',
+                      :disabled => 'false',
+                      :verified => true,
+                      :user_group_ids => ['user_group_1'],
+                      :role_ids => ['random_role_id'],
+                      :module_ids => ['test_module_id'])
+      @child_1 = Child.create!(name: 'Child 1', assigned_user_names: [@current_user.user_name])
+      @child_2 = Child.create!(name: 'Child 2', assigned_user_names: [@current_user.user_name])
+      @child_3 = Child.create!(name: 'Child 3', assigned_user_names: [@current_user.user_name])
+
+      Sunspot.commit
+    end
+
+    it "should update the associated_user_groups of the records" do
+      @current_user.user_group_ids = ['user_group_2']
+      @current_user.save!
+      @child_1.reload
+      @child_2.reload
+      @child_3.reload
+      expect(@child_1.associated_user_groups).to include('user_group_2')
+      expect(@child_2.associated_user_groups).to include('user_group_2')
+      expect(@child_3.associated_user_groups).to include('user_group_2')
+    end
+  end
 end

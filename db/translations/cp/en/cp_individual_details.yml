@@ -1,0 +1,32 @@
+---
+en:
+  cp_individual_details:
+    name: CP Individual Details
+    description: CP Individual Details
+    fields:
+      age:
+        display_name: Age
+      cp_sex:
+        display_name: Sex
+      cp_nationality:
+        display_name: Nationality
+      national_id_no:
+        display_name: National ID Number
+      other_id_type:
+        display_name: Type of Other ID Document
+      other_id_no:
+        display_name: Number of Other ID Document
+      maritial_status:
+        display_name: Social Status
+      educational_status:
+        display_name: Educational Status
+        option_strings_text:
+          illiterate: Illiterate
+          basic: Basic
+          secondary: Secondary
+          bachelor: Bachelor
+          post_graduate_studies: Post-graduate Studies
+      occupation:
+        display_name: Occupation
+      cp_disability_type:
+        display_name: Disability Type

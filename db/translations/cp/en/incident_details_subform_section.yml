@@ -1,0 +1,58 @@
+---
+en:
+  incident_details_subform_section:
+    name: Nested Incident Details Subform
+    description: Nested Incident Details Subform
+    fields:
+      cp_incident_identification_violence:
+        display_name: Identification of Incident
+      cp_incident_violence_header:
+        display_name: Incident
+      cp_incident_date:
+        display_name: Date of Incident
+      cp_incident_location_type:
+        display_name: Area of the Incident
+      cp_incident_location_type_other:
+        display_name: "If 'Other', please specify"
+      cp_incident_location:
+        display_name: Location of the Incident
+      cp_incident_timeofday:
+        display_name: Time of Incident
+      cp_incident_timeofday_actual:
+        display_name: Please specify the actual time of the Incident
+      cp_incident_violence_type:
+        display_name: Type of Violence
+      cp_incident_previous_incidents:
+        display_name: "Has the case been previously abused?"
+      cp_incident_previous_incidents_description:
+        display_name: "If yes, please describe in brief"
+      cp_incident_abuser_header:
+        display_name: Perpetrator Information
+      cp_incident_abuser_name:
+        display_name: Name
+      cp_incident_perpetrator_nationality:
+        display_name: Nationality
+      perpetrator_sex:
+        display_name: Sex
+      cp_incident_perpetrator_date_of_birth:
+        display_name: Date of Birth
+      cp_incident_perpetrator_age:
+        display_name: Age
+      cp_incident_perpetrator_national_id_no:
+        display_name: National ID Number
+      cp_incident_perpetrator_other_id_type:
+        display_name: Type of Other ID Document
+      cp_incident_perpetrator_other_id_no:
+        display_name: Number of Other ID Document
+      cp_incident_perpetrator_marital_status:
+        display_name: Social Status
+      cp_incident_perpetrator_mobile_phone:
+        display_name: Mobile Phone
+      cp_incident_perpetrator_phone:
+        display_name: Land Phone
+      cp_incident_perpetrator_address:
+        display_name: Address
+      cp_incident_perpetrator_occupation:
+        display_name: Occupation
+      cp_incident_perpetrator_relationship:
+        display_name: Relationship with the victim

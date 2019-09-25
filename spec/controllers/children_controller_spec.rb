@@ -142,7 +142,7 @@ describe ChildrenController, :type => :controller do
           children = mock_child(@stubs)
           scope ||= {"child_status"=>"single||open"}
           children.stub(:paginate).and_return(children)
-          Child.should_receive(:list_records).with({"child_status" => {:type => "single", :value => Record::STATUS_OPEN}}, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil, nil).and_return(children)
+          Child.should_receive(:list_records).with({"child_status" => {:type => "single", :value => Record::STATUS_OPEN}}, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil, nil, []).and_return(children)
 
           get :index, params: {scope: scope}
           assigns[:children].should == children

@@ -1,0 +1,8 @@
+---
+en:
+  incident_details_container:
+    name: Incident Details
+    description: Incident details information about a child.
+    fields:
+      incident_details:
+        display_name: Incident Details

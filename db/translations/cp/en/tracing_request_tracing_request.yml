@@ -1,0 +1,8 @@
+---
+en:
+  tracing_request_tracing_request:
+    name: Tracing Request
+    description: Tracing Request
+    fields:
+      tracing_request_subform_section:
+        display_name: Tracing Request

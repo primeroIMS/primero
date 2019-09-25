@@ -1,0 +1,32 @@
+---
+en:
+  protection_concern_detail_subform_section:
+    name: Nested Protection Concerns Subform
+    description: Nested Protection Concerns Subform
+    fields:
+      protection_concern_type:
+        display_name: Type of Protection Concern
+      date_concern_identified:
+        display_name: "Period when identified?"
+        option_strings_text:
+          follow_up_after_reunification: Follow up After Reunification
+          follow_up_in_care: Follow up In Care
+          registration: Registration
+          reunification: Reunification
+          verification: Verification
+      concern_details:
+        display_name: Details of the concern
+      concern_intervention_needed:
+        display_name: "Intervention needed?"
+      date_concern_intervention_needed_by:
+        display_name: Intervention needed by
+      concern_action_taken_already:
+        display_name: "Has action been taken?"
+        tick_box_label: 'Yes'
+      concern_action_taken_details:
+        display_name: Details of Action Taken
+      concern_action_taken_date:
+        display_name: Date when action was taken
+      concern_is_resolved:
+        display_name: "Protection concern resolved?"
+        tick_box_label: 'Yes'
