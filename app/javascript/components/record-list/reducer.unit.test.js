@@ -2,12 +2,12 @@ import chai, { expect } from "chai";
 import { Map, List } from "immutable";
 import chaiImmutable from "chai-immutable";
 
-import * as r from "./reducer";
+import { recordListReducer } from "./reducer";
 
 chai.use(chaiImmutable);
 
 describe("<RecordList /> - Reducers", () => {
-  const reducer = r.recordListReducer('TestRecordType').TestRecordType
+  const reducer = recordListReducer("TestRecordType");
 
   it("should handle RECORDS_STARTED", () => {
     const expected = Map({ loading: true, errors: false });
@@ -21,7 +21,7 @@ describe("<RecordList /> - Reducers", () => {
   });
 
   it("should handle RECORDS_FAILURE", () => {
-    const expected = Map({ errors: List(["some error"]) });
+    const expected = Map({ errors: true });
     const action = {
       type: "TestRecordType/RECORDS_FAILURE",
       payload: ["some error"]
