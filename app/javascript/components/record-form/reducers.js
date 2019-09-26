@@ -47,6 +47,9 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
     case Actions.SET_REOPEN_SUCCESS: {
       return state.setIn(["selectedRecord", "status"], payload.data.status);
     }
+    case Actions.SET_CLOSE_SUCCESS: {
+      return state.setIn(["selectedRecord", "status"], payload.data.status);
+    }
     default:
       return state;
   }
