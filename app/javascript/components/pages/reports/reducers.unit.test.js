@@ -6,7 +6,6 @@ import * as r from "./reducers";
 chai.use(chaiImmutable);
 
 describe("<Reports /> - Reducers", () => {
-
   it("should handle Reports/CASES_BY_NATIONALITY", () => {
     const expected = Map({
       title: "Cases by Nationality",
@@ -33,10 +32,10 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.Reports(Map({}), action);
+    const newState = r.reducers.reports(Map({}), action);
     expect(newState.get("casesByNationality")).to.deep.equal(expected);
   });
-  
+
   it("should handle Reports/CASES_BY_AGE_AND_SEX", () => {
     const expected = Map({
       title: "Cases by Age and Sex",
@@ -97,16 +96,15 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.Reports(Map({}), action);
+    const newState = r.reducers.reports(Map({}), action);
     expect(newState.get("casesByAgeAndSex")).to.deep.equal(expected);
   });
-  
+
   it("should handle Reports/CASES_BY_PROTECTION_CONCERN", () => {
     const expected = Map({
       title: "Cases by Protection Concern",
       column_name: "Protection Concern",
-      description:
-      "Number of cases broken down by protection concern and sex",
+      description: "Number of cases broken down by protection concern and sex",
       data: Map({
         "HIGH VULNERABILITY TO ABUSE": Map({
           Female: 4,
@@ -137,7 +135,7 @@ describe("<Reports /> - Reducers", () => {
           title: "Cases by Protection Concern",
           column_name: "Protection Concern",
           description:
-          "Number of cases broken down by protection concern and sex",
+            "Number of cases broken down by protection concern and sex",
           data: {
             "HIGH VULNERABILITY TO ABUSE": {
               Female: 4,
@@ -163,10 +161,10 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.Reports(Map({}), action);
+    const newState = r.reducers.reports(Map({}), action);
     expect(newState.get("casesByProtectionConcern")).to.deep.equal(expected);
   });
-  
+
   it("should handle Reports/CASES_BY_AGENCY", () => {
     const expected = Map({
       title: "Cases by Agency",
@@ -193,8 +191,7 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.Reports(Map({}), action);
+    const newState = r.reducers.reports(Map({}), action);
     expect(newState.get("casesByAgency")).to.deep.equal(expected);
   });
-  
 });

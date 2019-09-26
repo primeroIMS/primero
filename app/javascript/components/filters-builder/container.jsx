@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
@@ -6,8 +6,7 @@ import {
   ExpansionPanelDetails,
   ExpansionPanelSummary,
   Button,
-  IconButton,
-  Grid
+  IconButton
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { RefreshIcon } from "images/primero-icons";
@@ -20,6 +19,7 @@ import {
   DatesRange,
   SwitchButton
 } from "components/filters-builder/filter-controls";
+import SavedSearchesForm from "components/saved-searches/SavedSearchesForm";
 import { selectFilters } from "components/index-table";
 import { useI18n } from "components/i18n";
 import * as actions from "./action-creators";
@@ -38,6 +38,7 @@ const FiltersBuilder = ({
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const [open, setOpen] = useState(false);
 
   const handleClearFilters = () => {
     resetPanel();
@@ -49,6 +50,10 @@ const FiltersBuilder = ({
       options: recordFilters,
       path: `/${recordType.toLowerCase()}`
     });
+  };
+
+  const handleSaveFilters = () => {
+    setOpen(true);
   };
 
   const renderFilterControl = filter => {
@@ -77,6 +82,12 @@ const FiltersBuilder = ({
   const handleReset = (field, type) => event => {
     event.stopPropagation();
     resetCurrentPanel({ field_name: field, type }, recordType);
+  };
+
+  const savedSearchesFormProps = {
+    recordType,
+    open,
+    setOpen
   };
 
   const allowedResetFilterTypes = ["radio", "multi_toggle", "chips"];
@@ -131,24 +142,17 @@ const FiltersBuilder = ({
           </Panel>
         ))}
       <div className={css.actionButtons}>
-        <Grid
-          container
-          direction="row"
-          justify="space-between"
-          alignItems="center"
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleApplyFilter}
-          >
-            {i18n.t("filters.apply_filters")}
-          </Button>
-          <Button variant="outlined" onClick={handleClearFilters}>
-            {i18n.t("filters.clear_filters")}
-          </Button>
-        </Grid>
+        <Button variant="contained" color="primary" onClick={handleApplyFilter}>
+          {i18n.t("filters.apply_filters")}
+        </Button>
+        <Button variant="outlined" onClick={handleSaveFilters}>
+          {i18n.t("filters.save_filters")}
+        </Button>
+        <Button variant="outlined" onClick={handleClearFilters}>
+          {i18n.t("filters.clear_filters")}
+        </Button>
       </div>
+      {<SavedSearchesForm {...savedSearchesFormProps} />}
     </div>
   );
 };
