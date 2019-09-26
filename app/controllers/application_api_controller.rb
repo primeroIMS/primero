@@ -22,4 +22,10 @@ class ApplicationApiController < ActionController::API
     params[:id]
   end
 
+  def authorize_all!(permission, records)
+    records.each do |record|
+      authorize!(permission, record)
+    end
+  end
+
 end

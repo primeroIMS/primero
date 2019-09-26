@@ -196,7 +196,7 @@ describe Api::V2::UsersController, type: :request do
       login_for_test(permissions:[
         Permission.new(:resource => Permission::USER, :actions => [Permission::CREATE])
       ])
-      params = { 
+      params = {
         data: {
           full_name: "Test User API",
           user_name: "test_user_api",
@@ -230,7 +230,7 @@ describe Api::V2::UsersController, type: :request do
             Permission.new(:resource => Permission::USER, :actions => [Permission::CREATE])
           ])
         id =  (rand() * 1000).to_i
-        params = { 
+        params = {
           data: {
             id: id,
             full_name: "Test User API 2",
@@ -258,7 +258,7 @@ describe Api::V2::UsersController, type: :request do
 
       id = (rand() * 1000).to_i
 
-      params = { 
+      params = {
         data: {
           id: id,
           full_name: "Test User API",
@@ -286,7 +286,7 @@ describe Api::V2::UsersController, type: :request do
         permissions:[
           Permission.new(:resource => Permission::USER, :actions => [Permission::CREATE])
       ])
-      params = { 
+      params = {
         data: {
           id: @user_1.id,
           full_name: "Test User 5",
@@ -313,7 +313,7 @@ describe Api::V2::UsersController, type: :request do
         permissions:[
           Permission.new(:resource => Permission::USER, :actions => [Permission::CREATE])
       ])
-      params = { 
+      params = {
         data: {
           id: @user_1.id,
           full_name: "Test User 5",
@@ -348,7 +348,7 @@ describe Api::V2::UsersController, type: :request do
         ],
         group_permission: Permission::ADMIN_ONLY
       )
-      params = { 
+      params = {
         data: {
           full_name: "Updated User 1"
         }
@@ -365,7 +365,7 @@ describe Api::V2::UsersController, type: :request do
 
     it "returns 403 if user isn't authorized to update users" do
       login_for_test
-      params = { 
+      params = {
         data: {
           full_name: "Updated User 1"
         }
@@ -381,7 +381,7 @@ describe Api::V2::UsersController, type: :request do
     it "returns a 404 when trying to update a user with a non-existant id" do
       login_for_test
 
-      params = { 
+      params = {
         data: {
           full_name: "Updated User 1"
         }
@@ -406,7 +406,7 @@ describe Api::V2::UsersController, type: :request do
         ],
         group_permission: Permission::ADMIN_ONLY
       )
-      params = { 
+      params = {
         data: {
            email: "test_user_2@localhost.com",
         }
@@ -472,5 +472,14 @@ describe Api::V2::UsersController, type: :request do
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/users/thisdoesntexist')
     end
+  end
+
+  after :each do
+    FormSection.destroy_all
+    PrimeroModule.destroy_all
+    Role.destroy_all
+    User.destroy_all
+    Agency.destroy_all
+    PrimeroProgram.destroy_all
   end
 end

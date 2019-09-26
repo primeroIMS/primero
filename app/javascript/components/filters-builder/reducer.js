@@ -1,4 +1,5 @@
-import { fromJS, Map } from "immutable";
+import { Map } from "immutable";
+import { merge } from "lodash";
 import * as Actions from "./actions";
 
 const DEFAULT_STATE = Map({
@@ -13,13 +14,13 @@ export const reducers = namespace => (
 ) => {
   switch (type) {
     case `${namespace}/${Actions.SET_FILTERS}`:
-      return state.mergeIn(["filters"], fromJS(payload));
+      return state.set("filters", merge(state.get("filters"), payload));
     case `${namespace}/${Actions.ADD_CHECKBOX}`:
     case `${namespace}/${Actions.ADD_SWITCH_BUTTON}`:
     case `${namespace}/${Actions.ADD_CHIP}`:
-      return state.mergeIn(
+      return state.setIn(
         ["filters", payload.fieldName],
-        fromJS(payload.data)
+        [...state.getIn(["filters", payload.fieldName]), payload.data]
       );
     case `${namespace}/${Actions.DELETE_CHECKBOX}`:
     case `${namespace}/${Actions.DELETE_SWITCH_BUTTON}`:

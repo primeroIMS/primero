@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import * as yup from "yup";
@@ -12,11 +12,11 @@ import { useI18n } from "components/i18n";
 import { enqueueSnackbar } from "components/notifier";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import NavigationPrompt from "react-router-navigation-prompt";
-import { AlertDialog } from "components/alert-dialog";
+import { ActionDialog } from "components/action-dialog";
 import { constructInitialValues } from "../helpers";
 import FormSectionField from "./FormSectionField";
 import styles from "./styles.css";
-import SubformField from "./SubformField";
+import { SubformField } from "./subforms";
 import * as C from "../constants";
 
 const ValidationErrors = () => {
@@ -42,7 +42,7 @@ const RecordForm = ({
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-  const [subformFields, setSubformFields] = useState({});
+
   let initialFormValues = constructInitialValues(forms.values());
 
   if (record) {
@@ -126,9 +126,7 @@ const RecordForm = ({
             {form.fields.map(field => {
               const fieldProps = {
                 field,
-                mode,
-                subformFields,
-                setSubformFields
+                mode
               };
 
               return (
@@ -156,7 +154,10 @@ const RecordForm = ({
         validationSchema={validationSchema}
         validateOnBlur={false}
         validateOnChange={false}
-        onSubmit={values => onSubmit(initialFormValues, values, subformFields)}
+        enableReinitialize
+        onSubmit={values => {
+          onSubmit(initialFormValues, values);
+        }}
       >
         {({ handleSubmit, submitForm, errors, dirty, isSubmitting }) => {
           bindSubmitForm(submitForm);
@@ -166,10 +167,13 @@ const RecordForm = ({
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
               <NavigationPrompt when={dirty && !isSubmitting && !mode.isShow}>
                 {({ onConfirm, onCancel }) => (
-                  <AlertDialog
+                  <ActionDialog
                     open
                     successHandler={onConfirm}
                     cancelHandler={onCancel}
+                    dialogTitle={i18n.t("record_panel.record_information")}
+                    dialogText={i18n.t("messages.confirmation_message")}
+                    confirmButtonLabel={i18n.t("yes_label")}
                   />
                 )}
               </NavigationPrompt>

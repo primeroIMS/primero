@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import {
   ExpansionPanelDetails,
@@ -23,6 +23,7 @@ import SavedSearchesForm from "components/saved-searches/SavedSearchesForm";
 import { selectFilters } from "components/index-table";
 import { useI18n } from "components/i18n";
 import * as actions from "./action-creators";
+import { selectFiltersByRecordType } from "./selectors";
 import Panel from "./Panel";
 import styles from "./styles.css";
 
@@ -32,7 +33,8 @@ const FiltersBuilder = ({
   resetPanel,
   resetCurrentPanel,
   recordFilters,
-  applyFilters
+  applyFilters,
+  defaultFilters
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -90,11 +92,28 @@ const FiltersBuilder = ({
 
   const allowedResetFilterTypes = ["radio", "multi_toggle", "chips"];
 
+  const savedFilters = useSelector(state =>
+    selectFiltersByRecordType(state, recordType)
+  );
+
+  const filterValues = filter => {
+    const { field_name: fieldName } = filter;
+
+    return (
+      defaultFilters.get(fieldName)?.length > 0 ||
+      savedFilters[fieldName]?.length > 0
+    );
+  };
+
   return (
     <div className={css.root}>
       {filters &&
         filters.toJS().map(filter => (
-          <Panel key={filter.field_name} name={filter.field_name}>
+          <Panel
+            key={`${recordType}-${filter.field_name}`}
+            name={`${recordType}-${filter.field_name}`}
+            hasValues={filterValues(filter)}
+          >
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="filter-controls-content"
@@ -144,7 +163,8 @@ FiltersBuilder.propTypes = {
   resetPanel: PropTypes.func,
   resetCurrentPanel: PropTypes.func,
   recordFilters: PropTypes.object,
-  applyFilters: PropTypes.func
+  applyFilters: PropTypes.func,
+  defaultFilters: PropTypes.object
 };
 
 const mapStateToProps = (state, props) => ({

@@ -10,7 +10,7 @@ describe SavedSearch do
         name: "Primero",
         description: "Default Primero Program"
       )
-  
+
       @cp = PrimeroModule.create!(
         unique_id: 'primeromodule-cp',
         name: "CP",
@@ -19,7 +19,7 @@ describe SavedSearch do
         primero_program: @program,
         form_sections: [FormSection.create!(name: 'form_1')]
       )
-  
+
       @role = Role.create!(
         name: 'Test Role 1',
         unique_id: "test-role-1",
@@ -30,9 +30,9 @@ describe SavedSearch do
           )
         ]
       )
-  
+
       @agency_1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
-  
+
       @user_1 = User.create!(
         full_name: "Test User 1",
         user_name: 'test_user_1',
@@ -52,7 +52,7 @@ describe SavedSearch do
                                   { "flag" => ["single", "flag"] },
                                   { "marked_for_mobile" => ["single", "true"] },
                                   { "owned_by_location1" => ["list", "LB7"] },
-                                  { "child_status" => ["list", "open"] },
+                                  { "child" => ["list", "open"] },
                                   { "record_state" => ["list", "true"] }
                                 ])
     end

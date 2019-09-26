@@ -162,7 +162,7 @@ module HomeHelper
   def index_filters(filters, reporting_location='owned_by_location', admin_level=2)
     list = []
     index_filters_list = {
-      child_status: "scope[child_status]=list||",
+      status: "scope[status]=list||",
       new: "scope[last_updated_by]=neg||#{current_user.user_name}",
       referred_users: "scope[assigned_user_names]=list||#{current_user.user_name}",
       referred_user: "scope[assigned_user_names]=list||",
@@ -267,7 +267,7 @@ module HomeHelper
       rl = {
         stat: risk_level.to_sym,
         filters: [
-          "child_status=#{Record::STATUS_OPEN}",
+          "status=#{Record::STATUS_OPEN}",
           "risk_level=#{risk_level}",
           'record_state=true',
           "owned_by=#{current_user.user_name}"

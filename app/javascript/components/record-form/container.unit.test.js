@@ -203,5 +203,4 @@ describe("<RecordForms /> - Component", () => {
   it("renders the LoadingIndicator", () => {
     expect(component.find(LoadingIndicator)).to.have.length(1);
   });
-
 });

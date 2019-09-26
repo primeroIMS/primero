@@ -27,7 +27,7 @@ class Agency < ApplicationRecord
   validate :validate_logo_large_dimension, if: -> { logo_large.attached? }
   validate :validate_logo_small_dimension, if: -> { logo_small.attached? }
 
-  after_initialize :generate_unique_id
+  after_initialize :generate_unique_id, unless: :persisted?
 
 
   class << self

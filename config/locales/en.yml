@@ -194,6 +194,7 @@ en:
      view: "View"
      request_transfer: "Request Transfer"
      add_note: "Add Notes"
+     add: "Add"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -274,6 +275,8 @@ en:
     photos: "Photo"
     owned_by: 'Record Owner'
     owned_by_agency: 'Record Owner Agency'
+    reopen_dialog: 'Clicking OK will change the status of this case to Open'
+    reopen_success: 'Successfully reopened case'
 
     order_by:
       most_recently: "Most recently"
@@ -699,6 +702,7 @@ en:
       social_worker: "Field/Case/Social Worker:"
       inquiry_date: "Date of Inquiry:"
       inquiry_status: "Inquiry Status:"
+      status: "Status:"
       location_separation: "Separation Location:"
       separation_cause: "Separation Cause:"
       record_state: "Record State:"
@@ -1591,6 +1595,10 @@ en:
     child_status_closed: "Closed"
     child_status_transferred: "Transferred"
     child_status_duplicate: "Duplicate"
+    status_open: "Open"
+    status_closed: "Closed"
+    status_transferred: "Transferred"
+    status_duplicate: "Duplicate"
 
   dashboard:
     total: 'Total'
@@ -1960,6 +1968,7 @@ en:
     transfer: "Transferred to %{to_user} by %{by_user}"
     record_by: "Record created by"
     child_status_changed: "Child status changed to reunited by"
+    status_changed: "Child status changed to reunited by"
 
     system_logs:
       records_performed_by: "records performed by"
@@ -1984,6 +1993,7 @@ en:
 
     reunited:
       child_status_changed: "Child status changed to active by"
+      status_changed: "Child status changed to active by"
       with_details: "with these details:"
 
   actions:
@@ -2217,6 +2227,10 @@ en:
       primero: "Primero"
       non_primero: "Non-Primero"
       pdf_export: "PDF export"
+    errors:
+      consent: "Consent not provided"
+      to_user_can_receive: "This user cannot receive this record"
+
 
   mark_for_mobile:
     no_records_selected: "No records selected"
@@ -2379,18 +2393,18 @@ en:
     referral_subject: "%{record_type}: %{id} - Referral"
     transfer_subject: "%{record_type}: %{id} - Transfer"
     transfer_request_subject: "Transfer request for one of your cases"
-    reassign_subject: "%{record_type}: %{id} - Assigned to you"
+    assign_subject: "%{record_type}: %{id} - Assigned to you"
     approval_request: "The user %{user} is requesting approval for %{approval_type} on case %{case_id}."
     approval_response: "%{user} has %{status} the request for approval for %{approval_type} for case %{case_id}."
     referral: "%{user} from %{agency} has referred the following %{record_type} to you: %{record_id} for %{service_type}."
     transfer: "%{user} has transferred the following %{record_type} to you: %{record_id}."
-    reassign: "%{user} has assigned the following %{record_type} to you: %{record_id}."
+    assign: "%{user} has assigned the following %{record_type} to you: %{record_id}."
     transfer_request: "Primero user %{user} from %{agency} is requesting that you transfer ownership of this %{record_type} record %{record_id} so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer."
     approval_request_html: "The user <strong>%{user}</strong> is requesting approval for <strong> %{approval_type}</strong> on case <strong>%{case_id}</strong>."
     approval_response_html: "<strong>%{user}</strong> has <strong>%{status}</strong> the request for approval for <strong>%{approval_type}</strong> for case <strong>%{case_id}</strong>."
     referral_html: "<strong>%{user}</strong> from %{agency} has referred the following %{record_type} to you: <strong>%{record_id}</strong> for %{service_type}."
     transfer_html: "<strong>%{user}</strong> has transferred the following %{record_type} to you: <strong>%{record_id}</strong>."
-    reassign_html: "<strong>%{user}</strong> has assigned the following %{record_type} to you: <strong>%{record_id}</strong>."
+    assign_html: "<strong>%{user}</strong> has assigned the following %{record_type} to you: <strong>%{record_id}</strong>."
     transfer_request_html: "Primero user <strong>%{user}</strong> from %{agency} is requesting that you transfer ownership of this %{record_type} record <strong>%{record_id}</strong> so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer."
     transfer_request_notes_html: "Notes from the individual making the request: %{request_transfer_notes}"
   will_paginate:
@@ -2510,6 +2524,7 @@ en:
     mark_for_mobile: 'Mark for Mobile?'
     social_worker: "Field/Case/Social Worker"
     child_status: "Status"
+    status: "Status"
     age_range: "Age Range"
     sex: "Sex"
     risk_level: "Risk Level"

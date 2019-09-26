@@ -2,164 +2,71 @@ module Transitionable
   extend ActiveSupport::Concern
 
   included do
+    #TODO: This will need to be changed toi individual associations per type?
+    has_many :transitions, as: :record
+
     store_accessor :data,
-      :transfer_status, :reassigned_tranferred_on, :transitions
+      :transfer_status, :reassigned_transferred_on
 
     searchable auto_index: self.auto_index? do
       string :transfer_status, as: 'transfer_status_sci'
       string :referred_users, multiple: true
       string :transferred_to_users, multiple: true
-      time :reassigned_tranferred_on
-    end
-
-    def transitions
-      if self.data['transitions'].present?
-        self.data['transitions'].map{|a| Transition.new(a)}
-      else
-        []
-      end
-    end
-
-    def transitions=(transitions)
-      if transitions.is_a? Array
-        self.data['transitions'] = transitions.map(&:to_h)
-      end
-    end
-
-    def add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, to_user_local_status, notes,
-                       is_remote, type_of_export, user_name, consent_overridden,
-                       consent_individual_transfer=false, service = "")
-      transition = Transition.new(
-        :type => transition_type,
-        :to_user_local => to_user_local,
-        :to_user_remote => to_user_remote,
-        :to_user_agency => to_user_agency,
-        :to_user_local_status => to_user_local_status,
-        :transitioned_by => user_name,
-        :notes => notes,
-        :is_remote => is_remote,
-        :type_of_export => type_of_export,
-        :service => service,
-        :consent_overridden => consent_overridden,
-        :consent_individual_transfer => consent_individual_transfer,
-        :created_at => DateTime.now)
-      self.transitions = [transition.to_h] + self.transitions
-    end
-
-    def transitions_transfer_status(transfer_id, transfer_status, user, rejected_reason)
-      if transfer_status == Transition::TO_USER_LOCAL_STATUS_ACCEPTED ||
-         transfer_status == Transition::TO_USER_LOCAL_STATUS_REJECTED
-        #Retrieve the transfer that user accept/reject.
-        transfer = self.transfers.select{|t| t.id == transfer_id }.first
-        if transfer.present?
-          #Validate that the transitions is in progress and the user is related to.
-          if transfer.is_transfer_in_progress? && transfer.is_assigned_to_user_local?(user.user_name)
-            #Change Status according the action executed.
-            transfer.to_user_local_status = transfer_status
-            #When is a reject action, there could be a reason.
-            if rejected_reason.present?
-              transfer.rejected_reason = rejected_reason
-            end
-            #Update the top level transfer status.
-            self.transfer_status = transfer_status
-            #Either way Accept or Reject the current user should be removed from the associated users.
-            #So, it will have no access to the record anymore.
-            self.assigned_user_names = self.assigned_user_names.reject{|u| u == user.user_name}
-            if transfer_status == Transition::TO_USER_LOCAL_STATUS_ACCEPTED
-              #In case the transfer is accepted the current user is the new owner of the record.
-              self.previously_owned_by = self.owned_by
-              self.owned_by = user.user_name
-              self.owned_by_full_name = user.full_name
-            end
-            #let know the caller the record was changed.
-            status_changed = :transition_transfer_status_updated
-          else
-            status_changed = :transition_not_valid_transfer
-          end
-        else
-          status_changed = :transition_unknown_transfer
-        end
-      else
-        status_changed = :transition_unknown_transfer_status
-      end
-      status_changed
-    end
-
-    def send_transition_email(transition_type, host_url)
-      TransitionNotifyJob.perform_later(transition_type, self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
-    end
-
-    def send_request_transfer_email(user_id, request_transfer_notes, host_url)
-      RequestTransferJob.perform_later(self.class.to_s, self.id, user_id, request_transfer_notes, host_url) if self.owner&.email.present?
+      time :reassigned_transferred_on
     end
   end
 
-  EXPORT_TYPE_PRIMERO = 'primero'
-  EXPORT_TYPE_NON_PRIMERO = 'non_primero'
-  EXPORT_TYPE_PDF = 'pdf_export'
+  def assigns
+    transitions.where(type: Assign.name)
+  end
 
   def referrals
-    self.transitions.select{|t| t.type == Transition::TYPE_REFERRAL}
+    transitions.where(type: Referral.name)
   end
 
-  def referred_users
-    self.transitions.map{|er| [er.to_user_local, er.to_user_remote]}.flatten.compact.uniq
-  end
-
-  def set_service_as_referred( service_object_id )
-    if service_object_id.present?
-      service_object = self.services_section.select {|s| s.unique_id == service_object_id}.first
-      service_object['service_status_referred'] = true
+  def referrals_for_user(user)
+    if owned_by != user.user_name
+      referrals.where(transitioned_to: user.user_name)
+    else
+      referrals
     end
   end
 
   def transfers
-    self.transitions.select{|t| t.type == Transition::TYPE_TRANSFER}
+    transitions.where(type: Transfer.name)
   end
 
-  def transition_by_type_and_id(type, id)
-    self.transitions.select{|t| t.type == type && t.id == id}.first
+  def transfer_requests
+    transitions.where(type: TransferRequest.name)
+  end
+
+  def transitions_for_user(user, types=[])
+    unless types.present?
+      types = [Assign.name, Transfer.name, Referral.name, TransferRequest.name]
+    end
+    if (owned_by != user.user_name) && types.include?(Referral.name)
+      types.delete(Referral.name)
+      transitions.where(type: types).or(
+        transitions.where(
+          type: Referral.name,
+          transitioned_to: user.user_name
+        )
+      )
+    else
+      transitions.where(type: types)
+    end
   end
 
   def transferred_to_users
-    self.transitions.select(&:is_transfer_in_progress?)
-        .map(&:to_user_local).uniq
+    transfers
+      .where(status: Transition::STATUS_INPROGRESS)
+      .pluck(:transitioned_to).uniq
   end
 
-  def has_referrals
-    self.referrals.present?
-  end
-  alias :has_referrals? :has_referrals
-
-  def reject_old_transitions
-    self.transitions = [self.transitions.first]
-  end
-
-  def latest_external_referral
-    referral = []
-    transitions = self.transitions
-    if transitions.present?
-      ext_referrals = transitions.select do |transition|
-        transition.type == Transition::TYPE_REFERRAL && transition.is_remote
-      end
-      if ext_referrals.present?
-        # Expected result is either one or zero element array
-        referral = [ext_referrals.first]
-      end
-    end
-    referral
-  end
-
-  def given_consent(type = Transition::TYPE_REFERRAL)
-    if self.module_id == PrimeroModule::GBV
-      self.consent_for_services == true
-    elsif self.module_id == PrimeroModule::CP
-      if type == Transition::TYPE_REFERRAL
-        self.disclosure_other_orgs == true && self.consent_for_services == true
-      else
-        self.disclosure_other_orgs == true
-      end
-    end
+  def referred_users
+    referrals
+      .where(status: Transition::STATUS_INPROGRESS)
+      .pluck(:transitioned_to).uniq
   end
 
 end

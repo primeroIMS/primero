@@ -110,6 +110,7 @@ const Filters = ({ recordType, defaultFilters }) => {
           recordType={recordType}
           filters={availableFilters}
           resetPanel={resetFilterValues}
+          defaultFilters={defaultFilters}
         />
       )}
       {tabValue === 1 && (

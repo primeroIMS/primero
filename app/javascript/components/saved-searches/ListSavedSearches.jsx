@@ -11,7 +11,7 @@ import {
   makeStyles
 } from "@material-ui/core";
 import { useI18n } from "components/i18n";
-import { AlertDialog } from "components/alert-dialog";
+import { ActionDialog } from "components/action-dialog";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { setTab } from "components/filters/action-creators";
 import { removeSavedSearch, setSavedSearch } from "./action-creators";
@@ -51,8 +51,9 @@ const ListSavedSearches = ({ recordType, savedSearches, resetFilters }) => {
 
   const alertDialogProps = {
     open,
-    title: i18n.t("saved_search.title_modal"),
-    description: i18n.t("saved_search.title_description"),
+    dialogTitle: i18n.t("saved_search.title_modal"),
+    dialogText: i18n.t("saved_search.title_description"),
+    confirmButtonLabel: i18n.t("yes_label"),
     successHandler: () => {
       dispatch(
         removeSavedSearch(deleteSavedSearch, i18n.t("saved_search.deleted"))
@@ -66,7 +67,7 @@ const ListSavedSearches = ({ recordType, savedSearches, resetFilters }) => {
 
   return (
     <div className={css.listSavedSearches}>
-      <AlertDialog {...alertDialogProps} />
+      <ActionDialog {...alertDialogProps} />
       <h3>{i18n.t("cases.my_filters")}</h3>
       <Divider light />
       <List component="nav">

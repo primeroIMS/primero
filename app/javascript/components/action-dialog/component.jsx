@@ -10,12 +10,13 @@ import {
   DialogTitle
 } from "@material-ui/core";
 
-const AlertDialog = ({
+const ActionDialog = ({
   open,
   successHandler,
   cancelHandler,
-  title,
-  description
+  dialogTitle,
+  dialogText,
+  confirmButtonLabel
 }) => {
   const i18n = useI18n();
 
@@ -33,23 +34,19 @@ const AlertDialog = ({
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby="action-dialog-title"
+        aria-describedby="action-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {title || i18n.t("record_panel.record_information")}
-        </DialogTitle>
+        <DialogTitle>{dialogTitle}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {description || i18n.t("messages.confirmation_message")}
-          </DialogContentText>
+          <DialogContentText>{dialogText}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             {i18n.t("cancel")}
           </Button>
           <Button onClick={handleSuccess} color="primary" autoFocus>
-            {i18n.t("yes_label")}
+            {confirmButtonLabel}
           </Button>
         </DialogActions>
       </Dialog>
@@ -57,12 +54,13 @@ const AlertDialog = ({
   );
 };
 
-AlertDialog.propTypes = {
+ActionDialog.propTypes = {
   open: PropTypes.bool,
   successHandler: PropTypes.func,
   cancelHandler: PropTypes.func,
-  title: PropTypes.string,
-  description: PropTypes.string
+  dialogTitle: PropTypes.string,
+  dialogText: PropTypes.string,
+  confirmButtonLabel: PropTypes.string
 };
 
-export default AlertDialog;
+export default ActionDialog;

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe NotificationMailer, :type => :mailer do
+describe NotificationMailer, type: :mailer do
   describe "approvals" do
     before do
       Lookup.all.each {|lookup| lookup.destroy}
@@ -39,141 +39,124 @@ describe NotificationMailer, :type => :mailer do
     end
   end
 
-  describe "transitions" do
-    before do
-      Lookup.all.each &:destroy
-      Lookup.create(id: "lookup-service-type", name: "Service Type",
-          lookup_values: [{id: "safehouse_service", display_text: "Safehouse Service"}.with_indifferent_access,
-                          {id: "health_medical_service", display_text: "Health/Medical Service"}.with_indifferent_access]
+  describe 'Transitions' do
+
+    before :each do
+      @primero_module = PrimeroModule.new(name: 'CP')
+      @primero_module.save(validate: false)
+      @permission_assign_case = Permission.new(
+        resource: Permission::CASE,
+        actions: [
+          Permission::READ, Permission::WRITE,
+          Permission::CREATE, Permission::ASSIGN,
+          Permission::TRANSFER, Permission::RECEIVE_TRANSFER,
+          Permission::REFERRAL, Permission::RECEIVE_REFERRAL
+        ]
       )
-
-      @test_url = "http://test.com"
-      @date_time = DateTime.parse("2016/08/01 12:54:55 -0400")
-      DateTime.stub(:now).and_return(@date_time)
-      @user = User.new(user_name: 'Uzer From')
-      @user_to_local = User.new(user_name: 'Uzer To', email: 'uzer_to@test.com', send_mail: true)
-      User.stub(:find_by_user_name).with('Uzer From').and_return(@user)
-      User.stub(:find_by_user_name).with('Uzer To').and_return(@user_to_local)
-      @agency = Agency.new(name: 'Test Agency')
-      User.any_instance.stub(:agency).and_return(@agency)
-      @referral = Transition.new(
-          :type => "referral",
-          :to_user_local => @user_to_local.user_name,
-          :to_user_remote => nil,
-          :to_user_agency => nil,
-          :transitioned_by => @user.user_name,
-          :notes => "bla bla bla",
-          :is_remote => true,
-          :type_of_export => nil,
-          :service => 'safehouse_service',
-          :consent_overridden => true,
-          :created_at => DateTime.now)
-      @transfer = Transition.new(
-          :type => "transfer",
-          :to_user_local => @user_to_local.user_name,
-          :to_user_remote => nil,
-          :to_user_agency => nil,
-          :transitioned_by => @user.user_name,
-          :notes => "aha!",
-          :is_remote => true,
-          :type_of_export => nil,
-          :service => nil,
-          :consent_overridden => true,
-          :created_at => DateTime.now)
-      @reassign = Transition.new(
-          :type => "reassign",
-          :to_user_local => @user_to_local.user_name,
-          :to_user_remote => nil,
-          :to_user_agency => nil,
-          :transitioned_by => @user.user_name,
-          :notes => "yo yo yo",
-          :is_remote => false,
-          :type_of_export => nil,
-          :service => nil,
-          :consent_overridden => true,
-          :created_at => DateTime.now)
+      @role = Role.new(permissions: [@permission_assign_case])
+      @role.save(validate: false)
+      agency = Agency.create!(name: 'Test Agency', agency_code: 'TA')
+      @group1 = UserGroup.create!(name: 'Group1')
+      @user1 = User.new(
+        user_name: 'user1', role: @role, user_groups: [@group1],
+        modules: [@primero_module],
+        email: 'uzer1@test.com', send_mail: true,
+        agency: agency
+      )
+      @user1.save(validate: false)
+      @group2 = UserGroup.create!(name: 'Group2')
+      @user2 = User.new(
+        user_name: 'user2', role: @role,
+        user_groups: [@group2], modules: [@primero_module],
+        email: 'uzer_to@test.com', send_mail: true,
+        agency: agency
+      )
+      @user2.save(validate: false)
+      @case = Child.create(
+        data: {
+          name: 'Test', owned_by: 'user1',
+          module_id: @primero_module.unique_id,
+          disclosure_other_orgs: true, consent_for_services: true
+        }
+      )
     end
 
-    describe "referral" do
+    describe 'referral' do
       before do
-        @case1 = Child.new(id: '12345', short_id: 'short_123')
-        @case1.add_transition(@transfer.type, @transfer.to_user_local,
-                              @transfer.to_user_remote, @transfer.to_user_agency, @referral.to_user_local_status,
-                              @transfer.notes, @transfer.is_remote, @transfer.type_of_export,
-                              @referral.transitioned_by, @transfer.consent_overridden, false, @transfer.service)
-        @case1.add_transition(@referral.type, @referral.to_user_local,
-                              @referral.to_user_remote, @referral.to_user_agency, @referral.to_user_local_status,
-                              @referral.notes, @referral.is_remote, @referral.type_of_export,
-                              @referral.transitioned_by, @referral.consent_overridden, false, @referral.service)
-        Child.stub(:get).with('12345').and_return(@case1)
+        @referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(Transition::TYPE_REFERRAL, 'Child', @case1.id, @case1.transitions.first.id, @test_url) }
+      let(:mail) { NotificationMailer.transition_notify(@referral.id) }
 
-      it "renders the headers" do
-        expect(mail.subject).to eq("Case: #{@case1.short_id} - Referral")
+      it 'renders the headers' do
+        expect(mail.subject).to eq("Case: #{@case.short_id} - Referral")
         expect(mail.to).to eq(['uzer_to@test.com'])
       end
 
-      it "renders the body" do
-        expect(mail.body.encoded).to match("Uzer From from Test Agency has referred the following Case to you: (.*short_123)(.*for Safehouse Service).")
+      it 'renders the body' do
+        expect(mail.body.encoded).to match('user1 from Test Agency has referred the following Case to you')
       end
     end
 
-    describe "transfer" do
+    describe 'transfer' do
       before do
-        @case1 = Child.new(id: '12345', short_id: 'short_123')
-        @case1.add_transition(@referral.type, @referral.to_user_local,
-                              @referral.to_user_remote, @referral.to_user_agency, @referral.to_user_local_status,
-                              @referral.notes, @referral.is_remote, @referral.type_of_export,
-                              @referral.transitioned_by, @referral.consent_overridden, false, @referral.service)
-        @case1.add_transition(@transfer.type, @transfer.to_user_local,
-                              @transfer.to_user_remote, @transfer.to_user_agency, @referral.to_user_local_status,
-                              @transfer.notes, @transfer.is_remote, @transfer.type_of_export,
-                              @referral.transitioned_by, @transfer.consent_overridden, false, @transfer.service)
-        Child.stub(:get).with('12345').and_return(@case1)
+        @transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(Transition::TYPE_TRANSFER, 'Child', @case1.id, @case1.transitions.first.id, @test_url) }
+      let(:mail) { NotificationMailer.transition_notify(@transfer.id)}
 
-      it "renders the headers" do
-        expect(mail.subject).to eq("Case: #{@case1.short_id} - Transfer")
+      it 'renders the headers' do
+        expect(mail.subject).to eq("Case: #{@case.short_id} - Transfer")
         expect(mail.to).to eq(['uzer_to@test.com'])
       end
 
-      it "renders the body" do
-        expect(mail.body.encoded).to match("Uzer From has transferred the following Case to you: .*#{@case1.short_id}.")
+      it 'renders the body' do
+        expect(mail.body.encoded).to match('user1 has transferred the following Case to you')
       end
     end
 
-    describe "reassign" do
+    describe 'assign' do
       before do
-        @case1 = Child.new(id: '12345', short_id: 'short_123')
-        @case1.add_transition(@referral.type, @referral.to_user_local,
-                              @referral.to_user_remote, @referral.to_user_agency, @referral.to_user_local_status,
-                              @referral.notes, @referral.is_remote, @referral.type_of_export,
-                              @referral.transitioned_by, @referral.consent_overridden, false, @referral.service)
-        @case1.add_transition(@transfer.type, @transfer.to_user_local,
-                              @transfer.to_user_remote, @transfer.to_user_agency, @referral.to_user_local_status,
-                              @transfer.notes, @transfer.is_remote, @transfer.type_of_export,
-                              @referral.transitioned_by, @transfer.consent_overridden, false, @transfer.service)
-        @case1.add_transition(@reassign.type, @reassign.to_user_local,
-                              @reassign.to_user_remote, @reassign.to_user_agency, @referral.to_user_local_status,
-                              @reassign.notes, @reassign.is_remote, @reassign.type_of_export,
-                              @referral.transitioned_by, @reassign.consent_overridden, false, @reassign.service)
-        Child.stub(:get).with('12345').and_return(@case1)
+        @assign = Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       end
 
-      let(:mail) { NotificationMailer.transition_notify(Transition::TYPE_REASSIGN, 'Child', @case1.id, @case1.transitions.first.id, @test_url) }
+      let(:mail) { NotificationMailer.transition_notify(@assign.id) }
 
-      it "renders the headers" do
-        expect(mail.subject).to eq("Case: #{@case1.short_id} - Assigned to you")
+      it 'renders the headers' do
+        expect(mail.subject).to eq("Case: #{@case.short_id} - Assigned to you")
         expect(mail.to).to eq(['uzer_to@test.com'])
       end
 
-      it "renders the body" do
-        expect(mail.body.encoded).to match("Uzer From has assigned the following Case to you: .*#{@case1.short_id}.")
+      it 'renders the body' do
+        expect(mail.body.encoded).to match('user1 has assigned the following Case to you')
       end
+    end
+
+    describe 'transition request' do
+      before do
+        @transfer_request = TransferRequest.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case)
+      end
+
+      let(:mail) { NotificationMailer.transition_notify(@transfer_request.id) }
+
+      it 'renders the headers' do
+        expect(mail.subject).to eq('Transfer request for one of your cases')
+        expect(mail.to).to eq(['uzer1@test.com'])
+      end
+
+      it 'renders the body' do
+        expect(mail.body.encoded).to match('Primero user user2 from Test Agency is requesting that you transfer ownership')
+      end
+    end
+
+    after :each do
+      PrimeroModule.destroy_all
+      UserGroup.destroy_all
+      Role.destroy_all
+      User.destroy_all
+      Child.destroy_all
+      Transition.destroy_all
+      Agency.destroy_all
     end
   end
 
