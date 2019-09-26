@@ -273,7 +273,7 @@ describe("<RecordForm /> - Reducers", () => {
   });
 
   it("should handle SET_REOPEN_SUCCESS", () => {
-    const defaultSelectedRecord = { status: "open" };
+    const defaultSelectedRecord = { status: "closed" };
     const selectedRecord = { status: "open" };
 
     const reopenDefaultState = Map({
@@ -296,6 +296,38 @@ describe("<RecordForm /> - Reducers", () => {
         data: {
           id: "e3cd16e5-2f13-4f46-a2a4-8c3ba48a7c0a",
           status: "open"
+        }
+      }
+    };
+
+    const newState = r.reducers.forms(defaultState, action);
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SET_CLOSE_SUCCESS", () => {
+    const defaultSelectedRecord = { status: "open" };
+    const selectedRecord = { status: "closed" };
+
+    const reopenDefaultState = Map({
+      selectedForm: null,
+      formSections: Map({}),
+      selectedRecord: Map(defaultSelectedRecord),
+      fields: Map({})
+    });
+
+    const expected = Map({
+      selectedForm: null,
+      formSections: Map({}),
+      selectedRecord: Map(selectedRecord),
+      fields: Map({})
+    });
+
+    const action = {
+      type: "SET_CLOSE_SUCCESS",
+      payload: {
+        data: {
+          id: "e3cd16e5-2f13-4f46-a2a4-8c3ba48a7c0a",
+          status: "closed"
         }
       }
     };

@@ -277,6 +277,8 @@ en:
     owned_by_agency: 'Record Owner Agency'
     reopen_dialog: 'Clicking OK will change the status of this case to Open'
     reopen_success: 'Successfully reopened case'
+    close_dialog: 'Clicking OK will change the status of this case to Closed'
+    close_success: 'Successfully closed case'
 
     order_by:
       most_recently: "Most recently"
@@ -1997,6 +1999,7 @@ en:
     enable: "Enable"
     disable: "Disable"
     reopen: "Reopen"
+    close: "Close"
     incident_details_from_case: "Add Incident"
     services_section_from_case: "Add Service Provision"
     description:
