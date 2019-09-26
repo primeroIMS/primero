@@ -37,11 +37,9 @@ const ActionDialog = ({
         aria-labelledby="action-dialog-title"
         aria-describedby="action-dialog-description"
       >
-        <DialogTitle id="action-dialog-title">{dialogTitle}</DialogTitle>
+        <DialogTitle>{dialogTitle}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="action-dialog-description">
-            {dialogText}
-          </DialogContentText>
+          <DialogContentText>{dialogText}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
