@@ -37,11 +37,10 @@
   &:before {
     display: none;
   }
-
-  & .panelDetails {
-    margin-bottom: 10px;
-    overflow-y: auto;
-    padding: 0 10px 12px 10px;
-    max-height: 250px;
-  }
+}
+.panelDetails {
+  margin-bottom: 10px;
+  overflow-y: auto;
+  padding: 0 10px 12px 10px;
+  max-height: 250px;
 }
