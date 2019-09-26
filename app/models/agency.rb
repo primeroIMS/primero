@@ -52,7 +52,6 @@ class Agency < CouchRest::Model::Base
     def all_names
       self.by_disabled(key: false).map{|r| {id: r.id, display_text: r.name}.with_indifferent_access}
     end
-    memoize_in_prod :all_names
 
     def retrieve_logo_ids
       self.by_order.select{|l| l.logo_enabled == true }
