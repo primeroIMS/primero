@@ -61,7 +61,7 @@ const Chips = ({ recordType, props, chips, setChips }) => {
 
 Chips.propTypes = {
   recordType: PropTypes.string,
-  chips: PropTypes.array,
+  chips: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   props: PropTypes.object,
   setChips: PropTypes.func,
   options: PropTypes.object,
