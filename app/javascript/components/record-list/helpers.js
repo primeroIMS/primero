@@ -56,10 +56,10 @@ export const cleanUpFilters = filters => {
       filtersArray[key] = value.join(",");
     } else if (
       typeof value === "object" &&
-      !Object.values(value.toJS()).includes(null)
+      !Object.values(value).includes(null)
     ) {
       const valueConverted = {};
-      Object.entries(value.toJS()).forEach(keys => {
+      Object.entries(value).forEach(keys => {
         const [k, v] = keys;
         valueConverted[k] = v;
       });
