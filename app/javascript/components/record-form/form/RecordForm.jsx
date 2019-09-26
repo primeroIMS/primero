@@ -58,6 +58,8 @@ const RecordForm = ({
         validations[name] = yup
           .number()
           .nullable()
+          .transform(cv => (NaN.isNaN(cv) ? undefined : cv))
+          .positive()
           .min(0, i18n.t("errors.models.child.age"))
           .max(130, i18n.t("errors.models.child.age"));
       } else {
