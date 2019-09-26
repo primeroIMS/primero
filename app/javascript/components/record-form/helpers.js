@@ -1,49 +1,63 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-shadow */
-/* eslint-disable func-names */
+/* eslint-disable no-param-reassign, no-shadow, func-names, no-use-before-define, no-lonely-if */
 import {
-  isArray,
   isEmpty,
   transform,
-  isEqualWith,
   isObject,
-  isEqual
+  isEqual,
+  find,
+  pickBy,
+  identity
 } from "lodash";
 import { isDate, format } from "date-fns";
 import * as C from "./constants";
 
-function customizer(baseValue, value) {
-  if (Array.isArray(baseValue) && Array.isArray(value)) {
-    return isEqual(baseValue.sort(), value.sort());
-  }
+function compareArray(value, base) {
+  return value.reduce((acc, v) => {
+    if (isObject(v)) {
+      const baseSubform = find(base, b => {
+        return b.unique_id === v.unique_id;
+      });
 
-  return isEqual(baseValue, value);
+      if (baseSubform) {
+        const diff = difference(v, baseSubform, true);
+
+        if (
+          !isEmpty(diff) &&
+          !("unique_id" in diff && Object.keys(diff).length === 1)
+        )
+          acc.push(diff);
+      } else {
+        const newSubform = pickBy(v, identity);
+        if (!isEmpty(newSubform)) acc.push(newSubform);
+      }
+    } else {
+      if (!isEmpty(v)) {
+        acc.push(v);
+      }
+    }
+
+    return acc;
+  }, []);
 }
 
 function difference(object, base, nested) {
-  let arrayIndexCounter = -1;
-
   return transform(object, (result, value, key) => {
-    if (
-      !isEqualWith(value, base[key], customizer) ||
-      (nested && key === "unique_id")
-    ) {
+    if (!isEqual(value, base[key]) || (nested && key === "unique_id")) {
       let val = value;
       if (isDate(val)) {
         val = format(value, "dd-MMM-yyyy");
       }
 
-      const resultKey = isArray(base) ? (arrayIndexCounter += 1) : key;
+      if (Array.isArray(val)) {
+        result[key] = compareArray(val, base[key]);
+      } else if (isObject(val) && isObject(base[key])) {
+        result[key] = difference(val, base[key], true);
+      } else {
+        result[key] = val;
+      }
 
-      result[resultKey] =
-        isObject(value) && isObject(base[key])
-          ? difference(value, base[key], true)
-          : val;
-
-      if (isObject(result[resultKey]) && isEmpty(result[resultKey])) {
-        delete result[resultKey];
-      } else if (isEmpty(result[resultKey])) {
-        result[resultKey] = null;
+      if (isObject(result[key]) && isEmpty(result[key])) {
+        delete result[key];
       }
     }
   });

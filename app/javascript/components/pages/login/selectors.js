@@ -1,6 +1,6 @@
 import NAMESPACE from "./namespace";
 
-export const selectModule = state => state.getIn([NAMESPACE, "module"]);
+export const selectModules = state => state.getIn([NAMESPACE, "modules"]);
 
 export const selectAgency = state => state.getIn([NAMESPACE, "agency"]);
 

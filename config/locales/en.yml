@@ -277,6 +277,8 @@ en:
     owned_by_agency: 'Record Owner Agency'
     reopen_dialog: 'Clicking OK will change the status of this case to Open'
     reopen_success: 'Successfully reopened case'
+    close_dialog: 'Clicking OK will change the status of this case to Closed'
+    close_success: 'Successfully closed case'
 
     order_by:
       most_recently: "Most recently"
@@ -420,6 +422,10 @@ en:
       delete_error: "Delete failed."
       saved_searches_tab: "Saved Searches"
       filters_tab: "Filters"
+      not_found: "No saved searches found"
+      title_modal: "Delete saved searches"
+      title_description: "Are you sure you want to delete this saved search?"
+      no_filters: "There are not filters selected"
 
   task:
     id: "ID#"
@@ -1997,6 +2003,7 @@ en:
     enable: "Enable"
     disable: "Disable"
     reopen: "Reopen"
+    close: "Close"
     incident_details_from_case: "Add Incident"
     services_section_from_case: "Add Service Provision"
     description:
@@ -2550,8 +2557,9 @@ en:
     record_state: "Record State"
     valid: "Valid"
     invalid: "Invalid"
-    apply_filters: "Apply Filters"
-    clear_filters: "Clear All"
+    apply_filters: "Apply"
+    clear_filters: "Clear"
+    save_filters: "Save"
 
   flags:
     flags_tab: "Flags"
