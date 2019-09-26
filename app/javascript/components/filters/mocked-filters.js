@@ -72,7 +72,7 @@ export default [
     }
   },
   {
-    id: "child_status",
+    id: "status",
     display_name: "Case Status",
     type: "radio",
     reset: true,

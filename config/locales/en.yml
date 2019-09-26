@@ -275,6 +275,8 @@ en:
     photos: "Photo"
     owned_by: 'Record Owner'
     owned_by_agency: 'Record Owner Agency'
+    reopen_dialog: 'Clicking OK will change the status of this case to Open'
+    reopen_success: 'Successfully reopened case'
 
     order_by:
       most_recently: "Most recently"
@@ -696,6 +698,7 @@ en:
       social_worker: "Field/Case/Social Worker:"
       inquiry_date: "Date of Inquiry:"
       inquiry_status: "Inquiry Status:"
+      status: "Status:"
       location_separation: "Separation Location:"
       separation_cause: "Separation Cause:"
       record_state: "Record State:"
@@ -1588,6 +1591,10 @@ en:
     child_status_closed: "Closed"
     child_status_transferred: "Transferred"
     child_status_duplicate: "Duplicate"
+    status_open: "Open"
+    status_closed: "Closed"
+    status_transferred: "Transferred"
+    status_duplicate: "Duplicate"
 
   dashboard:
     total: 'Total'
@@ -1957,6 +1964,7 @@ en:
     transfer: "Transferred to %{to_user} by %{by_user}"
     record_by: "Record created by"
     child_status_changed: "Child status changed to reunited by"
+    status_changed: "Child status changed to reunited by"
 
     system_logs:
       records_performed_by: "records performed by"
@@ -1981,6 +1989,7 @@ en:
 
     reunited:
       child_status_changed: "Child status changed to active by"
+      status_changed: "Child status changed to active by"
       with_details: "with these details:"
 
   actions:
@@ -2511,6 +2520,7 @@ en:
     mark_for_mobile: 'Mark for Mobile?'
     social_worker: "Field/Case/Social Worker"
     child_status: "Status"
+    status: "Status"
     age_range: "Age Range"
     sex: "Sex"
     risk_level: "Risk Level"

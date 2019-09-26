@@ -7,7 +7,7 @@
 # )
 
 sexes = ['Male', 'Female']
-child_status = ['Open', 'Closed']
+status = ['Open', 'Closed']
 risk_level = ['High', 'Medium', 'Low']
 #owned_by_agency
 #owned_by_location_district
@@ -52,7 +52,7 @@ agency = ["GreenLife West Africa", "MSWGCA", "Plan International", "St. George F
     name: "Test Case #{i.to_s}",
     age: rand(18),
     sex: sexes[rand(sexes.size)],
-    child_status: child_status[rand(child_status.size)],
+    status: status[rand(status.size)],
     record_state: true,
     module_id: 'primeromodule-cp',
     owned_by: user_names[rand(user_names.size)],

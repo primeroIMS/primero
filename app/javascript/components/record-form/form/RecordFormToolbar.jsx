@@ -92,7 +92,11 @@ const RecordFormToolbar = ({
             <CreateIcon />
           </IconButton>
         )}
-        <RecordActions recordType={params.recordType} />
+        <RecordActions
+          recordType={params.recordType}
+          record={record}
+          mode={mode}
+        />
       </Box>
     </Box>
   );

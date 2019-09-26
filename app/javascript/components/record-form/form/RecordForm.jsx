@@ -12,7 +12,7 @@ import { useI18n } from "components/i18n";
 import { enqueueSnackbar } from "components/notifier";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import NavigationPrompt from "react-router-navigation-prompt";
-import { AlertDialog } from "components/alert-dialog";
+import { ActionDialog } from "components/action-dialog";
 import { constructInitialValues } from "../helpers";
 import FormSectionField from "./FormSectionField";
 import styles from "./styles.css";
@@ -154,6 +154,7 @@ const RecordForm = ({
         validationSchema={validationSchema}
         validateOnBlur={false}
         validateOnChange={false}
+        enableReinitialize
         onSubmit={values => {
           onSubmit(initialFormValues, values);
         }}
@@ -166,10 +167,13 @@ const RecordForm = ({
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
               <NavigationPrompt when={dirty && !isSubmitting && !mode.isShow}>
                 {({ onConfirm, onCancel }) => (
-                  <AlertDialog
+                  <ActionDialog
                     open
                     successHandler={onConfirm}
                     cancelHandler={onCancel}
+                    dialogTitle={i18n.t("record_panel.record_information")}
+                    dialogText={i18n.t("messages.confirmation_message")}
+                    confirmButtonLabel={i18n.t("yes_label")}
                   />
                 )}
               </NavigationPrompt>
