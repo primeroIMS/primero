@@ -9,7 +9,7 @@ chai.use(chaiImmutable);
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
   records: Map({
-    Reports: Map({
+    reports: Map({
       casesByNationality: {
         title: "Cases by Nationality",
         column_name: "Nationality",
@@ -90,7 +90,7 @@ const stateWithRecords = Map({
 });
 
 describe("<Reports /> - Selectors", () => {
-  const recordType = "Reports";
+  const recordType = "reports";
 
   describe("selectCasesByNationality", () => {
     it("should return records", () => {
@@ -104,13 +104,13 @@ describe("<Reports /> - Selectors", () => {
           Alemania: 3
         }
       };
-      const records = selectors.selectCasesByNationality(stateWithRecords, recordType);
+      const records = selectors.selectCasesByNationality(stateWithRecords);
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
       const expected = Map({});
-      const records = selectors.selectCasesByNationality(stateWithNoRecords, recordType);
+      const records = selectors.selectCasesByNationality(stateWithNoRecords);
       expect(records).to.deep.equal(expected);
     });
   });
@@ -144,13 +144,16 @@ describe("<Reports /> - Selectors", () => {
           }
         }
       };
-      const records = selectors.selectCasesByAgeAndSex(stateWithRecords, recordType);
+      const records = selectors.selectCasesByAgeAndSex(
+        stateWithRecords,
+        recordType
+      );
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
       const expected = Map({});
-      const records = selectors.selectCasesByAgeAndSex(stateWithNoRecords, recordType);
+      const records = selectors.selectCasesByAgeAndSex(stateWithNoRecords);
       expect(records).to.deep.equal(expected);
     });
   });
@@ -185,17 +188,22 @@ describe("<Reports /> - Selectors", () => {
           }
         }
       };
-      const records = selectors.selectCasesByProtectionConcern(stateWithRecords, recordType);
+      const records = selectors.selectCasesByProtectionConcern(
+        stateWithRecords,
+        recordType
+      );
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
       const expected = Map({});
-      const records = selectors.selectCasesByProtectionConcern(stateWithNoRecords, recordType);
+      const records = selectors.selectCasesByProtectionConcern(
+        stateWithNoRecords
+      );
       expect(records).to.deep.equal(expected);
     });
   });
- 
+
   describe("selectCasesByAgency", () => {
     it("should return records", () => {
       const expected = {
@@ -208,13 +216,13 @@ describe("<Reports /> - Selectors", () => {
           DOLSA: 1
         }
       };
-      const records = selectors.selectCasesByAgency(stateWithRecords, recordType);
+      const records = selectors.selectCasesByAgency(stateWithRecords);
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
       const expected = Map({});
-      const records = selectors.selectCasesByAgency(stateWithNoRecords, recordType);
+      const records = selectors.selectCasesByAgency(stateWithNoRecords);
       expect(records).to.deep.equal(expected);
     });
   });
@@ -232,15 +240,20 @@ describe("<Reports /> - Selectors", () => {
         }
       };
 
-      const records = selectors.selectReport(stateWithRecords, "casesByNationality");
+      const records = selectors.selectReport(
+        stateWithRecords,
+        "casesByNationality"
+      );
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
       const expected = Map({});
-      const records = selectors.selectReport(stateWithNoRecords, "casesByNationality");
+      const records = selectors.selectReport(
+        stateWithNoRecords,
+        "casesByNationality"
+      );
       expect(records).to.deep.equal(expected);
     });
   });
-
 });
