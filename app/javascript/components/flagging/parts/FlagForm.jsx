@@ -7,7 +7,7 @@ import { DatePicker } from "@material-ui/pickers";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import { useI18n } from "components/i18n";
 import { useDispatch } from "react-redux";
-import { addFlag } from "../action-creators";
+import { addFlag, fetchFlags } from "../action-creators";
 
 const initialFormikValues = {
   date: null,
@@ -52,6 +52,7 @@ const FlagForm = ({ recordType, record, handleOpen, handleActiveTab }) => {
       : { data };
 
     await dispatch(addFlag(body, i18n.t("flags.flag_added"), path));
+    dispatch(fetchFlags(recordType, record));
     actions.resetForm(initialFormikValues);
     handleActiveTab(0);
   };

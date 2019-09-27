@@ -51,6 +51,10 @@ class Ability
     end
 
     baseline_permissions
+
+    [Child, TracingRequest, Incident].each do |model|
+      configure_flag(model)
+    end
   end
 
   def baseline_permissions
@@ -170,6 +174,12 @@ class Ability
       end
     else
       can actions, resource
+    end
+  end
+
+  def configure_flag(resource)
+    can [:flag_record], resource do |instance|
+      can?(:read, instance) && can?(:flag, instance)
     end
   end
 

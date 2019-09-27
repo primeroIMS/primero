@@ -18,6 +18,7 @@ module Flaggable
       date_flag = date.presence || Date.today
       flag = Flag.new(flagged_by: user_name, message: message, date: date_flag, created_at: DateTime.now)
       self.flags << flag
+      flag
     end
 
     #TODO: Is this necessary?
