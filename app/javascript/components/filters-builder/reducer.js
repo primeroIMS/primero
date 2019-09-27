@@ -57,7 +57,7 @@ export const reducers = namespace => (
       return state.setIn(["filters", "query"], payload);
     case `${namespace}/${Actions.SET_SAVED_FILTERS}`:
       return state.mergeIn(["filters"], {
-        ...state.get("filters").toJS(),
+        ...state.get("filters"),
         ...payload
       });
     default:

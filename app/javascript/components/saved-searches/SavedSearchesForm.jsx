@@ -50,9 +50,9 @@ const SavedSearchesForm = ({ recordType, open, setOpen }) => {
 
   const handleSaveSearches = (values, actions) => {
     if (selectedFilters) {
-      const filters = buildFiltersApi(
-        Object.entries(selectedFilters.toJS())
-      ).filter(f => Object.keys(f).length);
+      const filters = buildFiltersApi(Object.entries(selectedFilters)).filter(
+        f => Object.keys(f).length
+      );
 
       if (filters.length) {
         const body = {
@@ -85,7 +85,8 @@ const SavedSearchesForm = ({ recordType, open, setOpen }) => {
   const inputProps = {
     component: TextField,
     autoFocus: true,
-    required: true
+    required: true,
+    fullWidth: true
   };
 
   const formProps = {
@@ -96,7 +97,7 @@ const SavedSearchesForm = ({ recordType, open, setOpen }) => {
   return (
     <Formik {...formProps}>
       {({ handleSubmit }) => (
-        <Dialog open={open} onClose={closeModal} maxWidth="md">
+        <Dialog open={open} onClose={closeModal} maxWidth="sm" fullWidth>
           <DialogTitle id="form-dialog-title">
             {i18n.t("saved_searches.save_search")}
           </DialogTitle>
