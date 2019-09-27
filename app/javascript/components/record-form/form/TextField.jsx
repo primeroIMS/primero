@@ -7,11 +7,10 @@ import { IconButton, InputAdornment } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { FastField, connect } from "formik";
 import { useI18n } from "components/i18n";
+import { hideName, selectRecordAttribute } from "components/records";
 import { GuidingQuestions } from "./components";
-import { getIsHiddenName } from "../selectors";
-import { hideName } from "../action-creators";
 
-const TextField = ({ name, field, formik, ...rest }) => {
+const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
   const {
     type,
     visible,
@@ -21,14 +20,16 @@ const TextField = ({ name, field, formik, ...rest }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const recordName = useSelector(state => getIsHiddenName(state));
+  const recordName = useSelector(state =>
+    selectRecordAttribute(state, recordType, recordID, "name")
+  );
   const isHiddenName = /\*{2,}/.test(recordName);
 
   useEffect(() => {
     if (recordName) {
       formik.setFieldValue("name", recordName, true);
     }
-  }, [formik, name, recordName]);
+  }, [recordName]);
 
   const fieldProps = {
     type: type === "numeric_field" ? "number" : "text",
@@ -111,7 +112,9 @@ const TextField = ({ name, field, formik, ...rest }) => {
 TextField.propTypes = {
   name: PropTypes.string,
   field: PropTypes.object,
-  formik: PropTypes.object
+  formik: PropTypes.object,
+  recordType: PropTypes.string,
+  recordID: PropTypes.string
 };
 
 export default connect(TextField);

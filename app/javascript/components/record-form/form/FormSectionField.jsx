@@ -12,7 +12,7 @@ import AttachmentField from "./AttachmentField";
 import * as C from "../constants";
 import styles from "./styles.css";
 
-const FormSectionField = ({ name, field, mode }) => {
+const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -29,6 +29,8 @@ const FormSectionField = ({ name, field, mode }) => {
   const fieldProps = {
     name,
     field,
+    recordType,
+    recordID,
     autoComplete: "off",
     fullWidth: true,
     InputProps: {
@@ -77,7 +79,9 @@ const FormSectionField = ({ name, field, mode }) => {
 FormSectionField.propTypes = {
   name: PropTypes.string.isRequired,
   field: PropTypes.object.isRequired,
-  mode: PropTypes.object.isRequired
+  mode: PropTypes.object.isRequired,
+  recordType: PropTypes.string.isRequired,
+  recordID: PropTypes.string
 };
 
 export default memo(FormSectionField);

@@ -14,10 +14,12 @@ describe("Application - Action Creators", () => {
     expect(creators).to.have.property("fetchSystemSettings");
     expect(creators).to.have.property("loadApplicationResources");
     expect(creators).to.have.property("setUserIdle");
+    expect(creators).to.have.property("setNetworkStatus");
 
     delete creators.fetchSystemSettings;
     delete creators.loadApplicationResources;
     delete creators.setUserIdle;
+    delete creators.setNetworkStatus;
 
     expect(creators).to.deep.equal({});
   });
@@ -41,5 +43,14 @@ describe("Application - Action Creators", () => {
     };
 
     expect(actionCreators.setUserIdle(true)).to.eql(expectedAction);
+  });
+
+  it("should create an action to set the network status", () => {
+    const expectedAction = {
+      type: "application/NETWORK_STATUS",
+      payload: true
+    };
+
+    expect(actionCreators.setNetworkStatus(true)).to.eql(expectedAction);
   });
 });

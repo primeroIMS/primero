@@ -63,7 +63,13 @@ const SelectField = ({
     component: Select,
     name,
     ...omitBy(other, (v, k) =>
-      ["InputProps", "helperText", "InputLabelProps"].includes(k)
+      [
+        "InputProps",
+        "helperText",
+        "InputLabelProps",
+        "recordType",
+        "recordID"
+      ].includes(k)
     ),
     displayEmpty: !mode.isShow,
     input: <Input />,

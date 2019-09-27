@@ -24,7 +24,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         role_id: roleId,
         list_headers: listHeaders,
         filters
-      } = payload.data;
+      } = payload;
 
       return state.merge(
         fromJS({

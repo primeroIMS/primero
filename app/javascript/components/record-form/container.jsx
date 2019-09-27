@@ -10,20 +10,18 @@ import { LoadingIndicator } from "components/loading-indicator";
 import { useThemeHelper } from "libs";
 import clsx from "clsx";
 import { RECORD_TYPES } from "config";
+import { fetchRecord, saveRecord, selectRecord } from "components/records";
 import { Nav } from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { fetchRecord, saveRecord } from "./action-creators";
 import {
   getFirstTab,
   getFormNav,
   getRecordForms,
-  getRecord,
   getLoadingState,
   getErrors,
   getSelectedForm
 } from "./selectors";
-
 import { compactValues } from "./helpers";
 
 const RecordForms = ({ match, mode }) => {
@@ -44,7 +42,9 @@ const RecordForms = ({ match, mode }) => {
   const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
 
-  const record = useSelector(state => getRecord(state, containerMode));
+  const record = useSelector(state =>
+    selectRecord(state, containerMode, params.recordType, params.id)
+  );
 
   const selectedModule = {
     recordType,
@@ -103,7 +103,8 @@ const RecordForms = ({ match, mode }) => {
     selectedForm,
     forms,
     mode: containerMode,
-    record
+    record,
+    recordType: params.recordType
   };
 
   const toolbarProps = {

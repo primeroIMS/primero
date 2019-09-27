@@ -6,6 +6,7 @@ import { InputAdornment } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import { FastField, connect, getIn } from "formik";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import omitBy from "lodash/omitBy";
 
 const DateField = ({ name, helperText, mode, formik, ...rest }) => {
   const i18n = useI18n();
@@ -51,7 +52,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
       render={({ field, form }) => {
         const dateProps = {
           ...field,
-          ...rest,
+          ...omitBy(rest, (v, k) => ["recordType", "recordID"].includes(k)),
           value: getDateValue(field.value),
           format: dateIncludeTime ? "dd-MMM-yyyy HH:mm" : "dd-MMM-yyyy",
           helperText:

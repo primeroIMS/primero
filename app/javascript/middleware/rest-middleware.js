@@ -1,151 +1,127 @@
+/* eslint-disable */
 import qs from "qs";
-import { attemptSignout, FETCH_USER_DATA } from "components/user";
+import { attemptSignout } from "components/user";
 import { FETCH_TIMEOUT } from "config";
 import { push } from "connected-react-router";
-import { FETCH_SYSTEM_SETTINGS } from "components/application";
-import { RECORD_FORMS } from "components/record-form";
-import { RECORDS } from "components/record-list";
-import { arrayToObject } from "libs";
-import DB from "../db";
-import * as schemas from "../schemas";
+import { syncIndexedDB } from "db";
+
+const defaultFetchOptions = {
+  method: "GET",
+  mode: "same-origin",
+  credentials: "same-origin",
+  cache: "no-cache",
+  redirect: "follow",
+  headers: new Headers({
+    "content-type": "application/json"
+  })
+};
 
 export const queryParams = {
   toString: obj => qs.stringify(obj),
   parse: str => qs.parse(str)
 };
 
-const savePayloadToDB = async (type, json, normalizeFunc, path) => {
-  switch (type) {
-    case FETCH_USER_DATA:
-      return DB.put("user", json.data);
-    case FETCH_SYSTEM_SETTINGS:
-      return DB.put("system_settings", json.data, { id: 1 });
-    case `${path}/${RECORDS}`: {
-      const { data, metadata } = json;
-      return {
-        data: await DB.bulkAdd("records", data, { index: "type", value: path }),
-        metadata
-      };
+function isOnline(store) {
+  return store.getState().getIn(["application", "online"], false);
+}
+
+function fetchStatus({ store, type }, action, loading) {
+  store.dispatch({
+    type: `${type}_${action}`,
+    payload: loading
+  });
+}
+
+function buildPath(path, options, params) {
+  return `${options.baseUrl}/${path}${
+    params ? `?${queryParams.toString(params)}` : ""
+  }`;
+}
+
+async function handleSuccess(store, payload) {
+  const { type, json, normalizeFunc, db } = payload;
+  const payloadFromDB = await syncIndexedDB(db, json, normalizeFunc);
+
+  store.dispatch({
+    type: `${type}_SUCCESS`,
+    payload: payloadFromDB
+  });
+}
+
+function handleSuccessCallback(store, successCallback, response, json) {
+  if (successCallback) {
+    const isCallbackObject = typeof successCallback === "object";
+    const successPayload = isCallbackObject
+      ? {
+          type: successCallback.action,
+          payload: successCallback.payload
+        }
+      : {
+          type: successCallback,
+          payload: { response, json }
+        };
+
+    store.dispatch(successPayload);
+
+    if (isCallbackObject && successCallback.redirect) {
+      store.dispatch(push(successCallback.redirect));
     }
-    case RECORD_FORMS: {
-      const data = schemas[normalizeFunc](json.data).entities;
-
-      return {
-        formSections: arrayToObject(
-          await DB.bulkAdd("forms", data.formSections),
-          "id"
-        ),
-        fields: arrayToObject(await DB.bulkAdd("fields", data.fields), "id")
-      };
-    }
-    default:
-      return null;
   }
-};
+}
 
-const restMiddleware = options => store => next => action => {
-  if (!(action.api && "path" in action.api)) {
-    return next(action);
-  }
-
+function fetchPayload(action, store, options) {
   const controller = new AbortController();
 
   setTimeout(() => {
     controller.abort();
   }, FETCH_TIMEOUT);
 
-  const defaultFetchOptions = {
-    method: "GET",
-    mode: "same-origin",
-    credentials: "same-origin",
-    cache: "no-cache",
-    redirect: "follow",
-    headers: new Headers({
-      "content-type": "application/json"
-    }),
-    signal: controller.signal
-  };
+  const {
+    type,
+    api: { path, body, params, method, normalizeFunc, successCallback, db }
+  } = action;
 
-  const { type, api } = action;
-  const { path, body, params, method, normalizeFunc, successCallback } = api;
-  const fetchOptions = Object.assign({}, defaultFetchOptions, { method });
+  const fetchOptions = Object.assign({}, defaultFetchOptions, {
+    method,
+    signal: controller.signal,
+    ...(body && { body: JSON.stringify(body) })
+  });
 
-  let fetchPath = `${options.baseUrl}/${path}`;
-
-  if (body) {
-    fetchOptions.body = JSON.stringify(body);
-  }
-
-  if (params) {
-    fetchPath += `?${queryParams.toString(params)}`;
-  }
+  const fetchPath = buildPath(path, options, params);
 
   const fetch = async () => {
-    store.dispatch({
-      type: `${type}_STARTED`,
-      payload: true
-    });
+    fetchStatus({ store, type }, "STARTED", true);
 
     try {
       const response = await window.fetch(fetchPath, fetchOptions);
       const json = await response.json();
 
       if (!response.ok) {
-        store.dispatch({
-          type: `${type}_FAILURE`,
-          payload: json
-        });
+        fetchStatus({ store, type }, "FAILURE", json);
 
         if (response.status === 401) {
           store.dispatch(attemptSignout());
         }
       } else {
-        const payloadFromDB = await savePayloadToDB(
-          type,
-          json,
-          normalizeFunc,
-          path
-        );
-
-        store.dispatch({
-          type: `${type}_SUCCESS`,
-          payload: payloadFromDB || json
-        });
-
-        if (successCallback) {
-          const isCallbackObject = typeof successCallback === "object";
-          const successPayload = isCallbackObject
-            ? {
-                type: successCallback.action,
-                payload: successCallback.payload
-              }
-            : {
-                type: successCallback,
-                payload: { response, json }
-              };
-
-          store.dispatch(successPayload);
-
-          if (isCallbackObject && successCallback.redirect) {
-            store.dispatch(push(successCallback.redirect));
-          }
-        }
+        await handleSuccess(store, { type, json, normalizeFunc, path, db });
+        handleSuccessCallback(store, successCallback, response, json);
       }
-
-      store.dispatch({
-        type: `${type}_FINISHED`,
-        payload: false
-      });
+      fetchStatus({ store, type }, "FINISHED", false);
     } catch (e) {
       console.warn(e);
-      store.dispatch({
-        type: `${type}_FAILURE`,
-        payload: true
-      });
+      fetchStatus({ store, type }, "FAILURE", false);
     }
   };
 
   return fetch();
+}
+
+const restMiddleware = options => store => next => action => {
+  if (!(action.api && "path" in action.api) || !isOnline(store)) {
+    return next(action);
+  }
+
+  return fetchPayload(action, store, options);
 };
 
 export default restMiddleware;
