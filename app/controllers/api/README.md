@@ -128,3 +128,14 @@ Query and manipulate users
 * [Query for users to assign records to](v2/docs/users/assign-to.md): `GET /api/v2/users/assign-to`
 * [Query for users to transfer records to](v2/docs/users/transfer-to.md): `GET /api/v2/users/transfer-to`
 * [Query for users to refer records to](v2/docs/users/refer-to.md): `GET /api/v2/users/refer-to`
+* [Query for flags of a record](v2/docs/flags/get.md) : `GET /api/v2/:recordType/:recordId/flags`
+* [Create a new flag of a record](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`
+* [Unflag a record](v2/docs/flags/id/patch.md) `POST /api/v2/:recordType/:recordId/flags/:id`
+* [Create a bulk of flags for multiple records](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`
+
+## Report Endpoints
+
+Endpoints for querying and manipulating individual cases and related resources in Primero.
+
+* [Query for reports](v2/docs/reports/get.md) : `GET /api/v2/reports`
+* [Fetch an individual case](v2/docs/reports/id/get.md) : `GET /api/v2/reports/:id`
