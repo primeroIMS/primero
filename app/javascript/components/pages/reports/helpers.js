@@ -8,19 +8,18 @@ const getColorsByIndex = index => {
   return getColors()[index];
 };
 
-const getColumnData = (column, data, i18n, columnData) => {
+const getColumnData = (column, data, i18n) => {
   const totalLabel = i18n.t("report.total");
   const keys = Object.keys(data);
-  const currentData = columnData || [];
-  keys
+  return keys
     .filter(key => key !== totalLabel)
-    .forEach(key => {
-      if (data[key][column]) {
-        currentData.push(data[key][column][totalLabel]);
-      }
-      getColumnData(column, data[key], i18n, currentData);
-    });
-  return currentData;
+    .map(key => {
+      const columnValue = data[key][column]
+        ? data[key][column][totalLabel]
+        : getColumnData(column, data[key], i18n);
+      return columnValue;
+    })
+    .flat();
 };
 
 const getColumns = (data, i18n, prevData) => {
@@ -45,9 +44,9 @@ const containsColumns = (columns, data, i18n) => {
   return isEqual(columns, keys);
 };
 
-const dataSet = (columns, data, i18n, results) => {
+const dataSet = (columns, data, i18n) => {
   const totalLabel = i18n.t("report.total");
-  const dataResults = results || [];
+  const dataResults = [];
   if (!isEmpty(columns)) {
     columns.forEach((c, i) => {
       dataResults.push({
@@ -57,21 +56,18 @@ const dataSet = (columns, data, i18n, results) => {
       });
     });
   } else {
-    Object.keys(data).forEach((c, i) => {
-      dataResults.push({
-        label: c,
-        data: [data[c][totalLabel]],
-        backgroundColor: getColorsByIndex(i)
-      });
+    dataResults.push({
+      label: totalLabel,
+      data: Object.keys(data).map(column => data[column][totalLabel]),
+      backgroundColor: getColorsByIndex(0)
     });
   }
   return dataResults;
 };
 
-const getRows = (columns, data, i18n, rows, row) => {
+const getRows = (columns, data, i18n) => {
   const totalLabel = i18n.t("report.total");
-  const currentRows = rows || [];
-  const currentRow = row || [];
+  const currentRows = [];
   const keys = Object.keys(data);
   const values = Object.values(data);
   keys
@@ -90,20 +86,20 @@ const getRows = (columns, data, i18n, rows, row) => {
           return;
         }
       }
-      getRows(columns, data[key], i18n, currentRows, currentRow);
+      currentRows.push(getRows(columns, data[key], i18n));
     });
   return currentRows;
 };
 
-const getLabels = (columns, data, i18n, labels) => {
+const getLabels = (columns, data, i18n) => {
   const totalLabel = i18n.t("report.total");
-  const currentLabels = labels || [];
+  const currentLabels = [];
   const keys = Object.keys(data);
   keys.forEach(key => {
     if (containsColumns(columns, data[key], i18n)) {
       currentLabels.push(keys.filter(label => label !== totalLabel));
     }
-    getLabels(columns, data[key], i18n, currentLabels);
+    currentLabels.concat(getLabels(columns, data[key], i18n));
   });
   return uniq(currentLabels.flat());
 };
@@ -119,8 +115,8 @@ const translateKeys = (keys, field, locale) => {
   return [];
 };
 
-const translateData = (data, fields, i18n, translated) => {
-  const currentTranslations = translated || {};
+const translateData = (data, fields, i18n) => {
+  const currentTranslations = {};
   const keys = Object.keys(data);
   const { locale } = i18n;
   if (keys.length === 1 && keys.includes("_total")) {
@@ -131,27 +127,26 @@ const translateData = (data, fields, i18n, translated) => {
     const storedFields = [...fields];
     const translations = translateKeys(keys, field, locale);
     keys.forEach(key => {
-      const translation = translations.find(t => t.id === key);
-      let translatedKey = key;
-      if (translation) {
-        translatedKey = translation.display_text;
-        currentTranslations[translatedKey] = { ...data[key] };
-      }
       if (key === "_total") {
-        translatedKey = i18n.t("report.total");
+        const translatedKey = i18n.t("report.total");
         currentTranslations[translatedKey] = data[key];
+        delete currentTranslations[key];
+      } else {
+        const translation = translations.find(t => t.id === key);
+        const translatedKey = translation ? translation.display_text : key;
+        if (translation) {
+          currentTranslations[translatedKey] = { ...data[key] };
+          delete currentTranslations[key];
+        }
+        const translatedData = translateData(
+          data[key],
+          [...storedFields],
+          i18n
+        );
+        currentTranslations[translatedKey] = translatedData;
       }
-      delete currentTranslations[key];
-      const translatedData = translateData(
-        data[key],
-        [...storedFields],
-        i18n,
-        currentTranslations[translatedKey]
-      );
-      currentTranslations[translatedKey] = translatedData;
     });
   }
-
   return currentTranslations;
 };
 

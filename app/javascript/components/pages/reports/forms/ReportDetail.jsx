@@ -31,7 +31,7 @@ const ReportDetail = ({ report, match, fetchReport }) => {
                 <IconButton to="/reports" component={Link}>
                   <ArrowBackIos />
                 </IconButton>
-                {report.get("title")}
+                {report.get("name") ? report.get("name").get(i18n.locale) : ""}
               </h1>
             </Box>
             <Box>
@@ -52,9 +52,11 @@ const ReportDetail = ({ report, match, fetchReport }) => {
             </Box>
           </Box>
         </Grid>
-        <Grid item xs={12}>
-          <BarChartGraphic {...buildDataForGraph(report, i18n)} showDetails />
-        </Grid>
+        {report.get("graph") ? (
+          <Grid item xs={12}>
+            <BarChartGraphic {...buildDataForGraph(report, i18n)} showDetails />
+          </Grid>
+        ) : null}
         <Grid item xs={12}>
           <TableValues {...buildDataForTable(report, i18n)} />
         </Grid>

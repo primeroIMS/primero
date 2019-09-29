@@ -16,7 +16,9 @@ const TableValues = ({ columns, values }) => {
   const css = makeStyles(styles)();
 
   const singleRowRender = rowValues => (
-    <TableRow key={`${rowValues[0]}-data`}>
+    <TableRow
+      key={`${rowValues[0]}-${Math.floor(Math.random() * 100 + 1)}-data`}
+    >
       {rowValues.map(row => (
         <TableCell key={`${row}-${Math.floor(Math.random() * 100 + 1)}-value`}>
           {row}
