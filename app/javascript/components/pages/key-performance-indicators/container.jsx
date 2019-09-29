@@ -10,6 +10,12 @@ import styles from "./styles.css";
 export default function Reports() {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  const columns = ["REPORTING SITE", "SEP 2019", "AUG 2019", "JUL 2019"];
+  const data = [
+    ["Site #1", 2, 1, 0],
+    ["Site #2", 2, 1, 0],
+    ["Site #3", 2, 1, 0]
+  ];
 
   return (
     <div>
@@ -33,7 +39,10 @@ export default function Reports() {
                   title="Number of Cases"
                   to="/key-performance-indicators"
                 >
-                  <DashboardTable columns={fromJS([])} data={fromJS([])} />
+                  <DashboardTable
+                    columns={fromJS(columns)}
+                    data={fromJS(data)}
+                  />
                 </OptionsBox>
               </Grid>
             </Grid>
