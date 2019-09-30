@@ -41,7 +41,7 @@ const RecordForms = ({ match, mode }) => {
   // eslint-disable-next-line no-param-reassign
   const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
-  
+
   const record = useSelector(state =>
     selectRecord(state, containerMode, params.recordType, params.id)
   );
