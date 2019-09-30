@@ -1,8 +1,8 @@
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import { connect, batch } from "react-redux";
 import { PageContainer } from "components/page-container";
 import { Grid, Box } from "@material-ui/core";
 import { OptionsBox, DashboardTable } from "components/dashboard";
@@ -12,9 +12,14 @@ import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 
-function KeyPerformanceIndicators({ numberOfCases }) {
+function KeyPerformanceIndicators({ fetchNumberOfCases, numberOfCases }) {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  useEffect(() => {
+    batch(() => {
+      fetchNumberOfCases();
+    });
+  }, []);
 
   return (
     <div>
@@ -53,6 +58,7 @@ function KeyPerformanceIndicators({ numberOfCases }) {
 }
 
 KeyPerformanceIndicators.propTypes = {
+  fetchNumberOfCases: PropTypes.func,
   numberOfCases: {
     columns: PropTypes.array,
     data: PropTypes.array
