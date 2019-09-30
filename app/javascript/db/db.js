@@ -1,5 +1,7 @@
+/* eslint-disable class-methods-use-this, no-await-in-loop */
 import { openDB } from "idb";
-import { DATABASE_NAME } from "config";
+import { DATABASE_NAME, DB as DBCollections } from "config";
+import merge from "deepmerge";
 
 class DB {
   constructor() {
@@ -34,9 +36,42 @@ class DB {
     return DB.instance;
   }
 
-  async put(store, item, key = {}) {
-    (await this._db).put(store, { ...item, ...key });
-    return (await this._db).get(store, Object.keys({ key })[0] || null);
+  async clearDB() {
+    return this.asyncForEach(Object.keys(DBCollections), async collection => {
+      const store = DBCollections[collection];
+      const tx = (await this._db).transaction(store, "readwrite");
+      await tx.objectStore(store).clear();
+    });
+  }
+
+  async getRecord(store, key) {
+    return (await this._db).get(store, key);
+  }
+
+  async put(store, item, key = {}, queryIndex) {
+    const i = item;
+
+    if (queryIndex) {
+      i.type = queryIndex.value;
+    }
+
+    try {
+      const prev = await (await this._db).get(store, key || i.id);
+
+      if (prev) {
+        return (await this._db).put(store, merge(prev, { ...i, ...key }));
+      }
+    } catch (e) {
+      return (await this._db).put(store, { ...i, ...key });
+    }
+
+    return true;
+  }
+
+  async asyncForEach(array, callback) {
+    for (let index = 0; index < array.length; index += 1) {
+      await callback(array[index], index, array);
+    }
   }
 
   async bulkAdd(store, records, queryIndex) {
@@ -44,23 +79,33 @@ class DB {
     const tx = (await this._db).transaction(store, "readwrite");
     const collection = tx.objectStore(store);
 
-    (isDataArray ? records : Object.keys(records)).forEach(record => {
-      const r = record;
+    this.asyncForEach(
+      isDataArray ? records : Object.keys(records),
+      async record => {
+        const r = record;
 
-      if (queryIndex) {
-        r.type = queryIndex.value;
+        if (queryIndex) {
+          r.type = queryIndex.value;
+        }
+
+        try {
+          const prev = (await this._db).get(
+            store,
+            isDataArray ? r.id : records[r]?.id
+          );
+
+          if (prev) {
+            await collection.put(
+              isDataArray ? merge(prev, r) : merge(prev, records[r])
+            );
+          }
+        } catch (e) {
+          await collection.put(isDataArray ? r : records[r]);
+        }
       }
+    );
 
-      collection.put(isDataArray ? r : records[r]);
-    });
     await tx.done;
-
-    if (queryIndex) {
-      const { index, value } = queryIndex;
-      return (await this._db).getAllFromIndex(store, index, value);
-    }
-
-    return (await this._db).getAll(store);
   }
 }
 

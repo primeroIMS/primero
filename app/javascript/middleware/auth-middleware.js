@@ -1,11 +1,8 @@
-import {
-  attemptSignout,
-  LOGOUT_FINISHED,
-  setAuthenticatedUser
-} from "components/user";
+import { attemptSignout, Actions, setAuthenticatedUser } from "components/user";
 import { LOGIN_SUCCESS_CALLBACK } from "components/pages/login";
 import get from "lodash/get";
 import { push } from "connected-react-router";
+import DB from "db";
 
 function redirectTo(store, path) {
   store.dispatch(push(path));
@@ -16,8 +13,14 @@ function logoutSuccessHandler(store) {
   redirectTo(store, "/login");
 }
 
-function loginSuccessHandler(store, user) {
+async function loginSuccessHandler(store, user) {
   const { user_name: username, id } = user;
+
+  const userFromDB = await DB.getRecord("user", username);
+
+  if (!userFromDB) {
+    await DB.clearDB();
+  }
 
   localStorage.setItem("user", JSON.stringify({ username, id }));
   store.dispatch(setAuthenticatedUser({ username, id }));
@@ -46,7 +49,7 @@ const authMiddleware = store => next => action => {
     loginSuccessHandler(store, action.payload.json);
   }
 
-  if (action.type === LOGOUT_FINISHED) logoutSuccessHandler(store);
+  if (action.type === Actions.LOGOUT_FINISHED) logoutSuccessHandler(store);
 
   if (routeChanged && location !== "/login" && !isAuthenticated) {
     redirectTo(store, "/login");

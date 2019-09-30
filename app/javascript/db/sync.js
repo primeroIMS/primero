@@ -24,12 +24,15 @@ export const syncIndexedDB = async (
         : { ...data, complete: true };
 
       if (dataIsArray) {
-        await DB.bulkAdd("records", recordData, {
+        await DB.bulkAdd(collection, recordData, {
           index: "type",
           value: recordType
         });
       } else {
-        await DB.put(collection, recordData);
+        await DB.put(collection, recordData, null, {
+          index: "type",
+          value: recordType
+        });
       }
       return {
         data: recordData,

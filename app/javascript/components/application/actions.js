@@ -1,6 +1,9 @@
+import { namespaceActions } from "libs";
 import NAMESPACE from "./namespace";
 
-export const FETCH_SYSTEM_SETTINGS = `${NAMESPACE}/FETCH_SYSTEM_SETTINGS`;
-export const FETCH_SYSTEM_SETTINGS_SUCCESS = `${NAMESPACE}/FETCH_SYSTEM_SETTINGS_SUCCESS`;
-export const SET_USER_IDLE = `${NAMESPACE}/SET_USER_IDLE`;
-export const NETWORK_STATUS = `${NAMESPACE}/NETWORK_STATUS`;
+export default namespaceActions(NAMESPACE, [
+  "FETCH_SYSTEM_SETTINGS",
+  "FETCH_SYSTEM_SETTINGS_SUCCESS",
+  "SET_USER_IDLE",
+  "NETWORK_STATUS"
+]);

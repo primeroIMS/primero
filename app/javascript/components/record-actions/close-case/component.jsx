@@ -3,20 +3,21 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useI18n } from "components/i18n";
 import { ActionDialog } from "components/action-dialog";
-import { setClose } from "./action-creators";
+import { saveRecord } from "components/records";
 
-function CloseCase(props) {
+const CloseCase = ({ close, openCloseCaseDialog, record, recordType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { close, openCloseCaseDialog, record, recordType } = props;
 
   const handleOk = () => {
     dispatch(
-      setClose(
-        record.get("id"),
+      saveRecord(
+        recordType,
+        "update",
         { data: { status: "closed" } },
+        record.get("id"),
         i18n.t("cases.close_success"),
-        recordType
+        false
       )
     );
     close();
@@ -32,7 +33,7 @@ function CloseCase(props) {
       confirmButtonLabel={i18n.t("cases.ok")}
     />
   );
-}
+};
 
 CloseCase.propTypes = {
   close: PropTypes.func,

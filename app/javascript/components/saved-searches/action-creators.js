@@ -5,7 +5,7 @@ export const fetchSavedSearches = () => async dispatch => {
   dispatch({
     type: Actions.FETCH_SAVED_SEARCHES,
     api: {
-      path: "/saved_searches"
+      path: "saved_searches"
     }
   });
 };
@@ -14,7 +14,7 @@ export const saveSearch = (body, message) => async dispatch => {
   await dispatch({
     type: Actions.SAVE_SEARCH,
     api: {
-      path: "/saved_searches",
+      path: "saved_searches",
       method: "POST",
       body,
       successCallback: {
@@ -35,7 +35,7 @@ export const removeSavedSearch = (id, message) => dispatch => {
   dispatch({
     type: Actions.REMOVE_SAVED_SEARCH,
     api: {
-      path: `/saved_searches/${id}`,
+      path: `saved_searches/${id}`,
       method: "DELETE",
       successCallback: {
         action: ENQUEUE_SNACKBAR,

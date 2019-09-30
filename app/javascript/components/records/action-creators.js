@@ -42,7 +42,8 @@ export const saveRecord = (
   saveMethod,
   body,
   id,
-  message
+  message,
+  redirect
 ) => async dispatch => {
   await dispatch({
     type: `${recordType}/${Actions.SAVE_RECORD}`,
@@ -59,29 +60,11 @@ export const saveRecord = (
             key: new Date().getTime() + Math.random()
           }
         },
-        redirect: `/${recordType}`
+        redirect: redirect === false ? false : redirect || `/${recordType}`
       },
       db: {
         collection: DB.RECORDS,
         recordType
-      }
-    }
-  });
-};
-
-export const hideName = (recordType, id, value) => dispatch => {
-  dispatch({
-    type: `${recordType}/${Actions.HIDE_NAME}`,
-    api: {
-      path: `${recordType}/${id}`,
-      method: "PATCH",
-      body: {
-        data: {
-          hidden_name: value
-        }
-      },
-      db: {
-        collection: DB.RECORDS
       }
     }
   });

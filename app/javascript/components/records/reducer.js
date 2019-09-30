@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { fromJS, Map, List } from "immutable";
 import * as Actions from "./actions";
 
@@ -34,6 +33,7 @@ export const reducers = namespace => (
       return state.set("loading", fromJS(payload));
     case `${namespace}/${Actions.RECORD}`:
       return state.set("loading", true);
+    case `${namespace}/${Actions.SAVE_RECORD_SUCCESS}`:
     case `${namespace}/${Actions.RECORD_SUCCESS}`: {
       const { data } = payload;
 
@@ -52,14 +52,8 @@ export const reducers = namespace => (
       return state.set("errors", true);
     case `${namespace}/${Actions.RECORD_FINISHED}`:
       return state.set("loading", false);
-    case `${namespace}/${Actions.HIDE_NAME_SUCCESS}`: {
-      const { id, name } = payload.data;
-
-      return state.setIn(
-        ["data", state.get("data").findIndex(r => r.get("id") === id), "name"],
-        name
-      );
-    }
+    case "user/LOGOUT_SUCCESS":
+      return DEFAULT_STATE;
     default:
       return state;
   }

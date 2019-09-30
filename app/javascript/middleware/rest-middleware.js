@@ -1,4 +1,3 @@
-/* eslint-disable */
 import qs from "qs";
 import { attemptSignout } from "components/user";
 import { FETCH_TIMEOUT } from "config";

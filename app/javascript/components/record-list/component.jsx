@@ -30,6 +30,8 @@ const RecordList = ({ match }) => {
     selectListHeaders(state, recordType)
   );
 
+  console.log(match);
+
   const defaultFilters = Map({
     short: true,
     per: 20,

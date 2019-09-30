@@ -1,5 +1,5 @@
 import { DB } from "config";
-import * as Actions from "./actions";
+import Actions from "./actions";
 import mockedData from "./mocked-data";
 import { Option } from "./records";
 

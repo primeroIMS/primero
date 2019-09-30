@@ -1,5 +1,10 @@
 import { List, fromJS, OrderedMap } from "immutable";
-import mapValues from "lodash/mapValues";
+import { mapValues, extend } from "lodash";
+
+export const namespaceActions = (namespace, keys) =>
+  Object.freeze(
+    keys.reduce((map, key) => extend(map, { [key]: `${namespace}/${key}` }), {})
+  );
 
 export const mapEntriesToRecord = (entries, record, ordered) => {
   const mapFunc = ordered ? OrderedMap : fromJS;
@@ -29,9 +34,10 @@ export const listEntriesToRecord = (entries, record) => {
   return List(entries.map(entry => record(entry)));
 };
 
-export const arrayToObject = (data, key = "id") =>
-  data.reduce((obj, item) => {
+export const arrayToObject = (data, key = "id") => {
+  return data.reduce((obj, item) => {
     const o = obj;
     o[item[key]] = item;
     return o;
   }, {});
+};
