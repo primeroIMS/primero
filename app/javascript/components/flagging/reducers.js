@@ -11,10 +11,9 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
     case Actions.FETCH_FLAGS_SUCCESS:
       return state.set("data", listEntriesToRecord(payload.data, R.FlagRecord));
     case Actions.ADD_FLAG_SUCCESS:
-      return state.update("data", data => [
-        ...data,
-        R.FlagRecord(payload.data)
-      ]);
+      return state.update("data", data => {
+        return data.push(R.FlagRecord(payload.data));
+      });
     case Actions.UNFLAG_SUCCESS:
       return state.set(
         "data",
