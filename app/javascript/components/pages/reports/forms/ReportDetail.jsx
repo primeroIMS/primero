@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Grid, Box, IconButton } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import { BarChart as BarChartGraphic, TableValues } from "components/charts";
+import { selectLoading, selectErrors } from "components/index-table/selectors";
 import { ArrowBackIos, TableChart, BarChart } from "@material-ui/icons";
+import { LoadingIndicator } from "components/loading-indicator";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { useI18n } from "components/i18n";
 import { buildDataForGraph, buildDataForTable } from "../helpers";
 import * as selectors from "../selectors";
 import * as actions from "../action-creators";
+import namespace from "../namespace";
 import styles from "./styles.css";
 
 const ReportDetail = ({ report, match, fetchReport }) => {
@@ -21,8 +24,19 @@ const ReportDetail = ({ report, match, fetchReport }) => {
     fetchReport(params.id);
   }, []);
 
+  const errors = useSelector(state => selectErrors(state, namespace));
+  const loading = useSelector(state => selectLoading(state, namespace));
+
+  const loadingIndicatorProps = {
+    overlay: true,
+    hasData: !!report,
+    type: namespace,
+    loading,
+    errors
+  };
+
   return (
-    <div>
+    <LoadingIndicator {...loadingIndicatorProps}>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Box alignItems="center" display="flex">
@@ -61,7 +75,7 @@ const ReportDetail = ({ report, match, fetchReport }) => {
           <TableValues {...buildDataForTable(report, i18n)} />
         </Grid>
       </Grid>
-    </div>
+    </LoadingIndicator>
   );
 };
 
