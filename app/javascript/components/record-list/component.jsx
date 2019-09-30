@@ -29,7 +29,7 @@ const RecordList = ({ match }) => {
   const listHeaders = useSelector(state =>
     selectListHeaders(state, recordType)
   );
-  
+
   const defaultFilters = Map({
     short: true,
     per: 20,

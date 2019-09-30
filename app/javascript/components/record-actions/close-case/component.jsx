@@ -28,9 +28,9 @@ const CloseCase = ({ close, openCloseCaseDialog, record, recordType }) => {
       open={openCloseCaseDialog}
       successHandler={handleOk}
       cancelHandler={close}
-      dialogTitle={i18n.t("cases.close_dialog")}
-      dialogText=""
-      confirmButtonLabel={i18n.t("cases.ok")}
+      dialogTitle={i18n.t(`${recordType}.close_dialog_title`)}
+      dialogText={i18n.t(`${recordType}.close_dialog`)}
+      confirmButtonLabel={i18n.t("buttons.ok")}
     />
   );
 };

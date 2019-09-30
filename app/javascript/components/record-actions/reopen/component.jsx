@@ -28,8 +28,8 @@ const Reopen = ({ close, openReopenDialog, record, recordType }) => {
       open={openReopenDialog}
       successHandler={handleOk}
       cancelHandler={close}
-      dialogTitle={i18n.t("cases.reopen_dialog")}
-      dialogText=""
+      dialogTitle={i18n.t("cases.reopen_dialog_title")}
+      dialogText={i18n.t("cases.reopen_dialog")}
       confirmButtonLabel={i18n.t("cases.ok")}
     />
   );
