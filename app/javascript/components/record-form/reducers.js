@@ -1,7 +1,7 @@
 import { Map, fromJS } from "immutable";
 import { mapEntriesToRecord } from "libs";
 import NAMESPACE from "./namespace";
-import * as Actions from "./actions";
+import Actions from "./actions";
 import * as R from "./records";
 
 const DEFAULT_STATE = Map({
@@ -35,6 +35,8 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("loading", false);
     case Actions.SET_SELECTED_FORM:
       return state.set("selectedForm", payload);
+    case "user/LOGOUT_SUCCESS":
+      return DEFAULT_STATE;
     default:
       return state;
   }

@@ -53,7 +53,7 @@ describe NotificationMailer, type: :mailer do
           Permission::REFERRAL, Permission::RECEIVE_REFERRAL
         ]
       )
-      @role = Role.new(permissions_list: [@permission_assign_case])
+      @role = Role.new(permissions: [@permission_assign_case])
       @role.save(validate: false)
       agency = Agency.create!(name: 'Test Agency', agency_code: 'TA')
       @group1 = UserGroup.create!(name: 'Group1')

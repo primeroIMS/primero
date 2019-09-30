@@ -47,7 +47,7 @@ describe("<Filters /> - Component", () => {
   });
 
   it("renders the Action Buttons", () => {
-    expect(component.find(Button)).to.have.length(2);
+    expect(component.find(Button)).to.have.length(3);
   });
 
   it("renders the ExpansionPanel", () => {

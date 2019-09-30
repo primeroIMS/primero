@@ -12,7 +12,9 @@ describe("<Filters /> - Action Creators", () => {
     const creators = clone(actionCreators);
 
     expect(creators).to.have.property("setTab");
+    expect(creators).to.have.property("setInitialFilterValues");
     delete creators.setTab;
+    delete creators.setInitialFilterValues;
 
     expect(creators).to.deep.equal({});
   });

@@ -11,7 +11,7 @@ describe PotentialMatch do
 
 
     permission_worker = Permission.new(resource: Permission::CASE, actions: [Permission::ASSIGN, Permission::READ, Permission::WRITE, Permission::CREATE])
-    Role.create(id: 'worker', name: 'a_worker', permissions_list: [permission_worker], group_permission: Permission::GROUP)
+    Role.create(id: 'worker', name: 'a_worker', permissions: [permission_worker], group_permission: Permission::GROUP)
 
     @user = User.create!(:user_name => 'worker_user', :role_ids => ['worker'], :module_ids => [PrimeroModule::CP],
                          :full_name => "A Worker User", :organization => "UNICEF",

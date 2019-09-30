@@ -25,7 +25,7 @@ describe("<Filters /> - Component", () => {
               sex: "",
               risk_level: [],
               fields: "short",
-              child_status: "open",
+              status: "open",
               record_state: true
             },
             data: {
@@ -59,7 +59,7 @@ describe("<Filters /> - Component", () => {
   it("renders the Tabs", () => {
     expect(component.find(Tabs)).to.have.length(1);
   });
-  
+
   it("renders the Tab", () => {
     expect(component.find(Tab)).to.have.length(2);
   });
@@ -67,5 +67,4 @@ describe("<Filters /> - Component", () => {
   it("renders the FiltersBuilder", () => {
     expect(component.find(FiltersBuilder)).to.have.length(1);
   });
-
 });

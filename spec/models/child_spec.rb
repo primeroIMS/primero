@@ -899,8 +899,8 @@ describe Child do
                                           :actions => [Permission::READ, Permission::WRITE, Permission::CREATE])
       @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI", admin_level: 0
       @location_region = Location.create! placename: "Kindia", type: "region", location_code: "GUI123", hierarchy: ["GUI"], admin_level: 1
-      admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
-      field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [@permission_case])
+      admin_role = Role.create!(:name => "Admin", :permissions => Permission.all_permissions_list)
+      field_worker_role = Role.create!(:name => "Field Worker", :permissions => [@permission_case])
       agency = Agency.create! agency_code: "UN", name: "UNICEF"
       SystemSettings.create default_locale: "en"
       user = create(:user, user_name: "bob123", full_name: 'full', password: 'passw0rd', password_confirmation: 'passw0rd',

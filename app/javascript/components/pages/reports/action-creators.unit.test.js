@@ -21,6 +21,7 @@ describe("<Reports /> - Action Creators", () => {
     delete creators.fetchCasesByAgeAndSex;
     delete creators.fetchCasesByProtectionConcern;
     delete creators.fetchCasesByAgency;
+    delete creators.fetchReport;
 
     expect(creators).to.deep.equal({});
   });
@@ -155,5 +156,4 @@ describe("<Reports /> - Action Creators", () => {
       type: "Reports/CASES_BY_AGENCY"
     });
   });
-
 });

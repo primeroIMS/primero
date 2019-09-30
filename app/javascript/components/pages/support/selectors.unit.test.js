@@ -9,7 +9,7 @@ chai.use(chaiImmutable);
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
   records: Map({
-    Support: Map({
+    support: Map({
       data: {
         name: "Simon Nehme",
         organization: "UNICEF",
@@ -26,7 +26,6 @@ const stateWithRecords = Map({
 });
 
 describe("<Support /> - Selectors", () => {
-
   describe("selectSupportData", () => {
     it("should return records", () => {
       const expected = {
@@ -51,5 +50,4 @@ describe("<Support /> - Selectors", () => {
       expect(records).to.deep.equal(expected);
     });
   });
-
 });

@@ -116,6 +116,50 @@ class User < ApplicationRecord
       users = users.order(sort) if sort.present?
       results.merge({ users: users })
     end
+
+    def users_for_assign(user, model)
+      return User.none unless model.present?
+
+      users = where(disabled: false).where.not(id: user.id)
+      if user.can? :assign, model
+        users
+      elsif user.can? :assign_within_agency, model
+        users.where(agency_id: user.agency_id)
+      elsif user.can? :assign_within_user_group, model
+        users.joins('join user_groups_users on users.id = user_groups_users.user_id')
+          .where('user_groups_users.user_group_id in (?)', user.user_groups.pluck(:id))
+      else
+        []
+      end
+    end
+
+    def users_for_referral(user, model, filters)
+      users_for_transition(user, model, filters, Permission::RECEIVE_REFERRAL)
+    end
+
+    def users_for_transfer(user, model, filters)
+      users_for_transition(user, model, filters, Permission::RECEIVE_TRANSFER)
+    end
+
+    def users_for_transition(user, model, filters, permission)
+      return User.none unless model.present?
+
+      users = users_with_permission(model, permission)
+              .where(disabled: false)
+              .where.not(id: user.id)
+      users = users.where(filters) if filters.present?
+      users
+    end
+
+    def users_with_permission(model, permission)
+      joins(:role)
+        .where(
+          'roles.permissions -> :resource ? :permission',
+          resource: model&.parent_form,
+          permission: permission
+        )
+    end
+
   end
 
   def email_entered?

@@ -336,11 +336,12 @@ ActiveRecord::Schema.define(version: 2019_09_12_000000) do
     t.string "unique_id"
     t.string "name"
     t.string "description"
-    t.jsonb "permissions_list", default: [], array: true
+    t.jsonb "permissions"
     t.string "group_permission", default: "self"
     t.boolean "referral", default: false, null: false
     t.boolean "transfer", default: false, null: false
     t.boolean "is_manager", default: false, null: false
+    t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
 

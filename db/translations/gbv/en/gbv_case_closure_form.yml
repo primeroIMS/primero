@@ -11,6 +11,8 @@ en:
         display_name: Case Closure Date
       child_status:
         display_name: Case Status
+      status:
+        display_name: Case Status
       closure_assessment:
         display_name: Closure Assessement
       closure_checklist_header_section:

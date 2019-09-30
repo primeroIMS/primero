@@ -39,7 +39,7 @@ protection_concerns = [
   "Mentally Distressed",
   "Other"
 ]
-child_status = ['open', 'closed']
+status = ['open', 'closed']
 case_module_ids = ['primeromodule-cp', 'primeromodule-gbv']
 
 (0..200).each do |i|
@@ -54,7 +54,7 @@ case_module_ids = ['primeromodule-cp', 'primeromodule-gbv']
     sex: sexes[rand(sexes.size)],
     location_current: locations[rand(locations.size)],
     protection_concerns: concerns,
-    child_status: child_status[rand(child_status.size)],
+    status: status[rand(status.size)],
     record_state: true,
     module_id: case_module_ids[rand(case_module_ids.size)],
     nationality: [nationality[rand(nationality.size)]],

@@ -118,3 +118,13 @@ Endpoints for querying contact information
 Endpoints for querying system settings
 
 * [Query for system setting](v2/docs/system_settings/get.md) : `GET /api/v2/system_settings`
+
+
+## User Endpoints
+
+Query and manipulate users
+
+* [Query for an individual user](v2/docs/users/id/get.md): `GET /api/v2/users/:id`
+* [Query for users to assign records to](v2/docs/users/assign-to.md): `GET /api/v2/users/assign-to`
+* [Query for users to transfer records to](v2/docs/users/transfer-to.md): `GET /api/v2/users/transfer-to`
+* [Query for users to refer records to](v2/docs/users/refer-to.md): `GET /api/v2/users/refer-to`
