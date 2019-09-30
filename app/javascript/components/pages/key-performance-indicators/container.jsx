@@ -1,21 +1,20 @@
 import { fromJS } from "immutable";
+import PropTypes from "prop-types";
 import React from "react";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import { PageContainer } from "components/page-container";
 import { Grid, Box } from "@material-ui/core";
 import { OptionsBox, DashboardTable } from "components/dashboard";
 import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
 import styles from "./styles.css";
+import * as actions from "./action-creators";
+import * as selectors from "./selectors";
 
-export default function Reports() {
+function KeyPerformanceIndicators({ numberOfCases }) {
   const i18n = useI18n();
   const css = makeStyles(styles)();
-  const columns = ["REPORTING SITE", "SEP 2019", "AUG 2019", "JUL 2019"];
-  const data = [
-    ["Site #1", 2, 1, 0],
-    ["Site #2", 2, 1, 0],
-    ["Site #3", 2, 1, 0]
-  ];
 
   return (
     <div>
@@ -40,8 +39,8 @@ export default function Reports() {
                   to="/key-performance-indicators"
                 >
                   <DashboardTable
-                    columns={fromJS(columns)}
-                    data={fromJS(data)}
+                    columns={fromJS(numberOfCases.columns)}
+                    data={fromJS(numberOfCases.data)}
                   />
                 </OptionsBox>
               </Grid>
@@ -52,3 +51,27 @@ export default function Reports() {
     </div>
   );
 }
+
+KeyPerformanceIndicators.propTypes = {
+  numberOfCases: {
+    columns: PropTypes.array,
+    data: PropTypes.array
+  }
+};
+
+const mapStateToProps = state => {
+  return {
+    numberOfCases: selectors.numberOfCases(state)
+  };
+};
+
+const mapDispatchToProps = {
+  fetchNumberOfCases: actions.fetchNumberOfCases
+};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(KeyPerformanceIndicators)
+);
