@@ -14,21 +14,15 @@ class User < ApplicationRecord
 
   has_many :saved_searches
   has_and_belongs_to_many :user_groups
-  has_and_belongs_to_many :primero_modules
 
   scope :list_by_enabled, -> { where(disabled: false) }
   scope :list_by_disabled, -> { where(disabled: true) }
   scope :by_user_group, (lambda do |ids|
     joins(:user_groups).where(user_groups: { id: ids })
   end)
-  scope :by_modules, (lambda do |ids|
-    joins(:primero_modules).where(primero_modules: { id: ids })
-  end)
 
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
-  alias_attribute :modules, :primero_modules
-  alias_attribute :module_ids, :primero_module_ids
 
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id]
 
@@ -40,7 +34,6 @@ class User < ApplicationRecord
 
   validates_presence_of :password_confirmation, :message => "errors.models.user.password_confirmation", if: -> { password.present? }
   validates_presence_of :role_id, :message => "errors.models.user.role_ids"
-  validates_presence_of :module_ids, :message => "errors.models.user.module_ids"
 
   validates_presence_of :organization, :message => "errors.models.user.organization"
 
@@ -193,13 +186,17 @@ class User < ApplicationRecord
     @last_login = self.localize_date(timestamp, "%Y-%m-%d %H:%M:%S %Z") if timestamp.present?
   end
 
+  def modules
+    role.modules
+  end
+
   def has_module?(module_id)
-    module_ids.include?(module_id)
+    modules.exists?(module_id)
   end
 
   def has_permission?(permission)
     role.permissions && role.permissions
-                            .map{ |p| p.actions }.flatten.include?(permission)
+                            .map(&:actions).flatten.include?(permission)
   end
 
   def has_permission_by_permission_type?(permission_type, permission)
