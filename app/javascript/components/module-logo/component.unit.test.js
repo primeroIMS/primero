@@ -14,7 +14,7 @@ describe("<ModuleLogo />", () => {
 
   it("renders a primero module logo from props", () => {
     const component = setupMountedThemeComponent(ModuleLogo, {
-      moduleLogo: "mrm"
+      moduleLogo: "primeromodule-mrm"
     });
     expect(component.find("img").prop("src")).to.equal(MRMLogo);
   });

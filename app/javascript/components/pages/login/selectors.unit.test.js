@@ -9,7 +9,7 @@ chai.use(chaiImmutable);
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
   user: Map({
-    module: "gbv",
+    modules: List(["primeromodule-cp", "primeromodule-gbv"]),
     agency: "unicef",
     isAuthenticated: true,
     messages: null
@@ -17,15 +17,16 @@ const stateWithRecords = Map({
 });
 
 describe("<Login /> - Selectors", () => {
-
-  describe("selectModule", () => {
+  describe("selectModules", () => {
     it("should return records", () => {
-      const records = selectors.selectModule(stateWithRecords);
-      expect(records).to.deep.equal("gbv");
+      const records = selectors.selectModules(stateWithRecords);
+      expect(records).to.deep.equal(
+        List(["primeromodule-cp", "primeromodule-gbv"])
+      );
     });
 
     it("should return empty object when records empty", () => {
-      const records = selectors.selectModule(stateWithNoRecords);
+      const records = selectors.selectModules(stateWithNoRecords);
       expect(records).to.be.undefined;
     });
   });

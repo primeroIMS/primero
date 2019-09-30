@@ -14,16 +14,12 @@ describe("<NotFound />", () => {
     ).component;
   });
 
-  it("renders svg logo", () => {
-    expect(component.find("svg")).to.have.length(1);
-  });
-
   it("renders h1 tag", () => {
     expect(component.find("h1")).to.have.length(1);
   });
 
-  it("renders h2 tag", () => {
-    expect(component.find("h2")).to.have.length(1);
+  it("renders h6 tag", () => {
+    expect(component.find("h6")).to.have.length(1);
   });
 
   it("renders p tag", () => {
@@ -31,10 +27,11 @@ describe("<NotFound />", () => {
   });
 
   it("renders forgot a tag", () => {
-    expect(component.find("a").first().prop("href")).to.have.equal("/v2/dashboard");
-  });
-
-  it("renders login button", () => {
-    expect(component.find("button")).to.have.length(1);
+    expect(
+      component
+        .find("a")
+        .first()
+        .prop("href")
+    ).to.have.equal("/dashboard");
   });
 });
