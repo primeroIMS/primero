@@ -19,7 +19,9 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         state.get("data").filter(d => d.id !== payload.data.id)
       );
     case Actions.SAVE_SEARCH_SUCCESS:
-      return state.update("data", data => [...data, payload.data]);
+      return state.update("data", data => {
+        return data.push(payload.data);
+      });
     default:
       return state;
   }
