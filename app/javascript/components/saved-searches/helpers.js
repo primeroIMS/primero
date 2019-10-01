@@ -20,10 +20,9 @@ export const buildFiltersApi = filters => {
 };
 
 export const buildFiltersState = filters => {
-  const result = filters.reduce((obj, props) => {
+  return filters.reduce((obj, props) => {
     const o = obj;
     o[props.name] = props.value;
     return o;
   }, {});
-  return result;
 };

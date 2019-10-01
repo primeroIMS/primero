@@ -4,6 +4,16 @@ export const FETCH_TIMEOUT = 30000;
 // IndexedDB database name
 export const DATABASE_NAME = "primero";
 
+// IndexedDB database collections
+export const DB = {
+  USER: "user",
+  FIELDS: "fields",
+  FORMS: "forms",
+  OPTIONS: "options",
+  RECORDS: "records",
+  SYSTEM_SETTINGS: "system_settings"
+};
+
 // Time (ms) when the idle dialog will activate when a user is inactive
 export const IDLE_TIMEOUT = 15 * 1000 * 60;
 

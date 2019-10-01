@@ -1,6 +1,7 @@
 import { loadApplicationResources } from "components/application";
 import { batch } from "react-redux";
-import * as Actions from "./actions";
+import { DB } from "config";
+import { Actions } from "./actions";
 
 export const setUser = payload => {
   return {
@@ -16,6 +17,9 @@ export const fetchAuthenticatedUserData = id => async dispatch => {
       path: `users/${id}`,
       params: {
         extended: true
+      },
+      db: {
+        collection: DB.USER
       }
     }
   });

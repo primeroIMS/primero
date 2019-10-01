@@ -1,5 +1,5 @@
 import isEmpty from "lodash/isEmpty";
-import { fromJS } from "immutable";
+import { fromJS, OrderedMap } from "immutable";
 import includes from "lodash/includes";
 import { denormalizeFormData } from "../../schemas";
 import { NavRecord } from "./records";
@@ -63,7 +63,7 @@ export const getRecordForms = (state, query) => {
   if (!selectedForms) return null;
 
   const denormalizedForms = denormalizeFormData(
-    fromJS(selectedForms.map(f => f.id)),
+    OrderedMap(selectedForms.map(f => f.id)),
     state.getIn(["forms"])
   );
 
@@ -83,14 +83,6 @@ export const getOption = (state, option, locale) => {
   return option ? option[locale] : [];
 };
 
-export const getRecord = (state, mode) => {
-  if (mode.isEdit || mode.isShow) {
-    return state.getIn([NAMESPACE, "selectedRecord"]);
-  }
-
-  return null;
-};
-
 export const getLoadingState = state =>
   state.getIn([NAMESPACE, "loading"], false);
 
@@ -98,7 +90,3 @@ export const getErrors = state => state.getIn([NAMESPACE, "errors"], false);
 
 export const getSelectedForm = state =>
   state.getIn([NAMESPACE, "selectedForm"]);
-
-export const getIsHiddenName = state => {
-  return state.getIn([NAMESPACE, "selectedRecord", "name"], "");
-};

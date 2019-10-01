@@ -1,2 +1,0 @@
-export const SET_REOPEN = "SET_REOPEN";
-export const SET_REOPEN_SUCCESS = "SET_REOPEN_SUCCESS";

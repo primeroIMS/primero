@@ -1,6 +1,6 @@
 import { Map, fromJS } from "immutable";
 import { mapObjectPropertiesToRecords, mapListToObject } from "libs";
-import * as Actions from "./actions";
+import { Actions } from "./actions";
 import NAMESPACE from "./namespace";
 import * as Record from "./records";
 
@@ -16,7 +16,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         .set("id", payload.id)
         .set("username", payload.username);
     case Actions.LOGOUT_SUCCESS:
-      return state.set("isAuthenticated", false).set("username", null);
+      return DEFAULT_STATE;
     case Actions.FETCH_USER_DATA_SUCCESS: {
       const {
         modules,
@@ -24,7 +24,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         role_id: roleId,
         list_headers: listHeaders,
         filters
-      } = payload.data;
+      } = payload;
 
       return state.merge(
         fromJS({

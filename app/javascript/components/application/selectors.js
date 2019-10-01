@@ -21,3 +21,5 @@ export const selectModule = (state, id) => {
 
 export const selectUserIdle = state =>
   state.getIn([NAMESPACE, "userIdle"], false);
+
+export const selectNetworkStatus = state => state.getIn([NAMESPACE, "online"]);

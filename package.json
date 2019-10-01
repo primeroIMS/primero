@@ -29,6 +29,7 @@
     "core-js": "3.1.4",
     "css-to-mui-loader": "^2.0.2",
     "date-fns": "^2.0.0",
+    "deepmerge": "^4.0.0",
     "eslint": "^5.14.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^5.0.0",

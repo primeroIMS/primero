@@ -5,8 +5,6 @@ import { setupMountedComponent } from "test";
 import { Map, List } from "immutable";
 import { PageContainer } from "components/page-container";
 import { LoadingIndicator } from "components/loading-indicator";
-import { Nav } from "./nav";
-// import { RecordForm } from "./form";
 import RecordForms from "./container";
 
 describe("<RecordForms /> - Component", () => {
@@ -152,27 +150,6 @@ describe("<RecordForms /> - Component", () => {
               ])
             })
           }),
-          selectedRecord: Map({
-            age: 26,
-            case_id: "caf0cf17-901b-4b01-80d5-5ceb72063a4b",
-            case_id_display: "2063a4b",
-            created_at: "2019-08-06T20:21:19.864Z",
-            created_by: "primero",
-            date_of_birth: "1993-06-05",
-            id: "e15acbe5-9501-4615-9f43-cb6873997fc1",
-            module_id: "primeromodule-cp",
-            name: "Gerald Padgett",
-            name_first: "Gerald",
-            name_given_post_separation: true,
-            name_last: "Padgett",
-            owned_by: "primero",
-            owned_by_agency_id: 1,
-            previously_owned_by: "primero",
-            record_state: true,
-            registration_date: "2019-08-06",
-            sex: "male",
-            short_id: "2063a4b"
-          })
         }),
         records: Map({
           Cases: Map({

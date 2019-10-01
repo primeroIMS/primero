@@ -275,8 +275,10 @@ en:
     photos: "Photo"
     owned_by: 'Record Owner'
     owned_by_agency: 'Record Owner Agency'
+    reopen_dialog_title: "Reopen Case"
     reopen_dialog: 'Clicking OK will change the status of this case to Open'
     reopen_success: 'Successfully reopened case'
+    close_dialog_title: 'Close Case'
     close_dialog: 'Clicking OK will change the status of this case to Closed'
     close_success: 'Successfully closed case'
 

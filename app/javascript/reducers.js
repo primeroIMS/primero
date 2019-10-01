@@ -19,7 +19,7 @@ import * as Support from "./components/pages/support";
 import * as Notifier from "./components/notifier";
 import * as User from "./components/user";
 import * as Application from "./components/application";
-import * as RecordList from "./components/record-list";
+import * as Records from "./components/records";
 
 const rootReducer = {
   records: combineReducers({
@@ -27,10 +27,7 @@ const rootReducer = {
       {},
       Object.keys(RECORD_TYPES).reduce((r, i) => {
         const o = r;
-        o[i] = reduceReducers(
-          RecordList.recordListReducer(i),
-          FiltersBuilder.reducers(i)
-        );
+        o[i] = reduceReducers(Records.reducers(i), FiltersBuilder.reducers(i));
         return o;
       }, {})
     ),

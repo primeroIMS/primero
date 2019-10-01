@@ -38,7 +38,8 @@ const RecordForm = ({
   bindSubmitForm,
   record,
   handleToggleNav,
-  mobileDisplay
+  mobileDisplay,
+  recordType
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -128,7 +129,9 @@ const RecordForm = ({
             {form.fields.map(field => {
               const fieldProps = {
                 field,
-                mode
+                mode,
+                recordType,
+                recordID: record?.get("id")
               };
 
               return (
@@ -198,7 +201,8 @@ RecordForm.propTypes = {
   bindSubmitForm: PropTypes.func,
   record: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
-  mobileDisplay: PropTypes.bool.isRequired
+  mobileDisplay: PropTypes.bool.isRequired,
+  recordType: PropTypes.string.isRequired
 };
 
 export default memo(RecordForm);

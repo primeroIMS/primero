@@ -1,13 +1,13 @@
 import chai, { expect } from "chai";
-import { Map, List } from "immutable";
+import { Map, List, fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
 
-import { recordListReducer } from "./reducer";
+import { reducers } from "./reducer";
 
 chai.use(chaiImmutable);
 
 describe("<RecordList /> - Reducers", () => {
-  const reducer = recordListReducer("TestRecordType");
+  const reducer = reducers("TestRecordType");
 
   it("should handle RECORDS_STARTED", () => {
     const expected = Map({ loading: true, errors: false });
@@ -32,15 +32,17 @@ describe("<RecordList /> - Reducers", () => {
   });
 
   it("should handle RECORDS_SUCCESS", () => {
-    const expected = Map({
-      data: List([Map({ id: 3 })]),
-      metadata: Map({ per: 2 })
+    const expected = fromJS({
+      data: [{ id: 3 }],
+      metadata: { per: 2 }
     });
+
     const action = {
       type: "TestRecordType/RECORDS_SUCCESS",
       payload: { data: [{ id: 3 }], metadata: { per: 2 } }
     };
-    const newState = reducer(Map({}), action);
+
+    const newState = reducer(Map({ data: List([]) }), action);
 
     expect(newState).to.deep.equal(expected);
   });
