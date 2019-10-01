@@ -30,7 +30,7 @@ gem 'twitter_cldr',      '~> 4.4'
 # TODO: We should replace xls exporting with https://github.com/randym/axlsx or
 # https://github.com/Paxa/fast_excel both supports streaming. The last options
 # has less dependencies. Will require some rework of exporter
-gem 'rubyzip',           '~> 1.2', require: 'zip'
+gem 'rubyzip',           '~> 1.3.0', require: 'zip'
 gem 'writeexcel',        '~> 1.0'
 gem 'spreadsheet',       '~> 1.1'
 
