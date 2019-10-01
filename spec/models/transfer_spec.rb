@@ -11,13 +11,13 @@ describe Transfer do
       resource: Permission::CASE,
       actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::RECEIVE_TRANSFER]
     )
-    @role = Role.new(permissions: [permission_case])
+    @role = Role.new(permissions: [permission_case], modules: [@module_cp])
     @role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
-    @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1], modules: [@module_cp])
+    @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
     @user1.save(validate: false)
     @group2 = UserGroup.create!(name: 'Group2')
-    @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2], modules: [@module_cp])
+    @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2])
     @user2.save(validate: false)
     @case = Child.create(data: {
       name: 'Test', owned_by: 'user1',
@@ -29,7 +29,7 @@ describe Transfer do
   describe 'consent' do
 
     it 'denies consent for transferring records if consent properties are not set' do
-      @case.update_attributes(disclosure_other_orgs: nil )
+      @case.update_attributes(disclosure_other_orgs: nil)
       transfer = Transfer.new(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
 
       expect(transfer.consent_given?).to be_falsey

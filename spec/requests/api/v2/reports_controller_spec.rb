@@ -75,7 +75,8 @@ describe Api::V2::ReportsController, type: :request do
           :resource => Permission::CASE,
           :actions => [Permission::MANAGE]
         )
-      ]
+      ],
+      modules: [@cp]
     )
     @agency_1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
 
@@ -87,7 +88,6 @@ describe Api::V2::ReportsController, type: :request do
       email: "test_user_1@localhost.com",
       agency_id: @agency_1.id,
       role: @role,
-      primero_modules: [@cp],
       location: @location_0.location_code
     )
 

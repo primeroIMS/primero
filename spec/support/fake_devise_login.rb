@@ -40,17 +40,16 @@ module FakeDeviseLogin
   def login_for_test(opts={})
     user = User.new(user_name: 'faketest')
     permissions = opts[:permissions] || [permission_case, permission_incident, permission_tracing_request]
-    group_permission =  opts[:group_permission] ||  Permission::ALL
-    user.stub(:role).and_return(
-        Role.new(
-          permissions: permissions,
-          group_permission: group_permission,
-          form_sections: opts[:form_sections] || []
-        )
+    group_permission = opts[:group_permission] || Permission::ALL
+    role = Role.new(
+      permissions: permissions,
+      group_permission: group_permission,
+      form_sections: opts[:form_sections] || []
     )
+    role.stub(:modules).and_return(opts[:modules] || [])
+    user.stub(:role).and_return(role)
     permitted_field_names = opts[:permitted_field_names] || common_permitted_field_names
-    user.stub(:permitted_fields).and_return(permitted_field_names.map{|n| Field.new(name: n.to_s)})
-    user.stub(:modules).and_return(opts[:modules] || [])
+    user.stub(:permitted_field_names_from_forms).and_return(permitted_field_names)
     sign_in(user)
   end
 

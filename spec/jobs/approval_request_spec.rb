@@ -4,8 +4,8 @@ describe ApprovalRequestJob, type: :job do
   include ActiveJob::TestHelper
 
   before do
-    Lookup.all.each {|lookup| lookup.destroy}
-    User.all.each {|user| user.destroy}
+    Lookup.destroy_all
+    User.destroy_all
     @lookup = create :lookup, id: 'lookup-approval-type', name: 'approval type'
     @manager1 = create :user, is_manager: true, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
     @manager2 = create :user, is_manager: true, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2'

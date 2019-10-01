@@ -15,8 +15,7 @@ describe User do
       email: 'email@ddress.net',
       agency_id: options[:agency_id] || Agency.try(:last).try(:id),
       disabled: 'false',
-      role_id: options[:role_id] || Role.try(:last).try(:id),
-      module_ids: [options[:module_ids] || PrimeroModule.try(:last).try(:id)]
+      role_id: options[:role_id] || Role.try(:last).try(:id)
     )
     user = User.new(options)
     user
@@ -245,12 +244,6 @@ describe User do
       user.id.present?.should == true
     end
 
-    it "should require a module" do
-      user = build_user(:module_ids => [])
-      expect(user).not_to be_valid
-      expect(user.errors[:module_ids]).to eq(["Please select at least one module"])
-    end
-
     describe 'locale' do
       before do
         @locale_user = build_user
@@ -440,7 +433,10 @@ describe User do
       @form_section_c = create(:form_section, unique_id: "C", name: "C")
       @primero_module = create(:primero_module, form_sections: [@form_section_a, @form_section_b])
       @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
-      @role = Role.create!(form_sections: [@form_section_b, @form_section_c], name: "Test Role", permissions: [@permission_case_read])
+      @role = Role.create!(
+        form_sections: [@form_section_b, @form_section_c],
+        name: "Test Role", permissions: [@permission_case_read],
+        modules: [@primero_module])
     end
 
     let(:user) { build(:user, user_name: "test_user", role: @role, module_ids: [@primero_module.id]) }

@@ -53,13 +53,12 @@ describe NotificationMailer, type: :mailer do
           Permission::REFERRAL, Permission::RECEIVE_REFERRAL
         ]
       )
-      @role = Role.new(permissions: [@permission_assign_case])
+      @role = Role.new(permissions: [@permission_assign_case], modules: [@primero_module])
       @role.save(validate: false)
       agency = Agency.create!(name: 'Test Agency', agency_code: 'TA')
       @group1 = UserGroup.create!(name: 'Group1')
       @user1 = User.new(
         user_name: 'user1', role: @role, user_groups: [@group1],
-        modules: [@primero_module],
         email: 'uzer1@test.com', send_mail: true,
         agency: agency
       )
@@ -67,7 +66,7 @@ describe NotificationMailer, type: :mailer do
       @group2 = UserGroup.create!(name: 'Group2')
       @user2 = User.new(
         user_name: 'user2', role: @role,
-        user_groups: [@group2], modules: [@primero_module],
+        user_groups: [@group2],
         email: 'uzer_to@test.com', send_mail: true,
         agency: agency
       )

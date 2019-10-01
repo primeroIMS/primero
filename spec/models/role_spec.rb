@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Role do
   before :each do
-    Role.delete_all
+    Role.destroy_all
   end
   it "should not be valid if name is empty" do
     role = Role.new
