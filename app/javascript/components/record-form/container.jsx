@@ -40,7 +40,6 @@ const RecordForms = ({ match, mode }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const i18n = useI18n();
-  // eslint-disable-next-line no-param-reassign
   const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
 
