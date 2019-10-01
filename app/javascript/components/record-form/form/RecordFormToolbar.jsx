@@ -49,7 +49,7 @@ const RecordFormToolbar = ({
       display="flex"
       alignItems="center"
     >
-      <Box flexGrow={1}>
+      <Box flexGrow={1} display="flex" flexDirection="column">
         <PageHeading />
         {(mode.isShow || mode.isEdit) && params.recordType === "cases" && (
           <WorkflowIndicator

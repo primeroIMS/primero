@@ -11,7 +11,7 @@
 }
 
 .stepper {
-  max-width: 60%;
+  max-width: 80%;
   background: none;
   padding: 0;
 
@@ -20,12 +20,24 @@
   }
 }
 
-.stepLabel {
+.stepLabel,
+.mobileStepper div {
   font-size: $(theme.typography.pxToRem(11));
   font-weight: bold !important;
   text-transform: uppercase;
 }
 
-.styleLabelActive {
+.styleLabelActive, .mobileStepper {
   color: $(theme.primero.colors.blue) !important;
 }
+
+.mobileStepper {
+  display: flex;
+  align-items: center;
+
+  & > span {
+    margin-right: 1.5em;
+    margin-left: 0.7em;
+  }
+}
+
