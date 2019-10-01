@@ -5,12 +5,12 @@ fields = form.fields.map do |f|
     FieldI18nService.strip_i18n_suffix(f.as_json.compact)
   )
 end
-module_ids = form.primero_modules.map(&:unique_id)
+module_ids = form.primero_modules.pluck(:unique_id)
 json.merge! FieldI18nService.fill_keys(
   FormSection.localized_properties + ['form_group_name'],
-  form_hash.merge({
-    "form_group_name" => form.form_group_name_all,
-    "fields" => fields,
-    "module_ids" =>  module_ids
-  })
+  form_hash.merge(
+    'form_group_name' => form.form_group_name_all,
+    'fields' => fields,
+    'module_ids' => module_ids
+  )
 )

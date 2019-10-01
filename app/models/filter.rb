@@ -226,7 +226,7 @@ class Filter < ValueObject
     def case_filters(user, model_class)
       reporting_location_label = SystemSettings.current.reporting_location_config.try(:label_key) || ReportingLocation::DEFAULT_LABEL_KEY
       admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
-      permitted_form_ids = user.permitted_forms(nil, nil, true).map(&:unique_id)
+      permitted_form_ids = user.permitted_forms(nil, true).pluck(:unique_id)
 
       filters = []
       filters << FLAGGED_CASE
