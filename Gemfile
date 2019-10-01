@@ -27,7 +27,7 @@ gem 'therubyracer',   '~> 0.12.2', :platforms => :ruby, :require => 'v8'
 gem 'os',             '~> 1.0.0'
 gem 'multi_json',     '~> 1.12.2'
 gem 'addressable',    '~> 2.5.2'
-gem 'rubyzip',        '~> 1.2.2', require: 'zip'
+gem 'rubyzip',        '~> 1.3.0', require: 'zip'
 
 #Note, if upgrading Sunspot, update the corresonding version of Solr in Chef if necessaary.
 #Current Solr version is 5.3.1
