@@ -9,25 +9,25 @@ chai.use(chaiImmutable);
 
 const state = Map({
   records: Map({
-    Flags: Map({
+    flags: Map({
       data: List([
-        FlagRecord({ record_id: 1, record_type: "case" }),
-        FlagRecord({ record_id: 2, record_type: "incident" }),
-        FlagRecord({ record_id: 2, record_type: "case" }),
-        FlagRecord({ record_id: 2, record_type: "case" })
+        FlagRecord({ record_id: 1, record_type: "cases" }),
+        FlagRecord({ record_id: 2, record_type: "incidents" }),
+        FlagRecord({ record_id: 2, record_type: "cases" }),
+        FlagRecord({ record_id: 2, record_type: "cases" })
       ])
     })
   })
 });
 
 describe("<Flagging /> - Selectors", () => {
-  const recordType = "case";
+  const recordType = "cases";
 
   describe("selectFlags", () => {
     it("should return list of flags", () => {
       const expected = List([
-        FlagRecord({ record_id: 2, record_type: "case" }),
-        FlagRecord({ record_id: 2, record_type: "case" })
+        FlagRecord({ record_id: 2, record_type: "cases" }),
+        FlagRecord({ record_id: 2, record_type: "cases" })
       ]);
       const records = selectors.selectFlags(state, 2, recordType);
       expect(records).to.deep.equal(expected);
