@@ -121,7 +121,6 @@ const Nav = () => {
                   to={l.to}
                   className={css.navLink}
                   activeClassName={css.navActive}
-                  exact
                 >
                   <ListItemIcon classes={{ root: css.listIcon }}>
                     <ListIcon icon={l.icon} />

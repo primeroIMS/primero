@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
 import { useI18n } from "components/i18n";
-import { PageContainer } from "components/page-container";
+import { PageContainer } from "components/page";
 import { LoadingIndicator } from "components/loading-indicator";
 import { useThemeHelper } from "libs";
 import clsx from "clsx";

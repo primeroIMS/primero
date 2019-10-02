@@ -8,7 +8,8 @@ import * as Flagging from "components/flagging";
 import * as SavedSearches from "components/saved-searches";
 import * as Nav from "./components/nav";
 import * as Dashboard from "./components/pages/dashboard";
-import * as Reports from "./components/pages/reports";
+import * as Reports from "./components/pages/reports-list";
+import * as Report from "./components/pages/report";
 import * as PotentialMatches from "./components/pages/potential-matches";
 import * as TaskList from "./components/pages/task-list";
 import * as RecordForms from "./components/record-form";
@@ -34,10 +35,10 @@ const rootReducer = {
         return o;
       }, {})
     ),
+    reports: reduceReducers(Reports.reducers, Report.reducers),
     ...PotentialMatches.reducers,
     ...TaskList.reducers,
     ...Dashboard.reducers,
-    ...Reports.reducers,
     ...ExportList.reducers,
     ...Support.reducers,
     ...Flagging.reducers,

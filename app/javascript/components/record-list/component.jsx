@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/styles";
 import { Map } from "immutable";
 import { useThemeHelper } from "libs";
 import { RecordSearch } from "components/record-search";
-import { PageContainer } from "components/page-container";
+import { PageContainer } from "components/page";
 import { withRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useI18n } from "components/i18n";

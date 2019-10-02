@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
 import { enqueueSnackbar } from "components/notifier";
-import { PageHeading } from "components/page-container";
+import { PageHeading } from "components/page";
 import * as yup from "yup";
 import styles from "./styles.css";
 import { attemptLogin } from "./action-creators";
@@ -61,7 +61,7 @@ const Login = () => {
   // TODO: Need to pass agency and logo path from api
   return (
     <>
-      <PageHeading title={i18n.t("login.label")} />
+      <PageHeading title={i18n.t("login.label")} whiteHeading />
       <Formik
         {...formProps}
         render={() => (

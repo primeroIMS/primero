@@ -1516,6 +1516,7 @@ en:
     messages:
       delete_success: "Report was successfully deleted."
     edit: "Edit"
+    no_data: "No report data available"
 
   encrypt:
     password_title: "Create Password"

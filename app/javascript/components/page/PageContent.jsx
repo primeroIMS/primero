@@ -3,14 +3,13 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import styles from "./styles.css";
 
-const PageHeading = ({ title }) => {
+function PageContent({ children }) {
   const css = makeStyles(styles)();
 
-  return <h1 className={css.heading}>{title}</h1>;
+  return <div className={css.content}>{children}</div>;
+}
+PageContent.propTypes = {
+  children: PropTypes.node
 };
 
-PageHeading.propTypes = {
-  title: PropTypes.string.isRequired
-};
-
-export default PageHeading;
+export default PageContent;
