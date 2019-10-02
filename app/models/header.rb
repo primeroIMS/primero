@@ -26,7 +26,7 @@ class Header < ValueObject
   TRACING_REQUESTS = Header.new(name: 'tracing_requests', field_name: 'tracing_names')
   NAME = Header.new(name: 'name', field_name: 'name') 
   DESCRIPTION = Header.new(name: 'description', field_name: 'description')
-  CASE_ID = Header.new(name: 'id', field_name: 'case_id')
+  CASE_ID = Header.new(name: 'id', field_name: 'record_id_display')
   PRIORITY = Header.new(name: 'priority', field_name: 'priority')
   TYPE = Header.new(name: 'type', field_name: 'type')
   DUE_DATE = Header.new(name: 'due_date', field_name: 'due_date')
@@ -42,6 +42,7 @@ class Header < ValueObject
   POSITION = Header.new(name: 'position', field_name: 'position')
   AGENCY = Header.new(name: 'agency', field_name: 'agency')
   USER_GROUP_NAME = Header.new(name: 'user_group.name', field_name: 'user_group.name')
+  STATUS = Header.new(name: 'status', field_name: 'status')
 
   class << self
 
@@ -90,7 +91,7 @@ class Header < ValueObject
     end
 
     def task_headers
-      [CASE_ID, PRIORITY, TYPE, DUE_DATE]
+      [CASE_ID, PRIORITY, TYPE, DUE_DATE, STATUS]
     end
 
     def bulk_export_headers

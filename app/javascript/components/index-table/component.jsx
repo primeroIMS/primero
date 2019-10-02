@@ -18,10 +18,9 @@ const IndexTable = ({
   recordType,
   onTableChange,
   defaultFilters,
-  options: tableOptionsProps
+  options: tableOptionsProps,
+  targetRecordType
 }) => {
-  let componentColumns = columns;
-
   const dispatch = useDispatch();
   const data = useSelector(state => selectRecords(state, recordType));
   const loading = useSelector(state => selectLoading(state, recordType));
@@ -33,6 +32,10 @@ const IndexTable = ({
   const per = data.getIn(["metadata", "per"], 20);
   const total = data.getIn(["metadata", "total"], 0);
   const page = data.getIn(["metadata", "page"], null);
+  const url = targetRecordType || recordType;
+
+  let componentColumns =
+    typeof columns === "function" ? columns(data) : columns;
 
   useEffect(() => {
     dispatch(
@@ -115,9 +118,7 @@ const IndexTable = ({
       rowsPerPageOptions: [20, 50, 75, 100],
       page: page - 1,
       onRowClick: (rowData, rowMeta) => {
-        dispatch(
-          push(`${recordType}/${records.getIn([rowMeta.dataIndex, "id"])}`)
-        );
+        dispatch(push(`${url}/${records.getIn([rowMeta.dataIndex, "id"])}`));
       }
     },
     tableOptionsProps
@@ -148,10 +149,11 @@ const IndexTable = ({
 
 IndexTable.propTypes = {
   onTableChange: PropTypes.func.isRequired,
-  columns: PropTypes.object.isRequired,
+  columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   defaultFilters: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  options: PropTypes.object
+  options: PropTypes.object,
+  targetRecordType: PropTypes.string
 };
 
 export default IndexTable;
