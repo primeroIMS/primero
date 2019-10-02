@@ -434,6 +434,7 @@ en:
     priority: "Priority Level"
     type: "Type of Action"
     due_date: "Due Date"
+    status: "Status"
     types:
       assessment: "Assessment"
       case_plan: "Case Plan"
