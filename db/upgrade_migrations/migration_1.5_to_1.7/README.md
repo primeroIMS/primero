@@ -128,6 +128,16 @@ Run the migration
 - $ RAILS_ENV=production bundle exec rails r db/upgrade_migrations/migration_1.5_to_1.7/migrate_records.rb
 
 
+Run the design migration
+-------------------------------------------------------------------------
+- $ RAILS_ENV=production bundle exec rails db:migrate:design
+
+
+Run the update sequence number task
+-------------------------------------------------------------------------
+- $ RAILS_ENV=production bundle exec rake couch_changes:prime_sequence_numbers
+
+
 Reindex solr (if you want to test the application with the migrated data)
 -------------------------------------------------------------------------
 Still as 'primero' user...
