@@ -3,7 +3,7 @@ import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
 import { Map, List } from "immutable";
-import { PageContainer } from "components/page-container";
+import { PageContainer } from "components/page";
 import { LoadingIndicator } from "components/loading-indicator";
 import RecordForms from "./container";
 

@@ -1,7 +1,7 @@
 import "test/test.setup";
 import { setupMountedThemeComponent } from "test";
 import { expect } from "chai";
-import { buildDataForTable } from "components/pages/reports/helpers";
+import { buildDataForTable } from "components/pages/report/helpers";
 import { Map } from "immutable";
 import TableValues from "./component";
 
@@ -18,7 +18,9 @@ describe("<TableValues />", () => {
         Alemania: 3
       }
     });
-    const component = setupMountedThemeComponent(TableValues, { ...buildDataForTable(data) });
+    const component = setupMountedThemeComponent(TableValues, {
+      ...buildDataForTable(data)
+    });
     expect(component.find("table tr").length).to.equal(4);
   });
 });
