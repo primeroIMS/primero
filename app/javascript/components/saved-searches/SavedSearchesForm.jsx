@@ -16,7 +16,7 @@ import {
   DialogTitle
 } from "@material-ui/core";
 import { applyFilters } from "components/filters-builder/action-creators";
-import { saveSearch, fetchSavedSearches } from "./action-creators";
+import { saveSearch } from "./action-creators";
 import { buildFiltersApi } from "./helpers";
 
 const initialValues = { name: "" };
@@ -64,7 +64,6 @@ const SavedSearchesForm = ({ recordType, open, setOpen }) => {
           }
         };
         dispatch(saveSearch(body, i18n.t("saved_search.save_success")));
-        dispatch(fetchSavedSearches());
         actions.resetForm(initialValues);
         setFormErrors(false);
         closeModal();
