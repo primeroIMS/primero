@@ -16,7 +16,7 @@ import styles from "./styles.css";
 
 const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
   const { css, theme } = useThemeHelper(styles);
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("md"));
+  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
 
   const selectedModuleWorkflow = useSelector(state =>
     selectModule(state, primeroModule)
