@@ -71,8 +71,8 @@ module Exporters
       @primero_module = create(:primero_module, unique_id: "primeromodule-cp",
                                                 name: "CP",
                                                 form_sections: [form_a, form_b, form_c, form_d, subform, subform_1, subform_3])
-      @role = create(:role, form_sections: [form_a, form_b, form_c, form_d, subform, subform_1, subform_3])
-      @user = create(:user, :user_name => 'fakeadmin', role: @role, module_ids: [@primero_module.id])
+      @role = create(:role, form_sections: [form_a, form_b, form_c, form_d, subform, subform_1, subform_3], modules: [@primero_module])
+      @user = create(:user, :user_name => 'fakeadmin', role: @role)
       @records = [create(:child, "id" => "1234", "first_name" => "John", "last_name" => "Doe", "relationship"=>"Mother",
                                  "array_field"=> ["option_1", "option_2"],
                                  "arabic_text" => "لدّفاع", "arabic_array" => ["النفط", "المشتّتون"],

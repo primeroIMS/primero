@@ -1252,8 +1252,8 @@ describe "record field model" do
 
   describe "find fields of type subform that are linked to a subform_append_only form" do
     before do
-      FormSection.delete_all
-      Field.delete_all
+      FormSection.destroy_all
+      Field.destroy_all
       subform_append_only = FormSection.create!(unique_id: 'subform_append_only', name_en: "Subform Append Only", subform_append_only: true, is_nested: true)
       subform_regular = FormSection.create!(unique_id: 'subform_regular', name_en: "Subform Regular", is_nested: true)
 

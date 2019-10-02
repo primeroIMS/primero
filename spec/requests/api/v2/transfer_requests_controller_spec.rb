@@ -139,7 +139,7 @@ describe Api::V2::TransferRequestsController, type: :request do
   end
 
   def clean_all
-    [PrimeroModule, UserGroup, Role, User, Child, Transition].map(&:delete_all)
+    [PrimeroModule, UserGroup, Role, User, Child, Transition].map(&:destroy_all)
   end
 
 
