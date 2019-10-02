@@ -111,18 +111,16 @@ class Report < ApplicationRecord
             new_value = (key_value == key.last) ? { key_value => { "_total" => total } } : { key_value => {} }
             values_tree = new_value if values_tree.blank?
             if index.zero?
-              if !self.has_key_at_level?(values_tree, nil, key_value, index)
+              if !self.has_key_at?(values_tree, [], key_value)
                 values_tree = values_tree.merge(new_value)
               end
             else
               if key_value.to_s.blank?
-                # Get the last non empty value as the parent_key
-                parent_key, tree_level = key.each_with_index.select { |k,i| k.to_s.present? }.last
-                parent_tree = self.get_tree_level(values_tree, tree_level)
-                parent_tree[parent_key]["_total"] = total
-              elsif !self.has_key_at_level?(values_tree, key[index - 1], key_value, (index - 1))
-                parent_tree = self.get_tree_level(values_tree, index - 1)
-                parent_tree[key[index - 1]] = parent_tree[key[index - 1]].merge(new_value)
+                # Get the non empty values as the parent_key
+                parent_keys = key.select { |k| k.to_s.present? }
+                set_for_parents(values_tree, parent_keys, { "_total" => total })
+              elsif !self.has_key_at?(values_tree, key[0..(index - 1)], key_value)
+                set_for_parents(values_tree, key[0..(index - 1)], new_value)
               end
             end
           end
@@ -130,19 +128,28 @@ class Report < ApplicationRecord
     values_tree
   end
 
-  def has_key_at_level?(tree, parent_key, key, level)
-    tree = self.get_tree_level(tree, level)
-    return false if tree.blank? || (parent_key.present? && tree[parent_key].blank?)
-    parent_key.present? ? tree[parent_key].has_key?(key) : tree.has_key?(key)
+  def set_for_parents(tree, parents, value)
+    next_parents = parents.dup
+    parent_key = next_parents.shift
+    if next_parents.blank?
+      if tree[parent_key].present?
+        tree[parent_key] = tree[parent_key].merge(value)
+      else
+        tree[parent_key] = value
+      end
+    else
+      set_for_parents(tree[parent_key], next_parents, value)
+    end
   end
 
-  def get_tree_level(tree, level)
-    return tree if level <= 0
-    level.times do
-      return nil if tree.values.blank?
-      tree = tree.values.inject(&:merge)
-    end
-    tree
+  def tree_for_parents(tree, parents)
+    next_parents = parents.dup
+    (parents.present? && tree.present?) ? self.tree_for_parents(tree[next_parents.shift], next_parents.dup) : tree
+  end
+
+  def has_key_at?(tree, parents, key)
+    tree = self.tree_for_parents(tree, parents)
+    tree.present? ? tree.has_key?(key) : false
   end
 
   # Run the Solr query that calculates the pivots and format the output.

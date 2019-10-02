@@ -5,7 +5,7 @@ import MUIDataTable from "mui-datatables";
 import { Card, CardContent } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { PageContainer, PageHeading } from "components/page-container";
+import { PageContainer, PageHeading, PageContent } from "components/page";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
@@ -69,22 +69,24 @@ const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
   return (
     <PageContainer>
       <PageHeading title="Matches" />
-      <Card>
-        <CardContent>
-          <h4>
-            {i18n.t("potential_matches.display", {
-              type: i18n.t("forms.record_types.tracing_request"),
-              id: potentialMatches.get("tracingRequestId")
-            })}
-          </h4>
-          <div className={css.firstTable}>
-            <MUIDataTable {...tracingRequestTableOptions} />
-          </div>
-          <div className={css.lastTable}>
-            <MUIDataTable {...matchesTableOptions} />
-          </div>
-        </CardContent>
-      </Card>
+      <PageContent>
+        <Card>
+          <CardContent>
+            <h4>
+              {i18n.t("potential_matches.display", {
+                type: i18n.t("forms.record_types.tracing_request"),
+                id: potentialMatches.get("tracingRequestId")
+              })}
+            </h4>
+            <div className={css.firstTable}>
+              <MUIDataTable {...tracingRequestTableOptions} />
+            </div>
+            <div className={css.lastTable}>
+              <MUIDataTable {...matchesTableOptions} />
+            </div>
+          </CardContent>
+        </Card>
+      </PageContent>
     </PageContainer>
   );
 };

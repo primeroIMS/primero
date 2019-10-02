@@ -4,7 +4,7 @@ import React from "react";
 // import PriorityHigh from "@material-ui/icons/PriorityHigh";
 import { useI18n } from "components/i18n";
 import { IndexTable } from "components/index-table";
-import { PageContainer, PageHeading } from "components/page-container";
+import { PageContainer, PageHeading, PageContent } from "components/page";
 import { Map } from "immutable";
 import { useSelector } from "react-redux";
 import { selectListHeaders } from "./selectors";
@@ -40,7 +40,9 @@ const TaskList = () => {
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.tasks")} />
-      <IndexTable {...tableOptions} />
+      <PageContent>
+        <IndexTable {...tableOptions} />
+      </PageContent>
     </PageContainer>
   );
 };

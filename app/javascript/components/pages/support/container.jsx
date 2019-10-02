@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { useI18n } from "components/i18n";
 import { Card, CardContent } from "@material-ui/core";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { PageContainer } from "components/page-container";
+import { PageContainer } from "components/page";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";

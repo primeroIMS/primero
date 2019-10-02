@@ -1,8 +1,8 @@
 export { Dashboard } from "./dashboard";
 export { TaskList } from "./task-list";
 export { Login } from "./login";
-export { Reports } from "./reports";
-export { ReportDetail } from "./reports/forms";
+export { Reports } from "./reports-list";
+export { Report } from "./report";
 export { PotentialMatches } from "./potential-matches";
 export { ExportList } from "./export-list";
 export { Support } from "./support";

@@ -49,7 +49,7 @@ export default [
       },
       {
         path: "/reports/:id",
-        component: Page.ReportDetail
+        component: Page.Report
       },
       {
         path: "/matches",

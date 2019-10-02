@@ -1,9 +1,15 @@
-import * as Actions from "./actions";
+import chai, { expect } from "chai";
+import { Map, List } from "immutable";
+import chaiImmutable from "chai-immutable";
 
-export const fetchCasesByNationality = () => async dispatch => {
-  dispatch({
-    type: Actions.CASES_BY_NATIONALITY,
-    payload: {
+import * as selectors from "./selectors";
+
+chai.use(chaiImmutable);
+
+const stateWithNoRecords = Map({});
+const stateWithRecords = Map({
+  records: Map({
+    reports: Map({
       casesByNationality: {
         title: "Cases by Nationality",
         column_name: "Nationality",
@@ -13,15 +19,7 @@ export const fetchCasesByNationality = () => async dispatch => {
           Argentina: 2,
           Alemania: 3
         }
-      }
-    }
-  });
-};
-
-export const fetchCasesByAgeAndSex = () => async dispatch => {
-  dispatch({
-    type: Actions.CASES_BY_AGE_AND_SEX,
-    payload: {
+      },
       casesByAgeAndSex: {
         title: "Cases by Age and Sex",
         column_name: "Age",
@@ -48,15 +46,7 @@ export const fetchCasesByAgeAndSex = () => async dispatch => {
             Other: 0
           }
         }
-      }
-    }
-  });
-};
-
-export const fetchCasesByProtectionConcern = () => async dispatch => {
-  dispatch({
-    type: Actions.CASES_BY_PROTECTION_CONCERN,
-    payload: {
+      },
       casesByProtectionConcern: {
         title: "Cases by Protection Concern",
         column_name: "Protection Concern",
@@ -84,15 +74,7 @@ export const fetchCasesByProtectionConcern = () => async dispatch => {
             Male: 1
           }
         }
-      }
-    }
-  });
-};
-
-export const fetchCasesByAgency = () => async dispatch => {
-  dispatch({
-    type: Actions.CASES_BY_AGENCY,
-    payload: {
+      },
       casesByAgency: {
         title: "Cases by Agency",
         column_name: "Agency",
@@ -103,25 +85,38 @@ export const fetchCasesByAgency = () => async dispatch => {
           DOLSA: 1
         }
       }
-    }
-  });
-};
+    })
+  })
+});
 
-export const fetchReport = id => dispatch => {
-  switch (id) {
-    case "casesByAgency":
-      dispatch(fetchCasesByAgency());
-      break;
-    case "casesByProtectionConcern":
-      dispatch(fetchCasesByProtectionConcern());
-      break;
-    case "casesByAgeAndSex":
-      dispatch(fetchCasesByAgeAndSex());
-      break;
-    case "casesByNationality":
-      dispatch(fetchCasesByNationality());
-      break;
-    default:
-      break;
-  }
-};
+describe("<Reports /> - Selectors", () => {
+  describe("selectReport", () => {
+    it("should return records", () => {
+      const expected = {
+        title: "Cases by Nationality",
+        column_name: "Nationality",
+        description: "Number of cases broken down by nationality",
+        data: {
+          Nicaragua: 1,
+          Argentina: 2,
+          Alemania: 3
+        }
+      };
+
+      const records = selectors.selectReport(
+        stateWithRecords,
+        "casesByNationality"
+      );
+      expect(records).to.deep.equal(expected);
+    });
+
+    it("should return empty object when records empty", () => {
+      const expected = Map({});
+      const records = selectors.selectReport(
+        stateWithNoRecords,
+        "casesByNationality"
+      );
+      expect(records).to.deep.equal(expected);
+    });
+  });
+});
