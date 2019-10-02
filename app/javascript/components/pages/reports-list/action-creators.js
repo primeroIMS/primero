@@ -1,4 +1,4 @@
-import { cleanUpFilters } from "components/record-list/helpers";
+import { cleanUpFilters } from "components/records/helpers";
 import * as Actions from "./actions";
 
 export const fetchReports = data => async dispatch => {
