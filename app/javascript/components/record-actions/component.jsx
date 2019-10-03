@@ -3,21 +3,22 @@ import PropTypes from "prop-types";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { useI18n } from "components/i18n";
-import { Reopen } from "./reopen";
-import { CloseCase } from "./close-case";
 import { Transitions } from "./transitions";
+import { ToggleOpen } from "./toggle-open";
 import { ToggleEnable } from "./toggle-enable";
 
 const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const i18n = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
-  const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [transitionType, setTransitionType] = useState("");
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
 
   const enableState =
     record && record.get("record_state") ? "disable" : "enable";
+
+  const openState =
+    record && record.get("status") === "open" ? "closed" : "open";
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -38,14 +39,6 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
 
   const handleReopenDialogClose = () => {
     setOpenReopenDialog(false);
-  };
-
-  const handleCloseDialogOpen = () => {
-    setOpenCloseDialog(true);
-  };
-
-  const handleCloseDialogClose = () => {
-    setOpenCloseDialog(false);
   };
 
   const handleEnableDialogOpen = () => {
@@ -103,26 +96,10 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
       recordType: "cases"
     },
     {
-      name: i18n.t("actions.reopen"),
+      name: i18n.t(`actions.${openState}`),
       action: handleReopenDialogOpen,
       recordType: "all",
-      condition:
-        mode &&
-        mode.isShow &&
-        typeof record.find((r, index) => {
-          return index === "status" && r === "closed";
-        }) !== "undefined"
-    },
-    {
-      name: i18n.t("actions.close"),
-      action: handleCloseDialogOpen,
-      recordType: "all",
-      condition:
-        mode &&
-        mode.isShow &&
-        typeof record.find((r, index) => {
-          return index === "status" && r === "open";
-        }) !== "undefined"
+      condition: mode && mode.isShow
     },
     {
       name: i18n.t(`actions.${enableState}`),
@@ -173,15 +150,9 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
           ))}
       </Menu>
 
-      <Reopen
+      <ToggleOpen
         close={handleReopenDialogClose}
         openReopenDialog={openReopenDialog}
-        record={record}
-        recordType={recordType}
-      />
-      <CloseCase
-        close={handleCloseDialogClose}
-        openCloseCaseDialog={openCloseDialog}
         record={record}
         recordType={recordType}
       />
