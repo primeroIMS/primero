@@ -73,7 +73,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
           },
           disableFuture:
             rest.field &&
-            rest.field.get("date_validation") === "default_date_validation",
+            rest.field.get("date_validation") === "not_future_date",
           error: !!(fieldError && fieldTouched)
         };
 
