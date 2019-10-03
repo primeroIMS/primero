@@ -10,6 +10,7 @@ import omitBy from "lodash/omitBy";
 
 const DateField = ({ name, helperText, mode, formik, ...rest }) => {
   const i18n = useI18n();
+  const allowedDefaultValues = ["TODAY", "NOW"];
 
   const {
     visible,
@@ -35,8 +36,9 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
     if (value) {
       dateValue = value;
     } else if (
-      ["TODAY", "NOW"].includes(selectedValue.toUpperCase()) &&
-      mode.isNew
+      !value &&
+      allowedDefaultValues.includes(selectedValue.toUpperCase()) &&
+      !mode.isShow
     ) {
       dateValue = new Date();
     }
