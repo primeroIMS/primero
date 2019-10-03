@@ -29,3 +29,6 @@ export const RECORD_TYPES = {
   tracing_requests: "tracing_request",
   incidents: "incident"
 };
+
+// Max Age allowed in age ranges
+export const AGE_MAX = 999;
