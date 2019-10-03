@@ -12,7 +12,7 @@ module Api::V2::Concerns
       params.permit!
       search_filters = SearchFilterService.build_filters(params, @permitted_field_names)
       search = SearchService.search(
-        model_class, search_filters, current_user.record_query_scope(model_class), params[:query],
+        model_class, search_filters, current_user.record_query_scope(model_class, params[:id_search]), params[:query],
         sort_order, pagination)
       @records = search.results
       @total = search.total

@@ -9,9 +9,12 @@ class SearchService
       if query_scope.present?
         if query_scope.is_a?(User)
           with(:associated_user_names, query_scope.user_name)
-        elsif query_scope.is_a?(Array)
-          group_ids = query_scope.map(&:id).compact
-          with(:owned_by_groups).any_of(group_ids)
+        elsif query_scope.is_a?(Hash)
+          if query_scope[Permission::AGENCY].present?
+            with(:associated_user_agencies, query_scope[Permission::AGENCY])
+          else
+            with(:associated_user_groups, query_scope[Permission::GROUP])
+          end
         end
       end
 

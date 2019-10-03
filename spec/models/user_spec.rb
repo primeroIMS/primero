@@ -796,4 +796,214 @@ describe User do
       end
     end
   end
+
+  describe 'update user_groups in the cases where the user is assigned', search: true do
+    before do
+      [
+        PrimeroProgram,
+        PrimeroModule,
+        Role,
+        FormSection,
+        Agency,
+        UserGroup,
+        User,
+        Child
+      ].each(&:destroy_all)
+
+      Sunspot.setup(Child) do
+        string 'associated_user_groups',  multiple: true
+      end
+
+      @program = PrimeroProgram.create!(
+        unique_id: "primeroprogram-primero",
+        name: "Primero",
+        description: "Default Primero Program"
+      )
+
+      @form_section = FormSection.create!(
+        unique_id: 'test_form',
+        name: "Test Form",
+        fields: [
+          Field.new(name: 'national_id_no', type: 'text_field', display_name: 'National ID No'),
+        ]
+      )
+
+      @cp = PrimeroModule.create!(
+        unique_id: PrimeroModule::CP,
+        name: "CP",
+        description: "Child Protection",
+        associated_record_types: ["case", "tracing_request", "incident"],
+        primero_program: @program,
+        form_sections: [@form_section]
+      )
+
+      @role_admin = Role.create!(
+        name: 'Admin role',
+        unique_id: "role_admin",
+        group_permission: Permission::ALL,
+        form_sections: [@form_section],
+        permissions: [
+          Permission.new(
+            :resource => Permission::CASE,
+            :actions => [Permission::MANAGE]
+          )
+        ]
+      )
+
+      @agency_1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+      @agency_2 = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
+      @group_1 = UserGroup.create!(name: 'group 1')
+      @group_2 = UserGroup.create!(name: 'group 2')
+
+      @associated_user = User.create!(
+        full_name: 'User Test',
+        user_name: 'user_test',
+        password: 'a12345678',
+        password_confirmation: 'a12345678',
+        email: 'user_test@localhost.com',
+        agency_id: @agency_1.id,
+        role: @role_admin,
+        user_groups: [@group_1],
+        primero_modules: [@cp]
+      )
+
+      @current_user = User.create!(
+        full_name: "Admin User",
+        user_name: 'user_admin',
+        password: 'a12345678',
+        password_confirmation: 'a12345678',
+        email: "user_admin@localhost.com",
+        agency_id: @agency_1.id,
+        role: @role_admin,
+        user_groups: [@group_1],
+        primero_modules: [@cp]
+      )
+
+      @child_1 = Child.new_with_user(@current_user, { 
+                   name: 'Child 1', 
+                   assigned_user_names: [@associated_user.user_name] 
+                 })
+      @child_2 = Child.new_with_user(@current_user, { 
+                   name: 'Child 2',
+                   assigned_user_names: [@associated_user.user_name] 
+                 })
+      @child_3 = Child.new_with_user(@current_user, { name: 'Child 3' })
+      [@child_1, @child_2, @child_3].each(&:save!)
+      Sunspot.commit
+    end
+
+    it "should update the associated_user_groups of the records" do
+      @associated_user.user_groups = [@group_2]
+      @associated_user.save!
+      @child_1.reload
+      @child_2.reload
+      @child_3.reload
+      expect(@child_1.associated_user_groups).to include(@group_1.unique_id, @group_2.unique_id)
+      expect(@child_2.associated_user_groups).to include(@group_1.unique_id, @group_2.unique_id)
+      expect(@child_3.associated_user_groups).to include(@group_1.unique_id)
+    end
+  end
+
+  describe 'update agencies in the cases where the user is assigned', search: true do
+    before do
+      [
+        PrimeroProgram,
+        PrimeroModule,
+        Role,
+        FormSection,
+        Agency,
+        UserGroup,
+        User,
+        Child
+      ].each(&:destroy_all)
+
+      Sunspot.setup(Child) do
+        string 'associated_user_groups',  multiple: true
+      end
+
+      @program = PrimeroProgram.create!(
+        unique_id: "primeroprogram-primero",
+        name: "Primero",
+        description: "Default Primero Program"
+      )
+
+      @form_section = FormSection.create!(
+        unique_id: 'test_form',
+        name: "Test Form",
+        fields: [
+          Field.new(name: 'national_id_no', type: 'text_field', display_name: 'National ID No'),
+        ]
+      )
+
+      @cp = PrimeroModule.create!(
+        unique_id: PrimeroModule::CP,
+        name: "CP",
+        description: "Child Protection",
+        associated_record_types: ["case", "tracing_request", "incident"],
+        primero_program: @program,
+        form_sections: [@form_section]
+      )
+
+      @role_admin = Role.create!(
+        name: 'Admin role',
+        unique_id: "role_admin",
+        group_permission: Permission::ALL,
+        form_sections: [@form_section],
+        permissions: [
+          Permission.new(
+            :resource => Permission::CASE,
+            :actions => [Permission::MANAGE]
+          )
+        ]
+      )
+
+      @agency_1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+      @agency_2 = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
+
+      @associated_user = User.create!(
+        full_name: 'User Test',
+        user_name: 'user_test',
+        password: 'a12345678',
+        password_confirmation: 'a12345678',
+        email: 'user_test@localhost.com',
+        agency_id: @agency_1.id,
+        role: @role_admin,
+        primero_modules: [@cp]
+      )
+
+      @current_user = User.create!(
+        full_name: "Admin User",
+        user_name: 'user_admin',
+        password: 'a12345678',
+        password_confirmation: 'a12345678',
+        email: "user_admin@localhost.com",
+        agency_id: @agency_1.id,
+        role: @role_admin,
+        primero_modules: [@cp]
+      )
+
+      @child_1 = Child.new_with_user(@current_user, { 
+                   name: 'Child 1', 
+                   assigned_user_names: [@associated_user.user_name] 
+                 })
+      @child_2 = Child.new_with_user(@current_user, { 
+                   name: 'Child 2',
+                   assigned_user_names: [@associated_user.user_name] 
+                 })
+      @child_3 = Child.new_with_user(@current_user, { name: 'Child 3' })
+      [@child_1, @child_2, @child_3].each(&:save!)
+      Sunspot.commit
+    end
+
+    it "should update the associated_user_agencies of the records" do
+      @associated_user.agency = @agency_2
+      @associated_user.save!
+      @child_1.reload
+      @child_2.reload
+      @child_3.reload
+      expect(@child_1.associated_user_agencies).to include(@agency_1.unique_id, @agency_2.unique_id)
+      expect(@child_2.associated_user_agencies).to include(@agency_1.unique_id, @agency_2.unique_id)
+      expect(@child_3.associated_user_agencies).to include(@agency_1.unique_id)
+    end
+  end
 end

@@ -1,6 +1,6 @@
 class SearchFilterService
 
-  EXCLUDED = %w(format controller action page per order order_by fields)
+  EXCLUDED = %w(format controller action page per order order_by fields id_search)
 
   def self.build_filters(params, permitted_field_names)
     service = SearchFilterService.new

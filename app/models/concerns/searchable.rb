@@ -187,7 +187,7 @@ module Searchable
     def searchable_string_fields
       %w(unique_identifier short_id created_by created_by_full_name
          last_updated_by last_updated_by_full_name created_organization
-         owned_by_agency owned_by_location) +
+         owned_by_agency_id owned_by_location) +
       Field.all_filterable_field_names(self.parent_form)
     end
 
