@@ -281,6 +281,12 @@ en:
     close_dialog_title: 'Close Case'
     close_dialog: 'Clicking OK will change the status of this case to Closed'
     close_success: 'Successfully closed case'
+    enable_dialog_title: "Enable Case"
+    enable_dialog: 'Clicking OK will change the status of this case to Enabled'
+    enable_success: 'Successfully enabled case'
+    disable_dialog_title: "Disable Case"
+    disable_dialog: 'Clicking OK will change the status of this case to Disabled'
+    disable_success: 'Successfully disabled case'
 
     order_by:
       most_recently: "Most recently"
@@ -2008,6 +2014,8 @@ en:
     disable: "Disable"
     reopen: "Reopen"
     close: "Close"
+    enable: "Enable"
+    disable: "Disable"
     incident_details_from_case: "Add Incident"
     services_section_from_case: "Add Service Provision"
     description:

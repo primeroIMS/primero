@@ -6,6 +6,7 @@ import { useI18n } from "components/i18n";
 import { Reopen } from "./reopen";
 import { CloseCase } from "./close-case";
 import { Transitions } from "./transitions";
+import { ToggleEnable } from "./toggle-enable";
 
 const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const i18n = useI18n();
@@ -13,6 +14,10 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [transitionType, setTransitionType] = useState("");
+  const [openEnableDialog, setOpenEnableDialog] = useState(false);
+
+  const enableState =
+    record && record.get("record_state") ? "disable" : "enable";
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -41,6 +46,14 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
 
   const handleCloseDialogClose = () => {
     setOpenCloseDialog(false);
+  };
+
+  const handleEnableDialogOpen = () => {
+    setOpenEnableDialog(true);
+  };
+
+  const handleEnableDialogClose = () => {
+    setOpenEnableDialog(false);
   };
 
   const actions = [
@@ -110,6 +123,12 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
         typeof record.find((r, index) => {
           return index === "status" && r === "open";
         }) !== "undefined"
+    },
+    {
+      name: i18n.t(`actions.${enableState}`),
+      action: handleEnableDialogOpen,
+      recordType: "all",
+      condition: mode && mode.isShow
     }
   ];
 
@@ -170,6 +189,12 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
         transitionType={transitionType}
         record={record}
         setTransitionType={setTransitionType}
+      />
+      <ToggleEnable
+        close={handleEnableDialogClose}
+        openEnableDialog={openEnableDialog}
+        record={record}
+        recordType={recordType}
       />
     </>
   );
