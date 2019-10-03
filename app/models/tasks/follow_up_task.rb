@@ -22,6 +22,7 @@ module Tasks
     def initialize(record, followup)
       super(record)
       self.followup = followup
+      self.detail = followup['followup_type']
     end
 
     def due_date

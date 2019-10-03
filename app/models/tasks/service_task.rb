@@ -22,6 +22,7 @@ module Tasks
     def initialize(record, service)
       super(record)
       self.service = service
+      self.detail = service['service_type']
     end
 
     def due_date
