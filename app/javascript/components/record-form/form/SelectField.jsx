@@ -54,7 +54,7 @@ const SelectField = ({
 
   const selectedValue = field.selected_value;
 
-  const options = useSelector(state => getOption(state, option, i18n));
+  const options = useSelector(state => getOption(state, option, i18n.locale));
 
   const findOptionDisplayText = v =>
     (find(options, { id: v }) || {}).display_text;
