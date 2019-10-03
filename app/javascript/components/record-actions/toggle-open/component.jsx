@@ -9,7 +9,7 @@ const ToggleOpen = ({ close, openReopenDialog, record, recordType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const setValue =
-    record && record.get("status") === "open" ? "closed" : "open";
+    record && record.get("status") === "open" ? "close" : "reopen";
   const body =
     record && record.get("status") === "open"
       ? { data: { status: "closed" } }

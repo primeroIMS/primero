@@ -18,7 +18,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     record && record.get("record_state") ? "disable" : "enable";
 
   const openState =
-    record && record.get("status") === "open" ? "closed" : "open";
+    record && record.get("status") === "open" ? "close" : "reopen";
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);

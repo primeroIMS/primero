@@ -275,12 +275,12 @@ en:
     photos: "Photo"
     owned_by: 'Record Owner'
     owned_by_agency: 'Record Owner Agency'
-    open_dialog_title: "Reopen Case"
-    open_dialog: 'Clicking OK will change the status of this case to Open'
-    open_success: 'Successfully reopened case'
-    closed_dialog_title: 'Close Case'
-    closed_dialog: 'Clicking OK will change the status of this case to Closed'
-    closed_success: 'Successfully closed case'
+    reopen_dialog_title: "Reopen Case"
+    reopen_dialog: 'Clicking OK will change the status of this case to Open'
+    reopen_success: 'Successfully reopened case'
+    close_dialog_title: 'Close Case'
+    close_dialog: 'Clicking OK will change the status of this case to Closed'
+    close_success: 'Successfully closed case'
     enable_dialog_title: "Enable Case"
     enable_dialog: 'Clicking OK will change the status of this case to Enabled'
     enable_success: 'Successfully enabled case'
@@ -2012,8 +2012,8 @@ en:
     button: "Actions"
     enable: "Enable"
     disable: "Disable"
-    open: "Reopen"
-    closed: "Close"
+    reopen: "Reopen"
+    close: "Close"
     enable: "Enable"
     disable: "Disable"
     incident_details_from_case: "Add Incident"
