@@ -1388,6 +1388,17 @@ superuser_permissions = [
   Permission.new(
       :resource => Permission::MATCHING_CONFIGURATION,
       :actions => [Permission::MANAGE]
+  ),
+  #TODO: Remove later when we enabled login for cp users
+  Permission.new(
+    :resource => Permission::DASHBOARD,
+    :actions => [
+      # Permission::VIEW_APPROVALS,
+      # Permission::VIEW_RESPONSE,
+      # Permission::VIEW_ASSESSMENT,
+      # Permission::VIEW_PROTECTION_CONCERNS_FILTER,
+      Permission::DASH_TASKS
+    ]
   )
 ]
 
