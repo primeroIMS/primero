@@ -5,6 +5,7 @@ import { setupMountedComponent } from "test";
 import { Map } from "immutable";
 import { Reopen } from "components/record-actions/reopen";
 import { CloseCase } from "components/record-actions/close-case";
+import { Transitions } from "components/record-actions/transitions";
 import RecordActions from "./component";
 
 describe("<RecordActions /> - Component Reopen", () => {
@@ -36,5 +37,21 @@ describe("<RecordActions /> - Component CloseCase", () => {
 
   it("renders CloseCase", () => {
     expect(component.find(CloseCase)).to.have.length(1);
+  });
+});
+
+describe("<RecordActions /> - Component Transitions", () => {
+  let component;
+  const props = {
+    recordType: "cases",
+    mode: { isShow: true },
+    record: Map({ id: "open" })
+  };
+  before(() => {
+    component = setupMountedComponent(RecordActions, props).component;
+  });
+
+  it("renders Transitions", () => {
+    expect(component.find(Transitions)).to.have.length(1);
   });
 });
