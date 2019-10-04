@@ -1,16 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { useI18n } from "components/i18n";
+import { getPermissionsByRecord } from "components/user/selectors";
 import { Reopen } from "./reopen";
 import { CloseCase } from "./close-case";
+import { Transitions } from "./transitions";
+import { fetchAssignUsers } from "./transitions/action-creators";
 
 const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
+  const [transitionType, setTransitionType] = useState("");
+  const assignPermissions = [
+    "manage",
+    "assign",
+    "assign_within_user_group",
+    "assign_within_agency permissions"
+  ];
+
+  useEffect(() => {
+    dispatch(fetchAssignUsers(recordType));
+  }, []);
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -41,6 +57,16 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     setOpenCloseDialog(false);
   };
 
+  const userPermissions = useSelector(state =>
+    getPermissionsByRecord(state, recordType)
+  );
+
+  const transitionsProps = {
+    record,
+    transitionType,
+    setTransitionType
+  };
+
   const actions = [
     {
       name: i18n.t("buttons.import"),
@@ -69,8 +95,11 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     },
     {
       name: `${i18n.t("buttons.reassign")} ${recordType}`,
-      action: () => console.log("Some action"),
-      recordType: "cases"
+      action: () => setTransitionType("reassign"),
+      recordType: "cases",
+      condition: assignPermissions.some(x =>
+        userPermissions?.toJS()?.includes(x)
+      )
     },
     {
       name: `${i18n.t("buttons.transfer")} ${recordType}`,
@@ -164,6 +193,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
         record={record}
         recordType={recordType}
       />
+      <Transitions {...transitionsProps} />
     </>
   );
 };

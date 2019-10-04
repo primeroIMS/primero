@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import { Map, fromJS } from "immutable";
 import { mapObjectPropertiesToRecords, mapListToObject } from "libs";
 import { Actions } from "./actions";
@@ -39,7 +40,9 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         })
       );
     }
-
+    // case "ASSIGN_USERS_FETCH_SUCCESS":
+    //   debugger;
+    //   return state.setIn(["transitions", "assign", "data"], payload.data);
     default:
       return state;
   }
