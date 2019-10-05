@@ -55,8 +55,8 @@ export const mergeRecord = (record, payload) => {
     // Merge subforms
     if (List.isList(next) && next.some(s => s instanceof Map)) {
       const prevSubforms = prev.reduce(reduceSubformToMap, Map());
-      const nextSubform = next.reduce(reduceSubformToMap, Map());
-      return [...prevSubforms.mergeWith(mergeSubforms, nextSubform).values()];
+      const nextSubforms = next.reduce(reduceSubformToMap, Map());
+      return [...prevSubforms.mergeWith(mergeSubforms, nextSubforms).values()];
     }
 
     // Everything else
