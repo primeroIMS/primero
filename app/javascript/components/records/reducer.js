@@ -1,5 +1,5 @@
 import { fromJS, Map, List } from "immutable";
-import { mergeDeepArrays } from "libs";
+import { mergeRecord } from "../../libs";
 import * as Actions from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -22,8 +22,8 @@ export const reducers = namespace => (
             data.map(d => {
               const index = u.findIndex(r => r.get("id") === d.id);
 
-              if (index >= 0) {
-                return mergeDeepArrays(u.get(index), d);
+              if (index !== -1) {
+                return mergeRecord(u.get(index), fromJS(d));
               }
               return d;
             })
@@ -40,9 +40,9 @@ export const reducers = namespace => (
       const { data } = payload;
       const index = state.get("data").findIndex(r => r.get("id") === data.id);
 
-      if (index >= 0) {
+      if (index !== -1) {
         return state
-          .updateIn(["data", index], u => mergeDeepArrays(u, fromJS(data)))
+          .updateIn(["data", index], u => mergeRecord(u, fromJS(data)))
           .set("errors", false);
       }
 
