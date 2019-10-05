@@ -8,7 +8,7 @@ import { mergeRecord } from "./reducer-helpers";
 chai.use(chaiImmutable);
 
 describe("reducer-helpers", () => {
-  describe("mergeDeepArrays", () => {
+  describe("mergeRecord", () => {
     it("should merge deep object and update/concat arrays", () => {
       const payload = fromJS({
         last_name: "James",
