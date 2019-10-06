@@ -31,7 +31,8 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
     }
   };
 
-  const getDateValue = value => {
+  const getDateValue = (form, field) => {
+    const { value } = field;
     let dateValue = null;
     if (value) {
       dateValue = value;
@@ -42,6 +43,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
     ) {
       dateValue = new Date();
     }
+    form.setFieldValue(name, dateValue, true);
     return dateValue;
   };
 
@@ -55,7 +57,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
         const dateProps = {
           ...field,
           ...omitBy(rest, (v, k) => ["recordType", "recordID"].includes(k)),
-          value: getDateValue(field.value),
+          value: getDateValue(form, field),
           format: dateIncludeTime ? "dd-MMM-yyyy HH:mm" : "dd-MMM-yyyy",
           helperText:
             (fieldTouched && fieldError) ||
