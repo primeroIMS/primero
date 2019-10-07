@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { setupMountedComponent } from "test";
 import { Button } from "@material-ui/core";
 import { Formik, Field, Form } from "formik";
-import { CustomAutoComplete } from "components/searchable-select";
+import { SearchableSelect } from "components/searchable-select";
 import users from "../mocked-users";
 import ReassignForm from "./reassign-form";
 
@@ -25,8 +25,8 @@ describe("<ReassignForm />", () => {
     expect(component.find(Form)).to.have.length(1);
   });
 
-  it("renders CustomAutoComplete", () => {
-    expect(component.find(CustomAutoComplete)).to.have.length(1);
+  it("renders SearchableSelect", () => {
+    expect(component.find(SearchableSelect)).to.have.length(1);
   });
 
   it("renders Field", () => {

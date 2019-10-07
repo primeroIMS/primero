@@ -1,11 +1,10 @@
 import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
-import NoSsr from "@material-ui/core/NoSsr";
-import ReactSelect from "react-select";
-import CustomAutoComplete from "./component";
+import { CustomAutoComplete } from "./parts";
+import SearchableSelect from "./component";
 
-describe("<CustomAutoComplete />", () => {
+describe("<SearchableSelect />", () => {
   let component;
   const props = {
     id: "userAutocomplete",
@@ -18,15 +17,12 @@ describe("<CustomAutoComplete />", () => {
     },
     options: [{ label: "test", value: "Test Value" }]
   };
+
   beforeEach(() => {
-    ({ component } = setupMountedComponent(CustomAutoComplete, props));
+    ({ component } = setupMountedComponent(SearchableSelect, props));
   });
 
-  it("renders NoSsr", () => {
-    expect(component.find(NoSsr)).to.have.length(1);
-  });
-
-  it("renders ReactSelect", () => {
-    expect(component.find(ReactSelect)).to.have.length(1);
+  it("renders CustomAutoComplete", () => {
+    expect(component.find(CustomAutoComplete)).to.have.length(1);
   });
 });

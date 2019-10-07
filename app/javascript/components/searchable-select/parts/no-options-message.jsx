@@ -17,7 +17,7 @@ const NoOptionsMessage = props => {
 
 NoOptionsMessage.propTypes = {
   children: PropTypes.node,
-  innerProps: PropTypes.object.isRequired,
+  innerProps: PropTypes.object,
   selectProps: PropTypes.object.isRequired
 };
 

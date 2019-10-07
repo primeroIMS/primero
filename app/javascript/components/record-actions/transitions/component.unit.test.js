@@ -20,7 +20,7 @@ describe("<Transitions />", () => {
     name_last: "D",
     name: "W D"
   });
-  describe("Should render ReferralForm if transitionType is 'referral'", () => {
+  describe("when transitionType is 'referral'", () => {
     const props = {
       transitionType: "referral",
       record,
@@ -39,7 +39,7 @@ describe("<Transitions />", () => {
     });
   });
 
-  describe("Should render ReassignForm if transitionType is 'reassign'", () => {
+  describe("when transitionType is 'reassign'", () => {
     const props = {
       transitionType: "reassign",
       record
@@ -57,7 +57,7 @@ describe("<Transitions />", () => {
     });
   });
 
-  describe("Should render TransferForm if transitionType is 'transfer'", () => {
+  describe("when transitionType is 'transfer'", () => {
     const props = {
       transitionType: "transfer",
       record

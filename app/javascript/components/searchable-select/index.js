@@ -1,1 +1,1 @@
-export { default as CustomAutoComplete } from "./component";
+export { default as SearchableSelect } from "./component";

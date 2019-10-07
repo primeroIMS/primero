@@ -7,7 +7,7 @@ import { TextField } from "formik-material-ui";
 import { Box, Button } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/core/styles";
-import { CustomAutoComplete } from "components/searchable-select";
+import { SearchableSelect } from "components/searchable-select";
 import styles from "../styles.css";
 
 const initialValues = { user: "", notes: "" };
@@ -70,7 +70,7 @@ const ReassignForm = ({ users, handleClose }) => {
             name="user"
             render={({ field, form, ...other }) => {
               return (
-                <CustomAutoComplete
+                <SearchableSelect
                   onChange={data => {
                     const { value } = data;
                     form.setFieldValue(field.name, value, false);

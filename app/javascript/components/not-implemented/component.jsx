@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const NotImplemented = ({ text }) => {
   return (
     <div>
-      <p>{text || "Not Yet Implemented"}</p>
+      <p>*** NOT IMPLEMENTED {text} ***</p>
     </div>
   );
 };

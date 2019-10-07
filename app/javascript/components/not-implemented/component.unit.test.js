@@ -6,24 +6,26 @@ import NotImplemented from "./component";
 describe("<NotImplemented />", () => {
   let component;
 
-  describe("When not passing a custom text", () => {
+  describe("when not passing a custom text", () => {
     beforeEach(() => {
       ({ component } = setupMountedComponent(NotImplemented, {}));
     });
     it("renders default text", () => {
-      expect(component.find("p").text()).to.equals("Not Yet Implemented");
+      expect(component.find("p").text()).to.equals("*** NOT IMPLEMENTED  ***");
     });
   });
 
-  describe("When passing a custom text", () => {
+  describe("when passing a custom text", () => {
     beforeEach(() => {
       ({ component } = setupMountedComponent(NotImplemented, {
-        text: "Hello World"
+        text: "HelloWorld"
       }));
     });
 
     it("renders custom text", () => {
-      expect(component.find("p").text()).to.equals("Hello World");
+      expect(component.find("p").text()).to.equals(
+        "*** NOT IMPLEMENTED HelloWorld ***"
+      );
     });
   });
 });
