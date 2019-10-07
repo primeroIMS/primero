@@ -9,11 +9,11 @@ const ToggleEnable = ({ close, openEnableDialog, record, recordType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const enableState =
-    record && record.get("record_state") ? "disable" : "enable";
+    record && !record.get("record_state") ? "enable" : "disable";
   const setValue = record ? !record.get("record_state") : true;
 
   console.log(
-    "enableState",
+    "enableState::",
     record && record.get("record_state"),
     enableState,
     setValue
