@@ -1,4 +1,3 @@
-/* eslint-disable prefer-destructuring */
 import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
@@ -9,9 +8,10 @@ import {
   ReassignForm,
   TransferForm
 } from "./parts";
-import Transitions from "./container";
+import Transitions from "./component";
 
 describe("<Transitions />", () => {
+  let component;
   const record = Map({
     id: "03cdfdfe-a8fc-4147-b703-df976d200977",
     case_id: "1799d556-652c-4ad9-9b4c-525d487b5e7b",
@@ -20,15 +20,14 @@ describe("<Transitions />", () => {
     name_last: "D",
     name: "W D"
   });
-  describe("<Transitions /> - Should render ReferralForm if transitionType is 'referral'", () => {
-    let component;
+  describe("Should render ReferralForm if transitionType is 'referral'", () => {
     const props = {
       transitionType: "referral",
       record,
       setTransitionType: () => {}
     };
-    before(() => {
-      component = setupMountedComponent(Transitions, props).component;
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(Transitions, props));
     });
 
     it("renders TransitionDialog", () => {
@@ -40,14 +39,13 @@ describe("<Transitions />", () => {
     });
   });
 
-  describe("<Transitions /> - Should render ReassignForm if transitionType is 'reassign'", () => {
-    let component;
+  describe("Should render ReassignForm if transitionType is 'reassign'", () => {
     const props = {
       transitionType: "reassign",
       record
     };
-    before(() => {
-      component = setupMountedComponent(Transitions, props).component;
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(Transitions, props));
     });
 
     it("renders TransitionDialog", () => {
@@ -59,14 +57,13 @@ describe("<Transitions />", () => {
     });
   });
 
-  describe("<Transitions /> - Should render TransferForm if transitionType is 'transfer'", () => {
-    let component;
+  describe("Should render TransferForm if transitionType is 'transfer'", () => {
     const props = {
       transitionType: "transfer",
       record
     };
-    before(() => {
-      component = setupMountedComponent(Transitions, props).component;
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(Transitions, props));
     });
 
     it("renders TransitionDialog", () => {

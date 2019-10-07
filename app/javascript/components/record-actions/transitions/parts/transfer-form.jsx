@@ -1,7 +1,8 @@
 import React from "react";
+import { NotImplemented } from "components/not-implemented";
 
 const TransferForm = () => {
-  return <p> TransferForm </p>;
+  return <NotImplemented />;
 };
 
 export default TransferForm;

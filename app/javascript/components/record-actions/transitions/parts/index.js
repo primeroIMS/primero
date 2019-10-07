@@ -1,4 +1,4 @@
-export { default as TransitionDialog } from "./TransitionDialog";
-export { default as ReferralForm } from "./ReferralForm";
-export { default as ReassignForm } from "./ReassignForm";
-export { default as TransferForm } from "./TransferForm";
+export { default as TransitionDialog } from "./transition-dialog";
+export { default as ReferralForm } from "./referral-form";
+export { default as ReassignForm } from "./reassign-form";
+export { default as TransferForm } from "./transfer-form";
