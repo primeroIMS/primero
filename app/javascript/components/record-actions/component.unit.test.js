@@ -5,11 +5,13 @@ import { setupMountedComponent } from "test";
 import { Map } from "immutable";
 import { Reopen } from "components/record-actions/reopen";
 import { CloseCase } from "components/record-actions/close-case";
+import { Notes } from "components/record-actions/notes";
 import RecordActions from "./component";
 
 describe("<RecordActions /> - Component Reopen", () => {
   let component;
   const record = Map({ status: "closed" });
+
   before(() => {
     component = setupMountedComponent(RecordActions, {
       recordType: "cases",
@@ -23,8 +25,9 @@ describe("<RecordActions /> - Component Reopen", () => {
   });
 });
 
-describe("<RecordActions /> - Component CloseCase", () => {
+describe("<RecordActions /> - Component CloseCase, Notes", () => {
   let component;
+
   const record = Map({ status: "open" });
   before(() => {
     component = setupMountedComponent(RecordActions, {
@@ -36,5 +39,9 @@ describe("<RecordActions /> - Component CloseCase", () => {
 
   it("renders CloseCase", () => {
     expect(component.find(CloseCase)).to.have.length(1);
+  });
+
+  it("renders Notes", () => {
+    expect(component.find(Notes)).to.have.length(1);
   });
 });
