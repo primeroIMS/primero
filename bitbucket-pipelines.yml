@@ -26,3 +26,4 @@ pipelines:
       - step:
           script:
             - git push https://$primeroimstoken@github.com/primeroIMS/primero.git development_v2 --tags
+            - git push unicef@vs-ssh.visualstudio.com:v3/unicef/ICTD%20-%20Primero%20X%20DEV/primero development_v2 --tags
