@@ -29,4 +29,4 @@ if @extended
   )
 end
 
-json.merge! user_hash.compact
+json.merge! user_hash.compact_deep

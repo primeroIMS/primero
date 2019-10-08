@@ -5,7 +5,7 @@ json.merge!(
     else
       [attr, value]
     end
-  end.to_h.compact
+  end.to_h.compact_deep
 )
 record_access_denied = !current_user.can?(:read, transition.record)
 json.record_access_denied record_access_denied
