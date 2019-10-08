@@ -5,12 +5,14 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { useI18n } from "components/i18n";
 import { Reopen } from "./reopen";
 import { CloseCase } from "./close-case";
+import { Transitions } from "./transitions";
 
 const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const i18n = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
+  const [transitionType, setTransitionType] = useState("");
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -64,17 +66,17 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     },
     {
       name: `${i18n.t("buttons.referral")} ${recordType}`,
-      action: () => console.log("Some action"),
+      action: () => setTransitionType("referral"),
       recordType: "cases"
     },
     {
       name: `${i18n.t("buttons.reassign")} ${recordType}`,
-      action: () => console.log("Some action"),
+      action: () => setTransitionType("reassign"),
       recordType: "cases"
     },
     {
       name: `${i18n.t("buttons.transfer")} ${recordType}`,
-      action: () => console.log("Some action"),
+      action: () => setTransitionType("transfer"),
       recordType: "cases"
     },
     {
@@ -163,6 +165,11 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
         openCloseCaseDialog={openCloseDialog}
         record={record}
         recordType={recordType}
+      />
+      <Transitions
+        transitionType={transitionType}
+        record={record}
+        setTransitionType={setTransitionType}
       />
     </>
   );

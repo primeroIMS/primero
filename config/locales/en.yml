@@ -2185,6 +2185,7 @@ en:
     user_mandatory: "User name is required"
     no_records_selected: "No records selected"
     notes_label: "Notes"
+    users_label: "Recipient"
 
   transfer:
     type_label: "Type of Transfer"
