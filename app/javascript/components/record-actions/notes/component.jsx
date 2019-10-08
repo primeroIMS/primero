@@ -24,11 +24,17 @@ const Notes = ({ close, openNotesDialog }) => {
           autoFocus
           margin="dense"
           id="subject"
-          label="Subject"
+          label={i18n.t("cases.notes_form_subject")}
           type="text"
           fullWidth
         />
-        <TextField label="Notes" multiline rows={2} rowsMax={4} fullWidth />
+        <TextField
+          label={i18n.t("cases.notes_form_notes")}
+          multiline
+          rows={2}
+          rowsMax={4}
+          fullWidth
+        />
       </form>
     </ActionDialog>
   );
