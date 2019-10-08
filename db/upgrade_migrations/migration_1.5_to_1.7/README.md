@@ -133,17 +133,17 @@ Run the design migration
 - $ RAILS_ENV=production bundle exec rails db:migrate:design
 
 
-Run the update sequence number task
--------------------------------------------------------------------------
-- $ RAILS_ENV=production bundle exec rake couch_changes:prime_sequence_numbers
-
-
 Reindex solr (if you want to test the application with the migrated data)
 -------------------------------------------------------------------------
 Still as 'primero' user...
 
 - $ RAILS_ENV=production bundle exec rake sunspot:remove_all
 - $ RAILS_ENV=production bundle exec rake sunspot:reindex
+
+
+Run the update sequence number task
+-------------------------------------------------------------------------
+- $ RAILS_ENV=production bundle exec rake couch_changes:prime_sequence_numbers
 
 
 Restart couchdb and other system processes (just for good measure)
