@@ -22,7 +22,6 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "babel-polyfill": "^6.26.0",
     "babel-preset-react": "^6.24.1",
-    "canvas": "^2.5.0",
     "chart.js": "^2.8.0",
     "clsx": "^1.0.4",
     "connected-react-router": "^6.4.0",
@@ -76,6 +75,7 @@
     "yup": "^0.27.0"
   },
   "devDependencies": {
+    "canvas": "^2.5.0",
     "chai": "^4.2.0",
     "chai-immutable": "^1.6.0",
     "enzyme": "^3.9.0",
