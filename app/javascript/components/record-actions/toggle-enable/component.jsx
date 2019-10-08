@@ -12,13 +12,6 @@ const ToggleEnable = ({ close, openEnableDialog, record, recordType }) => {
     record && !record.get("record_state") ? "enable" : "disable";
   const setValue = record ? !record.get("record_state") : true;
 
-  console.log(
-    "enableState::",
-    record && record.get("record_state"),
-    enableState,
-    setValue
-  );
-
   const handleOk = () => {
     dispatch(
       saveRecord(
