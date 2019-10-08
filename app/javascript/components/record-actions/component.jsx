@@ -90,7 +90,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     },
     {
       name: `${i18n.t("buttons.referral")} ${recordType}`,
-      action: () => console.log("Some action"),
+      action: () => setTransitionType("referral"),
       recordType: "cases"
     },
     {
@@ -103,7 +103,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     },
     {
       name: `${i18n.t("buttons.transfer")} ${recordType}`,
-      action: () => console.log("Some action"),
+      action: () => setTransitionType("transfer"),
       recordType: "cases"
     },
     {

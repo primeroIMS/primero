@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import users from "./mocked-users";
 import {
   TransitionDialog,
   ReferralForm,
@@ -7,34 +8,44 @@ import {
   TransferForm
 } from "./parts";
 
-const Transitions = ({ transitionType, setTransitionType, record }) => {
+const Transitions = ({ transitionType, record, setTransitionType }) => {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (transitionType) {
+      setOpen(true);
+    }
+  });
+
   const handleClose = () => {
+    setOpen(false);
     setTransitionType("");
   };
 
   const transitionDialogProps = {
     record,
-    open: !!transitionType,
+    open,
     transitionType,
-    handleClose
-  };
-
-  const referralProps = {
-    handleClose
-  };
-
-  const reassignProps = {
-    recordType: "case",
-    record,
     handleClose
   };
 
   const renderTransitionForm = type => {
     switch (type) {
-      case "referral":
+      case "referral": {
+        const referralProps = {
+          setOpen,
+          handleClose
+        };
         return <ReferralForm {...referralProps} />;
-      case "reassign":
+      }
+      case "reassign": {
+        const reassignProps = {
+          setOpen,
+          handleClose,
+          users
+        };
         return <ReassignForm {...reassignProps} />;
+      }
       case "transfer":
         return <TransferForm />;
       default:
@@ -51,8 +62,8 @@ const Transitions = ({ transitionType, setTransitionType, record }) => {
 
 Transitions.propTypes = {
   transitionType: PropTypes.string,
-  setTransitionType: PropTypes.func,
-  record: PropTypes.object
+  record: PropTypes.object,
+  setTransitionType: PropTypes.func
 };
 
 export default Transitions;

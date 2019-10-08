@@ -1,0 +1,30 @@
+.modalTitle {
+  
+  & span {
+    font-size: $(theme.typography.pxToRem(17));
+    font-weight: bold;
+    color: #231e1f;
+  }
+
+  & button {
+    padding: 3px;
+    float: right;
+    color: #231e1f
+  }
+}
+
+.modalAction {
+  margin-top: 4em;
+
+  & button {
+    margin-right: 8px;
+  }
+}
+
+.modalActionButton {
+  box-shadow: none;
+}
+
+.autoCompleteOverflow {
+  overflow-y: visible;
+}
