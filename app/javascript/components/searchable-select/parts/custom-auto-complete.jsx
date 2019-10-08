@@ -3,6 +3,16 @@ import PropTypes from "prop-types";
 import { emphasize, makeStyles, useTheme } from "@material-ui/core/styles";
 import ReactSelect from "react-select";
 import NoSsr from "@material-ui/core/NoSsr";
+import {
+  NoOptionsMessage,
+  Control,
+  Option,
+  Placeholder,
+  SingleValue,
+  ValueContainer,
+  MultiValue,
+  Menu
+} from ".";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -58,10 +68,21 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CustomAutoComplete = ({ props, components }) => {
+const CustomAutoComplete = ({ props }) => {
   const classes = useStyles();
   const theme = useTheme();
   const { id } = props;
+
+  const components = {
+    Control,
+    Menu,
+    MultiValue,
+    NoOptionsMessage,
+    Option,
+    Placeholder,
+    SingleValue,
+    ValueContainer
+  };
 
   const selectStyles = {
     input: base => ({

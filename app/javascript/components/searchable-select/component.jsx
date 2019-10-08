@@ -1,29 +1,8 @@
 import React from "react";
-import {
-  NoOptionsMessage,
-  Control,
-  Option,
-  Placeholder,
-  SingleValue,
-  ValueContainer,
-  MultiValue,
-  Menu,
-  CustomAutoComplete
-} from "./parts";
-
-const components = {
-  Control,
-  Menu,
-  MultiValue,
-  NoOptionsMessage,
-  Option,
-  Placeholder,
-  SingleValue,
-  ValueContainer
-};
+import CustomAutoComplete from "./parts/custom-auto-complete";
 
 const SearchableSelect = props => {
-  return <CustomAutoComplete {...{ props, components }} />;
+  return <CustomAutoComplete {...{ props }} />;
 };
 
 export default SearchableSelect;

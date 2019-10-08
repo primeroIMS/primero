@@ -6,4 +6,3 @@ export { default as SingleValue } from "./single-value";
 export { default as ValueContainer } from "./value-container";
 export { default as MultiValue } from "./multi-value";
 export { default as Menu } from "./menu";
-export { default as CustomAutoComplete } from "./custom-auto-complete";

@@ -29,23 +29,23 @@ const Transitions = ({ transitionType, record, setTransitionType }) => {
     handleClose
   };
 
-  const referralProps = {
-    setOpen,
-    handleClose
-  };
-
-  const reassignProps = {
-    setOpen,
-    handleClose,
-    users
-  };
-
   const renderTransitionForm = type => {
     switch (type) {
-      case "referral":
+      case "referral": {
+        const referralProps = {
+          setOpen,
+          handleClose
+        };
         return <ReferralForm {...referralProps} />;
-      case "reassign":
+      }
+      case "reassign": {
+        const reassignProps = {
+          setOpen,
+          handleClose,
+          users
+        };
         return <ReassignForm {...reassignProps} />;
+      }
       case "transfer":
         return <TransferForm />;
       default:
