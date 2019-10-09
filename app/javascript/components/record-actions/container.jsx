@@ -3,8 +3,11 @@ import PropTypes from "prop-types";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { useI18n } from "components/i18n";
+import { getPermissionsByRecord } from "components/user/selectors";
+import { useSelector } from "react-redux";
 import { Reopen } from "./reopen";
 import { CloseCase } from "./close-case";
+import { Notes } from "./notes";
 import { Transitions } from "./transitions";
 
 const RecordActions = ({ recordType, iconColor, record, mode }) => {
@@ -12,7 +15,17 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
+  const [openNotesDialog, setOpenNotesDialog] = useState(false);
   const [transitionType, setTransitionType] = useState("");
+
+  const userPermissions = useSelector(state =>
+    getPermissionsByRecord(state, recordType)
+  );
+
+  const canAddNotes =
+    userPermissions.filter(permission => {
+      return ["manage", "add_note"].includes(permission);
+    }).size > 0;
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -41,6 +54,14 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
 
   const handleCloseDialogClose = () => {
     setOpenCloseDialog(false);
+  };
+
+  const handleNotesClose = () => {
+    setOpenNotesDialog(false);
+  };
+
+  const handleNotesOpen = () => {
+    setOpenNotesDialog(true);
   };
 
   const actions = [
@@ -110,6 +131,12 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
         typeof record.find((r, index) => {
           return index === "status" && r === "open";
         }) !== "undefined"
+    },
+    {
+      name: i18n.t("actions.notes"),
+      action: handleNotesOpen,
+      recordType: "all",
+      condition: canAddNotes
     }
   ];
 
@@ -166,6 +193,9 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
         record={record}
         recordType={recordType}
       />
+      {canAddNotes ? (
+        <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} />
+      ) : null}
       <Transitions
         transitionType={transitionType}
         record={record}
