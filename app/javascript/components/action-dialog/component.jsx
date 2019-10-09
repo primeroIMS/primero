@@ -25,9 +25,7 @@ const ActionDialog = ({
 }) => {
   const i18n = useI18n();
 
-  const handleClose = () => {
-    return cancelHandler ? cancelHandler() : onClose();
-  };
+  const handleClose = () => (cancelHandler ? cancelHandler() : onClose());
 
   const handleSuccess = () => {
     successHandler();
@@ -82,7 +80,7 @@ const ActionDialog = ({
         </DialogContent>
         <DialogActions>
           {cancelHandler ? (
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={cancelHandler} color="primary">
               {i18n.t("cancel")}
             </Button>
           ) : null}
