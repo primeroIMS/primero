@@ -1,9 +1,9 @@
 import { ENQUEUE_SNACKBAR } from "components/notifier";
-import * as Actions from "./actions";
+import * as actions from "./actions";
 
 export const fetchAssignUsers = recordType => async dispatch => {
   dispatch({
-    type: Actions.ASSIGN_USERS_FETCH,
+    type: actions.ASSIGN_USERS_FETCH,
     api: {
       path: "users/assign-to",
       params: {
@@ -13,9 +13,16 @@ export const fetchAssignUsers = recordType => async dispatch => {
   });
 };
 
-export const saveAssignedUser = (recordId, body, message) => async dispatch => {
-  await dispatch({
-    type: Actions.ASSIGN_USER_SAVE,
+export const removeFormErrors = payload => {
+  return {
+    type: actions.CLEAR_ERRORS,
+    payload
+  };
+};
+
+export const saveAssignedUser = (recordId, body, message) => dispatch => {
+  dispatch({
+    type: actions.ASSIGN_USER_SAVE,
     api: {
       path: `cases/${recordId}/assigns`,
       method: "POST",

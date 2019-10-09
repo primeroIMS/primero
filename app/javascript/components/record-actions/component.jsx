@@ -5,6 +5,7 @@ import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { useI18n } from "components/i18n";
 import { getPermissionsByRecord } from "components/user/selectors";
+import { RECORD_TYPES } from "config";
 import { Reopen } from "./reopen";
 import { CloseCase } from "./close-case";
 import { Transitions } from "./transitions";
@@ -25,7 +26,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
   ];
 
   useEffect(() => {
-    dispatch(fetchAssignUsers(recordType));
+    dispatch(fetchAssignUsers(RECORD_TYPES[recordType]));
   }, []);
 
   const handleClick = event => {
@@ -91,12 +92,12 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     {
       name: `${i18n.t("buttons.referral")} ${recordType}`,
       action: () => setTransitionType("referral"),
-      recordType: "cases"
+      recordType
     },
     {
       name: `${i18n.t("buttons.reassign")} ${recordType}`,
       action: () => setTransitionType("reassign"),
-      recordType: "cases",
+      recordType,
       condition: assignPermissions.some(x =>
         userPermissions?.toJS()?.includes(x)
       )
@@ -104,7 +105,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     {
       name: `${i18n.t("buttons.transfer")} ${recordType}`,
       action: () => setTransitionType("transfer"),
-      recordType: "cases"
+      recordType
     },
     {
       name: i18n.t("actions.incident_details_from_case"),

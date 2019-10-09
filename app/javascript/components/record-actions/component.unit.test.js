@@ -9,6 +9,13 @@ import RecordActions from "./component";
 
 describe("<RecordActions />", () => {
   let component;
+  const defaultState = Map({
+    user: Map({
+      permission: Map({
+        case: ["manage"]
+      })
+    })
+  });
   const props = {
     recordType: "cases",
     mode: { isShow: true },
@@ -18,10 +25,14 @@ describe("<RecordActions />", () => {
   describe("Component Reopen", () => {
     const record = Map({ status: "closed" });
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, {
-        ...props,
-        record
-      }));
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        {
+          ...props,
+          record
+        },
+        defaultState
+      ));
     });
     it("renders Reopen", () => {
       expect(component.find(Reopen)).to.have.length(1);
@@ -30,7 +41,11 @@ describe("<RecordActions />", () => {
 
   describe("Component CloseCase", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props));
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        props,
+        defaultState
+      ));
     });
 
     it("renders CloseCase", () => {
@@ -40,7 +55,11 @@ describe("<RecordActions />", () => {
 
   describe("Component Transitions", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props));
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        props,
+        defaultState
+      ));
     });
     it("renders Transitions", () => {
       expect(component.find(Transitions)).to.have.length(1);
