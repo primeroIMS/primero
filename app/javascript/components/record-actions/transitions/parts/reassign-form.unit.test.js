@@ -4,17 +4,25 @@ import { setupMountedComponent } from "test";
 import { Button } from "@material-ui/core";
 import { Formik, Field, Form } from "formik";
 import { SearchableSelect } from "components/searchable-select";
-import users from "../mocked-users";
+import { Map, List } from "immutable";
 import ReassignForm from "./reassign-form";
 
 describe("<ReassignForm />", () => {
   let component;
+  const record = Map({ id: "123abc" });
+  const initialState = Map({
+    transitions: Map({
+      reassign: Map({
+        users: List([{ user_name: "primero" }])
+      })
+    })
+  });
   const props = {
-    users,
+    record,
     handleClose: () => {}
   };
   beforeEach(() => {
-    ({ component } = setupMountedComponent(ReassignForm, props));
+    ({ component } = setupMountedComponent(ReassignForm, props, initialState));
   });
 
   it("renders Formik", () => {

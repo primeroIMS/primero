@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import users from "./mocked-users";
+import { useDispatch } from "react-redux";
+import { removeFormErrors } from "./action-creators";
 import {
   TransitionDialog,
   ReferralForm,
@@ -9,22 +10,16 @@ import {
 } from "./parts";
 
 const Transitions = ({ transitionType, record, setTransitionType }) => {
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (transitionType) {
-      setOpen(true);
-    }
-  });
+  const dispatch = useDispatch();
 
   const handleClose = () => {
-    setOpen(false);
     setTransitionType("");
+    dispatch(removeFormErrors(transitionType));
   };
 
   const transitionDialogProps = {
     record,
-    open,
+    open: !!transitionType,
     transitionType,
     handleClose
   };
@@ -33,16 +28,15 @@ const Transitions = ({ transitionType, record, setTransitionType }) => {
     switch (type) {
       case "referral": {
         const referralProps = {
-          setOpen,
           handleClose
         };
         return <ReferralForm {...referralProps} />;
       }
       case "reassign": {
         const reassignProps = {
-          setOpen,
-          handleClose,
-          users
+          recordType: "case",
+          record,
+          handleClose
         };
         return <ReassignForm {...reassignProps} />;
       }

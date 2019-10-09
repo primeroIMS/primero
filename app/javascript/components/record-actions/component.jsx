@@ -1,22 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { useI18n } from "components/i18n";
 import { getPermissionsByRecord } from "components/user/selectors";
-import { useSelector } from "react-redux";
+import { RECORD_TYPES } from "config";
 import { Reopen } from "./reopen";
 import { CloseCase } from "./close-case";
 import { Notes } from "./notes";
 import { Transitions } from "./transitions";
+import { fetchAssignUsers } from "./transitions/action-creators";
 
 const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [openNotesDialog, setOpenNotesDialog] = useState(false);
   const [transitionType, setTransitionType] = useState("");
+  const assignPermissions = [
+    "manage",
+    "assign",
+    "assign_within_user_group",
+    "assign_within_agency permissions"
+  ];
+
+  useEffect(() => {
+    dispatch(fetchAssignUsers(RECORD_TYPES[recordType]));
+  }, []);
 
   const userPermissions = useSelector(state =>
     getPermissionsByRecord(state, recordType)
@@ -56,6 +69,12 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     setOpenCloseDialog(false);
   };
 
+  const transitionsProps = {
+    record,
+    transitionType,
+    setTransitionType
+  };
+
   const handleNotesClose = () => {
     setOpenNotesDialog(false);
   };
@@ -88,17 +107,20 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     {
       name: `${i18n.t("buttons.referral")} ${recordType}`,
       action: () => setTransitionType("referral"),
-      recordType: "cases"
+      recordType
     },
     {
       name: `${i18n.t("buttons.reassign")} ${recordType}`,
       action: () => setTransitionType("reassign"),
-      recordType: "cases"
+      recordType,
+      condition: assignPermissions.some(x =>
+        userPermissions?.toJS()?.includes(x)
+      )
     },
     {
       name: `${i18n.t("buttons.transfer")} ${recordType}`,
       action: () => setTransitionType("transfer"),
-      recordType: "cases"
+      recordType
     },
     {
       name: i18n.t("actions.incident_details_from_case"),
@@ -193,14 +215,11 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
         record={record}
         recordType={recordType}
       />
+      <Transitions {...transitionsProps} />
+
       {canAddNotes ? (
         <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} />
       ) : null}
-      <Transitions
-        transitionType={transitionType}
-        record={record}
-        setTransitionType={setTransitionType}
-      />
     </>
   );
 };

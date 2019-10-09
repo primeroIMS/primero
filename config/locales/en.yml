@@ -2190,6 +2190,8 @@ en:
     no_records_selected: "No records selected"
     notes_label: "Notes"
     users_label: "Recipient"
+    user_mandatory_label: "Recipient is required"
+    successfully: "Successfully reassigned"
 
   transfer:
     type_label: "Type of Transfer"

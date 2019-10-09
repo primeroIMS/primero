@@ -12,6 +12,13 @@ import Transitions from "./component";
 
 describe("<Transitions />", () => {
   let component;
+  const initialState = Map({
+    transitions: Map({
+      reassign: Map({
+        users: [{ user_name: "primero" }]
+      })
+    })
+  });
   const record = Map({
     id: "03cdfdfe-a8fc-4147-b703-df976d200977",
     case_id: "1799d556-652c-4ad9-9b4c-525d487b5e7b",
@@ -45,7 +52,7 @@ describe("<Transitions />", () => {
       record
     };
     beforeEach(() => {
-      ({ component } = setupMountedComponent(Transitions, props));
+      ({ component } = setupMountedComponent(Transitions, props, initialState));
     });
 
     it("renders TransitionDialog", () => {

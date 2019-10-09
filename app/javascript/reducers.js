@@ -21,6 +21,7 @@ import * as Notifier from "./components/notifier";
 import * as User from "./components/user";
 import * as Application from "./components/application";
 import * as Records from "./components/records";
+import * as Transitions from "./components/record-actions/transitions";
 
 const rootReducer = {
   records: combineReducers({
@@ -48,6 +49,7 @@ const rootReducer = {
     ...Login.reducers
   }),
   ...User.reducers,
+  ...Transitions.reducers,
   ...RecordForms.reducers,
   ...Notifier.reducers,
   ...Application.reducers
