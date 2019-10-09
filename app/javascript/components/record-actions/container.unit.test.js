@@ -6,7 +6,7 @@ import { Reopen } from "components/record-actions/reopen";
 import { CloseCase } from "components/record-actions/close-case";
 import { Notes } from "components/record-actions/notes";
 import { Transitions } from "components/record-actions/transitions";
-import RecordActions from "./component";
+import RecordActions from "./container";
 
 describe("<RecordActions />", () => {
   let component;
