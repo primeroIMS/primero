@@ -45,7 +45,7 @@ const ReassignForm = ({ handleClose, record }) => {
     } else if (!isUndefined && _.isEmpty(hasErrors)) {
       closeModal();
     }
-  }, [closeModal, dispatch, hasErrors, i18n]);
+  }, [hasErrors]);
 
   const validationSchema = Yup.object().shape({
     transitioned_to: Yup.string().required(
