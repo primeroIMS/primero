@@ -45,7 +45,7 @@ const ReassignForm = ({ handleClose, record }) => {
     } else if (!isUndefined && _.isEmpty(hasErrors)) {
       closeModal();
     }
-  }, [hasErrors]);
+  }, [closeModal, dispatch, hasErrors, i18n]);
 
   const validationSchema = Yup.object().shape({
     transitioned_to: Yup.string().required(
@@ -72,12 +72,12 @@ const ReassignForm = ({ handleClose, record }) => {
         shrink: true
       }
     },
-    options:
-      users &&
-      users.map(user => ({
-        value: user.user_name.toLowerCase(),
-        label: user.user_name
-      }))
+    options: users
+      ? users.map(user => ({
+          value: user.user_name.toLowerCase(),
+          label: user.user_name
+        }))
+      : null
   };
 
   const handleAssign = (values, { setSubmitting }) => {

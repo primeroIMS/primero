@@ -1,7 +1,6 @@
 import "test/test.setup";
 import chai, { expect } from "chai";
-import { Map, List } from "immutable";
-import users from "./mocked-users";
+import { Map } from "immutable";
 import chaiImmutable from "chai-immutable";
 
 import * as selectors from "./selectors";
@@ -23,7 +22,7 @@ describe("<Transitions /> - Selectors", () => {
     it("should return list of users allowed to reassign", () => {
       const expected = [{ label: "primero_cp", value: "primero_cp" }];
       const values = selectors.getAssignUsers(stateWithRecords);
-      expect(values).to.eql(expected);
+      expect(values).to.deep.equal(expected);
     });
 
     it("should return false when there are not users in store", () => {
@@ -39,7 +38,7 @@ describe("<Transitions /> - Selectors", () => {
         stateWithRecords,
         "reassign"
       );
-      expect(values).to.eql(expected);
+      expect(values).to.deep.equal(expected);
     });
 
     it("should return undefined when there are not messages in store", () => {
