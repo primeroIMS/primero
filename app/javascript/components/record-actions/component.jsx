@@ -8,6 +8,7 @@ import { getPermissionsByRecord } from "components/user/selectors";
 import { RECORD_TYPES } from "config";
 import { Reopen } from "./reopen";
 import { CloseCase } from "./close-case";
+import { Notes } from "./notes";
 import { Transitions } from "./transitions";
 import { fetchAssignUsers } from "./transitions/action-creators";
 
@@ -17,6 +18,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
+  const [openNotesDialog, setOpenNotesDialog] = useState(false);
   const [transitionType, setTransitionType] = useState("");
   const assignPermissions = [
     "manage",
@@ -28,6 +30,15 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
   useEffect(() => {
     dispatch(fetchAssignUsers(RECORD_TYPES[recordType]));
   }, []);
+
+  const userPermissions = useSelector(state =>
+    getPermissionsByRecord(state, recordType)
+  );
+
+  const canAddNotes =
+    userPermissions.filter(permission => {
+      return ["manage", "add_note"].includes(permission);
+    }).size > 0;
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -58,14 +69,18 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     setOpenCloseDialog(false);
   };
 
-  const userPermissions = useSelector(state =>
-    getPermissionsByRecord(state, recordType)
-  );
-
   const transitionsProps = {
     record,
     transitionType,
     setTransitionType
+  };
+
+  const handleNotesClose = () => {
+    setOpenNotesDialog(false);
+  };
+
+  const handleNotesOpen = () => {
+    setOpenNotesDialog(true);
   };
 
   const actions = [
@@ -138,6 +153,12 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
         typeof record.find((r, index) => {
           return index === "status" && r === "open";
         }) !== "undefined"
+    },
+    {
+      name: i18n.t("actions.notes"),
+      action: handleNotesOpen,
+      recordType: "all",
+      condition: canAddNotes
     }
   ];
 
@@ -195,6 +216,10 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
         recordType={recordType}
       />
       <Transitions {...transitionsProps} />
+
+      {canAddNotes ? (
+        <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} />
+      ) : null}
     </>
   );
 };
