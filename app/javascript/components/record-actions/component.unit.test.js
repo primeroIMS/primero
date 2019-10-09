@@ -19,10 +19,20 @@ describe("<RecordActions />", () => {
   describe("Component Reopen", () => {
     const record = Map({ status: "closed" });
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, {
-        ...props,
-        record
-      }));
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        {
+          ...props,
+          record
+        },
+        Map({
+          user: Map({
+            permissions: Map({
+              cases: Map({ manage: "manage" })
+            })
+          })
+        })
+      ));
     });
     it("renders Reopen", () => {
       expect(component.find(Reopen)).to.have.length(1);
@@ -31,7 +41,17 @@ describe("<RecordActions />", () => {
 
   describe("Component CloseCase", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props));
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        props,
+        Map({
+          user: Map({
+            permissions: Map({
+              cases: Map({ manage: "manage" })
+            })
+          })
+        })
+      ));
     });
 
     it("renders CloseCase", () => {
@@ -41,7 +61,17 @@ describe("<RecordActions />", () => {
 
   describe("Component Transitions", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props));
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        props,
+        Map({
+          user: Map({
+            permissions: Map({
+              cases: Map({ manage: "manage" })
+            })
+          })
+        })
+      ));
     });
     it("renders Transitions", () => {
       expect(component.find(Transitions)).to.have.length(1);
@@ -50,10 +80,20 @@ describe("<RecordActions />", () => {
 
   describe("Component Notes", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props));
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        props,
+        Map({
+          user: Map({
+            permissions: Map({
+              cases: Map({ manage: "manage" })
+            })
+          })
+        })
+      ));
     });
     it("renders Notes", () => {
       expect(component.find(Notes)).to.have.length(1);
     });
+  });
 });
-

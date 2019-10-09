@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { useI18n } from "components/i18n";
+import { getPermissionsByRecord } from "components/user/selectors";
+import { useSelector } from "react-redux";
 import { Reopen } from "./reopen";
 import { CloseCase } from "./close-case";
 import { Notes } from "./notes";
@@ -15,6 +17,15 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
   const [openNotesDialog, setOpenNotesDialog] = useState(false);
   const [transitionType, setTransitionType] = useState("");
+
+  const userPermissions = useSelector(state =>
+    getPermissionsByRecord(state, recordType)
+  );
+
+  const canAddNotes =
+    userPermissions.filter(permission => {
+      return ["manage", "add_note"].includes(permission);
+    }).size > 0;
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -124,7 +135,8 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     {
       name: i18n.t("actions.notes"),
       action: handleNotesOpen,
-      recordType: "all"
+      recordType: "all",
+      condition: canAddNotes
     }
   ];
 
@@ -181,7 +193,9 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
         record={record}
         recordType={recordType}
       />
-      <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} />
+      {canAddNotes ? (
+        <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} />
+      ) : null}
       <Transitions
         transitionType={transitionType}
         record={record}
