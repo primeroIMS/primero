@@ -151,7 +151,10 @@ module Exporters
           # TODO: RENAME Child to Case like we should have done months ago
           model_type = {'Child' => 'Case'}.fetch(m.class.name, m.class.name)
           row = [m.id, model_type] + emit_columns.call(properties) do |prop_tree|
-            if (m.try(:hidden_name) && prop_tree.present? && m.class.try(:hidden_field_names).include?(prop_tree.first.name))
+            #TODO - is there a better way?  how are other exporters handling this?
+            #TODO - RON
+            #TODO - do i need to handle hide on view page? or is that handled somewhere else?
+            if (m.try(:hidden_name) && prop_tree.present? && prop_tree.first.options[:hidden_text_field])
               ""
             else
               translate_value(prop_tree, get_value_from_prop_tree(m, prop_tree))
@@ -200,9 +203,14 @@ module Exporters
       end
 
       def get_model_value(model, property)
+        #TODO - RON...
+        #TODO why aren't more exports using this???
+        #TODO handle 'hide_on_view_page'
         exclude_name_mime_types = ['xls', 'csv', 'selected_xls']
         if property.name == 'name' && model.try(:module_id) == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
           "*****"
+        elsif  model.try(:hidden_name) && property.options[:hidden_text_field]
+          ""
         else
           value = model.send(property.name)
           translate_value(property.name, value)

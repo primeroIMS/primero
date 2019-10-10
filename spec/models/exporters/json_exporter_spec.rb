@@ -73,6 +73,7 @@ module Exporters
       @child_properties = Child.properties.select {|p| ['name'].include?(p.name) }
     end
 
+    #TODO - Fix... RON   Need to create form sections
     it "should be not return name" do
       @child.hidden_name = true
       hash = @exporter.convert_model_to_hash(@child, @child_properties)

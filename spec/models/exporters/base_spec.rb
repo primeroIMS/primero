@@ -120,6 +120,7 @@ module Exporters
         @child = build(:child, name: 'Test name')
       end
 
+      #TODO RON... Fix
       it "should be not return name" do
         @child.hidden_name = true
         arr = []

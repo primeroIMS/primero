@@ -13,7 +13,7 @@ module Exporters
       end
     end
 
-    def export(models, properties, *args)
+    def export(models, properties, current_user, *args)
       self.class.load_fields(models.first) if models.present?
       props = CSVExporter.properties_to_export(properties)
       csv_export = CSV.generate do |rows|
