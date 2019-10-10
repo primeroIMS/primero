@@ -287,6 +287,9 @@ en:
     disable_dialog_title: "Disable Case"
     disable_dialog: 'Clicking OK will change the status of this case to Disabled'
     disable_success: 'Successfully disabled case'
+    notes_dialog_title: 'Add Notes'
+    notes_form_subject: 'Subject'
+    notes_form_notes: 'Notes'
 
     order_by:
       most_recently: "Most recently"
@@ -2016,6 +2019,7 @@ en:
     close: "Close"
     enable: "Enable"
     disable: "Disable"
+    notes: "Add Notes"
     incident_details_from_case: "Add Incident"
     services_section_from_case: "Add Service Provision"
     description:
@@ -2194,6 +2198,8 @@ en:
     no_records_selected: "No records selected"
     notes_label: "Notes"
     users_label: "Recipient"
+    user_mandatory_label: "Recipient is required"
+    successfully: "Successfully reassigned"
 
   transfer:
     type_label: "Type of Transfer"

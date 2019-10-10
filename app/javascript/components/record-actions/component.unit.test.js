@@ -9,6 +9,13 @@ import RecordActions from "./component";
 
 describe("<RecordActions />", () => {
   let component;
+  const defaultState = Map({
+    user: Map({
+      permission: Map({
+        case: ["manage"]
+      })
+    })
+  });
   const props = {
     recordType: "cases",
     mode: { isShow: true },
@@ -17,7 +24,14 @@ describe("<RecordActions />", () => {
 
   describe("Component ToggleOpen", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props));
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        {
+          ...props,
+          record
+        },
+        defaultState
+      ));
     });
 
     it("renders ToggleOpen", () => {
@@ -27,7 +41,11 @@ describe("<RecordActions />", () => {
 
   describe("Component ToggleEnable", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props));
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        props,
+        defaultState
+      ));
     });
 
     it("renders ToggleEnable", () => {
@@ -37,7 +55,11 @@ describe("<RecordActions />", () => {
 
   describe("Component Transitions", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(RecordActions, props));
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        props,
+        defaultState
+      ));
     });
     it("renders Transitions", () => {
       expect(component.find(Transitions)).to.have.length(1);
