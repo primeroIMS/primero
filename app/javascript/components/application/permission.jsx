@@ -16,14 +16,17 @@ const Permission = ({
   const { recordType } = params;
   const type = permissionType || recordType;
   const dispatch = useDispatch();
-
   const userPermissions = useSelector(state =>
     getPermissionsByRecord(state, type)
   );
+
+  if (PERMITTED_URL.includes(url)) {
+    return children;
+  }
   const userHasPermission =
     userPermissions && userPermissions.toJS().some(t => permission.includes(t));
 
-  if (PERMITTED_URL.includes(url) || userHasPermission) {
+  if (userHasPermission) {
     return children;
   }
 
@@ -40,7 +43,7 @@ Permission.propTypes = {
   permission: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
     .isRequired,
   permissionType: PropTypes.string,
-  redirect: PropTypes.bool,
+  redirect: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
   match: PropTypes.object.isRequired
 };
