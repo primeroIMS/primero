@@ -15,6 +15,23 @@ default_changes = [
     {form: 'other_reportable_fields_tracing_request', field: 'record_state', value: true}
 ]
 
+form_groups_id = {
+    "الاكتشاف/ الاستقبال" => "identification_registration",
+    "تخطيط الاستجابة"=> "response_planning",
+    "تفاصيل مقدم الخدمة"=> "service_provider_details",
+    "مرفقات"=> "attachments",
+    "الإحالات والتحويلات"=> "referral_transfer",
+    "معلومات السجل"=> "record_owner",
+    "ملاحظات"=> "notes",
+    "الموافقة"=> "consent",
+    "إغلاق ملف الحالة "=> "closure_form",
+    "الموافقات"=> "approvals",
+    "تفاصيل المسيء"=> "cp_offender_details",
+    "التفاصيل المتعلقة بالفرد"=> "cp_individual_details",
+    "الحادثة"=> "cp_incident_form",
+    "سجل الحالة"=> "cp_incident_record_owner"
+}
+
 field_localized_properties = Field.localized_properties.map(&:to_s)
 form_localized_properties = FormSection.localized_properties.map(&:to_s)
 
@@ -44,6 +61,7 @@ FormSection.all.rows.map {|r| FormSection.database.get(r["id"]) }.each do |fs|
     field_localized_properties.each {|p| MigrationHelper.discard_locales(field, p)}
   end
 
+  fs['form_group_id'] = form_groups_id[fs['form_group_name']] if form_groups_id[fs['form_group_name']].present?
   #Remove all the stuff related to locales that are not part of the configured locales for this system
   form_localized_properties.each {|p| MigrationHelper.discard_locales(fs, p)}
 
