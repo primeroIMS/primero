@@ -64,6 +64,7 @@ const ReassignForm = ({ handleClose, record }) => {
 
   const searchableSelectProps = {
     id: "transitioned_to",
+    isDisabled: true,
     name: "transitioned_to",
     TextFieldProps: {
       label: i18n.t("reassign.users_label"),
