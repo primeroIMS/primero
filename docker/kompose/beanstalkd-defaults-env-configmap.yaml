@@ -1,0 +1,52 @@
+apiVersion: v1
+data:
+  APP_ROOT: /srv/primero/application
+  APP_SHARE_BUILD_ID_PATH: /share/public/build-id
+  APP_SHARE_DIR: /share/public
+  BEANSTALK_URL: beanstalk://beanstalkd:11300
+  LOCALE_ALL: "'en', 'fr', 'ar'"
+  LOCALE_DEFAULT: en
+  LOCKFILE_PATH: /share/public/prim-lockfile
+  NGINX_CLIENT_BODY_BUFFER_SIZE: 256k
+  NGINX_CLIENT_MAX_BODY_SIZE: 50M
+  NGINX_CURRENT_PATH: /srv/primero/application
+  NGINX_DH_PARAM: /certs/dhparam.pem
+  NGINX_HTTP_PORT: "80"
+  NGINX_HTTPS_PORT: "443"
+  NGINX_KEEPALIVE_TIMEOUT: "60"
+  NGINX_LOG_ACCESS: access.log
+  NGINX_LOG_DIR: /var/log/nginx
+  NGINX_LOG_ERROR: error.log
+  NGINX_PROXY_PASS_URL: http://application:3000
+  NGINX_SERVER_HOST: localhost
+  NGINX_SERVER_NAME: localhost
+  NGINX_SSL_CERT_PATH: /certs/cert.pem
+  NGINX_SSL_KEY_PATH: /certs/key.pem
+  NGINX_TIMER_RESOLUTION: 500ms
+  NGINX_WORKER_CONNECTIONS: "1536"
+  NGINX_WORKER_PRIORITY: "-10"
+  NGINX_WORKER_PROCESSES: auto
+  NGINX_WORKER_RLIMIT_NOFILE: "1536"
+  POSTGRES_DATABASE: primero_production
+  POSTGRES_HOSTNAME: postgres
+  POSTGRES_POOL_NUM: "10"
+  POSTGRES_USER: primero
+  PROXY_CONNECT_TIMEOUT: 30m
+  PROXY_READ_TIMEOUT: 30m
+  PROXY_SEND_TIMEOUT: 30m
+  QUEUE: mailer,export,options
+  RAILS_ENV: production
+  RAILS_LOG_PATH: /srv/primero/application/log/primero
+  RAILS_SCHEDULER_LOG_DIR: /srv/primero/application/log/scheduler
+  SOLR_HEAP_MEMORY: 512m
+  SOLR_HOSTNAME: solr
+  SOLR_LOG_LEVEL: ERROR
+  SOLR_LOGS_DIR: log/solr
+  SOLR_PORT: "8983"
+  USE_LETS_ENCRYPT: "false"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: beanstalkd-defaults-env
+  name: beanstalkd-defaults-env

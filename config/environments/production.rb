@@ -36,6 +36,8 @@ Rails.application.configure do
 
   config.log_level = :debug
 
+  config.public_file_server.enabled = ENV['RAILS_PUBLIC_FILE_SERVER'] == 'true'
+
   # WARNING **
   # NEVER UNSET THIS OR YOU WILL BREAK THINGS!
   # config.force_ssl = true

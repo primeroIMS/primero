@@ -1,0 +1,313 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.local.yml
+      -o kompose/
+    kompose.version: 1.18.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: nginx
+  name: nginx
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: nginx
+    spec:
+      containers:
+      - env:
+        - name: APP_ROOT
+          valueFrom:
+            configMapKeyRef:
+              key: APP_ROOT
+              name: nginx-defaults-env
+        - name: APP_SHARE_BUILD_ID_PATH
+          valueFrom:
+            configMapKeyRef:
+              key: APP_SHARE_BUILD_ID_PATH
+              name: nginx-defaults-env
+        - name: APP_SHARE_DIR
+          valueFrom:
+            configMapKeyRef:
+              key: APP_SHARE_DIR
+              name: nginx-defaults-env
+        - name: BEANSTALK_URL
+          valueFrom:
+            configMapKeyRef:
+              key: BEANSTALK_URL
+              name: nginx-defaults-env
+        - name: DEVISE_JWT_SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: DEVISE_JWT_SECRET_KEY
+              name: nginx-local-env
+        - name: DEVISE_SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: DEVISE_SECRET_KEY
+              name: nginx-local-env
+        - name: LOCALE_ALL
+          valueFrom:
+            configMapKeyRef:
+              key: LOCALE_ALL
+              name: nginx-defaults-env
+        - name: LOCALE_DEFAULT
+          valueFrom:
+            configMapKeyRef:
+              key: LOCALE_DEFAULT
+              name: nginx-defaults-env
+        - name: LOCKFILE_PATH
+          valueFrom:
+            configMapKeyRef:
+              key: LOCKFILE_PATH
+              name: nginx-defaults-env
+        - name: NGINX_CLIENT_BODY_BUFFER_SIZE
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_CLIENT_BODY_BUFFER_SIZE
+              name: nginx-defaults-env
+        - name: NGINX_CLIENT_MAX_BODY_SIZE
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_CLIENT_MAX_BODY_SIZE
+              name: nginx-defaults-env
+        - name: NGINX_CURRENT_PATH
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_CURRENT_PATH
+              name: nginx-defaults-env
+        - name: NGINX_DH_PARAM
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_DH_PARAM
+              name: nginx-defaults-env
+        - name: NGINX_HTTPS_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_HTTPS_PORT
+              name: nginx-defaults-env
+        - name: NGINX_HTTP_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_HTTP_PORT
+              name: nginx-defaults-env
+        - name: NGINX_KEEPALIVE_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_KEEPALIVE_TIMEOUT
+              name: nginx-defaults-env
+        - name: NGINX_LOG_ACCESS
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_LOG_ACCESS
+              name: nginx-defaults-env
+        - name: NGINX_LOG_DIR
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_LOG_DIR
+              name: nginx-defaults-env
+        - name: NGINX_LOG_ERROR
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_LOG_ERROR
+              name: nginx-defaults-env
+        - name: NGINX_PROXY_PASS_URL
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_PROXY_PASS_URL
+              name: nginx-defaults-env
+        - name: NGINX_SERVER_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_SERVER_HOST
+              name: nginx-defaults-env
+        - name: NGINX_SERVER_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_SERVER_NAME
+              name: nginx-defaults-env
+        - name: NGINX_SSL_CERT_PATH
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_SSL_CERT_PATH
+              name: nginx-defaults-env
+        - name: NGINX_SSL_KEY_PATH
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_SSL_KEY_PATH
+              name: nginx-defaults-env
+        - name: NGINX_TIMER_RESOLUTION
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_TIMER_RESOLUTION
+              name: nginx-defaults-env
+        - name: NGINX_WORKER_CONNECTIONS
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_WORKER_CONNECTIONS
+              name: nginx-defaults-env
+        - name: NGINX_WORKER_PRIORITY
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_WORKER_PRIORITY
+              name: nginx-defaults-env
+        - name: NGINX_WORKER_PROCESSES
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_WORKER_PROCESSES
+              name: nginx-defaults-env
+        - name: NGINX_WORKER_RLIMIT_NOFILE
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_WORKER_RLIMIT_NOFILE
+              name: nginx-defaults-env
+        - name: POSTGRES_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_DATABASE
+              name: nginx-defaults-env
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_DB
+              name: nginx-local-env
+        - name: POSTGRES_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_HOSTNAME
+              name: nginx-defaults-env
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_PASSWORD
+              name: nginx-local-env
+        - name: POSTGRES_POOL_NUM
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_POOL_NUM
+              name: nginx-defaults-env
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_USER
+              name: nginx-defaults-env
+        - name: PRIMERO_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: PRIMERO_HOST
+              name: nginx-local-env
+        - name: PRIMERO_SECRET_KEY_BASE
+          valueFrom:
+            configMapKeyRef:
+              key: PRIMERO_SECRET_KEY_BASE
+              name: nginx-local-env
+        - name: PROXY_CONNECT_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              key: PROXY_CONNECT_TIMEOUT
+              name: nginx-defaults-env
+        - name: PROXY_READ_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              key: PROXY_READ_TIMEOUT
+              name: nginx-defaults-env
+        - name: PROXY_SEND_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              key: PROXY_SEND_TIMEOUT
+              name: nginx-defaults-env
+        - name: QUEUE
+          valueFrom:
+            configMapKeyRef:
+              key: QUEUE
+              name: nginx-defaults-env
+        - name: RAILS_ENV
+          valueFrom:
+            configMapKeyRef:
+              key: RAILS_ENV
+              name: nginx-defaults-env
+        - name: RAILS_LOG_PATH
+          valueFrom:
+            configMapKeyRef:
+              key: RAILS_LOG_PATH
+              name: nginx-defaults-env
+        - name: RAILS_SCHEDULER_LOG_DIR
+          valueFrom:
+            configMapKeyRef:
+              key: RAILS_SCHEDULER_LOG_DIR
+              name: nginx-defaults-env
+        - name: SOLR_HEAP_MEMORY
+          valueFrom:
+            configMapKeyRef:
+              key: SOLR_HEAP_MEMORY
+              name: nginx-defaults-env
+        - name: SOLR_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: SOLR_HOSTNAME
+              name: nginx-defaults-env
+        - name: SOLR_LOGS_DIR
+          valueFrom:
+            configMapKeyRef:
+              key: SOLR_LOGS_DIR
+              name: nginx-defaults-env
+        - name: SOLR_LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              key: SOLR_LOG_LEVEL
+              name: nginx-defaults-env
+        - name: SOLR_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: SOLR_PORT
+              name: nginx-defaults-env
+        - name: USE_LETS_ENCRYPT
+          valueFrom:
+            configMapKeyRef:
+              key: USE_LETS_ENCRYPT
+              name: nginx-defaults-env
+        - name: USE_LETS_ENCRYPT
+          valueFrom:
+            configMapKeyRef:
+              key: USE_LETS_ENCRYPT
+              name: nginx-local-env
+        image: nginx:prim-latest
+        name: nginx
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        resources: {}
+        volumeMounts:
+        - mountPath: /certs
+          name: certbot-certs
+        - mountPath: /etc/certs
+          name: selfsigned-certs
+        - mountPath: /srv/primero/application/tmp
+          name: tmp
+        - mountPath: /var/log/
+          name: log
+        - mountPath: /srv/primero/application/public
+          name: public
+      restartPolicy: Always
+      volumes:
+      - name: certbot-certs
+        persistentVolumeClaim:
+          claimName: certbot-certs
+      - name: selfsigned-certs
+        persistentVolumeClaim:
+          claimName: selfsigned-certs
+      - name: tmp
+        persistentVolumeClaim:
+          claimName: tmp
+      - name: log
+        persistentVolumeClaim:
+          claimName: log
+      - name: public
+        persistentVolumeClaim:
+          claimName: public
+status: {}

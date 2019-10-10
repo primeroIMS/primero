@@ -1,0 +1,292 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml -f docker-compose.local.yml
+      -o kompose/
+    kompose.version: 1.18.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: solr
+  name: solr
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: solr
+    spec:
+      containers:
+      - env:
+        - name: APP_ROOT
+          valueFrom:
+            configMapKeyRef:
+              key: APP_ROOT
+              name: solr-defaults-env
+        - name: APP_SHARE_BUILD_ID_PATH
+          valueFrom:
+            configMapKeyRef:
+              key: APP_SHARE_BUILD_ID_PATH
+              name: solr-defaults-env
+        - name: APP_SHARE_DIR
+          valueFrom:
+            configMapKeyRef:
+              key: APP_SHARE_DIR
+              name: solr-defaults-env
+        - name: BEANSTALK_URL
+          valueFrom:
+            configMapKeyRef:
+              key: BEANSTALK_URL
+              name: solr-defaults-env
+        - name: DEVISE_JWT_SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: DEVISE_JWT_SECRET_KEY
+              name: solr-local-env
+        - name: DEVISE_SECRET_KEY
+          valueFrom:
+            configMapKeyRef:
+              key: DEVISE_SECRET_KEY
+              name: solr-local-env
+        - name: LOCALE_ALL
+          valueFrom:
+            configMapKeyRef:
+              key: LOCALE_ALL
+              name: solr-defaults-env
+        - name: LOCALE_DEFAULT
+          valueFrom:
+            configMapKeyRef:
+              key: LOCALE_DEFAULT
+              name: solr-defaults-env
+        - name: LOCKFILE_PATH
+          valueFrom:
+            configMapKeyRef:
+              key: LOCKFILE_PATH
+              name: solr-defaults-env
+        - name: NGINX_CLIENT_BODY_BUFFER_SIZE
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_CLIENT_BODY_BUFFER_SIZE
+              name: solr-defaults-env
+        - name: NGINX_CLIENT_MAX_BODY_SIZE
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_CLIENT_MAX_BODY_SIZE
+              name: solr-defaults-env
+        - name: NGINX_CURRENT_PATH
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_CURRENT_PATH
+              name: solr-defaults-env
+        - name: NGINX_DH_PARAM
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_DH_PARAM
+              name: solr-defaults-env
+        - name: NGINX_HTTPS_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_HTTPS_PORT
+              name: solr-defaults-env
+        - name: NGINX_HTTP_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_HTTP_PORT
+              name: solr-defaults-env
+        - name: NGINX_KEEPALIVE_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_KEEPALIVE_TIMEOUT
+              name: solr-defaults-env
+        - name: NGINX_LOG_ACCESS
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_LOG_ACCESS
+              name: solr-defaults-env
+        - name: NGINX_LOG_DIR
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_LOG_DIR
+              name: solr-defaults-env
+        - name: NGINX_LOG_ERROR
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_LOG_ERROR
+              name: solr-defaults-env
+        - name: NGINX_PROXY_PASS_URL
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_PROXY_PASS_URL
+              name: solr-defaults-env
+        - name: NGINX_SERVER_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_SERVER_HOST
+              name: solr-defaults-env
+        - name: NGINX_SERVER_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_SERVER_NAME
+              name: solr-defaults-env
+        - name: NGINX_SSL_CERT_PATH
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_SSL_CERT_PATH
+              name: solr-defaults-env
+        - name: NGINX_SSL_KEY_PATH
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_SSL_KEY_PATH
+              name: solr-defaults-env
+        - name: NGINX_TIMER_RESOLUTION
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_TIMER_RESOLUTION
+              name: solr-defaults-env
+        - name: NGINX_WORKER_CONNECTIONS
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_WORKER_CONNECTIONS
+              name: solr-defaults-env
+        - name: NGINX_WORKER_PRIORITY
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_WORKER_PRIORITY
+              name: solr-defaults-env
+        - name: NGINX_WORKER_PROCESSES
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_WORKER_PROCESSES
+              name: solr-defaults-env
+        - name: NGINX_WORKER_RLIMIT_NOFILE
+          valueFrom:
+            configMapKeyRef:
+              key: NGINX_WORKER_RLIMIT_NOFILE
+              name: solr-defaults-env
+        - name: POSTGRES_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_DATABASE
+              name: solr-defaults-env
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_DB
+              name: solr-local-env
+        - name: POSTGRES_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_HOSTNAME
+              name: solr-defaults-env
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_PASSWORD
+              name: solr-local-env
+        - name: POSTGRES_POOL_NUM
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_POOL_NUM
+              name: solr-defaults-env
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              key: POSTGRES_USER
+              name: solr-defaults-env
+        - name: PRIMERO_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: PRIMERO_HOST
+              name: solr-local-env
+        - name: PRIMERO_SECRET_KEY_BASE
+          valueFrom:
+            configMapKeyRef:
+              key: PRIMERO_SECRET_KEY_BASE
+              name: solr-local-env
+        - name: PROXY_CONNECT_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              key: PROXY_CONNECT_TIMEOUT
+              name: solr-defaults-env
+        - name: PROXY_READ_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              key: PROXY_READ_TIMEOUT
+              name: solr-defaults-env
+        - name: PROXY_SEND_TIMEOUT
+          valueFrom:
+            configMapKeyRef:
+              key: PROXY_SEND_TIMEOUT
+              name: solr-defaults-env
+        - name: QUEUE
+          valueFrom:
+            configMapKeyRef:
+              key: QUEUE
+              name: solr-defaults-env
+        - name: RAILS_ENV
+          valueFrom:
+            configMapKeyRef:
+              key: RAILS_ENV
+              name: solr-defaults-env
+        - name: RAILS_LOG_PATH
+          valueFrom:
+            configMapKeyRef:
+              key: RAILS_LOG_PATH
+              name: solr-defaults-env
+        - name: RAILS_SCHEDULER_LOG_DIR
+          valueFrom:
+            configMapKeyRef:
+              key: RAILS_SCHEDULER_LOG_DIR
+              name: solr-defaults-env
+        - name: SOLR_HEAP_MEMORY
+          valueFrom:
+            configMapKeyRef:
+              key: SOLR_HEAP_MEMORY
+              name: solr-defaults-env
+        - name: SOLR_HOSTNAME
+          valueFrom:
+            configMapKeyRef:
+              key: SOLR_HOSTNAME
+              name: solr-defaults-env
+        - name: SOLR_LOGS_DIR
+          valueFrom:
+            configMapKeyRef:
+              key: SOLR_LOGS_DIR
+              name: solr-defaults-env
+        - name: SOLR_LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              key: SOLR_LOG_LEVEL
+              name: solr-defaults-env
+        - name: SOLR_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: SOLR_PORT
+              name: solr-defaults-env
+        - name: USE_LETS_ENCRYPT
+          valueFrom:
+            configMapKeyRef:
+              key: USE_LETS_ENCRYPT
+              name: solr-defaults-env
+        - name: USE_LETS_ENCRYPT
+          valueFrom:
+            configMapKeyRef:
+              key: USE_LETS_ENCRYPT
+              name: solr-local-env
+        image: solr:prim-latest
+        name: solr
+        ports:
+        - containerPort: 8983
+        resources: {}
+        volumeMounts:
+        - mountPath: /opt/solr/server/solr/mycores
+          name: solr-cores
+      restartPolicy: Always
+      volumes:
+      - name: solr-cores
+        persistentVolumeClaim:
+          claimName: solr-cores
+status: {}
