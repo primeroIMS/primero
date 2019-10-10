@@ -47,6 +47,11 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
       return ["manage", "add_note"].includes(permission);
     }).size > 0;
 
+  const canEnable =
+    userPermissions.filter(permission => {
+      return ["manage", "enable_disable_record"].includes(permission);
+    }).size > 0;
+
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -149,7 +154,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
       name: i18n.t(`actions.${enableState}`),
       action: handleEnableDialogOpen,
       recordType: "all",
-      condition: mode && mode.isShow
+      condition: mode && mode.isShow && canEnable
     },
     {
       name: i18n.t("actions.notes"),
@@ -207,12 +212,14 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
         recordType={recordType}
       />
 
-      <ToggleEnable
-        close={handleEnableDialogClose}
-        openEnableDialog={openEnableDialog}
-        record={record}
-        recordType={recordType}
-      />
+      {canEnable ? (
+        <ToggleEnable
+          close={handleEnableDialogClose}
+          openEnableDialog={openEnableDialog}
+          record={record}
+          recordType={recordType}
+        />
+      ) : null}
 
       <Transitions {...transitionsProps} />
 
