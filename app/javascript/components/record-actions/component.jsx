@@ -12,6 +12,15 @@ import { ToggleOpen } from "./toggle-open";
 import { ToggleEnable } from "./toggle-enable";
 import { fetchAssignUsers } from "./transitions/action-creators";
 
+const checkPermissions = (currentPermissions, allowedPermissions) => {
+  return (
+    currentPermissions &&
+    currentPermissions.filter(permission => {
+      return allowedPermissions.includes(permission);
+    }).size > 0
+  );
+};
+
 const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -42,17 +51,13 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     getPermissionsByRecord(state, recordType)
   );
 
-  const canAddNotes =
-    userPermissions &&
-    userPermissions.filter(permission => {
-      return ["manage", "add_note"].includes(permission);
-    }).size > 0;
-
-  const canEnable =
-    userPermissions.filter(permission => {
-      return ["manage", "enable_disable_record"].includes(permission);
-    }).size > 0;
-
+  const canAddNotes = checkPermissions(userPermissions, ["manage", "add_note"]);
+  const canEnable = checkPermissions(userPermissions, [
+    "manage",
+    "enable_disable_record"
+  ]);
+  const canTransfer = checkPermissions(userPermissions, assignPermissions);
+  console.log();
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -128,11 +133,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
       name: `${i18n.t("buttons.reassign")} ${recordType}`,
       action: () => setTransitionType("reassign"),
       recordType,
-      condition:
-        userPermissions &&
-        userPermissions.filter(permission => {
-          return assignPermissions.includes(permission);
-        }).size > 0
+      condition: canTransfer
     },
     {
       name: `${i18n.t("buttons.transfer")} ${recordType}`,
@@ -168,6 +169,15 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
       condition: canAddNotes
     }
   ];
+
+  const enable = (
+    <ToggleEnable
+      close={handleEnableDialogClose}
+      openEnableDialog={openEnableDialog}
+      record={record}
+      recordType={recordType}
+    />
+  );
 
   return (
     <>
@@ -217,14 +227,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
         recordType={recordType}
       />
 
-      {canEnable ? (
-        <ToggleEnable
-          close={handleEnableDialogClose}
-          openEnableDialog={openEnableDialog}
-          record={record}
-          recordType={recordType}
-        />
-      ) : null}
+      {canEnable ? enable : null}
 
       <Transitions {...transitionsProps} />
 
