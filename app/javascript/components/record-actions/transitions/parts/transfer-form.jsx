@@ -2,61 +2,12 @@ import React, { useState } from "react";
 import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import {
-  FormControlLabel,
-  Checkbox,
-  Grid,
-  TextField,
-  Box,
-  Button
-} from "@material-ui/core";
+import { TextField, Box, Button } from "@material-ui/core";
 import { SearchableSelect } from "components/searchable-select";
-import { CasesIcon } from "images/primero-icons";
+import TransferCheckbox from "./transfer-checkbox";
+import BulkTransfer from "./bulk-transfer";
 import mockData from "../mocked-users";
 import styles from "../styles.css";
-
-// TODO: This component will not exists once integration with API
-const TransferCheckbox = ({ checked, onChange, label, disabled }) => {
-  return (
-    <FormControlLabel
-      control={
-        <Checkbox checked={checked} onChange={onChange} disabled={disabled} />
-      }
-      label={label}
-    />
-  );
-};
-TransferCheckbox.propTypes = {
-  checked: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired,
-  label: PropTypes.string.isRequired,
-  disabled: PropTypes.bool
-};
-
-const BulkTransfer = () => {
-  const i18n = useI18n();
-  const css = makeStyles(styles)();
-  const [state, setState] = useState(false);
-
-  return (
-    <div className={css.alertTransferModal}>
-      <Grid container direction="row" justify="flex-start" alignItems="center">
-        <Grid item xs={1}>
-          <CasesIcon className={css.alertTransferModalIcon} />
-        </Grid>
-        <Grid item xs={11}>
-          <span>{i18n.t("transfer.consent_label")}</span>
-          <br />
-          <TransferCheckbox
-            checked={state}
-            onChange={() => setState(!state)}
-            label={i18n.t("transfer.consent_override_label")}
-          />
-        </Grid>
-      </Grid>
-    </div>
-  );
-};
 
 const TransferForm = ({
   providedConsent,

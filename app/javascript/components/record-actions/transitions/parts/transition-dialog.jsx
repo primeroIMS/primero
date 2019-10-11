@@ -63,7 +63,9 @@ const TransitionDialog = ({
           <Clear />
         </IconButton>
       </DialogTitle>
-      <DialogContent>{children}</DialogContent>
+      <DialogContent className={css.autoCompleteOverflow}>
+        {children}
+      </DialogContent>
     </Dialog>
   );
 };
