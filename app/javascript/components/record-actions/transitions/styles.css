@@ -28,3 +28,19 @@
 .autoCompleteOverflow {
   overflow-y: visible;
 }
+
+.alertTransferModal {
+  background-color: $(theme.primero.colors.lightGrey);
+  border-radius: 5px;
+  padding: 16px;
+  marginTop: 5px;
+}
+
+.alertTransferModalIcon {
+  font-size: 2.3em;
+}
+
+.searchableSelect {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}

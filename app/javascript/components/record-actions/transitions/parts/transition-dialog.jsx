@@ -16,20 +16,31 @@ const TransitionDialog = ({
   transitionType,
   record,
   children,
-  handleClose
+  handleClose,
+  recordType
 }) => {
   const css = makeStyles(styles)();
 
+  const recordName = {
+    cases: "Case",
+    tracing_requests: "Tracing request",
+    incidents: "Incident"
+  };
+
   const title = (type => {
     if (record) {
-      const { case_id_display: caseId } = record.toJS();
+      const {
+        case_id_display: caseId,
+        incident_code: incidentId
+      } = record.toJS();
+      const recordWithId = `${recordName[recordType]} ${caseId || incidentId}`;
       switch (type) {
         case "referral":
-          return `Referral Case ${caseId}`;
+          return `Referral ${recordWithId}`;
         case "reassign":
-          return `Assign Case ${caseId}`;
+          return `Assign ${recordWithId}`;
         case "transfer":
-          return `Transfer Case ${caseId}`;
+          return `Transfer ${recordWithId}`;
         default:
           return null;
       }
@@ -64,7 +75,8 @@ TransitionDialog.propTypes = {
   record: PropTypes.object,
   open: PropTypes.bool.isRequired,
   transitionType: PropTypes.string,
-  handleClose: PropTypes.func.isRequired
+  handleClose: PropTypes.func.isRequired,
+  recordType: PropTypes.string.isRequired
 };
 
 export default TransitionDialog;

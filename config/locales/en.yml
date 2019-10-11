@@ -2234,6 +2234,13 @@ en:
       in_progress: "In Progress"
     agency_label: "Agency"
     location_label: "Location"
+    select_label: "Select..."
+    transfer_label: "Transfer anyway?"
+    provided_consent_label: "Consent is not provided in the Forms."
+    consent_from_individual_label: "Do you have consent from the individual to make this transfer?"
+    is_remote_label: "Are you transferring to someone who is not using this system?"
+    recipient_label: "Recipient"
+    submit_label: "Transfer"
 
   request_transfer:
     success: "Request transfer sent"
@@ -2395,6 +2402,10 @@ en:
       something_went_wrong: Sorry, Something went wrong!
       contact_admin: If you believe you are here by error, please contact your admin.
       server_error: Page not found
+    not_authorized:
+      code: 403
+      title: Not Authorized
+      server_error: You are not authorized to access this page.
 
   audio:
     update_browser:

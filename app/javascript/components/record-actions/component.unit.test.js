@@ -5,6 +5,7 @@ import { Map } from "immutable";
 import { ToggleOpen } from "components/record-actions/toggle-open";
 import { ToggleEnable } from "components/record-actions/toggle-enable";
 import { Transitions } from "components/record-actions/transitions";
+import { Notes } from "components/record-actions/notes";
 import RecordActions from "./component";
 
 describe("<RecordActions />", () => {
@@ -60,6 +61,26 @@ describe("<RecordActions />", () => {
     });
     it("renders Transitions", () => {
       expect(component.find(Transitions)).to.have.length(1);
+    });
+  });
+
+  describe("Component Notes", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        props,
+        Map({
+          user: Map({
+            permissions: Map({
+              cases: Map({ manage: "manage" })
+            })
+          })
+        })
+      ));
+    });
+
+    it("renders Notes", () => {
+      expect(component.find(Notes)).to.have.length(1);
     });
   });
 });

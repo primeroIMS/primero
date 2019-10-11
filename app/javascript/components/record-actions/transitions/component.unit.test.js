@@ -29,9 +29,11 @@ describe("<Transitions />", () => {
   });
   describe("when transitionType is 'referral'", () => {
     const props = {
+      recordType: "cases",
       transitionType: "referral",
+      setTransitionType: () => {},
       record,
-      setTransitionType: () => {}
+      userPermissions: Map({ cases: ["manage"] })
     };
     beforeEach(() => {
       ({ component } = setupMountedComponent(Transitions, props));
@@ -48,8 +50,11 @@ describe("<Transitions />", () => {
 
   describe("when transitionType is 'reassign'", () => {
     const props = {
+      recordType: "cases",
       transitionType: "reassign",
-      record
+      setTransitionType: () => {},
+      record,
+      userPermissions: Map({ cases: ["manage"] })
     };
     beforeEach(() => {
       ({ component } = setupMountedComponent(Transitions, props, initialState));
@@ -66,8 +71,11 @@ describe("<Transitions />", () => {
 
   describe("when transitionType is 'transfer'", () => {
     const props = {
+      recordType: "cases",
       transitionType: "transfer",
-      record
+      setTransitionType: () => {},
+      record,
+      userPermissions: Map({ cases: ["manage"] })
     };
     beforeEach(() => {
       ({ component } = setupMountedComponent(Transitions, props));
