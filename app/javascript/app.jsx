@@ -20,6 +20,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import { checkUserAuthentication } from "components/user";
 import { SnackbarProvider } from "notistack";
 import { ApplicationProvider } from "components/application";
+import Permission from "components/application/permission";
 import configureStore, { history } from "./store";
 
 const store = configureStore();
@@ -78,9 +79,15 @@ const App = () => {
                                     exact
                                     path={subRoute.path}
                                     component={() => (
-                                      <subRoute.component
-                                        mode={subRoute.mode}
-                                      />
+                                      <Permission
+                                        permissionType={subRoute.permissionType}
+                                        permission={subRoute.permission}
+                                        redirect
+                                      >
+                                        <subRoute.component
+                                          mode={subRoute.mode}
+                                        />
+                                      </Permission>
                                     )}
                                   />
                                 ))}
