@@ -11,8 +11,8 @@ describe("<RecordActions />", () => {
   let component;
   const defaultState = Map({
     user: Map({
-      permission: Map({
-        case: ["manage"]
+      permissions: Map({
+        cases: Map({ manage: "manage" })
       })
     })
   });
@@ -26,10 +26,7 @@ describe("<RecordActions />", () => {
     beforeEach(() => {
       ({ component } = setupMountedComponent(
         RecordActions,
-        {
-          ...props,
-          record
-        },
+        props,
         defaultState
       ));
     });

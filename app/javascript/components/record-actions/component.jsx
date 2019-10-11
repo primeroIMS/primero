@@ -52,6 +52,11 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
       return ["manage", "enable_disable_record"].includes(permission);
     }).size > 0;
 
+  const canTransition =
+    userPermissions.filter(permission => {
+      return assignPermissions.includes(permission);
+    }).size > 0;
+
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -125,9 +130,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
       name: `${i18n.t("buttons.reassign")} ${recordType}`,
       action: () => setTransitionType("reassign"),
       recordType,
-      condition: assignPermissions.some(x =>
-        userPermissions?.toJS()?.includes(x)
-      )
+      condition: canTransition
     },
     {
       name: `${i18n.t("buttons.transfer")} ${recordType}`,
