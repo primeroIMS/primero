@@ -78,6 +78,7 @@ const TransferForm = ({
   };
 
   const canConsentOverride =
+    userPermissions &&
     userPermissions.filter(permission => {
       return ["manage", "consent_override"].includes(permission);
     }).size > 0;
