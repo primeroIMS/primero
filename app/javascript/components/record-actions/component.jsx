@@ -36,6 +36,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
   );
 
   const canAddNotes =
+    userPermissions &&
     userPermissions.filter(permission => {
       return ["manage", "add_note"].includes(permission);
     }).size > 0;
@@ -72,7 +73,9 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const transitionsProps = {
     record,
     transitionType,
-    setTransitionType
+    setTransitionType,
+    recordType,
+    userPermissions
   };
 
   const handleNotesClose = () => {
@@ -113,14 +116,16 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
       name: `${i18n.t("buttons.reassign")} ${recordType}`,
       action: () => setTransitionType("reassign"),
       recordType,
-      condition: assignPermissions.some(x =>
-        userPermissions?.toJS()?.includes(x)
-      )
+      condition:
+        userPermissions &&
+        userPermissions.filter(permission => {
+          return assignPermissions.includes(permission);
+        }).size > 0
     },
     {
       name: `${i18n.t("buttons.transfer")} ${recordType}`,
       action: () => setTransitionType("transfer"),
-      recordType
+      recordType: ["cases", "incidents"]
     },
     {
       name: i18n.t("actions.incident_details_from_case"),
