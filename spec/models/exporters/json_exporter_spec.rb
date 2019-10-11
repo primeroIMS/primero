@@ -65,27 +65,4 @@ module Exporters
     end
   end
 
-  describe "convert_model_to_hash with hidden_name in true or false on Child Model" do
-
-    before :each do
-      @exporter = Exporters::JSONExporter.new
-      @child = build(:child, name: 'Test name')
-      @child_properties = Child.properties.select {|p| ['name'].include?(p.name) }
-    end
-
-    #TODO - Fix... RON   Need to create form sections
-    it "should be not return name" do
-      @child.hidden_name = true
-      hash = @exporter.convert_model_to_hash(@child, @child_properties)
-      hash.should == {"model_type"=>"Child", "_id"=>@child.id}
-    end
-
-    it "should be return name field" do
-      @child.hidden_name = false
-      hash = @exporter.convert_model_to_hash(@child, @child_properties)
-      hash.should == {"name"=>"Test name", "model_type"=>"Child", "_id"=>@child.id}
-    end
-
-  end
-
 end
