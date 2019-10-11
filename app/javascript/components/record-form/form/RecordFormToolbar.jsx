@@ -9,6 +9,7 @@ import { Flagging } from "components/flagging";
 import { RecordActions } from "components/record-actions";
 import styles from "./styles.css";
 import { WorkflowIndicator } from "./components";
+import Permission from "../../application/permission";
 
 const RecordFormToolbar = ({
   mode,
@@ -62,7 +63,12 @@ const RecordFormToolbar = ({
       </Box>
       <Box>
         {mode.isShow && params && (
-          <Flagging recordType={params.recordType} record={params.id} />
+          <Permission
+            recordType={params.recordType}
+            permission={["flag", "manage"]}
+          >
+            <Flagging recordType={params.recordType} record={params.id} />
+          </Permission>
         )}
         {(mode.isEdit || mode.isNew) && (
           <>
@@ -85,12 +91,17 @@ const RecordFormToolbar = ({
           </>
         )}
         {mode.isShow && (
-          <IconButton
-            to={`/${params.recordType}/${params.id}/edit`}
-            component={Link}
+          <Permission
+            recordType={params.recordType}
+            permission={["write", "manage"]}
           >
-            <CreateIcon />
-          </IconButton>
+            <IconButton
+              to={`/${params.recordType}/${params.id}/edit`}
+              component={Link}
+            >
+              <CreateIcon />
+            </IconButton>
+          </Permission>
         )}
         <RecordActions
           recordType={params.recordType}

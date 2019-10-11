@@ -1,0 +1,27 @@
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  flex-direction: column;
+  padding: 0 3%;
+
+  & h1 {
+    font-weight: 900;
+    font-size: $(theme.typography.pxToRem(186));
+    margin: 0;
+  }
+
+  & p {
+    margin-bottom: 3em;
+  }
+}
+
+@media $(theme.breakpoints.down('sm')) {
+  .root {
+    & h1 {
+      font-size: $(theme.typography.pxToRem(130));
+    }
+  }
+}
