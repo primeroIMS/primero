@@ -85,6 +85,8 @@ module Primero
 
     config.exceptions_app = self.routes
 
+    config.middleware.use I18n::JS::Middleware
+
     def locales
       @locales ||= I18n.available_locales.map(&:to_s)
     end

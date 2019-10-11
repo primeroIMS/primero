@@ -1,9 +1,9 @@
 FROM ruby:2.6.2-alpine3.9
 
-ENV BUILD_PACKAGES bash curl wget curl-dev build-base git python
-ENV BUILD_DEP_PACKAGES postgresql-dev nodejs-dev pixman pixman-dev cairo
+ENV BUILD_PACKAGES bash curl wget curl-dev build-base git python imagemagick
+ENV BUILD_DEP_PACKAGES postgresql-dev nodejs-dev
 ENV RUNTIME_PACKAGES bash libc6-compat nodejs gettext libintl yarn
-ENV DEV_PACKAGES busybox-extras tree
+ENV DEV_PACKAGES busybox-extras tree cairo pixman pixman-dev
 ENV RAILS_ENV production
 ENV PYTHON /usr/bin/python
 
@@ -34,7 +34,7 @@ RUN set -euox pipefail \
         ; apk update \
         ; apk add $BUILD_PACKAGES \
         ; apk add $BUILD_DEP_PACKAGES \
-        ; apk add $DEV_PACKAGES \
+        # ; apk add $DEV_PACKAGES \
         ; apk add --no-cache $RUNTIME_PACKAGES \
         ; rm -rf /var/cache/apk/*
 

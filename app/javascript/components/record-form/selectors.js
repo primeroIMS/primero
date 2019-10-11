@@ -1,6 +1,5 @@
 import isEmpty from "lodash/isEmpty";
 import { fromJS, OrderedMap } from "immutable";
-import includes from "lodash/includes";
 import { denormalizeFormData } from "../../schemas";
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
@@ -12,7 +11,7 @@ const forms = (state, { recordType, primeroModule }) => {
 
   return formSections.filter(
     fs =>
-      includes(fs.module_ids, primeroModule) &&
+      fs.module_ids.includes(primeroModule) &&
       fs.parent_form === recordType &&
       fs.visible &&
       !fs.is_nested

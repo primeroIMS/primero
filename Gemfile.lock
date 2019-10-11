@@ -172,6 +172,9 @@ GEM
     mini_magick (4.9.5)
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
+    minipack (0.3.3)
+      actionview
+      railties (>= 4.2)
     minitest (5.11.3)
     multi_json (1.13.1)
     multipart-post (2.0.0)
@@ -203,8 +206,6 @@ GEM
     rack (2.0.7)
     rack-mini-profiler (1.0.2)
       rack (>= 1.2.0)
-    rack-proxy (0.6.5)
-      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rack_session_access (0.2.0)
@@ -356,10 +357,6 @@ GEM
       dry-configurable (~> 0.8)
       jwt (~> 2.1)
       warden (~> 1.2)
-    webpacker (4.0.7)
-      activesupport (>= 4.2)
-      rack-proxy (>= 0.6.1)
-      railties (>= 4.2)
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
@@ -390,6 +387,7 @@ DEPENDENCIES
   listen
   memory-profiler (~> 1.0)
   mini_magick (~> 4.9.4)
+  minipack (~> 0.3.3)
   nokogiri (>= 1.10.4)
   pg (~> 1.1)
   prawn (~> 2.2)
@@ -426,7 +424,6 @@ DEPENDENCIES
   tzinfo (~> 1.2)
   tzinfo-data (~> 1.2019)
   uglifier (~> 4.1)
-  webpacker (~> 4.0.7)
   will_paginate (~> 3.1)
   writeexcel (~> 1.0)
 

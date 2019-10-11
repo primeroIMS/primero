@@ -7,9 +7,9 @@ gem 'devise',           '4.6.2'
 gem 'devise-jwt',       '0.5.9'
 gem 'rake',             '~> 12.3'
 gem 'puma',             '~> 3.12'
-gem 'webpacker',        '~> 4.0.7'
 gem 'file_validators',  '~> 2.3'
 gem 'jbuilder',         '~> 2.8'
+gem 'minipack',         '~> 0.3.3'
 
 #TODO: Remove after we have disabled the asset pipeline
 gem 'uglifier',         '~> 4.1'
