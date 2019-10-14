@@ -55,7 +55,13 @@
   <% end %>
 <% end %>
 
-<%= resource_edit_field(object, "services", 'agency.services', 'multi_select', false, false, nil, nil, @services) %>
+<%
+  non_active_services = (object.services || []).select{ |service| @services.map{ |option| option[1] }.exclude?(service) }
+                               .map{ |service| [t("messages.non_active_service", { service: service }), service, { style: "display: none" }]  }
+  all_services = @services + non_active_services
+%>
+
+<%= resource_edit_field(object, "services", 'agency.services', 'multi_select', false, false, nil, nil, all_services) %>
 
 <%= resource_edit_field(object, 'logo', 'agencies.logo', 'file_field') %>
 <%= resource_edit_field(object, 'logo_enabled', 'agencies.logo_enabled', 'check_box') %>

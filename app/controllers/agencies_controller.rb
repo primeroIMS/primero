@@ -27,9 +27,9 @@ class AgenciesController < ApplicationController
 
     service_type = params[:service_type]
     agencies = if service_type.present?
-                Agency.by_service.key(service_type).all
+                 Agency.by_service.key(service_type).select{ |service| !service.disabled }
                else
-                 Agency.all.all
+                 Agency.by_disabled.key(false)
                end
 
     respond_to do |format|

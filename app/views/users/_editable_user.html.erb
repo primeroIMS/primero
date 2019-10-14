@@ -128,8 +128,14 @@
           </span>
         </div>
         <div class="medium-8 columns">
-          <%= f.select :organization, @agency_names.map {|option| [option['display_text'], option['id']]},
-                       { include_blank: t('agencies.select_prompt') }, {class: 'chosen-select', required: 'required'} %>
+          <%
+            agency_options = @agency_names.map {|option| [option['display_text'], option['id']] }
+            if @agency_names.map{ |a| a['id'] }.exclude?(@user.agency.id)
+              agency_options << [t("messages.non_active_agency", { agency: @user.agency.id }), @user.agency.id, { disabled: true,  style: "display: none" }]
+            end
+          %>
+          <%= f.select :organization, agency_options, { include_blank: t('agencies.select_prompt') },
+              {class: 'chosen-select', required: 'required'} %>
         </div>
         <div class="medium-1 columns">
           <span class="required">*</span>
@@ -152,7 +158,13 @@
       <% end %>
     <% end %>
 
-    <%= resource_edit_field(@user, "services", 'user.services', 'multi_select', false, false, nil, nil, @services) %>
+    <%
+      non_active_services = (@user.services || []).select{ |service| @services.map{ |option| option[1] }.exclude?(service) }
+                                  .map{ |service| [t("messages.non_active_service", { service: service }), service, { style: "display: none" }]  }
+      all_services = @services + non_active_services
+    %>
+
+    <%= resource_edit_field(@user, "services", 'user.services', 'multi_select', false, false, nil, nil, all_services) %>
 
     <%= resource_edit_field @user, 'position', 'position', 'text_field' %>
 

@@ -59,7 +59,14 @@ module ConfigurationResourceHelper
     label_text = I18n.t(label_key)
 
     value = if lookup.present?
-              object.send(field).map { |id| Lookup.display_value(lookup, id)}.compact.join(', ')
+              object.send(field).map do |id|
+                display_value = Lookup.display_value(lookup, id)
+                if lookup == 'lookup-service-type' && display_value.blank?
+                  I18n.t("messages.non_active_service", { service: id })
+                else
+                  display_value
+                end
+              end.compact.join(', ')
             else
               object.send(field)
             end
