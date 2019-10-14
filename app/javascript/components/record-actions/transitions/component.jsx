@@ -55,7 +55,8 @@ const Transitions = ({
           providedConsent: false,
           isBulkTransfer: false,
           userPermissions,
-          handleClose
+          handleClose,
+          transitionType
         };
         return <TransferForm {...transferProps} />;
       }

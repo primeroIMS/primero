@@ -1,4 +1,5 @@
 import { ENQUEUE_SNACKBAR } from "components/notifier";
+import { batch } from "react-redux";
 import * as actions from "./actions";
 
 export const fetchAssignUsers = recordType => async dispatch => {
@@ -10,6 +11,25 @@ export const fetchAssignUsers = recordType => async dispatch => {
         record_type: recordType
       }
     }
+  });
+};
+
+export const fetchTransferUsers = recordType => async dispatch => {
+  dispatch({
+    type: actions.TRANSFER_USERS_FETCH,
+    api: {
+      path: "users/transfer-to",
+      params: {
+        record_type: recordType
+      }
+    }
+  });
+};
+
+export const fetchTransitionData = recordType => async dispatch => {
+  batch(() => {
+    dispatch(fetchAssignUsers(recordType));
+    dispatch(fetchTransferUsers(recordType));
   });
 };
 

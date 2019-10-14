@@ -10,7 +10,7 @@ import { Reopen } from "./reopen";
 import { CloseCase } from "./close-case";
 import { Notes } from "./notes";
 import { Transitions } from "./transitions";
-import { fetchAssignUsers } from "./transitions/action-creators";
+import { fetchTransitionData } from "./transitions/action-creators";
 
 const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const i18n = useI18n();
@@ -28,7 +28,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
   ];
 
   useEffect(() => {
-    dispatch(fetchAssignUsers(RECORD_TYPES[recordType]));
+    dispatch(fetchTransitionData(RECORD_TYPES[recordType]));
   }, []);
 
   const userPermissions = useSelector(state =>

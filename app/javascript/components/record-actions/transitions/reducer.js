@@ -8,6 +8,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.ASSIGN_USERS_FETCH_SUCCESS:
       return state.setIn(["reassign", "users"], payload.data);
+    case Actions.TRANSFER_USERS_FETCH_SUCCESS:
+      return state.setIn(["transfer", "users"], payload.data);
     case Actions.ASSIGN_USER_SAVE_STARTED:
       return state
         .setIn(["reassign", "loading"], true)
