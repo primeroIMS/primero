@@ -1,7 +1,7 @@
 import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
-import { Map } from "immutable";
+import { Map, List } from "immutable";
 import {
   FormControlLabel,
   Checkbox,
@@ -13,14 +13,29 @@ import TransferForm from "./transfer-form";
 
 describe("<TransferForm />", () => {
   let component;
+  const defaultState = Map({
+    application: Map({
+      agencies: List([Map({ unique_id: "agency-unicef", name: "UNICEF" })])
+    }),
+    transitions: Map({
+      transfer: Map({
+        users: [{ id: 13, user_name: "primero_cp_ar" }]
+      }),
+      reassign: Map({
+        users: [{ id: 13, user_name: "primero_cp_ar" }]
+      })
+    })
+  });
   const props = {
     providedConsent: false,
     isBulkTransfer: false,
     userPermissions: Map({ cases: ["manage"] }),
-    handleClose: () => {}
-  }
+    handleClose: () => {},
+    transitionType: "transfer",
+    record: Map({ id: "123abc" })
+  };
   beforeEach(() => {
-    ({ component } = setupMountedComponent(TransferForm, props));
+    ({ component } = setupMountedComponent(TransferForm, props, defaultState));
   });
 
   it("renders FormControlLabel", () => {

@@ -1,18 +1,30 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import { Box, Button, FormControlLabel, Checkbox } from "@material-ui/core";
+import { isEmpty } from "lodash";
+import {
+  Box,
+  Button,
+  FormControlLabel,
+  Checkbox,
+  Grid
+} from "@material-ui/core";
+import { CasesIcon } from "images/primero-icons";
 import { Formik, Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
-import { isEmpty } from "lodash";
+import { enqueueSnackbar } from "components/notifier";
 import { selectAgencies } from "components/application/selectors";
 import { getOption } from "components/record-form/selectors";
 import BulkTransfer from "./bulk-transfer";
-import TransferExternal from "./transfer-external";
+import { internalFieldsDirty } from "./helpers";
 import TransferInternal from "./transfer-internal";
-import { getUsersByTransitionType } from "../selectors";
+import {
+  getUsersByTransitionType,
+  getErrorsByTransitionType
+} from "../selectors";
+import { saveTransferUser } from "../action-creators";
 import styles from "../styles.css";
 
 const TransferForm = ({
@@ -20,14 +32,26 @@ const TransferForm = ({
   isBulkTransfer,
   userPermissions,
   handleClose,
-  transitionType
+  transitionType,
+  record
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const [disabled, setDisabled] = useState(false);
+
+  const firstUpdate = React.useRef(true);
+
+  const closeModal = () => {
+    handleClose();
+  };
 
   const users = useSelector(state =>
     getUsersByTransitionType(state, transitionType)
+  );
+
+  const hasErrors = useSelector(state =>
+    getErrorsByTransitionType(state, transitionType)
   );
 
   const agencies = useSelector(state => selectAgencies(state));
@@ -37,16 +61,27 @@ const TransferForm = ({
     []
   );
 
-  // TODO: Move this from outside or not
   const canConsentOverride =
     userPermissions &&
     userPermissions.filter(permission => {
       return ["manage", "consent_override"].includes(permission);
     }).size > 0;
 
-  const closeModal = () => {
-    handleClose();
-  };
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    const isUndefined = typeof hasErrors === "undefined";
+    if (!isEmpty(hasErrors)) {
+      const messages = Array.isArray(hasErrors)
+        ? hasErrors.map(e => i18n.t(e)).join(", ")
+        : hasErrors;
+      dispatch(enqueueSnackbar(messages, "error"));
+    } else if (!isUndefined && isEmpty(hasErrors)) {
+      closeModal();
+    }
+  }, [hasErrors]);
 
   const internalFields = [
     {
@@ -70,7 +105,7 @@ const TransferForm = ({
         : null
     },
     {
-      id: "recipient",
+      id: "transitioned_to",
       label: i18n.t("transfer.recipient_label"),
       options: users
         ? users.map(user => ({
@@ -80,168 +115,86 @@ const TransferForm = ({
         : null
     },
     {
-      id: "internalNotes",
+      id: "notes",
       label: i18n.t("transfer.notes_label")
     }
   ];
-
-  const externalFields = [
-    {
-      id: "typeOfTransition",
-      label: "Type of transition",
-      options: [{ value: "transfer", label: "Transfer" }]
-    },
-    {
-      id: "otherUser",
-      label: "Other User"
-    },
-    {
-      id: "otherUserAgency",
-      label: "Other User's Agency"
-    },
-    {
-      id: "externalNotes",
-      label: i18n.t("transfer.notes_label")
-    },
-    {
-      id: "typeExport",
-      label: "What type of export do you want?",
-      options: [
-        { value: "primero", label: "JSON (Primero)" },
-        { value: "non_primero", label: "JSON (Non-Primero)" }
-      ]
-    },
-    {
-      id: "passwordFile",
-      label: "Please enter a password that will encrypt your file."
-    },
-    {
-      id: "fileName",
-      label: "Create your own file name (Optional)"
-    }
-  ];
-
-  // TODO: Move these methods to helper
-  const dirtyFields = (fields, isExternal, removeFields) => {
-    const fieldIds = isExternal
-      ? externalFields.map(f => f.id)
-      : internalFields.map(f => f.id);
-
-    const data = Object.entries(fields).reduce((obj, item) => {
-      const o = obj;
-      const [key, value] = item;
-      if (fieldIds.includes(key) && !isEmpty(value)) {
-        o[key] = value;
-      }
-      return o;
-    }, {});
-
-    return removeFields ? data : Object.keys(data).length > 0;
-  };
-
-  const getInternalFields = fields => {
-    return dirtyFields(fields, false, true);
-  };
-
-  const getExternalFields = fields => {
-    return dirtyFields(fields, true, true);
-  };
-
-  const externalFieldsDirty = fields => {
-    return dirtyFields(fields, true, false);
-  };
-
-  const internalFieldsDirty = fields => {
-    return dirtyFields(fields, false, false);
-  };
-
   const formProps = {
     initialValues: {
       transfer: false,
       remoteSystem: false,
-      consentFromIndividual: false,
+      consent_individual_transfer: false,
       agency: "",
       location: "",
-      recipient: "",
-      internalNotes: "",
-      typeOfTransition: "",
-      otherUser: "",
-      otherUserAgency: "",
-      externalNotes: "",
-      typeExport: "",
-      passwordFile: "",
-      fileName: ""
+      transitioned_to: "",
+      notes: ""
     },
-    // TODO: Consider moving outside
     onSubmit: (values, { setSubmitting }) => {
-      let data;
-      const { transfer, remoteSystem, consentFromIndividual } = values;
-      if (remoteSystem && externalFieldsDirty(values)) {
-        data = getExternalFields(values);
-      } else if (transfer && internalFieldsDirty(values)) {
-        data = getInternalFields(values);
-      }
-      console.log("DISPATCH SUBMIT", {
-        ...data,
-        transfer,
-        remoteSystem,
-        consentFromIndividual
-      });
+      dispatch(
+        saveTransferUser(
+          record.get("id"),
+          { data: { ...values, consent_overridden: canConsentOverride } },
+          i18n.t("transfer.success")
+        )
+      );
       setSubmitting(false);
     }
   };
 
   return (
     <Formik {...formProps}>
-      {({ handleSubmit, values, resetForm, setFieldValue }) => {
+      {({ handleSubmit, values, resetForm }) => {
         const disableControl = !providedConsent && !disabled;
-        console.log("VALUES", values);
         if (
-          values.transfer &&
-          externalFieldsDirty(values) &&
-          !values.remoteSystem
+          !values.transfer &&
+          !providedConsent &&
+          internalFieldsDirty(values, internalFields.map(f => f.id))
         ) {
-          console.log("CLEAR EXTERNAL FIELDS", getExternalFields(values));
-          Object.keys(getExternalFields(values)).map(f => setFieldValue(f));
-        }
-        if (values.remoteSystem && internalFieldsDirty(values)) {
-          console.log("CLEAR INTERNAL FIELDS", getInternalFields(values));
-          Object.keys(getInternalFields(values)).map(f => setFieldValue(f));
-        }
-        if (!values.transfer && values.remoteSystem) {
-          console.log("CLEAR ALL FORM");
           resetForm();
         }
-
         return (
           <Form onSubmit={handleSubmit}>
-            {!providedConsent ? (
+            {canConsentOverride && !providedConsent ? (
               <div className={css.alertTransferModal}>
-                {i18n.t("transfer.provided_consent_label")}
+                <Grid
+                  container
+                  direction="row"
+                  justify="flex-start"
+                  alignItems="center"
+                >
+                  <Grid item xs={1}>
+                    <CasesIcon className={css.alertTransferModalIcon} />
+                  </Grid>
+                  <Grid item xs={11}>
+                    <span>{i18n.t("transfer.provided_consent_label")}</span>
+                    <br />
+                    <FormControlLabel
+                      control={
+                        <Field
+                          name="transfer"
+                          render={({ field, form }) => (
+                            <Checkbox
+                              checked={field.value}
+                              onChange={() => {
+                                setDisabled(!field.value);
+                                form.setFieldValue(
+                                  field.name,
+                                  !field.value,
+                                  false
+                                );
+                              }}
+                            />
+                          )}
+                        />
+                      }
+                      label={i18n.t("transfer.transfer_label")}
+                    />
+                  </Grid>
+                </Grid>
               </div>
             ) : null}
             {isBulkTransfer ? <BulkTransfer /> : null}
             <Box>
-              {canConsentOverride && !providedConsent ? (
-                <FormControlLabel
-                  control={
-                    <Field
-                      name="transfer"
-                      render={({ field, form }) => (
-                        <Checkbox
-                          checked={field.value}
-                          onChange={() => {
-                            setDisabled(!field.value);
-                            form.setFieldValue(field.name, !field.value, false);
-                          }}
-                        />
-                      )}
-                    />
-                  }
-                  label={i18n.t("transfer.transfer_label")}
-                />
-              ) : null}
-              <br />
               <FormControlLabel
                 control={
                   <Field
@@ -255,21 +208,17 @@ const TransferForm = ({
               <FormControlLabel
                 control={
                   <Field
-                    name="consentFromIndividual"
+                    name="consent_individual_transfer"
                     component={MuiCheckbox}
                     disabled={disableControl}
                   />
                 }
                 label={i18n.t("transfer.consent_from_individual_label")}
               />
-              {values.remoteSystem ? (
-                <TransferExternal fields={externalFields} />
-              ) : (
-                <TransferInternal
-                  fields={internalFields}
-                  disableControl={disableControl}
-                />
-              )}
+              <TransferInternal
+                fields={internalFields}
+                disableControl={disableControl}
+              />
 
               <Box
                 display="flex"
@@ -298,11 +247,12 @@ const TransferForm = ({
 };
 
 TransferForm.propTypes = {
-  providedConsent: PropTypes.bool.isRequired,
+  providedConsent: PropTypes.bool,
   isBulkTransfer: PropTypes.bool.isRequired,
   userPermissions: PropTypes.object.isRequired,
   handleClose: PropTypes.func.isRequired,
-  transitionType: PropTypes.string
+  transitionType: PropTypes.string,
+  record: PropTypes.object
 };
 
 export default TransferForm;

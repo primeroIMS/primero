@@ -37,11 +37,13 @@ const TransferInternal = ({ disableControl, fields }) => {
                     {...other}
                   />
 
-                  {form.touched[field.name] && form.errors[field.name] && (
-                    <div className="MuiFormHelperText-root Mui-error">
-                      {form.errors[field.name]}
-                    </div>
-                  )}
+                  {form &&
+                    form.touched[field.name] &&
+                    form.errors[field.name] && (
+                      <div className="MuiFormHelperText-root Mui-error">
+                        {form.errors[field.name]}
+                      </div>
+                    )}
                 </>
               );
             }}

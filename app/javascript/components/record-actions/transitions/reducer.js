@@ -24,6 +24,16 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         .setIn(["reassign", "message"], []);
     case Actions.ASSIGN_USER_SAVE_FINISHED:
       return state.setIn(["reassign", "loading"], false);
+    case Actions.TRANSFER_USER_STARTED:
+      return state.setIn(["transfer", "errors"], false);
+    case Actions.TRANSFER_USER_SUCCESS:
+      return state
+        .setIn(["transfer", "errors"], false)
+        .setIn(["transfer", "message"], []);
+    case Actions.TRANSFER_USER_FAILURE:
+      return state
+        .setIn(["transfer", "errors"], true)
+        .setIn(["transfer", "message"], payload.errors[0].message);
     case Actions.CLEAR_ERRORS:
       return state
         .setIn([payload, "errors"], false)

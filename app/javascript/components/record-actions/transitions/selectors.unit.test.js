@@ -18,15 +18,18 @@ const stateWithRecords = Map({
 });
 
 describe("<Transitions /> - Selectors", () => {
-  describe("getAssignUsers", () => {
+  describe("getUsersByTransitionType", () => {
     it("should return list of users allowed to reassign", () => {
       const expected = [{ label: "primero_cp", value: "primero_cp" }];
-      const values = selectors.getAssignUsers(stateWithRecords);
+      const values = selectors.getUsersByTransitionType(
+        stateWithRecords,
+        "reassign"
+      );
       expect(values).to.deep.equal(expected);
     });
 
     it("should return false when there are not users in store", () => {
-      const errors = selectors.getAssignUsers(stateWithNoRecords);
+      const errors = selectors.getUsersByTransitionType(stateWithNoRecords);
       expect(errors).to.be.equal(undefined);
     });
   });

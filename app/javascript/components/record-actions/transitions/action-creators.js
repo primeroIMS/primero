@@ -60,3 +60,24 @@ export const saveAssignedUser = (recordId, body, message) => dispatch => {
     }
   });
 };
+
+export const saveTransferUser = (recordId, body, message) => dispatch => {
+  dispatch({
+    type: actions.TRANSFER_USER,
+    api: {
+      path: `cases/${recordId}/transfers`,
+      method: "POST",
+      body,
+      successCallback: {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          message,
+          options: {
+            variant: "success",
+            key: new Date().getTime() + Math.random()
+          }
+        }
+      }
+    }
+  });
+};

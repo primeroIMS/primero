@@ -17,6 +17,9 @@ const Transitions = ({
   userPermissions
 }) => {
   const dispatch = useDispatch();
+  const providedConsent =
+    record &&
+    (record.get("consent_for_services") || record.get("disclosure_other_orgs"));
 
   const handleClose = () => {
     setTransitionType("");
@@ -52,11 +55,12 @@ const Transitions = ({
         // TODO: isBulkTransfer should be dynamic once record-actions
         // it's been implemented on <RecordList />
         const transferProps = {
-          providedConsent: false,
+          providedConsent,
           isBulkTransfer: false,
           userPermissions,
           handleClose,
-          transitionType
+          transitionType,
+          record
         };
         return <TransferForm {...transferProps} />;
       }
@@ -74,10 +78,11 @@ const Transitions = ({
 
 Transitions.propTypes = {
   transitionType: PropTypes.string.isRequired,
-  record: PropTypes.object.isRequired,
+  record: PropTypes.object,
   setTransitionType: PropTypes.func.isRequired,
   recordType: PropTypes.string.isRequired,
-  userPermissions: PropTypes.object.isRequired
+  userPermissions: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 export default Transitions;

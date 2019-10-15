@@ -2202,11 +2202,11 @@ en:
     consent_override_label: "Do you wish to override this setting?"
     is_remote_label: "Are you transferring to a remote system?"
     consent_individual_transfer: "Do you have consent from the individual to make this transfer?"
-    type_of_export: "What type of export do you want"
+    type_of_export: "What type of export do you want?"
     notes_label: "Notes"
     user_mandatory: "User name is required"
     failure: "%{record_type} %{id} transfer failed (check that consent fields are selected)"
-    success: "%{record_type} %{id} successfully transferred"
+    success: "Successfully transferred"
     rejected: "%{record_type} %{id} transfer rejected"
     failure_batch: "%{failed_count} Transfer(s) failed (check that consent fields are selected)"
     success_batch: "%{success_count} Transfer(s) successfully made"
@@ -2233,6 +2233,9 @@ en:
     is_remote_label: "Are you transferring to someone who is not using this system?"
     recipient_label: "Recipient"
     submit_label: "Transfer"
+    type_of_transition: "Type of transition"
+    json_primero: "JSON (Primero)"
+    json_non_primero: "JSON (Non-Primero)"
 
   request_transfer:
     success: "Request transfer sent"
