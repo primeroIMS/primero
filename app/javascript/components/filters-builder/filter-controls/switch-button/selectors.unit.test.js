@@ -1,6 +1,5 @@
-
 import chai, { expect } from "chai";
-import { Map } from "immutable";
+import { Map, List } from "immutable";
 import chaiImmutable from "chai-immutable";
 import * as selectors from "./selectors";
 
@@ -30,7 +29,7 @@ describe("<SwitchButton /> - Selectors", () => {
     });
 
     it("should return empty object when records empty", () => {
-      const expected = [];
+      const expected = List([]);
       const records = selectors.selectSwitchButtons(
         stateWithNoRecords,
         { field_name: "my_cases" },
@@ -40,4 +39,3 @@ describe("<SwitchButton /> - Selectors", () => {
     });
   });
 });
-

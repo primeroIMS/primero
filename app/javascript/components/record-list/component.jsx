@@ -7,16 +7,16 @@ import { makeStyles } from "@material-ui/styles";
 import { Map } from "immutable";
 import { useThemeHelper } from "libs";
 import { RecordSearch } from "components/record-search";
-import { PageContainer } from "components/page-container";
+import { PageContainer } from "components/page";
 import { withRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useI18n } from "components/i18n";
-import styles from "./styles.css";
+import { fetchRecords } from "components/records";
 import RecordListToolbar from "./RecordListToolbar";
 import FilterContainer from "./FilterContainer";
 import { selectListHeaders } from "./selectors";
 import { buildTableColumns } from "./helpers";
-import { fetchRecords } from "./action-creators";
+import styles from "./styles.css";
 
 const RecordList = ({ match }) => {
   const i18n = useI18n();
@@ -46,7 +46,7 @@ const RecordList = ({ match }) => {
     },
     ...{
       ...(recordType === "tracing_requests"
-        ? { inquiry_status: ["open"], record_state: ["true"] }
+        ? { status: ["open"], record_state: ["true"] }
         : {})
     }
   });

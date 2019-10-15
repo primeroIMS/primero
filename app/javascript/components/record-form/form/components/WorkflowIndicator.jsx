@@ -1,14 +1,22 @@
+/* eslint-disable camelcase */
 import React from "react";
-import { Stepper, Step, StepLabel } from "@material-ui/core";
+import {
+  Stepper,
+  Step,
+  StepLabel,
+  useMediaQuery,
+  Badge
+} from "@material-ui/core";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/styles";
 import { useSelector } from "react-redux";
 import { selectModule } from "components/application";
 import { RECORD_TYPES } from "config";
+import { useThemeHelper } from "libs";
 import styles from "./styles.css";
 
 const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
-  const css = makeStyles(styles)();
+  const { css, theme } = useThemeHelper(styles);
+  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
 
   const selectedModuleWorkflow = useSelector(state =>
     selectModule(state, primeroModule)
@@ -27,6 +35,17 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
   const activeStep = workflowSteps.findIndex(
     s => s.id === record.get("workflow")
   );
+
+  if (mobileDisplay) {
+    return (
+      <>
+        <div className={css.mobileStepper}>
+          <Badge color="primary" badgeContent={(activeStep + 1)?.toString()} />
+          <div>{workflowSteps?.[activeStep]?.display_text}</div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <Stepper classes={{ root: css.stepper }} activeStep={activeStep || 0}>

@@ -61,7 +61,7 @@ describe Api::V2::ReportsController, type: :request do
       aggregate_by: ['owned_by_location'],
       disaggregate_by: ['protection_concerns'],
       filters: [
-        {'attribute' => 'child_status', 'value' => [Record::STATUS_OPEN]},
+        {'attribute' => 'status', 'value' => [Record::STATUS_OPEN]},
         {'attribute' => 'record_state', 'value' => ['true']}
       ],
       editable: false

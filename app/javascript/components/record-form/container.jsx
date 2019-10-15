@@ -5,25 +5,23 @@ import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
 import { useI18n } from "components/i18n";
-import { PageContainer } from "components/page-container";
+import { PageContainer } from "components/page";
 import { LoadingIndicator } from "components/loading-indicator";
 import { useThemeHelper } from "libs";
 import clsx from "clsx";
 import { RECORD_TYPES } from "config";
+import { fetchRecord, saveRecord, selectRecord } from "components/records";
 import { Nav } from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { fetchRecord, saveRecord } from "./action-creators";
 import {
   getFirstTab,
   getFormNav,
   getRecordForms,
-  getRecord,
   getLoadingState,
   getErrors,
   getSelectedForm
 } from "./selectors";
-
 import { compactValues } from "./helpers";
 
 const RecordForms = ({ match, mode }) => {
@@ -40,11 +38,12 @@ const RecordForms = ({ match, mode }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const i18n = useI18n();
-  // eslint-disable-next-line no-param-reassign
   const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
 
-  const record = useSelector(state => getRecord(state, containerMode));
+  const record = useSelector(state =>
+    selectRecord(state, containerMode, params.recordType, params.id)
+  );
 
   const selectedModule = {
     recordType,
@@ -103,7 +102,8 @@ const RecordForms = ({ match, mode }) => {
     selectedForm,
     forms,
     mode: containerMode,
-    record
+    record,
+    recordType: params.recordType
   };
 
   const toolbarProps = {

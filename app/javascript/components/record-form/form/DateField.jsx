@@ -6,9 +6,11 @@ import { InputAdornment } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import { FastField, connect, getIn } from "formik";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import omitBy from "lodash/omitBy";
 
 const DateField = ({ name, helperText, mode, formik, ...rest }) => {
   const i18n = useI18n();
+  const allowedDefaultValues = ["TODAY", "NOW"];
 
   const {
     visible,
@@ -29,16 +31,19 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
     }
   };
 
-  const getDateValue = value => {
+  const getDateValue = (form, field) => {
+    const { value } = field;
     let dateValue = null;
     if (value) {
       dateValue = value;
     } else if (
-      ["TODAY", "NOW"].includes(selectedValue.toUpperCase()) &&
-      mode.isNew
+      !value &&
+      allowedDefaultValues.includes(selectedValue.toUpperCase()) &&
+      !mode.isShow
     ) {
       dateValue = new Date();
     }
+    form.setFieldValue(name, dateValue, true);
     return dateValue;
   };
 
@@ -51,8 +56,8 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
       render={({ field, form }) => {
         const dateProps = {
           ...field,
-          ...rest,
-          value: getDateValue(field.value),
+          ...omitBy(rest, (v, k) => ["recordType", "recordID"].includes(k)),
+          value: getDateValue(form, field),
           format: dateIncludeTime ? "dd-MMM-yyyy HH:mm" : "dd-MMM-yyyy",
           helperText:
             (fieldTouched && fieldError) ||
@@ -72,7 +77,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
           },
           disableFuture:
             rest.field &&
-            rest.field.get("date_validation") === "default_date_validation",
+            rest.field.get("date_validation") === "not_future_date",
           error: !!(fieldError && fieldTouched)
         };
 

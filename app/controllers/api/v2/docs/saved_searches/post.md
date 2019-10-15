@@ -2,7 +2,7 @@
 
 Create a new saved search and optionally return the entire the saved searches.
 
-**URL** : `/api/v2/cases`
+**URL** : `/api/v2/saved_searches`
 
 **Method** : `POST`
 

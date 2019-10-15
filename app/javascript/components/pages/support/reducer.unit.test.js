@@ -20,7 +20,7 @@ describe("<RecordList /> - Reducers", () => {
       primeroVersion: "1.3.15"
     };
     const action = {
-      type: "Support/FETCH_DATA_SUCCESS",
+      type: "support/FETCH_DATA_SUCCESS",
       payload: {
         data: {
           name: "Simon Nehme",
@@ -35,8 +35,7 @@ describe("<RecordList /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.Support(Map({}), action);
-
+    const newState = r.reducers.support(Map({}), action);
     expect(newState.get("data")).to.deep.equal(
       R.ContactInformationRecord(expected)
     );
@@ -44,10 +43,10 @@ describe("<RecordList /> - Reducers", () => {
 
   it("should handle FETCH_DATA_STARTED", () => {
     const action = {
-      type: "Support/FETCH_DATA_STARTED",
+      type: "support/FETCH_DATA_STARTED",
       payload: true
     };
-    const newState = r.reducers.Support(Map({}), action);
+    const newState = r.reducers.support(Map({}), action);
 
     expect(newState.get("loading")).to.deep.equal(true);
     expect(newState.get("errors")).to.deep.equal(false);
@@ -55,20 +54,20 @@ describe("<RecordList /> - Reducers", () => {
 
   it("should handle FETCH_DATA_FINISHED", () => {
     const action = {
-      type: "Support/FETCH_DATA_FINISHED",
+      type: "support/FETCH_DATA_FINISHED",
       payload: false
     };
-    const newState = r.reducers.Support(Map({}), action);
+    const newState = r.reducers.support(Map({}), action);
 
     expect(newState.get("loading")).to.deep.equal(false);
   });
 
   it("should handle FETCH_DATA_FAILURE", () => {
     const action = {
-      type: "Support/FETCH_DATA_FAILURE",
+      type: "support/FETCH_DATA_FAILURE",
       payload: false
     };
-    const newState = r.reducers.Support(Map({}), action);
+    const newState = r.reducers.support(Map({}), action);
 
     expect(newState.get("errors")).to.deep.equal(true);
   });

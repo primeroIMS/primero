@@ -7,6 +7,7 @@ import { getOption } from "components/record-form/selectors";
 import { isEmpty } from "lodash";
 import Box from "@material-ui/core/Grid";
 import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
+import { AGE_MAX } from "config";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
@@ -29,6 +30,16 @@ const RangeButton = ({ recordType, props, value, setValue }) => {
     values = options[i18n.locale];
   }
 
+  const changeAgeRangesValue = v => {
+    if (v.includes(" - ")) {
+      return v.replace(" - ", "..");
+    }
+    if (v.includes("+")) {
+      return v.replace("+", `..${AGE_MAX}`);
+    }
+    return "";
+  };
+
   return (
     <Box className={css.toggleContainer}>
       <ToggleButtonGroup
@@ -39,18 +50,24 @@ const RangeButton = ({ recordType, props, value, setValue }) => {
         onChange={(e, v) => setValue({ fieldName, data: v }, recordType)}
       >
         {values &&
-          values.map(v => (
-            <ToggleButton
-              key={v.id}
-              value={v.id}
-              classes={{
-                root: css.toggleButton,
-                selected: css.toggleButtonSelected
-              }}
-            >
-              {v.display_name || v.display_text}
-            </ToggleButton>
-          ))}
+          values.map(v => {
+            const isAgeRange =
+              typeof v.id === "string" &&
+              (v.id.includes(" - ") || v.id.includes("+"));
+            const rangeValue = isAgeRange ? changeAgeRangesValue(v.id) : v.id;
+            return (
+              <ToggleButton
+                key={`age_${rangeValue}`}
+                value={rangeValue}
+                classes={{
+                  root: css.toggleButton,
+                  selected: css.toggleButtonSelected
+                }}
+              >
+                {v.display_name || v.display_text}
+              </ToggleButton>
+            );
+          })}
       </ToggleButtonGroup>
     </Box>
   );
@@ -61,7 +78,7 @@ RangeButton.propTypes = {
   props: PropTypes.object.isRequired,
   options: PropTypes.object,
   field_name: PropTypes.string,
-  value: PropTypes.object,
+  value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   setValue: PropTypes.func,
   option_strings_source: PropTypes.string
 };

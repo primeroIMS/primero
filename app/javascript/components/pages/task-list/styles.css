@@ -2,3 +2,8 @@
   cursor: pointer;
   border-bottom: 1px solid rgba(224, 224, 224, 1);
 }
+
+.link {
+  display: flex;
+  align-items: center;
+}

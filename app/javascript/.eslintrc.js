@@ -32,6 +32,7 @@ module.exports = {
         map: [
           ["libs", path.resolve(__dirname, "libs")],
           ["config", path.resolve(__dirname, "config")],
+          ["db", path.resolve(__dirname, "db")],
           ["components", path.resolve(__dirname, "components")],
           ["middleware", path.resolve(__dirname, "middleware")],
           ["images", path.resolve(__dirname, "images")],

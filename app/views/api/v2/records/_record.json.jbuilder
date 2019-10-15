@@ -1,4 +1,4 @@
-record_data = record.data.compact.select{|k,_| selected_field_names.include?(k)}.to_h
+record_data = record.data.compact_deep.select{|k,_| selected_field_names.include?(k)}.to_h
 if record.try(:hidden_name) && selected_field_names.include?('name')
   record_data.merge!({'name' => '*******'})
 end

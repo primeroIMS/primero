@@ -32,7 +32,7 @@ module Api::V2
                                         :name,
                                         { :module_ids => [] },
                                         :record_type,
-                                        { :filters => [:name, :value => []] }
+                                        { :filters => [[:name, value: []], [:name, value: {}]] },
                                       ])
     end
   end

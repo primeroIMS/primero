@@ -1,16 +1,38 @@
-import {
-  attemptSignout,
-  LOGOUT_FINISHED,
-  setAuthenticatedUser
-} from "components/user";
+import { attemptSignout, Actions, setAuthenticatedUser } from "components/user";
 import { LOGIN_SUCCESS_CALLBACK } from "components/pages/login";
 import get from "lodash/get";
 import { push } from "connected-react-router";
+import DB from "db";
+
+function redirectTo(store, path) {
+  store.dispatch(push(path));
+}
+
+function logoutSuccessHandler(store) {
+  localStorage.removeItem("user");
+  redirectTo(store, "/login");
+}
+
+async function loginSuccessHandler(store, user) {
+  const { user_name: username, id } = user;
+
+  const userFromDB = await DB.getRecord("user", username);
+
+  if (!userFromDB) {
+    await DB.clearDB();
+  }
+
+  localStorage.setItem("user", JSON.stringify({ username, id }));
+  store.dispatch(setAuthenticatedUser({ username, id }));
+  redirectTo(store, "/dashboard");
+}
 
 const authMiddleware = store => next => action => {
   const routeChanged = action.type === "@@router/LOCATION_CHANGE";
+
   const location =
     routeChanged && get(action, "payload.location.pathname", false);
+
   const isAuthenticated = store
     .getState()
     .getIn(["user", "isAuthenticated"], false);
@@ -20,26 +42,17 @@ const authMiddleware = store => next => action => {
   }
 
   if (location === "/login" && isAuthenticated) {
-    store.dispatch(push("/dashboard"));
+    redirectTo(store, "/dashboard");
   }
 
   if (action.type === LOGIN_SUCCESS_CALLBACK) {
-    const { user_name: username, id } = action.payload.json;
-
-    localStorage.setItem("user", JSON.stringify({ username, id }));
-    store.dispatch(setAuthenticatedUser({ username, id }));
-    store.dispatch(push("/dashboard"));
+    loginSuccessHandler(store, action.payload.json);
   }
 
-  if (action.type === LOGOUT_FINISHED) {
-    localStorage.removeItem("user");
-    store.dispatch(push("/login"));
-  }
+  if (action.type === Actions.LOGOUT_FINISHED) logoutSuccessHandler(store);
 
-  if (routeChanged) {
-    if (location !== "/login" && !isAuthenticated) {
-      store.dispatch(push("/login"));
-    }
+  if (routeChanged && location !== "/login" && !isAuthenticated) {
+    redirectTo(store, "/login");
   }
 
   next(action);

@@ -275,6 +275,15 @@ en:
     photos: "Photo"
     owned_by: 'Record Owner'
     owned_by_agency: 'Record Owner Agency'
+    reopen_dialog_title: "Reopen Case"
+    reopen_dialog: 'Clicking OK will change the status of this case to Open'
+    reopen_success: 'Successfully reopened case'
+    close_dialog_title: 'Close Case'
+    close_dialog: 'Clicking OK will change the status of this case to Closed'
+    close_success: 'Successfully closed case'
+    notes_dialog_title: 'Add Notes'
+    notes_form_subject: 'Subject'
+    notes_form_notes: 'Notes'
 
     order_by:
       most_recently: "Most recently"
@@ -418,12 +427,17 @@ en:
       delete_error: "Delete failed."
       saved_searches_tab: "Saved Searches"
       filters_tab: "Filters"
+      not_found: "No saved searches found"
+      title_modal: "Delete saved searches"
+      title_description: "Are you sure you want to delete this saved search?"
+      no_filters: "There are not filters selected"
 
   task:
     id: "ID#"
     priority: "Priority Level"
     type: "Type of Action"
     due_date: "Due Date"
+    status: "Status"
     types:
       assessment: "Assessment"
       case_plan: "Case Plan"
@@ -696,6 +710,7 @@ en:
       social_worker: "Field/Case/Social Worker:"
       inquiry_date: "Date of Inquiry:"
       inquiry_status: "Inquiry Status:"
+      status: "Status:"
       location_separation: "Separation Location:"
       separation_cause: "Separation Cause:"
       record_state: "Record State:"
@@ -1507,6 +1522,7 @@ en:
     messages:
       delete_success: "Report was successfully deleted."
     edit: "Edit"
+    no_data: "No report data available"
 
   encrypt:
     password_title: "Create Password"
@@ -1588,6 +1604,10 @@ en:
     child_status_closed: "Closed"
     child_status_transferred: "Transferred"
     child_status_duplicate: "Duplicate"
+    status_open: "Open"
+    status_closed: "Closed"
+    status_transferred: "Transferred"
+    status_duplicate: "Duplicate"
 
   dashboard:
     total: 'Total'
@@ -1957,6 +1977,7 @@ en:
     transfer: "Transferred to %{to_user} by %{by_user}"
     record_by: "Record created by"
     child_status_changed: "Child status changed to reunited by"
+    status_changed: "Child status changed to reunited by"
 
     system_logs:
       records_performed_by: "records performed by"
@@ -1981,6 +2002,7 @@ en:
 
     reunited:
       child_status_changed: "Child status changed to active by"
+      status_changed: "Child status changed to active by"
       with_details: "with these details:"
 
   actions:
@@ -1988,6 +2010,8 @@ en:
     enable: "Enable"
     disable: "Disable"
     reopen: "Reopen"
+    close: "Close"
+    notes: "Add Notes"
     incident_details_from_case: "Add Incident"
     services_section_from_case: "Add Service Provision"
     description:
@@ -2165,6 +2189,9 @@ en:
     user_mandatory: "User name is required"
     no_records_selected: "No records selected"
     notes_label: "Notes"
+    users_label: "Recipient"
+    user_mandatory_label: "Recipient is required"
+    successfully: "Successfully reassigned"
 
   transfer:
     type_label: "Type of Transfer"
@@ -2199,6 +2226,13 @@ en:
       in_progress: "In Progress"
     agency_label: "Agency"
     location_label: "Location"
+    select_label: "Select..."
+    transfer_label: "Transfer anyway?"
+    provided_consent_label: "Consent is not provided in the Forms."
+    consent_from_individual_label: "Do you have consent from the individual to make this transfer?"
+    is_remote_label: "Are you transferring to someone who is not using this system?"
+    recipient_label: "Recipient"
+    submit_label: "Transfer"
 
   request_transfer:
     success: "Request transfer sent"
@@ -2360,6 +2394,10 @@ en:
       something_went_wrong: Sorry, Something went wrong!
       contact_admin: If you believe you are here by error, please contact your admin.
       server_error: Page not found
+    not_authorized:
+      code: 403
+      title: Not Authorized
+      server_error: You are not authorized to access this page.
 
   audio:
     update_browser:
@@ -2511,6 +2549,7 @@ en:
     mark_for_mobile: 'Mark for Mobile?'
     social_worker: "Field/Case/Social Worker"
     child_status: "Status"
+    status: "Status"
     age_range: "Age Range"
     sex: "Sex"
     risk_level: "Risk Level"
@@ -2540,8 +2579,9 @@ en:
     record_state: "Record State"
     valid: "Valid"
     invalid: "Invalid"
-    apply_filters: "Apply Filters"
-    clear_filters: "Clear All"
+    apply_filters: "Apply"
+    clear_filters: "Clear"
+    save_filters: "Save"
 
   flags:
     flags_tab: "Flags"

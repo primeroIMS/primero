@@ -89,7 +89,7 @@ class ChildrenController < ApplicationController
     @child[subform] << new_subform
     @child.update_last_updated_by(current_user)
     @child.add_alert(Alertable::NEW_FORM, subform, form_sidebar_id) if current_user.user_name != @child.owned_by
-    if @child.child_status == Record::STATUS_CLOSED
+    if @child.status == Record::STATUS_CLOSED
       #@child.reopen(Record::STATUS_OPEN, true, current_user.user_name)
     end
 
@@ -139,7 +139,6 @@ class ChildrenController < ApplicationController
       format.html {render plain: html}
     end
   end
-
 
   def match_record
     load_tracing_request
@@ -233,7 +232,7 @@ class ChildrenController < ApplicationController
   end
 
   def redirect_to_list
-    redirect_to cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
+    redirect_to cases_path(scope: {:status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
   end
 
   #TODO: We need to define the filter values as Constants

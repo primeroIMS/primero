@@ -67,11 +67,11 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
   }
 
   const isIncluded = (data, value, name) => {
-    if (data instanceof List) {
+    if (data instanceof List || Array.isArray(data)) {
       return checkBoxes.includes(value);
     }
     // This is due to "my_cases" filter
-    return data && data[name] === value;
+    return data.size > 0 && data.get(name).includes(value);
   };
 
   return (

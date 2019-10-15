@@ -168,11 +168,31 @@ describe Report do
           ['female', 'country_2', 'city_2'] => 2,
           ['female', 'country_1', ''] => 4,
           ['female', 'country_2', ''] => 5,
-          ['female', '', ''] => 9
+          ['female', '', ''] => 9,
+          ['male', 'country_1', 'city_1'] => 2,
+          ['male', 'country_1', 'city_2'] => 2,
+          ['male', 'country_2', 'city_1'] => 3,
+          ['male', 'country_2', 'city_2'] => 2,
+          ['male', 'country_1', ''] => 4,
+          ['male', 'country_2', ''] => 5,
+          ['male', '', ''] => 9
         }
       )
       values_as_hash = {
         'female' => {
+          'country_1' => {
+            'city_1' => { '_total' => 2 },
+            'city_2' => { '_total' => 2 },
+            '_total' => 4
+          },
+          'country_2' => {
+            'city_1' => { '_total' => 3 },
+            'city_2' => { '_total' => 2 },
+            '_total' => 5
+          },
+          '_total' => 9
+        },
+        'male' => {
           'country_1' => {
             'city_1' => { '_total' => 2 },
             'city_2' => { '_total' => 2 },

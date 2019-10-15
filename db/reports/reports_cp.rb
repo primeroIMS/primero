@@ -90,7 +90,7 @@ Report.create_or_update({
   description_all: 'Number of cases broken down by agency',
   module_id: PrimeroModule::CP,
   record_type: 'case',
-  aggregate_by: ['owned_by_agency'],
+  aggregate_by: ['owned_by_agency_id'],
   filters: default_case_filters,
   is_graph: true,
   editable: false
@@ -102,7 +102,7 @@ Report.create_or_update({
   description_all: 'Number of cases broken down by agency',
   module_id: PrimeroModule::GBV,
   record_type: 'case',
-  aggregate_by: ['owned_by_agency'],
+  aggregate_by: ['owned_by_agency_id'],
   filters: default_case_filters,
   is_graph: true,
   editable: false

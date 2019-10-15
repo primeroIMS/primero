@@ -1,0 +1,47 @@
+.root {
+  flex-grow: 1;
+  height: 100vh;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.twoCol {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.wrap {
+  padding: 1.563em 2em 4em 2em;
+}
+
+.appBar {
+  background-color: $(theme.primero.colors.contentGrey);
+}
+
+.appBarWhite {
+  background-color: $(theme.primero.colors.white);
+}
+
+.toolbar {
+  padding: 0;
+}
+
+.heading {
+  font-size: $(theme.typography.pxToRem(22));
+  color: $(theme.primero.colors.solidBlack);
+  text-transform: uppercase;
+  fong-weight: bold;
+  flex: 1;
+}
+
+.content {
+  padding-top: 3.5em;
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .root, .twoCol {
+    padding-top: 4em;
+  }
+}

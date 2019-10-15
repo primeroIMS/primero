@@ -68,7 +68,7 @@ describe ReportFieldService do
       aggregate_by: ['owned_by_location'],
       disaggregate_by: ['protection_concerns'],
       filters: [
-        {'attribute' => 'child_status', 'value' => [Record::STATUS_OPEN]},
+        {'attribute' => 'status', 'value' => [Record::STATUS_OPEN]},
         {'attribute' => 'record_state', 'value' => ['true']}
       ],
       editable: false
@@ -77,7 +77,7 @@ describe ReportFieldService do
 
   it 'returns the horizontal fields' do
     horizontal_field = {
-      name: 'owned_by_location', 
+      name: 'owned_by_location',
       display_name: { 'en' => 'Owned by location'},
       position: {type: 'horizontal', order: 0},
       option_strings_source: "Location",
@@ -85,12 +85,12 @@ describe ReportFieldService do
     }
     horizontal_fields = ReportFieldService.horizontal_fields(@report_1)
     expect(horizontal_fields.first).to eq(horizontal_field)
-    
+
   end
 
   it 'returns the vertical fields' do
     vertical_field = {
-      name: 'protection_concerns', 
+      name: 'protection_concerns',
       display_name: { 'en' => 'Protection Concerns'},
       position: {type: 'vertical', order: 0}
 

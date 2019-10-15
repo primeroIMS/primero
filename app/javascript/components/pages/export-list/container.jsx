@@ -2,7 +2,7 @@ import React from "react";
 import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles/";
 import DownloadIcon from "@material-ui/icons/GetApp";
-import { PageContainer, PageHeading } from "components/page-container";
+import { PageContainer, PageHeading, PageContent } from "components/page";
 import { IndexTable } from "components/index-table";
 import { useSelector } from "react-redux";
 import { Map } from "immutable";
@@ -63,7 +63,9 @@ const ExportList = () => {
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.bulk_exports")} />
-      <IndexTable {...tableOptions} />
+      <PageContent>
+        <IndexTable {...tableOptions} />
+      </PageContent>
     </PageContainer>
   );
 };

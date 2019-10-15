@@ -6,23 +6,23 @@ module Tasks
       tasks = []
       if record.services_section.present?
         record.services_section.each do |service|
-          if has_task?(service)
+          if has_task?(record, service)
             tasks << ServiceTask.new(record, service)
           end
         end
       end
-      tasks
+      tasks.select{ |task| task.due_date.present? }
     end
 
-    def self.has_task?(service)
-      #TODO: or should use service['service_implemented'] == Child::SERVICE_NOT_IMPLEMENTED
-      service['service_appointment_date'].present? &&
-      !service['service_implemented_day_time'].present?
+    def self.has_task?(record, service)
+      service['service_implemented_day_time'].blank? &&
+      record&.service_due_date(service).present?
     end
 
     def initialize(record, service)
       super(record)
       self.service = service
+      self.detail = service['service_type']
     end
 
     def due_date

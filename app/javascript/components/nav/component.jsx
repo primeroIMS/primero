@@ -45,7 +45,7 @@ const Nav = () => {
       name: i18n.t("navigation.tasks"),
       to: "/tasks",
       icon: "tasks",
-      jewelCount: 2
+      jewelCount: 0
     },
     {
       name: i18n.t("navigation.cases"),
@@ -121,7 +121,6 @@ const Nav = () => {
                   to={l.to}
                   className={css.navLink}
                   activeClassName={css.navActive}
-                  exact
                 >
                   <ListItemIcon classes={{ root: css.listIcon }}>
                     <ListIcon icon={l.icon} />

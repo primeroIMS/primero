@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import {
   ExpansionPanelDetails,
   ExpansionPanelSummary,
   Button,
-  IconButton,
-  Grid
+  IconButton
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { RefreshIcon } from "images/primero-icons";
@@ -20,9 +19,11 @@ import {
   DatesRange,
   SwitchButton
 } from "components/filters-builder/filter-controls";
+import SavedSearchesForm from "components/saved-searches/SavedSearchesForm";
 import { selectFilters } from "components/index-table";
 import { useI18n } from "components/i18n";
 import * as actions from "./action-creators";
+import { selectFiltersByRecordType } from "./selectors";
 import Panel from "./Panel";
 import styles from "./styles.css";
 
@@ -32,10 +33,12 @@ const FiltersBuilder = ({
   resetPanel,
   resetCurrentPanel,
   recordFilters,
-  applyFilters
+  applyFilters,
+  defaultFilters
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const [open, setOpen] = useState(false);
 
   const handleClearFilters = () => {
     resetPanel();
@@ -47,6 +50,10 @@ const FiltersBuilder = ({
       options: recordFilters,
       path: `/${recordType.toLowerCase()}`
     });
+  };
+
+  const handleSaveFilters = () => {
+    setOpen(true);
   };
 
   const renderFilterControl = filter => {
@@ -77,13 +84,36 @@ const FiltersBuilder = ({
     resetCurrentPanel({ field_name: field, type }, recordType);
   };
 
+  const savedSearchesFormProps = {
+    recordType,
+    open,
+    setOpen
+  };
+
   const allowedResetFilterTypes = ["radio", "multi_toggle", "chips"];
+
+  const savedFilters = useSelector(state =>
+    selectFiltersByRecordType(state, recordType)
+  );
+
+  const filterValues = filter => {
+    const { field_name: fieldName } = filter;
+
+    return (
+      defaultFilters.get(fieldName)?.length > 0 ||
+      savedFilters[fieldName]?.length > 0
+    );
+  };
 
   return (
     <div className={css.root}>
       {filters &&
         filters.toJS().map(filter => (
-          <Panel key={filter.field_name} name={filter.field_name}>
+          <Panel
+            key={`${recordType}-${filter.field_name}`}
+            name={`${recordType}-${filter.field_name}`}
+            hasValues={filterValues(filter)}
+          >
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="filter-controls-content"
@@ -112,24 +142,17 @@ const FiltersBuilder = ({
           </Panel>
         ))}
       <div className={css.actionButtons}>
-        <Grid
-          container
-          direction="row"
-          justify="space-between"
-          alignItems="center"
-        >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleApplyFilter}
-          >
-            {i18n.t("filters.apply_filters")}
-          </Button>
-          <Button variant="outlined" onClick={handleClearFilters}>
-            {i18n.t("filters.clear_filters")}
-          </Button>
-        </Grid>
+        <Button variant="contained" color="primary" onClick={handleApplyFilter}>
+          {i18n.t("filters.apply_filters")}
+        </Button>
+        <Button variant="outlined" onClick={handleSaveFilters}>
+          {i18n.t("filters.save_filters")}
+        </Button>
+        <Button variant="outlined" onClick={handleClearFilters}>
+          {i18n.t("filters.clear_filters")}
+        </Button>
       </div>
+      {<SavedSearchesForm {...savedSearchesFormProps} />}
     </div>
   );
 };
@@ -140,7 +163,8 @@ FiltersBuilder.propTypes = {
   resetPanel: PropTypes.func,
   resetCurrentPanel: PropTypes.func,
   recordFilters: PropTypes.object,
-  applyFilters: PropTypes.func
+  applyFilters: PropTypes.func,
+  defaultFilters: PropTypes.object
 };
 
 const mapStateToProps = (state, props) => ({

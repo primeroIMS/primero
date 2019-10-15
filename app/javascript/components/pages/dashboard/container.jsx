@@ -15,7 +15,7 @@ import { Services } from "components/dashboard/services";
 import { useTheme } from "@material-ui/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { useI18n } from "components/i18n";
-import { PageContainer, PageHeading } from "components/page-container";
+import { PageContainer, PageHeading, PageContent } from "components/page";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 import styles from "./styles.css";
@@ -130,61 +130,58 @@ const Dashboard = ({
 
   return (
     <PageContainer>
-      <Grid container spacing={3} classes={{ root: css.container }}>
-        <Grid item xs={10}>
-          <PageHeading title={i18n.t("navigation.home")} />
+      <PageHeading title={i18n.t("navigation.home")}>
+        <ActionMenu
+          open={isOpenPageActions}
+          onOpen={() => openPageActions(true)}
+          onClose={() => openPageActions(false)}
+          items={actionMenuItems}
+        />
+      </PageHeading>
+      <PageContent>
+        <Grid container spacing={3} classes={{ root: css.container }}>
+          <Grid item md={12}>
+            <OptionsBox
+              title="CASE OVERVIEW"
+              action={<ActionMenu open={false} items={actionMenuItems} />}
+            >
+              <DashboardTable columns={columns} data={casesByCaseWorker} />
+            </OptionsBox>
+          </Grid>
+          <Grid item md={8} xs={12}>
+            <OptionsBox
+              title="CASE OVERVIEW"
+              action={<ActionMenu open={false} items={actionMenuItems} />}
+            >
+              <OverviewBox items={casesOverview} chartData={casesChartData} />
+            </OptionsBox>
+            <OptionsBox
+              title={i18n.t("dashboard.cases_by_task_overdue")}
+              action={<ActionMenu open={false} items={actionMenuItems} />}
+            >
+              <DashboardTable columns={columns} data={casesByCaseWorker} />
+            </OptionsBox>
+            <OptionsBox
+              title={i18n.t("dashboard.registration")}
+              action={<ActionMenu open={false} items={actionMenuItems} />}
+            >
+              <LineChart
+                chartData={registrationChartData}
+                title="Total case registrations over time"
+              />
+            </OptionsBox>
+            <Services servicesList={servicesStatus} />
+          </Grid>
+          <Grid item md={4} xs={12}>
+            <OptionsBox
+              title={i18n.t("dashboard.flagged")}
+              action={<ActionMenu open={false} items={actionMenuItems} />}
+            >
+              <FlagList flags={flags} i18n={i18n} />
+            </OptionsBox>
+          </Grid>
         </Grid>
-        <Grid item xs={2}>
-          <div className={css.pageOptions}>
-            <ActionMenu
-              open={isOpenPageActions}
-              onOpen={() => openPageActions(true)}
-              onClose={() => openPageActions(false)}
-              items={actionMenuItems}
-            />
-          </div>
-        </Grid>
-        <Grid item md={12}>
-          <OptionsBox
-            title="CASE OVERVIEW"
-            action={<ActionMenu open={false} items={actionMenuItems} />}
-          >
-            <DashboardTable columns={columns} data={casesByCaseWorker} />
-          </OptionsBox>
-        </Grid>
-        <Grid item md={8} xs={12}>
-          <OptionsBox
-            title="CASE OVERVIEW"
-            action={<ActionMenu open={false} items={actionMenuItems} />}
-          >
-            <OverviewBox items={casesOverview} chartData={casesChartData} />
-          </OptionsBox>
-          <OptionsBox
-            title={i18n.t("dashboard.cases_by_task_overdue")}
-            action={<ActionMenu open={false} items={actionMenuItems} />}
-          >
-            <DashboardTable columns={columns} data={casesByCaseWorker} />
-          </OptionsBox>
-          <OptionsBox
-            title={i18n.t("dashboard.registration")}
-            action={<ActionMenu open={false} items={actionMenuItems} />}
-          >
-            <LineChart
-              chartData={registrationChartData}
-              title="Total case registrations over time"
-            />
-          </OptionsBox>
-          <Services servicesList={servicesStatus} />
-        </Grid>
-        <Grid item md={4} xs={12}>
-          <OptionsBox
-            title={i18n.t("dashboard.flagged")}
-            action={<ActionMenu open={false} items={actionMenuItems} />}
-          >
-            <FlagList flags={flags} i18n={i18n} />
-          </OptionsBox>
-        </Grid>
-      </Grid>
+      </PageContent>
     </PageContainer>
   );
 };

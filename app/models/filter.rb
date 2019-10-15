@@ -171,8 +171,8 @@ class Filter < ValueObject
     field_name: 'perpetrator_sub_categories',
     option_strings_source: 'lookup-armed-force-group-type'
   )
-  INQUIRY_STATUS = Filter.new(
-    name: 'tracing_requests.filter_by.inquiry_status',
+  STATUS = Filter.new(
+    name: 'tracing_requests.filter_by.status',
     field_name: 'status',
     option_strings_source: 'lookup-inquiry-status'
   )
@@ -283,7 +283,7 @@ class Filter < ValueObject
       filters << FLAGGED_CASE
       filters << SOCIAL_WORKER if user.is_manager?
       filters << INQUIRY_DATE
-      filters << INQUIRY_STATUS
+      filters << STATUS
       filters << SEPARATION_LOCATION
       filters << SEPARATION_CAUSE
       filters << RECORD_STATE

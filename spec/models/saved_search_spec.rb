@@ -52,7 +52,7 @@ describe SavedSearch do
                                   { "flag" => ["single", "flag"] },
                                   { "marked_for_mobile" => ["single", "true"] },
                                   { "owned_by_location1" => ["list", "LB7"] },
-                                  { "child_status" => ["list", "open"] },
+                                  { "child" => ["list", "open"] },
                                   { "record_state" => ["list", "true"] }
                                 ])
     end

@@ -27,37 +27,49 @@ export default [
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:id/edit",
         component: RecordForm,
-        mode: "edit"
+        mode: "edit",
+        permission: ["write", "manage"]
       },
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:module/new",
         component: RecordForm,
-        mode: "new"
+        mode: "new",
+        permission: ["create", "manage"]
       },
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:id",
         component: RecordForm,
-        mode: "show"
+        mode: "show",
+        permission: ["read", "manage"]
       },
       {
         path: "/:recordType(cases|incidents|tracing_requests)",
-        component: RecordList
+        component: RecordList,
+        permission: ["read", "manage"]
       },
       {
         path: "/reports",
-        component: Page.Reports
+        component: Page.Reports,
+        permissionType: "reports",
+        permission: ["read", "group_read", "manage"]
       },
       {
         path: "/reports/:id",
-        component: Page.ReportDetail
+        component: Page.Report,
+        permissionType: "reports",
+        permission: ["read", "group_read", "manage"]
       },
       {
         path: "/matches",
-        component: Page.PotentialMatches
+        component: Page.PotentialMatches,
+        permissionType: "potential_matches",
+        permission: "read"
       },
       {
         path: "/tasks",
-        component: Page.TaskList
+        component: Page.TaskList,
+        permissionType: "dashboards",
+        permission: "dash_tasks"
       },
       {
         path: "/exports",
@@ -66,6 +78,10 @@ export default [
       {
         path: "/support",
         component: Page.Support
+      },
+      {
+        path: "/not-authorized",
+        component: Page.NotAuthorized
       }
     ]
   },

@@ -1,0 +1,31 @@
+.new {
+  color: $(theme.primero.colors.blue);
+}
+
+.card {
+  margin-bottom: 1.2em;
+  display: flex;
+  background: linear-gradient(
+    to bottom,
+    $(theme.primero.colors.white),
+    #fafafa
+  );
+}
+
+.title {
+  color: $(theme.primero.colors.black);
+  text-transform: uppercase;
+  font-size: $(theme.typography.pxToRem(16));
+  margin-bottom: 0.5em;
+}
+
+.description {
+  color: #595951;
+  font-size: $(theme.typography.pxToRem(14));
+  margin-top: 0;
+}
+
+.cardContent {
+  padding-bottom: 0 !important;
+  padding: 0 1.3em;
+}
