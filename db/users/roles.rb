@@ -35,7 +35,9 @@ cp_admin_permissions = [
       Permission::SEARCH_OWNED_BY_OTHERS,
       Permission::CREATE,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
-      Permission::ENABLE_DISABLE_RECORD
+      Permission::ENABLE_DISABLE_RECORD,
+      Permission::REOPEN,
+      Permission::CLOSE
     ]
   ),
   Permission.new(
@@ -246,7 +248,9 @@ cp_manager_permissions = [
       Permission::INCIDENT_FROM_CASE,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::ENABLE_DISABLE_RECORD,
-      Permission::ADD_NOTE
+      Permission::ADD_NOTE,
+      Permission::REOPEN,
+      Permission::CLOSE
     ]
   ),
   Permission.new(
