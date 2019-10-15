@@ -28,7 +28,6 @@ class Header < ValueObject
   DESCRIPTION = Header.new(name: 'description', field_name: 'description')
   CASE_ID = Header.new(name: 'id', field_name: 'record_id_display')
   PRIORITY = Header.new(name: 'priority', field_name: 'priority')
-  TYPE = Header.new(name: 'type', field_name: 'type')
   TYPE_DISPLAY = Header.new(name: 'type', field_name: 'type_display')
   DUE_DATE = Header.new(name: 'due_date', field_name: 'due_date')
   FILE_NAME = Header.new(name: 'file_name', field_name: 'file_name')
