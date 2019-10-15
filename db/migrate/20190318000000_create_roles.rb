@@ -13,15 +13,24 @@ class CreateRoles < ActiveRecord::Migration[5.0]
     add_index :roles, :unique_id, unique: true
     add_index :roles, :permissions, using: :gin
 
-    create_table :form_sections_roles, :id => false do |t|
+    create_table :form_sections_roles, id: false do |t|
       t.integer :role_id
       t.integer :form_section_id
     end
     add_index :form_sections_roles, [:role_id, :form_section_id], unique: true
 
-    create_table :roles_roles, :id => false do |t|
+    create_table :primero_modules_roles, id: false do |t|
+      t.integer :role_id
+      t.integer :primero_module_id
+    end
+    add_index :primero_modules_roles, [:role_id, :primero_module_id], unique: true
+
+    create_table :roles_roles, id: false do |t|
       t.integer :role_id
       t.integer :associated_role_id
     end
+    add_index :roles_roles, [:role_id, :associated_role_id], unique: true
+
+
   end
 end

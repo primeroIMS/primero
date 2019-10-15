@@ -56,7 +56,7 @@ module Api::V2::Concerns
     end
 
     def permit_fields
-      @permitted_field_names = current_user.permitted_field_names(current_user.primero_modules, model_class)
+      @permitted_field_names = current_user.permitted_field_names(model_class)
     end
 
     def select_fields

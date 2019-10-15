@@ -14,21 +14,15 @@ class User < ApplicationRecord
 
   has_many :saved_searches
   has_and_belongs_to_many :user_groups
-  has_and_belongs_to_many :primero_modules
 
   scope :list_by_enabled, -> { where(disabled: false) }
   scope :list_by_disabled, -> { where(disabled: true) }
   scope :by_user_group, (lambda do |ids|
     joins(:user_groups).where(user_groups: { id: ids })
   end)
-  scope :by_modules, (lambda do |ids|
-    joins(:primero_modules).where(primero_modules: { id: ids })
-  end)
 
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
-  alias_attribute :modules, :primero_modules
-  alias_attribute :module_ids, :primero_module_ids
 
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id]
 
@@ -40,7 +34,6 @@ class User < ApplicationRecord
 
   validates_presence_of :password_confirmation, :message => "errors.models.user.password_confirmation", if: -> { password.present? }
   validates_presence_of :role_id, :message => "errors.models.user.role_ids"
-  validates_presence_of :module_ids, :message => "errors.models.user.module_ids"
 
   validates_presence_of :organization, :message => "errors.models.user.organization"
 
@@ -193,13 +186,21 @@ class User < ApplicationRecord
     @last_login = self.localize_date(timestamp, "%Y-%m-%d %H:%M:%S %Z") if timestamp.present?
   end
 
+  def modules
+    role.modules
+  end
+
+  def module_unique_ids
+    modules.pluck(:unique_id)
+  end
+
   def has_module?(module_id)
-    module_ids.include?(module_id)
+    modules.exists?(module_id)
   end
 
   def has_permission?(permission)
     role.permissions && role.permissions
-                            .map{ |p| p.actions }.flatten.include?(permission)
+                            .map(&:actions).flatten.include?(permission)
   end
 
   def has_permission_by_permission_type?(permission_type, permission)
@@ -347,34 +348,47 @@ class User < ApplicationRecord
     self.modules.select{ |m| m.associated_record_types.include?(record_type) }
   end
 
-  def permitted_forms(record_modules = nil, record_type = nil, visible_forms_only = false)
-    # A user explicitly needs to have the forms as part of his roles.
-    role_forms = self.role.try(:form_sections) || []
-
-    # When modules are specified, we return only those forms from the user that belong to the specified modules.
-    modules_forms = record_modules.try(:map, &:form_sections).try(:flatten) || record_modules.try(:form_sections)
-    forms = modules_forms.present? ? Set.new(role_forms) & Set.new(modules_forms) : role_forms
-
-    forms = forms.select{ |form| form.parent_form == record_type } if record_type.present?
-
-    forms = forms.select {|form| form.visible? } if visible_forms_only
-    # TODO: This is an optimization we probably don't need.
-    # FormSection.link_subforms(forms)
-    # TODO: Is this needed?
-    # forms.each{|f| f.module_name = record_module.name}
-
-    # Make sure we always return an Array
-    forms.to_a
+  def permitted_forms(record_type = nil, visible_only = false)
+    permitted_forms = FormSection.joins(:roles).where(
+      form_sections: { roles: { id: role_id } }
+    )
+    if record_type.present?
+      permitted_forms = permitted_forms.where(
+        parent_form: record_type
+      )
+    end
+    if visible_only
+      permitted_forms = permitted_forms.where(
+        visible: true
+      )
+    end
+    permitted_forms
   end
 
-  def permitted_fields(record_modules, record_type, visible_forms_only = false)
-    permitted_forms = self.permitted_forms(record_modules, record_type, visible_forms_only)
-    permitted_forms.map(&:fields).flatten.uniq(&:name)
+  def permitted_fields(record_type = nil, visible_forms_only = false)
+    permitted_fields = Field.joins(form_section: :roles).where(
+      fields: { form_sections: { roles: { id: role_id } } }
+    )
+    if record_type.present?
+      permitted_fields = permitted_fields.where(
+        fields: { form_sections: { parent_form: record_type } }
+      )
+    end
+    if visible_forms_only
+      permitted_fields = permitted_fields.where(
+        fields: { form_sections: { visible: true } }
+      )
+    end
+    permitted_fields
   end
 
-  def permitted_field_names(record_modules, model_class)
+  def permitted_field_names_from_forms(record_type = nil, visible_forms_only = false)
+    permitted_fields(record_type, visible_forms_only).distinct.pluck(:name)
+  end
+
+  def permitted_field_names(model_class)
     unless @permitted_field_names.present?
-      @permitted_field_names = ['id'] + permitted_fields(record_modules, model_class.parent_form).map(&:name)
+      @permitted_field_names = ['id'] + permitted_field_names_from_forms(model_class.parent_form)
       @permitted_field_names << 'record_state' if can?(:enable_disable_record, model_class)
       @permitted_field_names << 'hidden_name' if can?(:update, model_class)
       @permitted_field_names << 'flag_count' if can?(:flag, model_class)
@@ -390,7 +404,7 @@ class User < ApplicationRecord
   end
 
   def is_manager?
-    self.role.try(:is_manager?) || false
+    role.is_manager
   end
 
   def tasks(pagination = { per_page: 100, page: 1 })

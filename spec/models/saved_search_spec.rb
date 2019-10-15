@@ -3,7 +3,7 @@ require 'rails_helper'
 describe SavedSearch do
   describe "saved searches" do
     before :each do
-      [SavedSearch, FormSection, Role, Agency, User, PrimeroModule, PrimeroProgram].each(&:destroy_all)
+      [SavedSearch, Field, FormSection, Role, Agency, User, PrimeroModule, PrimeroProgram].each(&:destroy_all)
 
       @program = PrimeroProgram.create!(
         unique_id: "primeroprogram-primero",
@@ -28,7 +28,8 @@ describe SavedSearch do
             :resource => Permission::CASE,
             :actions => [Permission::MANAGE]
           )
-        ]
+        ],
+        modules: [@cp]
       )
 
       @agency_1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
@@ -40,8 +41,7 @@ describe SavedSearch do
         password_confirmation: 'a12345678',
         email: "test_user_1@localhost.com",
         agency_id: @agency_1.id,
-        role: @role,
-        primero_modules: [@cp]
+        role: @role
       )
 
       @saved_search = SavedSearch.create!(

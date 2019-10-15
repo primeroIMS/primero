@@ -3,11 +3,11 @@ require 'rails_helper'
 describe NotificationMailer, type: :mailer do
   describe "approvals" do
     before do
-      Lookup.all.each {|lookup| lookup.destroy}
-      User.all.each {|user| user.destroy}
+      [PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role].each(&:destroy_all)
       @lookup = create :lookup, id: 'lookup-approval-type', name: 'approval type'
-      @manager1 = create :user, is_manager: true, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
-      @manager2 = create :user, is_manager: true, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2'
+      role = create :role, is_manager: true
+      @manager1 = create :user, role: role, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
+      @manager2 = create :user, role: role, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2'
       @owner = create :user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev'
       @child = child_with_created_by(@owner.user_name, :name => "child1", :module_id => PrimeroModule::CP, case_id_display: '12345')
     end
@@ -53,13 +53,12 @@ describe NotificationMailer, type: :mailer do
           Permission::REFERRAL, Permission::RECEIVE_REFERRAL
         ]
       )
-      @role = Role.new(permissions: [@permission_assign_case])
+      @role = Role.new(permissions: [@permission_assign_case], modules: [@primero_module])
       @role.save(validate: false)
       agency = Agency.create!(name: 'Test Agency', agency_code: 'TA')
       @group1 = UserGroup.create!(name: 'Group1')
       @user1 = User.new(
         user_name: 'user1', role: @role, user_groups: [@group1],
-        modules: [@primero_module],
         email: 'uzer1@test.com', send_mail: true,
         agency: agency
       )
@@ -67,7 +66,7 @@ describe NotificationMailer, type: :mailer do
       @group2 = UserGroup.create!(name: 'Group2')
       @user2 = User.new(
         user_name: 'user2', role: @role,
-        user_groups: [@group2], modules: [@primero_module],
+        user_groups: [@group2],
         email: 'uzer_to@test.com', send_mail: true,
         agency: agency
       )
@@ -150,10 +149,7 @@ describe NotificationMailer, type: :mailer do
     end
 
     after :each do
-      PrimeroModule.destroy_all
-      UserGroup.destroy_all
-      Role.destroy_all
-      User.destroy_all
+      [PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role].each(&:destroy_all)
       Child.destroy_all
       Transition.destroy_all
       Agency.destroy_all
@@ -163,8 +159,8 @@ describe NotificationMailer, type: :mailer do
   private
 
   def child_with_created_by(created_by, options = {})
-    user = User.new({:user_name => created_by, :organization=> "UNICEF"})
-    child = Child.new_with_user_name user, options
-    child.save
+    user = User.new({:user_name => created_by})
+    child = Child.new_with_user user, options
+    child.save && child
   end
 end

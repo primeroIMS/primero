@@ -30,12 +30,12 @@ puts "[Re-]Seeding the forms"
 Dir[File.dirname(__FILE__) + '/forms/*/*.rb'].each {|file| require file } if should_seed? FormSection
 
 #Reseed the default roles and users, and modules
-puts "Seeding Roles"
-require File.dirname(__FILE__) + "/users/roles.rb" if should_seed?(Role)
 puts "Seeding Programs"
 require File.dirname(__FILE__) + "/users/default_programs.rb" if should_seed?(PrimeroProgram)
 puts "Seeding Modules"
 require File.dirname(__FILE__) + "/users/default_modules.rb" if should_seed?(PrimeroModule)
+puts "Seeding Roles"
+require File.dirname(__FILE__) + "/users/roles.rb" if should_seed?(Role)
 puts "Seeding User Groups"
 require File.dirname(__FILE__) + "/users/default_user_groups.rb" if should_seed?(UserGroup)
 puts "Seeding Agencies"
