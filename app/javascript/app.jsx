@@ -24,6 +24,8 @@ import configureStore, { history } from "./store";
 
 const store = configureStore();
 
+window.I18n = { defaultLocale: "en", locale: "en", t: path => path };
+
 const jss = create({
   plugins: [...jssPreset().plugins, rtl()],
   insertionPoint: document.getElementById("jss-insertion-point")

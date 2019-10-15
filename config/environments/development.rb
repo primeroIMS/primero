@@ -10,9 +10,12 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Asset pipeline
-  config.assets.compress = false
-  config.assets.debug = ENV['DEBUG_ASSETS'] == 'no' ? false : true
-  config.assets.quiet = true
+  # config.assets.debug = false
+  # config.assets.quiet = true
+  # config.assets.enabled = false
+  # config.assets.version = '1.0'
+  # config.assets.check_precompiled_asset = false
+  # config.public_file_server.enabled = true
 
   config.eager_load = ENV['PROFILE'] == 'true' ? true : false
 

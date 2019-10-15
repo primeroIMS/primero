@@ -162,7 +162,7 @@ const testFunc = async options => {
 - [react-test-renderer](https://reactjs.org/docs/test-renderer.html)
 - [material-ui/testing](https://material-ui.com/guides/testing/#testing) : Material iu has testing helpers simular to enzyme's methods.
 
-There are also some helpers and setup in the `javascript/test` dir. The helpers in `javascripts/test/unit-test-helpers.js` wrap components in the needed providers to mount components. Take a look at files with the name of *.unit.test.js for examples. Test should reside aside their component.
+There are also some helpers and setup in the `javascript/test` dir. The helpers in `javascript/test/unit-test-helpers.js` wrap components in the needed providers to mount components. Take a look at files with the name of *.unit.test.js for examples. Test should reside aside their component.
 
 ### Tools
 - Redux-devtools are enabled in development. Install the [chrome extention](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) for use

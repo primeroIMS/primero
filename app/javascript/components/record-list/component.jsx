@@ -31,7 +31,7 @@ const RecordList = ({ match }) => {
   );
 
   const defaultFilters = Map({
-    short: true,
+    fields: "short",
     per: 20,
     page: 1,
     ...{

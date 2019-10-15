@@ -1,6 +1,14 @@
 require_relative 'boot'
 
-require 'rails/all'
+# require 'rails/all'
+
+require "active_model/railtie"
+require "active_job/railtie"
+require "active_record/railtie"
+require "action_controller/railtie"
+require "action_mailer/railtie"
+require "action_view/railtie"
+require "active_storage/engine"
 
 Bundler.require(*Rails.groups)
 
@@ -31,16 +39,12 @@ module Primero
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-    # i18n-js recommended configuration.
-    config.assets.initialize_on_precompile = true
-
     # Asset pipeline
-    config.assets.enabled = true
-    config.assets.version = '1.0'
-
-    config.assets.precompile += %w(
-      translations.js
-    )
+    # config.assets.debug = false
+    # config.assets.quiet = true
+    # config.assets.enabled = false
+    # config.assets.version = '1.0'
+    # config.assets.check_precompiled_asset = false
 
     LOCALE_ENGLISH = 'en'
     LOCALE_FRENCH = 'fr'
@@ -84,8 +88,6 @@ module Primero
     config.action_view.logger = nil
 
     config.exceptions_app = self.routes
-
-    config.middleware.use I18n::JS::Middleware
 
     def locales
       @locales ||= I18n.available_locales.map(&:to_s)

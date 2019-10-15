@@ -11,10 +11,6 @@ gem 'file_validators',  '~> 2.3'
 gem 'jbuilder',         '~> 2.8'
 gem 'minipack',         '~> 0.3.3'
 
-#TODO: Remove after we have disabled the asset pipeline
-gem 'uglifier',         '~> 4.1'
-gem 'sass-rails',       '~> 5.0'
-
 # Note: if upgrading Sunspot, update the corresonding version of Solr in Chef if necessaary.
 # Current Solr version is 5.3.1
 gem 'sunspot_rails',     '2.3.0'
