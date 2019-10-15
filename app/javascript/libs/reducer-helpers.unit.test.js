@@ -3,7 +3,7 @@ import "test/test.setup";
 import { fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
 
-import { mergeRecord } from "./reducer-helpers";
+import * as reducerHelpers from "./reducer-helpers";
 
 chai.use(chaiImmutable);
 
@@ -28,6 +28,30 @@ describe("reducer-helpers", () => {
           {
             id: 4,
             field1: ""
+          }
+        ]
+      });
+
+      const record = fromJS({
+        id: 1,
+        first_name: "Josh",
+        middle_name: "Fren",
+        locations: [],
+        countries: ["united_states"],
+        nationality: ["american"],
+        followups: [
+          {
+            id: 1,
+            field: "field-value-1",
+          },
+          {
+            id: 2,
+            field2: "field2-value-2",
+            nationality: ["french"]
+          },
+          {
+            id: 4,
+            field1: "field1-value-4"
           }
         ]
       });
@@ -63,31 +87,7 @@ describe("reducer-helpers", () => {
         ]
       });
 
-      const record = fromJS({
-        id: 1,
-        first_name: "Josh",
-        middle_name: "Fren",
-        locations: [],
-        countries: ["united_states"],
-        nationality: ["american"],
-        followups: [
-          {
-            id: 1,
-            field: "field-value-1",
-          },
-          {
-            id: 2,
-            field2: "field2-value-2",
-            nationality: ["french"]
-          },
-          {
-            id: 4,
-            field1: "field1-value-4"
-          }
-        ]
-      });
-
-      expect(mergeRecord(record, payload).toJS()).to.deep.equal(expected.toJS());
+      expect(reducerHelpers.mergeRecord(record, payload).toJS()).to.deep.equal(expected.toJS());
     });
   });
 });
