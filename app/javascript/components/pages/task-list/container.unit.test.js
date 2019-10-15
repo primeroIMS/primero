@@ -57,7 +57,7 @@ describe("<TaskList />", () => {
               }),
               userRecord.ListHeaderRecord({
                 name: 'type',
-                field_name: 'type',
+                field_name: 'type_display',
                 id_search: false
               }),
               userRecord.ListHeaderRecord({
