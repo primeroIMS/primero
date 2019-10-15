@@ -10,28 +10,6 @@ chai.use(chaiImmutable);
 describe("reducer-helpers", () => {
   describe("mergeRecord", () => {
     it("should merge deep object and update/concat arrays", () => {
-      const payload = fromJS({
-        last_name: "James",
-        countries: ["united_states", "spain"],
-        nationality: ["brazillian", "british"],
-        followups: [
-          {
-            id: 2,
-            field3: "field3-value-2",
-            nationality: ["japanese", "american"]
-          },
-          {
-            id: 3,
-            field2: "field2-value-3",
-            field3: "field3-value-3",
-          },
-          {
-            id: 4,
-            field1: ""
-          }
-        ]
-      });
-
       const record = fromJS({
         id: 1,
         first_name: "Josh",
@@ -52,6 +30,28 @@ describe("reducer-helpers", () => {
           {
             id: 4,
             field1: "field1-value-4"
+          }
+        ]
+      });
+
+      const payload = fromJS({
+        last_name: "James",
+        countries: ["united_states", "spain"],
+        nationality: ["brazillian", "british"],
+        followups: [
+          {
+            id: 2,
+            field3: "field3-value-2",
+            nationality: ["japanese", "american"]
+          },
+          {
+            id: 3,
+            field2: "field2-value-3",
+            field3: "field3-value-3",
+          },
+          {
+            id: 4,
+            field1: ""
           }
         ]
       });
