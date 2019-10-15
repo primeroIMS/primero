@@ -52,12 +52,14 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
   );
 
   const canAddNotes = checkPermissions(userPermissions, ["manage", "add_note"]);
+  const canReopen = checkPermissions(userPermissions, ["manage", "reopen"]);
+  const canClose = checkPermissions(userPermissions, ["manage", "close"]);
   const canEnable = checkPermissions(userPermissions, [
     "manage",
     "enable_disable_record"
   ]);
   const canTransfer = checkPermissions(userPermissions, assignPermissions);
-  console.log();
+
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -154,7 +156,11 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
       name: i18n.t(`actions.${openState}`),
       action: handleReopenDialogOpen,
       recordType: "all",
-      condition: mode && mode.isShow
+      condition:
+        mode &&
+        mode.isShow &&
+        ((canReopen && openState === "reopen") ||
+          (canClose && openState === "close"))
     },
     {
       name: i18n.t(`actions.${enableState}`),
@@ -174,6 +180,15 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     <ToggleEnable
       close={handleEnableDialogClose}
       openEnableDialog={openEnableDialog}
+      record={record}
+      recordType={recordType}
+    />
+  );
+
+  const open = (
+    <ToggleOpen
+      close={handleReopenDialogClose}
+      openReopenDialog={openReopenDialog}
       record={record}
       recordType={recordType}
     />
@@ -220,12 +235,10 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
           ))}
       </Menu>
 
-      <ToggleOpen
-        close={handleReopenDialogClose}
-        openReopenDialog={openReopenDialog}
-        record={record}
-        recordType={recordType}
-      />
+      {(canReopen && openState === "reopen") ||
+      (canClose && openState === "close")
+        ? open
+        : null}
 
       {canEnable ? enable : null}
 
