@@ -12,13 +12,13 @@ describe Api::V2::ReferralsController, type: :request do
         Permission::REFERRAL, Permission::RECEIVE_REFERRAL
       ]
     )
-    @role = Role.new(permissions: [@permission_refer_case])
+    @role = Role.new(permissions: [@permission_refer_case], modules: [@primero_module])
     @role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
-    @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1], modules: [@primero_module])
+    @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
     @user1.save(validate: false)
     @group2 = UserGroup.create!(name: 'Group2')
-    @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2], modules: [@primero_module])
+    @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2])
     @user2.save(validate: false)
     @case = Child.create(
       data: {

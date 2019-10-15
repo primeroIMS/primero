@@ -289,8 +289,8 @@ describe Ability do
     end
 
     context "when Role Specific permission" do
-      before do
-        Role.all.each &:destroy
+      before :each do
+        Role.destroy_all
         @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
         @role_case_read = create :role, permissions: [@permission_case_read]
         @permission_tracing_request_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
@@ -376,8 +376,8 @@ describe Ability do
         end
       end
 
-      after do
-        Role.all.each &:destroy
+      after :each do
+        Role.destroy_all
       end
     end
 

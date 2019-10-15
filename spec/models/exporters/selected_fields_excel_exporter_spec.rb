@@ -75,8 +75,8 @@ module Exporters
                  create(:child, "first_name" => "Emilio", "last_name" => "Steves", "_id" => "00000000006",
                            "subform_field_1" => [{"unique_id" =>"99"}], "subform_field_2" => [{"unique_id" =>"66"}])]
       # @user = User.new(:user_name => 'fakeadmin', module_ids: ['primeromodule-cp'])
-      @role = create(:role, form_sections: FormSection.all)
-      @user = create(:user, :user_name => 'fakeadmin', role: @role, module_ids: [@primero_module.id])
+      @role = create(:role, form_sections: FormSection.all, modules: [@primero_module])
+      @user = create(:user, :user_name => 'fakeadmin', role: @role)
     end
 
     it "converts data to Excel format" do

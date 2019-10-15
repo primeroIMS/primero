@@ -21,8 +21,12 @@ describe FormSection do
     @primero_program = PrimeroProgram.create!(unique_id: 'some_program', name_en: "Some program")
     @primero_module = PrimeroModule.create!(primero_program: @primero_program, name: "Test Module", associated_record_types: ['case'], form_sections: [@form_section_a, @form_section_b])
     @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
-    @role = Role.create!(form_sections: [@form_section_b, @form_section_c], name: "Test Role", permissions: [@permission_case_read])
-    @user = User.new(user_name: "test_user", role: @role, module_ids: [@primero_module.id])
+    @role = Role.create!(
+      form_sections: [@form_section_b, @form_section_c],
+      name: 'Test Role', permissions: [@permission_case_read],
+      modules: [@primero_module]
+    )
+    @user = User.new(user_name: "test_user", role: @role)
   end
 
   def create_formsection(stubs={})
@@ -74,8 +78,12 @@ describe FormSection do
       @primero_program = PrimeroProgram.create!(unique_id: 'some_program', name_en: "Some program")
       @mobile_module = PrimeroModule.create!(primero_program: @primero_program, name: "Mobile Module", associated_record_types: ['case'],
                                              form_sections: [@form_section_a, @form_section_b, @form_section_mobile_1])
-      @roleM = Role.create!(form_sections: [@form_section_b, @form_section_c, @form_section_mobile_1], name: "Test Role Mobile", permissions: [@permission_case_read])
-      @userM = User.new(user_name: "test_user_m", role: @roleM, module_ids: [@mobile_module.id])
+      @roleM = Role.create!(
+        form_sections: [@form_section_b, @form_section_c, @form_section_mobile_1],
+        name: "Test Role Mobile", permissions: [@permission_case_read],
+        modules: [@mobile_module]
+      )
+      @userM = User.new(user_name: "test_user_m", role: @roleM)
     end
 
     describe "filter_for_subforms" do

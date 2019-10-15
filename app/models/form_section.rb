@@ -266,12 +266,12 @@ class FormSection < ApplicationRecord
             #Custom export does not have violation type, just reporting.
             #Copied this code from the old reporting method.
             #TODO - this can be improved
-            forms = user.permitted_forms(primero_module, parent_form)
+            forms = user.permitted_forms(parent_form)
             forms = forms.select{|f| f.is_violation? || !f.is_nested?}
           else
             if apply_to_reports
               #For reporting show all forms, not just the visible.
-              forms = user.permitted_forms(primero_module, parent_form)
+              forms = user.permitted_forms(parent_form)
               #For reporting avoid subforms.
 
               # Filtering out nested subform minus any selected reportable subforms.
@@ -284,7 +284,7 @@ class FormSection < ApplicationRecord
               end
             else
               #For custom export shows only visible forms.
-              forms = user.permitted_forms(primero_module, parent_form, true)
+              forms = user.permitted_forms(parent_form, true)
               #Need a plain structure.
               forms = forms.map{|key, forms_sections| forms_sections}.flatten
             end

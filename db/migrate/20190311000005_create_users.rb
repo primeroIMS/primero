@@ -20,8 +20,6 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string     :agency_office
       t.string     :reset_password_token
       t.datetime   :reset_password_sent_at
-      # TODO: Will have to use join table when PrimeroModule migrated
-      t.string     :module_ids, array: true
       t.timestamps
     end
 

@@ -5,18 +5,24 @@ import { useI18n } from "components/i18n";
 import { ActionDialog } from "components/action-dialog";
 import { saveRecord } from "components/records";
 
-const CloseCase = ({ close, openCloseCaseDialog, record, recordType }) => {
+const ToggleOpen = ({ close, openReopenDialog, record, recordType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const setValue =
+    record && record.get("status") === "open" ? "close" : "reopen";
+  const body =
+    record && record.get("status") === "open"
+      ? { data: { status: "closed" } }
+      : { data: { status: "open", case_reopened: true } };
 
   const handleOk = () => {
     dispatch(
       saveRecord(
         recordType,
         "update",
-        { data: { status: "closed" } },
+        body,
         record.get("id"),
-        i18n.t("cases.close_success"),
+        i18n.t(`cases.${setValue}_success`),
         false
       )
     );
@@ -25,21 +31,21 @@ const CloseCase = ({ close, openCloseCaseDialog, record, recordType }) => {
 
   return (
     <ActionDialog
-      open={openCloseCaseDialog}
+      open={openReopenDialog}
       successHandler={handleOk}
       cancelHandler={close}
-      dialogTitle={i18n.t(`${recordType}.close_dialog_title`)}
-      dialogText={i18n.t(`${recordType}.close_dialog`)}
-      confirmButtonLabel={i18n.t("buttons.ok")}
+      dialogTitle={i18n.t(`cases.${setValue}_dialog_title`)}
+      dialogText={i18n.t(`cases.${setValue}_dialog`)}
+      confirmButtonLabel={i18n.t("cases.ok")}
     />
   );
 };
 
-CloseCase.propTypes = {
+ToggleOpen.propTypes = {
   close: PropTypes.func,
-  openCloseCaseDialog: PropTypes.bool,
+  openReopenDialog: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string
 };
 
-export default CloseCase;
+export default ToggleOpen;
