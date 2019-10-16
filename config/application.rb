@@ -39,13 +39,6 @@ module Primero
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-    # Asset pipeline
-    # config.assets.debug = false
-    # config.assets.quiet = true
-    # config.assets.enabled = false
-    # config.assets.version = '1.0'
-    # config.assets.check_precompiled_asset = false
-
     LOCALE_ENGLISH = 'en'
     LOCALE_FRENCH = 'fr'
     LOCALE_ARABIC = 'ar'

@@ -9,14 +9,6 @@ Rails.application.configure do
   # See everything in the log (default is :info)
   config.log_level = :debug
 
-  # Asset pipeline
-  # config.assets.debug = false
-  # config.assets.quiet = true
-  # config.assets.enabled = false
-  # config.assets.version = '1.0'
-  # config.assets.check_precompiled_asset = false
-  # config.public_file_server.enabled = true
-
   config.eager_load = ENV['PROFILE'] == 'true' ? true : false
 
   config.action_mailer.raise_delivery_errors = false
