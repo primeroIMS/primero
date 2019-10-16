@@ -1,19 +1,18 @@
 const vendor = require("./vendor");
 const path = require("path");
-const { generateAliases, generateScopedName } = require("./utils");
-const WebpackAssetsManifest = require("webpack-assets-manifest");
-// const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const isDevelopment = process.env.NODE_ENV !== "production";
+const { generateAliases } = require("./utils");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const { OUTPUT_DIR, CLIENT_APPLICATION } = require("./config");
 
-const OUTPUT_DIRNAME = "packs";
-const OUTPUT_DIR = path.resolve(__dirname, "../public", OUTPUT_DIRNAME);
-const CLIENT_APPLIATION = path.resolve(
-  __dirname,
-  "../app/javascript/packs/application.jsx"
-);
+const svgPrefix = {
+  toString: () =>
+    `${Math.random()
+      .toString(36)
+      .substring(2, 8)}_`
+};
 
 const entry = {
-  application: [CLIENT_APPLIATION]
+  application: [CLIENT_APPLICATION]
 };
 
 const output = {
@@ -25,22 +24,10 @@ const output = {
 
 const resolve = {
   extensions: ["*", ".jsx", ".js"],
-  alias: Object.assign({}, generateAliases(), {
-    // "react-dom": "@hot-loader/react-dom"
-  })
+  alias: generateAliases()
 };
 
-const plugins = [
-  // new CleanWebpackPlugin(),
-  new WebpackAssetsManifest({
-    entrypoints: true,
-    publicPath: "http://localhost:9000"
-  })
-  // new MiniCssExtractPlugin({
-  //   filename: "[name].[contenthash:8].css",
-  //   chunkFilename: "[name].[contenthash:8].chunk.css"
-  // })
-];
+const plugins = [new CleanWebpackPlugin()];
 
 const optimization = {
   splitChunks: {
@@ -56,10 +43,6 @@ const optimization = {
 
 const rules = [
   {
-    test: path.resolve(__dirname, "../app/javascript/i18n/i18n.js"),
-    use: "imports-loader?this=>window"
-  },
-  {
     test: /\.(js|jsx)$/,
     exclude: /node_modules/,
     use: {
@@ -69,23 +52,6 @@ const rules = [
   {
     test: /\.css$/,
     use: [
-      // {
-      //   loader: isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader
-      // },
-      // {
-      //   loader: "css-loader",
-      //   options: {
-      //     modules: true,
-      //     importLoaders: 1,
-      //     getLocalIdent: (context, localIdentName, localName) => {
-      //       if (context.resourcePath.match(/global/)) {
-      //         return localName;
-      //       }
-
-      //       return generateScopedName(localName, context.resourcePath);
-      //     }
-      //   }
-      // },
       {
         loader: "css-to-mui-loader"
       },
@@ -93,11 +59,21 @@ const rules = [
         loader: "postcss-loader",
         options: {
           config: {
-            path: path.resolve(__dirname, "../postcss.config.js")
+            path: path.resolve(__dirname, "..", "postcss.config.js")
           }
         }
       }
     ]
+  },
+  {
+    test: /\.svg$/,
+    loader: "react-svg-loader",
+    options: {
+      jsx: true,
+      svgo: {
+        plugins: [{ cleanupIDs: { prefix: svgPrefix } }]
+      }
+    }
   },
   {
     test: /\.(png|svg|jpg|jpeg|gif)$/,
@@ -109,7 +85,8 @@ const rules = [
         }
       }
     ]
-  }
+  },
+  {}
 ];
 
 module.exports = {
