@@ -73,7 +73,6 @@ prim_bootstrap() {
   bin/rails db:seed
   bin/rails sunspot:reindex
   bin/rails i18n:js:export
-  npm run build
   touch "${APP_ROOT}/tmp/.primero-bootstrapped"
   return 0
 }
@@ -83,7 +82,6 @@ prim_update() {
   bin/rails db:migrate
   bin/rails sunspot:reindex
   bin/rails i18n:js:export
-  npm run build
   return 0
 }
 

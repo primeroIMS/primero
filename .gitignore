@@ -71,4 +71,4 @@ vendor/bundle/
 vendor/cache/
 vendor/ruby/
 venv/*
-app/javascript/translations.js
+public/translations*
