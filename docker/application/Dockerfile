@@ -2,7 +2,7 @@ FROM ruby:2.6.2-alpine3.9
 
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git python imagemagick
 ENV BUILD_DEP_PACKAGES postgresql-dev nodejs-dev
-ENV RUNTIME_PACKAGES bash libc6-compat nodejs gettext libintl yarn
+ENV RUNTIME_PACKAGES bash libc6-compat nodejs gettext libintl npm
 ENV DEV_PACKAGES busybox-extras tree cairo pixman pixman-dev
 ENV RAILS_ENV production
 ENV PYTHON /usr/bin/python
@@ -51,6 +51,8 @@ RUN set -euox pipefail \
         bundle install \
         ; fi
 
+RUN set -euox pipefail \
+        ; npm install
 
 # Note: This has its build context set to the root dir so prepend 'docker' to
 # items that need to be copied from that directory
@@ -61,13 +63,6 @@ COPY [ "docker/sub.sh", "docker/application/root/", "/" ]
 COPY [ ".", "$APP_ROOT" ]
 # Copying in the void configs for the asset precompilation step
 COPY [ "docker/application/null_configs/*", "$APP_ROOT/config/" ]
-
-# Create the directories for primero and install yarn for the asset precompile
-RUN set -euox pipefail \
-        ; mkdir -p "$APP_ROOT/tmp" "$RAILS_LOG_PATH" \
-        ; cd "$APP_ROOT" \
-        ; bin/rails tmp:cache:clear \
-        ; bin/rails assets:precompile
 
 # Intentionally cached seperately
 # Generates 32 random characters for the build-id...build id MUST be 32 characters (as its hardcoded)
