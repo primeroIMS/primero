@@ -3,7 +3,7 @@
 v2 ui can be found in the `app/javascript` directory.
 
 ## Libs/Tech
-- [Yarn](https://yarnpkg.com/en/) - js/css package management
+- [Npm](https://www.npmjs.com/) - js/css package management
 - [Babel](https://babeljs.io/) - JS es6 compiler
 - [Webpack](https://webpack.js.org/)/[Webpacker](https://github.com/rails/webpacker) - Module Bundler
 - [React](https://reactjs.org/) - JS UI library
@@ -147,9 +147,9 @@ const testFunc = async options => {
 #### Running test
 | Command | Desc |
 | ------------------ | ----------- |
-| `yarn test:all` | Runs all test |
-| `yarn test $FILE` | Run single test file |
-| `yarn test:inspect $FILE` | Runs test in debug mode. You should be able to add `debugger;` on a line as a breakpoint and open Chrome Dev Tools to debug. This will also stop execution immediatly, so you will have to continue to get to your breakpoint. |
+| `npm run test:all` | Runs all test |
+| `npm run test $FILE` | Run single test file |
+| `npm run test:inspect $FILE` | Runs test in debug mode. You should be able to add `debugger;` on a line as a breakpoint and open Chrome Dev Tools to debug. This will also stop execution immediatly, so you will have to continue to get to your breakpoint. |
 
 #### Libs
 - [chai](https://www.chaijs.com/)
