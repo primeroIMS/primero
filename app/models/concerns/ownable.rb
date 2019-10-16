@@ -6,10 +6,12 @@ module Ownable
     store_accessor :data,
       :owned_by, :owned_by_full_name, :owned_by_agency_id, :owned_by_groups, :owned_by_location, :owned_by_user_code,
       :previously_owned_by, :previously_owned_by_full_name, :previously_owned_by_agency, :previously_owned_by_location,
-      :assigned_user_names, :module_id
+      :assigned_user_names, :module_id, :associated_user_groups, :associated_user_agencies
 
     searchable auto_index: self.auto_index? do
       string :associated_user_names, multiple: true
+      string :associated_user_groups, multiple: true
+      string :associated_user_agencies, multiple: true
       string :owned_by
       integer :owned_by_groups, multiple: true
       string :assigned_user_names, multiple: true
@@ -91,6 +93,25 @@ module Ownable
         self.previously_owned_by_location = self.attributes_in_database['data']['owned_by_location'] || self.owned_by_location
       end
     end
+
+    if (self.changes_to_save_for_record['assigned_user_names'].present? ||
+        self.changes_to_save_for_record['owned_by'].present? ||
+        self.new_record?)
+      self.update_associated_user_groups
+      self.update_associated_user_agencies
+    end
+  end
+
+  def update_associated_user_groups
+    self.associated_user_groups = UserGroup.joins(:users).where( users: {
+                                    user_name: self.associated_user_names
+                                  }).pluck(:unique_id).uniq
+  end
+
+  def update_associated_user_agencies
+    self.associated_user_agencies = Agency.joins(:users).where( users: {
+                                      user_name: self.associated_user_names
+                                    }).pluck(:unique_id).uniq
   end
 
   def update_last_updated_by(current_user)

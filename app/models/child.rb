@@ -80,7 +80,7 @@ class Child < ApplicationRecord
 
   def self.summary_field_names
     %w[ case_id_display name survivor_code_no age sex registration_date created_at
-        owned_by owned_by_agency photos flag_count hidden_name workflow
+        owned_by owned_by_agency_id photos flag_count hidden_name workflow
         status case_status_reopened ]
   end
 
@@ -152,7 +152,7 @@ class Child < ApplicationRecord
   def self.minimum_reportable_fields
     {
         'boolean' => ['record_state'],
-         'string' => ['status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by', 'workflow', 'workflow_status', 'risk_level'],
+         'string' => ['status', 'sex', 'risk_level', 'owned_by_agency_id', 'owned_by', 'workflow', 'workflow_status', 'risk_level'],
     'multistring' => ['associated_user_names', 'owned_by_groups'],
            'date' => ['registration_date'],
         'integer' => ['age'],
