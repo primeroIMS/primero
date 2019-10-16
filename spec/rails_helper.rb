@@ -125,5 +125,5 @@ ensure
 end
 
 def clean_data(*models)
-  models.each(&:delete_all)
+  models.each(&:destroy_all)
 end

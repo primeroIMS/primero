@@ -17,10 +17,5 @@ class CreatePrimeroModules < ActiveRecord::Migration[5.0]
       t.integer :primero_module_id
       t.integer :form_section_id
     end
-
-    create_table :primero_modules_users do |t|
-      t.belongs_to :user, index: true
-      t.belongs_to :primero_module, index: true
-    end
   end
 end

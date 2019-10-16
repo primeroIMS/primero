@@ -9,13 +9,13 @@ describe Assign do
       resource: Permission::CASE,
       actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::ASSIGN]
     )
-    @role = Role.new(permissions: [permission_case])
+    @role = Role.new(permissions: [permission_case], modules: [primero_module])
     @role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
-    @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1], modules: [primero_module])
+    @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
     @user1.save(validate: false)
     @group2 = UserGroup.create!(name: 'Group2')
-    @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2], modules: [primero_module])
+    @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2])
     @user2.save(validate: false)
     @case = Child.create(data: {'name' => 'Test', 'owned_by' => 'user1', module_id: primero_module.unique_id})
   end

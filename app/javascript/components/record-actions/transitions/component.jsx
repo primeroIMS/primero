@@ -9,7 +9,13 @@ import {
   TransferForm
 } from "./parts";
 
-const Transitions = ({ transitionType, record, setTransitionType }) => {
+const Transitions = ({
+  transitionType,
+  record,
+  setTransitionType,
+  recordType,
+  userPermissions
+}) => {
   const dispatch = useDispatch();
 
   const handleClose = () => {
@@ -21,7 +27,8 @@ const Transitions = ({ transitionType, record, setTransitionType }) => {
     record,
     open: !!transitionType,
     transitionType,
-    handleClose
+    handleClose,
+    recordType
   };
 
   const renderTransitionForm = type => {
@@ -40,8 +47,18 @@ const Transitions = ({ transitionType, record, setTransitionType }) => {
         };
         return <ReassignForm {...reassignProps} />;
       }
-      case "transfer":
-        return <TransferForm />;
+      case "transfer": {
+        // TODO: providedConsent should set once user it's been fetched
+        // TODO: isBulkTransfer should be dynamic once record-actions
+        // it's been implemented on <RecordList />
+        const transferProps = {
+          providedConsent: false,
+          isBulkTransfer: false,
+          userPermissions,
+          handleClose
+        };
+        return <TransferForm {...transferProps} />;
+      }
       default:
         return <></>;
     }
@@ -55,9 +72,11 @@ const Transitions = ({ transitionType, record, setTransitionType }) => {
 };
 
 Transitions.propTypes = {
-  transitionType: PropTypes.string,
-  record: PropTypes.object,
-  setTransitionType: PropTypes.func
+  transitionType: PropTypes.string.isRequired,
+  record: PropTypes.object.isRequired,
+  setTransitionType: PropTypes.func.isRequired,
+  recordType: PropTypes.string.isRequired,
+  userPermissions: PropTypes.object.isRequired
 };
 
 export default Transitions;

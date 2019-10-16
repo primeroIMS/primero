@@ -15,8 +15,7 @@ describe User do
       email: 'email@ddress.net',
       agency_id: options[:agency_id] || Agency.try(:last).try(:id),
       disabled: 'false',
-      role_id: options[:role_id] || Role.try(:last).try(:id),
-      module_ids: [options[:module_ids] || PrimeroModule.try(:last).try(:id)]
+      role_id: options[:role_id] || Role.try(:last).try(:id)
     )
     user = User.new(options)
     user
@@ -43,6 +42,7 @@ describe User do
 
     describe 'users_for_assign' do
       before :each do
+        [UserGroup, User, Agency, Role].each(&:destroy_all)
         @group1 = UserGroup.create!(name: 'Group1')
         @group2 = UserGroup.create!(name: 'Group2')
         @group3 = UserGroup.create!(name: 'Group3')
@@ -162,7 +162,7 @@ describe User do
     end
 
     after :each do
-      [UserGroup, User, Agency, Role].each(&:delete_all)
+      [UserGroup, User, Agency, Role].each(&:destroy_all)
     end
   end
 
@@ -208,7 +208,6 @@ describe User do
     it "should not be valid when username contains whitespace" do
       user = build_user :user_name => "in val id"
       user.should_not be_valid
-      user.errors[:user_name].should == ["Please enter a valid user name"]
     end
 
     it "should be valid when password contains whitespace" do
@@ -220,19 +219,16 @@ describe User do
       build_and_save_user :user_name => "existing_user"
       user = build_user :user_name => "existing_user"
       user.should_not be_valid
-      user.errors[:user_name].should == ["User name has already been taken! Please select a new User name"]
     end
 
     it "should not be valid when email address is invalid" do
       user = build_user :email => "invalid_email"
       user.should_not be_valid
-      user.errors[:email].should == ["is invalid", "Please enter a valid email address"]
     end
 
     it "should throw error if organization detail not entered" do
       user = build_user :organization => nil
       user.should_not be_valid
-      user.errors[:organization].should == ["Please enter the user's organization name"]
       end
 
     it "should default disabled to false" do
@@ -243,12 +239,6 @@ describe User do
     it "should generate _id" do
       user = create(:user, :user_name => 'test_user_123')
       user.id.present?.should == true
-    end
-
-    it "should require a module" do
-      user = build_user(:module_ids => [])
-      expect(user).not_to be_valid
-      expect(user.errors[:module_ids]).to eq(["Please select at least one module"])
     end
 
     describe 'locale' do
@@ -284,7 +274,6 @@ describe User do
 
           it "is not valid" do
             expect(@locale_user).not_to be_valid
-            expect(@locale_user.errors[:locale]).to eq(["Locale zz is not valid"])
           end
         end
       end
@@ -313,7 +302,7 @@ describe User do
     end
 
     it 'should consider a re-loaded user as valid' do
-      user = build_user(module_ids: 1)
+      user = build_user
       raise user.errors.full_messages.inspect unless user.valid?
       user.save
 
@@ -330,7 +319,6 @@ describe User do
 
       user.valid?
       user.should_not be_valid
-      user.errors[:password_confirmation].should include(I18n.t("errors.models.user.password_mismatch"))
     end
 
     it "should allow password update if confirmation matches" do
@@ -355,7 +343,6 @@ describe User do
       user.save
 
       reloaded_user = User.find(user.id)
-      #Now couchrest_model use the id for equality.
       reloaded_user.should == user
       reloaded_user.should eql(user)
       reloaded_user.should_not equal(user)
@@ -365,11 +352,6 @@ describe User do
       user = build_and_save_user(:password => "thep4sswd")
       User.find(user.id).try(:password).should be_nil
     end
-
-    # it "can authenticate if not disabled" do
-    #   user = build_and_save_user(:disabled => "false", :password => "thep4sswd")
-    #   user.authenticate("thep4sswd").should be_truthy
-    # end
 
     it "should be able to select a user's mobile login events from a list of login events" do
       user = build_user
@@ -415,9 +397,10 @@ describe User do
   end
 
   describe "user roles" do
-     before :each do
+    before :each do
       clean_data(Role, User)
     end
+
     it "should store the roles and retrive them back as Roles" do
       admin_role = create(:role, name: "Admin")
       user = create(:user, role_id: admin_role.id)
@@ -427,7 +410,6 @@ describe User do
     it "should require atleast one role for a verified user" do
       user = build_user(:role_id => [])
       user.should_not be_valid
-      user.errors[:role_id].should == ["Please select at least one role"]
     end
   end
 
@@ -440,10 +422,13 @@ describe User do
       @form_section_c = create(:form_section, unique_id: "C", name: "C")
       @primero_module = create(:primero_module, form_sections: [@form_section_a, @form_section_b])
       @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
-      @role = Role.create!(form_sections: [@form_section_b, @form_section_c], name: "Test Role", permissions: [@permission_case_read])
+      @role = Role.create!(
+        form_sections: [@form_section_b, @form_section_c],
+        name: "Test Role", permissions: [@permission_case_read],
+        modules: [@primero_module])
     end
 
-    let(:user) { build(:user, user_name: "test_user", role: @role, module_ids: [@primero_module.id]) }
+    let(:user) { build(:user, user_name: "test_user", role: @role) }
 
     it "not inherits the forms permitted by the modules" do
       expect(user.permitted_forms).to_not match_array([@form_section_a, @form_section_b])
@@ -692,7 +677,6 @@ describe User do
                   "role_id"=>[@role.id],
                   "time_zone"=>"UTC",
                   "locale"=>nil,
-                  "module_ids"=>[""],
                   "user_group_ids"=>[""],
                   "is_manager"=>true,
                   "updated_at"=>"2018-01-10T14:51:16.565Z",
@@ -794,6 +778,216 @@ describe User do
           expect(@user.services).to eq(nil)
         end
       end
+    end
+  end
+
+  describe 'update user_groups in the cases where the user is assigned', search: true do
+    before do
+      [
+        PrimeroProgram,
+        PrimeroModule,
+        Role,
+        FormSection,
+        Agency,
+        UserGroup,
+        User,
+        Child
+      ].each(&:destroy_all)
+
+      Sunspot.setup(Child) do
+        string 'associated_user_groups',  multiple: true
+      end
+
+      @program = PrimeroProgram.create!(
+        unique_id: "primeroprogram-primero",
+        name: "Primero",
+        description: "Default Primero Program"
+      )
+
+      @form_section = FormSection.create!(
+        unique_id: 'test_form',
+        name: "Test Form",
+        fields: [
+          Field.new(name: 'national_id_no', type: 'text_field', display_name: 'National ID No'),
+        ]
+      )
+
+      @cp = PrimeroModule.create!(
+        unique_id: PrimeroModule::CP,
+        name: "CP",
+        description: "Child Protection",
+        associated_record_types: ["case", "tracing_request", "incident"],
+        primero_program: @program,
+        form_sections: [@form_section]
+      )
+
+      @role_admin = Role.create!(
+        name: 'Admin role',
+        unique_id: "role_admin",
+        group_permission: Permission::ALL,
+        form_sections: [@form_section],
+        permissions: [
+          Permission.new(
+            :resource => Permission::CASE,
+            :actions => [Permission::MANAGE]
+          )
+        ]
+      )
+
+      @agency_1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+      @agency_2 = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
+      @group_1 = UserGroup.create!(name: 'group 1')
+      @group_2 = UserGroup.create!(name: 'group 2')
+
+      @associated_user = User.create!(
+        full_name: 'User Test',
+        user_name: 'user_test',
+        password: 'a12345678',
+        password_confirmation: 'a12345678',
+        email: 'user_test@localhost.com',
+        agency_id: @agency_1.id,
+        role: @role_admin,
+        user_groups: [@group_1],
+        primero_modules: [@cp]
+      )
+
+      @current_user = User.create!(
+        full_name: "Admin User",
+        user_name: 'user_admin',
+        password: 'a12345678',
+        password_confirmation: 'a12345678',
+        email: "user_admin@localhost.com",
+        agency_id: @agency_1.id,
+        role: @role_admin,
+        user_groups: [@group_1],
+        primero_modules: [@cp]
+      )
+
+      @child_1 = Child.new_with_user(@current_user, { 
+                   name: 'Child 1', 
+                   assigned_user_names: [@associated_user.user_name] 
+                 })
+      @child_2 = Child.new_with_user(@current_user, { 
+                   name: 'Child 2',
+                   assigned_user_names: [@associated_user.user_name] 
+                 })
+      @child_3 = Child.new_with_user(@current_user, { name: 'Child 3' })
+      [@child_1, @child_2, @child_3].each(&:save!)
+      Sunspot.commit
+    end
+
+    it "should update the associated_user_groups of the records" do
+      @associated_user.user_groups = [@group_2]
+      @associated_user.save!
+      @child_1.reload
+      @child_2.reload
+      @child_3.reload
+      expect(@child_1.associated_user_groups).to include(@group_1.unique_id, @group_2.unique_id)
+      expect(@child_2.associated_user_groups).to include(@group_1.unique_id, @group_2.unique_id)
+      expect(@child_3.associated_user_groups).to include(@group_1.unique_id)
+    end
+  end
+
+  describe 'update agencies in the cases where the user is assigned', search: true do
+    before do
+      [
+        PrimeroProgram,
+        PrimeroModule,
+        Role,
+        FormSection,
+        Agency,
+        UserGroup,
+        User,
+        Child
+      ].each(&:destroy_all)
+
+      Sunspot.setup(Child) do
+        string 'associated_user_groups',  multiple: true
+      end
+
+      @program = PrimeroProgram.create!(
+        unique_id: "primeroprogram-primero",
+        name: "Primero",
+        description: "Default Primero Program"
+      )
+
+      @form_section = FormSection.create!(
+        unique_id: 'test_form',
+        name: "Test Form",
+        fields: [
+          Field.new(name: 'national_id_no', type: 'text_field', display_name: 'National ID No'),
+        ]
+      )
+
+      @cp = PrimeroModule.create!(
+        unique_id: PrimeroModule::CP,
+        name: "CP",
+        description: "Child Protection",
+        associated_record_types: ["case", "tracing_request", "incident"],
+        primero_program: @program,
+        form_sections: [@form_section]
+      )
+
+      @role_admin = Role.create!(
+        name: 'Admin role',
+        unique_id: "role_admin",
+        group_permission: Permission::ALL,
+        form_sections: [@form_section],
+        permissions: [
+          Permission.new(
+            :resource => Permission::CASE,
+            :actions => [Permission::MANAGE]
+          )
+        ]
+      )
+
+      @agency_1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+      @agency_2 = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
+
+      @associated_user = User.create!(
+        full_name: 'User Test',
+        user_name: 'user_test',
+        password: 'a12345678',
+        password_confirmation: 'a12345678',
+        email: 'user_test@localhost.com',
+        agency_id: @agency_1.id,
+        role: @role_admin,
+        primero_modules: [@cp]
+      )
+
+      @current_user = User.create!(
+        full_name: "Admin User",
+        user_name: 'user_admin',
+        password: 'a12345678',
+        password_confirmation: 'a12345678',
+        email: "user_admin@localhost.com",
+        agency_id: @agency_1.id,
+        role: @role_admin,
+        primero_modules: [@cp]
+      )
+
+      @child_1 = Child.new_with_user(@current_user, { 
+                   name: 'Child 1', 
+                   assigned_user_names: [@associated_user.user_name] 
+                 })
+      @child_2 = Child.new_with_user(@current_user, { 
+                   name: 'Child 2',
+                   assigned_user_names: [@associated_user.user_name] 
+                 })
+      @child_3 = Child.new_with_user(@current_user, { name: 'Child 3' })
+      [@child_1, @child_2, @child_3].each(&:save!)
+      Sunspot.commit
+    end
+
+    it "should update the associated_user_agencies of the records" do
+      @associated_user.agency = @agency_2
+      @associated_user.save!
+      @child_1.reload
+      @child_2.reload
+      @child_3.reload
+      expect(@child_1.associated_user_agencies).to include(@agency_1.unique_id, @agency_2.unique_id)
+      expect(@child_2.associated_user_agencies).to include(@agency_1.unique_id, @agency_2.unique_id)
+      expect(@child_3.associated_user_agencies).to include(@agency_1.unique_id)
     end
   end
 end

@@ -28,7 +28,8 @@ describe Api::V2::SavedSearchesController, type: :request do
           :resource => Permission::CASE,
           :actions => [Permission::MANAGE]
         )
-      ]
+      ],
+      modules: [@cp]
     )
 
     @agency_1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
@@ -40,8 +41,7 @@ describe Api::V2::SavedSearchesController, type: :request do
       password_confirmation: 'a12345678',
       email: "test_user_1@localhost.com",
       agency_id: @agency_1.id,
-      role: @role,
-      primero_modules: [@cp]
+      role: @role
     )
 
     @saved_search1 = SavedSearch.create!(

@@ -58,7 +58,7 @@ describe Api::V2::UsersTransitionsController, type: :request do
   end
 
   after :each do
-    [User, Role].each(&:delete_all)
+    [User, Role].each(&:destroy_all)
   end
 
 

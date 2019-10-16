@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Role do
   before :each do
-    Role.delete_all
+    Role.destroy_all
   end
   it "should not be valid if name is empty" do
     role = Role.new
@@ -222,9 +222,9 @@ describe Role do
 
   describe "associate_all_forms" do
     before do
-      Role.delete_all
-      Field.delete_all
-      FormSection.delete_all
+      Role.destroy_all
+      Field.destroy_all
+      FormSection.destroy_all
       @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case', form_group_id: "m")
       @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case', form_group_id: "x")
       @form_section_child = FormSection.create!(unique_id: "child", name: "child_form", is_nested: true, parent_form: 'case')

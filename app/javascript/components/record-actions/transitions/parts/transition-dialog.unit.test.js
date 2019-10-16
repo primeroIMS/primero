@@ -19,7 +19,8 @@ describe("<TransitionDialog />", () => {
     transitionType: "referral",
     record,
     children: <></>,
-    handleClose: () => {}
+    handleClose: () => {},
+    recordType: "cases"
   };
 
   beforeEach(() => {

@@ -5,18 +5,21 @@ import { useI18n } from "components/i18n";
 import { ActionDialog } from "components/action-dialog";
 import { saveRecord } from "components/records";
 
-const Reopen = ({ close, openReopenDialog, record, recordType }) => {
+const ToggleEnable = ({ close, openEnableDialog, record, recordType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const enableState =
+    record && !record.get("record_state") ? "enable" : "disable";
+  const setValue = record ? !record.get("record_state") : true;
 
   const handleOk = () => {
     dispatch(
       saveRecord(
         recordType,
         "update",
-        { data: { status: "open", case_reopened: true } },
+        { data: { record_state: setValue } },
         record.get("id"),
-        i18n.t("cases.reopen_success"),
+        i18n.t(`cases.${enableState}_success`),
         false
       )
     );
@@ -25,21 +28,21 @@ const Reopen = ({ close, openReopenDialog, record, recordType }) => {
 
   return (
     <ActionDialog
-      open={openReopenDialog}
+      open={openEnableDialog}
       successHandler={handleOk}
       cancelHandler={close}
-      dialogTitle={i18n.t("cases.reopen_dialog_title")}
-      dialogText={i18n.t("cases.reopen_dialog")}
+      dialogTitle={i18n.t(`cases.${enableState}_dialog_title`)}
+      dialogText={i18n.t(`cases.${enableState}_dialog`)}
       confirmButtonLabel={i18n.t("cases.ok")}
     />
   );
 };
 
-Reopen.propTypes = {
+ToggleEnable.propTypes = {
   close: PropTypes.func,
-  openReopenDialog: PropTypes.bool,
+  openEnableDialog: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string
 };
 
-export default Reopen;
+export default ToggleEnable;

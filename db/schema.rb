@@ -284,18 +284,17 @@ ActiveRecord::Schema.define(version: 2019_09_12_000000) do
     t.index ["unique_id"], name: "index_primero_modules_on_unique_id", unique: true
   end
 
+  create_table "primero_modules_roles", id: false, force: :cascade do |t|
+    t.integer "role_id"
+    t.integer "primero_module_id"
+    t.index ["role_id", "primero_module_id"], name: "index_primero_modules_roles_on_role_id_and_primero_module_id", unique: true
+  end
+
   create_table "primero_modules_saved_searches", id: :serial, force: :cascade do |t|
     t.integer "primero_module_id"
     t.integer "saved_search_id"
     t.index ["primero_module_id"], name: "index_primero_modules_saved_searches_on_primero_module_id"
     t.index ["saved_search_id"], name: "index_primero_modules_saved_searches_on_saved_search_id"
-  end
-
-  create_table "primero_modules_users", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "primero_module_id"
-    t.index ["primero_module_id"], name: "index_primero_modules_users_on_primero_module_id"
-    t.index ["user_id"], name: "index_primero_modules_users_on_user_id"
   end
 
   create_table "primero_programs", id: :serial, force: :cascade do |t|
@@ -348,6 +347,7 @@ ActiveRecord::Schema.define(version: 2019_09_12_000000) do
   create_table "roles_roles", id: false, force: :cascade do |t|
     t.integer "role_id"
     t.integer "associated_role_id"
+    t.index ["role_id", "associated_role_id"], name: "index_roles_roles_on_role_id_and_associated_role_id", unique: true
   end
 
   create_table "saved_searches", id: :serial, force: :cascade do |t|
@@ -441,7 +441,6 @@ ActiveRecord::Schema.define(version: 2019_09_12_000000) do
     t.string "agency_office"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
-    t.string "module_ids", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["agency_id"], name: "index_users_on_agency_id"

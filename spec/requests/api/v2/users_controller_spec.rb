@@ -49,7 +49,8 @@ describe Api::V2::UsersController, type: :request do
           :resource => Permission::CASE,
           :actions => [Permission::MANAGE]
         )
-      ]
+      ],
+      modules: [@cp]
     )
     @agency_1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
     @agency_2 = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
@@ -61,8 +62,7 @@ describe Api::V2::UsersController, type: :request do
                 password_confirmation: 'a12345678',
                 email: "test_user_1@localhost.com",
                 agency_id: @agency_1.id,
-                role: @role,
-                primero_modules: [@cp]
+                role: @role
               )
 
     @user_2 = User.create!(
@@ -72,8 +72,7 @@ describe Api::V2::UsersController, type: :request do
                 password_confirmation: 'b12345678',
                 email: "test_user_2@localhost.com",
                 agency_id: @agency_1.id,
-                role: @role,
-                primero_modules: [@cp]
+                role: @role
               )
 
     @user_3 = User.create!(
@@ -83,8 +82,7 @@ describe Api::V2::UsersController, type: :request do
                 password_confirmation: 'c12345678',
                 email: "test@localhost.com",
                 agency_id: @agency_2.id,
-                role: @role,
-                primero_modules: [@cp]
+                role: @role
               )
   end
 
@@ -204,7 +202,6 @@ describe Api::V2::UsersController, type: :request do
           email: "test_user_api@localhost.com",
           agency_id: @agency_1.id,
           role_id: @role.id,
-          module_ids: @cp.id,
           password_confirmation: "a12345678",
           password: "a12345678"
         }
@@ -239,7 +236,6 @@ describe Api::V2::UsersController, type: :request do
             email: "test_user_api@localhost.com",
             agency_id: @agency_1.id,
             role_id: @role.id,
-            module_ids: @cp.id,
             password_confirmation: "a12345678",
             password: "a12345678"
           }
@@ -267,7 +263,6 @@ describe Api::V2::UsersController, type: :request do
           email: "test_user_api@localhost.com",
           agency_id: @agency_1.id,
           role_id: @role.id,
-          module_ids: @cp.id,
           password_confirmation: "a12345678",
           password: "a12345678"
         }
@@ -295,7 +290,6 @@ describe Api::V2::UsersController, type: :request do
           email: "test_user_5@localhost.com",
           agency_id: @agency_1.id,
           role_id: @role.id,
-          module_ids: @cp.id,
           password_confirmation: "a12345678",
           password: "a12345678"
         }
@@ -321,8 +315,7 @@ describe Api::V2::UsersController, type: :request do
           code: "test/code",
           email: "test_user_5@localhost.com",
           agency_id: @agency_1.id,
-          role_id: @role.id,
-          module_ids: @cp.id
+          role_id: @role.id
         }
       }
       post "/api/v2/users", params: params

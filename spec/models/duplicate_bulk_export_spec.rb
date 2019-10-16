@@ -27,7 +27,8 @@ describe DuplicateBulkExport, search: true do
 
     # @user = setup_user(form_sections: [@form_section], primero_module: {id: PrimeroModule::CP})
     primero_module = FactoryBot.create(:primero_module, form_sections: [@form_section])
-    @user = create(:user, module_ids: [primero_module.id])
+    role = create(:role, form_sections: [@form_section], modules: [primero_module])
+    @user = create(:user, role: role)
 
     Sunspot.setup(Child) do
       string 'national_id_no', as: :national_id_no_sci

@@ -11,8 +11,6 @@ class PrimeroModule < ApplicationRecord
     :user_group_filter
 
   belongs_to :primero_program
-
-  has_and_belongs_to_many :users
   has_and_belongs_to_many :form_sections, inverse_of: :primero_modules
 
   validates :name, presence: { message: I18n.t("errors.models.primero_module.name_present") },
@@ -81,14 +79,6 @@ class PrimeroModule < ApplicationRecord
   end
 
   class << self
-
-    alias super_clear clear
-    def clear
-      self.all.each do |pm|
-        pm.users.destroy(pm.users)
-      end
-      super_clear
-    end
 
     alias super_import import
     def import(data)
