@@ -6,6 +6,7 @@ import { ToggleOpen } from "components/record-actions/toggle-open";
 import { ToggleEnable } from "components/record-actions/toggle-enable";
 import { Transitions } from "components/record-actions/transitions";
 import { Notes } from "components/record-actions/notes";
+import { Menu, MenuItem } from "@material-ui/core";
 import RecordActions from "./component";
 
 describe("<RecordActions />", () => {
@@ -81,6 +82,73 @@ describe("<RecordActions />", () => {
 
     it("renders Notes", () => {
       expect(component.find(Notes)).to.have.length(1);
+    });
+  });
+
+  describe("Component Menu", () => {
+    describe("when user has access to all menus", () => {
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(
+          RecordActions,
+          props,
+          Map({
+            user: Map({
+              permissions: Map({
+                cases: Map({ manage: "manage" })
+              })
+            })
+          })
+        ));
+      });
+      it("renders Menu", () => {
+        expect(component.find(Menu)).to.have.length(1);
+      });
+
+      it("renders MenuItem", () => {
+        expect(component.find(MenuItem)).to.have.length(12);
+      });
+
+      it("renders MenuItem with Refer Cases option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("buttons.referral cases")
+        ).to.be.equal(true);
+      });
+    });
+
+    describe("when user has not access to all menus", () => {
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(
+          RecordActions,
+          props,
+          Map({
+            user: Map({
+              permissions: Map({
+                cases: Map({ read: "read" })
+              })
+            })
+          })
+        ));
+      });
+
+      it("renders Menu", () => {
+        expect(component.find(Menu)).to.have.length(1);
+      });
+
+      it("renders MenuItem", () => {
+        expect(component.find(MenuItem)).to.have.length(8);
+      });
+
+      it("renders MenuItem without Refer Cases option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("buttons.referral cases")
+        ).to.be.equal(false);
+      });
     });
   });
 });

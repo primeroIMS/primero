@@ -57,7 +57,9 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     "enable_disable_record"
   ]);
   const canTransfer = checkPermissions(userPermissions, assignPermissions);
-  console.log();
+
+  const canRefer = checkPermissions(userPermissions, ["manage", "refer"]);
+
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -127,7 +129,8 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     {
       name: `${i18n.t("buttons.referral")} ${recordType}`,
       action: () => setTransitionType("referral"),
-      recordType
+      recordType,
+      condition: canRefer
     },
     {
       name: `${i18n.t("buttons.reassign")} ${recordType}`,

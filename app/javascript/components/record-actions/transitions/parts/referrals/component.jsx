@@ -1,0 +1,130 @@
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { useI18n } from "components/i18n";
+import { makeStyles } from "@material-ui/core/styles";
+import { omit, isEqual } from "lodash";
+import { Box, Button, FormControlLabel } from "@material-ui/core";
+import { Formik, Form, Field } from "formik";
+import { Checkbox as MuiCheckbox } from "formik-material-ui";
+import FormInternal from "./form-internal";
+import ProvidedConsent from "./provided-consent";
+import mockedData from "../../mocked-users";
+import styles from "../../styles.css";
+
+const ReferralForm = ({ handleClose, userPermissions, providedConsent }) => {
+  const css = makeStyles(styles)();
+  const i18n = useI18n();
+  const [disabled, setDisabled] = useState(false);
+
+  const fields = [
+    {
+      id: "service",
+      label: i18n.t("referral.service_label"),
+      options: mockedData
+    },
+    {
+      id: "agency",
+      label: i18n.t("referral.agency_label"),
+      options: mockedData
+    },
+    {
+      id: "location",
+      label: i18n.t("referral.location_label"),
+      options: mockedData
+    },
+    {
+      id: "recipient",
+      label: i18n.t("referral.recipient_label"),
+      options: mockedData
+    },
+    {
+      id: "notes",
+      label: i18n.t("referral.notes_label")
+    }
+  ];
+
+  const canConsentOverride =
+    userPermissions &&
+    userPermissions.filter(permission => {
+      return ["manage", "consent_override"].includes(permission);
+    }).size > 0;
+
+  const formProps = {
+    initialValues: {
+      referral: false,
+      remoteSystem: false,
+      service: "",
+      agency: "",
+      location: "",
+      recipient: "",
+      notes: ""
+    },
+    onSubmit: values => {
+      console.log("SUBMIT", values);
+    }
+  };
+
+  const providedConsentProps = {
+    canConsentOverride,
+    providedConsent,
+    setDisabled
+  };
+
+  return (
+    <Formik {...formProps}>
+      {({ handleSubmit, initialValues, values, resetForm }) => {
+        const disableControl = !providedConsent && !disabled;
+        if (
+          !values.referral &&
+          !providedConsent &&
+          !isEqual(omit(initialValues, "referral"), omit(values, "referral"))
+        ) {
+          resetForm();
+        }
+        return (
+          <Form onSubmit={handleSubmit}>
+            <ProvidedConsent {...providedConsentProps} />
+            <FormControlLabel
+              control={
+                <Field
+                  name="remoteSystem"
+                  component={MuiCheckbox}
+                  disabled={disableControl}
+                />
+              }
+              label={i18n.t("referral.is_remote_label")}
+            />
+            <FormInternal fields={fields} disabled={disableControl} />
+
+            <Box
+              display="flex"
+              my={3}
+              justifyContent="flex-start"
+              className={css.modalAction}
+            >
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                className={css.modalActionButton}
+              >
+                {i18n.t("buttons.referral")}
+              </Button>
+              <Button onClick={handleClose} color="primary" variant="outlined">
+                {i18n.t("buttons.cancel")}
+              </Button>
+            </Box>
+          </Form>
+        );
+      }}
+    </Formik>
+  );
+};
+
+ReferralForm.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+  userPermissions: PropTypes.object,
+  providedConsent: PropTypes.bool
+};
+
+export default ReferralForm;

@@ -23,6 +23,10 @@ const Transitions = ({
     dispatch(removeFormErrors(transitionType));
   };
 
+  const providedConsent =
+    record &&
+    (record.get("consent_for_services") || record.get("disclosure_other_orgs"));
+
   const transitionDialogProps = {
     record,
     open: !!transitionType,
@@ -35,7 +39,9 @@ const Transitions = ({
     switch (type) {
       case "referral": {
         const referralProps = {
-          handleClose
+          handleClose,
+          userPermissions,
+          providedConsent
         };
         return <ReferralForm {...referralProps} />;
       }
