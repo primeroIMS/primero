@@ -34,3 +34,8 @@ export const RECORD_TYPES = {
 export const AGE_MAX = 999;
 
 export const PERMITTED_URL = ["/login", "/not-authorized", "/dashboard"];
+
+export const PERMISSIONS = {
+  MANAGE: "manage",
+  SEARCH_OWNED_BY_OTHERS: "search_owned_by_others"
+};

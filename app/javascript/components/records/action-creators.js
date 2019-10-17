@@ -1,15 +1,50 @@
 import { ENQUEUE_SNACKBAR } from "components/notifier";
 import { DB } from "config";
+import * as FiltersActions from "components/filters-builder/actions";
 import { cleanUpFilters } from "./helpers";
 import * as Actions from "./actions";
 
-export const fetchRecords = data => async dispatch => {
+/*
+ * TODO: Deprecated this will be removed in favor of the separated action
+ * creators for each record type.
+ */
+export const setFilters = data => async dispatch => {
   const { recordType, options } = data;
-
   dispatch({
     type: `${recordType}/SET_FILTERS`,
     payload: options
   });
+};
+
+export const setCasesFilters = data => async dispatch => {
+  const { options } = data;
+
+  dispatch({
+    type: FiltersActions.CASES.SET_FILTERS,
+    payload: options
+  });
+};
+
+export const setIncidentsFilters = data => async dispatch => {
+  const { options } = data;
+
+  dispatch({
+    type: FiltersActions.INCIDENTS.SET_FILTERS,
+    payload: options
+  });
+};
+
+export const setTracingRequestFilters = data => async dispatch => {
+  const { options } = data;
+
+  dispatch({
+    type: FiltersActions.TRACING_REQUESTS.SET_FILTERS,
+    payload: options
+  });
+};
+
+export const fetchRecords = data => async dispatch => {
+  const { recordType, options } = data;
 
   dispatch({
     type: `${recordType}/RECORDS`,

@@ -1,5 +1,11 @@
 import React from "react";
 import { ToggleIconCell } from "components/index-table";
+import {
+  setCasesFilters,
+  setIncidentsFilters,
+  setTracingRequestFilters
+} from "components/records";
+import { RECORD_TYPES } from "config";
 
 export const buildTableColumns = (columns, i18n, recordType) => {
   const lastColumns = ["photo", "flags"];
@@ -30,4 +36,15 @@ export const buildTableColumns = (columns, i18n, recordType) => {
       };
     })
     .sortBy(i => (lastColumns.includes(i.name) ? 1 : 0));
+};
+
+export const setFilters = (type, options) => {
+  switch (type) {
+    case RECORD_TYPES.incidents:
+      return setIncidentsFilters({ options });
+    case RECORD_TYPES.tracing_requests:
+      return setTracingRequestFilters({ options });
+    default:
+      return setCasesFilters({ options });
+  }
 };

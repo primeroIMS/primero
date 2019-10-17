@@ -1,3 +1,4 @@
+import { Map } from "immutable";
 import { keyIn } from "libs";
 
 export const selectRecords = (state, namespace) => {
@@ -7,7 +8,7 @@ export const selectRecords = (state, namespace) => {
 };
 
 export const selectFilters = (state, namespace) =>
-  state.getIn(["records", namespace, "filters"], undefined);
+  state.getIn(["records", namespace, "filters"], Map({}));
 
 export const selectLoading = (state, namespace) =>
   state.getIn(["records", namespace, "loading"]);

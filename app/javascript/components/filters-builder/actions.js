@@ -1,6 +1,16 @@
 export const SET_EXPANSION_PANEL = "SET_EXPANSION_PANEL";
 export const REMOVE_EXPANDED_PANEL = "REMOVE_EXPANDED_PANEL";
 export const RESET_PANELS = "RESET_PANELS";
+export const CASES = {
+  SET_FILTERS: "cases/SET_FILTERS"
+};
+export const INCIDENTS = {
+  SET_FILTERS: "incidents/SET_FILTERS"
+};
+export const TRACING_REQUESTS = {
+  SET_FILTERS: "tracing_requests/SET_FILTERS"
+};
+// TODO: Deprecated this will be removed in favor of the separated action for each record type.
 export const SET_FILTERS = "SET_FILTERS";
 export const ADD_CHECKBOX = "ADD_CHECKBOX";
 export const DELETE_CHECKBOX = "DELETE_CHECKBOX";
