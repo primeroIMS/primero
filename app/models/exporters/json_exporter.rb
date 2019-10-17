@@ -17,8 +17,8 @@ module Exporters
     end
 
     def convert_model_to_hash(model, properties)
+      properties.reject! {|p| p.options[:hidden_text_field]} if model.try(:hidden_name)
       prop_names = properties.map {|p| p.name}
-      prop_names = prop_names.reject! { |n| model.class.try(:hidden_field_names).include?(n) } if model.try(:hidden_name)
       JSON.parse(model.to_json).select do |k,v|
         prop_names.include? k
       end.tap do |h|

@@ -58,7 +58,8 @@ module FormToPropertiesConverter
      # field.editable just means that it's not editable in a particular form.
      # The system can still edit to its heart's content.
      # :read_only => !field.editable,
-      :allow_blank => false
+     :allow_blank => false,
+     :hidden_text_field => field.hidden_text_field
     }
 
     date_options = {
