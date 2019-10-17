@@ -31,36 +31,40 @@ const jss = create({
 });
 
 const generateClassName = createGenerateClassName();
+
 const routesApplication = routes.map((route, index) => {
   if (route.layout) {
+    const subRouteApplication = route.routes.map(subRoute => {
+      const subRouteComponent = () =>
+        PERMITTED_URL.includes(subRoute.path) ? (
+          <subRoute.component mode={subRoute.mode} />
+        ) : (
+          <Permission
+            permissionType={subRoute.permissionType}
+            permission={subRoute.permission}
+            redirect
+          >
+            <subRoute.component mode={subRoute.mode} />
+          </Permission>
+        );
+
+      return (
+        <Route
+          key={subRoute.path}
+          exact
+          path={subRoute.path}
+          component={subRouteComponent}
+        />
+      );
+    });
+
     return (
       <Route
         key={index}
         exact={route.routes ? route.routes.some(r => r.exact) : route.exact}
         path={route.routes.map(r => r.path)}
       >
-        <route.layout>
-          {route.routes.map(subRoute => (
-            <Route
-              key={subRoute.path}
-              exact
-              path={subRoute.path}
-              component={() =>
-                PERMITTED_URL.includes(subRoute.path) ? (
-                  <subRoute.component mode={subRoute.mode} />
-                ) : (
-                  <Permission
-                    permissionType={subRoute.permissionType}
-                    permission={subRoute.permission}
-                    redirect
-                  >
-                    <subRoute.component mode={subRoute.mode} />
-                  </Permission>
-                )
-              }
-            />
-          ))}
-        </route.layout>
+        <route.layout>{subRouteApplication}</route.layout>
       </Route>
     );
   }
