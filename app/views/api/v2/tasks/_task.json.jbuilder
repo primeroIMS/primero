@@ -5,7 +5,9 @@ json.merge!(
   type: task.type,
   detail: task.detail,
   priority: task.priority,
-  due_date: task.due_date
+  # TODO:  should display the localized due_date represented by the datetime value
+  due_date: task.due_date.strftime("%d-%b-%Y"),
+  type_display: task.type_display
 )
 if task.due_date.present?
   json.merge!(

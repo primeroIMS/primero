@@ -17,8 +17,12 @@ describe("<BarChart />", () => {
         Alemania: 3
       }
     });
+    const showDetails = false;
+    const description = "Number of cases broken down by nationality";
     const component = setupMountedThemeComponent(BarChart, {
-      ...buildDataForGraph(data)
+      ...buildDataForGraph(data),
+      description,
+      showDetails
     });
 
     expect(component.find("p").props().children).to.equal(
