@@ -8,7 +8,8 @@ namespace :i18n do
 
       manifest_file = Rails.root.join('tmp', 'i18n-manifest.txt')
       translations_file = Rails.root.join('public', 'translations.js')
-      translations_file_fingerprinted = "translations-#{SecureRandom.hex(10)}.js"
+      md5 = Digest::MD5.file(translations_file)
+      translations_file_fingerprinted = "translations-#{md5}.js"
 
       File.rename(translations_file, Rails.root.join('public', translations_file_fingerprinted))
       File.write(manifest_file, translations_file_fingerprinted)
