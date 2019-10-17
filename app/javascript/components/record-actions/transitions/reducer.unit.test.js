@@ -30,40 +30,6 @@ describe("<Transitions /> - Reducers", () => {
     expect(newState).to.deep.equal(expected);
   });
 
-  it("should handle TRANSFER_USERS_FETCH_SUCCESS", () => {
-    const payload = {
-      data: [{ label: "primero_cp", value: "primero_cp" }]
-    };
-    const expected = Map({
-      transfer: Map({
-        users: payload.data
-      })
-    });
-    const action = {
-      type: actions.TRANSFER_USERS_FETCH_SUCCESS,
-      payload
-    };
-
-    const newState = r.reducers.transitions(defaultState, action);
-    expect(newState).to.deep.equal(expected);
-  });
-
-  it("should handle ASSIGN_USER_SAVE_STARTED", () => {
-    const expected = Map({
-      reassign: Map({
-        loading: true,
-        errors: false
-      })
-    });
-    const action = {
-      type: actions.ASSIGN_USER_SAVE_STARTED,
-      payload: true
-    };
-
-    const newState = r.reducers.transitions(defaultState, action);
-    expect(newState).to.deep.equal(expected);
-  });
-
   it("should handle ASSIGN_USER_SAVE_FAILURE", () => {
     const payload = {
       errors: [
@@ -88,6 +54,37 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = r.reducers.transitions(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
+  });
+
+  it("should handle ASSIGN_USER_SAVE_FINISHED", () => {
+    const expected = Map({
+      reassign: Map({
+        loading: false
+      })
+    });
+    const action = {
+      type: actions.ASSIGN_USER_SAVE_FINISHED,
+      payload: false
+    };
+
+    const newState = r.reducers.transitions(defaultState, action);
+    expect(newState.toJS()).to.deep.equal(expected.toJS());
+  });
+
+  it("should handle ASSIGN_USER_SAVE_STARTED", () => {
+    const expected = Map({
+      reassign: Map({
+        loading: true,
+        errors: false
+      })
+    });
+    const action = {
+      type: actions.ASSIGN_USER_SAVE_STARTED,
+      payload: true
+    };
+
+    const newState = r.reducers.transitions(defaultState, action);
+    expect(newState).to.deep.equal(expected);
   });
 
   it("should handle ASSIGN_USER_SAVE_SUCCESS", () => {
@@ -116,15 +113,60 @@ describe("<Transitions /> - Reducers", () => {
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
-  it("should handle ASSIGN_USER_SAVE_FINISHED", () => {
+  it("should handle CLEAR_ERRORS", () => {
     const expected = Map({
-      reassign: Map({
-        loading: false
+      transfer: Map({
+        errors: false,
+        message: []
       })
     });
     const action = {
-      type: actions.ASSIGN_USER_SAVE_FINISHED,
-      payload: false
+      type: actions.CLEAR_ERRORS,
+      payload: "transfer"
+    };
+
+    const newState = r.reducers.transitions(defaultState, action);
+    expect(newState.toJS()).to.deep.equal(expected.toJS());
+  });
+
+  it("should handle TRANSFER_USERS_FETCH_SUCCESS", () => {
+    const payload = {
+      data: [{ label: "primero_cp", value: "primero_cp" }]
+    };
+    const expected = Map({
+      transfer: Map({
+        users: payload.data
+      })
+    });
+    const action = {
+      type: actions.TRANSFER_USERS_FETCH_SUCCESS,
+      payload
+    };
+
+    const newState = r.reducers.transitions(defaultState, action);
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle TRANSFER_USER_FAILURE", () => {
+    const payload = {
+      errors: [
+        {
+          status: 422,
+          resource: "/api/v2/cases/123abc/transfers",
+          detail: "consent",
+          message: ["transition.errors.consent"]
+        }
+      ]
+    };
+    const expected = Map({
+      transfer: Map({
+        errors: true,
+        message: ["transition.errors.consent"]
+      })
+    });
+    const action = {
+      type: actions.TRANSFER_USER_FAILURE,
+      payload
     };
 
     const newState = r.reducers.transitions(defaultState, action);
@@ -155,48 +197,6 @@ describe("<Transitions /> - Reducers", () => {
     });
     const action = {
       type: actions.TRANSFER_USER_SUCCESS,
-      payload: "transfer"
-    };
-
-    const newState = r.reducers.transitions(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
-  });
-
-  it("should handle TRANSFER_USER_FAILURE", () => {
-    const payload = {
-      errors: [
-        {
-          status: 422,
-          resource: "/api/v2/cases/123abc/transfers",
-          detail: "consent",
-          message: ["transition.errors.consent"]
-        }
-      ]
-    };
-    const expected = Map({
-      transfer: Map({
-        errors: true,
-        message: ["transition.errors.consent"]
-      })
-    });
-    const action = {
-      type: actions.TRANSFER_USER_FAILURE,
-      payload
-    };
-
-    const newState = r.reducers.transitions(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
-  });
-
-  it("should handle CLEAR_ERRORS", () => {
-    const expected = Map({
-      transfer: Map({
-        errors: false,
-        message: []
-      })
-    });
-    const action = {
-      type: actions.CLEAR_ERRORS,
       payload: "transfer"
     };
 

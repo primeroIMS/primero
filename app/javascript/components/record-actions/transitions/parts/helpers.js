@@ -1,7 +1,7 @@
 import { isEmpty } from "lodash";
 
-const dirtyFields = (values, removeFields, fields) => {
-  const data = Object.entries(values).reduce((obj, item) => {
+export const getInternalFields = (values, fields) => {
+  return Object.entries(values).reduce((obj, item) => {
     const o = obj;
     const [key, value] = item;
     if (fields.includes(key) && !isEmpty(value)) {
@@ -9,14 +9,9 @@ const dirtyFields = (values, removeFields, fields) => {
     }
     return o;
   }, {});
-
-  return removeFields ? data : Object.keys(data).length > 0;
-};
-
-export const getInternalFields = (values, fields) => {
-  return dirtyFields(values, true, fields);
 };
 
 export const internalFieldsDirty = (values, fields) => {
-  return dirtyFields(values, false, fields);
+  const data = getInternalFields(values, fields);
+  return Object.keys(data).length > 0;
 };

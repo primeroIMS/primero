@@ -9,7 +9,7 @@ import {
   Button
 } from "@material-ui/core";
 import { SearchableSelect } from "components/searchable-select";
-import TransferForm from "./transfer-form";
+import TransferForm from "./component";
 
 describe("<TransferForm />", () => {
   let component;
@@ -39,11 +39,11 @@ describe("<TransferForm />", () => {
   });
 
   it("renders FormControlLabel", () => {
-    expect(component.find(FormControlLabel)).to.have.length(2);
+    expect(component.find(FormControlLabel)).to.have.length(3);
   });
 
   it("renders Checkbox", () => {
-    expect(component.find(Checkbox)).to.have.length(2);
+    expect(component.find(Checkbox)).to.have.length(3);
   });
 
   it("renders TextField", () => {

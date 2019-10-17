@@ -8,7 +8,7 @@ import {
   ReassignForm,
   TransferForm
 } from "./parts";
-import Transitions from "./container";
+import Transitions from "./component";
 
 describe("<Transitions />", () => {
   let component;

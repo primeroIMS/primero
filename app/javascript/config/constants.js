@@ -34,3 +34,8 @@ export const RECORD_TYPES = {
 export const AGE_MAX = 999;
 
 export const PERMITTED_URL = ["/login", "/not-authorized", "/dashboard"];
+
+export const CONSENT_GIVEN_FIELD = {
+  cp: "consent_for_services",
+  gbv: "disclosure_other_orgs"
+};

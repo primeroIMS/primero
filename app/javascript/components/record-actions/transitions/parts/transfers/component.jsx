@@ -1,31 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useI18n } from "components/i18n";
-import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
-import {
-  Box,
-  Button,
-  FormControlLabel,
-  Checkbox,
-  Grid
-} from "@material-ui/core";
-import { CasesIcon } from "images/primero-icons";
+import { Box, FormControlLabel } from "@material-ui/core";
 import { Formik, Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
 import { enqueueSnackbar } from "components/notifier";
 import { selectAgencies } from "components/application/selectors";
 import { getOption } from "components/record-form/selectors";
 import BulkTransfer from "./bulk-transfer";
-import { internalFieldsDirty } from "./helpers";
+import { internalFieldsDirty } from "../helpers";
 import TransferInternal from "./transfer-internal";
 import {
   getUsersByTransitionType,
   getErrorsByTransitionType
-} from "../selectors";
-import { saveTransferUser } from "../action-creators";
-import styles from "../styles.css";
+} from "../../selectors";
+import ProvidedConsent from "./provided-consent";
+import TransferActions from "./transfer-actions";
+import { saveTransferUser } from "../../action-creators";
 
 const TransferForm = ({
   providedConsent,
@@ -35,7 +28,6 @@ const TransferForm = ({
   transitionType,
   record
 }) => {
-  const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [disabled, setDisabled] = useState(false);
@@ -119,6 +111,7 @@ const TransferForm = ({
       label: i18n.t("transfer.notes_label")
     }
   ];
+
   const formProps = {
     initialValues: {
       transfer: false,
@@ -141,10 +134,42 @@ const TransferForm = ({
     }
   };
 
+  const providedConsentProps = {
+    canConsentOverride,
+    providedConsent,
+    setDisabled
+  };
+
+  const disableControl = !providedConsent && !disabled;
+
+  const sharedFields = [
+    {
+      id: "remoteSystem",
+      label: i18n.t("transfer.is_remote_label")
+    },
+    {
+      id: "consent_individual_transfer",
+      label: i18n.t("transfer.consent_from_individual_label")
+    }
+  ];
+
+  const sharedControls = sharedFields.map(field => (
+    <FormControlLabel
+      key={field.id}
+      control={
+        <Field
+          name={field.id}
+          component={MuiCheckbox}
+          disabled={disableControl}
+        />
+      }
+      label={field.label}
+    />
+  ));
+
   return (
     <Formik {...formProps}>
       {({ handleSubmit, values, resetForm }) => {
-        const disableControl = !providedConsent && !disabled;
         if (
           !values.transfer &&
           !providedConsent &&
@@ -154,57 +179,10 @@ const TransferForm = ({
         }
         return (
           <Form onSubmit={handleSubmit}>
-            {canConsentOverride && !providedConsent ? (
-              <div className={css.alertTransferModal}>
-                <Grid
-                  container
-                  direction="row"
-                  justify="flex-start"
-                  alignItems="center"
-                >
-                  <Grid item xs={1}>
-                    <CasesIcon className={css.alertTransferModalIcon} />
-                  </Grid>
-                  <Grid item xs={11}>
-                    <span>{i18n.t("transfer.provided_consent_label")}</span>
-                    <br />
-                    <FormControlLabel
-                      control={
-                        <Field
-                          name="transfer"
-                          render={({ field, form }) => (
-                            <Checkbox
-                              checked={field.value}
-                              onChange={() => {
-                                setDisabled(!field.value);
-                                form.setFieldValue(
-                                  field.name,
-                                  !field.value,
-                                  false
-                                );
-                              }}
-                            />
-                          )}
-                        />
-                      }
-                      label={i18n.t("transfer.transfer_label")}
-                    />
-                  </Grid>
-                </Grid>
-              </div>
-            ) : null}
-            {isBulkTransfer ? <BulkTransfer /> : null}
+            <ProvidedConsent {...providedConsentProps} />
+            <BulkTransfer isBulkTransfer={isBulkTransfer} />
             <Box>
-              <FormControlLabel
-                control={
-                  <Field
-                    name="remoteSystem"
-                    component={MuiCheckbox}
-                    disabled={disableControl}
-                  />
-                }
-                label={i18n.t("transfer.is_remote_label")}
-              />
+              {sharedControls}
               <FormControlLabel
                 control={
                   <Field
@@ -219,25 +197,7 @@ const TransferForm = ({
                 fields={internalFields}
                 disableControl={disableControl}
               />
-
-              <Box
-                display="flex"
-                my={3}
-                justifyContent="flex-start"
-                className={css.modalAction}
-              >
-                <Button
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  className={css.modalActionButton}
-                >
-                  {i18n.t("transfer.submit_label")}
-                </Button>
-                <Button onClick={closeModal} color="primary" variant="outlined">
-                  {i18n.t("buttons.cancel")}
-                </Button>
-              </Box>
+              <TransferActions close={closeModal} />
             </Box>
           </Form>
         );

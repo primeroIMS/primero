@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+import { CONSENT_GIVEN_FIELD } from "config";
 import { removeFormErrors } from "./action-creators";
 import {
   TransitionDialog,
@@ -19,7 +20,7 @@ const Transitions = ({
   const dispatch = useDispatch();
   const providedConsent =
     record &&
-    (record.get("consent_for_services") || record.get("disclosure_other_orgs"));
+    (record.get(CONSENT_GIVEN_FIELD.cp) || record.get(CONSENT_GIVEN_FIELD.gbv));
 
   const handleClose = () => {
     setTransitionType("");
