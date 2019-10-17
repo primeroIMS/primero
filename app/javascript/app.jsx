@@ -10,7 +10,7 @@ import { create } from "jss";
 import rtl from "jss-rtl";
 import React from "react";
 import { Provider } from "react-redux";
-import { theme } from "config";
+import { theme, PERMITTED_URL } from "config";
 import { I18nProvider } from "components/i18n";
 import { Route, Switch, Redirect } from "react-router-dom";
 import routes from "config/routes";
@@ -78,17 +78,25 @@ const App = () => {
                                     key={subRoute.path}
                                     exact
                                     path={subRoute.path}
-                                    component={() => (
-                                      <Permission
-                                        permissionType={subRoute.permissionType}
-                                        permission={subRoute.permission}
-                                        redirect
-                                      >
+                                    component={() =>
+                                      PERMITTED_URL.includes(subRoute.path) ? (
                                         <subRoute.component
                                           mode={subRoute.mode}
                                         />
-                                      </Permission>
-                                    )}
+                                      ) : (
+                                        <Permission
+                                          permissionType={
+                                            subRoute.permissionType
+                                          }
+                                          permission={subRoute.permission}
+                                          redirect
+                                        >
+                                          <subRoute.component
+                                            mode={subRoute.mode}
+                                          />
+                                        </Permission>
+                                      )
+                                    }
                                   />
                                 ))}
                               </route.layout>
