@@ -252,7 +252,8 @@ cp_manager_permissions = [
       Permission::ENABLE_DISABLE_RECORD,
       Permission::ADD_NOTE,
       Permission::REOPEN,
-      Permission::CLOSE
+      Permission::CLOSE,
+      Permission::DISPLAY_VIEW_PAGE
     ]
   ),
   Permission.new(
