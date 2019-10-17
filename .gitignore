@@ -72,3 +72,4 @@ vendor/cache/
 vendor/ruby/
 venv/*
 public/translations*
+public/javascripts/*

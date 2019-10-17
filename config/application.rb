@@ -1,7 +1,9 @@
 require_relative 'boot'
 
+# Expanding the below requires to remove loading of sprockets
+# If we upgrade rails in the future, make sure to check the following
+# imports to ensure we don't missing loading of anything important or new.
 # require 'rails/all'
-
 require "active_model/railtie"
 require "active_job/railtie"
 require "active_record/railtie"

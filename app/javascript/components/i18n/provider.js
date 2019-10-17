@@ -3,8 +3,6 @@ import React, { useContext, createContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLocale } from "./action-creators";
 
-global.I18n = require("i18n-js");
-
 const Context = createContext();
 
 export function I18nProvider({ children }) {

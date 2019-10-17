@@ -4,7 +4,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 common.plugins.push(
   new WebpackAssetsManifest({
-    entrypoints: true
+    entrypoints: true,
+    publicPath: "packs/"
   }),
   new MiniCssExtractPlugin({
     filename: "[name].[contenthash:8].css",
