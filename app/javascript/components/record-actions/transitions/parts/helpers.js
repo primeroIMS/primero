@@ -1,6 +1,6 @@
 import { isEmpty } from "lodash";
 
-const dirtyFields = (values, isExternal, removeFields, fields) => {
+const dirtyFields = (values, removeFields, fields) => {
   const data = Object.entries(values).reduce((obj, item) => {
     const o = obj;
     const [key, value] = item;
@@ -14,17 +14,9 @@ const dirtyFields = (values, isExternal, removeFields, fields) => {
 };
 
 export const getInternalFields = (values, fields) => {
-  return dirtyFields(values, false, true, fields);
-};
-
-export const getExternalFields = (values, fields) => {
-  return dirtyFields(values, true, true, fields);
-};
-
-export const externalFieldsDirty = (values, fields) => {
-  return dirtyFields(values, true, false, fields);
+  return dirtyFields(values, true, fields);
 };
 
 export const internalFieldsDirty = (values, fields) => {
-  return dirtyFields(values, false, false, fields);
+  return dirtyFields(values, false, fields);
 };

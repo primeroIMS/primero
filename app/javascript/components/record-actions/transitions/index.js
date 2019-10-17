@@ -1,2 +1,2 @@
-export { default as Transitions } from "./component";
+export { default as Transitions } from "./container";
 export * from "./reducer";

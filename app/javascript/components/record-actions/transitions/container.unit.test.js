@@ -8,7 +8,7 @@ import {
   ReassignForm,
   TransferForm
 } from "./parts";
-import Transitions from "./component";
+import Transitions from "./container";
 
 describe("<Transitions />", () => {
   let component;
@@ -93,6 +93,25 @@ describe("<Transitions />", () => {
 
     it("renders TransferForm", () => {
       expect(component.find(TransferForm)).to.have.length(1);
+    });
+  });
+
+  describe("when Props", () => {
+    const props = {
+      recordType: "cases",
+      transitionType: "referral",
+      setTransitionType: () => {},
+      record,
+      userPermissions: Map({ cases: ["manage"] })
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(Transitions, props));
+    });
+
+    it("renders TransitionDialog", () => {
+      debugger;
+      expect(component.find(TransitionDialog)).to.have.length(1);
     });
   });
 });

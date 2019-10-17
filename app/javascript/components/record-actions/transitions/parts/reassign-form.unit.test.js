@@ -1,6 +1,7 @@
 import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
+import sinon from "sinon";
 import { Button } from "@material-ui/core";
 import { Formik, Field, Form } from "formik";
 import { SearchableSelect } from "components/searchable-select";

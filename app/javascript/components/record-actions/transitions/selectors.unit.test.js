@@ -49,4 +49,10 @@ describe("<Transitions /> - Selectors", () => {
       expect(errors).to.be.equal(undefined);
     });
   });
+
+  describe("getAssignUsers", () => {
+    it("should be undefined", () => {
+      expect(selectors.getAssignUsers).to.be.equal(undefined);
+    });
+  });
 });

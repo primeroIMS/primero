@@ -81,8 +81,7 @@ Transitions.propTypes = {
   record: PropTypes.object,
   setTransitionType: PropTypes.func.isRequired,
   recordType: PropTypes.string.isRequired,
-  userPermissions: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired
+  userPermissions: PropTypes.object.isRequired
 };
 
 export default Transitions;

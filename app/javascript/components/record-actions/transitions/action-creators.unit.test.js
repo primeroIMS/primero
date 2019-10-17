@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import clone from "lodash/clone";
 import chai, { expect } from "chai";
 import sinon from "sinon";
@@ -110,19 +111,33 @@ describe("<Transitions /> - Action Creators", () => {
       dispatch
     );
 
-    expect(dispatch.getCall(0).returnValue.type).to.equal(
-      actions.TRANSFER_USER
-    );
-    expect(dispatch.getCall(0).returnValue.api.path).to.equal(
-      "cases/123abc/transfers"
-    );
-    expect(dispatch.getCall(0).returnValue.api.method).to.equal("POST");
-    expect(dispatch.getCall(0).returnValue.api.body).to.equal(body);
-    expect(dispatch.getCall(0).returnValue.api.successCallback.action).to.equal(
+    const firstCall = dispatch.getCall(0).returnValue;
+    expect(firstCall.type).to.equal(actions.TRANSFER_USER);
+    expect(firstCall.api.path).to.equal("cases/123abc/transfers");
+    expect(firstCall.api.method).to.equal("POST");
+    expect(firstCall.api.body).to.equal(body);
+    expect(firstCall.api.successCallback.action).to.equal(
       "notifications/ENQUEUE_SNACKBAR"
     );
-    expect(
-      dispatch.getCall(0).returnValue.api.successCallback.payload.message
-    ).to.equal("Success Message");
+    expect(firstCall.api.successCallback.payload.message).to.equal(
+      "Success Message"
+    );
+  });
+
+  it("should check the 'fetchTransitionData' action creator to return the correct object", () => {
+    const transitionType = "transfer";
+    const store = configureStore()({});
+    const dispatch = sinon.spy(store, "dispatch");
+    const fetchAssignUsers = sinon.spy();
+    const fetchTransferUsers = sinon.spy();
+
+    actionCreators.fetchTransitionData(transitionType)(
+      fetchAssignUsers(transitionType),
+      fetchTransferUsers(transitionType)
+    );
+    expect(fetchAssignUsers).to.have.been.called;
+    expect(fetchAssignUsers.getCall(0).args[0]).to.equal("transfer");
+    expect(fetchTransferUsers).to.have.been.called;
+    expect(fetchTransferUsers.getCall(0).args[0]).to.equal("transfer");
   });
 });
