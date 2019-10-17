@@ -31,6 +31,42 @@ const jss = create({
 });
 
 const generateClassName = createGenerateClassName();
+const routesApplication = routes.map((route, index) => {
+  if (route.layout) {
+    return (
+      <Route
+        key={index}
+        exact={route.routes ? route.routes.some(r => r.exact) : route.exact}
+        path={route.routes.map(r => r.path)}
+      >
+        <route.layout>
+          {route.routes.map(subRoute => (
+            <Route
+              key={subRoute.path}
+              exact
+              path={subRoute.path}
+              component={() =>
+                PERMITTED_URL.includes(subRoute.path) ? (
+                  <subRoute.component mode={subRoute.mode} />
+                ) : (
+                  <Permission
+                    permissionType={subRoute.permissionType}
+                    permission={subRoute.permission}
+                    redirect
+                  >
+                    <subRoute.component mode={subRoute.mode} />
+                  </Permission>
+                )
+              }
+            />
+          ))}
+        </route.layout>
+      </Route>
+    );
+  }
+
+  return <Route key={index} {...route} />;
+});
 
 const App = () => {
   store.subscribe(() => {
@@ -60,52 +96,7 @@ const App = () => {
                       <Route exact path="/">
                         <Redirect to="/login" />
                       </Route>
-                      {routes.map((route, index) => {
-                        if (route.layout) {
-                          return (
-                            <Route
-                              key={index}
-                              exact={
-                                route.routes
-                                  ? route.routes.some(r => r.exact)
-                                  : route.exact
-                              }
-                              path={route.routes.map(r => r.path)}
-                            >
-                              <route.layout>
-                                {route.routes.map(subRoute => (
-                                  <Route
-                                    key={subRoute.path}
-                                    exact
-                                    path={subRoute.path}
-                                    component={() =>
-                                      PERMITTED_URL.includes(subRoute.path) ? (
-                                        <subRoute.component
-                                          mode={subRoute.mode}
-                                        />
-                                      ) : (
-                                        <Permission
-                                          permissionType={
-                                            subRoute.permissionType
-                                          }
-                                          permission={subRoute.permission}
-                                          redirect
-                                        >
-                                          <subRoute.component
-                                            mode={subRoute.mode}
-                                          />
-                                        </Permission>
-                                      )
-                                    }
-                                  />
-                                ))}
-                              </route.layout>
-                            </Route>
-                          );
-                        }
-
-                        return <Route key={index} {...route} />;
-                      })}
+                      {routesApplication}
                     </Switch>
                   </ConnectedRouter>
                 </ApplicationProvider>
