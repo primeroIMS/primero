@@ -14,7 +14,7 @@ chai.use(sinonChai);
 describe("<RecordList />", () => {
   let component;
 
-  before(() => {
+  beforeEach(() => {
     const initialState = Map({
       records: Map({
         FiltersTabs: Map({

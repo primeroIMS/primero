@@ -44,3 +44,9 @@ export const PERMISSIONS = {
   MANAGE: "manage",
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others"
 };
+
+export const RECORD_PATH = {
+  cases: "cases",
+  tracing_requests: "tracing_requests",
+  incidents: "incidents"
+};

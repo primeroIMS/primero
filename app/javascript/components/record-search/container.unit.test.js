@@ -9,7 +9,7 @@ import RecordSearch from "./container";
 describe("<RecordSearch />", () => {
   let component;
 
-  before(() => {
+  beforeEach(() => {
     const initialState = Map({
       records: Map({
         cases: Map({

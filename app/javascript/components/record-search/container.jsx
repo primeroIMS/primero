@@ -22,7 +22,7 @@ const RecordSearch = ({ recordType, setFilters }) => {
   }, [query]);
 
   const updateFilters = () => {
-    dispatch(setFilters(recordType, { query: filterQuery, id_search: true }));
+    dispatch(setFilters({ options: { query: filterQuery, id_search: true } }));
   };
 
   const change = e => {

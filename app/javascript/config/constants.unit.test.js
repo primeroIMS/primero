@@ -13,6 +13,22 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("RECORD_TYPES");
     expect(constants).to.have.property("AGE_MAX");
     expect(constants).to.have.property("PERMITTED_URL");
+    expect(constants).to.have.property("RECORD_PATH");
+    expect(constants).to.have.property("PERMISSIONS");
+
+    delete constants.FETCH_TIMEOUT;
+    delete constants.DATABASE_NAME;
+    delete constants.DB;
+    delete constants.IDLE_TIMEOUT;
+    delete constants.IDLE_LOGOUT_TIMEOUT;
+    delete constants.TOKEN_REFRESH_INTERVAL;
+    delete constants.RECORD_TYPES;
+    delete constants.AGE_MAX;
+    delete constants.PERMITTED_URL;
+    delete constants.RECORD_PATH;
+    delete constants.PERMISSIONS;
+
+    expect(constants).to.deep.equal({});
   });
 
   it("should have correct constant value", () => {

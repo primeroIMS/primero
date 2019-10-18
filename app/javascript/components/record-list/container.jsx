@@ -11,14 +11,17 @@ import { PageContainer } from "components/page";
 import { withRouter } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useI18n } from "components/i18n";
-import { fetchRecords } from "components/records";
 import { selectFiltersByRecordType } from "components/filters-builder";
 import { getPermissionsByRecord } from "components/user";
 import { PERMISSIONS } from "config";
 import RecordListToolbar from "./RecordListToolbar";
 import FilterContainer from "./FilterContainer";
 import { selectListHeaders } from "./selectors";
-import { buildTableColumns, setFilters } from "./helpers";
+import {
+  buildTableColumns,
+  getFiltersSetterByType,
+  getRecordsFetcherByType
+} from "./helpers";
 import styles from "./styles.css";
 
 const RecordList = ({ match }) => {
@@ -41,8 +44,12 @@ const RecordList = ({ match }) => {
     getPermissionsByRecord(state, recordType)
   );
 
+  const setFilters = getFiltersSetterByType(recordType);
+
+  const fetchRecords = getRecordsFetcherByType(recordType);
+
   useEffect(() => {
-    dispatch(setFilters(recordType, { id_search: false, query: "" }));
+    dispatch(setFilters({ options: { id_search: false, query: "" } }));
   }, [url]);
 
   const canSearchOthers =
