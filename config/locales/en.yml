@@ -2321,7 +2321,6 @@ en:
     reassign: "Assigning"
     transfer: "Transfering"
     reopen_case: "Reopening"
-    hide_name: "Hide name"
     quick_view: "Viewing Quick View"
     request_transfer_view: "Viewing Request Transfer"
     request_transfer: "Sending Transfer Request"
