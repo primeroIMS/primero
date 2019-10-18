@@ -2,8 +2,6 @@ import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
 import { Map } from "immutable";
-import sinon from "sinon";
-import { ToggleOpen } from "components/record-actions/toggle-open";
 import { ToggleEnable } from "components/record-actions/toggle-enable";
 import { Transitions } from "components/record-actions/transitions";
 import { Notes } from "components/record-actions/notes";

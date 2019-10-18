@@ -50,7 +50,7 @@ describe("<Transitions /> - Selectors", () => {
     });
   });
 
-  describe("getAssignUsers", () => {
+  describe("deprecated getAssignUsers", () => {
     it("should be undefined", () => {
       expect(selectors.getAssignUsers).to.be.equal(undefined);
     });

@@ -112,28 +112,6 @@ const TransferForm = ({
     }
   ];
 
-  const formProps = {
-    initialValues: {
-      transfer: false,
-      remoteSystem: false,
-      consent_individual_transfer: false,
-      agency: "",
-      location: "",
-      transitioned_to: "",
-      notes: ""
-    },
-    onSubmit: (values, { setSubmitting }) => {
-      dispatch(
-        saveTransferUser(
-          record.get("id"),
-          { data: { ...values, consent_overridden: canConsentOverride } },
-          i18n.t("transfer.success")
-        )
-      );
-      setSubmitting(false);
-    }
-  };
-
   const providedConsentProps = {
     canConsentOverride,
     providedConsent,
@@ -167,43 +145,56 @@ const TransferForm = ({
     />
   ));
 
-  return (
-    <Formik {...formProps}>
-      {({ handleSubmit, values, resetForm }) => {
-        if (
-          !values.transfer &&
-          !providedConsent &&
-          internalFieldsDirty(values, internalFields.map(f => f.id))
-        ) {
-          resetForm();
-        }
-        return (
-          <Form onSubmit={handleSubmit}>
-            <ProvidedConsent {...providedConsentProps} />
-            <BulkTransfer isBulkTransfer={isBulkTransfer} />
-            <Box>
-              {sharedControls}
-              <FormControlLabel
-                control={
-                  <Field
-                    name="consent_individual_transfer"
-                    component={MuiCheckbox}
-                    disabled={disableControl}
-                  />
-                }
-                label={i18n.t("transfer.consent_from_individual_label")}
-              />
-              <TransferInternal
-                fields={internalFields}
-                disableControl={disableControl}
-              />
-              <TransferActions close={closeModal} />
-            </Box>
-          </Form>
-        );
-      }}
-    </Formik>
-  );
+  const formikForm = props => {
+    const { handleSubmit, values, resetForm } = props;
+    const { transfer } = values;
+    if (
+      !transfer &&
+      !providedConsent &&
+      internalFieldsDirty(values, internalFields.map(f => f.id))
+    ) {
+      resetForm();
+    }
+    return (
+      <Form onSubmit={handleSubmit}>
+        <ProvidedConsent {...providedConsentProps} />
+        <BulkTransfer isBulkTransfer={isBulkTransfer} />
+        <Box>
+          {sharedControls}
+          <TransferInternal
+            fields={internalFields}
+            disableControl={disableControl}
+          />
+          <TransferActions closeModal={closeModal} />
+        </Box>
+      </Form>
+    );
+  };
+
+  const formProps = {
+    initialValues: {
+      transfer: false,
+      remoteSystem: false,
+      consent_individual_transfer: false,
+      agency: "",
+      location: "",
+      transitioned_to: "",
+      notes: ""
+    },
+    onSubmit: (values, { setSubmitting }) => {
+      dispatch(
+        saveTransferUser(
+          record.get("id"),
+          { data: { ...values, consent_overridden: canConsentOverride } },
+          i18n.t("transfer.success")
+        )
+      );
+      setSubmitting(false);
+    },
+    render: props => formikForm(props)
+  };
+
+  return <Formik {...formProps} />;
 };
 
 TransferForm.propTypes = {
@@ -212,7 +203,10 @@ TransferForm.propTypes = {
   userPermissions: PropTypes.object.isRequired,
   handleClose: PropTypes.func.isRequired,
   transitionType: PropTypes.string,
-  record: PropTypes.object
+  record: PropTypes.object,
+  values: PropTypes.object,
+  handleSubmit: PropTypes.func,
+  resetForm: PropTypes.func
 };
 
 export default TransferForm;

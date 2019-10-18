@@ -31,7 +31,7 @@ const TransferActions = ({ closeModal }) => {
 };
 
 TransferActions.propTypes = {
-  closeModal: PropTypes.func
+  closeModal: PropTypes.func.isRequired
 };
 
 export default TransferActions;

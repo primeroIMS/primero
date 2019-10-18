@@ -39,11 +39,11 @@ describe("<TransferForm />", () => {
   });
 
   it("renders FormControlLabel", () => {
-    expect(component.find(FormControlLabel)).to.have.length(3);
+    expect(component.find(FormControlLabel)).to.have.length(2);
   });
 
   it("renders Checkbox", () => {
-    expect(component.find(Checkbox)).to.have.length(3);
+    expect(component.find(Checkbox)).to.have.length(2);
   });
 
   it("renders TextField", () => {
