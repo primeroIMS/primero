@@ -6,20 +6,13 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { useI18n } from "components/i18n";
 import { getPermissionsByRecord } from "components/user/selectors";
 import { RECORD_TYPES } from "config";
+import * as Permissions from "libs/permissions";
+import Permission from "components/application/permission";
 import { Notes } from "./notes";
 import { Transitions } from "./transitions";
 import { ToggleOpen } from "./toggle-open";
 import { ToggleEnable } from "./toggle-enable";
 import { fetchAssignUsers } from "./transitions/action-creators";
-
-const checkPermissions = (currentPermissions, allowedPermissions) => {
-  return (
-    currentPermissions &&
-    currentPermissions.filter(permission => {
-      return allowedPermissions.includes(permission);
-    }).size > 0
-  );
-};
 
 const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const i18n = useI18n();
@@ -37,10 +30,10 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     record && record.get("status") === "open" ? "close" : "reopen";
 
   const assignPermissions = [
-    "manage",
-    "assign",
-    "assign_within_user_group",
-    "assign_within_agency permissions"
+    Permissions.MANAGE,
+    Permissions.ASSIGN,
+    Permissions.ASSIGN_WITHIN_USER_GROUP,
+    Permissions.ASSIGN_WITHIN_AGENCY_PERMISSIONS
   ];
 
   useEffect(() => {
@@ -51,14 +44,23 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     getPermissionsByRecord(state, recordType)
   );
 
-  const canAddNotes = checkPermissions(userPermissions, ["manage", "add_note"]);
-  const canReopen = checkPermissions(userPermissions, ["manage", "reopen"]);
-  const canClose = checkPermissions(userPermissions, ["manage", "close"]);
-  const canEnable = checkPermissions(userPermissions, [
-    "manage",
-    "enable_disable_record"
+  const canAddNotes = Permissions.check(userPermissions, [
+    Permissions.MANAGE,
+    Permissions.ADD_NOTE
   ]);
-  const canTransfer = checkPermissions(userPermissions, assignPermissions);
+  const canReopen = Permissions.check(userPermissions, [
+    Permissions.MANAGE,
+    Permissions.REOPEN
+  ]);
+  const canClose = Permissions.check(userPermissions, [
+    Permissions.MANAGE,
+    Permissions.CLOSE
+  ]);
+  const canEnable = Permissions.check(userPermissions, [
+    Permissions.MANAGE,
+    Permissions.ENABLE_DISABLE_RECORD
+  ]);
+  const canTransfer = Permissions.check(userPermissions, assignPermissions);
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -104,6 +106,10 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const handleNotesOpen = () => {
     setOpenNotesDialog(true);
   };
+
+  const canOpenOrClose =
+    (canReopen && openState === "reopen") ||
+    (canClose && openState === "close");
 
   const actions = [
     {
@@ -156,11 +162,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
       name: i18n.t(`actions.${openState}`),
       action: handleReopenDialogOpen,
       recordType: "all",
-      condition:
-        mode &&
-        mode.isShow &&
-        ((canReopen && openState === "reopen") ||
-          (canClose && openState === "close"))
+      condition: mode && mode.isShow && canOpenOrClose
     },
     {
       name: i18n.t(`actions.${enableState}`),
@@ -176,7 +178,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     }
   ];
 
-  const enable = (
+  const toggleEnableDialog = (
     <ToggleEnable
       close={handleEnableDialogClose}
       openEnableDialog={openEnableDialog}
@@ -185,7 +187,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     />
   );
 
-  const open = (
+  const toggleOpenDialog = (
     <ToggleOpen
       close={handleReopenDialogClose}
       openReopenDialog={openReopenDialog}
@@ -235,18 +237,23 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
           ))}
       </Menu>
 
-      {(canReopen && openState === "reopen") ||
-      (canClose && openState === "close")
-        ? open
-        : null}
+      {canOpenOrClose ? toggleOpenDialog : null}
 
-      {canEnable ? enable : null}
+      <Permission
+        recordType={recordType}
+        permission={[Permissions.MANAGE, Permissions.ENABLE_DISABLE_RECORD]}
+      >
+        {toggleEnableDialog}
+      </Permission>
 
       <Transitions {...transitionsProps} />
 
-      {canAddNotes ? (
+      <Permission
+        recordType={recordType}
+        permission={[Permissions.MANAGE, Permissions.ADD_NOTE]}
+      >
         <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} />
-      ) : null}
+      </Permission>
     </>
   );
 };
