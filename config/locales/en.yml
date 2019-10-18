@@ -4,8 +4,8 @@
 
 ---
 en:
-  "true": "Yes"
-  "false": "No"
+  true: "Yes"
+  false: "No"
   valid: "Valid"
   invalid: "Invalid"
   offline: The application is offline.
@@ -1052,8 +1052,6 @@ en:
   email: "Email"
   organization: "Organisation"
   position: "Position"
-  false: "false"
-  true: "true"
   mandatory_field: "marked fields are mandatory"
   add: "add"
   belonging_to: "belonging to"
