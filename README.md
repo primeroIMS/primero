@@ -35,33 +35,24 @@ you will need to run the build and the compose scripts as `sudo`.
     $ #Install Ruby
     $ rvm install `cat .ruby-version`
 
-### Install Node and [Yarn](https://yarnpkg.com/en/docs/install)
+### Install Node and NPM
 
 On MacOS, with [Homebrew](https://brew.sh):
 
     $ #Install Node
     $ brew install node
-    $ #Install Yarn
-    $ brew install yarn
 
 On Ubuntu:
 
     $ #Install Node 12.x
     $ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
     $ sudo apt-get install -y nodejs
-    $ #Install Yarn
-    $ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-    $ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-    $ sudo apt-get update && sudo apt-get install -y yarn
 
 On Fedora:
     $ #Install Node 12.x
     $ sudo dnf install -y gcc-c++ make
     $ curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash -
     $ sudo dnf install nodejs
-    $ #Install Yarn
-    $ curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | sudo tee /etc/yum.repos.d/yarn.repo
-    $ sudo dnf install yarn
 
 ### Install binary dependencies
 
@@ -83,7 +74,7 @@ On Fedora:
 Install  gems, packages:
 
     $ bundle install
-    $ yarn install
+    $ npm install
 
 Prepare development configuration. Review the created configurations files and alter as needed:
 
@@ -114,6 +105,10 @@ Prepare the database
     $ rails db:create
     $ rails db:migrate
     $ rails db:seed
+    
+Generate the i18n translation files
+
+    $ bin/rails i18n:js:export
 
 You may start the development Rails server on port 3000:
 
@@ -121,7 +116,7 @@ You may start the development Rails server on port 3000:
 
 And in a separate terminal window, the development Rails Webpacker server:
 
-    $ ./bin/webpack-dev-server
+    $ npm run serve
 
 Alternatively, to bring everything up together you can use:
 

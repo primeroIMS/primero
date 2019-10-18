@@ -4,8 +4,10 @@ import { setupMountedComponent } from "test";
 import { fromJS, Map, List } from "immutable";
 import MUIDataTable from "mui-datatables";
 import { TableBodyRow } from "mui-datatables";
+import { DashboardChip } from "components/dashboard";
 import TaskList from "./container";
 import * as userRecord from "../../user/records";
+
 
 describe("<TaskList />", () => {
   let component;
@@ -57,7 +59,7 @@ describe("<TaskList />", () => {
               }),
               userRecord.ListHeaderRecord({
                 name: 'type',
-                field_name: 'type',
+                field_name: 'type_display',
                 id_search: false
               }),
               userRecord.ListHeaderRecord({
@@ -79,5 +81,8 @@ describe("<TaskList />", () => {
 
   it("renders tasks table", () => {
     expect(component.find(MUIDataTable).find(TableBodyRow)).to.have.length(2);
+  });
+  it("renders tasks table with priority as DashboardChip", () => {
+    expect(component.find(MUIDataTable).find(DashboardChip)).to.have.length(2);
   });
 });

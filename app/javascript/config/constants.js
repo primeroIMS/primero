@@ -33,4 +33,9 @@ export const RECORD_TYPES = {
 // Max Age allowed in age ranges
 export const AGE_MAX = 999;
 
-export const PERMITTED_URL = ["/login", "/not-authorized", "/dashboard"];
+export const PERMITTED_URL = [
+  "/login",
+  "/not-authorized",
+  "/dashboard",
+  "/logout"
+];

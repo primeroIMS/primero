@@ -3,6 +3,8 @@ class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::Whitelist
   # include Memoizable
 
+  attr_reader :refresh_associated_user_groups, :refresh_associated_user_agencies
+
   delegate :can?, :cannot?, to: :ability
 
   devise :database_authenticatable, :timeoutable,
@@ -27,7 +29,8 @@ class User < ApplicationRecord
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id]
 
   before_create :set_agency_services
-  before_save :make_user_name_lowercase, :update_user_cases_groups_and_location, :update_reporting_location_code
+  before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code
+  after_save :update_associated_groups_or_agencies
 
 
   validates_presence_of :full_name, :message => "errors.models.user.full_name"
@@ -268,12 +271,15 @@ class User < ApplicationRecord
   # This method indicates what records this user can search for.
   # Returns self, if can only search records associated with this user
   # Returns list of UserGroups if can only query from those user groups that this user has access to
+  # Returns the Agency if can only query from the agency this user has access to
   # Returns empty list if can query for all records in the system
-  def record_query_scope(record_model)
-    if self.group_permission?(Permission::ALL) || self.can?(:search_owned_by_others, record_model)
+  def record_query_scope(record_model, id_search = false)
+    if self.group_permission?(Permission::ALL) || (self.can?(:search_owned_by_others, record_model) && id_search)
       []
+    elsif self.group_permission?(Permission::AGENCY)
+      { Permission::AGENCY => self.agency.unique_id }
     elsif self.group_permission?(Permission::GROUP) && self.user_group_ids.present?
-      self.user_groups
+      { Permission::GROUP => self.user_groups.pluck(:unique_id).compact }
     else
       self
     end
@@ -426,18 +432,31 @@ class User < ApplicationRecord
     self.can?(:approve_closure, Child) || self.can?(:request_approval_closure, Child)
   end
 
+  # If we set something we gonna assume we need to update the user_groups
+  def user_groups=(user_groups)
+    @refresh_associated_user_groups =  true
+    super
+  end
+
+  def user_groups_ids=(user_group_ids)
+    @refresh_associated_user_groups =  true
+    super
+  end
+
   private
 
-  def update_user_cases_groups_and_location
+  def update_owned_by_fields
     # TODO: The following gets all the cases by user and updates the
     # location/district. Performance degrades on save if the user
     # changes their location.
-    if location_changed? || user_group_ids_changed?
-      Child.owned_by(user_name).each do |child|
-        child.owned_by_location = location if location_changed?
-        child.owned_by_groups = user_group_ids if user_group_ids_changed?
+    if location_changed? || @refresh_associated_user_groups || agency_id_changed?
+      Child.owned_by(self.user_name).each do |child|
+        child.owned_by_location = self.location if location_changed?
+        child.owned_by_groups = self.user_group_ids if @refresh_associated_user_groups
+        child.owned_by_agency_id = self.agency_id if agency_id_changed?
         child.save!
       end
+      @refresh_associated_user_agencies = agency_id_changed?
     end
   end
 
@@ -450,8 +469,8 @@ class User < ApplicationRecord
     self.changes_to_save['location'].present? && !self.changes_to_save['location'].eql?([nil, ''])
   end
 
-  def user_group_ids_changed?
-    self.changes_to_save['user_group_ids'].present? && !self.changes_to_save['user_group_ids'].eql?([nil, ''])
+  def agency_id_changed?
+    self.changes_to_save['agency_id'].present?
   end
 
   def make_user_name_lowercase
@@ -460,5 +479,27 @@ class User < ApplicationRecord
 
   def set_agency_services
     self.services = agency.services if agency.present? && services.blank?
+  end
+
+  def update_associated_groups_or_agencies
+    if @refresh_associated_user_groups || @refresh_associated_user_agencies
+      pagination = { page: 1, per_page: 500}
+      begin
+        results = Child.search do
+          with(:associated_user_names, self.user_name)
+          paginate pagination
+        end.results
+        Child.transaction do
+          results.each do |child|
+            child.update_associated_user_groups if @refresh_associated_user_groups
+            child.update_associated_user_agencies if @refresh_associated_user_agencies
+            child.save!
+          end
+        end
+        pagination[:page] = results.next_page
+      end until results.next_page.nil?
+      @refresh_associated_user_groups = false
+      @refresh_associated_user_agencies = false
+    end
   end
 end

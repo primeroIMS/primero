@@ -17,6 +17,7 @@ class Agency < ApplicationRecord
 
   has_one_attached :logo_large
   has_one_attached :logo_small
+  has_many :users, inverse_of: :agency
 
 
   validates :logo_large, file_size: { less_than_or_equal_to: 10.megabytes },

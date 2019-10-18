@@ -1,12 +1,13 @@
 import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
-import { Map } from "immutable";
+import { Map, List } from "immutable";
 import { ToggleOpen } from "components/record-actions/toggle-open";
 import { ToggleEnable } from "components/record-actions/toggle-enable";
 import { Transitions } from "components/record-actions/transitions";
 import { Notes } from "components/record-actions/notes";
 import { Menu, MenuItem } from "@material-ui/core";
+import * as Permissions from "libs/permissions";
 import RecordActions from "./component";
 
 describe("<RecordActions />", () => {
@@ -14,7 +15,7 @@ describe("<RecordActions />", () => {
   const defaultState = Map({
     user: Map({
       permissions: Map({
-        cases: Map({ manage: "manage" })
+        cases: List([Permissions.MANAGE])
       })
     })
   });
@@ -34,7 +35,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders ToggleOpen", () => {
-      expect(component.find(ToggleEnable)).to.have.length(1);
+      expect(component.find(ToggleOpen)).to.have.length(1);
     });
   });
 
@@ -70,13 +71,7 @@ describe("<RecordActions />", () => {
       ({ component } = setupMountedComponent(
         RecordActions,
         props,
-        Map({
-          user: Map({
-            permissions: Map({
-              cases: Map({ manage: "manage" })
-            })
-          })
-        })
+        defaultState
       ));
     });
 
@@ -94,7 +89,7 @@ describe("<RecordActions />", () => {
           Map({
             user: Map({
               permissions: Map({
-                cases: Map({ manage: "manage" })
+                cases: List(["manage"])
               })
             })
           })
@@ -126,7 +121,7 @@ describe("<RecordActions />", () => {
           Map({
             user: Map({
               permissions: Map({
-                cases: Map({ read: "read" })
+                cases: List(["read"])
               })
             })
           })
@@ -138,7 +133,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.length(8);
+        expect(component.find(MenuItem)).to.have.length(7);
       });
 
       it("renders MenuItem without Refer Cases option", () => {
