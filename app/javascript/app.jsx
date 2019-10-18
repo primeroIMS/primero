@@ -10,7 +10,7 @@ import { create } from "jss";
 import rtl from "jss-rtl";
 import React from "react";
 import { Provider } from "react-redux";
-import { theme } from "config";
+import { theme, PERMITTED_URL } from "config";
 import { I18nProvider } from "components/i18n";
 import { Route, Switch, Redirect } from "react-router-dom";
 import routes from "config/routes";
@@ -31,6 +31,46 @@ const jss = create({
 });
 
 const generateClassName = createGenerateClassName();
+
+const routesApplication = routes.map((route, index) => {
+  if (route.layout) {
+    const subRouteApplication = route.routes.map(subRoute => {
+      const subRouteComponent = () =>
+        PERMITTED_URL.includes(subRoute.path) ? (
+          <subRoute.component mode={subRoute.mode} />
+        ) : (
+          <Permission
+            permissionType={subRoute.permissionType}
+            permission={subRoute.permission}
+            redirect
+          >
+            <subRoute.component mode={subRoute.mode} />
+          </Permission>
+        );
+
+      return (
+        <Route
+          key={subRoute.path}
+          exact
+          path={subRoute.path}
+          component={subRouteComponent}
+        />
+      );
+    });
+
+    return (
+      <Route
+        key={index}
+        exact={route.routes ? route.routes.some(r => r.exact) : route.exact}
+        path={route.routes.map(r => r.path)}
+      >
+        <route.layout>{subRouteApplication}</route.layout>
+      </Route>
+    );
+  }
+
+  return <Route key={index} {...route} />;
+});
 
 const App = () => {
   store.subscribe(() => {
@@ -60,44 +100,7 @@ const App = () => {
                       <Route exact path="/">
                         <Redirect to="/login" />
                       </Route>
-                      {routes.map((route, index) => {
-                        if (route.layout) {
-                          return (
-                            <Route
-                              key={index}
-                              exact={
-                                route.routes
-                                  ? route.routes.some(r => r.exact)
-                                  : route.exact
-                              }
-                              path={route.routes.map(r => r.path)}
-                            >
-                              <route.layout>
-                                {route.routes.map(subRoute => (
-                                  <Route
-                                    key={subRoute.path}
-                                    exact
-                                    path={subRoute.path}
-                                    component={() => (
-                                      <Permission
-                                        permissionType={subRoute.permissionType}
-                                        permission={subRoute.permission}
-                                        redirect
-                                      >
-                                        <subRoute.component
-                                          mode={subRoute.mode}
-                                        />
-                                      </Permission>
-                                    )}
-                                  />
-                                ))}
-                              </route.layout>
-                            </Route>
-                          );
-                        }
-
-                        return <Route key={index} {...route} />;
-                      })}
+                      {routesApplication}
                     </Switch>
                   </ConnectedRouter>
                 </ApplicationProvider>
