@@ -62,4 +62,24 @@ describe("<Permission />", () => {
       expect(component).to.be.empty;
     });
   });
+
+  describe("When url is present", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Permission,
+        {
+          permission: "read",
+          children: <div />,
+          match: {
+            url: "/cases"
+          }
+        },
+        initialState
+      ));
+    });
+
+    it("doesn't render children", () => {
+      expect(component).to.be.empty;
+    });
+  });
 });

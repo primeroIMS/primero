@@ -60,6 +60,18 @@ class Flag < ApplicationRecord
     string :flag_record_owner, :stored => true do
       record.owned_by
     end
+    string :flag_groups_owner, :stored => true, :multiple => true do
+      record.owned_by_groups
+    end
+    string :flag_associated_groups, :stored => true, :multiple => true do
+      record.associated_user_groups
+    end
+    string :flag_agency_id_owner, :stored => true, :multiple => true do
+      record.owned_by_agency_id
+    end
+    string :flag_associated_agencies, :stored => true, :multiple => true do
+      record.associated_user_agencies
+    end
   end
 
   def flag_history

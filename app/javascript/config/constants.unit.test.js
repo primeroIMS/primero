@@ -3,7 +3,7 @@ import { expect } from "chai";
 import clone from "lodash/clone";
 import * as constants from "./constants";
 
-describe("Constants", () => {
+describe("Verifying config constant", () => {
   it("should have known actions", () => {
     const cloneConstants = clone(constants);
     expect(cloneConstants).to.have.property("FETCH_TIMEOUT");
@@ -28,5 +28,33 @@ describe("Constants", () => {
     delete cloneConstants.CONSENT_GIVEN_FIELD;
 
     expect(cloneConstants).to.deep.equal({});
+  });
+
+  it("should have correct constant value", () => {
+    expect(constants.FETCH_TIMEOUT).equal(30000);
+    expect(constants.DATABASE_NAME).equal("primero");
+    expect(constants.DB).to.deep.equal({
+      USER: "user",
+      FIELDS: "fields",
+      FORMS: "forms",
+      OPTIONS: "options",
+      RECORDS: "records",
+      SYSTEM_SETTINGS: "system_settings"
+    });
+    expect(constants.IDLE_TIMEOUT).equal(15 * 1000 * 60);
+    expect(constants.IDLE_LOGOUT_TIMEOUT).equal(5 * 1000 * 60);
+    expect(constants.TOKEN_REFRESH_INTERVAL).equal(30 * 1000 * 60);
+    expect(constants.RECORD_TYPES).to.deep.equal({
+      cases: "case",
+      tracing_requests: "tracing_request",
+      incidents: "incident"
+    });
+    expect(constants.AGE_MAX).equal(999);
+    expect(constants.PERMITTED_URL).to.deep.equal([
+      "/login",
+      "/not-authorized",
+      "/dashboard",
+      "/logout"
+    ]);
   });
 });
