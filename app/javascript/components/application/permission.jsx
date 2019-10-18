@@ -2,7 +2,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
-import { PERMITTED_URL } from "config";
 import { getPermissionsByRecord } from "../user/selectors";
 
 const Permission = ({
@@ -12,7 +11,7 @@ const Permission = ({
   children,
   match
 }) => {
-  const { params, url } = match;
+  const { params } = match;
   const { recordType } = params;
   const type = permissionType || recordType;
   const dispatch = useDispatch();
@@ -20,9 +19,6 @@ const Permission = ({
     getPermissionsByRecord(state, type)
   );
 
-  if (PERMITTED_URL.includes(url)) {
-    return children;
-  }
   const userHasPermission =
     userPermissions && userPermissions.toJS().some(t => permission.includes(t));
 
