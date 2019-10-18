@@ -1,4 +1,4 @@
-LOCALES_FROM_ENV = ENV['LOCALE_ALL'].try(:split, ',') || %w(en fr ar)
+LOCALES_FROM_ENV = ENV['LOCALE_ALL'].try(:split, ',')
 
 default_locale = nil
 yaml_file = Rails.root.join("config", "locales.yml")
