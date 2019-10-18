@@ -1086,9 +1086,9 @@ en:
 
   record: "record"
   description: "Description"
-  #TODO - The name translation is commented out so we revert back to using the name translation defined in the form section field
-  #       Longer term, need to refactor how that translation is handled
-  #name: "Name"
+  # TODO - The name translation is commented out so we revert back to using the name translation defined in the form section field
+  #        Longer term, need to refactor how that translation is handled
+  # name: "Name"
   unique_id: "Unique ID"
 
   permissions:
