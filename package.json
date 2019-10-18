@@ -1,7 +1,7 @@
 {
   "scripts": {
     "test": "NODE_ENV=test mocha --require @babel/register --require ./.mochaignore --require jsdom-global/register --recursive --exit",
-    "test:all": "yarn run test ./app/javascript/**/*.unit.test.js",
+    "test:all": "yarn run test './app/javascript/**/*.unit.test.js'",
     "test:inspect": "yarn run test --inspect-brk=0.0.0.0:9229"
   },
   "dependencies": {
