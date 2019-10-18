@@ -1,3 +1,3 @@
 production:
   :default_locale: 'en'
-  :locales: ['en', 'fr', 'ar']
+  :locales: <%= LOCALES_FROM_ENV %>
