@@ -12,23 +12,13 @@ Rails.application.configure do
 
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
-  config.public_file_server.enabled = false
+  config.public_file_server.enabled = ::ActiveRecord::Type::Boolean.new.cast(ENV['RAILS_PUBLIC_FILE_SERVER'])
   # config.serve_static_files = false
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  # Asset pipeline
-  config.assets.compress = true
-  config.assets.compile = true
-  config.assets.digest = true
-  config.assets.js_compressor = :uglifier
-  config.assets.css_compressor = :sass
-  config.assets.cache_store = :memory_store
-
   config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
-
-  config.assets.paths << Rails.root.join("assets")
 
   config.eager_load = true
 

@@ -64,6 +64,11 @@ prim_check_for_bootstrap() {
   fi
 }
 
+prim_generate_translations()  {
+  bin/rails i18n:js:export
+  cp -Rrv "$APP_ROOT/public/translations-"* "$APP_ROOT/public/javascripts" "/share/public"
+}
+
 # this method is called to create a new primero instance from a clean container
 prim_bootstrap() {
   printf "Starting bootstrap\\n"
@@ -72,6 +77,7 @@ prim_bootstrap() {
   bin/rails db:schema:load
   bin/rails db:seed
   bin/rails sunspot:reindex
+  prim_generate_translations
   touch "${APP_ROOT}/tmp/.primero-bootstrapped"
   return 0
 }
@@ -80,6 +86,7 @@ prim_update() {
   printf "Updating primero\\n"
   bin/rails db:migrate
   bin/rails sunspot:reindex
+  prim_generate_translations
   return 0
 }
 
