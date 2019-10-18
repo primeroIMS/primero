@@ -2054,40 +2054,40 @@ en:
     no_records: "No Records Available!"
     queueing: "Generating the export file"
     pdf:
-      all:  PDF
-      one:  PDF
-      selected:  Selected to PDF
+      all: PDF
+      one: PDF
+      selected: Selected to PDF
     photowall:
-      all:  Photo Wall
-      one:  Photo Wall
-      selected:  Selected to Photo Wall
+      all: Photo Wall
+      one: Photo Wall
+      selected: Selected to Photo Wall
     case_pdf:
-      all:  PDF
-      one:  PDF
-      selected:  Selected to PDF
+      all: PDF
+      one: PDF
+      selected: Selected to PDF
     list_view_csv:
-      all:  Export List View
-      selected:  Selected to CSV
+      all: Export List View
+      selected: Selected to CSV
     csv:
-      all:  CSV
-      one:  CSV
-      selected:  Selected to CSV
+      all: CSV
+      one: CSV
+      selected: Selected to CSV
     xls:
-      all:  Excel
-      one:  Excel
-      selected:  Selected to Excel
+      all: Excel
+      one: Excel
+      selected: Selected to Excel
     selected_xls:
-      all:  Excel
-      one:  Excel
-      selected:  Selected to Excel
+      all: Excel
+      one: Excel
+      selected: Selected to Excel
     json:
-      all:  JSON
-      one:  JSON
-      selected:  Selected to JSON
+      all: JSON
+      one: JSON
+      selected: Selected to JSON
     unhcr_csv:
-      all:  UNHCR
-      one:  UNHCR
-      selected:  Selected to UNHCR
+      all: UNHCR
+      one: UNHCR
+      selected: Selected to UNHCR
       female_abbreviation: "F"
       male_abbreviation: "M"
       unknown_abbreviation: "U"
@@ -2133,9 +2133,9 @@ en:
         sex_mapping_m_f_u: "Sex"
         family_size: "Family Size"
     mrm_violation_xls:
-      all:  MRM Violations
-      one:  MRM Violations
-      selected:  Selected to MRM Violations
+      all: MRM Violations
+      one: MRM Violations
+      selected: Selected to MRM Violations
     custom_exports:
       label: Custom Exports
       format_label: Select Format
