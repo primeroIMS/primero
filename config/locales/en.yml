@@ -1894,6 +1894,7 @@ en:
       primero_program:
         name_present: "Name must not be blank"
         unique_name: "A program with that name already exists, please enter a different name"
+        unique_unique_id: "A PrimeroProgram with that unique_id already exists, please enter a different unique_id"
 
       lookup:
         name_present: "Name must not be blank"
@@ -1923,10 +1924,6 @@ en:
         code_present: "must not be blank"
         logo_dimension: "dimension must be less than or equal to %{width}x%{height} pixels"
         unique_id: "The unique id '%{unique_id}' is already taken."
-
-      primero_program:
-        unique_unique_id: "A PrimeroProgram with that unique_id already exists, please enter a different unique_id"
-        name_present: "must not be blank"
 
       location:
         name_present: "must not be blank"
