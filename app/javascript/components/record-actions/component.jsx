@@ -240,7 +240,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
       {canOpenOrClose ? toggleOpenDialog : null}
 
       <Permission
-        recordType={recordType}
+        permissionType={recordType}
         permission={[Permissions.MANAGE, Permissions.ENABLE_DISABLE_RECORD]}
       >
         {toggleEnableDialog}
@@ -249,7 +249,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
       <Transitions {...transitionsProps} />
 
       <Permission
-        recordType={recordType}
+        permissionType={recordType}
         permission={[Permissions.MANAGE, Permissions.ADD_NOTE]}
       >
         <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} />

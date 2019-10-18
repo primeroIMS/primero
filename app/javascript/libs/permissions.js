@@ -7,6 +7,7 @@ export const REOPEN = "reopen";
 export const CLOSE = "close";
 export const ENABLE_DISABLE_RECORD = "enable_disable_record";
 export const ADD_NOTE = "add_note";
+export const READ = "read";
 
 export const check = (currentPermissions, allowedPermissions) => {
   return (
