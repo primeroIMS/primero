@@ -1614,7 +1614,6 @@ en:
     pending_transfers: 'Pending Transfers'
     rejected_transfers: 'Rejected Transfers'
     transers_awaiting_acceptance: 'Transfers Awaiting Acceptance'
-    high_risk: 'High Risk'
     total_referred: "Total Referrals"
     new_referred: "New Referrals"
     high_risk: 'High Priority'
