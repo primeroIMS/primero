@@ -40,7 +40,12 @@ export const PERMITTED_URL = [
   "/logout"
 ];
 
-export const CONSENT_GIVEN_FIELD = {
-  cp: "consent_for_services",
-  gbv: "disclosure_other_orgs"
-};
+export const MODULES = Object.freeze({
+  CP: "primeromodule-cp",
+  GBV: "primeromodule-gbv"
+});
+
+export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
+  [MODULES.CP]: "consent_for_services",
+  [MODULES.GBV]: "disclosure_other_orgs"
+});

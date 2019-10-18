@@ -1,4 +1,5 @@
 import { isEmpty } from "lodash";
+import { CONSENT_GIVEN_FIELD_BY_MODULE } from "config";
 
 export const getInternalFields = (values, fields) => {
   return Object.entries(values).reduce((obj, item) => {
@@ -14,4 +15,8 @@ export const getInternalFields = (values, fields) => {
 export const internalFieldsDirty = (values, fields) => {
   const data = getInternalFields(values, fields);
   return Object.keys(data).length > 0;
+};
+
+export const hasProvidedConsent = record => {
+  return record.get(CONSENT_GIVEN_FIELD_BY_MODULE[record.get("module_id")]);
 };

@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { CONSENT_GIVEN_FIELD } from "config";
 import { removeFormErrors } from "./action-creators";
+import { hasProvidedConsent } from "./parts/helpers";
 import {
   TransitionDialog,
   ReferralForm,
@@ -18,9 +18,7 @@ const Transitions = ({
   userPermissions
 }) => {
   const dispatch = useDispatch();
-  const providedConsent =
-    record &&
-    (record.get(CONSENT_GIVEN_FIELD.cp) || record.get(CONSENT_GIVEN_FIELD.gbv));
+  const providedConsent = record && hasProvidedConsent(record);
 
   const handleClose = () => {
     setTransitionType("");
