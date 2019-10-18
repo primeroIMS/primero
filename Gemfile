@@ -7,13 +7,9 @@ gem 'devise',           '4.6.2'
 gem 'devise-jwt',       '0.5.9'
 gem 'rake',             '~> 12.3'
 gem 'puma',             '~> 3.12'
-gem 'webpacker',        '~> 4.0.7'
 gem 'file_validators',  '~> 2.3'
 gem 'jbuilder',         '~> 2.8'
-
-#TODO: Remove after we have disabled the asset pipeline
-gem 'uglifier',         '~> 4.1'
-gem 'sass-rails',       '~> 5.0'
+gem 'minipack',         '~> 0.3.3'
 
 # Note: if upgrading Sunspot, update the corresonding version of Solr in Chef if necessaary.
 # Current Solr version is 5.3.1
@@ -35,7 +31,7 @@ gem 'writeexcel',        '~> 1.0'
 gem 'spreadsheet',       '~> 1.1'
 
 gem 'mini_magick',       '~> 4.9.4'
-gem 'i18n-js',           '~> 3.2'
+gem 'i18n-js',           '~> 3.4'
 
 gem 'rufus-scheduler',   '~> 3.4', require: false
 gem 'backburner',        '~> 1.5', require: false
