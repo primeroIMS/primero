@@ -13,8 +13,9 @@
   <!-- jss-insertion-point -->
 </head>
 <body dir="ltr">
-<div id="root"></div>
-<%= javascript_include_tag 'translations' %>
-<%= javascript_packs_with_chunks_tag 'application' %>
+  <div id="root"></div>
+  <script src="/javascripts/i18n.js"></script>
+  <script src="/<%= I18N_TRANSLATIONS_FILE %>"></script>
+  <%= javascript_bundles_with_chunks_tag 'application', skip_pipeline: true %>
 </body>
 </html>

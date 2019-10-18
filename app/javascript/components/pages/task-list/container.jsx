@@ -4,6 +4,7 @@ import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles/";
 import { IndexTable } from "components/index-table";
 import { PageContainer, PageHeading, PageContent } from "components/page";
+import { DashboardChip } from "components/dashboard";
 import { Map } from "immutable";
 import { useSelector } from "react-redux";
 import { selectListHeaders } from "./selectors";
@@ -21,6 +22,22 @@ const TaskList = () => {
     return listHeaders.map(c => {
       const options = {
         ...{
+          ...(c.name === "priority"
+            ? {
+                customBodyRender: value => {
+                  return (
+                    <DashboardChip
+                      label={
+                        value
+                          ? i18n.t(`task.priorities.${value}_level`)
+                          : i18n.t("task.priorities.no_action_level")
+                      }
+                      type={value}
+                    />
+                  );
+                }
+              }
+            : {}),
           ...(c.name === "status"
             ? {
                 customBodyRender: (value, tableMeta) => {

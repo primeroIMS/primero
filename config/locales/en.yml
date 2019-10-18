@@ -447,6 +447,11 @@ en:
     type: "Type of Action"
     due_date: "Due Date"
     status: "Status"
+    priorities:
+      high_level: "High"
+      medium_level: "Medium"
+      low_level: "Low"
+      no_action_level: "No Action"
     types:
       assessment: "Assessment"
       case_plan: "Case Plan"
