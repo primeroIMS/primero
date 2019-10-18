@@ -379,8 +379,6 @@ en:
     messages:
       update_success: "Case %{record_id} was successfully updated."
       investigation_error_message: "Please confirm the flagged record should be marked as investigated, and enter any details you have."
-      undo_investigation_error_message: "Please confirm the flagged record should be marked as Not Investigated, and enter any details you have."
-      undo_investigation_error_message: "Undo Investigation Details:"
       reunite_error_message: "Please confirm this child has been reunited with family or caregivers, and enter any details you have."
       undo_reunite_error_message: "Please confirm child should be marked as Not Reunited, and enter any details you have."
       see_full_size: "Click on the Image to see full size"
@@ -505,8 +503,6 @@ en:
     messages:
       update_success: "Case %{record_id} was successfully updated."
       investigation_error_message: "Please confirm the flagged record should be marked as investigated, and enter any details you have."
-      undo_investigation_error_message: "Please confirm the flagged record should be marked as Not Investigated, and enter any details you have."
-      undo_investigation_error_message: "Undo Investigation Details:"
       reunite_error_message: "Please confirm this case has been reunited with family or caregivers, and enter any details you have."
       undo_reunite_error_message: "Please confirm case should be marked as Not Reunited, and enter any details you have."
       see_full_size: "Click on the Image to see full size"
