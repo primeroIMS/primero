@@ -3,13 +3,14 @@ import React from "react";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
 import { Map, List } from "immutable";
+import * as Permissions from "libs/permissions";
 import Permission from "./permission";
 
 describe("<Permission />", () => {
   let component;
   const props = {
     permissionType: "cases",
-    permission: "read",
+    permission: Permissions.READ,
     children: <div />,
     match: {
       isExact: true,
@@ -22,7 +23,7 @@ describe("<Permission />", () => {
   const initialState = Map({
     user: Map({
       permissions: Map({
-        cases: List(["read"])
+        cases: List([Permissions.READ])
       })
     })
   });
