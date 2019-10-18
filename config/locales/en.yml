@@ -666,7 +666,6 @@ en:
     name_of_inquirer: "Name of Inquirer"
     date_of_inquiry: "Date of Inquiry"
     tracing_requests: "Tracing Requests"
-    change_log: "Change Log"
     last_updated: "Last updated"
     registered_by: "Registered by"
     edit_photo: "Edit photo"
@@ -1038,7 +1037,6 @@ en:
     no_activity: "has no activity"
     location: "Location"
     organization: "Organization"
-    agency: "Agency"
     manager: "Manager"
     send_mail: "Receive email notifications?"
     change_password: "Change your password"
@@ -1219,13 +1217,10 @@ en:
     create: "New Form"
     visibility: "Visibility"
     ordering: "Ordering"
-    details: "Form details"
     label: "Form"
-    group: "Group"
     help_text: "Help Text"
     details: "Details"
     back: "Back To Forms Page"
-    help_text: "Help Text"
     actions:
       label: "Actions"
       add_custom_field: "Add Custom Field"
@@ -1280,7 +1275,6 @@ en:
   no_results_found: "No results found"
   date_format: "yy-mm-dd"
   yes_label: "Yes"
-  cancel: "Cancel"
 
   contact:
     message: "If you experience any problems with RapidFTR, or believe your password has been exposed, please contact the system administrator immediately."
@@ -1534,7 +1528,6 @@ en:
     messages:
       delete_success: "Report was successfully deleted."
     edit: "Edit"
-    no_data: "No report data available"
 
   encrypt:
     password_title: "Create Password"
@@ -1648,13 +1641,11 @@ en:
     cases_to_assign: 'Cases To Assign'
     overdue_cases_to_assign: 'Overdue Cases To Assign'
     approved: 'Approved'
-    closed: 'Closed'
     comprehensive_need_intervention: 'Comprehensive Response'
     new_incident: 'New Incidents'
     new_service_provision: 'New Service Provisions'
     all_services_implemented: 'All Services Implemented'
     services_implemented: 'Services Implemented'
-    approved: 'Approved'
     cases_by_workflow: 'Cases By Workflow'
     cases_by_task_overdue: 'Overdue Tasks'
     assessment: 'Assessment'
@@ -1709,7 +1700,6 @@ en:
     case_stats: "Cases"
     tr_stats: "Tracing Requests"
     cases_by_social_worker: "Cases by social worker"
-    approvals: "Approvals"
     referrals_by_social_worker: "Referrals by social worker"
     transfers_by_social_worker: "Transfers by social worker"
     case_stat_by_assessment_level: "Cases by Assessment Level"
@@ -2022,8 +2012,6 @@ en:
     disable: "Disable"
     reopen: "Reopen"
     close: "Close"
-    enable: "Enable"
-    disable: "Disable"
     notes: "Add Notes"
     incident_details_from_case: "Add Incident"
     services_section_from_case: "Add Service Provision"
