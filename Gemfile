@@ -57,6 +57,7 @@ gem 'memoist', '~> 0.11.0'
 gem 'momentjs-rails', '~> 2.17.1'
 
 gem 'turbolinks', '5.1.0'
+gem 'turbolinks-source', '5.1.0'
 gem 'jquery-turbolinks'
 gem 'arabic-letter-connector', :git => 'https://github.com/Quoin/arabic-letter-connector', :branch => 'support-lam-alef-ligatures'
 gem 'twitter_cldr'
