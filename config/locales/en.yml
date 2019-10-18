@@ -1974,7 +1974,6 @@ en:
         opt_out_field_does_not_exist: "Specified opt_out field does not exist on the record."
 
 
-
   select_all_results: "Select all results"
 
   histories:
