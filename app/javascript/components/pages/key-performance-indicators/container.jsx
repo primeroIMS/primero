@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect, batch } from "react-redux";
-import { PageContainer } from "components/page-container";
+import { PageContainer, PageHeading, PageContent } from "components/page";
 import { Grid, Box } from "@material-ui/core";
 import { OptionsBox, DashboardTable } from "components/dashboard";
 import { useI18n } from "components/i18n";
@@ -24,34 +24,27 @@ function KeyPerformanceIndicators({ fetchNumberOfCases, numberOfCases }) {
   return (
     <div>
       <PageContainer>
-        <Grid item xs={12}>
-          <Box alignItems="center" display="flex">
-            <Box flexgrow={1}>
-              <h1 className={css.title}>
-                {i18n.t("key_performance_indicators.label")}
-              </h1>
-            </Box>
-          </Box>
-        </Grid>
-
-        <Grid>
-          <Box>
-            <h2 className={css.subtitle}>INTRODUCTION &amp; ENGAGEMENT</h2>
-            <Grid container spacing={2}>
-              <Grid item>
-                <OptionsBox
-                  title="Number of Cases"
-                  to="/key-performance-indicators"
-                >
-                  <DashboardTable
-                    columns={fromJS(numberOfCases.columns)}
-                    data={fromJS(numberOfCases.data)}
-                  />
-                </OptionsBox>
+        <PageHeading title={i18n.t("key_performance_indicators.label")}></PageHeading>
+        <PageContent>
+          <Grid>
+            <Box>
+              <h2 className={css.subtitle}>INTRODUCTION &amp; ENGAGEMENT</h2>
+              <Grid container spacing={2}>
+                <Grid item>
+                  <OptionsBox
+                    title="Number of Cases"
+                    to="/key-performance-indicators"
+                  >
+                    <DashboardTable
+                      columns={numberOfCases.columns}
+                      data={fromJS(numberOfCases.data)}
+                    />
+                  </OptionsBox>
+                </Grid>
               </Grid>
-            </Grid>
-          </Box>
-        </Grid>
+            </Box>
+          </Grid>
+        </PageContent>
       </PageContainer>
     </div>
   );
@@ -59,10 +52,10 @@ function KeyPerformanceIndicators({ fetchNumberOfCases, numberOfCases }) {
 
 KeyPerformanceIndicators.propTypes = {
   fetchNumberOfCases: PropTypes.func,
-  numberOfCases: {
+  numberOfCases: PropTypes.shape({
     columns: PropTypes.array,
     data: PropTypes.array
-  }
+  })
 };
 
 const mapStateToProps = state => {
