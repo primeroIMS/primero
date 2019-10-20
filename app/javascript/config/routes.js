@@ -110,6 +110,8 @@ export default [
       {
         path: "/key-performance-indicators",
         component: KeyPerformanceIndicators
+        permissionType: "reports",
+        permission: ["read", "group_read", "manage"]
       },
       {
         path: `${ROUTES.reports}/new`,
