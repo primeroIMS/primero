@@ -1,4 +1,3 @@
-import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
@@ -15,6 +14,7 @@ import * as selectors from "./selectors";
 function KeyPerformanceIndicators({ fetchNumberOfCases, numberOfCases }) {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+
   useEffect(() => {
     batch(() => {
       fetchNumberOfCases();
@@ -36,8 +36,8 @@ function KeyPerformanceIndicators({ fetchNumberOfCases, numberOfCases }) {
                     to="/key-performance-indicators"
                   >
                     <DashboardTable
-                      columns={numberOfCases.columns}
-                      data={fromJS(numberOfCases.data)}
+                      columns={numberOfCases.get('columns').toArray()}
+                      data={numberOfCases.get('data')}
                     />
                   </OptionsBox>
                 </Grid>
