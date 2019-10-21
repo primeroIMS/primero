@@ -24,6 +24,18 @@ common.plugins.push(
 
 common.output.publicPath = publicPath;
 
+common.module.rules.push({
+  test: /\.(png|svg|jpg|jpeg|gif)$/,
+  use: [
+    {
+      loader: require.resolve("file-loader"),
+      options: {
+        outputPath: "images",
+      }
+    }
+  ]
+});
+
 common.resolve.alias = Object.assign({}, generateAliases(), {
   "react-dom": "@hot-loader/react-dom"
 });
