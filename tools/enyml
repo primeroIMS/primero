@@ -5,6 +5,8 @@ import os
 import shlex
 import sys
 
+import yaml
+
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROGRAM_NAME = os.path.basename(__file__)
@@ -18,6 +20,7 @@ assert os.access(YAML_FILE, os.R_OK)
 
 def main():
     validate_yaml_structure()
+    validate_yaml_keys()
 
 
 def validate_yaml_structure():
@@ -28,6 +31,24 @@ def validate_yaml_structure():
 
     if os.system(yamllint_cmd) != 0:
         sys.exit(1)
+
+
+def validate_yaml_keys():
+    fp = open(YAML_FILE, "r")
+
+    yaml_dict = yaml.load(fp)
+    validate_yaml_dict_keys(yaml_dict)
+
+    fp.close()
+
+
+def validate_yaml_dict_keys(yaml_dict):
+
+    for key, value in yaml_dict.items():
+        assert isinstance(key, str), "{} is not a string".format(str(key))
+
+        if isinstance(value, dict):
+            validate_yaml_dict_keys(value)
 
 
 if __name__ == "__main__":
