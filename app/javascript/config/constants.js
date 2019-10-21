@@ -40,10 +40,12 @@ export const PERMITTED_URL = [
   "/logout"
 ];
 
-export const MODULES = Object.freeze({
+const MODULES = Object.freeze({
   CP: "primeromodule-cp",
   GBV: "primeromodule-gbv"
 });
+
+export const MODULE_TYPE_FIELD = "module_id";
 
 export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
   [MODULES.CP]: "consent_for_services",

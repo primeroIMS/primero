@@ -16,8 +16,9 @@ describe("Verifying config constant", () => {
     expect(cloneConstants).to.have.property("AGE_MAX");
     expect(cloneConstants).to.have.property("PERMITTED_URL");
     expect(cloneConstants).to.not.have.property("CONSENT_GIVEN_FIELD");
-    expect(cloneConstants).to.have.property("MODULES");
+    expect(cloneConstants).to.not.have.property("MODULES");
     expect(cloneConstants).to.have.property("CONSENT_GIVEN_FIELD_BY_MODULE");
+    expect(cloneConstants).to.have.property("MODULE_TYPE_FIELD");
     delete cloneConstants.FETCH_TIMEOUT;
     delete cloneConstants.DATABASE_NAME;
     delete cloneConstants.DB;
@@ -27,8 +28,8 @@ describe("Verifying config constant", () => {
     delete cloneConstants.RECORD_TYPES;
     delete cloneConstants.AGE_MAX;
     delete cloneConstants.PERMITTED_URL;
-    delete cloneConstants.MODULES;
     delete cloneConstants.CONSENT_GIVEN_FIELD_BY_MODULE;
+    delete cloneConstants.MODULE_TYPE_FIELD;
 
     expect(cloneConstants).to.deep.equal({});
   });
@@ -59,13 +60,14 @@ describe("Verifying config constant", () => {
       "/dashboard",
       "/logout"
     ]);
-    expect(constants.MODULES).to.deep.equal({
+    expect(constants.MODULES).to.not.deep.equal({
       CP: "primeromodule-cp",
       GBV: "primeromodule-gbv"
     });
     expect(constants.CONSENT_GIVEN_FIELD_BY_MODULE).to.deep.equal({
-      [constants.MODULES.CP]: "consent_for_services",
-      [constants.MODULES.GBV]: "disclosure_other_orgs"
+      "primeromodule-cp": "consent_for_services",
+      "primeromodule-gbv": "disclosure_other_orgs"
     });
+    expect(constants.MODULE_TYPE_FIELD).to.equal("module_id");
   });
 });
