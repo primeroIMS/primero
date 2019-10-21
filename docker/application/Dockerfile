@@ -1,8 +1,9 @@
-FROM ruby:2.6.2-alpine3.9
+# -------------------------------------------------------------------- BUILD STAGE
+FROM ruby:2.6.2-alpine3.9 AS build-env
 
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git python
-ENV BUILD_DEP_PACKAGES postgresql-dev nodejs-dev
-ENV RUNTIME_PACKAGES bash libc6-compat nodejs gettext libintl npm imagemagick
+ENV BUILD_DEP_PACKAGES postgresql-dev
+ENV RUNTIME_PACKAGES libc6-compat nodejs gettext libintl npm imagemagick
 ENV DEV_PACKAGES busybox-extras tree cairo pixman pixman-dev
 ENV RAILS_ENV production
 ENV PYTHON /usr/bin/python
@@ -12,7 +13,6 @@ ARG APP_ROOT
 ENV APP_ROOT=${APP_ROOT}
 ARG RAILS_LOG_PATH
 ENV RAILS_LOG_PATH=${RAILS_LOG_PATH}
-ENV RAILS_PUBLIC_FILE_SERVER=${RAILS_PUBLIC_FILE_SERVER}
 
 # Temporary build-time secrets needed to run rails processes.
 # These are never persisted in the container images
@@ -60,7 +60,7 @@ RUN set -euox pipefail \
 # items that need to be copied from that directory
 #
 # Copy container overlay dir and substitution script
-COPY [ "docker/sub.sh", "docker/application/root/", "/" ]
+#COPY [ "docker/sub.sh", "docker/application/root/", "/" ]
 # Now copy over primero and do setup
 COPY [ ".", "$APP_ROOT" ]
 # Copying in the void configs for the asset precompilation step
@@ -77,5 +77,37 @@ RUN set -euox pipefail \
 RUN set -euox pipefail \
         ; npm run build
 
-CMD [ "primero-start" ]
+RUN set -euox pipefail \
+        ; rm -rf node_modules .tmp webpack postcss.config.js \
+        package.json package-lock.json babel.config.js app/javascript \
+        /usr/local/bundle/bundler/gems/*/.git \
+        /usr/local/bundle/cache/
+
+# -------------------------------------------------------------------- FINAL
+
+FROM ruby:2.6.2-alpine3.9
+
+ENV BUILD_PACKAGES bash
+ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick
+
+ARG APP_ROOT
+ENV APP_ROOT=${APP_ROOT}
+ENV RAILS_ENV production
+ENV RAILS_PUBLIC_FILE_SERVER=${RAILS_PUBLIC_FILE_SERVER}
+
+# Install our packages
+RUN set -euox pipefail \
+        ; apk update \
+        ; apk add --no-cache $BUILD_PACKAGES \
+        ; apk add --no-cache $RUNTIME_PACKAGES \
+        ; rm -rf /var/cache/apk/*
+
+COPY [ "docker/sub.sh", "docker/application/root/", "/" ]
+COPY --from=build-env /usr/local/bundle/ /usr/local/bundle/
+COPY --from=build-env $APP_ROOT $APP_ROOT
+
+WORKDIR $APP_ROOT
+
 ENTRYPOINT [ "/entrypoint.sh" ]
+
+CMD [ "primero-start" ]
