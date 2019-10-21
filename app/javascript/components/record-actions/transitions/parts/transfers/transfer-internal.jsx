@@ -24,41 +24,64 @@ const TransferInternal = ({ disableControl, fields }) => {
         />
       );
     }
+
+    const searchOnChange = (data, field, form) => {
+      const { value } = data;
+      form.setFieldValue(field.name, value, false);
+    };
+
+    const searchTextFieldProps = field => {
+      const { id, label } = field;
+      return {
+        label,
+        margin: "dense",
+        placeholder: i18n.t("transfer.select_label"),
+        InputLabelProps: {
+          htmlFor: id,
+          shrink: true
+        }
+      };
+    };
+
+    const searchableField = (searchField, props) => {
+      const { id, options } = searchField;
+      const { field, form, ...other } = props;
+      const SearchableErrors = (formErrors, fieldError) => {
+        const { name } = fieldError;
+        const { touched, errors } = formErrors;
+        if (!errors) {
+          return null;
+        }
+        return (
+          form &&
+          touched[name] &&
+          errors[name] && (
+            <div className="MuiFormHelperText-root Mui-error">
+              {errors[name]}
+            </div>
+          )
+        );
+      };
+      return (
+        <>
+          <SearchableSelect
+            id={id}
+            isDisabled={disableControl}
+            options={options}
+            onChange={data => searchOnChange(data, field, form)}
+            TextFieldProps={searchTextFieldProps(field)}
+            {...other}
+          />
+          <SearchableErrors formErrors={form} fieldError={field} />
+        </>
+      );
+    };
+
     return (
       <Field
         key={f.id}
         name={f.id}
-        render={({ field, form, ...other }) => {
-          return (
-            <>
-              <SearchableSelect
-                id={f.id}
-                isDisabled={disableControl}
-                options={f.options}
-                onChange={data => {
-                  const { value } = data;
-                  form.setFieldValue(field.name, value, false);
-                }}
-                TextFieldProps={{
-                  label: f.label,
-                  margin: "dense",
-                  placeholder: i18n.t("transfer.select_label"),
-                  InputLabelProps: {
-                    htmlFor: f.id,
-                    shrink: true
-                  }
-                }}
-                {...other}
-              />
-
-              {form && form.touched[field.name] && form.errors[field.name] && (
-                <div className="MuiFormHelperText-root Mui-error">
-                  {form.errors[field.name]}
-                </div>
-              )}
-            </>
-          );
-        }}
+        render={props => searchableField(f, props)}
       />
     );
   });
