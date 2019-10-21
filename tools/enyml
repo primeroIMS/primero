@@ -14,10 +14,6 @@ PROGRAM_NAME = os.path.basename(__file__)
 YAML_FILE = os.path.join(PROJECT_ROOT, "config/locales/en.yml")
 
 
-assert os.path.isfile(YAML_FILE)
-assert os.access(YAML_FILE, os.R_OK)
-
-
 def main():
     validate_yaml_structure()
     validate_yaml_keys()
