@@ -8,8 +8,8 @@ import sys
 import yaml
 
 
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROGRAM_NAME = os.path.basename(__file__)
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 YAML_FILE = os.path.join(PROJECT_ROOT, "config/locales/en.yml")
 
