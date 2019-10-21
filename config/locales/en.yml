@@ -12,8 +12,8 @@
 
 ---
 en:
-  true: "Yes"
-  false: "No"
+  "true": "Yes"
+  "false": "No"
   valid: "Valid"
   invalid: "Invalid"
   offline: The application is offline.
