@@ -1,12 +1,12 @@
 import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
-import sinon from "sinon";
 import { Button } from "@material-ui/core";
 import { Formik, Field, Form } from "formik";
 import { SearchableSelect } from "components/searchable-select";
 import { Map, List } from "immutable";
 import ReassignForm from "./reassign-form";
+import { getUsersByTransitionType } from "../selectors";
 
 describe("<ReassignForm />", () => {
   let component;
@@ -44,5 +44,41 @@ describe("<ReassignForm />", () => {
 
   it("renders Button", () => {
     expect(component.find(Button)).to.have.length(2);
+  });
+
+  describe("with getUsersByTransitionType", () => {
+    describe("when mounting component", () => {
+      const state = Map({
+        transitions: Map({
+          reassign: Map({
+            users: [{ user_name: "primero" }, { user_name: "primero_cp" }]
+          })
+        })
+      });
+      const values = getUsersByTransitionType(state, "reassign");
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(
+          ReassignForm,
+          {
+            record,
+            handleClose: () => {}
+          },
+          state
+        ));
+      });
+      it("should have same no. of users", () => {
+        component
+          .find(ReassignForm)
+          .find("input")
+          .first()
+          .simulate("mouseDown", {
+            button: 0,
+            menuIsOpen: true
+          });
+        expect(
+          component.find("div.MuiButtonBase-root.MuiListItem-root").length
+        ).to.equal(values.length);
+      });
+    });
   });
 });
