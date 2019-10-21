@@ -2,6 +2,8 @@
 
 
 import os
+import shlex
+import sys
 
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -15,7 +17,17 @@ assert os.access(YAML_FILE, os.R_OK)
 
 
 def main():
-    pass
+    validate_yaml_structure()
+
+
+def validate_yaml_structure():
+    yamllint_cmd = (
+        'yamllint -d "{extends: default, rules: {line-length: disable}}" '
+        + shlex.quote(YAML_FILE)
+    )
+
+    if os.system(yamllint_cmd) != 0:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
