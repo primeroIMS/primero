@@ -196,8 +196,9 @@ module Exporters
     end
 
     def render_form_section(pdf, _case, form_section, prop)
-      (subforms, normal_fields) = form_section.fields.reject {|f| f.type == 'separator' || f.visible? == false}
-                                                     .partition {|f| f.type == Field::SUBFORM }
+      prop_field_keys = prop[form_section.unique_id].keys
+      normal_fields = form_section.fields.select {|f| prop_field_keys.include?(f.name)}
+      subforms = form_section.fields.select {|f| f.type == Field::SUBFORM }
 
       render_fields(pdf, _case, normal_fields)
 
