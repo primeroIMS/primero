@@ -442,10 +442,6 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  def self.hidden_field_names
-    ["name", "name_first", "name_middle", "name_last","name_other"]
-  end
-
   def send_approval_response_mail(manager_id, approval_type, approval, host_url, is_gbv = false)
     ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url, is_gbv)
   end
