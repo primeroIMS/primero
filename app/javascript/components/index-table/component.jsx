@@ -1,11 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { dataToJS } from "libs";
 import { useSelector, useDispatch } from "react-redux";
+import { getPermissionsByRecord } from "components/user/selectors";
 import { LoadingIndicator } from "components/loading-indicator";
 import { push } from "connected-react-router";
+import Permission from "components/application/permission";
+import * as Permissions from "libs/permissions";
+import { ViewModal } from "./view-modal";
 import {
   selectRecords,
   selectLoading,
@@ -26,6 +30,8 @@ const IndexTable = ({
   const loading = useSelector(state => selectLoading(state, recordType));
   const errors = useSelector(state => selectErrors(state, recordType));
   const filters = useSelector(state => selectFilters(state, recordType));
+  const [openViewModal, setOpenViewModal] = useState(false);
+  const [currentRecord, setCurrentRecord] = useState(null);
 
   const { order, order_by: orderBy } = filters || {};
   const records = data.get("data");
@@ -33,6 +39,18 @@ const IndexTable = ({
   const total = data.getIn(["metadata", "total"], 0);
   const page = data.getIn(["metadata", "page"], null);
   const url = targetRecordType || recordType;
+
+  const userPermissions = useSelector(state =>
+    getPermissionsByRecord(state, recordType)
+  );
+
+  const canViewModal = Permissions.check(userPermissions, [
+    Permissions.DISPLAY_VIEW_PAGE
+  ]);
+
+  const handleViewModalClose = () => {
+    setOpenViewModal(false);
+  };
 
   let componentColumns =
     typeof columns === "function" ? columns(data) : columns;
@@ -116,7 +134,13 @@ const IndexTable = ({
     rowsPerPageOptions: [20, 50, 75, 100],
     page: page - 1,
     onRowClick: (rowData, rowMeta) => {
-      dispatch(push(`${url}/${records.getIn([rowMeta.dataIndex, "id"])}`));
+      const notAllowedToOpenCase = true; // need to know how to check
+      if (notAllowedToOpenCase && canViewModal) {
+        setCurrentRecord(records.get(rowMeta.dataIndex));
+        setOpenViewModal(true);
+      } else {
+        dispatch(push(`${url}/${records.getIn([rowMeta.dataIndex, "id"])}`));
+      }
     },
     ...tableOptionsProps
   };
@@ -141,7 +165,21 @@ const IndexTable = ({
     </LoadingIndicator>
   );
 
-  return <DataTable />;
+  return (
+    <>
+      <DataTable />
+      <Permission
+        permissionType={recordType}
+        permission={[Permissions.MANAGE, Permissions.ADD_NOTE]}
+      >
+        <ViewModal
+          close={handleViewModalClose}
+          openViewModal={openViewModal}
+          currentRecord={currentRecord}
+        />
+      </Permission>
+    </>
+  );
 };
 
 IndexTable.propTypes = {
