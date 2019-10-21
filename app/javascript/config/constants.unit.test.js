@@ -1,39 +1,47 @@
 import clone from "lodash/clone";
 import "test/test.setup";
 import { expect } from "chai";
-import * as constants from "./constants";
+import * as configConstants from "./constants";
 
 describe("Verifying config constant", () => {
   it("should have known constant", () => {
-    const copyConstants = clone(constants);
-    expect(copyConstants).to.have.property("FETCH_TIMEOUT");
-    expect(copyConstants).to.have.property("DATABASE_NAME");
-    expect(copyConstants).to.have.property("DB");
-    expect(copyConstants).to.have.property("IDLE_TIMEOUT");
-    expect(copyConstants).to.have.property("IDLE_LOGOUT_TIMEOUT");
-    expect(copyConstants).to.have.property("TOKEN_REFRESH_INTERVAL");
-    expect(copyConstants).to.have.property("RECORD_TYPES");
-    expect(copyConstants).to.have.property("AGE_MAX");
-    expect(copyConstants).to.have.property("PERMITTED_URL");
-    expect(copyConstants).to.have.property("RECORD_PATH");
-    expect(copyConstants).to.have.property("PERMISSIONS");
 
-    delete copyConstants.FETCH_TIMEOUT;
-    delete copyConstants.DATABASE_NAME;
-    delete copyConstants.DB;
-    delete copyConstants.IDLE_TIMEOUT;
-    delete copyConstants.IDLE_LOGOUT_TIMEOUT;
-    delete copyConstants.TOKEN_REFRESH_INTERVAL;
-    delete copyConstants.RECORD_TYPES;
-    delete copyConstants.AGE_MAX;
-    delete copyConstants.PERMITTED_URL;
-    delete copyConstants.RECORD_PATH;
-    delete copyConstants.PERMISSIONS;
+    const constants = { ...configConstants };
+    expect(constants).to.have.property("FETCH_TIMEOUT");
+    expect(constants).to.have.property("DATABASE_NAME");
+    expect(constants).to.have.property("DB");
+    expect(constants).to.have.property("IDLE_TIMEOUT");
+    expect(constants).to.have.property("IDLE_LOGOUT_TIMEOUT");
+    expect(constants).to.have.property("TOKEN_REFRESH_INTERVAL");
+    expect(constants).to.have.property("RECORD_TYPES");
+    expect(constants).to.have.property("AGE_MAX");
+    expect(constants).to.have.property("PERMITTED_URL");
+    expect(constants).to.have.property("RECORD_PATH");
+    expect(constants).to.have.property("PERMISSIONS");
+    expect(constants).to.not.have.property("CONSENT_GIVEN_FIELD");
+    expect(constants).to.not.have.property("MODULES");
+    expect(constants).to.have.property("CONSENT_GIVEN_FIELD_BY_MODULE");
+    expect(constants).to.have.property("MODULE_TYPE_FIELD");
 
-    expect(copyConstants).to.deep.equal({});
+    delete constants.FETCH_TIMEOUT;
+    delete constants.DATABASE_NAME;
+    delete constants.DB;
+    delete constants.IDLE_TIMEOUT;
+    delete constants.IDLE_LOGOUT_TIMEOUT;
+    delete constants.TOKEN_REFRESH_INTERVAL;
+    delete constants.RECORD_TYPES;
+    delete constants.AGE_MAX;
+    delete constants.PERMITTED_URL;
+    delete constants.RECORD_PATH;
+    delete constants.PERMISSIONS;
+    delete constants.CONSENT_GIVEN_FIELD_BY_MODULE;
+    delete constants.MODULE_TYPE_FIELD;
+
+    expect(constants).to.deep.equal({});
   });
 
   it("should have correct constant value", () => {
+    const constants = { ...configConstants };
     expect(constants.FETCH_TIMEOUT).equal(30000);
     expect(constants.DATABASE_NAME).equal("primero");
     expect(constants.DB).to.deep.equal({
@@ -60,5 +68,14 @@ describe("Verifying config constant", () => {
       "/not-authorized",
       "/support"
     ]);
+    expect(constants.MODULES).to.not.deep.equal({
+      CP: "primeromodule-cp",
+      GBV: "primeromodule-gbv"
+    });
+    expect(constants.CONSENT_GIVEN_FIELD_BY_MODULE).to.deep.equal({
+      "primeromodule-cp": "consent_for_services",
+      "primeromodule-gbv": "disclosure_other_orgs"
+    });
+    expect(constants.MODULE_TYPE_FIELD).to.equal("module_id");
   });
 });

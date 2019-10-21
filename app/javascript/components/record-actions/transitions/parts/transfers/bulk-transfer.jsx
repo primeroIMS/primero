@@ -1,15 +1,20 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import { CasesIcon } from "images/primero-icons";
 import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/core/styles";
 import TransferCheckbox from "./transfer-checkbox";
-import * as styles from "../styles.css";
+import * as styles from "../../styles.css";
 
-const BulkTransfer = () => {
+const BulkTransfer = ({ isBulkTransfer }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [state, setState] = useState(false);
+
+  if (!isBulkTransfer) {
+    return null;
+  }
 
   return (
     <div className={css.alertTransferModal}>
@@ -29,6 +34,10 @@ const BulkTransfer = () => {
       </Grid>
     </div>
   );
+};
+
+BulkTransfer.propTypes = {
+  isBulkTransfer: PropTypes.bool
 };
 
 export default BulkTransfer;

@@ -10,7 +10,10 @@ import { useI18n } from "components/i18n";
 import { enqueueSnackbar } from "components/notifier";
 import { makeStyles } from "@material-ui/core/styles";
 import { SearchableSelect } from "components/searchable-select";
-import { getAssignUsers, getErrorsByTransitionType } from "../selectors";
+import {
+  getUsersByTransitionType,
+  getErrorsByTransitionType
+} from "../selectors";
 import { saveAssignedUser } from "../action-creators";
 import styles from "../styles.css";
 
@@ -23,7 +26,9 @@ const ReassignForm = ({ handleClose, record }) => {
   const transitionType = "reassign";
 
   const firstUpdate = React.useRef(true);
-  const users = useSelector(state => getAssignUsers(state));
+  const users = useSelector(state =>
+    getUsersByTransitionType(state, transitionType)
+  );
   const hasErrors = useSelector(state =>
     getErrorsByTransitionType(state, transitionType)
   );

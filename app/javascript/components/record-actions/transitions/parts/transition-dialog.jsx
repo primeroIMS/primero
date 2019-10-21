@@ -56,16 +56,14 @@ const TransitionDialog = ({
   };
 
   return (
-    <Dialog {...dialogProps} classes={{ paper: css.autoCompleteOverflow }}>
+    <Dialog {...dialogProps}>
       <DialogTitle id="customized-dialog-title" className={css.modalTitle}>
         <span>{title}</span>
         <IconButton onClick={handleClose}>
           <Clear />
         </IconButton>
       </DialogTitle>
-      <DialogContent className={css.autoCompleteOverflow}>
-        {children}
-      </DialogContent>
+      <DialogContent>{children}</DialogContent>
     </Dialog>
   );
 };
