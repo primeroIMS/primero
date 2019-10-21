@@ -1,9 +1,9 @@
 import { expect } from "chai";
 import "test/test.setup";
-import { Map } from "immutable";
-import { Nav } from "components/nav";
 import { setupMountedComponent } from "test";
 import { routes } from "config";
+import { Map } from "immutable";
+import { Nav } from "components/nav";
 import { CircularProgress } from "@material-ui/core";
 import AppLayout from "./AppLayout";
 
@@ -47,7 +47,7 @@ describe("<AppLayout />", () => {
         expect(component.find('a[href="/incidents"]').hasClass('active')).to.equal(true);
       });
   });
-  describe("should render a CircularProgress if appSettingsFetched is false", () => {
+  describe("if appSettingsFetched is false", () => {
     beforeEach(() => {
       const state = Map({
         ui: Map({
@@ -69,7 +69,7 @@ describe("<AppLayout />", () => {
       component = setupMountedComponent(AppLayout, { route: routes[0] }, state)
         .component;
     });
-    it("renders navigation", () => {
+    it("renders CircularProgress", () => {
       expect(component.find(CircularProgress)).to.have.length(1);
     });
   });
