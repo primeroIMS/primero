@@ -4,6 +4,7 @@
 import os
 import re
 import shlex
+import subprocess
 import sys
 
 import yaml
@@ -20,6 +21,7 @@ YAML_PATH = os.path.join(PROJECT_ROOT, "config/locales/en.yml")
 def main():
     validate_yaml_structure()
     validate_yaml_keys()
+    scan_project()
 
 
 def validate_yaml_structure():
@@ -51,6 +53,17 @@ def validate_yaml_dict_keys(yaml_dict):
 
         if isinstance(value, dict):
             validate_yaml_dict_keys(value)
+
+
+def scan_project():
+    pattern = "(\\<[Ii]18n\\.t\\(|\\<t\\()"
+    command = ["grep", "-r", "-n", "-E", "-e", pattern, PROJECT_ROOT]
+
+    proc = subprocess.run(command, capture_output=True)
+    assert len(proc.stderr) == 0, "grep command failed " + proc.stderr.decode("utf-8")
+
+    results = proc.stdout.decode("utf-8").splitlines()
+    print(len(results))
 
 
 if __name__ == "__main__":
