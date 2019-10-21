@@ -71,7 +71,7 @@ def scan_project():
     ]
 
     proc = subprocess.run(command, capture_output=True)
-    assert len(proc.stderr) == 0, "grep command failed " + proc.stderr.decode("utf-8")
+    assert len(proc.stderr) == 0, proc.stderr.decode("utf-8")
 
     results = proc.stdout.decode("utf-8").splitlines()
     print(len(results))
