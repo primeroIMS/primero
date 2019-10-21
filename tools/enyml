@@ -1,0 +1,22 @@
+#!/usr/bin/python3
+
+
+import os
+
+
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROGRAM_NAME = os.path.basename(__file__)
+
+YAML_FILE = os.path.join(PROJECT_ROOT, "config/locales/en.yml")
+
+
+assert os.path.isfile(YAML_FILE)
+assert os.access(YAML_FILE, os.R_OK)
+
+
+def main():
+    pass
+
+
+if __name__ == "__main__":
+    main()
