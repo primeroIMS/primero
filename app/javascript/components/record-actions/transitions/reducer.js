@@ -1,8 +1,9 @@
 import { Map } from "immutable";
 import * as Actions from "./actions";
 import NAMESPACE from "./namespace";
+import users from "./mocked-users";
 
-const DEFAULT_STATE = Map({});
+const DEFAULT_STATE = Map({ mockUsers: users });
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {

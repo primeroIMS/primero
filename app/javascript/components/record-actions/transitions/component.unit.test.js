@@ -8,6 +8,7 @@ import {
   ReassignForm,
   TransferForm
 } from "./parts";
+import mockUsers from "./mocked-users";
 import Transitions from "./component";
 
 describe("<Transitions />", () => {
@@ -16,7 +17,8 @@ describe("<Transitions />", () => {
     transitions: Map({
       reassign: Map({
         users: [{ user_name: "primero" }]
-      })
+      }),
+      mockUsers
     })
   });
   const record = Map({
@@ -36,7 +38,7 @@ describe("<Transitions />", () => {
       userPermissions: Map({ cases: ["manage"] })
     };
     beforeEach(() => {
-      ({ component } = setupMountedComponent(Transitions, props));
+      ({ component } = setupMountedComponent(Transitions, props, initialState));
     });
 
     it("renders TransitionDialog", () => {
