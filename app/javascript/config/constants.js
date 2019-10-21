@@ -34,10 +34,11 @@ export const RECORD_TYPES = {
 export const AGE_MAX = 999;
 
 export const PERMITTED_URL = [
-  "/login",
-  "/not-authorized",
   "/dashboard",
-  "/logout"
+  "/login",
+  "/logout",
+  "/not-authorized",
+  "/support"
 ];
 
 export const PERMISSIONS = {

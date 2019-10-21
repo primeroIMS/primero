@@ -2,16 +2,19 @@ import React from "react";
 import clsx from "clsx";
 import { Nav, selectDrawerOpen } from "components/nav";
 import { makeStyles } from "@material-ui/styles";
+import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { Notifier } from "components/notifier";
 import { SessionTimeoutDialog } from "components/session-timeout-dialog";
+import { getAppSettingsFetched } from "components/application/selectors";
 import styles from "./styles.css";
 
 const AppLayout = ({ children, drawerOpen }) => {
   const css = makeStyles(styles)();
+  const appSettingsFetched = useSelector(state => getAppSettingsFetched(state));
 
-  return (
+  return appSettingsFetched ? (
     <div className={css.root}>
       <Notifier />
       <Nav />
@@ -23,6 +26,10 @@ const AppLayout = ({ children, drawerOpen }) => {
       >
         {children}
       </main>
+    </div>
+  ) : (
+    <div className={css.loadingIndicator}>
+      <CircularProgress size={80} />
     </div>
   );
 };

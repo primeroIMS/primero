@@ -1,34 +1,36 @@
+import clone from "lodash/clone";
 import "test/test.setup";
 import { expect } from "chai";
 import * as constants from "./constants";
 
 describe("Verifying config constant", () => {
   it("should have known constant", () => {
-    expect(constants).to.have.property("FETCH_TIMEOUT");
-    expect(constants).to.have.property("DATABASE_NAME");
-    expect(constants).to.have.property("DB");
-    expect(constants).to.have.property("IDLE_TIMEOUT");
-    expect(constants).to.have.property("IDLE_LOGOUT_TIMEOUT");
-    expect(constants).to.have.property("TOKEN_REFRESH_INTERVAL");
-    expect(constants).to.have.property("RECORD_TYPES");
-    expect(constants).to.have.property("AGE_MAX");
-    expect(constants).to.have.property("PERMITTED_URL");
-    expect(constants).to.have.property("RECORD_PATH");
-    expect(constants).to.have.property("PERMISSIONS");
+    const copyConstants = clone(constants);
+    expect(copyConstants).to.have.property("FETCH_TIMEOUT");
+    expect(copyConstants).to.have.property("DATABASE_NAME");
+    expect(copyConstants).to.have.property("DB");
+    expect(copyConstants).to.have.property("IDLE_TIMEOUT");
+    expect(copyConstants).to.have.property("IDLE_LOGOUT_TIMEOUT");
+    expect(copyConstants).to.have.property("TOKEN_REFRESH_INTERVAL");
+    expect(copyConstants).to.have.property("RECORD_TYPES");
+    expect(copyConstants).to.have.property("AGE_MAX");
+    expect(copyConstants).to.have.property("PERMITTED_URL");
+    expect(copyConstants).to.have.property("RECORD_PATH");
+    expect(copyConstants).to.have.property("PERMISSIONS");
 
-    delete constants.FETCH_TIMEOUT;
-    delete constants.DATABASE_NAME;
-    delete constants.DB;
-    delete constants.IDLE_TIMEOUT;
-    delete constants.IDLE_LOGOUT_TIMEOUT;
-    delete constants.TOKEN_REFRESH_INTERVAL;
-    delete constants.RECORD_TYPES;
-    delete constants.AGE_MAX;
-    delete constants.PERMITTED_URL;
-    delete constants.RECORD_PATH;
-    delete constants.PERMISSIONS;
+    delete copyConstants.FETCH_TIMEOUT;
+    delete copyConstants.DATABASE_NAME;
+    delete copyConstants.DB;
+    delete copyConstants.IDLE_TIMEOUT;
+    delete copyConstants.IDLE_LOGOUT_TIMEOUT;
+    delete copyConstants.TOKEN_REFRESH_INTERVAL;
+    delete copyConstants.RECORD_TYPES;
+    delete copyConstants.AGE_MAX;
+    delete copyConstants.PERMITTED_URL;
+    delete copyConstants.RECORD_PATH;
+    delete copyConstants.PERMISSIONS;
 
-    expect(constants).to.deep.equal({});
+    expect(copyConstants).to.deep.equal({});
   });
 
   it("should have correct constant value", () => {
@@ -52,10 +54,11 @@ describe("Verifying config constant", () => {
     });
     expect(constants.AGE_MAX).equal(999);
     expect(constants.PERMITTED_URL).to.deep.equal([
-      "/login",
-      "/not-authorized",
       "/dashboard",
-      "/logout"
+      "/login",
+      "/logout",
+      "/not-authorized",
+      "/support"
     ]);
   });
 });

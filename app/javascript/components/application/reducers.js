@@ -1,5 +1,6 @@
 import { Map, fromJS } from "immutable";
 import { mapEntriesToRecord } from "libs";
+import * as actionsUsers from "components/user/actions";
 import Actions from "./actions";
 import NAMESPACE from "./namespace";
 import { PrimeroModuleRecord } from "./records";
@@ -38,6 +39,11 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("online", payload);
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
+    case Actions.APP_SETTINGS_FETCHED:
+      return state.set("appSettingsFetched", payload);
+    case actionsUsers.Actions.FETCH_USER_DATA_SUCCESS:
+      // the key has to be update only when FETCH_USER_DATA is successed
+      return state.set("appSettingsFetched", true);
     default:
       return state;
   }

@@ -1,5 +1,5 @@
 import chai, { expect } from "chai";
-import { Map, fromJS } from "immutable";
+import { Map, List, fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
 import * as r from "./reducers";
 
@@ -116,6 +116,44 @@ describe("Application - Reducers", () => {
     const action = {
       type: "application/NETWORK_STATUS",
       payload: true
+    };
+
+    const newState = r.reducers.application(defaultState, action);
+    expect(newState.toJS()).to.eql(expected.toJS());
+  });
+
+  it("should handle APP_SETTINGS_FETCHED", () => {
+    const expected = Map({
+      appSettingsFetched: false
+    });
+
+    const action = {
+      type: "application/APP_SETTINGS_FETCHED",
+      payload: false
+    };
+
+    const newState = r.reducers.application(defaultState, action);
+    expect(newState.toJS()).to.eql(expected.toJS());
+  });
+
+  it("should set appSettingsFetched when FETCH_USER_DATA_SUCCESS ", () => {
+    const expected = Map({
+      appSettingsFetched: true
+    });
+
+    const action = {
+      type: "user/FETCH_USER_DATA_SUCCESS",
+      payload: {
+        id: 1,
+        full_name: "System Superuser",
+        user_name: "primero",
+        modules: List(["primeromodule-cp", "primeromodule-gbv"]),
+        agency: 1,
+        permissions: Map({
+          resource: "cases",
+          actions: ["manage"]
+        })
+      }
     };
 
     const newState = r.reducers.application(defaultState, action);

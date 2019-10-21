@@ -44,7 +44,8 @@ const stateWithRecords = Map({
     locales: ["en", "fr", "ar"],
     defaultLocale: "en",
     baseLanguage: "en",
-    primeroVersion: "2.0.0.1"
+    primeroVersion: "2.0.0.1",
+    appSettingsFetched: true
   }
 });
 
@@ -123,6 +124,13 @@ describe("Application - Selectors", () => {
   describe("selectUserIdle", () => {
     it("should return weither user is idle", () => {
       const selector = selectors.selectUserIdle(stateWithRecords);
+      expect(selector).to.equal(true)
+    })
+  })
+
+  describe("getAppSettingsFetched", () => {
+    it("should if the settings are feteched", () => {
+      const selector = selectors.getAppSettingsFetched(stateWithRecords);
       expect(selector).to.equal(true)
     })
   })

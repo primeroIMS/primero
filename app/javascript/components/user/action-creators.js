@@ -1,6 +1,6 @@
 import { loadApplicationResources } from "components/application";
-import { batch } from "react-redux";
 import { DB } from "config";
+import ApplicationActions from "components/application/actions";
 import { Actions } from "./actions";
 
 export const setUser = payload => {
@@ -25,13 +25,22 @@ export const fetchAuthenticatedUserData = id => async dispatch => {
   });
 };
 
+export const setAppSettingsFetched = payload => async dispatch => {
+  dispatch({
+    type: ApplicationActions.APP_SETTINGS_FETCHED,
+    payload
+  });
+};
+
 export const setAuthenticatedUser = user => async dispatch => {
   await dispatch(setUser(user));
 
-  batch(() => {
-    dispatch(fetchAuthenticatedUserData(user.id));
-    dispatch(loadApplicationResources());
-  });
+  await dispatch(setAppSettingsFetched(false));
+
+  Promise.all([
+    dispatch(fetchAuthenticatedUserData(user.id)),
+    dispatch(loadApplicationResources())
+  ]);
 };
 
 export const attemptSignout = () => async dispatch => {
