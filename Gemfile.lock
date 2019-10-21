@@ -421,7 +421,7 @@ GEM
     ttfunk (1.5.1)
     turbolinks (5.1.0)
       turbolinks-source (~> 5.1)
-    turbolinks-source (5.2.0)
+    turbolinks-source (5.1.0)
     twitter_cldr (4.4.4)
       camertron-eprun
       cldr-plurals-runtime-rb (~> 1.0)
@@ -524,6 +524,7 @@ DEPENDENCIES
   therubyracer (~> 0.12.2)
   timecop (~> 0.9.1)
   turbolinks (= 5.1.0)
+  turbolinks-source (= 5.1.0)
   twitter_cldr
   tzinfo (= 1.2.4)
   uglifier (~> 4.0.2)
