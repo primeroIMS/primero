@@ -57,7 +57,18 @@ def validate_yaml_dict_keys(yaml_dict):
 
 def scan_project():
     pattern = "(\\<[Ii]18n\\.t\\(|\\<t\\()"
-    command = ["grep", "-r", "-nI", "-E", "-e", pattern, PROJECT_ROOT]
+    command = [
+        "grep",
+        "-r",
+        "-n",
+        "--include=*.js",
+        "--include=*.jsx",
+        "--include=*.rb",
+        "-E",
+        "-e",
+        pattern,
+        PROJECT_ROOT,
+    ]
 
     proc = subprocess.run(command, capture_output=True)
     assert len(proc.stderr) == 0, "grep command failed " + proc.stderr.decode("utf-8")
