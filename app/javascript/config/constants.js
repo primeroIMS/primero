@@ -40,6 +40,18 @@ export const PERMITTED_URL = [
   "/logout"
 ];
 
+const MODULES = Object.freeze({
+  CP: "primeromodule-cp",
+  GBV: "primeromodule-gbv"
+});
+
+export const MODULE_TYPE_FIELD = "module_id";
+
+export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
+  [MODULES.CP]: "consent_for_services",
+  [MODULES.GBV]: "disclosure_other_orgs"
+});
+
 export const PERMISSIONS = {
   MANAGE: "manage",
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others"

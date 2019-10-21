@@ -48,13 +48,13 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1, 2)
   },
   singleValue: {
-    fontSize: 16
+    fontSize: 12
   },
   placeholder: {
     position: "absolute",
     left: 2,
     bottom: 6,
-    fontSize: 16
+    fontSize: 12
   },
   paper: {
     position: "absolute",
@@ -100,6 +100,7 @@ const CustomAutoComplete = ({ props }) => {
         classes={classes}
         styles={selectStyles}
         components={components}
+        menuPosition="fixed"
         {...props}
       />
     </NoSsr>

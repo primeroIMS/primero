@@ -1,9 +1,10 @@
 import "test/test.setup";
 import { expect } from "chai";
-import * as constants from "./constants";
+import * as configConstants from "./constants";
 
 describe("Verifying config constant", () => {
   it("should have known constant", () => {
+    const constants = { ...configConstants };
     expect(constants).to.have.property("FETCH_TIMEOUT");
     expect(constants).to.have.property("DATABASE_NAME");
     expect(constants).to.have.property("DB");
@@ -15,6 +16,10 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("PERMITTED_URL");
     expect(constants).to.have.property("RECORD_PATH");
     expect(constants).to.have.property("PERMISSIONS");
+    expect(constants).to.not.have.property("CONSENT_GIVEN_FIELD");
+    expect(constants).to.not.have.property("MODULES");
+    expect(constants).to.have.property("CONSENT_GIVEN_FIELD_BY_MODULE");
+    expect(constants).to.have.property("MODULE_TYPE_FIELD");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -27,11 +32,14 @@ describe("Verifying config constant", () => {
     delete constants.PERMITTED_URL;
     delete constants.RECORD_PATH;
     delete constants.PERMISSIONS;
+    delete constants.CONSENT_GIVEN_FIELD_BY_MODULE;
+    delete constants.MODULE_TYPE_FIELD;
 
     expect(constants).to.deep.equal({});
   });
 
   it("should have correct constant value", () => {
+    const constants = { ...configConstants };
     expect(constants.FETCH_TIMEOUT).equal(30000);
     expect(constants.DATABASE_NAME).equal("primero");
     expect(constants.DB).to.deep.equal({
@@ -57,5 +65,14 @@ describe("Verifying config constant", () => {
       "/dashboard",
       "/logout"
     ]);
+    expect(constants.MODULES).to.not.deep.equal({
+      CP: "primeromodule-cp",
+      GBV: "primeromodule-gbv"
+    });
+    expect(constants.CONSENT_GIVEN_FIELD_BY_MODULE).to.deep.equal({
+      "primeromodule-cp": "consent_for_services",
+      "primeromodule-gbv": "disclosure_other_orgs"
+    });
+    expect(constants.MODULE_TYPE_FIELD).to.equal("module_id");
   });
 });

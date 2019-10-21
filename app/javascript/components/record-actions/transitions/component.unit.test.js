@@ -1,7 +1,7 @@
 import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
-import { Map } from "immutable";
+import { Map, List } from "immutable";
 import {
   TransitionDialog,
   ReferralForm,
@@ -13,9 +13,15 @@ import Transitions from "./component";
 describe("<Transitions />", () => {
   let component;
   const initialState = Map({
+    application: Map({
+      agencies: List([Map({ unique_id: "agency-unicef", name: "UNICEF" })])
+    }),
     transitions: Map({
       reassign: Map({
         users: [{ user_name: "primero" }]
+      }),
+      transfer: Map({
+        users: [{ user_name: "primero_cp" }]
       })
     })
   });
@@ -78,7 +84,7 @@ describe("<Transitions />", () => {
       userPermissions: Map({ cases: ["manage"] })
     };
     beforeEach(() => {
-      ({ component } = setupMountedComponent(Transitions, props));
+      ({ component } = setupMountedComponent(Transitions, props, initialState));
     });
 
     it("renders TransitionDialog", () => {
@@ -87,6 +93,25 @@ describe("<Transitions />", () => {
 
     it("renders TransferForm", () => {
       expect(component.find(TransferForm)).to.have.length(1);
+    });
+  });
+
+  describe("when Props", () => {
+    const props = {
+      recordType: "cases",
+      transitionType: "referral",
+      setTransitionType: () => {},
+      record,
+      userPermissions: Map({ cases: ["manage"] })
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(Transitions, props));
+    });
+
+    it("renders TransitionDialog", () => {
+      debugger;
+      expect(component.find(TransitionDialog)).to.have.length(1);
     });
   });
 });
