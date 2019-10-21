@@ -74,19 +74,7 @@ const rules = [
         plugins: [{ cleanupIDs: { prefix: svgPrefix } }]
       }
     }
-  },
-  {
-    test: /\.(png|svg|jpg|jpeg|gif)$/,
-    use: [
-      {
-        loader: require.resolve("file-loader"),
-        options: {
-          outputPath: "images"
-        }
-      }
-    ]
-  },
-  {}
+  }
 ];
 
 module.exports = {
