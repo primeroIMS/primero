@@ -1,27 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import { IconButton, InputBase } from "@material-ui/core";
+import { selectFiltersByRecordType } from "components/filters-builder";
 import SearchIcon from "@material-ui/icons/Search";
-import * as actions from "./action-creators";
 import styles from "./styles.css";
 
-const RecordSearch = ({ recordType, fetchRecords }) => {
+const RecordSearch = ({ recordType, setFilters }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  const dispatch = useDispatch();
+  const { query } = useSelector(state =>
+    selectFiltersByRecordType(state, recordType)
+  );
+  const [filterQuery, setFilterQuery] = useState(query || "");
 
-  const searchRecords = () => {
-    fetchRecords({
-      options: { query: document.getElementById("search-input").value },
-      recordType
-    });
+  useEffect(() => {
+    setFilterQuery(query || "");
+  }, [query]);
+
+  const updateFilters = () => {
+    dispatch(setFilters({ options: { query: filterQuery, id_search: true } }));
   };
 
-  const keyPress = e => {
+  const change = e => {
+    setFilterQuery(e.target.value);
+  };
+
+  const keyUp = e => {
     if (e.keyCode === 13) {
-      searchRecords();
+      updateFilters();
     }
   };
 
@@ -31,7 +41,7 @@ const RecordSearch = ({ recordType, fetchRecords }) => {
         <IconButton
           className={css.iconButton}
           aria-label="menu"
-          onClick={searchRecords}
+          onClick={updateFilters}
         >
           <SearchIcon />
         </IconButton>
@@ -39,7 +49,9 @@ const RecordSearch = ({ recordType, fetchRecords }) => {
           id="search-input"
           className={css.input}
           placeholder={i18n.t("navigation.search")}
-          onKeyDown={keyPress}
+          onKeyUp={keyUp}
+          onChange={change}
+          value={filterQuery}
           inputProps={{ "aria-label": i18n.t("navigation.search") }}
         />
       </div>
@@ -49,14 +61,7 @@ const RecordSearch = ({ recordType, fetchRecords }) => {
 
 RecordSearch.propTypes = {
   recordType: PropTypes.string.isRequired,
-  fetchRecords: PropTypes.func.isRequired
+  setFilters: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = {
-  searchRecords: actions.searchRecords
-};
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(RecordSearch);
+export default RecordSearch;

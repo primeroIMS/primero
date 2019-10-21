@@ -1,40 +1,45 @@
 import "test/test.setup";
 import { expect } from "chai";
-import clone from "lodash/clone";
-import * as constants from "./constants";
+import * as configConstants from "./constants";
 
 describe("Verifying config constant", () => {
-  it("should have known actions", () => {
-    const cloneConstants = clone(constants);
-    expect(cloneConstants).to.have.property("FETCH_TIMEOUT");
-    expect(cloneConstants).to.have.property("DATABASE_NAME");
-    expect(cloneConstants).to.have.property("DB");
-    expect(cloneConstants).to.have.property("IDLE_TIMEOUT");
-    expect(cloneConstants).to.have.property("IDLE_LOGOUT_TIMEOUT");
-    expect(cloneConstants).to.have.property("TOKEN_REFRESH_INTERVAL");
-    expect(cloneConstants).to.have.property("RECORD_TYPES");
-    expect(cloneConstants).to.have.property("AGE_MAX");
-    expect(cloneConstants).to.have.property("PERMITTED_URL");
-    expect(cloneConstants).to.not.have.property("CONSENT_GIVEN_FIELD");
-    expect(cloneConstants).to.not.have.property("MODULES");
-    expect(cloneConstants).to.have.property("CONSENT_GIVEN_FIELD_BY_MODULE");
-    expect(cloneConstants).to.have.property("MODULE_TYPE_FIELD");
-    delete cloneConstants.FETCH_TIMEOUT;
-    delete cloneConstants.DATABASE_NAME;
-    delete cloneConstants.DB;
-    delete cloneConstants.IDLE_TIMEOUT;
-    delete cloneConstants.IDLE_LOGOUT_TIMEOUT;
-    delete cloneConstants.TOKEN_REFRESH_INTERVAL;
-    delete cloneConstants.RECORD_TYPES;
-    delete cloneConstants.AGE_MAX;
-    delete cloneConstants.PERMITTED_URL;
-    delete cloneConstants.CONSENT_GIVEN_FIELD_BY_MODULE;
-    delete cloneConstants.MODULE_TYPE_FIELD;
+  it("should have known constant", () => {
+    const constants = { ...configConstants };
+    expect(constants).to.have.property("FETCH_TIMEOUT");
+    expect(constants).to.have.property("DATABASE_NAME");
+    expect(constants).to.have.property("DB");
+    expect(constants).to.have.property("IDLE_TIMEOUT");
+    expect(constants).to.have.property("IDLE_LOGOUT_TIMEOUT");
+    expect(constants).to.have.property("TOKEN_REFRESH_INTERVAL");
+    expect(constants).to.have.property("RECORD_TYPES");
+    expect(constants).to.have.property("AGE_MAX");
+    expect(constants).to.have.property("PERMITTED_URL");
+    expect(constants).to.have.property("RECORD_PATH");
+    expect(constants).to.have.property("PERMISSIONS");
+    expect(constants).to.not.have.property("CONSENT_GIVEN_FIELD");
+    expect(constants).to.not.have.property("MODULES");
+    expect(constants).to.have.property("CONSENT_GIVEN_FIELD_BY_MODULE");
+    expect(constants).to.have.property("MODULE_TYPE_FIELD");
 
-    expect(cloneConstants).to.deep.equal({});
+    delete constants.FETCH_TIMEOUT;
+    delete constants.DATABASE_NAME;
+    delete constants.DB;
+    delete constants.IDLE_TIMEOUT;
+    delete constants.IDLE_LOGOUT_TIMEOUT;
+    delete constants.TOKEN_REFRESH_INTERVAL;
+    delete constants.RECORD_TYPES;
+    delete constants.AGE_MAX;
+    delete constants.PERMITTED_URL;
+    delete constants.RECORD_PATH;
+    delete constants.PERMISSIONS;
+    delete constants.CONSENT_GIVEN_FIELD_BY_MODULE;
+    delete constants.MODULE_TYPE_FIELD;
+
+    expect(constants).to.deep.equal({});
   });
 
   it("should have correct constant value", () => {
+    const constants = { ...configConstants };
     expect(constants.FETCH_TIMEOUT).equal(30000);
     expect(constants.DATABASE_NAME).equal("primero");
     expect(constants.DB).to.deep.equal({
