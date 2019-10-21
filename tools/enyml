@@ -2,6 +2,7 @@
 
 
 import os
+import re
 import shlex
 import sys
 
@@ -10,6 +11,8 @@ import yaml
 
 PROGRAM_NAME = os.path.basename(__file__)
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+KEY_PATTERN = re.compile("^[- +0-9_a-zA-Z]+$")
 
 YAML_PATH = os.path.join(PROJECT_ROOT, "config/locales/en.yml")
 
@@ -41,7 +44,10 @@ def validate_yaml_keys():
 def validate_yaml_dict_keys(yaml_dict):
 
     for key, value in yaml_dict.items():
-        assert isinstance(key, str), "{} is not a string".format(str(key))
+        assert isinstance(key, str), '"{}" is not a string'.format(str(key))
+        assert KEY_PATTERN.match(key), '"{}" does not match KEY_PATTERN'.format(
+            str(key)
+        )
 
         if isinstance(value, dict):
             validate_yaml_dict_keys(value)
