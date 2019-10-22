@@ -67,14 +67,11 @@ describe("<ReassignForm />", () => {
         ));
       });
       it("should have same no. of users", () => {
-        component
-          .find(ReassignForm)
+        const cp = component.find(ReassignForm);
+        cp.find(ReassignForm)
           .find("input")
           .first()
-          .simulate("mouseDown", {
-            button: 0,
-            menuIsOpen: true
-          });
+          .simulate("keyDown", { key: "ArrowDown", keyCode: 40 });
         expect(
           component.find("div.MuiButtonBase-root.MuiListItem-root").length
         ).to.equal(values.length);
