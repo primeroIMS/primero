@@ -7,6 +7,6 @@ export const getPermissionsByRecord = (state, recordType) => {
   return state.getIn([NAMESPACE, "permissions", recordType], List([]));
 };
 
-export const selectHasUserPermissions = state => {
+export const hasUserPermissions = state => {
   return state.hasIn([NAMESPACE, "permissions"], false);
 };

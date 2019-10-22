@@ -18,14 +18,14 @@ const stateWithUser = fromJS({
 });
 
 describe("User - Selectors", () => {
-  describe("selectHasUserPermissions", () => {
+  describe("hasUserPermissions", () => {
     it("should return if user has permissions", () => {
-      const selector = selectors.selectHasUserPermissions(stateWithUser);
+      const selector = selectors.hasUserPermissions(stateWithUser);
       expect(selector).to.equal(true);
     });
 
     it("should return false if permissions not set", () => {
-      const selector = selectors.selectHasUserPermissions(stateWithNoUser);
+      const selector = selectors.hasUserPermissions(stateWithNoUser);
       expect(selector).to.equal(false);
     });
   });
