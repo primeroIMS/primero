@@ -74,11 +74,16 @@ def scan_project():
     proc = subprocess.run(command, capture_output=True)
     assert len(proc.stderr) == 0, proc.stderr.decode("utf-8")
 
-    # TODO(jrf): return list and assign to global results list?
     process_grep_output(proc.stdout.decode("utf-8"))
 
 
 def process_grep_output(text):
+    """
+    Iterate through the results from our grep command, printing bad keys on
+    stderr and good keys on stdout.  Return the set of known used keys.
+    """
+
+    key_set = set()
     lines = text.splitlines()
 
     for line in lines:
@@ -94,6 +99,23 @@ def process_grep_output(text):
         quote = r[0]
         r = r.partition(quote)[2]
         r = r.partition(quote)[0]
+
+        key = ""
+        for k in r.split("."):
+
+            if not KEY_PATTERN.match(k):
+                print(f + ":" + l + ":" + r, file=sys.stderr)
+                break
+
+            key += ("." + k) if len(key) > 0 else k
+
+        if len(key) > 0:
+            key_set.add(key)
+
+    for k in key_set:
+        print(k)
+
+    return key_set
 
 
 if __name__ == "__main__":
