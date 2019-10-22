@@ -24,7 +24,9 @@ def main():
     validate_yaml_structure()
     validate_yaml_keys()
 
-    scan_project()
+    key_list = scan_project()
+
+    write_yaml(key_list)
 
 
 def validate_yaml_structure():
@@ -156,6 +158,69 @@ def get_key_list(key_set):
     assert len(result) == len(set(result))
 
     return result
+
+
+def write_yaml(key_list):
+
+    with open(YAML_PATH, "r") as fp:
+        yaml_dict = yaml.load(fp)
+
+    yaml_dict = yaml_dict["en"]
+    result = dict()
+
+    for key in key_list:
+
+        src = yaml_dict
+        dest = result
+
+        for i, subkey in enumerate(key.split(".")):
+
+            if subkey not in src:
+                print("no such key: " + key, file=sys.stderr)
+                break
+
+            if i == (len(key.split(".")) - 1):
+                dest[subkey] = src[subkey]
+                continue
+
+            if isinstance(src[subkey], dict):
+                src = src[subkey]
+
+                if subkey not in dest:
+                    dest[subkey] = dict()
+
+                dest = dest[subkey]
+                continue
+
+            dest[subkey] = src[subkey]
+
+    tmp = dict()
+    tmp["en"] = result
+    result = tmp
+
+    prune_empty(result)
+
+    with open(YAML_PATH, "w") as fp:
+        yaml.dump(
+            result,
+            fp,
+            allow_unicode=True,
+            default_flow_style=False,
+            explicit_start=True,
+        )
+
+
+def prune_empty(dictionary):
+
+    keys = [k for k, v in dictionary.items() if v == {}]
+
+    for k in keys:
+        del dictionary[k]
+
+    for k, v in dictionary.items():
+
+        if isinstance(v, dict):
+            prune_empty(v)
 
 
 if __name__ == "__main__":
