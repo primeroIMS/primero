@@ -44,8 +44,7 @@ const stateWithRecords = Map({
     locales: ["en", "fr", "ar"],
     defaultLocale: "en",
     baseLanguage: "en",
-    primeroVersion: "2.0.0.1",
-    appSettingsFetched: true
+    primeroVersion: "2.0.0.1"
   }
 });
 
