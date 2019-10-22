@@ -25,7 +25,6 @@ async function loginSuccessHandler(store, user) {
 
   localStorage.setItem("user", JSON.stringify({ username, id }));
   store.dispatch(setAuthenticatedUser({ username, id }));
-  store.dispatch(loadApplicationResources());
   redirectTo(store, "/dashboard");
 }
 
