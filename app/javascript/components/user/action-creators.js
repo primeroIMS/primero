@@ -1,6 +1,4 @@
 import { DB } from "config";
-import { loadApplicationResources } from "components/application";
-import ApplicationActions from "components/application/actions";
 import { Actions } from "./actions";
 
 export const setUser = payload => {
@@ -11,7 +9,7 @@ export const setUser = payload => {
 };
 
 export const fetchAuthenticatedUserData = id => async dispatch => {
-  return dispatch({
+  dispatch({
     type: Actions.FETCH_USER_DATA,
     api: {
       path: `users/${id}`,
@@ -25,24 +23,9 @@ export const fetchAuthenticatedUserData = id => async dispatch => {
   });
 };
 
-export const setAppSettingsFetched = payload => async dispatch => {
-  dispatch({
-    type: ApplicationActions.APP_SETTINGS_FETCHED,
-    payload
-  });
-};
-
 export const setAuthenticatedUser = user => async dispatch => {
   await dispatch(setUser(user));
-
-  dispatch(setAppSettingsFetched(false));
-
-  await Promise.all([
-    dispatch(fetchAuthenticatedUserData(user.id)),
-    dispatch(loadApplicationResources())
-  ]);
-
-  dispatch(setAppSettingsFetched(true));
+  dispatch(fetchAuthenticatedUserData(user.id));
 };
 
 export const attemptSignout = () => async dispatch => {

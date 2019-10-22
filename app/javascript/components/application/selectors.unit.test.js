@@ -127,11 +127,4 @@ describe("Application - Selectors", () => {
       expect(selector).to.equal(true)
     })
   })
-
-  describe("getAppSettingsFetched", () => {
-    it("should if the settings are feteched", () => {
-      const selector = selectors.getAppSettingsFetched(stateWithRecords);
-      expect(selector).to.equal(true)
-    })
-  })
 });

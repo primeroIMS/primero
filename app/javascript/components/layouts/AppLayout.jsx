@@ -7,15 +7,17 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { Notifier } from "components/notifier";
 import { SessionTimeoutDialog } from "components/session-timeout-dialog";
-import { getAppSettingsFetched } from "components/application/selectors";
+import { selectHasUserPermissions } from "components/user/selectors";
 import styles from "./styles.css";
 
 const AppLayout = ({ children }) => {
   const css = makeStyles(styles)();
-  const appSettingsFetched = useSelector(state => getAppSettingsFetched(state));
+  const hasUserPermissions = useSelector(state =>
+    selectHasUserPermissions(state)
+  );
   const drawerOpen = useSelector(state => selectDrawerOpen(state));
 
-  if (!appSettingsFetched) {
+  if (!hasUserPermissions) {
     return (
       <div className={css.loadingIndicator}>
         <CircularProgress size={80} />

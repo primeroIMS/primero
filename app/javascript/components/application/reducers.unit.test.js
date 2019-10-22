@@ -122,18 +122,4 @@ describe("Application - Reducers", () => {
     const newState = r.reducers.application(defaultState, action);
     expect(newState.toJS()).to.eql(expected.toJS());
   });
-
-  it("should handle APP_SETTINGS_FETCHED", () => {
-    const expected = Map({
-      appSettingsFetched: false
-    });
-
-    const action = {
-      type: Actions.APP_SETTINGS_FETCHED,
-      payload: false
-    };
-
-    const newState = r.reducers.application(defaultState, action);
-    expect(newState.toJS()).to.eql(expected.toJS());
-  });
 });

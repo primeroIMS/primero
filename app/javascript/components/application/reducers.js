@@ -39,8 +39,6 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("online", payload);
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
-    case Actions.APP_SETTINGS_FETCHED:
-      return state.set("appSettingsFetched", payload);
     default:
       return state;
   }

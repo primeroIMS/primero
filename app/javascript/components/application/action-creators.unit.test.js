@@ -29,28 +29,19 @@ describe("Application - Action Creators", () => {
       path: "system_settings",
       params: { extended: true },
       db: {
-        collection: 'system_settings'
+        collection: "system_settings"
       }
     };
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
-    const action = actionCreators.fetchSystemSettings()(dispatch);
+    actionCreators.fetchSystemSettings()(dispatch);
 
     expect(dispatch.getCall(0).returnValue.type).to.eql(
       "application/FETCH_SYSTEM_SETTINGS"
     );
 
     expect(dispatch.getCall(0).returnValue.api).to.eql(expected);
-
-    expect(action).to.be.an.instanceof(Promise);
-  });
-
-  it("should check the 'loadApplicationResources' action creator to return a promise", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
-    const action = actionCreators.loadApplicationResources()(dispatch);
-    expect(action).to.be.an.instanceof(Promise);
   });
 
   it("should create an action to set the user to idle", () => {

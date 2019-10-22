@@ -23,7 +23,3 @@ export const selectUserIdle = state =>
   state.getIn([NAMESPACE, "userIdle"], false);
 
 export const selectNetworkStatus = state => state.getIn([NAMESPACE, "online"]);
-
-export const getAppSettingsFetched = state => {
-  return state.getIn([NAMESPACE, "appSettingsFetched"], false);
-};

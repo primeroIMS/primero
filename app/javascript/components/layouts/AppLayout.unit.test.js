@@ -2,7 +2,7 @@ import { expect } from "chai";
 import "test/test.setup";
 import { setupMountedComponent } from "test";
 import { routes } from "config";
-import { Map } from "immutable";
+import { fromJS } from "immutable";
 import { Nav } from "components/nav";
 import { CircularProgress } from "@material-ui/core";
 import AppLayout from "./AppLayout";
@@ -10,32 +10,42 @@ import AppLayout from "./AppLayout";
 describe("<AppLayout />", () => {
   let component;
 
-  describe("if appSettingsFetched is true", () => {
+  describe("if hasUserPermissions is true", () => {
     beforeEach(() => {
-      const state = Map({
-        ui: Map({
-          Nav: Map({
+      const state = fromJS({
+        ui: {
+          Nav: {
             drawerOpen: true
-          })
-        }),
-        user: Map({
-          module: "primero",
+          }
+        },
+        user: {
+          modules: "primero",
           agency: "unicef",
           isAuthenticated: true,
           messages: null,
-          permissions: Map({
+          permissions: {
             incidents: ["manage"],
             tracing_requests: ["manage"],
             cases: ["manage"]
-          })
-        }),
-        application: Map({
+          }
+        },
+        application: {
           baseLanguage: "en",
-          appSettingsFetched: true
-        })
+          modules: [
+            {
+              unique_id: "primeromodule-cp",
+              name: "CP",
+              associated_record_types: ["case"]
+            }
+          ]
+        }
       });
-      component = setupMountedComponent(AppLayout, { route: routes[0] }, state)
-        .component;
+      component = setupMountedComponent(
+        AppLayout,
+        { route: routes[0] },
+        state,
+        ["/cases"]
+      ).component;
     });
 
     it("renders navigation", () => {
@@ -51,27 +61,31 @@ describe("<AppLayout />", () => {
     });
   });
 
-  describe("if appSettingsFetched is false", () => {
+  describe("if hasUserPermissions is false", () => {
     beforeEach(() => {
-      const state = Map({
-        ui: Map({
-          Nav: Map({
+      const state = fromJS({
+        ui: {
+          Nav: {
             drawerOpen: true
-          })
-        }),
-        user: Map({
+          }
+        },
+        user: {
           module: "primero",
           agency: "unicef",
           isAuthenticated: true,
           messages: null
-        }),
-        application: Map({
+        },
+        application: {
           baseLanguage: "en",
           appSettingsFetched: false
-        })
+        }
       });
-      component = setupMountedComponent(AppLayout, { route: routes[0] }, state)
-        .component;
+      component = setupMountedComponent(
+        AppLayout,
+        { route: routes[0] },
+        state,
+        ["/cases"]
+      ).component;
     });
 
     it("renders CircularProgress", () => {
