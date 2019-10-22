@@ -37,23 +37,21 @@ describe("<RecordForm /> - Action Creators", () => {
   it("should check the 'fetchForms' action creator to return the correct object", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
-    const action = actionCreators.fetchForms()(dispatch);
+    actionCreators.fetchForms()(dispatch);
 
     expect(dispatch.getCall(0).returnValue.type).to.eql("forms/RECORD_FORMS");
     expect(dispatch.getCall(0).returnValue.api.path).to.eql("forms");
     expect(typeof dispatch.getCall(0).returnValue.api.normalizeFunc).to.eql(
       "string"
     );
-    expect(action).to.be.an.instanceof(Promise);
   });
 
   it("should check the 'fetchOptions' action creator to return the correct object", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
-    const action = actionCreators.fetchOptions()(dispatch);
+    actionCreators.fetchOptions()(dispatch);
 
     expect(dispatch.getCall(0).returnValue.type).to.eql("forms/SET_OPTIONS");
     expect(dispatch.getCall(0).returnValue.payload.length).to.eql(63);
-    expect(action).to.be.an.instanceof(Promise);
   });
 });
