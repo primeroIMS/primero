@@ -41,9 +41,6 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return DEFAULT_STATE;
     case Actions.APP_SETTINGS_FETCHED:
       return state.set("appSettingsFetched", payload);
-    case actionsUsers.Actions.FETCH_USER_DATA_SUCCESS:
-      // the key has to be update only when FETCH_USER_DATA is successed
-      return state.set("appSettingsFetched", true);
     default:
       return state;
   }

@@ -11,7 +11,7 @@ export const setUser = payload => {
 };
 
 export const fetchAuthenticatedUserData = id => async dispatch => {
-  dispatch({
+  return dispatch({
     type: Actions.FETCH_USER_DATA,
     api: {
       path: `users/${id}`,
@@ -35,12 +35,14 @@ export const setAppSettingsFetched = payload => async dispatch => {
 export const setAuthenticatedUser = user => async dispatch => {
   await dispatch(setUser(user));
 
-  await dispatch(setAppSettingsFetched(false));
+  dispatch(setAppSettingsFetched(false));
 
-  Promise.all([
+  await Promise.all([
     dispatch(fetchAuthenticatedUserData(user.id)),
     dispatch(loadApplicationResources())
   ]);
+
+  dispatch(setAppSettingsFetched(true));
 };
 
 export const attemptSignout = () => async dispatch => {

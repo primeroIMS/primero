@@ -4,17 +4,26 @@ import { Nav, selectDrawerOpen } from "components/nav";
 import { makeStyles } from "@material-ui/styles";
 import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Notifier } from "components/notifier";
 import { SessionTimeoutDialog } from "components/session-timeout-dialog";
 import { getAppSettingsFetched } from "components/application/selectors";
 import styles from "./styles.css";
 
-const AppLayout = ({ children, drawerOpen }) => {
+const AppLayout = ({ children }) => {
   const css = makeStyles(styles)();
   const appSettingsFetched = useSelector(state => getAppSettingsFetched(state));
+  const drawerOpen = useSelector(state => selectDrawerOpen(state));
 
-  return appSettingsFetched ? (
+  if (!appSettingsFetched) {
+    return (
+      <div className={css.loadingIndicator}>
+        <CircularProgress size={80} />
+      </div>
+    );
+  }
+
+  return (
     <div className={css.root}>
       <Notifier />
       <Nav />
@@ -27,20 +36,11 @@ const AppLayout = ({ children, drawerOpen }) => {
         {children}
       </main>
     </div>
-  ) : (
-    <div className={css.loadingIndicator}>
-      <CircularProgress size={80} />
-    </div>
   );
 };
 
 AppLayout.propTypes = {
-  children: PropTypes.node,
-  drawerOpen: PropTypes.bool.isRequired
+  children: PropTypes.node
 };
 
-const mapStateToProps = state => ({
-  drawerOpen: selectDrawerOpen(state)
-});
-
-export default connect(mapStateToProps)(AppLayout);
+export default AppLayout;

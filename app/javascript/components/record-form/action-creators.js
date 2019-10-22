@@ -11,7 +11,7 @@ export const setSelectedForm = payload => {
 };
 
 export const fetchForms = () => async dispatch => {
-  dispatch({
+  return dispatch({
     type: Actions.RECORD_FORMS,
     api: {
       path: "forms",
@@ -24,7 +24,7 @@ export const fetchForms = () => async dispatch => {
 };
 
 export const fetchOptions = () => async dispatch => {
-  dispatch({
+  return dispatch({
     type: Actions.SET_OPTIONS,
     payload: mockedData.data.map(option => Option(option))
   });

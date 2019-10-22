@@ -1,10 +1,9 @@
-import { fetchForms, fetchOptions } from "components/record-form";
-import { batch } from "react-redux";
 import { DB } from "config";
+import { fetchForms, fetchOptions } from "components/record-form";
 import Actions from "./actions";
 
 export const fetchSystemSettings = () => async dispatch => {
-  dispatch({
+  return dispatch({
     type: Actions.FETCH_SYSTEM_SETTINGS,
     api: {
       path: "system_settings",
@@ -17,11 +16,11 @@ export const fetchSystemSettings = () => async dispatch => {
 };
 
 export const loadApplicationResources = () => async dispatch => {
-  batch(() => {
-    dispatch(fetchSystemSettings());
-    dispatch(fetchForms());
-    dispatch(fetchOptions());
-  });
+  return Promise.all([
+    dispatch(fetchSystemSettings()),
+    dispatch(fetchForms()),
+    dispatch(fetchOptions())
+  ]);
 };
 
 export const setUserIdle = payload => {
