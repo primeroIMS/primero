@@ -24,7 +24,7 @@ export const fetchAuthenticatedUserData = id => async dispatch => {
 };
 
 export const setAuthenticatedUser = user => async dispatch => {
-  await dispatch(setUser(user));
+  dispatch(setUser(user));
   dispatch(fetchAuthenticatedUserData(user.id));
 };
 

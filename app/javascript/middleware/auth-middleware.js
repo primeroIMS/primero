@@ -1,5 +1,4 @@
 import { attemptSignout, Actions, setAuthenticatedUser } from "components/user";
-import { loadApplicationResources } from "components/application";
 import { LOGIN_SUCCESS_CALLBACK } from "components/pages/login";
 import get from "lodash/get";
 import { push } from "connected-react-router";
