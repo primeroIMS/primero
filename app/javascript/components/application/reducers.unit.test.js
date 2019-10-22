@@ -2,6 +2,7 @@ import chai, { expect } from "chai";
 import { Map, List, fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
 import * as r from "./reducers";
+import Actions from './actions';
 
 chai.use(chaiImmutable);
 
@@ -14,7 +15,7 @@ describe("Application - Reducers", () => {
     });
 
     const action = {
-      type: "application/SET_USER_IDLE",
+      type: Actions.SET_USER_IDLE,
       payload: true
     };
 
@@ -64,7 +65,7 @@ describe("Application - Reducers", () => {
     });
 
     const action = {
-      type: "application/FETCH_SYSTEM_SETTINGS_SUCCESS",
+      type: Actions.FETCH_SYSTEM_SETTINGS_SUCCESS,
       payload: {
         agencies: [
           {
@@ -114,7 +115,7 @@ describe("Application - Reducers", () => {
     });
 
     const action = {
-      type: "application/NETWORK_STATUS",
+      type: Actions.NETWORK_STATUS,
       payload: true
     };
 
@@ -128,7 +129,7 @@ describe("Application - Reducers", () => {
     });
 
     const action = {
-      type: "application/APP_SETTINGS_FETCHED",
+      type: Actions.APP_SETTINGS_FETCHED,
       payload: false
     };
 
