@@ -1,3 +1,6 @@
+export const CASES_RECORDS = "cases/RECORDS";
+export const INCIDENTS_RECORDS = "incidents/RECORDS";
+export const TRACING_REQUESTS_RECORDS = "tracing_requests/RECORDS";
 export const RECORDS = "RECORDS";
 export const RECORDS_FAILURE = "RECORDS_FAILURE";
 export const RECORDS_STARTED = "RECORDS_STARTED";

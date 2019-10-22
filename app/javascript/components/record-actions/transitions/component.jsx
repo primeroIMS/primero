@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { removeFormErrors } from "./action-creators";
+import { hasProvidedConsent } from "./parts/helpers";
 import {
   TransitionDialog,
   ReferralForm,
@@ -17,15 +18,12 @@ const Transitions = ({
   userPermissions
 }) => {
   const dispatch = useDispatch();
+  const providedConsent = record && hasProvidedConsent(record);
 
   const handleClose = () => {
     setTransitionType("");
     dispatch(removeFormErrors(transitionType));
   };
-
-  const providedConsent =
-    record &&
-    (record.get("consent_for_services") || record.get("disclosure_other_orgs"));
 
   const transitionDialogProps = {
     record,
@@ -58,10 +56,12 @@ const Transitions = ({
         // TODO: isBulkTransfer should be dynamic once record-actions
         // it's been implemented on <RecordList />
         const transferProps = {
-          providedConsent: false,
+          providedConsent,
           isBulkTransfer: false,
           userPermissions,
-          handleClose
+          handleClose,
+          transitionType,
+          record
         };
         return <TransferForm {...transferProps} />;
       }
@@ -79,7 +79,7 @@ const Transitions = ({
 
 Transitions.propTypes = {
   transitionType: PropTypes.string.isRequired,
-  record: PropTypes.object.isRequired,
+  record: PropTypes.object,
   setTransitionType: PropTypes.func.isRequired,
   recordType: PropTypes.string.isRequired,
   userPermissions: PropTypes.object.isRequired
