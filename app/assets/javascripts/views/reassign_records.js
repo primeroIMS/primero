@@ -7,6 +7,11 @@ _primero.Views.ReassignRecords = _primero.Views.Base.extend({
     'click #reassign-modal input[type="submit"]': 'transfer'
   },
 
+  initialize: function () {
+    var self = this;
+    $('#reassign-modal').on('closeme.zf.reveal', self.clear_modal);
+  },
+
   reassign_records: function(event) {
     var selected_recs = _primero.indexTable.get_selected_records();
     $("#reassign-modal").find("#selected_records").val(selected_recs);
@@ -34,5 +39,14 @@ _primero.Views.ReassignRecords = _primero.Views.Base.extend({
     } else {
       return false;
     }
+  },
+
+  clear_modal: function () {
+    var $reassign_modal = $('#reassign-modal');
+
+    var $existing_user_select = $reassign_modal.find('#existing_user');
+    $existing_user_select.val('');
+    $existing_user_select.trigger('chosen:updated');
+    $reassign_modal.find('#notes').val('');
   }
 });
