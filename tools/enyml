@@ -77,17 +77,17 @@ def scan_project():
     proc = subprocess.run(command, capture_output=True)
     assert len(proc.stderr) == 0, proc.stderr.decode("utf-8")
 
-    process_grep_output(proc.stdout.decode("utf-8"))
+    get_key_set(proc.stdout.decode("utf-8"))
 
 
-def process_grep_output(text):
+def get_key_set(grep_output):
     """
     Iterate through the results from our grep command, printing bad keys on
     stderr and good keys on stdout.  Return the set of known used keys.
     """
 
     key_set = set()
-    lines = text.splitlines()
+    lines = grep_output.splitlines()
 
     for line in lines:
         f, l, r = line.split(":", maxsplit=2)
