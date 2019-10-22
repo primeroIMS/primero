@@ -56,11 +56,12 @@ def validate_yaml_dict_keys(yaml_dict):
 
 
 def scan_project():
-    pattern = "(\\<[Ii]18n\\.t\\(|\\<t\\()"
+    pattern = "(\\<[Ii]18n\\.t\\(|\\<t\\().*"
     command = [
         "grep",
         "-r",
         "-n",
+        "-o",
         "--include=*.js",
         "--include=*.jsx",
         "--include=*.rb",
