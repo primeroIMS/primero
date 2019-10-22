@@ -59,6 +59,12 @@ def validate_yaml_dict_keys(yaml_dict):
 
 
 def scan_project():
+    """
+    Scan the project directory to build and return a list of keys that need to
+    be preserved in the clean-up process.  Calls get_key_set() to process grep
+    output and print diagnostics.
+    """
+
     pattern = "(\\<[Ii]18n\\.t\\(|\\<t\\().*"
     command = [
         "grep",
@@ -77,7 +83,9 @@ def scan_project():
     proc = subprocess.run(command, capture_output=True)
     assert len(proc.stderr) == 0, proc.stderr.decode("utf-8")
 
-    get_key_set(proc.stdout.decode("utf-8"))
+    key_set = get_key_set(proc.stdout.decode("utf-8"))
+
+    return get_key_list(key_set)
 
 
 def get_key_set(grep_output):
