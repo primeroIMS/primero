@@ -2,7 +2,7 @@ import chai, { expect } from "chai";
 import { Map, List, fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
 import * as r from "./reducers";
-import Actions from './actions';
+import actions from "./actions";
 
 chai.use(chaiImmutable);
 
@@ -15,7 +15,7 @@ describe("Application - Reducers", () => {
     });
 
     const action = {
-      type: Actions.SET_USER_IDLE,
+      type: actions.SET_USER_IDLE,
       payload: true
     };
 
@@ -65,7 +65,7 @@ describe("Application - Reducers", () => {
     });
 
     const action = {
-      type: Actions.FETCH_SYSTEM_SETTINGS_SUCCESS,
+      type: actions.FETCH_SYSTEM_SETTINGS_SUCCESS,
       payload: {
         agencies: [
           {
@@ -87,7 +87,7 @@ describe("Application - Reducers", () => {
               use_workflow_assessment: false,
               reporting_location_filter: true,
               use_workflow_service_implemented: true
-            },
+            }
           },
           {
             unique_id: "primeromodule-gbv",
@@ -95,7 +95,7 @@ describe("Application - Reducers", () => {
             associated_record_types: ["case", "incident"],
             options: {
               user_group_filter: true
-            },
+            }
           }
         ],
         locales: ["en", "fr", "ar"],
@@ -115,7 +115,7 @@ describe("Application - Reducers", () => {
     });
 
     const action = {
-      type: Actions.NETWORK_STATUS,
+      type: actions.NETWORK_STATUS,
       payload: true
     };
 

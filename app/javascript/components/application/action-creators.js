@@ -17,7 +17,7 @@ export const fetchSystemSettings = () => async dispatch => {
 };
 
 export const loadApplicationResources = () => async dispatch => {
-  return batch(() => {
+  batch(() => {
     dispatch(fetchSystemSettings());
     dispatch(fetchForms());
     dispatch(fetchOptions());

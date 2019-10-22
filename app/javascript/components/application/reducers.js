@@ -1,7 +1,6 @@
 import { Map, fromJS } from "immutable";
 import { mapEntriesToRecord } from "libs";
-import * as actionsUsers from "components/user/actions";
-import Actions from "./actions";
+import actions from "./actions";
 import NAMESPACE from "./namespace";
 import { PrimeroModuleRecord } from "./records";
 
@@ -12,7 +11,7 @@ const DEFAULT_STATE = Map({
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.FETCH_SYSTEM_SETTINGS_SUCCESS: {
+    case actions.FETCH_SYSTEM_SETTINGS_SUCCESS: {
       const {
         agencies,
         modules,
@@ -33,9 +32,9 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         })
       );
     }
-    case Actions.SET_USER_IDLE:
+    case actions.SET_USER_IDLE:
       return state.set("userIdle", payload);
-    case Actions.NETWORK_STATUS:
+    case actions.NETWORK_STATUS:
       return state.set("online", payload);
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;

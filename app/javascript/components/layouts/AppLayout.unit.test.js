@@ -76,8 +76,7 @@ describe("<AppLayout />", () => {
           messages: null
         },
         application: {
-          baseLanguage: "en",
-          appSettingsFetched: false
+          baseLanguage: "en"
         }
       });
       component = setupMountedComponent(
