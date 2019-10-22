@@ -74,8 +74,26 @@ def scan_project():
     proc = subprocess.run(command, capture_output=True)
     assert len(proc.stderr) == 0, proc.stderr.decode("utf-8")
 
-    results = proc.stdout.decode("utf-8").splitlines()
-    print(len(results))
+    # TODO(jrf): return list and assign to global results list?
+    process_grep_output(proc.stdout.decode("utf-8"))
+
+
+def process_grep_output(text):
+    lines = text.splitlines()
+
+    for line in lines:
+        f, l, r = line.split(":", maxsplit=2)
+
+        r = r.partition("t(")[2]
+        r = r.partition(")")[0]
+
+        if not r.startswith(("'", "`", '"')):
+            print(f + ":" + l + ":" + r, file=sys.stderr)
+            continue
+
+        quote = r[0]
+        r = r.partition(quote)[2]
+        r = r.partition(quote)[0]
 
 
 if __name__ == "__main__":
