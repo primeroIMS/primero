@@ -1,7 +1,7 @@
 import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
-import { Map } from "immutable";
+import { Map, List } from "immutable";
 import {
   FormControlLabel,
   Checkbox,
@@ -9,18 +9,33 @@ import {
   Button
 } from "@material-ui/core";
 import { SearchableSelect } from "components/searchable-select";
-import TransferForm from "./transfer-form";
+import TransferForm from "./component";
 
 describe("<TransferForm />", () => {
   let component;
+  const defaultState = Map({
+    application: Map({
+      agencies: List([Map({ unique_id: "agency-unicef", name: "UNICEF" })])
+    }),
+    transitions: Map({
+      transfer: Map({
+        users: [{ id: 13, user_name: "primero_cp_ar" }]
+      }),
+      reassign: Map({
+        users: [{ id: 13, user_name: "primero_cp_ar" }]
+      })
+    })
+  });
   const props = {
     providedConsent: false,
     isBulkTransfer: false,
     userPermissions: Map({ cases: ["manage"] }),
-    handleClose: () => {}
-  }
+    handleClose: () => {},
+    transitionType: "transfer",
+    record: Map({ id: "123abc" })
+  };
   beforeEach(() => {
-    ({ component } = setupMountedComponent(TransferForm, props));
+    ({ component } = setupMountedComponent(TransferForm, props, defaultState));
   });
 
   it("renders FormControlLabel", () => {

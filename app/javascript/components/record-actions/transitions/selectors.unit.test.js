@@ -18,15 +18,18 @@ const stateWithRecords = Map({
 });
 
 describe("<Transitions /> - Selectors", () => {
-  describe("getAssignUsers", () => {
+  describe("getUsersByTransitionType", () => {
     it("should return list of users allowed to reassign", () => {
       const expected = [{ label: "primero_cp", value: "primero_cp" }];
-      const values = selectors.getAssignUsers(stateWithRecords);
+      const values = selectors.getUsersByTransitionType(
+        stateWithRecords,
+        "reassign"
+      );
       expect(values).to.deep.equal(expected);
     });
 
     it("should return false when there are not users in store", () => {
-      const errors = selectors.getAssignUsers(stateWithNoRecords);
+      const errors = selectors.getUsersByTransitionType(stateWithNoRecords);
       expect(errors).to.be.equal(undefined);
     });
   });
@@ -44,6 +47,12 @@ describe("<Transitions /> - Selectors", () => {
     it("should return undefined when there are not messages in store", () => {
       const errors = selectors.getErrorsByTransitionType(stateWithNoRecords);
       expect(errors).to.be.equal(undefined);
+    });
+  });
+
+  describe("deprecated getAssignUsers", () => {
+    it("should be undefined", () => {
+      expect(selectors.getAssignUsers).to.be.equal(undefined);
     });
   });
 });

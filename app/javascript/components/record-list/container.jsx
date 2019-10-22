@@ -1,7 +1,7 @@
 import { IndexTable } from "components/index-table";
 import { Filters } from "components/filters";
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { Map } from "immutable";
@@ -9,13 +9,19 @@ import { useThemeHelper } from "libs";
 import { RecordSearch } from "components/record-search";
 import { PageContainer } from "components/page";
 import { withRouter } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useI18n } from "components/i18n";
-import { fetchRecords } from "components/records";
+import { selectFiltersByRecordType } from "components/filters-builder";
+import { getPermissionsByRecord } from "components/user";
+import { PERMISSIONS } from "config";
 import RecordListToolbar from "./RecordListToolbar";
 import FilterContainer from "./FilterContainer";
 import { selectListHeaders } from "./selectors";
-import { buildTableColumns } from "./helpers";
+import {
+  buildTableColumns,
+  getFiltersSetterByType,
+  getRecordsFetcherByType
+} from "./helpers";
 import styles from "./styles.css";
 
 const RecordList = ({ match }) => {
@@ -24,16 +30,44 @@ const RecordList = ({ match }) => {
   const { theme } = useThemeHelper({});
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const [drawer, setDrawer] = useState(false);
-  const { params } = match;
+  const { params, url } = match;
   const { recordType } = params;
-  const listHeaders = useSelector(state =>
-    selectListHeaders(state, recordType)
+  const dispatch = useDispatch();
+  const headers = useSelector(state => selectListHeaders(state, recordType));
+
+  // eslint-disable-next-line camelcase
+  const { id_search, query } = useSelector(state =>
+    selectFiltersByRecordType(state, recordType)
   );
+
+  const permissions = useSelector(state =>
+    getPermissionsByRecord(state, recordType)
+  );
+
+  const setFilters = getFiltersSetterByType(recordType);
+
+  const fetchRecords = getRecordsFetcherByType(recordType);
+
+  useEffect(() => {
+    dispatch(setFilters({ options: { id_search: false, query: "" } }));
+  }, [url]);
+
+  const canSearchOthers =
+    permissions.includes(PERMISSIONS.MANAGE) ||
+    permissions.includes(PERMISSIONS.SEARCH_OWNED_BY_OTHERS);
+
+  const listHeaders =
+    // eslint-disable-next-line camelcase
+    id_search && canSearchOthers
+      ? headers.filter(header => header.id_search)
+      : headers;
 
   const defaultFilters = Map({
     fields: "short",
     per: 20,
     page: 1,
+    id_search,
+    query,
     ...{
       ...(recordType === "cases"
         ? { status: ["open"], record_state: ["true"] }
@@ -70,7 +104,7 @@ const RecordList = ({ match }) => {
 
   const recordSearchProps = {
     recordType,
-    fetchRecords
+    setFilters
   };
 
   const recordListToolbarProps = {

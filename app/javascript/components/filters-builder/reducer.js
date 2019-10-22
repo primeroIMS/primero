@@ -14,7 +14,7 @@ export const reducers = namespace => (
 ) => {
   switch (type) {
     case `${namespace}/${Actions.SET_FILTERS}`:
-      return state.set("filters", merge(state.get("filters"), payload));
+      return state.set("filters", merge({ ...state.get("filters") }, payload));
     case `${namespace}/${Actions.ADD_CHECKBOX}`:
     case `${namespace}/${Actions.ADD_SWITCH_BUTTON}`:
     case `${namespace}/${Actions.ADD_CHIP}`:
