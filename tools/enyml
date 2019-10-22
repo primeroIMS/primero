@@ -121,5 +121,34 @@ def get_key_set(grep_output):
     return key_set
 
 
+def get_key_list(key_set):
+    """
+    Build and return a list of keys that should be preserved during the
+    clean-up operation.
+    """
+
+    result = []
+
+    key_list = sorted(key_set, key=len)
+    assert isinstance(key_list, list)
+
+    for key in key_list:
+
+        prefix = ""
+        for subkey in key.split("."):
+            prefix += ("." + subkey) if len(prefix) > 0 else subkey
+
+            if prefix in result:
+                break
+
+        if prefix not in result:
+            assert prefix == key
+            result.append(prefix)
+
+    assert len(result) == len(set(result))
+
+    return result
+
+
 if __name__ == "__main__":
     main()
