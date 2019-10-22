@@ -1,10 +1,9 @@
 import clone from "lodash/clone";
-import chai, { expect } from "chai";
-import sinonChai from "sinon-chai";
+import { expect } from "chai";
 
 import * as applicationActions from "./actions";
 
-chai.use(sinonChai);
+import "../../test/chai-helpers";
 
 describe("Application - Actions", () => {
   it("should have known actions", () => {
