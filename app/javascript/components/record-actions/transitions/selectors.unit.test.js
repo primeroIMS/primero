@@ -2,17 +2,19 @@ import "test/test.setup";
 import chai, { expect } from "chai";
 import { Map } from "immutable";
 import chaiImmutable from "chai-immutable";
-
 import * as selectors from "./selectors";
 
 chai.use(chaiImmutable);
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
-  transitions: Map({
-    reassign: Map({
-      users: [{ label: "primero_cp", value: "primero_cp" }],
-      errors: true,
-      message: ["Test error message"]
+  records: Map({
+    transitions: Map({
+      data: [],
+      reassign: Map({
+        users: [{ label: "primero_cp", value: "primero_cp" }],
+        errors: true,
+        message: ["Test error message"]
+      })
     })
   })
 });
@@ -47,6 +49,12 @@ describe("<Transitions /> - Selectors", () => {
     it("should return undefined when there are not messages in store", () => {
       const errors = selectors.getErrorsByTransitionType(stateWithNoRecords);
       expect(errors).to.be.equal(undefined);
+    });
+  });
+
+  describe("deprecated getMockUsers", () => {
+    it("should be undefined", () => {
+      expect(selectors.getMockUsers).to.be.equal(undefined);
     });
   });
 

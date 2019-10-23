@@ -17,9 +17,12 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("RECORD_PATH");
     expect(constants).to.have.property("PERMISSIONS");
     expect(constants).to.not.have.property("CONSENT_GIVEN_FIELD");
-    expect(constants).to.not.have.property("MODULES");
+    expect(constants).to.have.property("MODULES");
     expect(constants).to.have.property("CONSENT_GIVEN_FIELD_BY_MODULE");
     expect(constants).to.have.property("MODULE_TYPE_FIELD");
+    expect(constants).to.have.property("TRANSITION_TYPE");
+    expect(constants).to.have.property("RECORD_OWNER");
+    expect(constants).to.have.property("TRANSFERS_ASSIGNMENTS");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -34,6 +37,7 @@ describe("Verifying config constant", () => {
     delete constants.PERMISSIONS;
     delete constants.CONSENT_GIVEN_FIELD_BY_MODULE;
     delete constants.MODULE_TYPE_FIELD;
+    delete constants.MODULES;
     delete constants.TRANSITION_TYPE;
     delete constants.RECORD_OWNER;
     delete constants.TRANSFERS_ASSIGNMENTS;
@@ -69,7 +73,7 @@ describe("Verifying config constant", () => {
       "/not-authorized",
       "/support"
     ]);
-    expect(constants.MODULES).to.not.deep.equal({
+    expect(constants.MODULES).to.deep.equal({
       CP: "primeromodule-cp",
       GBV: "primeromodule-gbv"
     });

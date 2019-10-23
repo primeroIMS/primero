@@ -35,14 +35,17 @@ const rootReducer = {
       }, {})
     ),
     reports: reduceReducers(Reports.reducers, Report.reducers),
+    transitions: reduceReducers(
+      Transitions.reducers,
+      TransitionsForms.reducers
+    ),
     ...PotentialMatches.reducers,
     ...TaskList.reducers,
     ...Dashboard.reducers,
     ...ExportList.reducers,
     ...Support.reducers,
     ...Flagging.reducers,
-    ...SavedSearches.reducers,
-    ...TransitionsForms.reducers
+    ...SavedSearches.reducers
   }),
   ui: combineReducers({
     ...Nav.reducers,
@@ -51,7 +54,6 @@ const rootReducer = {
     ...Login.reducers
   }),
   ...User.reducers,
-  ...Transitions.reducers,
   ...RecordForms.reducers,
   ...Notifier.reducers,
   ...Application.reducers

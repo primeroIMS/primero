@@ -2202,6 +2202,9 @@ en:
     done_success_message: "Referral Done."
     agency_label: "Agency"
     location_label: "Location"
+    refer_anyway_label: "Refer anyway?"
+    provided_consent_label: "Consent is not provided in the Forms."
+    recipient_label: "Recipient"
 
   reassign:
     reassign_case_title: "Assign case(s) to:"

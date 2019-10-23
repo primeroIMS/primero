@@ -41,7 +41,7 @@ export const PERMITTED_URL = [
   "/support"
 ];
 
-const MODULES = Object.freeze({
+export const MODULES = Object.freeze({
   CP: "primeromodule-cp",
   GBV: "primeromodule-gbv"
 });

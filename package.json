@@ -30,6 +30,7 @@
     "immutable": "^4.0.0-rc.12",
     "jss": "^10.0.0",
     "jss-rtl": "^0.3.0",
+    "keyevent": "^1.1.0",
     "lodash": "^4.17.11",
     "mui-datatables": "^2.11.1",
     "normalizr": "^3.4.0",

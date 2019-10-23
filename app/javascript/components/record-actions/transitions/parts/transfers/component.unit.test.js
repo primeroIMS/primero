@@ -8,11 +8,23 @@ import {
   TextField,
   Button
 } from "@material-ui/core";
+import clone from "lodash/clone";
+import { MODULES } from "config";
 import { SearchableSelect } from "components/searchable-select";
 import TransferForm from "./component";
 
 describe("<TransferForm />", () => {
   let component;
+  const record = Map({
+    id: "03cdfdfe-a8fc-4147-b703-df976d200977",
+    case_id: "1799d556-652c-4ad9-9b4c-525d487b5e7b",
+    case_id_display: "9b4c525",
+    name_first: "Hello",
+    name_last: "World",
+    name: "Hello World",
+    module_id: MODULES.CP,
+    consent_for_services: true
+  });
   const defaultState = Map({
     application: Map({
       agencies: List([Map({ unique_id: "agency-unicef", name: "UNICEF" })])
@@ -27,12 +39,13 @@ describe("<TransferForm />", () => {
     })
   });
   const props = {
-    providedConsent: false,
+    providedConsent: true,
     isBulkTransfer: false,
     userPermissions: Map({ cases: ["manage"] }),
     handleClose: () => {},
     transitionType: "transfer",
-    record: Map({ id: "123abc" })
+    record,
+    recordType: "cases"
   };
   beforeEach(() => {
     ({ component } = setupMountedComponent(TransferForm, props, defaultState));
@@ -56,5 +69,30 @@ describe("<TransferForm />", () => {
 
   it("renders Button", () => {
     expect(component.find(Button)).to.have.length(2);
+  });
+
+  it("should accept valid props", () => {
+    const componentProps = clone(
+      component
+        .find(TransferForm)
+        .first()
+        .props()
+    );
+    expect(componentProps).to.have.property("providedConsent");
+    expect(componentProps).to.have.property("isBulkTransfer");
+    expect(componentProps).to.have.property("userPermissions");
+    expect(componentProps).to.have.property("handleClose");
+    expect(componentProps).to.have.property("transitionType");
+    expect(componentProps).to.have.property("record");
+    expect(componentProps).to.have.property("recordType");
+    delete componentProps.providedConsent;
+    delete componentProps.isBulkTransfer;
+    delete componentProps.userPermissions;
+    delete componentProps.handleClose;
+    delete componentProps.transitionType;
+    delete componentProps.record;
+    delete componentProps.recordType;
+
+    expect(componentProps).to.deep.equal({});
   });
 });
