@@ -40,7 +40,8 @@ const rootReducer = {
     ...ExportList.reducers,
     ...Support.reducers,
     ...Flagging.reducers,
-    ...SavedSearches.reducers
+    ...SavedSearches.reducers,
+    ...Transitions.reducers
   }),
   ui: combineReducers({
     ...Nav.reducers,
@@ -49,7 +50,6 @@ const rootReducer = {
     ...Login.reducers
   }),
   ...User.reducers,
-  ...Transitions.reducers,
   ...RecordForms.reducers,
   ...Notifier.reducers,
   ...Application.reducers

@@ -26,12 +26,9 @@ const FormInternal = ({ fields, disabled }) => {
     }
     const searchableValue = field => {
       const { value } = field;
-      return !disabled && value !== "" ? { label: value, value } : null;
+      const selected = f.options?.filter(option => option.value === value)[0];
+      return !disabled && value !== "" ? selected : { value: "", label: "" };
     };
-    const searchableChange = (data, field, form) => {
-      const { value } = data;
-      form.setFieldValue(field.name, value, false);
-    }
     return (
       <Field
         key={f.id}
@@ -43,19 +40,19 @@ const FormInternal = ({ fields, disabled }) => {
                 id={f.id}
                 isDisabled={disabled}
                 options={f.options}
-                value={searchableValue(field)}
-                onChange={data => searchableChange(data, field, form)}
+                value={searchableValue(field, f.reset)}
+                onChange={data => f.onChange(data, field, form)}
                 TextFieldProps={{
                   label: f.label,
                   margin: "dense",
                   placeholder: i18n.t("transfer.select_label"),
-                  value: "Hola",
                   InputLabelProps: {
                     htmlFor: f.id,
                     shrink: true
                   }
                 }}
                 {...other}
+                onBlur={field.onBlur}
               />
 
               {form && form.touched[field.name] && form.errors[field.name] && (

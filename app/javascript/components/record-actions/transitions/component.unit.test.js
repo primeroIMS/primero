@@ -2,6 +2,7 @@ import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
 import { Map, List } from "immutable";
+import { MODULES } from "config";
 import {
   TransitionDialog,
   ReferralForm,
@@ -34,7 +35,7 @@ describe("<Transitions />", () => {
     name_first: "W",
     name_last: "D",
     name: "W D",
-    module_id: "primeromodule-cp",
+    module_id: MODULES.CP,
     consent_for_services: true
   });
   describe("when transitionType is 'referral'", () => {
@@ -60,7 +61,13 @@ describe("<Transitions />", () => {
     describe("with props", () => {
       it("should check the allowed props", () => {
         const referralForm = component.find(ReferralForm);
-        const validProps = ["handleClose", "userPermissions", "providedConsent"]
+        const validProps = [
+          "handleClose",
+          "userPermissions",
+          "providedConsent",
+          "recordType",
+          "record"
+        ];
         expect(Object.keys(referralForm.props())).to.deep.equal(validProps);
       });
       it("should check the providedConsent prop", () => {
@@ -77,8 +84,15 @@ describe("<Transitions />", () => {
         const referralForm = component.find(ReferralForm);
         expect(typeof referralForm.props().handleClose).to.be.equal("function");
       });
+      it("should check the recordType prop", () => {
+        const referralForm = component.find(ReferralForm);
+        expect(referralForm.props().recordType).to.deep.equal("cases");
+      });
+      it("should check the record prop", () => {
+        const referralForm = component.find(ReferralForm);
+        expect(referralForm.props().record.toJS()).to.deep.equal(record.toJS());
+      });
     });
-
   });
 
   describe("when transitionType is 'reassign'", () => {

@@ -40,7 +40,7 @@ export const PERMITTED_URL = [
   "/logout"
 ];
 
-const MODULES = Object.freeze({
+export const MODULES = Object.freeze({
   CP: "primeromodule-cp",
   GBV: "primeromodule-gbv"
 });

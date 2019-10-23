@@ -5,6 +5,7 @@ import { Button } from "@material-ui/core";
 import { Formik, Field, Form } from "formik";
 import { SearchableSelect } from "components/searchable-select";
 import { Map, List } from "immutable";
+import * as keydown from "keyevent";
 import ReassignForm from "./reassign-form";
 import { getUsersByTransitionType } from "../selectors";
 
@@ -19,6 +20,7 @@ describe("<ReassignForm />", () => {
     })
   });
   const props = {
+    recordType: "cases",
     record,
     handleClose: () => {}
   };
@@ -49,9 +51,11 @@ describe("<ReassignForm />", () => {
   describe("with getUsersByTransitionType", () => {
     describe("when mounting component", () => {
       const state = Map({
-        transitions: Map({
-          reassign: Map({
-            users: [{ user_name: "primero" }, { user_name: "primero_cp" }]
+        records: Map({
+          transitions: Map({
+            reassign: Map({
+              users: [{ user_name: "primero" }, { user_name: "primero_cp" }]
+            })
           })
         })
       });
@@ -61,17 +65,20 @@ describe("<ReassignForm />", () => {
           ReassignForm,
           {
             record,
-            handleClose: () => {}
+            handleClose: () => {},
+            recordType: "cases"
           },
           state
         ));
       });
       it("should have same no. of users", () => {
-        const cp = component.find(ReassignForm);
-        cp.find(ReassignForm)
+        component.find(ReassignForm)
           .find("input")
           .first()
-          .simulate("keyDown", { key: "ArrowDown", keyCode: 40 });
+          .simulate("keyDown", {
+            key: "ArrowDown",
+            keyCode: keydown.DOM_VK_DOWN
+          });
         expect(
           component.find("div.MuiButtonBase-root.MuiListItem-root").length
         ).to.equal(values.length);

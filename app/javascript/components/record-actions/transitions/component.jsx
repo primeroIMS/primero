@@ -39,13 +39,15 @@ const Transitions = ({
         const referralProps = {
           handleClose,
           userPermissions,
-          providedConsent
+          providedConsent,
+          recordType,
+          record
         };
         return <ReferralForm {...referralProps} />;
       }
       case "reassign": {
         const reassignProps = {
-          recordType: "case",
+          recordType,
           record,
           handleClose
         };
@@ -61,7 +63,8 @@ const Transitions = ({
           userPermissions,
           handleClose,
           transitionType,
-          record
+          record,
+          recordType
         };
         return <TransferForm {...transferProps} />;
       }

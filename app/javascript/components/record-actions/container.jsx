@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { useI18n } from "components/i18n";
 import { getPermissionsByRecord } from "components/user/selectors";
-import { RECORD_TYPES } from "config";
 import * as Permissions from "libs/permissions";
 import Permission from "components/application/permission";
 import { Notes } from "./notes";
 import { Transitions } from "./transitions";
-import { fetchTransitionData } from "./transitions/action-creators";
 import { ToggleOpen } from "./toggle-open";
 import { ToggleEnable } from "./toggle-enable";
 
 const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const i18n = useI18n();
-  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openNotesDialog, setOpenNotesDialog] = useState(false);
@@ -35,10 +32,6 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     Permissions.ASSIGN_WITHIN_USER_GROUP,
     Permissions.ASSIGN_WITHIN_AGENCY_PERMISSIONS
   ];
-
-  useEffect(() => {
-    dispatch(fetchTransitionData(RECORD_TYPES[recordType]));
-  }, [dispatch, recordType]);
 
   const userPermissions = useSelector(state =>
     getPermissionsByRecord(state, recordType)

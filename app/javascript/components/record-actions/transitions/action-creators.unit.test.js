@@ -18,13 +18,17 @@ describe("<Transitions /> - Action Creators", () => {
     expect(creators).to.have.property("saveAssignedUser");
     expect(creators).to.have.property("saveTransferUser");
     expect(creators).to.have.property("fetchTransferUsers");
-    expect(creators).to.have.property("fetchTransitionData");
+    expect(creators).to.not.have.property("fetchTransitionData");
+    expect(creators).to.have.property("fetchReferralUsers");
+    expect(creators).to.have.property("saveReferral");
     delete creators.fetchAssignUsers;
     delete creators.removeFormErrors;
     delete creators.saveAssignedUser;
     delete creators.saveTransferUser;
     delete creators.fetchTransferUsers;
     delete creators.fetchTransitionData;
+    delete creators.fetchReferralUsers;
+    delete creators.saveReferral;
 
     expect(creators).to.deep.equal({});
   });
@@ -125,19 +129,55 @@ describe("<Transitions /> - Action Creators", () => {
   });
 
   it("should check the 'fetchTransitionData' action creator to return the correct object", () => {
-    const transitionType = "transfer";
+    // const transitionType = "transfer";
+    // const fetchAssignUsers = sinon.spy();
+    // const fetchTransferUsers = sinon.spy();
+
+    // const result = actionCreators.fetchTransitionData(transitionType)(
+    //   fetchAssignUsers(transitionType),
+    //   fetchTransferUsers(transitionType)
+    // );
+
+    // expect(fetchAssignUsers.getCall(0).args[0]).to.equal("transfer");
+    // expect(fetchTransferUsers).to.have.been.called;
+    // expect(fetchTransferUsers.getCall(0).args[0]).to.equal("transfer");
+    expect(actionCreators).to.not.have.property("fetchTransitionData");
+  });
+
+  it("should check the 'fetchReferralUsers' action creator to return the correct object", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
-    const fetchAssignUsers = sinon.spy();
-    const fetchTransferUsers = sinon.spy();
 
-    actionCreators.fetchTransitionData(transitionType)(
-      fetchAssignUsers(transitionType),
-      fetchTransferUsers(transitionType)
+    actionCreators.fetchReferralUsers()(dispatch);
+
+    expect(dispatch.getCall(0).returnValue.type).to.equal(
+      actions.REFERRAL_USERS_FETCH
     );
-    expect(fetchAssignUsers).to.have.been.called;
-    expect(fetchAssignUsers.getCall(0).args[0]).to.equal("transfer");
-    expect(fetchTransferUsers).to.have.been.called;
-    expect(fetchTransferUsers.getCall(0).args[0]).to.equal("transfer");
+    expect(dispatch.getCall(0).returnValue.api.path).to.equal("users/refer-to");
+  });
+
+  it("should check the 'saveReferral' action creator to return the correct object", () => {
+    const body = {
+      data: {
+        trasitioned_to: "primero_cp",
+        notes: "Some referral notes"
+      }
+    };
+    const store = configureStore()({});
+    const dispatch = sinon.spy(store, "dispatch");
+
+    actionCreators.saveReferral("123abc", body, "Success Message")(dispatch);
+
+    const firstCall = dispatch.getCall(0).returnValue;
+    expect(firstCall.type).to.equal(actions.REFER_USER);
+    expect(firstCall.api.path).to.equal("cases/123abc/referrals");
+    expect(firstCall.api.method).to.equal("POST");
+    expect(firstCall.api.body).to.equal(body);
+    expect(firstCall.api.successCallback.action).to.equal(
+      "notifications/ENQUEUE_SNACKBAR"
+    );
+    expect(firstCall.api.successCallback.payload.message).to.equal(
+      "Success Message"
+    );
   });
 });

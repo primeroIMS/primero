@@ -17,7 +17,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("RECORD_PATH");
     expect(constants).to.have.property("PERMISSIONS");
     expect(constants).to.not.have.property("CONSENT_GIVEN_FIELD");
-    expect(constants).to.not.have.property("MODULES");
+    expect(constants).to.have.property("MODULES");
     expect(constants).to.have.property("CONSENT_GIVEN_FIELD_BY_MODULE");
     expect(constants).to.have.property("MODULE_TYPE_FIELD");
 
@@ -34,6 +34,7 @@ describe("Verifying config constant", () => {
     delete constants.PERMISSIONS;
     delete constants.CONSENT_GIVEN_FIELD_BY_MODULE;
     delete constants.MODULE_TYPE_FIELD;
+    delete constants.MODULES;
 
     expect(constants).to.deep.equal({});
   });
@@ -65,7 +66,7 @@ describe("Verifying config constant", () => {
       "/dashboard",
       "/logout"
     ]);
-    expect(constants.MODULES).to.not.deep.equal({
+    expect(constants.MODULES).to.deep.equal({
       CP: "primeromodule-cp",
       GBV: "primeromodule-gbv"
     });

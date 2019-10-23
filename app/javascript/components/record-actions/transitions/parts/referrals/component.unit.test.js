@@ -2,7 +2,7 @@ import "test/test.setup";
 import { expect } from "chai";
 import clone from "lodash/clone";
 import { setupMountedComponent } from "test";
-import { Map } from "immutable";
+import { Map, List } from "immutable";
 import { Formik } from "formik";
 import { Button, FormControlLabel } from "@material-ui/core";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
@@ -14,14 +14,41 @@ import ReferralForm from "./component";
 describe("<ReferralForm />", () => {
   let component;
   const initialState = Map({
-    transitions: Map({
-      mockUsers: users
+    records: Map({
+      transitions: Map({
+        mockUsers: users
+      })
+    }),
+    application: Map({
+      agencies: List([{ unique_id: "agency-unicef", name: "UNICEF" }])
+    }),
+    forms: Map({
+      options: List([
+        {
+          type: "lookup-service-type",
+          options: [{ id: "health", display_text: "Health" }]
+        },
+        {
+          type: "reporting_location",
+          options: [{ id: "location_a", display_text: "Location A" }]
+        }
+      ])
     })
+  });
+  const record = Map({
+    id: "03cdfdfe-a8fc-4147-b703-df976d200977",
+    case_id: "1799d556-652c-4ad9-9b4c-525d487b5e7b",
+    case_id_display: "9b4c525",
+    name_first: "W",
+    name_last: "D",
+    name: "W D"
   });
   const props = {
     handleClose: () => {},
     userPermissions: Map({}),
-    providedConsent: false
+    providedConsent: false,
+    recordType: "cases",
+    record
   };
   beforeEach(() => {
     ({ component } = setupMountedComponent(ReferralForm, props, initialState));
@@ -61,9 +88,13 @@ describe("<ReferralForm />", () => {
     expect(componentProps).to.have.property("handleClose");
     expect(componentProps).to.have.property("userPermissions");
     expect(componentProps).to.have.property("providedConsent");
+    expect(componentProps).to.have.property("recordType");
+    expect(componentProps).to.have.property("record");
     delete componentProps.handleClose;
     delete componentProps.userPermissions;
     delete componentProps.providedConsent;
+    delete componentProps.recordType;
+    delete componentProps.record;
 
     expect(componentProps).to.deep.equal({});
   });

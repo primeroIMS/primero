@@ -9,8 +9,9 @@ import { Checkbox as MuiCheckbox } from "formik-material-ui";
 import { enqueueSnackbar } from "components/notifier";
 import { selectAgencies } from "components/application/selectors";
 import { getOption } from "components/record-form/selectors";
+import { RECORD_TYPES } from "config";
 import BulkTransfer from "./bulk-transfer";
-import { internalFieldsDirty } from "../helpers";
+import { internalFieldsDirty, getInternalFields } from "../helpers";
 import TransferInternal from "./transfer-internal";
 import {
   getUsersByTransitionType,
@@ -18,7 +19,7 @@ import {
 } from "../../selectors";
 import ProvidedConsent from "./provided-consent";
 import TransferActions from "./transfer-actions";
-import { saveTransferUser } from "../../action-creators";
+import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
 
 const TransferForm = ({
   providedConsent,
@@ -26,7 +27,8 @@ const TransferForm = ({
   userPermissions,
   handleClose,
   transitionType,
-  record
+  record,
+  recordType
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -37,6 +39,10 @@ const TransferForm = ({
   const closeModal = () => {
     handleClose();
   };
+
+  useEffect(() => {
+    dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType] }));
+  }, []);
 
   const users = useSelector(state =>
     getUsersByTransitionType(state, transitionType)
@@ -75,6 +81,22 @@ const TransferForm = ({
     }
   }, [hasErrors]);
 
+  const sharedOnChange = (data, field, form, queryValues) => {
+    const { value } = data;
+    form.setFieldValue(field.name, value, false);
+    if (queryValues) {
+      const result = getInternalFields(form.values, queryValues);
+      const params = {
+        record_type: RECORD_TYPES[recordType],
+        [field.name]: value,
+        ...result
+      };
+      if (value !== form.values[field.name]) {
+        dispatch(fetchTransferUsers(params));
+      }
+    }
+  };
+
   const internalFields = [
     {
       id: "agency",
@@ -84,7 +106,10 @@ const TransferForm = ({
             value: agency.unique_id,
             label: agency.name
           }))
-        : null
+        : [],
+      onChange: (data, field, form) => {
+        sharedOnChange(data, field, form, ["location"]);
+      }
     },
     {
       id: "location",
@@ -94,7 +119,10 @@ const TransferForm = ({
             value: location.id,
             label: location.display_text
           }))
-        : null
+        : [],
+      onChange: (data, field, form) => {
+        sharedOnChange(data, field, form, ["agency"]);
+      }
     },
     {
       id: "transitioned_to",
@@ -104,7 +132,10 @@ const TransferForm = ({
             value: user.user_name.toLowerCase(),
             label: user.user_name
           }))
-        : null
+        : [],
+      onChange: (data, field, form) => {
+        sharedOnChange(data, field, form);
+      }
     },
     {
       id: "notes",
@@ -155,6 +186,7 @@ const TransferForm = ({
     ) {
       resetForm();
     }
+
     return (
       <Form onSubmit={handleSubmit}>
         <ProvidedConsent {...providedConsentProps} />
@@ -185,7 +217,12 @@ const TransferForm = ({
       dispatch(
         saveTransferUser(
           record.get("id"),
-          { data: { ...values, consent_overridden: canConsentOverride } },
+          {
+            data: {
+              ...values,
+              consent_overridden: canConsentOverride || values.transfer
+            }
+          },
           i18n.t("transfer.success")
         )
       );
@@ -206,7 +243,8 @@ TransferForm.propTypes = {
   record: PropTypes.object,
   values: PropTypes.object,
   handleSubmit: PropTypes.func,
-  resetForm: PropTypes.func
+  resetForm: PropTypes.func,
+  recordType: PropTypes.string.isRequired
 };
 
 export default TransferForm;

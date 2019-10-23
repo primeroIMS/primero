@@ -1,5 +1,4 @@
 import { ENQUEUE_SNACKBAR } from "components/notifier";
-import { batch } from "react-redux";
 import * as actions from "./actions";
 
 export const fetchAssignUsers = recordType => async dispatch => {
@@ -14,22 +13,23 @@ export const fetchAssignUsers = recordType => async dispatch => {
   });
 };
 
-export const fetchTransferUsers = recordType => async dispatch => {
+export const fetchTransferUsers = params => async dispatch => {
   dispatch({
     type: actions.TRANSFER_USERS_FETCH,
     api: {
       path: "users/transfer-to",
-      params: {
-        record_type: recordType
-      }
+      params
     }
   });
 };
 
-export const fetchTransitionData = recordType => async dispatch => {
-  batch(() => {
-    dispatch(fetchAssignUsers(recordType));
-    dispatch(fetchTransferUsers(recordType));
+export const fetchReferralUsers = params => async dispatch => {
+  dispatch({
+    type: actions.REFERRAL_USERS_FETCH,
+    api: {
+      path: "users/refer-to",
+      params
+    }
   });
 };
 
@@ -66,6 +66,27 @@ export const saveTransferUser = (recordId, body, message) => dispatch => {
     type: actions.TRANSFER_USER,
     api: {
       path: `cases/${recordId}/transfers`,
+      method: "POST",
+      body,
+      successCallback: {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          message,
+          options: {
+            variant: "success",
+            key: new Date().getTime() + Math.random()
+          }
+        }
+      }
+    }
+  });
+};
+
+export const saveReferral = (recordId, body, message) => dispatch => {
+  dispatch({
+    type: actions.REFER_USER,
+    api: {
+      path: `cases/${recordId}/referrals`,
       method: "POST",
       body,
       successCallback: {
