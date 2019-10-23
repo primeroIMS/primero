@@ -39,7 +39,7 @@ def main():
 
 
 def parse_args():
-    global CLEAN, INDETERMINATE, PARTIAL, QUIET, USED
+    global CLEAN, INDETERMINATE, PARTIAL, QUIET, USED, UNDEFINED
 
     parser = argparse.ArgumentParser()
 
@@ -73,12 +73,20 @@ def parse_args():
         action="store_true",
     )
 
+    group.add_argument(
+        "-u",
+        "--undefined",
+        help="show a sorted list of keys that are used but not defined",
+        action="store_true",
+    )
+
     args = parser.parse_args()
 
     CLEAN = args.clean
     INDETERMINATE = args.indeterminate
     PARTIAL = args.partial
-    USED = not (CLEAN or INDETERMINATE or PARTIAL)
+    UNDEFINED = args.undefined
+    USED = not (CLEAN or INDETERMINATE or PARTIAL or UNDEFINED)
     QUIET = args.quiet
 
 
