@@ -138,7 +138,7 @@ def get_key_set(grep_output):
         r = r.partition(")")[0]
 
         if not r.startswith(("'", "`", '"')):
-            echoerr("indeterminate:" + f + ":" + l + ":" + r)
+            echoerr(f + ":" + l + ":" + r)
             continue
 
         quote = r[0]
@@ -146,21 +146,19 @@ def get_key_set(grep_output):
         r = r.partition(quote)[0]
 
         key = ""
-        msg = "indeterminate"
         for k in r.split("."):
 
             if not KEY_PATTERN.match(k):
-                echoerr(msg + ":" + f + ":" + l + ":" + r)
+                echoerr(f + ":" + l + ":" + r)
                 break
 
             key += ("." + k) if len(key) > 0 else k
-            msg = "partial"
 
         if len(key) > 0:
             key_set.add(key)
 
     for k in sorted(key_set):
-        print(k)
+        echo(k)
 
     return key_set
 
@@ -214,7 +212,7 @@ def write_yaml(key_list):
         for i, subkey in enumerate(key.split(".")):
 
             if subkey not in src:
-                echoerr("undefined:" + key)
+                echoerr(key)
                 break
 
             if i == (len(key.split(".")) - 1):
