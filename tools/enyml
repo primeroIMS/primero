@@ -266,6 +266,11 @@ def prune_empty(dictionary):
 
 
 def echoerr(msg):
+    global QUIET
+
+    if QUIET:
+        return
+
     print(PROGRAM_NAME + ":" + msg, file=sys.stderr)
 
 
