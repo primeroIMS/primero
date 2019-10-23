@@ -32,7 +32,7 @@ def main():
 
     key_list = scan_project()
 
-    if not CLEAN:
+    if not CLEAN and not UNDEFINED:
         sys.exit(0)
 
     write_yaml(key_list)
@@ -269,8 +269,8 @@ def write_yaml(key_list):
 
         for i, subkey in enumerate(key.split(".")):
 
-            if subkey not in src:
-                echoerr(key)
+            if subkey not in src and UNDEFINED:
+                echo(key)
                 break
 
             if i == (len(key.split(".")) - 1):
@@ -287,6 +287,9 @@ def write_yaml(key_list):
                 continue
 
             dest[subkey] = src[subkey]
+
+    if UNDEFINED:
+        return
 
     tmp = dict()
     tmp["en"] = result
