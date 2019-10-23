@@ -45,6 +45,7 @@ def parse_args():
         description="""
         Tool to aid in the maintenance of i18n translation keys.  Default
         behavior is to print a list of keys known to be used in the project.
+        Uses "en.yml" as the reference translation file for all operations.
         """,
         epilog="depends: PyYAML, yamllint",
     )
