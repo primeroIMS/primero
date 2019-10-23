@@ -61,9 +61,13 @@ const TransferDetails = ({ transition, classes }) => {
           <div className={classes.transtionIconValue}>
             <FormControlLabel
               control={renderIconValue(transition.consent_overridden)}
-              label={i18n.t(
-                `transition.consent_overridden_value.${transition.consent_overridden}_label`
-              )}
+              label={
+                <div className={classes.transtionValue}>
+                  {i18n.t(
+                    `transition.consent_overridden_value.${transition.consent_overridden}_label`
+                  )}
+                </div>
+              }
             />
           </div>
         </Box>
@@ -76,9 +80,13 @@ const TransferDetails = ({ transition, classes }) => {
           <div className={classes.transtionIconValue}>
             <FormControlLabel
               control={renderIconValue(transition.consent_individual_transfer)}
-              label={i18n.t(
-                `transition.consent_individual_transfer_value.${transition.consent_individual_transfer}_label`
-              )}
+              label={
+                <div className={classes.transtionValue}>
+                  {i18n.t(
+                    `transition.consent_individual_transfer_value.${transition.consent_individual_transfer}_label`
+                  )}
+                </div>
+              }
             />
           </div>
         </Box>

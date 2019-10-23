@@ -48,11 +48,14 @@ const Transitions = ({ recordType, record }) => {
 
   return (
     <div>
-      <h1 className={css.pageTitle}>{i18n.t("transfer_assignment.title")}</h1>
+      <div className={css.formTitle}>
+        <h1 className={css.pageTitle}>{i18n.t("transfer_assignment.title")}</h1>
+      </div>
+
       {dataTransitions &&
         dataTransitions.map(transition => {
           return (
-            <div>
+            <div key={transition.id}>
               <TransitionPanel key={transition.id} name={transition.id}>
                 <ExpansionPanelSummary
                   expandIcon={<ArrowIcon />}
