@@ -22,7 +22,6 @@ YAML_PATH = os.path.join(PROJECT_ROOT, "config/locales/en.yml")
 def main():
     parse_args()
 
-    # Note: Fail fast if YAML structure or keys are bad.
     validate_yaml_structure()
     validate_yaml_keys()
 
