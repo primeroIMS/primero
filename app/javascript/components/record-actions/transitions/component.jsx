@@ -54,7 +54,6 @@ const Transitions = ({
         return <ReassignForm {...reassignProps} />;
       }
       case "transfer": {
-        // TODO: providedConsent should set once user it's been fetched
         // TODO: isBulkTransfer should be dynamic once record-actions
         // it's been implemented on <RecordList />
         const transferProps = {

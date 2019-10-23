@@ -120,7 +120,6 @@ describe("<Transitions />", () => {
     const props = {
       recordType: "cases",
       transitionType: "transfer",
-      setTransitionType: () => {},
       record,
       userPermissions: Map({ cases: ["manage"] })
     };
@@ -135,6 +134,46 @@ describe("<Transitions />", () => {
     it("renders TransferForm", () => {
       expect(component.find(TransferForm)).to.have.length(1);
     });
+    describe("with props", () => {
+      let transferForm;
+      beforeEach(() => {
+        transferForm = component.find(TransferForm);
+      });
+      it("should check the allowed props", () => {
+        const validProps = [
+          "providedConsent",
+          "isBulkTransfer",
+          "userPermissions",
+          "handleClose",
+          "transitionType",
+          "record",
+          "recordType"
+        ];
+        expect(Object.keys(transferForm.props())).to.deep.equal(validProps);
+      });
+      it("should check the providedConsent prop", () => {
+        expect(transferForm.props().providedConsent).to.equal(true);
+      });
+      it("should check the isBulkTransfer prop", () => {
+        expect(transferForm.props().isBulkTransfer).to.equal(false);
+      });
+      it("should check the userPermissions prop", () => {
+        expect(transferForm.props().userPermissions.toJS()).to.deep.equal({
+          cases: ["manage"]
+        });
+      });
+      it("should check the handleClose prop", () => {
+        expect(typeof transferForm.props().handleClose).to.be.equal("function");
+      });
+      it("should check the transitionType prop", () => {
+        expect(transferForm.props().transitionType).to.deep.equal("transfer");
+      });
+      it("should check the record prop", () => {
+        expect(transferForm.props().record.toJS()).to.deep.equal(record.toJS());
+      });
+      it("should check the recordType prop", () => {
+        expect(transferForm.props().recordType).to.deep.equal("cases");
+      });
+    });
   });
-
 });

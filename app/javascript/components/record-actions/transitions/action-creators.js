@@ -1,5 +1,5 @@
 import { ENQUEUE_SNACKBAR } from "components/notifier";
-import * as actions from "./actions";
+import actions from "./actions";
 
 export const fetchAssignUsers = recordType => async dispatch => {
   dispatch({

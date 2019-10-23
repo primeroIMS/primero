@@ -1,6 +1,5 @@
 import { Map } from "immutable";
-import * as Actions from "./actions";
-import NAMESPACE from "./namespace";
+import Actions from "./actions";
 import * as R from "./records";
 
 const DEFAULT_STATE = Map({ data: [] });
@@ -59,4 +58,4 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   }
 };
 
-export const reducers = { [NAMESPACE]: reducer };
+export const reducers = reducer;

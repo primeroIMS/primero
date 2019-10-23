@@ -5,7 +5,7 @@ import sinon from "sinon";
 import sinonChai from "sinon-chai";
 import configureStore from "redux-mock-store";
 import * as actionCreators from "./action-creators";
-import * as actions from "./actions";
+import actions from "./actions";
 
 chai.use(sinonChai);
 
@@ -128,7 +128,7 @@ describe("<Transitions /> - Action Creators", () => {
     );
   });
 
-  it("should check the 'fetchTransitionData' action creator to return the correct object", () => {
+  it("deprecated 'fetchTransitionData' action creator", () => {
     // const transitionType = "transfer";
     // const fetchAssignUsers = sinon.spy();
     // const fetchTransferUsers = sinon.spy();
