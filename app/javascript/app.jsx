@@ -88,7 +88,6 @@ const App = () => {
   });
 
   store.dispatch(checkUserAuthentication());
-  store.dispatch(loadApplicationResources());
 
   return (
     <StylesProvider jss={jss} generateClassName={generateClassName}>

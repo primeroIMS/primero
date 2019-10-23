@@ -110,6 +110,10 @@ const RecordForm = ({
     return yup.object().shape(schema);
   };
 
+  useEffect(() => {
+    document.getElementsByClassName("record-form-container")[0].scrollTop = 0;
+  }, [selectedForm]);
+
   const renderFormSections = fs =>
     fs.map(form => {
       if (selectedForm === form.unique_id) {

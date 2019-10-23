@@ -1,5 +1,6 @@
 import { DB } from "config";
 import { Actions } from "./actions";
+import { loadApplicationResources } from "../application";
 
 export const setUser = payload => {
   return {
@@ -26,6 +27,7 @@ export const fetchAuthenticatedUserData = id => async dispatch => {
 export const setAuthenticatedUser = user => async dispatch => {
   dispatch(setUser(user));
   dispatch(fetchAuthenticatedUserData(user.id));
+  dispatch(loadApplicationResources());
 };
 
 export const attemptSignout = () => async dispatch => {

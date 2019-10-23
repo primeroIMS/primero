@@ -162,7 +162,7 @@ const RecordForms = ({ match, mode }) => {
           <div className={css.recordNav}>
             <Nav {...navProps} />
           </div>
-          <div className={css.recordForms}>
+          <div className={`${css.recordForms} record-form-container`}>
             {isTransition ? (
               <Transitions recordType={params.recordType} record={params.id} />
             ) : (
