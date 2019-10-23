@@ -245,5 +245,17 @@ def prune_empty(dictionary):
             prune_empty(v)
 
 
+def echo(msg):
+    print(PROGRAM_NAME + ": " + msg)
+
+
+def echo_error(msg):
+    print(PROGRAM_NAME + ": error: " + msg, file=sys.stderr)
+
+
+def echo_warning(msg):
+    print(PROGRAM_NAME + ": warning: " + msg, file=sys.stderr)
+
+
 if __name__ == "__main__":
     main()
