@@ -42,7 +42,10 @@ def parse_args():
     global CLEAN, INDETERMINATE, PARTIAL, QUIET, USED, UNDEFINED
 
     parser = argparse.ArgumentParser(
-        description="Tool to aid in the maintenance of i18n translation keys.",
+        description="""
+        Tool to aid in the maintenance of i18n translation keys.  Default
+        behavior is to print a list of keys known to be used in the project.
+        """,
         epilog="depends: PyYAML, yamllint",
     )
 
