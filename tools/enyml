@@ -88,10 +88,19 @@ def validate_yaml_dict_keys(yaml_dict):
     """
 
     for key, value in yaml_dict.items():
-        assert isinstance(key, str), '"{}" is not a string'.format(str(key))
-        assert KEY_PATTERN.match(key), '"{}" does not match KEY_PATTERN'.format(
-            str(key)
-        )
+        if not isinstance(key, str):
+            echoerr(
+                PROGRAM_NAME
+                + ': validation error: "{}" is not parsed as a string'.format(str(key))
+            )
+            sys.exit(1)
+
+        if not KEY_PATTERN.match(key):
+            echoerr(
+                PROGRAM_NAME
+                + ': validation error: "{}" does not match KEY_PATTERN'.format(str(key))
+            )
+            sys.exit(1)
 
         if isinstance(value, dict):
             validate_yaml_dict_keys(value)
