@@ -41,7 +41,10 @@ def main():
 def parse_args():
     global CLEAN, INDETERMINATE, PARTIAL, QUIET, USED, UNDEFINED
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        description="Tool to aid in the maintenance of i18n translation keys.",
+        epilog="depends: PyYAML, yamllint",
+    )
 
     group = parser.add_mutually_exclusive_group()
 
