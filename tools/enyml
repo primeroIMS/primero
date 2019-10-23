@@ -265,6 +265,15 @@ def prune_empty(dictionary):
             prune_empty(v)
 
 
+def echo(msg):
+    global QUIET
+
+    if QUIET:
+        return
+
+    print(PROGRAM_NAME + ":" + msg)
+
+
 def echoerr(msg):
     global QUIET
 
