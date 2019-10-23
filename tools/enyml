@@ -261,6 +261,7 @@ def write_yaml(key_list):
 
     yaml_dict = yaml_dict["en"]
     result = dict()
+    undefined = []
 
     for key in key_list:
 
@@ -271,7 +272,7 @@ def write_yaml(key_list):
 
             if subkey not in src:
                 if UNDEFINED:
-                    echo(key)
+                    undefined.append(key)
                 break
 
             if i == (len(key.split(".")) - 1):
@@ -290,6 +291,8 @@ def write_yaml(key_list):
             dest[subkey] = src[subkey]
 
     if UNDEFINED:
+        for k in sorted(undefined):
+            print(k)
         return
 
     tmp = dict()
