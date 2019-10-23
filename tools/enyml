@@ -120,7 +120,7 @@ def get_key_set(grep_output):
         r = r.partition(")")[0]
 
         if not r.startswith(("'", "`", '"')):
-            echoerr(f + ":" + l + ":" + r)
+            echoerr("indeterminate key: " + f + ":" + l + ":" + r)
             continue
 
         quote = r[0]
@@ -245,12 +245,8 @@ def prune_empty(dictionary):
             prune_empty(v)
 
 
-def echo(msg):
-    print(PROGRAM_NAME + ": " + msg)
-
-
 def echoerr(msg):
-    print(PROGRAM_NAME + ": err: " + msg, file=sys.stderr)
+    print(PROGRAM_NAME + ":" + msg, file=sys.stderr)
 
 
 if __name__ == "__main__":
