@@ -1210,6 +1210,8 @@ en:
       reportable_service: "Service"
       reportable_follow_up: "Follow Up"
       reportable_protection_concern: "Protection Concern"
+      record_information: "Record Information"
+      transfers_assignments: "Transfers / Assignments"
 
   form_section:
     name: "Name"

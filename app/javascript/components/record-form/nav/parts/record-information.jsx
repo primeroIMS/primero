@@ -1,4 +1,5 @@
 import React from "react";
+import { useI18n } from "components/i18n";
 import { List } from "immutable";
 import PropTypes from "prop-types";
 import { RECORD_OWNER, TRANSFERS_ASSIGNMENTS } from "config";
@@ -6,12 +7,13 @@ import NavGroup from "../NavGroup";
 import { NavRecord } from "../../records";
 
 const RecordInformation = ({ open, handleClick }) => {
+  const i18n = useI18n();
   const recordInformationForms = List([
     NavRecord({
       group: "record_information",
-      groupName: "Record Information",
+      groupName: i18n.t("forms.record_types.record_information"),
       groupOrder: 0,
-      name: "Record Information",
+      name: i18n.t("forms.record_types.record_information"),
       order: 0,
       formId: RECORD_OWNER,
       is_first_tab: true
@@ -19,9 +21,9 @@ const RecordInformation = ({ open, handleClick }) => {
     // TODO: When transfer_request be implement change the transition_ype
     NavRecord({
       group: "record_information",
-      groupName: "Record Information",
+      groupName: i18n.t("forms.record_types.record_information"),
       groupOrder: 0,
-      name: "Transfers / Assignments",
+      name: i18n.t("forms.record_types.transfers_assignments"),
       order: 2,
       formId: TRANSFERS_ASSIGNMENTS,
       is_first_tab: false
