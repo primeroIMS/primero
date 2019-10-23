@@ -141,7 +141,7 @@ def get_key_set(grep_output):
         if len(key) > 0:
             key_set.add(key)
 
-    for k in key_set:
+    for k in sorted(key_set):
         print(k)
 
     return key_set
