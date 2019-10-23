@@ -20,10 +20,15 @@ YAML_PATH = os.path.join(PROJECT_ROOT, "config/locales/en.yml")
 
 
 def main():
+    global QUIET
+
     parse_args()
 
     validate_yaml_structure()
     validate_yaml_keys()
+
+    if QUIET:
+        sys.exit(0)
 
     key_list = scan_project()
 
