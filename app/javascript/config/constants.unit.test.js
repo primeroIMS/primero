@@ -60,10 +60,11 @@ describe("Verifying config constant", () => {
     });
     expect(constants.AGE_MAX).equal(999);
     expect(constants.PERMITTED_URL).to.deep.equal([
-      "/login",
-      "/not-authorized",
       "/dashboard",
-      "/logout"
+      "/login",
+      "/logout",
+      "/not-authorized",
+      "/support"
     ]);
     expect(constants.MODULES).to.not.deep.equal({
       CP: "primeromodule-cp",

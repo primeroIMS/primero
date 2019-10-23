@@ -26,3 +26,14 @@
   padding-top: 0;
   margin-left: 0;
 }
+
+.loadingIndicator {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  position: fixed;
+  height: 80%;
+  align-items: center;
+  left: 45%;
+  top: 10%;
+}

@@ -1,39 +1,94 @@
 import { expect } from "chai";
 import "test/test.setup";
-import { Map } from "immutable";
-import { Nav } from "components/nav";
 import { setupMountedComponent } from "test";
 import { routes } from "config";
+import { fromJS } from "immutable";
+import { Nav } from "components/nav";
+import { CircularProgress } from "@material-ui/core";
 import AppLayout from "./AppLayout";
 
 describe("<AppLayout />", () => {
   let component;
 
-  before(() => {
-    const state = Map({
-      ui: Map({
-        Nav: Map({
-          drawerOpen: true
-        })
-      }),
-      user: Map({
-        module: "primero",
-        agency: "unicef",
-        isAuthenticated: true,
-        messages: null
-      })
+  describe("if hasUserPermissions is true", () => {
+    beforeEach(() => {
+      const state = fromJS({
+        ui: {
+          Nav: {
+            drawerOpen: true
+          }
+        },
+        user: {
+          modules: "primero",
+          agency: "unicef",
+          isAuthenticated: true,
+          messages: null,
+          permissions: {
+            incidents: ["manage"],
+            tracing_requests: ["manage"],
+            cases: ["manage"]
+          }
+        },
+        application: {
+          baseLanguage: "en",
+          modules: [
+            {
+              unique_id: "primeromodule-cp",
+              name: "CP",
+              associated_record_types: ["case"]
+            }
+          ]
+        }
+      });
+      component = setupMountedComponent(
+        AppLayout,
+        { route: routes[0] },
+        state,
+        ["/cases"]
+      ).component;
     });
-    component = setupMountedComponent(AppLayout, { route: routes[1] }, state)
-      .component;
+
+    it("renders navigation", () => {
+      expect(component.find(Nav)).to.have.length(1);
+    });
+
+    // TODO: Need to figure out how to better test
+    it("navigates to incidents list", () => {
+      component.find('a[href="/incidents"]').simulate("click", { button: 0 });
+      expect(
+        component.find('a[href="/incidents"]').hasClass("active")
+      ).to.equal(true);
+    });
   });
 
-  it("renders navigation", () => {
-    expect(component.find(Nav)).to.have.length(1);
-  });
+  describe("if hasUserPermissions is false", () => {
+    beforeEach(() => {
+      const state = fromJS({
+        ui: {
+          Nav: {
+            drawerOpen: true
+          }
+        },
+        user: {
+          module: "primero",
+          agency: "unicef",
+          isAuthenticated: true,
+          messages: null
+        },
+        application: {
+          baseLanguage: "en"
+        }
+      });
+      component = setupMountedComponent(
+        AppLayout,
+        { route: routes[0] },
+        state,
+        ["/cases"]
+      ).component;
+    });
 
-  // TODO: Need to figure out how to better test
-  it("navigates to incidents list", () => {
-    component.find('a[href="/incidents"]').simulate("click", { button: 0 });
-    expect(component.find('a[href="/incidents"]').hasClass('active')).to.equal(true);
+    it("renders CircularProgress", () => {
+      expect(component.find(CircularProgress)).to.have.length(1);
+    });
   });
 });

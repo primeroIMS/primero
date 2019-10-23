@@ -143,7 +143,13 @@ class User < ApplicationRecord
       users = users_with_permission(model, permission)
               .where(disabled: false)
               .where.not(id: user.id)
-      users = users.where(filters) if filters.present?
+      if filters.present?
+        services_filter = filters.delete('services')
+        users = users.where(filters) if filters.present?
+        if services_filter.present?
+          users = users.where(':service = ANY (services)', service: services_filter)
+        end
+      end
       users
     end
 
@@ -226,6 +232,10 @@ class User < ApplicationRecord
   def has_any_permission?(*any_of_permissions)
     (any_of_permissions.flatten - role.permissions).count <
       any_of_permissions.flatten.count
+  end
+
+  def can_preview?(record_type)
+    has_permission_by_permission_type?(record_type.parent_form, Permission::DISPLAY_VIEW_PAGE)
   end
 
   #TODO: May deprecate this method in favor of record_query_scope

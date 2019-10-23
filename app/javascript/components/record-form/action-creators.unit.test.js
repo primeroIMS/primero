@@ -37,7 +37,6 @@ describe("<RecordForm /> - Action Creators", () => {
   it("should check the 'fetchForms' action creator to return the correct object", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
-
     actionCreators.fetchForms()(dispatch);
 
     expect(dispatch.getCall(0).returnValue.type).to.eql("forms/RECORD_FORMS");
@@ -50,7 +49,6 @@ describe("<RecordForm /> - Action Creators", () => {
   it("should check the 'fetchOptions' action creator to return the correct object", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
-
     actionCreators.fetchOptions()(dispatch);
 
     expect(dispatch.getCall(0).returnValue.type).to.eql("forms/SET_OPTIONS");

@@ -81,7 +81,7 @@ class Child < ApplicationRecord
   def self.summary_field_names
     %w[ case_id_display name survivor_code_no age sex registration_date created_at
         owned_by owned_by_agency_id photos flag_count hidden_name workflow
-        status case_status_reopened ]
+        status case_status_reopened record_in_scope]
   end
 
   searchable auto_index: self.auto_index? do
@@ -99,7 +99,7 @@ class Child < ApplicationRecord
 
     string :status, as: 'status_sci'
     string :risk_level, as: 'risk_level_sci' do
-      self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
+      risk_level.present? ? risk_level : RISK_LEVEL_NONE
     end
 
     date :assessment_due_dates, multiple: true do
@@ -136,7 +136,7 @@ class Child < ApplicationRecord
   end
 
   def family_detail_values(field)
-    self.data['family_details_section'].map { |fds| fds[field] }.compact.uniq.join(' ') if self.data['family_details_section'].present?
+    data['family_details_section'].map { |fds| fds[field] }.compact.uniq.join(' ') if self.data['family_details_section'].present?
   end
 
   def self.report_filters
