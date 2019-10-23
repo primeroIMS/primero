@@ -1,5 +1,5 @@
 import chai, { expect } from "chai";
-import { Map, List, fromJS } from "immutable";
+import { Map, fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
 import * as r from "./reducers";
 import actions from "./actions";
