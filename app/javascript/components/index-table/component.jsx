@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { dataToJS } from "libs";
 import { useSelector, useDispatch } from "react-redux";
+import { getPermissionsByRecord } from "components/user/selectors";
 import { LoadingIndicator } from "components/loading-indicator";
 import { push } from "connected-react-router";
 import {
@@ -19,7 +20,8 @@ const IndexTable = ({
   onTableChange,
   defaultFilters,
   options: tableOptionsProps,
-  targetRecordType
+  targetRecordType,
+  onRowClick
 }) => {
   const dispatch = useDispatch();
   const data = useSelector(state => selectRecords(state, recordType));
@@ -118,7 +120,11 @@ const IndexTable = ({
       rowsPerPageOptions: [20, 50, 75, 100],
       page: page - 1,
       onRowClick: (rowData, rowMeta) => {
-        dispatch(push(`${url}/${records.getIn([rowMeta.dataIndex, "id"])}`));
+        if (onRowClick) {
+          onRowClick(records.get(rowMeta.dataIndex));
+        } else {
+          dispatch(push(`${url}/${records.getIn([rowMeta.dataIndex, "id"])}`));
+        }
       }
     },
     tableOptionsProps
@@ -153,7 +159,8 @@ IndexTable.propTypes = {
   defaultFilters: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   options: PropTypes.object,
-  targetRecordType: PropTypes.string
+  targetRecordType: PropTypes.string,
+  onRowClick: PropTypes.func
 };
 
 export default IndexTable;

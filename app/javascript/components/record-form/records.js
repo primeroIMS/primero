@@ -18,7 +18,8 @@ export const FieldRecord = Record({
   hide_on_view_page: false,
   date_include_time: false,
   selected_value: "",
-  subform_sort_by: ""
+  subform_sort_by: "",
+  show_on_minify_form: false
 });
 
 export const FormSectionRecord = Record({

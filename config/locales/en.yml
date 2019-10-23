@@ -265,8 +265,11 @@ en:
     my_filters: "My Filters"
     id: "ID#"
     name: "Name"
+    full_name: "Full Name"
     age: "Age"
+    age_estimated: "Estimated Age?"
     sex: "Sex"
+    date_of_birth: "Date of Birth"
     registration_date: "Registration Date"
     status: "Status"
     social_worker: "Social Worker"
@@ -290,6 +293,8 @@ en:
     notes_dialog_title: 'Add Notes'
     notes_form_subject: 'Subject'
     notes_form_notes: 'Notes'
+    case_worker_code: "Case Worker Code"
+    agency: "Agency"
 
     order_by:
       most_recently: "Most recently"

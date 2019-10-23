@@ -13,10 +13,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { useI18n } from "components/i18n";
 import { selectFiltersByRecordType } from "components/filters-builder";
 import { getPermissionsByRecord } from "components/user";
+import { push } from "connected-react-router";
 import { PERMISSIONS } from "config";
 import RecordListToolbar from "./RecordListToolbar";
 import FilterContainer from "./FilterContainer";
 import { selectListHeaders } from "./selectors";
+import Permission from "components/application/permission";
+import * as Permissions from "libs/permissions";
+import { ViewModal } from "./view-modal";
 import {
   buildTableColumns,
   getFiltersSetterByType,
@@ -35,9 +39,33 @@ const RecordList = ({ match }) => {
   const dispatch = useDispatch();
   const headers = useSelector(state => selectListHeaders(state, recordType));
 
+  const [openViewModal, setOpenViewModal] = useState(false);
+  const [currentRecord, setCurrentRecord] = useState(null);
+
+  const userPermissions = useSelector(state =>
+    getPermissionsByRecord(state, recordType)
+  );
+
+  const canViewModal = Permissions.check(userPermissions, [
+    Permissions.DISPLAY_VIEW_PAGE
+  ]);
+
+  const handleViewModalClose = () => {
+    setOpenViewModal(false);
+  };
+
   // eslint-disable-next-line camelcase
-  const { id_search, query } = useSelector(state =>
-    selectFiltersByRecordType(state, recordType)
+  const { id_search, query } = useSelector(
+    state => {
+      const filters = selectFiltersByRecordType(state, recordType);
+      return { id_search: filters.id_search, query: filters.query };
+    },
+    (filters1, filters2) => {
+      return (
+        filters1.id_search === filters2.id_search &&
+        filters1.query === filters2.query
+      );
+    }
   );
 
   const permissions = useSelector(state =>
@@ -49,7 +77,9 @@ const RecordList = ({ match }) => {
   const fetchRecords = getRecordsFetcherByType(recordType);
 
   useEffect(() => {
-    dispatch(setFilters({ options: { id_search: false, query: "" } }));
+    return () => {
+      dispatch(setFilters({ options: { id_search: false, query: "" } }));
+    };
   }, [url]);
 
   const canSearchOthers =
@@ -89,7 +119,18 @@ const RecordList = ({ match }) => {
     recordType,
     defaultFilters,
     columns: buildTableColumns(listHeaders, i18n, recordType),
-    onTableChange: fetchRecords
+    onTableChange: fetchRecords,
+    onRowClick: record => {
+      const allowedToOpenRecord =
+        record && typeof record.get("record_in_scope") !== "undefined"
+        ? record.get("record_in_scope") : false;
+      if (allowedToOpenRecord) {
+        dispatch(push(`${recordType}/${record.get("id")}`));
+      } else if (canViewModal) {
+        setCurrentRecord(record);
+        setOpenViewModal(true);
+      }
+    }
   };
 
   const handleDrawer = () => {
@@ -120,20 +161,32 @@ const RecordList = ({ match }) => {
   };
 
   return (
-    <PageContainer>
-      <Box className={css.content}>
-        <Box className={css.tableContainer} flexGrow={1}>
-          <RecordListToolbar {...recordListToolbarProps} />
-          <Box className={css.table}>
-            <IndexTable {...indexTableProps} />
+    <>
+      <PageContainer>
+        <Box className={css.content}>
+          <Box className={css.tableContainer} flexGrow={1}>
+            <RecordListToolbar {...recordListToolbarProps} />
+            <Box className={css.table}>
+              <IndexTable {...indexTableProps} />
+            </Box>
           </Box>
+          <FilterContainer {...filterContainerProps}>
+            <RecordSearch {...recordSearchProps} />
+            <Filters {...filterProps} />
+          </FilterContainer>
         </Box>
-        <FilterContainer {...filterContainerProps}>
-          <RecordSearch {...recordSearchProps} />
-          <Filters {...filterProps} />
-        </FilterContainer>
-      </Box>
-    </PageContainer>
+      </PageContainer>
+      <Permission
+        permissionType={recordType}
+        permission={[Permissions.MANAGE, Permissions.DISPLAY_VIEW_PAGE]}
+      >
+        <ViewModal
+          close={handleViewModalClose}
+          openViewModal={openViewModal}
+          currentRecord={currentRecord}
+        />
+      </Permission>
+    </>
   );
 };
 
