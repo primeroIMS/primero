@@ -271,7 +271,7 @@ def echo(msg):
     if QUIET:
         return
 
-    print(PROGRAM_NAME + ":" + msg)
+    print(msg)
 
 
 def echoerr(msg):
@@ -280,7 +280,7 @@ def echoerr(msg):
     if QUIET:
         return
 
-    print(PROGRAM_NAME + ":" + msg, file=sys.stderr)
+    print(msg, file=sys.stderr)
 
 
 if __name__ == "__main__":
