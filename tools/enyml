@@ -36,7 +36,7 @@ def main():
 
 
 def parse_args():
-    global QUIET
+    global INDETERMINATE, PARTIAL, QUIET, USED
 
     parser = argparse.ArgumentParser()
 
@@ -47,8 +47,15 @@ def parse_args():
         action="store_true",
     )
 
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("-i", "--indeterminate", action="store_true")
+    group.add_argument("-p", "--partial", action="store_true")
+
     args = parser.parse_args()
 
+    INDETERMINATE = args.indeterminate
+    PARTIAL = args.partial
+    USED = not (INDETERMINATE or PARTIAL)
     QUIET = args.quiet
 
 
