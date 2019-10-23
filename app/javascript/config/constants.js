@@ -63,3 +63,9 @@ export const RECORD_PATH = {
   tracing_requests: "tracing_requests",
   incidents: "incidents"
 };
+
+export const TRANSITION_TYPE = ["transfers_assignments", "referral"];
+
+export const RECORD_OWNER = "record_owner";
+
+export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";

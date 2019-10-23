@@ -34,6 +34,9 @@ describe("Verifying config constant", () => {
     delete constants.PERMISSIONS;
     delete constants.CONSENT_GIVEN_FIELD_BY_MODULE;
     delete constants.MODULE_TYPE_FIELD;
+    delete constants.TRANSITION_TYPE;
+    delete constants.RECORD_OWNER;
+    delete constants.TRANSFERS_ASSIGNMENTS;
 
     expect(constants).to.deep.equal({});
   });
@@ -75,5 +78,11 @@ describe("Verifying config constant", () => {
       "primeromodule-gbv": "disclosure_other_orgs"
     });
     expect(constants.MODULE_TYPE_FIELD).to.equal("module_id");
+    expect(constants.TRANSITION_TYPE).to.deep.equal([
+      "transfers_assignments",
+      "referral"
+    ]);
+    expect(constants.RECORD_OWNER).to.equal("record_owner");
+    expect(constants.TRANSFERS_ASSIGNMENTS).to.equal("transfers_assignments");
   });
 });

@@ -1210,6 +1210,8 @@ en:
       reportable_service: "Service"
       reportable_follow_up: "Follow Up"
       reportable_protection_concern: "Protection Concern"
+      record_information: "Record Information"
+      transfers_assignments: "Transfers / Assignments"
 
   form_section:
     name: "Name"
@@ -2267,6 +2269,32 @@ en:
     errors:
       consent: "Consent not provided"
       to_user_can_receive: "This user cannot receive this record"
+    type:
+      assign: "Assign"
+      transfer: "Transfer"
+      transferRequest: "TransferRequest"
+      referral: "Referral"
+    notes: "Notes"
+    recipient: "Recipient"
+    assigned_by: "Assigned By"
+    rejected: "Reason Rejected"
+    no_consent_share: "No Consent to Share Setting Overridden"
+    individual_consent: "Did the case worker have the individual's consent to make this transfer?"
+    consent_overridden_value:
+      true_label: "Yes"
+      false_label: "No"
+    consent_individual_transfer_value:
+      true_label: "Yes"
+      false_label: "No"
+    status:
+      pending: "Pending"
+      accepted: "Accepted"
+      rejected: "Rejected"
+      inprogress: "In progress"
+      done: "Done"
+
+  transfer_assignment:
+    title: "TRANSFERS AND ASSIGNMENTS"
 
 
   mark_for_mobile:
