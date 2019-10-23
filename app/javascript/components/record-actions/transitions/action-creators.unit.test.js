@@ -129,18 +129,6 @@ describe("<Transitions /> - Action Creators", () => {
   });
 
   it("deprecated 'fetchTransitionData' action creator", () => {
-    // const transitionType = "transfer";
-    // const fetchAssignUsers = sinon.spy();
-    // const fetchTransferUsers = sinon.spy();
-
-    // const result = actionCreators.fetchTransitionData(transitionType)(
-    //   fetchAssignUsers(transitionType),
-    //   fetchTransferUsers(transitionType)
-    // );
-
-    // expect(fetchAssignUsers.getCall(0).args[0]).to.equal("transfer");
-    // expect(fetchTransferUsers).to.have.been.called;
-    // expect(fetchTransferUsers.getCall(0).args[0]).to.equal("transfer");
     expect(actionCreators).to.not.have.property("fetchTransitionData");
   });
 
