@@ -13,7 +13,6 @@ class RecordDataService
   def self.select_fields(data, selected_field_names)
     data.compact_deep
         .select { |k, _| selected_field_names.include?(k) }
-        .to_h
   end
 
   def self.embed_user_scope(data, record, selected_field_names, user)

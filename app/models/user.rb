@@ -228,6 +228,10 @@ class User < ApplicationRecord
       any_of_permissions.flatten.count
   end
 
+  def can_preview?(record_type)
+    has_permission_by_permission_type?(record_type.parent_form, Permission::DISPLAY_VIEW_PAGE)
+  end
+
   #TODO: May deprecate this method in favor of record_query_scope
   def managed_users
     if group_permission? Permission::ALL
