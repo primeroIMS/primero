@@ -36,8 +36,17 @@ const RecordList = ({ match }) => {
   const headers = useSelector(state => selectListHeaders(state, recordType));
 
   // eslint-disable-next-line camelcase
-  const { id_search, query } = useSelector(state =>
-    selectFiltersByRecordType(state, recordType)
+  const { id_search, query } = useSelector(
+    state => {
+      const filters = selectFiltersByRecordType(state, recordType);
+      return { id_search: filters.id_search, query: filters.query };
+    },
+    (filters1, filters2) => {
+      return (
+        filters1.id_search === filters2.id_search &&
+        filters1.query === filters2.query
+      );
+    }
   );
 
   const permissions = useSelector(state =>
@@ -49,7 +58,9 @@ const RecordList = ({ match }) => {
   const fetchRecords = getRecordsFetcherByType(recordType);
 
   useEffect(() => {
-    dispatch(setFilters({ options: { id_search: false, query: "" } }));
+    return () => {
+      dispatch(setFilters({ options: { id_search: false, query: "" } }));
+    };
   }, [url]);
 
   const canSearchOthers =
