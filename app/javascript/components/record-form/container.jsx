@@ -153,7 +153,7 @@ const RecordForms = ({ match, mode }) => {
           <div className={css.recordNav}>
             <Nav {...navProps} />
           </div>
-          <div className={css.recordForms}>
+          <div className={`${css.recordForms} record-form-container`}>
             <RecordForm {...formProps} />
           </div>
         </div>

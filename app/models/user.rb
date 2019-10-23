@@ -404,7 +404,7 @@ class User < ApplicationRecord
 
   def permitted_field_names(model_class)
     unless @permitted_field_names.present?
-      @permitted_field_names = ['id'] + permitted_field_names_from_forms(model_class.parent_form)
+      @permitted_field_names = %w[id record_in_scope] + permitted_field_names_from_forms(model_class.parent_form)
       @permitted_field_names << 'record_state' if can?(:enable_disable_record, model_class)
       @permitted_field_names << 'hidden_name' if can?(:update, model_class)
       @permitted_field_names << 'flag_count' if can?(:flag, model_class)
