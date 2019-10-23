@@ -65,9 +65,10 @@ const IndexTable = ({
 
     const { activeColumn, columns: tableColumns, rowsPerPage } = tableState;
 
-    const selectedFilters = {
-      ...options,
-      ...(() => {
+    const selectedFilters = Object.assign(
+      {},
+      options,
+      (() => {
         switch (action) {
           case "sort":
             if (typeof sortOrder === "undefined") {
@@ -91,41 +92,43 @@ const IndexTable = ({
             break;
         }
       })()
-    };
+    );
 
     if (validActions.includes(action)) {
       dispatch(onTableChange({ recordType, options: selectedFilters }));
     }
   };
 
-  const options = {
-    responsive: "stacked",
-    count: total,
-    rowsPerPage: per,
-    rowHover: true,
-    filterType: "checkbox",
-    fixedHeader: false,
-    elevation: 3,
-    filter: false,
-    download: false,
-    search: false,
-    print: false,
-    viewColumns: false,
-    serverSide: true,
-    customToolbar: () => null,
-    customToolbarSelect: () => null,
-    onTableChange: handleTableChange,
-    rowsPerPageOptions: [20, 50, 75, 100],
-    page: page - 1,
-    onRowClick: (rowData, rowMeta) => {
-      if (onRowClick) {
-        onRowClick(records.get(rowMeta.dataIndex));
-      } else {
-        dispatch(push(`${url}/${records.getIn([rowMeta.dataIndex, "id"])}`));
+  const options = Object.assign(
+    {
+      responsive: "stacked",
+      count: total,
+      rowsPerPage: per,
+      rowHover: true,
+      filterType: "checkbox",
+      fixedHeader: false,
+      elevation: 3,
+      filter: false,
+      download: false,
+      search: false,
+      print: false,
+      viewColumns: false,
+      serverSide: true,
+      customToolbar: () => null,
+      customToolbarSelect: () => null,
+      onTableChange: handleTableChange,
+      rowsPerPageOptions: [20, 50, 75, 100],
+      page: page - 1,
+      onRowClick: (rowData, rowMeta) => {
+        if (onRowClick) {
+          onRowClick(records.get(rowMeta.dataIndex));
+        } else {
+          dispatch(push(`${url}/${records.getIn([rowMeta.dataIndex, "id"])}`));
+        }
       }
     },
-    ...tableOptionsProps
-  };
+    tableOptionsProps
+  );
 
   const tableOptions = {
     columns: componentColumns,
@@ -147,11 +150,7 @@ const IndexTable = ({
     </LoadingIndicator>
   );
 
-  return (
-    <>
-      <DataTable />
-    </>
-  );
+  return <DataTable />;
 };
 
 IndexTable.propTypes = {

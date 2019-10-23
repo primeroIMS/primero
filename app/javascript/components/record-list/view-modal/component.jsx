@@ -11,12 +11,7 @@ const ViewModal = ({ close, openViewModal, currentRecord }) => {
   const handleOk = () => {
     close();
   };
-  console.log(
-    "currentRecord",
-    currentRecord && currentRecord.toJS(),
-    typeof currentRecord,
-    currentRecord && currentRecord.get("case_id_display")
-  );
+
   return (
     <ActionDialog
       open={openViewModal}
@@ -33,9 +28,9 @@ const ViewModal = ({ close, openViewModal, currentRecord }) => {
               autoFocus
               margin="dense"
               id="subject"
-              label={i18n.t("cases.field_case_social_worker")}
+              label={i18n.t("cases.case_worker_code")}
               type="text"
-              defaultValue="--"
+              defaultValue={currentRecord && currentRecord.get("owned_by")}
               disabled
               fullWidth
               InputProps={{
@@ -48,31 +43,16 @@ const ViewModal = ({ close, openViewModal, currentRecord }) => {
               autoFocus
               margin="dense"
               id="subject"
-              label={i18n.t("cases.case_worker_code")}
+              label={i18n.t("cases.agency")}
               type="text"
-              defaultValue={currentRecord && currentRecord.get("owned_by")}
+              defaultValue="--"
               disabled
-              fullWidth
               InputProps={{
                 disableUnderline: true
               }}
             />
           </Grid>
         </Grid>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="subject"
-          label={i18n.t("cases.agency")}
-          type="text"
-          defaultValue={
-            currentRecord && currentRecord.get("owned_by_agency_id")
-          }
-          disabled
-          InputProps={{
-            disableUnderline: true
-          }}
-        />
         <Divider />
         <TextField
           autoFocus

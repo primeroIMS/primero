@@ -104,25 +104,20 @@ const RecordList = ({ match }) => {
     }
   });
 
-  // const query =
-  const viewFields = useSelector(state => selectFields(state, recordType));
-
-  // console.log('viewFields', viewFields);
-  // const filteredFields = viewFields.filter((field) => field.show_on_minify_form === true);
-  // console.log('test', filteredFields);
-
   const indexTableProps = {
     recordType,
     defaultFilters,
     columns: buildTableColumns(listHeaders, i18n, recordType),
     onTableChange: fetchRecords,
     onRowClick: record => {
-      const notAllowedToOpenRecord = true; // need to know how to check
-      if (notAllowedToOpenRecord && canViewModal) {
-          setCurrentRecord(record);
-          setOpenViewModal(true);
-      } else {
-        dispatch(push(`${recordType}/${record.id}`));
+      const allowedToOpenRecord =
+        record && typeof record.get("record_in_scope") !== "undefined"
+        ? record.get("record_in_scope") : false;
+      if (allowedToOpenRecord) {
+        dispatch(push(`${recordType}/${record.get("id")}`));
+      } else if (canViewModal) {
+        setCurrentRecord(record);
+        setOpenViewModal(true);
       }
     }
   };
@@ -172,7 +167,7 @@ const RecordList = ({ match }) => {
       </PageContainer>
       <Permission
         permissionType={recordType}
-        permission={[Permissions.MANAGE, Permissions.ADD_NOTE]}
+        permission={[Permissions.MANAGE, Permissions.DISPLAY_VIEW_PAGE]}
       >
         <ViewModal
           close={handleViewModalClose}

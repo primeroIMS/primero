@@ -294,7 +294,6 @@ en:
     notes_form_subject: 'Subject'
     notes_form_notes: 'Notes'
     case_worker_code: "Case Worker Code"
-    field_case_social_worker: "Field/Case/Social worker"
     agency: "Agency"
 
     order_by:
