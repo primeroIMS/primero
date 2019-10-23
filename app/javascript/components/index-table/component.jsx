@@ -7,9 +7,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { getPermissionsByRecord } from "components/user/selectors";
 import { LoadingIndicator } from "components/loading-indicator";
 import { push } from "connected-react-router";
-import Permission from "components/application/permission";
-import * as Permissions from "libs/permissions";
-import { ViewModal } from "./view-modal";
 import {
   selectRecords,
   selectLoading,
@@ -23,15 +20,14 @@ const IndexTable = ({
   onTableChange,
   defaultFilters,
   options: tableOptionsProps,
-  targetRecordType
+  targetRecordType,
+  onRowClick
 }) => {
   const dispatch = useDispatch();
   const data = useSelector(state => selectRecords(state, recordType));
   const loading = useSelector(state => selectLoading(state, recordType));
   const errors = useSelector(state => selectErrors(state, recordType));
   const filters = useSelector(state => selectFilters(state, recordType));
-  const [openViewModal, setOpenViewModal] = useState(false);
-  const [currentRecord, setCurrentRecord] = useState(null);
 
   const { order, order_by: orderBy } = filters || {};
   const records = data.get("data");
@@ -39,18 +35,6 @@ const IndexTable = ({
   const total = data.getIn(["metadata", "total"], 0);
   const page = data.getIn(["metadata", "page"], null);
   const url = targetRecordType || recordType;
-
-  const userPermissions = useSelector(state =>
-    getPermissionsByRecord(state, recordType)
-  );
-
-  const canViewModal = Permissions.check(userPermissions, [
-    Permissions.DISPLAY_VIEW_PAGE
-  ]);
-
-  const handleViewModalClose = () => {
-    setOpenViewModal(false);
-  };
 
   let componentColumns =
     typeof columns === "function" ? columns(data) : columns;
@@ -134,10 +118,8 @@ const IndexTable = ({
     rowsPerPageOptions: [20, 50, 75, 100],
     page: page - 1,
     onRowClick: (rowData, rowMeta) => {
-      const notAllowedToOpenCase = true; // need to know how to check
-      if (notAllowedToOpenCase && canViewModal) {
-        setCurrentRecord(records.get(rowMeta.dataIndex));
-        setOpenViewModal(true);
+      if (onRowClick) {
+        onRowClick(records.get(rowMeta.dataIndex));
       } else {
         dispatch(push(`${url}/${records.getIn([rowMeta.dataIndex, "id"])}`));
       }
@@ -168,16 +150,6 @@ const IndexTable = ({
   return (
     <>
       <DataTable />
-      <Permission
-        permissionType={recordType}
-        permission={[Permissions.MANAGE, Permissions.ADD_NOTE]}
-      >
-        <ViewModal
-          close={handleViewModalClose}
-          openViewModal={openViewModal}
-          currentRecord={currentRecord}
-        />
-      </Permission>
     </>
   );
 };
@@ -188,7 +160,8 @@ IndexTable.propTypes = {
   defaultFilters: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   options: PropTypes.object,
-  targetRecordType: PropTypes.string
+  targetRecordType: PropTypes.string,
+  onRowClick: PropTypes.func
 };
 
 export default IndexTable;

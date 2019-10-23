@@ -3,20 +3,7 @@ import { fromJS, OrderedMap } from "immutable";
 import { denormalizeFormData } from "../../schemas";
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
-
-const forms = (state, { recordType, primeroModule }) => {
-  const formSections = state.getIn([NAMESPACE, "formSections"]);
-
-  if (isEmpty(formSections)) return null;
-
-  return formSections.filter(
-    fs =>
-      fs.module_ids.includes(primeroModule) &&
-      fs.parent_form === recordType &&
-      fs.visible &&
-      !fs.is_nested
-  );
-};
+import { forms } from "components/records";
 
 export const getFirstTab = (state, query) => {
   const selectedForms = forms(state, query);
