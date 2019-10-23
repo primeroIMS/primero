@@ -18,7 +18,7 @@ export const setInitialFilterValues = (recordType, payload) => {
     return o;
   }, {});
   return {
-    type: `${recordType}/SET_FILTERS`,
+    type: `${recordType}/CLEAR_FILTERS`,
     payload: values
   };
 };

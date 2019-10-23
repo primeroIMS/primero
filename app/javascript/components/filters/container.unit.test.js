@@ -5,6 +5,8 @@ import { Map } from "immutable";
 import { AppBar, Tabs, Tab } from "@material-ui/core";
 import { FiltersBuilder } from "components/filters-builder";
 import Filters from "./container";
+import FiltersBuilder from "./container";
+import { setInitialFilterValues } from "./action-creators";
 
 describe("<Filters /> - Component", () => {
   let component;

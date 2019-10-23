@@ -148,7 +148,7 @@ const FiltersBuilder = ({
         <Button variant="outlined" onClick={handleSaveFilters}>
           {i18n.t("filters.save_filters")}
         </Button>
-        <Button variant="outlined" onClick={handleClearFilters}>
+        <Button variant="outlined" className="clear-filters" onClick={handleClearFilters}>
           {i18n.t("filters.clear_filters")}
         </Button>
       </div>

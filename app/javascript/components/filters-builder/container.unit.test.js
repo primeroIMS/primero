@@ -6,7 +6,7 @@ import { ExpansionPanel, Button } from "@material-ui/core";
 import * as Record from "components/user/records";
 import FiltersBuilder from "./container";
 
-describe("<Filters /> - Component", () => {
+describe.only("<Filters /> - Component", () => {
   let component;
   const filtersApi = List([
     Record.FilterRecord({
@@ -41,7 +41,35 @@ describe("<Filters /> - Component", () => {
             Incidents: [],
             TracingRequest: []
           }
-        })
+        }),
+        filters: {
+          "2": [],
+          "flagged": [],
+          "marked_for_mobile": [],
+          "owned_by": [],
+          "my_cases[owned_by]": [],
+          "my_cases[assigned_user_names]": [],
+          "workflow": [],
+          "owned_by_agency": [],
+          "status": [],
+          "age": ["0..5"],
+          "sex": ["female"],
+          "approval_status_bia": [],
+          "approval_status_case_plan": [],
+          "approval_status_closure": [],
+          "protection_concerns": [],
+          "gbv_displacement_status": [],
+          "protection_status": [],
+          "urgent_protection_concern": [],
+          "risk_level": [],
+          "location_current": [],
+          "created_agency_office": [],
+          "owned_by_groups": [],
+          "last_updated_at": [],
+          "has_photo": [],
+          "id_search": false,
+          "query": ""
+        }
       })
     ).component;
   });
@@ -54,4 +82,10 @@ describe("<Filters /> - Component", () => {
     expect(component.find(ExpansionPanel)).to.have.length(1);
   });
 
+  it("clears the filters", () => {
+    // component.find(".clear-filters").simulate("click");
+    expect(component.find(".clear-filters")).to.have.length(1);
+    expect(component.find("#female")).to.have.length(1);
+    expect(component.find("#female").props().checked).to.equal(true);
+  });
 });
