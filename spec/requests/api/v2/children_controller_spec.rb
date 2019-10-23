@@ -64,7 +64,7 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(200)
       photos = json['data'].select { |child| child['name'] == 'Test1' }.first['photos']
       expect(photos.size).to eq(1)
-      expect(photos.first).to eq(Rails.application.routes.url_helpers.rails_blob_path(@blob , only_path: true))
+      expect(photos.first).to match(/.+jorge\.jpg$/)
 
     end
 
@@ -123,7 +123,7 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(200)
       photos = json['data']['photos']
       expect(photos.size).to eq(1)
-      expect(photos.first).to eq(Rails.application.routes.url_helpers.rails_blob_path(@blob , only_path: true))
+      expect(photos.first).to match(/.+jorge\.jpg$/)
     end
 
     it 'enqueues an audit log job that records the case read attempt' do
