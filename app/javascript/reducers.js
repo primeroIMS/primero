@@ -22,6 +22,7 @@ import * as User from "./components/user";
 import * as Application from "./components/application";
 import * as Records from "./components/records";
 import * as Transitions from "./components/record-actions/transitions";
+import * as TransitionsForms from "./components/transitions/";
 
 const rootReducer = {
   records: combineReducers({
@@ -40,7 +41,8 @@ const rootReducer = {
     ...ExportList.reducers,
     ...Support.reducers,
     ...Flagging.reducers,
-    ...SavedSearches.reducers
+    ...SavedSearches.reducers,
+    ...TransitionsForms.reducers
   }),
   ui: combineReducers({
     ...Nav.reducers,

@@ -4,6 +4,7 @@ import { List } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import NavGroup from "./NavGroup";
 import { setSelectedForm } from "../action-creators";
+import RecordInformation from "./RecordInformation";
 
 const Nav = ({
   formNav,
@@ -45,6 +46,7 @@ const Nav = ({
 
     return (
       <List>
+        <RecordInformation handleClick={handleClick} open={open} />
         {formGroups.map(g => {
           return (
             <NavGroup
