@@ -19,7 +19,10 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { checkUserAuthentication } from "components/user";
 import { SnackbarProvider } from "notistack";
-import { ApplicationProvider } from "components/application";
+import {
+  ApplicationProvider,
+  loadApplicationResources
+} from "components/application";
 import Permission from "components/application/permission";
 import configureStore, { history } from "./store";
 

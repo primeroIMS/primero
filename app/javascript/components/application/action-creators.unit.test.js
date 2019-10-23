@@ -25,14 +25,22 @@ describe("Application - Action Creators", () => {
   });
 
   it("should check the 'fetchSystemSettings' action creator to return the correct object", () => {
-    const expected = { path: "system_settings", params: { extended: true } };
+    const expected = {
+      path: "system_settings",
+      params: { extended: true },
+      db: {
+        collection: "system_settings"
+      }
+    };
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
     actionCreators.fetchSystemSettings()(dispatch);
+
     expect(dispatch.getCall(0).returnValue.type).to.eql(
       "application/FETCH_SYSTEM_SETTINGS"
     );
+
     expect(dispatch.getCall(0).returnValue.api).to.eql(expected);
   });
 
