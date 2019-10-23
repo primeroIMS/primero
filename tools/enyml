@@ -120,7 +120,7 @@ def get_key_set(grep_output):
         r = r.partition(")")[0]
 
         if not r.startswith(("'", "`", '"')):
-            print(f + ":" + l + ":" + r, file=sys.stderr)
+            echoerr(f + ":" + l + ":" + r)
             continue
 
         quote = r[0]
@@ -131,7 +131,7 @@ def get_key_set(grep_output):
         for k in r.split("."):
 
             if not KEY_PATTERN.match(k):
-                print(f + ":" + l + ":" + r, file=sys.stderr)
+                echoerr(f + ":" + l + ":" + r)
                 break
 
             key += ("." + k) if len(key) > 0 else k
@@ -194,7 +194,7 @@ def write_yaml(key_list):
         for i, subkey in enumerate(key.split(".")):
 
             if subkey not in src:
-                print("no such key: " + key, file=sys.stderr)
+                echoerr("no such key: " + key)
                 break
 
             if i == (len(key.split(".")) - 1):
