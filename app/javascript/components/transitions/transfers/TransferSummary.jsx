@@ -7,7 +7,11 @@ import TransitionStatus from "../TransitionStatus";
 
 const TransferSummary = ({ transition, classes }) => {
   const i18n = useI18n();
-
+  const transitionStatus = transition.status ? (
+    <Grid item md={2} xs={10}>
+      <TransitionStatus status={transition.status} />
+    </Grid>
+  ) : null;
   return (
     <Grid container spacing={2}>
       <Grid item md={10} xs={10}>
@@ -22,9 +26,7 @@ const TransferSummary = ({ transition, classes }) => {
           </div>
         </div>
       </Grid>
-      <Grid item md={2} xs={10}>
-        <TransitionStatus status={transition.status} />
-      </Grid>
+      {transitionStatus}
     </Grid>
   );
 };

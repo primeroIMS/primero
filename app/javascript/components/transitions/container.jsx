@@ -46,31 +46,35 @@ const Transitions = ({ recordType, record }) => {
     }
   };
 
+  const renderTransition = transition => {
+    return (
+      <div key={transition.id}>
+        <TransitionPanel key={transition.id} name={transition.id}>
+          <ExpansionPanelSummary
+            expandIcon={<ArrowIcon />}
+            aria-controls="filter-controls-content"
+            id={transition.id}
+          >
+            {renderSummary(transition)}
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            {renderDetails(transition)}
+          </ExpansionPanelDetails>
+        </TransitionPanel>
+      </div>
+    );
+  };
+
+  const renderDataTransitions =
+    dataTransitions &&
+    dataTransitions.map(transition => renderTransition(transition));
+
   return (
     <div>
       <div className={css.formTitle}>
         <h1 className={css.pageTitle}>{i18n.t("transfer_assignment.title")}</h1>
       </div>
-
-      {dataTransitions &&
-        dataTransitions.map(transition => {
-          return (
-            <div key={transition.id}>
-              <TransitionPanel key={transition.id} name={transition.id}>
-                <ExpansionPanelSummary
-                  expandIcon={<ArrowIcon />}
-                  aria-controls="filter-controls-content"
-                  id={transition.id}
-                >
-                  {renderSummary(transition)}
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  {renderDetails(transition)}
-                </ExpansionPanelDetails>
-              </TransitionPanel>
-            </div>
-          );
-        })}
+      {renderDataTransitions}
     </div>
   );
 };

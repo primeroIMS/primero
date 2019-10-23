@@ -10,12 +10,12 @@ import { LoadingIndicator } from "components/loading-indicator";
 import { Transitions, fetchTransitions } from "components/transitions";
 import { useThemeHelper } from "libs";
 import clsx from "clsx";
-import { RECORD_TYPES } from "config";
+import { RECORD_TYPES, TRANSITION_TYPE } from "config";
 import { fetchRecord, saveRecord, selectRecord } from "components/records";
 import { Nav } from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import * as C from "../../config/constants";
+
 import {
   getFirstTab,
   getFormNav,
@@ -143,7 +143,7 @@ const RecordForms = ({ match, mode }) => {
   }, [params.recordType, params.id]);
 
   // TODO: When transfer_request be implement change the transition_ype
-  const isTransition = C.TRANSITION_TYPE.includes(selectedForm);
+  const isTransition = TRANSITION_TYPE.includes(selectedForm);
 
   return (
     <PageContainer twoCol>

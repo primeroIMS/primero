@@ -1,9 +1,9 @@
 import React from "react";
 import { List } from "immutable";
-import Divider from "@material-ui/core/Divider";
 import PropTypes from "prop-types";
-import NavGroup from "./NavGroup";
-import { NavRecord } from "../records";
+import { RECORD_OWNER, TRANSFERS_ASSIGNMENTS } from "config";
+import NavGroup from "../NavGroup";
+import { NavRecord } from "../../records";
 
 const RecordInformation = ({ open, handleClick }) => {
   const recordInformationForms = List([
@@ -13,7 +13,7 @@ const RecordInformation = ({ open, handleClick }) => {
       groupOrder: 0,
       name: "Record Information",
       order: 0,
-      formId: "record_owner",
+      formId: RECORD_OWNER,
       is_first_tab: true
     }),
     // TODO: When transfer_request be implement change the transition_ype
@@ -23,7 +23,7 @@ const RecordInformation = ({ open, handleClick }) => {
       groupOrder: 0,
       name: "Transfers / Assignments",
       order: 2,
-      formId: "transfers_assignments",
+      formId: TRANSFERS_ASSIGNMENTS,
       is_first_tab: false
     })
   ]);
@@ -35,7 +35,6 @@ const RecordInformation = ({ open, handleClick }) => {
         open={open}
         selectedForm=""
       />
-      <Divider />
     </>
   );
 };

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { List } from "@material-ui/core";
 import { useDispatch } from "react-redux";
+import Divider from "@material-ui/core/Divider";
 import NavGroup from "./NavGroup";
 import { setSelectedForm } from "../action-creators";
-import RecordInformation from "./RecordInformation";
+import RecordInformation from "./parts/record-information";
 
 const Nav = ({
   formNav,
@@ -47,6 +48,7 @@ const Nav = ({
     return (
       <List>
         <RecordInformation handleClick={handleClick} open={open} />
+        <Divider />
         {formGroups.map(g => {
           return (
             <NavGroup

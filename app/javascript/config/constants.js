@@ -65,3 +65,7 @@ export const RECORD_PATH = {
 };
 
 export const TRANSITION_TYPE = ["transfers_assignments", "referral"];
+
+export const RECORD_OWNER = "record_owner";
+
+export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
