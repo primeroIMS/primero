@@ -13,6 +13,7 @@ import thunk from "redux-thunk";
 import { createBrowserHistory } from "history";
 import { routerMiddleware } from "connected-react-router/immutable";
 import { ApplicationProvider } from "components/application/provider";
+import { SnackbarProvider } from "notistack";
 
 export const setupMountedComponent = (
   TestComponent,
@@ -49,7 +50,9 @@ export const setupMountedComponent = (
     <Provider store={store}>
       <I18nProvider>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <RoutedProvider />
+          <SnackbarProvider>
+            <RoutedProvider />
+          </SnackbarProvider>
         </MuiPickersUtilsProvider>
       </I18nProvider>
     </Provider>

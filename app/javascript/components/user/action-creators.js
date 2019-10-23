@@ -1,5 +1,3 @@
-import { loadApplicationResources } from "components/application";
-import { batch } from "react-redux";
 import { DB } from "config";
 import { Actions } from "./actions";
 
@@ -26,12 +24,8 @@ export const fetchAuthenticatedUserData = id => async dispatch => {
 };
 
 export const setAuthenticatedUser = user => async dispatch => {
-  await dispatch(setUser(user));
-
-  batch(() => {
-    dispatch(fetchAuthenticatedUserData(user.id));
-    dispatch(loadApplicationResources());
-  });
+  dispatch(setUser(user));
+  dispatch(fetchAuthenticatedUserData(user.id));
 };
 
 export const attemptSignout = () => async dispatch => {
