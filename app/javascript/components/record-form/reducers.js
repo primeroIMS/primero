@@ -1,4 +1,4 @@
-import { Map, fromJS } from "immutable";
+import { OrderedMap, Map, fromJS } from "immutable";
 import { mapEntriesToRecord } from "libs";
 import NAMESPACE from "./namespace";
 import Actions from "./actions";
@@ -6,8 +6,8 @@ import * as R from "./records";
 
 const DEFAULT_STATE = Map({
   selectedForm: null,
-  formSections: {},
-  fields: {}
+  formSections: OrderedMap({}),
+  fields: OrderedMap({})
 });
 
 export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
