@@ -30,6 +30,11 @@ def main():
 
 
 def validate_yaml_structure():
+    """
+    Use "yamllint" to validate the "en.yml" file.  Exit with status 1 if
+    validation fails.
+    """
+
     yamllint_cmd = (
         'yamllint -d "{extends: default, rules: {line-length: disable}}" '
         + shlex.quote(YAML_PATH)
@@ -40,6 +45,12 @@ def validate_yaml_structure():
 
 
 def validate_yaml_keys():
+    """
+    Make sure that all keys in the "en.yml" file conform to a predictable
+    pattern.  Such a pattern allows us to search for keys effectively.  Exit
+    with status 1 if a key does not match the KEY_PATTERN.
+    """
+
     fp = open(YAML_PATH, "r")
 
     yaml_dict = yaml.load(fp)
@@ -49,6 +60,9 @@ def validate_yaml_keys():
 
 
 def validate_yaml_dict_keys(yaml_dict):
+    """
+    Recursively walk the dictionary of translation keys and validate each key.
+    """
 
     for key, value in yaml_dict.items():
         assert isinstance(key, str), '"{}" is not a string'.format(str(key))
@@ -161,6 +175,10 @@ def get_key_list(key_set):
 
 
 def write_yaml(key_list):
+    """
+    Re-write the "en.yml" file, removing any keys that aren't present in the
+    key_list argument.
+    """
 
     with open(YAML_PATH, "r") as fp:
         yaml_dict = yaml.load(fp)
@@ -211,6 +229,10 @@ def write_yaml(key_list):
 
 
 def prune_empty(dictionary):
+    """
+    Recursively walk through dictionary and prune key/value pairs where the
+    value is an empty dict().
+    """
 
     keys = [k for k, v in dictionary.items() if v == {}]
 
