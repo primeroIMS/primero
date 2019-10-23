@@ -117,6 +117,10 @@ class Lookup < CouchRest::Model::Base
       end
     end
 
+    def has_service_type?(service_type)
+      Lookup.values('lookup-service-type').select { |value| value['id'] == service_type }.present?
+    end
+
     private
 
     def form_group_lookup_mapping(parent_form)

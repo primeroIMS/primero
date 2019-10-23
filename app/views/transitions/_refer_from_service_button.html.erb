@@ -9,15 +9,22 @@
     service_object = nil
   end
 %>
-<% if service_type.present? && service_user_name.present? %>
-  <% if service_object.try(:service_status_referred).present?
-      service_referral_button_class = 'refer_again_link service_referral_button'
-      model_name = "again"
-    else
-      service_referral_button_class = 'button service_referral_button'
-      model_name = ""
-    end
-  %>
+<%
+  if service_type.present? && service_user_name.present?
+    service_user = User.find_by_user_name(service_user_name)
+    agency = Agency.get(service_agency)
+    is_valid_user = service_user.present? && !service_user.disabled?
+    is_valid_agency = service_agency.blank? || (service_agency.present? && agency.present? && !agency.disabled?)
+    if  is_valid_user && is_valid_agency && Lookup.has_service_type?(service_type)
+      if service_object.try(:service_status_referred).present?
+        service_referral_button_class = 'refer_again_link service_referral_button'
+        model_name = "again"
+      else
+        service_referral_button_class = 'button service_referral_button'
+        model_name = ""
+      end
+
+%>
 <a data-consent_count_url="cases/consent_count"
 	data-service-type="<%= service_type %>"
 	data-service-user-name="<%= service_user_name %>"
@@ -27,4 +34,9 @@
  	class="<%= service_referral_button_class %>">
  	<%= t("buttons.referral", model: model_name) %>
 </a>
+  <% else %>
+    <div class="display_field">
+      <span><%= t("referral.not_available") %></span>
+    </div>
+  <% end %>
 <% end %>
