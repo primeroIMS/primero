@@ -8,8 +8,7 @@ const DEFAULT_STATE = Map({ data: [] });
 
 export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    // TODO change to FETCH_TRANSITIONS_SUCCESS
-    case Actions.FETCH_TRANSITIONS:
+    case Actions.FETCH_TRANSITIONS_SUCCESS:
       return state.set(
         "data",
         listEntriesToRecord(payload.data, R.TransitionRecord)
