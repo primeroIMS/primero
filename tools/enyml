@@ -269,8 +269,9 @@ def write_yaml(key_list):
 
         for i, subkey in enumerate(key.split(".")):
 
-            if subkey not in src and UNDEFINED:
-                echo(key)
+            if subkey not in src:
+                if UNDEFINED:
+                    echo(key)
                 break
 
             if i == (len(key.split(".")) - 1):
