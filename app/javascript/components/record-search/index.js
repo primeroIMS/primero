@@ -1,1 +1,1 @@
-export { default as RecordSearch } from "./component";
+export { default as RecordSearch } from "./container";

@@ -10,9 +10,9 @@ import * as Permissions from "libs/permissions";
 import Permission from "components/application/permission";
 import { Notes } from "./notes";
 import { Transitions } from "./transitions";
+import { fetchTransitionData } from "./transitions/action-creators";
 import { ToggleOpen } from "./toggle-open";
 import { ToggleEnable } from "./toggle-enable";
-import { fetchAssignUsers } from "./transitions/action-creators";
 
 const RecordActions = ({ recordType, iconColor, record, mode }) => {
   const i18n = useI18n();
@@ -37,7 +37,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
   ];
 
   useEffect(() => {
-    dispatch(fetchAssignUsers(RECORD_TYPES[recordType]));
+    dispatch(fetchTransitionData(RECORD_TYPES[recordType]));
   }, [dispatch, recordType]);
 
   const userPermissions = useSelector(state =>
