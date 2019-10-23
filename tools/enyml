@@ -32,11 +32,14 @@ def main():
 
     key_list = scan_project()
 
+    if not CLEAN:
+        sys.exit(0)
+
     write_yaml(key_list)
 
 
 def parse_args():
-    global INDETERMINATE, PARTIAL, QUIET, USED
+    global CLEAN, INDETERMINATE, PARTIAL, QUIET, USED
 
     parser = argparse.ArgumentParser()
 
@@ -48,14 +51,23 @@ def parse_args():
     )
 
     group = parser.add_mutually_exclusive_group()
+
+    group.add_argument(
+        "-c",
+        "--clean",
+        help='remove unused keys from the "en.yml" file',
+        action="store_true",
+    )
+
     group.add_argument("-i", "--indeterminate", action="store_true")
     group.add_argument("-p", "--partial", action="store_true")
 
     args = parser.parse_args()
 
+    CLEAN = args.clean
     INDETERMINATE = args.indeterminate
     PARTIAL = args.partial
-    USED = not (INDETERMINATE or PARTIAL)
+    USED = not (CLEAN or INDETERMINATE or PARTIAL)
     QUIET = args.quiet
 
 
