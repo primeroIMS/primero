@@ -153,6 +153,7 @@ def get_key_set(grep_output):
     lines = grep_output.splitlines()
 
     for line in lines:
+        f_, l_, r_ = line.split(":", maxsplit=2)
         f, l, r = line.split(":", maxsplit=2)
 
         r = r.partition("t(")[2]
@@ -160,7 +161,7 @@ def get_key_set(grep_output):
 
         if not r.startswith(("'", "`", '"')):
             if INDETERMINATE:
-                echo(f + ":" + l + ":" + r)
+                echo(f_ + ":" + l_ + ":" + r_)
             continue
 
         quote = r[0]
@@ -173,7 +174,7 @@ def get_key_set(grep_output):
 
             if not KEY_PATTERN.match(k):
                 if msg:
-                    echo(f + ":" + l + ":" + r)
+                    echo(f_ + ":" + l_ + ":" + r_)
                 break
 
             key += ("." + k) if len(key) > 0 else k
