@@ -63,6 +63,12 @@ module Record
       self.name.underscore.downcase
     end
 
+    def preview_field_names
+      Field.joins(:form_section).where(
+        form_sections: { parent_form: parent_form },
+        show_on_minify_form: true
+      ).pluck(:name)
+    end
 
     #TODO: Refactor with UIUX
     def model_name_for_messages
