@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 
+import argparse
 import os
 import re
 import shlex
@@ -19,6 +20,7 @@ YAML_PATH = os.path.join(PROJECT_ROOT, "config/locales/en.yml")
 
 
 def main():
+    parse_args()
 
     # Note: Fail fast if YAML structure or keys are bad.
     validate_yaml_structure()
@@ -27,6 +29,23 @@ def main():
     key_list = scan_project()
 
     write_yaml(key_list)
+
+
+def parse_args():
+    global QUIET
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "-q",
+        "--quiet",
+        help="perform validation only and produce no ouptut",
+        action="store_true",
+    )
+
+    args = parser.parse_args()
+
+    QUIET = args.quiet
 
 
 def validate_yaml_structure():
