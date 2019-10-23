@@ -159,7 +159,8 @@ def get_key_set(grep_output):
         r = r.partition(")")[0]
 
         if not r.startswith(("'", "`", '"')):
-            echoerr(f + ":" + l + ":" + r)
+            if INDETERMINATE:
+                echo(f + ":" + l + ":" + r)
             continue
 
         quote = r[0]
@@ -167,19 +168,23 @@ def get_key_set(grep_output):
         r = r.partition(quote)[0]
 
         key = ""
+        msg = INDETERMINATE
         for k in r.split("."):
 
             if not KEY_PATTERN.match(k):
-                echoerr(f + ":" + l + ":" + r)
+                if msg:
+                    echo(f + ":" + l + ":" + r)
                 break
 
             key += ("." + k) if len(key) > 0 else k
+            msg = PARTIAL
 
         if len(key) > 0:
             key_set.add(key)
 
-    for k in sorted(key_set):
-        echo(k)
+    if USED:
+        for k in sorted(key_set):
+            echo(k)
 
     return key_set
 
