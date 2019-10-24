@@ -32,8 +32,7 @@ const SessionTimeoutDialog = () => {
   };
 
   const logout = () => {
-    localStorage.removeItem("user");
-    dispatch(push("/login"));
+    dispatch(push("/logout"));
   };
 
   const startLogoutTimer = () => {
