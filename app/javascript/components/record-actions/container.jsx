@@ -48,18 +48,25 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
 
   const canRefer = Permissions.check(userPermissions, [
     Permissions.MANAGE,
-    Permissions.REFER
+    Permissions.REFERRAL
   ]);
 
   const canClose = Permissions.check(userPermissions, [
     Permissions.MANAGE,
     Permissions.CLOSE
   ]);
+
   const canEnable = Permissions.check(userPermissions, [
     Permissions.MANAGE,
     Permissions.ENABLE_DISABLE_RECORD
   ]);
-  const canTransfer = Permissions.check(userPermissions, assignPermissions);
+
+  const canAssign = Permissions.check(userPermissions, assignPermissions);
+
+  const canTransfer = Permissions.check(userPermissions, [
+    Permissions.MANAGE,
+    Permissions.TRANSFER
+  ]);
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -141,12 +148,13 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
       name: `${i18n.t("buttons.reassign")} ${recordType}`,
       action: () => setTransitionType("reassign"),
       recordType,
-      condition: canTransfer
+      condition: canAssign
     },
     {
       name: `${i18n.t("buttons.transfer")} ${recordType}`,
       action: () => setTransitionType("transfer"),
-      recordType: ["cases", "incidents"]
+      recordType: ["cases", "incidents"],
+      condition: canTransfer
     },
     {
       name: i18n.t("actions.incident_details_from_case"),

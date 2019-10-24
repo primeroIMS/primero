@@ -8,8 +8,9 @@ export const CLOSE = "close";
 export const ENABLE_DISABLE_RECORD = "enable_disable_record";
 export const ADD_NOTE = "add_note";
 export const READ = "read";
-export const REFER = "refer";
+export const REFERRAL = "referral";
 export const DISPLAY_VIEW_PAGE = "display_view_page";
+export const TRANSFER = "transfer";
 
 export const check = (currentPermissions, allowedPermissions) => {
   return (
