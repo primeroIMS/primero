@@ -23,7 +23,7 @@ class RecordDataService
   end
 
   def self.embed_hidden_name(data, record, selected_field_names)
-    return data unless record.hidden_name && selected_field_names.include?('name')
+    return data unless record.try(:hidden_name) && selected_field_names.include?('name')
 
     data['name'] = '*******'
     data
@@ -37,7 +37,7 @@ class RecordDataService
   end
 
   def self.embed_photo_metadata(data, record, selected_field_names)
-    return data unless selected_field_names.include?('photos') && record.photos.count.positive?
+    return data unless selected_field_names.include?('photos') && record.try(:photos) && record.photos.count.positive?
 
     data['photos'] = record.photos.map do |photo|
       Rails.application.routes.url_helpers.rails_blob_path(photo.image, only_path: true)
