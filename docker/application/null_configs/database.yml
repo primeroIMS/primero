@@ -1,5 +1,0 @@
----
-production:
-  adapter: nulldb
-development:
-  adapter: nulldb
