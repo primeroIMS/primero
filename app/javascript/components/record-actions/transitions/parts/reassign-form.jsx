@@ -4,26 +4,38 @@ import * as Yup from "yup";
 import { Formik, Field, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
+import { RECORD_TYPES } from "config";
 import { TextField } from "formik-material-ui";
 import { Box, Button } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import { enqueueSnackbar } from "components/notifier";
 import { makeStyles } from "@material-ui/core/styles";
 import { SearchableSelect } from "components/searchable-select";
-import { getAssignUsers, getErrorsByTransitionType } from "../selectors";
-import { saveAssignedUser } from "../action-creators";
+import {
+  getUsersByTransitionType,
+  getErrorsByTransitionType
+} from "../selectors";
+import { saveAssignedUser, fetchAssignUsers } from "../action-creators";
 import styles from "../styles.css";
 
 const initialValues = { transitioned_to: "", notes: "" };
 
-const ReassignForm = ({ handleClose, record }) => {
+const ReassignForm = ({ handleClose, record, recordType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const transitionType = "reassign";
 
   const firstUpdate = React.useRef(true);
-  const users = useSelector(state => getAssignUsers(state));
+
+  useEffect(() => {
+    dispatch(fetchAssignUsers(RECORD_TYPES[recordType]));
+  }, []);
+
+  const users = useSelector(state =>
+    getUsersByTransitionType(state, transitionType)
+  );
+
   const hasErrors = useSelector(state =>
     getErrorsByTransitionType(state, transitionType)
   );
@@ -77,7 +89,7 @@ const ReassignForm = ({ handleClose, record }) => {
           value: user.user_name.toLowerCase(),
           label: user.user_name
         }))
-      : null
+      : []
   };
 
   const handleAssign = (values, { setSubmitting }) => {
@@ -155,7 +167,8 @@ const ReassignForm = ({ handleClose, record }) => {
 ReassignForm.propTypes = {
   handleClose: PropTypes.func,
   record: PropTypes.object,
-  formik: PropTypes.object
+  formik: PropTypes.object,
+  recordType: PropTypes.string.isRequired
 };
 
 export default ReassignForm;

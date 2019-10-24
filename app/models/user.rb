@@ -143,7 +143,17 @@ class User < ApplicationRecord
       users = users_with_permission(model, permission)
               .where(disabled: false)
               .where.not(id: user.id)
-      users = users.where(filters) if filters.present?
+      if filters.present?
+        services_filter = filters.delete('services')
+        agencies_filter = filters.delete('agency')
+        users = users.where(filters) if filters.present?
+        if services_filter.present?
+          users = users.where(':service = ANY (services)', service: services_filter)
+        end
+        if agencies_filter.present?
+          users = users.joins(:agency).where(agencies: { unique_id: agencies_filter })
+        end
+      end
       users
     end
 
@@ -226,6 +236,10 @@ class User < ApplicationRecord
   def has_any_permission?(*any_of_permissions)
     (any_of_permissions.flatten - role.permissions).count <
       any_of_permissions.flatten.count
+  end
+
+  def can_preview?(record_type)
+    has_permission_by_permission_type?(record_type.parent_form, Permission::DISPLAY_VIEW_PAGE)
   end
 
   #TODO: May deprecate this method in favor of record_query_scope
@@ -394,7 +408,7 @@ class User < ApplicationRecord
 
   def permitted_field_names(model_class)
     unless @permitted_field_names.present?
-      @permitted_field_names = ['id'] + permitted_field_names_from_forms(model_class.parent_form)
+      @permitted_field_names = %w[id record_in_scope] + permitted_field_names_from_forms(model_class.parent_form)
       @permitted_field_names << 'record_state' if can?(:enable_disable_record, model_class)
       @permitted_field_names << 'hidden_name' if can?(:update, model_class)
       @permitted_field_names << 'flag_count' if can?(:flag, model_class)

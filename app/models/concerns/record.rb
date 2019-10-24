@@ -42,6 +42,11 @@ module Record
       record
     end
 
+    def common_summary_fields
+      %w[created_at owned_by owned_by_agency_id photos
+         flag_count status record_in_scope short_id]
+    end
+
     #TODO: This method is currently unused, but should eventually replace the mess in the record actions controller
     def find_or_initialize(unique_identifier)
       record = find_by_unique_identifier(unique_identifier)
@@ -63,6 +68,12 @@ module Record
       self.name.underscore.downcase
     end
 
+    def preview_field_names
+      Field.joins(:form_section).where(
+        form_sections: { parent_form: parent_form },
+        show_on_minify_form: true
+      ).pluck(:name)
+    end
 
     #TODO: Refactor with UIUX
     def model_name_for_messages

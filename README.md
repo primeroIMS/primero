@@ -105,6 +105,10 @@ Prepare the database
     $ rails db:create
     $ rails db:migrate
     $ rails db:seed
+    
+Generate the i18n translation files
+
+    $ bin/rails i18n:js:export
 
 You may start the development Rails server on port 3000:
 

@@ -79,9 +79,10 @@ class Child < ApplicationRecord
   end
 
   def self.summary_field_names
-    %w[ case_id_display name survivor_code_no age sex registration_date created_at
-        owned_by owned_by_agency_id photos flag_count hidden_name workflow
-        status case_status_reopened ]
+    common_summary_fields + %w[
+      case_id_display name survivor_code_no age sex registration_date
+      hidden_name workflow case_status_reopened
+    ]
   end
 
   searchable auto_index: self.auto_index? do
@@ -99,7 +100,7 @@ class Child < ApplicationRecord
 
     string :status, as: 'status_sci'
     string :risk_level, as: 'risk_level_sci' do
-      self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
+      risk_level.present? ? risk_level : RISK_LEVEL_NONE
     end
 
     date :assessment_due_dates, multiple: true do
@@ -136,7 +137,7 @@ class Child < ApplicationRecord
   end
 
   def family_detail_values(field)
-    self.data['family_details_section'].map { |fds| fds[field] }.compact.uniq.join(' ') if self.data['family_details_section'].present?
+    data['family_details_section'].map { |fds| fds[field] }.compact.uniq.join(' ') if self.data['family_details_section'].present?
   end
 
   def self.report_filters
@@ -243,10 +244,6 @@ class Child < ApplicationRecord
 
   def create_case_id_display(system_settings)
     [self.case_id_code, self.short_id].reject(&:blank?).join(self.auto_populate_separator('case_id_code', system_settings))
-  end
-
-  def sortable_name
-    self.name
   end
 
   def family(relation=nil)

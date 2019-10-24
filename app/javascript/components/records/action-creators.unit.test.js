@@ -1,4 +1,3 @@
-import clone from "lodash/clone";
 import chai, { expect } from "chai";
 import sinon from "sinon";
 import sinonChai from "sinon-chai";
@@ -9,29 +8,40 @@ chai.use(sinonChai);
 
 describe("records - Action Creators", () => {
   it("should have known action creators", () => {
-    const creators = clone(actionCreators);
+    const creators = { ...actionCreators };
 
-    expect(creators).to.have.property("fetchRecords");
+    expect(creators).to.have.property("setFilters");
+    expect(creators).to.have.property("setCasesFilters");
+    expect(creators).to.have.property("setIncidentsFilters");
+    expect(creators).to.have.property("setTracingRequestFilters");
+    expect(creators).to.have.property("fetchCases");
+    expect(creators).to.have.property("fetchIncidents");
+    expect(creators).to.have.property("fetchTracingRequests");
     expect(creators).to.have.property("fetchRecord");
     expect(creators).to.have.property("saveRecord");
-    delete creators.fetchRecords;
+    delete creators.setFilters;
+    delete creators.setCasesFilters;
+    delete creators.setIncidentsFilters;
+    delete creators.setTracingRequestFilters;
+    delete creators.fetchCases;
+    delete creators.fetchIncidents;
+    delete creators.fetchTracingRequests;
     delete creators.fetchRecord;
     delete creators.saveRecord;
 
     expect(creators).to.deep.equal({});
   });
 
-  it("should check the 'fetchRecords' action creator to return the correct object", () => {
+  it("should check the 'fetchCases' action creator to return the correct object", () => {
     const options = { status: "open" };
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
-    actionCreators.fetchRecords({
-      options: { status: "open" },
-      recordType: "cases"
+    actionCreators.fetchCases({
+      options: { status: "open" }
     })(dispatch);
 
-    expect(dispatch).to.have.been.calledWithMatch({
+    expect(dispatch).not.to.have.been.calledWithMatch({
       payload: options,
       type: "cases/SET_FILTERS"
     });
@@ -43,6 +53,54 @@ describe("records - Action Creators", () => {
         path: "cases"
       },
       type: "cases/RECORDS"
+    });
+  });
+
+  it("should check the 'fetchIncidents' action creator to return the correct object", () => {
+    const options = { status: "open" };
+    const store = configureStore()({});
+    const dispatch = sinon.spy(store, "dispatch");
+
+    actionCreators.fetchIncidents({
+      options: { status: "open" }
+    })(dispatch);
+
+    expect(dispatch).not.to.have.been.calledWithMatch({
+      payload: options,
+      type: "cases/SET_FILTERS"
+    });
+
+    expect(dispatch).to.have.been.calledWithMatch({
+      api: {
+        db: { collection: "records", recordType: "incidents" },
+        params: options,
+        path: "incidents"
+      },
+      type: "incidents/RECORDS"
+    });
+  });
+
+  it("should check the 'fetchTracingRequests' action creator to return the correct object", () => {
+    const options = { status: "open" };
+    const store = configureStore()({});
+    const dispatch = sinon.spy(store, "dispatch");
+
+    actionCreators.fetchTracingRequests({
+      options: { status: "open" }
+    })(dispatch);
+
+    expect(dispatch).not.to.have.been.calledWithMatch({
+      payload: options,
+      type: "cases/SET_FILTERS"
+    });
+
+    expect(dispatch).to.have.been.calledWithMatch({
+      api: {
+        db: { collection: "records", recordType: "tracing_requests" },
+        params: options,
+        path: "tracing_requests"
+      },
+      type: "tracing_requests/RECORDS"
     });
   });
 

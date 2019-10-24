@@ -4,7 +4,8 @@ module Api::V2::Concerns
 
     included do
       before_action :permit_fields
-      before_action :select_fields, only: [:index, :show]
+      before_action :select_fields_for_index, only: [:index]
+      before_action :select_fields_for_show, only: [:show]
     end
 
     def index
@@ -59,8 +60,19 @@ module Api::V2::Concerns
       @permitted_field_names = current_user.permitted_field_names(model_class)
     end
 
-    def select_fields
-      @selected_field_names = FieldSelectionService.select_fields_to_show(params, model_class, @permitted_field_names)
+    def select_fields_for_show
+      @selected_field_names =
+        FieldSelectionService.select_fields_to_show(params, model_class, @permitted_field_names, current_user)
+    end
+
+    def select_fields_for_index
+      params_for_fields = params
+      if params[:id_search]
+        params_for_fields = { fields: 'short', id_search: true }
+      end
+      @selected_field_names = FieldSelectionService.select_fields_to_show(
+        params_for_fields, model_class, @permitted_field_names, current_user
+      )
     end
 
     def select_updated_fields
@@ -71,7 +83,7 @@ module Api::V2::Concerns
     def record_params
       record_params = params['data'].try(:to_h) || {}
       record_params = DestringifyService.destringify(record_params)
-      record_params.select{|k,_| @permitted_field_names.include?(k)}.to_h
+      record_params.select{|k,_| @permitted_field_names.include?(k)}
     end
 
     def find_record

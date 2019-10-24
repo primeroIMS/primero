@@ -5,30 +5,30 @@ class Header < ValueObject
   @primero_module_gbv = PrimeroModule.gbv
   @primero_module_mrm = PrimeroModule.mrm
 
-  SHORT_ID = Header.new(name: 'id', field_name: 'short_id')
-  CASE_NAME = Header.new(name: 'sort', field_name: 'sortable_name', id_search: true)
+  SHORT_ID = Header.new(name: 'id', field_name: 'short_id', id_search: true)
+  CASE_NAME = Header.new(name: 'name', field_name: 'name')
   SURVIVOR_CODE = Header.new(name: 'survivor_code', field_name: 'survivor_code_no')
   AGE= Header.new(name: 'age', field_name: 'age', id_search: true)
   SEX = Header.new(name: 'sex', field_name: 'sex', id_search: true)
-  REGISTRATION_DATE = Header.new(name: 'registration_date', field_name: 'registration_date', id_search: true)
-  CASE_OPENING_DATE = Header.new(name: 'case_opening_date', field_name: 'case_opening_date', id_search: true)
-  PHOTO = Header.new(name: 'photo', field_name: 'photo', id_search: true)
-  SOCIAL_WORKER = Header.new(name: 'social_worker', field_name: 'owned_by', id_search: true)
+  REGISTRATION_DATE = Header.new(name: 'registration_date', field_name: 'registration_date')
+  CASE_OPENING_DATE = Header.new(name: 'case_opening_date', field_name: 'case_opening_date')
+  PHOTO = Header.new(name: 'photo', field_name: 'photo')
+  SOCIAL_WORKER = Header.new(name: 'social_worker', field_name: 'owned_by')
   OWNED_BY = Header.new(name: 'owned_by', field_name: 'owned_by', id_search: true)
   OWNED_BY_AGENCY = Header.new(name: 'owned_by_agency', field_name: 'owned_by_agency', id_search: true)
   DATE_OF_INTERVIEW = Header.new(name: 'date_of_interview', field_name: 'date_of_first_report')
   DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date_derived')
   VIOLENCE_TYPE = Header.new(name: 'violence_type', field_name: 'gbv_sexual_violence_type')
   INCIDENT_LOCATION = Header.new(name: 'incident_location', field_name: 'incident_location')
-  VIOLATIONS = Header.new(name: 'violations', field_name: 'violations') 
+  VIOLATIONS = Header.new(name: 'violations', field_name: 'violations')
   NAME_OF_INQUIRER = Header.new(name: 'name_of_inquirer', field_name: 'relation_name')
   DATE_OF_INQUIRY = Header.new(name: 'date_of_inquiry', field_name: 'inquiry_date')
   TRACING_REQUESTS = Header.new(name: 'tracing_requests', field_name: 'tracing_names')
-  NAME = Header.new(name: 'name', field_name: 'name') 
+  NAME = Header.new(name: 'name', field_name: 'name')
   DESCRIPTION = Header.new(name: 'description', field_name: 'description')
   CASE_ID = Header.new(name: 'id', field_name: 'record_id_display')
   PRIORITY = Header.new(name: 'priority', field_name: 'priority')
-  TYPE = Header.new(name: 'type', field_name: 'type')
+  TYPE_DISPLAY = Header.new(name: 'type', field_name: 'type_display')
   DUE_DATE = Header.new(name: 'due_date', field_name: 'due_date')
   FILE_NAME = Header.new(name: 'file_name', field_name: 'file_name')
   RECORD_TYPE = Header.new(name: 'record_type', field_name: 'record_type')
@@ -63,7 +63,7 @@ class Header < ValueObject
       header_list << AGE if user.has_module?(@primero_module_cp.id)
       header_list << SEX if user.has_module?(@primero_module_cp.id)
       header_list << REGISTRATION_DATE if user.has_module?(@primero_module_cp.id)
-      header_list << CASE_OPENING_DATE if user.has_module?(@primero_module_gbv.id) 
+      header_list << CASE_OPENING_DATE if user.has_module?(@primero_module_gbv.id)
       header_list << PHOTO if user.has_module?(@primero_module_cp.id)
       header_list << SOCIAL_WORKER if user.is_manager?
       header_list << OWNED_BY if user.has_module?(@primero_module_cp.id)
@@ -91,7 +91,7 @@ class Header < ValueObject
     end
 
     def task_headers
-      [CASE_ID, PRIORITY, TYPE, DUE_DATE, STATUS]
+      [CASE_ID, PRIORITY, TYPE_DISPLAY, DUE_DATE, STATUS]
     end
 
     def bulk_export_headers

@@ -1,8 +1,20 @@
 import { expect } from "chai";
 import "test/test.setup";
-import { List, Map } from "immutable";
-
-import { buildTableColumns } from "./helpers";
+import { List } from "immutable";
+import { RECORD_PATH } from "config";
+import {
+  fetchCases,
+  fetchIncidents,
+  fetchTracingRequests,
+  setCasesFilters,
+  setIncidentsFilters,
+  setTracingRequestFilters
+} from "components/records";
+import {
+  buildTableColumns,
+  getRecordsFetcherByType,
+  getFiltersSetterByType
+} from "./helpers";
 
 const i18n = {
   t: name => {
@@ -28,5 +40,29 @@ describe("<RecordList /> - buildTableColumns", () => {
     columns.forEach((v, k) => {
       expect(v).to.deep.equal(expected[k]);
     });
+  });
+});
+
+describe("<RecordList /> - getFiltersSetterByType", () => {
+  it("should return the correct setFilters for each type", () => {
+    expect(getFiltersSetterByType(RECORD_PATH.cases)).to.equal(setCasesFilters);
+    expect(getFiltersSetterByType(RECORD_PATH.incidents)).to.equal(
+      setIncidentsFilters
+    );
+    expect(getFiltersSetterByType(RECORD_PATH.tracing_requests)).to.equal(
+      setTracingRequestFilters
+    );
+  });
+});
+
+describe("<RecordList /> - getRecordsFetcherByType", () => {
+  it("should return the correct fetchRecords for the type", () => {
+    expect(getRecordsFetcherByType(RECORD_PATH.cases)).to.equal(fetchCases);
+    expect(getRecordsFetcherByType(RECORD_PATH.incidents)).to.equal(
+      fetchIncidents
+    );
+    expect(getRecordsFetcherByType(RECORD_PATH.tracing_requests)).to.equal(
+      fetchTracingRequests
+    );
   });
 });

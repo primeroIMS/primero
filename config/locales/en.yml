@@ -265,8 +265,11 @@ en:
     my_filters: "My Filters"
     id: "ID#"
     name: "Name"
+    full_name: "Full Name"
     age: "Age"
+    age_estimated: "Estimated Age?"
     sex: "Sex"
+    date_of_birth: "Date of Birth"
     registration_date: "Registration Date"
     status: "Status"
     social_worker: "Social Worker"
@@ -290,6 +293,8 @@ en:
     notes_dialog_title: 'Add Notes'
     notes_form_subject: 'Subject'
     notes_form_notes: 'Notes'
+    case_worker_code: "Case Worker Code"
+    agency: "Agency"
 
     order_by:
       most_recently: "Most recently"
@@ -444,6 +449,11 @@ en:
     type: "Type of Action"
     due_date: "Due Date"
     status: "Status"
+    priorities:
+      high_level: "High"
+      medium_level: "Medium"
+      low_level: "Low"
+      no_action_level: "No Action"
     types:
       assessment: "Assessment"
       case_plan: "Case Plan"
@@ -1205,6 +1215,8 @@ en:
       reportable_service: "Service"
       reportable_follow_up: "Follow Up"
       reportable_protection_concern: "Protection Concern"
+      record_information: "Record Information"
+      transfers_assignments: "Transfers / Assignments"
 
   form_section:
     name: "Name"
@@ -2190,6 +2202,10 @@ en:
     done_success_message: "Referral Done."
     agency_label: "Agency"
     location_label: "Location"
+    refer_anyway_label: "Refer anyway?"
+    provided_consent_label: "Consent is not provided in the Forms."
+    recipient_label: "Recipient"
+    user_mandatory_label: "Recipient is required"
 
   reassign:
     reassign_case_title: "Assign case(s) to:"
@@ -2210,11 +2226,11 @@ en:
     consent_override_label: "Do you wish to override this setting?"
     is_remote_label: "Are you transferring to a remote system?"
     consent_individual_transfer: "Do you have consent from the individual to make this transfer?"
-    type_of_export: "What type of export do you want"
+    type_of_export: "What type of export do you want?"
     notes_label: "Notes"
     user_mandatory: "User name is required"
     failure: "%{record_type} %{id} transfer failed (check that consent fields are selected)"
-    success: "%{record_type} %{id} successfully transferred"
+    success: "Successfully transferred"
     rejected: "%{record_type} %{id} transfer rejected"
     failure_batch: "%{failed_count} Transfer(s) failed (check that consent fields are selected)"
     success_batch: "%{success_count} Transfer(s) successfully made"
@@ -2241,6 +2257,9 @@ en:
     is_remote_label: "Are you transferring to someone who is not using this system?"
     recipient_label: "Recipient"
     submit_label: "Transfer"
+    type_of_transition: "Type of transition"
+    json_primero: "JSON (Primero)"
+    json_non_primero: "JSON (Non-Primero)"
 
   request_transfer:
     success: "Request transfer sent"
@@ -2259,6 +2278,32 @@ en:
     errors:
       consent: "Consent not provided"
       to_user_can_receive: "This user cannot receive this record"
+    type:
+      assign: "Assign"
+      transfer: "Transfer"
+      transferRequest: "TransferRequest"
+      referral: "Referral"
+    notes: "Notes"
+    recipient: "Recipient"
+    assigned_by: "Assigned By"
+    rejected: "Reason Rejected"
+    no_consent_share: "No Consent to Share Setting Overridden"
+    individual_consent: "Did the case worker have the individual's consent to make this transfer?"
+    consent_overridden_value:
+      true_label: "Yes"
+      false_label: "No"
+    consent_individual_transfer_value:
+      true_label: "Yes"
+      false_label: "No"
+    status:
+      pending: "Pending"
+      accepted: "Accepted"
+      rejected: "Rejected"
+      inprogress: "In progress"
+      done: "Done"
+
+  transfer_assignment:
+    title: "TRANSFERS AND ASSIGNMENTS"
 
 
   mark_for_mobile:

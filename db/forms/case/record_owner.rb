@@ -162,7 +162,7 @@ Field.new({"name" => "reopened_logs",
 FormSection.create_or_update_form_section({
   :unique_id=>"record_owner",
   :parent_form=>"case",
-  "visible" => true,
+  "visible" => false,
   :order_form_group => 0,
   :order => 0,
   :order_subform => 0,
