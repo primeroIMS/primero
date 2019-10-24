@@ -6,7 +6,6 @@ describe("filters-builder - Actions", () => {
   it("should have known actions", () => {
     const actions = { ...filtersBuilderActions };
 
-    expect(actions).to.have.property("SET_EXPANSION_PANEL");
     expect(actions).to.have.property("REMOVE_EXPANDED_PANEL");
     expect(actions).to.have.property("RESET_PANELS");
     expect(actions).to.have.property("CASES_SET_FILTERS");
@@ -29,7 +28,7 @@ describe("filters-builder - Actions", () => {
     expect(actions).to.have.property("RESET_RADIO_BUTTON");
     expect(actions).to.have.property("RESET_RANGE_BUTTON");
     expect(actions).to.have.property("SET_SAVED_FILTERS");
-    delete actions.SET_EXPANSION_PANEL;
+
     delete actions.REMOVE_EXPANDED_PANEL;
     delete actions.RESET_PANELS;
     delete actions.CASES_SET_FILTERS;
@@ -54,5 +53,11 @@ describe("filters-builder - Actions", () => {
     delete actions.SET_SAVED_FILTERS;
 
     expect(actions).to.deep.equal({});
+  });
+
+  it("deprecated constant SET_EXPANSION_PANEL", () => {
+    const actions = { ...filtersBuilderActions };
+
+    expect(actions).to.not.have.property("SET_EXPANSION_PANEL");
   });
 });
