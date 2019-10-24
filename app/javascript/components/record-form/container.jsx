@@ -7,13 +7,15 @@ import { withRouter } from "react-router-dom";
 import { useI18n } from "components/i18n";
 import { PageContainer } from "components/page";
 import { LoadingIndicator } from "components/loading-indicator";
+import { Transitions, fetchTransitions } from "components/transitions";
 import { useThemeHelper } from "libs";
 import clsx from "clsx";
-import { RECORD_TYPES } from "config";
+import { RECORD_TYPES, TRANSITION_TYPE } from "config";
 import { fetchRecord, saveRecord, selectRecord } from "components/records";
 import { Nav } from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
+
 import {
   getFirstTab,
   getFormNav,
@@ -136,6 +138,13 @@ const RecordForms = ({ match, mode }) => {
     params.recordType
   ]);
 
+  useEffect(() => {
+    dispatch(fetchTransitions(params.recordType, params.id));
+  }, [params.recordType, params.id]);
+
+  // TODO: When transfer_request be implement change the transition_ype
+  const isTransition = TRANSITION_TYPE.includes(selectedForm);
+
   return (
     <PageContainer twoCol>
       <LoadingIndicator
@@ -153,8 +162,12 @@ const RecordForms = ({ match, mode }) => {
           <div className={css.recordNav}>
             <Nav {...navProps} />
           </div>
-          <div className={css.recordForms}>
-            <RecordForm {...formProps} />
+          <div className={`${css.recordForms} record-form-container`}>
+            {isTransition ? (
+              <Transitions recordType={params.recordType} record={params.id} />
+            ) : (
+              <RecordForm {...formProps} />
+            )}
           </div>
         </div>
       </LoadingIndicator>

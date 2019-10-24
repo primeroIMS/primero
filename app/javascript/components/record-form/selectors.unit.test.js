@@ -140,35 +140,8 @@ describe("<RecordForm /> - Selectors", () => {
   });
 
   describe("getRecord", () => {
-    it("should return the record", () => {
-      const expected = Map({
-        age: 26,
-        case_id: "caf0cf17-901b-4b01-80d5-5ceb72063a4b",
-        case_id_display: "2063a4b",
-        created_at: "2019-08-06T20:21:19.864Z",
-        created_by: "primero",
-        date_of_birth: "1993-06-05",
-        id: "e15acbe5-9501-4615-9f43-cb6873997fc1",
-        module_id: "primeromodule-cp",
-        name: "Gerald Padgett",
-        name_first: "Gerald",
-        name_given_post_separation: true,
-        name_last: "Padgett",
-        owned_by: "primero",
-        owned_by_agency_id: 1,
-        previously_owned_by: "primero",
-        record_state: true,
-        registration_date: "2019-08-06",
-        sex: "male",
-        short_id: "2063a4b"
-      });
-      const record = selectors.getRecord(stateWithRecords, { isEdit: true });
-      expect(record).to.deep.equal(expected);
-    });
-
-    it("should return undefined when there is not any record selected", () => {
-      const record = selectors.getRecord(stateWithNoRecords, { isEdit: true });
-      expect(record).to.be.an("undefined");
+    it("should not find removed function getRecord", () => {
+      expect(selectors.getRecord).to.be.an("undefined");
     });
   });
 

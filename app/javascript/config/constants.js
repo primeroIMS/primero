@@ -34,13 +34,14 @@ export const RECORD_TYPES = {
 export const AGE_MAX = 999;
 
 export const PERMITTED_URL = [
-  "/login",
-  "/not-authorized",
   "/dashboard",
-  "/logout"
+  "/login",
+  "/logout",
+  "/not-authorized",
+  "/support"
 ];
 
-const MODULES = Object.freeze({
+export const MODULES = Object.freeze({
   CP: "primeromodule-cp",
   GBV: "primeromodule-gbv"
 });
@@ -62,3 +63,9 @@ export const RECORD_PATH = {
   tracing_requests: "tracing_requests",
   incidents: "incidents"
 };
+
+export const TRANSITION_TYPE = ["transfers_assignments", "referral"];
+
+export const RECORD_OWNER = "record_owner";
+
+export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";

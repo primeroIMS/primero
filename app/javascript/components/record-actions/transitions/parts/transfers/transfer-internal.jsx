@@ -25,11 +25,6 @@ const TransferInternal = ({ disableControl, fields }) => {
       );
     }
 
-    const searchOnChange = (data, field, form) => {
-      const { value } = data;
-      form.setFieldValue(field.name, value, false);
-    };
-
     const searchTextFieldProps = field => {
       const { id, label } = field;
       return {
@@ -41,6 +36,14 @@ const TransferInternal = ({ disableControl, fields }) => {
           shrink: true
         }
       };
+    };
+
+    const searchableValue = field => {
+      const { value } = field;
+      const selected = f.options.filter(option => option.value === value)[0];
+      return !disableControl && value !== ""
+        ? selected
+        : { value: "", label: "" };
     };
 
     const searchableField = (searchField, props) => {
@@ -68,9 +71,11 @@ const TransferInternal = ({ disableControl, fields }) => {
             id={id}
             isDisabled={disableControl}
             options={options}
-            onChange={data => searchOnChange(data, field, form)}
-            TextFieldProps={searchTextFieldProps(field)}
+            value={searchableValue(field)}
+            onChange={data => f.onChange(data, field, form)}
+            TextFieldProps={searchTextFieldProps(searchField)}
             {...other}
+            onBlur={field.onBlur}
           />
           <SearchableErrors formErrors={form} fieldError={field} />
         </>

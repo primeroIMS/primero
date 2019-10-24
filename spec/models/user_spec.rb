@@ -116,7 +116,7 @@ describe User do
 
         @user1 = User.new(user_name: 'user1', role: role_receive)
         @user1.save(validate: false)
-        @user2 = User.new(user_name: 'user2', role: role_receive)
+        @user2 = User.new(user_name: 'user2', role: role_receive, services: %w[safehouse_service])
         @user2.save(validate: false)
         @user3 = User.new(user_name: 'user3', role: role_receive)
         @user3.save(validate: false)
@@ -127,6 +127,11 @@ describe User do
       it 'shows all users that can be referred to based on permission' do
         users = User.users_for_referral(@user1, Child, {})
         expect(users.map(&:user_name)).to match_array(%w[user2 user3])
+      end
+
+      it 'filters users based on service' do
+        users = User.users_for_referral(@user1, Child, 'services' => 'safehouse_service')
+        expect(users.map(&:user_name)).to match_array(%w[user2])
       end
     end
 
@@ -863,13 +868,13 @@ describe User do
         primero_modules: [@cp]
       )
 
-      @child_1 = Child.new_with_user(@current_user, { 
-                   name: 'Child 1', 
-                   assigned_user_names: [@associated_user.user_name] 
+      @child_1 = Child.new_with_user(@current_user, {
+                   name: 'Child 1',
+                   assigned_user_names: [@associated_user.user_name]
                  })
-      @child_2 = Child.new_with_user(@current_user, { 
+      @child_2 = Child.new_with_user(@current_user, {
                    name: 'Child 2',
-                   assigned_user_names: [@associated_user.user_name] 
+                   assigned_user_names: [@associated_user.user_name]
                  })
       @child_3 = Child.new_with_user(@current_user, { name: 'Child 3' })
       [@child_1, @child_2, @child_3].each(&:save!)
@@ -966,13 +971,13 @@ describe User do
         primero_modules: [@cp]
       )
 
-      @child_1 = Child.new_with_user(@current_user, { 
-                   name: 'Child 1', 
-                   assigned_user_names: [@associated_user.user_name] 
+      @child_1 = Child.new_with_user(@current_user, {
+                   name: 'Child 1',
+                   assigned_user_names: [@associated_user.user_name]
                  })
-      @child_2 = Child.new_with_user(@current_user, { 
+      @child_2 = Child.new_with_user(@current_user, {
                    name: 'Child 2',
-                   assigned_user_names: [@associated_user.user_name] 
+                   assigned_user_names: [@associated_user.user_name]
                  })
       @child_3 = Child.new_with_user(@current_user, { name: 'Child 3' })
       [@child_1, @child_2, @child_3].each(&:save!)

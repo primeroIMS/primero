@@ -4,7 +4,7 @@
     "build": "node_modules/.bin/webpack --config webpack/config.production.js",
     "test": "NODE_ENV=test mocha --require @babel/register --require ./.mochaignore --require jsdom-global/register --recursive --exit",
     "test:all": "npm run test './app/javascript/**/*.unit.test.js'",
-    "test:inspect": "npm run test --inspect-brk=0.0.0.0:9229"
+    "test:inspect": "npm run test -- --inspect-brk=0.0.0.0:9229"
   },
   "dependencies": {
     "@date-io/date-fns": "^1.3.11",
@@ -30,6 +30,7 @@
     "immutable": "^4.0.0-rc.12",
     "jss": "^10.0.0",
     "jss-rtl": "^0.3.0",
+    "keyevent": "^1.1.0",
     "lodash": "^4.17.11",
     "mui-datatables": "^2.11.1",
     "normalizr": "^3.4.0",
