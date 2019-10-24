@@ -42,6 +42,11 @@ module Record
       record
     end
 
+    def common_summary_fields
+      %w[created_at owned_by owned_by_agency_id photos
+         flag_count status record_in_scope short_id]
+    end
+
     #TODO: This method is currently unused, but should eventually replace the mess in the record actions controller
     def find_or_initialize(unique_identifier)
       record = find_by_unique_identifier(unique_identifier)

@@ -79,9 +79,10 @@ class Child < ApplicationRecord
   end
 
   def self.summary_field_names
-    %w[ case_id_display name survivor_code_no age sex registration_date created_at
-        owned_by owned_by_agency_id photos flag_count hidden_name workflow
-        status case_status_reopened record_in_scope]
+    common_summary_fields + %w[
+      case_id_display name survivor_code_no age sex registration_date
+      hidden_name workflow case_status_reopened
+    ]
   end
 
   searchable auto_index: self.auto_index? do
