@@ -6,7 +6,15 @@ import * as selectors from "./selectors";
 
 chai.use(chaiImmutable);
 
-const stateWithNoRecords = Map({});
+const stateWithNoRecords = Map({
+  records: Map({
+    TestRecordType: Map({
+      loading: false,
+      data: List([])
+    })
+  })
+});
+
 const stateWithRecords = Map({
   records: Map({
     TestRecordType: Map({
@@ -25,13 +33,13 @@ describe("<RecordList /> - Selectors", () => {
 
   describe("selectRecords", () => {
     it("should return records", () => {
-      const expected = List([Map({ id: 1 })]);
+      const expected = Map({ "data": List([ Map({ "id": 1 })]), "metadata": Map({ "per": 20 })});
       const records = selectors.selectRecords(stateWithRecords, recordType);
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
-      const expected = List([]);
+      const expected = Map({ "data": List([]) });
       const records = selectors.selectRecords(stateWithNoRecords, recordType);
       expect(records).to.deep.equal(expected);
     });
@@ -54,16 +62,8 @@ describe("<RecordList /> - Selectors", () => {
   });
 
   describe("selectMeta", () => {
-    it("should return records meta", () => {
-      const expected = Map({ per: 20 });
-      const meta = selectors.selectMeta(stateWithRecords, recordType);
-      expect(meta).to.deep.equal(expected);
-    });
-
-    it("should return empty object when records empty", () => {
-      const expected = Map({});
-      const meta = selectors.selectMeta(stateWithNoRecords, recordType);
-      expect(meta).to.deep.equal(expected);
+    it("should not find removed function selectMeta", () => {
+      expect(selectors.selectMeta).to.be.an("undefined");
     });
   });
 
