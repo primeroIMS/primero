@@ -99,17 +99,24 @@ def parse_args():
 
 def validate_yaml_structure():
     """
-    Use "yamllint" to validate the "en.yml" file.  Exit with status 1 if
+    Use "yamllint" to validate the "en.yml" file.  Exit with non-zero status if
     validation fails.
     """
 
-    yamllint_cmd = (
-        'yamllint -d "{extends: default, rules: {line-length: disable}}" '
+    cmd = (
+        'yamllint -s -d "{extends: default, rules: {line-length: disable}}" '
         + shlex.quote(YAML_PATH)
     )
 
-    if os.system(yamllint_cmd) != 0:
-        sys.exit(1)
+    if QUIET:
+        retcode = subprocess.call(
+            cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT
+        )
+    else:
+        retcode = subprocess.call(cmd, shell=True)
+
+    if retcode > 0:
+        sys.exit(retcode)
 
 
 def validate_yaml_keys():
