@@ -172,6 +172,8 @@ cp_caseworker_permissions = [
       Permission::CREATE,
       Permission::REFERRAL_FROM_SERVICE,
       Permission::REFERRAL,
+      Permission::RECEIVE_REFERRAL,
+      Permission::RECEIVE_TRANSFER,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::REMOVE_ASSIGNED_USERS,
       Permission::ENABLE_DISABLE_RECORD,
@@ -253,7 +255,8 @@ cp_manager_permissions = [
       Permission::ADD_NOTE,
       Permission::REOPEN,
       Permission::CLOSE,
-      Permission::DISPLAY_VIEW_PAGE
+      Permission::DISPLAY_VIEW_PAGE,
+      Permission::RECEIVE_TRANSFER
     ]
   ),
   Permission.new(
