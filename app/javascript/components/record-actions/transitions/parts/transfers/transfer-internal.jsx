@@ -25,10 +25,15 @@ const TransferInternal = ({ disableControl, fields }) => {
       );
     }
 
-    const searchTextFieldProps = field => {
-      const { id, label } = field;
+    const searchTextFieldProps = (field, form) => {
+      const { id, label, required } = field;
+      const { errors } = form;
+      console.log(field)
       return {
         label,
+        required,
+        error: errors?.[id],
+        helperText: errors?.[id],
         margin: "dense",
         placeholder: i18n.t("transfer.select_label"),
         InputLabelProps: {
@@ -41,6 +46,7 @@ const TransferInternal = ({ disableControl, fields }) => {
     const searchableValue = field => {
       const { value } = field;
       const selected = f.options.filter(option => option.value === value)[0];
+
       return !disableControl && value !== ""
         ? selected
         : { value: "", label: "" };
@@ -49,22 +55,7 @@ const TransferInternal = ({ disableControl, fields }) => {
     const searchableField = (searchField, props) => {
       const { id, options } = searchField;
       const { field, form, ...other } = props;
-      const SearchableErrors = (formErrors, fieldError) => {
-        const { name } = fieldError;
-        const { touched, errors } = formErrors;
-        if (!errors) {
-          return null;
-        }
-        return (
-          form &&
-          touched[name] &&
-          errors[name] && (
-            <div className="MuiFormHelperText-root Mui-error">
-              {errors[name]}
-            </div>
-          )
-        );
-      };
+
       return (
         <>
           <SearchableSelect
@@ -73,11 +64,10 @@ const TransferInternal = ({ disableControl, fields }) => {
             options={options}
             value={searchableValue(field)}
             onChange={data => f.onChange(data, field, form)}
-            TextFieldProps={searchTextFieldProps(searchField)}
+            TextFieldProps={searchTextFieldProps(searchField, form)}
             {...other}
             onBlur={field.onBlur}
           />
-          <SearchableErrors formErrors={form} fieldError={field} />
         </>
       );
     };
@@ -90,6 +80,7 @@ const TransferInternal = ({ disableControl, fields }) => {
       />
     );
   });
+
   return <>{transferInternalForm}</>;
 };
 
