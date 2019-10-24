@@ -28,7 +28,7 @@ const TransferInternal = ({ disableControl, fields }) => {
     const searchTextFieldProps = (field, form) => {
       const { id, label, required } = field;
       const { errors } = form;
-      console.log(field)
+
       return {
         label,
         required,
