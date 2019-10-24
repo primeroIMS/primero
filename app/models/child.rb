@@ -246,10 +246,6 @@ class Child < ApplicationRecord
     [self.case_id_code, self.short_id].reject(&:blank?).join(self.auto_populate_separator('case_id_code', system_settings))
   end
 
-  def sortable_name
-    self.name
-  end
-
   def family(relation=nil)
     result = self.data['family_details_section'] || []
     if relation.present?
