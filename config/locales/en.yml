@@ -2205,6 +2205,7 @@ en:
     refer_anyway_label: "Refer anyway?"
     provided_consent_label: "Consent is not provided in the Forms."
     recipient_label: "Recipient"
+    user_mandatory_label: "Recipient is required"
 
   reassign:
     reassign_case_title: "Assign case(s) to:"
