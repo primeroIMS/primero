@@ -1,3 +1,0 @@
-production:
-  :default_locale: 'en'
-  :locales: <%= LOCALES_FROM_ENV %>
