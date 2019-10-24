@@ -39,9 +39,6 @@ module Searchable
       #     self.data['marked_for_mobiles']
       #   end
       # end
-      string :sortable_name, as: :sortable_name_sci do
-        self.data['sortable_name']
-      end
 
       #TODO - This is likely deprecated and needs to be refactored away
       #TODO - searchable_location_fields currently used by filtering
