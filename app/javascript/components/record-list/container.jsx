@@ -78,7 +78,7 @@ const RecordList = ({ match }) => {
 
   useEffect(() => {
     return () => {
-      dispatch(setFilters({ options: { id_search: false, query: "" } }));
+      dispatch(setFilters({ options: { id_search: null, query: "" } }));
     };
   }, [url]);
 

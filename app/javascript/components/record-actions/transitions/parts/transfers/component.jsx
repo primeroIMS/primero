@@ -6,6 +6,7 @@ import { isEmpty } from "lodash";
 import { Box, FormControlLabel } from "@material-ui/core";
 import { Formik, Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
+import * as yup from "yup";
 import { enqueueSnackbar } from "components/notifier";
 import { selectAgencies } from "components/application/selectors";
 import { getOption } from "components/record-form/selectors";
@@ -70,7 +71,9 @@ const TransferForm = ({
       firstUpdate.current = false;
       return;
     }
+
     const isUndefined = typeof hasErrors === "undefined";
+
     if (!isEmpty(hasErrors)) {
       const messages = Array.isArray(hasErrors)
         ? hasErrors.map(e => i18n.t(e)).join(", ")
@@ -83,7 +86,9 @@ const TransferForm = ({
 
   const sharedOnChange = (data, field, form, queryValues) => {
     const { value } = data;
+
     form.setFieldValue(field.name, value, false);
+
     if (queryValues) {
       const result = getInternalFields(form.values, queryValues);
       const params = {
@@ -91,6 +96,7 @@ const TransferForm = ({
         [field.name]: value,
         ...result
       };
+
       if (value !== form.values[field.name]) {
         dispatch(fetchTransferUsers(params));
       }
@@ -127,6 +133,7 @@ const TransferForm = ({
     {
       id: "transitioned_to",
       label: i18n.t("transfer.recipient_label"),
+      required: true,
       options: users
         ? users.map(user => ({
             value: user.user_name.toLowerCase(),
@@ -179,6 +186,7 @@ const TransferForm = ({
   const formikForm = props => {
     const { handleSubmit, values, resetForm } = props;
     const { transfer } = values;
+
     if (
       !transfer &&
       !providedConsent &&
@@ -203,7 +211,12 @@ const TransferForm = ({
     );
   };
 
+  const validationSchema = yup.object().shape({
+    transitioned_to: yup.string().required()
+  });
+
   const formProps = {
+    validationSchema,
     initialValues: {
       transfer: false,
       remoteSystem: false,
