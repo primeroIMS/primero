@@ -181,7 +181,8 @@ def scan_project():
     ]
 
     proc = subprocess.run(command, capture_output=True)
-    assert len(proc.stderr) == 0, proc.stderr.decode("utf-8")
+    assert len(proc.stderr) == 0, proc.stderr.decode("utf-8").rstrip()
+    assert proc.returncode == 0, "grep exit status was {}".format(str(proc.returncode))
 
     key_set = get_key_set(proc.stdout.decode("utf-8"))
 
