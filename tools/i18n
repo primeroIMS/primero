@@ -307,6 +307,16 @@ def write_yaml(key_list):
         for i, subkey in enumerate(key.split(".")):
 
             if subkey not in src:
+
+                if CLEAN_FILE is not None:
+                    echoerr(
+                        PROGRAM_NAME
+                        + ': key error: "{}" does not exist in "en.yml"'.format(
+                            str(key)
+                        )
+                    )
+                    sys.exit(1)
+
                 if UNDEFINED:
                     undefined.append(key)
                 break
