@@ -5,7 +5,6 @@ import { Box, Divider } from "@material-ui/core";
 import AssignmentsDetails from "./AssignmentsDetails";
 import TransitionUser from "../TransitionUser";
 
-
 describe("<AssignmentsDetails />", () => {
   let component;
   const props = {
@@ -33,7 +32,7 @@ describe("<AssignmentsDetails />", () => {
     ({ component } = setupMountedComponent(AssignmentsDetails, props));
   });
 
-  it("renders a <TransitionUser />", () => {
+  it("renders two <TransitionUser />", () => {
     expect(component.find(TransitionUser)).to.have.length(2);
   });
 

@@ -30,24 +30,9 @@ describe("<AssignmentsSummary />", () => {
     ({ component } = setupMountedComponent(AssignmentsSummary, props));
   });
 
-  it("renders divs with it correponds class", () => {
-    expect(
-      component
-        .find(AssignmentsSummary)
-        .find("div")
-        .find(".wrapperStyle")
-    ).to.have.length(1);
-    expect(
-      component
-        .find(AssignmentsSummary)
-        .find("div")
-        .find(".titleHeaderStyle")
-    ).to.have.length(1);
-    expect(
-      component
-        .find(AssignmentsSummary)
-        .find("div")
-        .find(".dateStyle")
-    ).to.have.length(1);
+  it("renders divs with its corresponding class", () => {
+    expect(component.find("div.wrapperStyle")).to.have.lengthOf(1);
+    expect(component.find("div.titleHeaderStyle")).to.have.lengthOf(1);
+    expect(component.find("div.dateStyle")).to.have.lengthOf(1);
   });
 });
