@@ -191,8 +191,8 @@ def scan_project():
 
 def get_key_set(grep_output):
     """
-    Iterate through the results from our grep command, printing bad keys on
-    stderr and good keys on stdout.  Return the set of known used keys.
+    Iterate through the results from our grep command.  Messages are printed
+    according to the command line option specified.
     """
 
     key_set = set()
@@ -202,32 +202,37 @@ def get_key_set(grep_output):
         f_, l_, r_ = line.split(":", maxsplit=2)
         f, l, r = line.split(":", maxsplit=2)
 
-        r = r.partition("t(")[2]
-        r = r.partition(")")[0]
+        pattern = re.compile("\\b[Ii]18n\\.t\\(|\\bt\\(")
+        matches = pattern.split(r)[1:]
 
-        if not r.startswith(("'", "`", '"')):
-            if INDETERMINATE:
-                echo(f_ + ":" + l_ + ":" + r_)
-            continue
+        assert len(matches) > 0
 
-        quote = r[0]
-        r = r.partition(quote)[2]
-        r = r.partition(quote)[0]
+        for match in matches:
+            match = match.partition(")")[0]
 
-        key = ""
-        msg = INDETERMINATE
-        for k in r.split("."):
-
-            if not KEY_PATTERN.match(k):
-                if msg:
+            if not match.startswith(("'", "`", '"')):
+                if INDETERMINATE:
                     echo(f_ + ":" + l_ + ":" + r_)
-                break
+                continue
 
-            key += ("." + k) if len(key) > 0 else k
-            msg = PARTIAL
+            quote = match[0]
+            match = match.partition(quote)[2]
+            match = match.partition(quote)[0]
 
-        if len(key) > 0:
-            key_set.add(key)
+            key = ""
+            msg = INDETERMINATE
+            for k in match.split("."):
+
+                if not KEY_PATTERN.match(k):
+                    if msg:
+                        echo(f_ + ":" + l_ + ":" + r_)
+                    break
+
+                key += ("." + k) if len(key) > 0 else k
+                msg = PARTIAL
+
+            if len(key) > 0:
+                key_set.add(key)
 
     if USED:
         for k in sorted(key_set):
