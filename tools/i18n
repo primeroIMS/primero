@@ -62,7 +62,7 @@ def parse_args():
         help=(
             """
             remove keys from "en.yml", preserving keys listed in FILE; when
-            a listed key does not exist, quit with an error; use "-" to read
+            listed keys do not exist, quit with error messages; use "-" to read
             from stdin; with no argument, scan for and remove unused keys
             """
         ),
@@ -292,6 +292,8 @@ def write_yaml(key_list):
     key_list argument.
     """
 
+    no_write = False
+
     with open(YAML_PATH, "r") as fp:
         yaml_dict = yaml.load(fp)
 
@@ -309,13 +311,13 @@ def write_yaml(key_list):
             if subkey not in src:
 
                 if CLEAN_FILE is not None:
+                    no_write = True
                     echoerr(
                         PROGRAM_NAME
                         + ': key error: "{}" does not exist in "en.yml"'.format(
                             str(key)
                         )
                     )
-                    sys.exit(1)
 
                 if UNDEFINED:
                     undefined.append(key)
@@ -340,6 +342,9 @@ def write_yaml(key_list):
         for k in sorted(undefined):
             print(k)
         return
+
+    if no_write:
+        sys.exit(1)
 
     tmp = dict()
     tmp["en"] = result
