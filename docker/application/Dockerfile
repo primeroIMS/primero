@@ -63,8 +63,6 @@ RUN set -euox pipefail \
 COPY [ "docker/sub.sh", "docker/application/root/", "/" ]
 # Now copy over primero and do setup
 COPY [ ".", "$APP_ROOT" ]
-# Copying in the void configs for the asset precompilation step
-COPY [ "docker/application/null_configs/*", "$APP_ROOT/config/" ]
 
 # Intentionally cached seperately
 # Generates 32 random characters for the build-id...build id MUST be 32 characters (as its hardcoded)

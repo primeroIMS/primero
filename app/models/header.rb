@@ -6,7 +6,7 @@ class Header < ValueObject
   @primero_module_mrm = PrimeroModule.mrm
 
   SHORT_ID = Header.new(name: 'id', field_name: 'short_id', id_search: true)
-  CASE_NAME = Header.new(name: 'name', field_name: 'sortable_name')
+  CASE_NAME = Header.new(name: 'name', field_name: 'name')
   SURVIVOR_CODE = Header.new(name: 'survivor_code', field_name: 'survivor_code_no')
   AGE= Header.new(name: 'age', field_name: 'age', id_search: true)
   SEX = Header.new(name: 'sex', field_name: 'sex', id_search: true)
@@ -20,11 +20,11 @@ class Header < ValueObject
   DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date_derived')
   VIOLENCE_TYPE = Header.new(name: 'violence_type', field_name: 'gbv_sexual_violence_type')
   INCIDENT_LOCATION = Header.new(name: 'incident_location', field_name: 'incident_location')
-  VIOLATIONS = Header.new(name: 'violations', field_name: 'violations') 
+  VIOLATIONS = Header.new(name: 'violations', field_name: 'violations')
   NAME_OF_INQUIRER = Header.new(name: 'name_of_inquirer', field_name: 'relation_name')
   DATE_OF_INQUIRY = Header.new(name: 'date_of_inquiry', field_name: 'inquiry_date')
   TRACING_REQUESTS = Header.new(name: 'tracing_requests', field_name: 'tracing_names')
-  NAME = Header.new(name: 'name', field_name: 'name') 
+  NAME = Header.new(name: 'name', field_name: 'name')
   DESCRIPTION = Header.new(name: 'description', field_name: 'description')
   CASE_ID = Header.new(name: 'id', field_name: 'record_id_display')
   PRIORITY = Header.new(name: 'priority', field_name: 'priority')
@@ -63,7 +63,7 @@ class Header < ValueObject
       header_list << AGE if user.has_module?(@primero_module_cp.id)
       header_list << SEX if user.has_module?(@primero_module_cp.id)
       header_list << REGISTRATION_DATE if user.has_module?(@primero_module_cp.id)
-      header_list << CASE_OPENING_DATE if user.has_module?(@primero_module_gbv.id) 
+      header_list << CASE_OPENING_DATE if user.has_module?(@primero_module_gbv.id)
       header_list << PHOTO if user.has_module?(@primero_module_cp.id)
       header_list << SOCIAL_WORKER if user.is_manager?
       header_list << OWNED_BY if user.has_module?(@primero_module_cp.id)

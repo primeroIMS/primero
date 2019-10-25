@@ -15,8 +15,10 @@ describe("Verifying config constant", () => {
     expect(permissions).to.have.property("ENABLE_DISABLE_RECORD");
     expect(permissions).to.have.property("ADD_NOTE");
     expect(permissions).to.have.property("READ");
-    expect(permissions).to.have.property("REFER");
+    expect(permissions).to.have.property("REFERRAL");
     expect(permissions).to.have.property("check");
+    expect(permissions).to.have.property("TRANSFER");
+    expect(permissions).to.have.property("DISPLAY_VIEW_PAGE");
 
     delete permissions.MANAGE;
     delete permissions.ASSIGN;
@@ -27,8 +29,10 @@ describe("Verifying config constant", () => {
     delete permissions.ENABLE_DISABLE_RECORD;
     delete permissions.ADD_NOTE;
     delete permissions.READ;
-    delete permissions.REFER;
+    delete permissions.REFERRAL;
     delete permissions.check;
+    delete permissions.TRANSFER;
+    delete permissions.DISPLAY_VIEW_PAGE;
 
     expect(permissions).to.deep.equal({});
   });
