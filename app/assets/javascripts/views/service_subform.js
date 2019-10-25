@@ -87,15 +87,16 @@ _primero.Views.ServiceSubform = _primero.Views.Base.extend({
     var self = this;
     self.set_agency_filters($subform);
     var $agency_select = $subform.find('select[id$="service_implementing_agency"]');
-    $agency_select.data('value', agency_id);
     _primero.populate_agency_select_boxes($agency_select, function() {
       /*
        * We select the value only if exists or empty, otherwise it will be null,
        * resulting in the value not being sent to the server.
        */
       if(self.has_option_value($agency_select, agency_id)) {
+        $agency_select.data('value', agency_id);
         $agency_select.val(agency_id);
       } else {
+        $agency_select.data('value', '');
         $agency_select.val('')
       }
       $agency_select.trigger('chosen:updated');
@@ -163,7 +164,8 @@ _primero.Views.ServiceSubform = _primero.Views.Base.extend({
   },
 
   has_option_value: function($select_box, value) {
-    return $select_box.find('option[value="'+value+'"]').length > 0;
+    var option = $select_box.find('option[value="'+value+'"]');
+    return option.length > 0 && option.css('display') != 'none';
   }
 
 });

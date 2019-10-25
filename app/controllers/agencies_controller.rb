@@ -26,11 +26,7 @@ class AgenciesController < ApplicationController
     authorize! :search, Agency
 
     service_type = params[:service_type]
-    agencies = if service_type.present?
-                Agency.by_service.key(service_type).all
-               else
-                 Agency.all.all
-               end
+    agencies = Agency.list_by_service_enabled(service_type)
 
     respond_to do |format|
       format.json do
