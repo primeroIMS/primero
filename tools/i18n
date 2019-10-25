@@ -39,7 +39,7 @@ def main():
 
 
 def parse_args():
-    global CLEAN, INDETERMINATE, PARTIAL, QUIET, USED, UNDEFINED
+    global CLEAN, CLEAN_FILE, INDETERMINATE, PARTIAL, QUIET, USED, UNDEFINED
 
     parser = argparse.ArgumentParser(
         description="""
@@ -100,7 +100,9 @@ def parse_args():
 
     args = parser.parse_args()
 
-    CLEAN = args.clean
+    CLEAN = args.clean if isinstance(args.clean, bool) else True
+    CLEAN_FILE = args.clean if not isinstance(args.clean, bool) else None
+
     INDETERMINATE = args.indeterminate
     PARTIAL = args.partial
     UNDEFINED = args.undefined
