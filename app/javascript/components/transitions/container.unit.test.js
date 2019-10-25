@@ -63,16 +63,16 @@ describe("<Transitions /> - Component", () => {
     expect(component.find(Transitions)).to.have.length(1);
   });
 
-  it("renders TransitionPanel", () => {
+  it("renders 2 TransitionPanel", () => {
     expect(component.find(TransitionPanel)).to.have.length(2);
     expect(component.find(ExpansionPanelDetails)).to.have.length(2);
     expect(component.find(ExpansionPanelSummary)).to.have.length(2);
   });
-  it("renders a Assignments", () => {
+  it("renders a Assignments components", () => {
     expect(component.find(AssignmentsSummary)).to.have.length(1);
     expect(component.find(AssignmentsDetails)).to.have.length(1);
   });
-  it("renders a Transfers", () => {
+  it("renders a Transfers components", () => {
     expect(component.find(TransferSummary)).to.have.length(1);
     expect(component.find(TransferDetails)).to.have.length(1);
   });

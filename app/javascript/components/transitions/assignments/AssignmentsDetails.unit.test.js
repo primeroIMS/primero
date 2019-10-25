@@ -32,11 +32,11 @@ describe("<AssignmentsDetails />", () => {
     ({ component } = setupMountedComponent(AssignmentsDetails, props));
   });
 
-  it("renders two <TransitionUser />", () => {
+  it("renders 2 <TransitionUser />", () => {
     expect(component.find(TransitionUser)).to.have.length(2);
   });
 
-  it("renders a <Box />", () => {
+  it("renders 3 <Box />", () => {
     expect(component.find(Box)).to.have.length(3);
   });
 

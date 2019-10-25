@@ -32,11 +32,11 @@ describe("<TransferDetails />", () => {
     ({ component } = setupMountedComponent(TransferDetails, props));
   });
 
-  it("renders a <TransitionUser />", () => {
+  it("renders 2 <TransitionUser />", () => {
     expect(component.find(TransitionUser)).to.have.length(2);
   });
 
-  it("renders a <Box />", () => {
+  it("renders 5 <Box />", () => {
     expect(component.find(Box)).to.have.length(5);
   });
 
