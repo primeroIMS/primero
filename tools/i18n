@@ -33,7 +33,7 @@ def main():
     if CLEAN_FILE is None:
         key_list = scan_project()
     else:
-        key_list = get_key_list(set([line.rstrip() for line in CLEAN_FILE]))
+        key_list = get_key_list(set([line.strip() for line in CLEAN_FILE]))
 
     if not CLEAN and not UNDEFINED:
         sys.exit(0)
