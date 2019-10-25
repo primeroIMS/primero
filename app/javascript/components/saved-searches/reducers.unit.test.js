@@ -2,8 +2,8 @@ import chai, { expect } from "chai";
 import { Map, List } from "immutable";
 import { mapEntriesToRecord } from "libs";
 import chaiImmutable from "chai-immutable";
-import * as R from "./records";
-import * as r from "./reducers";
+import * as Records from "./records";
+import * as reducers from "./reducers";
 
 chai.use(chaiImmutable);
 
@@ -28,7 +28,7 @@ describe("<SavedSearches /> - Reducers", () => {
       }
     ];
     const expected = Map({
-      data: mapEntriesToRecord(payloadFilters, R.SavedSearchesRecord)
+      data: mapEntriesToRecord(payloadFilters, Records.SavedSearchesRecord)
     });
     const action = {
       type: "savedSearches/FETCH_SAVED_SEARCHES_SUCCESS",
@@ -37,7 +37,7 @@ describe("<SavedSearches /> - Reducers", () => {
       }
     };
 
-    const newState = r.reducers.savedSearches(defaultState, action);
+    const newState = reducers.reducers.savedSearches(defaultState, action);
     expect(newState).to.deep.equal(expected);
   });
 
@@ -58,7 +58,7 @@ describe("<SavedSearches /> - Reducers", () => {
             ]
           }
         ],
-        R.SavedSearchesRecord
+        Records.SavedSearchesRecord
       )
     });
     const expected = Map({
@@ -73,11 +73,15 @@ describe("<SavedSearches /> - Reducers", () => {
       }
     };
 
-    const newState = r.reducers.savedSearches(defaultStateSavedSearch, action);
+    const newState = reducers.reducers.savedSearches(defaultStateSavedSearch, action);
     expect(newState).to.deep.equal(expected);
   });
 
   it("should handle SAVE_SEARCH_SUCCESS", () => {
+    const defaultStateSuccess = Map({
+      data: List([])
+    });
+
     const payloadFilters = [
       {
         id: 1,
@@ -105,13 +109,13 @@ describe("<SavedSearches /> - Reducers", () => {
       }
     ];
     const expected = Map({
-      data: mapEntriesToRecord(payloadFilters, R.SavedSearchesRecord)
+      data: mapEntriesToRecord(payloadFilters, Records.SavedSearchesRecord)
     });
     const action = {
       type: "savedSearches/SAVE_SEARCH_SUCCESS",
       payload: {
-        data: [
-          R.SavedSearchesRecord({
+        data: List([
+          Records.SavedSearchesRecord({
             id: 1,
             name: "a new filter",
             record_type: "incidents",
@@ -123,7 +127,7 @@ describe("<SavedSearches /> - Reducers", () => {
               }
             ]
           }),
-          R.SavedSearchesRecord({
+          Records.SavedSearchesRecord({
             id: 33,
             name: "Hello 1",
             record_type: "incidents",
@@ -135,11 +139,11 @@ describe("<SavedSearches /> - Reducers", () => {
               }
             ]
           })
-        ]
+        ])
       }
     };
 
-    const newState = r.reducers.savedSearches(defaultState, action);
+    const newState = reducers.reducers.savedSearches(defaultStateSuccess, action);
     expect(newState.toJS().data[0]).to.eql(expected.get("data").toJS());
   });
 });
