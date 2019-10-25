@@ -133,7 +133,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.length(7);
+        expect(component.find(MenuItem)).to.have.length(6);
       });
 
       it("renders MenuItem without Refer Cases option", () => {

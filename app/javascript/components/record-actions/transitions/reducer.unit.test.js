@@ -29,7 +29,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = r.reducers.transitions(defaultState, action);
+    const newState = r.reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -56,7 +56,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = r.reducers.transitions(defaultState, action);
+    const newState = r.reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -72,7 +72,7 @@ describe("<Transitions /> - Reducers", () => {
       payload: false
     };
 
-    const newState = r.reducers.transitions(defaultState, action);
+    const newState = r.reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -89,7 +89,7 @@ describe("<Transitions /> - Reducers", () => {
       payload: true
     };
 
-    const newState = r.reducers.transitions(defaultState, action);
+    const newState = r.reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -102,8 +102,12 @@ describe("<Transitions /> - Reducers", () => {
         record_type: "case",
         transitioned_to: "primero_mgr_cp",
         transitioned_by: "primero",
-        notes: "d",
-        created_at: "2019-10-23T19:39:14.930Z"
+        notes: "Some test",
+        created_at: "2019-10-23T19:39:14.930Z",
+        consent_overridden: false,
+        consent_individual_transfer: false,
+        rejected_reason: "",
+        status: "done"
       }
     };
     const expected = Map({
@@ -118,7 +122,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = r.reducers.transitions(defaultState, action);
+    const newState = r.reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -135,7 +139,7 @@ describe("<Transitions /> - Reducers", () => {
       payload: "transfer"
     };
 
-    const newState = r.reducers.transitions(defaultState, action);
+    const newState = r.reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -154,7 +158,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = r.reducers.transitions(defaultState, action);
+    const newState = r.reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -181,7 +185,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = r.reducers.transitions(defaultState, action);
+    const newState = r.reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -197,7 +201,7 @@ describe("<Transitions /> - Reducers", () => {
       payload: true
     };
 
-    const newState = r.reducers.transitions(defaultState, action);
+    const newState = r.reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -211,7 +215,11 @@ describe("<Transitions /> - Reducers", () => {
         transitioned_to: "primero_mgr_cp",
         transitioned_by: "primero",
         notes: "Test notes",
-        created_at: "2019-10-23T19:39:14.930Z"
+        created_at: "2019-10-23T19:39:14.930Z",
+        consent_overridden: false,
+        consent_individual_transfer: false,
+        rejected_reason: "",
+        status: "done"
       }
     };
     const expected = Map({
@@ -226,7 +234,102 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = r.reducers.transitions(defaultState, action);
+    const newState = r.reducers(defaultState, action);
+    expect(newState.toJS()).to.deep.equal(expected.toJS());
+  });
+
+  it("case Actions.REFERRAL_USERS_FETCH_SUCCESS", () => {
+    const payload = {
+      data: [{ label: "primero_cp", value: "primero_cp" }]
+    };
+    const expected = Map({
+      data: [],
+      referral: Map({
+        users: payload.data
+      })
+    });
+    const action = {
+      type: actions.REFERRAL_USERS_FETCH_SUCCESS,
+      payload
+    };
+
+    const newState = r.reducers(defaultState, action);
+    expect(newState.toJS()).to.deep.equal(expected.toJS());
+  });
+
+  it("case Actions.REFER_USER_FAILURE", () => {
+    const payload = {
+      errors: [
+        {
+          status: 422,
+          resource: "/api/v2/cases/123abc/transfers",
+          detail: "consent",
+          message: ["referral.errors.consent"]
+        }
+      ]
+    };
+    const expected = Map({
+      data: [],
+      referral: Map({
+        errors: true,
+        message: [["referral.errors.consent"]]
+      })
+    });
+    const action = {
+      type: actions.REFER_USER_FAILURE,
+      payload
+    };
+
+    const newState = r.reducers(defaultState, action);
+    expect(newState.toJS()).to.deep.equal(expected.toJS());
+  });
+
+  it("case Actions.REFER_USER_STARTED", () => {
+    const expected = Map({
+      data: [],
+      referral: Map({
+        errors: false
+      })
+    });
+    const action = {
+      type: actions.REFER_USER_STARTED,
+      payload: true
+    };
+
+    const newState = r.reducers(defaultState, action);
+    expect(newState.toJS()).to.deep.equal(expected.toJS());
+  });
+
+  it("case Actions.REFER_USER_SUCCESS", () => {
+    const payload = {
+      data: {
+        id: "b46a12df-4db4-451c-98ff-c6301b90bf51",
+        type: "Transitions",
+        record_id: "2a560934-39fd-4d5b-aedb-93e90f5df706",
+        record_type: "case",
+        transitioned_to: "primero_mgr_cp",
+        transitioned_by: "primero",
+        notes: "Test notes",
+        created_at: "2019-10-23T19:39:14.930Z",
+        consent_overridden: false,
+        consent_individual_transfer: false,
+        rejected_reason: "",
+        status: "done"
+      }
+    };
+    const expected = Map({
+      data: [payload.data],
+      referral: Map({
+        errors: false,
+        message: []
+      })
+    });
+    const action = {
+      type: actions.REFER_USER_SUCCESS,
+      payload
+    };
+
+    const newState = r.reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 });

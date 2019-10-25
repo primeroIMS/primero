@@ -1,7 +1,7 @@
 import { ENQUEUE_SNACKBAR } from "components/notifier";
 import actions from "./actions";
 
-export const fetchAssignUsers = recordType => async dispatch => {
+export const fetchAssignUsers = recordType => dispatch => {
   dispatch({
     type: actions.ASSIGN_USERS_FETCH,
     api: {
@@ -13,7 +13,7 @@ export const fetchAssignUsers = recordType => async dispatch => {
   });
 };
 
-export const fetchTransferUsers = params => async dispatch => {
+export const fetchTransferUsers = params => dispatch => {
   dispatch({
     type: actions.TRANSFER_USERS_FETCH,
     api: {
@@ -23,7 +23,7 @@ export const fetchTransferUsers = params => async dispatch => {
   });
 };
 
-export const fetchReferralUsers = params => async dispatch => {
+export const fetchReferralUsers = params => dispatch => {
   dispatch({
     type: actions.REFERRAL_USERS_FETCH,
     api: {

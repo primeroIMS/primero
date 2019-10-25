@@ -1,6 +1,6 @@
 import { Map } from "immutable";
+import * as R from "components/transitions/records";
 import Actions from "./actions";
-import * as R from "./records";
 
 const DEFAULT_STATE = Map({ data: [] });
 

@@ -49,7 +49,7 @@ describe("<Transitions /> - Reducers", () => {
       }
     };
 
-    const newState = r.reducers.transitions(defaultState, action);
+    const newState = r.reducers(defaultState, action);
     expect(newState.toJS()).to.eql(expected.toJS());
   });
 });

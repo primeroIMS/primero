@@ -120,6 +120,7 @@ describe("<Transitions />", () => {
     const props = {
       recordType: "cases",
       transitionType: "transfer",
+      setTransitionType: () => {},
       record,
       userPermissions: Map({ cases: ["manage"] })
     };

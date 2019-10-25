@@ -1,12 +1,15 @@
 import chai, { expect } from "chai";
 import { Map } from "immutable";
 import chaiImmutable from "chai-immutable";
+import * as actions from "./actions";
 import * as r from "./reducers";
 
 chai.use(chaiImmutable);
 
 describe("<Reports /> - Reducers", () => {
-  it("should handle Reports/CASES_BY_NATIONALITY", () => {
+  const initialState = Map({});
+
+  it("deprecated Reports/CASES_BY_NATIONALITY", () => {
     const expected = Map({
       title: "Cases by Nationality",
       column_name: "Nationality",
@@ -32,11 +35,11 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.reports(Map({}), action);
-    expect(newState.get("casesByNationality")).to.deep.equal(expected);
+    const newState = r.reducers(Map({}), action);
+    expect(newState.get("casesByNationality")).to.not.deep.equal(expected);
   });
 
-  it("should handle Reports/CASES_BY_AGE_AND_SEX", () => {
+  it("deprecated Reports/CASES_BY_AGE_AND_SEX", () => {
     const expected = Map({
       title: "Cases by Age and Sex",
       column_name: "Age",
@@ -96,11 +99,11 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.reports(Map({}), action);
-    expect(newState.get("casesByAgeAndSex")).to.deep.equal(expected);
+    const newState = r.reducers(Map({}), action);
+    expect(newState.get("casesByAgeAndSex")).to.not.deep.equal(expected);
   });
 
-  it("should handle Reports/CASES_BY_PROTECTION_CONCERN", () => {
+  it("deprecated Reports/CASES_BY_PROTECTION_CONCERN", () => {
     const expected = Map({
       title: "Cases by Protection Concern",
       column_name: "Protection Concern",
@@ -161,11 +164,13 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.reports(Map({}), action);
-    expect(newState.get("casesByProtectionConcern")).to.deep.equal(expected);
+    const newState = r.reducers(Map({}), action);
+    expect(newState.get("casesByProtectionConcern")).to.not.deep.equal(
+      expected
+    );
   });
 
-  it("should handle Reports/CASES_BY_AGENCY", () => {
+  it("deprecated Reports/CASES_BY_AGENCY", () => {
     const expected = Map({
       title: "Cases by Agency",
       column_name: "Agency",
@@ -191,7 +196,81 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.reports(Map({}), action);
-    expect(newState.get("casesByAgency")).to.deep.equal(expected);
+    const newState = r.reducers(Map({}), action);
+    expect(newState.get("casesByAgency")).to.not.deep.equal(expected);
+  });
+
+  it("should handle FETCH_REPORTS_STARTED", () => {
+    const expected = Map({
+      loading: true,
+      errors: false
+    });
+    const action = {
+      type: actions.FETCH_REPORTS_STARTED,
+      payload: true
+    };
+
+    const newState = r.reducers(initialState, action);
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle FETCH_REPORTS_SUCCESS", () => {
+    const data = [
+      {
+        id: 1,
+        name: { en: "Test Report" },
+        graph: true,
+        graph_type: "bar"
+      }
+    ];
+    const expected = Map({
+      data,
+      errors: false,
+      metadata: {
+        total: 17,
+        per: 20,
+        page: 1
+      }
+    });
+    const action = {
+      type: actions.FETCH_REPORTS_SUCCESS,
+      payload: {
+        data,
+        metadata: {
+          total: 17,
+          per: 20,
+          page: 1
+        }
+      }
+    };
+
+    const newState = r.reducers(initialState, action);
+    expect(newState.toJS()).to.deep.equal(expected.toJS());
+  });
+
+  it("should handle FETCH_REPORTS_FINISHED", () => {
+    const expected = Map({
+      loading: false
+    });
+    const action = {
+      type: actions.FETCH_REPORTS_FINISHED,
+      payload: false
+    };
+
+    const newState = r.reducers(initialState, action);
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle FETCH_REPORTS_FAILURE", () => {
+    const expected = Map({
+      errors: true
+    });
+    const action = {
+      type: actions.FETCH_REPORTS_FAILURE,
+      payload: true
+    };
+
+    const newState = r.reducers(initialState, action);
+    expect(newState).to.deep.equal(expected);
   });
 });
