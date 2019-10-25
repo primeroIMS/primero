@@ -23,6 +23,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("TRANSITION_TYPE");
     expect(constants).to.have.property("RECORD_OWNER");
     expect(constants).to.have.property("TRANSFERS_ASSIGNMENTS");
+    expect(constants).to.have.property("ROUTES");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -41,6 +42,7 @@ describe("Verifying config constant", () => {
     delete constants.TRANSITION_TYPE;
     delete constants.RECORD_OWNER;
     delete constants.TRANSFERS_ASSIGNMENTS;
+    delete constants.ROUTES;
 
     expect(constants).to.deep.equal({});
   });
