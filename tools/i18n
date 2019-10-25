@@ -55,8 +55,18 @@ def parse_args():
     group.add_argument(
         "-c",
         "--clean",
-        help='remove unused keys from the "en.yml" file',
-        action="store_true",
+        help=(
+            """
+            remove keys from "en.yml", preserving keys listed in FILE; when
+            a listed key does not exist, quit with an error; use "-" to read
+            from stdin; with no argument, scan for and remove unused keys
+            """
+        ),
+        type=argparse.FileType("r"),
+        metavar="FILE",
+        nargs="?",
+        const=True,
+        default=False,
     )
 
     group.add_argument(
