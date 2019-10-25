@@ -36,8 +36,7 @@ cp_admin_permissions = [
       Permission::SEARCH_OWNED_BY_OTHERS,
       Permission::CREATE,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
-      Permission::ENABLE_DISABLE_RECORD,
-      Permission::REASSIGN
+      Permission::ENABLE_DISABLE_RECORD
     ]
   ),
   Permission.new(
@@ -612,8 +611,7 @@ gbv_user_manager_permissions = [
             Permission::SYNC_MOBILE,
             Permission::VIEW_PROTECTION_CONCERNS_FILTER,
             Permission::APPROVE_CASE_PLAN,
-            Permission::APPROVE_CLOSURE,
-            Permission::REASSIGN
+            Permission::APPROVE_CLOSURE
         ]
     ),
     Permission.new(
@@ -1116,8 +1114,7 @@ gbv_system_admin_permissions = [
       Permission::REQUEST_APPROVAL_CASE_PLAN,
       Permission::REQUEST_APPROVAL_CLOSURE,
       Permission::APPROVE_CASE_PLAN,
-      Permission::APPROVE_CLOSURE,
-      Permission::REASSIGN
+      Permission::APPROVE_CLOSURE
     ]
   ),
   Permission.new(
