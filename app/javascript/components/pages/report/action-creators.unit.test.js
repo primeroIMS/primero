@@ -1,8 +1,8 @@
 import clone from "lodash/clone";
 import chai, { expect } from "chai";
-import configureStore from "redux-mock-store";
 import sinon from "sinon";
 import sinonChai from "sinon-chai";
+import configureStore from "redux-mock-store";
 import * as actions from "./actions";
 import * as actionCreators from "./action-creators";
 
@@ -12,10 +12,18 @@ describe("<Reports /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = clone(actionCreators);
 
-    expect(creators).to.not.have.property("fetchCasesByNationality");
-    expect(creators).to.not.have.property("fetchCasesByAgeAndSex");
-    expect(creators).to.not.have.property("fetchCasesByProtectionConcern");
-    expect(creators).to.not.have.property("fetchCasesByAgency");
+    expect(creators, "DEPRECATED fetchCasesByNationality").to.not.have.property(
+      "fetchCasesByNationality"
+    );
+    expect(creators, "DEPRECATED fetchCasesByNationality").to.not.have.property(
+      "fetchCasesByAgeAndSex"
+    );
+    expect(creators, "DEPRECATED fetchCasesByNationality").to.not.have.property(
+      "fetchCasesByProtectionConcern"
+    );
+    expect(creators, "DEPRECATED fetchCasesByNationality").to.not.have.property(
+      "fetchCasesByAgency"
+    );
     expect(creators).to.have.property("fetchReport");
 
     delete creators.fetchCasesByNationality;
@@ -24,33 +32,7 @@ describe("<Reports /> - Action Creators", () => {
     delete creators.fetchCasesByAgency;
     delete creators.fetchReport;
 
-    expect(creators).to.deep.equal({});
-  });
-
-  describe("deprecated 'fetchCasesByNationality'", () => {
-    it("should be undefined", () => {
-      expect(actionCreators.fetchCasesByNationality).to.be.equal(undefined);
-    });
-  });
-
-  describe("deprecated 'fetchCasesByAgeAndSex'", () => {
-    it("should be undefined", () => {
-      expect(actionCreators.fetchCasesByAgeAndSex).to.be.equal(undefined);
-    });
-  });
-
-  describe("deprecated 'fetchCasesByProtectionConcern'", () => {
-    it("should be undefined", () => {
-      expect(actionCreators.fetchCasesByProtectionConcern).to.be.equal(
-        undefined
-      );
-    });
-  });
-
-  describe("deprecated 'fetchCasesByAgency'", () => {
-    it("should be undefined", () => {
-      expect(actionCreators.fetchCasesByAgency).to.be.equal(undefined);
-    });
+    expect(creators).to.be.empty;
   });
 
   it("should check the 'fetchReport' action creator to return the correct object", () => {
@@ -58,9 +40,9 @@ describe("<Reports /> - Action Creators", () => {
     const dispatch = sinon.spy(store, "dispatch");
     const id = 1234;
     actionCreators.fetchReport(id)(dispatch);
-    const result = dispatch.getCall(0);
+    const firstCall = dispatch.getCall(0);
 
-    expect(result.returnValue.type).to.equal(actions.FETCH_REPORT);
-    expect(result.returnValue.api.path).to.equal(`reports/${id}`);
+    expect(firstCall.returnValue.type).to.equal(actions.FETCH_REPORT);
+    expect(firstCall.returnValue.api.path).to.equal(`reports/${id}`);
   });
 });

@@ -18,6 +18,6 @@ describe("<Reports /> - Actions", () => {
     delete cloneActions.FETCH_REPORT_FAILURE;
     delete cloneActions.FETCH_REPORT_FINISHED;
 
-    expect(cloneActions).to.deep.equal({});
+    expect(cloneActions).to.be.empty;
   });
 });

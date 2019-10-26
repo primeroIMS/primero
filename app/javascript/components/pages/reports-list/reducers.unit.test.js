@@ -1,5 +1,5 @@
 import chai, { expect } from "chai";
-import { Map } from "immutable";
+import { fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
 import * as actions from "./actions";
 import * as r from "./reducers";
@@ -7,19 +7,9 @@ import * as r from "./reducers";
 chai.use(chaiImmutable);
 
 describe("<Reports /> - Reducers", () => {
-  const initialState = Map({});
+  const initialState = fromJS({});
 
   it("deprecated Reports/CASES_BY_NATIONALITY", () => {
-    const expected = Map({
-      title: "Cases by Nationality",
-      column_name: "Nationality",
-      description: "Number of cases broken down by nationality",
-      data: Map({
-        Nicaragua: 1,
-        Argentina: 2,
-        Alemania: 3
-      })
-    });
     const action = {
       type: "Reports/CASES_BY_NATIONALITY",
       payload: {
@@ -35,38 +25,11 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers(Map({}), action);
-    expect(newState.get("casesByNationality")).to.not.deep.equal(expected);
+    const newState = r.reducers(fromJS({}), action);
+    expect(newState).to.deep.equal(initialState);
   });
 
   it("deprecated Reports/CASES_BY_AGE_AND_SEX", () => {
-    const expected = Map({
-      title: "Cases by Age and Sex",
-      column_name: "Age",
-      description: "Number of cases broken down by age and sex",
-      data: Map({
-        "0-5": Map({
-          Female: 3,
-          Male: 6,
-          Other: 0
-        }),
-        "6-11": Map({
-          Female: 1,
-          Male: 13,
-          Other: 0
-        }),
-        "12-17": Map({
-          Female: 19,
-          Male: 29,
-          Other: 1
-        }),
-        "18+": Map({
-          Female: 7,
-          Male: 10,
-          Other: 0
-        })
-      })
-    });
     const action = {
       type: "Reports/CASES_BY_AGE_AND_SEX",
       payload: {
@@ -99,38 +62,11 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers(Map({}), action);
-    expect(newState.get("casesByAgeAndSex")).to.not.deep.equal(expected);
+    const newState = r.reducers(fromJS({}), action);
+    expect(newState).to.deep.equal(initialState);
   });
 
   it("deprecated Reports/CASES_BY_PROTECTION_CONCERN", () => {
-    const expected = Map({
-      title: "Cases by Protection Concern",
-      column_name: "Protection Concern",
-      description: "Number of cases broken down by protection concern and sex",
-      data: Map({
-        "HIGH VULNERABILITY TO ABUSE": Map({
-          Female: 4,
-          Male: 0
-        }),
-        "AFFILIATED / ASSOCIATED TO STIGMATIZED PARENTS": Map({
-          Female: 2,
-          Male: 0
-        }),
-        "IN CONFLICT WITH THE LAW": Map({
-          Female: 7,
-          Male: 0
-        }),
-        "DELINQUENT BEHAVIOR": Map({
-          Female: 4,
-          Male: 0
-        }),
-        "HIGH VULNERABILITY TO EXPLOITATION": Map({
-          Female: 3,
-          Male: 1
-        })
-      })
-    });
     const action = {
       type: "Reports/CASES_BY_PROTECTION_CONCERN",
       payload: {
@@ -164,23 +100,11 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers(Map({}), action);
-    expect(newState.get("casesByProtectionConcern")).to.not.deep.equal(
-      expected
-    );
+    const newState = r.reducers(fromJS({}), action);
+    expect(newState).to.deep.equal(initialState);
   });
 
   it("deprecated Reports/CASES_BY_AGENCY", () => {
-    const expected = Map({
-      title: "Cases by Agency",
-      column_name: "Agency",
-      description: "Number of cases broken down by agency",
-      data: Map({
-        UNICEF: 3,
-        "SAVE THE CHILDREN": 5,
-        DOLSA: 1
-      })
-    });
     const action = {
       type: "Reports/CASES_BY_AGENCY",
       payload: {
@@ -196,12 +120,12 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers(Map({}), action);
-    expect(newState.get("casesByAgency")).to.not.deep.equal(expected);
+    const newState = r.reducers(fromJS({}), action);
+    expect(newState).to.deep.equal(initialState);
   });
 
   it("should handle FETCH_REPORTS_STARTED", () => {
-    const expected = Map({
+    const expected = fromJS({
       loading: true,
       errors: false
     });
@@ -223,7 +147,7 @@ describe("<Reports /> - Reducers", () => {
         graph_type: "bar"
       }
     ];
-    const expected = Map({
+    const expected = fromJS({
       data,
       errors: false,
       metadata: {
@@ -249,7 +173,7 @@ describe("<Reports /> - Reducers", () => {
   });
 
   it("should handle FETCH_REPORTS_FINISHED", () => {
-    const expected = Map({
+    const expected = fromJS({
       loading: false
     });
     const action = {
@@ -262,7 +186,7 @@ describe("<Reports /> - Reducers", () => {
   });
 
   it("should handle FETCH_REPORTS_FAILURE", () => {
-    const expected = Map({
+    const expected = fromJS({
       errors: true
     });
     const action = {

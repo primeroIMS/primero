@@ -18,7 +18,9 @@ describe("<Transitions /> - Action Creators", () => {
     expect(creators).to.have.property("saveAssignedUser");
     expect(creators).to.have.property("saveTransferUser");
     expect(creators).to.have.property("fetchTransferUsers");
-    expect(creators).to.not.have.property("fetchTransitionData");
+    expect(creators, "DEPRECATED fetchTransitionData").to.not.have.property(
+      "fetchTransitionData"
+    );
     expect(creators).to.have.property("fetchReferralUsers");
     expect(creators).to.have.property("saveReferral");
     delete creators.fetchAssignUsers;
@@ -37,12 +39,13 @@ describe("<Transitions /> - Action Creators", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
-    actionCreators.fetchAssignUsers()(dispatch);
+    dispatch(actionCreators.fetchAssignUsers());
+    const firstCall = dispatch.getCall(0).returnValue;
 
-    expect(dispatch.getCall(0).returnValue.type).to.equal(
+    expect(firstCall.type).to.equal(
       actions.ASSIGN_USERS_FETCH
     );
-    expect(dispatch.getCall(0).returnValue.api.path).to.equal(
+    expect(firstCall.api.path).to.equal(
       "users/assign-to"
     );
   });
@@ -51,12 +54,13 @@ describe("<Transitions /> - Action Creators", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
-    actionCreators.fetchTransferUsers()(dispatch);
+    dispatch(actionCreators.fetchTransferUsers());
+    const firstCall = dispatch.getCall(0).returnValue;
 
-    expect(dispatch.getCall(0).returnValue.type).to.equal(
+    expect(firstCall.type).to.equal(
       actions.TRANSFER_USERS_FETCH
     );
-    expect(dispatch.getCall(0).returnValue.api.path).to.equal(
+    expect(firstCall.api.path).to.equal(
       "users/transfer-to"
     );
   });
@@ -81,24 +85,21 @@ describe("<Transitions /> - Action Creators", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
-    actionCreators.saveAssignedUser("123abc", body, "Success Message")(
-      dispatch
+    dispatch(
+      actionCreators.saveAssignedUser("123abc", body, "Success Message")
     );
+    const firstCall = dispatch.getCall(0).returnValue;
 
-    expect(dispatch.getCall(0).returnValue.type).to.equal(
-      actions.ASSIGN_USER_SAVE
-    );
-    expect(dispatch.getCall(0).returnValue.api.path).to.equal(
-      "cases/123abc/assigns"
-    );
-    expect(dispatch.getCall(0).returnValue.api.method).to.equal("POST");
-    expect(dispatch.getCall(0).returnValue.api.body).to.equal(body);
-    expect(dispatch.getCall(0).returnValue.api.successCallback.action).to.equal(
+    expect(firstCall.type).to.equal(actions.ASSIGN_USER_SAVE);
+    expect(firstCall.api.path).to.equal("cases/123abc/assigns");
+    expect(firstCall.api.method).to.equal("POST");
+    expect(firstCall.api.body).to.equal(body);
+    expect(firstCall.api.successCallback.action).to.equal(
       "notifications/ENQUEUE_SNACKBAR"
     );
-    expect(
-      dispatch.getCall(0).returnValue.api.successCallback.payload.message
-    ).to.equal("Success Message");
+    expect(firstCall.api.successCallback.payload.message).to.equal(
+      "Success Message"
+    );
   });
 
   it("should check the 'saveTransferUser' action creator to return the correct object", () => {
@@ -111,8 +112,8 @@ describe("<Transitions /> - Action Creators", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
-    actionCreators.saveTransferUser("123abc", body, "Success Message")(
-      dispatch
+    dispatch(
+      actionCreators.saveTransferUser("123abc", body, "Success Message")
     );
 
     const firstCall = dispatch.getCall(0).returnValue;
@@ -128,15 +129,11 @@ describe("<Transitions /> - Action Creators", () => {
     );
   });
 
-  it("deprecated 'fetchTransitionData' action creator", () => {
-    expect(actionCreators).to.not.have.property("fetchTransitionData");
-  });
-
   it("should check the 'fetchReferralUsers' action creator to return the correct object", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
-    actionCreators.fetchReferralUsers()(dispatch);
+    dispatch(actionCreators.fetchReferralUsers());
 
     expect(dispatch.getCall(0).returnValue.type).to.equal(
       actions.REFERRAL_USERS_FETCH
@@ -154,7 +151,7 @@ describe("<Transitions /> - Action Creators", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
-    actionCreators.saveReferral("123abc", body, "Success Message")(dispatch);
+    dispatch(actionCreators.saveReferral("123abc", body, "Success Message"));
 
     const firstCall = dispatch.getCall(0).returnValue;
     expect(firstCall.type).to.equal(actions.REFER_USER);

@@ -1,5 +1,5 @@
 import chai, { expect } from "chai";
-import { List, Map } from "immutable";
+import { fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
 import { mapEntriesToRecord } from "libs";
 import { TransitionRecord } from "./records";
@@ -10,7 +10,7 @@ chai.use(chaiImmutable);
 
 describe("<Transitions /> - Reducers", () => {
   it("should handle FETCH_TRANSITIONS", () => {
-    const defaultState = Map({
+    const initialState = fromJS({
       data: []
     });
     const data = [
@@ -39,7 +39,7 @@ describe("<Transitions /> - Reducers", () => {
         transitioned_to: "primero_mgr_cp"
       }
     ];
-    const expected = Map({
+    const expected = fromJS({
       data: mapEntriesToRecord(data, TransitionRecord)
     });
     const action = {
@@ -49,7 +49,7 @@ describe("<Transitions /> - Reducers", () => {
       }
     };
 
-    const newState = r.reducers(defaultState, action);
+    const newState = r.reducers(initialState, action);
     expect(newState.toJS()).to.eql(expected.toJS());
   });
 });

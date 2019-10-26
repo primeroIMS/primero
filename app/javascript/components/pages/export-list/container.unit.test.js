@@ -3,47 +3,48 @@ import { expect } from "chai";
 import { setupMountedComponent } from "test";
 import { PageContainer, PageHeading, PageContent } from "components/page";
 import { IndexTable } from "components/index-table";
-import { List, Map } from "immutable";
+import { fromJS } from "immutable";
+import MUIDataTable, { TableBodyRow } from "mui-datatables";
 import ExportList from "./container";
 import * as userRecord from "../../user/records";
 
 describe("<ExportList />", () => {
   let component;
 
-  const initialState = Map({
-    records: Map({
-      bulk_exports: Map({
-        data: List([
-          Map({
+  const initialState = fromJS({
+    records: {
+      bulk_exports: {
+        data: [
+          {
             id: "d5e1a4a019ec727efd34a35d1d9a271e",
             file_name: "PRIMERO-CHILD-UNHCR.CSV",
             record_type: "Case",
             started_on: "05-Jul-2019 09:36"
-          }),
-          Map({
+          },
+          {
             id: "d5e1a4a019ec727efd34a35d1d9a272e",
             file_name: "PRIMERO - CHILD.PDF",
             record_type: "Case",
             started_on: "05-Jul-2019 09:36"
-          }),
-          Map({
+          },
+          {
             id: "d5e1a4a019ec727efd34a35d1d9a273e",
             file_name: "PRIMERO - CHILD.JSON",
             record_type: "Case",
             started_on: "05-Jul-2019 09:36"
-          })
-        ]),
-        metadata: Map({
+          }
+        ],
+        metadata: {
           total: 15,
           per: 20,
           page: 1
-        }),
+        },
         errors: false
-      })
-    }),
-    user: Map({
-      listHeaders: Map({
-        bulk_exports: List([
+      }
+    },
+    user: {
+      listHeaders: {
+        bulk_exports: [
           userRecord.ListHeaderRecord({
             name: "file_name",
             field_name: "file_name",
@@ -59,28 +60,21 @@ describe("<ExportList />", () => {
             field_name: "started_on",
             id_search: false
           })
-        ])
-      }),
-      permissions: Map({
-        exports: List(["manage"]),
-        bulk_exports: List(["manage"])
-      })
-    })
+        ]
+      },
+      permissions: {
+        exports: ["manage"],
+        bulk_exports: ["manage"]
+      }
+    }
   });
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(ExportList, {}, initialState));
   });
 
-  it("renders export table", () => {
-    expect(
-      component
-        .find("table")
-        .first()
-        .find("tbody")
-        .first()
-        .find("tr")
-    ).to.have.length(3);
+  it("renders a table with three rows", () => {
+    expect(component.find(MUIDataTable).find(TableBodyRow)).to.have.length(3);
   });
 
   it("should render PageContainer", () => {

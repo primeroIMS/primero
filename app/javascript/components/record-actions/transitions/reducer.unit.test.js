@@ -1,5 +1,5 @@
 import chai, { expect } from "chai";
-import { Map } from "immutable";
+import { fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
 import * as r from "./reducer";
 import actions from "./actions";
@@ -7,7 +7,7 @@ import actions from "./actions";
 chai.use(chaiImmutable);
 
 describe("<Transitions /> - Reducers", () => {
-  const defaultState = Map({
+  const defaultState = fromJS({
     data: []
   });
 
@@ -18,9 +18,9 @@ describe("<Transitions /> - Reducers", () => {
         { label: "primero_gbv", value: "primero_gbv" }
       ]
     };
-    const expected = Map({
+    const expected = fromJS({
       data: [],
-      reassign: Map({
+      reassign: fromJS({
         users: payload.data
       })
     });
@@ -44,9 +44,9 @@ describe("<Transitions /> - Reducers", () => {
         }
       ]
     };
-    const expected = Map({
+    const expected = fromJS({
       data: [],
-      reassign: Map({
+      reassign: fromJS({
         errors: true,
         message: ["transition.errors.to_user_can_receive"]
       })
@@ -61,9 +61,9 @@ describe("<Transitions /> - Reducers", () => {
   });
 
   it("should handle ASSIGN_USER_SAVE_FINISHED", () => {
-    const expected = Map({
+    const expected = fromJS({
       data: [],
-      reassign: Map({
+      reassign: fromJS({
         loading: false
       })
     });
@@ -77,9 +77,9 @@ describe("<Transitions /> - Reducers", () => {
   });
 
   it("should handle ASSIGN_USER_SAVE_STARTED", () => {
-    const expected = Map({
+    const expected = fromJS({
       data: [],
-      reassign: Map({
+      reassign: fromJS({
         loading: true,
         errors: false
       })
@@ -110,9 +110,9 @@ describe("<Transitions /> - Reducers", () => {
         status: "done"
       }
     };
-    const expected = Map({
+    const expected = fromJS({
       data: [payload.data],
-      reassign: Map({
+      reassign: fromJS({
         errors: false,
         message: []
       })
@@ -127,9 +127,9 @@ describe("<Transitions /> - Reducers", () => {
   });
 
   it("should handle CLEAR_ERRORS", () => {
-    const expected = Map({
+    const expected = fromJS({
       data: [],
-      transfer: Map({
+      transfer: fromJS({
         errors: false,
         message: []
       })
@@ -147,9 +147,9 @@ describe("<Transitions /> - Reducers", () => {
     const payload = {
       data: [{ label: "primero_cp", value: "primero_cp" }]
     };
-    const expected = Map({
+    const expected = fromJS({
       data: [],
-      transfer: Map({
+      transfer: fromJS({
         users: payload.data
       })
     });
@@ -173,9 +173,9 @@ describe("<Transitions /> - Reducers", () => {
         }
       ]
     };
-    const expected = Map({
+    const expected = fromJS({
       data: [],
-      transfer: Map({
+      transfer: fromJS({
         errors: true,
         message: ["transition.errors.consent"]
       })
@@ -190,9 +190,9 @@ describe("<Transitions /> - Reducers", () => {
   });
 
   it("should handle TRANSFER_USER_STARTED", () => {
-    const expected = Map({
+    const expected = fromJS({
       data: [],
-      transfer: Map({
+      transfer: fromJS({
         errors: false
       })
     });
@@ -222,9 +222,9 @@ describe("<Transitions /> - Reducers", () => {
         status: "done"
       }
     };
-    const expected = Map({
+    const expected = fromJS({
       data: [payload.data],
-      transfer: Map({
+      transfer: fromJS({
         errors: false,
         message: []
       })
@@ -242,9 +242,9 @@ describe("<Transitions /> - Reducers", () => {
     const payload = {
       data: [{ label: "primero_cp", value: "primero_cp" }]
     };
-    const expected = Map({
+    const expected = fromJS({
       data: [],
-      referral: Map({
+      referral: fromJS({
         users: payload.data
       })
     });
@@ -268,9 +268,9 @@ describe("<Transitions /> - Reducers", () => {
         }
       ]
     };
-    const expected = Map({
+    const expected = fromJS({
       data: [],
-      referral: Map({
+      referral: fromJS({
         errors: true,
         message: [["referral.errors.consent"]]
       })
@@ -285,9 +285,9 @@ describe("<Transitions /> - Reducers", () => {
   });
 
   it("case Actions.REFER_USER_STARTED", () => {
-    const expected = Map({
+    const expected = fromJS({
       data: [],
-      referral: Map({
+      referral: fromJS({
         errors: false
       })
     });
@@ -317,9 +317,9 @@ describe("<Transitions /> - Reducers", () => {
         status: "done"
       }
     };
-    const expected = Map({
+    const expected = fromJS({
       data: [payload.data],
-      referral: Map({
+      referral: fromJS({
         errors: false,
         message: []
       })

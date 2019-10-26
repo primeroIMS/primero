@@ -1,7 +1,7 @@
 import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
-import { List, Map } from "immutable";
+import { fromJS } from "immutable";
 import { OptionsBox, ActionMenu } from "components/dashboard";
 import {
   IconButton,
@@ -16,11 +16,11 @@ import Reports from "./container";
 
 describe("<Reports /> - Component", () => {
   let component;
-  const initialState = Map({
-    records: Map({
-      reports: Map({
-        data: List([
-          Map({
+  const initialState = fromJS({
+    records: {
+      reports: {
+        data: [
+          {
             id: 1,
             name: {
               en: "Registration CP"
@@ -42,25 +42,13 @@ describe("<Reports /> - Component", () => {
                 }
               }
             ]
-          })
-        ])
-      })
-    })
+          }
+        ]
+      }
+    }
   });
   beforeEach(() => {
     ({ component } = setupMountedComponent(Reports, {}, initialState));
-  });
-
-  it("deprecated OptionsBox", () => {
-    expect(component.find(OptionsBox)).to.not.have.length(4);
-  });
-
-  it("deprecated ActionMenu", () => {
-    expect(component.find(ActionMenu)).to.not.have.length(4);
-  });
-
-  it("deprecated BarChart", () => {
-    expect(component.find(BarChart)).to.not.have.length(4);
   });
 
   it("should render Card", () => {
