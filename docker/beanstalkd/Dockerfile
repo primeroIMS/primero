@@ -7,6 +7,6 @@ RUN set -euox pipefail \
         ; rm -rf /var/cache/apk/* \
         ; chown -R beanstalk /beanstalkd
 
-EXPOSE 11300
+EXPOSE ${BEANSTALKD_PORT}
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["beanstalkd", "-V", "-p", $BEANSTALKD_PORT , "-u", "beanstalk", "-b", "/var/lib/beanstalkd"]
