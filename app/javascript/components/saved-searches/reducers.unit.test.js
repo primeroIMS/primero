@@ -3,7 +3,7 @@ import { Map, List } from "immutable";
 import { mapEntriesToRecord } from "libs";
 import chaiImmutable from "chai-immutable";
 import * as Records from "./records";
-import * as reducers from "./reducers";
+import { reducers } from "./reducers";
 
 chai.use(chaiImmutable);
 
@@ -37,7 +37,7 @@ describe("<SavedSearches /> - Reducers", () => {
       }
     };
 
-    const newState = reducers.reducers.savedSearches(defaultState, action);
+    const newState = reducers.savedSearches(defaultState, action);
     expect(newState).to.deep.equal(expected);
   });
 
@@ -73,7 +73,7 @@ describe("<SavedSearches /> - Reducers", () => {
       }
     };
 
-    const newState = reducers.reducers.savedSearches(defaultStateSavedSearch, action);
+    const newState = reducers.savedSearches(defaultStateSavedSearch, action);
     expect(newState).to.deep.equal(expected);
   });
 
@@ -143,7 +143,7 @@ describe("<SavedSearches /> - Reducers", () => {
       }
     };
 
-    const newState = reducers.reducers.savedSearches(defaultStateSuccess, action);
+    const newState = reducers.savedSearches(defaultStateSuccess, action);
     expect(newState.toJS().data[0]).to.eql(expected.get("data").toJS());
   });
 });
