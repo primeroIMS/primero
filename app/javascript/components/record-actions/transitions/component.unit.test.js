@@ -1,5 +1,4 @@
-import "test/test.setup";
-import { expect } from "chai";
+import { expect } from "test/test.setup";
 import { setupMountedComponent } from "test";
 import { Map, List } from "immutable";
 import { MODULES } from "config";
@@ -90,7 +89,7 @@ describe("<Transitions />", () => {
       });
       it("should check the record prop", () => {
         const referralForm = component.find(ReferralForm);
-        expect(referralForm.props().record.toJS()).to.deep.equal(record.toJS());
+        expect(referralForm.props().record).to.deep.equal(record);
       });
     });
   });
@@ -170,7 +169,7 @@ describe("<Transitions />", () => {
         expect(transferForm.props().transitionType).to.deep.equal("transfer");
       });
       it("should check the record prop", () => {
-        expect(transferForm.props().record.toJS()).to.deep.equal(record.toJS());
+        expect(transferForm.props().record).to.deep.equal(record);
       });
       it("should check the recordType prop", () => {
         expect(transferForm.props().recordType).to.deep.equal("cases");

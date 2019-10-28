@@ -1,8 +1,7 @@
-import { expect } from "chai";
+import { expect } from "test/test.setup";
 import { fromJS } from "immutable";
 import { reducers } from "./reducer";
 import actions from "./actions";
-import "test/chai-helpers";
 
 describe("<Transitions /> - Reducers", () => {
   const defaultState = fromJS({

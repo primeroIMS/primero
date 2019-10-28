@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash";
+import isEmpty from "lodash/isEmpty";
 import { CONSENT_GIVEN_FIELD_BY_MODULE, MODULE_TYPE_FIELD } from "config";
 
 export const getInternalFields = (values, fields) => {

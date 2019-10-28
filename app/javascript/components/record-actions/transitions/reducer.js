@@ -1,5 +1,5 @@
 import { Map } from "immutable";
-import * as R from "components/transitions/records";
+import * as record from "components/transitions/records";
 import Actions from "./actions";
 
 const DEFAULT_STATE = Map({ data: [] });
@@ -22,7 +22,10 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state
         .setIn(["reassign", "errors"], false)
         .setIn(["reassign", "message"], [])
-        .set("data", [...state.get("data"), R.TransitionRecord(payload.data)]);
+        .set("data", [
+          ...state.get("data"),
+          record.TransitionRecord(payload.data)
+        ]);
     case Actions.CLEAR_ERRORS:
       return state
         .setIn([payload, "errors"], false)
@@ -39,7 +42,10 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state
         .setIn(["transfer", "errors"], false)
         .setIn(["transfer", "message"], [])
-        .set("data", [...state.get("data"), R.TransitionRecord(payload.data)]);
+        .set("data", [
+          ...state.get("data"),
+          record.TransitionRecord(payload.data)
+        ]);
     case Actions.REFERRAL_USERS_FETCH_SUCCESS:
       return state.setIn(["referral", "users"], payload.data);
     case Actions.REFER_USER_FAILURE:
@@ -52,7 +58,10 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state
         .setIn(["referral", "errors"], false)
         .setIn(["referral", "message"], [])
-        .set("data", [...state.get("data"), R.TransitionRecord(payload.data)]);
+        .set("data", [
+          ...state.get("data"),
+          record.TransitionRecord(payload.data)
+        ]);
     default:
       return state;
   }

@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { expect } from "test/chai-helpers";
+import { expect } from "test/test.setup";
 import * as actions from "./actions";
 import { reducers } from "./reducers";
 

@@ -1,12 +1,19 @@
 import { ENQUEUE_SNACKBAR } from "components/notifier";
-import { CASES_ASSIGNS, CASES_TRANSFERS, CASES_REFERRALS } from "config";
+import {
+  CASES_ASSIGNS,
+  CASES_TRANSFERS,
+  CASES_REFERRALS,
+  USERS_ASSIGN_TO,
+  USERS_TRANSFER_TO,
+  USERS_REFER_TO
+} from "config";
 import { generatePath } from "./parts";
 import actions from "./actions";
 
 export const fetchAssignUsers = recordType => ({
   type: actions.ASSIGN_USERS_FETCH,
   api: {
-    path: "users/assign-to",
+    path: USERS_ASSIGN_TO,
     params: {
       record_type: recordType
     }
@@ -16,7 +23,7 @@ export const fetchAssignUsers = recordType => ({
 export const fetchTransferUsers = params => ({
   type: actions.TRANSFER_USERS_FETCH,
   api: {
-    path: "users/transfer-to",
+    path: USERS_TRANSFER_TO,
     params
   }
 });
@@ -24,7 +31,7 @@ export const fetchTransferUsers = params => ({
 export const fetchReferralUsers = params => ({
   type: actions.REFERRAL_USERS_FETCH,
   api: {
-    path: "users/refer-to",
+    path: USERS_REFER_TO,
     params
   }
 });

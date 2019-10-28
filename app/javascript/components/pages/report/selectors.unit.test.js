@@ -1,8 +1,7 @@
 import { fromJS } from "immutable";
-import { expect } from "test/chai-helpers";
+import { expect } from "test/test.setup";
 
 import * as selectors from "./selectors";
-import "../../../test/chai-helpers";
 
 const stateWithoutRecords = fromJS({});
 const stateWithRecords = fromJS({

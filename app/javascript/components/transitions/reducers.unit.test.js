@@ -1,10 +1,9 @@
-import { expect } from "chai";
+import { expect } from "test/test.setup";
 import { fromJS } from "immutable";
 import { mapEntriesToRecord } from "libs";
 import { TransitionRecord } from "./records";
 import * as r from "./reducers";
 import * as Actions from "./actions";
-import "test/chai-helpers";
 
 describe("<Transitions /> - Reducers", () => {
   it("should handle FETCH_TRANSITIONS", () => {

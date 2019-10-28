@@ -1,5 +1,5 @@
 import clone from "lodash/clone";
-import { expect } from "test/chai-helpers";
+import { expect } from "test/test.setup";
 import sinon from "sinon";
 import configureStore from "redux-mock-store";
 import * as actionCreators from "./action-creators";

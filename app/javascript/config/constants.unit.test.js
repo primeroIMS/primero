@@ -1,5 +1,5 @@
 import "test/test.setup";
-import { expect } from "chai";
+import { expect } from "test/test.setup";
 import * as configConstants from "./constants";
 
 describe("Verifying config constant", () => {

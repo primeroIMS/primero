@@ -1,8 +1,7 @@
-import { expect } from "chai";
+import { expect } from "test/test.setup";
 import { Map, List } from "immutable";
 import * as selectors from "./selectors";
 import { TransitionRecord } from "./records";
-import "test/chai-helpers";
 
 const dataExpected = List([
   TransitionRecord({

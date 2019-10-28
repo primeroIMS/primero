@@ -1,5 +1,4 @@
-import "test/test.setup";
-import { expect } from "chai";
+import { expect } from "test/test.setup";
 import { setupMountedComponent } from "test";
 import { fromJS } from "immutable";
 import { OptionsBox, ActionMenu } from "components/dashboard";
