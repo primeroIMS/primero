@@ -8,6 +8,8 @@ import { Route } from "react-router-dom";
 import { Map, List } from "immutable";
 import { IndexTable } from "components/index-table";
 import RecordList from "./container";
+import { ViewModal } from "components/record-list/view-modal";
+import * as Permissions from "libs/permissions";
 
 chai.use(sinonChai);
 
@@ -45,7 +47,7 @@ describe("<RecordList />", () => {
         listHeaders: Map({
           cases: List([{ id: "name", name: "Name", field_name: "name" }])
         }),
-        permissions: Map({ cases: List(["manage"]) })
+        permissions: Map({ cases: List([Permissions.MANAGE, Permissions.DISPLAY_VIEW_PAGE]) })
       }),
       application: Map({
         online: true,
@@ -75,5 +77,9 @@ describe("<RecordList />", () => {
 
   it("renders record list table", () => {
     expect(component.find(IndexTable)).to.have.length(1);
+  });
+
+  it("renders record list table", () => {
+    expect(component.find(ViewModal)).to.have.lengthOf(1);
   });
 });
