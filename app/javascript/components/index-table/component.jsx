@@ -35,6 +35,7 @@ const IndexTable = ({
   const total = data.getIn(["metadata", "total"], 0);
   const page = data.getIn(["metadata", "page"], 1);
   const url = targetRecordType || recordType;
+
   let componentColumns =
     typeof columns === "function" ? columns(data) : columns;
 
