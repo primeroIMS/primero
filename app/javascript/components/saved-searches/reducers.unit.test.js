@@ -1,5 +1,5 @@
 import chai, { expect } from "chai";
-import { Map, List } from "immutable";
+import { fromJS } from "immutable";
 import { mapEntriesToRecord } from "libs";
 import chaiImmutable from "chai-immutable";
 import * as Records from "./records";
@@ -8,7 +8,7 @@ import { reducers } from "./reducers";
 chai.use(chaiImmutable);
 
 describe("<SavedSearches /> - Reducers", () => {
-  const defaultState = Map({
+  const defaultState = fromJS({
     data: []
   });
 
@@ -27,7 +27,7 @@ describe("<SavedSearches /> - Reducers", () => {
         ]
       }
     ];
-    const expected = Map({
+    const expected = fromJS({
       data: mapEntriesToRecord(payloadFilters, Records.SavedSearchesRecord)
     });
     const action = {
@@ -42,7 +42,7 @@ describe("<SavedSearches /> - Reducers", () => {
   });
 
   it("should handle REMOVE_SAVED_SEARCH_SUCCESS", () => {
-    const defaultStateSavedSearch = Map({
+    const defaultStateSavedSearch = fromJS({
       data: mapEntriesToRecord(
         [
           {
@@ -61,8 +61,8 @@ describe("<SavedSearches /> - Reducers", () => {
         Records.SavedSearchesRecord
       )
     });
-    const expected = Map({
-      data: List([])
+    const expected = fromJS({
+      data: []
     });
     const action = {
       type: "savedSearches/REMOVE_SAVED_SEARCH_SUCCESS",
@@ -78,8 +78,8 @@ describe("<SavedSearches /> - Reducers", () => {
   });
 
   it("should handle SAVE_SEARCH_SUCCESS", () => {
-    const defaultStateSuccess = Map({
-      data: List([])
+    const defaultStateSuccess = fromJS({
+      data: []
     });
 
     const payloadFilters = [
@@ -108,13 +108,13 @@ describe("<SavedSearches /> - Reducers", () => {
         ]
       }
     ];
-    const expected = Map({
+    const expected = fromJS({
       data: mapEntriesToRecord(payloadFilters, Records.SavedSearchesRecord)
     });
     const action = {
       type: "savedSearches/SAVE_SEARCH_SUCCESS",
       payload: {
-        data: List([
+        data: fromJS([
           Records.SavedSearchesRecord({
             id: 1,
             name: "a new filter",
