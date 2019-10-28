@@ -23,10 +23,19 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("TRANSITION_TYPE");
     expect(constants).to.have.property("RECORD_OWNER");
     expect(constants).to.have.property("TRANSFERS_ASSIGNMENTS");
-    expect(constants).to.have.property("CASES_BY_NATIONALITY");
-    expect(constants).to.have.property("CASES_BY_AGE_AND_SEX");
-    expect(constants).to.have.property("CASES_BY_PROTECTION_CONCERN");
-    expect(constants).to.have.property("CASES_BY_AGENCY");
+    expect(constants, "DEPRECATED CASES_BY_NATIONALITY").to.not.have.property(
+      "CASES_BY_NATIONALITY"
+    );
+    expect(constants, "DEPRECATED CASES_BY_AGE_AND_SEX").to.not.have.property(
+      "CASES_BY_AGE_AND_SEX"
+    );
+    expect(
+      constants,
+      "DEPRECATED CASES_BY_PROTECTION_CONCERN"
+    ).to.not.have.property("CASES_BY_PROTECTION_CONCERN");
+    expect(constants, "DEPRECATED CASES_BY_AGENCY").to.not.have.property(
+      "CASES_BY_AGENCY"
+    );
     expect(constants).to.have.property("USERS_ASSIGN_TO");
     expect(constants).to.have.property("USERS_TRANSFER_TO");
     expect(constants).to.have.property("USERS_REFER_TO");
@@ -108,12 +117,6 @@ describe("Verifying config constant", () => {
     ]);
     expect(constants.RECORD_OWNER).to.equal("record_owner");
     expect(constants.TRANSFERS_ASSIGNMENTS).to.equal("transfers_assignments");
-    expect(constants.CASES_BY_NATIONALITY).to.equal("CASES_BY_NATIONALITY");
-    expect(constants.CASES_BY_AGE_AND_SEX).to.equal("CASES_BY_AGE_AND_SEX");
-    expect(constants.CASES_BY_PROTECTION_CONCERN).to.equal(
-      "CASES_BY_PROTECTION_CONCERN"
-    );
-    expect(constants.CASES_BY_AGENCY).to.equal("CASES_BY_AGENCY");
     expect(constants.USERS_ASSIGN_TO).to.equal("users/assign-to");
     expect(constants.USERS_TRANSFER_TO).to.equal("users/transfer-to");
     expect(constants.USERS_REFER_TO).to.equal("users/refer-to");

@@ -1,11 +1,9 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map, List } from "immutable";
-import chaiImmutable from "chai-immutable";
-
 import * as selectors from "./selectors";
 import { TransitionRecord } from "./records";
+import "test/chai-helpers";
 
-chai.use(chaiImmutable);
 const dataExpected = List([
   TransitionRecord({
     id: "ee1ddfad-cc11-42df-9f39-14c7e6a3c1bb",

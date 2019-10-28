@@ -1,10 +1,8 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { fromJS } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as r from "./reducer";
+import { reducers } from "./reducer";
 import actions from "./actions";
-
-chai.use(chaiImmutable);
+import "test/chai-helpers";
 
 describe("<Transitions /> - Reducers", () => {
   const defaultState = fromJS({
@@ -29,7 +27,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = r.reducers(defaultState, action);
+    const newState = reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -46,17 +44,17 @@ describe("<Transitions /> - Reducers", () => {
     };
     const expected = fromJS({
       data: [],
-      reassign: fromJS({
+      reassign: {
         errors: true,
         message: ["transition.errors.to_user_can_receive"]
-      })
+      }
     });
     const action = {
       type: actions.ASSIGN_USER_SAVE_FAILURE,
       payload
     };
 
-    const newState = r.reducers(defaultState, action);
+    const newState = reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -72,7 +70,7 @@ describe("<Transitions /> - Reducers", () => {
       payload: false
     };
 
-    const newState = r.reducers(defaultState, action);
+    const newState = reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -89,7 +87,7 @@ describe("<Transitions /> - Reducers", () => {
       payload: true
     };
 
-    const newState = r.reducers(defaultState, action);
+    const newState = reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -122,7 +120,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = r.reducers(defaultState, action);
+    const newState = reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -139,7 +137,7 @@ describe("<Transitions /> - Reducers", () => {
       payload: "transfer"
     };
 
-    const newState = r.reducers(defaultState, action);
+    const newState = reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -158,7 +156,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = r.reducers(defaultState, action);
+    const newState = reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -185,7 +183,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = r.reducers(defaultState, action);
+    const newState = reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -201,7 +199,7 @@ describe("<Transitions /> - Reducers", () => {
       payload: true
     };
 
-    const newState = r.reducers(defaultState, action);
+    const newState = reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -234,7 +232,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = r.reducers(defaultState, action);
+    const newState = reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -253,7 +251,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = r.reducers(defaultState, action);
+    const newState = reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -280,7 +278,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = r.reducers(defaultState, action);
+    const newState = reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -296,7 +294,7 @@ describe("<Transitions /> - Reducers", () => {
       payload: true
     };
 
-    const newState = r.reducers(defaultState, action);
+    const newState = reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -329,7 +327,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = r.reducers(defaultState, action);
+    const newState = reducers(defaultState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 });

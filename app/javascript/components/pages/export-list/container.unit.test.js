@@ -74,7 +74,7 @@ describe("<ExportList />", () => {
   });
 
   it("renders a table with three rows", () => {
-    expect(component.find(MUIDataTable).find(TableBodyRow)).to.have.length(3);
+    expect(component.find(MUIDataTable).find(TableBodyRow)).to.have.lengthOf(3);
   });
 
   it("should render <PageContainer>", () => {

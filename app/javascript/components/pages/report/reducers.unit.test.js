@@ -1,26 +1,15 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { fromJS } from "immutable";
-import chaiImmutable from "chai-immutable";
-import { capitalize } from "lodash";
-import {
-  CASES_BY_NATIONALITY,
-  CASES_BY_AGE_AND_SEX,
-  CASES_BY_PROTECTION_CONCERN,
-  CASES_BY_AGENCY
-} from "config";
 import * as actions from "./actions";
 import { reducers } from "./reducers";
-import NAMESPACE from "./namespace";
-
-chai.use(chaiImmutable);
+import "test/chai-helpers";
 
 describe("<Reports /> - Reducers", () => {
-  const capitalizeNamespace = capitalize(NAMESPACE);
   const initialState = fromJS({});
 
   it("deprecated Reports/CASES_BY_NATIONALITY", () => {
     const action = {
-      type: `${capitalizeNamespace}/${CASES_BY_NATIONALITY}`,
+      type: "Reports/CASES_BY_NATIONALITY", // deprecated
       payload: {
         casesByNationality: {
           title: "Cases by Nationality",
@@ -40,7 +29,7 @@ describe("<Reports /> - Reducers", () => {
 
   it("deprecated Reports/CASES_BY_AGE_AND_SEX", () => {
     const action = {
-      type: `${capitalizeNamespace}/${CASES_BY_AGE_AND_SEX}`,
+      type: "Reports/CASES_BY_AGE_AND_SEX", // deprecated
       payload: {
         casesByAgeAndSex: {
           title: "Cases by Age and Sex",
@@ -77,7 +66,7 @@ describe("<Reports /> - Reducers", () => {
 
   it("deprecated Reports/CASES_BY_PROTECTION_CONCERN", () => {
     const action = {
-      type: `${capitalizeNamespace}/${CASES_BY_PROTECTION_CONCERN}`,
+      type: "Reports/CASES_BY_PROTECTION_CONCERN", // deprecated
       payload: {
         casesByProtectionConcern: {
           title: "Cases by Protection Concern",
@@ -115,7 +104,7 @@ describe("<Reports /> - Reducers", () => {
 
   it("deprecated Reports/CASES_BY_AGENCY", () => {
     const action = {
-      type: `${capitalizeNamespace}/${CASES_BY_AGENCY}`,
+      type: "Reports/CASES_BY_AGENCY", // deprecated
       payload: {
         casesByAgency: {
           title: "Cases by Agency",

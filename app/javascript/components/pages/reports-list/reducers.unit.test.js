@@ -1,26 +1,15 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { fromJS } from "immutable";
-import chaiImmutable from "chai-immutable";
-import { capitalize } from "lodash";
-import {
-  CASES_BY_NATIONALITY,
-  CASES_BY_AGE_AND_SEX,
-  CASES_BY_PROTECTION_CONCERN,
-  CASES_BY_AGENCY
-} from "config";
 import * as actions from "./actions";
-import * as r from "./reducers";
-import NAMESPACE from "./namespace";
-
-chai.use(chaiImmutable);
+import { reducers } from "./reducers";
+import "test/chai-helpers";
 
 describe("<Reports /> - Reducers", () => {
   const initialState = fromJS({});
-  const capitalizeNamespace = capitalize(NAMESPACE);
 
   it("deprecated Reports/CASES_BY_NATIONALITY", () => {
     const action = {
-      type: `${capitalizeNamespace}/${CASES_BY_NATIONALITY}`,
+      type: "Reports/CASES_BY_NATIONALITY", // deprecated
       payload: {
         casesByNationality: {
           title: "Cases by Nationality",
@@ -34,13 +23,13 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers(fromJS({}), action);
+    const newState = reducers(fromJS({}), action);
     expect(newState).to.deep.equal(initialState);
   });
 
   it("deprecated Reports/CASES_BY_AGE_AND_SEX", () => {
     const action = {
-      type: `${capitalizeNamespace}/${CASES_BY_AGE_AND_SEX}`,
+      type: "Reports/CASES_BY_AGE_AND_SEX", // deprecated
       payload: {
         casesByAgeAndSex: {
           title: "Cases by Age and Sex",
@@ -71,13 +60,13 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers(fromJS({}), action);
+    const newState = reducers(fromJS({}), action);
     expect(newState).to.deep.equal(initialState);
   });
 
   it("deprecated Reports/CASES_BY_PROTECTION_CONCERN", () => {
     const action = {
-      type: `${capitalizeNamespace}/${CASES_BY_PROTECTION_CONCERN}`,
+      type: "Reports/CASES_BY_PROTECTION_CONCERN", // deprecated
       payload: {
         casesByProtectionConcern: {
           title: "Cases by Protection Concern",
@@ -109,13 +98,13 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers(fromJS({}), action);
+    const newState = reducers(fromJS({}), action);
     expect(newState).to.deep.equal(initialState);
   });
 
   it("deprecated Reports/CASES_BY_AGENCY", () => {
     const action = {
-      type: `${capitalizeNamespace}/${CASES_BY_AGENCY}`,
+      type: "Reports/CASES_BY_AGENCY", // deprecated
       payload: {
         casesByAgency: {
           title: "Cases by Agency",
@@ -129,7 +118,7 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers(fromJS({}), action);
+    const newState = reducers(fromJS({}), action);
     expect(newState).to.deep.equal(initialState);
   });
 
@@ -143,7 +132,7 @@ describe("<Reports /> - Reducers", () => {
       payload: true
     };
 
-    const newState = r.reducers(initialState, action);
+    const newState = reducers(initialState, action);
     expect(newState).to.deep.equal(expected);
   });
 
@@ -177,7 +166,7 @@ describe("<Reports /> - Reducers", () => {
       }
     };
 
-    const newState = r.reducers(initialState, action);
+    const newState = reducers(initialState, action);
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });
 
@@ -190,7 +179,7 @@ describe("<Reports /> - Reducers", () => {
       payload: false
     };
 
-    const newState = r.reducers(initialState, action);
+    const newState = reducers(initialState, action);
     expect(newState).to.deep.equal(expected);
   });
 
@@ -203,7 +192,7 @@ describe("<Reports /> - Reducers", () => {
       payload: true
     };
 
-    const newState = r.reducers(initialState, action);
+    const newState = reducers(initialState, action);
     expect(newState).to.deep.equal(expected);
   });
 });

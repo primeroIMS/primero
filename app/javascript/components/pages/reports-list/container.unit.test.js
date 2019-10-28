@@ -51,23 +51,23 @@ describe("<Reports /> - Component", () => {
     ({ component } = setupMountedComponent(Reports, {}, initialState));
   });
 
-  it("should render Card", () => {
-    expect(component.find(Card)).to.have.length(1);
+  it("should render <Card>", () => {
+    expect(component.find(Card)).to.have.lengthOf(1);
   });
 
-  it("should render CardActionArea", () => {
-    expect(component.find(CardActionArea)).to.have.length(1);
+  it("should render <CardActionArea>", () => {
+    expect(component.find(CardActionArea)).to.have.lengthOf(1);
   });
 
-  it("should render CardContent", () => {
-    expect(component.find(CardContent)).to.have.length(1);
+  it("should render <CardContent>", () => {
+    expect(component.find(CardContent)).to.have.lengthOf(1);
   });
 
-  it("should render Box", () => {
-    expect(component.find(Box)).to.have.length(1);
+  it("should render <Box>", () => {
+    expect(component.find(Box)).to.have.lengthOf(1);
   });
 
-  it("should render TablePagination", () => {
-    expect(component.find(TablePagination)).to.have.length(1);
+  it("should render <TablePagination>", () => {
+    expect(component.find(TablePagination)).to.have.lengthOf(1);
   });
 });

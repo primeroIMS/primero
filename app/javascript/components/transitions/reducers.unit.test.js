@@ -1,12 +1,10 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { fromJS } from "immutable";
-import chaiImmutable from "chai-immutable";
 import { mapEntriesToRecord } from "libs";
 import { TransitionRecord } from "./records";
 import * as r from "./reducers";
 import * as Actions from "./actions";
-
-chai.use(chaiImmutable);
+import "test/chai-helpers";
 
 describe("<Transitions /> - Reducers", () => {
   it("should handle FETCH_TRANSITIONS", () => {
