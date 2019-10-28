@@ -10,10 +10,12 @@ describe("<Transitions /> - parts/index", () => {
     expect(indexValues).to.have.property("TransitionDialog");
     expect(indexValues).to.have.property("ReferralForm");
     expect(indexValues).to.have.property("ReassignForm");
+    expect(indexValues).to.have.property("generatePath");
     delete indexValues.TransferForm;
     delete indexValues.TransitionDialog;
     delete indexValues.ReferralForm;
     delete indexValues.ReassignForm;
+    delete indexValues.generatePath;
     expect(indexValues).to.deep.equal({});
   });
 });

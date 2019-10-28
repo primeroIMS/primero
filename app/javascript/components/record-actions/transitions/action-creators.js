@@ -1,5 +1,6 @@
 import { ENQUEUE_SNACKBAR } from "components/notifier";
 import { CASES_ASSIGNS, CASES_TRANSFERS, CASES_REFERRALS } from "config";
+import { generatePath } from "./parts";
 import actions from "./actions";
 
 export const fetchAssignUsers = recordType => ({
@@ -33,11 +34,6 @@ export const removeFormErrors = payload => {
     type: actions.CLEAR_ERRORS,
     payload
   };
-};
-
-const generatePath = (constant, recordId) => {
-  const [recordType, transitionType] = constant.split("/");
-  return [recordType, recordId, transitionType].join("/");
 };
 
 export const saveAssignedUser = (recordId, body, message) => ({

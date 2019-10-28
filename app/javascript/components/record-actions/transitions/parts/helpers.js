@@ -22,3 +22,8 @@ export const hasProvidedConsent = record => {
     CONSENT_GIVEN_FIELD_BY_MODULE[record.get(MODULE_TYPE_FIELD)]
   );
 };
+
+export const generatePath = (constant, recordId) => {
+  const [recordType, transitionType] = constant.split("/");
+  return [recordType, recordId, transitionType].join("/");
+};
