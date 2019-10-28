@@ -33,7 +33,7 @@ describe("<Filters /> - Component", () => {
   before(() => {
     component = setupMountedComponent(
       FiltersBuilder,
-      { recordType: "case", filters: filtersApi },
+      { recordType: "Cases", filters: filtersApi, defaultFilters: Map({}) },
       Map({
         records: Map({
           FiltersBuilder: {
