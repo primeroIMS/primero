@@ -2,6 +2,7 @@ import * as Page from "components/pages";
 import { RecordForm } from "components/record-form";
 import { RecordList } from "components/record-list";
 import { AppLayout, LoginLayout } from "components/layouts";
+import { ROUTES } from "./constants";
 
 export default [
   {
@@ -21,7 +22,7 @@ export default [
     layout: AppLayout,
     routes: [
       {
-        path: "/dashboard",
+        path: ROUTES.dashboard,
         component: Page.Dashboard
       },
       {
@@ -48,35 +49,35 @@ export default [
         permission: ["read", "manage"]
       },
       {
-        path: "/reports",
+        path: ROUTES.reports,
         component: Page.Reports,
         permissionType: "reports",
         permission: ["read", "group_read", "manage"]
       },
       {
-        path: "/reports/:id",
+        path: `${ROUTES.reports}/:id`,
         component: Page.Report,
         permissionType: "reports",
         permission: ["read", "group_read", "manage"]
       },
       {
-        path: "/matches",
+        path: ROUTES.matches,
         component: Page.PotentialMatches,
         permissionType: "potential_matches",
         permission: "read"
       },
       {
-        path: "/tasks",
+        path: ROUTES.tasks,
         component: Page.TaskList,
         permissionType: "dashboards",
         permission: "dash_tasks"
       },
       {
-        path: "/exports",
+        path: ROUTES.exports,
         component: Page.ExportList
       },
       {
-        path: "/support",
+        path: ROUTES.support,
         component: Page.Support
       },
       {

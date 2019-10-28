@@ -1,14 +1,14 @@
 import chai, { expect } from "chai";
-import { Map, List } from "immutable";
+import { fromJS } from "immutable";
 import { mapEntriesToRecord } from "libs";
 import chaiImmutable from "chai-immutable";
-import * as R from "./records";
-import * as r from "./reducers";
+import * as Records from "./records";
+import { reducers } from "./reducers";
 
 chai.use(chaiImmutable);
 
 describe("<SavedSearches /> - Reducers", () => {
-  const defaultState = Map({
+  const defaultState = fromJS({
     data: []
   });
 
@@ -27,8 +27,8 @@ describe("<SavedSearches /> - Reducers", () => {
         ]
       }
     ];
-    const expected = Map({
-      data: mapEntriesToRecord(payloadFilters, R.SavedSearchesRecord)
+    const expected = fromJS({
+      data: mapEntriesToRecord(payloadFilters, Records.SavedSearchesRecord)
     });
     const action = {
       type: "savedSearches/FETCH_SAVED_SEARCHES_SUCCESS",
@@ -37,12 +37,12 @@ describe("<SavedSearches /> - Reducers", () => {
       }
     };
 
-    const newState = r.reducers.savedSearches(defaultState, action);
+    const newState = reducers.savedSearches(defaultState, action);
     expect(newState).to.deep.equal(expected);
   });
 
   it("should handle REMOVE_SAVED_SEARCH_SUCCESS", () => {
-    const defaultStateSavedSearch = Map({
+    const defaultStateSavedSearch = fromJS({
       data: mapEntriesToRecord(
         [
           {
@@ -58,11 +58,11 @@ describe("<SavedSearches /> - Reducers", () => {
             ]
           }
         ],
-        R.SavedSearchesRecord
+        Records.SavedSearchesRecord
       )
     });
-    const expected = Map({
-      data: List([])
+    const expected = fromJS({
+      data: []
     });
     const action = {
       type: "savedSearches/REMOVE_SAVED_SEARCH_SUCCESS",
@@ -73,11 +73,15 @@ describe("<SavedSearches /> - Reducers", () => {
       }
     };
 
-    const newState = r.reducers.savedSearches(defaultStateSavedSearch, action);
+    const newState = reducers.savedSearches(defaultStateSavedSearch, action);
     expect(newState).to.deep.equal(expected);
   });
 
   it("should handle SAVE_SEARCH_SUCCESS", () => {
+    const defaultStateSuccess = fromJS({
+      data: []
+    });
+
     const payloadFilters = [
       {
         id: 1,
@@ -104,14 +108,14 @@ describe("<SavedSearches /> - Reducers", () => {
         ]
       }
     ];
-    const expected = Map({
-      data: mapEntriesToRecord(payloadFilters, R.SavedSearchesRecord)
+    const expected = fromJS({
+      data: mapEntriesToRecord(payloadFilters, Records.SavedSearchesRecord)
     });
     const action = {
       type: "savedSearches/SAVE_SEARCH_SUCCESS",
       payload: {
-        data: [
-          R.SavedSearchesRecord({
+        data: fromJS([
+          Records.SavedSearchesRecord({
             id: 1,
             name: "a new filter",
             record_type: "incidents",
@@ -123,7 +127,7 @@ describe("<SavedSearches /> - Reducers", () => {
               }
             ]
           }),
-          R.SavedSearchesRecord({
+          Records.SavedSearchesRecord({
             id: 33,
             name: "Hello 1",
             record_type: "incidents",
@@ -135,11 +139,11 @@ describe("<SavedSearches /> - Reducers", () => {
               }
             ]
           })
-        ]
+        ])
       }
     };
 
-    const newState = r.reducers.savedSearches(defaultState, action);
+    const newState = reducers.savedSearches(defaultStateSuccess, action);
     expect(newState.toJS().data[0]).to.eql(expected.get("data").toJS());
   });
 });
