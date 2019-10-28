@@ -1,5 +1,4 @@
-import "test/test.setup";
-import { expect } from "chai";
+import { expect } from "test/chai-helpers";
 import clone from "lodash/clone";
 import * as actions from "./actions";
 

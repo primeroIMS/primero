@@ -1,5 +1,5 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
+import { expect } from "test/chai-helpers";
 
 import * as selectors from "./selectors";
 import "../../../test/chai-helpers";

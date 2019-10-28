@@ -1,8 +1,7 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
+import { expect } from "test/chai-helpers";
 import * as actions from "./actions";
 import { reducers } from "./reducers";
-import "test/chai-helpers";
 
 describe("<Reports /> - Reducers", () => {
   const initialState = fromJS({});
