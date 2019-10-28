@@ -79,6 +79,6 @@ describe("<RecordList />", () => {
   });
 
   it("renders record list table", () => {
-    expect(component.find(ViewModal)).to.have.length(1);
+    expect(component.find(ViewModal)).to.have.lengthOf(1);
   });
 });
