@@ -81,3 +81,15 @@ export const CASES_ASSIGNS = "cases/assigns";
 export const CASES_TRANSFERS = "cases/transfers";
 
 export const CASES_REFERRALS = "cases/referrals";
+
+export const ROUTES = {
+  dashboard: "/dashboard",
+  cases: "/cases",
+  tasks: "/tasks",
+  incidents: "/incidents",
+  tracing_requests: "/tracing_requests",
+  matches: "/matches",
+  reports: "/reports",
+  exports: "/exports",
+  support: "/support"
+};
