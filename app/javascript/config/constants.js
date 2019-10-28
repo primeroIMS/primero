@@ -69,3 +69,23 @@ export const TRANSITION_TYPE = ["transfers_assignments", "referral"];
 export const RECORD_OWNER = "record_owner";
 
 export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
+
+export const CASES_BY_NATIONALITY = "CASES_BY_NATIONALITY";
+
+export const CASES_BY_AGE_AND_SEX = "CASES_BY_AGE_AND_SEX";
+
+export const CASES_BY_PROTECTION_CONCERN = "CASES_BY_PROTECTION_CONCERN";
+
+export const CASES_BY_AGENCY = "CASES_BY_AGENCY";
+
+export const USERS_ASSIGN_TO = "users/assign-to";
+
+export const USERS_TRANSFER_TO = "users/transfer-to";
+
+export const USERS_REFER_TO = "users/refer-to";
+
+export const CASES_ASSIGNS = "cases/assigns";
+
+export const CASES_TRANSFERS = "cases/transfers";
+
+export const CASES_REFERRALS = "cases/referrals";

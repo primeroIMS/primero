@@ -1,12 +1,10 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { fromJS } from "immutable";
-import chaiImmutable from "chai-immutable";
 
 import * as selectors from "./selectors";
+import "../../../test/chai-helpers";
 
-chai.use(chaiImmutable);
-
-const stateWithNoRecords = fromJS({});
+const stateWithoutRecords = fromJS({});
 const stateWithRecords = fromJS({
   records: {
     reports: {
@@ -36,7 +34,7 @@ describe("<Reports /> - Selectors", () => {
 
     it("should return empty object when records empty", () => {
       const expected = fromJS({});
-      const records = selectors.selectReport(stateWithNoRecords, 1);
+      const records = selectors.selectReport(stateWithoutRecords, 1);
       expect(records).to.deep.equal(expected);
     });
   });

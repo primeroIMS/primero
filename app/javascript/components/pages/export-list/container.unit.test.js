@@ -77,19 +77,19 @@ describe("<ExportList />", () => {
     expect(component.find(MUIDataTable).find(TableBodyRow)).to.have.length(3);
   });
 
-  it("should render PageContainer", () => {
-    expect(component.find(PageContainer)).to.have.length(1);
+  it("should render <PageContainer>", () => {
+    expect(component.find(PageContainer)).to.have.lengthOf(1);
   });
 
-  it("should render PageHeading", () => {
-    expect(component.find(PageHeading)).to.have.length(1);
+  it("should render <PageHeading>", () => {
+    expect(component.find(PageHeading)).to.have.lengthOf(1);
   });
 
-  it("should render PageContent", () => {
-    expect(component.find(PageContent)).to.have.length(1);
+  it("should render <PageContent>", () => {
+    expect(component.find(PageContent)).to.have.lengthOf(1);
   });
 
-  it("should render IndexTable", () => {
-    expect(component.find(IndexTable)).to.have.length(1);
+  it("should render <IndexTable>", () => {
+    expect(component.find(IndexTable)).to.have.lengthOf(1);
   });
 });

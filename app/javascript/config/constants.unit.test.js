@@ -23,6 +23,16 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("TRANSITION_TYPE");
     expect(constants).to.have.property("RECORD_OWNER");
     expect(constants).to.have.property("TRANSFERS_ASSIGNMENTS");
+    expect(constants).to.have.property("CASES_BY_NATIONALITY");
+    expect(constants).to.have.property("CASES_BY_AGE_AND_SEX");
+    expect(constants).to.have.property("CASES_BY_PROTECTION_CONCERN");
+    expect(constants).to.have.property("CASES_BY_AGENCY");
+    expect(constants).to.have.property("USERS_ASSIGN_TO");
+    expect(constants).to.have.property("USERS_TRANSFER_TO");
+    expect(constants).to.have.property("USERS_REFER_TO");
+    expect(constants).to.have.property("CASES_ASSIGNS");
+    expect(constants).to.have.property("CASES_TRANSFERS");
+    expect(constants).to.have.property("CASES_REFERRALS");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -41,6 +51,16 @@ describe("Verifying config constant", () => {
     delete constants.TRANSITION_TYPE;
     delete constants.RECORD_OWNER;
     delete constants.TRANSFERS_ASSIGNMENTS;
+    delete constants.CASES_BY_NATIONALITY;
+    delete constants.CASES_BY_AGE_AND_SEX;
+    delete constants.CASES_BY_PROTECTION_CONCERN;
+    delete constants.CASES_BY_AGENCY;
+    delete constants.USERS_ASSIGN_TO;
+    delete constants.USERS_TRANSFER_TO;
+    delete constants.USERS_REFER_TO;
+    delete constants.CASES_ASSIGNS;
+    delete constants.CASES_TRANSFERS;
+    delete constants.CASES_REFERRALS;
 
     expect(constants).to.deep.equal({});
   });
@@ -88,5 +108,17 @@ describe("Verifying config constant", () => {
     ]);
     expect(constants.RECORD_OWNER).to.equal("record_owner");
     expect(constants.TRANSFERS_ASSIGNMENTS).to.equal("transfers_assignments");
+    expect(constants.CASES_BY_NATIONALITY).to.equal("CASES_BY_NATIONALITY");
+    expect(constants.CASES_BY_AGE_AND_SEX).to.equal("CASES_BY_AGE_AND_SEX");
+    expect(constants.CASES_BY_PROTECTION_CONCERN).to.equal(
+      "CASES_BY_PROTECTION_CONCERN"
+    );
+    expect(constants.CASES_BY_AGENCY).to.equal("CASES_BY_AGENCY");
+    expect(constants.USERS_ASSIGN_TO).to.equal("users/assign-to");
+    expect(constants.USERS_TRANSFER_TO).to.equal("users/transfer-to");
+    expect(constants.USERS_REFER_TO).to.equal("users/refer-to");
+    expect(constants.CASES_ASSIGNS).to.equal("cases/assigns");
+    expect(constants.CASES_TRANSFERS).to.equal("cases/transfers");
+    expect(constants.CASES_REFERRALS).to.equal("cases/referrals");
   });
 });

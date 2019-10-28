@@ -40,14 +40,10 @@ describe("<Transitions /> - Action Creators", () => {
     const dispatch = sinon.spy(store, "dispatch");
 
     dispatch(actionCreators.fetchAssignUsers());
-    const firstCall = dispatch.getCall(0).returnValue;
+    const firstCallReturnValue = dispatch.getCall(0).returnValue;
 
-    expect(firstCall.type).to.equal(
-      actions.ASSIGN_USERS_FETCH
-    );
-    expect(firstCall.api.path).to.equal(
-      "users/assign-to"
-    );
+    expect(firstCallReturnValue.type).to.equal(actions.ASSIGN_USERS_FETCH);
+    expect(firstCallReturnValue.api.path).to.equal("users/assign-to");
   });
 
   it("should check the 'fetchTransferUsers' action creator to return the correct object", () => {
@@ -55,14 +51,10 @@ describe("<Transitions /> - Action Creators", () => {
     const dispatch = sinon.spy(store, "dispatch");
 
     dispatch(actionCreators.fetchTransferUsers());
-    const firstCall = dispatch.getCall(0).returnValue;
+    const firstCallReturnValue = dispatch.getCall(0).returnValue;
 
-    expect(firstCall.type).to.equal(
-      actions.TRANSFER_USERS_FETCH
-    );
-    expect(firstCall.api.path).to.equal(
-      "users/transfer-to"
-    );
+    expect(firstCallReturnValue.type).to.equal(actions.TRANSFER_USERS_FETCH);
+    expect(firstCallReturnValue.api.path).to.equal("users/transfer-to");
   });
 
   it("should check the 'removeFormErrors' action creator to return the correct object", () => {
@@ -88,16 +80,16 @@ describe("<Transitions /> - Action Creators", () => {
     dispatch(
       actionCreators.saveAssignedUser("123abc", body, "Success Message")
     );
-    const firstCall = dispatch.getCall(0).returnValue;
+    const firstCallReturnValue = dispatch.getCall(0).returnValue;
 
-    expect(firstCall.type).to.equal(actions.ASSIGN_USER_SAVE);
-    expect(firstCall.api.path).to.equal("cases/123abc/assigns");
-    expect(firstCall.api.method).to.equal("POST");
-    expect(firstCall.api.body).to.equal(body);
-    expect(firstCall.api.successCallback.action).to.equal(
+    expect(firstCallReturnValue.type).to.equal(actions.ASSIGN_USER_SAVE);
+    expect(firstCallReturnValue.api.path).to.equal("cases/123abc/assigns");
+    expect(firstCallReturnValue.api.method).to.equal("POST");
+    expect(firstCallReturnValue.api.body).to.equal(body);
+    expect(firstCallReturnValue.api.successCallback.action).to.equal(
       "notifications/ENQUEUE_SNACKBAR"
     );
-    expect(firstCall.api.successCallback.payload.message).to.equal(
+    expect(firstCallReturnValue.api.successCallback.payload.message).to.equal(
       "Success Message"
     );
   });
@@ -116,15 +108,15 @@ describe("<Transitions /> - Action Creators", () => {
       actionCreators.saveTransferUser("123abc", body, "Success Message")
     );
 
-    const firstCall = dispatch.getCall(0).returnValue;
-    expect(firstCall.type).to.equal(actions.TRANSFER_USER);
-    expect(firstCall.api.path).to.equal("cases/123abc/transfers");
-    expect(firstCall.api.method).to.equal("POST");
-    expect(firstCall.api.body).to.equal(body);
-    expect(firstCall.api.successCallback.action).to.equal(
+    const firstCallReturnValue = dispatch.getCall(0).returnValue;
+    expect(firstCallReturnValue.type).to.equal(actions.TRANSFER_USER);
+    expect(firstCallReturnValue.api.path).to.equal("cases/123abc/transfers");
+    expect(firstCallReturnValue.api.method).to.equal("POST");
+    expect(firstCallReturnValue.api.body).to.equal(body);
+    expect(firstCallReturnValue.api.successCallback.action).to.equal(
       "notifications/ENQUEUE_SNACKBAR"
     );
-    expect(firstCall.api.successCallback.payload.message).to.equal(
+    expect(firstCallReturnValue.api.successCallback.payload.message).to.equal(
       "Success Message"
     );
   });
@@ -153,15 +145,15 @@ describe("<Transitions /> - Action Creators", () => {
 
     dispatch(actionCreators.saveReferral("123abc", body, "Success Message"));
 
-    const firstCall = dispatch.getCall(0).returnValue;
-    expect(firstCall.type).to.equal(actions.REFER_USER);
-    expect(firstCall.api.path).to.equal("cases/123abc/referrals");
-    expect(firstCall.api.method).to.equal("POST");
-    expect(firstCall.api.body).to.equal(body);
-    expect(firstCall.api.successCallback.action).to.equal(
+    const firstCallReturnValue = dispatch.getCall(0).returnValue;
+    expect(firstCallReturnValue.type).to.equal(actions.REFER_USER);
+    expect(firstCallReturnValue.api.path).to.equal("cases/123abc/referrals");
+    expect(firstCallReturnValue.api.method).to.equal("POST");
+    expect(firstCallReturnValue.api.body).to.equal(body);
+    expect(firstCallReturnValue.api.successCallback.action).to.equal(
       "notifications/ENQUEUE_SNACKBAR"
     );
-    expect(firstCall.api.successCallback.payload.message).to.equal(
+    expect(firstCallReturnValue.api.successCallback.payload.message).to.equal(
       "Success Message"
     );
   });

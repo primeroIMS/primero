@@ -1,4 +1,5 @@
 import { ENQUEUE_SNACKBAR } from "components/notifier";
+import { CASES_ASSIGNS, CASES_TRANSFERS, CASES_REFERRALS } from "config";
 import actions from "./actions";
 
 export const fetchAssignUsers = recordType => ({
@@ -34,10 +35,15 @@ export const removeFormErrors = payload => {
   };
 };
 
+const generatePath = (constant, recordId) => {
+  const [recordType, transitionType] = constant.split("/");
+  return [recordType, recordId, transitionType].join("/");
+};
+
 export const saveAssignedUser = (recordId, body, message) => ({
   type: actions.ASSIGN_USER_SAVE,
   api: {
-    path: `cases/${recordId}/assigns`,
+    path: generatePath(CASES_ASSIGNS, recordId),
     method: "POST",
     body,
     successCallback: {
@@ -56,7 +62,7 @@ export const saveAssignedUser = (recordId, body, message) => ({
 export const saveTransferUser = (recordId, body, message) => ({
   type: actions.TRANSFER_USER,
   api: {
-    path: `cases/${recordId}/transfers`,
+    path: generatePath(CASES_TRANSFERS, recordId),
     method: "POST",
     body,
     successCallback: {
@@ -75,7 +81,7 @@ export const saveTransferUser = (recordId, body, message) => ({
 export const saveReferral = (recordId, body, message) => ({
   type: actions.REFER_USER,
   api: {
-    path: `cases/${recordId}/referrals`,
+    path: generatePath(CASES_REFERRALS, recordId),
     method: "POST",
     body,
     successCallback: {

@@ -3,8 +3,8 @@ import chai, { expect } from "chai";
 import sinon from "sinon";
 import sinonChai from "sinon-chai";
 import configureStore from "redux-mock-store";
-import * as actions from "./actions";
 import * as actionCreators from "./action-creators";
+import * as actions from "./actions";
 
 chai.use(sinonChai);
 
@@ -15,13 +15,14 @@ describe("<Reports /> - Action Creators", () => {
     expect(creators, "DEPRECATED fetchCasesByNationality").to.not.have.property(
       "fetchCasesByNationality"
     );
-    expect(creators, "DEPRECATED fetchCasesByNationality").to.not.have.property(
+    expect(creators, "DEPRECATED fetchCasesByAgeAndSex").to.not.have.property(
       "fetchCasesByAgeAndSex"
     );
-    expect(creators, "DEPRECATED fetchCasesByNationality").to.not.have.property(
-      "fetchCasesByProtectionConcern"
-    );
-    expect(creators, "DEPRECATED fetchCasesByNationality").to.not.have.property(
+    expect(
+      creators,
+      "DEPRECATED fetchCasesByProtectionConcern"
+    ).to.not.have.property("fetchCasesByProtectionConcern");
+    expect(creators, "DEPRECATED fetchCasesByAgency").to.not.have.property(
       "fetchCasesByAgency"
     );
     expect(creators).to.have.property("fetchReport");
