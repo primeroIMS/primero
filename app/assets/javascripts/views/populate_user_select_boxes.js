@@ -120,6 +120,8 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
 
         self.collection.fetch({data: self.filters})
             .done(function() {
+              // Remove the selected values that are no longer present in the results.
+              self.removeNotFoundValues($select_box);
               self.parseOptions($select_box);
               self.updateCollectionCache();
               if(onComplete) {
@@ -206,5 +208,17 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
     return _.map(models, function(model){
       return { id: model.user_name, display_text: model.user_name };
     });
+  },
+
+  removeNotFoundValues: function($select_box){
+    var self = this;
+    var value = $select_box.data("value")
+    if(value) {
+      var values = _.isArray(value) ? value : value.toString().split(",");
+      values = _.filter(values, function(current) {
+        return !!self.collection.findWhere({ id: current });
+      });
+      $select_box.data("value", values.join(","));
+    }
   }
 });
