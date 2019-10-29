@@ -14,12 +14,36 @@ const ProvidedConsent = ({
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-  const canDisplay = canConsentOverride && !providedConsent;
 
-  if (!canDisplay) {
+  if (providedConsent) {
     return null;
   }
   const ProvidedForm = () => {
+    const onChangeReferAnyway = props => {
+      const { field, form } = props;
+      const { value } = field;
+      const onChange = (fieldCheckbox, formCheckbox) => {
+        setDisabled(!fieldCheckbox.value);
+        formCheckbox.setFieldValue(
+          fieldCheckbox.name,
+          !fieldCheckbox.value,
+          false
+        );
+      };
+      return (
+        <Checkbox checked={value} onChange={() => onChange(field, form)} />
+      );
+    };
+
+    const referAnyway = canConsentOverride ? (
+      <FormControlLabel
+        control={
+          <Field name="referral" render={props => onChangeReferAnyway(props)} />
+        }
+        label={i18n.t("referral.refer_anyway_label")}
+      />
+    ) : null;
+
     return (
       <div className={css.alertTransferModal}>
         <Grid
@@ -34,23 +58,7 @@ const ProvidedConsent = ({
           <Grid item xs={11}>
             <span>{i18n.t("referral.provided_consent_label")}</span>
             <br />
-            <FormControlLabel
-              control={
-                <Field
-                  name="referral"
-                  render={({ field, form }) => (
-                    <Checkbox
-                      checked={field.value}
-                      onChange={() => {
-                        setDisabled(!field.value);
-                        form.setFieldValue(field.name, !field.value, false);
-                      }}
-                    />
-                  )}
-                />
-              }
-              label={i18n.t("referral.refer_anyway_label")}
-            />
+            {referAnyway}
           </Grid>
         </Grid>
       </div>

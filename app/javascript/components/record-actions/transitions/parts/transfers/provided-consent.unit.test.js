@@ -73,11 +73,43 @@ describe("<ProvidedConsent />", () => {
       providedConsent: false,
       setDisabled: () => { }
     };
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(ProvidedConsentForm, props));
+    describe("with not provided consent given", () => {
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(ProvidedConsentForm, props));
+      });
+
+      it("renders <Grid>", () => {
+        expect(component.find(Grid)).to.have.lengthOf(3);
+      });
+
+      it("renders span with transfer.provided_consent_label", () => {
+        expect(
+          component
+            .find(Grid)
+            .find("span")
+            .props().children
+        ).to.be.equal("transfer.provided_consent_label");
+      });
+
+      it("should not render <FormControlLabel>", () => {
+        expect(component.find(FormControlLabel)).to.not.have.lengthOf(1);
+      });
+
+      it("should not render <Checkbox>", () => {
+        expect(component.find(Checkbox)).to.not.have.lengthOf(1);
+      });
     });
-    it("should not render anything", () => {
-      expect(component).to.be.empty;
+    describe("with provided consent given", () => {
+      const providedConsent = true;
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(ProvidedConsentForm, {
+          ...props,
+          providedConsent
+        }));
+      });
+      it("should render anything", () => {
+        expect(component).to.be.empty;
+      });
     });
   });
 });

@@ -14,9 +14,8 @@ const ProvidedConsent = ({
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
-  const canDisplay = canConsentOverride && !providedConsent;
 
-  if (!canDisplay) {
+  if (providedConsent) {
     return null;
   }
 
@@ -25,6 +24,27 @@ const ProvidedConsent = ({
       setDisabled(!field.value);
       form.setFieldValue(field.name, !field.value, false);
     };
+
+    const onChangeTransferAnyway = props => {
+      const { field, form } = props;
+      const { value } = field;
+      return (
+        <Checkbox checked={value} onChange={() => onChange(field, form)} />
+      );
+    };
+
+    const transferAnyway = canConsentOverride ? (
+      <FormControlLabel
+        control={
+          <Field
+            name="transfer"
+            render={props => onChangeTransferAnyway(props)}
+          />
+        }
+        label={i18n.t("transfer.transfer_label")}
+      />
+    ) : null;
+
     return (
       <div className={css.alertTransferModal}>
         <Grid
@@ -39,20 +59,7 @@ const ProvidedConsent = ({
           <Grid item xs={11}>
             <span>{i18n.t("transfer.provided_consent_label")}</span>
             <br />
-            <FormControlLabel
-              control={
-                <Field
-                  name="transfer"
-                  render={({ field, form }) => (
-                    <Checkbox
-                      checked={field.value}
-                      onChange={() => onChange(field, form)}
-                    />
-                  )}
-                />
-              }
-              label={i18n.t("transfer.transfer_label")}
-            />
+            {transferAnyway}
           </Grid>
         </Grid>
       </div>
