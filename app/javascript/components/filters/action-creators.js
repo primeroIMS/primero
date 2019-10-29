@@ -1,5 +1,6 @@
-import { List } from "immutable";
+import { List, Map } from "immutable";
 import * as Actions from "./actions";
+import { cleanUpFilters } from "components/records";
 
 export const setTab = payload => {
   return {
@@ -22,3 +23,16 @@ export const setInitialFilterValues = (recordType, payload) => {
     payload: values
   };
 };
+
+export const setInitialRecords = (path, namespace, initialFilterValues) => {
+  const defaultFilters = cleanUpFilters(Map(initialFilterValues).toJS());
+
+  return {
+    type: `${namespace}/RECORDS`,
+    api: {
+      path: path,
+      params: defaultFilters
+    }
+  };
+};
+

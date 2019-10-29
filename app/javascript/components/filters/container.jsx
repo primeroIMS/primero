@@ -7,9 +7,10 @@ import { Map, List } from "immutable";
 import { FiltersBuilder } from "components/filters-builder";
 import { SavedSearches, fetchSavedSearches } from "components/saved-searches";
 import { useI18n } from "components/i18n";
-import { setInitialFilterValues, setTab } from "./action-creators";
+import { setInitialFilterValues, setInitialRecords, setTab } from "./action-creators";
 import styles from "./styles.css";
 import * as Selectors from "./selectors";
+import { cleanUpFilters } from "components/records";
 
 const ARRAY_FILTERS = [
   "checkbox",
@@ -35,7 +36,8 @@ const Filters = ({ recordType, defaultFilters }) => {
     Selectors.getFiltersByRecordType(state, recordType)
   );
 
-  const resetFilterValues = () => {
+  const resetFilterValues = (namespace = null,
+      path = null) => {
     if (availableFilters) {
       const excludeDefaultFilters = [...defaultFilters.keys()];
 
@@ -70,6 +72,10 @@ const Filters = ({ recordType, defaultFilters }) => {
       }, {});
 
       dispatch(setInitialFilterValues(recordType, initialFilterValues));
+
+      if (namespace && path) {
+        dispatch(setInitialRecords(path, namespace, initialFilterValues));
+      }
     }
   };
 

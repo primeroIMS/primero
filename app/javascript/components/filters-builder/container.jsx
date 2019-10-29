@@ -41,10 +41,11 @@ const FiltersBuilder = ({
   const [open, setOpen] = useState(false);
 
   const handleClearFilters = () => {
-    resetPanel();
+    resetPanel(recordType, `/${recordType.toLowerCase()}`);
   };
 
   const handleApplyFilter = () => {
+    console.log('recordFilters:', recordFilters);
     applyFilters({
       namespace: recordType,
       options: recordFilters,
@@ -148,7 +149,7 @@ const FiltersBuilder = ({
         <Button variant="outlined" onClick={handleSaveFilters}>
           {i18n.t("filters.save_filters")}
         </Button>
-        <Button variant="outlined" className="clear-filters" onClick={handleClearFilters}>
+        <Button variant="outlined" id="clear-filters" onClick={handleClearFilters}>
           {i18n.t("filters.clear_filters")}
         </Button>
       </div>

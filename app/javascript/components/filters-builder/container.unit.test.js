@@ -6,7 +6,7 @@ import { ExpansionPanel, Button } from "@material-ui/core";
 import * as Record from "components/user/records";
 import FiltersBuilder from "./container";
 
-describe.only("<Filters /> - Component", () => {
+describe("<Filters /> - Component", () => {
   let component;
   const filtersApi = List([
     Record.FilterRecord({
@@ -80,12 +80,5 @@ describe.only("<Filters /> - Component", () => {
 
   it("renders the ExpansionPanel", () => {
     expect(component.find(ExpansionPanel)).to.have.length(1);
-  });
-
-  it("clears the filters", () => {
-    // component.find(".clear-filters").simulate("click");
-    expect(component.find(".clear-filters")).to.have.length(1);
-    expect(component.find("#female")).to.have.length(1);
-    expect(component.find("#female").props().checked).to.equal(true);
   });
 });
