@@ -1,83 +1,69 @@
-import React from "react";
 import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
-import { Field, Form, Formik } from "formik";
+import { Field } from "formik";
 import { Grid, FormControlLabel, Checkbox } from "@material-ui/core";
-import ProvidedConsent from "./provided-consent";
+import ProvidedForm from "./provided-form";
 
-const ProvidedConsentForm = props => {
+describe("<ProvidedForm /> - transfers", () => {
   const formProps = {
     initialValues: {
-      referral: false
+      transfer: false
     }
   };
-  return (
-    <Formik {...formProps}>
-      <Form>
-        <ProvidedConsent {...props} />
-      </Form>
-    </Formik>
-  );
-};
 
-describe("<ProvidedConsent />", () => {
-  let component;
-  describe("when user can override consent", () => {
+  it("should render properly when user can override consent", () => {
     const props = {
-      canConsentOverride: true,
-      setDisabled: () => {}
+      canConsentOverride: true
     };
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(ProvidedConsentForm, props));
-    });
+    const { component } = setupMountedComponent(
+      ProvidedForm,
+      props,
+      {},
+      [],
+      formProps
+    );
 
-    it("renders Grid", () => {
-      expect(component.find(Grid)).to.have.length(3);
-    });
-
-    it("renders FormControlLabel", () => {
-      expect(component.find(FormControlLabel)).to.have.length(1);
-    });
-
-    it("renders Checkbox", () => {
-      expect(component.find(Checkbox)).to.have.length(1);
-    });
-
-    it("renders Field", () => {
-      expect(component.find(Field)).to.have.length(1);
-    });
+    expect(component.find(Grid), "renders 3 Grid").to.have.lengthOf(3);
+    expect(
+      component.find(FormControlLabel),
+      "renders single FormControlLabel"
+    ).to.have.lengthOf(1);
+    expect(
+      component.find(Checkbox),
+      "renders single Checkbox"
+    ).to.have.lengthOf(1);
+    expect(component.find(Field), "renders single Field").to.have.lengthOf(1);
   });
 
-  describe("when user can not override consent", () => {
+  it("should render some components when user can not override consent", () => {
     const props = {
-      canConsentOverride: false,
-      setDisabled: () => {}
+      canConsentOverride: false
     };
 
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(ProvidedConsentForm, props));
-    });
+    const { component } = setupMountedComponent(
+      ProvidedForm,
+      props,
+      {},
+      [],
+      formProps
+    );
 
-    it("renders <Grid>", () => {
-      expect(component.find(Grid)).to.have.lengthOf(3);
-    });
-
-    it("renders span with transfer.provided_consent_label", () => {
-      expect(
-        component
-          .find(Grid)
-          .find("span")
-          .props().children
-      ).to.be.equal("transfer.provided_consent_label");
-    });
-
-    it("should not render <FormControlLabel>", () => {
-      expect(component.find(FormControlLabel)).to.not.have.lengthOf(1);
-    });
-
-    it("should not render <Checkbox>", () => {
-      expect(component.find(Checkbox)).to.not.have.lengthOf(1);
-    });
+    expect(component.find(Grid), "renders 3 Grid").to.have.lengthOf(3);
+    expect(
+      component
+        .find(Grid)
+        .find("span")
+        .props().children,
+      "renders span with transfer.provided_consent_labe"
+    ).to.be.equal("transfer.provided_consent_label");
+    expect(
+      component.find(FormControlLabel),
+      "should not render FormControlLabel"
+    ).to.not.have.lengthOf(1);
+    expect(
+      component.find(Checkbox),
+      "should not render Checkbox"
+    ).to.not.have.lengthOf(1);
   });
 });

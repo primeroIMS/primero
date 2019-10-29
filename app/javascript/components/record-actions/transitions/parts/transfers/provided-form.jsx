@@ -21,14 +21,13 @@ const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
     return <Checkbox checked={value} onChange={() => onChange(field, form)} />;
   };
 
+  const fieldTransferAnyway = (
+    <Field name="transfer" render={props => onChangeTransferAnyway(props)} />
+  );
+
   const transferAnyway = canConsentOverride ? (
     <FormControlLabel
-      control={
-        <Field
-          name="transfer"
-          render={props => onChangeTransferAnyway(props)}
-        />
-      }
+      control={fieldTransferAnyway}
       label={i18n.t("transfer.transfer_label")}
     />
   ) : null;
