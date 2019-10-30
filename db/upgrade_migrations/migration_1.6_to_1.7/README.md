@@ -1,49 +1,5 @@
-Migrating an old json configuration
+Migrating an old configuration
 ===================================
-
-Run these steps in your local dev environment on your Vagrant system
-
-
-Clear the existing data
------------------------
-- $ bundle exec rake db:data:remove_metadata
-- $ bundle exec rake db:migrate:design
-
-
-Make sure your config/locales.yml has the proper locales for the configuration you are upgrading.
--------------------------------------------------------------------------------------------------
-- The development section should have the desired locales.
-
-Example:   (If your config is using English & French locales)
-
-development:
-  :default_locale: 'en'
-  :locales: ["en", "fr"]
-
-
-Load the old json config
-------------------------
-- $ bundle exec rake db:data:import_config_bundle[<path to json file>]
-
-Example:
-  $ bundle exec rake db:data:import_config_bundle[tmp/config_burkina_1209.json]
-
-
-Run the migration scripts
--------------------------
-- $ bundle exec rails r db/upgrade_migrations/migration_1.6_to_1.7/migrate.rb
-
-
-Test
-----
-
-
-Generate configuration seeds
-----------------------------
-- $ bundle exec rake db:data:export_config_seeds
-
-This will generate a seed-files directory with the new ruby seeds in the application root directory.
-Move that seed-files directory and its contents to the appropriate directory under primero-configuration.
 
 Create manually each form-group lookup and use form_group_id instead of form-group-name
 -------------------------
@@ -121,15 +77,10 @@ Start couchdb and other system processes
 - $ sudo /srv/primero/bin/primeroctl status   #optional - to check status of processes
 
 
-Run the migration
------------------
-- $ sudo -Hu primero bash
-- $ cd ~/application/
-- $ RAILS_ENV=production bundle exec rails r db/upgrade_migrations/migration_1.6_to_1.7/migrate_records.rb
-
-
 Run the design migration
 -------------------------------------------------------------------------
+- $ sudo -Hu primero bash
+- $ cd ~/application/
 - $ RAILS_ENV=production bundle exec rails db:migrate:design
 
 
