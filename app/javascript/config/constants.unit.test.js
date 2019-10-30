@@ -43,6 +43,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("CASES_TRANSFERS");
     expect(constants).to.have.property("CASES_REFERRALS");
     expect(constants).to.have.property("ROUTES");
+    expect(constants).to.have.property("USER_NAME_FIELD");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -72,6 +73,7 @@ describe("Verifying config constant", () => {
     delete constants.CASES_TRANSFERS;
     delete constants.CASES_REFERRALS;
     delete constants.ROUTES;
+    delete constants.USER_NAME_FIELD;
 
     expect(constants).to.deep.equal({});
   });
@@ -125,5 +127,6 @@ describe("Verifying config constant", () => {
     expect(constants.CASES_ASSIGNS).to.equal("cases/assigns");
     expect(constants.CASES_TRANSFERS).to.equal("cases/transfers");
     expect(constants.CASES_REFERRALS).to.equal("cases/referrals");
+    expect(constants.USER_NAME_FIELD).to.equal("user_name");
   });
 });

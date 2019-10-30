@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Formik, Field, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import _ from "lodash";
-import { RECORD_TYPES } from "config";
+import { RECORD_TYPES, USER_NAME_FIELD } from "config";
 import { TextField } from "formik-material-ui";
 import { Box, Button } from "@material-ui/core";
 import { useI18n } from "components/i18n";
@@ -49,12 +48,13 @@ const ReassignForm = ({ handleClose, record, recordType }) => {
       firstUpdate.current = false;
       return;
     }
-    const isUndefined = typeof hasErrors === "undefined";
-    if (!_.isEmpty(hasErrors)) {
-      dispatch(
-        enqueueSnackbar(hasErrors.map(e => i18n.t(e)).join(", "), "error")
-      );
-    } else if (!isUndefined && _.isEmpty(hasErrors)) {
+    const messages = hasErrors
+      .valueSeq()
+      .map(e => i18n.t(e))
+      .join(", ");
+    if (messages !== "") {
+      dispatch(enqueueSnackbar(messages, "error"));
+    } else {
       closeModal();
     }
   }, [hasErrors]);
@@ -85,10 +85,13 @@ const ReassignForm = ({ handleClose, record, recordType }) => {
       }
     },
     options: users
-      ? users.map(user => ({
-          value: user.user_name.toLowerCase(),
-          label: user.user_name
-        }))
+      ? users.valueSeq().map(user => {
+          const userName = user.get(USER_NAME_FIELD);
+          return {
+            value: userName.toLowerCase(),
+            label: userName
+          };
+        })
       : []
   };
 

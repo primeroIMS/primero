@@ -1,5 +1,6 @@
 import { expect } from "test/test.setup";
 import { fromJS } from "immutable";
+import * as record from "components/transitions/records";
 import { reducers } from "./reducer";
 import actions from "./actions";
 
@@ -17,9 +18,12 @@ describe("<Transitions /> - Reducers", () => {
     };
     const expected = fromJS({
       data: [],
-      reassign: fromJS({
-        users: payload.data
-      })
+      reassign: {
+        users: [
+          { label: "primero_cp", value: "primero_cp" },
+          { label: "primero_gbv", value: "primero_gbv" }
+        ]
+      }
     });
     const action = {
       type: actions.ASSIGN_USERS_FETCH_SUCCESS,
@@ -27,7 +31,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState).to.deep.equal(expected);
   });
 
   it("should handle ASSIGN_USER_SAVE_FAILURE", () => {
@@ -54,15 +58,15 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState).to.deep.equal(expected);
   });
 
   it("should handle ASSIGN_USER_SAVE_FINISHED", () => {
     const expected = fromJS({
       data: [],
-      reassign: fromJS({
+      reassign: {
         loading: false
-      })
+      }
     });
     const action = {
       type: actions.ASSIGN_USER_SAVE_FINISHED,
@@ -70,16 +74,16 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState).to.deep.equal(expected);
   });
 
   it("should handle ASSIGN_USER_SAVE_STARTED", () => {
     const expected = fromJS({
       data: [],
-      reassign: fromJS({
+      reassign: {
         loading: true,
         errors: false
-      })
+      }
     });
     const action = {
       type: actions.ASSIGN_USER_SAVE_STARTED,
@@ -87,7 +91,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState).to.deep.equal(expected);
   });
 
   it("should handle ASSIGN_USER_SAVE_SUCCESS", () => {
@@ -108,11 +112,11 @@ describe("<Transitions /> - Reducers", () => {
       }
     };
     const expected = fromJS({
-      data: [payload.data],
-      reassign: fromJS({
+      data: [record.TransitionRecord(payload.data)],
+      reassign: {
         errors: false,
         message: []
-      })
+      }
     });
     const action = {
       type: actions.ASSIGN_USER_SAVE_SUCCESS,
@@ -120,16 +124,16 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState).to.deep.equal(expected);
   });
 
   it("should handle CLEAR_ERRORS", () => {
     const expected = fromJS({
       data: [],
-      transfer: fromJS({
+      transfer: {
         errors: false,
         message: []
-      })
+      }
     });
     const action = {
       type: actions.CLEAR_ERRORS,
@@ -137,7 +141,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState).to.deep.equal(expected);
   });
 
   it("should handle TRANSFER_USERS_FETCH_SUCCESS", () => {
@@ -146,9 +150,9 @@ describe("<Transitions /> - Reducers", () => {
     };
     const expected = fromJS({
       data: [],
-      transfer: fromJS({
+      transfer: {
         users: payload.data
-      })
+      }
     });
     const action = {
       type: actions.TRANSFER_USERS_FETCH_SUCCESS,
@@ -156,7 +160,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState).to.deep.equal(expected);
   });
 
   it("should handle TRANSFER_USER_FAILURE", () => {
@@ -172,10 +176,10 @@ describe("<Transitions /> - Reducers", () => {
     };
     const expected = fromJS({
       data: [],
-      transfer: fromJS({
+      transfer: {
         errors: true,
         message: ["transition.errors.consent"]
-      })
+      }
     });
     const action = {
       type: actions.TRANSFER_USER_FAILURE,
@@ -183,15 +187,15 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState).to.deep.equal(expected);
   });
 
   it("should handle TRANSFER_USER_STARTED", () => {
     const expected = fromJS({
       data: [],
-      transfer: fromJS({
+      transfer: {
         errors: false
-      })
+      }
     });
     const action = {
       type: actions.TRANSFER_USER_STARTED,
@@ -199,7 +203,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState).to.deep.equal(expected);
   });
 
   it("should handle TRANSFER_USER_SUCCESS", () => {
@@ -220,11 +224,11 @@ describe("<Transitions /> - Reducers", () => {
       }
     };
     const expected = fromJS({
-      data: [payload.data],
-      transfer: fromJS({
+      data: [record.TransitionRecord(payload.data)],
+      transfer: {
         errors: false,
         message: []
-      })
+      }
     });
     const action = {
       type: actions.TRANSFER_USER_SUCCESS,
@@ -232,7 +236,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState).to.deep.equal(expected);
   });
 
   it("case Actions.REFERRAL_USERS_FETCH_SUCCESS", () => {
@@ -241,9 +245,9 @@ describe("<Transitions /> - Reducers", () => {
     };
     const expected = fromJS({
       data: [],
-      referral: fromJS({
+      referral: {
         users: payload.data
-      })
+      }
     });
     const action = {
       type: actions.REFERRAL_USERS_FETCH_SUCCESS,
@@ -251,7 +255,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState).to.deep.equal(expected);
   });
 
   it("case Actions.REFER_USER_FAILURE", () => {
@@ -267,10 +271,10 @@ describe("<Transitions /> - Reducers", () => {
     };
     const expected = fromJS({
       data: [],
-      referral: fromJS({
+      referral: {
         errors: true,
-        message: [["referral.errors.consent"]]
-      })
+        message: ["referral.errors.consent"]
+      }
     });
     const action = {
       type: actions.REFER_USER_FAILURE,
@@ -278,15 +282,15 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState).to.deep.equal(expected);
   });
 
   it("case Actions.REFER_USER_STARTED", () => {
     const expected = fromJS({
       data: [],
-      referral: fromJS({
+      referral: {
         errors: false
-      })
+      }
     });
     const action = {
       type: actions.REFER_USER_STARTED,
@@ -294,7 +298,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState).to.deep.equal(expected);
   });
 
   it("case Actions.REFER_USER_SUCCESS", () => {
@@ -315,11 +319,11 @@ describe("<Transitions /> - Reducers", () => {
       }
     };
     const expected = fromJS({
-      data: [payload.data],
-      referral: fromJS({
+      data: [record.TransitionRecord(payload.data)],
+      referral: {
         errors: false,
         message: []
-      })
+      }
     });
     const action = {
       type: actions.REFER_USER_SUCCESS,
@@ -327,6 +331,6 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState).to.deep.equal(expected);
   });
 });

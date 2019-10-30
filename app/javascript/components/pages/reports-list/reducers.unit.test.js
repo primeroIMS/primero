@@ -166,7 +166,7 @@ describe("<Reports /> - Reducers", () => {
     };
 
     const newState = reducers(initialState, action);
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState).to.deep.equal(expected);
   });
 
   it("should handle FETCH_REPORTS_FINISHED", () => {
