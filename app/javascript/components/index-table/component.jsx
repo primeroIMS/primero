@@ -40,6 +40,7 @@ const IndexTable = ({
     typeof columns === "function" ? columns(data) : columns;
 
   useEffect(() => {
+
     dispatch(
       onTableChange({
         recordType,
@@ -60,10 +61,11 @@ const IndexTable = ({
   }
 
   const handleTableChange = (action, tableState) => {
-    const options = { per, ...defaultFilters.merge(filters).toJS() };
+    const options = { ...defaultFilters.merge(filters).toJS() };
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
-
     const { activeColumn, columns: tableColumns, rowsPerPage } = tableState;
+
+    options.per = rowsPerPage;
 
     const selectedFilters = Object.assign(
       {},
@@ -81,9 +83,6 @@ const IndexTable = ({
             }
             options.order_by = tableColumns[activeColumn].name;
             options.page = page === 0 ? 1 : page;
-            break;
-          case "changeRowsPerPage":
-            options.per = rowsPerPage;
             break;
           case "changePage":
             options.page = tableState.page >= page ? page + 1 : page - 1;
