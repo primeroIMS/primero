@@ -79,11 +79,11 @@ describe Api::V2::FlagsController, type: :request do
       post "/api/v2/cases/#{@case1.id}/flags", params: params
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(14)
       expect(json['data']['record_id']).to eq( @case1.id.to_s)
       expect(json['data']['record_type']).to eq('cases')
       expect(json['data']['message']).to eq( 'This is another flag')
       expect(json['data']['removed']).to be_falsey
+      expect(json['data']['record_id']).to eq( json['data']['record']['id'])
     end
 
     it 'creates a new flag to a tracing_request' do
@@ -92,11 +92,11 @@ describe Api::V2::FlagsController, type: :request do
       post "/api/v2/tracing_requests/#{@tracing_request1.id}/flags", params: params
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(14)
       expect(json['data']['record_id']).to eq( @tracing_request1.id.to_s)
       expect(json['data']['record_type']).to eq('tracing_requests')
       expect(json['data']['message']).to eq( 'This is another flag TR')
       expect(json['data']['removed']).to be_falsey
+      expect(json['data']['record_id']).to eq( json['data']['record']['id'])
     end
 
     it 'creates a new flag to an incident' do
@@ -105,11 +105,11 @@ describe Api::V2::FlagsController, type: :request do
       post "/api/v2/incidents/#{@incident1.id}/flags", params: params
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(14)
       expect(json['data']['record_id']).to eq( @incident1.id.to_s)
       expect(json['data']['record_type']).to eq('incidents')
       expect(json['data']['message']).to eq( 'This is another flag IN')
       expect(json['data']['removed']).to be_falsey
+      expect(json['data']['record_id']).to eq( json['data']['record']['id'])
     end
 
     it "get a forbidden message if the user doesn't have flag permission" do
@@ -145,11 +145,11 @@ describe Api::V2::FlagsController, type: :request do
       patch "/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params: params
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(14)
       expect(json['data']['removed']).to be_truthy
       expect(json['data']['unflag_message']).to eq('This is unflag message')
       expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
       expect(json['data']['unflagged_by']).to eq('faketest')
+      expect(json['data']['record_id']).to eq( json['data']['record']['id'])
     end
 
     it 'unflags a tracing_request' do
@@ -158,11 +158,11 @@ describe Api::V2::FlagsController, type: :request do
       patch "/api/v2/tracing_requests/#{@tracing_request1.id}/flags/#{@tracing_request1.flags.first.id}", params: params
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(14)
       expect(json['data']['removed']).to be_truthy
       expect(json['data']['unflag_message']).to eq('This is unflag message TR')
       expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
       expect(json['data']['unflagged_by']).to eq('faketest')
+      expect(json['data']['record_id']).to eq( json['data']['record']['id'])
     end
 
     it 'unflags an incident' do
@@ -171,11 +171,11 @@ describe Api::V2::FlagsController, type: :request do
       patch "/api/v2/incidents/#{@incident1.id}/flags/#{@incident1.flags.first.id}", params: params
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(14)
       expect(json['data']['removed']).to be_truthy
       expect(json['data']['unflag_message']).to eq('This is unflag message IN')
       expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
       expect(json['data']['unflagged_by']).to eq('faketest')
+      expect(json['data']['record_id']).to eq( json['data']['record']['id'])
     end
 
     it "get a forbidden message if the user doesn't have flag permission" do
@@ -274,7 +274,6 @@ describe Api::V2::FlagsController, type: :request do
       patch "/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params: params
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(14)
       @case1.reload
       expect(json['data']['id']).to eq(@case1.flags.first.id)
     end
