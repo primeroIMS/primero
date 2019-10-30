@@ -1,7 +1,7 @@
-import { fromJS, Map } from "immutable";
+import { fromJS } from "immutable";
 import * as Actions from "./actions";
 
-const DEFAULT_STATE = Map({});
+const DEFAULT_STATE = fromJS({});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {

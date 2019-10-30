@@ -1,6 +1,5 @@
 import { expect } from "chai";
-import "test/test.setup";
-import { List } from "immutable";
+import { fromJS } from "immutable";
 import { RECORD_PATH } from "config";
 import {
   fetchCases,
@@ -29,7 +28,7 @@ describe("<RecordList /> - buildTableColumns", () => {
       { label: "James", name: "James", id: false, options: {} }
     ];
 
-    const records = List([
+    const records = fromJS([
       {
         id_search: false,
         name: "james",

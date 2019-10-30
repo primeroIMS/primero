@@ -1,9 +1,9 @@
-import { fromJS, Map } from "immutable";
+import { fromJS } from "immutable";
 import * as Actions from "./actions";
 import * as R from "./records";
 import NAMESPACE from "./namespace";
 
-const DEFAULT_STATE = Map({});
+const DEFAULT_STATE = fromJS({});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
