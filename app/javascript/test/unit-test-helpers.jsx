@@ -14,23 +14,42 @@ import { createBrowserHistory } from "history";
 import { routerMiddleware } from "connected-react-router/immutable";
 import { ApplicationProvider } from "components/application/provider";
 import { SnackbarProvider } from "notistack";
+import { Form, Formik } from "formik";
 
 export const setupMountedComponent = (
   TestComponent,
   props = {},
   initialState = {},
-  initialEntries = []
+  initialEntries = [],
+  formProps = {}
 ) => {
   const history = createBrowserHistory();
   const mockStore = configureStore([routerMiddleware(history), thunk]);
   const store = mockStore(initialState);
 
+  const FormikComponent = ({ formikProps, componentProps }) => {
+    if (isEmpty(formikProps)) {
+      return <TestComponent {...componentProps} />;
+    }
+    return (
+      <Formik {...formikProps}>
+        <Form>
+          <TestComponent {...componentProps} />
+        </Form>
+      </Formik>
+    );
+  };
+
   const RoutedProvider = () => {
+    const formikComponentProps = {
+      formikProps: formProps,
+      componentProps: props
+    };
     if (isEmpty(initialEntries)) {
       return (
         <ThemeProvider theme={theme}>
           <MemoryRouter>
-            <TestComponent {...props} />
+            <FormikComponent {...formikComponentProps} />
           </MemoryRouter>
         </ThemeProvider>
       );
@@ -39,7 +58,7 @@ export const setupMountedComponent = (
       <ApplicationProvider>
         <ThemeProvider theme={theme}>
           <MemoryRouter initialEntries={initialEntries}>
-            <TestComponent {...props} />
+            <FormikComponent {...formikComponentProps} />
           </MemoryRouter>
         </ThemeProvider>
       </ApplicationProvider>
