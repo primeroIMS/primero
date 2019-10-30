@@ -19,6 +19,10 @@ import {
   FormControlLabel,
   FormControl
 } from "@material-ui/core";
+import {
+  ToggleButton,
+  ToggleButtonGroup
+} from "@material-ui/lab"
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
@@ -40,6 +44,7 @@ function KeyPerformanceIndicators({ fetchNumberOfCases, numberOfCases }) {
   }, []);
 
   let [numberOfCasesMenuOpen, setNumberOfCasesMenuOpen] = useState(false);
+  let [selectedRange, setSelectedRange] = useState('3-months');
 
   return (
     <div>
@@ -55,15 +60,28 @@ function KeyPerformanceIndicators({ fetchNumberOfCases, numberOfCases }) {
                     title="Number of Cases"
                     action={
                       <div>
-                        <IconButton
-                          aria-label="More"
-                          aria-controls="long-menu"
-                          aria-haspopup="true"
-                          variant="contained"
-                          onClick={() => setNumberOfCasesMenuOpen(true)}
+                        <ToggleButtonGroup
+                          exclusive
+                          onChange={(event, value) => {
+                            if (value === 'custom-range' && selectedRange !== 'custom-range')
+                              setNumberOfCasesMenuOpen(true);
+
+                            setSelectedRange(value);
+                          }}
                         >
-                          <MoreVertIcon />
-                        </IconButton>
+                          <ToggleButton
+                            value="3-months"
+                            selected={selectedRange === '3-months'}
+                          >
+                            <span>3 months</span>
+                          </ToggleButton>
+                          <ToggleButton
+                            value="custom-range"
+                            selected={selectedRange === 'custom-range'}
+                          >
+                            <span>Custom Range</span>
+                          </ToggleButton>
+                        </ToggleButtonGroup>
                         <Dialog
                           open={numberOfCasesMenuOpen}
                           onClose={() => setNumberOfCasesMenuOpen(false)}
@@ -72,26 +90,6 @@ function KeyPerformanceIndicators({ fetchNumberOfCases, numberOfCases }) {
                           <DialogContent>
                             <DialogContentText>See the number of case over the last 1, 3 or 6 month, or choose a custom time period.</DialogContentText>
                             <FormControl>
-                              <RadioGroup>
-                                <FormControlLabel
-                                  value="1-month"
-                                  control={<Radio />}
-                                  label="1 Month"
-                                  labelPlacement="end"
-                                />
-                                <FormControlLabel
-                                  value="3-month"
-                                  control={<Radio />}
-                                  label="3 Months"
-                                  labelPlacement="end"
-                                />
-                                <FormControlLabel
-                                  value="6-month"
-                                  control={<Radio />}
-                                  label="6 Months"
-                                  labelPlacement="end"
-                                />
-                              </RadioGroup>
                               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                 <FormControlLabel
                                   value="from"
