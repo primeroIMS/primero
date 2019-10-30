@@ -31,7 +31,7 @@ Example:
 
 Run the migration scripts
 -------------------------
-- $ bundle exec rails r db/upgrade_migrations/migration_1.4_to_1.7/migrate.rb
+- $ bundle exec rails r db/upgrade_migrations/migration_1.6_to_1.7/migrate.rb
 
 
 Test
@@ -125,7 +125,7 @@ Run the migration
 -----------------
 - $ sudo -Hu primero bash
 - $ cd ~/application/
-- $ RAILS_ENV=production bundle exec rails r db/upgrade_migrations/migration_1.4_to_1.7/migrate_records.rb
+- $ RAILS_ENV=production bundle exec rails r db/upgrade_migrations/migration_1.6_to_1.7/migrate_records.rb
 
 
 Run the design migration
@@ -151,6 +151,10 @@ Restart couchdb and other system processes (just for good measure)
 ^d to exit primero user back to vagrant user
 
 - $ sudo /srv/primero/bin/primeroctl restart
+
+
+Refer to the README in <locale>/fixtures in the config repo
+------------------------------------------------------------------
 
 
 View the results and test
