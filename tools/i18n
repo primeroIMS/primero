@@ -20,8 +20,6 @@ YAML_PATH = os.path.join(PROJECT_ROOT, "config/locales/en.yml")
 
 
 def main():
-    global QUIET
-
     parse_args()
 
     validate_yaml_structure()
@@ -380,8 +378,6 @@ def prune_empty(dictionary):
 
 
 def echo(msg):
-    global QUIET
-
     if QUIET:
         return
 
@@ -389,8 +385,6 @@ def echo(msg):
 
 
 def echoerr(msg):
-    global QUIET
-
     if QUIET:
         return
 
