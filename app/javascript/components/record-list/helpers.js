@@ -8,16 +8,16 @@ import {
   setIncidentsFilters,
   setTracingRequestFilters
 } from "components/records";
+
 import { RECORD_PATH } from "config";
 
 export const buildTableColumns = (columns, i18n, recordType) => {
   const lastColumns = ["photo", "flags"];
-
   return columns
     .map(c => {
       const options = {
         ...{
-          ...(["photos"].includes(c.name)
+          ...(["photos"].includes(c.get("name"))
             ? {
                 customBodyRender: value => (
                   <ToggleIconCell value={value} icon="photo" />
@@ -32,9 +32,9 @@ export const buildTableColumns = (columns, i18n, recordType) => {
       return {
         label: noLabelColumns.includes(c.name)
           ? ""
-          : i18n.t(`${recordType}.${c.name}`),
-        name: c.field_name,
-        id: c.id_search,
+          : i18n.t(`${recordType}.${c.get("name")}`),
+        name: c.get("field_name"),
+        id: c.get("id_search"),
         options
       };
     })

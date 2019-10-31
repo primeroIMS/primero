@@ -1,4 +1,4 @@
-import { List } from "immutable";
+import { fromJS } from "immutable";
 
 export const selectListHeaders = (state, namespace) =>
-  state.getIn(["user", "listHeaders", namespace], List([]));
+  state.getIn(["user", "listHeaders", namespace]);

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import { Box, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
 import { useThemeHelper } from "libs";
 import { RecordSearch } from "components/record-search";
 import { PageContainer } from "components/page";
@@ -92,7 +92,7 @@ const RecordList = ({ match }) => {
       ? headers.filter(header => header.id_search)
       : headers;
 
-  const defaultFilters = Map({
+  const defaultFilters = fromJS({
     fields: "short",
     per: 20,
     page: 1,
