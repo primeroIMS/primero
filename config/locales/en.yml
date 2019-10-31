@@ -195,6 +195,7 @@ en:
      request_transfer: "Request Transfer"
      add_note: "Add Notes"
      add: "Add"
+     update: "Update"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"

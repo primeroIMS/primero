@@ -13,7 +13,8 @@ const SubformFields = ({
   values,
   locale,
   mode,
-  setOpen
+  setOpen,
+  setDialogIsNew
 }) => {
   const {
     subform_sort_by: subformSortBy,
@@ -38,6 +39,7 @@ const SubformFields = ({
   };
 
   const handleEdit = index => {
+    setDialogIsNew(false);
     setOpen({ open: true, index });
   };
 
@@ -100,7 +102,8 @@ SubformFields.propTypes = {
   values: PropTypes.array.isRequired,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
-  setOpen: PropTypes.func.isRequired
+  setOpen: PropTypes.func.isRequired,
+  setDialogIsNew: PropTypes.func.isRequired
 };
 
 export default SubformFields;

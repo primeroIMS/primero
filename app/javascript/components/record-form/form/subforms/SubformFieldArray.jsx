@@ -17,9 +17,11 @@ const SubformFieldArray = ({
   const { display_name: displayName, name } = field;
   const values = getIn(formik.values, name);
   const [openDialog, setOpenDialog] = useState({ open: false, index: null });
+  const [dialogIsNew, setDialogIsNew] = useState(false);
 
   const handleAddSubform = async () => {
     await arrayHelpers.push(initialSubformValue);
+    setDialogIsNew(true);
     setOpenDialog({ open: true, index: null });
   };
 
@@ -53,6 +55,7 @@ const SubformFieldArray = ({
         locale={i18n.locale}
         mode={mode}
         setOpen={setOpenDialog}
+        setDialogIsNew={setDialogIsNew}
       />
       <SubformDialog
         index={index || values.length - 1}
@@ -61,6 +64,7 @@ const SubformFieldArray = ({
         open={open}
         setOpen={setOpenDialog}
         title={title}
+        dialogIsNew={dialogIsNew}
         i18n={i18n}
       />
     </>

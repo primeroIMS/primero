@@ -12,7 +12,7 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import FormSectionField from "../FormSectionField";
 
-const SubformDialog = ({ index, field, mode, open, setOpen, title, i18n }) => {
+const SubformDialog = ({ index, field, mode, open, setOpen, title, dialogIsNew, i18n }) => {
   const handleClose = () => {
     setOpen({ open: false, index: null });
   };
@@ -47,14 +47,16 @@ const SubformDialog = ({ index, field, mode, open, setOpen, title, i18n }) => {
           })}
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={handleClose}
-            variant="contained"
-            color="primary"
-            elevation={0}
-          >
-            {i18n.t("buttons.add")}
-          </Button>
+          {mode.isEdit ?
+            <Button
+              onClick={handleClose}
+              variant="contained"
+              color="primary"
+              elevation={0}
+            >
+              {dialogIsNew ? i18n.t("buttons.add") : i18n.t("buttons.update")}
+            </Button>
+          : null}
         </DialogActions>
       </Dialog>
     );
@@ -70,6 +72,7 @@ SubformDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
+  dialogIsNew: PropTypes.bool.isRequired,
   i18n: PropTypes.object.isRequired
 };
 
