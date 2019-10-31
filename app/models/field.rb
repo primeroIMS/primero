@@ -447,12 +447,14 @@ class Field
       #TODO pass in locations and agencies
       case source_options.first
         when 'lookup'
+          non_active_service = I18n.t("messages.non_active_service", { service: value })
+          non_active_text = (source_options.last == "lookup-service-type" ? non_active_service  : '' )
           display = Lookup.values(source_options.last, lookups, locale: I18n.locale).select{|opt| opt['id'] == value}
-          value = (display.present? ? display.first['display_text'] : '')
+          value = (display.present? ? display.first['display_text'] : non_active_text)
         when 'Location', 'ReportingLocation'
           value = Location.display_text(value, locale: I18n.locale)
         when 'Agency'
-          value = Agency.display_text(value, locale: I18n.locale)
+          value = Agency.display_text(value, locale: I18n.locale) || I18n.t("messages.non_active_agency", { agency: value })
         else
           value
       end

@@ -114,10 +114,12 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
         $existing_user_select.val(service_user_name);
         $existing_user_select.trigger("chosen:updated");
         var user = _primero.populated_user_collection.get_by_user_name(service_user_name);
-        var agency = service_agency ? service_agency : user.organization;
-        var location = service_delivery_location ? service_delivery_location : user.reporting_location_code;
-        self.populate_location_filter(location);
-        self.populate_agency_filter(agency);
+        if (service_delivery_location) {
+          self.populate_location_filter(service_delivery_location);
+        }
+        if(service_agency) {
+          self.populate_agency_filter(service_agency);
+        }
       })
     }
 
