@@ -1,15 +1,15 @@
 import chai, { expect } from "chai";
-import { Map, List } from "immutable";
+import { fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
 
 import * as selectors from "./selectors";
 
 chai.use(chaiImmutable);
 
-const stateWithNoRecords = Map({});
-const stateWithRecords = Map({
-  records: Map({
-    reports: Map({
+const stateWithNoRecords = fromJS({});
+const stateWithRecords = fromJS({
+  records: {
+    reports: {
       casesByNationality: {
         title: "Cases by Nationality",
         column_name: "Nationality",
@@ -85,14 +85,14 @@ const stateWithRecords = Map({
           DOLSA: 1
         }
       }
-    })
-  })
+    }
+  }
 });
 
 describe("<Reports /> - Selectors", () => {
   describe("selectReport", () => {
     it("should return records", () => {
-      const expected = {
+      const expected = fromJS({
         title: "Cases by Nationality",
         column_name: "Nationality",
         description: "Number of cases broken down by nationality",
@@ -101,7 +101,7 @@ describe("<Reports /> - Selectors", () => {
           Argentina: 2,
           Alemania: 3
         }
-      };
+      });
 
       const records = selectors.selectReport(
         stateWithRecords,
@@ -111,7 +111,7 @@ describe("<Reports /> - Selectors", () => {
     });
 
     it("should return empty object when records empty", () => {
-      const expected = Map({});
+      const expected = fromJS({});
       const records = selectors.selectReport(
         stateWithNoRecords,
         "casesByNationality"
