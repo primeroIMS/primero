@@ -8,11 +8,11 @@ import {
   setIncidentsFilters,
   setTracingRequestFilters
 } from "components/records";
-
 import { RECORD_PATH } from "config";
 
 export const buildTableColumns = (columns, i18n, recordType) => {
   const lastColumns = ["photo", "flags"];
+
   return columns
     .map(c => {
       const options = {
