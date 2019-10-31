@@ -1,14 +1,13 @@
-import "test/test.setup";
 import { setupMountedThemeComponent } from "test";
 import { expect } from "chai";
 import { buildDataForTable } from "components/pages/report/helpers";
-import { Map } from "immutable";
+import { fromJS } from "immutable";
 import { TableRow } from "@material-ui/core";
 import TableValues from "./component";
 
 describe("<TableValues />", () => {
   it("renders canvas values as table", () => {
-    const data = Map({
+    const data = fromJS({
       id: 1,
       name: {
         en: "Registration CP",
