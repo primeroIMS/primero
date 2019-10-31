@@ -61,7 +61,8 @@ export const PERMISSIONS = {
 export const RECORD_PATH = {
   cases: "cases",
   tracing_requests: "tracing_requests",
-  incidents: "incidents"
+  incidents: "incidents",
+  tasks: "tasks"
 };
 
 export const TRANSITION_TYPE = ["transfers_assignments", "referral"];
