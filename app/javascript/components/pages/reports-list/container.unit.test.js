@@ -1,7 +1,6 @@
-import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
-import { fromJS, Map } from "immutable";
+import { fromJS } from "immutable";
 import { OptionsBox, ActionMenu } from "components/dashboard";
 import { BarChart } from "components/charts/bar-chart";
 import Reports from "./container";
@@ -13,10 +12,10 @@ describe("<Reports /> - Component", () => {
     component = setupMountedComponent(
       Reports,
       {},
-      Map({
-        records: Map({
+      fromJS({
+        records: {
           Reports: {
-            casesByNationality: fromJS({
+            casesByNationality: {
               title: "Cases by Nationality",
               column_name: "Nationality",
               description: "Number of cases broken down by nationality",
@@ -25,8 +24,8 @@ describe("<Reports /> - Component", () => {
                 Argentina: 2,
                 Alemania: 3
               }
-            }),
-            casesByAgeAndSex: fromJS({
+            },
+            casesByAgeAndSex: {
               title: "Cases by Age and Sex",
               column_name: "Age",
               description: "Number of cases broken down by age and sex",
@@ -52,8 +51,8 @@ describe("<Reports /> - Component", () => {
                   Other: 0
                 }
               }
-            }),
-            casesByProtectionConcern: fromJS({
+            },
+            casesByProtectionConcern: {
               title: "Cases by Protection Concern",
               column_name: "Protection Concern",
               description:
@@ -80,8 +79,8 @@ describe("<Reports /> - Component", () => {
                   Male: 1
                 }
               }
-            }),
-            casesByAgency: fromJS({
+            },
+            casesByAgency: {
               title: "Cases by Agency",
               column_name: "Agency",
               description: "Number of cases broken down by agency",
@@ -90,9 +89,9 @@ describe("<Reports /> - Component", () => {
                 "SAVE THE CHILDREN": 5,
                 DOLSA: 1
               }
-            })
+            }
           }
-        })
+        }
       })
     ).component;
   });
