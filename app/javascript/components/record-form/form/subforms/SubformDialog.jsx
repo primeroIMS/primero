@@ -18,6 +18,17 @@ const SubformDialog = ({ index, field, mode, open, setOpen, title, dialogIsNew, 
   };
 
   if (index !== null) {
+    const actionButton = mode.isEdit ? (
+      <Button
+        onClick={handleClose}
+        variant="contained"
+        color="primary"
+        elevation={0}
+      >
+        {dialogIsNew ? i18n.t("buttons.add") : i18n.t("buttons.update")}
+      </Button>
+    ) : null;
+
     return (
       <Dialog open={open} maxWidth="sm" fullWidth>
         <DialogTitle disableTypography>
@@ -47,16 +58,7 @@ const SubformDialog = ({ index, field, mode, open, setOpen, title, dialogIsNew, 
           })}
         </DialogContent>
         <DialogActions>
-          {mode.isEdit ?
-            <Button
-              onClick={handleClose}
-              variant="contained"
-              color="primary"
-              elevation={0}
-            >
-              {dialogIsNew ? i18n.t("buttons.add") : i18n.t("buttons.update")}
-            </Button>
-          : null}
+          {actionButton}
         </DialogActions>
       </Dialog>
     );
