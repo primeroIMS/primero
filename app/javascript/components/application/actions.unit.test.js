@@ -1,5 +1,5 @@
 import clone from "lodash/clone";
-import { expect } from "test/test.setup";
+import { expect } from "chai";
 
 import * as applicationActions from "./actions";
 

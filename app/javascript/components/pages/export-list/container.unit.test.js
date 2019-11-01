@@ -1,4 +1,4 @@
-import { expect } from "test/test.setup";
+import { expect } from "chai";
 import { setupMountedComponent } from "test";
 import { PageContainer, PageHeading, PageContent } from "components/page";
 import { IndexTable } from "components/index-table";

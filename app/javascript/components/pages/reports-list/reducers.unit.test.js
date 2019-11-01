@@ -1,4 +1,4 @@
-import { expect } from "test/test.setup";
+import { expect } from "chai";
 import { fromJS } from "immutable";
 import * as actions from "./actions";
 import { reducers } from "./reducers";

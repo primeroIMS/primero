@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { expect } from "test/test.setup";
+import { expect } from "chai";
 
 import * as selectors from "./selectors";
 

@@ -1,4 +1,4 @@
-import { expect } from "test/test.setup";
+import { expect } from "chai";
 import { fromJS } from "immutable";
 import { mapEntriesToRecord } from "libs";
 import { TransitionRecord } from "./records";

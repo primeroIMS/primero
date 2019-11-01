@@ -1,4 +1,4 @@
-import { expect } from "test/test.setup";
+import { expect } from "chai";
 import clone from "lodash/clone";
 import * as actions from "./actions";
 

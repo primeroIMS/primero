@@ -1,4 +1,4 @@
-import { expect } from "test/test.setup";
+import { expect } from "chai";
 import { setupMountedComponent } from "test";
 import { fromJS } from "immutable";
 import { MODULES } from "config";
