@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useI18n } from "components/i18n";
 import {
   Dialog,
   Button,
@@ -12,6 +11,8 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";
+
+import { useI18n } from "../i18n";
 
 const ActionDialog = ({
   open,
@@ -43,6 +44,7 @@ const ActionDialog = ({
 
   const TitleWithClose = withStyles(styles)(props => {
     const { classes, closeHandler } = props;
+
     return (
       <DialogTitle>
         {dialogTitle}
@@ -92,6 +94,8 @@ const ActionDialog = ({
     </div>
   );
 };
+
+ActionDialog.displayName = "ActionDialog";
 
 ActionDialog.propTypes = {
   open: PropTypes.bool,
