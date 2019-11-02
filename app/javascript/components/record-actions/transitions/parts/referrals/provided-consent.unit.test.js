@@ -1,84 +1,73 @@
 /* eslint-disable no-unused-expressions */
-import React from "react";
 import "test/test.setup";
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
-import { Field, Form, Formik } from "formik";
-import { Grid, FormControlLabel, Checkbox } from "@material-ui/core";
+import ProvidedForm from "./provided-form";
 import ProvidedConsent from "./provided-consent";
 
-const ProvidedConsentForm = props => {
+describe("<ProvidedConsent /> - referrals", () => {
   const formProps = {
     initialValues: {
-      referral: false
+      transfer: false
     }
   };
-  return (
-    <Formik {...formProps}>
-      <Form>
-        <ProvidedConsent {...props} />
-      </Form>
-    </Formik>
-  );
-};
-
-describe("<ProvidedConsent />", () => {
-  let component;
-  describe("when user can override consent", () => {
-    const props = {
-      canConsentOverride: true,
-      providedConsent: false,
-      setDisabled: () => {}
-    };
-
-    describe("with not provided consent given", () => {
-      beforeEach(() => {
-        ({ component } = setupMountedComponent(ProvidedConsentForm, props));
-      });
-
-      it("renders Grid", () => {
-        expect(component.find(Grid)).to.have.length(3);
-      });
-
-      it("renders FormControlLabel", () => {
-        expect(component.find(FormControlLabel)).to.have.length(1);
-      });
-
-      it("renders Checkbox", () => {
-        expect(component.find(Checkbox)).to.have.length(1);
-      });
-
-      it("renders Field", () => {
-        expect(component.find(Field)).to.have.length(1);
-      });
-    });
-
-    describe("with provided consent given", () => {
-      const providedConsent = true;
-      beforeEach(() => {
-        ({ component } = setupMountedComponent(ProvidedConsentForm, {
-          ...props,
-          providedConsent
-        }));
-      });
-
-      it("should not render anything", () => {
-        expect(component).to.be.empty;
-      });
-    });
-  });
-
-  describe("when user can not override consent", () => {
+  it("should not render anything when child has provided consent and user can't consent override", () => {
     const props = {
       canConsentOverride: false,
-      providedConsent: false,
-      setDisabled: () => {}
+      providedConsent: true
     };
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(ProvidedConsentForm, props));
-    });
-    it("should not render anything", () => {
-      expect(component).to.be.empty;
-    });
+    const { component } = setupMountedComponent(
+      ProvidedConsent,
+      props,
+      {},
+      [],
+      formProps
+    );
+    expect(component).to.be.empty;
+  });
+
+  it("should not render anything when child has provided consent and user can consent override", () => {
+    const props = {
+      canConsentOverride: true,
+      providedConsent: true
+    };
+    const { component } = setupMountedComponent(
+      ProvidedConsent,
+      props,
+      {},
+      [],
+      formProps
+    );
+    expect(component).to.be.empty;
+  });
+
+  it("should render <ProvidedForm> when child has not provided consent and user can consent override", () => {
+    const props = {
+      canConsentOverride: true,
+      providedConsent: false
+    };
+    const { component } = setupMountedComponent(
+      ProvidedConsent,
+      props,
+      {},
+      [],
+      formProps
+    );
+    expect(component.find(ProvidedForm)).to.have.lengthOf(1);
+  });
+
+  it("should render <ProvidedForm> when child has not provided consent and user can't consent override", () => {
+    const props = {
+      canConsentOverride: false,
+      providedConsent: false
+    };
+    const { component } = setupMountedComponent(
+      ProvidedConsent,
+      props,
+      {},
+      [],
+      formProps
+    );
+    expect(component.find(ProvidedForm)).to.have.lengthOf(1);
   });
 });

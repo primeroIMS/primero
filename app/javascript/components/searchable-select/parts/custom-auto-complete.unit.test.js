@@ -19,7 +19,7 @@ describe("<CustomAutoComplete />", () => {
     options: [{ label: "test", value: "Test Value" }]
   };
   beforeEach(() => {
-    ({ component } = setupMountedComponent(CustomAutoComplete, props));
+    ({ component } = setupMountedComponent(CustomAutoComplete, { props }));
   });
 
   it("renders NoSsr", () => {

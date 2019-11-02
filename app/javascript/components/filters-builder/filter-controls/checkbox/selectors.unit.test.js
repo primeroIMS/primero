@@ -48,7 +48,7 @@ describe("<CheckBox /> - Selectors", () => {
         { field_name: "my_cases" },
         "Cases"
       );
-      expect(records).to.deep.equal(expected);
+      expect(records.toJS()).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {

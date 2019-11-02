@@ -1,23 +1,31 @@
 import chai, { expect } from "chai";
-import { Map, List } from "immutable";
+import { Map, fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
 
 import * as selectors from "./selectors";
 
 chai.use(chaiImmutable);
 
-const stateWithNoRecords = Map({});
-const stateWithRecords = Map({
-  records: Map({
-    TestRecordType: Map({
+const stateWithNoRecords = fromJS({
+  records: {
+    TestRecordType: {
+      loading: false,
+      data: []
+    }
+  }
+});
+
+const stateWithRecords = fromJS({
+  records: {
+    TestRecordType: {
       loading: true,
-      data: List([Map({ id: 1 })]),
-      filters: Map({
+      data: [{ id: 1 }],
+      filters: {
         gender: "male"
-      }),
-      metadata: Map({ per: 20 })
-    })
-  })
+      },
+      metadata: { per: 20 }
+    }
+  }
 });
 
 describe("<RecordList /> - Selectors", () => {
@@ -25,13 +33,13 @@ describe("<RecordList /> - Selectors", () => {
 
   describe("selectRecords", () => {
     it("should return records", () => {
-      const expected = List([Map({ id: 1 })]);
+      const expected = fromJS({ "data": [{ "id": 1 }], "metadata": { "per": 20 }});
       const records = selectors.selectRecords(stateWithRecords, recordType);
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
-      const expected = List([]);
+      const expected = fromJS({ "data": [] });
       const records = selectors.selectRecords(stateWithNoRecords, recordType);
       expect(records).to.deep.equal(expected);
     });
@@ -54,16 +62,8 @@ describe("<RecordList /> - Selectors", () => {
   });
 
   describe("selectMeta", () => {
-    it("should return records meta", () => {
-      const expected = Map({ per: 20 });
-      const meta = selectors.selectMeta(stateWithRecords, recordType);
-      expect(meta).to.deep.equal(expected);
-    });
-
-    it("should return empty object when records empty", () => {
-      const expected = Map({});
-      const meta = selectors.selectMeta(stateWithNoRecords, recordType);
-      expect(meta).to.deep.equal(expected);
+    it("should not find removed function selectMeta", () => {
+      expect(selectors, "DEPRECATED selectMeta").to.not.have.property("selectMeta");
     });
   });
 

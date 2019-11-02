@@ -69,3 +69,15 @@ export const TRANSITION_TYPE = ["transfers_assignments", "referral"];
 export const RECORD_OWNER = "record_owner";
 
 export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
+
+export const ROUTES = {
+  dashboard: "/dashboard",
+  cases: "/cases",
+  tasks: "/tasks",
+  incidents: "/incidents",
+  tracing_requests: "/tracing_requests",
+  matches: "/matches",
+  reports: "/reports",
+  exports: "/exports",
+  support: "/support"
+};

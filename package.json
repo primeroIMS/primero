@@ -1,8 +1,8 @@
 {
   "scripts": {
     "serve": "node_modules/.bin/webpack-dev-server --config webpack/config.development.js",
-    "build": "NODE_ENV=production node_modules/.bin/webpack --config webpack/config.production.js",
-    "test": "NODE_ENV=test mocha --require @babel/register --require ./.mochaignore --require jsdom-global/register --recursive --exit",
+    "build": "node_modules/.bin/webpack --config webpack/config.production.js",
+    "test": "NODE_ENV=test mocha --require @babel/register --require ./.mochaignore --require jsdom-global/register --require ./app/javascript/test/test.setup.js --recursive --exit",
     "test:all": "npm run test './app/javascript/**/*.unit.test.js'",
     "test:inspect": "npm run test -- --inspect-brk=0.0.0.0:9229"
   },
