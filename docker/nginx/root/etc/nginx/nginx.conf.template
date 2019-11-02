@@ -30,8 +30,15 @@ http {
   ssl_protocols TLSv1.2; # Dropping SSLv3, ref: POODLE
   ssl_prefer_server_ciphers on;
 
-  access_log ${NGINX_LOG_DIR}/${NGINX_LOG_ACCESS};
-  error_log ${NGINX_LOG_DIR}/${NGINX_LOG_ERROR};
+  if (${LOG_TO_STDOUT} = true) {
+    access_log /dev/stdout;
+    error_log /dev/stdout info;
+  }
+
+  if (${LOG_TO_STDOUT} = "") {
+    access_log ${NGINX_LOG_DIR}/${NGINX_LOG_ACCESS};
+    error_log ${NGINX_LOG_DIR}/${NGINX_LOG_ERROR};
+  }
 
   gzip on;
   gzip_disable "msie6";

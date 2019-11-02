@@ -9,7 +9,7 @@ test -e ./defaults.env && source ./defaults.env
 test -e ./local.env && source ./local.env
 
 BUILD_NGINX="docker build -f nginx/Dockerfile . -t nginx:prim-latest"
-BUILD_BEANSTALK="docker build -f beanstalkd/Dockerfile . -t beanstalkd:prim-latest"
+BUILD_BEANSTALK="docker build -f beanstalkd/Dockerfile . -t beanstalkd:prim-latest --build-arg BEANSTALKD_PORT=${BEANSTALKD_PORT}"
 BUILD_SOLR="docker build -f solr/Dockerfile ../ -t solr:prim-latest"
 BUILD_APP="docker build -f application/Dockerfile ../ -t application:prim-latest --build-arg APP_ROOT=${APP_ROOT} --build-arg RAILS_LOG_PATH=${RAILS_LOG_PATH}"
 BUILD_POSTGRES="docker build -f postgres/Dockerfile . -t postgres:prim-latest"

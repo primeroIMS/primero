@@ -18,6 +18,8 @@ services:
     image: beanstalkd:prim-latest
     env_file:
       - docker/defaults.env
+    volumes:
+      - beanstalk:/var/lib/beanstalkd
   application:
     image: application:prim-latest
     depends_on:
@@ -60,6 +62,7 @@ services:
       - docker/defaults.env
     command: ["bundle", "exec", "rails", "scheduler:run"]
 volumes:
+  beanstalk:
   database:
   certbot_certs:
   selfsigned_certs:

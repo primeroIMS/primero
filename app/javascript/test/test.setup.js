@@ -1,5 +1,11 @@
+import chai from "chai";
 import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
+import sinonChai from "sinon-chai";
+import chaiImmutable from "chai-immutable";
+
+chai.use(chaiImmutable);
+chai.use(sinonChai);
 
 var storage = {};
 
