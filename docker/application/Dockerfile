@@ -64,6 +64,10 @@ RUN set -euox pipefail \
 # Now copy over primero and do setup
 COPY [ ".", "$APP_ROOT" ]
 
+RUN set -euox pipefail \
+        ; mkdir -p "$APP_ROOT/tmp" "$RAILS_LOG_PATH" \
+        ; rake primero:i18n_js
+
 # Intentionally cached seperately
 # Generates 32 random characters for the build-id...build id MUST be 32 characters (as its hardcoded)
 RUN set -euox pipefail \
