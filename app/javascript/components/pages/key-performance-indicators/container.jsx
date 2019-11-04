@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import { withRouter } from "react-router-dom";
 import { connect, batch } from "react-redux";
 import { PageContainer, PageHeading, PageContent } from "components/page";
@@ -24,7 +24,7 @@ import {
   ToggleButtonGroup
 } from "@material-ui/lab"
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { OptionsBox, DashboardTable } from "components/dashboard";
 import { useI18n } from "components/i18n";
@@ -43,8 +43,44 @@ function KeyPerformanceIndicators({ fetchNumberOfCases, numberOfCases }) {
     });
   }, []);
 
-  let [numberOfCasesMenuOpen, setNumberOfCasesMenuOpen] = useState(false);
-  let [selectedRange, setSelectedRange] = useState('3-months');
+  const Actions = {
+    SET_FROM_DATE: 'SET_FROM_DATE',
+    SET_TO_DATE: 'SET_TO_DATE',
+    SELECT_RANGE: 'SELECT_RANGE',
+    OPEN_MENU: 'OPEN_MENU',
+    CLOSE_MENU: 'CLOSE_MENU'
+  }
+
+  const Ranges = {
+    THREE_MONTH: '3-months',
+    CUSTOM_RANGE: 'custom-range'
+  }
+
+  let numberOfCasesInitialState = {
+    menuOpen: false,
+    selectedRange: Ranges.THREE_MONTH,
+    fromDate: Date.now(),
+    toDate: Date.now()
+  }
+
+  function numberOfCasesReducer(state, action) {
+    switch (action.type) {
+      case Actions.SET_FROM_DATE:
+        return { ...state, fromDate: action.from }
+      case Actions.SET_TO_DATE:
+        return { ...state, toDate: action.to }
+      case Actions.SELECT_RANGE:
+        return { ...state, selectedRange: action.range, menuOpen: action.range === Ranges.CUSTOM_RANGE }
+      case Actions.OPEN_MENU:
+        return { ...state, menuOpen: true }
+      case Actions.CLOSE_MENU:
+        return { ...state, menuOpen: false }
+      default:
+        throw `Action ${action} not recognized`
+    }
+  }
+
+  let [numberOfCasesState, updateNumberOfCases] = useReducer(numberOfCasesReducer, numberOfCasesInitialState)
 
   return (
     <div>
@@ -61,54 +97,73 @@ function KeyPerformanceIndicators({ fetchNumberOfCases, numberOfCases }) {
                     action={
                       <div>
                         <ToggleButtonGroup
+                          className={css.toggleButtonGroup}
                           exclusive
-                          onChange={(event, value) => {
-                            if (value === 'custom-range' && selectedRange !== 'custom-range')
-                              setNumberOfCasesMenuOpen(true);
-
-                            setSelectedRange(value);
+                          size="small"
+                          onChange={(_event, value) => {
+                            updateNumberOfCases({
+                              type: Actions.SELECT_RANGE,
+                              range: value
+                            })
                           }}
                         >
                           <ToggleButton
-                            value="3-months"
-                            selected={selectedRange === '3-months'}
+                            value={Ranges.THREE_MONTH}
+                            selected={numberOfCasesState.selectedRange === '3-months'}
                           >
                             <span>3 months</span>
                           </ToggleButton>
                           <ToggleButton
-                            value="custom-range"
-                            selected={selectedRange === 'custom-range'}
+                            value={Ranges.CUSTOM_RANGE}
+                            selected={numberOfCasesState.selectedRange === 'custom-range'}
                           >
                             <span>Custom Range</span>
                           </ToggleButton>
                         </ToggleButtonGroup>
                         <Dialog
-                          open={numberOfCasesMenuOpen}
-                          onClose={() => setNumberOfCasesMenuOpen(false)}
+                          open={numberOfCasesState.menuOpen}
+                          onClose={() => updateNumberOfCases({
+                            type: Actions.CLOSE_MENU
+                          })}
                         >
                           <DialogTitle>Date Range</DialogTitle>
                           <DialogContent>
-                            <DialogContentText>See the number of case over the last 1, 3 or 6 month, or choose a custom time period.</DialogContentText>
+                            <DialogContentText>Show data between these two dates.</DialogContentText>
                             <FormControl>
                               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <FormControlLabel
-                                  value="from"
-                                  control={<DatePicker />}
+                                <KeyboardDatePicker
+                                  variant="inline"
+                                  format="dd/MM/yyyy"
+                                  margin="normal"
                                   label="From"
-                                  labelPlacement="start"
+                                  value={numberOfCasesState.fromDate}
+                                  onChange={(fromDate) => updateNumberOfCases({
+                                    type: Actions.SET_FROM_DATE,
+                                    from: fromDate
+                                  })}
+                                  KeyboardButtonProps={{
+                                    'aria-label': 'Select data after this date'
+                                  }}
                                 />
-                                <FormControlLabel
-                                  value="to"
-                                  control={<DatePicker />}
+                                <KeyboardDatePicker
+                                  variant="inline"
+                                  format="dd/MM/yyyy"
+                                  margin="normal"
                                   label="To"
-                                  labelPlacement="start"
+                                  value={numberOfCasesState.toDate}
+                                  onChange={(toDate) => updateNumberOfCases({
+                                    type: Actions.SET_TO_DATE,
+                                    to: toDate
+                                  })}
+                                  KeyboardButtonProps={{
+                                    'aria-label': 'Select data before this date'
+                                  }}
                                 />
                               </MuiPickersUtilsProvider>
                             </FormControl>
                           </DialogContent>
                           <DialogActions>
-                            <Button onClick={() => setNumberOfCasesMenuOpen(false)}>Cancel</Button>
-                            <Button onClick={() => setNumberOfCasesMenuOpen(false)}>Apply</Button>
+                            <Button onClick={() => updateNumberOfCases({ type: Actions.CLOSE_MENU })}>Close</Button>
                           </DialogActions>
                         </Dialog>
                       </div>
