@@ -18,14 +18,17 @@ _primero.Views.SharedFields = _primero.Views.Base.extend({
     var $subform = $target.parents('.subforms');
     if ($subform.length > 0) {
       var subform_index = $target.parents('.subform').data('subform_index');
-      var input_name = $target.attr('name').split('[' + subform_index + ']').pop();
-      if ($subform.data('is_shared_subform')) {
-        shared_field = shared_field.add($('#' + $subform.data('shared_subform') + ' div[data-subform_index="' + subform_index + '"]')
-          .find('[name$="' + input_name + '"]:hidden'));
-      } else {
-        $('div[data-shared_subform="' + $subform.attr('id') + '"] div[data-subform_index="' + subform_index + '"]').each(function(){
-          shared_field = shared_field.add($(this).find('[name$="' + input_name + '"]:hidden'));
-        })
+
+      if ($target.attr('name')) {
+        var input_name = $target.attr('name').split('[' + subform_index + ']').pop();
+        if ($subform.data('is_shared_subform')) {
+          shared_field = shared_field.add($('#' + $subform.data('shared_subform') + ' div[data-subform_index="' + subform_index + '"]')
+            .find('[name$="' + input_name + '"]:hidden'));
+        } else {
+          $('div[data-shared_subform="' + $subform.attr('id') + '"] div[data-subform_index="' + subform_index + '"]').each(function(){
+            shared_field = shared_field.add($(this).find('[name$="' + input_name + '"]:hidden'));
+          })
+        }
       }
     }
 
