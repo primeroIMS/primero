@@ -7,3 +7,7 @@
   font-size: $(theme.typography.pxToRem(16));
   text-transform: uppercase;
 }
+
+.toggleButtonGroup {
+  margin-left: 1rem;
+}
