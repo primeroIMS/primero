@@ -14,12 +14,6 @@
 
 .title {
   padding: 14px 16px 0 16px;
-
-  & span {
-    font-weight: 900 !important;
-    font-size: $(theme.typography.pxToRem(17)) !important;
-    text-transform: uppercase;
-  }
 }
 
 @media $(theme.breakpoints.up("sm")) {
