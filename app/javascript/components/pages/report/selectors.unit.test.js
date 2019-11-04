@@ -2,7 +2,7 @@ import chai, { expect } from "chai";
 import { fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
 
-import * as selectors from "./selectors";
+import { selectReport } from "./selectors";
 
 chai.use(chaiImmutable);
 
@@ -103,7 +103,7 @@ describe("<Reports /> - Selectors", () => {
         }
       });
 
-      const records = selectors.selectReport(
+      const records = selectReport(
         stateWithRecords,
         "casesByNationality"
       );
@@ -112,7 +112,7 @@ describe("<Reports /> - Selectors", () => {
 
     it("should return empty object when records empty", () => {
       const expected = fromJS({});
-      const records = selectors.selectReport(
+      const records = selectReport(
         stateWithNoRecords,
         "casesByNationality"
       );

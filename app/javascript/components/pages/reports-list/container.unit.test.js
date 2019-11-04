@@ -1,8 +1,10 @@
 import { expect } from "chai";
 import { setupMountedComponent } from "test";
 import { fromJS } from "immutable";
-import { OptionsBox, ActionMenu } from "components/dashboard";
-import { BarChart } from "components/charts/bar-chart";
+
+import { BarChart } from "./../../charts/bar-chart";
+
+import { OptionsBox, ActionMenu } from "./../dashboard";
 import Reports from "./container";
 
 describe("<Reports /> - Component", () => {

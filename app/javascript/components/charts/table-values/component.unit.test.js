@@ -1,8 +1,10 @@
 import { setupMountedThemeComponent } from "test";
 import { expect } from "chai";
-import { buildDataForTable } from "components/pages/report/helpers";
 import { fromJS } from "immutable";
 import { TableRow } from "@material-ui/core";
+
+import { buildDataForTable } from "./../../pages/report/helpers";
+
 import TableValues from "./component";
 
 describe("<TableValues />", () => {

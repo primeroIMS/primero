@@ -1,24 +1,28 @@
 import { fromJS } from "immutable";
 import { listEntriesToRecord } from "libs";
 import NAMESPACE from "./namespace";
-import * as Actions from "./actions";
-import * as R from "./records";
+import {
+  FETCH_SAVED_SEARCHES_SUCCESS,
+  REMOVE_SAVED_SEARCH_SUCCESS,
+  SAVE_SEARCH_SUCCESS
+} from "./actions";
+import { SavedSearchesRecord } from "./records";
 
 const DEFAULT_STATE = fromJS({ data: [] });
 
 export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.FETCH_SAVED_SEARCHES_SUCCESS:
+    case FETCH_SAVED_SEARCHES_SUCCESS:
       return state.set(
         "data",
-        listEntriesToRecord(payload.data, R.SavedSearchesRecord)
+        listEntriesToRecord(payload.data, SavedSearchesRecord)
       );
-    case Actions.REMOVE_SAVED_SEARCH_SUCCESS:
+    case REMOVE_SAVED_SEARCH_SUCCESS:
       return state.set(
         "data",
         state.get("data").filter(d => d.id !== payload.data.id)
       );
-    case Actions.SAVE_SEARCH_SUCCESS:
+    case SAVE_SEARCH_SUCCESS:
       return state.update("data", data => {
         return data.push(payload.data);
       });

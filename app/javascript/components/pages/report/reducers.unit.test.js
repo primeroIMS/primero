@@ -1,7 +1,8 @@
 import chai, { expect } from "chai";
 import { fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
-import * as r from "./reducers";
+
+import { reducers } from "./reducers";
 
 chai.use(chaiImmutable);
 
@@ -32,7 +33,7 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.reports(fromJS({}), action);
+    const newState = reducers.reports(fromJS({}), action);
     expect(newState.get("casesByNationality")).to.deep.equal(expected);
   });
 
@@ -96,7 +97,7 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.reports(fromJS({}), action);
+    const newState = reducers.reports(fromJS({}), action);
     expect(newState.get("casesByAgeAndSex")).to.deep.equal(expected);
   });
 
@@ -161,7 +162,7 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.reports(fromJS({}), action);
+    const newState = reducers.reports(fromJS({}), action);
     expect(newState.get("casesByProtectionConcern")).to.deep.equal(expected);
   });
 
@@ -191,7 +192,7 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.reports(fromJS({}), action);
+    const newState = reducers.reports(fromJS({}), action);
     expect(newState.get("casesByAgency")).to.deep.equal(expected);
   });
 });

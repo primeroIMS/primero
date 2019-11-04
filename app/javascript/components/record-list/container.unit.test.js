@@ -8,7 +8,7 @@ import { fromJS } from "immutable";
 import { IndexTable } from "components/index-table";
 import RecordList from "./container";
 import { ViewModal } from "components/record-list/view-modal";
-import * as Permissions from "libs/permissions";
+import { PERMISSION_CONSTANTS } from "./../../libs/permissions";
 
 chai.use(sinonChai);
 
@@ -46,7 +46,7 @@ describe("<RecordList />", () => {
         listHeaders: {
           cases: [{ id: "name", name: "Name", field_name: "name" }]
         },
-        permissions: { cases: [Permissions.MANAGE, Permissions.DISPLAY_VIEW_PAGE] }
+        permissions: { cases: [PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.DISPLAY_VIEW_PAGE] }
       },
       application: {
         online: true,

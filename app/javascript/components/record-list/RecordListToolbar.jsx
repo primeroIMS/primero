@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import { Box, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import { PageHeading } from "components/page";
-import { RecordActions } from "components/record-actions";
+
+import { PageHeading } from "./../page";
+import RecordActions from "./../record-actions";
+
 import AddRecordMenu from "./AddRecordMenu";
 import styles from "./styles.css";
 

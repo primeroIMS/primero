@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 import { RECORD_PATH } from "config";
+
 import {
   fetchCases,
   fetchIncidents,
@@ -8,7 +9,8 @@ import {
   setCasesFilters,
   setIncidentsFilters,
   setTracingRequestFilters
-} from "components/records";
+} from "./../records";
+
 import {
   buildTableColumns,
   getRecordsFetcherByType,
