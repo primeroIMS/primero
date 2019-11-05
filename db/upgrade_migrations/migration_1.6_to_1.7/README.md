@@ -1,8 +1,12 @@
 Migrating an old configuration
 ===================================
+Note: To convert an old json configuration you can use the migration scripts 1.5 to 1.6. For the migration 1.6 to 1.7, only config changes are necessary.
 
-Create manually each form-group lookup and use form_group_id instead of form-group-name
+Create manually each form-group lookup and use form_group_id instead of form_group_name
 -------------------------
+- Search all form_group_names and group them by module (Case, Incident, Tracing Request)
+- Create form-group lookup by module.
+- Replace form_group_name by form_group_id
 
 ====================================================================================================================
 
