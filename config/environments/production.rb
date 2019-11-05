@@ -26,6 +26,10 @@ Rails.application.configure do
 
   config.log_level = :debug
 
+  if ENV["LOG_TO_STDOUT"].present?
+    config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+  end
+
   # WARNING **
   # NEVER UNSET THIS OR YOU WILL BREAK THINGS!
   # config.force_ssl = true

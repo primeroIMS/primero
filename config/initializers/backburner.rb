@@ -5,7 +5,8 @@ if Rails.env == 'production'
 
   BACKBURNER_CONFIG = YAML.load_file(File.join(Rails.root,'config','backburner.yml'))[Rails.env]
 
-  logfile = (ENV['RAILS_LOG_PATH'].present? ? "#{ENV['RAILS_LOG_PATH']}/backburner.log" : STDOUT)
+  logfile = ENV['RAILS_LOG_PATH'].present? && ENV["LOG_TO_STDOUT"].blank? ?
+    "#{ENV['RAILS_LOG_PATH']}/backburner.log" : STDOUT
 
   Backburner.configure do |config|
     config.beanstalk_url       = [BACKBURNER_CONFIG['beanstalk_url']]
