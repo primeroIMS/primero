@@ -48,6 +48,8 @@ export const MODULES = Object.freeze({
 
 export const MODULE_TYPE_FIELD = "module_id";
 
+export const NAME_FIELD = "name";
+
 export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
   [MODULES.CP]: "consent_for_services",
   [MODULES.GBV]: "disclosure_other_orgs"
@@ -81,3 +83,7 @@ export const ROUTES = {
   exports: "/exports",
   support: "/support"
 };
+
+export const DATE_FORMAT = "dd-MMM-yyyy";
+
+export const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";

@@ -24,6 +24,9 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("RECORD_OWNER");
     expect(constants).to.have.property("TRANSFERS_ASSIGNMENTS");
     expect(constants).to.have.property("ROUTES");
+    expect(constants).to.have.property("NAME_FIELD");
+    expect(constants).to.have.property("DATE_FORMAT");
+    expect(constants).to.have.property("DATE_TIME_FORMAT");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -43,6 +46,9 @@ describe("Verifying config constant", () => {
     delete constants.RECORD_OWNER;
     delete constants.TRANSFERS_ASSIGNMENTS;
     delete constants.ROUTES;
+    delete constants.NAME_FIELD;
+    delete constants.DATE_FORMAT;
+    delete constants.DATE_TIME_FORMAT;
 
     expect(constants).to.deep.equal({});
   });
@@ -90,5 +96,8 @@ describe("Verifying config constant", () => {
     ]);
     expect(constants.RECORD_OWNER).to.equal("record_owner");
     expect(constants.TRANSFERS_ASSIGNMENTS).to.equal("transfers_assignments");
+    expect(constants.NAME_FIELD).to.equal("name");
+    expect(constants.DATE_FORMAT).to.equal("dd-MMM-yyyy");
+    expect(constants.DATE_TIME_FORMAT).to.equal("dd-MMM-yyyy HH:mm");
   });
 });
