@@ -21,7 +21,6 @@ const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
     help_text: helpText,
     display_name: displayName,
     disabled,
-    editable,
     required,
     selected_value: selectedValue
   } = field;
@@ -48,7 +47,7 @@ const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
     },
     label: displayName[i18n.locale],
     helperText: helpText ? helpText[i18n.locale] : "",
-    disabled: mode.isShow || disabled || !editable,
+    disabled: mode.isShow || disabled,
     checked: ["t", "true"].includes(selectedValue)
   };
 
