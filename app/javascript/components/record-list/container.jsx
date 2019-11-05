@@ -1,4 +1,4 @@
-import { IndexTable } from "components/index-table";
+import IndexTable from "./../index-table";
 import { Filters } from "components/filters";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";

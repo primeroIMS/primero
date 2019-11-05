@@ -1,12 +1,12 @@
 import chai, { expect } from "chai";
 import { setupMountedComponent } from "test";
-import "test/test.setup";
+
 import sinon from "sinon";
 import sinonChai from "sinon-chai";
 import React from "react";
 import { Route } from "react-router-dom";
 import { Map, List } from "immutable";
-import { IndexTable } from "components/index-table";
+import IndexTable from "./../index-table";
 import RecordList from "./container";
 import { ViewModal } from "components/record-list/view-modal";
 import * as Permissions from "libs/permissions";

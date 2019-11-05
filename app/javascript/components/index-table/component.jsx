@@ -4,9 +4,12 @@ import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import { dataToJS } from "libs";
 import { useSelector, useDispatch } from "react-redux";
-import { getPermissionsByRecord } from "components/user/selectors";
-import { LoadingIndicator } from "components/loading-indicator";
 import { push } from "connected-react-router";
+
+import { getPermissionsByRecord } from "./../user/selectors";
+import { LoadingIndicator } from "./../loading-indicator";
+
+import { CONSTANTS } from "./config";
 import {
   selectRecords,
   selectLoading,
@@ -14,7 +17,7 @@ import {
   selectFilters
 } from "./selectors";
 
-const IndexTable = ({
+const Component = ({
   columns,
   recordType,
   onTableChange,
@@ -152,7 +155,9 @@ const IndexTable = ({
   return <DataTable />;
 };
 
-IndexTable.propTypes = {
+Component.displayName = CONSTANTS.name;
+
+Component.propTypes = {
   onTableChange: PropTypes.func.isRequired,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   defaultFilters: PropTypes.object,
@@ -162,4 +167,4 @@ IndexTable.propTypes = {
   onRowClick: PropTypes.func
 };
 
-export default IndexTable;
+export default Component;
