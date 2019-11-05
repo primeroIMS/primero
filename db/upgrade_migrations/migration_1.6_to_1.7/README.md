@@ -4,9 +4,7 @@ Note: To convert an old json configuration you can use the migration scripts 1.5
 
 Create manually each form-group lookup and use form_group_id instead of form_group_name
 -------------------------
-- Search all form_group_names and group them by module (Case, Incident, Tracing Request)
-- Create form-group lookup by module.
-- Replace form_group_name by form_group_id
+On the config, create a form-group lookup by module (Case, Incident, Tracing Request) in lookups.rb. Modify the form configs to use form_group_id instead of form-group-name and Make sure to use the correct form-group-id (some form-group-name might have extra spaces)
 
 ====================================================================================================================
 
@@ -108,8 +106,9 @@ Restart couchdb and other system processes (just for good measure)
 - $ sudo /srv/primero/bin/primeroctl restart
 
 
-Refer to the README in <locale>/fixtures in the config repo
+Run the locale specific fixture migrations.
 ------------------------------------------------------------------
+Refer to the README in <locale>/fixtures in the config repo
 
 
 View the results and test
