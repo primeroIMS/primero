@@ -1,10 +1,12 @@
-import { List, Map } from "immutable";
-import * as Actions from "./actions";
-import { cleanUpFilters } from "components/records";
+import { List, fromJS } from "immutable";
+
+import { cleanUpFilters } from "./../records";
+
+import { SET_TAB } from "./actions";
 
 export const setTab = payload => {
   return {
-    type: Actions.SET_TAB,
+    type: SET_TAB,
     payload
   };
 };
@@ -25,7 +27,7 @@ export const setInitialFilterValues = (recordType, payload) => {
 };
 
 export const setInitialRecords = (path, namespace, initialFilterValues) => {
-  const defaultFilters = cleanUpFilters(Map(initialFilterValues).toJS());
+  const defaultFilters = cleanUpFilters(fromJS(initialFilterValues).toJS());
 
   return {
     type: `${namespace}/RECORDS`,

@@ -9,7 +9,8 @@ import {
   IconButton
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { RefreshIcon } from "images/primero-icons";
+
+import { RefreshIcon } from "./../../images/primero-icons";
 import {
   CheckBox,
   SelectFilter,
@@ -18,16 +19,18 @@ import {
   Chips,
   DatesRange,
   SwitchButton
-} from "components/filters-builder/filter-controls";
-import SavedSearchesForm from "components/saved-searches/SavedSearchesForm";
-import { selectFilters } from "components/index-table";
-import { useI18n } from "components/i18n";
+} from "./../filters-builder/filter-controls";
+import SavedSearchesForm from "./../saved-searches/SavedSearchesForm";
+import { selectFilters } from "./../index-table";
+import { useI18n } from "./../i18n";
+
 import * as actions from "./action-creators";
+import { CONSTANTS } from "./config"
 import { selectFiltersByRecordType } from "./selectors";
 import Panel from "./Panel";
 import styles from "./styles.css";
 
-const FiltersBuilder = ({
+const Container = ({
   recordType,
   filters,
   resetPanel,
@@ -105,6 +108,22 @@ const FiltersBuilder = ({
     );
   };
 
+  const icon = filter => {
+    return allowedResetFilterTypes.includes(filter.type) ? (
+      <IconButton
+        aria-label="Delete"
+        justifycontent="flex-end"
+        size="small"
+        onClick={handleReset(
+          `${filter.field_name}`,
+          `${filter.type}`
+        )}
+      >
+        <RefreshIcon />
+      </IconButton>
+    ) : null;
+  };
+
   return (
     <div className={css.root}>
       {filters &&
@@ -121,19 +140,7 @@ const FiltersBuilder = ({
             >
               <div className={css.heading}>
                 <span> {i18n.t(`${filter.name}`)} </span>
-                {allowedResetFilterTypes.includes(filter.type) ? (
-                  <IconButton
-                    aria-label="Delete"
-                    justifycontent="flex-end"
-                    size="small"
-                    onClick={handleReset(
-                      `${filter.field_name}`,
-                      `${filter.type}`
-                    )}
-                  >
-                    <RefreshIcon />
-                  </IconButton>
-                ) : null}
+                {icon(filter)}
               </div>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={css.panelDetails}>
@@ -157,7 +164,7 @@ const FiltersBuilder = ({
   );
 };
 
-FiltersBuilder.propTypes = {
+Container.propTypes = {
   recordType: PropTypes.string.isRequired,
   filters: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   resetPanel: PropTypes.func,
@@ -167,6 +174,7 @@ FiltersBuilder.propTypes = {
   defaultFilters: PropTypes.object
 };
 
+Container.displayName = CONSTANTS.name;
 const mapStateToProps = (state, props) => ({
   recordFilters: selectFilters(state, props.recordType)
 });
@@ -179,4 +187,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FiltersBuilder);
+)(Container);
