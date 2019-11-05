@@ -75,13 +75,14 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
           var $location_select = $form.find('select[id$="service_delivery_location"]');
           var $user_select = $form.find('select[id$="service_implementing_agency_individual"]');
 
-          _primero.populate_reporting_location_select_boxes($location_select);
+          var location_select_id = "#" + $location_select.attr('id');
+          new _primero.Views.PopulateReportingLocationSelectBoxes({ el: location_select_id }).initAutoComplete($location_select);
 
           var user_select_id = "#" + $user_select.attr('id');
-          new _primero.Views.PopulateUserSelectBoxes({ el: user_select_id });
+          new _primero.Views.PopulateUserSelectBoxes({ el: user_select_id }).initAutoComplete($user_select);
 
           var agency_select_id = "#" + $agency_select.attr('id');
-          new _primero.Views.PopulateAgencySelectBoxes({ el: agency_select_id });
+          new _primero.Views.PopulateAgencySelectBoxes({ el: agency_select_id }).initAutoComplete($agency_select);
 
 
           // to get foundation validation to run on new form

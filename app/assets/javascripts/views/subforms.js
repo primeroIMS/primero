@@ -88,17 +88,16 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
           var select_id = "#" + $elem.attr("id");
           switch(string_source){
             case "Location": {
-              var select_box = new _primero.Views.PopulateLocationSelectBoxes({ el: select_id });
-              select_box.initAutoComplete($elem);
+              new _primero.Views.PopulateLocationSelectBoxes({ el: select_id }).initAutoComplete($elem);
             } break;
             case "ReportingLocation": {
-              _primero.populate_reporting_location_select_boxes($elem);
+              new _primero.Views.PopulateReportingLocationSelectBoxes({ el: select_id }).initAutoComplete($elem);
             } break;
             case "Agency use_api": {
-              new _primero.Views.PopulateAgencySelectBoxes({ el: select_id });
+              new _primero.Views.PopulateAgencySelectBoxes({ el: select_id }).initAutoComplete($elem);
             } break;
             case "User": {
-              new _primero.Views.PopulateUserSelectBoxes({ el: select_id });
+              new _primero.Views.PopulateUserSelectBoxes({ el: select_id }).initAutoComplete($elem);
             } break;
           }
         });
