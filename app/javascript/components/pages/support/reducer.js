@@ -13,13 +13,13 @@ const DEFAULT_STATE = fromJS({});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case `${FETCH_DATA_SUCCESS}`:
+    case FETCH_DATA_SUCCESS:
       return state.set("data", ContactInformationRecord(payload.data));
-    case `${FETCH_DATA_STARTED}`:
+    case FETCH_DATA_STARTED:
       return state.set("loading", fromJS(payload)).set("errors", false);
-    case `${FETCH_DATA_FINISHED}`:
+    case FETCH_DATA_FINISHED:
       return state.set("loading", fromJS(payload));
-    case `${FETCH_DATA_FAILURE}`:
+    case FETCH_DATA_FAILURE:
       return state.set("errors", true);
     default:
       return state;

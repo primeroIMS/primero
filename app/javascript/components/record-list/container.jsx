@@ -18,15 +18,15 @@ import { PERMISSION_CONSTANTS, checkPermissions } from "./../../libs/permissions
 import Permission from "./../application/permission";
 import { useThemeHelper } from "./../../libs";
 
-import { CONSTANTS } from "./config";
-import FilterContainer from "./FilterContainer";
+import { NAME } from "./config";
+import FilterContainer from "./filter-container";
 import {
   buildTableColumns,
   getFiltersSetterByType,
   getRecordsFetcherByType
 } from "./helpers";
-import RecordListToolbar from "./RecordListToolbar";
-import { selectListHeaders } from "./selectors";
+import RecordListToolbar from "./record-list-toolbar";
+import { getListHeaders } from "./selectors";
 import styles from "./styles.css";
 import { ViewModal } from "./view-modal";
 
@@ -39,7 +39,7 @@ const Container = ({ match }) => {
   const { params, url } = match;
   const { recordType } = params;
   const dispatch = useDispatch();
-  const headers = useSelector(state => selectListHeaders(state, recordType));
+  const headers = useSelector(state => getListHeaders(state, recordType));
 
   const [openViewModal, setOpenViewModal] = useState(false);
   const [currentRecord, setCurrentRecord] = useState(null);
@@ -192,7 +192,7 @@ const Container = ({ match }) => {
   );
 };
 
-Container.displayName = CONSTANTS.name;
+Container.displayName = NAME;
 
 Container.propTypes = {
   match: PropTypes.object.isRequired

@@ -1,10 +1,7 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { fromJS } from "immutable";
-import chaiImmutable from "chai-immutable";
 
 import { selectReport } from "./selectors";
-
-chai.use(chaiImmutable);
 
 const stateWithNoRecords = fromJS({});
 const stateWithRecords = fromJS({

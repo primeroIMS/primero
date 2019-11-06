@@ -1,8 +1,8 @@
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { fromJS } from "immutable";
 
 import { BarChart } from "./../../charts/bar-chart";
+import { setupMountedComponent } from "./../../../test";
 
 import { OptionsBox, ActionMenu } from "./../dashboard";
 import Reports from "./container";

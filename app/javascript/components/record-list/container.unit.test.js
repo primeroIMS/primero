@@ -1,16 +1,15 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { setupMountedComponent } from "test";
 import sinon from "sinon";
-import sinonChai from "sinon-chai";
 import React from "react";
 import { Route } from "react-router-dom";
 import { fromJS } from "immutable";
-import { IndexTable } from "components/index-table";
-import RecordList from "./container";
-import { ViewModal } from "components/record-list/view-modal";
-import { PERMISSION_CONSTANTS } from "./../../libs/permissions";
 
-chai.use(sinonChai);
+import { IndexTable } from "./../index-table";
+import { PERMISSION_CONSTANTS } from "./../../libs/permissions";
+import { ViewModal } from "./../record-list/view-modal";
+
+import RecordList from "./container";
 
 describe("<RecordList />", () => {
   let component;

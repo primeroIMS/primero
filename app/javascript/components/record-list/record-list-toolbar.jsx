@@ -7,7 +7,7 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import { PageHeading } from "./../page";
 import RecordActions from "./../record-actions";
 
-import AddRecordMenu from "./AddRecordMenu";
+import AddRecordMenu from "./add-record-menu";
 import styles from "./styles.css";
 
 const RecordListToolbar = ({

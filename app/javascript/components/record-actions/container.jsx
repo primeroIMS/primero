@@ -9,7 +9,7 @@ import { getPermissionsByRecord } from "./../user/selectors";
 import { PERMISSION_CONSTANTS, checkPermissions } from "./../../libs/permissions";
 import Permission from "./../application/permission";
 
-import { CONSTANTS } from "./config";
+import { NAME } from "./config";
 import { Notes } from "./notes";
 import { ToggleEnable } from "./toggle-enable";
 import { ToggleOpen } from "./toggle-open";
@@ -269,7 +269,7 @@ const Container = ({ recordType, iconColor, record, mode }) => {
   );
 };
 
-Container.displayName = CONSTANTS.name;
+Container.displayName = NAME;
 
 Container.propTypes = {
   recordType: PropTypes.string.isRequired,

@@ -1,3 +1,1 @@
-export const CONSTANTS = {
-  name: "RecordListContainer"
-};
+export const NAME = "RecordListContainer";

@@ -1,7 +1,19 @@
-import * as Page from "components/pages";
-import { RecordForm } from "components/record-form";
-import RecordList from "components/record-list";
-import { AppLayout, LoginLayout } from "components/layouts";
+import {
+  Login,
+  Dashboard,
+  Reports,
+  Report,
+  PotentialMatches,
+  TaskList,
+  ExportList,
+  Support,
+  NotAuthorized,
+  NotFound
+} from "./../components/pages";
+import { RecordForm } from "./../components/record-form";
+import RecordList from "./../components/record-list";
+import { AppLayout, LoginLayout } from "./../components/layouts";
+
 import { ROUTES } from "./constants";
 
 export default [
@@ -10,11 +22,11 @@ export default [
     routes: [
       {
         path: "/login",
-        component: Page.Login
+        component: Login
       },
       {
         path: "/logout",
-        component: Page.Login
+        component: Login
       }
     ]
   },
@@ -23,7 +35,7 @@ export default [
     routes: [
       {
         path: ROUTES.dashboard,
-        component: Page.Dashboard
+        component: Dashboard
       },
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:id/edit",
@@ -50,43 +62,43 @@ export default [
       },
       {
         path: ROUTES.reports,
-        component: Page.Reports,
+        component: Reports,
         permissionType: "reports",
         permission: ["read", "group_read", "manage"]
       },
       {
         path: `${ROUTES.reports}/:id`,
-        component: Page.Report,
+        component: Report,
         permissionType: "reports",
         permission: ["read", "group_read", "manage"]
       },
       {
         path: ROUTES.matches,
-        component: Page.PotentialMatches,
+        component: PotentialMatches,
         permissionType: "potential_matches",
         permission: "read"
       },
       {
         path: ROUTES.tasks,
-        component: Page.TaskList,
+        component: TaskList,
         permissionType: "dashboards",
         permission: "dash_tasks"
       },
       {
         path: ROUTES.exports,
-        component: Page.ExportList
+        component: ExportList
       },
       {
         path: ROUTES.support,
-        component: Page.Support
+        component: Support
       },
       {
         path: "/not-authorized",
-        component: Page.NotAuthorized
+        component: NotAuthorized
       }
     ]
   },
   {
-    component: Page.NotFound
+    component: NotFound
   }
 ];

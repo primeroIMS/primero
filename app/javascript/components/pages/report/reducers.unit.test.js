@@ -1,10 +1,7 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { fromJS } from "immutable";
-import chaiImmutable from "chai-immutable";
 
 import { reducers } from "./reducers";
-
-chai.use(chaiImmutable);
 
 describe("<Reports /> - Reducers", () => {
   it("should handle Reports/CASES_BY_NATIONALITY", () => {
