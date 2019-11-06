@@ -916,9 +916,10 @@ describe Child do
     end
 
     context 'system case code format empty' do
-      before :all do
+      before :each do
         SystemSettings.all.each &:destroy
         @system_settings = SystemSettings.create default_locale: "en"
+        SystemSettings.stub(:current).and_return(SystemSettings.first)
       end
 
       it 'should create an empty case id code' do
@@ -933,7 +934,7 @@ describe Child do
     end
 
     context 'system case code separator empty' do
-      before :all do
+      before :each do
         SystemSettings.all.each &:destroy
         ap1 = AutoPopulateInformation.new(field_key: 'case_id_code',
                                           format: [
@@ -944,6 +945,7 @@ describe Child do
                                           auto_populated: true)
 
         @system_settings = SystemSettings.create(default_locale: "en", auto_populate_list: [ap1])
+        SystemSettings.stub(:current).and_return(SystemSettings.first)
       end
 
       it 'should create a case id code without separators' do
@@ -958,7 +960,7 @@ describe Child do
     end
 
     context 'system case code format and separator present' do
-      before :all do
+      before :each do
         SystemSettings.all.each &:destroy
         ap1 = AutoPopulateInformation.new(field_key: 'case_id_code',
                                           format: [
@@ -969,6 +971,7 @@ describe Child do
                                           separator: '-', auto_populated: true)
 
         @system_settings = SystemSettings.create(default_locale: "en", auto_populate_list: [ap1])
+        SystemSettings.stub(:current).and_return(SystemSettings.first)
       end
 
       it 'should create a case id code with separators' do
