@@ -5,8 +5,7 @@ _primero.Views.ServiceSubform = _primero.Views.Base.extend({
     'change #services_section select[id$="service_type"]': 'on_service_change',
     'change #services_section select[id$="service_implementing_agency"]': 'on_agency_change',
     'change #services_section select[id$="service_delivery_location"]': 'on_filter_change',
-    'change #services_section select[id$="service_implementing_agency_individual"]': 'on_user_change',
-    'click #tab_services #subform_services_section_add_button': 'init_subform'
+    'change #services_section select[id$="service_implementing_agency_individual"]': 'on_user_change'
   },
 
   initialize: function(){
@@ -126,25 +125,6 @@ _primero.Views.ServiceSubform = _primero.Views.Base.extend({
     var $agency_select = $subform.find('select[id$="service_implementing_agency"]');
 
     $agency_select.data('filter-service-type', $service_select.val());
-  },
-
-  init_subform: function(){
-    var self = this;
-    setTimeout(function(){
-      var $new_subform = $('#services_section .subform_container').last(); //Last added service
-
-      var $new_user_select = $new_subform.find('select[id$="service_implementing_agency_individual"]');
-      var userSelectId = "#" + $new_user_select.attr('id');
-      new _primero.Views.PopulateUserSelectBoxes({ el: userSelectId });
-
-      var $new_agency_select = $new_subform.find('select[id$="service_implementing_agency"]');
-      var agencySelectId = "#" + $new_agency_select.attr('id');
-      new _primero.Views.PopulateAgencySelectBoxes({ el: agencySelectId });
-
-      var $location_select = $new_subform.find('select[id$=service_delivery_location]');
-      _primero.populate_reporting_location_select_boxes($location_select);
-
-    },0); //Try to run after the fadeOut in the forms
   },
 
   clear_user_selection: function($subform){

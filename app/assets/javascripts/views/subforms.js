@@ -76,6 +76,33 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
         self.add_subform($add_button);
       });
     }
+
+    setTimeout(function(){
+      // Initialize the select boxes that get populated through apis.
+      var $new_subform = $target.closest(".row").find(".subform_container").last(); //Last added subform
+      var string_sources = ["Location", "ReportingLocation", "User", "Agency use_api"];
+      _.each(string_sources, function(string_source) {
+        var selects = $new_subform.find('select[data-populate="'+string_source+'"]');
+        selects.each(function(index, elem){
+          var $elem = $(elem);
+          var select_id = "#" + $elem.attr("id");
+          switch(string_source){
+            case "Location": {
+              new _primero.Views.PopulateLocationSelectBoxes({ el: select_id }).initAutoComplete($elem);
+            } break;
+            case "ReportingLocation": {
+              new _primero.Views.PopulateReportingLocationSelectBoxes({ el: select_id }).initAutoComplete($elem);
+            } break;
+            case "Agency use_api": {
+              new _primero.Views.PopulateAgencySelectBoxes({ el: select_id }).initAutoComplete($elem);
+            } break;
+            case "User": {
+              new _primero.Views.PopulateUserSelectBoxes({ el: select_id }).initAutoComplete($elem);
+            } break;
+          }
+        });
+      });
+    }, 0); //Try to run after the fadeOut in the forms
   },
 
   // From: http://stackoverflow.com/a/8809472/1009106
