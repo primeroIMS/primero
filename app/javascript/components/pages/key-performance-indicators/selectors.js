@@ -7,3 +7,10 @@ export const numberOfCases = state => {
     data: []
   }));
 };
+
+export const reportingDelay = state => {
+  return state.getIn(["records", NAMESPACE, 'reportingDelay'], fromJS({
+    columns: ["Delay", "Total Cases", ""],
+    data: []
+  }));
+};
