@@ -1888,6 +1888,7 @@ en:
         perm_visible_method: "perm_visible can't be false if perm_enabled is true"
         add_field_to_form_section: "Form section not editable"
         delete_field: "Uneditable field cannot be deleted"
+        unique_field_names: "Field names must be unique"
         unique_name: "The name '%{name}' is already taken."
         unique_id: "The unique id '%{unique_id}' is already taken."
 

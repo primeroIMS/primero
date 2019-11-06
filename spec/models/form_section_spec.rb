@@ -88,7 +88,7 @@ describe FormSection do
 
     describe "filter_for_subforms" do
       before do
-        fs = @userM.permitted_forms(@mobile_module, 'case')
+        fs = @userM.permitted_forms('case')
         @mobile_forms = fs.select(&:mobile_form)
       end
       it "returns only mobile forms" do
