@@ -29,6 +29,7 @@ describe("filters-builder - Actions", () => {
     expect(actions).to.have.property("RESET_RADIO_BUTTON");
     expect(actions).to.have.property("RESET_RANGE_BUTTON");
     expect(actions).to.have.property("SET_SAVED_FILTERS");
+    expect(actions).to.have.property("CLEAR_FILTERS");
 
     delete actions.REMOVE_EXPANDED_PANEL;
     delete actions.RESET_PANELS;
@@ -52,6 +53,7 @@ describe("filters-builder - Actions", () => {
     delete actions.RESET_RADIO_BUTTON;
     delete actions.RESET_RANGE_BUTTON;
     delete actions.SET_SAVED_FILTERS;
+    delete actions.CLEAR_FILTERS;
 
     expect(actions).to.deep.equal({});
   });
