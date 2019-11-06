@@ -1,11 +1,17 @@
 FROM alpine:latest
 
-RUN set -euox pipefail \
-        ; apk add --update --no-cache tini beanstalkd \
-        ; rm -rf /var/cache/apk/* \
-        ; mkdir -p /beanstalkd/bin \
-        ; chown -R beanstalk /beanstalkd
+ARG BEANSTALKD_PORT
+ENV BEANSTALKD_PORT=${BEANSTALKD_PORT}
 
-EXPOSE 11300
-ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["beanstalkd", "-V", "-p","11300","-u","beanstalk","-b","/beanstalkd/bin","-V"]
+COPY [ "beanstalkd/root/", "/" ]
+
+RUN set -euox pipefail \
+        ; chmod +x /entrypoint.sh \
+        ; apk add --update --no-cache tini beanstalkd bash \
+        ; rm -rf /var/cache/apk/* \
+
+EXPOSE ${BEANSTALKD_PORT}
+
+ENTRYPOINT ["/sbin/tini", "--", "/entrypoint.sh"]
+
+CMD ["beanstalkd-start"]
