@@ -761,8 +761,8 @@ describe "record field model" do
     form = FormSection.create :name => 'test_form2', :unique_id => 'test_form', :fields => fields
     expect(fields.first.errors.count).to eq(0)
     fields.first.errors[:name].should == []
-    expect(fields.last.errors.count).to be > 0
-    fields.last.errors[:name].should == ["Field already exists on this form"]
+    expect(form.errors.count).to be > 0
+    form.errors[:fields].should == ['errors.models.form_section.unique_field_names']
     #Because it fails save, fields remains new.
     expect(fields.first.new_record?).to be_truthy
     expect(fields.last.new_record?).to be_truthy

@@ -18,6 +18,7 @@ class FormSection < ApplicationRecord
   attr_accessor :module_name
   attribute :collapsed_field_names
 
+  validate :validate_fields_unique_name
   validate :validate_name_in_english
   validate :validate_name_format
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.form_section.unique_id' }
@@ -670,6 +671,15 @@ class FormSection < ApplicationRecord
     else
       return true
     end
+  end
+
+  def validate_fields_unique_name
+    return true if self.fields.blank?
+    field_names = self.fields.map(&:name)
+    if field_names.length > field_names.dup.uniq.length
+      return errors.add(:fields, 'errors.models.form_section.unique_field_names')
+    end
+    true
   end
 
   def calculate_fields_order

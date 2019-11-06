@@ -105,7 +105,7 @@ Prepare the database
     $ rails db:create
     $ rails db:migrate
     $ rails db:seed
-    
+
 Generate the i18n translation files
 
     $ bin/rails i18n:js:export
@@ -131,6 +131,9 @@ You can login with a preseeded admin account with credentials `primero`/`primer0
 
 For more on making code contributions, have a look at the file [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## Notes
+
+- It is known that a few npm packages will throw a `requires a peer of` warning. Examples: Mui-datatables is behind on updating dependecies. Jsdom requires canvas, but we are mocking canvas. Canvas also requires extra packages on alpine, which is the reason for mocking canvas.
 
 ## Production
 
