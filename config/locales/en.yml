@@ -1,7 +1,16 @@
 # encoding: utf-8
-# Sample localization file for English. Add more files in this directory for other locales.
-# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+#
+# This is the English localization file for Primero.  It is based on the sample
+# English localization file found in the repository linked below[1].
+#
+# Anyone editing this file is strongly encouraged to use yamllint[2] to ensure
+# that this document remains valid YAML.
+#
+# [1] https://github.com/svenfuchs/rails-i18n/
+# [2] https://yamllint.readthedocs.io/en/stable/
 
+
+---
 en:
   "true": "Yes"
   "false": "No"
@@ -114,87 +123,88 @@ en:
     system_settings: "System Settings"
 
   navigation:
-     home: "Home"
-     cases: "Cases"
-     tracing_request: "Tracing Request"
-     incidents: "Incidents"
-     potential_match: "Matches"
-     duplicates: "Duplicates"
-     children: "Children"
-     forms: "Form"
-     lookups: "Lookups"
-     users: "Settings"
-     replications: "Sync"
-     reports: "Reports"
-     advanced_search: "Advanced Search"
-     go: "Go"
-     search: "Search"
-     locations: "Locations"
-     bulk_exports: "Exports"
-     tasks: "Tasks"
-     audit_logs: "Audit Logs"
-     support: "Support"
-     my_account: "My Account"
-     matching_configuration: "Matching"
-     logout: "Log out"
+    home: "Home"
+    cases: "Cases"
+    tracing_request: "Tracing Request"
+    incidents: "Incidents"
+    potential_match: "Matches"
+    duplicates: "Duplicates"
+    children: "Children"
+    forms: "Form"
+    lookups: "Lookups"
+    users: "Settings"
+    replications: "Sync"
+    reports: "Reports"
+    advanced_search: "Advanced Search"
+    go: "Go"
+    search: "Search"
+    locations: "Locations"
+    bulk_exports: "Exports"
+    tasks: "Tasks"
+    audit_logs: "Audit Logs"
+    support: "Support"
+    my_account: "My Account"
+    matching_configuration: "Matching"
+    logout: "Log out"
 
   buttons:
-     delete: "Delete"
-     disable: "Disable"
-     enable: "Enable"
-     save: "Save"
-     save_and_add_service_provision: "Save and Add Service Provision"
-     login: "Log in"
-     logout: "Log out"
-     continue: "Continue"
-     reunite: "Reunite"
-     edit: "Edit"
-     back: "Back"
-     submit: "Submit"
-     export: "Export"
-     import: "Import"
-     change_password: "Change Password"
-     enable_photo_wall: "Enable photo wall"
-     disable_photo_wall: "Disable photo wall"
-     create_incident: "Create Incident"
-     create_case: "Create Case"
-     guiding_questions: "Guiding Questions"
-     filter_label: "Filter:"
-     filter: "Apply Filter"
-     filter_clear: "Clear Filters"
-     find_tracing_match: "Find Tracing Match"
-     filter_restore: "Restore to System Settings"
-     flag_records: "Flag"
-     flag_model: "Flag %{model}"
-     unflag_model: "Unflag %{model}"
-     unflag_model_history: "Flag History %{model}"
-     ok: 'OK'
-     cancel: "Cancel"
-     edit_subform: 'Edit Subform'
-     create_new_record: "Create New %{model}"
-     bundle_import: "Configuration Bundle"
-     bundle_export: "Configuration Bundle"
-     transfer: "Transfer"
-     reassign: "Assign"
-     referral: "Refer"
-     mark_for_mobile: "Mark for mobile"
-     unmark_for_mobile: "Un-mark for mobile"
-     approve_bia: "Approve BIA"
-     approve_case_plan: "Approve Case Plan"
-     sort_by_tr: "Tracing Requests"
-     sort_by_case: "Cases"
-     approve_closure: "Approve Closure"
-     view_flags_history: "View History"
-     request_approval: "Request Approval"
-     approvals: "Approvals"
-     accept: "Accept"
-     reject: "Reject"
-     done: "Done"
-     remove_referrals: "Remove referrals"
-     view: "View"
-     request_transfer: "Request Transfer"
-     add_note: "Add Notes"
-     add: "Add"
+    delete: "Delete"
+    disable: "Disable"
+    enable: "Enable"
+    save: "Save"
+    save_and_add_service_provision: "Save and Add Service Provision"
+    login: "Log in"
+    logout: "Log out"
+    continue: "Continue"
+    reunite: "Reunite"
+    edit: "Edit"
+    back: "Back"
+    submit: "Submit"
+    export: "Export"
+    import: "Import"
+    change_password: "Change Password"
+    enable_photo_wall: "Enable photo wall"
+    disable_photo_wall: "Disable photo wall"
+    create_incident: "Create Incident"
+    create_case: "Create Case"
+    guiding_questions: "Guiding Questions"
+    filter_label: "Filter:"
+    filter: "Apply Filter"
+    filter_clear: "Clear Filters"
+    find_tracing_match: "Find Tracing Match"
+    filter_restore: "Restore to System Settings"
+    flag_records: "Flag"
+    flag_model: "Flag %{model}"
+    unflag_model: "Unflag %{model}"
+    unflag_model_history: "Flag History %{model}"
+    ok: 'OK'
+    cancel: "Cancel"
+    edit_subform: 'Edit Subform'
+    create_new_record: "Create New %{model}"
+    bundle_import: "Configuration Bundle"
+    bundle_export: "Configuration Bundle"
+    transfer: "Transfer"
+    reassign: "Assign"
+    referral: "Refer"
+    mark_for_mobile: "Mark for mobile"
+    unmark_for_mobile: "Un-mark for mobile"
+    approve_bia: "Approve BIA"
+    approve_case_plan: "Approve Case Plan"
+    sort_by_tr: "Tracing Requests"
+    sort_by_case: "Cases"
+    approve_closure: "Approve Closure"
+    view_flags_history: "View History"
+    request_approval: "Request Approval"
+    approvals: "Approvals"
+    accept: "Accept"
+    reject: "Reject"
+    done: "Done"
+    remove_referrals: "Remove referrals"
+    view: "View"
+    request_transfer: "Request Transfer"
+    add_note: "Add Notes"
+    add: "Add"
+    update: "Update"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -383,8 +393,6 @@ en:
     messages:
       update_success: "Case %{record_id} was successfully updated."
       investigation_error_message: "Please confirm the flagged record should be marked as investigated, and enter any details you have."
-      undo_investigation_error_message: "Please confirm the flagged record should be marked as Not Investigated, and enter any details you have."
-      undo_investigation_error_message: "Undo Investigation Details:"
       reunite_error_message: "Please confirm this child has been reunited with family or caregivers, and enter any details you have."
       undo_reunite_error_message: "Please confirm child should be marked as Not Reunited, and enter any details you have."
       see_full_size: "Click on the Image to see full size"
@@ -432,16 +440,16 @@ en:
     history_of: "History of %{short_id}"
 
   saved_search:
-      save_success: "Search saved successfully."
-      save_error: "Save failed."
-      deleted: "Search deleted successfully."
-      delete_error: "Delete failed."
-      saved_searches_tab: "Saved Searches"
-      filters_tab: "Filters"
-      not_found: "No saved searches found"
-      title_modal: "Delete saved searches"
-      title_description: "Are you sure you want to delete this saved search?"
-      no_filters: "There are not filters selected"
+    save_success: "Search saved successfully."
+    save_error: "Save failed."
+    deleted: "Search deleted successfully."
+    delete_error: "Delete failed."
+    saved_searches_tab: "Saved Searches"
+    filters_tab: "Filters"
+    not_found: "No saved searches found"
+    title_modal: "Delete saved searches"
+    title_description: "Are you sure you want to delete this saved search?"
+    no_filters: "There are not filters selected"
 
   task:
     id: "ID#"
@@ -509,8 +517,6 @@ en:
     messages:
       update_success: "Case %{record_id} was successfully updated."
       investigation_error_message: "Please confirm the flagged record should be marked as investigated, and enter any details you have."
-      undo_investigation_error_message: "Please confirm the flagged record should be marked as Not Investigated, and enter any details you have."
-      undo_investigation_error_message: "Undo Investigation Details:"
       reunite_error_message: "Please confirm this case has been reunited with family or caregivers, and enter any details you have."
       undo_reunite_error_message: "Please confirm case should be marked as Not Reunited, and enter any details you have."
       see_full_size: "Click on the Image to see full size"
@@ -670,7 +676,6 @@ en:
     name_of_inquirer: "Name of Inquirer"
     date_of_inquiry: "Date of Inquiry"
     tracing_requests: "Tracing Requests"
-    change_log: "Change Log"
     last_updated: "Last updated"
     registered_by: "Registered by"
     edit_photo: "Edit photo"
@@ -772,33 +777,33 @@ en:
       possible: 'Possible'
 
   duplicates:
-      search_for_duplicates: 'Search For Duplicates'
-      clear_filter: 'Clear'
-      filter_by:
-        name: "Name"
-        name_nickname: "Nickname"
-        name_other: "Other Name"
-        sex: "Sex"
-        age: "Age"
-        age_range: "Age Range"
-        date_of_birth: "Date of Birth"
-        nationality: "Nationality"
-        location_last: "Last Location"
-        telephone_last: "Last Telephone"
-        ethnicity: "Ethnicity"
-        date_of_separation: "Date of Separation"
-        separation_cause: "Main Cause of Separation"
-        location_separation: "Separation Location"
-        relation_name: "Name of Relative"
-        relation: "Relation"
-        relation_nickname: "Nickname of Relative"
-        relation_language: "Language of Relative"
-        relation_religion: "Religion of Relative"
-        relation_ethnicity: "Ethnicity of Relative"
-        relation_nationality: "Nationality of Relative"
-        relation_address_current: "Relative's Current Address"
-        relation_location_current: "Relative's Current Location"
-        relation_telephone: "Relative's Telephone"
+    search_for_duplicates: 'Search For Duplicates'
+    clear_filter: 'Clear'
+    filter_by:
+      name: "Name"
+      name_nickname: "Nickname"
+      name_other: "Other Name"
+      sex: "Sex"
+      age: "Age"
+      age_range: "Age Range"
+      date_of_birth: "Date of Birth"
+      nationality: "Nationality"
+      location_last: "Last Location"
+      telephone_last: "Last Telephone"
+      ethnicity: "Ethnicity"
+      date_of_separation: "Date of Separation"
+      separation_cause: "Main Cause of Separation"
+      location_separation: "Separation Location"
+      relation_name: "Name of Relative"
+      relation: "Relation"
+      relation_nickname: "Nickname of Relative"
+      relation_language: "Language of Relative"
+      relation_religion: "Religion of Relative"
+      relation_ethnicity: "Ethnicity of Relative"
+      relation_nationality: "Nationality of Relative"
+      relation_address_current: "Relative's Current Address"
+      relation_location_current: "Relative's Current Location"
+      relation_telephone: "Relative's Telephone"
 
   audit_log:
     timestamp: "Timestamp - UTC"
@@ -1042,7 +1047,6 @@ en:
     no_activity: "has no activity"
     location: "Location"
     organization: "Organization"
-    agency: "Agency"
     manager: "Manager"
     send_mail: "Receive email notifications?"
     change_password: "Change your password"
@@ -1053,13 +1057,10 @@ en:
       enabled_label: "Send Welcome Email?"
       text_label: "Welcome Email Text"
 
-  actions: "actions"
   phone: "Phone"
   email: "Email"
   organization: "Organisation"
   position: "Position"
-  false: "false"
-  true: "true"
   mandatory_field: "marked fields are mandatory"
   add: "add"
   belonging_to: "belonging to"
@@ -1090,9 +1091,9 @@ en:
 
   record: "record"
   description: "Description"
-  #TODO - The name translation is commented out so we revert back to using the name translation defined in the form section field
-  #       Longer term, need to refactor how that translation is handled
-  #name: "Name"
+  # TODO - The name translation is commented out so we revert back to using the name translation defined in the form section field
+  #        Longer term, need to refactor how that translation is handled
+  # name: "Name"
   unique_id: "Unique ID"
 
   permissions:
@@ -1225,13 +1226,10 @@ en:
     create: "New Form"
     visibility: "Visibility"
     ordering: "Ordering"
-    details: "Form details"
     label: "Form"
-    group: "Group"
     help_text: "Help Text"
     details: "Details"
     back: "Back To Forms Page"
-    help_text: "Help Text"
     actions:
       label: "Actions"
       add_custom_field: "Add Custom Field"
@@ -1286,7 +1284,6 @@ en:
   no_results_found: "No results found"
   date_format: "yy-mm-dd"
   yes_label: "Yes"
-  cancel: "Cancel"
 
   contact:
     message: "If you experience any problems with RapidFTR, or believe your password has been exposed, please contact the system administrator immediately."
@@ -1540,7 +1537,6 @@ en:
     messages:
       delete_success: "Report was successfully deleted."
     edit: "Edit"
-    no_data: "No report data available"
 
   encrypt:
     password_title: "Create Password"
@@ -1634,7 +1630,6 @@ en:
     pending_transfers: 'Pending Transfers'
     rejected_transfers: 'Rejected Transfers'
     transers_awaiting_acceptance: 'Transfers Awaiting Acceptance'
-    high_risk: 'High Risk'
     total_referred: "Total Referrals"
     new_referred: "New Referrals"
     high_risk: 'High Priority'
@@ -1654,13 +1649,11 @@ en:
     cases_to_assign: 'Cases To Assign'
     overdue_cases_to_assign: 'Overdue Cases To Assign'
     approved: 'Approved'
-    closed: 'Closed'
     comprehensive_need_intervention: 'Comprehensive Response'
     new_incident: 'New Incidents'
     new_service_provision: 'New Service Provisions'
     all_services_implemented: 'All Services Implemented'
     services_implemented: 'Services Implemented'
-    approved: 'Approved'
     cases_by_workflow: 'Cases By Workflow'
     cases_by_task_overdue: 'Overdue Tasks'
     assessment: 'Assessment'
@@ -1715,7 +1708,6 @@ en:
     case_stats: "Cases"
     tr_stats: "Tracing Requests"
     cases_by_social_worker: "Cases by social worker"
-    approvals: "Approvals"
     referrals_by_social_worker: "Referrals by social worker"
     transfers_by_social_worker: "Transfers by social worker"
     case_stat_by_assessment_level: "Cases by Assessment Level"
@@ -1820,9 +1812,9 @@ en:
 
     models:
       flags:
-         message: "Flags: message field is invalid"
-         date: "Flags: date field is invalid"
-         index: "Flags: unable to remove the flag at the position %{index}"
+        message: "Flags: message field is invalid"
+        date: "Flags: date field is invalid"
+        index: "Flags: unable to remove the flag at the position %{index}"
 
       date_range_invalid: "<span>%{field_name}:</span> Please enter a valid date range 'From:' should be earlier than 'To:'"
 
@@ -1897,6 +1889,7 @@ en:
         perm_visible_method: "perm_visible can't be false if perm_enabled is true"
         add_field_to_form_section: "Form section not editable"
         delete_field: "Uneditable field cannot be deleted"
+        unique_field_names: "Field names must be unique"
         unique_name: "The name '%{name}' is already taken."
         unique_id: "The unique id '%{unique_id}' is already taken."
 
@@ -1918,6 +1911,7 @@ en:
       primero_program:
         name_present: "Name must not be blank"
         unique_name: "A program with that name already exists, please enter a different name"
+        unique_unique_id: "A PrimeroProgram with that unique_id already exists, please enter a different unique_id"
 
       lookup:
         name_present: "Name must not be blank"
@@ -1948,10 +1942,6 @@ en:
         logo_dimension: "dimension must be less than or equal to %{width}x%{height} pixels"
         unique_id: "The unique id '%{unique_id}' is already taken."
 
-      primero_program:
-        unique_unique_id: "A PrimeroProgram with that unique_id already exists, please enter a different unique_id"
-        name_present: "must not be blank"
-
       location:
         name_present: "must not be blank"
         code_present: "must not be blank"
@@ -1978,7 +1968,6 @@ en:
       export_configuration:
         record_type: "Invalid record type. Must be Child, TracingRequest, or Incident."
         opt_out_field_does_not_exist: "Specified opt_out field does not exist on the record."
-
 
 
   select_all_results: "Select all results"
@@ -2029,8 +2018,6 @@ en:
     disable: "Disable"
     reopen: "Reopen"
     close: "Close"
-    enable: "Enable"
-    disable: "Disable"
     notes: "Add Notes"
     incident_details_from_case: "Add Incident"
     services_section_from_case: "Add Service Provision"
@@ -2060,40 +2047,40 @@ en:
     no_records: "No Records Available!"
     queueing: "Generating the export file"
     pdf:
-      all:  PDF
-      one:  PDF
-      selected:  Selected to PDF
+      all: PDF
+      one: PDF
+      selected: Selected to PDF
     photowall:
-      all:  Photo Wall
-      one:  Photo Wall
-      selected:  Selected to Photo Wall
+      all: Photo Wall
+      one: Photo Wall
+      selected: Selected to Photo Wall
     case_pdf:
-      all:  PDF
-      one:  PDF
-      selected:  Selected to PDF
+      all: PDF
+      one: PDF
+      selected: Selected to PDF
     list_view_csv:
-      all:  Export List View
-      selected:  Selected to CSV
+      all: Export List View
+      selected: Selected to CSV
     csv:
-      all:  CSV
-      one:  CSV
-      selected:  Selected to CSV
+      all: CSV
+      one: CSV
+      selected: Selected to CSV
     xls:
-      all:  Excel
-      one:  Excel
-      selected:  Selected to Excel
+      all: Excel
+      one: Excel
+      selected: Selected to Excel
     selected_xls:
-      all:  Excel
-      one:  Excel
-      selected:  Selected to Excel
+      all: Excel
+      one: Excel
+      selected: Selected to Excel
     json:
-      all:  JSON
-      one:  JSON
-      selected:  Selected to JSON
+      all: JSON
+      one: JSON
+      selected: Selected to JSON
     unhcr_csv:
-      all:  UNHCR
-      one:  UNHCR
-      selected:  Selected to UNHCR
+      all: UNHCR
+      one: UNHCR
+      selected: Selected to UNHCR
       female_abbreviation: "F"
       male_abbreviation: "M"
       unknown_abbreviation: "U"
@@ -2139,9 +2126,9 @@ en:
         sex_mapping_m_f_u: "Sex"
         family_size: "Family Size"
     mrm_violation_xls:
-      all:  MRM Violations
-      one:  MRM Violations
-      selected:  Selected to MRM Violations
+      all: MRM Violations
+      one: MRM Violations
+      selected: Selected to MRM Violations
     custom_exports:
       label: Custom Exports
       format_label: Select Format
@@ -2224,7 +2211,6 @@ en:
     other_user_agency_label: "Other User's Agency"
     consent_label: "records have not provided consent."
     consent_override_label: "Do you wish to override this setting?"
-    is_remote_label: "Are you transferring to a remote system?"
     consent_individual_transfer: "Do you have consent from the individual to make this transfer?"
     type_of_export: "What type of export do you want?"
     notes_label: "Notes"
@@ -2254,7 +2240,6 @@ en:
     transfer_label: "Transfer anyway?"
     provided_consent_label: "Consent is not provided in the Forms."
     consent_from_individual_label: "Do you have consent from the individual to make this transfer?"
-    is_remote_label: "Are you transferring to someone who is not using this system?"
     recipient_label: "Recipient"
     submit_label: "Transfer"
     type_of_transition: "Type of transition"
@@ -2379,7 +2364,6 @@ en:
     reassign: "Assigning"
     transfer: "Transfering"
     reopen_case: "Reopening"
-    hide_name: "Hide name"
     quick_view: "Viewing Quick View"
     request_transfer_view: "Viewing Request Transfer"
     request_transfer: "Sending Transfer Request"
