@@ -1,3 +1,4 @@
+import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import React, { useEffect, useReducer } from "react";
 import { withRouter } from "react-router-dom";
@@ -12,7 +13,8 @@ import {
   DialogContent,
   DialogActions,
   DialogContentText,
-  FormControl
+  FormControl,
+  LinearProgress
 } from "@material-ui/core";
 import {
   ToggleButton,
@@ -27,135 +29,33 @@ import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 
-const KPICardActions = {
-  SET_FROM_DATE: 'SET_FROM_DATE',
-  SET_TO_DATE: 'SET_TO_DATE',
-  SELECT_RANGE: 'SELECT_RANGE',
-  OPEN_MENU: 'OPEN_MENU',
-  CLOSE_MENU: 'CLOSE_MENU'
+function PercentageBar({ percentage, className}) {
+  let css = makeStyles(styles)();
+
+  const percentageValue = Math.max(5, percentage * 100);
+  const isZero = percentage === 0;
+
+  const barClassNames = [css.PercentageBar, className].join(' ');
+  const fillingClassNames = [
+    css.PercentageBarComplete,
+    isZero ? css.bgGrey : css.bgBlue
+  ].join(' ');
+
+  return (
+    <div className={barClassNames}>
+      <div
+        className={fillingClassNames}
+        style={{ width: percentageValue + "%" }}></div>
+    </div>
+  )
 }
 
-const KPICardRanges = {
-  THREE_MONTH: '3-months',
-  CUSTOM_RANGE: 'custom-range'
-}
-
-let KPICardInitialState = {
-  menuOpen: false,
-  selectedRange: KPICardRanges.THREE_MONTH,
-  fromDate: Date.now(),
-  toDate: Date.now()
-}
-
-function kpiCardReducer(state, action) {
-  switch (action.type) {
-    case KPICardActions.SET_FROM_DATE:
-      return { ...state, fromDate: action.from }
-    case KPICardActions.SET_TO_DATE:
-      return { ...state, toDate: action.to }
-    case KPICardActions.SELECT_RANGE:
-      return { ...state, selectedRange: action.range, menuOpen: action.range === KPICardRanges.CUSTOM_RANGE }
-    case KPICardActions.OPEN_MENU:
-      return { ...state, menuOpen: true }
-    case KPICardActions.CLOSE_MENU:
-      return { ...state, menuOpen: false }
-    default:
-      throw `Action ${action} not recognized`
-  }
-}
-
-function KPICard({ title, KPITableData }) {
-  const i18n = useI18n();
-  const css = makeStyles(styles)();
-
-
-  let [kpiCard, updateKPICard] = useReducer(kpiCardReducer, KPICardInitialState)
-
-  return <OptionsBox
-    title={title}
-    action={
-      <div>
-        <ToggleButtonGroup
-          className={css.toggleButtonGroup}
-          exclusive
-          size="small"
-          onChange={(_event, value) => {
-            updateKPICard({
-              type: KPICardActions.SELECT_RANGE,
-              range: value
-            })
-          }}
-        >
-          <ToggleButton
-            value={KPICardRanges.THREE_MONTH}
-            selected={kpiCard.selectedRange === KPICardRanges.THREE_MONTH}
-          >
-            <span>3 months</span>
-          </ToggleButton>
-          <ToggleButton
-            value={KPICardRanges.CUSTOM_RANGE}
-            selected={kpiCard.selectedRange === KPICardRanges.CUSTOM_RANGE}
-          >
-            <span>Custom Range</span>
-          </ToggleButton>
-        </ToggleButtonGroup>
-        <Dialog
-          open={kpiCard.menuOpen}
-          onClose={() => updateKPICard({
-            type: KPICardActions.CLOSE_MENU
-          })}
-        >
-          <DialogTitle>Date Range</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Show data between these two dates.</DialogContentText>
-            <FormControl>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  variant="inline"
-                  format="dd/MM/yyyy"
-                  margin="normal"
-                  label="From"
-                  value={kpiCard.fromDate}
-                  onChange={(fromDate) => updateKPICard({
-                    type: KPICardActions.SET_FROM_DATE,
-                    from: fromDate
-                  })}
-                    KeyboardButtonProps={{
-                      'aria-label': 'Select data after this date'
-                    }}
-                  />
-                  <KeyboardDatePicker
-                    variant="inline"
-                    format="dd/MM/yyyy"
-                    margin="normal"
-                    label="To"
-                    value={kpiCard.toDate}
-                    onChange={(toDate) => updateKPICard({
-                      type: KPICardActions.SET_TO_DATE,
-                      to: toDate
-                    })}
-                      KeyboardButtonProps={{
-                        'aria-label': 'Select data before this date'
-                      }}
-                    />
-                  </MuiPickersUtilsProvider>
-                </FormControl>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={() => updateKPICard({ type: KPICardActions.CLOSE_MENU })}>Close</Button>
-              </DialogActions>
-            </Dialog>
-          </div>
-    }
-  >
-    <DashboardTable
-      columns={KPITableData.get('columns').toArray()}
-      data={KPITableData.get('data')}
-    />
-  </OptionsBox>
-}
-
-function KeyPerformanceIndicators({ fetchNumberOfCases, numberOfCases, fetchReportingDelay, reportingDelay }) {
+function KeyPerformanceIndicators({
+  fetchNumberOfCases,
+  numberOfCases,
+  fetchReportingDelay,
+  reportingDelay
+}) {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
@@ -166,6 +66,22 @@ function KeyPerformanceIndicators({ fetchNumberOfCases, numberOfCases, fetchRepo
     });
   }, []);
 
+  let numberOfCasesColumns = ["REPORTING SITE", "SEP 2019", "AUG 2019", "JUL 2019"];
+  let reportingDelayColumns = [
+    "Delay",
+    "Total Cases",
+    {
+      name: "",
+      options: {
+        customBodyRender: (value) => {
+          return (<PercentageBar
+            percentage={value}
+            className={css.percentageBarWithinTableCell}
+          />);
+        }
+      }
+    }
+  ];
 
   return (
     <div>
@@ -176,9 +92,25 @@ function KeyPerformanceIndicators({ fetchNumberOfCases, numberOfCases, fetchRepo
             <Box>
               <h2 className={css.subtitle}>INTRODUCTION &amp; ENGAGEMENT</h2>
               <Grid container spacing={2}>
-                <Grid item>
-                  <KPICard title="Number of Cases" KPITableData={numberOfCases} />
-                  <KPICard title="Reporting Delay" KPITableData={reportingDelay} />
+                <Grid item className={css.grow} xs={12} md={6}>
+                  <OptionsBox
+                    title="Number of Cases"
+                  >
+                    <DashboardTable
+                      columns={numberOfCasesColumns}
+                      data={numberOfCases.get('data')}
+                    />
+                  </OptionsBox>
+                </Grid>
+                <Grid item className={css.grow} xs={12} md={6}>
+                  <OptionsBox
+                    title="Reporting Delay"
+                  >
+                    <DashboardTable
+                      columns={reportingDelayColumns}
+                      data={reportingDelay.get('data')}
+                    />
+                  </OptionsBox>
                 </Grid>
               </Grid>
             </Box>
