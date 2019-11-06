@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { parseISO, format } from "date-fns";
 import isEmpty from "lodash/isEmpty";
-import { DATE_FORMAT, DATE_TIME_FORMAT } from "config";
+
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../config";
 
 const DateHeader = ({ value, includeTime }) => {
   if (isEmpty(value)) return value;
@@ -15,9 +16,11 @@ const DateHeader = ({ value, includeTime }) => {
   return <span>{dateValue}</span>;
 };
 
+DateHeader.displayName = "DateHeader";
+
 DateHeader.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
-  includeTime: PropTypes.bool
+  includeTime: PropTypes.bool,
+  value: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string])
 };
 
 export default DateHeader;

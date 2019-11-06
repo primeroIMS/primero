@@ -2,10 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { NAME_FIELD } from "config";
+
+import { NAME_FIELD, DATE_FIELD, SELECT_FIELD } from "../../constants";
+
 import LookupHeader from "./subform-header-lookup";
 import DateHeader from "./subform-header-date";
-import { DATE_FIELD, SELECT_FIELD } from "../../constants";
 import styles from "./styles.css";
 
 const SubformHeader = ({ field, values, locale, displayName, index }) => {
