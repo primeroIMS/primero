@@ -27,25 +27,50 @@ _primero.Views.PopulateLocationSelectBoxes = _primero.Views.PopulateSelectBoxes.
   el: "form select[data-populate='Location']",
 
   initialize: function() {
-    this.option_string_sources = ['Location']
+    var self = this;
 
-    this.collection = new _primero.Collections.StringSources.LocationStringSources();
+    self.option_string_sources = ['Location']
 
-    this.populateSelectBoxes();
+    self.collection = new _primero.Collections.StringSources.LocationStringSources();
+
+    self.setupSelectBox();
+
+    _primero.populate_location_select_boxes = function($select_box, onComplete) {
+      self.populateSelectBoxes($select_box, onComplete);
+    }
+
+    self.$el.each(function(index, elem){
+      self.populateSelectBoxes($(elem));
+    });
+
   },
 
-  populateSelectBoxes: function() {
+  setupSelectBox: function() {
     var self = this;
 
     this.$el.on('chosen:ready', function(e) {
-      self.initAutoComplete($(e.target))
-    })
+      var $select_box = $(e.target)
+      self.initAutoComplete($select_box);
+    });
 
-    _primero.populate_location_select_boxes = function(onComplete) {
-      if (self.$el.length) {
-        self.collection.fetch()
+    this.$el.on('chosen:showing_dropdown', function(e){
+      var $select_box = $(e.target);
+      self.populateSelectBoxes($select_box);
+    });
+
+    this.$el.on('change', function(e){
+      var $select_box = $(e.target);
+      $select_box.data('value', $select_box.val());
+    });
+  },
+
+  populateSelectBoxes: function($select_box, onComplete) {
+    var self = this;
+
+    if (self.$el.length) {
+      self.collection.fetch()
           .done(function() {
-            self.parseOptions();
+            self.parseOptions($select_box);
             if(onComplete){
               onComplete();
             }
@@ -54,9 +79,7 @@ _primero.Views.PopulateLocationSelectBoxes = _primero.Views.PopulateSelectBoxes.
             self.collection.message = I18n.t('messages.string_sources_failed')
             self.disableAjaxSelectBoxes();
           })
-      }
     }
-    _primero.populate_location_select_boxes();
   },
 
   initAutoComplete: function($select_boxes) {
@@ -73,6 +96,7 @@ _primero.Views.PopulateLocationSelectBoxes = _primero.Views.PopulateSelectBoxes.
         this.element.val(request.term);
       }
     })
+
   },
 
   getSelectedOptions: function(model) {
@@ -91,5 +115,19 @@ _primero.Views.PopulateLocationSelectBoxes = _primero.Views.PopulateSelectBoxes.
   getModelOptions: function(model) {
     this.collection.selected_values = this.getSelectedOptions(model)
     return _.compact(_.union(_.first(model.options, 20), this.collection.selected_values));
-  }
+  },
+
+  parseOptions: function($select_box) {
+    var self = this;
+    if (this.collection.status) {
+      this.collection.each(function(string_source) {
+        if(string_source.attributes.type === _.first(self.option_string_sources)) {
+          var model = string_source.attributes;
+          self.addOptions(self.getModelOptions(model), $select_box);
+        }
+      });
+    } else {
+      this.disableAjaxSelectBoxes();
+    }
+  },
 })
