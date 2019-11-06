@@ -27,7 +27,6 @@ const VENDOR_LIBS = [
   "qs",
   "react",
   "react-dom",
-  "react-i18next",
   "react-idle-timer",
   "react-jss",
   "react-redux",

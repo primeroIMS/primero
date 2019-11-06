@@ -35,6 +35,7 @@ config/database.yml
 config/locales.yml
 config/mailers.yml
 config/sunspot.yml
+config/i18n-manifest.txt
 cookbook/cookbooks/
 cookbook/nodes/
 cookbook/private/

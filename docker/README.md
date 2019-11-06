@@ -4,41 +4,51 @@
 ## Overview
 
 Docker for Primero consists of the following containers: application,
-beanstalkd, Nginx, Postgres, and solr. It is compatible with MacOS and modern
+beanstalkd, nginx, postgres, and solr. It is compatible with MacOS and modern
 Linux distributions.
 
 ## Installing Docker and Docker-Compose on Linux
 
-First, install Docker on Linux through the [official docker
+First, install Docker and Docker Compose from the [official docker
 website.](https://docs.docker.com/install/).
 
-We will also want the python bindings for Docker and Docker-Compose, which is
-written in Python. On Linux, I recommend you use virtualenv to install a recent
-copy of Python and the docker/docker-compose pip packages. We recommend
-virtualenv as it elimanates the possibly that the package manager will override
-or change your build environment.
+## TLDR
 
-On MacOS, you can use your default python installation, provided you install the
-docker and docker-compose pip packages. We still recommend virtualenv.
 
-Most Linux distributions come with a version of python installed. To install
-virtualenv, do it from pip: `python3 -m pip install virtualenv`. Virtualenv can
-also frequently be found in your package manager.
+Run everything from the `docker` directory:
 
-Next, install python, docker, and docker compose in a virtual environment as
-follows:
-
-```bash
-cd ~/Primero
-virtualenv venv # create a virtualenv in a folder called venv
-source venv/bin/activate # load your venv
-pip install docker docker-compose # install required packages
 ```
+cd docker
+```
+
+Build your container images and tag with `latest`:
+
+```
+./build all
+```
+
+Create a `local.env` environment configuration file by
+copying one of the sample files and modifying it accordingly. 
+The file `local.env.sample.production` represents the settings that 
+are recommended for production-like environments. 
+See below for configuration environment variables. 
+
+```
+cp local.env.sample.production local.env
+vi local.env
+```   
+
+Start Primero.
+
+```
+./compose.prod.sh up -d
+```
+
 
 ## How to Configure the Containers
 
 There are currently two configurations: production and local. The difference is
-that production mode, by default, will try and generate LetsEncrypt signed
+that production mode, by default, will try and generate Let's Encrypt signed
 certificates. This must be configured in the env file. Each deployment
 configuration has an env file. Additionally, there is a 'defaults' file which
 always inherits from.
@@ -72,8 +82,11 @@ Make sure you have created the file `docker/local.env`. At the very least it req
 an entry for `POSTGRES_PASSWORD`.
 
 To build simply run: `./build.sh all`
-This will build each container with the tag 'prim-latest'. These will be
-referenced in the docker-compose files.
+This will build each container with the tag `latest`. These will be
+referenced in the docker-compose files. Pass the `-t <tag>` parameter
+to specify a tag other than `latest`. By default the UNICEF ACR service
+repository `uniprimeroxacrdev.azurecr.io`, but that can be overwritten with the
+`-r <repository>` parameter. The parameter and tag will be applied as a Docker tag on the image.
 
 Note, docker-compose files should not be used as 'docker makefiles.' This will
 cause issues down the line. Thus, it is important that building be provided
@@ -84,36 +97,6 @@ through other means than the docker-compose file.
 To deploy locally, simply run: `./compose.local.sh up`. The default
 configurations provided should work. Local is set to generate and use self
 signed SSL certificates.
-
-## Deploying - Remote Building - Not Recommended
-
-Note, that the approach proposed here is not ideal. We will be performing the
-building on the remote server through a remotely mounted docker socket. This
-wastes performance and resources on a production server. This deployment method
-was chosen due to limitations in time and should be replaced.
-
-To deploy remotely, we are going to mount the docker socket of a remote server
-and then use our local docker tools. To mount the socket into your home
-directory, use the following SSH call.
-
-```bash
-ssh -nNT -L $HOME/docker.sock:/var/run/docker.sock user@remoteserver.com
-```
-
-Note, this call must be left running in a terminal. You can append the `-f` flag
-to the ssh call to background the call.
-
-This will map your remote docker socket onto the local file system. In order to
-use the socket, you have to tell Docker through an environment variable.
-Export your DOCKER_HOST variable: `DOCKER_HOST="unix:///$HOME/docker.sock"`.
-
-Run `docker ps` and you should see you are using your remote server. You will
-need to rebuild your containers if they have only been built locally. To rebuild
-them, run `./build.sh all`
-
-Check the defaults.env and production.env and make sure you have set you DOMAIN
-and LetsEncrypt parameters set appropriately. After that, run with
-docker-compose. `./compose.prod.sh up -d`
 
 ## Configuration Options - Environment Variables
 
