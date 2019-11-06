@@ -1,3 +1,1 @@
-export const CONSTANTS = {
-  name: "FiltersBuilder"
-};
+export const NAME = "FiltersBuilder";

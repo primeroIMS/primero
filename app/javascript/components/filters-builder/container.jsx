@@ -25,7 +25,7 @@ import { selectFilters } from "./../index-table";
 import { useI18n } from "./../i18n";
 
 import * as actions from "./action-creators";
-import { CONSTANTS } from "./config"
+import { NAME } from "./config"
 import { selectFiltersByRecordType } from "./selectors";
 import Panel from "./Panel";
 import styles from "./styles.css";
@@ -174,7 +174,8 @@ Container.propTypes = {
   defaultFilters: PropTypes.object
 };
 
-Container.displayName = CONSTANTS.name;
+Container.displayName = NAME;
+
 const mapStateToProps = (state, props) => ({
   recordFilters: selectFilters(state, props.recordType)
 });

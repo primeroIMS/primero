@@ -11,7 +11,7 @@ import { useI18n } from "./../i18n";
 import { cleanUpFilters } from "./../records";
 
 import { setInitialFilterValues, setInitialRecords, setTab } from "./action-creators";
-import { CONSTANTS } from "./config";
+import { NAME } from "./config";
 import { getTab, getFiltersByRecordType } from "./selectors";
 import styles from "./styles.css";
 
@@ -132,7 +132,7 @@ const Container = ({ recordType, defaultFilters }) => {
   );
 };
 
-Container.displayName = CONSTANTS.name;
+Container.displayName = NAME;
 
 Container.propTypes = {
   recordType: PropTypes.string.isRequired,
