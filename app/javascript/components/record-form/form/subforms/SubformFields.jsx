@@ -5,16 +5,17 @@ import { sortBy } from "lodash";
 import { Box, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
+
 import SubformHeader from "./SubformHeader";
 
 const SubformFields = ({
   arrayHelpers,
   field,
-  values,
   locale,
   mode,
+  setDialogIsNew,
   setOpen,
-  setDialogIsNew
+  values
 }) => {
   const {
     subform_sort_by: subformSortBy,
@@ -99,11 +100,11 @@ const SubformFields = ({
 SubformFields.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
-  values: PropTypes.array.isRequired,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
+  setDialogIsNew: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,
-  setDialogIsNew: PropTypes.func.isRequired
+  values: PropTypes.array.isRequired
 };
 
 export default SubformFields;

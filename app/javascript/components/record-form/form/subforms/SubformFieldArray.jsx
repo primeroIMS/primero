@@ -3,16 +3,17 @@ import PropTypes from "prop-types";
 import { IconButton, Box } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { getIn } from "formik";
+
 import SubformFields from "./SubformFields";
 import SubformDialog from "./SubformDialog";
 
 const SubformFieldArray = ({
   arrayHelpers,
-  mode,
-  initialSubformValue,
   field,
+  formik,
   i18n,
-  formik
+  initialSubformValue,
+  mode
 }) => {
   const { display_name: displayName, name } = field;
   const values = getIn(formik.values, name);
@@ -72,11 +73,11 @@ const SubformFieldArray = ({
 };
 
 SubformFieldArray.propTypes = {
-  formik: PropTypes.object.isRequired,
   arrayHelpers: PropTypes.object.isRequired,
-  initialSubformValue: PropTypes.object.isRequired,
-  i18n: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
+  formik: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired,
+  initialSubformValue: PropTypes.object.isRequired,
   mode: PropTypes.object.isRequired
 };
 

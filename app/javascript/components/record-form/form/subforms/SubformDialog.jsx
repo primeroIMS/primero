@@ -25,7 +25,7 @@ const SubformDialog = ({ index, field, mode, open, setOpen, title, dialogIsNew, 
         color="primary"
         elevation={0}
       >
-        {dialogIsNew ? i18n.t("buttons.add") : i18n.t("buttons.update")}
+        {i18n.t(dialogIsNew ? "buttons.add" : "buttons.update")}
       </Button>
     ) : null;
 
