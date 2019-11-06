@@ -16,20 +16,20 @@ const SubformHeader = ({ field, values, locale, displayName, index }) => {
   } = field.subform_section_id;
 
   const subformValues = collapsedFieldNames
-    .map(collapsedField => {
+    .map(collapsedFieldName => {
       const val = values[index];
       const {
         type,
         date_include_time: includeTime,
         option_strings_source: optionsStringSource
-      } = fields.find(f => f.get(NAME_FIELD) === collapsedField);
-      const value = val[collapsedField];
+      } = fields.find(f => f.get(NAME_FIELD) === collapsedFieldName);
+      const value = val[collapsedFieldName];
 
       switch (type) {
         case DATE_FIELD: {
           const dateComponentProps = {
             value: value instanceof Date ? value.toISOString() : value,
-            key: collapsedField,
+            key: collapsedFieldName,
             includeTime
           };
           return <DateHeader {...dateComponentProps} />;
@@ -37,18 +37,18 @@ const SubformHeader = ({ field, values, locale, displayName, index }) => {
         case SELECT_FIELD: {
           const lookupComponentProps = {
             value,
-            key: collapsedField,
+            key: collapsedFieldName,
             optionsStringSource
           };
           return <LookupHeader {...lookupComponentProps} />;
         }
         default:
-          return <span key={collapsedField}>{value}</span>;
+          return <span key={collapsedFieldName}>{value}</span>;
       }
     })
     .filter(i => i);
 
-  if (collapsedFieldNames && values) {
+  if (collapsedFieldNames.length && values.length) {
     return <Box className={css.subformHeader}>{subformValues}</Box>;
   }
 
