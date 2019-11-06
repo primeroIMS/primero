@@ -67,6 +67,7 @@ On Ubuntu:
     $ sudo apt-get install -y libpq imagemagick
 
 On Fedora:
+
     $ sudo dnf install postgresql-devel ImageMagick
 
 ### Starting development
@@ -108,7 +109,7 @@ Prepare the database
     
 Generate the i18n translation files
 
-    $ bin/rails i18n:js:export
+    $ bin/rails primero:i18n_js
 
 You may start the development Rails server on port 3000:
 
