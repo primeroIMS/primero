@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useI18n } from "components/i18n";
 import PropTypes from "prop-types";
 import { Box, FormControlLabel } from "@material-ui/core";
 import { Formik, Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
 import * as yup from "yup";
-import { enqueueSnackbar } from "components/notifier";
-import { selectAgencies } from "components/application/selectors";
-import { getOption } from "components/record-form/selectors";
-import { RECORD_TYPES, USER_NAME_FIELD } from "config";
-import BulkTransfer from "./bulk-transfer";
+
+import { useI18n } from "../../../../i18n";
+import { enqueueSnackbar } from "../../../../notifier";
+import { selectAgencies } from "../../../../application/selectors";
+import { getOption } from "../../../../record-form/selectors";
+import { RECORD_TYPES, USER_NAME_FIELD } from "../../../../../config";
 import { internalFieldsDirty, getInternalFields } from "../helpers";
-import TransferInternal from "./transfer-internal";
 import {
   getUsersByTransitionType,
   getErrorsByTransitionType
 } from "../../selectors";
+import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
+
+import TransferInternal from "./transfer-internal";
 import ProvidedConsent from "./provided-consent";
 import TransferActions from "./transfer-actions";
-import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
+import BulkTransfer from "./bulk-transfer";
 
 const TransferForm = ({
   providedConsent,

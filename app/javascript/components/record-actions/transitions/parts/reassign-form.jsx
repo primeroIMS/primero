@@ -3,19 +3,20 @@ import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Formik, Field, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { RECORD_TYPES, USER_NAME_FIELD } from "config";
 import { TextField } from "formik-material-ui";
 import { Box, Button } from "@material-ui/core";
-import { useI18n } from "components/i18n";
-import { enqueueSnackbar } from "components/notifier";
 import { makeStyles } from "@material-ui/core/styles";
-import { SearchableSelect } from "components/searchable-select";
+
+import { RECORD_TYPES, USER_NAME_FIELD } from "../../../../config";
 import {
   getUsersByTransitionType,
   getErrorsByTransitionType
 } from "../selectors";
 import { saveAssignedUser, fetchAssignUsers } from "../action-creators";
 import styles from "../styles.css";
+import { SearchableSelect } from "../../../searchable-select";
+import { enqueueSnackbar } from "../../../notifier";
+import { useI18n } from "../../../i18n";
 
 const initialValues = { transitioned_to: "", notes: "" };
 

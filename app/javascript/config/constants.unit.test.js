@@ -1,10 +1,11 @@
-import "test/test.setup";
 import { expect } from "chai";
+
 import * as configConstants from "./constants";
 
 describe("Verifying config constant", () => {
   it("should have known constant", () => {
     const constants = { ...configConstants };
+
     expect(constants).to.have.property("FETCH_TIMEOUT");
     expect(constants).to.have.property("DATABASE_NAME");
     expect(constants).to.have.property("DB");
@@ -80,6 +81,7 @@ describe("Verifying config constant", () => {
 
   it("should have correct constant value", () => {
     const constants = { ...configConstants };
+
     expect(constants.FETCH_TIMEOUT).equal(30000);
     expect(constants.DATABASE_NAME).equal("primero");
     expect(constants.DB).to.deep.equal({

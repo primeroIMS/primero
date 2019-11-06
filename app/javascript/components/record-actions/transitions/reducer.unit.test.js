@@ -1,6 +1,8 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
-import * as record from "components/transitions/records";
+
+import { TransitionRecord } from "../../transitions/records";
+
 import { reducers } from "./reducer";
 import actions from "./actions";
 
@@ -112,7 +114,7 @@ describe("<Transitions /> - Reducers", () => {
       }
     };
     const expected = fromJS({
-      data: [record.TransitionRecord(payload.data)],
+      data: [TransitionRecord(payload.data)],
       reassign: {
         errors: false,
         message: []
@@ -224,7 +226,7 @@ describe("<Transitions /> - Reducers", () => {
       }
     };
     const expected = fromJS({
-      data: [record.TransitionRecord(payload.data)],
+      data: [TransitionRecord(payload.data)],
       transfer: {
         errors: false,
         message: []
@@ -319,7 +321,7 @@ describe("<Transitions /> - Reducers", () => {
       }
     };
     const expected = fromJS({
-      data: [record.TransitionRecord(payload.data)],
+      data: [TransitionRecord(payload.data)],
       referral: {
         errors: false,
         message: []

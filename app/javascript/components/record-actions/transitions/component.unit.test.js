@@ -1,7 +1,8 @@
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { fromJS } from "immutable";
-import { MODULES } from "config";
+
+import { setupMountedComponent } from "../../../test";
+
 import {
   TransitionDialog,
   ReferralForm,
@@ -10,6 +11,8 @@ import {
 } from "./parts";
 import mockUsers from "./mocked-users";
 import Transitions from "./component";
+
+import { MODULES } from "config";
 
 describe("<Transitions />", () => {
   let component;

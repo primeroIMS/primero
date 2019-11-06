@@ -1,6 +1,12 @@
 import { expect } from "chai";
 import { Map } from "immutable";
-import { CASES_ASSIGNS, CASES_REFERRALS, CASES_TRANSFERS } from "config";
+
+import {
+  CASES_ASSIGNS,
+  CASES_REFERRALS,
+  CASES_TRANSFERS
+} from "../../../../config";
+
 import {
   getInternalFields,
   internalFieldsDirty,

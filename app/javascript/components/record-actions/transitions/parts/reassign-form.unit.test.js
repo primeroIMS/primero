@@ -1,13 +1,14 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { Button } from "@material-ui/core";
 import { Formik, Field, Form } from "formik";
-import { SearchableSelect } from "components/searchable-select";
 import { Map, List, fromJS } from "immutable";
 import * as keydown from "keyevent";
-import ReassignForm from "./reassign-form";
+
+import { SearchableSelect } from "../../../searchable-select";
+import { setupMountedComponent } from "../../../../test";
 import { getUsersByTransitionType } from "../selectors";
+
+import ReassignForm from "./reassign-form";
 
 describe("<ReassignForm />", () => {
   let component;

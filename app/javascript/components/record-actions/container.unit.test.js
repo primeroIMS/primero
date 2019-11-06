@@ -1,14 +1,16 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
-import { ToggleEnable } from "components/record-actions/toggle-enable";
-import { Transitions } from "components/record-actions/transitions";
-import { Notes } from "components/record-actions/notes";
 import { Menu, MenuItem } from "@material-ui/core";
 import { Map, List } from "immutable";
-import { ToggleOpen } from "components/record-actions/toggle-open";
-import * as Permissions from "libs/permissions";
+
+import { setupMountedComponent } from "../../test";
+
+import { Notes } from "./notes";
+import { Transitions } from "./transitions";
+import { ToggleEnable } from "./toggle-enable";
+import { ToggleOpen } from "./toggle-open";
 import RecordActions from "./container";
+
+import * as Permissions from "libs/permissions";
 
 describe("<RecordActions />", () => {
   let component;

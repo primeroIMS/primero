@@ -1,8 +1,10 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
-import { mapEntriesToRecord } from "libs";
+
+import { mapEntriesToRecord } from "../../libs";
+
 import { TransitionRecord } from "./records";
-import * as r from "./reducers";
+import { reducers } from "./reducers";
 import * as Actions from "./actions";
 
 describe("<Transitions /> - Reducers", () => {
@@ -46,7 +48,7 @@ describe("<Transitions /> - Reducers", () => {
       }
     };
 
-    const newState = r.reducers(initialState, action);
+    const newState = reducers(initialState, action);
     expect(newState).to.eql(expected);
   });
 });

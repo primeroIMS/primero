@@ -1,11 +1,13 @@
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
-import { PageContainer, PageHeading, PageContent } from "components/page";
-import { IndexTable } from "components/index-table";
 import { fromJS } from "immutable";
 import MUIDataTable, { TableBodyRow } from "mui-datatables";
+
+import { IndexTable } from "../../index-table";
+import { PageContainer, PageHeading, PageContent } from "../../page";
+import { ListHeaderRecord } from "../../user/records";
+import { setupMountedComponent } from "../../../test";
+
 import ExportList from "./container";
-import * as userRecord from "../../user/records";
 
 describe("<ExportList />", () => {
   let component;
@@ -44,17 +46,17 @@ describe("<ExportList />", () => {
     user: {
       listHeaders: {
         bulk_exports: [
-          userRecord.ListHeaderRecord({
+          ListHeaderRecord({
             name: "file_name",
             field_name: "file_name",
             id_search: false
           }),
-          userRecord.ListHeaderRecord({
+          ListHeaderRecord({
             name: "record_type",
             field_name: "record_type",
             id_search: false
           }),
-          userRecord.ListHeaderRecord({
+          ListHeaderRecord({
             name: "started_on",
             field_name: "started_on",
             id_search: false

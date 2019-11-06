@@ -1,5 +1,7 @@
 import { fromJS } from "immutable";
-import * as record from "components/transitions/records";
+
+import { TransitionRecord } from "../../transitions/records";
+
 import Actions from "./actions";
 
 const DEFAULT_STATE = fromJS({ data: [] });
@@ -26,7 +28,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         .setIn(["reassign", "errors"], false)
         .setIn(["reassign", "message"], fromJS([]))
         .update("data", data => {
-          return data.push(record.TransitionRecord(payload.data));
+          return data.push(TransitionRecord(payload.data));
         });
     case Actions.CLEAR_ERRORS:
       return state
@@ -48,7 +50,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         .setIn(["transfer", "errors"], false)
         .setIn(["transfer", "message"], fromJS([]))
         .update("data", data => {
-          return data.push(record.TransitionRecord(payload.data));
+          return data.push(TransitionRecord(payload.data));
         });
     case Actions.REFERRAL_USERS_FETCH_SUCCESS:
       return state.setIn(["referral", "users"], fromJS(payload.data));
@@ -66,7 +68,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         .setIn(["referral", "errors"], false)
         .setIn(["referral", "message"], fromJS([]))
         .update("data", data => {
-          return data.push(record.TransitionRecord(payload.data));
+          return data.push(TransitionRecord(payload.data));
         });
     default:
       return state;

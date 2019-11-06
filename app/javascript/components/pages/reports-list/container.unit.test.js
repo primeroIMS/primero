@@ -1,16 +1,15 @@
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { fromJS } from "immutable";
-import { OptionsBox, ActionMenu } from "components/dashboard";
 import {
-  IconButton,
   Card,
   CardContent,
   CardActionArea,
   TablePagination,
   Box
 } from "@material-ui/core";
-import { BarChart } from "components/charts/bar-chart";
+
+import { setupMountedComponent } from "../../../test";
+
 import Reports from "./container";
 
 describe("<Reports /> - Component", () => {

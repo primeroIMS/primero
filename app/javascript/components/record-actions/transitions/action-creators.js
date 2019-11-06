@@ -1,4 +1,4 @@
-import { ENQUEUE_SNACKBAR } from "components/notifier";
+import { ENQUEUE_SNACKBAR } from "../../notifier";
 import {
   CASES_ASSIGNS,
   CASES_TRANSFERS,
@@ -6,7 +6,8 @@ import {
   USERS_ASSIGN_TO,
   USERS_TRANSFER_TO,
   USERS_REFER_TO
-} from "config";
+} from "../../../config";
+
 import { generatePath } from "./parts";
 import actions from "./actions";
 
