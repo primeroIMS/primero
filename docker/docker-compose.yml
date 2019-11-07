@@ -2,24 +2,26 @@
 version: '3'
 services:
   postgres:
-    image: postgres:prim-latest
+    image: 'postgres:${PRIMERO_TAG:-latest}'
     volumes:
       - log:/var/log/postgresql
       - database:/var/lib/postgresql/data
     env_file:
       - docker/defaults.env
   solr:
-    image: solr:prim-latest
+    image: 'solr:${PRIMERO_TAG:-latest}'
     env_file:
       - docker/defaults.env
     volumes:
       - solr_cores:/opt/solr/server/solr/mycores
   beanstalkd:
-    image: beanstalkd:prim-latest
+    image: 'beanstalkd:${PRIMERO_TAG:-latest}'
     env_file:
       - docker/defaults.env
+    volumes:
+      - beanstalkd:/var/lib/beanstalkd
   application:
-    image: application:prim-latest
+    image: 'application:${PRIMERO_TAG:-latest}'
     depends_on:
       - solr
       - beanstalkd
@@ -34,7 +36,7 @@ services:
     stdin_open: true
     tty: true
   backburner:
-    image: application:prim-latest
+    image: 'application:${PRIMERO_TAG:-latest}'
     depends_on:
       - solr
       - beanstalkd
@@ -47,7 +49,7 @@ services:
       - docker/defaults.env
     command: ["bundle", "exec", "rails", "backburner:work"]
   scheduler:
-    image: application:prim-latest
+    image: 'application:${PRIMERO_TAG:-latest}'
     depends_on:
       - solr
       - beanstalkd
@@ -60,6 +62,7 @@ services:
       - docker/defaults.env
     command: ["bundle", "exec", "rails", "scheduler:run"]
 volumes:
+  beanstalkd:
   database:
   certbot_certs:
   selfsigned_certs:

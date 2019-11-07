@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+
 import { getPermissionsByRecord } from "../user/selectors";
 
 const Permission = ({
@@ -32,16 +33,16 @@ const Permission = ({
 
   return null;
 };
+
 Permission.defaultProps = {
   redirect: false
 };
 Permission.propTypes = {
-  permission: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
-    .isRequired,
-  permissionType: PropTypes.string,
-  redirect: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  permission: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
+  permissionType: PropTypes.string,
+  redirect: PropTypes.bool.isRequired
 };
 
 export default withRouter(Permission);

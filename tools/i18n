@@ -1,0 +1,395 @@
+#!/usr/bin/env python3
+
+
+import argparse
+import os
+import re
+import shlex
+import subprocess
+import sys
+
+import yaml
+
+
+PROGRAM_NAME = os.path.basename(__file__)
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+KEY_PATTERN = re.compile("^[- +0-9_a-zA-Z]+$")
+
+YAML_PATH = os.path.join(PROJECT_ROOT, "config/locales/en.yml")
+
+
+def main():
+    parse_args()
+
+    validate_yaml_structure()
+    validate_yaml_keys()
+
+    if QUIET:
+        sys.exit(0)
+
+    if CLEAN_FILE is None:
+        key_list = scan_project()
+    else:
+        key_list = get_key_list(set([line.strip() for line in CLEAN_FILE]))
+
+    if not CLEAN and not UNDEFINED:
+        sys.exit(0)
+
+    write_yaml(key_list)
+
+
+def parse_args():
+    global CLEAN, CLEAN_FILE, INDETERMINATE, PARTIAL, QUIET, USED, UNDEFINED
+
+    parser = argparse.ArgumentParser(
+        description="""
+        This is a tool to aid in the maintenance of i18n translation keys.  The
+        default behavior is to print a list of keys known to be used in the
+        project.  It uses "en.yml" as the reference translation file for all
+        operations.
+        """,
+        epilog="depends: PyYAML, yamllint",
+    )
+
+    group = parser.add_mutually_exclusive_group()
+
+    group.add_argument(
+        "-c",
+        "--clean",
+        help=(
+            """
+            remove keys from "en.yml", preserving keys listed in FILE; when
+            listed keys do not exist, quit with error messages; use "-" to read
+            from stdin; with no argument, scan for and remove unused keys
+            """
+        ),
+        type=argparse.FileType("r"),
+        metavar="FILE",
+        nargs="?",
+        const=True,
+        default=False,
+    )
+
+    group.add_argument(
+        "-i",
+        "--indeterminate",
+        help="print locations and text for keys that could not be determined",
+        action="store_true",
+    )
+
+    group.add_argument(
+        "-p",
+        "--partial",
+        help="print locations and text for keys that could be partially determined",
+        action="store_true",
+    )
+
+    group.add_argument(
+        "-q",
+        "--quiet",
+        help="perform validation only and produce no ouptut",
+        action="store_true",
+    )
+
+    group.add_argument(
+        "-u",
+        "--undefined",
+        help="show a sorted list of keys that are used but not defined",
+        action="store_true",
+    )
+
+    args = parser.parse_args()
+
+    CLEAN = args.clean if isinstance(args.clean, bool) else True
+    CLEAN_FILE = args.clean if not isinstance(args.clean, bool) else None
+
+    INDETERMINATE = args.indeterminate
+    PARTIAL = args.partial
+    UNDEFINED = args.undefined
+    USED = not (CLEAN or INDETERMINATE or PARTIAL or UNDEFINED)
+    QUIET = args.quiet
+
+
+def validate_yaml_structure():
+    """
+    Use "yamllint" to validate the "en.yml" file.  Exit with non-zero status if
+    validation fails.
+    """
+
+    cmd = (
+        'yamllint -s -d "{extends: default, rules: {line-length: disable}}" '
+        + shlex.quote(YAML_PATH)
+    )
+
+    if QUIET:
+        retcode = subprocess.call(
+            cmd, shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT
+        )
+    else:
+        retcode = subprocess.call(cmd, shell=True)
+
+    if retcode > 0:
+        sys.exit(retcode)
+
+
+def validate_yaml_keys():
+    """
+    Make sure that all keys in the "en.yml" file conform to a predictable
+    pattern.  Such a pattern allows us to search for keys effectively.  Exit
+    with status 1 if a key does not match the KEY_PATTERN.
+    """
+
+    fp = open(YAML_PATH, "r")
+
+    yaml_dict = yaml.load(fp)
+    validate_yaml_dict_keys(yaml_dict)
+
+    fp.close()
+
+
+def validate_yaml_dict_keys(yaml_dict):
+    """
+    Recursively walk the dictionary of translation keys and validate each key.
+    """
+
+    for key, value in yaml_dict.items():
+        if not isinstance(key, str):
+            echoerr(
+                PROGRAM_NAME
+                + ': validation error: "{}" is not parsed as a string'.format(str(key))
+            )
+            sys.exit(1)
+
+        if not KEY_PATTERN.match(key):
+            echoerr(
+                PROGRAM_NAME
+                + ': validation error: "{}" does not match KEY_PATTERN'.format(str(key))
+            )
+            sys.exit(1)
+
+        if isinstance(value, dict):
+            validate_yaml_dict_keys(value)
+
+
+def scan_project():
+    """
+    Scan the project directory to build and return a list of keys that need to
+    be preserved in the clean-up process.  Calls get_key_set() to process grep
+    output and print diagnostics.
+    """
+
+    pattern = "(\\<[Ii]18n\\.t\\(|\\<t\\().*"
+    command = [
+        "grep",
+        "-r",
+        "-n",
+        "-o",
+        "--include=*.js",
+        "--include=*.jsx",
+        "--include=*.rb",
+        "-E",
+        "-e",
+        pattern,
+        PROJECT_ROOT,
+    ]
+
+    proc = subprocess.run(command, capture_output=True)
+    assert len(proc.stderr) == 0, proc.stderr.decode("utf-8").rstrip()
+    assert proc.returncode == 0, "grep exit status was {}".format(str(proc.returncode))
+
+    key_set = get_key_set(proc.stdout.decode("utf-8"))
+
+    return get_key_list(key_set)
+
+
+def get_key_set(grep_output):
+    """
+    Iterate through the results from our grep command.  Messages are printed
+    according to the command line option specified.
+    """
+
+    key_set = set()
+    lines = grep_output.splitlines()
+
+    for line in lines:
+        f_, l_, r_ = line.split(":", maxsplit=2)
+        f, l, r = line.split(":", maxsplit=2)
+
+        pattern = re.compile("\\b[Ii]18n\\.t\\(|\\bt\\(")
+        matches = pattern.split(r)[1:]
+
+        assert len(matches) > 0
+
+        for match in matches:
+            match = match.partition(")")[0]
+
+            if not match.startswith(("'", "`", '"')):
+                if INDETERMINATE:
+                    echo(f_ + ":" + l_ + ":" + r_)
+                continue
+
+            quote = match[0]
+            match = match.partition(quote)[2]
+            match = match.partition(quote)[0]
+
+            key = ""
+            msg = INDETERMINATE
+            for k in match.split("."):
+
+                if not KEY_PATTERN.match(k):
+                    if msg:
+                        echo(f_ + ":" + l_ + ":" + r_)
+                    break
+
+                key += ("." + k) if len(key) > 0 else k
+                msg = PARTIAL
+
+            if len(key) > 0:
+                key_set.add(key)
+
+    if USED:
+        for k in sorted(key_set):
+            echo(k)
+
+    return key_set
+
+
+def get_key_list(key_set):
+    """
+    Build and return a list of keys that should be preserved during the
+    clean-up operation.
+    """
+
+    result = []
+
+    key_list = sorted(key_set, key=len)
+    assert isinstance(key_list, list)
+
+    for key in key_list:
+
+        prefix = ""
+        for subkey in key.split("."):
+            prefix += ("." + subkey) if len(prefix) > 0 else subkey
+
+            if prefix in result:
+                break
+
+        if prefix not in result:
+            assert prefix == key
+            result.append(prefix)
+
+    assert len(result) == len(set(result))
+
+    return result
+
+
+def write_yaml(key_list):
+    """
+    Re-write the "en.yml" file, removing any keys that aren't present in the
+    key_list argument.
+    """
+
+    no_write = False
+
+    with open(YAML_PATH, "r") as fp:
+        yaml_dict = yaml.load(fp)
+
+    yaml_dict = yaml_dict["en"]
+    result = dict()
+    undefined = []
+
+    for key in key_list:
+
+        src = yaml_dict
+        dest = result
+
+        for i, subkey in enumerate(key.split(".")):
+
+            if subkey not in src:
+
+                if CLEAN_FILE is not None:
+                    no_write = True
+                    echoerr(
+                        PROGRAM_NAME
+                        + ': key error: "{}" does not exist in "en.yml"'.format(
+                            str(key)
+                        )
+                    )
+
+                if UNDEFINED:
+                    undefined.append(key)
+                break
+
+            if i == (len(key.split(".")) - 1):
+                dest[subkey] = src[subkey]
+                continue
+
+            if isinstance(src[subkey], dict):
+                src = src[subkey]
+
+                if subkey not in dest:
+                    dest[subkey] = dict()
+
+                dest = dest[subkey]
+                continue
+
+            dest[subkey] = src[subkey]
+
+    if UNDEFINED:
+        for k in sorted(undefined):
+            print(k)
+        return
+
+    if no_write:
+        sys.exit(1)
+
+    tmp = dict()
+    tmp["en"] = result
+    result = tmp
+
+    prune_empty(result)
+
+    with open(YAML_PATH, "w") as fp:
+        yaml.dump(
+            result,
+            fp,
+            allow_unicode=True,
+            default_flow_style=False,
+            explicit_start=True,
+        )
+
+
+def prune_empty(dictionary):
+    """
+    Recursively walk through dictionary and prune key/value pairs where the
+    value is an empty dict().
+    """
+
+    keys = [k for k, v in dictionary.items() if v == {}]
+
+    for k in keys:
+        del dictionary[k]
+
+    for k, v in dictionary.items():
+
+        if isinstance(v, dict):
+            prune_empty(v)
+
+
+def echo(msg):
+    if QUIET:
+        return
+
+    print(msg)
+
+
+def echoerr(msg):
+    if QUIET:
+        return
+
+    print(msg, file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()

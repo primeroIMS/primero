@@ -1,7 +1,6 @@
 class TracingRequestsController < ApplicationController
   @model_class = TracingRequest
 
-  include IndexHelper
   include RecordFilteringPagination
   include RecordActions
 

@@ -26,7 +26,7 @@ const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
   };
 
   const fieldReferAnyway = (
-    <Field name="transfer" render={props => onChangeReferAnyway(props)} />
+    <Field name="referral" render={props => onChangeReferAnyway(props)} />
   );
 
   const referAnyway = canConsentOverride ? (

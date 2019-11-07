@@ -32,8 +32,23 @@ The recordType must be a cases, tracing_requests or incidents.
 
 ```json
 {
-  "data": {
-      "id": 10
+    "data": {
+        "record_id": "860ee0ca-0165-4ab8-8750-663cec9fb320",
+        "record_type": "cases",
+        "unflag_message": "This is a unflag message",
+        "unflagged_date": "2019-10-30",
+        "unflagged_by": "primero",
+        "removed": true,
+        "id": 3,
+        "message": "This is a flag",
+        "date": "2019-08-03",
+        "flagged_by": "primero",
+        "created_at": "2019-10-30T14:20:34.176Z",
+        "system_generated_followup": false,
+        "record_access_denied": false,
+        "record": {
+            "id": "860ee0ca-0165-4ab8-8750-663cec9fb320"
+        }
     }
 }
 ```
