@@ -2,26 +2,27 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import omit from "lodash/omit";
 import isEqual from "lodash/isEqual";
-import isEmpty from "lodash/isEmpty";
 import { Box, Button, FormControlLabel } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useI18n } from "components/i18n";
 import { useSelector, useDispatch } from "react-redux";
-import { getOption } from "components/record-form";
-import { selectAgencies } from "components/application/selectors";
 import { Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
-import { enqueueSnackbar } from "components/notifier";
-import { RECORD_TYPES } from "config";
+
+import { selectAgencies } from "../../../../application/selectors";
+import { getOption } from "../../../../record-form";
+import { useI18n } from "../../../../i18n";
+import { RECORD_TYPES, USER_NAME_FIELD } from "../../../../../config";
 import { getInternalFields } from "../helpers";
 import {
   getUsersByTransitionType,
   getErrorsByTransitionType
 } from "../../selectors";
 import { fetchReferralUsers } from "../../action-creators";
-import FormInternal from "./form-internal";
-import ProvidedConsent from "./provided-consent";
 import styles from "../../styles.css";
+import { enqueueSnackbar } from "../../../../notifier";
+
+import ProvidedConsent from "./provided-consent";
+import FormInternal from "./form-internal";
 
 const MainForm = ({ formProps, rest }) => {
   const i18n = useI18n();
@@ -62,13 +63,13 @@ const MainForm = ({ formProps, rest }) => {
       firstUpdate.current = false;
       return;
     }
-    const isUndefined = typeof hasErrors === "undefined";
-    if (!isEmpty(hasErrors)) {
-      const messages = Array.isArray(hasErrors)
-        ? hasErrors.map(e => i18n.t(e)).join(", ")
-        : hasErrors;
+    const messages = hasErrors
+      .valueSeq()
+      .map(e => i18n.t(e))
+      .join(", ");
+    if (messages !== "") {
       dispatch(enqueueSnackbar(messages, "error"));
-    } else if (!isUndefined && isEmpty(hasErrors)) {
+    } else {
       handleClose();
     }
   }, [hasErrors]);
@@ -161,10 +162,13 @@ const MainForm = ({ formProps, rest }) => {
       id: "transitioned_to",
       label: i18n.t("referral.recipient_label"),
       options: users
-        ? users.map(user => ({
-            value: user.user_name,
-            label: user.user_name
-          }))
+        ? users.valueSeq().map(user => {
+            const userName = user.get(USER_NAME_FIELD);
+            return {
+              value: userName.toLowerCase(),
+              label: userName
+            };
+          })
         : [],
       onChange: (data, field, form) => {
         const { value } = data;

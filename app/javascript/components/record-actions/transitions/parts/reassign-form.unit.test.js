@@ -1,13 +1,14 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { Button } from "@material-ui/core";
 import { Formik, Field, Form } from "formik";
-import { SearchableSelect } from "components/searchable-select";
-import { Map, List } from "immutable";
+import { Map, List, fromJS } from "immutable";
 import * as keydown from "keyevent";
-import ReassignForm from "./reassign-form";
+
+import { SearchableSelect } from "../../../searchable-select";
+import { setupMountedComponent } from "../../../../test";
 import { getUsersByTransitionType } from "../selectors";
+
+import ReassignForm from "./reassign-form";
 
 describe("<ReassignForm />", () => {
   let component;
@@ -50,14 +51,14 @@ describe("<ReassignForm />", () => {
 
   describe("with getUsersByTransitionType", () => {
     describe("when mounting component", () => {
-      const state = Map({
-        records: Map({
-          transitions: Map({
-            reassign: Map({
+      const state = fromJS({
+        records: {
+          transitions: {
+            reassign: {
               users: [{ user_name: "primero" }, { user_name: "primero_cp" }]
-            })
-          })
-        })
+            }
+          }
+        }
       });
       const values = getUsersByTransitionType(state, "reassign");
       beforeEach(() => {
@@ -80,8 +81,8 @@ describe("<ReassignForm />", () => {
             keyCode: keydown.DOM_VK_DOWN
           });
         expect(
-          component.find("div.MuiButtonBase-root.MuiListItem-root").length
-        ).to.equal(values.length);
+          component.find("div.MuiButtonBase-root.MuiListItem-root")
+        ).to.have.lengthOf(values.size);
       });
     });
   });

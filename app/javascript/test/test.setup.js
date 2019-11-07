@@ -7,7 +7,7 @@ import chaiImmutable from "chai-immutable";
 chai.use(chaiImmutable);
 chai.use(sinonChai);
 
-var storage = {};
+const storage = {};
 
 global.window.I18n = { defaultLocale: "en", locale: "en", t: path => path };
 
