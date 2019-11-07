@@ -1,9 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
-import { useI18n } from "components/i18n";
-import { DoughnutChart } from "components/dashboard/doughnut-chart";
+import PropTypes from "prop-types";
+import React from "react";
 import makeStyles from "@material-ui/styles/makeStyles";
+
+import { DoughnutChart } from "../doughnut-chart";
+import { useI18n } from "../../i18n";
+
 import styles from "./styles.css";
 
 const OverviewBox = ({ items, chartData }) => {
@@ -13,6 +15,7 @@ const OverviewBox = ({ items, chartData }) => {
   const waiting = items.get("waiting");
   const pending = items.get("pending");
   const rejected = items.get("rejected");
+
   return (
     <div className={css.root}>
       <Grid container spacing={3}>
@@ -42,9 +45,11 @@ const OverviewBox = ({ items, chartData }) => {
   );
 };
 
+OverviewBox.displayName = "OverviewBox";
+
 OverviewBox.propTypes = {
-  items: PropTypes.object.isRequired,
-  chartData: PropTypes.object.isRequired
+  chartData: PropTypes.object.isRequired,
+  items: PropTypes.object.isRequired
 };
 
 export default OverviewBox;

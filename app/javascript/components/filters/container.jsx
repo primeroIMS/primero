@@ -2,14 +2,16 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
-import { Tabs, Tab } from "@material-ui/core";
 import { Map, List } from "immutable";
-import { FiltersBuilder } from "components/filters-builder";
-import { SavedSearches, fetchSavedSearches } from "components/saved-searches";
-import { useI18n } from "components/i18n";
+import { Tabs, Tab } from "@material-ui/core";
+
+import { FiltersBuilder } from "../filters-builder";
+import { SavedSearches, fetchSavedSearches } from "../saved-searches";
+import { useI18n } from "../i18n";
+
+import { getTab, getFiltersByRecordType } from "./selectors";
 import { setInitialFilterValues, setTab } from "./action-creators";
 import styles from "./styles.css";
-import * as Selectors from "./selectors";
 
 const ARRAY_FILTERS = [
   "checkbox",
@@ -30,9 +32,9 @@ const Filters = ({ recordType, defaultFilters }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const tabValue = useSelector(state => Selectors.getTab(state, recordType));
+  const tabValue = useSelector(state => getTab(state, recordType));
   const availableFilters = useSelector(state =>
-    Selectors.getFiltersByRecordType(state, recordType)
+    getFiltersByRecordType(state, recordType)
   );
 
   const resetFilterValues = () => {
@@ -123,9 +125,11 @@ const Filters = ({ recordType, defaultFilters }) => {
   );
 };
 
+Filters.displayName = "Filters";
+
 Filters.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  defaultFilters: PropTypes.object
+  defaultFilters: PropTypes.object,
+  recordType: PropTypes.string.isRequired
 };
 
 export default Filters;

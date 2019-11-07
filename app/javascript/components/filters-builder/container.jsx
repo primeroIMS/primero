@@ -9,7 +9,12 @@ import {
   IconButton
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { RefreshIcon } from "images/primero-icons";
+
+import { RefreshIcon } from "../../images/primero-icons";
+import SavedSearchesForm from "../saved-searches/SavedSearchesForm";
+import { selectFilters } from "../index-table";
+import { useI18n } from "../i18n";
+
 import {
   CheckBox,
   SelectFilter,
@@ -18,12 +23,9 @@ import {
   Chips,
   DatesRange,
   SwitchButton
-} from "components/filters-builder/filter-controls";
-import SavedSearchesForm from "components/saved-searches/SavedSearchesForm";
-import { selectFilters } from "components/index-table";
-import { useI18n } from "components/i18n";
-import * as actions from "./action-creators";
+} from "./filter-controls";
 import { selectFiltersByRecordType } from "./selectors";
+import * as actions from "./action-creators";
 import Panel from "./Panel";
 import styles from "./styles.css";
 
@@ -157,14 +159,16 @@ const FiltersBuilder = ({
   );
 };
 
+FiltersBuilder.displayName = "FiltersBuilder";
+
 FiltersBuilder.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  filters: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  resetPanel: PropTypes.func,
-  resetCurrentPanel: PropTypes.func,
-  recordFilters: PropTypes.object,
   applyFilters: PropTypes.func,
-  defaultFilters: PropTypes.object
+  defaultFilters: PropTypes.object,
+  filters: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  recordFilters: PropTypes.object,
+  recordType: PropTypes.string.isRequired,
+  resetCurrentPanel: PropTypes.func,
+  resetPanel: PropTypes.func
 };
 
 const mapStateToProps = (state, props) => ({

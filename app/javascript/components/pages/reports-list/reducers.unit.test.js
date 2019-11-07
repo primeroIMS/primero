@@ -1,6 +1,12 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
-import * as actions from "./actions";
+
+import {
+  FETCH_REPORTS_SUCCESS,
+  FETCH_REPORTS_STARTED,
+  FETCH_REPORTS_FINISHED,
+  FETCH_REPORTS_FAILURE
+} from "./actions";
 import { reducers } from "./reducers";
 
 describe("<Reports /> - Reducers", () => {
@@ -127,7 +133,7 @@ describe("<Reports /> - Reducers", () => {
       errors: false
     });
     const action = {
-      type: actions.FETCH_REPORTS_STARTED,
+      type: FETCH_REPORTS_STARTED,
       payload: true
     };
 
@@ -154,7 +160,7 @@ describe("<Reports /> - Reducers", () => {
       }
     });
     const action = {
-      type: actions.FETCH_REPORTS_SUCCESS,
+      type: FETCH_REPORTS_SUCCESS,
       payload: {
         data,
         metadata: {
@@ -174,7 +180,7 @@ describe("<Reports /> - Reducers", () => {
       loading: false
     });
     const action = {
-      type: actions.FETCH_REPORTS_FINISHED,
+      type: FETCH_REPORTS_FINISHED,
       payload: false
     };
 
@@ -187,7 +193,7 @@ describe("<Reports /> - Reducers", () => {
       errors: true
     });
     const action = {
-      type: actions.FETCH_REPORTS_FAILURE,
+      type: FETCH_REPORTS_FAILURE,
       payload: true
     };
 

@@ -1,30 +1,26 @@
-import chai, { expect } from "chai";
-import { Map, fromJS } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as r from "./reducers";
-import actions from "./actions";
+import { expect } from "chai";
+import { Map } from "immutable";
 
-chai.use(chaiImmutable);
+import { reducers } from "./reducers";
+import actions from "./actions";
 
 describe("Application - Reducers", () => {
   const defaultState = Map({});
 
   it("should handle SET_USER_IDLE", () => {
-    const expected = Map({
-      userIdle: true
-    });
+    const expected = Map({ userIdle: true });
 
     const action = {
       type: actions.SET_USER_IDLE,
       payload: true
     };
 
-    const newState = r.reducers.application(defaultState, action);
-    expect(newState.toJS()).to.eql(expected.toJS());
+    const newState = reducers.application(defaultState, action);
+    expect(newState).to.eql(expected);
   });
 
   it("should handle FETCH_SYSTEM_SETTINGS_SUCCESS", () => {
-    const expected = fromJS({
+    const expected = Map({
       agencies: [
         {
           unique_id: "agency-unicef",
@@ -105,7 +101,7 @@ describe("Application - Reducers", () => {
       }
     };
 
-    const newState = r.reducers.application(defaultState, action);
+    const newState = reducers.application(defaultState, action);
     expect(newState.toJS()).to.eql(expected.toJS());
   });
 
@@ -119,7 +115,7 @@ describe("Application - Reducers", () => {
       payload: true
     };
 
-    const newState = r.reducers.application(defaultState, action);
-    expect(newState.toJS()).to.eql(expected.toJS());
+    const newState = reducers.application(defaultState, action);
+    expect(newState).to.eql(expected);
   });
 });

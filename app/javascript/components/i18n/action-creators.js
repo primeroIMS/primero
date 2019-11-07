@@ -1,8 +1,8 @@
-import * as Actions from "./actions";
+import { SET_LOCALE } from "./actions";
 
 export const setLocale = payload => {
   return {
-    type: Actions.SET_LOCALE,
+    type: SET_LOCALE,
     payload
   };
 };

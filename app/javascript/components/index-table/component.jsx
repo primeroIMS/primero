@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
-import { dataToJS } from "libs";
-import { useSelector, useDispatch } from "react-redux";
-import { getPermissionsByRecord } from "components/user/selectors";
-import { LoadingIndicator } from "components/loading-indicator";
 import { push } from "connected-react-router";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import { dataToJS } from "../../libs";
+import { LoadingIndicator } from "../loading-indicator";
+
 import {
   selectRecords,
   selectLoading,
@@ -153,14 +154,16 @@ const IndexTable = ({
   return <DataTable />;
 };
 
+IndexTable.displayName = "IndexTable";
+
 IndexTable.propTypes = {
-  onTableChange: PropTypes.func.isRequired,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   defaultFilters: PropTypes.object,
-  recordType: PropTypes.string.isRequired,
+  onRowClick: PropTypes.func,
+  onTableChange: PropTypes.func.isRequired,
   options: PropTypes.object,
-  targetRecordType: PropTypes.string,
-  onRowClick: PropTypes.func
+  recordType: PropTypes.string.isRequired,
+  targetRecordType: PropTypes.string
 };
 
 export default IndexTable;

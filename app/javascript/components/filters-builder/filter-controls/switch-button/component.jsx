@@ -4,12 +4,15 @@ import { connect, useSelector } from "react-redux";
 import { Switch } from "@material-ui/core";
 import { ListIcon } from "components/list-icon";
 import { makeStyles } from "@material-ui/styles";
-import { useI18n } from "components/i18n";
-import { getOption } from "components/record-form/selectors";
-import { isEmpty } from "lodash";
+import isEmpty from "lodash/isEmpty";
+
+import { useI18n } from "../../../i18n";
+import { getOption } from "../../../record-form/selectors";
+
+
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as selectors from "./selectors";
+import { selectSwitchButtons } from "./selectors";
 
 const SwitchButton = ({
   recordType,
@@ -69,18 +72,20 @@ const SwitchButton = ({
   );
 };
 
+SwitchButton.displayName = "SwitchButton";
+
 SwitchButton.propTypes = {
-  props: PropTypes.object,
-  options: PropTypes.object,
   field_name: PropTypes.string,
+  option_strings_source: PropTypes.string,
+  options: PropTypes.object,
+  props: PropTypes.object,
   recordType: PropTypes.string,
-  switchButtons: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   setSwitchButton: PropTypes.func,
-  option_strings_source: PropTypes.string
+  switchButtons: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };
 
 const mapStateToProps = (state, obj) => ({
-  switchButtons: selectors.selectSwitchButtons(state, obj.props, obj.recordType)
+  switchButtons: selectSwitchButtons(state, obj.props, obj.recordType)
 });
 
 const mapDispatchToProps = {

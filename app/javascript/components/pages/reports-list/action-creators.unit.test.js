@@ -1,13 +1,13 @@
-import clone from "lodash/clone";
 import { expect } from "chai";
 import sinon from "sinon";
 import configureStore from "redux-mock-store";
+
 import * as actionCreators from "./action-creators";
-import * as actions from "./actions";
+import { FETCH_REPORTS } from "./actions";
 
 describe("<Reports /> - Action Creators", () => {
   it("should have known action creators", () => {
-    const creators = clone(actionCreators);
+    const creators = { ...actionCreators };
 
     expect(creators, "DEPRECATED fetchCasesByNationality").to.not.have.property(
       "fetchCasesByNationality"
@@ -37,10 +37,11 @@ describe("<Reports /> - Action Creators", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
     const data = { options: { page: 1, per: 20 } };
-    actionCreators.fetchReports(data)(dispatch);
+
+    dispatch(actionCreators.fetchReports(data));
     const firstCall = dispatch.getCall(0);
 
-    expect(firstCall.returnValue.type).to.equal(actions.FETCH_REPORTS);
+    expect(firstCall.returnValue.type).to.equal(FETCH_REPORTS);
     expect(firstCall.returnValue.api.path).to.equal("reports");
     expect(firstCall.returnValue.api.params).to.deep.equal(data.options);
   });

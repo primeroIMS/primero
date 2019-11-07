@@ -1,16 +1,17 @@
-import "test/test.setup";
 import React from "react";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
-import { Map, List } from "immutable";
-import * as Permissions from "libs/permissions";
+import { fromJS } from "immutable";
+
+import { READ } from "../../libs/permissions";
+import { setupMountedComponent } from "../../test";
+
 import Permission from "./permission";
 
 describe("<Permission />", () => {
   let component;
   const props = {
     permissionType: "cases",
-    permission: Permissions.READ,
+    permission: READ,
     children: <div />,
     match: {
       isExact: true,
@@ -20,12 +21,12 @@ describe("<Permission />", () => {
     }
   };
 
-  const initialState = Map({
-    user: Map({
-      permissions: Map({
-        cases: List([Permissions.READ])
-      })
-    })
+  const initialState = fromJS({
+    user: {
+      permissions: {
+        cases: [READ]
+      }
+    }
   });
 
   describe("When User have permission", () => {
@@ -44,6 +45,7 @@ describe("<Permission />", () => {
 
   describe("When User doesn't have permission", () => {
     const permission = "write";
+
     beforeEach(() => {
       ({ component } = setupMountedComponent(
         Permission,

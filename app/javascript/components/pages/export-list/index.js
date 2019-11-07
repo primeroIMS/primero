@@ -1,3 +1,3 @@
 export { default as ExportList } from "./container";
-export * from "./reducers";
-export * from "./selectors";
+export { reducers } from "./reducers";
+export { selectListHeaders } from "./selectors";

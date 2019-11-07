@@ -1,4 +1,5 @@
 import { Map } from "immutable";
+
 import NAMESPACE from "./namespace";
 
 export const selectDrawerOpen = state =>
@@ -11,6 +12,7 @@ export const selectUserAgency = state =>
     .getIn(["application", "agencies"], Map({}))
     .filter(a => {
       const userAgency = state.getIn(["user", "agency"], null);
+
       return userAgency ? a.get("unique_id") === userAgency : true;
     })
     .first();

@@ -1,9 +1,7 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as selectors from "./selectors";
 
-chai.use(chaiImmutable);
+import { getRadioButtons } from "./selectors";
 
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
@@ -20,7 +18,7 @@ describe("<RadioButton /> - Selectors", () => {
   describe("getRadioButton", () => {
     it("should return records", () => {
       const expected = "female";
-      const records = selectors.getRadioButtons(stateWithRecords, {
+      const records = getRadioButtons(stateWithRecords, {
         recordType: "Cases",
         props: { field_name: "sex" }
       });
@@ -29,7 +27,7 @@ describe("<RadioButton /> - Selectors", () => {
     });
 
     it("should return empty object when records empty", () => {
-      const records = selectors.getRadioButtons(stateWithNoRecords, {
+      const records = getRadioButtons(stateWithNoRecords, {
         recordType: "Cases",
         props: { field_name: "sex" }
       });

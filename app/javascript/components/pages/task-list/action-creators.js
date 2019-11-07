@@ -1,10 +1,10 @@
-import * as Actions from "./actions";
+import { TASKS } from "./actions";
 
-export const fetchTasks = () => async dispatch => {
-  dispatch({
-    type: Actions.TASKS,
+export const fetchTasks = () => {
+  return {
+    type: TASKS,
     api: {
       path: "tasks"
     }
-  });
+  };
 };

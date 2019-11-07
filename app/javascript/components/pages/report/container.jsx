@@ -3,14 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { IconButton, Paper } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
-import { BarChart as BarChartGraphic, TableValues } from "components/charts";
-import { selectLoading, selectErrors } from "components/index-table/selectors";
 import TableChartIcon from "@material-ui/icons/TableChart";
 import BarChartIcon from "@material-ui/icons/BarChart";
-import { LoadingIndicator } from "components/loading-indicator";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { useI18n } from "components/i18n";
-import { PageContainer, PageContent, PageHeading } from "components/page";
+
+import { BarChart as BarChartGraphic, TableValues } from "../../charts";
+import { selectLoading, selectErrors } from "../../index-table/selectors";
+import { LoadingIndicator } from "../../loading-indicator";
+import { useI18n } from "../../i18n";
+import { PageContainer, PageContent, PageHeading } from "../../page";
+
 import { buildDataForGraph, buildDataForTable } from "./helpers";
 import { selectReport } from "./selectors";
 import { fetchReport } from "./action-creators";
@@ -68,6 +70,8 @@ const Report = ({ match }) => {
     </PageContainer>
   );
 };
+
+Report.displayName = "Report";
 
 Report.propTypes = {
   match: PropTypes.object.isRequired

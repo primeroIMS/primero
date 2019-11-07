@@ -1,10 +1,10 @@
-import * as Actions from "./actions";
+import { FETCH_DATA } from "./actions";
 
-export const fetchData = () => async dispatch => {
-  dispatch({
-    type: Actions.FETCH_DATA,
+export const fetchData = () => {
+  return {
+    type: FETCH_DATA,
     api: {
       path: "contact_information"
     }
-  });
+  };
 };

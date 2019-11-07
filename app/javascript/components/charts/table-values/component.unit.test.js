@@ -1,14 +1,15 @@
-import "test/test.setup";
-import { setupMountedThemeComponent } from "test";
 import { expect } from "chai";
-import { buildDataForTable } from "components/pages/report/helpers";
-import { Map } from "immutable";
+import { fromJS } from "immutable";
 import { TableRow } from "@material-ui/core";
+
+import { buildDataForTable } from "../../pages/report/helpers";
+import { setupMountedThemeComponent } from "../../../test";
+
 import TableValues from "./component";
 
 describe("<TableValues />", () => {
   it("renders canvas values as table", () => {
-    const data = Map({
+    const data = fromJS({
       id: 1,
       name: {
         en: "Registration CP",
@@ -59,6 +60,6 @@ describe("<TableValues />", () => {
       ...buildDataForTable(data, { t: () => "Total" })
     });
 
-    expect(component.find(TableRow).length).to.equal(6);
+    expect(component.find(TableRow)).to.have.lengthOf(6);
   });
 });

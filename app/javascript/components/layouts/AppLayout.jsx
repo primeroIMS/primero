@@ -1,13 +1,15 @@
 import React from "react";
 import clsx from "clsx";
-import { Nav, selectDrawerOpen } from "components/nav";
 import { makeStyles } from "@material-ui/styles";
 import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { Notifier } from "components/notifier";
-import { SessionTimeoutDialog } from "components/session-timeout-dialog";
-import { hasUserPermissions } from "components/user/selectors";
+
+import { Nav, selectDrawerOpen } from "../nav";
+import { Notifier } from "../notifier";
+import { SessionTimeoutDialog } from "../session-timeout-dialog";
+import { hasUserPermissions } from "../user/selectors";
+
 import styles from "./styles.css";
 
 const AppLayout = ({ children }) => {
@@ -38,6 +40,8 @@ const AppLayout = ({ children }) => {
     </div>
   );
 };
+
+AppLayout.displayName = "AppLayout";
 
 AppLayout.propTypes = {
   children: PropTypes.node

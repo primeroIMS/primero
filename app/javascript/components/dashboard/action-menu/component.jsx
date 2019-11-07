@@ -74,11 +74,13 @@ const ActionMenu = ({ open, onOpen, onClose, items }) => {
   );
 };
 
+ActionMenu.displayName = "ActionMenu";
+
 ActionMenu.propTypes = {
-  open: PropTypes.bool.isRequired,
-  onOpen: PropTypes.func,
+  items: PropTypes.object.isRequired,
   onClose: PropTypes.func,
-  items: PropTypes.object.isRequired
+  onOpen: PropTypes.func,
+  open: PropTypes.bool.isRequired
 };
 
 export default ActionMenu;

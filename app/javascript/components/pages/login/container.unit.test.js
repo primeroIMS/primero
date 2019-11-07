@@ -1,7 +1,8 @@
-import "test/test.setup";
-import { setupMountedComponent } from "test";
-import { Map } from "immutable";
 import { expect } from "chai";
+import { Map } from "immutable";
+
+import { setupMountedComponent } from "../../../test";
+
 import Login from "./container";
 
 describe("<Login />", () => {

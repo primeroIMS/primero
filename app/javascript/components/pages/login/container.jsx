@@ -1,21 +1,23 @@
 import React, { useEffect } from "react";
 import { Grid, Button, Link } from "@material-ui/core";
-import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
-import { enqueueSnackbar } from "components/notifier";
-import { PageHeading } from "components/page";
 import * as yup from "yup";
+
+import { useI18n } from "../../i18n";
+import { enqueueSnackbar } from "../../notifier";
+import { PageHeading } from "../../page";
+
 import styles from "./styles.css";
 import { attemptLogin } from "./action-creators";
-import * as Selectors from "./selectors";
+import { selectAuthErrors } from "./selectors";
 
 const validationSchema = yup.object().shape({
-  user_name: yup.string().required(),
-  password: yup.string().required()
+  password: yup.string().required(),
+  user_name: yup.string().required()
 });
 
 const Login = () => {
@@ -28,7 +30,7 @@ const Login = () => {
     setSubmitting(false);
   };
 
-  const authErrors = useSelector(state => Selectors.selectAuthErrors(state));
+  const authErrors = useSelector(state => selectAuthErrors(state));
 
   useEffect(() => {
     dispatch(enqueueSnackbar(authErrors, "error"));
@@ -90,9 +92,11 @@ const Login = () => {
   );
 };
 
+Login.displayName = "Login";
+
 Login.propTypes = {
-  match: PropTypes.object,
-  authErrors: PropTypes.string
+  authErrors: PropTypes.string,
+  match: PropTypes.object
 };
 
 export default Login;

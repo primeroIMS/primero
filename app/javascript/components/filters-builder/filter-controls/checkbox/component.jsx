@@ -3,14 +3,16 @@ import PropTypes from "prop-types";
 import { connect, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { FormGroup, FormControlLabel, Checkbox } from "@material-ui/core";
-import { useI18n } from "components/i18n";
-import { getOption } from "components/record-form";
-import { isEmpty } from "lodash";
-import { currentUser } from "components/user";
-import { format, subMonths } from "date-fns";
 import { List } from "immutable";
+import { format, subMonths } from "date-fns";
+import isEmpty from "lodash/isEmpty";
+
+import { useI18n } from "../../../i18n";
+import { getOption } from "../../../record-form";
+import { currentUser } from "../../../user";
+
 import * as actions from "./action-creators";
-import * as Selectors from "./selectors";
+import { getCheckBoxes } from "./selectors";
 import styles from "./styles.css";
 
 const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
@@ -115,18 +117,20 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
   );
 };
 
+CheckBox.displayName = "CheckBox";
+
 CheckBox.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  props: PropTypes.object.isRequired,
-  options: PropTypes.object,
+  checkBoxes: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   field_name: PropTypes.string,
   option_strings_source: PropTypes.string,
-  checkBoxes: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  options: PropTypes.object,
+  props: PropTypes.object.isRequired,
+  recordType: PropTypes.string.isRequired,
   setCheckBox: PropTypes.func
 };
 
 const mapStateToProps = (state, obj) => ({
-  checkBoxes: Selectors.getCheckBoxes(state, obj.props, obj.recordType)
+  checkBoxes: getCheckBoxes(state, obj.props, obj.recordType)
 });
 
 const mapDispatchToProps = {

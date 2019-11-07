@@ -1,11 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles/";
 import DownloadIcon from "@material-ui/icons/GetApp";
-import { PageContainer, PageHeading, PageContent } from "components/page";
-import { IndexTable } from "components/index-table";
-import { useSelector } from "react-redux";
 import { Map } from "immutable";
+
+import { PageContainer, PageHeading, PageContent } from "../../page";
+import { IndexTable } from "../../index-table";
+
 import { fetchExports } from "./action-creators";
 import styles from "./styles.css";
 import { selectListHeaders } from "./selectors";
@@ -69,5 +71,7 @@ const ExportList = () => {
     </PageContainer>
   );
 };
+
+ExportList.displayName = "ExportList";
 
 export default ExportList;

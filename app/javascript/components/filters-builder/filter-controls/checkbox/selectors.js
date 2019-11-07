@@ -3,6 +3,7 @@ import { Map } from "immutable";
 export const getCheckBoxes = (state, props, namespace) => {
   const { field_name: fieldName } = props;
   let selector = null;
+
   if (fieldName === "my_cases") {
     selector = Map({
       "my_cases[owned_by]": state.getIn(
@@ -17,5 +18,6 @@ export const getCheckBoxes = (state, props, namespace) => {
   } else {
     selector = state.getIn(["records", namespace, "filters", fieldName], []);
   }
+
   return selector;
 };
