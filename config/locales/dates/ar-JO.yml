@@ -1,0 +1,68 @@
+ar-JO:
+  date:
+    today: 'Today'
+    clear: 'Clear'
+    first_day: 0
+    abbr_day_names_short:
+    - Su
+    - Mo
+    - Tu
+    - We
+    - Th
+    - Fr
+    - Sa
+    abbr_month_names:
+    -
+    - كانون الثاني
+    - شباط
+    - آذار
+    - نيسان
+    - أيار
+    - حزيران
+    - تموز
+    - آب
+    - أيلول
+    - تشرين الأول
+    - تشرين الثاني
+    - كانون الأول
+    month_names:
+    -
+    - كانون الثاني
+    - شباط
+    - آذار
+    - نيسان
+    - أيار
+    - حزيران
+    - تموز
+    - آب
+    - أيلول
+    - تشرين الأول
+    - تشرين الثاني
+    - كانون الأول
+    day_names:
+    - الأحد
+    - الإثنين
+    - الثّلاثاء
+    - الأربعاء
+    - الخميس
+    - الجمعة
+    - السّبت
+    abbr_day_names:
+    - الأحد
+    - الإثنين
+    - الثّلاثاء
+    - الأربعاء
+    - الخميس
+    - الجمعة
+    - السّبت
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
+  time:
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
