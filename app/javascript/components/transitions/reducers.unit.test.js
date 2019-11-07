@@ -49,6 +49,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(initialState, action);
-    expect(newState).to.eql(expected);
+
+    expect(newState).to.deep.equal(expected);
   });
 });

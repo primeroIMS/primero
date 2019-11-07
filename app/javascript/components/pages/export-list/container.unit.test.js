@@ -74,7 +74,7 @@ describe("<ExportList />", () => {
     ({ component } = setupMountedComponent(ExportList, {}, initialState));
   });
 
-  it("renders a table with three rows", () => {
+  it("should render a table with three rows", () => {
     expect(component.find(MUIDataTable).find(TableBodyRow)).to.have.lengthOf(3);
   });
 

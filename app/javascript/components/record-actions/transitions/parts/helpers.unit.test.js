@@ -1,30 +1,38 @@
 import { expect } from "chai";
 import { Map } from "immutable";
 
-import {
-  CASES_ASSIGNS,
-  CASES_REFERRALS,
-  CASES_TRANSFERS
-} from "../../../../config";
+import actions from "../actions";
 
-import {
-  getInternalFields,
-  internalFieldsDirty,
-  hasProvidedConsent,
-  generatePath
-} from "./helpers";
+import * as helper from "./helpers";
 
 describe("<Transition /> - helper", () => {
+
+  it("should have known methods", () => {
+    const cloneActions = { ...helper };
+
+    [
+      "internalFieldsDirty",
+      "getInternalFields",
+      "hasProvidedConsent",
+      "generatePath"
+    ].forEach(property => {
+      expect(cloneActions).to.have.property(property);
+      expect(cloneActions[property]).to.be.a("function");
+      delete cloneActions[property];
+    });
+    expect(cloneActions).to.be.empty;
+  });
+
   describe("with internalFieldsDirty", () => {
     const fields = ["agency"];
     it("should return true if there are dirty fields", () => {
       const values = { agency: "UNICEF" };
-      expect(internalFieldsDirty(values, fields)).to.be.equal(true);
+      expect(helper.internalFieldsDirty(values, fields)).to.be.equal(true);
     });
 
     it("should return false if there aren't dirty fields", () => {
       const values = { agency: "" };
-      expect(internalFieldsDirty(values, fields)).to.be.equal(false);
+      expect(helper.internalFieldsDirty(values, fields)).to.be.equal(false);
     });
   });
 
@@ -32,12 +40,12 @@ describe("<Transition /> - helper", () => {
     const fields = ["agency"];
     it("should return true if there are dirty fields", () => {
       const values = { agency: "UNICEF" };
-      expect(getInternalFields(values, fields)).to.deep.equal(values);
+      expect(helper.getInternalFields(values, fields)).to.deep.equal(values);
     });
 
     it("should return false if there aren't dirty fields", () => {
       const values = { agency: "" };
-      expect(getInternalFields(values, fields)).to.deep.equal({});
+      expect(helper.getInternalFields(values, fields)).to.be.empty;
     });
   });
 
@@ -49,7 +57,7 @@ describe("<Transition /> - helper", () => {
         consent_for_services: true
       });
       it("should return true", () => {
-        expect(hasProvidedConsent(record)).to.equal(true);
+        expect(helper.hasProvidedConsent(record)).to.equal(true);
       });
     });
     describe("when record has not provided consent", () => {
@@ -58,7 +66,7 @@ describe("<Transition /> - helper", () => {
         module_id: "primeromodule-cp"
       });
       it("should return false", () => {
-        expect(hasProvidedConsent(record)).to.be.undefined;
+        expect(helper.hasProvidedConsent(record)).to.be.undefined;
       });
     });
   });
@@ -68,19 +76,25 @@ describe("<Transition /> - helper", () => {
     describe("when path is assigns", () => {
       const expected = "cases/123/assigns";
       it("should return correct path 'cases/123/assigns'", () => {
-        expect(generatePath(CASES_ASSIGNS, recordId)).to.equal(expected);
+        expect(
+          helper.generatePath(actions.CASES_ASSIGNS, recordId)
+        ).to.deep.equal(expected);
       });
     });
     describe("when path is transfers", () => {
       const expected = "cases/123/transfers";
       it("should return correct path 'cases/123/transfers'", () => {
-        expect(generatePath(CASES_TRANSFERS, recordId)).to.equal(expected);
+        expect(
+          helper.generatePath(actions.CASES_TRANSFERS, recordId)
+        ).to.deep.equal(expected);
       });
     });
     describe("when path is referral", () => {
       const expected = "cases/123/referrals";
       it("should return correct path 'cases/123/referrals'", () => {
-        expect(generatePath(CASES_REFERRALS, recordId)).to.equal(expected);
+        expect(
+          helper.generatePath(actions.CASES_REFERRALS, recordId)
+        ).to.deep.equal(expected);
       });
     });
   });

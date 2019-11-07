@@ -7,9 +7,7 @@ import chaiImmutable from "chai-immutable";
 chai.use(chaiImmutable);
 chai.use(sinonChai);
 
-var storage = {};
-chai.use(sinonChai);
-chai.use(chaiImmutable);
+const storage = {};
 
 global.window.I18n = { defaultLocale: "en", locale: "en", t: path => path };
 
@@ -71,4 +69,3 @@ global.HTMLCanvasElement.prototype.getContext = () => {
 };
 
 Enzyme.configure({ adapter: new Adapter() });
-export { expect } from "chai";

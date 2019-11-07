@@ -72,18 +72,6 @@ export const RECORD_OWNER = "record_owner";
 
 export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
 
-export const USERS_ASSIGN_TO = "users/assign-to";
-
-export const USERS_TRANSFER_TO = "users/transfer-to";
-
-export const USERS_REFER_TO = "users/refer-to";
-
-export const CASES_ASSIGNS = "cases/assigns";
-
-export const CASES_TRANSFERS = "cases/transfers";
-
-export const CASES_REFERRALS = "cases/referrals";
-
 export const ROUTES = {
   dashboard: "/dashboard",
   cases: "/cases",

@@ -1,4 +1,3 @@
-import "test/test.setup";
 import { expect } from "chai";
 
 import * as index from "./index";
@@ -18,6 +17,6 @@ describe("<Transitions /> - parts/index", () => {
     delete indexValues.ReferralForm;
     delete indexValues.ReassignForm;
     delete indexValues.generatePath;
-    expect(indexValues).to.deep.equal({});
+    expect(indexValues).to.be.empty;
   });
 });

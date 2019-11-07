@@ -76,7 +76,7 @@ const TransferForm = ({
       .valueSeq()
       .map(e => i18n.t(e))
       .join(", ");
-    console.log(typeof messages, messages);
+
     if (messages !== "") {
       dispatch(enqueueSnackbar(messages, "error"));
     } else {
@@ -137,6 +137,7 @@ const TransferForm = ({
       options: users
         ? users.valueSeq().map(user => {
             const userName = user.get(USER_NAME_FIELD);
+
             return {
               value: userName.toLowerCase(),
               label: userName
