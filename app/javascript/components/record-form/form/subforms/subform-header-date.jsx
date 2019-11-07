@@ -5,6 +5,8 @@ import isEmpty from "lodash/isEmpty";
 
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../config";
 
+import { DATE_HEADER_NAME } from "./constants";
+
 const DateHeader = ({ value, includeTime }) => {
   if (isEmpty(value)) return value;
 
@@ -16,7 +18,7 @@ const DateHeader = ({ value, includeTime }) => {
   return <span>{dateValue}</span>;
 };
 
-DateHeader.displayName = "DateHeader";
+DateHeader.displayName = DATE_HEADER_NAME;
 
 DateHeader.propTypes = {
   includeTime: PropTypes.bool,

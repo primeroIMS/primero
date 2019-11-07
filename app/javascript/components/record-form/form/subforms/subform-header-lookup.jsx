@@ -6,6 +6,8 @@ import isEmpty from "lodash/isEmpty";
 import { useI18n } from "../../../i18n";
 import { getOption } from "../../selectors";
 
+import { LOOKUP_HEADER_NAME } from "./constants";
+
 const LookupHeader = ({ value, optionsStringSource }) => {
   const i18n = useI18n();
   const optionsStrings = useSelector(state =>
@@ -20,7 +22,7 @@ const LookupHeader = ({ value, optionsStringSource }) => {
   return <span>{displayText}</span>;
 };
 
-LookupHeader.displayName = "LookupHeader";
+LookupHeader.displayName = LOOKUP_HEADER_NAME;
 
 LookupHeader.propTypes = {
   optionsStringSource: PropTypes.string,

@@ -1,6 +1,8 @@
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { Map, List } from "immutable";
+
+import { setupMountedComponent } from "../../../../test";
+
 import LookupHeader from "./subform-header-lookup";
 
 describe("<LookupHeader /> - Form - Subforms", () => {
@@ -20,6 +22,7 @@ describe("<LookupHeader /> - Form - Subforms", () => {
       ])
     })
   });
+
   it("should render the display_text of the lookup defined on the optionsStringSource", () => {
     const props = {
       value: "region",
@@ -30,8 +33,10 @@ describe("<LookupHeader /> - Form - Subforms", () => {
       props,
       initialState
     );
+
     expect(component.text()).to.be.equal("Region");
   });
+
   it("should render the same value is this is empty", () => {
     const props = {
       value: "",
@@ -42,6 +47,7 @@ describe("<LookupHeader /> - Form - Subforms", () => {
       props,
       initialState
     );
+
     expect(component.text()).to.be.empty;
   });
 });
