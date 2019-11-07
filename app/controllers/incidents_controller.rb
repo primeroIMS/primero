@@ -1,7 +1,6 @@
 class IncidentsController < ApplicationController
   @model_class = Incident
 
-  include IndexHelper
   include RecordFilteringPagination
 
   #before_action :normalize_violations, :only => [:create, :update] #TODO: Refactor with violations

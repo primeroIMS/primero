@@ -1,7 +1,6 @@
 class ChildrenController < ApplicationController
   @model_class = Child
 
-  include IndexHelper
   include RecordFilteringPagination
   include ApprovalActions
 
