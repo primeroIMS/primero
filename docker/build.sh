@@ -8,40 +8,68 @@ set -euox pipefail
 test -e ./defaults.env && source ./defaults.env
 test -e ./local.env && source ./local.env
 
-BUILD_NGINX="docker build -f nginx/Dockerfile . -t nginx:prim-latest"
-BUILD_BEANSTALK="docker build -f beanstalkd/Dockerfile . -t beanstalkd:prim-latest --build-arg BEANSTALKD_PORT=${BEANSTALKD_PORT}"
-BUILD_SOLR="docker build -f solr/Dockerfile ../ -t solr:prim-latest"
-BUILD_APP="docker build -f application/Dockerfile ../ -t application:prim-latest --build-arg APP_ROOT=${APP_ROOT} --build-arg RAILS_LOG_PATH=${RAILS_LOG_PATH}"
-BUILD_POSTGRES="docker build -f postgres/Dockerfile . -t postgres:prim-latest"
-# if no params are set then set $1 to all
-if [ $# -eq 0 ];
-then
-  printf "Building all\\n"
-  set -- "all"
+USAGE="Usage ./build application|beanstalkd|nginx|postgres|solr|all [-t <tag>] [-r <repository>]"
+
+if [[ $# -eq 0 ]]; then
+  echo "${USAGE}"
+  exit 1
 fi
 
-# this could use getopts for building multiple containers
-case $1 in
-  nginx)
-    eval "$BUILD_NGINX"
+image=${1}
+shift || true
+
+while getopts "t:r:" opt ; do
+  case ${opt} in
+    t )
+      t=$OPTARG
     ;;
-  beanstalk)
-    eval "$BUILD_BEANSTALK"
+    r )
+      r=$OPTARG
+    ;;
+    \? )
+      echo "${USAGE}"
+      exit 1
+    ;;
+  esac
+done
+shift $((OPTIND -1)) || true
+
+tag=${t:-latest}
+repository=${r:-"uniprimeroxacrdev.azurecr.io"}
+
+BUILD_NGINX="docker build -f nginx/Dockerfile . -t nginx:${tag} -t ${repository}/nginx:${tag}"
+BUILD_BEANSTALKD="docker build -f beanstalkd/Dockerfile . -t beanstalkd:${tag} -t ${repository}/beanstalkd:${tag} --build-arg BEANSTALKD_PORT=${BEANSTALKD_PORT}"
+BUILD_SOLR="docker build -f solr/Dockerfile ../ -t solr:${tag} -t ${repository}/solr:${tag}"
+BUILD_APP="docker build -f application/Dockerfile ../ -t application:${tag} -t ${repository}/application:${tag} --build-arg APP_ROOT=${APP_ROOT} --build-arg RAILS_LOG_PATH=${RAILS_LOG_PATH}"
+BUILD_POSTGRES="docker build -f postgres/Dockerfile . -t postgres:${tag} -t ${repository}/postgres:${tag}"
+
+
+# this could use getopts for building multiple containers
+case ${image} in
+  nginx)
+    eval "${BUILD_NGINX}"
+    ;;
+  beanstalkd)
+    eval "${BUILD_BEANSTALKD}"
     ;;
   solr)
-    eval "$BUILD_SOLR"
+    eval "${BUILD_SOLR}"
     ;;
   application)
-    eval "$BUILD_APP"
+    eval "${BUILD_APP}"
     ;;
   postgres)
-    eval "$BUILD_POSTGRES"
+    eval "${BUILD_POSTGRES}"
     ;;
   all)
-    eval "$BUILD_APP"
-    eval "$BUILD_SOLR"
-    eval "$BUILD_BEANSTALK"
-    eval "$BUILD_NGINX"
-    eval "$BUILD_POSTGRES"
+    eval "${BUILD_APP}"
+    eval "${BUILD_SOLR}"
+    eval "${BUILD_BEANSTALKD}"
+    eval "${BUILD_NGINX}"
+    eval "${BUILD_POSTGRES}"
     ;;
+  *)
+    echo "${USAGE}"
+    exit 1
+  ;;
 esac

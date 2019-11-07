@@ -15,14 +15,14 @@ prim_export_local_binaries() {
 
 # Check if the postgres credentials are defined. If they aren't then complain.
 prim_check_postgres_credentials() {
-  set +u
+  set +ux
   if [ -z "$POSTGRES_PASSWORD" ] ||  [ -z "$POSTGRES_USER" ];
   then
     printf "Postgres credentials not defined! Please check configuration.\\n"
-    set -u
+    set -ux
     return 1
   fi
-  set -u
+  set -ux
   return 0
 }
 
@@ -46,7 +46,11 @@ prim_create_folders_and_logs() {
   # Create the folder for the node modules that will be installed during asset
   # compile
   mkdir -p "${APP_ROOT}/node_modules"
-  mkdir -p "$RAILS_SCHEDULER_LOG_DIR"
+  set +u
+  if [[ "$RAILS_SCHEDULER_LOG_DIR" ]] ; then
+    mkdir -p "$RAILS_SCHEDULER_LOG_DIR"
+  fi
+  set -u
   return 0
 }
 
@@ -64,8 +68,7 @@ prim_check_for_bootstrap() {
   fi
 }
 
-prim_generate_translations()  {
-  bin/rails i18n:js:export
+prim_stage_translations()  {
   cp -Rrv "$APP_ROOT/public/translations-"* "$APP_ROOT/public/javascripts" "/share/public"
 }
 
@@ -77,7 +80,7 @@ prim_bootstrap() {
   bin/rails db:schema:load
   bin/rails db:seed
   bin/rails sunspot:reindex
-  prim_generate_translations
+  prim_stage_translations
   touch "${APP_ROOT}/tmp/.primero-bootstrapped"
   return 0
 }
@@ -86,7 +89,7 @@ prim_update() {
   printf "Updating primero\\n"
   bin/rails db:migrate
   bin/rails sunspot:reindex
-  prim_generate_translations
+  prim_stage_translations
   return 0
 }
 

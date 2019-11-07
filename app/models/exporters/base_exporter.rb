@@ -46,9 +46,8 @@ module Exporters
         true
       end
 
-      def permitted_fields_to_export(user, record_type , record_modules = nil)
-        record_modules = record_modules || user.modules_for_record_type(record_type)
-        permitted_fields = user.permitted_fields(record_modules, record_type)
+      def permitted_fields_to_export(user, record_type)
+        permitted_fields = user.permitted_fields(record_type)
         model_class = Record.model_from_name(record_type)
         user.can?(:write, model_class) ? permitted_fields :  permitted_fields.select(&:showable?)
       end

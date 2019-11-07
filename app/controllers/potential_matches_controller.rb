@@ -1,7 +1,6 @@
 class PotentialMatchesController < ApplicationController
   @model_class = PotentialMatch
 
-  include IndexHelper
   include RecordFilteringPagination
   include RecordActions
   require "will_paginate/array"
