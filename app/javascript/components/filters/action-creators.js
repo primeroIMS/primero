@@ -13,12 +13,12 @@ export const setTab = payload => {
 
 export const setInitialFilterValues = (recordType, payload) => {
   const values = Object.entries(payload).reduce((obj, item) => {
-    const o = obj;
+    const currentObject = obj;
     const [key, value] = item;
     if (List.isList(value)) {
-      o[key] = value.toJS();
+      currentObject[key] = value.toJS();
     }
-    return o;
+    return currentObject;
   }, {});
   return {
     type: `${recordType}/CLEAR_FILTERS`,
@@ -27,7 +27,7 @@ export const setInitialFilterValues = (recordType, payload) => {
 };
 
 export const setInitialRecords = (path, namespace, initialFilterValues) => {
-  const defaultFilters = cleanUpFilters(fromJS(initialFilterValues).toJS());
+  const defaultFilters = cleanUpFilters(fromJS(initialFilterValues));
 
   return {
     type: `${namespace}/RECORDS`,

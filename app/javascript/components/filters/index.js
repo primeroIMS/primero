@@ -1,3 +1,3 @@
 export { default } from "./container";
-export * from "./reducer";
-export * from "./actions";
+export { reducers } from "./reducer";
+export { SET_TAB } from "./actions";

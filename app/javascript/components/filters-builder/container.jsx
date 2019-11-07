@@ -111,7 +111,7 @@ const Container = ({
   const icon = filter => {
     return allowedResetFilterTypes.includes(filter.type) ? (
       <IconButton
-        aria-label="Delete"
+        aria-label={i18n.t("buttons.delete")}
         justifycontent="flex-end"
         size="small"
         onClick={handleReset(
