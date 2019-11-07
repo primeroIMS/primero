@@ -38,7 +38,7 @@ describe Attachable do
     context 'validation' do
 
       it 'should be invalid if the file is too large' do
-        child.set_attachment_fields(FilesTestHelper.large_photo_as_a_parameter)
+        child.set_attachment_fields(FilesTestHelper.large_photo_as_a_parameter('photos'))
         expect(child).not_to be_valid
       end
 

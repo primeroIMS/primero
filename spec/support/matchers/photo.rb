@@ -1,6 +1,6 @@
 RSpec::Matchers.define :match_photo do |expected|
   match do |actual|
-    expected.data.size == actual.data.size
+    expected['photos'][0]['image'].size === actual.byte_size
   end
 
   failure_message do |actual|

@@ -19,9 +19,8 @@ class TracingRequest < ApplicationRecord
 
   alias inquirer_id tracing_request_id
 
-  def photos ; [] ; end #TODO: delete after refactoring Documents
-  def photo_keys ; [] ; end #TODO: delete after refactoring Documents
-  def has_valid_audio? ; nil ; end #TODO: delete after refactoring Documents
+  attach_images fields: [:photos]
+  attach_audio fields: [:recorded_audio]
 
   def self.quicksearch_fields
     %w[tracing_request_id short_id relation_name relation_nickname tracing_names
