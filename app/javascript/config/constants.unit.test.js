@@ -24,6 +24,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("RECORD_OWNER");
     expect(constants).to.have.property("TRANSFERS_ASSIGNMENTS");
     expect(constants).to.have.property("ROUTES");
+    expect(constants).to.have.property("REFERRAL");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -43,6 +44,7 @@ describe("Verifying config constant", () => {
     delete constants.RECORD_OWNER;
     delete constants.TRANSFERS_ASSIGNMENTS;
     delete constants.ROUTES;
+    delete constants.REFERRAL;
 
     expect(constants).to.deep.equal({});
   });
@@ -90,5 +92,6 @@ describe("Verifying config constant", () => {
     ]);
     expect(constants.RECORD_OWNER).to.equal("record_owner");
     expect(constants.TRANSFERS_ASSIGNMENTS).to.equal("transfers_assignments");
+    expect(constants.REFERRAL).to.equal("referral");
   });
 });

@@ -104,7 +104,7 @@ const MainForm = ({ formProps, rest }) => {
 
   const fields = [
     {
-      id: "services",
+      id: "service",
       label: i18n.t("referral.service_label"),
       options: services
         ? services.map(service => ({
