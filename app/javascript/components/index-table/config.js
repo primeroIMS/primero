@@ -1,3 +1,1 @@
-export const CONSTANTS = {
-  name: "IndexTable"
-};
+export const NAME = "IndexTable";

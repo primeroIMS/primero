@@ -1,10 +1,10 @@
 import React from "react";
-import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles/";
 import DownloadIcon from "@material-ui/icons/GetApp";
 import { useSelector } from "react-redux";
 import { fromJS } from "immutable";
 
+import { useI18n } from "./../../i18n";
 import { PageContainer, PageHeading, PageContent } from "./../../page";
 import IndexTable from "./../../index-table";
 

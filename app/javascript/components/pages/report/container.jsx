@@ -3,16 +3,18 @@ import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { IconButton, Paper } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
-import { BarChart as BarChartGraphic, TableValues } from "components/charts";
-import { selectLoading, selectErrors } from "components/index-table/selectors";
 import TableChartIcon from "@material-ui/icons/TableChart";
 import BarChartIcon from "@material-ui/icons/BarChart";
-import { LoadingIndicator } from "components/loading-indicator";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { useI18n } from "components/i18n";
-import { PageContainer, PageContent, PageHeading } from "components/page";
+
+import { BarChart as BarChartGraphic, TableValues } from "./../../charts";
+import { getLoading, getErrors } from "./../../index-table/selectors";
+import { LoadingIndicator } from "./../../loading-indicator";
+import { useI18n } from "./../../i18n";
+import { PageContainer, PageContent, PageHeading } from "./../../page";
+
 import { buildDataForGraph, buildDataForTable } from "./helpers";
-import { selectReport } from "./selectors";
+import { getReport } from "./selectors";
 import { fetchReport } from "./action-creators";
 import namespace from "./namespace";
 import styles from "./styles.css";
@@ -27,9 +29,9 @@ const Report = ({ match }) => {
     dispatch(fetchReport(params.id));
   }, []);
 
-  const errors = useSelector(state => selectErrors(state, namespace));
-  const loading = useSelector(state => selectLoading(state, namespace));
-  const report = useSelector(state => selectReport(state, params.id));
+  const errors = useSelector(state => getErrors(state, namespace));
+  const loading = useSelector(state => getLoading(state, namespace));
+  const report = useSelector(state => getReport(state, params.id));
 
   const loadingIndicatorProps = {
     overlay: true,

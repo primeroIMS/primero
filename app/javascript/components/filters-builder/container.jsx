@@ -9,7 +9,8 @@ import {
   IconButton
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import { RefreshIcon } from "images/primero-icons";
+
+import { RefreshIcon } from "./../../images/primero-icons";
 import {
   CheckBox,
   SelectFilter,
@@ -18,10 +19,11 @@ import {
   Chips,
   DatesRange,
   SwitchButton
-} from "components/filters-builder/filter-controls";
-import SavedSearchesForm from "components/saved-searches/SavedSearchesForm";
-import { selectFilters } from "components/index-table";
-import { useI18n } from "components/i18n";
+} from "./../filters-builder/filter-controls";
+import SavedSearchesForm from "./../saved-searches/SavedSearchesForm";
+import { getFilters } from "./../index-table";
+import { useI18n } from "./../i18n";
+
 import * as actions from "./action-creators";
 import { selectFiltersByRecordType } from "./selectors";
 import Panel from "./Panel";
@@ -168,7 +170,7 @@ FiltersBuilder.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  recordFilters: selectFilters(state, props.recordType)
+  recordFilters: getFilters(state, props.recordType)
 });
 
 const mapDispatchToProps = {

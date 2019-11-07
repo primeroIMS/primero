@@ -2,19 +2,19 @@
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
-import { dataToJS } from "libs";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
+import { dataToJS } from "./../../libs";
 import { getPermissionsByRecord } from "./../user/selectors";
 import { LoadingIndicator } from "./../loading-indicator";
 
-import { CONSTANTS } from "./config";
+import { NAME } from "./config";
 import {
-  selectRecords,
-  selectLoading,
-  selectErrors,
-  selectFilters
+  getRecords,
+  getLoading,
+  getErrors,
+  getFilters
 } from "./selectors";
 
 const Component = ({
@@ -27,10 +27,10 @@ const Component = ({
   onRowClick
 }) => {
   const dispatch = useDispatch();
-  const data = useSelector(state => selectRecords(state, recordType));
-  const loading = useSelector(state => selectLoading(state, recordType));
-  const errors = useSelector(state => selectErrors(state, recordType));
-  const filters = useSelector(state => selectFilters(state, recordType));
+  const data = useSelector(state => getRecords(state, recordType));
+  const loading = useSelector(state => getLoading(state, recordType));
+  const errors = useSelector(state => getErrors(state, recordType));
+  const filters = useSelector(state => getFilters(state, recordType));
 
   const { order, order_by: orderBy } = filters || {};
   const records = data.get("data");
@@ -155,7 +155,7 @@ const Component = ({
   return <DataTable />;
 };
 
-Component.displayName = CONSTANTS.name;
+Component.displayName = NAME;
 
 Component.propTypes = {
   onTableChange: PropTypes.func.isRequired,

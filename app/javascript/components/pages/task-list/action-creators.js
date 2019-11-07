@@ -1,17 +1,18 @@
-import * as Actions from "./actions";
-import { RECORD_PATH } from "config";
-import { cleanUpFilters } from "components/records/helpers";
+import { cleanUpFilters } from "./../../records/helpers";
+import { RECORD_PATH } from "./../../../config";
 
-export const fetchTasks = data => async dispatch => {
+import * as Actions from "./actions";
+
+export const fetchTasks = data => {
   const { options } = data;
 
-  dispatch({
+  return {
     type: Actions.TASKS,
     api: {
       path: RECORD_PATH.tasks,
       params: cleanUpFilters(options)
     }
-  });
+  };
 };
 
 
