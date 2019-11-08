@@ -1,4 +1,4 @@
-|#|UI/UX
+# UI/UX Development
 
 v2 ui can be found in the `app/javascript` directory.
 
@@ -10,7 +10,9 @@ v2 ui can be found in the `app/javascript` directory.
 - [Redux](https://redux.js.org/) - State management
 - [Immutablejs](https://github.com/immutable-js/immutable-js) - Immutable persistent data collections for js
 - [React Router](https://github.com/ReactTraining/react-router) - React router
-- [Material UI](https://next.material-ui.com/) -  React material design components **Currently using beta version **
+- [Material UI](https://next.material-ui.com/) -  React material design components
+
+*** We need to keep the final build small as possible. Please get approval before adding any new npm packages***
 
 ## Development
 - [github/airbnb/javascript](https://github.com/airbnb/javascript) - JS style guide eslint uses
@@ -22,13 +24,17 @@ v2 ui can be found in the `app/javascript` directory.
 ### Notes
 - Use functional components for all components. Use the effect hook if lifecycle methods are needed. Don't use the state hook. Redux should manage state. [Using the Effect Hook](https://reactjs.org/docs/hooks-effect.html)
 - Use async/await for working with promises
+- Selectors should be named getXXX example: `getUsers`
+- Use immutable records when possible
+- Define css in external css files
+- Try to keep logic and conditionals out of jsx
 - Take a look at `components/pages/case-list` for an example of how to structure/name components. Notice how we have:
   ```
   |=> layouts
-  |   |- AppLayout.jsx
-  |   |- AppLayout.unit.test.js
-  |   |- AuthLayout.jsx
-  |   |- AuthLayout.unit.test.js
+  |   |- app-layout.jsx
+  |   |- app-layout.unit.test.js
+  |   |- auth-layout.jsx
+  |   |- auth-layout.unit.test.js
   |   |- styles.css
   |=> case-list
   |   |- action-creators.js
@@ -43,8 +49,7 @@ v2 ui can be found in the `app/javascript` directory.
   |   |- styles.css
   ```
   - Directories that contains a single component/container use the filename of `component.jsx` or `container.jsx`
-  - Directories should be `kabab-case`
-  - jsx filenames should be `PascalCase`, and js files should be `kabab-case`
+  - Directories and filenames should be `kabab-case`
   - Use `.jsx` for react files and `.js` for js files.
   - Use an `index.js` to export multiple files in a directory
 
@@ -53,12 +58,19 @@ v2 ui can be found in the `app/javascript` directory.
   ```js
   import Button from "@material-ui/core/Button";
   import Container from "@material-ui/core/Container";
-  ```
 
-  **or**
+  # or
+
+  import { Button, Container } from "@material-ui/core";
+  ```
+- Lodash: don't group import exports
 
   ```js
-  import { Button, Container } from "@material-ui/core";
+  # use
+  import isArray from 'lodash/isArray'
+
+  # instead of
+  import { isArray } from 'lodash'
   ```
 
 ### Examples
@@ -98,36 +110,31 @@ const TODO = () => {
 ```js
 import React, { useEffect } from "react";
 import PropTypes from "prop_types";
-import { connect } from "react-redux";
+import { connect, useSelector, useDispatch } from "react-redux";
+
+import { getName } from "./selectors";
+import { fetchName } from "./actions";
 
 // Using es6 parameter destructuring to get properties from props
 const SayHello = ({ name }) => {
+  const dispatch = useDispatch();
+  const getName = useSelector(state => getName(state))
+
   // Equivalent to componentDidMount in class components
   useEffect(() => {
-    fetchName();
+    dispatch(fetchName());
   }, []);
 
   return <div>Hello {name}</div>
 }
 
+SayHello.displayName = "SayHello";
+
 SayHello.PropTypes =  {
   name: PropTypes.string.isRequired
 };
 
-const mapStateToProps = state => {
-  return {
-    name: state.get("name")
-  };
-};
-
-const mapDispatchToProps = {
-  fetchCases: actions.fetchName
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SayHello);
+export default SayHello;
 ```
 
 #### Async/Await - [documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
@@ -143,15 +150,18 @@ const testFunc = async options => {
 }
 ```
 
-### Testing
-#### Running test
+## Testing
+### Running test
 | Command | Desc |
 | ------------------ | ----------- |
 | `npm run test:all` | Runs all test |
 | `npm run test $FILE` | Run single test file |
 | `npm run test:inspect $FILE` | Runs test in debug mode. You should be able to add `debugger;` on a line as a breakpoint and open Chrome Dev Tools to debug. This will also stop execution immediatly, so you will have to continue to get to your breakpoint. |
+| `npm run test:coverage` | Outputs code coverage results |
+| `npm run lint` | Run eslint on all js/jsx files except unit test, This will not auto correct files. |
+| `npm run lint:test` | Run eslint on all unit test, This will not auto correct files. |
 
-#### Libs
+### Libs
 - [chai](https://www.chaijs.com/)
 - [chai-immutable](https://github.com/astorije/chai-immutable)
 - [enzyme](https://github.com/airbnb/enzyme)
@@ -169,5 +179,8 @@ There are also some helpers and setup in the `javascript/test` dir. The helpers 
 - Most modern ides have extentions for prettier/eslint. It might be a good idea to install and use.
 
 ### Contributing
-- Passing test are required
-- Code base should pass eslint/prettier. Errors are displayed in console/ide
+Before submitting a pull request, the following are required:
+- No functionality is broken due to your changes
+- No new errors in browser console
+- Eslint and unit test pass
+- Unit test should be added/modified when changes are made or functionality is deprecated.

@@ -136,6 +136,9 @@ For more on making code contributions, have a look at the file [CONTRIBUTING.md]
 
 - It is known that a few npm packages will throw a `requires a peer of` warning. Examples: Mui-datatables is behind on updating dependecies. Jsdom requires canvas, but we are mocking canvas. Canvas also requires extra packages on alpine, which is the reason for mocking canvas.
 
+## Contributing
+- If contributing to UI make sure to read over the [UI/UX Development](doc/ui_ux.md) documents.
+
 ## Production
 
 Primero is deployed in production using Docker. Detailed Docker instructions exist in the file [docker/README.md](docker/README.md)
