@@ -141,10 +141,10 @@ module Record
     parent[attr_keys[-1]] = value
   end
 
-  def update_properties(properties, user_name)
-    self.data = Utils.merge_data(self.data, properties)
+  def update_properties(data, user_name)
+    self.data = Utils.merge_data(self.data, data)
     self.last_updated_by = user_name
-    self.attach(properties)
+    self.attach(data)
   end
 
   def nested_reportables_hash
