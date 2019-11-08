@@ -20,6 +20,7 @@ import TransferDetails from "./transfers/TransferDetails";
 import TransitionPanel from "./TransitionPanel";
 import ReferralSummary from "./referrals/summary";
 import ReferralDetails from "./referrals/details";
+import { TRANSITIONS_NAME } from "./constants";
 
 const Transitions = ({ isReferral, recordType, record }) => {
   const css = makeStyles(styles)();
@@ -91,7 +92,7 @@ const Transitions = ({ isReferral, recordType, record }) => {
   );
 };
 
-Transitions.displayName = "Transitions";
+Transitions.displayName = TRANSITIONS_NAME;
 
 Transitions.propTypes = {
   isReferral: PropTypes.bool.isRequired,

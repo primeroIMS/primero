@@ -5,6 +5,7 @@ import { Grid } from "@material-ui/core";
 
 import TransitionStatus from "../TransitionStatus";
 import { useI18n } from "../../i18n";
+import { REFERRAL_SUMMARY_NAME } from "../constants";
 
 const Summary = ({ transition, classes }) => {
   const i18n = useI18n();
@@ -33,7 +34,7 @@ const Summary = ({ transition, classes }) => {
   );
 };
 
-Summary.displayName = "Summary";
+Summary.displayName = REFERRAL_SUMMARY_NAME;
 
 Summary.propTypes = {
   classes: PropTypes.object.isRequired,

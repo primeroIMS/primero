@@ -8,6 +8,7 @@ import Cancel from "@material-ui/icons/Cancel";
 import { getOption } from "../../record-form";
 import TransitionUser from "../TransitionUser";
 import { useI18n } from "../../i18n";
+import { REFERRAL_DETAILS_NAME } from "../constants";
 
 const Details = ({ transition, classes }) => {
   const i18n = useI18n();
@@ -100,7 +101,7 @@ const Details = ({ transition, classes }) => {
   );
 };
 
-Details.displayName = "Details";
+Details.displayName = REFERRAL_DETAILS_NAME;
 
 Details.propTypes = {
   classes: PropTypes.object.isRequired,
