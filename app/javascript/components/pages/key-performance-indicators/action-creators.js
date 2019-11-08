@@ -7,7 +7,20 @@ export const fetchNumberOfCases = () => async dispatch => {
     //      path: "key_performance_indicators/number_of_cases"
     //    },
     payload: {
-      columns: ["REPORTING SITE", "SEP 2019", "AUG 2019", "JUL 2019"],
+      columns: ["Reporting Site", "Sep 2019", "Aug 2019", "Jul 2019"],
+      data: [["Site #1", 2, 1, 0], ["Site #2", 2, 1, 0], ["Site #3", 2, 1, 0]]
+    }
+  });
+};
+
+export const fetchNumberOfIncidents = () => async dispatch => {
+  dispatch({
+    type: Actions.NUMBER_OF_INCIDENTS_SUCCESS,
+    //    api: {
+    //      path: "key_performance_indicators/number_of_incidents"
+    //    },
+    payload: {
+      columns: ["Reporting site", "Sep 2019", "Aug 2019", "Jul 2019"],
       data: [["Site #1", 2, 1, 0], ["Site #2", 2, 1, 0], ["Site #3", 2, 1, 0]]
     }
   });
@@ -17,7 +30,7 @@ export const fetchReportingDelay = () => async dispatch => {
   dispatch({
     type: Actions.REPORTING_DELAY_SUCCESS,
     //    api: {
-    //      path: "key_performance_indicators/number_of_cases"
+    //      path: "key_performance_indicators/reporting_delay"
     //    },
     payload: {
       columns: ["Delay", "Total Cases", ""],
