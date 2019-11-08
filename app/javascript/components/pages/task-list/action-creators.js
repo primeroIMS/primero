@@ -4,7 +4,7 @@ import { RECORD_PATH } from "./../../../config";
 import * as Actions from "./actions";
 
 export const fetchTasks = data => {
-  const { options } = data;
+  const { options } = data ? data : {};
 
   return {
     type: Actions.TASKS,

@@ -1,9 +1,9 @@
 import React from "react";
-import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles/";
 import { fromJS } from "immutable";
 import { useSelector } from "react-redux";
 
+import { useI18n } from "./../../i18n";
 import { TasksOverdue, TasksPending } from "./../../../images/primero-icons";
 import IndexTable from "./../../index-table";
 import { PageContainer, PageHeading, PageContent } from "./../../page";

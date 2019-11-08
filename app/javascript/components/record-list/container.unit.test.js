@@ -1,17 +1,14 @@
-import chai, { expect } from "chai";
-import { setupMountedComponent } from "test";
-
-import sinon from "sinon";
-import sinonChai from "sinon-chai";
+import { expect } from "chai";
 import React from "react";
 import { Route } from "react-router-dom";
 import { Map, List } from "immutable";
-import IndexTable from "./../index-table";
-import RecordList from "./container";
-import { ViewModal } from "components/record-list/view-modal";
-import * as Permissions from "libs/permissions";
 
-chai.use(sinonChai);
+import IndexTable from "./../index-table";
+import {MANAGE, DISPLAY_VIEW_PAGE} from "./../../libs/permissions";
+import { setupMountedComponent } from "./../../test";
+import { ViewModal } from "./../record-list/view-modal";
+
+import RecordList from "./container";
 
 describe("<RecordList />", () => {
   let component;
@@ -47,7 +44,7 @@ describe("<RecordList />", () => {
         listHeaders: Map({
           cases: List([{ id: "name", name: "Name", field_name: "name" }])
         }),
-        permissions: Map({ cases: List([Permissions.MANAGE, Permissions.DISPLAY_VIEW_PAGE]) })
+        permissions: Map({ cases: List([MANAGE, DISPLAY_VIEW_PAGE]) })
       }),
       application: Map({
         online: true,

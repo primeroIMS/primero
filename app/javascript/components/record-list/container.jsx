@@ -1,5 +1,5 @@
 import IndexTable from "./../index-table";
-import { Filters } from "components/filters";
+import { Filters } from "./../filters";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import { Box, useMediaQuery } from "@material-ui/core";
