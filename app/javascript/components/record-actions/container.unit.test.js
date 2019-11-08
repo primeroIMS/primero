@@ -1,30 +1,29 @@
 import { expect } from "chai";
+import { fromJS } from "immutable";
 import { Menu, MenuItem } from "@material-ui/core";
-import { Map, List } from "immutable";
 
-import { setupMountedComponent } from "../../test";
+import { setupMountedComponent } from "./../../test";
+import { PERMISSION_CONSTANTS } from "./../../libs/permissions";
 
 import { Notes } from "./notes";
-import { Transitions } from "./transitions";
+import RecordActions from "./container";
 import { ToggleEnable } from "./toggle-enable";
 import { ToggleOpen } from "./toggle-open";
-import RecordActions from "./container";
-
-import * as Permissions from "libs/permissions";
+import { Transitions } from "./transitions";
 
 describe("<RecordActions />", () => {
   let component;
-  const defaultState = Map({
-    user: Map({
-      permissions: Map({
-        cases: List([Permissions.MANAGE])
-      })
-    })
+  const defaultState = fromJS({
+    user: {
+      permissions: {
+        cases: [PERMISSION_CONSTANTS.MANAGE]
+      }
+    }
   });
   const props = {
     recordType: "cases",
     mode: { isShow: true },
-    record: Map({ status: "open" })
+    record: fromJS({ status: "open" })
   };
 
   describe("Component ToggleOpen", () => {
@@ -88,12 +87,12 @@ describe("<RecordActions />", () => {
         ({ component } = setupMountedComponent(
           RecordActions,
           props,
-          Map({
-            user: Map({
-              permissions: Map({
-                cases: List(["manage"])
-              })
-            })
+          fromJS({
+            user: {
+              permissions: {
+                cases: ["manage"]
+              }
+            }
           })
         ));
       });
@@ -120,12 +119,12 @@ describe("<RecordActions />", () => {
         ({ component } = setupMountedComponent(
           RecordActions,
           props,
-          Map({
-            user: Map({
-              permissions: Map({
-                cases: List(["read"])
-              })
-            })
+          fromJS({
+            user: {
+              permissions: {
+                cases: ["read"]
+              }
+            }
           })
         ));
       });

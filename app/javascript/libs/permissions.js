@@ -1,18 +1,20 @@
-export const MANAGE = "manage";
-export const ASSIGN = "assign";
-export const ASSIGN_WITHIN_USER_GROUP = "assign_within_user_group";
-export const ASSIGN_WITHIN_AGENCY_PERMISSIONS =
-  "assign_within_agency permissions";
-export const REOPEN = "reopen";
-export const CLOSE = "close";
-export const ENABLE_DISABLE_RECORD = "enable_disable_record";
-export const ADD_NOTE = "add_note";
-export const READ = "read";
-export const REFERRAL = "referral";
-export const DISPLAY_VIEW_PAGE = "display_view_page";
-export const TRANSFER = "transfer";
+export const PERMISSION_CONSTANTS = {
+  TRANSFER: "transfer",
+  MANAGE: "manage",
+  ASSIGN: "assign",
+  ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
+  ASSIGN_WITHIN_AGENCY_PERMISSIONS: "assign_within_agency permissions",
+  REOPEN: "reopen",
+  CLOSE: "close",
+  ENABLE_DISABLE_RECORD: "enable_disable_record",
+  ADD_NOTE: "add_note",
+  READ: "read",
+  REFERRAL: "referral",
+  DISPLAY_VIEW_PAGE: "display_view_page",
+  SEARCH_OWNED_BY_OTHERS: "search_owned_by_others"
+}
 
-export const check = (currentPermissions, allowedPermissions) => {
+export const checkPermissions = (currentPermissions, allowedPermissions) => {
   return (
     currentPermissions &&
     currentPermissions.filter(permission => {

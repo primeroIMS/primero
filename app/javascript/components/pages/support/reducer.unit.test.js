@@ -1,8 +1,9 @@
 import chai, { expect } from "chai";
-import { Map } from "immutable";
+import { fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
-import * as r from "./reducer";
-import * as R from "./records";
+
+import { reducers } from "./reducer";
+import { ContactInformationRecord } from "./records";
 
 chai.use(chaiImmutable);
 
@@ -35,9 +36,9 @@ describe("<RecordList /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.support(Map({}), action);
+    const newState = reducers.support(fromJS({}), action);
     expect(newState.get("data")).to.deep.equal(
-      R.ContactInformationRecord(expected)
+      ContactInformationRecord(expected)
     );
   });
 
@@ -46,7 +47,7 @@ describe("<RecordList /> - Reducers", () => {
       type: "support/FETCH_DATA_STARTED",
       payload: true
     };
-    const newState = r.reducers.support(Map({}), action);
+    const newState = reducers.support(fromJS({}), action);
 
     expect(newState.get("loading")).to.deep.equal(true);
     expect(newState.get("errors")).to.deep.equal(false);
@@ -57,7 +58,7 @@ describe("<RecordList /> - Reducers", () => {
       type: "support/FETCH_DATA_FINISHED",
       payload: false
     };
-    const newState = r.reducers.support(Map({}), action);
+    const newState = reducers.support(fromJS({}), action);
 
     expect(newState.get("loading")).to.deep.equal(false);
   });
@@ -67,7 +68,7 @@ describe("<RecordList /> - Reducers", () => {
       type: "support/FETCH_DATA_FAILURE",
       payload: false
     };
-    const newState = r.reducers.support(Map({}), action);
+    const newState = reducers.support(fromJS({}), action);
 
     expect(newState.get("errors")).to.deep.equal(true);
   });

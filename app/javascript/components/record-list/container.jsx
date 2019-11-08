@@ -1,34 +1,36 @@
-import { IndexTable } from "components/index-table";
-import Filters from "./../filters";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import { Box, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { Map } from "immutable";
-import { useThemeHelper } from "libs";
-import { RecordSearch } from "components/record-search";
-import { PageContainer } from "components/page";
+import { fromJS } from "immutable";
 import { withRouter } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useI18n } from "components/i18n";
-import { selectFiltersByRecordType } from "components/filters-builder";
-import { getPermissionsByRecord } from "components/user";
 import { push } from "connected-react-router";
-import { PERMISSIONS } from "config";
-import RecordListToolbar from "./RecordListToolbar";
-import FilterContainer from "./FilterContainer";
-import { selectListHeaders } from "./selectors";
-import Permission from "components/application/permission";
-import * as Permissions from "libs/permissions";
-import { ViewModal } from "./view-modal";
+
+import { IndexTable } from "./../index-table";
+import { Filters } from "../filters";
+import { RecordSearch } from "./../record-search";
+import { PageContainer } from "./../page";
+import { useI18n } from "./../i18n";
+import { selectFiltersByRecordType } from "./../filters-builder";
+import { getPermissionsByRecord } from "./../user";
+import { PERMISSION_CONSTANTS, checkPermissions } from "./../../libs/permissions";
+import Permission from "./../application/permission";
+import { useThemeHelper } from "./../../libs";
+
+import { NAME } from "./config";
+import FilterContainer from "./filter-container";
 import {
   buildTableColumns,
   getFiltersSetterByType,
   getRecordsFetcherByType
 } from "./helpers";
+import RecordListToolbar from "./record-list-toolbar";
+import { getListHeaders } from "./selectors";
 import styles from "./styles.css";
+import { ViewModal } from "./view-modal";
 
-const RecordList = ({ match }) => {
+const Container = ({ match }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { theme } = useThemeHelper({});
@@ -37,7 +39,7 @@ const RecordList = ({ match }) => {
   const { params, url } = match;
   const { recordType } = params;
   const dispatch = useDispatch();
-  const headers = useSelector(state => selectListHeaders(state, recordType));
+  const headers = useSelector(state => getListHeaders(state, recordType));
 
   const [openViewModal, setOpenViewModal] = useState(false);
   const [currentRecord, setCurrentRecord] = useState(null);
@@ -46,8 +48,8 @@ const RecordList = ({ match }) => {
     getPermissionsByRecord(state, recordType)
   );
 
-  const canViewModal = Permissions.check(userPermissions, [
-    Permissions.DISPLAY_VIEW_PAGE
+  const canViewModal = checkPermissions(userPermissions, [
+    PERMISSION_CONSTANTS.DISPLAY_VIEW_PAGE
   ]);
 
   const handleViewModalClose = () => {
@@ -83,8 +85,8 @@ const RecordList = ({ match }) => {
   }, [url]);
 
   const canSearchOthers =
-    permissions.includes(PERMISSIONS.MANAGE) ||
-    permissions.includes(PERMISSIONS.SEARCH_OWNED_BY_OTHERS);
+    permissions.includes(PERMISSION_CONSTANTS.MANAGE) ||
+    permissions.includes(PERMISSION_CONSTANTS.SEARCH_OWNED_BY_OTHERS);
 
   const listHeaders =
     // eslint-disable-next-line camelcase
@@ -92,7 +94,7 @@ const RecordList = ({ match }) => {
       ? headers.filter(header => header.id_search)
       : headers;
 
-  const defaultFilters = Map({
+  const defaultFilters = fromJS({
     fields: "short",
     per: 20,
     page: 1,
@@ -178,7 +180,7 @@ const RecordList = ({ match }) => {
       </PageContainer>
       <Permission
         permissionType={recordType}
-        permission={[Permissions.MANAGE, Permissions.DISPLAY_VIEW_PAGE]}
+        permission={[PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.DISPLAY_VIEW_PAGE]}
       >
         <ViewModal
           close={handleViewModalClose}
@@ -190,8 +192,10 @@ const RecordList = ({ match }) => {
   );
 };
 
-RecordList.propTypes = {
+Container.displayName = NAME;
+
+Container.propTypes = {
   match: PropTypes.object.isRequired
 };
 
-export default withRouter(RecordList);
+export default withRouter(Container);
