@@ -27,13 +27,13 @@ describe("<Reports /> - Selectors", () => {
         graph_type: "bar"
       });
 
-      const records = selectors.selectReport(stateWithRecords, 1);
+      const records = selectReport(stateWithRecords, 1);
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
       const expected = fromJS({});
-      const records = selectors.selectReport(stateWithoutRecords, 1);
+      const records = selectReport(stateWithoutRecords, 1);
       expect(records).to.deep.equal(expected);
     });
   });
