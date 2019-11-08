@@ -1,10 +1,11 @@
-import "test/test.setup";
 import { expect } from "chai";
+
 import * as configConstants from "./constants";
 
 describe("Verifying config constant", () => {
   it("should have known constant", () => {
     const constants = { ...configConstants };
+
     expect(constants).to.have.property("FETCH_TIMEOUT");
     expect(constants).to.have.property("DATABASE_NAME");
     expect(constants).to.have.property("DB");
@@ -23,8 +24,40 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("TRANSITION_TYPE");
     expect(constants).to.have.property("RECORD_OWNER");
     expect(constants).to.have.property("TRANSFERS_ASSIGNMENTS");
+    expect(constants, "DEPRECATED CASES_BY_NATIONALITY").to.not.have.property(
+      "CASES_BY_NATIONALITY"
+    );
+    expect(constants, "DEPRECATED CASES_BY_AGE_AND_SEX").to.not.have.property(
+      "CASES_BY_AGE_AND_SEX"
+    );
+    expect(
+      constants,
+      "DEPRECATED CASES_BY_PROTECTION_CONCERN"
+    ).to.not.have.property("CASES_BY_PROTECTION_CONCERN");
+    expect(constants, "DEPRECATED CASES_BY_AGENCY").to.not.have.property(
+      "CASES_BY_AGENCY"
+    );
+    expect(constants, "DEPRECATED USERS_ASSIGN_TO").to.not.have.property(
+      "USERS_ASSIGN_TO"
+    );
+    expect(constants, "DEPRECATED USERS_TRANSFER_TO").to.not.have.property(
+      "USERS_TRANSFER_TO"
+    );
+    expect(constants, "DEPRECATED USERS_REFER_TO").to.not.have.property(
+      "USERS_REFER_TO"
+    );
+    expect(constants, "DEPRECATED CASES_ASSIGNS").to.not.have.property(
+      "CASES_ASSIGNS"
+    );
+    expect(constants, "DEPRECATED CASES_TRANSFERS").to.not.have.property(
+      "CASES_TRANSFERS"
+    );
+    expect(constants, "DEPRECATED CASES_REFERRALS").to.not.have.property(
+      "CASES_REFERRALS"
+    );
     expect(constants).to.have.property("ROUTES");
     expect(constants).to.have.property("REFERRAL");
+    expect(constants).to.have.property("USER_NAME_FIELD");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -43,14 +76,26 @@ describe("Verifying config constant", () => {
     delete constants.TRANSITION_TYPE;
     delete constants.RECORD_OWNER;
     delete constants.TRANSFERS_ASSIGNMENTS;
+    delete constants.CASES_BY_NATIONALITY;
+    delete constants.CASES_BY_AGE_AND_SEX;
+    delete constants.CASES_BY_PROTECTION_CONCERN;
+    delete constants.CASES_BY_AGENCY;
+    delete constants.USERS_ASSIGN_TO;
+    delete constants.USERS_TRANSFER_TO;
+    delete constants.USERS_REFER_TO;
+    delete constants.CASES_ASSIGNS;
+    delete constants.CASES_TRANSFERS;
+    delete constants.CASES_REFERRALS;
     delete constants.ROUTES;
     delete constants.REFERRAL;
+    delete constants.USER_NAME_FIELD;
 
     expect(constants).to.deep.equal({});
   });
 
   it("should have correct constant value", () => {
     const constants = { ...configConstants };
+
     expect(constants.FETCH_TIMEOUT).equal(30000);
     expect(constants.DATABASE_NAME).equal("primero");
     expect(constants.DB).to.deep.equal({
@@ -93,5 +138,6 @@ describe("Verifying config constant", () => {
     expect(constants.RECORD_OWNER).to.equal("record_owner");
     expect(constants.TRANSFERS_ASSIGNMENTS).to.equal("transfers_assignments");
     expect(constants.REFERRAL).to.equal("referral");
+    expect(constants.USER_NAME_FIELD).to.equal("user_name");
   });
 });

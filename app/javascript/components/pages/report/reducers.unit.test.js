@@ -1,24 +1,14 @@
-import chai, { expect } from "chai";
-import { Map } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as r from "./reducers";
-
-chai.use(chaiImmutable);
+import { fromJS } from "immutable";
+import { expect } from "chai";
+import * as actions from "./actions";
+import { reducers } from "./reducers";
 
 describe("<Reports /> - Reducers", () => {
-  it("should handle Reports/CASES_BY_NATIONALITY", () => {
-    const expected = Map({
-      title: "Cases by Nationality",
-      column_name: "Nationality",
-      description: "Number of cases broken down by nationality",
-      data: Map({
-        Nicaragua: 1,
-        Argentina: 2,
-        Alemania: 3
-      })
-    });
+  const initialState = fromJS({});
+
+  it("deprecated Reports/CASES_BY_NATIONALITY", () => {
     const action = {
-      type: "Reports/CASES_BY_NATIONALITY",
+      type: "Reports/CASES_BY_NATIONALITY", // deprecated
       payload: {
         casesByNationality: {
           title: "Cases by Nationality",
@@ -32,40 +22,13 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.reports(Map({}), action);
-    expect(newState.get("casesByNationality")).to.deep.equal(expected);
+    const newState = reducers(fromJS({}), action);
+    expect(newState).to.deep.equal(initialState);
   });
 
-  it("should handle Reports/CASES_BY_AGE_AND_SEX", () => {
-    const expected = Map({
-      title: "Cases by Age and Sex",
-      column_name: "Age",
-      description: "Number of cases broken down by age and sex",
-      data: Map({
-        "0-5": Map({
-          Female: 3,
-          Male: 6,
-          Other: 0
-        }),
-        "6-11": Map({
-          Female: 1,
-          Male: 13,
-          Other: 0
-        }),
-        "12-17": Map({
-          Female: 19,
-          Male: 29,
-          Other: 1
-        }),
-        "18+": Map({
-          Female: 7,
-          Male: 10,
-          Other: 0
-        })
-      })
-    });
+  it("deprecated Reports/CASES_BY_AGE_AND_SEX", () => {
     const action = {
-      type: "Reports/CASES_BY_AGE_AND_SEX",
+      type: "Reports/CASES_BY_AGE_AND_SEX", // deprecated
       payload: {
         casesByAgeAndSex: {
           title: "Cases by Age and Sex",
@@ -96,40 +59,13 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.reports(Map({}), action);
-    expect(newState.get("casesByAgeAndSex")).to.deep.equal(expected);
+    const newState = reducers(fromJS({}), action);
+    expect(newState).to.deep.equal(initialState);
   });
 
-  it("should handle Reports/CASES_BY_PROTECTION_CONCERN", () => {
-    const expected = Map({
-      title: "Cases by Protection Concern",
-      column_name: "Protection Concern",
-      description: "Number of cases broken down by protection concern and sex",
-      data: Map({
-        "HIGH VULNERABILITY TO ABUSE": Map({
-          Female: 4,
-          Male: 0
-        }),
-        "AFFILIATED / ASSOCIATED TO STIGMATIZED PARENTS": Map({
-          Female: 2,
-          Male: 0
-        }),
-        "IN CONFLICT WITH THE LAW": Map({
-          Female: 7,
-          Male: 0
-        }),
-        "DELINQUENT BEHAVIOR": Map({
-          Female: 4,
-          Male: 0
-        }),
-        "HIGH VULNERABILITY TO EXPLOITATION": Map({
-          Female: 3,
-          Male: 1
-        })
-      })
-    });
+  it("deprecated Reports/CASES_BY_PROTECTION_CONCERN", () => {
     const action = {
-      type: "Reports/CASES_BY_PROTECTION_CONCERN",
+      type: "Reports/CASES_BY_PROTECTION_CONCERN", // deprecated
       payload: {
         casesByProtectionConcern: {
           title: "Cases by Protection Concern",
@@ -161,23 +97,13 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.reports(Map({}), action);
-    expect(newState.get("casesByProtectionConcern")).to.deep.equal(expected);
+    const newState = reducers(fromJS({}), action);
+    expect(newState).to.deep.equal(initialState);
   });
 
-  it("should handle Reports/CASES_BY_AGENCY", () => {
-    const expected = Map({
-      title: "Cases by Agency",
-      column_name: "Agency",
-      description: "Number of cases broken down by agency",
-      data: Map({
-        UNICEF: 3,
-        "SAVE THE CHILDREN": 5,
-        DOLSA: 1
-      })
-    });
+  it("deprecated Reports/CASES_BY_AGENCY", () => {
     const action = {
-      type: "Reports/CASES_BY_AGENCY",
+      type: "Reports/CASES_BY_AGENCY", // deprecated
       payload: {
         casesByAgency: {
           title: "Cases by Agency",
@@ -191,7 +117,71 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
-    const newState = r.reducers.reports(Map({}), action);
-    expect(newState.get("casesByAgency")).to.deep.equal(expected);
+    const newState = reducers(fromJS({}), action);
+    expect(newState).to.deep.equal(initialState);
+  });
+
+  it("should handle FETCH_REPORT_STARTED", () => {
+    const expected = fromJS({
+      loading: true,
+      errors: false
+    });
+    const action = {
+      type: actions.FETCH_REPORT_STARTED,
+      payload: true
+    };
+
+    const newState = reducers(initialState, action);
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle FETCH_REPORT_SUCCESS", () => {
+    const data = [
+      {
+        id: 1,
+        name: { en: "Test Report" },
+        graph: true,
+        graph_type: "bar"
+      }
+    ];
+    const expected = fromJS({
+      selectedReport: data,
+      errors: false
+    });
+    const action = {
+      type: actions.FETCH_REPORT_SUCCESS,
+      payload: {
+        data
+      }
+    };
+
+    const newState = reducers(initialState, action);
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle FETCH_REPORT_FINISHED", () => {
+    const expected = fromJS({
+      loading: false
+    });
+    const action = {
+      type: actions.FETCH_REPORT_FINISHED,
+      payload: false
+    };
+
+    const newState = reducers(initialState, action);
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle FETCH_REPORT_FAILURE", () => {
+    const expected = fromJS({
+      errors: true
+    });
+    const action = {
+      type: actions.FETCH_REPORT_FAILURE,
+      payload: true
+    };
+
+    const newState = reducers(initialState, action);
+    expect(newState).to.deep.equal(expected);
   });
 });
