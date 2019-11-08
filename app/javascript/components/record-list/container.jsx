@@ -7,7 +7,7 @@ import { withRouter } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
-import { IndexTable } from "./../index-table";
+import IndexTable from "./../index-table";
 import { Filters } from "../filters";
 import { RecordSearch } from "./../record-search";
 import { PageContainer } from "./../page";
