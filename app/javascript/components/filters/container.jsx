@@ -3,13 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import { Tabs, Tab } from "@material-ui/core";
-import { Map, List } from "immutable";
-import { FiltersBuilder } from "components/filters-builder";
-import { SavedSearches, fetchSavedSearches } from "components/saved-searches";
-import { useI18n } from "components/i18n";
-import { setInitialFilterValues, setTab } from "./action-creators";
+import { fromJS } from "immutable";
+
+import { FiltersBuilder } from "./../filters-builder";
+import { SavedSearches, fetchSavedSearches } from "./../saved-searches";
+import { useI18n } from "./../i18n";
+import { cleanUpFilters } from "./../records";
+
+import { setInitialFilterValues, setInitialRecords, setTab } from "./action-creators";
+import { NAME } from "./config";
+import { getTab, getFiltersByRecordType } from "./selectors";
 import styles from "./styles.css";
-import * as Selectors from "./selectors";
 
 const ARRAY_FILTERS = [
   "checkbox",
@@ -25,40 +29,41 @@ const STRING_FILTERS = ["radio"];
 
 const DATE_RANGE_FILTERS = ["dates"];
 
-const Filters = ({ recordType, defaultFilters }) => {
+const Container = ({ recordType, defaultFilters }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const tabValue = useSelector(state => Selectors.getTab(state, recordType));
+  const tabValue = useSelector(state => getTab(state, recordType));
   const availableFilters = useSelector(state =>
-    Selectors.getFiltersByRecordType(state, recordType)
+    getFiltersByRecordType(state, recordType)
   );
 
-  const resetFilterValues = () => {
+  const resetFilterValues = (namespace = null,
+      path = null) => {
     if (availableFilters) {
       const excludeDefaultFilters = [...defaultFilters.keys()];
 
       const initialFilterValues = availableFilters.reduce((obj, item) => {
-        const o = obj;
+        const currentObject = obj;
         const { field_name: fieldName, type: filterType } = item;
 
         if (!excludeDefaultFilters.includes(item.fieldName)) {
           if (ARRAY_FILTERS.includes(filterType)) {
             if (fieldName === "my_cases") {
-              o["my_cases[owned_by]"] = List([]);
-              o["my_cases[assigned_user_names]"] = List([]);
+              currentObject["my_cases[owned_by]"] = fromJS([]);
+              currentObject["my_cases[assigned_user_names]"] = fromJS([]);
             } else {
-              o[fieldName] = List([]);
+              currentObject[fieldName] = fromJS([]);
             }
           }
 
           if (STRING_FILTERS.includes(filterType)) {
-            o[fieldName] = "";
+            currentObject[fieldName] = "";
           }
 
           if (DATE_RANGE_FILTERS.includes(filterType)) {
-            o[item.field_name] = Map({
+            currentObject[item.field_name] = fromJS({
               from: null,
               to: null,
               value: ""
@@ -66,10 +71,14 @@ const Filters = ({ recordType, defaultFilters }) => {
           }
         }
 
-        return o;
+        return currentObject;
       }, {});
 
       dispatch(setInitialFilterValues(recordType, initialFilterValues));
+
+      if (namespace && path) {
+        dispatch(setInitialRecords(path, namespace, initialFilterValues));
+      }
     }
   };
 
@@ -87,7 +96,7 @@ const Filters = ({ recordType, defaultFilters }) => {
     <div className={css.root}>
       <Tabs
         value={tabValue}
-        onChange={(e, value) => dispatch(setTab({ recordType, value }))}
+        onChange={(event, value) => dispatch(setTab({ recordType, value }))}
         TabIndicatorProps={{
           style: {
             backgroundColor: "transparent"
@@ -123,9 +132,11 @@ const Filters = ({ recordType, defaultFilters }) => {
   );
 };
 
-Filters.propTypes = {
+Container.displayName = NAME;
+
+Container.propTypes = {
   recordType: PropTypes.string.isRequired,
   defaultFilters: PropTypes.object
 };
 
-export default Filters;
+export default Container;
