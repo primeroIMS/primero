@@ -21,7 +21,7 @@ import {
   SwitchButton
 } from "./../filters-builder/filter-controls";
 import SavedSearchesForm from "./../saved-searches/SavedSearchesForm";
-import { selectFilters } from "./../index-table";
+import { getFilters } from "./../index-table";
 import { useI18n } from "./../i18n";
 
 import * as actions from "./action-creators";
@@ -177,7 +177,7 @@ Container.propTypes = {
 Container.displayName = NAME;
 
 const mapStateToProps = (state, props) => ({
-  recordFilters: selectFilters(state, props.recordType)
+  recordFilters: getFilters(state, props.recordType)
 });
 
 const mapDispatchToProps = {

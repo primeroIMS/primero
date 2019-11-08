@@ -1,12 +1,11 @@
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
-import sinon from "sinon";
 import React from "react";
 import { Route } from "react-router-dom";
 import { fromJS } from "immutable";
 
-import { IndexTable } from "./../index-table";
+import IndexTable from "./../index-table";
 import { PERMISSION_CONSTANTS } from "./../../libs/permissions";
+import { setupMountedComponent } from "./../../test";
 import { ViewModal } from "./../record-list/view-modal";
 
 import RecordList from "./container";

@@ -2,19 +2,22 @@
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
-import { dataToJS } from "libs";
 import { useSelector, useDispatch } from "react-redux";
-import { getPermissionsByRecord } from "components/user/selectors";
-import { LoadingIndicator } from "components/loading-indicator";
 import { push } from "connected-react-router";
+
+import { dataToJS } from "./../../libs";
+import { getPermissionsByRecord } from "./../user/selectors";
+import { LoadingIndicator } from "./../loading-indicator";
+
+import { NAME } from "./config";
 import {
-  selectRecords,
-  selectLoading,
-  selectErrors,
-  selectFilters
+  getRecords,
+  getLoading,
+  getErrors,
+  getFilters
 } from "./selectors";
 
-const IndexTable = ({
+const Component = ({
   columns,
   recordType,
   onTableChange,
@@ -24,22 +27,23 @@ const IndexTable = ({
   onRowClick
 }) => {
   const dispatch = useDispatch();
-  const data = useSelector(state => selectRecords(state, recordType));
-  const loading = useSelector(state => selectLoading(state, recordType));
-  const errors = useSelector(state => selectErrors(state, recordType));
-  const filters = useSelector(state => selectFilters(state, recordType));
+  const data = useSelector(state => getRecords(state, recordType));
+  const loading = useSelector(state => getLoading(state, recordType));
+  const errors = useSelector(state => getErrors(state, recordType));
+  const filters = useSelector(state => getFilters(state, recordType));
 
   const { order, order_by: orderBy } = filters || {};
   const records = data.get("data");
   const per = data.getIn(["metadata", "per"], 20);
   const total = data.getIn(["metadata", "total"], 0);
-  const page = data.getIn(["metadata", "page"], null);
+  const page = data.getIn(["metadata", "page"], 1);
   const url = targetRecordType || recordType;
 
   let componentColumns =
     typeof columns === "function" ? columns(data) : columns;
 
   useEffect(() => {
+
     dispatch(
       onTableChange({
         recordType,
@@ -60,10 +64,11 @@ const IndexTable = ({
   }
 
   const handleTableChange = (action, tableState) => {
-    const options = { per, ...defaultFilters.merge(filters).toJS() };
+    const options = { ...defaultFilters.merge(filters).toJS() };
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
-
     const { activeColumn, columns: tableColumns, rowsPerPage } = tableState;
+
+    options.per = rowsPerPage;
 
     const selectedFilters = Object.assign(
       {},
@@ -81,9 +86,6 @@ const IndexTable = ({
             }
             options.order_by = tableColumns[activeColumn].name;
             options.page = page === 0 ? 1 : page;
-            break;
-          case "changeRowsPerPage":
-            options.per = rowsPerPage;
             break;
           case "changePage":
             options.page = tableState.page >= page ? page + 1 : page - 1;
@@ -153,7 +155,9 @@ const IndexTable = ({
   return <DataTable />;
 };
 
-IndexTable.propTypes = {
+Component.displayName = NAME;
+
+Component.propTypes = {
   onTableChange: PropTypes.func.isRequired,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   defaultFilters: PropTypes.object,
@@ -163,4 +167,4 @@ IndexTable.propTypes = {
   onRowClick: PropTypes.func
 };
 
-export default IndexTable;
+export default Component;
