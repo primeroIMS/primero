@@ -12,7 +12,7 @@ import Filters from "./../filters";
 import { RecordSearch } from "./../record-search";
 import { PageContainer } from "./../page";
 import { useI18n } from "./../i18n";
-import { selectFiltersByRecordType } from "./../filters-builder";
+import { getFiltersByRecordType } from "./../filters-builder";
 import { getPermissionsByRecord } from "./../user";
 import { PERMISSION_CONSTANTS, checkPermissions } from "./../../libs/permissions";
 import Permission from "./../application/permission";
@@ -59,7 +59,7 @@ const Container = ({ match }) => {
   // eslint-disable-next-line camelcase
   const { id_search, query } = useSelector(
     state => {
-      const filters = selectFiltersByRecordType(state, recordType);
+      const filters = getFiltersByRecordType(state, recordType);
       return { id_search: filters.id_search, query: filters.query };
     },
     (filters1, filters2) => {

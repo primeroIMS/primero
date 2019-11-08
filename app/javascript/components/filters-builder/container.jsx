@@ -26,7 +26,7 @@ import { useI18n } from "./../i18n";
 
 import * as actions from "./action-creators";
 import { NAME } from "./config"
-import { selectFiltersByRecordType } from "./selectors";
+import { getFiltersByRecordType } from "./selectors";
 import Panel from "./Panel";
 import styles from "./styles.css";
 
@@ -96,7 +96,7 @@ const Container = ({
   const allowedResetFilterTypes = ["radio", "multi_toggle", "chips"];
 
   const savedFilters = useSelector(state =>
-    selectFiltersByRecordType(state, recordType)
+    getFiltersByRecordType(state, recordType)
   );
 
   const filterValues = filter => {

@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
-import { useI18n } from "components/i18n";
 import { IconButton, InputBase } from "@material-ui/core";
-import { selectFiltersByRecordType } from "components/filters-builder";
 import SearchIcon from "@material-ui/icons/Search";
+
+import { useI18n } from "./../i18n";
+import { getFiltersByRecordType } from "./../filters-builder";
+
 import styles from "./styles.css";
 
 const RecordSearch = ({ recordType, setFilters }) => {
@@ -13,7 +15,7 @@ const RecordSearch = ({ recordType, setFilters }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const { query } = useSelector(state =>
-    selectFiltersByRecordType(state, recordType)
+    getFiltersByRecordType(state, recordType)
   );
   const [filterQuery, setFilterQuery] = useState(query || "");
 
