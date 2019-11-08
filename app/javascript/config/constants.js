@@ -62,11 +62,13 @@ export const RECORD_PATH = {
   tasks: "tasks"
 };
 
-export const TRANSITION_TYPE = ["transfers_assignments", "referral"];
-
 export const RECORD_OWNER = "record_owner";
 
 export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
+
+export const REFERRAL = "referral";
+
+export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
 export const ROUTES = {
   dashboard: "/dashboard",

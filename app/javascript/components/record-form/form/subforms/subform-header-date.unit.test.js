@@ -1,6 +1,8 @@
 import { expect } from "chai";
+import { parseISO, format } from "date-fns";
 
 import { setupMountedComponent } from "../../../../test";
+import { DATE_TIME_FORMAT } from "../../../../config";
 
 import DateHeader from "./subform-header-date";
 
@@ -20,8 +22,9 @@ describe("<DateHeader /> - Form - Subforms", () => {
       value: "2019-10-02T20:07:00.000Z",
       includeTime: true
     };
+    const expected = format(parseISO(props.value), DATE_TIME_FORMAT);
     const { component } = setupMountedComponent(DateHeader, props);
 
-    expect(component.text()).to.be.equal("02-Oct-2019 14:07");
+    expect(component.text()).to.be.equal(expected);
   });
 });

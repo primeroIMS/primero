@@ -10,7 +10,7 @@ import { LoadingIndicator } from "components/loading-indicator";
 import { Transitions, fetchTransitions } from "components/transitions";
 import { useThemeHelper } from "libs";
 import clsx from "clsx";
-import { RECORD_TYPES, TRANSITION_TYPE } from "config";
+import { RECORD_TYPES, TRANSITION_TYPE, REFERRAL } from "../../config";
 import { fetchRecord, saveRecord, selectRecord } from "components/records";
 import { Nav } from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
@@ -144,6 +144,11 @@ const RecordForms = ({ match, mode }) => {
 
   // TODO: When transfer_request be implement change the transition_ype
   const isTransition = TRANSITION_TYPE.includes(selectedForm);
+  const transitionProps = {
+    isReferral: REFERRAL === selectedForm,
+    recordType: params.recordType,
+    record: params.id
+  };
 
   return (
     <PageContainer twoCol>
@@ -164,7 +169,7 @@ const RecordForms = ({ match, mode }) => {
           </div>
           <div className={`${css.recordForms} record-form-container`}>
             {isTransition ? (
-              <Transitions recordType={params.recordType} record={params.id} />
+              <Transitions {...transitionProps} />
             ) : (
               <RecordForm {...formProps} />
             )}

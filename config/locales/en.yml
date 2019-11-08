@@ -1218,6 +1218,7 @@ en:
       reportable_protection_concern: "Protection Concern"
       record_information: "Record Information"
       transfers_assignments: "Transfers / Assignments"
+      referrals: "Referrals"
 
   form_section:
     name: "Name"
@@ -2274,6 +2275,7 @@ en:
     rejected: "Reason Rejected"
     no_consent_share: "No Consent to Share Setting Overridden"
     individual_consent: "Did the case worker have the individual's consent to make this transfer?"
+    service_label: "Service"
     consent_overridden_value:
       true_label: "Yes"
       false_label: "No"
@@ -2285,6 +2287,7 @@ en:
       accepted: "Accepted"
       rejected: "Rejected"
       inprogress: "In progress"
+      in_progress: "In progress"
       done: "Done"
 
   transfer_assignment:

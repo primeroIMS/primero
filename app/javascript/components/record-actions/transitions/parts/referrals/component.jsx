@@ -43,7 +43,7 @@ const ReferralForm = ({
     initialValues: {
       referral: false,
       remoteSystem: false,
-      services: "",
+      service: "",
       agency: "",
       location: "",
       transitioned_to: "",
