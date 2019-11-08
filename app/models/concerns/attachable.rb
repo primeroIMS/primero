@@ -7,7 +7,7 @@ module Attachable
   module ClassMethods
     attr_accessor :attachment_images_fields, :attachment_documents_fields, :attachment_audio_fields
 
-    def attach_documents(args)
+    def attach_documents_to(args)
       if args[:fields].present?
         @attachment_documents_fields = args[:fields]
         args[:fields].each do |f|
@@ -17,17 +17,27 @@ module Attachable
       end
     end
 
-    def attach_images(args)
+     def attach_images_to(args)
       if args[:fields].present?
         @attachment_images_fields = args[:fields]
         args[:fields].each do |f|
-          validates f, length: { maximum: MAX_PHOTOS }
+          validates f, length: { maximum: MAX_PHOTOS, message: 'errors.models.photo.photo_count' }
           build_association(f, 'images')
+          define_method "current_#{f.to_s.singularize}" do
+            primary_image = self.send(f).find_by(is_current: true) || self.send(f).first
+            primary_image&.image
+          end
+
+          define_method "current_#{f.to_s.singularize}=" do | primary |
+            primary_image = self.send(f).find(primary)
+            primary_image&.is_current = true
+            primary_image.save
+          end
         end
       end
     end
 
-    def attach_audio(args)
+    def attach_audio_to(args)
       if args[:fields].present?
         @attachment_audio_fields = args[:fields]
         args[:fields].each do |f|
@@ -57,7 +67,7 @@ module Attachable
     end
   end
 
-  def set_attachment_fields(record_data)
+  def attach(record_data)
     ATTACHMENT_TYPES.each do |type|
       fields = self.class.try(:"attachment_#{type}_fields")
 
