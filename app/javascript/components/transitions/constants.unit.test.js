@@ -16,6 +16,17 @@ describe("<Transitions /> - Constants", () => {
       delete constants[property];
     });
 
+    expect(constants).to.have.property("TRANSITION_STATUS");
+    expect(constants.TRANSITION_STATUS).to.be.an("object");
+    expect(constants.TRANSITION_STATUS).to.have.all.keys(
+      "pending",
+      "accepted",
+      "rejected",
+      "done",
+      "inProgress"
+    );
+    delete constants.TRANSITION_STATUS;
+
     expect(constants).to.be.empty;
   });
 });

@@ -8,7 +8,7 @@ import Cancel from "@material-ui/icons/Cancel";
 import { getOption } from "../../record-form";
 import TransitionUser from "../TransitionUser";
 import { useI18n } from "../../i18n";
-import { REFERRAL_DETAILS_NAME } from "../constants";
+import { REFERRAL_DETAILS_NAME, TRANSITION_STATUS } from "../constants";
 
 const Details = ({ transition, classes }) => {
   const i18n = useI18n();
@@ -22,7 +22,7 @@ const Details = ({ transition, classes }) => {
   });
 
   const renderRejected =
-    transition.status === "rejected" ? (
+    transition.status === TRANSITION_STATUS.rejected ? (
       <Grid item md={12} xs={12}>
         <Box>
           <div className={classes.transtionLabel}>
