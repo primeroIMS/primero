@@ -1,5 +1,9 @@
-import { isEmpty } from "lodash";
-import { CONSENT_GIVEN_FIELD_BY_MODULE, MODULE_TYPE_FIELD } from "config";
+import isEmpty from "lodash/isEmpty";
+
+import {
+  CONSENT_GIVEN_FIELD_BY_MODULE,
+  MODULE_TYPE_FIELD
+} from "../../../../config";
 
 export const getInternalFields = (values, fields) => {
   return Object.entries(values).reduce((obj, item) => {
@@ -21,4 +25,9 @@ export const hasProvidedConsent = record => {
   return record.get(
     CONSENT_GIVEN_FIELD_BY_MODULE[record.get(MODULE_TYPE_FIELD)]
   );
+};
+
+export const generatePath = (constant, recordId) => {
+  const [recordType, transitionType] = constant.split("/");
+  return [recordType, recordId, transitionType].join("/");
 };
