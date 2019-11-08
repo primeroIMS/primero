@@ -1,16 +1,15 @@
-import chai, { expect } from "chai";
-import { List, Map } from "immutable";
-import chaiImmutable from "chai-immutable";
-import { mapEntriesToRecord } from "libs";
-import { TransitionRecord } from "./records";
-import * as r from "./reducers";
-import * as Actions from "./actions";
+import { expect } from "chai";
+import { fromJS } from "immutable";
 
-chai.use(chaiImmutable);
+import { mapEntriesToRecord } from "../../libs";
+
+import { TransitionRecord } from "./records";
+import { reducers } from "./reducers";
+import * as Actions from "./actions";
 
 describe("<Transitions /> - Reducers", () => {
   it("should handle FETCH_TRANSITIONS", () => {
-    const defaultState = Map({
+    const initialState = fromJS({
       data: []
     });
     const data = [
@@ -39,7 +38,7 @@ describe("<Transitions /> - Reducers", () => {
         transitioned_to: "primero_mgr_cp"
       }
     ];
-    const expected = Map({
+    const expected = fromJS({
       data: mapEntriesToRecord(data, TransitionRecord)
     });
     const action = {
@@ -49,7 +48,8 @@ describe("<Transitions /> - Reducers", () => {
       }
     };
 
-    const newState = r.reducers.transitions(defaultState, action);
-    expect(newState.toJS()).to.eql(expected.toJS());
+    const newState = reducers(initialState, action);
+
+    expect(newState).to.deep.equal(expected);
   });
 });

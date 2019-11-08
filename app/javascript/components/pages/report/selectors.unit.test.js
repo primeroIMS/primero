@@ -1,118 +1,39 @@
+import { fromJS } from "immutable";
 import { expect } from "chai";
-import { Map, List } from "immutable";
 
 import { getReport } from "./selectors";
 
-const stateWithNoRecords = Map({});
-const stateWithRecords = Map({
-  records: Map({
-    reports: Map({
-      casesByNationality: {
-        title: "Cases by Nationality",
-        column_name: "Nationality",
-        description: "Number of cases broken down by nationality",
-        data: {
-          Nicaragua: 1,
-          Argentina: 2,
-          Alemania: 3
-        }
-      },
-      casesByAgeAndSex: {
-        title: "Cases by Age and Sex",
-        column_name: "Age",
-        description: "Number of cases broken down by age and sex",
-        data: {
-          "0-5": {
-            Female: 3,
-            Male: 6,
-            Other: 0
-          },
-          "6-11": {
-            Female: 1,
-            Male: 13,
-            Other: 0
-          },
-          "12-17": {
-            Female: 19,
-            Male: 29,
-            Other: 1
-          },
-          "18+": {
-            Female: 7,
-            Male: 10,
-            Other: 0
-          }
-        }
-      },
-      casesByProtectionConcern: {
-        title: "Cases by Protection Concern",
-        column_name: "Protection Concern",
-        description:
-          "Number of cases broken down by protection concern and sex",
-        data: {
-          "HIGH VULNERABILITY TO ABUSE": {
-            Female: 4,
-            Male: 0
-          },
-          "AFFILIATED / ASSOCIATED TO STIGMATIZED PARENTS": {
-            Female: 2,
-            Male: 0
-          },
-          "IN CONFLICT WITH THE LAW": {
-            Female: 7,
-            Male: 0
-          },
-          "DELINQUENT BEHAVIOR": {
-            Female: 4,
-            Male: 0
-          },
-          "HIGH VULNERABILITY TO EXPLOITATION": {
-            Female: 3,
-            Male: 1
-          }
-        }
-      },
-      casesByAgency: {
-        title: "Cases by Agency",
-        column_name: "Agency",
-        description: "Number of cases broken down by agency",
-        data: {
-          UNICEF: 3,
-          "SAVE THE CHILDREN": 5,
-          DOLSA: 1
-        }
+const stateWithoutRecords = fromJS({});
+const stateWithRecords = fromJS({
+  records: {
+    reports: {
+      selectedReport: {
+        id: 1,
+        name: { en: "Test Report" },
+        graph: true,
+        graph_type: "bar"
       }
-    })
-  })
+    }
+  }
 });
 
 describe("<Reports /> - Selectors", () => {
   describe("selectReport", () => {
     it("should return records", () => {
-      const expected = {
-        title: "Cases by Nationality",
-        column_name: "Nationality",
-        description: "Number of cases broken down by nationality",
-        data: {
-          Nicaragua: 1,
-          Argentina: 2,
-          Alemania: 3
-        }
-      };
+      const expected = fromJS({
+        id: 1,
+        name: { en: "Test Report" },
+        graph: true,
+        graph_type: "bar"
+      });
 
-      const records = getReport(
-        stateWithRecords,
-        "casesByNationality"
-      );
+      const records = getReport(stateWithRecords, 1);
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
-      const expected = Map({});
-      const records = getReport(
-        stateWithNoRecords,
-        "casesByNationality"
-      );
+      const expected = fromJS({});
+      const records = getReport(stateWithoutRecords, 1);
       expect(records).to.deep.equal(expected);
     });
   });
