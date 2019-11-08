@@ -1,5 +1,6 @@
 import { fromJS } from "immutable";
 import { expect } from "chai";
+
 import * as actions from "./actions";
 import { reducers } from "./reducers";
 
@@ -22,6 +23,7 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
+
     const newState = reducers(fromJS({}), action);
     expect(newState).to.deep.equal(initialState);
   });
@@ -59,6 +61,7 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
+
     const newState = reducers(fromJS({}), action);
     expect(newState).to.deep.equal(initialState);
   });
@@ -97,6 +100,7 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
+
     const newState = reducers(fromJS({}), action);
     expect(newState).to.deep.equal(initialState);
   });
@@ -117,6 +121,7 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
+
     const newState = reducers(fromJS({}), action);
     expect(newState).to.deep.equal(initialState);
   });

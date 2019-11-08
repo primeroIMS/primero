@@ -16,7 +16,6 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("AGE_MAX");
     expect(constants).to.have.property("PERMITTED_URL");
     expect(constants).to.have.property("RECORD_PATH");
-    expect(constants).to.have.property("PERMISSIONS");
     expect(constants).to.not.have.property("CONSENT_GIVEN_FIELD");
     expect(constants).to.have.property("MODULES");
     expect(constants).to.have.property("CONSENT_GIVEN_FIELD_BY_MODULE");
@@ -68,7 +67,6 @@ describe("Verifying config constant", () => {
     delete constants.AGE_MAX;
     delete constants.PERMITTED_URL;
     delete constants.RECORD_PATH;
-    delete constants.PERMISSIONS;
     delete constants.CONSENT_GIVEN_FIELD_BY_MODULE;
     delete constants.MODULE_TYPE_FIELD;
     delete constants.MODULES;
