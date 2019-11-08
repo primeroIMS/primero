@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
 import { IndexTable } from "./../index-table";
-import { Filters } from "../filters";
+import Filters from "../filters";
 import { RecordSearch } from "./../record-search";
 import { PageContainer } from "./../page";
 import { useI18n } from "./../i18n";
