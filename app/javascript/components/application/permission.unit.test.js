@@ -1,9 +1,10 @@
-import "test/test.setup";
 import React from "react";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { fromJS } from "immutable";
+
+import { setupMountedComponent } from "./../../test";
 import { PERMISSION_CONSTANTS } from "./../../libs/permissions";
+
 import Permission from "./permission";
 
 describe("<Permission />", () => {
