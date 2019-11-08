@@ -1,1 +1,1 @@
-export { default as RecordActions } from "./container";
+export { default } from "./container";
