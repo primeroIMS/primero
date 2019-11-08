@@ -108,9 +108,9 @@ const TODO = () => {
 
 #### Functional Component
 ```js
-import React, { useEffect } from "react";
 import PropTypes from "prop_types";
-import { connect, useSelector, useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { getName } from "./selectors";
 import { fetchName } from "./actions";
