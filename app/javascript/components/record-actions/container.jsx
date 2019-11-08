@@ -3,16 +3,19 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { useI18n } from "components/i18n";
-import { getPermissionsByRecord } from "components/user/selectors";
-import * as Permissions from "libs/permissions";
-import Permission from "components/application/permission";
-import { Notes } from "./notes";
-import { Transitions } from "./transitions";
-import { ToggleOpen } from "./toggle-open";
-import { ToggleEnable } from "./toggle-enable";
 
-const RecordActions = ({ recordType, iconColor, record, mode }) => {
+import { useI18n } from "./../i18n";
+import { getPermissionsByRecord } from "./../user/selectors";
+import { PERMISSION_CONSTANTS, checkPermissions } from "./../../libs/permissions";
+import Permission from "./../application/permission";
+
+import { NAME } from "./config";
+import { Notes } from "./notes";
+import { ToggleEnable } from "./toggle-enable";
+import { ToggleOpen } from "./toggle-open";
+import { Transitions } from "./transitions";
+
+const Container = ({ recordType, iconColor, record, mode }) => {
   const i18n = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
@@ -27,45 +30,45 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
     record && record.get("status") === "open" ? "close" : "reopen";
 
   const assignPermissions = [
-    Permissions.MANAGE,
-    Permissions.ASSIGN,
-    Permissions.ASSIGN_WITHIN_USER_GROUP,
-    Permissions.ASSIGN_WITHIN_AGENCY_PERMISSIONS
+    PERMISSION_CONSTANTS.MANAGE,
+    PERMISSION_CONSTANTS.ASSIGN,
+    PERMISSION_CONSTANTS.ASSIGN_WITHIN_USER_GROUP,
+    PERMISSION_CONSTANTS.ASSIGN_WITHIN_AGENCY_PERMISSIONS
   ];
 
   const userPermissions = useSelector(state =>
     getPermissionsByRecord(state, recordType)
   );
 
-  const canAddNotes = Permissions.check(userPermissions, [
-    Permissions.MANAGE,
-    Permissions.ADD_NOTE
+  const canAddNotes = checkPermissions(userPermissions, [
+    PERMISSION_CONSTANTS.MANAGE,
+    PERMISSION_CONSTANTS.ADD_NOTE
   ]);
-  const canReopen = Permissions.check(userPermissions, [
-    Permissions.MANAGE,
-    Permissions.REOPEN
-  ]);
-
-  const canRefer = Permissions.check(userPermissions, [
-    Permissions.MANAGE,
-    Permissions.REFERRAL
+  const canReopen = checkPermissions(userPermissions, [
+    PERMISSION_CONSTANTS.MANAGE,
+    PERMISSION_CONSTANTS.REOPEN
   ]);
 
-  const canClose = Permissions.check(userPermissions, [
-    Permissions.MANAGE,
-    Permissions.CLOSE
+  const canRefer = checkPermissions(userPermissions, [
+    PERMISSION_CONSTANTS.MANAGE,
+    PERMISSION_CONSTANTS.REFERRAL
   ]);
 
-  const canEnable = Permissions.check(userPermissions, [
-    Permissions.MANAGE,
-    Permissions.ENABLE_DISABLE_RECORD
+  const canClose = checkPermissions(userPermissions, [
+    PERMISSION_CONSTANTS.MANAGE,
+    PERMISSION_CONSTANTS.CLOSE
   ]);
 
-  const canAssign = Permissions.check(userPermissions, assignPermissions);
+  const canEnable = checkPermissions(userPermissions, [
+    PERMISSION_CONSTANTS.MANAGE,
+    PERMISSION_CONSTANTS.ENABLE_DISABLE_RECORD
+  ]);
 
-  const canTransfer = Permissions.check(userPermissions, [
-    Permissions.MANAGE,
-    Permissions.TRANSFER
+  const canAssign = checkPermissions(userPermissions, assignPermissions);
+
+  const canTransfer = checkPermissions(userPermissions, [
+    PERMISSION_CONSTANTS.MANAGE,
+    PERMISSION_CONSTANTS.TRANSFER
   ]);
 
   const handleClick = event => {
@@ -249,7 +252,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
 
       <Permission
         permissionType={recordType}
-        permission={[Permissions.MANAGE, Permissions.ENABLE_DISABLE_RECORD]}
+        permission={[PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.ENABLE_DISABLE_RECORD]}
       >
         {toggleEnableDialog}
       </Permission>
@@ -258,7 +261,7 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
 
       <Permission
         permissionType={recordType}
-        permission={[Permissions.MANAGE, Permissions.ADD_NOTE]}
+        permission={[PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.ADD_NOTE]}
       >
         <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} />
       </Permission>
@@ -266,11 +269,13 @@ const RecordActions = ({ recordType, iconColor, record, mode }) => {
   );
 };
 
-RecordActions.propTypes = {
+Container.displayName = NAME;
+
+Container.propTypes = {
   recordType: PropTypes.string.isRequired,
   iconColor: PropTypes.string,
   record: PropTypes.object,
   mode: PropTypes.object
 };
 
-export default RecordActions;
+export default Container;

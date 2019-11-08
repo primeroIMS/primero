@@ -2,7 +2,8 @@ import chai, { expect } from "chai";
 import { fromJS } from "immutable";
 import { mapEntriesToRecord } from "libs";
 import chaiImmutable from "chai-immutable";
-import * as Records from "./records";
+
+import { SavedSearchesRecord } from "./records";
 import { reducers } from "./reducers";
 
 chai.use(chaiImmutable);
@@ -28,7 +29,7 @@ describe("<SavedSearches /> - Reducers", () => {
       }
     ];
     const expected = fromJS({
-      data: mapEntriesToRecord(payloadFilters, Records.SavedSearchesRecord)
+      data: mapEntriesToRecord(payloadFilters, SavedSearchesRecord)
     });
     const action = {
       type: "savedSearches/FETCH_SAVED_SEARCHES_SUCCESS",
@@ -58,7 +59,7 @@ describe("<SavedSearches /> - Reducers", () => {
             ]
           }
         ],
-        Records.SavedSearchesRecord
+        SavedSearchesRecord
       )
     });
     const expected = fromJS({
@@ -109,13 +110,13 @@ describe("<SavedSearches /> - Reducers", () => {
       }
     ];
     const expected = fromJS({
-      data: mapEntriesToRecord(payloadFilters, Records.SavedSearchesRecord)
+      data: mapEntriesToRecord(payloadFilters, SavedSearchesRecord)
     });
     const action = {
       type: "savedSearches/SAVE_SEARCH_SUCCESS",
       payload: {
         data: fromJS([
-          Records.SavedSearchesRecord({
+          SavedSearchesRecord({
             id: 1,
             name: "a new filter",
             record_type: "incidents",
@@ -127,7 +128,7 @@ describe("<SavedSearches /> - Reducers", () => {
               }
             ]
           }),
-          Records.SavedSearchesRecord({
+          SavedSearchesRecord({
             id: 33,
             name: "Hello 1",
             record_type: "incidents",

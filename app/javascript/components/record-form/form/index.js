@@ -1,2 +1,2 @@
-export { default as RecordForm } from "./RecordForm";
-export { default as RecordFormToolbar } from "./RecordFormToolbar";
+export { default as RecordForm } from "./record-form";
+export { default as RecordFormToolbar } from "./record-form-toolbar";

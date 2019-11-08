@@ -16,7 +16,6 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("AGE_MAX");
     expect(constants).to.have.property("PERMITTED_URL");
     expect(constants).to.have.property("RECORD_PATH");
-    expect(constants).to.have.property("PERMISSIONS");
     expect(constants).to.not.have.property("CONSENT_GIVEN_FIELD");
     expect(constants).to.have.property("MODULES");
     expect(constants).to.have.property("CONSENT_GIVEN_FIELD_BY_MODULE");
@@ -57,6 +56,9 @@ describe("Verifying config constant", () => {
     );
     expect(constants).to.have.property("ROUTES");
     expect(constants).to.have.property("REFERRAL");
+    expect(constants).to.not.have.property("NAME_FIELD");
+    expect(constants).to.have.property("DATE_FORMAT");
+    expect(constants).to.have.property("DATE_TIME_FORMAT");
     expect(constants).to.have.property("USER_NAME_FIELD");
 
     delete constants.FETCH_TIMEOUT;
@@ -69,7 +71,6 @@ describe("Verifying config constant", () => {
     delete constants.AGE_MAX;
     delete constants.PERMITTED_URL;
     delete constants.RECORD_PATH;
-    delete constants.PERMISSIONS;
     delete constants.CONSENT_GIVEN_FIELD_BY_MODULE;
     delete constants.MODULE_TYPE_FIELD;
     delete constants.MODULES;
@@ -88,6 +89,9 @@ describe("Verifying config constant", () => {
     delete constants.CASES_REFERRALS;
     delete constants.ROUTES;
     delete constants.REFERRAL;
+    delete constants.NAME_FIELD;
+    delete constants.DATE_FORMAT;
+    delete constants.DATE_TIME_FORMAT;
     delete constants.USER_NAME_FIELD;
 
     expect(constants).to.deep.equal({});
@@ -138,6 +142,9 @@ describe("Verifying config constant", () => {
     expect(constants.RECORD_OWNER).to.equal("record_owner");
     expect(constants.TRANSFERS_ASSIGNMENTS).to.equal("transfers_assignments");
     expect(constants.REFERRAL).to.equal("referral");
+    expect(constants.NAME_FIELD).to.not.equal("name");
+    expect(constants.DATE_FORMAT).to.equal("dd-MMM-yyyy");
+    expect(constants.DATE_TIME_FORMAT).to.equal("dd-MMM-yyyy HH:mm");
     expect(constants.USER_NAME_FIELD).to.equal("user_name");
   });
 });
