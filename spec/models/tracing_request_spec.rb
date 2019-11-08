@@ -226,59 +226,59 @@ describe TracingRequest do
 
     it "should not save file formats that are not photo formats" do
       tracing_request = TracingRequest.new
-      tracing_request.set_attachment_fields(FilesTestHelper.image('gif'))
+      tracing_request.attach(FilesTestHelper.image('gif'))
       expect(tracing_request.save).to be false
-      tracing_request.set_attachment_fields(FilesTestHelper.image('bmp'))
+      tracing_request.attach(FilesTestHelper.image('bmp'))
       expect(tracing_request.save).to be false
     end
 
     it "should save file based on content type" do
       tracing_request = TracingRequest.new('created_by' => "me", 'created_organization' => "stc")
-      tracing_request.set_attachment_fields(FilesTestHelper.image_without_extension)
+      tracing_request.attach(FilesTestHelper.image_without_extension)
       expect(tracing_request.save).to be true
     end
 
     it "should not save with file formats that are not supported audio formats" do
       tracing_request = TracingRequest.new(created_by: 'me', created_organization: 'stc')
-      tracing_request.set_attachment_fields(FilesTestHelper.audio('png'))
+      tracing_request.attach(FilesTestHelper.audio('png'))
       expect(tracing_request.save).to be false
 
       tracing_request.recorded_audio = []
-      tracing_request.set_attachment_fields(FilesTestHelper.audio('wav'))
+      tracing_request.attach(FilesTestHelper.audio('wav'))
       expect(tracing_request.save).to be false
 
       tracing_request.recorded_audio = []
-      tracing_request.set_attachment_fields(FilesTestHelper.audio('ogg'))
+      tracing_request.attach(FilesTestHelper.audio('ogg'))
       expect(tracing_request.save).to be false
 
       tracing_request.recorded_audio = []
-      tracing_request.set_attachment_fields(FilesTestHelper.audio('amr'))
+      tracing_request.attach(FilesTestHelper.audio('amr'))
       expect(tracing_request.save).to be true
 
       tracing_request.recorded_audio = []
-      tracing_request.set_attachment_fields(FilesTestHelper.audio( 'mp3'))
+      tracing_request.attach(FilesTestHelper.audio( 'mp3'))
       expect(tracing_request.save).to be true
     end
 
     it "should not save with image file formats that are not png or jpg" do
       tracing_request = TracingRequest.new(created_by: 'me', created_organization: 'stc')
-      tracing_request.set_attachment_fields(FilesTestHelper.image('jpg'))
+      tracing_request.attach(FilesTestHelper.image('jpg'))
       expect(tracing_request.save).to be true
 
       tracing_request.reload
-      tracing_request.set_attachment_fields(FilesTestHelper.image('bmp'))
+      tracing_request.attach(FilesTestHelper.image('bmp'))
       expect(tracing_request.save).to be false
     end
 
     it "should not save with a photo larger than 10 megabytes" do
       tracing_request = TracingRequest.new(created_by: 'me', created_organization: 'stc')
-      tracing_request.set_attachment_fields(FilesTestHelper.large_photo_as_a_parameter)
+      tracing_request.attach(FilesTestHelper.large_photo_as_a_parameter)
       expect(tracing_request.save).to be false
     end
 
     it "should not save with an audio file larger than 10 megabytes" do
       tracing_request = TracingRequest.new(created_by: 'me', created_organization: 'stc')
-      tracing_request.set_attachment_fields(FilesTestHelper.large_audio_as_a_parameter)
+      tracing_request.attach(FilesTestHelper.large_audio_as_a_parameter)
       expect(tracing_request.save).to be false
     end
 
@@ -371,7 +371,7 @@ describe TracingRequest do
       before :each do
         User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
         @tracing_request = TracingRequest.create( 'created_by' => "me", 'created_organization' => "stc")
-        @tracing_request.set_attachment_fields(FilesTestHelper.image('jpg'))
+        @tracing_request.attach(FilesTestHelper.image('jpg'))
       end
 
       it "should only have one photo on creation" do
@@ -388,7 +388,7 @@ describe TracingRequest do
       before :each do
         User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
         @tracing_request = TracingRequest.create(created_by: 'me')
-        @tracing_request.set_attachment_fields(FilesTestHelper.multiple_image(2))
+        @tracing_request.attach(FilesTestHelper.multiple_image(2))
       end
 
       it "should have corrent number of photos after creation" do
@@ -413,7 +413,7 @@ describe TracingRequest do
 
       it "should not save tracing request if new photos are more than 10" do
         photos = FilesTestHelper.multiple_image(11)
-        @tracing_request.set_attachment_fields(photos)
+        @tracing_request.attach(photos)
         expect(@tracing_request.save).to be false
         expect(@tracing_request.errors[:photos]).to eq(['errors.models.photo.photo_count'])
       end
@@ -421,13 +421,13 @@ describe TracingRequest do
       it "should not save tracing request if new photos and existing photos are more than 10" do
         photos = FilesTestHelper.multiple_image(5)
         another_photos = FilesTestHelper.multiple_image(6)
-        @tracing_request.set_attachment_fields(photos)
+        @tracing_request.attach(photos)
         @tracing_request.save
         @tracing_request.reload
         expect(@tracing_request.new_record?).to be false
         expect(@tracing_request.photos.size). to eq(5)
 
-        @tracing_request.set_attachment_fields(another_photos)
+        @tracing_request.attach(another_photos)
         expect(@tracing_request.save).to be false
         expect(@tracing_request.photos.size). to eq(11)
         expect(@tracing_request.errors[:photos]).to eq(['errors.models.photo.photo_count'])
@@ -436,20 +436,20 @@ describe TracingRequest do
       it "should save tracing request if new and existing photos are 10" do
         photos = FilesTestHelper.multiple_image(5)
         another_photos = FilesTestHelper.multiple_image(5)
-        @tracing_request.set_attachment_fields(photos)
+        @tracing_request.attach(photos)
         @tracing_request.save
         @tracing_request.reload
         expect(@tracing_request.new_record?).to be false
         expect(@tracing_request.photos.size). to eq(5)
 
-        @tracing_request.set_attachment_fields(another_photos)
+        @tracing_request.attach(another_photos)
         expect(@tracing_request.save).to be true
         expect(@tracing_request.photos.size). to eq(10)
       end
 
       it "should save tracing request 10 new photos" do
         photos = FilesTestHelper.multiple_image(10)
-        @tracing_request.set_attachment_fields(photos)
+        @tracing_request.attach(photos)
         @tracing_request.save
         expect(@tracing_request.new_record?).to be false
         expect(@tracing_request.photos.size). to eq(10)
@@ -487,19 +487,17 @@ describe TracingRequest do
 
     before(:each) do
       @tracing_request = TracingRequest.new
-      @tracing_request.stub(:attach)
-      @file_attachment = mock_model(FileAttachment, :data => "My Data", :name => "some name", :mime_type => Mime::Type.lookup("audio/mpeg"))
     end
 
     it "should create an audio" do
-      @tracing_request.set_attachment_fields(FilesTestHelper.audio('wav'))
+      @tracing_request.attach(FilesTestHelper.audio('wav'))
       @tracing_request.save
       expect(@tracing_request.recorded_audio.size). to eq(1)
     end
 
     it "should store the audio attachment key with the 'mime-type'" do
       audio_attachment = FilesTestHelper.audio('mp3')
-      @tracing_request.set_attachment_fields(audio_attachment)
+      @tracing_request.attach(audio_attachment)
       @tracing_request.save
       expect(@tracing_request.recorded_audio.first.audio.filename).to eq(audio_attachment['recorded_audio'][0]['audio'].original_filename)
       expect(@tracing_request.recorded_audio.first.audio.content_type).to eq(audio_attachment['recorded_audio'][0]['audio'].content_type)
@@ -537,7 +535,7 @@ describe TracingRequest do
 
     it "should check audio attachment is present" do
       tracing_request = TracingRequest.create(created_by: 'me', created_organization: 'stc')
-      tracing_request.set_attachment_fields(FilesTestHelper.audio('mp3'))
+      tracing_request.attach(FilesTestHelper.audio('mp3'))
       tracing_request.save
       expect(tracing_request.recorded_audio.present?).to be true
     end
@@ -547,10 +545,10 @@ describe TracingRequest do
   describe "audio attachment" do
     it "should change audio file if a new audio file is set" do
       tracing_request = TracingRequest.create(created_by: 'me', created_organization: 'stc')
-      tracing_request.set_attachment_fields(FilesTestHelper.audio('mp3'))
+      tracing_request.attach(FilesTestHelper.audio('mp3'))
       tracing_request.save
       new_audio = FilesTestHelper.audio_to_update(tracing_request.recorded_audio.first.id)
-      tracing_request.set_attachment_fields(new_audio)
+      tracing_request.attach(new_audio)
       tracing_request.save
       expect(tracing_request.recorded_audio.first.audio.filename).to eq('sample.amr')
     end
@@ -615,7 +613,7 @@ describe TracingRequest do
     before :each do
       @attach_photos = FilesTestHelper.multiple_image(2)
       @tracing_request = TracingRequest.create(created_by: 'me')
-      @tracing_request.set_attachment_fields(@attach_photos)
+      @tracing_request.attach(@attach_photos)
       @tracing_request.save
     end
 
