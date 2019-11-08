@@ -1,15 +1,15 @@
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
-import { Menu, MenuItem } from "@material-ui/core";
 import { fromJS } from "immutable";
+import { Menu, MenuItem } from "@material-ui/core";
 
+import { setupMountedComponent } from "./../../test";
 import { PERMISSION_CONSTANTS } from "./../../libs/permissions";
 
-import RecordActions from "./container";
 import { Notes } from "./notes";
+import RecordActions from "./container";
 import { ToggleEnable } from "./toggle-enable";
-import { Transitions } from "./transitions";
 import { ToggleOpen } from "./toggle-open";
+import { Transitions } from "./transitions";
 
 describe("<RecordActions />", () => {
   let component;
@@ -134,7 +134,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.length(7);
+        expect(component.find(MenuItem)).to.have.lengthOf(6);
       });
 
       it("renders MenuItem without Refer Cases option", () => {

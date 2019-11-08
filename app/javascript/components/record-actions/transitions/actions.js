@@ -1,7 +1,8 @@
-import { namespaceActions } from "libs";
+import { namespaceActions } from "../../../libs";
+
 import NAMESPACE from "./namespace";
 
-export default namespaceActions(NAMESPACE, [
+const actions = namespaceActions(NAMESPACE, [
   "ASSIGN_USERS_FETCH",
   "ASSIGN_USERS_FETCH_SUCCESS",
   "CLEAR_ERRORS",
@@ -27,3 +28,13 @@ export default namespaceActions(NAMESPACE, [
   "TRANSFER_USER_STARTED",
   "TRANSFER_USER_FAILURE"
 ]);
+
+export default {
+  ...actions,
+  USERS_ASSIGN_TO: "users/assign-to",
+  USERS_TRANSFER_TO: "users/transfer-to",
+  USERS_REFER_TO: "users/refer-to",
+  CASES_ASSIGNS: "cases/assigns",
+  CASES_TRANSFERS: "cases/transfers",
+  CASES_REFERRALS: "cases/referrals"
+};

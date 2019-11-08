@@ -46,7 +46,11 @@ prim_create_folders_and_logs() {
   # Create the folder for the node modules that will be installed during asset
   # compile
   mkdir -p "${APP_ROOT}/node_modules"
-  mkdir -p "$RAILS_SCHEDULER_LOG_DIR"
+  set +u
+  if [[ "$RAILS_SCHEDULER_LOG_DIR" ]] ; then
+    mkdir -p "$RAILS_SCHEDULER_LOG_DIR"
+  fi
+  set -u
   return 0
 }
 

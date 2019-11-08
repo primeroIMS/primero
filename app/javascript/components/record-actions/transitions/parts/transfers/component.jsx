@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useI18n } from "components/i18n";
 import PropTypes from "prop-types";
-import { isEmpty } from "lodash";
 import { Box, FormControlLabel } from "@material-ui/core";
 import { Formik, Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
 import * as yup from "yup";
-import { enqueueSnackbar } from "components/notifier";
-import { selectAgencies } from "components/application/selectors";
-import { getOption } from "components/record-form/selectors";
-import { RECORD_TYPES } from "config";
-import BulkTransfer from "./bulk-transfer";
+
+import { useI18n } from "../../../../i18n";
+import { enqueueSnackbar } from "../../../../notifier";
+import { selectAgencies } from "../../../../application/selectors";
+import { getOption } from "../../../../record-form/selectors";
+import { RECORD_TYPES, USER_NAME_FIELD } from "../../../../../config";
 import { internalFieldsDirty, getInternalFields } from "../helpers";
-import TransferInternal from "./transfer-internal";
 import {
   getUsersByTransitionType,
   getErrorsByTransitionType
 } from "../../selectors";
+import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
+
+import TransferInternal from "./transfer-internal";
 import ProvidedConsent from "./provided-consent";
 import TransferActions from "./transfer-actions";
-import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
+import BulkTransfer from "./bulk-transfer";
 
 const TransferForm = ({
   providedConsent,
@@ -71,15 +72,14 @@ const TransferForm = ({
       firstUpdate.current = false;
       return;
     }
+    const messages = hasErrors
+      .valueSeq()
+      .map(e => i18n.t(e))
+      .join(", ");
 
-    const isUndefined = typeof hasErrors === "undefined";
-
-    if (!isEmpty(hasErrors)) {
-      const messages = Array.isArray(hasErrors)
-        ? hasErrors.map(e => i18n.t(e)).join(", ")
-        : hasErrors;
+    if (messages !== "") {
       dispatch(enqueueSnackbar(messages, "error"));
-    } else if (!isUndefined && isEmpty(hasErrors)) {
+    } else {
       closeModal();
     }
   }, [hasErrors]);
@@ -135,10 +135,14 @@ const TransferForm = ({
       label: i18n.t("transfer.recipient_label"),
       required: true,
       options: users
-        ? users.map(user => ({
-            value: user.user_name.toLowerCase(),
-            label: user.user_name
-          }))
+        ? users.valueSeq().map(user => {
+            const userName = user.get(USER_NAME_FIELD);
+
+            return {
+              value: userName.toLowerCase(),
+              label: userName
+            };
+          })
         : [],
       onChange: (data, field, form) => {
         sharedOnChange(data, field, form);

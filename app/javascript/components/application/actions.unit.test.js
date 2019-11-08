@@ -3,8 +3,6 @@ import { expect } from "chai";
 
 import * as applicationActions from "./actions";
 
-import "../../test/chai-helpers";
-
 describe("Application - Actions", () => {
   it("should have known actions", () => {
     const actions = clone(applicationActions.default);
