@@ -8,6 +8,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.NUMBER_OF_CASES_SUCCESS:
       return state.set("numberOfCases", fromJS(payload))
+    case Actions.NUMBER_OF_INCIDENTS_SUCCESS:
+      return state.set("numberOfIncidents", fromJS(payload))
     case Actions.REPORTING_DELAY_SUCCESS:
       return state.set("reportingDelay", fromJS(payload))
     default:

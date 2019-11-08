@@ -7,6 +7,12 @@ export const numberOfCases = state => {
   }));
 };
 
+export const numberOfIncidents = state => {
+  return state.getIn(["records", NAMESPACE, 'numberOfIncidents'], fromJS({
+    data: []
+  }));
+};
+
 export const reportingDelay = state => {
   return state.getIn(["records", NAMESPACE, 'reportingDelay'], fromJS({
     data: []
