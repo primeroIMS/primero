@@ -25,11 +25,12 @@ import { getFilters } from "./../index-table";
 import { useI18n } from "./../i18n";
 
 import * as actions from "./action-creators";
-import { selectFiltersByRecordType } from "./selectors";
+import { NAME } from "./config"
+import { getFiltersByRecordType } from "./selectors";
 import Panel from "./Panel";
 import styles from "./styles.css";
 
-const FiltersBuilder = ({
+const Container = ({
   recordType,
   filters,
   resetPanel,
@@ -43,7 +44,7 @@ const FiltersBuilder = ({
   const [open, setOpen] = useState(false);
 
   const handleClearFilters = () => {
-    resetPanel();
+    resetPanel(recordType, `/${recordType.toLowerCase()}`);
   };
 
   const handleApplyFilter = () => {
@@ -95,7 +96,7 @@ const FiltersBuilder = ({
   const allowedResetFilterTypes = ["radio", "multi_toggle", "chips"];
 
   const savedFilters = useSelector(state =>
-    selectFiltersByRecordType(state, recordType)
+    getFiltersByRecordType(state, recordType)
   );
 
   const filterValues = filter => {
@@ -105,6 +106,22 @@ const FiltersBuilder = ({
       defaultFilters.get(fieldName)?.length > 0 ||
       savedFilters[fieldName]?.length > 0
     );
+  };
+
+  const icon = filter => {
+    return allowedResetFilterTypes.includes(filter.type) ? (
+      <IconButton
+        aria-label={i18n.t("buttons.delete")}
+        justifycontent="flex-end"
+        size="small"
+        onClick={handleReset(
+          `${filter.field_name}`,
+          `${filter.type}`
+        )}
+      >
+        <RefreshIcon />
+      </IconButton>
+    ) : null;
   };
 
   return (
@@ -123,19 +140,7 @@ const FiltersBuilder = ({
             >
               <div className={css.heading}>
                 <span> {i18n.t(`${filter.name}`)} </span>
-                {allowedResetFilterTypes.includes(filter.type) ? (
-                  <IconButton
-                    aria-label="Delete"
-                    justifycontent="flex-end"
-                    size="small"
-                    onClick={handleReset(
-                      `${filter.field_name}`,
-                      `${filter.type}`
-                    )}
-                  >
-                    <RefreshIcon />
-                  </IconButton>
-                ) : null}
+                {icon(filter)}
               </div>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={css.panelDetails}>
@@ -159,7 +164,7 @@ const FiltersBuilder = ({
   );
 };
 
-FiltersBuilder.propTypes = {
+Container.propTypes = {
   recordType: PropTypes.string.isRequired,
   filters: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   resetPanel: PropTypes.func,
@@ -168,6 +173,8 @@ FiltersBuilder.propTypes = {
   applyFilters: PropTypes.func,
   defaultFilters: PropTypes.object
 };
+
+Container.displayName = NAME;
 
 const mapStateToProps = (state, props) => ({
   recordFilters: getFilters(state, props.recordType)
@@ -181,4 +188,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FiltersBuilder);
+)(Container);
