@@ -42,13 +42,20 @@ describe("User - Reducers", () => {
     expect(newState).to.deep.equal(initialState);
   });
 
-  it("should handle SET_AUTHENTICATED_USER", () => {
+  it("should handle FETCH_USER_DATA_SUCCESS", () => {
     const expected = fromJS({
       isAuthenticated: false,
       modules: ["primeromodule-cp", "primeromodule-gbv"],
-      permissions: {
-        cases: ["manage", "referral", "receive_referral"]
-      },
+      permissions: mapListToObject(
+        [
+          {
+            resource: "cases",
+            actions: ["manage", "referral", "receive_referral"]
+          }
+        ],
+        "resource",
+        "actions"
+      ),
       roleId: 19,
       listHeaders: mapObjectPropertiesToRecords(
         {
