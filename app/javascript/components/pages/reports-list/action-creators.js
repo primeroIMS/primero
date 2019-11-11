@@ -1,12 +1,13 @@
-import { cleanUpFilters } from "components/records/helpers";
-import * as Actions from "./actions";
+import { cleanUpFilters } from "../../records/helpers";
 
-export const fetchReports = data => async dispatch => {
-  dispatch({
-    type: Actions.FETCH_REPORTS,
+import { FETCH_REPORTS } from "./actions";
+
+export const fetchReports = data => {
+  return {
+    type: FETCH_REPORTS,
     api: {
       path: "reports",
       params: cleanUpFilters(data.options)
     }
-  });
+  };
 };

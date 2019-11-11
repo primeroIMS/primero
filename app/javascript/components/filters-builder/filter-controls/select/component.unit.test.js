@@ -1,8 +1,9 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { Map } from "immutable";
-import { FormControl, Select, OutlinedInput } from "@material-ui/core";
+import { FormControl, Select } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../../../test";
+
 import SelectFilter from "./component";
 
 describe("<SelectFilter /> - Component", () => {
@@ -38,10 +39,10 @@ describe("<SelectFilter /> - Component", () => {
   });
 
   it("renders the FormControl", () => {
-    expect(component.find(FormControl)).to.have.length(1);
+    expect(component.find(FormControl)).to.have.lengthOf(1);
   });
 
   it("renders the Select", () => {
-    expect(component.find(Select)).to.have.length(1);
+    expect(component.find(Select)).to.have.lengthOf(1);
   });
 });

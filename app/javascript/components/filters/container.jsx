@@ -5,12 +5,15 @@ import { makeStyles } from "@material-ui/styles";
 import { Tabs, Tab } from "@material-ui/core";
 import { fromJS } from "immutable";
 
-import { FiltersBuilder } from "./../filters-builder";
-import { SavedSearches, fetchSavedSearches } from "./../saved-searches";
-import { useI18n } from "./../i18n";
-import { cleanUpFilters } from "./../records";
+import { FiltersBuilder } from "../filters-builder";
+import { SavedSearches, fetchSavedSearches } from "../saved-searches";
+import { useI18n } from "../i18n";
 
-import { setInitialFilterValues, setInitialRecords, setTab } from "./action-creators";
+import {
+  setInitialFilterValues,
+  setInitialRecords,
+  setTab
+} from "./action-creators";
 import { NAME } from "./config";
 import { getTab, getFiltersByRecordType } from "./selectors";
 import styles from "./styles.css";
@@ -135,8 +138,8 @@ const Container = ({ recordType, defaultFilters }) => {
 Container.displayName = NAME;
 
 Container.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  defaultFilters: PropTypes.object
+  defaultFilters: PropTypes.object,
+  recordType: PropTypes.string.isRequired
 };
 
 export default Container;

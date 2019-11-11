@@ -3,12 +3,14 @@ import PropTypes from "prop-types";
 import { connect, useSelector } from "react-redux";
 import { MenuItem, FormControl, Select } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { useI18n } from "components/i18n";
-import { getOption } from "components/record-form/selectors";
-import { isEmpty } from "lodash";
+import isEmpty from "lodash/isEmpty";
+
+import { useI18n } from "../../../i18n";
+import { getOption } from "../../../record-form/selectors";
+
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as Selectors from "./selectors";
+import { getSelect } from "./selectors";
 
 const MenuProps = {
   PaperProps: {
@@ -77,20 +79,22 @@ const SelectFilter = ({
   );
 };
 
+SelectFilter.displayName = "SelectFilter";
+
 SelectFilter.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  multiple: PropTypes.bool,
-  props: PropTypes.object,
-  options: PropTypes.object,
   field_name: PropTypes.string,
+  isDate: PropTypes.bool,
+  multiple: PropTypes.bool,
   option_strings_source: PropTypes.string,
+  options: PropTypes.object,
+  props: PropTypes.object,
+  recordType: PropTypes.string.isRequired,
   selectValues: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
-  setSelectValue: PropTypes.func,
-  isDate: PropTypes.bool
+  setSelectValue: PropTypes.func
 };
 
 const mapStateToProps = (state, obj) => ({
-  selectValues: Selectors.getSelect(state, obj)
+  selectValues: getSelect(state, obj)
 });
 
 const mapDispatchToProps = {

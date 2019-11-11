@@ -1,15 +1,14 @@
-import { setupMountedComponent } from "test";
 import { expect } from "chai";
 import { Map } from "immutable";
-import "test/test.setup";
 
-import { TranslationsToggle } from "components/translations-toggle";
-import { AgencyLogo } from "components/agency-logo";
-import { ModuleLogo } from "components/module-logo";
+import { setupMountedComponent } from "../../test";
+import { TranslationsToggle } from "../translations-toggle";
+import { AgencyLogo } from "../agency-logo";
+import { ModuleLogo } from "../module-logo";
+import PrimeroWhiteLogo from "../../images/primero-logo-white.png";
+import UnicefLogo from "../../images/unicef.png";
+
 import LoginLayout from "./LoginLayout";
-
-import PrimeroWhiteLogo from "images/primero-logo-white.png";
-import UnicefLogo from "images/unicef.png";
 
 describe("<LoginLayout />", () => {
   let component;
@@ -33,15 +32,15 @@ describe("<LoginLayout />", () => {
   });
 
   it("renders a module logo", () => {
-    expect(component.find(ModuleLogo)).to.have.length(1);
+    expect(component.find(ModuleLogo)).to.have.lengthOf(1);
   });
 
   it("renders an agency logo", () => {
-    expect(component.find(AgencyLogo)).to.have.length(1);
+    expect(component.find(AgencyLogo)).to.have.lengthOf(1);
   });
 
   it("renders an TranslationsToggle component", () => {
-    expect(component.find(TranslationsToggle)).to.have.length(1);
+    expect(component.find(TranslationsToggle)).to.have.lengthOf(1);
   });
 
 });

@@ -1,8 +1,9 @@
-import "test/test.setup";
-import { setupMountedThemeComponent } from "test";
 import { expect } from "chai";
-import { buildDataForGraph } from "components/pages/report/helpers";
 import { Map } from "immutable";
+
+import { buildDataForGraph } from "../../pages/report/helpers";
+import { setupMountedThemeComponent } from "../../../test";
+
 import BarChart from "./component";
 
 describe("<BarChart />", () => {
@@ -28,6 +29,6 @@ describe("<BarChart />", () => {
     expect(component.find("p").props().children).to.equal(
       "Number of cases broken down by nationality"
     );
-    expect(component.find("canvas").length).to.equal(1);
+    expect(component.find("canvas")).to.have.lengthOf(1);
   });
 });

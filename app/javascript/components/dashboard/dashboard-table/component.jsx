@@ -29,6 +29,8 @@ const DashboardTable = ({ columns, data }) => {
   return <MUIDataTable {...tableOptions} />;
 };
 
+DashboardTable.displayName = "DashboardTable";
+
 DashboardTable.propTypes = {
   columns: PropTypes.array.isRequired,
   data: PropTypes.object.isRequired

@@ -1,16 +1,19 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { useI18n } from "components/i18n";
 import { Card, CardContent } from "@material-ui/core";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { PageContainer } from "components/page";
+
+import { useI18n } from "../../i18n";
+import { PageContainer } from "../../page";
+
 import styles from "./styles.css";
-import * as actions from "./action-creators";
-import * as selectors from "./selectors";
+import { fetchData } from "./action-creators";
+import { selectSupportData } from "./selectors";
 
 const DisplayData = ({ title, value }) => {
   const css = makeStyles(styles)();
+
   return (
     <p key={title}>
       <span className={css.Title}> {title}: </span>
@@ -54,19 +57,21 @@ const Support = ({ supportData, fetchSupportData }) => {
   );
 };
 
+Support.displayName = "Support";
+
 Support.propTypes = {
-  supportData: PropTypes.object,
-  fetchSupportData: PropTypes.func
+  fetchSupportData: PropTypes.func,
+  supportData: PropTypes.object
 };
 
 const mapStateToProps = state => {
   return {
-    supportData: selectors.selectSupportData(state)
+    supportData: selectSupportData(state)
   };
 };
 
 const mapDispatchToProps = {
-  fetchSupportData: actions.fetchData
+  fetchSupportData: fetchData
 };
 
 export default connect(

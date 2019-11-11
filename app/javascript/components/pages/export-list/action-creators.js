@@ -1,7 +1,7 @@
 import * as Actions from "./actions";
 
-export const fetchExports = () => async dispatch => {
-  dispatch({
+export const fetchExports = () => {
+  return {
     type: Actions.EXPORTS,
     payload: {
       data: [
@@ -42,5 +42,5 @@ export const fetchExports = () => async dispatch => {
         page: 1
       }
     }
-  });
+  };
 };

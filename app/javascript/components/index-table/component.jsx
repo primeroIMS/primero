@@ -5,17 +5,11 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
-import { dataToJS } from "./../../libs";
-import { getPermissionsByRecord } from "./../user/selectors";
-import { LoadingIndicator } from "./../loading-indicator";
+import { dataToJS } from "../../libs";
+import { LoadingIndicator } from "../loading-indicator";
 
 import { NAME } from "./config";
-import {
-  getRecords,
-  getLoading,
-  getErrors,
-  getFilters
-} from "./selectors";
+import { getRecords, getLoading, getErrors, getFilters } from "./selectors";
 
 const Component = ({
   columns,
@@ -158,13 +152,13 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.propTypes = {
-  onTableChange: PropTypes.func.isRequired,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   defaultFilters: PropTypes.object,
-  recordType: PropTypes.string.isRequired,
+  onRowClick: PropTypes.func,
+  onTableChange: PropTypes.func.isRequired,
   options: PropTypes.object,
-  targetRecordType: PropTypes.string,
-  onRowClick: PropTypes.func
+  recordType: PropTypes.string.isRequired,
+  targetRecordType: PropTypes.string
 };
 
 export default Component;

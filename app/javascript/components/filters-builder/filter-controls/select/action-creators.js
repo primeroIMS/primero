@@ -1,8 +1,8 @@
-import * as RecordListActions from "../../actions";
+import { SET_FILTERS, ADD_SELECT_RANGE, ADD_SELECT } from "../../actions";
 
 export const setupSelect = (payload, namespace) => {
   return {
-    type: `${namespace}/${RecordListActions.SET_FILTERS}`,
+    type: `${namespace}/${SET_FILTERS}`,
     payload
   };
 };
@@ -10,8 +10,8 @@ export const setupSelect = (payload, namespace) => {
 export const setSelectValue = (payload, namespace) => {
   return {
     type: payload.isDate
-      ? `${namespace}/${RecordListActions.ADD_SELECT_RANGE}`
-      : `${namespace}/${RecordListActions.ADD_SELECT}`,
+      ? `${namespace}/${ADD_SELECT_RANGE}`
+      : `${namespace}/${ADD_SELECT}`,
     payload
   };
 };

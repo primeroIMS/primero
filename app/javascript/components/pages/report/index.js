@@ -1,2 +1,2 @@
 export { default as Report } from "./container";
-export * from "./reducers";
+export { reducers } from "./reducers";

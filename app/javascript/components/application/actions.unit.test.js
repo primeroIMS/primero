@@ -1,11 +1,10 @@
-import clone from "lodash/clone";
 import { expect } from "chai";
 
 import * as applicationActions from "./actions";
 
 describe("Application - Actions", () => {
   it("should have known actions", () => {
-    const actions = clone(applicationActions.default);
+    const actions = { ...applicationActions.default };
 
     expect(actions).to.have.property("FETCH_SYSTEM_SETTINGS");
     expect(actions).to.have.property("FETCH_SYSTEM_SETTINGS_SUCCESS");

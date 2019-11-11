@@ -1,10 +1,11 @@
 import { expect } from "chai";
-import "test/test.setup";
-import { setupMountedComponent } from "test";
-import { routes } from "config";
 import { fromJS } from "immutable";
-import { Nav } from "components/nav";
 import { CircularProgress } from "@material-ui/core";
+
+import { routes } from "../../config";
+import { setupMountedComponent } from "../../test";
+import { Nav } from "../nav";
+
 import AppLayout from "./AppLayout";
 
 describe("<AppLayout />", () => {
@@ -40,6 +41,7 @@ describe("<AppLayout />", () => {
           ]
         }
       });
+
       component = setupMountedComponent(
         AppLayout,
         { route: routes[0] },
@@ -49,7 +51,7 @@ describe("<AppLayout />", () => {
     });
 
     it("renders navigation", () => {
-      expect(component.find(Nav)).to.have.length(1);
+      expect(component.find(Nav)).to.have.lengthOf(1);
     });
 
     // TODO: Need to figure out how to better test
@@ -79,6 +81,7 @@ describe("<AppLayout />", () => {
           baseLanguage: "en"
         }
       });
+
       component = setupMountedComponent(
         AppLayout,
         { route: routes[0] },
@@ -88,7 +91,7 @@ describe("<AppLayout />", () => {
     });
 
     it("renders CircularProgress", () => {
-      expect(component.find(CircularProgress)).to.have.length(1);
+      expect(component.find(CircularProgress)).to.have.lengthOf(1);
     });
   });
 });

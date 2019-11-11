@@ -5,10 +5,12 @@ import MUIDataTable from "mui-datatables";
 import { Card, CardContent } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { PageContainer, PageHeading, PageContent } from "components/page";
+
+import { PageContainer, PageHeading, PageContent } from "../../page";
+
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as selectors from "./selectors";
+import { selectPotentialMatches } from "./selectors";
 
 const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
   useEffect(() => {
@@ -66,6 +68,7 @@ const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
       ? potentialMatches.get("matches").toJS()
       : []
   };
+
   return (
     <PageContainer>
       <PageHeading title="Matches" />
@@ -91,14 +94,16 @@ const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
   );
 };
 
+PotentialMatches.displayName = "PotentialMatches";
+
 PotentialMatches.propTypes = {
-  potentialMatches: PropTypes.object.isRequired,
-  fetchPotentialMatches: PropTypes.func.isRequired
+  fetchPotentialMatches: PropTypes.func.isRequired,
+  potentialMatches: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    potentialMatches: selectors.selectPotentialMatches(state)
+    potentialMatches: selectPotentialMatches(state)
   };
 };
 

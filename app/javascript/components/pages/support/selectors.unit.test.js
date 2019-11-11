@@ -1,10 +1,7 @@
-import chai, { expect } from "chai";
-import { Map, List } from "immutable";
-import chaiImmutable from "chai-immutable";
+import { expect } from "chai";
+import { Map } from "immutable";
 
-import * as selectors from "./selectors";
-
-chai.use(chaiImmutable);
+import { selectSupportData } from "./selectors";
 
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
@@ -40,13 +37,13 @@ describe("<Support /> - Selectors", () => {
         primeroVersion: "1.3.15"
       };
 
-      const records = selectors.selectSupportData(stateWithRecords);
+      const records = selectSupportData(stateWithRecords);
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
       const expected = Map({});
-      const records = selectors.selectSupportData(stateWithNoRecords);
+      const records = selectSupportData(stateWithNoRecords);
       expect(records).to.deep.equal(expected);
     });
   });

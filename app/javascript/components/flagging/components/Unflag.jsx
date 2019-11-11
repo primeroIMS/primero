@@ -1,10 +1,11 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Formik, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import { Button, Box, Divider } from "@material-ui/core";
-import { useI18n } from "components/i18n";
-import { useDispatch } from "react-redux";
+
+import { useI18n } from "../../i18n";
 import { unFlag } from "../action-creators";
 
 const Unflag = ({ flag, setDeleteFlag, recordType, record }) => {
@@ -67,11 +68,13 @@ const Unflag = ({ flag, setDeleteFlag, recordType, record }) => {
   );
 };
 
+Unflag.displayName = "Unflag";
+
 Unflag.propTypes = {
   flag: PropTypes.object.isRequired,
-  setDeleteFlag: PropTypes.func.isRequired,
+  record: PropTypes.string,
   recordType: PropTypes.string.isRequired,
-  record: PropTypes.string
+  setDeleteFlag: PropTypes.func.isRequired
 };
 
 export default Unflag;

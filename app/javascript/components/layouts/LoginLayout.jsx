@@ -1,17 +1,19 @@
 import React from "react";
-import { selectAgency } from "components/pages/login";
-// import { selectPrimeroModule } from "components/user";
 import { Grid, Box } from "@material-ui/core";
-import { ModuleLogo } from "components/module-logo";
-import { AgencyLogo } from "components/agency-logo";
-import { ListIcon } from "components/list-icon";
-import { TranslationsToggle } from "components/translations-toggle";
 import { NavLink } from "react-router-dom";
-import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { Notifier } from "components/notifier";
+
+// import { selectPrimeroModule } from "components/user";
+import { selectAgency } from "../pages/login";
+import { ModuleLogo } from "../module-logo";
+import { AgencyLogo } from "../agency-logo";
+import { ListIcon } from "../list-icon";
+import { TranslationsToggle } from "../translations-toggle";
+import { useI18n } from "../i18n";
+import { Notifier } from "../notifier";
+
 import styles from "./login-styles.css";
 
 const LoginLayout = ({ children }) => {
@@ -62,6 +64,8 @@ const LoginLayout = ({ children }) => {
     </>
   );
 };
+
+LoginLayout.displayName = "LoginLayout";
 
 LoginLayout.propTypes = {
   children: PropTypes.node
