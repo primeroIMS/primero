@@ -5,8 +5,7 @@ import { Box, Button } from "@material-ui/core";
 
 import styles from "../../styles.css";
 import { REFERRAL_ACTIONS_NAME } from "../../constants";
-
-import { useI18n } from "components/i18n";
+import { useI18n } from "../../../../i18n";
 
 const Actions = ({ handleClose, disabled }) => {
   const i18n = useI18n();

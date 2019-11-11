@@ -25,13 +25,11 @@ describe("<TransferActions />", () => {
       expect(component.find(Button)).to.have.lengthOf(2);
     });
 
-    it("renders 1 Button disabled", () => {
-      expect(
-        component
-          .find(Button)
-          .first()
-          .props().disabled
-      ).to.be.equal(true);
+    it("renders transfer button disabled with its corresponding class", () => {
+      const transferButton = component.find("button[type='submit']");
+
+      expect(transferButton.text()).to.be.equal("transfer.submit_label");
+      expect(transferButton.props().disabled).to.be.equal(true);
     });
   });
 
@@ -53,13 +51,11 @@ describe("<TransferActions />", () => {
       expect(component.find(Button)).to.have.lengthOf(2);
     });
 
-    it("renders 1 Button enabled", () => {
-      expect(
-        component
-          .find(Button)
-          .first()
-          .props().disabled
-      ).to.be.equal(false);
+    it("renders transfer button enabled with its corresponding class", () => {
+      const transferButton = component.find("button[type='submit']");
+
+      expect(transferButton.text()).to.be.equal("transfer.submit_label");
+      expect(transferButton.props().disabled).to.be.equal(false);
     });
   });
 });

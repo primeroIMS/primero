@@ -25,13 +25,11 @@ describe("<ReferralActions />", () => {
       expect(component.find(Button)).to.have.lengthOf(2);
     });
 
-    it("renders 1 Button disabled", () => {
-      expect(
-        component
-          .find(Button)
-          .first()
-          .props().disabled
-      ).to.be.equal(true);
+    it("renders Refer button disabled with its corresponding class", () => {
+      const referButton = component.find("button[type='submit']");
+
+      expect(referButton.text()).to.be.equal("buttons.referral");
+      expect(referButton.props().disabled).to.be.equal(true);
     });
   });
 
@@ -53,13 +51,11 @@ describe("<ReferralActions />", () => {
       expect(component.find(Button)).to.have.lengthOf(2);
     });
 
-    it("renders 1 Button enabled", () => {
-      expect(
-        component
-          .find(Button)
-          .first()
-          .props().disabled
-      ).to.be.equal(false);
+    it("renders Refer button enabled with its corresponding class", () => {
+      const referButton = component.find("button[type='submit']");
+
+      expect(referButton.text()).to.be.equal("buttons.referral");
+      expect(referButton.props().disabled).to.be.equal(false);
     });
   });
 });
