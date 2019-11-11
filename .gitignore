@@ -63,6 +63,7 @@ npm-debug.log*
 npm-error.log*
 .tmp
 .npm-integrity
+.nyc_output
 spec/reports/
 storage/
 tags

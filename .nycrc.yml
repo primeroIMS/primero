@@ -1,0 +1,7 @@
+nyc:
+  extension:
+    - '.jsx'
+    - '.js'
+  all: true
+  include:
+    - "app/javascript/**/*.js"
