@@ -24,6 +24,8 @@ const Panel = ({ children, hasValues }) => {
   );
 };
 
+Panel.displayName = "Panel";
+
 Panel.propTypes = {
   children: PropTypes.node.isRequired,
   hasValues: PropTypes.bool

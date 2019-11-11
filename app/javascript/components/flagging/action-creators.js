@@ -1,10 +1,10 @@
 import { ENQUEUE_SNACKBAR } from "../notifier";
 
-import * as Actions from "./actions";
+import { FETCH_FLAGS, UNFLAG, ADD_FLAG } from "./actions";
 
 export const fetchFlags = (recordType, record) => async dispatch => {
   dispatch({
-    type: Actions.FETCH_FLAGS,
+    type: FETCH_FLAGS,
     api: {
       path: `${recordType}/${record}/flags`
     }
@@ -19,7 +19,7 @@ export const unFlag = (
   record
 ) => async dispatch => {
   await dispatch({
-    type: Actions.UNFLAG,
+    type: UNFLAG,
     api: {
       path: `${recordType}/${record}/flags/${id}`,
       method: "PATCH",
@@ -40,7 +40,7 @@ export const unFlag = (
 
 export const addFlag = (body, message, path) => async dispatch => {
   await dispatch({
-    type: Actions.ADD_FLAG,
+    type: ADD_FLAG,
     api: {
       path,
       method: "POST",

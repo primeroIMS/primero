@@ -1,9 +1,10 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../test";
 import { Map } from "immutable";
+
+import { setupMountedComponent } from "../../test";
+
 import Flagging from "./component";
-import { FlagDialog, ListFlags } from "./parts";
+import { FlagDialog } from "./components";
 
 describe("<Flagging /> - Component", () => {
   let component;
@@ -39,18 +40,17 @@ describe("<Flagging /> - Component", () => {
                 flagged_by: 'primero'
               }
             ]
-        }
-      })
+          }
+        })
       })
     ).component;
   });
 
   it("renders Flagging form", () => {
-    expect(component.find(Flagging)).to.have.length(1);
+    expect(component.find(Flagging)).to.have.lengthOf(1);
   });
 
   it("renders FlagDialog", () => {
-    expect(component.find(FlagDialog)).to.have.length(1);
+    expect(component.find(FlagDialog)).to.have.lengthOf(1);
   });
-
 });

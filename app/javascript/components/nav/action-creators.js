@@ -1,8 +1,8 @@
-import * as Actions from "./actions";
+import { OPEN_DRAWER } from "./actions";
 
 export const openDrawer = payload => {
   return {
-    type: Actions.OPEN_DRAWER,
+    type: OPEN_DRAWER,
     payload
   };
 };

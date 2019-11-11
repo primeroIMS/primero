@@ -4,13 +4,16 @@ import { makeStyles } from "@material-ui/styles";
 
 import styles from "./styles.css";
 
-function PageContent({ children }) {
+const PageContent = ({ children }) => {
   const css = makeStyles(styles)();
 
   return <div className={css.content}>{children}</div>;
-}
+};
+
 PageContent.propTypes = {
   children: PropTypes.node
 };
+
+PageContent.displayName = "PageContent";
 
 export default PageContent;

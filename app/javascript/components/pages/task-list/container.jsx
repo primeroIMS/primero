@@ -93,4 +93,6 @@ const TaskList = () => {
   );
 };
 
+TaskList.displayName = "TaskList";
+
 export default TaskList;

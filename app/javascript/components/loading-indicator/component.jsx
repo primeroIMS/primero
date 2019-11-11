@@ -118,6 +118,8 @@ class LoadingIndicator extends React.Component {
   }
 }
 
+LoadingIndicator.displayName = "LoadingIndicator";
+
 LoadingIndicator.propTypes = {
   children: PropTypes.node.isRequired,
   classes: PropTypes.object,

@@ -1,12 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles/";
 import DownloadIcon from "@material-ui/icons/GetApp";
-import { useSelector } from "react-redux";
 import { fromJS } from "immutable";
 
-import { useI18n } from "./../../i18n";
-import { PageContainer, PageHeading, PageContent } from "./../../page";
-import IndexTable from "./../../index-table";
+import { PageContainer, PageHeading, PageContent } from "../../page";
+import IndexTable from "../../index-table";
+import { useI18n } from "../../i18n";
 
 import { fetchExports } from "./action-creators";
 import styles from "./styles.css";
@@ -71,5 +71,7 @@ const ExportList = () => {
     </PageContainer>
   );
 };
+
+ExportList.displayName = "ExportList";
 
 export default ExportList;

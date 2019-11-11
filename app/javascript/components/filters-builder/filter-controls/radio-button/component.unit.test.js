@@ -1,8 +1,9 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../../test";
 import { Map } from "immutable";
 import { Radio, RadioGroup, FormControlLabel } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../../../test";
+
 import RadioButton from "./component";
 
 describe("<RadioButton /> - Component", () => {
@@ -42,15 +43,15 @@ describe("<RadioButton /> - Component", () => {
   });
 
   it("renders the RadioGroup", () => {
-    expect(component.find(RadioGroup)).to.have.length(1);
+    expect(component.find(RadioGroup)).to.have.lengthOf(1);
   });
 
   it("renders the FormControlLabel", () => {
-    expect(component.find(FormControlLabel)).to.have.length(3);
+    expect(component.find(FormControlLabel)).to.have.lengthOf(3);
   });
 
   it("renders the Radio", () => {
-    expect(component.find(Radio)).to.have.length(3);
+    expect(component.find(Radio)).to.have.lengthOf(3);
   });
 
 });

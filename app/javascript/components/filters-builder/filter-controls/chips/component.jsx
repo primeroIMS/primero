@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import { connect, useSelector } from "react-redux";
 import Chip from "@material-ui/core/Chip";
 import { makeStyles } from "@material-ui/styles";
-import { isEmpty } from "lodash";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
 import { getOption } from "../../../record-form/selectors";
 
-import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as Selectors from "./selectors";
+import { getChips } from "./selectors";
+import styles from "./styles.css";
 
 const Chips = ({ recordType, props, chips, setChips }) => {
   const css = makeStyles(styles)();
@@ -61,6 +61,8 @@ const Chips = ({ recordType, props, chips, setChips }) => {
   );
 };
 
+Chips.displayName = "Chips";
+
 Chips.propTypes = {
   chips: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   field_name: PropTypes.string,
@@ -72,7 +74,7 @@ Chips.propTypes = {
 };
 
 const mapStateToProps = (state, obj) => ({
-  chips: Selectors.getChips(state, obj.props, obj.recordType)
+  chips: getChips(state, obj.props, obj.recordType)
 });
 
 const mapDispatchToProps = {

@@ -1,9 +1,9 @@
 import React from "react";
+import { Grid, Box } from "@material-ui/core";
+import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { Grid, Box } from "@material-ui/core";
-import { NavLink } from "react-router-dom";
 
 import { selectAgency } from "../pages/login";
 import { ModuleLogo } from "../module-logo";
@@ -63,6 +63,8 @@ const LoginLayout = ({ children }) => {
     </>
   );
 };
+
+LoginLayout.displayName = "LoginLayout";
 
 LoginLayout.propTypes = {
   children: PropTypes.node

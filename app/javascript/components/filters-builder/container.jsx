@@ -12,8 +12,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import { RefreshIcon } from "../../images/primero-icons";
 import SavedSearchesForm from "../saved-searches/SavedSearchesForm";
-import { getFilters } from "../index-table";
 import { useI18n } from "../i18n";
+import { getFilters } from "../index-table";
 
 import {
   CheckBox,

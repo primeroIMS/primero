@@ -35,4 +35,6 @@ const NotAuthorized = () => {
   );
 };
 
+NotAuthorized.displayName = "NotAuthorized";
+
 export default NotAuthorized;

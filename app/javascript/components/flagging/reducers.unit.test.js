@@ -1,16 +1,14 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map, List } from "immutable";
-import chaiImmutable from "chai-immutable";
 
 import { mapEntriesToRecord } from "../../libs";
 
 import { FlagRecord } from "./records";
-import * as r from "./reducers";
+import { reducers } from "./reducers";
 
-chai.use(chaiImmutable);
 
 describe("<Flagging /> - Reducers", () => {
-  const reducer = r.reducers.flags;
+  const reducer = reducers.flags;
   const defaultState = Map({
     data: List([
       FlagRecord({

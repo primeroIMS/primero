@@ -1,9 +1,11 @@
 
 import { expect } from "chai";
+import { fromJS } from "immutable";
+
 import { setupMountedComponent } from "../../../test";
-import { fromJS, Map } from "immutable";
+
 import Support from "./container";
-import * as R from "./records";
+import { ContactInformationRecord } from "./records";
 
 describe("<Support />", () => {
   let component;
@@ -12,10 +14,10 @@ describe("<Support />", () => {
     component = setupMountedComponent(
       Support,
       {},
-      Map({
-        records: Map({
+      fromJS({
+        records: {
           Support: {
-            data: R.ContactInformationRecord({
+            data: ContactInformationRecord({
               name: "Simon Nehme",
               organization: "UNICEF",
               position: "Child Protection Officer - CPIMS Administrator",
@@ -27,12 +29,12 @@ describe("<Support />", () => {
               primeroVersion: "1.3.15"
             })
           }
-        })
+        }
       })
     ).component;
   });
 
   it("renders the Support", () => {
-    expect(component.find(Support)).to.have.length(1);
+    expect(component.find(Support)).to.have.lengthOf(1);
   });
 });

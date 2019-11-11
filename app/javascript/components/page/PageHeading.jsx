@@ -28,6 +28,8 @@ const PageHeading = ({ title, prefixAction, children, whiteHeading }) => {
   );
 };
 
+PageHeading.displayName = "PageHeading";
+
 PageHeading.propTypes = {
   children: PropTypes.node,
   prefixAction: PropTypes.func,

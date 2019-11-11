@@ -117,4 +117,6 @@ const Reports = () => {
   );
 };
 
+Reports.displayName = "Reports";
+
 export default withRouter(Reports);

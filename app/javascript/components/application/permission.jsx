@@ -34,6 +34,8 @@ const Permission = ({
   return null;
 };
 
+Permission.displayName = "Permission";
+
 Permission.defaultProps = {
   redirect: false
 };

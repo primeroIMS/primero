@@ -46,6 +46,8 @@ const ModuleLogo = ({ moduleLogo, white }) => {
   );
 };
 
+ModuleLogo.displayName = "ModuleLogo";
+
 ModuleLogo.propTypes = {
   moduleLogo: PropTypes.string,
   white: PropTypes.bool

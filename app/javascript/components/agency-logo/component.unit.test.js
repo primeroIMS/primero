@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
-import { setupMountedThemeComponent } from "../../test";
 import UnicefLogo from "../../images/unicef.png";
+import { setupMountedThemeComponent } from "../../test";
 
 import AgencyLogo from "./component";
 

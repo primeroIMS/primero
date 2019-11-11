@@ -1,4 +1,4 @@
-import { Map, fromJS } from "immutable";
+import { fromJS } from "immutable";
 
 import { mapEntriesToRecord } from "../../libs";
 
@@ -6,7 +6,7 @@ import actions from "./actions";
 import NAMESPACE from "./namespace";
 import { PrimeroModuleRecord } from "./records";
 
-const DEFAULT_STATE = Map({
+const DEFAULT_STATE = fromJS({
   userIdle: false,
   online: window.navigator.onLine
 });

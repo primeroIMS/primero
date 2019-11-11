@@ -3,16 +3,16 @@ import PropTypes from "prop-types";
 import { connect, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { FormGroup, FormControlLabel, Checkbox } from "@material-ui/core";
-import { format, subMonths } from "date-fns";
 import { List } from "immutable";
-import { isEmpty } from "lodash";
+import { format, subMonths } from "date-fns";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
 import { getOption } from "../../../record-form";
 import { currentUser } from "../../../user";
 
 import * as actions from "./action-creators";
-import * as Selectors from "./selectors";
+import { getCheckBoxes } from "./selectors";
 import styles from "./styles.css";
 
 const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
@@ -118,6 +118,8 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
   );
 };
 
+CheckBox.displayName = "CheckBox";
+
 CheckBox.propTypes = {
   checkBoxes: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   field_name: PropTypes.string,
@@ -129,7 +131,7 @@ CheckBox.propTypes = {
 };
 
 const mapStateToProps = (state, obj) => ({
-  checkBoxes: Selectors.getCheckBoxes(state, obj.props, obj.recordType)
+  checkBoxes: getCheckBoxes(state, obj.props, obj.recordType)
 });
 
 const mapDispatchToProps = {

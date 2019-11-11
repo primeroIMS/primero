@@ -7,13 +7,13 @@ import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
 import * as yup from "yup";
 
+import { useI18n } from "../../i18n";
 import { enqueueSnackbar } from "../../notifier";
 import { PageHeading } from "../../page";
-import { useI18n } from "../../i18n";
 
 import styles from "./styles.css";
 import { attemptLogin } from "./action-creators";
-import * as Selectors from "./selectors";
+import { selectAuthErrors } from "./selectors";
 
 const validationSchema = yup.object().shape({
   password: yup.string().required(),
@@ -30,7 +30,7 @@ const Login = () => {
     setSubmitting(false);
   };
 
-  const authErrors = useSelector(state => Selectors.selectAuthErrors(state));
+  const authErrors = useSelector(state => selectAuthErrors(state));
 
   useEffect(() => {
     dispatch(enqueueSnackbar(authErrors, "error"));
@@ -91,6 +91,8 @@ const Login = () => {
     </>
   );
 };
+
+Login.displayName = "Login";
 
 Login.propTypes = {
   authErrors: PropTypes.string,

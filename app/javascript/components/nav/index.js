@@ -1,4 +1,8 @@
 export { default as Nav } from "./component";
 export { default as namespace } from "./namespace";
-export * from "./reducer";
-export * from "./selectors";
+export { reducers } from "./reducer";
+export {
+  selectDrawerOpen,
+  selectUserAgency,
+  selectUsername
+} from "./selectors";

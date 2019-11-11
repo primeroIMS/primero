@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import makeStyles from "@material-ui/styles/makeStyles";
+import PropTypes from "prop-types";
+import React from "react";
 
 import styles from "./styles.css";
 
@@ -28,6 +28,8 @@ const OptionsBox = ({ title, action, children, to }) => {
     </Card>
   );
 };
+
+OptionsBox.displayName = "OptionsBox";
 
 OptionsBox.propTypes = {
   action: PropTypes.node,

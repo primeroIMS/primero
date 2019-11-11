@@ -15,6 +15,8 @@ const ToggleIconCell = ({ value, icon }) =>
     </IconButton>
   ) : null;
 
+ToggleIconCell.displayName = "ToggleIconCell";
+
 ToggleIconCell.propTypes = {
   icon: PropTypes.oneOf(["photo", "flag"]),
   value: PropTypes.oneOfType([

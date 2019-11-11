@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { fromJS } from "immutable";
+import PropTypes from "prop-types";
+import React from "react";
 import { useTheme } from "@material-ui/styles";
 
-import { useI18n } from "../../i18n";
 import { PrioritySummary } from "../priority-summary";
+import { useI18n } from "../../i18n";
 import { OptionsBox } from "../options-box";
 import { ActionMenu } from "../action-menu";
 
@@ -60,6 +60,8 @@ const Services = ({ servicesList }) => {
     </>
   );
 };
+
+Services.displayName = "Services";
 
 Services.propTypes = {
   servicesList: PropTypes.object

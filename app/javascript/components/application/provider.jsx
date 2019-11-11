@@ -2,15 +2,19 @@ import React, { useContext, createContext, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
-import * as Selectors from "./selectors";
+import {
+  selectModules,
+  selectNetworkStatus,
+  selectUserModules
+} from "./selectors";
 import { setNetworkStatus } from "./action-creators";
 
 const Context = createContext();
 
-export const ApplicationProvider = ({ children }) => {
-  const modules = useSelector(state => Selectors.selectModules(state));
-  const userModules = useSelector(state => Selectors.selectUserModules(state));
-  const online = useSelector(state => Selectors.selectNetworkStatus(state));
+const ApplicationProvider = ({ children }) => {
+  const modules = useSelector(state => selectModules(state));
+  const userModules = useSelector(state => selectUserModules(state));
+  const online = useSelector(state => selectNetworkStatus(state));
   const dispatch = useDispatch();
 
   const handleNetworkChange = isOnline => {
@@ -36,8 +40,12 @@ export const ApplicationProvider = ({ children }) => {
   );
 };
 
+ApplicationProvider.displayName = "ApplicationProvider";
+
 ApplicationProvider.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-export const useApp = () => useContext(Context);
+const useApp = () => useContext(Context);
+
+export { ApplicationProvider, useApp };

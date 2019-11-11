@@ -17,6 +17,8 @@ const TabPanel = props => {
   );
 };
 
+TabPanel.displayName = "TabPanel";
+
 TabPanel.propTypes = {
   children: PropTypes.node.isRequired,
   index: PropTypes.number.isRequired,

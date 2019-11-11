@@ -9,6 +9,8 @@ const DateCell = ({ value }) => {
   return <>{i18n.l("date.formats.default", value)}</>;
 };
 
+DateCell.displayName = "DateCell";
+
 DateCell.propTypes = {
   value: PropTypes.string
 };

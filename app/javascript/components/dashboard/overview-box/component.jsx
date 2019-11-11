@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
+import PropTypes from "prop-types";
+import React from "react";
 import makeStyles from "@material-ui/styles/makeStyles";
 
-import { useI18n } from "../../i18n";
 import { DoughnutChart } from "../doughnut-chart";
+import { useI18n } from "../../i18n";
 
 import styles from "./styles.css";
 
@@ -44,6 +44,8 @@ const OverviewBox = ({ items, chartData }) => {
     </div>
   );
 };
+
+OverviewBox.displayName = "OverviewBox";
 
 OverviewBox.propTypes = {
   chartData: PropTypes.object.isRequired,

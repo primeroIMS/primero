@@ -1,4 +1,6 @@
-import { isEqual, uniq, isEmpty } from "lodash";
+import isEqual from "lodash/isEqual";
+import isEmpty from "lodash/isEmpty";
+import uniq from "lodash/uniq";
 
 const getColors = () => {
   return ["#e0dfd6", "#595951", "#bcbcab", "green", "red", "yellow", "blue"];
@@ -96,6 +98,7 @@ const getRows = (columns, data, i18n) => {
           return;
         }
       }
+
       currentRows.push(getRows(columns, data[key], i18n));
     });
 
@@ -214,6 +217,7 @@ export const buildDataForTable = (report, i18n) => {
   if (!translatedReport.report_data) {
     return { columns: [], values: [] };
   }
+
   const dataColumns = getColumns(translatedReport.report_data, i18n);
   const columns = ["", dataColumns, totalLabel].flat();
   const values = getRows(dataColumns, translatedReport.report_data, i18n);

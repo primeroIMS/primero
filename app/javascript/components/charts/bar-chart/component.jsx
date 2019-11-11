@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
 import Box from "@material-ui/core/Box";
-import PropTypes from "prop-types";
 import Chart from "chart.js";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import makeStyles from "@material-ui/styles/makeStyles";
 
 import styles from "./styles.css";
@@ -83,6 +83,8 @@ const BarChart = ({ data, description, showDetails }) => {
     </Box>
   );
 };
+
+BarChart.displayName = "BarChart";
 
 BarChart.defaultProps = {
   showDetails: false

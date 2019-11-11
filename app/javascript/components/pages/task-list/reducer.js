@@ -1,13 +1,13 @@
-import { fromJS, Map } from "immutable";
+import { fromJS } from "immutable";
 
-import * as Actions from "./actions";
+import { TASKS_SUCCESS } from "./actions";
 import NAMESPACE from "./namespace";
 
-const DEFAULT_STATE = Map({});
+const DEFAULT_STATE = fromJS({});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.TASKS_SUCCESS:
+    case TASKS_SUCCESS:
       return state
         .set("data", fromJS(payload.data))
         .set("metadata", fromJS(payload.metadata));

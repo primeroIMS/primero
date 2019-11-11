@@ -6,7 +6,7 @@ import { setLocale } from "./action-creators";
 
 const Context = createContext();
 
-export function I18nProvider({ children }) {
+const I18nProvider = ({ children }) => {
   const locale = useSelector(state =>
     state.length
       ? state.getIn(["ui", "I18n", "locale"]) ||
@@ -45,11 +45,15 @@ export function I18nProvider({ children }) {
       {children}
     </Context.Provider>
   );
-}
+};
+
+I18nProvider.displayName = "I18nProvider";
 
 I18nProvider.propTypes = {
   children: PropTypes.node.isRequired
 };
+
+export { I18nProvider };
 
 export const useI18n = () => useContext(Context);
 

@@ -26,13 +26,19 @@ const AgencyLogo = ({ logo, agency }) => {
             }}
             className={css.agencyLogo}
             src={logo || unicefLogo}
-            alt={agency || "unicef"}
+            alt={agency}
           />
           <div className={css.line} />
         </>
       ) : null}
     </Box>
   );
+};
+
+AgencyLogo.displayName = "AgencyLogo";
+
+AgencyLogo.defaultProps = {
+  agency: "unicef"
 };
 
 AgencyLogo.propTypes = {

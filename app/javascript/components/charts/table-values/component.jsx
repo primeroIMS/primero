@@ -1,5 +1,4 @@
 import React from "react";
-import { isArray } from "lodash";
 import PropTypes from "prop-types";
 import {
   Paper,
@@ -29,7 +28,7 @@ const TableValues = ({ columns, values }) => {
   );
 
   const rowRender = rowValues => {
-    if (isArray(rowValues[0])) {
+    if (Array.isArray(rowValues[0])) {
       return rowValues.map(row => rowRender(row));
     }
 
@@ -51,6 +50,8 @@ const TableValues = ({ columns, values }) => {
     </Paper>
   );
 };
+
+TableValues.displayName = "TableValues";
 
 TableValues.propTypes = {
   columns: PropTypes.array,

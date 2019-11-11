@@ -19,7 +19,15 @@ import { useI18n } from "../../i18n";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 
 import * as actions from "./action-creators";
-import * as selectors from "./selectors";
+import {
+  selectFlags,
+  selectCasesByStatus,
+  selectCasesByCaseWorker,
+  selectCasesRegistration,
+  selectCasesOverview,
+  selectServicesStatus,
+  selectIsOpenPageActions
+} from "./selectors";
 import styles from "./styles.css";
 
 const Dashboard = ({
@@ -190,6 +198,8 @@ const Dashboard = ({
   );
 };
 
+Dashboard.displayName = "Dashboard";
+
 Dashboard.propTypes = {
   casesByCaseWorker: PropTypes.object.isRequired,
   casesByStatus: PropTypes.object.isRequired,
@@ -209,13 +219,13 @@ Dashboard.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    flags: selectors.selectFlags(state),
-    casesByStatus: selectors.selectCasesByStatus(state),
-    casesByCaseWorker: selectors.selectCasesByCaseWorker(state),
-    casesRegistration: selectors.selectCasesRegistration(state),
-    casesOverview: selectors.selectCasesOverview(state),
-    servicesStatus: selectors.selectServicesStatus(state),
-    isOpenPageActions: selectors.isOpenPageActions(state)
+    flags: selectFlags(state),
+    casesByStatus: selectCasesByStatus(state),
+    casesByCaseWorker: selectCasesByCaseWorker(state),
+    casesRegistration: selectCasesRegistration(state),
+    casesOverview: selectCasesOverview(state),
+    servicesStatus: selectServicesStatus(state),
+    isOpenPageActions: selectIsOpenPageActions(state)
   };
 };
 

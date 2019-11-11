@@ -4,7 +4,7 @@ import MUIDataTable, { TableBodyRow } from "mui-datatables";
 
 import { setupMountedComponent } from "../../../test";
 import { DashboardChip } from "../../dashboard";
-import * as userRecord from "../../user/records";
+import { ListHeaderRecord } from "../../user/records";
 
 import TaskList from "./container";
 
@@ -46,27 +46,27 @@ describe("<TaskList />", () => {
         user: Map({
           listHeaders: Map({
             tasks: List([
-              userRecord.ListHeaderRecord({
+              ListHeaderRecord({
                 name: "id",
                 field_name: "record_id_display",
                 id_search: false
               }),
-              userRecord.ListHeaderRecord({
+              ListHeaderRecord({
                 name: "priority",
                 field_name: "priority",
                 id_search: false
               }),
-              userRecord.ListHeaderRecord({
+              ListHeaderRecord({
                 name: "type",
                 field_name: "type_display",
                 id_search: false
               }),
-              userRecord.ListHeaderRecord({
+              ListHeaderRecord({
                 name: "due_date",
                 field_name: "due_date",
                 id_search: false
               }),
-              userRecord.ListHeaderRecord({
+              ListHeaderRecord({
                 name: "status",
                 field_name: "status",
                 id_search: false

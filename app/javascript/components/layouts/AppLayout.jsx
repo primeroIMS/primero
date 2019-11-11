@@ -41,6 +41,8 @@ const AppLayout = ({ children }) => {
   );
 };
 
+AppLayout.displayName = "AppLayout";
+
 AppLayout.propTypes = {
   children: PropTypes.node
 };

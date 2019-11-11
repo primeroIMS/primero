@@ -1,11 +1,11 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
 import PropTypes from "prop-types";
 import { Box, Button, InputAdornment } from "@material-ui/core";
 import { DatePicker } from "@material-ui/pickers";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../i18n";
 import { addFlag } from "../action-creators";
@@ -106,6 +106,8 @@ const FlagForm = ({ recordType, record, handleOpen, handleActiveTab }) => {
     </Box>
   );
 };
+
+FlagForm.displayName = "FlagForm";
 
 FlagForm.propTypes = {
   handleActiveTab: PropTypes.func,

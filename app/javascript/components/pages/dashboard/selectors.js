@@ -26,6 +26,6 @@ export const selectServicesStatus = state => {
   return state.getIn(["records", NAMESPACE, "servicesStatus"], fromJS({}));
 };
 
-export const isOpenPageActions = state => {
+export const selectIsOpenPageActions = state => {
   return state.getIn(["records", NAMESPACE, "isOpenPageActions"], false);
 };

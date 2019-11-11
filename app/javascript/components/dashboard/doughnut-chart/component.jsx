@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
 import Chart from "chart.js";
+import PropTypes from "prop-types";
+import React, { useEffect } from "react";
 
 const calculateFontSize = (ctx, textConfig, width, height) => {
   const { text, fontStyle } = textConfig;
@@ -88,6 +88,8 @@ const DoughnutChart = ({ chartData, options }) => {
 
   return <canvas className="doughnutChart" ref={chartRef} />;
 };
+
+DoughnutChart.displayName = "DoughnutChart";
 
 DoughnutChart.propTypes = {
   chartData: PropTypes.object.isRequired,

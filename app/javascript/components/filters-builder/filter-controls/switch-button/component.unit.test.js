@@ -1,8 +1,9 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../../test";
 import { Map } from "immutable";
 import { Switch } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../../../test";
+
 import SwitchButton from "./component";
 
 describe("<SwitchButton /> - Component", () => {
@@ -34,6 +35,6 @@ describe("<SwitchButton /> - Component", () => {
   });
 
   it("renders the Switch", () => {
-    expect(component.find(Switch)).to.have.length(2);
+    expect(component.find(Switch)).to.have.lengthOf(2);
   });
 });

@@ -1,8 +1,9 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../../test";
 import { Map } from "immutable";
 import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
+
+import { setupMountedComponent } from "../../../../test";
+
 import RangeButton from "./component";
 
 describe("<RangeButton /> - Component", () => {
@@ -36,10 +37,10 @@ describe("<RangeButton /> - Component", () => {
   });
 
   it("renders the ToggleButtonGroup", () => {
-    expect(component.find(ToggleButtonGroup)).to.have.length(1);
+    expect(component.find(ToggleButtonGroup)).to.have.lengthOf(1);
   });
 
   it("renders the ToggleButton", () => {
-    expect(component.find(ToggleButton)).to.have.length(4);
+    expect(component.find(ToggleButton)).to.have.lengthOf(4);
   });
 });

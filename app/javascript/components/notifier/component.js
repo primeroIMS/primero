@@ -108,6 +108,8 @@ class Notifier extends Component {
   }
 }
 
+Notifier.displayName = "Notifier";
+
 Notifier.propTypes = {
   closeSnackbar: PropTypes.func.isRequired,
   dismissSnackbar: PropTypes.func.isRequired,

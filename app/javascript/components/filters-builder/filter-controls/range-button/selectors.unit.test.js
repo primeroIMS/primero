@@ -1,9 +1,7 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map, List } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as selectors from "./selectors";
 
-chai.use(chaiImmutable);
+import { getRangeButton } from "./selectors";
 
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
@@ -20,7 +18,7 @@ describe("<RangeButton /> - Selectors", () => {
   describe("getRangeButton", () => {
     it("should return records", () => {
       const expected = "age_6_11";
-      const records = selectors.getRangeButton(
+      const records = getRangeButton(
         stateWithRecords,
         { field_name: "age_range" },
         "Cases"
@@ -29,7 +27,7 @@ describe("<RangeButton /> - Selectors", () => {
     });
 
     it("should return empty object when records empty", () => {
-      const records = selectors.getRangeButton(
+      const records = getRangeButton(
         stateWithNoRecords,
         { field_name: "age_range" },
         "Cases"

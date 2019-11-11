@@ -73,6 +73,8 @@ const ListFlags = ({ flags, recordType, record }) => {
   );
 };
 
+ListFlags.displayName = "ListFlags";
+
 ListFlags.propTypes = {
   flags: PropTypes.object,
   record: PropTypes.string,

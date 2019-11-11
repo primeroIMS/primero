@@ -1,9 +1,7 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as r from "./reducer";
 
-chai.use(chaiImmutable);
+import { radioButtonsReducer } from "./reducer";
 
 describe("<CheckBox /> - Reducers", () => {
   const defaultState = Map({
@@ -15,7 +13,7 @@ describe("<CheckBox /> - Reducers", () => {
       type: "RESET_RADIO_BUTTON",
       payload: "age"
     };
-    const newState = r.radioButtonsReducer.RadioButton(defaultState, action);
+    const newState = radioButtonsReducer.RadioButton(defaultState, action);
 
     expect(newState.get("age")).to.deep.equal("");
   });

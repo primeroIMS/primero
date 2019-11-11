@@ -10,7 +10,7 @@ import { SelectFilter } from "../select";
 
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as selectors from "./selectors";
+import { getFromDate, getToDate } from "./selectors";
 
 const DatesRange = ({ recordType, props, fromDate, toDate, setDate }) => {
   const css = makeStyles(styles)();
@@ -46,6 +46,8 @@ const DatesRange = ({ recordType, props, fromDate, toDate, setDate }) => {
   );
 };
 
+DatesRange.displayName = "DateRange";
+
 DatesRange.propTypes = {
   field_name: PropTypes.string,
   fromDate: PropTypes.instanceOf(Date),
@@ -57,8 +59,8 @@ DatesRange.propTypes = {
 };
 
 const mapStateToProps = (state, obj) => ({
-  fromDate: selectors.getFromDate(state, obj.props, obj.recordType),
-  toDate: selectors.getToDate(state, obj.props, obj.recordType)
+  fromDate: getFromDate(state, obj.props, obj.recordType),
+  toDate: getToDate(state, obj.props, obj.recordType)
 });
 
 const mapDispatchToProps = {

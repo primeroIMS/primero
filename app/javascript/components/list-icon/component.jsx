@@ -58,6 +58,8 @@ const ListIcon = ({ icon }) => {
   }
 };
 
+ListIcon.displayName = "ListIcon";
+
 ListIcon.propTypes = {
   icon: PropTypes.string.isRequired
 };

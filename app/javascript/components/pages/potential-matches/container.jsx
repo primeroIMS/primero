@@ -10,7 +10,7 @@ import { PageContainer, PageHeading, PageContent } from "../../page";
 
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as selectors from "./selectors";
+import { selectPotentialMatches } from "./selectors";
 
 const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
   useEffect(() => {
@@ -94,6 +94,8 @@ const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
   );
 };
 
+PotentialMatches.displayName = "PotentialMatches";
+
 PotentialMatches.propTypes = {
   fetchPotentialMatches: PropTypes.func.isRequired,
   potentialMatches: PropTypes.object.isRequired
@@ -101,7 +103,7 @@ PotentialMatches.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    potentialMatches: selectors.selectPotentialMatches(state)
+    potentialMatches: selectPotentialMatches(state)
   };
 };
 

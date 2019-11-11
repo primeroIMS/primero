@@ -33,6 +33,8 @@ const FlagDialog = ({ open, setOpen, children, isBulkFlags, tab, setTab }) => {
   );
 };
 
+FlagDialog.displayName = "FlagDialog";
+
 FlagDialog.propTypes = {
   children: PropTypes.node.isRequired,
   isBulkFlags: PropTypes.bool.isRequired,

@@ -40,6 +40,8 @@ const ListFlagItem = ({ flag, handleDelete }) => {
   return null;
 };
 
+ListFlagItem.displayName = "ListFlagItem";
+
 ListFlagItem.propTypes = {
   flag: PropTypes.object.isRequired,
   handleDelete: PropTypes.func

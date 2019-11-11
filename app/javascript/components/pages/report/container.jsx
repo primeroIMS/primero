@@ -71,6 +71,8 @@ const Report = ({ match }) => {
   );
 };
 
+Report.displayName = "Report";
+
 Report.propTypes = {
   match: PropTypes.object.isRequired
 };

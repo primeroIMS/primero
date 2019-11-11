@@ -1,14 +1,14 @@
 import { Map } from "immutable";
 
-import * as Actions from "./actions";
+import { SET_UP_RADIO_BUTTON, RESET_RADIO_BUTTON } from "./actions";
 import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = Map({});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.SET_UP_RADIO_BUTTON:
-    case Actions.RESET_RADIO_BUTTON:
+    case SET_UP_RADIO_BUTTON:
+    case RESET_RADIO_BUTTON:
       return state.set(payload, "");
     default:
       return state;

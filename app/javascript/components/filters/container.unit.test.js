@@ -58,14 +58,14 @@ describe("<Filters /> - Component", () => {
   });
 
   it("renders the Tabs", () => {
-    expect(component.find(Tabs)).to.have.length(1);
+    expect(component.find(Tabs)).to.have.lengthOf(1);
   });
 
   it("renders the Tab", () => {
-    expect(component.find(Tab)).to.have.length(2);
+    expect(component.find(Tab)).to.have.lengthOf(2);
   });
 
   it("renders the FiltersBuilder", () => {
-    expect(component.find(FiltersBuilder)).to.have.length(1);
+    expect(component.find(FiltersBuilder)).to.have.lengthOf(1);
   });
 });

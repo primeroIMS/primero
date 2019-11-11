@@ -1,4 +1,8 @@
 export { default as RadioButton } from "./component";
-export * from "./reducer";
-export * from "./actions";
-export * from "./action-creators";
+export { radioButtonsReducer } from "./reducer";
+export {
+  SET_UP_RADIO_BUTTON,
+  RESET_RADIO_BUTTON,
+  ADD_RADIO_BUTTON
+} from "./actions";
+export { setupRadioButtons, setRadioButton } from "./action-creators";

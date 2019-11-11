@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Dialog,
   Button,
+  Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,

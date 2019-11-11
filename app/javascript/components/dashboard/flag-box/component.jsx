@@ -1,5 +1,5 @@
-import React from "react";
 import PropTypes from "prop-types";
+import React from "react";
 import makeStyles from "@material-ui/styles/makeStyles";
 
 import { CasesMineIcon } from "../../../images/primero-icons";
@@ -22,6 +22,8 @@ const FlagBox = ({ flag }) => {
     </div>
   );
 };
+
+FlagBox.displayName = "FlagBox";
 
 FlagBox.propTypes = {
   flag: PropTypes.object.isRequired

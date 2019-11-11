@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import FlagIcon from "@material-ui/icons/Flag";
 
-import { FlagForm, ListFlags, FlagDialog } from "./parts";
+import { FlagForm, ListFlags, FlagDialog } from "./components";
 import { fetchFlags } from "./action-creators";
 import { selectFlags } from "./selectors";
 
@@ -68,6 +68,8 @@ const Flagging = ({ recordType, record, control }) => {
     </>
   );
 };
+
+Flagging.displayName = "Flagging";
 
 Flagging.propTypes = {
   control: PropTypes.node,

@@ -18,6 +18,8 @@ const PageContainer = ({ children, twoCol }) => {
   );
 };
 
+PageContainer.displayName = "PageContainer";
+
 PageContainer.propTypes = {
   children: PropTypes.node.isRequired,
   twoCol: PropTypes.bool

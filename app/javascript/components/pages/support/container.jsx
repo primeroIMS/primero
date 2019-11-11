@@ -8,8 +8,8 @@ import { useI18n } from "../../i18n";
 import { PageContainer } from "../../page";
 
 import styles from "./styles.css";
-import * as actions from "./action-creators";
-import * as selectors from "./selectors";
+import { fetchData } from "./action-creators";
+import { selectSupportData } from "./selectors";
 
 const DisplayData = ({ title, value }) => {
   const css = makeStyles(styles)();
@@ -57,6 +57,8 @@ const Support = ({ supportData, fetchSupportData }) => {
   );
 };
 
+Support.displayName = "Support";
+
 Support.propTypes = {
   fetchSupportData: PropTypes.func,
   supportData: PropTypes.object
@@ -64,12 +66,12 @@ Support.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    supportData: selectors.selectSupportData(state)
+    supportData: selectSupportData(state)
   };
 };
 
 const mapDispatchToProps = {
-  fetchSupportData: actions.fetchData
+  fetchSupportData: fetchData
 };
 
 export default connect(

@@ -58,6 +58,8 @@ const DialogTabs = ({ children, closeDialog, isBulkFlags, tab, setTab }) => {
   return null;
 };
 
+DialogTabs.displayName = "DialogTabs";
+
 DialogTabs.propTypes = {
   children: PropTypes.node.isRequired,
   closeDialog: PropTypes.func.isRequired,

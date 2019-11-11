@@ -3,15 +3,15 @@ import PropTypes from "prop-types";
 import { connect, useSelector } from "react-redux";
 import { Switch } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { isEmpty } from "lodash";
+import isEmpty from "lodash/isEmpty";
 
-import { ListIcon } from "../../../list-icon";
 import { useI18n } from "../../../i18n";
 import { getOption } from "../../../record-form/selectors";
 
+
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as selectors from "./selectors";
+import { selectSwitchButtons } from "./selectors";
 
 const SwitchButton = ({
   recordType,
@@ -71,6 +71,8 @@ const SwitchButton = ({
   );
 };
 
+SwitchButton.displayName = "SwitchButton";
+
 SwitchButton.propTypes = {
   field_name: PropTypes.string,
   option_strings_source: PropTypes.string,
@@ -82,7 +84,7 @@ SwitchButton.propTypes = {
 };
 
 const mapStateToProps = (state, obj) => ({
-  switchButtons: selectors.selectSwitchButtons(state, obj.props, obj.recordType)
+  switchButtons: selectSwitchButtons(state, obj.props, obj.recordType)
 });
 
 const mapDispatchToProps = {

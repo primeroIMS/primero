@@ -74,6 +74,8 @@ const ActionMenu = ({ open, onOpen, onClose, items }) => {
   );
 };
 
+ActionMenu.displayName = "ActionMenu";
+
 ActionMenu.propTypes = {
   items: PropTypes.object.isRequired,
   onClose: PropTypes.func,

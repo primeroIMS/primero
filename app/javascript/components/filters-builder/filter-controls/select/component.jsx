@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import { connect, useSelector } from "react-redux";
 import { MenuItem, FormControl, Select } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { isEmpty } from "lodash";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
 import { getOption } from "../../../record-form/selectors";
 
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as Selectors from "./selectors";
+import { getSelect } from "./selectors";
 
 const MenuProps = {
   PaperProps: {
@@ -79,6 +79,8 @@ const SelectFilter = ({
   );
 };
 
+SelectFilter.displayName = "SelectFilter";
+
 SelectFilter.propTypes = {
   field_name: PropTypes.string,
   isDate: PropTypes.bool,
@@ -92,7 +94,7 @@ SelectFilter.propTypes = {
 };
 
 const mapStateToProps = (state, obj) => ({
-  selectValues: Selectors.getSelect(state, obj)
+  selectValues: getSelect(state, obj)
 });
 
 const mapDispatchToProps = {

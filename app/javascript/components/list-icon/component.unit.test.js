@@ -10,8 +10,8 @@ describe("<ListIcon />", () => {
   it("renders correct icon", () => {
     const component = shallow(<ListIcon icon="cases" />);
 
-    expect(component.find(CasesIcon)).to.have.length(1);
+    expect(component.find(CasesIcon)).to.have.lengthOf(1);
     component.setProps({ icon: "incidents" });
-    expect(component.find(IncidentsIcon)).to.have.length(1);
+    expect(component.find(IncidentsIcon)).to.have.lengthOf(1);
   });
 });

@@ -1,13 +1,13 @@
-import { fromJS, Map } from "immutable";
+import { fromJS } from "immutable";
 
-import * as Actions from "./actions";
+import { POTENTIAL_MATCHES } from "./actions";
 import NAMESPACE from "./namespace";
 
-const DEFAULT_STATE = Map({});
+const DEFAULT_STATE = fromJS({});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.POTENTIAL_MATCHES:
+    case POTENTIAL_MATCHES:
       return state.set("potentialMatches", fromJS(payload.data));
     default:
       return state;
