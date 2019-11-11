@@ -8,6 +8,9 @@ class Ability
 
     @user = user
 
+    can [:index], SystemSettings
+    can :index, FormSection
+
     can [:read_self, :write_self], User do |uzer|
       uzer.user_name == user.user_name
     end
@@ -23,7 +26,7 @@ class Ability
     can [:show_user], User do |uzer|
       can?(:read_self, uzer) || can?(:read, uzer)
     end
-  
+
     can [:edit_user], User do |uzer|
       can?(:write_self, uzer) || can?(:edit, uzer)
     end
@@ -49,15 +52,14 @@ class Ability
 
     baseline_permissions
 
-    if user.has_permission? Permission::SYNC_MOBILE
-      can :index, FormSection
-      can :index, SystemSettings
+    [Child, TracingRequest, Incident].each do |model|
+      configure_flag(model)
     end
   end
 
   def baseline_permissions
     can [:read, :write, :create], SavedSearch do |search|
-      user.user_name == search.user_name
+      user.user_name == search.user.user_name
     end
   end
 
@@ -172,6 +174,12 @@ class Ability
       end
     else
       can actions, resource
+    end
+  end
+
+  def configure_flag(resource)
+    can [:flag_record], resource do |instance|
+      can?(:read, instance) && can?(:flag, instance)
     end
   end
 

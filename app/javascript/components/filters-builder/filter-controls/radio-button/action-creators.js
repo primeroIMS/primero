@@ -1,15 +1,15 @@
-import * as RecordListActions from "components/record-list/actions";
+import { SET_FILTERS, ADD_RADIO_BUTTON } from "../../actions";
 
 export const setupRadioButtons = (payload, namespace) => {
   return {
-    type: `${namespace}/${RecordListActions.SET_FILTERS}`,
+    type: `${namespace}/${SET_FILTERS}`,
     payload
   };
 };
 
 export const setRadioButton = (payload, namespace) => {
   return {
-    type: `${namespace}/${RecordListActions.ADD_RADIO_BUTTON}`,
+    type: `${namespace}/${ADD_RADIO_BUTTON}`,
     payload
   };
 };

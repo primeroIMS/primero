@@ -1,15 +1,12 @@
-import chai, { expect } from "chai";
-import { Map, List } from "immutable";
-import chaiImmutable from "chai-immutable";
+import { expect } from "chai";
+import { Map } from "immutable";
 
-import * as selectors from "./selectors";
-
-chai.use(chaiImmutable);
+import { selectSupportData } from "./selectors";
 
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
   records: Map({
-    Support: Map({
+    support: Map({
       data: {
         name: "Simon Nehme",
         organization: "UNICEF",
@@ -19,14 +16,13 @@ const stateWithRecords = Map({
         location: "United Nations Children’s Fund Lebanon",
         support_forum: "https://google.com",
         other_information: "",
-        primero_version: "1.3.15"
+        primeroVersion: "1.3.15"
       }
     })
   })
 });
 
 describe("<Support /> - Selectors", () => {
-
   describe("selectSupportData", () => {
     it("should return records", () => {
       const expected = {
@@ -38,18 +34,17 @@ describe("<Support /> - Selectors", () => {
         location: "United Nations Children’s Fund Lebanon",
         support_forum: "https://google.com",
         other_information: "",
-        primero_version: "1.3.15"
+        primeroVersion: "1.3.15"
       };
 
-      const records = selectors.selectSupportData(stateWithRecords);
+      const records = selectSupportData(stateWithRecords);
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
       const expected = Map({});
-      const records = selectors.selectSupportData(stateWithNoRecords);
+      const records = selectSupportData(stateWithNoRecords);
       expect(records).to.deep.equal(expected);
     });
   });
-
 });

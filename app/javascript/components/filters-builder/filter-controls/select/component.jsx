@@ -1,12 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { MenuItem, FormControl, Select } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { useI18n } from "components/i18n";
+import isEmpty from "lodash/isEmpty";
+
+import { useI18n } from "../../../i18n";
+import { getOption } from "../../../record-form/selectors";
+
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as Selectors from "./selectors";
+import { getSelect } from "./selectors";
 
 const MenuProps = {
   PaperProps: {
@@ -21,12 +25,29 @@ const SelectFilter = ({
   multiple,
   props,
   selectValues,
-  setSelectValue
+  setSelectValue,
+  isDate
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-  const { id, options } = props;
-  const { values, defaultValue } = options;
+  const {
+    field_name: fieldName,
+    options,
+    option_strings_source: optionStringsSource
+  } = props;
+
+  let values = [];
+
+  values = useSelector(
+    state => getOption(state, optionStringsSource, i18n),
+    []
+  );
+
+  if (isEmpty(optionStringsSource) && Array.isArray(options)) {
+    values = options;
+  } else if (Object.keys(values).length <= 0) {
+    values = options[i18n.locale];
+  }
 
   return (
     <div className={css.root}>
@@ -37,38 +58,43 @@ const SelectFilter = ({
           onChange={event => {
             setSelectValue(
               {
-                id,
+                fieldName,
                 data: event.target.value,
-                defaultValue
+                isDate
               },
               recordType
             );
           }}
           MenuProps={MenuProps}
         >
-          {values.map(v => (
-            <MenuItem key={v.id} value={v.id}>
-              {i18n.t(`filters.${v.id}`)}
-            </MenuItem>
-          ))}
+          {values &&
+            values.map(v => (
+              <MenuItem key={v.id} value={v.id}>
+                {v.display_name || v.display_text}
+              </MenuItem>
+            ))}
         </Select>
       </FormControl>
     </div>
   );
 };
 
+SelectFilter.displayName = "SelectFilter";
+
 SelectFilter.propTypes = {
-  recordType: PropTypes.string.isRequired,
+  field_name: PropTypes.string,
+  isDate: PropTypes.bool,
   multiple: PropTypes.bool,
-  props: PropTypes.object,
+  option_strings_source: PropTypes.string,
   options: PropTypes.object,
-  id: PropTypes.string,
+  props: PropTypes.object,
+  recordType: PropTypes.string.isRequired,
   selectValues: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   setSelectValue: PropTypes.func
 };
 
 const mapStateToProps = (state, obj) => ({
-  selectValues: Selectors.getSelect(state, obj.props, obj.recordType)
+  selectValues: getSelect(state, obj)
 });
 
 const mapDispatchToProps = {

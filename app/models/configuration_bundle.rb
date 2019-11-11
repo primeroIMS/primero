@@ -53,10 +53,9 @@ class ConfigurationBundle < ApplicationRecord
     @user_relations = {}
     User.all.each do |u|
       @user_relations[u.user_name] = {
-        agency:u.agency.agency_code,
-        role: u.role.unique_id,
-        user_groups: u.user_groups.map(&:unique_id),
-        modules: u.primero_modules.map(&:unique_id)
+        agency: u&.agency&.agency_code,
+        role: u&.role&.unique_id,
+        user_groups: u.user_groups.pluck(:unique_id)
       }
     end
   end
@@ -67,7 +66,6 @@ class ConfigurationBundle < ApplicationRecord
       user.agency = Agency.find_by(agency_code: value[:agency])
       user.role = Role.find_by(unique_id: value[:role])
       user.user_groups = UserGroup.where(unique_id: value[:user_groups])
-      user.primero_modules = PrimeroModule.where(unique_id: value[:modules])
       user.save
     end
   end

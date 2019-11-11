@@ -1,13 +1,13 @@
-import "test/test.setup";
-import { setupMountedThemeComponent } from "test";
 import { expect } from "chai";
-import { buildDataForReport } from "components/pages/reports/helpers";
 import { Map } from "immutable";
+
+import { buildDataForGraph } from "../../pages/report/helpers";
+import { setupMountedThemeComponent } from "../../../test";
+
 import BarChart from "./component";
 
 describe("<BarChart />", () => {
   it("renders canvas with bar chart and description", () => {
-
     const data = Map({
       title: "Cases by Nationality",
       column_name: "Nationality",
@@ -18,9 +18,17 @@ describe("<BarChart />", () => {
         Alemania: 3
       }
     });
-    const component = setupMountedThemeComponent(BarChart, { ...buildDataForReport(data) });
+    const showDetails = false;
+    const description = "Number of cases broken down by nationality";
+    const component = setupMountedThemeComponent(BarChart, {
+      ...buildDataForGraph(data),
+      description,
+      showDetails
+    });
 
-    expect(component.find("p").props().children).to.equal("Number of cases broken down by nationality");
-    expect(component.find("canvas").length).to.equal(1);
+    expect(component.find("p").props().children).to.equal(
+      "Number of cases broken down by nationality"
+    );
+    expect(component.find("canvas")).to.have.lengthOf(1);
   });
 });

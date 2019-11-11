@@ -1,18 +1,20 @@
 import { List } from "immutable";
+
 import NAMESPACE from "./namespace";
-import * as Actions from "./actions";
+import { ENQUEUE_SNACKBAR, CLOSE_SNACKBAR, REMOVE_SNACKBAR } from "./actions";
 import { MessageRecord } from "./records";
 
 const DEFAULT_STATE = List([]);
 
 export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.ENQUEUE_SNACKBAR:
+    case ENQUEUE_SNACKBAR:
       if (payload.message) {
         return state.update(a => a.push(MessageRecord(payload)));
       }
+
       return state;
-    case Actions.CLOSE_SNACKBAR:
+    case CLOSE_SNACKBAR:
       return state.update(m =>
         m.map(n =>
           n.options.key === payload.key
@@ -20,7 +22,7 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
             : MessageRecord(n)
         )
       );
-    case Actions.REMOVE_SNACKBAR:
+    case REMOVE_SNACKBAR:
       return state.filter(m => m.options.key !== payload.key);
     default:
       return state;

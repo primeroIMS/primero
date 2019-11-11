@@ -1,132 +1,144 @@
 Primero
 ========
-[![Build Status](https://api.travis-ci.org/primeroIMS/primero.svg?branch=master)](https://travis-ci.org/primeroIMS/primero)
+[![Build Status](https://api.travis-ci.org/primeroIMS/primero.svg?branch=development_v2)](https://travis-ci.org/primeroIMS/primero/branches)
 
 
 ## Development
-To develop the application locally, you will need to do the following:
 
-- Install [VirtualBox 6](https://www.virtualbox.org/wiki/Downloads)
-- Install [Vagrant 2.2.3](https://www.vagrantup.com/downloads.html)
-- Install [Chef DK 0.9.0](https://downloads.chef.io/chef-dk/).
-**Note that currently the latest supported Chef DK version is 0.9.0**
+To develop the application locally, we recommend that you install [Docker](https://docs.docker.com/install/)
+and [Docker Compose](https://docs.docker.com/compose/install/). This is needed to start your pre-configured
+PostgreSQL and Solr images, if you don't want to install and configure these dependencies by hand.
 
-**Note:** Primero v1.4+ (currently on the development branch) uses Ubuntu 16.04. Primero v1.3 or below uses Ubuntu 14.04. If you wish to do development on either stream, it's recommended to clone this project into separate directories to manage separate Vagrant boxes.
+All command below assume that you are starting in the Primero root directory.
 
-Once you have Vagrant installed, run the following to install the right plugins:
+### Build and Start Postgres and Solr
 
-    $ vagrant plugin install vagrant-berkshelf --plugin-version 5.1.2
-    $ vagrant plugin install vagrant-omnibus --plugin-version 1.5.0
+    $ cd docker
+    $ cp local.env.sample.development local.env
+    $ ./build.sh postgres
+    $ ./build.sh solr
+    $ ./compose.local.sh up -d postgres
+    $ ./compose.local.sh run solr make-primero-core.sh primero-test
+    $ ./compose.local.sh up -d solr
 
- **Note:** If you are using OS X, make sure to run the following command due to a 1.8.x [Vagrant bug](https://github.com/mitchellh/vagrant/issues/7997)
+Note that on Linux, where Docker runs as root by default,
+you will need to run the build and the compose scripts as `sudo`.
 
-    $ sudo rm -f /opt/vagrant/embedded/bin/curl
+### Install RVM and Ruby
 
-Duplicate the dev-node.json.sample and rename it dev-node.json. This file contains the chef configuration options.
+    $ #Install RVM
+    $ gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+    $ \curl -sSL https://get.rvm.io | bash
+    $ echo "source ~/.rvm/scripts/rvm" >> ~/.bashrc
+    $ source  ~/.rvm/scripts/rvm
+    $
+    $ #Install Ruby
+    $ rvm install `cat .ruby-version`
 
-Now you are ready to start the VM.  Make sure you don't have anything running
-on ports 8000, 8443, 5984, or 3000 -- vagrant will forward to these ports from
-the VM to give you access to the database, application server and rails dev
-server.  Auto correction of ports is currently not enabled to avoid confusion.
-To start the VM, run:
+### Install Node and NPM
 
-    $ vagrant up
+On MacOS, with [Homebrew](https://brew.sh):
 
-This will take a while as it has to download and compile some stuff from
-source.  While this is running you can modify your hosts file to include
-our fake domain to use for development.
+    $ #Install Node
+    $ brew install node
 
+On Ubuntu:
 
-| WARNING: Vagrant no longer sets up a production environment. |
-| --- |
-
-
-Vagrant is provisioned using a development Chef file `dev-node.json.sample`. You can override it by creating your own file `dev-node.json`. See the README in the `cookbook` directory for more on configuring Primero Chef files.
-
-## Starting development
-
-When the Vagrant box is up and running, SSH in and go to the Primero development directory (synced from your host):
-
-    $ vagrant ssh
-    $ cd ~/primero
-
-### Prepare the development environment:
-
-    $ bundle install
-
-
-### Install dependecies of MiniMagick used on Active Storage
-    $ sudo apt-get install -y imagemagick
-
-### Install nodejs and yarn
-    $ curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+    $ #Install Node 12.x
+    $ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
     $ sudo apt-get install -y nodejs
 
-    $ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-    $ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+On Fedora:
+    $ #Install Node 12.x
+    $ sudo dnf install -y gcc-c++ make
+    $ curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash -
+    $ sudo dnf install nodejs
 
-    $ sudo apt-get update && sudo apt-get install yarn
-    
-### Make sure you set up secrets
-    $ echo "export PRIMERO_SECRET_KEY_BASE=`rails secret | tail -1`" >> ~/.bashrc
-    $ echo "export DEVISE_SECRET_KEY=`rails secret | tail -1`" >> ~/.bashrc
-    $ echo "export DEVISE_JWT_SECRET_KEY=`rails secret | tail -1`" >> ~/.bashrc
+### Install binary dependencies
 
-### Prepare the database
+On MacOS:
+
+    $ #If xcode-select is not installed yet, install it.
+    $ xcode-select --install
+    $ brew install libpq imagemagick postgresql
+
+On Ubuntu:
+
+    $ sudo apt-get install -y libpq imagemagick
+
+On Fedora:
+
+    $ sudo dnf install postgresql-devel ImageMagick
+
+### Starting development
+
+Install  gems, packages:
+
+    $ bundle install
+    $ npm install
+
+Prepare development configuration. Review the created configurations files and alter as needed:
+
+    $ cp config/database.yml.development config/database.yml
+    $ cp config/locales.yml.development config/locales.yml
+    $ cp config/mailers.yml.development config/mailers.yml
+    $ cp config/sunspot.yml.development config/sunspot.yml
+
+Set development environment variables:
+
+    $ echo "export PRIMERO_SECRET_KEY_BASE=PRIMERO_SECRET_KEY_BASE" >> ~/.bashrc
+    $ echo "export DEVISE_SECRET_KEY=DEVISE_SECRET_KEY" >> ~/.bashrc
+    $ echo "export DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY" >> ~/.bashrc
+
+If you use a different shell, add these environment variables to the rc file for that shell.
+
+You may be pedantic about the secrets in development, and set them to something truly secret.
+Optionally use the command below to generate a random secret:
+
+    $ rails secret
+
+Make sure that the secrets we set earlier are in your environment (replace .basharc with the rc file for your shell if you use a shell other than bash):
+
+    $ source ~/.bashrc
+
+Prepare the database
 
     $ rails db:create
     $ rails db:migrate
     $ rails db:seed
-    
-### Pull JS dependencies
 
-    $ yarn install    
+Generate the i18n translation files
 
-To bring up the development server on port 3000 and webpack:
+    $ bin/rails primero:i18n_js
 
-    $ foreman start -f Procfile.dev
-    
-Alternatively, you may want to start Rails and Webpack separately:
-   
+You may start the development Rails server on port 3000:
+
     $ rails s
 
-And in a separate Vagrant SSH session:
+And in a separate terminal window, the development Rails Webpacker server:
 
-    $ ./bin/webpack-dev-server
+    $ npm run serve
 
+Alternatively, to bring everything up together you can use:
 
-***Note:*** The first time webpack runs, it takes a very long time to compile. 
+    $ foreman start -f Procfile.dev
+
+***Note:*** The first time webpack runs, it takes a very long time to compile.
 It's better to keep Rails as a separate process if you want to restart it for some reason.
 
-***Note:*** Use the environment variable `CACHE_CLASSES=no` to allow Rails to reload Ruby code on the fly.
-Use the environment variable `LEGACY_UI=yes` to support rendering of the old v1.x UI. 
-This option (along with the legacy UI) will soon disappear. 
 
-You should now be able to access your development server in the browser on [http://primero.test:3000](http://primero.test:3000).
+You should now be able to access your development server in the browser on [http://localhost:3000](http://localhost:3000).
 You can login with a preseeded admin account with credentials `primero`/`primer0!`.
 
-Automatic development server reloads based on code changes have been disabled. This is intentional. **Do not change that!**
+For more on making code contributions, have a look at the file [CONTRIBUTING.md](CONTRIBUTING.md).
 
-For more on making code contributions, have a look at the file `CONTRIBUTING.md`.
+## Notes
 
-Occasionally you may have issues with the JS I18n object not properly loading the correct locales as defined in locales.yml.
-Due to a caching issue, it may retain an older list of available locales.
-If this happens, and you have a user set up with a locale not defined in that old stale locales list, when you create a case,
-the forms will be blank.
-To resolve this, run the following command from the application directory:
-    $ bundle exec rake tmp:cache:clear
+- It is known that a few npm packages will throw a `requires a peer of` warning. Examples: Mui-datatables is behind on updating dependecies. Jsdom requires canvas, but we are mocking canvas. Canvas also requires extra packages on alpine, which is the reason for mocking canvas.
 
-
-## Deploy keys
-
-Since development will happen on forked repositories you will need to make sure
-that your personal repository has the right deploy key set.  To do so, add the
-key from the `node[:primero][:deploy_key]` attribute in the `dev-node.json`
-file in this repo to your Bitbucket fork's deploy key list.  You add the key in
-Bitbucket by going into the repo admin and clicking on `Deployment Keys`.  You
-will have to convert the `\\n` characters in the JSON string to real newlines
-first.
+## Contributing
+- If contributing to the UI, make sure to read over the [UI/UX Development](doc/ui_ux.md) documents.
 
 ## Production
 
-Primero is deployed in production using [Chef](https://www.chef.io/). Detailed Chef instructions exist in the file `cookbook/README.md`
+Primero is deployed in production using Docker. Detailed Docker instructions exist in the file [docker/README.md](docker/README.md)

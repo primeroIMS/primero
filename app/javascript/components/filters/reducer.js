@@ -1,5 +1,6 @@
 import { Map } from "immutable";
-import * as Actions from "./actions";
+
+import { SET_TAB } from "./actions";
 import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = Map({
@@ -16,7 +17,7 @@ const DEFAULT_STATE = Map({
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.SET_TAB:
+    case SET_TAB:
       return state.setIn([payload.recordType, "current"], payload.value);
     default:
       return state;

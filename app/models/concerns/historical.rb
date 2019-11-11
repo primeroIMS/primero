@@ -108,7 +108,9 @@ module Historical
   end
 
   def saved_changes_to_record
-    saved_changes_to_record = nil
+    return {} unless saved_changes?
+
+    saved_changes_to_record = {}
     old_values = self.saved_change_to_attribute('data')[0] || {}
     new_values = self.saved_change_to_attribute('data')[1] || {}
     if new_values.present?
@@ -116,6 +118,11 @@ module Historical
       diff = hash_diff(new_values, old_values)
       if diff.present?
         saved_changes_to_record = diff.map{|k, v| [k, {'from' => old_values[k], 'to' => v}]}.to_h
+        # mark the 'name' attribute as dirty if `hidden name` changed
+        if saved_changes_to_record.key?('hidden_name') &&
+            !saved_changes_to_record.key?('name')
+          saved_changes_to_record['name'] = [self.name, self.name]
+        end
       end
     end
     return saved_changes_to_record

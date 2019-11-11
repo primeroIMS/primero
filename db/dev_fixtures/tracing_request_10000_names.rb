@@ -26,7 +26,7 @@ def create_tracing_request(id, num_of_tracing_requests, names, lastnames)
         randomday = 1 + rand(29)
 
         c.module_id = 'primeromodule-cp'
-        c.inquiry_status = ['open', 'closed'].sample
+        c.status = ['open', 'closed'].sample
         c.record_state = [true, false].sample
         c.created_at = DateTime.new(2014, randommonth, randomday)
         #random name and last name

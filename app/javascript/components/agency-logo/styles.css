@@ -22,6 +22,11 @@
   width: 12.5em;
 }
 
+.hideLogo {
+  display: none !important;
+  background-color: blue;
+}
+
 @media $(theme.breakpoints.down('sm')) {
   .agencyLogo, .line {
     display: none;

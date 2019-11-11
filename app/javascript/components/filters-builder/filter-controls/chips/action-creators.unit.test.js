@@ -1,16 +1,11 @@
-import clone from "lodash/clone";
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import sinon from "sinon";
-import sinonChai from "sinon-chai";
-import configureStore from "redux-mock-store";
-import * as actionCreators from "./action-creators";
-import * as actions from "./actions";
 
-chai.use(sinonChai);
+import * as actionCreators from "./action-creators";
 
 describe("<Chips /> - Action Creators", () => {
   it("should have known action creators", () => {
-    const creators = clone(actionCreators);
+    const creators = { ...actionCreators };
 
     expect(creators).to.have.property("setUpChips");
     expect(creators).to.have.property("setChip");

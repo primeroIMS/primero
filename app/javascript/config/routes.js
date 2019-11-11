@@ -1,6 +1,20 @@
-import * as Page from "components/pages";
-import { RecordForm } from "components/record-form";
-import { AppLayout, LoginLayout } from "components/layouts";
+import {
+  Login,
+  Dashboard,
+  Reports,
+  Report,
+  PotentialMatches,
+  TaskList,
+  ExportList,
+  Support,
+  NotAuthorized,
+  NotFound
+} from "./../components/pages";
+import { RecordForm } from "./../components/record-form";
+import RecordList from "./../components/record-list";
+import { AppLayout, LoginLayout } from "./../components/layouts";
+
+import { ROUTES } from "./constants";
 
 export default [
   {
@@ -8,11 +22,11 @@ export default [
     routes: [
       {
         path: "/login",
-        component: Page.Login
+        component: Login
       },
       {
         path: "/logout",
-        component: Page.Login
+        component: Login
       }
     ]
   },
@@ -20,63 +34,71 @@ export default [
     layout: AppLayout,
     routes: [
       {
-        path: "/dashboard",
-        component: Page.Dashboard
+        path: ROUTES.dashboard,
+        component: Dashboard
       },
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:id/edit",
         component: RecordForm,
-        mode: "edit"
+        mode: "edit",
+        permission: ["write", "manage"]
       },
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:module/new",
         component: RecordForm,
-        mode: "new"
+        mode: "new",
+        permission: ["create", "manage"]
       },
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:id",
         component: RecordForm,
-        mode: "show"
+        mode: "show",
+        permission: ["read", "manage"]
       },
       {
-        path: "/cases",
-        component: Page.CaseList
+        path: "/:recordType(cases|incidents|tracing_requests)",
+        component: RecordList,
+        permission: ["read", "manage"]
       },
       {
-        path: "/incidents",
-        component: Page.IncidentList
+        path: ROUTES.reports,
+        component: Reports,
+        permissionType: "reports",
+        permission: ["read", "group_read", "manage"]
       },
       {
-        path: "/tracing_requests",
-        component: Page.TracingRequestList
+        path: `${ROUTES.reports}/:id`,
+        component: Report,
+        permissionType: "reports",
+        permission: ["read", "group_read", "manage"]
       },
       {
-        path: "/reports",
-        component: Page.Reports
+        path: ROUTES.matches,
+        component: PotentialMatches,
+        permissionType: "potential_matches",
+        permission: "read"
       },
       {
-        path: "/reports/:id",
-        component: Page.ReportDetail
+        path: ROUTES.tasks,
+        component: TaskList,
+        permissionType: "dashboards",
+        permission: "dash_tasks"
       },
       {
-        path: "/matches",
-        component: Page.PotentialMatches
+        path: ROUTES.exports,
+        component: ExportList
       },
       {
-        path: "/tasks",
-        component: Page.TaskList
+        path: ROUTES.support,
+        component: Support
       },
       {
-        path: "/exports",
-        component: Page.ExportList
-      },
-      {
-        path: "/support",
-        component: Page.Support
+        path: "/not-authorized",
+        component: NotAuthorized
       }
     ]
   },
   {
-    component: Page.NotFound
+    component: NotFound
   }
 ];

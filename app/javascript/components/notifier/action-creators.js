@@ -1,8 +1,8 @@
-import * as Actions from "./actions";
+import { ENQUEUE_SNACKBAR, CLOSE_SNACKBAR, REMOVE_SNACKBAR } from "./actions";
 
 export const enqueueSnackbar = (message, type) => {
   return {
-    type: Actions.ENQUEUE_SNACKBAR,
+    type: ENQUEUE_SNACKBAR,
     payload: {
       message,
       options: {
@@ -14,14 +14,14 @@ export const enqueueSnackbar = (message, type) => {
 };
 
 export const closeSnackbar = key => ({
-  type: Actions.CLOSE_SNACKBAR,
+  type: CLOSE_SNACKBAR,
   payload: {
     key
   }
 });
 
 export const removeSnackbar = key => ({
-  type: Actions.REMOVE_SNACKBAR,
+  type: REMOVE_SNACKBAR,
   payload: {
     key
   }

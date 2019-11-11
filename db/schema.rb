@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_17_000000) do
+ActiveRecord::Schema.define(version: 2019_09_12_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -83,16 +83,15 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
   end
 
   create_table "audit_logs", id: :serial, force: :cascade do |t|
-    t.string "user_name"
-    t.string "action_name"
-    t.text "display_id"
     t.string "record_type"
     t.string "record_id"
-    t.string "owned_by"
+    t.string "user_id"
+    t.string "action"
+    t.string "resource_url"
     t.datetime "timestamp"
-    t.jsonb "mobile_data"
+    t.jsonb "metadata"
     t.index ["record_type", "record_id"], name: "index_audit_logs_on_record_type_and_record_id"
-    t.index ["user_name"], name: "index_audit_logs_on_user_name"
+    t.index ["user_id"], name: "index_audit_logs_on_user_id"
   end
 
   create_table "bulk_exports", id: :serial, force: :cascade do |t|
@@ -122,7 +121,7 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
 
   create_table "configuration_bundles", id: :serial, force: :cascade do |t|
     t.string "applied_by"
-    t.datetime "applied_at", default: -> { "now()" }, null: false
+    t.datetime "applied_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
   create_table "contact_informations", id: :serial, force: :cascade do |t|
@@ -285,11 +284,17 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
     t.index ["unique_id"], name: "index_primero_modules_on_unique_id", unique: true
   end
 
-  create_table "primero_modules_users", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
+  create_table "primero_modules_roles", id: false, force: :cascade do |t|
+    t.integer "role_id"
     t.integer "primero_module_id"
-    t.index ["primero_module_id"], name: "index_primero_modules_users_on_primero_module_id"
-    t.index ["user_id"], name: "index_primero_modules_users_on_user_id"
+    t.index ["role_id", "primero_module_id"], name: "index_primero_modules_roles_on_role_id_and_primero_module_id", unique: true
+  end
+
+  create_table "primero_modules_saved_searches", id: :serial, force: :cascade do |t|
+    t.integer "primero_module_id"
+    t.integer "saved_search_id"
+    t.index ["primero_module_id"], name: "index_primero_modules_saved_searches_on_primero_module_id"
+    t.index ["saved_search_id"], name: "index_primero_modules_saved_searches_on_saved_search_id"
   end
 
   create_table "primero_programs", id: :serial, force: :cascade do |t|
@@ -330,25 +335,27 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
     t.string "unique_id"
     t.string "name"
     t.string "description"
-    t.jsonb "permissions_list", default: [], array: true
+    t.jsonb "permissions"
     t.string "group_permission", default: "self"
     t.boolean "referral", default: false, null: false
     t.boolean "transfer", default: false, null: false
     t.boolean "is_manager", default: false, null: false
+    t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
 
   create_table "roles_roles", id: false, force: :cascade do |t|
     t.integer "role_id"
     t.integer "associated_role_id"
+    t.index ["role_id", "associated_role_id"], name: "index_roles_roles_on_role_id_and_associated_role_id", unique: true
   end
 
   create_table "saved_searches", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.string "module_id"
     t.string "record_type"
-    t.string "user_name"
+    t.integer "user_id"
     t.jsonb "filters"
+    t.index ["user_id"], name: "index_saved_searches_on_user_id"
   end
 
   create_table "system_settings", id: :serial, force: :cascade do |t|
@@ -375,6 +382,28 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
   create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.index ["data"], name: "index_tracing_requests_on_data", using: :gin
+  end
+
+  create_table "transitions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "type"
+    t.string "status"
+    t.string "record_id"
+    t.string "record_type"
+    t.string "transitioned_to"
+    t.string "transitioned_to_remote"
+    t.string "transitioned_to_agency"
+    t.string "rejected_reason"
+    t.text "notes"
+    t.string "transitioned_by"
+    t.string "service"
+    t.string "service_record_id"
+    t.boolean "remote", default: false, null: false
+    t.string "type_of_export"
+    t.boolean "consent_overridden", default: false, null: false
+    t.boolean "consent_individual_transfer", default: false, null: false
+    t.datetime "created_at"
+    t.index ["id", "type"], name: "index_transitions_on_id_and_type"
+    t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"
   end
 
   create_table "user_groups", id: :serial, force: :cascade do |t|
@@ -412,7 +441,6 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
     t.string "agency_office"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
-    t.string "module_ids", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["agency_id"], name: "index_users_on_agency_id"

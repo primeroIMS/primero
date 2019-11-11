@@ -1,8 +1,0 @@
-source "https://supermarket.chef.io"
-
-metadata
-
-cookbook 'rvm', git: 'https://github.com/fnichol/chef-rvm.git'
-cookbook 'couchdb', git: 'https://github.com/Quoin/couchdb-cookbook.git', ref: 'a673f71a82b2549dd6c17987d3b76117d05d15f7'
-cookbook 'sudo', git: 'https://github.com/opscode-cookbooks/sudo.git', ref: 'cbd703cac77b7900674131441a22323f7d88d1c7'
-cookbook 'chef-unattended-upgrades', :git => 'https://github.com/Quoin/chef-unattended-upgrades.git', ref: '13b0b86386d87ee4d19ae62451ca7f37b9c87d02'

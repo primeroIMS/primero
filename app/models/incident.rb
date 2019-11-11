@@ -23,13 +23,16 @@ class Incident < ApplicationRecord
   scope :by_incident_detail_id, ->(incident_detail_id) { where('data @> ?', {incident_detail_id: incident_detail_id}.to_json) }
 
   def self.quicksearch_fields
-    %w(incident_id incident_code super_incident_name incident_description
+    %w[incident_id incident_code super_incident_name incident_description
        monitor_number survivor_code individual_ids incidentid_ir
-    )
+    ]
   end
 
   def self.summary_field_names
-    %w(short_id date_of_interview date_of_incident violence_type incident_location violations social_worker flag_count)
+    common_summary_fields + %w[
+      date_of_interview date_of_incident violence_type
+      incident_location violations social_worker
+    ]
   end
 
   searchable auto_index: self.auto_index? do
@@ -37,6 +40,7 @@ class Incident < ApplicationRecord
       self.incident_date_derived
     end
 
+    string :status, as: 'status_sci'
     quicksearch_fields.each do |f|
       text(f) { self.data[f] }
     end

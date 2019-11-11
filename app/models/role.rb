@@ -6,9 +6,14 @@ class Role < ApplicationRecord
   include Configuration
 
   has_and_belongs_to_many :form_sections, -> { distinct }
+  has_and_belongs_to_many :primero_modules, -> { distinct }
   has_and_belongs_to_many :roles
 
-  validates :permissions_list, presence: { message: I18n.t("errors.models.role.permission_presence") }
+  alias_attribute :modules, :primero_modules
+
+  serialize :permissions, Permission::PermissionSerializer
+
+  validates :permissions, presence: { message: I18n.t("errors.models.role.permission_presence") }
   validates :name, presence: { message: I18n.t("errors.models.role.name_present") },
                    uniqueness: { message: I18n.t("errors.models.role.unique_name") }
 
@@ -30,26 +35,12 @@ class Role < ApplicationRecord
     if perm_key == 'management'
       self.group_permission == perm_value
     else
-      self.permissions_list.map{|p| p[perm_key]}.flatten.include? perm_value
+      self.permissions.map{|p| p[perm_key]}.flatten.include? perm_value
     end
   end
 
   def has_permitted_form_id?(form_unique_id_id)
     self.form_sections.map(&:unique_id).include?(form_unique_id_id)
-  end
-
-  def permissions
-    if self.permissions_list.present?
-      self.permissions_list.map{|p| Permission.new(p)}
-    else
-      []
-    end
-  end
-
-  def permissions=(permissions)
-    if permissions.is_a? Array
-      self.permissions_list = permissions.map(&:to_h)
-    end
   end
 
   class << self

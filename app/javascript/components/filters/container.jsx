@@ -1,79 +1,94 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import { Tabs, Tab } from "@material-ui/core";
-import { Map } from "immutable";
-import { FiltersBuilder } from "components/filters-builder";
-import {
-  setUpCheckBoxes,
-  setupSelect,
-  setupRangeButton,
-  setUpChips,
-  setupRadioButtons,
-  setupDatesRange,
-  setSwitchButton
-} from "components/filters-builder/filter-controls";
-import { useI18n } from "components/i18n";
-import filterTypes from "./mocked-filters";
-import styles from "./styles.css";
-import * as actions from "./action-creators";
-import * as Selectors from "./selectors";
+import { fromJS } from "immutable";
 
-const Filters = ({
-  recordType,
-  tabValue,
-  setTabValue,
-  setCheckBoxes,
-  setSelect,
-  setRangeButton,
-  setRadioButtons,
-  setChips,
-  setDatesRange,
-  setSwitch
-}) => {
+import { FiltersBuilder } from "../filters-builder";
+import { SavedSearches, fetchSavedSearches } from "../saved-searches";
+import { useI18n } from "../i18n";
+
+import {
+  setInitialFilterValues,
+  setInitialRecords,
+  setTab
+} from "./action-creators";
+import { NAME } from "./config";
+import { getTab, getFiltersByRecordType } from "./selectors";
+import styles from "./styles.css";
+
+const ARRAY_FILTERS = [
+  "checkbox",
+  "select",
+  "multi_select",
+  "multi_toggle",
+  "select",
+  "chips",
+  "toggle"
+];
+
+const STRING_FILTERS = ["radio"];
+
+const DATE_RANGE_FILTERS = ["dates"];
+
+const Container = ({ recordType, defaultFilters }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const dispatch = useDispatch();
 
-  const resetPanels = () => {
-    filterTypes.map(filter => {
-      const payloadFilter = {};
-      switch (filter.type) {
-        case "checkbox":
-          payloadFilter[filter.id] = [];
-          return setCheckBoxes(payloadFilter, recordType);
-        case "multi_select":
-        case "select":
-          payloadFilter[filter.id] = [];
-          return setSelect(payloadFilter, recordType);
-        case "multi_toggle":
-          payloadFilter[filter.id] = [];
-          return setRangeButton(payloadFilter, recordType);
-        case "radio":
-          payloadFilter[filter.id] = "";
-          return setRadioButtons(payloadFilter, recordType);
-        case "chips":
-          payloadFilter[filter.id] = [];
-          return setChips(payloadFilter, recordType);
-        case "dates":
-          payloadFilter[filter.id] = Map({
-            from: null,
-            to: null,
-            value: ""
-          });
-          return setDatesRange(payloadFilter, recordType);
-        case "switch":
-          payloadFilter[filter.id] = [];
-          return setSwitch(payloadFilter, recordType);
-        default:
-          return null;
+  const tabValue = useSelector(state => getTab(state, recordType));
+  const availableFilters = useSelector(state =>
+    getFiltersByRecordType(state, recordType)
+  );
+
+  const resetFilterValues = (namespace = null,
+      path = null) => {
+    if (availableFilters) {
+      const excludeDefaultFilters = [...defaultFilters.keys()];
+
+      const initialFilterValues = availableFilters.reduce((obj, item) => {
+        const currentObject = obj;
+        const { field_name: fieldName, type: filterType } = item;
+
+        if (!excludeDefaultFilters.includes(item.fieldName)) {
+          if (ARRAY_FILTERS.includes(filterType)) {
+            if (fieldName === "my_cases") {
+              currentObject["my_cases[owned_by]"] = fromJS([]);
+              currentObject["my_cases[assigned_user_names]"] = fromJS([]);
+            } else {
+              currentObject[fieldName] = fromJS([]);
+            }
+          }
+
+          if (STRING_FILTERS.includes(filterType)) {
+            currentObject[fieldName] = "";
+          }
+
+          if (DATE_RANGE_FILTERS.includes(filterType)) {
+            currentObject[item.field_name] = fromJS({
+              from: null,
+              to: null,
+              value: ""
+            });
+          }
+        }
+
+        return currentObject;
+      }, {});
+
+      dispatch(setInitialFilterValues(recordType, initialFilterValues));
+
+      if (namespace && path) {
+        dispatch(setInitialRecords(path, namespace, initialFilterValues));
       }
-    });
+    }
   };
 
   useEffect(() => {
-    resetPanels();
-  }, []);
+    resetFilterValues();
+    dispatch(fetchSavedSearches());
+  }, [availableFilters]);
 
   const tabs = [
     { name: i18n.t("saved_search.filters_tab"), selected: true },
@@ -84,7 +99,7 @@ const Filters = ({
     <div className={css.root}>
       <Tabs
         value={tabValue}
-        onChange={(e, value) => setTabValue({ recordType, value })}
+        onChange={(event, value) => dispatch(setTab({ recordType, value }))}
         TabIndicatorProps={{
           style: {
             backgroundColor: "transparent"
@@ -105,44 +120,26 @@ const Filters = ({
       {tabValue === 0 && (
         <FiltersBuilder
           recordType={recordType}
-          filters={filterTypes}
-          resetPanel={resetPanels}
+          filters={availableFilters}
+          resetPanel={resetFilterValues}
+          defaultFilters={defaultFilters}
         />
       )}
-      {tabValue === 1 && <h1 style={{ textAlign: "center" }}>NYI</h1>}
+      {tabValue === 1 && (
+        <SavedSearches
+          recordType={recordType}
+          resetFilters={resetFilterValues}
+        />
+      )}
     </div>
   );
 };
 
-Filters.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  tabValue: PropTypes.number.isRequired,
-  setTabValue: PropTypes.func,
-  setCheckBoxes: PropTypes.func,
-  setSelect: PropTypes.func,
-  setRangeButton: PropTypes.func,
-  setRadioButtons: PropTypes.func,
-  setChips: PropTypes.func,
-  setDatesRange: PropTypes.func,
-  setSwitch: PropTypes.func
+Container.displayName = NAME;
+
+Container.propTypes = {
+  defaultFilters: PropTypes.object,
+  recordType: PropTypes.string.isRequired
 };
 
-const mapStateToProps = (state, props) => ({
-  tabValue: Selectors.getTab(state, props.recordType)
-});
-
-const mapDispatchToProps = {
-  setTabValue: actions.setTab,
-  setCheckBoxes: setUpCheckBoxes,
-  setSelect: setupSelect,
-  setRangeButton: setupRangeButton,
-  setRadioButtons: setupRadioButtons,
-  setChips: setUpChips,
-  setDatesRange: setupDatesRange,
-  setSwitch: setSwitchButton
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Filters);
+export default Container;

@@ -1,9 +1,7 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as selectors from "./selectors";
 
-chai.use(chaiImmutable);
+import { getSelect } from "./selectors";
 
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
@@ -20,22 +18,19 @@ describe("<SelectFilter /> - Selectors", () => {
   describe("getSelect", () => {
     it("should return records", () => {
       const expected = ["bia"];
-      const records = selectors.getSelect(
-        stateWithRecords,
-        { id: "status" },
-        "Cases"
-      );
+      const records = getSelect(stateWithRecords, {
+        recordType: "Cases",
+        props: { field_name: "status" }
+      });
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
-      const records = selectors.getSelect(
-        stateWithNoRecords,
-        { id: "status" },
-        "Cases"
-      );
-      expect(records).to.deep.equal([]);
+      const records = getSelect(stateWithNoRecords, {
+        recordType: "Cases",
+        props: { field_name: "status" }
+      });
+      expect(records).to.deep.equal('');
     });
   });
 });
-

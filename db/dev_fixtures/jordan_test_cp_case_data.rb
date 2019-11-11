@@ -26,7 +26,7 @@ PATH = 'db/dev_fixtures/names/'.freeze
 @all_level_3_locations = Location.by_admin_level(key: 3).to_a
 
 sexes = %w[male female]
-child_status = %w[open closed]
+status = %w[open closed]
 risk_level = %w[high medium low]
 date_concern_identified = %w[follow_up_after_reunification follow_up_in_care registration reunification verification]
 service_types = Lookup.find('lookup-service-type').lookup_values.map { |lv| lv['id'] }
@@ -251,7 +251,7 @@ create_users('gbv')
                                    age: child_age,
                                    date_of_birth: I18n.l(child_dob),
                                    sex: sexes[rand(sexes.size)],
-                                   child_status: child_status[rand(child_status.size)],
+                                   status: status[rand(status.size)],
                                    location_current: chosen_location,
                                    record_state: true,
                                    module_id: 'primeromodule-cp',
@@ -269,7 +269,7 @@ create_users('gbv')
                                    services_section: services,
                                    case_referred_by: case_referred_by.sample)
 
-  if child.child_status == 'closed'
+  if child.status == 'closed'
     child.closure_reason = closure_reasons.sample
     child.date_closure = closure_date
   end

@@ -15,8 +15,10 @@ module Flaggable
     after_save :index_flags, unless: Proc.new{ Rails.env == 'production' }
 
     def add_flag(message, date, user_name)
-      flag = Flag.new(flagged_by: user_name, message: message, date: date, created_at: DateTime.now)
+      date_flag = date.presence || Date.today
+      flag = Flag.new(flagged_by: user_name, message: message, date: date_flag, created_at: DateTime.now)
       self.flags << flag
+      flag
     end
 
     #TODO: Is this necessary?
@@ -35,19 +37,19 @@ module Flaggable
         flag.removed = true
         flag.save!
       end
+      flag
     end
 
     def flag_count
-      self.flags.where(removed: false).count
+      flags.where(removed: false).count
     end
 
     def flagged?
-      self.flag_count > 0
+      flag_count.positive?
     end
     alias_method :flagged, :flagged?
 
-    def self.batch_flag(ids, message, date, user_name)
-      records = self.find(ids)
+    def self.batch_flag(records, message, date, user_name)
       ActiveRecord::Base.transaction do
         records.each do |record|
           record.add_flag(message, date, user_name)

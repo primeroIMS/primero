@@ -17,6 +17,7 @@ class Agency < ApplicationRecord
 
   has_one_attached :logo_large
   has_one_attached :logo_small
+  has_many :users, inverse_of: :agency
 
 
   validates :logo_large, file_size: { less_than_or_equal_to: 10.megabytes },
@@ -27,7 +28,7 @@ class Agency < ApplicationRecord
   validate :validate_logo_large_dimension, if: -> { logo_large.attached? }
   validate :validate_logo_small_dimension, if: -> { logo_small.attached? }
 
-  after_initialize :generate_unique_id
+  after_initialize :generate_unique_id, unless: :persisted?
 
 
   class << self

@@ -1,25 +1,32 @@
 module Record
   extend ActiveSupport::Concern
 
-  STATUS_OPEN = 'open' ; STATUS_CLOSED = 'closed'
+  STATUS_OPEN = 'open' ; STATUS_CLOSED = 'closed' ; STATUS_TRANSFERRED = 'transferred'
 
   included do
     store_accessor :data, :unique_identifier, :short_id, :record_state, :status, :marked_for_mobile
 
-    after_initialize :defaults
+    after_initialize :defaults, unless: :persisted?
     before_create :create_identification
     before_save :populate_subform_ids
     after_save :index_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
     after_destroy :unindex_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
   end
 
-  #TODO: Refactor when making names
   def self.model_from_name(name)
     case name
-      when 'case' then Child
-      when 'violation' then Incident
-      else Object.const_get(name.camelize)
+    when 'case' then Child
+    when 'violation' then Incident
+    else Object.const_get(name.camelize)
     end
+  rescue NameError
+    nil
+  end
+
+  def self.map_name(name)
+    name = name.underscore
+    name = 'case' if name == 'child'
+    name
   end
 
   module ClassMethods
@@ -31,8 +38,13 @@ module Record
       record.data = Utils.merge_data(record.data, data)
       record.set_creation_fields_for(user)
       record.set_owner_fields_for(user)
-      record.set_attachment_fields(data)
+      record.attach(data)
       record
+    end
+
+    def common_summary_fields
+      %w[created_at owned_by owned_by_agency_id photos
+         flag_count status record_in_scope short_id]
     end
 
     #TODO: This method is currently unused, but should eventually replace the mess in the record actions controller
@@ -56,6 +68,12 @@ module Record
       self.name.underscore.downcase
     end
 
+    def preview_field_names
+      Field.joins(:form_section).where(
+        form_sections: { parent_form: parent_form },
+        show_on_minify_form: true
+      ).pluck(:name)
+    end
 
     #TODO: Refactor with UIUX
     def model_name_for_messages
@@ -123,10 +141,10 @@ module Record
     parent[attr_keys[-1]] = value
   end
 
-  def update_properties(properties, user_name)
-    self.data = Utils.merge_data(self.data, properties)
+  def update_properties(data, user_name)
+    self.data = Utils.merge_data(self.data, data)
     self.last_updated_by = user_name
-    self.set_attachment_fields(properties)
+    self.attach(data)
   end
 
   def nested_reportables_hash
@@ -188,7 +206,7 @@ module Record
           result
         end
         append = new_data.reject{|new_record| merged_old_data.find{|r| r['unique_id'] == new_record['unique_id']}}
-        (merged_old_data + append).reject{|record| record['_delete']}
+        (merged_old_data + append).reject{|record| record['_destroy']}
       else
         new_data
       end

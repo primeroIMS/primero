@@ -30,6 +30,7 @@ module.exports = function(api) {
         {
           forceAllTransforms: true,
           useBuiltIns: "entry",
+          corejs: 3,
           modules: false,
           exclude: ["transform-typeof-symbol"]
         }
@@ -48,6 +49,7 @@ module.exports = function(api) {
         require("babel-plugin-module-resolver"),
         { root: ["./app/javascript/"] }
       ],
+      require("@babel/plugin-proposal-optional-chaining"),
       require("@babel/plugin-syntax-dynamic-import").default,
       isTestEnv && require("babel-plugin-dynamic-import-node"),
       require("@babel/plugin-transform-destructuring").default,
@@ -67,7 +69,8 @@ module.exports = function(api) {
         require("@babel/plugin-transform-runtime").default,
         {
           helpers: false,
-          regenerator: true
+          regenerator: true,
+          corejs: false
         }
       ],
       [

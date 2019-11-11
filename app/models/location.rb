@@ -204,7 +204,7 @@ class Location < ApplicationRecord
   end
 
   def ancestors
-    Location.where(location_code: self.hierarchy)
+    Location.where(location_code: self.hierarchy.split('.'))
   end
 
   def ancestor_by_admin_level(admin_level)

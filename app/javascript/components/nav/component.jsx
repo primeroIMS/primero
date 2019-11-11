@@ -6,19 +6,27 @@ import {
   ListItemIcon,
   useMediaQuery
 } from "@material-ui/core";
-import { AgencyLogo } from "components/agency-logo";
 import React, { useEffect, useCallback } from "react";
-import { ModuleLogo } from "components/module-logo";
 import { NavLink } from "react-router-dom";
-import { useI18n } from "components/i18n";
-import { useThemeHelper } from "libs";
 import { useDispatch, useSelector } from "react-redux";
-import { MobileToolbar } from "components/mobile-toolbar";
-import { ListIcon } from "components/list-icon";
+
+import { AgencyLogo } from "../agency-logo";
+import { ModuleLogo } from "../module-logo";
+import { useI18n } from "../i18n";
+import { useThemeHelper } from "../../libs";
+import { MobileToolbar } from "../mobile-toolbar";
+import { useApp } from "../application";
+import { ListIcon } from "../list-icon";
+import { Jewel } from "../jewel";
 import { TranslationsToggle } from "../translations-toggle";
+
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as Selectors from "./selectors";
+import {
+  selectDrawerOpen,
+  selectUsername,
+  selectUserAgency
+} from "./selectors";
 
 const Nav = () => {
   const { css, theme } = useThemeHelper(styles);
@@ -30,19 +38,32 @@ const Nav = () => {
     dispatch
   ]);
 
-  // TODO: Username should come from redux once user built.
-  const username = useSelector(state => Selectors.selectUsername(state));
-  const agency = useSelector(state => Selectors.selectUserAgency(state));
-  const drawerOpen = useSelector(state => Selectors.selectDrawerOpen(state));
+  const { userModules } = useApp();
+  const module = userModules.first();
 
+  // TODO: Username should come from redux once user built.
+  const username = useSelector(state => selectUsername(state));
+  const agency = useSelector(state => selectUserAgency(state));
+  const drawerOpen = useSelector(state => selectDrawerOpen(state));
   const nav = [
     { name: i18n.t("navigation.home"), to: "/dashboard", icon: "home" },
-    { name: i18n.t("navigation.tasks"), to: "/tasks", icon: "tasks" },
-    { name: i18n.t("navigation.cases"), to: "/cases", icon: "cases" },
+    {
+      name: i18n.t("navigation.tasks"),
+      to: "/tasks",
+      icon: "tasks",
+      jewelCount: 0
+    },
+    {
+      name: i18n.t("navigation.cases"),
+      to: "/cases",
+      icon: "cases",
+      jewelCount: 20
+    },
     {
       name: i18n.t("navigation.incidents"),
       to: "/incidents",
-      icon: "incidents"
+      icon: "incidents",
+      jewelCount: 0
     },
     {
       name: i18n.t("navigation.tracing_request"),
@@ -92,7 +113,10 @@ const Nav = () => {
         }}
       >
         {!mobileDisplay && (
-          <ModuleLogo moduleLogo="primero" username={username} />
+          <ModuleLogo
+            moduleLogo={module ? module.unique_id : "primero"}
+            username={username}
+          />
         )}
         <List className={css.navList}>
           {nav.map(l => (
@@ -103,7 +127,6 @@ const Nav = () => {
                   to={l.to}
                   className={css.navLink}
                   activeClassName={css.navActive}
-                  exact
                 >
                   <ListItemIcon classes={{ root: css.listIcon }}>
                     <ListIcon icon={l.icon} />
@@ -112,22 +135,29 @@ const Nav = () => {
                     primary={l.name}
                     classes={{ primary: css.listText }}
                   />
+                  {l.jewelCount ? (
+                    <Jewel value={l.jewelCount} mobileDisplay={mobileDisplay} />
+                  ) : null}
                 </NavLink>
               </ListItem>
             </div>
           ))}
         </List>
-        {/* TODO: Need to pass agency and logo path from api */}
-        <AgencyLogo
-          agency={agency && agency.unique_id}
-          logo={`${window.location.protocol}//${
-            window.location.host
-          }${(agency.logo && agency.logo.small) || ""}`}
-        />
+
+        {agency && agency.get("logo") && (
+          <AgencyLogo
+            agency={agency && agency.get("unique_id")}
+            logo={`${(agency.get("logo") &&
+              agency.getIn(["logo", "small"], "")) ||
+              ""}`}
+          />
+        )}
         {!mobileDisplay && <TranslationsToggle />}
       </Drawer>
     </>
   );
 };
+
+Nav.displayName = "Nav";
 
 export default Nav;

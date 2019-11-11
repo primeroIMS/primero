@@ -45,7 +45,14 @@ const RadioField = ({
   const fieldProps = {
     name,
     ...omitBy(rest, (v, k) =>
-      ["InputProps", "helperText", "InputLabelProps", "fullWidth"].includes(k)
+      [
+        "InputProps",
+        "helperText",
+        "InputLabelProps",
+        "fullWidth",
+        "recordType",
+        "recordID"
+      ].includes(k)
     )
   };
 

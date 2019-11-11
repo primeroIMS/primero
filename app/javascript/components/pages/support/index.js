@@ -1,3 +1,3 @@
 export { default as Support } from "./container";
-export * from "./reducer";
-export * from "./selectors";
+export { reducers } from "./reducer";
+export { selectSupportData } from "./selectors";

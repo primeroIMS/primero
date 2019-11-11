@@ -1,0 +1,5 @@
+export const FETCH_REPORT = "reports/FETCH_REPORT";
+export const FETCH_REPORT_STARTED = "reports/FETCH_REPORT_STARTED";
+export const FETCH_REPORT_SUCCESS = "reports/FETCH_REPORT_SUCCESS";
+export const FETCH_REPORT_FAILURE = "reports/FETCH_REPORT_FAILURE";
+export const FETCH_REPORT_FINISHED = "reports/FETCH_REPORT_FINISHED";

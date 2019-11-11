@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :user, :traits => [ :active_model ] do
+  factory :user, traits: [ :active_model ] do
     user_name { "user_name_#{counter}" }
     full_name { 'full name' }
     password { 'passw0rd' }
@@ -9,7 +9,6 @@ FactoryBot.define do
     location { 'SLE0103' }
     disabled { false }
     association :role, factory: :role, strategy: :build
-    module_ids { [FactoryBot.create(:primero_module).id] }
     user_group_ids { [FactoryBot.create(:user_group).id] }
   end
 

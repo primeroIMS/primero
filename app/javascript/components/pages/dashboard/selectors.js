@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+
 import NAMESPACE from "./namespace";
 
 export const selectFlags = state => {
@@ -25,6 +26,6 @@ export const selectServicesStatus = state => {
   return state.getIn(["records", NAMESPACE, "servicesStatus"], fromJS({}));
 };
 
-export const isOpenPageActions = state => {
+export const selectIsOpenPageActions = state => {
   return state.getIn(["records", NAMESPACE, "isOpenPageActions"], false);
 };

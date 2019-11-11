@@ -13,8 +13,8 @@ end
 
 cp_admin_permissions = [
   Permission.new(
-    :resource => Permission::CASE,
-    :actions => [
+    resource: Permission::CASE,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::FLAG,
@@ -35,12 +35,14 @@ cp_admin_permissions = [
       Permission::SEARCH_OWNED_BY_OTHERS,
       Permission::CREATE,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
-      Permission::ENABLE_DISABLE_RECORD
+      Permission::ENABLE_DISABLE_RECORD,
+      Permission::REOPEN,
+      Permission::CLOSE
     ]
   ),
   Permission.new(
-    :resource => Permission::TRACING_REQUEST,
-    :actions => [
+    resource: Permission::TRACING_REQUEST,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::FLAG,
@@ -58,8 +60,8 @@ cp_admin_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::ROLE,
-    :actions => [
+    resource: Permission::ROLE,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::ASSIGN,
@@ -72,7 +74,7 @@ cp_admin_permissions = [
       Permission::EXPORT_PDF,
       Permission::CREATE
     ],
-    :role_ids => [
+    role_ids: [
       'role-cp-case-worker',
       'role-cp-manager',
       'role-cp-user-manager',
@@ -81,16 +83,16 @@ cp_admin_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::USER,
-    :actions => [
+    resource: Permission::USER,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::CREATE
     ]
   ),
   Permission.new(
-      :resource => Permission::USER_GROUP,
-      :actions => [
+      resource: Permission::USER_GROUP,
+      actions: [
           Permission::READ,
           Permission::WRITE,
           Permission::CREATE,
@@ -98,60 +100,60 @@ cp_admin_permissions = [
       ]
   ),
   Permission.new(
-      :resource => Permission::AGENCY,
-      :actions => [
+      resource: Permission::AGENCY,
+      actions: [
           Permission::READ,
           Permission::WRITE,
           Permission::CREATE
       ]
   ),
   Permission.new(
-    :resource => Permission::REPORT,
-    :actions => [
+    resource: Permission::REPORT,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::CREATE
     ]
   ),
   Permission.new(
-    :resource => Permission::METADATA,
-    :actions => [Permission::MANAGE]
+    resource: Permission::METADATA,
+    actions: [Permission::MANAGE]
   ),
   Permission.new(
-    :resource => Permission::SYSTEM,
-    :actions => [Permission::MANAGE]
+    resource:  Permission::SYSTEM,
+    actions: [Permission::MANAGE]
   ),
   Permission.new(
-    :resource => Permission::INCIDENT,
-    :actions => [
+    resource: Permission::INCIDENT,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::CREATE
     ]
   ),
   Permission.new(
-      :resource => Permission::AUDIT_LOG,
-      :actions => [Permission::READ]
+      resource: Permission::AUDIT_LOG,
+      actions: [Permission::READ]
   ),
   Permission.new(
-    :resource => Permission::DUPLICATE,
-    :actions => [Permission::READ]
+    resource: Permission::DUPLICATE,
+    actions: [Permission::READ]
   )
 ]
 
 create_or_update_role(
-  :unique_id => "role-cp-administrator",
-  :name => "CP Administrator",
-  :permissions_list => cp_admin_permissions,
-  :group_permission => Permission::ALL,
-  :is_manager => true
+  unique_id: 'role-cp-administrator',
+  name: 'CP Administrator',
+  permissions: cp_admin_permissions,
+  group_permission: Permission::ALL,
+  is_manager: true,
+  modules: [ PrimeroModule.cp ]
 )
-
 
 cp_caseworker_permissions = [
   Permission.new(
-    :resource => Permission::CASE,
-    :actions => [
+    resource: Permission::CASE,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::FLAG,
@@ -170,14 +172,17 @@ cp_caseworker_permissions = [
       Permission::CREATE,
       Permission::REFERRAL_FROM_SERVICE,
       Permission::REFERRAL,
+      Permission::RECEIVE_REFERRAL,
+      Permission::RECEIVE_TRANSFER,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::REMOVE_ASSIGNED_USERS,
-      Permission::ENABLE_DISABLE_RECORD
+      Permission::ENABLE_DISABLE_RECORD,
+      Permission::DISPLAY_VIEW_PAGE
     ]
   ),
   Permission.new(
-    :resource => Permission::TRACING_REQUEST,
-    :actions => [
+    resource: Permission::TRACING_REQUEST,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::FLAG,
@@ -192,14 +197,14 @@ cp_caseworker_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::POTENTIAL_MATCH,
-    :actions => [
+    resource: Permission::POTENTIAL_MATCH,
+    actions: [
       Permission::READ
     ]
   ),
   Permission.new(
-    :resource => Permission::DASHBOARD,
-    :actions => [
+    resource: Permission::DASHBOARD,
+    actions: [
       Permission::VIEW_APPROVALS,
       Permission::VIEW_RESPONSE,
       Permission::VIEW_ASSESSMENT,
@@ -208,8 +213,8 @@ cp_caseworker_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::INCIDENT,
-    :actions => [
+    resource: Permission::INCIDENT,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::CREATE
@@ -218,15 +223,16 @@ cp_caseworker_permissions = [
 ]
 
 create_or_update_role(
-  :unique_id => "role-cp-case-worker",
-  :name => "CP Case Worker",
-  :permissions_list => cp_caseworker_permissions
+  unique_id: "role-cp-case-worker",
+  name: "CP Case Worker",
+  permissions: cp_caseworker_permissions,
+  modules: [ PrimeroModule.cp ]
 )
 
 cp_manager_permissions = [
   Permission.new(
-    :resource => Permission::CASE,
-    :actions => [
+    resource: Permission::CASE,
+    actions: [
       Permission::READ,
       Permission::FLAG,
       Permission::ASSIGN,
@@ -246,12 +252,16 @@ cp_manager_permissions = [
       Permission::INCIDENT_FROM_CASE,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::ENABLE_DISABLE_RECORD,
-      Permission::ADD_NOTE
+      Permission::ADD_NOTE,
+      Permission::REOPEN,
+      Permission::CLOSE,
+      Permission::DISPLAY_VIEW_PAGE,
+      Permission::RECEIVE_TRANSFER
     ]
   ),
   Permission.new(
-    :resource => Permission::TRACING_REQUEST,
-    :actions => [
+    resource: Permission::TRACING_REQUEST,
+    actions: [
       Permission::READ,
       Permission::FLAG,
       Permission::ASSIGN,
@@ -266,22 +276,22 @@ cp_manager_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::POTENTIAL_MATCH,
-    :actions => [
+    resource: Permission::POTENTIAL_MATCH,
+    actions: [
       Permission::READ
     ]
   ),
   Permission.new(
-    :resource => Permission::REPORT,
-    :actions => [
+    resource: Permission::REPORT,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::CREATE
     ]
   ),
   Permission.new(
-    :resource => Permission::ROLE,
-    :actions => [
+    resource: Permission::ROLE,
+    actions: [
       Permission::READ,
       Permission::EXPORT_CUSTOM,
       Permission::EXPORT_LIST_VIEW,
@@ -292,26 +302,26 @@ cp_manager_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::USER,
-    :actions => [
+    resource: Permission::USER,
+    actions: [
       Permission::READ
     ]
   ),
   Permission.new(
-      :resource => Permission::USER_GROUP,
-      :actions => [
+      resource: Permission::USER_GROUP,
+      actions: [
           Permission::READ
       ]
   ),
   Permission.new(
-      :resource => Permission::AGENCY,
-      :actions => [
+      resource: Permission::AGENCY,
+      actions: [
           Permission::READ
       ]
   ),
   Permission.new(
-      :resource => Permission::DASHBOARD,
-      :actions => [
+      resource: Permission::DASHBOARD,
+      actions: [
         Permission::VIEW_APPROVALS,
         Permission::VIEW_RESPONSE,
         Permission::VIEW_ASSESSMENT,
@@ -322,17 +332,18 @@ cp_manager_permissions = [
 ]
 
 create_or_update_role(
-  :unique_id => "role-cp-manager",
-  :name => "CP Manager",
-  :permissions_list => cp_manager_permissions,
-  :group_permission => Permission::GROUP,
-  :is_manager => true
+  unique_id: 'role-cp-manager',
+  name: 'CP Manager',
+  permissions: cp_manager_permissions,
+  group_permission: Permission::GROUP,
+  is_manager: true,
+  modules: [ PrimeroModule.cp ]
 )
 
 cp_user_manager_permissions = [
     Permission.new(
-        :resource => Permission::CASE,
-        :actions => [
+        resource: Permission::CASE,
+        actions: [
             Permission::READ,
             Permission::FLAG,
             Permission::ASSIGN,
@@ -352,8 +363,8 @@ cp_user_manager_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::TRACING_REQUEST,
-        :actions => [
+        resource: Permission::TRACING_REQUEST,
+        actions: [
             Permission::READ,
             Permission::FLAG,
             Permission::ASSIGN,
@@ -368,21 +379,21 @@ cp_user_manager_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::POTENTIAL_MATCH,
-        :actions => [
+        resource: Permission::POTENTIAL_MATCH,
+        actions: [
             Permission::READ
         ]
     ),
     Permission.new(
-        :resource => Permission::REPORT,
-        :actions => [
+        resource: Permission::REPORT,
+        actions: [
             Permission::READ,
             Permission::WRITE
         ]
     ),
     Permission.new(
-        :resource => Permission::ROLE,
-        :actions => [
+        resource: Permission::ROLE,
+        actions: [
             Permission::READ,
             Permission::ASSIGN,
             Permission::EXPORT_CUSTOM,
@@ -394,16 +405,16 @@ cp_user_manager_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::USER,
-        :actions => [
+        resource: Permission::USER,
+        actions: [
             Permission::READ,
             Permission::CREATE,
             Permission::WRITE
         ]
     ),
     Permission.new(
-        :resource => Permission::USER_GROUP,
-        :actions => [
+        resource: Permission::USER_GROUP,
+        actions: [
             Permission::READ,
             Permission::CREATE,
             Permission::WRITE,
@@ -411,16 +422,16 @@ cp_user_manager_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::AGENCY,
-        :actions => [
+        resource: Permission::AGENCY,
+        actions: [
             Permission::READ,
             Permission::CREATE,
             Permission::WRITE
         ]
     ),
     Permission.new(
-        :resource => Permission::DASHBOARD,
-        :actions => [
+        resource: Permission::DASHBOARD,
+        actions: [
           Permission::VIEW_APPROVALS,
           Permission::VIEW_RESPONSE,
           Permission::VIEW_ASSESSMENT,
@@ -430,17 +441,18 @@ cp_user_manager_permissions = [
 ]
 
 create_or_update_role(
-    :unique_id => "role-cp-user-manager",
-    :name => "CP User Manager",
-    :permissions_list => cp_user_manager_permissions,
-    :group_permission => Permission::GROUP,
-    :is_manager => true
+    unique_id: 'role-cp-user-manager',
+    name: 'CP User Manager',
+    permissions: cp_user_manager_permissions,
+    group_permission: Permission::GROUP,
+    is_manager: true,
+    modules: [ PrimeroModule.cp ]
 )
 
 gbv_worker_permissions = [
   Permission.new(
-    :resource => Permission::CASE,
-    :actions => [
+    resource: Permission::CASE,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::FLAG,
@@ -462,8 +474,8 @@ gbv_worker_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::INCIDENT,
-    :actions => [
+    resource: Permission::INCIDENT,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::FLAG,
@@ -480,23 +492,24 @@ gbv_worker_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::DASHBOARD,
-    :actions => [
+    resource: Permission::DASHBOARD,
+    actions: [
       Permission::VIEW_APPROVALS
     ]
   )
 ]
 
 create_or_update_role(
-  :unique_id => "role-gbv-social-worker",
-  :name => "GBV Social Worker",
-  :permissions_list => gbv_worker_permissions
+  unique_id: "role-gbv-social-worker",
+  name: "GBV Social Worker",
+  permissions: gbv_worker_permissions,
+  modules: [ PrimeroModule.gbv ]
 )
 
 gbv_manager_permissions = [
   Permission.new(
-    :resource => Permission::CASE,
-    :actions => [
+    resource: Permission::CASE,
+    actions: [
       Permission::READ,
       Permission::FLAG,
       Permission::ASSIGN,
@@ -517,8 +530,8 @@ gbv_manager_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::INCIDENT,
-    :actions => [
+    resource: Permission::INCIDENT,
+    actions: [
       Permission::READ,
       Permission::FLAG,
       Permission::ASSIGN,
@@ -534,16 +547,16 @@ gbv_manager_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::REPORT,
-    :actions => [
+    resource: Permission::REPORT,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::CREATE
     ]
   ),
   Permission.new(
-    :resource => Permission::ROLE,
-    :actions => [
+    resource: Permission::ROLE,
+    actions: [
       Permission::READ,
       Permission::EXPORT_CUSTOM,
       Permission::EXPORT_LIST_VIEW,
@@ -556,43 +569,44 @@ gbv_manager_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::USER,
-    :actions => [
+    resource: Permission::USER,
+    actions: [
       Permission::READ
     ]
   ),
   Permission.new(
-      :resource => Permission::USER_GROUP,
-      :actions => [
+      resource: Permission::USER_GROUP,
+      actions: [
           Permission::READ
       ]
   ),
   Permission.new(
-    :resource => Permission::DASHBOARD,
-    :actions => [
+    resource: Permission::DASHBOARD,
+    actions: [
       Permission::VIEW_APPROVALS
     ]
   ),
   Permission.new(
-      :resource => Permission::AGENCY,
-      :actions => [
+      resource: Permission::AGENCY,
+      actions: [
           Permission::READ
       ]
   )
 ]
 
 create_or_update_role(
-    :unique_id => "role-gbv-manager",
-    :name => "GBV Manager",
-    :permissions_list => gbv_manager_permissions,
-    :group_permission => Permission::GROUP,
-    :is_manager => true
+    unique_id: "role-gbv-manager",
+    name: "GBV Manager",
+    permissions: gbv_manager_permissions,
+    group_permission: Permission::GROUP,
+    is_manager: true,
+    modules: [ PrimeroModule.gbv ]
 )
 
 gbv_user_manager_permissions = [
     Permission.new(
-        :resource => Permission::CASE,
-        :actions => [
+        resource: Permission::CASE,
+        actions: [
             Permission::READ,
             Permission::FLAG,
             Permission::ASSIGN,
@@ -612,8 +626,8 @@ gbv_user_manager_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::INCIDENT,
-        :actions => [
+        resource: Permission::INCIDENT,
+        actions: [
             Permission::READ,
             Permission::FLAG,
             Permission::ASSIGN,
@@ -629,15 +643,15 @@ gbv_user_manager_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::REPORT,
-        :actions => [
+        resource: Permission::REPORT,
+        actions: [
             Permission::READ,
             Permission::WRITE
         ]
     ),
     Permission.new(
-        :resource => Permission::ROLE,
-        :actions => [
+        resource: Permission::ROLE,
+        actions: [
             Permission::READ,
             Permission::ASSIGN,
             Permission::EXPORT_CUSTOM,
@@ -651,16 +665,16 @@ gbv_user_manager_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::USER,
-        :actions => [
+        resource: Permission::USER,
+        actions: [
             Permission::READ,
             Permission::CREATE,
             Permission::WRITE
         ]
     ),
     Permission.new(
-        :resource => Permission::USER_GROUP,
-        :actions => [
+        resource: Permission::USER_GROUP,
+        actions: [
             Permission::READ,
             Permission::CREATE,
             Permission::WRITE,
@@ -668,27 +682,28 @@ gbv_user_manager_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::AGENCY,
-        :actions => [
+        resource: Permission::AGENCY,
+        actions: [
             Permission::READ,
             Permission::CREATE,
             Permission::WRITE
         ]
     ),
     Permission.new(
-      :resource => Permission::DASHBOARD,
-      :actions => [
+      resource: Permission::DASHBOARD,
+      actions: [
         Permission::VIEW_APPROVALS
       ]
     )
 ]
 
 create_or_update_role(
-    :unique_id => "role-gbv-user-manager",
-    :name => "GBV User Manager",
-    :permissions_list => gbv_user_manager_permissions,
-    :group_permission => Permission::GROUP,
-    :is_manager => true
+    unique_id: "role-gbv-user-manager",
+    name: "GBV User Manager",
+    permissions: gbv_user_manager_permissions,
+    group_permission: Permission::GROUP,
+    is_manager: true,
+    modules: [ PrimeroModule.gbv ]
 )
 
 
@@ -705,8 +720,8 @@ gbv_caseworker_forms = [
 
 gbv_caseworker_permissions = [
     Permission.new(
-        :resource => Permission::CASE,
-        :actions => [
+        resource: Permission::CASE,
+        actions: [
             Permission::READ,
             Permission::WRITE,
             Permission::FLAG,
@@ -720,28 +735,27 @@ gbv_caseworker_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::INCIDENT,
-        :actions => [
+        resource: Permission::INCIDENT,
+        actions: [
             Permission::READ,
             Permission::WRITE,
             Permission::FLAG
         ]
     ),
     Permission.new(
-      :resource => Permission::DASHBOARD,
-      :actions => [
+      resource: Permission::DASHBOARD,
+      actions: [
         Permission::VIEW_APPROVALS
       ]
     )
 ]
 
 create_or_update_role(
-    :unique_id => "role-gbv-caseworker",
-    :name => "GBV Caseworker",
-    :permissions_list => gbv_caseworker_permissions,
-    :form_sections => FormSection.where(unique_id: gbv_caseworker_forms),
-    :referral => false,
-    :transfer => false
+    unique_id: "role-gbv-caseworker",
+    name: "GBV Caseworker",
+    permissions: gbv_caseworker_permissions,
+    form_sections: FormSection.where(unique_id: gbv_caseworker_forms),
+    modules: [ PrimeroModule.gbv ]
 )
 
 gbv_mobile_caseworker_forms = [
@@ -757,8 +771,8 @@ gbv_mobile_caseworker_forms = [
 
 gbv_mobile_caseworker_permissions = [
     Permission.new(
-        :resource => Permission::CASE,
-        :actions => [
+        resource: Permission::CASE,
+        actions: [
             Permission::READ,
             Permission::WRITE,
             Permission::FLAG,
@@ -771,8 +785,8 @@ gbv_mobile_caseworker_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::INCIDENT,
-        :actions => [
+        resource: Permission::INCIDENT,
+        actions: [
             Permission::READ,
             Permission::WRITE,
             Permission::FLAG,
@@ -782,12 +796,11 @@ gbv_mobile_caseworker_permissions = [
 ]
 
 create_or_update_role(
-    :unique_id => "role-gbv-mobile-caseworker",
-    :name => "GBV Mobile Caseworker",
-    :permissions_list => gbv_mobile_caseworker_permissions,
-    :form_sections => FormSection.where(unique_id: gbv_mobile_caseworker_forms),
-    :referral => false,
-    :transfer => false
+    unique_id: "role-gbv-mobile-caseworker",
+    name: "GBV Mobile Caseworker",
+    permissions: gbv_mobile_caseworker_permissions,
+    form_sections: FormSection.where(unique_id: gbv_mobile_caseworker_forms),
+    modules: [ PrimeroModule.gbv ]
 )
 
 gbv_cm_supervisor_forms = [
@@ -802,8 +815,8 @@ gbv_cm_supervisor_forms = [
 
 gbv_cm_supervisor_permissions = [
     Permission.new(
-        :resource => Permission::CASE,
-        :actions => [
+        resource: Permission::CASE,
+        actions: [
             Permission::READ,
             Permission::FLAG,
             Permission::ASSIGN,
@@ -817,8 +830,8 @@ gbv_cm_supervisor_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::INCIDENT,
-        :actions => [
+        resource: Permission::INCIDENT,
+        actions: [
             Permission::READ,
             Permission::FLAG,
             Permission::EXPORT_JSON,
@@ -827,27 +840,27 @@ gbv_cm_supervisor_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::ROLE,
-        :role_ids => ['role-gbv-caseworker'],
-        :actions => [
+        resource: Permission::ROLE,
+        role_ids: ['role-gbv-caseworker'],
+        actions: [
             Permission::READ
         ]
     ),
     Permission.new(
-        :resource => Permission::USER,
-        :actions => [
+        resource: Permission::USER,
+        actions: [
             Permission::READ
         ]
     ),
     Permission.new(
-        :resource => Permission::USER_GROUP,
-        :actions => [
+        resource: Permission::USER_GROUP,
+        actions: [
             Permission::READ
         ]
     ),
     Permission.new(
-        :resource => Permission::REPORT,
-        :actions => [
+        resource: Permission::REPORT,
+        actions: [
             Permission::GROUP_READ,
             Permission::WRITE
         ]
@@ -855,13 +868,12 @@ gbv_cm_supervisor_permissions = [
 ]
 
 create_or_update_role(
-    :unique_id => "role-gbv-case-management-supervisor",
-    :name => "GBV Case Management Supervisor",
-    :group_permission => Permission::GROUP,
-    :permissions_list => gbv_cm_supervisor_permissions,
-    :form_sections => FormSection.where(unique_id: gbv_cm_supervisor_forms),
-    :referral => false,
-    :transfer => false
+    unique_id: "role-gbv-case-management-supervisor",
+    name: "GBV Case Management Supervisor",
+    group_permission: Permission::GROUP,
+    permissions: gbv_cm_supervisor_permissions,
+    form_sections: FormSection.where(unique_id: gbv_cm_supervisor_forms),
+    modules: [ PrimeroModule.gbv ]
 )
 
 gbv_program_manager_forms = [
@@ -876,26 +888,26 @@ gbv_program_manager_forms = [
 
 gbv_program_manager_permissions = [
     Permission.new(
-        :resource => Permission::ROLE,
-        :actions => [
+        resource: Permission::ROLE,
+        actions: [
             Permission::READ
         ]
     ),
     Permission.new(
-        :resource => Permission::USER,
-        :actions => [
+        resource: Permission::USER,
+        actions: [
             Permission::READ
         ]
     ),
     Permission.new(
-        :resource => Permission::USER_GROUP,
-        :actions => [
+        resource: Permission::USER_GROUP,
+        actions: [
             Permission::READ
         ]
     ),
     Permission.new(
-        :resource => Permission::REPORT,
-        :actions => [
+        resource: Permission::REPORT,
+        actions: [
             Permission::GROUP_READ,
             Permission::WRITE
         ]
@@ -903,11 +915,12 @@ gbv_program_manager_permissions = [
 ]
 
 create_or_update_role(
-    :unique_id => "role-gbv-program-manager",
-    :name => "GBV Program Manager",
-    :group_permission => Permission::ALL,
-    :permissions_list => gbv_program_manager_permissions,
-    :form_sections => FormSection.where(unique_id: gbv_program_manager_forms)
+    unique_id: "role-gbv-program-manager",
+    name: "GBV Program Manager",
+    group_permission: Permission::ALL,
+    permissions: gbv_program_manager_permissions,
+    form_sections: FormSection.where(unique_id: gbv_program_manager_forms),
+    modules: [ PrimeroModule.gbv ]
 )
 
 gbv_organization_focal_point_forms = [
@@ -922,8 +935,8 @@ gbv_organization_focal_point_forms = [
 
 gbv_organization_focal_point_permissions = [
     Permission.new(
-        :resource => Permission::CASE,
-        :actions => [
+        resource: Permission::CASE,
+        actions: [
             Permission::READ,
             Permission::FLAG,
             Permission::EXPORT_EXCEL,
@@ -937,8 +950,8 @@ gbv_organization_focal_point_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::INCIDENT,
-        :actions => [
+        resource: Permission::INCIDENT,
+        actions: [
             Permission::READ,
             Permission::FLAG,
             Permission::EXPORT_EXCEL,
@@ -949,18 +962,18 @@ gbv_organization_focal_point_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::ROLE,
-        :actions => [
+        resource: Permission::ROLE,
+        actions: [
             Permission::READ,
             Permission::EXPORT_EXCEL,
             Permission::EXPORT_PDF,
             Permission::EXPORT_JSON
         ],
-        :role_ids => ['role-gbv-case-management-supervisor', 'role-gbv-caseworker', 'role-gbv-program-manager']
+        role_ids: ['role-gbv-case-management-supervisor', 'role-gbv-caseworker', 'role-gbv-program-manager']
     ),
     Permission.new(
-        :resource => Permission::USER,
-        :actions => [
+        resource: Permission::USER,
+        actions: [
             Permission::READ,
             Permission::EXPORT_EXCEL,
             Permission::EXPORT_PDF,
@@ -968,8 +981,8 @@ gbv_organization_focal_point_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::USER_GROUP,
-        :actions => [
+        resource: Permission::USER_GROUP,
+        actions: [
             Permission::READ,
             Permission::EXPORT_EXCEL,
             Permission::EXPORT_PDF,
@@ -977,8 +990,8 @@ gbv_organization_focal_point_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::REPORT,
-        :actions => [
+        resource: Permission::REPORT,
+        actions: [
             Permission::GROUP_READ,
             Permission::WRITE
         ]
@@ -986,23 +999,22 @@ gbv_organization_focal_point_permissions = [
 ]
 
 create_or_update_role(
-    :unique_id => "role-gbv-organization-focal-point",
-    :name => "GBV Organization Focal Point",
-    :group_permission => Permission::GROUP,
-    :permissions_list => gbv_organization_focal_point_permissions,
-    :form_sections => FormSection.where(unique_id: gbv_organization_focal_point_forms),
-    :referral => false,
-    :transfer => false
+    unique_id: "role-gbv-organization-focal-point",
+    name: "GBV Organization Focal Point",
+    group_permission: Permission::GROUP,
+    permissions: gbv_organization_focal_point_permissions,
+    form_sections: FormSection.where(unique_id: gbv_organization_focal_point_forms),
+    modules: [ PrimeroModule.gbv ]
 )
 
 agency_user_admin_permissions = [
     Permission.new(
-        :resource => Permission::ROLE,
-        :actions => [
+        resource: Permission::ROLE,
+        actions: [
             Permission::READ,
             Permission::ASSIGN
         ],
-        :role_ids => [
+        role_ids: [
             "role-cp-case-worker",
             "role-cp-manager",
             "role-cp-user-manager",
@@ -1010,8 +1022,8 @@ agency_user_admin_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::USER,
-        :actions => [
+        resource: Permission::USER,
+        actions: [
             Permission::AGENCY_READ,
             Permission::CREATE,
             Permission::WRITE,
@@ -1020,8 +1032,8 @@ agency_user_admin_permissions = [
         ]
     ),
     Permission.new(
-        :resource => Permission::USER_GROUP,
-        :actions => [
+        resource: Permission::USER_GROUP,
+        actions: [
             Permission::READ,
             Permission::CREATE,
             Permission::WRITE,
@@ -1031,21 +1043,22 @@ agency_user_admin_permissions = [
 ]
 
 create_or_update_role(
-    :unique_id => "role-agency-user-administrator",
-    :name => "Agency User Administrator",
-    :permissions_list => agency_user_admin_permissions,
-    :group_permission => Permission::GROUP,
-    :is_manager => true
+    unique_id: "role-agency-user-administrator",
+    name: "Agency User Administrator",
+    permissions: agency_user_admin_permissions,
+    group_permission: Permission::GROUP,
+    is_manager: true,
+    modules: [ PrimeroModule.cp ]
 )
 
 gbv_agency_user_admin_permissions = [
   Permission.new(
-      :resource => Permission::ROLE,
-      :actions => [
+      resource: Permission::ROLE,
+      actions: [
           Permission::READ,
           Permission::ASSIGN
       ],
-      :role_ids => [
+      role_ids: [
           "role-gbv-case-management-supervisor",
           "role-gbv-caseworker",
           "role-gbv-manager",
@@ -1057,8 +1070,8 @@ gbv_agency_user_admin_permissions = [
       ]
   ),
   Permission.new(
-      :resource => Permission::USER,
-      :actions => [
+      resource: Permission::USER,
+      actions: [
           Permission::AGENCY_READ,
           Permission::CREATE,
           Permission::WRITE,
@@ -1067,8 +1080,8 @@ gbv_agency_user_admin_permissions = [
       ]
   ),
   Permission.new(
-      :resource => Permission::USER_GROUP,
-      :actions => [
+      resource: Permission::USER_GROUP,
+      actions: [
           Permission::READ,
           Permission::CREATE,
           Permission::WRITE,
@@ -1078,11 +1091,12 @@ gbv_agency_user_admin_permissions = [
 ]
 
 create_or_update_role(
-  :unique_id => "role-gbv-agency-user-administrator",
-  :name => "GBV Agency User Administrator",
-  :permissions_list => gbv_agency_user_admin_permissions,
-  :group_permission => Permission::GROUP,
-  :is_manager => true
+  unique_id: "role-gbv-agency-user-administrator",
+  name: "GBV Agency User Administrator",
+  permissions: gbv_agency_user_admin_permissions,
+  group_permission: Permission::GROUP,
+  is_manager: true,
+  modules: [ PrimeroModule.gbv ]
 )
 
 gbv_system_admin_forms = [
@@ -1093,8 +1107,8 @@ gbv_system_admin_forms = [
 
 gbv_system_admin_permissions = [
   Permission.new(
-    :resource => Permission::CASE,
-    :actions => [
+    resource: Permission::CASE,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::FLAG,
@@ -1122,8 +1136,8 @@ gbv_system_admin_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::INCIDENT,
-    :actions => [
+    resource: Permission::INCIDENT,
+    actions: [
       Permission::READ,
       Permission::CREATE,
       Permission::WRITE,
@@ -1145,22 +1159,22 @@ gbv_system_admin_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::ROLE,
-    :actions => [
+    resource: Permission::ROLE,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::CREATE,
       Permission::ASSIGN
     ],
-    :role_ids => [
+    role_ids: [
       'role-gbv-manager',
       'role-gbv-social-worker',
       'role-gbv-user-manager'
     ]
   ),
   Permission.new(
-    :resource => Permission::USER,
-    :actions => [
+    resource: Permission::USER,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::CREATE,
@@ -1168,8 +1182,8 @@ gbv_system_admin_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::USER_GROUP,
-    :actions => [
+    resource: Permission::USER_GROUP,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::CREATE,
@@ -1177,8 +1191,8 @@ gbv_system_admin_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::AGENCY,
-    :actions => [
+    resource: Permission::AGENCY,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::CREATE,
@@ -1186,16 +1200,16 @@ gbv_system_admin_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::METADATA,
-    :actions => [Permission::MANAGE]
+    resource: Permission::METADATA,
+    actions: [Permission::MANAGE]
   ),
   Permission.new(
-    :resource => Permission::SYSTEM,
-    :actions => [Permission::MANAGE]
+    resource: Permission::SYSTEM,
+    actions: [Permission::MANAGE]
   ),
   Permission.new(
-    :resource => Permission::REPORT,
-    :actions => [
+    resource: Permission::REPORT,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::CREATE
@@ -1204,18 +1218,19 @@ gbv_system_admin_permissions = [
 ]
 
 create_or_update_role(
-  :unique_id => "role-gbv-system-administrator",
-  :name => "GBV System Administrator",
-  :group_permission => Permission::ALL,
-  :permissions_list => gbv_system_admin_permissions,
-  :form_sections => FormSection.where(unique_id: gbv_system_admin_forms),
-  :is_manager => true
+  unique_id: "role-gbv-system-administrator",
+  name: "GBV System Administrator",
+  group_permission: Permission::ALL,
+  permissions: gbv_system_admin_permissions,
+  form_sections: FormSection.where(unique_id: gbv_system_admin_forms),
+  is_manager: true,
+  modules: [ PrimeroModule.gbv ]
 )
 
 referral_permissions = [
   Permission.new(
-    :resource => Permission::CASE,
-    :actions => [
+    resource: Permission::CASE,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::FLAG,
@@ -1234,16 +1249,17 @@ referral_permissions = [
 ]
 
 create_or_update_role(
-  :unique_id => "role-referral",
-  :name => "Referral",
-  :permissions_list => referral_permissions,
-  :referral => true
+  unique_id: "role-referral",
+  name: "Referral",
+  permissions: referral_permissions,
+  referral: true,
+  modules: [ PrimeroModule.cp ]
 )
 
 transfer_permissions = [
   Permission.new(
-    :resource => Permission::CASE,
-    :actions => [
+    resource: Permission::CASE,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::FLAG,
@@ -1262,16 +1278,17 @@ transfer_permissions = [
 ]
 
 create_or_update_role(
-  :unique_id => "role-transfer",
-  :name => "Transfer",
-  :permissions_list => transfer_permissions,
-  :transfer => true
+  unique_id: "role-transfer",
+  name: "Transfer",
+  permissions: transfer_permissions,
+  transfer: true,
+  modules: [ PrimeroModule.cp ]
 )
 
 ftr_manager_permissions = [
   Permission.new(
-      :resource => Permission::CASE,
-      :actions => [
+      resource: Permission::CASE,
+      actions: [
           Permission::READ,
           Permission::WRITE,
           Permission::FLAG,
@@ -1290,8 +1307,8 @@ ftr_manager_permissions = [
       ]
   ),
   Permission.new(
-      :resource => Permission::TRACING_REQUEST,
-      :actions => [
+      resource: Permission::TRACING_REQUEST,
+      actions: [
           Permission::READ,
           Permission::WRITE,
           Permission::FLAG,
@@ -1306,18 +1323,18 @@ ftr_manager_permissions = [
       ]
   ),
   Permission.new(
-    :resource => Permission::POTENTIAL_MATCH,
-    :actions => [
+    resource: Permission::POTENTIAL_MATCH,
+    actions: [
       Permission::READ
     ]
   ),
   Permission.new(
-    :resource => Permission::DUPLICATE,
-    :actions => [Permission::READ]
+    resource: Permission::DUPLICATE,
+    actions: [Permission::READ]
   ),
   Permission.new(
-    :resource => Permission::INCIDENT,
-    :actions => [
+    resource: Permission::INCIDENT,
+    actions: [
       Permission::READ,
       Permission::WRITE,
       Permission::CREATE
@@ -1326,75 +1343,88 @@ ftr_manager_permissions = [
 ]
 
 create_or_update_role(
-    :unique_id => "role-ftr-manager",
-    :name => "FTR Manager",
-    :permissions_list => ftr_manager_permissions,
-    :is_manager => true
+    unique_id: "role-ftr-manager",
+    name: "FTR Manager",
+    permissions: ftr_manager_permissions,
+    is_manager: true,
+    modules: [ PrimeroModule.cp ]
 )
 
 superuser_permissions = [
   Permission.new(
-    :resource => Permission::CASE,
-    :actions => [Permission::MANAGE]
+    resource: Permission::CASE,
+    actions: [Permission::MANAGE]
   ),
   Permission.new(
-    :resource => Permission::INCIDENT,
-    :actions => [Permission::MANAGE]
+    resource: Permission::INCIDENT,
+    actions: [Permission::MANAGE]
   ),
   Permission.new(
-    :resource => Permission::TRACING_REQUEST,
-    :actions => [Permission::MANAGE]
+    resource: Permission::TRACING_REQUEST,
+    actions: [Permission::MANAGE]
   ),
   Permission.new(
-    :resource => Permission::POTENTIAL_MATCH,
-    :actions => [Permission::READ]
+    resource: Permission::POTENTIAL_MATCH,
+    actions: [Permission::READ]
   ),
   Permission.new(
-    :resource => Permission::DUPLICATE,
-    :actions => [Permission::READ]
+    resource: Permission::DUPLICATE,
+    actions: [Permission::READ]
   ),
   Permission.new(
-    :resource => Permission::REPORT,
-    :actions => [Permission::MANAGE]
+    resource: Permission::REPORT,
+    actions: [Permission::MANAGE]
   ),
   Permission.new(
-    :resource => Permission::ROLE,
-    :actions => [Permission::MANAGE]
+    resource: Permission::ROLE,
+    actions: [Permission::MANAGE]
   ),
   Permission.new(
-    :resource => Permission::USER,
-    :actions => [Permission::MANAGE]
+    resource: Permission::USER,
+    actions: [Permission::MANAGE]
   ),
   Permission.new(
-      :resource => Permission::USER_GROUP,
-      :actions => [Permission::MANAGE]
+      resource: Permission::USER_GROUP,
+      actions: [Permission::MANAGE]
   ),
   Permission.new(
-      :resource => Permission::AGENCY,
-      :actions => [Permission::MANAGE]
+      resource: Permission::AGENCY,
+      actions: [Permission::MANAGE]
   ),
   Permission.new(
-    :resource => Permission::METADATA,
-    :actions => [Permission::MANAGE]
+    resource: Permission::METADATA,
+    actions: [Permission::MANAGE]
   ),
   Permission.new(
-    :resource => Permission::SYSTEM,
-    :actions => [Permission::MANAGE]
+    resource: Permission::SYSTEM,
+    actions: [Permission::MANAGE]
   ),
   Permission.new(
-      :resource => Permission::AUDIT_LOG,
-      :actions => [Permission::MANAGE]
+      resource: Permission::AUDIT_LOG,
+      actions: [Permission::MANAGE]
   ),
   Permission.new(
-      :resource => Permission::MATCHING_CONFIGURATION,
-      :actions => [Permission::MANAGE]
+      resource: Permission::MATCHING_CONFIGURATION,
+      actions: [Permission::MANAGE]
+  ),
+  #TODO: Remove later when we enabled login for cp users
+  Permission.new(
+    resource: Permission::DASHBOARD,
+    actions: [
+      # Permission::VIEW_APPROVALS,
+      # Permission::VIEW_RESPONSE,
+      # Permission::VIEW_ASSESSMENT,
+      # Permission::VIEW_PROTECTION_CONCERNS_FILTER,
+      Permission::DASH_TASKS
+    ]
   )
 ]
 
 create_or_update_role(
-  :unique_id => "role-superuser",
-  :name => "Superuser",
-  :permissions_list => superuser_permissions,
-  :group_permission => Permission::ALL,
-  :is_manager => true
+  unique_id: 'role-superuser',
+  name: 'Superuser',
+  permissions: superuser_permissions,
+  group_permission: Permission::ALL,
+  is_manager: true,
+  modules: PrimeroModule.all
 )

@@ -1,7 +1,7 @@
 class Task
   extend ActiveModel::Naming
 
-  attr_accessor :parent_case, :priority, :case_id
+  attr_accessor :parent_case, :priority, :case_id, :detail
 
   def self.from_case(records)
     records = [records] unless records.is_a?(Array)

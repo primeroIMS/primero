@@ -1,4 +1,4 @@
-import NAMESPACE from "./namespace";
+import { Map } from "immutable";
 
-export const selectExpandedPanel = (state, recordType) =>
-  state.getIn(["ui", NAMESPACE, recordType], []);
+export const getFiltersByRecordType = (state, namespace) =>
+  state.getIn(["records", namespace, "filters"], Map({}));

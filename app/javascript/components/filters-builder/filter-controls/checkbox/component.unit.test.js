@@ -1,22 +1,31 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { Map } from "immutable";
 import { FormGroup, FormControlLabel } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../../../test";
+
 import CheckBox from "./component";
 
 describe("<CheckBox /> - Component", () => {
   const mockedData = {
-    id: "my_cases",
-    display_name: "My Cases",
+    name: "cases.filter_by.flag",
+    field_name: "flagged",
     type: "checkbox",
     options: {
-      values: [
-        { id: "my_cases", display_name: "My Cases" },
-        { id: "referred_cases", display_name: "Cases referred to me" }
+      en: [
+        {
+          id: "true",
+          display_name: "Flagged?"
+        }
+      ],
+      es: [
+        {
+          id: "true",
+          display_name: "Marcado?"
+        }
       ]
     }
-  }
+  };
   let component;
 
   before(() => {
@@ -27,7 +36,7 @@ describe("<CheckBox /> - Component", () => {
         records: Map({
           Cases: {
             filters: {
-              my_cases: []
+              flagged: []
             }
           }
         })
@@ -36,11 +45,10 @@ describe("<CheckBox /> - Component", () => {
   });
 
   it("renders the FormGroup", () => {
-    expect(component.find(FormGroup)).to.have.length(1);
+    expect(component.find(FormGroup)).to.have.lengthOf(1);
   });
 
   it("renders the FormControlLabel", () => {
-    expect(component.find(FormControlLabel)).to.have.length(2);
+    expect(component.find(FormControlLabel)).to.have.lengthOf(1);
   });
-
 });

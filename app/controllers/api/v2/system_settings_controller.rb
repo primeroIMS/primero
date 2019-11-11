@@ -1,6 +1,5 @@
 module Api::V2
   class SystemSettingsController < ApplicationApiController
-    helper I18nFieldHelper
 
     def index
       authorize! :index, SystemSettings
@@ -9,6 +8,10 @@ module Api::V2
         @primero_modules = PrimeroModule.all
         @agencies = Agency.all
       end
+    end
+
+    def model_class
+      SystemSettings
     end
 
   end

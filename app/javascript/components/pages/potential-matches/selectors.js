@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+
 import NAMESPACE from "./namespace";
 
 export const selectPotentialMatches = state => {

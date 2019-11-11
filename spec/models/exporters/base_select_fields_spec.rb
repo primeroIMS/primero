@@ -3,10 +3,13 @@ require 'rails_helper'
 describe Exporters::BaseSelectFields do
 
   before :each do
-    FormSection.all.each &:destroy
-    PrimeroModule.all.each &:destroy
+    Field.destroy_all
+    FormSection.destroy_all
+    PrimeroModule.destroy_all
+    Role.destroy_all
+
     fields = [
-      Field.new({"name" => "child_status",
+      Field.new({"name" => "status",
                  "type" => "text_field",
                  "display_name_all" => "Child Status"
                 }),
@@ -209,22 +212,23 @@ describe Exporters::BaseSelectFields do
     form.save!
 
     @primero_module = PrimeroModule.create!(
-        program_id: "primeroprogram-primero",
-        name: "CP",
-        description: "Child Protection",
-        form_section_ids: ["form_section_test_1", "form_section_test_2", "form_section_test_3", "form_section_test_4",
-                              "form_section_test_5", "form_section_test_6"],
-        associated_record_types: ['case']
+      name: "CP",
+      description: "Child Protection",
+      form_sections: FormSection.all,
+      associated_record_types: ['case']
     )
 
-    Child.refresh_form_properties
+    @role = create(:role, form_sections: FormSection.all, modules: [@primero_module])
 
-    @user = User.new(:user_name => 'fakeadmin', module_ids: [@primero_module.unique_id])
+    @user = User.new(user_name: 'fakeadmin', role: @role)
     @permitted_properties = Child.get_properties_by_module(@user, [@primero_module])
   end
 
   after :each do
-    Child.remove_form_properties
+    Field.destroy_all
+    FormSection.destroy_all
+    PrimeroModule.destroy_all
+    Role.destroy_all
   end
 
   describe "Custom Exports" do

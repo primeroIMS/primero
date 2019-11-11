@@ -1,21 +1,20 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { Map } from "immutable";
 import { Switch } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../../../test";
+
 import SwitchButton from "./component";
 
 describe("<SwitchButton /> - Component", () => {
   const mockedData = {
-    id: "my_cases",
-    display_name: "My Cases",
+    name: "My Cases",
+    field_name: "my_cases",
     type: "switch",
-    options: {
-      values: [
-        { id: "my_cases", display_name: "My Cases" },
-        { id: "referred_cases", display_name: "Cases referred to me" }
-      ]
-    }
+    options: [
+      { id: "my_cases", display_name: "My Cases" },
+      { id: "referred_cases", display_name: "Cases referred to me" }
+    ]
   };
   let component;
 
@@ -36,6 +35,6 @@ describe("<SwitchButton /> - Component", () => {
   });
 
   it("renders the Switch", () => {
-    expect(component.find(Switch)).to.have.length(2);
+    expect(component.find(Switch)).to.have.lengthOf(2);
   });
 });

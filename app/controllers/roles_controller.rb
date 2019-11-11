@@ -4,7 +4,7 @@ class RolesController < ApplicationController
   include ExportActions
   include ImportActions
   include CopyActions
-  include LoggerActions
+  include AuditLogActions
 
   def index
     authorize! :index, Role
@@ -83,8 +83,8 @@ class RolesController < ApplicationController
     role_hash[:group_permission] = params[:role][:group_permission]
     role_hash[:form_sections] = FormSection.where(id: params[:role][:form_section_ids].reject(&:blank?)) if params[:role][:form_section_ids].present?
     role_hash[:permissions] = []
-    if params[:role][:permissions_list].present?
-      params[:role][:permissions_list].values.each do |permission|
+    if params[:role][:permissions].present?
+      params[:role][:permissions].values.each do |permission|
         role_hash[:permissions] << Permission.new(resource: permission[:resource],
                                                   actions: permission[:actions],
                                                   role_ids: permission[:role_ids]

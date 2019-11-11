@@ -1,13 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { Radio, RadioGroup, FormControlLabel } from "@material-ui/core";
 import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons";
-import { useI18n } from "components/i18n";
+import isEmpty from "lodash/isEmpty";
+
+import { useI18n } from "../../../i18n";
+import { getOption } from "../../../record-form/selectors";
+
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as Selectors from "./selectors";
+import { getRadioButtons } from "./selectors";
 
 const RadioButton = ({
   recordType,
@@ -18,20 +22,31 @@ const RadioButton = ({
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-  const { id, options } = props;
-  const { values } = options;
-  const notTranslatedFilters = [];
+  const {
+    field_name: fieldName,
+    options,
+    option_strings_source: optionStringsSource
+  } = props;
+  let values = [];
+
+  values = useSelector(state => getOption(state, optionStringsSource, i18n));
+
+  if (isEmpty(optionStringsSource) && Array.isArray(options)) {
+    values = options;
+  } else if (Object.keys(values).length <= 0) {
+    values = options[i18n.locale];
+  }
 
   return (
     <div className={css.Root}>
       <RadioGroup
-        aria-label={id}
-        name={id}
+        aria-label={fieldName}
+        name={fieldName}
         value={radioButton}
         onChange={e =>
           setRadioButton(
             {
-              id,
+              fieldName,
               data: e.target.value
             },
             recordType
@@ -42,7 +57,7 @@ const RadioButton = ({
         {values.map(f => (
           <FormControlLabel
             key={f.id}
-            value={f.id}
+            value={f.id.toString()}
             control={
               <Radio
                 className={css.Checked}
@@ -50,11 +65,7 @@ const RadioButton = ({
                 checkedIcon={<RadioButtonChecked fontSize="small" />}
               />
             }
-            label={
-              notTranslatedFilters.includes(id)
-                ? f.display_name
-                : i18n.t(`filters.${f.id}`)
-            }
+            label={f.display_name || f.display_text}
           />
         ))}
       </RadioGroup>
@@ -62,18 +73,21 @@ const RadioButton = ({
   );
 };
 
+RadioButton.displayName = "RadioButton";
+
 RadioButton.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  props: PropTypes.object.isRequired,
-  options: PropTypes.object,
+  field_name: PropTypes.string,
   inline: PropTypes.bool,
-  id: PropTypes.string,
+  option_strings_source: PropTypes.string,
+  options: PropTypes.object,
+  props: PropTypes.object.isRequired,
   radioButton: PropTypes.string,
+  recordType: PropTypes.string.isRequired,
   setRadioButton: PropTypes.func
 };
 
 const mapStateToProps = (state, obj) => ({
-  radioButton: Selectors.getRadioButtons(state, obj.props, obj.recordType)
+  radioButton: getRadioButtons(state, obj)
 });
 
 const mapDispatchToProps = {

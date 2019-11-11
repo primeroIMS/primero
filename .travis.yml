@@ -3,6 +3,8 @@ bundler_args: "--without production"
 env:
 - RAILS_ENV=test
 cache: bundler
+jdk:
+  - openjdk8
 addons:
   postgresql: 10
   apt:
@@ -23,14 +25,14 @@ before_script:
 - mkdir -p solr/data/test
 - mkdir -p solr/cores/test
 - cp config/travis/core.properties solr/cores/test/
-- yarn install
+- npm install
 script:
 - bundle exec rake sunspot:solr:start
 - bundle exec rails db:drop
 - bundle exec rails db:create
 - bundle exec rails db:migrate
 - bundle exec rspec spec
-- yarn run test:all
+- npm run test:all
 services:
 - postgresql
 branches:

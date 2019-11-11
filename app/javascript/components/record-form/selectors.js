@@ -1,6 +1,6 @@
 import isEmpty from "lodash/isEmpty";
-import { fromJS } from "immutable";
-import { denormalizeData } from "./schema";
+import { fromJS, OrderedMap } from "immutable";
+import { denormalizeFormData } from "../../schemas";
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
 
@@ -9,13 +9,13 @@ const forms = (state, { recordType, primeroModule }) => {
 
   if (isEmpty(formSections)) return null;
 
-  return formSections.filter(fs => {
-    return (
-      fs.get("parent_form") === recordType &&
-      fs.get("module_ids").includes(primeroModule) &&
-      !fs.get("is_nested")
-    );
-  });
+  return formSections.filter(
+    fs =>
+      fs.module_ids.includes(primeroModule) &&
+      fs.parent_form === recordType &&
+      fs.visible &&
+      !fs.is_nested
+  );
 };
 
 export const getFirstTab = (state, query) => {
@@ -61,9 +61,12 @@ export const getRecordForms = (state, query) => {
 
   if (!selectedForms) return null;
 
-  const [...selectedFormKeys] = selectedForms.keys();
+  const denormalizedForms = denormalizeFormData(
+    OrderedMap(selectedForms.map(f => f.id)),
+    state.getIn(["forms"])
+  );
 
-  return denormalizeData(fromJS(selectedFormKeys), state.getIn(["forms"]));
+  return denormalizedForms.valueSeq();
 };
 
 export const getOption = (state, option, locale) => {
@@ -76,18 +79,13 @@ export const getOption = (state, option, locale) => {
     return selectedOptions ? selectedOptions.options : [];
   }
 
-  return option[locale];
-};
-
-export const getRecord = (state, mode) => {
-  if (mode.isEdit || mode.isShow) {
-    return state.getIn([NAMESPACE, "selectedRecord"]);
-  }
-
-  return null;
+  return option ? option[locale] : [];
 };
 
 export const getLoadingState = state =>
   state.getIn([NAMESPACE, "loading"], false);
 
 export const getErrors = state => state.getIn([NAMESPACE, "errors"], false);
+
+export const getSelectedForm = state =>
+  state.getIn([NAMESPACE, "selectedForm"]);

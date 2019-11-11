@@ -1,3 +1,5 @@
+import { Map } from "immutable";
+
 import NAMESPACE from "./namespace";
 
 export const selectDrawerOpen = state =>
@@ -5,15 +7,12 @@ export const selectDrawerOpen = state =>
 
 export const selectUsername = state => state.getIn(["user", "username"], "");
 
-export const selectUserAgency = state => {
-  let agency = {};
-  const userAgency = state.getIn(["user", "agency"], "");
-  const agencies = state.getIn(["application", "agencies"], "");
-  if (agencies) {
-    agency = agencies.find(data => data.unique_id === userAgency, "");
-    if (!agency) {
-      return agencies[0];
-    }
-  }
-  return agency;
-};
+export const selectUserAgency = state =>
+  state
+    .getIn(["application", "agencies"], Map({}))
+    .filter(a => {
+      const userAgency = state.getIn(["user", "agency"], null);
+
+      return userAgency ? a.get("unique_id") === userAgency : true;
+    })
+    .first();

@@ -10,9 +10,4 @@ export const RADIO_FIELD = "radio_button";
 export const PHOTO_FIELD = "photo_upload_box";
 export const DOCUMENT_FIELD = "document_upload_box";
 export const AUDIO_FIELD = "audio_upload_box";
-
-export const RECORD_TYPES = {
-  cases: "case",
-  tracing_requests: "tracing_request",
-  incidents: "incident"
-};
+export const NAME_FIELD = "name";

@@ -1,111 +1,66 @@
 import React from "react";
-import { Map } from "immutable";
-import { DateCell, ToggleIconCell } from "components/index-table";
-import sortBy from "lodash/sortBy";
-import { pickBy } from "lodash";
-import { makeStyles } from "@material-ui/styles";
-import styles from "./styles.css";
+import { RECORD_PATH } from "config";
 
-// TODO: Revist this when user endpoint if finished. Index fields will come
-// this endpoint
-export const buildTableColumns = (records, recordType, i18n) => {
-  const css = makeStyles(styles)();
-  const record =
-    records && records.size > 0
-      ? records
-          .map(k => k.keySeq().toArray())
-          .toJS()
-          .flat()
-          .filter((v, i, a) => a.indexOf(v) === i)
-          .filter(i => i !== "id")
-      : false;
+import { ToggleIconCell } from "./../index-table";
+import {
+  fetchCases,
+  fetchIncidents,
+  fetchTracingRequests,
+  setCasesFilters,
+  setIncidentsFilters,
+  setTracingRequestFilters
+} from "./../records";
 
-  if (record) {
-    const iconCell = [];
-    const mappedRecords = record.map(k => {
-      const idFields = ["short_id", "case_id_display"];
 
-      const isIdField = idFields.includes(k);
+export const buildTableColumns = (columns, i18n, recordType) => {
+  const lastColumns = ["photo", "flags"];
 
-      const column = {
-        label: i18n.t(isIdField ? `${recordType}.label` : `${recordType}.${k}`),
-        name: k,
-        id: isIdField,
-        options: {}
+  return columns
+    .map(column => {
+      const options = {
+        ...{
+          ...(["photos"].includes(column.get("name"))
+            ? {
+                customBodyRender: value => (
+                  <ToggleIconCell value={value} icon="photo" />
+                )
+              }
+            : {})
+        }
       };
 
-      if (
-        [
-          "inquiry_date",
-          "registration_date",
-          "case_opening_date",
-          "created_at"
-        ].includes(k)
-      ) {
-        column.options.customBodyRender = value => <DateCell value={value} />;
-      }
+      const noLabelColumns = ["photo"];
 
-      if (["photos"].includes(k)) {
-        column.options.customBodyRender = value => (
-          <ToggleIconCell value={value} icon="photo" />
-        );
-        iconCell.push(column);
-      }
-
-      if (["flag_count"].includes(k)) {
-        column.label = "";
-        column.name = "flag_count";
-        column.options.empty = true;
-        column.options.customHeadRender = columnMeta => (
-          <th key={columnMeta.name} className={css.overdueHeading} />
-        );
-        column.options.customBodyRender = value => (
-          <ToggleIconCell value={value} icon="flag" />
-        );
-        iconCell.push(column);
-      }
-
-      return !["photos", "flag_count"].includes(k) && column;
-    });
-
-    const sortedRecords = sortBy(mappedRecords, i => i.id)
-      .reverse()
-      .filter(Boolean);
-    return sortedRecords.concat(sortBy(iconCell, i => i.name).reverse());
-  }
-
-  return [];
+      return {
+        label: noLabelColumns.includes(column.name)
+          ? ""
+          : i18n.t(`${recordType}.${column.get("name")}`),
+        name: column.get("field_name"),
+        id: column.get("id_search"),
+        options
+      };
+    })
+    .sortBy(column => (lastColumns.includes(column.name) ? 1 : 0));
 };
 
-export const cleanUpFilters = filters => {
-  const filtersArray = pickBy(filters, value => {
-    const isMap = Map.isMap(value);
-    return !(
-      value === "" ||
-      value === null ||
-      (Array.isArray(value) && value.length === 0) ||
-      ((isMap || typeof value === "object") &&
-        Object.values(isMap ? value.toJS() : value).includes(null))
-    );
-  });
+export const getFiltersSetterByType = type => {
+  switch (type) {
+    case RECORD_PATH.incidents:
+      return setIncidentsFilters;
+    case RECORD_PATH.tracing_requests:
+      return setTracingRequestFilters;
+    default:
+      return setCasesFilters;
+  }
+};
 
-  Object.entries(filtersArray).forEach(filter => {
-    const [key, value] = filter;
-    if (Array.isArray(value)) {
-      filtersArray[key] = value.join(",");
-    } else if (
-      typeof value === "object" &&
-      !Object.values(value).includes(null)
-    ) {
-      const valueConverted = {};
-      Object.entries(value).forEach(keys => {
-        const [k, v] = keys;
-        valueConverted[k] = v;
-      });
-      filtersArray[key] = valueConverted;
-    } else {
-      filtersArray[key] = value;
-    }
-  });
-  return filtersArray;
+export const getRecordsFetcherByType = type => {
+  switch (type) {
+    case RECORD_PATH.incidents:
+      return fetchIncidents;
+    case RECORD_PATH.tracing_requests:
+      return fetchTracingRequests;
+    default:
+      return fetchCases;
+  }
 };

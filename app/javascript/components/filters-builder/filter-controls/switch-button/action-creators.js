@@ -1,8 +1,12 @@
-import * as RecordListActions from "components/record-list/actions";
+import {
+  SET_FILTERS,
+  DELETE_SWITCH_BUTTON,
+  ADD_SWITCH_BUTTON
+} from "../../actions";
 
 export const setSwitchButton = (payload, namespace) => {
   return {
-    type: `${namespace}/${RecordListActions.SET_FILTERS}`,
+    type: `${namespace}/${SET_FILTERS}`,
     payload
   };
 };
@@ -10,8 +14,8 @@ export const setSwitchButton = (payload, namespace) => {
 export const setSwitchValue = (payload, namespace) => {
   return {
     type: payload.included
-      ? `${namespace}/${RecordListActions.DELETE_SWITCH_BUTTON}`
-      : `${namespace}/${RecordListActions.ADD_SWITCH_BUTTON}`,
+      ? `${namespace}/${DELETE_SWITCH_BUTTON}`
+      : `${namespace}/${ADD_SWITCH_BUTTON}`,
     payload
   };
 };

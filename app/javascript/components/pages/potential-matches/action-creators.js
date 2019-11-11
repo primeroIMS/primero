@@ -1,7 +1,7 @@
 import * as Actions from "./actions";
 
-export const fetchPotentialMatches = () => async dispatch => {
-  dispatch({
+export const fetchPotentialMatches = () => {
+  return {
     type: Actions.POTENTIAL_MATCHES,
     payload: {
       data: {
@@ -21,5 +21,5 @@ export const fetchPotentialMatches = () => async dispatch => {
         ]
       }
     }
-  });
+  };
 };

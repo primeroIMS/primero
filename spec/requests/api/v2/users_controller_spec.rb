@@ -2,7 +2,13 @@ require 'rails_helper'
 
 describe Api::V2::UsersController, type: :request do
   before :each do
+    FormSection.destroy_all
     PrimeroModule.destroy_all
+    Role.destroy_all
+    User.destroy_all
+    Agency.destroy_all
+    PrimeroProgram.destroy_all
+
     SystemSettings.stub(:current).and_return(SystemSettings.new(
       primary_age_range: "primero",
       age_ranges: {
@@ -43,7 +49,8 @@ describe Api::V2::UsersController, type: :request do
           :resource => Permission::CASE,
           :actions => [Permission::MANAGE]
         )
-      ]
+      ],
+      modules: [@cp]
     )
     @agency_1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
     @agency_2 = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
@@ -55,8 +62,7 @@ describe Api::V2::UsersController, type: :request do
                 password_confirmation: 'a12345678',
                 email: "test_user_1@localhost.com",
                 agency_id: @agency_1.id,
-                role: @role,
-                primero_modules: [@cp]
+                role: @role
               )
 
     @user_2 = User.create!(
@@ -66,8 +72,7 @@ describe Api::V2::UsersController, type: :request do
                 password_confirmation: 'b12345678',
                 email: "test_user_2@localhost.com",
                 agency_id: @agency_1.id,
-                role: @role,
-                primero_modules: [@cp]
+                role: @role
               )
 
     @user_3 = User.create!(
@@ -77,8 +82,7 @@ describe Api::V2::UsersController, type: :request do
                 password_confirmation: 'c12345678',
                 email: "test@localhost.com",
                 agency_id: @agency_2.id,
-                role: @role,
-                primero_modules: [@cp]
+                role: @role
               )
   end
 
@@ -190,7 +194,7 @@ describe Api::V2::UsersController, type: :request do
       login_for_test(permissions:[
         Permission.new(:resource => Permission::USER, :actions => [Permission::CREATE])
       ])
-      params = { 
+      params = {
         data: {
           full_name: "Test User API",
           user_name: "test_user_api",
@@ -198,7 +202,6 @@ describe Api::V2::UsersController, type: :request do
           email: "test_user_api@localhost.com",
           agency_id: @agency_1.id,
           role_id: @role.id,
-          module_ids: @cp.id,
           password_confirmation: "a12345678",
           password: "a12345678"
         }
@@ -224,7 +227,7 @@ describe Api::V2::UsersController, type: :request do
             Permission.new(:resource => Permission::USER, :actions => [Permission::CREATE])
           ])
         id =  (rand() * 1000).to_i
-        params = { 
+        params = {
           data: {
             id: id,
             full_name: "Test User API 2",
@@ -233,7 +236,6 @@ describe Api::V2::UsersController, type: :request do
             email: "test_user_api@localhost.com",
             agency_id: @agency_1.id,
             role_id: @role.id,
-            module_ids: @cp.id,
             password_confirmation: "a12345678",
             password: "a12345678"
           }
@@ -252,7 +254,7 @@ describe Api::V2::UsersController, type: :request do
 
       id = (rand() * 1000).to_i
 
-      params = { 
+      params = {
         data: {
           id: id,
           full_name: "Test User API",
@@ -261,7 +263,6 @@ describe Api::V2::UsersController, type: :request do
           email: "test_user_api@localhost.com",
           agency_id: @agency_1.id,
           role_id: @role.id,
-          module_ids: @cp.id,
           password_confirmation: "a12345678",
           password: "a12345678"
         }
@@ -280,7 +281,7 @@ describe Api::V2::UsersController, type: :request do
         permissions:[
           Permission.new(:resource => Permission::USER, :actions => [Permission::CREATE])
       ])
-      params = { 
+      params = {
         data: {
           id: @user_1.id,
           full_name: "Test User 5",
@@ -289,7 +290,6 @@ describe Api::V2::UsersController, type: :request do
           email: "test_user_5@localhost.com",
           agency_id: @agency_1.id,
           role_id: @role.id,
-          module_ids: @cp.id,
           password_confirmation: "a12345678",
           password: "a12345678"
         }
@@ -307,7 +307,7 @@ describe Api::V2::UsersController, type: :request do
         permissions:[
           Permission.new(:resource => Permission::USER, :actions => [Permission::CREATE])
       ])
-      params = { 
+      params = {
         data: {
           id: @user_1.id,
           full_name: "Test User 5",
@@ -315,8 +315,7 @@ describe Api::V2::UsersController, type: :request do
           code: "test/code",
           email: "test_user_5@localhost.com",
           agency_id: @agency_1.id,
-          role_id: @role.id,
-          module_ids: @cp.id
+          role_id: @role.id
         }
       }
       post "/api/v2/users", params: params
@@ -342,7 +341,7 @@ describe Api::V2::UsersController, type: :request do
         ],
         group_permission: Permission::ADMIN_ONLY
       )
-      params = { 
+      params = {
         data: {
           full_name: "Updated User 1"
         }
@@ -359,7 +358,7 @@ describe Api::V2::UsersController, type: :request do
 
     it "returns 403 if user isn't authorized to update users" do
       login_for_test
-      params = { 
+      params = {
         data: {
           full_name: "Updated User 1"
         }
@@ -375,7 +374,7 @@ describe Api::V2::UsersController, type: :request do
     it "returns a 404 when trying to update a user with a non-existant id" do
       login_for_test
 
-      params = { 
+      params = {
         data: {
           full_name: "Updated User 1"
         }
@@ -400,7 +399,7 @@ describe Api::V2::UsersController, type: :request do
         ],
         group_permission: Permission::ADMIN_ONLY
       )
-      params = { 
+      params = {
         data: {
            email: "test_user_2@localhost.com",
         }
@@ -476,5 +475,4 @@ describe Api::V2::UsersController, type: :request do
     Agency.destroy_all
     PrimeroProgram.destroy_all
   end
-
 end

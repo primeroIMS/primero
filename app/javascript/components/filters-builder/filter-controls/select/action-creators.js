@@ -1,17 +1,17 @@
-import * as RecordListActions from "components/record-list/actions";
+import { SET_FILTERS, ADD_SELECT_RANGE, ADD_SELECT } from "../../actions";
 
 export const setupSelect = (payload, namespace) => {
   return {
-    type: `${namespace}/${RecordListActions.SET_FILTERS}`,
+    type: `${namespace}/${SET_FILTERS}`,
     payload
   };
 };
 
 export const setSelectValue = (payload, namespace) => {
   return {
-    type: payload.defaultValue
-      ? `${namespace}/${RecordListActions.ADD_SELECT_RANGE}`
-      : `${namespace}/${RecordListActions.ADD_SELECT}`,
+    type: payload.isDate
+      ? `${namespace}/${ADD_SELECT_RANGE}`
+      : `${namespace}/${ADD_SELECT}`,
     payload
   };
 };

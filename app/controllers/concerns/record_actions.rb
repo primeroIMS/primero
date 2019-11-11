@@ -3,9 +3,8 @@ module RecordActions
 
   include ImportActions
   include ExportActions
-  include TransitionActions
   include MarkForMobileActions
-  include LoggerActions
+  include AuditLogActions
 
   included do
     skip_before_action :verify_authenticity_token, raise: false
@@ -54,7 +53,7 @@ module RecordActions
     #params['page'] = 'all' if params['mobile'] && params['ids']
     @records, @total_records = retrieve_records_and_total(@filters)
     module_ids = @records.map{ |m| m.module.unique_id }.uniq if @records.present? && @records.is_a?(Array)
-    @associated_agencies = User.agencies_by_user_list(@associated_users).map{|a| {a.id => a.name}}
+    @associated_agencies = User.agencies_for_user(@associated_users).map{|a| {a.id => a.name}}
     @options_reporting_locations = Location.find_names_by_admin_level_enabled(@admin_level, @reporting_location_hierarchy_filter, locale: I18n.locale)
     module_users(module_ids) if module_ids.present?
     # Alias @records to the record-specific name since ERB templates use that
@@ -443,8 +442,8 @@ module RecordActions
   #TODO: Refactor UIUX
   def load_consent
     if @record.present? && @record.respond_to?(:given_consent) #Yuck!
-      @referral_consent = @record.given_consent(Transition::TYPE_REFERRAL)
-      @transfer_consent = @record.given_consent(Transition::TYPE_TRANSFER)
+      @referral_consent = @record.given_consent(Transition::REFERRAL)
+      @transfer_consent = @record.given_consent(Transition::TRANSFER)
     end
   end
 
@@ -501,7 +500,7 @@ module RecordActions
 
   protected
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   def logger_action_identifier
     if @record.respond_to?(:case_id_display)
       "#{logger_model_titleize} '#{@record.case_id_display}'"
@@ -520,14 +519,14 @@ module RecordActions
     end
   end
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   def logger_display_id
     return @record.display_id if @record.present? && @record.respond_to?(:display_id)
     return @records.map{|r| r.display_id} if @records.present? && @records.first.respond_to?(:display_id)
     super
   end
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   #TODO v1.3: make sure the mobile syncs are audited
   def logger_action_name
     if (action_name == "show" && params[:format].present?) || (action_name == "index" && params[:format].present?)
@@ -556,7 +555,7 @@ module RecordActions
     end
   end
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   def logger_action_suffix
     if (action_name == "show" && params[:format].present?) || (action_name == "index" && params[:format].present?)
       #Action is an export.
@@ -576,7 +575,7 @@ module RecordActions
     end
   end
 
-  #Override method in LoggerActions.
+  #Override method in AuditLogActions.
   def logger_owned_by
     return @record.owned_by if @record.present? && @record.respond_to?(:owned_by)
     return @records.map{|r| r.owned_by} if @records.present? && @records.first.respond_to?(:owned_by)

@@ -1,19 +1,45 @@
-import { Map } from "immutable";
-import * as Actions from "./actions";
-import NAMESPACE from "./namespace";
+import { fromJS } from "immutable";
 
-const DEFAULT_STATE = Map({});
+import { mapEntriesToRecord } from "../../libs";
+
+import actions from "./actions";
+import NAMESPACE from "./namespace";
+import { PrimeroModuleRecord } from "./records";
+
+const DEFAULT_STATE = fromJS({
+  userIdle: false,
+  online: window.navigator.onLine
+});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.FETCH_SYSTEM_SETTINGS_SUCCESS:
-      return state
-        .set("agencies", payload.data.agencies)
-        .set("modules", payload.data.modules)
-        .set("locales", payload.data.locales)
-        .set("default_locale", payload.data.default_locale)
-        .set("base_language", payload.data.base_language)
-        .set("primero_version", payload.data.primero_version);
+    case actions.FETCH_SYSTEM_SETTINGS_SUCCESS: {
+      const {
+        agencies,
+        modules,
+        locales,
+        default_locale: defaultLocale,
+        base_language: baseLanguage,
+        primero_version: primeroVersion
+      } = payload;
+
+      return state.merge(
+        fromJS({
+          agencies,
+          modules: mapEntriesToRecord(modules, PrimeroModuleRecord),
+          locales,
+          defaultLocale,
+          baseLanguage,
+          primeroVersion
+        })
+      );
+    }
+    case actions.SET_USER_IDLE:
+      return state.set("userIdle", payload);
+    case actions.NETWORK_STATUS:
+      return state.set("online", payload);
+    case "user/LOGOUT_SUCCESS":
+      return DEFAULT_STATE;
     default:
       return state;
   }

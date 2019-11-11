@@ -102,9 +102,9 @@ module ReportableNestedRecord
           case field.type
           when Field::SELECT_BOX, Field::RADIO_BUTTON
             if field.multi_select
-              string(field.name, as: "#{field.name}_sci".to_sym) {object_value(field.name)}
-            else
               string(field.name, multiple: true) {object_value(field.name)}
+            else
+              string(field.name, as: "#{field.name}_sci".to_sym) {object_value(field.name)}
             end
           when Field::TICK_BOX
             boolean(field.name) {object_value(field.name)}

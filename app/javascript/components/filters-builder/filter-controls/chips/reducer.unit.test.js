@@ -1,9 +1,7 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map, List } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as r from "./reducer";
 
-chai.use(chaiImmutable);
+import { chipsReducer } from "./reducer";
 
 describe("<Chips /> - Reducers", () => {
   const defaultState = Map({
@@ -15,7 +13,7 @@ describe("<Chips /> - Reducers", () => {
       type: "RESET_CHIPS",
       payload: "risk_level"
     };
-    const newState = r.chipsReducer.Chips(defaultState, action);
+    const newState = chipsReducer.Chips(defaultState, action);
 
     expect(newState.get("risk_level")).to.deep.equal(List([]));
   });

@@ -1,21 +1,40 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
-import { Map } from "immutable";
-import {
-  ExpansionPanel,
-  Button
-} from "@material-ui/core";
+import { Map, List } from "immutable";
+import { ExpansionPanel, Button } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../test";
+import { FilterRecord } from "../user/records";
+
 import FiltersBuilder from "./container";
-import mockedFilters from "../filters/mocked-filters";
 
 describe("<Filters /> - Component", () => {
   let component;
+  const filtersApi = List([
+    FilterRecord({
+      name: "cases.filter_by.flag",
+      field_name: "flagged",
+      options: {
+        en: [
+          {
+            id: "true",
+            display_name: "Flagged?"
+          }
+        ],
+        es: [
+          {
+            id: "true",
+            display_name: "Marcado?"
+          }
+        ]
+      },
+      type: "checkbox"
+    })
+  ]);
 
   before(() => {
     component = setupMountedComponent(
       FiltersBuilder,
-      { recordType: "case", filters: mockedFilters },
+      { recordType: "Cases", filters: filtersApi, defaultFilters: Map({}) },
       Map({
         records: Map({
           FiltersBuilder: {
@@ -29,11 +48,11 @@ describe("<Filters /> - Component", () => {
   });
 
   it("renders the Action Buttons", () => {
-    expect(component.find(Button)).to.have.length(3);
+    expect(component.find(Button)).to.have.lengthOf(3);
   });
 
   it("renders the ExpansionPanel", () => {
-    expect(component.find(ExpansionPanel)).to.have.length(8);
+    expect(component.find(ExpansionPanel)).to.have.lengthOf(1);
   });
 
 });

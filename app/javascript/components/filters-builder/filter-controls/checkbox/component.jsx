@@ -1,67 +1,136 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { FormGroup, FormControlLabel, Checkbox } from "@material-ui/core";
-import { useI18n } from "components/i18n";
-import styles from "./styles.css";
+import { List } from "immutable";
+import { format, subMonths } from "date-fns";
+import isEmpty from "lodash/isEmpty";
+
+import { useI18n } from "../../../i18n";
+import { getOption } from "../../../record-form";
+import { currentUser } from "../../../user";
+
 import * as actions from "./action-creators";
-import * as Selectors from "./selectors";
+import { getCheckBoxes } from "./selectors";
+import styles from "./styles.css";
 
 const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
-  const css = makeStyles(styles)();
   const i18n = useI18n();
-  const { id, options } = props;
-  const { values } = options;
-  const notTranslatedFilters = ["social_worker"];
+  const css = makeStyles(styles)();
+  const {
+    field_name: fieldName,
+    options,
+    option_strings_source: optionStringsSource
+  } = props;
+
+  let values = [];
+  const userName = useSelector(state => currentUser(state));
+
+  values = useSelector(state => getOption(state, optionStringsSource, i18n));
+
+  if (isEmpty(optionStringsSource) && Array.isArray(options)) {
+    values = options;
+  } else if (Object.keys(values).length <= 0) {
+    values = options[i18n.locale];
+  }
+  if (isEmpty(values)) {
+    switch (fieldName) {
+      case "my_cases":
+        values = [
+          {
+            id: "owned_by",
+            value: userName,
+            name: "my_cases[owned_by]",
+            display_name: i18n.t("cases.filter_by.my_cases")
+          },
+          {
+            id: "assigned_user_names",
+            value: userName,
+            name: "my_cases[assigned_user_names]",
+            display_name: i18n.t("cases.filter_by.referred_cases")
+          }
+        ];
+        break;
+      case "last_updated_at":
+        values = [
+          {
+            id: `01-Jan-0000.${format(
+              subMonths(new Date(), 3),
+              "dd-MMM-yyyy"
+            )}`,
+            display_name: i18n.t("cases.filter_by.3month_inactivity")
+          }
+        ];
+        break;
+      default:
+        break;
+    }
+  }
+
+  const isIncluded = (data, value, name) => {
+    if (data instanceof List || Array.isArray(data)) {
+      return checkBoxes.includes(value);
+    }
+    // This is due to "my_cases" filter
+    return data.size > 0 && data.get(name).includes(value);
+  };
 
   return (
     <div>
       <FormGroup className={css.formGroup}>
-        {values.map(v => (
-          <FormControlLabel
-            key={v.id}
-            control={
-              <Checkbox
-                key={v.id}
-                checked={checkBoxes && checkBoxes.includes(v.id)}
-                onChange={event => {
-                  setCheckBox(
-                    {
-                      id,
-                      included: checkBoxes.includes(event.target.value),
-                      data: event.target.value
-                    },
-                    recordType
-                  );
-                }}
-                value={v.id}
-                name={v.id}
-              />
-            }
-            label={
-              notTranslatedFilters.includes(id)
-                ? v.id
-                : i18n.t(`filters.${v.id}`)
-            }
-          />
-        ))}
+        {values &&
+          values.map(v => (
+            <FormControlLabel
+              key={v.id}
+              control={
+                <Checkbox
+                  key={v.id}
+                  checked={
+                    checkBoxes &&
+                    isIncluded(checkBoxes, v.value || v.id, v.name)
+                  }
+                  onChange={event => {
+                    setCheckBox(
+                      {
+                        fieldName: v.name || fieldName,
+                        included: isIncluded(
+                          checkBoxes,
+                          event.target.value,
+                          event.target.name
+                        ),
+                        data: event.target.value
+                      },
+                      recordType
+                    );
+                  }}
+                  id={v.id}
+                  value={v.value || v.id}
+                  name={v.name || v.id}
+                />
+              }
+              label={v.display_name || v.display_text}
+            />
+          ))}
       </FormGroup>
     </div>
   );
 };
 
+CheckBox.displayName = "CheckBox";
+
 CheckBox.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  props: PropTypes.object.isRequired,
+  checkBoxes: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  field_name: PropTypes.string,
+  option_strings_source: PropTypes.string,
   options: PropTypes.object,
-  id: PropTypes.string,
-  checkBoxes: PropTypes.array,
+  props: PropTypes.object.isRequired,
+  recordType: PropTypes.string.isRequired,
   setCheckBox: PropTypes.func
 };
 
 const mapStateToProps = (state, obj) => ({
-  checkBoxes: Selectors.getCheckBoxes(state, obj.props, obj.recordType)
+  checkBoxes: getCheckBoxes(state, obj.props, obj.recordType)
 });
 
 const mapDispatchToProps = {

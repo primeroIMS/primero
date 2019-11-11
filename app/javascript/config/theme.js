@@ -11,6 +11,7 @@ const colors = {
   darkGrey: "#595952",
   blue: "#0093ba",
   yellow: "#f2c317",
+  moonYellow: "#f2b417",
   red: "#d0021b",
   green: "#839e3c",
   orange: "#e7712d",
@@ -158,6 +159,19 @@ const overrides = {
     sizeSmall: {
       height: "21px",
       fontSize: ".7rem"
+    }
+  },
+  MuiDialogActions: {
+    root: {
+      justifyContent: "flex-start",
+      margin: "1em"
+    }
+  },
+  MuiDialogTitle: {
+    root: {
+      textTransform: "uppercase",
+      fontSize: muiTheme.typography.pxToRem(17),
+      fontWeight: "bold"
     }
   }
 };

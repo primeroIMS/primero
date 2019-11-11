@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
 import Chart from "chart.js";
+import PropTypes from "prop-types";
+import React, { useEffect } from "react";
 
 const calculateFontSize = (ctx, textConfig, width, height) => {
   const { text, fontStyle } = textConfig;
@@ -17,6 +17,7 @@ const calculateFontSize = (ctx, textConfig, width, height) => {
 Chart.pluginService.register({
   beforeDraw(chart) {
     const { innerTextConfig } = chart.data;
+
     if (innerTextConfig) {
       const { ctx } = chart.chart;
       const { innerRadius, chartArea } = chart;
@@ -32,6 +33,7 @@ Chart.pluginService.register({
       ctx.textBaseline = "middle";
 
       let textY = centerY;
+
       innerTextConfig.forEach(textConfig => {
         const { text, fontStyle } = textConfig;
         const fontSize = calculateFontSize(
@@ -40,6 +42,7 @@ Chart.pluginService.register({
           elementWidth,
           elementHeight
         );
+
         ctx.font = `${fontSize}px ${fontStyle}`;
         ctx.fillText(text, centerX, textY);
         textY += fontSize;
@@ -85,6 +88,8 @@ const DoughnutChart = ({ chartData, options }) => {
 
   return <canvas className="doughnutChart" ref={chartRef} />;
 };
+
+DoughnutChart.displayName = "DoughnutChart";
 
 DoughnutChart.propTypes = {
   chartData: PropTypes.object.isRequired,

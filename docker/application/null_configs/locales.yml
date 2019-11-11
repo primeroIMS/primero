@@ -1,3 +1,0 @@
-production:
-  :default_locale: 'en'
-  :locales: ['en', 'fr', 'ar']

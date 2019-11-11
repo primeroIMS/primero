@@ -1,14 +1,12 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map } from "immutable";
-import chaiImmutable from "chai-immutable";
 
 import * as selectors from "./selectors";
-
-chai.use(chaiImmutable);
 
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
   application: {
+    userIdle: true,
     agencies: [
       {
         unique_id: "agency-unicef",
@@ -41,9 +39,9 @@ const stateWithRecords = Map({
       }
     ],
     locales: ["en", "fr", "ar"],
-    default_locale: "en",
-    base_language: "en",
-    primero_version: "2.0.0.1"
+    defaultLocale: "en",
+    baseLanguage: "en",
+    primeroVersion: "2.0.0.1"
   }
 });
 
@@ -118,4 +116,11 @@ describe("Application - Selectors", () => {
       expect(records).to.be.empty;
     });
   });
+
+  describe("selectUserIdle", () => {
+    it("should return weither user is idle", () => {
+      const selector = selectors.selectUserIdle(stateWithRecords);
+      expect(selector).to.equal(true)
+    })
+  })
 });

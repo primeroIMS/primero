@@ -1,24 +1,25 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { Map } from "immutable";
-import { FormControl, Select, OutlinedInput } from "@material-ui/core";
+import { FormControl, Select } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../../../test";
+
 import SelectFilter from "./component";
 
 describe("<SelectFilter /> - Component", () => {
   const mockedData = {
-    id: "status",
-    display_name: "Case Status",
+    name: "Case Status",
+    field_name: "status",
     type: "select",
     options: {
-      values: [
+      en: [
         { id: "open", display_name: "Open" },
         { id: "closed", display_name: "Closed" },
         { id: "transferred", display_name: "Transferred" },
         { id: "duplicate", display_name: "Duplicate" }
       ]
     }
-  }
+  };
   let component;
 
   before(() => {
@@ -38,15 +39,10 @@ describe("<SelectFilter /> - Component", () => {
   });
 
   it("renders the FormControl", () => {
-    expect(component.find(FormControl)).to.have.length(1);
+    expect(component.find(FormControl)).to.have.lengthOf(1);
   });
 
   it("renders the Select", () => {
-    expect(component.find(Select)).to.have.length(1);
+    expect(component.find(Select)).to.have.lengthOf(1);
   });
-
-  it("renders the OutlinedInput", () => {
-    expect(component.find(OutlinedInput)).to.have.length(1);
-  });
-
 });

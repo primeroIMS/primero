@@ -1,15 +1,16 @@
 import PropTypes from "prop-types";
 import React, { useContext, createContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { setLocale } from "./action-creators";
 
 const Context = createContext();
 
-export function I18nProvider({ children }) {
+const I18nProvider = ({ children }) => {
   const locale = useSelector(state =>
     state.length
       ? state.getIn(["ui", "I18n", "locale"]) ||
-        state.getIn(["application", "default_locale"])
+        state.getIn(["application", "defaultLocale"])
       : window.I18n.locale
   );
 
@@ -44,11 +45,15 @@ export function I18nProvider({ children }) {
       {children}
     </Context.Provider>
   );
-}
+};
+
+I18nProvider.displayName = "I18nProvider";
 
 I18nProvider.propTypes = {
   children: PropTypes.node.isRequired
 };
+
+export { I18nProvider };
 
 export const useI18n = () => useContext(Context);
 

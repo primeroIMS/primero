@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { withSnackbar } from "notistack";
 import { IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+
 import { getMessages } from "./selectors";
 import { removeSnackbar, closeSnackbar } from "./action-creators";
 
@@ -17,6 +18,7 @@ class Notifier extends Component {
   shouldComponentUpdate({ messages: newSnacks = [] }) {
     if (!newSnacks.size) {
       this.displayed = [];
+
       return false;
     }
 
@@ -106,12 +108,14 @@ class Notifier extends Component {
   }
 }
 
+Notifier.displayName = "Notifier";
+
 Notifier.propTypes = {
-  enqueueSnackbar: PropTypes.func.isRequired,
   closeSnackbar: PropTypes.func.isRequired,
+  dismissSnackbar: PropTypes.func.isRequired,
+  enqueueSnackbar: PropTypes.func.isRequired,
   messages: PropTypes.object,
-  removeSnackbar: PropTypes.func.isRequired,
-  dismissSnackbar: PropTypes.func.isRequired
+  removeSnackbar: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

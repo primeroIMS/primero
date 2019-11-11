@@ -46,9 +46,8 @@ module Exporters
         true
       end
 
-      def permitted_fields_to_export(user, record_type , record_modules = nil)
-        record_modules = record_modules || user.modules_for_record_type(record_type)
-        permitted_fields = user.permitted_fields(record_modules, record_type)
+      def permitted_fields_to_export(user, record_type)
+        permitted_fields = user.permitted_fields(record_type)
         model_class = Record.model_from_name(record_type)
         user.can?(:write, model_class) ? permitted_fields :  permitted_fields.select(&:showable?)
       end
@@ -87,7 +86,7 @@ module Exporters
       # TODO: Make this method generic
       def case_form_sections_by_module(cases, current_user)
         cases.map(&:module).compact.uniq.inject({}) do |acc, mod|
-          acc.merge({mod.name => current_user.permitted_forms(mod, 'case')
+          acc.merge({mod.name => current_user.permitted_forms('case')
                                              .sort {|a, b| [a.order_form_group, a.order] <=> [b.order_form_group, b.order] } })
         end
       end

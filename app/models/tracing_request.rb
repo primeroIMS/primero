@@ -18,26 +18,27 @@ class TracingRequest < ApplicationRecord
     :location_last
 
   alias inquirer_id tracing_request_id
-  alias inquiry_status status ; alias inquiry_status= status=
 
-  def photos ; [] ; end #TODO: delete after refactoring Documents
-  def photo_keys ; [] ; end #TODO: delete after refactoring Documents
-  def has_valid_audio? ; nil ; end #TODO: delete after refactoring Documents
+  attach_images_to fields: [:photos]
+  attach_audio_to fields: [:recorded_audio]
 
   def self.quicksearch_fields
-    %w(tracing_request_id short_id relation_name relation_nickname tracing_names
+    %w[tracing_request_id short_id relation_name relation_nickname tracing_names
        tracing_nicknames monitor_number survivor_code
-    )
+    ]
   end
 
   def self.summary_field_names
-    %w(short_id name_of_inquirer date_of_inquiry tracing_requests flag_count)
+    common_summary_fields + %w[
+      name_of_inquirer date_of_inquiry tracing_requests
+    ]
   end
 
   searchable auto_index: self.auto_index? do
     extend Matchable::Searchable
     configure_searchable(TracingRequest)
 
+    string :status, as: 'status_sci'
     quicksearch_fields.each do |f|
       text(f) { self.data[f] }
     end
@@ -61,7 +62,7 @@ class TracingRequest < ApplicationRecord
   def self.minimum_reportable_fields
     {
       'boolean' => ['record_state'],
-      'string' => ['inquiry_status', 'owned_by'],
+      'string' => ['status', 'owned_by'],
       'multistring' => ['associated_user_names', 'owned_by_groups'],
       'date' => ['inquiry_date']
     }

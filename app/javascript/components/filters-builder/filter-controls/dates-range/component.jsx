@@ -4,22 +4,23 @@ import { makeStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import { Box } from "@material-ui/core";
 import { DatePicker } from "@material-ui/pickers";
-import { useI18n } from "components/i18n";
-import { SelectFilter } from "components/filters-builder/filter-controls/select";
+
+import { useI18n } from "../../../i18n";
+import { SelectFilter } from "../select";
+
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as selectors from "./selectors";
+import { getFromDate, getToDate } from "./selectors";
 
 const DatesRange = ({ recordType, props, fromDate, toDate, setDate }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-  const { id, options } = props;
-  const { values } = options;
+  const { field_name: fieldName, options } = props;
 
   return (
     <div className={css.root}>
-      {values && values.length > 0 ? (
-        <SelectFilter recordType={recordType} props={props} />
+      {options && Object.keys(options).length > 0 ? (
+        <SelectFilter recordType={recordType} props={props} isDate />
       ) : null}
       <Box className={css.datesContainer}>
         <DatePicker
@@ -29,7 +30,7 @@ const DatesRange = ({ recordType, props, fromDate, toDate, setDate }) => {
           className={css.dates}
           label={i18n.t(`fields.date_range.from`)}
           value={fromDate}
-          onChange={date => setDate({ id, from: date }, recordType)}
+          onChange={date => setDate({ fieldName, from: date }, recordType)}
         />
         <DatePicker
           margin="normal"
@@ -38,26 +39,28 @@ const DatesRange = ({ recordType, props, fromDate, toDate, setDate }) => {
           className={css.dates}
           label={i18n.t(`fields.date_range.to`)}
           value={toDate}
-          onChange={date => setDate({ id, to: date }, recordType)}
+          onChange={date => setDate({ fieldName, to: date }, recordType)}
         />
       </Box>
     </div>
   );
 };
 
+DatesRange.displayName = "DateRange";
+
 DatesRange.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  props: PropTypes.object,
-  options: PropTypes.object,
-  id: PropTypes.string,
+  field_name: PropTypes.string,
   fromDate: PropTypes.instanceOf(Date),
-  toDate: PropTypes.instanceOf(Date),
-  setDate: PropTypes.func
+  options: PropTypes.object,
+  props: PropTypes.object,
+  recordType: PropTypes.string.isRequired,
+  setDate: PropTypes.func,
+  toDate: PropTypes.instanceOf(Date)
 };
 
 const mapStateToProps = (state, obj) => ({
-  fromDate: selectors.getFromDate(state, obj.props, obj.recordType),
-  toDate: selectors.getToDate(state, obj.props, obj.recordType)
+  fromDate: getFromDate(state, obj.props, obj.recordType),
+  toDate: getToDate(state, obj.props, obj.recordType)
 });
 
 const mapDispatchToProps = {

@@ -43,7 +43,7 @@ class Field < ApplicationRecord
   validate :valid_tally_field
   validate :validate_option_strings_text
 
-  after_initialize :defaults
+  after_initialize :defaults, unless: :persisted?
   before_validation :generate_options_keys
   before_validation :sync_options_keys
   before_create :sanitize_name
@@ -62,7 +62,7 @@ class Field < ApplicationRecord
 
   #TODO: Move to migration
   def defaults
-    self.date_validation = 'default_date_validation'
+    self.date_validation ||= 'default_date_validation'
     self.autosum_group ||= ""
     #self.attributes = properties #TODO: what is this?
   end
@@ -276,6 +276,7 @@ class Field < ApplicationRecord
     #      completely based on assumptions.
     #      Also it's inefficient, and potentially inconsistent with itself
     def find_by_name(field_name)
+      field_name = field_name.deep_dup
       field = nil
       if field_name.present?
         if field_name.kind_of?(Array)

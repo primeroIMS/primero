@@ -1,14 +1,17 @@
 json.record_type 'case'
-json.merge!({
-  record_id: task.parent_case.id,
+json.merge!(
+  id: task.parent_case.id,
   record_id_display: task.case_id,
   type: task.type,
+  detail: task.detail,
   priority: task.priority,
-  due_date: task.due_date
-}.compact!)
+  # TODO:  should display the localized due_date represented by the datetime value
+  due_date: task.due_date.strftime("%d-%b-%Y"),
+  type_display: task.type_display
+)
 if task.due_date.present?
-  json.merge!({
+  json.merge!(
     overdue: task.overdue?,
     upcoming_soon: task.upcoming_soon?
-  }.compact!)
+  )
 end

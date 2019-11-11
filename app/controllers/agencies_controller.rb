@@ -11,7 +11,7 @@ class AgenciesController < ApplicationController
   before_action :load_services, :only => [:new, :edit, :create, :update]
   before_action :load_agencies, :only => [:index]
 
-  include LoggerActions
+  include AuditLogActions
 
   def index
     authorize! :index, Agency

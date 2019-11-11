@@ -18,11 +18,12 @@ class FormSection < ApplicationRecord
   attr_accessor :module_name
   attribute :collapsed_field_names
 
+  validate :validate_fields_unique_name
   validate :validate_name_in_english
   validate :validate_name_format
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.form_section.unique_id' }
 
-  after_initialize :defaults, :generate_unique_id
+  after_initialize :defaults, :generate_unique_id, unless: :persisted?
   before_validation :calculate_fields_order
   before_save :sync_form_group, :recalculate_editable
   after_save :recalculate_collapsed_fields
@@ -266,12 +267,12 @@ class FormSection < ApplicationRecord
             #Custom export does not have violation type, just reporting.
             #Copied this code from the old reporting method.
             #TODO - this can be improved
-            forms = user.permitted_forms(primero_module, parent_form)
+            forms = user.permitted_forms(parent_form)
             forms = forms.select{|f| f.is_violation? || !f.is_nested?}
           else
             if apply_to_reports
               #For reporting show all forms, not just the visible.
-              forms = user.permitted_forms(primero_module, parent_form)
+              forms = user.permitted_forms(parent_form)
               #For reporting avoid subforms.
 
               # Filtering out nested subform minus any selected reportable subforms.
@@ -284,7 +285,7 @@ class FormSection < ApplicationRecord
               end
             else
               #For custom export shows only visible forms.
-              forms = user.permitted_forms(primero_module, parent_form, true)
+              forms = user.permitted_forms(parent_form, true)
               #Need a plain structure.
               forms = forms.map{|key, forms_sections| forms_sections}.flatten
             end
@@ -462,15 +463,13 @@ class FormSection < ApplicationRecord
       end
     end
 
-    def list_or_filter_by_record_type_and_module_id(record_type = nil, module_id = nil)
-      return FormSection.all if record_type.blank? && module_id.blank?
-      form_sections = self
-      if module_id.present?
-        form_sections = form_sections.joins(:primero_modules).where(primero_modules: { unique_id: module_id })
-      end
-      form_sections = form_sections.where(parent_form: record_type) if record_type.present?
+    def list(params={})
+      form_sections = all.includes(:fields, :collapsed_fields, :primero_modules)
+      form_sections = form_sections.where(parent_form: params[:record_type]) if params[:record_type]
+      form_sections = form_sections.where(primero_modules: { unique_id: params[:module_id] }) if params[:module_id]
       form_sections
     end
+
 
   end
 
@@ -672,6 +671,15 @@ class FormSection < ApplicationRecord
     else
       return true
     end
+  end
+
+  def validate_fields_unique_name
+    return true if self.fields.blank?
+    field_names = self.fields.map(&:name)
+    if field_names.length > field_names.dup.uniq.length
+      return errors.add(:fields, 'errors.models.form_section.unique_field_names')
+    end
+    true
   end
 
   def calculate_fields_order

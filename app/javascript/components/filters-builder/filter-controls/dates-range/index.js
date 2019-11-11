@@ -1,3 +1,3 @@
 export { default as DatesRange } from "./component";
-export * from "./actions";
-export * from "./action-creators";
+export { SET_UP_DATES_RANGE, RESET_DATES_RANGE } from "./actions";
+export { setupDatesRange, setDate } from "./action-creators";

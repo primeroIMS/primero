@@ -5,24 +5,25 @@ import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
 import { useI18n } from "components/i18n";
-import { PageContainer } from "components/page-container";
+import { PageContainer } from "components/page";
 import { LoadingIndicator } from "components/loading-indicator";
+import { Transitions, fetchTransitions } from "components/transitions";
 import { useThemeHelper } from "libs";
 import clsx from "clsx";
+import { RECORD_TYPES, TRANSITION_TYPE, REFERRAL } from "../../config";
+import { fetchRecord, saveRecord, selectRecord } from "components/records";
 import { Nav } from "./nav";
-import NAMESPACE from "./namespace";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { fetchRecord, saveRecord } from "./action-creators";
+
 import {
   getFirstTab,
   getFormNav,
   getRecordForms,
-  getRecord,
   getLoadingState,
-  getErrors
+  getErrors,
+  getSelectedForm
 } from "./selectors";
-import { RECORD_TYPES } from "./constants";
 import { compactValues } from "./helpers";
 
 const RecordForms = ({ match, mode }) => {
@@ -39,11 +40,12 @@ const RecordForms = ({ match, mode }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const i18n = useI18n();
-  // eslint-disable-next-line no-param-reassign
   const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
 
-  const record = useSelector(state => getRecord(state, containerMode));
+  const record = useSelector(state =>
+    selectRecord(state, containerMode, params.recordType, params.id)
+  );
 
   const selectedModule = {
     recordType,
@@ -55,9 +57,7 @@ const RecordForms = ({ match, mode }) => {
   const firstTab = useSelector(state => getFirstTab(state, selectedModule));
   const loading = useSelector(state => getLoadingState(state));
   const errors = useSelector(state => getErrors(state));
-  const selectedForm = useSelector(state =>
-    state.getIn([NAMESPACE, "selectedForm"])
-  );
+  const selectedForm = useSelector(state => getSelectedForm(state));
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -80,7 +80,9 @@ const RecordForms = ({ match, mode }) => {
           {
             data: {
               ...compactValues(values, initialValues),
-              module_id: selectedModule.primeroModule
+              ...(!containerMode.isEdit
+                ? { module_id: selectedModule.primeroModule }
+                : {})
             }
           },
           params.id,
@@ -102,7 +104,8 @@ const RecordForms = ({ match, mode }) => {
     selectedForm,
     forms,
     mode: containerMode,
-    record
+    record,
+    recordType: params.recordType
   };
 
   const toolbarProps = {
@@ -110,7 +113,9 @@ const RecordForms = ({ match, mode }) => {
     params,
     recordType,
     handleFormSubmit,
-    shortId: record ? record.get("short_id") : null
+    shortId: record ? record.get("short_id") : null,
+    primeroModule: selectedModule.primeroModule,
+    record
   };
 
   const navProps = {
@@ -133,6 +138,18 @@ const RecordForms = ({ match, mode }) => {
     params.recordType
   ]);
 
+  useEffect(() => {
+    dispatch(fetchTransitions(params.recordType, params.id));
+  }, [params.recordType, params.id]);
+
+  // TODO: When transfer_request be implement change the transition_ype
+  const isTransition = TRANSITION_TYPE.includes(selectedForm);
+  const transitionProps = {
+    isReferral: REFERRAL === selectedForm,
+    recordType: params.recordType,
+    record: params.id
+  };
+
   return (
     <PageContainer twoCol>
       <LoadingIndicator
@@ -150,8 +167,12 @@ const RecordForms = ({ match, mode }) => {
           <div className={css.recordNav}>
             <Nav {...navProps} />
           </div>
-          <div className={css.recordForms}>
-            <RecordForm {...formProps} />
+          <div className={`${css.recordForms} record-form-container`}>
+            {isTransition ? (
+              <Transitions {...transitionProps} />
+            ) : (
+              <RecordForm {...formProps} />
+            )}
           </div>
         </div>
       </LoadingIndicator>

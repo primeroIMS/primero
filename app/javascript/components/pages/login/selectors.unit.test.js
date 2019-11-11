@@ -1,15 +1,17 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map, List } from "immutable";
-import chaiImmutable from "chai-immutable";
 
-import * as selectors from "./selectors";
-
-chai.use(chaiImmutable);
+import {
+  selectModules,
+  selectAgency,
+  selectAuthErrors,
+  selectAuthenticated
+} from "./selectors";
 
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
   user: Map({
-    module: "gbv",
+    modules: List(["primeromodule-cp", "primeromodule-gbv"]),
     agency: "unicef",
     isAuthenticated: true,
     messages: null
@@ -17,51 +19,52 @@ const stateWithRecords = Map({
 });
 
 describe("<Login /> - Selectors", () => {
-
-  describe("selectModule", () => {
+  describe("selectModules", () => {
     it("should return records", () => {
-      const records = selectors.selectModule(stateWithRecords);
-      expect(records).to.deep.equal("gbv");
+      const records = selectModules(stateWithRecords);
+      expect(records).to.deep.equal(
+        List(["primeromodule-cp", "primeromodule-gbv"])
+      );
     });
 
     it("should return empty object when records empty", () => {
-      const records = selectors.selectModule(stateWithNoRecords);
+      const records = selectModules(stateWithNoRecords);
       expect(records).to.be.undefined;
     });
   });
 
   describe("selectAgency", () => {
     it("should return records", () => {
-      const records = selectors.selectAgency(stateWithRecords);
+      const records = selectAgency(stateWithRecords);
       expect(records).to.deep.equal("unicef");
     });
 
     it("should return empty object when records empty", () => {
-      const records = selectors.selectAgency(stateWithNoRecords);
+      const records = selectAgency(stateWithNoRecords);
       expect(records).to.be.undefined;
     });
   });
 
   describe("selectAuthErrors", () => {
     it("should return records meta", () => {
-      const meta = selectors.selectAuthErrors(stateWithRecords);
+      const meta = selectAuthErrors(stateWithRecords);
       expect(meta).to.deep.equal("");
     });
 
     it("should return empty object when records empty", () => {
-      const meta = selectors.selectAuthErrors(stateWithNoRecords);
+      const meta = selectAuthErrors(stateWithNoRecords);
       expect(meta).to.deep.equal("");
     });
   });
 
   describe("selectAuthenticated", () => {
     it("should return records meta", () => {
-      const meta = selectors.selectAuthenticated(stateWithRecords);
+      const meta = selectAuthenticated(stateWithRecords);
       expect(meta).to.deep.equal(true);
     });
 
     it("should return empty object when records empty", () => {
-      const meta = selectors.selectAuthenticated(stateWithNoRecords);
+      const meta = selectAuthenticated(stateWithNoRecords);
       expect(meta).to.deep.equal(false);
     });
   });

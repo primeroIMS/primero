@@ -1,29 +1,68 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
-import React from "react";
-import { dataToJS } from "libs";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { push } from "connected-react-router";
 
-const IndexTable = ({
+import { dataToJS } from "../../libs";
+import { LoadingIndicator } from "../loading-indicator";
+
+import { NAME } from "./config";
+import { getRecords, getLoading, getErrors, getFilters } from "./selectors";
+
+const Component = ({
   columns,
-  data,
+  recordType,
   onTableChange,
   defaultFilters,
-  path,
-  namespace,
-  onRowClick,
-  options: tableOptionsProps
+  options: tableOptionsProps,
+  targetRecordType,
+  onRowClick
 }) => {
-  const { meta, filters, records } = data;
-  const per = meta ? meta.get("per") : 20;
-  const total = meta ? meta.get("total") : 0;
-  const page = meta.get("page");
-  const sortOrder = filters ? filters.get("order") : undefined;
+  const dispatch = useDispatch();
+  const data = useSelector(state => getRecords(state, recordType));
+  const loading = useSelector(state => getLoading(state, recordType));
+  const errors = useSelector(state => getErrors(state, recordType));
+  const filters = useSelector(state => getFilters(state, recordType));
+
+  const { order, order_by: orderBy } = filters || {};
+  const records = data.get("data");
+  const per = data.getIn(["metadata", "per"], 20);
+  const total = data.getIn(["metadata", "total"], 0);
+  const page = data.getIn(["metadata", "page"], 1);
+  const url = targetRecordType || recordType;
+
+  let componentColumns =
+    typeof columns === "function" ? columns(data) : columns;
+
+  useEffect(() => {
+
+    dispatch(
+      onTableChange({
+        recordType,
+        options: { per, ...defaultFilters.merge(filters).toJS() }
+      })
+    );
+  }, [columns]);
+
+  if (order && orderBy) {
+    const sortedColumn = componentColumns.findIndex(c => c.name === orderBy);
+
+    if (sortedColumn) {
+      componentColumns = componentColumns.setIn(
+        [sortedColumn, "options", "sortDirection"],
+        order
+      );
+    }
+  }
 
   const handleTableChange = (action, tableState) => {
-    const options = { per, ...defaultFilters.merge(filters).toJS() };
+    const options = { ...defaultFilters.merge(filters).toJS() };
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
-
     const { activeColumn, columns: tableColumns, rowsPerPage } = tableState;
+
+    options.per = rowsPerPage;
 
     const selectedFilters = Object.assign(
       {},
@@ -35,15 +74,12 @@ const IndexTable = ({
               options.order = tableColumns[activeColumn].sortDirection;
             } else {
               options.order =
-                sortOrder === tableColumns[activeColumn].sortDirection
+                order === tableColumns[activeColumn].sortDirection
                   ? "asc"
                   : "desc";
             }
             options.order_by = tableColumns[activeColumn].name;
             options.page = page === 0 ? 1 : page;
-            break;
-          case "changeRowsPerPage":
-            options.per = rowsPerPage;
             break;
           case "changePage":
             options.page = tableState.page >= page ? page + 1 : page - 1;
@@ -55,7 +91,7 @@ const IndexTable = ({
     );
 
     if (validActions.includes(action)) {
-      onTableChange({ namespace, path, options: selectedFilters });
+      dispatch(onTableChange({ recordType, options: selectedFilters }));
     }
   };
 
@@ -78,35 +114,51 @@ const IndexTable = ({
       customToolbarSelect: () => null,
       onTableChange: handleTableChange,
       rowsPerPageOptions: [20, 50, 75, 100],
-      page: page - 1
+      page: page - 1,
+      onRowClick: (rowData, rowMeta) => {
+        if (onRowClick) {
+          onRowClick(records.get(rowMeta.dataIndex));
+        } else {
+          dispatch(push(`${url}/${records.getIn([rowMeta.dataIndex, "id"])}`));
+        }
+      }
     },
     tableOptionsProps
   );
 
-  if (onRowClick) {
-    options.onRowClick = onRowClick;
-  }
-
   const tableOptions = {
-    columns,
+    columns: componentColumns,
     options,
     data: dataToJS(records)
   };
 
-  const DataTable = () => <MUIDataTable {...tableOptions} />;
+  const loadingIndicatorProps = {
+    overlay: true,
+    hasData: !!records,
+    type: recordType,
+    loading,
+    errors
+  };
+
+  const DataTable = () => (
+    <LoadingIndicator {...loadingIndicatorProps}>
+      <MUIDataTable {...tableOptions} />
+    </LoadingIndicator>
+  );
 
   return <DataTable />;
 };
 
-IndexTable.propTypes = {
-  onTableChange: PropTypes.func.isRequired,
-  columns: PropTypes.array.isRequired,
-  data: PropTypes.object.isRequired,
+Component.displayName = NAME;
+
+Component.propTypes = {
+  columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   defaultFilters: PropTypes.object,
-  path: PropTypes.string.isRequired,
-  namespace: PropTypes.string.isRequired,
+  onRowClick: PropTypes.func,
+  onTableChange: PropTypes.func.isRequired,
   options: PropTypes.object,
-  onRowClick: PropTypes.func
+  recordType: PropTypes.string.isRequired,
+  targetRecordType: PropTypes.string
 };
 
-export default IndexTable;
+export default Component;

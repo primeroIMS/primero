@@ -1,25 +1,23 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { Map } from "immutable";
 import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
+
+import { setupMountedComponent } from "../../../../test";
+
 import RangeButton from "./component";
 
 describe("<RangeButton /> - Component", () => {
   const mockedData = {
-    id: "age_range",
-    display_name: "Age",
-    reset: true,
+    name: "Age",
+    field_name: "age_range",
     type: "multi_toggle",
-    options: {
-      values: [
-        { id: "age_0_5", display_name: "0 - 5" },
-        { id: "age_6_11", display_name: "6 - 11" },
-        { id: "age_12_17", display_name: "12 - 17" },
-        { id: "age_18_more", display_name: "18+" }
-      ]
-    }
-  }
+    options: [
+      { id: "age_0_5", display_name: "0 - 5" },
+      { id: "age_6_11", display_name: "6 - 11" },
+      { id: "age_12_17", display_name: "12 - 17" },
+      { id: "age_18_more", display_name: "18+" }
+    ]
+  };
   let component;
 
   before(() => {
@@ -39,10 +37,10 @@ describe("<RangeButton /> - Component", () => {
   });
 
   it("renders the ToggleButtonGroup", () => {
-    expect(component.find(ToggleButtonGroup)).to.have.length(1);
+    expect(component.find(ToggleButtonGroup)).to.have.lengthOf(1);
   });
 
   it("renders the ToggleButton", () => {
-    expect(component.find(ToggleButton)).to.have.length(4);
+    expect(component.find(ToggleButton)).to.have.lengthOf(4);
   });
 });
