@@ -6,8 +6,7 @@
     "test": "NODE_ENV=test mocha --require @babel/register --require ./.mochaignore --require jsdom-global/register --require ./app/javascript/test/test.setup.js --recursive --exit",
     "test:all": "npm run test './app/javascript/**/*.unit.test.js'",
     "test:inspect": "npm run test -- --inspect-brk=0.0.0.0:9229",
-    "lint": "eslint './app/javascript/**' --ignore-path ./app/javascript/.eslintignore",
-    "lint:test": "eslint './app/javascript/**/*.unit.test.js' -c ./app/javascript/test/.eslintrc.test.js"
+    "lint": "eslint './app/javascript/**' --ignore-path ./app/javascript/.eslintignore"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
