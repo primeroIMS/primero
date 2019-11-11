@@ -3,18 +3,18 @@ import { Box, Button } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../../test";
 
-import TransferActions from "./transfer-actions";
+import ReferralActions from "./actions";
 
-describe("<TransferActions />", () => {
+describe("<ReferralActions />", () => {
   let component;
   const props = {
-    closeModal: () => {},
+    handleClose: () => {},
     disabled: true
   };
 
   describe("when disabled property is true", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(TransferActions, props));
+      ({ component } = setupMountedComponent(ReferralActions, props));
     });
 
     it("renders Box", () => {
@@ -39,7 +39,7 @@ describe("<TransferActions />", () => {
     const disabled = false;
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(TransferActions, {
+      ({ component } = setupMountedComponent(ReferralActions, {
         ...props,
         disabled
       }));

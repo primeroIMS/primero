@@ -4,11 +4,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Box, Button } from "@material-ui/core";
 
 import styles from "../../styles.css";
-import { TRANSFER_ACTIONS_NAME } from "../../constants";
+import { REFERRAL_ACTIONS_NAME } from "../../constants";
 
 import { useI18n } from "components/i18n";
 
-const TransferActions = ({ closeModal, disabled }) => {
+const Actions = ({ handleClose, disabled }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
@@ -26,20 +26,20 @@ const TransferActions = ({ closeModal, disabled }) => {
         className={css.modalActionButton}
         disabled={disabled}
       >
-        {i18n.t("transfer.submit_label")}
+        {i18n.t("buttons.referral")}
       </Button>
-      <Button onClick={closeModal} color="primary" variant="outlined">
+      <Button onClick={handleClose} color="primary" variant="outlined">
         {i18n.t("buttons.cancel")}
       </Button>
     </Box>
   );
 };
 
-TransferActions.displayName = TRANSFER_ACTIONS_NAME;
+Actions.displayName = REFERRAL_ACTIONS_NAME;
 
-TransferActions.propTypes = {
-  closeModal: PropTypes.func.isRequired,
-  disabled: PropTypes.bool.isRequired
+Actions.propTypes = {
+  disabled: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired
 };
 
-export default TransferActions;
+export default Actions;
