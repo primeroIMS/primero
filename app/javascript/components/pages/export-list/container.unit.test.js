@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { fromJS } from "immutable";
 import MUIDataTable, { TableBodyRow } from "mui-datatables";
 
-import { IndexTable } from "../../index-table";
+import IndexTable from "../../index-table";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 import { ListHeaderRecord } from "../../user/records";
 import { setupMountedComponent } from "../../../test";

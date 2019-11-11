@@ -10,3 +10,4 @@ export const RADIO_FIELD = "radio_button";
 export const PHOTO_FIELD = "photo_upload_box";
 export const DOCUMENT_FIELD = "document_upload_box";
 export const AUDIO_FIELD = "audio_upload_box";
+export const NAME_FIELD = "name";

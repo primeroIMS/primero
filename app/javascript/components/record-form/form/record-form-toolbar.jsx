@@ -3,13 +3,15 @@ import PropTypes from "prop-types";
 import { Box, IconButton, Fab } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
-import { useI18n } from "components/i18n";
 import CreateIcon from "@material-ui/icons/Create";
-import { Flagging } from "components/flagging";
-import { RecordActions } from "components/record-actions";
-import styles from "./styles.css";
+
+import { useI18n } from "./../../i18n";
+import { Flagging } from "./../../flagging";
+import RecordActions from "./../../record-actions";
+import Permission from "./../../application/permission";
+
 import { WorkflowIndicator } from "./components";
-import Permission from "../../application/permission";
+import styles from "./styles.css";
 
 const RecordFormToolbar = ({
   mode,

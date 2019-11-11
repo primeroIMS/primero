@@ -1,5 +1,7 @@
 import React from "react";
-import { ToggleIconCell } from "components/index-table";
+import { RECORD_PATH } from "config";
+
+import { ToggleIconCell } from "./../index-table";
 import {
   fetchCases,
   fetchIncidents,
@@ -7,17 +9,17 @@ import {
   setCasesFilters,
   setIncidentsFilters,
   setTracingRequestFilters
-} from "components/records";
-import { RECORD_PATH } from "config";
+} from "./../records";
+
 
 export const buildTableColumns = (columns, i18n, recordType) => {
   const lastColumns = ["photo", "flags"];
 
   return columns
-    .map(c => {
+    .map(column => {
       const options = {
         ...{
-          ...(["photos"].includes(c.name)
+          ...(["photos"].includes(column.get("name"))
             ? {
                 customBodyRender: value => (
                   <ToggleIconCell value={value} icon="photo" />
@@ -30,15 +32,15 @@ export const buildTableColumns = (columns, i18n, recordType) => {
       const noLabelColumns = ["photo"];
 
       return {
-        label: noLabelColumns.includes(c.name)
+        label: noLabelColumns.includes(column.name)
           ? ""
-          : i18n.t(`${recordType}.${c.name}`),
-        name: c.field_name,
-        id: c.id_search,
+          : i18n.t(`${recordType}.${column.get("name")}`),
+        name: column.get("field_name"),
+        id: column.get("id_search"),
         options
       };
     })
-    .sortBy(i => (lastColumns.includes(i.name) ? 1 : 0));
+    .sortBy(column => (lastColumns.includes(column.name) ? 1 : 0));
 };
 
 export const getFiltersSetterByType = type => {

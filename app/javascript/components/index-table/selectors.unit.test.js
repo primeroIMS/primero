@@ -31,29 +31,29 @@ describe("<RecordList /> - Selectors", () => {
   describe("selectRecords", () => {
     it("should return records", () => {
       const expected = fromJS({ "data": [{ "id": 1 }], "metadata": { "per": 20 }});
-      const records = selectors.selectRecords(stateWithRecords, recordType);
+      const records = selectors.getRecords(stateWithRecords, recordType);
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
       const expected = fromJS({ "data": [] });
-      const records = selectors.selectRecords(stateWithNoRecords, recordType);
+      const records = selectors.getRecords(stateWithNoRecords, recordType);
       expect(records).to.deep.equal(expected);
     });
   });
 
-  describe("selectFilters", () => {
+  describe("getFilters", () => {
     it("should return filters", () => {
       const expected = Map({
         gender: "male"
       });
-      const filters = selectors.selectFilters(stateWithRecords, recordType);
+      const filters = selectors.getFilters(stateWithRecords, recordType);
       expect(filters).to.deep.equal(expected);
     });
 
     it("should return empty object when filters empty", () => {
       const expected = Map({});
-      const filters = selectors.selectFilters(stateWithNoRecords, recordType);
+      const filters = selectors.getFilters(stateWithNoRecords, recordType);
       expect(filters).to.deep.equal(expected);
     });
   });
@@ -64,16 +64,16 @@ describe("<RecordList /> - Selectors", () => {
     });
   });
 
-  describe("selectLoading", () => {
+  describe("getLoading", () => {
     it("should return loading status", () => {
       const expected = true;
-      const loading = selectors.selectLoading(stateWithRecords, recordType);
+      const loading = selectors.getLoading(stateWithRecords, recordType);
       expect(loading).to.deep.equal(expected);
     });
 
     it("should return false by default", () => {
       const expected = false;
-      const loading = selectors.selectLoading(stateWithNoRecords, recordType);
+      const loading = selectors.getLoading(stateWithNoRecords, recordType);
       expect(loading).to.deep.equal(expected);
     });
   });

@@ -28,6 +28,7 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
+
     const newState = reducers(fromJS({}), action);
     expect(newState).to.deep.equal(initialState);
   });
@@ -65,6 +66,7 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
+
     const newState = reducers(fromJS({}), action);
     expect(newState).to.deep.equal(initialState);
   });
@@ -103,6 +105,7 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
+
     const newState = reducers(fromJS({}), action);
     expect(newState).to.deep.equal(initialState);
   });
@@ -123,6 +126,7 @@ describe("<Reports /> - Reducers", () => {
         }
       }
     };
+
     const newState = reducers(fromJS({}), action);
     expect(newState).to.deep.equal(initialState);
   });

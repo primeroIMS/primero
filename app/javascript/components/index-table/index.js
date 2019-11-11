@@ -1,8 +1,3 @@
-export { default as IndexTable } from "./component";
+export { default } from "./component";
 export { DateCell, ToggleIconCell } from "./cell-renderers";
-export {
-  selectRecords,
-  selectFilters,
-  selectLoading,
-  selectErrors
-} from "./selectors";
+export { getRecords, getFilters, getLoading, getErrors } from "./selectors";

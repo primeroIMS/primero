@@ -1,29 +1,26 @@
-import chai, { expect } from "chai";
-import { setupMountedComponent } from "test";
-import "test/test.setup";
-import sinon from "sinon";
-import sinonChai from "sinon-chai";
+import { expect } from "chai";
 import React from "react";
 import { Route } from "react-router-dom";
-import { Map, List } from "immutable";
-import { IndexTable } from "components/index-table";
-import RecordList from "./container";
-import { ViewModal } from "components/record-list/view-modal";
-import * as Permissions from "libs/permissions";
+import { fromJS } from "immutable";
 
-chai.use(sinonChai);
+import IndexTable from "./../index-table";
+import { PERMISSION_CONSTANTS } from "./../../libs/permissions";
+import { setupMountedComponent } from "./../../test";
+import { ViewModal } from "./../record-list/view-modal";
+
+import RecordList from "./container";
 
 describe("<RecordList />", () => {
   let component;
 
   beforeEach(() => {
-    const initialState = Map({
-      records: Map({
-        FiltersTabs: Map({
+    const initialState = fromJS({
+      records: {
+        FiltersTabs: {
           current: 0
-        }),
-        cases: Map({
-          data: List([
+        },
+        cases: {
+          data: [
             {
               id: "e15acbe5-9501-4615-9f43-cb6873997fc1",
               name: "Jose",
@@ -34,22 +31,22 @@ describe("<RecordList />", () => {
               name: "Carlos",
               record_state: true
             }
-          ]),
-          metadata: Map({ total: 2, per: 20, page: 1 }),
-          filters: Map({
+          ],
+          metadata: { total: 2, per: 20, page: 1 },
+          filters: {
             id_search: false,
             query: ""
-          })
-        })
-      }),
-      user: Map({
+          }
+        }
+      },
+      user: {
         modules: ["primeromodule-cp"],
-        listHeaders: Map({
-          cases: List([{ id: "name", name: "Name", field_name: "name" }])
-        }),
-        permissions: Map({ cases: List([Permissions.MANAGE, Permissions.DISPLAY_VIEW_PAGE]) })
-      }),
-      application: Map({
+        listHeaders: {
+          cases: [{ id: "name", name: "Name", field_name: "name" }]
+        },
+        permissions: { cases: [PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.DISPLAY_VIEW_PAGE] }
+      },
+      application: {
         online: true,
         modules: [
           {
@@ -58,7 +55,7 @@ describe("<RecordList />", () => {
             associated_record_types: ["case"]
           }
         ]
-      })
+      }
     });
 
     const routedComponent = initialProps => {

@@ -1,29 +1,56 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, makeStyles } from "@material-ui/core";
+import { Box } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
+
+import { NAME_FIELD, DATE_FIELD, SELECT_FIELD } from "../../constants";
+
+import LookupHeader from "./subform-header-lookup";
+import DateHeader from "./subform-header-date";
 import styles from "./styles.css";
 
 const SubformHeader = ({ field, values, locale, displayName, index }) => {
+  const css = makeStyles(styles)();
   const {
-    collapsed_field_names: collapsedFieldNames
+    collapsed_field_names: collapsedFieldNames,
+    fields
   } = field.subform_section_id;
 
-  const css = makeStyles(styles)();
+  const subformValues = collapsedFieldNames
+    .map(collapsedFieldName => {
+      const val = values[index];
+      const {
+        type,
+        date_include_time: includeTime,
+        option_strings_source: optionsStringSource
+      } = fields.find(f => f.get(NAME_FIELD) === collapsedFieldName);
+      const value = val[collapsedFieldName];
 
-  if (collapsedFieldNames) {
-    const [primaryField, secondaryField] = collapsedFieldNames;
-    const val = values?.[index];
-    const secondaryValue = val[secondaryField];
-    const primaryValue = val[primaryField];
+      switch (type) {
+        case DATE_FIELD: {
+          const dateComponentProps = {
+            value: value instanceof Date ? value.toISOString() : value,
+            key: collapsedFieldName,
+            includeTime
+          };
+          return <DateHeader {...dateComponentProps} />;
+        }
+        case SELECT_FIELD: {
+          const lookupComponentProps = {
+            value,
+            key: collapsedFieldName,
+            optionsStringSource
+          };
+          return <LookupHeader {...lookupComponentProps} />;
+        }
+        default:
+          return <span key={collapsedFieldName}>{value}</span>;
+      }
+    })
+    .filter(i => i);
 
-    if (secondaryValue && primaryValue) {
-      return (
-        <Box>
-          <div className={css.secondarySubformHeader}>{secondaryValue}</div>
-          <div>{primaryValue}</div>
-        </Box>
-      );
-    }
+  if (collapsedFieldNames.length && values.length) {
+    return <Box className={css.subformHeader}>{subformValues}</Box>;
   }
 
   return <>{displayName?.[locale]}</>;

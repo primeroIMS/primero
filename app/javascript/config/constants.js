@@ -55,22 +55,20 @@ export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
   [MODULES.GBV]: "disclosure_other_orgs"
 });
 
-export const PERMISSIONS = {
-  MANAGE: "manage",
-  SEARCH_OWNED_BY_OTHERS: "search_owned_by_others"
-};
-
 export const RECORD_PATH = {
   cases: "cases",
   tracing_requests: "tracing_requests",
-  incidents: "incidents"
+  incidents: "incidents",
+  tasks: "tasks"
 };
-
-export const TRANSITION_TYPE = ["transfers_assignments", "referral"];
 
 export const RECORD_OWNER = "record_owner";
 
 export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
+
+export const REFERRAL = "referral";
+
+export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
 export const ROUTES = {
   dashboard: "/dashboard",
@@ -83,3 +81,7 @@ export const ROUTES = {
   exports: "/exports",
   support: "/support"
 };
+
+export const DATE_FORMAT = "dd-MMM-yyyy";
+
+export const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";

@@ -1,12 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles/";
 import DownloadIcon from "@material-ui/icons/GetApp";
-import { Map } from "immutable";
+import { fromJS } from "immutable";
 
 import { PageContainer, PageHeading, PageContent } from "../../page";
-import { IndexTable } from "../../index-table";
+import IndexTable from "../../index-table";
+import { useI18n } from "../../i18n";
 
 import { fetchExports } from "./action-creators";
 import styles from "./styles.css";
@@ -55,7 +55,7 @@ const ExportList = () => {
     recordType,
     columns,
     options,
-    defaultFilters: Map({
+    defaultFilters: fromJS({
       per: 20,
       page: 1
     }),

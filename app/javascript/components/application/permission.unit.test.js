@@ -2,8 +2,8 @@ import React from "react";
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { READ } from "../../libs/permissions";
 import { setupMountedComponent } from "../../test";
+import { PERMISSION_CONSTANTS } from "../../libs/permissions";
 
 import Permission from "./permission";
 
@@ -11,7 +11,7 @@ describe("<Permission />", () => {
   let component;
   const props = {
     permissionType: "cases",
-    permission: READ,
+    permission: PERMISSION_CONSTANTS.READ,
     children: <div />,
     match: {
       isExact: true,
@@ -24,7 +24,7 @@ describe("<Permission />", () => {
   const initialState = fromJS({
     user: {
       permissions: {
-        cases: [READ]
+        cases: [PERMISSION_CONSTANTS.READ]
       }
     }
   });

@@ -1,11 +1,11 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles/";
-import { Map } from "immutable";
+import { fromJS } from "immutable";
 import { useSelector } from "react-redux";
 
-import { TasksOverdue, TasksPending } from "../../../images/primero-icons";
 import { useI18n } from "../../i18n";
-import { IndexTable } from "../../index-table";
+import { TasksOverdue, TasksPending } from "../../../images/primero-icons";
+import IndexTable from "../../index-table";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 import { DashboardChip } from "../../dashboard";
 
@@ -75,7 +75,7 @@ const TaskList = () => {
     recordType,
     columns,
     options,
-    defaultFilters: Map({
+    defaultFilters: fromJS({
       per: 20,
       page: 1
     }),
