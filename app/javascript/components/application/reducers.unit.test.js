@@ -16,7 +16,7 @@ describe("Application - Reducers", () => {
     };
 
     const newState = reducers.application(defaultState, action);
-    expect(newState).to.eql(expected);
+    expect(newState).to.deep.equal(expected);
   });
 
   it("should handle FETCH_SYSTEM_SETTINGS_SUCCESS", () => {
