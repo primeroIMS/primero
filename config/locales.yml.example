@@ -1,11 +1,11 @@
 development:
   :default_locale: 'en'
-  :locales: ['en', 'fr', 'ar', 'ar-LB', 'ar-JO', 'so', 'es', 'bn']
+  :locales: ['en', 'fr', 'ar', 'ar-LB', 'ar_JO', 'so', 'es', 'bn']
 
 test:
   :default_locale: 'en'
-  :locales: ['en', 'fr', 'ar', 'ar-LB', 'ar-JO', 'so', 'es', 'bn']
+  :locales: ['en', 'fr', 'ar', 'ar-LB', 'ar_JO', 'so', 'es', 'bn']
 
 production:
   :default_locale: 'en'
-  :locales: ['en', 'fr', 'ar', 'ar-LB', 'ar-JO', 'so', 'es', 'bn']
+  :locales: ['en', 'fr', 'ar', 'ar-LB', 'ar_JO', 'so', 'es', 'bn']
