@@ -1,6 +1,7 @@
-
-import { setupMountedThemeComponent } from "test";
 import { expect } from "chai";
+
+import { setupMountedThemeComponent } from "../../test";
+
 import Jewel from "./component";
 
 describe("<Jewel />", () => {

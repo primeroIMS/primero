@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useI18n } from "components/i18n";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { Formik } from "formik";
+
+import { useI18n } from "../../../../i18n";
 import { saveReferral } from "../../action-creators";
+
 import MainForm from "./main-form";
 
 const ReferralForm = ({
@@ -51,6 +53,7 @@ const ReferralForm = ({
     },
     onSubmit: (values, { setSubmitting }) => {
       const recordId = record.get("id");
+
       dispatch(
         saveReferral(
           recordId,
@@ -74,10 +77,10 @@ const ReferralForm = ({
 
 ReferralForm.propTypes = {
   handleClose: PropTypes.func.isRequired,
-  userPermissions: PropTypes.object,
   providedConsent: PropTypes.bool,
+  record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  record: PropTypes.object
+  userPermissions: PropTypes.object
 };
 
 export default ReferralForm;

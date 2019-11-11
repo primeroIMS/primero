@@ -1,10 +1,11 @@
 import React from "react";
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../../../test";
 import { TextField } from "formik-material-ui";
 import { Field, Form, Formik } from "formik";
-import { SearchableSelect } from "components/searchable-select";
+
+import { setupMountedComponent } from "../../../../../test";
+import { SearchableSelect } from "../../../../searchable-select";
+
 import TransferInternal from "./transfer-internal";
 
 const InternalForm = props => {
@@ -15,6 +16,7 @@ const InternalForm = props => {
     },
     onSubmit: () => {}
   };
+
   return (
     <Formik {...formProps}>
       <Form>

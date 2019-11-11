@@ -1,10 +1,11 @@
 import { expect } from "chai";
+import { fromJS } from "immutable";
+import { CircularProgress } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
 import { routes } from "../../config";
-import { fromJS } from "immutable";
-import { Nav } from "components/nav";
-import { CircularProgress } from "@material-ui/core";
+import { Nav } from "../nav";
+
 import AppLayout from "./AppLayout";
 
 describe("<AppLayout />", () => {
@@ -40,6 +41,7 @@ describe("<AppLayout />", () => {
           ]
         }
       });
+
       component = setupMountedComponent(
         AppLayout,
         { route: routes[0] },
@@ -79,6 +81,7 @@ describe("<AppLayout />", () => {
           baseLanguage: "en"
         }
       });
+
       component = setupMountedComponent(
         AppLayout,
         { route: routes[0] },

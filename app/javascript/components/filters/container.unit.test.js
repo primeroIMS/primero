@@ -1,9 +1,10 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../test";
 import { Map } from "immutable";
-import { AppBar, Tabs, Tab } from "@material-ui/core";
-import { FiltersBuilder } from "components/filters-builder";
+import { Tabs, Tab } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../test";
+import { FiltersBuilder } from "../filters-builder";
+
 import Filters from "./container";
 
 describe("<Filters /> - Component", () => {

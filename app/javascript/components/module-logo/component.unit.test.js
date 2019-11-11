@@ -1,14 +1,15 @@
 import { expect } from "chai";
-import { setupMountedThemeComponent } from "test";
 
+import { setupMountedThemeComponent } from "../../test";
+import PrimeroLogo from "../../images/primero-logo.png";
+import MRMLogo from "../../images/mrm-logo.png";
 
-import PrimeroLogo from "images/primero-logo.png";
-import MRMLogo from "images/mrm-logo.png";
 import ModuleLogo from "./component";
 
 describe("<ModuleLogo />", () => {
   it("renders a default primero module logo", () => {
     const component = setupMountedThemeComponent(ModuleLogo);
+
     expect(component.find("img").prop("src")).to.equal(PrimeroLogo);
   });
 
@@ -16,6 +17,7 @@ describe("<ModuleLogo />", () => {
     const component = setupMountedThemeComponent(ModuleLogo, {
       moduleLogo: "primeromodule-mrm"
     });
+
     expect(component.find("img").prop("src")).to.equal(MRMLogo);
   });
 });

@@ -1,7 +1,9 @@
 import chai, { expect } from "chai";
 import { Map, List } from "immutable";
 import chaiImmutable from "chai-immutable";
-import { mapEntriesToRecord } from "libs";
+
+import { mapEntriesToRecord } from "../../libs";
+
 import { FlagRecord } from "./records";
 import * as r from "./reducers";
 
@@ -109,6 +111,7 @@ describe("<Flagging /> - Reducers", () => {
       }
     };
     const newState = reducer(defaultState, action);
+
     expect(List(newState.get("data"))).to.deep.equal(
       List(expected.get("data"))
     );
@@ -128,6 +131,7 @@ describe("<Flagging /> - Reducers", () => {
     };
 
     const newState = reducer(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 });

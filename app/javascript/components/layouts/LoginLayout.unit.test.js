@@ -1,15 +1,14 @@
-import { setupMountedComponent } from "../../test";
 import { expect } from "chai";
 import { Map } from "immutable";
 
+import PrimeroWhiteLogo from "../../images/primero-logo-white.png";
+import { setupMountedComponent } from "../../test";
+import { TranslationsToggle } from "../translations-toggle";
+import { AgencyLogo } from "../agency-logo";
+import { ModuleLogo } from "../module-logo";
+import UnicefLogo from "../../images/unicef.png";
 
-import { TranslationsToggle } from "components/translations-toggle";
-import { AgencyLogo } from "components/agency-logo";
-import { ModuleLogo } from "components/module-logo";
 import LoginLayout from "./LoginLayout";
-
-import PrimeroWhiteLogo from "images/primero-logo-white.png";
-import UnicefLogo from "images/unicef.png";
 
 describe("<LoginLayout />", () => {
   let component;
@@ -23,13 +22,33 @@ describe("<LoginLayout />", () => {
   });
 
   it("renders default PrimeroModule logo", () => {
-    expect(component.find("img").first().prop("src")).to.equal(PrimeroWhiteLogo);
-    expect(component.find("img").first().prop("alt")).to.equal("Primero");
+    expect(
+      component
+        .find("img")
+        .first()
+        .prop("src")
+    ).to.equal(PrimeroWhiteLogo);
+    expect(
+      component
+        .find("img")
+        .first()
+        .prop("alt")
+    ).to.equal("Primero");
   });
 
   it("renders default agency logo", () => {
-    expect(component.find("img").last().prop("src")).to.equal(UnicefLogo);
-    expect(component.find("img").last().prop("alt")).to.equal("unicef");
+    expect(
+      component
+        .find("img")
+        .last()
+        .prop("src")
+    ).to.equal(UnicefLogo);
+    expect(
+      component
+        .find("img")
+        .last()
+        .prop("alt")
+    ).to.equal("unicef");
   });
 
   it("renders a module logo", () => {
@@ -43,5 +62,4 @@ describe("<LoginLayout />", () => {
   it("renders an TranslationsToggle component", () => {
     expect(component.find(TranslationsToggle)).to.have.length(1);
   });
-
 });

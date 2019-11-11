@@ -1,8 +1,9 @@
-
-import { setupMountedThemeComponent } from "test";
 import { expect } from "chai";
-import { buildDataForGraph } from "components/pages/report/helpers";
 import { Map } from "immutable";
+
+import { setupMountedThemeComponent } from "../../../test";
+import { buildDataForGraph } from "../../pages/report/helpers";
+
 import BarChart from "./component";
 
 describe("<BarChart />", () => {

@@ -20,6 +20,7 @@ import { Jewel } from "../jewel";
 import { useApp } from "../application";
 import { TranslationsToggle } from "../translations-toggle";
 
+import { NAME } from "./constants";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
@@ -153,5 +154,7 @@ const Nav = () => {
     </>
   );
 };
+
+Nav.displayName = NAME;
 
 export default Nav;

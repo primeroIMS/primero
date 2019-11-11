@@ -1,9 +1,10 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../test";
 import { Map, List } from "immutable";
 import { ExpansionPanel, Button } from "@material-ui/core";
-import * as Record from "components/user/records";
+
+import { setupMountedComponent } from "../../test";
+import * as Record from "../user/records";
+
 import FiltersBuilder from "./container";
 
 describe("<Filters /> - Component", () => {
@@ -53,5 +54,4 @@ describe("<Filters /> - Component", () => {
   it("renders the ExpansionPanel", () => {
     expect(component.find(ExpansionPanel)).to.have.length(1);
   });
-
 });

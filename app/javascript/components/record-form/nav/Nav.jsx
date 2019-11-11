@@ -6,6 +6,7 @@ import Divider from "@material-ui/core/Divider";
 
 import { setSelectedForm } from "../action-creators";
 
+import { NAME } from "./constants";
 import NavGroup from "./NavGroup";
 import RecordInformation from "./parts/record-information";
 
@@ -37,11 +38,12 @@ const Nav = ({
 
   useEffect(() => {
     dispatch(setSelectedForm(firstTab.unique_id));
+
     setOpen({
       ...open,
       [firstTab.form_group_id]: !open[firstTab.form_group_id]
     });
-  }, [dispatch, firstTab, open]);
+  }, []);
 
   if (formNav) {
     const [...formGroups] = formNav.values();
@@ -67,6 +69,8 @@ const Nav = ({
 
   return null;
 };
+
+Nav.displayName = NAME;
 
 Nav.propTypes = {
   firstTab: PropTypes.object,
