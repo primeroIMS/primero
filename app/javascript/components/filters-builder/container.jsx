@@ -114,10 +114,7 @@ const Container = ({
         aria-label={i18n.t("buttons.delete")}
         justifycontent="flex-end"
         size="small"
-        onClick={handleReset(
-          `${filter.field_name}`,
-          `${filter.type}`
-        )}
+        onClick={handleReset(`${filter.field_name}`, `${filter.type}`)}
       >
         <RefreshIcon />
       </IconButton>
@@ -159,7 +156,7 @@ const Container = ({
           {i18n.t("filters.clear_filters")}
         </Button>
       </div>
-      {<SavedSearchesForm {...savedSearchesFormProps} />}
+      <SavedSearchesForm {...savedSearchesFormProps} />
     </div>
   );
 };

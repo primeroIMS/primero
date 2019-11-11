@@ -1,5 +1,5 @@
 import chai, { expect } from "chai";
-import "test/test.setup";
+
 import { fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
 

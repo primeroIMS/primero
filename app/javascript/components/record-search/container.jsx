@@ -5,8 +5,8 @@ import { makeStyles } from "@material-ui/styles";
 import { IconButton, InputBase } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 
-import { useI18n } from "./../i18n";
-import { getFiltersByRecordType } from "./../filters-builder";
+import { useI18n } from "../i18n";
+import { getFiltersByRecordType } from "../filters-builder";
 
 import styles from "./styles.css";
 

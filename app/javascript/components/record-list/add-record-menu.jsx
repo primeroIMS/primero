@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { startCase, camelCase } from "lodash";
-import { useI18n } from "components/i18n";
 import { Menu, MenuItem, IconButton } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
-import { useApp } from "components/application";
+
+import { useI18n } from "../i18n";
+import { useApp } from "../application";
 
 const AddRecordMenu = ({ recordType }) => {
   const i18n = useI18n();

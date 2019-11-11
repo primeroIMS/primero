@@ -4,18 +4,19 @@ import { useMediaQuery } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
-import { useI18n } from "components/i18n";
-import { PageContainer } from "components/page";
-import { LoadingIndicator } from "components/loading-indicator";
-import { Transitions, fetchTransitions } from "components/transitions";
-import { useThemeHelper } from "libs";
 import clsx from "clsx";
+
+import { useThemeHelper } from "../../libs";
+import { useI18n } from "../i18n";
+import { PageContainer } from "../page";
+import { Transitions, fetchTransitions } from "../transitions";
+import { LoadingIndicator } from "../loading-indicator";
+import { fetchRecord, saveRecord, selectRecord } from "../records";
 import { RECORD_TYPES, TRANSITION_TYPE, REFERRAL } from "../../config";
-import { fetchRecord, saveRecord, selectRecord } from "components/records";
+
 import { Nav } from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-
 import {
   getFirstTab,
   getFormNav,

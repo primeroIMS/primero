@@ -1,4 +1,4 @@
-import "test/test.setup";
+
 import chai, { expect } from "chai";
 import { Map } from "immutable";
 import chaiImmutable from "chai-immutable";

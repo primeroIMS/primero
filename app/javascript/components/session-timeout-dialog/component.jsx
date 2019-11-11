@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -8,15 +8,16 @@ import {
 } from "@material-ui/core";
 import IdleTimer from "react-idle-timer";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserIdle, selectUserIdle } from "components/application";
 import { push } from "connected-react-router";
+
+import { refreshToken } from "../user";
+import { useI18n } from "../i18n";
 import {
   IDLE_TIMEOUT,
   IDLE_LOGOUT_TIMEOUT,
   TOKEN_REFRESH_INTERVAL
-} from "config";
-import { refreshToken } from "components/user";
-import { useI18n } from "components/i18n";
+} from "../../config";
+import { setUserIdle, selectUserIdle } from "../application";
 
 const SessionTimeoutDialog = () => {
   const idleRef = useRef(null);
@@ -26,10 +27,10 @@ const SessionTimeoutDialog = () => {
   const userIdle = useSelector(state => selectUserIdle(state));
   const i18n = useI18n();
 
-  const idleUser = action => {
+  const idleUser = useCallback(action => {
     dispatch(setUserIdle(action));
     localStorage.setItem("userIdle", action);
-  };
+  });
 
   const logout = () => {
     dispatch(push("/logout"));
@@ -45,11 +46,11 @@ const SessionTimeoutDialog = () => {
     dispatch(refreshToken());
   };
 
-  const startTokenRefreshTimer = () => {
+  const startTokenRefreshTimer = useCallback(() => {
     tokenRefreshTimer.current = setInterval(() => {
       refreshUserToken();
     }, TOKEN_REFRESH_INTERVAL);
-  };
+  });
 
   const stopAllTimers = () => {
     if (logoutTimer.current) clearTimeout(logoutTimer.current);

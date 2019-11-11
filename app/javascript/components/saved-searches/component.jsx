@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles, Typography, Box } from "@material-ui/core";
 import { useSelector } from "react-redux";
-import { useI18n } from "components/i18n";
+
+import { useI18n } from "../i18n";
+
 import ListSavedSearches from "./ListSavedSearches";
 import { selectSavedSearches } from "./selectors";
 import styles from "./styles.css";

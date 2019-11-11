@@ -56,27 +56,27 @@ module.exports = {
     ],
     "react/no-multi-comp": "warn",
     "react/require-default-props": "off",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "off",
     "react-hooks/rules-of-hooks": "error",
-    "react/sort-prop-types": "error"
+    "react/sort-prop-types": "error",
+    "import/no-extraneous-dependencies": "off"
   },
   env: {
     browser: true
   },
-  settings: {
-    "import/resolver": {
-      alias: {
-        map: [
-          ["libs", path.resolve(__dirname, "libs")],
-          ["config", path.resolve(__dirname, "config")],
-          ["db", path.resolve(__dirname, "db")],
-          ["components", path.resolve(__dirname, "components")],
-          ["middleware", path.resolve(__dirname, "middleware")],
-          ["images", path.resolve(__dirname, "images")],
-          ["test", path.resolve(__dirname, "test")]
-        ],
-        extensions: [".js", ".jsx"]
-      }
+  overrides: [{
+    "files": ["*.unit.test.js"],
+    "env": {
+      "mocha": true
+    },
+    "rules": {
+      "no-unused-expressions": "off",
+      "no-unused-vars": [
+        "error",
+        {
+          "varsIgnorePattern": "should|expect"
+        }
+      ]
     }
-  }
+  }]
 };

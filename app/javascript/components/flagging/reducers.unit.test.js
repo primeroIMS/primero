@@ -109,6 +109,7 @@ describe("<Flagging /> - Reducers", () => {
       }
     };
     const newState = reducer(defaultState, action);
+
     expect(List(newState.get("data"))).to.deep.equal(
       List(expected.get("data"))
     );
@@ -128,6 +129,7 @@ describe("<Flagging /> - Reducers", () => {
     };
 
     const newState = reducer(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 });

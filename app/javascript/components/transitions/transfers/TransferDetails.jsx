@@ -1,9 +1,10 @@
 import React from "react";
-import { useI18n } from "components/i18n";
 import { Box, Divider, Grid, FormControlLabel } from "@material-ui/core";
 import PropTypes from "prop-types";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import Cancel from "@material-ui/icons/Cancel";
+
+import { useI18n } from "../../i18n";
 import TransitionUser from "../TransitionUser";
 
 const TransferDetails = ({ transition, classes }) => {
@@ -102,8 +103,8 @@ const TransferDetails = ({ transition, classes }) => {
 };
 
 TransferDetails.propTypes = {
-  transition: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  transition: PropTypes.object.isRequired
 };
 
 export default TransferDetails;

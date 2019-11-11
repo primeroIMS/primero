@@ -54,5 +54,4 @@ describe("<Filters /> - Component", () => {
   it("renders the ExpansionPanel", () => {
     expect(component.find(ExpansionPanel)).to.have.lengthOf(1);
   });
-
 });

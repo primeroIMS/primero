@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import ProvidedForm from "./provided-form";
 
 const ProvidedConsent = ({
@@ -14,6 +15,7 @@ const ProvidedConsent = ({
     canConsentOverride,
     setDisabled
   };
+
   return <ProvidedForm {...providedConsentFormProps} />;
 };
 

@@ -1,4 +1,5 @@
-import { DB } from "config";
+import { DB } from "../../config";
+
 import Actions from "./actions";
 import mockedData from "./mocked-data";
 import { Option } from "./records";

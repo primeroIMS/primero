@@ -5,10 +5,10 @@ import { withRouter, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import CreateIcon from "@material-ui/icons/Create";
 
-import { useI18n } from "./../../i18n";
-import { Flagging } from "./../../flagging";
-import RecordActions from "./../../record-actions";
-import Permission from "./../../application/permission";
+import { useI18n } from "../../i18n";
+import { Flagging } from "../../flagging";
+import RecordActions from "../../record-actions";
+import Permission from "../../application/permission";
 
 import { WorkflowIndicator } from "./components";
 import styles from "./styles.css";
@@ -36,6 +36,7 @@ const RecordFormToolbar = ({
         short_id: shortId || "-------"
       });
     }
+
     return <h2 className={css.toolbarHeading}>{heading}</h2>;
   };
 
@@ -116,14 +117,14 @@ const RecordFormToolbar = ({
 };
 
 RecordFormToolbar.propTypes = {
+  handleFormSubmit: PropTypes.func.isRequired,
+  history: PropTypes.object,
   mode: PropTypes.object,
   params: PropTypes.object.isRequired,
-  recordType: PropTypes.string.isRequired,
-  handleFormSubmit: PropTypes.func.isRequired,
-  shortId: PropTypes.string,
-  history: PropTypes.object,
   primeroModule: PropTypes.string.isRequired,
-  record: PropTypes.object
+  record: PropTypes.object,
+  recordType: PropTypes.string.isRequired,
+  shortId: PropTypes.string
 };
 
 export default withRouter(RecordFormToolbar);

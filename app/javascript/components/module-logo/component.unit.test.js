@@ -9,6 +9,7 @@ import ModuleLogo from "./component";
 describe("<ModuleLogo />", () => {
   it("renders a default primero module logo", () => {
     const component = setupMountedThemeComponent(ModuleLogo);
+
     expect(component.find("img").prop("src")).to.equal(PrimeroLogo);
   });
 
@@ -16,6 +17,7 @@ describe("<ModuleLogo />", () => {
     const component = setupMountedThemeComponent(ModuleLogo, {
       moduleLogo: "primeromodule-mrm"
     });
+
     expect(component.find("img").prop("src")).to.equal(MRMLogo);
   });
 });

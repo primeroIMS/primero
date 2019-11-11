@@ -2,8 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Field } from "formik";
 import { TextField } from "formik-material-ui";
-import { useI18n } from "components/i18n";
-import { SearchableSelect } from "components/searchable-select";
+
+import { useI18n } from "../../../../i18n";
+import { SearchableSelect } from "../../../../searchable-select";
 
 const FormInternal = ({ fields, disabled }) => {
   const i18n = useI18n();
@@ -27,8 +28,10 @@ const FormInternal = ({ fields, disabled }) => {
     const searchableValue = field => {
       const { value } = field;
       const selected = f.options?.filter(option => option.value === value)[0];
+
       return !disabled && value !== "" ? selected : { value: "", label: "" };
     };
+
     return (
       <Field
         key={f.id}
@@ -71,8 +74,8 @@ const FormInternal = ({ fields, disabled }) => {
 };
 
 FormInternal.propTypes = {
-  fields: PropTypes.array,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  fields: PropTypes.array
 };
 
 export default FormInternal;

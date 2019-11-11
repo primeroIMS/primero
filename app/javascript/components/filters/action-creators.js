@@ -1,6 +1,6 @@
 import { List, fromJS } from "immutable";
 
-import { cleanUpFilters } from "./../records";
+import { cleanUpFilters } from "../records";
 
 
 import { SET_TAB } from "./actions";
@@ -41,4 +41,3 @@ export const setInitialRecords = (path, namespace, initialFilterValues) => {
     }
   };
 };
-

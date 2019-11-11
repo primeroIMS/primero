@@ -1,10 +1,10 @@
 import { expect } from "chai";
-import "test/test.setup";
-import { setupMountedComponent } from "test";
+
+import { setupMountedComponent } from "../../../../test";
 import { fromJS, Map } from "immutable";
 
 import WorkflowIndicator from "./WorkflowIndicator";
-import { PrimeroModuleRecord } from "components/application/records";
+import { PrimeroModuleRecord } from "../../../application/records";
 import { StepLabel } from "@material-ui/core";
 
 describe("<WorkflowIndicator />", () => {
