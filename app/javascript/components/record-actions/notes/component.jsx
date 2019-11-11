@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useI18n } from "components/i18n";
-import { ActionDialog } from "components/action-dialog";
 import { TextField } from "@material-ui/core";
+
+import { useI18n } from "../../i18n";
+import { ActionDialog } from "../../action-dialog";
 
 const Notes = ({ close, openNotesDialog }) => {
   const i18n = useI18n();

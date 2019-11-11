@@ -1,21 +1,23 @@
 import React, { useEffect } from "react";
 import { Grid, Button, Link } from "@material-ui/core";
-import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
-import { enqueueSnackbar } from "components/notifier";
-import { PageHeading } from "components/page";
 import * as yup from "yup";
+
+import { enqueueSnackbar } from "../../notifier";
+import { PageHeading } from "../../page";
+import { useI18n } from "../../i18n";
+
 import styles from "./styles.css";
 import { attemptLogin } from "./action-creators";
 import * as Selectors from "./selectors";
 
 const validationSchema = yup.object().shape({
-  user_name: yup.string().required(),
-  password: yup.string().required()
+  password: yup.string().required(),
+  user_name: yup.string().required()
 });
 
 const Login = () => {
@@ -91,8 +93,8 @@ const Login = () => {
 };
 
 Login.propTypes = {
-  match: PropTypes.object,
-  authErrors: PropTypes.string
+  authErrors: PropTypes.string,
+  match: PropTypes.object
 };
 
 export default Login;

@@ -1,6 +1,6 @@
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../test";
 import CustomAutoComplete from "./parts/custom-auto-complete";
 import SearchableSelect from "./component";
 

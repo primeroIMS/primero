@@ -1,6 +1,7 @@
-import { DB as DB_COLLECTIONS } from "config";
-import DB from "./db";
+import { DB as DB_COLLECTIONS } from "../config";
 import * as schemas from "../schemas";
+
+import DB from "./db";
 
 export const syncIndexedDB = async (
   db = { recordType: "", collection: "" },
@@ -12,9 +13,11 @@ export const syncIndexedDB = async (
   switch (collection) {
     case DB_COLLECTIONS.USER:
       await DB.put(collection, json.data);
+
       return json.data;
     case DB_COLLECTIONS.SYSTEM_SETTINGS:
       await DB.put(collection, json.data, { id: 1 });
+
       return json.data;
     case DB_COLLECTIONS.RECORDS: {
       const { data, metadata } = json;
@@ -34,6 +37,7 @@ export const syncIndexedDB = async (
           value: recordType
         });
       }
+
       return {
         data: recordData,
         ...(dataIsArray && { metadata })

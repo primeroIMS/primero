@@ -4,8 +4,8 @@ import { Box, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
-import { PageHeading } from "./../page";
-import RecordActions from "./../record-actions";
+import { PageHeading } from "../page";
+import RecordActions from "../record-actions";
 
 import AddRecordMenu from "./add-record-menu";
 import styles from "./styles.css";
@@ -37,10 +37,10 @@ const RecordListToolbar = ({
 };
 
 RecordListToolbar.propTypes = {
-  title: PropTypes.string.isRequired,
-  recordType: PropTypes.string.isRequired,
+  handleDrawer: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
-  handleDrawer: PropTypes.func.isRequired
+  recordType: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
 };
 
 export default RecordListToolbar;

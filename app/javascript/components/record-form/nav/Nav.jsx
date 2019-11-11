@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import { List } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
-import NavGroup from "./NavGroup";
+
 import { setSelectedForm } from "../action-creators";
+
+import NavGroup from "./NavGroup";
 import RecordInformation from "./parts/record-information";
 
 const Nav = ({
@@ -21,7 +23,7 @@ const Nav = ({
     const { group, formId, parentItem } = args;
 
     if (group) {
-      setOpen(Object.assign({}, open, { [group]: !open[group] }));
+      setOpen({ ...open, [group]: !open[group] });
     }
 
     if (!parentItem) {
@@ -35,12 +37,11 @@ const Nav = ({
 
   useEffect(() => {
     dispatch(setSelectedForm(firstTab.unique_id));
-    setOpen(
-      Object.assign({}, open, {
-        [firstTab.form_group_id]: !open[firstTab.form_group_id]
-      })
-    );
-  }, [firstTab]);
+    setOpen({
+      ...open,
+      [firstTab.form_group_id]: !open[firstTab.form_group_id]
+    });
+  }, [dispatch, firstTab, open]);
 
   if (formNav) {
     const [...formGroups] = formNav.values();
@@ -68,11 +69,11 @@ const Nav = ({
 };
 
 Nav.propTypes = {
-  formNav: PropTypes.object,
-  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   firstTab: PropTypes.object,
+  formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
-  mobileDisplay: PropTypes.bool.isRequired
+  mobileDisplay: PropTypes.bool.isRequired,
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export default Nav;

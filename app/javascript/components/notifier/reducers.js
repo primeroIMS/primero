@@ -1,4 +1,5 @@
 import { List } from "immutable";
+
 import NAMESPACE from "./namespace";
 import * as Actions from "./actions";
 import { MessageRecord } from "./records";
@@ -11,6 +12,7 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       if (payload.message) {
         return state.update(a => a.push(MessageRecord(payload)));
       }
+
       return state;
     case Actions.CLOSE_SNACKBAR:
       return state.update(m =>

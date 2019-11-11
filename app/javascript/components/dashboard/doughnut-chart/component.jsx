@@ -17,6 +17,7 @@ const calculateFontSize = (ctx, textConfig, width, height) => {
 Chart.pluginService.register({
   beforeDraw(chart) {
     const { innerTextConfig } = chart.data;
+
     if (innerTextConfig) {
       const { ctx } = chart.chart;
       const { innerRadius, chartArea } = chart;
@@ -32,6 +33,7 @@ Chart.pluginService.register({
       ctx.textBaseline = "middle";
 
       let textY = centerY;
+
       innerTextConfig.forEach(textConfig => {
         const { text, fontStyle } = textConfig;
         const fontSize = calculateFontSize(
@@ -40,6 +42,7 @@ Chart.pluginService.register({
           elementWidth,
           elementHeight
         );
+
         ctx.font = `${fontSize}px ${fontStyle}`;
         ctx.fillText(text, centerX, textY);
         textY += fontSize;

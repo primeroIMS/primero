@@ -3,6 +3,7 @@ import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import Chart from "chart.js";
 import makeStyles from "@material-ui/styles/makeStyles";
+
 import styles from "./styles.css";
 
 const LineChart = ({ chartData, options, title }) => {

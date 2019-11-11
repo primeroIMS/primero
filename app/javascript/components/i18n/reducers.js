@@ -1,4 +1,5 @@
 import { Map } from "immutable";
+
 import * as Actions from "./actions";
 import NAMESPACE from "./namespace";
 

@@ -1,7 +1,7 @@
 import React from "react";
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../test";
 import TransitionPanel from "./TransitionPanel";
 
 describe("<TransitionPanel />", () => {

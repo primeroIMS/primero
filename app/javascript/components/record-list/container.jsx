@@ -7,16 +7,16 @@ import { withRouter } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
-import IndexTable from "./../index-table";
+import IndexTable from "../index-table";
 import { Filters } from "../filters";
-import { RecordSearch } from "./../record-search";
-import { PageContainer } from "./../page";
-import { useI18n } from "./../i18n";
-import { selectFiltersByRecordType } from "./../filters-builder";
-import { getPermissionsByRecord } from "./../user";
-import { PERMISSION_CONSTANTS, checkPermissions } from "./../../libs/permissions";
-import Permission from "./../application/permission";
-import { useThemeHelper } from "./../../libs";
+import { RecordSearch } from "../record-search";
+import { PageContainer } from "../page";
+import { useI18n } from "../i18n";
+import { selectFiltersByRecordType } from "../filters-builder";
+import { getPermissionsByRecord } from "../user";
+import { PERMISSION_CONSTANTS, checkPermissions } from "../../libs/permissions";
+import Permission from "../application/permission";
+import { useThemeHelper } from "../../libs";
 
 import { NAME } from "./config";
 import FilterContainer from "./filter-container";
@@ -60,6 +60,7 @@ const Container = ({ match }) => {
   const { id_search, query } = useSelector(
     state => {
       const filters = selectFiltersByRecordType(state, recordType);
+
       return { id_search: filters.id_search, query: filters.query };
     },
     (filters1, filters2) => {
@@ -82,7 +83,7 @@ const Container = ({ match }) => {
     return () => {
       dispatch(setFilters({ options: { id_search: null, query: "" } }));
     };
-  }, [url]);
+  }, [dispatch, setFilters, url]);
 
   const canSearchOthers =
     permissions.includes(PERMISSION_CONSTANTS.MANAGE) ||
@@ -125,7 +126,9 @@ const Container = ({ match }) => {
     onRowClick: record => {
       const allowedToOpenRecord =
         record && typeof record.get("record_in_scope") !== "undefined"
-        ? record.get("record_in_scope") : false;
+          ? record.get("record_in_scope")
+          : false;
+
       if (allowedToOpenRecord) {
         dispatch(push(`${recordType}/${record.get("id")}`));
       } else if (canViewModal) {
@@ -180,7 +183,10 @@ const Container = ({ match }) => {
       </PageContainer>
       <Permission
         permissionType={recordType}
-        permission={[PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.DISPLAY_VIEW_PAGE]}
+        permission={[
+          PERMISSION_CONSTANTS.MANAGE,
+          PERMISSION_CONSTANTS.DISPLAY_VIEW_PAGE
+        ]}
       >
         <ViewModal
           close={handleViewModalClose}

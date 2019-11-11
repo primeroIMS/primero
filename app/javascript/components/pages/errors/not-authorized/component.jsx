@@ -1,8 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import { useI18n } from "components/i18n";
 import { Button, CssBaseline, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
+
+import { useI18n } from "../../../i18n";
+
 import styles from "./styles.css";
 
 const NotAuthorized = () => {

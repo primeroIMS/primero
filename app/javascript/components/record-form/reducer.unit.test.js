@@ -1,6 +1,6 @@
 import chai, { expect } from "chai";
 import { Map, List } from "immutable";
-import { mapEntriesToRecord } from "libs";
+import { mapEntriesToRecord } from "../../libs";
 import chaiImmutable from "chai-immutable";
 import * as R from "./records";
 import * as r from "./reducers";

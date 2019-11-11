@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { AppBar, Toolbar, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+
 import styles from "./styles.css";
 
 const PageHeading = ({ title, prefixAction, children, whiteHeading }) => {
@@ -28,10 +29,10 @@ const PageHeading = ({ title, prefixAction, children, whiteHeading }) => {
 };
 
 PageHeading.propTypes = {
-  whiteHeading: PropTypes.bool,
-  title: PropTypes.string.isRequired,
   children: PropTypes.node,
-  prefixAction: PropTypes.func
+  prefixAction: PropTypes.func,
+  title: PropTypes.string.isRequired,
+  whiteHeading: PropTypes.bool
 };
 
 export default PageHeading;

@@ -1,7 +1,7 @@
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../test";
 import { expect } from "chai";
 import { Map } from "immutable";
-import "test/test.setup";
+
 
 import { TranslationsToggle } from "components/translations-toggle";
 import { AgencyLogo } from "components/agency-logo";

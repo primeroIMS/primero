@@ -7,7 +7,8 @@ import {
   IconButton
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { useI18n } from "components/i18n";
+
+import { useI18n } from "../../i18n";
 
 const ListFlagItem = ({ flag, handleDelete }) => {
   const i18n = useI18n();

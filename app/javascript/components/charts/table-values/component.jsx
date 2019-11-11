@@ -10,6 +10,7 @@ import {
   TableRow
 } from "@material-ui/core";
 import makeStyles from "@material-ui/styles/makeStyles";
+
 import styles from "./styles.css";
 
 const TableValues = ({ columns, values }) => {
@@ -31,6 +32,7 @@ const TableValues = ({ columns, values }) => {
     if (isArray(rowValues[0])) {
       return rowValues.map(row => rowRender(row));
     }
+
     return singleRowRender(rowValues);
   };
 

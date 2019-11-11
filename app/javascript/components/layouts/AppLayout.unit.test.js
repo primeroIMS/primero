@@ -1,7 +1,7 @@
 import { expect } from "chai";
-import "test/test.setup";
-import { setupMountedComponent } from "test";
-import { routes } from "config";
+
+import { setupMountedComponent } from "../../test";
+import { routes } from "../../config";
 import { fromJS } from "immutable";
 import { Nav } from "components/nav";
 import { CircularProgress } from "@material-ui/core";

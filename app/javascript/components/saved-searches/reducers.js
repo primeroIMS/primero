@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { listEntriesToRecord } from "./../../libs";
+import { listEntriesToRecord } from "../../libs";
 
 import NAMESPACE from "./namespace";
 import {

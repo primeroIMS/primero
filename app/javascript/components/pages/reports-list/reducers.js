@@ -1,4 +1,5 @@
 import { fromJS, Map } from "immutable";
+
 import * as Actions from "./actions";
 
 const DEFAULT_STATE = Map({});

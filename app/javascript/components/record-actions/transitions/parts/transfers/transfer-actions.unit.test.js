@@ -1,6 +1,6 @@
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../../../test";
 import { Box, Button } from "@material-ui/core";
 import TransferActions from "./transfer-actions";
 

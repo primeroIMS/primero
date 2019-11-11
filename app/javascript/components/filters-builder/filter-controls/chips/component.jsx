@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 import { connect, useSelector } from "react-redux";
 import Chip from "@material-ui/core/Chip";
 import { makeStyles } from "@material-ui/styles";
-import { useI18n } from "components/i18n";
-import { getOption } from "components/record-form/selectors";
 import { isEmpty } from "lodash";
+
+import { useI18n } from "../../../i18n";
+import { getOption } from "../../../record-form/selectors";
+
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
@@ -60,13 +62,13 @@ const Chips = ({ recordType, props, chips, setChips }) => {
 };
 
 Chips.propTypes = {
-  recordType: PropTypes.string,
   chips: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  props: PropTypes.object,
-  setChips: PropTypes.func,
-  options: PropTypes.object,
   field_name: PropTypes.string,
-  option_strings_source: PropTypes.string
+  option_strings_source: PropTypes.string,
+  options: PropTypes.object,
+  props: PropTypes.object,
+  recordType: PropTypes.string,
+  setChips: PropTypes.func
 };
 
 const mapStateToProps = (state, obj) => ({

@@ -4,10 +4,6 @@ import { TextField } from "formik-material-ui";
 import PropTypes from "prop-types";
 import { compact } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
-import { enqueueSnackbar } from "components/notifier";
-import { useI18n } from "components/i18n";
-import { selectFiltersByRecordType } from "components/filters-builder/selectors";
-import { selectModules } from "components/pages/login/selectors";
 import {
   Box,
   Button,
@@ -15,7 +11,13 @@ import {
   DialogContent,
   DialogTitle
 } from "@material-ui/core";
-import { applyFilters } from "components/filters-builder/action-creators";
+
+import { enqueueSnackbar } from "../notifier";
+import { useI18n } from "../i18n";
+import { selectFiltersByRecordType } from "../filters-builder/selectors";
+import { selectModules } from "../pages/login/selectors";
+import { applyFilters } from "../filters-builder/action-creators";
+
 import { saveSearch } from "./action-creators";
 import { buildFiltersApi } from "./helpers";
 
@@ -63,6 +65,7 @@ const SavedSearchesForm = ({ recordType, open, setOpen }) => {
             filters: compact(filters)
           }
         };
+
         dispatch(saveSearch(body, i18n.t("saved_search.save_success")));
         actions.resetForm(initialValues);
         setFormErrors(false);
@@ -126,8 +129,8 @@ const SavedSearchesForm = ({ recordType, open, setOpen }) => {
 };
 
 SavedSearchesForm.propTypes = {
-  recordType: PropTypes.string.isRequired,
   open: PropTypes.bool.isRequired,
+  recordType: PropTypes.string.isRequired,
   setOpen: PropTypes.func.isRequired
 };
 

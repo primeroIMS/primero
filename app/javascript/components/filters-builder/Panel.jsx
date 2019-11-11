@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { ExpansionPanel } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+
 import styles from "./styles.css";
 
 const Panel = ({ children, hasValues }) => {

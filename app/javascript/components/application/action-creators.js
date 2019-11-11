@@ -1,6 +1,8 @@
-import { DB } from "config";
 import { batch } from "react-redux";
-import { fetchForms, fetchOptions } from "components/record-form";
+
+import { DB } from "../../config";
+import { fetchForms, fetchOptions } from "../record-form";
+
 import Actions from "./actions";
 
 export const fetchSystemSettings = () => async dispatch => {

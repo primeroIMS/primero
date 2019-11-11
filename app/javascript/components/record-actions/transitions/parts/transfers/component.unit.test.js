@@ -1,6 +1,6 @@
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../../../test";
 import { Map, List } from "immutable";
 import {
   FormControlLabel,
@@ -9,7 +9,7 @@ import {
   Button
 } from "@material-ui/core";
 import clone from "lodash/clone";
-import { MODULES } from "config";
+import { MODULES } from "../../../../../config";
 import { SearchableSelect } from "components/searchable-select";
 import TransferForm from "./component";
 

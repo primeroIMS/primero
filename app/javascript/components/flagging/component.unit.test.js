@@ -1,6 +1,6 @@
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../test";
 import { Map } from "immutable";
 import Flagging from "./component";
 import { FlagDialog, ListFlags } from "./parts";
@@ -48,7 +48,7 @@ describe("<Flagging /> - Component", () => {
   it("renders Flagging form", () => {
     expect(component.find(Flagging)).to.have.length(1);
   });
-  
+
   it("renders FlagDialog", () => {
     expect(component.find(FlagDialog)).to.have.length(1);
   });

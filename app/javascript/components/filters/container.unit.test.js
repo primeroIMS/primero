@@ -1,6 +1,6 @@
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../test";
 import { Map } from "immutable";
 import { AppBar, Tabs, Tab } from "@material-ui/core";
 import { FiltersBuilder } from "components/filters-builder";

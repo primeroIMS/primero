@@ -1,6 +1,6 @@
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../test";
 import { Map, List } from "immutable";
 import ListSavedSearches from "./ListSavedSearches";
 import SavedSearches from "./component";

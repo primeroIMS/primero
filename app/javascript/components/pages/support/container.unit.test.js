@@ -1,6 +1,6 @@
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../test";
 import { fromJS, Map } from "immutable";
 import Support from "./container";
 import * as R from "./records";

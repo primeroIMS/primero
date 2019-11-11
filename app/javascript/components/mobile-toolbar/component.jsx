@@ -2,8 +2,10 @@ import React, { useEffect } from "react";
 import clsx from "clsx";
 import MenuIcon from "@material-ui/icons/Menu";
 import PropTypes from "prop-types";
-import { ModuleLogo } from "components/module-logo";
 import { AppBar, Toolbar, IconButton, makeStyles } from "@material-ui/core";
+
+import { ModuleLogo } from "../module-logo";
+
 import styles from "./styles.css";
 
 const MobileToolbar = ({ drawerOpen, openDrawer, mobileDisplay }) => {
@@ -47,8 +49,8 @@ const MobileToolbar = ({ drawerOpen, openDrawer, mobileDisplay }) => {
 
 MobileToolbar.propTypes = {
   drawerOpen: PropTypes.bool.isRequired,
-  openDrawer: PropTypes.func.isRequired,
-  mobileDisplay: PropTypes.bool.isRequired
+  mobileDisplay: PropTypes.bool.isRequired,
+  openDrawer: PropTypes.func.isRequired
 };
 
 export default MobileToolbar;

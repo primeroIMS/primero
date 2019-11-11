@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import React, { useContext, createContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
 import { setLocale } from "./action-creators";
 
 const Context = createContext();
@@ -55,6 +56,7 @@ export const useI18n = () => useContext(Context);
 export const withI18n = Component => {
   return props => {
     const i18nHook = useI18n();
+
     return <Component {...props} i18n={i18nHook} />;
   };
 };

@@ -1,8 +1,9 @@
 import React from "react";
-import { useI18n } from "components/i18n";
 import { List } from "immutable";
 import PropTypes from "prop-types";
-import { RECORD_OWNER, TRANSFERS_ASSIGNMENTS } from "config";
+
+import { useI18n } from "../../../i18n";
+import { RECORD_OWNER, TRANSFERS_ASSIGNMENTS } from "../../../../config";
 import NavGroup from "../NavGroup";
 import { NavRecord } from "../../records";
 
@@ -29,6 +30,7 @@ const RecordInformation = ({ open, handleClick }) => {
       is_first_tab: false
     })
   ]);
+
   return (
     <>
       <NavGroup
@@ -42,8 +44,8 @@ const RecordInformation = ({ open, handleClick }) => {
 };
 
 RecordInformation.propTypes = {
-  open: PropTypes.object,
-  handleClick: PropTypes.func
+  handleClick: PropTypes.func,
+  open: PropTypes.object
 };
 
 export default RecordInformation;

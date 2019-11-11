@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
-import { CasesIcon } from "images/primero-icons";
-import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/core/styles";
-import TransferCheckbox from "./transfer-checkbox";
+
+import { CasesIcon } from "../../../../../images/primero-icons";
+import { useI18n } from "../../../../i18n";
 import * as styles from "../../styles.css";
+
+import TransferCheckbox from "./transfer-checkbox";
 
 const BulkTransfer = ({ isBulkTransfer }) => {
   const i18n = useI18n();

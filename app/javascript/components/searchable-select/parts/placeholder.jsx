@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 
 const Placeholder = props => {
   const { selectProps, innerProps = {}, children } = props;
+
   return (
     <Typography
       color="textSecondary"

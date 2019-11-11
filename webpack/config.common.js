@@ -1,6 +1,4 @@
-const vendor = require("./vendor");
 const path = require("path");
-const { generateAliases } = require("./utils");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { OUTPUT_DIR, CLIENT_APPLICATION } = require("./config");
 
@@ -24,7 +22,6 @@ const output = {
 
 const resolve = {
   extensions: ["*", ".jsx", ".js"],
-  alias: generateAliases()
 };
 
 const plugins = [new CleanWebpackPlugin()];

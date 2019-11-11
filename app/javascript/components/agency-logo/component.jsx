@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Box, useMediaQuery } from "@material-ui/core";
 import PropTypes from "prop-types";
-import UnicefLogo from "images/unicef.png";
-import UnicefPictorial from "images/unicef-pictorial.png";
 import { makeStyles, useTheme } from "@material-ui/styles";
+
+import UnicefLogo from "../../images/unicef.png";
+import UnicefPictorial from "../../images/unicef-pictorial.png";
+
 import styles from "./styles.css";
 
 const AgencyLogo = ({ logo, agency }) => {
@@ -34,8 +36,8 @@ const AgencyLogo = ({ logo, agency }) => {
 };
 
 AgencyLogo.propTypes = {
-  logo: PropTypes.string,
-  agency: PropTypes.string
+  agency: PropTypes.string,
+  logo: PropTypes.string
 };
 
 export default AgencyLogo;

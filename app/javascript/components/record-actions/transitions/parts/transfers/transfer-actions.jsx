@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import { useI18n } from "components/i18n";
 import { Box, Button } from "@material-ui/core";
+
+import { useI18n } from "../../../../i18n";
 import styles from "../../styles.css";
 
 const TransferActions = ({ closeModal }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+
   return (
     <Box
       display="flex"

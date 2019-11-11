@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { DashboardChip } from "components/dashboard";
-import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
+
+import { DashboardChip } from "../dashboard-chip";
+import { useI18n } from "../../i18n";
+
 import styles from "./styles.css";
 
 const PrioritySummary = ({ summary }) => {

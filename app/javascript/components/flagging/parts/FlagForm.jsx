@@ -5,8 +5,9 @@ import PropTypes from "prop-types";
 import { Box, Button, InputAdornment } from "@material-ui/core";
 import { DatePicker } from "@material-ui/pickers";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
-import { useI18n } from "components/i18n";
 import { useDispatch } from "react-redux";
+
+import { useI18n } from "../../i18n";
 import { addFlag } from "../action-creators";
 
 const initialFormikValues = {
@@ -107,10 +108,10 @@ const FlagForm = ({ recordType, record, handleOpen, handleActiveTab }) => {
 };
 
 FlagForm.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  record: PropTypes.string.isRequired,
+  handleActiveTab: PropTypes.func,
   handleOpen: PropTypes.func.isRequired,
-  handleActiveTab: PropTypes.func
+  record: PropTypes.string.isRequired,
+  recordType: PropTypes.string.isRequired
 };
 
 export default FlagForm;

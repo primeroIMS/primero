@@ -1,5 +1,5 @@
-import "test/test.setup";
-import { setupMountedComponent } from "test";
+
+import { setupMountedComponent } from "../../../../test";
 import { expect } from "chai";
 import NotFound from "./component";
 

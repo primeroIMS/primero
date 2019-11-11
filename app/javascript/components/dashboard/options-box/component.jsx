@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Card, CardHeader, CardContent } from "@material-ui/core";
 import makeStyles from "@material-ui/styles/makeStyles";
+
 import styles from "./styles.css";
 
 const OptionsBox = ({ title, action, children, to }) => {
@@ -29,10 +30,10 @@ const OptionsBox = ({ title, action, children, to }) => {
 };
 
 OptionsBox.propTypes = {
-  title: PropTypes.string,
-  to: PropTypes.node,
   action: PropTypes.node,
-  children: PropTypes.node
+  children: PropTypes.node,
+  title: PropTypes.string,
+  to: PropTypes.node
 };
 
 export default OptionsBox;

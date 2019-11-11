@@ -10,10 +10,12 @@ import {
 import { withRouter, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
-import { PageContainer, PageHeading, PageContent } from "components/page";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { useI18n } from "components/i18n";
-import LoadingIndicator from "components/loading-indicator/component";
+
+import { PageContainer, PageHeading, PageContent } from "../../page";
+import { useI18n } from "../../i18n";
+import LoadingIndicator from "../../loading-indicator/component";
+
 import { fetchReports } from "./action-creators";
 import styles from "./styles.css";
 import {
@@ -58,7 +60,7 @@ const Reports = () => {
 
   useEffect(() => {
     dispatch(fetchReports({ options: defaultFilters }));
-  }, []);
+  }, [defaultFilters, dispatch]);
 
   const paginationProps = {
     count: reportsPagination.get("total"),

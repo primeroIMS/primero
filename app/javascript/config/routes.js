@@ -9,10 +9,10 @@ import {
   Support,
   NotAuthorized,
   NotFound
-} from "./../components/pages";
-import { RecordForm } from "./../components/record-form";
-import RecordList from "./../components/record-list";
-import { AppLayout, LoginLayout } from "./../components/layouts";
+} from "../components/pages";
+import { RecordForm } from "../components/record-form";
+import RecordList from "../components/record-list";
+import { AppLayout, LoginLayout } from "../components/layouts";
 
 import { ROUTES } from "./constants";
 

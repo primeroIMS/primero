@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { expect } from "chai";
-import "test/test.setup";
+
 
 import ListIcon from "./component";
 import { CasesIcon, IncidentsIcon } from "images/primero-icons";

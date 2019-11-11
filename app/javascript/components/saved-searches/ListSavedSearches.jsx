@@ -10,10 +10,12 @@ import {
   Divider,
   makeStyles
 } from "@material-ui/core";
-import { useI18n } from "components/i18n";
-import { ActionDialog } from "components/action-dialog";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { setTab } from "components/filters/action-creators";
+
+import { useI18n } from "../i18n";
+import { ActionDialog } from "../action-dialog";
+import { setTab } from "../filters/action-creators";
+
 import { removeSavedSearch, setSavedSearch } from "./action-creators";
 import { selectSavedSearchesById } from "./selectors";
 import { buildFiltersState } from "./helpers";
@@ -34,11 +36,12 @@ const ListSavedSearches = ({ recordType, savedSearches, resetFilters }) => {
   useEffect(() => {
     if (selectedSavedSearch) {
       const { filters } = selectedSearch.toJS();
+
       resetFilters();
       dispatch(setSavedSearch(recordType, buildFiltersState(filters)));
       dispatch(setTab({ recordType, value: 0 }));
     }
-  }, [selectedSavedSearch]);
+  }, [dispatch, recordType, resetFilters, selectedSavedSearch, selectedSearch]);
 
   const handleApplyFilter = (_e, id) => {
     setSelectedSavedSearch(id);
@@ -95,8 +98,8 @@ const ListSavedSearches = ({ recordType, savedSearches, resetFilters }) => {
 
 ListSavedSearches.propTypes = {
   recordType: PropTypes.string.isRequired,
-  savedSearches: PropTypes.object.isRequired,
-  resetFilters: PropTypes.func
+  resetFilters: PropTypes.func,
+  savedSearches: PropTypes.object.isRequired
 };
 
 export default ListSavedSearches;

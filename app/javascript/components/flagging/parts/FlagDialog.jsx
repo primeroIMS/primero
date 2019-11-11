@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Dialog, DialogContent } from "@material-ui/core";
+
 import DialogTabs from "./DialogTabs";
 
 const FlagDialog = ({ open, setOpen, children, isBulkFlags, tab, setTab }) => {
@@ -34,11 +35,11 @@ const FlagDialog = ({ open, setOpen, children, isBulkFlags, tab, setTab }) => {
 
 FlagDialog.propTypes = {
   children: PropTypes.node.isRequired,
+  isBulkFlags: PropTypes.bool.isRequired,
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
-  isBulkFlags: PropTypes.bool.isRequired,
-  tab: PropTypes.number,
-  setTab: PropTypes.func
+  setTab: PropTypes.func,
+  tab: PropTypes.number
 };
 
 export default FlagDialog;

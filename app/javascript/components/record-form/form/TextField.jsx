@@ -6,8 +6,10 @@ import { TextField as MuiTextField } from "formik-material-ui";
 import { useSelector, useDispatch } from "react-redux";
 import { ButtonBase } from "@material-ui/core";
 import { FastField, connect } from "formik";
-import { useI18n } from "components/i18n";
-import { saveRecord, selectRecordAttribute } from "components/records";
+
+import { useI18n } from "../../i18n";
+import { saveRecord, selectRecordAttribute } from "../../records";
+
 import { GuidingQuestions } from "./components";
 
 const useStyles = makeStyles(theme => ({
@@ -40,7 +42,7 @@ const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
     if (recordName) {
       formik.setFieldValue("name", recordName, true);
     }
-  }, [recordName]);
+  }, [formik, recordName]);
 
   const fieldProps = {
     type: type === "numeric_field" ? "number" : "text",
@@ -51,8 +53,10 @@ const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
 
   const updateDateBirthField = (form, value) => {
     const matches = name.match(/(.*)age$/);
+
     if (matches && value) {
       const diff = subYears(new Date(), value);
+
       form.setFieldValue(`${matches[1]}date_of_birth`, diff, true);
     }
   };
@@ -82,7 +86,9 @@ const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
                 ...renderProps.field,
                 onChange(evt) {
                   const { value } = evt.target;
+
                   updateDateBirthField(renderProps.form, value);
+
                   return renderProps.form.setFieldValue(
                     renderProps.field.name,
                     value,
@@ -117,11 +123,11 @@ const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
 };
 
 TextField.propTypes = {
-  name: PropTypes.string,
   field: PropTypes.object,
   formik: PropTypes.object,
-  recordType: PropTypes.string,
-  recordID: PropTypes.string
+  name: PropTypes.string,
+  recordID: PropTypes.string,
+  recordType: PropTypes.string
 };
 
 export default connect(TextField);

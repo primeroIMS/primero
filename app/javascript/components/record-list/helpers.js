@@ -1,7 +1,8 @@
 import React from "react";
-import { RECORD_PATH } from "config";
 
-import { ToggleIconCell } from "./../index-table";
+import { RECORD_PATH } from "../../config";
+
+import { ToggleIconCell } from "../index-table";
 import {
   fetchCases,
   fetchIncidents,
@@ -9,8 +10,7 @@ import {
   setCasesFilters,
   setIncidentsFilters,
   setTracingRequestFilters
-} from "./../records";
-
+} from "../records";
 
 export const buildTableColumns = (columns, i18n, recordType) => {
   const lastColumns = ["photo", "flags"];

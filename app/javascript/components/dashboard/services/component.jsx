@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
-import { useI18n } from "components/i18n";
-import { PrioritySummary } from "components/dashboard/priority-summary";
-import { OptionsBox, ActionMenu } from "components/dashboard";
 import { useTheme } from "@material-ui/styles";
+
+import { useI18n } from "../../i18n";
+import { PrioritySummary } from "../priority-summary";
+import { OptionsBox } from "../options-box";
+import { ActionMenu } from "../action-menu";
 
 const Services = ({ servicesList }) => {
   const theme = useTheme();

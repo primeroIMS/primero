@@ -1,14 +1,14 @@
 import { expect } from "chai";
-import "test/test.setup";
-import { setupMountedComponent } from "test";
+
+import { setupMountedComponent } from "../../../test";
 import { fromJS } from "immutable";
 import { TableRow, TableBody } from "@material-ui/core";
-import { OverviewBox } from "components/dashboard/overview-box";
-import { FlagBox } from "components/dashboard/flag-box";
-import { FlagList } from "components/dashboard/flag-list";
-import { DoughnutChart } from "components/dashboard/doughnut-chart";
-import { LineChart } from "components/dashboard/line-chart";
-import { DashboardTable } from "components/dashboard/dashboard-table";
+import { OverviewBox } from "../../dashboard/overview-box";
+import { FlagBox } from "../../dashboard/flag-box";
+import { FlagList } from "../../dashboard/flag-list";
+import { DoughnutChart } from "../../dashboard/doughnut-chart";
+import { LineChart } from "../../dashboard/line-chart";
+import { DashboardTable } from "../../dashboard/dashboard-table";
 import Dashboard from "./container";
 
 describe("<Dashboard />", () => {

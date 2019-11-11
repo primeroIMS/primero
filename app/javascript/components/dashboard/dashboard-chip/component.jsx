@@ -3,6 +3,7 @@ import Chip from "@material-ui/core/Chip";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import makeStyles from "@material-ui/styles/makeStyles";
+
 import styles from "./styles.css";
 
 const DashboardChip = ({ label, type }) => {

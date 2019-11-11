@@ -14,11 +14,13 @@ import { Select } from "formik-material-ui";
 import { FastField, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
 import { useSelector } from "react-redux";
-import { useI18n } from "components/i18n";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import find from "lodash/find";
 import isEmpty from "lodash/isEmpty";
+
+import { useI18n } from "../../i18n";
 import { getOption } from "../selectors";
+
 import styles from "./styles.css";
 
 const ITEM_HEIGHT = 48;
@@ -78,6 +80,7 @@ const SelectField = ({
       if (!options) {
         return i18n.t("string_sources_failed");
       }
+
       return field.multi_select
         ? selected.map(s => findOptionDisplayText(s)).join(", ") ||
             i18n.t("fields.select_multiple")
@@ -96,7 +99,7 @@ const SelectField = ({
     if (mode.isNew && selectedValue && value === "") {
       formik.setFieldValue(name, selectedValue, false);
     }
-  }, []);
+  }, [formik, mode.isNew, name, selectedValue, value]);
 
   if (!isEmpty(formik.values)) {
     return (
@@ -130,15 +133,15 @@ const SelectField = ({
 };
 
 SelectField.propTypes = {
-  name: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
   field: PropTypes.object.isRequired,
-  label: PropTypes.string.isRequired,
+  formik: PropTypes.object.isRequired,
   helperText: PropTypes.string,
   InputLabelProps: PropTypes.object,
   InputProps: PropTypes.object,
+  label: PropTypes.string.isRequired,
   mode: PropTypes.object,
-  disabled: PropTypes.bool,
-  formik: PropTypes.object.isRequired
+  name: PropTypes.string.isRequired
 };
 
 export default connect(SelectField);

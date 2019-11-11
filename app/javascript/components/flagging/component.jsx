@@ -3,6 +3,7 @@ import { IconButton } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import FlagIcon from "@material-ui/icons/Flag";
+
 import { FlagForm, ListFlags, FlagDialog } from "./parts";
 import { fetchFlags } from "./action-creators";
 import { selectFlags } from "./selectors";
@@ -69,9 +70,9 @@ const Flagging = ({ recordType, record, control }) => {
 };
 
 Flagging.propTypes = {
-  recordType: PropTypes.string.isRequired,
+  control: PropTypes.node,
   record: PropTypes.string,
-  control: PropTypes.node
+  recordType: PropTypes.string.isRequired
 };
 
 export default Flagging;

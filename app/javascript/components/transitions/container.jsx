@@ -1,6 +1,5 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
 import {
   ExpansionPanelDetails,
@@ -9,6 +8,9 @@ import {
 // import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 import PropTypes from "prop-types";
+
+import { useI18n } from "../i18n";
+
 import styles from "./styles.css";
 import { selectTransitions } from "./selectors";
 import AssignmentsSummary from "./assignments/AssignmentsSummary";
@@ -80,8 +82,8 @@ const Transitions = ({ recordType, record }) => {
 };
 
 Transitions.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  record: PropTypes.string.isRequired
+  record: PropTypes.string.isRequired,
+  recordType: PropTypes.string.isRequired
 };
 
 export default Transitions;

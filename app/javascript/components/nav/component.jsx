@@ -6,18 +6,20 @@ import {
   ListItemIcon,
   useMediaQuery
 } from "@material-ui/core";
-import { AgencyLogo } from "components/agency-logo";
 import React, { useEffect, useCallback } from "react";
-import { ModuleLogo } from "components/module-logo";
 import { NavLink } from "react-router-dom";
-import { useI18n } from "components/i18n";
-import { useThemeHelper } from "libs";
 import { useDispatch, useSelector } from "react-redux";
-import { MobileToolbar } from "components/mobile-toolbar";
-import { ListIcon } from "components/list-icon";
-import { Jewel } from "components/jewel";
-import { useApp } from "components/application";
+
+import { useThemeHelper } from "../../libs";
+import { useI18n } from "../i18n";
+import { ModuleLogo } from "../module-logo";
+import { AgencyLogo } from "../agency-logo";
+import { MobileToolbar } from "../mobile-toolbar";
+import { ListIcon } from "../list-icon";
+import { Jewel } from "../jewel";
+import { useApp } from "../application";
 import { TranslationsToggle } from "../translations-toggle";
+
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";

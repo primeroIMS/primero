@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-expressions */
 import React from "react";
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../../../test";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
-import { SearchableSelect } from "components/searchable-select";
+import { SearchableSelect } from "../../../../searchable-select";
 import FormInternal from "./form-internal";
 
 const InternalForm = props => {

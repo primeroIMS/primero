@@ -1,6 +1,7 @@
 import React, { useContext, createContext, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
+
 import * as Selectors from "./selectors";
 import { setNetworkStatus } from "./action-creators";
 
@@ -26,7 +27,7 @@ export const ApplicationProvider = ({ children }) => {
       window.removeEventListener("online", () => handleNetworkChange(true));
       window.removeEventListener("offline", () => handleNetworkChange(false));
     };
-  }, []);
+  }, [handleNetworkChange]);
 
   return (
     <Context.Provider value={{ modules, userModules, online }}>

@@ -3,6 +3,7 @@ import Box from "@material-ui/core/Box";
 import PropTypes from "prop-types";
 import Chart from "chart.js";
 import makeStyles from "@material-ui/styles/makeStyles";
+
 import styles from "./styles.css";
 
 const BarChart = ({ data, description, showDetails }) => {
@@ -60,6 +61,7 @@ const BarChart = ({ data, description, showDetails }) => {
                   if (value.length > 25) {
                     return value.substr(0, 25).concat("...");
                   }
+
                   return value;
                 }
               }

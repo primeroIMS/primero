@@ -14,7 +14,12 @@ import {
   People
 } from "@material-ui/icons";
 import PropTypes from "prop-types";
-import { CasesIcon, IncidentsIcon, LogoutIcon } from "images/primero-icons";
+
+import {
+  CasesIcon,
+  IncidentsIcon,
+  LogoutIcon
+} from "../../images/primero-icons";
 
 const ListIcon = ({ icon }) => {
   switch (icon) {

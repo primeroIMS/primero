@@ -1,10 +1,10 @@
 import { expect } from "chai";
-import "test/test.setup";
-import { setupMountedComponent } from "test";
+
+import { setupMountedComponent } from "../../../test";
 import { fromJS, Map, List } from "immutable";
 import MUIDataTable from "mui-datatables";
 import { TableBodyRow } from "mui-datatables";
-import { DashboardChip } from "components/dashboard";
+import { DashboardChip } from "../dashboard";
 import TaskList from "./container";
 import * as userRecord from "../../user/records";
 

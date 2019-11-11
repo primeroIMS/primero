@@ -4,9 +4,11 @@ import { connect, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { Radio, RadioGroup, FormControlLabel } from "@material-ui/core";
 import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons";
-import { useI18n } from "components/i18n";
-import { getOption } from "components/record-form/selectors";
 import { isEmpty } from "lodash";
+
+import { useI18n } from "../../../i18n";
+import { getOption } from "../../../record-form/selectors";
+
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
@@ -72,13 +74,13 @@ const RadioButton = ({
 };
 
 RadioButton.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  props: PropTypes.object.isRequired,
-  options: PropTypes.object,
-  inline: PropTypes.bool,
   field_name: PropTypes.string,
+  inline: PropTypes.bool,
   option_strings_source: PropTypes.string,
+  options: PropTypes.object,
+  props: PropTypes.object.isRequired,
   radioButton: PropTypes.string,
+  recordType: PropTypes.string.isRequired,
   setRadioButton: PropTypes.func
 };
 

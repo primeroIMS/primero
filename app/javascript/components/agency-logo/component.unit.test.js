@@ -1,4 +1,4 @@
-import "test/test.setup";
+
 import { setupMountedThemeComponent } from "test";
 import { expect } from "chai";
 

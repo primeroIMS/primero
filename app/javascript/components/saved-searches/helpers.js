@@ -1,8 +1,10 @@
 export const buildFiltersApi = filters => {
   const excludeDefaultFiltersKeys = ["short", "per", "page"];
+
   return filters.reduce((obj, filter) => {
     const o = {};
     const [key, value] = filter;
+
     if (!excludeDefaultFiltersKeys.includes(key)) {
       const isArrayWithData = Array.isArray(value) && value.length > 0;
       const isObjectWithData =
@@ -15,6 +17,7 @@ export const buildFiltersApi = filters => {
         o.value = value;
       }
     }
+
     return obj.concat(o);
   }, []);
 };
@@ -22,7 +25,9 @@ export const buildFiltersApi = filters => {
 export const buildFiltersState = filters => {
   return filters.reduce((obj, props) => {
     const o = obj;
+
     o[props.name] = props.value;
+
     return o;
   }, {});
 };

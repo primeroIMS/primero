@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import { Tabs, Tab } from "@material-ui/core";
 import { Map, List } from "immutable";
-import { FiltersBuilder } from "components/filters-builder";
-import { SavedSearches, fetchSavedSearches } from "components/saved-searches";
-import { useI18n } from "components/i18n";
+
+import { FiltersBuilder } from "../filters-builder";
+import { SavedSearches, fetchSavedSearches } from "../saved-searches";
+import { useI18n } from "../i18n";
+
 import { setInitialFilterValues, setTab } from "./action-creators";
 import styles from "./styles.css";
 import * as Selectors from "./selectors";
@@ -35,7 +37,7 @@ const Filters = ({ recordType, defaultFilters }) => {
     Selectors.getFiltersByRecordType(state, recordType)
   );
 
-  const resetFilterValues = () => {
+  const resetFilterValues = useCallback(() => {
     if (availableFilters) {
       const excludeDefaultFilters = [...defaultFilters.keys()];
 
@@ -71,12 +73,12 @@ const Filters = ({ recordType, defaultFilters }) => {
 
       dispatch(setInitialFilterValues(recordType, initialFilterValues));
     }
-  };
+  });
 
   useEffect(() => {
     resetFilterValues();
     dispatch(fetchSavedSearches());
-  }, [availableFilters]);
+  }, [availableFilters, dispatch, resetFilterValues]);
 
   const tabs = [
     { name: i18n.t("saved_search.filters_tab"), selected: true },
@@ -124,8 +126,8 @@ const Filters = ({ recordType, defaultFilters }) => {
 };
 
 Filters.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  defaultFilters: PropTypes.object
+  defaultFilters: PropTypes.object,
+  recordType: PropTypes.string.isRequired
 };
 
 export default Filters;

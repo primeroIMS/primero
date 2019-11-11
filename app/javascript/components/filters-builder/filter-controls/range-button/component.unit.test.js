@@ -1,6 +1,6 @@
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../../test";
 import { Map } from "immutable";
 import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
 import RangeButton from "./component";

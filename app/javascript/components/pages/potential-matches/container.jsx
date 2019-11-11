@@ -3,9 +3,11 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
 import { Card, CardContent } from "@material-ui/core";
-import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { PageContainer, PageHeading, PageContent } from "components/page";
+
+import { useI18n } from "../../i18n";
+import { PageContainer, PageHeading, PageContent } from "../../page";
+
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
@@ -13,7 +15,7 @@ import * as selectors from "./selectors";
 const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
   useEffect(() => {
     fetchPotentialMatches();
-  }, []);
+  }, [fetchPotentialMatches]);
 
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -66,6 +68,7 @@ const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
       ? potentialMatches.get("matches").toJS()
       : []
   };
+
   return (
     <PageContainer>
       <PageHeading title="Matches" />
@@ -92,8 +95,8 @@ const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
 };
 
 PotentialMatches.propTypes = {
-  potentialMatches: PropTypes.object.isRequired,
-  fetchPotentialMatches: PropTypes.func.isRequired
+  fetchPotentialMatches: PropTypes.func.isRequired,
+  potentialMatches: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {

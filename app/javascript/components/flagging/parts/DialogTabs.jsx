@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Tab, Tabs, Box, IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-import { useI18n } from "components/i18n";
+
+import { useI18n } from "../../i18n";
+
 import TabPanel from "./TabPanel";
 
 const DialogTabs = ({ children, closeDialog, isBulkFlags, tab, setTab }) => {
@@ -60,8 +62,8 @@ DialogTabs.propTypes = {
   children: PropTypes.node.isRequired,
   closeDialog: PropTypes.func.isRequired,
   isBulkFlags: PropTypes.bool.isRequired,
-  tab: PropTypes.number,
-  setTab: PropTypes.func
+  setTab: PropTypes.func,
+  tab: PropTypes.number
 };
 
 export default DialogTabs;

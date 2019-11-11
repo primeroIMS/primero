@@ -1,5 +1,6 @@
 import { Map } from "immutable";
 import { merge } from "lodash";
+
 import * as Actions from "./actions";
 
 const DEFAULT_STATE = Map({

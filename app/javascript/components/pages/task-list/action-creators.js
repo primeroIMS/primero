@@ -1,10 +1,10 @@
-import { cleanUpFilters } from "./../../records/helpers";
-import { RECORD_PATH } from "./../../../config";
+import { cleanUpFilters } from "../../records/helpers";
+import { RECORD_PATH } from "../../../config";
 
 import * as Actions from "./actions";
 
 export const fetchTasks = data => {
-  const { options } = data ? data : {};
+  const { options } = data || {};
 
   return {
     type: Actions.TASKS,
@@ -14,5 +14,3 @@ export const fetchTasks = data => {
     }
   };
 };
-
-

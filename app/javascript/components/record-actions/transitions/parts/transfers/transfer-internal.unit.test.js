@@ -1,7 +1,7 @@
 import React from "react";
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../../../test";
 import { TextField } from "formik-material-ui";
 import { Field, Form, Formik } from "formik";
 import { SearchableSelect } from "components/searchable-select";

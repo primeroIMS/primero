@@ -1,8 +1,9 @@
-import qs from "qs";
-import { attemptSignout } from "components/user";
-import { FETCH_TIMEOUT } from "config";
 import { push } from "connected-react-router";
-import { syncIndexedDB } from "db";
+import qs from "qs";
+
+import { attemptSignout } from "../components/user";
+import { FETCH_TIMEOUT } from "../config";
+import { syncIndexedDB } from "../db";
 
 const defaultFetchOptions = {
   method: "GET",
@@ -15,7 +16,7 @@ const defaultFetchOptions = {
   })
 };
 
-export const queryParams = {
+const queryParams = {
   toString: obj => qs.stringify(obj),
   parse: str => qs.parse(str)
 };
@@ -80,11 +81,9 @@ function fetchPayload(action, store, options) {
     api: { path, body, params, method, normalizeFunc, successCallback, db }
   } = action;
 
-  const fetchOptions = Object.assign({}, defaultFetchOptions, {
-    method,
+  const fetchOptions = { ...defaultFetchOptions, method,
     signal: controller.signal,
-    ...(body && { body: JSON.stringify(body) })
-  });
+    ...(body && { body: JSON.stringify(body) })};
 
   const fetchPath = buildPath(path, options, params);
 

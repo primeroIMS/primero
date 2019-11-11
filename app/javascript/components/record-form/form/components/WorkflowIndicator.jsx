@@ -9,9 +9,11 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { selectModule } from "components/application";
-import { RECORD_TYPES } from "config";
-import { useThemeHelper } from "libs";
+
+import { selectModule } from "../../../application";
+import { RECORD_TYPES } from "../../../../config";
+import { useThemeHelper } from "../../../../libs";
+
 import styles from "./styles.css";
 
 const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
@@ -52,6 +54,7 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
       {workflowSteps.map((s, index) => {
         const stepProps = {};
         const label = s.display_text || "";
+
         stepProps.complete = index < activeStep ? true : null;
 
         return (
@@ -71,8 +74,8 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
 WorkflowIndicator.propTypes = {
   locale: PropTypes.string.isRequired,
   primeroModule: PropTypes.string.isRequired,
-  recordType: PropTypes.string.isRequired,
-  record: PropTypes.object.isRequired
+  record: PropTypes.object.isRequired,
+  recordType: PropTypes.string.isRequired
 };
 
 export default WorkflowIndicator;

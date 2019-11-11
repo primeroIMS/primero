@@ -1,6 +1,6 @@
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../../test";
 import { Map } from "immutable";
 import { Switch } from "@material-ui/core";
 import SwitchButton from "./component";
