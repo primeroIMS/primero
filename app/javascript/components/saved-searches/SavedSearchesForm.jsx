@@ -12,11 +12,11 @@ import {
   DialogTitle
 } from "@material-ui/core";
 
-import { enqueueSnackbar } from "../notifier";
-import { useI18n } from "../i18n";
-import { selectFiltersByRecordType } from "../filters-builder/selectors";
-import { selectModules } from "../pages/login/selectors";
 import { applyFilters } from "../filters-builder/action-creators";
+import { enqueueSnackbar } from "../notifier";
+import { getFiltersByRecordType } from "../filters-builder/selectors";
+import { selectModules } from "../pages/login/selectors";
+import { useI18n } from "../i18n";
 
 import { saveSearch } from "./action-creators";
 import { buildFiltersApi } from "./helpers";
@@ -40,7 +40,7 @@ const SavedSearchesForm = ({ recordType, open, setOpen }) => {
   const [formErrors, setFormErrors] = useState(false);
 
   const selectedFilters = useSelector(state =>
-    selectFiltersByRecordType(state, recordType)
+    getFiltersByRecordType(state, recordType)
   );
 
   const userModules = useSelector(state => selectModules(state));

@@ -26,10 +26,10 @@ describe Attachable do
 
       end
 
-      context 'when attach images with set_attachment_fields' do
+      context 'when attach images with attach' do
 
         it 'should attach a photo' do
-          child.set_attachment_fields(FilesTestHelper.png_as_a_parameter)
+          child.attach(FilesTestHelper.png_as_a_parameter)
           expect(child.photos.first.image).to be_attached
         end
       end
@@ -38,18 +38,18 @@ describe Attachable do
     context 'validation' do
 
       it 'should be invalid if the file is too large' do
-        child.set_attachment_fields(FilesTestHelper.large_photo_as_a_parameter)
+        child.attach(FilesTestHelper.large_photo_as_a_parameter)
         expect(child).not_to be_valid
       end
 
       it 'should be invalid if the file is not a images' do
-        child.set_attachment_fields(FilesTestHelper.invalid_photo)
+        child.attach(FilesTestHelper.invalid_photo)
         expect(child).not_to be_valid
         expect(child.errors['photos.image']).to eq(['file should be one of image/jpg, image/jpeg, image/png'])
       end
 
       it 'should be invalid if the size of documents if greather than the permited' do
-        child.set_attachment_fields(FilesTestHelper.max_documents_as_a_paramenter)
+        child.attach(FilesTestHelper.max_documents_as_a_paramenter)
         expect(child).not_to be_valid
         expect(child.errors['other_documents']).to eq(['is too long (maximum is 100 characters)'])
       end
@@ -70,10 +70,10 @@ describe Attachable do
   describe 'when update' do
 
     it 'should attach a photo' do
-      child.set_attachment_fields(FilesTestHelper.png_as_a_parameter)
+      child.attach(FilesTestHelper.png_as_a_parameter)
       child.save
       new_photo = FilesTestHelper.jpg_as_a_parameter_to_update(child.photos.first.id)
-      child.set_attachment_fields(new_photo)
+      child.attach(new_photo)
       child.save
       expect(child.photos.first.image.filename.to_s).to eq(FilesTestHelper.jpg.first['image'].original_filename)
     end

@@ -6,13 +6,8 @@ import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
 import clsx from "clsx";
 
-import { PageContainer } from "../page";
-import { LoadingIndicator } from "../loading-indicator";
-import { Transitions, fetchTransitions } from "../transitions";
-import { useThemeHelper } from "../../libs";
-import { RECORD_TYPES, TRANSITION_TYPE } from "../../config";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
-import { useI18n } from "../i18n";
+import { RECORD_TYPES, TRANSITION_TYPE, REFERRAL } from "../../config";
 
 import { Nav } from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
@@ -145,6 +140,11 @@ const RecordForms = ({ match, mode }) => {
 
   // TODO: When transfer_request be implement change the transition_ype
   const isTransition = TRANSITION_TYPE.includes(selectedForm);
+  const transitionProps = {
+    isReferral: REFERRAL === selectedForm,
+    recordType: params.recordType,
+    record: params.id
+  };
 
   return (
     <PageContainer twoCol>
@@ -165,7 +165,7 @@ const RecordForms = ({ match, mode }) => {
           </div>
           <div className={`${css.recordForms} record-form-container`}>
             {isTransition ? (
-              <Transitions recordType={params.recordType} record={params.id} />
+              <Transitions {...transitionProps} />
             ) : (
               <RecordForm {...formProps} />
             )}

@@ -4,35 +4,6 @@ class TracingRequestsController < ApplicationController
   include RecordFilteringPagination
   include RecordActions
 
-  def edit_photo
-    authorize! :update, @tracing_request
-    @page_name = t("tracing_request.edit_photo")
-  end
-
-  def update_photo
-    authorize! :update, @tracing_request
-    orientation = params[:tracing_request].delete(:photo_orientation).to_i
-    if orientation != 0
-      @tracing_request.rotate_photo(orientation)
-      @tracing_request.last_updated_by = current_user.user_name
-      @tracing_request.last_updated_organization = current_user.agency
-      @tracing_request.save
-    end
-    redirect_to(@tracing_request)
-  end
-
-  def select_primary_photo
-    @tracing_request = TracingRequest.find(params[:tracing_request_id])
-    authorize! :update, @tracing_request
-    begin
-      @tracing_request.primary_photo_id = params[:photo_id]
-      @tracing_request.save
-      head :ok
-    rescue
-      head :error
-    end
-  end
-
   private
 
   # A hack due to photos being submitted under an adhoc key

@@ -1,3 +1,3 @@
-export { default as Filters } from "./container";
-export * from "./reducer";
-export * from "./actions";
+export { default } from "./container";
+export { reducers } from "./reducer";
+export { SET_TAB } from "./actions";

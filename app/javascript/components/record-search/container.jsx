@@ -6,7 +6,7 @@ import { IconButton, InputBase } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 
 import { useI18n } from "../i18n";
-import { selectFiltersByRecordType } from "../filters-builder";
+import { getFiltersByRecordType } from "../filters-builder";
 
 import styles from "./styles.css";
 
@@ -15,7 +15,7 @@ const RecordSearch = ({ recordType, setFilters }) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const { query } = useSelector(state =>
-    selectFiltersByRecordType(state, recordType)
+    getFiltersByRecordType(state, recordType)
   );
   const [filterQuery, setFilterQuery] = useState(query || "");
 
