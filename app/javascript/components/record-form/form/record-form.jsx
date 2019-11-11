@@ -27,7 +27,7 @@ const ValidationErrors = () => {
 
   useEffect(() => {
     dispatch(enqueueSnackbar(i18n.t("error_message.notice"), "error"));
-  }, [dispatch, i18n]);
+  }, []);
 
   return null;
 };

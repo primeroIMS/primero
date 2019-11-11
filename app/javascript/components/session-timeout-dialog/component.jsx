@@ -95,7 +95,7 @@ const SessionTimeoutDialog = () => {
       stopAllTimers();
       window.removeEventListener("storage", localStorageChange);
     };
-  }, [idleUser, localStorageChange, startTokenRefreshTimer]);
+  }, []);
 
   const handleContinue = e => {
     e.preventDefault();

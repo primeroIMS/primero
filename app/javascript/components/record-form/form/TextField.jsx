@@ -42,7 +42,7 @@ const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
     if (recordName) {
       formik.setFieldValue("name", recordName, true);
     }
-  }, [formik, recordName]);
+  }, [recordName]);
 
   const fieldProps = {
     type: type === "numeric_field" ? "number" : "text",

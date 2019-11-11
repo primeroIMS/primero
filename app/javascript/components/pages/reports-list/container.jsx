@@ -60,7 +60,7 @@ const Reports = () => {
 
   useEffect(() => {
     dispatch(fetchReports({ options: defaultFilters }));
-  }, [defaultFilters, dispatch]);
+  }, []);
 
   const paginationProps = {
     count: reportsPagination.get("total"),

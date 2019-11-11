@@ -27,7 +27,7 @@ const Report = ({ match }) => {
 
   useEffect(() => {
     dispatch(fetchReport(params.id));
-  }, [dispatch, params.id]);
+  }, []);
 
   const errors = useSelector(state => getErrors(state, namespace));
   const loading = useSelector(state => getLoading(state, namespace));

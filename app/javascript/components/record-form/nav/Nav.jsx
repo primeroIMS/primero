@@ -43,7 +43,7 @@ const Nav = ({
       ...open,
       [firstTab.form_group_id]: !open[firstTab.form_group_id]
     });
-  }, []);
+  }, [firstTab]);
 
   if (formNav) {
     const [...formGroups] = formNav.values();

@@ -83,7 +83,7 @@ const Container = ({ match }) => {
     return () => {
       dispatch(setFilters({ options: { id_search: null, query: "" } }));
     };
-  }, [dispatch, setFilters, url]);
+  }, [url]);
 
   const canSearchOthers =
     permissions.includes(PERMISSION_CONSTANTS.MANAGE) ||

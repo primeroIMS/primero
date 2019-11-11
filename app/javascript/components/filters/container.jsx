@@ -5,11 +5,15 @@ import { makeStyles } from "@material-ui/styles";
 import { Tabs, Tab } from "@material-ui/core";
 import { fromJS } from "immutable";
 
-import { FiltersBuilder } from "./../filters-builder";
-import { SavedSearches, fetchSavedSearches } from "./../saved-searches";
-import { useI18n } from "./../i18n";
+import { FiltersBuilder } from "../filters-builder";
+import { SavedSearches, fetchSavedSearches } from "../saved-searches";
+import { useI18n } from "../i18n";
 
-import { setInitialFilterValues, setInitialRecords, setTab } from "./action-creators";
+import {
+  setInitialFilterValues,
+  setInitialRecords,
+  setTab
+} from "./action-creators";
 import { NAME } from "./constants";
 import { getTab, getFiltersByRecordType } from "./selectors";
 import styles from "./styles.css";
@@ -38,8 +42,7 @@ const Container = ({ recordType, defaultFilters }) => {
     getFiltersByRecordType(state, recordType)
   );
 
-  const resetFilterValues = (namespace = null,
-      path = null) => {
+  const resetFilterValues = useCallback((namespace = null, path = null) => {
     if (availableFilters) {
       const excludeDefaultFilters = [...defaultFilters.keys()];
 
@@ -84,7 +87,7 @@ const Container = ({ recordType, defaultFilters }) => {
   useEffect(() => {
     resetFilterValues();
     dispatch(fetchSavedSearches());
-  }, [availableFilters, dispatch, resetFilterValues]);
+  }, [availableFilters]);
 
   const tabs = [
     { name: i18n.t("saved_search.filters_tab"), selected: true },
@@ -134,8 +137,8 @@ const Container = ({ recordType, defaultFilters }) => {
 Container.displayName = NAME;
 
 Container.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  defaultFilters: PropTypes.object
+  defaultFilters: PropTypes.object,
+  recordType: PropTypes.string.isRequired
 };
 
 export default Container;

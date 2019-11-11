@@ -15,7 +15,7 @@ import * as selectors from "./selectors";
 const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
   useEffect(() => {
     fetchPotentialMatches();
-  }, [fetchPotentialMatches]);
+  }, []);
 
   const css = makeStyles(styles)();
   const i18n = useI18n();

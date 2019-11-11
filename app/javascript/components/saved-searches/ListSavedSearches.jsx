@@ -41,7 +41,7 @@ const ListSavedSearches = ({ recordType, savedSearches, resetFilters }) => {
       dispatch(setSavedSearch(recordType, buildFiltersState(filters)));
       dispatch(setTab({ recordType, value: 0 }));
     }
-  }, [dispatch, recordType, resetFilters, selectedSavedSearch, selectedSearch]);
+  }, []);
 
   const handleApplyFilter = (_e, id) => {
     setSelectedSavedSearch(id);

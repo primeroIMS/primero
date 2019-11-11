@@ -6,6 +6,11 @@ import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
 import clsx from "clsx";
 
+import { useThemeHelper } from "../../libs";
+import { useI18n } from "../i18n";
+import { PageContainer } from "../page";
+import { Transitions, fetchTransitions } from "../transitions";
+import { LoadingIndicator } from "../loading-indicator";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
 import { RECORD_TYPES, TRANSITION_TYPE, REFERRAL } from "../../config";
 
@@ -136,7 +141,7 @@ const RecordForms = ({ match, mode }) => {
 
   useEffect(() => {
     dispatch(fetchTransitions(params.recordType, params.id));
-  }, [params.recordType, params.id, dispatch]);
+  }, [params.recordType, params.id]);
 
   // TODO: When transfer_request be implement change the transition_ype
   const isTransition = TRANSITION_TYPE.includes(selectedForm);

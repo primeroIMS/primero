@@ -9,6 +9,7 @@ import {
 } from "../../../../config";
 import NavGroup from "../NavGroup";
 import { NavRecord } from "../../records";
+import { useI18n } from "../../../i18n";
 
 const RecordInformation = ({ open, handleClick }) => {
   const i18n = useI18n();

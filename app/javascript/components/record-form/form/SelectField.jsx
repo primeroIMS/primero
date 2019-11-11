@@ -99,7 +99,7 @@ const SelectField = ({
     if (mode.isNew && selectedValue && value === "") {
       formik.setFieldValue(name, selectedValue, false);
     }
-  }, [formik, mode.isNew, name, selectedValue, value]);
+  }, []);
 
   if (!isEmpty(formik.values)) {
     return (

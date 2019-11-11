@@ -27,7 +27,7 @@ export const ApplicationProvider = ({ children }) => {
       window.removeEventListener("online", () => handleNetworkChange(true));
       window.removeEventListener("offline", () => handleNetworkChange(false));
     };
-  }, [handleNetworkChange]);
+  }, []);
 
   return (
     <Context.Provider value={{ modules, userModules, online }}>

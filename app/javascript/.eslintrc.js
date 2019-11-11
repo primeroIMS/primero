@@ -56,7 +56,7 @@ module.exports = {
     ],
     "react/no-multi-comp": "warn",
     "react/require-default-props": "off",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "off",
     "react-hooks/rules-of-hooks": "error",
     "react/sort-prop-types": "error",
     "import/no-extraneous-dependencies": "off"
