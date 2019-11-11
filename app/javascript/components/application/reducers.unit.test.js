@@ -1,6 +1,7 @@
 import chai, { expect } from "chai";
 import { Map, fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
+
 import * as r from "./reducers";
 import actions from "./actions";
 
@@ -20,6 +21,7 @@ describe("Application - Reducers", () => {
     };
 
     const newState = r.reducers.application(defaultState, action);
+
     expect(newState.toJS()).to.eql(expected.toJS());
   });
 
@@ -106,6 +108,7 @@ describe("Application - Reducers", () => {
     };
 
     const newState = r.reducers.application(defaultState, action);
+
     expect(newState.toJS()).to.eql(expected.toJS());
   });
 
@@ -120,6 +123,7 @@ describe("Application - Reducers", () => {
     };
 
     const newState = r.reducers.application(defaultState, action);
+
     expect(newState.toJS()).to.eql(expected.toJS());
   });
 });

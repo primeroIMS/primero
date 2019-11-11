@@ -1,14 +1,15 @@
 import { expect } from "chai";
-
-import { setupMountedComponent } from "../../test";
 import { fromJS } from "immutable";
 import React from "react";
 import { NavLink } from "react-router-dom";
+
+import { setupMountedComponent } from "../../test";
 import { ROUTES } from "../../config";
 import { TranslationsToggle } from "../translations-toggle";
-import { AgencyLogo } from "../application";
+import { AgencyLogo } from "../agency-logo";
 import { ModuleLogo } from "../module-logo";
 import { ApplicationProvider } from "../application/provider";
+
 import Nav from "./component";
 
 describe("<Nav />", () => {

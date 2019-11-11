@@ -1,13 +1,12 @@
 import { expect } from "chai";
+import { Map, List } from "immutable";
+import MUIDataTable, { TableBodyRow } from "mui-datatables";
 
 import { setupMountedComponent } from "../../../test";
-import { fromJS, Map, List } from "immutable";
-import MUIDataTable from "mui-datatables";
-import { TableBodyRow } from "mui-datatables";
-import { DashboardChip } from "../dashboard";
-import TaskList from "./container";
+import { DashboardChip } from "../../dashboard";
 import * as userRecord from "../../user/records";
 
+import TaskList from "./container";
 
 describe("<TaskList />", () => {
   let component;
@@ -26,7 +25,7 @@ describe("<TaskList />", () => {
                 record_id_display: "040e0b7",
                 priority: "high",
                 type: "Shelter temprary house",
-                due_date: "2019-07-01",
+                due_date: "2019-07-01"
               }),
               Map({
                 id: "0df32f52-4290-4ce1-b859-74ac14c081bf",
@@ -34,7 +33,7 @@ describe("<TaskList />", () => {
                 record_id_display: "040e0b7",
                 priority: "low",
                 type: "Food service",
-                due_date: "2019-07-01",
+                due_date: "2019-07-01"
               })
             ]),
             metadata: Map({
@@ -48,28 +47,28 @@ describe("<TaskList />", () => {
           listHeaders: Map({
             tasks: List([
               userRecord.ListHeaderRecord({
-                name: 'id',
-                field_name: 'record_id_display',
+                name: "id",
+                field_name: "record_id_display",
                 id_search: false
               }),
               userRecord.ListHeaderRecord({
-                name: 'priority',
-                field_name: 'priority',
+                name: "priority",
+                field_name: "priority",
                 id_search: false
               }),
               userRecord.ListHeaderRecord({
-                name: 'type',
-                field_name: 'type_display',
+                name: "type",
+                field_name: "type_display",
                 id_search: false
               }),
               userRecord.ListHeaderRecord({
-                name: 'due_date',
-                field_name: 'due_date',
+                name: "due_date",
+                field_name: "due_date",
                 id_search: false
               }),
               userRecord.ListHeaderRecord({
-                name: 'status',
-                field_name: 'status',
+                name: "status",
+                field_name: "status",
                 id_search: false
               })
             ])

@@ -1,8 +1,8 @@
-
-import { setupMountedThemeComponent } from "test";
 import { expect } from "chai";
 
-import UnicefLogo from "images/unicef.png";
+import { setupMountedThemeComponent } from "../../test";
+import UnicefLogo from "../../images/unicef.png";
+
 import AgencyLogo from "./component";
 
 describe("<AgencyLogo />", () => {
