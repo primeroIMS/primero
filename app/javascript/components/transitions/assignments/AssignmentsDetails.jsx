@@ -1,11 +1,13 @@
 import React from "react";
-import { useI18n } from "components/i18n";
 import { Box, Divider, Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
+
+import { useI18n } from "../../i18n";
 import TransitionUser from "../TransitionUser";
 
 const AssignmentsDetails = ({ transition, classes }) => {
   const i18n = useI18n();
+
   return (
     <Grid container spacing={2}>
       <Grid item md={6} xs={12}>
@@ -36,8 +38,8 @@ const AssignmentsDetails = ({ transition, classes }) => {
 };
 
 AssignmentsDetails.propTypes = {
-  transition: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  transition: PropTypes.object.isRequired
 };
 
 export default AssignmentsDetails;

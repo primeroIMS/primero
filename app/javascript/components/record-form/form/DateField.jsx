@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { differenceInYears } from "date-fns";
 import { DatePicker, DateTimePicker } from "@material-ui/pickers";
 import { InputAdornment } from "@material-ui/core";
-import { useI18n } from "components/i18n";
 import { FastField, connect, getIn } from "formik";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import omitBy from "lodash/omitBy";
+
+import { useI18n } from "../../i18n";
 
 const DateField = ({ name, helperText, mode, formik, ...rest }) => {
   const i18n = useI18n();
@@ -25,8 +26,10 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
 
   const updateAgeField = (form, date) => {
     const matches = name.match(/(.*)date_of_birth$/);
+
     if (matches && date) {
       const diff = differenceInYears(new Date(), date || new Date());
+
       form.setFieldValue(`${matches[1]}age`, diff, true);
     }
   };
@@ -34,6 +37,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
   const getDateValue = (form, field) => {
     const { value } = field;
     let dateValue = null;
+
     if (value) {
       dateValue = value;
     } else if (
@@ -44,6 +48,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
       dateValue = new Date();
     }
     form.setFieldValue(name, dateValue, true);
+
     return dateValue;
   };
 
@@ -73,6 +78,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
           },
           onChange: date => {
             updateAgeField(form, date);
+
             return form.setFieldValue(name, date, true);
           },
           disableFuture:
@@ -92,11 +98,11 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
 };
 
 DateField.propTypes = {
-  name: PropTypes.string,
-  value: PropTypes.string,
-  helperText: PropTypes.string,
   formik: PropTypes.object.isRequired,
-  mode: PropTypes.object
+  helperText: PropTypes.string,
+  mode: PropTypes.object,
+  name: PropTypes.string,
+  value: PropTypes.string
 };
 
 export default connect(DateField);

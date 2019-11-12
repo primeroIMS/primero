@@ -16,6 +16,7 @@ describe("Application - Reducers", () => {
     };
 
     const newState = reducers.application(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -102,6 +103,7 @@ describe("Application - Reducers", () => {
     };
 
     const newState = reducers.application(defaultState, action);
+
     expect(newState.toJS()).to.eql(expected.toJS());
   });
 
@@ -116,6 +118,7 @@ describe("Application - Reducers", () => {
     };
 
     const newState = reducers.application(defaultState, action);
+
     expect(newState).to.eql(expected);
   });
 });

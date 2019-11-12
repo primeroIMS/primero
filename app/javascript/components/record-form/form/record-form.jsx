@@ -8,16 +8,18 @@ import isEmpty from "lodash/isEmpty";
 import some from "lodash/some";
 import { Box, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { useI18n } from "components/i18n";
-import { enqueueSnackbar } from "components/notifier";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import NavigationPrompt from "react-router-navigation-prompt";
-import { ActionDialog } from "components/action-dialog";
+
+import { useI18n } from "../../i18n";
+import { enqueueSnackbar } from "../../notifier";
+import { ActionDialog } from "../../action-dialog";
 import { constructInitialValues } from "../helpers";
+import * as C from "../constants";
+
 import FormSectionField from "./FormSectionField";
 import styles from "./styles.css";
 import { SubformField } from "./subforms";
-import * as C from "../constants";
 
 const ValidationErrors = () => {
   const dispatch = useDispatch();
@@ -25,7 +27,7 @@ const ValidationErrors = () => {
 
   useEffect(() => {
     dispatch(enqueueSnackbar(i18n.t("error_message.notice"), "error"));
-  }, [dispatch, i18n]);
+  }, []);
 
   return null;
 };
@@ -47,7 +49,7 @@ const RecordForm = ({
   let initialFormValues = constructInitialValues(forms.values());
 
   if (record) {
-    initialFormValues = Object.assign({}, initialFormValues, record.toJS());
+    initialFormValues = { ...initialFormValues, ...record.toJS() };
   }
 
   const fieldValidations = field => {
@@ -82,6 +84,7 @@ const RecordForm = ({
       const subformSchema = field.subform_section_id.fields.map(sf => {
         return fieldValidations(sf);
       });
+
       validations[name] = yup
         .array()
         .of(yup.object().shape(Object.assign({}, ...subformSchema)));
@@ -151,6 +154,7 @@ const RecordForm = ({
           </div>
         );
       }
+
       return null;
     });
 
@@ -182,7 +186,7 @@ const RecordForm = ({
                     cancelHandler={onCancel}
                     dialogTitle={i18n.t("record_panel.record_information")}
                     dialogText={i18n.t("messages.confirmation_message")}
-                    confirmButtonLabel={i18n.t("yes_label")}
+                    confirmButtonLabel={i18n.t("buttons.ok")}
                   />
                 )}
               </NavigationPrompt>
@@ -194,19 +198,20 @@ const RecordForm = ({
       </Formik>
     );
   }
+
   return null;
 };
 
 RecordForm.propTypes = {
-  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  forms: PropTypes.object.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  mode: PropTypes.object,
   bindSubmitForm: PropTypes.func,
-  record: PropTypes.object,
+  forms: PropTypes.object.isRequired,
   handleToggleNav: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
-  recordType: PropTypes.string.isRequired
+  mode: PropTypes.object,
+  onSubmit: PropTypes.func.isRequired,
+  record: PropTypes.object,
+  recordType: PropTypes.string.isRequired,
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export default memo(RecordForm);

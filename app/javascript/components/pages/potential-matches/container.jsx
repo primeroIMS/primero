@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
 import { Card, CardContent } from "@material-ui/core";
-import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
 
+import { useI18n } from "../../i18n";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 
 import styles from "./styles.css";

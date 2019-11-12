@@ -1,7 +1,7 @@
-import "test/test.setup";
+
 import React from "react";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../test";
 import Paper from "@material-ui/core/Paper";
 import Menu from "./menu";
 

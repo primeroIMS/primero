@@ -13,12 +13,14 @@ const getColorsByIndex = index => {
 const getColumnData = (column, data, i18n) => {
   const totalLabel = i18n.t("report.total");
   const keys = Object.keys(data);
+
   return keys
     .filter(key => key !== totalLabel)
     .map(key => {
       const columnValue = data[key][column]
         ? data[key][column][totalLabel]
         : getColumnData(column, data[key], i18n);
+
       return columnValue;
     })
     .flat();

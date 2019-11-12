@@ -1,20 +1,22 @@
+import { routerMiddleware } from "connected-react-router/immutable";
+import { Form, Formik } from "formik";
+import { createBrowserHistory } from "history";
+import { isEmpty } from "lodash";
+import { SnackbarProvider } from "notistack";
 import React from "react";
-import { createMount } from "@material-ui/core/test-utils";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import configureStore from "redux-mock-store";
+import thunk from "redux-thunk";
+
 import DateFnsUtils from "@date-io/date-fns";
-import { I18nProvider } from "components/i18n";
-import { isEmpty } from "lodash";
+import { createMount } from "@material-ui/core/test-utils";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
-import { theme } from "config";
-import thunk from "redux-thunk";
-import { createBrowserHistory } from "history";
-import { routerMiddleware } from "connected-react-router/immutable";
-import { ApplicationProvider } from "components/application/provider";
-import { SnackbarProvider } from "notistack";
-import { Form, Formik } from "formik";
+
+import { ApplicationProvider } from "../components/application/provider";
+import { I18nProvider } from "../components/i18n";
+import { theme } from "../config";
 
 export const setupMountedComponent = (
   TestComponent,

@@ -12,7 +12,7 @@ export const PERMISSION_CONSTANTS = {
   REFERRAL: "referral",
   DISPLAY_VIEW_PAGE: "display_view_page",
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others"
-}
+};
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {
   return (

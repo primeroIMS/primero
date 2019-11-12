@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { FormControlLabel, Checkbox, Grid } from "@material-ui/core";
 import { Field } from "formik";
-import { CasesIcon } from "images/primero-icons";
-import { useI18n } from "components/i18n";
+
+import { CasesIcon } from "../../../../../images/primero-icons";
+import { useI18n } from "../../../../i18n";
 import * as styles from "../../styles.css";
 
 const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
@@ -18,6 +19,7 @@ const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
   const onChangeTransferAnyway = props => {
     const { field, form } = props;
     const { value } = field;
+
     return <Checkbox checked={value} onChange={() => onChange(field, form)} />;
   };
 
@@ -53,4 +55,4 @@ ProvidedForm.propTypes = {
   setDisabled: PropTypes.func
 };
 
-export default ProvidedForm
+export default ProvidedForm;

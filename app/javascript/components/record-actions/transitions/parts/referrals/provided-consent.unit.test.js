@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../../../test";
 import ProvidedForm from "./provided-form";
 import ProvidedConsent from "./provided-consent";
 

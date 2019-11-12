@@ -39,6 +39,7 @@ const RangeButton = ({ recordType, props, value, setValue }) => {
     if (v.includes("+")) {
       return v.replace("+", `..${AGE_MAX}`);
     }
+
     return "";
   };
 
@@ -57,6 +58,7 @@ const RangeButton = ({ recordType, props, value, setValue }) => {
               typeof v.id === "string" &&
               (v.id.includes(" - ") || v.id.includes("+"));
             const rangeValue = isAgeRange ? changeAgeRangesValue(v.id) : v.id;
+
             return (
               <ToggleButton
                 key={`age_${rangeValue}`}

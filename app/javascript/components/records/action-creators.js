@@ -1,6 +1,7 @@
-import { DB, RECORD_PATH } from "config";
-import { ENQUEUE_SNACKBAR } from "components/notifier";
-import * as FiltersActions from "components/filters-builder/actions";
+import { DB, RECORD_PATH } from "../../config";
+import { ENQUEUE_SNACKBAR } from "../notifier";
+import * as FiltersActions from "../filters-builder/actions";
+
 import { cleanUpFilters } from "./helpers";
 import * as Actions from "./actions";
 
@@ -10,6 +11,7 @@ import * as Actions from "./actions";
  */
 export const setFilters = data => async dispatch => {
   const { recordType, options } = data;
+
   dispatch({
     type: `${recordType}/SET_FILTERS`,
     payload: options

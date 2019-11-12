@@ -1,7 +1,7 @@
-import "test/test.setup";
+
 import React from "react";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../../test";
 import {
   Dialog,
   DialogTitle,

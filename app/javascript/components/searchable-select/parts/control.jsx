@@ -5,6 +5,7 @@ import TextField from "@material-ui/core/TextField";
 const inputComponent = ({ inputRef, ...props }) => {
   return <div ref={inputRef} {...props} />;
 };
+
 inputComponent.propTypes = {
   inputRef: PropTypes.oneOfType([
     PropTypes.func,

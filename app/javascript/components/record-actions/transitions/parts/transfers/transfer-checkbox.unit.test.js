@@ -1,6 +1,6 @@
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../../../test";
 import { FormControlLabel, Checkbox } from "@material-ui/core";
 import TransferCheckbox from "./transfer-checkbox";
 

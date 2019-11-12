@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect, useSelector } from "react-redux";
 import { Switch } from "@material-ui/core";
-import { ListIcon } from "components/list-icon";
 import { makeStyles } from "@material-ui/styles";
 import isEmpty from "lodash/isEmpty";
 

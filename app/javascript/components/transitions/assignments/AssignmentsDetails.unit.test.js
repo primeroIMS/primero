@@ -1,6 +1,6 @@
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../test";
 import { Box, Divider } from "@material-ui/core";
 import AssignmentsDetails from "./AssignmentsDetails";
 import TransitionUser from "../TransitionUser";

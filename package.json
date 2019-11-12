@@ -7,8 +7,7 @@
     "test:all": "npm run test './app/javascript/**/*.unit.test.js'",
     "test:inspect": "npm run test -- --inspect-brk=0.0.0.0:9229",
     "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test:all",
-    "lint": "eslint './app/javascript/**' --ignore-path ./app/javascript/.eslintignore",
-    "lint:test": "eslint './app/javascript/**/*.unit.test.js' -c ./app/javascript/test/.eslintrc.test.js"
+    "lint": "eslint './app/javascript/**' --ignore-path ./app/javascript/.eslintignore"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
@@ -103,6 +102,7 @@
     "require-hacker": "^3.0.1",
     "sinon": "^7.2.4",
     "sinon-chai": "^3.3.0",
+    "timezone-mock": "^1.0.8",
     "webpack": "^4.41.2",
     "webpack-assets-manifest": "^3.1.1",
     "webpack-cli": "^3.3.9",

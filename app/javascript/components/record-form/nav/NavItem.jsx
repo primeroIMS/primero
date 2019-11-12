@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import { ListItem, ListItemText } from "@material-ui/core";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import { Jewel } from "components/jewel";
 import { makeStyles } from "@material-ui/styles";
+
+import { Jewel } from "../../jewel";
+
 import styles from "./styles.css";
 
 const NavItem = ({
@@ -48,12 +50,12 @@ const NavItem = ({
 
 NavItem.propTypes = {
   form: PropTypes.object,
-  isNested: PropTypes.bool,
-  open: PropTypes.bool,
-  handleClick: PropTypes.func,
-  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   groupItem: PropTypes.bool,
-  name: PropTypes.string
+  handleClick: PropTypes.func,
+  isNested: PropTypes.bool,
+  name: PropTypes.string,
+  open: PropTypes.bool,
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export default NavItem;

@@ -2,9 +2,11 @@ import { Menu, MenuItem, Button, makeStyles } from "@material-ui/core";
 import LanguageIcon from "@material-ui/icons/Language";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { DropdownDoubleIcon } from "images/primero-icons";
-import { useI18n } from "components/i18n";
-import * as Selectors from "components/application/selectors";
+
+import { DropdownDoubleIcon } from "../../images/primero-icons";
+import { useI18n } from "../i18n";
+import * as Selectors from "../application/selectors";
+
 import styles from "./styles.css";
 
 const TranslationsToggle = () => {

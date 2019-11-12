@@ -9,8 +9,8 @@ import {
   setIncidentsFilters,
   setTracingRequestFilters
 } from "../records";
-import { RECORD_PATH } from "../../config";
 import { ToggleIconCell } from "../index-table";
+import { RECORD_PATH } from "../../config";
 
 import {
   buildTableColumns,

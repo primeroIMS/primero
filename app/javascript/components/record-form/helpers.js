@@ -9,6 +9,7 @@ import {
   identity
 } from "lodash";
 import { isDate, format } from "date-fns";
+
 import * as C from "./constants";
 
 function compareArray(value, base) {
@@ -28,6 +29,7 @@ function compareArray(value, base) {
           acc.push(diff);
       } else {
         const newSubform = pickBy(v, identity);
+
         if (!isEmpty(newSubform)) acc.push(newSubform);
       }
     } else {
@@ -44,6 +46,7 @@ function difference(object, base, nested) {
   return transform(object, (result, value, key) => {
     if (!isEqual(value, base[key]) || (nested && key === "unique_id")) {
       let val = value;
+
       if (isDate(val)) {
         val = format(value, "dd-MMM-yyyy");
       }

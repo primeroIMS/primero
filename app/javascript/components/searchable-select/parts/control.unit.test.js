@@ -1,6 +1,6 @@
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../test";
 import TextField from "@material-ui/core/TextField";
 import Control from "./control";
 

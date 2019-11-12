@@ -1,4 +1,5 @@
 import { Map } from "immutable";
+
 import NAMESPACE from "./namespace";
 
 export const selectAgencies = state => state.getIn([NAMESPACE, "agencies"], []);

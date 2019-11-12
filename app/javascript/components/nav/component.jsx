@@ -20,6 +20,7 @@ import { ListIcon } from "../list-icon";
 import { Jewel } from "../jewel";
 import { TranslationsToggle } from "../translations-toggle";
 
+import { NAME } from "./constants";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import {
@@ -158,6 +159,6 @@ const Nav = () => {
   );
 };
 
-Nav.displayName = "Nav";
+Nav.displayName = NAME;
 
 export default Nav;

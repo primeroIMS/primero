@@ -1,6 +1,4 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { Map, List } from "immutable";
 import {
   FormControlLabel,
@@ -9,8 +7,12 @@ import {
   Button
 } from "@material-ui/core";
 import clone from "lodash/clone";
-import { MODULES } from "config";
-import { SearchableSelect } from "components/searchable-select";
+
+import { setupMountedComponent } from "../../../../../test";
+import { MODULES } from "../../../../../config";
+import { SearchableSelect } from "../../../../searchable-select";
+
+import TransferActions from "./transfer-actions";
 import TransferForm from "./component";
 
 describe("<TransferForm />", () => {
@@ -47,6 +49,7 @@ describe("<TransferForm />", () => {
     record,
     recordType: "cases"
   };
+
   beforeEach(() => {
     ({ component } = setupMountedComponent(TransferForm, props, defaultState));
   });
@@ -78,6 +81,7 @@ describe("<TransferForm />", () => {
         .first()
         .props()
     );
+
     expect(componentProps).to.have.property("providedConsent");
     expect(componentProps).to.have.property("isBulkTransfer");
     expect(componentProps).to.have.property("userPermissions");
@@ -94,5 +98,20 @@ describe("<TransferForm />", () => {
     delete componentProps.recordType;
 
     expect(componentProps).to.deep.equal({});
+  });
+
+  it("renders TransferActions with two props", () => {
+    const transferActions = component.find(TransferActions);
+    const transferActionsProps = transferActions.props();
+
+    expect(transferActions).to.have.lengthOf(1);
+    expect(transferActionsProps).to.have.property("closeModal");
+    expect(transferActionsProps.closeModal).to.be.a("function");
+    expect(transferActionsProps).to.have.property("disabled");
+    expect(transferActionsProps.disabled).to.be.a("boolean");
+    delete transferActionsProps.closeModal;
+    delete transferActionsProps.disabled;
+
+    expect(transferActionsProps).to.be.empty;
   });
 });

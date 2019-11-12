@@ -1,13 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import { useI18n } from "components/i18n";
 import { Box, Button } from "@material-ui/core";
-import styles from "../../styles.css";
 
-const TransferActions = ({ closeModal }) => {
+import styles from "../../styles.css";
+import { useI18n } from "../../../../i18n";
+
+import { NAME } from "./constants";
+
+const TransferActions = ({ closeModal, disabled }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+
   return (
     <Box
       display="flex"
@@ -20,6 +24,7 @@ const TransferActions = ({ closeModal }) => {
         color="primary"
         variant="contained"
         className={css.modalActionButton}
+        disabled={disabled}
       >
         {i18n.t("transfer.submit_label")}
       </Button>
@@ -30,8 +35,11 @@ const TransferActions = ({ closeModal }) => {
   );
 };
 
+TransferActions.displayName = `${NAME}TransferActions`;
+
 TransferActions.propTypes = {
-  closeModal: PropTypes.func.isRequired
+  closeModal: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired
 };
 
 export default TransferActions;

@@ -60,6 +60,7 @@ export const useI18n = () => useContext(Context);
 export const withI18n = Component => {
   return props => {
     const i18nHook = useI18n();
+
     return <Component {...props} i18n={i18nHook} />;
   };
 };

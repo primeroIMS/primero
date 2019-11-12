@@ -1,6 +1,6 @@
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../test";
 import Typography from "@material-ui/core/Typography";
 import SingleValue from "./single-value";
 

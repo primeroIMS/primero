@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { useI18n } from "components/i18n";
-import { ActionDialog } from "components/action-dialog";
-import { saveRecord } from "components/records";
+
+import { useI18n } from "../../i18n";
+import { ActionDialog } from "../../action-dialog";
+import { saveRecord } from "../../records";
 
 const ToggleOpen = ({ close, openReopenDialog, record, recordType }) => {
   const i18n = useI18n();

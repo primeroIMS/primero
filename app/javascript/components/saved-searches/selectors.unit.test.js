@@ -1,7 +1,7 @@
-import "test/test.setup";
+
 import chai, { expect } from "chai";
 import { Map, List, is } from "immutable";
-import { mapEntriesToRecord } from "libs";
+import { mapEntriesToRecord } from "../../libs";
 import chaiImmutable from "chai-immutable";
 import * as R from "./records";
 

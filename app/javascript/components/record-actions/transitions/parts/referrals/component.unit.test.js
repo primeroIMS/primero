@@ -1,7 +1,7 @@
-import "test/test.setup";
+
 import { expect } from "chai";
 import clone from "lodash/clone";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../../../test";
 import { Map, List } from "immutable";
 import { Formik } from "formik";
 import { Button, FormControlLabel } from "@material-ui/core";

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
@@ -37,7 +37,6 @@ const Component = ({
     typeof columns === "function" ? columns(data) : columns;
 
   useEffect(() => {
-
     dispatch(
       onTableChange({
         recordType,
@@ -64,10 +63,9 @@ const Component = ({
 
     options.per = rowsPerPage;
 
-    const selectedFilters = Object.assign(
-      {},
-      options,
-      (() => {
+    const selectedFilters = {
+      ...options,
+      ...(() => {
         switch (action) {
           case "sort":
             if (typeof sortOrder === "undefined") {
@@ -88,43 +86,41 @@ const Component = ({
             break;
         }
       })()
-    );
+    };
 
     if (validActions.includes(action)) {
       dispatch(onTableChange({ recordType, options: selectedFilters }));
     }
   };
 
-  const options = Object.assign(
-    {
-      responsive: "stacked",
-      count: total,
-      rowsPerPage: per,
-      rowHover: true,
-      filterType: "checkbox",
-      fixedHeader: false,
-      elevation: 3,
-      filter: false,
-      download: false,
-      search: false,
-      print: false,
-      viewColumns: false,
-      serverSide: true,
-      customToolbar: () => null,
-      customToolbarSelect: () => null,
-      onTableChange: handleTableChange,
-      rowsPerPageOptions: [20, 50, 75, 100],
-      page: page - 1,
-      onRowClick: (rowData, rowMeta) => {
-        if (onRowClick) {
-          onRowClick(records.get(rowMeta.dataIndex));
-        } else {
-          dispatch(push(`${url}/${records.getIn([rowMeta.dataIndex, "id"])}`));
-        }
+  const options = {
+    responsive: "stacked",
+    count: total,
+    rowsPerPage: per,
+    rowHover: true,
+    filterType: "checkbox",
+    fixedHeader: false,
+    elevation: 3,
+    filter: false,
+    download: false,
+    search: false,
+    print: false,
+    viewColumns: false,
+    serverSide: true,
+    customToolbar: () => null,
+    customToolbarSelect: () => null,
+    onTableChange: handleTableChange,
+    rowsPerPageOptions: [20, 50, 75, 100],
+    page: page - 1,
+    onRowClick: (rowData, rowMeta) => {
+      if (onRowClick) {
+        onRowClick(records.get(rowMeta.dataIndex));
+      } else {
+        dispatch(push(`${url}/${records.getIn([rowMeta.dataIndex, "id"])}`));
       }
     },
-    tableOptionsProps
-  );
+    ...tableOptionsProps
+  };
 
   const tableOptions = {
     columns: componentColumns,

@@ -23,6 +23,7 @@ import { enqueueSnackbar } from "../../../../notifier";
 
 import ProvidedConsent from "./provided-consent";
 import FormInternal from "./form-internal";
+import Actions from "./actions";
 
 const MainForm = ({ formProps, rest }) => {
   const i18n = useI18n();
@@ -187,6 +188,11 @@ const MainForm = ({ formProps, rest }) => {
     setDisabled
   };
 
+  const actionProps = {
+    handleClose,
+    disabled: disableControl
+  };
+
   return (
     <Form onSubmit={handleSubmit}>
       <ProvidedConsent {...providedConsentProps} />
@@ -201,25 +207,7 @@ const MainForm = ({ formProps, rest }) => {
         label={i18n.t("referral.is_remote_label")}
       />
       <FormInternal fields={fields} disabled={disableControl} />
-
-      <Box
-        display="flex"
-        my={3}
-        justifyContent="flex-start"
-        className={css.modalAction}
-      >
-        <Button
-          type="submit"
-          color="primary"
-          variant="contained"
-          className={css.modalActionButton}
-        >
-          {i18n.t("buttons.referral")}
-        </Button>
-        <Button onClick={handleClose} color="primary" variant="outlined">
-          {i18n.t("buttons.cancel")}
-        </Button>
-      </Box>
+      <Actions {...actionProps} />
     </Form>
   );
 };

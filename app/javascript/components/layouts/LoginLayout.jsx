@@ -5,7 +5,6 @@ import { makeStyles } from "@material-ui/styles";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-// import { selectPrimeroModule } from "components/user";
 import { selectAgency } from "../pages/login";
 import { ModuleLogo } from "../module-logo";
 import { AgencyLogo } from "../agency-logo";

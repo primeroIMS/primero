@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
@@ -14,7 +14,7 @@ import {
   setInitialRecords,
   setTab
 } from "./action-creators";
-import { NAME } from "./config";
+import { NAME } from "./constants";
 import { getTab, getFiltersByRecordType } from "./selectors";
 import styles from "./styles.css";
 
@@ -42,8 +42,7 @@ const Container = ({ recordType, defaultFilters }) => {
     getFiltersByRecordType(state, recordType)
   );
 
-  const resetFilterValues = (namespace = null,
-      path = null) => {
+  const resetFilterValues = useCallback((namespace = null, path = null) => {
     if (availableFilters) {
       const excludeDefaultFilters = [...defaultFilters.keys()];
 
@@ -83,7 +82,7 @@ const Container = ({ recordType, defaultFilters }) => {
         dispatch(setInitialRecords(path, namespace, initialFilterValues));
       }
     }
-  };
+  });
 
   useEffect(() => {
     resetFilterValues();

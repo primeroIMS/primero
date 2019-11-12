@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useI18n } from "components/i18n";
-import { ActionDialog } from "components/action-dialog";
 import { TextField, Divider } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
+
+import { useI18n } from "../../i18n";
+import { ActionDialog } from "../../action-dialog";
 
 const ViewModal = ({ close, openViewModal, currentRecord }) => {
   const i18n = useI18n();
@@ -136,8 +137,8 @@ const ViewModal = ({ close, openViewModal, currentRecord }) => {
 
 ViewModal.propTypes = {
   close: PropTypes.func,
-  openViewModal: PropTypes.bool,
-  currentRecord: PropTypes.object
+  currentRecord: PropTypes.object,
+  openViewModal: PropTypes.bool
 };
 
 export default ViewModal;
