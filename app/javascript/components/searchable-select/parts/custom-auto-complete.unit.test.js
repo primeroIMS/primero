@@ -1,6 +1,6 @@
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../test";
 import NoSsr from "@material-ui/core/NoSsr";
 import ReactSelect from "react-select";
 import CustomAutoComplete from "./custom-auto-complete";

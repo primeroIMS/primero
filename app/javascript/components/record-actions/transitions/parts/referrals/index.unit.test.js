@@ -1,4 +1,4 @@
-import "test/test.setup";
+
 import { expect } from "chai";
 import * as index from "./index";
 

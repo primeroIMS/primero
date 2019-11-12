@@ -1,15 +1,16 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { Map, List } from "immutable";
 import { ExpansionPanel, Button } from "@material-ui/core";
-import * as Record from "components/user/records";
+
+import { setupMountedComponent } from "../../test";
+import { FilterRecord } from "../user/records";
+
 import FiltersBuilder from "./container";
 
 describe("<Filters /> - Component", () => {
   let component;
   const filtersApi = List([
-    Record.FilterRecord({
+    FilterRecord({
       name: "cases.filter_by.flag",
       field_name: "flagged",
       options: {
@@ -47,11 +48,10 @@ describe("<Filters /> - Component", () => {
   });
 
   it("renders the Action Buttons", () => {
-    expect(component.find(Button)).to.have.length(3);
+    expect(component.find(Button)).to.have.lengthOf(3);
   });
 
   it("renders the ExpansionPanel", () => {
-    expect(component.find(ExpansionPanel)).to.have.length(1);
+    expect(component.find(ExpansionPanel)).to.have.lengthOf(1);
   });
-
 });

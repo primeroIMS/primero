@@ -7,11 +7,11 @@ import TableChartIcon from "@material-ui/icons/TableChart";
 import BarChartIcon from "@material-ui/icons/BarChart";
 import makeStyles from "@material-ui/styles/makeStyles";
 
-import { BarChart as BarChartGraphic, TableValues } from "./../../charts";
-import { getLoading, getErrors } from "./../../index-table/selectors";
-import { LoadingIndicator } from "./../../loading-indicator";
-import { useI18n } from "./../../i18n";
-import { PageContainer, PageContent, PageHeading } from "./../../page";
+import { BarChart as BarChartGraphic, TableValues } from "../../charts";
+import { getLoading, getErrors } from "../../index-table/selectors";
+import { LoadingIndicator } from "../../loading-indicator";
+import { useI18n } from "../../i18n";
+import { PageContainer, PageContent, PageHeading } from "../../page";
 
 import { buildDataForGraph, buildDataForTable } from "./helpers";
 import { getReport } from "./selectors";
@@ -70,6 +70,8 @@ const Report = ({ match }) => {
     </PageContainer>
   );
 };
+
+Report.displayName = "Report";
 
 Report.propTypes = {
   match: PropTypes.object.isRequired

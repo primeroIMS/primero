@@ -1,15 +1,15 @@
-import * as RecordListActions from "../../actions";
+import { SET_FILTERS, ADD_RANGE_BUTTON } from "../../actions";
 
 export const setupRangeButton = (payload, namespace) => {
   return {
-    type: `${namespace}/${RecordListActions.SET_FILTERS}`,
+    type: `${namespace}/${SET_FILTERS}`,
     payload
   };
 };
 
 export const setValue = (payload, namespace) => {
   return {
-    type: `${namespace}/${RecordListActions.ADD_RANGE_BUTTON}`,
+    type: `${namespace}/${ADD_RANGE_BUTTON}`,
     payload
   };
 };

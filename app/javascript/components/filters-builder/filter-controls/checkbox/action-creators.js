@@ -1,8 +1,8 @@
-import * as RecordListActions from "../../actions";
+import { ADD_CHECKBOX, DELETE_CHECKBOX, SET_FILTERS } from "../../actions";
 
 export const setUpCheckBoxes = (payload, namespace) => {
   return {
-    type: `${namespace}/${RecordListActions.SET_FILTERS}`,
+    type: `${namespace}/${SET_FILTERS}`,
     payload
   };
 };
@@ -10,8 +10,8 @@ export const setUpCheckBoxes = (payload, namespace) => {
 export const setCheckBox = (payload, namespace) => {
   return {
     type: payload.included
-      ? `${namespace}/${RecordListActions.DELETE_CHECKBOX}`
-      : `${namespace}/${RecordListActions.ADD_CHECKBOX}`,
+      ? `${namespace}/${DELETE_CHECKBOX}`
+      : `${namespace}/${ADD_CHECKBOX}`,
     payload
   };
 };

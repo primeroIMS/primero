@@ -1,2 +1,2 @@
-export * from "./bar-chart";
-export * from "./table-values";
+export { BarChart } from "./bar-chart";
+export { TableValues } from "./table-values";

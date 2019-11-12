@@ -1,5 +1,5 @@
-import { List, fromJS, OrderedMap, Map } from "immutable";
-import { mapValues, extend } from "lodash";
+import { List, Map, OrderedMap, fromJS } from "immutable";
+import { extend, mapValues } from "lodash";
 
 export const namespaceActions = (namespace, keys) =>
   Object.freeze(
@@ -17,7 +17,9 @@ export const mapEntriesToRecord = (entries, record, ordered) => {
 export const mapObjectPropertiesToRecords = (entries, record) => {
   return Object.keys(entries).reduce((prev, value) => {
     const p = prev;
+
     p[value] = mapEntriesToRecord(entries[value], record);
+
     return p;
   }, {});
 };
@@ -25,7 +27,9 @@ export const mapObjectPropertiesToRecords = (entries, record) => {
 export const mapListToObject = (entries, key, val) => {
   return entries.reduce((prev, value) => {
     const p = prev;
+
     p[value[key]] = value[val];
+
     return p;
   }, {});
 };
@@ -37,7 +41,9 @@ export const listEntriesToRecord = (entries, record) => {
 export const arrayToObject = (data, key = "id") => {
   return data.reduce((obj, item) => {
     const o = obj;
+
     o[item[key]] = item;
+
     return o;
   }, {});
 };
@@ -56,6 +62,7 @@ export const mergeRecord = (record, payload) => {
     if (List.isList(next) && next.some(s => s instanceof Map)) {
       const prevSubforms = prev.reduce(reduceSubformToMap, Map());
       const nextSubforms = next.reduce(reduceSubformToMap, Map());
+
       return [...prevSubforms.mergeWith(mergeSubforms, nextSubforms).values()];
     }
 

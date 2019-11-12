@@ -1,17 +1,14 @@
-import "test/test.setup";
-import { setupMountedComponent } from "test";
 import { expect } from "chai";
+
+import { setupMountedComponent } from "../../../../test";
+
 import NotAuthorized from "./component";
 
 describe("<NotAuthorized />", () => {
   let component;
 
   before(() => {
-    component = setupMountedComponent(
-      NotAuthorized,
-      { },
-      { }
-    ).component;
+    component = setupMountedComponent(NotAuthorized, {}, {}).component;
   });
 
   it("renders h1 tag", () => {

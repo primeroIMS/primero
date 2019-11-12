@@ -10,7 +10,11 @@ import {
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-import { RefreshIcon } from "./../../images/primero-icons";
+import { RefreshIcon } from "../../images/primero-icons";
+import SavedSearchesForm from "../saved-searches/SavedSearchesForm";
+import { useI18n } from "../i18n";
+import { getFilters } from "../index-table";
+
 import {
   CheckBox,
   SelectFilter,
@@ -19,13 +23,9 @@ import {
   Chips,
   DatesRange,
   SwitchButton
-} from "./../filters-builder/filter-controls";
-import SavedSearchesForm from "./../saved-searches/SavedSearchesForm";
-import { getFilters } from "./../index-table";
-import { useI18n } from "./../i18n";
-
+} from "./filter-controls";
 import * as actions from "./action-creators";
-import { NAME } from "./config"
+import { NAME } from "./config";
 import { getFiltersByRecordType } from "./selectors";
 import Panel from "./Panel";
 import styles from "./styles.css";
@@ -114,10 +114,7 @@ const Container = ({
         aria-label={i18n.t("buttons.delete")}
         justifycontent="flex-end"
         size="small"
-        onClick={handleReset(
-          `${filter.field_name}`,
-          `${filter.type}`
-        )}
+        onClick={handleReset(`${filter.field_name}`, `${filter.type}`)}
       >
         <RefreshIcon />
       </IconButton>
@@ -159,19 +156,19 @@ const Container = ({
           {i18n.t("filters.clear_filters")}
         </Button>
       </div>
-      {<SavedSearchesForm {...savedSearchesFormProps} />}
+      <SavedSearchesForm {...savedSearchesFormProps} />
     </div>
   );
 };
 
 Container.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  filters: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  resetPanel: PropTypes.func,
-  resetCurrentPanel: PropTypes.func,
-  recordFilters: PropTypes.object,
   applyFilters: PropTypes.func,
-  defaultFilters: PropTypes.object
+  defaultFilters: PropTypes.object,
+  filters: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  recordFilters: PropTypes.object,
+  recordType: PropTypes.string.isRequired,
+  resetCurrentPanel: PropTypes.func,
+  resetPanel: PropTypes.func
 };
 
 Container.displayName = NAME;

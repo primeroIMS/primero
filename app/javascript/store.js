@@ -1,14 +1,15 @@
 import {
-  routerMiddleware,
-  connectRouter
+  connectRouter,
+  routerMiddleware
 } from "connected-react-router/immutable";
+import { createBrowserHistory } from "history";
 import { Map } from "immutable";
 import { applyMiddleware, compose, createStore } from "redux";
+import { combineReducers } from "redux-immutable";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
-import { restMiddleware, authMiddleware, dbMiddleware } from "middleware";
-import { createBrowserHistory } from "history";
-import { combineReducers } from "redux-immutable";
+
+import { authMiddleware, dbMiddleware, restMiddleware } from "./middleware";
 import rootReducer from "./reducers";
 
 export const history = createBrowserHistory({
@@ -47,5 +48,6 @@ export default () => {
     preloadedState,
     composeEnhancers(applyMiddleware(...middleware))
   );
+
   return store;
 };

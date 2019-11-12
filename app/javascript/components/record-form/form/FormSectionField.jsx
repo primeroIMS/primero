@@ -1,7 +1,10 @@
 import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
-import { useI18n } from "components/i18n";
+
+import { useI18n } from "../../i18n";
+import * as C from "../constants";
+
 import DateField from "./DateField";
 import SelectField from "./SelectField";
 import TextField from "./TextField";
@@ -9,7 +12,6 @@ import TickField from "./TickField";
 import Seperator from "./Seperator";
 import RadioField from "./RadioField";
 import AttachmentField from "./AttachmentField";
-import * as C from "../constants";
 import styles from "./styles.css";
 
 const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
@@ -76,11 +78,11 @@ const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
 };
 
 FormSectionField.propTypes = {
-  name: PropTypes.string.isRequired,
   field: PropTypes.object.isRequired,
   mode: PropTypes.object.isRequired,
-  recordType: PropTypes.string.isRequired,
-  recordID: PropTypes.string
+  name: PropTypes.string.isRequired,
+  recordID: PropTypes.string,
+  recordType: PropTypes.string.isRequired
 };
 
 export default memo(FormSectionField);

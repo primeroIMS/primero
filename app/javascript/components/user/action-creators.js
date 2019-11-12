@@ -1,5 +1,5 @@
-import { loadApplicationResources } from "../application";
 import { DB } from "../../config";
+import { loadApplicationResources } from "../application";
 
 import { Actions } from "./actions";
 

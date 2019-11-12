@@ -1,14 +1,11 @@
-import clone from "lodash/clone";
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import sinon from "sinon";
-import sinonChai from "sinon-chai";
-import * as actionCreators from "./action-creators";
 
-chai.use(sinonChai);
+import * as actionCreators from "./action-creators";
 
 describe("<SwitchButton /> - Action Creators", () => {
   it("should have known action creators", () => {
-    const creators = clone(actionCreators);
+    const creators = { ...actionCreators };
 
     expect(creators).to.have.property("setSwitchButton");
     expect(creators).to.have.property("setSwitchValue");

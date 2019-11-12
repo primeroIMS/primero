@@ -1,5 +1,6 @@
 import { Map } from "immutable";
-import { keyIn } from "libs";
+
+import { keyIn } from "../../libs";
 
 export const getRecords = (state, namespace) => {
   const data = state.getIn(["records", namespace]);

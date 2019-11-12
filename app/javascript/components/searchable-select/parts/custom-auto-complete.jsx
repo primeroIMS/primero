@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { emphasize, makeStyles, useTheme } from "@material-ui/core/styles";
 import ReactSelect from "react-select";
 import NoSsr from "@material-ui/core/NoSsr";
+
 import {
   NoOptionsMessage,
   Control,
@@ -93,6 +94,7 @@ const CustomAutoComplete = ({ props }) => {
       }
     })
   };
+
   return (
     <NoSsr>
       <ReactSelect
@@ -108,9 +110,9 @@ const CustomAutoComplete = ({ props }) => {
 };
 
 CustomAutoComplete.propTypes = {
+  components: PropTypes.object,
   id: PropTypes.string,
-  props: PropTypes.object,
-  components: PropTypes.object
+  props: PropTypes.object
 };
 
 export default CustomAutoComplete;

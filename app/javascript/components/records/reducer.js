@@ -1,5 +1,7 @@
 import { fromJS, Map, List } from "immutable";
+
 import { mergeRecord } from "../../libs";
+
 import * as Actions from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -25,6 +27,7 @@ export const reducers = namespace => (
               if (index !== -1) {
                 return mergeRecord(u.get(index), fromJS(d));
               }
+
               return d;
             })
           );

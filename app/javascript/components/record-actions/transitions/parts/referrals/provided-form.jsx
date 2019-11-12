@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useI18n } from "components/i18n";
 import { Grid, FormControlLabel, Checkbox } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { CasesIcon } from "images/primero-icons";
 import { Field } from "formik";
+
+import { useI18n } from "../../../../i18n";
+import { CasesIcon } from "../../../../../images/primero-icons";
 import styles from "../../styles.css";
 
 const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
@@ -22,6 +23,7 @@ const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
         false
       );
     };
+
     return <Checkbox checked={value} onChange={() => onChange(field, form)} />;
   };
 

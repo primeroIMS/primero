@@ -1,9 +1,7 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as r from "./reducer";
 
-chai.use(chaiImmutable);
+import { rangeButtonReducer } from "./reducer";
 
 describe("<CheckBox /> - Reducers", () => {
   const defaultState = Map({
@@ -15,7 +13,7 @@ describe("<CheckBox /> - Reducers", () => {
       type: "RESET_RANGE_BUTTON",
       payload: "age_range"
     };
-    const newState = r.rangeButtonReducer.RangeButton(defaultState, action);
+    const newState = rangeButtonReducer.RangeButton(defaultState, action);
 
     expect(newState.get("age_range")).to.deep.equal("");
   });

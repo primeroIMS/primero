@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { List, Divider, Box, makeStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { useI18n } from "components/i18n";
 import FlagIcon from "@material-ui/icons/Flag";
+
+import { useI18n } from "../../i18n";
+
 import ListFlagsItem from "./ListFlagsItem";
 import Unflag from "./Unflag";
 import styles from "./styles.css";
@@ -71,10 +73,12 @@ const ListFlags = ({ flags, recordType, record }) => {
   );
 };
 
+ListFlags.displayName = "ListFlags";
+
 ListFlags.propTypes = {
   flags: PropTypes.object,
-  recordType: PropTypes.string.isRequired,
-  record: PropTypes.string
+  record: PropTypes.string,
+  recordType: PropTypes.string.isRequired
 };
 
 export default ListFlags;

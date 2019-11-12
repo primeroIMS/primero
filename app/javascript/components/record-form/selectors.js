@@ -1,6 +1,8 @@
 import isEmpty from "lodash/isEmpty";
 import { fromJS, OrderedMap } from "immutable";
+
 import { denormalizeFormData } from "../../schemas";
+
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
 
@@ -29,6 +31,7 @@ export const getFirstTab = (state, query) => {
 
   if (firstFormSection && firstFormSection.size > 0) {
     const form = firstFormSection.first();
+
     return form;
   }
 
@@ -39,6 +42,7 @@ export const getFormNav = (state, query) => {
   const selectedForms = forms(state, query);
 
   if (!selectedForms) return null;
+
   return selectedForms
     .map(fs =>
       NavRecord({

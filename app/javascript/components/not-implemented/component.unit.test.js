@@ -1,6 +1,7 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+
+import { setupMountedComponent } from "../../test";
+
 import NotImplemented from "./component";
 
 describe("<NotImplemented />", () => {

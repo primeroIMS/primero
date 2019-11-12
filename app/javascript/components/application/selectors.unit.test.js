@@ -1,10 +1,7 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map } from "immutable";
-import chaiImmutable from "chai-immutable";
 
 import * as selectors from "./selectors";
-
-chai.use(chaiImmutable);
 
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
@@ -62,11 +59,13 @@ describe("Application - Selectors", () => {
       ];
 
       const records = selectors.selectAgencies(stateWithRecords);
+
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
       const records = selectors.selectAgencies(stateWithNoRecords);
+
       expect(records).to.be.empty;
     });
   });
@@ -97,11 +96,13 @@ describe("Application - Selectors", () => {
       ];
 
       const records = selectors.selectModules(stateWithRecords);
+
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
       const records = selectors.selectModules(stateWithNoRecords);
+
       expect(records).to.be.empty;
     });
   });
@@ -111,11 +112,13 @@ describe("Application - Selectors", () => {
       const expected = ["en", "fr", "ar"];
 
       const records = selectors.selectLocales(stateWithRecords);
+
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
       const records = selectors.selectLocales(stateWithNoRecords);
+
       expect(records).to.be.empty;
     });
   });
@@ -123,7 +126,8 @@ describe("Application - Selectors", () => {
   describe("selectUserIdle", () => {
     it("should return weither user is idle", () => {
       const selector = selectors.selectUserIdle(stateWithRecords);
-      expect(selector).to.equal(true)
-    })
-  })
+
+      expect(selector).to.equal(true);
+    });
+  });
 });

@@ -1,9 +1,7 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as r from "./reducer";
 
-chai.use(chaiImmutable);
+import { reducers } from "./reducer";
 
 describe("<FiltersBuilder /> - Reducers", () => {
   const namespace = "Cases";
@@ -23,7 +21,7 @@ describe("<FiltersBuilder /> - Reducers", () => {
         namespace
       }
     };
-    const newState = r.reducers(namespace)(defaultState, action);
+    const newState = reducers(namespace)(defaultState, action);
     expect(newState.get(namespace)).to.deep.equal(defaultState.get(namespace));
   });
 
@@ -36,7 +34,7 @@ describe("<FiltersBuilder /> - Reducers", () => {
         namespace
       }
     };
-    const newState = r.reducers(namespace)(defaultState, action);
+    const newState = reducers(namespace)(defaultState, action);
 
     expect(newState.get(namespace)).to.deep.equal([]);
   });
@@ -50,7 +48,7 @@ describe("<FiltersBuilder /> - Reducers", () => {
         namespace
       }
     };
-    const newState = r.reducers(namespace)(defaultState, action);
+    const newState = reducers(namespace)(defaultState, action);
 
     expect(newState.get(namespace)).to.deep.equal([]);
   });

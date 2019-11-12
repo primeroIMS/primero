@@ -1,8 +1,13 @@
-import { attemptSignout, Actions, setAuthenticatedUser } from "components/user";
-import { LOGIN_SUCCESS_CALLBACK } from "components/pages/login";
-import get from "lodash/get";
 import { push } from "connected-react-router";
-import DB from "db";
+import get from "lodash/get";
+
+import { LOGIN_SUCCESS_CALLBACK } from "../components/pages/login";
+import {
+  Actions,
+  attemptSignout,
+  setAuthenticatedUser
+} from "../components/user";
+import DB from "../db";
 
 function redirectTo(store, path) {
   store.dispatch(push(path));

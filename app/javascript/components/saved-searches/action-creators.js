@@ -1,4 +1,5 @@
-import { ENQUEUE_SNACKBAR } from "components/notifier";
+import { ENQUEUE_SNACKBAR } from "../notifier";
+
 import * as Actions from "./actions";
 
 export const fetchSavedSearches = () => async dispatch => {

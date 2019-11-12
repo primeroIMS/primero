@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
-import { RECORD_PATH } from "config";
+import { RECORD_PATH } from "../../config";
 
 import {
   fetchCases,

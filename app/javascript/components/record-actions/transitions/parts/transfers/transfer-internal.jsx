@@ -2,8 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { TextField } from "formik-material-ui";
 import { Field } from "formik";
-import { useI18n } from "components/i18n";
-import { SearchableSelect } from "components/searchable-select";
+
+import { useI18n } from "../../../../i18n";
+import { SearchableSelect } from "../../../../searchable-select";
 
 const TransferInternal = ({ disableControl, fields }) => {
   const i18n = useI18n();

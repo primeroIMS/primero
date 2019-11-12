@@ -1,9 +1,7 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as r from "./reducer";
 
-chai.use(chaiImmutable);
+import { reducers } from "./reducer";
 
 describe("<Filters /> - Reducers", () => {
   const defaultState = Map({
@@ -27,7 +25,7 @@ describe("<Filters /> - Reducers", () => {
       }
     };
 
-    const newState = r.reducers.FilterTabs(defaultState, action);
+    const newState = reducers.FilterTabs(defaultState, action);
 
     expect(newState.getIn(["Cases", "current"])).to.deep.equal(1);
   });

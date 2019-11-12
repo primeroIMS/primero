@@ -1,9 +1,10 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { Map } from "immutable";
-import { AppBar, Tabs, Tab } from "@material-ui/core";
-import { FiltersBuilder } from "components/filters-builder";
+import { Tabs, Tab } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../test";
+import { FiltersBuilder } from "../filters-builder";
+
 import Filters from "./container";
 
 describe("<Filters /> - Component", () => {
@@ -57,14 +58,14 @@ describe("<Filters /> - Component", () => {
   });
 
   it("renders the Tabs", () => {
-    expect(component.find(Tabs)).to.have.length(1);
+    expect(component.find(Tabs)).to.have.lengthOf(1);
   });
 
   it("renders the Tab", () => {
-    expect(component.find(Tab)).to.have.length(2);
+    expect(component.find(Tab)).to.have.lengthOf(2);
   });
 
   it("renders the FiltersBuilder", () => {
-    expect(component.find(FiltersBuilder)).to.have.length(1);
+    expect(component.find(FiltersBuilder)).to.have.lengthOf(1);
   });
 });

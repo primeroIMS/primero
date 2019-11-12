@@ -6,8 +6,8 @@
     "test": "NODE_ENV=test mocha --require @babel/register --require ./.mochaignore --require jsdom-global/register --require ./app/javascript/test/test.setup.js --recursive --exit",
     "test:all": "npm run test './app/javascript/**/*.unit.test.js'",
     "test:inspect": "npm run test -- --inspect-brk=0.0.0.0:9229",
-    "lint": "eslint './app/javascript/**' --ignore-path ./app/javascript/.eslintignore",
-    "lint:test": "eslint './app/javascript/**/*.unit.test.js' -c ./app/javascript/test/.eslintrc.test.js"
+    "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test:all",
+    "lint": "eslint './app/javascript/**' --ignore-path ./app/javascript/.eslintignore"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
@@ -73,6 +73,7 @@
     "nock": "^10.0.6",
     "normalizr": "^3.4.0",
     "notistack": "^0.8.8",
+    "nyc": "^14.1.1",
     "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
@@ -101,6 +102,7 @@
     "require-hacker": "^3.0.1",
     "sinon": "^7.2.4",
     "sinon-chai": "^3.3.0",
+    "timezone-mock": "^1.0.8",
     "webpack": "^4.41.2",
     "webpack-assets-manifest": "^3.1.1",
     "webpack-cli": "^3.3.9",

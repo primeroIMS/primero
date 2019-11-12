@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+
 import {
   FETCH_REPORT_STARTED,
   FETCH_REPORT_SUCCESS,

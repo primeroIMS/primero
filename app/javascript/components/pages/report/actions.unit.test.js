@@ -1,10 +1,10 @@
 import { expect } from "chai";
-import clone from "lodash/clone";
+
 import * as actions from "./actions";
 
 describe("<Reports /> - Actions", () => {
   it("should have known actions", () => {
-    const cloneActions = clone(actions);
+    const cloneActions = { ...actions };
 
     [
       "FETCH_REPORT",

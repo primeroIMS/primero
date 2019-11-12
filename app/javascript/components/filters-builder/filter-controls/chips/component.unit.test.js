@@ -1,8 +1,9 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { Map } from "immutable";
 import { Chip } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../../../test";
+
 import Chips from "./component";
 
 
@@ -69,6 +70,6 @@ describe("<Chips /> - Component", () => {
   });
 
   it("renders the Chip", () => {
-    expect(component.find(Chip)).to.have.length(4);
+    expect(component.find(Chip)).to.have.lengthOf(4);
   });
 });

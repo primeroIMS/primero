@@ -1,10 +1,11 @@
 import React from "react";
-import { useI18n } from "components/i18n";
 import { format } from "date-fns";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 
-const AssignmentsSummary = ({ transition, classes}) => {
+import { useI18n } from "../../i18n";
+
+const AssignmentsSummary = ({ transition, classes }) => {
   const i18n = useI18n();
 
   // TODO: It has to be modified, on summary should print username
@@ -35,8 +36,8 @@ const AssignmentsSummary = ({ transition, classes}) => {
 };
 
 AssignmentsSummary.propTypes = {
-  transition: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  transition: PropTypes.object.isRequired
 };
 
 export default AssignmentsSummary;

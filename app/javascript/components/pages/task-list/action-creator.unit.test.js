@@ -1,4 +1,3 @@
-import clone from "lodash/clone";
 import { expect } from "chai";
 import sinon from "sinon";
 import configureStore from "redux-mock-store";
@@ -7,7 +6,7 @@ import * as actionCreators from "./action-creators";
 
 describe("<TASKS /> - Action Creators", () => {
   it("should have known action creators", () => {
-    const creators = clone(actionCreators);
+    const creators = { ...actionCreators };
 
     expect(creators).to.have.property("fetchTasks");
     delete creators.fetchTasks;
@@ -19,6 +18,7 @@ describe("<TASKS /> - Action Creators", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
-    dispatch.calledWith(actionCreators.fetchTasks());
+    dispatch(actionCreators.fetchTasks());
+
   });
 });

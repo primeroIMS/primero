@@ -1,16 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect, useSelector } from "react-redux";
-import { makeStyles } from "@material-ui/styles";
-import { useI18n } from "components/i18n";
-import { getOption } from "components/record-form/selectors";
-import { isEmpty } from "lodash";
 import Box from "@material-ui/core/Grid";
 import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
-import { AGE_MAX } from "config";
+import { makeStyles } from "@material-ui/styles";
+import isEmpty from "lodash/isEmpty";
+
+import { useI18n } from "../../../i18n";
+import { getOption } from "../../../record-form/selectors";
+import { AGE_MAX } from "../../../../config";
+
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as Selectors from "./selectors";
+import { getRangeButton } from "./selectors";
 
 const RangeButton = ({ recordType, props, value, setValue }) => {
   const i18n = useI18n();
@@ -37,6 +39,7 @@ const RangeButton = ({ recordType, props, value, setValue }) => {
     if (v.includes("+")) {
       return v.replace("+", `..${AGE_MAX}`);
     }
+
     return "";
   };
 
@@ -55,6 +58,7 @@ const RangeButton = ({ recordType, props, value, setValue }) => {
               typeof v.id === "string" &&
               (v.id.includes(" - ") || v.id.includes("+"));
             const rangeValue = isAgeRange ? changeAgeRangesValue(v.id) : v.id;
+
             return (
               <ToggleButton
                 key={`age_${rangeValue}`}
@@ -73,18 +77,20 @@ const RangeButton = ({ recordType, props, value, setValue }) => {
   );
 };
 
+RangeButton.displayName = "RangeButton";
+
 RangeButton.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  props: PropTypes.object.isRequired,
-  options: PropTypes.object,
   field_name: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  option_strings_source: PropTypes.string,
+  options: PropTypes.object,
+  props: PropTypes.object.isRequired,
+  recordType: PropTypes.string.isRequired,
   setValue: PropTypes.func,
-  option_strings_source: PropTypes.string
+  value: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };
 
 const mapStateToProps = (state, obj) => ({
-  value: Selectors.getRangeButton(state, obj.props, obj.recordType)
+  value: getRangeButton(state, obj.props, obj.recordType)
 });
 
 const mapDispatchToProps = {

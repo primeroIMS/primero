@@ -1,5 +1,7 @@
 import { Map, fromJS } from "immutable";
-import { mapObjectPropertiesToRecords, mapListToObject } from "libs";
+
+import { mapObjectPropertiesToRecords, mapListToObject } from "../../libs";
+
 import { Actions } from "./actions";
 import NAMESPACE from "./namespace";
 import * as Record from "./records";

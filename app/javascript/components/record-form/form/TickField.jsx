@@ -41,9 +41,9 @@ const TickField = ({ name, label, formik, ...rest }) => {
 };
 
 TickField.propTypes = {
-  name: PropTypes.string,
+  formik: PropTypes.object,
   label: PropTypes.string,
-  formik: PropTypes.object
+  name: PropTypes.string
 };
 
 export default connect(TickField);

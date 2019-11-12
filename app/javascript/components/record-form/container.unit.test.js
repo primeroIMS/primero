@@ -1,12 +1,12 @@
 /* eslint-disable prefer-destructuring */
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../test";
 import React from "react";
 import { Route } from "react-router-dom";
 import { Map, List } from "immutable";
-import { PageContainer } from "components/page";
-import { LoadingIndicator } from "components/loading-indicator";
+import { PageContainer } from "../page";
+import { LoadingIndicator } from "../loading-indicator";
 import RecordForms from "./container";
 
 describe("<RecordForms /> - Component", () => {
