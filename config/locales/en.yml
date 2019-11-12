@@ -2212,6 +2212,7 @@ en:
     other_user_agency_label: "Other User's Agency"
     consent_label: "records have not provided consent."
     consent_override_label: "Do you wish to override this setting?"
+    is_remote_label: "Are you transferring to a remote system?"
     consent_individual_transfer: "Do you have consent from the individual to make this transfer?"
     type_of_export: "What type of export do you want?"
     notes_label: "Notes"

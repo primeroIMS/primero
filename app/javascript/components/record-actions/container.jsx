@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
+import { RECORD_TYPES } from "../../config";
+
 import { useI18n } from "./../i18n";
 import { getPermissionsByRecord } from "./../user/selectors";
 import { PERMISSION_CONSTANTS, checkPermissions } from "./../../libs/permissions";
@@ -120,6 +122,10 @@ const Container = ({ recordType, iconColor, record, mode }) => {
     (canReopen && openState === "reopen") ||
     (canClose && openState === "close");
 
+  const formRecordType = i18n.t(
+    `forms.record_types.${RECORD_TYPES[recordType]}`
+  );
+
   const actions = [
     {
       name: i18n.t("buttons.import"),
@@ -142,19 +148,19 @@ const Container = ({ recordType, iconColor, record, mode }) => {
       recordType: "all"
     },
     {
-      name: `${i18n.t("buttons.referral")} ${recordType}`,
+      name: `${i18n.t("buttons.referral")} ${formRecordType}`,
       action: () => setTransitionType("referral"),
       recordType,
       condition: canRefer
     },
     {
-      name: `${i18n.t("buttons.reassign")} ${recordType}`,
+      name: `${i18n.t("buttons.reassign")} ${formRecordType}`,
       action: () => setTransitionType("reassign"),
       recordType,
       condition: canAssign
     },
     {
-      name: `${i18n.t("buttons.transfer")} ${recordType}`,
+      name: `${i18n.t("buttons.transfer")} ${formRecordType}`,
       action: () => setTransitionType("transfer"),
       recordType: ["cases", "incidents"],
       condition: canTransfer
