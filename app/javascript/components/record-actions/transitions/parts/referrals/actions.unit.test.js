@@ -29,7 +29,7 @@ describe("<ReferralActions />", () => {
       const referButton = component.find("button[type='submit']");
 
       expect(referButton.text()).to.be.equal("buttons.referral");
-      expect(referButton.props().disabled).to.be.equal(true);
+      expect(referButton.props().disabled).to.be.true;
     });
   });
 
@@ -55,7 +55,7 @@ describe("<ReferralActions />", () => {
       const referButton = component.find("button[type='submit']");
 
       expect(referButton.text()).to.be.equal("buttons.referral");
-      expect(referButton.props().disabled).to.be.equal(false);
+      expect(referButton.props().disabled).to.be.false;
     });
   });
 });

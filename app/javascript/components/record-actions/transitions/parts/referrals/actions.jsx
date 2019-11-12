@@ -4,8 +4,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Box, Button } from "@material-ui/core";
 
 import styles from "../../styles.css";
-import { REFERRAL_ACTIONS_NAME } from "../../constants";
 import { useI18n } from "../../../../i18n";
+
+import { NAME } from "./constants";
 
 const Actions = ({ handleClose, disabled }) => {
   const i18n = useI18n();
@@ -34,7 +35,7 @@ const Actions = ({ handleClose, disabled }) => {
   );
 };
 
-Actions.displayName = REFERRAL_ACTIONS_NAME;
+Actions.displayName = `${NAME}Actions`;
 
 Actions.propTypes = {
   disabled: PropTypes.bool.isRequired,

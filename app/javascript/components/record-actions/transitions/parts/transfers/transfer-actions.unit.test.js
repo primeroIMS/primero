@@ -29,7 +29,7 @@ describe("<TransferActions />", () => {
       const transferButton = component.find("button[type='submit']");
 
       expect(transferButton.text()).to.be.equal("transfer.submit_label");
-      expect(transferButton.props().disabled).to.be.equal(true);
+      expect(transferButton.props().disabled).to.be.true;
     });
   });
 
@@ -55,7 +55,7 @@ describe("<TransferActions />", () => {
       const transferButton = component.find("button[type='submit']");
 
       expect(transferButton.text()).to.be.equal("transfer.submit_label");
-      expect(transferButton.props().disabled).to.be.equal(false);
+      expect(transferButton.props().disabled).to.be.false;
     });
   });
 });

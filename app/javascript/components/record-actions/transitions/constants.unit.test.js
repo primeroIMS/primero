@@ -6,11 +6,15 @@ describe("<Transitions /> - Constants - RecordActions", () => {
   it("should have known constant", () => {
     const constants = { ...transitionsConstants };
 
-    ["TRANSFER_ACTIONS_NAME", "REFERRAL_ACTIONS_NAME"].forEach(property => {
-      expect(constants).to.have.property(property);
-      expect(constants[property]).to.be.a("string");
-      delete constants[property];
-    });
+    expect(constants, "DEPRECATED TRANSFER_ACTIONS_NAME").to.not.have.property(
+      "TRANSFER_ACTIONS_NAME"
+    );
+    expect(constants, "DEPRECATED REFERRAL_ACTIONS_NAME").to.not.have.property(
+      "REFERRAL_ACTIONS_NAME"
+    );
+    expect(constants).to.have.property("NAME");
+
+    delete constants.NAME;
 
     expect(constants).to.be.empty;
   });

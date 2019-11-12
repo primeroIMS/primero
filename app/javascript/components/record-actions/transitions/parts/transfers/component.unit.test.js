@@ -12,6 +12,7 @@ import { setupMountedComponent } from "../../../../../test";
 import { MODULES } from "../../../../../config";
 import { SearchableSelect } from "../../../../searchable-select";
 
+import TransferActions from "./transfer-actions";
 import TransferForm from "./component";
 
 describe("<TransferForm />", () => {
@@ -97,5 +98,20 @@ describe("<TransferForm />", () => {
     delete componentProps.recordType;
 
     expect(componentProps).to.deep.equal({});
+  });
+
+  it("renders TransferActions with two props", () => {
+    const transferActions = component.find(TransferActions);
+    const transferActionsProps = transferActions.props();
+
+    expect(transferActions).to.have.lengthOf(1);
+    expect(transferActionsProps).to.have.property("closeModal");
+    expect(transferActionsProps.closeModal).to.be.a("function");
+    expect(transferActionsProps).to.have.property("disabled");
+    expect(transferActionsProps.disabled).to.be.a("boolean");
+    delete transferActionsProps.closeModal;
+    delete transferActionsProps.disabled;
+
+    expect(transferActionsProps).to.be.empty;
   });
 });

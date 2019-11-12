@@ -4,8 +4,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Box, Button } from "@material-ui/core";
 
 import styles from "../../styles.css";
-import { TRANSFER_ACTIONS_NAME } from "../../constants";
 import { useI18n } from "../../../../i18n";
+
+import { NAME } from "./constants";
 
 const TransferActions = ({ closeModal, disabled }) => {
   const i18n = useI18n();
@@ -34,7 +35,7 @@ const TransferActions = ({ closeModal, disabled }) => {
   );
 };
 
-TransferActions.displayName = TRANSFER_ACTIONS_NAME;
+TransferActions.displayName = `${NAME}TransferActions`;
 
 TransferActions.propTypes = {
   closeModal: PropTypes.func.isRequired,
