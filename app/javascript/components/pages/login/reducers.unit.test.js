@@ -1,9 +1,7 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as r from "./reducers";
 
-chai.use(chaiImmutable);
+import { reducers } from "./reducers";
 
 describe("<Login /> - Reducers", () => {
 
@@ -26,7 +24,7 @@ describe("<Login /> - Reducers", () => {
         error: null
       }
     };
-    const newState = r.reducers.user(default_state, action);
+    const newState = reducers.user(default_state, action);
     expect(newState).to.deep.equal(expected);
   });
 
@@ -43,7 +41,7 @@ describe("<Login /> - Reducers", () => {
         error: "Invalid User name or password."
       }
     };
-    const newState = r.reducers.user(default_state, action);
+    const newState = reducers.user(default_state, action);
     expect(newState).to.deep.equal(expected);
   });
 });

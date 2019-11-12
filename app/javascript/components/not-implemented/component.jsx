@@ -9,6 +9,8 @@ const NotImplemented = ({ text }) => {
   );
 };
 
+NotImplemented.displayName = "NotImplemented";
+
 NotImplemented.propTypes = {
   text: PropTypes.string
 };

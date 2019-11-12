@@ -1,6 +1,6 @@
-import "test/test.setup";
+
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
+import { setupMountedComponent } from "../../../../../test";
 import { Field } from "formik";
 import { Grid, FormControlLabel, Checkbox } from "@material-ui/core";
 import ProvidedForm from "./provided-form";

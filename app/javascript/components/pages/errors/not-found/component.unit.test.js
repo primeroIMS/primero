@@ -1,17 +1,14 @@
-import "test/test.setup";
-import { setupMountedComponent } from "test";
 import { expect } from "chai";
+
+import { setupMountedComponent } from "../../../../test";
+
 import NotFound from "./component";
 
 describe("<NotFound />", () => {
   let component;
 
   before(() => {
-    component = setupMountedComponent(
-      NotFound,
-      { },
-      { }
-    ).component;
+    component = setupMountedComponent(NotFound, {}, {}).component;
   });
 
   it("renders h1 tag", () => {

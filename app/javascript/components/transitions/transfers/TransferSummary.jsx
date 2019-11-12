@@ -1,8 +1,9 @@
 import React from "react";
-import { useI18n } from "components/i18n";
 import { format } from "date-fns";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
+
+import { useI18n } from "../../i18n";
 import TransitionStatus from "../TransitionStatus";
 
 const TransferSummary = ({ transition, classes }) => {
@@ -12,6 +13,7 @@ const TransferSummary = ({ transition, classes }) => {
       <TransitionStatus status={transition.status} />
     </Grid>
   ) : null;
+
   return (
     <Grid container spacing={2}>
       <Grid item md={10} xs={10}>
@@ -32,8 +34,8 @@ const TransferSummary = ({ transition, classes }) => {
 };
 
 TransferSummary.propTypes = {
-  transition: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  transition: PropTypes.object.isRequired
 };
 
 export default TransferSummary;

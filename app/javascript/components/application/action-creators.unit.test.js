@@ -1,15 +1,12 @@
-import clone from "lodash/clone";
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import sinon from "sinon";
-import sinonChai from "sinon-chai";
 import configureStore from "redux-mock-store";
-import * as actionCreators from "./action-creators";
 
-chai.use(sinonChai);
+import * as actionCreators from "./action-creators";
 
 describe("Application - Action Creators", () => {
   it("should have known action creators", () => {
-    const creators = clone(actionCreators);
+    const creators = { ...actionCreators };
 
     expect(creators).to.have.property("fetchSystemSettings");
     expect(creators).to.have.property("loadApplicationResources");
@@ -35,7 +32,7 @@ describe("Application - Action Creators", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
-    actionCreators.fetchSystemSettings()(dispatch);
+    dispatch(actionCreators.fetchSystemSettings());
 
     expect(dispatch.getCall(0).returnValue.type).to.eql(
       "application/FETCH_SYSTEM_SETTINGS"

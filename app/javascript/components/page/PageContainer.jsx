@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
+
 import styles from "./styles.css";
 
 const PageContainer = ({ children, twoCol }) => {
@@ -16,6 +17,8 @@ const PageContainer = ({ children, twoCol }) => {
     </div>
   );
 };
+
+PageContainer.displayName = "PageContainer";
 
 PageContainer.propTypes = {
   children: PropTypes.node.isRequired,

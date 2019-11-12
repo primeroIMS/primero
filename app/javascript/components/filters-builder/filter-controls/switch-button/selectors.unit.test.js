@@ -1,9 +1,7 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map, List } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as selectors from "./selectors";
 
-chai.use(chaiImmutable);
+import { selectSwitchButtons } from "./selectors";
 
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
@@ -20,7 +18,7 @@ describe("<SwitchButton /> - Selectors", () => {
   describe("selectSwitchButtons", () => {
     it("should return records", () => {
       const expected = ["my_cases", "referred_cases"];
-      const records = selectors.selectSwitchButtons(
+      const records = selectSwitchButtons(
         stateWithRecords,
         { field_name: "my_cases" },
         "Cases"
@@ -30,7 +28,7 @@ describe("<SwitchButton /> - Selectors", () => {
 
     it("should return empty object when records empty", () => {
       const expected = List([]);
-      const records = selectors.selectSwitchButtons(
+      const records = selectSwitchButtons(
         stateWithNoRecords,
         { field_name: "my_cases" },
         "Cases"

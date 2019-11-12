@@ -1,7 +1,8 @@
 /* eslint-disable class-methods-use-this, no-await-in-loop */
-import { openDB } from "idb";
-import { DATABASE_NAME, DB as DBCollections } from "config";
 import merge from "deepmerge";
+import { openDB } from "idb";
+
+import { DATABASE_NAME, DB as DBCollections } from "../config";
 
 class DB {
   constructor() {
@@ -40,6 +41,7 @@ class DB {
     return this.asyncForEach(Object.keys(DBCollections), async collection => {
       const store = DBCollections[collection];
       const tx = (await this._db).transaction(store, "readwrite");
+
       await tx.objectStore(store).clear();
     });
   }
@@ -110,6 +112,7 @@ class DB {
 }
 
 const instance = new DB();
+
 Object.freeze(instance);
 
 export default instance;

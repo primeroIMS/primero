@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Dialog,
   Button,
+  Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
@@ -98,17 +98,17 @@ const ActionDialog = ({
 ActionDialog.displayName = "ActionDialog";
 
 ActionDialog.propTypes = {
-  open: PropTypes.bool,
-  successHandler: PropTypes.func,
   cancelHandler: PropTypes.func,
-  dialogTitle: PropTypes.string,
-  dialogText: PropTypes.string,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]),
   confirmButtonLabel: PropTypes.string,
-  onClose: PropTypes.func
+  dialogText: PropTypes.string,
+  dialogTitle: PropTypes.string,
+  onClose: PropTypes.func,
+  open: PropTypes.bool,
+  successHandler: PropTypes.func
 };
 
 export default ActionDialog;

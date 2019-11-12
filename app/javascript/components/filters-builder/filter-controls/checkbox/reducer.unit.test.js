@@ -1,9 +1,8 @@
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map, List } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as r from "./reducer";
 
-chai.use(chaiImmutable);
+import { checkboxReducer } from "./reducer";
+
  
 describe("<CheckBox /> - Reducers", () => {
   const defaultState = Map({
@@ -15,7 +14,7 @@ describe("<CheckBox /> - Reducers", () => {
       type: "RESET_CHECKBOX",
       payload: "my_cases"
     };
-    const newState = r.checkboxReducer.CheckBox(defaultState, action);
+    const newState = checkboxReducer.CheckBox(defaultState, action);
 
     expect(newState.get("my_cases")).to.deep.equal(List([]));
   });

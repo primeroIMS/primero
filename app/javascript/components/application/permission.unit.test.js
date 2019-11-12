@@ -2,8 +2,8 @@ import React from "react";
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "./../../test";
-import { PERMISSION_CONSTANTS } from "./../../libs/permissions";
+import { setupMountedComponent } from "../../test";
+import { PERMISSION_CONSTANTS } from "../../libs/permissions";
 
 import Permission from "./permission";
 
@@ -45,6 +45,7 @@ describe("<Permission />", () => {
 
   describe("When User doesn't have permission", () => {
     const permission = "write";
+
     beforeEach(() => {
       ({ component } = setupMountedComponent(
         Permission,

@@ -3,11 +3,11 @@ import { makeStyles } from "@material-ui/styles/";
 import { fromJS } from "immutable";
 import { useSelector } from "react-redux";
 
-import { useI18n } from "./../../i18n";
-import { TasksOverdue, TasksPending } from "./../../../images/primero-icons";
-import IndexTable from "./../../index-table";
-import { PageContainer, PageHeading, PageContent } from "./../../page";
-import { DashboardChip } from "./../../dashboard";
+import { useI18n } from "../../i18n";
+import { TasksOverdue, TasksPending } from "../../../images/primero-icons";
+import IndexTable from "../../index-table";
+import { PageContainer, PageHeading, PageContent } from "../../page";
+import { DashboardChip } from "../../dashboard";
 
 import { selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
@@ -58,6 +58,7 @@ const TaskList = () => {
             : {})
         }
       };
+
       return {
         name: c.field_name,
         label: i18n.t(`task.${c.name}`),
@@ -91,5 +92,7 @@ const TaskList = () => {
     </PageContainer>
   );
 };
+
+TaskList.displayName = "TaskList";
 
 export default TaskList;

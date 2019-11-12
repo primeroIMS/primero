@@ -1,8 +1,9 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { Map } from "immutable";
 import { FormGroup, FormControlLabel } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../../../test";
+
 import CheckBox from "./component";
 
 describe("<CheckBox /> - Component", () => {
@@ -44,10 +45,10 @@ describe("<CheckBox /> - Component", () => {
   });
 
   it("renders the FormGroup", () => {
-    expect(component.find(FormGroup)).to.have.length(1);
+    expect(component.find(FormGroup)).to.have.lengthOf(1);
   });
 
   it("renders the FormControlLabel", () => {
-    expect(component.find(FormControlLabel)).to.have.length(1);
+    expect(component.find(FormControlLabel)).to.have.lengthOf(1);
   });
 });

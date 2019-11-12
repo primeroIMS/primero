@@ -1,6 +1,7 @@
-import { DB } from "config";
-import { Actions } from "./actions";
+import { DB } from "../../config";
 import { loadApplicationResources } from "../application";
+
+import { Actions } from "./actions";
 
 export const setUser = payload => {
   return {

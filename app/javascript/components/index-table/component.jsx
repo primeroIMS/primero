@@ -1,21 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
-import { dataToJS } from "./../../libs";
-import { getPermissionsByRecord } from "./../user/selectors";
-import { LoadingIndicator } from "./../loading-indicator";
+import { dataToJS } from "../../libs";
+import { LoadingIndicator } from "../loading-indicator";
 
 import { NAME } from "./config";
-import {
-  getRecords,
-  getLoading,
-  getErrors,
-  getFilters
-} from "./selectors";
+import { getRecords, getLoading, getErrors, getFilters } from "./selectors";
 
 const Component = ({
   columns,
@@ -43,7 +37,6 @@ const Component = ({
     typeof columns === "function" ? columns(data) : columns;
 
   useEffect(() => {
-
     dispatch(
       onTableChange({
         recordType,
@@ -70,10 +63,9 @@ const Component = ({
 
     options.per = rowsPerPage;
 
-    const selectedFilters = Object.assign(
-      {},
-      options,
-      (() => {
+    const selectedFilters = {
+      ...options,
+      ...(() => {
         switch (action) {
           case "sort":
             if (typeof sortOrder === "undefined") {
@@ -94,43 +86,41 @@ const Component = ({
             break;
         }
       })()
-    );
+    };
 
     if (validActions.includes(action)) {
       dispatch(onTableChange({ recordType, options: selectedFilters }));
     }
   };
 
-  const options = Object.assign(
-    {
-      responsive: "stacked",
-      count: total,
-      rowsPerPage: per,
-      rowHover: true,
-      filterType: "checkbox",
-      fixedHeader: false,
-      elevation: 3,
-      filter: false,
-      download: false,
-      search: false,
-      print: false,
-      viewColumns: false,
-      serverSide: true,
-      customToolbar: () => null,
-      customToolbarSelect: () => null,
-      onTableChange: handleTableChange,
-      rowsPerPageOptions: [20, 50, 75, 100],
-      page: page - 1,
-      onRowClick: (rowData, rowMeta) => {
-        if (onRowClick) {
-          onRowClick(records.get(rowMeta.dataIndex));
-        } else {
-          dispatch(push(`${url}/${records.getIn([rowMeta.dataIndex, "id"])}`));
-        }
+  const options = {
+    responsive: "stacked",
+    count: total,
+    rowsPerPage: per,
+    rowHover: true,
+    filterType: "checkbox",
+    fixedHeader: false,
+    elevation: 3,
+    filter: false,
+    download: false,
+    search: false,
+    print: false,
+    viewColumns: false,
+    serverSide: true,
+    customToolbar: () => null,
+    customToolbarSelect: () => null,
+    onTableChange: handleTableChange,
+    rowsPerPageOptions: [20, 50, 75, 100],
+    page: page - 1,
+    onRowClick: (rowData, rowMeta) => {
+      if (onRowClick) {
+        onRowClick(records.get(rowMeta.dataIndex));
+      } else {
+        dispatch(push(`${url}/${records.getIn([rowMeta.dataIndex, "id"])}`));
       }
     },
-    tableOptionsProps
-  );
+    ...tableOptionsProps
+  };
 
   const tableOptions = {
     columns: componentColumns,
@@ -158,13 +148,13 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.propTypes = {
-  onTableChange: PropTypes.func.isRequired,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   defaultFilters: PropTypes.object,
-  recordType: PropTypes.string.isRequired,
+  onRowClick: PropTypes.func,
+  onTableChange: PropTypes.func.isRequired,
   options: PropTypes.object,
-  targetRecordType: PropTypes.string,
-  onRowClick: PropTypes.func
+  recordType: PropTypes.string.isRequired,
+  targetRecordType: PropTypes.string
 };
 
 export default Component;

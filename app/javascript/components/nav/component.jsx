@@ -6,21 +6,28 @@ import {
   ListItemIcon,
   useMediaQuery
 } from "@material-ui/core";
-import { AgencyLogo } from "components/agency-logo";
 import React, { useEffect, useCallback } from "react";
-import { ModuleLogo } from "components/module-logo";
 import { NavLink } from "react-router-dom";
-import { useI18n } from "components/i18n";
-import { useThemeHelper } from "libs";
 import { useDispatch, useSelector } from "react-redux";
-import { MobileToolbar } from "components/mobile-toolbar";
-import { ListIcon } from "components/list-icon";
-import { Jewel } from "components/jewel";
-import { useApp } from "components/application";
+
+import { AgencyLogo } from "../agency-logo";
+import { ModuleLogo } from "../module-logo";
+import { useI18n } from "../i18n";
+import { useThemeHelper } from "../../libs";
+import { MobileToolbar } from "../mobile-toolbar";
+import { useApp } from "../application";
+import { ListIcon } from "../list-icon";
+import { Jewel } from "../jewel";
 import { TranslationsToggle } from "../translations-toggle";
+
+import { NAME } from "./constants";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as Selectors from "./selectors";
+import {
+  selectDrawerOpen,
+  selectUsername,
+  selectUserAgency
+} from "./selectors";
 
 const Nav = () => {
   const { css, theme } = useThemeHelper(styles);
@@ -36,9 +43,9 @@ const Nav = () => {
   const module = userModules.first();
 
   // TODO: Username should come from redux once user built.
-  const username = useSelector(state => Selectors.selectUsername(state));
-  const agency = useSelector(state => Selectors.selectUserAgency(state));
-  const drawerOpen = useSelector(state => Selectors.selectDrawerOpen(state));
+  const username = useSelector(state => selectUsername(state));
+  const agency = useSelector(state => selectUserAgency(state));
+  const drawerOpen = useSelector(state => selectDrawerOpen(state));
   const nav = [
     { name: i18n.t("navigation.home"), to: "/dashboard", icon: "home" },
     {
@@ -151,5 +158,7 @@ const Nav = () => {
     </>
   );
 };
+
+Nav.displayName = NAME;
 
 export default Nav;

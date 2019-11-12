@@ -1,5 +1,7 @@
 import { Map } from "immutable";
-import { listEntriesToRecord } from "libs";
+
+import { listEntriesToRecord } from "../../libs";
+
 import * as Actions from "./actions";
 import * as R from "./records";
 

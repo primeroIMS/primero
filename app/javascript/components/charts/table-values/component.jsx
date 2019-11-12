@@ -1,5 +1,4 @@
 import React from "react";
-import { isArray } from "lodash";
 import PropTypes from "prop-types";
 import {
   Paper,
@@ -10,6 +9,7 @@ import {
   TableRow
 } from "@material-ui/core";
 import makeStyles from "@material-ui/styles/makeStyles";
+
 import styles from "./styles.css";
 
 const TableValues = ({ columns, values }) => {
@@ -28,9 +28,10 @@ const TableValues = ({ columns, values }) => {
   );
 
   const rowRender = rowValues => {
-    if (isArray(rowValues[0])) {
+    if (Array.isArray(rowValues[0])) {
       return rowValues.map(row => rowRender(row));
     }
+
     return singleRowRender(rowValues);
   };
 
@@ -49,6 +50,8 @@ const TableValues = ({ columns, values }) => {
     </Paper>
   );
 };
+
+TableValues.displayName = "TableValues";
 
 TableValues.propTypes = {
   columns: PropTypes.array,

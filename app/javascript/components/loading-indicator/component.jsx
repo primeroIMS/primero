@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { CircularProgress, Fade, withStyles, Button } from "@material-ui/core";
-import { ListIcon } from "components/list-icon";
-import { withI18n } from "components/i18n";
+
+import { ListIcon } from "../list-icon";
+import { withI18n } from "../i18n";
+
 import styles from "./styles.css";
 
 const Loading = ({ loadingIndicator, loading, classes }) =>
@@ -22,8 +24,8 @@ const Loading = ({ loadingIndicator, loading, classes }) =>
 
 Loading.propTypes = {
   classes: PropTypes.string.isRequired,
-  loadingIndicator: PropTypes.node,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  loadingIndicator: PropTypes.node
 };
 
 class LoadingIndicator extends React.Component {
@@ -116,20 +118,22 @@ class LoadingIndicator extends React.Component {
   }
 }
 
+LoadingIndicator.displayName = "LoadingIndicator";
+
 LoadingIndicator.propTypes = {
-  i18n: PropTypes.object.isRequired,
-  loading: PropTypes.bool,
-  errors: PropTypes.bool,
-  errorIndicator: PropTypes.node,
-  errorMessage: PropTypes.string,
-  loadingIndicator: PropTypes.node,
+  children: PropTypes.node.isRequired,
   classes: PropTypes.object,
   emptyIndicator: PropTypes.node,
   emptyMessage: PropTypes.string,
-  children: PropTypes.node.isRequired,
+  errorIndicator: PropTypes.node,
+  errorMessage: PropTypes.string,
+  errors: PropTypes.bool,
   hasData: PropTypes.bool.isRequired,
-  type: PropTypes.string.isRequired,
-  overlay: PropTypes.bool
+  i18n: PropTypes.object.isRequired,
+  loading: PropTypes.bool,
+  loadingIndicator: PropTypes.node,
+  overlay: PropTypes.bool,
+  type: PropTypes.string.isRequired
 };
 
 export default withI18n(withStyles(styles)(LoadingIndicator));

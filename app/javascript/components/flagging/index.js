@@ -1,2 +1,2 @@
 export { default as Flagging } from "./component";
-export * from "./reducers";
+export { reducers } from "./reducers";

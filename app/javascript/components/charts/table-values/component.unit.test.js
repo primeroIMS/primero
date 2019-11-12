@@ -2,8 +2,8 @@ import { expect } from "chai";
 import { fromJS } from "immutable";
 import { TableRow } from "@material-ui/core";
 
-import { buildDataForTable } from "./../../pages/report/helpers";
-import { setupMountedThemeComponent } from "./../../../test";
+import { buildDataForTable } from "../../pages/report/helpers";
+import { setupMountedThemeComponent } from "../../../test";
 
 import TableValues from "./component";
 
@@ -60,6 +60,6 @@ describe("<TableValues />", () => {
       ...buildDataForTable(data, { t: () => "Total" })
     });
 
-    expect(component.find(TableRow).length).to.equal(6);
+    expect(component.find(TableRow)).to.have.lengthOf(6);
   });
 });

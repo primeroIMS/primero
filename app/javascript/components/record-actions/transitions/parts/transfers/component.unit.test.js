@@ -1,6 +1,4 @@
-import "test/test.setup";
 import { expect } from "chai";
-import { setupMountedComponent } from "test";
 import { Map, List } from "immutable";
 import {
   FormControlLabel,
@@ -9,8 +7,11 @@ import {
   Button
 } from "@material-ui/core";
 import clone from "lodash/clone";
-import { MODULES } from "config";
-import { SearchableSelect } from "components/searchable-select";
+
+import { setupMountedComponent } from "../../../../../test";
+import { MODULES } from "../../../../../config";
+import { SearchableSelect } from "../../../../searchable-select";
+
 import TransferForm from "./component";
 
 describe("<TransferForm />", () => {
@@ -47,6 +48,7 @@ describe("<TransferForm />", () => {
     record,
     recordType: "cases"
   };
+
   beforeEach(() => {
     ({ component } = setupMountedComponent(TransferForm, props, defaultState));
   });
@@ -78,6 +80,7 @@ describe("<TransferForm />", () => {
         .first()
         .props()
     );
+
     expect(componentProps).to.have.property("providedConsent");
     expect(componentProps).to.have.property("isBulkTransfer");
     expect(componentProps).to.have.property("userPermissions");

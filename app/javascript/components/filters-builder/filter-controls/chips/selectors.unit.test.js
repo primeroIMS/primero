@@ -1,10 +1,7 @@
-
-import chai, { expect } from "chai";
+import { expect } from "chai";
 import { Map } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as selectors from "./selectors";
 
-chai.use(chaiImmutable);
+import { getChips } from "./selectors";
 
 const stateWithNoRecords = Map({
   records: Map({
@@ -29,7 +26,7 @@ describe("<Chips /> - Selectors", () => {
   describe("getChips", () => {
     it("should return records", () => {
       const expected = ["low", "high"];
-      const records = selectors.getChips(
+      const records = getChips(
         stateWithRecords,
         { field_name: "risk_level" },
         "Cases"
@@ -39,7 +36,7 @@ describe("<Chips /> - Selectors", () => {
 
     it("should return empty object when records empty", () => {
       const expected = [];
-      const records = selectors.getChips(
+      const records = getChips(
         stateWithNoRecords,
         { field_name: "risk_level" },
         "Cases"

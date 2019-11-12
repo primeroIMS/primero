@@ -4,11 +4,13 @@ import { makeStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import { Box } from "@material-ui/core";
 import { DatePicker } from "@material-ui/pickers";
-import { useI18n } from "components/i18n";
-import { SelectFilter } from "components/filters-builder/filter-controls/select";
+
+import { useI18n } from "../../../i18n";
+import { SelectFilter } from "../select";
+
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as selectors from "./selectors";
+import { getFromDate, getToDate } from "./selectors";
 
 const DatesRange = ({ recordType, props, fromDate, toDate, setDate }) => {
   const css = makeStyles(styles)();
@@ -44,19 +46,21 @@ const DatesRange = ({ recordType, props, fromDate, toDate, setDate }) => {
   );
 };
 
+DatesRange.displayName = "DateRange";
+
 DatesRange.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  props: PropTypes.object,
-  options: PropTypes.object,
   field_name: PropTypes.string,
   fromDate: PropTypes.instanceOf(Date),
-  toDate: PropTypes.instanceOf(Date),
-  setDate: PropTypes.func
+  options: PropTypes.object,
+  props: PropTypes.object,
+  recordType: PropTypes.string.isRequired,
+  setDate: PropTypes.func,
+  toDate: PropTypes.instanceOf(Date)
 };
 
 const mapStateToProps = (state, obj) => ({
-  fromDate: selectors.getFromDate(state, obj.props, obj.recordType),
-  toDate: selectors.getToDate(state, obj.props, obj.recordType)
+  fromDate: getFromDate(state, obj.props, obj.recordType),
+  toDate: getToDate(state, obj.props, obj.recordType)
 });
 
 const mapDispatchToProps = {

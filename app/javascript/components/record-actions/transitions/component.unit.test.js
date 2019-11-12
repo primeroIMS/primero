@@ -12,7 +12,7 @@ import {
 import mockUsers from "./mocked-users";
 import Transitions from "./component";
 
-import { MODULES } from "config";
+import { MODULES } from "../../../config";
 
 describe("<Transitions />", () => {
   let component;

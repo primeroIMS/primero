@@ -1,20 +1,20 @@
-import { DB } from "config";
 import { batch } from "react-redux";
-import { fetchForms, fetchOptions } from "components/record-form";
-import Actions from "./actions";
 
-export const fetchSystemSettings = () => async dispatch => {
-  dispatch({
-    type: Actions.FETCH_SYSTEM_SETTINGS,
-    api: {
-      path: "system_settings",
-      params: { extended: true },
-      db: {
-        collection: DB.SYSTEM_SETTINGS
-      }
+import { DB } from "../../config";
+import { fetchForms, fetchOptions } from "../record-form";
+
+import actions from "./actions";
+
+export const fetchSystemSettings = () => ({
+  type: actions.FETCH_SYSTEM_SETTINGS,
+  api: {
+    path: "system_settings",
+    params: { extended: true },
+    db: {
+      collection: DB.SYSTEM_SETTINGS
     }
-  });
-};
+  }
+});
 
 export const loadApplicationResources = () => async dispatch => {
   batch(() => {
@@ -24,16 +24,12 @@ export const loadApplicationResources = () => async dispatch => {
   });
 };
 
-export const setUserIdle = payload => {
-  return {
-    type: Actions.SET_USER_IDLE,
-    payload
-  };
-};
+export const setUserIdle = payload => ({
+  type: actions.SET_USER_IDLE,
+  payload
+});
 
-export const setNetworkStatus = payload => {
-  return {
-    type: Actions.NETWORK_STATUS,
-    payload
-  };
-};
+export const setNetworkStatus = payload => ({
+  type: actions.NETWORK_STATUS,
+  payload
+});

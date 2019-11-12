@@ -1,6 +1,6 @@
 import chai, { expect } from "chai";
 import { fromJS } from "immutable";
-import { mapEntriesToRecord } from "libs";
+import { mapEntriesToRecord } from "../../libs";
 import chaiImmutable from "chai-immutable";
 
 import { SavedSearchesRecord } from "./records";

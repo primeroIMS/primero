@@ -10,14 +10,15 @@ const FilterContainer = ({ children, mobileDisplay, drawer, handleDrawer }) => {
       </Drawer>
     );
   }
+
   return <Box mx={2}>{children}</Box>;
 };
 
 FilterContainer.propTypes = {
   children: PropTypes.node.isRequired,
-  mobileDisplay: PropTypes.bool.isRequired,
   drawer: PropTypes.bool.isRequired,
-  handleDrawer: PropTypes.func.isRequired
+  handleDrawer: PropTypes.func.isRequired,
+  mobileDisplay: PropTypes.bool.isRequired
 };
 
 export default FilterContainer;

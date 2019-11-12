@@ -1,5 +1,7 @@
 import { OrderedMap, Map, fromJS } from "immutable";
-import { mapEntriesToRecord } from "libs";
+
+import { mapEntriesToRecord } from "../../libs";
+
 import NAMESPACE from "./namespace";
 import Actions from "./actions";
 import * as R from "./records";
@@ -26,6 +28,7 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
             mapEntriesToRecord(payload.formSections, R.FormSectionRecord, true)
           );
       }
+
       return state;
     case Actions.RECORD_FORMS_FAILURE:
       return state.set("errors", true);
