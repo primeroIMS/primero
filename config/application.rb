@@ -76,8 +76,7 @@ module Primero
       ['Bahasa', LOCALE_INDONESIAN],
       ['ဗမာစာ', LOCALE_BURMESE],
       ['ไทย', LOCALE_THAI],
-      #TODO: confirm the correct description
-      ['العربية (Jordan)', LOCALE_JORDAN],
+      ['العربية (الأردنية)', LOCALE_JORDAN],
       ['کوردی', LOCALE_KURDISH]
     ]
     RTL_LOCALES = [
