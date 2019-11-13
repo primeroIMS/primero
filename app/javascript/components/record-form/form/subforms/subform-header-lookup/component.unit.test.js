@@ -1,9 +1,9 @@
 import { expect } from "chai";
 import { Map, List } from "immutable";
 
-import { setupMountedComponent } from "../../../../test";
+import { setupMountedComponent } from "../../../../../test";
 
-import SubformLookupHeader from "./subform-header-lookup";
+import SubformLookupHeader from ".";
 
 describe("<SubformLookupHeader /> - Form - Subforms", () => {
   // TODO: initialState should only use fromJS() until options of forms have
