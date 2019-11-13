@@ -31,7 +31,6 @@ describe("<TransferSummary />", () => {
   });
 
   it("renders divs with it correponds class", () => {
-
     expect(component.find("div.wrapperStyle")).to.have.lengthOf(1);
     expect(component.find("div.titleHeaderStyle")).to.have.lengthOf(1);
     expect(component.find("div.dateStyle")).to.have.lengthOf(1);

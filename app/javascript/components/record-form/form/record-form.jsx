@@ -186,7 +186,7 @@ const RecordForm = ({
                     cancelHandler={onCancel}
                     dialogTitle={i18n.t("record_panel.record_information")}
                     dialogText={i18n.t("messages.confirmation_message")}
-                    confirmButtonLabel={i18n.t("yes_label")}
+                    confirmButtonLabel={i18n.t("buttons.ok")}
                   />
                 )}
               </NavigationPrompt>

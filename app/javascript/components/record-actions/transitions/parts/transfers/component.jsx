@@ -209,7 +209,7 @@ const TransferForm = ({
             fields={internalFields}
             disableControl={disableControl}
           />
-          <TransferActions closeModal={closeModal} />
+          <TransferActions closeModal={closeModal} disabled={disableControl} />
         </Box>
       </Form>
     );

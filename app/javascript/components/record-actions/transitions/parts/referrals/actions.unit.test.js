@@ -3,18 +3,18 @@ import { Box, Button } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../../test";
 
-import TransferActions from "./transfer-actions";
+import ReferralActions from "./actions";
 
-describe("<TransferActions />", () => {
+describe("<ReferralActions />", () => {
   let component;
   const props = {
-    closeModal: () => {},
+    handleClose: () => {},
     disabled: true
   };
 
   describe("when disabled property is true", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(TransferActions, props));
+      ({ component } = setupMountedComponent(ReferralActions, props));
     });
 
     it("renders Box", () => {
@@ -25,11 +25,11 @@ describe("<TransferActions />", () => {
       expect(component.find(Button)).to.have.lengthOf(2);
     });
 
-    it("renders transfer button disabled with its corresponding class", () => {
-      const transferButton = component.find("button[type='submit']");
+    it("renders Refer button disabled with its corresponding class", () => {
+      const referButton = component.find("button[type='submit']");
 
-      expect(transferButton.text()).to.be.equal("transfer.submit_label");
-      expect(transferButton.props().disabled).to.be.true;
+      expect(referButton.text()).to.be.equal("buttons.referral");
+      expect(referButton.props().disabled).to.be.true;
     });
   });
 
@@ -37,7 +37,7 @@ describe("<TransferActions />", () => {
     const disabled = false;
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(TransferActions, {
+      ({ component } = setupMountedComponent(ReferralActions, {
         ...props,
         disabled
       }));
@@ -51,11 +51,11 @@ describe("<TransferActions />", () => {
       expect(component.find(Button)).to.have.lengthOf(2);
     });
 
-    it("renders transfer button enabled with its corresponding class", () => {
-      const transferButton = component.find("button[type='submit']");
+    it("renders Refer button enabled with its corresponding class", () => {
+      const referButton = component.find("button[type='submit']");
 
-      expect(transferButton.text()).to.be.equal("transfer.submit_label");
-      expect(transferButton.props().disabled).to.be.false;
+      expect(referButton.text()).to.be.equal("buttons.referral");
+      expect(referButton.props().disabled).to.be.false;
     });
   });
 });

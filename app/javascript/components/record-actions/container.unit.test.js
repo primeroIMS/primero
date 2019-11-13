@@ -109,7 +109,7 @@ describe("<RecordActions />", () => {
           component
             .find("li")
             .map(l => l.text())
-            .includes("buttons.referral cases")
+            .includes("buttons.referral forms.record_types.case")
         ).to.be.equal(true);
       });
     });
