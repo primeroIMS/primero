@@ -2,6 +2,7 @@ import React from "react";
 import { expect } from "chai";
 import { TextField } from "formik-material-ui";
 import { Field, Form, Formik } from "formik";
+import * as keydown from "keyevent";
 
 import { setupMountedComponent } from "../../../../../test";
 import { SearchableSelect } from "../../../../searchable-select";
@@ -57,5 +58,19 @@ describe("<TransferInternal />", () => {
 
   it("renders Field", () => {
     expect(component.find(Field)).to.have.length(2);
+  });
+
+  it("renders default label for SearchableSelect", () => {
+    component
+      .find("input")
+      .first()
+      .simulate("keyDown", {
+        key: "ArrowDown",
+        keyCode: keydown.DOM_VK_DOWN
+      });
+
+    expect(component.find("div.Mui-selected").text()).to.be.equal(
+      "fields.select_single"
+    );
   });
 });

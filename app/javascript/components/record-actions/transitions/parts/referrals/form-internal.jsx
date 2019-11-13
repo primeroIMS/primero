@@ -29,7 +29,9 @@ const FormInternal = ({ fields, disabled }) => {
       const { value } = field;
       const selected = f.options?.filter(option => option.value === value)[0];
 
-      return !disabled && value !== "" ? selected : { value: "", label: "" };
+      return !disabled && value !== ""
+        ? selected
+        : { value: "", label: i18n.t("fields.select_single") };
     };
 
     return (
@@ -43,7 +45,7 @@ const FormInternal = ({ fields, disabled }) => {
                 id={f.id}
                 isDisabled={disabled}
                 options={f.options}
-                value={searchableValue(field, f.reset)}
+                value={searchableValue(field)}
                 onChange={data => f.onChange(data, field, form)}
                 TextFieldProps={{
                   label: f.label,

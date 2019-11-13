@@ -5,7 +5,8 @@ import ProvidedForm from "./provided-form";
 const ProvidedConsent = ({
   canConsentOverride,
   providedConsent,
-  setDisabled
+  setDisabled,
+  recordType
 }) => {
   if (providedConsent) {
     return null;
@@ -13,7 +14,8 @@ const ProvidedConsent = ({
 
   const providedFormProps = {
     canConsentOverride,
-    setDisabled
+    setDisabled,
+    recordType
   };
 
   return <ProvidedForm {...providedFormProps} />;

@@ -22,6 +22,15 @@ import TransferInternal from "./transfer-internal";
 import ProvidedConsent from "./provided-consent";
 import TransferActions from "./transfer-actions";
 import BulkTransfer from "./bulk-transfer";
+import {
+  TRANSFER_FIELD,
+  REMOTE_SYSTEM_FIELD,
+  CONSENT_INDIVIDUAL_FIELD,
+  AGENCY_FIELD,
+  LOCATION_FIELD,
+  TRANSITIONED_TO_FIELD,
+  NOTES_FIELD
+} from "./constants";
 
 const TransferForm = ({
   providedConsent,
@@ -105,7 +114,7 @@ const TransferForm = ({
 
   const internalFields = [
     {
-      id: "agency",
+      id: AGENCY_FIELD,
       label: i18n.t("transfer.agency_label"),
       options: agencies
         ? agencies.toJS().map(agency => ({
@@ -114,11 +123,12 @@ const TransferForm = ({
           }))
         : [],
       onChange: (data, field, form) => {
-        sharedOnChange(data, field, form, ["location"]);
+        form.setFieldValue([TRANSITIONED_TO_FIELD], "", false);
+        sharedOnChange(data, field, form, [LOCATION_FIELD]);
       }
     },
     {
-      id: "location",
+      id: LOCATION_FIELD,
       label: i18n.t("transfer.location_label"),
       options: locations
         ? locations.map(location => ({
@@ -127,11 +137,12 @@ const TransferForm = ({
           }))
         : [],
       onChange: (data, field, form) => {
-        sharedOnChange(data, field, form, ["agency"]);
+        form.setFieldValue([TRANSITIONED_TO_FIELD], "", false);
+        sharedOnChange(data, field, form, [AGENCY_FIELD]);
       }
     },
     {
-      id: "transitioned_to",
+      id: TRANSITIONED_TO_FIELD,
       label: i18n.t("transfer.recipient_label"),
       required: true,
       options: users
@@ -149,7 +160,7 @@ const TransferForm = ({
       }
     },
     {
-      id: "notes",
+      id: NOTES_FIELD,
       label: i18n.t("transfer.notes_label")
     }
   ];
@@ -157,7 +168,8 @@ const TransferForm = ({
   const providedConsentProps = {
     canConsentOverride,
     providedConsent,
-    setDisabled
+    setDisabled,
+    recordType
   };
 
   const disableControl = !providedConsent && !disabled;
@@ -222,13 +234,13 @@ const TransferForm = ({
   const formProps = {
     validationSchema,
     initialValues: {
-      transfer: false,
-      remoteSystem: false,
-      consent_individual_transfer: false,
-      agency: "",
-      location: "",
-      transitioned_to: "",
-      notes: ""
+      [TRANSFER_FIELD]: false,
+      [REMOTE_SYSTEM_FIELD]: false,
+      [CONSENT_INDIVIDUAL_FIELD]: false,
+      [AGENCY_FIELD]: "",
+      [LOCATION_FIELD]: "",
+      [TRANSITIONED_TO_FIELD]: "",
+      [NOTES_FIELD]: ""
     },
     onSubmit: (values, { setSubmitting }) => {
       dispatch(
@@ -237,7 +249,7 @@ const TransferForm = ({
           {
             data: {
               ...values,
-              consent_overridden: canConsentOverride || values.transfer
+              consent_overridden: canConsentOverride || values[TRANSFER_FIELD]
             }
           },
           i18n.t("transfer.success")

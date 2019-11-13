@@ -80,6 +80,21 @@ describe("<MainForm />", () => {
     expect(component.find(ProvidedConsent)).to.have.lengthOf(1);
   });
 
+  it("renders ProvidedConsent with valid props", () => {
+    const providedConsentProps = { ...component.find(ProvidedConsent).props() };
+
+    [
+      "canConsentOverride",
+      "providedConsent",
+      "setDisabled",
+      "recordType"
+    ].forEach(property => {
+      expect(providedConsentProps).to.have.property(property);
+      delete providedConsentProps[property];
+    });
+    expect(providedConsentProps).to.be.empty;
+  });
+
   it("renders FormControlLabel", () => {
     expect(component.find(FormControlLabel)).to.have.lengthOf(1);
   });
