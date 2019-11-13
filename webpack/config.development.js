@@ -11,7 +11,12 @@ const devServer = {
   port: PORT,
   historyApiFallback: true,
   stats: "minimal",
-  hot: true
+  hot: true,
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+    "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+  }
 };
 
 common.plugins.push(
@@ -34,10 +39,6 @@ common.module.rules.push({
     }
   ]
 });
-
-common.resolve.alias = {
-  "react-dom": "@hot-loader/react-dom"
-};
 
 module.exports = Object.assign({}, common, {
   devtool: "source-map",
