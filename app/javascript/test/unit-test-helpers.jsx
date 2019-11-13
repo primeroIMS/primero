@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
+import { expect } from "chai"
 
 import DateFnsUtils from "@date-io/date-fns";
 import { createMount } from "@material-ui/core/test-utils";
@@ -90,3 +91,5 @@ export const setupMountedThemeComponent = (TestComponent, props = {}) =>
       <TestComponent {...props} />
     </ThemeProvider>
   );
+
+export { expect }
