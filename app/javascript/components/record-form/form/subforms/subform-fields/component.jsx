@@ -6,9 +6,10 @@ import { Box, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 
-import SubformHeader from "./SubformHeader";
+import SubformHeader from "../subform-header";
+import { SUBFORM_FIELDS } from "../constants";
 
-const SubformFields = ({
+const Component = ({
   arrayHelpers,
   field,
   locale,
@@ -50,11 +51,13 @@ const SubformFields = ({
     if (subformSortBy) {
       sortedValues = sortBy(values, v => {
         let criteria;
+
         if (!Number.isNaN(Date.parse(v[subformSortBy]))) {
           criteria = new Date(v[subformSortBy]);
         } else {
           criteria = subformSortBy;
         }
+
         return criteria;
       });
     } else {
@@ -97,7 +100,9 @@ const SubformFields = ({
   return null;
 };
 
-SubformFields.propTypes = {
+Component.displayName = SUBFORM_FIELDS;
+
+Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
@@ -107,4 +112,4 @@ SubformFields.propTypes = {
   values: PropTypes.array.isRequired
 };
 
-export default SubformFields;
+export default Component;

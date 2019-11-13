@@ -79,22 +79,6 @@ const Container = ({ match }) => {
 
   const fetchRecords = getRecordsFetcherByType(recordType);
 
-  useEffect(() => {
-    return () => {
-      dispatch(setFilters({ options: { id_search: null, query: "" } }));
-    };
-  }, [url]);
-
-  const canSearchOthers =
-    permissions.includes(PERMISSION_CONSTANTS.MANAGE) ||
-    permissions.includes(PERMISSION_CONSTANTS.SEARCH_OWNED_BY_OTHERS);
-
-  const listHeaders =
-    // eslint-disable-next-line camelcase
-    id_search && canSearchOthers
-      ? headers.filter(header => header.id_search)
-      : headers;
-
   const defaultFilters = fromJS({
     fields: "short",
     per: 20,
@@ -118,10 +102,28 @@ const Container = ({ match }) => {
     }
   });
 
+  useEffect(() => {
+    dispatch(setFilters({ options: defaultFilters.toJS() }));
+
+    return () => {
+      dispatch(setFilters({ options: { id_search: null, query: "" } }));
+    };
+  }, [url]);
+
+  const canSearchOthers =
+    permissions.includes(PERMISSION_CONSTANTS.MANAGE) ||
+    permissions.includes(PERMISSION_CONSTANTS.SEARCH_OWNED_BY_OTHERS);
+
+  const listHeaders =
+    // eslint-disable-next-line camelcase
+    id_search && canSearchOthers
+      ? headers.filter(header => header.id_search)
+      : headers;
+
   const indexTableProps = {
     recordType,
     defaultFilters,
-    columns: buildTableColumns(listHeaders, i18n, recordType),
+    columns: buildTableColumns(listHeaders, i18n, recordType, css),
     onTableChange: fetchRecords,
     onRowClick: record => {
       const allowedToOpenRecord =

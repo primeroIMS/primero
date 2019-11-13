@@ -1,0 +1,18 @@
+.IconButton {
+  padding: 0;
+}
+
+.IconValue {
+  position: absolute;
+  top: 18%;
+  left: 43%;
+  color: $(theme.primero.colors.white);
+  font-size: $(theme.typography.pxToRem(10));
+  z-index: 999;
+  font-weight: bold;
+}
+
+.FlagIcon {
+  font-size: 1.7rem;
+  color: $(theme.primero.colors.black);
+}

@@ -1,6 +1,5 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
-import { RECORD_PATH } from "../../config";
 
 import {
   fetchCases,
@@ -9,7 +8,9 @@ import {
   setCasesFilters,
   setIncidentsFilters,
   setTracingRequestFilters
-} from "./../records";
+} from "../records";
+import { ToggleIconCell } from "../index-table";
+import { RECORD_PATH } from "../../config";
 
 import {
   buildTableColumns,
@@ -23,11 +24,27 @@ const i18n = {
     return name.charAt(0).toUpperCase() + name.slice(1);
   }
 };
+const css = {
+  overdueHeading: "testClass"
+}
 
 describe("<RecordList /> - buildTableColumns", () => {
   it("should return list of columns for table", () => {
     const expected = [
-      { label: "James", name: "James", id: false, options: {} }
+      { label: "James", name: "James", id: false, options: {} },
+      {
+        label: "",
+        name: "flag_count",
+        id: undefined,
+        options: {
+          customBodyRender: value => (
+            <ToggleIconCell value={value} icon="flag" />
+          ),
+          customHeadRender: columnMeta => (
+            <th key={columnMeta.name} className={css.overdueHeading} />
+          )
+        }
+      }
     ];
 
     const records = fromJS([
@@ -35,11 +52,18 @@ describe("<RecordList /> - buildTableColumns", () => {
         id_search: false,
         name: "james",
         field_name: "James"
+      },
+      {
+        name: "flag_count",
+        field_name: "flag_count"
       }
     ]);
-    const columns = buildTableColumns(records, i18n, "testRecordType");
+    const columns = buildTableColumns(records, i18n, "testRecordType", css);
     columns.forEach((v, k) => {
-      expect(v).to.deep.equal(expected[k]);
+      expect(v.id).to.equal(expected[k].id);
+      expect(v.name).to.equal(expected[k].name);
+      expect(v.label).to.equal(expected[k].label);
+      expect(v).to.have.property("options");
     });
   });
 });

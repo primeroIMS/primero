@@ -50,7 +50,7 @@ export const arrayToObject = (data, key = "id") => {
 
 export const mergeRecord = (record, payload) => {
   const reduceSubformToMap = (result, item) => {
-    return result.set(item.get("id"), item);
+    return result.set(item.get("unique_id"), item);
   };
 
   const mergeSubforms = (prev, next) => {

@@ -12,8 +12,8 @@ import {
   setTracingRequestFilters
 } from "../records";
 
-export const buildTableColumns = (columns, i18n, recordType) => {
-  const lastColumns = ["photo", "flags"];
+export const buildTableColumns = (columns, i18n, recordType, css) => {
+  const iconColumns = ["photo", "flag_count"];
 
   return columns
     .map(column => {
@@ -25,14 +25,22 @@ export const buildTableColumns = (columns, i18n, recordType) => {
                   <ToggleIconCell value={value} icon="photo" />
                 )
               }
+            : {}),
+          ...(["flag_count"].includes(column.get("name"))
+            ? {
+                customHeadRender: columnMeta => (
+                  <th key={columnMeta.name} className={css.overdueHeading} />
+                ),
+                customBodyRender: value => (
+                  <ToggleIconCell value={value} icon="flag" />
+                )
+            }
             : {})
         }
       };
 
-      const noLabelColumns = ["photo"];
-
       return {
-        label: noLabelColumns.includes(column.name)
+        label: iconColumns.includes(column.get("name"))
           ? ""
           : i18n.t(`${recordType}.${column.get("name")}`),
         name: column.get("field_name"),
@@ -40,7 +48,7 @@ export const buildTableColumns = (columns, i18n, recordType) => {
         options
       };
     })
-    .sortBy(column => (lastColumns.includes(column.name) ? 1 : 0));
+    .sortBy(column => (iconColumns.includes(column.name) ? 1 : 0));
 };
 
 export const getFiltersSetterByType = type => {
