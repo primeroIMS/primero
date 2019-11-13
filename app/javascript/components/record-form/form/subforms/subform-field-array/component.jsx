@@ -4,10 +4,11 @@ import { IconButton, Box } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { getIn } from "formik";
 
-import SubformFields from "./SubformFields";
-import SubformDialog from "./SubformDialog";
+import SubformFields from "../subform-fields";
+import SubformDialog from "../subform-dialog";
+import { SUBFORM_FIELD_ARRAY } from "../constants";
 
-const SubformFieldArray = ({
+const Component = ({
   arrayHelpers,
   field,
   formik,
@@ -59,7 +60,7 @@ const SubformFieldArray = ({
         setDialogIsNew={setDialogIsNew}
       />
       <SubformDialog
-        index={index || values.length - 1}
+        index={index !== null ? index : values.length - 1}
         field={field}
         mode={mode}
         open={open}
@@ -72,7 +73,9 @@ const SubformFieldArray = ({
   );
 };
 
-SubformFieldArray.propTypes = {
+Component.displayName = SUBFORM_FIELD_ARRAY;
+
+Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
@@ -81,4 +84,4 @@ SubformFieldArray.propTypes = {
   mode: PropTypes.object.isRequired
 };
 
-export default SubformFieldArray;
+export default Component;

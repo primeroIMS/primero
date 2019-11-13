@@ -1,11 +1,8 @@
-import chai, { expect } from "chai";
-
 import { fromJS } from "immutable";
-import chaiImmutable from "chai-immutable";
 
-import * as reducerHelpers from "./reducer-helpers";
+import { expect } from "../test";
 
-chai.use(chaiImmutable);
+import { mergeRecord } from "./reducer-helpers";
 
 describe("reducer-helpers", () => {
   describe("mergeRecord", () => {
@@ -19,16 +16,16 @@ describe("reducer-helpers", () => {
         nationality: ["american"],
         followups: [
           {
-            id: 1,
-            field: "field-value-1",
+            unique_id: 1,
+            field: "field-value-1"
           },
           {
-            id: 2,
+            unique_id: 2,
             field2: "field2-value-2",
             nationality: ["french"]
           },
           {
-            id: 4,
+            unique_id: 4,
             field1: "field1-value-4"
           }
         ]
@@ -40,17 +37,17 @@ describe("reducer-helpers", () => {
         nationality: ["brazillian", "british"],
         followups: [
           {
-            id: 2,
+            unique_id: 2,
             field3: "field3-value-2",
             nationality: ["japanese", "american"]
           },
           {
-            id: 3,
+            unique_id: 3,
             field2: "field2-value-3",
-            field3: "field3-value-3",
+            field3: "field3-value-3"
           },
           {
-            id: 4,
+            unique_id: 4,
             field1: ""
           }
         ]
@@ -66,28 +63,30 @@ describe("reducer-helpers", () => {
         nationality: ["brazillian", "british"],
         followups: [
           {
-            id: 1,
+            unique_id: 1,
             field: "field-value-1"
           },
           {
-            id: 2,
+            unique_id: 2,
             field2: "field2-value-2",
             field3: "field3-value-2",
             nationality: ["japanese", "american"]
           },
           {
-            id: 4,
+            unique_id: 4,
             field1: ""
           },
           {
-            id: 3,
+            unique_id: 3,
             field2: "field2-value-3",
             field3: "field3-value-3"
           }
         ]
       });
 
-      expect(reducerHelpers.mergeRecord(record, payload).toJS()).to.deep.equal(expected.toJS());
+      expect(mergeRecord(record, payload).toJS()).to.deep.equal(
+        expected.toJS()
+      );
     });
   });
 });

@@ -10,9 +10,20 @@ import {
   DialogTitle
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-import FormSectionField from "../FormSectionField";
 
-const SubformDialog = ({ index, field, mode, open, setOpen, title, dialogIsNew, i18n }) => {
+import FormSectionField from "../../FormSectionField";
+import { SUBFORM_DIALOG } from "../constants";
+
+const Component = ({
+  index,
+  field,
+  mode,
+  open,
+  setOpen,
+  title,
+  dialogIsNew,
+  i18n
+}) => {
   const handleClose = () => {
     setOpen({ open: false, index: null });
   };
@@ -50,6 +61,7 @@ const SubformDialog = ({ index, field, mode, open, setOpen, title, dialogIsNew, 
               index,
               parentField: field
             };
+
             return (
               <Box my={3} key={f.name}>
                 <FormSectionField {...fieldProps} />
@@ -57,9 +69,7 @@ const SubformDialog = ({ index, field, mode, open, setOpen, title, dialogIsNew, 
             );
           })}
         </DialogContent>
-        <DialogActions>
-          {actionButton}
-        </DialogActions>
+        <DialogActions>{actionButton}</DialogActions>
       </Dialog>
     );
   }
@@ -67,15 +77,17 @@ const SubformDialog = ({ index, field, mode, open, setOpen, title, dialogIsNew, 
   return null;
 };
 
-SubformDialog.propTypes = {
-  index: PropTypes.number.isRequired,
+Component.displayName = SUBFORM_DIALOG;
+
+Component.propTypes = {
+  dialogIsNew: PropTypes.bool.isRequired,
   field: PropTypes.object.isRequired,
+  i18n: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
   mode: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   setOpen: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  dialogIsNew: PropTypes.bool.isRequired,
-  i18n: PropTypes.object.isRequired
+  title: PropTypes.string.isRequired
 };
 
-export default SubformDialog;
+export default Component;

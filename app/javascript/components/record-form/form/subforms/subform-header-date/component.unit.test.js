@@ -1,10 +1,10 @@
 import { expect } from "chai";
 import { parseISO, format } from "date-fns";
 
-import { setupMountedComponent } from "../../../../test";
-import { DATE_TIME_FORMAT } from "../../../../config";
+import { setupMountedComponent } from "../../../../../test";
+import { DATE_TIME_FORMAT } from "../../../../../config";
 
-import DateHeader from "./subform-header-date";
+import DateHeader from ".";
 
 describe("<DateHeader /> - Form - Subforms", () => {
   it("should render a date value formatted to DATE_FORMAT, when includeTime is false", () => {
