@@ -17,7 +17,8 @@ describe("User - index", () => {
       "Actions",
       "currentUser",
       "getPermissionsByRecord",
-      "hasUserPermissions"
+      "hasUserPermissions",
+      "getPermissions"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

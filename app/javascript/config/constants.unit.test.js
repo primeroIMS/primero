@@ -124,7 +124,8 @@ describe("Verifying config constant", () => {
       "/login",
       "/logout",
       "/not-authorized",
-      "/support"
+      "/support",
+      "/account"
     ]);
     expect(constants.MODULES).to.deep.equal({
       CP: "primeromodule-cp",

@@ -38,7 +38,15 @@ describe("<Nav />", () => {
         },
         user: {
           modules: [],
-          agency: "agency_1"
+          agency: "agency_1",
+          permissions: {
+            cases: ["read"],
+            incidents: ["read"],
+            dashboards: ["manage", "dash_tasks"],
+            potential_matches: ["manage"],
+            tracing_requests: ["read"],
+            reports: ["manage"]
+          }
         }
       })
     ));
@@ -114,12 +122,12 @@ describe("<Nav />", () => {
       ).to.have.lengthOf(1);
     });
 
-    it("renders exports link", () => {
+    it("it should not renders exports link", () => {
       expect(
         component
           .find(NavLink)
           .findWhere(link => link.prop("to") === ROUTES.exports)
-      ).to.have.lengthOf(1);
+      ).to.have.lengthOf(0);
     });
   });
 });

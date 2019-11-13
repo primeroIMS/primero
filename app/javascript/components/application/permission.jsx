@@ -3,7 +3,7 @@ import { push } from "connected-react-router";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import { getPermissionsByRecord } from "../user/selectors";
+import { getPermissions } from "../user/selectors";
 
 const Permission = ({
   permissionType,
@@ -16,12 +16,25 @@ const Permission = ({
   const { recordType } = params;
   const type = permissionType || recordType;
   const dispatch = useDispatch();
-  const userPermissions = useSelector(state =>
-    getPermissionsByRecord(state, type)
+  const allUserPermissions = useSelector(state => getPermissions(state));
+
+  const filteredPermissions = Object.entries(allUserPermissions.toJS()).reduce(
+    (acum, curr) => {
+      const p = acum;
+      const [key, value] = curr;
+
+      if ((Array.isArray(type) && type.includes(key)) || type === key) {
+        p[key] = value;
+      }
+
+      return p;
+    },
+    {}
   );
 
-  const userHasPermission =
-    userPermissions && userPermissions.toJS().some(t => permission.includes(t));
+  const userHasPermission = Object.values(filteredPermissions)
+    .flat()
+    .some(t => permission.includes(t));
 
   if (userHasPermission) {
     return children;
@@ -42,8 +55,9 @@ Permission.defaultProps = {
 Permission.propTypes = {
   children: PropTypes.node.isRequired,
   match: PropTypes.object.isRequired,
-  permission: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
-  permissionType: PropTypes.string,
+  permission: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
+    .isRequired,
+  permissionType: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   redirect: PropTypes.bool.isRequired
 };
 

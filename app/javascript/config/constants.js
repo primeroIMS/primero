@@ -38,7 +38,8 @@ export const PERMITTED_URL = [
   "/login",
   "/logout",
   "/not-authorized",
-  "/support"
+  "/support",
+  "/account"
 ];
 
 export const MODULES = Object.freeze({
