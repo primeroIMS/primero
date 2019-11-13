@@ -113,6 +113,17 @@ class Filter < ValueObject
       }
     end.inject(&:merge)
   )
+  ENABLED = Filter.new(
+    name: 'cases.filter_by.enabled_disabled',
+    field_name: 'record_state',
+    options: I18n.available_locales.map do |locale|
+      { locale => [
+          { id: 'true', display_name: I18n.t("disabled.status.enabled", locale: locale) },
+          { id: 'false', display_name: I18n.t("disabled.status.disabled", locale: locale) }
+        ]
+      }
+    end.inject(&:merge)
+  )
   PHOTO = Filter.new(
     name: 'cases.filter_by.photo',
     field_name: 'has_photo',
@@ -229,6 +240,7 @@ class Filter < ValueObject
       permitted_form_ids = user.permitted_forms(nil, true).pluck(:unique_id)
 
       filters = []
+      filters << ENABLED
       filters << FLAGGED_CASE
       filters << MOBILE_CASE if user.can?(:sync_mobile, model_class)
       filters << SOCIAL_WORKER if user.is_manager?
