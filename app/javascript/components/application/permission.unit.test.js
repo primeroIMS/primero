@@ -35,11 +35,11 @@ describe("<Permission />", () => {
     });
 
     it("renders Permission", () => {
-      expect(component.find(Permission)).to.have.length(1);
+      expect(component.find(Permission)).to.have.lengthOf(1);
     });
 
     it("renders div", () => {
-      expect(component.find("div")).to.have.length(1);
+      expect(component.find("div")).to.have.lengthOf(1);
     });
   });
 
@@ -58,7 +58,7 @@ describe("<Permission />", () => {
     });
 
     it("renders Permission", () => {
-      expect(component.find(Permission)).to.have.length(1);
+      expect(component.find(Permission)).to.have.lengthOf(1);
     });
 
     it("doesn't render children", () => {
@@ -85,4 +85,25 @@ describe("<Permission />", () => {
       expect(component).to.be.empty;
     });
   });
+
+  describe("When having multiple permissionType", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Permission,
+        {
+          permissionType: ["cases", "incidents"],
+          permission: ["read", "export_xls"],
+          children: <div />,
+          match: {
+            url: "/cases"
+          }
+        },
+        initialState
+      ));
+    });
+
+    it("renders children", () => {
+      expect(component.find(Permission)).to.have.lengthOf(1);
+    });
+  })
 });

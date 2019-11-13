@@ -19,36 +19,38 @@ describe("<Nav />", () => {
       <Nav />
     </ApplicationProvider>
   );
+  const permissions = {
+    cases: ["manage"],
+    incidents: ["read"],
+    dashboards: ["manage", "dash_tasks"],
+    potential_matches: ["manage"],
+    tracing_requests: ["read"],
+    reports: ["manage"]
+  }
+  const initialState = fromJS({
+    ui: { Nav: { drawerOpen: true } },
+    application: {
+      modules: {},
+      online: true,
+      agencies: [
+        {
+          unique_id: "agency_1",
+          logo: { small: "/rails/active_storage/blobs/eyJfcm/logo.png" }
+        }
+      ]
+    },
+    user: {
+      modules: [],
+      agency: "agency_1",
+      permissions
+    }
+  })
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(
       ProvidedNav,
       { username: "joshua" },
-      fromJS({
-        ui: { Nav: { drawerOpen: true } },
-        application: {
-          modules: {},
-          online: true,
-          agencies: [
-            {
-              unique_id: "agency_1",
-              logo: { small: "/rails/active_storage/blobs/eyJfcm/logo.png" }
-            }
-          ]
-        },
-        user: {
-          modules: [],
-          agency: "agency_1",
-          permissions: {
-            cases: ["read"],
-            incidents: ["read"],
-            dashboards: ["manage", "dash_tasks"],
-            potential_matches: ["manage"],
-            tracing_requests: ["read"],
-            reports: ["manage"]
-          }
-        }
-      })
+      initialState
     ));
   });
 
@@ -122,7 +124,53 @@ describe("<Nav />", () => {
       ).to.have.lengthOf(1);
     });
 
-    it("it should not renders exports link", () => {
+    it("renders exports link", () => {
+      expect(
+        component
+          .find(NavLink)
+          .findWhere(link => link.prop("to") === ROUTES.exports)
+      ).to.have.lengthOf(1);
+    });
+  });
+
+  describe("when have restricted permission", () => {
+    const initialState = fromJS({
+      ui: { Nav: { drawerOpen: true } },
+      application: {
+        modules: {},
+        online: true,
+        agencies: [
+          {
+            unique_id: "agency_1",
+            logo: { small: "/rails/active_storage/blobs/eyJfcm/logo.png" }
+          }
+        ]
+      },
+      user: {
+        modules: [],
+        agency: "agency_1",
+        permissions: {
+          cases: ["read"]
+        }
+      }
+    });
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        ProvidedNav,
+        { username: "alberto" },
+        initialState
+      ));
+    });
+
+    it("renders cases link", () => {
+      expect(
+        component
+          .find(NavLink)
+          .findWhere(link => link.prop("to") === ROUTES.cases)
+      ).to.have.lengthOf(1);
+    });
+    it("doesn't renders export link", () => {
       expect(
         component
           .find(NavLink)
