@@ -69,7 +69,7 @@ ar_JO:
     string_sources_failed: "لم ينجح تحميل بعض الحقول، قم بتجديد الصفحة لتحميل جميع الحقول."
     system_settings_failed: "لم تنجح عملية تحميل إعدادات ضبط النظام."
     approval_alert: "المصادقة موقوفة %{form_name}"
-    field_change_alert: "النموذج %{form_name} تم تحديثه بواسطة مقدم الخدمة في%{form_date}"
+    field_change_alert: "النموذج %{form_name} تم تحديثه بواسطة مقدم الخدمة في%{date}"
   data_base:
     delete_all_documents: "جميع وثائق الطفل محذوفة"
     operation_not_allowed: "العملية غير مسموح بها في بيئة %{rails_env}"
