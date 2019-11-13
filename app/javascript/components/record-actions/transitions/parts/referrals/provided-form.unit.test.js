@@ -1,15 +1,19 @@
 /* eslint-disable no-unused-expressions */
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../../../test";
-import { Field } from "formik";
 import { Grid, FormControlLabel, Checkbox } from "@material-ui/core";
+import { Field } from "formik";
+
+import { setupMountedComponent } from "../../../../../test";
+import actions from "../../actions";
+import { RECORD_TYPES } from "../../../../../config";
+
 import ProvidedForm from "./provided-form";
 
 describe("<ProvidedForm /> - referrals", () => {
   const formProps = {
     initialValues: {
-      referral: false
+      referral: false,
+      agency: "unicef"
     }
   };
   it("should render properly when user can override consent", () => {
@@ -64,5 +68,34 @@ describe("<ProvidedForm /> - referrals", () => {
       component.find(Checkbox),
       "should not render Checkbox"
     ).to.not.have.lengthOf(1);
+  });
+
+  it("should reload users if any agency, location or user has changed", () => {
+    const props = {
+      canConsentOverride: true,
+      setDisabled: () => {},
+      recordType: "cases"
+    };
+    const { component } = setupMountedComponent(
+      ProvidedForm,
+      props,
+      {},
+      [],
+      formProps
+    );
+    const referAnyway = component.find(Checkbox);
+    const storeActions = component.props().store.getActions();
+    const expectedAction = {
+      type: actions.REFERRAL_USERS_FETCH,
+      api: {
+        path: actions.USERS_REFER_TO,
+        params: {
+          record_type: RECORD_TYPES.cases
+        }
+      }
+    };
+
+    referAnyway.find("input").simulate("change", { target: { checked: true } });
+    expect(storeActions[0]).to.deep.equal(expectedAction);
   });
 });

@@ -9,7 +9,7 @@ import { CasesIcon } from "../../../../../images/primero-icons";
 import { useI18n } from "../../../../i18n";
 import * as styles from "../../styles.css";
 import { internalFieldsDirty } from "../helpers";
-import { fetchReferralUsers } from "../../action-creators";
+import { fetchTransferUsers } from "../../action-creators";
 import { RECORD_TYPES } from "../../../../../config";
 
 import {
@@ -31,8 +31,8 @@ const ProvidedForm = ({ setDisabled, canConsentOverride, recordType }) => {
           TRANSITIONED_TO_FIELD
         ])
       ) {
-        dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[recordType] }))
-      }
+      dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType] }))
+    }
     setDisabled(!field.value);
     form.setFieldValue(field.name, !field.value, false);
   };
