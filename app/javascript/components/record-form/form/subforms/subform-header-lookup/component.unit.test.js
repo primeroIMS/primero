@@ -3,9 +3,9 @@ import { Map, List } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
 
-import LookupHeader from "./subform-header-lookup";
+import SubformLookupHeader from "./subform-header-lookup";
 
-describe("<LookupHeader /> - Form - Subforms", () => {
+describe("<SubformLookupHeader /> - Form - Subforms", () => {
   // TODO: initialState should only use fromJS() until options of forms have
   // been changed to use Immutable objects
   const initialState = Map({
@@ -29,7 +29,7 @@ describe("<LookupHeader /> - Form - Subforms", () => {
       optionsStringSource: "lookup lookup-location-type"
     };
     const { component } = setupMountedComponent(
-      LookupHeader,
+      SubformLookupHeader,
       props,
       initialState
     );
@@ -43,7 +43,7 @@ describe("<LookupHeader /> - Form - Subforms", () => {
       optionsStringSource: "lookup lookup-location-type"
     };
     const { component } = setupMountedComponent(
-      LookupHeader,
+      SubformLookupHeader,
       props,
       initialState
     );

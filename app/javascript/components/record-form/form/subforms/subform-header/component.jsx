@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
-import { NAME_FIELD, DATE_FIELD, SELECT_FIELD } from "../../constants";
+import { NAME_FIELD, DATE_FIELD, SELECT_FIELD } from "../../../constants";
+import SubformLookupHeader from "../subform-header-lookup";
+import SubformDateHeader from "../subform-header-date";
+import styles from "../styles.css";
+import { SUBFORM_HEADER } from "../constants";
 
-import LookupHeader from "./subform-header-lookup";
-import DateHeader from "./subform-header-date";
-import styles from "./styles.css";
-
-const SubformHeader = ({ field, values, locale, displayName, index }) => {
+const Component = ({ field, values, locale, displayName, index }) => {
   const css = makeStyles(styles)();
   const {
     collapsed_field_names: collapsedFieldNames,
@@ -33,7 +33,8 @@ const SubformHeader = ({ field, values, locale, displayName, index }) => {
             key: collapsedFieldName,
             includeTime
           };
-          return <DateHeader {...dateComponentProps} />;
+
+          return <SubformDateHeader {...dateComponentProps} />;
         }
         case SELECT_FIELD: {
           const lookupComponentProps = {
@@ -41,7 +42,8 @@ const SubformHeader = ({ field, values, locale, displayName, index }) => {
             key: collapsedFieldName,
             optionsStringSource
           };
-          return <LookupHeader {...lookupComponentProps} />;
+
+          return <SubformLookupHeader {...lookupComponentProps} />;
         }
         default:
           return <span key={collapsedFieldName}>{value}</span>;
@@ -56,12 +58,14 @@ const SubformHeader = ({ field, values, locale, displayName, index }) => {
   return <>{displayName?.[locale]}</>;
 };
 
-SubformHeader.propTypes = {
-  field: PropTypes.object.isRequired,
-  values: PropTypes.array.isRequired,
-  locale: PropTypes.string.isRequired,
+Component.displayName = SUBFORM_HEADER;
+
+Component.propTypes = {
   displayName: PropTypes.object,
-  index: PropTypes.number.isRequired
+  field: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
+  locale: PropTypes.string.isRequired,
+  values: PropTypes.array.isRequired
 };
 
-export default SubformHeader;
+export default Component;

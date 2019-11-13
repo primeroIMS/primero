@@ -19,7 +19,7 @@ import * as C from "../constants";
 
 import FormSectionField from "./FormSectionField";
 import styles from "./styles.css";
-import { SubformField } from "./subforms";
+import SubformField from "./subforms";
 
 const ValidationErrors = () => {
   const dispatch = useDispatch();

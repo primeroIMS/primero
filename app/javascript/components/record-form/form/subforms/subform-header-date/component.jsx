@@ -3,11 +3,10 @@ import PropTypes from "prop-types";
 import { parseISO, format } from "date-fns";
 import isEmpty from "lodash/isEmpty";
 
-import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../config";
+import { SUBFORM_HEADER_DATE } from "../constants";
+import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../../config";
 
-import { DATE_HEADER_NAME } from "./constants";
-
-const DateHeader = ({ value, includeTime }) => {
+const Component = ({ value, includeTime }) => {
   if (isEmpty(value)) return value;
 
   const formattedDate = parseISO(value);
@@ -18,11 +17,11 @@ const DateHeader = ({ value, includeTime }) => {
   return <span>{dateValue}</span>;
 };
 
-DateHeader.displayName = DATE_HEADER_NAME;
+Component.displayName = SUBFORM_HEADER_DATE;
 
-DateHeader.propTypes = {
+Component.propTypes = {
   includeTime: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string])
 };
 
-export default DateHeader;
+export default Component;
