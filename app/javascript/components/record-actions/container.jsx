@@ -128,22 +128,34 @@ const Container = ({ recordType, iconColor, record, mode }) => {
   const actions = [
     {
       name: i18n.t("buttons.import"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "all"
     },
     {
       name: i18n.t("exports.custom_exports.label"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "all"
     },
     {
       name: i18n.t("buttons.mark_for_mobile"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "all"
     },
     {
       name: i18n.t("buttons.unmark_for_mobile"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "all"
     },
     {
@@ -166,12 +178,18 @@ const Container = ({ recordType, iconColor, record, mode }) => {
     },
     {
       name: i18n.t("actions.incident_details_from_case"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "cases"
     },
     {
       name: i18n.t("actions.services_section_from_case"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "cases"
     },
     {

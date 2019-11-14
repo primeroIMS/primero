@@ -109,6 +109,7 @@ function fetchPayload(action, store, options) {
       }
       fetchStatus({ store, type }, "FINISHED", false);
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.warn(e);
       fetchStatus({ store, type }, "FAILURE", false);
     }
