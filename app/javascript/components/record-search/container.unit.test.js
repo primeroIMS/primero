@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Map, List } from "immutable";
+import { Map } from "immutable";
 import { IconButton, InputBase } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";

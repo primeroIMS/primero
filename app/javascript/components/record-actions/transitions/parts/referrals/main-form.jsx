@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import omit from "lodash/omit";
 import isEqual from "lodash/isEqual";
-import { Box, Button, FormControlLabel } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { FormControlLabel } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
@@ -18,7 +17,6 @@ import {
   getErrorsByTransitionType
 } from "../../selectors";
 import { fetchReferralUsers } from "../../action-creators";
-import styles from "../../styles.css";
 import { enqueueSnackbar } from "../../../../notifier";
 
 import ProvidedConsent from "./provided-consent";
@@ -35,7 +33,6 @@ import {
 const MainForm = ({ formProps, rest }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
   const firstUpdate = React.useRef(true);
   const transitionType = "referral";
   const {

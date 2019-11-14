@@ -1,5 +1,5 @@
 import chai, { expect } from "chai";
-import { Map, List, is } from "immutable";
+import { Map, List } from "immutable";
 import chaiImmutable from "chai-immutable";
 
 import { mapEntriesToRecord } from "../../libs";

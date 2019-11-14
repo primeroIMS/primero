@@ -1,5 +1,4 @@
 import { expect } from "chai";
-import Chip from "@material-ui/core/Chip";
 
 import { setupMountedComponent } from "../../../test";
 

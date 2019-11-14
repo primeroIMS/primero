@@ -55,24 +55,6 @@ describe("<Flagging /> - Reducers", () => {
   });
 
   it("should handle ADD_FLAG_SUCCESS", () => {
-    const data = [
-      {
-        id: 7,
-        record_id: "d6a6dbb4-e5e9-4720-a661-e181a12fd3a0",
-        record_type: "cases",
-        date: "2019-08-01",
-        message: "This is a flag 1",
-        flagged_by: "primero"
-      },
-      {
-        id: 3,
-        record_id: "d6a6dbb4-e5e9-4720-a661-e181a12fd3a0",
-        record_type: "cases",
-        date: "2019-08-01",
-        message: "This is a flag 3",
-        flagged_by: "primero"
-      }
-    ];
     const expected = Map({
       data: [
         FlagRecord({
