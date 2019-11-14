@@ -6,35 +6,43 @@ import { PERMISSION_CONSTANTS, checkPermissions } from "./permissions";
 describe("Verifying config constant", () => {
   it("should have known constant", () => {
     const permissions = { ...PERMISSION_CONSTANTS };
-    expect(permissions).to.have.property("MANAGE");
-    expect(permissions).to.have.property("ASSIGN");
-    expect(permissions).to.have.property("ASSIGN_WITHIN_USER_GROUP");
-    expect(permissions).to.have.property("ASSIGN_WITHIN_AGENCY_PERMISSIONS");
-    expect(permissions).to.have.property("REOPEN");
-    expect(permissions).to.have.property("CLOSE");
-    expect(permissions).to.have.property("ENABLE_DISABLE_RECORD");
-    expect(permissions).to.have.property("ADD_NOTE");
-    expect(permissions).to.have.property("READ");
-    expect(permissions).to.have.property("REFERRAL");
-    expect(permissions).to.have.property("TRANSFER");
-    expect(permissions).to.have.property("DISPLAY_VIEW_PAGE");
-    expect(permissions).to.have.property("SEARCH_OWNED_BY_OTHERS");
 
-    delete permissions.MANAGE;
-    delete permissions.ASSIGN;
-    delete permissions.ASSIGN_WITHIN_USER_GROUP;
-    delete permissions.ASSIGN_WITHIN_AGENCY_PERMISSIONS;
-    delete permissions.REOPEN;
-    delete permissions.CLOSE;
-    delete permissions.ENABLE_DISABLE_RECORD;
-    delete permissions.ADD_NOTE;
-    delete permissions.READ;
-    delete permissions.REFERRAL;
-    delete permissions.TRANSFER;
-    delete permissions.DISPLAY_VIEW_PAGE;
-    delete permissions.SEARCH_OWNED_BY_OTHERS
-
-    expect(permissions).to.deep.equal({});
+    [
+      "MANAGE",
+      "ASSIGN",
+      "ASSIGN_WITHIN_USER_GROUP",
+      "ASSIGN_WITHIN_AGENCY_PERMISSIONS",
+      "REOPEN",
+      "CLOSE",
+      "ENABLE_DISABLE_RECORD",
+      "ADD_NOTE",
+      "READ",
+      "REFERRAL",
+      "TRANSFER",
+      "DISPLAY_VIEW_PAGE",
+      "SEARCH_OWNED_BY_OTHERS",
+      "DASH_TASKS",
+      "GROUP_READ",
+      "CREATE",
+      "WRITE",
+      "EXPORT_LIST_VIEW",
+      "EXPORT_CSV",
+      "EXPORT_EXCEL",
+      "EXPORT_JSON",
+      "EXPORT_PHOTO_WALL",
+      "EXPORT_PDF",
+      "EXPORT_UNHCR",
+      "EXPORT_DUPLICATE_ID",
+      "EXPORT_CASE_PDF",
+      "EXPORT_MRM_VIOLATION_XLS",
+      "EXPORT_INCIDENT_RECORDER",
+      "EXPORT_CUSTOM"
+    ].forEach(property => {
+      expect(permissions).to.have.property(property);
+      expect(permissions[property]).to.be.a("string");
+      delete permissions[property];
+    });
+    expect(permissions).to.be.empty;
   });
   describe("checkPermissions", () => {
     it("should send true because current permission it's allowed", () => {

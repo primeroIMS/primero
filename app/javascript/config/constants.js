@@ -33,14 +33,6 @@ export const RECORD_TYPES = {
 // Max Age allowed in age ranges
 export const AGE_MAX = 999;
 
-export const PERMITTED_URL = [
-  "/dashboard",
-  "/login",
-  "/logout",
-  "/not-authorized",
-  "/support"
-];
-
 export const MODULES = Object.freeze({
   CP: "primeromodule-cp",
   GBV: "primeromodule-gbv"
@@ -71,17 +63,36 @@ export const REFERRAL = "referral";
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
 export const ROUTES = {
-  dashboard: "/dashboard",
+  account: "/account",
   cases: "/cases",
-  tasks: "/tasks",
-  incidents: "/incidents",
-  tracing_requests: "/tracing_requests",
-  matches: "/matches",
-  reports: "/reports",
+  dashboard: "/dashboard",
   exports: "/exports",
-  support: "/support"
+  incidents: "/incidents",
+  login: "/login",
+  logout: "/logout",
+  matches: "/matches",
+  not_authorized: "/not-authorized",
+  reports: "/reports",
+  support: "/support",
+  tasks: "/tasks",
+  tracing_requests: "/tracing_requests"
 };
+
+export const PERMITTED_URL = [
+  ROUTES.account,
+  ROUTES.dashboard,
+  ROUTES.login,
+  ROUTES.logout,
+  ROUTES.not_authorized,
+  ROUTES.support
+];
 
 export const DATE_FORMAT = "dd-MMM-yyyy";
 
 export const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";
+
+export const MODES = {
+  edit: "edit",
+  new: "new",
+  show: "show"
+};

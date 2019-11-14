@@ -7,17 +7,18 @@ describe("User - index", () => {
 
   it("should have known exported properties", () => {
     [
-      "setUser",
-      "fetchAuthenticatedUserData",
-      "setAuthenticatedUser",
+      "Actions",
       "attemptSignout",
       "checkUserAuthentication",
-      "refreshToken",
-      "reducers",
-      "Actions",
       "currentUser",
+      "fetchAuthenticatedUserData",
+      "getPermissions",
       "getPermissionsByRecord",
-      "hasUserPermissions"
+      "hasUserPermissions",
+      "reducers",
+      "refreshToken",
+      "setAuthenticatedUser",
+      "setUser"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
