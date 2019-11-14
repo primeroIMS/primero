@@ -104,7 +104,11 @@ const Nav = () => {
       name: i18n.t("navigation.bulk_exports"),
       to: ROUTES.exports,
       icon: "exports",
-      permissionType: [RESOURCES.cases, RESOURCES.incidents, RESOURCES.tracing_requests],
+      permissionType: [
+        RESOURCES.cases,
+        RESOURCES.incidents,
+        RESOURCES.tracing_requests
+      ],
       permission: [
         PERMISSION_CONSTANTS.EXPORT_LIST_VIEW,
         PERMISSION_CONSTANTS.EXPORT_CSV,
@@ -165,19 +169,21 @@ const Nav = () => {
   );
 
   const permittedMenuEntries = menuEntries => {
-    return menuEntries.map(menuEntry =>
-      PERMITTED_URL.includes(menuEntry.to) ? (
-        renderMenuEntries(menuEntry)
+    return menuEntries.map(menuEntry => {
+      const renderedMenuEntries = renderMenuEntries(menuEntry);
+
+      return PERMITTED_URL.includes(menuEntry.to) ? (
+        renderedMenuEntries
       ) : (
-          <Permission
-            key={menuEntry.to}
-            permissionType={menuEntry.permissionType}
-            permission={menuEntry.permission}
-          >
-            {renderMenuEntries(menuEntry)}
-          </Permission>
-        )
-    );
+        <Permission
+          key={menuEntry.to}
+          permissionType={menuEntry.permissionType}
+          permission={menuEntry.permission}
+        >
+          {renderedMenuEntries}
+        </Permission>
+      );
+    });
   };
 
   return (

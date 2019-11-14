@@ -33,15 +33,6 @@ export const RECORD_TYPES = {
 // Max Age allowed in age ranges
 export const AGE_MAX = 999;
 
-export const PERMITTED_URL = [
-  ROUTES.account,
-  ROUTES.dashboard,
-  ROUTES.login,
-  ROUTES.logout,
-  ROUTES.not_authorized,
-  ROUTES.support
-];
-
 export const MODULES = Object.freeze({
   CP: "primeromodule-cp",
   GBV: "primeromodule-gbv"
@@ -84,9 +75,24 @@ export const ROUTES = {
   reports: "/reports",
   support: "/support",
   tasks: "/tasks",
-  tracing_requests: "/tracing_requests",
+  tracing_requests: "/tracing_requests"
 };
+
+export const PERMITTED_URL = [
+  ROUTES.account,
+  ROUTES.dashboard,
+  ROUTES.login,
+  ROUTES.logout,
+  ROUTES.not_authorized,
+  ROUTES.support
+];
 
 export const DATE_FORMAT = "dd-MMM-yyyy";
 
 export const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";
+
+export const MODES = {
+  edit: "edit",
+  new: "new",
+  show: "show"
+};

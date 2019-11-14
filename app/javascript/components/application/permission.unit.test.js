@@ -3,14 +3,14 @@ import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../test";
-import { PERMISSION_CONSTANTS } from "../../libs/permissions";
+import { PERMISSION_CONSTANTS, RESOURCES } from "../../libs/permissions";
 
 import Permission from "./permission";
 
 describe("<Permission />", () => {
   let component;
   const props = {
-    permissionType: "cases",
+    permissionType: RESOURCES.cases,
     permission: PERMISSION_CONSTANTS.READ,
     children: <div />,
     match: {
@@ -91,8 +91,11 @@ describe("<Permission />", () => {
       ({ component } = setupMountedComponent(
         Permission,
         {
-          permissionType: ["cases", "incidents"],
-          permission: ["read", "export_xls"],
+          permissionType: [RESOURCES.cases, RESOURCES.incidents],
+          permission: [
+            PERMISSION_CONSTANTS.READ,
+            PERMISSION_CONSTANTS.EXPORT_EXCEL
+          ],
           children: <div />,
           match: {
             url: "/cases"

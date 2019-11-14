@@ -36,7 +36,7 @@ describe("<Nav />", () => {
       agencies: [
         {
           unique_id: "agency_1",
-          logo: { small: "/rails/active_storage/blobs/eyJfcm/logo.png" }
+          logo: { small: "/some/random.png" }
         }
       ]
     },
@@ -143,7 +143,7 @@ describe("<Nav />", () => {
         agencies: [
           {
             unique_id: "agency_1",
-            logo: { small: "/rails/active_storage/blobs/eyJfcm/logo.png" }
+            logo: { small: "/some/random.png" }
           }
         ]
       },
@@ -151,7 +151,7 @@ describe("<Nav />", () => {
         modules: [],
         agency: "agency_1",
         permissions: {
-          cases: ["read"]
+          cases: [PERMISSION_CONSTANTS.READ]
         }
       }
     });
@@ -159,7 +159,7 @@ describe("<Nav />", () => {
     beforeEach(() => {
       ({ component } = setupMountedComponent(
         ProvidedNav,
-        { username: "alberto" },
+        { username: "username" },
         initialState
       ));
     });
