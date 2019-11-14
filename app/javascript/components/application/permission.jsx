@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import { List } from "immutable";
 
 import { getPermissions } from "../user/selectors";
 
@@ -18,22 +19,19 @@ const Permission = ({
   const dispatch = useDispatch();
   const allUserPermissions = useSelector(state => getPermissions(state));
 
-  const filteredPermissions = Object.entries(allUserPermissions.toJS()).reduce(
-    (acum, curr) => {
-      const p = acum;
+  const filteredPermissions = allUserPermissions
+    .entrySeq()
+    .reduce((acum, curr) => {
       const [key, value] = curr;
 
       if ((Array.isArray(type) && type.includes(key)) || type === key) {
-        p[key] = value;
+        return { ...acum, [key]: value };
       }
 
-      return p;
-    },
-    {}
-  );
-
-  const userHasPermission = Object.values(filteredPermissions)
-    .flat()
+      return acum;
+    }, {});
+  const userHasPermission = List(Object.values(filteredPermissions))
+    .flatten()
     .some(t => permission.includes(t));
 
   if (userHasPermission) {

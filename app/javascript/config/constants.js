@@ -34,12 +34,12 @@ export const RECORD_TYPES = {
 export const AGE_MAX = 999;
 
 export const PERMITTED_URL = [
-  "/dashboard",
-  "/login",
-  "/logout",
-  "/not-authorized",
-  "/support",
-  "/account"
+  ROUTES.account,
+  ROUTES.dashboard,
+  ROUTES.login,
+  ROUTES.logout,
+  ROUTES.not_authorized,
+  ROUTES.support
 ];
 
 export const MODULES = Object.freeze({
@@ -72,15 +72,19 @@ export const REFERRAL = "referral";
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
 export const ROUTES = {
-  dashboard: "/dashboard",
+  account: "/account",
   cases: "/cases",
-  tasks: "/tasks",
-  incidents: "/incidents",
-  tracing_requests: "/tracing_requests",
-  matches: "/matches",
-  reports: "/reports",
+  dashboard: "/dashboard",
   exports: "/exports",
-  support: "/support"
+  incidents: "/incidents",
+  login: "/login",
+  logout: "/logout",
+  matches: "/matches",
+  not_authorized: "/not-authorized",
+  reports: "/reports",
+  support: "/support",
+  tasks: "/tasks",
+  tracing_requests: "/tracing_requests",
 };
 
 export const DATE_FORMAT = "dd-MMM-yyyy";

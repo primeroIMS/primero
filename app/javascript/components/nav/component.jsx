@@ -20,8 +20,8 @@ import Permission from "../application/permission"
 import { ListIcon } from "../list-icon";
 import { Jewel } from "../jewel";
 import { TranslationsToggle } from "../translations-toggle";
-import { PERMITTED_URL } from "../../config";
-import { PERMISSION_CONSTANTS } from "../../libs/permissions";
+import { PERMITTED_URL, ROUTES } from "../../config";
+import { PERMISSION_CONSTANTS, RESOURCES } from "../../libs/permissions";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -50,50 +50,50 @@ const Nav = () => {
   const agency = useSelector(state => selectUserAgency(state));
   const drawerOpen = useSelector(state => selectDrawerOpen(state));
   const nav = [
-    { name: i18n.t("navigation.home"), to: "/dashboard", icon: "home" },
+    { name: i18n.t("navigation.home"), to: ROUTES.dashboard, icon: "home" },
     {
       name: i18n.t("navigation.tasks"),
-      to: "/tasks",
+      to: ROUTES.tasks,
       icon: "tasks",
       jewelCount: 0,
-      permissionType: "dashboards",
+      permissionType: RESOURCES.dashboards,
       permission: [PERMISSION_CONSTANTS.DASH_TASKS, PERMISSION_CONSTANTS.MANAGE]
     },
     {
       name: i18n.t("navigation.cases"),
-      to: "/cases",
+      to: ROUTES.cases,
       icon: "cases",
       jewelCount: 20,
-      permissionType: "cases",
+      permissionType: RESOURCES.cases,
       permission: [PERMISSION_CONSTANTS.READ, PERMISSION_CONSTANTS.MANAGE]
     },
     {
       name: i18n.t("navigation.incidents"),
-      to: "/incidents",
+      to: ROUTES.incidents,
       icon: "incidents",
       jewelCount: 0,
-      permissionType: "incidents",
+      permissionType: RESOURCES.incidents,
       permission: [PERMISSION_CONSTANTS.READ, PERMISSION_CONSTANTS.MANAGE]
     },
     {
       name: i18n.t("navigation.tracing_request"),
-      to: "/tracing_requests",
+      to: ROUTES.tracing_requests,
       icon: "tracing_request",
-      permissionType: "tracing_requests",
+      permissionType: RESOURCES.tracing_requests,
       permission: [PERMISSION_CONSTANTS.READ, PERMISSION_CONSTANTS.MANAGE]
     },
     {
       name: i18n.t("navigation.potential_match"),
-      to: "/matches",
+      to: ROUTES.matches,
       icon: "matches",
-      permissionType: "potential_matches",
+      permissionType: RESOURCES.potential_matches,
       permission: [PERMISSION_CONSTANTS.READ, PERMISSION_CONSTANTS.MANAGE]
     },
     {
       name: i18n.t("navigation.reports"),
-      to: "/reports",
+      to: ROUTES.reports,
       icon: "reports",
-      permissionType: "reports",
+      permissionType: RESOURCES.reports,
       permission: [
         PERMISSION_CONSTANTS.READ,
         PERMISSION_CONSTANTS.GROUP_READ,
@@ -102,9 +102,9 @@ const Nav = () => {
     },
     {
       name: i18n.t("navigation.bulk_exports"),
-      to: "/exports",
+      to: ROUTES.exports,
       icon: "exports",
-      permissionType: ["cases", "incidents", "tracing_request"],
+      permissionType: [RESOURCES.cases, RESOURCES.incidents, RESOURCES.tracing_requests],
       permission: [
         PERMISSION_CONSTANTS.EXPORT_LIST_VIEW,
         PERMISSION_CONSTANTS.EXPORT_CSV,
@@ -123,12 +123,12 @@ const Nav = () => {
     },
     {
       name: i18n.t("navigation.support"),
-      to: "/support",
+      to: ROUTES.support,
       icon: "support",
       divider: true
     },
-    { name: username, to: "/account", icon: "account" },
-    { name: i18n.t("navigation.logout"), to: "/logout", icon: "logout" }
+    { name: username, to: ROUTES.account, icon: "account" },
+    { name: i18n.t("navigation.logout"), to: ROUTES.logout, icon: "logout" }
   ];
 
   useEffect(() => {
@@ -137,48 +137,46 @@ const Nav = () => {
     }
   }, [drawerOpen, mobileDisplay, openDrawer]);
 
-  const renderMenuEntries = menuEntry => {
-    return (
-      <div key={menuEntry.to}>
-        {menuEntry.divider && <div className={css.navSeparator} />}
-        <ListItem key={menuEntry.to}>
-          <NavLink
-            to={menuEntry.to}
-            className={css.navLink}
-            activeClassName={css.navActive}
-          >
-            <ListItemIcon classes={{ root: css.listIcon }}>
-              <ListIcon icon={menuEntry.icon} />
-            </ListItemIcon>
-            <ListItemText
-              primary={menuEntry.name}
-              classes={{ primary: css.listText }}
+  const renderMenuEntries = menuEntry => (
+    <div key={menuEntry.to}>
+      {menuEntry.divider && <div className={css.navSeparator} />}
+      <ListItem key={menuEntry.to}>
+        <NavLink
+          to={menuEntry.to}
+          className={css.navLink}
+          activeClassName={css.navActive}
+        >
+          <ListItemIcon classes={{ root: css.listIcon }}>
+            <ListIcon icon={menuEntry.icon} />
+          </ListItemIcon>
+          <ListItemText
+            primary={menuEntry.name}
+            classes={{ primary: css.listText }}
+          />
+          {menuEntry.jewelCount ? (
+            <Jewel
+              value={menuEntry.jewelCount}
+              mobileDisplay={mobileDisplay}
             />
-            {menuEntry.jewelCount ? (
-              <Jewel
-                value={menuEntry.jewelCount}
-                mobileDisplay={mobileDisplay}
-              />
-            ) : null}
-          </NavLink>
-        </ListItem>
-      </div>
-    );
-  };
+          ) : null}
+        </NavLink>
+      </ListItem>
+    </div>
+  );
 
   const permittedMenuEntries = menuEntries => {
     return menuEntries.map(menuEntry =>
       PERMITTED_URL.includes(menuEntry.to) ? (
         renderMenuEntries(menuEntry)
       ) : (
-        <Permission
-          key={menuEntry.to}
-          permissionType={menuEntry.permissionType}
-          permission={menuEntry.permission}
-        >
-          {renderMenuEntries(menuEntry)}
-        </Permission>
-      )
+          <Permission
+            key={menuEntry.to}
+            permissionType={menuEntry.permissionType}
+            permission={menuEntry.permission}
+          >
+            {renderMenuEntries(menuEntry)}
+          </Permission>
+        )
     );
   };
 

@@ -9,6 +9,7 @@ import { TranslationsToggle } from "../translations-toggle";
 import { AgencyLogo } from "../agency-logo";
 import { ModuleLogo } from "../module-logo";
 import { ApplicationProvider } from "../application/provider";
+import { PERMISSION_CONSTANTS } from "../../libs/permissions";
 
 import Nav from "./component";
 
@@ -20,12 +21,12 @@ describe("<Nav />", () => {
     </ApplicationProvider>
   );
   const permissions = {
-    cases: ["manage"],
-    incidents: ["read"],
-    dashboards: ["manage", "dash_tasks"],
-    potential_matches: ["manage"],
-    tracing_requests: ["read"],
-    reports: ["manage"]
+    cases: [PERMISSION_CONSTANTS.MANAGE],
+    incidents: [PERMISSION_CONSTANTS.READ],
+    dashboards: [PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.DASH_TASKS],
+    potential_matches: [PERMISSION_CONSTANTS.MANAGE],
+    tracing_requests: [PERMISSION_CONSTANTS.READ],
+    reports: [PERMISSION_CONSTANTS.MANAGE]
   }
   const initialState = fromJS({
     ui: { Nav: { drawerOpen: true } },

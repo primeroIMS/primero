@@ -30,6 +30,15 @@ export const PERMISSION_CONSTANTS = {
   EXPORT_CUSTOM: "export_custom"
 };
 
+export const RESOURCES = {
+  cases: "cases",
+  dashboards: "dashboards",
+  incidents: "incidents",
+  potential_matches: "potential_matches",
+  reports: "reports",
+  tracing_requests: "tracing_requests"
+};
+
 export const checkPermissions = (currentPermissions, allowedPermissions) => {
   return (
     currentPermissions &&

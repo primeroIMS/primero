@@ -119,14 +119,7 @@ describe("Verifying config constant", () => {
       incidents: "incident"
     });
     expect(constants.AGE_MAX).equal(999);
-    expect(constants.PERMITTED_URL).to.deep.equal([
-      "/dashboard",
-      "/login",
-      "/logout",
-      "/not-authorized",
-      "/support",
-      "/account"
-    ]);
+    expect(constants.PERMITTED_URL).to.be.an("Array");
     expect(constants.MODULES).to.deep.equal({
       CP: "primeromodule-cp",
       GBV: "primeromodule-gbv"
