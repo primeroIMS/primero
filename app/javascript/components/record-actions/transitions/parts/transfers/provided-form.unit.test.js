@@ -1,14 +1,18 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../../../test";
 import { Field } from "formik";
 import { Grid, FormControlLabel, Checkbox } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../../../../test";
+import actions from "../../actions";
+import { RECORD_TYPES } from "../../../../../config";
+
 import ProvidedForm from "./provided-form";
 
 describe("<ProvidedForm /> - transfers", () => {
   const formProps = {
     initialValues: {
-      transfer: false
+      transfer: false,
+      agency: "unicef"
     }
   };
 
@@ -65,5 +69,37 @@ describe("<ProvidedForm /> - transfers", () => {
       component.find(Checkbox),
       "should not render Checkbox"
     ).to.not.have.lengthOf(1);
+  });
+
+  it("should reload users if any agency, location or user has changed", () => {
+    const props = {
+      canConsentOverride: true,
+      setDisabled: () => {},
+      recordType: "cases"
+    };
+    const { component } = setupMountedComponent(
+      ProvidedForm,
+      props,
+      {},
+      [],
+      formProps
+    );
+    const trasnferAnyway = component.find(Checkbox);
+    const storeActions = component.props().store.getActions();
+    const expectedAction = {
+      type: actions.TRANSFER_USERS_FETCH,
+      api: {
+        path: actions.USERS_TRANSFER_TO,
+        params: {
+          record_type: RECORD_TYPES.cases
+        }
+      }
+    };
+
+    trasnferAnyway
+      .find("input")
+      .simulate("change", { target: { checked: true } });
+
+    expect(storeActions[0]).to.deep.equal(expectedAction);
   });
 });

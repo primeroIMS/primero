@@ -103,8 +103,8 @@ const Container = ({
     const { field_name: fieldName } = filter;
 
     return (
-      defaultFilters.get(fieldName)?.length > 0 ||
-      savedFilters[fieldName]?.length > 0
+      defaultFilters.get(fieldName)?.size > 0 ||
+      savedFilters[fieldName]?.size > 0
     );
   };
 

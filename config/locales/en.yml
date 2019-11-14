@@ -269,6 +269,7 @@ en:
         pending: "Pending Approvals"
         approved: "Approved"
         rejected: "Rejected"
+      enabled_disabled: "Enabled / Disabled"
     clear_filter: "Clear"
     apply_filter: "Apply"
     save_filter: "Save"

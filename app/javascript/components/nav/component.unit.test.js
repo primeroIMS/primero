@@ -9,6 +9,7 @@ import { TranslationsToggle } from "../translations-toggle";
 import { AgencyLogo } from "../agency-logo";
 import { ModuleLogo } from "../module-logo";
 import { ApplicationProvider } from "../application/provider";
+import { PERMISSION_CONSTANTS } from "../../libs/permissions";
 
 import Nav from "./component";
 
@@ -19,28 +20,38 @@ describe("<Nav />", () => {
       <Nav />
     </ApplicationProvider>
   );
+  const permissions = {
+    cases: [PERMISSION_CONSTANTS.MANAGE],
+    incidents: [PERMISSION_CONSTANTS.READ],
+    dashboards: [PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.DASH_TASKS],
+    potential_matches: [PERMISSION_CONSTANTS.MANAGE],
+    tracing_requests: [PERMISSION_CONSTANTS.READ],
+    reports: [PERMISSION_CONSTANTS.MANAGE]
+  }
+  const initialState = fromJS({
+    ui: { Nav: { drawerOpen: true } },
+    application: {
+      modules: {},
+      online: true,
+      agencies: [
+        {
+          unique_id: "agency_1",
+          logo: { small: "/some/random.png" }
+        }
+      ]
+    },
+    user: {
+      modules: [],
+      agency: "agency_1",
+      permissions
+    }
+  })
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(
       ProvidedNav,
       { username: "joshua" },
-      fromJS({
-        ui: { Nav: { drawerOpen: true } },
-        application: {
-          modules: {},
-          online: true,
-          agencies: [
-            {
-              unique_id: "agency_1",
-              logo: { small: "/rails/active_storage/blobs/eyJfcm/logo.png" }
-            }
-          ]
-        },
-        user: {
-          modules: [],
-          agency: "agency_1"
-        }
-      })
+      initialState
     ));
   });
 
@@ -120,6 +131,52 @@ describe("<Nav />", () => {
           .find(NavLink)
           .findWhere(link => link.prop("to") === ROUTES.exports)
       ).to.have.lengthOf(1);
+    });
+  });
+
+  describe("when have restricted permission", () => {
+    const initialState = fromJS({
+      ui: { Nav: { drawerOpen: true } },
+      application: {
+        modules: {},
+        online: true,
+        agencies: [
+          {
+            unique_id: "agency_1",
+            logo: { small: "/some/random.png" }
+          }
+        ]
+      },
+      user: {
+        modules: [],
+        agency: "agency_1",
+        permissions: {
+          cases: [PERMISSION_CONSTANTS.READ]
+        }
+      }
+    });
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        ProvidedNav,
+        { username: "username" },
+        initialState
+      ));
+    });
+
+    it("renders cases link", () => {
+      expect(
+        component
+          .find(NavLink)
+          .findWhere(link => link.prop("to") === ROUTES.cases)
+      ).to.have.lengthOf(1);
+    });
+    it("doesn't renders export link", () => {
+      expect(
+        component
+          .find(NavLink)
+          .findWhere(link => link.prop("to") === ROUTES.exports)
+      ).to.have.lengthOf(0);
     });
   });
 });

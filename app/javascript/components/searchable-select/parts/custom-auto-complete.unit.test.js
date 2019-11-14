@@ -16,6 +16,7 @@ describe("<CustomAutoComplete />", () => {
         shrink: true
       }
     },
+    excludeEmpty: false,
     options: [{ label: "test", value: "Test Value" }]
   };
   beforeEach(() => {
@@ -28,5 +29,19 @@ describe("<CustomAutoComplete />", () => {
 
   it("renders ReactSelect", () => {
     expect(component.find(ReactSelect)).to.have.length(1);
+  });
+
+  it("renders a single option and defaultValue prop if excludeEmpty is true", () => {
+    const reactSelect = component.find(ReactSelect).props();
+    expect(reactSelect).to.have.property("defaultValue");
+    expect(reactSelect).to.have.property("options");
+    expect(reactSelect.options).to.have.lengthOf(2);
+  });
+
+  it("renders two options and defaultValue prop if excludeEmpty is false", () => {
+    const reactSelect = component.find(ReactSelect).props();
+    expect(reactSelect).to.have.property("defaultValue");
+    expect(reactSelect).to.have.property("options");
+    expect(reactSelect.options).to.have.lengthOf(2);
   });
 });

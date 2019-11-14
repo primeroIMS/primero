@@ -31,7 +31,8 @@ class DestringifyService
     when Array
       value.map{|v| destringify(v, lists_and_ranges)}
     when Hash
-      has_numeric_keys = value.keys.reduce(true){|memo, k| memo && k.match?(/^\d+$/)}
+      # If value.keys is empty the expression returns true. For that reason we need the check for present?
+      has_numeric_keys = value.keys.present? && value.keys.all?{ |k| k.match?(/^\d+$/) }
       if has_numeric_keys
         value.sort_by{|k,_| k.to_i}.map{|_,v| destringify(v, lists_and_ranges)}
       else

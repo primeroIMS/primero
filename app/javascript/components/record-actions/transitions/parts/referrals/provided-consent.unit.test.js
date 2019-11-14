@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-expressions */
-
 import { expect } from "chai";
+
 import { setupMountedComponent } from "../../../../../test";
+import { RECORD_TYPES } from "../../../../../config";
+
 import ProvidedForm from "./provided-form";
 import ProvidedConsent from "./provided-consent";
 
@@ -69,5 +71,28 @@ describe("<ProvidedConsent /> - referrals", () => {
       formProps
     );
     expect(component.find(ProvidedForm)).to.have.lengthOf(1);
+  });
+
+  it("should render <ProvidedForm> with valid props", () => {
+    const props = {
+      canConsentOverride: true,
+      providedConsent: false,
+      setDisabled: () => {},
+      recordType: RECORD_TYPES.cases
+    };
+    const { component } = setupMountedComponent(
+      ProvidedConsent,
+      props,
+      {},
+      [],
+      formProps
+    );
+    const providedForm = { ...component.find(ProvidedForm).props() };
+
+    ["canConsentOverride", "setDisabled", "recordType"].forEach(property => {
+      expect(providedForm).to.have.property(property);
+      delete providedForm[property];
+    });
+    expect(providedForm).to.be.empty;
   });
 });

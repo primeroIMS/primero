@@ -85,6 +85,7 @@ const ReassignForm = ({ handleClose, record, recordType }) => {
         shrink: true
       }
     },
+    excludeEmpty: true,
     options: users
       ? users.valueSeq().map(user => {
           const userName = user.get(USER_NAME_FIELD);

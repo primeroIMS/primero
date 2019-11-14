@@ -87,26 +87,32 @@ const Reports = () => {
             loading={isLoading}
             type="reports"
           >
-            {reports.map(report => {
-              return (
-                <Card key={report.get("id")} className={css.card} elevation={3}>
-                  <CardActionArea
-                    to={`/reports/${report.get("id")}`}
-                    component={Link}
-                    disableRipple
+            <div className={css.reportsListContainer}>
+              {reports.map(report => {
+                return (
+                  <Card
+                    key={report.get("id")}
+                    className={css.card}
+                    elevation={3}
                   >
-                    <CardContent className={css.cardContent}>
-                      <h3 className={css.title}>
-                        {report.getIn(["name", i18n.locale], "")}
-                      </h3>
-                      <p className={css.description}>
-                        {report.getIn(["description", i18n.locale], "")}
-                      </p>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              );
-            })}
+                    <CardActionArea
+                      to={`/reports/${report.get("id")}`}
+                      component={Link}
+                      disableRipple
+                    >
+                      <CardContent className={css.cardContent}>
+                        <h3 className={css.title}>
+                          {report.getIn(["name", i18n.locale], "")}
+                        </h3>
+                        <p className={css.description}>
+                          {report.getIn(["description", i18n.locale], "")}
+                        </p>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                );
+              })}
+            </div>
             <Box display="flex" justifyContent="flex-end">
               <TablePagination {...paginationProps} />
             </Box>

@@ -2,11 +2,16 @@ import { expect } from "chai";
 import React from "react";
 import { Route } from "react-router-dom";
 import { fromJS } from "immutable";
+import { ExpansionPanel } from "@material-ui/core";
+
+import Filters from "../filters";
+import Panel from "../filters-builder/Panel";
 
 import IndexTable from "./../index-table";
 import { PERMISSION_CONSTANTS } from "./../../libs/permissions";
 import { setupMountedComponent } from "./../../test";
 import { ViewModal } from "./../record-list/view-modal";
+
 
 import RecordList from "./container";
 
@@ -35,7 +40,8 @@ describe("<RecordList />", () => {
           metadata: { total: 2, per: 20, page: 1 },
           filters: {
             id_search: false,
-            query: ""
+            query: "",
+            record_state: ["true"]
           }
         }
       },
@@ -44,7 +50,28 @@ describe("<RecordList />", () => {
         listHeaders: {
           cases: [{ id: "name", name: "Name", field_name: "name" }]
         },
-        permissions: { cases: [PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.DISPLAY_VIEW_PAGE] }
+        filters: {
+          cases: [
+            {
+              name: "cases.filter_by.enabled_disabled",
+              field_name: "record_state",
+              option_strings_source: null,
+              options: {
+                en: [
+                  { id: "true", display_name: "Enabled" },
+                  { id: "false", display_name: "Disabled" }
+                ]
+              },
+              type: "multi_toggle"
+            }
+          ]
+        },
+        permissions: {
+          cases: [
+            PERMISSION_CONSTANTS.MANAGE,
+            PERMISSION_CONSTANTS.DISPLAY_VIEW_PAGE
+          ]
+        }
       },
       application: {
         online: true,
@@ -78,5 +105,16 @@ describe("<RecordList />", () => {
 
   it("renders record list table", () => {
     expect(component.find(ViewModal)).to.have.lengthOf(1);
+  });
+
+  it("renders Enabled / Disabled filter expanded", () => {
+    const filterPanel = component.find(Filters).find(Panel);
+    const expansionPanel = component.find(Filters).find(ExpansionPanel);
+
+    expect(filterPanel).to.have.lengthOf(1);
+    expect(filterPanel.props().hasValues).to.equal(true);
+
+    expect(expansionPanel).to.have.lengthOf(1);
+    expect(expansionPanel.props().expanded).to.equal(true);
   });
 });

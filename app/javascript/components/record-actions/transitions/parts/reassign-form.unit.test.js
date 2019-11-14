@@ -86,4 +86,22 @@ describe("<ReassignForm />", () => {
       });
     });
   });
+
+  it("renders SearchableSelect with valid props", () => {
+    const reactSelectProps = { ...component.find(SearchableSelect).props() };
+
+    [
+      "onChange",
+      "id",
+      "name",
+      "TextFieldProps",
+      "excludeEmpty",
+      "options",
+      "onBlur"
+    ].forEach(property => {
+      expect(reactSelectProps).to.have.property(property);
+      delete reactSelectProps[property];
+    });
+    expect(reactSelectProps).to.be.empty;
+  });
 });

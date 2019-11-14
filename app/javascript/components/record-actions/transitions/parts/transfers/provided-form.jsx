@@ -3,15 +3,36 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { FormControlLabel, Checkbox, Grid } from "@material-ui/core";
 import { Field } from "formik";
+import { useDispatch } from "react-redux";
 
 import { CasesIcon } from "../../../../../images/primero-icons";
 import { useI18n } from "../../../../i18n";
 import * as styles from "../../styles.css";
+import { internalFieldsDirty } from "../helpers";
+import { fetchTransferUsers } from "../../action-creators";
+import { RECORD_TYPES } from "../../../../../config";
 
-const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
+import {
+  AGENCY_FIELD,
+  LOCATION_FIELD,
+  TRANSITIONED_TO_FIELD
+} from "./constants";
+
+const ProvidedForm = ({ setDisabled, canConsentOverride, recordType }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  const dispatch = useDispatch();
+
   const onChange = (field, form) => {
+    if (
+      internalFieldsDirty(form.values, [
+        AGENCY_FIELD,
+        LOCATION_FIELD,
+        TRANSITIONED_TO_FIELD
+      ])
+    ) {
+      dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType] }));
+    }
     setDisabled(!field.value);
     form.setFieldValue(field.name, !field.value, false);
   };
@@ -52,6 +73,7 @@ const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
 
 ProvidedForm.propTypes = {
   canConsentOverride: PropTypes.bool,
+  recordType: PropTypes.string,
   setDisabled: PropTypes.func
 };
 
