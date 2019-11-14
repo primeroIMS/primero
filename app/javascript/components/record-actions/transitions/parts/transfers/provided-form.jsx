@@ -25,13 +25,13 @@ const ProvidedForm = ({ setDisabled, canConsentOverride, recordType }) => {
 
   const onChange = (field, form) => {
     if (
-        internalFieldsDirty(form.values, [
-          AGENCY_FIELD,
-          LOCATION_FIELD,
-          TRANSITIONED_TO_FIELD
-        ])
-      ) {
-      dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType] }))
+      internalFieldsDirty(form.values, [
+        AGENCY_FIELD,
+        LOCATION_FIELD,
+        TRANSITIONED_TO_FIELD
+      ])
+    ) {
+      dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType] }));
     }
     setDisabled(!field.value);
     form.setFieldValue(field.name, !field.value, false);

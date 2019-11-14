@@ -50,7 +50,7 @@ const TransferInternal = ({ disableControl, fields }) => {
 
       return !disableControl && value !== ""
         ? selected
-        : { value: "", label:i18n.t("fields.select_single") };
+        : { value: "", label: i18n.t("fields.select_single") };
     };
 
     const searchableField = (searchField, props) => {
