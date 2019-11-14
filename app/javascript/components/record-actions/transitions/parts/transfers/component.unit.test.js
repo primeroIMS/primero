@@ -7,6 +7,7 @@ import {
   Button
 } from "@material-ui/core";
 import clone from "lodash/clone";
+import { Formik } from "formik";
 
 import { setupMountedComponent } from "../../../../../test";
 import { MODULES } from "../../../../../config";
@@ -129,5 +130,25 @@ describe("<TransferForm />", () => {
       delete providedConsentProps[property];
     });
     expect(providedConsentProps).to.be.empty;
+  });
+
+  it("renders Formik with valid props", () => {
+    const formikProps = { ...component.find(Formik).props() };
+
+    expect(component.find(Formik)).to.have.lengthOf(1);
+    [
+      "validationSchema",
+      "validateOnBlur",
+      "validateOnChange",
+      "initialValues",
+      "onSubmit",
+      "render",
+      "isInitialValid",
+      "enableReinitialize"
+    ].forEach(property => {
+      expect(formikProps).to.have.property(property);
+      delete formikProps[property];
+    });
+    expect(formikProps).to.be.empty;
   });
 });

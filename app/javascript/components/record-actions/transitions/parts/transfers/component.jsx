@@ -228,11 +228,15 @@ const TransferForm = ({
   };
 
   const validationSchema = yup.object().shape({
-    transitioned_to: yup.string().required()
+    [TRANSITIONED_TO_FIELD]: yup
+      .string()
+      .required(i18n.t("transfer.user_mandatory"))
   });
 
   const formProps = {
     validationSchema,
+    validateOnBlur: false,
+    validateOnChange: false,
     initialValues: {
       [TRANSFER_FIELD]: false,
       [REMOTE_SYSTEM_FIELD]: false,
