@@ -18,6 +18,7 @@ const Details = ({ transition, classes }) => {
       option => option.id === transition.service
     );
 
+    // eslint-disable-next-line camelcase
     return value[0]?.display_text;
   });
 

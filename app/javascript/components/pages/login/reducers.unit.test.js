@@ -4,7 +4,7 @@ import { Map } from "immutable";
 import { reducers } from "./reducers";
 
 describe("<Login /> - Reducers", () => {
-  const default_state = Map({
+  const defaultState = Map({
     module: "primero",
     agency: "unicef",
     isAuthenticated: false
@@ -23,7 +23,7 @@ describe("<Login /> - Reducers", () => {
         error: null
       }
     };
-    const newState = reducers.user(default_state, action);
+    const newState = reducers.user(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -41,7 +41,7 @@ describe("<Login /> - Reducers", () => {
         error: "Invalid User name or password."
       }
     };
-    const newState = reducers.user(default_state, action);
+    const newState = reducers.user(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
