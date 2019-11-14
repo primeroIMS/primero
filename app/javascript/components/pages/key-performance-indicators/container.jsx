@@ -73,9 +73,9 @@ function StackedPercentageBar({ percentages, className }) {
             return (
               <div className={css.StackedPercentageBarLabelContainer} style={{ width: percentage + "%" }}>
                 <div>
-                  <h1 className={css.StackedPercentageBarLabel}>{percentage + '%'}</h1>
+                  <h1 className={css.StackedPercentageBarLabelPercentage}>{percentage + '%'}</h1>
                 </div>
-                <div>{percentageDescriptor.label}</div>
+                <div className={css.StackedPercentageBarLabel}>{percentageDescriptor.label}</div>
               </div>
             );
           })
@@ -226,6 +226,41 @@ function KeyPerformanceIndicators({
                   >
                     <StackedPercentageBar
                       percentages={[{ percentage: 0.5, label: "Completed & Supervisor Approved" }, { percentage: 0.26, label: "Completed Only" }]}
+                    />
+                  </OptionsBox>
+                </Grid>
+              </Grid>
+            </Box>
+
+            <Box>
+              <h2 className={css.subtitle}>CASE ACTION PLANNING</h2>
+              <Grid container spacing={2}>
+                <Grid item className={css.grow} xs={12} md={4}>
+                  <OptionsBox
+                    title="Completed Case Safety Plan"
+                  >
+                    <StackedPercentageBar
+                      percentages={[{ percentage: 0.5, label: "Completed Case Safety Plan" }]}
+                    />
+                  </OptionsBox>
+                </Grid>
+
+                <Grid item className={css.grow} xs={12} md={4}>
+                  <OptionsBox
+                    title="Completed Case Action Plan"
+                  >
+                    <StackedPercentageBar
+                      percentages={[{ percentage: 0.5, label: "Completed Case Action Plan" }]}
+                    />
+                  </OptionsBox>
+                </Grid>
+
+                <Grid item className={css.grow} xs={12} md={4}>
+                  <OptionsBox
+                    title="Completed Action Plan Approved by Supervisor"
+                  >
+                    <StackedPercentageBar
+                      percentages={[{ percentage: 0.5, label: "Completed Action Plan Approved by Supervisor"}]}
                     />
                   </OptionsBox>
                 </Grid>
