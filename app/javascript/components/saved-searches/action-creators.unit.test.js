@@ -4,6 +4,7 @@ import sinon from "sinon";
 import sinonChai from "sinon-chai";
 import configureStore from "redux-mock-store";
 import { normalizeData } from "schemas";
+
 import * as actionCreators from "./action-creators";
 import * as actions from "./actions";
 
@@ -40,6 +41,7 @@ describe("<RecordForm /> - Action Creators", () => {
   it("should check the 'setSavedSearch' action creator to return the correct object", () => {
     const options = { flagged: ["true"] };
     const dispatch = sinon.spy(actionCreators, "setSavedSearch");
+
     actionCreators.setSavedSearch("incidents", { flagged: ["true"] });
 
     expect(dispatch.getCall(0).returnValue).to.eql({

@@ -25,6 +25,7 @@ describe("<ReassignForm />", () => {
     record,
     handleClose: () => {}
   };
+
   beforeEach(() => {
     ({ component } = setupMountedComponent(ReassignForm, props, initialState));
   });
@@ -61,6 +62,7 @@ describe("<ReassignForm />", () => {
         }
       });
       const values = getUsersByTransitionType(state, "reassign");
+
       beforeEach(() => {
         ({ component } = setupMountedComponent(
           ReassignForm,
@@ -73,7 +75,8 @@ describe("<ReassignForm />", () => {
         ));
       });
       it("should have same no. of users", () => {
-        component.find(ReassignForm)
+        component
+          .find(ReassignForm)
           .find("input")
           .first()
           .simulate("keyDown", {

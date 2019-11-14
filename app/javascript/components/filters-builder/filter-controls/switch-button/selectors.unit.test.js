@@ -23,6 +23,7 @@ describe("<SwitchButton /> - Selectors", () => {
         { field_name: "my_cases" },
         "Cases"
       );
+
       expect(records).to.deep.equal(expected);
     });
 
@@ -33,6 +34,7 @@ describe("<SwitchButton /> - Selectors", () => {
         { field_name: "my_cases" },
         "Cases"
       );
+
       expect(records).to.deep.equal(expected);
     });
   });

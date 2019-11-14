@@ -4,7 +4,6 @@ import { Map } from "immutable";
 import { reducers } from "./reducers";
 
 describe("<Login /> - Reducers", () => {
-
   const default_state = Map({
     module: "primero",
     agency: "unicef",
@@ -25,6 +24,7 @@ describe("<Login /> - Reducers", () => {
       }
     };
     const newState = reducers.user(default_state, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -42,6 +42,7 @@ describe("<Login /> - Reducers", () => {
       }
     };
     const newState = reducers.user(default_state, action);
+
     expect(newState).to.deep.equal(expected);
   });
 });

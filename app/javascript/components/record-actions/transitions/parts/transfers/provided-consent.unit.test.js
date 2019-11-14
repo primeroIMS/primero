@@ -12,6 +12,7 @@ describe("<ProvidedConsent /> - transfers", () => {
       transfer: false
     }
   };
+
   it("should not render anything when child has provided consent and user can't consent override", () => {
     const props = {
       canConsentOverride: false,
@@ -24,6 +25,7 @@ describe("<ProvidedConsent /> - transfers", () => {
       [],
       formProps
     );
+
     expect(component).to.be.empty;
   });
 
@@ -39,6 +41,7 @@ describe("<ProvidedConsent /> - transfers", () => {
       [],
       formProps
     );
+
     expect(component).to.be.empty;
   });
 
@@ -54,6 +57,7 @@ describe("<ProvidedConsent /> - transfers", () => {
       [],
       formProps
     );
+
     expect(component.find(ProvidedForm)).to.have.lengthOf(1);
   });
 
@@ -69,6 +73,7 @@ describe("<ProvidedConsent /> - transfers", () => {
       [],
       formProps
     );
+
     expect(component.find(ProvidedForm)).to.have.lengthOf(1);
   });
 

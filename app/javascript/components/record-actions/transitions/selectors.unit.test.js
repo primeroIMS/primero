@@ -1,7 +1,7 @@
-
 import chai, { expect } from "chai";
 import { Map } from "immutable";
 import chaiImmutable from "chai-immutable";
+
 import * as selectors from "./selectors";
 
 chai.use(chaiImmutable);
@@ -27,11 +27,13 @@ describe("<Transitions /> - Selectors", () => {
         stateWithRecords,
         "reassign"
       );
+
       expect(values).to.deep.equal(expected);
     });
 
     it("should return false when there are not users in store", () => {
       const errors = selectors.getUsersByTransitionType(stateWithNoRecords);
+
       expect(errors).to.be.equal(undefined);
     });
   });
@@ -43,11 +45,13 @@ describe("<Transitions /> - Selectors", () => {
         stateWithRecords,
         "reassign"
       );
+
       expect(values).to.deep.equal(expected);
     });
 
     it("should return undefined when there are not messages in store", () => {
       const errors = selectors.getErrorsByTransitionType(stateWithNoRecords);
+
       expect(errors).to.be.equal(undefined);
     });
   });

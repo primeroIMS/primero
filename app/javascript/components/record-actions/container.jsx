@@ -5,11 +5,10 @@ import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { RECORD_TYPES } from "../../config";
-
-import { useI18n } from "./../i18n";
-import { getPermissionsByRecord } from "./../user/selectors";
-import { PERMISSION_CONSTANTS, checkPermissions } from "./../../libs/permissions";
-import Permission from "./../application/permission";
+import { useI18n } from "../i18n";
+import { getPermissionsByRecord } from "../user/selectors";
+import { PERMISSION_CONSTANTS, checkPermissions } from "../../libs/permissions";
+import Permission from "../application/permission";
 
 import { NAME } from "./config";
 import { Notes } from "./notes";
@@ -258,7 +257,10 @@ const Container = ({ recordType, iconColor, record, mode }) => {
 
       <Permission
         permissionType={recordType}
-        permission={[PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.ENABLE_DISABLE_RECORD]}
+        permission={[
+          PERMISSION_CONSTANTS.MANAGE,
+          PERMISSION_CONSTANTS.ENABLE_DISABLE_RECORD
+        ]}
       >
         {toggleEnableDialog}
       </Permission>
@@ -267,7 +269,10 @@ const Container = ({ recordType, iconColor, record, mode }) => {
 
       <Permission
         permissionType={recordType}
-        permission={[PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.ADD_NOTE]}
+        permission={[
+          PERMISSION_CONSTANTS.MANAGE,
+          PERMISSION_CONSTANTS.ADD_NOTE
+        ]}
       >
         <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} />
       </Permission>
@@ -278,10 +283,10 @@ const Container = ({ recordType, iconColor, record, mode }) => {
 Container.displayName = NAME;
 
 Container.propTypes = {
-  recordType: PropTypes.string.isRequired,
   iconColor: PropTypes.string,
+  mode: PropTypes.object,
   record: PropTypes.object,
-  mode: PropTypes.object
+  recordType: PropTypes.string.isRequired
 };
 
 export default Container;

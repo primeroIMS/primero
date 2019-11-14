@@ -1,9 +1,10 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../test";
 import { Map, List } from "immutable";
 import { IconButton, InputBase } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../test";
 import { setFilters } from "../records";
+
 import RecordSearch from "./container";
 
 describe("<RecordSearch />", () => {

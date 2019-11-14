@@ -1,7 +1,5 @@
-
 import React from "react";
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../../test";
 import {
   Dialog,
   DialogTitle,
@@ -9,6 +7,9 @@ import {
   IconButton
 } from "@material-ui/core";
 import { Map } from "immutable";
+
+import { setupMountedComponent } from "../../../../test";
+
 import TransitionDialog from "./transition-dialog";
 
 describe("<TransitionDialog />", () => {
@@ -63,6 +64,7 @@ describe("<TransitionDialog />", () => {
 
   describe("when transitionType is 'reassign'", () => {
     const transitionType = "reassign";
+
     beforeEach(() => {
       ({ component } = setupMountedComponent(TransitionDialog, {
         ...props,
@@ -82,6 +84,7 @@ describe("<TransitionDialog />", () => {
 
   describe("when transitionType is 'Transfer'", () => {
     const transitionType = "transfer";
+
     beforeEach(() => {
       ({ component } = setupMountedComponent(TransitionDialog, {
         ...props,

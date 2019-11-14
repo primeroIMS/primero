@@ -69,12 +69,14 @@ const MainForm = ({ formProps, rest }) => {
   useEffect(() => {
     if (firstUpdate.current) {
       firstUpdate.current = false;
+
       return;
     }
     const messages = hasErrors
       .valueSeq()
       .map(e => i18n.t(e))
       .join(", ");
+
     if (messages !== "") {
       dispatch(enqueueSnackbar(messages, "error"));
     } else {
@@ -106,6 +108,7 @@ const MainForm = ({ formProps, rest }) => {
       [name]: currentValue,
       ...result
     };
+
     if (currentValue !== formValues[name]) {
       dispatch(fetchReferralUsers(params));
     }
@@ -125,6 +128,7 @@ const MainForm = ({ formProps, rest }) => {
         const { value } = data;
         const queryValues = [LOCATION_FIELD];
         const dependentValues = [AGENCY_FIELD, TRANSITIONED_TO_FIELD];
+
         form.setFieldValue(field.name, value, false);
         clearDependentValues(dependentValues, form);
         getUsers(field.name, value, form.values, queryValues);
@@ -143,6 +147,7 @@ const MainForm = ({ formProps, rest }) => {
         const { value } = data;
         const queryValues = [SERVICE_FIELD, LOCATION_FIELD];
         const dependentValues = [TRANSITIONED_TO_FIELD];
+
         form.setFieldValue(field.name, value, false);
         clearDependentValues(dependentValues, form);
         getUsers(field.name, value, form.values, queryValues);
@@ -161,6 +166,7 @@ const MainForm = ({ formProps, rest }) => {
         const { value } = data;
         const queryValues = [SERVICE_FIELD, AGENCY_FIELD];
         const dependentValues = [TRANSITIONED_TO_FIELD];
+
         form.setFieldValue(field.name, value, false);
         clearDependentValues(dependentValues, form);
         getUsers(field.name, value, form.values, queryValues);
@@ -172,6 +178,7 @@ const MainForm = ({ formProps, rest }) => {
       options: users
         ? users.valueSeq().map(user => {
             const userName = user.get(USER_NAME_FIELD);
+
             return {
               value: userName.toLowerCase(),
               label: userName
@@ -180,6 +187,7 @@ const MainForm = ({ formProps, rest }) => {
         : [],
       onChange: (data, field, form) => {
         const { value } = data;
+
         form.setFieldValue(field.name, value, false);
       }
     },

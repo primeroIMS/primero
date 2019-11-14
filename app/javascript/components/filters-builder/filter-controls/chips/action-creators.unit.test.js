@@ -33,10 +33,14 @@ describe("<Chips /> - Action Creators", () => {
     it("when chip is not included", () => {
       const options = { id: "risk_level", data: "high" };
 
-      actionCreators.setChip({
-        id: "risk_level",
-        data: "high"
-      }, false, "Cases");
+      actionCreators.setChip(
+        {
+          id: "risk_level",
+          data: "high"
+        },
+        false,
+        "Cases"
+      );
 
       expect(dispatch.getCall(0).returnValue).to.eql({
         type: "Cases/ADD_CHIP",
@@ -47,10 +51,14 @@ describe("<Chips /> - Action Creators", () => {
     it("when chip is included", () => {
       const options = { id: "risk_level", data: "high" };
 
-      actionCreators.setChip({
-        id: "risk_level",
-        data: "high"
-      }, true, "Cases");
+      actionCreators.setChip(
+        {
+          id: "risk_level",
+          data: "high"
+        },
+        true,
+        "Cases"
+      );
 
       expect(dispatch.getCall(1).returnValue).to.eql({
         type: "Cases/DELETE_CHIP",

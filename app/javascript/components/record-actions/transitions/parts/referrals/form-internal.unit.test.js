@@ -2,10 +2,12 @@
 import React from "react";
 import * as keydown from "keyevent";
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../../../test";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
+
+import { setupMountedComponent } from "../../../../../test";
 import { SearchableSelect } from "../../../../searchable-select";
+
 import FormInternal from "./form-internal";
 
 const InternalForm = props => {
@@ -16,6 +18,7 @@ const InternalForm = props => {
       notes: ""
     }
   };
+
   return (
     <Formik {...formProps}>
       <Form>

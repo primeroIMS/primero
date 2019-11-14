@@ -8,7 +8,6 @@ import isEmpty from "lodash/isEmpty";
 import { useI18n } from "../../../i18n";
 import { getOption } from "../../../record-form/selectors";
 
-
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import { selectSwitchButtons } from "./selectors";

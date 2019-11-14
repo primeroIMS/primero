@@ -6,7 +6,6 @@ import { mapEntriesToRecord } from "../../libs";
 import { FlagRecord } from "./records";
 import { reducers } from "./reducers";
 
-
 describe("<Flagging /> - Reducers", () => {
   const reducer = reducers.flags;
   const defaultState = Map({

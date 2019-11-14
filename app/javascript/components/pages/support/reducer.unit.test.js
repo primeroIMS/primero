@@ -37,6 +37,7 @@ describe("<RecordList /> - Reducers", () => {
       }
     };
     const newState = reducers.support(fromJS({}), action);
+
     expect(newState.get("data")).to.deep.equal(
       ContactInformationRecord(expected)
     );

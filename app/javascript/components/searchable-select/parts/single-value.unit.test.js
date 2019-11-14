@@ -1,7 +1,8 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../test";
 import Typography from "@material-ui/core/Typography";
+
+import { setupMountedComponent } from "../../../test";
+
 import SingleValue from "./single-value";
 
 describe("<SingleValue />", () => {
@@ -11,8 +12,8 @@ describe("<SingleValue />", () => {
     children: "Test",
     isFocused: false,
     innerProps: {
-      onMouseDown: () => { },
-      onMouseMove: () => { }
+      onMouseDown: () => {},
+      onMouseMove: () => {}
     },
     selectProps: {
       id: "Test",
@@ -22,9 +23,9 @@ describe("<SingleValue />", () => {
       }
     },
     removeProps: {
-      onMouseDown: () => { },
-      onTouchEnd: () => { },
-      onClick: () => { }
+      onMouseDown: () => {},
+      onTouchEnd: () => {},
+      onClick: () => {}
     }
   };
 

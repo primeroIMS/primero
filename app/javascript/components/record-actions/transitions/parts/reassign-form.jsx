@@ -47,12 +47,14 @@ const ReassignForm = ({ handleClose, record, recordType }) => {
   useEffect(() => {
     if (firstUpdate.current) {
       firstUpdate.current = false;
+
       return;
     }
     const messages = hasErrors
       .valueSeq()
       .map(e => i18n.t(e))
       .join(", ");
+
     if (messages !== "") {
       dispatch(enqueueSnackbar(messages, "error"));
     } else {
@@ -89,6 +91,7 @@ const ReassignForm = ({ handleClose, record, recordType }) => {
     options: users
       ? users.valueSeq().map(user => {
           const userName = user.get(USER_NAME_FIELD);
+
           return {
             value: userName.toLowerCase(),
             label: userName
@@ -127,6 +130,7 @@ const ReassignForm = ({ handleClose, record, recordType }) => {
                     <SearchableSelect
                       onChange={data => {
                         const { value } = data;
+
                         form.setFieldValue(field.name, value, false);
                       }}
                       {...searchableSelectProps}
@@ -170,9 +174,9 @@ const ReassignForm = ({ handleClose, record, recordType }) => {
 };
 
 ReassignForm.propTypes = {
+  formik: PropTypes.object,
   handleClose: PropTypes.func,
   record: PropTypes.object,
-  formik: PropTypes.object,
   recordType: PropTypes.string.isRequired
 };
 
