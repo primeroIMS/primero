@@ -19,7 +19,7 @@ import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 
-function PercentageBar({ percentage, className}) {
+function TablePercentageBar({ percentage, className}) {
   let css = makeStyles(styles)();
 
   // Set a minimum of 5 percent so that there is always something
@@ -28,17 +28,59 @@ function PercentageBar({ percentage, className}) {
   const percentageValue = Math.max(5, percentage * 100);
   const isZero = percentage === 0;
 
-  const barClassNames = [css.PercentageBar, className].join(' ');
+  const barClassNames = [css.TablePercentageBar, className].join(" ");
   const fillingClassNames = [
-    css.PercentageBarComplete,
+    css.TablePercentageBarComplete,
     isZero ? css.bgGrey : css.bgBlue
-  ].join(' ');
+  ].join(" ");
 
   return (
     <div className={barClassNames}>
       <div
         className={fillingClassNames}
         style={{ width: percentageValue + "%" }}></div>
+    </div>
+  )
+}
+
+function StackedPercentageBar({ percentages, className }) {
+  let css = makeStyles(styles)();
+
+  if (percentages.length > 2)
+    throw "StackedPercentageBar components only support a max of 2 percentages";
+
+  return (
+    <div className={css.StackedPercentageBarContainer}>
+      <div className={[css.StackedPercentageBar, className].join(" ")}>
+        {
+          percentages.map((percentageDescriptor, i) => {
+            let percentage = percentageDescriptor.percentage * 100;
+
+            return (
+              <div
+                className={css["StackedPercentageBar" + (i + 1) + "Complete"]}
+                style={{ width: percentage + "%" }}
+              ></div>
+            );
+          })
+        }
+      </div>
+      <div className={css.StackedPercentageBarLabels}>
+        {
+          percentages.map((percentageDescriptor, i) => {
+            let percentage = percentageDescriptor.percentage * 100;
+
+            return (
+              <div className={css.StackedPercentageBarLabelContainer} style={{ width: percentage + "%" }}>
+                <div>
+                  <h1 className={css.StackedPercentageBarLabel}>{percentage + '%'}</h1>
+                </div>
+                <div>{percentageDescriptor.label}</div>
+              </div>
+            );
+          })
+        }
+      </div>
     </div>
   )
 }
@@ -56,8 +98,6 @@ function DateRangeSelect({
     to: selectedRange.to,
     name: `${selectedRange.from} - ${selectedRange.to}`
   })
-
-  console.log(ranges)
 
   return (
     <Select value={selectedRange.value}>
@@ -95,10 +135,7 @@ function KeyPerformanceIndicators({
       name: "",
       options: {
         customBodyRender: (value) => {
-          return (<PercentageBar
-            percentage={value}
-            className={css.percentageBarWithinTableCell}
-          />);
+          return (<TablePercentageBar percentage={value} />);
         }
       }
     }
@@ -153,15 +190,45 @@ function KeyPerformanceIndicators({
                 </Grid>
               </Grid>
 
-              <Grid item className={css.grow} xs={12} md={6}>
-                <OptionsBox
-                  title="Reporting Delay"
-                >
-                  <DashboardTable
-                    columns={reportingDelayColumns}
-                    data={reportingDelay.get('data')}
-                  />
-                </OptionsBox>
+              <Grid container spacing={2}>
+                <Grid item className={css.grow} xs={12} md={6}>
+                  <OptionsBox
+                    title="Reporting Delay"
+                  >
+                    <DashboardTable
+                      columns={reportingDelayColumns}
+                      data={reportingDelay.get('data')}
+                    />
+                  </OptionsBox>
+                </Grid>
+
+                <Grid item className={css.grow} xs={12} md={6}>
+                  <OptionsBox
+                    title="Service Access Delay"
+                  >
+                    <DashboardTable
+                      columns={reportingDelayColumns}
+                      data={reportingDelay.get('data')}
+                    />
+                  </OptionsBox>
+                </Grid>
+              </Grid>
+
+            </Box>
+
+
+            <Box>
+              <h2 className={css.subtitle}>CASE ASSESSMENT</h2>
+              <Grid container spacing={2}>
+                <Grid item className={css.grow} xs={12}>
+                  <OptionsBox
+                    title="Assessment Status"
+                  >
+                    <StackedPercentageBar
+                      percentages={[{ percentage: 0.5, label: "Completed & Supervisor Approved" }, { percentage: 0.26, label: "Completed Only" }]}
+                    />
+                  </OptionsBox>
+                </Grid>
               </Grid>
             </Box>
           </Grid>
