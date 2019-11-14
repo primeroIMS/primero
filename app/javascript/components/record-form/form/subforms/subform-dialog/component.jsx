@@ -29,16 +29,17 @@ const Component = ({
   };
 
   if (index !== null) {
-    const actionButton = mode.isEdit ? (
-      <Button
-        onClick={handleClose}
-        variant="contained"
-        color="primary"
-        elevation={0}
-      >
-        {i18n.t(dialogIsNew ? "buttons.add" : "buttons.update")}
-      </Button>
-    ) : null;
+    const actionButton =
+      mode.isEdit || mode.isNew ? (
+        <Button
+          onClick={handleClose}
+          variant="contained"
+          color="primary"
+          elevation={0}
+        >
+          {i18n.t(dialogIsNew ? "buttons.add" : "buttons.update")}
+        </Button>
+      ) : null;
 
     return (
       <Dialog open={open} maxWidth="sm" fullWidth>
