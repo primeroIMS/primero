@@ -119,14 +119,14 @@ const Container = ({ match, mode }) => {
     primeroModule: selectedModule.primeroModule,
     record
   };
-
+  console.log('record:::', record);
   const navProps = {
     formNav,
     selectedForm,
     firstTab,
     handleToggleNav,
     mobileDisplay,
-    selectedRecord: record.get("case_id")
+    selectedRecord: record ? record.get("id") : null
   };
 
   useEffect(() => {
