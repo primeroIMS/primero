@@ -123,7 +123,7 @@ const Container = ({ match }) => {
   const indexTableProps = {
     recordType,
     defaultFilters,
-    columns: buildTableColumns(listHeaders, i18n, recordType, css),
+    columns: buildTableColumns(listHeaders, i18n, recordType),
     onTableChange: fetchRecords,
     onRowClick: record => {
       const allowedToOpenRecord =

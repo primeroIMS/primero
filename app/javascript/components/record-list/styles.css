@@ -27,8 +27,3 @@
   display: flex;
   flex-direction: column;
 }
-
-.overdueHeading {
-  cursor: pointer;
-  border-bottom: 1px solid rgba(224, 224, 224, 1);
-}
