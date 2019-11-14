@@ -124,7 +124,7 @@ ar:
     locations: "المواقع"
     bulk_exports: "منقولات عملاقة"
     tasks: "المهام"
-    audit_logs: "سجلات البالغين"
+    audit_logs: "سجلات التدقيق"
     matching_configuration: "مطابقة"
   buttons:
     delete: "حذف"
@@ -1022,7 +1022,7 @@ ar:
       saved_search: "عملية بحث محفوظة"
       save_search: "عمليات بحث محفوظة"
       remove_assigned_users: "إزالة مستخدمين مخصصين آخرين (إحالات)"
-      audit_log: "سجل البالغين"
+      audit_log: "سجل التدقيق"
       display_view_page: "إظهار صفحة العرض"
       service_provision_incident_details: "عرض زر إضافة تقديم خدمة على جزء عرض تفاصيل الحادثة"
       request_transfer: "طلب تحويل"
@@ -1031,6 +1031,9 @@ ar:
       add_note: "إضافة ملاحظات"
       assign_within_agency: "تعيين ضمن المؤسسة"
       assign_within_user_group: "تعيين ضمن مجموعة المستخدمين"
+      find_tracing_match: "ايجاد تطابق التتبع للحالة"
+      duplicate: "البحث عن المكررات"
+      view_response: "عرض الاستجابات"
   forms:
     label: "نماذج"
     save: "حفظ النموذج"
@@ -1746,6 +1749,13 @@ ar:
         delete_field: "لا يمكن حذف الحقل غير القابل للتعديل"
         unique_name: "اسم المستخدم '%{name}' مستخدم بالفعل."
         unique_id: "المعرف الفريد '%{unique_id}' مُستخدم بالفعل."
+      enquiry:
+        presence_of_criteria: "الرجاء إضافة معايير إلى استفسارك"
+        presence_of_enquirer_name: "الرجاء إضافة اسم المستفسر إلى استفسارك"
+        presence_of_reporter_details: "الرجاء إضافة تفاصيل بيانات المبلغ إلى استفسارك"
+        create_forbidden: "ممنوع"
+        not_found: "لم يتم العثور عليه"
+        malformed_query: "طلب غير صالح"
       role:
         name_present: "لا يجب أن يكون الاسم فارغاً"
         permission_presence: "الرجاء تحديد إذن واحد على الأقل"
