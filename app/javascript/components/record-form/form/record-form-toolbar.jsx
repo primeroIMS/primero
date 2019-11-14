@@ -74,7 +74,7 @@ const RecordFormToolbar = ({
           </Permission>
         )}
         {(mode.isEdit || mode.isNew) && (
-          <>
+          <div className={css.actionButtonsContainer}>
             <Fab
               className={css.actionButtonCancel}
               variant="extended"
@@ -91,7 +91,7 @@ const RecordFormToolbar = ({
             >
               {i18n.t("buttons.save")}
             </Fab>
-          </>
+          </div>
         )}
         {mode.isShow && (
           <Permission

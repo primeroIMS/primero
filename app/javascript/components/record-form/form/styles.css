@@ -34,12 +34,17 @@
   font-size: $(theme.typography.pxToRem(14));
 }
 
+.actionButtonsContainer {
+  width: 225px;
+  text-align: right;
+}
+
 .actionButton,
 .actionButtonCancel {
   box-shadow: none;
   color: $(theme.primero.colors.white);
   background: $(theme.primero.colors.blue);
-  width: 10em;
+  width: 8em;
   height: 32px;
 
   &:hover {
@@ -49,7 +54,7 @@
 
 .actionButtonCancel {
   background: $(theme.primero.colors.grey);
-  margin: 0 1em;
+  margin: 0 .5em;
 }
 
 .toolbar {
