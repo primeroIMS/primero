@@ -76,7 +76,7 @@ ar:
     string_sources_failed: "لم ينجح تحميل بعض الحقول، قم بفتح الصفحة من جديد لتحميل جميع الحقول."
     system_settings_failed: "لم تنجح عملية تحميل إعدادات ضبط النظام."
     approval_alert: "المصادقة قيد انتظار ل %{form_name}"
-    field_change_alert: "النموذج %{form_name} تم تحديثه بواسطة مقدم الخدمة في%{form_date}"
+    field_change_alert: "النموذج %{form_name} تم تحديثه بواسطة مقدم الخدمة في%{date}"
     transfer_request_alert: "تم تقديم طلب تحويل جديد بتاريخ %{date} من قبل %{user} في %{agency}"
     loading: "جاري التحميل"
   data_base:
