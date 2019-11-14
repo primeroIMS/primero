@@ -8,6 +8,15 @@ import { useI18n } from "../../../../i18n";
 import { saveReferral } from "../../action-creators";
 
 import MainForm from "./main-form";
+import {
+  REFERRAL_FIELD,
+  REMOTE_SYSTEM_FIELD,
+  SERVICE_FIELD,
+  AGENCY_FIELD,
+  LOCATION_FIELD,
+  TRANSITIONED_TO_FIELD,
+  NOTES_FIELD
+} from "./constants";
 
 const ReferralForm = ({
   handleClose,
@@ -36,20 +45,20 @@ const ReferralForm = ({
   };
 
   const validationSchema = Yup.object().shape({
-    transitioned_to: Yup.string().required(
+    [TRANSITIONED_TO_FIELD]: Yup.string().required(
       i18n.t("referral.user_mandatory_label")
     )
   });
 
   const formProps = {
     initialValues: {
-      referral: false,
-      remoteSystem: false,
-      service: "",
-      agency: "",
-      location: "",
-      transitioned_to: "",
-      notes: ""
+      [REFERRAL_FIELD]: false,
+      [REMOTE_SYSTEM_FIELD]: false,
+      [SERVICE_FIELD]: "",
+      [AGENCY_FIELD]: "",
+      [LOCATION_FIELD]: "",
+      [TRANSITIONED_TO_FIELD]: "",
+      [NOTES_FIELD]: ""
     },
     onSubmit: (values, { setSubmitting }) => {
       const recordId = record.get("id");
@@ -60,7 +69,7 @@ const ReferralForm = ({
           {
             data: {
               ...values,
-              consent_overridden: canConsentOverride || values.transfer
+              consent_overridden: canConsentOverride || values[REFERRAL_FIELD]
             }
           },
           i18n.t("referral.success", { record_type: recordType, id: recordId })

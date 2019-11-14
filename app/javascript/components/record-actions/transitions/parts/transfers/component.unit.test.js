@@ -13,6 +13,7 @@ import { MODULES } from "../../../../../config";
 import { SearchableSelect } from "../../../../searchable-select";
 
 import TransferActions from "./transfer-actions";
+import ProvidedConsent from "./provided-consent";
 import TransferForm from "./component";
 
 describe("<TransferForm />", () => {
@@ -113,5 +114,20 @@ describe("<TransferForm />", () => {
     delete transferActionsProps.disabled;
 
     expect(transferActionsProps).to.be.empty;
+  });
+
+  it("renders ProvidedConsent with valid props", () => {
+    const providedConsentProps = { ...component.find(ProvidedConsent).props() };
+
+    [
+      "canConsentOverride",
+      "providedConsent",
+      "setDisabled",
+      "recordType"
+    ].forEach(property => {
+      expect(providedConsentProps).to.have.property(property);
+      delete providedConsentProps[property];
+    });
+    expect(providedConsentProps).to.be.empty;
   });
 });

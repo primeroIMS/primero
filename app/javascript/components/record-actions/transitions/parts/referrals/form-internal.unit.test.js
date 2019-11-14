@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import React from "react";
-
+import * as keydown from "keyevent";
 import { expect } from "chai";
 import { setupMountedComponent } from "../../../../../test";
 import { Field, Form, Formik } from "formik";
@@ -61,5 +61,19 @@ describe("<FormInternal />", () => {
 
   it("renders Field", () => {
     expect(component.find(Field)).to.have.length(3);
+  });
+
+  it("renders default label for SearchableSelect", () => {
+    component
+      .find("input")
+      .first()
+      .simulate("keyDown", {
+        key: "ArrowDown",
+        keyCode: keydown.DOM_VK_DOWN
+      });
+
+    expect(component.find("div.Mui-selected").text()).to.be.equal(
+      "fields.select_single"
+    );
   });
 });

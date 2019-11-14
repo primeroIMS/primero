@@ -4,6 +4,10 @@ import { emphasize, makeStyles, useTheme } from "@material-ui/core/styles";
 import ReactSelect from "react-select";
 import NoSsr from "@material-ui/core/NoSsr";
 
+import { useI18n } from "../../i18n";
+
+import { CUSTOM_AUTOCOMPLETE_NAME } from "./constants";
+
 import {
   NoOptionsMessage,
   Control,
@@ -72,7 +76,9 @@ const useStyles = makeStyles(theme => ({
 const CustomAutoComplete = ({ props }) => {
   const classes = useStyles();
   const theme = useTheme();
-  const { id } = props;
+
+  const i18n = useI18n();
+  const { id, options, excludeEmpty, ...rest } = props;
 
   const components = {
     Control,
@@ -94,6 +100,9 @@ const CustomAutoComplete = ({ props }) => {
       }
     })
   };
+  const searchOptions = excludeEmpty
+    ? options
+    : [{ value: "", label: i18n.t("fields.select_single") }, ...options];
 
   return (
     <NoSsr>
@@ -103,11 +112,15 @@ const CustomAutoComplete = ({ props }) => {
         styles={selectStyles}
         components={components}
         menuPosition="fixed"
-        {...props}
+        options={searchOptions}
+        defaultValue={excludeEmpty ? null : searchOptions[0]}
+        {...rest}
       />
     </NoSsr>
   );
 };
+
+CustomAutoComplete.displayName = CUSTOM_AUTOCOMPLETE_NAME;
 
 CustomAutoComplete.propTypes = {
   components: PropTypes.object,

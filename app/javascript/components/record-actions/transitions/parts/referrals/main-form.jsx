@@ -24,6 +24,13 @@ import { enqueueSnackbar } from "../../../../notifier";
 import ProvidedConsent from "./provided-consent";
 import FormInternal from "./form-internal";
 import Actions from "./actions";
+import {
+  SERVICE_FIELD,
+  AGENCY_FIELD,
+  LOCATION_FIELD,
+  TRANSITIONED_TO_FIELD,
+  NOTES_FIELD
+} from "./constants";
 
 const MainForm = ({ formProps, rest }) => {
   const i18n = useI18n();
@@ -106,7 +113,7 @@ const MainForm = ({ formProps, rest }) => {
 
   const fields = [
     {
-      id: "service",
+      id: SERVICE_FIELD,
       label: i18n.t("referral.service_label"),
       options: services
         ? services.map(service => ({
@@ -116,15 +123,15 @@ const MainForm = ({ formProps, rest }) => {
         : [],
       onChange: (data, field, form) => {
         const { value } = data;
-        const queryValues = ["location"];
-        const dependentValues = ["agency", "transitioned_to"];
+        const queryValues = [LOCATION_FIELD];
+        const dependentValues = [AGENCY_FIELD, TRANSITIONED_TO_FIELD];
         form.setFieldValue(field.name, value, false);
         clearDependentValues(dependentValues, form);
         getUsers(field.name, value, form.values, queryValues);
       }
     },
     {
-      id: "agency",
+      id: AGENCY_FIELD,
       label: i18n.t("referral.agency_label"),
       options: agencies
         ? agencies.toJS().map(agency => ({
@@ -134,15 +141,15 @@ const MainForm = ({ formProps, rest }) => {
         : [],
       onChange: (data, field, form) => {
         const { value } = data;
-        const queryValues = ["services", "location"];
-        const dependentValues = ["transitioned_to"];
+        const queryValues = [SERVICE_FIELD, LOCATION_FIELD];
+        const dependentValues = [TRANSITIONED_TO_FIELD];
         form.setFieldValue(field.name, value, false);
         clearDependentValues(dependentValues, form);
         getUsers(field.name, value, form.values, queryValues);
       }
     },
     {
-      id: "location",
+      id: LOCATION_FIELD,
       label: i18n.t("referral.location_label"),
       options: locations
         ? locations.map(location => ({
@@ -152,15 +159,15 @@ const MainForm = ({ formProps, rest }) => {
         : [],
       onChange: (data, field, form) => {
         const { value } = data;
-        const queryValues = ["services", "agency"];
-        const dependentValues = ["transitioned_to"];
+        const queryValues = [SERVICE_FIELD, AGENCY_FIELD];
+        const dependentValues = [TRANSITIONED_TO_FIELD];
         form.setFieldValue(field.name, value, false);
         clearDependentValues(dependentValues, form);
         getUsers(field.name, value, form.values, queryValues);
       }
     },
     {
-      id: "transitioned_to",
+      id: TRANSITIONED_TO_FIELD,
       label: i18n.t("referral.recipient_label"),
       options: users
         ? users.valueSeq().map(user => {
@@ -177,7 +184,7 @@ const MainForm = ({ formProps, rest }) => {
       }
     },
     {
-      id: "notes",
+      id: NOTES_FIELD,
       label: i18n.t("referral.notes_label")
     }
   ];
@@ -185,7 +192,8 @@ const MainForm = ({ formProps, rest }) => {
   const providedConsentProps = {
     canConsentOverride,
     providedConsent,
-    setDisabled
+    setDisabled,
+    recordType
   };
 
   const actionProps = {

@@ -6,14 +6,16 @@ import ProvidedForm from "./provided-form";
 const ProvidedConsent = ({
   canConsentOverride,
   providedConsent,
-  setDisabled
+  setDisabled,
+  recordType
 }) => {
   if (providedConsent) {
     return null;
   }
   const providedConsentFormProps = {
     canConsentOverride,
-    setDisabled
+    setDisabled,
+    recordType
   };
 
   return <ProvidedForm {...providedConsentFormProps} />;
@@ -22,6 +24,7 @@ const ProvidedConsent = ({
 ProvidedConsent.propTypes = {
   canConsentOverride: PropTypes.bool,
   providedConsent: PropTypes.bool,
+  recordType: PropTypes.string,
   setDisabled: PropTypes.func
 };
 
