@@ -1,4 +1,4 @@
-export { default as RecordForm } from "./container";
+export { default } from "./container";
 export * from "./action-creators";
 export * from "./reducers";
 export * from "./selectors";

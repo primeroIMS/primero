@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { List } from "@material-ui/core";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
 
-import { setSelectedForm } from "../action-creators";
+import { getSelectedRecord } from "./../selectors";
+import { setSelectedForm, setSelectedRecord } from "./../action-creators";
 
 import { NAME } from "./constants";
 import NavGroup from "./NavGroup";
@@ -15,7 +16,8 @@ const Nav = ({
   selectedForm,
   firstTab,
   handleToggleNav,
-  mobileDisplay
+  mobileDisplay,
+  selectedRecord
 }) => {
   const [open, setOpen] = useState({});
   const dispatch = useDispatch();
@@ -36,8 +38,14 @@ const Nav = ({
     }
   };
 
+  const storedRecord = useSelector(state => getSelectedRecord(state));
+
   useEffect(() => {
-    dispatch(setSelectedForm(firstTab.unique_id));
+    if (selectedRecord !== storedRecord) {
+      dispatch(setSelectedForm(firstTab.unique_id));
+    }
+
+    dispatch(setSelectedRecord(selectedRecord));
 
     setOpen({
       ...open,
@@ -77,7 +85,8 @@ Nav.propTypes = {
   formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
-  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  selectedRecord: PropTypes.string
 };
 
 export default Nav;

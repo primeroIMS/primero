@@ -93,3 +93,6 @@ export const getErrors = state => state.getIn([NAMESPACE, "errors"], false);
 
 export const getSelectedForm = state =>
   state.getIn([NAMESPACE, "selectedForm"]);
+
+export const getSelectedRecord = state =>
+  state.getIn([NAMESPACE, "selectedRecord"]);

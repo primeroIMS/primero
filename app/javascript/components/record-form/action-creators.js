@@ -11,6 +11,13 @@ export const setSelectedForm = payload => {
   };
 };
 
+export const setSelectedRecord = payload => {
+  return {
+    type: Actions.SET_SELECTED_RECORD,
+    payload
+  };
+};
+
 export const fetchForms = () => async dispatch => {
   dispatch({
     type: Actions.RECORD_FORMS,
