@@ -43,7 +43,6 @@ class Header < ValueObject
   AGENCY = Header.new(name: 'agency', field_name: 'agency')
   USER_GROUP_NAME = Header.new(name: 'user_group.name', field_name: 'user_group.name')
   STATUS = Header.new(name: 'status', field_name: 'status')
-  FLAG_COUNT = Header.new(name: 'flag_count', field_name: 'flag_count')
 
   class << self
 
@@ -69,7 +68,6 @@ class Header < ValueObject
       header_list << SOCIAL_WORKER if user.is_manager?
       header_list << OWNED_BY if user.has_module?(@primero_module_cp.id)
       header_list << OWNED_BY_AGENCY if user.has_module?(@primero_module_cp.id)
-      header_list << FLAG_COUNT if user.has_module?(@primero_module_cp.id)
       header_list
     end
 
