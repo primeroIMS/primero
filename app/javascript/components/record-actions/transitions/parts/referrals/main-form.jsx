@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import omit from "lodash/omit";
 import isEqual from "lodash/isEqual";
-import { Box, Button, FormControlLabel } from "@material-ui/core";
+import { FormControlLabel } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector, useDispatch } from "react-redux";
 import { Form, Field } from "formik";
