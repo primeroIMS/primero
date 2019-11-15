@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, batch } from "react-redux";
 import {
   List,
   ListItem,
@@ -15,6 +15,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { useI18n } from "../i18n";
 import { ActionDialog } from "../action-dialog";
 import { setTab } from "../filters/action-creators";
+import { getRecordsFetcherByType } from "../record-list/helpers";
 
 import { removeSavedSearch, setSavedSearch } from "./action-creators";
 import { selectSavedSearchesById } from "./selectors";
@@ -36,14 +37,19 @@ const ListSavedSearches = ({ recordType, savedSearches, resetFilters }) => {
   useEffect(() => {
     if (selectedSavedSearch) {
       const { filters } = selectedSearch.toJS();
+      const fetchRecords = getRecordsFetcherByType(recordType);
+      const builtFilters = buildFiltersState(filters);
 
-      resetFilters();
-      dispatch(setSavedSearch(recordType, buildFiltersState(filters)));
-      dispatch(setTab({ recordType, value: 0 }));
+      batch(() => {
+        resetFilters();
+        dispatch(setSavedSearch(recordType, builtFilters));
+        dispatch(fetchRecords({ options: builtFilters }));
+        dispatch(setTab({ recordType, value: 0 }));
+      });
     }
-  }, []);
+  }, [selectedSavedSearch]);
 
-  const handleApplyFilter = (_e, id) => {
+  const handleApplyFilter = id => {
     setSelectedSavedSearch(id);
   };
 
@@ -77,7 +83,7 @@ const ListSavedSearches = ({ recordType, savedSearches, resetFilters }) => {
         {savedSearches.valueSeq().map(savedSearch => (
           <ListItem
             button
-            onClick={event => handleApplyFilter(event, savedSearch.id)}
+            onClick={() => handleApplyFilter(savedSearch.id)}
             key={savedSearch.id}
           >
             <ListItemText primary={savedSearch.name} />
@@ -95,6 +101,8 @@ const ListSavedSearches = ({ recordType, savedSearches, resetFilters }) => {
     </div>
   );
 };
+
+ListSavedSearches.displayName = "ListSavedSearches";
 
 ListSavedSearches.propTypes = {
   recordType: PropTypes.string.isRequired,
