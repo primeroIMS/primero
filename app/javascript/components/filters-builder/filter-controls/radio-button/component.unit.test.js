@@ -23,7 +23,7 @@ describe("<RadioButton /> - Component", () => {
         { id: "other", display_name: "Otro" }
       ]
     }
-  }
+  };
   let component;
 
   before(() => {
@@ -53,5 +53,4 @@ describe("<RadioButton /> - Component", () => {
   it("renders the Radio", () => {
     expect(component.find(Radio)).to.have.lengthOf(3);
   });
-
 });

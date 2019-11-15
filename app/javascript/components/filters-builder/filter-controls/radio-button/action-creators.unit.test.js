@@ -38,5 +38,4 @@ describe("<RadioButton /> - Action Creators", () => {
       payload: options
     });
   });
-
 });

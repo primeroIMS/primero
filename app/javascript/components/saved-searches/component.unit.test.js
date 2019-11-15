@@ -1,7 +1,8 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../test";
 import { Map, List } from "immutable";
+
+import { setupMountedComponent } from "../../test";
+
 import ListSavedSearches from "./ListSavedSearches";
 import SavedSearches from "./component";
 

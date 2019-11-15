@@ -1,7 +1,8 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../test";
 import { Chip } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../test";
+
 import TransitionStatus from "./TransitionStatus";
 
 describe("<TransitionStatus />", () => {
@@ -9,6 +10,7 @@ describe("<TransitionStatus />", () => {
   const props = {
     status: "inprogress"
   };
+
   beforeEach(() => {
     ({ component } = setupMountedComponent(TransitionStatus, props));
   });
@@ -16,4 +18,4 @@ describe("<TransitionStatus />", () => {
   it("renders a Chip TransitionStatus", () => {
     expect(component.find(TransitionStatus).find(Chip)).to.have.length(1);
   });
-})
+});

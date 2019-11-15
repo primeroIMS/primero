@@ -79,6 +79,7 @@ const TransferForm = ({
   useEffect(() => {
     if (firstUpdate.current) {
       firstUpdate.current = false;
+
       return;
     }
     const messages = hasErrors
@@ -264,16 +265,16 @@ const TransferForm = ({
 };
 
 TransferForm.propTypes = {
-  providedConsent: PropTypes.bool,
-  isBulkTransfer: PropTypes.bool.isRequired,
-  userPermissions: PropTypes.object.isRequired,
   handleClose: PropTypes.func.isRequired,
-  transitionType: PropTypes.string,
-  record: PropTypes.object,
-  values: PropTypes.object,
   handleSubmit: PropTypes.func,
+  isBulkTransfer: PropTypes.bool.isRequired,
+  providedConsent: PropTypes.bool,
+  record: PropTypes.object,
+  recordType: PropTypes.string.isRequired,
   resetForm: PropTypes.func,
-  recordType: PropTypes.string.isRequired
+  transitionType: PropTypes.string,
+  userPermissions: PropTypes.object.isRequired,
+  values: PropTypes.object
 };
 
 export default TransferForm;

@@ -1,7 +1,8 @@
 import chai, { expect } from "chai";
 import { fromJS } from "immutable";
-import { mapEntriesToRecord } from "../../libs";
 import chaiImmutable from "chai-immutable";
+
+import { mapEntriesToRecord } from "../../libs";
 
 import { SavedSearchesRecord } from "./records";
 import { reducers } from "./reducers";
@@ -39,6 +40,7 @@ describe("<SavedSearches /> - Reducers", () => {
     };
 
     const newState = reducers.savedSearches(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -75,6 +77,7 @@ describe("<SavedSearches /> - Reducers", () => {
     };
 
     const newState = reducers.savedSearches(defaultStateSavedSearch, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -145,6 +148,7 @@ describe("<SavedSearches /> - Reducers", () => {
     };
 
     const newState = reducers.savedSearches(defaultStateSuccess, action);
+
     expect(newState.toJS().data[0]).to.eql(expected.get("data").toJS());
   });
 });

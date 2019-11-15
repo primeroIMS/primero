@@ -28,12 +28,14 @@ describe("<Filters /> - Action Creators", () => {
     });
 
     const actionCreator = actionCreators.setTab(1);
+
     expect(dispatch).to.have.been.calledWithMatch(actionCreator);
   });
 
   it("should run 'setInitialRecords' action creator", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
+
     dispatch({
       type: "cases/RECORDS",
       api: {
@@ -41,7 +43,12 @@ describe("<Filters /> - Action Creators", () => {
         params: {}
       }
     });
-    const actionCreator = actionCreators.setInitialRecords("/cases", "cases", {});
+    const actionCreator = actionCreators.setInitialRecords(
+      "/cases",
+      "cases",
+      {}
+    );
+
     expect(dispatch).to.have.been.calledWithMatch(actionCreator);
   });
 });

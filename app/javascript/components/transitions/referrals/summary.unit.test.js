@@ -36,5 +36,4 @@ describe("<ReferralSummary />", () => {
     expect(component.find("div.titleHeaderStyle")).to.have.lengthOf(1);
     expect(component.find("div.dateStyle")).to.have.lengthOf(1);
   });
-
 });

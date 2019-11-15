@@ -36,7 +36,7 @@ const ProvidedForm = ({ setDisabled, canConsentOverride, recordType }) => {
           TRANSITIONED_TO_FIELD
         ])
       ) {
-        dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[recordType] }))
+        dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[recordType] }));
       }
       setDisabled(!fieldCheckbox.value);
       formCheckbox.setFieldValue(

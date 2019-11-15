@@ -6,7 +6,6 @@ import { PERMISSION_CONSTANTS, checkPermissions } from "./permissions";
 describe("Verifying config constant", () => {
   it("should have known constant", () => {
     const permissions = { ...PERMISSION_CONSTANTS };
-
     [
       "MANAGE",
       "ASSIGN",
@@ -48,16 +47,18 @@ describe("Verifying config constant", () => {
     it("should send true because current permission it's allowed", () => {
       const currentPermissions = List(["refer"]);
       const allowedPermissions = ["refer"];
-      expect(
-        checkPermissions(currentPermissions, allowedPermissions)
-      ).to.equal(true);
+
+      expect(checkPermissions(currentPermissions, allowedPermissions)).to.equal(
+        true
+      );
     });
     it("should send false because current permission is not allowed", () => {
       const currentPermissions = List(["manage"]);
       const allowedPermissions = ["read"];
-      expect(
-        checkPermissions(currentPermissions, allowedPermissions)
-      ).to.equal(false);
+
+      expect(checkPermissions(currentPermissions, allowedPermissions)).to.equal(
+        false
+      );
     });
   });
 });

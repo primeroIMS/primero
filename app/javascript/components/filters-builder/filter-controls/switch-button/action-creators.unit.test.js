@@ -29,6 +29,7 @@ describe("<SwitchButton /> - Action Creators", () => {
 
   describe("should check setSwitchValue to return the correct object", () => {
     const dispatch = sinon.spy(actionCreators, "setSwitchValue");
+
     it("when checkbox is not included", () => {
       const options = { id: "my_cases", included: false, data: "my_cases" };
 

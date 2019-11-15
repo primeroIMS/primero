@@ -6,6 +6,7 @@ import Cancel from "@material-ui/icons/Cancel";
 
 const MultiValue = props => {
   const { children, selectProps, isFocused, removeProps } = props;
+
   return (
     <Chip
       tabIndex={-1}

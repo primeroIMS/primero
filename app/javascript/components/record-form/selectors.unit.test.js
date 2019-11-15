@@ -1,10 +1,10 @@
-
 import chai, { expect } from "chai";
 import { Map, List, OrderedMap } from "immutable";
-import { mapEntriesToRecord } from "../../libs";
 import chaiImmutable from "chai-immutable";
-import * as R from "./records";
 
+import { mapEntriesToRecord } from "../../libs";
+
+import * as R from "./records";
 import * as selectors from "./selectors";
 
 chai.use(chaiImmutable);
@@ -118,11 +118,13 @@ describe("<RecordForm /> - Selectors", () => {
   describe("getErrors", () => {
     it("should return error value", () => {
       const errors = selectors.getErrors(stateWithRecords);
+
       expect(errors).to.deep.equal(true);
     });
 
     it("should return false when there is not any error", () => {
       const errors = selectors.getErrors(stateWithNoRecords);
+
       expect(errors).to.deep.equal(false);
     });
   });
@@ -130,11 +132,13 @@ describe("<RecordForm /> - Selectors", () => {
   describe("getLoadingState", () => {
     it("should return loading state value", () => {
       const loadingState = selectors.getLoadingState(stateWithRecords);
+
       expect(loadingState).to.deep.equal(true);
     });
 
     it("should return false when there is not any loading state", () => {
       const loadingState = selectors.getLoadingState(stateWithNoRecords);
+
       expect(loadingState).to.deep.equal(false);
     });
   });
@@ -162,6 +166,7 @@ describe("<RecordForm /> - Selectors", () => {
 
     it("should return an empty array when there are not any options", () => {
       const record = selectors.getOption(stateWithNoRecords);
+
       expect(record).to.be.empty;
     });
   });
@@ -205,19 +210,20 @@ describe("<RecordForm /> - Selectors", () => {
         recordType: "case"
       });
 
-      const [...formValues] = forms.values()
+      const [...formValues] = forms.values();
 
-      expect(List(Object.keys(formValues['0'].toJS()))).to.deep.equal(
+      expect(List(Object.keys(formValues["0"].toJS()))).to.deep.equal(
         List(Object.keys(expected.toJS()[0]))
       );
 
-      expect(Object.values(formValues['0'].toJS()).length).to.be.equal(
+      expect(Object.values(formValues["0"].toJS()).length).to.be.equal(
         Object.values(expected.toJS()[0]).length
       );
     });
 
     it("should return an empty array when there are not any options", () => {
       const record = selectors.getRecordForms(stateWithRecords, {});
+
       expect(record).to.be.equal(List([]));
     });
   });
@@ -247,6 +253,7 @@ describe("<RecordForm /> - Selectors", () => {
 
     it("should return an empty ordered map when there are not any options", () => {
       const record = selectors.getFormNav(stateWithRecords, {});
+
       expect(record).to.be.equal(OrderedMap({}));
     });
   });
@@ -293,6 +300,7 @@ describe("<RecordForm /> - Selectors", () => {
 
     it("should return an empty ordered map when there are not any options", () => {
       const record = selectors.getFirstTab(stateWithRecords, {});
+
       expect(record).to.be.equal(null);
     });
   });

@@ -45,6 +45,7 @@ describe("<Reports /> - Component", () => {
       }
     }
   });
+
   beforeEach(() => {
     ({ component } = setupMountedComponent(Reports, {}, initialState));
   });
