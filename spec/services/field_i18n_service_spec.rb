@@ -68,4 +68,20 @@ describe FieldI18nService do
       })
     end
   end
+
+  describe 'merge_i18n_options' do
+    it 'merges the localized options of the hashes' do
+      merged_hash = FieldI18nService.merge_i18n_options(
+        { 'en' => [{ 'id' => 'true', 'display_name' => 'Valid' }] },
+        { 'en' => [{ 'id' => 'false', 'display_name' => 'Invalid' }] }
+      )
+      expected_hash = { 'en' => [
+          { 'id' => "true", 'display_name' => "Valid" },
+          { 'id' => "false", 'display_name' => "Invalid" }
+        ]
+      }
+
+      expect(merged_hash).to eq(expected_hash)
+    end
+  end
 end
