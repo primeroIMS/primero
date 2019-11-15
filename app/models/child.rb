@@ -46,6 +46,7 @@ class Child < ApplicationRecord
     :registration_date, :age, :estimated, :date_of_birth, :sex, :address_last,
     :reunited, :reunited_message, :investigated, :verified, #TODO: These are RapidFTR attributes and should be removed
     :risk_level, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
+    :date_closure,
     :system_generated_followup,
     :assessment_due_date, :assessment_requested_on,
     :followup_subform_section, :protection_concern_detail_subform_section, #TODO: Do we need followups, protection_concern_details aliases?
@@ -93,7 +94,7 @@ class Child < ApplicationRecord
       text(f) { self.data[f] }
     end
 
-    %w[date_case_plan_initiated assessment_requested_on].each{|f| date(f)}
+    %w[date_case_plan_initiated assessment_requested_on date_closure].each{|f| date(f)}
 
     boolean :estimated
     integer :day_of_birth
