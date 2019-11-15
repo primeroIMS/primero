@@ -91,7 +91,8 @@ const RecordForms = ({ match, mode }) => {
             ? i18n.t(`${recordType}.messages.update_success`, {
                 record_id: record.get("short_id")
               })
-            : i18n.t(`${recordType}.messages.creation_success`, recordType)
+            : i18n.t(`${recordType}.messages.creation_success`, recordType),
+          `/${params.recordType}/${params.id}`
         )
       );
       // TODO: Set this if there are any errors on validations
