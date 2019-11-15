@@ -40,7 +40,7 @@ const Nav = ({
   const storedRecord = useSelector(state => getSelectedRecord(state));
 
   useEffect(() => {
-    if (selectedRecord !== storedRecord) {
+    if (!selectedRecord || selectedRecord !== storedRecord) {
       dispatch(setSelectedForm(firstTab.unique_id));
     }
 
