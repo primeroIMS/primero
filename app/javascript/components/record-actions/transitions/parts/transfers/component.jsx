@@ -234,9 +234,6 @@ const TransferForm = ({
   });
 
   const formProps = {
-    validationSchema,
-    validateOnBlur: false,
-    validateOnChange: false,
     initialValues: {
       [TRANSFER_FIELD]: false,
       [REMOTE_SYSTEM_FIELD]: false,
@@ -261,7 +258,10 @@ const TransferForm = ({
       );
       setSubmitting(false);
     },
-    render: props => formikForm(props)
+    render: props => formikForm(props),
+    validateOnBlur: false,
+    validateOnChange: false,
+    validationSchema
   };
 
   return <Formik {...formProps} />;

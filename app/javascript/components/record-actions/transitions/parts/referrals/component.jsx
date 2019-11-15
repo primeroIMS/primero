@@ -51,9 +51,6 @@ const ReferralForm = ({
   });
 
   const formProps = {
-    validationSchema,
-    validateOnBlur: false,
-    validateOnChange: false,
     initialValues: {
       [REFERRAL_FIELD]: false,
       [REMOTE_SYSTEM_FIELD]: false,
@@ -80,7 +77,10 @@ const ReferralForm = ({
       );
       setSubmitting(false);
     },
-    render: props => <MainForm formProps={props} rest={mainFormProps} />
+    render: props => <MainForm formProps={props} rest={mainFormProps} />,
+    validateOnBlur: false,
+    validateOnChange: false,
+    validationSchema
   };
 
   return <Formik {...formProps} />;

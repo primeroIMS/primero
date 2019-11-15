@@ -41,8 +41,8 @@ const FormInternal = ({ fields, disabled }) => {
       return {
         label,
         required,
-        error: errors ?.[id],
-        helperText: errors ?.[id],
+        error: errors?.[id],
+        helperText: errors?.[id],
         margin: "dense",
         placeholder: i18n.t("transfer.select_label"),
         InputLabelProps: {

@@ -104,14 +104,14 @@ describe("<ReferralForm />", () => {
 
     expect(component.find(Formik)).to.have.lengthOf(1);
     [
-      "validationSchema",
-      "validateOnBlur",
-      "validateOnChange",
+      "enableReinitialize",
       "initialValues",
+      "isInitialValid",
       "onSubmit",
       "render",
-      "isInitialValid",
-      "enableReinitialize"
+      "validateOnBlur",
+      "validateOnChange",
+      "validationSchema"
     ].forEach(property => {
       expect(formikProps).to.have.property(property);
       delete formikProps[property];

@@ -137,14 +137,14 @@ describe("<TransferForm />", () => {
 
     expect(component.find(Formik)).to.have.lengthOf(1);
     [
-      "validationSchema",
-      "validateOnBlur",
-      "validateOnChange",
+      "enableReinitialize",
+      "isInitialValid",
       "initialValues",
       "onSubmit",
       "render",
-      "isInitialValid",
-      "enableReinitialize"
+      "validationSchema",
+      "validateOnBlur",
+      "validateOnChange"
     ].forEach(property => {
       expect(formikProps).to.have.property(property);
       delete formikProps[property];
