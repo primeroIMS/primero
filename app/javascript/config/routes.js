@@ -10,7 +10,7 @@ import {
   NotAuthorized,
   NotFound
 } from "../components/pages";
-import { RecordForm } from "../components/record-form";
+import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
 import { AppLayout, LoginLayout } from "../components/layouts";
 import { PERMISSION_CONSTANTS, RESOURCES } from "../libs/permissions";

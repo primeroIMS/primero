@@ -19,6 +19,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("DOCUMENT_FIELD");
     expect(constants).to.have.property("AUDIO_FIELD");
     expect(constants).to.have.property("NAME_FIELD");
+    expect(constants).to.have.property("NAME");
 
     delete constants.TEXT_FIELD;
     delete constants.NUMERIC_FIELD;
@@ -33,6 +34,7 @@ describe("Verifying config constant", () => {
     delete constants.DOCUMENT_FIELD;
     delete constants.AUDIO_FIELD;
     delete constants.NAME_FIELD;
+    delete constants.NAME;
 
     expect(constants).to.deep.equal({});
   });

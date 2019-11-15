@@ -14,6 +14,7 @@ import { LoadingIndicator } from "../loading-indicator";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
 import { RECORD_TYPES, TRANSITION_TYPE, REFERRAL } from "../../config";
 
+import { NAME } from "./constants";
 import { Nav } from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
@@ -27,7 +28,7 @@ import {
 } from "./selectors";
 import { compactValues } from "./helpers";
 
-const RecordForms = ({ match, mode }) => {
+const Container = ({ match, mode }) => {
   let submitForm = null;
   const { theme } = useThemeHelper(styles);
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
@@ -182,9 +183,11 @@ const RecordForms = ({ match, mode }) => {
   );
 };
 
-RecordForms.propTypes = {
+Container.displayName = NAME;
+
+Container.propTypes = {
   match: PropTypes.object.isRequired,
   mode: PropTypes.string.isRequired
 };
 
-export default memo(withRouter(RecordForms));
+export default memo(withRouter(Container));
