@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-describe Dashboards::CaseWorker, search: true do
-
+describe IndicatorQueryService, search: true do
   before :each do
     Child.create!(data: { record_state: true, status: 'open' })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'foo', last_updated_by: 'bar' })
@@ -12,18 +11,21 @@ describe Dashboards::CaseWorker, search: true do
     Sunspot.commit
   end
 
-  let(:stats) { Dashboards::CaseWorker.new.stats }
+  let(:stats) do
+    indicators = Dashboard::CASE_OVERVIEW.indicators
+    IndicatorQueryService.query(indicators, nil)
+  end
 
   it 'shows the number of all open cases' do
-    expect(stats['open']).to eq(2)
+    expect(stats['case']['open']).to eq(2)
   end
 
   it 'shows the number of updated cases' do
-    expect(stats['updated']).to eq(1)
+    expect(stats['case']['updated']).to eq(1)
   end
 
   it 'shows the number of recently closed cases' do
-    expect(stats['closed_recently']).to eq(2)
+    expect(stats['case']['closed_recently']).to eq(2)
   end
 
   after :each do
