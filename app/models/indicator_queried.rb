@@ -20,4 +20,9 @@ class IndicatorQueried < Indicator
       end
     end
   end
+
+  def stat_query_strings(_)
+    scope_query_strings + (search_filters&.map(&:to_s) || [])
+  end
+
 end

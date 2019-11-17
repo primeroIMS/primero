@@ -10,7 +10,23 @@ class Indicator < ValueObject
   end
 
   def stats_from_search(sunspot_search)
-    sunspot_search.facet(name).rows.map { |r| [r.value, r.count] }.to_h
+    sunspot_search.facet(name).rows.map do |row|
+      stat = {
+        'count' => row.count,
+        'query' => stat_query_strings(row)
+      }
+      [row.value, stat]
+    end.to_h
+  end
+
+  def stat_query_strings(facet_row)
+    scope_query_strings + ["#{name}=#{facet_row.value}"]
+  end
+
+  protected
+
+  def scope_query_strings
+    scope&.map(&:to_s) || []
   end
 
 end

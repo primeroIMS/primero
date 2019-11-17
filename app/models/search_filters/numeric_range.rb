@@ -15,13 +15,17 @@ module SearchFilters
 
     def to_h
       {
-          type: 'numeric_range',
-          field_name: self.field_name,
-          value: {
-              from: self.from,
-              to: self.to
-          }
+        type: 'numeric_range',
+        field_name: field_name,
+        value: {
+          from: from,
+          to: to
+        }
       }
+    end
+
+    def to_s
+      "#{field_name}=#{from.to_s}..#{to&.to_s}"
     end
 
   end
