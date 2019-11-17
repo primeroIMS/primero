@@ -20,7 +20,9 @@ class IndicatorQueryService
 
     def record_query(record_model, indicators, user)
       record_model.search do
-        #TODO: set scope: user and module
+        #TODO: do we need to set module scope?
+        user_query_scope = user.record_query_scope(record_model, false)
+        SearchService.with_query_scope(self, user_query_scope)
 
         indicators.each do |indicator|
           indicator.query(self)
