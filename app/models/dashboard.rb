@@ -9,4 +9,16 @@ class Dashboard < ValueObject
       Indicators::Case::CLOSED_RECENTLY
     ]
   ).freeze
+
+  WORKFLOW = Dashboard.new(
+    name: 'workflow',
+    type: 'indicator',
+    indicators: [Indicators::Case::WORKFLOW]
+  ).freeze
+
+  WORKFLOW_TEAM = Dashboard.new(
+    name: 'workflow_team',
+    type: 'indicator',
+    indicators: [Indicators::Case::WORKFLOW_TEAM]
+  ).freeze
 end

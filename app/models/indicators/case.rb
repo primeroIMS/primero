@@ -1,7 +1,7 @@
 module Indicators
   class Case
 
-    OPEN = Indicator.new(
+    OPEN = IndicatorQueried.new(
       name: 'open',
       record_model: Child,
       search_filters: [
@@ -10,9 +10,9 @@ module Indicators
       ]
     ).freeze
 
-    #NEW = TODO: Cases that have just been assigned to me. Need
+    #NEW = TODO: Cases that have just been assigned to me. Need extra work.
 
-    UPDATED = Indicator.new(
+    UPDATED = IndicatorQueried.new(
       name: 'updated',
       record_model: Child,
       search_filters: [
@@ -22,23 +22,34 @@ module Indicators
       ]
     ).freeze
 
-    CLOSED_RECENTLY = Indicator.new(
+    CLOSED_RECENTLY = IndicatorQueried.new(
       name: 'closed_recently',
       record_model: Child,
       search_filters: [
         SearchFilters::Value.new(field_name: 'record_state', value: true),
         SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
-        SearchFilters::DateRange.new(field_name: 'date_closure', from: Indicator.recent_past, to: Indicator.present)
+        SearchFilters::DateRange.new(field_name: 'date_closure', from: IndicatorQueried.recent_past, to: IndicatorQueried.present)
       ]
     ).freeze
 
-    def record_model
-      Child
-    end
+    WORKFLOW = Indicator.new(
+      name: 'workflow',
+      record_model: Child,
+      scope: [
+        SearchFilters::Value.new(field_name: 'record_state', value: true),
+        SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
+      ]
+    ).freeze
 
-    def indicators
-      [OPEN, UPDATED, CLOSED_RECENTLY]
-    end
+    WORKFLOW_TEAM = IndicatorPivoted.new(
+      name: 'workflow_team',
+      record_model: Child,
+      pivots: %w[owned_by workflow],
+      scope: [
+        SearchFilters::Value.new(field_name: 'record_state', value: true),
+        SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
+      ]
+    )
 
   end
 end
