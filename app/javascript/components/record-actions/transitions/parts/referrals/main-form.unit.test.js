@@ -10,6 +10,13 @@ import FormInternal from "./form-internal";
 import ProvidedConsent from "./provided-consent";
 import MainForm from "./main-form";
 import Actions from "./actions";
+import {
+  SERVICE_FIELD,
+  AGENCY_FIELD,
+  LOCATION_FIELD,
+  TRANSITIONED_TO_FIELD,
+  NOTES_FIELD
+} from "./constants";
 
 const FormikStub = props => {
   const { formProps } = props;
@@ -120,5 +127,95 @@ describe("<MainForm />", () => {
     delete referActionsProps.disabled;
 
     expect(referActionsProps).to.be.empty;
+  });
+
+  describe("when mounting fields for FormInternal ", () => {
+    const { component: mainFormComponent } = setupMountedComponent(
+      FormikStub,
+      props,
+      initialState
+    );
+
+    const formInternalFields = [
+      ...mainFormComponent.find(FormInternal).props().fields
+    ];
+
+    const textFieldProps = ["id", "label"];
+    const searchableFieldProps = [...textFieldProps, "options", "onChange"];
+
+    it("renders valid props for SERVICE_FIELD field", () => {
+      const serviceFieldProps = {
+        ...formInternalFields.find(
+          formInternalField => formInternalField.id === SERVICE_FIELD
+        )
+      };
+
+      searchableFieldProps.forEach(property => {
+        expect(serviceFieldProps).to.have.property(property);
+        delete serviceFieldProps[property];
+      });
+
+      expect(serviceFieldProps).to.be.empty;
+    });
+
+    it("renders valid props for AGENCY_FIELD field", () => {
+      const agencyFieldProps = {
+        ...formInternalFields.find(
+          formInternalField => formInternalField.id === AGENCY_FIELD
+        )
+      };
+
+      searchableFieldProps.forEach(property => {
+        expect(agencyFieldProps).to.have.property(property);
+        delete agencyFieldProps[property];
+      });
+
+      expect(agencyFieldProps).to.be.empty;
+    });
+
+    it("renders valid props for LOCATION_FIELD field", () => {
+      const locationFieldProps = {
+        ...formInternalFields.find(
+          formInternalField => formInternalField.id === LOCATION_FIELD
+        )
+      };
+
+      searchableFieldProps.forEach(property => {
+        expect(locationFieldProps).to.have.property(property);
+        delete locationFieldProps[property];
+      });
+
+      expect(locationFieldProps).to.be.empty;
+    });
+
+    it("renders valid props for TRANSITIONED_TO_FIELD field", () => {
+      const transitionToFieldProps = {
+        ...formInternalFields.find(
+          formInternalField => formInternalField.id === TRANSITIONED_TO_FIELD
+        )
+      };
+
+      [...searchableFieldProps, "required"].forEach(property => {
+        expect(transitionToFieldProps).to.have.property(property);
+        delete transitionToFieldProps[property];
+      });
+
+      expect(transitionToFieldProps).to.be.empty;
+    });
+
+    it("renders valid props for NOTES_FIELD field", () => {
+      const transitionToFieldProps = {
+        ...formInternalFields.find(
+          formInternalField => formInternalField.id === NOTES_FIELD
+        )
+      };
+
+      textFieldProps.forEach(property => {
+        expect(transitionToFieldProps).to.have.property(property);
+        delete transitionToFieldProps[property];
+      });
+
+      expect(transitionToFieldProps).to.be.empty;
+    });
   });
 });

@@ -229,11 +229,12 @@ const TransferForm = ({
   };
 
   const validationSchema = yup.object().shape({
-    transitioned_to: yup.string().required()
+    [TRANSITIONED_TO_FIELD]: yup
+      .string()
+      .required(i18n.t("transfer.user_mandatory"))
   });
 
   const formProps = {
-    validationSchema,
     initialValues: {
       [TRANSFER_FIELD]: false,
       [REMOTE_SYSTEM_FIELD]: false,
@@ -258,7 +259,10 @@ const TransferForm = ({
       );
       setSubmitting(false);
     },
-    render: props => formikForm(props)
+    render: props => formikForm(props),
+    validateOnBlur: false,
+    validateOnChange: false,
+    validationSchema
   };
 
   return <Formik {...formProps} />;

@@ -34,6 +34,24 @@ const FormInternal = ({ fields, disabled }) => {
         : { value: "", label: i18n.t("fields.select_single") };
     };
 
+    const searchTextFieldProps = (field, form) => {
+      const { id, label, required } = field;
+      const { errors } = form;
+
+      return {
+        label,
+        required,
+        error: errors?.[id],
+        helperText: errors?.[id],
+        margin: "dense",
+        placeholder: i18n.t("transfer.select_label"),
+        InputLabelProps: {
+          htmlFor: id,
+          shrink: true
+        }
+      };
+    };
+
     return (
       <Field
         key={f.id}
@@ -47,24 +65,10 @@ const FormInternal = ({ fields, disabled }) => {
                 options={f.options}
                 value={searchableValue(field)}
                 onChange={data => f.onChange(data, field, form)}
-                TextFieldProps={{
-                  label: f.label,
-                  margin: "dense",
-                  placeholder: i18n.t("transfer.select_label"),
-                  InputLabelProps: {
-                    htmlFor: f.id,
-                    shrink: true
-                  }
-                }}
+                TextFieldProps={searchTextFieldProps(f, form)}
                 {...other}
                 onBlur={field.onBlur}
               />
-
-              {form && form.touched[field.name] && form.errors[field.name] && (
-                <div className="MuiFormHelperText-root Mui-error">
-                  {form.errors[field.name]}
-                </div>
-              )}
             </>
           );
         }}

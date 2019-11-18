@@ -101,4 +101,24 @@ describe("<ReferralForm />", () => {
 
     expect(componentProps).to.deep.equal({});
   });
+
+  it("renders Formik with valid props", () => {
+    const formikProps = { ...component.find(Formik).props() };
+
+    expect(component.find(Formik)).to.have.lengthOf(1);
+    [
+      "enableReinitialize",
+      "initialValues",
+      "isInitialValid",
+      "onSubmit",
+      "render",
+      "validateOnBlur",
+      "validateOnChange",
+      "validationSchema"
+    ].forEach(property => {
+      expect(formikProps).to.have.property(property);
+      delete formikProps[property];
+    });
+    expect(formikProps).to.be.empty;
+  });
 });

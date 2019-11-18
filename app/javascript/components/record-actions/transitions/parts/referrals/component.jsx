@@ -78,6 +78,8 @@ const ReferralForm = ({
       setSubmitting(false);
     },
     render: props => <MainForm formProps={props} rest={mainFormProps} />,
+    validateOnBlur: false,
+    validateOnChange: false,
     validationSchema
   };
 
