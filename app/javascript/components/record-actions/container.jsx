@@ -10,6 +10,8 @@ import { getPermissionsByRecord } from "../user/selectors";
 import {
   PERMISSION_CONSTANTS,
   EXPORT_CUSTOM,
+  ENABLE_DISABLE_RECORD,
+  ADD_NOTE,
   checkPermissions
 } from "../../libs/permissions";
 import Permission from "../application/permission";
@@ -280,25 +282,13 @@ const Container = ({ recordType, iconColor, record, mode }) => {
 
       {canOpenOrClose ? toggleOpenDialog : null}
 
-      <Permission
-        permissionType={recordType}
-        permission={[
-          PERMISSION_CONSTANTS.MANAGE,
-          PERMISSION_CONSTANTS.ENABLE_DISABLE_RECORD
-        ]}
-      >
+      <Permission resources={recordType} actions={ENABLE_DISABLE_RECORD}>
         {toggleEnableDialog}
       </Permission>
 
       <Transitions {...transitionsProps} />
 
-      <Permission
-        permissionType={recordType}
-        permission={[
-          PERMISSION_CONSTANTS.MANAGE,
-          PERMISSION_CONSTANTS.ADD_NOTE
-        ]}
-      >
+      <Permission resources={recordType} actions={ADD_NOTE}>
         <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} />
       </Permission>
     </>

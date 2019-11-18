@@ -14,7 +14,11 @@ import { PageContainer } from "../page";
 import { useI18n } from "../i18n";
 import { getFiltersByRecordType } from "../filters-builder";
 import { getPermissionsByRecord } from "../user";
-import { PERMISSION_CONSTANTS, checkPermissions } from "../../libs/permissions";
+import {
+  PERMISSION_CONSTANTS,
+  DISPLAY_VIEW_PAGE,
+  checkPermissions
+} from "../../libs/permissions";
 import Permission from "../application/permission";
 import { useThemeHelper } from "../../libs";
 
@@ -183,13 +187,7 @@ const Container = ({ match }) => {
           </FilterContainer>
         </Box>
       </PageContainer>
-      <Permission
-        permissionType={recordType}
-        permission={[
-          PERMISSION_CONSTANTS.MANAGE,
-          PERMISSION_CONSTANTS.DISPLAY_VIEW_PAGE
-        ]}
-      >
+      <Permission resources={recordType} actions={DISPLAY_VIEW_PAGE}>
         <ViewModal
           close={handleViewModalClose}
           openViewModal={openViewModal}

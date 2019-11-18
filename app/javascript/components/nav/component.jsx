@@ -177,8 +177,8 @@ const Nav = () => {
       ) : (
         <Permission
           key={menuEntry.to}
-          permissionType={menuEntry.permissionType}
-          permission={menuEntry.permission}
+          resources={menuEntry.permissionType}
+          actions={menuEntry.permission}
         >
           {renderedMenuEntries}
         </Permission>

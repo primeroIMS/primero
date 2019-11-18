@@ -6,16 +6,10 @@ import { List } from "immutable";
 
 import { getPermissions } from "../user/selectors";
 
-const Permission = ({
-  permissionType,
-  permission,
-  redirect,
-  children,
-  match
-}) => {
+const Permission = ({ resources, actions, redirect, children, match }) => {
   const { params } = match;
   const { recordType } = params;
-  const type = permissionType || recordType;
+  const type = resources || recordType;
   const dispatch = useDispatch();
   const allUserPermissions = useSelector(state => getPermissions(state));
 
@@ -32,7 +26,7 @@ const Permission = ({
     }, {});
   const userHasPermission = List(Object.values(filteredPermissions))
     .flatten()
-    .some(t => permission.includes(t));
+    .some(t => actions.includes(t));
 
   if (userHasPermission) {
     return children;
@@ -51,12 +45,11 @@ Permission.defaultProps = {
   redirect: false
 };
 Permission.propTypes = {
+  actions: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
   children: PropTypes.node.isRequired,
   match: PropTypes.object.isRequired,
-  permission: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
-    .isRequired,
-  permissionType: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
-  redirect: PropTypes.bool.isRequired
+  redirect: PropTypes.bool.isRequired,
+  resources: PropTypes.oneOfType([PropTypes.array, PropTypes.string])
 };
 
 export default withRouter(Permission);

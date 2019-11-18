@@ -1,18 +1,11 @@
 import { expect } from "chai";
 import { List } from "immutable";
 
-import {
-  PERMISSION_CONSTANTS,
-  RESOURCES,
-  CREATE_RECORDS,
-  CREATE_REPORTS,
-  EXPORT_CUSTOM,
-  checkPermissions
-} from "./permissions";
+import * as permissionsConstants from "./permissions";
 
 describe("Verifying config constant", () => {
   it("should have known constant", () => {
-    const permissions = { ...PERMISSION_CONSTANTS };
+    const permissions = { ...permissionsConstants.PERMISSION_CONSTANTS };
 
     [
       "MANAGE",
@@ -43,7 +36,8 @@ describe("Verifying config constant", () => {
       "EXPORT_CASE_PDF",
       "EXPORT_MRM_VIOLATION_XLS",
       "EXPORT_INCIDENT_RECORDER",
-      "EXPORT_CUSTOM"
+      "EXPORT_CUSTOM",
+      "FLAG"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
       expect(permissions[property]).to.be.a("string");
@@ -56,22 +50,28 @@ describe("Verifying config constant", () => {
       const currentPermissions = List(["refer"]);
       const allowedPermissions = ["refer"];
 
-      expect(checkPermissions(currentPermissions, allowedPermissions)).to.equal(
-        true
-      );
+      expect(
+        permissionsConstants.checkPermissions(
+          currentPermissions,
+          allowedPermissions
+        )
+      ).to.be.true;
     });
     it("should send false because current permission is not allowed", () => {
       const currentPermissions = List(["manage"]);
       const allowedPermissions = ["read"];
 
-      expect(checkPermissions(currentPermissions, allowedPermissions)).to.equal(
-        false
-      );
+      expect(
+        permissionsConstants.checkPermissions(
+          currentPermissions,
+          allowedPermissions
+        )
+      ).to.be.false;
     });
   });
 
   it("should have known RESOURCES", () => {
-    const resources = { ...RESOURCES };
+    const resources = { ...permissionsConstants.RESOURCES };
 
     [
       "cases",
@@ -89,7 +89,7 @@ describe("Verifying config constant", () => {
   });
 
   it("should have CREATE_REPORTS", () => {
-    const permissions = [...CREATE_REPORTS];
+    const permissions = [...permissionsConstants.CREATE_REPORTS];
 
     expect(permissions).to.be.a("array");
     ["create", "manage"].forEach(element => {
@@ -100,7 +100,7 @@ describe("Verifying config constant", () => {
   });
 
   it("should have EXPORT_CUSTOM", () => {
-    const permissions = [...EXPORT_CUSTOM];
+    const permissions = [...permissionsConstants.EXPORT_CUSTOM];
 
     expect(permissions).to.be.a("array");
     ["create", "manage"].forEach(element => {
@@ -111,10 +111,64 @@ describe("Verifying config constant", () => {
   });
 
   it("should have CREATE_RECORDS", () => {
-    const permissions = [...CREATE_RECORDS];
+    const permissions = [...permissionsConstants.CREATE_RECORDS];
 
     expect(permissions).to.be.a("array");
     ["create", "manage"].forEach(element => {
+      expect(element).to.be.a("string");
+      permissions.shift();
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have ENABLE_DISABLE_RECORD", () => {
+    const permissions = [...permissionsConstants.ENABLE_DISABLE_RECORD];
+
+    expect(permissions).to.be.a("array");
+    ["enable_disable_record", "manage"].forEach(element => {
+      expect(element).to.be.a("string");
+      permissions.shift();
+    });
+    expect(permissions).to.be.empty;
+  });
+  it("should have ADD_NOTE", () => {
+    const permissions = [...permissionsConstants.ADD_NOTE];
+
+    expect(permissions).to.be.a("array");
+    ["add_note", "manage"].forEach(element => {
+      expect(element).to.be.a("string");
+      permissions.shift();
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have FLAG_RECORDS", () => {
+    const permissions = [...permissionsConstants.FLAG_RECORDS];
+
+    expect(permissions).to.be.a("array");
+    ["flag", "manage"].forEach(element => {
+      expect(element).to.be.a("string");
+      permissions.shift();
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have WRITE_RECORDS", () => {
+    const permissions = [...permissionsConstants.WRITE_RECORDS];
+
+    expect(permissions).to.be.a("array");
+    ["write", "manage"].forEach(element => {
+      expect(element).to.be.a("string");
+      permissions.shift();
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have DISPLAY_VIEW_PAGE", () => {
+    const permissions = [...permissionsConstants.DISPLAY_VIEW_PAGE];
+
+    expect(permissions).to.be.a("array");
+    ["display_view_page", "manage"].forEach(element => {
       expect(element).to.be.a("string");
       permissions.shift();
     });

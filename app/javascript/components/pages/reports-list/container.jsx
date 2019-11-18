@@ -80,10 +80,7 @@ const Reports = () => {
     <div>
       <PageContainer>
         <PageHeading title={i18n.t("reports.label")}>
-          <Permission
-            permissionType={RESOURCES.reports}
-            permission={CREATE_REPORTS}
-          >
+          <Permission resources={RESOURCES.reports} actions={CREATE_REPORTS}>
             <IconButton
               to={ROUTES.reports}
               component={Link}

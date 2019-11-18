@@ -10,8 +10,8 @@ import Permission from "./permission";
 describe("<Permission />", () => {
   let component;
   const props = {
-    permissionType: RESOURCES.cases,
-    permission: PERMISSION_CONSTANTS.READ,
+    resources: RESOURCES.cases,
+    actions: PERMISSION_CONSTANTS.READ,
     children: <div />,
     match: {
       isExact: true,

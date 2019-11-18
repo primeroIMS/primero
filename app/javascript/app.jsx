@@ -41,8 +41,8 @@ const routesApplication = routes.map((route, index) => {
           <subRoute.component mode={subRoute.mode} />
         ) : (
           <Permission
-            permissionType={subRoute.permissionType}
-            permission={subRoute.permission}
+            resources={subRoute.permissionType}
+            actions={subRoute.permission}
             redirect
           >
             <subRoute.component mode={subRoute.mode} />
