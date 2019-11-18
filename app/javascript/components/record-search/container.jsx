@@ -9,6 +9,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import { useI18n } from "../i18n";
 import { getFiltersByRecordType } from "../filters-builder";
 
+import { NAME } from "./constants";
 import styles from "./styles.css";
 
 const RecordSearch = ({ recordType, setFilters }) => {
@@ -44,9 +45,7 @@ const RecordSearch = ({ recordType, setFilters }) => {
     }
   };
 
-  const clear = () => {
-    setFilterQuery("");
-  };
+  const clear = () => setFilterQuery("");
 
   return (
     <div className={css.root}>
@@ -84,6 +83,6 @@ RecordSearch.propTypes = {
   setFilters: PropTypes.func.isRequired
 };
 
-RecordSearch.displayName = "RecordSearch";
+RecordSearch.displayName = NAME;
 
 export default RecordSearch;
