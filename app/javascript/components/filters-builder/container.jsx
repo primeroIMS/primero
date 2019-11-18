@@ -101,10 +101,10 @@ const Container = ({
 
   const filterValues = filter => {
     const { field_name: fieldName } = filter;
-
+    // TODO: should savedFilters be an immutable?
     return (
       defaultFilters.get(fieldName)?.size > 0 ||
-      savedFilters[fieldName]?.size > 0
+      savedFilters[fieldName]?.length > 0
     );
   };
 

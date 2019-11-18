@@ -3,7 +3,6 @@ import sinon from "sinon";
 
 import * as actionCreators from "./action-creators";
 
-
 describe("<RangeButton /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
@@ -39,5 +38,4 @@ describe("<RangeButton /> - Action Creators", () => {
       payload: options
     });
   });
-
 });

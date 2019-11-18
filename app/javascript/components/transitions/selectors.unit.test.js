@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import { Map, List } from "immutable";
+
 import * as selectors from "./selectors";
 import { TransitionRecord } from "./records";
 
@@ -37,12 +38,14 @@ describe("<Transitions /> - Selectors", () => {
         recordType,
         "6b0018e7-d421-4d6b-80bf-ca4cbf488907"
       );
+
       expect(records).to.deep.equal(dataExpected);
     });
 
     it("should return empty list when no transitions", () => {
       const expected = List([]);
       const records = selectors.selectTransitions(state, recordType, 3);
+
       expect(records).to.deep.equal(expected);
     });
   });

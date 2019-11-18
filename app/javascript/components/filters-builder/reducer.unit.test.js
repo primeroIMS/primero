@@ -22,6 +22,7 @@ describe("<FiltersBuilder /> - Reducers", () => {
       }
     };
     const newState = reducers(namespace)(defaultState, action);
+
     expect(newState.get(namespace)).to.deep.equal(defaultState.get(namespace));
   });
 

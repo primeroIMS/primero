@@ -102,17 +102,6 @@ class Filter < ValueObject
     name: 'cases.filter_by.no_activity',
     field_name: 'last_updated_at'
   )
-  RECORD_STATE = Filter.new(
-    name: 'cases.filter_by.record_state',
-    field_name: 'record_state',
-    options: I18n.available_locales.map do |locale|
-      { locale => [
-          { id: 'true', display_name: I18n.t("valid", locale: locale) },
-          { id: 'false', display_name: I18n.t("invalid", locale: locale) }
-        ]
-      }
-    end.inject(&:merge)
-  )
   ENABLED = Filter.new(
     name: 'cases.filter_by.enabled_disabled',
     field_name: 'record_state',
@@ -182,6 +171,7 @@ class Filter < ValueObject
     field_name: 'perpetrator_sub_categories',
     option_strings_source: 'lookup-armed-force-group-type'
   )
+  # TODO: This constant is throwing a warning.
   STATUS = Filter.new(
     name: 'tracing_requests.filter_by.status',
     field_name: 'status',
@@ -240,7 +230,6 @@ class Filter < ValueObject
       permitted_form_ids = user.permitted_forms(nil, true).pluck(:unique_id)
 
       filters = []
-      filters << ENABLED
       filters << FLAGGED_CASE
       filters << MOBILE_CASE if user.can?(:sync_mobile, model_class)
       filters << SOCIAL_WORKER if user.is_manager?
@@ -265,6 +254,7 @@ class Filter < ValueObject
       filters << REPORTING_LOCATION.call(reporting_location_label, admin_level)
       filters << NO_ACTIVITY
       filters << DATE_CASE if user.has_module?(@primero_module_cp.id)
+      filters << ENABLED
       filters << PHOTO if user.has_module?(@primero_module_cp.id) && FormSection.has_photo_form
       filters
     end
@@ -286,7 +276,7 @@ class Filter < ValueObject
       filters << UNACCOMPANIED_PROTECTION_STATUS if user.has_module?(@primero_module_gbv.id)
       filters << ARMED_FORCE_GROUP if @primero_module_mrm.present? && user.has_module?(@primero_module_mrm.id)
       filters << ARMED_FORCE_GROUP_TYPE if @primero_module_mrm.present? && user.has_module?(@primero_module_mrm.id)
-      filters << RECORD_STATE
+      filters << ENABLED
       filters
     end
 
@@ -298,7 +288,7 @@ class Filter < ValueObject
       filters << STATUS
       filters << SEPARATION_LOCATION
       filters << SEPARATION_CAUSE
-      filters << RECORD_STATE
+      filters << ENABLED
       filters
     end
 

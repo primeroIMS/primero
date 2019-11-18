@@ -5,11 +5,10 @@ import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { RECORD_TYPES } from "../../config";
-
-import { useI18n } from "./../i18n";
-import { getPermissionsByRecord } from "./../user/selectors";
-import { PERMISSION_CONSTANTS, checkPermissions } from "./../../libs/permissions";
-import Permission from "./../application/permission";
+import { useI18n } from "../i18n";
+import { getPermissionsByRecord } from "../user/selectors";
+import { PERMISSION_CONSTANTS, checkPermissions } from "../../libs/permissions";
+import Permission from "../application/permission";
 
 import { NAME } from "./config";
 import { Notes } from "./notes";
@@ -129,22 +128,34 @@ const Container = ({ recordType, iconColor, record, mode }) => {
   const actions = [
     {
       name: i18n.t("buttons.import"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "all"
     },
     {
       name: i18n.t("exports.custom_exports.label"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "all"
     },
     {
       name: i18n.t("buttons.mark_for_mobile"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "all"
     },
     {
       name: i18n.t("buttons.unmark_for_mobile"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "all"
     },
     {
@@ -167,12 +178,18 @@ const Container = ({ recordType, iconColor, record, mode }) => {
     },
     {
       name: i18n.t("actions.incident_details_from_case"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "cases"
     },
     {
       name: i18n.t("actions.services_section_from_case"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "cases"
     },
     {
@@ -258,7 +275,10 @@ const Container = ({ recordType, iconColor, record, mode }) => {
 
       <Permission
         permissionType={recordType}
-        permission={[PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.ENABLE_DISABLE_RECORD]}
+        permission={[
+          PERMISSION_CONSTANTS.MANAGE,
+          PERMISSION_CONSTANTS.ENABLE_DISABLE_RECORD
+        ]}
       >
         {toggleEnableDialog}
       </Permission>
@@ -267,7 +287,10 @@ const Container = ({ recordType, iconColor, record, mode }) => {
 
       <Permission
         permissionType={recordType}
-        permission={[PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.ADD_NOTE]}
+        permission={[
+          PERMISSION_CONSTANTS.MANAGE,
+          PERMISSION_CONSTANTS.ADD_NOTE
+        ]}
       >
         <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} />
       </Permission>
@@ -278,10 +301,10 @@ const Container = ({ recordType, iconColor, record, mode }) => {
 Container.displayName = NAME;
 
 Container.propTypes = {
-  recordType: PropTypes.string.isRequired,
   iconColor: PropTypes.string,
+  mode: PropTypes.object,
   record: PropTypes.object,
-  mode: PropTypes.object
+  recordType: PropTypes.string.isRequired
 };
 
 export default Container;

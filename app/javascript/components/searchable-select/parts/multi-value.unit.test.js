@@ -1,7 +1,8 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../test";
 import Chip from "@material-ui/core/Chip";
+
+import { setupMountedComponent } from "../../../test";
+
 import MultiValue from "./multi-value";
 
 describe("<MultiValue />", () => {

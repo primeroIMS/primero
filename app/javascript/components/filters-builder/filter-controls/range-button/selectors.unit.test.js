@@ -23,6 +23,7 @@ describe("<RangeButton /> - Selectors", () => {
         { field_name: "age_range" },
         "Cases"
       );
+
       expect(records).to.deep.equal(expected);
     });
 
@@ -32,8 +33,8 @@ describe("<RangeButton /> - Selectors", () => {
         { field_name: "age_range" },
         "Cases"
       );
+
       expect(records).to.deep.equal(List([]));
     });
   });
 });
-

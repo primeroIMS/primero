@@ -1,9 +1,10 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../test";
 import { Box, Divider } from "@material-ui/core";
-import AssignmentsDetails from "./AssignmentsDetails";
+
+import { setupMountedComponent } from "../../../test";
 import TransitionUser from "../TransitionUser";
+
+import AssignmentsDetails from "./AssignmentsDetails";
 
 describe("<AssignmentsDetails />", () => {
   let component;
@@ -43,5 +44,4 @@ describe("<AssignmentsDetails />", () => {
   it("renders a <Divider />", () => {
     expect(component.find(Divider)).to.have.length(1);
   });
-
 });

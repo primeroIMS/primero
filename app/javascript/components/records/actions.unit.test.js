@@ -1,6 +1,7 @@
 import clone from "lodash/clone";
 import chai, { expect } from "chai";
 import sinonChai from "sinon-chai";
+
 import * as recordsActions from "./actions";
 
 chai.use(sinonChai);

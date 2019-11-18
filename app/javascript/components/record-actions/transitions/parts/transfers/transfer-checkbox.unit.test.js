@@ -1,11 +1,13 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../../../test";
 import { FormControlLabel, Checkbox } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../../../../test";
+
 import TransferCheckbox from "./transfer-checkbox";
 
 describe("<TransferCheckbox />", () => {
   let component;
+
   beforeEach(() => {
     ({ component } = setupMountedComponent(TransferCheckbox, {
       checked: false,

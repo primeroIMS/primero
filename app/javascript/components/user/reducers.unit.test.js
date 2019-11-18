@@ -140,6 +140,7 @@ describe("User - Reducers", () => {
     };
 
     const newState = reducers.user(initialState, action);
+
     // TODO: Remove .toJS()
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });

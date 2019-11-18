@@ -23,6 +23,7 @@ describe("<CheckBox /> - Selectors", () => {
         { field_name: "protection_status" },
         "Cases"
       );
+
       expect(records).to.deep.equal(expected);
     });
 
@@ -46,6 +47,7 @@ describe("<CheckBox /> - Selectors", () => {
         { field_name: "my_cases" },
         "Cases"
       );
+
       expect(records).to.deep.equal(expected);
     });
 
@@ -56,6 +58,7 @@ describe("<CheckBox /> - Selectors", () => {
         { field_name: "protection_status" },
         "Cases"
       );
+
       expect(records).to.deep.equal(expected);
     });
   });

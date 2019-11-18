@@ -2,8 +2,8 @@ import { expect } from "chai";
 import { fromJS } from "immutable";
 import { Menu, MenuItem } from "@material-ui/core";
 
-import { setupMountedComponent } from "./../../test";
-import { PERMISSION_CONSTANTS } from "./../../libs/permissions";
+import { setupMountedComponent } from "../../test";
+import { PERMISSION_CONSTANTS } from "../../libs/permissions";
 
 import { Notes } from "./notes";
 import RecordActions from "./container";

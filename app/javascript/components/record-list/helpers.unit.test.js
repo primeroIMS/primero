@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
-import { RECORD_PATH } from "../../config";
 
+import { RECORD_PATH } from "../../config";
 import {
   fetchCases,
   fetchIncidents,
@@ -9,7 +9,7 @@ import {
   setCasesFilters,
   setIncidentsFilters,
   setTracingRequestFilters
-} from "./../records";
+} from "../records";
 
 import {
   buildTableColumns,
@@ -20,6 +20,7 @@ import {
 const i18n = {
   t: name => {
     name = name.split(".")[1];
+
     return name.charAt(0).toUpperCase() + name.slice(1);
   }
 };
@@ -38,6 +39,7 @@ describe("<RecordList /> - buildTableColumns", () => {
       }
     ]);
     const columns = buildTableColumns(records, i18n, "testRecordType");
+
     columns.forEach((v, k) => {
       expect(v).to.deep.equal(expected[k]);
     });
