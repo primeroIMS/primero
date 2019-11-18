@@ -33,10 +33,29 @@ describe("<RecordSearch />", () => {
   });
 
   it("renders IconButton", () => {
-    expect(component.find(IconButton)).to.have.length(1);
+    expect(component.find(IconButton)).to.have.length(2);
   });
 
   it("renders InputBase", () => {
     expect(component.find(InputBase)).to.have.length(1);
+  });
+
+  it("renders InputBase with valid props", () => {
+    const inputBaseProps = { ...component.find(InputBase).props() };
+
+    [
+      "id",
+      "className",
+      "placeholder",
+      "onKeyUp",
+      "onChange",
+      "value",
+      "inputProps",
+      "endAdornment"
+    ].forEach(property => {
+      expect(inputBaseProps).to.have.property(property);
+      delete inputBaseProps[property];
+    });
+    expect(inputBaseProps).to.be.empty;
   });
 });
