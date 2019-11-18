@@ -143,7 +143,7 @@ describe("<RecordActions />", () => {
             .find("li")
             .map(l => l.text())
             .includes("buttons.referral orms.record_types.case")
-        ).to.be.equal(false);
+        ).to.be.false;
       });
 
       it("renders MenuItem without Export custom option", () => {
@@ -152,7 +152,7 @@ describe("<RecordActions />", () => {
             .find("li")
             .map(l => l.text())
             .includes("exports.custom_exports.label")
-        ).to.be.equal(false);
+        ).to.be.false;
       });
     });
   });

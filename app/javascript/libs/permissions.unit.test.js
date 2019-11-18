@@ -1,11 +1,18 @@
 import { expect } from "chai";
 import { List } from "immutable";
 
-import { PERMISSION_CONSTANTS, checkPermissions } from "./permissions";
+import {
+  PERMISSION_CONSTANTS,
+  RESOURCES,
+  CREATE_REPORTS_PERMSSIONS,
+  EXPORT_CUSTOM_PERMSSIONS,
+  checkPermissions
+} from "./permissions";
 
 describe("Verifying config constant", () => {
   it("should have known constant", () => {
     const permissions = { ...PERMISSION_CONSTANTS };
+
     [
       "MANAGE",
       "ASSIGN",
@@ -60,5 +67,45 @@ describe("Verifying config constant", () => {
         false
       );
     });
+  });
+
+  it("should have known RESOURCES", () => {
+    const resources = { ...RESOURCES };
+
+    [
+      "cases",
+      "dashboards",
+      "incidents",
+      "potential_matches",
+      "reports",
+      "tracing_requests"
+    ].forEach(property => {
+      expect(resources).to.have.property(property);
+      expect(resources[property]).to.be.a("string");
+      delete resources[property];
+    });
+    expect(resources).to.be.empty;
+  });
+
+  it("should have CREATE_REPORTS_PERMSSIONS", () => {
+    const permissions = [...CREATE_REPORTS_PERMSSIONS];
+
+    expect(permissions).to.be.a("array");
+    ["create", "manage"].forEach(element => {
+      expect(element).to.be.a("string");
+      permissions.shift();
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have EXPORT_CUSTOM_PERMSSIONS", () => {
+    const permissions = [...EXPORT_CUSTOM_PERMSSIONS];
+
+    expect(permissions).to.be.a("array");
+    ["create", "manage"].forEach(element => {
+      expect(element).to.be.a("string");
+      permissions.shift();
+    });
+    expect(permissions).to.be.empty;
   });
 });

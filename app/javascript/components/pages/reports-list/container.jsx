@@ -15,7 +15,11 @@ import makeStyles from "@material-ui/styles/makeStyles";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 import { useI18n } from "../../i18n";
 import LoadingIndicator from "../../loading-indicator/component";
-import { PERMISSION_CONSTANTS } from "../../../libs/permissions";
+import {
+  RESOURCES,
+  CREATE_REPORTS_PERMSSIONS
+} from "../../../libs/permissions";
+import { ROUTES } from "../../../config";
 import Permission from "../../application/permission";
 
 import { fetchReports } from "./action-creators";
@@ -80,9 +84,14 @@ const Reports = () => {
       <PageContainer>
         <PageHeading title={i18n.t("reports.label")}>
           <Permission
-            permissionType="reports"
-            permission={[PERMISSION_CONSTANTS.CREATE, PERMISSION_CONSTANTS.MANAGE]}>
-            <IconButton to="/reports" component={Link} className={css.new}>
+            permissionType={RESOURCES.reports}
+            permission={CREATE_REPORTS_PERMSSIONS}
+          >
+            <IconButton
+              to={ROUTES.reports}
+              component={Link}
+              className={css.new}
+            >
               <AddIcon />
             </IconButton>
           </Permission>

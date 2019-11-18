@@ -10,7 +10,6 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 
 import { setupMountedComponent } from "../../../test";
-
 import { PERMISSION_CONSTANTS } from "../../../libs/permissions";
 
 import Reports from "./container";
@@ -88,23 +87,7 @@ describe("<Reports /> - Component", () => {
       ({ component } = setupMountedComponent(
         Reports,
         {},
-        fromJS({
-          records: {
-            reports: {
-              data: [
-                {
-                  id: 1,
-                  name: {
-                    en: "Registration CP"
-                  },
-                  description: {
-                    en: "Case registrations over time"
-                  }
-                }
-              ]
-            }
-          }
-        })
+        initialState.get("records")
       ));
     });
 
@@ -112,5 +95,4 @@ describe("<Reports /> - Component", () => {
       expect(component.find(AddIcon)).to.have.lengthOf(0);
     });
   });
-
 });

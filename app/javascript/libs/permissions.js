@@ -47,3 +47,13 @@ export const checkPermissions = (currentPermissions, allowedPermissions) => {
     }).size > 0
   );
 };
+
+export const CREATE_REPORTS_PERMSSIONS = [
+  PERMISSION_CONSTANTS.CREATE,
+  PERMISSION_CONSTANTS.MANAGE
+];
+
+export const EXPORT_CUSTOM_PERMSSIONS = [
+  PERMISSION_CONSTANTS.MANAGE,
+  PERMISSION_CONSTANTS.EXPORT_CUSTOM
+];
