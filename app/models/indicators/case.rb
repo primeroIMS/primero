@@ -1,54 +1,47 @@
 module Indicators
   class Case
+    OPEN_ENABLED_FILTERS = [
+      SearchFilters::Value.new(field_name: 'record_state', value: true),
+      SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
+    ].freeze
 
-    OPEN = IndicatorQueried.new(
+    OPEN = QueriedIndicator.new(
       name: 'open',
       record_model: Child,
-      search_filters: [
-        SearchFilters::Value.new(field_name: 'record_state', value: true),
-        SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
-      ]
+      search_filters: OPEN_ENABLED_FILTERS
     ).freeze
 
     #NEW = TODO: Cases that have just been assigned to me. Need extra work.
 
-    UPDATED = IndicatorQueried.new(
+    UPDATED = QueriedIndicator.new(
       name: 'updated',
       record_model: Child,
-      search_filters: [
-        SearchFilters::Value.new(field_name: 'record_state', value: true),
-        SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN),
+      search_filters: OPEN_ENABLED_FILTERS + [
         SearchFilters::Value.new(field_name: 'not_edited_by_owner', value: true)
       ]
     ).freeze
 
-    CLOSED_RECENTLY = IndicatorQueried.new(
+    CLOSED_RECENTLY = QueriedIndicator.new(
       name: 'closed_recently',
       record_model: Child,
       search_filters: [
         SearchFilters::Value.new(field_name: 'record_state', value: true),
         SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
-        SearchFilters::DateRange.new(field_name: 'date_closure', from: IndicatorQueried.recent_past, to: IndicatorQueried.present)
+        SearchFilters::DateRange.new(field_name: 'date_closure', from: QueriedIndicator.recent_past, to: QueriedIndicator.present)
       ]
     ).freeze
 
-    WORKFLOW = Indicator.new(
+    WORKFLOW = FacetedIndicator.new(
       name: 'workflow',
       record_model: Child,
-      scope: [
-        SearchFilters::Value.new(field_name: 'record_state', value: true),
-        SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
-      ]
+      scope: OPEN_ENABLED_FILTERS
     ).freeze
 
-    WORKFLOW_TEAM = IndicatorPivoted.new(
+    WORKFLOW_TEAM = PivotedIndicator.new(
       name: 'workflow_team',
       record_model: Child,
       pivots: %w[owned_by workflow],
-      scope: [
-        SearchFilters::Value.new(field_name: 'record_state', value: true),
-        SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
-      ]
+      scope: OPEN_ENABLED_FILTERS
     )
 
   end
