@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
-import { IconButton, InputBase } from "@material-ui/core";
+import { IconButton, InputBase, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
+import ClearIcon from "@material-ui/icons/Clear";
 
 import { useI18n } from "../i18n";
 import { getFiltersByRecordType } from "../filters-builder";
@@ -27,6 +28,12 @@ const RecordSearch = ({ recordType, setFilters }) => {
     dispatch(setFilters({ options: { query: filterQuery, id_search: true } }));
   };
 
+  useEffect(() => {
+    if (filterQuery === "") {
+      updateFilters();
+    }
+  }, [filterQuery]);
+
   const change = e => {
     setFilterQuery(e.target.value);
   };
@@ -35,6 +42,10 @@ const RecordSearch = ({ recordType, setFilters }) => {
     if (e.keyCode === 13) {
       updateFilters();
     }
+  };
+
+  const clear = () => {
+    setFilterQuery("");
   };
 
   return (
@@ -55,6 +66,13 @@ const RecordSearch = ({ recordType, setFilters }) => {
           onChange={change}
           value={filterQuery}
           inputProps={{ "aria-label": i18n.t("navigation.search") }}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton className={css.iconButton} onClick={clear}>
+                <ClearIcon />
+              </IconButton>
+            </InputAdornment>
+          }
         />
       </div>
     </div>
@@ -65,5 +83,7 @@ RecordSearch.propTypes = {
   recordType: PropTypes.string.isRequired,
   setFilters: PropTypes.func.isRequired
 };
+
+RecordSearch.displayName = "RecordSearch";
 
 export default RecordSearch;
