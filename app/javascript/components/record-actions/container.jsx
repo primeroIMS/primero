@@ -7,7 +7,11 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { RECORD_TYPES } from "../../config";
 import { useI18n } from "../i18n";
 import { getPermissionsByRecord } from "../user/selectors";
-import { PERMISSION_CONSTANTS, checkPermissions } from "../../libs/permissions";
+import {
+  PERMISSION_CONSTANTS,
+  EXPORT_CUSTOM,
+  checkPermissions
+} from "../../libs/permissions";
 import Permission from "../application/permission";
 
 import { NAME } from "./config";
@@ -71,6 +75,8 @@ const Container = ({ recordType, iconColor, record, mode }) => {
     PERMISSION_CONSTANTS.MANAGE,
     PERMISSION_CONSTANTS.TRANSFER
   ]);
+
+  const canCustomExport = checkPermissions(userPermissions, EXPORT_CUSTOM);
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -140,7 +146,8 @@ const Container = ({ recordType, iconColor, record, mode }) => {
         // eslint-disable-next-line no-console
         console.log("Some action");
       },
-      recordType: "all"
+      recordType: "all",
+      condition: canCustomExport
     },
     {
       name: i18n.t("buttons.mark_for_mobile"),
