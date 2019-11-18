@@ -134,7 +134,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.lengthOf(6);
+        expect(component.find(MenuItem)).to.have.lengthOf(5);
       });
 
       it("renders MenuItem without Refer Cases option", () => {
@@ -142,7 +142,16 @@ describe("<RecordActions />", () => {
           component
             .find("li")
             .map(l => l.text())
-            .includes("buttons.referral cases")
+            .includes("buttons.referral orms.record_types.case")
+        ).to.be.equal(false);
+      });
+
+      it("renders MenuItem without Export custom option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("exports.custom_exports.label")
         ).to.be.equal(false);
       });
     });

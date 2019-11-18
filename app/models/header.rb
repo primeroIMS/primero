@@ -64,7 +64,7 @@ class Header < ValueObject
       header_list << SEX if user.has_module?(@primero_module_cp.id)
       header_list << REGISTRATION_DATE if user.has_module?(@primero_module_cp.id)
       header_list << CASE_OPENING_DATE if user.has_module?(@primero_module_gbv.id)
-      header_list << PHOTO if user.has_module?(@primero_module_cp.id)
+      header_list << PHOTO if user.has_module?(@primero_module_cp.id) && user.can?(:view_photo, Child)
       header_list << SOCIAL_WORKER if user.is_manager?
       header_list << OWNED_BY if user.has_module?(@primero_module_cp.id)
       header_list << OWNED_BY_AGENCY if user.has_module?(@primero_module_cp.id)

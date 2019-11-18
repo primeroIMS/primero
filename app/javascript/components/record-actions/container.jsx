@@ -72,6 +72,11 @@ const Container = ({ recordType, iconColor, record, mode }) => {
     PERMISSION_CONSTANTS.TRANSFER
   ]);
 
+  const canCustomExport = checkPermissions(userPermissions, [
+    PERMISSION_CONSTANTS.MANAGE,
+    PERMISSION_CONSTANTS.EXPORT_CUSTOM
+  ])
+
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -140,7 +145,8 @@ const Container = ({ recordType, iconColor, record, mode }) => {
         // eslint-disable-next-line no-console
         console.log("Some action");
       },
-      recordType: "all"
+      recordType: "all",
+      condition: canCustomExport
     },
     {
       name: i18n.t("buttons.mark_for_mobile"),
