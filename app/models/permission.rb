@@ -57,6 +57,7 @@ class Permission < ValueObject
   VIEW_RESPONSE = 'view_response'.freeze
   VIEW_ASSESSMENT = 'view_assessment'.freeze
   VIEW_PROTECTION_CONCERNS_FILTER = 'view_protection_concerns_filter'.freeze
+  DASH_CASE_OVERVIEW = 'case_overview'.freeze
   DASH_REPORTING_LOCATION = 'dash_reporting_location'.freeze
   DASH_PROTECTION_CONCERNS = 'dash_protection_concerns'.freeze
   DASH_SERVICE_PROVISIONS = 'dash_service_provisions'.freeze
@@ -65,7 +66,8 @@ class Permission < ValueObject
   DASH_TRANSERS_BY_SOCIAL_WORKER = 'dash_transfers_by_socal_worker'.freeze
   DASH_CASES_BY_SOCIAL_WORKER = 'dash_cases_by_social_worker'.freeze
   DASH_MANAGER_TRANSERS = 'dash_manager_transfers'.freeze
-  DASH_CASE_BY_WORKFLOW = 'dash_cases_by_workflow'.freeze
+  DASH_WORKFLOW = 'workflow'.freeze
+  DASH_WORKFLOW_TEAM = 'workflow_team'.freeze
   DASH_CASES_BY_TASK_OVERDUE = 'dash_cases_by_task_overdue'.freeze
   DASH_CASES_TO_ASSIGN = 'dash_cases_to_assign'.freeze
   DASH_SHOW_NONE_VALUES = 'dash_show_none_values'.freeze
@@ -159,10 +161,12 @@ class Permission < ValueObject
       DISPLAY_VIEW_PAGE,
       REQUEST_TRANSFER,
       VIEW_PHOTO,
+      DASH_CASE_OVERVIEW,
       DASH_MATCHING_RESULTS,
       DASH_SERVICE_PROVISIONS,
       DASH_CASES_TO_ASSIGN,
-      DASH_CASE_BY_WORKFLOW,
+      DASH_WORKFLOW,
+      DASH_WORKFLOW_TEAM,
       DASH_CASES_BY_TASK_OVERDUE,
       DASH_MANAGER_TRANSERS,
       DASH_CASES_BY_SOCIAL_WORKER,
@@ -235,8 +239,8 @@ class Permission < ValueObject
     when SYSTEM
       [MANAGE]
     when DASHBOARD
-      [VIEW_APPROVALS, VIEW_RESPONSE, VIEW_ASSESSMENT, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS,
-       DASH_MATCHING_RESULTS, MANAGE, DASH_SERVICE_PROVISIONS, DASH_CASES_TO_ASSIGN, DASH_CASE_BY_WORKFLOW,
+      [DASH_CASE_OVERVIEW, VIEW_APPROVALS, VIEW_RESPONSE, VIEW_ASSESSMENT, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS,
+       DASH_MATCHING_RESULTS, MANAGE, DASH_SERVICE_PROVISIONS, DASH_CASES_TO_ASSIGN, DASH_WORKFLOW, DASH_WORKFLOW_TEAM,
        DASH_CASES_BY_TASK_OVERDUE, DASH_MANAGER_TRANSERS, DASH_CASES_BY_SOCIAL_WORKER, DASH_REFFERALS_BY_SOCIAL_WORKER,
        DASH_TRANSERS_BY_SOCIAL_WORKER, VIEW_PROTECTION_CONCERNS_FILTER, DASH_PROTECTION_CONCERNS_BY_LOCATION,
        DASH_SHOW_NONE_VALUES, DASH_TASKS]

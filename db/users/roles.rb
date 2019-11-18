@@ -205,6 +205,7 @@ cp_caseworker_permissions = [
   Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
+      Permission::DASH_WORKFLOW,
       Permission::VIEW_APPROVALS,
       Permission::VIEW_RESPONSE,
       Permission::VIEW_ASSESSMENT,
@@ -322,6 +323,7 @@ cp_manager_permissions = [
   Permission.new(
       resource: Permission::DASHBOARD,
       actions: [
+        Permission::DASH_WORKFLOW_TEAM,
         Permission::VIEW_APPROVALS,
         Permission::VIEW_RESPONSE,
         Permission::VIEW_ASSESSMENT,
