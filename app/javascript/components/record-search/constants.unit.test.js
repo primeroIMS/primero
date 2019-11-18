@@ -10,6 +10,6 @@ describe("Verifying config constant", () => {
     expect(constants.NAME).to.be.an("string");
     delete constants.NAME;
 
-    expect(constants).to.deep.equal({});
+    expect(constants).to.be.empty;
   });
 });
