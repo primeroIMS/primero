@@ -133,6 +133,12 @@ Query and manipulate users
 * [Unflag a record](v2/docs/flags/id/patch.md) `POST /api/v2/:recordType/:recordId/flags/:id`
 * [Create a bulk of flags for multiple records](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`
 
+## Dashboard Endpoint
+
+Aggregate, actionable dat.a
+
+* [Query avialable dashboards](v2/docs/dashboards/get.md): `GET /api/v2/dashboards`
+
 ## Report Endpoints
 
 Endpoints for querying and manipulating individual cases and related resources in Primero.
