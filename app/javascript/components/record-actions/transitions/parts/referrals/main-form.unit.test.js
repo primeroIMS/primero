@@ -140,6 +140,9 @@ describe("<MainForm />", () => {
       ...mainFormComponent.find(FormInternal).props().fields
     ];
 
+    const textFieldProps = ["id", "label"];
+    const searchableFieldProps = [...textFieldProps, "options", "onChange"];
+
     it("renders valid props for SERVICE_FIELD field", () => {
       const serviceFieldProps = {
         ...formInternalFields.find(
@@ -147,7 +150,7 @@ describe("<MainForm />", () => {
         )
       };
 
-      ["id", "label", "options", "onChange"].forEach(property => {
+      searchableFieldProps.forEach(property => {
         expect(serviceFieldProps).to.have.property(property);
         delete serviceFieldProps[property];
       });
@@ -162,7 +165,7 @@ describe("<MainForm />", () => {
         )
       };
 
-      ["id", "label", "options", "onChange"].forEach(property => {
+      searchableFieldProps.forEach(property => {
         expect(agencyFieldProps).to.have.property(property);
         delete agencyFieldProps[property];
       });
@@ -177,7 +180,7 @@ describe("<MainForm />", () => {
         )
       };
 
-      ["id", "label", "options", "onChange"].forEach(property => {
+      searchableFieldProps.forEach(property => {
         expect(locationFieldProps).to.have.property(property);
         delete locationFieldProps[property];
       });
@@ -192,7 +195,7 @@ describe("<MainForm />", () => {
         )
       };
 
-      ["id", "label", "required", "options", "onChange"].forEach(property => {
+      [...searchableFieldProps, "required"].forEach(property => {
         expect(transitionToFieldProps).to.have.property(property);
         delete transitionToFieldProps[property];
       });
@@ -207,7 +210,7 @@ describe("<MainForm />", () => {
         )
       };
 
-      ["id", "label"].forEach(property => {
+      textFieldProps.forEach(property => {
         expect(transitionToFieldProps).to.have.property(property);
         delete transitionToFieldProps[property];
       });
