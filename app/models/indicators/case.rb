@@ -1,6 +1,6 @@
 module Indicators
   class Case
-    OPEN_ENABLED_FILTERS = [
+    OPEN_ENABLED = [
       SearchFilters::Value.new(field_name: 'record_state', value: true),
       SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
     ].freeze
@@ -8,7 +8,7 @@ module Indicators
     OPEN = QueriedIndicator.new(
       name: 'open',
       record_model: Child,
-      search_filters: OPEN_ENABLED_FILTERS
+      search_filters: OPEN_ENABLED
     ).freeze
 
     #NEW = TODO: Cases that have just been assigned to me. Need extra work.
@@ -16,7 +16,7 @@ module Indicators
     UPDATED = QueriedIndicator.new(
       name: 'updated',
       record_model: Child,
-      search_filters: OPEN_ENABLED_FILTERS + [
+      search_filters: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'not_edited_by_owner', value: true)
       ]
     ).freeze
@@ -34,14 +34,20 @@ module Indicators
     WORKFLOW = FacetedIndicator.new(
       name: 'workflow',
       record_model: Child,
-      scope: OPEN_ENABLED_FILTERS
+      scope: OPEN_ENABLED
     ).freeze
 
     WORKFLOW_TEAM = PivotedIndicator.new(
       name: 'workflow_team',
       record_model: Child,
       pivots: %w[owned_by workflow],
-      scope: OPEN_ENABLED_FILTERS
+      scope: OPEN_ENABLED
+    )
+
+    RISK = FacetedIndicator.new(
+      name: 'risk',
+      record_model: Child,
+      scope: OPEN_ENABLED
     )
 
   end

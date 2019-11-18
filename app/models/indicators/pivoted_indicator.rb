@@ -35,10 +35,10 @@ module Indicators
 
     def stat_query_strings(row_pivot)
       row, pivot = row_pivot
-      scope_query_strings + [
-        "#{field_name_solr_map[row['field']]}=#{row['value']}",
-        "#{field_name_solr_map[pivot['field']]}=#{pivot['value']}"
-      ]
+      scope_query_strings + %(
+        #{field_name_solr_map[row['field']]}=#{row['value']}
+        #{field_name_solr_map[pivot['field']]}=#{pivot['value']}
+      )
     end
 
     private

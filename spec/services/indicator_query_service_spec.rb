@@ -8,6 +8,7 @@ describe IndicatorQueryService, search: true do
     role_self = Role.new(group_permission: Permission::SELF, permissions: [permission_case])
     role_self.save(validate: false)
     role_group = Role.new(group_permission: Permission::GROUP, permissions: [permission_case])
+    role_group.save(validate: false)
     group1 = UserGroup.create!(name: 'Group1')
 
     @foo = User.new(user_name: 'foo', role: role_self, user_groups: [group1])

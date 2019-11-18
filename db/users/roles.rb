@@ -208,7 +208,7 @@ cp_caseworker_permissions = [
       Permission::DASH_WORKFLOW,
       Permission::VIEW_APPROVALS,
       Permission::VIEW_RESPONSE,
-      Permission::VIEW_ASSESSMENT,
+      Permission::DASH_CASE_RISK,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::DASH_TASKS
     ]
@@ -326,7 +326,7 @@ cp_manager_permissions = [
         Permission::DASH_WORKFLOW_TEAM,
         Permission::VIEW_APPROVALS,
         Permission::VIEW_RESPONSE,
-        Permission::VIEW_ASSESSMENT,
+        Permission::DASH_CASE_RISK,
         Permission::VIEW_PROTECTION_CONCERNS_FILTER,
         Permission::DASH_CASES_BY_TASK_OVERDUE
       ]
@@ -436,7 +436,7 @@ cp_user_manager_permissions = [
         actions: [
           Permission::VIEW_APPROVALS,
           Permission::VIEW_RESPONSE,
-          Permission::VIEW_ASSESSMENT,
+          Permission::DASH_CASE_RISK,
           Permission::VIEW_PROTECTION_CONCERNS_FILTER
         ]
     )
@@ -1415,7 +1415,7 @@ superuser_permissions = [
     actions: [
       # Permission::VIEW_APPROVALS,
       # Permission::VIEW_RESPONSE,
-      # Permission::VIEW_ASSESSMENT,
+      # Permission::DASH_CASE_RISK,
       # Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::DASH_TASKS
     ]

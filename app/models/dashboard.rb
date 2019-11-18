@@ -23,4 +23,11 @@ class Dashboard < ValueObject
     type: 'indicator',
     indicators: [Indicators::Case::WORKFLOW_TEAM]
   ).freeze
+
+  CASE_RISK = Dashboard.new(
+    name: 'case_risk',
+    type: 'indicator',
+    indicators: [Indicators::Case::RISK]
+  ).freeze
+
 end
