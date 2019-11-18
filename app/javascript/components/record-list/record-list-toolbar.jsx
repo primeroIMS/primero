@@ -7,7 +7,7 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import { PageHeading } from "../page";
 import RecordActions from "../record-actions";
 import Permission from "../application/permission";
-import { PERMISSION_CONSTANTS } from "../../libs/permissions";
+import { CREATE_RECORDS } from "../../libs/permissions";
 
 import AddRecordMenu from "./add-record-menu";
 import styles from "./styles.css";
@@ -33,7 +33,7 @@ const RecordListToolbar = ({
         )}
         <Permission
           permissionType={recordType}
-          permission={[PERMISSION_CONSTANTS.CREATE, PERMISSION_CONSTANTS.MANAGE]}>
+          permission={CREATE_RECORDS}>
           <AddRecordMenu recordType={recordType} />
         </Permission>
         <RecordActions recordType={recordType} iconColor="primary" />

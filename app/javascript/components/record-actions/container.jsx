@@ -9,7 +9,7 @@ import { useI18n } from "../i18n";
 import { getPermissionsByRecord } from "../user/selectors";
 import {
   PERMISSION_CONSTANTS,
-  EXPORT_CUSTOM_PERMSSIONS,
+  EXPORT_CUSTOM,
   checkPermissions
 } from "../../libs/permissions";
 import Permission from "../application/permission";
@@ -76,10 +76,7 @@ const Container = ({ recordType, iconColor, record, mode }) => {
     PERMISSION_CONSTANTS.TRANSFER
   ]);
 
-  const canCustomExport = checkPermissions(
-    userPermissions,
-    EXPORT_CUSTOM_PERMSSIONS
-  );
+  const canCustomExport = checkPermissions(userPermissions, EXPORT_CUSTOM);
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);

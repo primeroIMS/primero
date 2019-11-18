@@ -4,8 +4,9 @@ import { List } from "immutable";
 import {
   PERMISSION_CONSTANTS,
   RESOURCES,
-  CREATE_REPORTS_PERMSSIONS,
-  EXPORT_CUSTOM_PERMSSIONS,
+  CREATE_RECORDS,
+  CREATE_REPORTS,
+  EXPORT_CUSTOM,
   checkPermissions
 } from "./permissions";
 
@@ -87,8 +88,8 @@ describe("Verifying config constant", () => {
     expect(resources).to.be.empty;
   });
 
-  it("should have CREATE_REPORTS_PERMSSIONS", () => {
-    const permissions = [...CREATE_REPORTS_PERMSSIONS];
+  it("should have CREATE_REPORTS", () => {
+    const permissions = [...CREATE_REPORTS];
 
     expect(permissions).to.be.a("array");
     ["create", "manage"].forEach(element => {
@@ -98,8 +99,19 @@ describe("Verifying config constant", () => {
     expect(permissions).to.be.empty;
   });
 
-  it("should have EXPORT_CUSTOM_PERMSSIONS", () => {
-    const permissions = [...EXPORT_CUSTOM_PERMSSIONS];
+  it("should have EXPORT_CUSTOM", () => {
+    const permissions = [...EXPORT_CUSTOM];
+
+    expect(permissions).to.be.a("array");
+    ["create", "manage"].forEach(element => {
+      expect(element).to.be.a("string");
+      permissions.shift();
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have CREATE_RECORDS", () => {
+    const permissions = [...CREATE_RECORDS];
 
     expect(permissions).to.be.a("array");
     ["create", "manage"].forEach(element => {
