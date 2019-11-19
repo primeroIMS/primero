@@ -8,3 +8,6 @@ export const TRANSITION_STATUS = Object.freeze({
   done: "done",
   inProgress: "in_progress"
 });
+export const ASSIGN = "Assign";
+export const TRANSFER = "Transfer";
+export const REFERRAL = "Referral";

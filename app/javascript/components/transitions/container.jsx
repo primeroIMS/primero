@@ -20,11 +20,12 @@ import TransferDetails from "./transfers/TransferDetails";
 import TransitionPanel from "./TransitionPanel";
 import ReferralSummary from "./referrals/summary";
 import ReferralDetails from "./referrals/details";
-import { TRANSITIONS_NAME } from "./constants";
+import { TRANSITIONS_NAME, ASSIGN, TRANSFER, REFERRAL } from "./constants";
 
 const Transitions = ({ isReferral, recordType, record }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const allowedTransitionTypes = [ASSIGN, TRANSFER, REFERRAL];
 
   const dataTransitions = useSelector(state =>
     selectTransitions(state, recordType, record, isReferral)
@@ -56,6 +57,8 @@ const Transitions = ({ isReferral, recordType, record }) => {
   };
 
   const renderTransition = transition => {
+    if (!allowedTransitionTypes.includes(transition.type)) return null;
+
     return (
       <div key={transition.id}>
         <TransitionPanel key={transition.id} name={transition.id}>

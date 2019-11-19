@@ -49,7 +49,8 @@ const Container = ({ match }) => {
   );
 
   const canViewModal = checkPermissions(userPermissions, [
-    PERMISSION_CONSTANTS.DISPLAY_VIEW_PAGE
+    PERMISSION_CONSTANTS.DISPLAY_VIEW_PAGE,
+    PERMISSION_CONSTANTS.MANAGE
   ]);
 
   const handleViewModalClose = () => {

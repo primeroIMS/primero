@@ -22,7 +22,8 @@ const ActionDialog = ({
   dialogText,
   confirmButtonLabel,
   children,
-  onClose
+  onClose,
+  confirmButtonProps
 }) => {
   const i18n = useI18n();
 
@@ -30,7 +31,7 @@ const ActionDialog = ({
 
   const handleSuccess = () => {
     successHandler();
-    cancelHandler();
+    handleClose();
   };
 
   const styles = theme => ({
@@ -59,6 +60,16 @@ const ActionDialog = ({
     );
   });
 
+  const defaultSuccessButtonProps = {
+    color: "primary",
+    autoFocus: true
+  };
+
+  const successButtonProps =
+    confirmButtonProps && Object.keys(confirmButtonProps)
+      ? confirmButtonProps
+      : defaultSuccessButtonProps;
+
   return (
     <div>
       <Dialog
@@ -81,14 +92,14 @@ const ActionDialog = ({
           )}
         </DialogContent>
         <DialogActions>
+          <Button {...{ ...successButtonProps, onClick: handleSuccess }}>
+            {confirmButtonLabel}
+          </Button>
           {cancelHandler ? (
             <Button onClick={cancelHandler} color="primary">
               {i18n.t("cancel")}
             </Button>
           ) : null}
-          <Button onClick={handleSuccess} color="primary" autoFocus>
-            {confirmButtonLabel}
-          </Button>
         </DialogActions>
       </Dialog>
     </div>
@@ -104,6 +115,7 @@ ActionDialog.propTypes = {
     PropTypes.node
   ]),
   confirmButtonLabel: PropTypes.string,
+  confirmButtonProps: PropTypes.object,
   dialogText: PropTypes.string,
   dialogTitle: PropTypes.string,
   onClose: PropTypes.func,
