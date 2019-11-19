@@ -9,17 +9,17 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { create } from "jss";
 import rtl from "jss-rtl";
 import React from "react";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { SnackbarProvider } from "notistack";
 
-import { theme, PERMITTED_URL } from "./config";
+import { theme, PERMITTED_URL, ROUTES } from "./config";
 import { I18nProvider } from "./components/i18n";
 import routes from "./config/routes";
 import NAMESPACE from "./components/i18n/namespace";
-import { checkUserAuthentication } from "./components/user";
+import { checkUserAuthentication, currentUser } from "./components/user";
 import { ApplicationProvider } from "./components/application";
 import Permission from "./components/application/permission";
 import configureStore, { history } from "./store";
@@ -86,6 +86,9 @@ const App = () => {
   });
 
   store.dispatch(checkUserAuthentication());
+  const state = store.getState()
+  const userName = currentUser(state);
+  const redirectTo = userName ? ROUTES.dashboard : ROUTES.login
 
   return (
     <StylesProvider jss={jss} generateClassName={generateClassName}>
@@ -99,7 +102,7 @@ const App = () => {
                   <ConnectedRouter history={history}>
                     <Switch>
                       <Route exact path="/">
-                        <Redirect to="/login" />
+                        <Redirect to={redirectTo} />
                       </Route>
                       {routesApplication}
                     </Switch>
