@@ -14,7 +14,11 @@ import { PageContainer } from "../page";
 import { useI18n } from "../i18n";
 import { getFiltersByRecordType } from "../filters-builder";
 import { getPermissionsByRecord } from "../user";
-import { PERMISSION_CONSTANTS, checkPermissions } from "../../libs/permissions";
+import {
+  ACTIONS,
+  DISPLAY_VIEW_PAGE,
+  checkPermissions
+} from "../../libs/permissions";
 import Permission from "../application/permission";
 import { useThemeHelper } from "../../libs";
 
@@ -49,7 +53,7 @@ const Container = ({ match }) => {
   );
 
   const canViewModal = checkPermissions(userPermissions, [
-    PERMISSION_CONSTANTS.DISPLAY_VIEW_PAGE
+    ACTIONS.DISPLAY_VIEW_PAGE
   ]);
 
   const handleViewModalClose = () => {
@@ -111,8 +115,8 @@ const Container = ({ match }) => {
   }, [url]);
 
   const canSearchOthers =
-    permissions.includes(PERMISSION_CONSTANTS.MANAGE) ||
-    permissions.includes(PERMISSION_CONSTANTS.SEARCH_OWNED_BY_OTHERS);
+    permissions.includes(ACTIONS.MANAGE) ||
+    permissions.includes(ACTIONS.SEARCH_OWNED_BY_OTHERS);
 
   const listHeaders =
     // eslint-disable-next-line camelcase
@@ -183,13 +187,7 @@ const Container = ({ match }) => {
           </FilterContainer>
         </Box>
       </PageContainer>
-      <Permission
-        permissionType={recordType}
-        permission={[
-          PERMISSION_CONSTANTS.MANAGE,
-          PERMISSION_CONSTANTS.DISPLAY_VIEW_PAGE
-        ]}
-      >
+      <Permission resources={recordType} actions={DISPLAY_VIEW_PAGE}>
         <ViewModal
           close={handleViewModalClose}
           openViewModal={openViewModal}

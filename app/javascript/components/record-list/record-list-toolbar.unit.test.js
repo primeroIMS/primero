@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../test";
 import { RECORD_TYPES, RECORD_PATH, MODULES } from "../../config";
-import { PERMISSION_CONSTANTS } from "../../libs/permissions";
+import { ACTIONS } from "../../libs/permissions";
 import { PrimeroModuleRecord } from "../application/records";
 import { ApplicationProvider } from "../application/provider";
 
@@ -37,7 +37,7 @@ describe("<RecordListToolbar />", () => {
     user: {
       modules: [MODULES.CP],
       permissions: {
-        cases: [PERMISSION_CONSTANTS.CREATE]
+        cases: [ACTIONS.CREATE]
       }
     }
   });
@@ -71,7 +71,7 @@ describe("<RecordListToolbar />", () => {
         fromJS({
           user: {
             permissions: {
-              cases: [PERMISSION_CONSTANTS.READ]
+              cases: [ACTIONS.READ]
             }
           }
         })

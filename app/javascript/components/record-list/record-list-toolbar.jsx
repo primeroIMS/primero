@@ -31,9 +31,7 @@ const RecordListToolbar = ({
             <FilterListIcon />
           </IconButton>
         )}
-        <Permission
-          permissionType={recordType}
-          permission={CREATE_RECORDS}>
+        <Permission resources={recordType} actions={CREATE_RECORDS}>
           <AddRecordMenu recordType={recordType} />
         </Permission>
         <RecordActions recordType={recordType} iconColor="primary" />
