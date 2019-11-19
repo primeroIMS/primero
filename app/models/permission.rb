@@ -53,7 +53,9 @@ class Permission < ValueObject
   MANAGE = 'manage'.freeze
   GROUP_READ = 'group_read'.freeze
   DASHBOARD = 'dashboard'.freeze
-  VIEW_APPROVALS = 'view_approvals'.freeze
+  DASH_APPROVALS_ASSESSMENT = 'approvals_assessment'.freeze
+  DASH_APPROVALS_CASE_PLAN = 'approvals_case_plan'.freeze
+  DASH_APPROVALS_CLOSURE = 'approvals_closure'.freeze
   VIEW_RESPONSE = 'view_response'.freeze
   VIEW_PROTECTION_CONCERNS_FILTER = 'view_protection_concerns_filter'.freeze
   DASH_CASE_OVERVIEW = 'case_overview'.freeze
@@ -108,6 +110,7 @@ class Permission < ValueObject
   # TODO: For right now we are just listing the different exports, but it will need a matrix setup. We eventually want to
   # limit export permission based on the resource.
 
+  # TODO: Refactor. We really should get rid of this method, and use the per-resource methods below.
   def self.actions
     [
       READ,
@@ -151,7 +154,9 @@ class Permission < ValueObject
       COPY,
       MANAGE,
       GROUP_READ,
-      VIEW_APPROVALS,
+      DASH_APPROVALS_ASSESSMENT,
+      DASH_APPROVALS_CASE_PLAN,
+      DASH_APPROVALS_CLOSURE,
       VIEW_RESPONSE,
       VIEW_PROTECTION_CONCERNS_FILTER,
       DASH_REPORTING_LOCATION,
@@ -203,6 +208,7 @@ class Permission < ValueObject
     resources.map{|r| Permission.new({resource: r, actions: resource_actions(r)})}
   end
 
+  #TODO: This should just be a Hash constant
   def self.resource_actions(resource)
     case resource
     when CASE
@@ -239,7 +245,8 @@ class Permission < ValueObject
     when SYSTEM
       [MANAGE]
     when DASHBOARD
-      [DASH_CASE_OVERVIEW, DASH_CASE_RISK, VIEW_APPROVALS, VIEW_RESPONSE, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS,
+      [DASH_CASE_OVERVIEW, DASH_CASE_RISK, DASH_APPROVALS_ASSESSMENT, DASH_APPROVALS_CASE_PLAN, DASH_APPROVALS_CLOSURE,
+       VIEW_RESPONSE, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS,
        DASH_MATCHING_RESULTS, MANAGE, DASH_SERVICE_PROVISIONS, DASH_CASES_TO_ASSIGN, DASH_WORKFLOW, DASH_WORKFLOW_TEAM,
        DASH_CASES_BY_TASK_OVERDUE, DASH_MANAGER_TRANSERS, DASH_CASES_BY_SOCIAL_WORKER, DASH_REFFERALS_BY_SOCIAL_WORKER,
        DASH_TRANSERS_BY_SOCIAL_WORKER, VIEW_PROTECTION_CONCERNS_FILTER, DASH_PROTECTION_CONCERNS_BY_LOCATION,

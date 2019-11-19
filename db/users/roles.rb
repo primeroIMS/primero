@@ -206,7 +206,9 @@ cp_caseworker_permissions = [
     resource: Permission::DASHBOARD,
     actions: [
       Permission::DASH_WORKFLOW,
-      Permission::VIEW_APPROVALS,
+      Permission::DASH_APPROVALS_ASSESSMENT,
+      Permission::DASH_APPROVALS_CASE_PLAN,
+      Permission::DASH_APPROVALS_CLOSURE,
       Permission::VIEW_RESPONSE,
       Permission::DASH_CASE_RISK,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
@@ -324,7 +326,8 @@ cp_manager_permissions = [
       resource: Permission::DASHBOARD,
       actions: [
         Permission::DASH_WORKFLOW_TEAM,
-        Permission::VIEW_APPROVALS,
+        #TODO: This will be replaced with the manager approval request dashboards
+        #Permission::VIEW_APPROVALS,
         Permission::VIEW_RESPONSE,
         Permission::DASH_CASE_RISK,
         Permission::VIEW_PROTECTION_CONCERNS_FILTER,
@@ -434,7 +437,8 @@ cp_user_manager_permissions = [
     Permission.new(
         resource: Permission::DASHBOARD,
         actions: [
-          Permission::VIEW_APPROVALS,
+          #TODO: This will be replaced with the manager approval request dashboards
+          #Permission::VIEW_APPROVALS,
           Permission::VIEW_RESPONSE,
           Permission::DASH_CASE_RISK,
           Permission::VIEW_PROTECTION_CONCERNS_FILTER
@@ -496,7 +500,8 @@ gbv_worker_permissions = [
   Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
-      Permission::VIEW_APPROVALS
+      #TODO: This will be replaced with the manager approval request dashboards
+      # Permission::VIEW_APPROVALS
     ]
   )
 ]
@@ -585,7 +590,8 @@ gbv_manager_permissions = [
   Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
-      Permission::VIEW_APPROVALS
+      #TODO: This will be replaced with the manager approval request dashboards
+      # Permission::VIEW_APPROVALS
     ]
   ),
   Permission.new(
@@ -694,7 +700,8 @@ gbv_user_manager_permissions = [
     Permission.new(
       resource: Permission::DASHBOARD,
       actions: [
-        Permission::VIEW_APPROVALS
+        #TODO: This will be replaced with the manager approval request dashboards
+        # Permission::VIEW_APPROVALS
       ]
     )
 ]
@@ -747,7 +754,8 @@ gbv_caseworker_permissions = [
     Permission.new(
       resource: Permission::DASHBOARD,
       actions: [
-        Permission::VIEW_APPROVALS
+        Permission::DASH_APPROVALS_CASE_PLAN,
+        Permission::DASH_APPROVALS_CLOSURE
       ]
     )
 ]
