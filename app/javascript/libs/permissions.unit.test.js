@@ -86,10 +86,12 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.CREATE_REPORTS];
 
     expect(permissions).to.be.a("array");
-    ["create", "manage"].forEach(element => {
-      expect(element).to.be.a("string");
-      permissions.shift();
-    });
+    [PERMISSIONS.ACTIONS.CREATE, PERMISSIONS.ACTIONS.MANAGE].forEach(
+      element => {
+        expect(element).to.be.a("string");
+        permissions.splice(permissions.indexOf(element), 1);
+      }
+    );
     expect(permissions).to.be.empty;
   });
 
@@ -97,9 +99,13 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.READ_REPORTS];
 
     expect(permissions).to.be.a("array");
-    ["create", "group_read", "manage"].forEach(element => {
+    [
+      PERMISSIONS.ACTIONS.CREATE,
+      PERMISSIONS.ACTIONS.GROUP_READ,
+      PERMISSIONS.ACTIONS.MANAGE
+    ].forEach(element => {
       expect(element).to.be.a("string");
-      permissions.shift();
+      permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
   });
@@ -108,10 +114,12 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.EXPORT_CUSTOM];
 
     expect(permissions).to.be.a("array");
-    ["create", "manage"].forEach(element => {
-      expect(element).to.be.a("string");
-      permissions.shift();
-    });
+    [PERMISSIONS.ACTIONS.CREATE, PERMISSIONS.ACTIONS.MANAGE].forEach(
+      element => {
+        expect(element).to.be.a("string");
+        permissions.splice(permissions.indexOf(element), 1);
+      }
+    );
     expect(permissions).to.be.empty;
   });
 
@@ -119,10 +127,13 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.CREATE_RECORDS];
 
     expect(permissions).to.be.a("array");
-    ["create", "manage"].forEach(element => {
-      expect(element).to.be.a("string");
-      permissions.shift();
-    });
+    [PERMISSIONS.ACTIONS.CREATE, PERMISSIONS.ACTIONS.MANAGE].forEach(
+      element => {
+        expect(element).to.be.a("string");
+        permissions.splice(permissions.indexOf(element), 1);
+      }
+    );
+
     expect(permissions).to.be.empty;
   });
 
@@ -130,9 +141,9 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.WRITE_RECORDS];
 
     expect(permissions).to.be.a("array");
-    ["write", "manage"].forEach(element => {
+    [PERMISSIONS.ACTIONS.MANAGE, PERMISSIONS.ACTIONS.WRITE].forEach(element => {
       expect(element).to.be.a("string");
-      permissions.shift();
+      permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
   });
@@ -141,9 +152,9 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.READ_RECORDS];
 
     expect(permissions).to.be.a("array");
-    ["write", "manage"].forEach(element => {
+    [PERMISSIONS.ACTIONS.MANAGE, PERMISSIONS.ACTIONS.WRITE].forEach(element => {
       expect(element).to.be.a("string");
-      permissions.shift();
+      permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
   });
@@ -152,9 +163,12 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.ENABLE_DISABLE_RECORD];
 
     expect(permissions).to.be.a("array");
-    ["enable_disable_record", "manage"].forEach(element => {
+    [
+      PERMISSIONS.ACTIONS.ENABLE_DISABLE_RECORD,
+      PERMISSIONS.ACTIONS.MANAGE
+    ].forEach(element => {
       expect(element).to.be.a("string");
-      permissions.shift();
+      permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
   });
@@ -163,9 +177,9 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.FLAG_RECORDS];
 
     expect(permissions).to.be.a("array");
-    ["flag", "manage"].forEach(element => {
+    [PERMISSIONS.ACTIONS.FLAG, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
       expect(element).to.be.a("string");
-      permissions.shift();
+      permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
   });
@@ -174,10 +188,12 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.ADD_NOTE];
 
     expect(permissions).to.be.a("array");
-    ["add_note", "manage"].forEach(element => {
-      expect(element).to.be.a("string");
-      permissions.shift();
-    });
+    [PERMISSIONS.ACTIONS.ADD_NOTE, PERMISSIONS.ACTIONS.MANAGE].forEach(
+      element => {
+        expect(element).to.be.a("string");
+        permissions.splice(permissions.indexOf(element), 1);
+      }
+    );
     expect(permissions).to.be.empty;
   });
 
@@ -185,10 +201,12 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.DISPLAY_VIEW_PAGE];
 
     expect(permissions).to.be.a("array");
-    ["display_view_page", "manage"].forEach(element => {
-      expect(element).to.be.a("string");
-      permissions.shift();
-    });
+    [PERMISSIONS.ACTIONS.DISPLAY_VIEW_PAGE, PERMISSIONS.ACTIONS.MANAGE].forEach(
+      element => {
+        expect(element).to.be.a("string");
+        permissions.splice(permissions.indexOf(element), 1);
+      }
+    );
     expect(permissions).to.be.empty;
   });
 
@@ -196,10 +214,12 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.SHOW_TASKS];
 
     expect(permissions).to.be.a("array");
-    ["dash_tasks", "manage"].forEach(element => {
-      expect(element).to.be.a("string");
-      permissions.shift();
-    });
+    [PERMISSIONS.ACTIONS.DASH_TASKS, PERMISSIONS.ACTIONS.MANAGE].forEach(
+      element => {
+        expect(element).to.be.a("string");
+        permissions.splice(permissions.indexOf(element), 1);
+      }
+    );
     expect(permissions).to.be.empty;
   });
 
@@ -208,22 +228,22 @@ describe("Verifying config constant", () => {
 
     expect(permissions).to.be.a("array");
     [
-      "export_case_pdf",
-      "export_csv",
-      "export_custom",
-      "export_duplicate_id_csv",
-      "export_xls",
-      "export_incident_recorder_xls",
-      "export_json",
-      "export_list_view_csv",
-      "export_mrm_violation_xls",
-      "export_pdf",
-      "export_photowall",
-      "export_unhcr_csv",
-      "manage"
+      PERMISSIONS.ACTIONS.EXPORT_CASE_PDF,
+      PERMISSIONS.ACTIONS.EXPORT_CSV,
+      PERMISSIONS.ACTIONS.EXPORT_CUSTOM,
+      PERMISSIONS.ACTIONS.EXPORT_DUPLICATE_ID,
+      PERMISSIONS.ACTIONS.EXPORT_EXCEL,
+      PERMISSIONS.ACTIONS.EXPORT_INCIDENT_RECORDER,
+      PERMISSIONS.ACTIONS.EXPORT_JSON,
+      PERMISSIONS.ACTIONS.EXPORT_LIST_VIEW,
+      PERMISSIONS.ACTIONS.EXPORT_MRM_VIOLATION_XLS,
+      PERMISSIONS.ACTIONS.EXPORT_PDF,
+      PERMISSIONS.ACTIONS.EXPORT_PHOTO_WALL,
+      PERMISSIONS.ACTIONS.EXPORT_UNHCR,
+      PERMISSIONS.ACTIONS.MANAGE
     ].forEach(element => {
       expect(element).to.be.a("string");
-      permissions.shift();
+      permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
   });
