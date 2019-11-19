@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { PERMISSION_CONSTANTS } from "../../libs/permissions";
+import { ACTIONS } from "../../libs/permissions";
 
 import * as selectors from "./selectors";
 
@@ -10,9 +10,9 @@ const stateWithUser = fromJS({
   user: {
     username: "primero",
     permissions: {
-      incidents: [PERMISSION_CONSTANTS.MANAGE],
-      tracing_requests: [PERMISSION_CONSTANTS.MANAGE],
-      cases: [PERMISSION_CONSTANTS.MANAGE]
+      incidents: [ACTIONS.MANAGE],
+      tracing_requests: [ACTIONS.MANAGE],
+      cases: [ACTIONS.MANAGE]
     }
   }
 });
@@ -39,9 +39,7 @@ describe("User - Selectors", () => {
         "cases"
       );
 
-      expect(permissionsByRecord).to.deep.equal(
-        fromJS([PERMISSION_CONSTANTS.MANAGE])
-      );
+      expect(permissionsByRecord).to.deep.equal(fromJS([ACTIONS.MANAGE]));
     });
 
     it("should not return permissions if not set", () => {
@@ -70,9 +68,9 @@ describe("User - Selectors", () => {
   describe("with getPermissions", () => {
     it("should return current user if username is set", () => {
       const expectedPermission = fromJS({
-        incidents: [PERMISSION_CONSTANTS.MANAGE],
-        tracing_requests: [PERMISSION_CONSTANTS.MANAGE],
-        cases: [PERMISSION_CONSTANTS.MANAGE]
+        incidents: [ACTIONS.MANAGE],
+        tracing_requests: [ACTIONS.MANAGE],
+        cases: [ACTIONS.MANAGE]
       });
 
       const selector = selectors.getPermissions(stateWithUser);

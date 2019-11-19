@@ -9,6 +9,7 @@ import { useI18n } from "../../i18n";
 import { Flagging } from "../../flagging";
 import RecordActions from "../../record-actions";
 import Permission from "../../application/permission";
+import { FLAG_RECORDS, WRITE_RECORDS } from "../../../libs/permissions";
 
 import { WorkflowIndicator } from "./components";
 import styles from "./styles.css";
@@ -66,10 +67,7 @@ const RecordFormToolbar = ({
       </Box>
       <Box>
         {mode.isShow && params && (
-          <Permission
-            recordType={params.recordType}
-            permission={["flag", "manage"]}
-          >
+          <Permission resources={params.recordType} actions={FLAG_RECORDS}>
             <Flagging recordType={params.recordType} record={params.id} />
           </Permission>
         )}
@@ -94,10 +92,7 @@ const RecordFormToolbar = ({
           </div>
         )}
         {mode.isShow && (
-          <Permission
-            recordType={params.recordType}
-            permission={["write", "manage"]}
-          >
+          <Permission resources={params.recordType} actions={WRITE_RECORDS}>
             <IconButton
               to={`/${params.recordType}/${params.id}/edit`}
               component={Link}

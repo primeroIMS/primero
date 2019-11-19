@@ -7,7 +7,7 @@ import { ExpansionPanel } from "@material-ui/core";
 import Filters from "../filters";
 import Panel from "../filters-builder/Panel";
 import IndexTable from "../index-table";
-import { PERMISSION_CONSTANTS } from "../../libs/permissions";
+import { ACTIONS } from "../../libs/permissions";
 import { setupMountedComponent } from "../../test";
 
 import { ViewModal } from "./view-modal";
@@ -65,10 +65,7 @@ describe("<RecordList />", () => {
           ]
         },
         permissions: {
-          cases: [
-            PERMISSION_CONSTANTS.MANAGE,
-            PERMISSION_CONSTANTS.DISPLAY_VIEW_PAGE
-          ]
+          cases: [ACTIONS.MANAGE, ACTIONS.DISPLAY_VIEW_PAGE]
         }
       },
       application: {
