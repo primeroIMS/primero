@@ -42,7 +42,7 @@ describe IndicatorQueryService, search: true do
     end
 
     it 'shows the string queries to get all open cases' do
-      expected_query = %w[record_state=true status=open]
+      expected_query = %w[record_state=true status=open owned_by=foo]
       expect(stats['case']['open']['open']['query']).to match_array(expected_query)
     end
 
@@ -51,7 +51,7 @@ describe IndicatorQueryService, search: true do
     end
 
     it 'shows the string queries to get all updated cases' do
-      expected_query = %w[record_state=true status=open not_edited_by_owner=true]
+      expected_query = %w[record_state=true status=open owned_by=foo not_edited_by_owner=true]
       expect(stats['case']['updated']['updated']['query']).to match_array(expected_query)
     end
 
@@ -66,9 +66,9 @@ describe IndicatorQueryService, search: true do
     end
 
     it 'shows the string queries to get the workflow breakdown' do
-      expected_query_new = %w[record_state=true status=open workflow=new]
+      expected_query_new = %w[record_state=true status=open owned_by=foo workflow=new]
       expect(stats['case']['workflow']['new']['query']).to match_array(expected_query_new)
-      expected_query_assessment = %w[record_state=true status=open workflow=assessment]
+      expected_query_assessment = %w[record_state=true status=open owned_by=foo workflow=assessment]
       expect(stats['case']['workflow']['assessment']['query']).to match_array(expected_query_assessment)
     end
   end

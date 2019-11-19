@@ -25,7 +25,7 @@ class IndicatorQueryService
         SearchService.with_query_scope(self, user_query_scope)
 
         indicators.each do |indicator|
-          indicator.query(self)
+          indicator.query(self, user)
         end
       end
     end
@@ -36,8 +36,10 @@ class IndicatorQueryService
 
     def group_indicators_by_scope(indicators)
       indicators.group_by do |indicator|
-        indicator.scope&.map(&:to_h) || {}
+        scope_key = indicator.scope&.map(&:to_h) || {}
+        [indicator.scope_to_owner, scope_key]
       end
+
     end
 
   end

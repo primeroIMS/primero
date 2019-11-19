@@ -10,9 +10,10 @@ module Indicators
       Time.zone.now
     end
 
-    def query(sunspot)
+    def query(sunspot, user)
       this = self
       sunspot.instance_eval do
+        with(:owned_by, user.user_name) if this.scope_to_owner
         this.scope&.each { |f| f.query_scope(self) }
         facet(this.name, zeros: true) do
           row(this.name) do
@@ -22,8 +23,10 @@ module Indicators
       end
     end
 
-    def stat_query_strings(_)
-      scope_query_strings + (search_filters&.map(&:to_s) || [])
+    def stat_query_strings(_, owner)
+      scope_query_strings +
+        owner_query_string(owner) +
+        (search_filters&.map(&:to_s) || [])
     end
 
   end
