@@ -33,6 +33,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -60,6 +61,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -76,6 +78,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -93,6 +96,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -126,6 +130,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -143,6 +148,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -162,6 +168,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -189,6 +196,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -205,6 +213,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -238,6 +247,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -257,6 +267,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -284,6 +295,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -300,6 +312,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -333,6 +346,7 @@ describe("<Transitions /> - Reducers", () => {
     };
 
     const newState = reducers(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 });

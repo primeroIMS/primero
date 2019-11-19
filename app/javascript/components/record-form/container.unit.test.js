@@ -1,12 +1,14 @@
 /* eslint-disable prefer-destructuring */
 
 import { expect } from "chai";
-import { setupMountedComponent } from "../../test";
 import React from "react";
 import { Route } from "react-router-dom";
 import { Map, List } from "immutable";
+
+import { setupMountedComponent } from "../../test";
 import { PageContainer } from "../page";
 import { LoadingIndicator } from "../loading-indicator";
+
 import RecordForms from "./container";
 
 describe("<RecordForms /> - Component", () => {
@@ -23,6 +25,7 @@ describe("<RecordForms /> - Component", () => {
         />
       );
     };
+
     ({ component } = setupMountedComponent(
       routedComponent,
       {

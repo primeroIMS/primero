@@ -27,12 +27,14 @@ describe("<Flagging /> - Selectors", () => {
         FlagRecord({ record_id: 2, record_type: "cases" })
       ]);
       const records = selectFlags(state, 2, recordType);
+
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty list when no flags", () => {
       const expected = List([]);
       const records = selectFlags(state, 3, recordType);
+
       expect(records).to.deep.equal(expected);
     });
   });

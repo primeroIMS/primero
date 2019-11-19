@@ -1,7 +1,8 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../test";
 import MenuItem from "@material-ui/core/MenuItem";
+
+import { setupMountedComponent } from "../../../test";
+
 import Option from "./option";
 
 describe("<Option />", () => {

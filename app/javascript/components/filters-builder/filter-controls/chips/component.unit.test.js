@@ -6,7 +6,6 @@ import { setupMountedComponent } from "../../../../test";
 
 import Chips from "./component";
 
-
 describe("<Chips /> - Component", () => {
   const mockedData = {
     name: "Risk Level",

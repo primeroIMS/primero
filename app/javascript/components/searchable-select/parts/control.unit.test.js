@@ -1,7 +1,8 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../test";
 import TextField from "@material-ui/core/TextField";
+
+import { setupMountedComponent } from "../../../test";
+
 import Control from "./control";
 
 describe("<Control />", () => {
@@ -20,6 +21,7 @@ describe("<Control />", () => {
       }
     }
   };
+
   beforeEach(() => {
     ({ component } = setupMountedComponent(Control, props));
   });

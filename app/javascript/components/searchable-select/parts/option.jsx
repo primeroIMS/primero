@@ -4,6 +4,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 const Option = props => {
   const { innerRef, isFocused, isSelected, innerProps, children } = props;
+
   return (
     <MenuItem
       ref={innerRef}

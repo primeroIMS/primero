@@ -6,13 +6,11 @@ import { ExpansionPanel } from "@material-ui/core";
 
 import Filters from "../filters";
 import Panel from "../filters-builder/Panel";
+import IndexTable from "../index-table";
+import { PERMISSION_CONSTANTS } from "../../libs/permissions";
+import { setupMountedComponent } from "../../test";
 
-import IndexTable from "./../index-table";
-import { PERMISSION_CONSTANTS } from "./../../libs/permissions";
-import { setupMountedComponent } from "./../../test";
-import { ViewModal } from "./../record-list/view-modal";
-
-
+import { ViewModal } from "./view-modal";
 import RecordList from "./container";
 
 describe("<RecordList />", () => {

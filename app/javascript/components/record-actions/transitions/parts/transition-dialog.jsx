@@ -34,6 +34,7 @@ const TransitionDialog = ({
         incident_code: incidentId
       } = record.toJS();
       const recordWithId = `${recordName[recordType]} ${caseId || incidentId}`;
+
       switch (type) {
         case "referral":
           return `Referral ${recordWithId}`;
@@ -45,6 +46,7 @@ const TransitionDialog = ({
           return null;
       }
     }
+
     return "";
   })(transitionType);
 
@@ -70,11 +72,11 @@ const TransitionDialog = ({
 
 TransitionDialog.propTypes = {
   children: PropTypes.node.isRequired,
-  record: PropTypes.object,
-  open: PropTypes.bool.isRequired,
-  transitionType: PropTypes.string,
   handleClose: PropTypes.func.isRequired,
-  recordType: PropTypes.string.isRequired
+  open: PropTypes.bool.isRequired,
+  record: PropTypes.object,
+  recordType: PropTypes.string.isRequired,
+  transitionType: PropTypes.string
 };
 
 export default TransitionDialog;

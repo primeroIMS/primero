@@ -37,6 +37,7 @@ describe("<RecordList /> - Selectors", () => {
     it("should return records", () => {
       const expected = "test";
       const records = selectors.selectSearchValue(stateWithRecords, recordType);
+
       expect(records).to.deep.equal(expected);
     });
 
@@ -46,8 +47,8 @@ describe("<RecordList /> - Selectors", () => {
         stateWithNoRecords,
         recordType
       );
+
       expect(records).to.deep.equal(expected);
     });
   });
-
 });

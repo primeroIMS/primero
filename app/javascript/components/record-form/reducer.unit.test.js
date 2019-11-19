@@ -1,7 +1,9 @@
 import chai, { expect } from "chai";
 import { Map, List } from "immutable";
-import { mapEntriesToRecord } from "../../libs";
 import chaiImmutable from "chai-immutable";
+
+import { mapEntriesToRecord } from "../../libs";
+
 import * as R from "./records";
 import * as r from "./reducers";
 
@@ -43,6 +45,7 @@ describe("<RecordForm /> - Reducers", () => {
     };
 
     const newState = r.reducers.forms(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -118,6 +121,7 @@ describe("<RecordForm /> - Reducers", () => {
     };
 
     const newState = r.reducers.forms(defaultState, action);
+
     expect(newState).to.deep.equal(expectedState);
   });
 
@@ -134,6 +138,7 @@ describe("<RecordForm /> - Reducers", () => {
     };
 
     const newState = r.reducers.forms(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -149,6 +154,7 @@ describe("<RecordForm /> - Reducers", () => {
     };
 
     const newState = r.reducers.forms(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -164,6 +170,7 @@ describe("<RecordForm /> - Reducers", () => {
     };
 
     const newState = r.reducers.forms(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 });

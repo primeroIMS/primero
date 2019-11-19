@@ -1,10 +1,10 @@
-
 import chai, { expect } from "chai";
-import { Map, List, is } from "immutable";
-import { mapEntriesToRecord } from "../../libs";
+import { Map, List } from "immutable";
 import chaiImmutable from "chai-immutable";
-import * as R from "./records";
 
+import { mapEntriesToRecord } from "../../libs";
+
+import * as R from "./records";
 import * as selectors from "./selectors";
 
 chai.use(chaiImmutable);
@@ -82,11 +82,13 @@ describe("<SavedSearches /> - Selectors", () => {
         stateWithRecords,
         "incidents"
       );
+
       expect(filtersFromState.toJS()).to.eql(expected.toJS());
     });
 
     it("should return false when there is not any error", () => {
       const errors = selectors.selectSavedSearches(stateWithNoRecords);
+
       expect(errors).to.deep.equal(List([]));
     });
   });
@@ -112,13 +114,14 @@ describe("<SavedSearches /> - Selectors", () => {
         "incidents",
         1
       );
+
       expect(filtersFromState.toJS()).to.eql(expected.toJS());
     });
 
     it("should return false when there is not any error", () => {
       const errors = selectors.selectSavedSearchesById(stateWithNoRecords);
+
       expect(errors).to.deep.equal(Map({}));
     });
   });
-
 });

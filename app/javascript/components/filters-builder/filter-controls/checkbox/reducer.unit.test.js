@@ -3,7 +3,6 @@ import { Map, List } from "immutable";
 
 import { checkboxReducer } from "./reducer";
 
- 
 describe("<CheckBox /> - Reducers", () => {
   const defaultState = Map({
     my_cases: ["test"]
