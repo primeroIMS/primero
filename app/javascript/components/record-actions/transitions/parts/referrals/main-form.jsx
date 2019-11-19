@@ -172,6 +172,7 @@ const MainForm = ({ formProps, rest }) => {
     {
       id: TRANSITIONED_TO_FIELD,
       label: i18n.t("referral.recipient_label"),
+      required: true,
       options: users
         ? users.valueSeq().map(user => {
             const userName = user.get(USER_NAME_FIELD);

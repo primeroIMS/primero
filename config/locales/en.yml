@@ -2217,7 +2217,7 @@ en:
     consent_individual_transfer: "Do you have consent from the individual to make this transfer?"
     type_of_export: "What type of export do you want?"
     notes_label: "Notes"
-    user_mandatory: "User name is required"
+    user_mandatory: "Recipient is required"
     failure: "%{record_type} %{id} transfer failed (check that consent fields are selected)"
     success: "Successfully transferred"
     rejected: "%{record_type} %{id} transfer rejected"

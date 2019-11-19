@@ -79,4 +79,27 @@ describe("<FormInternal />", () => {
       "fields.select_single"
     );
   });
+
+  it("renders TextFieldProps from SearchableSelect with valid props", () => {
+    const textFieldProps = {
+      ...component
+        .find(SearchableSelect)
+        .first()
+        .props().TextFieldProps
+    };
+
+    [
+      "label",
+      "required",
+      "error",
+      "helperText",
+      "margin",
+      "placeholder",
+      "InputLabelProps"
+    ].forEach(property => {
+      expect(textFieldProps).to.have.property(property);
+      delete textFieldProps[property];
+    });
+    expect(textFieldProps).to.be.empty;
+  });
 });
