@@ -15,7 +15,7 @@ import { useI18n } from "../i18n";
 import { getFiltersByRecordType } from "../filters-builder";
 import { getPermissionsByRecord } from "../user";
 import {
-  PERMISSION_CONSTANTS,
+  ACTIONS,
   DISPLAY_VIEW_PAGE,
   checkPermissions
 } from "../../libs/permissions";
@@ -53,7 +53,7 @@ const Container = ({ match }) => {
   );
 
   const canViewModal = checkPermissions(userPermissions, [
-    PERMISSION_CONSTANTS.DISPLAY_VIEW_PAGE
+    ACTIONS.DISPLAY_VIEW_PAGE
   ]);
 
   const handleViewModalClose = () => {
@@ -115,8 +115,8 @@ const Container = ({ match }) => {
   }, [url]);
 
   const canSearchOthers =
-    permissions.includes(PERMISSION_CONSTANTS.MANAGE) ||
-    permissions.includes(PERMISSION_CONSTANTS.SEARCH_OWNED_BY_OTHERS);
+    permissions.includes(ACTIONS.MANAGE) ||
+    permissions.includes(ACTIONS.SEARCH_OWNED_BY_OTHERS);
 
   const listHeaders =
     // eslint-disable-next-line camelcase

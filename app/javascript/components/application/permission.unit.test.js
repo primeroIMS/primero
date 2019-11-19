@@ -3,7 +3,8 @@ import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../test";
-import { PERMISSION_CONSTANTS, RESOURCES } from "../../libs/permissions";
+import { ACTIONS, RESOURCES } from "../../libs/permissions";
+import { ROUTES } from "../../config";
 
 import Permission from "./permission";
 
@@ -11,20 +12,20 @@ describe("<Permission />", () => {
   let component;
   const props = {
     resources: RESOURCES.cases,
-    actions: PERMISSION_CONSTANTS.READ,
+    actions: ACTIONS.READ,
     children: <div />,
     match: {
       isExact: true,
-      params: { recordType: "cases" },
+      params: { recordType: RESOURCES.cases },
       path: "/:recordType(cases|incidents|tracing_requests)",
-      url: "/cases"
+      url: ROUTES.cases
     }
   };
 
   const initialState = fromJS({
     user: {
       permissions: {
-        cases: [PERMISSION_CONSTANTS.READ]
+        cases: [ACTIONS.READ]
       }
     }
   });
@@ -71,10 +72,10 @@ describe("<Permission />", () => {
       ({ component } = setupMountedComponent(
         Permission,
         {
-          permission: "read",
+          permission: ACTIONS.READ,
           children: <div />,
           match: {
-            url: "/cases"
+            url: ROUTES.cases
           }
         },
         initialState
@@ -92,10 +93,7 @@ describe("<Permission />", () => {
         Permission,
         {
           permissionType: [RESOURCES.cases, RESOURCES.incidents],
-          permission: [
-            PERMISSION_CONSTANTS.READ,
-            PERMISSION_CONSTANTS.EXPORT_EXCEL
-          ],
+          permission: [ACTIONS.READ, ACTIONS.EXPORT_EXCEL],
           children: <div />,
           match: {
             url: "/cases"

@@ -40,14 +40,14 @@ const routesApplication = routes.map((route, index) => {
         PERMITTED_URL.includes(subRoute.path) ? (
           <subRoute.component mode={subRoute.mode} />
         ) : (
-          <Permission
-            resources={subRoute.permissionType}
-            actions={subRoute.permission}
-            redirect
-          >
-            <subRoute.component mode={subRoute.mode} />
-          </Permission>
-        );
+            <Permission
+              resources={subRoute.resources}
+              actions={subRoute.actions}
+              redirect
+            >
+              <subRoute.component mode={subRoute.mode} />
+            </Permission>
+          );
 
       return (
         <Route
