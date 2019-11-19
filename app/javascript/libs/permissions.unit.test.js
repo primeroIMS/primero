@@ -88,7 +88,7 @@ describe("Verifying config constant", () => {
     expect(permissions).to.be.a("array");
     [PERMISSIONS.ACTIONS.CREATE, PERMISSIONS.ACTIONS.MANAGE].forEach(
       element => {
-        expect(element).to.be.a("string");
+        expect(permissions).to.include(element);
         permissions.splice(permissions.indexOf(element), 1);
       }
     );
@@ -100,11 +100,11 @@ describe("Verifying config constant", () => {
 
     expect(permissions).to.be.a("array");
     [
-      PERMISSIONS.ACTIONS.CREATE,
+      PERMISSIONS.ACTIONS.READ,
       PERMISSIONS.ACTIONS.GROUP_READ,
       PERMISSIONS.ACTIONS.MANAGE
     ].forEach(element => {
-      expect(element).to.be.a("string");
+      expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
@@ -114,9 +114,9 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.EXPORT_CUSTOM];
 
     expect(permissions).to.be.a("array");
-    [PERMISSIONS.ACTIONS.CREATE, PERMISSIONS.ACTIONS.MANAGE].forEach(
+    [PERMISSIONS.ACTIONS.EXPORT_CUSTOM, PERMISSIONS.ACTIONS.MANAGE].forEach(
       element => {
-        expect(element).to.be.a("string");
+        expect(permissions).to.include(element);
         permissions.splice(permissions.indexOf(element), 1);
       }
     );
@@ -129,7 +129,7 @@ describe("Verifying config constant", () => {
     expect(permissions).to.be.a("array");
     [PERMISSIONS.ACTIONS.CREATE, PERMISSIONS.ACTIONS.MANAGE].forEach(
       element => {
-        expect(element).to.be.a("string");
+        expect(permissions).to.include(element);
         permissions.splice(permissions.indexOf(element), 1);
       }
     );
@@ -142,7 +142,7 @@ describe("Verifying config constant", () => {
 
     expect(permissions).to.be.a("array");
     [PERMISSIONS.ACTIONS.MANAGE, PERMISSIONS.ACTIONS.WRITE].forEach(element => {
-      expect(element).to.be.a("string");
+      expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
@@ -152,8 +152,8 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.READ_RECORDS];
 
     expect(permissions).to.be.a("array");
-    [PERMISSIONS.ACTIONS.MANAGE, PERMISSIONS.ACTIONS.WRITE].forEach(element => {
-      expect(element).to.be.a("string");
+    [PERMISSIONS.ACTIONS.MANAGE, PERMISSIONS.ACTIONS.READ].forEach(element => {
+      expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
@@ -167,7 +167,7 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.ENABLE_DISABLE_RECORD,
       PERMISSIONS.ACTIONS.MANAGE
     ].forEach(element => {
-      expect(element).to.be.a("string");
+      expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
@@ -178,7 +178,7 @@ describe("Verifying config constant", () => {
 
     expect(permissions).to.be.a("array");
     [PERMISSIONS.ACTIONS.FLAG, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
-      expect(element).to.be.a("string");
+      expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
@@ -190,7 +190,7 @@ describe("Verifying config constant", () => {
     expect(permissions).to.be.a("array");
     [PERMISSIONS.ACTIONS.ADD_NOTE, PERMISSIONS.ACTIONS.MANAGE].forEach(
       element => {
-        expect(element).to.be.a("string");
+        expect(permissions).to.include(element);
         permissions.splice(permissions.indexOf(element), 1);
       }
     );
@@ -203,7 +203,7 @@ describe("Verifying config constant", () => {
     expect(permissions).to.be.a("array");
     [PERMISSIONS.ACTIONS.DISPLAY_VIEW_PAGE, PERMISSIONS.ACTIONS.MANAGE].forEach(
       element => {
-        expect(element).to.be.a("string");
+        expect(permissions).to.include(element);
         permissions.splice(permissions.indexOf(element), 1);
       }
     );
@@ -216,7 +216,7 @@ describe("Verifying config constant", () => {
     expect(permissions).to.be.a("array");
     [PERMISSIONS.ACTIONS.DASH_TASKS, PERMISSIONS.ACTIONS.MANAGE].forEach(
       element => {
-        expect(element).to.be.a("string");
+        expect(permissions).to.include(element);
         permissions.splice(permissions.indexOf(element), 1);
       }
     );
@@ -242,7 +242,7 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.EXPORT_UNHCR,
       PERMISSIONS.ACTIONS.MANAGE
     ].forEach(element => {
-      expect(element).to.be.a("string");
+      expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
