@@ -143,7 +143,8 @@ export const PERMITTED_URL = [
   ROUTES.support,
   ROUTES.cases,
   ROUTES.tracing_requests,
-  ROUTES.incidents
+  ROUTES.incidents,
+  ROUTES.key_performance_indicators
 ];
 
 export const DATE_FORMAT = "dd-MMM-yyyy";
@@ -298,8 +299,10 @@ export const APPLICATION_NAV = permissions => {
     {
       name: "navigation.key_performance_indicators",
       to: ROUTES.key_performance_indicators,
-      icon: "key_performance_indicators"
-},
+      icon: "key_performance_indicators",
+      resources: [],
+      actions: []
+    },
     {
       name: "navigation.bulk_exports",
       to: ROUTES.exports,
