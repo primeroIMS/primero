@@ -1,5 +1,5 @@
 module Indicators
-  class QueriedIndicator < FacetedIndicator
+  class QueriedIndicator < AbstractIndicator
     attr_accessor :search_filters
 
     def self.recent_past

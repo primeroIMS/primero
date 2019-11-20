@@ -1,5 +1,5 @@
 module Indicators
-  class PivotedIndicator < FacetedIndicator
+  class PivotedIndicator < AbstractIndicator
     attr_accessor :pivots
 
     def query(sunspot, user)
