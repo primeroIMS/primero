@@ -2,13 +2,31 @@ module Indicators
   class AbstractIndicator < ValueObject
     attr_accessor :name, :record_model, :scope, :scope_to_owner
 
+    class << self
+      def dawn_of_time
+        Time.zone.at(0)
+      end
+
+      def recent_past
+        Time.zone.now - 10.days
+      end
+
+      def present
+        Time.zone.now
+      end
+    end
+
     def query(_, _)
       raise NotImplementedError
     end
 
+    def facet_name
+      name
+    end
+
     def stats_from_search(sunspot_search)
       owner = owner_from_search(sunspot_search)
-      sunspot_search.facet(name).rows.map do |row|
+      sunspot_search.facet(facet_name).rows.map do |row|
         stat = {
           'count' => row.count,
           'query' => stat_query_strings(row, owner)

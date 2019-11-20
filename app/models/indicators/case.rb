@@ -36,6 +36,7 @@ module Indicators
 
     WORKFLOW = FacetedIndicator.new(
       name: 'workflow',
+      facet: 'workflow',
       record_model: Child,
       scope: OPEN_ENABLED,
       scope_to_owner: true
@@ -50,6 +51,7 @@ module Indicators
 
     RISK = FacetedIndicator.new(
       name: 'risk_level',
+      facet: 'risk_level',
       record_model: Child,
       scope: OPEN_ENABLED
     ).freeze
@@ -156,6 +158,50 @@ module Indicators
       scope_to_owner: true,
       search_filters: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_closure', value: Child::APPROVAL_STATUS_APPROVED)
+      ]
+    ).freeze
+
+    TASKS_OVERDUE_ASSESSMENT = FacetedIndicator.new(
+      name: 'tasks_overdue_assessment',
+      facet: 'associated_user_names',
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::DateRange.new(
+          field_name: 'assessment_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+        )
+      ]
+    ).freeze
+
+    TASKS_OVERDUE_CASE_PLAN = FacetedIndicator.new(
+      name: 'tasks_overdue_case_plan',
+      facet: 'associated_user_names',
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::DateRange.new(
+          field_name: 'case_plan_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+        )
+      ]
+    ).freeze
+
+    TASKS_OVERDUE_SERVICES = FacetedIndicator.new(
+      name: 'tasks_overdue_services',
+      facet: 'associated_user_names',
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::DateRange.new(
+          field_name: 'service_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+        )
+      ]
+    ).freeze
+
+    TASKS_OVERDUE_FOLLOWUPS = FacetedIndicator.new(
+      name: 'tasks_overdue_followups',
+      facet: 'associated_user_names',
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::DateRange.new(
+          field_name: 'followup_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+        )
       ]
     ).freeze
 

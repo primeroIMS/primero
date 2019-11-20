@@ -78,4 +78,29 @@ class Dashboard < ValueObject
     indicators: [Indicators::Case::APPROVALS_CLOSURE_PENDING_GROUP]
   ).freeze
 
+  CASES_BY_TASK_OVERDUE_ASSESSMENT = Dashboard.new(
+    name: 'cases_by_task_overdue_assessment',
+    type: 'indicator',
+    indicators: [Indicators::Case::TASKS_OVERDUE_ASSESSMENT]
+  ).freeze
+
+  CASES_BY_TASK_OVERDUE_CASE_PLAN = Dashboard.new(
+    name: 'cases_by_task_overdue_case_plan',
+    type: 'indicator',
+    indicators: [Indicators::Case::TASKS_OVERDUE_CASE_PLAN]
+  ).freeze
+
+  CASES_BY_TASK_OVERDUE_SERVICES = Dashboard.new(
+    name: 'cases_by_task_overdue_services',
+    type: 'indicator',
+    indicators: [Indicators::Case::TASKS_OVERDUE_SERVICES]
+  ).freeze
+
+  CASES_BY_TASK_OVERDUE_FOLLOWUPS = Dashboard.new(
+    name: 'cases_by_task_overdue_followups',
+    type: 'indicator',
+    indicators: [Indicators::Case::TASKS_OVERDUE_FOLLOWUPS]
+  ).freeze
+
+
 end
