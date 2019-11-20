@@ -7,7 +7,7 @@ module Api::V2
       @total = Location.count
       @locations = Location.paginate(pagination)
       @with_hierarchy = params[:hierarchy] == 'true'
-    end  
+    end
 
     def create
       authorize! :create, Location
@@ -16,7 +16,7 @@ module Api::V2
       status = params[:data][:id].present? ? 204 : 200
       render :create, status: status
     end
-    
+
     def show
       authorize! :show, Location
       @location = Location.find(params[:id])

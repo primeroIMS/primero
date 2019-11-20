@@ -279,4 +279,11 @@ class Location < ApplicationRecord
     return false
   end
 
+  def update_properties(location_properties)
+    self.placename_i18n = FieldI18nService.merge_i18n_properties(
+      { placename_i18n: self.placename_i18n },
+      { placename_i18n: location_properties[:placename] }
+    )[:placename_i18n]
+  end
+
 end
