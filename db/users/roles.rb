@@ -326,8 +326,9 @@ cp_manager_permissions = [
       resource: Permission::DASHBOARD,
       actions: [
         Permission::DASH_WORKFLOW_TEAM,
-        #TODO: This will be replaced with the manager approval request dashboards
-        #Permission::VIEW_APPROVALS,
+        Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
+        Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
+        Permission::DASH_APPROVALS_CLOSURE_PENDING,
         Permission::VIEW_RESPONSE,
         Permission::DASH_CASE_RISK,
         Permission::VIEW_PROTECTION_CONCERNS_FILTER,
@@ -437,8 +438,9 @@ cp_user_manager_permissions = [
     Permission.new(
         resource: Permission::DASHBOARD,
         actions: [
-          #TODO: This will be replaced with the manager approval request dashboards
-          #Permission::VIEW_APPROVALS,
+          Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
+          Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
+          Permission::DASH_APPROVALS_CLOSURE_PENDING,
           Permission::VIEW_RESPONSE,
           Permission::DASH_CASE_RISK,
           Permission::VIEW_PROTECTION_CONCERNS_FILTER
@@ -500,8 +502,9 @@ gbv_worker_permissions = [
   Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
-      #TODO: This will be replaced with the manager approval request dashboards
-      # Permission::VIEW_APPROVALS
+      Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
+      Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
+      Permission::DASH_APPROVALS_CLOSURE_PENDING
     ]
   )
 ]
@@ -590,8 +593,9 @@ gbv_manager_permissions = [
   Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
-      #TODO: This will be replaced with the manager approval request dashboards
-      # Permission::VIEW_APPROVALS
+      Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
+      Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
+      Permission::DASH_APPROVALS_CLOSURE_PENDING
     ]
   ),
   Permission.new(
@@ -700,8 +704,9 @@ gbv_user_manager_permissions = [
     Permission.new(
       resource: Permission::DASHBOARD,
       actions: [
-        #TODO: This will be replaced with the manager approval request dashboards
-        # Permission::VIEW_APPROVALS
+        Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
+        Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
+        Permission::DASH_APPROVALS_CLOSURE_PENDING
       ]
     )
 ]
