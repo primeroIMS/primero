@@ -57,6 +57,15 @@ module Indicators
     APPROVALS_ASSESSMENT_PENDING = QueriedIndicator.new(
       name: 'approval_assessment_pending',
       record_model: Child,
+      scope_to_owner: true,
+      search_filters: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'approval_status_bia', value: Child::APPROVAL_STATUS_PENDING)
+      ]
+    ).freeze
+
+    APPROVALS_ASSESSMENT_PENDING_GROUP = QueriedIndicator.new(
+      name: 'approval_assessment_pending_group',
+      record_model: Child,
       search_filters: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_bia', value: Child::APPROVAL_STATUS_PENDING)
       ]
@@ -65,6 +74,7 @@ module Indicators
     APPROVALS_ASSESSMENT_REJECTED = QueriedIndicator.new(
       name: 'approval_assessment_rejected',
       record_model: Child,
+      scope_to_owner: true,
       search_filters: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_bia', value: Child::APPROVAL_STATUS_REJECTED)
       ]
@@ -73,6 +83,7 @@ module Indicators
     APPROVALS_ASSESSMENT_APPROVED = QueriedIndicator.new(
       name: 'approval_assessment_approved',
       record_model: Child,
+      scope_to_owner: true,
       search_filters: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_bia', value: Child::APPROVAL_STATUS_APPROVED)
       ]
@@ -80,6 +91,15 @@ module Indicators
 
     APPROVALS_CASE_PLAN_PENDING = QueriedIndicator.new(
       name: 'approval_case_plan_pending',
+      record_model: Child,
+      scope_to_owner: true,
+      search_filters: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'approval_status_case_plan', value: Child::APPROVAL_STATUS_PENDING)
+      ]
+    ).freeze
+
+    APPROVALS_CASE_PLAN_PENDING_GROUP = QueriedIndicator.new(
+      name: 'approval_case_plan_pending_group',
       record_model: Child,
       search_filters: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_case_plan', value: Child::APPROVAL_STATUS_PENDING)
@@ -89,6 +109,7 @@ module Indicators
     APPROVALS_CASE_PLAN_REJECTED = QueriedIndicator.new(
       name: 'approval_case_plan_rejected',
       record_model: Child,
+      scope_to_owner: true,
       search_filters: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_case_plan', value: Child::APPROVAL_STATUS_REJECTED)
       ]
@@ -97,6 +118,7 @@ module Indicators
     APPROVALS_CASE_PLAN_APPROVED = QueriedIndicator.new(
       name: 'approval_case_plan_approved',
       record_model: Child,
+      scope_to_owner: true,
       search_filters: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_case_plan', value: Child::APPROVAL_STATUS_APPROVED)
       ]
@@ -104,6 +126,15 @@ module Indicators
 
     APPROVALS_CLOSURE_PENDING = QueriedIndicator.new(
       name: 'approval_closure_pending',
+      record_model: Child,
+      scope_to_owner: true,
+      search_filters: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'approval_status_closure', value: Child::APPROVAL_STATUS_PENDING)
+      ]
+    ).freeze
+
+    APPROVALS_CLOSURE_PENDING_GROUP = QueriedIndicator.new(
+      name: 'approval_closure_pending_group',
       record_model: Child,
       search_filters: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_closure', value: Child::APPROVAL_STATUS_PENDING)
@@ -113,6 +144,7 @@ module Indicators
     APPROVALS_CLOSURE_REJECTED = QueriedIndicator.new(
       name: 'approval_closure_rejected',
       record_model: Child,
+      scope_to_owner: true,
       search_filters: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_closure', value: Child::APPROVAL_STATUS_REJECTED)
       ]
@@ -121,6 +153,7 @@ module Indicators
     APPROVALS_CLOSURE_APPROVED = QueriedIndicator.new(
       name: 'approval_closure_approved',
       record_model: Child,
+      scope_to_owner: true,
       search_filters: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_closure', value: Child::APPROVAL_STATUS_APPROVED)
       ]

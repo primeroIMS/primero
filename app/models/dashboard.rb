@@ -63,19 +63,19 @@ class Dashboard < ValueObject
   APPROVALS_ASSESSMENT_PENDING = Dashboard.new(
     name: 'approvals_assessment_pending',
     type: 'indicator',
-    indicators: [Indicators::Case::APPROVALS_ASSESSMENT_PENDING]
+    indicators: [Indicators::Case::APPROVALS_ASSESSMENT_PENDING_GROUP]
   ).freeze
 
   APPROVALS_CASE_PLAN_PENDING = Dashboard.new(
     name: 'approvals_case_plan_pending',
     type: 'indicator',
-    indicators: [Indicators::Case::APPROVALS_CASE_PLAN_PENDING]
+    indicators: [Indicators::Case::APPROVALS_CASE_PLAN_PENDING_GROUP]
   ).freeze
 
   APPROVALS_CLOSURE_PENDING = Dashboard.new(
     name: 'approvals_closure_pending',
     type: 'indicator',
-    indicators: [Indicators::Case::APPROVALS_CLOSURE_PENDING]
+    indicators: [Indicators::Case::APPROVALS_CLOSURE_PENDING_GROUP]
   ).freeze
 
 end
