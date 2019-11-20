@@ -29,15 +29,25 @@ class SearchService
     def with_query_scope(sunspot, query_scope)
       return unless query_scope.present?
 
-      sunspot.instance_eval do
-        if query_scope.is_a?(User)
-          with(:associated_user_names, query_scope.user_name)
-        elsif query_scope.is_a?(Hash)
-          if query_scope[Permission::AGENCY].present?
-            with(:associated_user_agencies, query_scope[Permission::AGENCY])
-          else
-            with(:associated_user_groups, query_scope[Permission::GROUP])
+      user_scope = query_scope[:user]
+      if user_scope.present?
+        sunspot.instance_eval do
+          if user_scope.is_a?(User)
+            with(:associated_user_names, user_scope.user_name)
+          elsif user_scope.is_a?(Hash)
+            if user_scope[Permission::AGENCY].present?
+              with(:associated_user_agencies, user_scope[Permission::AGENCY])
+            else
+              with(:associated_user_groups, user_scope[Permission::GROUP])
+            end
           end
+        end
+      end
+
+      module_scope = query_scope[:module]
+      if module_scope.present?
+        sunspot.instance_eval do
+          with(:module_id, module_scope)
         end
       end
     end
