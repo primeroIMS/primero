@@ -9,7 +9,7 @@ import { useI18n } from "../../../i18n";
 
 import { NAME, NOTES_FIELD } from "./constants";
 import RequestForm from "./request-form";
-import { saveTransferRequest } from "./action-creator";
+import { saveTransferRequest } from "./action-creators";
 
 const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
   const i18n = useI18n();
@@ -37,7 +37,7 @@ const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
 
   const formikProps = {
     initialValues: { [NOTES_FIELD]: "" },
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: (values, { setSubmitting, errors }) => {
       dispatch(
         saveTransferRequest(
           currentRecord.get("id"),
@@ -48,6 +48,9 @@ const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
         )
       );
       setSubmitting(false);
+      if (!errors) {
+        close();
+      }
     },
     ref: formikRef,
     render: props => <RequestForm formProps={props} record={currentRecord} />,
@@ -66,6 +69,7 @@ const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
         dialogTitle={caseId}
         confirmButtonLabel={i18n.t("request_transfer.submit_label")}
         confirmButtonProps={confirmButtonProps}
+        omitCloseAfterSuccess
       >
         <Formik {...formikProps} />
       </ActionDialog>

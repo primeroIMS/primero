@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { TextField, Divider } from "@material-ui/core";
@@ -8,6 +7,7 @@ import { useI18n } from "../../i18n";
 import { ActionDialog } from "../../action-dialog";
 
 import { TransferRequest } from "./transfer-request";
+import { NAME } from "./constants";
 
 const ViewModal = ({ close, openViewModal, currentRecord }) => {
   const i18n = useI18n();
@@ -157,6 +157,8 @@ const ViewModal = ({ close, openViewModal, currentRecord }) => {
     </>
   );
 };
+
+ViewModal.displayName = NAME;
 
 ViewModal.propTypes = {
   close: PropTypes.func,

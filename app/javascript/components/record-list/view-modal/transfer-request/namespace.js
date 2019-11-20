@@ -1,1 +1,1 @@
-export default "TransferRequest";
+export default "transferRequest";

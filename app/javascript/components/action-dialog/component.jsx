@@ -23,7 +23,8 @@ const ActionDialog = ({
   confirmButtonLabel,
   children,
   onClose,
-  confirmButtonProps
+  confirmButtonProps,
+  omitCloseAfterSuccess
 }) => {
   const i18n = useI18n();
 
@@ -31,7 +32,7 @@ const ActionDialog = ({
 
   const handleSuccess = () => {
     successHandler();
-    handleClose();
+    if (!omitCloseAfterSuccess) handleClose();
   };
 
   const styles = theme => ({
@@ -118,6 +119,7 @@ ActionDialog.propTypes = {
   confirmButtonProps: PropTypes.object,
   dialogText: PropTypes.string,
   dialogTitle: PropTypes.string,
+  omitCloseAfterSuccess: PropTypes.bool,
   onClose: PropTypes.func,
   open: PropTypes.bool,
   successHandler: PropTypes.func
