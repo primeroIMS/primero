@@ -86,9 +86,9 @@ const App = () => {
   });
 
   store.dispatch(checkUserAuthentication());
-  const state = store.getState()
+  const state = store.getState();
   const userName = currentUser(state);
-  const redirectTo = userName ? ROUTES.dashboard : ROUTES.login
+  const redirectTo = userName ? ROUTES.dashboard : ROUTES.login;
 
   return (
     <StylesProvider jss={jss} generateClassName={generateClassName}>
