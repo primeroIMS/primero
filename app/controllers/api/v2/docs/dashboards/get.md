@@ -19,7 +19,7 @@ Users with no dashboard authorization will see an empty array.
 
 **Content** :
 
-There are two types of inidicator dashboards: 1-D and 2-D. 
+There are two types of indicator dashboards: 1-D and 2-D. 
 
 A 1-D dashboard:
 

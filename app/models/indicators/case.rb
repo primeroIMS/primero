@@ -8,7 +8,7 @@ module Indicators
     OPEN = QueriedIndicator.new(
       name: 'open',
       record_model: Child,
-      query: OPEN_ENABLED,
+      queries: OPEN_ENABLED,
       scope_to_owner: true
     ).freeze
 
@@ -17,7 +17,7 @@ module Indicators
     UPDATED = QueriedIndicator.new(
       name: 'updated',
       record_model: Child,
-      query: OPEN_ENABLED + [
+      queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'not_edited_by_owner', value: true)
       ],
       scope_to_owner: true
@@ -26,7 +26,7 @@ module Indicators
     CLOSED_RECENTLY = QueriedIndicator.new(
       name: 'closed_recently',
       record_model: Child,
-      query: [
+      queries: [
         SearchFilters::Value.new(field_name: 'record_state', value: true),
         SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
         SearchFilters::DateRange.new(field_name: 'date_closure', from: QueriedIndicator.recent_past, to: QueriedIndicator.present)
@@ -60,7 +60,7 @@ module Indicators
       name: 'approval_assessment_pending',
       record_model: Child,
       scope_to_owner: true,
-      query: OPEN_ENABLED + [
+      queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_bia', value: Child::APPROVAL_STATUS_PENDING)
       ]
     ).freeze
@@ -68,7 +68,7 @@ module Indicators
     APPROVALS_ASSESSMENT_PENDING_GROUP = QueriedIndicator.new(
       name: 'approval_assessment_pending_group',
       record_model: Child,
-      query: OPEN_ENABLED + [
+      queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_bia', value: Child::APPROVAL_STATUS_PENDING)
       ]
     ).freeze
@@ -77,7 +77,7 @@ module Indicators
       name: 'approval_assessment_rejected',
       record_model: Child,
       scope_to_owner: true,
-      query: OPEN_ENABLED + [
+      queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_bia', value: Child::APPROVAL_STATUS_REJECTED)
       ]
     ).freeze
@@ -86,7 +86,7 @@ module Indicators
       name: 'approval_assessment_approved',
       record_model: Child,
       scope_to_owner: true,
-      query: OPEN_ENABLED + [
+      queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_bia', value: Child::APPROVAL_STATUS_APPROVED)
       ]
     ).freeze
@@ -95,7 +95,7 @@ module Indicators
       name: 'approval_case_plan_pending',
       record_model: Child,
       scope_to_owner: true,
-      query: OPEN_ENABLED + [
+      queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_case_plan', value: Child::APPROVAL_STATUS_PENDING)
       ]
     ).freeze
@@ -103,7 +103,7 @@ module Indicators
     APPROVALS_CASE_PLAN_PENDING_GROUP = QueriedIndicator.new(
       name: 'approval_case_plan_pending_group',
       record_model: Child,
-      query: OPEN_ENABLED + [
+      queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_case_plan', value: Child::APPROVAL_STATUS_PENDING)
       ]
     ).freeze
@@ -112,7 +112,7 @@ module Indicators
       name: 'approval_case_plan_rejected',
       record_model: Child,
       scope_to_owner: true,
-      query: OPEN_ENABLED + [
+      queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_case_plan', value: Child::APPROVAL_STATUS_REJECTED)
       ]
     ).freeze
@@ -121,7 +121,7 @@ module Indicators
       name: 'approval_case_plan_approved',
       record_model: Child,
       scope_to_owner: true,
-      query: OPEN_ENABLED + [
+      queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_case_plan', value: Child::APPROVAL_STATUS_APPROVED)
       ]
     ).freeze
@@ -130,7 +130,7 @@ module Indicators
       name: 'approval_closure_pending',
       record_model: Child,
       scope_to_owner: true,
-      query: OPEN_ENABLED + [
+      queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_closure', value: Child::APPROVAL_STATUS_PENDING)
       ]
     ).freeze
@@ -138,7 +138,7 @@ module Indicators
     APPROVALS_CLOSURE_PENDING_GROUP = QueriedIndicator.new(
       name: 'approval_closure_pending_group',
       record_model: Child,
-      query: OPEN_ENABLED + [
+      queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_closure', value: Child::APPROVAL_STATUS_PENDING)
       ]
     ).freeze
@@ -147,7 +147,7 @@ module Indicators
       name: 'approval_closure_rejected',
       record_model: Child,
       scope_to_owner: true,
-      query: OPEN_ENABLED + [
+      queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_closure', value: Child::APPROVAL_STATUS_REJECTED)
       ]
     ).freeze
@@ -156,7 +156,7 @@ module Indicators
       name: 'approval_closure_approved',
       record_model: Child,
       scope_to_owner: true,
-      query: OPEN_ENABLED + [
+      queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'approval_status_closure', value: Child::APPROVAL_STATUS_APPROVED)
       ]
     ).freeze

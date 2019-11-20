@@ -1,6 +1,6 @@
 module Indicators
   class QueriedIndicator < AbstractIndicator
-    attr_accessor :query
+    attr_accessor :queries
 
     def facet_name
       name
@@ -13,7 +13,7 @@ module Indicators
         this.scope&.each { |f| f.query_scope(self) }
         facet(this.facet_name, zeros: true) do
           row(this.name) do
-            this.query.each { |f| f.query_scope(self) }
+            this.queries.each { |f| f.query_scope(self) }
           end
         end
       end
@@ -22,7 +22,7 @@ module Indicators
     def stat_query_strings(_, owner)
       scope_query_strings +
         owner_query_string(owner) +
-        (query&.map(&:to_s) || [])
+        (queries&.map(&:to_s) || [])
     end
 
   end
