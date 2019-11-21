@@ -9,8 +9,8 @@ describe SearchService, search: true do
         allow(Field).to receive(:all_filterable_field_names) { %w(sex) }
       end
 
-      @correct_match = Child.create!(data: {name: 'Correct Match1', sex: 'female' })
-      @incorrect_match = Child.create!(data: {name: 'Incorrect Match', sex: 'male' })
+      @correct_match = Child.create!(data: { name: 'Correct Match1', sex: 'female' })
+      @incorrect_match = Child.create!(data: { name: 'Incorrect Match', sex: 'male' })
       Sunspot.commit
     end
 
@@ -41,21 +41,21 @@ describe SearchService, search: true do
 
 
     it 'limits access for currently associated users if user scope is provided' do
-      search = SearchService.search(Child, [], @user)
+      search = SearchService.search(Child, [], user: @user)
 
       expect(search.total).to eq(1)
       expect(search.results.first.name).to eq(@case1.name)
     end
 
     it 'limits access by user group if group scope is provided' do
-      search = SearchService.search(Child, [], { Permission::GROUP => [@user_group.unique_id, @user_group_2.unique_id] })
+      search = SearchService.search(Child, [], user: { Permission::GROUP => [@user_group.unique_id, @user_group_2.unique_id] })
 
       expect(search.total).to eq(3)
       expect(search.results.map(&:name)).to include(@case2.name, @case3.name)
     end
 
     it 'limits access by agency if agency scope is provided' do
-      search = SearchService.search(Child, [], { Permission::AGENCY => @agency.unique_id })
+      search = SearchService.search(Child, [], user: { Permission::AGENCY => @agency.unique_id })
       expect(search.total).to eq(2)
       expect(search.results.map(&:name)).to include(@case1.name, @case3.name)
     end
@@ -65,6 +65,21 @@ describe SearchService, search: true do
 
       expect(search.total).to eq(3)
       expect(search.results.map(&:name)).to include(@case1.name, @case2.name, @case3.name)
+    end
+  end
+
+  describe 'Module scope' do
+
+    before :each do
+      @case1 = Child.create!(data: { name: 'Case1', module_id: 'primeromodule-cp' })
+      @case2 = Child.create!(data: { name: 'Case2', module_id: 'primeromodule-gbv' })
+      Sunspot.commit
+    end
+
+    it 'limits search results by module' do
+      search = SearchService.search(Child, [], module: ['primeromodule-cp'])
+      expect(search.total).to eq(1)
+      expect(search.results[0].name).to eq(@case1.name)
     end
   end
 

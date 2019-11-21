@@ -15,13 +15,18 @@ module SearchFilters
 
     def to_h
       {
-          type: 'date_range',
-          field_name: self.field_name,
-          value: {
-              from: self.from,
-              to: self.to
-          }
+        type: 'date_range',
+        field_name: field_name,
+        value: {
+          from: from,
+          to: to
+        }
       }
     end
+
+    def to_s
+      "#{field_name}=#{from&.iso8601}..#{to&.iso8601}"
+    end
+
   end
 end

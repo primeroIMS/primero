@@ -11,10 +11,14 @@ module SearchFilters
 
     def to_h
       {
-          type: 'values',
-          field_name: self.field_name,
-          value: self.values
+        type: 'values',
+        field_name: field_name,
+        value: values
       }
+    end
+
+    def to_s
+      "#{field_name}=#{values&.join(',')}"
     end
 
   end

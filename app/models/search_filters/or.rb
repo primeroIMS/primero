@@ -16,11 +16,18 @@ module SearchFilters
     end
 
     def to_h
-      filters_hash = self.filters.present? ? self.filters.map(&:to_h) : []
+      filters_hash = filters&.map(&:to_h) || []
       {
-          type: 'or',
-          filters: filters_hash
+        type: 'or',
+        filters: filters_hash
       }
+    end
+
+    def to_s
+      filters.map do |filter|
+        key, value = filter.to_s.split('=')
+        "or[#{key}]=#{value}"
+      end
     end
 
   end

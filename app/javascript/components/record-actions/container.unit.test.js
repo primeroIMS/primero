@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { Menu, MenuItem } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
-import { PERMISSION_CONSTANTS } from "../../libs/permissions";
+import { ACTIONS } from "../../libs/permissions";
 
 import { Notes } from "./notes";
 import RecordActions from "./container";
@@ -16,7 +16,7 @@ describe("<RecordActions />", () => {
   const defaultState = fromJS({
     user: {
       permissions: {
-        cases: [PERMISSION_CONSTANTS.MANAGE]
+        cases: [ACTIONS.MANAGE]
       }
     }
   });
@@ -90,7 +90,7 @@ describe("<RecordActions />", () => {
           fromJS({
             user: {
               permissions: {
-                cases: ["manage"]
+                cases: [ACTIONS.MANAGE]
               }
             }
           })
@@ -122,7 +122,7 @@ describe("<RecordActions />", () => {
           fromJS({
             user: {
               permissions: {
-                cases: ["read"]
+                cases: [ACTIONS.READ]
               }
             }
           })

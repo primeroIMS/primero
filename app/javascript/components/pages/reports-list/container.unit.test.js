@@ -10,7 +10,7 @@ import {
 import AddIcon from "@material-ui/icons/Add";
 
 import { setupMountedComponent } from "../../../test";
-import { PERMISSION_CONSTANTS } from "../../../libs/permissions";
+import { ACTIONS } from "../../../libs/permissions";
 
 import Reports from "./container";
 
@@ -20,7 +20,7 @@ describe("<Reports /> - Component", () => {
   const initialState = fromJS({
     user: {
       permissions: {
-        reports: [PERMISSION_CONSTANTS.MANAGE]
+        reports: [ACTIONS.MANAGE]
       }
     },
     records: {
