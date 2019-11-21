@@ -1,6 +1,10 @@
 class Dashboard < ValueObject
   attr_accessor :name, :type, :indicators
 
+  def name_i18n_key
+    "dashboard.#{name}"
+  end
+
   # Note: The constant name of each Dashboard needs to match the value of the corresponding Permission
 
   CASE_OVERVIEW = Dashboard.new(

@@ -1,4 +1,4 @@
-json.name dashboard.name
+json.name dashboard.name_i18n_key
 json.type dashboard.type
 json.stats do
   dashboard.indicators.each do |indicator|
