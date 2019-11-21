@@ -288,15 +288,18 @@ class User < ApplicationRecord
   # Returns the Agency if can only query from the agency this user has access to
   # Returns empty list if can query for all records in the system
   def record_query_scope(record_model, id_search = false)
-    if self.group_permission?(Permission::ALL) || (self.can?(:search_owned_by_others, record_model) && id_search)
-      []
-    elsif self.group_permission?(Permission::AGENCY)
-      { Permission::AGENCY => self.agency.unique_id }
-    elsif self.group_permission?(Permission::GROUP) && self.user_group_ids.present?
-      { Permission::GROUP => self.user_groups.pluck(:unique_id).compact }
-    else
-      self
-    end
+    searching_owned_by_others = can?(:search_owned_by_others, record_model) && id_search
+    user_scope =
+      if group_permission?(Permission::ALL) || searching_owned_by_others
+        {}
+      elsif group_permission?(Permission::AGENCY)
+        { Permission::AGENCY => agency.unique_id }
+      elsif group_permission?(Permission::GROUP) && user_group_ids.present?
+        { Permission::GROUP => user_groups.pluck(:unique_id).compact }
+      else
+        self
+      end
+    { user: user_scope, module: module_unique_ids }
   end
 
   def mobile_login_history
