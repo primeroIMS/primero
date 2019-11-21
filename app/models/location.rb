@@ -280,6 +280,8 @@ class Location < ApplicationRecord
   end
 
   def update_properties(location_properties)
+    self.location_code = location_properties[:location_code] if location_properties[:location_code].present?
+    self.type = location_properties[:type] if location_properties[:type].present?
     self.placename_i18n = FieldI18nService.merge_i18n_properties(
       { placename_i18n: self.placename_i18n },
       { placename_i18n: location_properties[:placename] }
