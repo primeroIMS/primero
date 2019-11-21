@@ -9,7 +9,9 @@ describe("<Transitions /> - Constants", () => {
     [
       "REFERRAL_SUMMARY_NAME",
       "REFERRAL_DETAILS_NAME",
-      "TRANSITIONS_NAME"
+      "TRANSITIONS_NAME",
+      "TRANSFER_REQUEST_SUMMARY_NAME",
+      "TRANSFER_REQUEST_DETAILS_NAME"
     ].forEach(property => {
       expect(constants).to.have.property(property);
       expect(constants[property]).to.be.a("string");

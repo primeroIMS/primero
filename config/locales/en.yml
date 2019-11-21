@@ -2269,7 +2269,7 @@ en:
     type:
       assign: "Assign"
       transfer: "Transfer"
-      transferRequest: "TransferRequest"
+      transferRequest: "Transfer Request"
       referral: "Referral"
     notes: "Notes"
     recipient: "Recipient"
@@ -2278,6 +2278,7 @@ en:
     no_consent_share: "No Consent to Share Setting Overridden"
     individual_consent: "Did the case worker have the individual's consent to make this transfer?"
     service_label: "Service"
+    requested_by: "Requested By"
     consent_overridden_value:
       true_label: "Yes"
       false_label: "No"
