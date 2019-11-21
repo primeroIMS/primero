@@ -15,7 +15,7 @@ import {
 import { applyFilters } from "../filters-builder/action-creators";
 import { enqueueSnackbar } from "../notifier";
 import { getFiltersByRecordType } from "../filters-builder/selectors";
-import { selectModules } from "../pages/login/selectors";
+import { selectModules } from "../pages/login/login-form/selectors";
 import { useI18n } from "../i18n";
 
 import { saveSearch } from "./action-creators";

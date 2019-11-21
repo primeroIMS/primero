@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { Map } from "immutable";
 
-import { setupMountedComponent } from "../../../test";
+import { setupMountedComponent } from "../../../../test";
 
 import Login from "./container";
 

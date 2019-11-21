@@ -1,5 +1,4 @@
 import {
-  Login,
   Dashboard,
   Reports,
   Report,
@@ -10,7 +9,14 @@ import {
   NotAuthorized,
   NotFound
 } from "../components/pages";
+<<<<<<< HEAD
 import RecordForm from "../components/record-form";
+||||||| parent of a3954350f... handle toggle for login page
+import { RecordForm } from "../components/record-form";
+=======
+import Login from "../components/pages";
+import { RecordForm } from "../components/record-form";
+>>>>>>> a3954350f... handle toggle for login page
 import RecordList from "../components/record-list";
 import { AppLayout, LoginLayout } from "../components/layouts";
 import {

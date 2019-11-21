@@ -1,7 +1,7 @@
 import { push } from "connected-react-router";
 import get from "lodash/get";
 
-import { LOGIN_SUCCESS_CALLBACK } from "../components/pages/login";
+import { LOGIN_SUCCESS_CALLBACK } from "../components/pages/login/login-form";
 import {
   Actions,
   attemptSignout,
