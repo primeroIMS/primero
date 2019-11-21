@@ -307,7 +307,7 @@ class Report < CouchRest::Model::Base
     # id as the key.
     @translated_label_options ||= self.field_map
                                        .map{|v, fm| fm.options_list(nil, nil, @location_all_names, true)}
-                                       .flatten(1).map{ |t| { t['id'] => t } }
+                                       .flatten(1).map{ |t| { t['id'].downcase => t } }
                                        .inject(&:merge) || {}
   end
 
