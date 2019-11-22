@@ -108,6 +108,17 @@ class Role < ApplicationRecord
     self.roles.ids.flatten
   end
 
+  def dashboards
+    dashboard_permissions = permissions.find { |p| p.resource == Permission::DASHBOARD }
+    dashboards = dashboard_permissions&.actions&.map do |action|
+      begin
+        "Dashboard::#{action.upcase}".constantize
+      rescue NameError
+        nil
+      end
+    end || []
+    dashboards.compact
+  end
 
   def is_super_user_role?
     superuser_resources = [
