@@ -37,6 +37,8 @@ class Child < ApplicationRecord
   include Alertable
   include Matchable
   include Attachable
+  include Noteable
+
   # include Importable #TODO: Refactor with Imports and Exports
 
   store_accessor :data,
@@ -55,7 +57,7 @@ class Child < ApplicationRecord
     :tent_number, :nfi_distribution_id,
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
-    :duplicate, :notes_section, :location_current, :tracing_status, :name_caregiver
+    :duplicate, :location_current, :tracing_status, :name_caregiver
 
   attach_documents_to fields: [:other_documents, :bia_documents, :bid_documents]
   attach_images_to fields: [:photos]
@@ -297,13 +299,6 @@ class Child < ApplicationRecord
     if protection_concerns.present? && protection_concern_subforms.present?
       self.protection_concerns = (protection_concerns + protection_concern_subforms.map { |pc| pc['protection_concern_type'] }).compact.uniq
     end
-  end
-
-  def add_note(notes, note_subject, user)
-    self.notes_section << {
-        'field_notes_subform_fields' => notes, 'note_subject' => note_subject,
-        'notes_date' => DateTime.now, 'note_created_by' => user.user_name
-    }
   end
 
   def mark_as_duplicate(parent_id)
