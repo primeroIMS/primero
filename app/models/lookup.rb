@@ -21,6 +21,15 @@ class Lookup < ApplicationRecord
 
   class << self
 
+    def new_with_properties(lookup_properties)
+      lookup = Lookup.new(
+        id: lookup_properties[:id],
+        unique_id: lookup_properties[:unique_id],
+        name_i18n: lookup_properties[:name],
+        lookup_values_i18n: lookup_properties[:values]
+      )
+    end
+
     def values(lookup_unique_id, lookups = nil, opts={})
       locale = opts[:locale].presence || I18n.locale
       if lookups.present?
@@ -193,6 +202,24 @@ class Lookup < ApplicationRecord
     else
       Rails.logger.error "Lookup translation not updated: Invalid locale [#{locale}]"
     end
+  end
+
+  def update_properties(lookup_properties)
+    self.unique_id = lookup_properties[:unique_id] if lookup_properties[:unique_id].present?
+    self.name_i18n = FieldI18nService.merge_i18n_properties(
+      { name_i18n: self.name_i18n },
+      { name_i18n: lookup_properties[:name] }
+    )[:name_i18n]
+
+    self.lookup_values_i18n = FieldI18nService.merge_i18n_options(
+      self.lookup_values_i18n,
+      lookup_properties[:values]
+    )
+
+    self.lookup_values_i18n.keys.each do |key|
+      self.lookup_values_i18n[key] = self.lookup_values_i18n[key].reject{ |value| value['_delete'].present? }
+    end
+
   end
 
 

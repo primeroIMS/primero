@@ -58,6 +58,7 @@ Rails.application.routes.draw do
       resources :tasks, only: [:index]
       resources :saved_searches, only: [:index, :create, :destroy]
       resources :reports, only: [:index, :show]
+      resources :lookups
 
     end
   end

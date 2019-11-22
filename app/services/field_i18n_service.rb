@@ -35,6 +35,34 @@ class FieldI18nService
     merged_props
   end
 
+  #  Takes the i18n options of the hashes options1 and options2
+  #  and tries to merge them.
+  #  Given the hashes
+  #  { en: [{ 'id' => 'true', 'display_name' => 'Valid' }] }
+  #  { en: [{ 'id' => 'false', 'display_name' => 'Invalid' }] }
+  #  Returns
+  #  { en: [{ 'id' => 'true', 'display_name' => 'Valid' }, { 'id' => 'false', 'display_name' => 'Invalid' } ] }
+  def self.merge_i18n_options(options1, options2)
+    merged_props = (options1 || {}).deep_dup
+    options2 = options2 || {}
+
+    if options2.present?
+      options2.keys.each do |key|
+        if options2[key].present?
+          if options1[key].present?
+            options1_by_id = options1[key].inject({}){ |acc, val| acc.merge({ val['id']  => val }) }
+            options2_by_id = options2[key].inject({}){ |acc, val| acc.merge({ val['id']  => val }) }
+            merged_props[key] = options1_by_id.merge(options2_by_id).values
+          else
+            merged_props[key] = options2[key]
+          end
+        end
+      end
+    end
+
+    merged_props
+  end
+
   #  Removes the "_i18n" suffix of the source hash and mantains
   #  the key type.
   #  Given the hash
@@ -51,7 +79,7 @@ class FieldI18nService
 
   #  Fill the keys with all the available locales. If a locale is not
   #  present in source then is set to empty
-  #  Assumming the languages [ :en, :es, :fr ] are available
+  #  Assumming the languages [ :en , :es, :fr ] are available
   #  Given the keys and source
   #  (['name'], { 'name' => { 'en' => "Lastname", 'es' => "Apellido" } })
   #  Returns
@@ -60,16 +88,26 @@ class FieldI18nService
     keys = keys.map(&:to_s) if source.keys.first.is_a?(String)
 
     keys.each do |key|
-      if source[key].present?
-        locales = I18n.available_locales.map do |locale|
-          locale = locale.to_s if source[key].keys.first.is_a?(String)
-          { locale => "" }
-        end.inject(&:merge)
-
-        source[key] = locales.merge(source[key]) 
-      end
+      source[key] = self.fill_with_locales(source[key]) if source[key].present?
     end
+
     source
+  end
+
+  #  Fill the source with all the available locales. If a locale is not
+  #  present in source then is set to empty
+  #  Assumming the languages [ :en, :es, :fr ] are available
+  #  Given thesource
+  #  { 'en' => "Lastname", 'es' => "Apellido" } }
+  #  Returns
+  #  { 'en' => "Lastname", 'es' => "Apellido", 'fr' => "" }
+  def self.fill_with_locales(source)
+    locales = I18n.available_locales.map do |locale|
+      locale = locale.to_s if source.keys.first.is_a?(String)
+      { locale => "" }
+    end.inject(&:merge)
+
+    locales.merge(source)
   end
 
   #  Fill the options hash with all the available locales. If a locale is
@@ -92,6 +130,69 @@ class FieldI18nService
       { locale => [] }
     end.inject(&:merge)
     locales.merge(options)
+  end
+
+    def self.fill_options2(options)
+    locales = I18n.available_locales.map do |locale|
+      locale = locale.to_s if options.keys.first.is_a?(String)
+      { locale => '' }
+    end.inject(&:merge)
+    locales.merge(options)
+  end
+
+  #  Fill the lookups value options hash with all the available locales. If a locale is
+  #  not present in the hash, then is set to an empty array.
+  #  Assumming the languages [ :en, :es, :fr ] are available.
+  #  Given the options
+  #    {
+  #      "en" => [
+  #        { "id"=>"1", "display_text"=>"Country"},
+  #        { "id"=>"2", "display_text"=>"City"}
+  #      ],
+  #      "es" => [
+  #        { "id"=>"1", "display_text"=>"Pais"},
+  #        {"id"=>"2", "display_text"=>"Ciudad"}
+  #      ]
+  #    }
+  #  Returns
+  # [
+  #  {"id"=>"1",
+  #    "display_text" => {
+  #      "en"=>"Country",
+  #      "es"=>"Pais",
+  #      "fr"=>""
+  #    }
+  #  },
+  #  {"id"=>"2",
+  #     "display_text" => {
+  #       "en"=>"City",
+  #       "es"=>"Ciudad",
+  #       "fr"=>""
+  #     }
+  #   }
+  # ]
+  def self.fill_lookups_options(options)
+    locales = I18n.available_locales.map {|l| {l.to_s => ""}}
+
+    options_merged = options.inject([]) do |acc, (k, v)|
+      v.each do |value|
+        new_hash = {}
+        new_hash['id'] = value['id']
+        new_hash['display_text'] = {k => value['display_text']}
+        acc << new_hash
+      end
+      acc
+    end.group_by {|h| h['id'] }
+
+    final_options = options_merged.inject([]) do |acum, (k, v)|
+      new_display_text = v.inject([]) do |a, (k, v)|
+        a << k['display_text'];
+        a
+      end
+      acum << { 'id' => k, 'display_text' => (locales + new_display_text).flatten.inject(&:merge) }
+    end
+
+    final_options
   end
 
 end
