@@ -44,13 +44,13 @@ describe Api::V2::DashboardsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
 
-      case_overview_dashboard = json['data'].find { |d| d['name'] == 'case_overview' }
+      case_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.case_overview' }
       expect(case_overview_dashboard['stats']['open']['count']).to eq(2)
-      expect(case_overview_dashboard['stats']['open']['query']).to match_array(%w[record_state=true status=open])
+      expect(case_overview_dashboard['stats']['open']['query']).to match_array(%w[record_state=true status=open owned_by=foo])
 
-      workflow_dashboard = json['data'].find { |d| d['name'] == 'workflow' }
+      workflow_dashboard = json['data'].find { |d| d['name'] == 'dashboard.workflow' }
       expect(workflow_dashboard['stats']['assessment']['count']).to eq(1)
-      expect(workflow_dashboard['stats']['assessment']['query']).to match_array(%w[record_state=true status=open workflow=assessment])
+      expect(workflow_dashboard['stats']['assessment']['query']).to match_array(%w[record_state=true status=open workflow=assessment owned_by=foo])
     end
   end
 
