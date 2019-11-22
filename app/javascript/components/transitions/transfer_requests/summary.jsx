@@ -6,6 +6,7 @@ import { Grid } from "@material-ui/core";
 import TransitionStatus from "../TransitionStatus";
 import { useI18n } from "../../i18n";
 import { TRANSFER_REQUEST_SUMMARY_NAME } from "../constants";
+import { TRANSITIONS_DATE_FORMAT } from "../../../config";
 
 const Summary = ({ transition, classes }) => {
   const i18n = useI18n();
@@ -25,7 +26,7 @@ const Summary = ({ transition, classes }) => {
 
           {/* TODO: The date should be localized */}
           <div className={classes.date}>
-            {format(new Date(transition.created_at), "MMM dd,yyyy")}
+            {format(new Date(transition.created_at), TRANSITIONS_DATE_FORMAT)}
           </div>
         </div>
       </Grid>

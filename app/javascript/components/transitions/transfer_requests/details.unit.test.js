@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { Box, Divider } from "@material-ui/core";
-import { Map, List } from "immutable";
+import { fromJS } from "immutable";
 
 import TransitionUser from "../TransitionUser";
 import { setupMountedComponent } from "../../../test";
@@ -10,15 +10,15 @@ import ReferralDetail from "./details";
 describe("<ReferralDetail />", () => {
   let component;
   // TODO: fromJS() must be used in here once options been used with Immutable
-  const initialState = Map({
-    forms: Map({
-      options: List([
+  const initialState = fromJS({
+    forms: {
+      options: [
         {
           type: "lookup-service-type",
           options: [{ id: "health", display_text: "Health" }]
         }
-      ])
-    })
+      ]
+    }
   });
   const props = {
     transition: {
@@ -62,6 +62,7 @@ describe("<ReferralDetail />", () => {
   });
 
   describe("with status", () => {
+
     describe("when is rejected", () => {
       beforeEach(() => {
         ({ component } = setupMountedComponent(
@@ -77,6 +78,7 @@ describe("<ReferralDetail />", () => {
         expect(component.find(ReferralDetail).find(Box)).to.have.lengthOf(3);
       });
     });
+
     describe("when is pending, done, in_progress, accepted", () => {
       it("should render rejected reason", () => {
         expect(component.find(ReferralDetail).find(Box)).to.have.lengthOf(3);
