@@ -30,20 +30,24 @@ Show the JSON representation of a lookup.
         "fr": "",
         "es": ""
     },
-    "values": {
-      "en": [
-        {
-            "id": "nationality1",
-            "display_text": "Nationality1"
-        },
-        {
-            "id": "nationality2",
-            "display_text": "Nationality2"
+    "values": [
+      {
+      "id": "nationality1",
+      "display_text": {
+        "en": "Nationality",
+        "fr": "",
+        "es": ""
         }
-      ],
-      "fr": [],
-      "es": []
-    }
+      },
+      {
+      "id": "nationality2",
+      "display_text": {
+        "en": "Nationality2",
+        "fr": "",
+        "es": ""
+        }
+      }
+    ]
   }
 }
 

@@ -52,14 +52,16 @@ No `id` attribute is provided in the `data` hash.
     "name": {
         "en": "Nationality"
     },
-    "values": {
-      "en": [
-        {
-            "id": "nationality1",
-            "display_text": "Nationality1"
+    "values": [
+      {
+      "id": "nationality1",
+      "display_text": {
+        "en": "Nationality",
+        "fr": "",
+        "es": ""
         }
-      ]
-    }
+      }
+    ]
   }
 }
 ```

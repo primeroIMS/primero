@@ -34,43 +34,59 @@ Shows a paginated list of all lookups that are accessible to this user.
           "fr": "",
           "es": ""
      },
-     "values": {
-       "en": [
-          {
-              "id": "nationality1",
-              "display_text": "Nationality1"
-          },
-          {
-              "id": "nationality2",
-              "display_text": "Nationality2"
-          }
-        ],
-        "fr": [],
-        "es": []
-      }
-    },
-    {
-      "id": 2,
-      "unique_id": "lookup-nationality",
-      "name": {
+     "values": [
+        {
+        "id": "nationality1",
+        "display_text": {
           "en": "Nationality",
           "fr": "",
           "es": ""
-      },
-      "values": {
-        "en": [
-          {
-              "id": "nationality1",
-              "display_text": "Nationality1"
-          },
-          {
-              "id": "nationality2",
-              "display_text": "Nationality2"
           }
-        ],
-        "fr": [],
-        "es": []
-      }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "unique_id": "lookup-case-status",
+      "name": {
+          "en": "Case Status",
+          "fr": "",
+          "es": ""
+      },
+      "values": [
+            {
+                "id": "open",
+                "display_text": {
+                    "en": "Open",
+                    "es": ""
+                    "fr": "",
+                }
+            },
+            {
+                "id": "closed",
+                "display_text": {
+                    "en": "Closed",
+                    "fr": "",
+                    "es": ""
+                }
+            },
+            {
+                "id": "transferred",
+                "display_text": {
+                    "en": "Transferred",
+                    "fr": "",
+                    "es": ""
+                }
+            },
+            {
+                "id": "duplicate",
+                "display_text": {
+                    "en": "Duplicate",
+                    "fr": "",
+                    "es": ""
+                }
+            }
+        ]
     }
   ],
   "metadata": {

@@ -21,18 +21,24 @@ Merge the values submitted in this call into an existing lookup.
     "name": {
         "en": "Nationality"
     },
-    "values": {
-      "en": [
-        {
-            "id": "nationality1",
-            "display_text": "Nationality1"
-        },
-        {
-            "id": "nationality2",
-            "display_text": "Nationality2"
+    "values": [
+      {
+      "id": "nationality1",
+      "display_text": {
+        "en": "Nationality",
+        "fr": "",
+        "es": ""
         }
-      ]
-    }
+      },
+      {
+      "id": "nationality2",
+      "display_text": {
+        "en": "Nationality2",
+        "fr": "",
+        "es": ""
+        }
+      }
+    ]
   }
 }
 ```

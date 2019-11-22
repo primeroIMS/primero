@@ -84,4 +84,27 @@ describe FieldI18nService do
       expect(merged_hash).to eq(expected_hash)
     end
   end
+
+  describe 'fill_lookups_options' do
+    it 'fill the lookups options with all the available locales' do
+      options = {
+        "en" => [
+          { "id"=>"1", "display_text"=>"Country"},
+          { "id"=>"2", "display_text"=>"City"}
+        ],
+        "es" => [
+          { "id"=>"1", "display_text"=>"Pais"},
+          { "id"=>"2", "display_text"=>"Ciudad"}
+        ]
+      }
+      I18n.stub(:available_locales).and_return([:en, :es, :fr])
+      lookups_options = FieldI18nService.fill_lookups_options(options)
+      expected_lookups_options = [
+        { "id" => "1", "display_text" => { "en" => "Country", "es" => "Pais", "fr" => "" } },
+        { "id" => "2", "display_text" => { "en" => "City", "es"=> "Ciudad", "fr" => "" } }
+      ]
+
+      expect(lookups_options).to eq(expected_lookups_options)
+    end
+  end
 end
