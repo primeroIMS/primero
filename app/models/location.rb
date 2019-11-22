@@ -154,6 +154,16 @@ class Location < ApplicationRecord
       self.enabled(false)
     end
 
+    def new_with_properties(location_properties)
+      location = Location.new(
+        location_code: location_properties[:location_code],
+        admin_level: location_properties[:admin_level],
+        type: location_properties[:type],
+        hierarchy: location_properties[:hierarchy],
+        placename_i18n: location_properties[:placename]
+      )
+    end
+
   end
 
   def generate_hierarchy_placenames(locales)
@@ -282,6 +292,7 @@ class Location < ApplicationRecord
   def update_properties(location_properties)
     self.location_code = location_properties[:location_code] if location_properties[:location_code].present?
     self.type = location_properties[:type] if location_properties[:type].present?
+    self.admin_level = location_properties[:admin_level]
     self.placename_i18n = FieldI18nService.merge_i18n_properties(
       { placename_i18n: self.placename_i18n },
       { placename_i18n: location_properties[:placename] }

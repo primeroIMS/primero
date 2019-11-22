@@ -11,7 +11,7 @@ module Api::V2
 
     def create
       authorize! :create, Location
-      @location = Location.new(location_params)
+      @location = Location.new_with_properties(location_params)
       @location.save!
       status = params[:data][:id].present? ? 204 : 200
       render :create, status: status
@@ -37,7 +37,7 @@ module Api::V2
     end
 
     def location_params
-      params.require(:data).permit(:id, :location_code, :type, :hierarchy, { placename: {} })
+      params.require(:data).permit(:id, :location_code, :admin_level, :type, :hierarchy, placename: {} )
     end
 
   end
