@@ -18,10 +18,10 @@ export const cleanUpFilters = filters => {
 
   const result = Object.entries(filtersArray).reduce((acum, filter) => {
     const [key, value] = filter;
-    const o = acum;
+    const filterObject = acum;
 
     if (Array.isArray(value)) {
-      o[key] = value.join(",");
+      filterObject[key] = value.join(",");
     } else if (
       typeof value === "object" &&
       !Object.values(value).includes(null)
@@ -37,13 +37,13 @@ export const cleanUpFilters = filters => {
       });
 
       if (typeof value.value !== "undefined") {
-        o[value.value] = valueConverted;
+        filterObject[value.value] = valueConverted;
       }
     } else {
-      o[key] = value;
+      filterObject[key] = value;
     }
 
-    return o;
+    return filterObject;
   }, {});
 
   return result;
