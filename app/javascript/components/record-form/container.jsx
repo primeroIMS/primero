@@ -14,6 +14,7 @@ import { LoadingIndicator } from "../loading-indicator";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
 import { RECORD_TYPES, TRANSITION_TYPE, REFERRAL } from "../../config";
 
+import { NAME } from "./constants";
 import { Nav } from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
@@ -27,7 +28,7 @@ import {
 } from "./selectors";
 import { compactValues } from "./helpers";
 
-const RecordForms = ({ match, mode }) => {
+const Container = ({ match, mode }) => {
   let submitForm = null;
   const { theme } = useThemeHelper(styles);
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
@@ -74,24 +75,30 @@ const RecordForms = ({ match, mode }) => {
 
   const formProps = {
     onSubmit: (initialValues, values) => {
+      const saveMethod = containerMode.isEdit ? "update" : "save";
+      const body = {
+        data: {
+          ...compactValues(values, initialValues),
+          ...(!containerMode.isEdit
+            ? { module_id: selectedModule.primeroModule }
+            : {})
+        }
+      };
+      const message = containerMode.isEdit
+        ? i18n.t(`${recordType}.messages.update_success`, {
+            record_id: record.get("short_id")
+          })
+        : i18n.t(`${recordType}.messages.creation_success`, recordType);
+      const redirect = `/${params.recordType}/${params.id}`;
+
       dispatch(
         saveRecord(
           params.recordType,
-          containerMode.isEdit ? "update" : "save",
-          {
-            data: {
-              ...compactValues(values, initialValues),
-              ...(!containerMode.isEdit
-                ? { module_id: selectedModule.primeroModule }
-                : {})
-            }
-          },
+          saveMethod,
+          body,
           params.id,
-          containerMode.isEdit
-            ? i18n.t(`${recordType}.messages.update_success`, {
-                record_id: record.get("short_id")
-              })
-            : i18n.t(`${recordType}.messages.creation_success`, recordType)
+          message,
+          redirect
         )
       );
       // TODO: Set this if there are any errors on validations
@@ -181,9 +188,11 @@ const RecordForms = ({ match, mode }) => {
   );
 };
 
-RecordForms.propTypes = {
+Container.displayName = NAME;
+
+Container.propTypes = {
   match: PropTypes.object.isRequired,
   mode: PropTypes.string.isRequired
 };
 
-export default memo(withRouter(RecordForms));
+export default memo(withRouter(Container));
