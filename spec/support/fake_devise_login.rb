@@ -38,7 +38,8 @@ module FakeDeviseLogin
   def fake_user_id ; nil ; end
 
   def login_for_test(opts={})
-    user = User.new(user_name: 'faketest')
+    user_name = opts[:user_name] || fake_user_name
+    user = User.new(user_name: user_name)
     permissions = opts[:permissions] || [permission_case, permission_incident, permission_tracing_request]
     group_permission = opts[:group_permission] || Permission::ALL
     role = Role.new(

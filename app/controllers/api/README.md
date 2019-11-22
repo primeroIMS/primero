@@ -133,9 +133,25 @@ Query and manipulate users
 * [Unflag a record](v2/docs/flags/id/patch.md) `POST /api/v2/:recordType/:recordId/flags/:id`
 * [Create a bulk of flags for multiple records](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`
 
+## Dashboard Endpoint
+
+Aggregate, actionable dat.a
+
+* [Query avialable dashboards](v2/docs/dashboards/get.md): `GET /api/v2/dashboards`
+
 ## Report Endpoints
 
 Endpoints for querying and manipulating individual cases and related resources in Primero.
 
 * [Query for reports](v2/docs/reports/get.md) : `GET /api/v2/reports`
 * [Fetch an individual case](v2/docs/reports/id/get.md) : `GET /api/v2/reports/:id`
+
+## Lookup Endpoints
+
+Endpoints for querying and manipulating individual lookups and related resources in Primero.
+
+* [Query for lookups](v2/docs/lookups/get.md) : `GET /api/v2/lookups`
+* [Fetch an individual lookup](v2/docs/lookups/id/get.md) : `GET /api/v2/lookups/:id`
+* [Create a new lookup](v2/docs/lookups/post.md) : `POST /api/v2/lookups`
+* [Update an existing lookup](v2/docs/lookups/id/patch.md) : `PATCH /api/v2/lookups/:id`
+* [Delete an existing lookup](v2/docs/lookups/id/delete.md) : `DELETE /api/v2/lookups/:id`

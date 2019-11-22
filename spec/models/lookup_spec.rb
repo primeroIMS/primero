@@ -42,6 +42,43 @@ describe Lookup do
     lookup.unique_id.should include("lookup-test-lookup-1234")
   end
 
+  it "should create a lookup from params" do
+    unique_id = 'lookup-test-1'
+    params = {
+      unique_id: unique_id,
+      name: {
+        en: 'Lookup Test1 '
+      },
+      values: {
+        'en' => [
+          { 'id'=> 'option1', 'display_text' => 'Option 1'}
+        ]
+      }
+    }
+    lookup_test = Lookup.new_with_properties(params)
+    expect(lookup_test).to be_valid
+    lookup_test.save!
+    expect(Lookup.find_by(unique_id: unique_id)).not_to be_nil
+  end
+
+  it "should update lookup values from params" do
+    unique_id = 'lookup-some-lookup'
+    some_lookup = Lookup.create!(:unique_id => unique_id, :name => "some_lookup", :lookup_values => [{:id => "value1", :display_text => "value1"}])
+
+    params = {
+      values: {
+        'en' => [
+          {'id' => "value2", 'display_text' => "value2"}
+        ]
+      }
+    }
+
+    some_lookup.update_properties(params)
+    expect(some_lookup).to be_valid
+    some_lookup.save!
+    expect(Lookup.find_by(unique_id: unique_id).lookup_values_en.size).to eq(2)
+  end
+
   describe "get_location_types" do
     before do
       lookup1 = create :lookup, :unique_id => "lookup-location-type", :lookup_values => [{:id => "value1", :display_text => "value1"}, {:id => "value2", :display_text => "value2"}]

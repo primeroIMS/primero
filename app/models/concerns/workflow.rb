@@ -24,7 +24,7 @@ module Workflow
     before_save :calculate_workflow
 
     def set_workflow_new
-      self.workflow = WORKFLOW_NEW
+      self.workflow ||= WORKFLOW_NEW
     end
 
     def calculate_workflow
