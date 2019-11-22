@@ -1,14 +1,12 @@
 import { fromJS } from "immutable";
-
-import { setupMountedComponent, expect, spy, tick } from "../../test";
 import { createRef } from "react";
 import * as yup from "yup";
+
+import { setupMountedComponent, expect, spy, tick } from "../../test";
 
 import Form from "./component";
 import { FORM_MODE_DIALOG } from "./constants";
 import { FormSectionRecord, FieldRecord } from "./records";
-
-
 
 const submitForm = async (component, formRef) => {
   formRef.current.submitForm();
@@ -58,10 +56,10 @@ describe("<Form>", () => {
   });
 
   it("should set form with initial values", () => {
-    const { component } = setupMountedComponent(
-      Form,
-      Object.assign({}, props, { initialValues: { test_field_2: "Hello" } })
-    );
+    const { component } = setupMountedComponent(Form, {
+      ...props,
+      initialValues: { test_field_2: "Hello" }
+    });
 
     expect(
       component
@@ -81,10 +79,10 @@ describe("<Form>", () => {
   });
 
   it("should submit form when valid", async () => {
-    const { component } = setupMountedComponent(
-      Form,
-      Object.assign({}, props, { initialValues: { test_field_1: "Hello" } })
-    );
+    const { component } = setupMountedComponent(Form, {
+      ...props,
+      initialValues: { test_field_1: "Hello" }
+    });
 
     await submitForm(component, formRef);
 

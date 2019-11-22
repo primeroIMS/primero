@@ -1,7 +1,7 @@
 import { expect, setupMockFormComponent } from "../../../test";
+import { FieldRecord } from "../records";
 
 import FormSectionField from "./form-section-field";
-import { FieldRecord } from "../records";
 
 describe("<Form /> - components/<FormSectionField />", () => {
   it("renders a text field", () => {

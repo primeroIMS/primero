@@ -15,7 +15,7 @@ const TextInput = ({ field, commonInputProps }) => {
     <TextField
       autoFocus={autoFocus}
       required={required}
-      error={typeof error !== 'undefined'}
+      error={typeof error !== "undefined"}
       helperText={error?.message || helperText}
       multiline={type === TEXT_AREA}
       name={name}

@@ -1,9 +1,9 @@
-import { setupMountedComponent } from "test";
+import { expect } from "chai";
+
+import { setupMountedComponent } from "../../../test";
+import { FormSectionRecord } from "../records";
 
 import FormSectionTitle from "./form-section-title";
-import { fromJS } from "immutable";
-import { FormSectionRecord } from "components/form/records";
-import { expect } from "chai";
 
 describe("<Form /> - components/<FormSectionTitle />", () => {
   it("should not render title if name not set on form section", () => {

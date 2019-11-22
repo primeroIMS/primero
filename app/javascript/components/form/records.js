@@ -1,4 +1,4 @@
-import { Record } from "immutable";
+import { Record, Map, List } from "immutable";
 
 export const FieldRecord = Record({
   name: "",
@@ -6,9 +6,9 @@ export const FieldRecord = Record({
   editable: null,
   disabled: null,
   visible: null,
-  display_name: {},
+  display_name: Map({}),
   subform_section_id: null,
-  help_text: {},
+  help_text: Map({}),
   multi_select: null,
   option_strings_source: null,
   option_strings_text: null,
@@ -26,23 +26,23 @@ export const FieldRecord = Record({
 export const FormSectionRecord = Record({
   id: "",
   unique_id: "",
-  name: {},
+  name: Map({}),
   visible: null,
   is_first_tab: null,
   order: null,
   order_form_group: null,
   parent_form: "",
   editable: null,
-  module_ids: [],
+  module_ids: List([]),
   form_group_id: "",
   form_group_name: "",
-  fields: [],
+  fields: List([]),
   is_nested: null,
   subform_prevent_item_removal: false,
-  collapsed_field_names: []
+  collapsed_field_names: List([])
 });
 
 export const Option = Record({
   type: "",
-  options: []
+  options: List([])
 });
