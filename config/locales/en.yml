@@ -2335,6 +2335,7 @@ en:
     notes_label: "Notes"
     subject_label: "Subject"
     no_records_selected: "No records selected"
+    note_success: "Successfully added note"
     error_adding_note: "Error adding note"
 
   per_page_translation: "Per page _MENU_"

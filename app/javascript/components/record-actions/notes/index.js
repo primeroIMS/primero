@@ -1,1 +1,1 @@
-export { default as Notes } from "./component";
+export { default } from "./component";

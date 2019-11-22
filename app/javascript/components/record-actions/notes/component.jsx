@@ -1,49 +1,94 @@
-import React from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
-import { TextField } from "@material-ui/core";
+import { List } from "immutable";
+import { useDispatch } from "react-redux";
+import * as yup from "yup";
 
 import { useI18n } from "../../i18n";
 import { ActionDialog } from "../../action-dialog";
+import Form, {
+  FieldRecord,
+  FormSectionRecord,
+  FORM_MODE_DIALOG
+} from "../../form";
+import { saveRecord } from "../../records";
 
-const Notes = ({ close, openNotesDialog }) => {
+const validationSchema = yup.object().shape({
+  note_subject: yup.string().required(),
+  note_text: yup.string().required()
+});
+
+const Component = ({ close, openNotesDialog, record, recordType }) => {
   const i18n = useI18n();
+  const formRef = useRef();
+  const dispatch = useDispatch();
 
-  const handleOk = () => {
+  const handleSubmit = data => {
+    dispatch(
+      saveRecord(
+        recordType,
+        "update",
+        { data: { notes_section: [data] } },
+        record.get("id"),
+        i18n.t(`notes.note_success`),
+        false
+      )
+    );
+
     close();
   };
+
+  const bindFormSubmit = () => {
+    formRef.current.submitForm();
+  };
+
+  const formSections = List([
+    FormSectionRecord({
+      unique_id: "notes_section",
+      fields: List([
+        FieldRecord({
+          display_name: i18n.t("cases.notes_form_subject"),
+          name: "note_subject",
+          type: "text_field",
+          required: true,
+          autoFocus: true
+        }),
+        FieldRecord({
+          display_name: i18n.t("cases.notes_form_notes"),
+          name: "note_text",
+          type: "textarea",
+          required: true
+        })
+      ])
+    })
+  ]);
 
   return (
     <ActionDialog
       open={openNotesDialog}
-      successHandler={handleOk}
+      successHandler={bindFormSubmit}
       dialogTitle={i18n.t("cases.notes_dialog_title")}
       confirmButtonLabel={i18n.t("buttons.save")}
       onClose={close}
     >
-      <form>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="subject"
-          label={i18n.t("cases.notes_form_subject")}
-          type="text"
-          fullWidth
-        />
-        <TextField
-          label={i18n.t("cases.notes_form_notes")}
-          multiline
-          rows={2}
-          rowsMax={4}
-          fullWidth
-        />
-      </form>
+      <Form
+        formMode={FORM_MODE_DIALOG}
+        formSections={formSections}
+        onSubmit={handleSubmit}
+        ref={formRef}
+        validations={validationSchema}
+      />
     </ActionDialog>
   );
 };
 
-Notes.propTypes = {
+Component.displayName = "Notes";
+
+Component.propTypes = {
   close: PropTypes.func,
-  openNotesDialog: PropTypes.bool
+  openNotesDialog: PropTypes.bool,
+  record: PropTypes.object.isRequired,
+  recordType: PropTypes.string.isRequired
 };
 
-export default Notes;
+export default Component;

@@ -3,6 +3,7 @@ import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import sinonChai from "sinon-chai";
 import chaiImmutable from "chai-immutable";
+import 'mutationobserver-shim'
 
 chai.use(chaiImmutable);
 chai.use(sinonChai);
@@ -10,6 +11,8 @@ chai.use(sinonChai);
 const storage = {};
 
 global.window.I18n = { defaultLocale: "en", locale: "en", t: path => path };
+
+global.MutationObserver = window.MutationObserver;
 
 global.localStorage = {
   setItem: (key, value) => {
