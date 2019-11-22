@@ -41,13 +41,13 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
           {
             id: "owned_by",
             value: userName,
-            name: "my_cases[owned_by]",
+            name: "or[owned_by]",
             display_name: i18n.t("cases.filter_by.my_cases")
           },
           {
             id: "assigned_user_names",
             value: userName,
-            name: "my_cases[assigned_user_names]",
+            name: "or[assigned_user_names]",
             display_name: i18n.t("cases.filter_by.referred_cases")
           }
         ];

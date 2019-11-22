@@ -53,8 +53,8 @@ const Container = ({ recordType, defaultFilters }) => {
         if (!excludeDefaultFilters.includes(item.fieldName)) {
           if (ARRAY_FILTERS.includes(filterType)) {
             if (fieldName === "my_cases") {
-              currentObject["my_cases[owned_by]"] = fromJS([]);
-              currentObject["my_cases[assigned_user_names]"] = fromJS([]);
+              currentObject["or[owned_by]"] = fromJS([]);
+              currentObject["or[assigned_user_names]"] = fromJS([]);
             } else {
               currentObject[fieldName] = fromJS([]);
             }
