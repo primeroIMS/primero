@@ -5,6 +5,7 @@ import Grid from "@material-ui/core/Grid";
 
 import { useI18n } from "../../i18n";
 import { ActionDialog } from "../../action-dialog";
+import DisplayData from "../../display-data/component";
 
 import { TransferRequest } from "./transfer-request";
 import { NAME } from "./constants";
@@ -46,108 +47,43 @@ const ViewModal = ({ close, openViewModal, currentRecord }) => {
         <form>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="subject"
+              <DisplayData
                 label={i18n.t("cases.case_worker_code")}
-                type="text"
-                defaultValue={currentRecord && currentRecord.get("owned_by")}
-                disabled
-                fullWidth
-                InputProps={{
-                  disableUnderline: true
-                }}
+                value={currentRecord && currentRecord.get("owned_by")}
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="subject"
-                label={i18n.t("cases.agency")}
-                type="text"
-                defaultValue="--"
-                disabled
-                InputProps={{
-                  disableUnderline: true
-                }}
-              />
+              <DisplayData label={i18n.t("cases.agency")} />
             </Grid>
           </Grid>
           <Divider />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="subject"
+          <DisplayData
             label={i18n.t("cases.full_name")}
-            type="text"
-            defaultValue={currentRecord && currentRecord.get("name")}
-            disabled
-            fullWidth
-            InputProps={{
-              disableUnderline: true
-            }}
+            value={currentRecord && currentRecord.get("name")}
           />
           <Grid container spacing={2}>
             <Grid item xs={3}>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="subject"
+              <DisplayData
                 label={i18n.t("cases.sex")}
-                type="text"
-                defaultValue={currentRecord && currentRecord.get("sex")}
-                disabled
-                InputProps={{
-                  disableUnderline: true
-                }}
+                value={currentRecord && currentRecord.get("sex")}
               />
             </Grid>
             <Grid item xs={3}>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="subject"
+              <DisplayData
                 label={i18n.t("cases.date_of_birth")}
-                type="text"
-                defaultValue={
-                  (currentRecord && currentRecord.get("date_of_birth")) || "--"
-                }
-                disabled
-                InputProps={{
-                  disableUnderline: true
-                }}
+                value={currentRecord && currentRecord.get("date_of_birth")}
               />
             </Grid>
             <Grid item xs={3}>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="subject"
+              <DisplayData
                 label={i18n.t("cases.age")}
-                type="text"
-                defaultValue={currentRecord && currentRecord.get("age")}
-                disabled
-                InputProps={{
-                  disableUnderline: true
-                }}
+                value={currentRecord && currentRecord.get("age")}
               />
             </Grid>
             <Grid item xs={3}>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="subject"
+              <DisplayData
                 label={i18n.t("cases.age_estimated")}
-                type="text"
-                defaultValue={
-                  (currentRecord && currentRecord.get("estimated")) || "--"
-                }
-                disabled
-                InputProps={{
-                  disableUnderline: true
-                }}
+                value={currentRecord && currentRecord.get("estimated")}
               />
             </Grid>
           </Grid>

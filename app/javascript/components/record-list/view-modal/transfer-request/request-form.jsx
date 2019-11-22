@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Grid, TextField, Divider } from "@material-ui/core";
+import { Grid, Divider } from "@material-ui/core";
 import { Form, Field } from "formik";
 import { TextField as MuiTextField } from "formik-material-ui";
 
 import { useI18n } from "../../../i18n";
+import DisplayData from "../../../display-data/component";
 
 import { REQUEST_FORM_NAME, NOTES_FIELD } from "./constants";
 
@@ -23,24 +24,13 @@ const RequestForm = ({ formProps, record }) => {
       <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <TextField
+            <DisplayData
               label={i18n.t("cases.case_worker_code")}
-              defaultValue={record && record.get("owned_by")}
-              InputProps={{
-                disableUnderline: true
-              }}
-              {...sharedTextFieldProps}
+              value={record && record.get("owned_by")}
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              label={i18n.t("cases.agency")}
-              defaultValue="--"
-              InputProps={{
-                disableUnderline: true
-              }}
-              {...sharedTextFieldProps}
-            />
+            <DisplayData label={i18n.t("cases.agency")} />
           </Grid>
         </Grid>
         <Divider />

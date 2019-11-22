@@ -76,6 +76,8 @@ const ActionDialog = ({
       <Dialog
         open={open}
         onClose={handleClose}
+        fullWidth
+        maxWidth="sm"
         aria-labelledby="action-dialog-title"
         aria-describedby="action-dialog-description"
       >
