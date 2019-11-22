@@ -2,10 +2,12 @@
 import React from "react";
 import * as keydown from "keyevent";
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../../../test";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
+
+import { setupMountedComponent } from "../../../../../test";
 import { SearchableSelect } from "../../../../searchable-select";
+
 import FormInternal from "./form-internal";
 
 const InternalForm = props => {
@@ -16,6 +18,7 @@ const InternalForm = props => {
       notes: ""
     }
   };
+
   return (
     <Formik {...formProps}>
       <Form>
@@ -75,5 +78,28 @@ describe("<FormInternal />", () => {
     expect(component.find("div.Mui-selected").text()).to.be.equal(
       "fields.select_single"
     );
+  });
+
+  it("renders TextFieldProps from SearchableSelect with valid props", () => {
+    const textFieldProps = {
+      ...component
+        .find(SearchableSelect)
+        .first()
+        .props().TextFieldProps
+    };
+
+    [
+      "label",
+      "required",
+      "error",
+      "helperText",
+      "margin",
+      "placeholder",
+      "InputLabelProps"
+    ].forEach(property => {
+      expect(textFieldProps).to.have.property(property);
+      delete textFieldProps[property];
+    });
+    expect(textFieldProps).to.be.empty;
   });
 });

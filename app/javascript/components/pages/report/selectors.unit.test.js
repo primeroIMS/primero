@@ -28,12 +28,14 @@ describe("<Reports /> - Selectors", () => {
       });
 
       const records = getReport(stateWithRecords, 1);
+
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
       const expected = fromJS({});
       const records = getReport(stateWithoutRecords, 1);
+
       expect(records).to.deep.equal(expected);
     });
   });

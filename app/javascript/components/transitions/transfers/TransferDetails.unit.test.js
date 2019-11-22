@@ -1,9 +1,10 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../test";
 import { Box, Divider } from "@material-ui/core";
-import TransferDetails from "./TransferDetails";
+
+import { setupMountedComponent } from "../../../test";
 import TransitionUser from "../TransitionUser";
+
+import TransferDetails from "./TransferDetails";
 
 describe("<TransferDetails />", () => {
   let component;

@@ -1,7 +1,6 @@
 import React from "react";
 
 import { RECORD_PATH } from "../../config";
-
 import { ToggleIconCell } from "../index-table";
 import {
   fetchCases,

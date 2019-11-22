@@ -19,6 +19,5 @@ describe("<TASKS /> - Action Creators", () => {
     const dispatch = sinon.spy(store, "dispatch");
 
     dispatch(actionCreators.fetchTasks());
-
   });
 });

@@ -6,6 +6,8 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 
 import { PageHeading } from "../page";
 import RecordActions from "../record-actions";
+import Permission from "../application/permission";
+import { CREATE_RECORDS } from "../../libs/permissions";
 
 import AddRecordMenu from "./add-record-menu";
 import styles from "./styles.css";
@@ -29,7 +31,9 @@ const RecordListToolbar = ({
             <FilterListIcon />
           </IconButton>
         )}
-        <AddRecordMenu recordType={recordType} />
+        <Permission resources={recordType} actions={CREATE_RECORDS}>
+          <AddRecordMenu recordType={recordType} />
+        </Permission>
         <RecordActions recordType={recordType} iconColor="primary" />
       </Box>
     </Box>

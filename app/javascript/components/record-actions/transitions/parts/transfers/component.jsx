@@ -79,6 +79,7 @@ const TransferForm = ({
   useEffect(() => {
     if (firstUpdate.current) {
       firstUpdate.current = false;
+
       return;
     }
     const messages = hasErrors
@@ -228,11 +229,12 @@ const TransferForm = ({
   };
 
   const validationSchema = yup.object().shape({
-    transitioned_to: yup.string().required()
+    [TRANSITIONED_TO_FIELD]: yup
+      .string()
+      .required(i18n.t("transfer.user_mandatory"))
   });
 
   const formProps = {
-    validationSchema,
     initialValues: {
       [TRANSFER_FIELD]: false,
       [REMOTE_SYSTEM_FIELD]: false,
@@ -257,23 +259,26 @@ const TransferForm = ({
       );
       setSubmitting(false);
     },
-    render: props => formikForm(props)
+    render: props => formikForm(props),
+    validateOnBlur: false,
+    validateOnChange: false,
+    validationSchema
   };
 
   return <Formik {...formProps} />;
 };
 
 TransferForm.propTypes = {
-  providedConsent: PropTypes.bool,
-  isBulkTransfer: PropTypes.bool.isRequired,
-  userPermissions: PropTypes.object.isRequired,
   handleClose: PropTypes.func.isRequired,
-  transitionType: PropTypes.string,
-  record: PropTypes.object,
-  values: PropTypes.object,
   handleSubmit: PropTypes.func,
+  isBulkTransfer: PropTypes.bool.isRequired,
+  providedConsent: PropTypes.bool,
+  record: PropTypes.object,
+  recordType: PropTypes.string.isRequired,
   resetForm: PropTypes.func,
-  recordType: PropTypes.string.isRequired
+  transitionType: PropTypes.string,
+  userPermissions: PropTypes.object.isRequired,
+  values: PropTypes.object
 };
 
 export default TransferForm;

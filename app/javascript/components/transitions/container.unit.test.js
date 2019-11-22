@@ -1,11 +1,12 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../test";
 import { Map, List } from "immutable";
 import {
   ExpansionPanelDetails,
   ExpansionPanelSummary
 } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../test";
+
 import Transitions from "./container";
 import TransitionPanel from "./TransitionPanel";
 import AssignmentsSummary from "./assignments/AssignmentsSummary";
@@ -55,6 +56,7 @@ describe("<Transitions /> - Component", () => {
       })
     })
   });
+
   beforeEach(() => {
     ({ component } = setupMountedComponent(Transitions, props, initialState));
   });

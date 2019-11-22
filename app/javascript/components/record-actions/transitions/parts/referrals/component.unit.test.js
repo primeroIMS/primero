@@ -1,12 +1,13 @@
-
 import { expect } from "chai";
 import clone from "lodash/clone";
-import { setupMountedComponent } from "../../../../../test";
 import { Map, List } from "immutable";
 import { Formik } from "formik";
 import { Button, FormControlLabel } from "@material-ui/core";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
+
+import { setupMountedComponent } from "../../../../../test";
 import users from "../../mocked-users";
+
 import FormInternal from "./form-internal";
 import ProvidedConsent from "./provided-consent";
 import ReferralForm from "./component";
@@ -50,6 +51,7 @@ describe("<ReferralForm />", () => {
     recordType: "cases",
     record
   };
+
   beforeEach(() => {
     ({ component } = setupMountedComponent(ReferralForm, props, initialState));
   });
@@ -85,6 +87,7 @@ describe("<ReferralForm />", () => {
         .first()
         .props()
     );
+
     expect(componentProps).to.have.property("handleClose");
     expect(componentProps).to.have.property("userPermissions");
     expect(componentProps).to.have.property("providedConsent");
@@ -97,5 +100,25 @@ describe("<ReferralForm />", () => {
     delete componentProps.record;
 
     expect(componentProps).to.deep.equal({});
+  });
+
+  it("renders Formik with valid props", () => {
+    const formikProps = { ...component.find(Formik).props() };
+
+    expect(component.find(Formik)).to.have.lengthOf(1);
+    [
+      "enableReinitialize",
+      "initialValues",
+      "isInitialValid",
+      "onSubmit",
+      "render",
+      "validateOnBlur",
+      "validateOnChange",
+      "validationSchema"
+    ].forEach(property => {
+      expect(formikProps).to.have.property(property);
+      delete formikProps[property];
+    });
+    expect(formikProps).to.be.empty;
   });
 });

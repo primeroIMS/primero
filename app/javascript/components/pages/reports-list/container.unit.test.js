@@ -7,14 +7,22 @@ import {
   TablePagination,
   Box
 } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 
 import { setupMountedComponent } from "../../../test";
+import { ACTIONS } from "../../../libs/permissions";
 
 import Reports from "./container";
 
 describe("<Reports /> - Component", () => {
   let component;
+
   const initialState = fromJS({
+    user: {
+      permissions: {
+        reports: [ACTIONS.MANAGE]
+      }
+    },
     records: {
       reports: {
         data: [
@@ -45,6 +53,7 @@ describe("<Reports /> - Component", () => {
       }
     }
   });
+
   beforeEach(() => {
     ({ component } = setupMountedComponent(Reports, {}, initialState));
   });
@@ -67,5 +76,23 @@ describe("<Reports /> - Component", () => {
 
   it("should render <TablePagination>", () => {
     expect(component.find(TablePagination)).to.have.lengthOf(1);
+  });
+
+  it("should render <AddIcon>", () => {
+    expect(component.find(AddIcon)).to.have.lengthOf(1);
+  });
+
+  describe("When doesn't have permission to create report", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Reports,
+        {},
+        initialState.get("records")
+      ));
+    });
+
+    it("should not render AddIcon", () => {
+      expect(component.find(AddIcon)).to.have.lengthOf(0);
+    });
   });
 });

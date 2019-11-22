@@ -1,7 +1,8 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../test";
 import { Box } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../test";
+
 import TransitionUser from "./TransitionUser";
 
 describe("<TransitionUser />", () => {
@@ -15,6 +16,7 @@ describe("<TransitionUser />", () => {
       transtionValue: "testStyle"
     }
   };
+
   beforeEach(() => {
     ({ component } = setupMountedComponent(TransitionUser, props));
   });
@@ -22,4 +24,4 @@ describe("<TransitionUser />", () => {
   it("renders a Box component inside of TransitionUser", () => {
     expect(component.find(TransitionUser).find(Box)).to.have.length(1);
   });
-})
+});

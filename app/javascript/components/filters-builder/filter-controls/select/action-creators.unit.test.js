@@ -31,12 +31,14 @@ describe("<SelectFilter /> - Action Creators", () => {
     const dispatch = sinon.spy(actionCreators, "setSelectValue");
     const options = { id: "approval_status", data: ["bia"] };
 
-    actionCreators.setSelectValue({ id: "approval_status", data: ["bia"] }, "Cases");
+    actionCreators.setSelectValue(
+      { id: "approval_status", data: ["bia"] },
+      "Cases"
+    );
 
     expect(dispatch.getCall(0).returnValue).to.eql({
       type: "Cases/ADD_SELECT",
       payload: options
     });
   });
-
 });

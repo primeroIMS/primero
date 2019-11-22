@@ -31,6 +31,7 @@ describe("<RadioButton /> - Selectors", () => {
         recordType: "Cases",
         props: { field_name: "sex" }
       });
+
       expect(records).to.deep.equal("");
     });
   });

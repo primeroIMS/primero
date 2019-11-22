@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import { Map } from "immutable";
+
 import { getTab } from "./selectors";
 
 const stateWithRecords = Map({

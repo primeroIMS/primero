@@ -2,6 +2,7 @@ import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
+import { MODULES } from "../../../config";
 
 import {
   TransitionDialog,
@@ -11,8 +12,6 @@ import {
 } from "./parts";
 import mockUsers from "./mocked-users";
 import Transitions from "./component";
-
-import { MODULES } from "../../../config";
 
 describe("<Transitions />", () => {
   let component;
@@ -40,6 +39,7 @@ describe("<Transitions />", () => {
     module_id: MODULES.CP,
     consent_for_services: true
   });
+
   describe("when transitionType is 'referral'", () => {
     const props = {
       recordType: "cases",
@@ -48,6 +48,7 @@ describe("<Transitions />", () => {
       record,
       userPermissions: fromJS({ cases: ["manage"] })
     };
+
     beforeEach(() => {
       ({ component } = setupMountedComponent(Transitions, props, initialState));
     });
@@ -70,14 +71,17 @@ describe("<Transitions />", () => {
           "recordType",
           "record"
         ];
+
         expect(Object.keys(referralForm.props())).to.deep.equal(validProps);
       });
       it("should check the providedConsent prop", () => {
         const referralForm = component.find(ReferralForm);
+
         expect(referralForm.props().providedConsent).to.equal(true);
       });
       it("should check the userPermissions prop", () => {
         const referralForm = component.find(ReferralForm);
+
         expect(referralForm.props().userPermissions).to.deep.equal(
           fromJS({
             cases: ["manage"]
@@ -86,14 +90,17 @@ describe("<Transitions />", () => {
       });
       it("should check the handleClose prop", () => {
         const referralForm = component.find(ReferralForm);
+
         expect(typeof referralForm.props().handleClose).to.be.equal("function");
       });
       it("should check the recordType prop", () => {
         const referralForm = component.find(ReferralForm);
+
         expect(referralForm.props().recordType).to.deep.equal("cases");
       });
       it("should check the record prop", () => {
         const referralForm = component.find(ReferralForm);
+
         expect(referralForm.props().record).to.deep.equal(record);
       });
     });
@@ -107,6 +114,7 @@ describe("<Transitions />", () => {
       record,
       userPermissions: fromJS({ cases: ["manage"] })
     };
+
     beforeEach(() => {
       ({ component } = setupMountedComponent(Transitions, props, initialState));
     });
@@ -128,6 +136,7 @@ describe("<Transitions />", () => {
       record,
       userPermissions: fromJS({ cases: ["manage"] })
     };
+
     beforeEach(() => {
       ({ component } = setupMountedComponent(Transitions, props, initialState));
     });
@@ -141,6 +150,7 @@ describe("<Transitions />", () => {
     });
     describe("with props", () => {
       let transferForm;
+
       beforeEach(() => {
         transferForm = component.find(TransferForm);
       });
@@ -154,6 +164,7 @@ describe("<Transitions />", () => {
           "record",
           "recordType"
         ];
+
         expect(Object.keys(transferForm.props())).to.deep.equal(validProps);
       });
       it("should check the providedConsent prop", () => {

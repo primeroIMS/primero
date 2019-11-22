@@ -6,6 +6,7 @@ import { setupMountedComponent } from "../../test";
 import { FilterRecord } from "../user/records";
 
 import FiltersBuilder from "./container";
+import FiltersActions from "./filters-actions";
 
 describe("<Filters /> - Component", () => {
   let component;
@@ -53,5 +54,9 @@ describe("<Filters /> - Component", () => {
 
   it("renders the ExpansionPanel", () => {
     expect(component.find(ExpansionPanel)).to.have.lengthOf(1);
+  });
+
+  it("renders one FiltersActions", () => {
+    expect(component.find(FiltersActions)).to.have.lengthOf(1);
   });
 });

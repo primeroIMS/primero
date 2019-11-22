@@ -1,9 +1,10 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../test";
-import { Map, List } from "immutable";
+import { Map } from "immutable";
 import { IconButton, InputBase } from "@material-ui/core";
+
+import { setupMountedComponent } from "../../test";
 import { setFilters } from "../records";
+
 import RecordSearch from "./container";
 
 describe("<RecordSearch />", () => {
@@ -32,10 +33,29 @@ describe("<RecordSearch />", () => {
   });
 
   it("renders IconButton", () => {
-    expect(component.find(IconButton)).to.have.length(1);
+    expect(component.find(IconButton)).to.have.length(2);
   });
 
   it("renders InputBase", () => {
     expect(component.find(InputBase)).to.have.length(1);
+  });
+
+  it("renders InputBase with valid props", () => {
+    const inputBaseProps = { ...component.find(InputBase).props() };
+
+    [
+      "id",
+      "className",
+      "placeholder",
+      "onKeyUp",
+      "onChange",
+      "value",
+      "inputProps",
+      "endAdornment"
+    ].forEach(property => {
+      expect(inputBaseProps).to.have.property(property);
+      delete inputBaseProps[property];
+    });
+    expect(inputBaseProps).to.be.empty;
   });
 });

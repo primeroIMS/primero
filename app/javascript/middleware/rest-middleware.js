@@ -81,9 +81,12 @@ function fetchPayload(action, store, options) {
     api: { path, body, params, method, normalizeFunc, successCallback, db }
   } = action;
 
-  const fetchOptions = { ...defaultFetchOptions, method,
+  const fetchOptions = {
+    ...defaultFetchOptions,
+    method,
     signal: controller.signal,
-    ...(body && { body: JSON.stringify(body) })};
+    ...(body && { body: JSON.stringify(body) })
+  };
 
   const fetchPath = buildPath(path, options, params);
 
@@ -106,6 +109,7 @@ function fetchPayload(action, store, options) {
       }
       fetchStatus({ store, type }, "FINISHED", false);
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.warn(e);
       fetchStatus({ store, type }, "FAILURE", false);
     }

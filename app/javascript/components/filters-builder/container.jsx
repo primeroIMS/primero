@@ -5,7 +5,6 @@ import { makeStyles } from "@material-ui/styles";
 import {
   ExpansionPanelDetails,
   ExpansionPanelSummary,
-  Button,
   IconButton
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -29,6 +28,8 @@ import { NAME } from "./config";
 import { getFiltersByRecordType } from "./selectors";
 import Panel from "./Panel";
 import styles from "./styles.css";
+import { VARIANT_BUTTON_TYPES, COLOR_PRIMARY } from "./constants";
+import FiltersActions from "./filters-actions";
 
 const Container = ({
   recordType,
@@ -121,8 +122,37 @@ const Container = ({
     ) : null;
   };
 
+  const filtersActions = [
+    {
+      id: "applyFilter",
+      label: i18n.t("filters.apply_filters"),
+      buttonProps: {
+        onClick: handleApplyFilter,
+        variant: VARIANT_BUTTON_TYPES.contained,
+        color: COLOR_PRIMARY
+      }
+    },
+    {
+      id: "saveFilter",
+      label: i18n.t("filters.save_filters"),
+      buttonProps: {
+        onClick: handleSaveFilters,
+        variant: VARIANT_BUTTON_TYPES.outlined
+      }
+    },
+    {
+      id: "clearFilter",
+      label: i18n.t("filters.clear_filters"),
+      buttonProps: {
+        onClick: handleClearFilters,
+        variant: VARIANT_BUTTON_TYPES.outlined
+      }
+    }
+  ];
+
   return (
     <div className={css.root}>
+      <FiltersActions actions={filtersActions} />
       {filters &&
         filters.toJS().map(filter => (
           <Panel
@@ -145,17 +175,6 @@ const Container = ({
             </ExpansionPanelDetails>
           </Panel>
         ))}
-      <div className={css.actionButtons}>
-        <Button variant="contained" color="primary" onClick={handleApplyFilter}>
-          {i18n.t("filters.apply_filters")}
-        </Button>
-        <Button variant="outlined" onClick={handleSaveFilters}>
-          {i18n.t("filters.save_filters")}
-        </Button>
-        <Button variant="outlined" onClick={handleClearFilters}>
-          {i18n.t("filters.clear_filters")}
-        </Button>
-      </div>
       <SavedSearchesForm {...savedSearchesFormProps} />
     </div>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+
 import { removeFormErrors } from "./action-creators";
 import { hasProvidedConsent } from "./parts/helpers";
 import {
@@ -43,6 +44,7 @@ const Transitions = ({
           recordType,
           record
         };
+
         return <ReferralForm {...referralProps} />;
       }
       case "reassign": {
@@ -51,6 +53,7 @@ const Transitions = ({
           record,
           handleClose
         };
+
         return <ReassignForm {...reassignProps} />;
       }
       case "transfer": {
@@ -65,6 +68,7 @@ const Transitions = ({
           record,
           recordType
         };
+
         return <TransferForm {...transferProps} />;
       }
       default:
@@ -80,10 +84,10 @@ const Transitions = ({
 };
 
 Transitions.propTypes = {
-  transitionType: PropTypes.string.isRequired,
   record: PropTypes.object,
-  setTransitionType: PropTypes.func.isRequired,
   recordType: PropTypes.string.isRequired,
+  setTransitionType: PropTypes.func.isRequired,
+  transitionType: PropTypes.string.isRequired,
   userPermissions: PropTypes.object.isRequired
 };
 

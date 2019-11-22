@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 const ValueContainer = props => {
   const { selectProps, children } = props;
+
   return <div className={selectProps.classes.valueContainer}>{children}</div>;
 };
 
