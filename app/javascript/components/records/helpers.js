@@ -16,11 +16,12 @@ export const cleanUpFilters = filters => {
     );
   });
 
-  Object.entries(filtersArray).forEach(filter => {
+  const result = Object.entries(filtersArray).reduce((acum, filter) => {
     const [key, value] = filter;
+    const o = acum;
 
     if (Array.isArray(value)) {
-      filtersArray[key] = value.join(",");
+      o[key] = value.join(",");
     } else if (
       typeof value === "object" &&
       !Object.values(value).includes(null)
@@ -30,13 +31,20 @@ export const cleanUpFilters = filters => {
       Object.entries(value).forEach(keys => {
         const [k, v] = keys;
 
-        valueConverted[k] = v;
+        if (["from", "to"].includes(k)) {
+          valueConverted[k] = v;
+        }
       });
-      filtersArray[key] = valueConverted;
-    } else {
-      filtersArray[key] = value;
-    }
-  });
 
-  return filtersArray;
+      if (typeof value.value !== "undefined") {
+        o[value.value] = valueConverted;
+      }
+    } else {
+      o[key] = value;
+    }
+
+    return o;
+  }, {});
+
+  return result;
 };
