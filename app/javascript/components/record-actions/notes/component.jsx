@@ -87,7 +87,7 @@ Component.displayName = "Notes";
 Component.propTypes = {
   close: PropTypes.func,
   openNotesDialog: PropTypes.bool,
-  record: PropTypes.object.isRequired,
+  record: PropTypes.object,
   recordType: PropTypes.string.isRequired
 };
 
