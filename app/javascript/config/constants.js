@@ -89,6 +89,8 @@ export const PERMITTED_URL = [
 
 export const DATE_FORMAT = "dd-MMM-yyyy";
 
+export const TRANSITIONS_DATE_FORMAT = "MMM dd,yyyy";
+
 export const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";
 
 export const MODES = {

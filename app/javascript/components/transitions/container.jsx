@@ -19,6 +19,8 @@ import TransferSummary from "./transfers/TransferSummary";
 import TransferDetails from "./transfers/TransferDetails";
 import TransitionPanel from "./TransitionPanel";
 import ReferralSummary from "./referrals/summary";
+import TransferRequestSummary from "./transfer_requests/summary";
+import TransferRequestDetails from "./transfer_requests/details";
 import ReferralDetails from "./referrals/details";
 import { TRANSITIONS_NAME } from "./constants";
 
@@ -37,6 +39,8 @@ const Transitions = ({ isReferral, recordType, record }) => {
         return <TransferSummary transition={transition} classes={css} />;
       case "Referral":
         return <ReferralSummary transition={transition} classes={css} />;
+      case "TransferRequest":
+        return <TransferRequestSummary transition={transition} classes={css} />;
       default:
         return <h2>Not Found</h2>;
     }
@@ -50,6 +54,8 @@ const Transitions = ({ isReferral, recordType, record }) => {
         return <TransferDetails transition={transition} classes={css} />;
       case "Referral":
         return <ReferralDetails transition={transition} classes={css} />;
+      case "TransferRequest":
+        return <TransferRequestDetails transition={transition} classes={css} />;
       default:
         return <h2>Not Found</h2>;
     }
