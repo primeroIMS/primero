@@ -37,31 +37,31 @@ Create a new location and return the entire record.
 
 ```json
 {
-    "data": {
-        "id": 2,
-        "code": "D01",
-        "type": "departament",
-        "name": {
-            "en": "country_en::departament_en",
-            "fr": "",
-            "ar": "",
-            "ar-LB": "",
-            "so": "",
-            "es": "country_es::departament_es",
-            "bn": ""
-        },
-        "admin_level": 1,
-        "placename": {
-            "en": "departament_en",
-            "fr": "",
-            "ar": "",
-            "ar-LB": "",
-            "so": "",
-            "es": "departament_es",
-            "bn": ""
-        },
-        "hierarchy": "CT01.D01"
-    }
+  "data": {
+    "id": 2,
+    "code": "D01",
+    "type": "departament",
+    "name": {
+      "en": "country_en::departament_en",
+      "fr": "",
+      "ar": "",
+      "ar-LB": "",
+      "so": "",
+      "es": "country_es::departament_es",
+      "bn": ""
+    },
+    "admin_level": 1,
+    "placename": {
+      "en": "departament_en",
+      "fr": "",
+      "ar": "",
+      "ar-LB": "",
+      "so": "",
+      "es": "departament_es",
+      "bn": ""
+    },
+    "hierarchy": "CT01.D01"
+  }
 }
 ```
 

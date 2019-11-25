@@ -22,9 +22,9 @@ Deletes a location with the specified id.
 
 ```json
 {
-    "data": {
-        "id": 2
-    }
+  "data": {
+    "id": 2
+  }
 }
 ```
 ## Error Response

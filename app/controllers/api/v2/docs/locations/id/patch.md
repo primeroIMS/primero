@@ -38,31 +38,31 @@ Merge the values submitted in this call into an existing location.
 
 ```json
 {
-    "data": {
-        "id": 2,
-        "code": "D02",
-        "type": "departament02",
-        "name": {
-            "ar": "",
-            "bn": "",
-            "en": "country_en::departament02_en",
-            "es": "country_es::departament02_es",
-            "fr": "",
-            "so": "",
-            "ar-LB": ""
-        },
-        "admin_level": 1,
-        "placename": {
-            "en": "departament02_en",
-            "fr": "",
-            "ar": "",
-            "ar-LB": "",
-            "so": "",
-            "es": "departament02_es",
-            "bn": ""
-        },
-        "hierarchy": "CT01.D02"
-    }
+  "data": {
+    "id": 2,
+    "code": "D02",
+    "type": "departament02",
+    "name": {
+      "ar": "",
+      "bn": "",
+      "en": "country_en::departament02_en",
+      "es": "country_es::departament02_es",
+      "fr": "",
+      "so": "",
+      "ar-LB": ""
+    },
+    "admin_level": 1,
+    "placename": {
+      "en": "departament02_en",
+      "fr": "",
+      "ar": "",
+      "ar-LB": "",
+      "so": "",
+      "es": "departament02_es",
+      "bn": ""
+    },
+    "hierarchy": "CT01.D02"
+  }
 }
 ```
 
@@ -105,5 +105,3 @@ Merge the values submitted in this call into an existing location.
   ]
 }
 ```
-
-+++

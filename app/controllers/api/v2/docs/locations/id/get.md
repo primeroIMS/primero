@@ -22,31 +22,31 @@ Show the JSON representation of a location.
 
 ```json
 {
-    "data": {
-        "id": 2,
-        "code": "D01",
-        "type": "departament",
-        "name": {
-            "ar": "",
-            "bn": "",
-            "en": "country_en::departament_en",
-            "es": "country_es::departament_es",
-            "fr": "",
-            "so": "",
-            "ar-LB": ""
-        },
-        "admin_level": 1,
-        "placename": {
-            "en": "departament_en",
-            "fr": "",
-            "ar": "",
-            "ar-LB": "",
-            "so": "",
-            "es": "departament_es",
-            "bn": ""
-        },
-        "hierarchy": "CT01.D01"
-    }
+  "data": {
+    "id": 2,
+    "code": "D01",
+    "type": "departament",
+    "name": {
+      "ar": "",
+      "bn": "",
+      "en": "country_en::departament_en",
+      "es": "country_es::departament_es",
+      "fr": "",
+      "so": "",
+      "ar-LB": ""
+    },
+    "admin_level": 1,
+    "placename": {
+      "en": "departament_en",
+      "fr": "",
+      "ar": "",
+      "ar-LB": "",
+      "so": "",
+      "es": "departament_es",
+      "bn": ""
+    },
+    "hierarchy": "CT01.D01"
+  }
 }
 ```
 
@@ -78,12 +78,12 @@ Show the JSON representation of a location.
 
 ```json
 {
-    "errors": [
-        {
-            "status": 404,
-            "resource": "/api/v2/locations/200",
-            "message": "Not Found"
-        }
-    ]
+  "errors": [
+    {
+      "status": 404,
+      "resource": "/api/v2/locations/200",
+      "message": "Not Found"
+    }
+  ]
 }
 ```

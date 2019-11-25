@@ -24,58 +24,58 @@ Shows a paginated list of all locations that are accessible to this user.
 
 ```json
 {
-    "data": [
-        {
-            "id": 1,
-            "code": "CT01",
-            "type": "country",
-            "name": {
-                "ar": "",
-                "bn": "",
-                "en": "country_en",
-                "es": "country_es",
-                "fr": "",
-                "so": "",
-                "ar-LB": ""
-            },
-            "admin_level": 0,
-            "placename": {
-                "en": "country_en",
-                "fr": "",
-                "ar": "",
-                "ar-LB": "",
-                "so": "",
-                "es": "country_es",
-                "bn": ""
-            },
-            "hierarchy": "CT01"
-        },
-        {
-            "id": 2,
-            "code": "D01",
-            "type": "departament",
-            "name": {
-                "ar": "",
-                "bn": "",
-                "en": "country_en::departament_en",
-                "es": "country_es::departament_es",
-                "fr": "",
-                "so": "",
-                "ar-LB": ""
-            },
-            "admin_level": 2,
-            "placename": {
-                "en": "departament_en",
-                "fr": "",
-                "ar": "",
-                "ar-LB": "",
-                "so": "",
-                "es": "departament_es",
-                "bn": ""
-            },
-            "hierarchy": "CT01.D01"
-        }
-    ]
+  "data": [
+    {
+      "id": 1,
+      "code": "CT01",
+      "type": "country",
+      "name": {
+        "ar": "",
+        "bn": "",
+        "en": "country_en",
+        "es": "country_es",
+        "fr": "",
+        "so": "",
+        "ar-LB": ""
+      },
+      "admin_level": 0,
+      "placename": {
+        "en": "country_en",
+        "fr": "",
+        "ar": "",
+        "ar-LB": "",
+        "so": "",
+        "es": "country_es",
+        "bn": ""
+      },
+      "hierarchy": "CT01"
+    },
+    {
+      "id": 2,
+      "code": "D01",
+      "type": "departament",
+      "name": {
+        "ar": "",
+        "bn": "",
+        "en": "country_en::departament_en",
+        "es": "country_es::departament_es",
+        "fr": "",
+        "so": "",
+        "ar-LB": ""
+      },
+      "admin_level": 2,
+      "placename": {
+        "en": "departament_en",
+        "fr": "",
+        "ar": "",
+        "ar-LB": "",
+        "so": "",
+        "es": "departament_es",
+        "bn": ""
+      },
+      "hierarchy": "CT01.D01"
+    }
+  ]
 }
 ```
 
@@ -91,36 +91,36 @@ Shows a paginated list of all locations that are accessible to this user.
 
 ```json
 {
-    "data": [
-        {
-            "id": 627,
-            "code": "CT03",
-            "type": "country4",
-            "name": {
-                "en": "country3_en",
-                "fr": "",
-                "ar": "",
-                "ar-LB": "",
-                "so": "",
-                "es": "country3_es",
-                "bn": ""
-            }
-        },
-        {
-            "id": 628,
-            "code": "D01",
-            "type": "departament",
-            "name": {
-                "en": "country3_en::departament_en",
-                "fr": "",
-                "ar": "",
-                "ar-LB": "",
-                "so": "",
-                "es": "country3_es::departament_es",
-                "bn": ""
-            }
-        }
-    ]
+  "data": [
+    {
+      "id": 627,
+      "code": "CT03",
+      "type": "country4",
+      "name": {
+        "en": "country3_en",
+        "fr": "",
+        "ar": "",
+        "ar-LB": "",
+        "so": "",
+        "es": "country3_es",
+        "bn": ""
+      }
+    },
+    {
+      "id": 628,
+      "code": "D01",
+      "type": "departament",
+      "name": {
+          "en": "country3_en::departament_en",
+          "fr": "",
+          "ar": "",
+          "ar-LB": "",
+          "so": "",
+          "es": "country3_es::departament_es",
+          "bn": ""
+      }
+    }
+  ]
 }
 ```
 ## Error Response
