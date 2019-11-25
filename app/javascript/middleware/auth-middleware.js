@@ -46,7 +46,7 @@ const authMiddleware = store => next => action => {
     store.dispatch(attemptSignout());
   }
 
-  if (location === "/login" && isAuthenticated) {
+  if (["/login", "/"].includes(location) && isAuthenticated) {
     redirectTo(store, "/dashboard");
   }
 
