@@ -258,8 +258,8 @@ ActiveRecord::Schema.define(version: 2019_09_12_000000) do
     t.integer "admin_level"
     t.string "type"
     t.boolean "disabled", default: false, null: false
-    t.ltree "hierarchy", default: "", null: false
-    t.index ["hierarchy"], name: "index_locations_on_hierarchy", using: :gist
+    t.ltree "hierarchy_path", default: "", null: false
+    t.index ["hierarchy_path"], name: "index_locations_on_hierarchy_path", using: :gist
     t.index ["location_code"], name: "index_locations_on_location_code", unique: true
   end
 
