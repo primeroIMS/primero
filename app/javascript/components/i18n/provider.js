@@ -34,12 +34,21 @@ const I18nProvider = ({ children }) => {
     dispatch(setLocale({ locale: value, dir: dir(value) }));
   };
 
+  const getI18nStringFromObject = i18nObject => {
+    if (i18nObject instanceof Object) {
+      return i18nObject?.[locale];
+    }
+
+    return i18nObject;
+  };
+
   return (
     <Context.Provider
       value={{
         locale,
         ...window.I18n,
-        changeLocale
+        changeLocale,
+        getI18nStringFromObject
       }}
     >
       {children}
