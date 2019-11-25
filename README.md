@@ -49,6 +49,7 @@ On Ubuntu:
     $ sudo apt-get install -y nodejs
 
 On Fedora:
+
     $ #Install Node 12.x
     $ sudo dnf install -y gcc-c++ make
     $ curl -sL https://rpm.nodesource.com/setup_12.x | sudo -E bash -

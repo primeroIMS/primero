@@ -37,6 +37,8 @@ class Child < ApplicationRecord
   include Alertable
   include Matchable
   include Attachable
+  include Noteable
+
   # include Importable #TODO: Refactor with Imports and Exports
 
   store_accessor :data,
@@ -46,6 +48,7 @@ class Child < ApplicationRecord
     :registration_date, :age, :estimated, :date_of_birth, :sex, :address_last,
     :reunited, :reunited_message, :investigated, :verified, #TODO: These are RapidFTR attributes and should be removed
     :risk_level, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
+    :date_closure,
     :system_generated_followup,
     :assessment_due_date, :assessment_requested_on,
     :followup_subform_section, :protection_concern_detail_subform_section, #TODO: Do we need followups, protection_concern_details aliases?
@@ -55,7 +58,7 @@ class Child < ApplicationRecord
     :tent_number, :nfi_distribution_id,
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
-    :duplicate, :notes_section, :location_current, :tracing_status, :name_caregiver
+    :duplicate, :location_current, :tracing_status, :name_caregiver
 
   attach_documents_to fields: [:other_documents, :bia_documents, :bid_documents]
   attach_images_to fields: [:photos]
@@ -93,7 +96,7 @@ class Child < ApplicationRecord
       text(f) { self.data[f] }
     end
 
-    %w[date_case_plan_initiated assessment_requested_on].each{|f| date(f)}
+    %w[date_case_plan_initiated assessment_requested_on date_closure].each{|f| date(f)}
 
     boolean :estimated
     integer :day_of_birth
@@ -297,13 +300,6 @@ class Child < ApplicationRecord
     if protection_concerns.present? && protection_concern_subforms.present?
       self.protection_concerns = (protection_concerns + protection_concern_subforms.map { |pc| pc['protection_concern_type'] }).compact.uniq
     end
-  end
-
-  def add_note(notes, note_subject, user)
-    self.notes_section << {
-        'field_notes_subform_fields' => notes, 'note_subject' => note_subject,
-        'notes_date' => DateTime.now, 'note_created_by' => user.user_name
-    }
   end
 
   def mark_as_duplicate(parent_id)

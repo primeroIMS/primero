@@ -61,6 +61,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("DATE_TIME_FORMAT");
     expect(constants).to.have.property("USER_NAME_FIELD");
     expect(constants).to.have.property("MODES");
+    expect(constants).to.have.property("TRANSITIONS_DATE_FORMAT");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -95,6 +96,7 @@ describe("Verifying config constant", () => {
     delete constants.DATE_TIME_FORMAT;
     delete constants.USER_NAME_FIELD;
     delete constants.MODES;
+    delete constants.TRANSITIONS_DATE_FORMAT;
 
     expect(constants).to.deep.equal({});
   });

@@ -37,6 +37,9 @@ const overrides = {
   },
   MuiInputLabel: {
     root: {
+      lineHeight: "1.5em",
+      fontSize: muiTheme.typography.pxToRem(12),
+      marginBottom: ".5em",
       color: colors.black,
       "&$focused": {
         color: colors.black
@@ -44,9 +47,20 @@ const overrides = {
       "&$disabled": {
         color: colors.black
       }
+    },
+    shrink: {
+      transform: "none"
+    },
+    formControl: {
+      position: "relative"
     }
   },
   MuiInput: {
+    formControl: {
+      "label + &": {
+        marginTop: 0
+      }
+    },
     underline: {
       "&:before": {
         borderBottom: "1px solid #d8d8d8"
@@ -72,6 +86,11 @@ const overrides = {
       "&$checked": {
         color: `${colors.black} !important`
       }
+    }
+  },
+  MuiFormControl: {
+    root: {
+      marginBottom: "1em"
     }
   },
   MuiFormControlLabel: {

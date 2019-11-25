@@ -6,12 +6,12 @@ export const getCheckBoxes = (state, props, namespace) => {
 
   if (fieldName === "my_cases") {
     selector = Map({
-      "my_cases[owned_by]": state.getIn(
-        ["records", namespace, "filters", "my_cases[owned_by]"],
+      "or[owned_by]": state.getIn(
+        ["records", namespace, "filters", "or[owned_by]"],
         []
       ),
-      "my_cases[assigned_user_names]": state.getIn(
-        ["records", namespace, "filters", "my_cases[assigned_user_names]"],
+      "or[assigned_user_names]": state.getIn(
+        ["records", namespace, "filters", "or[assigned_user_names]"],
         []
       )
     });
