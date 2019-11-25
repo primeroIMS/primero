@@ -3,21 +3,26 @@ require 'rails_helper'
 describe Api::V2::LocationsController, type: :request do
 
   before :each do
+    Location.destroy_all
     @locations_CT01 = Location.create!(
-        location_code: "CT01", type: "country", admin_level: "0",
-        placename_i18n: { en: "Country01_en", es: "Country01_es" },
-        hierarchy: "CT01"
+        location_code: 'CT01',
+        type: 'country',
+        admin_level: '0',
+        placename_i18n: { en: 'Country01_en', es: 'Country01_es' }
     )
     @locations_D01 = Location.create!(
-        location_code: "D01", type: "departament",
-        placename_i18n: { en: "Departament01_en", es: "Departament01_es" },
-        hierarchy: "CT01.D01"
+        location_code: 'D01',
+        type: 'departament',
+        placename_i18n: { en: 'Departament01_en', es: 'Departament01_es' },
+        hierarchy_path: 'CT01.D01'
     )
     @locations_D02 = Location.create!(
-        location_code: "D02", type: "departament",
-        placename_i18n: { en: "Departament02_en", es: "Departament02_es" },
-        hierarchy: "CT01.D02"
+        location_code: 'D02',
+        type: 'departament',
+        placename_i18n: { en: 'Departament02_en', es: 'Departament02_es' },
+        hierarchy_path: 'CT01.D02'
     )
+
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -71,11 +76,13 @@ describe Api::V2::LocationsController, type: :request do
       expect(json['data'].map{|c| c['code']}).to include(@locations_CT01.location_code, @locations_D01.location_code, @locations_D02.location_code)
       expect(json['data'].map{|c| c['type']}).to include(@locations_CT01.type, @locations_D01.type, @locations_D02.type)
       expect(json['data'].map{|c| c['admin_level']}).to include(@locations_CT01.admin_level, @locations_D01.admin_level, @locations_D02.admin_level)
-      expect(json['data'].map{|c| c['hierarchy']}).to include(@locations_CT01.hierarchy, @locations_D01.hierarchy, @locations_D02.hierarchy)
       expect(json['data'].map{|c| c['name']}[0]).to include(FieldI18nService.strip_i18n_suffix(@locations_CT01.slice(:name_i18n))['name'])
       expect(json['data'].map{|c| c['name']}[1]).to include(FieldI18nService.strip_i18n_suffix(@locations_D01.slice(:name_i18n))['name'])
       expect(json['data'].map{|c| c['name']}[2]).to include(FieldI18nService.strip_i18n_suffix(@locations_D02.slice(:name_i18n))['name'])
       expect(json['data'].map{|c| c['placename']}[2]).to include(FieldI18nService.strip_i18n_suffix(@locations_D02.slice(:placename_i18n))['placename'])
+      expect(json['data'][0]['hierarchy']).to be_empty
+      expect(json['data'][1]['hierarchy']).to eq([@locations_CT01.location_code])
+      expect(json['data'][2]['hierarchy']).to eq([@locations_CT01.location_code])
     end
 
     it 'refuses unauthorized access' do
@@ -91,23 +98,26 @@ describe Api::V2::LocationsController, type: :request do
 
   describe 'POST /api/v2/locations' do
 
-    it 'creates a new record child with 200 and returns it as JSON' do
+    it 'creates a new location and returns 200 and json' do
       login_for_test({
         permissions: [
           Permission.new(:resource => Permission::METADATA)
         ]
       })
       params = {
-        data: {location_code: 'CI01', type: 'city',
-        placename: { en: 'city01_en', es: 'city01_es'}, hierarchy: 'CT01.D02.CI01'}
+        data: {
+          code: 'CI01',
+          type: 'city',
+          placename: { en: 'city01_en', es: 'city01_es'},
+          parent_code: 'D02'}
       }
       post '/api/v2/locations', params: params
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_nil
-      expect(json['data']['code']).to eq(params[:data][:location_code])
+      expect(json['data']['code']).to eq(params[:data][:code])
       expect(json['data']['type']).to eq(params[:data][:type])
-      expect(json['data']['hierarchy']).to eq(params[:data][:hierarchy])
+      expect(json['data']['hierarchy']).to eq(['CT01', 'D02'])
       expect(json['data']['placename']['en']).to eq(params[:data][:placename][:en])
       expect(json['data']['placename']['es']).to eq(params[:data][:placename][:es])
     end
@@ -119,16 +129,21 @@ describe Api::V2::LocationsController, type: :request do
         ]
       })
       params = {
-        data: {location_code: 'CT02', type: 'country', admin_level: '0',
-        placename: { en: 'country02_en', es: 'country02_en'}, hierarchy: 'CT02'}
+        data: {
+          code: 'CT02',
+          type: 'country',
+          admin_level: '0',
+          placename: { en: 'country02_en', es: 'country02_en'},
+          parent_code: ''
+        }
       }
       post '/api/v2/locations', params: params
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_nil
-      expect(json['data']['code']).to eq(params[:data][:location_code])
+      expect(json['data']['code']).to eq(params[:data][:code])
       expect(json['data']['type']).to eq(params[:data][:type])
-      expect(json['data']['hierarchy']).to eq(params[:data][:hierarchy])
+      expect(json['data']['hierarchy']).to be_empty
       expect(json['data']['placename']['en']).to eq(params[:data][:placename][:en])
       expect(json['data']['placename']['es']).to eq(params[:data][:placename][:es])
     end
@@ -140,8 +155,12 @@ describe Api::V2::LocationsController, type: :request do
         ]
       })
       params = {
-        data: {location_code: 'CT02', type: 'country',
-        placename: { en: 'country02_en', es: 'country02_es'}, hierarchy: 'CT02'}
+        data: {
+          code: 'CT02',
+          type: 'country',
+          placename: { en: 'country02_en', es: 'country02_es'},
+          parent_code: ''
+        }
       }
       post "/api/v2/locations", params: params
 
@@ -159,16 +178,19 @@ describe Api::V2::LocationsController, type: :request do
         ]
       })
       params = {
-        data: {type: 'departament',
-        placename: { en: 'departament03_en', es: 'departament03_es'}, hierarchy: 'CT01.D03'}
+        data: {
+          type: 'departament',
+          placename: { en: 'departament03_en', es: 'departament03_es'},
+          parent_code: 'CT01'
+        }
       }
       post "/api/v2/locations", params: params
 
       expect(response).to have_http_status(422)
-      expect(json['errors'].size).to eq(2)
-      expect(json['errors'].map{|c| c['resource']}).to include("/api/v2/locations", "/api/v2/locations")
-      expect(json['errors'].map{|c| c['detail']}).to include("admin_level", "location_code")
-      expect(json['errors'].map{|c| c['message']}).to include(["must not be blank"], ["must not be blank"])
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eql('/api/v2/locations')
+      expect(json['errors'][0]['detail']).to eql('location_code')
+      expect(json['errors'][0]['message']).to eql(["must not be blank"])
     end
 
     it 'returns a 422 if location_code is repeated' do
@@ -178,9 +200,12 @@ describe Api::V2::LocationsController, type: :request do
         ]
       })
       params = {
-        data: {location_code: "D01", type: "departament",
-        placename: { en: "Departament01_en", es: "Departament01_es" },
-        hierarchy: "CT01.D01"}
+        data: {
+          code: 'D01',
+          type: 'departament',
+          placename: { en: 'Departament01_en', es: 'Departament01_es' },
+          parent_code: 'CT01'
+        }
       }
       post "/api/v2/locations", params: params
 
@@ -196,7 +221,7 @@ describe Api::V2::LocationsController, type: :request do
       id = SecureRandom.uuid
       params = {
         id: id, data: {location_code: 'CI01', type: 'city',
-        placename: { en: 'city01_en', es: 'city01_es'}, hierarchy: 'CT01.D02.CI01'}
+        placename: { en: 'city01_en', es: 'city01_es'}, hierarchy_path: 'CT01.D02.CI01'}
       }
       post "/api/v2/locations", params: params
 
@@ -307,16 +332,18 @@ describe Api::V2::LocationsController, type: :request do
         ]
       })
       params = {
-        data: {location_code: "D03", type: "departament3",
-        placename: { en: "Departament03_en", es: "Departament03_es" },
-        hierarchy: "CT01.D03"}
+        data: {
+          code: 'D03',
+          type: 'departament3',
+          placename: { en: 'Departament03_en', es: 'Departament03_es' },
+          parent_code: 'CT01'}
       }
       patch "/api/v2/locations/#{@locations_D02.id}", params: params
 
       expect(response).to have_http_status(200)
-      expect(json['data']['code']).to eq(params[:data][:location_code])
+      expect(json['data']['code']).to eq(params[:data][:code])
       expect(json['data']['type']).to eq(params[:data][:type])
-      expect(json['data']['hierarchy']).to eq(params[:data][:hierarchy])
+      expect(json['data']['hierarchy']).to eq(['CT01'])
       expect(json['data']['placename']['en']).to eq(params[:data][:placename][:en])
       expect(json['data']['placename']['es']).to eq(params[:data][:placename][:es])
     end
@@ -328,20 +355,23 @@ describe Api::V2::LocationsController, type: :request do
         ]
       })
       params = {
-        data: {location_code: "CT02", type: "country", admin_level: "0",
-        placename: { en: "Country02_en", es: "Country02_es" },
-        hierarchy: "CT02"}
+        data: {
+          code: 'CT02',
+          type: 'country',
+          admin_level: '0',
+          placename: { en: 'Country02_en', es: 'Country02_es' }
+        }
       }
       patch "/api/v2/locations/#{@locations_CT01.id}", params: params
 
       expect(response).to have_http_status(200)
-      expect(json['data']['code']).to eq(params[:data][:location_code])
-      expect(json['data']['hierarchy']).to eq(params[:data][:hierarchy])
+      expect(json['data']['code']).to eq(params[:data][:code])
+      expect(json['data']['hierarchy']).to be_empty
       expect(json['data']['placename']['en']).to eq(params[:data][:placename][:en])
       expect(json['data']['placename']['es']).to eq(params[:data][:placename][:es])
 
       child = Location.find(@locations_D02.id)
-      expect(child.hierarchy).to eq("CT02.D02")
+      expect(child.hierarchy).to eq(["CT02"])
       expect(child.name_es).to eq("Country02_es::Departament02_es")
       expect(child.name_en).to eq("Country02_en::Departament02_en")
     end
@@ -353,9 +383,12 @@ describe Api::V2::LocationsController, type: :request do
         ]
       })
       params = {
-        data: {location_code: "CT02", type: "country",
-        placename: { en: "Country02_en", es: "Country02_es" },
-        hierarchy: "CT02"}
+        data: {
+          location_code: 'CT02',
+          type: 'country',
+          placename: { en: 'Country02_en', es: 'Country02_es' },
+          parent_code: ''
+        }
       }
       patch "/api/v2/locations/#{@locations_CT01.id}", params: params
 
@@ -369,9 +402,13 @@ describe Api::V2::LocationsController, type: :request do
     it "returns 403 if user isn't authorized to update records" do
       login_for_test(permissions: [])
       params = {
-        data: {location_code: "CT02", type: "country", admin_level: "0",
-        placename: { en: "Country02_en", es: "Country02_es" },
-        hierarchy: "CT02"}
+        data: {
+          location_code: 'CT02',
+          type: 'country',
+          admin_level: '0',
+          placename: { en: 'Country02_en', es: 'Country02_es' },
+          parent_code: ''
+      }
       }
       patch "/api/v2/locations/#{@locations_CT01.id}", params: params
 
@@ -387,9 +424,13 @@ describe Api::V2::LocationsController, type: :request do
         ]
       })
       params = {
-        data: {location_code: "CT02", type: "country", admin_level: "0",
-        placename: { en: "Country02_en", es: "Country02_es" },
-        hierarchy: "CT02"}
+        data: {
+          location_code: 'CT02',
+          type: 'country',
+          admin_level: '0',
+          placename: { en: 'Country02_en', es: 'Country02_es' },
+          parent_code: 'CT02'
+        }
       }
       patch '/api/v2/locations/thisdoesntexist', params: params
 

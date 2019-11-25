@@ -7,20 +7,20 @@ describe Location do
     Primero::Application.stub :locales => [ Primero::Application::LOCALE_ENGLISH, Primero::Application::LOCALE_FRENCH]
     Primero::Application.stub :default_locale => Primero::Application::LOCALE_ENGLISH
 
-    @country = create :location, admin_level: 0, placename_all: 'MyCountry', type: 'country', location_code: 'MC01', hierarchy: 'MC01'
-    @province1 = create :location, hierarchy: "#{@country.location_code}.PR01", placename_all: 'Province 1', type: 'province', location_code: 'PR01'
-    @province2 = create :location, hierarchy: "#{@country.location_code}.PR02", type: 'state', location_code: 'PR02'
-    @province3 = create :location, hierarchy: "#{@country.location_code}.PR03", type: 'province', location_code: 'PR03'
-    @town1 = create :location, hierarchy: "#{@country.location_code}.#{@province1.location_code}.TW01", placename_all: 'Town 1', type: 'city', location_code: 'TW01'
-    @town2 = create :location, hierarchy: "#{@country.location_code}.#{@province1.location_code}.TW02", type: 'city', disabled: false, location_code: 'TW02'
-    @town3 = create :location, hierarchy: "#{@country.location_code}.#{@province2.location_code}.TW03", type: 'city', location_code: 'TW03'
-    @disabled1 = create :location, hierarchy: "#{@country.location_code}.#{@province2.location_code}.D01", disabled: true, location_code: 'D01'
-    @disabled2 = create :location, hierarchy: "#{@country.location_code}.#{@province2.location_code}.D02", disabled: true, location_code: 'D02'
+    @country = create :location, admin_level: 0, placename_all: 'MyCountry', type: 'country', location_code: 'MC01', hierarchy_path: 'MC01'
+    @province1 = create :location, hierarchy_path: "#{@country.location_code}.PR01", placename_all: 'Province 1', type: 'province', location_code: 'PR01'
+    @province2 = create :location, hierarchy_path: "#{@country.location_code}.PR02", type: 'state', location_code: 'PR02'
+    @province3 = create :location, hierarchy_path: "#{@country.location_code}.PR03", type: 'province', location_code: 'PR03'
+    @town1 = create :location, hierarchy_path: "#{@country.location_code}.#{@province1.location_code}.TW01", placename_all: 'Town 1', type: 'city', location_code: 'TW01'
+    @town2 = create :location, hierarchy_path: "#{@country.location_code}.#{@province1.location_code}.TW02", type: 'city', disabled: false, location_code: 'TW02'
+    @town3 = create :location, hierarchy_path: "#{@country.location_code}.#{@province2.location_code}.TW03", type: 'city', location_code: 'TW03'
+    @disabled1 = create :location, hierarchy_path: "#{@country.location_code}.#{@province2.location_code}.D01", disabled: true, location_code: 'D01'
+    @disabled2 = create :location, hierarchy_path: "#{@country.location_code}.#{@province2.location_code}.D02", disabled: true, location_code: 'D02'
   end
 
   describe '#set_name_from_hierarchy_placenames' do
     before do
-      @district1 = Location.new(hierarchy: "#{@country.location_code}.#{@province1.location_code}.#{@town1.location_code}.DI01",
+      @district1 = Location.new(hierarchy_path: "#{@country.location_code}.#{@province1.location_code}.#{@town1.location_code}.DI01",
                                 placename_en: 'District 1', placename_fr: 'French District 1', type: 'district', location_code: 'DI01')
       @district1.set_name_from_hierarchy_placenames
     end
@@ -95,10 +95,10 @@ describe Location do
     country1 = Location.new(placename: 'USA', location_code: 'US', type: 'country', admin_level: 0)
     country1.save
 
-    state1 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy: "#{country1.location_code}.NC")
+    state1 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy_path: "#{country1.location_code}.NC")
     state1.save
 
-    state2 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy: "#{country1.location_code}.NC")
+    state2 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy_path: "#{country1.location_code}.NC")
     state2.save
     state2.should_not be_valid
     state2.errors[:location_code].should == ["A Location with that location code already exists, please enter a different location code"]
@@ -110,10 +110,10 @@ describe Location do
     country2 = Location.new(placename: 'Canada', location_code: 'CA', type: 'country', admin_level: 0)
     country2.save
 
-    state1 = Location.new(placename: 'North Carolina', location_code: 'USNC', type: 'state', hierarchy: "#{country1.location_code}.USNC")
+    state1 = Location.new(placename: 'North Carolina', location_code: 'USNC', type: 'state', hierarchy_path: "#{country1.location_code}.USNC")
     state1.save
 
-    state2 = Location.new(placename: 'North Carolina', location_code: 'CANC', type: 'state', hierarchy: "#{country2.location_code}.CANC")
+    state2 = Location.new(placename: 'North Carolina', location_code: 'CANC', type: 'state', hierarchy_path: "#{country2.location_code}.CANC")
     state2.save
     state2.should be_valid
   end
@@ -217,7 +217,7 @@ describe Location do
   describe 'admin level' do
     context 'when location has a parent' do
       before :each do
-        @location = Location.new(placename: 'MyTown', location_code: 'abc123', hierarchy: "#{@country.location_code}.abc123")
+        @location = Location.new(placename: 'MyTown', location_code: 'abc123', hierarchy_path: "#{@country.location_code}.abc123")
       end
 
       it 'calculates admin_level' do
@@ -243,7 +243,7 @@ describe Location do
       context 'and parents admin_level is equal to the max admin_level' do
         before :each do
           @country_max = create :location, admin_level: Location::ADMIN_LEVELS.last, placename: 'MaxCountry'
-          @location[:hierarchy] = "#{@country_max.location_code}.abc123"
+          @location[:hierarchy_path] = "#{@country_max.location_code}.abc123"
         end
 
         it 'calculates admin_level as out of range' do
@@ -291,18 +291,18 @@ describe Location do
   describe 'find_names_by_admin_level_enabled' do
     before do
       @another_country = create :location, admin_level: 0, placename: 'Another Country', type: 'country'
-      @another_province = create :location, hierarchy: "#{@another_country.location_code}.AP01", type: 'province', location_code: 'AP01'
-      @another_town1 = create :location, hierarchy: "#{@another_country.location_code}.#{@another_province.location_code}.ATW01", type: 'city', location_code: 'ATW01'
-      @another_town2 = create :location, hierarchy: "#{@another_country.location_code}.#{@another_province.location_code}.ATW02", type: 'city', location_code: 'ATW02'
+      @another_province = create :location, hierarchy_path: "#{@another_country.location_code}.AP01", type: 'province', location_code: 'AP01'
+      @another_town1 = create :location, hierarchy_path: "#{@another_country.location_code}.#{@another_province.location_code}.ATW01", type: 'city', location_code: 'ATW01'
+      @another_town2 = create :location, hierarchy_path: "#{@another_country.location_code}.#{@another_province.location_code}.ATW02", type: 'city', location_code: 'ATW02'
     end
 
     context 'when filter is not present' do
       it 'finds all location names for admin level' do
-        expected = [{"id"=>@town1.location_code, "hierarchy"=>"#{@country.location_code}.#{@province1.location_code}.#{@town1.location_code}", "display_text"=>@town1.placename},
-                    {"id"=>@town2.location_code, "hierarchy"=>"#{@country.location_code}.#{@province1.location_code}.#{@town2.location_code}", "display_text"=>@town2.placename},
-                    {"id"=>@town3.location_code, "hierarchy"=>"#{@country.location_code}.#{@province2.location_code}.#{@town3.location_code}", "display_text"=>@town3.placename},
-                    {"id"=>@another_town1.location_code, "hierarchy"=>"#{@another_country.location_code}.#{@another_province.location_code}.ATW01", "display_text"=>@another_town1.placename},
-                    {"id"=>@another_town2.location_code, "hierarchy"=>"#{@another_country.location_code}.#{@another_province.location_code}.ATW02", "display_text"=>@another_town2.placename}]
+        expected = [{"id"=>@town1.location_code, "hierarchy_path"=>"#{@country.location_code}.#{@province1.location_code}.#{@town1.location_code}", "display_text"=>@town1.placename},
+                    {"id"=>@town2.location_code, "hierarchy_path"=>"#{@country.location_code}.#{@province1.location_code}.#{@town2.location_code}", "display_text"=>@town2.placename},
+                    {"id"=>@town3.location_code, "hierarchy_path"=>"#{@country.location_code}.#{@province2.location_code}.#{@town3.location_code}", "display_text"=>@town3.placename},
+                    {"id"=>@another_town1.location_code, "hierarchy_path"=>"#{@another_country.location_code}.#{@another_province.location_code}.ATW01", "display_text"=>@another_town1.placename},
+                    {"id"=>@another_town2.location_code, "hierarchy_path"=>"#{@another_country.location_code}.#{@another_province.location_code}.ATW02", "display_text"=>@another_town2.placename}]
         expect(Location.find_names_by_admin_level_enabled(2)).to match_array(expected)
       end
     end
@@ -333,10 +333,10 @@ describe Location do
       country2 = Location.new(placename: 'Canada', location_code: 'CA', type: 'country', admin_level: 0)
       country2.save!
 
-      state1 = Location.new(placename: 'North Carolina', location_code: 'USNC', type: 'state', hierarchy: "#{country1.location_code}.USNC")
+      state1 = Location.new(placename: 'North Carolina', location_code: 'USNC', type: 'state', hierarchy_path: "#{country1.location_code}.USNC")
       state1.save!
 
-      state2 = Location.new(placename: 'North Carolina', location_code: 'CANC', type: 'state', hierarchy: "#{country2.location_code}.CANC")
+      state2 = Location.new(placename: 'North Carolina', location_code: 'CANC', type: 'state', hierarchy_path: "#{country2.location_code}.CANC")
       state2.save!
 
       expect(Location.all.paginate(:page => 1, :per_page => 3)).to include(country1, country2, state1)
@@ -360,6 +360,32 @@ describe Location do
       records.should eq([])
     end
 
+  end
+
+  describe "hierarchy_path_from_parent_code" do
+    before do
+      @district1 = Location.create(hierarchy_path: "#{@country.location_code}.#{@province1.location_code}.#{@town1.location_code}.DI01",
+        placename_en: 'District 1',
+        placename_fr: 'French District 1',
+        type: 'district',
+        location_code: 'DI01')
+    end
+    it "expect the hierarchy_path generated" do
+      expect(Location.hierarchy_path_from_parent_code(@town1.location_code, 'DI01')).to eql(@district1.hierarchy_path)
+    end
+  end
+
+  describe "hierarchy" do
+    before do
+      @district1 = Location.create(hierarchy_path: "#{@country.location_code}.#{@province1.location_code}.#{@town1.location_code}.DI01",
+        placename_en: 'District 1',
+        placename_fr: 'French District 1',
+        type: 'district',
+        location_code: 'DI01')
+    end
+    it 'should print an array of hierarchy' do
+      expect(@district1.hierarchy).to eq(["MC01", "PR01", "TW01"])
+    end
   end
 
 end

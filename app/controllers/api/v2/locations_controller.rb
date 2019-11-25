@@ -37,8 +37,7 @@ module Api::V2
     end
 
     def location_params
-      params.require(:data).permit(:id, :location_code, :admin_level, :type, :hierarchy, placename: {} )
+      params.require(:data).permit(:id, :code, :admin_level, :type, :parent_code, placename: {})
     end
-
   end
 end
