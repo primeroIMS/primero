@@ -111,13 +111,13 @@ Shows a paginated list of all locations that are accessible to this user.
       "code": "D01",
       "type": "departament",
       "name": {
-          "en": "country3_en::departament_en",
-          "fr": "",
-          "ar": "",
-          "ar-LB": "",
-          "so": "",
-          "es": "country3_es::departament_es",
-          "bn": ""
+        "en": "country3_en::departament_en",
+        "fr": "",
+        "ar": "",
+        "ar-LB": "",
+        "so": "",
+        "es": "country3_es::departament_es",
+        "bn": ""
       }
     }
   ]
