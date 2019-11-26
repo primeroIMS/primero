@@ -30,8 +30,9 @@ class RecordDataService
   end
 
   def self.embed_flag_metadata(data, record, selected_field_names)
-    return data unless selected_field_names.include?('flag_count')
+    return data unless (selected_field_names & %w[flag_count alert_count]).any?
 
+    data['alert_count'] = record.alert_count
     data['flag_count'] = record.flag_count
     data
   end

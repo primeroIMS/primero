@@ -4,7 +4,7 @@ describe Alertable do
   context 'when a transfer_request alert exists' do
     before do
       @test_class = Child.create(name: 'bar',
-                                     alerts: [Alertable::Alert.new(type: 'transfer_request', alert_for: 'transfer_request')])
+                                     alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request')])
     end
 
     context 'and current user is not the record owner' do

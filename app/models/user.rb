@@ -419,7 +419,7 @@ class User < ApplicationRecord
       @permitted_field_names << 'or'
       @permitted_field_names << 'cases_by_date'
       if model_class == Child
-        @permitted_field_names += %w[workflow status case_status_reopened]
+        @permitted_field_names += %w[workflow status case_status_reopened alert_count]
       end
     end
     @permitted_field_names
