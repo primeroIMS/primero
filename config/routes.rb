@@ -60,6 +60,7 @@ Rails.application.routes.draw do
       resources :reports, only: [:index, :show]
       resources :lookups
       resources :locations
+      resources :alerts, only: [:index]
 
     end
   end

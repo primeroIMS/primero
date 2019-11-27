@@ -3,8 +3,30 @@ require 'rails_helper'
 describe Alertable do
   context 'when a transfer_request alert exists' do
     before do
-      @test_class = Child.create(name: 'bar',
-                                     alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request')])
+      role = Role.create!(
+        name: 'Test Role 1',
+        unique_id: 'test-role-1',
+        permissions: [
+          Permission.new(
+            :resource => Permission::CASE,
+            :actions => [Permission::MANAGE]
+          )
+        ]
+      )
+      agency_1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+      @user_1 = User.create!(
+        full_name: 'Test User 1',
+        user_name: 'test_user_1',
+        password: 'a12345678',
+        password_confirmation: 'a12345678',
+        email: 'test_user_1@localhost.com',
+        agency_id: agency_1.id,
+        role: role
+      )
+      @test_class = Child.create(
+        name: 'bar',
+        alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_1.id)]
+      )
     end
 
     context 'and current user is not the record owner' do
@@ -22,6 +44,14 @@ describe Alertable do
         it 'does not remove the alert' do
           expect(@test_class.alerts).to be_present
           expect(@test_class.alerts.first.type).to eq('transfer_request')
+        end
+
+        it 'count alerts by record' do
+          expect(@test_class.alert_count).to eq(1)
+        end
+
+        it 'count alerts by user' do
+          expect(Child.alert_count(@user_1.id)).to eq(1)
         end
       end
     end
@@ -41,7 +71,24 @@ describe Alertable do
         it 'removes the alert' do
           expect(@test_class.alerts).not_to be_present
         end
+
+        it 'count alerts by record' do
+          expect(@test_class.alert_count).to eq(0)
+        end
+
+        it 'count alerts by user' do
+          expect(Child.alert_count(@user_1.id)).to eq(0)
+        end
       end
     end
   end
+
+  after :each do
+    Role.destroy_all
+    Agency.destroy_all
+    User.destroy_all
+    Child.destroy_all
+    Alert.destroy_all
+  end
+
 end

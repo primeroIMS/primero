@@ -1,12 +1,12 @@
 # Primero API
 
-This document describes the Primero API version 2. A deprecated version 1 of the API, currently used by the mobile application, is still available under /api. This may not be available in the future.  
+This document describes the Primero API version 2. A deprecated version 1 of the API, currently used by the mobile application, is still available under /api. This may not be available in the future.
 
 
 ## Authentication
 
 All other endpoints will require the Authorization header set with a bearer token issued by these endpoints.
-The tokens expire after 60 minutes. 
+The tokens expire after 60 minutes.
 
 * [Issue or re-issue a new JWT token](v2/docs/tokens/post.md) : `POST /api/v2/tokens`
 * [Invalidate an existing token](v2/docs/tokens/delete.md) : `DELETE /api/v2/tokens`
@@ -54,7 +54,7 @@ Endpoints for query and manipulating flags for cases, tracing request and incide
 
 ## Transitions
 
-Transitions change the access rights of users to records. 
+Transitions change the access rights of users to records.
 Currently only case records may be transitioned. We have the following:
 
 ### Assigns
@@ -75,7 +75,7 @@ A referral grants an additional user access to this record.
 
 ### Transfers
 
-A transfer initiates a process to switch the record owner. 
+A transfer initiates a process to switch the record owner.
 The receiving user must accept or reject the transfer before becoming the record owner.
 * [List all transfers that took place for a record](v2/docs/transfers/get.md): `GET /api/v2/cases/:id/transfers`
 * [Transfer a record](v2/docs/transfers/id/post.md): `POST /api/v2/cases/:id/transfers`
@@ -165,3 +165,9 @@ Endpoints for querying and manipulating individual locations and related resourc
 * [Create a new location](v2/docs/locations/post.md) : `POST /api/v2/locations`
 * [Update an existing location](v2/docs/locations/id/patch.md) : `PATCH /api/v2/locations/:id`
 * [Delete an existing location](v2/docs/locations/id/delete.md) : `DELETE /api/v2/locations/:id`
+
+## Alert Endpoints
+
+Endpoints for querying the count of alerts from cases, incidents and tracing request of the logged user.
+
+* [Query for the count of alerts](v2/docs/alerts/get.md) : `GET /api/v2/alerts`
