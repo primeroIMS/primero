@@ -53,7 +53,7 @@ module Primero
     LOCALE_ARABIC = 'ar'
     LOCALE_SPANISH = 'es'
     LOCALE_LEBANON = 'ar-LB'
-    LOCALE_JORDAN = 'ar_JO'
+    LOCALE_JORDAN = 'ar-JO'
     LOCALE_SOMALI = 'so'
     LOCALE_BANGLA = 'bn'
     LOCALE_INDONESIAN = 'id'
