@@ -4,9 +4,14 @@ import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
+import { uniqBy, isEmpty, startsWith } from "lodash";
 
 import { dataToJS } from "../../libs";
 import { LoadingIndicator } from "../loading-indicator";
+import { getFields } from "../record-list/selectors";
+import { getOptions } from "../record-form/selectors";
+import { selectAgencies } from "../application/selectors";
+import { useI18n } from "../i18n";
 
 import { NAME } from "./config";
 import { getRecords, getLoading, getErrors, getFilters } from "./selectors";
@@ -21,6 +26,7 @@ const Component = ({
   onRowClick
 }) => {
   const dispatch = useDispatch();
+  const i18n = useI18n();
   const data = useSelector(state => getRecords(state, recordType));
   const loading = useSelector(state => getLoading(state, recordType));
   const errors = useSelector(state => getErrors(state, recordType));
@@ -32,9 +38,89 @@ const Component = ({
   const total = data.getIn(["metadata", "total"], 0);
   const page = data.getIn(["metadata", "page"], 1);
   const url = targetRecordType || recordType;
+  const validRecordTypes = ["cases", "incidents", "tracing_requests"].includes(
+    recordType
+  );
+  let translatedRecords = [];
+
+  const allFields = useSelector(state => getFields(state));
+  const allLookups = useSelector(state => getOptions(state));
+  const allAgencies = useSelector(state => selectAgencies(state));
 
   let componentColumns =
     typeof columns === "function" ? columns(data) : columns;
+
+  if (allFields.size && records && validRecordTypes) {
+    const columnsName = componentColumns.toJS().map(col => col.name);
+
+    const fieldWithColumns = Object.values(allFields.toJS()).map(fieldName => {
+      if (
+        columnsName.includes(fieldName.name) &&
+        !isEmpty(fieldName.option_strings_source)
+      ) {
+        return fieldName;
+      }
+
+      return null;
+    });
+
+    const columnsWithLookups = uniqBy(
+      fieldWithColumns.filter(Boolean),
+      "option_strings_source"
+    );
+
+    translatedRecords = records.toJS().map(record => {
+      return Object.entries(record).reduce((acum, recordEntry) => {
+        const object = acum;
+        const [key, value] = recordEntry;
+
+        if (
+          columnsWithLookups
+            .map(columnWithLookup => columnWithLookup.name)
+            .includes(key)
+        ) {
+          const optionStringSource = columnsWithLookups.find(
+            el => el.name === key
+          ).option_strings_source;
+
+          let recordValue = value;
+
+          if (startsWith(optionStringSource, "lookup")) {
+            const lookupName = optionStringSource.replace(/lookup /, "");
+
+            const valueFromLookup = value
+              ? allLookups
+                  .find(lookup => lookup.get("unique_id") === lookupName)
+                  .get("values")
+                  .find(v => v.get("id") === value)
+                  .get("display_text")
+              : null;
+
+            recordValue = valueFromLookup
+              ? valueFromLookup.get(i18n.locale)
+              : "";
+          } else {
+            switch (optionStringSource) {
+              case "Agency":
+                recordValue = allAgencies
+                  .find(a => a.get("id") === value)
+                  .get("name");
+                break;
+              default:
+                recordValue = value;
+                break;
+            }
+          }
+
+          object[key] = recordValue;
+        } else {
+          object[key] = value;
+        }
+
+        return object;
+      }, {});
+    });
+  }
 
   useEffect(() => {
     dispatch(
@@ -125,7 +211,7 @@ const Component = ({
   const tableOptions = {
     columns: componentColumns,
     options,
-    data: dataToJS(records)
+    data: validRecordTypes ? translatedRecords : dataToJS(records)
   };
 
   const loadingIndicatorProps = {

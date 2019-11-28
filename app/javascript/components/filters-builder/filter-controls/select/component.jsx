@@ -70,7 +70,10 @@ const SelectFilter = ({
           {values &&
             values.map(v => (
               <MenuItem key={v.id} value={v.id}>
-                {v.display_name || v.display_text}
+                {v.display_name ||
+                  (typeof v.display_text === "object"
+                    ? v.display_text[i18n.locale]
+                    : v.display_text)}
               </MenuItem>
             ))}
         </Select>

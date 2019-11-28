@@ -29,8 +29,14 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
 
   values = useSelector(state => getOption(state, optionStringsSource, i18n));
 
-  if (isEmpty(optionStringsSource) && Array.isArray(options)) {
-    values = options;
+  if (
+    isEmpty(optionStringsSource) &&
+    (Array.isArray(options) || options[i18n.locale].length)
+  ) {
+    values =
+      typeof options === "object" && !Array.isArray(options)
+        ? options[i18n.locale]
+        : options;
   } else if (Object.keys(values).length <= 0) {
     values = options[i18n.locale];
   }
@@ -77,11 +83,21 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
     return data.size > 0 && data.get(name).includes(value);
   };
 
+  if (typeof values === "undefined") {
+    return [];
+  }
+
   return (
     <div>
       <FormGroup className={css.formGroup}>
-        {values &&
-          values.map(v => (
+        {values.map(v => {
+          const text =
+            v.display_name ||
+            (typeof v.display_text === "object"
+              ? v.display_text[i18n.locale]
+              : v.display_text);
+
+          return (
             <FormControlLabel
               key={v.id}
               control={
@@ -110,9 +126,10 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
                   name={v.name || v.id}
                 />
               }
-              label={v.display_name || v.display_text}
+              label={text}
             />
-          ))}
+          );
+        })}
       </FormGroup>
     </div>
   );

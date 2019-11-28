@@ -9,7 +9,7 @@ import IndexTable from "../../index-table";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 import { DashboardChip } from "../../dashboard";
 
-import { selectListHeaders } from "./selectors";
+import { selectListHeaders, getServiceTypeLookupValues } from "./selectors";
 import { fetchTasks } from "./action-creators";
 import styles from "./styles.css";
 
@@ -20,6 +20,14 @@ const TaskList = () => {
   const listHeaders = useSelector(state =>
     selectListHeaders(state, recordType)
   );
+
+  const lookupServiceType = useSelector(
+    state => getServiceTypeLookupValues(state),
+    (prev, actual) => {
+      return prev.equals(actual);
+    }
+  );
+
   const columns = data => {
     return listHeaders.map(c => {
       const options = {
@@ -37,6 +45,29 @@ const TaskList = () => {
                       type={value}
                     />
                   );
+                }
+              }
+            : {}),
+          ...(c.name === "type"
+            ? {
+                customBodyRender: (value, tableMeta) => {
+                  const recordData = data.get("data").get(tableMeta.rowIndex);
+                  const lookupAction = recordData.get("detail");
+                  const translatedValue =
+                    lookupServiceType &&
+                    lookupServiceType
+                      .find(
+                        serviceType => serviceType.get("id") === lookupAction
+                      )
+                      .getIn(["display_text", i18n.locale]);
+
+                  const renderValue = ["service", "followup"].includes(value)
+                    ? i18n.t(`task.types.${value}`, {
+                        subtype: translatedValue
+                      })
+                    : i18n.t(`task.types.${value}`);
+
+                  return <span>{renderValue}</span>;
                 }
               }
             : {}),

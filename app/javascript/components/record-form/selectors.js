@@ -76,15 +76,18 @@ export const getRecordForms = (state, query) => {
 export const getOption = (state, option, locale) => {
   if (typeof option === "string") {
     const selectedOptions = state
-      .getIn([NAMESPACE, "options"], fromJS([]))
-      .filter(o => o.type === option.replace(/lookup /, ""))
+      .getIn([NAMESPACE, "options", "lookups"], fromJS([]))
+      .filter(o => o.get("unique_id") === option.replace(/lookup /, ""))
       .first();
 
-    return selectedOptions ? selectedOptions.options : [];
+    return selectedOptions ? selectedOptions.get("values").toJS() : [];
   }
 
-  return option ? option[locale] : [];
+  return option && option[locale] ? option[locale] : [];
 };
+
+export const getOptions = state =>
+  state.getIn([NAMESPACE, "options", "lookups"], fromJS([]));
 
 export const getLoadingState = state =>
   state.getIn([NAMESPACE, "loading"], false);

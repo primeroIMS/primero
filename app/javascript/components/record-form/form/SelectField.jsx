@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { Select } from "formik-material-ui";
-import { FastField, connect, getIn } from "formik";
+import { Field, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
 import { useSelector } from "react-redux";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -20,6 +20,7 @@ import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 import { getOption } from "../selectors";
+import { selectAgencies } from "../../application/selectors";
 
 import styles from "./styles.css";
 
@@ -58,8 +59,42 @@ const SelectField = ({
 
   const options = useSelector(state => getOption(state, option, i18n.locale));
 
-  const findOptionDisplayText = v =>
-    (find(options, { id: v }) || {}).display_text;
+  const agencies = useSelector(state => selectAgencies(state));
+
+  const translatedText = displayText => {
+    return typeof displayText === "string"
+      ? displayText
+      : displayText[i18n.locale];
+  };
+  const specialLookups = ["Location", "Agency"];
+
+  const findOptionDisplayText = v => {
+    const foundOptions = find(options, { id: v }) || {};
+    let optionValue;
+
+    if (Object.keys(foundOptions).length && !specialLookups.includes(option)) {
+      optionValue = translatedText(foundOptions.display_text);
+    } else {
+      switch (option) {
+        case "Agency":
+          optionValue = value
+            ? agencies.find(a => a.get("id") === value)?.get("name")
+            : value;
+          break;
+        case "Location":
+          optionValue = "***LOCATION***";
+          break;
+        case "User":
+          optionValue = "***USER***";
+          break;
+        default:
+          optionValue = "";
+          break;
+      }
+    }
+
+    return optionValue;
+  };
 
   const fieldProps = {
     component: Select,
@@ -111,17 +146,17 @@ const SelectField = ({
         <InputLabel shrink htmlFor={other.name} {...InputLabelProps}>
           {label}
         </InputLabel>
-        <FastField {...fieldProps}>
+        <Field {...fieldProps}>
           {options &&
             options.map(o => (
               <MenuItem key={o.id} value={o.id}>
                 {field.multi_select && (
                   <Checkbox checked={value && value.indexOf(o.id) > -1} />
                 )}
-                <ListItemText primary={o.display_text} />
+                <ListItemText primary={translatedText(o.display_text) || ""} />
               </MenuItem>
             ))}
-        </FastField>
+        </Field>
         <FormHelperText>
           {fieldError && fieldTouched ? fieldError : helperText}
         </FormHelperText>

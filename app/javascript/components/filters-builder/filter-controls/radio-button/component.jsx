@@ -37,6 +37,10 @@ const RadioButton = ({
     values = options[i18n.locale];
   }
 
+  if (typeof values === "undefined") {
+    return [];
+  }
+
   return (
     <div className={css.Root}>
       <RadioGroup
@@ -65,7 +69,12 @@ const RadioButton = ({
                 checkedIcon={<RadioButtonChecked fontSize="small" />}
               />
             }
-            label={f.display_name || f.display_text}
+            label={
+              f.display_name ||
+              (typeof f.display_text === "object"
+                ? f.display_text[i18n.locale]
+                : f.display_text)
+            }
           />
         ))}
       </RadioGroup>
