@@ -1819,7 +1819,7 @@ en:
         index: "Flags: unable to remove the flag at the position %{index}"
 
       alerts:
-        alert_for: "Alerts: message field is invalid"
+        alert_for: "Alerts: alert_for field is invalid"
 
       date_range_invalid: "<span>%{field_name}:</span> Please enter a valid date range 'From:' should be earlier than 'To:'"
 

@@ -8,7 +8,7 @@ It show the count of alerts from cases, incidents and tracing request of the log
 
 **Authentication** : YES
 
-**Authorization** : The user must be authorized to view alerts in Primero.
+**Authorization** : All logged in users are permitted to make this request.
 
 **Parameters** : No parameters
 
