@@ -102,6 +102,43 @@ describe Api::V2::AlertsController, type: :request do
 
   end
 
+  describe 'GET /api/v2/:record_type/:id/alerts' do
+
+    it 'lists of all alerts from a child with whatever authorization level' do
+      login_for_test(permissions: [])
+      get "/api/v2/cases/#{@test_child.id}/alerts"
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].count).to eq(3)
+    end
+
+    it 'lists of all alerts from a incident with whatever authorization level' do
+      login_for_test(permissions: [])
+      get "/api/v2/incidents/#{@test_incident.id}/alerts"
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].count).to eq(3)
+    end
+
+    it 'lists of all alerts from a tracing_request with whatever authorization level' do
+      login_for_test(permissions: [])
+      get "/api/v2/tracing_requests/#{@test_tracing_request.id}/alerts"
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].count).to eq(3)
+    end
+
+    it 'returns a 404 when trying to fetch a list with a non-existant record id' do
+      login_for_test(permissions: [])
+      get '/api/v2/tracing_requests/thisdoesntexist/alerts'
+
+      expect(response).to have_http_status(404)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/tracing_requests/thisdoesntexist/alerts')
+    end
+
+  end
+
   after :each do
     User.destroy_all
     Child.destroy_all

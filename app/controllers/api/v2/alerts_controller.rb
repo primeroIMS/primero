@@ -1,5 +1,5 @@
 module Api::V2
-  class AlertsController < ApplicationApiController
+  class AlertsController < RecordResourceController
 
     def total_counts
       @record = {
@@ -7,6 +7,10 @@ module Api::V2
         incident: Incident.alert_count(current_user.id),
         tracing_request: TracingRequest.alert_count(current_user.id)
       }
+    end
+
+    def index
+      @alert = @record.alerts
     end
 
   end

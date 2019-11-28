@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
       resources :children, as: :cases, path: :cases do
         resources :flags, only: [:index, :create, :update]
+        resources :alerts, only: [:index]
         resources :assigns, only: [:index, :create]
         resources :referrals, only: [:index, :create, :destroy]
         resources :transfers, only: [:index, :create, :update]
@@ -36,11 +37,13 @@ Rails.application.routes.draw do
 
       resources :incidents do
         resources :flags, only: [:index, :create, :update]
+        resources :alerts, only: [:index]
         post :flags, to: 'flags#create_bulk', on: :collection
       end
 
       resources :tracing_requests do
         resources :flags, only: [:index, :create, :update]
+        resources :alerts, only: [:index]
         post :flags, to: 'flags#create_bulk', on: :collection
       end
 
