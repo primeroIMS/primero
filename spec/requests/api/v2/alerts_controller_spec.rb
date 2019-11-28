@@ -12,7 +12,7 @@ describe Api::V2::AlertsController, type: :request do
         )
       ]
     )
-    agency_1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+    agency_1 = Agency.create!(name: 'Agency test 1', agency_code: 'agencytest1')
     @user_1 = User.create!(
       full_name: 'Test User 1',
       user_name: 'test_user_1',
