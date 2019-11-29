@@ -4,6 +4,7 @@ import {
   CASES_BY_CASE_WORKER,
   CASES_REGISTRATION,
   CASES_OVERVIEW,
+  FETCH_DASHBOARDS,
   SERVICES_STATUS,
   OPEN_PAGE_ACTIONS
 } from "./actions";
@@ -132,3 +133,10 @@ export const openPageActions = payload => {
     payload
   };
 };
+
+export const fetchDashboards = () => ({
+  type: FETCH_DASHBOARDS,
+  api: {
+    path: "dashboards"
+  }
+});

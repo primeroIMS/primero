@@ -1,5 +1,7 @@
 import { fromJS } from "immutable";
 
+import { DASHBOARD } from "../../../config";
+
 import NAMESPACE from "./namespace";
 
 export const selectFlags = state => {
@@ -28,4 +30,21 @@ export const selectServicesStatus = state => {
 
 export const selectIsOpenPageActions = state => {
   return state.getIn(["records", NAMESPACE, "isOpenPageActions"], false);
+};
+
+export const getDashboards = state => {
+  return state.getIn(["records", NAMESPACE, "data"], false);
+};
+
+export const getCasesByAssessmentLevel = state => {
+  const currentState = getDashboards(state);
+
+  if (!currentState) {
+    return fromJS([]);
+  }
+  const dashboardData = currentState
+    .filter(f => f.get("name") === DASHBOARD.case_risk)
+    .first();
+
+  return dashboardData.size ? dashboardData : fromJS([]);
 };

@@ -98,3 +98,11 @@ export const MODES = {
   new: "new",
   show: "show"
 };
+
+export const DASHBOARD = {
+  case_risk: "dashboard.case_risk"
+};
+
+export const LOOKUPS = {
+  risk_level: "lookup-risk-level"
+};

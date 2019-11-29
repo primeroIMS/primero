@@ -10,3 +10,4 @@ export {
   selectServicesStatus,
   selectIsOpenPageActions
 } from "./selectors";
+export { fetchDashboards } from "./action-creators";

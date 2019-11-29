@@ -11,15 +11,20 @@ import {
   DashboardTable,
   LineChart,
   OverviewBox,
-  ActionMenu
+  ActionMenu,
+  BadgedIndicator
 } from "../../dashboard";
 import { FlagList } from "../../dashboard/flag-list";
 import { Services } from "../../dashboard/services";
 import { useI18n } from "../../i18n";
 import { PageContainer, PageHeading, PageContent } from "../../page";
+import { RESOURCES, ACTIONS } from "../../../libs/permissions";
+import Permission from "../../application/permission";
+import { LOOKUPS } from "../../../config";
 
 import * as actions from "./action-creators";
 import {
+  getCasesByAssessmentLevel,
   selectFlags,
   selectCasesByStatus,
   selectCasesByCaseWorker,
@@ -37,8 +42,10 @@ const Dashboard = ({
   fetchCasesRegistration,
   fetchCasesOverview,
   fetchServicesStatus,
+  getDashboardsData,
   openPageActions,
   flags,
+  casesByAssessmentLevel,
   casesByStatus,
   casesByCaseWorker,
   casesRegistration,
@@ -54,6 +61,7 @@ const Dashboard = ({
       fetchCasesRegistration();
       fetchCasesOverview();
       fetchServicesStatus();
+      getDashboardsData();
     });
   }, [
     fetchCasesByCaseWorker,
@@ -61,7 +69,8 @@ const Dashboard = ({
     fetchCasesOverview,
     fetchCasesRegistration,
     fetchFlags,
-    fetchServicesStatus
+    fetchServicesStatus,
+    getDashboardsData
   ]);
 
   const css = makeStyles(styles)();
@@ -153,6 +162,22 @@ const Dashboard = ({
       <PageContent>
         <Grid container spacing={3} classes={{ root: css.container }}>
           <Grid item md={12}>
+            <OptionsBox title={i18n.t("dashboard.overview")}>
+              <Permission
+                resources={RESOURCES.dashboards}
+                actions={ACTIONS.DASH_CASE_RISK}
+              >
+                <OptionsBox title={i18n.t(casesByAssessmentLevel.get("name"))}>
+                  <BadgedIndicator
+                    data={casesByAssessmentLevel}
+                    lookup={LOOKUPS.risk_level}
+                  />
+                </OptionsBox>
+              </Permission>
+            </OptionsBox>
+          </Grid>
+
+          <Grid item md={12}>
             <OptionsBox
               title="CASE OVERVIEW"
               action={<ActionMenu open={false} items={actionMenuItems} />}
@@ -201,6 +226,7 @@ const Dashboard = ({
 Dashboard.displayName = "Dashboard";
 
 Dashboard.propTypes = {
+  casesByAssessmentLevel: PropTypes.object.isRequired,
   casesByCaseWorker: PropTypes.object.isRequired,
   casesByStatus: PropTypes.object.isRequired,
   casesOverview: PropTypes.object.isRequired,
@@ -212,6 +238,7 @@ Dashboard.propTypes = {
   fetchFlags: PropTypes.func.isRequired,
   fetchServicesStatus: PropTypes.func.isRequired,
   flags: PropTypes.object.isRequired,
+  getDashboardsData: PropTypes.func.isRequired,
   isOpenPageActions: PropTypes.bool.isRequired,
   openPageActions: PropTypes.func.isRequired,
   servicesStatus: PropTypes.object.isRequired
@@ -220,6 +247,7 @@ Dashboard.propTypes = {
 const mapStateToProps = state => {
   return {
     flags: selectFlags(state),
+    casesByAssessmentLevel: getCasesByAssessmentLevel(state),
     casesByStatus: selectCasesByStatus(state),
     casesByCaseWorker: selectCasesByCaseWorker(state),
     casesRegistration: selectCasesRegistration(state),
@@ -236,6 +264,7 @@ const mapDispatchToProps = {
   fetchCasesRegistration: actions.fetchCasesRegistration,
   fetchCasesOverview: actions.fetchCasesOverview,
   fetchServicesStatus: actions.fetchServicesStatus,
+  getDashboardsData: actions.fetchDashboards,
   openPageActions: actions.openPageActions
 };
 
