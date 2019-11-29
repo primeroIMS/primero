@@ -19,8 +19,10 @@ import find from "lodash/find";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
-import { getOption } from "../selectors";
+import { getLocations, getOption } from "../selectors";
+import { valuesToSearchableSelect } from "../../../libs";
 import { selectAgencies } from "../../application/selectors";
+import { SearchableSelect } from "../../searchable-select";
 
 import styles from "./styles.css";
 
@@ -61,6 +63,8 @@ const SelectField = ({
 
   const agencies = useSelector(state => selectAgencies(state));
 
+  const locations = useSelector(state => getLocations(state, i18n));
+
   const translatedText = displayText => {
     return typeof displayText === "string"
       ? displayText
@@ -70,27 +74,16 @@ const SelectField = ({
 
   const findOptionDisplayText = v => {
     const foundOptions = find(options, { id: v }) || {};
-    let optionValue;
+    let optionValue = [];
 
     if (Object.keys(foundOptions).length && !specialLookups.includes(option)) {
       optionValue = translatedText(foundOptions.display_text);
+    } else if (option === "Agency") {
+      optionValue = value
+        ? agencies.find(a => a.get("id") === value)?.get("name")
+        : value;
     } else {
-      switch (option) {
-        case "Agency":
-          optionValue = value
-            ? agencies.find(a => a.get("id") === value)?.get("name")
-            : value;
-          break;
-        case "Location":
-          optionValue = "***LOCATION***";
-          break;
-        case "User":
-          optionValue = "***USER***";
-          break;
-        default:
-          optionValue = "";
-          break;
-      }
+      optionValue = "";
     }
 
     return optionValue;
@@ -137,6 +130,50 @@ const SelectField = ({
   }, []);
 
   if (!isEmpty(formik.values)) {
+    if (option === "Location") {
+      const values = valuesToSearchableSelect(
+        locations,
+        "code",
+        "name",
+        i18n.locale
+      );
+      const handleChange = (data, form) => {
+        form.setFieldValue(name, data ? data.value : "", false);
+      };
+
+      const searchableSelectProps = {
+        id: name,
+        name,
+        isDisabled: mode.isShow,
+        isClearable: true,
+        menuPosition: "absolute",
+        TextFieldProps: {
+          label,
+          margin: "dense",
+          fullWidth: true,
+          InputLabelProps: {
+            htmlFor: name,
+            shrink: true
+          }
+        },
+        excludeEmpty: true,
+        options: values && values,
+        defaultValue: value && values.filter(v => v.value === value.toString())
+      };
+
+      return (
+        <Field name={name}>
+          {/* eslint-disable-next-line no-unused-vars */}
+          {({ f, form }) => (
+            <SearchableSelect
+              {...searchableSelectProps}
+              onChange={data => handleChange(data, form)}
+            />
+          )}
+        </Field>
+      );
+    }
+
     return (
       <FormControl
         fullWidth

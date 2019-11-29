@@ -11,7 +11,10 @@ const Option = props => {
       selected={isFocused}
       component="div"
       style={{
-        fontWeight: isSelected ? 500 : 400
+        backgroundColor: isSelected ? "#0093ba" : "",
+        color: isSelected ? "#FFF" : "",
+        whiteSpace: "normal",
+        fontSize: 12
       }}
       {...innerProps}
     >

@@ -89,6 +89,9 @@ export const getOption = (state, option, locale) => {
 export const getOptions = state =>
   state.getIn([NAMESPACE, "options", "lookups"], fromJS([]));
 
+export const getLocations = state =>
+  state.getIn([NAMESPACE, "options", "locations"], fromJS([]));
+
 export const getLoadingState = state =>
   state.getIn([NAMESPACE, "loading"], false);
 

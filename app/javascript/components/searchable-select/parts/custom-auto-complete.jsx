@@ -36,10 +36,16 @@ const useStyles = makeStyles(theme => ({
     flexWrap: "wrap",
     flex: 1,
     alignItems: "center",
-    overflow: "hidden"
+    overflow: "hidden",
+    padding: "8px 3px"
   },
   chip: {
-    margin: theme.spacing(0.5, 0.25)
+    margin: theme.spacing(0.5, 0.25),
+    fontSize: 11,
+    height: "auto"
+  },
+  chipLabel: {
+    whiteSpace: "normal"
   },
   chipFocused: {
     backgroundColor: emphasize(
@@ -53,20 +59,25 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1, 2)
   },
   singleValue: {
-    fontSize: 12
+    fontSize: 12,
+    maxWidth: "calc(80% - 8px)",
+    position: "absolute",
+    marginLeft: 2,
+    marginRight: 2
   },
   placeholder: {
     position: "absolute",
     left: 2,
-    bottom: 6,
-    fontSize: 12
+    fontSize: 12,
+    paddingLeft: 3
   },
   paper: {
-    position: "absolute",
+    position: "absoulte",
     zIndex: 1,
     marginTop: theme.spacing(1),
     left: 0,
-    right: 0
+    right: 0,
+    overflow: "auto"
   },
   divider: {
     height: theme.spacing(2)
@@ -78,7 +89,7 @@ const CustomAutoComplete = ({ props }) => {
   const theme = useTheme();
 
   const i18n = useI18n();
-  const { id, options, excludeEmpty, ...rest } = props;
+  const { id, options, excludeEmpty, defaultValues, ...rest } = props;
 
   const components = {
     Control,
@@ -113,7 +124,7 @@ const CustomAutoComplete = ({ props }) => {
         components={components}
         menuPosition="fixed"
         options={searchOptions}
-        defaultValue={excludeEmpty ? null : searchOptions[0]}
+        defaultValue={excludeEmpty ? defaultValues : searchOptions[0]}
         {...rest}
       />
     </NoSsr>
