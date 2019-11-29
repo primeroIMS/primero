@@ -166,8 +166,9 @@ Endpoints for querying and manipulating individual locations and related resourc
 * [Update an existing location](v2/docs/locations/id/patch.md) : `PATCH /api/v2/locations/:id`
 * [Delete an existing location](v2/docs/locations/id/delete.md) : `DELETE /api/v2/locations/:id`
 
-## Alert Endpoint
+## Alert Endpoints
 
-Endpoint for querying the count of alerts from cases, incidents and tracing request of the logged user.
+Endpoints for querying the alerts from cases, incidents and tracing request of the logged user.
 
 * [Query for the count of alerts](v2/docs/alerts/get.md) : `GET /api/v2/alerts`
+* [Query for alerts of a record](v2/docs/alerts/id/get.md) : `GET /api/v2/:recordType/:recordId/alerts`
