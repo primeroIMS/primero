@@ -16,13 +16,13 @@ Create a new location and return the entire record.
 ```json
 {
   "data": {
-    "location_code": "D01",
+    "code": "D01",
     "type": "departament",
     "placename": {
       "en": "departament_en",
       "es": "departament_es"
     },
-    "hierarchy": "CT01.D01"
+    "parent_code": "CT01"
   }
 }
 ```
@@ -60,7 +60,9 @@ Create a new location and return the entire record.
       "es": "departament_es",
       "bn": ""
     },
-    "hierarchy": "CT01.D01"
+    "hierarchy": [
+      "CT01"
+    ]
   }
 }
 ```

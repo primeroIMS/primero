@@ -48,7 +48,7 @@ Shows a paginated list of all locations that are accessible to this user.
         "es": "country_es",
         "bn": ""
       },
-      "hierarchy": "CT01"
+      "hierarchy": []
     },
     {
       "id": 2,
@@ -73,7 +73,9 @@ Shows a paginated list of all locations that are accessible to this user.
         "es": "departament_es",
         "bn": ""
       },
-      "hierarchy": "CT01.D01"
+      "hierarchy": [
+        "CT01"
+      ]
     }
   ]
 }
