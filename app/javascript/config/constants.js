@@ -49,9 +49,10 @@ export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
 
 export const RECORD_PATH = {
   cases: "cases",
-  tracing_requests: "tracing_requests",
+  dashboards: "dashboards",
   incidents: "incidents",
-  tasks: "tasks"
+  tasks: "tasks",
+  tracing_requests: "tracing_requests"
 };
 
 export const RECORD_OWNER = "record_owner";

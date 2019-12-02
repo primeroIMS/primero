@@ -8,6 +8,7 @@ import { DashboardChip } from "../dashboard-chip";
 import { useI18n } from "../../i18n";
 import { getOption } from "../../record-form";
 import { applyFilters } from "../../filters-builder/action-creators";
+import { ROUTES, RECORD_PATH } from "../../../config";
 
 import styles from "./styles.css";
 
@@ -39,23 +40,18 @@ const BadgedIndicator = ({ data, lookup }) => {
               const countValue = value ? value.get("count") : 0;
               const queryValue = value ? value.get("query") : [];
 
-              // const filter = buildFilter(queryValue);
-
               const handlerClick = () => {
-                // dispatch(push("/cases/dashboard"));
                 dispatch(
-                    push(
-                        {
-                          pathname: '/cases',
-                          search: "true"
-                        }
-                    )
+                  push({
+                    pathname: ROUTES.cases,
+                    search: "fromDashboard=true"
+                  })
                 );
                 dispatch(
                   applyFilters({
-                    namespace: "cases",
+                    namespace: RECORD_PATH.cases,
                     options: buildFilter(queryValue),
-                    path: "cases"
+                    path: RECORD_PATH.cases
                   })
                 );
               };

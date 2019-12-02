@@ -62,6 +62,8 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("USER_NAME_FIELD");
     expect(constants).to.have.property("MODES");
     expect(constants).to.have.property("TRANSITIONS_DATE_FORMAT");
+    expect(constants).to.have.property("DASHBOARD");
+    expect(constants).to.have.property("LOOKUPS");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -97,6 +99,8 @@ describe("Verifying config constant", () => {
     delete constants.USER_NAME_FIELD;
     delete constants.MODES;
     delete constants.TRANSITIONS_DATE_FORMAT;
+    delete constants.DASHBOARD;
+    delete constants.LOOKUPS;
 
     expect(constants).to.deep.equal({});
   });
@@ -145,5 +149,7 @@ describe("Verifying config constant", () => {
     expect(constants.DATE_TIME_FORMAT).to.equal("dd-MMM-yyyy HH:mm");
     expect(constants.USER_NAME_FIELD).to.equal("user_name");
     expect(constants.MODES).to.be.an("object");
+    expect(constants.DASHBOARD).to.be.an("object");
+    expect(constants.LOOKUPS).to.be.an("object");
   });
 });

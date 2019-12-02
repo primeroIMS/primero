@@ -1,3 +1,5 @@
+import { RECORD_PATH } from "../../../config";
+
 import {
   DASHBOARD_FLAGS,
   CASES_BY_STATUS,
@@ -137,6 +139,6 @@ export const openPageActions = payload => {
 export const fetchDashboards = () => ({
   type: FETCH_DASHBOARDS,
   api: {
-    path: "dashboards"
+    path: RECORD_PATH.dashboards
   }
 });
