@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import { connect, batch } from "react-redux";
 import { Grid } from "@material-ui/core";
@@ -10,8 +9,7 @@ import {
   OptionsBox,
   DashboardTable,
   LineChart,
-  OverviewBox,
-  ActionMenu
+  OverviewBox
 } from "../../dashboard";
 import { FlagList } from "../../dashboard/flag-list";
 import { Services } from "../../dashboard/services";
@@ -25,8 +23,7 @@ import {
   selectCasesByCaseWorker,
   selectCasesRegistration,
   selectCasesOverview,
-  selectServicesStatus,
-  selectIsOpenPageActions
+  selectServicesStatus
 } from "./selectors";
 import styles from "./styles.css";
 
@@ -37,14 +34,12 @@ const Dashboard = ({
   fetchCasesRegistration,
   fetchCasesOverview,
   fetchServicesStatus,
-  openPageActions,
   flags,
   casesByStatus,
   casesByCaseWorker,
   casesRegistration,
   casesOverview,
-  servicesStatus,
-  isOpenPageActions
+  servicesStatus
 }) => {
   useEffect(() => {
     batch(() => {
@@ -122,24 +117,6 @@ const Dashboard = ({
     ]
   };
 
-  const actionMenuItems = fromJS([
-    {
-      id: "add-new",
-      label: "Add New",
-      onClick: () => openPageActions(false)
-    },
-    {
-      id: "arrange-items",
-      label: "Arrange Items",
-      onClick: () => openPageActions(false)
-    },
-    {
-      id: "refresh-data",
-      label: "Refresh Data",
-      onClick: () => openPageActions(false)
-    }
-  ]);
-
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
@@ -190,8 +167,6 @@ Dashboard.propTypes = {
   fetchFlags: PropTypes.func.isRequired,
   fetchServicesStatus: PropTypes.func.isRequired,
   flags: PropTypes.object.isRequired,
-  isOpenPageActions: PropTypes.bool.isRequired,
-  openPageActions: PropTypes.func.isRequired,
   servicesStatus: PropTypes.object.isRequired
 };
 
@@ -202,8 +177,7 @@ const mapStateToProps = state => {
     casesByCaseWorker: selectCasesByCaseWorker(state),
     casesRegistration: selectCasesRegistration(state),
     casesOverview: selectCasesOverview(state),
-    servicesStatus: selectServicesStatus(state),
-    isOpenPageActions: selectIsOpenPageActions(state)
+    servicesStatus: selectServicesStatus(state)
   };
 };
 
@@ -213,8 +187,7 @@ const mapDispatchToProps = {
   fetchCasesByCaseWorker: actions.fetchCasesByCaseWorker,
   fetchCasesRegistration: actions.fetchCasesRegistration,
   fetchCasesOverview: actions.fetchCasesOverview,
-  fetchServicesStatus: actions.fetchServicesStatus,
-  openPageActions: actions.openPageActions
+  fetchServicesStatus: actions.fetchServicesStatus
 };
 
 export default connect(
