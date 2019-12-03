@@ -7,7 +7,9 @@ const SingleValue = props => {
 
   const foundOption = options.find(op => op.value === data.value);
   const translatedLabel =
-    foundOption.label !== children ? foundOption.label : children;
+    foundOption && foundOption.label !== children
+      ? foundOption.label
+      : children;
 
   return (
     <Typography

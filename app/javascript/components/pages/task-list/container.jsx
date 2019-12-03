@@ -2,14 +2,16 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles/";
 import { fromJS } from "immutable";
 import { useSelector } from "react-redux";
+import { isEqual } from "lodash";
 
 import { useI18n } from "../../i18n";
 import { TasksOverdue, TasksPending } from "../../../images/primero-icons";
 import IndexTable from "../../index-table";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 import { DashboardChip } from "../../dashboard";
+import { getOption } from "../../record-form";
 
-import { selectListHeaders, getServiceTypeLookupValues } from "./selectors";
+import { selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
 import styles from "./styles.css";
 
@@ -22,9 +24,9 @@ const TaskList = () => {
   );
 
   const lookupServiceType = useSelector(
-    state => getServiceTypeLookupValues(state),
+    state => getOption(state, "lookup-service-type", i18n.locale),
     (prev, actual) => {
-      return prev.equals(actual);
+      return isEqual(prev, actual);
     }
   );
 
@@ -55,12 +57,9 @@ const TaskList = () => {
                   const lookupAction = recordData.get("detail");
                   const translatedValue =
                     lookupServiceType &&
-                    lookupServiceType
-                      .find(
-                        serviceType => serviceType.get("id") === lookupAction
-                      )
-                      .getIn(["display_text", i18n.locale]);
-
+                    lookupServiceType.find(
+                      serviceType => serviceType.id === lookupAction
+                    ).display_text[i18n.locale];
                   const renderValue = ["service", "followup"].includes(value)
                     ? i18n.t(`task.types.${value}`, {
                         subtype: translatedValue

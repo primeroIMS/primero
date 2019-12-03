@@ -355,11 +355,6 @@ fr:
     priority: "Niveau de priorité"
     type: "Type d'action"
     due_date: "Date limite"
-    priorities:
-      high_level: "Haute"
-      medium_level: "Moyen"
-      low_level: "Bas"
-      no_action_level: "No Action"
     types:
       assessment: "Évaluation "
       case_plan: "Plan d'action"
