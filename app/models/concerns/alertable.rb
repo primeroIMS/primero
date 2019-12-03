@@ -18,24 +18,23 @@ module Alertable
     before_update :remove_alert_on_save
 
     def self.alert_count(current_user)
-      #TODO: should filter to the owner user?
-      self.all.map{|c| c.alerts.where(user_id: current_user)}.flatten.count
+      joins(:alerts).owned_by(current_user.user_name).distinct.count
     end
 
     def alert_count
-      self.alerts.count
+      alerts.count
     end
 
     def has_alerts?
-      self.alerts.present?
+      alerts.exists?
     end
 
     def remove_alert_on_save
-      self.remove_alert(self.last_updated_by)
+      remove_alert(last_updated_by)
     end
 
     def current_alert_types
-      self.alerts.map {|a| a.type}.uniq
+      alerts.map(&:type).uniq
     end
 
     def add_alert(alert_for, date = nil, type = nil, form_sidebar_id = nil, user_id = nil, agency_id = nil)

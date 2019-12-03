@@ -42,14 +42,24 @@ describe Api::V2::AlertsController, type: :request do
     )
     @test_child = Child.create(
       name: 'bar',
+      owned_by:  @user_1.user_name,
       alerts: [
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_1.id),
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_1.id),
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_2.id)
       ]
     )
+    @test_child = Child.create(
+      name: 'foo',
+      owned_by:  @user_1.user_name,
+      alerts: [
+        Alert.create(type: 'new_form', alert_for: 'new_form', user_id: @user_1.id),
+        Alert.create(type: 'new_form', alert_for: 'new_form', user_id: @user_1.id),
+        Alert.create(type: 'new_form', alert_for: 'new_form', user_id: @user_2.id)
+      ]
+    )
     @test_incident = Incident.create!(
-      data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' },
+      data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1', owned_by:  @user_1.user_name },
       alerts: [
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_1.id),
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_2.id),
@@ -57,11 +67,17 @@ describe Api::V2::AlertsController, type: :request do
       ]
     )
     @test_tracing_request = TracingRequest.create!(
-      data: { inquiry_date: Date.new(2019, 3, 1), relation_name: 'Test 1' },
+      data: { inquiry_date: Date.new(2019, 3, 1), relation_name: 'Test 1', owned_by:  @user_1.user_name },
       alerts: [
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_1.id),
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_1.id),
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_1.id)
+      ]
+    )
+    @test_tracing_request = TracingRequest.create!(
+      data: { inquiry_date: Date.new(2019, 3, 1), relation_name: 'Test 1', owned_by:  @user_2.user_name },
+      alerts: [
+        Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_2.id)
       ]
     )
   end
@@ -77,7 +93,7 @@ describe Api::V2::AlertsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['case']).to eq(2)
       expect(json['data']['incident']).to eq(1)
-      expect(json['data']['tracing_request']).to eq(3)
+      expect(json['data']['tracing_request']).to eq(1)
     end
 
     it 'accept whatever authorization level with User 2' do
@@ -85,9 +101,9 @@ describe Api::V2::AlertsController, type: :request do
       get '/api/v2/alerts'
 
       expect(response).to have_http_status(200)
-      expect(json['data']['case']).to eq(1)
-      expect(json['data']['incident']).to eq(2)
-      expect(json['data']['tracing_request']).to eq(0)
+      expect(json['data']['case']).to eq(0)
+      expect(json['data']['incident']).to eq(0)
+      expect(json['data']['tracing_request']).to eq(1)
     end
 
     it 'accept whatever authorization level with User 3' do
@@ -104,9 +120,10 @@ describe Api::V2::AlertsController, type: :request do
 
   after :each do
     User.destroy_all
+    Alert.destroy_all
     Child.destroy_all
     Incident.destroy_all
-    Alert.destroy_all
+    TracingRequest.destroy_all
     Role.destroy_all
     Agency.destroy_all
   end

@@ -25,6 +25,7 @@ describe Alertable do
       )
       @test_class = Child.create(
         name: 'bar',
+        data: { owned_by: @user_1.user_name },
         alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_1.id)]
       )
     end
@@ -32,7 +33,6 @@ describe Alertable do
     context 'and current user is not the record owner' do
       before do
         Child.any_instance.stub(:last_updated_by).and_return('not_the_owner')
-        Child.any_instance.stub(:owned_by).and_return('the_owner')
       end
 
       context 'and the record is edited' do
@@ -51,7 +51,7 @@ describe Alertable do
         end
 
         it 'count alerts by user' do
-          expect(Child.alert_count(@user_1.id)).to eq(1)
+          expect(Child.alert_count(@user_1)).to eq(1)
         end
       end
     end
@@ -77,7 +77,7 @@ describe Alertable do
         end
 
         it 'count alerts by user' do
-          expect(Child.alert_count(@user_1.id)).to eq(0)
+          expect(Child.alert_count(@user_1)).to eq(0)
         end
       end
     end
