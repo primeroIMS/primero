@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { uniqBy, isEmpty, startsWith } from "lodash";
+import { List } from "immutable";
 
 import { dataToJS } from "../../libs";
 import { LoadingIndicator } from "../loading-indicator";
@@ -12,6 +13,7 @@ import { getFields } from "../record-list/selectors";
 import { getOptions } from "../record-form/selectors";
 import { selectAgencies } from "../application/selectors";
 import { useI18n } from "../i18n";
+import { STRING_SOURCES_TYPES } from "../../config";
 
 import { NAME } from "./config";
 import { getRecords, getLoading, getErrors, getFilters } from "./selectors";
@@ -53,10 +55,10 @@ const Component = ({
   if (allFields.size && records && validRecordTypes) {
     const columnsName = componentColumns.toJS().map(col => col.name);
 
-    const fieldWithColumns = Object.values(allFields.toJS()).map(fieldName => {
+    const fieldWithColumns = allFields.toSeq().filter(fieldName => {
       if (
-        columnsName.includes(fieldName.name) &&
-        !isEmpty(fieldName.option_strings_source)
+        columnsName.includes(fieldName.get("name")) &&
+        !isEmpty(fieldName.get("option_strings_source"))
       ) {
         return fieldName;
       }
@@ -65,13 +67,12 @@ const Component = ({
     });
 
     const columnsWithLookups = uniqBy(
-      fieldWithColumns.filter(Boolean),
+      fieldWithColumns.toList().toJS(),
       "option_strings_source"
     );
 
-    translatedRecords = records.toJS().map(record => {
-      return Object.entries(record).reduce((acum, recordEntry) => {
-        const object = acum;
+    translatedRecords = records.reduce((accum, record) => {
+      const result = record.mapEntries(recordEntry => {
         const [key, value] = recordEntry;
 
         if (
@@ -79,14 +80,14 @@ const Component = ({
             .map(columnWithLookup => columnWithLookup.name)
             .includes(key)
         ) {
-          const optionStringSource = columnsWithLookups.find(
+          const optionStringsSource = columnsWithLookups.find(
             el => el.name === key
           ).option_strings_source;
 
           let recordValue = value;
 
-          if (startsWith(optionStringSource, "lookup")) {
-            const lookupName = optionStringSource.replace(/lookup /, "");
+          if (startsWith(optionStringsSource, "lookup")) {
+            const lookupName = optionStringsSource.replace(/lookup /, "");
 
             const valueFromLookup = value
               ? allLookups
@@ -100,8 +101,8 @@ const Component = ({
               ? valueFromLookup.get(i18n.locale)
               : "";
           } else {
-            switch (optionStringSource) {
-              case "Agency":
+            switch (optionStringsSource) {
+              case STRING_SOURCES_TYPES.AGENCY:
                 recordValue = allAgencies
                   .find(a => a.get("id") === value)
                   .get("name");
@@ -112,14 +113,14 @@ const Component = ({
             }
           }
 
-          object[key] = recordValue;
-        } else {
-          object[key] = value;
+          return [key, recordValue];
         }
 
-        return object;
-      }, {});
-    });
+        return [key, value];
+      });
+
+      return accum.push(result);
+    }, List());
   }
 
   useEffect(() => {
@@ -211,7 +212,7 @@ const Component = ({
   const tableOptions = {
     columns: componentColumns,
     options,
-    data: validRecordTypes ? translatedRecords : dataToJS(records)
+    data: validRecordTypes ? dataToJS(translatedRecords) : dataToJS(records)
   };
 
   const loadingIndicatorProps = {

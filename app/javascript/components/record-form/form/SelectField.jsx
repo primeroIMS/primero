@@ -23,6 +23,7 @@ import { getLocations, getOption } from "../selectors";
 import { valuesToSearchableSelect } from "../../../libs";
 import { selectAgencies } from "../../application/selectors";
 import { SearchableSelect } from "../../searchable-select";
+import { CODE_FIELD, NAME_FIELD } from "../../../config";
 
 import styles from "./styles.css";
 
@@ -133,8 +134,8 @@ const SelectField = ({
     if (option === "Location") {
       const values = valuesToSearchableSelect(
         locations,
-        "code",
-        "name",
+        CODE_FIELD,
+        NAME_FIELD,
         i18n.locale
       );
       const handleChange = (data, form) => {

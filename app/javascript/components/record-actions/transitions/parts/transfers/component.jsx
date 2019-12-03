@@ -10,7 +10,13 @@ import { useI18n } from "../../../../i18n";
 import { enqueueSnackbar } from "../../../../notifier";
 import { selectAgencies } from "../../../../application/selectors";
 import { getLocations } from "../../../../record-form/selectors";
-import { RECORD_TYPES, USER_NAME_FIELD } from "../../../../../config";
+import {
+  RECORD_TYPES,
+  USER_NAME_FIELD,
+  UNIQUE_ID_FIELD,
+  CODE_FIELD,
+  NAME_FIELD
+} from "../../../../../config";
 import { internalFieldsDirty, getInternalFields } from "../helpers";
 import {
   getUsersByTransitionType,
@@ -117,8 +123,8 @@ const TransferForm = ({
       label: i18n.t("transfer.agency_label"),
       options: valuesToSearchableSelect(
         agencies,
-        "unique_id",
-        "name",
+        UNIQUE_ID_FIELD,
+        NAME_FIELD,
         i18n.locale
       ),
       onChange: (data, field, form) => {
@@ -129,7 +135,12 @@ const TransferForm = ({
     {
       id: LOCATION_FIELD,
       label: i18n.t("transfer.location_label"),
-      options: valuesToSearchableSelect(locations, "code", "name", i18n.locale),
+      options: valuesToSearchableSelect(
+        locations,
+        CODE_FIELD,
+        NAME_FIELD,
+        i18n.locale
+      ),
       onChange: (data, field, form) => {
         form.setFieldValue([TRANSITIONED_TO_FIELD], "", false);
         sharedOnChange(data, field, form, [AGENCY_FIELD]);

@@ -10,7 +10,15 @@ import { Checkbox as MuiCheckbox } from "formik-material-ui";
 import { selectAgencies } from "../../../../application/selectors";
 import { getOption } from "../../../../record-form";
 import { useI18n } from "../../../../i18n";
-import { RECORD_TYPES, USER_NAME_FIELD } from "../../../../../config";
+import {
+  RECORD_TYPES,
+  USER_NAME_FIELD,
+  ID_FIELD,
+  DISPLAY_TEXT_FIELD,
+  UNIQUE_ID_FIELD,
+  NAME_FIELD,
+  CODE_FIELD
+} from "../../../../../config";
 import { getInternalFields } from "../helpers";
 import {
   getUsersByTransitionType,
@@ -116,8 +124,8 @@ const MainForm = ({ formProps, rest }) => {
       label: i18n.t("referral.service_label"),
       options: valuesToSearchableSelect(
         services,
-        "id",
-        "display_text",
+        ID_FIELD,
+        DISPLAY_TEXT_FIELD,
         i18n.locale
       ),
       onChange: (data, field, form) => {
@@ -135,8 +143,8 @@ const MainForm = ({ formProps, rest }) => {
       label: i18n.t("referral.agency_label"),
       options: valuesToSearchableSelect(
         agencies,
-        "unique_id",
-        "name",
+        UNIQUE_ID_FIELD,
+        NAME_FIELD,
         i18n.locale
       ),
       onChange: (data, field, form) => {
@@ -152,7 +160,12 @@ const MainForm = ({ formProps, rest }) => {
     {
       id: LOCATION_FIELD,
       label: i18n.t("referral.location_label"),
-      options: valuesToSearchableSelect(locations, "code", "name", i18n.locale),
+      options: valuesToSearchableSelect(
+        locations,
+        CODE_FIELD,
+        NAME_FIELD,
+        i18n.locale
+      ),
       onChange: (data, field, form) => {
         const { value } = data;
         const queryValues = [SERVICE_FIELD, AGENCY_FIELD];

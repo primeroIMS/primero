@@ -87,50 +87,49 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
     return [];
   }
 
+  const checkboxesList = values.map(v => {
+    const text =
+      v.display_name ||
+      (typeof v.display_text === "object"
+        ? v.display_text[i18n.locale]
+        : v.display_text);
+
+    const onChangeCheckbox = (e, name) => {
+      const eventTarget = e.target;
+
+      setCheckBox(
+        {
+          fieldName: name || fieldName,
+          included: isIncluded(checkBoxes, eventTarget.value, eventTarget.name),
+          data: eventTarget.value
+        },
+        recordType
+      );
+    }
+
+    return (
+      <FormControlLabel
+        key={v.id}
+        control={
+          <Checkbox
+            key={v.id}
+            checked={
+              checkBoxes && isIncluded(checkBoxes, v.value || v.id, v.name)
+            }
+            onChange={event => onChangeCheckbox(event, v.name)}
+            id={v.id}
+            value={v.value || v.id}
+            name={v.name || v.id}
+          />
+        }
+        label={text}
+      />
+    );
+  });
+
   return (
     <div>
-      <FormGroup className={css.formGroup}>
-        {values.map(v => {
-          const text =
-            v.display_name ||
-            (typeof v.display_text === "object"
-              ? v.display_text[i18n.locale]
-              : v.display_text);
-
-          return (
-            <FormControlLabel
-              key={v.id}
-              control={
-                <Checkbox
-                  key={v.id}
-                  checked={
-                    checkBoxes &&
-                    isIncluded(checkBoxes, v.value || v.id, v.name)
-                  }
-                  onChange={event => {
-                    setCheckBox(
-                      {
-                        fieldName: v.name || fieldName,
-                        included: isIncluded(
-                          checkBoxes,
-                          event.target.value,
-                          event.target.name
-                        ),
-                        data: event.target.value
-                      },
-                      recordType
-                    );
-                  }}
-                  id={v.id}
-                  value={v.value || v.id}
-                  name={v.name || v.id}
-                />
-              }
-              label={text}
-            />
-          );
-        })}
-      </FormGroup>
+      <FormGroup className={css.formGroup}>{checkboxesList}</FormGroup>
     </div>
   );
 };

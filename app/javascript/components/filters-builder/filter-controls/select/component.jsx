@@ -8,11 +8,13 @@ import isEmpty from "lodash/isEmpty";
 import { useI18n } from "../../../i18n";
 import { getOption, getLocations } from "../../../record-form/selectors";
 import { valuesToSearchableSelect } from "../../../../libs";
+import { SearchableSelect } from "../../../searchable-select";
+import { OPTIONS_STRINGS_SOURCE_TYPES } from "../../constants";
+import { CODE_FIELD, NAME_FIELD } from "../../../../config";
 
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import { getSelect } from "./selectors";
-import { SearchableSelect } from "../../../searchable-select";
 
 const MenuProps = {
   PaperProps: {
@@ -51,11 +53,11 @@ const SelectFilter = ({
 
   const locations = useSelector(state => getLocations(state, i18n));
 
-  if (optionStringsSource === "location") {
+  if (optionStringsSource === OPTIONS_STRINGS_SOURCE_TYPES.LOCATION) {
     const values = valuesToSearchableSelect(
       locations,
-      "code",
-      "name",
+      CODE_FIELD,
+      NAME_FIELD,
       i18n.locale
     );
 

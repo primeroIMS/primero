@@ -14,6 +14,7 @@ import { getOption } from "../../record-form";
 import { selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
 import styles from "./styles.css";
+import { TASK_TYPES } from "./constants";
 
 const TaskList = () => {
   const i18n = useI18n();
@@ -60,7 +61,10 @@ const TaskList = () => {
                     lookupServiceType.find(
                       serviceType => serviceType.id === lookupAction
                     ).display_text[i18n.locale];
-                  const renderValue = ["service", "followup"].includes(value)
+                  const renderValue = [
+                    TASK_TYPES.SERVICE,
+                    TASK_TYPES.FOLLOW_UP
+                  ].includes(value)
                     ? i18n.t(`task.types.${value}`, {
                         subtype: translatedValue
                       })
