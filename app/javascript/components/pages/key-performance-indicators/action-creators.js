@@ -8,6 +8,8 @@ export const fetchNumberOfCases = () => async dispatch => {
     //    },
     payload: {
       dates: ["Sep 2019", "Aug 2019", "Jul 2019"],
+      // TODO: Decide on data format for this, something coherent and easy to
+      //       understand but which minimized frontend processing.
       data: [
         {
           "reporting_site": "Site #1",

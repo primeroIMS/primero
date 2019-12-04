@@ -1,3 +1,4 @@
+import { fromJS } from "immutable";
 import { List } from "immutable";
 import * as actions from "../../action-creators";
 import * as selectors from "../../selectors";
@@ -18,14 +19,16 @@ function NumberOfCases({ fetchNumberOfCases, numberOfCases }) {
     name: "reporting_site",
     label: "Reporting Site"
   }].concat(numberOfCases.get("dates").map(date => {
-    console.log(date)
     return {
       name: date,
       label: date
     };
-  }));
+  }).toJS());
 
-  let rows = numberOfCases.get("data");
+  // data needs to be in an array as object data as rows to mui-datatables
+  // is depreciated.
+  let rows = numberOfCases.get("data")
+    .map(row => columns.map(column => row.get(column.name)))
 
   let threeMonthsAgo = new Date();
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
