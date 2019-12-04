@@ -1796,6 +1796,8 @@ en:
     high_level: "High"
     medium_level: "Medium"
     low_level: "Low"
+    overview: "Overview"
+    case_risk: "Cases by Assessment Level"
 
   errors:
     try_again: "Try again"
