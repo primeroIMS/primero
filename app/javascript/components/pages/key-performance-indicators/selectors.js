@@ -10,6 +10,7 @@ export const numberOfCases = state => {
 
 export const numberOfIncidents = state => {
   return state.getIn(["records", NAMESPACE, 'numberOfIncidents'], fromJS({
+    dates: [],
     data: []
   }));
 };
