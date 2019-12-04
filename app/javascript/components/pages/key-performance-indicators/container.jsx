@@ -13,39 +13,17 @@ import {
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { OptionsBox, DashboardTable } from "components/dashboard";
+import { TablePercentageBar, DateRangeSelect } from "components/key-performance-indicators";
 import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
 import styles from "./styles.css";
 import {
   NumberOfCases,
-  NumberOfIncidents
+  NumberOfIncidents,
+  ReportingDelay
 } from "./components";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
-
-function TablePercentageBar({ percentage, className}) {
-  let css = makeStyles(styles)();
-
-  // Set a minimum of 5 percent so that there is always something
-  // visible. It's not meant to be a super accurate assessment but
-  // a quick visual assessment if we're using a percentage bar.
-  const percentageValue = Math.max(5, percentage * 100);
-  const isZero = percentage === 0;
-
-  const barClassNames = [css.TablePercentageBar, className].join(" ");
-  const fillingClassNames = [
-    css.TablePercentageBarComplete,
-    isZero ? css.bgGrey : css.bgBlue
-  ].join(" ");
-
-  return (
-    <div className={barClassNames}>
-      <div
-        className={fillingClassNames}
-        style={{ width: percentageValue + "%" }}></div>
-    </div>
-  )
-}
 
 function StackedPercentageBar({ percentages, className }) {
   let css = makeStyles(styles)();
@@ -86,28 +64,6 @@ function StackedPercentageBar({ percentages, className }) {
         }
       </div>
     </div>
-  )
-}
-
-function DateRangeSelect({
-  ranges,
-  selectedRange,
-  withCustomRange,
-  setRange
-}) {
-
-  let [customRange, setCustomRange] = useState({
-    value: 'custom-range',
-    from: selectedRange.from,
-    to: selectedRange.to,
-    name: `${selectedRange.from} - ${selectedRange.to}`
-  })
-
-  return (
-    <Select value={selectedRange.value}>
-      { ranges.map(r => <MenuItem value={r.value}>{r.name}</MenuItem>) }
-      { withCustomRange && <MenuItem value={customRange.value}>{customRange.name}</MenuItem> }
-    </Select>
   )
 }
 
@@ -163,14 +119,7 @@ function KeyPerformanceIndicators({
 
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={6}>
-                  <OptionsBox
-                    title="Reporting Delay"
-                  >
-                    <DashboardTable
-                      columns={reportingDelayColumns}
-                      data={reportingDelay.get('data')}
-                    />
-                  </OptionsBox>
+                  <ReportingDelay />
                 </Grid>
 
                 <Grid item className={css.grow} xs={12} md={6}>
