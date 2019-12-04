@@ -1,6 +1,5 @@
 import * as actions from "../../action-creators";
 import * as selectors from "../../selectors";
-import { withRouter } from "react-router-dom";
 import { TablePercentageBar, DateRangeSelect } from "components/key-performance-indicators";
 import { OptionsBox, DashboardTable } from "components/dashboard";
 import { connect, batch } from "react-redux";
@@ -68,9 +67,7 @@ const mapDispatchToProps = {
   fetchServiceAccessDelay: actions.fetchServiceAccessDelay
 };
 
-export default withRouter(
-  connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-  )(ServiceAccessDelay)
-);
+  )(ServiceAccessDelay);

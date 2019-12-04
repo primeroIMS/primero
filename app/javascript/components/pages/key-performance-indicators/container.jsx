@@ -29,7 +29,8 @@ import {
   AssessmentStatus,
   CompletedCaseSafetyPlan,
   CompletedCaseActionPlan,
-  CompletedSupervisorApprovedCaseActionPlan
+  CompletedSupervisorApprovedCaseActionPlan,
+  ServicesProvided
 } from "./components";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
@@ -94,19 +95,30 @@ function KeyPerformanceIndicators({
             <Box>
               <h2 className={css.subtitle}>CASE ACTION PLANNING</h2>
               <Grid container spacing={2}>
-                <Grid item className={css.grow} xs={12} md={4}>
+                <Grid item className={css.grow} xs={12} md={6} xl={4}>
                   <CompletedCaseSafetyPlan />
                 </Grid>
 
-                <Grid item className={css.grow} xs={12} md={4}>
+                <Grid item className={css.grow} xs={12} md={6} xl={4}>
                   <CompletedCaseActionPlan />
                 </Grid>
 
-                <Grid item className={css.grow} xs={12} md={4}>
+                <Grid item className={css.grow} xs={12} xl={4}>
                   <CompletedSupervisorApprovedCaseActionPlan />
                 </Grid>
               </Grid>
             </Box>
+
+            <Box>
+              <h2 className={css.subtitle}>CASE ACTION PLAN IMPLEMENTATION</h2>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <ServicesProvided />
+                </Grid>
+              </Grid>
+            </Box>
+
+
           </Grid>
         </PageContent>
       </PageContainer>
