@@ -1,8 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { DASHBOARD } from "../../../config";
-
+import { DASHBOARD_NAMES } from "./constants";
 import * as selectors from "./selectors";
 
 const initialState = fromJS({
@@ -38,7 +37,7 @@ describe("<Dashboard /> - Selectors", () => {
       const records = selectors.getCasesByAssessmentLevel(initialState);
 
       const expected = fromJS({
-        name: DASHBOARD.case_risk,
+        name: DASHBOARD_NAMES.case_risk,
         type: "indicator",
         stats: {
           high: {

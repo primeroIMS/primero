@@ -19,11 +19,12 @@ describe("<Dashboard /> - index", () => {
       "selectCasesOverview",
       "selectServicesStatus",
       "selectIsOpenPageActions",
-      "fetchDashboards"
+      "fetchDashboards",
+      "DASHBOARD_NAMES"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });
-    expect(indexValues).to.deep.equal({});
+    expect(indexValues).to.be.empty;
   });
 });

@@ -11,3 +11,4 @@ export {
   selectIsOpenPageActions
 } from "./selectors";
 export { fetchDashboards } from "./action-creators";
+export { DASHBOARD_NAMES } from "./constants";

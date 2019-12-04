@@ -76,7 +76,7 @@ const Container = ({ recordType, defaultFilters, fromDashboard }) => {
         return currentObject;
       }, {});
 
-      if (fromDashboard) {
+      if (!fromDashboard) {
         dispatch(setInitialFilterValues(recordType, initialFilterValues));
       }
 
@@ -138,9 +138,6 @@ const Container = ({ recordType, defaultFilters, fromDashboard }) => {
 
 Container.displayName = NAME;
 
-Container.defaultProps = {
-  fromDashboard: false
-};
 
 Container.propTypes = {
   defaultFilters: PropTypes.object,

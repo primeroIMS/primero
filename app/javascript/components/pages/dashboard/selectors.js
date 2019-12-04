@@ -1,7 +1,6 @@
 import { fromJS } from "immutable";
 
-import { DASHBOARD } from "../../../config";
-
+import { DASHBOARD_NAMES } from "./constants";
 import NAMESPACE from "./namespace";
 
 export const selectFlags = state => {
@@ -43,7 +42,7 @@ export const getCasesByAssessmentLevel = state => {
     return fromJS([]);
   }
   const dashboardData = currentState
-    .filter(f => f.get("name") === DASHBOARD.case_risk)
+    .filter(f => f.get("name") === DASHBOARD_NAMES.case_risk)
     .first();
 
   return dashboardData.size ? dashboardData : fromJS([]);

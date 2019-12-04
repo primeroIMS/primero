@@ -62,8 +62,6 @@ const Container = ({ match, location }) => {
   };
   const searchParams = new URLSearchParams(search);
 
-  const fromDashboard = searchParams.get("fromDashboard") === true;
-
   // eslint-disable-next-line camelcase
   const { id_search, query } = useSelector(
     state => {
@@ -173,7 +171,7 @@ const Container = ({ match, location }) => {
   const filterProps = {
     recordType,
     defaultFilters,
-    fromDashboard
+    fromDashboard: Boolean(searchParams.get("fromDashboard"))
   };
 
   return (

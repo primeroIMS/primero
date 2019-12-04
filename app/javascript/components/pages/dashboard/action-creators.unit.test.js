@@ -7,7 +7,7 @@ import configureStore from "redux-mock-store";
 import { RECORD_PATH } from "../../../config";
 
 import * as actionCreators from "./action-creators";
-import * as Actions from "./actions";
+import * as actions from "./actions";
 
 chai.use(sinonChai);
 
@@ -28,18 +28,21 @@ describe("<Dashboard /> - Action Creators", () => {
       expect(creators).to.have.property(property);
       delete creators[property];
     });
-    expect(creators).to.deep.equal({});
+
+    expect(creators).to.be.empty;
   });
+
   it("should check the 'fetchDashboards' action creator to return the correct object", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
-    const actions = { ...Actions };
+    const actionsValues = { ...actions };
 
     dispatch(actionCreators.fetchDashboards());
 
     expect(dispatch.getCall(0).returnValue.type).to.eql(
-      actions.FETCH_DASHBOARDS
+      actionsValues.FETCH_DASHBOARDS
     );
+
     expect(dispatch.getCall(0).returnValue.api.path).to.eql(
       RECORD_PATH.dashboards
     );

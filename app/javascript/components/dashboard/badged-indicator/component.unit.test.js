@@ -4,7 +4,8 @@ import { fromJS } from "immutable";
 import { setupMountedComponent } from "../../../test";
 import { DashboardChip } from "../dashboard-chip";
 import { Option } from "../../record-form/records";
-import { LOOKUPS, DASHBOARD } from "../../../config";
+import { LOOKUPS } from "../../../config";
+import { DASHBOARD_NAMES } from "../../pages/dashboard";
 
 import BadgedIndicator from "./component";
 
@@ -12,7 +13,7 @@ describe("<BadgedIndicator />", () => {
   let component;
   const props = {
     data: fromJS({
-      name: DASHBOARD.case_risk,
+      name: DASHBOARD_NAMES.case_risk,
       stats: {
         high: { count: 2, query: [] },
         medium: { count: 1, query: [] },
