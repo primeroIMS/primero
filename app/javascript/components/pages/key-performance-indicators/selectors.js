@@ -20,3 +20,9 @@ export const reportingDelay = state => {
     data: []
   }));
 };
+
+export const serviceAccessDelay = state => {
+  return state.getIn(["records", NAMESPACE, 'serviceAccessDelay'], fromJS({
+    data: []
+  }));
+};
