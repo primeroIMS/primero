@@ -17,7 +17,8 @@ import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
 import styles from "./styles.css";
 import {
-  NumberOfCases
+  NumberOfCases,
+  NumberOfIncidents
 } from "./components";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
@@ -123,14 +124,10 @@ function KeyPerformanceIndicators({
 
   useEffect(() => {
     batch(() => {
-      fetchNumberOfCases();
-      fetchNumberOfIncidents();
       fetchReportingDelay();
     });
   }, []);
 
-  let numberOfCasesColumns = ["REPORTING SITE", "SEP 2019", "AUG 2019", "JUL 2019"];
-  let numberOfIncidentsColumns = ["REPORTING SITE", "SEP 2019", "AUG 2019", "JUL 2019"];
   let reportingDelayColumns = [
     "Delay",
     "Total Cases",
@@ -160,14 +157,7 @@ function KeyPerformanceIndicators({
                 </Grid>
 
                 <Grid item className={css.grow} xs={12} md={6}>
-                  <OptionsBox
-                    title="Number of Incidents"
-                  >
-                    <DashboardTable
-                      columns={numberOfIncidentsColumns}
-                      data={numberOfIncidents.get('data')}
-                    />
-                  </OptionsBox>
+                  <NumberOfIncidents />
                 </Grid>
               </Grid>
 
