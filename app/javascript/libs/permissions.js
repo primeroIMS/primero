@@ -8,6 +8,7 @@ export const ACTIONS = {
   CREATE: "create",
   DASH_CASE_RISK: 'case_risk',
   DASH_TASKS: "dash_tasks",
+  DASH_WORKFLOW: "dash_workflow",
   DISPLAY_VIEW_PAGE: "display_view_page",
   ENABLE_DISABLE_RECORD: "enable_disable_record",
   EXPORT_CASE_PDF: "export_case_pdf",

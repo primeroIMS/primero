@@ -35,6 +35,20 @@ export const getDashboards = state => {
   return state.getIn(["records", NAMESPACE, "data"], false);
 };
 
+const getDashboardByName = (state, name) => {
+  const currentState = getDashboards(state);
+  const noDashboard = fromJS([]);
+
+  if (!currentState) {
+    return noDashboard;
+  }
+  const dashboardData = currentState
+    .filter(f => f.get("name") === name)
+    .first();
+
+  return dashboardData?.size ? dashboardData : noDashboard;
+};
+
 export const getCasesByAssessmentLevel = state => {
   const currentState = getDashboards(state);
 
@@ -45,5 +59,8 @@ export const getCasesByAssessmentLevel = state => {
     .filter(f => f.get("name") === DASHBOARD_NAMES.case_risk)
     .first();
 
-  return dashboardData.size ? dashboardData : fromJS([]);
+  return dashboardData?.size ? dashboardData : fromJS([]);
 };
+
+export const getWorkflowIndividualCases = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.workflow);

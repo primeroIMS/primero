@@ -10,7 +10,9 @@ import {
   DashboardTable,
   LineChart,
   OverviewBox,
-  BadgedIndicator
+  BadgedIndicator,
+  ActionMenu,
+  PieChart
 } from "../../dashboard";
 import { FlagList } from "../../dashboard/flag-list";
 import { Services } from "../../dashboard/services";
@@ -28,9 +30,12 @@ import {
   selectCasesByCaseWorker,
   selectCasesRegistration,
   selectCasesOverview,
-  selectServicesStatus
+  selectServicesStatus,
+  selectIsOpenPageActions,
+  getWorkflowIndividualCases
 } from "./selectors";
 import styles from "./styles.css";
+import { toData1D } from "./helpers";
 
 const Dashboard = ({
   fetchFlags,
@@ -46,7 +51,9 @@ const Dashboard = ({
   casesByCaseWorker,
   casesRegistration,
   casesOverview,
-  servicesStatus
+  casesWorkflow,
+  servicesStatus,
+  isOpenPageActions
 }) => {
   useEffect(() => {
     batch(() => {
@@ -126,12 +133,20 @@ const Dashboard = ({
     ]
   };
 
+  const casesWorkflowConvertedData = toData1D(casesWorkflow);
+
+  const casesWorkflowProps = {
+    data: casesWorkflowConvertedData.data,
+    labels: casesWorkflowConvertedData.labels,
+    query: casesWorkflowConvertedData.query
+  };
+
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
       <PageContent>
         <Grid container spacing={3} classes={{ root: css.container }}>
-          <Grid item md={12}>
+          <Grid item md={6}>
             <OptionsBox title={i18n.t("dashboard.overview")}>
               <Permission
                 resources={RESOURCES.dashboards}
@@ -146,6 +161,17 @@ const Dashboard = ({
               </Permission>
             </OptionsBox>
           </Grid>
+          <Grid item md={6}>
+            <Permission
+              resources={RESOURCES.dashboards}
+              actions={ACTIONS.DASH_WORKFLOW}
+            >
+              <OptionsBox title={i18n.t(casesWorkflow.get("name"))}>
+                <PieChart {...casesWorkflowProps} />
+              </OptionsBox>
+            </Permission>
+          </Grid>
+
           <Grid item md={12} hidden>
             <OptionsBox title="CASE OVERVIEW">
               <DashboardTable columns={columns} data={casesByCaseWorker} />
@@ -185,6 +211,7 @@ Dashboard.propTypes = {
   casesByStatus: PropTypes.object.isRequired,
   casesOverview: PropTypes.object.isRequired,
   casesRegistration: PropTypes.object.isRequired,
+  casesWorkflow: PropTypes.object.isRequired,
   fetchCasesByCaseWorker: PropTypes.func.isRequired,
   fetchCasesByStatus: PropTypes.func.isRequired,
   fetchCasesOverview: PropTypes.func.isRequired,
@@ -202,6 +229,7 @@ const mapStateToProps = state => {
   return {
     flags: selectFlags(state),
     casesByAssessmentLevel: getCasesByAssessmentLevel(state),
+    casesWorkflow: getWorkflowIndividualCases(state),
     casesByStatus: selectCasesByStatus(state),
     casesByCaseWorker: selectCasesByCaseWorker(state),
     casesRegistration: selectCasesRegistration(state),
