@@ -26,7 +26,10 @@ import {
   NumberOfIncidents,
   ReportingDelay,
   ServiceAccessDelay,
-  AssessmentStatus
+  AssessmentStatus,
+  CompletedCaseSafetyPlan,
+  CompletedCaseActionPlan,
+  CompletedSupervisorApprovedCaseActionPlan
 } from "./components";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
@@ -92,33 +95,15 @@ function KeyPerformanceIndicators({
               <h2 className={css.subtitle}>CASE ACTION PLANNING</h2>
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={4}>
-                  <OptionsBox
-                    title="Completed Case Safety Plan"
-                  >
-                    <StackedPercentageBar
-                      percentages={[{ percentage: 0.5, label: "Completed Case Safety Plan" }]}
-                    />
-                  </OptionsBox>
+                  <CompletedCaseSafetyPlan />
                 </Grid>
 
                 <Grid item className={css.grow} xs={12} md={4}>
-                  <OptionsBox
-                    title="Completed Case Action Plan"
-                  >
-                    <StackedPercentageBar
-                      percentages={[{ percentage: 0.5, label: "Completed Case Action Plan" }]}
-                    />
-                  </OptionsBox>
+                  <CompletedCaseActionPlan />
                 </Grid>
 
                 <Grid item className={css.grow} xs={12} md={4}>
-                  <OptionsBox
-                    title="Completed Action Plan Approved by Supervisor"
-                  >
-                    <StackedPercentageBar
-                      percentages={[{ percentage: 0.5, label: "Completed Action Plan Approved by Supervisor"}]}
-                    />
-                  </OptionsBox>
+                  <CompletedSupervisorApprovedCaseActionPlan />
                 </Grid>
               </Grid>
             </Box>
