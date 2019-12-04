@@ -86,69 +86,52 @@ describe("<SavedSearches /> - Reducers", () => {
       data: []
     });
 
-    const payloadFilters = [
-      {
-        id: 1,
-        name: "a new filter",
-        record_type: "incidents",
-        module_ids: ["primeromodule-cp", "primeromodule-gbv"],
-        filters: [
-          {
-            name: "Flag",
-            value: ["true", "false"]
-          }
-        ]
-      },
-      {
-        id: 33,
-        name: "Hello 1",
-        record_type: "incidents",
-        module_ids: ["primeromodule-cp", "primeromodule-gbv"],
-        filters: [
-          {
-            name: "inquiry_status",
-            value: ["open"]
-          }
-        ]
-      }
-    ];
-    const expected = fromJS({
-      data: mapEntriesToRecord(payloadFilters, SavedSearchesRecord)
-    });
+    const expected = {
+      data: [
+        {
+          id: 1,
+          name: "a new filter",
+          record_type: "incidents",
+          user_id: null,
+          message: "",
+          filters: [
+            {
+              name: "Flag",
+              value: ["true", "false"]
+            },
+            {
+              name: "inquiry_status",
+              value: ["open"]
+            }
+          ]
+        }
+      ]
+    };
+
     const action = {
       type: "savedSearches/SAVE_SEARCH_SUCCESS",
       payload: {
-        data: fromJS([
-          SavedSearchesRecord({
-            id: 1,
-            name: "a new filter",
-            record_type: "incidents",
-            module_ids: ["primeromodule-cp", "primeromodule-gbv"],
-            filters: [
-              {
-                name: "Flag",
-                value: ["true", "false"]
-              }
-            ]
-          }),
-          SavedSearchesRecord({
-            id: 33,
-            name: "Hello 1",
-            record_type: "incidents",
-            module_ids: ["primeromodule-cp", "primeromodule-gbv"],
-            filters: [
-              {
-                name: "inquiry_status",
-                value: ["open"]
-              }
-            ]
-          })
-        ])
+        data: {
+          id: 1,
+          name: "a new filter",
+          record_type: "incidents",
+          filters: [
+            {
+              name: "Flag",
+              value: ["true", "false"]
+            },
+            {
+              name: "inquiry_status",
+              value: ["open"]
+            }
+          ]
+        }
       }
     };
 
     const newState = reducers.savedSearches(defaultStateSuccess, action);
 
-    expect(newState.toJS().data[0]).to.eql(expected.get("data").toJS());
+    // Using toJS(), because SavedSearchesRecord doesn't implement immutable js
+    expect(newState.toJS()).to.deep.equal(expected);
   });
 });
