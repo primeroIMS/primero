@@ -34,13 +34,14 @@ import { getListHeaders } from "./selectors";
 import styles from "./styles.css";
 import { ViewModal } from "./view-modal";
 
-const Container = ({ match }) => {
+const Container = ({ match, location }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { theme } = useThemeHelper({});
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const [drawer, setDrawer] = useState(false);
   const { params, url } = match;
+  const { search } = location;
   const { recordType } = params;
   const dispatch = useDispatch();
   const headers = useSelector(state => getListHeaders(state, recordType));
@@ -59,6 +60,7 @@ const Container = ({ match }) => {
   const handleViewModalClose = () => {
     setOpenViewModal(false);
   };
+  const searchParams = new URLSearchParams(search);
 
   // eslint-disable-next-line camelcase
   const { id_search, query } = useSelector(
@@ -168,7 +170,8 @@ const Container = ({ match }) => {
 
   const filterProps = {
     recordType,
-    defaultFilters
+    defaultFilters,
+    fromDashboard: Boolean(searchParams.get("fromDashboard"))
   };
 
   return (
@@ -201,6 +204,7 @@ const Container = ({ match }) => {
 Container.displayName = NAME;
 
 Container.propTypes = {
+  location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired
 };
 

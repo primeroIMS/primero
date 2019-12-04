@@ -6,6 +6,7 @@ export const ACTIONS = {
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
   CLOSE: "close",
   CREATE: "create",
+  DASH_CASE_RISK: 'case_risk',
   DASH_TASKS: "dash_tasks",
   DISPLAY_VIEW_PAGE: "display_view_page",
   ENABLE_DISABLE_RECORD: "enable_disable_record",

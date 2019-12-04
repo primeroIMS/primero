@@ -6,6 +6,7 @@ import {
   CASES_BY_CASE_WORKER,
   CASES_REGISTRATION,
   CASES_OVERVIEW,
+  FETCH_DASHBOARDS_SUCCESS,
   SERVICES_STATUS,
   OPEN_PAGE_ACTIONS
 } from "./actions";
@@ -25,6 +26,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("casesRegistration", fromJS(payload.casesRegistration));
     case CASES_OVERVIEW:
       return state.set("casesOverview", fromJS(payload.casesOverview));
+    case FETCH_DASHBOARDS_SUCCESS:
+      return state.set("data", fromJS(payload.data));
     case SERVICES_STATUS:
       return state.set("servicesStatus", fromJS(payload.services));
     case OPEN_PAGE_ACTIONS:
