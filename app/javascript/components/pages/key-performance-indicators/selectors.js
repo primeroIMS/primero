@@ -3,6 +3,7 @@ import NAMESPACE from "./namespace";
 
 export const numberOfCases = state => {
   return state.getIn(["records", NAMESPACE, 'numberOfCases'], fromJS({
+    dates: [],
     data: []
   }));
 };
