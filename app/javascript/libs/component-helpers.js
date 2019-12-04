@@ -24,6 +24,7 @@ export const valuesToSearchableSelect = (
       if (key === searchValue) {
         obj.value = val;
       }
+
       if (key === searchLabel) {
         obj.label = typeof val === "object" ? val[locale] : val;
       }

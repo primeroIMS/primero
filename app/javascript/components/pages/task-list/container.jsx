@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles/";
 import { fromJS } from "immutable";
 import { useSelector } from "react-redux";
-import { isEqual } from "lodash";
+import isEqual from "lodash/isEqual";
 
 import { useI18n } from "../../i18n";
 import { TasksOverdue, TasksPending } from "../../../images/primero-icons";
@@ -10,6 +10,7 @@ import IndexTable from "../../index-table";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 import { DashboardChip } from "../../dashboard";
 import { getOption } from "../../record-form";
+import { LOOKUPS } from "../../../config";
 
 import { selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
@@ -25,7 +26,7 @@ const TaskList = () => {
   );
 
   const lookupServiceType = useSelector(
-    state => getOption(state, "lookup-service-type", i18n.locale),
+    state => getOption(state, LOOKUPS.service_type, i18n.locale),
     (prev, actual) => {
       return isEqual(prev, actual);
     }

@@ -1,8 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import MenuItem from "@material-ui/core/MenuItem";
+import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
+
+import styles from "./styles.css";
 
 const Option = props => {
+  const css = makeStyles(styles)();
   const { innerRef, isFocused, isSelected, innerProps, children } = props;
 
   return (
@@ -10,12 +15,9 @@ const Option = props => {
       ref={innerRef}
       selected={isFocused}
       component="div"
-      style={{
-        backgroundColor: isSelected ? "#0093ba" : "",
-        color: isSelected ? "#FFF" : "",
-        whiteSpace: "normal",
-        fontSize: 12
-      }}
+      className={clsx(css.option, {
+        [css.optionSelected]: isSelected
+      })}
       {...innerProps}
     >
       {children}

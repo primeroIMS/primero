@@ -1,8 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+
+import styles from "./styles.css";
 
 const SingleValue = props => {
+  const css = makeStyles(styles)();
   const { selectProps, innerProps, children, options, data } = props;
 
   const foundOption = options.find(op => op.value === data.value);
@@ -14,7 +18,7 @@ const SingleValue = props => {
   return (
     <Typography
       noWrap
-      className={selectProps.classes.singleValue}
+      className={css.singleValue}
       {...innerProps}
     >
       {translatedLabel}

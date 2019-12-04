@@ -17,7 +17,8 @@ import {
   DISPLAY_TEXT_FIELD,
   UNIQUE_ID_FIELD,
   NAME_FIELD,
-  CODE_FIELD
+  CODE_FIELD,
+  LOOKUPS
 } from "../../../../../config";
 import { getInternalFields } from "../helpers";
 import {
@@ -92,7 +93,7 @@ const MainForm = ({ formProps, rest }) => {
   }, [hasErrors]);
 
   const services = useSelector(state =>
-    getOption(state, "lookup lookup-service-type", i18n)
+    getOption(state, LOOKUPS.service_type, i18n)
   );
   const locations = useSelector(state => getLocations(state));
   const agencies = useSelector(state => selectAgencies(state));

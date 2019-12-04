@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
-import { uniqBy, isEmpty, startsWith } from "lodash";
+import uniqBy from "lodash/uniqBy";
+import isEmpty from "lodash/isEmpty";
+import startsWith from "lodash/startsWith";
 import { List } from "immutable";
 
 import { dataToJS } from "../../libs";
@@ -13,7 +15,7 @@ import { getFields } from "../record-list/selectors";
 import { getOptions } from "../record-form/selectors";
 import { selectAgencies } from "../application/selectors";
 import { useI18n } from "../i18n";
-import { STRING_SOURCES_TYPES } from "../../config";
+import { STRING_SOURCES_TYPES, RECORD_PATH } from "../../config";
 
 import { NAME } from "./config";
 import { getRecords, getLoading, getErrors, getFilters } from "./selectors";
@@ -40,9 +42,11 @@ const Component = ({
   const total = data.getIn(["metadata", "total"], 0);
   const page = data.getIn(["metadata", "page"], 1);
   const url = targetRecordType || recordType;
-  const validRecordTypes = ["cases", "incidents", "tracing_requests"].includes(
-    recordType
-  );
+  const validRecordTypes = [
+    RECORD_PATH.cases,
+    RECORD_PATH.incidents,
+    RECORD_PATH.tracing_requests
+  ].includes(recordType);
   let translatedRecords = [];
 
   const allFields = useSelector(state => getFields(state));
