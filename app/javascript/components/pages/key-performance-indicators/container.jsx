@@ -20,7 +20,8 @@ import styles from "./styles.css";
 import {
   NumberOfCases,
   NumberOfIncidents,
-  ReportingDelay
+  ReportingDelay,
+  ServiceAccessDelay
 } from "./components";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
@@ -123,14 +124,7 @@ function KeyPerformanceIndicators({
                 </Grid>
 
                 <Grid item className={css.grow} xs={12} md={6}>
-                  <OptionsBox
-                    title="Service Access Delay"
-                  >
-                    <DashboardTable
-                      columns={reportingDelayColumns}
-                      data={reportingDelay.get('data')}
-                    />
-                  </OptionsBox>
+                  <ServiceAccessDelay />
                 </Grid>
               </Grid>
 

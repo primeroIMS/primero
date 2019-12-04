@@ -4,3 +4,5 @@ export const NUMBER_OF_INCIDENTS = "KeyPerformanceIndicators/NUMBER_OF_INCIDENTS
 export const NUMBER_OF_INCIDENTS_SUCCESS= "KeyPerformanceIndicators/NUMBER_OF_INCIDENTS_SUCCESS";
 export const REPORTING_DELAY = "KeyPerformanceIndicators/REPORTING_DELAY";
 export const REPORTING_DELAY_SUCCESS= "KeyPerformanceIndicators/REPORTING_DELAY_SUCCESS";
+export const SERVICE_ACCESS_DELAY = "KeyPerformanceIndicators/SERVICE_ACCESS_DELAY";
+export const SERVICE_ACCESS_DELAY_SUCCESS= "KeyPerformanceIndicators/SERVICE_ACCESS_DELAY_SUCCESS";
