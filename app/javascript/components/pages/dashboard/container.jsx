@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import { connect, batch } from "react-redux";
 import { Grid } from "@material-ui/core";
@@ -11,7 +10,6 @@ import {
   DashboardTable,
   LineChart,
   OverviewBox,
-  ActionMenu,
   BadgedIndicator
 } from "../../dashboard";
 import { FlagList } from "../../dashboard/flag-list";
@@ -30,8 +28,7 @@ import {
   selectCasesByCaseWorker,
   selectCasesRegistration,
   selectCasesOverview,
-  selectServicesStatus,
-  selectIsOpenPageActions
+  selectServicesStatus
 } from "./selectors";
 import styles from "./styles.css";
 
@@ -43,15 +40,13 @@ const Dashboard = ({
   fetchCasesOverview,
   fetchServicesStatus,
   getDashboardsData,
-  openPageActions,
   flags,
   casesByAssessmentLevel,
   casesByStatus,
   casesByCaseWorker,
   casesRegistration,
   casesOverview,
-  servicesStatus,
-  isOpenPageActions
+  servicesStatus
 }) => {
   useEffect(() => {
     batch(() => {
@@ -131,34 +126,9 @@ const Dashboard = ({
     ]
   };
 
-  const actionMenuItems = fromJS([
-    {
-      id: "add-new",
-      label: "Add New",
-      onClick: () => openPageActions(false)
-    },
-    {
-      id: "arrange-items",
-      label: "Arrange Items",
-      onClick: () => openPageActions(false)
-    },
-    {
-      id: "refresh-data",
-      label: "Refresh Data",
-      onClick: () => openPageActions(false)
-    }
-  ]);
-
   return (
     <PageContainer>
-      <PageHeading title={i18n.t("navigation.home")}>
-        <ActionMenu
-          open={isOpenPageActions}
-          onOpen={() => openPageActions(true)}
-          onClose={() => openPageActions(false)}
-          items={actionMenuItems}
-        />
-      </PageHeading>
+      <PageHeading title={i18n.t("navigation.home")} />
       <PageContent>
         <Grid container spacing={3} classes={{ root: css.container }}>
           <Grid item md={12}>
@@ -176,32 +146,19 @@ const Dashboard = ({
               </Permission>
             </OptionsBox>
           </Grid>
-
-          <Grid item md={12}>
-            <OptionsBox
-              title="CASE OVERVIEW"
-              action={<ActionMenu open={false} items={actionMenuItems} />}
-            >
+          <Grid item md={12} hidden>
+            <OptionsBox title="CASE OVERVIEW">
               <DashboardTable columns={columns} data={casesByCaseWorker} />
             </OptionsBox>
           </Grid>
-          <Grid item md={8} xs={12}>
-            <OptionsBox
-              title="CASE OVERVIEW"
-              action={<ActionMenu open={false} items={actionMenuItems} />}
-            >
+          <Grid item md={8} xs={12} hidden>
+            <OptionsBox title="CASE OVERVIEW">
               <OverviewBox items={casesOverview} chartData={casesChartData} />
             </OptionsBox>
-            <OptionsBox
-              title={i18n.t("dashboard.cases_by_task_overdue")}
-              action={<ActionMenu open={false} items={actionMenuItems} />}
-            >
+            <OptionsBox title={i18n.t("dashboard.cases_by_task_overdue")}>
               <DashboardTable columns={columns} data={casesByCaseWorker} />
             </OptionsBox>
-            <OptionsBox
-              title={i18n.t("dashboard.registration")}
-              action={<ActionMenu open={false} items={actionMenuItems} />}
-            >
+            <OptionsBox title={i18n.t("dashboard.registration")}>
               <LineChart
                 chartData={registrationChartData}
                 title="Total case registrations over time"
@@ -209,11 +166,8 @@ const Dashboard = ({
             </OptionsBox>
             <Services servicesList={servicesStatus} />
           </Grid>
-          <Grid item md={4} xs={12}>
-            <OptionsBox
-              title={i18n.t("dashboard.flagged")}
-              action={<ActionMenu open={false} items={actionMenuItems} />}
-            >
+          <Grid item md={4} xs={12} hidden>
+            <OptionsBox title={i18n.t("dashboard.flagged")}>
               <FlagList flags={flags} i18n={i18n} />
             </OptionsBox>
           </Grid>
@@ -252,8 +206,7 @@ const mapStateToProps = state => {
     casesByCaseWorker: selectCasesByCaseWorker(state),
     casesRegistration: selectCasesRegistration(state),
     casesOverview: selectCasesOverview(state),
-    servicesStatus: selectServicesStatus(state),
-    isOpenPageActions: selectIsOpenPageActions(state)
+    servicesStatus: selectServicesStatus(state)
   };
 };
 
