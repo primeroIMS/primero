@@ -3,7 +3,6 @@ import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
 import { DashboardChip } from "../dashboard-chip";
-import { Option } from "../../record-form/records";
 import { LOOKUPS } from "../../../config";
 import { DASHBOARD_NAMES } from "../../pages/dashboard";
 
@@ -62,7 +61,6 @@ describe("<BadgedIndicator />", () => {
   });
 
   it("renders a BadgedIndicator with a DashboardChip />", () => {
-    debugger;
     expect(component.find(BadgedIndicator)).to.have.lengthOf(1);
     expect(component.find(DashboardChip)).to.have.lengthOf(4);
   });
