@@ -1,3 +1,4 @@
+export { BadgedIndicator } from "./badged-indicator";
 export { DashboardTable } from "./dashboard-table";
 export { DoughnutChart } from "./doughnut-chart";
 export { FlagBox } from "./flag-box";

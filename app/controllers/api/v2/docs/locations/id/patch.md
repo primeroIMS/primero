@@ -17,13 +17,13 @@ Merge the values submitted in this call into an existing location.
 ```json
 {
   "data": {
-    "location_code": "D02",
+    "code": "D02",
     "type": "departament02",
     "placename": {
       "en": "departament02_en",
       "es": "departament02_es"
     },
-    "hierarchy": "CT01.D02"
+    "parent_code": "CT01"
   }
 }
 ```
@@ -61,7 +61,9 @@ Merge the values submitted in this call into an existing location.
       "es": "departament02_es",
       "bn": ""
     },
-    "hierarchy": "CT01.D02"
+    "hierarchy": [
+      "CT01"
+    ]
   }
 }
 ```

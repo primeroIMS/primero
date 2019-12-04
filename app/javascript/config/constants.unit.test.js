@@ -67,6 +67,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("UNIQUE_ID_FIELD");
     expect(constants).to.have.property("DISPLAY_TEXT_FIELD");
     expect(constants).to.have.property("CODE_FIELD");
+    expect(constants).to.have.property("LOOKUPS");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -107,6 +108,7 @@ describe("Verifying config constant", () => {
     delete constants.UNIQUE_ID_FIELD;
     delete constants.DISPLAY_TEXT_FIELD;
     delete constants.CODE_FIELD;
+    delete constants.LOOKUPS;
 
     expect(constants).to.deep.equal({});
   });
@@ -160,5 +162,6 @@ describe("Verifying config constant", () => {
     expect(constants.UNIQUE_ID_FIELD).to.equal("unique_id");
     expect(constants.DISPLAY_TEXT_FIELD).to.equal("display_text");
     expect(constants.CODE_FIELD).to.equal("code");
+    expect(constants.LOOKUPS).to.be.an("object");
   });
 });

@@ -9,6 +9,8 @@ import { FlagList } from "../../dashboard/flag-list";
 import { DoughnutChart } from "../../dashboard/doughnut-chart";
 import { LineChart } from "../../dashboard/line-chart";
 import { DashboardTable } from "../../dashboard/dashboard-table";
+import { BadgedIndicator } from "../../dashboard/badged-indicator";
+import { ACTIONS } from "../../../libs/permissions";
 
 import Dashboard from "./container";
 
@@ -63,6 +65,12 @@ describe("<Dashboard />", () => {
               rejected: 1
             }
           }
+        },
+        user: {
+          permissions: {
+            dashboards: [ACTIONS.DASH_CASE_RISK]
+          }
+
         }
       })
     ));
@@ -94,5 +102,9 @@ describe("<Dashboard />", () => {
 
   it("renders only one TableRow in the TableBody", () => {
     expect(component.find(TableBody).find(TableRow)).to.have.lengthOf(2);
+  });
+
+  it("renders the BadgedIndicator", () => {
+    expect(component.find(BadgedIndicator)).to.have.lengthOf(1);
   });
 });
