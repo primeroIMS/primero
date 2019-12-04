@@ -13,7 +13,11 @@ import {
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { OptionsBox, DashboardTable } from "components/dashboard";
-import { TablePercentageBar, DateRangeSelect } from "components/key-performance-indicators";
+import {
+  TablePercentageBar,
+  DateRangeSelect,
+  StackedPercentageBar
+} from "components/key-performance-indicators";
 import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
 import styles from "./styles.css";
@@ -21,52 +25,12 @@ import {
   NumberOfCases,
   NumberOfIncidents,
   ReportingDelay,
-  ServiceAccessDelay
+  ServiceAccessDelay,
+  AssessmentStatus
 } from "./components";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 
-function StackedPercentageBar({ percentages, className }) {
-  let css = makeStyles(styles)();
-
-  if (percentages.length > 2)
-    throw "StackedPercentageBar components only support a max of 2 percentages";
-
-  return (
-    <div className={css.StackedPercentageBarContainer}>
-      <div className={[css.StackedPercentageBar, className].join(" ")}>
-        {
-          percentages.map((percentageDescriptor, i) => {
-            let percentage = percentageDescriptor.percentage * 100;
-
-            return (
-              <div
-                className={css["StackedPercentageBar" + (i + 1) + "Complete"]}
-                style={{ width: percentage + "%" }}
-              ></div>
-            );
-          })
-        }
-      </div>
-      <div className={css.StackedPercentageBarLabels}>
-        {
-          percentages.map((percentageDescriptor, i) => {
-            let percentage = percentageDescriptor.percentage * 100;
-
-            return (
-              <div className={css.StackedPercentageBarLabelContainer} style={{ width: percentage + "%" }}>
-                <div>
-                  <h1 className={css.StackedPercentageBarLabelPercentage}>{percentage + '%'}</h1>
-                </div>
-                <div className={css.StackedPercentageBarLabel}>{percentageDescriptor.label}</div>
-              </div>
-            );
-          })
-        }
-      </div>
-    </div>
-  )
-}
 
 function KeyPerformanceIndicators({
   fetchNumberOfCases,
@@ -84,20 +48,6 @@ function KeyPerformanceIndicators({
       fetchReportingDelay();
     });
   }, []);
-
-  let reportingDelayColumns = [
-    "Delay",
-    "Total Cases",
-    {
-      name: "",
-      options: {
-        customBodyRender: (value) => {
-          return (<TablePercentageBar percentage={value} />);
-        }
-      }
-    }
-  ];
-
 
   return (
     <div>
@@ -127,21 +77,13 @@ function KeyPerformanceIndicators({
                   <ServiceAccessDelay />
                 </Grid>
               </Grid>
-
             </Box>
-
 
             <Box>
               <h2 className={css.subtitle}>CASE ASSESSMENT</h2>
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12}>
-                  <OptionsBox
-                    title="Assessment Status"
-                  >
-                    <StackedPercentageBar
-                      percentages={[{ percentage: 0.5, label: "Completed & Supervisor Approved" }, { percentage: 0.26, label: "Completed Only" }]}
-                    />
-                  </OptionsBox>
+                  <AssessmentStatus />
                 </Grid>
               </Grid>
             </Box>
