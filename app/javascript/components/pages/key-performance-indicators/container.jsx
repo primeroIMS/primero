@@ -16,6 +16,9 @@ import { OptionsBox, DashboardTable } from "components/dashboard";
 import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
 import styles from "./styles.css";
+import {
+  NumberOfCases
+} from "./components";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 
@@ -141,14 +144,6 @@ function KeyPerformanceIndicators({
     }
   ];
 
-  let threeMonthsAgo = new Date();
-  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
-  let numberOfCasesDateRanges = [{
-    value: '3-months',
-    name: 'Last 3 Months',
-    from: threeMonthsAgo,
-    to: new Date()
-  }]
 
   return (
     <div>
@@ -161,21 +156,7 @@ function KeyPerformanceIndicators({
 
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={6}>
-                  <OptionsBox
-                    title="Number of Cases"
-                    action={
-                      <DateRangeSelect
-                        ranges={numberOfCasesDateRanges}
-                        selectedRange={numberOfCasesDateRanges[0]}
-                        withCustomRange
-                      />
-                    }
-                  >
-                    <DashboardTable
-                      columns={numberOfCasesColumns}
-                      data={numberOfCases.get('data')}
-                    />
-                  </OptionsBox>
+                  <NumberOfCases />
                 </Grid>
 
                 <Grid item className={css.grow} xs={12} md={6}>

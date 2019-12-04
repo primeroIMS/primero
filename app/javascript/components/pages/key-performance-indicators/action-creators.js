@@ -7,8 +7,27 @@ export const fetchNumberOfCases = () => async dispatch => {
     //      path: "key_performance_indicators/number_of_cases"
     //    },
     payload: {
-      columns: ["Reporting Site", "Sep 2019", "Aug 2019", "Jul 2019"],
-      data: [["Site #1", 2, 1, 0], ["Site #2", 2, 1, 0], ["Site #3", 2, 1, 0]]
+      dates: ["Sep 2019", "Aug 2019", "Jul 2019"],
+      data: [
+        {
+          "reporting_site": "Site #1",
+          "Sep 2019": 2,
+          "Aug 2019": 1,
+          "Jul 2019": 0
+        },
+        {
+          "reporting_site": "Site #2",
+          "Sep 2019": 2,
+          "Aug 2019": 1,
+          "Jul 2019": 0
+        },
+        {
+          "reporting_site": "Site #3",
+          "Sep 2019": 2,
+          "Aug 2019": 1,
+          "Jul 2019": 0
+        }
+      ]
     }
   });
 };
