@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 import { Select, MenuItem } from "@material-ui/core";
+import { format } from "date-fns";
+import { withI18n } from "../../I18n";
 
-export default function DateRangeSelect({
+function DateRangeSelect({
   ranges,
   selectedRange,
   withCustomRange,
-  setRange
+  setRange,
+  locale
 }) {
 
   let [customRange, setCustomRange] = useState({
     value: 'custom-range',
     from: selectedRange.from,
     to: selectedRange.to,
-    name: `${selectedRange.from} - ${selectedRange.to}`
+    name: `${format(selectedRange.from, 'MMM yyyy', { locale: locale })} - ${format(selectedRange.to, 'MMM yyyy', { locale: locale })}`
   })
 
   return (
@@ -22,3 +25,5 @@ export default function DateRangeSelect({
     </Select>
   )
 }
+
+export default withI18n(DateRangeSelect);
