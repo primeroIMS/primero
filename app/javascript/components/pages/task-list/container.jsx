@@ -61,7 +61,8 @@ const TaskList = () => {
                     lookupServiceType &&
                     lookupServiceType.find(
                       serviceType => serviceType.id === lookupAction
-                    ).display_text[i18n.locale];
+                    )?.display_text[i18n.locale];
+
                   const renderValue = [
                     TASK_TYPES.SERVICE,
                     TASK_TYPES.FOLLOW_UP

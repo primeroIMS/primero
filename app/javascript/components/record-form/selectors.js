@@ -80,7 +80,7 @@ export const getOption = (state, option, locale) => {
       .filter(o => o.get("unique_id") === option.replace(/lookup /, ""))
       .first();
 
-    return selectedOptions ? selectedOptions.get("values").toJS() : [];
+    return selectedOptions?.size ? selectedOptions.get("values").toJS() : [];
   }
 
   return option && option[locale] ? option[locale] : [];

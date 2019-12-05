@@ -1,12 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { push } from "connected-react-router";
 
 import { DashboardChip } from "../dashboard-chip";
 import { useI18n } from "../../i18n";
-import { getOption } from "../../record-form";
 import { applyFilters } from "../../filters-builder/action-creators";
 import { ROUTES, RECORD_PATH } from "../../../config";
 import { FROM_DASHBOARD_PARAMS } from "../constants";
@@ -18,8 +17,6 @@ const BadgedIndicator = ({ data, lookup }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
-  const lookupsData = useSelector(state => getOption(state, lookup, i18n));
-
   const buildFilter = queryValue => {
     const value = queryValue.reduce((acum, obj) => {
       const v = obj.split("=");
@@ -30,11 +27,11 @@ const BadgedIndicator = ({ data, lookup }) => {
     return value;
   };
 
-  if (!lookupsData || !data.size) {
+  if (!data.size) {
     return null;
   }
 
-  const dashboardChips = lookupsData.map(lk => {
+  const dashboardChips = lookup.map(lk => {
     const value = data.get("stats").get(lk.id);
     const countValue = value ? value.get("count") : 0;
     const queryValue = value ? value.get("query") : [];
@@ -79,7 +76,7 @@ BadgedIndicator.displayName = "BadgedIndicator";
 
 BadgedIndicator.propTypes = {
   data: PropTypes.object.isRequired,
-  lookup: PropTypes.string.isRequired
+  lookup: PropTypes.array.isRequired
 };
 
 export default BadgedIndicator;

@@ -93,13 +93,14 @@ const Component = ({
           if (startsWith(optionStringsSource, "lookup")) {
             const lookupName = optionStringsSource.replace(/lookup /, "");
 
-            const valueFromLookup = value
-              ? allLookups
-                  .find(lookup => lookup.get("unique_id") === lookupName)
-                  .get("values")
-                  .find(v => v.get("id") === value)
-                  .get("display_text")
-              : null;
+            const valueFromLookup =
+              value && allLookups?.size
+                ? allLookups
+                    .find(lookup => lookup.get("unique_id") === lookupName)
+                    .get("values")
+                    .find(v => v.get("id") === value)
+                    .get("display_text")
+                : null;
 
             recordValue = valueFromLookup
               ? valueFromLookup.get(i18n.locale)
