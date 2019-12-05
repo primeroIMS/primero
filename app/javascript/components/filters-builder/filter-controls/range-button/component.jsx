@@ -68,7 +68,10 @@ const RangeButton = ({ recordType, props, value, setValue }) => {
                   selected: css.toggleButtonSelected
                 }}
               >
-                {v.display_name || v.display_text}
+                {v.display_name ||
+                  (typeof v.display_text === "object"
+                    ? v.display_text[i18n.locale]
+                    : v.display_text)}
               </ToggleButton>
             );
           })}

@@ -12,3 +12,5 @@ export const DOCUMENT_FIELD = "document_upload_box";
 export const AUDIO_FIELD = "audio_upload_box";
 export const NAME_FIELD = "name";
 export const NAME = "RecordForms";
+export const URL_LOOKUPS = "lookups";
+export const URL_LOCATIONS = "locations";

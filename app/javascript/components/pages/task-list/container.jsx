@@ -2,16 +2,20 @@ import React from "react";
 import { makeStyles } from "@material-ui/styles/";
 import { fromJS } from "immutable";
 import { useSelector } from "react-redux";
+import isEqual from "lodash/isEqual";
 
 import { useI18n } from "../../i18n";
 import { TasksOverdue, TasksPending } from "../../../images/primero-icons";
 import IndexTable from "../../index-table";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 import { DashboardChip } from "../../dashboard";
+import { getOption } from "../../record-form";
+import { LOOKUPS } from "../../../config";
 
 import { selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
 import styles from "./styles.css";
+import { TASK_TYPES } from "./constants";
 
 const TaskList = () => {
   const i18n = useI18n();
@@ -20,6 +24,14 @@ const TaskList = () => {
   const listHeaders = useSelector(state =>
     selectListHeaders(state, recordType)
   );
+
+  const lookupServiceType = useSelector(
+    state => getOption(state, LOOKUPS.service_type, i18n.locale),
+    (prev, actual) => {
+      return isEqual(prev, actual);
+    }
+  );
+
   const columns = data => {
     return listHeaders.map(c => {
       const options = {
@@ -37,6 +49,29 @@ const TaskList = () => {
                       type={value}
                     />
                   );
+                }
+              }
+            : {}),
+          ...(c.name === "type"
+            ? {
+                customBodyRender: (value, tableMeta) => {
+                  const recordData = data.get("data").get(tableMeta.rowIndex);
+                  const lookupAction = recordData.get("detail");
+                  const translatedValue =
+                    lookupServiceType &&
+                    lookupServiceType.find(
+                      serviceType => serviceType.id === lookupAction
+                    ).display_text[i18n.locale];
+                  const renderValue = [
+                    TASK_TYPES.SERVICE,
+                    TASK_TYPES.FOLLOW_UP
+                  ].includes(value)
+                    ? i18n.t(`task.types.${value}`, {
+                        subtype: translatedValue
+                      })
+                    : i18n.t(`task.types.${value}`);
+
+                  return <span>{renderValue}</span>;
                 }
               }
             : {}),

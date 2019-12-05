@@ -3,7 +3,6 @@ import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
 import { DashboardChip } from "../dashboard-chip";
-import { Option } from "../../record-form/records";
 import { LOOKUPS } from "../../../config";
 import { DASHBOARD_NAMES } from "../../pages/dashboard";
 
@@ -25,29 +24,31 @@ describe("<BadgedIndicator />", () => {
 
   const initialState = fromJS({
     forms: {
-      options: [
-        Option({
-          type: LOOKUPS.risk_level,
-          options: [
-            {
-              id: "high",
-              display_text: "High"
-            },
-            {
-              id: "medium",
-              display_text: "Medium"
-            },
-            {
-              id: "low",
-              display_text: "Low"
-            },
-            {
-              id: "no_risk",
-              display_text: "No Risk"
-            }
-          ]
-        })
-      ]
+      options: {
+        lookups: [
+          {
+            unique_id: LOOKUPS.risk_level,
+            values: [
+              {
+                id: "high",
+                display_text: { en: "High", es: "" }
+              },
+              {
+                id: "medium",
+                display_text: { en: "Medium", es: "" }
+              },
+              {
+                id: "low",
+                display_text: { en: "Low", es: "" }
+              },
+              {
+                id: "no_risk",
+                display_text: { en: "No Risk", es: "" }
+              }
+            ]
+          }
+        ]
+      }
     }
   });
 

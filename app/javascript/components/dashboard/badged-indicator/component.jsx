@@ -58,7 +58,7 @@ const BadgedIndicator = ({ data, lookup }) => {
     return (
       <li key={lk.id}>
         <DashboardChip
-          label={`${countValue} ${lk.display_text}`}
+          label={`${countValue} ${lk.display_text[i18n.locale]}`}
           type={lk.id}
           handleClick={handlerClick}
         />
