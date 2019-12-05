@@ -27,11 +27,14 @@ create_or_update_system_setting(
       auto_populated: true
     }
   ],
-  reporting_location_config: {
-    field_key: "owned_by_location",
-    label_key: "district",
-    admin_level: 2
-  },
+  reporting_locations: [
+    {
+      field_key: "owned_by_location",
+      label_key: "district",
+      admin_level: 2,
+      type: ReportingLocation::PRIMARY_REPORTING_LOCATION
+    }
+  ],
   primary_age_range: "primero",
   age_ranges: {
     "primero" => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
