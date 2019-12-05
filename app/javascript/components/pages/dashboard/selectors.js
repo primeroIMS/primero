@@ -45,5 +45,5 @@ export const getCasesByAssessmentLevel = state => {
     .filter(f => f.get("name") === DASHBOARD_NAMES.case_risk)
     .first();
 
-  return dashboardData.size ? dashboardData : fromJS([]);
+  return dashboardData?.size ? dashboardData : fromJS([]);
 };

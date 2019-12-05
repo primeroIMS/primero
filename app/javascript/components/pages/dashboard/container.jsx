@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { connect, batch } from "react-redux";
+import { connect, batch, useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
@@ -19,6 +19,7 @@ import { PageContainer, PageHeading, PageContent } from "../../page";
 import { RESOURCES, ACTIONS } from "../../../libs/permissions";
 import Permission from "../../application/permission";
 import { LOOKUPS } from "../../../config";
+import { getOption } from "../../record-form";
 
 import * as actions from "./action-creators";
 import {
@@ -74,6 +75,10 @@ const Dashboard = ({
 
   const i18n = useI18n();
 
+  const labelsRiskLevel = useSelector(state =>
+    getOption(state, LOOKUPS.risk_level, i18n)
+  );
+
   const getDoughnutInnerText = () => {
     const text = [];
     const openCases = casesByStatus.get("open");
@@ -126,12 +131,15 @@ const Dashboard = ({
     ]
   };
 
+  const hideCasesByAssesmentLevel =
+    !labelsRiskLevel?.length || !casesByAssessmentLevel?.size;
+
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
       <PageContent>
         <Grid container spacing={3} classes={{ root: css.container }}>
-          <Grid item md={12}>
+          <Grid item md={12} hidden={hideCasesByAssesmentLevel}>
             <OptionsBox title={i18n.t("dashboard.overview")}>
               <Permission
                 resources={RESOURCES.dashboards}
@@ -140,7 +148,7 @@ const Dashboard = ({
                 <OptionsBox title={i18n.t(casesByAssessmentLevel.get("name"))}>
                   <BadgedIndicator
                     data={casesByAssessmentLevel}
-                    lookup={LOOKUPS.risk_level}
+                    lookup={labelsRiskLevel}
                   />
                 </OptionsBox>
               </Permission>

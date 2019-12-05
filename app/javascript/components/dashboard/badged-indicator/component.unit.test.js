@@ -19,45 +19,28 @@ describe("<BadgedIndicator />", () => {
         none: { count: 0, query: [] }
       }
     }),
-    lookup: LOOKUPS.risk_level
+    lookup: [
+      {
+        id: "high",
+        display_text: { en: "High", es: "" }
+      },
+      {
+        id: "medium",
+        display_text: { en: "Medium", es: "" }
+      },
+      {
+        id: "low",
+        display_text: { en: "Low", es: "" }
+      },
+      {
+        id: "no_risk",
+        display_text: { en: "No Risk", es: "" }
+      }
+    ]
   };
 
-  const initialState = fromJS({
-    forms: {
-      options: {
-        lookups: [
-          {
-            unique_id: LOOKUPS.risk_level,
-            values: [
-              {
-                id: "high",
-                display_text: { en: "High", es: "" }
-              },
-              {
-                id: "medium",
-                display_text: { en: "Medium", es: "" }
-              },
-              {
-                id: "low",
-                display_text: { en: "Low", es: "" }
-              },
-              {
-                id: "no_risk",
-                display_text: { en: "No Risk", es: "" }
-              }
-            ]
-          }
-        ]
-      }
-    }
-  });
-
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      BadgedIndicator,
-      props,
-      initialState
-    ));
+    ({ component } = setupMountedComponent(BadgedIndicator, props, {}));
   });
 
   it("renders a BadgedIndicator with a DashboardChip />", () => {
