@@ -147,6 +147,12 @@ const Dashboard = ({
     ...toData1D(casesWorkflow, workflowLabels)
   };
 
+  const checkHidden = {
+    casesByAssessmentLevel:
+      !labelsRiskLevel?.length || !casesByAssessmentLevel?.size,
+    workflow: !workflowLabels?.length || !casesWorkflow?.size
+  };
+
   const hideCasesByAssesmentLevel =
     !labelsRiskLevel?.length || !casesByAssessmentLevel?.size;
 
@@ -155,7 +161,7 @@ const Dashboard = ({
       <PageHeading title={i18n.t("navigation.home")} />
       <PageContent>
         <Grid container spacing={3} classes={{ root: css.container }}>
-          <Grid item md={6} hidden={hideCasesByAssesmentLevel}>
+          <Grid item md={6} hidden={checkHidden.casesByAssessmentLevel}>
             <OptionsBox title={i18n.t("dashboard.overview")}>
               <Permission
                 resources={RESOURCES.dashboards}
@@ -170,7 +176,7 @@ const Dashboard = ({
               </Permission>
             </OptionsBox>
           </Grid>
-          <Grid item md={6}>
+          <Grid item md={6} hidden={checkHidden.workflow}>
             <Permission
               resources={RESOURCES.dashboards}
               actions={ACTIONS.DASH_WORKFLOW}
