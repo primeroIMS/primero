@@ -111,3 +111,10 @@ If upgrading from a system prior to 1.4, run the 1.3 to 1.4 migrations
 
 Run the 1.4 to 1.5 migrations
 $ bundle exec rails r db/upgrade_migration/migration_1.4_to_1.5/migrate.rb
+
+Run the migration scripts
+-------------------------------------------------------------------
+- $ sudo -Hu primero bash
+- $ cd ~/application/
+- $ RAILS_ENV=production bundle exec rails r db/migration/0049_saved_search_add_user_name.rb
+- $ RAILS_ENV=production bundle exec rails r db/migration/0050_recalculate_workflow_status.rb
