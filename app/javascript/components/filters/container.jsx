@@ -5,9 +5,14 @@ import { makeStyles } from "@material-ui/styles";
 import { Tabs, Tab } from "@material-ui/core";
 import { fromJS } from "immutable";
 
-import { FiltersBuilder } from "../filters-builder";
 import { SavedSearches, fetchSavedSearches } from "../saved-searches";
 import { useI18n } from "../i18n";
+import {
+  FiltersBuilder,
+  getFromDashboardFilters,
+  clearDashboardFilters
+} from "../filters-builder";
+import { dataToJS } from "../../libs";
 
 import {
   setInitialFilterValues,
@@ -40,6 +45,10 @@ const Container = ({ recordType, defaultFilters, fromDashboard }) => {
   const tabValue = useSelector(state => getTab(state, recordType));
   const availableFilters = useSelector(state =>
     getFiltersByRecordType(state, recordType)
+  );
+
+  const dashboardFilters = useSelector(state =>
+    getFromDashboardFilters(state, recordType)
   );
 
   const resetFilterValues = useCallback((namespace = null, path = null) => {
@@ -76,8 +85,16 @@ const Container = ({ recordType, defaultFilters, fromDashboard }) => {
         return currentObject;
       }, {});
 
-      if (!fromDashboard) {
-        dispatch(setInitialFilterValues(recordType, initialFilterValues));
+      dispatch(
+        setInitialFilterValues(
+          recordType,
+          initialFilterValues,
+          dataToJS(dashboardFilters)
+        )
+      );
+
+      if (fromDashboard && dashboardFilters?.size) {
+        dispatch(clearDashboardFilters(recordType));
       }
 
       if (namespace && path) {

@@ -7,54 +7,38 @@ describe("filters-builder - Actions", () => {
     const actions = { ...filtersBuilderActions };
 
     expect(actions, "DEPRECATED").to.not.have.property("SET_EXPANSION_PANEL");
-    expect(actions).to.have.property("REMOVE_EXPANDED_PANEL");
-    expect(actions).to.have.property("RESET_PANELS");
-    expect(actions).to.have.property("CASES_SET_FILTERS");
-    expect(actions).to.have.property("INCIDENTS_SET_FILTERS");
-    expect(actions).to.have.property("TRACING_REQUESTS_SET_FILTERS");
-    expect(actions).to.have.property("SET_FILTERS");
-    expect(actions).to.have.property("ADD_CHECKBOX");
-    expect(actions).to.have.property("DELETE_CHECKBOX");
-    expect(actions).to.have.property("ADD_SELECT");
-    expect(actions).to.have.property("ADD_RADIO_BUTTON");
-    expect(actions).to.have.property("ADD_RANGE_BUTTON");
-    expect(actions).to.have.property("ADD_CHIP");
-    expect(actions).to.have.property("DELETE_CHIP");
-    expect(actions).to.have.property("SET_RECORD_SEARCH");
-    expect(actions).to.have.property("ADD_DATES_RANGE");
-    expect(actions).to.have.property("ADD_SELECT_RANGE");
-    expect(actions).to.have.property("ADD_SWITCH_BUTTON");
-    expect(actions).to.have.property("DELETE_SWITCH_BUTTON");
-    expect(actions).to.have.property("RESET_CHIPS");
-    expect(actions).to.have.property("RESET_RADIO_BUTTON");
-    expect(actions).to.have.property("RESET_RANGE_BUTTON");
-    expect(actions).to.have.property("SET_SAVED_FILTERS");
-    expect(actions).to.have.property("CLEAR_FILTERS");
 
-    delete actions.REMOVE_EXPANDED_PANEL;
-    delete actions.RESET_PANELS;
-    delete actions.CASES_SET_FILTERS;
-    delete actions.INCIDENTS_SET_FILTERS;
-    delete actions.TRACING_REQUESTS_SET_FILTERS;
-    delete actions.SET_FILTERS;
-    delete actions.ADD_CHECKBOX;
-    delete actions.DELETE_CHECKBOX;
-    delete actions.ADD_SELECT;
-    delete actions.ADD_RADIO_BUTTON;
-    delete actions.ADD_RANGE_BUTTON;
-    delete actions.ADD_CHIP;
-    delete actions.DELETE_CHIP;
-    delete actions.SET_RECORD_SEARCH;
-    delete actions.ADD_DATES_RANGE;
-    delete actions.ADD_SELECT_RANGE;
-    delete actions.ADD_SWITCH_BUTTON;
-    delete actions.DELETE_SWITCH_BUTTON;
-    delete actions.RESET_CHIPS;
-    delete actions.RESET_RADIO_BUTTON;
-    delete actions.RESET_RANGE_BUTTON;
-    delete actions.SET_SAVED_FILTERS;
-    delete actions.CLEAR_FILTERS;
+    [
+      "REMOVE_EXPANDED_PANEL",
+      "RESET_PANELS",
+      "CASES_SET_FILTERS",
+      "INCIDENTS_SET_FILTERS",
+      "TRACING_REQUESTS_SET_FILTERS",
+      "SET_FILTERS",
+      "ADD_CHECKBOX",
+      "DELETE_CHECKBOX",
+      "ADD_SELECT",
+      "ADD_RADIO_BUTTON",
+      "ADD_RANGE_BUTTON",
+      "ADD_CHIP",
+      "DELETE_CHIP",
+      "SET_RECORD_SEARCH",
+      "ADD_DATES_RANGE",
+      "ADD_SELECT_RANGE",
+      "ADD_SWITCH_BUTTON",
+      "DELETE_SWITCH_BUTTON",
+      "RESET_CHIPS",
+      "RESET_RADIO_BUTTON",
+      "RESET_RANGE_BUTTON",
+      "SET_SAVED_FILTERS",
+      "CLEAR_FILTERS",
+      "SAVE_DASHBOARD_FILTERS",
+      "CLEAR_DASHBOARD_FILTERS"
+    ].forEach(property => {
+      expect(actions).to.have.property(property);
+      delete actions[property];
+    });
 
-    expect(actions).to.deep.equal({});
+    expect(actions).to.be.empty;
   });
 });

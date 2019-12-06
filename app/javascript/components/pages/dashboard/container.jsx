@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { connect, batch } from "react-redux";
+import { connect, batch, useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
@@ -20,7 +20,9 @@ import { useI18n } from "../../i18n";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 import { RESOURCES, ACTIONS } from "../../../libs/permissions";
 import Permission from "../../application/permission";
-import { LOOKUPS } from "../../../config";
+import { LOOKUPS, MODULES, RECORD_TYPES } from "../../../config";
+import { selectModule } from "../../application";
+
 
 import * as actions from "./action-creators";
 import {
@@ -133,12 +135,15 @@ const Dashboard = ({
     ]
   };
 
-  const casesWorkflowConvertedData = toData1D(casesWorkflow);
+  const workflowLabels = useSelector(
+    state =>
+      selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]?.[
+        i18n.locale
+      ]
+  );
 
   const casesWorkflowProps = {
-    data: casesWorkflowConvertedData.data,
-    labels: casesWorkflowConvertedData.labels,
-    query: casesWorkflowConvertedData.query
+    ...toData1D(casesWorkflow, workflowLabels)
   };
 
   return (

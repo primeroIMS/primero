@@ -19,7 +19,9 @@ import {
   RESET_RADIO_BUTTON,
   SET_RECORD_SEARCH,
   SET_SAVED_FILTERS,
-  CLEAR_FILTERS
+  CLEAR_FILTERS,
+  SAVE_DASHBOARD_FILTERS,
+  CLEAR_DASHBOARD_FILTERS
 } from "./actions";
 
 const DEFAULT_STATE = fromJS({
@@ -28,6 +30,7 @@ const DEFAULT_STATE = fromJS({
   tracing_requests: []
 });
 
+// eslint-disable-next-line import/prefer-default-export
 export const reducers = namespace => (
   state = DEFAULT_STATE,
   { type, payload }
@@ -82,6 +85,10 @@ export const reducers = namespace => (
       });
     case `${namespace}/${CLEAR_FILTERS}`:
       return state.set("filters", payload);
+    case `${namespace}/${SAVE_DASHBOARD_FILTERS}`:
+      return state.set("dashboardFilters", fromJS(payload));
+    case `${namespace}/${CLEAR_DASHBOARD_FILTERS}`:
+      return state.set("dashboardFilters", fromJS({}))
     default:
       return state;
   }

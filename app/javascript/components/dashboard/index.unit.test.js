@@ -17,7 +17,8 @@ describe("<Dashboard /> - index", () => {
       "OptionsBox",
       "OverviewBox",
       "ActionMenu",
-      "DashboardChip"
+      "DashboardChip",
+      "PieChart"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

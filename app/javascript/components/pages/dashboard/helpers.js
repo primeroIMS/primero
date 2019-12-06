@@ -1,13 +1,20 @@
 import { dataToJS } from "../../../libs";
 
-export const toData1D = data => {
+const translateLabels = (keys, data) => {
+  return keys
+    .map(k => data.filter(d => d.id === k))
+    .flat()
+    .map(sorted => sorted.display_text);
+};
+
+export const toData1D = (data, localeLabels) => {
   const result = dataToJS(data);
 
   if (result.length || Object.keys(result).length) {
     const values = Object.values(result.stats);
 
     return {
-      labels: Object.keys(result.stats),
+      labels: translateLabels(Object.keys(result.stats), localeLabels),
       data: values.map(v => v.count),
       query: values.map(v => v.query)
     };

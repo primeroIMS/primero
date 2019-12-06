@@ -1798,6 +1798,7 @@ en:
     low_level: "Low"
     overview: "Overview"
     case_risk: "Cases by Assessment Level"
+    workflow: "Workflow - Individual cases"
 
   errors:
     try_again: "Try again"
