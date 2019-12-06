@@ -316,7 +316,6 @@ class User < CouchRest::Model::Base
   end
 
   def reporting_location_admin_level
-    #TODO what if there are multiple roles with different reporting_location_admin_level?  Should I have to worry about that?
     @reporting_location_admin_level ||= roles.compact.collect(&:reporting_location_admin_level).flatten.uniq.first
   end
 
