@@ -112,7 +112,7 @@ const Container = ({ match, location }) => {
     dispatch(setFilters({ options: defaultFilters.toJS() }));
 
     return () => {
-      dispatch(setFilters({ options: { id_search: null, query: "" } }));
+      dispatch(setFilters({ options: { id_search: "", query: "" } }));
     };
   }, [url]);
 
