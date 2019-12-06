@@ -82,7 +82,7 @@ export const signIn = (idp) => {
      clientId: idp.client_id,
      authority: idp.authority,
      validateAuthority: false,
-     redirectUri: "http://localhost:3000/v2/login"
+     redirectUri: "http://localhost:3000/v2/login/b2c"
     },
     cache: {
      cacheLocation: "localStorage",

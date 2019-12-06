@@ -12,12 +12,11 @@ import {
 
 const Container = ({ match }) => {
   const { params } = match;
-  console.log('params:', params);
   const useIdentity = useSelector(state => selectUseIdentityProvider(state));
 
   return (
     <>
-      {useIdentity ? <IdpSelection /> : <LoginForm />}
+      {useIdentity ? <IdpSelection providerType={params.provider} /> : <LoginForm />}
     </>
   );
 };

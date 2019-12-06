@@ -1,0 +1,23 @@
+.loginSelection {
+  padding: 1em 0;
+
+  & button {
+    padding: .5em 1.75em;
+    background-color: $(theme.primero.colors.blue);
+    color: $(theme.primero.colors.white);
+    margin-top: 20px;
+    text-transform: capitalize;
+
+    &:hover {
+      background-color: #0093bac7;
+    }
+  }
+}
+
+@media $(theme.breakpoints.down('xs')) {
+  .loginSelection {
+    & button {
+      width: 100%;
+    }
+  }
+}

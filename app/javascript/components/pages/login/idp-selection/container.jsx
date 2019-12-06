@@ -3,29 +3,17 @@ import { useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import * as Msal from "msal";
+import PropTypes from "prop-types";
 
 import { PageHeading } from "../../../page";
 import { useI18n } from "../../../i18n";
-import styles from "../login-form/styles.css";
 
 import { selectIdentityProviders } from "./selectors";
 import { signIn, signOut } from "./auth-provider";
 import { NAME } from "./config";
+import styles from "./styles.css";
 
-const msalConfig = {
-  auth: {
-   clientId: "e3443e90-18bc-4a23-9982-7fd5e67ff339",
-   authority: "https://unicefpartners.b2clogin.com/tfp/unicefpartners.onmicrosoft.com/B2C_1_PrimeroSignUpSignIn",
-   validateAuthority: false,
-   redirectUri: "http://localhost:3000/v2/login"
-  },
-  cache: {
-   cacheLocation: "localStorage",
-   storeAuthStateInCookie: true
-  }
-};
-
-new Msal.UserAgentApplication(msalConfig);
+let msalApp;
 
 const showIdps = (identityProviders) => {
   return identityProviders.map(idp => (
@@ -42,30 +30,53 @@ const showIdps = (identityProviders) => {
   ));
 }
 
-const Container = (props) => {
+const Container = ({ providerType }) => {
   const identityProviders = useSelector(state => selectIdentityProviders(state));
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
+  if (providerType) {
+    const provider = identityProviders.find(provider => {
+      return provider.type === providerType;
+    });
+
+    const msalConfig = {
+      auth: {
+       clientId: provider.client_id,
+       authority: provider.authority,
+       validateAuthority: false
+      },
+      cache: {
+       cacheLocation: "localStorage",
+       storeAuthStateInCookie: true
+      }
+    };
+
+    msalApp = new Msal.UserAgentApplication(msalConfig);
+  }
+
   return (
-    <>
+    <div className={css.loginSelection}>
       <PageHeading title={i18n.t("login.title")} whiteHeading />
-      <div className={css.loginForm}>
-        {showIdps(identityProviders)}
-        <Button
-          color="primary"
-          type="submit"
-          size="large"
-          fullWidth
-          onClick={() => signOut()}
-        >
-          sign out
-        </Button>
-      </div>
-    </>
+      {showIdps(identityProviders)}
+      <Button
+        className={css.logout}
+        color="primary"
+        type="submit"
+        size="large"
+        fullWidth
+        onClick={() => signOut()}
+      >
+        sign out
+      </Button>
+    </div>
   );
 };
 
 Container.displayName = NAME;
+
+Container.propTypes = {
+  provider: PropTypes.string
+};
 
 export default Container;

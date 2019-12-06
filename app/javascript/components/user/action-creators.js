@@ -28,7 +28,7 @@ export const fetchAuthenticatedUserData = id => async dispatch => {
 export const setAuthenticatedUser = user => async dispatch => {
   dispatch(setUser(user));
   dispatch(fetchAuthenticatedUserData(user.id));
-  // dispatch(loadApplicationResources());
+  dispatch(loadApplicationResources());
 };
 
 export const attemptSignout = () => async dispatch => {
@@ -44,8 +44,6 @@ export const attemptSignout = () => async dispatch => {
 
 export const checkUserAuthentication = () => async dispatch => {
   const user = JSON.parse(localStorage.getItem("user"));
-
-  dispatch(loadApplicationResources());
 
   if (user) {
     dispatch(setAuthenticatedUser(user));
