@@ -1884,6 +1884,10 @@ en:
         default_locale: "System locale must not be blank"
         locales: "English must be available as a System Locale"
 
+        reporting_locations:
+          no_primary: "Reporting Locations should have 1 Primary Reporting Location"
+          too_many_primary: "Reporting Locations should have only 1 Primary Reporting Location"
+
       export_configuration:
         record_type: "Invalid record type. Must be Child, TracingRequest, or Incident."
         opt_out_field_does_not_exist: "Specified opt_out field does not exist on the record."
