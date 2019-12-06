@@ -16,3 +16,7 @@ export const selectUserAgency = state =>
       return userAgency ? a.get("unique_id") === userAgency : true;
     })
     .first();
+
+export const selectAlerts = state => {
+  return state.getIn(["ui", NAMESPACE, "alerts", "data"], Map({}));
+};
