@@ -1,12 +1,20 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 
 import { NAME } from "./config";
 import IdpSelection from "./idp-selection";
 import LoginForm from "./login-form";
+import {
+  selectUseIdentityProvider
+} from "./selectors";
 
-const useIdentity = true; //this should be pulled from an ENV variable
+const Container = ({ match }) => {
+  const { params } = match;
+  console.log('params:', params);
+  const useIdentity = useSelector(state => selectUseIdentityProvider(state));
 
-const Container = () => {
   return (
     <>
       {useIdentity ? <IdpSelection /> : <LoginForm />}
@@ -16,4 +24,8 @@ const Container = () => {
 
 Container.displayName = NAME;
 
-export default Container;
+Container.propTypes = {
+  match: PropTypes.object
+};
+
+export default withRouter(Container);

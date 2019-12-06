@@ -114,6 +114,7 @@ en:
       successfully_hidden: "Password request notification was successfully hidden."
 
     label: "Login"
+    title: "Log In"
   header:
     contact: "Contact & Help"
     logged_in_as: "Logged in as:"

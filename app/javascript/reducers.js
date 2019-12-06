@@ -11,6 +11,7 @@ import * as Notifier from "./components/notifier";
 import * as Dashboard from "./components/pages/dashboard";
 import * as ExportList from "./components/pages/export-list";
 import { reducers as loginReducers } from "./components/pages/login/login-form";
+import { reducers as idpReducers } from "./components/pages/login";
 import * as PotentialMatches from "./components/pages/potential-matches";
 import * as Report from "./components/pages/report";
 import * as Reports from "./components/pages/reports-list";
@@ -57,7 +58,8 @@ const rootReducer = {
   ...User.reducers,
   ...RecordForms.reducers,
   ...Notifier.reducers,
-  ...Application.reducers
+  ...Application.reducers,
+  ...idpReducers
 };
 
 export default rootReducer;

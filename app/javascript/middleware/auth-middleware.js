@@ -56,7 +56,10 @@ const authMiddleware = store => next => action => {
 
   if (action.type === Actions.LOGOUT_FINISHED) logoutSuccessHandler(store);
 
-  if (routeChanged && location !== "/login" && !isAuthenticated) {
+  const searchPattern = /^\/login/;
+  console.log('searchPattern.test(location)', location, searchPattern.test(location));
+  if (routeChanged && !searchPattern.test(location) && !isAuthenticated) {
+    console.log('redirect to login');
     redirectTo(store, "/login");
   }
 

@@ -20,6 +20,7 @@ import { I18nProvider } from "./components/i18n";
 import routes from "./config/routes";
 import NAMESPACE from "./components/i18n/namespace";
 import { checkUserAuthentication } from "./components/user";
+import { loginSystemSettings } from "./components/pages/login";
 import { ApplicationProvider } from "./components/application";
 import Permission from "./components/application/permission";
 import configureStore, { history } from "./store";
@@ -86,6 +87,7 @@ const App = () => {
   });
 
   store.dispatch(checkUserAuthentication());
+  store.dispatch(loginSystemSettings());
 
   return (
     <StylesProvider jss={jss} generateClassName={generateClassName}>
