@@ -10,13 +10,13 @@ import * as r from "./reducers";
 chai.use(chaiImmutable);
 
 describe("<RecordForm /> - Reducers", () => {
-  const defaultState = Map({
+  const initialState = Map({
     selectedForm: null,
     formSections: Map({}),
     fields: Map({})
   });
 
-  it("should handle SET_OPTIONS", () => {
+  it("deprecated forms/SET_OPTIONS", () => {
     const expected = Map({
       selectedForm: null,
       formSections: Map({}),
@@ -44,9 +44,9 @@ describe("<RecordForm /> - Reducers", () => {
       ]
     };
 
-    const newState = r.reducers.forms(defaultState, action);
+    const newState = r.reducers.forms(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).to.deep.equal(initialState);
   });
 
   it("should handle RECORD_FORMS_SUCCESS", () => {
@@ -120,7 +120,7 @@ describe("<RecordForm /> - Reducers", () => {
       }
     };
 
-    const newState = r.reducers.forms(defaultState, action);
+    const newState = r.reducers.forms(initialState, action);
 
     expect(newState).to.deep.equal(expectedState);
   });
@@ -137,7 +137,7 @@ describe("<RecordForm /> - Reducers", () => {
       type: "forms/RECORD_FORMS_STARTED"
     };
 
-    const newState = r.reducers.forms(defaultState, action);
+    const newState = r.reducers.forms(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -153,7 +153,7 @@ describe("<RecordForm /> - Reducers", () => {
       type: "forms/RECORD_FORMS_FINISHED"
     };
 
-    const newState = r.reducers.forms(defaultState, action);
+    const newState = r.reducers.forms(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -169,7 +169,7 @@ describe("<RecordForm /> - Reducers", () => {
       payload: "referral_transfer"
     };
 
-    const newState = r.reducers.forms(defaultState, action);
+    const newState = r.reducers.forms(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });

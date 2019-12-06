@@ -1,5 +1,5 @@
 import chai, { expect } from "chai";
-import { Map, List, OrderedMap } from "immutable";
+import { Map, List, OrderedMap, fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
 
 import { mapEntriesToRecord } from "../../libs";
@@ -67,30 +67,43 @@ const fields = {
     date_validation: "default_date_validation"
   }
 };
+const serviceTypeLookup = {
+  id: 1,
+  unique_id: "lookup-location-type",
+  values: [
+    { id: "country", display_text: "Country" },
+    { id: "region", display_text: "Region" }
+  ]
+};
+const location = {
+  id: 1,
+  code: "001",
+  type: "country",
+  name: {
+    en: "Test",
+    es: "Prueba",
+    fr: ""
+  }
+};
 const stateWithNoRecords = Map({});
-const stateWithRecords = Map({
-  ui: Map({
-    I18n: Map({
+const stateWithRecords = fromJS({
+  ui: {
+    I18n: {
       locale: "en",
       dir: "ltr"
-    })
-  }),
-  forms: Map({
+    }
+  },
+  forms: {
     selectedForm: "basic_identity",
     formSections: mapEntriesToRecord(formSections, R.FormSectionRecord),
     fields: mapEntriesToRecord(fields, R.FieldRecord),
     loading: true,
     errors: true,
-    options: List([
-      R.Option({
-        type: "lookup-location-type",
-        options: [
-          { id: "country", display_text: "Country" },
-          { id: "region", display_text: "Region" }
-        ]
-      })
-    ]),
-    selectedRecord: Map({
+    options: {
+      lookups: [serviceTypeLookup],
+      locations: [location]
+    },
+    selectedRecord: {
       age: 26,
       case_id: "caf0cf17-901b-4b01-80d5-5ceb72063a4b",
       case_id_display: "2063a4b",
@@ -110,8 +123,8 @@ const stateWithRecords = Map({
       registration_date: "2019-08-06",
       sex: "male",
       short_id: "2063a4b"
-    })
-  })
+    }
+  }
 });
 
 describe("<RecordForm /> - Selectors", () => {
@@ -155,13 +168,15 @@ describe("<RecordForm /> - Selectors", () => {
         { id: "country", display_text: "Country" },
         { id: "region", display_text: "Region" }
       ];
+
       const record = selectors.getOption(
         stateWithRecords,
-        "lookup-location-type"
+        "lookup lookup-location-type"
       );
 
       expect(Object.keys(record)).to.deep.equal(Object.keys(expected));
       expect(Object.values(record)).to.deep.equal(Object.values(expected));
+      expect(record).to.deep.equal(expected);
     });
 
     it("should return an empty array when there are not any options", () => {
@@ -302,6 +317,40 @@ describe("<RecordForm /> - Selectors", () => {
       const record = selectors.getFirstTab(stateWithRecords, {});
 
       expect(record).to.be.equal(null);
+    });
+  });
+
+  describe("getOptions", () => {
+    it("should return the options or lookups", () => {
+      const expected = fromJS([serviceTypeLookup]);
+
+      const record = selectors.getOptions(stateWithRecords);
+
+      expect(record.size).to.be.equal(1);
+      expect(record).to.be.deep.equal(expected);
+    });
+
+    it("should return an empty array when there are not any options", () => {
+      const record = selectors.getOptions(stateWithNoRecords);
+
+      expect(record).to.be.empty;
+    });
+  });
+
+  describe("getLocations", () => {
+    it("should return the options or lookups", () => {
+      const expected = fromJS([location]);
+
+      const record = selectors.getLocations(stateWithRecords);
+
+      expect(record.size).to.be.equal(1);
+      expect(record).to.be.deep.equal(expected);
+    });
+
+    it("should return an empty array when there are not any options", () => {
+      const record = selectors.getLocations(stateWithNoRecords);
+
+      expect(record).to.be.empty;
     });
   });
 });

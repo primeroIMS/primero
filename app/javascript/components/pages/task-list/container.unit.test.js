@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Map, List } from "immutable";
+import { fromJS } from "immutable";
 import MUIDataTable, { TableBodyRow } from "mui-datatables";
 
 import { setupMountedComponent } from "../../../test";
@@ -15,37 +15,39 @@ describe("<TaskList />", () => {
     component = setupMountedComponent(
       TaskList,
       {},
-      Map({
-        records: Map({
-          tasks: Map({
-            data: List([
-              Map({
+      fromJS({
+        records: {
+          tasks: {
+            data: [
+              {
                 id: "0df32f52-4290-4ce1-b859-74ac14c081bf",
                 record_type: "case",
                 record_id_display: "040e0b7",
                 priority: "high",
-                type: "Shelter temprary house",
-                due_date: "2019-07-01"
-              }),
-              Map({
+                type: "service",
+                due_date: "2019-07-01",
+                detail: "a"
+              },
+              {
                 id: "0df32f52-4290-4ce1-b859-74ac14c081bf",
                 record_type: "case",
                 record_id_display: "040e0b7",
                 priority: "low",
-                type: "Food service",
-                due_date: "2019-07-01"
-              })
-            ]),
-            metadata: Map({
+                type: "service",
+                due_date: "2019-07-01",
+                detail: "b"
+              }
+            ],
+            metadata: {
               total: 2,
               per: 20,
               page: 1
-            })
-          })
-        }),
-        user: Map({
-          listHeaders: Map({
-            tasks: List([
+            }
+          }
+        },
+        user: {
+          listHeaders: {
+            tasks: [
               ListHeaderRecord({
                 name: "id",
                 field_name: "record_id_display",
@@ -58,7 +60,7 @@ describe("<TaskList />", () => {
               }),
               ListHeaderRecord({
                 name: "type",
-                field_name: "type_display",
+                field_name: "type",
                 id_search: false
               }),
               ListHeaderRecord({
@@ -71,9 +73,23 @@ describe("<TaskList />", () => {
                 field_name: "status",
                 id_search: false
               })
-            ])
-          })
-        })
+            ]
+          }
+        },
+        forms: {
+          options: {
+            lookups: [
+              {
+                id: 1,
+                unique_id: "lookup-service-type",
+                values: [
+                  { id: "a", display_text: { en: "Service a" } },
+                  { id: "b", display_text: { en: "Service b" } }
+                ]
+              }
+            ]
+          }
+        }
       })
     ).component;
   });

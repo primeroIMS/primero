@@ -5,6 +5,8 @@ import sinonChai from "sinon-chai";
 import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
+import actions from "./actions";
+import { URL_LOCATIONS, URL_LOOKUPS } from "./constants"
 
 chai.use(sinonChai);
 
@@ -54,7 +56,12 @@ describe("<RecordForm /> - Action Creators", () => {
 
     actionCreators.fetchOptions()(dispatch);
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql("forms/SET_OPTIONS");
-    expect(dispatch.getCall(0).returnValue.payload.length).to.eql(63);
+    const firstCallReturnValue = dispatch.getCall(0).returnValue;
+    const secondCallReturnValue = dispatch.getCall(1).returnValue;
+
+    expect(firstCallReturnValue.type).to.eql(actions.SET_OPTIONS);
+    expect(firstCallReturnValue.api.path).to.eql(URL_LOOKUPS);
+    expect(secondCallReturnValue.type).to.eql(actions.SET_LOCATIONS);
+    expect(secondCallReturnValue.api.path).to.eql(URL_LOCATIONS);
   });
 });

@@ -11,7 +11,6 @@ import {
   LineChart,
   OverviewBox,
   BadgedIndicator,
-  ActionMenu,
   PieChart
 } from "../../dashboard";
 import { FlagList } from "../../dashboard/flag-list";
@@ -22,7 +21,7 @@ import { RESOURCES, ACTIONS } from "../../../libs/permissions";
 import Permission from "../../application/permission";
 import { LOOKUPS, MODULES, RECORD_TYPES } from "../../../config";
 import { selectModule } from "../../application";
-
+import { getOption } from "../../record-form";
 
 import * as actions from "./action-creators";
 import {
@@ -33,7 +32,6 @@ import {
   selectCasesRegistration,
   selectCasesOverview,
   selectServicesStatus,
-  selectIsOpenPageActions,
   getWorkflowIndividualCases
 } from "./selectors";
 import styles from "./styles.css";
@@ -54,8 +52,7 @@ const Dashboard = ({
   casesRegistration,
   casesOverview,
   casesWorkflow,
-  servicesStatus,
-  isOpenPageActions
+  servicesStatus
 }) => {
   useEffect(() => {
     batch(() => {
@@ -82,6 +79,10 @@ const Dashboard = ({
   const theme = useTheme();
 
   const i18n = useI18n();
+
+  const labelsRiskLevel = useSelector(state =>
+    getOption(state, LOOKUPS.risk_level, i18n)
+  );
 
   const getDoughnutInnerText = () => {
     const text = [];
@@ -146,12 +147,15 @@ const Dashboard = ({
     ...toData1D(casesWorkflow, workflowLabels)
   };
 
+  const hideCasesByAssesmentLevel =
+    !labelsRiskLevel?.length || !casesByAssessmentLevel?.size;
+
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
       <PageContent>
         <Grid container spacing={3} classes={{ root: css.container }}>
-          <Grid item md={6}>
+          <Grid item md={6} hidden={hideCasesByAssesmentLevel}>
             <OptionsBox title={i18n.t("dashboard.overview")}>
               <Permission
                 resources={RESOURCES.dashboards}
@@ -160,7 +164,7 @@ const Dashboard = ({
                 <OptionsBox title={i18n.t(casesByAssessmentLevel.get("name"))}>
                   <BadgedIndicator
                     data={casesByAssessmentLevel}
-                    lookup={LOOKUPS.risk_level}
+                    lookup={labelsRiskLevel}
                   />
                 </OptionsBox>
               </Permission>
@@ -225,7 +229,6 @@ Dashboard.propTypes = {
   fetchServicesStatus: PropTypes.func.isRequired,
   flags: PropTypes.object.isRequired,
   getDashboardsData: PropTypes.func.isRequired,
-  isOpenPageActions: PropTypes.bool.isRequired,
   openPageActions: PropTypes.func.isRequired,
   servicesStatus: PropTypes.object.isRequired
 };

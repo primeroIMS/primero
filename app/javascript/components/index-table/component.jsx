@@ -4,9 +4,18 @@ import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
+import uniqBy from "lodash/uniqBy";
+import isEmpty from "lodash/isEmpty";
+import startsWith from "lodash/startsWith";
+import { List } from "immutable";
 
 import { dataToJS } from "../../libs";
 import { LoadingIndicator } from "../loading-indicator";
+import { getFields } from "../record-list/selectors";
+import { getOptions } from "../record-form/selectors";
+import { selectAgencies } from "../application/selectors";
+import { useI18n } from "../i18n";
+import { STRING_SOURCES_TYPES, RECORD_PATH } from "../../config";
 
 import { NAME } from "./config";
 import { getRecords, getLoading, getErrors, getFilters } from "./selectors";
@@ -21,6 +30,7 @@ const Component = ({
   onRowClick
 }) => {
   const dispatch = useDispatch();
+  const i18n = useI18n();
   const data = useSelector(state => getRecords(state, recordType));
   const loading = useSelector(state => getLoading(state, recordType));
   const errors = useSelector(state => getErrors(state, recordType));
@@ -32,9 +42,91 @@ const Component = ({
   const total = data.getIn(["metadata", "total"], 0);
   const page = data.getIn(["metadata", "page"], 1);
   const url = targetRecordType || recordType;
+  const validRecordTypes = [
+    RECORD_PATH.cases,
+    RECORD_PATH.incidents,
+    RECORD_PATH.tracing_requests
+  ].includes(recordType);
+  let translatedRecords = [];
+
+  const allFields = useSelector(state => getFields(state));
+  const allLookups = useSelector(state => getOptions(state));
+  const allAgencies = useSelector(state => selectAgencies(state));
 
   let componentColumns =
     typeof columns === "function" ? columns(data) : columns;
+
+  if (allFields.size && records && validRecordTypes) {
+    const columnsName = componentColumns.toJS().map(col => col.name);
+
+    const fieldWithColumns = allFields.toSeq().filter(fieldName => {
+      if (
+        columnsName.includes(fieldName.get("name")) &&
+        !isEmpty(fieldName.get("option_strings_source"))
+      ) {
+        return fieldName;
+      }
+
+      return null;
+    });
+
+    const columnsWithLookups = uniqBy(
+      fieldWithColumns.toList().toJS(),
+      "option_strings_source"
+    );
+
+    translatedRecords = records.reduce((accum, record) => {
+      const result = record.mapEntries(recordEntry => {
+        const [key, value] = recordEntry;
+
+        if (
+          columnsWithLookups
+            .map(columnWithLookup => columnWithLookup.name)
+            .includes(key)
+        ) {
+          const optionStringsSource = columnsWithLookups.find(
+            el => el.name === key
+          ).option_strings_source;
+
+          let recordValue = value;
+
+          if (startsWith(optionStringsSource, "lookup")) {
+            const lookupName = optionStringsSource.replace(/lookup /, "");
+
+            const valueFromLookup =
+              value && allLookups?.size
+                ? allLookups
+                    .find(lookup => lookup.get("unique_id") === lookupName)
+                    .get("values")
+                    .find(v => v.get("id") === value)
+                    .get("display_text")
+                : null;
+
+            recordValue = valueFromLookup
+              ? valueFromLookup.get(i18n.locale)
+              : "";
+          } else {
+            switch (optionStringsSource) {
+              case STRING_SOURCES_TYPES.AGENCY:
+                recordValue = allAgencies
+                  .find(a => a.get("id") === value)
+                  .get("name");
+                break;
+              default:
+                recordValue = value;
+                break;
+            }
+          }
+
+          return [key, recordValue];
+        }
+
+        return [key, value];
+      });
+
+      return accum.push(result);
+    }, List());
+  }
 
   useEffect(() => {
     dispatch(
@@ -125,7 +217,7 @@ const Component = ({
   const tableOptions = {
     columns: componentColumns,
     options,
-    data: dataToJS(records)
+    data: validRecordTypes ? dataToJS(translatedRecords) : dataToJS(records)
   };
 
   const loadingIndicatorProps = {

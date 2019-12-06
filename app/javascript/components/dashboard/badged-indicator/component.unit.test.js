@@ -3,7 +3,6 @@ import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
 import { DashboardChip } from "../dashboard-chip";
-import { Option } from "../../record-form/records";
 import { LOOKUPS } from "../../../config";
 import { DASHBOARD_NAMES } from "../../pages/dashboard";
 
@@ -20,43 +19,28 @@ describe("<BadgedIndicator />", () => {
         none: { count: 0, query: [] }
       }
     }),
-    lookup: LOOKUPS.risk_level
+    lookup: [
+      {
+        id: "high",
+        display_text: { en: "High", es: "" }
+      },
+      {
+        id: "medium",
+        display_text: { en: "Medium", es: "" }
+      },
+      {
+        id: "low",
+        display_text: { en: "Low", es: "" }
+      },
+      {
+        id: "no_risk",
+        display_text: { en: "No Risk", es: "" }
+      }
+    ]
   };
 
-  const initialState = fromJS({
-    forms: {
-      options: [
-        Option({
-          type: LOOKUPS.risk_level,
-          options: [
-            {
-              id: "high",
-              display_text: "High"
-            },
-            {
-              id: "medium",
-              display_text: "Medium"
-            },
-            {
-              id: "low",
-              display_text: "Low"
-            },
-            {
-              id: "no_risk",
-              display_text: "No Risk"
-            }
-          ]
-        })
-      ]
-    }
-  });
-
   beforeEach(() => {
-    ({ component } = setupMountedComponent(
-      BadgedIndicator,
-      props,
-      initialState
-    ));
+    ({ component } = setupMountedComponent(BadgedIndicator, props, {}));
   });
 
   it("renders a BadgedIndicator with a DashboardChip />", () => {
