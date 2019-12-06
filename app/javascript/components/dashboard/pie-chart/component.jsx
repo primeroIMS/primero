@@ -62,7 +62,7 @@ const PieChart = ({ data, labels, query }) => {
     };
   });
 
-  return <canvas className="doughnutChart" ref={chartRef} />;
+  return <canvas ref={chartRef} />;
 };
 
 PieChart.displayName = NAME;

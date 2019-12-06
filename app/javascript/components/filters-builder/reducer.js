@@ -88,7 +88,7 @@ export const reducers = namespace => (
     case `${namespace}/${SAVE_DASHBOARD_FILTERS}`:
       return state.set("dashboardFilters", fromJS(payload));
     case `${namespace}/${CLEAR_DASHBOARD_FILTERS}`:
-      return state.set("dashboardFilters", fromJS({}))
+      return state.set("dashboardFilters", fromJS({}));
     default:
       return state;
   }
