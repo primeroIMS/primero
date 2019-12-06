@@ -206,18 +206,6 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :display_text
 
-    #TODO rework this  (Added by Dennis in PRIM-443)
-    #Name of this method is misleading.  It returns a Location, not a ReportingLocation
-    def get_reporting_location(location)
-      reporting_admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
-      if location.admin_level ==  reporting_admin_level
-        location
-      else
-        location.ancestor_by_admin_level(reporting_admin_level)
-      end
-    end
-    memoize_in_prod :get_reporting_location
-
     def all_names_reporting_locations(opts={})
       admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
       reporting_location_hierarchy_filter = SystemSettings.current.reporting_location_config.try(:hierarchy_filter) || nil

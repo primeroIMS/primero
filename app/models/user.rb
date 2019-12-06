@@ -307,17 +307,18 @@ class User < CouchRest::Model::Base
   # Hack to allow backward-compatibility. The Location method must not be used.
   alias_method :Location, :user_location
 
-  #TODO rework this  (Added by Dennis in PRIM-443)
-  # Name of this method is misleading.  It returns a Location, not a ReportingLocation
   def reporting_location
-    @reporting_location ||= Location.get_reporting_location(self.user_location) if self.user_location.present?
+    location = self.user_location
+    return nil if location.blank?
+    reporting_admin_level = reporting_location_admin_level || SystemSettings.current.get_reporting_location(nil).try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
+    return location if location.admin_level == reporting_admin_level
+    location.ancestor_by_admin_level(reporting_admin_level)
   end
 
   def reporting_location_admin_level
     #TODO what if there are multiple roles with different reporting_location_admin_level?  Should I have to worry about that?
     @reporting_location_admin_level ||= roles.compact.collect(&:reporting_location_admin_level).flatten.uniq.first
   end
-
 
   def agency
     @agency_obj ||= Agency.get(self.organization)
