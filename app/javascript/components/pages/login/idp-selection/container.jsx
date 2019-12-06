@@ -66,8 +66,9 @@ const Container = ({ providerType }) => {
         size="large"
         fullWidth
         onClick={() => signOut()}
+        variant="outlined"
       >
-        sign out
+        {i18n.t("navigation.logout")}
       </Button>
     </div>
   );

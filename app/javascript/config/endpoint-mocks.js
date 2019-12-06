@@ -4,7 +4,7 @@ export const systemSettingsLogin = async () => {
     "locales": ["en", "fr"],
     "agency_icons": [],
     "branding": "primero",
-    "use_identity_provider": true,
+    "use_identity_provider": false,
     "identity_providers": [
       {
         "name": "UNICEF",
@@ -12,7 +12,8 @@ export const systemSettingsLogin = async () => {
         "domain_hint": "unicef",
         "authority": "https://unicefpartners.b2clogin.com/tfp/unicefpartners.onmicrosoft.com/B2C_1_PrimeroSignUpSignIn",
         "client_id": "e3443e90-18bc-4a23-9982-7fd5e67ff339",
-        "scope": ["e3443e90-18bc-4a23-9982-7fd5e67ff339"]
+        "scope": ["e3443e90-18bc-4a23-9982-7fd5e67ff339"],
+        "redirect_uri": "http://localhost:3000/v2/login/b2c"
       },
       {
         "name": "Primero",
@@ -20,7 +21,8 @@ export const systemSettingsLogin = async () => {
         "domain_hint": "primeroims",
         "authority": "https://unicefpartners.b2clogin.com/tfp/unicefpartners.onmicrosoft.com/B2C_1_PrimeroSignUpSignIn",
         "client_id": "e3443e90-18bc-4a23-9982-7fd5e67ff339",
-        "scope": ["e3443e90-18bc-4a23-9982-7fd5e67ff339"]
+        "scope": ["e3443e90-18bc-4a23-9982-7fd5e67ff339"],
+        "redirect_uri": "http://localhost:3000/v2/login/b2c"
       },
       {
         "name": "Partner",
@@ -28,7 +30,8 @@ export const systemSettingsLogin = async () => {
         "domain_hint": "unitstonelogin",
         "authority": "https://unicefpartners.b2clogin.com/tfp/unicefpartners.onmicrosoft.com/B2C_1_PrimeroSignUpSignIn",
         "client_id": "e3443e90-18bc-4a23-9982-7fd5e67ff339",
-        "scope": ["e3443e90-18bc-4a23-9982-7fd5e67ff339"]
+        "scope": ["e3443e90-18bc-4a23-9982-7fd5e67ff339"],
+        "redirect_uri": "http://localhost:3000/v2/login/b2c"
       },
     ]
   };

@@ -8,8 +8,18 @@
     margin-top: 20px;
     text-transform: capitalize;
 
+    &.logout {
+      color: #595952;
+      background-color: #f0f0f0;
+      border: none;
+    }
+
     &:hover {
       background-color: #0093bac7;
+
+      &.logout {
+        background-color: rgb(186, 186, 186);
+      }
     }
   }
 }
