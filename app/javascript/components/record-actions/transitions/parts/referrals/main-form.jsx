@@ -10,7 +10,16 @@ import { Checkbox as MuiCheckbox } from "formik-material-ui";
 import { selectAgencies } from "../../../../application/selectors";
 import { getOption } from "../../../../record-form";
 import { useI18n } from "../../../../i18n";
-import { RECORD_TYPES, USER_NAME_FIELD } from "../../../../../config";
+import {
+  RECORD_TYPES,
+  USER_NAME_FIELD,
+  ID_FIELD,
+  DISPLAY_TEXT_FIELD,
+  UNIQUE_ID_FIELD,
+  NAME_FIELD,
+  CODE_FIELD,
+  LOOKUPS
+} from "../../../../../config";
 import { getInternalFields } from "../helpers";
 import {
   getUsersByTransitionType,
@@ -18,6 +27,8 @@ import {
 } from "../../selectors";
 import { fetchReferralUsers } from "../../action-creators";
 import { enqueueSnackbar } from "../../../../notifier";
+import { getLocations } from "../../../../record-form/selectors";
+import { valuesToSearchableSelect } from "../../../../../libs";
 
 import ProvidedConsent from "./provided-consent";
 import FormInternal from "./form-internal";
@@ -82,13 +93,10 @@ const MainForm = ({ formProps, rest }) => {
   }, [hasErrors]);
 
   const services = useSelector(state =>
-    getOption(state, "lookup-service-type", i18n)
+    getOption(state, LOOKUPS.service_type, i18n)
   );
+  const locations = useSelector(state => getLocations(state));
   const agencies = useSelector(state => selectAgencies(state));
-  const locations = useSelector(
-    state => getOption(state, "reporting_location", i18n),
-    []
-  );
   const users = useSelector(state =>
     getUsersByTransitionType(state, transitionType)
   );
@@ -115,12 +123,12 @@ const MainForm = ({ formProps, rest }) => {
     {
       id: SERVICE_FIELD,
       label: i18n.t("referral.service_label"),
-      options: services
-        ? services.map(service => ({
-            value: service.id.toLowerCase(),
-            label: service.display_text
-          }))
-        : [],
+      options: valuesToSearchableSelect(
+        services,
+        ID_FIELD,
+        DISPLAY_TEXT_FIELD,
+        i18n.locale
+      ),
       onChange: (data, field, form) => {
         const { value } = data;
         const queryValues = [LOCATION_FIELD];
@@ -134,12 +142,12 @@ const MainForm = ({ formProps, rest }) => {
     {
       id: AGENCY_FIELD,
       label: i18n.t("referral.agency_label"),
-      options: agencies
-        ? agencies.toJS().map(agency => ({
-            value: agency.unique_id,
-            label: agency.name
-          }))
-        : [],
+      options: valuesToSearchableSelect(
+        agencies,
+        UNIQUE_ID_FIELD,
+        NAME_FIELD,
+        i18n.locale
+      ),
       onChange: (data, field, form) => {
         const { value } = data;
         const queryValues = [SERVICE_FIELD, LOCATION_FIELD];
@@ -153,12 +161,12 @@ const MainForm = ({ formProps, rest }) => {
     {
       id: LOCATION_FIELD,
       label: i18n.t("referral.location_label"),
-      options: locations
-        ? locations.map(location => ({
-            value: location.id,
-            label: location.display_text
-          }))
-        : [],
+      options: valuesToSearchableSelect(
+        locations,
+        CODE_FIELD,
+        NAME_FIELD,
+        i18n.locale
+      ),
       onChange: (data, field, form) => {
         const { value } = data;
         const queryValues = [SERVICE_FIELD, AGENCY_FIELD];

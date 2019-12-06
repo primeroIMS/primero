@@ -1,5 +1,5 @@
 field_notes_subform_fields = [
-  Field.new({"name" => "notes_date",
+  Field.new({"name" => "note_date",
              "type" => "date_field",
              "display_name_en" => "Date",
              "date_include_time" => true
@@ -8,7 +8,7 @@ field_notes_subform_fields = [
              "type" => "text_field",
              "display_name_en" => "Subject"
             }),
-  Field.new({"name" => "field_notes_subform_fields",
+  Field.new({"name" => "note_text",
              "type" => "textarea",
              "display_name_en" => "Notes"
             }),

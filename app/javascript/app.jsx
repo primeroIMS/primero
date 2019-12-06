@@ -100,9 +100,6 @@ const App = () => {
                 <ApplicationProvider>
                   <ConnectedRouter history={history}>
                     <Switch>
-                      <Route exact path="/">
-                        <Redirect to="/login" />
-                      </Route>
                       {routesApplication}
                     </Switch>
                   </ConnectedRouter>

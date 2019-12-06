@@ -32,7 +32,7 @@ const STRING_FILTERS = ["radio"];
 
 const DATE_RANGE_FILTERS = ["dates"];
 
-const Container = ({ recordType, defaultFilters }) => {
+const Container = ({ recordType, defaultFilters, fromDashboard }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -76,7 +76,9 @@ const Container = ({ recordType, defaultFilters }) => {
         return currentObject;
       }, {});
 
-      dispatch(setInitialFilterValues(recordType, initialFilterValues));
+      if (!fromDashboard) {
+        dispatch(setInitialFilterValues(recordType, initialFilterValues));
+      }
 
       if (namespace && path) {
         dispatch(setInitialRecords(path, namespace, initialFilterValues));
@@ -136,8 +138,10 @@ const Container = ({ recordType, defaultFilters }) => {
 
 Container.displayName = NAME;
 
+
 Container.propTypes = {
   defaultFilters: PropTypes.object,
+  fromDashboard: PropTypes.bool,
   recordType: PropTypes.string.isRequired
 };
 

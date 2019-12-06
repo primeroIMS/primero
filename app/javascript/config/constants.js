@@ -42,6 +42,18 @@ export const MODULE_TYPE_FIELD = "module_id";
 
 export const USER_NAME_FIELD = "user_name";
 
+export const STRING_SOURCES_TYPES = Object.freeze({
+  LOCATION: "Location",
+  AGENCY: "Agency",
+  USER: "user"
+});
+
+export const ID_FIELD = "id";
+export const UNIQUE_ID_FIELD = "unique_id";
+export const DISPLAY_TEXT_FIELD = "display_text";
+export const NAME_FIELD = "name";
+export const CODE_FIELD = "code";
+
 export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
   [MODULES.CP]: "consent_for_services",
   [MODULES.GBV]: "disclosure_other_orgs"
@@ -49,9 +61,10 @@ export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
 
 export const RECORD_PATH = {
   cases: "cases",
-  tracing_requests: "tracing_requests",
+  dashboards: "dashboards",
   incidents: "incidents",
-  tasks: "tasks"
+  tasks: "tasks",
+  tracing_requests: "tracing_requests"
 };
 
 export const RECORD_OWNER = "record_owner";
@@ -91,10 +104,17 @@ export const PERMITTED_URL = [
 
 export const DATE_FORMAT = "dd-MMM-yyyy";
 
+export const TRANSITIONS_DATE_FORMAT = "MMM dd,yyyy";
+
 export const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";
 
 export const MODES = {
   edit: "edit",
   new: "new",
   show: "show"
+};
+
+export const LOOKUPS = {
+  risk_level: "lookup-risk-level",
+  service_type: "lookup-service-type"
 };

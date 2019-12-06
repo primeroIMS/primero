@@ -59,6 +59,8 @@ Rails.application.routes.draw do
       resources :saved_searches, only: [:index, :create, :destroy]
       resources :reports, only: [:index, :show]
       resources :lookups
+      resources :locations
+      get 'alerts', to: 'alerts#bulk_index'
 
     end
   end

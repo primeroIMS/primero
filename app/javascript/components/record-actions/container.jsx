@@ -17,7 +17,7 @@ import {
 import Permission from "../application/permission";
 
 import { NAME } from "./config";
-import { Notes } from "./notes";
+import Notes from "./notes";
 import { ToggleEnable } from "./toggle-enable";
 import { ToggleOpen } from "./toggle-open";
 import { Transitions } from "./transitions";
@@ -289,7 +289,12 @@ const Container = ({ recordType, iconColor, record, mode }) => {
       <Transitions {...transitionsProps} />
 
       <Permission resources={recordType} actions={ADD_NOTE}>
-        <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} />
+        <Notes
+          close={handleNotesClose}
+          openNotesDialog={openNotesDialog}
+          record={record}
+          recordType={recordType}
+        />
       </Permission>
     </>
   );

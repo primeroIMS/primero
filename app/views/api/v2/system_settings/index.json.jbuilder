@@ -3,6 +3,7 @@ json.data do
   if @agencies.present?
     json.agencies do
       json.array! @agencies do |agency|
+        json.id agency.id
         json.unique_id agency.unique_id
         json.name agency.name
         if agency.logo_enabled && (agency.logo_small.attachment.present? || agency.logo_large.attachment.present?)

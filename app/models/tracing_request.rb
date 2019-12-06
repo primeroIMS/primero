@@ -6,6 +6,7 @@ class TracingRequest < ApplicationRecord
   include Historical
   include Flaggable
   include Matchable
+  include Alertable
   include Attachable
   #include Importable #TODO: Refactor with Imports and Exports
 

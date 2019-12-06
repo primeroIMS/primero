@@ -5,7 +5,7 @@ import { Menu, MenuItem } from "@material-ui/core";
 import { setupMountedComponent } from "../../test";
 import { ACTIONS } from "../../libs/permissions";
 
-import { Notes } from "./notes";
+import Notes from "./notes";
 import RecordActions from "./container";
 import { ToggleEnable } from "./toggle-enable";
 import { ToggleOpen } from "./toggle-open";

@@ -10,6 +10,8 @@ class Ability
 
     can [:index], SystemSettings
     can :index, FormSection
+    can [:index], Lookup
+    can [:index], Location
 
     can [:read_self, :write_self], User do |uzer|
       uzer.user_name == user.user_name

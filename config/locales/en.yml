@@ -1797,6 +1797,8 @@ en:
     high_level: "High"
     medium_level: "Medium"
     low_level: "Low"
+    overview: "Overview"
+    case_risk: "Cases by Assessment Level"
 
   errors:
     try_again: "Try again"
@@ -1818,6 +1820,9 @@ en:
         message: "Flags: message field is invalid"
         date: "Flags: date field is invalid"
         index: "Flags: unable to remove the flag at the position %{index}"
+
+      alerts:
+        alert_for: "Alerts: alert_for field is invalid"
 
       date_range_invalid: "<span>%{field_name}:</span> Please enter a valid date range 'From:' should be earlier than 'To:'"
 
@@ -2270,7 +2275,7 @@ en:
     type:
       assign: "Assign"
       transfer: "Transfer"
-      transferRequest: "TransferRequest"
+      transferRequest: "Transfer Request"
       referral: "Referral"
     notes: "Notes"
     recipient: "Recipient"
@@ -2279,6 +2284,7 @@ en:
     no_consent_share: "No Consent to Share Setting Overridden"
     individual_consent: "Did the case worker have the individual's consent to make this transfer?"
     service_label: "Service"
+    requested_by: "Requested By"
     consent_overridden_value:
       true_label: "Yes"
       false_label: "No"
@@ -2336,6 +2342,7 @@ en:
     notes_label: "Notes"
     subject_label: "Subject"
     no_records_selected: "No records selected"
+    note_success: "Successfully added note"
     error_adding_note: "Error adding note"
 
   per_page_translation: "Per page _MENU_"

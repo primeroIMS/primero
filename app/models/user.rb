@@ -418,6 +418,7 @@ class User < ApplicationRecord
       @permitted_field_names << 'flagged' if can?(:flag, model_class)
       @permitted_field_names << 'or'
       @permitted_field_names << 'cases_by_date'
+      @permitted_field_names << 'alert_count'
       if model_class == Child
         @permitted_field_names += %w[workflow status case_status_reopened]
       end
