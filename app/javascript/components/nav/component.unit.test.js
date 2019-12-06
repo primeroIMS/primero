@@ -4,7 +4,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 import { setupMountedComponent } from "../../test";
-import { ROUTES } from "../../config";
+import { ROUTES, RECORD_PATH } from "../../config";
 import { TranslationsToggle } from "../translations-toggle";
 import { AgencyLogo } from "../agency-logo";
 import { ModuleLogo } from "../module-logo";
@@ -12,6 +12,7 @@ import { ApplicationProvider } from "../application/provider";
 import { ACTIONS } from "../../libs/permissions";
 
 import Nav from "./component";
+import { FETCH_ALERTS } from "./actions";
 
 describe("<Nav />", () => {
   let component;
@@ -177,6 +178,44 @@ describe("<Nav />", () => {
           .find(NavLink)
           .findWhere(link => link.prop("to") === ROUTES.exports)
       ).to.have.lengthOf(0);
+    });
+  });
+
+  describe("when component is rendered ", () => {
+    const initialStateActions = fromJS({
+      ui: {
+        Nav: {
+          drawerOpen: true,
+          alerts: {
+            data: {
+              case: 2,
+              incident: 0,
+              tracing_request: 1
+            }
+          }
+        }
+      }
+    });
+
+    const expectedAction = {
+      type: FETCH_ALERTS,
+      api: {
+        path: RECORD_PATH.alerts
+      }
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        ProvidedNav,
+        { username: "username" },
+        initialStateActions
+      ));
+    });
+
+    it("should fetch alerts", () => {
+      const storeActions = component.props().store.getActions();
+
+      expect(storeActions[0]).to.deep.equal(expectedAction);
     });
   });
 });

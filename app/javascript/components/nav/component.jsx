@@ -16,7 +16,7 @@ import { useI18n } from "../i18n";
 import { useThemeHelper } from "../../libs";
 import { MobileToolbar } from "../mobile-toolbar";
 import { useApp } from "../application";
-import Permission from "../application/permission"
+import Permission from "../application/permission";
 import { ListIcon } from "../list-icon";
 import { Jewel } from "../jewel";
 import { TranslationsToggle } from "../translations-toggle";
@@ -36,7 +36,8 @@ import * as actions from "./action-creators";
 import {
   selectDrawerOpen,
   selectUsername,
-  selectUserAgency
+  selectUserAgency,
+  selectAlerts
 } from "./selectors";
 
 const Nav = () => {
@@ -49,6 +50,10 @@ const Nav = () => {
     dispatch
   ]);
 
+  useEffect(() => {
+    dispatch(actions.fetchAlerts());
+  }, []);
+
   const { userModules } = useApp();
   const module = userModules.first();
 
@@ -56,13 +61,13 @@ const Nav = () => {
   const username = useSelector(state => selectUsername(state));
   const agency = useSelector(state => selectUserAgency(state));
   const drawerOpen = useSelector(state => selectDrawerOpen(state));
+  const dataAlerts = useSelector(state => selectAlerts(state));
   const nav = [
     { name: i18n.t("navigation.home"), to: ROUTES.dashboard, icon: "home" },
     {
       name: i18n.t("navigation.tasks"),
       to: ROUTES.tasks,
       icon: "tasks",
-      jewelCount: 0,
       resources: RESOURCES.dashboards,
       actions: SHOW_TASKS
     },
@@ -70,7 +75,7 @@ const Nav = () => {
       name: i18n.t("navigation.cases"),
       to: ROUTES.cases,
       icon: "cases",
-      jewelCount: 20,
+      jewelCount: dataAlerts.get("case"),
       resources: RESOURCES.cases,
       actions: READ_RECORDS
     },
@@ -78,7 +83,7 @@ const Nav = () => {
       name: i18n.t("navigation.incidents"),
       to: ROUTES.incidents,
       icon: "incidents",
-      jewelCount: 0,
+      jewelCount: dataAlerts.get("incident"),
       resources: RESOURCES.incidents,
       actions: READ_RECORDS
     },
@@ -86,6 +91,7 @@ const Nav = () => {
       name: i18n.t("navigation.tracing_request"),
       to: ROUTES.tracing_requests,
       icon: "tracing_request",
+      jewelCount: dataAlerts.get("tracing_request"),
       resources: RESOURCES.tracing_requests,
       actions: READ_RECORDS
     },
