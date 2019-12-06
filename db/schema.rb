@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_12_000000) do
+ActiveRecord::Schema.define(version: 2019_11_25_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -51,6 +51,21 @@ ActiveRecord::Schema.define(version: 2019_09_12_000000) do
     t.index ["agency_code"], name: "index_agencies_on_agency_code", unique: true
     t.index ["services"], name: "index_agencies_on_services", using: :gin
     t.index ["unique_id"], name: "index_agencies_on_unique_id", unique: true
+  end
+
+  create_table "alerts", id: :serial, force: :cascade do |t|
+    t.string "type"
+    t.text "alert_for"
+    t.date "date"
+    t.string "form_sidebar_id"
+    t.string "unique_id"
+    t.integer "user_id"
+    t.integer "agency_id"
+    t.string "record_type"
+    t.uuid "record_id"
+    t.index ["agency_id"], name: "index_alerts_on_agency_id"
+    t.index ["record_type", "record_id"], name: "index_alerts_on_record_type_and_record_id"
+    t.index ["user_id"], name: "index_alerts_on_user_id"
   end
 
   create_table "attachment_audios", force: :cascade do |t|

@@ -4,8 +4,16 @@ describe Api::V2::ChildrenController, type: :request do
   include ActiveJob::TestHelper
 
   before :each do
-    @case1 = Child.create!(data: { name: "Test1", age: 5, sex: 'male' })
-    @case2 = Child.create!(data: { name: "Test2", age: 10, sex: 'female'})
+    @case1 = Child.create!(
+      data: { name: 'Test1', age: 5, sex: 'male' }
+    )
+    @case2 = Child.create!(
+      data: { name: 'Test2', age: 10, sex: 'female'},
+      alerts: [
+        Alert.create(type: 'transfer_request', alert_for: 'transfer_request'),
+        Alert.create(type: 'transfer_request', alert_for: 'transfer_request')
+      ]
+    )
     @case3 = Child.create!(
         data: {
             name: "Test3", age: 6, sex: 'male',
@@ -13,7 +21,8 @@ describe Api::V2::ChildrenController, type: :request do
                 {unique_id: 'a1', relation_type: 'mother', age: 33},
                 {unique_id: 'a2', relation_type: 'father', age: 32}
             ]
-        }
+        },
+        alerts: [ Alert.create(type: 'transfer_request', alert_for: 'transfer_request') ]
     )
     @blob = ActiveStorage::Blob.create_after_upload!(
                                           io: File.open('spec/resources/jorge.jpg'),
@@ -38,6 +47,9 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['metadata']['total']).to eq(3)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
+      expect(json['data'][0]['alert_count']).to eq(2)
+      expect(json['data'][1]['alert_count']).to eq(1)
+      expect(json['data'][2]['alert_count']).to eq(0)
     end
 
     it 'shows relevant fields' do
@@ -79,6 +91,19 @@ describe Api::V2::ChildrenController, type: :request do
 
     end
 
+    it 'returns alert_count for the short form ' do
+      @case1.add_alert('transfer_request', Date.today, 'transfer_request')
+
+      login_for_test(permissions: permission_flag_record)
+      get '/api/v2/cases?fields=short'
+
+      expect(response).to have_http_status(200)
+      expect(json['data'][0]['alert_count']).to eq(2)
+      expect(json['data'][1]['alert_count']).to eq(1)
+      expect(json['data'][2]['alert_count']).to eq(1)
+
+    end
+
   end
 
   describe 'GET /api/v2/cases/:id' do
@@ -88,6 +113,16 @@ describe Api::V2::ChildrenController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@case1.id)
+    end
+
+    it 'fetches the correct record with code 200 and verify flag count' do
+      login_for_test
+      @case1.add_alert('transfer_request', Date.today, 'transfer_request')
+      get "/api/v2/cases/#{@case1.id}"
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@case1.id)
+      expect(json['data']['alert_count']).to eq(1)
     end
 
     it 'shows relevant fields' do
