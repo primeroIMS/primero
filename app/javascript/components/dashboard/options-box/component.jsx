@@ -6,11 +6,11 @@ import React from "react";
 
 import styles from "./styles.css";
 
-const OptionsBox = ({ title, action, children, to }) => {
+const OptionsBox = ({ title, action, children, to, flat }) => {
   const css = makeStyles(styles)();
 
   return (
-    <Card className={css.card} elevation={3}>
+    <Card className={css.card} elevation={flat ? 0 : 3}>
       <CardHeader
         action={action}
         title={
@@ -34,6 +34,7 @@ OptionsBox.displayName = "OptionsBox";
 OptionsBox.propTypes = {
   action: PropTypes.node,
   children: PropTypes.node,
+  flat: PropTypes.bool,
   title: PropTypes.string,
   to: PropTypes.node
 };

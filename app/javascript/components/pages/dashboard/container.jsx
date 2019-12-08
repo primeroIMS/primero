@@ -167,7 +167,10 @@ const Dashboard = ({
                 resources={RESOURCES.dashboards}
                 actions={ACTIONS.DASH_CASE_RISK}
               >
-                <OptionsBox title={i18n.t(casesByAssessmentLevel.get("name"))}>
+                <OptionsBox
+                  title={i18n.t(casesByAssessmentLevel.get("name"))}
+                  flat
+                >
                   <BadgedIndicator
                     data={casesByAssessmentLevel}
                     lookup={labelsRiskLevel}
