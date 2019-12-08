@@ -22,6 +22,9 @@ const output = {
 
 const resolve = {
   extensions: ["*", ".jsx", ".js"],
+  alias: {
+    "@material-ui/styles": path.resolve("node_modules", "@material-ui/styles")
+  }
 };
 
 const plugins = [new CleanWebpackPlugin()];

@@ -1,0 +1,60 @@
+.root {
+  width: 100%;
+}
+
+.heading {
+  font-size: $(theme.typography.pxToRem(15));
+  font-weight: bold;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 2.5em;
+
+  & span {
+    flex: 1
+  }
+
+  & button {
+    float: right;
+  }
+}
+
+.actionButtons {
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  padding: 16px 0;
+
+  & button {
+    margin-left: 5px;
+  }
+}
+
+.panel {
+  margin-bottom: 2px;
+
+  &:before {
+    display: none;
+  }
+}
+
+.panelDetails {
+  margin-bottom: 10px;
+  overflow-y: auto;
+  max-height: 250px;
+}
+
+.redDefault, .redDefault:focus {
+  background-color: $(theme.primero.colors.red);
+  color: $(theme.primero.colors.white);
+}
+
+.orangeDefault, .orangeDefault:focus {
+  background-color: $(theme.primero.colors.orange);
+  color: $(theme.primero.colors.white);
+}
+
+.orangeOutlined {
+  border-color: $(theme.primero.colors.orange);
+  color: $(theme.primero.colors.orange);
+}

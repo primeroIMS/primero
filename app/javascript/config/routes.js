@@ -66,7 +66,17 @@ export default [
         actions: READ_RECORDS
       },
       {
-        path: "/:recordType(cases|incidents|tracing_requests)",
+        path: "/cases",
+        component: RecordList,
+        actions: READ_RECORDS
+      },
+      {
+        path: "/incidents",
+        component: RecordList,
+        actions: READ_RECORDS
+      },
+      {
+        path: "/tracing_requests",
         component: RecordList,
         actions: READ_RECORDS
       },

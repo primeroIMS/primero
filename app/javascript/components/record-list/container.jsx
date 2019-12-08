@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Box, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { fromJS } from "immutable";
@@ -12,7 +12,7 @@ import Filters from "../filters";
 import { RecordSearch } from "../record-search";
 import { PageContainer } from "../page";
 import { useI18n } from "../i18n";
-import { getFiltersByRecordType } from "../filters-builder";
+import { getFiltersValuesByRecordType } from "../index-filters";
 import { getPermissionsByRecord } from "../user";
 import {
   ACTIONS,
@@ -40,11 +40,11 @@ const Container = ({ match }) => {
   const { theme } = useThemeHelper({});
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const [drawer, setDrawer] = useState(false);
-  const { params, url } = match;
-  const { recordType } = params;
+  const { url } = match;
+  const recordType = url.replace("/", "");
   const dispatch = useDispatch();
   const headers = useSelector(state => getListHeaders(state, recordType));
-
+  const searchRef = useRef(null);
   const [openViewModal, setOpenViewModal] = useState(false);
   const [currentRecord, setCurrentRecord] = useState(null);
 
@@ -61,19 +61,11 @@ const Container = ({ match }) => {
   };
 
   // eslint-disable-next-line camelcase
-  const { id_search, query } = useSelector(
-    state => {
-      const filters = getFiltersByRecordType(state, recordType);
-
-      return { id_search: filters.id_search, query: filters.query };
-    },
-    (filters1, filters2) => {
-      return (
-        filters1.id_search === filters2.id_search &&
-        filters1.query === filters2.query
-      );
-    }
+  const filters = useSelector(state =>
+    getFiltersValuesByRecordType(state, recordType)
   );
+
+  console.log(filters);
 
   const permissions = useSelector(state =>
     getPermissionsByRecord(state, recordType)
@@ -85,34 +77,11 @@ const Container = ({ match }) => {
 
   const defaultFilters = fromJS({
     fields: "short",
-    per: 20,
-    page: 1,
-    id_search,
-    query,
-    ...{
-      ...(recordType === "cases"
-        ? { status: ["open"], record_state: ["true"] }
-        : {})
-    },
-    ...{
-      ...(recordType === "incidents"
-        ? { status: ["open"], record_state: ["true"] }
-        : {})
-    },
-    ...{
-      ...(recordType === "tracing_requests"
-        ? { status: ["open"], record_state: ["true"] }
-        : {})
-    }
+    id_search: filters.id_search,
+    query: filters.query,
+    status: ["open"],
+    record_state: ["true"]
   });
-
-  useEffect(() => {
-    dispatch(setFilters({ options: defaultFilters.toJS() }));
-
-    return () => {
-      dispatch(setFilters({ options: { id_search: null, query: "" } }));
-    };
-  }, [url]);
 
   const canSearchOthers =
     permissions.includes(ACTIONS.MANAGE) ||
@@ -120,13 +89,14 @@ const Container = ({ match }) => {
 
   const listHeaders =
     // eslint-disable-next-line camelcase
-    id_search && canSearchOthers
+    filters.id_search && canSearchOthers
       ? headers.filter(header => header.id_search)
       : headers;
 
   const indexTableProps = {
     recordType,
     defaultFilters,
+    bypassInitialFetch: true,
     columns: buildTableColumns(listHeaders, i18n, recordType),
     onTableChange: fetchRecords,
     onRowClick: record => {
@@ -168,7 +138,8 @@ const Container = ({ match }) => {
 
   const filterProps = {
     recordType,
-    defaultFilters
+    defaultFilters,
+    searchRef
   };
 
   return (
@@ -182,6 +153,7 @@ const Container = ({ match }) => {
             </Box>
           </Box>
           <FilterContainer {...filterContainerProps}>
+            <div ref={searchRef} />
             <RecordSearch {...recordSearchProps} />
             <Filters {...filterProps} />
           </FilterContainer>

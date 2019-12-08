@@ -7,7 +7,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
 
 import { useI18n } from "../i18n";
-import { getFiltersByRecordType } from "../filters-builder";
+import { getFiltersValuesByRecordType, applyFilters } from "../index-filters";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -16,9 +16,10 @@ const RecordSearch = ({ recordType, setFilters }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
-  const { query } = useSelector(state =>
-    getFiltersByRecordType(state, recordType)
+  const filters = useSelector(state =>
+    getFiltersValuesByRecordType(state, recordType)
   );
+  const query = null;
   const [filterQuery, setFilterQuery] = useState(query || "");
 
   useEffect(() => {
@@ -26,13 +27,18 @@ const RecordSearch = ({ recordType, setFilters }) => {
   }, [query]);
 
   const updateFilters = () => {
-    dispatch(setFilters({ options: { query: filterQuery, id_search: true } }));
+    dispatch(
+      applyFilters({
+        recordType,
+        data: { query: filterQuery, id_search: true, ...filters.toJS() }
+      })
+    );
   };
 
   useEffect(() => {
-    if (filterQuery === "") {
-      updateFilters();
-    }
+    // if (filterQuery === "") {
+    //   updateFilters();
+    // }
   }, [filterQuery]);
 
   const change = e => {
