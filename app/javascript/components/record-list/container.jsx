@@ -34,14 +34,16 @@ import { getListHeaders } from "./selectors";
 import styles from "./styles.css";
 import { ViewModal } from "./view-modal";
 
-const Container = ({ match }) => {
+const Container = ({ match, location }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { theme } = useThemeHelper({});
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const [drawer, setDrawer] = useState(false);
-  const { url } = match;
-  const recordType = url.replace("/", "");
+
+  const { params, url } = match;
+  const { search } = location;
+  const { recordType } = url.replace("/", "");
   const dispatch = useDispatch();
   const headers = useSelector(state => getListHeaders(state, recordType));
   const searchRef = useRef(null);
@@ -59,6 +61,7 @@ const Container = ({ match }) => {
   const handleViewModalClose = () => {
     setOpenViewModal(false);
   };
+  const searchParams = new URLSearchParams(search);
 
   // eslint-disable-next-line camelcase
   const filters = useSelector(state =>
@@ -83,6 +86,14 @@ const Container = ({ match }) => {
     record_state: ["true"]
   });
 
+  // useEffect(() => {
+  //   dispatch(setFilters({ options: defaultFilters.toJS() }));
+
+  //   return () => {
+  //     dispatch(setFilters({ options: { id_search: "", query: "" } }));
+  //   };
+  // }, [url]);
+
   const canSearchOthers =
     permissions.includes(ACTIONS.MANAGE) ||
     permissions.includes(ACTIONS.SEARCH_OWNED_BY_OTHERS);
@@ -97,7 +108,7 @@ const Container = ({ match }) => {
     recordType,
     defaultFilters,
     bypassInitialFetch: true,
-    columns: buildTableColumns(listHeaders, i18n, recordType),
+    columns: buildTableColumns(listHeaders, i18n, recordType, css),
     onTableChange: fetchRecords,
     onRowClick: record => {
       const allowedToOpenRecord =
@@ -139,7 +150,8 @@ const Container = ({ match }) => {
   const filterProps = {
     recordType,
     defaultFilters,
-    searchRef
+    searchRef,
+    fromDashboard: Boolean(searchParams.get("fromDashboard"))
   };
 
   return (
@@ -173,6 +185,7 @@ const Container = ({ match }) => {
 Container.displayName = NAME;
 
 Container.propTypes = {
+  location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired
 };
 

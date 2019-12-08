@@ -26,7 +26,7 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       );
     case SAVE_SEARCH_SUCCESS:
       return state.update("data", data => {
-        return data.push(payload.data);
+        return data.push(SavedSearchesRecord(payload.data));
       });
     default:
       return state;

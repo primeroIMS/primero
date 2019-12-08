@@ -5,6 +5,7 @@ class Incident < ApplicationRecord
   include Historical
   include Ownable
   include Flaggable
+  include Alertable
   include Attachable
   #include Importable #TODO: refactor with Import
   #include IncidentMonitoringRecording #TODO: Refactor with Violations

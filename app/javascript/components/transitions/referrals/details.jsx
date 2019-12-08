@@ -9,17 +9,18 @@ import { getOption } from "../../record-form";
 import TransitionUser from "../TransitionUser";
 import { useI18n } from "../../i18n";
 import { REFERRAL_DETAILS_NAME, TRANSITION_STATUS } from "../constants";
+import { LOOKUPS } from "../../../config";
 
 const Details = ({ transition, classes }) => {
   const i18n = useI18n();
 
   const service = useSelector(state => {
-    const value = getOption(state, "lookup-service-type", i18n).filter(
+    const value = getOption(state, LOOKUPS.service_type, i18n).filter(
       option => option.id === transition.service
     );
 
     // eslint-disable-next-line camelcase
-    return value[0]?.display_text;
+    return value[0]?.display_text?.[i18n.locale];
   });
 
   const renderRejected =

@@ -82,7 +82,7 @@ FormSectionField.propTypes = {
   mode: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   recordID: PropTypes.string,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string
 };
 
 export default memo(FormSectionField);

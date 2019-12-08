@@ -145,3 +145,29 @@ Endpoints for querying and manipulating individual cases and related resources i
 
 * [Query for reports](v2/docs/reports/get.md) : `GET /api/v2/reports`
 * [Fetch an individual case](v2/docs/reports/id/get.md) : `GET /api/v2/reports/:id`
+
+## Lookup Endpoints
+
+Endpoints for querying and manipulating individual lookups and related resources in Primero.
+
+* [Query for lookups](v2/docs/lookups/get.md) : `GET /api/v2/lookups`
+* [Fetch an individual lookup](v2/docs/lookups/id/get.md) : `GET /api/v2/lookups/:id`
+* [Create a new lookup](v2/docs/lookups/post.md) : `POST /api/v2/lookups`
+* [Update an existing lookup](v2/docs/lookups/id/patch.md) : `PATCH /api/v2/lookups/:id`
+* [Delete an existing lookup](v2/docs/lookups/id/delete.md) : `DELETE /api/v2/lookups/:id`
+
+## Location Endpoints
+
+Endpoints for querying and manipulating individual locations and related resources in Primero.
+
+* [Query for locations](v2/docs/locations/get.md) : `GET /api/v2/locations`
+* [Fetch an individual location](v2/docs/locations/id/get.md) : `GET /api/v2/locations/:id`
+* [Create a new location](v2/docs/locations/post.md) : `POST /api/v2/locations`
+* [Update an existing location](v2/docs/locations/id/patch.md) : `PATCH /api/v2/locations/:id`
+* [Delete an existing location](v2/docs/locations/id/delete.md) : `DELETE /api/v2/locations/:id`
+
+## Alert Endpoint
+
+Endpoint for querying the count of alerts from cases, incidents and tracing request of the logged user.
+
+* [Query for the count of alerts](v2/docs/alerts/get.md) : `GET /api/v2/alerts`

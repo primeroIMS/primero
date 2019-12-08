@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { fromJS } from "immutable";
 import PropTypes from "prop-types";
-import { connect, batch } from "react-redux";
+import { connect, batch, useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
@@ -11,22 +10,26 @@ import {
   DashboardTable,
   LineChart,
   OverviewBox,
-  ActionMenu
+  BadgedIndicator
 } from "../../dashboard";
 import { FlagList } from "../../dashboard/flag-list";
 import { Services } from "../../dashboard/services";
 import { useI18n } from "../../i18n";
 import { PageContainer, PageHeading, PageContent } from "../../page";
+import { RESOURCES, ACTIONS } from "../../../libs/permissions";
+import Permission from "../../application/permission";
+import { LOOKUPS } from "../../../config";
+import { getOption } from "../../record-form";
 
 import * as actions from "./action-creators";
 import {
+  getCasesByAssessmentLevel,
   selectFlags,
   selectCasesByStatus,
   selectCasesByCaseWorker,
   selectCasesRegistration,
   selectCasesOverview,
-  selectServicesStatus,
-  selectIsOpenPageActions
+  selectServicesStatus
 } from "./selectors";
 import styles from "./styles.css";
 
@@ -37,14 +40,14 @@ const Dashboard = ({
   fetchCasesRegistration,
   fetchCasesOverview,
   fetchServicesStatus,
-  openPageActions,
+  getDashboardsData,
   flags,
+  casesByAssessmentLevel,
   casesByStatus,
   casesByCaseWorker,
   casesRegistration,
   casesOverview,
-  servicesStatus,
-  isOpenPageActions
+  servicesStatus
 }) => {
   useEffect(() => {
     batch(() => {
@@ -54,6 +57,7 @@ const Dashboard = ({
       fetchCasesRegistration();
       fetchCasesOverview();
       fetchServicesStatus();
+      getDashboardsData();
     });
   }, [
     fetchCasesByCaseWorker,
@@ -61,7 +65,8 @@ const Dashboard = ({
     fetchCasesOverview,
     fetchCasesRegistration,
     fetchFlags,
-    fetchServicesStatus
+    fetchServicesStatus,
+    getDashboardsData
   ]);
 
   const css = makeStyles(styles)();
@@ -69,6 +74,10 @@ const Dashboard = ({
   const theme = useTheme();
 
   const i18n = useI18n();
+
+  const labelsRiskLevel = useSelector(state =>
+    getOption(state, LOOKUPS.risk_level, i18n)
+  );
 
   const getDoughnutInnerText = () => {
     const text = [];
@@ -122,61 +131,42 @@ const Dashboard = ({
     ]
   };
 
-  const actionMenuItems = fromJS([
-    {
-      id: "add-new",
-      label: "Add New",
-      onClick: () => openPageActions(false)
-    },
-    {
-      id: "arrange-items",
-      label: "Arrange Items",
-      onClick: () => openPageActions(false)
-    },
-    {
-      id: "refresh-data",
-      label: "Refresh Data",
-      onClick: () => openPageActions(false)
-    }
-  ]);
+  const hideCasesByAssesmentLevel =
+    !labelsRiskLevel?.length || !casesByAssessmentLevel?.size;
 
   return (
     <PageContainer>
-      <PageHeading title={i18n.t("navigation.home")}>
-        <ActionMenu
-          open={isOpenPageActions}
-          onOpen={() => openPageActions(true)}
-          onClose={() => openPageActions(false)}
-          items={actionMenuItems}
-        />
-      </PageHeading>
+      <PageHeading title={i18n.t("navigation.home")} />
       <PageContent>
         <Grid container spacing={3} classes={{ root: css.container }}>
-          <Grid item md={12}>
-            <OptionsBox
-              title="CASE OVERVIEW"
-              action={<ActionMenu open={false} items={actionMenuItems} />}
-            >
+          <Grid item md={12} hidden={hideCasesByAssesmentLevel}>
+            <OptionsBox title={i18n.t("dashboard.overview")}>
+              <Permission
+                resources={RESOURCES.dashboards}
+                actions={ACTIONS.DASH_CASE_RISK}
+              >
+                <OptionsBox title={i18n.t(casesByAssessmentLevel.get("name"))}>
+                  <BadgedIndicator
+                    data={casesByAssessmentLevel}
+                    lookup={labelsRiskLevel}
+                  />
+                </OptionsBox>
+              </Permission>
+            </OptionsBox>
+          </Grid>
+          <Grid item md={12} hidden>
+            <OptionsBox title="CASE OVERVIEW">
               <DashboardTable columns={columns} data={casesByCaseWorker} />
             </OptionsBox>
           </Grid>
-          <Grid item md={8} xs={12}>
-            <OptionsBox
-              title="CASE OVERVIEW"
-              action={<ActionMenu open={false} items={actionMenuItems} />}
-            >
+          <Grid item md={8} xs={12} hidden>
+            <OptionsBox title="CASE OVERVIEW">
               <OverviewBox items={casesOverview} chartData={casesChartData} />
             </OptionsBox>
-            <OptionsBox
-              title={i18n.t("dashboard.cases_by_task_overdue")}
-              action={<ActionMenu open={false} items={actionMenuItems} />}
-            >
+            <OptionsBox title={i18n.t("dashboard.cases_by_task_overdue")}>
               <DashboardTable columns={columns} data={casesByCaseWorker} />
             </OptionsBox>
-            <OptionsBox
-              title={i18n.t("dashboard.registration")}
-              action={<ActionMenu open={false} items={actionMenuItems} />}
-            >
+            <OptionsBox title={i18n.t("dashboard.registration")}>
               <LineChart
                 chartData={registrationChartData}
                 title="Total case registrations over time"
@@ -184,11 +174,8 @@ const Dashboard = ({
             </OptionsBox>
             <Services servicesList={servicesStatus} />
           </Grid>
-          <Grid item md={4} xs={12}>
-            <OptionsBox
-              title={i18n.t("dashboard.flagged")}
-              action={<ActionMenu open={false} items={actionMenuItems} />}
-            >
+          <Grid item md={4} xs={12} hidden>
+            <OptionsBox title={i18n.t("dashboard.flagged")}>
               <FlagList flags={flags} i18n={i18n} />
             </OptionsBox>
           </Grid>
@@ -201,6 +188,7 @@ const Dashboard = ({
 Dashboard.displayName = "Dashboard";
 
 Dashboard.propTypes = {
+  casesByAssessmentLevel: PropTypes.object.isRequired,
   casesByCaseWorker: PropTypes.object.isRequired,
   casesByStatus: PropTypes.object.isRequired,
   casesOverview: PropTypes.object.isRequired,
@@ -212,6 +200,7 @@ Dashboard.propTypes = {
   fetchFlags: PropTypes.func.isRequired,
   fetchServicesStatus: PropTypes.func.isRequired,
   flags: PropTypes.object.isRequired,
+  getDashboardsData: PropTypes.func.isRequired,
   isOpenPageActions: PropTypes.bool.isRequired,
   openPageActions: PropTypes.func.isRequired,
   servicesStatus: PropTypes.object.isRequired
@@ -220,12 +209,12 @@ Dashboard.propTypes = {
 const mapStateToProps = state => {
   return {
     flags: selectFlags(state),
+    casesByAssessmentLevel: getCasesByAssessmentLevel(state),
     casesByStatus: selectCasesByStatus(state),
     casesByCaseWorker: selectCasesByCaseWorker(state),
     casesRegistration: selectCasesRegistration(state),
     casesOverview: selectCasesOverview(state),
-    servicesStatus: selectServicesStatus(state),
-    isOpenPageActions: selectIsOpenPageActions(state)
+    servicesStatus: selectServicesStatus(state)
   };
 };
 
@@ -236,6 +225,7 @@ const mapDispatchToProps = {
   fetchCasesRegistration: actions.fetchCasesRegistration,
   fetchCasesOverview: actions.fetchCasesOverview,
   fetchServicesStatus: actions.fetchServicesStatus,
+  getDashboardsData: actions.fetchDashboards,
   openPageActions: actions.openPageActions
 };
 

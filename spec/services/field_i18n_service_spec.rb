@@ -68,4 +68,43 @@ describe FieldI18nService do
       })
     end
   end
+
+  describe 'merge_i18n_options' do
+    it 'merges the localized options of the hashes' do
+      merged_hash = FieldI18nService.merge_i18n_options(
+        { 'en' => [{ 'id' => 'true', 'display_name' => 'Valid' }] },
+        { 'en' => [{ 'id' => 'false', 'display_name' => 'Invalid' }] }
+      )
+      expected_hash = { 'en' => [
+          { 'id' => "true", 'display_name' => "Valid" },
+          { 'id' => "false", 'display_name' => "Invalid" }
+        ]
+      }
+
+      expect(merged_hash).to eq(expected_hash)
+    end
+  end
+
+  describe 'fill_lookups_options' do
+    it 'fill the lookups options with all the available locales' do
+      options = {
+        "en" => [
+          { "id"=>"1", "display_text"=>"Country"},
+          { "id"=>"2", "display_text"=>"City"}
+        ],
+        "es" => [
+          { "id"=>"1", "display_text"=>"Pais"},
+          { "id"=>"2", "display_text"=>"Ciudad"}
+        ]
+      }
+      I18n.stub(:available_locales).and_return([:en, :es, :fr])
+      lookups_options = FieldI18nService.fill_lookups_options(options)
+      expected_lookups_options = [
+        { "id" => "1", "display_text" => { "en" => "Country", "es" => "Pais", "fr" => "" } },
+        { "id" => "2", "display_text" => { "en" => "City", "es"=> "Ciudad", "fr" => "" } }
+      ]
+
+      expect(lookups_options).to eq(expected_lookups_options)
+    end
+  end
 end

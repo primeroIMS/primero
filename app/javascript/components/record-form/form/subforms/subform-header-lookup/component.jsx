@@ -19,7 +19,7 @@ const Component = ({ value, optionsStringSource }) => {
     o => o.id === value
   );
 
-  return <span>{displayText}</span>;
+  return <span>{displayText[i18n.locale]}</span>;
 };
 
 Component.displayName = SUBFORM_LOOKUP_HEADER_NAME;

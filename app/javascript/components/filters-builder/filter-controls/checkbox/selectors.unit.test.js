@@ -32,15 +32,15 @@ describe("<CheckBox /> - Selectors", () => {
         records: {
           Cases: {
             filters: {
-              "my_cases[owned_by]": ["primero"],
-              "my_cases[assigned_user_names]": []
+              "or[owned_by]": ["primero"],
+              "or[assigned_user_names]": []
             }
           }
         }
       });
       const expected = fromJS({
-        "my_cases[owned_by]": ["primero"],
-        "my_cases[assigned_user_names]": []
+        "or[owned_by]": ["primero"],
+        "or[assigned_user_names]": []
       });
       const records = getCheckBoxes(
         stateWithRecords,

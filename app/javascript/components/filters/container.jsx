@@ -32,7 +32,12 @@ const STRING_FILTERS = ["radio"];
 
 const DATE_RANGE_FILTERS = ["dates"];
 
-const Container = ({ recordType, defaultFilters, searchRef }) => {
+const Container = ({
+  recordType,
+  defaultFilters,
+  fromDashboard,
+  searchRef
+}) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -53,8 +58,8 @@ const Container = ({ recordType, defaultFilters, searchRef }) => {
         if (!excludeDefaultFilters.includes(item.fieldName)) {
           if (ARRAY_FILTERS.includes(filterType)) {
             if (fieldName === "my_cases") {
-              currentObject["my_cases[owned_by]"] = fromJS([]);
-              currentObject["my_cases[assigned_user_names]"] = fromJS([]);
+              currentObject["or[owned_by]"] = fromJS([]);
+              currentObject["or[assigned_user_names]"] = fromJS([]);
             } else {
               currentObject[fieldName] = fromJS([]);
             }
@@ -76,7 +81,9 @@ const Container = ({ recordType, defaultFilters, searchRef }) => {
         return currentObject;
       }, {});
 
-      dispatch(setInitialFilterValues(recordType, initialFilterValues));
+      if (!fromDashboard) {
+        dispatch(setInitialFilterValues(recordType, initialFilterValues));
+      }
 
       if (namespace && path) {
         dispatch(setInitialRecords(path, namespace, initialFilterValues));
@@ -137,6 +144,7 @@ Container.displayName = NAME;
 
 Container.propTypes = {
   defaultFilters: PropTypes.object,
+  fromDashboard: PropTypes.bool,
   recordType: PropTypes.string.isRequired,
   searchRef: PropTypes.object.isRequired
 };
