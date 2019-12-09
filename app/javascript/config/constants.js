@@ -1,5 +1,5 @@
 // Time (ms) when fetch request will timeout
-export const FETCH_TIMEOUT = 30000;
+export const FETCH_TIMEOUT = 50000;
 
 // IndexedDB database name
 export const DATABASE_NAME = "primero";

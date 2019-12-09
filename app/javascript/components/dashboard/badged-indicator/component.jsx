@@ -13,7 +13,7 @@ import { buildFilter } from "../helpers";
 
 import styles from "./styles.css";
 
-const BadgedIndicator = ({ data, lookup }) => {
+const BadgedIndicator = ({ data, lookup, sectionTitle }) => {
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -27,7 +27,7 @@ const BadgedIndicator = ({ data, lookup }) => {
     const countValue = value ? value.get("count") : 0;
     const queryValue = value ? value.get("query") : [];
 
-    const handlerClick = () => {
+    const handleClick = () => {
       dispatch(setDashboardFilters(RECORD_PATH.cases, buildFilter(queryValue)));
       dispatch(
         push({
@@ -42,7 +42,7 @@ const BadgedIndicator = ({ data, lookup }) => {
         <DashboardChip
           label={`${countValue} ${lk.display_text[i18n.locale]}`}
           type={lk.id}
-          handleClick={handlerClick}
+          handleClick={handleClick}
         />
       </li>
     );
@@ -50,6 +50,7 @@ const BadgedIndicator = ({ data, lookup }) => {
 
   return (
     <>
+      {sectionTitle && <div className={css.sectionTitle}>{sectionTitle}</div>}
       <ul className={css.statusList} key={data.get("name")}>
         <ul>{dashboardChips}</ul>
       </ul>
@@ -61,7 +62,8 @@ BadgedIndicator.displayName = "BadgedIndicator";
 
 BadgedIndicator.propTypes = {
   data: PropTypes.object.isRequired,
-  lookup: PropTypes.array.isRequired
+  lookup: PropTypes.array.isRequired,
+  sectionTitle: PropTypes.string
 };
 
 export default BadgedIndicator;

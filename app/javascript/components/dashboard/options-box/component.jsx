@@ -11,19 +11,21 @@ const OptionsBox = ({ title, action, children, to, flat }) => {
 
   return (
     <Card className={css.card} elevation={flat ? 0 : 3}>
-      <CardHeader
-        action={action}
-        title={
-          typeof to !== "undefined" ? (
-            <Link to={to} className={css.cardLink}>
-              {title}
-            </Link>
-          ) : (
-            title
-          )
-        }
-        className={css.title}
-      />
+      {title && (
+        <CardHeader
+          action={action}
+          title={
+            typeof to !== "undefined" ? (
+              <Link to={to} className={css.cardLink}>
+                {title}
+              </Link>
+            ) : (
+              title
+            )
+          }
+          className={css.title}
+        />
+      )}
       <CardContent className={css.content}>{children}</CardContent>
     </Card>
   );
