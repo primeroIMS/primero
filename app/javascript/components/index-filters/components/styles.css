@@ -38,23 +38,50 @@
   }
 }
 
+.panelTitle {
+  flex: 1
+}
+
 .panelDetails {
   margin-bottom: 10px;
   overflow-y: auto;
   max-height: 250px;
+  padding-top: 0
 }
 
-.redDefault, .redDefault:focus {
-  background-color: $(theme.primero.colors.red);
-  color: $(theme.primero.colors.white);
+.root {
+  width: 300px;
+  min-height: 100vh;
+  margin-left: 10px;
 }
 
-.orangeDefault, .orangeDefault:focus {
-  background-color: $(theme.primero.colors.orange);
-  color: $(theme.primero.colors.white);
+.tabs {
+  margin-bottom: 15px;
+  height: 34px;
+  min-height: 34px;
 }
 
-.orangeOutlined {
-  border-color: $(theme.primero.colors.orange);
-  color: $(theme.primero.colors.orange);
+.tab {
+  color: $(theme.primero.colors.darkGrey);
+  font-size: $(theme.typography.pxToRem(11));
+  text-align: center;
+  height: 34px;
+  min-height: 34px;
+}
+.tabselected {
+  font-weight: bold;
+  background-color: $(theme.primero.colors.lightGrey);
+}
+
+@media $(theme.breakpoints.up("md")) {
+  .tab {
+    min-width: 100px;
+  }
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .root {
+    margin-left: 0;
+    padding: 0.7em;
+  }
 }

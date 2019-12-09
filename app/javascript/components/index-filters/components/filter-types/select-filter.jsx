@@ -4,16 +4,19 @@ import { useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { makeStyles } from "@material-ui/styles";
 
 import Panel from "../panel";
 import { getOption } from "../../../record-form";
 import { useI18n } from "../../../i18n";
 
+import styles from "./styles.css";
 import { registerInput, whichOptions } from "./utils";
 import handleFilterChange from "./value-handlers";
 
 const SelectFilter = ({ filter }) => {
   const i18n = useI18n();
+  const css = makeStyles(styles)();
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState([]);
   const valueRef = useRef();
@@ -60,11 +63,16 @@ const SelectFilter = ({ filter }) => {
       fieldName
     });
 
+  const handleReset = () => {
+    setValue(fieldName, []);
+  };
+
   const optionLabel = option => option?.display_name || option?.display_text;
 
   return (
-    <Panel filter={filter} getValues={getValues}>
+    <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
       <Autocomplete
+        classes={{ root: css.select }}
         multiple
         getOptionLabel={optionLabel}
         onChange={handleChange}

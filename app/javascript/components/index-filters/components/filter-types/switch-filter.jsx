@@ -33,6 +33,10 @@ const SwitchFilter = ({ filter }) => {
       fieldName
     });
 
+  const handleReset = () => {
+    setValue(fieldName, false);
+  };
+
   useEffect(() => {
     registerInput({
       register,
@@ -47,10 +51,11 @@ const SwitchFilter = ({ filter }) => {
   }, [register, unregister, fieldName]);
 
   return (
-    <Panel filter={filter} getValues={getValues}>
+    <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
       <FormControl>
         <FormGroup>
           <FormControlLabel
+            labelPlacement="end"
             control={
               <Switch onChange={handleChange} checked={inputValue || false} />
             }

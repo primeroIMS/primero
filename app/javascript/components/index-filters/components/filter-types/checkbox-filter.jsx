@@ -13,7 +13,7 @@ import Panel from "../panel";
 import { getOption } from "../../../record-form";
 import { useI18n } from "../../../i18n";
 
-import { registerInput, whichOptions } from "./utils";
+import { registerInput, whichOptions, optionText } from "./utils";
 import handleFilterChange, { getFilterProps } from "./value-handlers";
 
 const CheckboxFilter = ({ filter }) => {
@@ -21,7 +21,7 @@ const CheckboxFilter = ({ filter }) => {
   const { register, unregister, setValue, user, getValues } = useFormContext();
   const valueRef = useRef();
   const [inputValue, setInputValue] = useState([]);
-  const { options, fieldName, optionStringsSource } = getFilterProps({
+  const { options, fieldName, optionStringsSource, isObject } = getFilterProps({
     filter,
     user,
     i18n
@@ -32,7 +32,7 @@ const CheckboxFilter = ({ filter }) => {
       register,
       name: fieldName,
       ref: valueRef,
-      defaultValue: [],
+      defaultValue: isObject ? {} : [],
       setInputValue
     });
 
@@ -54,7 +54,7 @@ const CheckboxFilter = ({ filter }) => {
 
   const handleChange = event =>
     handleFilterChange({
-      type: "checkboxes",
+      type: isObject ? "objectCheckboxes" : "checkboxes",
       event,
       setInputValue,
       inputValue,
@@ -62,10 +62,14 @@ const CheckboxFilter = ({ filter }) => {
       fieldName
     });
 
+  const handleReset = () => {
+    const value = isObject ? {} : [];
+
+    setValue(fieldName, value);
+  };
+
   const renderOptions = () =>
     filterOptions.map(option => {
-      const { display_name: displayName, display_text: displayText } = option;
-
       return (
         <FormControlLabel
           key={`${fieldName}-${option.id}`}
@@ -73,16 +77,20 @@ const CheckboxFilter = ({ filter }) => {
             <Checkbox
               onChange={handleChange}
               value={option.id}
-              checked={inputValue.includes(option.id)}
+              checked={
+                isObject
+                  ? option.key in inputValue
+                  : inputValue.includes(option.id)
+              }
             />
           }
-          label={displayText || displayName}
+          label={optionText(option, i18n)}
         />
       );
     });
 
   return (
-    <Panel filter={filter} getValues={getValues}>
+    <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
       <FormControl component="fieldset">
         <FormGroup>{renderOptions()}</FormGroup>
       </FormControl>

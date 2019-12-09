@@ -4,16 +4,19 @@ import { useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import { makeStyles } from "@material-ui/styles";
 
 import Panel from "../panel";
 import { getOption } from "../../../record-form";
 import { useI18n } from "../../../i18n";
 
+import styles from "./styles.css";
 import { registerInput, whichOptions } from "./utils";
 import handleFilterChange, { valueParser } from "./value-handlers";
 
 const ToggleFilter = ({ filter }) => {
   const i18n = useI18n();
+  const css = makeStyles(styles)();
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState([]);
   const valueRef = useRef();
@@ -59,24 +62,37 @@ const ToggleFilter = ({ filter }) => {
       fieldName
     });
 
+  const handleReset = () => {
+    setValue(fieldName, []);
+  };
+
   const renderOptions = () =>
     filterOptions.map(option => {
       const { display_name: displayName, display_text: displayText } = option;
       const optionValue = valueParser(fieldName, option.id);
 
       return (
-        <ToggleButton key={`${fieldName}-${option.id}`} value={optionValue}>
+        <ToggleButton
+          key={`${fieldName}-${option.id}`}
+          value={optionValue}
+          classes={{
+            root: css.toggleButton,
+            selected: css.toggleButtonSelected
+          }}
+        >
           {displayText || displayName}
         </ToggleButton>
       );
     });
 
   return (
-    <Panel filter={filter} getValues={getValues}>
+    <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
       <ToggleButtonGroup
+        color="primary"
         value={inputValue}
         onChange={handleChange}
         size="small"
+        classes={{ root: css.toggleContainer }}
       >
         {renderOptions()}
       </ToggleButtonGroup>

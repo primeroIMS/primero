@@ -1,4 +1,5 @@
 import { format, subMonths } from "date-fns";
+import omit from "lodash/omit";
 
 import { ageParser } from "./utils";
 
@@ -24,18 +25,17 @@ const customCheckBoxFilters = {
   [CUSTOM_FILTERS.MY_CASES]: ({ i18n, user }) => ({
     options: [
       {
-        id: "owned_by",
-        value: { owned_by: user },
-        name: "my_cases[owned_by]",
+        id: `owned_by=${user}`,
+        key: "owned_by",
         display_name: i18n.t("cases.filter_by.my_cases")
       },
       {
-        id: "assigned_user_names",
-        value: { assigned_user_names: user },
-        name: "my_cases[assigned_user_names]",
+        id: `assigned_user_names=${user}`,
+        key: "assigned_user_names",
         display_name: i18n.t("cases.filter_by.referred_cases")
       }
     ],
+    isObject: true,
     fieldName: "or"
   })
 };
@@ -56,6 +56,16 @@ const valueSetters = {
 
     setInputValue(values);
     setValue(fieldName, values);
+  },
+  objectCheckboxes: methods => {
+    const { event, setInputValue, setValue, fieldName, inputValue } = methods;
+    const parsedValue = event.target.value.split("=");
+    const value = event.target.checked
+      ? { ...inputValue, [parsedValue[0]]: parsedValue[1] }
+      : omit(inputValue, [parsedValue[0]]);
+
+    setInputValue(value);
+    setValue(fieldName, value);
   }
 };
 
@@ -75,7 +85,8 @@ const getFilterProps = ({ filter, user, i18n }) => {
   const {
     field_name: fieldName,
     options,
-    option_strings_source: optionStringsSource
+    option_strings_source: optionStringsSource,
+    isObject
   } = filter;
 
   switch (fieldName) {
@@ -87,7 +98,7 @@ const getFilterProps = ({ filter, user, i18n }) => {
     case CUSTOM_FILTERS.MY_CASES:
       return customCheckBoxFilters[CUSTOM_FILTERS.MY_CASES]({ i18n, user });
     default:
-      return { options, fieldName, optionStringsSource };
+      return { options, fieldName, optionStringsSource, isObject };
   }
 };
 

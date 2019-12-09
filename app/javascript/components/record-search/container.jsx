@@ -65,6 +65,7 @@ const RecordSearch = ({ recordType, setFilters }) => {
         </IconButton>
         <InputBase
           id="search-input"
+          fullWidth
           className={css.input}
           placeholder={i18n.t("navigation.search")}
           onKeyUp={keyUp}

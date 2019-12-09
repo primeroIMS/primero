@@ -7,3 +7,5 @@ export const FILTER_TYPES = Object.freeze({
   TOGGLE: "toggle",
   DATES: "dates"
 });
+
+export const HIDDEN_FIELDS = ["fields", "id_search", "query"];

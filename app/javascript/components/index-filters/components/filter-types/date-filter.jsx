@@ -6,9 +6,9 @@ import { DatePicker } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../../../i18n";
-import styles from "../styles.css";
 import Panel from "../panel";
 
+import styles from "./styles.css";
 import { registerInput } from "./utils";
 
 const DateFilter = ({ filter }) => {
@@ -41,6 +41,13 @@ const DateFilter = ({ filter }) => {
     setSelectedField(value);
   };
 
+  const handleReset = () => {
+    if (selectedField) {
+      setSelectedField("");
+      setValue(selectedField, undefined);
+    }
+  };
+
   useEffect(() => {
     if (selectedField) {
       registerInput({
@@ -61,7 +68,9 @@ const DateFilter = ({ filter }) => {
 
   const renderSelectOptions = () =>
     options?.[i18n.locale].map(option => (
-      <MenuItem value={option.id}>{option.display_name}</MenuItem>
+      <MenuItem value={option.id} key={option.id}>
+        {option.display_name}
+      </MenuItem>
     ));
 
   return (
@@ -69,28 +78,45 @@ const DateFilter = ({ filter }) => {
       filter={filter}
       getValues={getValues}
       selectedDefaultValueField={selectedField}
+      handleReset={handleReset}
     >
-      {isDateFieldSelectable && (
-        <Select value={selectedField} onChange={handleSelectedField}>
-          {renderSelectOptions()}
-        </Select>
-      )}
-      <DatePicker
-        margin="normal"
-        format="dd-MMM-yyyy"
-        label={i18n.t(`fields.date_range.from`)}
-        value={inputValue?.from}
-        onChange={date => handleDatePicker("from", date)}
-        disabled={!selectedField}
-      />
-      <DatePicker
-        margin="normal"
-        format="dd-MMM-yyyy"
-        label={i18n.t(`fields.date_range.to`)}
-        value={inputValue?.to}
-        onChange={date => handleDatePicker("to", date)}
-        disabled={!selectedField}
-      />
+      <div className={css.dateContainer}>
+        {" "}
+        {isDateFieldSelectable && (
+          <div className={css.dateInput}>
+            <Select
+              fullWidth
+              value={selectedField}
+              onChange={handleSelectedField}
+              variant="outlined"
+            >
+              {renderSelectOptions()}
+            </Select>
+          </div>
+        )}
+        <div className={css.dateInput}>
+          <DatePicker
+            margin="normal"
+            format="dd-MMM-yyyy"
+            label={i18n.t(`fields.date_range.from`)}
+            value={inputValue?.from}
+            onChange={date => handleDatePicker("from", date)}
+            disabled={!selectedField}
+            fullWidth
+          />
+        </div>
+        <div className={css.dateInput}>
+          <DatePicker
+            fullWidth
+            margin="normal"
+            format="dd-MMM-yyyy"
+            label={i18n.t(`fields.date_range.to`)}
+            value={inputValue?.to}
+            onChange={date => handleDatePicker("to", date)}
+            disabled={!selectedField}
+          />
+        </div>
+      </div>
     </Panel>
   );
 };

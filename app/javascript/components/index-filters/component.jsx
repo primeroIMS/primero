@@ -7,12 +7,15 @@ import omitBy from "lodash/omitBy";
 import qs from "qs";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
-import { createPortal } from "react-dom";
+import { Tabs, Tab } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 
+import { SavedSearches, fetchSavedSearches } from "../saved-searches";
 import SavedSearchesForm from "../saved-searches/SavedSearchesForm";
 import { currentUser } from "../user";
+import { useI18n } from "../i18n";
 
-import { FILTER_TYPES } from "./constants";
+import { FILTER_TYPES, HIDDEN_FIELDS } from "./constants";
 import {
   CheckboxFilter,
   ChipsFilter,
@@ -25,11 +28,13 @@ import {
 import { getFiltersByRecordType } from "./selectors";
 import { applyFilters, setFilters } from "./action-creators";
 import Actions from "./components/actions";
+import styles from "./components/styles.css";
 
-const HIDDEN_FIELDS = ["fields", "id_search", "query"];
-
-const Component = ({ recordType, defaultFilters, searchRef }) => {
+const Component = ({ recordType, defaultFilters }) => {
+  const css = makeStyles(styles)();
+  const i18n = useI18n();
   const [open, setOpen] = useState(false);
+  const [tabIndex, setTabIndex] = useState(0);
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
   const dispatch = useDispatch();
@@ -74,21 +79,31 @@ const Component = ({ recordType, defaultFilters, searchRef }) => {
   };
 
   useEffect(() => {
-    // HIDDEN_FIELDS.forEach(field => methods.register({ name: field }));
+    HIDDEN_FIELDS.forEach(field => methods.register({ name: field }));
     dispatch(
       applyFilters({ recordType, data: omitBy(methods.getValues(), isEmpty) })
     );
 
     return () => {
-      // HIDDEN_FIELDS.forEach(field => methods.unregister({ name: field }));
+      HIDDEN_FIELDS.forEach(field => methods.unregister({ name: field }));
     };
   }, []);
 
-  const handleSubmit = useCallback(data => {
-    // const payload = omitBy(data, isEmpty);
+  useEffect(() => {
+    if (tabIndex === 1) {
+      dispatch(fetchSavedSearches());
+    }
+  }, [tabIndex]);
 
-    // dispatch(applyFilters({ recordType, data: payload }));
-    console.log(JSON.stringify(data))
+  const tabs = [
+    { name: i18n.t("saved_search.filters_tab"), selected: true },
+    { name: i18n.t("saved_search.saved_searches_tab") }
+  ];
+
+  const handleSubmit = useCallback(data => {
+    const payload = omitBy(data, isEmpty);
+
+    dispatch(applyFilters({ recordType, data: payload }));
   }, []);
 
   const handleSave = () => {
@@ -103,27 +118,49 @@ const Component = ({ recordType, defaultFilters, searchRef }) => {
     dispatch(applyFilters({ recordType, data: defaultFilters.toJS() }));
   });
 
-  const RecordSearchPortal = ({ children }) => {
-    if (!searchRef.current) return null;
-
-    return createPortal(children, searchRef.current);
-  };
-
   return (
-    <FormContext {...methods} user={userName}>
-      <form onSubmit={methods.handleSubmit(handleSubmit)}>
-        <RecordSearchPortal>
+    <div className={css.root}>
+      <FormContext {...methods} user={userName}>
+        <form onSubmit={methods.handleSubmit(handleSubmit)}>
           <Search />
-        </RecordSearchPortal>
-        <Actions handleSave={handleSave} handleClear={handleClear} />
-        {renderFilters()}
-      </form>
-      <SavedSearchesForm
-        recordType={recordType}
-        open={open}
-        setOpen={setOpen}
-      />
-    </FormContext>
+          <Tabs
+            value={tabIndex}
+            onChange={(event, value) => setTabIndex(value)}
+            TabIndicatorProps={{
+              style: {
+                backgroundColor: "transparent"
+              }
+            }}
+            classes={{ root: css.tabs }}
+            variant="fullWidth"
+          >
+            {tabs.map(tab => (
+              <Tab
+                label={tab.name}
+                key={tab.name}
+                classes={{ root: css.tab, selected: css.tabselected }}
+                selected={tab.selected}
+              />
+            ))}
+          </Tabs>
+
+          {tabIndex === 0 && (
+            <>
+              <Actions handleSave={handleSave} handleClear={handleClear} />
+              {renderFilters()}
+            </>
+          )}
+          {tabIndex === 1 && (
+            <SavedSearches recordType={recordType} resetFilters={handleClear} />
+          )}
+        </form>
+        <SavedSearchesForm
+          recordType={recordType}
+          open={open}
+          setOpen={setOpen}
+        />
+      </FormContext>
+    </div>
   );
 };
 
@@ -131,8 +168,7 @@ Component.displayName = "IndexFilters";
 
 Component.propTypes = {
   defaultFilters: PropTypes.object,
-  recordType: PropTypes.string.isRequired,
-  searchRef: PropTypes.object.isRequired
+  recordType: PropTypes.string.isRequired
 };
 
 export default Component;

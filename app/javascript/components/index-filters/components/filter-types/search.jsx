@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { IconButton, InputBase, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
@@ -7,8 +6,8 @@ import ClearIcon from "@material-ui/icons/Clear";
 import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../../../i18n";
-import styles from "../styles.css";
 
+import styles from "./styles.css";
 import { registerInput } from "./utils";
 import handleFilterChange from "./value-handlers";
 
@@ -19,21 +18,23 @@ const Search = () => {
   const [inputValue, setInputValue] = useState();
   const valueRef = useRef();
   const fieldName = "query";
+  const fieldNameIdSearch = "id_search";
 
-  // useEffect(() => {
-  //   registerInput({
-  //     register,
-  //     name: fieldName,
-  //     ref: valueRef,
-  //     setInputValue
-  //   });
+  useEffect(() => {
+    registerInput({
+      register,
+      name: fieldName,
+      defaultValue: "",
+      ref: valueRef,
+      setInputValue
+    });
 
-  //   register({ name: "id_search" });
+    register({ name: fieldNameIdSearch });
 
-  //   return () => {
-  //     unregister(fieldName);
-  //   };
-  // }, [register, unregister]);
+    return () => {
+      unregister(fieldName);
+    };
+  }, [register, unregister]);
 
   const handleChange = event => {
     const { value } = event.target;
@@ -48,30 +49,38 @@ const Search = () => {
       fieldName
     });
 
-    setValue("id_search", !!value);
+    setValue(fieldNameIdSearch, !!value);
   };
 
-  const handleClear = () => {};
+  const handleClear = () => {
+    setValue(fieldName, undefined);
+    setValue(fieldNameIdSearch, undefined);
+  };
 
   return (
-    <div>
-      <div>
-        <IconButton className={css.iconButton} aria-label="menu" type="submit">
+    <div className={css.searchContainer}>
+      <div className={css.searchInputContainer}>
+        <IconButton
+          className={css.iconSearchButton}
+          aria-label="menu"
+          type="submit"
+        >
           <SearchIcon />
         </IconButton>
         <InputBase
           id="search-input"
-          className={css.input}
+          className={css.searchInput}
           placeholder={i18n.t("navigation.search")}
-          // onKeyUp={handleChange}
-          name="query"
-          ref={register}
-          // onChange={handleChange}
-          // value={inputValue}
+          onKeyUp={handleChange}
+          onChange={handleChange}
+          value={inputValue}
           inputProps={{ "aria-label": i18n.t("navigation.search") }}
           endAdornment={
             <InputAdornment position="end">
-              <IconButton className={css.iconButton} onClick={handleClear}>
+              <IconButton
+                className={css.iconSearchButton}
+                onClick={handleClear}
+              >
                 <ClearIcon />
               </IconButton>
             </InputAdornment>
