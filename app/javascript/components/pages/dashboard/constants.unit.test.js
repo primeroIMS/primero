@@ -13,4 +13,10 @@ describe("Verifying config constant", () => {
 
     expect(constants).to.be.empty;
   });
+
+  it("should have correct constant value", () => {
+    const constants = { ...dashboardPagesConstants };
+
+    expect(constants.DASHBOARD_NAMES).to.have.all.keys("case_risk", "workflow");
+  });
 });

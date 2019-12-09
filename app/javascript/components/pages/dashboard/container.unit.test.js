@@ -10,6 +10,7 @@ import { DoughnutChart } from "../../dashboard/doughnut-chart";
 import { LineChart } from "../../dashboard/line-chart";
 import { DashboardTable } from "../../dashboard/dashboard-table";
 import { BadgedIndicator } from "../../dashboard/badged-indicator";
+import { PieChart } from "../../dashboard/pie-chart";
 import { ACTIONS } from "../../../libs/permissions";
 
 import Dashboard from "./container";
@@ -68,9 +69,8 @@ describe("<Dashboard />", () => {
         },
         user: {
           permissions: {
-            dashboards: [ACTIONS.DASH_CASE_RISK]
+            dashboards: [ACTIONS.DASH_CASE_RISK, ACTIONS.DASH_WORKFLOW]
           }
-
         }
       })
     ));
@@ -106,5 +106,9 @@ describe("<Dashboard />", () => {
 
   it("renders the BadgedIndicator", () => {
     expect(component.find(BadgedIndicator)).to.have.lengthOf(1);
+  });
+
+  it("renders the PieChart", () => {
+    expect(component.find(PieChart)).to.have.lengthOf(1);
   });
 });
