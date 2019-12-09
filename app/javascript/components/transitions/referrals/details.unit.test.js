@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { Box, Divider } from "@material-ui/core";
-import { Map, List } from "immutable";
+import { fromJS } from "immutable";
 
 import TransitionUser from "../TransitionUser";
 import { setupMountedComponent } from "../../../test";
@@ -10,15 +10,20 @@ import ReferralDetail from "./details";
 describe("<ReferralDetail />", () => {
   let component;
   // TODO: fromJS() must be used in here once options been used with Immutable
-  const initialState = Map({
-    forms: Map({
-      options: List([
-        {
-          type: "lookup-service-type",
-          options: [{ id: "health", display_text: "Health" }]
-        }
-      ])
-    })
+  const initialState = fromJS({
+    forms: {
+      options: {
+        lookups: [
+          {
+            id: 1,
+            unique_id: "lookup-service-type",
+            values: [
+              { id: "health", display_text: { en: "Health", es: "Salud" } }
+            ]
+          }
+        ]
+      }
+    }
   });
   const props = {
     transition: {

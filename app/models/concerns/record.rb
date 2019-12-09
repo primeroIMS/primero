@@ -44,7 +44,7 @@ module Record
 
     def common_summary_fields
       %w[created_at owned_by owned_by_agency_id photos
-         flag_count status record_in_scope short_id]
+         flag_count status record_in_scope short_id alert_count]
     end
 
     #TODO: This method is currently unused, but should eventually replace the mess in the record actions controller

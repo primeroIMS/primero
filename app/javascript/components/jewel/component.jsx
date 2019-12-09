@@ -25,6 +25,8 @@ const Jewel = ({ value, isForm }) => {
   );
 };
 
+Jewel.displayName = "Jewel";
+
 Jewel.propTypes = {
   isForm: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])

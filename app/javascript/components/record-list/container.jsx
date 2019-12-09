@@ -112,7 +112,7 @@ const Container = ({ match, location }) => {
     dispatch(setFilters({ options: defaultFilters.toJS() }));
 
     return () => {
-      dispatch(setFilters({ options: { id_search: null, query: "" } }));
+      dispatch(setFilters({ options: { id_search: "", query: "" } }));
     };
   }, [url]);
 
@@ -129,7 +129,7 @@ const Container = ({ match, location }) => {
   const indexTableProps = {
     recordType,
     defaultFilters,
-    columns: buildTableColumns(listHeaders, i18n, recordType),
+    columns: buildTableColumns(listHeaders, i18n, recordType, css),
     onTableChange: fetchRecords,
     onRowClick: record => {
       const allowedToOpenRecord =

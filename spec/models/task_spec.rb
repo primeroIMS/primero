@@ -2,6 +2,12 @@ require 'rails_helper'
 
 describe Task do
 
+  before :each do
+    SystemSettings.destroy_all
+    @system_settings = SystemSettings.create(default_locale: "en", due_date_from_appointment_date: true)
+    SystemSettings.stub(:current).and_return(SystemSettings.first)
+  end
+
   describe "create" do
 
     it "creates Assessment task" do
