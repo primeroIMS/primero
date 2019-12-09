@@ -60,6 +60,7 @@ export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
 });
 
 export const RECORD_PATH = {
+  alerts: "alerts",
   cases: "cases",
   dashboards: "dashboards",
   incidents: "incidents",
