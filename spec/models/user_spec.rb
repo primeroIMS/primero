@@ -13,7 +13,8 @@ describe User do
                                :disabled => 'false',
                                :verified => true,
                                :role_ids => options[:role_ids] || ['random_role_id'],
-                               :module_ids => options[:module_ids] || ['test_module_id']
+                               :module_ids => options[:module_ids] || ['test_module_id'],
+                               :location => nil
                            })
     user = User.new(options)
     user
@@ -749,5 +750,62 @@ describe User do
       expect(@child_2.associated_user_groups).to include('user_group_2')
       expect(@child_3.associated_user_groups).to include('user_group_2')
     end
+  end
+
+  describe 'reporting location' do
+    before do
+      User.all.each(&:destroy)
+      Role.all.each(&:destroy)
+      Location.all.each(&:destroy)
+      Primero::Application.stub :locales => [ Primero::Application::LOCALE_ENGLISH, Primero::Application::LOCALE_FRENCH]
+      Primero::Application.stub :default_locale => Primero::Application::LOCALE_ENGLISH
+
+      @country = create :location, admin_level: 0, placename_all: 'MyCountry', type: 'country', location_code: 'MC01'
+      @province1 = create :location, hierarchy: [@country.location_code], placename_all: 'Province 1', type: 'province', location_code: 'PR01'
+      @town1 = create :location, hierarchy: [@country.location_code, @province1.location_code], placename_all: 'Town 1', type: 'city'
+
+      @admin_level_1_role = Role.create!(name: "Admin", permissions_list: Permission.all_permissions_list, reporting_location_admin_level: 1)
+      @admin_level_2_role = Role.create!(name: "Field Worker", permissions_list: Permission.all_permissions_list, reporting_location_admin_level: 2)
+
+
+    end
+
+    context 'when role admin level is 2' do
+      before do
+        @user = build_user(location: @town1.location_code, role_ids: [@admin_level_2_role.id])
+      end
+
+      describe '#reporting_location_admin_level' do
+        it 'returns 2' do
+          expect(@user.reporting_location_admin_level).to eq(2)
+        end
+      end
+
+      describe '#reporting_location' do
+        it 'returns the level 2 location' do
+          expect(@user.reporting_location).to eq(@town1)
+        end
+      end
+    end
+
+    context 'when role admin level is 1' do
+      before do
+        @user = build_user(location: @town1.location_code, role_ids: [@admin_level_1_role.id])
+      end
+
+      describe '#reporting_location_admin_level' do
+        it 'returns 1' do
+          expect(@user.reporting_location_admin_level).to eq(1)
+        end
+      end
+
+      describe '#reporting_location' do
+        it 'returns the level 1 location' do
+          expect(@user.reporting_location).to eq(@province1)
+        end
+      end
+    end
+
+
   end
 end
