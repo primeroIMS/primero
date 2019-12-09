@@ -1,3 +1,5 @@
+import qs from "qs";
+
 export const buildFilter = queryValue => {
   const value = queryValue.reduce((acum, obj) => {
     const v = obj.split("=");
@@ -5,5 +7,5 @@ export const buildFilter = queryValue => {
     return { ...acum, [v[0]]: [v[1]] };
   }, {});
 
-  return value;
+  return qs.stringify(value);
 };

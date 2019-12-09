@@ -4,9 +4,7 @@ import PropTypes from "prop-types";
 import Chart from "chart.js";
 import { push } from "connected-react-router";
 
-import { FROM_DASHBOARD_PARAMS } from "../constants";
-import { ROUTES, RECORD_PATH } from "../../../config";
-import { setDashboardFilters } from "../../filters-builder/action-creators";
+import { ROUTES } from "../../../config";
 import { buildFilter } from "../helpers";
 
 import { NAME, COLORS } from "./constants";
@@ -20,16 +18,9 @@ const PieChart = ({ data, labels, query }) => {
       const selectedIndex = item[0]._index;
 
       dispatch(
-        setDashboardFilters(
-          RECORD_PATH.cases,
-          buildFilter(query[selectedIndex])
-        )
-      );
-
-      dispatch(
         push({
           pathname: ROUTES.cases,
-          search: FROM_DASHBOARD_PARAMS
+          search: buildFilter(query[selectedIndex])
         })
       );
     }

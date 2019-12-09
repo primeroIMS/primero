@@ -6,9 +6,7 @@ import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
-import { setDashboardFilters } from "../../filters-builder/action-creators";
-import { ROUTES, RECORD_PATH } from "../../../config";
-import { FROM_DASHBOARD_PARAMS } from "../constants";
+import { ROUTES } from "../../../config";
 import { buildFilter } from "../helpers";
 import { DoughnutChart } from "../doughnut-chart";
 import { useI18n } from "../../i18n";
@@ -30,11 +28,10 @@ const OverviewBox = ({ items, chartData, sumTitle }) => {
   };
 
   const handleClick = query => {
-    dispatch(setDashboardFilters(RECORD_PATH.cases, buildFilter(query)));
     dispatch(
       push({
         pathname: ROUTES.cases,
-        search: FROM_DASHBOARD_PARAMS
+        search: buildFilter(query)
       })
     );
   };

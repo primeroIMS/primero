@@ -80,6 +80,9 @@ const Component = ({ recordType, defaultFilters }) => {
 
   useEffect(() => {
     HIDDEN_FIELDS.forEach(field => methods.register({ name: field }));
+
+    methods.setValue("fields", "short");
+
     dispatch(
       applyFilters({ recordType, data: omitBy(methods.getValues(), isEmpty) })
     );

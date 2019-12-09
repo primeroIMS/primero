@@ -8,4 +8,10 @@ export const FILTER_TYPES = Object.freeze({
   DATES: "dates"
 });
 
-export const HIDDEN_FIELDS = ["fields", "id_search", "query"];
+export const HIDDEN_FIELDS = [
+  "fields",
+  "id_search",
+  "query",
+  "approval_status_bia",
+  "approval_status_closure"
+];
