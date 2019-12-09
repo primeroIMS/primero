@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/styles";
 import { Tabs, Tab } from "@material-ui/core";
 import { fromJS } from "immutable";
 
+import IndexFilters from "../index-filters";
 import { SavedSearches, fetchSavedSearches } from "../saved-searches";
 import { useI18n } from "../i18n";
 import {
@@ -37,7 +38,12 @@ const STRING_FILTERS = ["radio"];
 
 const DATE_RANGE_FILTERS = ["dates"];
 
-const Container = ({ recordType, defaultFilters, fromDashboard }) => {
+const Container = ({
+  recordType,
+  defaultFilters,
+  fromDashboard,
+  searchRef
+}) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -136,11 +142,10 @@ const Container = ({ recordType, defaultFilters, fromDashboard }) => {
         ))}
       </Tabs>
       {tabValue === 0 && (
-        <FiltersBuilder
+        <IndexFilters
           recordType={recordType}
-          filters={availableFilters}
-          resetPanel={resetFilterValues}
           defaultFilters={defaultFilters}
+          searchRef={searchRef}
         />
       )}
       {tabValue === 1 && (
@@ -155,11 +160,11 @@ const Container = ({ recordType, defaultFilters, fromDashboard }) => {
 
 Container.displayName = NAME;
 
-
 Container.propTypes = {
   defaultFilters: PropTypes.object,
   fromDashboard: PropTypes.bool,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  searchRef: PropTypes.object.isRequired
 };
 
 export default Container;
