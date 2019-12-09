@@ -353,7 +353,7 @@ class Filter < ValueObject
         self.options = I18n.available_locales.map do |locale|
           { locale =>
             [ Child::APPROVAL_STATUS_PENDING, Child::APPROVAL_STATUS_APPROVED, Child::APPROVAL_STATUS_REJECTED].map do |status|
-              { id: "#{status}_#{id_suffix}", display_name: I18n.t("cases.filter_by.approvals.#{status}", locale: locale) }
+              { id: status, display_name: I18n.t("cases.filter_by.approvals.#{status}", locale: locale) }
             end
           }
         end.inject(&:merge)

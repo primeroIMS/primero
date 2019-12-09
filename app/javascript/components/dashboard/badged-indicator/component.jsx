@@ -3,12 +3,11 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { push } from "connected-react-router";
+import isEmpty from "lodash/isEmpty";
 
 import { DashboardChip } from "../dashboard-chip";
 import { useI18n } from "../../i18n";
-import { setDashboardFilters } from "../../filters-builder/action-creators";
-import { ROUTES, RECORD_PATH } from "../../../config";
-import { FROM_DASHBOARD_PARAMS } from "../constants";
+import { ROUTES } from "../../../config";
 import { buildFilter } from "../helpers";
 
 import styles from "./styles.css";
@@ -28,13 +27,14 @@ const BadgedIndicator = ({ data, lookup, sectionTitle }) => {
     const queryValue = value ? value.get("query") : [];
 
     const handleClick = () => {
-      dispatch(setDashboardFilters(RECORD_PATH.cases, buildFilter(queryValue)));
-      dispatch(
-        push({
-          pathname: ROUTES.cases,
-          search: FROM_DASHBOARD_PARAMS
-        })
-      );
+      if (!isEmpty(queryValue)) {
+        dispatch(
+          push({
+            pathname: ROUTES.cases,
+            search: buildFilter(queryValue)
+          })
+        );
+      }
     };
 
     return (

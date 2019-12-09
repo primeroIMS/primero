@@ -34,6 +34,7 @@ const Component = ({ recordType, defaultFilters }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
+  const [rerender, setRerender] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
@@ -80,6 +81,9 @@ const Component = ({ recordType, defaultFilters }) => {
 
   useEffect(() => {
     HIDDEN_FIELDS.forEach(field => methods.register({ name: field }));
+
+    methods.setValue("fields", "short");
+
     dispatch(
       applyFilters({ recordType, data: omitBy(methods.getValues(), isEmpty) })
     );
@@ -94,6 +98,16 @@ const Component = ({ recordType, defaultFilters }) => {
       dispatch(fetchSavedSearches());
     }
   }, [tabIndex]);
+
+  useEffect(() => {
+    if (rerender) {
+      dispatch(
+        applyFilters({ recordType, data: omitBy(methods.getValues(), isEmpty) })
+      );
+
+      setRerender(false);
+    }
+  }, [rerender]);
 
   const tabs = [
     { name: i18n.t("saved_search.filters_tab"), selected: true },
@@ -151,15 +165,20 @@ const Component = ({ recordType, defaultFilters }) => {
             </>
           )}
           {tabIndex === 1 && (
-            <SavedSearches recordType={recordType} resetFilters={handleClear} />
+            <SavedSearches
+              recordType={recordType}
+              setTabIndex={setTabIndex}
+              setRerender={setRerender}
+            />
           )}
         </form>
-        <SavedSearchesForm
-          recordType={recordType}
-          open={open}
-          setOpen={setOpen}
-        />
       </FormContext>
+      <SavedSearchesForm
+        recordType={recordType}
+        getValues={methods.getValues}
+        open={open}
+        setOpen={setOpen}
+      />
     </div>
   );
 };

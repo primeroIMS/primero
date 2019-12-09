@@ -90,7 +90,12 @@ const CheckboxFilter = ({ filter }) => {
     });
 
   return (
-    <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
+    <Panel
+      filter={filter}
+      getValues={getValues}
+      handleReset={handleReset}
+      selectedDefaultValueField={isObject ? "or" : null}
+    >
       <FormControl component="fieldset">
         <FormGroup>{renderOptions()}</FormGroup>
       </FormControl>

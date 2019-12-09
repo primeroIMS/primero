@@ -62,8 +62,12 @@ export const getCasesByAssessmentLevel = state => {
   return dashboardData?.size ? dashboardData : fromJS([]);
 };
 
-export const getWorkflowIndividualCases = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.WORKFLOW);
+export const getWorkflowIndividualCases = state => {
+  return getDashboardByName(state, DASHBOARD_NAMES.WORKFLOW).deleteIn([
+    "stats",
+    "closed"
+  ]);
+};
 
 export const getApprovalsAssessment = state =>
   getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ASSESSMENT);

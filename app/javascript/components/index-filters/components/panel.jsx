@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   ExpansionPanel,
@@ -28,11 +28,15 @@ const Panel = ({
     getValues()?.[selectedDefaultValueField || fieldName]
   );
   const i18n = useI18n();
-  const [open, setOpen] = useState(false || hasValue);
+  const [open, setOpen] = useState(false);
 
   const handleChange = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    setOpen(hasValue);
+  }, [hasValue]);
 
   return (
     <ExpansionPanel

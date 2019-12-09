@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector, batch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   List,
   ListItem,
@@ -11,18 +11,24 @@ import {
   makeStyles
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { push } from "connected-react-router";
+import qs from "qs";
 
 import { useI18n } from "../i18n";
 import { ActionDialog } from "../action-dialog";
-import { setTab } from "../filters/action-creators";
-import { getRecordsFetcherByType } from "../record-list/helpers";
+import { ROUTES } from "../../config";
 
-import { removeSavedSearch, setSavedSearch } from "./action-creators";
+import { removeSavedSearch } from "./action-creators";
 import { selectSavedSearchesById } from "./selectors";
 import { buildFiltersState } from "./helpers";
 import styles from "./styles.css";
 
-const ListSavedSearches = ({ recordType, savedSearches, resetFilters }) => {
+const ListSavedSearches = ({
+  recordType,
+  savedSearches,
+  setTabIndex,
+  setRerender
+}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
@@ -37,15 +43,17 @@ const ListSavedSearches = ({ recordType, savedSearches, resetFilters }) => {
   useEffect(() => {
     if (selectedSavedSearch) {
       const { filters } = selectedSearch.toJS();
-      const fetchRecords = getRecordsFetcherByType(recordType);
       const builtFilters = buildFiltersState(filters);
 
-      batch(() => {
-        resetFilters();
-        dispatch(setSavedSearch(recordType, builtFilters));
-        dispatch(fetchRecords({ options: builtFilters }));
-        dispatch(setTab({ recordType, value: 0 }));
-      });
+      setTabIndex(0);
+      setRerender(true);
+
+      dispatch(
+        push({
+          pathname: ROUTES[recordType],
+          search: qs.stringify(builtFilters)
+        })
+      );
     }
   }, [selectedSavedSearch]);
 
@@ -106,8 +114,9 @@ ListSavedSearches.displayName = "ListSavedSearches";
 
 ListSavedSearches.propTypes = {
   recordType: PropTypes.string.isRequired,
-  resetFilters: PropTypes.func,
-  savedSearches: PropTypes.object.isRequired
+  savedSearches: PropTypes.object.isRequired,
+  setRerender: PropTypes.func.isRequired,
+  setTabIndex: PropTypes.func.isRequired
 };
 
 export default ListSavedSearches;
