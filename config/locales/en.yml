@@ -1810,7 +1810,7 @@ en:
     approvals_assessment: "Assessment"
     approval_assessment_pending: "Pending"
     approval_assessment_rejected: "Rejected"
-    approval_assessment_approved: "approved"
+    approval_assessment_approved: "Approved"
 
   errors:
     try_again: "Try again"
