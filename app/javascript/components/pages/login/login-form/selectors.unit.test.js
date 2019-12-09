@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Map, List } from "immutable";
+import { fromJS } from "immutable";
 
 import {
   selectModules,
@@ -8,23 +8,23 @@ import {
   selectAuthenticated
 } from "./selectors";
 
-const stateWithNoRecords = Map({});
-const stateWithRecords = Map({
-  user: Map({
-    modules: List(["primeromodule-cp", "primeromodule-gbv"]),
+const stateWithNoRecords = fromJS({});
+const stateWithRecords = fromJS({
+  user: {
+    modules: ["primeromodule-cp", "primeromodule-gbv"],
     agency: "unicef",
     isAuthenticated: true,
     messages: null
-  })
+  }
 });
 
-describe("<Login /> - Selectors", () => {
+describe("<LoginForm /> - Selectors", () => {
   describe("selectModules", () => {
     it("should return records", () => {
       const records = selectModules(stateWithRecords);
 
       expect(records).to.deep.equal(
-        List(["primeromodule-cp", "primeromodule-gbv"])
+        fromJS(["primeromodule-cp", "primeromodule-gbv"])
       );
     });
 

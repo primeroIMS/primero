@@ -15,9 +15,10 @@ import styles from "./styles.css";
 
 let msalApp;
 
-const showIdps = (identityProviders) => {
+const showIdps = (identityProviders, i18n) => {
   return identityProviders.map(idp => (
     <Button
+      className="provider-login"
       color="primary"
       type="submit"
       size="large"
@@ -25,7 +26,9 @@ const showIdps = (identityProviders) => {
       key={idp.name}
       onClick={() => signIn(idp)}
     >
-      Log in with {idp.name}
+      {i18n.t("login.provider_title", {
+        provider: idp.name
+      })}
     </Button>
   ));
 }
@@ -56,11 +59,11 @@ const Container = ({ providerType }) => {
   }
 
   return (
-    <div className={css.loginSelection}>
+    <div className={`${css.loginSelection} loginSelection`}>
       <PageHeading title={i18n.t("login.title")} whiteHeading />
-      {showIdps(identityProviders)}
+      {showIdps(identityProviders, i18n)}
       <Button
-        className={css.logout}
+        className={`${css.logout} provider-logout`}
         color="primary"
         type="submit"
         size="large"

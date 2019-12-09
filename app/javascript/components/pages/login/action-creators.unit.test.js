@@ -13,18 +13,4 @@ describe("<Login /> - Action Creators", () => {
 
     expect(creators).to.deep.equal({});
   });
-
-  // it("should check the 'loginSystemSettings' action creator to return the correct object", () => {
-  //   const store = configureStore()({});
-  //   const dispatch = sinon.spy(store, "dispatch");
-
-  //   dispatch(
-  //     actionCreators.loginSystemSettings()
-  //   );
-  //   // console.log("return value:::::", dispatch.getCall(0).returnValue)
-  //   expect(dispatch.getCall(0).returnValue.type).to.eql("idp/LOGIN");
-  //   // expect(dispatch.getCall(0).returnValue.api.body).to.eql({
-
-  //   // });
-  // });
 });

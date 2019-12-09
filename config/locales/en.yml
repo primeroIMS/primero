@@ -115,6 +115,7 @@ en:
 
     label: "Login"
     title: "Log In"
+    provider_title: "with %{provider}"
   header:
     contact: "Contact & Help"
     logged_in_as: "Logged in as:"

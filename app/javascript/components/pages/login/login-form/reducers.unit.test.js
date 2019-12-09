@@ -1,17 +1,17 @@
 import { expect } from "chai";
-import { Map } from "immutable";
+import { fromJS } from "immutable";
 
 import { reducers } from "./reducers";
 
-describe("<Login /> - Reducers", () => {
-  const defaultState = Map({
+describe("<LoginForm /> - Reducers", () => {
+  const defaultState = fromJS({
     module: "primero",
     agency: "unicef",
     isAuthenticated: false
   });
 
   it("should handle LOGIN_STARTED", () => {
-    const expected = Map({
+    const expected = fromJS({
       module: "primero",
       agency: "unicef",
       isAuthenticated: false,
@@ -29,7 +29,7 @@ describe("<Login /> - Reducers", () => {
   });
 
   it("should handle LOGIN_FAILURE", () => {
-    const expected = Map({
+    const expected = fromJS({
       module: "primero",
       agency: "unicef",
       isAuthenticated: false,

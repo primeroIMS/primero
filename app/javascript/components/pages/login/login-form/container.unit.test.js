@@ -1,23 +1,26 @@
 import { expect } from "chai";
-import { Map } from "immutable";
+import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
 
-import Login from "./container";
+import LoginForm from "./container";
 
-describe("<Login />", () => {
+describe("<LoginForm />", () => {
   let component;
 
   before(() => {
     component = setupMountedComponent(
-      Login,
+      LoginForm,
       { isAuthenticated: false },
-      Map({
-        user: Map({
+      fromJS({
+        idp: {
+          use_identity_provider: false
+        },
+        user: {
           module: "primero",
           agency: "unicef",
           isAuthenticated: false
-        })
+        }
       })
     ).component;
   });

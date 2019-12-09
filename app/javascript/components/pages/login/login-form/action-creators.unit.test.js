@@ -4,7 +4,7 @@ import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
 
-describe("<Login /> - Action Creators", () => {
+describe("<LoginForm /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
