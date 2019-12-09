@@ -31,6 +31,6 @@ Actions.propTypes = {
   handleSave: PropTypes.func.isRequired
 };
 
-Actions.displayName = Actions;
+Actions.displayName = "Actions";
 
 export default Actions;
