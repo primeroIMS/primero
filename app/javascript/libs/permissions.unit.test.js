@@ -16,6 +16,7 @@ describe("Verifying config constant", () => {
       "CREATE",
       "DASH_CASE_RISK",
       "DASH_TASKS",
+      "DASH_WORKFLOW",
       "DISPLAY_VIEW_PAGE",
       "ENABLE_DISABLE_RECORD",
       "EXPORT_CASE_PDF",

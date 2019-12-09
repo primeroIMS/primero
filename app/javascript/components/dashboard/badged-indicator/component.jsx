@@ -6,9 +6,10 @@ import { push } from "connected-react-router";
 
 import { DashboardChip } from "../dashboard-chip";
 import { useI18n } from "../../i18n";
-import { applyFilters } from "../../filters-builder/action-creators";
+import { setDashboardFilters } from "../../filters-builder/action-creators";
 import { ROUTES, RECORD_PATH } from "../../../config";
 import { FROM_DASHBOARD_PARAMS } from "../constants";
+import { buildFilter } from "../helpers";
 
 import styles from "./styles.css";
 
@@ -16,16 +17,6 @@ const BadgedIndicator = ({ data, lookup }) => {
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const i18n = useI18n();
-
-  const buildFilter = queryValue => {
-    const value = queryValue.reduce((acum, obj) => {
-      const v = obj.split("=");
-
-      return { ...acum, [v[0]]: [v[1]] };
-    }, {});
-
-    return value;
-  };
 
   if (!data.size) {
     return null;
@@ -37,17 +28,11 @@ const BadgedIndicator = ({ data, lookup }) => {
     const queryValue = value ? value.get("query") : [];
 
     const handlerClick = () => {
+      dispatch(setDashboardFilters(RECORD_PATH.cases, buildFilter(queryValue)));
       dispatch(
         push({
           pathname: ROUTES.cases,
           search: FROM_DASHBOARD_PARAMS
-        })
-      );
-      dispatch(
-        applyFilters({
-          namespace: RECORD_PATH.cases,
-          options: buildFilter(queryValue),
-          path: RECORD_PATH.cases
         })
       );
     };

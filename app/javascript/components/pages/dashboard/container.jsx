@@ -10,7 +10,8 @@ import {
   DashboardTable,
   LineChart,
   OverviewBox,
-  BadgedIndicator
+  BadgedIndicator,
+  PieChart
 } from "../../dashboard";
 import { FlagList } from "../../dashboard/flag-list";
 import { Services } from "../../dashboard/services";
@@ -18,7 +19,8 @@ import { useI18n } from "../../i18n";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 import { RESOURCES, ACTIONS } from "../../../libs/permissions";
 import Permission from "../../application/permission";
-import { LOOKUPS } from "../../../config";
+import { LOOKUPS, MODULES, RECORD_TYPES } from "../../../config";
+import { selectModule } from "../../application";
 import { getOption } from "../../record-form";
 
 import * as actions from "./action-creators";
@@ -29,9 +31,11 @@ import {
   selectCasesByCaseWorker,
   selectCasesRegistration,
   selectCasesOverview,
-  selectServicesStatus
+  selectServicesStatus,
+  getWorkflowIndividualCases
 } from "./selectors";
 import styles from "./styles.css";
+import { toData1D } from "./helpers";
 
 const Dashboard = ({
   fetchFlags,
@@ -47,6 +51,7 @@ const Dashboard = ({
   casesByCaseWorker,
   casesRegistration,
   casesOverview,
+  casesWorkflow,
   servicesStatus
 }) => {
   useEffect(() => {
@@ -131,6 +136,23 @@ const Dashboard = ({
     ]
   };
 
+  const workflowLabels = useSelector(
+    state =>
+      selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]?.[
+        i18n.locale
+      ]
+  );
+
+  const casesWorkflowProps = {
+    ...toData1D(casesWorkflow, workflowLabels)
+  };
+
+  const checkHidden = {
+    casesByAssessmentLevel:
+      !labelsRiskLevel?.length || !casesByAssessmentLevel?.size,
+    workflow: !workflowLabels?.length || !casesWorkflow?.size
+  };
+
   const hideCasesByAssesmentLevel =
     !labelsRiskLevel?.length || !casesByAssessmentLevel?.size;
 
@@ -139,13 +161,16 @@ const Dashboard = ({
       <PageHeading title={i18n.t("navigation.home")} />
       <PageContent>
         <Grid container spacing={3} classes={{ root: css.container }}>
-          <Grid item md={12} hidden={hideCasesByAssesmentLevel}>
+          <Grid item md={6} hidden={checkHidden.casesByAssessmentLevel}>
             <OptionsBox title={i18n.t("dashboard.overview")}>
               <Permission
                 resources={RESOURCES.dashboards}
                 actions={ACTIONS.DASH_CASE_RISK}
               >
-                <OptionsBox title={i18n.t(casesByAssessmentLevel.get("name"))}>
+                <OptionsBox
+                  title={i18n.t(casesByAssessmentLevel.get("name"))}
+                  flat
+                >
                   <BadgedIndicator
                     data={casesByAssessmentLevel}
                     lookup={labelsRiskLevel}
@@ -154,6 +179,17 @@ const Dashboard = ({
               </Permission>
             </OptionsBox>
           </Grid>
+          <Grid item md={6} hidden={checkHidden.workflow}>
+            <Permission
+              resources={RESOURCES.dashboards}
+              actions={ACTIONS.DASH_WORKFLOW}
+            >
+              <OptionsBox title={i18n.t(casesWorkflow.get("name"))}>
+                <PieChart {...casesWorkflowProps} />
+              </OptionsBox>
+            </Permission>
+          </Grid>
+
           <Grid item md={12} hidden>
             <OptionsBox title="CASE OVERVIEW">
               <DashboardTable columns={columns} data={casesByCaseWorker} />
@@ -193,6 +229,7 @@ Dashboard.propTypes = {
   casesByStatus: PropTypes.object.isRequired,
   casesOverview: PropTypes.object.isRequired,
   casesRegistration: PropTypes.object.isRequired,
+  casesWorkflow: PropTypes.object.isRequired,
   fetchCasesByCaseWorker: PropTypes.func.isRequired,
   fetchCasesByStatus: PropTypes.func.isRequired,
   fetchCasesOverview: PropTypes.func.isRequired,
@@ -201,7 +238,6 @@ Dashboard.propTypes = {
   fetchServicesStatus: PropTypes.func.isRequired,
   flags: PropTypes.object.isRequired,
   getDashboardsData: PropTypes.func.isRequired,
-  isOpenPageActions: PropTypes.bool.isRequired,
   openPageActions: PropTypes.func.isRequired,
   servicesStatus: PropTypes.object.isRequired
 };
@@ -210,6 +246,7 @@ const mapStateToProps = state => {
   return {
     flags: selectFlags(state),
     casesByAssessmentLevel: getCasesByAssessmentLevel(state),
+    casesWorkflow: getWorkflowIndividualCases(state),
     casesByStatus: selectCasesByStatus(state),
     casesByCaseWorker: selectCasesByCaseWorker(state),
     casesRegistration: selectCasesRegistration(state),
