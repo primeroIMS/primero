@@ -31,7 +31,8 @@ import {
   CompletedCaseActionPlan,
   CompletedSupervisorApprovedCaseActionPlan,
   ServicesProvided,
-  AverageReferrals
+  AverageReferrals,
+  ReferralsPerService
 } from "./components";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
@@ -121,6 +122,12 @@ function KeyPerformanceIndicators({
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <AverageReferrals />
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2}>
+                <Grid item className={css.grow} xs={12} md={6}>
+                  <ReferralsPerService />
                 </Grid>
               </Grid>
             </Box>
