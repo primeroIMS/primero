@@ -387,7 +387,7 @@ ActiveRecord::Schema.define(version: 2019_11_25_000000) do
     t.string "primary_age_range"
     t.string "location_limit_for_api"
     t.jsonb "approval_forms_to_alert"
-    t.string "changes_field_to_form"
+    t.jsonb "changes_field_to_form"
     t.jsonb "export_config_id"
     t.string "duplicate_export_field"
     t.string "primero_version"

@@ -3,23 +3,12 @@ import clone from "lodash/clone";
 
 import * as index from "./index";
 
-describe("<Dashboard /> - index", () => {
+describe("<PieChart /> - index", () => {
   const indexValues = clone(index);
 
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
-    [
-      "BadgedIndicator",
-      "DashboardTable",
-      "DoughnutChart",
-      "FlagBox",
-      "LineChart",
-      "OptionsBox",
-      "OverviewBox",
-      "ActionMenu",
-      "DashboardChip",
-      "PieChart"
-    ].forEach(property => {
+    ["PieChart"].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });

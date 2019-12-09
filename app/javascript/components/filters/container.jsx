@@ -8,6 +8,12 @@ import { fromJS } from "immutable";
 import IndexFilters from "../index-filters";
 import { SavedSearches, fetchSavedSearches } from "../saved-searches";
 import { useI18n } from "../i18n";
+import {
+  FiltersBuilder,
+  getFromDashboardFilters,
+  clearDashboardFilters
+} from "../filters-builder";
+import { dataToJS } from "../../libs";
 
 import {
   setInitialFilterValues,
@@ -47,6 +53,10 @@ const Container = ({
     getFiltersByRecordType(state, recordType)
   );
 
+  const dashboardFilters = useSelector(state =>
+    getFromDashboardFilters(state, recordType)
+  );
+
   const resetFilterValues = useCallback((namespace = null, path = null) => {
     if (availableFilters) {
       const excludeDefaultFilters = [...defaultFilters.keys()];
@@ -81,8 +91,16 @@ const Container = ({
         return currentObject;
       }, {});
 
-      if (!fromDashboard) {
-        dispatch(setInitialFilterValues(recordType, initialFilterValues));
+      dispatch(
+        setInitialFilterValues(
+          recordType,
+          initialFilterValues,
+          dataToJS(dashboardFilters)
+        )
+      );
+
+      if (fromDashboard && dashboardFilters?.size) {
+        dispatch(clearDashboardFilters(recordType));
       }
 
       if (namespace && path) {
