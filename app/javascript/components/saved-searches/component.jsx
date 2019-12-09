@@ -9,7 +9,7 @@ import ListSavedSearches from "./ListSavedSearches";
 import { selectSavedSearches } from "./selectors";
 import styles from "./styles.css";
 
-const SavedSearches = ({ recordType, resetFilters }) => {
+const SavedSearches = ({ recordType, setTabIndex, setRerender }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
@@ -20,7 +20,8 @@ const SavedSearches = ({ recordType, resetFilters }) => {
   const listSavedSearchesProps = {
     recordType,
     savedSearches,
-    resetFilters
+    setTabIndex,
+    setRerender
   };
 
   return (
@@ -36,9 +37,12 @@ const SavedSearches = ({ recordType, resetFilters }) => {
   );
 };
 
+SavedSearches.displayName = "SavedSearches";
+
 SavedSearches.propTypes = {
   recordType: PropTypes.string.isRequired,
-  resetFilters: PropTypes.func
+  setRerender: PropTypes.func.isRequired,
+  setTabIndex: PropTypes.func.isRequired
 };
 
 export default SavedSearches;

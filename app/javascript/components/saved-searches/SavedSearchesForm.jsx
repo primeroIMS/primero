@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { Formik, Field, Form } from "formik";
-import { TextField } from "formik-material-ui";
 import PropTypes from "prop-types";
 import { compact } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  Box,
   Button,
   Dialog,
   DialogContent,
-  DialogTitle
+  DialogTitle,
+  DialogActions,
+  TextField
 } from "@material-ui/core";
+import useForm from "react-hook-form";
+import * as yup from "yup";
+import isEmpty from "lodash/isEmpty";
+import omitBy from "lodash/omitBy";
+import qs from "qs";
+import { push } from "connected-react-router";
 
 import { applyFilters } from "../filters-builder/action-creators";
 import { enqueueSnackbar } from "../notifier";
 import { getFiltersByRecordType } from "../filters-builder/selectors";
 import { selectModules } from "../pages/login/selectors";
 import { useI18n } from "../i18n";
+import { ROUTES } from "../../config";
 
 import { saveSearch } from "./action-creators";
 import { buildFiltersApi } from "./helpers";
-
-const initialValues = { name: "" };
 
 const FormErrors = () => {
   const dispatch = useDispatch();
@@ -34,14 +38,17 @@ const FormErrors = () => {
   return null;
 };
 
-const SavedSearchesForm = ({ recordType, open, setOpen }) => {
+const validationSchema = yup.object().shape({
+  name: yup.string().required()
+});
+
+const SavedSearchesForm = ({ recordType, open, setOpen, getValues }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState(false);
-
-  const selectedFilters = useSelector(state =>
-    getFiltersByRecordType(state, recordType)
-  );
+  const { register, handleSubmit, errors } = useForm({
+    validationSchema
+  });
 
   const userModules = useSelector(state => selectModules(state));
 
@@ -50,16 +57,18 @@ const SavedSearchesForm = ({ recordType, open, setOpen }) => {
     setFormErrors(false);
   };
 
-  const handleSaveSearches = (values, actions) => {
-    if (selectedFilters) {
-      const filters = buildFiltersApi(Object.entries(selectedFilters)).filter(
+  const onSubmit = data => {
+    const payload = omitBy(getValues(), isEmpty);
+
+    if (payload) {
+      const filters = buildFiltersApi(Object.entries(payload)).filter(
         f => Object.keys(f).length
       );
 
       if (filters.length) {
         const body = {
           data: {
-            name: values.name,
+            name: data.name,
             record_type: recordType,
             module_ids: userModules.toJS(),
             filters: compact(filters)
@@ -67,68 +76,54 @@ const SavedSearchesForm = ({ recordType, open, setOpen }) => {
         };
 
         dispatch(saveSearch(body, i18n.t("saved_search.save_success")));
-        actions.resetForm(initialValues);
         setFormErrors(false);
         closeModal();
         dispatch(
-          applyFilters({
-            namespace: recordType,
-            options: selectedFilters,
-            path: `/${recordType.toLowerCase()}`
+          push({
+            pathname: ROUTES[recordType],
+            search: qs.stringify(compact(filters))
           })
         );
       } else {
-        actions.setSubmitting(false);
         setFormErrors(true);
       }
     }
   };
 
-  const inputProps = {
-    component: TextField,
-    autoFocus: true,
-    required: true,
-    fullWidth: true
-  };
-
-  const formProps = {
-    initialValues,
-    onSubmit: handleSaveSearches
-  };
-
   return (
-    <Formik {...formProps}>
-      {({ handleSubmit }) => (
-        <Dialog open={open} onClose={closeModal} maxWidth="sm" fullWidth>
-          <DialogTitle id="form-dialog-title">
-            {i18n.t("saved_searches.save_search")}
-          </DialogTitle>
-          <DialogContent>
-            <Form onSubmit={handleSubmit}>
-              <Field name="name" placeholder="Name..." {...inputProps} />
-              {formErrors && <FormErrors />}
-              <Box
-                display="flex"
-                my={3}
-                justifyContent="flex-end"
-                style={{ marginBottom: "5" }}
-              >
-                <Button onClick={closeModal} color="primary">
-                  {i18n.t("buttons.cancel")}
-                </Button>
-                <Button type="submit" variant="contained" color="primary">
-                  {i18n.t("buttons.save")}
-                </Button>
-              </Box>
-            </Form>
-          </DialogContent>
-        </Dialog>
-      )}
-    </Formik>
+    <Dialog open={open} onClose={closeModal} maxWidth="sm" fullWidth>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <DialogTitle>{i18n.t("saved_searches.save_search")}</DialogTitle>
+        <DialogContent>
+          <TextField
+            name="name"
+            error={errors?.name?.message}
+            placeholder="Name"
+            inputRef={register}
+            helperText={errors?.name?.message}
+            fullWidth
+            autoFocus
+            required
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button type="submit" variant="contained" color="primary">
+            {i18n.t("buttons.save")}
+          </Button>
+          <Button onClick={closeModal} color="primary">
+            {i18n.t("buttons.cancel")}
+          </Button>
+        </DialogActions>
+        {formErrors && <FormErrors />}
+      </form>
+    </Dialog>
   );
 };
 
+SavedSearchesForm.displayName = "SavedSearchesForm";
+
 SavedSearchesForm.propTypes = {
+  getValues: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   recordType: PropTypes.string.isRequired,
   setOpen: PropTypes.func.isRequired

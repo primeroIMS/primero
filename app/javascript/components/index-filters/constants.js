@@ -15,3 +15,5 @@ export const HIDDEN_FIELDS = [
   "approval_status_bia",
   "approval_status_closure"
 ];
+
+export const OR_FIELDS = ["owned_by", "assigned_user_names"];

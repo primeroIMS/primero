@@ -57,7 +57,10 @@ const SwitchFilter = ({ filter }) => {
           <FormControlLabel
             labelPlacement="end"
             control={
-              <Switch onChange={handleChange} checked={inputValue || false} />
+              <Switch
+                onChange={handleChange}
+                checked={Boolean(inputValue) || false}
+              />
             }
             label={label}
           />
