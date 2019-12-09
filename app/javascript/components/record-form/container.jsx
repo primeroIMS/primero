@@ -89,7 +89,9 @@ const Container = ({ match, mode }) => {
             record_id: record.get("short_id")
           })
         : i18n.t(`${recordType}.messages.creation_success`, recordType);
-      const redirect = `/${params.recordType}/${params.id}`;
+      const redirect = containerMode.isNew
+        ? `/${params.recordType}`
+        : `/${params.recordType}/${params.id}`;
 
       dispatch(
         saveRecord(
