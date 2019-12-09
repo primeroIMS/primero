@@ -64,7 +64,13 @@ function handleSuccessCallback(store, successCallback, response, json) {
     store.dispatch(successPayload);
 
     if (isCallbackObject && successCallback.redirect) {
-      store.dispatch(push(successCallback.redirect));
+      store.dispatch(
+        push(
+          successCallback.redirectWithIdFromResponse
+            ? `${successCallback.redirect}/${json?.data?.id}`
+            : successCallback.redirect
+        )
+      );
     }
   }
 }
