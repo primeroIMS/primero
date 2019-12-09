@@ -32,7 +32,10 @@ import {
   selectCasesRegistration,
   selectCasesOverview,
   selectServicesStatus,
-  getWorkflowIndividualCases
+  getWorkflowIndividualCases,
+  getApprovalsAssessment,
+  getApprovalsCasePlan,
+  getApprovalsClosure
 } from "./selectors";
 import styles from "./styles.css";
 import { toData1D } from "./helpers";
@@ -52,7 +55,10 @@ const Dashboard = ({
   casesRegistration,
   casesOverview,
   casesWorkflow,
-  servicesStatus
+  servicesStatus,
+  approvalsAssessment,
+  approvalsCasePlan,
+  approvalsClosure
 }) => {
   useEffect(() => {
     batch(() => {
@@ -147,50 +153,92 @@ const Dashboard = ({
     ...toData1D(casesWorkflow, workflowLabels)
   };
 
-  const checkHidden = {
-    casesByAssessmentLevel:
-      !labelsRiskLevel?.length || !casesByAssessmentLevel?.size,
-    workflow: !workflowLabels?.length || !casesWorkflow?.size
-  };
-
-  const hideCasesByAssesmentLevel =
-    !labelsRiskLevel?.length || !casesByAssessmentLevel?.size;
-
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
       <PageContent>
         <Grid container spacing={3} classes={{ root: css.container }}>
-          <Grid item md={6} hidden={checkHidden.casesByAssessmentLevel}>
-            <OptionsBox title={i18n.t("dashboard.overview")}>
-              <Permission
-                resources={RESOURCES.dashboards}
-                actions={ACTIONS.DASH_CASE_RISK}
-              >
-                <OptionsBox
-                  title={i18n.t(casesByAssessmentLevel.get("name"))}
-                  flat
-                >
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={[
+              ACTIONS.DASH_APPROVALS_ASSESSMENT,
+              ACTIONS.DASH_APPROVALS_CASE_PLAN,
+              ACTIONS.DASH_APPROVALS_CLOSURE
+            ]}
+          >
+            <Grid item md={12}>
+              <OptionsBox title={i18n.t("dashboard.approvals")}>
+                <Grid container>
+                  <Grid item xs>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_APPROVALS_ASSESSMENT}
+                    >
+                      <OptionsBox flat>
+                        <OverviewBox
+                          items={approvalsAssessment}
+                          sumTitle={i18n.t(approvalsAssessment.get("name"))}
+                        />
+                      </OptionsBox>
+                    </Permission>
+                  </Grid>
+                  <Grid item xs>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_APPROVALS_CASE_PLAN}
+                    >
+                      <OptionsBox flat>
+                        <OverviewBox
+                          items={approvalsCasePlan}
+                          sumTitle={i18n.t(approvalsCasePlan.get("name"))}
+                        />
+                      </OptionsBox>
+                    </Permission>
+                  </Grid>
+                  <Grid item xs>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_APPROVALS_CLOSURE}
+                    >
+                      <OptionsBox flat>
+                        <OverviewBox
+                          items={approvalsClosure}
+                          sumTitle={i18n.t(approvalsClosure.get("name"))}
+                        />
+                      </OptionsBox>
+                    </Permission>
+                  </Grid>
+                </Grid>
+              </OptionsBox>
+            </Grid>
+          </Permission>
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={ACTIONS.DASH_CASE_RISK}
+          >
+            <Grid item md={6}>
+              <OptionsBox title={i18n.t("dashboard.overview")}>
+                <OptionsBox flat>
                   <BadgedIndicator
                     data={casesByAssessmentLevel}
+                    sectionTitle={i18n.t(casesByAssessmentLevel.get("name"))}
                     lookup={labelsRiskLevel}
                   />
                 </OptionsBox>
-              </Permission>
-            </OptionsBox>
-          </Grid>
-          <Grid item md={6} hidden={checkHidden.workflow}>
-            <Permission
-              resources={RESOURCES.dashboards}
-              actions={ACTIONS.DASH_WORKFLOW}
-            >
+              </OptionsBox>
+            </Grid>
+          </Permission>
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={ACTIONS.DASH_WORKFLOW}
+          >
+            <Grid item md={6}>
               <OptionsBox title={i18n.t(casesWorkflow.get("name"))}>
                 <PieChart {...casesWorkflowProps} />
               </OptionsBox>
-            </Permission>
-          </Grid>
-
-          <Grid item md={12} hidden>
+            </Grid>
+          </Permission>
+          {/* <Grid item md={12} hidden>
             <OptionsBox title="CASE OVERVIEW">
               <DashboardTable columns={columns} data={casesByCaseWorker} />
             </OptionsBox>
@@ -214,7 +262,7 @@ const Dashboard = ({
             <OptionsBox title={i18n.t("dashboard.flagged")}>
               <FlagList flags={flags} i18n={i18n} />
             </OptionsBox>
-          </Grid>
+          </Grid> */}
         </Grid>
       </PageContent>
     </PageContainer>
@@ -224,6 +272,9 @@ const Dashboard = ({
 Dashboard.displayName = "Dashboard";
 
 Dashboard.propTypes = {
+  approvalsAssessment: PropTypes.object.isRequired,
+  approvalsCasePlan: PropTypes.object.isRequired,
+  approvalsClosure: PropTypes.object.isRequired,
   casesByAssessmentLevel: PropTypes.object.isRequired,
   casesByCaseWorker: PropTypes.object.isRequired,
   casesByStatus: PropTypes.object.isRequired,
@@ -247,6 +298,9 @@ const mapStateToProps = state => {
     flags: selectFlags(state),
     casesByAssessmentLevel: getCasesByAssessmentLevel(state),
     casesWorkflow: getWorkflowIndividualCases(state),
+    approvalsAssessment: getApprovalsAssessment(state),
+    approvalsClosure: getApprovalsClosure(state),
+    approvalsCasePlan: getApprovalsCasePlan(state),
     casesByStatus: selectCasesByStatus(state),
     casesByCaseWorker: selectCasesByCaseWorker(state),
     casesRegistration: selectCasesRegistration(state),

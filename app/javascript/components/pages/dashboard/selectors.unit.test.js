@@ -37,7 +37,7 @@ describe("<Dashboard /> - Selectors", () => {
       const records = selectors.getCasesByAssessmentLevel(initialState);
 
       const expected = fromJS({
-        name: DASHBOARD_NAMES.case_risk,
+        name: DASHBOARD_NAMES.CASE_RISK,
         type: "indicator",
         stats: {
           high: {

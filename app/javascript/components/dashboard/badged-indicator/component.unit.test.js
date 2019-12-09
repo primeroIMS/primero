@@ -12,7 +12,7 @@ describe("<BadgedIndicator />", () => {
   let component;
   const props = {
     data: fromJS({
-      name: DASHBOARD_NAMES.case_risk,
+      name: DASHBOARD_NAMES.CASE_RISK,
       stats: {
         high: { count: 2, query: [] },
         medium: { count: 1, query: [] },
