@@ -35,9 +35,9 @@ export const getDashboards = state => {
   return state.getIn(["records", NAMESPACE, "data"], false);
 };
 
-const getDashboardByName = (state, name) => {
+export const getDashboardByName = (state, name) => {
   const currentState = getDashboards(state);
-  const noDashboard = fromJS([]);
+  const noDashboard = fromJS({});
 
   if (!currentState) {
     return noDashboard;
@@ -56,11 +56,20 @@ export const getCasesByAssessmentLevel = state => {
     return fromJS([]);
   }
   const dashboardData = currentState
-    .filter(f => f.get("name") === DASHBOARD_NAMES.case_risk)
+    .filter(f => f.get("name") === DASHBOARD_NAMES.CASE_RISK)
     .first();
 
   return dashboardData?.size ? dashboardData : fromJS([]);
 };
 
 export const getWorkflowIndividualCases = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.workflow);
+  getDashboardByName(state, DASHBOARD_NAMES.WORKFLOW);
+
+export const getApprovalsAssessment = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ASSESSMENT);
+
+export const getApprovalsCasePlan = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CASE_PLAN);
+
+export const getApprovalsClosure = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CLOSURE);

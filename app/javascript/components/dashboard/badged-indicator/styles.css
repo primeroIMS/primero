@@ -17,3 +17,9 @@
     }
   }
 }
+
+.sectionTitle {
+  padding: 0 1.2em;
+  text-transform: uppercase;
+  font-weight: bold;
+}
