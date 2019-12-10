@@ -11,3 +11,4 @@ export { AverageReferrals } from "./average-referrals";
 export { ReferralsPerService } from "./referrals-per-service";
 export { CompletedReferralsPerService } from "./completed-referrals-per-service";
 export { TotalFollowUpMeetings } from "./total-follow-up-meetings";
+export { AverageFollowUpMeetings } from "./average-follow-up-meetings";
