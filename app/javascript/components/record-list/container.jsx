@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { fromJS } from "immutable";
@@ -8,11 +8,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
 import IndexTable from "../index-table";
-import Filters from "../filters";
-import { RecordSearch } from "../record-search";
 import { PageContainer } from "../page";
 import { useI18n } from "../i18n";
-import { getFiltersByRecordType } from "../filters-builder";
+import Filters, { getFiltersValuesByRecordType } from "../index-filters";
 import { getPermissionsByRecord } from "../user";
 import {
   ACTIONS,
@@ -34,17 +32,18 @@ import { getListHeaders } from "./selectors";
 import styles from "./styles.css";
 import { ViewModal } from "./view-modal";
 
-const Container = ({ match }) => {
+const Container = ({ match, location }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { theme } = useThemeHelper({});
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const [drawer, setDrawer] = useState(false);
-  const { params, url } = match;
-  const { recordType } = params;
+
+  const { url } = match;
+  const { search } = location;
+  const recordType = url.replace("/", "");
   const dispatch = useDispatch();
   const headers = useSelector(state => getListHeaders(state, recordType));
-
   const [openViewModal, setOpenViewModal] = useState(false);
   const [currentRecord, setCurrentRecord] = useState(null);
 
@@ -59,20 +58,11 @@ const Container = ({ match }) => {
   const handleViewModalClose = () => {
     setOpenViewModal(false);
   };
+  const searchParams = new URLSearchParams(search);
 
   // eslint-disable-next-line camelcase
-  const { id_search, query } = useSelector(
-    state => {
-      const filters = getFiltersByRecordType(state, recordType);
-
-      return { id_search: filters.id_search, query: filters.query };
-    },
-    (filters1, filters2) => {
-      return (
-        filters1.id_search === filters2.id_search &&
-        filters1.query === filters2.query
-      );
-    }
+  const filters = useSelector(state =>
+    getFiltersValuesByRecordType(state, recordType)
   );
 
   const permissions = useSelector(state =>
@@ -85,34 +75,19 @@ const Container = ({ match }) => {
 
   const defaultFilters = fromJS({
     fields: "short",
-    per: 20,
-    page: 1,
-    id_search,
-    query,
-    ...{
-      ...(recordType === "cases"
-        ? { status: ["open"], record_state: ["true"] }
-        : {})
-    },
-    ...{
-      ...(recordType === "incidents"
-        ? { status: ["open"], record_state: ["true"] }
-        : {})
-    },
-    ...{
-      ...(recordType === "tracing_requests"
-        ? { status: ["open"], record_state: ["true"] }
-        : {})
-    }
+    id_search: filters.id_search,
+    query: filters.query,
+    status: ["open"],
+    record_state: ["true"]
   });
 
-  useEffect(() => {
-    dispatch(setFilters({ options: defaultFilters.toJS() }));
+  // useEffect(() => {
+  //   dispatch(setFilters({ options: defaultFilters.toJS() }));
 
-    return () => {
-      dispatch(setFilters({ options: { id_search: null, query: "" } }));
-    };
-  }, [url]);
+  //   return () => {
+  //     dispatch(setFilters({ options: { id_search: "", query: "" } }));
+  //   };
+  // }, [url]);
 
   const canSearchOthers =
     permissions.includes(ACTIONS.MANAGE) ||
@@ -120,14 +95,15 @@ const Container = ({ match }) => {
 
   const listHeaders =
     // eslint-disable-next-line camelcase
-    id_search && canSearchOthers
+    filters.id_search && canSearchOthers
       ? headers.filter(header => header.id_search)
       : headers;
 
   const indexTableProps = {
     recordType,
     defaultFilters,
-    columns: buildTableColumns(listHeaders, i18n, recordType),
+    bypassInitialFetch: true,
+    columns: buildTableColumns(listHeaders, i18n, recordType, css),
     onTableChange: fetchRecords,
     onRowClick: record => {
       const allowedToOpenRecord =
@@ -154,11 +130,6 @@ const Container = ({ match }) => {
     handleDrawer
   };
 
-  const recordSearchProps = {
-    recordType,
-    setFilters
-  };
-
   const recordListToolbarProps = {
     title: i18n.t(`${recordType}.label`),
     recordType,
@@ -168,7 +139,8 @@ const Container = ({ match }) => {
 
   const filterProps = {
     recordType,
-    defaultFilters
+    defaultFilters,
+    fromDashboard: Boolean(searchParams.get("fromDashboard"))
   };
 
   return (
@@ -182,7 +154,6 @@ const Container = ({ match }) => {
             </Box>
           </Box>
           <FilterContainer {...filterContainerProps}>
-            <RecordSearch {...recordSearchProps} />
             <Filters {...filterProps} />
           </FilterContainer>
         </Box>
@@ -201,6 +172,7 @@ const Container = ({ match }) => {
 Container.displayName = NAME;
 
 Container.propTypes = {
+  location: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired
 };
 

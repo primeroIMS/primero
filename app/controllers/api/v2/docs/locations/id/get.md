@@ -45,7 +45,9 @@ Show the JSON representation of a location.
       "es": "departament_es",
       "bn": ""
     },
-    "hierarchy": "CT01.D01"
+    "hierarchy": [
+      "CT01"
+    ]
   }
 }
 ```

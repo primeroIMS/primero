@@ -15,10 +15,10 @@ class Header < ValueObject
   PHOTO = Header.new(name: 'photo', field_name: 'photo')
   SOCIAL_WORKER = Header.new(name: 'social_worker', field_name: 'owned_by')
   OWNED_BY = Header.new(name: 'owned_by', field_name: 'owned_by', id_search: true)
-  OWNED_BY_AGENCY = Header.new(name: 'owned_by_agency', field_name: 'owned_by_agency', id_search: true)
+  OWNED_BY_AGENCY = Header.new(name: 'owned_by_agency', field_name: 'owned_by_agency_id', id_search: true)
   DATE_OF_INTERVIEW = Header.new(name: 'date_of_interview', field_name: 'date_of_first_report')
   DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date_derived')
-  VIOLENCE_TYPE = Header.new(name: 'violence_type', field_name: 'gbv_sexual_violence_type')
+  VIOLENCE_TYPE = Header.new(name: 'violence_type', field_name: 'cp_incident_violence_type')
   INCIDENT_LOCATION = Header.new(name: 'incident_location', field_name: 'incident_location')
   VIOLATIONS = Header.new(name: 'violations', field_name: 'violations')
   NAME_OF_INQUIRER = Header.new(name: 'name_of_inquirer', field_name: 'relation_name')
@@ -28,7 +28,7 @@ class Header < ValueObject
   DESCRIPTION = Header.new(name: 'description', field_name: 'description')
   CASE_ID = Header.new(name: 'id', field_name: 'record_id_display')
   PRIORITY = Header.new(name: 'priority', field_name: 'priority')
-  TYPE_DISPLAY = Header.new(name: 'type', field_name: 'type_display')
+  TYPE_DISPLAY = Header.new(name: 'type', field_name: 'type')
   DUE_DATE = Header.new(name: 'due_date', field_name: 'due_date')
   FILE_NAME = Header.new(name: 'file_name', field_name: 'file_name')
   RECORD_TYPE = Header.new(name: 'record_type', field_name: 'record_type')
@@ -43,6 +43,7 @@ class Header < ValueObject
   AGENCY = Header.new(name: 'agency', field_name: 'agency')
   USER_GROUP_NAME = Header.new(name: 'user_group.name', field_name: 'user_group.name')
   STATUS = Header.new(name: 'status', field_name: 'status')
+  ALERT_COUNT = Header.new(name: 'alert_count', field_name: 'alert_count')
 
   class << self
 
@@ -68,6 +69,8 @@ class Header < ValueObject
       header_list << SOCIAL_WORKER if user.is_manager?
       header_list << OWNED_BY if user.has_module?(@primero_module_cp.id)
       header_list << OWNED_BY_AGENCY if user.has_module?(@primero_module_cp.id)
+      header_list << ALERT_COUNT if user.has_module?(@primero_module_cp.id)
+
       header_list
     end
 

@@ -56,12 +56,18 @@ describe("Verifying config constant", () => {
     );
     expect(constants).to.have.property("ROUTES");
     expect(constants).to.have.property("REFERRAL");
-    expect(constants).to.not.have.property("NAME_FIELD");
+    expect(constants).to.have.property("NAME_FIELD");
     expect(constants).to.have.property("DATE_FORMAT");
     expect(constants).to.have.property("DATE_TIME_FORMAT");
     expect(constants).to.have.property("USER_NAME_FIELD");
     expect(constants).to.have.property("MODES");
     expect(constants).to.have.property("TRANSITIONS_DATE_FORMAT");
+    expect(constants).to.have.property("STRING_SOURCES_TYPES");
+    expect(constants).to.have.property("ID_FIELD");
+    expect(constants).to.have.property("UNIQUE_ID_FIELD");
+    expect(constants).to.have.property("DISPLAY_TEXT_FIELD");
+    expect(constants).to.have.property("CODE_FIELD");
+    expect(constants).to.have.property("LOOKUPS");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -97,6 +103,12 @@ describe("Verifying config constant", () => {
     delete constants.USER_NAME_FIELD;
     delete constants.MODES;
     delete constants.TRANSITIONS_DATE_FORMAT;
+    delete constants.STRING_SOURCES_TYPES;
+    delete constants.ID_FIELD;
+    delete constants.UNIQUE_ID_FIELD;
+    delete constants.DISPLAY_TEXT_FIELD;
+    delete constants.CODE_FIELD;
+    delete constants.LOOKUPS;
 
     expect(constants).to.deep.equal({});
   });
@@ -140,10 +152,21 @@ describe("Verifying config constant", () => {
     expect(constants.RECORD_OWNER).to.equal("record_owner");
     expect(constants.TRANSFERS_ASSIGNMENTS).to.equal("transfers_assignments");
     expect(constants.REFERRAL).to.equal("referral");
-    expect(constants.NAME_FIELD).to.not.equal("name");
+    expect(constants.NAME_FIELD).to.be.equal("name");
     expect(constants.DATE_FORMAT).to.equal("dd-MMM-yyyy");
     expect(constants.DATE_TIME_FORMAT).to.equal("dd-MMM-yyyy HH:mm");
     expect(constants.USER_NAME_FIELD).to.equal("user_name");
     expect(constants.MODES).to.be.an("object");
+    expect(constants.STRING_SOURCES_TYPES).to.be.an("object");
+    expect(constants.ID_FIELD).to.equal("id");
+    expect(constants.UNIQUE_ID_FIELD).to.equal("unique_id");
+    expect(constants.DISPLAY_TEXT_FIELD).to.equal("display_text");
+    expect(constants.CODE_FIELD).to.equal("code");
+    expect(constants.LOOKUPS).to.be.an("object");
+    expect(constants.LOOKUPS).to.have.all.keys(
+      "risk_level",
+      "workflow",
+      "service_type"
+    );
   });
 });

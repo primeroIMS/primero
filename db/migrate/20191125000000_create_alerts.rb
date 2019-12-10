@@ -8,9 +8,8 @@ class CreateAlerts < ActiveRecord::Migration[5.0]
       t.string     :unique_id
       t.references :user, null: true
       t.references :agency, null: true
-      t.string     :record_id
-      t.string     :record_type
+      t.references :record, polymorphic: true, type: :uuid
     end
-    add_index :alerts, [:record_type, :record_id]
+    # add_index :alerts, [:record_type, :record_id]
   end
 end

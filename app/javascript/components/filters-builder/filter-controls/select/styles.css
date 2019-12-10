@@ -1,6 +1,12 @@
+
 .root {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
+}
+
+.root > div {
+  width: 100%;
 }
 
 .formControl {

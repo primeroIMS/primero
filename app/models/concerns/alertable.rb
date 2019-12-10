@@ -15,27 +15,42 @@ module Alertable
 
     has_many :alerts, as: :record
 
+    before_save :add_alert_on_field_change
     before_update :remove_alert_on_save
 
     def self.alert_count(current_user)
-      #TODO: should filter to the owner user?
-      self.all.map{|c| c.alerts.where(user_id: current_user)}.flatten.count
+      joins(:alerts).owned_by(current_user.user_name).distinct.count
     end
 
     def alert_count
-      self.alerts.count
+      alerts.count
     end
 
     def has_alerts?
-      self.alerts.present?
+      alerts.exists?
     end
 
     def remove_alert_on_save
-      self.remove_alert(self.last_updated_by)
+      remove_alert(last_updated_by)
+    end
+
+    def add_alert_on_field_change
+      return unless owned_by != last_updated_by
+
+      @system_settings ||= SystemSettings.current
+      changes_field_to_form = @system_settings&.changes_field_to_form
+      return unless changes_field_to_form.present?
+
+      changed_field_names = changes_to_save_for_record.keys
+      changes_field_to_form.each do |field_name, form_name|
+        if changed_field_names.include?(field_name)
+          add_alert(FIELD_CHANGE, Date.today, form_name, form_name)
+        end
+      end
     end
 
     def current_alert_types
-      self.alerts.map {|a| a.type}.uniq
+      alerts.map(&:type).uniq
     end
 
     def add_alert(alert_for, date = nil, type = nil, form_sidebar_id = nil, user_id = nil, agency_id = nil)

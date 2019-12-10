@@ -9,14 +9,21 @@ import * as yup from "yup";
 import { useI18n } from "../../../../i18n";
 import { enqueueSnackbar } from "../../../../notifier";
 import { selectAgencies } from "../../../../application/selectors";
-import { getOption } from "../../../../record-form/selectors";
-import { RECORD_TYPES, USER_NAME_FIELD } from "../../../../../config";
+import { getLocations } from "../../../../record-form/selectors";
+import {
+  RECORD_TYPES,
+  USER_NAME_FIELD,
+  UNIQUE_ID_FIELD,
+  CODE_FIELD,
+  NAME_FIELD
+} from "../../../../../config";
 import { internalFieldsDirty, getInternalFields } from "../helpers";
 import {
   getUsersByTransitionType,
   getErrorsByTransitionType
 } from "../../selectors";
 import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
+import { valuesToSearchableSelect } from "../../../../../libs";
 
 import TransferInternal from "./transfer-internal";
 import ProvidedConsent from "./provided-consent";
@@ -65,10 +72,7 @@ const TransferForm = ({
 
   const agencies = useSelector(state => selectAgencies(state));
 
-  const locations = useSelector(
-    state => getOption(state, "reporting_location", i18n),
-    []
-  );
+  const locations = useSelector(state => getLocations(state));
 
   const canConsentOverride =
     userPermissions &&
@@ -117,12 +121,12 @@ const TransferForm = ({
     {
       id: AGENCY_FIELD,
       label: i18n.t("transfer.agency_label"),
-      options: agencies
-        ? agencies.toJS().map(agency => ({
-            value: agency.unique_id,
-            label: agency.name
-          }))
-        : [],
+      options: valuesToSearchableSelect(
+        agencies,
+        UNIQUE_ID_FIELD,
+        NAME_FIELD,
+        i18n.locale
+      ),
       onChange: (data, field, form) => {
         form.setFieldValue([TRANSITIONED_TO_FIELD], "", false);
         sharedOnChange(data, field, form, [LOCATION_FIELD]);
@@ -131,12 +135,12 @@ const TransferForm = ({
     {
       id: LOCATION_FIELD,
       label: i18n.t("transfer.location_label"),
-      options: locations
-        ? locations.map(location => ({
-            value: location.id,
-            label: location.display_text
-          }))
-        : [],
+      options: valuesToSearchableSelect(
+        locations,
+        CODE_FIELD,
+        NAME_FIELD,
+        i18n.locale
+      ),
       onChange: (data, field, form) => {
         form.setFieldValue([TRANSITIONED_TO_FIELD], "", false);
         sharedOnChange(data, field, form, [AGENCY_FIELD]);

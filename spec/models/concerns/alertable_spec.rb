@@ -25,6 +25,7 @@ describe Alertable do
       )
       @test_class = Child.create(
         name: 'bar',
+        data: { owned_by: @user_1.user_name },
         alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_1.id)]
       )
     end
@@ -32,7 +33,6 @@ describe Alertable do
     context 'and current user is not the record owner' do
       before do
         Child.any_instance.stub(:last_updated_by).and_return('not_the_owner')
-        Child.any_instance.stub(:owned_by).and_return('the_owner')
       end
 
       context 'and the record is edited' do
@@ -51,7 +51,7 @@ describe Alertable do
         end
 
         it 'count alerts by user' do
-          expect(Child.alert_count(@user_1.id)).to eq(1)
+          expect(Child.alert_count(@user_1)).to eq(1)
         end
       end
     end
@@ -77,18 +77,43 @@ describe Alertable do
         end
 
         it 'count alerts by user' do
-          expect(Child.alert_count(@user_1.id)).to eq(0)
+          expect(Child.alert_count(@user_1)).to eq(0)
         end
       end
     end
   end
 
+  describe 'alert on record update' do
+
+    before :each do
+      SystemSettings.create!(
+        changes_field_to_form: { notes_section: 'notes' }
+      )
+
+      @case1 = Child.create(
+        name: 'test case',
+        data: { owned_by: 'foo', notes_section: [] }
+      )
+    end
+
+    it 'creates an alert when a non-record-owner updates the notes field' do
+      @case1.update_properties(
+        { notes_section: [{ note_subject: 'test', note_text: 'this' }] }, 'bar'
+      )
+      @case1.save!
+
+      expect(@case1.alerts.count).to eq(1)
+
+      alert = @case1.alerts[0]
+      expect(alert.alert_for).to eq(Alertable::FIELD_CHANGE)
+      expect(alert.type).to eq('notes')
+      expect(alert.form_sidebar_id).to eq('notes')
+    end
+
+  end
+
   after :each do
-    Role.destroy_all
-    Agency.destroy_all
-    User.destroy_all
-    Child.destroy_all
-    Alert.destroy_all
+    [SystemSettings, Role, Agency, User, Child, Alert].each(&:destroy_all)
   end
 
 end

@@ -1,5 +1,6 @@
 import { fromJS } from "immutable";
 
+import { DASHBOARD_NAMES } from "./constants";
 import NAMESPACE from "./namespace";
 
 export const selectFlags = state => {
@@ -29,3 +30,50 @@ export const selectServicesStatus = state => {
 export const selectIsOpenPageActions = state => {
   return state.getIn(["records", NAMESPACE, "isOpenPageActions"], false);
 };
+
+export const getDashboards = state => {
+  return state.getIn(["records", NAMESPACE, "data"], false);
+};
+
+export const getDashboardByName = (state, name) => {
+  const currentState = getDashboards(state);
+  const noDashboard = fromJS({});
+
+  if (!currentState) {
+    return noDashboard;
+  }
+  const dashboardData = currentState
+    .filter(f => f.get("name") === name)
+    .first();
+
+  return dashboardData?.size ? dashboardData : noDashboard;
+};
+
+export const getCasesByAssessmentLevel = state => {
+  const currentState = getDashboards(state);
+
+  if (!currentState) {
+    return fromJS([]);
+  }
+  const dashboardData = currentState
+    .filter(f => f.get("name") === DASHBOARD_NAMES.CASE_RISK)
+    .first();
+
+  return dashboardData?.size ? dashboardData : fromJS([]);
+};
+
+export const getWorkflowIndividualCases = state => {
+  return getDashboardByName(state, DASHBOARD_NAMES.WORKFLOW).deleteIn([
+    "stats",
+    "closed"
+  ]);
+};
+
+export const getApprovalsAssessment = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ASSESSMENT);
+
+export const getApprovalsCasePlan = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CASE_PLAN);
+
+export const getApprovalsClosure = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CLOSURE);

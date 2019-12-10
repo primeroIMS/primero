@@ -30,6 +30,10 @@ const Chips = ({ recordType, props, chips, setChips }) => {
     values = options[i18n.locale];
   }
 
+  if (typeof values === "undefined") {
+    return [];
+  }
+
   return (
     <div className={css.root}>
       {values.map(data => {
@@ -43,7 +47,7 @@ const Chips = ({ recordType, props, chips, setChips }) => {
           <Chip
             key={data.id}
             size="small"
-            label={data.display_name || data.display_text}
+            label={data.display_name || data.display_text[i18n.locale]}
             variant={chipVariant}
             onClick={() =>
               setChips(

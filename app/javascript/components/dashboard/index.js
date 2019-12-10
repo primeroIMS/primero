@@ -1,3 +1,4 @@
+export { BadgedIndicator } from "./badged-indicator";
 export { DashboardTable } from "./dashboard-table";
 export { DoughnutChart } from "./doughnut-chart";
 export { FlagBox } from "./flag-box";
@@ -6,3 +7,4 @@ export { OptionsBox } from "./options-box";
 export { OverviewBox } from "./overview-box";
 export { ActionMenu } from "./action-menu";
 export { DashboardChip } from "./dashboard-chip";
+export { PieChart } from "./pie-chart";

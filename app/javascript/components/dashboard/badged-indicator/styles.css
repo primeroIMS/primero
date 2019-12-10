@@ -1,0 +1,25 @@
+.statusList {
+  float: left;
+  padding: 0 18px;
+
+  & h5 {
+    margin: 25px 0 11px 0;
+    color: $(theme.primero.colors.darkGrey);
+    text-transform: uppercase;
+  }
+
+  & ul {
+    padding: 0;
+    list-style: none;
+
+    & li {
+      margin-bottom: 13px;
+    }
+  }
+}
+
+.sectionTitle {
+  padding: 0 1.2em;
+  text-transform: uppercase;
+  font-weight: bold;
+}

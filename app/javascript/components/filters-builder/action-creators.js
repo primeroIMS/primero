@@ -36,3 +36,12 @@ export const resetSinglePanel = (payload, namespace) => dispatch => {
     payload
   });
 };
+
+export const setDashboardFilters = (recordType, payload) => ({
+  type: `${recordType}/SAVE_DASHBOARD_FILTERS`,
+  payload
+});
+
+export const clearDashboardFilters = recordType => ({
+  type: `${recordType}/CLEAR_DASHBOARD_FILTERS`
+});

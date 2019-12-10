@@ -6,6 +6,7 @@ class RecordDataService
     data = embed_user_scope(data, record, selected_field_names, user)
     data = embed_hidden_name(data, record, selected_field_names)
     data = embed_flag_metadata(data, record, selected_field_names)
+    data = embed_alert_metadata(data, record, selected_field_names)
     data = embed_photo_metadata(data, record, selected_field_names)
     data
   end
@@ -30,9 +31,8 @@ class RecordDataService
   end
 
   def self.embed_flag_metadata(data, record, selected_field_names)
-    return data unless (selected_field_names.include?('flag_count') || selected_field_names.include?('alert_count'))
+    return data unless selected_field_names.include?('flag_count')
 
-    data['alert_count'] = record.alert_count
     data['flag_count'] = record.flag_count
     data
   end
@@ -43,6 +43,13 @@ class RecordDataService
     data['photos'] = record.photos.map do |photo|
       Rails.application.routes.url_helpers.rails_blob_path(photo.image, only_path: true)
     end
+    data
+  end
+
+  def self.embed_alert_metadata(data, record, selected_field_names)
+    return data unless selected_field_names.include?('alert_count')
+
+    data['alert_count'] = record.alert_count
     data
   end
 

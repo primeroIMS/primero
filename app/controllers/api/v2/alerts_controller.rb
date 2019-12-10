@@ -1,11 +1,11 @@
 module Api::V2
   class AlertsController < RecordResourceController
 
-    def total_counts
-      @record = {
-        case: Child.alert_count(current_user.id),
-        incident: Incident.alert_count(current_user.id),
-        tracing_request: TracingRequest.alert_count(current_user.id)
+    def bulk_index
+      @alerts = {
+        case: Child.alert_count(current_user),
+        incident: Incident.alert_count(current_user),
+        tracing_request: TracingRequest.alert_count(current_user)
       }
     end
 

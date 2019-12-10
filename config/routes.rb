@@ -63,7 +63,7 @@ Rails.application.routes.draw do
       resources :reports, only: [:index, :show]
       resources :lookups
       resources :locations
-      get 'alerts', to: 'alerts#total_counts'
+      get 'alerts', to: 'alerts#bulk_index'
 
     end
   end

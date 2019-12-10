@@ -1,0 +1,106 @@
+.toggleContainer {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+}
+
+.toggleButton {
+  color: $(theme.primero.colors.blue);
+  border: 1px solid $(theme.primero.colors.blue);
+  flex: 1;
+  font-size: .7rem;
+  line-height: 1rem;
+
+  &:first-child {
+    border-radius: 0.25em 0 0 0.25em;
+  }
+
+  &:last-child {
+    border-radius: 0 0.25em 0.25em 0;
+  }
+}
+
+.toggleButtonSelected {
+  color: #fff !important;
+  background-color: #0093ba !important;
+}
+
+.select {
+  width: 100%;
+}
+
+.dateContainer {
+  width: 100%
+}
+
+.chips {
+  &:hover {
+    background: none !important;
+  }
+}
+
+.chipsContainer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.redChip, .orangeChip, .yellowChip, .redChipOutlined, .orangeChipOutlined, .yellowChipOutlined {
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.redChip {
+  background: $(theme.primero.colors.red);
+}
+
+.orangeChip {
+  background: $(theme.primero.colors.orange);
+}
+
+.yellowChip {
+  background: $(theme.primero.colors.yellow);
+}
+
+.redChipOutlined {
+  border-color: $(theme.primero.colors.red);
+  color: $(theme.primero.colors.red);
+}
+
+.orangeChipOutlined {
+  border-color: $(theme.primero.colors.orange);
+  color: $(theme.primero.colors.orange);
+}
+
+.yellowChipOutlined {
+  border-color: $(theme.primero.colors.yellow);
+  color: $(theme.primero.colors.yellow);
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2em;
+}
+
+.searchIconButton {
+  padding: 6px;
+  margin-left: 5px;
+}
+
+.searchInput {
+  flex: 1
+}
+
+.searchInputContainer {
+  border-radius: 29px;
+  background-color: $(theme.primero.colors.white);
+  border: 1px solid #d6d6d6;
+  display: flex;
+  flex: 1;
+  height: 34px;
+  align-items: center;
+}
