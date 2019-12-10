@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
-import { connect, batch } from "react-redux";
+import { connect } from "react-redux";
 import { PageContainer, PageHeading, PageContent } from "components/page";
 import {
   Grid,
@@ -31,7 +31,9 @@ import {
   TimeFromCaseOpenToCloseHighRisk,
   ReasonForCaseClosure,
   CaseClosureRate,
-  ClientSatisfactionRate
+  ClientSatisfactionRate,
+  ActiveCaseworkers,
+  SupervisorToCaseworkerRatio
 } from "./components";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
@@ -173,13 +175,28 @@ function KeyPerformanceIndicators({ }) {
             </Box>
 
             <Box>
-              <h2>FEEDBACK</h2>
+              <h2 className={css.subtitle}>Feedback</h2>
 
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12}>
                   <ClientSatisfactionRate />
                 </Grid>
               </Grid>
+            </Box>
+
+            <Box>
+              <h2 className={css.subtitle}>Other</h2>
+
+              <Grid container spacing={2}>
+                <Grid item className={css.grow} xs={12} md={6}>
+                  <ActiveCaseworkers />
+                </Grid>
+
+                <Grid item className={css.grow} xs={12} md={6}>
+                  <SupervisorToCaseworkerRatio />
+                </Grid>
+              </Grid>
+
             </Box>
           </Grid>
         </PageContent>
