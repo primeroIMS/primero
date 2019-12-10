@@ -33,7 +33,8 @@ import {
   CaseClosureRate,
   ClientSatisfactionRate,
   ActiveCaseworkers,
-  SupervisorToCaseworkerRatio
+  SupervisorToCaseworkerRatio,
+  CaseLoad
 } from "./components";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
@@ -194,6 +195,12 @@ function KeyPerformanceIndicators({ }) {
 
                 <Grid item className={css.grow} xs={12} md={6}>
                   <SupervisorToCaseworkerRatio />
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2}>
+                <Grid item className={css.grow} xs={12}>
+                  <CaseLoad />
                 </Grid>
               </Grid>
 
