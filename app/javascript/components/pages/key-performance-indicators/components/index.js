@@ -20,4 +20,5 @@ export { ReasonForCaseClosure } from "./reason-for-case-closure";
 export { CaseClosureRate } from "./case-closure-rate";
 export { ClientSatisfactionRate } from "./client-satisfaction-rate";
 export { ActiveCaseworkers } from "./active-caseworkers";
-export { SupervisorToCaseworkerRatio } from "./supervisor-to-caseworker-ratio"
+export { SupervisorToCaseworkerRatio } from "./supervisor-to-caseworker-ratio";
+export { CaseLoad } from "./case-load";
