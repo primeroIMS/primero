@@ -23,11 +23,11 @@ import {
   AverageReferrals,
   ReferralsPerService,
   CompletedReferralsPerService,
-  TotalFollowUpMeetings
+  TotalFollowUpMeetings,
+  AverageFollowUpMeetings
 } from "./components";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
-
 
 function KeyPerformanceIndicators({ }) {
   const i18n = useI18n();
@@ -122,7 +122,7 @@ function KeyPerformanceIndicators({ }) {
                 </Grid>
 
                 <Grid item className={css.grow} xs={12} md={6}>
-                  <CompletedReferralsPerService />
+                  <AverageFollowUpMeetings />
                 </Grid>
               </Grid>
             </Box>

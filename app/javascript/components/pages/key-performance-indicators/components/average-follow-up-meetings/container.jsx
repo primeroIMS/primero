@@ -2,7 +2,7 @@ import React from "react";
 import { OptionsBox } from "components/dashboard";
 import { DateRangeSelect, SingleAggregateMetric } from "components/key-performance-indicators";
 
-export default function TotalFollowUpMeetings() {
+export default function AverageFollowUpMeetings() {
   let threeMonthsAgo = new Date();
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
   let dateRanges = [{
@@ -14,7 +14,7 @@ export default function TotalFollowUpMeetings() {
 
   return (
     <OptionsBox
-      title="Total Follow-Up Meetings"
+      title="Average Follow-Up Meetings"
       action={
         <DateRangeSelect
           ranges={dateRanges}
@@ -24,8 +24,8 @@ export default function TotalFollowUpMeetings() {
       }
     >
       <SingleAggregateMetric
-        value="45"
-        label="Total follow-up meetings"
+        value="1.4"
+        label="Average follow-up meetings"
       />
     </OptionsBox>
   );
