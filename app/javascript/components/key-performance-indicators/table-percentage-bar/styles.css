@@ -9,6 +9,7 @@
   display: inline-block;
   height: 100%;
   border-radius: 1rem;
+  vertical-align: top;
 }
 
 .filledColor {
