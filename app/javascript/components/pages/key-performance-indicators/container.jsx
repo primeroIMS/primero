@@ -30,7 +30,8 @@ import {
   TimeFromCaseOpenToClose,
   TimeFromCaseOpenToCloseHighRisk,
   ReasonForCaseClosure,
-  CaseClosureRate
+  CaseClosureRate,
+  ClientSatisfactionRate
 } from "./components";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
@@ -169,6 +170,16 @@ function KeyPerformanceIndicators({ }) {
                 </Grid>
               </Grid>
 
+            </Box>
+
+            <Box>
+              <h2>FEEDBACK</h2>
+
+              <Grid container spacing={2}>
+                <Grid item className={css.grow} xs={12}>
+                  <ClientSatisfactionRate />
+                </Grid>
+              </Grid>
             </Box>
           </Grid>
         </PageContent>
