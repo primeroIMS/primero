@@ -18,3 +18,4 @@ export { TimeFromCaseOpenToClose } from "./time-from-case-open-to-case-close";
 export { TimeFromCaseOpenToCloseHighRisk } from "./time-from-case-open-to-case-close-high-risk";
 export { ReasonForCaseClosure } from "./reason-for-case-closure";
 export { CaseClosureRate } from "./case-closure-rate";
+export { ClientSatisfactionRate } from "./client-satisfaction-rate"
