@@ -40,7 +40,7 @@ describe Api::V2::AlertsController, type: :request do
       agency_id: agency_1.id,
       role: role
     )
-    @test_child = Child.create(
+    Child.create(
       name: 'bar',
       owned_by:  @user_1.user_name,
       alerts: [
@@ -67,14 +67,6 @@ describe Api::V2::AlertsController, type: :request do
       ]
     )
     @test_tracing_request = TracingRequest.create!(
-      data: { inquiry_date: Date.new(2019, 3, 1), relation_name: 'Test 1', owned_by:  @user_1.user_name },
-      alerts: [
-        Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_1.id),
-        Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_1.id),
-        Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_1.id)
-      ]
-    )
-    @test_tracing_request = TracingRequest.create!(
       data: { inquiry_date: Date.new(2019, 3, 1), relation_name: 'Test 1', owned_by:  @user_2.user_name },
       alerts: [
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_2.id)
@@ -93,7 +85,7 @@ describe Api::V2::AlertsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['case']).to eq(2)
       expect(json['data']['incident']).to eq(1)
-      expect(json['data']['tracing_request']).to eq(1)
+      expect(json['data']['tracing_request']).to eq(0)
     end
 
     it 'accept whatever authorization level with User 2' do
@@ -141,7 +133,7 @@ describe Api::V2::AlertsController, type: :request do
       get "/api/v2/tracing_requests/#{@test_tracing_request.id}/alerts"
 
       expect(response).to have_http_status(200)
-      expect(json['data'].count).to eq(3)
+      expect(json['data'].count).to eq(1)
     end
 
     it 'returns a 404 when trying to fetch a list with a non-existant record id' do
