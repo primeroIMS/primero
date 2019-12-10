@@ -1,23 +1,12 @@
-import { fromJS } from "immutable";
 import PropTypes from "prop-types";
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect, batch } from "react-redux";
 import { PageContainer, PageHeading, PageContent } from "components/page";
 import {
   Grid,
-  Box,
-  Select,
-  MenuItem
+  Box
 } from "@material-ui/core";
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import DateFnsUtils from "@date-io/date-fns";
-import { OptionsBox, DashboardTable } from "components/dashboard";
-import {
-  TablePercentageBar,
-  DateRangeSelect,
-  StackedPercentageBar
-} from "components/key-performance-indicators";
 import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
 import styles from "./styles.css";
@@ -33,28 +22,16 @@ import {
   ServicesProvided,
   AverageReferrals,
   ReferralsPerService,
-  CompletedReferralsPerService
+  CompletedReferralsPerService,
+  TotalFollowUpMeetings
 } from "./components";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 
 
-function KeyPerformanceIndicators({
-  fetchNumberOfCases,
-  numberOfCases,
-  fetchNumberOfIncidents,
-  numberOfIncidents,
-  fetchReportingDelay,
-  reportingDelay
-}) {
+function KeyPerformanceIndicators({ }) {
   const i18n = useI18n();
   const css = makeStyles(styles)();
-
-  useEffect(() => {
-    batch(() => {
-      fetchReportingDelay();
-    });
-  }, []);
 
   return (
     <div>
@@ -137,7 +114,18 @@ function KeyPerformanceIndicators({
               </Grid>
             </Box>
 
+            <Box>
+              <h2 className={css.subtitle}>Case Follow-Up</h2>
+              <Grid container spacing={2}>
+                <Grid item className={css.grow} xs={12} md={6}>
+                  <TotalFollowUpMeetings />
+                </Grid>
 
+                <Grid item className={css.grow} xs={12} md={6}>
+                  <CompletedReferralsPerService />
+                </Grid>
+              </Grid>
+            </Box>
           </Grid>
         </PageContent>
       </PageContainer>
