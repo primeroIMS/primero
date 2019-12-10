@@ -24,7 +24,8 @@ import {
   ReferralsPerService,
   CompletedReferralsPerService,
   TotalFollowUpMeetings,
-  AverageFollowUpMeetings
+  AverageFollowUpMeetings,
+  GoalProgressPerNeed
 } from "./components";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
@@ -123,6 +124,12 @@ function KeyPerformanceIndicators({ }) {
 
                 <Grid item className={css.grow} xs={12} md={6}>
                   <AverageFollowUpMeetings />
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2}>
+                <Grid item className={css.grow} xs={12}>
+                  <GoalProgressPerNeed />
                 </Grid>
               </Grid>
             </Box>
