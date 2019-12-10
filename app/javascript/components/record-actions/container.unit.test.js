@@ -2,10 +2,10 @@ import { expect } from "chai";
 import { fromJS } from "immutable";
 import { Menu, MenuItem } from "@material-ui/core";
 
-import { setupMountedComponent } from "./../../test";
-import { PERMISSION_CONSTANTS } from "./../../libs/permissions";
+import { setupMountedComponent } from "../../test";
+import { ACTIONS } from "../../libs/permissions";
 
-import { Notes } from "./notes";
+import Notes from "./notes";
 import RecordActions from "./container";
 import { ToggleEnable } from "./toggle-enable";
 import { ToggleOpen } from "./toggle-open";
@@ -16,7 +16,7 @@ describe("<RecordActions />", () => {
   const defaultState = fromJS({
     user: {
       permissions: {
-        cases: [PERMISSION_CONSTANTS.MANAGE]
+        cases: [ACTIONS.MANAGE]
       }
     }
   });
@@ -90,7 +90,7 @@ describe("<RecordActions />", () => {
           fromJS({
             user: {
               permissions: {
-                cases: ["manage"]
+                cases: [ACTIONS.MANAGE]
               }
             }
           })
@@ -122,7 +122,7 @@ describe("<RecordActions />", () => {
           fromJS({
             user: {
               permissions: {
-                cases: ["read"]
+                cases: [ACTIONS.READ]
               }
             }
           })
@@ -134,7 +134,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.lengthOf(6);
+        expect(component.find(MenuItem)).to.have.lengthOf(5);
       });
 
       it("renders MenuItem without Refer Cases option", () => {
@@ -142,8 +142,17 @@ describe("<RecordActions />", () => {
           component
             .find("li")
             .map(l => l.text())
-            .includes("buttons.referral cases")
-        ).to.be.equal(false);
+            .includes("buttons.referral orms.record_types.case")
+        ).to.be.false;
+      });
+
+      it("renders MenuItem without Export custom option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("exports.custom_exports.label")
+        ).to.be.false;
       });
     });
   });

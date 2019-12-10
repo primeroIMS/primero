@@ -23,6 +23,7 @@ describe("<CheckBox /> - Selectors", () => {
         { field_name: "protection_status" },
         "Cases"
       );
+
       expect(records).to.deep.equal(expected);
     });
 
@@ -31,21 +32,22 @@ describe("<CheckBox /> - Selectors", () => {
         records: {
           Cases: {
             filters: {
-              "my_cases[owned_by]": ["primero"],
-              "my_cases[assigned_user_names]": []
+              "or[owned_by]": ["primero"],
+              "or[assigned_user_names]": []
             }
           }
         }
       });
       const expected = fromJS({
-        "my_cases[owned_by]": ["primero"],
-        "my_cases[assigned_user_names]": []
+        "or[owned_by]": ["primero"],
+        "or[assigned_user_names]": []
       });
       const records = getCheckBoxes(
         stateWithRecords,
         { field_name: "my_cases" },
         "Cases"
       );
+
       expect(records).to.deep.equal(expected);
     });
 
@@ -56,6 +58,7 @@ describe("<CheckBox /> - Selectors", () => {
         { field_name: "protection_status" },
         "Cases"
       );
+
       expect(records).to.deep.equal(expected);
     });
   });

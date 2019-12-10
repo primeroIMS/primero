@@ -1,6 +1,7 @@
-
 import { expect } from "chai";
+
 import { setupMountedComponent } from "../../../test";
+
 import TransferSummary from "./TransferSummary";
 
 describe("<TransferSummary />", () => {

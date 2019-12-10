@@ -16,6 +16,7 @@ describe("<ProvidedForm /> - referrals", () => {
       agency: "unicef"
     }
   };
+
   it("should render properly when user can override consent", () => {
     const props = {
       canConsentOverride: true

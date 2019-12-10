@@ -1,7 +1,8 @@
 import chai, { expect } from "chai";
 import { fromJS } from "immutable";
-import { mapEntriesToRecord } from "../../libs";
 import chaiImmutable from "chai-immutable";
+
+import { mapEntriesToRecord } from "../../libs";
 
 import { SavedSearchesRecord } from "./records";
 import { reducers } from "./reducers";
@@ -39,6 +40,7 @@ describe("<SavedSearches /> - Reducers", () => {
     };
 
     const newState = reducers.savedSearches(defaultState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -75,6 +77,7 @@ describe("<SavedSearches /> - Reducers", () => {
     };
 
     const newState = reducers.savedSearches(defaultStateSavedSearch, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -83,68 +86,52 @@ describe("<SavedSearches /> - Reducers", () => {
       data: []
     });
 
-    const payloadFilters = [
-      {
-        id: 1,
-        name: "a new filter",
-        record_type: "incidents",
-        module_ids: ["primeromodule-cp", "primeromodule-gbv"],
-        filters: [
-          {
-            name: "Flag",
-            value: ["true", "false"]
-          }
-        ]
-      },
-      {
-        id: 33,
-        name: "Hello 1",
-        record_type: "incidents",
-        module_ids: ["primeromodule-cp", "primeromodule-gbv"],
-        filters: [
-          {
-            name: "inquiry_status",
-            value: ["open"]
-          }
-        ]
-      }
-    ];
-    const expected = fromJS({
-      data: mapEntriesToRecord(payloadFilters, SavedSearchesRecord)
-    });
+    const expected = {
+      data: [
+        {
+          id: 1,
+          name: "a new filter",
+          record_type: "incidents",
+          user_id: null,
+          message: "",
+          filters: [
+            {
+              name: "Flag",
+              value: ["true", "false"]
+            },
+            {
+              name: "inquiry_status",
+              value: ["open"]
+            }
+          ]
+        }
+      ]
+    };
+
     const action = {
       type: "savedSearches/SAVE_SEARCH_SUCCESS",
       payload: {
-        data: fromJS([
-          SavedSearchesRecord({
-            id: 1,
-            name: "a new filter",
-            record_type: "incidents",
-            module_ids: ["primeromodule-cp", "primeromodule-gbv"],
-            filters: [
-              {
-                name: "Flag",
-                value: ["true", "false"]
-              }
-            ]
-          }),
-          SavedSearchesRecord({
-            id: 33,
-            name: "Hello 1",
-            record_type: "incidents",
-            module_ids: ["primeromodule-cp", "primeromodule-gbv"],
-            filters: [
-              {
-                name: "inquiry_status",
-                value: ["open"]
-              }
-            ]
-          })
-        ])
+        data: {
+          id: 1,
+          name: "a new filter",
+          record_type: "incidents",
+          filters: [
+            {
+              name: "Flag",
+              value: ["true", "false"]
+            },
+            {
+              name: "inquiry_status",
+              value: ["open"]
+            }
+          ]
+        }
       }
     };
 
     const newState = reducers.savedSearches(defaultStateSuccess, action);
-    expect(newState.toJS().data[0]).to.eql(expected.get("data").toJS());
+
+    // Using toJS(), because SavedSearchesRecord doesn't implement immutable js
+    expect(newState.toJS()).to.deep.equal(expected);
   });
 });

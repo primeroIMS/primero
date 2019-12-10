@@ -1,6 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
+import { makeStyles } from "@material-ui/core/styles";
+
+import styles from "./styles.css";
 
 const inputComponent = ({ inputRef, ...props }) => {
   return <div ref={inputRef} {...props} />;
@@ -16,11 +19,12 @@ inputComponent.propTypes = {
 };
 
 const Control = props => {
+  const css = makeStyles(styles)();
   const {
     children,
     innerProps,
     innerRef,
-    selectProps: { classes, TextFieldProps }
+    selectProps: { TextFieldProps }
   } = props;
 
   return (
@@ -29,7 +33,7 @@ const Control = props => {
       InputProps={{
         inputComponent,
         inputProps: {
-          className: classes.input,
+          className: css.input,
           ref: innerRef,
           children,
           ...innerProps

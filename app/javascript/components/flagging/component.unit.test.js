@@ -12,7 +12,7 @@ describe("<Flagging /> - Component", () => {
   before(() => {
     component = setupMountedComponent(
       Flagging,
-      { recordType: "cases", record: "0df32f52-4290-4ce1-b859-74ac14c081bf"},
+      { recordType: "cases", record: "0df32f52-4290-4ce1-b859-74ac14c081bf" },
       Map({
         records: Map({
           cases: {
@@ -33,11 +33,11 @@ describe("<Flagging /> - Component", () => {
             data: [
               {
                 id: 1,
-                record_id: '0df32f52-4290-4ce1-b859-74ac14c081bf',
-                record_type: 'cases',
-                date: '2019-09-11',
-                message: 'test',
-                flagged_by: 'primero'
+                record_id: "0df32f52-4290-4ce1-b859-74ac14c081bf",
+                record_type: "cases",
+                date: "2019-09-11",
+                message: "test",
+                flagged_by: "primero"
               }
             ]
           }

@@ -31,6 +31,7 @@ describe("<Chips /> - Selectors", () => {
         { field_name: "risk_level" },
         "Cases"
       );
+
       expect(records).to.deep.equal(expected);
     });
 
@@ -41,8 +42,8 @@ describe("<Chips /> - Selectors", () => {
         { field_name: "risk_level" },
         "Cases"
       );
+
       expect(records).to.deep.equal(expected);
     });
   });
 });
-

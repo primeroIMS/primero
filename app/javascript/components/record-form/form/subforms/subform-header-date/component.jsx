@@ -7,7 +7,7 @@ import { SUBFORM_HEADER_DATE } from "../constants";
 import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../../config";
 
 const Component = ({ value, includeTime }) => {
-  if (isEmpty(value)) return value;
+  if (isEmpty(value)) return value || "";
 
   const formattedDate = parseISO(value);
   const dateValue = includeTime

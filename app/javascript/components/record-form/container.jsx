@@ -75,24 +75,32 @@ const Container = ({ match, mode }) => {
 
   const formProps = {
     onSubmit: (initialValues, values) => {
+      const saveMethod = containerMode.isEdit ? "update" : "save";
+      const body = {
+        data: {
+          ...compactValues(values, initialValues),
+          ...(!containerMode.isEdit
+            ? { module_id: selectedModule.primeroModule }
+            : {})
+        }
+      };
+      const message = containerMode.isEdit
+        ? i18n.t(`${recordType}.messages.update_success`, {
+            record_id: record.get("short_id")
+          })
+        : i18n.t(`${recordType}.messages.creation_success`, recordType);
+      const redirect = containerMode.isNew
+        ? `/${params.recordType}`
+        : `/${params.recordType}/${params.id}`;
+
       dispatch(
         saveRecord(
           params.recordType,
-          containerMode.isEdit ? "update" : "save",
-          {
-            data: {
-              ...compactValues(values, initialValues),
-              ...(!containerMode.isEdit
-                ? { module_id: selectedModule.primeroModule }
-                : {})
-            }
-          },
+          saveMethod,
+          body,
           params.id,
-          containerMode.isEdit
-            ? i18n.t(`${recordType}.messages.update_success`, {
-                record_id: record.get("short_id")
-              })
-            : i18n.t(`${recordType}.messages.creation_success`, recordType)
+          message,
+          redirect
         )
       );
       // TODO: Set this if there are any errors on validations

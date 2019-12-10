@@ -38,12 +38,14 @@ describe("<Support /> - Selectors", () => {
       };
 
       const records = selectSupportData(stateWithRecords);
+
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
       const expected = Map({});
       const records = selectSupportData(stateWithNoRecords);
+
       expect(records).to.deep.equal(expected);
     });
   });

@@ -4,14 +4,15 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 import { setupMountedComponent } from "../../test";
-import { ROUTES } from "../../config";
+import { ROUTES, RECORD_PATH } from "../../config";
 import { TranslationsToggle } from "../translations-toggle";
 import { AgencyLogo } from "../agency-logo";
 import { ModuleLogo } from "../module-logo";
 import { ApplicationProvider } from "../application/provider";
-import { PERMISSION_CONSTANTS } from "../../libs/permissions";
+import { ACTIONS } from "../../libs/permissions";
 
 import Nav from "./component";
+import { FETCH_ALERTS } from "./actions";
 
 describe("<Nav />", () => {
   let component;
@@ -21,13 +22,13 @@ describe("<Nav />", () => {
     </ApplicationProvider>
   );
   const permissions = {
-    cases: [PERMISSION_CONSTANTS.MANAGE],
-    incidents: [PERMISSION_CONSTANTS.READ],
-    dashboards: [PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.DASH_TASKS],
-    potential_matches: [PERMISSION_CONSTANTS.MANAGE],
-    tracing_requests: [PERMISSION_CONSTANTS.READ],
-    reports: [PERMISSION_CONSTANTS.MANAGE]
-  }
+    cases: [ACTIONS.MANAGE],
+    incidents: [ACTIONS.READ],
+    dashboards: [ACTIONS.MANAGE, ACTIONS.DASH_TASKS],
+    potential_matches: [ACTIONS.MANAGE],
+    tracing_requests: [ACTIONS.READ],
+    reports: [ACTIONS.MANAGE]
+  };
   const initialState = fromJS({
     ui: { Nav: { drawerOpen: true } },
     application: {
@@ -151,7 +152,7 @@ describe("<Nav />", () => {
         modules: [],
         agency: "agency_1",
         permissions: {
-          cases: [PERMISSION_CONSTANTS.READ]
+          cases: [ACTIONS.READ]
         }
       }
     });
@@ -177,6 +178,44 @@ describe("<Nav />", () => {
           .find(NavLink)
           .findWhere(link => link.prop("to") === ROUTES.exports)
       ).to.have.lengthOf(0);
+    });
+  });
+
+  describe("when component is rendered ", () => {
+    const initialStateActions = fromJS({
+      ui: {
+        Nav: {
+          drawerOpen: true,
+          alerts: {
+            data: {
+              case: 2,
+              incident: 0,
+              tracing_request: 1
+            }
+          }
+        }
+      }
+    });
+
+    const expectedAction = {
+      type: FETCH_ALERTS,
+      api: {
+        path: RECORD_PATH.alerts
+      }
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        ProvidedNav,
+        { username: "username" },
+        initialStateActions
+      ));
+    });
+
+    it("should fetch alerts", () => {
+      const storeActions = component.props().store.getActions();
+
+      expect(storeActions[0]).to.deep.equal(expectedAction);
     });
   });
 });

@@ -3,6 +3,7 @@ import clone from "lodash/clone";
 import { expect } from "chai";
 import sinon from "sinon";
 import configureStore from "redux-mock-store";
+
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
 
@@ -56,6 +57,7 @@ describe("<Transitions /> - Action Creators", () => {
 
   it("should check the 'removeFormErrors' action creator to return the correct object", () => {
     const dispatch = sinon.spy(actionCreators, "removeFormErrors");
+
     actionCreators.removeFormErrors("reassign");
 
     expect(dispatch.getCall(0).returnValue).to.deep.equal({
@@ -106,6 +108,7 @@ describe("<Transitions /> - Action Creators", () => {
     );
 
     const firstCallReturnValue = dispatch.getCall(0).returnValue;
+
     expect(firstCallReturnValue.type).to.equal(actions.TRANSFER_USER);
     expect(firstCallReturnValue.api.path).to.equal("cases/123abc/transfers");
     expect(firstCallReturnValue.api.method).to.equal("POST");
@@ -143,6 +146,7 @@ describe("<Transitions /> - Action Creators", () => {
     dispatch(actionCreators.saveReferral("123abc", body, "Success Message"));
 
     const firstCallReturnValue = dispatch.getCall(0).returnValue;
+
     expect(firstCallReturnValue.type).to.equal(actions.REFER_USER);
     expect(firstCallReturnValue.api.path).to.equal("cases/123abc/referrals");
     expect(firstCallReturnValue.api.method).to.equal("POST");

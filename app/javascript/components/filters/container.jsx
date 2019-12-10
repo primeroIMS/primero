@@ -5,9 +5,15 @@ import { makeStyles } from "@material-ui/styles";
 import { Tabs, Tab } from "@material-ui/core";
 import { fromJS } from "immutable";
 
-import { FiltersBuilder } from "../filters-builder";
+import IndexFilters from "../index-filters";
 import { SavedSearches, fetchSavedSearches } from "../saved-searches";
 import { useI18n } from "../i18n";
+import {
+  FiltersBuilder,
+  getFromDashboardFilters,
+  clearDashboardFilters
+} from "../filters-builder";
+import { dataToJS } from "../../libs";
 
 import {
   setInitialFilterValues,
@@ -32,7 +38,12 @@ const STRING_FILTERS = ["radio"];
 
 const DATE_RANGE_FILTERS = ["dates"];
 
-const Container = ({ recordType, defaultFilters }) => {
+const Container = ({
+  recordType,
+  defaultFilters,
+  fromDashboard,
+  searchRef
+}) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -40,6 +51,10 @@ const Container = ({ recordType, defaultFilters }) => {
   const tabValue = useSelector(state => getTab(state, recordType));
   const availableFilters = useSelector(state =>
     getFiltersByRecordType(state, recordType)
+  );
+
+  const dashboardFilters = useSelector(state =>
+    getFromDashboardFilters(state, recordType)
   );
 
   const resetFilterValues = useCallback((namespace = null, path = null) => {
@@ -53,8 +68,8 @@ const Container = ({ recordType, defaultFilters }) => {
         if (!excludeDefaultFilters.includes(item.fieldName)) {
           if (ARRAY_FILTERS.includes(filterType)) {
             if (fieldName === "my_cases") {
-              currentObject["my_cases[owned_by]"] = fromJS([]);
-              currentObject["my_cases[assigned_user_names]"] = fromJS([]);
+              currentObject["or[owned_by]"] = fromJS([]);
+              currentObject["or[assigned_user_names]"] = fromJS([]);
             } else {
               currentObject[fieldName] = fromJS([]);
             }
@@ -76,7 +91,17 @@ const Container = ({ recordType, defaultFilters }) => {
         return currentObject;
       }, {});
 
-      dispatch(setInitialFilterValues(recordType, initialFilterValues));
+      dispatch(
+        setInitialFilterValues(
+          recordType,
+          initialFilterValues,
+          dataToJS(dashboardFilters)
+        )
+      );
+
+      if (fromDashboard && dashboardFilters?.size) {
+        dispatch(clearDashboardFilters(recordType));
+      }
 
       if (namespace && path) {
         dispatch(setInitialRecords(path, namespace, initialFilterValues));
@@ -117,11 +142,10 @@ const Container = ({ recordType, defaultFilters }) => {
         ))}
       </Tabs>
       {tabValue === 0 && (
-        <FiltersBuilder
+        <IndexFilters
           recordType={recordType}
-          filters={availableFilters}
-          resetPanel={resetFilterValues}
           defaultFilters={defaultFilters}
+          searchRef={searchRef}
         />
       )}
       {tabValue === 1 && (
@@ -138,7 +162,9 @@ Container.displayName = NAME;
 
 Container.propTypes = {
   defaultFilters: PropTypes.object,
-  recordType: PropTypes.string.isRequired
+  fromDashboard: PropTypes.bool,
+  recordType: PropTypes.string.isRequired,
+  searchRef: PropTypes.object.isRequired
 };
 
 export default Container;

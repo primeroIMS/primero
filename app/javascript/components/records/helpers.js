@@ -6,6 +6,7 @@ export const cleanUpFilters = filters => {
 
   const filtersArray = pickBy(filterSelector, value => {
     const isMap = Map.isMap(value);
+
     return !(
       value === "" ||
       value === null ||
@@ -15,23 +16,35 @@ export const cleanUpFilters = filters => {
     );
   });
 
-  Object.entries(filtersArray).forEach(filter => {
+  const result = Object.entries(filtersArray).reduce((acum, filter) => {
     const [key, value] = filter;
+    const filterObject = acum;
+
     if (Array.isArray(value)) {
-      filtersArray[key] = value.join(",");
+      filterObject[key] = value.join(",");
     } else if (
       typeof value === "object" &&
       !Object.values(value).includes(null)
     ) {
       const valueConverted = {};
+
       Object.entries(value).forEach(keys => {
         const [k, v] = keys;
-        valueConverted[k] = v;
+
+        if (["from", "to"].includes(k)) {
+          valueConverted[k] = v;
+        }
       });
-      filtersArray[key] = valueConverted;
+
+      if (typeof value.value !== "undefined") {
+        filterObject[value.value] = valueConverted;
+      }
     } else {
-      filtersArray[key] = value;
+      filterObject[key] = value;
     }
-  });
-  return filtersArray;
+
+    return filterObject;
+  }, {});
+
+  return result;
 };

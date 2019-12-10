@@ -5,14 +5,19 @@ import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { RECORD_TYPES } from "../../config";
-
-import { useI18n } from "./../i18n";
-import { getPermissionsByRecord } from "./../user/selectors";
-import { PERMISSION_CONSTANTS, checkPermissions } from "./../../libs/permissions";
-import Permission from "./../application/permission";
+import { useI18n } from "../i18n";
+import { getPermissionsByRecord } from "../user/selectors";
+import {
+  ACTIONS,
+  EXPORT_CUSTOM,
+  ENABLE_DISABLE_RECORD,
+  ADD_NOTE,
+  checkPermissions
+} from "../../libs/permissions";
+import Permission from "../application/permission";
 
 import { NAME } from "./config";
-import { Notes } from "./notes";
+import Notes from "./notes";
 import { ToggleEnable } from "./toggle-enable";
 import { ToggleOpen } from "./toggle-open";
 import { Transitions } from "./transitions";
@@ -32,10 +37,10 @@ const Container = ({ recordType, iconColor, record, mode }) => {
     record && record.get("status") === "open" ? "close" : "reopen";
 
   const assignPermissions = [
-    PERMISSION_CONSTANTS.MANAGE,
-    PERMISSION_CONSTANTS.ASSIGN,
-    PERMISSION_CONSTANTS.ASSIGN_WITHIN_USER_GROUP,
-    PERMISSION_CONSTANTS.ASSIGN_WITHIN_AGENCY_PERMISSIONS
+    ACTIONS.MANAGE,
+    ACTIONS.ASSIGN,
+    ACTIONS.ASSIGN_WITHIN_USER_GROUP,
+    ACTIONS.ASSIGN_WITHIN_AGENCY_PERMISSIONS
   ];
 
   const userPermissions = useSelector(state =>
@@ -43,35 +48,37 @@ const Container = ({ recordType, iconColor, record, mode }) => {
   );
 
   const canAddNotes = checkPermissions(userPermissions, [
-    PERMISSION_CONSTANTS.MANAGE,
-    PERMISSION_CONSTANTS.ADD_NOTE
+    ACTIONS.MANAGE,
+    ACTIONS.ADD_NOTE
   ]);
   const canReopen = checkPermissions(userPermissions, [
-    PERMISSION_CONSTANTS.MANAGE,
-    PERMISSION_CONSTANTS.REOPEN
+    ACTIONS.MANAGE,
+    ACTIONS.REOPEN
   ]);
 
   const canRefer = checkPermissions(userPermissions, [
-    PERMISSION_CONSTANTS.MANAGE,
-    PERMISSION_CONSTANTS.REFERRAL
+    ACTIONS.MANAGE,
+    ACTIONS.REFERRAL
   ]);
 
   const canClose = checkPermissions(userPermissions, [
-    PERMISSION_CONSTANTS.MANAGE,
-    PERMISSION_CONSTANTS.CLOSE
+    ACTIONS.MANAGE,
+    ACTIONS.CLOSE
   ]);
 
   const canEnable = checkPermissions(userPermissions, [
-    PERMISSION_CONSTANTS.MANAGE,
-    PERMISSION_CONSTANTS.ENABLE_DISABLE_RECORD
+    ACTIONS.MANAGE,
+    ACTIONS.ENABLE_DISABLE_RECORD
   ]);
 
   const canAssign = checkPermissions(userPermissions, assignPermissions);
 
   const canTransfer = checkPermissions(userPermissions, [
-    PERMISSION_CONSTANTS.MANAGE,
-    PERMISSION_CONSTANTS.TRANSFER
+    ACTIONS.MANAGE,
+    ACTIONS.TRANSFER
   ]);
+
+  const canCustomExport = checkPermissions(userPermissions, EXPORT_CUSTOM);
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -129,22 +136,35 @@ const Container = ({ recordType, iconColor, record, mode }) => {
   const actions = [
     {
       name: i18n.t("buttons.import"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "all"
     },
     {
       name: i18n.t("exports.custom_exports.label"),
-      action: () => console.log("Some action"),
-      recordType: "all"
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
+      recordType: "all",
+      condition: canCustomExport
     },
     {
       name: i18n.t("buttons.mark_for_mobile"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "all"
     },
     {
       name: i18n.t("buttons.unmark_for_mobile"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "all"
     },
     {
@@ -167,12 +187,18 @@ const Container = ({ recordType, iconColor, record, mode }) => {
     },
     {
       name: i18n.t("actions.incident_details_from_case"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "cases"
     },
     {
       name: i18n.t("actions.services_section_from_case"),
-      action: () => console.log("Some action"),
+      action: () => {
+        // eslint-disable-next-line no-console
+        console.log("Some action");
+      },
       recordType: "cases"
     },
     {
@@ -256,20 +282,19 @@ const Container = ({ recordType, iconColor, record, mode }) => {
 
       {canOpenOrClose ? toggleOpenDialog : null}
 
-      <Permission
-        permissionType={recordType}
-        permission={[PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.ENABLE_DISABLE_RECORD]}
-      >
+      <Permission resources={recordType} actions={ENABLE_DISABLE_RECORD}>
         {toggleEnableDialog}
       </Permission>
 
       <Transitions {...transitionsProps} />
 
-      <Permission
-        permissionType={recordType}
-        permission={[PERMISSION_CONSTANTS.MANAGE, PERMISSION_CONSTANTS.ADD_NOTE]}
-      >
-        <Notes close={handleNotesClose} openNotesDialog={openNotesDialog} />
+      <Permission resources={recordType} actions={ADD_NOTE}>
+        <Notes
+          close={handleNotesClose}
+          openNotesDialog={openNotesDialog}
+          record={record}
+          recordType={recordType}
+        />
       </Permission>
     </>
   );
@@ -278,10 +303,10 @@ const Container = ({ recordType, iconColor, record, mode }) => {
 Container.displayName = NAME;
 
 Container.propTypes = {
-  recordType: PropTypes.string.isRequired,
   iconColor: PropTypes.string,
+  mode: PropTypes.object,
   record: PropTypes.object,
-  mode: PropTypes.object
+  recordType: PropTypes.string.isRequired
 };
 
 export default Container;

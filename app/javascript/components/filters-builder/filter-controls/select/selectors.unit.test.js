@@ -22,6 +22,7 @@ describe("<SelectFilter /> - Selectors", () => {
         recordType: "Cases",
         props: { field_name: "status" }
       });
+
       expect(records).to.deep.equal(expected);
     });
 
@@ -30,7 +31,8 @@ describe("<SelectFilter /> - Selectors", () => {
         recordType: "Cases",
         props: { field_name: "status" }
       });
-      expect(records).to.deep.equal('');
+
+      expect(records).to.deep.equal("");
     });
   });
 });

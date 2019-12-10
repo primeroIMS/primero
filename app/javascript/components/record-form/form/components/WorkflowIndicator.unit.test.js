@@ -1,11 +1,11 @@
 import { expect } from "chai";
+import { fromJS, Map } from "immutable";
+import { StepLabel } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../test";
-import { fromJS, Map } from "immutable";
+import { PrimeroModuleRecord } from "../../../application/records";
 
 import WorkflowIndicator from "./WorkflowIndicator";
-import { PrimeroModuleRecord } from "../../../application/records";
-import { StepLabel } from "@material-ui/core";
 
 describe("<WorkflowIndicator />", () => {
   let state;
@@ -54,16 +54,17 @@ describe("<WorkflowIndicator />", () => {
   });
 
   it("renders the workflow indicator", () => {
-    const component = setupMountedComponent(
+    const { component } = setupMountedComponent(
       WorkflowIndicator,
       {
         ...defaultProps,
         record: Map({ case_status_reopened: false, workflow: "services" })
       },
       state
-    ).component;
+    );
 
     const steps = component.find(StepLabel);
+
     expect(steps.at(1).props().active).to.equal(true);
     expect(steps.at(0).text()).to.include("New");
     expect(steps.at(1).props().active).to.equal(true);
@@ -73,16 +74,17 @@ describe("<WorkflowIndicator />", () => {
   });
 
   it("renders status reopened if case has been reopened", () => {
-    const component = setupMountedComponent(
+    const { component } = setupMountedComponent(
       WorkflowIndicator,
       {
         ...defaultProps,
         record: Map({ case_status_reopened: true, workflow: "service" })
       },
       state
-    ).component;
+    );
 
     const steps = component.find(StepLabel);
+
     expect(steps.at(0).text()).to.include("Reopened");
   });
 });

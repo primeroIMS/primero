@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_12_000000) do
+ActiveRecord::Schema.define(version: 2019_11_25_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -51,6 +51,21 @@ ActiveRecord::Schema.define(version: 2019_09_12_000000) do
     t.index ["agency_code"], name: "index_agencies_on_agency_code", unique: true
     t.index ["services"], name: "index_agencies_on_services", using: :gin
     t.index ["unique_id"], name: "index_agencies_on_unique_id", unique: true
+  end
+
+  create_table "alerts", id: :serial, force: :cascade do |t|
+    t.string "type"
+    t.text "alert_for"
+    t.date "date"
+    t.string "form_sidebar_id"
+    t.string "unique_id"
+    t.integer "user_id"
+    t.integer "agency_id"
+    t.string "record_type"
+    t.uuid "record_id"
+    t.index ["agency_id"], name: "index_alerts_on_agency_id"
+    t.index ["record_type", "record_id"], name: "index_alerts_on_record_type_and_record_id"
+    t.index ["user_id"], name: "index_alerts_on_user_id"
   end
 
   create_table "attachment_audios", force: :cascade do |t|
@@ -258,8 +273,8 @@ ActiveRecord::Schema.define(version: 2019_09_12_000000) do
     t.integer "admin_level"
     t.string "type"
     t.boolean "disabled", default: false, null: false
-    t.ltree "hierarchy", default: "", null: false
-    t.index ["hierarchy"], name: "index_locations_on_hierarchy", using: :gist
+    t.ltree "hierarchy_path", default: "", null: false
+    t.index ["hierarchy_path"], name: "index_locations_on_hierarchy_path", using: :gist
     t.index ["location_code"], name: "index_locations_on_location_code", unique: true
   end
 
@@ -372,7 +387,7 @@ ActiveRecord::Schema.define(version: 2019_09_12_000000) do
     t.string "primary_age_range"
     t.string "location_limit_for_api"
     t.jsonb "approval_forms_to_alert"
-    t.string "changes_field_to_form"
+    t.jsonb "changes_field_to_form"
     t.jsonb "export_config_id"
     t.string "duplicate_export_field"
     t.string "primero_version"

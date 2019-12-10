@@ -10,15 +10,16 @@ import { create } from "jss";
 import rtl from "jss-rtl";
 import React from "react";
 import { Provider } from "react-redux";
-import { theme, PERMITTED_URL } from "./config";
-import { I18nProvider } from "./components/i18n";
 import { Route, Switch, Redirect } from "react-router-dom";
-import routes from "./config/routes";
-import NAMESPACE from "./components/i18n/namespace";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import { checkUserAuthentication } from "./components/user";
 import { SnackbarProvider } from "notistack";
+
+import { theme, PERMITTED_URL } from "./config";
+import { I18nProvider } from "./components/i18n";
+import routes from "./config/routes";
+import NAMESPACE from "./components/i18n/namespace";
+import { checkUserAuthentication } from "./components/user";
 import { ApplicationProvider } from "./components/application";
 import Permission from "./components/application/permission";
 import configureStore, { history } from "./store";
@@ -39,14 +40,14 @@ const routesApplication = routes.map((route, index) => {
         PERMITTED_URL.includes(subRoute.path) ? (
           <subRoute.component mode={subRoute.mode} />
         ) : (
-          <Permission
-            permissionType={subRoute.permissionType}
-            permission={subRoute.permission}
-            redirect
-          >
-            <subRoute.component mode={subRoute.mode} />
-          </Permission>
-        );
+            <Permission
+              resources={subRoute.resources}
+              actions={subRoute.actions}
+              redirect
+            >
+              <subRoute.component mode={subRoute.mode} />
+            </Permission>
+          );
 
       return (
         <Route
@@ -97,9 +98,6 @@ const App = () => {
                 <ApplicationProvider>
                   <ConnectedRouter history={history}>
                     <Switch>
-                      <Route exact path="/">
-                        <Redirect to="/login" />
-                      </Route>
                       {routesApplication}
                     </Switch>
                   </ConnectedRouter>

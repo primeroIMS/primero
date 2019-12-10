@@ -37,7 +37,6 @@ const Services = ({ servicesList }) => {
       <OptionsBox
         classes={styleOverrides}
         title={i18n.t("dashboard.case_management_service")}
-        action={<ActionMenu open={false} items={actionMenuItems} />}
       >
         {caseManagement.map(summary => {
           return (
@@ -49,7 +48,6 @@ const Services = ({ servicesList }) => {
       <OptionsBox
         title={i18n.t("dashboard.screening_service")}
         classes={styleOverrides}
-        action={<ActionMenu open={false} items={actionMenuItems} />}
       >
         {screening.map(summary => {
           return (

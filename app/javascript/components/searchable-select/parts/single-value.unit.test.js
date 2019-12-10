@@ -1,8 +1,10 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../test";
 import Typography from "@material-ui/core/Typography";
+
+import { setupMountedComponent } from "../../../test";
+
 import SingleValue from "./single-value";
+import ActionDialog from "../../action-dialog/component";
 
 describe("<SingleValue />", () => {
   let component;
@@ -11,8 +13,8 @@ describe("<SingleValue />", () => {
     children: "Test",
     isFocused: false,
     innerProps: {
-      onMouseDown: () => { },
-      onMouseMove: () => { }
+      onMouseDown: () => {},
+      onMouseMove: () => {}
     },
     selectProps: {
       id: "Test",
@@ -22,10 +24,12 @@ describe("<SingleValue />", () => {
       }
     },
     removeProps: {
-      onMouseDown: () => { },
-      onTouchEnd: () => { },
-      onClick: () => { }
-    }
+      onMouseDown: () => {},
+      onTouchEnd: () => {},
+      onClick: () => {}
+    },
+    options: [{ value: "user-1", label: "User 1" }],
+    data: { value: "user-1", label: "User 1 fr" }
   };
 
   beforeEach(() => {
@@ -34,5 +38,28 @@ describe("<SingleValue />", () => {
 
   it("renders Typography", () => {
     expect(component.find(Typography)).to.have.length(1);
+  });
+
+  it("renders Typography with correct children", () => {
+    expect(component.find(Typography).text()).to.be.equal("User 1");
+  });
+
+  it("renders valid props", () => {
+    const singleValueProps = { ...component.find(SingleValue).props() };
+
+    [
+      "children",
+      "isFocused",
+      "innerProps",
+      "selectProps",
+      "removeProps",
+      "options",
+      "data"
+    ].forEach(property => {
+      expect(singleValueProps).to.have.property(property);
+      delete singleValueProps[property];
+    });
+
+    expect(singleValueProps).to.be.empty;
   });
 });

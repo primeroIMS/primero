@@ -205,9 +205,12 @@ cp_caseworker_permissions = [
   Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
-      Permission::VIEW_APPROVALS,
+      Permission::DASH_WORKFLOW,
+      Permission::DASH_APPROVALS_ASSESSMENT,
+      Permission::DASH_APPROVALS_CASE_PLAN,
+      Permission::DASH_APPROVALS_CLOSURE,
       Permission::VIEW_RESPONSE,
-      Permission::VIEW_ASSESSMENT,
+      Permission::DASH_CASE_RISK,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::DASH_TASKS
     ]
@@ -322,11 +325,17 @@ cp_manager_permissions = [
   Permission.new(
       resource: Permission::DASHBOARD,
       actions: [
-        Permission::VIEW_APPROVALS,
+        Permission::DASH_WORKFLOW_TEAM,
+        Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
+        Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
+        Permission::DASH_APPROVALS_CLOSURE_PENDING,
         Permission::VIEW_RESPONSE,
-        Permission::VIEW_ASSESSMENT,
+        Permission::DASH_CASE_RISK,
         Permission::VIEW_PROTECTION_CONCERNS_FILTER,
-        Permission::DASH_CASES_BY_TASK_OVERDUE
+        Permission::DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
+        Permission::DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
+        Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES,
+        Permission::DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS
       ]
   )
 ]
@@ -432,9 +441,11 @@ cp_user_manager_permissions = [
     Permission.new(
         resource: Permission::DASHBOARD,
         actions: [
-          Permission::VIEW_APPROVALS,
+          Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
+          Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
+          Permission::DASH_APPROVALS_CLOSURE_PENDING,
           Permission::VIEW_RESPONSE,
-          Permission::VIEW_ASSESSMENT,
+          Permission::DASH_CASE_RISK,
           Permission::VIEW_PROTECTION_CONCERNS_FILTER
         ]
     )
@@ -494,7 +505,9 @@ gbv_worker_permissions = [
   Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
-      Permission::VIEW_APPROVALS
+      Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
+      Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
+      Permission::DASH_APPROVALS_CLOSURE_PENDING
     ]
   )
 ]
@@ -583,7 +596,9 @@ gbv_manager_permissions = [
   Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
-      Permission::VIEW_APPROVALS
+      Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
+      Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
+      Permission::DASH_APPROVALS_CLOSURE_PENDING
     ]
   ),
   Permission.new(
@@ -692,7 +707,9 @@ gbv_user_manager_permissions = [
     Permission.new(
       resource: Permission::DASHBOARD,
       actions: [
-        Permission::VIEW_APPROVALS
+        Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
+        Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
+        Permission::DASH_APPROVALS_CLOSURE_PENDING
       ]
     )
 ]
@@ -745,7 +762,8 @@ gbv_caseworker_permissions = [
     Permission.new(
       resource: Permission::DASHBOARD,
       actions: [
-        Permission::VIEW_APPROVALS
+        Permission::DASH_APPROVALS_CASE_PLAN,
+        Permission::DASH_APPROVALS_CLOSURE
       ]
     )
 ]
@@ -1413,7 +1431,7 @@ superuser_permissions = [
     actions: [
       # Permission::VIEW_APPROVALS,
       # Permission::VIEW_RESPONSE,
-      # Permission::VIEW_ASSESSMENT,
+      # Permission::DASH_CASE_RISK,
       # Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::DASH_TASKS
     ]

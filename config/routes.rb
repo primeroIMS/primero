@@ -52,11 +52,15 @@ Rails.application.routes.draw do
           get :'refer-to', to: 'users_transitions#refer_to'
         end
       end
+      resources :dashboards, only: [:index]
       resources :contact_information, only: [:index]
       resources :system_settings, only: [:index]
       resources :tasks, only: [:index]
       resources :saved_searches, only: [:index, :create, :destroy]
       resources :reports, only: [:index, :show]
+      resources :lookups
+      resources :locations
+      get 'alerts', to: 'alerts#bulk_index'
 
     end
   end

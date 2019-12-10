@@ -1,7 +1,8 @@
-
 import { expect } from "chai";
-import { setupMountedComponent } from "../../../test";
 import Typography from "@material-ui/core/Typography";
+
+import { setupMountedComponent } from "../../../test";
+
 import Placeholder from "./placeholder";
 
 describe("<Placeholder />", () => {

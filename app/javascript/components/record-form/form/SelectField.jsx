@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { Select } from "formik-material-ui";
-import { FastField, connect, getIn } from "formik";
+import { Field, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
 import { useSelector } from "react-redux";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -19,7 +19,11 @@ import find from "lodash/find";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
-import { getOption } from "../selectors";
+import { getLocations, getOption } from "../selectors";
+import { valuesToSearchableSelect } from "../../../libs";
+import { selectAgencies } from "../../application/selectors";
+import { SearchableSelect } from "../../searchable-select";
+import { CODE_FIELD, NAME_FIELD } from "../../../config";
 
 import styles from "./styles.css";
 
@@ -58,8 +62,33 @@ const SelectField = ({
 
   const options = useSelector(state => getOption(state, option, i18n.locale));
 
-  const findOptionDisplayText = v =>
-    (find(options, { id: v }) || {}).display_text;
+  const agencies = useSelector(state => selectAgencies(state));
+
+  const locations = useSelector(state => getLocations(state, i18n));
+
+  const translatedText = displayText => {
+    return typeof displayText === "string"
+      ? displayText
+      : displayText[i18n.locale];
+  };
+  const specialLookups = ["Location", "Agency"];
+
+  const findOptionDisplayText = v => {
+    const foundOptions = find(options, { id: v }) || {};
+    let optionValue = [];
+
+    if (Object.keys(foundOptions).length && !specialLookups.includes(option)) {
+      optionValue = translatedText(foundOptions.display_text);
+    } else if (option === "Agency") {
+      optionValue = value
+        ? agencies.find(a => a.get("id") === value)?.get("name")
+        : value;
+    } else {
+      optionValue = "";
+    }
+
+    return optionValue;
+  };
 
   const fieldProps = {
     component: Select,
@@ -102,6 +131,50 @@ const SelectField = ({
   }, []);
 
   if (!isEmpty(formik.values)) {
+    if (option === "Location") {
+      const values = valuesToSearchableSelect(
+        locations,
+        CODE_FIELD,
+        NAME_FIELD,
+        i18n.locale
+      );
+      const handleChange = (data, form) => {
+        form.setFieldValue(name, data ? data.value : "", false);
+      };
+
+      const searchableSelectProps = {
+        id: name,
+        name,
+        isDisabled: mode.isShow,
+        isClearable: true,
+        menuPosition: "absolute",
+        TextFieldProps: {
+          label,
+          margin: "dense",
+          fullWidth: true,
+          InputLabelProps: {
+            htmlFor: name,
+            shrink: true
+          }
+        },
+        excludeEmpty: true,
+        options: values && values,
+        defaultValue: value && values.filter(v => v.value === value.toString())
+      };
+
+      return (
+        <Field name={name}>
+          {/* eslint-disable-next-line no-unused-vars */}
+          {({ f, form }) => (
+            <SearchableSelect
+              {...searchableSelectProps}
+              onChange={data => handleChange(data, form)}
+            />
+          )}
+        </Field>
+      );
+    }
+
     return (
       <FormControl
         fullWidth
@@ -111,17 +184,17 @@ const SelectField = ({
         <InputLabel shrink htmlFor={other.name} {...InputLabelProps}>
           {label}
         </InputLabel>
-        <FastField {...fieldProps}>
+        <Field {...fieldProps}>
           {options &&
             options.map(o => (
               <MenuItem key={o.id} value={o.id}>
                 {field.multi_select && (
                   <Checkbox checked={value && value.indexOf(o.id) > -1} />
                 )}
-                <ListItemText primary={o.display_text} />
+                <ListItemText primary={translatedText(o.display_text) || ""} />
               </MenuItem>
             ))}
-        </FastField>
+        </Field>
         <FormHelperText>
           {fieldError && fieldTouched ? fieldError : helperText}
         </FormHelperText>

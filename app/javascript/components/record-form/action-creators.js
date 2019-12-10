@@ -1,8 +1,7 @@
 import { DB } from "../../config";
 
 import Actions from "./actions";
-import mockedData from "./mocked-data";
-import { Option } from "./records";
+import { URL_LOCATIONS, URL_LOOKUPS } from "./constants"
 
 export const setSelectedForm = payload => {
   return {
@@ -31,9 +30,22 @@ export const fetchForms = () => async dispatch => {
   });
 };
 
+const fetchLookups = () => ({
+  type: Actions.SET_OPTIONS,
+  api: {
+    path: URL_LOOKUPS,
+    params: { per: 999, page: 1 }
+  }
+});
+
+const fetchLocations = () => ({
+  type: Actions.SET_LOCATIONS,
+  api: {
+    path: URL_LOCATIONS
+  }
+});
+
 export const fetchOptions = () => async dispatch => {
-  dispatch({
-    type: Actions.SET_OPTIONS,
-    payload: mockedData.data.map(option => Option(option))
-  });
+  dispatch(fetchLookups());
+  dispatch(fetchLocations());
 };

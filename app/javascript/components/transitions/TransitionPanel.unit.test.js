@@ -1,7 +1,8 @@
 import React from "react";
-
 import { expect } from "chai";
+
 import { setupMountedComponent } from "../../test";
+
 import TransitionPanel from "./TransitionPanel";
 
 describe("<TransitionPanel />", () => {
@@ -16,6 +17,7 @@ describe("<TransitionPanel />", () => {
 
   it("renders a <p> as children of  TransitionPanel", () => {
     const cpTransitionPanel = component.find(TransitionPanel);
+
     expect(cpTransitionPanel.find("p").props().children).to.equal(
       "This is a children"
     );

@@ -22,6 +22,8 @@ import * as Records from "./components/records";
 import * as SavedSearches from "./components/saved-searches";
 import * as TransitionsForms from "./components/transitions";
 import * as User from "./components/user";
+import * as IndexFilters from "./components/index-filters";
+import * as TransferRequest from "./components/record-list/view-modal/transfer-request";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -30,7 +32,7 @@ const rootReducer = {
       ...Object.keys(RECORD_TYPES).reduce((r, i) => {
         const o = r;
 
-        o[i] = reduceReducers(Records.reducers(i), FiltersBuilder.reducers(i));
+        o[i] = reduceReducers(Records.reducers(i), IndexFilters.reducers(i));
 
         return o;
       }, {})
@@ -38,7 +40,8 @@ const rootReducer = {
     reports: reduceReducers(Reports.reducers, Report.reducers),
     transitions: reduceReducers(
       Transitions.reducers,
-      TransitionsForms.reducers
+      TransitionsForms.reducers,
+      TransferRequest.reducers
     ),
     ...PotentialMatches.reducers,
     ...TaskList.reducers,

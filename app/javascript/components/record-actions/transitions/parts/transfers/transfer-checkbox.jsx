@@ -15,9 +15,9 @@ const TransferCheckbox = ({ checked, onChange, label, disabled }) => {
 
 TransferCheckbox.propTypes = {
   checked: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
   label: PropTypes.string.isRequired,
-  disabled: PropTypes.bool
+  onChange: PropTypes.func.isRequired
 };
 
 export default TransferCheckbox;

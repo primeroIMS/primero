@@ -1,9 +1,12 @@
+import { RECORD_PATH } from "../../../config";
+
 import {
   DASHBOARD_FLAGS,
   CASES_BY_STATUS,
   CASES_BY_CASE_WORKER,
   CASES_REGISTRATION,
   CASES_OVERVIEW,
+  FETCH_DASHBOARDS,
   SERVICES_STATUS,
   OPEN_PAGE_ACTIONS
 } from "./actions";
@@ -132,3 +135,10 @@ export const openPageActions = payload => {
     payload
   };
 };
+
+export const fetchDashboards = () => ({
+  type: FETCH_DASHBOARDS,
+  api: {
+    path: RECORD_PATH.dashboards
+  }
+});

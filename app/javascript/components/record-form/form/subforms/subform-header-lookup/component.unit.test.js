@@ -1,26 +1,29 @@
 import { expect } from "chai";
-import { Map, List } from "immutable";
+import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../../test";
 
 import SubformLookupHeader from ".";
 
 describe("<SubformLookupHeader /> - Form - Subforms", () => {
-  // TODO: initialState should only use fromJS() until options of forms have
-  // been changed to use Immutable objects
-  const initialState = Map({
-    forms: Map({
-      options: List([
-        {
-          type: "lookup-location-type",
-          options: [
-            { id: "country", display_text: "Country" },
-            { id: "region", display_text: "Region" },
-            { id: "province", display_text: "Province" }
-          ]
-        }
-      ])
-    })
+  const initialState = fromJS({
+    forms: {
+      options: {
+        lookups: [
+          {
+            unique_id: "lookup-location-type",
+            values: [
+              { id: "country", display_text: { en: "Country", es: "Pais" } },
+              { id: "region", display_text: { en: "Region", es: "Region" } },
+              {
+                id: "province",
+                display_text: { en: "Province", es: "Provincia" }
+              }
+            ]
+          }
+        ]
+      }
+    }
   });
 
   it("should render the display_text of the lookup defined on the optionsStringSource", () => {

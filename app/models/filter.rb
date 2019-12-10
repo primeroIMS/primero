@@ -231,7 +231,6 @@ class Filter < ValueObject
 
       filters = []
       filters << FLAGGED_CASE
-      filters << MOBILE_CASE if user.can?(:sync_mobile, model_class)
       filters << SOCIAL_WORKER if user.is_manager?
       filters << MY_CASES
       filters << WORKFLOW
@@ -262,7 +261,6 @@ class Filter < ValueObject
     def incident_filters(user, model_class)
       filters = []
       filters << FLAGGED_CASE
-      filters << MOBILE_CASE if user.can?(:sync_mobile, model_class)
       filters << VIOLENCE_TYPE if user.has_module?(@primero_module_gbv.id)
       filters << SOCIAL_WORKER if user.is_manager?
       filters << AGENCY_OFFICE if user.has_module?(@primero_module_gbv.id)
@@ -355,7 +353,7 @@ class Filter < ValueObject
         self.options = I18n.available_locales.map do |locale|
           { locale =>
             [ Child::APPROVAL_STATUS_PENDING, Child::APPROVAL_STATUS_APPROVED, Child::APPROVAL_STATUS_REJECTED].map do |status|
-              { id: "#{status}_#{id_suffix}", display_name: I18n.t("cases.filter_by.approvals.#{status}", locale: locale) }
+              { id: status, display_name: I18n.t("cases.filter_by.approvals.#{status}", locale: locale) }
             end
           }
         end.inject(&:merge)

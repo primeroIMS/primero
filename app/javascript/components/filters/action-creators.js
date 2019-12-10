@@ -1,7 +1,7 @@
 import { List, fromJS } from "immutable";
+import merge from "lodash/merge";
 
 import { cleanUpFilters } from "../records";
-
 
 import { SET_TAB } from "./actions";
 
@@ -12,7 +12,7 @@ export const setTab = payload => {
   };
 };
 
-export const setInitialFilterValues = (recordType, payload) => {
+export const setInitialFilterValues = (recordType, payload, fromDashboard) => {
   const values = Object.entries(payload).reduce((obj, item) => {
     const currentObject = obj;
     const [key, value] = item;
@@ -24,9 +24,13 @@ export const setInitialFilterValues = (recordType, payload) => {
     return currentObject;
   }, {});
 
+  const filters = Object.keys(fromDashboard).length
+    ? merge(values, fromDashboard)
+    : values;
+
   return {
     type: `${recordType}/CLEAR_FILTERS`,
-    payload: values
+    payload: filters
   };
 };
 
