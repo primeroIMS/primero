@@ -1,12 +1,8 @@
 import React from "react";
 import { OptionsBox } from "components/dashboard";
-import { DateRangeSelect } from "components/key-performance-indicators";
-import makeStyles from "@material-ui/styles/makeStyles";
-import styles from "./styles.css";
+import { DateRangeSelect, SingleAggregateMetric } from "components/key-performance-indicators";
 
 export default function AverageReferrals() {
-  let css = makeStyles(styles)();
-
   let threeMonthsAgo = new Date();
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
   let dateRanges = [{
@@ -27,10 +23,10 @@ export default function AverageReferrals() {
         />
       }
     >
-      <div className={css.root}>
-        <h1 className={css.value}>2.2</h1>
-        <span className={css.label}>Average referrals per case</span>
-      </div>
+      <SingleAggregateMetric
+        value="2.2"
+        label="Average referrals per case"
+      />
     </OptionsBox>
   );
 }

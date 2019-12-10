@@ -1,12 +1,8 @@
 import React from "react";
 import { OptionsBox } from "components/dashboard";
-import { DateRangeSelect } from "components/key-performance-indicators";
-import makeStyles from "@material-ui/styles/makeStyles";
-import styles from "./styles.css";
+import { DateRangeSelect, SingleAggregateMetric } from "components/key-performance-indicators";
 
 export default function TotalFollowUpMeetings() {
-  let css = makeStyles(styles)();
-
   let threeMonthsAgo = new Date();
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
   let dateRanges = [{
@@ -27,10 +23,10 @@ export default function TotalFollowUpMeetings() {
         />
       }
     >
-      <div className={css.root}>
-        <h1 className={css.value}>45</h1>
-        <span className={css.label}>Total follow-up meetings</span>
-      </div>
+      <SingleAggregateMetric
+        value="45"
+        label="Total follow-up meetings"
+      />
     </OptionsBox>
   );
 }
