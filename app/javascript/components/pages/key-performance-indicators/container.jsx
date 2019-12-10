@@ -29,7 +29,8 @@ import {
   CompletedCaseClosureProcedures,
   TimeFromCaseOpenToClose,
   TimeFromCaseOpenToCloseHighRisk,
-  ReasonForCaseClosure
+  ReasonForCaseClosure,
+  CaseClosureRate
 } from "./components";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
@@ -164,7 +165,7 @@ function KeyPerformanceIndicators({ }) {
 
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12}>
-                  <CompletedCaseClosureProcedures />
+                  <CaseClosureRate />
                 </Grid>
               </Grid>
 
