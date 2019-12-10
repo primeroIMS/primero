@@ -15,3 +15,5 @@ export { AverageFollowUpMeetings } from "./average-follow-up-meetings";
 export { GoalProgressPerNeed } from "./goal-progress-per-need";
 export { CompletedCaseClosureProcedures } from "./completed-case-closure-procedures";
 export { TimeFromCaseOpenToClose } from "./time-from-case-open-to-case-close";
+export { TimeFromCaseOpenToCloseHighRisk } from "./time-from-case-open-to-case-close-high-risk";
+export { ReasonForCaseClosure } from "./reason-for-case-closure";
