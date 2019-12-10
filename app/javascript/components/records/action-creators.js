@@ -129,6 +129,7 @@ export const saveRecord = (
             key: new Date().getTime() + Math.random()
           }
         },
+        redirectWithIdFromResponse: saveMethod !== "update",
         redirect: redirect === false ? false : redirect || `/${recordType}`
       },
       db: {

@@ -163,5 +163,10 @@ describe("Verifying config constant", () => {
     expect(constants.DISPLAY_TEXT_FIELD).to.equal("display_text");
     expect(constants.CODE_FIELD).to.equal("code");
     expect(constants.LOOKUPS).to.be.an("object");
+    expect(constants.LOOKUPS).to.have.all.keys(
+      "risk_level",
+      "workflow",
+      "service_type"
+    );
   });
 });

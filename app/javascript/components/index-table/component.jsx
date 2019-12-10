@@ -27,7 +27,8 @@ const Component = ({
   defaultFilters,
   options: tableOptionsProps,
   targetRecordType,
-  onRowClick
+  onRowClick,
+  bypassInitialFetch
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -129,12 +130,14 @@ const Component = ({
   }
 
   useEffect(() => {
-    dispatch(
-      onTableChange({
-        recordType,
-        options: { per, ...defaultFilters.merge(filters).toJS() }
-      })
-    );
+    if (!bypassInitialFetch) {
+      dispatch(
+        onTableChange({
+          recordType,
+          options: { per, ...defaultFilters.merge(filters).toJS() }
+        })
+      );
+    }
   }, [columns]);
 
   if (order && orderBy) {
@@ -239,7 +242,12 @@ const Component = ({
 
 Component.displayName = NAME;
 
+Component.defaultProps = {
+  bypassInitialFetch: false
+};
+
 Component.propTypes = {
+  bypassInitialFetch: PropTypes.bool,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   defaultFilters: PropTypes.object,
   onRowClick: PropTypes.func,

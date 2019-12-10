@@ -10,7 +10,8 @@ import {
   DashboardTable,
   LineChart,
   OverviewBox,
-  BadgedIndicator
+  BadgedIndicator,
+  PieChart
 } from "../../dashboard";
 import { FlagList } from "../../dashboard/flag-list";
 import { Services } from "../../dashboard/services";
@@ -18,7 +19,8 @@ import { useI18n } from "../../i18n";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 import { RESOURCES, ACTIONS } from "../../../libs/permissions";
 import Permission from "../../application/permission";
-import { LOOKUPS } from "../../../config";
+import { LOOKUPS, MODULES, RECORD_TYPES } from "../../../config";
+import { selectModule } from "../../application";
 import { getOption } from "../../record-form";
 
 import * as actions from "./action-creators";
@@ -29,9 +31,14 @@ import {
   selectCasesByCaseWorker,
   selectCasesRegistration,
   selectCasesOverview,
-  selectServicesStatus
+  selectServicesStatus,
+  getWorkflowIndividualCases,
+  getApprovalsAssessment,
+  getApprovalsCasePlan,
+  getApprovalsClosure
 } from "./selectors";
 import styles from "./styles.css";
+import { toData1D } from "./helpers";
 
 const Dashboard = ({
   fetchFlags,
@@ -47,7 +54,11 @@ const Dashboard = ({
   casesByCaseWorker,
   casesRegistration,
   casesOverview,
-  servicesStatus
+  casesWorkflow,
+  servicesStatus,
+  approvalsAssessment,
+  approvalsCasePlan,
+  approvalsClosure
 }) => {
   useEffect(() => {
     batch(() => {
@@ -131,30 +142,103 @@ const Dashboard = ({
     ]
   };
 
-  const hideCasesByAssesmentLevel =
-    !labelsRiskLevel?.length || !casesByAssessmentLevel?.size;
+  const workflowLabels = useSelector(
+    state =>
+      selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]?.[
+        i18n.locale
+      ]
+  );
+
+  const casesWorkflowProps = {
+    ...toData1D(casesWorkflow, workflowLabels)
+  };
 
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
       <PageContent>
         <Grid container spacing={3} classes={{ root: css.container }}>
-          <Grid item md={12} hidden={hideCasesByAssesmentLevel}>
-            <OptionsBox title={i18n.t("dashboard.overview")}>
-              <Permission
-                resources={RESOURCES.dashboards}
-                actions={ACTIONS.DASH_CASE_RISK}
-              >
-                <OptionsBox title={i18n.t(casesByAssessmentLevel.get("name"))}>
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={[
+              ACTIONS.DASH_APPROVALS_ASSESSMENT,
+              ACTIONS.DASH_APPROVALS_CASE_PLAN,
+              ACTIONS.DASH_APPROVALS_CLOSURE
+            ]}
+          >
+            <Grid item md={12}>
+              <OptionsBox title={i18n.t("dashboard.approvals")}>
+                <Grid container>
+                  <Grid item xs>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_APPROVALS_ASSESSMENT}
+                    >
+                      <OptionsBox flat>
+                        <OverviewBox
+                          items={approvalsAssessment}
+                          sumTitle={i18n.t(approvalsAssessment.get("name"))}
+                        />
+                      </OptionsBox>
+                    </Permission>
+                  </Grid>
+                  <Grid item xs>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_APPROVALS_CASE_PLAN}
+                    >
+                      <OptionsBox flat>
+                        <OverviewBox
+                          items={approvalsCasePlan}
+                          sumTitle={i18n.t(approvalsCasePlan.get("name"))}
+                        />
+                      </OptionsBox>
+                    </Permission>
+                  </Grid>
+                  <Grid item xs>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_APPROVALS_CLOSURE}
+                    >
+                      <OptionsBox flat>
+                        <OverviewBox
+                          items={approvalsClosure}
+                          sumTitle={i18n.t(approvalsClosure.get("name"))}
+                        />
+                      </OptionsBox>
+                    </Permission>
+                  </Grid>
+                </Grid>
+              </OptionsBox>
+            </Grid>
+          </Permission>
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={ACTIONS.DASH_CASE_RISK}
+          >
+            <Grid item md={6}>
+              <OptionsBox title={i18n.t("dashboard.overview")}>
+                <OptionsBox flat>
                   <BadgedIndicator
                     data={casesByAssessmentLevel}
+                    sectionTitle={i18n.t(casesByAssessmentLevel.get("name"))}
                     lookup={labelsRiskLevel}
                   />
                 </OptionsBox>
-              </Permission>
-            </OptionsBox>
-          </Grid>
-          <Grid item md={12} hidden>
+              </OptionsBox>
+            </Grid>
+          </Permission>
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={ACTIONS.DASH_WORKFLOW}
+          >
+            <Grid item md={6}>
+              <OptionsBox title={i18n.t(casesWorkflow.get("name"))}>
+                <PieChart {...casesWorkflowProps} />
+              </OptionsBox>
+            </Grid>
+          </Permission>
+          {/* <Grid item md={12} hidden>
             <OptionsBox title="CASE OVERVIEW">
               <DashboardTable columns={columns} data={casesByCaseWorker} />
             </OptionsBox>
@@ -178,7 +262,7 @@ const Dashboard = ({
             <OptionsBox title={i18n.t("dashboard.flagged")}>
               <FlagList flags={flags} i18n={i18n} />
             </OptionsBox>
-          </Grid>
+          </Grid> */}
         </Grid>
       </PageContent>
     </PageContainer>
@@ -188,11 +272,15 @@ const Dashboard = ({
 Dashboard.displayName = "Dashboard";
 
 Dashboard.propTypes = {
+  approvalsAssessment: PropTypes.object.isRequired,
+  approvalsCasePlan: PropTypes.object.isRequired,
+  approvalsClosure: PropTypes.object.isRequired,
   casesByAssessmentLevel: PropTypes.object.isRequired,
   casesByCaseWorker: PropTypes.object.isRequired,
   casesByStatus: PropTypes.object.isRequired,
   casesOverview: PropTypes.object.isRequired,
   casesRegistration: PropTypes.object.isRequired,
+  casesWorkflow: PropTypes.object.isRequired,
   fetchCasesByCaseWorker: PropTypes.func.isRequired,
   fetchCasesByStatus: PropTypes.func.isRequired,
   fetchCasesOverview: PropTypes.func.isRequired,
@@ -201,7 +289,6 @@ Dashboard.propTypes = {
   fetchServicesStatus: PropTypes.func.isRequired,
   flags: PropTypes.object.isRequired,
   getDashboardsData: PropTypes.func.isRequired,
-  isOpenPageActions: PropTypes.bool.isRequired,
   openPageActions: PropTypes.func.isRequired,
   servicesStatus: PropTypes.object.isRequired
 };
@@ -210,6 +297,10 @@ const mapStateToProps = state => {
   return {
     flags: selectFlags(state),
     casesByAssessmentLevel: getCasesByAssessmentLevel(state),
+    casesWorkflow: getWorkflowIndividualCases(state),
+    approvalsAssessment: getApprovalsAssessment(state),
+    approvalsClosure: getApprovalsClosure(state),
+    approvalsCasePlan: getApprovalsCasePlan(state),
     casesByStatus: selectCasesByStatus(state),
     casesByCaseWorker: selectCasesByCaseWorker(state),
     casesRegistration: selectCasesRegistration(state),

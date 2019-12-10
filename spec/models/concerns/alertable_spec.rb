@@ -83,12 +83,37 @@ describe Alertable do
     end
   end
 
+  describe 'alert on record update' do
+
+    before :each do
+      SystemSettings.create!(
+        changes_field_to_form: { notes_section: 'notes' }
+      )
+
+      @case1 = Child.create(
+        name: 'test case',
+        data: { owned_by: 'foo', notes_section: [] }
+      )
+    end
+
+    it 'creates an alert when a non-record-owner updates the notes field' do
+      @case1.update_properties(
+        { notes_section: [{ note_subject: 'test', note_text: 'this' }] }, 'bar'
+      )
+      @case1.save!
+
+      expect(@case1.alerts.count).to eq(1)
+
+      alert = @case1.alerts[0]
+      expect(alert.alert_for).to eq(Alertable::FIELD_CHANGE)
+      expect(alert.type).to eq('notes')
+      expect(alert.form_sidebar_id).to eq('notes')
+    end
+
+  end
+
   after :each do
-    Role.destroy_all
-    Agency.destroy_all
-    User.destroy_all
-    Child.destroy_all
-    Alert.destroy_all
+    [SystemSettings, Role, Agency, User, Child, Alert].each(&:destroy_all)
   end
 
 end
