@@ -17,6 +17,13 @@ describe("Verifying config constant", () => {
   it("should have correct constant value", () => {
     const constants = { ...dashboardPagesConstants };
 
-    expect(constants.DASHBOARD_NAMES).to.have.all.keys("CASE_RISK", "WORKFLOW");
+    expect(constants.DASHBOARD_NAMES).to.have.all.keys(
+      "CASE_RISK",
+      "WORKFLOW",
+      "APPROVALS_ASSESSMENT",
+      "APPROVALS_CASE_PLAN",
+      "APPROVALS_CLOSURE",
+      "WORKFLOW_TEAM"
+    );
   });
 });
