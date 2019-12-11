@@ -230,6 +230,10 @@ describe AutoPopulatable do
         end
       end
     end
+
+    after :each do
+      SystemSettings.destroy_all
+    end
   end
 
   context 'when auto_populate_list is nil' do
