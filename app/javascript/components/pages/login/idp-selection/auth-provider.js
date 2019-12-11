@@ -1,4 +1,4 @@
-import * as Msal from "msal";
+import { UserAgentApplication } from "msal";
 
 let msalApp;
 
@@ -36,10 +36,9 @@ export const signIn = (idp) => {
     scopes: idp.scope
   };
 
-  msalApp = new Msal.UserAgentApplication(msalConfig);
+  msalApp = new UserAgentApplication(msalConfig);
 
   msalApp.loginPopup(loginRequest).then((loginResponse) => {
-    console.log('got to loginResponse');
     getToken(tokenRequest).then(updateUI);
   }).catch((error) => {
     console.log(error);

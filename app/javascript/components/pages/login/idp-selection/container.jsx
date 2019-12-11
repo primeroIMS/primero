@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import * as Msal from "msal";
+import { UserAgentApplication } from "msal";
 import PropTypes from "prop-types";
 
 import { PageHeading } from "../../../page";
@@ -55,7 +55,7 @@ const Container = ({ providerType }) => {
       }
     };
 
-    msalApp = new Msal.UserAgentApplication(msalConfig);
+    msalApp = new UserAgentApplication(msalConfig);
   }
 
   return (
