@@ -400,7 +400,6 @@ ActiveRecord::Schema.define(version: 2019_12_11_000000) do
     t.string "duplicate_export_field"
     t.string "primero_version"
     t.jsonb "system_options"
-    t.string "identity_provider_verification_url"
     t.boolean "use_identity_provider", default: false
   end
 
