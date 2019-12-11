@@ -1,6 +1,4 @@
 def create_or_update_identity_provider(setting_hash)
-  #There should only be 1 row in system settings
-
   puts "Creating System Settings "
   IdentityProvider.create! setting_hash
 end
@@ -22,7 +20,7 @@ create_or_update_identity_provider(
 create_or_update_identity_provider(
   {
     name: "Primero",
-    unique_id: "primero",
+    unique_id: "primeroims",
     provider_type: "b2c",
     configuration: {
       client_id: "e3443e90-18bc-4a23-9982-7fd5e67ff339",
