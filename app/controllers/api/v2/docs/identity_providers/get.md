@@ -12,7 +12,7 @@ Retrieve the current Primero identity providers as JSON
 
 ## Success Response
 
-**Condition** : User can see the system settings.
+**Condition** : User can see the identity providers.
 
 **Code** : `200 OK`
 
