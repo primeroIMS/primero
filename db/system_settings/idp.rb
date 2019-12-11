@@ -6,7 +6,7 @@ end
 create_or_update_identity_provider(
   {
     name: "UNICEF",
-    unique_id: "primeroims",
+    unique_id: "unicef",
     provider_type: "b2c",
     configuration: {
       client_id: "e3443e90-18bc-4a23-9982-7fd5e67ff339",
