@@ -57,6 +57,5 @@ create_or_update_system_setting(
     "duplicate_id" => "export-duplicate-id-csv"
   },
   duplicate_export_field: "national_id_no",
-  identity_provider_verification_url: "https://unicefpartners.b2clogin.com/unicefpartners.onmicrosoft.com/discovery/v2.0/keys?p=B2C_1_PrimeroSignUpSignIn",
-  use_identity_provider: true
+  use_identity_provider: false
 )

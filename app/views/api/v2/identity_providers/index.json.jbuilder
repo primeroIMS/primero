@@ -1,5 +1,5 @@
 if @identity_providers.present?
-  json.identiy_providers do
+  json.data do
     json.array! @identity_providers do |identity_provider|
       json.id identity_provider.id
       json.unique_id identity_provider.unique_id
@@ -10,5 +10,8 @@ if @identity_providers.present?
       json.identity_scope identity_provider.identity_scope
       json.verification_url identity_provider.verification_url
     end
+  end
+  json.metadata do
+    json.use_identity_provider @use_identity_provider
   end
 end
