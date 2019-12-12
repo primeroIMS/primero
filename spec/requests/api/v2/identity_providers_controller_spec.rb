@@ -3,6 +3,8 @@ require 'rails_helper'
 describe Api::V2::IdentityProvidersController, type: :request do
   before :each do
     IdentityProvider.destroy_all
+    SystemSettings.destroy_all
+    SystemSettings.create(default_locale: "en")
     @identity_providers_primero = IdentityProvider.create!(
       id: 1,
       name: "primero",
