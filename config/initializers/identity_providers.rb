@@ -5,7 +5,7 @@ begin
       use_identity_provider = system_settings.use_identity_provider.present?
 
       Rails.application.configure do
-         config.x.idp.use_identity_provider = use_identity_provider
+        config.x.idp.use_identity_provider = use_identity_provider
       end
     end
   end
