@@ -7,3 +7,4 @@ export { OptionsBox } from "./options-box";
 export { OverviewBox } from "./overview-box";
 export { ActionMenu } from "./action-menu";
 export { DashboardChip } from "./dashboard-chip";
+export { PieChart } from "./pie-chart";

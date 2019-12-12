@@ -24,6 +24,13 @@
   padding: 0;
 }
 
+.itemButton {
+  font-size: 1em;
+  font-weight: normal;
+  border: none;
+  line-height: 1.5em;
+}
+
 @media $(theme.breakpoints.down("sm")) {
   .overviewList {
     padding: 0;

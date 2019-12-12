@@ -1,0 +1,87 @@
+.root {
+  width: 100%;
+}
+
+.heading {
+  font-size: $(theme.typography.pxToRem(15));
+  font-weight: bold;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 2.5em;
+
+  & span {
+    flex: 1
+  }
+
+  & button {
+    float: right;
+  }
+}
+
+.actionButtons {
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  padding: 16px 0;
+
+  & button {
+    margin-left: 5px;
+  }
+}
+
+.panel {
+  margin-bottom: 2px;
+
+  &:before {
+    display: none;
+  }
+}
+
+.panelTitle {
+  flex: 1
+}
+
+.panelDetails {
+  margin-bottom: 10px;
+  overflow-y: auto;
+  max-height: 250px;
+  padding-top: 0
+}
+
+.root {
+  width: 300px;
+  min-height: 100vh;
+  margin-left: 10px;
+}
+
+.tabs {
+  margin-bottom: 15px;
+  height: 34px;
+  min-height: 34px;
+}
+
+.tab {
+  color: $(theme.primero.colors.darkGrey);
+  font-size: $(theme.typography.pxToRem(11));
+  text-align: center;
+  height: 34px;
+  min-height: 34px;
+}
+.tabselected {
+  font-weight: bold;
+  background-color: $(theme.primero.colors.lightGrey);
+}
+
+@media $(theme.breakpoints.up("md")) {
+  .tab {
+    min-width: 100px;
+  }
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .root {
+    margin-left: 0;
+    padding: 0.7em;
+  }
+}
