@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 
 import { reducers } from "./reducers";
 
-describe.only("<Login /> - Reducers", () => {
+describe("<Login /> - Reducers", () => {
   const defaultState = fromJS({});
 
   it("should handle LOGIN", () => {

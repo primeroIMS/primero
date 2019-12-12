@@ -4,7 +4,7 @@ export const systemSettingsLogin = async () => {
     "locales": ["en", "fr"],
     "agency_icons": [],
     "branding": "primero",
-    "use_identity_provider": false,
+    "use_identity_provider": true,
     "identity_providers": [
       {
         "name": "UNICEF",

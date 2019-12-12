@@ -23,11 +23,11 @@ const showIdps = (identityProviders, i18n) => {
       type="submit"
       size="large"
       fullWidth
-      key={idp.name}
+      key={idp.get("name")}
       onClick={() => signIn(idp)}
     >
       {i18n.t("login.provider_title", {
-        provider: idp.name
+        provider: idp.get("name")
       })}
     </Button>
   ));
@@ -40,13 +40,13 @@ const Container = ({ providerType }) => {
 
   if (providerType) {
     const provider = identityProviders.find(provider => {
-      return provider.type === providerType;
+      return provider.get("type") === providerType;
     });
 
     const msalConfig = {
       auth: {
-       clientId: provider.client_id,
-       authority: provider.authority,
+       clientId: provider.get("client_id"),
+       authority: provider.get("authority"),
        validateAuthority: false
       },
       cache: {
