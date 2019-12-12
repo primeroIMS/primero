@@ -6,7 +6,7 @@ class SystemSettings < ApplicationRecord
 
   store_accessor :system_options,
     :due_date_from_appointment_date, :notification_email_enabled,
-    :welcome_email_enabled, :show_alerts, :use_identity_provider
+    :welcome_email_enabled, :show_alerts
 
   localize_properties [:welcome_email_text]
 
