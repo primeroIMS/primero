@@ -9,12 +9,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case LOGIN:
       return state
-        .set("default_locale", fromJS(payload.default_locale))
-        .set("locales", fromJS(payload.locales))
-        .set("agency_icons", fromJS(payload.agency_icons))
-        .set("branding", fromJS(payload.branding))
-        .set("use_identity_provider", fromJS(payload.use_identity_provider))
-        .set("identity_providers", fromJS(payload.identity_providers));
+        .set("use_identity_provider", fromJS(payload.metadata.use_identity_provider))
+        .set("identity_providers", fromJS(payload.data));
     default:
       return state;
   }

@@ -15,16 +15,16 @@ const updateUI = () => {
 
 export const signIn = (idp) => {
   const loginRequest = {
-    scopes: idp.get("scope").toArray(),
-    extraQueryParameters: {domain_hint: idp.get("domain_hint")}
+    scopes: idp.get("identity_scope").toArray(),
+    extraQueryParameters: {domain_hint: idp.get("unique_id")}
   };
 
   const msalConfig = {
     auth: {
      clientId: idp.get("client_id"),
-     authority: idp.get("authority"),
+     authority: idp.get("authorization_url"),
      validateAuthority: false,
-     redirectUri: idp.get("redirect_uri")
+     redirectUri: `http://localhost:3000/v2/login/${idp.get("provider_type")}`
     },
     cache: {
      cacheLocation: "localStorage",
@@ -33,7 +33,7 @@ export const signIn = (idp) => {
   };
 
   const tokenRequest = {
-    scopes: idp.get("scope").toArray()
+    scopes: idp.get("identity_scope").toArray()
   };
 
   msalApp = new UserAgentApplication(msalConfig);

@@ -40,13 +40,13 @@ const Container = ({ providerType }) => {
 
   if (providerType) {
     const provider = identityProviders.find(provider => {
-      return provider.get("type") === providerType;
+      return provider.get("provider_type") === providerType;
     });
 
     const msalConfig = {
       auth: {
        clientId: provider.get("client_id"),
-       authority: provider.get("authority"),
+       authority: provider.get("authorization_url"),
        validateAuthority: false
       },
       cache: {
