@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_11_000000) do
+ActiveRecord::Schema.define(version: 2019_12_10_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -400,7 +400,6 @@ ActiveRecord::Schema.define(version: 2019_12_11_000000) do
     t.string "duplicate_export_field"
     t.string "primero_version"
     t.jsonb "system_options"
-    t.boolean "use_identity_provider", default: false
   end
 
   create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
