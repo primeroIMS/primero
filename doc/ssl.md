@@ -8,19 +8,19 @@ Primero requires SSL to run. The following options for enabling SSL are availabl
  - **Let's Encrypt:** This is a free, automated [certificate authority](https://letsencrypt.org) that is based on DNS validation. Primero Chef deployment includes support for automatically enabling and periodically renewing Let's Encrypt certificates. See the file `cookbook/README.md` for how to do this.
 
 
-###Application SSL
+### Application SSL
 To get the application SSL cert, you must go through a recognized Certificate
 Authority (CA) or a CA which is trusted by the browsers of the primary users
 of this Primero deployment.  It is currently not possible to run Primero
 except through HTTPS, nor is it advisable to run any part of Primero except
 under HTTPS.
 
-###CouchDB SSL
+### CouchDB SSL
 The CouchDB SSL cert uses a private CA whose root certificate is distributed
 automatically to all of the servers to verify communication. To generate a
 new key and cert, follow the next steps.
 
-####Initial Setup
+#### Initial Setup
 (All from [this site](https://jamielinux.com/articles/2013/08/act-as-your-own-certificate-authority/).)
 
 To setup a new root Certificate Authority to sign CouchDB certs, you need to configure your machine as your own certificate authority (CA).
@@ -91,7 +91,7 @@ See example below.
 See the openssl docs for more info on how to configure things.
 [https://www.openssl.org/docs/](https://www.openssl.org/docs/)
 
-######Example config.cnf
+###### Example config.cnf
 
 ```sh
 [req]
@@ -134,7 +134,7 @@ localityName_default        = Boston
 emailAddress_default        = unknown@quoininc.com
 ```
 
-####Creating and Signing New Certs
+#### Creating and Signing New Certs
 Firstly, copy the openssl configuration file
 
 ```sh
