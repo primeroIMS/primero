@@ -4,7 +4,7 @@ describe Api::V2::IdentityProvidersController, type: :request do
   before :each do
     IdentityProvider.destroy_all
     SystemSettings.destroy_all
-    SystemSettings.create(default_locale: "en")
+    SystemSettings.create(default_locale: "en", use_identity_provider: true)
     @identity_providers_primero = IdentityProvider.create!(
       id: 1,
       name: "primero",
@@ -48,6 +48,15 @@ describe Api::V2::IdentityProvidersController, type: :request do
       expect(json['data'].map{|c| c['verification_url']}).to include(@identity_providers_primero.verification_url, @identity_providers_unicef.verification_url)
       expect(json['data'].map{|c| c['name']}[0]).to include(@identity_providers_primero['name'])
       expect(json['data'].map{|c| c['name']}[1]).to include(@identity_providers_unicef['name'])
+    end
+
+    it 'identity providers with zero record' do
+      IdentityProvider.destroy_all
+      get '/api/v2/identity_providers'
+
+      expect(response).to have_http_status(200)
+      expect(json['data']).to eq([])
+      expect(json['metadata']['use_identity_provider']).to be true
     end
   end
 
