@@ -53,5 +53,6 @@ describe Api::V2::IdentityProvidersController, type: :request do
 
   after :each do
     IdentityProvider.destroy_all
+    SystemSettings.destroy_all
   end
 end
