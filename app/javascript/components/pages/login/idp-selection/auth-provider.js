@@ -11,6 +11,10 @@ const getToken = (tokenRequest) => {
 
 const updateUI = () => {
   const userName = msalApp.getAccount().name;
+  const login = document.getElementsByClassName("loginSelection")[0];
+  const logout = document.getElementsByClassName("logoutSelection")[0];
+  login.style.display = "none";
+  logout.style.display = "block";
 };
 
 export const signIn = (idp) => {
@@ -18,17 +22,18 @@ export const signIn = (idp) => {
     scopes: idp.get("identity_scope").toArray(),
     extraQueryParameters: {domain_hint: idp.get("unique_id")}
   };
+  console.log('window.location.origin:::', window.location.origin);
 
   const msalConfig = {
     auth: {
-     clientId: idp.get("client_id"),
-     authority: idp.get("authorization_url"),
-     validateAuthority: false,
-     redirectUri: `http://localhost:3000/v2/login/${idp.get("provider_type")}`
+      clientId: idp.get("client_id"),
+      authority: idp.get("authorization_url"),
+      validateAuthority: false,
+      redirectUri: `http://localhost:3000/v2/login/${idp.get("provider_type")}`
     },
     cache: {
-     cacheLocation: "localStorage",
-     storeAuthStateInCookie: true
+      cacheLocation: "localStorage",
+      storeAuthStateInCookie: true
     }
   };
 

@@ -1,4 +1,5 @@
-.loginSelection {
+.loginSelection,
+.logoutSelection {
   padding: 1em 0;
 
   & button {
@@ -24,8 +25,13 @@
   }
 }
 
+.logoutSelection {
+  display: none;
+}
+
 @media $(theme.breakpoints.down('xs')) {
-  .loginSelection {
+  .loginSelection,
+  .logoutSelection {
     & button {
       width: 100%;
     }

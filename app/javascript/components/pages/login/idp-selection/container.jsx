@@ -59,21 +59,25 @@ const Container = ({ providerType }) => {
   }
 
   return (
-    <div className={`${css.loginSelection} loginSelection`}>
+    <>
       <PageHeading title={i18n.t("login.title")} whiteHeading />
-      {showIdps(identityProviders, i18n)}
-      <Button
-        className={`${css.logout} provider-logout`}
-        color="primary"
-        type="submit"
-        size="large"
-        fullWidth
-        onClick={() => signOut()}
-        variant="outlined"
-      >
-        {i18n.t("navigation.logout")}
-      </Button>
-    </div>
+      <div className={`${css.loginSelection} loginSelection`}>
+        {showIdps(identityProviders, i18n)}
+      </div>
+      <div className={`${css.logoutSelection} logoutSelection`}>
+        <Button
+          className={`${css.logout} provider-logout`}
+          color="primary"
+          type="submit"
+          size="large"
+          fullWidth
+          onClick={() => signOut()}
+          variant="outlined"
+        >
+          {i18n.t("navigation.logout")}
+        </Button>
+      </div>
+    </>
   );
 };
 
