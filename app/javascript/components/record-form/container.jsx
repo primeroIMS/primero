@@ -127,7 +127,7 @@ const Container = ({ match, mode }) => {
     primeroModule: selectedModule.primeroModule,
     record
   };
-  console.log('record:::', record);
+
   const navProps = {
     formNav,
     selectedForm,
