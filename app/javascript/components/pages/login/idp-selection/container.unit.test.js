@@ -18,21 +18,19 @@ describe("<LoginSelection />", () => {
           "identity_providers": [
             {
               "name": "unicef",
-              "type": "b2c",
-              "domain_hint": "unicef",
-              "authority": "authority",
+              "provider_type": "b2c",
+              "unique_id": "unicef",
+              "authorization_url": "authority",
               "client_id": "clientid",
-              "scope": ["scope"],
-              "redirect_uri": "redirect"
+              "identity_scope": ["scope"]
             },
             {
               "name": "primero",
-              "type": "b2c",
-              "domain_hint": "primero",
-              "authority": "authority",
+              "provider_type": "b2c",
+              "unique_id": "primero",
+              "authorization_url": "authority",
               "client_id": "clientid",
-              "scope": ["scope"],
-              "redirect_uri": "redirect"
+              "identity_scope": ["scope"]
             }
           ]
         }
