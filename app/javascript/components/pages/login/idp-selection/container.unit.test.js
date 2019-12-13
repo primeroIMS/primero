@@ -43,8 +43,4 @@ describe("<LoginSelection />", () => {
   it("renders login buttons for providers", () => {
     expect(component.find(".loginSelection button.provider-login")).to.have.lengthOf(2);
   });
-
-  it("renders logout button for providers", () => {
-    expect(component.find(".loginSelection button.provider-logout")).to.have.lengthOf(1);
-  });
 });

@@ -8,29 +8,23 @@ describe("<Login /> - Reducers", () => {
 
   it("should handle LOGIN", () => {
     const expected = fromJS({
-      default_locale: "en",
-      locales: ["en", "fr"],
-      agency_icons: [],
-      branding: "primero",
-      use_identity_provider: true,
       identity_providers: [
         {name: "unicef"},
         {name: "primero"}
-      ]
+      ],
+      use_identity_provider: true
     });
 
     const action = {
       type: "idp/LOGIN",
       payload: {
-        default_locale: "en",
-        locales: ["en", "fr"],
-        agency_icons: [],
-        branding: "primero",
-        use_identity_provider: true,
-        identity_providers: [
+        data: [
           {name: "unicef"},
           {name: "primero"}
-        ]
+        ],
+        metadata: {
+          use_identity_provider: true
+        }
       }
     };
     const newState = reducers.idp(defaultState, action);
