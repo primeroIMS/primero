@@ -4,7 +4,7 @@ module Flaggable
 
   included do
 
-    searchable auto_index: self.auto_index? do
+    searchable do
       boolean :flagged do
         self.flagged?
       end

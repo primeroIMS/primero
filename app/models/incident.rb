@@ -36,7 +36,7 @@ class Incident < ApplicationRecord
     ]
   end
 
-  searchable auto_index: self.auto_index? do
+  searchable do
     date :incident_date_derived do
       self.incident_date_derived
     end
