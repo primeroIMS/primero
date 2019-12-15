@@ -27,5 +27,3 @@ Backburner.configure do |config|
   # config.priority_labels     = { :custom => 50, :useless => 1000 }
   config.reserve_timeout     = nil
 end
-
-Rails.application.config.active_job.queue_adapter = :backburner
