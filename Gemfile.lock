@@ -72,6 +72,9 @@ GEM
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
     builder (3.2.3)
+    bundler-audit (0.6.1)
+      bundler (>= 1.2.0, < 3)
+      thor (~> 0.18)
     byebug (11.0.1)
     camertron-eprun (1.1.1)
     cancancan (3.0.1)
@@ -360,6 +363,7 @@ DEPENDENCIES
   arabic-letter-connector!
   backburner (~> 1.5)
   binding_of_caller (~> 0.8)
+  bundler-audit
   cancancan (= 3.0.1)
   ci_reporter (~> 2.0)
   deep_merge (~> 1.2)

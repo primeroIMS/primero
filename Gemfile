@@ -80,4 +80,5 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'sunspot_test', require: false
   gem 'listen'
+  gem 'bundler-audit'
 end
