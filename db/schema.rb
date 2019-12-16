@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_25_000000) do
+ActiveRecord::Schema.define(version: 2019_12_10_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -257,6 +257,14 @@ ActiveRecord::Schema.define(version: 2019_11_25_000000) do
     t.integer "role_id"
     t.integer "form_section_id"
     t.index ["role_id", "form_section_id"], name: "index_form_sections_roles_on_role_id_and_form_section_id", unique: true
+  end
+
+  create_table "identity_providers", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "unique_id"
+    t.string "provider_type"
+    t.jsonb "configuration"
+    t.index ["unique_id"], name: "index_identity_providers_on_unique_id", unique: true
   end
 
   create_table "incidents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

@@ -52,6 +52,7 @@ Rails.application.routes.draw do
           get :'refer-to', to: 'users_transitions#refer_to'
         end
       end
+      resources :identity_providers, only: [:index]
       resources :dashboards, only: [:index]
       resources :contact_information, only: [:index]
       resources :system_settings, only: [:index]
