@@ -16,7 +16,7 @@ class BulkExport < ApplicationRecord
 
   validates :export_file, file_size: { less_than_or_equal_to: 50.megabytes  }, if: -> { export_file.attached? }
 
-  searchable auto_index: self.auto_index? do
+  searchable do
     time :started_on
     time :completed_on
     string :status, as: 'status_sci'
