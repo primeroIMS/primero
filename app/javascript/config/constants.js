@@ -11,7 +11,8 @@ export const DB = {
   FORMS: "forms",
   OPTIONS: "options",
   RECORDS: "records",
-  SYSTEM_SETTINGS: "system_settings"
+  SYSTEM_SETTINGS: "system_settings",
+  IDENTITY_PROVIDERS: "identity_providers"
 };
 
 // Time (ms) when the idle dialog will activate when a user is inactive

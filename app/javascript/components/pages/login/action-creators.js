@@ -1,11 +1,14 @@
-import { systemSettingsLogin } from "../../../config/endpoint-mocks";
+// import { systemSettingsLogin } from "../../../config/endpoint-mocks";\
+import { DB } from "../../../config";
+
 import { LOGIN } from "./actions";
 
 export const loginSystemSettings = () => async dispatch => {
-  const payload = await systemSettingsLogin();
-
-  dispatch({
+  return dispatch({
     type: LOGIN,
-    payload
+    api: {
+      path: "identity_providers",
+      method: "GET"
+    }
   });
 };

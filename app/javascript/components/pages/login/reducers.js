@@ -1,13 +1,13 @@
 import { fromJS } from "immutable";
 
-import { LOGIN } from "./actions";
+import { LOGIN, LOGIN_SUCCESS } from "./actions";
 import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = fromJS({});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case LOGIN:
+    case LOGIN_SUCCESS:
       return state
         .set("use_identity_provider", fromJS(payload.metadata.use_identity_provider))
         .set("identity_providers", fromJS(payload.data));

@@ -7,7 +7,8 @@ describe("<Login /> - Actions", () => {
     const cloneActions = { ...actions };
 
     [
-      "LOGIN"
+      "LOGIN",
+      "LOGIN_SUCCESS"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("string");

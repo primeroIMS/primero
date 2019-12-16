@@ -6,7 +6,7 @@ import { reducers } from "./reducers";
 describe("<Login /> - Reducers", () => {
   const defaultState = fromJS({});
 
-  it("should handle LOGIN", () => {
+  it("should handle LOGIN_SUCCESS", () => {
     const expected = fromJS({
       identity_providers: [
         {name: "unicef"},
@@ -16,7 +16,7 @@ describe("<Login /> - Reducers", () => {
     });
 
     const action = {
-      type: "idp/LOGIN",
+      type: "idp/LOGIN_SUCCESS",
       payload: {
         data: [
           {name: "unicef"},
