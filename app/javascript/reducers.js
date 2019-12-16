@@ -2,8 +2,6 @@ import reduceReducers from "reduce-reducers";
 import { combineReducers } from "redux-immutable";
 
 import * as Application from "./components/application";
-import * as Filter from "./components/filters";
-import * as FiltersBuilder from "./components/filters-builder";
 import * as Flagging from "./components/flagging";
 import * as I18n from "./components/i18n";
 import * as Nav from "./components/nav";

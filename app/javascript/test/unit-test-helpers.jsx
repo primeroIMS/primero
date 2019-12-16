@@ -10,16 +10,15 @@ import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { expect } from "chai";
 import { spy } from "sinon";
-
 import DateFnsUtils from "@date-io/date-fns";
 import { createMount } from "@material-ui/core/test-utils";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
+import useForm, { FormContext } from "react-hook-form";
 
 import { ApplicationProvider } from "../components/application/provider";
 import { I18nProvider } from "../components/i18n";
 import { theme } from "../config";
-import useForm, { FormContext } from "react-hook-form";
 
 export const setupMountedComponent = (
   TestComponent,

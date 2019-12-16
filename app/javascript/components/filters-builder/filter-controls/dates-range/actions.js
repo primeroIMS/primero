@@ -1,2 +1,0 @@
-export const SET_UP_DATES_RANGE = "SET_UP_DATES_RANGE";
-export const RESET_DATES_RANGE = "RESET_DATES_RANGE";
