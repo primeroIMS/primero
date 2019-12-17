@@ -88,7 +88,7 @@ class Child < ApplicationRecord
     ]
   end
 
-  searchable auto_index: self.auto_index? do
+  searchable do
     extend Matchable::Searchable
     configure_searchable(Child)
 
@@ -176,12 +176,6 @@ class Child < ApplicationRecord
         with(:day_of_birth, start_yday..end_yday)
       end.results
     end
-  end
-
-  alias super_index_for_search index_for_search
-  def index_for_search
-    super_index_for_search
-    self.index_nested_reportables
   end
 
   def validate_date_of_birth

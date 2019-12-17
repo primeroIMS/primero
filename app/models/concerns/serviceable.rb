@@ -12,7 +12,7 @@ module Serviceable
 
     store_accessor :data, :consent_for_services, :services_section #TODO: Do we need a services alias for this?
 
-    searchable auto_index: self.auto_index? do
+    searchable do
       boolean :consent_for_services
       time :service_due_dates, multiple: true
     end

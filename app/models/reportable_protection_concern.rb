@@ -19,7 +19,7 @@ class ReportableProtectionConcern
 
   include ReportableNestedRecord
 
-  searchable auto_index: self.auto_index? do
+  searchable do
     extend ReportableNestedRecord::Searchable
     configure_searchable(ReportableProtectionConcern)
   end
