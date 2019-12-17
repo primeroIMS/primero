@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { expect } from "../../../../test";
 import { AGE_MAX } from "../../../../config";
 
-import { ageParser, optionText } from "./utils";
+import { ageParser, optionText, whichOptions } from "./utils";
 
 const i18n = { locale: "en" };
 
@@ -45,6 +45,18 @@ describe("<IndexFitlers>/components/filter-types/utils", () => {
   });
 
   describe('whichOptions()', () => {
-    it('returns correct ')
+    it('returns i18n options', () => {})
+
+    it('returns array of options', () => {
+      const expected = [{ id: 'option-1', display_name: 'Option 1'}]
+      const output = whichOptions({options: expected})
+      expect(output).to.deep.equal(expected)
+    })
+
+    it('returns lookups', () => {
+      const expected = [{ id: 'option-1', display_name: 'Option 1'}]
+      const output = whichOptions({optionStringsSource: 'looksup', lookups: expected})
+      expect(output).to.deep.equal(expected)
+    })
   });
 });
