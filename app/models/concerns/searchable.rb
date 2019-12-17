@@ -7,7 +7,7 @@ module Searchable
     include Indexable
 
     # Note that the class will need to be reloaded when the fields change. The current approach is to gently bounce Puma.
-    searchable auto_index: self.auto_index? do
+    searchable do
       string :record_id do |f|
         f.id
       end
@@ -69,8 +69,6 @@ module Searchable
         end
       end
     end
-
-    after_save :queue_for_index
   end
 
   module ClassMethods

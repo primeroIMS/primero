@@ -11,7 +11,7 @@ class Flag < ApplicationRecord
   after_create :flag_history
   after_update :unflag_history
 
-  searchable auto_index: self.auto_index? do
+  searchable do
     date :flag_date, :stored => true do
       self.date.present? ? self.date : nil
     end

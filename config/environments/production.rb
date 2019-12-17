@@ -8,7 +8,8 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
 
   # Specifies the header that your server uses for sending files
-  config.action_dispatch.x_sendfile_header = "X-Sendfile"
+  config.action_dispatch.x_sendfile_header = 'X-Sendfile'
+  config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
 
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
@@ -18,15 +19,13 @@ Rails.application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
-
   config.eager_load = true
 
-  config.filter_parameters += [:child, :incident, :tracing_request]
+  config.filter_parameters += %i[child incident tracing_request]
 
   config.log_level = :debug
 
-  if ENV["LOG_TO_STDOUT"].present?
+  if ENV['LOG_TO_STDOUT'].present?
     config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
   end
 
@@ -36,4 +35,6 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
+
+  config.active_job.queue_adapter = :backburner
 end

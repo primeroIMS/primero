@@ -9,7 +9,7 @@ module IncidentMonitoringRecording
     #after_destroy :unindex_violations #TODO: Refactor with Violations
     #before_save :ensure_violation_categories_exist #TODO: Refactor with Violations
 
-    searchable auto_index: self.auto_index? do
+    searchable do
       #TODO: Refactor with Violations
       # string :violations, multiple: true do
       #   self.violation_type_list

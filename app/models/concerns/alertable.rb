@@ -9,7 +9,7 @@ module Alertable
   TRANSFER_REQUEST = 'transfer_request'
 
   included do
-    searchable auto_index: self.auto_index? do
+    searchable do
       string :current_alert_types, multiple: true
     end
 
