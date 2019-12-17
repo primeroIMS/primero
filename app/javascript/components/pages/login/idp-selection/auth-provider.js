@@ -1,4 +1,5 @@
 import { UserAgentApplication } from "msal";
+import { DOMAIN } from "./config";
 
 let msalApp;
 
@@ -24,12 +25,15 @@ export const signIn = (idp) => {
     extraQueryParameters: {domain_hint: idp.get("unique_id")}
   };
 
+  const redirectUri = `http://${DOMAIN}/login/${idp.get("provider_type")}`;
+  console.log("redirectUri:::", redirectUri);
+
   const msalConfig = {
     auth: {
       clientId: idp.get("client_id"),
       authority: idp.get("authorization_url"),
       validateAuthority: false,
-      redirectUri: `http://localhost:3000/v2/login/${idp.get("provider_type")}`
+      redirectUri: redirectUri
     },
     cache: {
       cacheLocation: "localStorage",
