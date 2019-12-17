@@ -52,7 +52,6 @@ const rootReducer = {
   ui: combineReducers({
     ...Nav.reducers,
     ...I18n.reducers,
-    ...Filter.reducers,
     ...Login.reducers
   }),
   ...User.reducers,
