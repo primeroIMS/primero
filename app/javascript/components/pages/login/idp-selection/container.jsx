@@ -33,30 +33,10 @@ const showIdps = (identityProviders, i18n) => {
   ));
 }
 
-const Container = ({ providerType }) => {
+const Container = () => {
   const identityProviders = useSelector(state => selectIdentityProviders(state));
   const i18n = useI18n();
   const css = makeStyles(styles)();
-
-  if (providerType) {
-    const provider = identityProviders.find(provider => {
-      return provider.get("provider_type") === providerType;
-    });
-
-    const msalConfig = {
-      auth: {
-       clientId: provider.get("client_id"),
-       authority: provider.get("authorization_url"),
-       validateAuthority: false
-      },
-      cache: {
-       cacheLocation: "localStorage",
-       storeAuthStateInCookie: true
-      }
-    };
-
-    msalApp = new UserAgentApplication(msalConfig);
-  }
 
   return (
     <>
@@ -82,9 +62,5 @@ const Container = ({ providerType }) => {
 };
 
 Container.displayName = NAME;
-
-Container.propTypes = {
-  provider: PropTypes.string
-};
 
 export default Container;

@@ -18,11 +18,11 @@ const updateUI = () => {
 };
 
 export const signIn = (idp) => {
+  localStorage.setItem("provider_id", idp.get("unique_id"));
   const loginRequest = {
     scopes: idp.get("identity_scope").toArray(),
     extraQueryParameters: {domain_hint: idp.get("unique_id")}
   };
-  console.log('window.location.origin:::', window.location.origin);
 
   const msalConfig = {
     auth: {
