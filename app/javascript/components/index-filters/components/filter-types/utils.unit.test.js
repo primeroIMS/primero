@@ -1,5 +1,3 @@
-import { fromJS } from "immutable";
-
 import { expect } from "../../../../test";
 import { AGE_MAX } from "../../../../config";
 
@@ -44,19 +42,24 @@ describe("<IndexFitlers>/components/filter-types/utils", () => {
     });
   });
 
-  describe('whichOptions()', () => {
-    it('returns i18n options', () => {})
+  describe("whichOptions()", () => {
+    it("returns i18n options", () => {});
 
-    it('returns array of options', () => {
-      const expected = [{ id: 'option-1', display_name: 'Option 1'}]
-      const output = whichOptions({options: expected})
-      expect(output).to.deep.equal(expected)
-    })
+    it("returns array of options", () => {
+      const expected = [{ id: "option-1", display_name: "Option 1" }];
+      const output = whichOptions({ options: expected });
 
-    it('returns lookups', () => {
-      const expected = [{ id: 'option-1', display_name: 'Option 1'}]
-      const output = whichOptions({optionStringsSource: 'looksup', lookups: expected})
-      expect(output).to.deep.equal(expected)
-    })
+      expect(output).to.deep.equal(expected);
+    });
+
+    it("returns lookups", () => {
+      const expected = [{ id: "option-1", display_name: "Option 1" }];
+      const output = whichOptions({
+        optionStringsSource: "looksup",
+        lookups: expected
+      });
+
+      expect(output).to.deep.equal(expected);
+    });
   });
 });

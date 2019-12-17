@@ -1,7 +1,6 @@
 import { setupMockFormComponent, expect } from "../../../../test";
 
 import ToggleFilter from "./toggle-filter";
-import CheckboxFilter from "components/index-filters/components/filter-types/checkbox-filter";
 
 describe("<ToggleFilter>", () => {
   const props = {
@@ -22,10 +21,10 @@ describe("<ToggleFilter>", () => {
   });
 
   it("renders toggle buttons", () => {
-    const { component } = setupMockFormComponent(CheckboxFilter, props);
+    const { component } = setupMockFormComponent(ToggleFilter, props);
 
     ["option-1", "option-2"].forEach(
-        option => expect(component.exists(`input[value='${option}']`)).to.be.true
+      option => expect(component.exists(`input[value='${option}']`)).to.be.true
     );
   });
 });
