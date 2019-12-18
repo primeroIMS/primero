@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 
 import { expect } from "../../../test";
 
-import { toData1D } from "./helpers";
+import { toData1D, toListTable } from "./helpers";
 
 describe("<Dashboard /> - Helpers", () => {
   describe("toData1D", () => {
@@ -48,6 +48,73 @@ describe("<Dashboard /> - Helpers", () => {
       ];
 
       expect(toData1D(casesWorkflow, workflowLabels)).to.deep.equal(expected);
+    });
+  });
+
+  describe("toListTable", () => {
+    it("should convert data to plain JS", () => {
+      const data = fromJS({
+        name: "dashboard.workflow_team",
+        type: "indicator",
+        stats: {
+          "": {
+            "": {
+              count: 0,
+              query: ["status=open", "owned_by=", "workflow="]
+            },
+            case_plan: {
+              count: 0,
+              query: ["status=open", "owned_by=", "workflow="]
+            },
+            new: {
+              count: 0,
+              query: ["status=open", "owned_by=", "workflow="]
+            }
+          },
+          primero: {
+            "": {
+              count: 0,
+              query: ["status=open", "owned_by=primero", "workflow="]
+            },
+            case_plan: {
+              count: 1,
+              query: ["status=open", "owned_by=primero", "workflow=case_plan"]
+            },
+            new: {
+              count: 3,
+              query: ["status=open", "owned_by=primero", "workflow=count"]
+            }
+          }
+        }
+      });
+
+      const labels = [
+        { id: "new", display_text: "New" },
+        { id: "reopened", display_text: "Reopened" },
+        { id: "case_plan", display_text: "Case Plan" }
+      ];
+
+      const expected = {
+        columns: [
+          { name: "", label: "" },
+          { name: "case_plan", label: "Case Plan" },
+          { name: "new", label: "New" }
+        ],
+        data: [{ "": "primero", case_plan: 1, new: 3 }],
+        query: [
+          {
+            "": "primero",
+            case_plan: [
+              "status=open",
+              "owned_by=primero",
+              "workflow=case_plan"
+            ],
+            new: ["status=open", "owned_by=primero", "workflow=count"]
+          }
+        ]
+      };
+
+      expect(toListTable(data, labels)).to.deep.equal(expected);
     });
   });
 });

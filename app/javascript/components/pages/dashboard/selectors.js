@@ -77,3 +77,6 @@ export const getApprovalsCasePlan = state =>
 
 export const getApprovalsClosure = state =>
   getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CLOSURE);
+
+export const getWorkflowTeamCases = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.WORKFLOW_TEAM);
