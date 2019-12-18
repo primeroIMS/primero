@@ -17,9 +17,7 @@ import omitBy from "lodash/omitBy";
 import qs from "qs";
 import { push } from "connected-react-router";
 
-import { applyFilters } from "../filters-builder/action-creators";
 import { enqueueSnackbar } from "../notifier";
-import { getFiltersByRecordType } from "../filters-builder/selectors";
 import { selectModules } from "../pages/login/login-form/selectors";
 import { useI18n } from "../i18n";
 import { ROUTES } from "../../config";

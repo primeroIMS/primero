@@ -20,19 +20,20 @@ const CheckboxFilter = ({ filter }) => {
   const i18n = useI18n();
   const { register, unregister, setValue, user, getValues } = useFormContext();
   const valueRef = useRef();
-  const [inputValue, setInputValue] = useState([]);
   const { options, fieldName, optionStringsSource, isObject } = getFilterProps({
     filter,
     user,
     i18n
   });
+  const defaultValue = isObject ? {} : [];
+  const [inputValue, setInputValue] = useState(defaultValue);
 
   useEffect(() => {
     registerInput({
       register,
       name: fieldName,
       ref: valueRef,
-      defaultValue: isObject ? {} : [],
+      defaultValue,
       setInputValue
     });
 
@@ -63,9 +64,7 @@ const CheckboxFilter = ({ filter }) => {
     });
 
   const handleReset = () => {
-    const value = isObject ? {} : [];
-
-    setValue(fieldName, value);
+    setValue(fieldName, defaultValue);
   };
 
   const renderOptions = () =>

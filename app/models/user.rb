@@ -409,22 +409,38 @@ class User < ApplicationRecord
     permitted_fields(record_type, visible_forms_only).distinct.pluck(:name)
   end
 
-  def permitted_field_names(model_class)
-    unless @permitted_field_names.present?
-      @permitted_field_names = %w[id record_in_scope] + permitted_field_names_from_forms(model_class.parent_form)
-      @permitted_field_names << 'record_state' if can?(:enable_disable_record, model_class)
-      @permitted_field_names << 'hidden_name' if can?(:update, model_class)
-      @permitted_field_names << 'flag_count' if can?(:flag, model_class)
-      @permitted_field_names << 'flagged' if can?(:flag, model_class)
-      @permitted_field_names << 'or'
-      @permitted_field_names << 'cases_by_date'
-      @permitted_field_names << 'alert_count'
-      if model_class == Child
-        @permitted_field_names += %w[workflow status case_status_reopened]
-      end
+  def permitted_field_names(model_class, action_name = nil)
+    return @permitted_field_names if @permitted_field_names.present?
+
+    if action_name == 'unscoped_update'
+      return permitted_subform_update_fields(model_class)
     end
+
+    @permitted_field_names = []
+    @permitted_field_names += %w[id record_in_scope]
+    @permitted_field_names += permitted_field_names_from_forms(model_class.parent_form)
+    @permitted_field_names << 'or'
+    @permitted_field_names << 'cases_by_date'
+    @permitted_field_names << 'alert_count'
+    if model_class == Child
+      @permitted_field_names += %w[workflow status case_status_reopened]
+    end
+    @permitted_field_names << 'record_state' if can?(:enable_disable_record, model_class)
+    @permitted_field_names << 'hidden_name' if can?(:update, model_class)
+    @permitted_field_names << 'flag_count' if can?(:flag, model_class)
+    @permitted_field_names << 'flagged' if can?(:flag, model_class)
     @permitted_field_names
   end
+
+  def permitted_subform_update_fields(model_class)
+    permitted_field_names = []
+    if model_class == Child
+      permitted_field_names << 'incident_details' if self.can?(:incident_details_from_case, model_class)
+      permitted_field_names << 'services_section' if self.can?(:services_section_from_case, model_class)
+      permitted_field_names << 'notes_section' if self.can?(:add_note, model_class)
+   end
+   permitted_field_names
+ end
 
   def ability
     @ability ||= Ability.new(self)
@@ -451,6 +467,12 @@ class User < ApplicationRecord
 
   def can_approve_closure?
     self.can?(:approve_closure, Child) || self.can?(:request_approval_closure, Child)
+  end
+
+  def can_update_subform_fields?(model_class)
+    self.can?(:incident_details_from_case, model_class) ||
+    self.can?(:services_section_from_case, model_class) ||
+    self.can?(:add_note, model_class)
   end
 
   # If we set something we gonna assume we need to update the user_groups

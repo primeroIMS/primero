@@ -30,7 +30,8 @@ describe Api::V2::IncidentsController, type: :request do
       get '/api/v2/incidents?fields=short'
 
       expect(response).to have_http_status(200)
-      expect(json['data'][0]['flag_count']).to eq(1)
+      incident_data = json['data'].find { |i| i['id'] == @incident1.id }
+      expect(incident_data['flag_count']).to eq(1)
 
     end
   end

@@ -22,11 +22,7 @@ import { useThemeHelper } from "../../libs";
 
 import { NAME } from "./config";
 import FilterContainer from "./filter-container";
-import {
-  buildTableColumns,
-  getFiltersSetterByType,
-  getRecordsFetcherByType
-} from "./helpers";
+import { buildTableColumns, getRecordsFetcherByType } from "./helpers";
 import RecordListToolbar from "./record-list-toolbar";
 import { getListHeaders } from "./selectors";
 import styles from "./styles.css";
@@ -69,8 +65,6 @@ const Container = ({ match, location }) => {
     getPermissionsByRecord(state, recordType)
   );
 
-  const setFilters = getFiltersSetterByType(recordType);
-
   const fetchRecords = getRecordsFetcherByType(recordType);
 
   const defaultFilters = fromJS({
@@ -80,14 +74,6 @@ const Container = ({ match, location }) => {
     status: ["open"],
     record_state: ["true"]
   });
-
-  // useEffect(() => {
-  //   dispatch(setFilters({ options: defaultFilters.toJS() }));
-
-  //   return () => {
-  //     dispatch(setFilters({ options: { id_search: "", query: "" } }));
-  //   };
-  // }, [url]);
 
   const canSearchOthers =
     permissions.includes(ACTIONS.MANAGE) ||

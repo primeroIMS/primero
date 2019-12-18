@@ -2,29 +2,22 @@ import React, { useCallback, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import useForm, { FormContext } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
-import isEmpty from "lodash/isEmpty";
-import omitBy from "lodash/omitBy";
 import qs from "qs";
+import isEmpty from "lodash/isEmpty";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
 import { Tabs, Tab } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+import { fromJS } from "immutable";
 
 import { SavedSearches, fetchSavedSearches } from "../saved-searches";
 import SavedSearchesForm from "../saved-searches/SavedSearchesForm";
 import { currentUser } from "../user";
 import { useI18n } from "../i18n";
 
-import { FILTER_TYPES, HIDDEN_FIELDS } from "./constants";
-import {
-  CheckboxFilter,
-  ChipsFilter,
-  SwitchFilter,
-  DateFilter,
-  ToggleFilter,
-  SelectFilter,
-  Search
-} from "./components/filter-types";
+import { filterType, compactFilters } from "./utils";
+import { HIDDEN_FIELDS } from "./constants";
+import { Search } from "./components/filter-types";
 import { getFiltersByRecordType } from "./selectors";
 import { applyFilters, setFilters } from "./action-creators";
 import Actions from "./components/actions";
@@ -50,25 +43,6 @@ const Component = ({ recordType, defaultFilters }) => {
 
   const userName = useSelector(state => currentUser(state));
 
-  const filterType = type => {
-    switch (type) {
-      case FILTER_TYPES.CHECKBOX:
-        return CheckboxFilter;
-      case FILTER_TYPES.TOGGLE:
-        return SwitchFilter;
-      case FILTER_TYPES.MULTI_TOGGLE:
-        return ToggleFilter;
-      case FILTER_TYPES.DATES:
-        return DateFilter;
-      case FILTER_TYPES.CHIPS:
-        return ChipsFilter;
-      case FILTER_TYPES.MULTI_SELECT:
-        return SelectFilter;
-      default:
-        return null;
-    }
-  };
-
   const renderFilters = () => {
     return filters.map(filter => {
       const Filter = filterType(filter.type);
@@ -85,7 +59,7 @@ const Component = ({ recordType, defaultFilters }) => {
     methods.setValue("fields", "short");
 
     dispatch(
-      applyFilters({ recordType, data: omitBy(methods.getValues(), isEmpty) })
+      applyFilters({ recordType, data: compactFilters(methods.getValues()) })
     );
 
     return () => {
@@ -102,7 +76,7 @@ const Component = ({ recordType, defaultFilters }) => {
   useEffect(() => {
     if (rerender) {
       dispatch(
-        applyFilters({ recordType, data: omitBy(methods.getValues(), isEmpty) })
+        applyFilters({ recordType, data: compactFilters(methods.getValues()) })
       );
 
       setRerender(false);
@@ -115,7 +89,7 @@ const Component = ({ recordType, defaultFilters }) => {
   ];
 
   const handleSubmit = useCallback(data => {
-    const payload = omitBy(data, isEmpty);
+    const payload = compactFilters(data);
 
     dispatch(applyFilters({ recordType, data: payload }));
   }, []);
@@ -181,6 +155,10 @@ const Component = ({ recordType, defaultFilters }) => {
       />
     </div>
   );
+};
+
+Component.defaultProps = {
+  defaultFilters: fromJS({})
 };
 
 Component.displayName = "IndexFilters";

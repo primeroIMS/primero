@@ -85,15 +85,6 @@ describe Api::V2::LocationsController, type: :request do
       expect(json['data'][2]['hierarchy']).to eq([@locations_CT01.location_code])
     end
 
-    it 'refuses unauthorized access' do
-      login_for_test(permissions: [])
-      get '/api/v2/locations'
-
-      expect(response).to have_http_status(403)
-      expect(json['errors'].size).to eq(1)
-      expect(json['errors'][0]['resource']).to eq('/api/v2/locations')
-    end
-
   end
 
   describe 'POST /api/v2/locations' do

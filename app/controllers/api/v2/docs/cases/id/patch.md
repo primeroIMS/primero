@@ -1,8 +1,10 @@
 # Update an existing case
 
-Merge the values submitted in this call into an existing case. Fields not specified in this request will not be modified. 
+Merge the values submitted in this call into an existing case. Fields not specified in this request will not be modified.
 For nested subform fields, the subform arrays will be recursively merged, keeping both the existing values and appending the new.
-If a nested subform has a true value for a key '_delete', then the subform will be deleted from the server.    
+If a nested subform has a true value for a key '_delete', then the subform will be deleted from the server.
+A user can update subform fields for records out his scope, that is, for records he isn't able to access, only if
+the paremeter 'unscoped_updated' is present and if the user is authorized to update those fields.
 
 **URL** : `/api/v2/cases/:id`
 
@@ -11,7 +13,10 @@ If a nested subform has a true value for a key '_delete', then the subform will 
 **Authentication** : YES
 
 **Authorization** : The user must be authorized to edit cases in Primero.
-A user may only set the fields that this user is permitted to access. 
+A user may only set the fields that this user is permitted to access.
+A user may update subform fields for records out of his scope if the parameter
+'unscoped_update' is present in the request body and if he is authorized to
+update such fields.
 
 **Parameters** : 
 
@@ -28,7 +33,7 @@ A user may only set the fields that this user is permitted to access.
 
 ## Success Response
 
-**Condition** : User can update cases.   
+**Condition** : User can update cases.
 
 **Code** : `200 OK`
 
