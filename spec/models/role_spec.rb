@@ -1,63 +1,30 @@
 require 'rails_helper'
 
 describe Role do
-  describe 'Validations' do
-    it "should not be valid if name is empty" do
-      role = Role.new
-      role.should_not be_valid
-      role.errors[:name].should == ["Name must not be blank"]
-    end
+  it "should not be valid if name is empty" do
+    role = Role.new
+    role.should_not be_valid
+    role.errors[:name].should == ["Name must not be blank"]
+  end
 
-    it "should not be valid if permissions is empty" do
-      role = Role.new
-      role.should_not be_valid
-      role.errors[:permissions_list].should == ["Please select at least one permission"]
-    end
+  it "should not be valid if permissions is empty" do
+    role = Role.new
+    role.should_not be_valid
+    role.errors[:permissions_list].should == ["Please select at least one permission"]
+  end
 
-    it "should sanitize and check for permissions" do
-      role = Role.new(:name => "Name", :permissions_list => [])
-      role.save
-      role.should_not be_valid
-      role.errors[:permissions_list].should == ["Please select at least one permission"]
-    end
+  it "should sanitize and check for permissions" do
+    role = Role.new(:name => "Name", :permissions_list => [])
+    role.save
+    role.should_not be_valid
+    role.errors[:permissions_list].should == ["Please select at least one permission"]
+  end
 
-    it "should not be valid if a role name has been taken already" do
-      Role.create({:name => "Unique", :permissions_list => Permission.all_permissions_list})
-      role = Role.new({:name => "Unique", :permissions => Permission.all_permissions_list})
-      role.should_not be_valid
-      role.errors[:name].should == ["A role with that name already exists, please enter a different name"]
-    end
-
-    describe 'reporting_location_admin_level' do
-      before do
-        @role = Role.new(name: "some_role", permissions_list: Permission.all_permissions_list)
-      end
-
-      context 'with a valid admin_level' do
-        before :each do
-          @role.reporting_location_admin_level = 2
-        end
-
-        it 'is valid' do
-          expect(@role).to be_valid
-        end
-      end
-
-      context 'with an invalid admin_level' do
-        before :each do
-          @role.reporting_location_admin_level = 6
-        end
-
-        it 'is not valid' do
-          expect(@role).not_to be_valid
-        end
-
-        it 'returns an error message' do
-          @role.valid?
-          expect(@role.errors.messages[:reporting_location_admin_level]).to eq(['Admin Level must be one of Location Admin Level values'])
-        end
-      end
-    end
+  it "should not be valid if a role name has been taken already" do
+    Role.create({:name => "Unique", :permissions_list => Permission.all_permissions_list})
+    role = Role.new({:name => "Unique", :permissions => Permission.all_permissions_list})
+    role.should_not be_valid
+    role.errors[:name].should == ["A role with that name already exists, please enter a different name"]
   end
 
   it "should create a valid role" do
