@@ -5,7 +5,7 @@ Rails.application.configure do
   # test suite.  You never need to work with it otherwise.  Remember that
   # your test database is "scratch space" for the test suite and is wiped
   # and recreated between test runs.  Don't rely on the data there!
-  config.cache_classes = true
+  config.cache_classes = false
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
@@ -33,4 +33,6 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
+
+  config.action_mailer.delivery_method = :test
 end
