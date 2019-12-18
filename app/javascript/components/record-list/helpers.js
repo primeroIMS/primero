@@ -50,17 +50,6 @@ export const buildTableColumns = (columns, i18n, recordType, css) => {
     .sortBy(column => (iconColumns.includes(column.name) ? 1 : 0));
 };
 
-export const getFiltersSetterByType = type => {
-  switch (type) {
-    case RECORD_PATH.incidents:
-      return setIncidentsFilters;
-    case RECORD_PATH.tracing_requests:
-      return setTracingRequestFilters;
-    default:
-      return setCasesFilters;
-  }
-};
-
 export const getRecordsFetcherByType = type => {
   switch (type) {
     case RECORD_PATH.incidents:

@@ -78,7 +78,7 @@ const valueParser = (fieldName, value) => {
 const handleFilterChange = methods => {
   const { type } = methods;
 
-  valueSetters[type](methods);
+  valueSetters[type || "basic"](methods);
 };
 
 const getFilterProps = ({ filter, user, i18n }) => {
