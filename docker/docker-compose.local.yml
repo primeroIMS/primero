@@ -1,7 +1,7 @@
 version: '3'
 services:
   nginx:
-    image: 'nginx:${PRIMERO_TAG:-latest}'
+    image: 'primero/nginx:${PRIMERO_TAG:-latest}'
     ports:
       - "80:80"
       - "443:443"
