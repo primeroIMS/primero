@@ -106,5 +106,9 @@ class Dashboard < ValueObject
     indicators: [Indicators::Case::TASKS_OVERDUE_FOLLOWUPS]
   ).freeze
 
-
+  DASH_PROTECTION_CONCERNS = Dashboard.new(
+    name: "dash_protection_concerns",
+    type: 'indicator',
+    indicators: Indicators::Case.new.protection_concerns
+  ).freeze
 end

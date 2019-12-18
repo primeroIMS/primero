@@ -205,5 +205,67 @@ module Indicators
       ]
     ).freeze
 
+    def protection_concerns
+      queries = []
+      Lookup.values('lookup-protection-concerns').each do | protection_concern |
+        queries << protection_concern_all_cases(protection_concern)
+        queries << protection_concern_open_cases(protection_concern)
+        queries << protection_concern_new_this_week(protection_concern)
+        queries << protection_concern_closed_this_week(protection_concern)
+      end
+      queries
+    end
+
+    def avaliable_prtection_concerns(protection_concern)
+      [
+        SearchFilters::Value.new(field_name: 'record_state', value: true),
+        SearchFilters::Value.new(field_name: 'protection_concerns', value: protection_concern)
+      ]
+    end
+
+    def protection_concern_all_cases(protection_concern)
+      QueriedIndicator.new(
+        name: "All Cases #{protection_concern['display_text']}",
+        record_model: Child,
+        queries: avaliable_prtection_concerns(protection_concern['id']),
+        scope_to_owner: true
+      ).freeze
+    end
+
+    def protection_concern_open_cases(protection_concern)
+      QueriedIndicator.new(
+        name: "Open Cases #{protection_concern['display_text']}",
+        record_model: Child,
+        queries: avaliable_prtection_concerns(protection_concern['id']) + [
+          SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
+        ],
+        scope_to_owner: true
+      ).freeze
+    end
+
+    def protection_concern_closed_this_week(protection_concern)
+      QueriedIndicator.new(
+        name: "Closed (This Week) #{protection_concern['display_text']}",
+        record_model: Child,
+        queries: avaliable_prtection_concerns(protection_concern['id']) + [
+          SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
+          SearchFilters::DateRange.new(field_name: 'date_closure', from: QueriedIndicator.this_week, to: QueriedIndicator.present)
+        ],
+        scope_to_owner: true
+      ).freeze
+    end
+
+    def protection_concern_new_this_week(protection_concern)
+      QueriedIndicator.new(
+        name: "New (This Week) #{protection_concern['display_text']}",
+        record_model: Child,
+        queries: avaliable_prtection_concerns(protection_concern['id']) + [
+          SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN),
+          SearchFilters::DateRange.new(field_name: 'registration_date', from: QueriedIndicator.this_week, to: QueriedIndicator.present)
+        ],
+        scope_to_owner: true
+      ).freeze
+    end
+
   end
 end
