@@ -56,5 +56,6 @@ create_or_update_system_setting(
     "unhcr" => "export-unhcr-csv",
     "duplicate_id" => "export-duplicate-id-csv"
   },
-  duplicate_export_field: "national_id_no"
+  duplicate_export_field: "national_id_no",
+  use_identity_provider: false
 )

@@ -1,8 +1,0 @@
-.Root {
-  display: flex;
-  padding-left: 1em;
-}
-.Checked {
-  color: black !important;
-  padding: 5px 10px;
-}

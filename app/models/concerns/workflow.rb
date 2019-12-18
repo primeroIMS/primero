@@ -15,7 +15,7 @@ module Workflow
     store_accessor :data, :workflow
     alias_method :workflow_status, :workflow
 
-    searchable auto_index: self.auto_index? do
+    searchable do
       string :workflow_status, as: 'workflow_status_sci'
       string :workflow, as: 'workflow_sci'
     end

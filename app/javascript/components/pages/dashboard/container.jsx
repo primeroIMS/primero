@@ -4,6 +4,7 @@ import { connect, batch, useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
+import { fromJS } from "immutable";
 
 import {
   OptionsBox,
@@ -33,12 +34,13 @@ import {
   selectCasesOverview,
   selectServicesStatus,
   getWorkflowIndividualCases,
+  getWorkflowTeamCases,
   getApprovalsAssessment,
   getApprovalsCasePlan,
   getApprovalsClosure
 } from "./selectors";
 import styles from "./styles.css";
-import { toData1D } from "./helpers";
+import { toData1D, toListTable } from "./helpers";
 
 const Dashboard = ({
   fetchFlags,
@@ -55,6 +57,7 @@ const Dashboard = ({
   casesRegistration,
   casesOverview,
   casesWorkflow,
+  casesWorkflowTeam,
   servicesStatus,
   approvalsAssessment,
   approvalsCasePlan,
@@ -153,6 +156,10 @@ const Dashboard = ({
     ...toData1D(casesWorkflow, workflowLabels)
   };
 
+  const casesWorkflowTeamProps = {
+    ...toListTable(casesWorkflowTeam, workflowLabels)
+  };
+
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
@@ -238,6 +245,17 @@ const Dashboard = ({
               </OptionsBox>
             </Grid>
           </Permission>
+
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={ACTIONS.DASH_WORKFLOW_TEAM}
+          >
+            <Grid item md={12} hidden={!casesWorkflowTeam?.size}>
+              <OptionsBox title={i18n.t(casesWorkflowTeam.get("name"))}>
+                <DashboardTable {...casesWorkflowTeamProps} />
+              </OptionsBox>
+            </Grid>
+          </Permission>
           {/* <Grid item md={12} hidden>
             <OptionsBox title="CASE OVERVIEW">
               <DashboardTable columns={columns} data={casesByCaseWorker} />
@@ -281,6 +299,7 @@ Dashboard.propTypes = {
   casesOverview: PropTypes.object.isRequired,
   casesRegistration: PropTypes.object.isRequired,
   casesWorkflow: PropTypes.object.isRequired,
+  casesWorkflowTeam: PropTypes.object.isRequired,
   fetchCasesByCaseWorker: PropTypes.func.isRequired,
   fetchCasesByStatus: PropTypes.func.isRequired,
   fetchCasesOverview: PropTypes.func.isRequired,
@@ -298,6 +317,7 @@ const mapStateToProps = state => {
     flags: selectFlags(state),
     casesByAssessmentLevel: getCasesByAssessmentLevel(state),
     casesWorkflow: getWorkflowIndividualCases(state),
+    casesWorkflowTeam: getWorkflowTeamCases(state),
     approvalsAssessment: getApprovalsAssessment(state),
     approvalsClosure: getApprovalsClosure(state),
     approvalsCasePlan: getApprovalsCasePlan(state),

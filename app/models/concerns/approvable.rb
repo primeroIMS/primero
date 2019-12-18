@@ -15,7 +15,7 @@ module Approvable
       :bia_approved_date, :closure_approved_date, :case_plan_approved_date,
       :approval_subforms
 
-    searchable auto_index: self.auto_index? do
+    searchable do
       string :approval_status_bia, as: 'approval_status_bia_sci'
       string :approval_status_case_plan, as: 'approval_status_case_plan_sci'
       string :approval_status_closure, as: 'approval_status_closure_sci'

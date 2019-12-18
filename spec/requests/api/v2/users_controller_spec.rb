@@ -252,11 +252,8 @@ describe Api::V2::UsersController, type: :request do
     it "returns 403 if user isn't authorized to create records" do
       login_for_test
 
-      id = (rand() * 1000).to_i
-
       params = {
         data: {
-          id: id,
           full_name: "Test User API",
           user_name: "test_user_api",
           code: "test/code",
@@ -273,7 +270,6 @@ describe Api::V2::UsersController, type: :request do
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq("/api/v2/users")
-      expect(User.find_by(id: id)).to be_nil
     end
 
     it 'returns a 409 if record already exists' do

@@ -8,7 +8,7 @@ module Transitionable
     store_accessor :data,
       :transfer_status, :reassigned_transferred_on
 
-    searchable auto_index: self.auto_index? do
+    searchable do
       string :transfer_status, as: 'transfer_status_sci'
       string :referred_users, multiple: true
       string :transferred_to_users, multiple: true

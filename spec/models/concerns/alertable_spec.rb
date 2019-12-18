@@ -89,6 +89,7 @@ describe Alertable do
       SystemSettings.create!(
         changes_field_to_form: { notes_section: 'notes' }
       )
+      SystemSettings.stub(:current).and_return(SystemSettings.first)
 
       @case1 = Child.create(
         name: 'test case',

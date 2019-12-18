@@ -65,7 +65,7 @@ describe Referral do
           resource: Permission::CASE,
           actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
         )
-        @role.permissions_list = [permission_case]
+        @role.permissions = [permission_case]
         @role.save(validate: false)
         referral = Referral.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
 

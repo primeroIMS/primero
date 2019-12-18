@@ -374,6 +374,66 @@ describe Api::V2::ChildrenController, type: :request do
 
     end
 
+    describe 'when a user performs an unscoped_update' do
+      it 'updates the subforms if cannot update the record' do
+        login_for_test(
+          group_permission: Permission::SELF,
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE,
+              actions: [
+                Permission::WRITE, Permission::SERVICES_SECTION_FROM_CASE
+              ]
+            )
+          ]
+        )
+  
+        params = { data: { name: 'Tester 1', services_section: [ {service_type: 'Test type' } ] }, unscoped_update: true}
+  
+        patch "/api/v2/cases/#{@case1.id}", params: params
+  
+        expect(response).to have_http_status(200)
+        expect(json['data']['services_section'].first['service_type']).to eq('Test type')
+        expect(json['data']['name']).to be_nil
+        @case1.reload
+        expect(@case1.name).to eq('Test1')
+      end
+
+      it 'updates the subforms if cannot read/write cases' do
+        login_for_test(
+          group_permission: Permission::SELF,
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE,
+              actions: [
+                Permission::SERVICES_SECTION_FROM_CASE
+              ]
+            )
+          ]
+        )
+  
+        params = { data: { name: 'Tester 1', services_section: [ {service_type: 'Test type' } ] }, unscoped_update: true }
+  
+        patch "/api/v2/cases/#{@case1.id}", params: params
+  
+        expect(response).to have_http_status(200)
+        expect(json['data']['services_section'].first['service_type']).to eq('Test type')
+        expect(json['data']['name']).to be_nil
+        @case1.reload
+        expect(@case1.name).to eq('Test1')
+      end
+
+      it 'returns 403 if the user is not authorized' do
+        login_for_test(group_permission: Permission::SELF)
+        params = { data: { name: 'Tester 1', services_section: [ {service_type: 'Test type' } ] }, unscoped_update: true}
+        patch "/api/v2/cases/#{@case1.id}", params: params
+
+        expect(response).to have_http_status(403)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
+      end
+    end
+
   end
 
   describe 'DELETE /api/v2/cases/:id' do

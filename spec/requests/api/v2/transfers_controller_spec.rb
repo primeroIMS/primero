@@ -166,12 +166,7 @@ describe Api::V2::TransfersController, type: :request do
   end
 
   after :each do
-    PrimeroModule.destroy_all
-    UserGroup.destroy_all
-    Role.destroy_all
-    User.destroy_all
-    Child.destroy_all
-    Transition.destroy_all
+    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition)
   end
 
 
