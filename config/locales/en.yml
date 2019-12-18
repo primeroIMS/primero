@@ -1819,7 +1819,7 @@ en:
         name_present: "Name must not be blank"
         permission_presence: "Please select at least one permission"
         unique_name: "A role with that name already exists, please enter a different name"
-        reporting_location_admin_level: "Admin Level must be one of Location Admin Level values"
+        reporting_location_level: "Location Level must be one of ReportingLocation Level values"
 
         permission:
           resource_presence: "Please select a resource"

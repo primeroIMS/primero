@@ -10,7 +10,7 @@ class Role < CouchRest::Model::Base
   property :permissions_list, :type => [Permission]
   property :group_permission, :type => String, :default => Permission::SELF
   property :permitted_form_ids, :type => [String]
-  property :reporting_location_admin_level, :default => ReportingLocation::DEFAULT_ADMIN_LEVEL
+  property :reporting_location_level, :type => String
   property :referral, TrueClass, :default => false
   property :transfer, TrueClass, :default => false
 
@@ -18,7 +18,7 @@ class Role < CouchRest::Model::Base
   alias_method :permissions=, :permissions_list=
 
   validates_presence_of :permissions_list, :message => I18n.t("errors.models.role.permission_presence")
-  validate :validate_reporting_location_admin_level
+  validate :validate_reporting_location_level
 
   before_save :add_permitted_subforms
 
@@ -30,9 +30,9 @@ class Role < CouchRest::Model::Base
     find_by_name(attributes['name'])
   end
 
-  def validate_reporting_location_admin_level
-    return true if reporting_location_admin_level.nil? || Location::ADMIN_LEVELS.include?(reporting_location_admin_level)
-    errors.add(:reporting_location_admin_level, I18n.t("errors.models.role.reporting_location_admin_level"))
+  def validate_reporting_location_level
+    return true if reporting_location_level.blank? || ReportingLocation.reporting_location_levels.include?(reporting_location_level)
+    errors.add(:reporting_location_level, I18n.t("errors.models.role.reporting_location_level"))
     false
   end
 
