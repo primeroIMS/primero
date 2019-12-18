@@ -10,7 +10,7 @@ module Api::V2
     end
 
     def index
-      @alert = @record.alerts
+      @alerts = @record.alerts
     end
 
   end
