@@ -45,9 +45,6 @@ _primero.Views.PopulateAgencySelectBoxes = _primero.Views.PopulateUserSelectBoxe
     var values = [];
     if(seletectedAgency) {
       values.push(seletectedAgency.attributes)
-    } else if(value) {
-      var displayText = I18n.t("messages.non_active_agency", { agency: value });
-      values.push({id: value, agency_code: value, name: displayText});
     }
     return this.convertToOptions(values);
   },
