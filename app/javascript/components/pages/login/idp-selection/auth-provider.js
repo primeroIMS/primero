@@ -18,7 +18,7 @@ const updateUI = () => {
   logout.style.display = "block";
 };
 
-export const signIn = (idp) => {
+export const signIn = async (idp) => {
   localStorage.setItem("provider_id", idp.get("unique_id"));
   const loginRequest = {
     scopes: idp.get("identity_scope").toArray(),
@@ -26,7 +26,6 @@ export const signIn = (idp) => {
   };
 
   const redirectUri = `http://${DOMAIN}/login/${idp.get("provider_type")}`;
-  console.log("redirectUri:::", redirectUri);
 
   const msalConfig = {
     auth: {
@@ -47,11 +46,17 @@ export const signIn = (idp) => {
 
   msalApp = new UserAgentApplication(msalConfig);
 
-  msalApp.loginPopup(loginRequest).then((loginResponse) => {
-    getToken(tokenRequest).then(updateUI);
-  }).catch((error) => {
-    console.log(error);
-  });
+  const loginResponse = await msalApp.loginPopup(loginRequest);
+  if (loginResponse) {
+    const tokenResponse = await getToken(tokenRequest)
+      .catch(error => {
+        console.log(error);
+      });
+
+    if (tokenResponse) {
+      updateUI();
+    }
+  }
 };
 
 export const signOut = () => {
