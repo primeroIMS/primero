@@ -1,9 +1,5 @@
 export { default } from "./container";
-export {
-  setSelectedForm,
-  fetchForms,
-  fetchOptions
-} from "./action-creators";
+export { setSelectedForm, fetchForms, fetchOptions } from "./action-creators";
 export { reducers } from "./reducers";
 export {
   getFirstTab,

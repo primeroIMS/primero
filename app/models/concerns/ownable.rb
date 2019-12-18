@@ -8,7 +8,7 @@ module Ownable
       :previously_owned_by, :previously_owned_by_full_name, :previously_owned_by_agency, :previously_owned_by_location,
       :assigned_user_names, :module_id, :associated_user_groups, :associated_user_agencies
 
-    searchable auto_index: self.auto_index? do
+    searchable do
       string :associated_user_names, multiple: true
       string :associated_user_groups, multiple: true
       string :associated_user_agencies, multiple: true

@@ -38,9 +38,12 @@ module Api::V2::Concerns
     end
 
     def update
-      authorize! :update, model_class
       @record = find_record
-      authorize! :update, @record
+      begin
+        authorize! :update, @record
+      rescue CanCan::AccessDenied
+        authorize_unscoped_update!
+      end
       params.permit!
       @record.update_properties(record_params, current_user.name)
       @record.save!
@@ -57,7 +60,8 @@ module Api::V2::Concerns
     end
 
     def permit_fields
-      @permitted_field_names = current_user.permitted_field_names(model_class)
+      current_action = params[:unscoped_update].blank? ? action_name : 'unscoped_update'
+      @permitted_field_names = current_user.permitted_field_names(model_class, current_action)
     end
 
     def select_fields_for_show
@@ -90,6 +94,12 @@ module Api::V2::Concerns
       record = model_class.find(params[:id])
       # Alias the record to a more specific name: @child, @incident, @tracing_request
       instance_variable_set("@#{model_class.name.underscore}", record)
+    end
+
+    def authorize_unscoped_update!
+      unless params[:unscoped_update].present? && current_user.can_update_subform_fields?(model_class)
+        raise Errors::ForbiddenOperation
+      end
     end
 
   end

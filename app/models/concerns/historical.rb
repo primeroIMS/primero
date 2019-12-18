@@ -10,7 +10,7 @@ module Historical
 
     has_many :record_histories, as: :record
 
-    searchable auto_index: self.auto_index? do
+    searchable do
       [:created_organization, :created_agency_office, :created_by, :last_updated_by, :last_updated_organization].each do |f|
         string f, as: "#{f}_sci"
       end

@@ -35,7 +35,7 @@ class TracingRequest < ApplicationRecord
     ]
   end
 
-  searchable auto_index: self.auto_index? do
+  searchable do
     extend Matchable::Searchable
     configure_searchable(TracingRequest)
 

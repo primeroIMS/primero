@@ -22,6 +22,8 @@ describe Api::V2::ContactInformationController, type: :request do
       primary_age_range: 'primero',
       location_limit_for_api: 150,
       welcome_email_text: 'Welcome to Primero')
+      ContactInformation.stub(:current).and_return(ContactInformation.first)
+      SystemSettings.stub(:current).and_return(SystemSettings.first)
   end
  
   let(:json) { JSON.parse(response.body) }

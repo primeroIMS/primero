@@ -3,5 +3,6 @@ export const DASHBOARD_NAMES = Object.freeze({
   WORKFLOW: "dashboard.workflow",
   APPROVALS_ASSESSMENT: "dashboard.approvals_assessment",
   APPROVALS_CASE_PLAN: "dashboard.approvals_case_plan",
-  APPROVALS_CLOSURE: "dashboard.approvals_closure"
+  APPROVALS_CLOSURE: "dashboard.approvals_closure",
+  WORKFLOW_TEAM: "dashboard.workflow_team"
 });

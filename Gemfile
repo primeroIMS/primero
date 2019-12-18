@@ -3,7 +3,7 @@ ruby '2.6.2'
 
 gem 'rails',            '5.2.4'
 gem 'pg',               '~> 1.1'
-gem 'devise',           '4.6.2'
+gem 'devise',           '4.7.1'
 gem 'devise-jwt',       '0.5.9'
 gem 'rake',             '~> 12.3'
 gem 'puma',             '~> 4.3.1'
@@ -80,4 +80,5 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'sunspot_test', require: false
   gem 'listen'
+  gem 'bundler-audit'
 end
