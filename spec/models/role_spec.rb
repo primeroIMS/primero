@@ -28,14 +28,16 @@ describe Role do
       role.errors[:name].should == ["A role with that name already exists, please enter a different name"]
     end
 
-    describe 'reporting_location_admin_level' do
+    describe 'reporting_location_level' do
       before do
         @role = Role.new(name: "some_role", permissions_list: Permission.all_permissions_list)
+
+        ReportingLocation.stub(:reporting_location_levels).and_return(['district', 'province', 'governorate'])
       end
 
       context 'with a valid admin_level' do
         before :each do
-          @role.reporting_location_admin_level = 2
+          @role.reporting_location_level = 'district'
         end
 
         it 'is valid' do
@@ -45,7 +47,7 @@ describe Role do
 
       context 'with an invalid admin_level' do
         before :each do
-          @role.reporting_location_admin_level = 6
+          @role.reporting_location_level = 'bad_level'
         end
 
         it 'is not valid' do
@@ -54,7 +56,7 @@ describe Role do
 
         it 'returns an error message' do
           @role.valid?
-          expect(@role.errors.messages[:reporting_location_admin_level]).to eq(['Admin Level must be one of Location Admin Level values'])
+          expect(@role.errors.messages[:reporting_location_level]).to eq(['Location Level must be one of ReportingLocation Level values'])
         end
       end
     end
