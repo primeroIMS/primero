@@ -76,7 +76,7 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
         var select_boxes = document.querySelectorAll("[data-populate='" + model.type + "']");
         var $select_boxes = $(select_boxes);
 
-        self.addOptions(self.getModelOptions(model), $select_boxes);
+        self.addOptions(self.getModelOptions(model), $select_boxes)
       });
     } else {
       this.disableAjaxSelectBoxes();
@@ -114,33 +114,12 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
       }
 
       if (value) {
-        if(value != "") {
-          // If the selected value does not exists we will render it hidden to avoid losing it on save.
-          var valueNotExists = this_select.find('option[value=' + value + ']').length < 1;
-          if(valueNotExists) {
-            self.addNonActiveOption(this_select, value);
-          }
-        }
         this_select.val(value);
       }
     });
 
     select_boxes.trigger('chosen:updated');
   },
-
-  addNonActiveOption: function(select_box, value){
-    var stringsSource = select_box.attr('data-populate');
-    var isAgency = stringsSource.indexOf('Agency') != -1;
-    var isService = stringsSource.indexOf('lookup-service-type') != -1;
-    var displayText = value;
-    if(isService) {
-      displayText = I18n.t("messages.non_active_service", { service: value });
-    } else if(isAgency) {
-      displayText = I18n.t("messages.non_active_agency", { agency: value });
-    }
-    select_box.append('<option style="display: none" value="' + value + '">' + displayText + '</option>');
-  },
-
 
   updateDisabledSelectBoxes: function(select_boxes) {
     _.each(select_boxes, function(select) {

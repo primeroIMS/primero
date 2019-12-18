@@ -86,8 +86,6 @@ en:
     field_change_alert: "The %{form_name} form was updated by the service provider on %{date}"
     transfer_request_alert: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
     loading: "Loading..."
-    non_active_agency: "Non-active agency - %{agency}"
-    non_active_service: "Non-active service - %{service}"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -2110,7 +2108,6 @@ en:
     done_success_message: "Referral Done."
     agency_label: "Agency"
     location_label: "Location"
-    not_available: "Refer not available"
 
   reassign:
     reassign_case_title: "Assign case(s) to:"

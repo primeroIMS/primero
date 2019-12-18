@@ -12,18 +12,6 @@
    field_tags = select_box.field_tags.present? ? select_box.field_tags : []
    is_disabled = select_box.disabled || select_box.name == 'assigned_user_names'
    disable = (defined?(is_subform) && is_subform) ? true : is_disabled
-   select_options = select_options(select_box, formObject, @lookups)
-   selected_option = select_options.select{ |option| option[1] == value }
-   if selected_option.blank? && value.present?
-     display_text = if select_box.option_strings_source == "Agency"
-                      t("messages.non_active_agency", { agency: value })
-                    elsif select_box.option_strings_source == "lookup-service-type"
-                      t("messages.non_active_service", { service: value })
-                    else
-                      value
-                    end
-     select_options << [display_text, value, { disabled: true,  style: "display: none" }]
-   end
 %>
 
 <div class="row">
@@ -35,12 +23,12 @@
   <div class="medium-8 columns">
     <% if select_box.required %><span class="required form-section-required">*</span><% end %>
     <% if select_box.multi_select %>
-      <%= select_tag name, options_for_select(select_options, value), 'multiple' => '',
+      <%= select_tag name, options_for_select(select_options(select_box, formObject, @lookups), value), 'multiple' => '',
           'class' => "chosen-select #{'chosen-rtl' if @page_direction == 'rtl'}", 'data-placeholder' => t("fields.chosen_placeholder"), 'id' => field_id,
           :data => { :field_tags => field_tags, :populate => option_string_source_data_attr(select_box.option_strings_source), value: value},
           required: select_box.required, :disabled => disable, :is_disabled => is_disabled, :"data-abide-ignore" => !select_box.required || (defined?(is_subform) && is_subform) ? "" : nil  %>
     <% elsif select_box.searchable_select %>
-      <%= select_tag name, options_for_select(select_options, value),
+      <%= select_tag name, options_for_select(select_options(select_box, formObject, @lookups), value),
           'class' => "chosen-select #{'chosen-rtl' if @page_direction == 'rtl'}", 'data-placeholder' => t("fields.select_box_empty_item"), :id => field_id,
           :data => { :field_tags => field_tags, :populate => option_string_source_data_attr(select_box.option_strings_source), value: value},
           required: select_box.required, :disabled => disable, :is_disabled => is_disabled, :"data-abide-ignore" => !select_box.required || (defined?(is_subform) && is_subform) ? "" : nil  %>
@@ -56,10 +44,6 @@
           select_box_select_options = []
         else
           select_box_select_options = select_options(select_box, formObject, nil)
-          selected_box_option = select_box_select_options.select{ |option| option[1] == value }
-          if selected_box_option.blank? && value.present?
-            select_box_select_options << [display_text, value, { disabled: true, style: "display: none" }]
-          end
         end
       %>
       <%= select_tag name, options_for_select(select_box_select_options, value), :id => field_id,
