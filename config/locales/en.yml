@@ -2042,6 +2042,9 @@ en:
     notes: "Add Notes"
     incident_details_from_case: "Add Incident"
     services_section_from_case: "Add Service Provision"
+    next: "Next"
+    previous: "Previous"
+    save: "Save"
     description:
       valid: "Valid record"
       invalid: "Invalid record"

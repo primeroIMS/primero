@@ -1,0 +1,6 @@
+.dialogTitleSmall {
+  font-size: $(theme.typography.pxToRem(12));
+  font-weight: bold;
+  color: $(theme.primero.colors.darkGrey);
+  margin-left: 5px;
+}

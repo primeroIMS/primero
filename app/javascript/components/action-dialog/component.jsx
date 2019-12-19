@@ -11,22 +11,28 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";
+import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../i18n";
+
+import actionDialogStyles from "./styles.css";
 
 const ActionDialog = ({
   open,
   successHandler,
   cancelHandler,
   dialogTitle,
+  dialogTitleSmall,
   dialogText,
   confirmButtonLabel,
   children,
   onClose,
   confirmButtonProps,
-  omitCloseAfterSuccess
+  omitCloseAfterSuccess,
+  hideModalActions
 }) => {
   const i18n = useI18n();
+  const css = makeStyles(actionDialogStyles)();
 
   const handleClose = () => (cancelHandler ? cancelHandler() : onClose());
 
@@ -49,7 +55,12 @@ const ActionDialog = ({
 
     return (
       <DialogTitle>
-        {dialogTitle}
+        <span>
+          {dialogTitle}
+          {dialogTitleSmall ? (
+            <span className={css.dialogTitleSmall}>{dialogTitleSmall}</span>
+          ) : null}
+        </span>
         <IconButton
           aria-label="close"
           className={classes.closeButton}
@@ -94,16 +105,18 @@ const ActionDialog = ({
             children
           )}
         </DialogContent>
-        <DialogActions>
-          <Button {...{ ...successButtonProps, onClick: handleSuccess }}>
-            {confirmButtonLabel}
-          </Button>
-          {cancelHandler ? (
-            <Button onClick={cancelHandler} color="primary">
-              {i18n.t("cancel")}
+        {!hideModalActions ? (
+          <DialogActions>
+            <Button {...{ ...successButtonProps, onClick: handleSuccess }}>
+              {confirmButtonLabel}
             </Button>
-          ) : null}
-        </DialogActions>
+            {cancelHandler ? (
+              <Button onClick={cancelHandler} color="primary">
+                {i18n.t("cancel")}
+              </Button>
+            ) : null}
+          </DialogActions>
+        ) : null}
       </Dialog>
     </div>
   );
@@ -121,6 +134,8 @@ ActionDialog.propTypes = {
   confirmButtonProps: PropTypes.object,
   dialogText: PropTypes.string,
   dialogTitle: PropTypes.string,
+  dialogTitleSmall: PropTypes.string,
+  hideModalActions: PropTypes.bool,
   omitCloseAfterSuccess: PropTypes.bool,
   onClose: PropTypes.func,
   open: PropTypes.bool,

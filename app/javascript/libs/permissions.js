@@ -28,6 +28,7 @@ export const ACTIONS = {
   EXPORT_UNHCR: "export_unhcr_csv",
   FLAG: "flag",
   GROUP_READ: "group_read",
+  INCIDENT_DETAILS_FROM_CASE: "incident_details_from_case",
   MANAGE: "manage",
   READ: "read",
   REFERRAL: "referral",
@@ -83,6 +84,8 @@ export const ADD_NOTE = [...MANAGE, ACTIONS.ADD_NOTE];
 export const DISPLAY_VIEW_PAGE = [...MANAGE, ACTIONS.DISPLAY_VIEW_PAGE];
 
 export const SHOW_TASKS = [...MANAGE, ACTIONS.DASH_TASKS];
+
+export const ADD_INCIDENT = [...MANAGE, ACTIONS.INCIDENT_DETAILS_FROM_CASE];
 
 export const SHOW_EXPORTS = [
   ...MANAGE,

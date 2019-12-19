@@ -24,6 +24,7 @@ const Component = ({ close, openNotesDialog, record, recordType }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = data => {
+    console.log(data);
     dispatch(
       saveRecord(
         recordType,

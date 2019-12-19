@@ -1,0 +1,15 @@
+.hide {
+  display: none;
+}
+
+.content {
+  min-height: 400px;
+}
+
+.actionButtons {
+  margin: 1em 0;
+}
+
+.successButton {
+  margin-left: 8px;
+}

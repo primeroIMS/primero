@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from "react";
 import PropTypes from "prop-types";
 import { Box, IconButton } from "@material-ui/core";
@@ -16,9 +17,22 @@ const RecordListToolbar = ({
   title,
   recordType,
   handleDrawer,
-  mobileDisplay
+  mobileDisplay,
+  selectedRecords
 }) => {
   const css = makeStyles(styles)();
+
+  const recordActionsProps = {
+    recordType,
+    iconColor: "primary",
+    mode: {
+      isShow: true
+    },
+    showListActions: true,
+    selectedRecords
+  };
+
+  console.log("SELECTEDRECORDS", selectedRecords);
 
   return (
     <Box mb={3} alignItems="center" display="flex" className={css.toolbar}>
@@ -34,7 +48,7 @@ const RecordListToolbar = ({
         <Permission resources={recordType} actions={CREATE_RECORDS}>
           <AddRecordMenu recordType={recordType} />
         </Permission>
-        <RecordActions recordType={recordType} iconColor="primary" />
+        <RecordActions {...recordActionsProps} />
       </Box>
     </Box>
   );
@@ -44,6 +58,7 @@ RecordListToolbar.propTypes = {
   handleDrawer: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
   recordType: PropTypes.string.isRequired,
+  selectedRecords: PropTypes.array,
   title: PropTypes.string.isRequired
 };
 

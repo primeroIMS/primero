@@ -74,7 +74,9 @@ const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
     );
   };
 
-  return !(rest.mode.isShow && hideOnViewPage) && visible ? (
+  console.log(rest?.mode?.isShow, hideOnViewPage, visible);
+
+  return !(rest?.mode?.isShow && hideOnViewPage) && visible ? (
     <FastField
       name={name}
       render={renderProps => {
