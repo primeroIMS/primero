@@ -146,6 +146,7 @@ en:
     my_account: "My Account"
     matching_configuration: "Matching"
     logout: "Log out"
+    settings: "Settings"
 
   buttons:
     delete: "Delete"
