@@ -31,7 +31,8 @@ class Role < CouchRest::Model::Base
   end
 
   def validate_reporting_location_level
-    return true if reporting_location_level.blank? || ReportingLocation.reporting_location_levels.include?(reporting_location_level)
+    reporting_location_levels = ReportingLocation.reporting_location_levels
+    return true if reporting_location_level.blank? || reporting_location_levels.blank? || reporting_location_levels.include?(reporting_location_level)
     errors.add(:reporting_location_level, I18n.t("errors.models.role.reporting_location_level"))
     false
   end
