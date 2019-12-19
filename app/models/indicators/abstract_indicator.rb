@@ -11,6 +11,14 @@ module Indicators
         Time.zone.now - 10.days
       end
 
+      def last_week
+        { from: Time.zone.now - 14.days, to: Time.zone.now - 7.days }
+      end
+
+      def this_week
+        { from: Time.zone.now - 7.days, to: self.present }
+      end
+
       def present
         Time.zone.now
       end
