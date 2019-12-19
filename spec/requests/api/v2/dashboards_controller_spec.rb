@@ -68,7 +68,6 @@ describe Api::V2::DashboardsController, type: :request do
 
         login_for_test( permissions: [@permission_dashboard_protection_concerns] )
         get '/api/v2/dashboards'
-        binding.pry
         expect(response).to have_http_status(200)
       end
 

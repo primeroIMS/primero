@@ -1433,10 +1433,9 @@ superuser_permissions = [
       # Permission::VIEW_RESPONSE,
       # Permission::DASH_CASE_RISK,
       # Permission::VIEW_PROTECTION_CONCERNS_FILTER,
-      #Permission::DASH_CASE_RISK,
-      #Permission::DASH_PROTECTION_CONCERNS
-      #Permission::DASH_TASKS
-      Permission::DASH_APPROVALS_ASSESSMENT
+      Permission::DASH_CASE_RISK,
+      Permission::DASH_PROTECTION_CONCERNS
+      Permission::DASH_TASKS
     ]
   )
 ]
