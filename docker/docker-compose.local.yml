@@ -8,7 +8,6 @@ services:
     volumes:
       - certbot_certs:/certs
       - selfsigned_certs:/etc/certs
-      - tmp:/srv/primero/application/tmp
       - log:/var/log/
       - public:/srv/primero/application/public
     env_file:
