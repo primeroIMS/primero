@@ -9,11 +9,6 @@ describe Api::V2::DashboardsController, type: :request do
     @permission_dashboard = Permission.new(
       resource: Permission::DASHBOARD, actions: [Permission::DASH_WORKFLOW, Permission::DASH_CASE_OVERVIEW]
     )
-    @permission_dashboard_protection_concerns =Permission.new(
-      resource: Permission::DASHBOARD, actions: [
-        Permission::DASH_PROTECTION_CONCERNS, Permission::DASH_TASKS
-      ]
-    )
 
     group1 = UserGroup.create!(name: 'Group1')
 
@@ -56,24 +51,6 @@ describe Api::V2::DashboardsController, type: :request do
       workflow_dashboard = json['data'].find { |d| d['name'] == 'dashboard.workflow' }
       expect(workflow_dashboard['stats']['assessment']['count']).to eq(1)
       expect(workflow_dashboard['stats']['assessment']['query']).to match_array(%w[owned_by=foo record_state=true status=open workflow=assessment])
-    end
-
-    describe 'protection concerns dashboard' do
-
-      before :each do
-        child = Child.create!(protection_concerns: ['protection ab','protection ef'], unhcr_needs_codes: nil)
-      end
-
-      it 'lists of protection concerns dashboard' do
-
-        login_for_test( permissions: [@permission_dashboard_protection_concerns] )
-        get '/api/v2/dashboards'
-        expect(response).to have_http_status(200)
-      end
-
-      after :each do
-      end
-
     end
   end
 

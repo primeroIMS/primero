@@ -1434,7 +1434,7 @@ superuser_permissions = [
       # Permission::DASH_CASE_RISK,
       # Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::DASH_CASE_RISK,
-      Permission::DASH_PROTECTION_CONCERNS
+      Permission::DASH_PROTECTION_CONCERNS,
       Permission::DASH_TASKS
     ]
   )

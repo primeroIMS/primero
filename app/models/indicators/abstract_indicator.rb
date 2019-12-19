@@ -7,10 +7,6 @@ module Indicators
         Time.zone.at(0)
       end
 
-      def this_week
-        Time.zone.now - 7.days
-      end
-
       def recent_past
         Time.zone.now - 10.days
       end
