@@ -103,7 +103,8 @@ describe RolesController do
     it "should allow valid user to update roles" do
       fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE, Permission::CREATE])
       mock = stub_model Role, :id => "1"
-      role_mock = {:name=>'', :description=>'', :transfer=>'false', :referral=>'false', :group_permission=>'', :permitted_form_ids=>'', :permissions=>[]}
+      role_mock = {:name=>'', :description=>'', :transfer=>'false', :referral=>'false', :group_permission=>'',
+                   :permitted_form_ids=>'', :reporting_location_level=>'', :permissions=>[]}
 
       mock.should_receive(:update_attributes).with(role_mock).and_return(true)
       Role.should_receive(:get).with(mock.id).and_return(mock)
@@ -116,7 +117,8 @@ describe RolesController do
     it "should return error if update attributes is not invoked " do
       fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE, Permission::CREATE])
       mock = stub_model Role, :id => "1"
-      role_mock = {:name=>'', :description=>'', :transfer=>'false', :referral=>'false', :group_permission=>'', :permitted_form_ids=>'', :permissions=>[]}
+      role_mock = {:name=>'', :description=>'', :transfer=>'false', :referral=>'false', :group_permission=>'',
+                   :permitted_form_ids=>'', :reporting_location_level=>'', :permissions=>[]}
 
       mock.should_receive(:update_attributes).with(role_mock).and_return(false)
       Role.should_receive(:get).with(mock.id).and_return(mock)
@@ -164,7 +166,8 @@ describe RolesController do
 
     it "should allow valid user to create roles" do
       fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE, Permission::CREATE])
-      role_mock = {:name=>'', :description=>'', :transfer=>'false', :referral=>'false', :group_permission=>'', :permitted_form_ids=>'', :permissions=>[]}
+      role_mock = {:name=>'', :description=>'', :transfer=>'false', :referral=>'false', :group_permission=>'',
+                   :permitted_form_ids=>'', :reporting_location_level=>'', :permissions=>[]}
       role_mock.should_receive(:save).and_return(true)
       Role.should_receive(:new).with(role_mock).and_return(role_mock)
       post :create, params: {role: role_mock}

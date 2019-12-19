@@ -327,7 +327,7 @@ class User < CouchRest::Model::Base
   def set_secondary_reporting_location(ss_reporting_location_config)
     role_reporting_location_level = roles.compact.collect(&:reporting_location_level).flatten.uniq.first
     return ss_reporting_location_config if role_reporting_location_level.blank?
-    admin_level = ReportingLocation.map_reporting_location_level_to_admin_level(role_reporting_location_level)
+    admin_level = ss_reporting_location_config.map_reporting_location_level_to_admin_level(role_reporting_location_level)
     return ss_reporting_location_config if admin_level == ss_reporting_location_config.admin_level
     ss_reporting_location_config.admin_level = admin_level
     ss_reporting_location_config.label_key = role_reporting_location_level

@@ -30,6 +30,7 @@ class Role < CouchRest::Model::Base
     find_by_name(attributes['name'])
   end
 
+  #TODO think about this...
   def validate_reporting_location_level
     return true if reporting_location_level.blank? || ReportingLocation.reporting_location_levels.include?(reporting_location_level)
     errors.add(:reporting_location_level, I18n.t("errors.models.role.reporting_location_level"))

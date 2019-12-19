@@ -3,9 +3,11 @@ class ReportingLocation
 
   property :field_key
   property :label_key
-  property :admin_level, Integer, :default => 0
+  property :admin_level, Integer, default: 0
   property :reg_ex_filter  #TODO deprecated
-  property :hierarchy_filter, [], :default => []
+  property :hierarchy_filter, [], default: []
+  property :admin_level_map, default: {'country' => 0, 'province' => 1, 'district' => 2}
+
 
   before_save :set_default_label_key
   validate :validate_admin_level
@@ -15,20 +17,7 @@ class ReportingLocation
   DEFAULT_ADMIN_LEVEL = 2
 
   class << self
-    def map_reporting_location_level_to_admin_level(reporting_location_level)
-      return nil if reporting_location_level.blank?
 
-      #TODO grab this from a config/lookup somewhere
-      #TODO this is quick & dirty
-      @admin_level_map ||= {
-        'country' => 0,
-        'province' => 1,
-        'governorate' => 1,
-        'district' => 2
-      }
-
-      @admin_level_map[reporting_location_level]
-    end
 
     def reporting_location_levels
       #TODO grab this from a config/lookup somewhere
@@ -48,5 +37,10 @@ class ReportingLocation
       errors.add(:admin_level, I18n.t("errors.models.reporting_location.admin_level"))
       false
     end
+  end
+
+  def map_reporting_location_level_to_admin_level(reporting_location_level)
+    return nil if reporting_location_level.blank?
+    admin_level_map[reporting_location_level]
   end
 end

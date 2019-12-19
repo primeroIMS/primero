@@ -1,3 +1,7 @@
+<%
+  reporting_location_options = Lookup.values('lookup-reporting-location-type').map{|p| [p['display_text'], p['id']]}
+%>
+
 <%= form_for editable_role, :html => {:class => 'default-form', :autocomplete => "off"} do |f| %>
     <div class="clearfix"></div>
     <%= f.error_messages :header_tag => :h3 %>
@@ -46,6 +50,22 @@
             <%= select_tag "role[group_permission]",
                            options_for_select(translated_group_permissions.map{|p| [p[:value], p[:key]]},
                                               editable_role.group_permission) %>
+          </label>
+        </div>
+        <div class="medium-1 columns">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="medium-3 columns">
+          <%= f.label :reporting_location_level, t("role.reporting_location_level_label"), :class=>'key'  %>
+        </div>
+        <div class="medium-8 columns">
+          <label class="left">
+            <%= select_tag "role[reporting_location_level]",
+                           options_for_select(reporting_location_options,
+                                              editable_role.reporting_location_level),
+                           include_blank: true%>
           </label>
         </div>
         <div class="medium-1 columns">
