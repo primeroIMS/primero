@@ -217,7 +217,7 @@ module Indicators
       facet: 'protection_concerns',
       record_model: Child,
       scope: OPEN_ENABLED + [
-        SearchFilters::DateRange.new(field_name: 'registration_date', from: QueriedIndicator.this_week, to: QueriedIndicator.present)
+        SearchFilters::DateRange.new( {field_name: 'registration_date'}.merge(FacetedIndicator.this_week) )
       ]
     ).freeze
 
@@ -235,7 +235,7 @@ module Indicators
       scope: [
         SearchFilters::Value.new(field_name: 'record_state', value: true),
         SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
-        SearchFilters::DateRange.new(field_name: 'date_closure', from: QueriedIndicator.this_week, to: QueriedIndicator.present)
+        SearchFilters::DateRange.new( {field_name: 'date_closure'}.merge(FacetedIndicator.this_week) )
       ]
     ).freeze
 
