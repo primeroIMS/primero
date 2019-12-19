@@ -23,7 +23,7 @@ stages:
         pool:
           vmImage: $(vmImageName)
         steps:
-          - bash: echo "##vso[task.setvariable variable=tag]$(docker/git-to-docker-tag.sh ${BUILD_SOURCEBRANCH})"
+          - bash: echo "##vso[task.setvariable variable=tag]$(docker/git-to-docker-tag.sh ${BUILD_SOURCEBRANCH} latestBranch)"
           - task: CmdLine@2
             displayName: 'Build Primero Docker images'
             inputs:
