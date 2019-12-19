@@ -126,4 +126,7 @@ end
 
 def clean_data(*models)
   models.each(&:destroy_all)
+  if self.class.metadata&.dig(:search)
+    Sunspot.commit
+  end
 end

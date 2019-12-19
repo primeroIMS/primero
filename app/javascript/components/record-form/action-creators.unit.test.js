@@ -15,10 +15,12 @@ describe("<RecordForm /> - Action Creators", () => {
     const creators = clone(actionCreators);
 
     expect(creators).to.have.property("setSelectedForm");
+    expect(creators).to.have.property("setSelectedRecord");
     expect(creators).to.have.property("fetchForms");
     expect(creators).to.have.property("fetchOptions");
 
     delete creators.setSelectedForm;
+    delete creators.setSelectedRecord;
     delete creators.fetchForms;
     delete creators.fetchOptions;
 
@@ -33,6 +35,18 @@ describe("<RecordForm /> - Action Creators", () => {
 
     expect(dispatch.getCall(0).returnValue).to.eql({
       type: "forms/SET_SELECTED_FORM",
+      payload: options
+    });
+  });
+
+  it("should check the 'setSelectedRecord' action creator to return the correct object", () => {
+    const options = "123";
+    const dispatch = sinon.spy(actionCreators, "setSelectedRecord");
+
+    actionCreators.setSelectedRecord("123");
+
+    expect(dispatch.getCall(0).returnValue).to.eql({
+      type: "forms/SET_SELECTED_RECORD",
       payload: options
     });
   });

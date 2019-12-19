@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Api::V2::AssignsController, type: :request do
 
   before :each do
+    PrimeroModule.destroy_all
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
     @permission_assign_case = Permission.new(

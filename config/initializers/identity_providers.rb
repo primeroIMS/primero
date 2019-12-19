@@ -10,5 +10,5 @@ begin
     end
   end
 rescue ActiveRecord::NoDatabaseError => e
-  Rails.logger.warning e.message
+  Rails.logger.warn e.message
 end

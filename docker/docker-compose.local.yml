@@ -1,14 +1,13 @@
 version: '3'
 services:
   nginx:
-    image: 'nginx:${PRIMERO_TAG:-latest}'
+    image: 'primero/nginx:${PRIMERO_TAG:-latest}'
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - certbot_certs:/certs
       - selfsigned_certs:/etc/certs
-      - tmp:/srv/primero/application/tmp
       - log:/var/log/
       - public:/srv/primero/application/public
     env_file:

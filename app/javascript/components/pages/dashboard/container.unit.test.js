@@ -69,7 +69,11 @@ describe("<Dashboard />", () => {
         },
         user: {
           permissions: {
-            dashboards: [ACTIONS.DASH_CASE_RISK, ACTIONS.DASH_WORKFLOW]
+            dashboards: [
+              ACTIONS.DASH_CASE_RISK,
+              ACTIONS.DASH_WORKFLOW,
+              ACTIONS.DASH_WORKFLOW_TEAM
+            ]
           }
         }
       })
@@ -110,5 +114,9 @@ describe("<Dashboard />", () => {
 
   it("renders the PieChart", () => {
     expect(component.find(PieChart)).to.have.lengthOf(1);
+  });
+
+  it("renders the DashboardTable", () => {
+    expect(component.find(DashboardTable)).to.have.lengthOf(1);
   });
 });

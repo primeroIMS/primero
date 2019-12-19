@@ -1,6 +1,5 @@
 import { DB, RECORD_PATH } from "../../config";
 import { ENQUEUE_SNACKBAR } from "../notifier";
-import * as FiltersActions from "../filters-builder/actions";
 
 import { cleanUpFilters } from "./helpers";
 import * as Actions from "./actions";
@@ -14,33 +13,6 @@ export const setFilters = data => async dispatch => {
 
   dispatch({
     type: `${recordType}/SET_FILTERS`,
-    payload: options
-  });
-};
-
-export const setCasesFilters = data => async dispatch => {
-  const { options } = data;
-
-  dispatch({
-    type: FiltersActions.CASES_SET_FILTERS,
-    payload: options
-  });
-};
-
-export const setIncidentsFilters = data => async dispatch => {
-  const { options } = data;
-
-  dispatch({
-    type: FiltersActions.INCIDENTS_SET_FILTERS,
-    payload: options
-  });
-};
-
-export const setTracingRequestFilters = data => async dispatch => {
-  const { options } = data;
-
-  dispatch({
-    type: FiltersActions.TRACING_REQUESTS_SET_FILTERS,
     payload: options
   });
 };
