@@ -22,7 +22,7 @@ const Container = () => {
     recordType,
     columns,
     options: {
-      selectableRows: false
+      selectableRows: "none"
     },
     defaultFilters: fromJS({
       per: 20,

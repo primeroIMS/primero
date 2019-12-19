@@ -10,7 +10,8 @@ import {
   NotAuthorized,
   NotFound,
   Admin,
-  UsersList
+  UsersList,
+  UsersForm
 } from "../components/pages";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
@@ -130,6 +131,30 @@ export default [
         exact: false,
         extraProps: {
           routes: [
+            {
+              path: `${ROUTES.admin_users}/:id`,
+              component: UsersForm,
+              resources: RESOURCES.users,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
+              path: `${ROUTES.admin_users}/:id/new`,
+              component: UsersForm,
+              resources: RESOURCES.users,
+              extraProps: {
+                mode: MODES.new
+              }
+            },
+            {
+              path: `${ROUTES.admin_users}/:id/edit`,
+              component: UsersForm,
+              resources: RESOURCES.users,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
             {
               path: ROUTES.admin_users,
               component: UsersList,
