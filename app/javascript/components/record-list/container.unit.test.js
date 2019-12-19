@@ -1,11 +1,12 @@
 import { expect } from "chai";
 import React from "react";
 import { Route } from "react-router-dom";
-import { fromJS } from "immutable";
+import { fromJS, Map, List } from "immutable";
 import { ExpansionPanel } from "@material-ui/core";
+import isEmpty from "lodash/isEmpty";
 
-import Filters from "../filters";
-import Panel from "../filters-builder/Panel";
+import Filters from "../index-filters";
+import Panel from "../index-filters/components/panel";
 import IndexTable from "../index-table";
 import { ACTIONS } from "../../libs/permissions";
 import { setupMountedComponent } from "../../test";
@@ -17,8 +18,8 @@ describe("<RecordList />", () => {
   let component;
 
   beforeEach(() => {
-    const initialState = fromJS({
-      records: {
+    const initialState = Map({
+      records: fromJS({
         FiltersTabs: {
           current: 0
         },
@@ -42,13 +43,13 @@ describe("<RecordList />", () => {
             record_state: ["true"]
           }
         }
-      },
-      user: {
-        modules: ["primeromodule-cp"],
-        listHeaders: {
+      }),
+      user: Map({
+        modules: List(["primeromodule-cp"]),
+        listHeaders: fromJS({
           cases: [{ id: "name", name: "Name", field_name: "name" }]
-        },
-        filters: {
+        }),
+        filters: Map({
           cases: [
             {
               name: "cases.filter_by.enabled_disabled",
@@ -63,12 +64,12 @@ describe("<RecordList />", () => {
               type: "multi_toggle"
             }
           ]
-        },
-        permissions: {
+        }),
+        permissions: fromJS({
           cases: [ACTIONS.MANAGE, ACTIONS.DISPLAY_VIEW_PAGE]
-        }
-      },
-      application: {
+        })
+      }),
+      application: fromJS({
         online: true,
         modules: [
           {
@@ -77,7 +78,7 @@ describe("<RecordList />", () => {
             associated_record_types: ["case"]
           }
         ]
-      }
+      })
     });
 
     const routedComponent = initialProps => {
@@ -105,9 +106,17 @@ describe("<RecordList />", () => {
   it("renders Enabled / Disabled filter expanded", () => {
     const filterPanel = component.find(Filters).find(Panel);
     const expansionPanel = component.find(Filters).find(ExpansionPanel);
+    const filterPanelProps = filterPanel.props();
 
     expect(filterPanel).to.have.lengthOf(1);
-    expect(filterPanel.props().hasValues).to.equal(true);
+    expect(
+      !isEmpty(
+        filterPanelProps.getValues()?.[
+          filterPanelProps.selectedDefaultValueField ||
+            filterPanelProps.filter.field_name
+        ]
+      )
+    ).to.equal(true);
 
     expect(expansionPanel).to.have.lengthOf(1);
     expect(expansionPanel.props().expanded).to.equal(true);

@@ -2,14 +2,7 @@ import React from "react";
 
 import { RECORD_PATH } from "../../config";
 import { ToggleIconCell } from "../index-table";
-import {
-  fetchCases,
-  fetchIncidents,
-  fetchTracingRequests,
-  setCasesFilters,
-  setIncidentsFilters,
-  setTracingRequestFilters
-} from "../records";
+import { fetchCases, fetchIncidents, fetchTracingRequests } from "../records";
 
 export const buildTableColumns = (columns, i18n, recordType, css) => {
   const iconColumns = ["photo", "alert_count"];

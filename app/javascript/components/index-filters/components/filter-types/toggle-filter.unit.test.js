@@ -7,10 +7,12 @@ describe("<ToggleFilter>", () => {
     filter: {
       field_name: "filter",
       name: "Filter 1",
-      options: [
-        { id: "option-1", display_text: "Option 1" },
-        { id: "option-2", display_text: "Option 2" }
-      ]
+      options: {
+        en: [
+          { id: "option-1", display_text: "Option 1" },
+          { id: "option-2", display_text: "Option 2" }
+        ]
+      }
     }
   };
 
@@ -24,7 +26,7 @@ describe("<ToggleFilter>", () => {
     const { component } = setupMockFormComponent(ToggleFilter, props);
 
     ["option-1", "option-2"].forEach(
-      option => expect(component.exists(`input[value='${option}']`)).to.be.true
+      option => expect(component.exists(`button[value='${option}']`)).to.be.true
     );
   });
 });

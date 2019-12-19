@@ -45,6 +45,7 @@ describe("<RecordSearch />", () => {
 
     [
       "id",
+      "fullWidth",
       "className",
       "placeholder",
       "onKeyUp",

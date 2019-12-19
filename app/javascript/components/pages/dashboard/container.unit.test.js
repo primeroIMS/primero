@@ -72,7 +72,8 @@ describe("<Dashboard />", () => {
             dashboards: [
               ACTIONS.DASH_CASE_RISK,
               ACTIONS.DASH_WORKFLOW,
-              ACTIONS.DASH_WORKFLOW_TEAM
+              ACTIONS.DASH_WORKFLOW_TEAM,
+              ACTIONS.DASH_APPROVALS_CLOSURE
             ]
           }
         }
@@ -84,28 +85,28 @@ describe("<Dashboard />", () => {
     expect(component.find(OverviewBox)).to.have.lengthOf(1);
   });
 
-  it("renders the FlagList", () => {
-    expect(component.find(FlagList)).to.have.lengthOf(1);
-  });
+  // it("renders the FlagList", () => {
+  //   expect(component.find(FlagList)).to.have.lengthOf(1);
+  // });
 
-  it("renders the FlagBox", () => {
-    expect(component.find(FlagList).find(FlagBox)).to.have.lengthOf(2);
-  });
+  // it("renders the FlagBox", () => {
+  //   expect(component.find(FlagList).find(FlagBox)).to.have.lengthOf(2);
+  // });
 
-  it("renders the Doughnut chart", () => {
-    expect(component.find(DoughnutChart)).to.have.lengthOf(1);
-  });
+  // it("renders the Doughnut chart", () => {
+  //   expect(component.find(DoughnutChart)).to.have.lengthOf(1);
+  // });
 
-  it("renders the Line chart", () => {
-    expect(component.find(LineChart)).to.have.lengthOf(1);
-  });
+  // it("renders the Line chart", () => {
+  //   expect(component.find(LineChart)).to.have.lengthOf(1);
+  // });
 
   it("renders the Table", () => {
-    expect(component.find(DashboardTable)).to.have.lengthOf(2);
+    expect(component.find(DashboardTable)).to.have.lengthOf(1);
   });
 
   it("renders only one TableRow in the TableBody", () => {
-    expect(component.find(TableBody).find(TableRow)).to.have.lengthOf(2);
+    expect(component.find(TableBody).find(TableRow)).to.have.lengthOf(1);
   });
 
   it("renders the BadgedIndicator", () => {
@@ -118,5 +119,113 @@ describe("<Dashboard />", () => {
 
   it("renders the DashboardTable", () => {
     expect(component.find(DashboardTable)).to.have.lengthOf(1);
+  });
+
+  describe("render approvals dashboards assessment", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.approvals_assessment",
+                  type: "indicator",
+                  stats: {
+                    approval_assessment_pending: {
+                      count: 1,
+                      query: []
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_APPROVALS_ASSESSMENT]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the OverviewBox", () => {
+      expect(component.find(OverviewBox)).to.have.lengthOf(1);
+    });
+  });
+
+  describe("render approvals dashboards case plan", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.approvals_case_plan",
+                  type: "indicator",
+                  stats: {
+                    approval_case_plan_pending: {
+                      count: 1,
+                      query: []
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_APPROVALS_CASE_PLAN]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the OverviewBox", () => {
+      expect(component.find(OverviewBox)).to.have.lengthOf(1);
+    });
+  });
+
+  describe("render approvals dashboards closure", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.approvals_case_plan",
+                  type: "indicator",
+                  stats: {
+                    approval_closure_pending: {
+                      count: 1,
+                      query: []
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_APPROVALS_CLOSURE]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the OverviewBox", () => {
+      expect(component.find(OverviewBox)).to.have.lengthOf(1);
+    });
   });
 });
