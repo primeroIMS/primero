@@ -1,5 +1,6 @@
 <%
-  reporting_location_options = Lookup.values('lookup-reporting-location-type').map{|p| [p['display_text'], p['id']]}
+  reporting_location_options = Lookup.values_for_select('lookup-reporting-location-type')
+  show_reporting_locations = reporting_location_options.present?
 %>
 
 <% content_for :breadcrumbs do %>
@@ -77,19 +78,21 @@
                     </label>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="medium-4 columns">
-                    <%= f.label :reporting_location_level, t("role.reporting_location_level_label"), :class=>'key'  %>
+                <% if show_reporting_locations %>
+                  <div class="row">
+                    <div class="medium-4 columns">
+                      <%= f.label :reporting_location_level, t("role.reporting_location_level_label"), :class=>'key'  %>
+                    </div>
+                    <div class="medium-8 columns">
+                      <label class="left">
+                        <%= select_tag "role[reporting_location_level]",
+                                       options_for_select(reporting_location_options,
+                                                          @role.reporting_location_level),
+                                       include_blank: true, disabled: true%>
+                      </label>
+                    </div>
                   </div>
-                  <div class="medium-8 columns">
-                    <label class="left">
-                      <%= select_tag "role[reporting_location_level]",
-                                     options_for_select(reporting_location_options,
-                                                        @role.reporting_location_level),
-                                     include_blank: true, disabled: true%>
-                    </label>
-                  </div>
-                </div>
+                <% end %>
                 <div class="row">
                   <div class="medium-4 columns">
                     <%= f.label :permissions, t("permissions.label"), :class=>'key'  %>

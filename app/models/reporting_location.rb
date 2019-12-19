@@ -17,12 +17,8 @@ class ReportingLocation
   DEFAULT_ADMIN_LEVEL = 2
 
   class << self
-
-
     def reporting_location_levels
-      #TODO grab this from a config/lookup somewhere
-      #TODO this is quick & dirty
-      ['country', 'province', 'governorate', 'district']
+      Lookup.values('lookup-reporting-location-type').map{|l| l['id']}
     end
   end
 
