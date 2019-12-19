@@ -64,7 +64,7 @@ gem 'jquery-turbolinks'
 gem 'arabic-letter-connector', :git => 'https://github.com/Quoin/arabic-letter-connector', :branch => 'support-lam-alef-ligatures'
 gem 'twitter_cldr'
 
-gem 'puma', '~> 3.7'
+gem 'puma', '~> 3.12.2'
 
 #Security assertions:
 gem "nokogiri", ">= 1.10.4"

@@ -279,7 +279,7 @@ GEM
       byebug (~> 11.0)
       pry (~> 0.10)
     public_suffix (3.1.1)
-    puma (3.12.1)
+    puma (3.12.2)
     rack (2.0.7)
     rack-mini-profiler (1.0.2)
       rack (>= 1.2.0)
@@ -495,7 +495,7 @@ DEPENDENCIES
   progress_bar (~> 1.1.0)
   pry
   pry-byebug
-  puma (~> 3.7)
+  puma (~> 3.12.2)
   rack-mini-profiler (>= 1.0.0)
   rack_session_access
   rails (= 5.1.6.2)
