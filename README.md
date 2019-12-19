@@ -18,8 +18,9 @@ All command below assume that you are starting in the Primero root directory.
     $ ./build.sh postgres
     $ ./build.sh solr
     $ ./compose.local.sh up -d postgres
-    $ ./compose.local.sh run solr make-primero-core.sh primero-test
+    $ ./compose.local.sh run --rm solr make-primero-core.sh primero-test
     $ ./compose.local.sh up -d solr
+    $ cd ..
 
 Note that on Linux, where Docker runs as root by default,
 you will need to run the build and the compose scripts as `sudo`.
@@ -28,7 +29,7 @@ you will need to run the build and the compose scripts as `sudo`.
 
     $ #Install RVM
     $ gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-    $ \curl -sSL https://get.rvm.io | bash
+    $ curl -sSL https://get.rvm.io | bash
     $ echo "source ~/.rvm/scripts/rvm" >> ~/.bashrc
     $ source  ~/.rvm/scripts/rvm
     $
@@ -65,7 +66,7 @@ On MacOS:
 
 On Ubuntu:
 
-    $ sudo apt-get install -y libpq imagemagick
+    $ sudo apt-get install -y libpq-dev imagemagick
 
 On Fedora:
 
@@ -104,6 +105,7 @@ Make sure that the secrets we set earlier are in your environment (replace .bash
 
 Prepare the database
 
+    $ mkdir log
     $ rails db:create
     $ rails db:migrate
     $ rails db:seed
@@ -114,7 +116,7 @@ Generate the i18n translation files
 
 You may start the development Rails server on port 3000:
 
-    $ rails s
+    $ rails server -b 127.0.0.1 -p 3000
 
 And in a separate terminal window, the development Rails Webpacker server:
 
