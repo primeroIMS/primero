@@ -59,14 +59,7 @@ module ConfigurationResourceHelper
     label_text = I18n.t(label_key)
 
     value = if lookup.present?
-              object.send(field).map do |id|
-                display_value = Lookup.display_value(lookup, id)
-                if lookup == 'lookup-service-type' && display_value.blank?
-                  I18n.t("messages.non_active_service", { service: id })
-                else
-                  display_value
-                end
-              end.compact.join(', ')
+              object.send(field).map { |id| Lookup.display_value(lookup, id)}.compact.join(', ')
             else
               object.send(field)
             end
@@ -101,26 +94,4 @@ module ConfigurationResourceHelper
           class: ((type == 'date') ? 'form_date_field' : 'file_name')))
     end
   end
-
-  def service_options(object, services)
-    services_ids = services.map{ |option| option[1] }
-    non_active_services = (object.services || []).select do |service|
-      services_ids.exclude?(service)
-    end.map do |service|
-      [I18n.t("messages.non_active_service", { service: service }), service, { style: "display: none" }]
-    end
-    services + non_active_services
-  end
-
-  def agency_options(user, agencies)
-    agency_ids = agencies.map{ |option| option[1] }
-    if(user.agency.present? && agency_ids.exclude?(user.agency.id))
-      agency_id = user.agency.id
-      agencies += [
-        [I18n.t("messages.non_active_agency", { agency: agency_id }), agency_id, { style: "display: none" }]
-      ]
-    end
-    agencies
-  end
-
 end

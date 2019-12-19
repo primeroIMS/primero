@@ -13,8 +13,7 @@ describe User do
                                :disabled => 'false',
                                :verified => true,
                                :role_ids => options[:role_ids] || ['random_role_id'],
-                               :module_ids => options[:module_ids] || ['test_module_id'],
-                               :location => nil
+                               :module_ids => options[:module_ids] || ['test_module_id']
                            })
     user = User.new(options)
     user

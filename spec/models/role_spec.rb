@@ -50,10 +50,6 @@ describe Role do
           @role.reporting_location_level = 'bad_level'
         end
 
-        it 'is not valid' do
-          expect(@role).not_to be_valid
-        end
-
         it 'returns an error message' do
           @role.valid?
           expect(@role.errors.messages[:reporting_location_level]).to eq(['Location Level must be one of ReportingLocation Level values'])
