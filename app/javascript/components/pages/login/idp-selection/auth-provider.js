@@ -1,5 +1,9 @@
-import { UserAgentApplication } from "msal";
-import { DOMAIN } from "./config";
+import {
+  setMsalApp,
+  setMsalConfig,
+  getLoginRequest,
+  getTokenRequest
+} from "./auth-utils";
 
 let msalApp;
 
@@ -12,6 +16,7 @@ const getToken = (tokenRequest) => {
 
 const updateUI = () => {
   const userName = msalApp.getAccount().name;
+  console.log('userName', msalApp.getAccount(), msalApp.getAccount().name)
   const login = document.getElementsByClassName("loginSelection")[0];
   const logout = document.getElementsByClassName("logoutSelection")[0];
   login.style.display = "none";
@@ -19,32 +24,14 @@ const updateUI = () => {
 };
 
 export const signIn = async (idp) => {
-  localStorage.setItem("provider_id", idp.get("unique_id"));
-  const loginRequest = {
-    scopes: idp.get("identity_scope").toArray(),
-    extraQueryParameters: {domain_hint: idp.get("unique_id")}
-  };
+  const msalConfig = setMsalConfig(idp);
+  msalApp = setMsalApp(msalConfig);
+  const unique_id = idp.get("unique_id");
 
-  const redirectUri = `http://${DOMAIN}/login/${idp.get("provider_type")}`;
+  localStorage.setItem("provider_id", unique_id);
 
-  const msalConfig = {
-    auth: {
-      clientId: idp.get("client_id"),
-      authority: idp.get("authorization_url"),
-      validateAuthority: false,
-      redirectUri: redirectUri
-    },
-    cache: {
-      cacheLocation: "localStorage",
-      storeAuthStateInCookie: true
-    }
-  };
-
-  const tokenRequest = {
-    scopes: idp.get("identity_scope").toArray()
-  };
-
-  msalApp = new UserAgentApplication(msalConfig);
+  const loginRequest = getLoginRequest(idp);
+  const tokenRequest = getTokenRequest(idp);
 
   const loginResponse = await msalApp.loginPopup(loginRequest);
   if (loginResponse) {
@@ -54,6 +41,7 @@ export const signIn = async (idp) => {
       });
 
     if (tokenResponse) {
+      console.log('tokenResponse', tokenResponse);
       updateUI();
     }
   }

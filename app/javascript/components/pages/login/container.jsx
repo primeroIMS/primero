@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import { UserAgentApplication } from "msal";
 import { fromJS } from "immutable";
 
 import { NAME } from "./config";
@@ -10,6 +9,7 @@ import IdpSelection from "./idp-selection";
 import LoginForm from "./login-form";
 import { selectUseIdentityProvider } from "./selectors";
 import { selectIdentityProviders } from "./idp-selection/selectors";
+import { setMsalApp, setMsalConfig } from "./idp-selection/auth-utils";
 
 const Container = ({ match }) => {
   const { params } = match;
@@ -23,18 +23,8 @@ const Container = ({ match }) => {
       return provider.get("unique_id") === provider_id;
     }) : fromJS({});
 
-    const msalConfig = {
-      auth: {
-       clientId: provider.get("client_id"),
-       authority: provider.get("authorization_url"),
-       validateAuthority: false
-      },
-      cache: {
-       cacheLocation: "localStorage",
-       storeAuthStateInCookie: true
-      }
-    };
-    msalApp = new UserAgentApplication(msalConfig);
+    const msalConfig = setMsalConfig(provider);
+    msalApp = setMsalApp(msalConfig);
   } else {
     return (
       <>
