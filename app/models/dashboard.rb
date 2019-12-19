@@ -109,6 +109,11 @@ class Dashboard < ValueObject
   DASH_PROTECTION_CONCERNS = Dashboard.new(
     name: "dash_protection_concerns",
     type: 'indicator',
-    indicators: Indicators::Case.new.protection_concerns
+    indicators: [
+      Indicators::Case::PROTECTION_CONCERN_ALL_CASES,
+      Indicators::Case::PROTECTION_CONCERN_OPEN_CASES,
+      Indicators::Case::PROTECTION_CONCERN_NEW_THIS_WEEK,
+      Indicators::Case::PROTECTION_CONCERN_COSED_THIS_WEEK
+    ]
   ).freeze
 end
