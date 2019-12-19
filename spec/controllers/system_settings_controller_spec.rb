@@ -6,13 +6,10 @@ describe SystemSettingsController do
   before do
     SystemSettings.all.each &:destroy
     reporting_location = ReportingLocation.new(field_key: 'owned_by_location', label_key: 'district', admin_level: 2,
-                                               type: ReportingLocation::PRIMARY_REPORTING_LOCATION, hierarchy_filter: ['blah'])
-    secondary_reporting_location = ReportingLocation.new(field_key: 'location_current', label_key: 'governorate', admin_level: 1,
-                                               type: ReportingLocation::SECONDARY_REPORTING_LOCATION, hierarchy_filter: ['blah'])
+                                               hierarchy_filter: ['blah'])
     @system_settings = SystemSettings.create(default_locale: 'en',
                                              case_code_separator: '-',
                                              reporting_location_config: reporting_location,
-                                             reporting_locations: [reporting_location, secondary_reporting_location],
                                              primero_version: '1.3.3',
                                              age_ranges: {'primero' => ["0 - 5","6 - 11","12 - 17","18+"],
                                                           'unhcr' => ["0 - 4","5 - 11","12 - 17","18 - 59","60+"]},
@@ -52,21 +49,8 @@ describe SystemSettingsController do
                                             "label_key"=>"district",
                                             "admin_level"=>2,
                                             "reg_ex_filter"=>nil,
-                                            "type"=>"primary",
-                                            "hierarchy_filter"=>["blah"]},
-            "reporting_locations"=>
-              [{"field_key"=>"owned_by_location",
-                "label_key"=>"district",
-                "admin_level"=>2,
-                "reg_ex_filter"=>nil,
-                "type"=>"primary",
-                "hierarchy_filter"=>["blah"]},
-               {"field_key"=>"location_current",
-                "label_key"=>"governorate",
-                "admin_level"=>1,
-                "reg_ex_filter"=>nil,
-                "type"=>"secondary",
-                "hierarchy_filter"=>["blah"]}],
+                                            "hierarchy_filter"=>["blah"],
+                                            "admin_level_map"=>{"country"=>0, "province"=>1, "district"=>2}},
             "primero_version" => @system_settings.primero_version,
             "age_ranges" => {"primero" => ["0 - 5","6 - 11","12 - 17","18+"],
                              "unhcr" => ["0 - 4","5 - 11","12 - 17","18 - 59","60+"]},

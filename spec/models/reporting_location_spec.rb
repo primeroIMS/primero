@@ -38,31 +38,11 @@ describe ReportingLocation do
     end
   end
 
-  describe '#is_primary?' do
-    context 'when type is not set' do
-      it 'defaults to true' do
-        expect(@reporting_location.is_primary?).to be_truthy
-      end
-    end
+  describe '.map_reporting_location_level_to_admin_level' do
+    #TODO
+  end
 
-    context 'when type is PRIMARY' do
-      before do
-        @reporting_location.type = ReportingLocation::PRIMARY_REPORTING_LOCATION
-      end
-
-      it 'returns true' do
-        expect(@reporting_location.is_primary?).to be_truthy
-      end
-    end
-
-    context 'when type is SECONDARY' do
-      before do
-        @reporting_location.type = ReportingLocation::SECONDARY_REPORTING_LOCATION
-      end
-
-      it 'returns false' do
-        expect(@reporting_location.is_primary?).to be_falsey
-      end
-    end
+  describe '.reporting_location_levels' do
+    #TODO
   end
 end

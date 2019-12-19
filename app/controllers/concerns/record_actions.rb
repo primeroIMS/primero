@@ -6,6 +6,7 @@ module RecordActions
   include TransitionActions
   include MarkForMobileActions
   include LoggerActions
+  include ReportingLocationActions
 
   included do
     skip_before_action :verify_authenticity_token, raise: false
@@ -276,21 +277,6 @@ module RecordActions
   #TODO - Primero - Refactor needed.  Determine more elegant way to load the lookups.
   def get_lookups
     @lookups = Lookup.all.all
-  end
-
-  def load_default_settings
-    if @system_settings.present? && @system_settings.reporting_location_config.present?
-      @admin_level ||= @system_settings.reporting_location_config.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
-      @reporting_location ||= @system_settings.reporting_location_config.field_key || ReportingLocation::DEFAULT_FIELD_KEY
-      @reporting_location_label ||= @system_settings.reporting_location_config.label_key || ReportingLocation::DEFAULT_LABEL_KEY
-      #NOTE: @system_settings.reporting_location_config.reg_ex_filter is deprecated
-      @reporting_location_hierarchy_filter ||= @system_settings.reporting_location_config.hierarchy_filter || nil
-    else
-      @admin_level ||= ReportingLocation::DEFAULT_ADMIN_LEVEL
-      @reporting_location ||= ReportingLocation::DEFAULT_FIELD_KEY
-      @reporting_location_label ||= ReportingLocation::DEFAULT_LABEL_KEY
-      @reporting_location_hierarchy_filter ||= nil
-    end
   end
 
   def load_referral_role_options

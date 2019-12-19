@@ -821,6 +821,7 @@ en:
     transfer_label: "Can this role be used for Transfers?"
     referral_label: "Can this role be used for Referrals?"
     group_permission_label: "What records does this role affect?"
+    reporting_location_level_label: "What location type should be used for reporting for this role?"
     role_ids_label: "Others roles managed by this role"
 
   agencies:
@@ -1816,6 +1817,7 @@ en:
         name_present: "Name must not be blank"
         permission_presence: "Please select at least one permission"
         unique_name: "A role with that name already exists, please enter a different name"
+        reporting_location_level: "Location Level must be one of ReportingLocation Level values"
 
         permission:
           resource_presence: "Please select a resource"

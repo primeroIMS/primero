@@ -14,12 +14,7 @@ class SystemSettings < CouchRest::Model::Base
   property :auto_populate_list, :type => [AutoPopulateInformation], :default => []
   property :unhcr_needs_codes_mapping, Mapping
   property :export_config_id
-
-  # reporting_location_config is retained for backwards compatibility
-  # going forward, use reporting_locations
-  #TODO remove reporting_location_config after all existing configs have been remediated to use reporting_locations
   property :reporting_location_config, ReportingLocation
-  property :reporting_locations, [ReportingLocation], :default => []
 
   property :primero_version
   property :age_ranges, { String => [AgeRange] }
@@ -38,7 +33,6 @@ class SystemSettings < CouchRest::Model::Base
   # TODO this validation has been commented out because default_locale can now be blank if the locales.yml is used
   # validates_presence_of :default_locale, :message => I18n.t("errors.models.system_settings.default_locale")
   validate :validate_locales
-  validate :validate_reporting_locations
 
   #TODO: Think about what needs to take place to the current config. Update?
   before_save :set_version
@@ -68,18 +62,6 @@ class SystemSettings < CouchRest::Model::Base
     errors.add(:locales, I18n.t("errors.models.system_settings.locales"))
   end
 
-  #If there are reporting locations, one (and only 1) of them should be PRIMARY
-  def validate_reporting_locations
-    if reporting_locations.present?
-      primary_count = reporting_locations.select{|rl| rl.is_primary?}.count
-      return true if primary_count == 1
-      errors.add(:locales, I18n.t("errors.models.system_settings.reporting_locations.no_primary")) if primary_count == 0
-      errors.add(:locales, I18n.t("errors.models.system_settings.reporting_locations.too_many_primary")) if primary_count > 1
-      return false
-    end
-    true
-  end
-
   #SyetsmSettings should be a singleton. It can have a hard-coded name.
   def name
     I18n.t('system_settings.label')
@@ -101,21 +83,6 @@ class SystemSettings < CouchRest::Model::Base
 
   def auto_populate_info(field_key = "")
     self.auto_populate_list.select{|ap| ap.field_key == field_key}.first if self.auto_populate_list.present?
-  end
-
-  def get_reporting_location(reporting_location_admin_level)
-    if reporting_locations.present?
-      #TODO what if there is no match on admin_level?
-      return reporting_locations.select{|l| l.admin_level == reporting_location_admin_level}.first if reporting_location_admin_level.present?
-
-      #If no admin_level passed in, return the Primary Reporting Location
-      return reporting_locations.select{|l| l.is_primary?}.first
-    elsif reporting_location_config.present?
-      warn "[DEPRECATION] 'reporting_location_config' is deprecated.  Please use 'reporting_locations' instead."
-      reporting_location_config
-    else
-      {}
-    end
   end
 
   def self.handle_changes
