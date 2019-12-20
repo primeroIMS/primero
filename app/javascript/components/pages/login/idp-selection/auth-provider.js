@@ -16,7 +16,6 @@ const getToken = (tokenRequest) => {
 
 const updateUI = () => {
   const userName = msalApp.getAccount().name;
-  console.log('userName', msalApp.getAccount(), msalApp.getAccount().name)
   const login = document.getElementsByClassName("loginSelection")[0];
   const logout = document.getElementsByClassName("logoutSelection")[0];
   login.style.display = "none";
@@ -24,14 +23,16 @@ const updateUI = () => {
 };
 
 export const signIn = async (idp) => {
+  const identity_scope = idp.get("identity_scope").toJS();
+  const unique_id = idp.get("unique_id");
+
   const msalConfig = setMsalConfig(idp);
   msalApp = setMsalApp(msalConfig);
-  const unique_id = idp.get("unique_id");
 
   localStorage.setItem("provider_id", unique_id);
 
-  const loginRequest = getLoginRequest(idp);
-  const tokenRequest = getTokenRequest(idp);
+  const loginRequest = getLoginRequest(identity_scope, unique_id);
+  const tokenRequest = getTokenRequest(identity_scope);
 
   const loginResponse = await msalApp.loginPopup(loginRequest);
   if (loginResponse) {
@@ -41,7 +42,6 @@ export const signIn = async (idp) => {
       });
 
     if (tokenResponse) {
-      console.log('tokenResponse', tokenResponse);
       updateUI();
     }
   }

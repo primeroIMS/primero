@@ -1,8 +1,13 @@
+import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { setMsalConfig } from "./auth-utils";
+import {
+  setMsalConfig,
+  getLoginRequest,
+  getTokenRequest
+} from "./auth-utils";
 
-describe.only("auth-utils", () => {
+describe("auth-utils", () => {
   let idp;
 
   before(() => {
@@ -10,22 +15,21 @@ describe.only("auth-utils", () => {
       name: "UNICEF",
       unique_id: "unicef",
       provider_type: "b2c",
-      configuration: {
-        client_id: "123",
-        authorization_url: "authorization",
-        identity_scope: ["123"],
-        verification_url: "verification"
-      }
+      client_id: "123",
+      authorization_url: "authorization",
+      identity_scope: ["123"],
+      verification_url: "verification"
+
     });
   });
 
-  it("renders login buttons for providers", () => {
+  it("returns provider details", () => {
     const expected = {
       auth: {
         clientId: "123",
         authority: "authorization",
         validateAuthority: false,
-        redirectUri: `${window.location.host}/v2/login/b2c`
+        redirectUri: `http://${window.location.host}/v2/login/b2c`
       },
       cache: {
         cacheLocation: "localStorage",
@@ -34,5 +38,22 @@ describe.only("auth-utils", () => {
     };
 
     expect(setMsalConfig(idp)).to.deep.equal(expected);
+  });
+
+  it("returns login request", () => {
+    const expected = {
+      scopes: ["123"],
+      extraQueryParameters: {domain_hint: "domain"}
+    };
+
+    expect(getLoginRequest(["123"], "domain")).to.deep.equal(expected);
+  });
+
+  it("returns token request", () => {
+    const expected = {
+      scopes: ["123"]
+    };
+
+    expect(getTokenRequest(["123"])).to.deep.equal(expected);
   });
 });

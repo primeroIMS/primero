@@ -17,7 +17,7 @@ export const setMsalConfig = (idp) => {
   };
 };
 
-export const setMsalApp = (setMsalConfig) => {
+export const setMsalApp = (msalConfig) => {
   return new UserAgentApplication(msalConfig);
 };
 
