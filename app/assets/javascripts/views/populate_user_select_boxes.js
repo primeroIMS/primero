@@ -104,6 +104,10 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
     var filters_required = $select_box.data("filters-required");
     var data_filters = self.getRequiredFilters($select_box);
 
+    if(!_.isEqual($select_box.val(), $select_box.data("value"))) {
+      $select_box.data("value", $select_box.val());
+    }
+
     if (!filters_required || (filters_required && !_.isEmpty(_.compact(_.values(data_filters))))) {
       var other_filters = self.getMoreFilters($select_box) ? self.getMoreFilters($select_box) : {};
       _.extend(data_filters, other_filters);
@@ -133,10 +137,12 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
 
       } else {
         // Use the data that we have.
-        self.parseOptions($select_box);
-        if(onComplete) {
-          onComplete();
-        }
+        setTimeout(function(){
+          self.parseOptions($select_box);
+          if(onComplete) {
+            onComplete();
+          }
+        }, 0);
       }
 
     } else {
