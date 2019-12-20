@@ -116,4 +116,17 @@ class Dashboard < ValueObject
       Indicators::Case::PROTECTION_CONCERN_COSED_THIS_WEEK
     ]
   ).freeze
+
+  DASH_REPORTING_LOCATION = Dashboard.new(
+    name: 'dash_reporting_location',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::REPORTING_LOCATION_OPEN,
+      Indicators::Case::REPORTING_LOCATION_OPEN_LAST_WEEK,
+      Indicators::Case::REPORTING_LOCATION_OPEN_THIS_WEEK,
+      Indicators::Case::REPORTING_LOCATION_CLOSED_LAST_WEEK,
+      Indicators::Case::REPORTING_LOCATION_CLOSED_THIS_WEEK
+    ]
+  ).freeze
+
 end
