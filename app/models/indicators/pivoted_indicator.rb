@@ -2,6 +2,10 @@ module Indicators
   class PivotedIndicator < AbstractIndicator
     attr_accessor :pivots
 
+    def self.type
+      'pivoted_indicator'
+    end
+
     def query(sunspot, user)
       this = self
       sunspot.instance_eval do

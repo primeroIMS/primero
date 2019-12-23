@@ -107,21 +107,9 @@ class Dashboard < ValueObject
   ).freeze
 
   DASH_REPORTING_LOCATION = Dashboard.new(
-    name: 'dash_reporting_location',
+    name: 'reporting_location',
     type: 'indicator',
-    indicators: -> {
-      reporting_location_config = SystemSettings.current.reporting_location_config
-      admin_level = reporting_location_config.admin_level
-      field_key = reporting_location_config.field_key
-
-      [
-        Indicators::Case::REPORTING_LOCATION_OPEN.call(field_key, admin_level),
-        Indicators::Case::REPORTING_LOCATION_OPEN_LAST_WEEK.call(field_key, admin_level),
-        Indicators::Case::REPORTING_LOCATION_OPEN_THIS_WEEK.call(field_key, admin_level),
-        Indicators::Case::REPORTING_LOCATION_CLOSED_LAST_WEEK.call(field_key, admin_level),
-        Indicators::Case::REPORTING_LOCATION_CLOSED_THIS_WEEK.call(field_key, admin_level)
-      ]
-    }.call
+    indicators: Indicators::Case.reporting_location_indicators
   ).freeze
 
 end

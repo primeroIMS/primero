@@ -19,59 +19,6 @@ module Indicators
 
     #NEW = TODO: Cases that have just been assigned to me. Need extra work.
 
-    REPORTING_LOCATION_OPEN = -> (field_key, admin_level) {
-      FacetedIndicator.new(
-        name: 'open',
-        facet: "#{field_key}#{admin_level}",
-        record_model: Child,
-        scope: OPEN_ENABLED
-      ).freeze
-    }
-
-    REPORTING_LOCATION_OPEN_LAST_WEEK = -> (field_key, admin_level) {
-      FacetedIndicator.new(
-        name: 'open_last_week',
-        facet: "#{field_key}#{admin_level}",
-        record_model: Child,
-        scope: OPEN_ENABLED + [
-          SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.last_week))
-        ],
-      ).freeze
-    }
-
-    REPORTING_LOCATION_OPEN_THIS_WEEK = -> (field_key, admin_level) {
-      FacetedIndicator.new(
-        name: 'open_this_week',
-        facet: "#{field_key}#{admin_level}",
-        record_model: Child,
-        scope: OPEN_ENABLED + [
-          SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.this_week))
-        ]
-      ).freeze
-    }
-
-    REPORTING_LOCATION_CLOSED_LAST_WEEK = -> (field_key, admin_level) {
-      FacetedIndicator.new(
-        name: 'closed_last_week',
-        facet: "#{field_key}#{admin_level}",
-        record_model: Child,
-        scope: CLOSED_ENABLED + [
-          SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.last_week))
-        ]
-      ).freeze
-    }
-
-    REPORTING_LOCATION_CLOSED_THIS_WEEK = -> (field_key, admin_level) {
-      FacetedIndicator.new(
-        name: 'closed_this_week',
-        facet: "#{field_key}#{admin_level}",
-        record_model: Child,
-        scope: CLOSED_ENABLED + [
-          SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.this_week))
-        ]
-      ).freeze
-    }
-
     UPDATED = QueriedIndicator.new(
       name: 'updated',
       record_model: Child,
@@ -262,6 +209,54 @@ module Indicators
         )
       ]
     ).freeze
+
+    def self.reporting_location_indicators
+      reporting_location_config = SystemSettings.current.reporting_location_config
+      admin_level = reporting_location_config.admin_level
+      field_key = reporting_location_config.field_key
+      facet_name = "#{field_key}#{admin_level}"
+
+      [
+        FacetedIndicator.new(
+          name: 'reporting_location_open',
+          facet: facet_name,
+          record_model: Child,
+          scope: OPEN_ENABLED
+        ).freeze,
+        FacetedIndicator.new(
+          name: 'reporting_location_open_last_week',
+          facet: facet_name,
+          record_model: Child,
+          scope: OPEN_ENABLED + [
+            SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.last_week))
+          ],
+        ).freeze,
+        FacetedIndicator.new(
+          name: 'reporting_location_open_this_week',
+          facet: facet_name,
+          record_model: Child,
+          scope: OPEN_ENABLED + [
+            SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.this_week))
+          ]
+        ).freeze,
+        FacetedIndicator.new(
+          name: 'reporting_location_closed_last_week',
+          facet: facet_name,
+          record_model: Child,
+          scope: CLOSED_ENABLED + [
+            SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.last_week))
+          ]
+        ).freeze,
+        FacetedIndicator.new(
+          name: 'reporting_location_closed_this_week',
+          facet: facet_name,
+          record_model: Child,
+          scope: CLOSED_ENABLED + [
+            SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.this_week))
+          ]
+        ).freeze
+      ]
+    end
 
   end
 end

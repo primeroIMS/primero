@@ -22,6 +22,10 @@ module Indicators
       def present
         Time.zone.now
       end
+
+      def type
+        raise NotImplementedError
+      end
     end
 
     def query(_, _)
