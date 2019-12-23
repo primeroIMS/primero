@@ -32,8 +32,6 @@ const RecordListToolbar = ({
     selectedRecords
   };
 
-  console.log("SELECTEDRECORDS", selectedRecords);
-
   return (
     <Box mb={3} alignItems="center" display="flex" className={css.toolbar}>
       <Box flexGrow={1}>

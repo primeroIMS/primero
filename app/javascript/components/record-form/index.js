@@ -10,5 +10,6 @@ export {
   getErrors,
   getSelectedForm
 } from "./selectors";
-export { TextField } from "./form";
+export { FormSectionField } from "./form";
 export { FieldRecord } from "./records";
+export { constructInitialValues } from "./helpers";

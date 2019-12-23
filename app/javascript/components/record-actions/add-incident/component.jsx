@@ -1,30 +1,23 @@
-/* eslint-disable react/display-name */
-/* eslint-disable react/no-multi-comp */
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Button, Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
-import { Formik, Form } from "formik";
+import { useSelector } from "react-redux";
 
 import { useI18n } from "../../i18n";
-import { ActionDialog } from "../../action-dialog";
-import { FieldRecord } from "../../record-form";
+import { getRecordForms, constructInitialValues } from "../../record-form";
+import { MODULES, RECORD_TYPES } from "../../../config";
+import StepperModal from "../stepper-modal";
 
-import Fields from "./fields";
-import { NAME } from "./constants";
-import styles from "./styles.css";
+import { NAME, INCIDENT_SUBFORM_NAME, SEPARATOR_FIELD_TYPE } from "./constants";
 
-const Component = ({
-  openIncidentDialog,
-  close,
-  recordType,
-  records,
-  selectedRowsIndex
-}) => {
+const Component = ({ openIncidentDialog, close, recordType }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
-
   const [activeStep, setActiveStep] = useState(0);
+  const form = useSelector(state =>
+    getRecordForms(state, {
+      recordType: RECORD_TYPES[recordType],
+      primeroModule: MODULES.CP
+    })
+  ).filter(f => f.unique_id === INCIDENT_SUBFORM_NAME);
 
   useEffect(() => {
     if (!openIncidentDialog) {
@@ -32,58 +25,29 @@ const Component = ({
     }
   }, [openIncidentDialog]);
 
-  const fields = [
-    {
-      display_name:
-        "Do you have consent from the individual to make this transfer?",
-      name: "consent",
-      type: "tick_box",
-      step: 0
-    },
-    {
-      display_name: "Location of contact",
-      name: "location",
-      type: "select_box",
-      step: 3
-    },
-    {
-      display_name: "How did you come into contact with this migrant?",
-      name: "contact_migrant",
-      type: "select_box",
-      step: 1
-    },
-    {
-      display_name: "Date of contact",
-      name: "date_of_contact",
-      type: "date_field",
-      step: 2
-    },
-    {
-      display_name: "Details of contact",
-      name: "details_of_contact",
-      type: "text_field",
-      step: 0
-    },
-    {
-      display_name: "Has child attempted migration before?",
-      name: "attempted_migration",
-      type: "radio_button",
-      step: 4
-    }
-  ];
+  if (!form?.toJS()?.length) return null;
 
-  const renderStepsContent = index => {
-    const stepsFields = fields.filter(f => f.step === index);
-    const formattedFields = stepsFields.map(stepsField => {
-      const field = { ...stepsField };
+  const subformSectionID = form.first().fields[0].subform_section_id;
+  const initialFormValues = constructInitialValues([subformSectionID]);
+  const subformFields = subformSectionID?.toJS().fields;
 
-      delete field.step;
+  const totalSteps =
+    subformFields &&
+    subformFields.filter(sf => sf.type === SEPARATOR_FIELD_TYPE).length - 1;
 
-      return FieldRecord(field);
-    });
+  let stepCount = -1;
+  const fields =
+    subformFields &&
+    subformFields.reduce((acc, obj) => {
+      const field = obj;
 
-    return <Fields fields={formattedFields} />;
-  };
+      if (obj.type === SEPARATOR_FIELD_TYPE) {
+        stepCount += 1;
+      }
+      field.step = stepCount;
+
+      return [...acc, field];
+    }, []);
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -93,77 +57,34 @@ const Component = ({
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
-  const previousButtonClass =
-    activeStep === 0 || activeStep === 4 ? css.hide : null;
-
-  const nextButton =
-    activeStep === 4 ? (
-      <>
-        <Button variant="contained" color="primary" onClick={handleNext}>
-          {i18n.t("buttons.save")}
-        </Button>
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={handleNext}
-          className={css.successButton}
-        >
-          {i18n.t("buttons.save_and_add_service_provision")}
-        </Button>
-      </>
-    ) : (
-      <Button variant="contained" color="primary" onClick={handleNext}>
-        {i18n.t("actions.next")}
-      </Button>
-    );
-
-  const justifyButtons = activeStep === 4 ? "flex-start" : "space-between";
+  const modalProps = {
+    open: openIncidentDialog,
+    successHandler: () => {},
+    dialogTitle: i18n.t("actions.incident_details_from_case"),
+    dialogTitleSmall: `Step ${activeStep + 1} of ${totalSteps + 1}`,
+    confirmButtonLabel: i18n.t("buttons.save"),
+    onClose: close,
+    hideModalActions: true
+  };
 
   const formProps = {
-    initialValues: {},
+    initialValues: initialFormValues,
     onSubmit: () => {}
   };
 
-  return (
-    <ActionDialog
-      open={openIncidentDialog}
-      successHandler={() => {}}
-      dialogTitle={i18n.t("actions.incident_details_from_case")}
-      dialogTitleSmall={`Step ${activeStep + 1} of 5`}
-      confirmButtonLabel={i18n.t("buttons.save")}
-      onClose={close}
-      hideModalActions
-    >
-      <Formik {...formProps}>
-        {({ handleSubmit }) => {
-          return (
-            <Form onSubmit={handleSubmit}>
-              <div className={css.content}>
-                {renderStepsContent(activeStep)}
-              </div>
-              <Grid
-                container
-                direction="row"
-                justify={justifyButtons}
-                alignItems="flex-end"
-                className={css.actionButtons}
-              >
-                <Button
-                  className={previousButtonClass}
-                  onClick={handleBack}
-                  variant="outlined"
-                  color="primary"
-                >
-                  {i18n.t("actions.previous")}
-                </Button>
-                {nextButton}
-              </Grid>
-            </Form>
-          );
-        }}
-      </Formik>
-    </ActionDialog>
-  );
+  const stepperModalProps = {
+    activeStep,
+    fields,
+    formProps,
+    handleBack,
+    handleNext,
+    handleSaveAndAction: () => {},
+    modalProps,
+    recordType,
+    totalSteps
+  };
+
+  return <StepperModal {...stepperModalProps} />;
 };
 
 Component.propTypes = {
