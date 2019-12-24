@@ -210,13 +210,13 @@ describe User do
       create(:primero_module, primero_program_id: primero_program.id,
                               form_sections: [single_form])
     end
-    it "should not be valid when username contains whitespace" do
-      user = build_user :user_name => "in val id"
+    it 'should not be valid when username contains whitespace' do
+      user = build_user user_name: 'in val id'
       user.should_not be_valid
     end
 
-    it "should be valid when password contains whitespace" do
-      user = build_user :password => "v4lid with spaces"
+    it 'should be valid when password contains whitespace' do
+      user = build_user password: 'v4lid with spaces'
       user.should be_valid
     end
 
