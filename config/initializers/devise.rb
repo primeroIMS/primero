@@ -275,9 +275,9 @@ Devise.setup do |config|
   config.warden do |manager|
     # manager.intercept_401 = false
     if Rails.configuration.x.idp.use_identity_provider
-      #TODO: Remove the JWT strategy
+      # When using an external identity provider we are disabling native Primero authentication
       manager.strategies.add(:idp_token, IdpTokenStrategy)
-      manager.default_strategies(scope: :user).unshift :idp_token
+      manager.default_strategies(scope: :user).replace([:idp_token])
     end
   end
 
