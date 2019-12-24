@@ -13,6 +13,7 @@ class User < ApplicationRecord
 
   belongs_to :role
   belongs_to :agency
+  belongs_to :identity_provider, optional: false
 
   has_many :saved_searches
   has_and_belongs_to_many :user_groups

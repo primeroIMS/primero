@@ -15,11 +15,9 @@ class IdpToken
         jwks = IdentityProvider.jwks(true)
         content = decode(token_string, identity_providers, jwks)
       end
-
       return idp_token unless content.present?
 
-      idp_token.payload = content[0]
-      idp_token.header = content[1]
+      idp_token.payload, idp_token.header = content
       idp_token
     end
 
@@ -29,11 +27,8 @@ class IdpToken
       JWT.decode(
         token_string, nil, true,
         algorithm: ALGORITHM, jwks: jwks,
-        aud: aud, verify_aud: true,
-        iss: iss, verify_iss: true,
-        verify_iat: true,
-        verify_expiration: true,
-        verify_not_before: true
+        aud: aud, verify_aud: true, iss: iss, verify_iss: true,
+        verify_iat: true, verify_expiration: true, verify_not_before: true
       )
     end
 
@@ -47,13 +42,17 @@ class IdpToken
     payload && payload['emails'].first
   end
 
-  def user
-    return @user if @user.present?
-    # TODO: Pull user by both idp and user_name
-    #@user = User.find_by(user_name: user_name, identity_provider_unique_id: identity_provider.unique_id)
-    @user = User.find_by(user_name: user_name)
+  def issuer
+    payload && payload['iss']
   end
 
+  def user
+    return @user if @user.present?
 
+    @user = User.joins(:identity_provider).where(
+      'users.user_name = ? and identity_providers.configuration @> ?',
+      user_name, { issuer: issuer }.to_json
+    ).first
+  end
 
 end

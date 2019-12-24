@@ -8,7 +8,6 @@ class CreateIdentityProviders < ActiveRecord::Migration[5.0]
     end
     add_index :identity_providers, :unique_id, unique: true
     add_index :identity_providers, :configuration, using: 'gin'
-
-    add_column :users, :identity_provider_unique_id, :string
+    add_reference :users, :identity_provider, index: true
   end
 end
