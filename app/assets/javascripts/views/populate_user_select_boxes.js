@@ -104,6 +104,10 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
     var filters_required = $select_box.data("filters-required");
     var data_filters = self.getRequiredFilters($select_box);
 
+    if(!_.isEqual($select_box.val(), $select_box.data("value"))) {
+      $select_box.data("value", $select_box.val());
+    }
+
     if (!filters_required || (filters_required && !_.isEmpty(_.compact(_.values(data_filters))))) {
       var other_filters = self.getMoreFilters($select_box) ? self.getMoreFilters($select_box) : {};
       _.extend(data_filters, other_filters);
@@ -120,8 +124,6 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
 
         self.collection.fetch({data: self.filters})
             .done(function() {
-              // Remove the selected values that are no longer present in the results.
-              self.removeNotFoundValues($select_box);
               self.parseOptions($select_box);
               self.updateCollectionCache();
               if(onComplete) {
@@ -135,10 +137,12 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
 
       } else {
         // Use the data that we have.
-        self.parseOptions($select_box);
-        if(onComplete) {
-          onComplete();
-        }
+        setTimeout(function(){
+          self.parseOptions($select_box);
+          if(onComplete) {
+            onComplete();
+          }
+        }, 0);
       }
 
     } else {
@@ -208,17 +212,5 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
     return _.map(models, function(model){
       return { id: model.user_name, display_text: model.user_name };
     });
-  },
-
-  removeNotFoundValues: function($select_box){
-    var self = this;
-    var value = $select_box.data("value")
-    if(value) {
-      var values = _.isArray(value) ? value : value.toString().split(",");
-      values = _.filter(values, function(current) {
-        return !!self.collection.findWhere({ id: current });
-      });
-      $select_box.data("value", values.join(","));
-    }
   }
 });

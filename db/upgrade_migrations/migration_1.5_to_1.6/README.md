@@ -142,6 +142,12 @@ Run the migration
 - $ cd ~/application/
 - $ RAILS_ENV=production bundle exec rails r db/upgrade_migrations/migration_1.3_to_1.6/migrate_records.rb
 
+Run the migration scripts
+-------------------------------------------------------------------
+$ sudo -Hu primero bash
+$ cd ~/application/
+$ RAILS_ENV=production bundle exec rails r db/migration/0051_update_associated_user_groups.rb
+
 
 Reindex solr (if you want to test the application with the migrated data)
 -------------------------------------------------------------------------

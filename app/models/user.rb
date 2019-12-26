@@ -308,7 +308,30 @@ class User < CouchRest::Model::Base
   alias_method :Location, :user_location
 
   def reporting_location
-    @reporting_location ||= Location.get_reporting_location(self.user_location) if self.user_location.present?
+    location = self.user_location
+    return nil if location.blank?
+    reporting_location_admin_level = reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
+    return location if location.admin_level == reporting_location_admin_level
+    location.ancestor_by_admin_level(reporting_location_admin_level)
+  end
+
+  def reporting_location_config
+    @system_settings ||= SystemSettings.current
+    return nil if @system_settings.blank?
+    ss_reporting_location_config = @system_settings.try(:reporting_location_config)
+    return nil if ss_reporting_location_config.blank?
+    reporting_location_config = set_secondary_reporting_location(ss_reporting_location_config)
+  end
+
+  # If the user's Role has a secondary reporting location (indicated by reporting_location_level), override the reporting location from SystemSettings
+  def set_secondary_reporting_location(ss_reporting_location_config)
+    role_reporting_location_level = roles.compact.collect(&:reporting_location_level).flatten.uniq.first
+    return ss_reporting_location_config if role_reporting_location_level.blank?
+    admin_level = ss_reporting_location_config.map_reporting_location_level_to_admin_level(role_reporting_location_level)
+    return ss_reporting_location_config if admin_level == ss_reporting_location_config.admin_level
+    ss_reporting_location_config.admin_level = admin_level
+    ss_reporting_location_config.label_key = role_reporting_location_level
+    ss_reporting_location_config
   end
 
   def agency

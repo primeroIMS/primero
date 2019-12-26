@@ -58,7 +58,7 @@ define :railsexpress_patch_setup, :user => nil, :group => nil do
 
   rvm_patchsets_repo_path = ::File.join(Chef::Config[:file_cache_path], 'rvm_patchsets')
   git rvm_patchsets_repo_path do
-    repository 'git://github.com/skaes/rvm-patchsets.git'
+    repository 'https://github.com/skaes/rvm-patchsets.git'
     revision 'db2a4014bdc9119aa013c7d0b69ed2f444a780a8'
     action :sync
   end

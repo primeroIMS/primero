@@ -40,6 +40,16 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
+  :id => "lookup-reporting-location-type",
+  :name_en => "Reporting Location Type",
+  :locked => true,
+  :lookup_values_en => [
+    {id: "province", display_text: "Province"},
+    {id: "district", display_text: "District"}
+  ].map(&:with_indifferent_access)
+)
+
+create_or_update_lookup(
   :id => "lookup-country",
   :name_en => "Country",
   :lookup_values_en => [
