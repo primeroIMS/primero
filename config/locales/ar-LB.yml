@@ -75,7 +75,7 @@ ar-LB:
     string_sources_failed: "فشل تحميل بعض الحقول، يجب تجديد الصفحة لتحميل جميعها."
     system_settings_failed: "لم تنجح عملية تحميل إعدادات ضبط النظام."
     approval_alert: "الموافقة متوقفة لـ%{form_name}"
-    field_change_alert: "النموذج %{form_name} تمّ تحديثه بواسطة مقدّم الخدمة في%{form_date}"
+    field_change_alert: "النموذج %{form_name} تمّ تحديثه بواسطة مقدّم الخدمة في%{date}"
   data_base:
     delete_all_documents: "جميع وثائق الطفل محذوفة"
     operation_not_allowed: "العملية غير مسموح بها في بيئة %{rails_env}"
@@ -1671,6 +1671,13 @@ ar-LB:
         delete_field: "لا يمكن حذف الحقل غير القابل للتعديل"
         unique_name: "هذا الإسم '%{name}' مستخدم أصلاً."
         unique_id: "الرقم التعريفي الفريد '%{unique_id}' مُستخدم أصلاً."
+      enquiry:
+        presence_of_criteria: "الرجاء إضافة معايير إلى استفسارك"
+        presence_of_enquirer_name: "الرجاء إضافة إسم المستفسر إلى استفسارك"
+        presence_of_reporter_details: "الرجاء إضافة تفاصيل بيانات المبلّغ إلى استفسارك"
+        create_forbidden: "ممنوع"
+        not_found: "لم يتم العثور عليه"
+        malformed_query: "طلب غير صالح"
       role:
         name_present: "لا يجوز أن يكون الاسم فارغًا"
         permission_presence: "الرجاء تحديد إذن واحد على الأقل"

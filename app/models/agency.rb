@@ -70,11 +70,6 @@ class Agency < CouchRest::Model::Base
       value = (agency.present? ? agency.name(locale) : '')
     end
     memoize_in_prod :display_text
-
-    def list_by_service_enabled(service)
-      return self.list_by_enabled if service.blank?
-      (self.by_service(key: service).all || []).select{|a| a.disabled == false}
-    end
   end
 
   def generate_id

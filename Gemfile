@@ -65,6 +65,7 @@ gem 'arabic-letter-connector', :git => 'https://github.com/Quoin/arabic-letter-c
 gem 'twitter_cldr'
 
 gem 'puma', '~> 3.12.2'
+gem 'rack', '~> 2.0.8'
 
 #Security assertions:
 gem "nokogiri", ">= 1.10.4"

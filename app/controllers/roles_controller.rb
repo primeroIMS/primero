@@ -81,6 +81,7 @@ class RolesController < ApplicationController
     role_hash[:referral] = params[:role][:referral]
     role_hash[:group_permission] = params[:role][:group_permission]
     role_hash[:permitted_form_ids] = params[:role][:permitted_form_ids]
+    role_hash[:reporting_location_level] = params[:role][:reporting_location_level]
     role_hash[:permissions] = []
     if params[:role][:permissions_list].present?
       params[:role][:permissions_list].values.each do |permission|

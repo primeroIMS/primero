@@ -85,8 +85,6 @@ en:
     field_change_alert: "The %{form_name} form was updated by the service provider on %{date}"
     transfer_request_alert: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
     loading: "Loading..."
-    non_active_agency: "Non-active agency - %{agency}"
-    non_active_service: "Non-active service - %{service}"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -823,6 +821,7 @@ en:
     transfer_label: "Can this role be used for Transfers?"
     referral_label: "Can this role be used for Referrals?"
     group_permission_label: "What records does this role affect?"
+    reporting_location_level_label: "What location type should be used for reporting for this role?"
     role_ids_label: "Others roles managed by this role"
 
   agencies:
@@ -1818,6 +1817,7 @@ en:
         name_present: "Name must not be blank"
         permission_presence: "Please select at least one permission"
         unique_name: "A role with that name already exists, please enter a different name"
+        reporting_location_level: "Location Level must be one of ReportingLocation Level values"
 
         permission:
           resource_presence: "Please select a resource"
@@ -1882,6 +1882,10 @@ en:
       system_settings:
         default_locale: "System locale must not be blank"
         locales: "English must be available as a System Locale"
+
+        reporting_locations:
+          no_primary: "Reporting Locations should have 1 Primary Reporting Location"
+          too_many_primary: "Reporting Locations should have only 1 Primary Reporting Location"
 
       export_configuration:
         record_type: "Invalid record type. Must be Child, TracingRequest, or Incident."
@@ -2104,7 +2108,6 @@ en:
     done_success_message: "Referral Done."
     agency_label: "Agency"
     location_label: "Location"
-    not_available: "Refer not available"
 
   reassign:
     reassign_case_title: "Assign case(s) to:"

@@ -5,7 +5,8 @@ require 'rails_helper'
 describe SystemSettingsController do
   before do
     SystemSettings.all.each &:destroy
-    reporting_location = ReportingLocation.new(field_key: 'owned_by_location', label_key: 'district', admin_level: 2, reg_ex_filter: 'blah', hierarchy_filter: ['blah'])
+    reporting_location = ReportingLocation.new(field_key: 'owned_by_location', label_key: 'district', admin_level: 2,
+                                               hierarchy_filter: ['blah'])
     @system_settings = SystemSettings.create(default_locale: 'en',
                                              case_code_separator: '-',
                                              reporting_location_config: reporting_location,
@@ -44,11 +45,12 @@ describe SystemSettingsController do
     it "should return requested sources." do
       ss = {"default_locale" => "en", "case_code_format" => [], "case_code_separator" => '-',
             "auto_populate_list" => [], "unhcr_needs_codes_mapping" => nil,
-            "reporting_location_config" => {"field_key" => "owned_by_location",
-                                            "label_key" => "district",
-                                            "admin_level" => 2,
-                                            "reg_ex_filter" => 'blah',
-                                            "hierarchy_filter" => ["blah"]},
+            "reporting_location_config" => {"field_key"=>"owned_by_location",
+                                            "label_key"=>"district",
+                                            "admin_level"=>2,
+                                            "reg_ex_filter"=>nil,
+                                            "hierarchy_filter"=>["blah"],
+                                            "admin_level_map"=>{"country"=>0, "province"=>1, "district"=>2}},
             "primero_version" => @system_settings.primero_version,
             "age_ranges" => {"primero" => ["0 - 5","6 - 11","12 - 17","18+"],
                              "unhcr" => ["0 - 4","5 - 11","12 - 17","18 - 59","60+"]},

@@ -5,8 +5,8 @@ describe SystemSettings do
   end
 
   describe 'Validation' do
-    context 'with a reporting location' do
-      before :each do
+    context 'with a reporting_location_config' do
+      before do
         @system_settings.reporting_location_config = ReportingLocation.new(field_key: 'test')
       end
 
@@ -19,13 +19,6 @@ describe SystemSettings do
         it 'is valid' do
           expect(@system_settings).to be_valid
         end
-
-      end
-    end
-
-    context 'without a reporting location' do
-      it 'is valid' do
-        expect(@system_settings).to be_valid
       end
     end
 
@@ -91,5 +84,4 @@ describe SystemSettings do
       end
     end
   end
-
 end
