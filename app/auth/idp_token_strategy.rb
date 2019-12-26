@@ -14,10 +14,10 @@ class IdpTokenStrategy < Warden::JWTAuth::Strategy
     fail!('Invalid JWT token') unless idp_token.valid?
 
     user = idp_token.user
-    fail!("Valid JWT doesn't correspond to user") unless user.present?
+    fail!('Valid JWT does not correspond to user') unless user.present?
 
     success!(user)
-  rescue => e
+  rescue StandardError => e
     fail!(e.message)
   end
 

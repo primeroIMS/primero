@@ -220,29 +220,29 @@ describe User do
       user.should be_valid
     end
 
-    it "should not be valid when username already exists" do
-      build_and_save_user :user_name => "existing_user"
-      user = build_user :user_name => "existing_user"
+    it 'should not be valid when username already exists' do
+      build_and_save_user user_name: 'existing_user'
+      user = build_user user_name: 'existing_user'
       user.should_not be_valid
     end
 
-    it "should not be valid when email address is invalid" do
-      user = build_user :email => "invalid_email"
+    it 'should not be valid when email address is invalid' do
+      user = build_user email: 'invalid_email'
       user.should_not be_valid
     end
 
-    it "should throw error if organization detail not entered" do
-      user = build_user :organization => nil
+    it 'should throw error if agency detail not entered' do
+      user = build_user agency: nil
       user.should_not be_valid
-      end
+    end
 
-    it "should default disabled to false" do
-      user = User.new :disabled => nil
+    it 'should default disabled to false' do
+      user = User.new disabled: nil
       user.disabled.should be_falsey
     end
 
-    it "should generate _id" do
-      user = create(:user, :user_name => 'test_user_123')
+    it 'should generate id' do
+      user = create(:user, user_name: 'test_user_123')
       user.id.present?.should == true
     end
 
@@ -335,10 +335,12 @@ describe User do
       user.should be_valid
     end
 
-    it "should reject passwords that are less than 8 characters or don't have at least one alpha and at least 1 numeric character" do
-      user = build_user :password => "invalid"
+    it "should reject passwords that don't have at least one alpha and at least 1 numeric character" do
+      user = build_user :password => 'invalid'
       user.should_not be_valid
+    end
 
+    it 'should reject passwords that are less than 8 characters' do
       user = build_user :password => 'sh0rt'
       user.should_not be_valid
     end
@@ -384,6 +386,40 @@ describe User do
       user.errors[:password_confirmation].should_not be_nil
     end
 
+    describe 'Enabled external identity providers' do
+
+      before :each do
+        @idp = IdentityProvider.create!(name: 'primero', unique_id: 'primeroims')
+        allow_any_instance_of(User).to receive(:using_idp?).and_return(true)
+      end
+
+      it 'enforces email format for user names' do
+        user = build_user(
+          user_name: 'test',
+          identity_provider_id: @idp.id
+        )
+        expect(user).to_not be_valid
+      end
+
+      it 'allows a user to be saved without a password' do
+        user = build_user(
+          user_name: 'test@primero.org',
+          password: nil, password_confirmation: nil,
+          identity_provider_id: @idp.id
+        )
+        expect(user).to be_valid
+      end
+
+      after :each do
+        clean_data(IdentityProvider)
+      end
+
+    end
+
+  end
+
+  describe 'Dates' do
+
     it "should localize date using user's timezone" do
       user = build_user({ :time_zone => "American Samoa"})
       user.localize_date("2011-11-12 21:22:23 UTC").should == "12 November 2011 at 10:22 (SST)"
@@ -394,16 +430,17 @@ describe User do
       user.localize_date("2011-11-12 21:22:23 UTC", "%Y-%m-%d %H:%M:%S (%Z)").should == "2011-11-12 21:22:23 (UTC)"
     end
 
-    it "should load roles only once" do
-      dbl = double("roles", role: create(:role))
-      user = build_and_save_user
-      user.role.should == dbl.role
-    end
   end
 
   describe "user roles" do
     before :each do
       clean_data(Role, User)
+    end
+
+    it "should load roles only once" do
+      dbl = double("roles", role: create(:role))
+      user = build_and_save_user
+      user.role.should == dbl.role
     end
 
     it "should store the roles and retrive them back as Roles" do
@@ -412,8 +449,8 @@ describe User do
       User.find_by(user_name: user.user_name).role.should == admin_role
     end
 
-    it "should require atleast one role for a verified user" do
-      user = build_user(:role_id => [])
+    it 'should require at least one role for a verified user' do
+      user = build_user(role_id: nil)
       user.should_not be_valid
     end
   end

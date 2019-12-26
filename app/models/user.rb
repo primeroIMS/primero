@@ -1,8 +1,17 @@
+# frozen_string_literal: true
+
+# This model represents the Primero end user and the associated application permissions.
+# Primero can be configured to perform its own password-based authentication, in which case the
+# User model is responsible for storing the encrypted password and associated whitelisted JWT
+# token identifiers. If external identity providers are used (over OpenID Connect), the
+# model is not responsible for storing authentication information, and must mirror a user
+# in external IDP (such as Azure Active Directory).
 class User < ApplicationRecord
   include Importable
   include Devise::JWT::RevocationStrategies::Whitelist
   # include Memoizable
 
+  USER_NAME_REGEX = /\A[^ ]+\z/.freeze
   EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})$\z/.freeze
   PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/.freeze
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
@@ -36,7 +45,7 @@ class User < ApplicationRecord
 
   validates :full_name, presence: { message: 'errors.models.user.full_name' }
   validates :user_name, presence: true, uniqueness: { message: 'errors.models.user.user_name_uniqueness' }
-  validates :user_name, format: { with: /\A[^ ]+\z/, message: 'errors.models.user.user_name' }, unless: :using_idp?
+  validates :user_name, format: { with: USER_NAME_REGEX, message: 'errors.models.user.user_name' }, unless: :using_idp?
   validates :user_name, format: { with: EMAIL_REGEX, message: 'errors.models.user.user_name' }, if: :using_idp?
   validates :email, format: { with: EMAIL_REGEX, message: 'errors.models.user.email' }, allow_nil: true
   validates :password,
@@ -61,11 +70,11 @@ class User < ApplicationRecord
     end
 
     def password_parameters
-      %w(password password_confirmation)
+      %w[password password_confirmation]
     end
 
     def get_unique_instance(attributes)
-      find_by_user_name(attributes['user_name'])
+      User.find_by(user_name: attributes['user_name'])
     end
     # memoize_in_prod :get_unique_instance
 
@@ -75,7 +84,7 @@ class User < ApplicationRecord
     # memoize_in_prod :user_id_from_name
 
     def agencies_for_user(user_names)
-      where(user_name: user_names).map{ |u| u.organization }.uniq
+      where(user_name: user_names).map(&:agency).uniq
     end
 
     def last_login_timestamp(user_name)
@@ -102,7 +111,7 @@ class User < ApplicationRecord
       users = User.all
       if filters.present?
         filters = filters.compact
-        filters['disabled'] = filters['disabled'] == 'true' ? true : false
+        filters['disabled'] = (filters['disabled'] == 'true')
         users = users.where(filters)
         if user.present? && user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
           users = users.where(organization: user.organization)
@@ -114,7 +123,7 @@ class User < ApplicationRecord
       pagination[:page] = pagination[:page] > 1 ? pagination[:per_page] * pagination[:page] : 0
       users = users.limit(pagination[:per_page]).offset(pagination[:page])
       users = users.order(sort) if sort.present?
-      results.merge({ users: users })
+      results.merge(users: users)
     end
 
     def users_for_assign(user, model)
