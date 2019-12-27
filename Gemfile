@@ -45,6 +45,8 @@ gem 'activerecord-nulldb-adapter'
 # TODO: Re-evaluate if we still need this
 gem 'will_paginate',     '~> 3.1'
 
+gem 'rack', '~> 2.0.8'
+
 # Security assertions:
 gem "nokogiri", ">= 1.10.4"
 # ---
