@@ -93,18 +93,21 @@ class Child < ApplicationRecord
     configure_searchable(Child)
 
     quicksearch_fields.each do |f|
-      text(f) { self.data[f] }
+      text(f) { data[f] }
     end
 
-    %w[date_case_plan_initiated assessment_requested_on date_closure].each{|f| date(f)}
-
+    %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
     boolean :estimated
     integer :day_of_birth
+    integer :age
 
     string :status, as: 'status_sci'
     string :risk_level, as: 'risk_level_sci' do
       risk_level.present? ? risk_level : RISK_LEVEL_NONE
     end
+    string :sex, as: 'sex_sci'
+    string :protection_concerns, multiple: true
+
 
     date :assessment_due_dates, multiple: true do
       Tasks::AssessmentTask.from_case(self).map(&:due_date)

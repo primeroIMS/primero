@@ -28,6 +28,7 @@ describe Api::V2::TransferRequestsController, type: :request do
         module_id: @primero_module.unique_id,
       }
     )
+    ActiveJob::Base.queue_adapter = :test
   end
 
   let(:json) { JSON.parse(response.body) }
