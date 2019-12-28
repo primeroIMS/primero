@@ -353,10 +353,6 @@ describe TracingRequest do
 
   describe "photo attachments" do
 
-    before(:each) do
-      Clock.stub(:now).and_return(Time.parse("Jan 20 2010 17:10:32"))
-    end
-
     context "with no photos" do
       it "should have an empty set" do
         TracingRequest.new.photos.should be_empty
