@@ -16,6 +16,7 @@ class User < ApplicationRecord
 
   has_many :saved_searches
   has_and_belongs_to_many :user_groups
+  has_many :audit_logs
 
   scope :list_by_enabled, -> { where(disabled: false) }
   scope :list_by_disabled, -> { where(disabled: true) }
@@ -72,10 +73,6 @@ class User < ApplicationRecord
 
     def agencies_for_user(user_names)
       where(user_name: user_names).map{ |u| u.organization }.uniq
-    end
-
-    def last_login_timestamp(user_name)
-      AuditLog.where(action_name: 'login', user_name: user_name).try(:last).try(:timestamp)
     end
 
     def default_sort_field
@@ -193,10 +190,9 @@ class User < ApplicationRecord
     @reporting_location ||= Location.get_reporting_location(self.user_location) if self.user_location.present?
   end
 
-  # NOTE: Expensive not called often
   def last_login
-    timestamp = User.last_login_timestamp(self.user_name)
-    @last_login = self.localize_date(timestamp, "%Y-%m-%d %H:%M:%S %Z") if timestamp.present?
+    login = audit_logs.where(action: AuditLog::LOGIN).first
+    login&.timestamp
   end
 
   def modules
@@ -303,27 +299,10 @@ class User < ApplicationRecord
   end
 
   def mobile_login_history
-    AuditLog.where(action_name: 'login', user_name: user_name)
-            .where.not('mobile_data @> ?', { mobile_id: nil }.to_json)
-            .order(timestamp: :desc)
+    audit_logs
+      .where(action: AuditLog::LOGIN)
+      .where.not('audit_logs.metadata @> ?', { mobile_id: nil }.to_json)
   end
-
-  def localize_date(date_time, format = "%d %B %Y at %H:%M (%Z)")
-    #TODO - This is merely a patch for the deploy
-    # This needs to be refactored as a helper
-    # Further work needs to be done to clean up how dates are handled
-    if date_time.is_a?(Date)
-      date_time.in_time_zone(self[:time_zone]).strftime(format)
-    elsif date_time.is_a?(String)
-      DateTime.parse(date_time).in_time_zone(self[:time_zone]).strftime(format)
-    else
-      DateTime.parse(date_time.to_s).in_time_zone(self[:time_zone]).strftime(format)
-    end
-  end
-
-  # def self.memoized_dependencies
-  #   [FormSection, PrimeroModule, Role]
-  # end
 
   def admin?
     group_permission?(Permission::ALL)
@@ -339,7 +318,7 @@ class User < ApplicationRecord
 
   def send_welcome_email(host_url)
     @system_settings ||= SystemSettings.current
-    MailJob.perform_later(self.id, host_url) if self.email.present? && @system_settings.try(:welcome_email_enabled) == true
+    MailJob.perform_later(id, host_url) if email && @system_settings&.welcome_email_enabled
   end
 
   # Used by the User import to populate the password with a random string when the input file has no password
