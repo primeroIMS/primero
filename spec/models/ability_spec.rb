@@ -5,18 +5,18 @@ describe Ability do
   CRUD = [:index, :create, :view, :edit, :update, :destroy]
 
   before do
-    [
+    clean_data(
       User, Child, Field, FormSection,
       PrimeroModule, PrimeroProgram, Role,
       Agency, UserGroup
-    ].each(&:destroy_all)
+    )
     @user1 = create :user
     @user2 = create :user
     @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
     @permission_case_read_write = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
   end
 
-  describe "Records" do
+  describe 'Records' do
 
     before :each do
       Child.any_instance.stub(:field_definitions).and_return([])
@@ -684,8 +684,15 @@ describe Ability do
 
       context "is set with read access" do
         before :each do
-          @permission_agency_specific_read = Permission.new(resource: Permission::AGENCY, actions: [Permission::READ], agency_ids: [@agency1.id])
-          @role_agency_specific_read = create :role, permissions: [@permission_agency_specific_read], group_permission: Permission::GROUP
+          @permission_agency_specific_read = Permission.new(
+            resource: Permission::AGENCY, actions: [Permission::READ],
+            agency_ids: [@agency1.id]
+          )
+          @role_agency_specific_read = create(
+            :role,
+            permissions: [@permission_agency_specific_read],
+            group_permission: Permission::GROUP
+          )
           @user1.role = @role_agency_specific_read
           @user1.save
 
