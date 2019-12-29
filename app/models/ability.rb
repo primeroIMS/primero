@@ -2,9 +2,9 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    alias_action :index, :view, :list, :export, :to => :read
-    alias_action :edit, :update, :destroy, :disable, :to => :write
-    alias_action :new => :create
+    alias_action :index, :view, :list, :export, to: :read
+    alias_action :edit, :update, :destroy, :disable, to: :write
+    alias_action new: :create
 
     @user = user
 
@@ -65,7 +65,7 @@ class Ability
     end
   end
 
-  def user_permissions actions
+  def user_permissions(actions)
     can actions, User do |uzer|
       if (user.super_user?)
         true

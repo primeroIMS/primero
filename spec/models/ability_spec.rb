@@ -493,43 +493,75 @@ describe Ability do
     end
   end
 
-  describe "Users" do
+  describe 'Users' do
     before :each do
       @permission_user_read = Permission.new(resource: Permission::USER, actions: [Permission::READ])
       @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
     end
 
-    it "allows a user with read permissions to manage their own user" do
-      role = create :role, permissions: [@permission_user_read]
-      @user1.role = role
-      @user1.save
+    context 'with User READ permissions' do
+      before do
+        role_user_read = create :role, permissions: [@permission_user_read]
+        @user1.role = role_user_read
+        @user1.save
+        @ability_user_read = Ability.new @user1
+      end
 
-      ability = Ability.new @user1
+      it 'can read all users' do
+        expect(@ability_user_read).to authorize(:read, User)
+      end
 
-      expect(ability).to authorize(:read, @user1)
-      expect(ability).to authorize(:write, @user1)
+      it 'cannot write all users' do
+        expect(@ability_user_read).not_to authorize(:write, User)
+      end
+
+      it 'can read their own user' do
+        expect(@ability_user_read).to authorize(:read_self, @user1)
+      end
+
+      it 'can write their own user' do
+        expect(@ability_user_read).to authorize(:write_self, @user1)
+      end
+
+      it 'cannot write another user' do
+        expect(@ability_user_read).not_to authorize(:write, @user2)
+        expect(@ability_user_read).not_to authorize(:write_self, @user2)
+      end
     end
 
-    it "allows a user with no user permissions to manage their own user" do
-      role = create :role, permissions: [@permission_case_read]
-      @user1.role = role
-      @user1.save
+    context 'without User READ / WRITE permissions' do
+      before do
+        role_case_read = create :role, permissions: [@permission_case_read]
+        @user1.role = role_case_read
+        @user1.save
+        @ability_case_read = Ability.new @user1
+      end
 
-      ability = Ability.new @user1
+      it 'cannot read all users' do
+        expect(@ability_case_read).not_to authorize(:read, User)
+      end
 
-      expect(ability).to authorize(:read, @user1)
-      expect(ability).to authorize(:write, @user1)
-    end
+      it 'cannot write all users' do
+        expect(@ability_case_read).not_to authorize(:write, User)
+      end
 
-    it "doesn't allow a user with no explicit 'user' permission to manage another user" do
-      role = create :role, permissions: [@permission_case_read]
-      @user1.role = role
-      @user1.save
+      it 'can read their own user' do
+        expect(@ability_case_read).to authorize(:read_self, @user1)
+      end
 
-      ability = Ability.new @user1
+      it 'can write their own user' do
+        expect(@ability_case_read).to authorize(:write_self, @user1)
+      end
 
-      expect(ability).not_to authorize(:read, @user2)
-      expect(ability).not_to authorize(:write, @user2)
+      it 'cannot read another user' do
+        expect(@ability_case_read).not_to authorize(:read, @user2)
+        expect(@ability_case_read).not_to authorize(:read_self, @user2)
+      end
+
+      it 'cannot write another user' do
+        expect(@ability_case_read).not_to authorize(:write, @user2)
+        expect(@ability_case_read).not_to authorize(:write_self, @user2)
+      end
     end
 
     it "doesn't allow a user with no specified scope to edit another user" do
