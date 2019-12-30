@@ -119,8 +119,10 @@ class SystemSettings < ApplicationRecord
   end
 
   class << self
-    def current
-      @current ||= SystemSettings.first
+    def current(rebuild = false)
+      return @current unless @current.nil? || rebuild
+
+      @current = SystemSettings.first
     end
   end
 
