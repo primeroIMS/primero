@@ -12,11 +12,6 @@ describe Historical do
         { :unique_id => 'abcdef', :name => 'Larry', :relation => 'father' },
         { :unique_id => '123456', :name => 'Mary', :relation => 'mother' },
       ],
-      # :violations => {
-      #   :killing => [
-      #     { :unique_id => 'k1', :date => nil, :notes => 'kill1'}
-      #   ],
-      # },
     })
     @inst.save
   end
@@ -130,12 +125,11 @@ describe Historical do
 
   describe "ordered_histories" do
     it "should assign histories order by datetime of history" do
-      child = Child.create
       first_history = RecordHistory.new(datetime: DateTime.new(2010, 1, 1, 1, 1, 2))
       second_history = RecordHistory.new(datetime: DateTime.new(2010, 1, 2, 1, 1, 2))
       third_history = RecordHistory.new(datetime: DateTime.new(2010, 1, 2, 1, 1, 3))
-      child.record_histories << [first_history, second_history, third_history]
-      child.ordered_histories.map(&:datetime).should == [child.created_at] + [third_history, second_history, first_history].map(&:datetime)
+      @inst.record_histories << [first_history, second_history, third_history]
+      @inst.ordered_histories.map(&:datetime).should == [third_history, second_history, first_history].map(&:datetime) + [@inst.created_at]
     end
   end
 
