@@ -2,9 +2,9 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    alias_action :index, :view, :list, :export, :to => :read
-    alias_action :edit, :update, :destroy, :disable, :to => :write
-    alias_action :new => :create
+    alias_action :index, :view, :list, :export, to: :read
+    alias_action :edit, :update, :destroy, :disable, to: :write
+    alias_action new: :create
 
     @user = user
 
@@ -65,7 +65,7 @@ class Ability
     end
   end
 
-  def user_permissions actions
+  def user_permissions(actions)
     can actions, User do |uzer|
       if (user.super_user?)
         true
@@ -110,15 +110,14 @@ class Ability
         false
      # TODO-permission: The following code prevents a role from having access to itself.
      # As written it is too broad and won't let a user see or assign its own role.
-     # It should be limitted to only preventing the a role from editting itself:
-      elsif [Permission::ASSIGN, Permission::READ, Permission::WRITE].map{|p| p.to_sym}.any? {|p| actions.include?(p)}
-        #TODO-permission: This else statements should default to false, not true when the conditions are not met
+     # It should be limited to only preventing the a role from editing itself:
+      elsif ([Permission::ASSIGN, Permission::READ, Permission::WRITE].map(&:to_sym) & actions).present?
         permission.role_ids.present? ? (permission.role_ids.include? instance.id) : true
       # TODO-permission: This if statement should prevent a role from editing itself, but it should be evaluated before
       # the previous elsif to be effective
       # TODO-permission: I do not believe that the second part of the if statement is helpful or accurate:
       # Not even the super user is allowed to edit their own role, consider removing.
-      elsif (user.role_id == instance.id && !user.group_permission?(Permission::ALL))
+      elsif user.role_id == instance.id && !user.group_permission?(Permission::ALL)
         false
       else
         #TODO-permission: This else statements should default to false, not 'true' when the conditions are not met
@@ -127,11 +126,10 @@ class Ability
     end
   end
 
-  def agency_permissions permission
+  def agency_permissions(permission)
     actions = permission.action_symbols
     can actions, Agency do |instance|
-      #TODO-permission: BOTH of these else statements should default to false not true when the conditions are not met
-      if [Permission::ASSIGN, Permission::READ, Permission::WRITE].map{|p| p.to_sym}.any? {|p| actions.include?(p)}
+      if ([Permission::ASSIGN, Permission::READ, Permission::WRITE].map(&:to_sym) & actions).present?
         permission.agency_ids.present? ? (permission.agency_ids.include? instance.id) : true
       else
         true

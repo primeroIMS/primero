@@ -810,19 +810,20 @@ describe FormSection do
         @form.save!
       end
 
-      it "should not add field with different type" do
+      it 'should not add field with different type' do
         #This field is a text_field in another form.
-        @form.fields << Field.new({
-          "name" => "field_name_2",
-          "type" => Field::SELECT_BOX,
-          "display_name_all" => "Field Name 2",
-          "option_strings_text" => [{"id"=>"test1", "display_text"=>"test1,"}, {"id"=>"test2", "display_text"=>"test2,"}, {"id"=>"test3", "display_text"=>"test3"}]
-        })
-        @form.save.should be_falsey
-
-        #There is other field with the same on other form section
-        #so, we can't change the type.
-        expect(@form.errors.full_messages.join).to eq("Fields is invalid")
+        @form.fields << Field.new(
+          name: 'field_name_2',
+          type: Field::SELECT_BOX,
+          display_name_all: 'Field Name 2',
+          option_strings_text: [
+            { id: 'test1', display_text: 'test1' },
+            { id: 'test2', display_text: 'test2' },
+            { id: 'test3', display_text: 'test3' }
+          ]
+        )
+        expect(@form).to be_invalid
+        expect(@form.save).to be_falsey
       end
 
       it "should allow fields with the same name on different subforms" do
