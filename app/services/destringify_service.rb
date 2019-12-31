@@ -25,6 +25,12 @@ class DestringifyService
       rescue ArgumentError
         value
       end
+    when ::PrimeroDate::DATE_REGEX  #TODO: This is a hack, but we'll fix dates later
+      begin
+        PrimeroDate.parse_with_format(value)
+      rescue ArgumentError
+        value
+      end
     when /^(true|false)$/
       ::ActiveRecord::Type::Boolean.new.cast(value)
     when /^\d+$/
