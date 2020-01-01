@@ -8,8 +8,8 @@ class User < ApplicationRecord
   delegate :can?, :cannot?, to: :ability
 
   devise :database_authenticatable, :timeoutable,
-    :recoverable, :validatable,
-    :jwt_authenticatable, jwt_revocation_strategy: self
+         :recoverable, :validatable,
+         :jwt_authenticatable, jwt_revocation_strategy: self
 
   belongs_to :role
   belongs_to :agency
@@ -17,11 +17,15 @@ class User < ApplicationRecord
   has_many :saved_searches
   has_and_belongs_to_many :user_groups
   has_many :audit_logs
+  has_many :whitelisted_jwts
 
   scope :list_by_enabled, -> { where(disabled: false) }
   scope :list_by_disabled, -> { where(disabled: true) }
   scope :by_user_group, (lambda do |ids|
     joins(:user_groups).where(user_groups: { id: ids })
+  end)
+  scope :by_agency, (lambda do |id|
+    joins(:agency).where(agencies: { id: id })
   end)
 
   alias_attribute :organization, :agency
@@ -71,8 +75,8 @@ class User < ApplicationRecord
     end
     # memoize_in_prod :user_id_from_name
 
-    def agencies_for_user(user_names)
-      where(user_name: user_names).map{ |u| u.organization }.uniq
+    def agencies_for_user_names(user_names)
+      Agency.joins(:users).where('users.user_name in (?)', user_names)
     end
 
     def default_sort_field
@@ -196,15 +200,15 @@ class User < ApplicationRecord
   end
 
   def modules
-    role.modules
+    @modules ||= role.modules
   end
 
   def module_unique_ids
-    modules.pluck(:unique_id)
+    @module_unique_ids ||= modules.pluck(:unique_id)
   end
 
-  def has_module?(module_id)
-    modules.exists?(module_id)
+  def has_module?(module_unique_id)
+    module_unique_ids.include?(module_unique_id)
   end
 
   def has_permission?(permission)
@@ -238,27 +242,20 @@ class User < ApplicationRecord
     has_permission_by_permission_type?(record_type.parent_form, Permission::DISPLAY_VIEW_PAGE)
   end
 
-  #TODO: May deprecate this method in favor of record_query_scope
   def managed_users
     if group_permission? Permission::ALL
-      @managed_users ||= User.all
-      @record_scope = [Searchable::ALL_FILTER]
+      User.all
+    elsif group_permission?(Permission::AGENCY)
+      User.by_agency(agency_id)
     elsif group_permission?(Permission::GROUP) && user_group_ids.present?
-      @managed_users ||= User.by_user_group(user_group_ids)
-                             .uniq(&:user_name)
+      User.by_user_group(user_group_ids).uniq(&:user_name)
     else
-      @managed_users ||= [self]
+      [self]
     end
-
-    @managed_user_names ||= @managed_users.map(&:user_name)
-    @record_scope ||= @managed_user_names
-    @managed_users
   end
 
-  #TODO: May deprecate this method in favor of record_query_scope
   def managed_user_names
-    managed_users
-    @managed_user_names
+    @managed_user_names ||= managed_users.pluck(:user_name)
   end
 
   def user_managers
@@ -270,12 +267,6 @@ class User < ApplicationRecord
   def managers
     user_managers
     @managers
-  end
-
-  #TODO: Deprecate this method in favor of record_query_scope
-  def record_scope
-    managed_users
-    @record_scope
   end
 
   # This method indicates what records this user can search for.

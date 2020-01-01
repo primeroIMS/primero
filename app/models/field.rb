@@ -270,7 +270,7 @@ class Field < ApplicationRecord
       unless name.is_a? Array
         result = result.first
       end
-      return result
+      result
     end
     #memoize_in_prod :get_by_name
 

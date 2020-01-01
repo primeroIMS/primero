@@ -453,12 +453,6 @@ describe User do
       expect(@grunt1.managed_users).to eq([@grunt1])
     end
 
-    it "has a record scope of 'all' if it an manage all users" do
-      manager_role = create(:role, permissions: [@permission_user_read_write], group_permission: Permission::ALL, is_manager: true)
-      manager = create :user, role_id: manager_role.id
-      expect(manager.record_scope).to eq([Searchable::ALL_FILTER])
-    end
-
     it "does not manage users who share an empty group with it" do
       manager = create :user, role_id: @manager_role.id, user_group_ids: [@group_a.id, nil]
       grunt = create :user, role_id: @grunt_role.id, user_group_ids: [@group_b.id, nil]
