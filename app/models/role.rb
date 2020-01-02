@@ -97,7 +97,7 @@ class Role < ApplicationRecord
       begin
         "Dashboard::#{action.upcase}".constantize
       rescue NameError
-        nil
+        Dashboard.try(action.to_sym)
       end
     end || []
     dashboards.compact

@@ -106,10 +106,12 @@ class Dashboard < ValueObject
     indicators: [Indicators::Case::TASKS_OVERDUE_FOLLOWUPS]
   ).freeze
 
-  DASH_REPORTING_LOCATION = Dashboard.new(
-    name: 'reporting_location',
-    type: 'indicator',
-    indicators: Indicators::Case.reporting_location_indicators
-  ).freeze
+  def self.dash_reporting_location
+    Dashboard.new(
+      name: 'reporting_location',
+      type: 'indicator',
+      indicators: Indicators::Case.reporting_location_indicators
+    ).freeze
+  end
 
 end
