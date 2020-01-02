@@ -19,23 +19,24 @@ describe Api::V2::DashboardsController, type: :request do
 
     group1 = UserGroup.create!(name: 'Group1')
 
-    @foo = User.new(user_name: 'foo', user_groups: [group1])
-    @foo.save(validate: false)
-    @bar = User.new(user_name: 'bar', user_groups: [group1])
-    @bar.save(validate: false)
-
     Location.create!( placename_en: "Country", location_code:"CNT", admin_level: 0, type: "country", hierarchy_path: "")
     Location.create!( placename_en: "State", location_code:"STE", admin_level: 1, type: "state", hierarchy_path: "CTE")
     Location.create!( placename_en: "City", location_code:"CTY", admin_level: 2, type: "city", hierarchy_path: "CTE.STE")
 
-    Child.create!(data: { record_state: true, status: 'open', owned_by: 'foo', workflow: 'new' })
+    @foo = User.new(user_name: 'foo', user_groups: [group1], location: 'CTY')
+    @foo.save(validate: false)
+    @bar = User.new(user_name: 'bar', user_groups: [group1], location: 'CTY')
+    @bar.save(validate: false)
+
+
+    Child.create!(data: { record_state: true, status: 'open', owned_by: 'foo', workflow: 'new', created_at: 14.days.ago })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'foo', last_updated_by: 'bar', workflow: 'assessment' })
     Child.create!(data: { record_state: false, status: 'open', owned_by: 'foo', workflow: 'new' })
     Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: 1.day.ago, workflow: 'closed' })
     Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: 2.days.ago, workflow: 'closed' })
-    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: 15.days.ago, workflow: 'closed' })
+    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: 15.days.ago, workflow: 'closed', created_at: 14.days.ago  })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar', workflow: 'new' })
-    Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar', owned_by_location: 'CTY' })
+    Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar' })
 
     Sunspot.commit
   end
@@ -54,7 +55,7 @@ describe Api::V2::DashboardsController, type: :request do
       get '/api/v2/dashboards'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(2)
+      expect(json['data'].size).to eq(3)
 
       case_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.case_overview' }
       expect(case_overview_dashboard['indicators']['open']['count']).to eq(2)
@@ -65,8 +66,12 @@ describe Api::V2::DashboardsController, type: :request do
       expect(workflow_dashboard['indicators']['workflow']['assessment']['query']).to match_array(%w[owned_by=foo record_state=true status=open workflow=assessment])
 
       reporting_location_dashboard = json['data'].find { |d| d['name'] == 'dashboard.reporting_location' }
+      expect(reporting_location_dashboard['indicators']['reporting_location_open']['cty']['count']).to eq(2)
+      expect(reporting_location_dashboard['indicators']['reporting_location_open_this_week']['cty']['count']).to eq(1)
+      expect(reporting_location_dashboard['indicators']['reporting_location_open_last_week']['cty']['count']).to eq(1)
+      expect(reporting_location_dashboard['indicators']['reporting_location_closed_this_week']['cty']['count']).to eq(2)
+      expect(reporting_location_dashboard['indicators']['reporting_location_closed_last_week']['cty']['count']).to eq(1)
 
-      binding.pry
     end
   end
 
