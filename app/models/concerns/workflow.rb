@@ -94,7 +94,7 @@ module Workflow
         status_list << workflow_key_value(WORKFLOW_REOPENED, locale)
         status_list << workflow_key_value(WORKFLOW_ASSESSMENT, locale) if modules.try(:any?) {|m| m.use_workflow_assessment}
         status_list << workflow_key_value(WORKFLOW_CASE_PLAN, locale) if modules.try(:any?) {|m| m.use_workflow_case_plan}
-        status_list += lookup.lookup_values(locale)
+        status_list += lookup&.lookup_values(locale) || []
         status_list << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED, locale) if modules.try(:any?) {|m| m.use_workflow_service_implemented}
         status_list << workflow_key_value(WORKFLOW_CLOSED, locale)
         { locale => status_list }

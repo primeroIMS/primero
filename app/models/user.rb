@@ -17,7 +17,6 @@ class User < ApplicationRecord
   has_many :saved_searches
   has_and_belongs_to_many :user_groups
   has_many :audit_logs
-  has_many :whitelisted_jwts
 
   scope :list_by_enabled, -> { where(disabled: false) }
   scope :list_by_disabled, -> { where(disabled: true) }
