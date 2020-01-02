@@ -2,10 +2,6 @@ module Indicators
   class FacetedIndicator < AbstractIndicator
     attr_accessor :facet
 
-    def self.type
-      'faceted_indicator'
-    end
-
     def facet_name
       facet
     end

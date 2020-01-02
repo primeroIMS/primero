@@ -24,7 +24,7 @@ module Indicators
       end
 
       def type
-        raise NotImplementedError
+        'indicator'
       end
     end
 
