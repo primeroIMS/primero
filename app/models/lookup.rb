@@ -30,7 +30,7 @@ class Lookup < ApplicationRecord
       )
     end
 
-    def values(lookup_unique_id, lookups = nil, opts={})
+    def values(lookup_unique_id, lookups = nil, opts = {})
       locale = opts[:locale].presence || I18n.locale
       if lookups.present?
         lookup = lookups.find {|lkp| lkp.unique_id == lookup_unique_id}
@@ -59,7 +59,7 @@ class Lookup < ApplicationRecord
     def form_group_name_all(form_group_id, parent_form, module_name)
       lookup_ids = module_name.present? ? ["lookup-form-group-#{module_name.downcase}-#{parent_form}"] : form_group_lookup_mapping(parent_form)
       return nil if lookup_ids.blank?
-      lookup = Lookup.where(unique_id: lookup_ids).find{ |l| l.contains_form_group_id?(form_group_id) } 
+      lookup = Lookup.where(unique_id: lookup_ids).find{ |l| l.contains_form_group_id?(form_group_id) }
       if lookup.present?
         lookup.lookup_values_i18n.map do |k,v|
           { k => v.find{ |t| t['id'] == form_group_id }.try(:[], 'display_text') }
