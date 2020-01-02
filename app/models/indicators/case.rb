@@ -212,8 +212,8 @@ module Indicators
 
     def self.reporting_location_indicators
       reporting_location_config = SystemSettings.current.reporting_location_config
-      admin_level = reporting_location_config.admin_level
-      field_key = reporting_location_config.field_key
+      admin_level = reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      field_key = reporting_location_config.try(:field_key) || ReportingLocation::DEFAULT_FIELD_KEY
       facet_name = "#{field_key}#{admin_level}"
 
       [

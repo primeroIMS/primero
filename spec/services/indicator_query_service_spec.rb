@@ -2,6 +2,13 @@ require 'rails_helper'
 
 describe IndicatorQueryService, search: true do
   before :each do
+    SystemSettings.stub(:current).and_return(SystemSettings.new(
+      reporting_location_config: {
+        admin_level: 2 ,
+        field_key: 'owned_by_location'
+      }
+    ))
+
     permission_case = Permission.new(
       resource: Permission::CASE, actions: [Permission::READ]
     )
