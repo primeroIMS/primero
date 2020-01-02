@@ -733,42 +733,6 @@ describe TracingRequest do
 
   end
 
-  describe "Batch processing" do
-    before do
-      TracingRequest.all.each { |tracing_request| tracing_request.destroy }
-    end
-
-    it "should process in two batches" do
-      tracing_request1 = TracingRequest.new('created_by' => "user1", "relation_name" => "tracing_request1")
-      tracing_request2 = TracingRequest.new('created_by' => "user2", "relation_name" => "tracing_request2")
-      tracing_request3 = TracingRequest.new('created_by' => "user3", "relation_name" => "tracing_request3")
-      tracing_request4 = TracingRequest.new('created_by' => "user4", "relation_name" => "tracing_request4")
-      tracing_request4.save!
-      tracing_request3.save!
-      tracing_request2.save!
-      tracing_request1.save!
-
-      expect(TracingRequest.all.paginate(:page => 1, :per_page => 3)).to match_array([tracing_request4, tracing_request3, tracing_request2])
-      expect(TracingRequest.all.paginate(:page => 2, :per_page => 3)).to match_array([tracing_request1])
-
-      records = []
-      TracingRequest.all.each_slice(3) do |tracing_requests|
-        tracing_requests.each{|t| records << t.relation_name}
-      end
-
-      records.should eq(["tracing_request1", "tracing_request2", "tracing_request3", "tracing_request4"].reverse)
-    end
-
-    it "should process in 0 batches" do
-      records = []
-      TracingRequest.all.each_slice(3) do |tracing_requests|
-        tracing_requests.each{|t| records << t.relation_name}
-      end
-      records.should eq([])
-    end
-
-  end
-
   xdescribe 'match criteria' do
     before do
       fields = [
