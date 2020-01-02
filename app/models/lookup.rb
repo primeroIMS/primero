@@ -56,15 +56,22 @@ class Lookup < ApplicationRecord
     # memoize_in_prod :form_group_name
 
     # This replaces form_group_name above
-    def form_group_name_all(form_group_id, parent_form, module_name)
-      lookup_ids = module_name.present? ? ["lookup-form-group-#{module_name.downcase}-#{parent_form}"] : form_group_lookup_mapping(parent_form)
+    def form_group_name_all(form_group_id, parent_form, module_name, lookups = nil)
+      lookup_ids = if module_name.present?
+                     ["lookup-form-group-#{module_name.downcase}-#{parent_form}"]
+                   else
+                     form_group_lookup_mapping(parent_form)
+                   end
       return nil if lookup_ids.blank?
-      lookup = Lookup.where(unique_id: lookup_ids).find{ |l| l.contains_form_group_id?(form_group_id) }
-      if lookup.present?
-        lookup.lookup_values_i18n.map do |k,v|
-          { k => v.find{ |t| t['id'] == form_group_id }.try(:[], 'display_text') }
-        end.inject(:merge)
-      end
+
+      lookups ||= Lookup.where(unique_id: lookup_ids)
+      lookup = lookups.find { |l| l.contains_form_group_id?(form_group_id) }
+
+      return nil unless lookup.present?
+
+      lookup.lookup_values_i18n.map do |k, v|
+        { k => v.find { |t| t['id'] == form_group_id }&.[]('display_text') }
+      end.inject(:merge)
     end
 
     def add_form_group(form_group_id, form_group_description, parent_form, module_name, opts={})
@@ -118,21 +125,19 @@ class Lookup < ApplicationRecord
     def form_group_lookup_mapping(parent_form)
       lookup_ids = []
       case parent_form
-        when 'case'
-          lookup_ids = ['lookup-form-group-cp-case', 'lookup-form-group-gbv-case']
-        when 'tracing_request'
-          lookup_ids = ['lookup-form-group-cp-tracing-request']
-        when 'incident'
-          lookup_ids = ['lookup-form-group-cp-incident', 'lookup-form-group-gbv-incident']
-        else
-          #Nothing to do here
+      when 'case'
+        lookup_ids = %w[lookup-form-group-cp-case lookup-form-group-gbv-case]
+      when 'tracing_request'
+        lookup_ids = %w[lookup-form-group-cp-tracing-request]
+      when 'incident'
+        lookup_ids = %w[lookup-form-group-cp-incident lookup-form-group-gbv-incident]
       end
       lookup_ids
     end
   end
 
   def contains_form_group_id?(form_group_id)
-    self.lookup_values_i18n.values.flatten.find { |form_group| form_group['id'] == form_group_id }.present?
+    lookup_values_i18n.values.flatten.find { |form_group| form_group['id'] == form_group_id }.present?
   end
 
   def localized_property_hash(locale = Primero::Application::BASE_LANGUAGE)
