@@ -9,6 +9,7 @@ import { DashboardChip } from "../dashboard-chip";
 import { useI18n } from "../../i18n";
 import { ROUTES } from "../../../config";
 import { buildFilter } from "../helpers";
+import { INDICATOR_NAMES } from "../../pages/dashboard/constants";
 
 import styles from "./styles.css";
 
@@ -22,7 +23,11 @@ const BadgedIndicator = ({ data, lookup, sectionTitle }) => {
   }
 
   const dashboardChips = lookup.map(lk => {
-    const value = data.get("stats").get(lk.id);
+    // TODO: A refactor might be needed.
+    const value = data
+      .get("indicators")
+      .get(INDICATOR_NAMES.RISK_LEVEL)
+      .get(lk.id);
     const countValue = value ? value.get("count") : 0;
     const queryValue = value ? value.get("query") : [];
 
