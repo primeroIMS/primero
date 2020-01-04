@@ -73,26 +73,6 @@ module Exporters
         end
       end
 
-      # TODO: This method is unused. Delete?
-      def properties_to_keys(props)
-        #This flattens out the properties by modules by form,
-        # while maintaining form order and discarding dupes
-        if props.present?
-          if props.is_a?(Hash)
-            props.reduce({}) do |acc1, primero_module|
-              hash = primero_module[1].reduce({}) do |acc2, form|
-                acc2.merge(form[1])
-              end
-              acc1.merge(hash)
-            end.values
-          else
-            props
-          end
-        else
-          []
-        end
-      end
-
       # TODO: This should be used by the ExcelExporter
       ## Add other useful information for the report.
       def include_metadata_properties(props, model_class)
@@ -103,67 +83,7 @@ module Exporters
         return props
       end
 
-      # TODO: This method is unused
-      def current_model_class(models)
-        if models.present? && models.is_a?(Array)
-          models.first.class
-        end
-      end
-
-      # TODO: This is only used by the CSVListExporter.
-      # TODO: Combine with translation
-      # Date field in the index page are displayed with some format
-      # and they should be exported using the same format.
-      def to_exported_value(value)
-        if value.is_a?(Date)
-          I18n.l(value)
-        elsif value.is_a?(Time)
-          I18n.l(value, format: :with_time)
-        else
-          value
-        end
-      end
-
-      # TODO: Only used in ExcelExporter, SelectedFieldsExcelExporter
-      # TODO: Combine with the date localization above
-      def get_model_value(model, property)
-        exclude_name_mime_types = ['xls', 'csv', 'selected_xls']
-        if property.name == 'name' && model.try(:module_id) == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
-          "*****"
-        else
-          value = model.respond_to?(:data) ? model.data[property.name] : model[property.name]
-          translate_value(property, value)
-        end
-      end
-
-      def map_field_to_translated_value(field, value)
-        if field.present? && [Field::RADIO_BUTTON, Field::SELECT_BOX, Field::TICK_BOX].include?(field.type)
-          if value.is_a?(Array)
-            value.map{|v| field.display_text(v) }
-          else
-            field.display_text(value)
-          end
-        else
-          to_exported_value(value)
-        end
-      end
-
-      def translate_value(fields, value)
-        field = fields.is_a?(Array) ? fields.first : fields
-        if field.present? && field.is_a?(Field)
-           if fields.is_a?(Array) && field.type == Field::SUBFORM
-            field_names = fields.map{|pn| pn.try(:name)}
-            sub_fields = field.subform_section.try(:fields)
-            sub_field = sub_fields.select{|sf| field_names.include?(sf.name)}.first
-            map_field_to_translated_value(sub_field, value)
-          else
-            map_field_to_translated_value(field, value)
-          end
-        else
-          value
-        end
-      end
-
+      # TODO: Only used by the SelectedFieldsExcelExporter
       def get_model_location_value(model, property)
         Location.ancestor_placename_by_name_and_admin_level(model.send(property.first.try(:name)), property.last[:admin_level].to_i) if property.last.is_a?(Hash)
       end
@@ -188,6 +108,24 @@ module Exporters
       return fields unless reject_these.present?
 
       fields.reject { |f| reject_these.include?(f.name) }
+    end
+
+    def model_class(models)
+      return unless models.present? && models.is_a?(Array)
+
+      models.first.class
+    end
+
+    def export_value(value, field)
+      if value.is_a?(Date)
+        I18n.l(value)
+      elsif value.is_a?(Time)
+        I18n.l(value, format: :with_time)
+      elsif value.is_a?(Array)
+        value.map { |v| field.display_text(v, locale) }
+      else
+        field&.display_text(value, nil, locale) || value
+      end
     end
 
     def complete

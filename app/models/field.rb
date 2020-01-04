@@ -388,7 +388,7 @@ class Field < ApplicationRecord
     end
   end
 
-  def display_text(value=nil, lookups = nil)
+  def display_text(value = nil, lookups = nil, locale = nil)
     value = self.convert_true_false_key_to_string(value) if self.is_yes_no?
     if self.type == Field::TICK_BOX
       selected_option = self.options_list.select{|ol| ol[:id] == value.to_s}.first

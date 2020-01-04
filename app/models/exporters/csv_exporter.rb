@@ -18,7 +18,9 @@ module Exporters
     def export(records, fields, *_args)
       fields = fields_to_export(fields)
       csv_export = CSV.generate do |rows|
-        rows << headers(fields)
+        rows << headers(fields) if @called_first_time.nil?
+        @called_first_time ||= true
+
         records.each do |record|
           rows << row(record, fields)
         end
