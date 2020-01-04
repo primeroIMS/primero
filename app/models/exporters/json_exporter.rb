@@ -17,15 +17,16 @@ module Exporters
       end
     end
 
-    def export(records, fields, *_args)
-      fields = fields_to_export(fields)
-      hashes = records.map { |m| convert_model_to_hash(m, fields) }
+    def export(records, user, options = {})
+      establish_export_constraints(records, user, options)
+      hashes = records.map { |m| convert_model_to_hash(m) }
       buffer.write(JSON.pretty_generate(hashes))
     end
 
-    def convert_model_to_hash(record, fields)
+    def convert_model_to_hash(record)
+      field_names = fields.map(&:name)
       json_parse = JSON.parse(record.to_json)
-      data_fields = json_parse['data'].select { |k, _| fields.map(&:name).include?(k) }
+      data_fields = json_parse['data'].select { |k, _| field_names.include?(k) }
       json_parse['data'] = data_fields
       json_parse
     end

@@ -18,7 +18,7 @@ module Exporters
       Field::SUBFORM
     ].freeze
 
-    attr_accessor :locale, :lookups
+    attr_accessor :locale, :lookups, :fields, :forms
 
     class << self
       def id
@@ -44,14 +44,6 @@ module Exporters
 
       def authorize_fields_to_user?
         true
-      end
-
-      # TODO: Consider unifying the logic with what's in the record controllers
-      # Do we need to operate on fields? (:showable?)
-      def permitted_fields_to_export(user, record_type)
-        permitted_fields = user.permitted_fields(record_type)
-        model_class = Record.model_from_name(record_type)
-        user.can?(:write, model_class) ? permitted_fields : permitted_fields.select(&:showable?)
       end
 
       # This is a class method that does a one-shot export to a String buffer.
@@ -98,16 +90,13 @@ module Exporters
       self.locale = locale || I18n.locale
     end
 
-    def export(*args)
+    def export(*_args)
       raise NotImplementedError
     end
 
-    # Filter out any fields that are inappropriate to the exporter.
-    def fields_to_export(fields)
-      reject_these = self.class.excluded_field_names
-      return fields unless reject_these.present?
-
-      fields.reject { |f| reject_these.include?(f.name) }
+    def establish_export_constraints(records, user, options = {})
+      self.forms = forms_to_export(records, user, options)
+      self.fields = fields_to_export(forms, options)
     end
 
     def model_class(models)
@@ -135,5 +124,27 @@ module Exporters
     def buffer
       @io
     end
+
+    private
+
+    def forms_to_export(records, user, options = {})
+      record_type = model_class(records)&.parent_form
+      forms = user.permitted_forms(record_type).includes(:fields)
+      return forms unless options[:form_unique_ids].present?
+
+      forms.select { |form| options[:form_unique_ids].include?(form.unique_id) }
+    end
+
+    def fields_to_export(forms, options = {})
+      fields = forms.map(&:fields).flatten.uniq(&:name)
+      reject_these = self.class.excluded_field_names
+      fields = fields.reject { |f| reject_these.include?(f.name) } if reject_these.present?
+      return fields unless options[:field_names].present?
+
+      # TODO: Don't forget this:
+      # user.can?(:write, model_class) ? permitted_fields : permitted_fields.select(&:showable?)
+      fields.select { |field| options[:field_names].include?(field.name) }
+    end
+
   end
 end

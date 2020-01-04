@@ -5,6 +5,12 @@ require 'csv'
 module Exporters
   # Exports the top level fields of a record to a flat CSV
   class CSVExporter < BaseExporter
+
+    EXCLUDED_TYPES = [
+      Field::PHOTO_UPLOAD_BOX, Field::AUDIO_UPLOAD_BOX,
+      Field::DOCUMENT_UPLOAD_BOX, Field::SUBFORM, Field::SEPARATOR
+    ].freeze
+
     class << self
       def id
         'csv'
@@ -13,10 +19,14 @@ module Exporters
       def supported_models
         [Child, Incident, TracingRequest]
       end
+
+      def excluded_field_names
+        Field.where(type: EXCLUDED_TYPES).pluck(:name)
+      end
     end
 
-    def export(records, fields, *_args)
-      fields = fields_to_export(fields)
+    def export(records, user, options = {})
+      establish_export_constraints(records, user, options)
       csv_export = CSV.generate do |rows|
         rows << headers(fields) if @called_first_time.nil?
         @called_first_time ||= true

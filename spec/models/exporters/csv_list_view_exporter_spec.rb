@@ -3,27 +3,42 @@ require 'rails_helper'
 module Exporters
   describe CSVListViewExporter do
     before :each do
-      clean_data(User, Role, Field, PrimeroModule)
+      clean_data(User, Role, Field, FormSection, PrimeroModule)
+
+      field = Field.new(name: 'sex', display_name: 'Sex', type: Field::SELECT_BOX, option_strings_text_en: [
+        { id: 'male', display_text: 'Male' },
+        { id: 'female', display_text: 'Female' }
+      ])
+      field.save(validate: false)
+      fields = [
+        build(:field, name: 'name', type: Field::TEXT_FIELD),
+        build(:field, name: 'age', type: Field::NUMERIC_FIELD),
+        field
+      ]
+      form = create(:form_section, unique_id: 'form_section_exporter', fields: fields)
       primero_module = PrimeroModule.new(name: 'CP')
       primero_module.save(validate: false)
       permissions = Permission.new(
-        resource: Permission::CASE, actions: [Permission::READ]
+        resource: Permission::CASE, actions: [Permission::READ],
       )
-      role = Role.new(is_manager: false, modules: [primero_module], permissions: [permissions])
+      role = Role.new(
+        is_manager: false, modules: [primero_module],
+        permissions: [permissions], form_sections: [form])
       role.save(validate: false)
       @user = User.new(user_name: 'user1', role: role)
       @user.save(validate: false)
 
-      Field.new(name: 'name', type: Field::TEXT_FIELD).save(validate: false)
-      Field.new(name: 'age', type: Field::NUMERIC_FIELD).save(validate: false)
-      Field.new(
-        name: 'sex', type: Field::SELECT_BOX,
-        option_strings_text_en: [
-          { id: 'male', display_text: 'Male' },
-          { id: 'female', display_text: 'Female' }
-        ]
-      ).save(validate: false)
-
+      # fields = [
+      # Field.new(name: 'name', type: Field::TEXT_FIELD).save(validate: false)
+      # Field.new(name: 'age', type: Field::NUMERIC_FIELD).save(validate: false)
+      # Field.new(
+      #   name: 'sex', type: Field::SELECT_BOX,
+      #   option_strings_text_en: [
+      #     { id: 'male', display_text: 'Male' },
+      #     { id: 'female', display_text: 'Female' }
+      #   ]
+      # ).save(validate: false)
+      # form = create(:form_section, unique_id: 'form_section_exporter', fields: fields)
       case1 = Child.new(
         data: {
           name: 'Joe', age: 12, sex: 'male',
@@ -41,7 +56,7 @@ module Exporters
     end
 
     it 'converts data to CSV format' do
-      data = CSVListViewExporter.export(@records, nil, @user)
+      data = CSVListViewExporter.export(@records, @user)
 
       parsed = CSV.parse(data)
       expect(parsed[0][0..4]).to eq ['ID#', 'Name', 'Age', 'Sex', 'Registration Date']

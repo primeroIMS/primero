@@ -19,7 +19,7 @@ module Exporters
       end
     end
 
-    def export(records, _fields, user, *_args)
+    def export(records, user, options = {})
       list_headers = list_headers(records, user)
 
       csv_export = CSV.generate do |rows|
