@@ -2,17 +2,20 @@ require 'rails_helper'
 
 module Exporters
   describe CSVExporter do
-    it "converts data to CSV format" do
-      BaseExporter.should_receive(:to_2D_array)
-        .and_yield([ 'name', 'age', 'birthday', 'height' ])
-        .and_yield([ 'Joe', 12, Date.today, 120 ])
-        .and_yield([ 'Mo', 14, Date.today, 140 ])
+    before :each do
+      case1 = Child.new(data: { name: 'Joe', age: 12, sex: 'male' })
+      case2 = Child.new(data: { name: 'Mo', age: 14, sex: 'male' })
+      @records = [case1, case2]
+      @fields = [Field.new(name: 'name'), Field.new(name: 'age'), Field.new(name: 'sex')]
+    end
 
-      data = CSVExporter.export(nil, [])
+    it 'converts data to CSV format' do
+      data = CSVExporter.export(@records, @fields)
 
       parsed = CSV.parse(data)
-      parsed[0].should == ['name', 'age', 'birthday', 'height']
-      parsed[1][2].should == Date.today.to_s
+      expect(parsed[0]).to eq %w[id name age sex]
+      expect(parsed[1][1..3]).to eq(%w[Joe 12 male])
+      expect(parsed[2][1..3]).to eq(%w[Mo 14 male])
     end
   end
 end

@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'csv'
 
 module Exporters
+  # Exports the top level fields of a record to a flat CSV
   class CSVExporter < BaseExporter
     class << self
       def id
@@ -12,14 +15,15 @@ module Exporters
       end
     end
 
-    def export(models, properties, *args)
-      props = CSVExporter.fields_to_export(properties.flatten.uniq {|u| u.name })
+    def export(records, fields, *_args)
+      fields = fields_to_export(fields)
       csv_export = CSV.generate do |rows|
-        CSVExporter.to_2D_array(models, props) do |row|
-          rows << row
+        rows << headers(fields)
+        records.each do |record|
+          rows << row(record, fields)
         end
       end
-      self.buffer.write(csv_export)
+      buffer.write(csv_export)
     end
 
     private
@@ -33,6 +37,5 @@ module Exporters
         record.data[field.name]
       end
     end
-
   end
 end
