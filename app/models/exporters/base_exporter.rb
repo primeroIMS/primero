@@ -18,6 +18,8 @@ module Exporters
       Field::SUBFORM
     ].freeze
 
+    attr_accessor :locale
+
     class << self
       def id
         raise NotImplementedError
@@ -31,10 +33,11 @@ module Exporters
         id
       end
 
-      def excluded_properties
+      def excluded_field_names
         Field.binary_fields.pluck(:name)
       end
 
+      # TODO: Deprecate this. Just reject fields.
       def excluded_forms
         []
       end
@@ -60,28 +63,6 @@ module Exporters
         exporter_obj.buffer.string
       end
 
-      # TODO: This method excludes specific forms and properties named in the exporter.
-      # Used by ExcelExporter, PDFExporter, SelectedFieldsExcelExporter
-      def properties_to_export(props)
-        props = exclude_forms(props) if excluded_forms.present?
-        props = props.flatten.uniq
-        props = props.reject { |p| excluded_properties.include?(p.name) } if excluded_properties.present?
-        props
-      end
-
-      def exclude_forms(props)
-        return props unless props.is_a?(Hash)
-
-        filtered_props = {}
-        props.each do |primero_module, forms|
-          forms = forms.to_h.reject do |form_name, _|
-            excluded_forms.include?(form_name)
-          end
-          filtered_props[primero_module] = forms
-        end
-
-        filtered_props
-      end
 
       # TODO: Make this method generic
       # Used by the ExcelExporter and PDFExporter
@@ -264,16 +245,25 @@ module Exporters
       end
     end
 
-    def initialize(output_file_path = nil)
+    def initialize(output_file_path = nil, locale = nil)
       @io = if output_file_path.present?
               File.new(output_file_path, 'w')
             else
               StringIO.new
             end
+      self.locale = locale || I18n.locale
     end
 
     def export(*args)
       raise NotImplementedError
+    end
+
+    # Filter out any fields that are inappropriate to the exporter.
+    def fields_to_export(fields)
+      reject_these = self.class.excluded_field_names
+      return fields unless reject_these.present?
+
+      fields.reject { |f| reject_these.include?(f.name) }
     end
 
     def complete

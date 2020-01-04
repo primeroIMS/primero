@@ -18,7 +18,7 @@ module Exporters
         ['histories']
       end
 
-      def properties_to_export(properties_by_module, custom_export_options, models)
+      def fields_to_export(properties_by_module, custom_export_options, models)
         filter_custom_exports(properties_by_module, custom_export_options)
       end
 
@@ -31,7 +31,7 @@ module Exporters
 
     # @returns: a String with the Excel file data
     def export(models, properties_by_module, current_user, custom_export_options, *args)
-      properties_by_module = self.class.properties_to_export(properties_by_module, custom_export_options, models)
+      properties_by_module = self.class.fields_to_export(properties_by_module, custom_export_options, models)
       @form_sections = self.class.case_form_sections_by_module(models, current_user)
 
       unless @sheets.present?

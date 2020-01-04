@@ -26,7 +26,7 @@ module Exporters
         "xls"
       end
 
-      def properties_to_export(properties_by_module, custom_export_options)
+      def fields_to_export(properties_by_module, custom_export_options)
         unless custom_export_options.present?
           properties_by_module = super(properties_by_module)
         end
@@ -61,7 +61,7 @@ module Exporters
     def export(models, properties_by_module, current_user, custom_export_options, *args)
 
       if @props.blank?
-        properties_by_module = self.class.properties_to_export(properties_by_module, custom_export_options)
+        properties_by_module = self.class.fields_to_export(properties_by_module, custom_export_options)
         #Bulk export will call the exporter several times and so
         #calculate one time the properties because they will not change
         #with the next calls.

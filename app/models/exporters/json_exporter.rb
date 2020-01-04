@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module Exporters
-
   # Exports records to JSON formatted text
   class JSONExporter < BaseExporter
     class << self
@@ -18,18 +17,17 @@ module Exporters
       end
     end
 
-    def export(models, properties, *args)
-      props = JSONExporter.properties_to_export(properties)
-      hashes = models.map { |m| convert_model_to_hash(m, props) }
+    def export(models, fields, *_args)
+      fields = fields_to_export(fields)
+      hashes = models.map { |m| convert_model_to_hash(m, fields) }
       buffer.write(JSON.pretty_generate(hashes))
     end
 
-    def convert_model_to_hash(model, properties)
+    def convert_model_to_hash(model, fields)
       json_parse = JSON.parse(model.to_json)
-      data_fields = json_parse['data'].select { |k, _| properties.map(&:name).include?(k) }
+      data_fields = json_parse['data'].select { |k, _| fields.map(&:name).include?(k) }
       json_parse['data'] = data_fields
       json_parse
     end
-
   end
 end
