@@ -7,7 +7,7 @@ module Exporters
       [Field, FormSection].each(&:destroy_all)
     end
 
-    it "converts models to JSON format" do
+    it 'converts models to JSON format' do
       form_section = create(:form_section, unique_id: 'form_section_exporter')
       create(:field, name: 'name_first', form_section: form_section)
       create(:field, name: 'estimated', form_section: form_section, type: Field::TICK_BOX)
@@ -15,17 +15,17 @@ module Exporters
       fields = Field.where(name: ['name_first', 'estimated']).to_a
       data_hash = JSON.parse(JSONExporter.export(models, fields))
 
-      data_hash.should == [{
+      data_hash.should == [
         'data' => { 'name_first' => 'Test', 'estimated' => false },
         'duplicate_case_id' => nil,
         'matched_trace_id' => nil,
         'matched_tracing_request_id' => nil,
         'id' => models[0].id
-      }]
+      ]
     end
   end
 
-  describe "convert_model_to_hash" do
+  describe 'convert_model_to_hash' do
     before :each do
       @exporter = Exporters::JSONExporter.new
       [Field, FormSection, Lookup].each(&:destroy_all)

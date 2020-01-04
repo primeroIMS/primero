@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 
 module Exporters
-  private
 
+  # Superclass for all Record exporters
   class BaseExporter
 
     EXPORTABLE_FIELD_TYPES = [
@@ -15,13 +16,9 @@ module Exporters
       Field::TICK_BOX,
       Field::TALLY_FIELD,
       Field::SUBFORM
-    ]
+    ].freeze
 
     class << self
-      #extend Memoist
-
-      public
-
       def id
         raise NotImplementedError
       end
@@ -46,44 +43,48 @@ module Exporters
         true
       end
 
+      # TODO: Consider unifying the logic with what's in the record controllers
+      # Do we need to operate on fields? (:showable?)
       def permitted_fields_to_export(user, record_type)
         permitted_fields = user.permitted_fields(record_type)
         model_class = Record.model_from_name(record_type)
-        user.can?(:write, model_class) ? permitted_fields :  permitted_fields.select(&:showable?)
+        user.can?(:write, model_class) ? permitted_fields : permitted_fields.select(&:showable?)
       end
 
-      #This is a class method that does a one-shot export to a String buffer.
-      #Don't use this for large datasets.
+      # This is a class method that does a one-shot export to a String buffer.
+      # Don't use this for large data sets.
       def export(*args)
-        exporter_obj = new()
+        exporter_obj = new
         exporter_obj.export(*args)
         exporter_obj.complete
-        return exporter_obj.buffer.string
+        exporter_obj.buffer.string
       end
 
+      # TODO: This method excludes specific forms and properties named in the exporter.
+      # Used by ExcelExporter, PDFExporter, SelectedFieldsExcelExporter
       def properties_to_export(props)
-        props = exclude_forms(props) if self.excluded_forms.present?
+        props = exclude_forms(props) if excluded_forms.present?
         props = props.flatten.uniq
-        props = props.reject {|p| self.excluded_properties.include?(p.name) } if self.excluded_properties.present?
-        return props
+        props = props.reject { |p| excluded_properties.include?(p.name) } if excluded_properties.present?
+        props
       end
 
       def exclude_forms(props)
+        return props unless props.is_a?(Hash)
+
         filtered_props = {}
-        if props.is_a?(Hash)
-          props.each do |mod, forms|
-            forms = forms.to_h.reject do |form_name, _|
-              self.excluded_forms.include?(form_name)
-            end
-            filtered_props[mod] = forms
+        props.each do |primero_module, forms|
+          forms = forms.to_h.reject do |form_name, _|
+            excluded_forms.include?(form_name)
           end
-        else
-          filtered_props = props
+          filtered_props[primero_module] = forms
         end
-        return filtered_props
+
+        filtered_props
       end
 
       # TODO: Make this method generic
+      # Used by the ExcelExporter and PDFExporter
       def case_form_sections_by_module(cases, current_user)
         cases.map(&:module).compact.uniq.inject({}) do |acc, mod|
           acc.merge({mod.name => current_user.permitted_forms('case')
@@ -91,6 +92,7 @@ module Exporters
         end
       end
 
+      # TODO: This method is unused. Delete?
       def properties_to_keys(props)
         #This flattens out the properties by modules by form,
         # while maintaining form order and discarding dupes
@@ -110,6 +112,7 @@ module Exporters
         end
       end
 
+      # TODO: This should be used by the ExcelExporter
       ## Add other useful information for the report.
       def include_metadata_properties(props, model_class)
         props.each do |pm, fs|
@@ -119,12 +122,16 @@ module Exporters
         return props
       end
 
+      # TODO: This method is unused
       def current_model_class(models)
         if models.present? && models.is_a?(Array)
           models.first.class
         end
       end
 
+      # TODO: Only used by the CSV export. Also I think we should stop doing this
+      # I don't see this functionality being used.
+      # Consider nested subforms either not being exported, or exported to a different CSV document.
       # @param properties: array of CouchRest Model Property instances
       def to_2D_array(models, properties)
         emit_columns = lambda do |props, parent_props=[], &column_generator|
@@ -173,12 +180,14 @@ module Exporters
         end
       end
 
+      # TODO: Clean this up
       #def find_longest_array(models, prop_tree)
       #  models.map {|m| (get_value_from_prop_tree(m, prop_tree) || []).length }.max
       #end
       # this memoization causes memory leaks and brakes when exporting 10k records
       #memoize :find_longest_array
 
+      # TODO: I think this should go away with the 2D array
       # TODO: axe this in favor of the similar function in the Accessible model
       # concern.  Have to figure out the inheritance tree for the models first
       # so that all exportable models get that method.
@@ -196,19 +205,22 @@ module Exporters
         end
       end
 
-      #Date field in the index page are displayed with some format
-      #and they should be exported using the same format.
+      # TODO: This is only used by the CSVListExporter.
+      # TODO: Combine with translation
+      # Date field in the index page are displayed with some format
+      # and they should be exported using the same format.
       def to_exported_value(value)
         if value.is_a?(Date)
           I18n.l(value)
         elsif value.is_a?(Time)
           I18n.l(value, format: :with_time)
         else
-          #Returns original value.
           value
         end
       end
 
+      # TODO: Only used in ExcelExporter, SelectedFieldsExcelExporter
+      # TODO: Combine with the date localization above
       def get_model_value(model, property)
         exclude_name_mime_types = ['xls', 'csv', 'selected_xls']
         if property.name == 'name' && model.try(:module_id) == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
@@ -252,12 +264,12 @@ module Exporters
       end
     end
 
-    def initialize(output_file_path=nil)
+    def initialize(output_file_path = nil)
       @io = if output_file_path.present?
-        File.new(output_file_path, "w")
-      else
-        StringIO.new
-      end
+              File.new(output_file_path, 'w')
+            else
+              StringIO.new
+            end
     end
 
     def export(*args)
@@ -265,13 +277,11 @@ module Exporters
     end
 
     def complete
-      if self.buffer.class == File
-        @io.close unless self.buffer.closed?
-      end
+      (buffer.class == File) && !buffer.closed? && @io.close
     end
 
     def buffer
-      return @io
+      @io
     end
   end
 end
