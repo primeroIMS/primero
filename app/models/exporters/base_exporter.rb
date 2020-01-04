@@ -18,7 +18,7 @@ module Exporters
       Field::SUBFORM
     ].freeze
 
-    attr_accessor :locale
+    attr_accessor :locale, :lookups
 
     class << self
       def id
@@ -122,9 +122,9 @@ module Exporters
       elsif value.is_a?(Time)
         I18n.l(value, format: :with_time)
       elsif value.is_a?(Array)
-        value.map { |v| field.display_text(v, locale) }
+        value.map { |v| export_value(v, field) }
       else
-        field&.display_text(value, nil, locale) || value
+        field&.display_text(value, lookups, locale) || value
       end
     end
 
