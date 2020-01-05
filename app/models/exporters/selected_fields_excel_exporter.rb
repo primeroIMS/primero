@@ -40,7 +40,7 @@ module Exporters
       else
         super(records, user, options)
       end
-      self.fields << metadata_form
+      self.forms = forms.to_a + [metadata_form]
     end
 
     def constraining_fields?(options)
@@ -64,7 +64,7 @@ module Exporters
         fields = form.fields.select { |f| field_names.include?(f.name) }
         form.fields = fields
       end
-      forms = forms.select { |f| f.field.size.positive? }
+      forms = forms.select { |f| f.fields.size.positive? }
       self.forms = forms
     end
 
@@ -87,6 +87,7 @@ module Exporters
       end
       form = FormSection.new(unique_id: '__record__', fields: fields)
       form.send(:name=, '__record__', locale)
+      form
     end
   end
 end

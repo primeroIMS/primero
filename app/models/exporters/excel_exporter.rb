@@ -91,7 +91,7 @@ module Exporters
       worksheet&.write(worksheets[form.unique_id][:row], 0, id)
       form.fields.each_with_index do |field, i|
         if field.type == Field::SUBFORM
-          data[field.name].each do |subform_data|
+          data[field.name]&.each do |subform_data|
             write_record_form(id, subform_data, field.subform)
           end
         else
