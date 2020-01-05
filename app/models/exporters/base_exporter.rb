@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module Exporters
-
   # Superclass for all Record exporters
   class BaseExporter
 
@@ -63,16 +62,6 @@ module Exporters
           acc.merge({mod.name => current_user.permitted_forms('case')
                                              .sort {|a, b| [a.order_form_group, a.order] <=> [b.order_form_group, b.order] } })
         end
-      end
-
-      # TODO: This should be used by the ExcelExporter
-      ## Add other useful information for the report.
-      def include_metadata_properties(props, model_class)
-        props.each do |pm, fs|
-          #TODO: Does order of the special form matter?
-          props[pm].merge!(model_class.record_other_properties_form_section)
-        end
-        return props
       end
 
       # TODO: Only used by the SelectedFieldsExcelExporter
@@ -145,6 +134,5 @@ module Exporters
       # user.can?(:write, model_class) ? permitted_fields : permitted_fields.select(&:showable?)
       fields.select { |field| options[:field_names].include?(field.name) }
     end
-
   end
 end
