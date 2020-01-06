@@ -2,10 +2,8 @@ import { expect } from "chai";
 import React from "react";
 import { Route } from "react-router-dom";
 import { fromJS } from "immutable";
-import { ExpansionPanel } from "@material-ui/core";
 
-import Filters from "../filters";
-import Panel from "../filters-builder/Panel";
+import Filters from "../index-filters";
 import IndexTable from "../index-table";
 import { ACTIONS } from "../../libs/permissions";
 import { setupMountedComponent } from "../../test";
@@ -102,14 +100,7 @@ describe("<RecordList />", () => {
     expect(component.find(ViewModal)).to.have.lengthOf(1);
   });
 
-  it("renders Enabled / Disabled filter expanded", () => {
-    const filterPanel = component.find(Filters).find(Panel);
-    const expansionPanel = component.find(Filters).find(ExpansionPanel);
-
-    expect(filterPanel).to.have.lengthOf(1);
-    expect(filterPanel.props().hasValues).to.equal(true);
-
-    expect(expansionPanel).to.have.lengthOf(1);
-    expect(expansionPanel.props().expanded).to.equal(true);
+  it("renders filters", () => {
+    expect(component.find(Filters)).to.have.lengthOf(1);
   });
 });
