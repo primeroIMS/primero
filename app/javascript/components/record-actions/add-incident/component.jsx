@@ -1,90 +1,129 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { Formik, Form } from "formik";
 
+import { ActionDialog } from "../../action-dialog";
 import { useI18n } from "../../i18n";
 import { getRecordForms, constructInitialValues } from "../../record-form";
-import { MODULES, RECORD_TYPES } from "../../../config";
-import StepperModal from "../stepper-modal";
+import { MODULES, RECORD_TYPES, ID_FIELD } from "../../../config";
+import { saveRecord, selectRecordsByIndexes } from "../../records";
+import { compactValues } from "../../record-form/helpers";
 
-import { NAME, INCIDENT_SUBFORM_NAME, SEPARATOR_FIELD_TYPE } from "./constants";
+import { NAME, INCIDENT_SUBFORM } from "./constants";
+import Fields from "./fields";
 
-const Component = ({ openIncidentDialog, close, recordType }) => {
+const Component = ({
+  openIncidentDialog,
+  close,
+  recordType,
+  selectedRowsIndex
+}) => {
+  const formikRef = useRef();
   const i18n = useI18n();
-  const [activeStep, setActiveStep] = useState(0);
+  const dispatch = useDispatch();
   const form = useSelector(state =>
     getRecordForms(state, {
       recordType: RECORD_TYPES[recordType],
       primeroModule: MODULES.CP
     })
-  ).filter(f => f.unique_id === INCIDENT_SUBFORM_NAME);
+  ).filter(f => f.unique_id === INCIDENT_SUBFORM);
+
+  const selectedIds = useSelector(state =>
+    selectRecordsByIndexes(state, recordType, selectedRowsIndex).map(record =>
+      record.get(ID_FIELD)
+    )
+  );
+
+  const resetForm = () => {
+    if (formikRef.current) {
+      formikRef.current.resetForm();
+    }
+  };
 
   useEffect(() => {
-    if (!openIncidentDialog) {
-      setActiveStep(0);
+    if (openIncidentDialog) {
+      resetForm();
     }
   }, [openIncidentDialog]);
 
   if (!form?.toJS()?.length) return null;
 
-  const subformSectionID = form.first().fields[0].subform_section_id;
+  const {
+    subform_section_id: subformSectionID,
+    name: subformName
+  } = form.first().fields[0];
   const initialFormValues = constructInitialValues([subformSectionID]);
-  const subformFields = subformSectionID?.toJS().fields;
 
-  const totalSteps =
-    subformFields &&
-    subformFields.filter(sf => sf.type === SEPARATOR_FIELD_TYPE).length - 1;
-
-  let stepCount = -1;
-  const fields =
-    subformFields &&
-    subformFields.reduce((acc, obj) => {
-      const field = obj;
-
-      if (obj.type === SEPARATOR_FIELD_TYPE) {
-        stepCount += 1;
-      }
-      field.step = stepCount;
-
-      return [...acc, field];
-    }, []);
-
-  const handleNext = () => {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
+  const submitForm = () => {
+    if (formikRef.current) {
+      formikRef.current.submitForm();
+    }
   };
 
   const modalProps = {
-    open: openIncidentDialog,
-    successHandler: () => {},
-    dialogTitle: i18n.t("actions.incident_details_from_case"),
-    dialogTitleSmall: `Step ${activeStep + 1} of ${totalSteps + 1}`,
     confirmButtonLabel: i18n.t("buttons.save"),
+    confirmButtonProps: {
+      color: "primary",
+      variant: "contained",
+      autoFocus: true
+    },
+    dialogTitle: i18n.t("actions.incident_details_from_case"),
     onClose: close,
-    hideModalActions: true
+    open: openIncidentDialog,
+    successHandler: () => submitForm()
+  };
+
+  const fieldsProps = {
+    recordType,
+    fields: subformSectionID.toJS().fields
   };
 
   const formProps = {
     initialValues: initialFormValues,
-    onSubmit: () => {}
+    validateOnBlur: false,
+    validateOnChange: false,
+    ref: formikRef,
+    onSubmit: (values, { setSubmitting }) => {
+      const body = {
+        data: {
+          [subformName]: [
+            {
+              ...compactValues(values, initialFormValues)
+            }
+          ]
+        }
+      };
+
+      selectedIds.map(id =>
+        dispatch(
+          saveRecord(
+            recordType,
+            "update",
+            body,
+            id,
+            i18n.t(`incident.messages.creation_success`),
+            false
+          )
+        )
+      );
+      setSubmitting(false);
+    }
   };
 
-  const stepperModalProps = {
-    activeStep,
-    fields,
-    formProps,
-    handleBack,
-    handleNext,
-    handleSaveAndAction: () => {},
-    modalProps,
-    recordType,
-    totalSteps
-  };
-
-  return <StepperModal {...stepperModalProps} />;
+  return (
+    <Formik {...formProps}>
+      {() => {
+        return (
+          <ActionDialog {...modalProps}>
+            <Form noValidate autoComplete="off">
+              <Fields {...fieldsProps} />
+            </Form>
+          </ActionDialog>
+        );
+      }}
+    </Formik>
+  );
 };
 
 Component.propTypes = {

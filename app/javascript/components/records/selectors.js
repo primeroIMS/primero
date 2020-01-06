@@ -23,3 +23,11 @@ export const selectRecordAttribute = (state, recordType, id, attribute) => {
 
   return "";
 };
+
+export const selectRecordsByIndexes = (state, recordType, indexes) => {
+  if (!indexes) return [];
+
+  return indexes.map(index =>
+    state.getIn(["records", recordType, "data"], List([])).get(index)
+  );
+};

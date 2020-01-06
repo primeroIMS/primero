@@ -28,8 +28,7 @@ const ActionDialog = ({
   children,
   onClose,
   confirmButtonProps,
-  omitCloseAfterSuccess,
-  hideModalActions
+  omitCloseAfterSuccess
 }) => {
   const i18n = useI18n();
   const css = makeStyles(actionDialogStyles)();
@@ -105,18 +104,21 @@ const ActionDialog = ({
             children
           )}
         </DialogContent>
-        {!hideModalActions ? (
-          <DialogActions>
-            <Button {...{ ...successButtonProps, onClick: handleSuccess }}>
-              {confirmButtonLabel}
+        <DialogActions>
+          <Button
+            {...{
+              ...successButtonProps,
+              onClick: handleSuccess
+            }}
+          >
+            {confirmButtonLabel}
+          </Button>
+          {cancelHandler ? (
+            <Button onClick={cancelHandler} color="primary">
+              {i18n.t("cancel")}
             </Button>
-            {cancelHandler ? (
-              <Button onClick={cancelHandler} color="primary">
-                {i18n.t("cancel")}
-              </Button>
-            ) : null}
-          </DialogActions>
-        ) : null}
+          ) : null}
+        </DialogActions>
       </Dialog>
     </div>
   );
@@ -135,7 +137,6 @@ ActionDialog.propTypes = {
   dialogText: PropTypes.string,
   dialogTitle: PropTypes.string,
   dialogTitleSmall: PropTypes.string,
-  hideModalActions: PropTypes.bool,
   omitCloseAfterSuccess: PropTypes.bool,
   onClose: PropTypes.func,
   open: PropTypes.bool,
