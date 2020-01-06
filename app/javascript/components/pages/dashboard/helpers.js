@@ -1,4 +1,5 @@
 import first from "lodash/first";
+import { fromJS } from "immutable";
 
 import { dataToJS } from "../../../libs";
 
@@ -90,4 +91,53 @@ export const toListTable = (data, localeLabels) => {
   }
 
   return result;
+};
+
+export const toReportingLocationTable = (data, fieldKey, i18n, locations) => {
+  const columns = [
+    i18n.t(`location.base_types.${fieldKey}`),
+    i18n.t("dashboard.open_cases"),
+    i18n.t("dashboard.new_last_week"),
+    i18n.t("dashboard.new_this_week"),
+    i18n.t("dashboard.closed_last_week"),
+    i18n.t("dashboard.closed_this_week")
+  ];
+
+  const indicators = [
+    INDICATOR_NAMES.REPORTING_LOCATION_OPEN,
+    INDICATOR_NAMES.REPORTING_LOCATION_OPEN_LAST_WEEK,
+    INDICATOR_NAMES.REPORTING_LOCATION_OPEN_THIS_WEEK,
+    INDICATOR_NAMES.REPORTING_LOCATION_ClOSED_LAST_WEEK,
+    INDICATOR_NAMES.REPORTING_LOCATION_ClOSED_THIS_WEEK
+  ];
+
+  const indicatorsData = data.get("indicators") || fromJS([]);
+
+  const locationsByCode = {};
+
+  locations.forEach(location => {
+    locationsByCode[location.get("code")] = location
+      .get("name")
+      .get(i18n.locale);
+  });
+
+  const rows = indicators.reduce((acc, indicator) => {
+    const indicatorData = indicatorsData.get(indicator) || fromJS({});
+
+    indicatorData.keySeq().forEach(key => {
+      const count = indicatorData.get(key).get("count");
+      const locationLabel = locationsByCode[key] ? locationsByCode[key] : key;
+
+      if (key) {
+        acc[key] = acc[key] ? [...acc[key], count] : [locationLabel, count];
+      }
+    });
+
+    return acc;
+  }, {});
+
+  return {
+    columns,
+    data: Object.keys(rows).map(key => rows[key])
+  };
 };

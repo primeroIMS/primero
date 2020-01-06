@@ -41,7 +41,8 @@ const fetchLookups = () => ({
 const fetchLocations = () => ({
   type: Actions.SET_LOCATIONS,
   api: {
-    path: URL_LOCATIONS
+    path: URL_LOCATIONS,
+    params: { per: 8000, page: 1 }
   }
 });
 

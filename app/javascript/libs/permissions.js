@@ -7,6 +7,7 @@ export const ACTIONS = {
   CREATE: "create",
   DASH_CASE_RISK: "case_risk",
   DASH_TASKS: "dash_tasks",
+  DASH_REPORTING_LOCATION: "dash_reporting_location",
   DASH_WORKFLOW_TEAM: "dash_workflow_team",
   DASH_WORKFLOW: "dash_workflow",
   DASH_APPROVALS_ASSESSMENT: "approvals_assessment",

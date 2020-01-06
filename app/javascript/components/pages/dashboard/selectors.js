@@ -80,3 +80,6 @@ export const getApprovalsClosure = state =>
 
 export const getWorkflowTeamCases = state =>
   getDashboardByName(state, DASHBOARD_NAMES.WORKFLOW_TEAM);
+
+export const getReportingLocation = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.REPORTING_LOCATION);
