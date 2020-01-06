@@ -3,7 +3,7 @@
 
 import React, { useImperativeHandle, forwardRef } from "react";
 import PropTypes from "prop-types";
-import useForm, { FormContext } from "react-hook-form";
+import { useForm, FormContext } from "react-hook-form";
 
 import FormSection from "./components/form-section";
 import { buildFormModeObject } from "./helpers";

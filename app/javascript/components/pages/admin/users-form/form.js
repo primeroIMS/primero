@@ -1,6 +1,12 @@
 import { fromJS } from "immutable";
 
-import { FieldRecord, FormSectionRecord } from "../../../form";
+import {
+  FieldRecord,
+  FormSectionRecord,
+  TICK_FIELD,
+  TEXT_FIELD,
+  CHECK_BOX_FIELD
+} from "../../../form";
 
 const form = i18n => {
   return fromJS([
@@ -18,97 +24,115 @@ const form = i18n => {
           display_name: i18n.t("user.user_name"),
           name: "user_name",
           disabled: true,
-          type: "textarea",
+          type: TEXT_FIELD,
           required: true
         }),
         FieldRecord({
           display_name: i18n.t("user.code"),
           name: "code",
-          type: "textarea"
+          type: TEXT_FIELD
         }),
         FieldRecord({
           display_name: i18n.t("user.password"),
           name: "password",
-          type: "textarea"
+          type: TEXT_FIELD
         }),
         FieldRecord({
           display_name: i18n.t("user.password_confirmation"),
           name: "password_confirmation",
-          type: "textarea"
+          type: TEXT_FIELD
         }),
         FieldRecord({
           display_name: i18n.t("user.locale"),
           name: "locale",
-          type: "textarea"
+          type: TEXT_FIELD
         }),
         FieldRecord({
           display_name: i18n.t("user.is_manager"),
           name: "is_manager",
-          type: "textarea"
+          type: TICK_FIELD
         }),
         FieldRecord({
           display_name: i18n.t("user.role_ids"),
           name: "role_ids",
-          type: "textarea",
-          required: true
+          type: CHECK_BOX_FIELD,
+          required: true,
+          option_strings_text: {
+            en: [
+              { id: "1", display_text: "role" },
+              { id: "2", display_text: "role2" }
+            ]
+          }
         }),
         FieldRecord({
           display_name: i18n.t("user.module_ids"),
           name: "module_ids",
-          type: "textarea",
-          required: true
+          type: CHECK_BOX_FIELD,
+          required: true,
+          option_strings_text: {
+            en: [
+              { id: "1", display_text: "role" },
+              { id: "2", display_text: "role2" }
+            ]
+          }
         }),
         FieldRecord({
           display_name: i18n.t("user.user_group_ids"),
           name: "user_group_ids",
-          type: "textarea"
+          type: CHECK_BOX_FIELD,
+          option_strings_text: {
+            en: [
+              { id: "1", display_text: "role" },
+              { id: "2", display_text: "role2" }
+            ]
+          }
         }),
         FieldRecord({
           display_name: i18n.t("user.phone"),
           name: "phone",
-          type: "textarea"
+          type: TEXT_FIELD
         }),
         FieldRecord({
           display_name: i18n.t("user.email"),
           name: "email",
-          type: "textarea"
+          type: TEXT_FIELD
         }),
         FieldRecord({
           display_name: i18n.t("user.organization"),
           name: "organization",
-          type: "textarea",
+          type: TEXT_FIELD,
           required: true
         }),
         FieldRecord({
           display_name: i18n.t("user.agency_office"),
           name: "agency_office",
-          type: "textarea"
+          type: TEXT_FIELD
         }),
         FieldRecord({
           display_name: i18n.t("user.position"),
           name: "position",
-          type: "textarea"
+          type: TEXT_FIELD
         }),
         FieldRecord({
           display_name: i18n.t("user.location"),
           name: "location",
-          type: "textarea",
+          type: TEXT_FIELD,
           required: true
         }),
         FieldRecord({
           display_name: i18n.t("user.disabled"),
           name: "disabled",
-          type: "textarea"
+          type: TICK_FIELD
         }),
         FieldRecord({
           display_name: i18n.t("user.send_email"),
           name: "send_email",
-          type: "textarea"
+          type: TEXT_FIELD
         }),
         FieldRecord({
           display_name: i18n.t("user.verified"),
           name: "verified",
-          type: "textarea"
+          type: TEXT_FIELD
         })
       ]
     })

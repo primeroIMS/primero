@@ -3,7 +3,14 @@ import PropTypes from "prop-types";
 
 import { useI18n } from "../../i18n";
 import TextInput from "../fields/text-input";
-import { TEXT_FIELD, TEXT_AREA } from "../constants";
+import SwitchInput from "../fields/switch-input";
+import {
+  TEXT_FIELD,
+  TEXT_AREA,
+  TICK_FIELD,
+  CHECK_BOX_FIELD
+} from "../constants";
+import CheckboxInput from "../fields/checkbox-input";
 
 const FormSectionField = ({ field }) => {
   const { type } = field;
@@ -24,6 +31,10 @@ const FormSectionField = ({ field }) => {
       case TEXT_FIELD:
       case TEXT_AREA:
         return TextInput;
+      case TICK_FIELD:
+        return SwitchInput;
+      case CHECK_BOX_FIELD:
+        return CheckboxInput;
       default:
         return TextInput;
     }

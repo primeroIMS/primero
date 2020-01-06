@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
+import { Button } from "@material-ui/core";
 
 import { useI18n } from "../../../i18n";
 import Form from "../../../form";
@@ -15,6 +16,7 @@ const validationSchema = yup.object().shape({
 });
 
 const Component = ({ mode }) => {
+  console.log(mode)
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
@@ -29,14 +31,16 @@ const Component = ({ mode }) => {
 
   return (
     <>
-      <PageHeading title={i18n.t("users.label")} />
+      <PageHeading title={i18n.t("users.label")}>
+        <Button onClick={bindFormSubmit}>Save</Button>
+      </PageHeading>
       <PageContent>
         <Form
           formMode={mode}
           formSections={form(i18n)}
           onSubmit={handleSubmit}
           ref={formRef}
-          validations={validationSchema}
+          // validations={validationSchema}
         />
       </PageContent>
     </>
