@@ -1,5 +1,7 @@
-#Note: Currently this concern contains logic / fields specific to Child/Case.
-#Note: This is dependent on the Serviceable concern.  Serviceable must be included before Workflow
+# frozen_string_literal: true
+
+# Note: Currently this concern contains logic / fields specific to Child/Case.
+# Note: This is dependent on the Serviceable concern.  Serviceable must be included before Workflow
 module Workflow
   extend ActiveSupport::Concern
 
@@ -10,6 +12,8 @@ module Workflow
   WORKFLOW_SERVICE_IMPLEMENTED = 'services_implemented'
   WORKFLOW_CASE_PLAN = 'case_plan'
   WORKFLOW_ASSESSMENT = 'assessment'
+
+  LOOKUP_RESPONSE_TYPES = 'lookup-service-response-type'
 
   included do
     store_accessor :data, :workflow
@@ -81,18 +85,25 @@ module Workflow
 
   module ClassMethods
 
-    def workflow_statuses(modules=[], lookups=nil)
+    def workflow_statuses(modules = [], lookups=nil)
+      lookup = lookup_response_types(lookups)
+
       I18n.available_locales.map do |locale|
         status_list = []
         status_list << workflow_key_value(WORKFLOW_NEW, locale)
         status_list << workflow_key_value(WORKFLOW_REOPENED, locale)
         status_list << workflow_key_value(WORKFLOW_ASSESSMENT, locale) if modules.try(:any?) {|m| m.use_workflow_assessment}
         status_list << workflow_key_value(WORKFLOW_CASE_PLAN, locale) if modules.try(:any?) {|m| m.use_workflow_case_plan}
-        status_list += Lookup.values('lookup-service-response-type', lookups, locale: locale)
+        status_list += lookup&.lookup_values(locale) || []
         status_list << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED, locale) if modules.try(:any?) {|m| m.use_workflow_service_implemented}
         status_list << workflow_key_value(WORKFLOW_CLOSED, locale)
         { locale => status_list }
       end.inject(&:merge)
+    end
+
+    def lookup_response_types(lookups = nil)
+      lookup = lookups&.find { |lkp| lkp.unique_id == LOOKUP_RESPONSE_TYPES }
+      lookup || Lookup.find_by(unique_id: LOOKUP_RESPONSE_TYPES)
     end
 
     private

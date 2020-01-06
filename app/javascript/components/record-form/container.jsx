@@ -133,7 +133,8 @@ const Container = ({ match, mode }) => {
     selectedForm,
     firstTab,
     handleToggleNav,
-    mobileDisplay
+    mobileDisplay,
+    selectedRecord: record ? record.get("id") : null
   };
 
   useEffect(() => {

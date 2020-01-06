@@ -4,6 +4,7 @@ import NAMESPACE from "./namespace";
 
 export default namespaceActions(NAMESPACE, [
   "SET_SELECTED_FORM",
+  "SET_SELECTED_RECORD",
   "SET_FORMS",
   "RECORD_FORMS",
   "RECORD_FORMS_STARTED",
