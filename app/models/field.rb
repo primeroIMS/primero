@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Field < ApplicationRecord
 
   include LocalizableJsonProperty
@@ -18,23 +20,23 @@ class Field < ApplicationRecord
   alias_attribute :subform_section, :subform
 
 
-  TEXT_FIELD = "text_field"
-  TEXT_AREA = "textarea"
-  RADIO_BUTTON = "radio_button"
-  SELECT_BOX = "select_box"
-  NUMERIC_FIELD = "numeric_field"
-  PHOTO_UPLOAD_BOX = "photo_upload_box"
-  AUDIO_UPLOAD_BOX = "audio_upload_box"
-  DOCUMENT_UPLOAD_BOX = "document_upload_box"
-  DATE_FIELD = "date_field"
-  DATE_RANGE = "date_range"
-  SUBFORM = "subform"
-  SEPARATOR = "separator"
-  TICK_BOX = "tick_box"
-  TALLY_FIELD = "tally_field"
-  CUSTOM = "custom"
+  TEXT_FIELD = 'text_field'
+  TEXT_AREA = 'textarea'
+  RADIO_BUTTON = 'radio_button'
+  SELECT_BOX = 'select_box'
+  NUMERIC_FIELD = 'numeric_field'
+  PHOTO_UPLOAD_BOX = 'photo_upload_box'
+  AUDIO_UPLOAD_BOX = 'audio_upload_box'
+  DOCUMENT_UPLOAD_BOX = 'document_upload_box'
+  DATE_FIELD = 'date_field'
+  DATE_RANGE = 'date_range'
+  SUBFORM = 'subform'
+  SEPARATOR = 'separator'
+  TICK_BOX = 'tick_box'
+  TALLY_FIELD = 'tally_field'
+  CUSTOM = 'custom'
 
-  DATE_VALIDATION_OPTIONS = [ 'default_date_validation', 'not_future_date' ]
+  DATE_VALIDATION_OPTIONS = %w[default_date_validation not_future_date].freeze
 
   validate :validate_unique_name
   validate :validate_display_name_format
@@ -50,20 +52,20 @@ class Field < ApplicationRecord
 
   def self.permitted_api_params
     [
-      "id", "name", "type", "multi_select", "form_section_id", "visible", "mobile_visible",
-      "hide_on_view_page", "show_on_minify_form", "disabled", {"display_name"=>{}}, {"help_text"=>{}},
-      {"guiding_questions"=>{}}, {"tally"=>{}}, {"tick_box_label"=>{}}, {"option_strings_text"=>{}},
-      "option_strings_source", "order", "hidden_text_field", "subform_section_id", "collapsed_field_for_subform_section_id",
-      "autosum_total", "autosum_group", "selected_value", "link_to_path", "link_to_path_external", "field_tags",
-      "searchable_select", "expose_unique_id", "subform_sort_by", "subform_group_by", "required",
-      "date_validation", "date_include_time", "matchable"
+      'id', 'name', 'type', 'multi_select', 'form_section_id', 'visible', 'mobile_visible',
+      'hide_on_view_page', 'show_on_minify_form', 'disabled', { 'display_name' => {} }, { 'help_text' => {} },
+      { 'guiding_questions' => {} }, { 'tally' => {} }, { 'tick_box_label' => {} }, { 'option_strings_text' => {} },
+      'option_strings_source', 'order', 'hidden_text_field', 'subform_section_id',
+      'collapsed_field_for_subform_section_id', 'autosum_total', 'autosum_group', 'selected_value', 'link_to_path',
+      'link_to_path_external', 'field_tags', 'searchable_select', 'expose_unique_id', 'subform_sort_by',
+      'subform_group_by', 'required', 'date_validation', 'date_include_time', 'matchable'
     ]
   end
 
   #TODO: Move to migration
   def defaults
     self.date_validation ||= 'default_date_validation'
-    self.autosum_group ||= ""
+    self.autosum_group ||= ''
     #self.attributes = properties #TODO: what is this?
   end
 
@@ -82,7 +84,7 @@ class Field < ApplicationRecord
     white_spaces = /^(\s+)$/
     if (display_name_en =~ special_characters) || (display_name_en =~ white_spaces)
       #TODO: I18n!
-      errors.add(:display_name, I18n.t("errors.models.field.display_name_format"))
+      errors.add(:display_name, I18n.t('errors.models.field.display_name_format'))
       return false
     else
       return true
@@ -92,13 +94,13 @@ class Field < ApplicationRecord
   #Only allow name to have lower case alpha, numbers and underscore
   def validate_name_format
     if name.blank?
-      errors.add(:name, I18n.t("errors.models.field.name_presence"))
+      errors.add(:name, I18n.t('errors.models.field.name_presence'))
       return false
     elsif name =~ /[^a-z0-9_]/
-      errors.add(:name, I18n.t("errors.models.field.name_format"))
+      errors.add(:name, I18n.t('errors.models.field.name_format'))
       return false
     elsif name =~ /^\d/
-      errors.add(:name, I18n.t("errors.models.field.name_format_number_first"))
+      errors.add(:name, I18n.t('errors.models.field.name_format_number_first'))
       return false
     else
       return true
@@ -107,7 +109,7 @@ class Field < ApplicationRecord
 
   def validate_display_name_in_english
     unless (self.display_name(Primero::Application::BASE_LANGUAGE).present?)
-      errors.add(:display_name, I18n.t("errors.models.field.display_name_presence"))
+      errors.add(:display_name, I18n.t('errors.models.field.display_name_presence'))
       return false
     end
   end
@@ -117,7 +119,7 @@ class Field < ApplicationRecord
     if base_options.blank?
       #If base options are blank, then all translated options should also be blank
       if Primero::Application::locales.any? {|locale| self.option_strings_text(locale).present?}
-        errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.translations_not_empty"))
+        errors.add(:option_strings_text, I18n.t('errors.models.field.option_strings_text.translations_not_empty'))
         return false
       else
         return true
@@ -143,7 +145,7 @@ class Field < ApplicationRecord
 
   def valid_option_strings?(options, is_base_language=true)
     unless options.is_a?(Array)
-      errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.not_array"))
+      errors.add(:option_strings_text, I18n.t('errors.models.field.option_strings_text.not_array'))
       return false
     end
 
@@ -153,17 +155,17 @@ class Field < ApplicationRecord
 
   def valid_option?(option, is_base_language=true)
     unless option.is_a?(Hash)
-      errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.not_hash"))
+      errors.add(:option_strings_text, I18n.t('errors.models.field.option_strings_text.not_hash'))
       return false
     end
 
     if option['id'].blank?
-      errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.id_blank"))
+      errors.add(:option_strings_text, I18n.t('errors.models.field.option_strings_text.id_blank'))
       return false
     end
 
     if is_base_language && option['display_text'].blank?
-      errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.display_text_blank"))
+      errors.add(:option_strings_text, I18n.t('errors.models.field.option_strings_text.display_text_blank'))
       return false
     end
     return true
@@ -172,7 +174,7 @@ class Field < ApplicationRecord
   def option_keys_match?(default_ids, options)
     locale_ids = options.try(:map){|op| op['id']}
     if ((default_ids - locale_ids).present? || (locale_ids - default_ids).present?)
-      errors.add(:option_strings_text, I18n.t("errors.models.field.translated_options_do_not_match"))
+      errors.add(:option_strings_text, I18n.t('errors.models.field.translated_options_do_not_match'))
       return false
     end
     return true
@@ -180,7 +182,7 @@ class Field < ApplicationRecord
 
   def options_keys_unique?(options)
     unless options.map{|o| o['id']}.uniq.length == options.map{|o| o['id']}.length
-      errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.id_not_unique"))
+      errors.add(:option_strings_text, I18n.t('errors.models.field.option_strings_text.id_not_unique'))
       return false
     end
     return true
@@ -268,7 +270,7 @@ class Field < ApplicationRecord
       unless name.is_a? Array
         result = result.first
       end
-      return result
+      result
     end
     #memoize_in_prod :get_by_name
 
@@ -281,11 +283,11 @@ class Field < ApplicationRecord
       if field_name.present?
         if field_name.kind_of?(Array)
           field_name.select{|s|
-            s.match(".*(\\d)+") && !get_by_name(s).present?
+            s.match('.*(\\d)+') && !get_by_name(s).present?
           }.each{|s|
             s.gsub!(/ *\d+$/, '')
           }
-        elsif field_name.match(".*(\\d)+") && !get_by_name(field_name).present?
+        elsif field_name.match('.*(\\d)+') && !get_by_name(field_name).present?
           field_name.gsub!(/ *\d+$/, '')
         end
 
@@ -417,18 +419,18 @@ class Field < ApplicationRecord
   def default_value
     case self.type
     when TEXT_FIELD, TEXT_AREA, RADIO_BUTTON, SELECT_BOX, DATE_FIELD, DATE_RANGE, NUMERIC_FIELD, TALLY_FIELD
-      ""
+      ''
     when PHOTO_UPLOAD_BOX, AUDIO_UPLOAD_BOX, DOCUMENT_UPLOAD_BOX, SUBFORM
       nil
     when TICK_BOX
-      "false"
+      'false'
     else
-      raise I18n.t("errors.models.field.default_value") + type unless DEFAULT_VALUES.has_key? type
+      raise I18n.t('errors.models.field.default_value') + type unless DEFAULT_VALUES.has_key? type
     end
   end
 
   #TODO: Refactor with UIUX
-  def tag_name_attribute(objName = "child")
+  def tag_name_attribute(objName = 'child')
     "#{objName}[#{name}]"
   end
 
@@ -468,7 +470,7 @@ class Field < ApplicationRecord
         elsif  field_hash[key].present?
           value = field_hash[key][locale]
         else
-          value = ""
+          value = ''
         end
         field_hash[property][locale] = value if locales.include? locale
       end
@@ -577,7 +579,7 @@ class Field < ApplicationRecord
     #TODO: Consider moving this logic to FormSection for performance reasons
     return true unless self.form_section_id.present? #TODO: This line might not be necessary for AR
     if (Field.where(name: self.name, form_section_id: self.form_section_id).where.not(id: self.id).any?)
-      return errors.add(:name, I18n.t("errors.models.field.unique_name_this"))
+      return errors.add(:name, I18n.t('errors.models.field.unique_name_this'))
     end
     true
   end
@@ -599,7 +601,7 @@ class Field < ApplicationRecord
       same_name_type = [same_name_field.type, same_name_field.multi_select]
       if this_type == same_name_type
         next if changing_between_text_field_and_textarea?(current_type.first, same_name_type.first)
-        errors.add(:fields, I18n.t("errors.models.field.change_type_existing_field", field_name: self.name, form_name: self.form_section.name))
+        errors.add(:fields, I18n.t('errors.models.field.change_type_existing_field', field_name: self.name, form_name: self.form_section.name))
         return false
       end
     end

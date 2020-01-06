@@ -1,4 +1,9 @@
+# frozen_string_literal: true
+
+# An audit log record is created for every invocation of a Primero endpoint.
 class AuditLog < ApplicationRecord
+
+  LOGIN = 'login'
 
   default_scope { order(timestamp: :desc) }
 
@@ -11,6 +16,7 @@ class AuditLog < ApplicationRecord
 
   def display_id
     return '' unless record.present?
+
     if record.respond_to?(:display_id)
       record.display_id
     else
@@ -25,7 +31,7 @@ class AuditLog < ApplicationRecord
   def log_message
     logger_action_prefix = I18n.t("logger.#{action}", locale: :en)
     logger_action_identifier = "#{record_type} '#{display_id}'"
-    logger_action_suffix = "#{I18n.t("logger.by_user", locale: :en)} '#{user_name}'"
+    logger_action_suffix = "#{I18n.t('logger.by_user', locale: :en)} '#{user_name}'"
     "#{logger_action_prefix} #{logger_action_identifier} #{logger_action_suffix}"
   end
 

@@ -37,11 +37,11 @@ shift $((OPTIND -1)) || true
 tag=${t:-latest}
 repository=${r:-"uniprimeroxacrdev.azurecr.io"}
 
-BUILD_NGINX="docker build -f nginx/Dockerfile . -t nginx:${tag} -t ${repository}/nginx:${tag}"
-BUILD_BEANSTALKD="docker build -f beanstalkd/Dockerfile . -t beanstalkd:${tag} -t ${repository}/beanstalkd:${tag} --build-arg BEANSTALKD_PORT=${BEANSTALKD_PORT}"
-BUILD_SOLR="docker build -f solr/Dockerfile ../ -t solr:${tag} -t ${repository}/solr:${tag}"
-BUILD_APP="docker build -f application/Dockerfile ../ -t application:${tag} -t ${repository}/application:${tag} --build-arg APP_ROOT=${APP_ROOT} --build-arg RAILS_LOG_PATH=${RAILS_LOG_PATH}"
-BUILD_POSTGRES="docker build -f postgres/Dockerfile . -t postgres:${tag} -t ${repository}/postgres:${tag}"
+BUILD_NGINX="docker build -f nginx/Dockerfile . -t primero/nginx:${tag} -t ${repository}/primero/nginx:${tag}"
+BUILD_BEANSTALKD="docker build -f beanstalkd/Dockerfile . -t primero/beanstalkd:${tag} -t ${repository}/primero/beanstalkd:${tag} --build-arg BEANSTALKD_PORT=${BEANSTALKD_PORT}"
+BUILD_SOLR="docker build -f solr/Dockerfile ../ -t primero/solr:${tag} -t ${repository}/primero/solr:${tag}"
+BUILD_APP="docker build -f application/Dockerfile ../ -t primero/application:${tag} -t ${repository}/primero/application:${tag} --build-arg APP_ROOT=${APP_ROOT} --build-arg RAILS_LOG_PATH=${RAILS_LOG_PATH}"
+BUILD_POSTGRES="docker build -f postgres/Dockerfile . -t primero/postgres:${tag} -t ${repository}/primero/postgres:${tag}"
 
 
 # this could use getopts for building multiple containers

@@ -58,14 +58,17 @@ prim_create_folders_and_logs() {
 # appropriated. we will rely on the env variable over the file because it is
 # less places to change the path.
 prim_check_for_bootstrap() {
-  if [ -f "${APP_ROOT}/tmp/.primero-bootstrapped" ];
+  current_db_version=$(bin/rails db:version || echo "EMPTY")
+  db_empty=$(echo ${current_db_version} | grep EMPTY)
+  if [[ -n "${db_empty}" ]] ; then return 0 ; fi
+
+  translation_file=$(ls ${APP_ROOT}/public/translations-* | awk -F\/ '{print $NF}')
+  if [[ ! -f /share/public/${translation_file} ]] && [[ "${RAILS_PUBLIC_FILE_SERVER}" == "true" ]]
   then
-    # bootstrap found. no need to bootstrap.
-    return 1
-  else
-    # bootstrap not found. we must bootstrap.
     return 0
   fi
+
+  return 1
 }
 
 prim_stage_translations()  {
@@ -81,7 +84,6 @@ prim_bootstrap() {
   bin/rails db:seed
   bin/rails sunspot:reindex
   prim_stage_translations
-  touch "${APP_ROOT}/tmp/.primero-bootstrapped"
   return 0
 }
 

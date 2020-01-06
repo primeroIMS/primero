@@ -10,7 +10,7 @@ if @extended
       Child.parent_form,
       Incident.parent_form,
       TracingRequest.parent_form
-    ].map { |record_type| { record_type.pluralize => Filter.get_filters(user, record_type) } }
+    ].map { |record_type| { record_type.pluralize => Filter.filters(user, record_type) } }
      .inject(&:merge),
     list_headers: ([
       Child.parent_form,
