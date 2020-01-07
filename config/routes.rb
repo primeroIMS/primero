@@ -62,10 +62,7 @@ Rails.application.routes.draw do
       resources :lookups
       resources :locations
       get 'alerts', to: 'alerts#bulk_index'
-
-      devise_scope :user do
-        get 'login/:provider', to: 'login#provider'
-      end
+      get 'login/:provider', to: 'login#provider', defaults: { format: :html }
 
     end
   end

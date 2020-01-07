@@ -9,7 +9,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Primero</title>
   <%= favicon_link_tag('favicon-16x16.png?v=3') %>
-  <%= csrf_meta_tag %>
   <!-- jss-insertion-point -->
 </head>
 <body dir="ltr">
@@ -17,6 +16,17 @@
   <div id="root"></div>
   <script src="/javascripts/i18n.js"></script>
   <script src="/<%= I18N_TRANSLATIONS_FILE %>"></script>
+  <script>
+    (function(root, factory){
+      root.IDP = factory(root);
+    })(this, function(global) {
+      return {
+        providerType: '<%= @identity_provider.provider_type %>',
+        providerClientId: '<%= @identity_provider.client_id %>',
+        authorizationUrl: '<%= @identity_provider.authorization_url %>'
+      }
+    })
+  </script>
   <%= javascript_bundles_with_chunks_tag 'identity', skip_pipeline: true %>
 </body>
 </html>
