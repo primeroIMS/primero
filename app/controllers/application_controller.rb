@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   before_action :check_authentication
   before_action :load_system_settings
   before_action :set_locale
-
+  before_action :forms_path_menu
   around_action :with_timezone
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :redirect_to_login
@@ -146,6 +146,19 @@ class ApplicationController < ActionController::Base
     redirect_to (request.referer.present? ? :back : default), options
   end
 
+  def forms_path_menu
+    if logged_in?
+      @forms_path_menu = if can? :manage, FormSection
+                           form_sections_path
+                         elsif can? :manage, Lookup
+                           lookups_path
+                         elsif can? :manage, Location
+                           locations_path
+                         else
+                           nil
+                         end
+    end
+  end
   class << self
     attr_accessor :model_class
   end

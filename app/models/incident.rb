@@ -73,7 +73,9 @@ class Incident < CouchRest::Model::Base
 
   before_save :set_violation_verification_default
   after_save :index_violations
+  after_save :index_individuals_victims
   after_destroy :unindex_violations
+  after_destroy :unindex_individuals_victims
   before_save :ensure_violation_categories_exist
 
   before_update :clean_incident_date
@@ -92,6 +94,30 @@ class Incident < CouchRest::Model::Base
       self.violation_type_list
     end
 
+    string :individual_violations, multiple: true do
+      self.individual_violations_list
+    end
+
+    integer :individual_age, multiple: true do
+      self.individual_victim_value_from_property(:individual_age)
+    end
+
+    string :individual_sex, multiple: true do
+      self.individual_victim_value_from_property(:individual_sex)
+    end
+
+    string :perpetrator_arrest, multiple: true do
+      self.perpetrator_value_from_property(:perpetrator_arrest)
+    end
+
+    string :perpetrator_detention, multiple: true do
+      self.perpetrator_value_from_property(:perpetrator_detention)
+    end
+
+    string :perpetrator_conviction, multiple: true do
+      self.perpetrator_value_from_property(:perpetrator_conviction)
+    end
+
     string :verification_status, multiple: true do
       self.violation_verified_list
     end
@@ -100,8 +126,16 @@ class Incident < CouchRest::Model::Base
       self.child_types
     end
 
-    string :armed_force_group_names, multiple: true do
-      self.armed_force_group_names
+    #TODO - armed_force_group_names was split in 2
+    #TODO - verify with Sue and Pavel
+    string :armed_force_names, multiple: true do
+      self.armed_force_names
+    end
+
+    #TODO - armed_force_group_names was split in 2
+    #TODO - verify with Sue and Pavel
+    string :armed_group_names, multiple: true do
+      self.armed_group_names
     end
 
     string :perpetrator_sub_categories, multiple: true do
@@ -110,6 +144,35 @@ class Incident < CouchRest::Model::Base
 
     date :incident_date_derived do
       self.incident_date_derived
+    end
+
+    string :victim_deprived_liberty_security_reasons, multiple: true do
+      self.victim_deprived_liberty_security_reasons
+    end
+
+    string :reasons_deprivation_liberty, multiple: true do
+      self.individual_victim_value_from_property(:reasons_deprivation_liberty)
+    end
+
+    string :victim_facilty_victims_held, multiple: true do
+      self.individual_victim_value_from_property(:facilty_victims_held)
+    end
+
+    string :torture_punishment_while_deprivated_liberty, multiple: true do
+      self.individual_victim_value_from_property(:torture_punishment_while_deprivated_liberty)
+    end
+
+    string :verification_status, multiple: true do
+      self.violation_verified_list
+    end
+
+    Mrm::ViolationFilter::FIELDS.each do |violation, fields|
+      fields.each do |k, v|
+        string(k, multiple: true) do
+          selected_violation = self.violations.try(violation)
+          selected_violation.present? ? selected_violation.map{ |m| m.try(v) }.compact : []
+        end
+      end
     end
 
     string :created_agency_office, as: 'created_agency_office_sci'
@@ -229,7 +292,7 @@ class Incident < CouchRest::Model::Base
     number_of_violations_verified = 0
     self.violations_subforms.each do |subform|
       #TODO Do we need I18n for "Verified" string?
-      number_of_violations_verified += 1 if subform.try(:verified) == "Verified"
+      number_of_violations_verified += 1 if subform.try(:ctfmr_verified) == "Verified"
     end
     number_of_violations_verified
   end
@@ -257,23 +320,24 @@ class Incident < CouchRest::Model::Base
   # Each violation type has a field that is used as part of the identification
   # of that violation
   #TODO: This matches up to the collapsed fields on the violation subforms. NOT DRY!!!
+  #TODO - possible refactor - probably should not hard code violation fields
   def self.violation_id_fields
     {
-      'killing' => 'cause',
-      'maiming' => 'cause',
+      'killing' => 'weapon_type',
+      'maiming' => 'weapon_type',
       'recruitment' => 'factors_of_recruitment',
       'sexual_violence' => 'sexual_violence_type',
       'abduction' => 'abduction_purpose',
-      'attack_on_schools' => 'site_attack_type',
-      'attack_on_hospitals' => 'site_attack_type',
-      'denial_humanitarian_access' => 'denial_method',
-      'other_violation' => 'violation_other_type'
+      'attack_on' => 'facility_attack_type',
+      'military_use' => 'military_use_type',
+      'denial_humanitarian_access' => 'denial_method'
     }
   end
 
+  #TODO: This belongs in a helper
   def violation_label(violation_type, violation, include_unique_id=false)
     id_fields = self.class.violation_id_fields
-    label_id = violation.send(id_fields[violation_type].to_sym)
+    label_id = violation.try(id_fields[violation_type])
     label_id_text = (label_id.is_a?(Array) ? label_id.join(', ') : label_id)
     label = label_id.present? ? "#{violation_type.titleize} - #{label_id_text}" : "#{violation_type.titleize}"
     if include_unique_id
@@ -328,19 +392,56 @@ class Incident < CouchRest::Model::Base
     return violations_list
   end
 
+  def individual_violations_list
+    violations_list = []
+
+    if individual_victims_subform_section.present?
+      self.individual_victims_subform_section.each do |iv|
+        if iv.individual_violations.present?
+          iv.individual_violations.each do |violation|
+            violation_by_id = find_violation_by_unique_id(violation).try(:first)
+            violations_list << violation_by_id if violation_by_id.present?
+          end
+        end
+      end
+    end
+       
+    violations_list.uniq if violations_list.present?
+
+    return violations_list
+  end
+
+  def individual_victim_value_from_property(property)
+    values = []
+    if self.individual_victims_subform_section.present?
+      values = self.individual_victims_subform_section.map { |i| i[property] if i[property].present? }
+    end
+    values.uniq! if values.present?
+    return values.compact
+  end
+
   #TODO - Need rspec test for this
   def violation_verified_list
     violation_verified_list = []
     if self.violations.present?
       self.violations.to_hash.each do |key, value|
         value.each do |v|
-          violation_verified_list << v.verified if v.verified.present?
+          violation_verified_list << v.ctfmr_verified if v.ctfmr_verified.present?
         end
       end
     end
     violation_verified_list.uniq! if violation_verified_list.present?
 
     return violation_verified_list
+  end
+
+  def perpetrator_value_from_property(property)
+    values = []
+    if self.perpetrator_subform_section.present?
+      values = self.perpetrator_subform_section.map { |i| i[property] if i[property].present? }
+    end
+    values.uniq! if values.present?
+    return values.compact
   end
 
   #Copy some fields values from Survivor Information to GBV Individual Details.
@@ -350,8 +451,8 @@ class Incident < CouchRest::Model::Base
 
   def individual_ids
     ids = []
-    if self.individual_details_subform_section.present?
-      ids = self.individual_details_subform_section.map(&:id_number).compact
+    if self.individual_victims_subform_section.present?
+      ids = self.individual_victims_subform_section.map(&:id_number).compact
     end
     return ids
   end
@@ -370,9 +471,10 @@ class Incident < CouchRest::Model::Base
     if self.violations.present?
       self.violations.to_hash.each do |key, value|
         value.each do |v|
-          unless v.verified.present?
-            v.verified = I18n.t('incident.violation.pending')
-          end
+          pending = I18n.t('incident.violation.pending')
+          v.verified = pending unless v.verified.present?
+          v.verified_ctfmr_technical = pending unless v.verified_ctfmr_technical.present?
+          v.ctfmr_verified = pending unless v.ctfmr_verified.present?
         end
       end
     end
@@ -384,12 +486,23 @@ class Incident < CouchRest::Model::Base
     end
   end
 
+  def index_individuals_victims
+    if self.individual_victims_subform_section.present?
+      Sunspot.index! IndividualVictim.from_incident(self)
+    end
+  end
+
   def unindex_violations
     if self.violations.present?
       Sunspot.remove! Violation.from_incident(self)
     end
   end
 
+  def unindex_individuals_victims
+    if self.individual_victims_subform_section.present?
+      Sunspot.remove! IndividualVictim.from_incident(self)
+    end
+  end
   #TODO - Need rspec test for this
   def child_types
     child_type_list = []
@@ -422,12 +535,14 @@ class Incident < CouchRest::Model::Base
     child_list = []
     ['boys', 'girls', 'unknown'].each do |child_type|
       child_count = 0
-      #Special case for "attack on hospitals" and "attack on schools"
-      if(violation_type == 'attack_on_hospitals' || violation_type == 'attack_on_schools')
+      #TODO - possible refactor - probably should not hard code violation fields
+      #Special case for "attack on schools/hospitals"
+      if(violation_type == 'attack_on')
         child_count += violation.send("violation_killed_tally_#{child_type}".to_sym) if violation.send("violation_killed_tally_#{child_type}".to_sym).is_a?(Fixnum)
         child_count += violation.send("violation_injured_tally_#{child_type}".to_sym) if violation.send("violation_injured_tally_#{child_type}".to_sym).is_a?(Fixnum)
       else
-        child_count += violation.send("violation_tally_#{child_type}".to_sym) if violation.send("violation_tally_#{child_type}".to_sym).is_a?(Fixnum)
+        child_count += violation.send("violation_tally_#{child_type}".to_sym) if violation.respond_to?("violation_tally_#{child_type}".to_sym) &&
+                                                                                 violation.send("violation_tally_#{child_type}".to_sym).is_a?(Fixnum)
       end
       if child_count > 0
         child_list << child_type
@@ -437,23 +552,48 @@ class Incident < CouchRest::Model::Base
   end
 
   #TODO - Need rspec test for this
-  def armed_force_group_names
-    armed_force_groups = []
+  #TODO - armed_force_group_names was split in 2
+  #TODO - verify with Sue and Pavel
+  def armed_force_names
+    armed_forces = []
     if self.perpetrator_subform_section.present?
-      self.perpetrator_subform_section.each {|p| armed_force_groups << p.armed_force_group_name if p.armed_force_group_name.present?}
+      self.perpetrator_subform_section.each {|p| armed_forces << p.armed_force_name if p.armed_force_name.present?}
     end
-    armed_force_groups.uniq! if armed_force_groups.present?
+    armed_forces.uniq! if armed_forces.present?
 
-    return armed_force_groups
+    return armed_forces
+  end
+
+  #TODO - armed_force_group_names was split in 2
+  #TODO - verify with Sue and Pavel
+  def armed_group_names
+    armed_groups = []
+    if self.perpetrator_subform_section.present?
+      self.perpetrator_subform_section.each {|p| armed_groups << p.armed_group_name if p.armed_group_name.present?}
+    end
+    armed_groups.uniq! if armed_groups.present?
+
+    return armed_groups
+  end
+
+  def victim_deprived_liberty_security_reasons
+    deprived_liberty_reasons = []
+    if self.individual_victims_subform_section.present?
+      deprived_liberty_reasons = self.individual_victims_subform_section.map { |i| i.victim_deprived_liberty_security_reasons if i.victim_deprived_liberty_security_reasons.present? }
+    end
+    deprived_liberty_reasons.uniq! if deprived_liberty_reasons.present?
+
+    return deprived_liberty_reasons
   end
 
   #TODO - Need rspec test for this
   def perpetrator_sub_categories
     categories = []
-    if self.perpetrator_subform_section.present?
-      self.perpetrator_subform_section.each {|p| categories << p.perpetrator_sub_category if p.perpetrator_sub_category.present?}
-    end
-    categories.uniq! if categories.present?
+    #TODO - perpetrator_sub_category has been removed
+    # if self.perpetrator_subform_section.present?
+    #   self.perpetrator_subform_section.each {|p| categories << p.perpetrator_sub_category if p.perpetrator_sub_category.present?}
+    # end
+    # categories.uniq! if categories.present?
 
     return categories
   end

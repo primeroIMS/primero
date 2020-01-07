@@ -35,5 +35,10 @@
         <%= text_field_tag name.gsub(tally_field[:name], "#{tally_field[:name]}_total"), value_total, :class => 'autosum_total', :autosum_group => autosum_group.strip, :id => "#{field_id}_total", readonly: true %>
       </div>
     </div>
+    <% if tally_field.help_text.present? %>
+      <div class="row">
+        <p class="help"><%= tally_field.help_text  %></p>
+      </div>
+    <% end %>
   </div>
 </div>

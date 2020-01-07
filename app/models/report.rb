@@ -28,7 +28,8 @@ class Report < CouchRest::Model::Base
   WEEK = 'week' #eg. Week 2 Jan-2015
   MONTH = 'month' #eg. Jan-2015
   YEAR = 'year' #eg. 2015
-  DATE_RANGES = [DAY, WEEK, MONTH, YEAR]
+  QUARTER = 'quarter'
+  DATE_RANGES = [DAY, WEEK, MONTH, QUARTER, YEAR]
   DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
 
   localize_properties [:name, :description]
@@ -44,6 +45,7 @@ class Report < CouchRest::Model::Base
   property :editable, TrueClass, default: true
   property :exclude_empty_rows, TrueClass, default: false
   property :base_language, default: DEFAULT_BASE_LANGUAGE
+  property :ui_filters
 
   #TODO: Currently it's not worth trying to save off the report data.
   #      The report builds a value hash with an array of strings as keys. CouchDB/CouchRest converts this array to a string.
@@ -240,6 +242,59 @@ class Report < CouchRest::Model::Base
     end
   end
 
+  def parse_filter_dates(type, dates)
+    dates = dates.split('.')
+    parsed_dates = []
+
+    case type
+    when 'month'
+      parsed_dates << format_date(dates.first, :beginning_of_month) << format_date(dates.last, :end_of_month)
+    when 'year'
+      parsed_dates << format_date(DateTime.new(dates.first.to_i), :beginning_of_year) << format_date(DateTime.new(dates.last.to_i), :end_of_year)
+    when 'week'
+      parsed_dates << format_date(dates.first, :beginning_of_week) << format_date(dates.last, :end_of_week)
+    when 'quarter'
+      parsed_dates << format_date(dates.first, :beginning_of_quarter, true) << format_date(dates.first, :end_of_quarter, true)
+    else
+      parsed_dates << format_date(dates.first) << format_date(dates.last)
+    end
+
+    if parsed_dates.count == 2
+      return ['[' + parsed_dates.first + ' TO ' + parsed_dates.last  + ']']
+    else
+      return parsed_dates.first
+    end
+  end
+
+  def build_data_filters(scope)
+    filters = []
+
+    if scope.present?
+      scope.each do |k, v|
+        ui_filter = self.ui_filters.find {|ui| ui['name'] == k }
+        value = v.include?('-')? ['['+ v.gsub('-',' TO ')+']'] : v.split('||')
+
+        if ui_filter['location_filter']
+          locations = []
+
+          value.each do |location|
+            placenames = location.split('::')
+            location_and_descendants = Location.find_by_location(placenames.last)
+            locations << location_and_descendants.map(&:name) if location_and_descendants.present?
+          end
+
+          value = locations.flatten
+        end
+
+        value = parse_filter_dates(value.first, value.last) if ui_filter['type'] == 'date'
+        self.filters.reject!{ |s| s['attribute'] == k }
+        filters << { 'attribute' => k , 'value' => value }
+      end
+    end
+
+    self.filters + filters
+  end
+
   #TODO: Do we need the total?
   # def total
   #   self.data[:total]
@@ -406,7 +461,7 @@ class Report < CouchRest::Model::Base
 
 
   def self.reportable_record_types
-    FormSection::RECORD_TYPES + ['violation'] + Report.get_all_nested_reportable_types.map{|nrt| nrt.model_name.param_key}
+    FormSection::RECORD_TYPES + ['violation', 'individual_victim'] + Report.get_all_nested_reportable_types.map{|nrt| nrt.model_name.param_key}
   end
 
   def apply_default_filters
@@ -489,7 +544,7 @@ class Report < CouchRest::Model::Base
         :rows => 0,
         :facet => 'on',
         :'facet.field' => pivots_string,
-        :'facet.mincount' => -1,
+        :'facet.mincount' => 1,
         :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
@@ -507,7 +562,7 @@ class Report < CouchRest::Model::Base
         :rows => 0,
         :facet => 'on',
         :'facet.pivot' => pivots_string,
-        :'facet.pivot.mincount' => -1,
+        :'facet.pivot.mincount' => 1,
         :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
@@ -530,14 +585,15 @@ class Report < CouchRest::Model::Base
 
 
   def build_solr_filter_query(record_type, filters)
-
     filters_query = "type:#{solr_record_type(record_type)}"
+
     if filters.present?
       filters_query = filters_query + ' ' + filters.map do |filter|
         attribute = SolrUtils.indexed_field_name(record_type, filter['attribute'])
         constraint = filter['constraint']
         value = filter['value']
         query = nil
+
         if attribute.present? && value.present?
           if constraint.present?
             value = Date.parse(value).strftime("%FT%H:%M:%SZ") unless value.is_number?
@@ -553,6 +609,8 @@ class Report < CouchRest::Model::Base
               '(' + value.map{|v|
                 if v == "not_null"
                   "#{attribute}:[* TO *]"
+                elsif v.match(/^\[.*\]$/)
+                  "#{attribute}:#{v}"
                 else
                   "#{attribute}:\"#{v}\""
                 end
@@ -577,4 +635,24 @@ class Report < CouchRest::Model::Base
     result_pivots
   end
 
+  def format_date(date, calculation=nil, is_quarter=false)
+    parsed_date =
+      if date.is_a?(DateTime)
+        date
+      elsif date.is_a?(String) && is_quarter
+        if calculation == :beginning_of_quarter
+          DateTime.new(Date.today.year, date.to_i * 3 - 2)
+        else
+          DateTime.new(Date.today.year, date.to_i * 3 - 2)
+        end
+      else
+        DateTime.parse(date)
+      end
+
+    if calculation.present?
+      parsed_date = parsed_date.send(calculation)
+    end
+
+    parsed_date.strftime("%Y-%m-%dT%H:%M:%SZ")
+  end
 end

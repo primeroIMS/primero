@@ -53,7 +53,7 @@ namespace :sunspot do
   desc "remove all records from the index"
   task :remove_all => :environment do
     indexed_types = [
-      Child, Incident, TracingRequest,
+      Child, Incident, TracingRequest, Violation, IndividualVictim,
       Flag, ReportableFollowUp, ReportableProtectionConcern,
       ReportableService, BulkExport, Violation, PotentialMatch
     ]
@@ -88,10 +88,24 @@ namespace :sunspot do
           list
         end
       end
+      violations = []
+      individual_victims = []
+      if model == Incident #yeah yeah
+        violations = records.reduce([]) do |list, record|
+          list = list + Violation.from_incident(record)
+          list
+        end
+        individual_victims = records.reduce([]) do |list, record|
+          list = list + IndividualVictim.from_incident(record)
+          list
+        end
+      end
 
       Sunspot.index(records)
       flags.each_slice(batch_size){|batch| Sunspot.index(batch)} unless flags.empty?
       nesteds.each_slice(batch_size){|batch| Sunspot.index(batch)} unless nesteds.empty?
+      violations.each_slice(batch_size){|batch| Sunspot.index(batch)} unless violations.empty?
+      individual_victims.each_slice(batch_size){|batch| Sunspot.index(batch)} unless individual_victims.empty?
     end
 
   end

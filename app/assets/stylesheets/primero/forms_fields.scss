@@ -127,9 +127,13 @@ input[type="text"][disabled], select[disabled]{
   display: none;
 }
 
-.gq_popovers {
+.gq_popovers, .gq_select_popovers {
   padding: 0;
   font-size: $thirteen_px;
+}
+
+.gq_select .arrow {
+  display: none;
 }
 
 p.help {

@@ -37,6 +37,7 @@
       <span><%="#{I18n.t("fields.date_range.to")}:"%></span>
       <%= text_field_tag name.gsub(date_range[:name], "#{date_range[:name]}_to"), value_to, :class => 'form_date_field has_help', :disabled => disabled, :is_disabled => is_disabled, :id => "#{field_id}_to" %>
         <p class="help"><%= t("fields.date_help") %></p>
+      <% end %>
     </div>
   </div>
 </div>

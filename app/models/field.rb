@@ -14,7 +14,7 @@ class Field
   property :editable, TrueClass, :default => true
   property :deletable, TrueClass, :default => true
   property :disabled, TrueClass, :default => false
-  localize_properties [:display_name, :help_text, :guiding_questions, :tally, :tick_box_label]
+  localize_properties [:display_name, :help_text, :guiding_questions, :tally, :tick_box_label, :upload_document_help_text]
   localize_properties [:option_strings_text], generate_keys: true
   property :multi_select, TrueClass, :default => false
   property :hidden_text_field, TrueClass, :default => false
@@ -38,6 +38,7 @@ class Field
   property :date_validation, :default => 'default_date_validation'
   property :date_include_time, TrueClass, :default => false
   property :matchable, TrueClass, :default => false
+  property :upload_document_type, :default => 'document'
 
   DATE_VALIDATION_OPTIONS = [ 'default_date_validation', 'not_future_date' ]
 

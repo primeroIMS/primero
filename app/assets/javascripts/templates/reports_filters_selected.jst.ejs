@@ -1,0 +1,14 @@
+<% _.each(m, function(value, key) { %>
+  <div class="filter-label">
+    <div>
+      <%= I18n.t('report.report_filters.' + key) %>
+    </div>
+    <div>
+      <% 
+        value = value.split("||") 
+        value[0] = value[0].charAt(0).toUpperCase() + value[0].slice(1);
+      %>
+      <%= value.join(' : ').replace(/(?!^\d{2}-\D{3}-\d{4})\./, ' <-> ') %>
+    </div>
+  </div>
+<% }) %>

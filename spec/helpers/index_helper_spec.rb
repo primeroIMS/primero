@@ -281,8 +281,10 @@ describe IndexHelper do
           @view.instance_variable_set(:@can_sync_mobile, true)
           @view.index_filters_to_show('incident').should == [
                                                          "Flagged", "Mobile", "Violation", "Status", "Age Range", "Children", "Verification Status",
-                                                         "Incident Location", "Dates", "Armed Force or Group", "Armed Force or Group Type", "Record State"
+                                                         "Incident Location", "Dates", "Armed Force", "Armed Group", "Record State"
                                                         ]
+          # "Flagged", "Violation", "Deprived of liberty?", "Status", "Children", "Verification Status",
+          #   "Incident Location", "Incident Date", "Armed Force", "Armed Group", "Record State"
         end
       end
 
@@ -305,8 +307,10 @@ describe IndexHelper do
           @view.instance_variable_set(:@can_sync_mobile, true)
           @view.index_filters_to_show('incident').should == [
                                                          "Flagged", "Mobile", "Violation", "Social Worker", "Status", "Age Range", "Children", "Verification Status",
-                                                         "Incident Location", "Dates", "Armed Force or Group", "Armed Force or Group Type", "Record State"
+                                                         "Incident Location", "Dates", "Armed Force", "Armed Group", "Record State"
                                                         ]
+          # "Flagged", "Violation", "Deprived of liberty?", "Social Worker", "Status", "Children", "Verification Status",
+          #   "Incident Location", "Incident Date", "Armed Force", "Armed Group", "Record State"
         end
       end
     end
