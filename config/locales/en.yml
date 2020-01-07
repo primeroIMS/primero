@@ -2098,6 +2098,7 @@ en:
       all: Excel
       one: Excel
       selected: Selected to Excel
+      selected_fields: 'Selected Fields'
     json:
       all: JSON
       one: JSON
