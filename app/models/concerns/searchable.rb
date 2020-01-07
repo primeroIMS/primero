@@ -201,8 +201,7 @@ module Searchable
     end
 
     def all_searchable_location_fields
-      # TODO - owned_by_location is a workaround for the specs.
-      %w(owned_by_location) + Field.all_location_field_names(self.parent_form)
+      %w[owned_by_location] + Field.all_location_field_names(parent_form)
     end
 
     def pagination(pagination_parms={})

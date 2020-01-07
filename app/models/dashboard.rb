@@ -5,6 +5,10 @@ class Dashboard < ValueObject
     "dashboard.#{name}"
   end
 
+  DYNAMIC = [
+    'dash_reporting_location'
+  ].freeze
+
   # Note: The constant name of each Dashboard needs to match the value of the corresponding Permission
 
   CASE_OVERVIEW = Dashboard.new(

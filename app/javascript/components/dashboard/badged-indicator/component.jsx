@@ -9,11 +9,10 @@ import { DashboardChip } from "../dashboard-chip";
 import { useI18n } from "../../i18n";
 import { ROUTES } from "../../../config";
 import { buildFilter } from "../helpers";
-import { INDICATOR_NAMES } from "../../pages/dashboard/constants";
 
 import styles from "./styles.css";
 
-const BadgedIndicator = ({ data, lookup, sectionTitle }) => {
+const BadgedIndicator = ({ data, lookup, sectionTitle, indicator }) => {
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -23,10 +22,9 @@ const BadgedIndicator = ({ data, lookup, sectionTitle }) => {
   }
 
   const dashboardChips = lookup.map(lk => {
-    // TODO: A refactor might be needed.
     const value = data
       .get("indicators")
-      .get(INDICATOR_NAMES.RISK_LEVEL)
+      .get(indicator)
       .get(lk.id);
     const countValue = value ? value.get("count") : 0;
     const queryValue = value ? value.get("query") : [];
@@ -67,6 +65,7 @@ BadgedIndicator.displayName = "BadgedIndicator";
 
 BadgedIndicator.propTypes = {
   data: PropTypes.object.isRequired,
+  indicator: PropTypes.string.isRequired,
   lookup: PropTypes.array.isRequired,
   sectionTitle: PropTypes.string
 };

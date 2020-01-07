@@ -37,7 +37,6 @@ export const toData1D = (data, localeLabels) => {
   const result = dataToJS(data);
 
   if (result.length || Object.keys(result).length) {
-    // TODO: A refactor might be needed.
     const indicatorData = result.indicators[INDICATOR_NAMES.WORKFLOW];
     const values = Object.values(indicatorData);
 
@@ -55,7 +54,6 @@ export const toListTable = (data, localeLabels) => {
   const result = dataToJS(data);
 
   if (result.length || Object.keys(result).length) {
-    // TODO: A refactor might be needed.
     const indicatorData = result.indicators[INDICATOR_NAMES.WORKFLOW_TEAM];
     const columns = Object.keys(
       indicatorData[first(Object.keys(indicatorData))]

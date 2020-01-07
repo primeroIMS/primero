@@ -3,12 +3,12 @@ require 'rails_helper'
 describe Api::V2::DashboardsController, type: :request do
 
   before :each do
-    SystemSettings.stub(:current).and_return(SystemSettings.new(
-      reporting_location_config: {
-        admin_level: 2,
-        field_key: 'owned_by_location'
-      }
-    ))
+    SystemSettings.create!(reporting_location_config: {
+      admin_level: 2,
+      field_key: 'owned_by_location'
+    })
+
+    SystemSettings.current(true)
 
     @permission_case = Permission.new(
       resource: Permission::CASE, actions: [Permission::READ]
@@ -29,12 +29,12 @@ describe Api::V2::DashboardsController, type: :request do
     @bar.save(validate: false)
 
 
-    Child.create!(data: { record_state: true, status: 'open', owned_by: 'foo', workflow: 'new', created_at: 14.days.ago })
+    Child.create!(data: { record_state: true, status: 'open', owned_by: 'foo', workflow: 'new', created_at: 1.week.ago })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'foo', last_updated_by: 'bar', workflow: 'assessment' })
     Child.create!(data: { record_state: false, status: 'open', owned_by: 'foo', workflow: 'new' })
     Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: 1.day.ago, workflow: 'closed' })
     Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: 2.days.ago, workflow: 'closed' })
-    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: 15.days.ago, workflow: 'closed', created_at: 14.days.ago  })
+    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: 15.days.ago, workflow: 'closed', created_at: 1.week.ago })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar', workflow: 'new' })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar' })
 
@@ -84,7 +84,7 @@ describe Api::V2::DashboardsController, type: :request do
   end
 
   after :each do
-    [User, UserGroup, Role, Child, Location].each(&:destroy_all)
+    clean_data(User, UserGroup, Role, Child, Location, SystemSettings)
     Sunspot.commit
   end
 

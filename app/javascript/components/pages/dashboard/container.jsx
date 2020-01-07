@@ -24,6 +24,7 @@ import { LOOKUPS, MODULES, RECORD_TYPES } from "../../../config";
 import { selectModule } from "../../application";
 import { getOption } from "../../record-form";
 
+import { INDICATOR_NAMES } from "./constants";
 import * as actions from "./action-creators";
 import {
   getCasesByAssessmentLevel,
@@ -229,6 +230,7 @@ const Dashboard = ({
                   <BadgedIndicator
                     data={casesByAssessmentLevel}
                     sectionTitle={i18n.t(casesByAssessmentLevel.get("name"))}
+                    indicator={INDICATOR_NAMES.RISK_LEVEL}
                     lookup={labelsRiskLevel}
                   />
                 </OptionsBox>
