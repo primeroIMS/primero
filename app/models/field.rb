@@ -388,28 +388,29 @@ class Field < ApplicationRecord
     end
   end
 
-  def display_text(value=nil, lookups = nil)
-    value = self.convert_true_false_key_to_string(value) if self.is_yes_no?
-    if self.type == Field::TICK_BOX
-      selected_option = self.options_list.select{|ol| ol[:id] == value.to_s}.first
-      value = selected_option.present? ? selected_option[:display_text] : value
-    elsif self.option_strings_text.present?
-      display = self.option_strings_text.select{|opt| opt['id'] == value}
-      #TODO: Is it better to display the untranslated key or to display nothing?
-      value = (display.present? ? display.first['display_text'] : '')
-    elsif self.option_strings_source.present?
-      source_options = self.option_strings_source.split
-      #TODO pass in locations and agencies
+  def display_text(value = nil, lookups = nil, locale = nil)
+    locale ||= I18n.locale
+    value = convert_true_false_key_to_string(value) if is_yes_no?
+    if type == Field::TICK_BOX
+      selected_option = options_list.select { |ol| ol[:id] == value.to_s }.first
+      selected_option.present? ? selected_option[:display_text] : value
+    elsif option_strings_text.present?
+      display = option_strings_text.select { |opt| opt['id'] == value }
+      # TODO: Is it better to display the untranslated key or to display nothing?
+      display.present? ? display.first['display_text'] : ''
+    elsif option_strings_source.present?
+      source_options = option_strings_source.split
+      # TODO: pass in locations and agencies
       case source_options.first
-        when 'lookup'
-          display = Lookup.values(source_options.last, lookups, locale: I18n.locale).select{|opt| opt['id'] == value}
-          value = (display.present? ? display.first['display_text'] : '')
-        when 'Location', 'ReportingLocation'
-          value = Location.display_text(value, locale: I18n.locale)
-        when 'Agency'
-          value = Agency.display_text(value, locale: I18n.locale)
-        else
-          value
+      when 'lookup'
+        display = Lookup.values(source_options.last, lookups, locale: locale).select { |opt| opt['id'] == value }
+        display.present? ? display.first['display_text'] : ''
+      when 'Location', 'ReportingLocation'
+        Location.display_text(value, locale: locale)
+      when 'Agency'
+        Agency.display_text(value, locale: locale)
+      else
+        value
       end
     else
       value

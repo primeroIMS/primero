@@ -1,144 +1,135 @@
+# frozen_string_literal: true
+
+# Represents the asynchronous run of a queued export job.
+# In Primero v2, all exports are asynchronous.
+# See app/models/exporters
 class BulkExport < ApplicationRecord
-
-  include Indexable
-
-  PROCESSING = 'job.status.processing' #The job is still running
-  TERMINATED = 'job.status.terminated' #The job terminated due to an error
-  COMPLETE = 'job.status.complete'     #The job completed successfully
-  ARCHIVED = 'job.status.archived'     #The job's files have been cleaned up
-
-  EXPORT_DIR = File.join(Rails.root,'tmp','export')
-  FileUtils.mkdir_p EXPORT_DIR
-
+  PROCESSING = 'job.status.processing' # The job is still running
+  TERMINATED = 'job.status.terminated' # The job terminated due to an error
+  COMPLETE = 'job.status.complete'     # The job completed successfully
+  ARCHIVED = 'job.status.archived'     # The job's files have been cleaned up
+  # TODO: This will change with ActiveStorage
+  EXPORT_DIR = File.join(Rails.root, 'tmp', 'export')
   ARCHIVE_CUTOFF = 30.days.ago
 
+  # TODO: This will change with ActiveStorage
+  FileUtils.mkdir_p EXPORT_DIR
+
+  belongs_to :owner, class_name: 'User', foreign_key: 'owned_by', primary_key: 'user_name'
   has_one_attached :export_file
 
-  validates :export_file, file_size: { less_than_or_equal_to: 50.megabytes  }, if: -> { export_file.attached? }
+  validates :owned_by, presence: true
+  validates :record_type, presence: true
+  validates :format, presence: true
+  validates :export_file, file_size: { less_than_or_equal_to: 50.megabytes }, if: -> { export_file.attached? }
 
-  searchable do
-    time :started_on
-    time :completed_on
-    string :status, as: 'status_sci'
-    string :owned_by, as: 'owned_by_sci'
-    string :format, as: 'format_sci'
+  def export
+    process_records_in_batches(500) do |records_batch|
+      exporter.export(records_batch, owner, custom_export_params)
+    end
+    exporter.complete
+    encrypt_export_file
+    attach_export_file
+    mark_completed
   end
 
   def model_class
-    @model_class ||= Record.model_from_name(self.record_type)
+    @model_class ||= Record.model_from_name(record_type)
   end
 
   def exporter_type
-    @exporter_type ||= Exporters::active_exporters_for_model(self.model_class)
-    .select{|e| e.id == self.format.to_s}.first
+    @exporter_type ||= Exporters.active_exporters_for_model(model_class)
+                                .select { |e| e.id == format.to_s }.first
   end
 
-  def owner
-    @owner ||= User.find_by_user_name(self.owned_by)
+  def exporter
+    # TODO: This may change with ActiveStorage
+    @exporter ||= exporter_type.new(stored_file_name)
   end
 
-  #Override accessors for values populated from the controller indifferent access
-  def filters
-    self['filters'].with_indifferent_access if self['filters'].present?
+  def search_filters
+    return [] unless filters.present?
+    return @search_filters if @search_filters.present?
+
+    service = SearchFilterService.new
+    @search_filters = service.build_filters(filters)
   end
 
-  def order
-    self['order'].with_indifferent_access if self['order'].present?
-  end
-
-  def match_criteria
-    self['match_criteria'].with_indifferent_access if self['match_criteria'].present?
-  end
-
-  def custom_export_params
-    self['custom_export_params'].with_indifferent_access if self['custom_export_params'].present?
+  def record_query_scope
+    @record_query_scope ||= owner&.record_query_scope(model_class)
   end
 
   def mark_started
     self.status = PROCESSING
     self.started_on = DateTime.now
-    #TODO: Log this
-    self.save
+    # TODO: Log this
+    save
   end
 
   def mark_completed
     self.status = COMPLETE
     self.completed_on = DateTime.now
     self.password = nil # TODO: yes yes, I know
-    #TODO: Log this
-    self.save
+    # TODO: Log this
+    save
   end
 
   def mark_terminated
     self.status = TERMINATED
     self.password = nil
-    self.save
+    save
   end
 
   def archive
     self.status = ARCHIVED
-    if self.stored_file_name.present? && File.exist?(self.stored_file_name)
-      begin
-        File.delete(self.stored_file_name)
-      rescue
-        Rails.logger.warn("Archiving #{self.stored_file_name}: File missing!")
-      end
+    return unless stored_file_name.present? && File.exist?(stored_file_name)
+
+    # TODO: Is this still relevant with ActiveStorage?
+    begin
+      File.delete(stored_file_name)
+    rescue RuntimeError
+      Rails.logger.warn("Archiving #{stored_file_name}: File missing!")
     end
   end
 
   def stored_file_name
-    if self.file_name.present?
-      File.join(EXPORT_DIR,"#{self.id}_#{self.file_name}")
-    end
+    return unless file_name.present?
+
+    File.join(EXPORT_DIR, "#{id}_#{file_name}")
   end
 
   def encrypted_file_name
     name = stored_file_name
     name = "#{name}.zip" if name.present?
-    return name
+    name
   end
 
-  def process_records_in_batches(batch_size=500, &block)
-    #TODO: this is a good candidate for multithreading
-    #TODO: Right now this is duplicated code with what appears in the record_actions controller concern
-    pagination_ops = {:page => 1, :per_page => batch_size}
+  def process_records_in_batches(batch_size = 500, &block)
+    # TODO: This is a good candidate for multi-threading, provided export buffers are thread safe.
+    pagination = { page: 1, per_page: batch_size}
     begin
-      managed_user_names = []
-      managed_user_groups = []
-
-      if self.owner.group_permission?(Permission::ALL)
-        managed_user_groups = [Searchable::ALL_FILTER]
-        managed_user_names = [Searchable::ALL_FILTER]
-      elsif self.owner.group_permission?(Permission::GROUP)
-        managed_user_groups = self.owner.user_group_ids
-        # In the absence of user groups, a user should at least export his own records.
-        managed_user_names = [self.owner.user_name]
-      else
-        managed_user_names = [self.owner.user_name]
-      end
-
-      search = self.model_class.list_records(
-        self.filters, self.order, pagination_ops,
-        managed_user_names, self.query, self.match_criteria,
-        managed_user_groups
+      search = SearchService.search(
+        model_class, search_filters, record_query_scope, query, order, pagination
       )
       results = search.results
       yield(results)
-      #Set again the values of the pagination variable because the method modified the variable.
-      pagination_ops[:page] = results.next_page
-      pagination_ops[:per_page] = batch_size
+      # Set again the values of the pagination variable because the method modified the variable.
+      pagination[:page] = results.next_page
+      pagination[:per_page] = batch_size
     end until results.next_page.nil?
   end
 
   def attach_export_file
-    self.export_file.attach(
-                        io: File.open(self.encrypted_file_name),
-                        filename: File.basename(self.encrypted_file_name))
+    export_file.attach(
+      io: File.open(encrypted_file_name),
+      filename: File.basename(encrypted_file_name)
+    )
   end
 
   def encrypt_export_file
-    #TODO: Add an else statement that throws an error if the file is empty!
-    #TODO: This code is currently duplicated in the application controller
+    # TODO: Add an else statement that throws an error if the file is empty!
+    # TODO: This code is currently duplicated in the application controller
+    # TODO: Make this ActiveStorage-compliant
     if File.size? self.stored_file_name
       encrypt = password ? Zip::TraditionalEncrypter.new(password) : nil
       Zip::OutputStream.open(self.encrypted_file_name, encrypt) do |out|
@@ -153,5 +144,4 @@ class BulkExport < ApplicationRecord
   def job
     BulkExportJob
   end
-
 end
