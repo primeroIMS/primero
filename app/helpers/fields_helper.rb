@@ -93,6 +93,7 @@ module FieldsHelper
     if field_value.blank?
       ""
     elsif field.option_strings_source == 'violations'
+      #TODO RSE fix
       # This is about the cleanest way to do this without totally reworking the
       # template logic.  Just hope we don't ever have any relevant fields
       # nested more than one level
@@ -130,10 +131,11 @@ module FieldsHelper
   def field_keys(subform_name, subform_index, field_name, form_group_name)
     field_key = []
 
+    #TODO verify
     #TODO MRM fix - There should be a better way to handle Violations rather than relying on the form_group_name
-    # if form_group_name.present? and form_group_name == "Violations"
-    #   field_key << form_group_name.downcase
-    # end
+    if form_group_name.present? and form_group_name == "violations"
+      field_key << form_group_name
+    end
 
     if subform_name.present?
       field_key << subform_name << subform_index
@@ -168,9 +170,10 @@ module FieldsHelper
     return subforms_count
   end
 
+  #TODO should this be form_group_id
   def get_subform_object(object, subform_section, form_group_name, subform_name)
     subform_object = {}
-    if form_group_name.present? && form_group_name == "Violations" && object[form_group_name.downcase].present?
+    if form_group_name.present? && form_group_name == "violations" && object[form_group_name.downcase].present?
       subform_object = object[form_group_name.downcase][subform_section.unique_id]
     #TODO: This code is being temporarily removed until JOR-141 (users should only see their own referrals) is again revisited,
     #      Pending a full refactor of how we do nested forms headers

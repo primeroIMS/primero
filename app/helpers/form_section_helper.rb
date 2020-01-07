@@ -184,7 +184,7 @@ module FormSectionHelper
       if field.type == Field::SUBFORM
         #If subform is the only field in the form and the first, check is is empty.
         if form_section.is_violations_group?
-          return formObject[form_section.form_group_name.downcase][field.name].blank?
+          return formObject[form_section.form_group_id][field.name].blank?
         else
           return formObject[field.name].blank?
         end

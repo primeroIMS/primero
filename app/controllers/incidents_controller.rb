@@ -13,25 +13,27 @@ class IncidentsController < ApplicationController
 
   def normalize_violations
     if params['incident'].present? && params['incident']['violations'].present?
+      violations_hash = params['incident']['violations'].is_a?(ActionController::Parameters) ? params['incident']['violations'].to_h : params['incident']['violations']
+
       violations_subforms_control_keys = []
       # Save the keys for control inputs created when removing the last violation subform.
-      params['incident']['violations'].keys.each { |key| violations_subforms_control_keys << key if params['incident']['violations'][key].is_a? String }
+      violations_hash.keys.each { |key| violations_subforms_control_keys << key if violations_hash[key].is_a? String }
 
-      params['incident']['violations'].each do |k, v|
+      violations_hash.each do |k, v|
         if v.present?
           v.each do |sk, sv|
             has_values_present = sv.any? do |fk, fv|
               fk == 'unique_id' ? false : fv.present?
             end
             unless has_values_present
-              params['incident']['violations'][k].delete(sk)
+              violations_hash[k].delete(sk)
             end
           end
-          params['incident']['violations'].delete(k) if !params['incident']['violations'][k].present?
+          violations_hash.delete(k) if !violations_hash[k].present?
         end
       end
 
-      violations_subforms_control_keys.each {|key| params['incident']['violations'][key] = ""}
+      violations_subforms_control_keys.each {|key| violations_hash[key] = ""}
     end
   end
 

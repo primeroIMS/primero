@@ -910,8 +910,7 @@ class FormSection < CouchRest::Model::Base
   end
 
   def is_violations_group?
-    #TODO MRM - pass english locale to form_group_name and/or have a better way to identify Violations
-    self.form_group_name == 'Violations'
+    self.form_group_id == 'violations'
   end
 
   def is_violation_wrapper?

@@ -100,8 +100,15 @@ class Incident < CouchRest::Model::Base
       self.child_types
     end
 
-    string :armed_force_group_names, multiple: true do
-      self.armed_force_group_names
+    # string :armed_force_group_names, multiple: true do
+    #   self.armed_force_group_names
+    # end
+    string :armed_force_names, multiple: true do
+      self.armed_force_names
+    end
+
+    string :armed_group_names, multiple: true do
+      self.armed_group_names
     end
 
     string :perpetrator_sub_categories, multiple: true do
@@ -119,6 +126,7 @@ class Incident < CouchRest::Model::Base
   def self.make_new_incident(module_id, child=nil, from_module_id=nil, incident_detail_id=nil, user=nil)
     Incident.new.tap do |incident|
       incident['module_id'] = module_id
+      incident.status = STATUS_OPEN
 
       if child.present?
         incident['incident_case_id'] = child.id
@@ -139,7 +147,7 @@ class Incident < CouchRest::Model::Base
         #What matters here is the date for the person creating the incident
         #After its creation the date will not have a timezone
         incident.date_of_first_report = DateTime.current.to_date
-        incident.status = STATUS_OPEN
+        # incident.status = STATUS_OPEN
         incident.set_creation_fields_for user if user.present?
       end
     end
@@ -228,6 +236,7 @@ class Incident < CouchRest::Model::Base
   def violation_number_of_violations_verified
     number_of_violations_verified = 0
     self.violations_subforms.each do |subform|
+      #TODO RSE
       #TODO Do we need I18n for "Verified" string?
       number_of_violations_verified += 1 if subform.try(:verified) == "Verified"
     end
@@ -271,6 +280,7 @@ class Incident < CouchRest::Model::Base
     }
   end
 
+  #TODO RSE fix
   def violation_label(violation_type, violation, include_unique_id=false)
     id_fields = self.class.violation_id_fields
     label_id = violation.send(id_fields[violation_type].to_sym)
@@ -299,6 +309,7 @@ class Incident < CouchRest::Model::Base
       violations_list.uniq! if violations_list.present?
     else
       if violations_list.blank?
+        #TODO RSE fix
         violations_list << "NONE"
       end
     end
@@ -437,14 +448,38 @@ class Incident < CouchRest::Model::Base
   end
 
   #TODO - Need rspec test for this
-  def armed_force_group_names
-    armed_force_groups = []
-    if self.perpetrator_subform_section.present?
-      self.perpetrator_subform_section.each {|p| armed_force_groups << p.armed_force_group_name if p.armed_force_group_name.present?}
-    end
-    armed_force_groups.uniq! if armed_force_groups.present?
+  # def armed_force_group_names
+  #   armed_force_groups = []
+  #   if self.perpetrator_subform_section.present?
+  #     binding.pry
+  #     x=0
+  #     self.perpetrator_subform_section.each {|p| armed_force_groups << p.armed_force_group_name if p.armed_force_group_name.present?}
+  #   end
+  #   armed_force_groups.uniq! if armed_force_groups.present?
+  #
+  #   return armed_force_groups
+  # end
 
-    return armed_force_groups
+  #Formerly armed_force_group_names... was split into 2 separate methods
+  def armed_force_names
+    armed_forces = []
+    if self.perpetrator_subform_section.present?
+      self.perpetrator_subform_section.each {|p| armed_forces << p.armed_force_name if p.armed_force_name.present?}
+    end
+    armed_forces.uniq! if armed_forces.present?
+
+    return armed_forces
+  end
+
+  #Formerly armed_force_group_names... was split into 2 separate methods
+  def armed_group_names
+    armed_groups = []
+    if self.perpetrator_subform_section.present?
+      self.perpetrator_subform_section.each {|p| armed_groups << p.armed_group_name if p.armed_group_name.present?}
+    end
+    armed_groups.uniq! if armed_groups.present?
+
+    return armed_groups
   end
 
   #TODO - Need rspec test for this
