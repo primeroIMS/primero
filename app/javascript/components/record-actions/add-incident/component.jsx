@@ -113,15 +113,11 @@ const Component = ({
 
   return (
     <Formik {...formProps}>
-      {() => {
-        return (
-          <ActionDialog {...modalProps}>
-            <Form noValidate autoComplete="off">
-              <Fields {...fieldsProps} />
-            </Form>
-          </ActionDialog>
-        );
-      }}
+      <ActionDialog {...modalProps}>
+        <Form noValidate autoComplete="off">
+          <Fields {...fieldsProps} />
+        </Form>
+      </ActionDialog>
     </Formik>
   );
 };

@@ -19,6 +19,7 @@ describe("<ActionDialog />", () => {
     successHandler: () => {},
     cancelHandler: () => {},
     dialogTitle: "",
+    dialogTitleSmall: "",
     dialogText: "",
     confirmButtonLabel: "",
     children: [],
@@ -69,7 +70,8 @@ describe("<ActionDialog />", () => {
       "children",
       "onClose",
       "confirmButtonProps",
-      "omitCloseAfterSuccess"
+      "omitCloseAfterSuccess",
+      "dialogTitleSmall"
     ].forEach(property => {
       expect(actionDialogProps).to.have.property(property);
       delete actionDialogProps[property];

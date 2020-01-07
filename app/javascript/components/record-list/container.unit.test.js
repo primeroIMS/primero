@@ -11,6 +11,7 @@ import { ACTIONS } from "../../libs/permissions";
 import { setupMountedComponent } from "../../test";
 
 import { ViewModal } from "./view-modal";
+import RecordListToolbar from "./record-list-toolbar";
 import RecordList from "./container";
 
 describe("<RecordList />", () => {
@@ -100,6 +101,10 @@ describe("<RecordList />", () => {
 
   it("renders record list table", () => {
     expect(component.find(ViewModal)).to.have.lengthOf(1);
+  });
+
+  it("renders RecordListToolbar", () => {
+    expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
   });
 
   it("renders Enabled / Disabled filter expanded", () => {

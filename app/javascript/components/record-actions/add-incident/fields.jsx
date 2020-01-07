@@ -11,7 +11,6 @@ const Fields = ({ recordType, fields }) => {
     fields.map(f => {
       const field = { ...f };
 
-      delete field.step;
       const formattedField = FieldRecord(field);
       const fieldProps = {
         name: formattedField.name,

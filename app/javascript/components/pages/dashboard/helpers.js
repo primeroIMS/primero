@@ -1,6 +1,8 @@
 import { dataToJS } from "../../../libs";
 
 const translateLabels = (keys, data) => {
+  if (!data.length) return [];
+
   return keys
     .map(k => data.filter(d => d.id === k))
     .flat()

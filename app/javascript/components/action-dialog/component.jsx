@@ -105,12 +105,7 @@ const ActionDialog = ({
           )}
         </DialogContent>
         <DialogActions>
-          <Button
-            {...{
-              ...successButtonProps,
-              onClick: handleSuccess
-            }}
-          >
+          <Button {...{ ...successButtonProps, onClick: handleSuccess }}>
             {confirmButtonLabel}
           </Button>
           {cancelHandler ? (

@@ -7,6 +7,7 @@ import { RECORD_TYPES, RECORD_PATH, MODULES } from "../../config";
 import { ACTIONS } from "../../libs/permissions";
 import { PrimeroModuleRecord } from "../application/records";
 import { ApplicationProvider } from "../application/provider";
+import RecordActions from "../record-actions";
 
 import RecordListToolbar from "./record-list-toolbar";
 import AddRecordMenu from "./add-record-menu";
@@ -61,6 +62,11 @@ describe("<RecordListToolbar />", () => {
   it("should render RecordListToolbar with AddRecordMenu", () => {
     expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
     expect(component.find(AddRecordMenu)).to.have.lengthOf(1);
+  });
+
+  it("should render RecordListToolbar with RecordActions", () => {
+    expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
+    expect(component.find(RecordActions)).to.have.lengthOf(1);
   });
 
   describe("if doesn't have permission to create", () => {
