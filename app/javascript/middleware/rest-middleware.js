@@ -11,9 +11,9 @@ const defaultFetchOptions = {
   credentials: "same-origin",
   cache: "no-cache",
   redirect: "follow",
-  headers: new Headers({
+  headers: {
     "content-type": "application/json"
-  })
+  }
 };
 
 const queryParams = {
@@ -84,7 +84,16 @@ function fetchPayload(action, store, options) {
 
   const {
     type,
-    api: { path, body, params, method, normalizeFunc, successCallback, db }
+    api: {
+      path,
+      headers,
+      body,
+      params,
+      method,
+      normalizeFunc,
+      successCallback,
+      db
+    }
   } = action;
 
   const fetchOptions = {
@@ -94,6 +103,9 @@ function fetchPayload(action, store, options) {
     ...(body && { body: JSON.stringify(body) })
   };
 
+  fetchOptions.headers = new Headers(
+    Object.assign(fetchOptions.headers, headers)
+  );
   const fetchPath = buildPath(path, options, params);
 
   const fetch = async () => {
