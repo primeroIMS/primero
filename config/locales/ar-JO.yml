@@ -8,9 +8,12 @@ ar-JO:
     en: "الإنجليزية"
     ar: "العربية"
     ar-LB: "العربية (اللبنانية)"
+    ar-JO: "العربية (الأردنية)"
     zh: "中文"
-    es: "Español"
+    es: "الاسبانية"
     ru: "Русский"
+    ku: "الكردية"
+    pt: "البرتغالية"
     dashboard: "لوحة المعلومات"
     welcome: "مرحبا بكم في بريميرو"
     current_time_zone: "المنطقة الزمنية الحالية"
@@ -23,9 +26,9 @@ ar-JO:
   clear: "مسح"
   messages:
     delete_item: |
-      تحذير: في حالة المتابعة، ستفقد أي معلومات مرتبطة بهذا الحقل.
-      إذا كنت غير متأكد، قم بتعطيل الحقل بدلاً من ذلك.
-      انقر فوق إلغاء للعودة إلى الخلف.انقر فوق موافق لحذف الحقل.
+        تحذير: في حالة المتابعة، ستفقد أي معلومات مرتبطة بهذا الحقل.
+        إذا كنت غير متأكد، قم بتعطيل الحقل بدلاً من ذلك.
+        انقر فوق إلغاء للعودة إلى الخلف.انقر فوق موافق لحذف الحقل.
     move_item: "أنت على وشك نقل هذا الحقل إلى مقطع نموذج آخر ({{selection_key}}). هل أنت موافق؟"
     enter_valid_date: "الرجاء إدخال التاريخ بالصيغة الصحيحة (يوم-شهر-سنة)"
     enter_valid_field_value: "الرجاء إدخال قيمة صحيحة في الحقل."
@@ -50,9 +53,9 @@ ar-JO:
     logoff_warning_suffix: " ثوانٍ."
     logoff_confirmation: "هل تريد متابعة جلستك؟"
     warning: |
-      تحذير: في حال المتابعة ستفقد أي بيانات مرتبطة بهذا الحقل.
-      إذا كنت غير متأكد، قم بتعطيل الحقل بدلاً من ذلك.
-      انقر فوق "إلغاء" للرجوع للخلف. انقر فوق "موافق" لحذف الحقل.
+        تحذير: في حال المتابعة ستفقد أي بيانات مرتبطة بهذا الحقل.
+        إذا كنت غير متأكد، قم بتعطيل الحقل بدلاً من ذلك.
+        انقر فوق "إلغاء" للرجوع للخلف. انقر فوق "موافق" لحذف الحقل.
     enter_each_in_one_line: "أدخل كل خيار على سطر جديد"
     record_count: "عرض %{start} إلى %{end} من %{total} السجلات"
     form_sections_help_text_for_edit: "انقر فوق زر تعديل لإضافة تفاصيل %{form_section_name}"
@@ -70,6 +73,7 @@ ar-JO:
     system_settings_failed: "لم تنجح عملية تحميل إعدادات ضبط النظام."
     approval_alert: "المصادقة موقوفة %{form_name}"
     field_change_alert: "النموذج %{form_name} تم تحديثه بواسطة مقدم الخدمة في%{date}"
+    loading: "تحميل"
   data_base:
     delete_all_documents: "جميع وثائق الطفل محذوفة"
     operation_not_allowed: "العملية غير مسموح بها في بيئة %{rails_env}"
@@ -102,6 +106,7 @@ ar-JO:
     tracing_request: "طلبات التتبع"
     incidents: "الحوادث"
     potential_match: "المتشابهات"
+    duplicates: "تكرارات"
     children: "الأطفال"
     forms: "النماذج"
     lookups: "عمليات البحث"
@@ -113,11 +118,15 @@ ar-JO:
     search: "بحث"
     locations: "المواقع"
     bulk_exports: "منقولات عملاقة"
+    tasks: "مهمة"
+    audit_logs: "سجل التدقيق"
+    matching_configuration: "مطابقة"
   buttons:
     delete: "حذف"
     disable: "إيقاف"
     enable: "تشغيل"
     save: "حفظ"
+    save_and_add_service_provision: "احفظ واضف الخدمة المزودة"
     login: "تسجيل الدخول"
     reunite: "إعادة لمّ الشمل"
     edit: "تعديل"
@@ -144,8 +153,8 @@ ar-JO:
     create_new_record: "إنشاء %{model} جديد"
     bundle_import: "حزمة التكوين"
     bundle_export: "حزمة التكوين"
-    transfer: "نقل %{model}"
-    reassign: "تعيين/نقل %{model}"
+    transfer: "نقل ملف%{model} إلى مؤسسة أخرى"
+    reassign: "تعيين ملف%{model} داخل المؤسسة"
     referral: "إحالة %{model}"
     mark_for_mobile: "وضع علامة للمحمول"
     unmark_for_mobile: "إزالة علامة للمحمول"
@@ -160,6 +169,7 @@ ar-JO:
     accept: "قبول"
     reject: "رفض"
     done: "تمت"
+    view: "عرض"
   placeholders:
     subforms: "انقر فوق زر تعديل لإضافة تفاصيل %{form}"
     editing_subforms: "اضغط على \"إضافة\" للإضافة معلومات عن %{form}"
@@ -200,6 +210,8 @@ ar-JO:
         pending: "المصادقات قيد الانتظار"
         approved: "تم المصادقة عليها"
         rejected: "رُفضت"
+    clear_filter: "مسح"
+    save_filter: "حفّظ"
     order_by:
       most_recently: "الأحدث"
       label: "ترتيب حسب"
@@ -549,6 +561,8 @@ ar-JO:
   tracing_requests:
     register_new_tracing_request: "طلب تتبع جديد "
     export: "تصديرات ملف"
+    selectable_date_options:
+      inquiry_date: "تاريخ الإستعلام"
     filter_by:
       flag: "مُميز بعلامة:"
       flag_label: "هل كان مُميز بعلامة؟"
@@ -577,9 +591,37 @@ ar-JO:
     child_gender: 'جنس'
     reg_date: 'تاريخ التسجيل'
     social_worker: 'عامل اجتماعي'
+    social_worker_agency: 'مؤسسة'
     score: 'نتيجة'
     show_more: 'عرض المزيد'
     show_less: 'عرض أقل'
+    case: 'حالة'
+    name: 'الاسم'
+  duplicates:
+    clear_filter: 'مسح'
+    filter_by:
+      name: "الاسم"
+      sex: "الجنس"
+      age: "العمر"
+  audit_log:
+    user_name: "اسم المستخدم"
+    action: "إجراء"
+    description: "الوصف"
+    record_owner: "تسجيل المالك"
+  audit_logs:
+    action_options:
+      login: "تسجيل الدخول"
+      logout: "تسجيل الخروج"
+      create: "إنشاء"
+      edit: "التعديل"
+      update: "جاري التحديث"
+      export: "نقل بيانات إلى"
+      referral: "جاري الإحالة"
+      reassign: "جاري التعيين"
+    filter_by:
+      date: 'تاريخ'
+      timestamp: 'طابع زمني'
+      user: 'اسم المستخدم'
   preposition:
     on_label: "عن"
     because: "بسبب"
@@ -604,6 +646,12 @@ ar-JO:
       label: "فرز حسب"
       full_name: "الاسم الكامل"
       agency: "مؤسسة"
+    filter_by:
+      status: "الحالة"
+      enabled: "مُفعل"
+      disabled: "مُعطل "
+      agency: "مؤسسة"
+    register_new_user: "إنشاء مستخدم"
   roles:
     label: "أدوار المستخدم"
     list: "لائحة أدوار المستخدم"
@@ -650,6 +698,10 @@ ar-JO:
       update: "تحديث"
       create: "إنشاء"
       delete: "حذف"
+    filter_by:
+      status: "الحالة"
+      enabled: "مُفعل"
+      disabled: "مُعطل "
     messages:
       confirmation: "هل أنت متأكد أنك تريد حذف هذه المؤسسة؟ لا يمكن التراجع عن الحذف. انقر فوق موافق لحذف المؤسسة. "
     select_prompt: "الرجاء تحديد مؤسسة"
@@ -737,6 +789,7 @@ ar-JO:
     code: "رمز المستخدم "
     history_of: "تاريخ %{user_name} "
     disabled: "مُعطل "
+    services: "الخدمات"
     position: وضع
     actions:
       delete: "حذف"
@@ -809,6 +862,7 @@ ar-JO:
     permission:
       read: "قراءة"
       write: "كتابة"
+      enable_disable_record: "إيقاف"
       flag: "تمييز بعلامة"
       assign: "تعيين/نقل"
       case: "حالة"
@@ -1009,6 +1063,7 @@ ar-JO:
     select_box: "حدد القائمة المنسدلة"
     radio_button: "زر انتقاء"
     text_area: "منطقة النص"
+    textarea: "منطقة النص"
     numeric_field: "حقل رقمي"
     date_field: "حقل التاريخ"
     date_range_field: "نطاق التاريخ"
@@ -1521,6 +1576,7 @@ ar-JO:
         name_present: "لا يجب أن يكون الاسم فارغاً"
         unique_name: "يوجد برنامج بهذا الاسم بالفعل، الرجاء إدخال اسم مختلف"
       lookup:
+        name_present: "لا يجب أن يكون الاسم فارغاً"
         value_presence: "الرجاء تحديد قيمة بحث واحدة على الأقل"
         unique_name: "يوجد بحث يحمل هذا الاسم بالفعل، الرجاء إدخال اسم مختلف"
         being_used: "هذا البحث في الاستخدام  ولا يمكن حذفه"
@@ -1642,6 +1698,15 @@ ar-JO:
       all: المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
       one: المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
       selected: تحديد إلى المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
+      headers:
+        sex: "الجنس"
+        sex_mapping_m_f_u: "الجنس"
+        age: "العمر"
+    duplicate_id_csv:
+      headers:
+        case_id: "رقم ملف الحالة"
+        age: "العمر"
+        sex_mapping_m_f_u: "الجنس"
     mrm_violation_xls:
       all: انتهاكات آلية المراقبة والإبلاغ MRM
       one: انتهاكات آلية المراقبة والإبلاغ MRM
@@ -1701,6 +1766,8 @@ ar-JO:
     user_local_status_done: "تم عمله"
     complete_referral_label: "يُشير الضغط على موافق إلى انتهائك من الإحالة المرتبط \nبهذه الحالة. بمجرد أن تضغط على موافق لن تستطيع بعد\nالآن الاطلاع على سجل الحالة."
     done_success_message: "تمت عملية الإحالة"
+    agency_label: "مؤسسة"
+    location_label: "الموقع"
   reassign:
     reassign_case_title: "تعيين/نقل حالة (حالات) ل:"
     existing_user_label: "اسم المستخدم"
@@ -1731,6 +1798,10 @@ ar-JO:
     search:
       rejected: "مرفوض"
       in_progress: "جاري"
+    agency_label: "مؤسسة"
+    location_label: "الموقع"
+  request_transfer:
+    notes_label: "ملاحظات"
   transition:
     export_type:
       pdf_export: "تصدير ملف PDF"
@@ -1760,6 +1831,9 @@ ar-JO:
       pending: "قيد الانتظار"
       approved: "تم المصادقة عليها"
       rejected: "مرفوض"
+  notes:
+    notes_label: "ملاحظات"
+    no_records_selected: "لم يتم تحديد أي سجلات"
   per_page_translation: "لكل صفحة _MENU_"
   total: المجموع
   caregiver: "(مقدم الرعاية)"
