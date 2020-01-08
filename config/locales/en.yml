@@ -1055,6 +1055,7 @@ en:
     change_password: "Change your password"
     forgot_password: "Forgot your password?"
     welcome_email:
+      subject: "First time login to %{host} for user %{user}"
       greeting: "Welcome to Primero,"
       url_label: "Primero"
       enabled_label: "Send Welcome Email?"
@@ -2096,6 +2097,7 @@ en:
       all: Excel
       one: Excel
       selected: Selected to Excel
+      selected_fields: 'Selected Fields'
     json:
       all: JSON
       one: JSON

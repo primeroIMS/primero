@@ -34,16 +34,6 @@ describe Incident do
       create(:field, :date_range_with_datetime, name: "last_updated_at", form_section_id: form.id)
     end
 
-    # TODO: Ask about these test
-    it "should build with free text search fields" do
-      Field.stub(:all_searchable_field_names).and_return []
-      Incident.searchable_string_fields.should =~ ["unique_identifier", "short_id", "created_by", "created_by_full_name",
-                                                   "last_updated_by", "last_updated_by_full_name","created_organization",
-                                                   "owned_by_agency", "owned_by_location",
-                                                   "approval_status_bia", "approval_status_case_plan", "approval_status_closure",
-                                                   "transfer_status"]
-    end
-
     it "should build with date/time search fields" do
       expect(Incident.searchable_date_time_fields).to include("created_at", "last_updated_at")
     end

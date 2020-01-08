@@ -891,117 +891,127 @@ describe Child do
     end
   end
 
-  describe "case id code" do
-    before :all do
-      clean_data(User, Location, Role, Agency, PrimeroModule, PrimeroProgram, UserGroup)
+  describe 'case id code' do
+    before :each do
+      clean_data(User, Location, Role, Agency, PrimeroModule, PrimeroProgram, UserGroup, SystemSettings)
 
-      @permission_case ||= Permission.new(:resource => Permission::CASE,
-                                          :actions => [Permission::READ, Permission::WRITE, Permission::CREATE])
-      @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI", admin_level: 0
-      @location_region = Location.create! placename: "Kindia", type: "region", location_code: "GUI123", hierarchy: ["GUI"], admin_level: 1
-      admin_role = Role.create!(:name => "Admin", :permissions => Permission.all_permissions_list)
-      field_worker_role = Role.create!(:name => "Field Worker", :permissions => [@permission_case])
-      agency = Agency.create! agency_code: "UN", name: "UNICEF"
-      SystemSettings.create default_locale: "en"
-      user = create(:user, user_name: "bob123", full_name: 'full', password: 'passw0rd', password_confirmation: 'passw0rd',
-                           email: 'embob123@dd.net', agency_id: agency.id, role_id: admin_role.id, disabled: 'false',
-                           location: @location_region.location_code)
-
-      user2 = create(:user, user_name: "joe456", full_name: 'full', password: 'passw0rd', password_confirmation: 'passw0rd',
-                            email: 'emjoe456@dd.net', agency_id: agency.id, role_id: admin_role.id, disabled: 'false')
-
-      user3 = create(:user, user_name: "tom789", full_name: 'full', password: 'passw0rd', password_confirmation: 'passw0rd',
-                            email: 'emtom789@dd.net', agency_id: agency.id, role_id: admin_role.id, disabled: 'false',
-                            location: @location_region.location_code)
+      @permission_case ||= Permission.new(
+        resource: Permission::CASE,
+        actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
+      )
+      @location_country = Location.create!(placename: 'Guinea', type: 'country', location_code: 'GUI', admin_level: 0)
+      @location_region = Location.create!(
+        placename: 'Kindia', type: 'region',
+        location_code: 'GUI123', hierarchy: ['GUI'],
+        admin_level: 1
+      )
+      admin_role = Role.create!(name: 'Admin', permissions: Permission.all_permissions_list)
+      agency = Agency.create!(agency_code: 'UN', name: 'UNICEF')
+      @user = create(
+        :user,
+        user_name: 'bob123', full_name: 'full', password: 'passw0rd', password_confirmation: 'passw0rd',
+        email: 'embob123@dd.net', agency_id: agency.id, role_id: admin_role.id, disabled: 'false',
+        location: @location_region.location_code
+      )
+      @user2 = create(
+        :user,
+        user_name: 'joe456', full_name: 'full', password: 'passw0rd', password_confirmation: 'passw0rd',
+        email: 'emjoe456@dd.net', agency_id: agency.id, role_id: admin_role.id, disabled: 'false'
+      )
+      @user3 = create(
+        :user,
+        user_name: 'tom789', full_name: 'full', password: 'passw0rd', password_confirmation: 'passw0rd',
+        email: 'emtom789@dd.net', agency_id: agency.id, role_id: admin_role.id, disabled: 'false',
+        location: @location_region.location_code
+      )
     end
 
     context 'system case code format empty' do
       before :each do
-        SystemSettings.all.each &:destroy
-        @system_settings = SystemSettings.create default_locale: "en"
-        SystemSettings.stub(:current).and_return(SystemSettings.first)
+        SystemSettings.create(default_locale: 'en')
+        SystemSettings.current(true)
       end
 
       it 'should create an empty case id code' do
-        child = Child.create!(data: {case_id: 'xyz123', created_by: 'bob123'})
+        child = Child.create!(data: { case_id: 'xyz123', created_by: @user.user_name })
         expect(child.case_id_code).to be_nil
       end
 
       it 'should create a case id display that matches short id' do
-        child = Child.create!(data: {case_id: 'xyz123', created_by: 'bob123'})
+        child = Child.create!(data: { case_id: 'xyz123', created_by: @user.user_name })
         expect(child.case_id_display).to eq(child.short_id)
       end
     end
 
     context 'system case code separator empty' do
       before :each do
-        SystemSettings.all.each &:destroy
-        ap1 = AutoPopulateInformation.new(field_key: 'case_id_code',
-                                          format: [
-                                              "created_by_user.Location.ancestor_by_type(country).location_code",
-                                              "created_by_user.Location.ancestor_by_type(region).location_code",
-                                              "created_by_user.agency.agency_code"
-                                          ],
-                                          auto_populated: true)
-
-        @system_settings = SystemSettings.create(default_locale: "en", auto_populate_list: [ap1])
-        SystemSettings.stub(:current).and_return(SystemSettings.first)
+        ap1 = AutoPopulateInformation.new(
+          field_key: 'case_id_code',
+          format: %w[
+            created_by_user.Location.ancestor_by_type(country).location_code
+            created_by_user.Location.ancestor_by_type(region).location_code
+            created_by_user.agency.agency_code
+          ],
+          auto_populated: true
+        )
+        SystemSettings.create(default_locale: 'en', auto_populate_list: [ap1])
+        SystemSettings.current(true)
       end
 
       it 'should create a case id code without separators' do
-        child = Child.create!(data: {case_id: 'xyz123', created_by: 'bob123'})
-        expect(child.case_id_code).to eq("GUI123UN")
+        child = Child.create!(data: { case_id: 'xyz123', created_by: @user.user_name })
+        expect(child.case_id_code).to eq('GUIGUI123UN')
       end
 
       it 'should create a case id display without separators' do
-        child = Child.create!(data: {case_id: 'xyz123', created_by: 'bob123'})
-        expect(child.case_id_display).to eq("GUI123UN#{child.short_id}")
+        child = Child.create!(data: { case_id: 'xyz123', created_by: @user.user_name })
+        expect(child.case_id_display).to eq("GUIGUI123UN#{child.short_id}")
       end
     end
 
     context 'system case code format and separator present' do
       before :each do
-        SystemSettings.all.each &:destroy
-        ap1 = AutoPopulateInformation.new(field_key: 'case_id_code',
-                                          format: [
-                                              "created_by_user.Location.ancestor_by_type(country).location_code",
-                                              "created_by_user.Location.ancestor_by_type(region).location_code",
-                                              "created_by_user.agency.agency_code"
-                                          ],
-                                          separator: '-', auto_populated: true)
-
-        @system_settings = SystemSettings.create(default_locale: "en", auto_populate_list: [ap1])
-        SystemSettings.stub(:current).and_return(SystemSettings.first)
+        ap1 = AutoPopulateInformation.new(
+          field_key: 'case_id_code',
+          format: %w[
+            created_by_user.Location.ancestor_by_type(country).location_code
+            created_by_user.Location.ancestor_by_type(region).location_code
+            created_by_user.agency.agency_code
+          ],
+          separator: '-', auto_populated: true
+        )
+        SystemSettings.create(default_locale: 'en', auto_populate_list: [ap1])
+        SystemSettings.current(true)
       end
 
       it 'should create a case id code with separators' do
-        child = Child.create!(data: {case_id: 'xyz123', created_by: 'bob123'})
-        expect(child.case_id_code).to eq("GUI123-UN")
+        child = Child.create!(data: { case_id: 'xyz123', created_by: @user.user_name })
+        expect(child.case_id_code).to eq('GUI-GUI123-UN')
       end
 
       it 'should create a case id display with separators' do
-        child = Child.create!(data: { case_id: 'xyz123', created_by: 'bob123'})
-        expect(child.case_id_display).to eq("GUI123-UN-#{child.short_id}")
+        child = Child.create!(data: { case_id: 'xyz123', created_by: @user.user_name })
+        expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.short_id}")
       end
 
       it 'should create a case id code if user location is missing' do
-        child = Child.create!(data: {case_id: 'abc456', created_by: 'joe456'})
-        expect(child.case_id_code).to eq("UN")
+        child = Child.create!(data: { case_id: 'abc456', created_by: @user2.user_name })
+        expect(child.case_id_code).to eq('UN')
       end
 
       it 'should create a case id display if user location is missing' do
-        child = Child.create!(data: { case_id: 'abc456', created_by: 'joe456'})
+        child = Child.create!(data: { case_id: 'abc456', created_by: @user2.user_name })
         expect(child.case_id_display).to eq("UN-#{child.short_id}")
       end
 
       it 'should create a case id code if user agency is missing' do
-        child = Child.create!(data: { case_id: 'zzz', created_by: 'tom789'})
-        expect(child.case_id_code).to eq("GUI123-UN")
+        child = Child.create!(data: { case_id: 'zzz', created_by: @user3.user_name })
+        expect(child.case_id_code).to eq('GUI-GUI123-UN')
       end
 
       it 'should create a case id display if user agency is missing' do
-        child = Child.create!(data: { case_id: 'zzz', created_by: 'tom789'})
-        expect(child.case_id_display).to eq("GUI123-UN-#{child.short_id}")
+        child = Child.create!(data: { case_id: 'zzz', created_by: @user3.user_name })
+        expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.short_id}")
       end
     end
   end
