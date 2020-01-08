@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/styles";
 import { Popover, Typography, Link } from "@material-ui/core";
 
 import styles from "./styles.css";
+import { GUIDING_QUESTIONS_NAME } from "./constants";
 
 const GuidingQuestions = ({ label, text }) => {
   const css = makeStyles(styles)();
@@ -46,6 +47,8 @@ const GuidingQuestions = ({ label, text }) => {
     </>
   );
 };
+
+GuidingQuestions.displayName = GUIDING_QUESTIONS_NAME;
 
 GuidingQuestions.propTypes = {
   label: PropTypes.string.isRequired,

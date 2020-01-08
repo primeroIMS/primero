@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/styles";
 import { Jewel } from "../../jewel";
 
 import styles from "./styles.css";
+import { NAV_ITEM } from "./constants";
 
 const NavItem = ({
   form,
@@ -47,6 +48,8 @@ const NavItem = ({
     </ListItem>
   );
 };
+
+NavItem.displayName = NAV_ITEM;
 
 NavItem.propTypes = {
   form: PropTypes.object,
