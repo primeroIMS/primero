@@ -84,7 +84,6 @@ export const ROUTES = {
   exports: "/exports",
   incidents: "/incidents",
   login: "/login",
-  login_redirect: "/login/:provider",
   logout: "/logout",
   matches: "/matches",
   not_authorized: "/not-authorized",

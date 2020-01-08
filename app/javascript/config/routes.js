@@ -35,10 +35,6 @@ export default [
         component: Login
       },
       {
-        path: ROUTES.login_redirect,
-        component: Login
-      },
-      {
         path: ROUTES.logout,
         component: Login
       }
