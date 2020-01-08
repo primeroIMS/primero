@@ -36,7 +36,7 @@
   <div class="large-9 medium-9 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
       <% if @form_sections.present? %>
-        <%= render :partial => "form_section/list_view_table", :locals => {:form_sections => @form_sections, :primero_module => @primero_module, parent_form: @parent_form} %>
+        <%= render :partial => "form_section/list_view_table", :locals => {:form_sections => @form_sections, :primero_module => @primero_module, :parent_form => @parent_form} %>
       <% end %>
       <div id="modal-dialog" class="hide_element"></div>
       </div>

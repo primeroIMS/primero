@@ -199,7 +199,7 @@ module FieldsHelper
     if form_group_name.present? && formObject[form_group_name.downcase].present? && !formObject[form_group_name.downcase][subform_name].empty? &&
       index != 'template'
       content_tag :span, class: 'verification_status' do
-        "(#{formObject[form_group_name.downcase][subform_name][index].verified})"
+        "(#{formObject[form_group_name.downcase][subform_name][index].ctfmr_verified})"
       end
     end
   end

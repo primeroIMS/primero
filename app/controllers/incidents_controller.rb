@@ -4,14 +4,14 @@ class IncidentsController < ApplicationController
   include IndexHelper
   include RecordFilteringPagination
 
-  before_action :normalize_violations, :only => [:create, :update]
   before_action :load_fields, :only => [:index]
+  before_action :discard_empty_violations, :only => [:create, :update]
   #TODO: Do we need to sanitize params?
   #TODO: Dp we need to filter_params_array_duplicates?
 
   include RecordActions
 
-  def normalize_violations
+  def discard_empty_violations
     if params['incident'].present? && params['incident']['violations'].present?
       violations_subforms_control_keys = []
       # Save the keys for control inputs created when removing the last violation subform.
@@ -20,10 +20,11 @@ class IncidentsController < ApplicationController
       params['incident']['violations'].each do |k, v|
         if v.present?
           v.each do |sk, sv|
-            has_values_present = sv.any? do |fk, fv|
-              fk == 'unique_id' ? false : fv.present?
+            violation_has_values_present = sv.any? do |fk, fv|
+              #TODO: Including 'false' for tickbox is technically incorrect, but practically saves a lot of trouble
+              ((fk == 'unique_id') || (['false', 'date_range'].include?(fv))) ? false : fv.present?
             end
-            unless has_values_present
+            unless violation_has_values_present
               params['incident']['violations'][k].delete(sk)
             end
           end
@@ -38,8 +39,8 @@ class IncidentsController < ApplicationController
   def create_cp_case_from_individual_details
     authorize! :create, Child
     incident_id = params[:incident_id]
-    individual_details_subform_section = params[:individual_details_subform_section]
-    redirect_to new_case_path({module_id: PrimeroModule::CP, incident_id: incident_id, individual_details_subform_section: individual_details_subform_section })
+    individual_victims_subform_section = params[:individual_victims_subform_section]
+    redirect_to new_case_path({module_id: PrimeroModule::CP, incident_id: incident_id, individual_victims_subform_section: individual_victims_subform_section })
   end
 
   private
