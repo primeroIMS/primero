@@ -10,3 +10,5 @@ export {
   getErrors,
   getSelectedForm
 } from "./selectors";
+export { FormSectionField } from "./form";
+export { FieldRecord } from "./records";

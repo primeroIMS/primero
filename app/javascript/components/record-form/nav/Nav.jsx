@@ -57,7 +57,11 @@ const Nav = ({
 
     return (
       <List>
-        <RecordInformation handleClick={handleClick} open={open} />
+        <RecordInformation
+          handleClick={handleClick}
+          open={open}
+          selectedForm={selectedForm}
+        />
         <Divider />
         {formGroups.map(g => {
           return (

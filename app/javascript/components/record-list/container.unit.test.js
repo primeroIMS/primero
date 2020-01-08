@@ -4,8 +4,8 @@ import { Route } from "react-router-dom";
 import { fromJS } from "immutable";
 import { ExpansionPanel } from "@material-ui/core";
 
-import Filters from "../filters";
-import Panel from "../filters-builder/Panel";
+import Filters from "../index-filters";
+import Panel from "../index-filters/components/panel";
 import IndexTable from "../index-table";
 import { ACTIONS } from "../../libs/permissions";
 import { setupMountedComponent } from "../../test";
