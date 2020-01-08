@@ -1,4 +1,4 @@
-.dialogTitleSmall {
+.dialogSubtitle {
   font-size: $(theme.typography.pxToRem(12));
   font-weight: bold;
   color: $(theme.primero.colors.darkGrey);

@@ -1,18 +1,18 @@
 import { expect } from "chai";
 
-import * as index from "./index";
+import * as constants from "./index";
 
 describe("<Form /> - index", () => {
-  const indexValues = { ...index };
+  const clone = { ...constants };
 
   it("should have known properties", () => {
-    expect(indexValues).to.be.an("object");
+    expect(clone).to.be.an("object");
     ["RecordForm", "RecordFormToolbar", "FormSectionField"].forEach(
       property => {
-        expect(indexValues).to.have.property(property);
-        delete indexValues[property];
+        expect(clone).to.have.property(property);
+        delete clone[property];
       }
     );
-    expect(indexValues).to.be.empty;
+    expect(clone).to.be.empty;
   });
 });

@@ -22,7 +22,7 @@ const ActionDialog = ({
   successHandler,
   cancelHandler,
   dialogTitle,
-  dialogTitleSmall,
+  dialogSubtitle,
   dialogText,
   confirmButtonLabel,
   children,
@@ -51,15 +51,14 @@ const ActionDialog = ({
 
   const TitleWithClose = withStyles(styles)(props => {
     const { classes, closeHandler } = props;
+    const subtitle = dialogSubtitle ? (
+      <span className={css.dialogSubtitle}>{dialogSubtitle}</span>
+    ) : null;
 
     return (
       <DialogTitle>
-        <span>
-          {dialogTitle}
-          {dialogTitleSmall ? (
-            <span className={css.dialogTitleSmall}>{dialogTitleSmall}</span>
-          ) : null}
-        </span>
+        {dialogTitle}
+        {subtitle}
         <IconButton
           aria-label="close"
           className={classes.closeButton}
@@ -131,7 +130,7 @@ ActionDialog.propTypes = {
   confirmButtonProps: PropTypes.object,
   dialogText: PropTypes.string,
   dialogTitle: PropTypes.string,
-  dialogTitleSmall: PropTypes.string,
+  dialogSubtitle: PropTypes.string,
   omitCloseAfterSuccess: PropTypes.bool,
   onClose: PropTypes.func,
   open: PropTypes.bool,

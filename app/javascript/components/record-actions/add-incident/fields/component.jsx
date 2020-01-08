@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { FieldRecord, FormSectionField } from "../../record-form";
+import { FieldRecord, FormSectionField } from "../../../record-form";
 
-import { FIELDS_NAME } from "./constants";
+import { NAME } from "./constants";
 
-const Fields = ({ recordType, fields }) => {
+const Component = ({ recordType, fields }) => {
   const renderFields =
     fields &&
     fields.map(f => {
@@ -33,11 +33,11 @@ const Fields = ({ recordType, fields }) => {
   return <>{renderFields}</>;
 };
 
-Fields.propTypes = {
+Component.propTypes = {
   fields: PropTypes.array,
   recordType: PropTypes.string
 };
 
-Fields.displayName = FIELDS_NAME;
+Component.displayName = NAME;
 
-export default Fields;
+export default Component;

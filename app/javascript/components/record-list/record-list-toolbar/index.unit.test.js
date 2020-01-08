@@ -2,7 +2,7 @@ import { expect } from "chai";
 
 import index from "./index";
 
-describe("<AddIncident /> - index", () => {
+describe("<Fields /> - index", () => {
   const clone = { ...index };
 
   it("should have known properties", () => {

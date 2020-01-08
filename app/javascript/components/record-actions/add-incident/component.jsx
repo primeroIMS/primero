@@ -5,13 +5,22 @@ import { Formik, Form } from "formik";
 
 import { ActionDialog } from "../../action-dialog";
 import { useI18n } from "../../i18n";
-import { getRecordForms, constructInitialValues } from "../../record-form";
+import {
+  getRecordFormsByUniqueId,
+  constructInitialValues
+} from "../../record-form";
 import { MODULES, RECORD_TYPES, ID_FIELD } from "../../../config";
 import { saveRecord, selectRecordsByIndexes } from "../../records";
 import { compactValues } from "../../record-form/helpers";
 
 import { NAME, INCIDENT_SUBFORM } from "./constants";
 import Fields from "./fields";
+
+const submitForm = formikRef => {
+  if (formikRef.current) {
+    formikRef.current.submitForm();
+  }
+};
 
 const Component = ({
   openIncidentDialog,
@@ -22,12 +31,14 @@ const Component = ({
   const formikRef = useRef();
   const i18n = useI18n();
   const dispatch = useDispatch();
+
   const form = useSelector(state =>
-    getRecordForms(state, {
+    getRecordFormsByUniqueId(state, {
       recordType: RECORD_TYPES[recordType],
-      primeroModule: MODULES.CP
+      primeroModule: MODULES.CP,
+      formName: INCIDENT_SUBFORM
     })
-  ).filter(f => f.unique_id === INCIDENT_SUBFORM);
+  );
 
   const selectedIds = useSelector(state =>
     selectRecordsByIndexes(state, recordType, selectedRowsIndex).map(record =>
@@ -47,19 +58,13 @@ const Component = ({
     }
   }, [openIncidentDialog]);
 
-  if (!form?.toJS()?.length) return null;
+  if (!form?.toJS()?.length) return [];
 
   const {
     subform_section_id: subformSectionID,
     name: subformName
   } = form.first().fields[0];
   const initialFormValues = constructInitialValues([subformSectionID]);
-
-  const submitForm = () => {
-    if (formikRef.current) {
-      formikRef.current.submitForm();
-    }
-  };
 
   const modalProps = {
     confirmButtonLabel: i18n.t("buttons.save"),
@@ -71,7 +76,7 @@ const Component = ({
     dialogTitle: i18n.t("actions.incident_details_from_case"),
     onClose: close,
     open: openIncidentDialog,
-    successHandler: () => submitForm()
+    successHandler: () => submitForm(formikRef)
   };
 
   const fieldsProps = {

@@ -261,7 +261,7 @@ Component.propTypes = {
   onTableChange: PropTypes.func.isRequired,
   options: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  selectedRecords: PropTypes.array,
+  selectedRecords: PropTypes.arrayOf(PropTypes.number),
   setSelectedRecords: PropTypes.func,
   targetRecordType: PropTypes.string
 };

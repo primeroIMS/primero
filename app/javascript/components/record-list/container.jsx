@@ -20,7 +20,7 @@ import {
 import Permission from "../application/permission";
 import { useThemeHelper } from "../../libs";
 
-import { NAME } from "./config";
+import { NAME } from "./constants";
 import FilterContainer from "./filter-container";
 import { buildTableColumns, getRecordsFetcherByType } from "./helpers";
 import RecordListToolbar from "./record-list-toolbar";

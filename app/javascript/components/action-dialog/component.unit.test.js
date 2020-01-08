@@ -19,7 +19,7 @@ describe("<ActionDialog />", () => {
     successHandler: () => {},
     cancelHandler: () => {},
     dialogTitle: "",
-    dialogTitleSmall: "",
+    dialogSubtitle: "Test Subtitle",
     dialogText: "",
     confirmButtonLabel: "",
     children: [],
@@ -71,11 +71,26 @@ describe("<ActionDialog />", () => {
       "onClose",
       "confirmButtonProps",
       "omitCloseAfterSuccess",
-      "dialogTitleSmall"
+      "dialogSubtitle"
     ].forEach(property => {
       expect(actionDialogProps).to.have.property(property);
       delete actionDialogProps[property];
     });
     expect(actionDialogProps).to.be.empty;
+  });
+
+  it("should render DialogSubtitle with it's correct value ", () => {
+    expect(component.find(DialogTitle).text()).to.be.equal("Test Subtitle");
+  });
+
+  it("should not render DialogSubtitle because isn't passed in props ", () => {
+    delete props.dialogSubtitle;
+    const { component: componentWithoutSubtitle } = setupMountedComponent(
+      ActionDialog,
+      props,
+      {}
+    );
+
+    expect(componentWithoutSubtitle.find(DialogTitle).text()).to.be.empty;
   });
 });

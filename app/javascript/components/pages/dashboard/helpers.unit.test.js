@@ -6,6 +6,25 @@ import { toData1D, toListTable } from "./helpers";
 
 describe("<Dashboard /> - Helpers", () => {
   describe("toData1D", () => {
+    const casesWorkflow = fromJS({
+      name: "dashboard.workflow",
+      type: "indicator",
+      stats: {
+        new: {
+          count: 10,
+          query: ["workflow=new"]
+        },
+        service_provision: {
+          count: 15,
+          query: ["workflow=service_provision"]
+        },
+        care_plan: {
+          count: 8,
+          query: ["workflow=care_plan"]
+        }
+      }
+    });
+
     it("should convert data to plain JS", () => {
       const expected = {
         labels: ["New", "Service provision", "Care plan"],
@@ -16,25 +35,6 @@ describe("<Dashboard /> - Helpers", () => {
           ["workflow=care_plan"]
         ]
       };
-
-      const casesWorkflow = fromJS({
-        name: "dashboard.workflow",
-        type: "indicator",
-        stats: {
-          new: {
-            count: 10,
-            query: ["workflow=new"]
-          },
-          service_provision: {
-            count: 15,
-            query: ["workflow=service_provision"]
-          },
-          care_plan: {
-            count: 8,
-            query: ["workflow=care_plan"]
-          }
-        }
-      });
 
       const workflowLabels = [
         { id: "new", display_text: "New" },
@@ -48,6 +48,12 @@ describe("<Dashboard /> - Helpers", () => {
       ];
 
       expect(toData1D(casesWorkflow, workflowLabels)).to.deep.equal(expected);
+    });
+
+    it("should not return labels if there are not translations", () => {
+      const { labels } = toData1D(casesWorkflow, []);
+
+      expect(labels).to.be.empty;
     });
   });
 

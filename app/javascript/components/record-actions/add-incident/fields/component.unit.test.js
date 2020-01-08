@@ -1,10 +1,10 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../test";
-import { FormSectionField } from "../../record-form";
+import { setupMountedComponent } from "../../../../test";
+import { FormSectionField } from "../../../record-form";
 
-import Fields from "./fields";
+import Fields from "./component";
 
 describe("<Fields />", () => {
   let component;

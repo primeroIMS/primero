@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import isEmpty from "lodash/isEmpty";
 
 import { RECORD_TYPES } from "../../config";
 import { useI18n } from "../i18n";
@@ -255,6 +254,36 @@ const Container = ({
     />
   );
 
+  const actionItems = actions
+    .filter(a => {
+      const actionCondition = typeof a.condition === "undefined" || a.condition;
+
+      if (showListActions) {
+        return a.recordListAction && actionCondition;
+      }
+
+      return (
+        (a.recordType === "all" ||
+          a.recordType === recordType ||
+          (Array.isArray(a.recordType) && a.recordType.includes(recordType))) &&
+        actionCondition
+      );
+    })
+    .map(action => {
+      const disabled = showListActions && !selectedRecords.length;
+
+      return (
+        <MenuItem
+          key={action.name}
+          selected={action.name === "Pyxis"}
+          onClick={() => handleItemAction(action.action)}
+          disabled={disabled}
+        >
+          {action.name}
+        </MenuItem>
+      );
+    });
+
   return (
     <>
       {mode && mode.isShow ? (
@@ -275,33 +304,7 @@ const Container = ({
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {actions
-          .filter(a => {
-            const actionCondition =
-              typeof a.condition === "undefined" || a.condition;
-
-            if (showListActions) {
-              return a.recordListAction && actionCondition;
-            }
-
-            return (
-              (a.recordType === "all" ||
-                a.recordType === recordType ||
-                (Array.isArray(a.recordType) &&
-                  a.recordType.includes(recordType))) &&
-              actionCondition
-            );
-          })
-          .map(action => (
-            <MenuItem
-              key={action.name}
-              selected={action.name === "Pyxis"}
-              onClick={() => handleItemAction(action.action)}
-              disabled={showListActions && isEmpty(selectedRecords)}
-            >
-              {action.name}
-            </MenuItem>
-          ))}
+        {actionItems}
       </Menu>
 
       {canOpenOrClose ? toggleOpenDialog : null}

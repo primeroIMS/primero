@@ -2,15 +2,15 @@ import React from "react";
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../test";
-import { RECORD_TYPES, RECORD_PATH, MODULES } from "../../config";
-import { ACTIONS } from "../../libs/permissions";
-import { PrimeroModuleRecord } from "../application/records";
-import { ApplicationProvider } from "../application/provider";
-import RecordActions from "../record-actions";
+import { setupMountedComponent } from "../../../test";
+import { RECORD_TYPES, RECORD_PATH, MODULES } from "../../../config";
+import { ACTIONS } from "../../../libs/permissions";
+import { PrimeroModuleRecord } from "../../application/records";
+import { ApplicationProvider } from "../../application/provider";
+import RecordActions from "../../record-actions";
+import AddRecordMenu from "../add-record-menu";
 
-import RecordListToolbar from "./record-list-toolbar";
-import AddRecordMenu from "./add-record-menu";
+import RecordListToolbar from "./component";
 
 describe("<RecordListToolbar />", () => {
   let component;

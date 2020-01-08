@@ -8,7 +8,8 @@ export {
   getOption,
   getLoadingState,
   getErrors,
-  getSelectedForm
+  getSelectedForm,
+  getRecordFormsByUniqueId
 } from "./selectors";
 export { FormSectionField } from "./form";
 export { FieldRecord } from "./records";
