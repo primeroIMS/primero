@@ -283,7 +283,7 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :find_by_parent_form
 
-    def get_by_unique_id unique_id
+    def get_by_unique_id(unique_id)
       by_unique_id(:key => unique_id).first
     end
     memoize_in_prod :get_by_unique_id

@@ -1097,7 +1097,7 @@ en:
       user: "Users"
       user_group: "User Groups"
       agency: "Agency"
-      metadata: "Location, Program, Module"
+      metadata: "Forms, Lookups"
       system: "System"
       report: "Report"
       self: "Access only my records or user"

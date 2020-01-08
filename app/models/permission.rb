@@ -98,8 +98,6 @@ class Permission
   RECEIVE_TRANSFER = 'receive_transfer'
   REFERRAL = 'referral'
   RECEIVE_REFERRAL = 'receive_referral'
-  FORM = 'form'
-  LOOKUP = 'lookup'
 
   validates_presence_of :resource, :message=> I18n.t("errors.models.role.permission.resource_presence")
 
@@ -249,10 +247,6 @@ class Permission
          [READ]
        when MATCHING_CONFIGURATION
          [MANAGE]
-       when FORM
-         [MANAGE]
-       when LOOKUP
-         [MANAGE]
        else
          actions
      end
@@ -274,9 +268,7 @@ class Permission
       self.new(:resource => SYSTEM, :actions => [MANAGE]),
       self.new(:resource => DASHBOARD, :actions => [MANAGE]),
       self.new(:resource => AUDIT_LOG, :actions => [MANAGE]),
-      self.new(:resource => MATCHING_CONFIGURATION, :actions => [MANAGE]),
-      self.new(:resource => FORM, :actions => [MANAGE]),
-      self.new(:resource => LOOKUP, :actions => [MANAGE])
+      self.new(:resource => MATCHING_CONFIGURATION, :actions => [MANAGE])
     ]
   end
 

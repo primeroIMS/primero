@@ -279,10 +279,27 @@ describe IndexHelper do
 
         it "should return filters to show" do
           @view.instance_variable_set(:@can_sync_mobile, true)
-          @view.index_filters_to_show('incident').should == [
-                                                         "Flagged", "Mobile", "Violation", "Status", "Age Range", "Children", "Verification Status",
-                                                         "Incident Location", "Dates", "Armed Force", "Armed Group", "Record State"
-                                                        ]
+          expect(@view.index_filters_to_show('incident')).to match_array(["Flagged",
+                                                                          "Mobile",
+                                                                          "Violation",
+                                                                          "Deprived of liberty?",
+                                                                          "Status",
+                                                                          "Children",
+                                                                          "Verification Status",
+                                                                          "Incident Location",
+                                                                          "Dates",
+                                                                          "Armed Force",
+                                                                          "Armed Group",
+                                                                          "Record State",
+                                                                          "Individual Age",
+                                                                          "Individual Sex",
+                                                                          "Individual Violation",
+                                                                          "Perpetrator Arrested",
+                                                                          "Perpetrator Detained",
+                                                                          "Perpetrator Convicted",
+                                                                          "Reason Deprived of liberty?",
+                                                                          "Facilty Deprived of liberty?",
+                                                                          "Punishment Deprived of liberty?"])
         end
       end
 
@@ -303,10 +320,28 @@ describe IndexHelper do
 
         it "should return filters to show" do
           @view.instance_variable_set(:@can_sync_mobile, true)
-          @view.index_filters_to_show('incident').should == [
-                                                         "Flagged", "Mobile", "Violation", "Social Worker", "Status", "Age Range", "Children", "Verification Status",
-                                                         "Incident Location", "Dates", "Armed Force", "Armed Group", "Record State"
-                                                        ]
+          expect(@view.index_filters_to_show('incident')).to match_array(["Flagged",
+                                                                          "Mobile",
+                                                                          "Violation",
+                                                                          "Deprived of liberty?",
+                                                                          "Social Worker",
+                                                                          "Status",
+                                                                          "Children",
+                                                                          "Verification Status",
+                                                                          "Incident Location",
+                                                                          "Dates",
+                                                                          "Armed Force",
+                                                                          "Armed Group",
+                                                                          "Record State",
+                                                                          "Individual Age",
+                                                                          "Individual Sex",
+                                                                          "Individual Violation",
+                                                                          "Perpetrator Arrested",
+                                                                          "Perpetrator Detained",
+                                                                          "Perpetrator Convicted",
+                                                                          "Reason Deprived of liberty?",
+                                                                          "Facilty Deprived of liberty?",
+                                                                          "Punishment Deprived of liberty?"])
         end
       end
     end

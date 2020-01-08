@@ -544,7 +544,7 @@ class Report < CouchRest::Model::Base
         :rows => 0,
         :facet => 'on',
         :'facet.field' => pivots_string,
-        :'facet.mincount' => 1,
+        :'facet.mincount' => -1,
         :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
