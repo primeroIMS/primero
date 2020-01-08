@@ -387,11 +387,11 @@ describe Api::V2::ChildrenController, type: :request do
             )
           ]
         )
-  
+
         params = { data: { name: 'Tester 1', services_section: [ {service_type: 'Test type' } ] }, unscoped_update: true}
-  
+
         patch "/api/v2/cases/#{@case1.id}", params: params
-  
+
         expect(response).to have_http_status(200)
         expect(json['data']['services_section'].first['service_type']).to eq('Test type')
         expect(json['data']['name']).to be_nil
@@ -411,11 +411,11 @@ describe Api::V2::ChildrenController, type: :request do
             )
           ]
         )
-  
+
         params = { data: { name: 'Tester 1', services_section: [ {service_type: 'Test type' } ] }, unscoped_update: true }
-  
+
         patch "/api/v2/cases/#{@case1.id}", params: params
-  
+
         expect(response).to have_http_status(200)
         expect(json['data']['services_section'].first['service_type']).to eq('Test type')
         expect(json['data']['name']).to be_nil
@@ -470,8 +470,7 @@ describe Api::V2::ChildrenController, type: :request do
   end
 
   after :each do
-    Child.destroy_all
-    AttachmentImage.destroy_all
+    clean_data(Alert, AttachmentImage, Child)
     clear_performed_jobs
     clear_enqueued_jobs
   end

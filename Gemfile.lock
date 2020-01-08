@@ -206,7 +206,7 @@ GEM
     puma (4.3.1)
       nio4r (~> 2.0)
     raabro (1.1.6)
-    rack (2.0.7)
+    rack (2.0.8)
     rack-mini-profiler (1.0.2)
       rack (>= 1.2.0)
     rack-test (1.1.0)
@@ -340,8 +340,6 @@ GEM
       tzinfo
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2019.1)
-      tzinfo (>= 1.0.0)
     unicode-display_width (1.5.0)
     warden (1.2.8)
       rack (>= 2.0.6)
@@ -389,6 +387,7 @@ DEPENDENCIES
   pry
   pry-byebug
   puma (~> 4.3.1)
+  rack (~> 2.0.8)
   rack-mini-profiler (>= 1.0.0)
   rack-test (~> 1.1)
   rack_session_access (~> 0.2)
@@ -414,8 +413,6 @@ DEPENDENCIES
   sunspot_test
   timecop (~> 0.9.1)
   twitter_cldr (~> 4.4)
-  tzinfo (~> 1.2)
-  tzinfo-data (~> 1.2019)
   will_paginate (~> 3.1)
   writeexcel (~> 1.0)
 

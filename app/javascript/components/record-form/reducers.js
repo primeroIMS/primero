@@ -4,10 +4,11 @@ import { mapEntriesToRecord } from "../../libs";
 
 import NAMESPACE from "./namespace";
 import Actions from "./actions";
-import * as R from "./records";
+import { FieldRecord, FormSectionRecord } from "./records";
 
 const DEFAULT_STATE = Map({
   selectedForm: null,
+  selectedRecord: null,
   formSections: OrderedMap({}),
   fields: OrderedMap({})
 });
@@ -23,11 +24,11 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         return state
           .set(
             "fields",
-            mapEntriesToRecord(payload.fields, R.FieldRecord, true)
+            mapEntriesToRecord(payload.fields, FieldRecord, true)
           )
           .set(
             "formSections",
-            mapEntriesToRecord(payload.formSections, R.FormSectionRecord, true)
+            mapEntriesToRecord(payload.formSections, FormSectionRecord, true)
           );
       }
 
@@ -40,6 +41,8 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("loading", false);
     case Actions.SET_SELECTED_FORM:
       return state.set("selectedForm", payload);
+    case Actions.SET_SELECTED_RECORD:
+      return state.set("selectedRecord", payload);
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
     default:

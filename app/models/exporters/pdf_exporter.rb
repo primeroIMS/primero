@@ -22,7 +22,7 @@ module Exporters
         FormSection.binary_form_names
       end
 
-      def properties_to_export(properties_by_module, custom_export_options)
+      def fields_to_export(properties_by_module, custom_export_options)
         unless custom_export_options.present?
           properties_by_module = exclude_forms(properties_by_module) if excluded_forms.present?
         end
@@ -93,7 +93,7 @@ module Exporters
 
     def export(cases, properties_by_module, current_user, custom_export_options, *args)
       unless @props.present?
-        @props = self.class.properties_to_export(properties_by_module, custom_export_options)
+        @props = self.class.fields_to_export(properties_by_module, custom_export_options)
       end
 
       unless @form_sections.present?

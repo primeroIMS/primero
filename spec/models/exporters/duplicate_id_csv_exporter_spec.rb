@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 module Exporters
-  describe DuplicateIdCSVExporter do
+  xdescribe DuplicateIdCSVExporter do
     before do
       [Field, FormSection, Lookup, Child].each(&:destroy_all)
 
