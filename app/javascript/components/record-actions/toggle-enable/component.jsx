@@ -6,7 +6,9 @@ import { useI18n } from "../../i18n";
 import { ActionDialog } from "../../action-dialog";
 import { saveRecord } from "../../records";
 
-const ToggleEnable = ({ close, openEnableDialog, record, recordType }) => {
+import { NAME } from "./constants";
+
+const Component = ({ close, openEnableDialog, record, recordType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const enableState =
@@ -39,11 +41,13 @@ const ToggleEnable = ({ close, openEnableDialog, record, recordType }) => {
   );
 };
 
-ToggleEnable.propTypes = {
+Component.displayName = NAME;
+
+Component.propTypes = {
   close: PropTypes.func,
   openEnableDialog: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string
 };
 
-export default ToggleEnable;
+export default Component;

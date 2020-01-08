@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import { SEPERATOR_NAME } from "./constants";
+
 const Seperator = ({ label }) => {
   return (
     <>
@@ -8,6 +10,8 @@ const Seperator = ({ label }) => {
     </>
   );
 };
+
+Seperator.displayName = SEPERATOR_NAME;
 
 Seperator.propTypes = {
   label: PropTypes.string
