@@ -87,7 +87,6 @@ _primero.Views.ViolationListReload = _primero.Views.Base.extend({
             index++;
           }
         }
-        valueLength = 0;
       });
     });
 

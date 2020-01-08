@@ -15,7 +15,6 @@ describe "form_section/_textarea.html.erb" do
     textarea.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/textarea', :locals => { :textarea => textarea, :formObject => @child}, :formats => [:html], :handlers => [:erb]
     rendered.should have_tag("a.gq_select_popovers")
-    # rendered.should have_tag("div.gq_select")
   end
 
   it "should not include image for tooltip when help text not exists" do
@@ -26,7 +25,6 @@ describe "form_section/_textarea.html.erb" do
     textarea.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/textarea', :locals => { :textarea => textarea, :formObject => @child}, :formats => [:html], :handlers => [:erb]
     rendered.should_not have_tag("a.gq_select_popovers")
-    # rendered.should_not have_tag("div.gq_select")
   end
 
   it "should have 'is_disabled=true' when is disabled" do

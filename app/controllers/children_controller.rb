@@ -369,12 +369,10 @@ class ChildrenController < ApplicationController
         individual_details = incident['individual_victims_subform_section'][individual_victims_subform_section.to_i]
         child['sex'] = individual_details['individual_sex']
         child['date_of_birth'] = individual_details['date_of_birth']
-        # child['age'] = individual_details['age']
-        # child['estimated'] = individual_details['estimated'] = true
         child['age'] = individual_details['individual_age']
         child['estimated'] = individual_details['individual_age_estimated']
         child['ethnicity'] = [individual_details['ethnicity']]
-        child['nationality'] = individual_details['nationality']
+        child['nationality'] = [individual_details['nationality']]
         child['religion'] = [individual_details['religion']]
         child['country_of_origin'] = individual_details['country_of_origin']
         child['displacement_status'] = individual_details['displacement_status']

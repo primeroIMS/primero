@@ -4,7 +4,6 @@ class IncidentsController < ApplicationController
   include IndexHelper
   include RecordFilteringPagination
 
-  before_action :normalize_violations, :only => [:create, :update]
   before_action :load_fields, :only => [:index]
   before_action :discard_empty_violations, :only => [:create, :update]
   #TODO: Do we need to sanitize params?

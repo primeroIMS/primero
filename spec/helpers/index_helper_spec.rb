@@ -283,8 +283,6 @@ describe IndexHelper do
                                                          "Flagged", "Mobile", "Violation", "Status", "Age Range", "Children", "Verification Status",
                                                          "Incident Location", "Dates", "Armed Force", "Armed Group", "Record State"
                                                         ]
-          # "Flagged", "Violation", "Deprived of liberty?", "Status", "Children", "Verification Status",
-          #   "Incident Location", "Incident Date", "Armed Force", "Armed Group", "Record State"
         end
       end
 
@@ -309,8 +307,6 @@ describe IndexHelper do
                                                          "Flagged", "Mobile", "Violation", "Social Worker", "Status", "Age Range", "Children", "Verification Status",
                                                          "Incident Location", "Dates", "Armed Force", "Armed Group", "Record State"
                                                         ]
-          # "Flagged", "Violation", "Deprived of liberty?", "Social Worker", "Status", "Children", "Verification Status",
-          #   "Incident Location", "Incident Date", "Armed Force", "Armed Group", "Record State"
         end
       end
     end
