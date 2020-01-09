@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "../../i18n";
 import * as C from "../constants";
 
+import { FORM_SECTION_FIELD_NAME } from "./constants";
 import DateField from "./DateField";
 import SelectField from "./SelectField";
 import TextField from "./TextField";
@@ -76,6 +77,8 @@ const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
 
   return <FieldComponent {...fieldProps} mode={mode} />;
 };
+
+FormSectionField.displayName = FORM_SECTION_FIELD_NAME;
 
 FormSectionField.propTypes = {
   field: PropTypes.object.isRequired,
