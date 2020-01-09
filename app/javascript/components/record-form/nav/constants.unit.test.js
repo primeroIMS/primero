@@ -6,15 +6,12 @@ describe("Verifying config constant", () => {
   it("should have known constant", () => {
     const constants = { ...navConstants };
 
-    expect(constants).to.have.property("NAME");
-    expect(constants).to.have.property("RECORD_INFORMATION");
-    expect(constants).to.have.property("NAV_GROUP");
-    expect(constants).to.have.property("NAV_ITEM");
-
-    delete constants.NAME;
-    delete constants.RECORD_INFORMATION;
-    delete constants.NAV_GROUP;
-    delete constants.NAV_ITEM;
+    ["NAME", "RECORD_INFORMATION", "NAV_GROUP", "NAV_ITEM"].forEach(
+      property => {
+        expect(constants).to.have.property(property);
+        delete constants[property];
+      }
+    );
 
     expect(constants).to.deep.equal({});
   });

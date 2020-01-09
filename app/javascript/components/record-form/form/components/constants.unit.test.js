@@ -6,11 +6,10 @@ describe("Verifying config constant", () => {
   it("should have known constant", () => {
     const constants = { ...componentsConstants };
 
-    expect(constants).to.have.property("GUIDING_QUESTIONS_NAME");
-    expect(constants).to.have.property("WORKFLOW_INDICATOR_NAME");
-
-    delete constants.GUIDING_QUESTIONS_NAME;
-    delete constants.WORKFLOW_INDICATOR_NAME;
+    ["GUIDING_QUESTIONS_NAME", "WORKFLOW_INDICATOR_NAME"].forEach(property => {
+      expect(constants).to.have.property(property);
+      delete constants[property];
+    });
 
     expect(constants).to.deep.equal({});
   });

@@ -15,7 +15,6 @@ import RadioField from "./RadioField";
 import AttachmentField from "./AttachmentField";
 import styles from "./styles.css";
 
-
 const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
