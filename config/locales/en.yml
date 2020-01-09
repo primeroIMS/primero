@@ -2043,7 +2043,7 @@ en:
     notes: "Add Notes"
     incident_details_from_case: "Add Incident"
     services_section_from_case: "Add Service Provision"
-    services_section_from_case_creation_success: "Service Provision record successfully created."
+    services_from_case_creation_success: "Service Provision record successfully created."
     next: "Next"
     previous: "Previous"
     save: "Save"
