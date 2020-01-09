@@ -11,6 +11,11 @@ describe("Verifying config constant", () => {
       delete constants[property];
     });
 
+    ["INDICATOR_NAMES"].forEach(property => {
+      expect(constants).to.have.property(property);
+      delete constants[property];
+    });
+
     expect(constants).to.be.empty;
   });
 
@@ -23,6 +28,12 @@ describe("Verifying config constant", () => {
       "APPROVALS_ASSESSMENT",
       "APPROVALS_CASE_PLAN",
       "APPROVALS_CLOSURE",
+      "WORKFLOW_TEAM"
+    );
+
+    expect(constants.INDICATOR_NAMES).to.have.all.keys(
+      "RISK_LEVEL",
+      "WORKFLOW",
       "WORKFLOW_TEAM"
     );
   });

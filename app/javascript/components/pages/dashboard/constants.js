@@ -6,3 +6,9 @@ export const DASHBOARD_NAMES = Object.freeze({
   APPROVALS_CLOSURE: "dashboard.approvals_closure",
   WORKFLOW_TEAM: "dashboard.workflow_team"
 });
+
+export const INDICATOR_NAMES = Object.freeze({
+  RISK_LEVEL: "risk_level",
+  WORKFLOW_TEAM: "workflow_team",
+  WORKFLOW: "workflow"
+});
