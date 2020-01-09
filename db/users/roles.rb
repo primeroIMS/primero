@@ -138,6 +138,12 @@ cp_admin_permissions = [
   Permission.new(
     resource: Permission::DUPLICATE,
     actions: [Permission::READ]
+  ),
+  Permission.new(
+    resource: Permission::DASHBOARD,
+    actions: [
+      Permission::DASH_REPORTING_LOCATION
+    ]
   )
 ]
 
@@ -598,7 +604,8 @@ gbv_manager_permissions = [
     actions: [
       Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
       Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
-      Permission::DASH_APPROVALS_CLOSURE_PENDING
+      Permission::DASH_APPROVALS_CLOSURE_PENDING,
+      Permission::DASH_REPORTING_LOCATION
     ]
   ),
   Permission.new(
