@@ -18,7 +18,7 @@ import {
   RECORD_OWNER,
   RECORD_INFORMATION
 } from "../../config";
-import { RecordOwner } from "../record-owner";
+import RecordOwner from "../record-owner";
 
 import { NAME } from "./constants";
 import { Nav } from "./nav";

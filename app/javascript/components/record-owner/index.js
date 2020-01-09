@@ -1,1 +1,1 @@
-export { default as RecordOwner } from "./component";
+export { default } from "./component";

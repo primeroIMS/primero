@@ -6,6 +6,7 @@ import Divider from "@material-ui/core/Divider";
 
 import { getSelectedRecord } from "../selectors";
 import { setSelectedForm, setSelectedRecord } from "../action-creators";
+
 import { NAME } from "./constants";
 import NavGroup from "./NavGroup";
 import RecordInformation from "./parts/record-information";

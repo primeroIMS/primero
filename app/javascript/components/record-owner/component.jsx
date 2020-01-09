@@ -7,45 +7,40 @@ import { FieldRecord, FormSectionField } from "../record-form";
 import { useI18n } from "../i18n";
 
 import styles from "./styles.css";
-import fields from "./fields";
-import { NAME } from "./constants";
+import { NAME, FIELDS } from "./constants";
 
 const Component = ({ record, recordType }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
-  const recordOwnerValues = fields
-    .map(a => a.name)
-    .reduce((acum, field) => {
-      return { ...acum, [field]: record.get(field) };
-    }, {});
+  const recordOwnerValues = FIELDS.map(a => a.name).reduce((acum, field) => {
+    return { ...acum, [field]: record.get(field) };
+  }, {});
 
-  const renderFields =
-    fields &&
-    fields.map(f => {
-      const field = { ...f };
+  const renderFields = FIELDS.map(f => {
+    const field = { ...f };
 
-      field.display_name = { en: i18n.t(`record_information.${field.name}`) };
+    field.display_name = { en: i18n.t(`record_information.${field.name}`) };
 
-      const formattedField = FieldRecord(field);
-      const fieldProps = {
-        name: formattedField.name,
-        field: formattedField,
-        mode: {
-          isShow: true,
-          isEdit: false
-        },
-        recordType,
-        recordID: record?.get("id")
-      };
+    const formattedField = FieldRecord(field);
+    const fieldProps = {
+      name: formattedField.name,
+      field: formattedField,
+      mode: {
+        isShow: true,
+        isEdit: false
+      },
+      recordType,
+      recordID: record?.get("id")
+    };
 
-      return (
-        <FormSectionField
-          key={`${formattedField.name}-record-owner-form`}
-          {...fieldProps}
-        />
-      );
-    });
+    return (
+      <FormSectionField
+        key={`${formattedField.name}-record-owner-form`}
+        {...fieldProps}
+      />
+    );
+  });
 
   return (
     <div key="record-owner-div">
