@@ -49,22 +49,9 @@ module Searchable
       end
 
       all_searchable_location_fields.each do |field|
-        #TODO - Refactor needed
-        #TODO - There is a lot of similarity to Admin Level code in reportable_nested_record concern
         Location::ADMIN_LEVELS.each do |admin_level|
           string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
-            #TODO - Possible refactor to make more efficient
-            location = Location.find_by_location_code(self.data[field])
-            if location.present?
-              # break if admin_level > location.admin_level
-              if admin_level == location.admin_level
-                location.location_code
-              elsif location.admin_level.present? && (admin_level < location.admin_level)
-                # find the ancestor with the current admin_level
-                lct = location.ancestors.select{|l| l.admin_level == admin_level}
-                lct.present? ? lct.first.location_code : nil
-              end
-            end
+            Location.value_for_index(self.data[field], admin_level)
           end
         end
       end

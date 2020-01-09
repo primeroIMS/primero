@@ -75,6 +75,25 @@ class Location < ApplicationRecord
     end
     # memoize_in_prod :all_names
 
+    def value_for_index(value, admin_level)
+      # TODO: Possible refactor to make more efficient.
+      # Consider storing locations as a full hierarchy:
+      # eg. 'SO.SO22.SO2254' instead of 'SO2254'
+      return unless value
+
+      location = Location.find_by_location_code(value)
+      return unless location && (location.admin_level >= admin_level)
+
+      if admin_level == location&.admin_level
+        location.location_code
+      else
+        # find the ancestor with the current admin_level
+        ancestor = location.ancestors.find { |l| l.admin_level == admin_level }
+        ancestor&.location_code
+      end
+
+    end
+
     def type_by_admin_level(admin_level = ADMIN_LEVELS.first)
       Location.where(admin_level: admin_level).pluck(:type).uniq
     end
