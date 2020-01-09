@@ -39,6 +39,7 @@ describe("Verifying config constant", () => {
       "FLAG",
       "GROUP_READ",
       "INCIDENT_DETAILS_FROM_CASE",
+      "SERVICES_SECTION_FROM_CASE",
       "MANAGE",
       "READ",
       "REFERRAL",

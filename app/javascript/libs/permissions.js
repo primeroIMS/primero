@@ -30,6 +30,7 @@ export const ACTIONS = {
   FLAG: "flag",
   GROUP_READ: "group_read",
   INCIDENT_DETAILS_FROM_CASE: "incident_details_from_case",
+  SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   MANAGE: "manage",
   READ: "read",
   REFERRAL: "referral",
@@ -87,6 +88,8 @@ export const DISPLAY_VIEW_PAGE = [...MANAGE, ACTIONS.DISPLAY_VIEW_PAGE];
 export const SHOW_TASKS = [...MANAGE, ACTIONS.DASH_TASKS];
 
 export const ADD_INCIDENT = [...MANAGE, ACTIONS.INCIDENT_DETAILS_FROM_CASE];
+
+export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
 
 export const SHOW_EXPORTS = [
   ...MANAGE,
