@@ -116,7 +116,7 @@ describe("Verifying config constant", () => {
   it("should have correct constant value", () => {
     const constants = { ...configConstants };
 
-    expect(constants.FETCH_TIMEOUT).equal(30000);
+    expect(constants.FETCH_TIMEOUT).equal(50000);
     expect(constants.DATABASE_NAME).equal("primero");
     expect(constants.DB).to.deep.equal({
       USER: "user",

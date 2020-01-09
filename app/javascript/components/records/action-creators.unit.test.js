@@ -12,18 +12,12 @@ describe("records - Action Creators", () => {
     const creators = { ...actionCreators };
 
     expect(creators).to.have.property("setFilters");
-    expect(creators).to.have.property("setCasesFilters");
-    expect(creators).to.have.property("setIncidentsFilters");
-    expect(creators).to.have.property("setTracingRequestFilters");
     expect(creators).to.have.property("fetchCases");
     expect(creators).to.have.property("fetchIncidents");
     expect(creators).to.have.property("fetchTracingRequests");
     expect(creators).to.have.property("fetchRecord");
     expect(creators).to.have.property("saveRecord");
     delete creators.setFilters;
-    delete creators.setCasesFilters;
-    delete creators.setIncidentsFilters;
-    delete creators.setTracingRequestFilters;
     delete creators.fetchCases;
     delete creators.fetchIncidents;
     delete creators.fetchTracingRequests;
