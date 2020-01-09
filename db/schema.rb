@@ -100,11 +100,12 @@ ActiveRecord::Schema.define(version: 2019_12_10_000000) do
   create_table "audit_logs", id: :serial, force: :cascade do |t|
     t.string "record_type"
     t.string "record_id"
-    t.string "user_id"
+    t.integer "user_id"
     t.string "action"
     t.string "resource_url"
     t.datetime "timestamp"
     t.jsonb "metadata"
+    t.index ["metadata"], name: "index_audit_logs_on_metadata", using: :gin
     t.index ["record_type", "record_id"], name: "index_audit_logs_on_record_type_and_record_id"
     t.index ["user_id"], name: "index_audit_logs_on_user_id"
   end

@@ -1,3 +1,8 @@
+# frozen_string_literal: true
+
+# This is a placeholder class for future use of Primero as a multi-program application.
+# Currently multiple programs are modeled either through roles or by spinning
+# up a new instance of Primero.
 class PrimeroProgram < ApplicationRecord
   include LocalizableJsonProperty
   include Configuration
@@ -14,13 +19,14 @@ class PrimeroProgram < ApplicationRecord
   private
 
   def set_unique_id
-    unless self.unique_id.present?
-      self.unique_id = "#{self.class.name}-#{self.name_en}".parameterize.dasherize
-    end
+    return if unique_id.present?
+
+    self.unique_id = "#{self.class.name}-#{name_en}".parameterize.dasherize
   end
 
   def validate_name_in_english
-    return true if self.name_en.present?
+    return true if name_en.present?
+
     errors.add(:name, 'errors.models.primero_program.name_present')
     false
   end

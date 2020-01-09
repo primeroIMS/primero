@@ -7,12 +7,13 @@ describe User do
   end
 
   def build_user(options = {})
+    user_name = "user_name_#{rand(10_000)}"
     options.reverse_merge!(
-      user_name: "user_name_#{rand(10_000)}",
+      user_name: user_name,
       full_name: 'full name',
       password: 'b00h00h00',
       password_confirmation: options[:password] || 'b00h00h00',
-      email: 'email@ddress.net',
+      email: "#{user_name}@ddress.net",
       agency_id: options[:agency_id] || Agency.try(:last).try(:id),
       disabled: 'false',
       role_id: options[:role_id] || Role.try(:last).try(:id)
@@ -25,17 +26,6 @@ describe User do
     user = build_user(options)
     user.save
     user
-  end
-
-  def login(user_name, date, params)
-    user = build_user(user_name: user_name)
-    user.save
-    date_time = DateTime.parse(date)
-    DateTime.stub(:now).and_return(date_time)
-    login_as(user, scope: Devise::Mapping.find_scope!(user))
-    User.stub(:find_by_user_name).and_return(user)
-    user.stub(:authenticate).and_return true
-    AuditLog.create(user_name: user_name, action_name: 'login', record_type: 'user')
   end
 
   describe 'transition queries' do
@@ -168,35 +158,6 @@ describe User do
 
     after :each do
       [UserGroup, User, Agency, Role].each(&:destroy_all)
-    end
-  end
-
-  describe "last login timestamp" do
-    before :each do
-      clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, FormSection)
-      create(:agency)
-      create(:role)
-      create(:primero_module)
-    end
-
-    it "shouldn't return last login activity if user has never logged in" do
-      user = build_user(user_name: 'Billy')
-      last_login = User.last_login_timestamp(user.user_name)
-      last_login.should == nil
-    end
-
-    it "should return last login activity if user does have login activity" do
-      imei = "1336"
-      user_name = "Billy"
-      date_1 = "2015/10/23 14:54:55 -0400"
-      date_2 = "2015/11/28 14:54:55 -0400"
-      params = {:imei => imei, user_name: user_name}
-
-      login(user_name, date_1, params)
-      login(user_name, date_2, params)
-      last_login = User.last_login_timestamp(user_name)
-      last_login.should_not == date_1
-      last_login.should == date_2
     end
   end
 
@@ -360,22 +321,6 @@ describe User do
       User.find(user.id).try(:password).should be_nil
     end
 
-    it "should be able to select a user's mobile login events from a list of login events" do
-      user = build_user
-      user.save
-
-      AuditLog.create!(user_name: user.user_name, action_name: 'login', timestamp: DateTime.now, mobile_data: {mobile_id: 'IMEI1', mobile_number: '123-456-7890'})
-      AuditLog.create!(user_name: user.user_name, mobile_data: {mobile_id: nil, mobile_number: nil})
-      AuditLog.create!(user_name: 'billybob', action_name: 'login', timestamp: DateTime.now, mobile_data: {mobile_id: 'IMEI', mobile_number: '123-456-7890'})
-      AuditLog.create!(user_name: 'billybob')
-      sleep(1) #make sure we have a second gap in activities
-      AuditLog.create!(user_name: user.user_name, action_name: 'login', timestamp: DateTime.now, mobile_data: {mobile_id: 'IMEI2', mobile_number: '123-456-7890'})
-      AuditLog.create!(user_name: 'sueanne', action_name: 'login', timestamp: DateTime.now, mobile_data: {mobile_id: 'IMEI', mobile_number: '123-456-7890'})
-
-      mobile_login_history = user.mobile_login_history
-      expect(mobile_login_history).to have(2).events
-      expect(mobile_login_history.first.mobile_data['mobile_id']).to eq('IMEI2')
-    end
 
     it "should have error on password_confirmation if no password_confirmation" do
       user = build_user({
@@ -419,17 +364,52 @@ describe User do
   end
 
   describe 'Dates' do
+    it "should load roles only once" do
+      dbl = double("roles", role: create(:role))
+      user = build_and_save_user
+      user.role.should == dbl.role
+    end
+  end
 
-    it "should localize date using user's timezone" do
-      user = build_user({ :time_zone => "American Samoa"})
-      user.localize_date("2011-11-12 21:22:23 UTC").should == "12 November 2011 at 10:22 (SST)"
+  describe 'audit log' do
+    before :each do
+      clean_data(AuditLog, User)
+      @user = build_user
+      @user.save(validate: false)
+
+      @user2 = build_user
+      @user2.save(validate: false)
     end
 
-    it "should localize date using specified format" do
-      user = build_user({ :time_zone => "UTC" })
-      user.localize_date("2011-11-12 21:22:23 UTC", "%Y-%m-%d %H:%M:%S (%Z)").should == "2011-11-12 21:22:23 (UTC)"
+    describe '.mobile_login_history' do
+
+      it "should be able to select a user's mobile login events from a list of login events" do
+        AuditLog.create!(user: @user, action: 'login', timestamp: DateTime.now, metadata: {mobile_id: 'IMEI1', mobile_number: '123-456-7890'})
+        AuditLog.create!(user: @user, metadata: {mobile_id: nil, mobile_number: nil})
+        AuditLog.create!(user: @user2, action: 'login', timestamp: DateTime.now, metadata: {mobile_id: 'IMEI', mobile_number: '123-456-7890'})
+        AuditLog.create!(user: @user2)
+        sleep(1) #make sure we have a second gap in activities
+        AuditLog.create!(user: @user, action: 'login', timestamp: DateTime.now, metadata: {mobile_id: 'IMEI2', mobile_number: '123-456-7890'})
+        AuditLog.create!(user: @user2, action: 'login', timestamp: DateTime.now, metadata: {mobile_id: 'IMEI', mobile_number: '123-456-7890'})
+
+        mobile_login_history = @user.mobile_login_history
+        expect(mobile_login_history).to have(2).events
+        expect(mobile_login_history.first.metadata['mobile_id']).to eq('IMEI2')
+      end
     end
 
+    describe 'last login timestamp' do
+      it 'should not return last login activity if user has never logged in' do
+        expect(@user.last_login).to be_nil
+      end
+
+      it 'should return last login activity if user does have login activity' do
+        AuditLog.create(user: @user, action: 'login', timestamp: DateTime.new(2015, 10, 23, 14, 54, 55))
+        login = AuditLog.create(user: @user, action: 'login', timestamp: DateTime.new(2015, 11, 23, 14, 54, 55))
+
+        expect(@user.last_login).to eq(login.timestamp)
+      end
+    end
   end
 
   describe "user roles" do
@@ -512,12 +492,6 @@ describe User do
 
     it "manages itself" do
       expect(@grunt1.managed_users).to eq([@grunt1])
-    end
-
-    it "has a record scope of 'all' if it an manage all users" do
-      manager_role = create(:role, permissions: [@permission_user_read_write], group_permission: Permission::ALL, is_manager: true)
-      manager = create :user, role_id: manager_role.id
-      expect(manager.record_scope).to eq([Searchable::ALL_FILTER])
     end
 
     it "does not manage users who share an empty group with it" do
@@ -630,67 +604,6 @@ describe User do
 
       it "should return the agency name" do
         expect(@user.agency.name).to eq('unicef')
-      end
-    end
-  end
-
-  describe "mailer" do
-    before do
-      ActiveJob::Base.queue_adapter = :inline
-      @test_url = "http://test.com"
-    end
-
-    context 'when welcome email is enabled' do
-      before do
-        SystemSettings.destroy_all
-        @system_settings = SystemSettings.create(default_locale: "en", welcome_email_enabled: true)
-      end
-
-      context 'and user has an email address' do
-        before do
-          @user = create(:user)
-        end
-
-        it "sends a welcome email" do
-          expect { @user.send_welcome_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(1)
-        end
-      end
-
-      context 'and user does not have an email address' do
-        before do
-          @user = user = build_user(email: '')
-        end
-
-        it "does not send a welcome email" do
-          expect { @user.send_welcome_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
-        end
-      end
-    end
-
-    context 'when welcome email is disabled' do
-      before do
-        SystemSettings.all.each &:destroy
-        @system_settings = SystemSettings.create(default_locale: "en", welcome_email_enabled: false)
-      end
-
-      context 'and user has an email address' do
-        before do
-          @user = build_and_save_user
-        end
-
-        it "does not send a welcome email" do
-          expect { @user.send_welcome_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
-        end
-      end
-
-      context 'and user does not have an email address' do
-        before do
-          @user = user = build_user(email: '')
-        end
-
-        it "does not send a welcome email" do
-          expect { @user.send_welcome_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
-        end
       end
     end
   end
@@ -825,20 +738,10 @@ describe User do
 
   describe 'update user_groups in the cases where the user is assigned', search: true do
     before do
-      [
-        PrimeroProgram,
-        PrimeroModule,
-        Role,
-        FormSection,
-        Agency,
-        UserGroup,
-        User,
-        Child
-      ].each(&:destroy_all)
-
-      Sunspot.setup(Child) do
-        string 'associated_user_groups',  multiple: true
-      end
+      clean_data(
+        PrimeroProgram, PrimeroModule, Role, FormSection,
+        Agency, UserGroup, User, Child
+      )
 
       @program = PrimeroProgram.create!(
         unique_id: "primeroprogram-primero",
@@ -848,7 +751,7 @@ describe User do
 
       @form_section = FormSection.create!(
         unique_id: 'test_form',
-        name: "Test Form",
+        name: 'Test Form',
         fields: [
           Field.new(name: 'national_id_no', type: 'text_field', display_name: 'National ID No'),
         ]
@@ -856,18 +759,19 @@ describe User do
 
       @cp = PrimeroModule.create!(
         unique_id: PrimeroModule::CP,
-        name: "CP",
-        description: "Child Protection",
-        associated_record_types: ["case", "tracing_request", "incident"],
+        name: 'CP',
+        description: 'Child Protection',
+        associated_record_types: %w[case tracing_request incident],
         primero_program: @program,
         form_sections: [@form_section]
       )
 
       @role_admin = Role.create!(
         name: 'Admin role',
-        unique_id: "role_admin",
+        unique_id: 'role_admin',
         group_permission: Permission::ALL,
         form_sections: [@form_section],
+        modules: [@cp],
         permissions: [
           Permission.new(
             :resource => Permission::CASE,
@@ -889,36 +793,34 @@ describe User do
         email: 'user_test@localhost.com',
         agency_id: @agency_1.id,
         role: @role_admin,
-        user_groups: [@group_1],
-        primero_modules: [@cp]
+        user_groups: [@group_1]
       )
 
       @current_user = User.create!(
-        full_name: "Admin User",
+        full_name: 'Admin User',
         user_name: 'user_admin',
         password: 'a12345678',
         password_confirmation: 'a12345678',
-        email: "user_admin@localhost.com",
+        email: 'user_admin@localhost.com',
         agency_id: @agency_1.id,
         role: @role_admin,
-        user_groups: [@group_1],
-        primero_modules: [@cp]
+        user_groups: [@group_1]
       )
 
       @child_1 = Child.new_with_user(@current_user, {
-                   name: 'Child 1',
-                   assigned_user_names: [@associated_user.user_name]
-                 })
+        name: 'Child 1',
+        assigned_user_names: [@associated_user.user_name]
+      })
       @child_2 = Child.new_with_user(@current_user, {
-                   name: 'Child 2',
-                   assigned_user_names: [@associated_user.user_name]
-                 })
+        name: 'Child 2',
+        assigned_user_names: [@associated_user.user_name]
+      })
       @child_3 = Child.new_with_user(@current_user, { name: 'Child 3' })
       [@child_1, @child_2, @child_3].each(&:save!)
       Sunspot.commit
     end
 
-    it "should update the associated_user_groups of the records" do
+    it 'should update the associated_user_groups of the records' do
       @associated_user.user_groups = [@group_2]
       @associated_user.save!
       @child_1.reload
@@ -932,30 +834,20 @@ describe User do
 
   describe 'update agencies in the cases where the user is assigned', search: true do
     before do
-      [
-        PrimeroProgram,
-        PrimeroModule,
-        Role,
-        FormSection,
-        Agency,
-        UserGroup,
-        User,
-        Child
-      ].each(&:destroy_all)
-
-      Sunspot.setup(Child) do
-        string 'associated_user_groups',  multiple: true
-      end
+      clean_data(
+        PrimeroProgram, PrimeroModule, Role,
+        FormSection, Agency, UserGroup, User, Child
+      )
 
       @program = PrimeroProgram.create!(
-        unique_id: "primeroprogram-primero",
-        name: "Primero",
+        unique_id: 'primeroprogram-primero',
+        name: 'Primero',
         description: "Default Primero Program"
       )
 
       @form_section = FormSection.create!(
         unique_id: 'test_form',
-        name: "Test Form",
+        name: 'Test Form',
         fields: [
           Field.new(name: 'national_id_no', type: 'text_field', display_name: 'National ID No'),
         ]
@@ -963,9 +855,9 @@ describe User do
 
       @cp = PrimeroModule.create!(
         unique_id: PrimeroModule::CP,
-        name: "CP",
-        description: "Child Protection",
-        associated_record_types: ["case", "tracing_request", "incident"],
+        name: 'CP',
+        description: 'Child Protection',
+        associated_record_types: %w[case tracing_request incident],
         primero_program: @program,
         form_sections: [@form_section]
       )
@@ -975,11 +867,9 @@ describe User do
         unique_id: "role_admin",
         group_permission: Permission::ALL,
         form_sections: [@form_section],
+        modules: [@cp],
         permissions: [
-          Permission.new(
-            :resource => Permission::CASE,
-            :actions => [Permission::MANAGE]
-          )
+          Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])
         ]
       )
 
@@ -992,36 +882,34 @@ describe User do
         password: 'a12345678',
         password_confirmation: 'a12345678',
         email: 'user_test@localhost.com',
-        agency_id: @agency_1.id,
-        role: @role_admin,
-        primero_modules: [@cp]
+        agency: @agency_1,
+        role: @role_admin
       )
 
       @current_user = User.create!(
-        full_name: "Admin User",
+        full_name: 'Admin User',
         user_name: 'user_admin',
         password: 'a12345678',
         password_confirmation: 'a12345678',
-        email: "user_admin@localhost.com",
-        agency_id: @agency_1.id,
-        role: @role_admin,
-        primero_modules: [@cp]
+        email: 'user_admin@localhost.com',
+        agency: @agency_1,
+        role: @role_admin
       )
 
       @child_1 = Child.new_with_user(@current_user, {
-                   name: 'Child 1',
-                   assigned_user_names: [@associated_user.user_name]
-                 })
+         name: 'Child 1',
+         assigned_user_names: [@associated_user.user_name]
+       })
       @child_2 = Child.new_with_user(@current_user, {
-                   name: 'Child 2',
-                   assigned_user_names: [@associated_user.user_name]
-                 })
+         name: 'Child 2',
+         assigned_user_names: [@associated_user.user_name]
+       })
       @child_3 = Child.new_with_user(@current_user, { name: 'Child 3' })
       [@child_1, @child_2, @child_3].each(&:save!)
       Sunspot.commit
     end
 
-    it "should update the associated_user_agencies of the records" do
+    it 'should update the associated_user_agencies of the records' do
       @associated_user.agency = @agency_2
       @associated_user.save!
       @child_1.reload

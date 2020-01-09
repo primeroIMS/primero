@@ -5,10 +5,6 @@ describe SearchService, search: true do
   describe 'Filter search' do
 
     before :example do
-      reload_model(Child) do
-        allow(Field).to receive(:all_filterable_field_names) { %w(sex) }
-      end
-
       @correct_match = Child.create!(data: { name: 'Correct Match1', sex: 'female' })
       @incorrect_match = Child.create!(data: { name: 'Incorrect Match', sex: 'male' })
       Sunspot.commit
