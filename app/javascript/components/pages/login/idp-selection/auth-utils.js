@@ -2,7 +2,7 @@ import { UserAgentApplication } from "msal";
 
 import { DOMAIN } from "./config";
 
-export const setMsalConfig = (idp) => {
+export const setMsalConfig = idp => {
   return {
     auth: {
       clientId: idp.get("client_id"),
@@ -11,25 +11,25 @@ export const setMsalConfig = (idp) => {
       redirectUri: `http://${DOMAIN}/login/${idp.get("provider_type")}`
     },
     cache: {
-      cacheLocation: "localStorage",
+      cacheLocation: "sessionStorage",
       storeAuthStateInCookie: true
     }
   };
 };
 
-export const setMsalApp = (msalConfig) => {
+export const setMsalApp = msalConfig => {
   return new UserAgentApplication(msalConfig);
 };
 
-export const getLoginRequest = (identity_scope, unique_id) => {
+export const getLoginRequest = (identityScope, uniqueId) => {
   return {
-    scopes: identity_scope,
-    extraQueryParameters: {domain_hint: unique_id}
+    scopes: identityScope,
+    extraQueryParameters: { domain_hint: uniqueId }
   };
 };
 
-export const getTokenRequest = (identity_scope) => {
+export const getTokenRequest = identityScope => {
   return {
-    scopes: identity_scope
+    scopes: identityScope
   };
 };
