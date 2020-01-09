@@ -38,6 +38,7 @@ const fetchLookups = () => ({
   }
 });
 
+// TODO: The per was added as workaround but it definitely needs to be changed in the future.
 const fetchLocations = () => ({
   type: Actions.SET_LOCATIONS,
   api: {
