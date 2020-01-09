@@ -12,28 +12,25 @@ class IncidentsController < ApplicationController
   include RecordActions
 
   def discard_empty_violations
-    if params['incident'].present? && params['incident']['violations'].present?
-      violations_hash = params['incident']['violations'].is_a?(ActionController::Parameters) ? params['incident']['violations'].to_h : params['incident']['violations']
+    return if params['incident'].blank? || params['incident']['violations'].blank?
+    violations_subforms_control_keys = []
+    # Save the keys for control inputs created when removing the last violation subform.
+    params['incident']['violations'].keys.each { |key| violations_subforms_control_keys << key if params['incident']['violations'][key].is_a? String }
 
-      violations_subforms_control_keys = []
-      # Save the keys for control inputs created when removing the last violation subform.
-      violations_hash.keys.each { |key| violations_subforms_control_keys << key if violations_hash[key].is_a? String }
-
-      violations_hash.each do |k, v|
-        if v.present?
-          v.each do |sk, sv|
-            violation_has_values_present = sv.any? do |fk, fv|
-              #TODO: Including 'false' for tickbox is technically incorrect, but practically saves a lot of trouble
-              ((fk == 'unique_id') || (['false', 'date_range'].include?(fv))) ? false : fv.present?
-            end
-            violations_hash[k].delete(sk) unless violation_has_values_present
+    params['incident']['violations'].each do |k, v|
+      if v.present?
+        v.each do |sk, sv|
+          violation_has_values_present = sv.to_h.any? do |fk, fv|
+            #TODO: Including 'false' for tickbox is technically incorrect, but practically saves a lot of trouble
+            ((fk == 'unique_id') || (['false', 'date_range'].include?(fv))) ? false : fv.present?
           end
-          violations_hash.delete(k) if violations_hash[k].blank?
+          params['incident']['violations'][k].delete(sk) unless violation_has_values_present
         end
+        params['incident']['violations'].delete(k) if params['incident']['violations'][k].blank?
       end
-
-      violations_subforms_control_keys.each {|key| violations_hash[key] = ""}
     end
+
+    violations_subforms_control_keys.each {|key| params['incident']['violations'][key] = ""}
   end
 
   def create_cp_case_from_individual_details
