@@ -2,20 +2,9 @@ import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { RECORD_PATH } from "../../config";
-import {
-  fetchCases,
-  fetchIncidents,
-  fetchTracingRequests,
-  setCasesFilters,
-  setIncidentsFilters,
-  setTracingRequestFilters
-} from "../records";
+import { fetchCases, fetchIncidents, fetchTracingRequests } from "../records";
 
-import {
-  buildTableColumns,
-  getRecordsFetcherByType,
-  getFiltersSetterByType
-} from "./helpers";
+import { buildTableColumns, getRecordsFetcherByType } from "./helpers";
 
 const i18n = {
   t: name => {
@@ -56,18 +45,6 @@ describe("<RecordList /> - buildTableColumns", () => {
       expect(v.label).to.equal(expected[k].label);
       expect(v).to.have.property("options");
     });
-  });
-});
-
-describe("<RecordList /> - getFiltersSetterByType", () => {
-  it("should return the correct setFilters for each type", () => {
-    expect(getFiltersSetterByType(RECORD_PATH.cases)).to.equal(setCasesFilters);
-    expect(getFiltersSetterByType(RECORD_PATH.incidents)).to.equal(
-      setIncidentsFilters
-    );
-    expect(getFiltersSetterByType(RECORD_PATH.tracing_requests)).to.equal(
-      setTracingRequestFilters
-    );
   });
 });
 

@@ -11,6 +11,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { useI18n } from "../../i18n";
 
 import styles from "./styles.css";
+import { ATTACHMENT_FIELD_NAME } from "./constants";
 import DocumentField from "./DocumentField";
 
 // TODO: No link to display / download upload
@@ -138,6 +139,8 @@ const AttachmentField = ({ name, field, label, disabled, formik, mode }) => {
     />
   );
 };
+
+AttachmentField.displayName = ATTACHMENT_FIELD_NAME;
 
 AttachmentField.propTypes = {
   disabled: PropTypes.bool,

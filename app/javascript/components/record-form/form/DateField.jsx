@@ -9,6 +9,8 @@ import omitBy from "lodash/omitBy";
 
 import { useI18n } from "../../i18n";
 
+import { DATE_FIELD_NAME } from "./constants";
+
 const DateField = ({ name, helperText, mode, formik, ...rest }) => {
   const i18n = useI18n();
   const allowedDefaultValues = ["TODAY", "NOW"];
@@ -96,6 +98,8 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
     />
   ) : null;
 };
+
+DateField.displayName = DATE_FIELD_NAME;
 
 DateField.propTypes = {
   formik: PropTypes.object.isRequired,

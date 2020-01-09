@@ -38,6 +38,11 @@ const stateWithRecords = Map({
         }
       }
     ],
+    reportingLocationConfig: {
+      label_key: "district",
+      admin_level: 2,
+      field_key: "owned_by_location"
+    },
     locales: ["en", "fr", "ar"],
     defaultLocale: "en",
     baseLanguage: "en",
@@ -128,6 +133,19 @@ describe("Application - Selectors", () => {
       const selector = selectors.selectUserIdle(stateWithRecords);
 
       expect(selector).to.equal(true);
+    });
+  });
+
+  describe("getReportingLocationConfig", () => {
+    it("should return the reporting location config", () => {
+      const selector = selectors.getReportingLocationConfig(stateWithRecords);
+      const config = {
+        label_key: "district",
+        admin_level: 2,
+        field_key: "owned_by_location"
+      };
+
+      expect(selector).to.deep.equal(config);
     });
   });
 });

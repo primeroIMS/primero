@@ -20,7 +20,7 @@ import {
 import Permission from "../application/permission";
 import { useThemeHelper } from "../../libs";
 
-import { NAME } from "./config";
+import { NAME } from "./constants";
 import FilterContainer from "./filter-container";
 import { buildTableColumns, getRecordsFetcherByType } from "./helpers";
 import RecordListToolbar from "./record-list-toolbar";
@@ -42,6 +42,7 @@ const Container = ({ match, location }) => {
   const headers = useSelector(state => getListHeaders(state, recordType));
   const [openViewModal, setOpenViewModal] = useState(false);
   const [currentRecord, setCurrentRecord] = useState(null);
+  const [selectedRecords, setSelectedRecords] = useState([]);
 
   const userPermissions = useSelector(state =>
     getPermissionsByRecord(state, recordType)
@@ -103,7 +104,9 @@ const Container = ({ match, location }) => {
         setCurrentRecord(record);
         setOpenViewModal(true);
       }
-    }
+    },
+    selectedRecords,
+    setSelectedRecords
   };
 
   const handleDrawer = () => {
@@ -120,7 +123,8 @@ const Container = ({ match, location }) => {
     title: i18n.t(`${recordType}.label`),
     recordType,
     handleDrawer,
-    mobileDisplay
+    mobileDisplay,
+    selectedRecords
   };
 
   const filterProps = {

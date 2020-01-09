@@ -73,6 +73,14 @@ export const getRecordForms = (state, query) => {
   return denormalizedForms.valueSeq();
 };
 
+export const getRecordFormsByUniqueId = (state, query) => {
+  const { recordType, primeroModule, formName } = query;
+
+  return getRecordForms(state, { recordType, primeroModule }).filter(
+    f => f.unique_id === formName
+  );
+};
+
 export const getOption = (state, option, locale) => {
   if (typeof option === "string") {
     const selectedOptions = state

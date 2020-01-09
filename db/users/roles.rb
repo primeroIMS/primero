@@ -138,6 +138,12 @@ cp_admin_permissions = [
   Permission.new(
     resource: Permission::DUPLICATE,
     actions: [Permission::READ]
+  ),
+  Permission.new(
+    resource: Permission::DASHBOARD,
+    actions: [
+      Permission::DASH_REPORTING_LOCATION
+    ]
   )
 ]
 
@@ -177,7 +183,8 @@ cp_caseworker_permissions = [
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::REMOVE_ASSIGNED_USERS,
       Permission::ENABLE_DISABLE_RECORD,
-      Permission::DISPLAY_VIEW_PAGE
+      Permission::DISPLAY_VIEW_PAGE,
+      Permission::INCIDENT_DETAILS_FROM_CASE
     ]
   ),
   Permission.new(
@@ -598,7 +605,8 @@ gbv_manager_permissions = [
     actions: [
       Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
       Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
-      Permission::DASH_APPROVALS_CLOSURE_PENDING
+      Permission::DASH_APPROVALS_CLOSURE_PENDING,
+      Permission::DASH_REPORTING_LOCATION
     ]
   ),
   Permission.new(

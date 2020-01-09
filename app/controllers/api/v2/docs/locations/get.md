@@ -12,7 +12,8 @@ Shows a paginated list of all locations that are accessible to this user.
 
 **Parameters** :
 
-* `page` Optional. hierarchy. Defaults to false
+* `page` Optional.
+* `hierarchy` Defaults to false.
 
 ## Success Response with param hierarchy=true
 

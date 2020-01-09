@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { List, Collapse } from "@material-ui/core";
 
 import NavItem from "./NavItem";
+import { NAV_GROUP } from "./constants";
 
 const NavGroup = ({ group, open, handleClick, selectedForm }) => {
   const [...forms] = group.values();
@@ -42,6 +43,8 @@ const NavGroup = ({ group, open, handleClick, selectedForm }) => {
     </>
   );
 };
+
+NavGroup.displayName = NAV_GROUP;
 
 NavGroup.propTypes = {
   group: PropTypes.object,

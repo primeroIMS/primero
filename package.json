@@ -3,7 +3,7 @@
   "scripts": {
     "build": "node_modules/.bin/webpack --config webpack/config.production.js",
     "serve": "node_modules/.bin/webpack-dev-server --config webpack/config.development.js",
-    "test": "NODE_ENV=test mocha --require @babel/register --require ./.mochaignore --require jsdom-global/register --require ./app/javascript/test/test.setup.js --recursive --exit",
+    "test": "NODE_ENV=test mocha",
     "test:all": "npm run test './app/javascript/**/*.unit.test.js'",
     "test:inspect": "npm run test -- --inspect-brk=0.0.0.0:9229",
     "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test:all",
@@ -116,5 +116,19 @@
   "repository": "https://github.com/primeroIMS/primero",
   "engines": {
     "node": ">=0.10.3 <0.12"
+  },
+  "mocha": {
+    "require": [
+      "@babel/register",
+      "./.mochaignore",
+      "jsdom-global/register",
+      "./app/javascript/test/test.setup.js"
+    ],
+    "exclude": [
+      "**/node_modules/**"
+    ],
+    "diff": true,
+    "recursive": true,
+    "exit": true
   }
 }
