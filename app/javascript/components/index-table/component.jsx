@@ -28,7 +28,9 @@ const Component = ({
   options: tableOptionsProps,
   targetRecordType,
   onRowClick,
-  bypassInitialFetch
+  bypassInitialFetch,
+  selectedRecords,
+  setSelectedRecords
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -203,7 +205,12 @@ const Component = ({
     viewColumns: false,
     serverSide: true,
     customToolbar: () => null,
-    customToolbarSelect: () => null,
+    selectableRows: "multiple",
+    rowsSelected: selectedRecords?.length ? selectedRecords : [],
+    onRowsSelect: (currentRowsSelected, allRowsSelected) => {
+      setSelectedRecords(allRowsSelected.map(ars => ars.dataIndex));
+    },
+    onColumnSortChange: () => setSelectedRecords([]),
     onTableChange: handleTableChange,
     rowsPerPageOptions: [20, 50, 75, 100],
     page: page - 1,
@@ -254,6 +261,8 @@ Component.propTypes = {
   onTableChange: PropTypes.func.isRequired,
   options: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  selectedRecords: PropTypes.arrayOf(PropTypes.number),
+  setSelectedRecords: PropTypes.func,
   targetRecordType: PropTypes.string
 };
 

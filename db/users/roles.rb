@@ -177,7 +177,8 @@ cp_caseworker_permissions = [
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::REMOVE_ASSIGNED_USERS,
       Permission::ENABLE_DISABLE_RECORD,
-      Permission::DISPLAY_VIEW_PAGE
+      Permission::DISPLAY_VIEW_PAGE,
+      Permission::INCIDENT_DETAILS_FROM_CASE
     ]
   ),
   Permission.new(

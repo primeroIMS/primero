@@ -9,6 +9,7 @@ import { ACTIONS } from "../../libs/permissions";
 import { setupMountedComponent } from "../../test";
 
 import { ViewModal } from "./view-modal";
+import RecordListToolbar from "./record-list-toolbar";
 import RecordList from "./container";
 
 describe("<RecordList />", () => {
