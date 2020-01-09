@@ -5,6 +5,8 @@ import { Switch } from "formik-material-ui";
 import pickBy from "lodash/pickBy";
 import { FormControlLabel } from "@material-ui/core";
 
+import { TICK_FIELD_NAME } from "./constants";
+
 const TickField = ({ name, label, formik, ...rest }) => {
   const fieldProps = {
     name,
@@ -39,6 +41,8 @@ const TickField = ({ name, label, formik, ...rest }) => {
     />
   );
 };
+
+TickField.displayName = TICK_FIELD_NAME;
 
 TickField.propTypes = {
   formik: PropTypes.object,
