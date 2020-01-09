@@ -4,7 +4,6 @@ import { expect } from "../../../test";
 
 import * as helper from "./helpers";
 
-
 describe("<Dashboard /> - Helpers", () => {
   describe("with exposed properties", () => {
     it("should have known methods", () => {
@@ -15,7 +14,8 @@ describe("<Dashboard /> - Helpers", () => {
           expect(clone).to.have.property(property);
           expect(clone[property]).to.be.a("function");
           delete clone[property];
-      });
+        }
+      );
       expect(clone).to.be.empty;
     });
   });
@@ -24,18 +24,20 @@ describe("<Dashboard /> - Helpers", () => {
     const casesWorkflow = fromJS({
       name: "dashboard.workflow",
       type: "indicator",
-      stats: {
-        new: {
-          count: 10,
-          query: ["workflow=new"]
-        },
-        service_provision: {
-          count: 15,
-          query: ["workflow=service_provision"]
-        },
-        care_plan: {
-          count: 8,
-          query: ["workflow=care_plan"]
+      indicators: {
+        workflow: {
+          new: {
+            count: 10,
+            query: ["workflow=new"]
+          },
+          service_provision: {
+            count: 15,
+            query: ["workflow=service_provision"]
+          },
+          care_plan: {
+            count: 8,
+            query: ["workflow=care_plan"]
+          }
         }
       }
     });
