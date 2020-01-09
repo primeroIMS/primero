@@ -11,8 +11,7 @@ export const DB = {
   FORMS: "forms",
   OPTIONS: "options",
   RECORDS: "records",
-  SYSTEM_SETTINGS: "system_settings",
-  IDENTITY_PROVIDERS: "identity_providers"
+  SYSTEM_SETTINGS: "system_settings"
 };
 
 // Time (ms) when the idle dialog will activate when a user is inactive
@@ -84,7 +83,6 @@ export const ROUTES = {
   exports: "/exports",
   incidents: "/incidents",
   login: "/login",
-  login_redirect: "/login/:provider",
   logout: "/logout",
   matches: "/matches",
   not_authorized: "/not-authorized",

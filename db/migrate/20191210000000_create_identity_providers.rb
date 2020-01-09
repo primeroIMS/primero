@@ -7,5 +7,7 @@ class CreateIdentityProviders < ActiveRecord::Migration[5.0]
       t.jsonb      :configuration
     end
     add_index :identity_providers, :unique_id, unique: true
+    add_index :identity_providers, :configuration, using: 'gin'
+    add_reference :users, :identity_provider, index: true
   end
 end

@@ -12,3 +12,8 @@ exports.CLIENT_APPLICATION = path.resolve(
   "..",
   "app/javascript/packs/application.jsx"
 );
+exports.ID_APPLICATION = path.resolve(
+  __dirname,
+  "..",
+  "app/javascript/packs/identity.jsx"
+);
