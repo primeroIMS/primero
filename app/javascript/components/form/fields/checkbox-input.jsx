@@ -4,95 +4,66 @@ import {
   FormGroup,
   FormControlLabel,
   FormControl,
+  FormLabel,
   Checkbox
 } from "@material-ui/core";
-import { useFormContext, Controller } from "react-hook-form";
 
 import Input from "../components/input";
 
-const CheckboxInput = ({ field }) => {
-  // const renderOptions = methods => {
-  //   const {
-  //     inputOptions,
-  //     fieldName,
-  //     handleChange,
-  //     isObject,
-  //     inputValue,
-  //     optionText,
-  //     i18n
-  //   } = methods;
+const CheckboxInput = ({ field, commonInputProps }) => {
+  const renderOptions = methods => {
+    const {
+      inputOptions,
+      fieldName,
+      handleChange,
+      isObject,
+      inputValue,
+      optionText,
+      i18n
+    } = methods;
 
-  //   console.log(methods);
+    const { disabled } = commonInputProps;
 
-  //   return inputOptions.map(option => {
-  //     return (
-  //       <FormControlLabel
-  //         key={`${fieldName}-${option.id}`}
-  //         control={
-  //           <Checkbox
-  //             onChange={handleChange}
-  //             value={option.id}
-  //             checked={
-  //               isObject
-  //                 ? option.key in inputValue
-  //                 : inputValue.includes(option.id)
-  //             }
-  //           />
-  //         }
-  //         label={optionText(option, i18n)}
-  //       />
-  //     );
-  //   });
-
-  // };
-
-  // return (
-  //   <Input field={field}>
-  //     {methods => (
-  //       <FormControl component="fieldset">
-  //         <FormGroup>{renderOptions(methods)}</FormGroup>
-  //       </FormControl>
-  //     )}
-  //   </Input>
-  // );
-
-  const { control } = useFormContext();
+    return inputOptions.map(option => {
+      return (
+        <FormControlLabel
+          key={`${fieldName}-${option.id}`}
+          control={
+            <Checkbox
+              onChange={handleChange}
+              value={option.id}
+              checked={
+                isObject
+                  ? option.key in inputValue
+                  : inputValue.includes(option.id)
+              }
+              disabled={disabled}
+            />
+          }
+          label={optionText(option, i18n)}
+        />
+      );
+    });
+  };
 
   return (
-    <Controller
-      control={control}
-      onChange={(v) => {
-        console.log(v);
-
-        // React Select return object instead of value for selection
-        return { value: v };
-      }}
-      as={
-        <FormControl>
-          <FormGroup>
-            <FormControlLabel
-              label="test"
-              control={<Checkbox value="test" />}
-            />
-            <FormControlLabel
-              label="test2"
-              control={<Checkbox value="test2" />}
-            />
-            <FormControlLabel
-              label="test3"
-              control={<Checkbox value="test3" />}
-            />
-          </FormGroup>
+    <Input field={field}>
+      {methods => (
+        <FormControl component="fieldset">
+          <FormLabel>{field.display_name}</FormLabel>
+          <FormGroup>{renderOptions(methods)}</FormGroup>
         </FormControl>
-      }
-      name={field.name}
-    />
+      )}
+    </Input>
   );
 };
 
 CheckboxInput.displayName = "CheckboxInput";
 
 CheckboxInput.propTypes = {
+  commonInputProps: PropTypes.shape({
+    disabled: PropTypes.bool
+  }),
   field: PropTypes.object.isRequired
 };
 

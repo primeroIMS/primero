@@ -132,15 +132,7 @@ export default [
         extraProps: {
           routes: [
             {
-              path: `${ROUTES.admin_users}/:id`,
-              component: UsersForm,
-              resources: RESOURCES.users,
-              extraProps: {
-                mode: MODES.show
-              }
-            },
-            {
-              path: `${ROUTES.admin_users}/:id/new`,
+              path: `${ROUTES.admin_users}/new`,
               component: UsersForm,
               resources: RESOURCES.users,
               extraProps: {
@@ -153,6 +145,14 @@ export default [
               resources: RESOURCES.users,
               extraProps: {
                 mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.admin_users}/:id`,
+              component: UsersForm,
+              resources: RESOURCES.users,
+              extraProps: {
+                mode: MODES.show
               }
             },
             {

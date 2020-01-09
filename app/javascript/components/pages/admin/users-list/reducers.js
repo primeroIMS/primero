@@ -1,7 +1,8 @@
 import { fromJS } from "immutable";
 
+import NAMESPACE from "../namespace";
+
 import { USERS_SUCCESS } from "./actions";
-import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = fromJS({});
 
@@ -16,4 +17,4 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   }
 };
 
-export const reducers = { [NAMESPACE]: reducer };
+export const reducers = reducer;

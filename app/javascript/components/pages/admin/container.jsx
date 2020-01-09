@@ -25,7 +25,7 @@ const Container = ({ routes }) => {
   );
 };
 
-Container.displayName = "UsersList";
+Container.displayName = "Admin";
 
 Container.propTypes = {
   routes: PropTypes.array.isRequired

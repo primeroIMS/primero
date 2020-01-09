@@ -1,0 +1,16 @@
+.actionButton, .actionButtonCancel {
+  box-shadow: none;
+  color: $(theme.primero.colors.white);
+  background: $(theme.primero.colors.blue);
+  width: 8em;
+  height: 32px;
+
+  &:hover {
+    color: $(theme.primero.colors.black);
+  }
+}
+
+.actionButtonCancel {
+  background: $(theme.primero.colors.grey);
+  margin: 0 .5em;
+}

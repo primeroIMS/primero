@@ -72,7 +72,7 @@ const Component = ({ close, openNotesDialog, record, recordType }) => {
       onClose={close}
     >
       <Form
-        formMode={FORM_MODE_DIALOG}
+        mode={FORM_MODE_DIALOG}
         formSections={formSections}
         onSubmit={handleSubmit}
         ref={formRef}

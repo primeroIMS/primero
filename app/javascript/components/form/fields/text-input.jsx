@@ -8,11 +8,13 @@ import { TEXT_AREA } from "../constants";
 const TextInput = ({ field, commonInputProps }) => {
   const { register, errors } = useFormContext();
   const { helperText, ...commonProps } = commonInputProps;
-  const { name, type, required, autoFocus } = field;
+  const { name, type, required, autoFocus, password } = field;
   const error = errors[name];
+  const inputType = password ? "password" : "text";
 
   return (
     <TextField
+      type={inputType}
       autoFocus={autoFocus}
       required={required}
       error={typeof error !== "undefined"}

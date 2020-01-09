@@ -4,16 +4,19 @@ import {
   Switch,
   FormControl,
   FormGroup,
-  FormControlLabel
+  FormControlLabel,
+  FormHelperText
 } from "@material-ui/core";
 
 import Input from "../components/input";
 
-const SwitchInput = ({ field }) => {
+const SwitchInput = ({ field, commonInputProps }) => {
+  const { disabled, helperText } = commonInputProps;
+
   return (
     <Input field={field}>
-      {({ handleChange, inputValue, label }) => (
-        <FormControl>
+      {({ handleChange, inputValue, label, error, hasError }) => (
+        <FormControl error={hasError}>
           <FormGroup>
             <FormControlLabel
               labelPlacement="end"
@@ -21,11 +24,13 @@ const SwitchInput = ({ field }) => {
                 <Switch
                   onChange={handleChange}
                   checked={Boolean(inputValue) || false}
+                  disabled={disabled}
                 />
               }
               label={label}
             />
           </FormGroup>
+          <FormHelperText>{error || helperText}</FormHelperText>
         </FormControl>
       )}
     </Input>
@@ -35,6 +40,10 @@ const SwitchInput = ({ field }) => {
 SwitchInput.displayName = "SwitchInput";
 
 SwitchInput.propTypes = {
+  commonInputProps: PropTypes.shape({
+    disabled: PropTypes.bool,
+    helperText: PropTypes.string
+  }),
   field: PropTypes.object.isRequired
 };
 

@@ -6,14 +6,13 @@ import { useSelector } from "react-redux";
 import { useI18n } from "../../i18n";
 // TODO: REFACTOR AND MOVE THE FOLLOWING BELOW
 import { FILTER_TYPES } from "../../index-filters";
-import { registerInput } from "../../index-filters/components/filter-types/utils";
 import handleFilterChange from "../../index-filters/components/filter-types/value-handlers";
-import { whichOptions, optionText } from "../utils";
+import { whichOptions, optionText, registerInput } from "../utils";
 import { getOption } from "../../record-form";
-import { CHECK_BOX_FIELD } from "../constants";
+import { CHECK_BOX_FIELD, SELECT_FIELD } from "../constants";
 
-const inferDefaultValue = ({ type }) => {
-  if (type === CHECK_BOX_FIELD) {
+const inferDefaultValue = ({ type, multiSelect }) => {
+  if (type === CHECK_BOX_FIELD || multiSelect) {
     return [];
   }
 
@@ -33,7 +32,7 @@ const getTypeValueObject = (event, value, type) => {
   }
 };
 
-const Input = ({ field, valueAsObject, children }) => {
+const Input = ({ field, children }) => {
   const {
     options,
     field_name: fieldName,
@@ -41,16 +40,17 @@ const Input = ({ field, valueAsObject, children }) => {
     name,
     type,
     option_strings_source: optionStringsSource,
-    option_strings_text: optionsStringsText
+    option_strings_text: optionsStringsText,
+    multi_select: multiSelect
   } = field;
   const i18n = useI18n();
-  const { register, unregister, setValue } = useFormContext();
-  const defaultValue = inferDefaultValue({ type });
+  const { register, unregister, setValue, errors } = useFormContext();
+  const defaultValue = inferDefaultValue({ type, multiSelect });
   const [inputValue, setInputValue] = useState(defaultValue);
   const valueRef = useRef();
 
   const inputName = name || fieldName;
-
+  const inputError = errors?.[name]
   const lookups = useSelector(state =>
     getOption(state, optionStringsSource, i18n.locale)
   );
@@ -81,7 +81,14 @@ const Input = ({ field, valueAsObject, children }) => {
       register,
       name: inputName,
       ref: valueRef,
-      setInputValue
+      setInputValue,
+      dataSetter: data => {
+        if (type === SELECT_FIELD) {
+          return multiSelect ? data.map(d => d.id) : data?.id;
+        }
+
+        return data;
+      }
     });
 
     return () => {
@@ -98,12 +105,19 @@ const Input = ({ field, valueAsObject, children }) => {
     ...(FILTER_TYPES.TOGGLE && {
       label: options ? options?.[i18n.locale]?.[0]?.display_name : displayName
     }),
-    setValue
+    setValue,
+    error: inputError?.message,
+    hasError: typeof inputError !== "undefined"
   };
 
-  return children(inputProps);
+  return <div>{children(inputProps)}</div>;
 };
 
-Input.propTypes = {};
+Input.displayName = "Input";
+
+Input.propTypes = {
+  children: PropTypes.func.isRequired,
+  field: PropTypes.object.isRequired
+};
 
 export default Input;

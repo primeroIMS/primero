@@ -92,7 +92,8 @@ export const ROUTES = {
   tasks: "/tasks",
   tracing_requests: "/tracing_requests",
   admin: "/admin",
-  admin_users: "/admin/users"
+  admin_users: "/admin/users",
+  admin_users_new: "/admin/users/new"
 };
 
 export const PERMITTED_URL = [

@@ -14,8 +14,9 @@ import { SavedSearches, fetchSavedSearches } from "../saved-searches";
 import SavedSearchesForm from "../saved-searches/SavedSearchesForm";
 import { currentUser } from "../user";
 import { useI18n } from "../i18n";
+import { compactData } from "../form";
 
-import { filterType, compactFilters } from "./utils";
+import { filterType } from "./utils";
 import { HIDDEN_FIELDS } from "./constants";
 import { Search } from "./components/filter-types";
 import { getFiltersByRecordType } from "./selectors";
@@ -59,7 +60,7 @@ const Component = ({ recordType, defaultFilters }) => {
     methods.setValue("fields", "short");
 
     dispatch(
-      applyFilters({ recordType, data: compactFilters(methods.getValues()) })
+      applyFilters({ recordType, data: compactData(methods.getValues()) })
     );
 
     return () => {
@@ -76,7 +77,7 @@ const Component = ({ recordType, defaultFilters }) => {
   useEffect(() => {
     if (rerender) {
       dispatch(
-        applyFilters({ recordType, data: compactFilters(methods.getValues()) })
+        applyFilters({ recordType, data: compactData(methods.getValues()) })
       );
 
       setRerender(false);
@@ -89,7 +90,7 @@ const Component = ({ recordType, defaultFilters }) => {
   ];
 
   const handleSubmit = useCallback(data => {
-    const payload = compactFilters(data);
+    const payload = compactData(data);
 
     dispatch(applyFilters({ recordType, data: payload }));
   }, []);
