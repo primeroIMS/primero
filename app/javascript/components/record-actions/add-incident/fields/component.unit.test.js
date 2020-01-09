@@ -3,6 +3,7 @@ import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
 import { FormSectionField } from "../../../record-form";
+import { RECORD_PATH } from "../../../../config";
 
 import Fields from "./component";
 
@@ -10,7 +11,7 @@ describe("<Fields />", () => {
   let component;
 
   const props = {
-    recordType: "cases",
+    recordType: RECORD_PATH.cases,
     fields: [
       {
         name: "name",

@@ -5,6 +5,7 @@ import { fromJS, Map, OrderedMap } from "immutable";
 import { ActionDialog } from "../../action-dialog";
 import { setupMountedComponent } from "../../../test";
 import { FieldRecord, FormSectionRecord } from "../../record-form/records";
+import { RECORD_PATH } from "../../../config";
 
 import Fields from "./fields";
 import AddIncident from "./component";
@@ -118,7 +119,7 @@ describe("<AddIncident />", () => {
   const props = {
     openIncidentDialog: true,
     close: () => {},
-    recordType: "cases",
+    recordType: RECORD_PATH.cases,
     selectedRowsIndex: [0]
   };
 

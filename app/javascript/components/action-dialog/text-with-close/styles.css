@@ -1,3 +1,10 @@
+.closeButton {
+  top: 8px;
+  color: $(theme.primero.colors.darkGrey);
+  right: 8px;
+  position: absolute;
+}
+
 .dialogSubtitle {
   font-size: $(theme.typography.pxToRem(12));
   font-weight: bold;

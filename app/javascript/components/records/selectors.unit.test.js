@@ -2,6 +2,7 @@ import { expect } from "chai";
 import { Map, OrderedMap, fromJS } from "immutable";
 
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
+import { RECORD_PATH } from "../../config";
 
 import {
   selectRecord,
@@ -113,7 +114,7 @@ const stateWithRecords = Map({
 
 describe("Records - Selectors", () => {
   const id = "d9df44fb-95d0-4407-91fd-ed18c19be1ad";
-  const recordType = "cases";
+  const recordType = RECORD_PATH.cases;
   const mode = { isNew: false, isEdit: false, isShow: true };
 
   describe("selectRecord", () => {

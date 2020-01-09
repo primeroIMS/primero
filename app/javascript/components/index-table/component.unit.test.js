@@ -4,6 +4,7 @@ import MUIDataTable from "mui-datatables";
 
 import { LoadingIndicator } from "../loading-indicator";
 import { setupMountedComponent } from "../../test";
+import { RECORD_PATH } from "../../config";
 
 import IndexTable from "./component";
 
@@ -11,7 +12,7 @@ describe("<IndexTable />", () => {
   let component;
   const props = {
     onTableChange: () => {},
-    recordType: "cases",
+    recordType: RECORD_PATH.cases,
     defaultFilters: fromJS({}),
     bypassInitialFetch: true
   };

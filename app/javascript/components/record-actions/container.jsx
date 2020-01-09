@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-import { RECORD_TYPES } from "../../config";
+import { RECORD_TYPES, RECORD_PATH } from "../../config";
 import { useI18n } from "../i18n";
 import { getPermissionsByRecord } from "../user/selectors";
 import {
@@ -204,7 +204,7 @@ const Container = ({
     {
       name: i18n.t("actions.incident_details_from_case"),
       action: handleIncidentDialog,
-      recordType: "cases",
+      recordType: RECORD_PATH.cases,
       recordListAction: true,
       condition: canAddIncident
     },

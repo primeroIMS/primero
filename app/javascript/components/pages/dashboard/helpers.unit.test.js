@@ -2,9 +2,22 @@ import { fromJS } from "immutable";
 
 import { expect } from "../../../test";
 
-import { toData1D, toListTable } from "./helpers";
+import * as helper from "./helpers";
 
 describe("<Dashboard /> - Helpers", () => {
+  describe("with exposed properties", () => {
+    it("should have known methods", () => {
+      const clone = { ...helper };
+
+      ["toData1D", "toListTable"].forEach(property => {
+        expect(clone).to.have.property(property);
+        expect(clone[property]).to.be.a("function");
+        delete clone[property];
+      });
+      expect(clone).to.be.empty;
+    });
+  });
+
   describe("toData1D", () => {
     const casesWorkflow = fromJS({
       name: "dashboard.workflow",
@@ -47,11 +60,13 @@ describe("<Dashboard /> - Helpers", () => {
         { id: "closed", display_text: "Closed" }
       ];
 
-      expect(toData1D(casesWorkflow, workflowLabels)).to.deep.equal(expected);
+      expect(helper.toData1D(casesWorkflow, workflowLabels)).to.deep.equal(
+        expected
+      );
     });
 
     it("should not return labels if there are not translations", () => {
-      const { labels } = toData1D(casesWorkflow, []);
+      const { labels } = helper.toData1D(casesWorkflow, []);
 
       expect(labels).to.be.empty;
     });
@@ -120,7 +135,7 @@ describe("<Dashboard /> - Helpers", () => {
         ]
       };
 
-      expect(toListTable(data, labels)).to.deep.equal(expected);
+      expect(helper.toListTable(data, labels)).to.deep.equal(expected);
     });
   });
 });
