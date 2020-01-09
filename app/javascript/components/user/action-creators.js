@@ -1,5 +1,6 @@
 import { DB } from "../../config";
 import { loadApplicationResources } from "../application";
+import { signOut } from "../pages/login/idp-selection";
 
 import { Actions } from "./actions";
 
@@ -32,6 +33,7 @@ export const setAuthenticatedUser = user => async dispatch => {
 };
 
 export const attemptSignout = () => async dispatch => {
+  signOut();
   dispatch({
     type: Actions.LOGOUT,
     api: {
