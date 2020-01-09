@@ -28,6 +28,7 @@ describe("Verifying config constant", () => {
       "APPROVALS_ASSESSMENT",
       "APPROVALS_CASE_PLAN",
       "APPROVALS_CLOSURE",
+      "REPORTING_LOCATION",
       "WORKFLOW_TEAM"
     );
 
@@ -38,7 +39,6 @@ describe("Verifying config constant", () => {
       "REPORTING_LOCATION_OPEN",
       "REPORTING_LOCATION_OPEN_LAST_WEEK",
       "REPORTING_LOCATION_OPEN_THIS_WEEK",
-      "REPORTING_LOCATION_CLOSED",
       "REPORTING_LOCATION_ClOSED_LAST_WEEK",
       "REPORTING_LOCATION_ClOSED_THIS_WEEK"
     );

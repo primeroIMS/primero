@@ -15,7 +15,6 @@ export const INDICATOR_NAMES = Object.freeze({
   REPORTING_LOCATION_OPEN: "reporting_location_open",
   REPORTING_LOCATION_OPEN_LAST_WEEK: "reporting_location_open_last_week",
   REPORTING_LOCATION_OPEN_THIS_WEEK: "reporting_location_open_this_week",
-  REPORTING_LOCATION_CLOSED: "reporting_location_closed",
   REPORTING_LOCATION_ClOSED_LAST_WEEK: "reporting_location_closed_last_week",
   REPORTING_LOCATION_ClOSED_THIS_WEEK: "reporting_location_closed_this_week"
 });
