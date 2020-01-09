@@ -456,21 +456,32 @@ module IndexHelper
     filters << "Flagged"
     filters << "Mobile" if @can_sync_mobile
     filters << "Violation" if @is_mrm
+    filters << "Deprived of liberty?" if @is_mrm
     filters << "Violence Type" if @is_gbv
     filters << "Social Worker" if @is_manager
     filters << "Agency Office" if @is_gbv
     filters << "User Group" if @is_gbv && @current_user.present? && @current_user.has_user_group_filter?
     filters << "Status"
-    filters << "Age Range"
+    filters << "Age Range" if @is_gbv
     filters << "Children" if @is_mrm
     filters << "Verification Status" if @is_mrm
     filters << "Incident Location"
     filters << "Dates"
     filters << "Protection Status" if @is_gbv
-    filters << "Armed Force or Group" if @is_mrm
-    filters << "Armed Force or Group Type" if @is_mrm
+    filters << "Armed Force" if @is_mrm
+    filters << "Armed Group" if @is_mrm
+    #TODO perpetrator_sub_category has been removed
+    # filters << "Armed Force or Group Type" if @is_mrm
     filters << "Record State"
-
+    filters << "Individual Age" if @is_mrm
+    filters << "Individual Sex" if @is_mrm
+    filters << "Individual Violation" if @is_mrm
+    filters << "Perpetrator Arrested" if @is_mrm
+    filters << "Perpetrator Detained" if @is_mrm
+    filters << "Perpetrator Convicted" if @is_mrm
+    filters << "Reason Deprived of liberty?" if @is_mrm
+    filters << "Facilty Deprived of liberty?" if @is_mrm
+    filters << "Punishment Deprived of liberty?" if @is_mrm
     return filters
   end
 
@@ -644,5 +655,9 @@ module IndexHelper
     end
 
     data
+  end
+
+  def violation_lookup(options, lookups)
+    options.is_a?(String) ? Lookup.values(options, lookups) : options
   end
 end

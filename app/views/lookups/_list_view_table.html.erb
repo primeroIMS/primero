@@ -17,7 +17,9 @@
             <td><%= lkp["name_#{given_locale}"] %></td>
             <td><%= lkp["lookup_values_#{given_locale}"].try(:map){|r| r['display_text'] }.try(:join,', ') %></td>
             <td>
-              <%= link_to t("buttons.edit"), edit_lookup_path(lkp) %>
+              <% if lkp.editable? %>
+                <%= link_to t("buttons.edit"), edit_lookup_path(lkp) %>
+              <% end %>
               <% unless lkp.is_being_used? || lkp.locked %>
                 <br>
                 <%= link_to t("buttons.delete"), lookup_path(lkp), data: {confirm: t("lookup.confirm_delete")}, method: :delete %>

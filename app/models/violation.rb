@@ -50,10 +50,17 @@ class Violation
     Incident.searchable_location_fields.each do |f|
       text(f, as: "#{f}_lngram".to_sym) {incident_value(f)}
     end
+    Incident.searchable_boolean_fields.each do |f|
+      boolean(f) { incident_value(f)}
+    end
 
-    string('armed_force_group_names', multiple: true){armed_force_group_names}
+    #TODO: Incident locations are not getting indexed in the location scheme introduced in v1.2
 
-    boolean('record_state') {incident_value('record_state')}
+    string('armed_force_names', multiple: true){armed_force_names}
+
+    string('armed_group_names', multiple: true){armed_group_names}
+
+    integer('individual_age', multiple: true){ individual_victims_age }
 
     string('incident_total_tally', multiple: true) do
       types = ['boys', 'girls', 'unknown']
@@ -79,12 +86,18 @@ class Violation
 
   def self.from_incident(incident)
     violations = []
-    incident.violations.keys.each do |category|
-      incident.violations[category].each do |violation|
-        violations << Violation.new(category, incident, violation)
+    if incident.violations.present?
+      incident.violations.keys.each do |category|
+        incident.violations[category].each do |violation|
+          violations << Violation.new(category, incident, violation)
+        end
       end
     end
     return violations
+  end
+
+  def self.report_filters
+    Incident.report_filters
   end
 
   def initialize(category, incident, violation)
@@ -114,8 +127,19 @@ class Violation
     incident_value('perpetrator_subform_section').select{|p| p.perpetrator_violations.include? id}
   end
 
-  def armed_force_group_names
-    perpetrators.map(&:armed_force_group_name).compact
+  def individual_victims
+    incident_value('individual_victims_subform_section').select{|iv| iv.individual_violations.include? id}
   end
 
+  def armed_force_names
+    perpetrators.map(&:armed_force_name).compact
+  end
+
+  def armed_group_names
+    perpetrators.map(&:armed_group_name).compact
+  end
+
+  def individual_victims_age
+    individual_victims.map(&:individual_age).compact
+  end
 end

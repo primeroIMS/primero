@@ -283,7 +283,7 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :find_by_parent_form
 
-    def get_by_unique_id unique_id
+    def get_by_unique_id(unique_id)
       by_unique_id(:key => unique_id).first
     end
     memoize_in_prod :get_by_unique_id
@@ -523,7 +523,7 @@ class FormSection < CouchRest::Model::Base
     end
 
     def determine_parent_form(record_type, apply_to_reports=false)
-      if record_type == "violation"
+      if ["violation", "individual_victim"].include?(record_type)
         "incident"
       elsif record_type.starts_with?("reportable") && apply_to_reports
         # Used to figure out if reportable nested form belongs to incident, child, or tracing request.

@@ -14,7 +14,8 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     'click #apply_filter': 'apply_filters',
     'click .clear_filters': 'clear_filters',
     'click .user_filter': 'get_filter',
-    'change .selectable_date': 'changed_selectable_date'
+    'change .selectable_date': 'changed_selectable_date',
+    'change #violations_selector': 'on_violations_toggle'
   },
 
   date_select_options: [
@@ -29,7 +30,40 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
   initialize: function() {
     _primero.filters = {};
     this.set_current_scope();
+    this.check_selected_violations();
     _primero.chosen('select.chosen-select:visible');
+  },
+
+  on_violations_toggle: function(e) {
+    this.toggle_violations($(e.target).val());
+  },
+
+  toggle_violations: function(value) {
+    $('.violation-fields > div').addClass('hide');
+
+    if (value) {
+      _.each(value, function(v) {
+        $('.violation-fields div[data-type-id="' + v + '"]').removeClass('hide');
+      })
+    }
+  },
+
+  check_selected_violations: function() {
+    var $violation_fields = $('.violation-fields');
+    var $violations_selector = $('#violations_selector');
+    var $selector_values = [];
+
+    _.each(_primero.filters, function(v, k) {
+      var violation_field = $violation_fields.find('input[name="' + k + '"]');
+      
+      if (!_.isEmpty(violation_field.val())) {
+        $selector_values.push($(violation_field).parents('.violation').attr('data-type-id'));
+      }
+    });
+
+    this.toggle_violations($selector_values);
+    $violations_selector.val($selector_values);
+    $violations_selector.trigger('update');
   },
 
   clear_filters: function(e) {
