@@ -17,6 +17,7 @@ import { ActionDialog } from "../../action-dialog";
 import { constructInitialValues } from "../helpers";
 import * as C from "../constants";
 
+import { RECORD_FORM_NAME } from "./constants";
 import FormSectionField from "./FormSectionField";
 import styles from "./styles.css";
 import SubformField from "./subforms";
@@ -201,6 +202,8 @@ const RecordForm = ({
 
   return null;
 };
+
+RecordForm.displayName = RECORD_FORM_NAME;
 
 RecordForm.propTypes = {
   bindSubmitForm: PropTypes.func,

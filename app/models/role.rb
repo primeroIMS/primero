@@ -94,6 +94,7 @@ class Role < ApplicationRecord
   def dashboards
     dashboard_permissions = permissions.find { |p| p.resource == Permission::DASHBOARD }
     dashboards = dashboard_permissions&.actions&.map do |action|
+      next Dashboard.send(action) if Dashboard::DYNAMIC.include?(action)
       begin
         "Dashboard::#{action.upcase}".constantize
       rescue NameError

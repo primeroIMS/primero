@@ -25,3 +25,6 @@ export const selectUserIdle = state =>
   state.getIn([NAMESPACE, "userIdle"], false);
 
 export const selectNetworkStatus = state => state.getIn([NAMESPACE, "online"]);
+
+export const getReportingLocationConfig = state =>
+  state.getIn([NAMESPACE, "reportingLocationConfig"]);

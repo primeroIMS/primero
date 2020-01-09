@@ -11,6 +11,7 @@ import { useI18n } from "../../i18n";
 import { saveRecord, selectRecordAttribute } from "../../records";
 
 import { GuidingQuestions } from "./components";
+import { TEXT_FIELD_NAME } from "./constants";
 
 const useStyles = makeStyles(theme => ({
   hideNameStyle: {
@@ -121,6 +122,8 @@ const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
     />
   ) : null;
 };
+
+TextField.displayName = TEXT_FIELD_NAME;
 
 TextField.propTypes = {
   field: PropTypes.object,

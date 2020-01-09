@@ -4,19 +4,21 @@ import { Box, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
-import { PageHeading } from "../page";
-import RecordActions from "../record-actions";
-import Permission from "../application/permission";
-import { CREATE_RECORDS } from "../../libs/permissions";
+import { PageHeading } from "../../page";
+import RecordActions from "../../record-actions";
+import Permission from "../../application/permission";
+import { CREATE_RECORDS } from "../../../libs/permissions";
+import AddRecordMenu from "../add-record-menu";
+import styles from "../styles.css";
 
-import AddRecordMenu from "./add-record-menu";
-import styles from "./styles.css";
+import { NAME } from "./constants";
 
-const RecordListToolbar = ({
+const Component = ({
   title,
   recordType,
   handleDrawer,
-  mobileDisplay
+  mobileDisplay,
+  selectedRecords
 }) => {
   const css = makeStyles(styles)();
 
@@ -34,17 +36,26 @@ const RecordListToolbar = ({
         <Permission resources={recordType} actions={CREATE_RECORDS}>
           <AddRecordMenu recordType={recordType} />
         </Permission>
-        <RecordActions recordType={recordType} iconColor="primary" />
+        <RecordActions
+          selectedRecords={selectedRecords}
+          recordType={recordType}
+          iconColor="primary"
+          mode={{ isShow: true }}
+          showListActions
+        />
       </Box>
     </Box>
   );
 };
 
-RecordListToolbar.propTypes = {
+Component.propTypes = {
   handleDrawer: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
   recordType: PropTypes.string.isRequired,
+  selectedRecords: PropTypes.array,
   title: PropTypes.string.isRequired
 };
 
-export default RecordListToolbar;
+Component.displayName = NAME;
+
+export default Component;
