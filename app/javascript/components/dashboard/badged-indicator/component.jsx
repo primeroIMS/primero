@@ -22,10 +22,7 @@ const BadgedIndicator = ({ data, lookup, sectionTitle, indicator }) => {
   }
 
   const dashboardChips = lookup.map(lk => {
-    const value = data
-      .get("indicators")
-      .get(indicator)
-      .get(lk.id);
+    const value = data.getIn(["indicators", indicator, lk.id]);
     const countValue = value ? value.get("count") : 0;
     const queryValue = value ? value.get("query") : [];
 
