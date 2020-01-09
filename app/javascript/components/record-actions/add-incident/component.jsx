@@ -58,7 +58,9 @@ const Component = ({
     }
   }, [openIncidentDialog]);
 
-  if (!form?.toJS()?.length) return [];
+  if (!form?.toJS()?.length) {
+    return [];
+  }
 
   const {
     subform_section_id: subformSectionID,
