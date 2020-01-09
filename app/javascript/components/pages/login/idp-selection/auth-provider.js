@@ -34,7 +34,7 @@ export const signIn = async (idp, tokenCallback) => {
     });
 
     if (tokenResponse) {
-      tokenCallback(tokenResponse.idToken.rawIdToken);
+      tokenCallback();
     }
   }
 };

@@ -75,6 +75,10 @@ function handleSuccessCallback(store, successCallback, response, json) {
   }
 }
 
+const getToken = () => {
+  return sessionStorage.getItem("msal.idtoken");
+};
+
 function fetchPayload(action, store, options) {
   const controller = new AbortController();
 
@@ -86,7 +90,6 @@ function fetchPayload(action, store, options) {
     type,
     api: {
       path,
-      headers,
       body,
       params,
       method,
@@ -103,9 +106,18 @@ function fetchPayload(action, store, options) {
     ...(body && { body: JSON.stringify(body) })
   };
 
+  const token = getToken();
+
+  const headers = {};
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
   fetchOptions.headers = new Headers(
     Object.assign(fetchOptions.headers, headers)
   );
+
   const fetchPath = buildPath(path, options, params);
 
   const fetch = async () => {
