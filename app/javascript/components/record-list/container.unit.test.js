@@ -4,8 +4,8 @@ import { Route } from "react-router-dom";
 import { fromJS } from "immutable";
 import { ExpansionPanel } from "@material-ui/core";
 
-// import Filters from "../filters";
-// import Panel from "../filters-builder/Panel";
+import Filters from "../filters";
+import Panel from "../filters-builder/Panel";
 import IndexTable from "../index-table";
 import { ACTIONS } from "../../libs/permissions";
 import { setupMountedComponent } from "../../test";
@@ -48,22 +48,22 @@ describe("<RecordList />", () => {
         listHeaders: {
           cases: [{ id: "name", name: "Name", field_name: "name" }]
         },
-        // filters: {
-        //   cases: [
-        //     {
-        //       name: "cases.filter_by.enabled_disabled",
-        //       field_name: "record_state",
-        //       option_strings_source: null,
-        //       options: {
-        //         en: [
-        //           { id: "true", display_name: "Enabled" },
-        //           { id: "false", display_name: "Disabled" }
-        //         ]
-        //       },
-        //       type: "multi_toggle"
-        //     }
-        //   ]
-        // },
+        filters: {
+          cases: [
+            {
+              name: "cases.filter_by.enabled_disabled",
+              field_name: "record_state",
+              option_strings_source: null,
+              options: {
+                en: [
+                  { id: "true", display_name: "Enabled" },
+                  { id: "false", display_name: "Disabled" }
+                ]
+              },
+              type: "multi_toggle"
+            }
+          ]
+        },
         permissions: {
           cases: [ACTIONS.MANAGE, ACTIONS.DISPLAY_VIEW_PAGE]
         }
@@ -102,14 +102,14 @@ describe("<RecordList />", () => {
     expect(component.find(ViewModal)).to.have.lengthOf(1);
   });
 
-  // it("renders Enabled / Disabled filter expanded", () => {
-    // const filterPanel = component.find(Filters).find(Panel);
-    // const expansionPanel = component.find(Filters).find(ExpansionPanel);
+  it("renders Enabled / Disabled filter expanded", () => {
+    const filterPanel = component.find(Filters).find(Panel);
+    const expansionPanel = component.find(Filters).find(ExpansionPanel);
 
-    // expect(filterPanel).to.have.lengthOf(1);
-    // expect(filterPanel.props().hasValues).to.equal(true);
+    expect(filterPanel).to.have.lengthOf(1);
+    expect(filterPanel.props().hasValues).to.equal(true);
 
-    // expect(expansionPanel).to.have.lengthOf(1);
-    // expect(expansionPanel.props().expanded).to.equal(true);
-  // });
+    expect(expansionPanel).to.have.lengthOf(1);
+    expect(expansionPanel.props().expanded).to.equal(true);
+  });
 });
