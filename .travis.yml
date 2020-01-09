@@ -2,6 +2,8 @@ language: ruby
 bundler_args: "--without production"
 env:
 - RAILS_ENV=test
+- DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
+- DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY
 cache: bundler
 jdk:
   - openjdk8
