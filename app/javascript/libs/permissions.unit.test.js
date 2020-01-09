@@ -38,6 +38,7 @@ describe("Verifying config constant", () => {
       "EXPORT_UNHCR",
       "FLAG",
       "GROUP_READ",
+      "INCIDENT_DETAILS_FROM_CASE",
       "MANAGE",
       "READ",
       "REFERRAL",

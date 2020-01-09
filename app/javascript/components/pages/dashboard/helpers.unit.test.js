@@ -2,10 +2,44 @@ import { fromJS } from "immutable";
 
 import { expect } from "../../../test";
 
-import { toData1D, toListTable, toReportingLocationTable } from "./helpers";
+import * as helper from "./helpers";
+
 
 describe("<Dashboard /> - Helpers", () => {
+  describe("with exposed properties", () => {
+    it("should have known methods", () => {
+      const clone = { ...helper };
+
+      ["toData1D", "toListTable", "toReportingLocationTable"].forEach(
+        property => {
+          expect(clone).to.have.property(property);
+          expect(clone[property]).to.be.a("function");
+          delete clone[property];
+      });
+      expect(clone).to.be.empty;
+    });
+  });
+
   describe("toData1D", () => {
+    const casesWorkflow = fromJS({
+      name: "dashboard.workflow",
+      type: "indicator",
+      stats: {
+        new: {
+          count: 10,
+          query: ["workflow=new"]
+        },
+        service_provision: {
+          count: 15,
+          query: ["workflow=service_provision"]
+        },
+        care_plan: {
+          count: 8,
+          query: ["workflow=care_plan"]
+        }
+      }
+    });
+
     it("should convert data to plain JS", () => {
       const expected = {
         labels: ["New", "Service provision", "Care plan"],
@@ -16,27 +50,6 @@ describe("<Dashboard /> - Helpers", () => {
           ["workflow=care_plan"]
         ]
       };
-
-      const casesWorkflow = fromJS({
-        name: "dashboard.workflow",
-        type: "indicator",
-        indicators: {
-          workflow: {
-            new: {
-              count: 10,
-              query: ["workflow=new"]
-            },
-            service_provision: {
-              count: 15,
-              query: ["workflow=service_provision"]
-            },
-            care_plan: {
-              count: 8,
-              query: ["workflow=care_plan"]
-            }
-          }
-        }
-      });
 
       const workflowLabels = [
         { id: "new", display_text: "New" },
@@ -49,7 +62,15 @@ describe("<Dashboard /> - Helpers", () => {
         { id: "closed", display_text: "Closed" }
       ];
 
-      expect(toData1D(casesWorkflow, workflowLabels)).to.deep.equal(expected);
+      expect(helper.toData1D(casesWorkflow, workflowLabels)).to.deep.equal(
+        expected
+      );
+    });
+
+    it("should not return labels if there are not translations", () => {
+      const { labels } = helper.toData1D(casesWorkflow, []);
+
+      expect(labels).to.be.empty;
     });
   });
 
@@ -118,7 +139,7 @@ describe("<Dashboard /> - Helpers", () => {
         ]
       };
 
-      expect(toListTable(data, labels)).to.deep.equal(expected);
+      expect(helper.toListTable(data, labels)).to.deep.equal(expected);
     });
   });
 
@@ -198,7 +219,7 @@ describe("<Dashboard /> - Helpers", () => {
 
       const i18nMock = { t: () => ({}), locale: "en" };
 
-      const converted = toReportingLocationTable(
+      const converted = helper.toReportingLocationTable(
         data,
         "district",
         i18nMock,

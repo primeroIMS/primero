@@ -6,6 +6,10 @@ import { dataToJS } from "../../../libs";
 import { INDICATOR_NAMES } from "./constants";
 
 const translateLabels = (keys, data) => {
+  if (!data.length) {
+    return {};
+  }
+
   return keys
     .map(k => data.filter(d => d.id === k))
     .flat()
