@@ -4,15 +4,17 @@ import { expect } from "../../../test";
 
 import * as helper from "./helpers";
 
+
 describe("<Dashboard /> - Helpers", () => {
   describe("with exposed properties", () => {
     it("should have known methods", () => {
       const clone = { ...helper };
 
-      ["toData1D", "toListTable"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
-        delete clone[property];
+      ["toData1D", "toListTable", "toReportingLocationTable"].forEach(
+        property => {
+          expect(clone).to.have.property(property);
+          expect(clone[property]).to.be.a("function");
+          delete clone[property];
       });
       expect(clone).to.be.empty;
     });
@@ -77,33 +79,35 @@ describe("<Dashboard /> - Helpers", () => {
       const data = fromJS({
         name: "dashboard.workflow_team",
         type: "indicator",
-        stats: {
-          "": {
+        indicators: {
+          workflow_team: {
             "": {
-              count: 0,
-              query: ["status=open", "owned_by=", "workflow="]
+              "": {
+                count: 0,
+                query: ["status=open", "owned_by=", "workflow="]
+              },
+              case_plan: {
+                count: 0,
+                query: ["status=open", "owned_by=", "workflow="]
+              },
+              new: {
+                count: 0,
+                query: ["status=open", "owned_by=", "workflow="]
+              }
             },
-            case_plan: {
-              count: 0,
-              query: ["status=open", "owned_by=", "workflow="]
-            },
-            new: {
-              count: 0,
-              query: ["status=open", "owned_by=", "workflow="]
-            }
-          },
-          primero: {
-            "": {
-              count: 0,
-              query: ["status=open", "owned_by=primero", "workflow="]
-            },
-            case_plan: {
-              count: 1,
-              query: ["status=open", "owned_by=primero", "workflow=case_plan"]
-            },
-            new: {
-              count: 3,
-              query: ["status=open", "owned_by=primero", "workflow=count"]
+            primero: {
+              "": {
+                count: 0,
+                query: ["status=open", "owned_by=primero", "workflow="]
+              },
+              case_plan: {
+                count: 1,
+                query: ["status=open", "owned_by=primero", "workflow=case_plan"]
+              },
+              new: {
+                count: 3,
+                query: ["status=open", "owned_by=primero", "workflow=count"]
+              }
             }
           }
         }
@@ -136,6 +140,93 @@ describe("<Dashboard /> - Helpers", () => {
       };
 
       expect(helper.toListTable(data, labels)).to.deep.equal(expected);
+    });
+  });
+
+  describe("toReportingLocationTable", () => {
+    it("should convert the data for the table", () => {
+      const locations = fromJS([
+        {
+          id: 1,
+          code: "1506060",
+          type: "sub_district",
+          name: { en: "My District" }
+        }
+      ]);
+
+      const data = fromJS({
+        name: "dashboard.reporting_location",
+        type: "indicator",
+        indicators: {
+          reporting_location_open: {
+            "1506060": {
+              count: 1,
+              query: [
+                "record_state=true",
+                "status=open",
+                "owned_by_location2=1506060"
+              ]
+            }
+          },
+          reporting_location_open_last_week: {
+            "1506060": {
+              count: 0,
+              query: [
+                "record_state=true",
+                "status=open",
+                "created_at=2019-12-25T00:00:00Z..2019-12-31T23:59:59Z",
+                "owned_by_location2=1506060"
+              ]
+            }
+          },
+          reporting_location_open_this_week: {
+            "1506060": {
+              count: 1,
+              query: [
+                "record_state=true",
+                "status=open",
+                "created_at=2020-01-01T00:00:00Z..2020-01-08T19:32:20Z",
+                "owned_by_location2=1506060"
+              ]
+            }
+          },
+          reporting_location_closed_last_week: {
+            "1506060": {
+              count: 0,
+              query: [
+                "record_state=true",
+                "status=closed",
+                "created_at=2019-12-25T00:00:00Z..2019-12-31T23:59:59Z",
+                "owned_by_location2=1506060"
+              ]
+            }
+          },
+          reporting_location_closed_this_week: {
+            "1506060": {
+              count: 0,
+              query: [
+                "record_state=true",
+                "status=closed",
+                "created_at=2020-01-01T00:00:00Z..2020-01-08T19:32:20Z",
+                "owned_by_location2=1506060"
+              ]
+            }
+          }
+        }
+      });
+
+      const expected = [["My District", 1, 0, 1, 0, 0]];
+
+      const i18nMock = { t: () => ({}), locale: "en" };
+
+      const converted = helper.toReportingLocationTable(
+        data,
+        "district",
+        i18nMock,
+        locations
+      ).data;
+
+      expect(converted).to.deep.equal(expected);
     });
   });
 });

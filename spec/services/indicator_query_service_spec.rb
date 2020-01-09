@@ -2,6 +2,14 @@ require 'rails_helper'
 
 describe IndicatorQueryService, search: true do
   before :each do
+    SystemSettings.create!(reporting_location_config: {
+      admin_level: 2,
+      field_key: 'owned_by_location'
+    })
+
+    SystemSettings.current(true)
+
+
     permission_case = Permission.new(
       resource: Permission::CASE, actions: [Permission::READ]
     )
@@ -102,7 +110,7 @@ describe IndicatorQueryService, search: true do
   end
 
   after :each do
-    [User, UserGroup, Role, Child].each(&:destroy_all)
+    clean_data(User, UserGroup, Role, Child, SystemSettings)
     Sunspot.commit
   end
 

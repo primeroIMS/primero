@@ -9,6 +9,7 @@ export {
   getLoadingState,
   getErrors,
   getSelectedForm,
+  getLocations,
   getRecordFormsByUniqueId
 } from "./selectors";
 export { FormSectionField } from "./form";

@@ -1,4 +1,9 @@
+import first from "lodash/first";
+import { fromJS } from "immutable";
+
 import { dataToJS } from "../../../libs";
+
+import { INDICATOR_NAMES } from "./constants";
 
 const translateLabels = (keys, data) => {
   if (!data.length) {
@@ -27,14 +32,21 @@ const getFormattedList = (values, listKey) => {
   });
 };
 
+export const getFirstIndicator = data => {
+  const firstIndicatorName = first(Object.keys(data.indicators));
+
+  return data.indicators[firstIndicatorName];
+};
+
 export const toData1D = (data, localeLabels) => {
   const result = dataToJS(data);
 
   if (result.length || Object.keys(result).length) {
-    const values = Object.values(result.stats);
+    const indicatorData = result.indicators[INDICATOR_NAMES.WORKFLOW];
+    const values = Object.values(indicatorData);
 
     return {
-      labels: translateLabels(Object.keys(result.stats), localeLabels),
+      labels: translateLabels(Object.keys(indicatorData), localeLabels),
       data: values.map(v => v.count),
       query: values.map(v => v.query)
     };
@@ -47,7 +59,10 @@ export const toListTable = (data, localeLabels) => {
   const result = dataToJS(data);
 
   if (result.length || Object.keys(result).length) {
-    const columns = Object.keys(result.stats[""])
+    const indicatorData = result.indicators[INDICATOR_NAMES.WORKFLOW_TEAM];
+    const columns = Object.keys(
+      indicatorData[first(Object.keys(indicatorData))]
+    )
       .sort()
       .reduce((acum, value) => {
         return [
@@ -56,7 +71,7 @@ export const toListTable = (data, localeLabels) => {
         ];
       }, []);
 
-    const { "": removed, ...rows } = result.stats;
+    const { "": removed, ...rows } = indicatorData;
 
     const values = Object.entries(rows).reduce((acum, value) => {
       const [user, userValue] = value;
@@ -78,4 +93,53 @@ export const toListTable = (data, localeLabels) => {
   }
 
   return result;
+};
+
+export const toReportingLocationTable = (data, fieldKey, i18n, locations) => {
+  const columns = [
+    i18n.t(`location.base_types.${fieldKey}`),
+    i18n.t("dashboard.open_cases"),
+    i18n.t("dashboard.new_last_week"),
+    i18n.t("dashboard.new_this_week"),
+    i18n.t("dashboard.closed_last_week"),
+    i18n.t("dashboard.closed_this_week")
+  ];
+
+  const indicators = [
+    INDICATOR_NAMES.REPORTING_LOCATION_OPEN,
+    INDICATOR_NAMES.REPORTING_LOCATION_OPEN_LAST_WEEK,
+    INDICATOR_NAMES.REPORTING_LOCATION_OPEN_THIS_WEEK,
+    INDICATOR_NAMES.REPORTING_LOCATION_ClOSED_LAST_WEEK,
+    INDICATOR_NAMES.REPORTING_LOCATION_ClOSED_THIS_WEEK
+  ];
+
+  const indicatorsData = data.get("indicators") || fromJS([]);
+
+  const locationsByCode = {};
+
+  locations.forEach(location => {
+    locationsByCode[location.get("code")] = location
+      .get("name")
+      .get(i18n.locale);
+  });
+
+  const rows = indicators.reduce((acc, indicator) => {
+    const indicatorData = indicatorsData.get(indicator) || fromJS({});
+
+    indicatorData.keySeq().forEach(key => {
+      const count = indicatorData.get(key).get("count");
+      const locationLabel = locationsByCode[key] ? locationsByCode[key] : key;
+
+      if (key) {
+        acc[key] = acc[key] ? [...acc[key], count] : [locationLabel, count];
+      }
+    });
+
+    return acc;
+  }, {});
+
+  return {
+    columns,
+    data: Object.keys(rows).map(key => rows[key])
+  };
 };

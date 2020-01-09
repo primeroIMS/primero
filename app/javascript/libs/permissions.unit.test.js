@@ -21,6 +21,7 @@ describe("Verifying config constant", () => {
       "DASH_APPROVALS_ASSESSMENT",
       "DASH_APPROVALS_CASE_PLAN",
       "DASH_APPROVALS_CLOSURE",
+      "DASH_REPORTING_LOCATION",
       "DISPLAY_VIEW_PAGE",
       "ENABLE_DISABLE_RECORD",
       "EXPORT_CASE_PDF",
