@@ -8,5 +8,6 @@ export {
   getOption,
   getLoadingState,
   getErrors,
-  getSelectedForm
+  getSelectedForm,
+  getLocations
 } from "./selectors";
