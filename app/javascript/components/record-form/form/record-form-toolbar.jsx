@@ -11,6 +11,7 @@ import RecordActions from "../../record-actions";
 import Permission from "../../application/permission";
 import { FLAG_RECORDS, WRITE_RECORDS } from "../../../libs/permissions";
 
+import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
 import styles from "./styles.css";
 
@@ -110,6 +111,8 @@ const RecordFormToolbar = ({
     </Box>
   );
 };
+
+RecordFormToolbar.displayName = RECORD_FORM_TOOLBAR_NAME;
 
 RecordFormToolbar.propTypes = {
   handleFormSubmit: PropTypes.func.isRequired,

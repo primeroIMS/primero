@@ -19,7 +19,7 @@ const DateFilter = ({ filter }) => {
   const valueRef = useRef();
   const { options } = filter;
   const isDateFieldSelectable = Object.keys?.(options)?.length > 0;
-  const valueSelectedField = options[i18n.locale].filter(option =>
+  const valueSelectedField = options?.[i18n.locale]?.filter(option =>
     Object.keys(getValues({ nest: true })).includes(option.id)
   )?.[0]?.id;
   const [selectedField, setSelectedField] = useState(valueSelectedField || "");
@@ -67,7 +67,7 @@ const DateFilter = ({ filter }) => {
   }, [register, unregister, selectedField, valueRef]);
 
   const renderSelectOptions = () =>
-    options?.[i18n.locale].map(option => (
+    options?.[i18n.locale]?.map(option => (
       <MenuItem value={option.id} key={option.id}>
         {option.display_name}
       </MenuItem>
