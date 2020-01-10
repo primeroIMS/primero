@@ -21,11 +21,10 @@ Create a new form
         "code": "UNICEF/AGENCY_USER_ADMIN_CP",
         "email": "primero_cp@primero.com",
         "agency_id": 1,
-        "role_id": 13,
+        "role_id": "role-primero-cp",
         "time_zone": "UTC",
         "locale": "en",
         "send_mail": true,
-        "module_ids": 1,
         "password_confirmation": "a12345678",
         "password": "a12345678"
         
@@ -50,7 +49,7 @@ No `id` attribute is provided in the `data` hash.
         "user_name": "primero_cp",
         "email": "primero_cp@primero.com",
         "agency_id": 1,
-        "role_id": 13,
+        "role_id": "role-primero-cp",
         "time_zone": "UTC",
         "locale": "en",
         "send_mail": true,

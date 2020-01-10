@@ -30,7 +30,7 @@ Show the JSON representation of a user.
         "user_name": "primero_cp",
         "email": "primero_cp@primero.com",
         "agency_id": 1,
-        "role_id": 19,
+        "role_id": "role-primero-cp",
         "time_zone": "UTC",
         "locale": "en",
         "send_mail": true,
