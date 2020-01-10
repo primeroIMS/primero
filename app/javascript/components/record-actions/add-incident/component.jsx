@@ -12,15 +12,10 @@ import {
 import { MODULES, RECORD_TYPES, ID_FIELD } from "../../../config";
 import { saveRecord, selectRecordsByIndexes } from "../../records";
 import { compactValues } from "../../record-form/helpers";
+import submitForm from "../../../submit-form";
 
 import { NAME, INCIDENT_SUBFORM } from "./constants";
 import Fields from "./fields";
-
-const submitForm = formikRef => {
-  if (formikRef.current) {
-    formikRef.current.submitForm();
-  }
-};
 
 const Component = ({
   openIncidentDialog,

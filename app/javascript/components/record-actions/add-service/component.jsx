@@ -13,14 +13,9 @@ import { MODULES, RECORD_TYPES, ID_FIELD } from "../../../config";
 import { saveRecord, selectRecordsByIndexes } from "../../records";
 import { compactValues } from "../../record-form/helpers";
 import Fields from "../add-incident/fields";
+import submitForm from "../../../submit-form";
 
 import { NAME, SERVICES_SUBFORM } from "./constants";
-
-const submitForm = formikRef => {
-  if (formikRef.current) {
-    formikRef.current.submitForm();
-  }
-};
 
 const Component = ({
   openServiceDialog,
