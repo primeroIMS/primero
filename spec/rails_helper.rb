@@ -42,7 +42,6 @@ RSpec.configure do |config|
   config.include FakeDeviseLogin, type: :request
   config.include FakeLogin, type: :controller
   config.include VerifyAndResetHelpers
-  config.include ModelReloader
 
   config.formatter = :progress
 

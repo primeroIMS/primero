@@ -119,10 +119,11 @@ class SystemSettings < ApplicationRecord
   end
 
   class << self
-    def current
-      @system_settings ||= SystemSettings.first
+    def current(rebuild = false)
+      return @current unless @current.nil? || rebuild
+
+      @current = SystemSettings.first
     end
-    # memoize_in_prod :current
   end
 
   # extend Observable

@@ -25,8 +25,8 @@ export const buildTableColumns = (columns, i18n, recordType, css) => {
                 customHeadRender: columnMeta => emptyHeader(columnMeta),
                 customBodyRender: value => (
                   <ToggleIconCell value={value} icon="alert_count" />
-              )
-            }
+                )
+              }
             : {})
         }
       };

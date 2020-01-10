@@ -2,14 +2,14 @@ class FormSection < ApplicationRecord
 
   include LocalizableJsonProperty
   include Configuration
-  #include Importable #TODO: This will need to be rewritten
+  # include Importable # TODO: This will need to be rewritten
   # include Memoizable
 
-  RECORD_TYPES = ['case', 'incident', 'tracing_request']
+  RECORD_TYPES = %w[case incident tracing_request].freeze
 
   localize_properties :name, :help_text, :description
 
-  has_many :fields, -> { order(:order) }, :dependent => :destroy
+  has_many :fields, -> { order(:order) }, dependent: :destroy
   accepts_nested_attributes_for :fields
   has_many :collapsed_fields, class_name: 'Field', foreign_key: 'collapsed_field_for_subform_section_id'
   has_and_belongs_to_many :roles
@@ -28,9 +28,9 @@ class FormSection < ApplicationRecord
   before_save :sync_form_group, :recalculate_editable
   after_save :recalculate_collapsed_fields
 
-  #TODO: Move to migration
+  # TODO: Move to migration
   def defaults
-    %w(order order_form_group order_subform initial_subforms).each{|p| self[p] ||= 0}
+    %w[order order_form_group order_subform initial_subforms].each { |p| self[p] ||= 0 }
   end
 
   def generate_unique_id
@@ -42,14 +42,16 @@ class FormSection < ApplicationRecord
   # TODO: This method will go away after UIUX refactor
   def form_group_name(opts={})
     locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
-    return name(locale) if self.form_group_id.blank?
+    return name(locale) if form_group_id.blank?
+
     form_group_name_all[locale.to_s]
   end
 
   # This replaces form_group_name above
-  def form_group_name_all
-    return self.name_i18n if self.form_group_id.blank?
-    Lookup.form_group_name_all(self.form_group_id, self.parent_form, self.module_name)
+  def form_group_name_all(lookups = nil)
+    return name_i18n if form_group_id.blank?
+
+    Lookup.form_group_name_all(form_group_id, parent_form, module_name, lookups)
   end
 
   def localized_property_hash(locale=Primero::Application::BASE_LANGUAGE, show_hidden_fields=false)
@@ -78,11 +80,11 @@ class FormSection < ApplicationRecord
 
     def permitted_api_params
       [
-        "id", "unique_id", {"name"=>{}}, {"help_text"=>{}}, {"description"=>{}}, "parent_form", "visible",
-        "order", "order_form_group", "order_subform", "form_group_keyed", "form_group_id", "is_nested",
-        "is_first_tab", "initial_subforms", "subform_prevent_item_removal", "subform_append_only",
-        "subform_header_links", "display_help_text_view", "shared_subform", "shared_subform_group",
-        "is_summary_section", "hide_subform_placeholder", "mobile_form", "collapsed_field_names"
+        'id', 'unique_id', { 'name' => {} }, { 'help_text' => {} }, { 'description' => {} }, 'parent_form',
+        'visible', 'order', 'order_form_group', 'order_subform', 'form_group_keyed', 'form_group_id', 'is_nested',
+        'is_first_tab', 'initial_subforms', 'subform_prevent_item_removal', 'subform_append_only',
+        'subform_header_links', 'display_help_text_view', 'shared_subform', 'shared_subform_group',
+        'is_summary_section', 'hide_subform_placeholder', 'mobile_form', 'collapsed_field_names'
       ]
     end
 
@@ -159,6 +161,10 @@ class FormSection < ApplicationRecord
     #TODO: This needs to be made not hard-coded. Used only in Exporters to exclude binary data
     def binary_form_names
       ['Photos and Audio', 'Other Documents', 'BID Records', 'BIA Records']
+    end
+
+    def form_group_lookups
+      Lookup.where("unique_id like 'lookup-form-group-%'")
     end
 
     #Force eager loading of subforms

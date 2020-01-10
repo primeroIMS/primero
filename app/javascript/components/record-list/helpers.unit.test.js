@@ -4,11 +4,7 @@ import { fromJS } from "immutable";
 import { RECORD_PATH } from "../../config";
 import { fetchCases, fetchIncidents, fetchTracingRequests } from "../records";
 
-import {
-  buildTableColumns,
-  getRecordsFetcherByType,
-  getFiltersSetterByType
-} from "./helpers";
+import { buildTableColumns, getRecordsFetcherByType } from "./helpers";
 
 const i18n = {
   t: name => {

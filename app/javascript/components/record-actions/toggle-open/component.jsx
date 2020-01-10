@@ -6,6 +6,8 @@ import { useI18n } from "../../i18n";
 import { ActionDialog } from "../../action-dialog";
 import { saveRecord } from "../../records";
 
+import { NAME } from "./constants";
+
 const ToggleOpen = ({ close, openReopenDialog, record, recordType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -41,6 +43,8 @@ const ToggleOpen = ({ close, openReopenDialog, record, recordType }) => {
     />
   );
 };
+
+ToggleOpen.displayName = NAME;
 
 ToggleOpen.propTypes = {
   close: PropTypes.func,

@@ -5,10 +5,6 @@ describe SearchFilters::Value do
   describe '.query_scope', search: true do
 
     before :example do
-      reload_model(Child) do
-        allow(Field).to receive(:all_filterable_field_names) { %w(sex) }
-      end
-
       @correct_match = Child.create!(data: {name: 'Correct Match', sex: 'female', age: 12, record_state: true })
       @incorrect_match = Child.create!(data: {name: 'Incorrect Match', sex: 'male', age: 8, record_state: false })
       Sunspot.commit

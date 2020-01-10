@@ -1,14 +1,13 @@
+# frozen_string_literal: true
+
+# This represents the columns that are to be displayed on the record list views
 class Header < ValueObject
   attr_accessor :name, :field_name, :id_search
-
-  @primero_module_cp = PrimeroModule.cp
-  @primero_module_gbv = PrimeroModule.gbv
-  @primero_module_mrm = PrimeroModule.mrm
 
   SHORT_ID = Header.new(name: 'id', field_name: 'short_id', id_search: true)
   CASE_NAME = Header.new(name: 'name', field_name: 'name')
   SURVIVOR_CODE = Header.new(name: 'survivor_code', field_name: 'survivor_code_no')
-  AGE= Header.new(name: 'age', field_name: 'age', id_search: true)
+  AGE = Header.new(name: 'age', field_name: 'age', id_search: true)
   SEX = Header.new(name: 'sex', field_name: 'sex', id_search: true)
   REGISTRATION_DATE = Header.new(name: 'registration_date', field_name: 'registration_date')
   CASE_OPENING_DATE = Header.new(name: 'case_opening_date', field_name: 'case_opening_date')
@@ -49,9 +48,10 @@ class Header < ValueObject
 
     def get_headers(user, record_type)
       case record_type
-        when 'case' then case_headers(user)
-        when 'incident' then incident_headers(user)
-        when 'tracing_request' then tracing_request_headers
+      when 'case' then case_headers(user)
+      when 'incident' then incident_headers(user)
+      when 'tracing_request' then tracing_request_headers
+      else []
       end
     end
 
@@ -59,17 +59,17 @@ class Header < ValueObject
       header_list = []
       header_list << SHORT_ID
       # TODO: There's an id_search logic I'm not sure about
-      header_list << CASE_NAME if user.has_module?(@primero_module_cp.id) && !user.is_manager?
-      header_list << SURVIVOR_CODE if user.has_module?(@primero_module_gbv.id) && !user.is_manager?
-      header_list << AGE if user.has_module?(@primero_module_cp.id)
-      header_list << SEX if user.has_module?(@primero_module_cp.id)
-      header_list << REGISTRATION_DATE if user.has_module?(@primero_module_cp.id)
-      header_list << CASE_OPENING_DATE if user.has_module?(@primero_module_gbv.id)
-      header_list << PHOTO if user.has_module?(@primero_module_cp.id) && user.can?(:view_photo, Child)
+      header_list << CASE_NAME if user.has_module?(PrimeroModule::CP) && !user.is_manager?
+      header_list << SURVIVOR_CODE if user.has_module?(PrimeroModule::GBV) && !user.is_manager?
+      header_list << AGE if user.has_module?(PrimeroModule::CP)
+      header_list << SEX if user.has_module?(PrimeroModule::CP)
+      header_list << REGISTRATION_DATE if user.has_module?(PrimeroModule::CP)
+      header_list << CASE_OPENING_DATE if user.has_module?(PrimeroModule::GBV)
+      header_list << PHOTO if user.has_module?(PrimeroModule::CP) && user.can?(:view_photo, Child)
       header_list << SOCIAL_WORKER if user.is_manager?
-      header_list << OWNED_BY if user.has_module?(@primero_module_cp.id)
-      header_list << OWNED_BY_AGENCY if user.has_module?(@primero_module_cp.id)
-      header_list << ALERT_COUNT if user.has_module?(@primero_module_cp.id)
+      header_list << OWNED_BY if user.has_module?(PrimeroModule::CP)
+      header_list << OWNED_BY_AGENCY if user.has_module?(PrimeroModule::CP)
+      header_list << ALERT_COUNT if user.has_module?(PrimeroModule::CP)
 
       header_list
     end
@@ -77,10 +77,10 @@ class Header < ValueObject
     def incident_headers(user)
       header_list = []
       header_list << SHORT_ID
-      header_list << DATE_OF_INTERVIEW  if user.has_module?(@primero_module_gbv.id)  || user.has_module?(@primero_module_cp.id)
+      header_list << DATE_OF_INTERVIEW if user.has_module?(PrimeroModule::GBV) || user.has_module?(PrimeroModule::CP)
       header_list << DATE_OF_INCIDENT
-      header_list << VIOLENCE_TYPE if user.has_module?(@primero_module_gbv.id)  || user.has_module?(@primero_module_cp.id)
-      header_list << INCIDENT_LOCATION if @primero_module_mrm.present? && user.has_module?(@primero_module_mrm.id)
+      header_list << VIOLENCE_TYPE if user.has_module?(PrimeroModule::GBV) || user.has_module?(PrimeroModule::CP)
+      header_list << INCIDENT_LOCATION if user.has_module?(PrimeroModule::MRM)
       header_list << VIOLATIONS if user.is_manager?
       header_list
     end
@@ -118,12 +118,12 @@ class Header < ValueObject
     end
   end
 
-  def initialize(args={})
+  def initialize(args = {})
     super(args)
   end
 
   def inspect
-    "Header(name: #{self.name}, field_name: #{self.field_name})"
+    "Header(name: #{name}, field_name: #{field_name})"
   end
 
 end

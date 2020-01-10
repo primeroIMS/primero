@@ -12,7 +12,7 @@ import { buildFilter } from "../helpers";
 
 import styles from "./styles.css";
 
-const BadgedIndicator = ({ data, lookup, sectionTitle }) => {
+const BadgedIndicator = ({ data, lookup, sectionTitle, indicator }) => {
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -22,7 +22,7 @@ const BadgedIndicator = ({ data, lookup, sectionTitle }) => {
   }
 
   const dashboardChips = lookup.map(lk => {
-    const value = data.get("stats").get(lk.id);
+    const value = data.getIn(["indicators", indicator, lk.id]);
     const countValue = value ? value.get("count") : 0;
     const queryValue = value ? value.get("query") : [];
 
@@ -62,6 +62,7 @@ BadgedIndicator.displayName = "BadgedIndicator";
 
 BadgedIndicator.propTypes = {
   data: PropTypes.object.isRequired,
+  indicator: PropTypes.string.isRequired,
   lookup: PropTypes.array.isRequired,
   sectionTitle: PropTypes.string
 };

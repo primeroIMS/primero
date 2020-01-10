@@ -32,7 +32,7 @@ class FileAttachment
   end
 
   def self.generate_name(name_prefix = "file", name_suffix = "")
-    filename = [name_prefix, Clock.now.strftime('%Y-%m-%dT%H%M%S')]
+    filename = [name_prefix, Time.now.strftime('%Y-%m-%dT%H%M%S')]
     filename << name_suffix unless name_suffix.blank?
     filename.join('-')
   end

@@ -52,7 +52,8 @@ describe("<RecordSearch />", () => {
       "onChange",
       "value",
       "inputProps",
-      "endAdornment"
+      "endAdornment",
+      "fullWidth"
     ].forEach(property => {
       expect(inputBaseProps).to.have.property(property);
       delete inputBaseProps[property];

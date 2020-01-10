@@ -25,6 +25,7 @@ import { selectAgencies } from "../../application/selectors";
 import { SearchableSelect } from "../../searchable-select";
 import { CODE_FIELD, NAME_FIELD } from "../../../config";
 
+import { SELECT_FIELD_NAME } from "./constants";
 import styles from "./styles.css";
 
 const ITEM_HEIGHT = 48;
@@ -204,6 +205,8 @@ const SelectField = ({
 
   return null;
 };
+
+SelectField.displayName = SELECT_FIELD_NAME;
 
 SelectField.propTypes = {
   disabled: PropTypes.bool,

@@ -14,6 +14,7 @@ import { PieChart } from "../../dashboard/pie-chart";
 import { ACTIONS } from "../../../libs/permissions";
 
 import Dashboard from "./container";
+import { TableBodyRow } from "mui-datatables";
 
 describe("<Dashboard />", () => {
   let component;
@@ -23,8 +24,89 @@ describe("<Dashboard />", () => {
       Dashboard,
       {},
       fromJS({
+        application: {
+          reportingLocationConfig: {
+            label_key: "district",
+            admin_level: 2,
+            field_key: "owned_by_location"
+          }
+        },
+        forms: {
+          options: {
+            locations: [
+              {
+                id: 1,
+                code: "1506060",
+                type: "sub_district",
+                name: { en: "My District" }
+              }
+            ]
+          }
+        },
         records: {
           dashboard: {
+            data: [
+              {
+                name: "dashboard.reporting_location",
+                type: "indicator",
+                indicators: {
+                  reporting_location_open: {
+                    "1506060": {
+                      count: 1,
+                      query: [
+                        "record_state=true",
+                        "status=open",
+                        "owned_by_location2=1506060"
+                      ]
+                    }
+                  },
+                  reporting_location_open_last_week: {
+                    "1506060": {
+                      count: 0,
+                      query: [
+                        "record_state=true",
+                        "status=open",
+                        "created_at=2019-12-25T00:00:00Z..2019-12-31T23:59:59Z",
+                        "owned_by_location2=1506060"
+                      ]
+                    }
+                  },
+                  reporting_location_open_this_week: {
+                    "1506060": {
+                      count: 1,
+                      query: [
+                        "record_state=true",
+                        "status=open",
+                        "created_at=2020-01-01T00:00:00Z..2020-01-08T19:32:20Z",
+                        "owned_by_location2=1506060"
+                      ]
+                    }
+                  },
+                  reporting_location_closed_last_week: {
+                    "1506060": {
+                      count: 0,
+                      query: [
+                        "record_state=true",
+                        "status=closed",
+                        "created_at=2019-12-25T00:00:00Z..2019-12-31T23:59:59Z",
+                        "owned_by_location2=1506060"
+                      ]
+                    }
+                  },
+                  reporting_location_closed_this_week: {
+                    "1506060": {
+                      count: 0,
+                      query: [
+                        "record_state=true",
+                        "status=closed",
+                        "created_at=2020-01-01T00:00:00Z..2020-01-08T19:32:20Z",
+                        "owned_by_location2=1506060"
+                      ]
+                    }
+                  }
+                }
+              }
+            ],
             flags: {
               flags: [
                 {
@@ -73,6 +155,7 @@ describe("<Dashboard />", () => {
               ACTIONS.DASH_CASE_RISK,
               ACTIONS.DASH_WORKFLOW,
               ACTIONS.DASH_WORKFLOW_TEAM,
+              ACTIONS.DASH_REPORTING_LOCATION,
               ACTIONS.DASH_APPROVALS_CLOSURE
             ]
           }
@@ -119,6 +202,16 @@ describe("<Dashboard />", () => {
 
   it("renders the DashboardTable", () => {
     expect(component.find(DashboardTable)).to.have.lengthOf(1);
+  });
+
+  it("renders the Reporting Location Table", () => {
+    expect(
+      component
+        .find({ title: "cases.label" })
+        .find(DashboardTable)
+        .find(TableBody)
+        .find(TableRow)
+    ).to.have.lengthOf(1);
   });
 
   describe("render approvals dashboards assessment", () => {
