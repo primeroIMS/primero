@@ -62,6 +62,7 @@ Rails.application.routes.draw do
       resources :lookups
       resources :locations
       get 'alerts', to: 'alerts#bulk_index'
+      resources :roles, only: [:index, :show, :create, :update, :destroy]
 
     end
   end
