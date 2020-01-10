@@ -64,6 +64,10 @@ class User < ApplicationRecord
       %w(password password_confirmation)
     end
 
+    def association_parameters
+      %w(user_group_ids role_id)
+    end
+
     def get_unique_instance(attributes)
       find_by_user_name(attributes['user_name'])
     end
@@ -166,6 +170,23 @@ class User < ApplicationRecord
         )
     end
 
+    def new_with_properties(properties)
+      user = User.new(properties.except(*self.association_parameters))
+      user.associations_with_properties(properties)
+      user
+    end
+  end
+
+  def update_with_properties(properties)
+    self.assign_attributes(properties.except(*User.association_parameters))
+    self.associations_with_properties(properties)
+  end
+
+  def associations_with_properties(properties)
+    self.role = Role.find_by(unique_id: properties[:role_id]) if properties[:role_id].present?
+    if properties[:user_group_ids].present?
+      self.user_groups = UserGroup.where(unique_id: properties[:user_group_ids]) || []
+    end
   end
 
   def email_entered?

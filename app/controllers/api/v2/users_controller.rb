@@ -21,7 +21,7 @@ module Api::V2
 
     def create
       authorize! :create, User
-      @user = User.new(@user_params)
+      @user = User.new_with_properties(@user_params)
       @user.save!
       status = params[:data][:id].present? ? 204 : 200
       render :create, status: status
@@ -30,7 +30,8 @@ module Api::V2
     def update
       authorize! :disable, @user if @user_params.include?('disabled')
       authorize! :edit_user, @user
-      @user.update_attributes!(@user_params)
+      @user.update_with_properties(@user_params)
+      @user.save!
     end
 
     def destroy
@@ -42,12 +43,13 @@ module Api::V2
 
     def user_params
       @user_params = params.require(:data).permit(
-        (User.attribute_names + User.password_parameters) - User.hidden_attributes
+        (User.attribute_names + User.password_parameters + [ user_group_ids: [] ]
+          ) - User.hidden_attributes
       )
     end
 
     def load_user
-      @user = User.find(params[:id])
+      @user = User.includes(:role).joins(:role).find(params[:id])
     end
 
     def load_extended
