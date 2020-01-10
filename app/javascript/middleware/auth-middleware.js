@@ -45,8 +45,6 @@ const authMiddleware = store => next => action => {
   if (routeChanged && location === "/logout") {
       const usingIdp = store.getState().getIn(["idp", "use_identity_provider"]);
       store.dispatch(attemptSignout(usingIdp));
-
-
   }
 
   if (["/login", "/"].includes(location) && isAuthenticated) {
