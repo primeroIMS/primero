@@ -131,7 +131,8 @@ function fetchPayload(action, store, options) {
         fetchStatus({ store, type }, "FAILURE", json);
 
         if (response.status === 401) {
-          store.dispatch(attemptSignout());
+          const usingIdp = store.getState().getIn(["idp", "use_identity_provider"]);
+          store.dispatch(attemptSignout(usingIdp));
         }
       } else {
         await handleSuccess(store, { type, json, normalizeFunc, path, db });
