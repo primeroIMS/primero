@@ -8,19 +8,23 @@ class User < ApplicationRecord
   delegate :can?, :cannot?, to: :ability
 
   devise :database_authenticatable, :timeoutable,
-    :recoverable, :validatable,
-    :jwt_authenticatable, jwt_revocation_strategy: self
+         :recoverable, :validatable,
+         :jwt_authenticatable, jwt_revocation_strategy: self
 
   belongs_to :role
   belongs_to :agency
 
   has_many :saved_searches
   has_and_belongs_to_many :user_groups
+  has_many :audit_logs
 
   scope :list_by_enabled, -> { where(disabled: false) }
   scope :list_by_disabled, -> { where(disabled: true) }
   scope :by_user_group, (lambda do |ids|
     joins(:user_groups).where(user_groups: { id: ids })
+  end)
+  scope :by_agency, (lambda do |id|
+    joins(:agency).where(agencies: { id: id })
   end)
 
   alias_attribute :organization, :agency
@@ -70,12 +74,8 @@ class User < ApplicationRecord
     end
     # memoize_in_prod :user_id_from_name
 
-    def agencies_for_user(user_names)
-      where(user_name: user_names).map{ |u| u.organization }.uniq
-    end
-
-    def last_login_timestamp(user_name)
-      AuditLog.where(action_name: 'login', user_name: user_name).try(:last).try(:timestamp)
+    def agencies_for_user_names(user_names)
+      Agency.joins(:users).where('users.user_name in (?)', user_names)
     end
 
     def default_sort_field
@@ -193,22 +193,21 @@ class User < ApplicationRecord
     @reporting_location ||= Location.get_reporting_location(self.user_location) if self.user_location.present?
   end
 
-  # NOTE: Expensive not called often
   def last_login
-    timestamp = User.last_login_timestamp(self.user_name)
-    @last_login = self.localize_date(timestamp, "%Y-%m-%d %H:%M:%S %Z") if timestamp.present?
+    login = audit_logs.where(action: AuditLog::LOGIN).first
+    login&.timestamp
   end
 
   def modules
-    role.modules
+    @modules ||= role.modules
   end
 
   def module_unique_ids
-    modules.pluck(:unique_id)
+    @module_unique_ids ||= modules.pluck(:unique_id)
   end
 
-  def has_module?(module_id)
-    modules.exists?(module_id)
+  def has_module?(module_unique_id)
+    module_unique_ids.include?(module_unique_id)
   end
 
   def has_permission?(permission)
@@ -242,27 +241,20 @@ class User < ApplicationRecord
     has_permission_by_permission_type?(record_type.parent_form, Permission::DISPLAY_VIEW_PAGE)
   end
 
-  #TODO: May deprecate this method in favor of record_query_scope
   def managed_users
     if group_permission? Permission::ALL
-      @managed_users ||= User.all
-      @record_scope = [Searchable::ALL_FILTER]
+      User.all
+    elsif group_permission?(Permission::AGENCY)
+      User.by_agency(agency_id)
     elsif group_permission?(Permission::GROUP) && user_group_ids.present?
-      @managed_users ||= User.by_user_group(user_group_ids)
-                             .uniq(&:user_name)
+      User.by_user_group(user_group_ids).uniq(&:user_name)
     else
-      @managed_users ||= [self]
+      [self]
     end
-
-    @managed_user_names ||= @managed_users.map(&:user_name)
-    @record_scope ||= @managed_user_names
-    @managed_users
   end
 
-  #TODO: May deprecate this method in favor of record_query_scope
   def managed_user_names
-    managed_users
-    @managed_user_names
+    @managed_user_names ||= managed_users.pluck(:user_name)
   end
 
   def user_managers
@@ -274,12 +266,6 @@ class User < ApplicationRecord
   def managers
     user_managers
     @managers
-  end
-
-  #TODO: Deprecate this method in favor of record_query_scope
-  def record_scope
-    managed_users
-    @record_scope
   end
 
   # This method indicates what records this user can search for.
@@ -303,27 +289,10 @@ class User < ApplicationRecord
   end
 
   def mobile_login_history
-    AuditLog.where(action_name: 'login', user_name: user_name)
-            .where.not('mobile_data @> ?', { mobile_id: nil }.to_json)
-            .order(timestamp: :desc)
+    audit_logs
+      .where(action: AuditLog::LOGIN)
+      .where.not('audit_logs.metadata @> ?', { mobile_id: nil }.to_json)
   end
-
-  def localize_date(date_time, format = "%d %B %Y at %H:%M (%Z)")
-    #TODO - This is merely a patch for the deploy
-    # This needs to be refactored as a helper
-    # Further work needs to be done to clean up how dates are handled
-    if date_time.is_a?(Date)
-      date_time.in_time_zone(self[:time_zone]).strftime(format)
-    elsif date_time.is_a?(String)
-      DateTime.parse(date_time).in_time_zone(self[:time_zone]).strftime(format)
-    else
-      DateTime.parse(date_time.to_s).in_time_zone(self[:time_zone]).strftime(format)
-    end
-  end
-
-  # def self.memoized_dependencies
-  #   [FormSection, PrimeroModule, Role]
-  # end
 
   def admin?
     group_permission?(Permission::ALL)
@@ -339,7 +308,7 @@ class User < ApplicationRecord
 
   def send_welcome_email(host_url)
     @system_settings ||= SystemSettings.current
-    MailJob.perform_later(self.id, host_url) if self.email.present? && @system_settings.try(:welcome_email_enabled) == true
+    MailJob.perform_later(id, host_url) if email && @system_settings&.welcome_email_enabled
   end
 
   # Used by the User import to populate the password with a random string when the input file has no password

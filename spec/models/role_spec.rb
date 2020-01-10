@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Role do
   before :each do
-    Role.destroy_all
+    clean_data(Role, PrimeroModule)
   end
   it "should not be valid if name is empty" do
     role = Role.new
@@ -42,92 +42,10 @@ describe Role do
     Role.new(:name => "some_role", :permissions => Permission.all_permissions_list, :referral => true).should be_valid
   end
 
-
-
   it "should generate unique_id" do
-    Role.destroy_all
-    role = create :role, :name => 'test role 1234', :permissions => Permission.all_permissions_list, :unique_id => nil
-    role.unique_id.should == "role-test-role-1234"
-  end
-
-  describe "has_permission" do
-    before do
-      Role.all.each(&:destroy)
-      @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
-      @permission_incident_read_write = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
-      @permission_role_assign = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN])
-    end
-
-    context 'when a role has a single permission' do
-      before do
-        @role = Role.new(name: "some_role", permissions: [@permission_case_read])
-        @role.save
-      end
-      context 'and a single action string is passed in' do
-        it "should only grant permissions that are assigned to a role" do
-          expect(@role).to be_valid
-          expect(@role.has_permission(Permission::READ)).to be_truthy
-          expect(@role.has_permission(Permission::WRITE)).to be_falsey
-        end
-      end
-
-      context 'and a colon separated action string is passed in' do
-        it "should only grant permissions that are assigned to a role" do
-          expect(@role.has_permission("actions:#{Permission::READ}")).to be_truthy
-          expect(@role.has_permission("actions:#{Permission::WRITE}")).to be_falsey
-        end
-      end
-
-      context 'and a colon separated resource string is passed in' do
-        it "should only grant permissions that are assigned to a role" do
-          expect(@role.has_permission("resource:#{Permission::CASE}")).to be_truthy
-          expect(@role.has_permission("resource:#{Permission::INCIDENT}")).to be_falsey
-        end
-      end
-    end
-
-    context 'when a role has multiple permissions' do
-      before do
-        @role = Role.new(name: "some_role",
-                         permissions: [@permission_case_read, @permission_incident_read_write, @permission_role_assign],
-                         group_permission: Permission::GROUP)
-      end
-      context 'and a single action string is passed in' do
-        it "should only grant permissions that are assigned to a role" do
-          expect(@role).to be_valid
-          expect(@role.has_permission(Permission::READ)).to be_truthy
-          expect(@role.has_permission(Permission::WRITE)).to be_truthy
-          expect(@role.has_permission(Permission::ASSIGN)).to be_truthy
-          expect(@role.has_permission(Permission::FLAG)).to be_falsey
-        end
-      end
-
-      context 'and a colon separated action string is passed in' do
-        it "should only grant permissions that are assigned to a role" do
-          expect(@role.has_permission("actions:#{Permission::READ}")).to be_truthy
-          expect(@role.has_permission("actions:#{Permission::WRITE}")).to be_truthy
-          expect(@role.has_permission("actions:#{Permission::ASSIGN}")).to be_truthy
-          expect(@role.has_permission("actions:#{Permission::FLAG}")).to be_falsey
-        end
-      end
-
-      context 'and a colon separated resource string is passed in' do
-        it "should only grant permissions that are assigned to a role" do
-          expect(@role.has_permission("resource:#{Permission::CASE}")).to be_truthy
-          expect(@role.has_permission("resource:#{Permission::INCIDENT}")).to be_truthy
-          expect(@role.has_permission("resource:#{Permission::ROLE}")).to be_truthy
-          expect(@role.has_permission("resource:#{Permission::TRACING_REQUEST}")).to be_falsey
-        end
-      end
-
-      context 'amd a colon separated management string is passed in' do
-        it "should only grant permissions that are assigned to a role" do
-          expect(@role.has_permission("management:#{Permission::SELF}")).to be_falsey
-          expect(@role.has_permission("management:#{Permission::GROUP}")).to be_truthy
-          expect(@role.has_permission("management:#{Permission::ALL}")).to be_falsey
-        end
-      end
-    end
+    role = Role.new(name: 'test role 1234', permissions: Permission.all_permissions_list)
+    role.save(validate: false)
+    expect(role.unique_id).to eq('role-test-role-1234')
   end
 
   describe "is_super_user_role?" do

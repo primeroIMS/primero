@@ -5,6 +5,10 @@ class Dashboard < ValueObject
     "dashboard.#{name}"
   end
 
+  DYNAMIC = [
+    'dash_reporting_location'
+  ].freeze
+
   # Note: The constant name of each Dashboard needs to match the value of the corresponding Permission
 
   CASE_OVERVIEW = Dashboard.new(
@@ -117,16 +121,12 @@ class Dashboard < ValueObject
     ]
   ).freeze
 
-  DASH_REPORTING_LOCATION = Dashboard.new(
-    name: 'dash_reporting_location',
-    type: 'indicator',
-    indicators: [
-      Indicators::Case::REPORTING_LOCATION_OPEN,
-      Indicators::Case::REPORTING_LOCATION_OPEN_LAST_WEEK,
-      Indicators::Case::REPORTING_LOCATION_OPEN_THIS_WEEK,
-      Indicators::Case::REPORTING_LOCATION_CLOSED_LAST_WEEK,
-      Indicators::Case::REPORTING_LOCATION_CLOSED_THIS_WEEK
-    ]
-  ).freeze
+  def self.dash_reporting_location
+    Dashboard.new(
+      name: 'reporting_location',
+      type: 'indicator',
+      indicators: Indicators::Case.reporting_location_indicators
+    ).freeze
+  end
 
 end

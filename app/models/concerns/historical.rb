@@ -24,7 +24,7 @@ module Historical
 
     before_save :update_last_updated_at
     before_save :update_organization
-    #TODO: These actions should be asynchronous
+    # TODO: These actions should be asynchronous
     after_create :add_creation_history
     after_update :update_history
   end

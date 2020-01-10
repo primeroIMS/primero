@@ -4,7 +4,6 @@ import { connect, batch, useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { fromJS } from "immutable";
 
 import {
   OptionsBox,
@@ -22,8 +21,10 @@ import { RESOURCES, ACTIONS } from "../../../libs/permissions";
 import Permission from "../../application/permission";
 import { LOOKUPS, MODULES, RECORD_TYPES } from "../../../config";
 import { selectModule } from "../../application";
-import { getOption } from "../../record-form";
+import { getOption, getLocations } from "../../record-form";
+import { getReportingLocationConfig } from "../../application/selectors";
 
+import { INDICATOR_NAMES } from "./constants";
 import * as actions from "./action-creators";
 import {
   getCasesByAssessmentLevel,
@@ -37,10 +38,11 @@ import {
   getWorkflowTeamCases,
   getApprovalsAssessment,
   getApprovalsCasePlan,
-  getApprovalsClosure
+  getApprovalsClosure,
+  getReportingLocation
 } from "./selectors";
 import styles from "./styles.css";
-import { toData1D, toListTable } from "./helpers";
+import { toData1D, toListTable, toReportingLocationTable } from "./helpers";
 
 const Dashboard = ({
   fetchFlags,
@@ -58,10 +60,13 @@ const Dashboard = ({
   casesOverview,
   casesWorkflow,
   casesWorkflowTeam,
+  reportingLocation,
   servicesStatus,
   approvalsAssessment,
   approvalsCasePlan,
-  approvalsClosure
+  approvalsClosure,
+  reportingLocationConfig,
+  locations
 }) => {
   useEffect(() => {
     batch(() => {
@@ -160,6 +165,15 @@ const Dashboard = ({
     ...toListTable(casesWorkflowTeam, workflowLabels)
   };
 
+  const reportingLocationProps = {
+    ...toReportingLocationTable(
+      reportingLocation,
+      reportingLocationConfig?.get("label_key"),
+      i18n,
+      locations
+    )
+  };
+
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
@@ -229,6 +243,7 @@ const Dashboard = ({
                   <BadgedIndicator
                     data={casesByAssessmentLevel}
                     sectionTitle={i18n.t(casesByAssessmentLevel.get("name"))}
+                    indicator={INDICATOR_NAMES.RISK_LEVEL}
                     lookup={labelsRiskLevel}
                   />
                 </OptionsBox>
@@ -253,6 +268,17 @@ const Dashboard = ({
             <Grid item md={12} hidden={!casesWorkflowTeam?.size}>
               <OptionsBox title={i18n.t(casesWorkflowTeam.get("name"))}>
                 <DashboardTable {...casesWorkflowTeamProps} />
+              </OptionsBox>
+            </Grid>
+          </Permission>
+
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={ACTIONS.DASH_REPORTING_LOCATION}
+          >
+            <Grid item md={12} hidden={!reportingLocation?.size}>
+              <OptionsBox title={i18n.t("cases.label")}>
+                <DashboardTable {...reportingLocationProps} />
               </OptionsBox>
             </Grid>
           </Permission>
@@ -300,6 +326,7 @@ Dashboard.propTypes = {
   casesRegistration: PropTypes.object.isRequired,
   casesWorkflow: PropTypes.object.isRequired,
   casesWorkflowTeam: PropTypes.object.isRequired,
+  reportingLocation: PropTypes.object.isRequired,
   fetchCasesByCaseWorker: PropTypes.func.isRequired,
   fetchCasesByStatus: PropTypes.func.isRequired,
   fetchCasesOverview: PropTypes.func.isRequired,
@@ -308,7 +335,9 @@ Dashboard.propTypes = {
   fetchServicesStatus: PropTypes.func.isRequired,
   flags: PropTypes.object.isRequired,
   getDashboardsData: PropTypes.func.isRequired,
+  locations: PropTypes.object,
   openPageActions: PropTypes.func.isRequired,
+  reportingLocationConfig: PropTypes.object,
   servicesStatus: PropTypes.object.isRequired
 };
 
@@ -318,6 +347,7 @@ const mapStateToProps = state => {
     casesByAssessmentLevel: getCasesByAssessmentLevel(state),
     casesWorkflow: getWorkflowIndividualCases(state),
     casesWorkflowTeam: getWorkflowTeamCases(state),
+    reportingLocation: getReportingLocation(state),
     approvalsAssessment: getApprovalsAssessment(state),
     approvalsClosure: getApprovalsClosure(state),
     approvalsCasePlan: getApprovalsCasePlan(state),
@@ -325,7 +355,9 @@ const mapStateToProps = state => {
     casesByCaseWorker: selectCasesByCaseWorker(state),
     casesRegistration: selectCasesRegistration(state),
     casesOverview: selectCasesOverview(state),
-    servicesStatus: selectServicesStatus(state)
+    servicesStatus: selectServicesStatus(state),
+    reportingLocationConfig: getReportingLocationConfig(state),
+    locations: getLocations(state)
   };
 };
 

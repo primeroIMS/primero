@@ -2,6 +2,10 @@ module Indicators
   class QueriedIndicator < AbstractIndicator
     attr_accessor :queries
 
+    def self.type
+      'queried_indicator'
+    end
+
     def facet_name
       name
     end
