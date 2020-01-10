@@ -30,7 +30,9 @@ const SwitchInput = ({ field, commonInputProps }) => {
               label={label}
             />
           </FormGroup>
-          <FormHelperText>{error || helperText}</FormHelperText>
+          {(hasError || helperText) && (
+            <FormHelperText>{error || helperText}</FormHelperText>
+          )}
         </FormControl>
       )}
     </Input>

@@ -16,13 +16,13 @@ const SelectInput = ({ field, commonInputProps }) => {
 
   return (
     <Input field={field}>
-      {methods => (
+      {({ handleChange, inputOptions, inputValue, hasError, error }) => (
         <Autocomplete
           multiple={multiSelect}
           getOptionLabel={optionLabel}
-          onChange={methods.handleChange}
-          options={methods.inputOptions}
-          value={methods.inputValue}
+          onChange={handleChange}
+          options={inputOptions}
+          value={inputValue}
           getOptionSelected={(option, value) => option.id === value.id}
           disabled={disabled}
           renderInput={params => (
@@ -33,8 +33,8 @@ const SelectInput = ({ field, commonInputProps }) => {
               InputLabelProps={{
                 shrink: true
               }}
-              // error={typeof error !== "undefined"}
-              // helperText={error?.message || helperText}
+              error={hasError}
+              helperText={error || helperText}
               margin="normal"
               {...commonProps}
             />

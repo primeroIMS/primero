@@ -5,12 +5,15 @@ import {
   FormControlLabel,
   FormControl,
   FormLabel,
-  Checkbox
+  Checkbox,
+  FormHelperText
 } from "@material-ui/core";
 
 import Input from "../components/input";
 
 const CheckboxInput = ({ field, commonInputProps }) => {
+  const { disabled, helperText } = commonInputProps;
+
   const renderOptions = ({
     inputOptions,
     fieldName,
@@ -20,8 +23,6 @@ const CheckboxInput = ({ field, commonInputProps }) => {
     optionText,
     i18n
   }) => {
-    const { disabled } = commonInputProps;
-
     return inputOptions.map(option => {
       return (
         <FormControlLabel
@@ -46,10 +47,11 @@ const CheckboxInput = ({ field, commonInputProps }) => {
 
   return (
     <Input field={field}>
-      {({hasError, error, ...rest}) => (
+      {({ hasError, error, ...rest }) => (
         <FormControl component="fieldset" error={hasError}>
           <FormLabel>{field.display_name}</FormLabel>
           <FormGroup>{renderOptions(rest)}</FormGroup>
+          <FormHelperText>{error || helperText}</FormHelperText>
         </FormControl>
       )}
     </Input>
@@ -60,7 +62,8 @@ CheckboxInput.displayName = "CheckboxInput";
 
 CheckboxInput.propTypes = {
   commonInputProps: PropTypes.shape({
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    helperText: PropTypes.string
   }),
   field: PropTypes.object.isRequired
 };

@@ -148,11 +148,6 @@ const form = i18n => {
           display_name: i18n.t("user.send_mail"),
           name: "send_mail",
           type: TICK_FIELD
-        }),
-        FieldRecord({
-          display_name: i18n.t("user.verified"),
-          name: "verified",
-          type: TICK_FIELD
         })
       ]
     })
