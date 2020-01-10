@@ -28,7 +28,7 @@ const Component = ({ mode }) => {
   // TODO: Agency, Location, Module, UserGroup should be required also when added
   const validationSchema = yup.object().shape({
     full_name: yup.string().required(),
-    role_id: yup.string().required(),
+    module_ids: yup.string().required(),
     user_name: yup.string().required(),
     ...(formMode.isNew && { password: yup.string().required() }),
     ...(formMode.isNew && { password_confirmation: yup.string().required() })

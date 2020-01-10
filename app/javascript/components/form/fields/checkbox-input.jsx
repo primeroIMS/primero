@@ -11,17 +11,15 @@ import {
 import Input from "../components/input";
 
 const CheckboxInput = ({ field, commonInputProps }) => {
-  const renderOptions = methods => {
-    const {
-      inputOptions,
-      fieldName,
-      handleChange,
-      isObject,
-      inputValue,
-      optionText,
-      i18n
-    } = methods;
-
+  const renderOptions = ({
+    inputOptions,
+    fieldName,
+    handleChange,
+    isObject,
+    inputValue,
+    optionText,
+    i18n
+  }) => {
     const { disabled } = commonInputProps;
 
     return inputOptions.map(option => {
@@ -48,10 +46,10 @@ const CheckboxInput = ({ field, commonInputProps }) => {
 
   return (
     <Input field={field}>
-      {methods => (
-        <FormControl component="fieldset">
+      {({hasError, error, ...rest}) => (
+        <FormControl component="fieldset" error={hasError}>
           <FormLabel>{field.display_name}</FormLabel>
-          <FormGroup>{renderOptions(methods)}</FormGroup>
+          <FormGroup>{renderOptions(rest)}</FormGroup>
         </FormControl>
       )}
     </Input>
