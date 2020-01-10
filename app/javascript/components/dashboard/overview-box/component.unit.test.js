@@ -9,8 +9,9 @@ describe("<OverviewBox />", () => {
   let component;
   const props = {
     items: fromJS({
+      name: "dashboard.approvals_closure",
       type: "indicator",
-      stats: {
+      indicators: {
         approval_closure_pending: {
           count: 5,
           query: [
