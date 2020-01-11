@@ -4,6 +4,7 @@ describe Api::V2::ChildrenController, type: :request do
   include ActiveJob::TestHelper
 
   before :each do
+    clean_data(Alert, AttachmentImage, Child)
     @case1 = Child.create!(
       data: { name: 'Test1', age: 5, sex: 'male' }
     )
