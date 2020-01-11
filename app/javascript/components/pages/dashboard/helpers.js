@@ -6,7 +6,7 @@ import { dataToJS } from "../../../libs";
 import { INDICATOR_NAMES } from "./constants";
 
 const translateLabels = (keys, data) => {
-  if (!data.length) {
+  if (!data?.length) {
     return {};
   }
 
@@ -30,12 +30,6 @@ const getFormattedList = (values, listKey) => {
       return { ...acc, [key]: typeof val === "object" ? val[listKey] : val };
     }, {});
   });
-};
-
-export const getFirstIndicator = data => {
-  const firstIndicatorName = first(Object.keys(data.indicators));
-
-  return data.indicators[firstIndicatorName];
 };
 
 export const toData1D = (data, localeLabels) => {
