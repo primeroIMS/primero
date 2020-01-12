@@ -95,6 +95,7 @@ class Role < ApplicationRecord
     dashboard_permissions = permissions.find { |p| p.resource == Permission::DASHBOARD }
     dashboards = dashboard_permissions&.actions&.map do |action|
       next Dashboard.send(action) if Dashboard::DYNAMIC.include?(action)
+
       begin
         "Dashboard::#{action.upcase}".constantize
       rescue NameError
@@ -121,6 +122,11 @@ class Role < ApplicationRecord
     has_managed_resources?(admin_only_resources)
   end
 
+  def permitted_to_export?
+    permissions&.map(&:actions).flatten.any? { |p| p.start_with?('export') } ||
+      permissions&.any? { |p| Permission.records.include?(p.resource) && p.actions.include?(Permission::MANAGE) }
+  end
+
   def generate_unique_id
     if self.name.present? && self.unique_id.blank?
       self.unique_id = "#{self.class.name}-#{self.name}".parameterize.dasherize
@@ -128,7 +134,7 @@ class Role < ApplicationRecord
   end
 
   def associate_all_forms
-    permissions_with_forms = self.permissions.select{|p| p.resource.in?([Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST])}
+    permissions_with_forms = permissions.select{ |p| p.resource.in?(Permission.records) }
     forms_by_parent = FormSection.all_forms_grouped_by_parent
     permissions_with_forms.map do |permission|
       self.form_sections << forms_by_parent[permission.resource].reject {|f| self.form_sections.include?(f)}

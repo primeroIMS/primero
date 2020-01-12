@@ -15,6 +15,8 @@ class BulkExport < ApplicationRecord
   # TODO: This will change with ActiveStorage
   FileUtils.mkdir_p EXPORT_DIR
 
+  scope :owned, ->(owner_user_name) { where(owned_by: owner_user_name) }
+
   belongs_to :owner, class_name: 'User', foreign_key: 'owned_by', primary_key: 'user_name'
   has_one_attached :export_file
 
@@ -59,25 +61,25 @@ class BulkExport < ApplicationRecord
     @record_query_scope ||= owner&.record_query_scope(model_class)
   end
 
-  def mark_started
+  def mark_started!
     self.status = PROCESSING
     self.started_on = DateTime.now
     # TODO: Log this
-    save
+    save!
   end
 
-  def mark_completed
+  def mark_completed!
     self.status = COMPLETE
     self.completed_on = DateTime.now
     self.password = nil # TODO: yes yes, I know
     # TODO: Log this
-    save
+    save!
   end
 
-  def mark_terminated
+  def mark_terminated!
     self.status = TERMINATED
     self.password = nil
-    save
+    save!
   end
 
   def archive

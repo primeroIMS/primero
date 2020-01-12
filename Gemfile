@@ -11,6 +11,7 @@ gem 'puma',             '~> 4.3.1'
 gem 'file_validators',  '~> 2.3'
 gem 'jbuilder',         '~> 2.8'
 gem 'minipack',         '~> 0.3.3'
+gem 'will_paginate',     '~> 3.1'
 
 # Note: if upgrading Sunspot, update the corresonding version of Solr in Chef if necessaary.
 # Current Solr version is 5.3.1
@@ -40,8 +41,6 @@ gem 'deep_merge',        '~> 1.2', require: 'deep_merge/rails_compat'
 
 gem 'activerecord-nulldb-adapter'
 
-# TODO: Re-evaluate if we still need this
-gem 'will_paginate',     '~> 3.1'
 
 # Security assertions:
 gem "nokogiri",          ">= 1.10.4"
