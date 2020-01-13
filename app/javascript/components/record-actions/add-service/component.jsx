@@ -12,14 +12,14 @@ import {
 import { MODULES, RECORD_TYPES, ID_FIELD } from "../../../config";
 import { saveRecord, selectRecordsByIndexes } from "../../records";
 import { compactValues } from "../../record-form/helpers";
+import Fields from "../add-incident/fields";
 import submitForm from "../../../submit-form";
 import resetForm from "../../../reset-form";
 
-import { NAME, INCIDENT_SUBFORM } from "./constants";
-import Fields from "./fields";
+import { NAME, SERVICES_SUBFORM } from "./constants";
 
 const Component = ({
-  openIncidentDialog,
+  openServiceDialog,
   close,
   recordType,
   selectedRowsIndex
@@ -32,7 +32,7 @@ const Component = ({
     getRecordFormsByUniqueId(state, {
       recordType: RECORD_TYPES[recordType],
       primeroModule: MODULES.CP,
-      formName: INCIDENT_SUBFORM
+      formName: SERVICES_SUBFORM
     })
   );
 
@@ -43,14 +43,12 @@ const Component = ({
   );
 
   useEffect(() => {
-    if (openIncidentDialog) {
+    if (openServiceDialog) {
       resetForm(formikRef);
     }
-  }, [openIncidentDialog]);
+  }, [openServiceDialog]);
 
-  if (!form?.toJS()?.length) {
-    return [];
-  }
+  if (!form?.toJS()?.length) return [];
 
   const {
     subform_section_id: subformSectionID,
@@ -65,9 +63,9 @@ const Component = ({
       variant: "contained",
       autoFocus: true
     },
-    dialogTitle: i18n.t("actions.incident_details_from_case"),
+    dialogTitle: i18n.t("actions.services_section_from_case"),
     onClose: close,
-    open: openIncidentDialog,
+    open: openServiceDialog,
     successHandler: () => submitForm(formikRef)
   };
 
@@ -99,7 +97,7 @@ const Component = ({
             "update",
             body,
             id,
-            i18n.t(`incident.messages.creation_success`),
+            i18n.t(`actions.services_from_case_creation_success`),
             false
           )
         )
@@ -121,7 +119,7 @@ const Component = ({
 
 Component.propTypes = {
   close: PropTypes.func,
-  openIncidentDialog: PropTypes.bool,
+  openServiceDialog: PropTypes.bool,
   records: PropTypes.array,
   recordType: PropTypes.string,
   selectedRowsIndex: PropTypes.array
