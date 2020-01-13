@@ -15,6 +15,7 @@ import { createMount } from "@material-ui/core/test-utils";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import { useForm, FormContext } from "react-hook-form";
+import { fromJS } from 'immutable'
 
 import { ApplicationProvider } from "../components/application/provider";
 import { I18nProvider } from "../components/i18n";
@@ -29,7 +30,7 @@ export const setupMountedComponent = (
 ) => {
   const history = createBrowserHistory();
   const mockStore = configureStore([routerMiddleware(history), thunk]);
-  const store = mockStore(initialState);
+  const store = mockStore(fromJS(initialState));
 
   const FormikComponent = ({ formikProps, componentProps }) => {
     if (isEmpty(formikProps)) {
