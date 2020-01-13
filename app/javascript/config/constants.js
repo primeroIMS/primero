@@ -65,7 +65,8 @@ export const RECORD_PATH = {
   dashboards: "dashboards",
   incidents: "incidents",
   tasks: "tasks",
-  tracing_requests: "tracing_requests"
+  tracing_requests: "tracing_requests",
+  users: "users"
 };
 
 export const RECORD_OWNER = "record_owner";
@@ -75,6 +76,12 @@ export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
 export const REFERRAL = "referral";
 
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
+
+export const RECORD_INFORMATION = [
+  RECORD_OWNER,
+  TRANSFERS_ASSIGNMENTS,
+  REFERRAL
+];
 
 export const ROUTES = {
   account: "/account",
@@ -89,7 +96,9 @@ export const ROUTES = {
   reports: "/reports",
   support: "/support",
   tasks: "/tasks",
-  tracing_requests: "/tracing_requests"
+  tracing_requests: "/tracing_requests",
+  admin: "/admin",
+  admin_users: "/admin/users"
 };
 
 export const PERMITTED_URL = [
@@ -101,7 +110,9 @@ export const PERMITTED_URL = [
   ROUTES.support,
   ROUTES.cases,
   ROUTES.tracing_requests,
-  ROUTES.incidents
+  ROUTES.incidents,
+  ROUTES.admin,
+  ROUTES.admin_users
 ];
 
 export const DATE_FORMAT = "dd-MMM-yyyy";

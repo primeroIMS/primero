@@ -123,6 +123,11 @@ const Nav = () => {
       divider: true
     },
     { name: username, to: ROUTES.account, icon: "account" },
+    {
+      name: i18n.t("navigation.settings"),
+      to: ROUTES.admin_users,
+      icon: "settings"
+    },
     { name: i18n.t("navigation.logout"), to: ROUTES.logout, icon: "logout" }
   ];
 
@@ -149,10 +154,7 @@ const Nav = () => {
             classes={{ primary: css.listText }}
           />
           {menuEntry.jewelCount ? (
-            <Jewel
-              value={menuEntry.jewelCount}
-              mobileDisplay={mobileDisplay}
-            />
+            <Jewel value={menuEntry.jewelCount} mobileDisplay={mobileDisplay} />
           ) : null}
         </NavLink>
       </ListItem>
@@ -166,14 +168,14 @@ const Nav = () => {
       return PERMITTED_URL.includes(menuEntry.to) ? (
         renderedMenuEntries
       ) : (
-          <Permission
-            key={menuEntry.to}
-            resources={menuEntry.resources}
-            actions={menuEntry.actions}
-          >
-            {renderedMenuEntries}
-          </Permission>
-        );
+        <Permission
+          key={menuEntry.to}
+          resources={menuEntry.resources}
+          actions={menuEntry.actions}
+        >
+          {renderedMenuEntries}
+        </Permission>
+      );
     });
   };
 
