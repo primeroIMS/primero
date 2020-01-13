@@ -5,14 +5,14 @@ export const ACTIONS = {
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
   CLOSE: "close",
   CREATE: "create",
-  DASH_CASE_RISK: "case_risk",
-  DASH_TASKS: "dash_tasks",
-  DASH_REPORTING_LOCATION: "dash_reporting_location",
-  DASH_WORKFLOW_TEAM: "dash_workflow_team",
-  DASH_WORKFLOW: "dash_workflow",
   DASH_APPROVALS_ASSESSMENT: "approvals_assessment",
   DASH_APPROVALS_CASE_PLAN: "approvals_case_plan",
   DASH_APPROVALS_CLOSURE: "approvals_closure",
+  DASH_CASE_RISK: "case_risk",
+  DASH_REPORTING_LOCATION: "dash_reporting_location",
+  DASH_TASKS: "dash_tasks",
+  DASH_WORKFLOW: "dash_workflow",
+  DASH_WORKFLOW_TEAM: "dash_workflow_team",
   DISPLAY_VIEW_PAGE: "display_view_page",
   ENABLE_DISABLE_RECORD: "enable_disable_record",
   EXPORT_CASE_PDF: "export_case_pdf",
@@ -35,6 +35,7 @@ export const ACTIONS = {
   REFERRAL: "referral",
   REOPEN: "reopen",
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
+  SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   TRANSFER: "transfer",
   WRITE: "write"
 };
@@ -87,6 +88,8 @@ export const DISPLAY_VIEW_PAGE = [...MANAGE, ACTIONS.DISPLAY_VIEW_PAGE];
 export const SHOW_TASKS = [...MANAGE, ACTIONS.DASH_TASKS];
 
 export const ADD_INCIDENT = [...MANAGE, ACTIONS.INCIDENT_DETAILS_FROM_CASE];
+
+export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
 
 export const SHOW_EXPORTS = [
   ...MANAGE,
