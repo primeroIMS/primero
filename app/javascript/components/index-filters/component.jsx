@@ -6,7 +6,7 @@ import qs from "qs";
 import isEmpty from "lodash/isEmpty";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
-import { Tabs, Tab } from "@material-ui/core";
+import { Tabs, Tab, Link } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { fromJS } from "immutable";
 
@@ -14,9 +14,10 @@ import { SavedSearches, fetchSavedSearches } from "../saved-searches";
 import SavedSearchesForm from "../saved-searches/SavedSearchesForm";
 import { currentUser } from "../user";
 import { useI18n } from "../i18n";
+import { RECORD_PATH } from "../../config";
 
 import { filterType, compactFilters } from "./utils";
-import { HIDDEN_FIELDS } from "./constants";
+import { HIDDEN_FIELDS, PRIMARY_FILTERS } from "./constants";
 import { Search } from "./components/filter-types";
 import { getFiltersByRecordType } from "./selectors";
 import { applyFilters, setFilters } from "./action-creators";
@@ -29,6 +30,8 @@ const Component = ({ recordType, defaultFilters }) => {
   const [open, setOpen] = useState(false);
   const [rerender, setRerender] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
+  const [more, setMore] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState([]);
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
   const dispatch = useDispatch();
@@ -43,8 +46,57 @@ const Component = ({ recordType, defaultFilters }) => {
 
   const userName = useSelector(state => currentUser(state));
 
+  console.log("SELECTEDFILTER", selectedFilter);
+
+  const renderSecondaryFilters = (primary, defaultFiltersList) => {
+    const secondaryFilters = filters.filter(
+      filter =>
+        ![
+          ...primary.map(p => p.field_name),
+          ...defaultFiltersList.map(d => d.field_name),
+          ...selectedFilter
+        ].includes(filter.field_name)
+    );
+
+    return secondaryFilters.map(filter => {
+      const Filter = filterType(filter.type);
+
+      if (!Filter) return null;
+
+      return (
+        <Filter
+          filter={filter}
+          key={filter.field_name}
+          selectedFilter={selectedFilter}
+          setSelectedFilter={setSelectedFilter}
+        />
+      );
+    });
+  };
+
+  const allAvailableFilters = filters;
+  const pFilters = allAvailableFilters.filter(f =>
+    PRIMARY_FILTERS.includes(f.field_name)
+  );
+  const defaultf = allAvailableFilters.filter(f =>
+    [...defaultFilters.keys()].includes(f.field_name)
+  );
+
   const renderFilters = () => {
-    return filters.map(filter => {
+    let primaryFilters = filters;
+
+    if (recordType === RECORD_PATH.cases) {
+      const selectedOnes = primaryFilters.filter(f =>
+        selectedFilter.includes(f.field_name)
+      );
+
+      console.log(selectedOnes);
+      const mergedFilters = fromJS([...pFilters, ...defaultf, ...selectedOnes]);
+
+      primaryFilters = mergedFilters;
+    }
+
+    return primaryFilters.map(filter => {
       const Filter = filterType(filter.type);
 
       if (!Filter) return null;
@@ -136,6 +188,26 @@ const Component = ({ recordType, defaultFilters }) => {
             <>
               <Actions handleSave={handleSave} handleClear={handleClear} />
               {renderFilters()}
+              {/* TODO: Move to a new component */}
+              {recordType === RECORD_PATH.cases ? (
+                <>
+                  <br />
+                  {more ? (
+                    <>
+                      <Link href="#" onClick={() => setMore(false)}>
+                        Less...
+                      </Link>
+                      <br />
+                      <br />
+                      {renderSecondaryFilters(pFilters, defaultf)}
+                    </>
+                  ) : (
+                    <Link href="#" onClick={() => setMore(true)}>
+                      More...
+                    </Link>
+                  )}
+                </>
+              ) : null}
             </>
           )}
           {tabIndex === 1 && (
