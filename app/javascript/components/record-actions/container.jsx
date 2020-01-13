@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-import { RECORD_TYPES } from "../../config";
+import { RECORD_TYPES, RECORD_PATH } from "../../config";
 import { useI18n } from "../i18n";
 import { getPermissionsByRecord } from "../user/selectors";
 import {
@@ -12,6 +12,7 @@ import {
   EXPORT_CUSTOM,
   ENABLE_DISABLE_RECORD,
   ADD_NOTE,
+  ADD_INCIDENT,
   checkPermissions
 } from "../../libs/permissions";
 import Permission from "../application/permission";
@@ -21,14 +22,23 @@ import Notes from "./notes";
 import { ToggleEnable } from "./toggle-enable";
 import { ToggleOpen } from "./toggle-open";
 import { Transitions } from "./transitions";
+import AddIncident from "./add-incident";
 
-const Container = ({ recordType, iconColor, record, mode }) => {
+const Container = ({
+  recordType,
+  iconColor,
+  record,
+  mode,
+  showListActions,
+  selectedRecords
+}) => {
   const i18n = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openNotesDialog, setOpenNotesDialog] = useState(false);
   const [transitionType, setTransitionType] = useState("");
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
+  const [incidentDialog, setIncidentDialog] = useState(false);
 
   const enableState =
     record && record.get("record_state") ? "disable" : "enable";
@@ -78,6 +88,8 @@ const Container = ({ recordType, iconColor, record, mode }) => {
     ACTIONS.TRANSFER
   ]);
 
+  const canAddIncident = checkPermissions(userPermissions, ADD_INCIDENT);
+
   const canCustomExport = checkPermissions(userPermissions, EXPORT_CUSTOM);
 
   const handleClick = event => {
@@ -123,6 +135,10 @@ const Container = ({ recordType, iconColor, record, mode }) => {
 
   const handleNotesOpen = () => {
     setOpenNotesDialog(true);
+  };
+
+  const handleIncidentDialog = () => {
+    setIncidentDialog(true);
   };
 
   const canOpenOrClose =
@@ -187,11 +203,10 @@ const Container = ({ recordType, iconColor, record, mode }) => {
     },
     {
       name: i18n.t("actions.incident_details_from_case"),
-      action: () => {
-        // eslint-disable-next-line no-console
-        console.log("Some action");
-      },
-      recordType: "cases"
+      action: handleIncidentDialog,
+      recordType: RECORD_PATH.cases,
+      recordListAction: true,
+      condition: canAddIncident
     },
     {
       name: i18n.t("actions.services_section_from_case"),
@@ -239,6 +254,36 @@ const Container = ({ recordType, iconColor, record, mode }) => {
     />
   );
 
+  const actionItems = actions
+    .filter(a => {
+      const actionCondition = typeof a.condition === "undefined" || a.condition;
+
+      if (showListActions) {
+        return a.recordListAction && actionCondition;
+      }
+
+      return (
+        (a.recordType === "all" ||
+          a.recordType === recordType ||
+          (Array.isArray(a.recordType) && a.recordType.includes(recordType))) &&
+        actionCondition
+      );
+    })
+    .map(action => {
+      const disabled = showListActions && !selectedRecords.length;
+
+      return (
+        <MenuItem
+          key={action.name}
+          selected={action.name === "Pyxis"}
+          onClick={() => handleItemAction(action.action)}
+          disabled={disabled}
+        >
+          {action.name}
+        </MenuItem>
+      );
+    });
+
   return (
     <>
       {mode && mode.isShow ? (
@@ -259,25 +304,7 @@ const Container = ({ recordType, iconColor, record, mode }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {actions
-          .filter(a => {
-            return (
-              (a.recordType === "all" ||
-                a.recordType === recordType ||
-                (Array.isArray(a.recordType) &&
-                  a.recordType.includes(recordType))) &&
-              (typeof a.condition === "undefined" || a.condition)
-            );
-          })
-          .map(action => (
-            <MenuItem
-              key={action.name}
-              selected={action.name === "Pyxis"}
-              onClick={() => handleItemAction(action.action)}
-            >
-              {action.name}
-            </MenuItem>
-          ))}
+        {actionItems}
       </Menu>
 
       {canOpenOrClose ? toggleOpenDialog : null}
@@ -287,6 +314,16 @@ const Container = ({ recordType, iconColor, record, mode }) => {
       </Permission>
 
       <Transitions {...transitionsProps} />
+
+      <Permission resources={recordType} actions={ADD_INCIDENT}>
+        <AddIncident
+          openIncidentDialog={incidentDialog}
+          close={() => setIncidentDialog(false)}
+          recordType={recordType}
+          records={[]}
+          selectedRowsIndex={selectedRecords}
+        />
+      </Permission>
 
       <Permission resources={recordType} actions={ADD_NOTE}>
         <Notes
@@ -306,7 +343,9 @@ Container.propTypes = {
   iconColor: PropTypes.string,
   mode: PropTypes.object,
   record: PropTypes.object,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  selectedRecords: PropTypes.array,
+  showListActions: PropTypes.bool
 };
 
 export default Container;

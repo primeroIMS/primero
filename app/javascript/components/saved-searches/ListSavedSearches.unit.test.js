@@ -44,7 +44,9 @@ describe("<ListSavedSearches /> - Component", () => {
       {
         recordType: "cases",
         savedSearches: List(savedSearches),
-        resetFilters: () => {}
+        resetFilters: () => {},
+        setTabIndex: () => {},
+        setRerender: () => {}
       },
       Map({
         records: Map({

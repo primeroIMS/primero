@@ -13,6 +13,8 @@ import Form, {
 } from "../../form";
 import { saveRecord } from "../../records";
 
+import { NAME } from "./constants";
+
 const validationSchema = yup.object().shape({
   note_subject: yup.string().required(),
   note_text: yup.string().required()
@@ -82,7 +84,7 @@ const Component = ({ close, openNotesDialog, record, recordType }) => {
   );
 };
 
-Component.displayName = "Notes";
+Component.displayName = NAME;
 
 Component.propTypes = {
   close: PropTypes.func,

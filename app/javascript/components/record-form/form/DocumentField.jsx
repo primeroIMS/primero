@@ -19,6 +19,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 
 import { useI18n } from "../../i18n";
 
+import { DOCUMENT_FIELD_NAME } from "./constants";
 import DateField from "./DateField";
 import styles from "./styles.css";
 
@@ -156,6 +157,8 @@ const DocumentField = ({
     </>
   );
 };
+
+DocumentField.displayName = DOCUMENT_FIELD_NAME;
 
 DocumentField.propTypes = {
   field: PropTypes.object,

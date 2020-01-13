@@ -1066,6 +1066,7 @@ en:
     change_password: "Change your password"
     forgot_password: "Forgot your password?"
     welcome_email:
+      subject: "First time login to %{host} for user %{user}"
       greeting: "Welcome to Primero,"
       url_label: "Primero"
       enabled_label: "Send Welcome Email?"
@@ -1796,10 +1797,10 @@ en:
       other: "and %{stat} <span>rejected</span> Transfers "
     count_waiting_for_acceptance_transfers: "You have %{stat} Transfers <span>waiting</span> for your acceptance"
     open_cases: "Open Cases"
-    new_last_week: "New <span>(last week)</span>"
-    new_this_week: "New <span>(this week)</span>"
-    closed_last_week: "Closed <span>(last week)</span>"
-    closed_this_week: "Closed <span>(this week)</span>"
+    new_last_week: "New (last week)"
+    new_this_week: "New (this week)"
+    closed_last_week: "Closed (last week)"
+    closed_this_week: "Closed (this week)"
     you_have: "You have "
     and: "and "
     flagged: "Flagged"
@@ -2055,6 +2056,9 @@ en:
     notes: "Add Notes"
     incident_details_from_case: "Add Incident"
     services_section_from_case: "Add Service Provision"
+    next: "Next"
+    previous: "Previous"
+    save: "Save"
     description:
       valid: "Valid record"
       invalid: "Invalid record"
@@ -2107,6 +2111,7 @@ en:
       all: Excel
       one: Excel
       selected: Selected to Excel
+      selected_fields: 'Selected Fields'
     json:
       all: JSON
       one: JSON

@@ -6,19 +6,19 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  DialogContentText,
-  IconButton
+  DialogContentText
 } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
-import CloseIcon from "@material-ui/icons/Close";
 
 import { useI18n } from "../i18n";
+
+import TitleWithClose from "./text-with-close";
 
 const ActionDialog = ({
   open,
   successHandler,
   cancelHandler,
   dialogTitle,
+  dialogSubtitle,
   dialogText,
   confirmButtonLabel,
   children,
@@ -35,32 +35,6 @@ const ActionDialog = ({
     if (!omitCloseAfterSuccess) handleClose();
   };
 
-  const styles = theme => ({
-    closeButton: {
-      position: "absolute",
-      right: theme.spacing(1),
-      top: theme.spacing(1),
-      color: theme.palette.grey[500]
-    }
-  });
-
-  const TitleWithClose = withStyles(styles)(props => {
-    const { classes, closeHandler } = props;
-
-    return (
-      <DialogTitle>
-        {dialogTitle}
-        <IconButton
-          aria-label="close"
-          className={classes.closeButton}
-          onClick={closeHandler}
-        >
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
-    );
-  });
-
   const defaultSuccessButtonProps = {
     color: "primary",
     autoFocus: true
@@ -70,6 +44,16 @@ const ActionDialog = ({
     confirmButtonProps && Object.keys(confirmButtonProps)
       ? confirmButtonProps
       : defaultSuccessButtonProps;
+
+  const dialogHeader = onClose ? (
+    <TitleWithClose
+      dialogTitle={dialogTitle}
+      dialogSubtitle={dialogSubtitle}
+      closeHandler={handleClose}
+    />
+  ) : (
+    <DialogTitle>{dialogTitle}</DialogTitle>
+  );
 
   return (
     <div>
@@ -81,12 +65,7 @@ const ActionDialog = ({
         aria-labelledby="action-dialog-title"
         aria-describedby="action-dialog-description"
       >
-        {onClose ? (
-          <TitleWithClose closeHandler={handleClose} />
-        ) : (
-          <DialogTitle>{dialogTitle}</DialogTitle>
-        )}
-
+        {dialogHeader}
         <DialogContent>
           {dialogText ? (
             <DialogContentText>{dialogText}</DialogContentText>
@@ -119,6 +98,7 @@ ActionDialog.propTypes = {
   ]),
   confirmButtonLabel: PropTypes.string,
   confirmButtonProps: PropTypes.object,
+  dialogSubtitle: PropTypes.string,
   dialogText: PropTypes.string,
   dialogTitle: PropTypes.string,
   omitCloseAfterSuccess: PropTypes.bool,

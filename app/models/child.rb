@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 class Child < ApplicationRecord
   self.table_name = 'cases'
 
   CHILD_PREFERENCE_MAX = 3
-  RISK_LEVEL_HIGH = 'high' ; RISK_LEVEL_NONE = 'none'
+  RISK_LEVEL_HIGH = 'high'
+  RISK_LEVEL_NONE = 'none'
 
   class << self
     def parent_form
@@ -93,18 +96,22 @@ class Child < ApplicationRecord
     configure_searchable(Child)
 
     quicksearch_fields.each do |f|
-      text(f) { self.data[f] }
+      text(f) { data[f] }
     end
 
-    %w[date_case_plan_initiated assessment_requested_on date_closure].each{|f| date(f)}
-
+    %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
     boolean :estimated
     integer :day_of_birth
+    integer :age
 
     string :status, as: 'status_sci'
     string :risk_level, as: 'risk_level_sci' do
       risk_level.present? ? risk_level : RISK_LEVEL_NONE
     end
+    string :sex, as: 'sex_sci'
+    string :national_id_no, as: 'national_id_no_sci'
+    string :protection_concerns, multiple: true
+
 
     date :assessment_due_dates, multiple: true do
       Tasks::AssessmentTask.from_case(self).map(&:due_date)
@@ -179,7 +186,7 @@ class Child < ApplicationRecord
   end
 
   def validate_date_of_birth
-    if self.date_of_birth.present? && (!self.date_of_birth.is_a?(Date) || self.date_of_birth.year > Date.today.year)
+    if date_of_birth.present? && (!date_of_birth.is_a?(Date) || date_of_birth.year > Date.today.year)
       errors.add(:date_of_birth, I18n.t("errors.models.child.date_of_birth"))
       #error_with_section(:date_of_birth, I18n.t("errors.models.child.date_of_birth")) #TODO: Remove with UIUIX?
       false
@@ -189,7 +196,7 @@ class Child < ApplicationRecord
   end
 
   def validate_registration_date
-    if self.registration_date.present? && (!self.registration_date.is_a?(Date) || self.registration_date.year > Date.today.year)
+    if registration_date.present? && (!registration_date.is_a?(Date) || registration_date.year > Date.today.year)
       errors.add(:registration_date, I18n.t("messages.enter_valid_date"))
       #error_with_section(:registration_date, I18n.t("messages.enter_valid_date")) #TODO: Remove with UIUIX?
       false
@@ -199,8 +206,9 @@ class Child < ApplicationRecord
   end
 
   def validate_child_wishes
-    return true if self.data['child_preferences_section'].nil? || self.data['child_preferences_section'].size <= CHILD_PREFERENCE_MAX
-    errors.add(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
+    return true if data['child_preferences_section'].nil? || data['child_preferences_section'].size <= CHILD_PREFERENCE_MAX
+
+    errors.add(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", preferences_count: CHILD_PREFERENCE_MAX))
     #TODO: Remove with UIUIX?
     #error_with_section(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
   end
@@ -225,7 +233,7 @@ class Child < ApplicationRecord
 
   def set_instance_id
     system_settings = SystemSettings.current
-    self.case_id ||= self.unique_identifier
+    self.case_id ||= unique_identifier
     self.case_id_code ||= auto_populate('case_id_code', system_settings)
     self.case_id_display ||= create_case_id_display(system_settings)
   end
@@ -240,7 +248,7 @@ class Child < ApplicationRecord
   end
 
   def create_case_id_display(system_settings)
-    [self.case_id_code, self.short_id].reject(&:blank?).join(self.auto_populate_separator('case_id_code', system_settings))
+    [case_id_code, short_id].compact.join(auto_populate_separator('case_id_code', system_settings))
   end
 
   def family(relation=nil)

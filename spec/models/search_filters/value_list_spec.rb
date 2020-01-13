@@ -5,10 +5,6 @@ describe SearchFilters::ValueList do
   describe '.query_scope', search: true do
 
     before :example do
-      reload_model(Child) do
-        allow(Field).to receive(:all_filterable_multi_field_names) { %w(protection_concerns) }
-      end
-
       @correct_match1 = Child.create!(data: {name: 'Correct Match', protection_concerns: %w(statelessness) })
       @correct_match2 = Child.create!(data: {name: 'Correct Match', protection_concerns: %w(trafficked) })
       @incorrect_match = Child.create!(data: {name: 'Incorrect Match', protection_concerns: %w(labor) })
