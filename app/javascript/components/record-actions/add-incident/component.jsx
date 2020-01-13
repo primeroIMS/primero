@@ -12,15 +12,11 @@ import {
 import { MODULES, RECORD_TYPES, ID_FIELD } from "../../../config";
 import { saveRecord, selectRecordsByIndexes } from "../../records";
 import { compactValues } from "../../record-form/helpers";
+import submitForm from "../../../submit-form";
+import resetForm from "../../../reset-form";
 
 import { NAME, INCIDENT_SUBFORM } from "./constants";
 import Fields from "./fields";
-
-const submitForm = formikRef => {
-  if (formikRef.current) {
-    formikRef.current.submitForm();
-  }
-};
 
 const Component = ({
   openIncidentDialog,
@@ -46,15 +42,9 @@ const Component = ({
     )
   );
 
-  const resetForm = () => {
-    if (formikRef.current) {
-      formikRef.current.resetForm();
-    }
-  };
-
   useEffect(() => {
     if (openIncidentDialog) {
-      resetForm();
+      resetForm(formikRef);
     }
   }, [openIncidentDialog]);
 

@@ -210,6 +210,15 @@ describe("<RecordActions />", () => {
             .includes("actions.incident_details_from_case")
         ).to.be.equal(true);
       });
+
+      it("renders MenuItem with Add Services Provision option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("actions.services_section_from_case")
+        ).to.be.equal(true);
+      });
     });
 
     describe("when user has not access to all menus", () => {
@@ -232,7 +241,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.lengthOf(4);
+        expect(component.find(MenuItem)).to.have.lengthOf(3);
       });
 
       it("renders MenuItem without Refer Cases option", () => {
