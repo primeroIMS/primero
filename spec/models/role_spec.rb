@@ -7,27 +7,27 @@ describe Role do
   it "should not be valid if name is empty" do
     role = Role.new
     role.should_not be_valid
-    role.errors[:name].should == ["Name must not be blank"]
+    role.errors[:name].should == ['errors.models.role.name_present']
   end
 
   it "should not be valid if permissions is empty" do
     role = Role.new
     role.should_not be_valid
-    role.errors[:permissions].should == ["Please select at least one permission"]
+    role.errors[:permissions].should == ['errors.models.role.permission_presence']
   end
 
   it "should sanitize and check for permissions" do
     role = Role.new(:name => "Name", :permissions => [])
     role.save
     role.should_not be_valid
-    role.errors[:permissions].should == ["Please select at least one permission"]
+    role.errors[:permissions].should == ['errors.models.role.permission_presence']
   end
 
   it "should not be valid if a role name has been taken already" do
     Role.create({:name => "Unique", :permissions => Permission.all_permissions_list})
     role = Role.new({:name => "Unique", :permissions => Permission.all_permissions_list})
     role.should_not be_valid
-    role.errors[:name].should == ["A role with that name already exists, please enter a different name"]
+    role.errors[:name].should == ['errors.models.role.unique_name']
   end
 
   it "should create a valid role" do

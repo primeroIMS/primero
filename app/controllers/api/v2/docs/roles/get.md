@@ -12,6 +12,9 @@ Shows a paginated list of all roles that are accessible to this user.
 
 **Parameters** :
 
+* `page` Optional. Pagination. Defaults to 1
+* `per` Optional. Records per page. Defaults to 20.
+
 ## Success Response
 
 **Condition** : User can see one or more roles.

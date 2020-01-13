@@ -78,6 +78,19 @@ describe Api::V2::RolesController, type: :request do
       expect(json['data'].first['permissions']).to eq(@role_01.permissions.map{|pr| pr.to_h})
     end
 
+    it 'list the roles with page and per' do
+      login_for_test({
+        permissions: [
+          Permission.new(:resource => Permission::ROLE, :actions => [Permission::MANAGE])
+        ]
+      })
+
+      get '/api/v2/roles?per=2&page=2'
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(1)
+      expect(json['data'].first['unique_id']).to eq(@role_03.unique_id)
+    end
+
     it 'returns 403 if user is not authorized to access' do
       login_for_test({
         permissions: [
@@ -222,7 +235,7 @@ describe Api::V2::RolesController, type: :request do
       post '/api/v2/roles', params: params
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
-      expect(json['errors'].first['message']).to eq(['Please select at least one permission'])
+      expect(json['errors'].first['message']).to eq(['errors.models.role.permission_presence'])
       expect(json['errors'][0]['resource']).to eq('/api/v2/roles')
     end
 

@@ -1,20 +1,22 @@
 module Api::V2
   class RolesController < ApplicationApiController
+    include Concerns::Pagination
+    before_action :load_role, only: [:show, :update, :destroy]
 
     def index
-      authorize! :idex, Role
-      @roles = Role.all
+      authorize! :index, Role
+      @total = Role.all.size
+      @roles = Role.paginate(pagination)
     end
 
     def show
       authorize! :show, Role
-      @role = Role.find(record_id)
     end
 
     def create
       authorize! :create, Role
       @role = Role.new(role_params.except(:permissions))
-      @role.permissions = role_params[:permissions].map{|pr| Permission.new(pr)} if role_params[:permissions].present?
+      @role.permissions = Role.permissions_attributes(role_params[:permissions])
       @role.save!
       status = params[:data][:id].present? ? 204 : 200
       render :create, status: status
@@ -22,15 +24,12 @@ module Api::V2
 
     def update
       authorize! :update, Role
-      @role = Role.find(record_id)
-      @role.update_properties(role_params)
+      @role.update_attributes(role_params)
       @role.save!
-      render 'show'
     end
 
     def destroy
       authorize! :destroy, Role
-      @role = Role.find(record_id)
       @role.destroy!
     end
 
@@ -38,6 +37,12 @@ module Api::V2
       params.require(:data).permit(:id, :unique_id, :name, :description,
                                    :group_permission, :referral, :transfer,
                                    :is_manager, Role.permitted_api_params)
+    end
+
+    protected
+
+    def load_role
+      @role = Role.find(record_id)
     end
 
   end

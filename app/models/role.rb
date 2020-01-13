@@ -13,9 +13,9 @@ class Role < ApplicationRecord
 
   serialize :permissions, Permission::PermissionSerializer
 
-  validates :permissions, presence: { message: I18n.t("errors.models.role.permission_presence") }
-  validates :name, presence: { message: I18n.t("errors.models.role.name_present") },
-                   uniqueness: { message: I18n.t("errors.models.role.unique_name") }
+  validates :permissions, presence: { message: 'errors.models.role.permission_presence' }
+  validates :name, presence: { message: 'errors.models.role.name_present' },
+                   uniqueness: { message: 'errors.models.role.unique_name' }
 
   before_create :generate_unique_id
 
@@ -140,7 +140,7 @@ class Role < ApplicationRecord
     {'permissions' => [ 'resource', {'actions' => [] }, {'role_ids' => [] }, { 'agency_ids' => [] } ]}
   end
 
-  def update_properties(role_properties)
+  def update_attributes(role_properties)
     self.unique_id = role_properties[:unique_id] if role_properties[:unique_id]
     self.name = role_properties[:name] if role_properties[:name]
     self.description = role_properties[:description] if role_properties[:description]
@@ -149,6 +149,10 @@ class Role < ApplicationRecord
     self.transfer = role_properties[:transfer] if role_properties[:transfer]
     self.is_manager = role_properties[:is_manager] if role_properties[:is_manager]
     self.permissions = role_properties[:permissions].map{ | permission | Permission.new(permission) } if role_properties[:permissions]
+  end
+
+  def self.permissions_attributes(role_params)
+    role_params.map{|permission| Permission.new(permission)} if role_params.present?
   end
 
   private
