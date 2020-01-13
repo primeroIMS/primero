@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import * as yup from "yup";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 
@@ -10,8 +9,9 @@ import Form, { FormAction, whichFormMode } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import { LoadingIndicator } from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
+import { ROUTES } from "../../../../config";
 
-import form from "./form";
+import { form, validations } from "./form";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
 import { getUser } from "./selectors";
 
@@ -25,25 +25,7 @@ const Container = ({ mode }) => {
   const user = useSelector(state => getUser(state));
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
-  const validationSchema = yup.object().shape({
-    agency_id: yup.string().required(),
-    email: yup.string().required(),
-    full_name: yup.string().required(),
-    module_unique_ids: yup.array().required(),
-    role_unique_id: yup.string().required(),
-    user_group_unique_ids: yup.array().required(),
-    user_name: yup.string().required(),
-    ...(formMode.get("isNew") && { password: yup.string().required() }),
-    ...(formMode.get("isNew") && {
-      password_confirmation: yup
-        .string()
-        .oneOf(
-          [yup.ref("password"), null],
-          i18n.t("errors.models.user.password_mismatch")
-        )
-        .required()
-    })
-  });
+  const validationSchema = validations(formMode, i18n);
 
   const handleSubmit = data => {
     dispatch(
@@ -67,7 +49,7 @@ const Container = ({ mode }) => {
   };
 
   const handleCancel = () => {
-    dispatch(push("/admin/users"));
+    dispatch(push(ROUTES.admin_users));
   };
 
   useEffect(() => {

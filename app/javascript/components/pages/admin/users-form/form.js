@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import * as yup from "yup";
 
 import {
   FieldRecord,
@@ -9,7 +10,28 @@ import {
   CHECK_BOX_FIELD
 } from "../../../form";
 
-const form = i18n => {
+export const validations = (formMode, i18n) =>
+  yup.object().shape({
+    agency_id: yup.string().required(),
+    email: yup.string().required(),
+    full_name: yup.string().required(),
+    module_unique_ids: yup.array().required(),
+    role_unique_id: yup.string().required(),
+    user_group_unique_ids: yup.array().required(),
+    user_name: yup.string().required(),
+    ...(formMode.get("isNew") && { password: yup.string().required() }),
+    ...(formMode.get("isNew") && {
+      password_confirmation: yup
+        .string()
+        .oneOf(
+          [yup.ref("password"), null],
+          i18n.t("errors.models.user.password_mismatch")
+        )
+        .required()
+    })
+  });
+
+export const form = i18n => {
   return fromJS([
     FormSectionRecord({
       unique_id: "users",
@@ -171,5 +193,3 @@ const form = i18n => {
     })
   ]);
 };
-
-export default form;
