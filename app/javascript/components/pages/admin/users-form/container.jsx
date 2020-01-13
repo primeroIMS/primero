@@ -15,7 +15,7 @@ import form from "./form";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
 import { getUser } from "./selectors";
 
-const Component = ({ mode }) => {
+const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
   const formRef = useRef();
@@ -120,10 +120,10 @@ const Component = ({ mode }) => {
   );
 };
 
-Component.displayName = "UsersForm";
+Container.displayName = "UsersForm";
 
-Component.propTypes = {
+Container.propTypes = {
   mode: PropTypes.string.isRequired
 };
 
-export default Component;
+export default Container;

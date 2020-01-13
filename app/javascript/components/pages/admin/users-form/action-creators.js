@@ -7,7 +7,7 @@ export const fetchUser = id => {
   return {
     type: actions.FETCH_USER,
     api: {
-      path: `${RECORD_PATH.users}/${id}?extended=true`
+      path: `${RECORD_PATH.users}/${id}`
     }
   };
 };
