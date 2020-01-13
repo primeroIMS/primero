@@ -4,12 +4,14 @@ import { useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
 
 import { useI18n } from "../../i18n";
-// TODO: REFACTOR AND MOVE THE FOLLOWING BELOW
-import { FILTER_TYPES } from "../../index-filters";
-import handleFilterChange from "../../index-filters/components/filter-types/value-handlers";
-import { whichOptions, optionText, registerInput } from "../utils";
+import {
+  whichOptions,
+  optionText,
+  registerInput,
+  handleFilterChange
+} from "../utils";
 import { getOption } from "../../record-form";
-import { CHECK_BOX_FIELD, SELECT_FIELD } from "../constants";
+import { CHECK_BOX_FIELD, SELECT_FIELD, TICK_FIELD } from "../constants";
 
 const inferDefaultValue = ({ type, multiSelect }) => {
   if (type === CHECK_BOX_FIELD || multiSelect) {
@@ -21,13 +23,13 @@ const inferDefaultValue = ({ type, multiSelect }) => {
 
 const getTypeValueObject = (event, value, type) => {
   switch (type) {
-    case FILTER_TYPES.TOGGLE:
-      return { type: "basic", value: event?.target?.checked };
-    case FILTER_TYPES.CHECKBOX:
     case CHECK_BOX_FIELD:
       return { type: "checkboxes" };
     default: {
-      return { type: "basic", value };
+      return {
+        type: "basic",
+        value: TICK_FIELD ? event?.target?.checked : value
+      };
     }
   }
 };
@@ -50,7 +52,7 @@ const Input = ({ field, children }) => {
   const valueRef = useRef();
 
   const inputName = name || fieldName;
-  const inputError = errors?.[name]
+  const inputError = errors?.[name];
   const lookups = useSelector(state =>
     getOption(state, optionStringsSource, i18n.locale)
   );
@@ -102,7 +104,7 @@ const Input = ({ field, children }) => {
     optionText,
     inputOptions,
     inputValue,
-    ...(FILTER_TYPES.TOGGLE && {
+    ...(TICK_FIELD && {
       label: options ? options?.[i18n.locale]?.[0]?.display_name : displayName
     }),
     setValue,

@@ -8,4 +8,4 @@ export {
   CHECK_BOX_FIELD,
   SELECT_FIELD
 } from "./constants";
-export { whichFormMode, compactData, touchedFormData } from "./utils";
+export { whichFormMode } from "./utils";

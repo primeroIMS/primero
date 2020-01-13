@@ -7,35 +7,29 @@ import {
   FormControlLabel,
   FormHelperText
 } from "@material-ui/core";
+import { Controller } from "react-hook-form";
 
-import Input from "../components/input";
-
-const SwitchInput = ({ field, commonInputProps }) => {
-  const { disabled, helperText } = commonInputProps;
+const SwitchInput = ({ commonInputProps }) => {
+  const { helperText, error, disabled, name, label } = commonInputProps;
 
   return (
-    <Input field={field}>
-      {({ handleChange, inputValue, label, error, hasError }) => (
-        <FormControl error={hasError}>
-          <FormGroup>
-            <FormControlLabel
-              labelPlacement="end"
-              control={
-                <Switch
-                  onChange={handleChange}
-                  checked={Boolean(inputValue) || false}
-                  disabled={disabled}
-                />
-              }
-              label={label}
+    <FormControl error={error}>
+      <FormGroup>
+        <FormControlLabel
+          labelPlacement="end"
+          control={
+            <Controller
+              name={name}
+              as={Switch}
+              disabled={disabled}
+              defaultValue={false}
             />
-          </FormGroup>
-          {(hasError || helperText) && (
-            <FormHelperText>{error || helperText}</FormHelperText>
-          )}
-        </FormControl>
-      )}
-    </Input>
+          }
+          label={label}
+        />
+      </FormGroup>
+      {helperText && <FormHelperText>{helperText}</FormHelperText>}
+    </FormControl>
   );
 };
 
@@ -44,9 +38,11 @@ SwitchInput.displayName = "SwitchInput";
 SwitchInput.propTypes = {
   commonInputProps: PropTypes.shape({
     disabled: PropTypes.bool,
-    helperText: PropTypes.string
-  }),
-  field: PropTypes.object.isRequired
+    error: PropTypes.bool,
+    helperText: PropTypes.string,
+    label: PropTypes.string,
+    name: PropTypes.string
+  })
 };
 
 export default SwitchInput;

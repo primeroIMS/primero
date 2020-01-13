@@ -2,59 +2,39 @@ import React from "react";
 import PropTypes from "prop-types";
 import {
   FormGroup,
-  FormControlLabel,
   FormControl,
   FormLabel,
-  Checkbox,
   FormHelperText
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
+import { Controller } from "react-hook-form";
 
-import Input from "../components/input";
+import CheckboxGroup from "./checkbox-group";
+import styles from "./styles.css";
 
-const CheckboxInput = ({ field, commonInputProps }) => {
-  const { disabled, helperText } = commonInputProps;
+const CheckboxInput = ({ commonInputProps, options }) => {
+  const css = makeStyles(styles)();
 
-  const renderOptions = ({
-    inputOptions,
-    fieldName,
-    handleChange,
-    isObject,
-    inputValue,
-    optionText,
-    i18n
-  }) => {
-    return inputOptions.map(option => {
-      return (
-        <FormControlLabel
-          key={`${fieldName}-${option.id}`}
-          control={
-            <Checkbox
-              onChange={handleChange}
-              value={option.id}
-              checked={
-                isObject
-                  ? option.key in inputValue
-                  : inputValue.includes(option.id)
-              }
-              disabled={disabled}
-            />
-          }
-          label={optionText(option, i18n)}
-        />
-      );
-    });
-  };
+  const { name, error, required, label, helperText } = commonInputProps;
 
   return (
-    <Input field={field}>
-      {({ hasError, error, ...rest }) => (
-        <FormControl component="fieldset" error={hasError}>
-          <FormLabel>{field.display_name}</FormLabel>
-          <FormGroup>{renderOptions(rest)}</FormGroup>
-          <FormHelperText>{error || helperText}</FormHelperText>
-        </FormControl>
-      )}
-    </Input>
+    <FormControl
+      component="fieldset"
+      error={error}
+      className={css.checkboxContainer}
+    >
+      <FormLabel required={required}>{label}</FormLabel>
+      <FormGroup>
+        <Controller
+          name={name}
+          as={CheckboxGroup}
+          options={options}
+          commonInputProps={commonInputProps}
+          defaultValue={[]}
+        />
+      </FormGroup>
+      {error && <FormHelperText>{helperText}</FormHelperText>}
+    </FormControl>
   );
 };
 
@@ -63,9 +43,13 @@ CheckboxInput.displayName = "CheckboxInput";
 CheckboxInput.propTypes = {
   commonInputProps: PropTypes.shape({
     disabled: PropTypes.bool,
-    helperText: PropTypes.string
+    error: PropTypes.bool,
+    helperText: PropTypes.string,
+    label: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    required: PropTypes.bool
   }),
-  field: PropTypes.object.isRequired
+  options: PropTypes.array
 };
 
 export default CheckboxInput;

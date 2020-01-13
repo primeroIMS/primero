@@ -85,7 +85,7 @@
     "qs": "^6.7.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.3",
-    "react-hook-form": "^4.4.2",
+    "react-hook-form": "^4.4.8",
     "react-idle-timer": "^4.2.9",
     "react-jss": "^10.0.0",
     "react-redux": "^7.1.0",

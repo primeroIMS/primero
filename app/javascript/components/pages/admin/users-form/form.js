@@ -47,18 +47,12 @@ const form = i18n => {
           password: true,
           hideOnShow: true
         }),
-        // TODO: Where to get locales from?
         FieldRecord({
           display_name: i18n.t("user.locale"),
           name: "locale",
-          type: SELECT_FIELD
+          type: SELECT_FIELD,
+          option_strings_text: i18n.applicationLocales.toJS()
         }),
-        FieldRecord({
-          display_name: i18n.t("user.is_manager"),
-          name: "is_manager",
-          type: TICK_FIELD
-        }),
-        // TODO: Removing till we figure out how to get options
         FieldRecord({
           display_name: i18n.t("user.role_id"),
           name: "role_id",
@@ -100,6 +94,7 @@ const form = i18n => {
           display_name: i18n.t("user.user_group_ids"),
           name: "user_group_ids",
           type: CHECK_BOX_FIELD,
+          required: true,
           option_strings_text: [
             { id: "1", display_text: "Primero CP" },
             { id: "2", display_text: "Primero FTR" },
@@ -120,6 +115,7 @@ const form = i18n => {
           display_name: i18n.t("user.organization"),
           name: "agency_id",
           type: SELECT_FIELD,
+          required: true,
           option_strings_text: [{ id: 1, display_text: "UNICEF" }]
         }),
         FieldRecord({

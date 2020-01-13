@@ -1,3 +1,6 @@
+import isEmpty from "lodash/isEmpty";
+import isObject from "lodash/isObject";
+
 import { FILTER_TYPES } from "./constants";
 import {
   CheckboxFilter,
@@ -26,3 +29,19 @@ export const filterType = type => {
       return null;
   }
 };
+
+export const compactFilters = values =>
+  Object.keys(values).reduce((prev, current) => {
+    const obj = prev;
+    const value = values[current];
+
+    if ((Array.isArray(value) || isObject(value)) && isEmpty(value)) {
+      return obj;
+    }
+
+    if (value) {
+      obj[current] = values[current];
+    }
+
+    return obj;
+  }, {});

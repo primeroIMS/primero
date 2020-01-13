@@ -1,7 +1,5 @@
 import capitalize from "lodash/capitalize";
 import { List, Map } from "immutable";
-import isEmpty from "lodash/isEmpty";
-import isObject from "lodash/isObject";
 
 import {
   FORM_MODE_SHOW,
@@ -9,39 +7,6 @@ import {
   FORM_MODE_EDIT,
   FORM_MODE_DIALOG
 } from "./constants";
-
-export const registerInput = ({
-  register,
-  name,
-  ref,
-  defaultValue,
-  setInputValue,
-  clearSecondaryInput,
-  dataSetter
-}) => {
-  return register(
-    Object.defineProperty(
-      {
-        name
-      },
-      "value",
-      {
-        set(data) {
-          setInputValue(data || defaultValue);
-          
-          ref.current = dataSetter ? dataSetter(data) : data;
-
-          if (!data && clearSecondaryInput) {
-            clearSecondaryInput();
-          }
-        },
-        get() {
-          return ref.current;
-        }
-      }
-    )
-  );
-};
 
 export const whichOptions = ({
   optionStringsSource,
@@ -106,19 +71,3 @@ export const touchedFormData = (
     return obj;
   }, {});
 };
-
-export const compactData = values =>
-  Object.keys(values).reduce((prev, current) => {
-    const obj = prev;
-    const value = values[current];
-
-    if ((Array.isArray(value) || isObject(value)) && isEmpty(value)) {
-      return obj;
-    }
-
-    if (value) {
-      obj[current] = values[current];
-    }
-
-    return obj;
-  }, {});

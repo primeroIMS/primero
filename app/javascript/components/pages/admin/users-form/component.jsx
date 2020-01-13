@@ -25,10 +25,13 @@ const Component = ({ mode }) => {
   const user = useSelector(state => getUser(state));
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
-  // TODO: Agency, Location, Module, UserGroup should be required also when added
   const validationSchema = yup.object().shape({
+    agency_id: yup.string().required(),
     full_name: yup.string().required(),
+    location: yup.string().required(),
     module_ids: yup.string().required(),
+    role_id: yup.string().required(),
+    user_group_ids: yup.string().required(),
     user_name: yup.string().required(),
     ...(formMode.isNew && { password: yup.string().required() }),
     ...(formMode.isNew && { password_confirmation: yup.string().required() })

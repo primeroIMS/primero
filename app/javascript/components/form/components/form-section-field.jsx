@@ -1,28 +1,56 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
+import { useSelector } from "react-redux";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 import TextInput from "../fields/text-input";
 import SwitchInput from "../fields/switch-input";
 import SelectInput from "../fields/select-input";
-import {
-  TEXT_FIELD,
-  TEXT_AREA,
-  TICK_FIELD,
-  CHECK_BOX_FIELD,
-  SELECT_FIELD
-} from "../constants";
+import { TICK_FIELD, CHECK_BOX_FIELD, SELECT_FIELD } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
+import { whichOptions } from "../utils";
+import { getOption } from "../../record-form";
 
 const FormSectionField = ({ field }) => {
-  const { type, hideOnShow } = field;
+  const {
+    type,
+    hideOnShow,
+    required,
+    name,
+    display_name: displayName,
+    help_text: helpText,
+    autoFocus,
+    option_strings_source: optionStringsSource,
+    option_strings_text: optionsStringsText,
+    options,
+    password,
+    multi_select: multiSelect
+  } = field;
   const i18n = useI18n();
-  const { formMode } = useFormContext();
+  const { formMode, errors } = useFormContext();
+  const error = errors[name];
+
+  const lookups = useSelector(
+    state => getOption(state, optionStringsSource, i18n.locale),
+    !isEmpty(optionStringsSource)
+  );
+
+  const inputOptions = whichOptions({
+    optionStringsSource,
+    lookups,
+    options: options || optionsStringsText,
+    i18n
+  });
 
   const commonInputProps = {
-    label: i18n.getI18nStringFromObject(field.display_name),
-    helperText: i18n.getI18nStringFromObject(field.help_text),
+    name,
+    required,
+    autoFocus,
+    error: typeof error !== "undefined",
+    label: i18n.getI18nStringFromObject(displayName),
+    helperText: error?.message || i18n.getI18nStringFromObject(helpText),
     fullWidth: true,
     autoComplete: "new-password",
     InputLabelProps: {
@@ -31,11 +59,14 @@ const FormSectionField = ({ field }) => {
     disabled: formMode.get("isShow")
   };
 
+  const metaInputProps = {
+    type,
+    password,
+    multiSelect
+  };
+
   const Field = (fieldType => {
     switch (fieldType) {
-      case TEXT_FIELD:
-      case TEXT_AREA:
-        return TextInput;
       case TICK_FIELD:
         return SwitchInput;
       case CHECK_BOX_FIELD:
@@ -48,9 +79,16 @@ const FormSectionField = ({ field }) => {
   })(type);
 
   return (
-    (hideOnShow && formMode.get("isShow")) || (
-      <Field field={field} commonInputProps={commonInputProps} />
-    )
+    <div>
+      {(hideOnShow && formMode.get("isShow")) || (
+        <Field
+          field={field}
+          commonInputProps={commonInputProps}
+          metaInputProps={metaInputProps}
+          options={inputOptions}
+        />
+      )}
+    </div>
   );
 };
 

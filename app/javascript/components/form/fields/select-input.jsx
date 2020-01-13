@@ -2,46 +2,49 @@ import React from "react";
 import PropTypes from "prop-types";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { Controller } from "react-hook-form";
 
-import Input from "../components/input";
+const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
+  const { multiSelect } = metaInputProps;
+  const { name, disabled, ...commonProps } = commonInputProps;
 
-const SelectInput = ({ field, commonInputProps }) => {
-  const { display_name: displayName, multi_select: multiSelect } = field;
   const optionLabel = option => {
-    const { display_name: name, display_text: displayText } = option;
+    const { display_name: displayName, display_text: displayText } =
+      typeof option === "object"
+        ? option
+        : options.find(opt => opt.id === String(option)) || {};
 
-    return name || displayText;
+    return displayName || displayText;
   };
-  const { helperText, disabled, ...commonProps } = commonInputProps;
+
+  const defaultValue = multiSelect ? [] : undefined;
+
+  const handleChange = data =>
+    multiSelect
+      ? data?.[1]?.map(selected =>
+          typeof selected === "object" ? selected?.id : selected
+        )
+      : data?.[1]?.id;
+
+  const optionEquality = (option, value) =>
+    multiSelect ? option.id === value : option.id === value.id;
 
   return (
-    <Input field={field}>
-      {({ handleChange, inputOptions, inputValue, hasError, error }) => (
-        <Autocomplete
-          multiple={multiSelect}
-          getOptionLabel={optionLabel}
-          onChange={handleChange}
-          options={inputOptions}
-          value={inputValue}
-          getOptionSelected={(option, value) => option.id === value.id}
-          disabled={disabled}
-          renderInput={params => (
-            <TextField
-              {...params}
-              label={displayName}
-              fullWidth
-              InputLabelProps={{
-                shrink: true
-              }}
-              error={hasError}
-              helperText={error || helperText}
-              margin="normal"
-              {...commonProps}
-            />
-          )}
-        />
+    <Controller
+      name={name}
+      as={Autocomplete}
+      multiple={multiSelect}
+      getOptionLabel={optionLabel}
+      options={options}
+      getOptionSelected={optionEquality}
+      disabled={disabled}
+      onChange={handleChange}
+      defaultValue={defaultValue}
+      filterSelectedOptions
+      renderInput={params => (
+        <TextField {...params} margin="normal" {...commonProps} />
       )}
-    </Input>
+    />
   );
 };
 
@@ -50,9 +53,11 @@ SelectInput.displayName = "SelectInput";
 SelectInput.propTypes = {
   commonInputProps: PropTypes.shape({
     disabled: PropTypes.bool,
-    helperText: PropTypes.string
+    helperText: PropTypes.string,
+    name: PropTypes.string.isRequired
   }),
-  field: PropTypes.object.isRequired
+  metaInputProps: PropTypes.object.isRequired,
+  options: PropTypes.array
 };
 
 export default SelectInput;

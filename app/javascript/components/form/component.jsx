@@ -37,7 +37,6 @@ const Component = ({
   useImperativeHandle(formRef, () => ({
     submitForm(e) {
       formMethods.handleSubmit(data => {
-        console.log(data)
         const changedFormData = touchedFormData(
           touchedFields,
           data,
