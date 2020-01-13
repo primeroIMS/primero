@@ -1,9 +1,9 @@
 user_hash = user.attributes.reject { |k, _| User.hidden_attributes.include?(k) }
 user_hash = user_hash.merge({
   agency_id: user.agency_id,
-  module_ids: user.module_unique_ids,
-  role_id: user.role.unique_id,
-  user_group_ids: user.user_groups.pluck(:unique_id)
+  module_unique_ids: user.module_unique_ids,
+  role_unique_id: user.role.unique_id,
+  user_group_unique_ids: user.user_group_unique_ids
 })
 
 if @extended

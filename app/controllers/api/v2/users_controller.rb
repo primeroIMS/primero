@@ -21,7 +21,7 @@ module Api::V2
 
     def create
       authorize! :create, User
-      @user = User.new_with_properties(@user_params)
+      @user = User.new(@user_params)
       @user.save!
       status = params[:data][:id].present? ? 204 : 200
       render :create, status: status
@@ -42,10 +42,7 @@ module Api::V2
     protected
 
     def user_params
-      @user_params = params.require(:data).permit(
-        (User.attribute_names + User.password_parameters + [ user_group_ids: [] ]
-          ) - User.hidden_attributes
-      )
+      @user_params = params.require(:data).permit(User.permitted_api_params)
     end
 
     def load_user

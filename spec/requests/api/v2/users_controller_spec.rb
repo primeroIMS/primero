@@ -203,10 +203,10 @@ describe Api::V2::UsersController, type: :request do
           code: "test/code",
           email: "test_user_api@localhost.com",
           agency_id: @agency_1.id,
-          role_id: @role.unique_id,
+          role_unique_id: @role.unique_id,
           password_confirmation: "a12345678",
           password: "a12345678",
-          user_group_ids: ['user-group-1']
+          user_group_unique_ids: ['user-group-1']
         }
       }
 
@@ -216,8 +216,8 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data']['id']).not_to be_nil
       expect(json['data']['user_name']).to eq(params[:data][:user_name])
       expect(json['data']['agency_id']).to eq(params[:data][:agency_id])
-      expect(json['data']['role_id']).to eq(params[:data][:role_id])
-      expect(json['data']['user_group_ids']).to eq(params[:data][:user_group_ids])
+      expect(json['data']['role_unique_id']).to eq(params[:data][:role_unique_id])
+      expect(json['data']['user_group_unique_ids']).to eq(params[:data][:user_group_unique_ids])
       expect(User.find_by(id: json['data']['id'])).not_to be_nil
     end
 
@@ -239,7 +239,7 @@ describe Api::V2::UsersController, type: :request do
             code: "test/code",
             email: "test_user_api@localhost.com",
             agency_id: @agency_1.id,
-            role_id: @role.unique_id,
+            role_unique_id: @role.unique_id,
             password_confirmation: "a12345678",
             password: "a12345678"
           }
@@ -263,7 +263,7 @@ describe Api::V2::UsersController, type: :request do
           code: "test/code",
           email: "test_user_api@localhost.com",
           agency_id: @agency_1.id,
-          role_id: @role.id,
+          role_unique_id: @role.id,
           password_confirmation: "a12345678",
           password: "a12345678"
         }
@@ -289,7 +289,7 @@ describe Api::V2::UsersController, type: :request do
           code: "test/code",
           email: "test_user_5@localhost.com",
           agency_id: @agency_1.id,
-          role_id: @role.unique_id,
+          role_unique_id: @role.unique_id,
           password_confirmation: "a12345678",
           password: "a12345678"
         }
@@ -315,7 +315,7 @@ describe Api::V2::UsersController, type: :request do
           code: "test/code",
           email: "test_user_5@localhost.com",
           agency_id: @agency_1.id,
-          role_id: @role.unique_id
+          role_unique_id: @role.unique_id
         }
       }
       post "/api/v2/users", params: params
@@ -344,7 +344,7 @@ describe Api::V2::UsersController, type: :request do
       params = {
         data: {
           full_name: "Updated User 1",
-          user_group_ids: ['user-group-1']
+          user_group_unique_ids: ['user-group-1']
         }
       }
 
@@ -356,7 +356,7 @@ describe Api::V2::UsersController, type: :request do
       user1 = User.find_by(id: @user_1.id)
 
       expect(user1.full_name).to eq('Updated User 1')
-      expect(user1.user_groups.map(&:unique_id)).to eq(params[:data][:user_group_ids])
+      expect(user1.user_groups.map(&:unique_id)).to eq(params[:data][:user_group_unique_ids])
     end
 
     it "returns 403 if user isn't authorized to update users" do
