@@ -55,6 +55,8 @@ describe Api::V2::UsersController, type: :request do
     @agency_1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
     @agency_2 = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
 
+    @user_group_1 = UserGroup.create!(unique_id:'user-group-1', name: 'user group 1')
+
     @user_1 = User.create!(
                 full_name: "Test User 1",
                 user_name: 'test_user_1',
@@ -126,7 +128,7 @@ describe Api::V2::UsersController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(3)
-      expect(json['data'][0]['agency']).to eq(@agency_1.id)
+      expect(json['data'][0]['agency_id']).to eq(@agency_1.id)
       expect(json['data'][0]['filters']).not_to be_nil
       expect(json['data'][0]['permissions']).not_to be_nil
       expect(json['data'][0]['list_headers']).not_to be_nil
@@ -201,9 +203,10 @@ describe Api::V2::UsersController, type: :request do
           code: "test/code",
           email: "test_user_api@localhost.com",
           agency_id: @agency_1.id,
-          role_id: @role.id,
+          role_unique_id: @role.unique_id,
           password_confirmation: "a12345678",
-          password: "a12345678"
+          password: "a12345678",
+          user_group_unique_ids: ['user-group-1']
         }
       }
 
@@ -213,7 +216,8 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data']['id']).not_to be_nil
       expect(json['data']['user_name']).to eq(params[:data][:user_name])
       expect(json['data']['agency_id']).to eq(params[:data][:agency_id])
-      expect(json['data']['role_id']).to eq(params[:data][:role_id])
+      expect(json['data']['role_unique_id']).to eq(params[:data][:role_unique_id])
+      expect(json['data']['user_group_unique_ids']).to eq(params[:data][:user_group_unique_ids])
       expect(User.find_by(id: json['data']['id'])).not_to be_nil
     end
 
@@ -235,7 +239,7 @@ describe Api::V2::UsersController, type: :request do
             code: "test/code",
             email: "test_user_api@localhost.com",
             agency_id: @agency_1.id,
-            role_id: @role.id,
+            role_unique_id: @role.unique_id,
             password_confirmation: "a12345678",
             password: "a12345678"
           }
@@ -259,7 +263,7 @@ describe Api::V2::UsersController, type: :request do
           code: "test/code",
           email: "test_user_api@localhost.com",
           agency_id: @agency_1.id,
-          role_id: @role.id,
+          role_unique_id: @role.id,
           password_confirmation: "a12345678",
           password: "a12345678"
         }
@@ -285,7 +289,7 @@ describe Api::V2::UsersController, type: :request do
           code: "test/code",
           email: "test_user_5@localhost.com",
           agency_id: @agency_1.id,
-          role_id: @role.id,
+          role_unique_id: @role.unique_id,
           password_confirmation: "a12345678",
           password: "a12345678"
         }
@@ -311,7 +315,7 @@ describe Api::V2::UsersController, type: :request do
           code: "test/code",
           email: "test_user_5@localhost.com",
           agency_id: @agency_1.id,
-          role_id: @role.id
+          role_unique_id: @role.unique_id
         }
       }
       post "/api/v2/users", params: params
@@ -339,7 +343,8 @@ describe Api::V2::UsersController, type: :request do
       )
       params = {
         data: {
-          full_name: "Updated User 1"
+          full_name: "Updated User 1",
+          user_group_unique_ids: ['user-group-1']
         }
       }
 
@@ -349,7 +354,9 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data']['id']).to eq(@user_1.id)
 
       user1 = User.find_by(id: @user_1.id)
+
       expect(user1.full_name).to eq('Updated User 1')
+      expect(user1.user_groups.map(&:unique_id)).to eq(params[:data][:user_group_unique_ids])
     end
 
     it "returns 403 if user isn't authorized to update users" do
@@ -464,11 +471,6 @@ describe Api::V2::UsersController, type: :request do
   end
 
   after :each do
-    FormSection.destroy_all
-    PrimeroModule.destroy_all
-    Role.destroy_all
-    User.destroy_all
-    Agency.destroy_all
-    PrimeroProgram.destroy_all
+    clean_data(FormSection, PrimeroModule, Role, User, Agency, PrimeroProgram, UserGroup)
   end
 end

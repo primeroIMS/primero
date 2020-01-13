@@ -36,7 +36,7 @@ Shows a paginated list of all users that are accessible to this user. The user c
         "user_name": "primero",
         "email": "primero@primero.com",
         "agency_id": 1,
-        "role_id": 19,
+        "role_id": "role-primero-cp",
         "time_zone": "UTC",
         "locale": "en",
         "send_mail": true,

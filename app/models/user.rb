@@ -64,6 +64,17 @@ class User < ApplicationRecord
       %w(password password_confirmation)
     end
 
+    def unique_id_parameters
+      %w[user_group_unique_ids role_unique_id]
+    end
+
+    def permitted_api_params
+      (
+        User.attribute_names + User.password_parameters +
+        [ { user_group_ids: [] }, { user_group_unique_ids: [] }, :role_unique_id ]
+      ) - User.hidden_attributes
+    end
+
     def get_unique_instance(attributes)
       find_by_user_name(attributes['user_name'])
     end
@@ -165,7 +176,37 @@ class User < ApplicationRecord
           permission: permission
         )
     end
+  end
 
+  def initialize(attributes = nil, &block)
+    super(attributes&.except(*User.unique_id_parameters), &block)
+    associate_unique_id_properties(attributes.slice(*User.unique_id_parameters)) if attributes.present?
+  end
+
+  def update_with_properties(properties)
+    assign_attributes(properties.except(*User.unique_id_parameters))
+    associate_unique_id_properties(properties)
+  end
+
+  def associate_unique_id_properties(properties)
+    associate_role_unique_id(properties[:role_unique_id])
+    associate_groups_unique_id(properties[:user_group_unique_ids])
+  end
+
+  def associate_role_unique_id(role_unique_id)
+    return unless role_unique_id.present?
+
+    self.role = Role.find_by(unique_id: role_unique_id)
+  end
+
+  def associate_groups_unique_id(user_group_unique_ids)
+    return unless user_group_unique_ids.present?
+
+    self.user_groups = UserGroup.where(unique_id: user_group_unique_ids)
+  end
+
+  def user_group_unique_ids
+    user_groups.pluck(:unique_id)
   end
 
   def email_entered?
