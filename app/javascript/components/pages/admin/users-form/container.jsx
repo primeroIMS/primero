@@ -27,14 +27,22 @@ const Container = ({ mode }) => {
 
   const validationSchema = yup.object().shape({
     agency_id: yup.string().required(),
+    email: yup.string().required(),
     full_name: yup.string().required(),
-    location: yup.string().required(),
-    module_ids: yup.string().required(),
-    role_id: yup.string().required(),
-    user_group_ids: yup.string().required(),
+    module_unique_ids: yup.array().required(),
+    role_unique_id: yup.string().required(),
+    user_group_unique_ids: yup.array().required(),
     user_name: yup.string().required(),
-    ...(formMode.isNew && { password: yup.string().required() }),
-    ...(formMode.isNew && { password_confirmation: yup.string().required() })
+    ...(formMode.get("isNew") && { password: yup.string().required() }),
+    ...(formMode.get("isNew") && {
+      password_confirmation: yup
+        .string()
+        .oneOf(
+          [yup.ref("password"), null],
+          i18n.t("errors.models.user.password_mismatch")
+        )
+        .required()
+    })
   });
 
   const handleSubmit = data => {

@@ -1031,7 +1031,7 @@ en:
     locale: "Locale"
     password: "Password"
     password_confirmation: "Password Confirmation"
-    user_group_ids: "User Groups"
+    user_group_unique_ids: "User Groups"
     module_ids: "Modules"
     role_id: "Role"
     is_manager: "Manager"

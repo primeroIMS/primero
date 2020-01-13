@@ -55,50 +55,71 @@ const form = i18n => {
         }),
         FieldRecord({
           display_name: i18n.t("user.role_id"),
-          name: "role_id",
+          name: "role_unique_id",
           type: SELECT_FIELD,
           required: true,
           option_strings_text: [
-            { id: "1", display_text: "CP Administrator" },
-            { id: "2", display_text: "CP Case Worker" },
-            { id: "3", display_text: "CP Manager" },
-            { id: "4", display_text: "CP User Manager" },
-            { id: "5", display_text: "GBV Social Worker" },
-            { id: "6", display_text: "GBV Manager" },
-            { id: "7", display_text: "GBV User Manager" },
-            { id: "8", display_text: "GBV Caseworker" },
-            { id: "9", display_text: "GBV Mobile Caseworker" },
-            { id: "10", display_text: "GBV Case Management Supervisor" },
-            { id: "11", display_text: "GBV Program Manager" },
-            { id: "12", display_text: "GBV Organization Focal Point" },
-            { id: "13", display_text: "Agency User Administrator" },
-            { id: "14", display_text: "GBV Agency User Administrator" },
-            { id: "15", display_text: "GBV System Administrator" },
-            { id: "16", display_text: "Referral" },
-            { id: "17", display_text: "Transfer" },
-            { id: "18", display_text: "FTR Manager" },
-            { id: "19", display_text: "Superuser" }
+            { id: "role-cp-administrator", display_text: "CP Administrator" },
+            { id: "role-cp-case-worker", display_text: "CP Case Worker" },
+            { id: "role-cp-manager", display_text: "CP Manager" },
+            { id: "role-cp-user-manager", display_text: "CP User Manager" },
+            { id: "role-gbv-social-worker", display_text: "GBV Social Worker" },
+            { id: "role-gbv-manager", display_text: "GBV Manager" },
+            { id: "role-gbv-user-manager", display_text: "GBV User Manager" },
+            { id: "role-gbv-caseworker", display_text: "GBV Caseworker" },
+            {
+              id: "role-gbv-mobile-caseworker",
+              display_text: "GBV Mobile Caseworker"
+            },
+            {
+              id: "role-gbv-case-management-supervisor",
+              display_text: "GBV Case Management Supervisor"
+            },
+            {
+              id: "role-gbv-program-manager",
+              display_text: "GBV Program Manager"
+            },
+            {
+              id: "role-gbv-organization-focal-point",
+              display_text: "GBV Organization Focal Point"
+            },
+            {
+              id: "role-agency-user-administrator",
+              display_text: "Agency User Administrator"
+            },
+            {
+              id: "role-gbv-agency-user-administrator",
+              display_text: "GBV Agency User Administrator"
+            },
+            {
+              id: "role-gbv-system-administrator",
+              display_text: "GBV System Administrator"
+            },
+            { id: "role-referral", display_text: "Referral" },
+            { id: "role-transfer", display_text: "Transfer" },
+            { id: "role-ftr-manager", display_text: "FTR Manager" },
+            { id: "role-superuser", display_text: "Superuser" }
           ]
         }),
         FieldRecord({
           display_name: i18n.t("user.module_ids"),
-          name: "module_ids",
+          name: "module_unique_ids",
           type: CHECK_BOX_FIELD,
           required: true,
           option_strings_text: [
-            { id: "1", display_text: "CP" },
-            { id: "2", display_text: "GBV" }
+            { id: "primeromodule-cp", display_text: "CP" },
+            { id: "primeromodule-gbv", display_text: "GBV" }
           ]
         }),
         FieldRecord({
-          display_name: i18n.t("user.user_group_ids"),
-          name: "user_group_ids",
+          display_name: i18n.t("user.user_group_unique_ids"),
+          name: "user_group_unique_ids",
           type: CHECK_BOX_FIELD,
           required: true,
           option_strings_text: [
-            { id: "1", display_text: "Primero CP" },
-            { id: "2", display_text: "Primero FTR" },
-            { id: "3", display_text: "Primero GBV" }
+            { id: "usergroup-primero-cp", display_text: "Primero CP" },
+            { id: "usergroup-primero-ftf", display_text: "Primero FTR" },
+            { id: "usergroup-primero-gbv", display_text: "Primero GBV" }
           ]
         }),
         FieldRecord({
@@ -109,6 +130,7 @@ const form = i18n => {
         FieldRecord({
           display_name: i18n.t("user.email"),
           name: "email",
+          required: true,
           type: TEXT_FIELD
         }),
         FieldRecord({
@@ -116,7 +138,7 @@ const form = i18n => {
           name: "agency_id",
           type: SELECT_FIELD,
           required: true,
-          option_strings_text: [{ id: 1, display_text: "UNICEF" }]
+          option_strings_text: [{ id: "1", display_text: "UNICEF" }]
         }),
         FieldRecord({
           display_name: i18n.t("user.agency_office"),
@@ -132,7 +154,7 @@ const form = i18n => {
           display_name: i18n.t("user.location"),
           name: "location",
           type: SELECT_FIELD,
-          required: true,
+
           option_strings_source: "location"
         }),
         FieldRecord({

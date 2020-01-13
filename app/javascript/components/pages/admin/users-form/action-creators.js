@@ -32,7 +32,7 @@ export const saveUser = ({ id, body, saveMethod, message }) => {
           }
         },
         redirectWithIdFromResponse: saveMethod !== "update",
-        redirect: `/admin/${RECORD_PATH.users}/${id}`
+        redirect: `/admin/${RECORD_PATH.users}`
       }
     }
   };
