@@ -121,7 +121,8 @@ module Record
     short_id
   end
 
-  #TODO: Refactor or delete with UIUX. This looks like its only useful for setting and getting via the form
+  # TODO: Refactor or delete with UIUX. This looks like its only useful for setting and getting via the form
+  # TODO: This is used in configurable exporters. Rename to something meaningful if useful
   # # @param attr_keys: An array whose elements are properties and array indeces
   #   # Ex: `child.value_for_attr_keys(['family_details_section', 0, 'relation_name'])`
   #   # is equivalent to doing `child.family_details_section[0].relation_name`
