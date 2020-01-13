@@ -48,7 +48,8 @@ export const RESOURCES = {
   incidents: "incidents",
   potential_matches: "potential_matches",
   reports: "reports",
-  tracing_requests: "tracing_requests"
+  tracing_requests: "tracing_requests",
+  users: "users"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {
@@ -59,11 +60,14 @@ export const checkPermissions = (currentPermissions, allowedPermissions) => {
     }).size > 0
   );
 };
+
 export const RECORD_RESOURCES = [
   RESOURCES.cases,
   RESOURCES.incidents,
   RESOURCES.tracing_requests
 ];
+
+export const ADMIN_RESOURCES = [RESOURCES.users];
 
 export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
 

@@ -8,7 +8,9 @@ import {
   ExportList,
   Support,
   NotAuthorized,
-  NotFound
+  NotFound,
+  Admin,
+  UsersList
 } from "../components/pages";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
@@ -21,7 +23,8 @@ import {
   RESOURCES,
   SHOW_EXPORTS,
   SHOW_TASKS,
-  WRITE_RECORDS
+  WRITE_RECORDS,
+  ADMIN_RESOURCES
 } from "../libs/permissions";
 
 import { ROUTES, MODES } from "./constants";
@@ -50,19 +53,25 @@ export default [
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:id/edit",
         component: RecordForm,
-        mode: MODES.edit,
+        extraProps: {
+          mode: MODES.edit
+        },
         actions: WRITE_RECORDS
       },
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:module/new",
         component: RecordForm,
-        mode: MODES.new,
+        extraProps: {
+          mode: MODES.new
+        },
         actions: CREATE_RECORDS
       },
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:id",
         component: RecordForm,
-        mode: MODES.show,
+        extraProps: {
+          mode: MODES.show
+        },
         actions: READ_RECORDS
       },
       {
@@ -113,6 +122,21 @@ export default [
       {
         path: ROUTES.support,
         component: Support
+      },
+      {
+        path: ROUTES.admin,
+        component: Admin,
+        resources: ADMIN_RESOURCES,
+        exact: false,
+        extraProps: {
+          routes: [
+            {
+              path: ROUTES.admin_users,
+              component: UsersList,
+              resources: RESOURCES.users
+            }
+          ]
+        }
       },
       {
         path: ROUTES.not_authorized,
