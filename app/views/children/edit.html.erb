@@ -35,8 +35,8 @@
     <div class="large-9 medium-9 columns side-tab-content-container">
       <div class="side-tab-content">
         <%= render :partial => 'children/required_fields' %>
-        <% @form_sections.each do |form_group_name, form_list| %>
-          <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @child, :form_group_name => form_group_name} %>
+        <% @form_sections.each do |form_group_id, form_list| %>
+          <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @child, :form_group_id => form_group_id} %>
         <% end %>
       </div>
       <%= render 'record_shared/header_message', record: @child, model: 'case' %>

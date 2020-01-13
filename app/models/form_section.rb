@@ -136,6 +136,7 @@ class FormSection < CouchRest::Model::Base
   before_save :sync_form_group
   after_save :recalculate_subform_permissions
 
+  #TODO - is this still needed?
   def form_group_name(opts={})
     locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
     return self.send("name_#{locale}") if self.form_group_id.blank?
@@ -313,7 +314,7 @@ class FormSection < CouchRest::Model::Base
 
 
     #TODO - can this be done more efficiently?
-    def find_form_groups_by_parent_form parent_form
+    def find_form_groups_by_parent_form(parent_form)
       all_forms = self.find_by_parent_form(parent_form)
 
       form_sections = []
@@ -334,7 +335,7 @@ class FormSection < CouchRest::Model::Base
         end
       end
 
-      form_groups = form_sections.group_by{|e| e.form_group_name}
+      form_groups = form_sections.group_by{|e| e.form_group_id}
     end
     memoize_in_prod :find_form_groups_by_parent_form
 

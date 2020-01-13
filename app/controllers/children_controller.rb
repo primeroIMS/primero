@@ -125,7 +125,7 @@ class ChildrenController < ApplicationController
       child: @child,
       subform_section: subform_section,
       subform_name: type,
-      form_group_name: '',
+      form_group_id: '',
       form_link: child_save_subform_path(@child, subform: type, form_sidebar_id: form_sidebar_id),
       can_save_and_add_provision: can?(:services_section_from_case, model_class) &&
         can?(:service_provision_incident_details, model_class) && (type == 'incident_details'),

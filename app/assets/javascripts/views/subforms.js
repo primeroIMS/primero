@@ -265,10 +265,10 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
       //If we don't send this input server will not know that this action needs to be perform.
       //The id is to straightforward lookup the input.
       var id = _primero.model_object + "_" + focus + "_empty_subform";
-      var form_group_name = $target.data('form_group_name');
+      var form_group_id = $target.data('form_group_id');
       var name = _primero.model_object;
-      if (form_group_name.length > 0 && form_group_name == "violations") {
-        name += "[" + form_group_name + "]";
+      if (form_group_id.length > 0 && form_group_id == "violations") {
+        name += "[" + form_group_id + "]";
       }
       name += "[" + focus + "]";
       //don't add the input as a child of the subforms container, this will break the generation of id's.
