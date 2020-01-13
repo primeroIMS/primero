@@ -185,7 +185,7 @@ class User < ApplicationRecord
   def associations_with_properties(properties)
     self.role = Role.find_by(unique_id: properties[:role_id]) if properties[:role_id].present?
     if properties[:user_group_ids].present?
-      self.user_groups = UserGroup.where(unique_id: properties[:user_group_ids]) || []
+      self.user_groups = UserGroup.where(unique_id: properties[:user_group_ids])
     end
   end
 
