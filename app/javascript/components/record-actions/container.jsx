@@ -220,7 +220,7 @@ const Container = ({
     {
       name: i18n.t("actions.services_section_from_case"),
       action: handleServiceDialog,
-      recordType: "cases",
+      recordType: RECORD_PATH.cases,
       recordListAction: true,
       condition: canAddService
     },

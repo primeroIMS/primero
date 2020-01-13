@@ -14,6 +14,7 @@ import { saveRecord, selectRecordsByIndexes } from "../../records";
 import { compactValues } from "../../record-form/helpers";
 import Fields from "../add-incident/fields";
 import submitForm from "../../../submit-form";
+import resetForm from "../../../reset-form";
 
 import { NAME, SERVICES_SUBFORM } from "./constants";
 
@@ -41,15 +42,9 @@ const Component = ({
     )
   );
 
-  const resetForm = () => {
-    if (formikRef.current) {
-      formikRef.current.resetForm();
-    }
-  };
-
   useEffect(() => {
     if (openServiceDialog) {
-      resetForm();
+      resetForm(formikRef);
     }
   }, [openServiceDialog]);
 
