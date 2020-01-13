@@ -184,7 +184,7 @@ class Ability
   def configure_exports
     return unless user.role.permitted_to_export?
 
-    can [:index, :create, :show, :destroy], BulkExport do |instance|
+    can [:index, :create, :read, :destroy], BulkExport do |instance|
       instance.owned_by == user.user_name
     end
   end

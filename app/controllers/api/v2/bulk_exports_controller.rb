@@ -37,13 +37,13 @@ module Api::V2
     private
 
     def authorize_export!
-      action = "export_#{params[:format]}".to_s
-      record_model = params[:record_type] && Record.model_from_name(params[:record_type])
+      action = "export_#{bulk_export_params[:format]}".to_sym
+      record_model = bulk_export_params[:record_type] && Record.model_from_name(bulk_export_params[:record_type])
       authorize! action, record_model
     end
 
     def bulk_export_params
-      params.require(:data).permit(
+      @bulk_export_params ||= params.require(:data).permit(
         :record_type, :format,
         :order, :query, :file_name, :password,
         { custom_export_params: {} }, { filters: {} },
