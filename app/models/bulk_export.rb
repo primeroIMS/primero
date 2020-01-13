@@ -120,6 +120,8 @@ class BulkExport < ApplicationRecord
   end
 
   def attach_export_file
+    return unless stored_file_name
+
     export_file.attach(
       io: File.open(encrypted_file_name),
       filename: File.basename(encrypted_file_name)
@@ -130,15 +132,15 @@ class BulkExport < ApplicationRecord
     # TODO: Add an else statement that throws an error if the file is empty!
     # TODO: This code is currently duplicated in the application controller
     # TODO: Make this ActiveStorage-compliant
-    if File.size? self.stored_file_name
-      encrypt = password ? Zip::TraditionalEncrypter.new(password) : nil
-      Zip::OutputStream.open(self.encrypted_file_name, encrypt) do |out|
-        out.put_next_entry(File.basename(self.stored_file_name))
-        out.write open(self.stored_file_name).read
-      end
+    return unless stored_file_name && File.size?(stored_file_name)
 
-      File.delete self.stored_file_name
+    encrypt = password ? Zip::TraditionalEncrypter.new(password) : nil
+    Zip::OutputStream.open(self.encrypted_file_name, encrypt) do |out|
+      out.put_next_entry(File.basename(self.stored_file_name))
+      out.write open(self.stored_file_name).read
     end
+
+    File.delete self.stored_file_name
   end
 
   def job

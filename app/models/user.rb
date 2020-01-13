@@ -190,7 +190,9 @@ class User < ApplicationRecord
   alias_method :Location, :user_location
 
   def reporting_location
-    @reporting_location ||= Location.get_reporting_location(self.user_location) if self.user_location.present?
+    return unless user_location.present?
+
+    @reporting_location ||= Location.get_reporting_location(user_location)
   end
 
   def last_login

@@ -89,9 +89,9 @@ class Lookup < ApplicationRecord
       end
     end
 
-    def display_value(lookup_id, option_id, lookups = nil, opts={})
-      opts[:locale] = I18n.locale
-      Lookup.values(lookup_id, lookups, opts).find{|l| l["id"] == option_id}.try(:[], 'display_text')
+    def display_value(lookup_id, option_id, lookups = nil, opts = {})
+      opts[:locale] ||= I18n.locale
+      Lookup.values(lookup_id, lookups, opts).find { |l| l['id'] == option_id }.try(:[], 'display_text')
     end
 
     def get_location_types

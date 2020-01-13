@@ -109,6 +109,7 @@ class Child < ApplicationRecord
       risk_level.present? ? risk_level : RISK_LEVEL_NONE
     end
     string :sex, as: 'sex_sci'
+    string :national_id_no, as: 'national_id_no_sci'
     string :protection_concerns, multiple: true
 
 

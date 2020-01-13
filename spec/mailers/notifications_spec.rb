@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe NotificationMailer, type: :mailer do
-  describe "approvals" do
+  describe 'approvals' do
     before do
-      [PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role].each(&:destroy_all)
-      @lookup = create :lookup, id: 'lookup-approval-type', name: 'approval type'
+      clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role)
+      @lookup = create :lookup, unique_id: 'lookup-approval-type', name: 'approval type', lookup_values_en: [{'id' => 'value1', 'display_text' => 'value1'}]
       role = create :role, is_manager: true
       @manager1 = create :user, role: role, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
       @manager2 = create :user, role: role, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2'
@@ -12,21 +12,23 @@ describe NotificationMailer, type: :mailer do
       @child = child_with_created_by(@owner.user_name, :name => "child1", :module_id => PrimeroModule::CP, case_id_display: '12345')
     end
 
-    describe "manager_approval_request" do
-      let(:mail) { NotificationMailer.manager_approval_request(@owner.id, @manager2.id, @child.id, 'value1', 'example.com') }
-
-      it "renders the headers" do
-        expect(mail.subject).to eq("Case: #{@child.short_id} - Approval Request")
-        expect(mail.to).to eq(["manager2@primero.dev"])
+    describe 'manager_approval_request' do
+      let(:mail) do
+        NotificationMailer.manager_approval_request(@owner.id, @manager2.id, @child.id, 'value1')
       end
 
-      it "renders the body" do
+      it 'renders the headers' do
+        expect(mail.subject).to eq("Case: #{@child.short_id} - Approval Request")
+        expect(mail.to).to eq(['manager2@primero.dev'])
+      end
+
+      it 'renders the body' do
         expect(mail.body.encoded).to match("The user jnelson is requesting approval for value1 on case .*#{@child.short_id}")
       end
     end
 
     describe "manager_approval_response" do
-      let(:mail) { NotificationMailer.manager_approval_response(@manager1.id, @child.id, 'value1', true, 'example.com', false) }
+      let(:mail) { NotificationMailer.manager_approval_response(@manager1.id, @child.id, 'value1', true, false) }
 
       it "renders the headers" do
         expect(mail.subject).to eq("Case: #{@child.short_id} - Approval Response")
