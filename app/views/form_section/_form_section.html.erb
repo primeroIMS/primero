@@ -1,7 +1,7 @@
 <fieldset id="tab_<%= form_section.section_name %>" class="<%= form_section.section_name %> tab no-border small-12 columns"
           data-first-tab="<%= form_section.is_first_tab %>"
           data-form-section-id="<%= form_section.section_name %>"
-          data-form-section-group-name="<%= form_section.name != form_section.form_group_name ? form_section.form_group_name : "" %>"
+          data-form-section-group-id="<%= form_section.form_group_id %>"
           data-form-name="<%= t(form_section.unique_id, :default => form_section.name) %>">
   <div class="clearfix"></div>
   <%= render 'form_section/error_message', formObject: formObject %>
