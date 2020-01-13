@@ -135,11 +135,11 @@ class Location < ApplicationRecord
     # memoize_in_prod :display_text
 
     def get_reporting_location(location)
-      reporting_admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
-      if location.admin_level ==  reporting_admin_level
+      level = SystemSettings.current&.reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      if location.admin_level == level
         location
       else
-        location.ancestor_by_admin_level(reporting_admin_level)
+        location.ancestor_by_admin_level(level)
       end
     end
     # memoize_in_prod :get_reporting_location

@@ -4,6 +4,12 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
   <body>
-    <p><%= t('email_notification.approval_request_html', user: @user.user_name, approval_type: @approval_type, case_id: link_to(@child.short_id, @url + '/cases/' + @child.id)).html_safe %></p>
+    <p><%=
+      t(
+        'email_notification.approval_request_html',
+        user: @user&.user_name, approval_type: @approval_type,
+        case_id: link_to(@child&.short_id, url_for_v2(@child))
+      ).html_safe
+    %></p>
   </body>
 </html>
