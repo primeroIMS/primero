@@ -76,6 +76,12 @@ export const REFERRAL = "referral";
 
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
+export const RECORD_INFORMATION = [
+  RECORD_OWNER,
+  TRANSFERS_ASSIGNMENTS,
+  REFERRAL
+];
+
 export const ROUTES = {
   account: "/account",
   cases: "/cases",

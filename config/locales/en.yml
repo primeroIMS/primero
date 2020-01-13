@@ -2662,3 +2662,17 @@ en:
     no_flags: "No flags found"
     flag_added: "Flag added successfully"
     flag_deleted: "Flag deleted"
+
+  record_information:
+    assigned_user_names: "Other Assigned Users"
+    created_by: "Record created by"
+    created_by_agency: "Created by agency"
+    module_id: "Module"
+    owned_by_text: "Field/Case/Social Worker"
+    owned_by: "Caseworker Code"
+    owned_by_agency_id: "Agency"
+    previously_owned_by: "Previous Owner"
+    previous_agency: "Previous Agency"
+    reassigned_tranferred_on: "Reassigned / Transferred On"
+    current_owner_separator: "Current Owner"
+    record_history_separator: "Record History"
