@@ -43,6 +43,7 @@ export const attemptSignout = usingIdp => async dispatch => {
   });
 
   if (usingIdp) {
+    console.log("inside usingIdp:::");
     signOut();
   }
 };

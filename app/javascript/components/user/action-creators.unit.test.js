@@ -2,10 +2,12 @@ import { expect } from "chai";
 import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
+import * as idpSelection from "../pages/login/idp-selection";
+
 import { Actions } from "./actions";
 import * as actionCreators from "./action-creators";
 
-describe("User - Action Creators", () => {
+describe.only("User - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
@@ -73,17 +75,23 @@ describe("User - Action Creators", () => {
   it("should check the 'attemptSignout' action creator to return the correct object", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
+    const signOut = sinon.stub(idpSelection, "signOut").callsFake(() => {
+      console.log("stubbed");
+    });
     const expected = {
       path: "tokens",
       method: "DELETE",
       successCallback: Actions.LOGOUT_SUCCESS_CALLBACK
     };
+    const usingIdp = true;
 
-    actionCreators.attemptSignout()(dispatch);
+    actionCreators.attemptSignout(usingIdp)(dispatch);
     const firstCallReturnValue = dispatch.getCall(0).returnValue;
 
     expect(firstCallReturnValue.type).to.deep.equal(Actions.LOGOUT);
     expect(firstCallReturnValue.api).to.deep.equal(expected);
+    expect(signOut).to.have.been.called;
+    signOut.restore();
   });
 
   it("should check the 'checkUserAuthentication' action creator to return the correct object", () => {
