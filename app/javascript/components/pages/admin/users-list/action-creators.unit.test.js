@@ -16,14 +16,15 @@ describe("<UsersList /> - Action Creators", () => {
     expect(creators).to.be.empty;
   });
 
-  it("should check that 'fetchUser' action creator returns the correct object", () => {
+  it("should check that 'fetchUsers' action creator returns the correct object", () => {
     const expectedAction = {
-      type: actions.FETCH_USER,
+      type: actions.USERS,
       api: {
-        path: `${RECORD_PATH.users}/10`
+        params: undefined,
+        path: RECORD_PATH.users
       }
     };
 
-    expect(actionsCreators.fetchUser(10)).to.deep.equal(expectedAction);
+    expect(actionsCreators.fetchUsers()).to.deep.equal(expectedAction);
   });
 });

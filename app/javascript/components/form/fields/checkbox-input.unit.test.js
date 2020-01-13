@@ -1,30 +1,27 @@
 import { FieldRecord } from "../records";
 import { expect, setupMockFieldComponent } from "../../../test";
-import { TEXT_AREA } from "../constants";
 
-import TextInput from "./text-input";
+import CheckboxInput from "./checkbox-input";
 
-describe("<Form /> - fields/<TextInput />", () => {
-  it("renders text input", () => {
-    const { component } = setupMockFieldComponent(TextInput, FieldRecord);
+describe("<Form /> - fields/<SelectInput />", () => {
+  const options = [
+    { id: 1, display_text: "option-1" },
+    { id: 2, display_text: "option-2" }
+  ];
 
-    expect(component.exists("input[name='test_field_2']")).to.be.true;
-  });
-
-  it("renders textarea", () => {
+  it("renders checkbox inputs", () => {
     const { component } = setupMockFieldComponent(
-      TextInput,
+      CheckboxInput,
       FieldRecord,
       {},
-      {},
-      { type: TEXT_AREA }
+      { options }
     );
 
-    expect(component.exists("textarea[name='test_field_2']")).to.be.true;
+    expect(component.find("input")).to.be.lengthOf(2);
   });
 
   it("renders help text", () => {
-    const { component } = setupMockFieldComponent(TextInput, FieldRecord);
+    const { component } = setupMockFieldComponent(CheckboxInput, FieldRecord);
 
     expect(
       component
@@ -35,13 +32,13 @@ describe("<Form /> - fields/<TextInput />", () => {
   });
 
   it("renders errors", () => {
-    const { component } = setupMockFieldComponent(TextInput, FieldRecord);
+    const { component } = setupMockFieldComponent(CheckboxInput, FieldRecord);
 
     component
       .find("FormContext")
       .props()
       .setError("test_field_2", "required", "Name is required");
-    
+
     expect(component.someWhere(n => n.find("Mui-error"))).to.be.true;
     expect(
       component
@@ -52,7 +49,7 @@ describe("<Form /> - fields/<TextInput />", () => {
   });
 
   it("renders required indicator", () => {
-    const { component } = setupMockFieldComponent(TextInput, FieldRecord);
+    const { component } = setupMockFieldComponent(CheckboxInput, FieldRecord);
 
     expect(
       component
@@ -60,11 +57,5 @@ describe("<Form /> - fields/<TextInput />", () => {
         .at(0)
         .text()
     ).to.include("*");
-  });
-
-  it("should autoFocus when prop set", () => {
-    const { component } = setupMockFieldComponent(TextInput, FieldRecord);
-
-    expect(component.find("input").props().autoFocus).to.be.true;
   });
 });

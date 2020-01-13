@@ -84,6 +84,10 @@ describe("<Form>", () => {
       initialValues: { test_field_1: "Hello" }
     });
 
+    component.find('input[name="test_field_1"]').simulate("change", {
+      target: { name: "test_field_1", value: "value-change" }
+    });
+
     await submitForm(component, formRef);
 
     expect(formSubmit).to.have.been.called;

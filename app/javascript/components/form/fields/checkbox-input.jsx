@@ -33,7 +33,7 @@ const CheckboxInput = ({ commonInputProps, options }) => {
           defaultValue={[]}
         />
       </FormGroup>
-      {error && <FormHelperText>{helperText}</FormHelperText>}
+      <FormHelperText>{helperText}</FormHelperText>
     </FormControl>
   );
 };

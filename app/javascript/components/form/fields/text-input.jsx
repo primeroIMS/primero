@@ -14,17 +14,21 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
       type={inputType}
       as={TextField}
       {...commonInputProps}
-      multiline={type === TEXT_AREA}
+      multiline={type && type === TEXT_AREA}
       defaultValue=""
     />
   );
+};
+
+TextInput.defaultProps = {
+  metaInputProps: {}
 };
 
 TextInput.displayName = "TextInput";
 
 TextInput.propTypes = {
   commonInputProps: PropTypes.object.isRequired,
-  metaInputProps: PropTypes.object.isRequired
+  metaInputProps: PropTypes.object
 };
 
 export default TextInput;

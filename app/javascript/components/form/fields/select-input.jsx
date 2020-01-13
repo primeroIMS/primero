@@ -7,7 +7,7 @@ import { Controller } from "react-hook-form";
 const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const { multiSelect } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
-
+  console.log(options)
   const optionLabel = option => {
     const { display_name: displayName, display_text: displayText } =
       typeof option === "object"
@@ -56,7 +56,7 @@ SelectInput.propTypes = {
     helperText: PropTypes.string,
     name: PropTypes.string.isRequired
   }),
-  metaInputProps: PropTypes.object.isRequired,
+  metaInputProps: PropTypes.object,
   options: PropTypes.array
 };
 

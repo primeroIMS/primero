@@ -26,7 +26,7 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
   }, [value]);
 
   const renderCheckboxes = () =>
-    options.map(option => (
+    options?.map(option => (
       <FormControlLabel
         key={`${name}-${option.id}`}
         control={
