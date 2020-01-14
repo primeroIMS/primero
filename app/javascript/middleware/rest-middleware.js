@@ -11,9 +11,9 @@ const defaultFetchOptions = {
   credentials: "same-origin",
   cache: "no-cache",
   redirect: "follow",
-  headers: new Headers({
+  headers: {
     "content-type": "application/json"
-  })
+  }
 };
 
 const queryParams = {
@@ -75,6 +75,10 @@ function handleSuccessCallback(store, successCallback, response, json) {
   }
 }
 
+const getToken = () => {
+  return sessionStorage.getItem("msal.idtoken");
+};
+
 function fetchPayload(action, store, options) {
   const controller = new AbortController();
 
@@ -84,7 +88,15 @@ function fetchPayload(action, store, options) {
 
   const {
     type,
-    api: { path, body, params, method, normalizeFunc, successCallback, db }
+    api: {
+      path,
+      body,
+      params,
+      method,
+      normalizeFunc,
+      successCallback,
+      db
+    }
   } = action;
 
   const fetchOptions = {
@@ -93,6 +105,18 @@ function fetchPayload(action, store, options) {
     signal: controller.signal,
     ...(body && { body: JSON.stringify(body) })
   };
+
+  const token = getToken();
+
+  const headers = {};
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  fetchOptions.headers = new Headers(
+    Object.assign(fetchOptions.headers, headers)
+  );
 
   const fetchPath = buildPath(path, options, params);
 
@@ -107,7 +131,8 @@ function fetchPayload(action, store, options) {
         fetchStatus({ store, type }, "FAILURE", json);
 
         if (response.status === 401) {
-          store.dispatch(attemptSignout());
+          const usingIdp = store.getState().getIn(["idp", "use_identity_provider"]);
+          store.dispatch(attemptSignout(usingIdp));
         }
       } else {
         await handleSuccess(store, { type, json, normalizeFunc, path, db });

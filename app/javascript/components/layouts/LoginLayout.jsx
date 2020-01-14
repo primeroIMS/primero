@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-import { selectAgency } from "../pages/login";
+import { selectAgency } from "../pages/login/login-form";
 import { ModuleLogo } from "../module-logo";
 import { AgencyLogo } from "../agency-logo";
 import { ListIcon } from "../list-icon";
