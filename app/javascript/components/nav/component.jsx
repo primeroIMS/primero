@@ -27,7 +27,9 @@ import {
   READ_REPORTS,
   RESOURCES,
   SHOW_EXPORTS,
-  SHOW_TASKS
+  SHOW_TASKS,
+  ADMIN_RESOURCES,
+  ADMIN_ACTIONS
 } from "../../libs/permissions";
 
 import { NAME } from "./constants";
@@ -126,7 +128,9 @@ const Nav = () => {
     {
       name: i18n.t("navigation.settings"),
       to: ROUTES.admin_users,
-      icon: "settings"
+      icon: "settings",
+      resources: ADMIN_RESOURCES,
+      actions: ADMIN_ACTIONS
     },
     { name: i18n.t("navigation.logout"), to: ROUTES.logout, icon: "logout" }
   ];

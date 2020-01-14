@@ -25,7 +25,8 @@ import {
   SHOW_EXPORTS,
   SHOW_TASKS,
   WRITE_RECORDS,
-  ADMIN_RESOURCES
+  ADMIN_RESOURCES,
+  ADMIN_ACTIONS
 } from "../libs/permissions";
 
 import { ROUTES, MODES } from "./constants";
@@ -128,6 +129,7 @@ export default [
         path: ROUTES.admin,
         component: Admin,
         resources: ADMIN_RESOURCES,
+        actions: ADMIN_ACTIONS,
         exact: false,
         extraProps: {
           routes: [

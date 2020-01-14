@@ -112,9 +112,7 @@ export const PERMITTED_URL = [
   ROUTES.support,
   ROUTES.cases,
   ROUTES.tracing_requests,
-  ROUTES.incidents,
-  ROUTES.admin,
-  ROUTES.admin_users
+  ROUTES.incidents
 ];
 
 export const DATE_FORMAT = "dd-MMM-yyyy";
