@@ -4,17 +4,7 @@
   <title>Primero</title>
 </head>
 <body>
-  <script>
-    (function(root, factory){
-      root.IDP = factory(root);
-    })(this, function(global) {
-      return {
-        providerType: '<%= @identity_provider.provider_type %>',
-        providerClientId: '<%= @identity_provider.client_id %>',
-        authorizationUrl: '<%= @identity_provider.authorization_url %>'
-      }
-    })
-  </script>
+  <%= yield %>
   <%= javascript_bundles_with_chunks_tag 'identity', skip_pipeline: true %>
 </body>
 </html>
