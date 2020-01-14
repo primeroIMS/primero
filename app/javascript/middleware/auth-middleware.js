@@ -1,7 +1,7 @@
 import { push } from "connected-react-router";
 import get from "lodash/get";
 
-import { LOGIN_SUCCESS_CALLBACK } from "../components/pages/login";
+import { LOGIN_SUCCESS_CALLBACK } from "../components/pages/login/login-form";
 import {
   Actions,
   attemptSignout,
@@ -43,7 +43,8 @@ const authMiddleware = store => next => action => {
     .getIn(["user", "isAuthenticated"], false);
 
   if (routeChanged && location === "/logout") {
-    store.dispatch(attemptSignout());
+      const usingIdp = store.getState().getIn(["idp", "use_identity_provider"]);
+      store.dispatch(attemptSignout(usingIdp));
   }
 
   if (["/login", "/"].includes(location) && isAuthenticated) {
@@ -56,7 +57,9 @@ const authMiddleware = store => next => action => {
 
   if (action.type === Actions.LOGOUT_FINISHED) logoutSuccessHandler(store);
 
-  if (routeChanged && location !== "/login" && !isAuthenticated) {
+  const searchPattern = /^\/login/;
+  if (routeChanged && !searchPattern.test(location) && !isAuthenticated) {
+    console.log('redirect to login');
     redirectTo(store, "/login");
   }
 

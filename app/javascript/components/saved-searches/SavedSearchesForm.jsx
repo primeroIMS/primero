@@ -18,7 +18,7 @@ import qs from "qs";
 import { push } from "connected-react-router";
 
 import { enqueueSnackbar } from "../notifier";
-import { selectModules } from "../pages/login/selectors";
+import { selectModules } from "../pages/login/login-form/selectors";
 import { useI18n } from "../i18n";
 import { ROUTES } from "../../config";
 

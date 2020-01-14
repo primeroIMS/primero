@@ -1,47 +1,33 @@
 import { expect } from "chai";
-import { Map } from "immutable";
+import { fromJS } from "immutable";
 
 import { reducers } from "./reducers";
 
 describe("<Login /> - Reducers", () => {
-  const defaultState = Map({
-    module: "primero",
-    agency: "unicef",
-    isAuthenticated: false
-  });
+  const defaultState = fromJS({});
 
-  it("should handle LOGIN_STARTED", () => {
-    const expected = Map({
-      module: "primero",
-      agency: "unicef",
-      isAuthenticated: false,
-      error: null
+  it("should handle LOGIN_SUCCESS", () => {
+    const expected = fromJS({
+      identity_providers: [
+        {name: "unicef"},
+        {name: "primero"}
+      ],
+      use_identity_provider: true
     });
+
     const action = {
-      type: "user/LOGIN_STARTED",
+      type: "idp/LOGIN_SUCCESS",
       payload: {
-        error: null
+        data: [
+          {name: "unicef"},
+          {name: "primero"}
+        ],
+        metadata: {
+          use_identity_provider: true
+        }
       }
     };
-    const newState = reducers.user(defaultState, action);
-
-    expect(newState).to.deep.equal(expected);
-  });
-
-  it("should handle LOGIN_FAILURE", () => {
-    const expected = Map({
-      module: "primero",
-      agency: "unicef",
-      isAuthenticated: false,
-      error: "Invalid User name or password."
-    });
-    const action = {
-      type: "user/LOGIN_FAILURE",
-      payload: {
-        error: "Invalid User name or password."
-      }
-    };
-    const newState = reducers.user(defaultState, action);
+    const newState = reducers.idp(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
