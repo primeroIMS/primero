@@ -13,7 +13,7 @@ import { ROUTES } from "../../../../config";
 
 import { form, validations } from "./form";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
-import { getUser } from "./selectors";
+import { getUser, getErrors } from "./selectors";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -23,6 +23,7 @@ const Container = ({ mode }) => {
   const { pathname } = useLocation();
   const { id } = useParams();
   const user = useSelector(state => getUser(state));
+  const formErrors = useSelector(state => getErrors(state))
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
   const validationSchema = validations(formMode, i18n);
@@ -104,6 +105,7 @@ const Container = ({ mode }) => {
           ref={formRef}
           validations={validationSchema}
           initialValues={user.toJS()}
+          formErrors={formErrors}
         />
       </PageContent>
     </LoadingIndicator>

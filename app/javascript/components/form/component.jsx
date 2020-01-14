@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp  */
 /* eslint-disable react/display-name */
 
-import React, { useImperativeHandle, forwardRef } from "react";
+import React, { useImperativeHandle, forwardRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, FormContext } from "react-hook-form";
 import isEmpty from "lodash/isEmpty";
@@ -21,7 +21,8 @@ const Component = ({
   mode,
   initialValues,
   formRef,
-  useCancelPrompt
+  useCancelPrompt,
+  formErrors
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -53,6 +54,16 @@ const Component = ({
     }
   }));
 
+  useEffect(() => {
+    formErrors.forEach(error => {
+      formMethods.setError(
+        error.get("detail"),
+        "",
+        i18n.t(error.getIn(["message", 0]))
+      );
+    });
+  }, [formErrors]);
+
   const renderFormSections = () =>
     formSections.map(formSection => (
       <FormSection formSection={formSection} key={formSection.unique_id} />
@@ -69,6 +80,7 @@ const Component = ({
 Component.displayName = "Form";
 
 Component.propTypes = {
+  formErrors: PropTypes.array,
   formRef: PropTypes.object.isRequired,
   formSections: PropTypes.object.isRequired,
   initialValues: PropTypes.object,

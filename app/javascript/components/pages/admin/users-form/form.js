@@ -16,19 +16,32 @@ export const validations = (formMode, i18n) =>
     email: yup.string().required(),
     full_name: yup.string().required(),
     module_unique_ids: yup.array().required(),
-    role_unique_id: yup.string().required(),
-    user_group_unique_ids: yup.array().required(),
-    user_name: yup.string().required(),
-    ...(formMode.get("isNew") && { password: yup.string().required() }),
-    ...(formMode.get("isNew") && {
-      password_confirmation: yup
+    password: yup.lazy(() => {
+      const defaultValidation = yup.string().min(8);
+
+      if (formMode.get("isNew")) {
+        return defaultValidation.required();
+      }
+
+      return defaultValidation;
+    }),
+    password_confirmation: yup.lazy(() => {
+      const defaultValidation = yup
         .string()
         .oneOf(
           [yup.ref("password"), null],
           i18n.t("errors.models.user.password_mismatch")
-        )
-        .required()
-    })
+        );
+
+      if (formMode.get("isNew")) {
+        return defaultValidation.required();
+      }
+
+      return defaultValidation;
+    }),
+    role_unique_id: yup.string().required(),
+    user_group_unique_ids: yup.array().required(),
+    user_name: yup.string().required()
   });
 
 export const form = (i18n, formMode) => {
