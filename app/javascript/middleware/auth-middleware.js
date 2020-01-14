@@ -2,6 +2,8 @@ import { push } from "connected-react-router";
 import get from "lodash/get";
 
 import { LOGIN_SUCCESS_CALLBACK } from "../components/pages/login/login-form";
+import { signOut } from "../components/pages/login/idp-selection";
+
 import {
   Actions,
   attemptSignout,
@@ -44,7 +46,7 @@ const authMiddleware = store => next => action => {
 
   if (routeChanged && location === "/logout") {
       const usingIdp = store.getState().getIn(["idp", "use_identity_provider"]);
-      store.dispatch(attemptSignout(usingIdp));
+      store.dispatch(attemptSignout(usingIdp, signOut));
   }
 
   if (["/login", "/"].includes(location) && isAuthenticated) {

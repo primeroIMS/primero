@@ -1,6 +1,5 @@
 import { DB } from "../../config";
 import { loadApplicationResources } from "../application";
-import { signOut } from "../pages/login/idp-selection";
 
 import { Actions } from "./actions";
 
@@ -32,7 +31,7 @@ export const setAuthenticatedUser = user => async dispatch => {
   dispatch(loadApplicationResources());
 };
 
-export const attemptSignout = usingIdp => async dispatch => {
+export const attemptSignout = (usingIdp, signOut) => async dispatch => {
   dispatch({
     type: Actions.LOGOUT,
     api: {
@@ -43,7 +42,6 @@ export const attemptSignout = usingIdp => async dispatch => {
   });
 
   if (usingIdp) {
-    console.log("inside usingIdp:::");
     signOut();
   }
 };

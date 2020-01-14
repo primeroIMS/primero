@@ -75,9 +75,7 @@ describe.only("User - Action Creators", () => {
   it("should check the 'attemptSignout' action creator to return the correct object", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
-    const signOut = sinon.stub(idpSelection, "signOut").callsFake(() => {
-      console.log("stubbed");
-    });
+    const signOut = sinon.stub(idpSelection, "signOut");
     const expected = {
       path: "tokens",
       method: "DELETE",
@@ -85,12 +83,31 @@ describe.only("User - Action Creators", () => {
     };
     const usingIdp = true;
 
-    actionCreators.attemptSignout(usingIdp)(dispatch);
+    actionCreators.attemptSignout(usingIdp, signOut)(dispatch);
     const firstCallReturnValue = dispatch.getCall(0).returnValue;
 
     expect(firstCallReturnValue.type).to.deep.equal(Actions.LOGOUT);
     expect(firstCallReturnValue.api).to.deep.equal(expected);
+    signOut.restore();
+  });
+
+  it("should check the 'attemptSignout' to call msal signOut if using IDP", () => {
+    const store = configureStore()({});
+    const dispatch = sinon.spy(store, "dispatch");
+    const signOut = sinon.stub(idpSelection, "signOut");
+    const usingIdp = true;
+    actionCreators.attemptSignout(usingIdp, signOut)(dispatch);
     expect(signOut).to.have.been.called;
+    signOut.restore();
+  });
+
+  it("should check the 'attemptSignout' to not call msal signOut if not using IDP", () => {
+    const store = configureStore()({});
+    const dispatch = sinon.spy(store, "dispatch");
+    const signOut = sinon.stub(idpSelection, "signOut");
+    const usingIdp = false;
+    actionCreators.attemptSignout(usingIdp, signOut)(dispatch);
+    sinon.assert.notCalled(signOut);
     signOut.restore();
   });
 
