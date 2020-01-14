@@ -65,3 +65,24 @@ export const ageParser = value => {
 
   return "";
 };
+
+export const handleMoreFiltersChange = (
+  moreFilters,
+  setMoreFilters,
+  fieldName,
+  getValues
+) => {
+  const formValues = getValues()[fieldName];
+
+  if (!Object.keys(moreFilters).includes(fieldName)) {
+    setMoreFilters({
+      ...moreFilters,
+      [fieldName]: formValues
+    });
+  }
+  if ((Array.isArray(formValues) && !formValues?.length) || !formValues) {
+    const { [fieldName]: deleted, ...rest } = moreFilters;
+
+    setMoreFilters(rest);
+  }
+};

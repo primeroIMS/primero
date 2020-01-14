@@ -13,10 +13,19 @@ import Panel from "../panel";
 import { getOption } from "../../../record-form";
 import { useI18n } from "../../../i18n";
 
-import { registerInput, whichOptions, optionText } from "./utils";
+import {
+  registerInput,
+  whichOptions,
+  optionText,
+  handleMoreFiltersChange
+} from "./utils";
 import handleFilterChange, { getFilterProps } from "./value-handlers";
 
-const CheckboxFilter = ({ filter }) => {
+const CheckboxFilter = ({
+  filter,
+  moreSectionFilters,
+  setMoreSectionFilters
+}) => {
   const i18n = useI18n();
   const { register, unregister, setValue, user, getValues } = useFormContext();
   const valueRef = useRef();
@@ -26,6 +35,7 @@ const CheckboxFilter = ({ filter }) => {
     i18n
   });
   const defaultValue = isObject ? {} : [];
+
   const [inputValue, setInputValue] = useState(defaultValue);
 
   useEffect(() => {
@@ -36,6 +46,15 @@ const CheckboxFilter = ({ filter }) => {
       defaultValue,
       setInputValue
     });
+
+    // TODO: MOVE TO HELPER
+    if (
+      Object.keys(moreSectionFilters)?.length &&
+      Object.keys(moreSectionFilters).includes(fieldName)
+    ) {
+      setValue(fieldName, moreSectionFilters[fieldName]);
+      setInputValue(moreSectionFilters[fieldName]);
+    }
 
     return () => {
       unregister(fieldName);
@@ -53,7 +72,7 @@ const CheckboxFilter = ({ filter }) => {
     i18n
   });
 
-  const handleChange = event =>
+  const handleChange = event => {
     handleFilterChange({
       type: isObject ? "objectCheckboxes" : "checkboxes",
       event,
@@ -62,6 +81,14 @@ const CheckboxFilter = ({ filter }) => {
       setValue,
       fieldName
     });
+
+    handleMoreFiltersChange(
+      moreSectionFilters,
+      setMoreSectionFilters,
+      fieldName,
+      getValues
+    );
+  };
 
   const handleReset = () => {
     setValue(fieldName, defaultValue);
@@ -102,10 +129,16 @@ const CheckboxFilter = ({ filter }) => {
   );
 };
 
+CheckboxFilter.defaultProps = {
+  moreSectionFilters: {}
+};
+
 CheckboxFilter.displayName = "CheckboxFilter";
 
 CheckboxFilter.propTypes = {
-  filter: PropTypes.object.isRequired
+  filter: PropTypes.object.isRequired,
+  moreSectionFilters: PropTypes.object,
+  setMoreSectionFilters: PropTypes.func
 };
 
 export default CheckboxFilter;

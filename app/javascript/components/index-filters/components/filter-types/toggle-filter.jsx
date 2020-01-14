@@ -11,10 +11,14 @@ import { getOption } from "../../../record-form";
 import { useI18n } from "../../../i18n";
 
 import styles from "./styles.css";
-import { registerInput, whichOptions } from "./utils";
+import { registerInput, whichOptions, handleMoreFiltersChange } from "./utils";
 import handleFilterChange, { valueParser } from "./value-handlers";
 
-const ToggleFilter = ({ filter }) => {
+const ToggleFilter = ({
+  filter,
+  moreSectionFilters,
+  setMoreSectionFilters
+}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { register, unregister, setValue, getValues } = useFormContext();
@@ -35,6 +39,15 @@ const ToggleFilter = ({ filter }) => {
       setInputValue
     });
 
+    // TODO: MOVE TO HELPER
+    if (
+      Object.keys(moreSectionFilters)?.length &&
+      Object.keys(moreSectionFilters).includes(fieldName)
+    ) {
+      setValue(fieldName, moreSectionFilters[fieldName]);
+      setInputValue(moreSectionFilters[fieldName]);
+    }
+
     return () => {
       unregister(fieldName);
     };
@@ -51,7 +64,7 @@ const ToggleFilter = ({ filter }) => {
     i18n
   });
 
-  const handleChange = (event, value) =>
+  const handleChange = (event, value) => {
     handleFilterChange({
       type: "basic",
       event,
@@ -61,6 +74,14 @@ const ToggleFilter = ({ filter }) => {
       setValue,
       fieldName
     });
+
+    handleMoreFiltersChange(
+      moreSectionFilters,
+      setMoreSectionFilters,
+      fieldName,
+      getValues
+    );
+  };
 
   const handleReset = () => {
     setValue(fieldName, []);
@@ -103,7 +124,9 @@ const ToggleFilter = ({ filter }) => {
 ToggleFilter.displayName = "ToggleFilter";
 
 ToggleFilter.propTypes = {
-  filter: PropTypes.object.isRequired
+  filter: PropTypes.object.isRequired,
+  moreSectionFilters: PropTypes.object,
+  setMoreSectionFilters: PropTypes.func
 };
 
 export default ToggleFilter;
