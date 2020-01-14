@@ -1,7 +1,20 @@
+# frozen_string_literal: true
+
+# This model represents the Primero end user and the associated application permissions.
+# Primero can be configured to perform its own password-based authentication, in which case the
+# User model is responsible for storing the encrypted password and associated whitelisted JWT
+# token identifiers. If external identity providers are used (over OpenID Connect), the
+# model is not responsible for storing authentication information, and must mirror a user
+# in external IDP (such as Azure Active Directory).
 class User < ApplicationRecord
   include Importable
   include Devise::JWT::RevocationStrategies::Whitelist
   # include Memoizable
+
+  USER_NAME_REGEX = /\A[^ ]+\z/.freeze
+  EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})$\z/.freeze
+  PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/.freeze
+  ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
 
   attr_reader :refresh_associated_user_groups, :refresh_associated_user_agencies
 
@@ -13,6 +26,7 @@ class User < ApplicationRecord
 
   belongs_to :role
   belongs_to :agency
+  belongs_to :identity_provider, optional: true
 
   has_many :saved_searches
   has_and_belongs_to_many :user_groups
@@ -30,30 +44,30 @@ class User < ApplicationRecord
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
 
-  ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id]
-
   before_create :set_agency_services
   before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code
   after_save :update_associated_groups_or_agencies
 
-
-  validates_presence_of :full_name, :message => "errors.models.user.full_name"
-
-  validates_presence_of :password_confirmation, :message => "errors.models.user.password_confirmation", if: -> { password.present? }
-  validates_presence_of :role_id, :message => "errors.models.user.role_ids"
-
-  validates_presence_of :organization, :message => "errors.models.user.organization"
-
-  validates_format_of :user_name, :with => /\A[^ ]+\z/, :message => "errors.models.user.user_name"
-  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})$\z/, :if => :email_entered?,
-                      :message => "errors.models.user.email"
-  validates_format_of :password, :with => /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/,
-                      :message => "errors.models.user.password_text", if: -> { password.present? }
-
-  validates_confirmation_of :password, :message => "errors.models.user.password_mismatch"
-
-  validate :is_user_name_unique
-  validate :validate_locale
+  validates :full_name, presence: { message: 'errors.models.user.full_name' }
+  validates :user_name, presence: true, uniqueness: { message: 'errors.models.user.user_name_uniqueness' }
+  validates :user_name, format: { with: USER_NAME_REGEX, message: 'errors.models.user.user_name' }, unless: :using_idp?
+  validates :user_name, format: { with: EMAIL_REGEX, message: 'errors.models.user.user_name' }, if: :using_idp?
+  validates :email, format: { with: EMAIL_REGEX, message: 'errors.models.user.email' }, allow_nil: true
+  validates :password,
+            presence: true,
+            length: { minimum: 8, message: 'errors.models.user.password_mismatch' },
+            format: { with: PASSWORD_REGEX, message: 'errors.models.user.password_mismatch' },
+            confirmation: { message: 'errors.models.user.password_mismatch' },
+            if: :password_required?
+  validates :password_confirmation,
+            presence: { message: 'errors.models.user.password_confirmation' },
+            if: :password_required?
+  validates :role, presence: { message: 'errors.models.user.role_ids' }
+  validates :agency, presence: { message: 'errors.models.user.organization' }
+  validates :identity_provider, presence: { message: 'errors.models.user.identity_provider' }, if: :using_idp?
+  validates :locale,
+            inclusion: { in: I18n.available_locales.map(&:to_s), message: 'errors.models.user.invalid_locale' },
+            allow_nil: true
 
   class << self
     def hidden_attributes
@@ -61,7 +75,7 @@ class User < ApplicationRecord
     end
 
     def password_parameters
-      %w(password password_confirmation)
+      %w[password password_confirmation]
     end
 
     def unique_id_parameters
@@ -76,7 +90,7 @@ class User < ApplicationRecord
     end
 
     def get_unique_instance(attributes)
-      find_by_user_name(attributes['user_name'])
+      User.find_by(user_name: attributes['user_name'])
     end
     # memoize_in_prod :get_unique_instance
 
@@ -84,6 +98,14 @@ class User < ApplicationRecord
       "user-#{name}".parameterize.dasherize
     end
     # memoize_in_prod :user_id_from_name
+
+    def agencies_for_user(user_names)
+      where(user_name: user_names).map(&:agency).uniq
+    end
+
+    def last_login_timestamp(user_name)
+      AuditLog.where(action_name: 'login', user_name: user_name).try(:last).try(:timestamp)
+    end
 
     def agencies_for_user_names(user_names)
       Agency.joins(:users).where('users.user_name in (?)', user_names)
@@ -109,7 +131,7 @@ class User < ApplicationRecord
       users = User.all
       if filters.present?
         filters = filters.compact
-        filters['disabled'] = filters['disabled'] == 'true' ? true : false
+        filters['disabled'] = (filters['disabled'] == 'true')
         users = users.where(filters)
         if user.present? && user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
           users = users.where(organization: user.organization)
@@ -121,7 +143,7 @@ class User < ApplicationRecord
       pagination[:page] = pagination[:page] > 1 ? pagination[:per_page] * pagination[:page] : 0
       users = users.limit(pagination[:per_page]).offset(pagination[:page])
       users = users.order(sort) if sort.present?
-      results.merge({ users: users })
+      results.merge(users: users)
     end
 
     def users_for_assign(user, model)
@@ -209,19 +231,12 @@ class User < ApplicationRecord
     user_groups.pluck(:unique_id)
   end
 
-  def email_entered?
-    !email.blank?
+  def using_idp?
+    Rails.configuration.x.idp.use_identity_provider
   end
 
-  def is_user_name_unique
-    user = User.find_by_user_name(user_name)
-    return true if user.nil? || id == user.id
-    errors.add(:user_name, I18n.t("errors.models.user.user_name_uniqueness"))
-  end
-
-  def validate_locale
-    return true if self.locale.blank? || Primero::Application::locales.include?(self.locale)
-    errors.add(:locale, I18n.t("errors.models.user.invalid_locale", user_locale: self.locale))
+  def password_required?
+    !using_idp? && (!persisted? || !password.nil? || !password_confirmation.nil?)
   end
 
   def user_location

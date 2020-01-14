@@ -30,6 +30,9 @@ module Primero
       #{config.root}/lib/extensions
     )
 
+
+    config.cache_store = :memory_store
+
     # I18n deprecation
     config.i18n.enforce_available_locales = false
 

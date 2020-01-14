@@ -1,5 +1,4 @@
 import {
-  Login,
   Dashboard,
   Reports,
   Report,
@@ -12,6 +11,7 @@ import {
   Admin,
   UsersList
 } from "../components/pages";
+import Login from "../components/pages";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
 import { AppLayout, LoginLayout } from "../components/layouts";

@@ -3,7 +3,7 @@ import {
   routerMiddleware
 } from "connected-react-router/immutable";
 import { createBrowserHistory } from "history";
-import { Map } from "immutable";
+import { fromJS } from "immutable";
 import { applyMiddleware, compose, createStore } from "redux";
 import { combineReducers } from "redux-immutable";
 import { createLogger } from "redux-logger";
@@ -17,7 +17,7 @@ export const history = createBrowserHistory({
 });
 
 export default () => {
-  const preloadedState = Map();
+  const preloadedState = fromJS({});
 
   const middleware = [
     routerMiddleware(history),

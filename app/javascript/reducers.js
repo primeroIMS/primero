@@ -8,7 +8,8 @@ import * as Nav from "./components/nav";
 import * as Notifier from "./components/notifier";
 import * as Dashboard from "./components/pages/dashboard";
 import * as ExportList from "./components/pages/export-list";
-import * as Login from "./components/pages/login";
+import { reducers as loginReducers } from "./components/pages/login/login-form";
+import { reducers as idpReducers } from "./components/pages/login";
 import * as PotentialMatches from "./components/pages/potential-matches";
 import * as Report from "./components/pages/report";
 import * as Reports from "./components/pages/reports-list";
@@ -54,12 +55,13 @@ const rootReducer = {
   ui: combineReducers({
     ...Nav.reducers,
     ...I18n.reducers,
-    ...Login.reducers
+    ...loginReducers
   }),
   ...User.reducers,
   ...RecordForms.reducers,
   ...Notifier.reducers,
-  ...Application.reducers
+  ...Application.reducers,
+  ...idpReducers
 };
 
 export default rootReducer;
