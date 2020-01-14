@@ -7,7 +7,7 @@ import * as idpSelection from "../pages/login/idp-selection";
 import { Actions } from "./actions";
 import * as actionCreators from "./action-creators";
 
-describe.only("User - Action Creators", () => {
+describe("User - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
