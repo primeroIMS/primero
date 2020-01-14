@@ -257,7 +257,7 @@ describe User do
                               form_sections: [single_form],
                               id: 1)
     end
-    before(:each) { User.destroy_all }
+    before(:each) { clean_data(User, IdentityProvider) }
 
     it 'should validate uniqueness of username for new users' do
       user = build_user(user_name: 'the_user_name')
