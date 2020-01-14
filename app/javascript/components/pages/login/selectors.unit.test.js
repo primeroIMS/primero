@@ -2,6 +2,7 @@ import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { selectUseIdentityProvider } from "./selectors";
+
 const stateWithProviders = fromJS({
   idp: {
     use_identity_provider: true

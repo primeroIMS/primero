@@ -1,32 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
-  <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="google" value="notranslate" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Primero</title>
-  <%= favicon_link_tag('favicon-16x16.png?v=3') %>
-  <!-- jss-insertion-point -->
 </head>
-<body dir="ltr">
+<body>
   <%= yield %>
-  <div id="root"></div>
-  <script src="/javascripts/i18n.js"></script>
-  <script src="/<%= I18N_TRANSLATIONS_FILE %>"></script>
-  <script>
-    (function(root, factory){
-      root.IDP = factory(root);
-    })(this, function(global) {
-      return {
-        providerType: '<%= @identity_provider.provider_type %>',
-        providerClientId: '<%= @identity_provider.client_id %>',
-        authorizationUrl: '<%= @identity_provider.authorization_url %>'
-      }
-    })
-  </script>
   <%= javascript_bundles_with_chunks_tag 'identity', skip_pipeline: true %>
 </body>
 </html>
