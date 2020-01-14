@@ -1,0 +1,15 @@
+.formTitle {
+  display: flex;
+  background: $(theme.primero.colors.stickyGrey);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  align-items: center;
+}
+
+.formHeading {
+  color: $(theme.primero.colors.solidBlack);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: $(theme.typography.pxToRem(22));
+}

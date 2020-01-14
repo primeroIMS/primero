@@ -13,6 +13,7 @@ import {
   ENABLE_DISABLE_RECORD,
   ADD_NOTE,
   ADD_INCIDENT,
+  ADD_SERVICE,
   checkPermissions
 } from "../../libs/permissions";
 import Permission from "../application/permission";
@@ -23,6 +24,7 @@ import { ToggleEnable } from "./toggle-enable";
 import { ToggleOpen } from "./toggle-open";
 import { Transitions } from "./transitions";
 import AddIncident from "./add-incident";
+import AddService from "./add-service";
 
 const Container = ({
   recordType,
@@ -39,6 +41,7 @@ const Container = ({
   const [transitionType, setTransitionType] = useState("");
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
   const [incidentDialog, setIncidentDialog] = useState(false);
+  const [serviceDialog, setServiceDialog] = useState(false);
 
   const enableState =
     record && record.get("record_state") ? "disable" : "enable";
@@ -90,6 +93,8 @@ const Container = ({
 
   const canAddIncident = checkPermissions(userPermissions, ADD_INCIDENT);
 
+  const canAddService = checkPermissions(userPermissions, ADD_SERVICE);
+
   const canCustomExport = checkPermissions(userPermissions, EXPORT_CUSTOM);
 
   const handleClick = event => {
@@ -139,6 +144,10 @@ const Container = ({
 
   const handleIncidentDialog = () => {
     setIncidentDialog(true);
+  };
+
+  const handleServiceDialog = () => {
+    setServiceDialog(true);
   };
 
   const canOpenOrClose =
@@ -210,11 +219,10 @@ const Container = ({
     },
     {
       name: i18n.t("actions.services_section_from_case"),
-      action: () => {
-        // eslint-disable-next-line no-console
-        console.log("Some action");
-      },
-      recordType: "cases"
+      action: handleServiceDialog,
+      recordType: RECORD_PATH.cases,
+      recordListAction: true,
+      condition: canAddService
     },
     {
       name: i18n.t(`actions.${openState}`),
@@ -321,6 +329,15 @@ const Container = ({
           close={() => setIncidentDialog(false)}
           recordType={recordType}
           records={[]}
+          selectedRowsIndex={selectedRecords}
+        />
+      </Permission>
+
+      <Permission resources={recordType} actions={ADD_SERVICE}>
+        <AddService
+          openServiceDialog={serviceDialog}
+          close={() => setServiceDialog(false)}
+          recordType={recordType}
           selectedRowsIndex={selectedRecords}
         />
       </Permission>
