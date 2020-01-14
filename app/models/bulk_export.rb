@@ -8,12 +8,7 @@ class BulkExport < ApplicationRecord
   TERMINATED = 'job.status.terminated' # The job terminated due to an error
   COMPLETE = 'job.status.complete'     # The job completed successfully
   ARCHIVED = 'job.status.archived'     # The job's files have been cleaned up
-  # TODO: This will change with ActiveStorage
-  EXPORT_DIR = File.join(Rails.root, 'tmp', 'export')
   ARCHIVE_CUTOFF = 30.days.ago
-
-  # TODO: This will change with ActiveStorage
-  FileUtils.mkdir_p EXPORT_DIR
 
   scope :owned, ->(owner_user_name) { where(owned_by: owner_user_name) }
 
@@ -24,6 +19,8 @@ class BulkExport < ApplicationRecord
   validates :record_type, presence: true
   validates :format, presence: true
   validates :export_file, file_size: { less_than_or_equal_to: 50.megabytes }, if: -> { export_file.attached? }
+
+  before_save :generate_file_name
 
   def export
     process_records_in_batches(500) do |records_batch|
@@ -41,7 +38,7 @@ class BulkExport < ApplicationRecord
 
   def exporter_type
     @exporter_type ||= Exporters.active_exporters_for_model(model_class)
-                                .select { |e| e.id == format.to_s }.first
+                                .find { |e| e.id == format.to_s }
   end
 
   def exporter
@@ -94,10 +91,16 @@ class BulkExport < ApplicationRecord
     end
   end
 
+  def generate_file_name
+    return if file_name.present?
+
+    "#{record_type&.pluralize}-#{Time.now.strftime('%Y%m%d.%M%S%M%L')}.#{exporter_type&.mime_type}"
+  end
+
   def stored_file_name
     return unless file_name.present?
 
-    File.join(EXPORT_DIR, "#{id}_#{file_name}")
+    File.join(Rails.configuration.exports_directory, "#{id}_#{file_name}")
   end
 
   def encrypted_file_name
