@@ -471,10 +471,9 @@ class Incident < CouchRest::Model::Base
     if self.violations.present?
       self.violations.to_hash.each do |key, value|
         value.each do |v|
-          pending = I18n.t('incident.violation.pending')
-          v.verified = pending unless v.verified.present?
-          v.verified_ctfmr_technical = pending unless v.verified_ctfmr_technical.present?
-          v.ctfmr_verified = pending unless v.ctfmr_verified.present?
+          v.verified = Violation::PENDING unless v.verified.present?
+          v.verified_ctfmr_technical = Violation::PENDING unless v.verified_ctfmr_technical.present?
+          v.ctfmr_verified = Violation::PENDING unless v.ctfmr_verified.present?
         end
       end
     end
