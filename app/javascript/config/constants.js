@@ -105,6 +105,7 @@ export const PERMITTED_URL = [
   ROUTES.account,
   ROUTES.dashboard,
   ROUTES.login,
+  ROUTES.login_redirect,
   ROUTES.logout,
   ROUTES.not_authorized,
   ROUTES.support,

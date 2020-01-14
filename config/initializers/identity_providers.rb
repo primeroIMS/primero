@@ -1,4 +1,6 @@
-begin
+# frozen_string_literal: true
+
+Rails.application.config.before_initialize do
   if ActiveRecord::Base.connection.table_exists? :system_settings
     system_settings = SystemSettings.current
     if system_settings.present?

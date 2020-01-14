@@ -13,6 +13,7 @@ Rails.application.routes.draw do
              sign_out_via: :delete,
              defaults: { format: :json }, constraints: { format: :json }
 
+  resources :login, only: [:index]
 
   namespace :api do
     namespace :v2, defaults: { format: :json },
