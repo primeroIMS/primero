@@ -186,7 +186,7 @@ describe FormSection do
   end
 
   describe "group_forms" do
-    it "groups forms by the group name" do
+    it "groups forms by the group id" do
       form_section_a = FormSection.new(unique_id: "A", name: "A", parent_form: 'case', form_group_id: "x")
       form_section_b = FormSection.new(unique_id: "B", name: "B", parent_form: 'case', form_group_id: "x")
       form_section_c = FormSection.new(unique_id: "C", name: "C", parent_form: 'case', form_group_id: "y")
@@ -194,9 +194,9 @@ describe FormSection do
       result = FormSection.group_forms([form_section_a, form_section_b, form_section_c], lookups: [@lookup])
 
       expect(result).to be_a Hash
-      expect(result.keys).to match_array(["X", "Y"])
-      expect(result["X"]).to match_array([form_section_a, form_section_b])
-      expect(result["Y"]).to match_array([form_section_c])
+      expect(result.keys).to match_array(["x", "y"])
+      expect(result["x"]).to match_array([form_section_a, form_section_b])
+      expect(result["y"]).to match_array([form_section_c])
     end
   end
 

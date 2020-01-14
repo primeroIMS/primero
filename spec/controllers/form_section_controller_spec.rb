@@ -72,7 +72,7 @@ describe FormSectionController do
   describe "get index" do
     it "populate the view with all the form sections in order ignoring enabled or disabled" do
       forms = [@form_section_a, @form_section_b, @form_section_d]
-      grouped_forms = forms.group_by{|e| e.form_group_name}
+      grouped_forms = forms.group_by{|e| e.form_group_id}
       get :index, params: {:module_id => @primero_module.id, :parent_form => 'case'}
       assigns[:form_sections].should == grouped_forms
     end
