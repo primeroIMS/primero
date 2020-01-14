@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Api::V2::DashboardsController, type: :request do
 
   before :each do
-    Lookup.delete_all
+    clean_data(Lookup)
 
     SystemSettings.create!(reporting_location_config: {
       admin_level: 2,
@@ -89,10 +89,10 @@ describe Api::V2::DashboardsController, type: :request do
       expect(reporting_location_dashboard['indicators']['reporting_location_closed_last_week']['cty']['count']).to eq(1)
 
       protection_concerns_dashboard = json['data'].find { |d| d['name'] == 'dashboard.dash_protection_concerns' }
-      expect(protection_concerns_dashboard['indicators']['Open Cases']['refugee']['count']).to eq(2)
-      expect(protection_concerns_dashboard['indicators']['New (This Week)']['refugee']['count']).to eq(1)
-      expect(protection_concerns_dashboard['indicators']['All Cases']['refugee']['count']).to eq(4)
-      expect(protection_concerns_dashboard['indicators']['Closed (This Week)']['refugee']['count']).to eq(1)
+      expect(protection_concerns_dashboard['indicators']['protection_concerns_open_cases']['refugee']['count']).to eq(2)
+      expect(protection_concerns_dashboard['indicators']['protection_concerns_new_this_week']['refugee']['count']).to eq(1)
+      expect(protection_concerns_dashboard['indicators']['protection_concerns_all_cases']['refugee']['count']).to eq(4)
+      expect(protection_concerns_dashboard['indicators']['protection_concerns_closed_this_week']['refugee']['count']).to eq(1)
     end
   end
 

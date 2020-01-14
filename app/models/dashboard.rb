@@ -6,8 +6,7 @@ class Dashboard < ValueObject
   end
 
   DYNAMIC = [
-    'dash_reporting_location',
-    'dash_protection_concerns'
+    'dash_reporting_location'
   ].freeze
 
   # Note: The constant name of each Dashboard needs to match the value of the corresponding Permission
@@ -111,13 +110,16 @@ class Dashboard < ValueObject
     indicators: [Indicators::Case::TASKS_OVERDUE_FOLLOWUPS]
   ).freeze
 
-  def self.dash_protection_concerns
-    Dashboard.new(
-      name: "dash_protection_concerns",
-      type: 'indicator',
-      indicators: Indicators::Case::protection_concerns_indicators
-    ).freeze
-  end
+  DASH_PROTECTION_CONCERNS = Dashboard.new(
+    name: 'dash_protection_concerns',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::PROTECTION_CONCERNS_OPEN_CASES,
+      Indicators::Case::PROTECTION_CONCERNS_NEW_THIS_WEEK,
+      Indicators::Case::PROTECTION_CONCERNS_ALL_CASES,
+      Indicators::Case::PROTECTION_CONCERNS_CLOSED_THIS_WEEK
+    ]
+  ).freeze
 
   def self.dash_reporting_location
     Dashboard.new(
@@ -126,5 +128,4 @@ class Dashboard < ValueObject
       indicators: Indicators::Case.reporting_location_indicators
     ).freeze
   end
-
 end

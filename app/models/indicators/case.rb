@@ -19,49 +19,6 @@ module Indicators
 
     #NEW = TODO: Cases that have just been assigned to me. Need extra work.
 
-    REPORTING_LOCATION_OPEN = FacetedIndicator.new(
-      name: 'open',
-      facet: 'owned_by_location',
-      record_model: Child,
-      scope: OPEN_ENABLED
-    ).freeze
-
-    REPORTING_LOCATION_OPEN_LAST_WEEK = FacetedIndicator.new(
-      name: 'open_last_week',
-      facet: 'owned_by_location',
-      record_model: Child,
-      scope: OPEN_ENABLED + [
-        SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.last_week))
-      ],
-    ).freeze
-
-    REPORTING_LOCATION_OPEN_THIS_WEEK = FacetedIndicator.new(
-      name: 'open_this_week',
-      facet: 'owned_by_location',
-      record_model: Child,
-      scope: OPEN_ENABLED + [
-        SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.this_week))
-      ]
-    ).freeze
-
-    REPORTING_LOCATION_CLOSED_LAST_WEEK = FacetedIndicator.new(
-      name: 'closed_last_week',
-      facet: 'owned_by_location',
-      record_model: Child,
-      scope: CLOSED_ENABLED + [
-        SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.last_week))
-      ]
-    ).freeze
-
-    REPORTING_LOCATION_CLOSED_THIS_WEEK = FacetedIndicator.new(
-      name: 'closed_this_week',
-      facet: 'owned_by_location',
-      record_model: Child,
-      scope: CLOSED_ENABLED + [
-        SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.this_week))
-      ]
-    ).freeze
-
     UPDATED = QueriedIndicator.new(
       name: 'updated',
       record_model: Child,
@@ -253,40 +210,39 @@ module Indicators
       ]
     ).freeze
 
-    def self.protection_concerns_indicators
-      [
-        FacetedIndicator.new(
-          name: 'Open Cases',
-          facet: 'protection_concerns',
-          record_model: Child,
-          scope: OPEN_ENABLED
-        ).freeze,
-        FacetedIndicator.new(
-          name: 'New (This Week)',
-          facet: 'protection_concerns',
-          record_model: Child,
-          scope: OPEN_ENABLED + [
-            SearchFilters::DateRange.new( {field_name: 'created_at'}.merge(FacetedIndicator.this_week) )
-          ]
-        ).freeze,
-        FacetedIndicator.new(
-          name: 'All Cases',
-          facet: 'protection_concerns',
-          record_model: Child,
-          scope: [ SearchFilters::Value.new(field_name: 'record_state', value: true) ]
-        ).freeze,
-        FacetedIndicator.new(
-          name: 'Closed (This Week)',
-          facet: 'protection_concerns',
-          record_model: Child,
-          scope: [
-            SearchFilters::Value.new(field_name: 'record_state', value: true),
-            SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
-            SearchFilters::DateRange.new( {field_name: 'date_closure'}.merge(FacetedIndicator.this_week) )
-          ]
-        ).freeze
+    PROTECTION_CONCERNS_OPEN_CASES = FacetedIndicator.new(
+      name: 'protection_concerns_open_cases',
+      facet: 'protection_concerns',
+      record_model: Child,
+      scope: OPEN_ENABLED
+    ).freeze
+
+    PROTECTION_CONCERNS_NEW_THIS_WEEK = FacetedIndicator.new(
+      name: 'protection_concerns_new_this_week',
+      facet: 'protection_concerns',
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
       ]
-    end
+    ).freeze
+
+    PROTECTION_CONCERNS_ALL_CASES = FacetedIndicator.new(
+      name: 'protection_concerns_all_cases',
+      facet: 'protection_concerns',
+      record_model: Child,
+      scope: [SearchFilters::Value.new(field_name: 'record_state', value: true)]
+    ).freeze
+
+    PROTECTION_CONCERNS_CLOSED_THIS_WEEK = FacetedIndicator.new(
+      name: 'protection_concerns_closed_this_week',
+      facet: 'protection_concerns',
+      record_model: Child,
+      scope: [
+        SearchFilters::Value.new(field_name: 'record_state', value: true),
+        SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
+        SearchFilters::DateRange.new({ field_name: 'date_closure' }.merge(FacetedIndicator.this_week))
+      ]
+    ).freeze
 
     def self.reporting_location_indicators
       reporting_location_config = SystemSettings.current.reporting_location_config
@@ -335,6 +291,5 @@ module Indicators
         ).freeze
       ]
     end
-
   end
 end
