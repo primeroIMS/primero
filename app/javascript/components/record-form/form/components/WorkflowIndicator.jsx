@@ -35,7 +35,7 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
       )
   );
 
-  const activeStep = workflowSteps.findIndex(
+  const activeStep = workflowSteps?.findIndex(
     s => s.id === record.get("workflow")
   );
 
@@ -52,7 +52,7 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
 
   return (
     <Stepper classes={{ root: css.stepper }} activeStep={activeStep || 0}>
-      {workflowSteps.map((s, index) => {
+      {workflowSteps?.map((s, index) => {
         const stepProps = {};
         const label = s.display_text || "";
 
