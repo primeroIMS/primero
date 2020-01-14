@@ -1,13 +1,13 @@
-import { expect } from "chai";
-import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
+import { expect, spy, stub } from "../../test";
 import * as idpSelection from "../pages/login/idp-selection";
 
 import { Actions } from "./actions";
 import * as actionCreators from "./action-creators";
 
 describe("User - Action Creators", () => {
+
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
@@ -29,7 +29,7 @@ describe("User - Action Creators", () => {
 
   it("should check the 'setAuthenticatedUser' action creator to return the correct object", () => {
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = spy(store, "dispatch");
     const user = {
       id: 1,
       username: "primero"
@@ -45,7 +45,7 @@ describe("User - Action Creators", () => {
   });
 
   it("should check the 'setUser' action creator to return the correct object", () => {
-    const dispatch = sinon.spy(actionCreators, "setUser");
+    const dispatch = spy(actionCreators, "setUser");
     const expected = {
       type: Actions.SET_AUTHENTICATED_USER,
       payload: true
@@ -58,7 +58,7 @@ describe("User - Action Creators", () => {
 
   it("should check the 'fetchAuthenticatedUserData' action creator to return the correct object", () => {
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = spy(store, "dispatch");
     const expected = {
       path: "users/1",
       params: { extended: true },
@@ -72,48 +72,51 @@ describe("User - Action Creators", () => {
     expect(firstCallReturnValue.api).to.deep.equal(expected);
   });
 
-  it("should check the 'attemptSignout' action creator to return the correct object", () => {
+  it("should check the 'attemptSignout' action creator", () => {
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
-    const signOut = sinon.stub(idpSelection, "signOut");
+    const dispatch = spy(store, "dispatch");
+    let signOut = stub(idpSelection, "signOut");
     const expected = {
       path: "tokens",
       method: "DELETE",
       successCallback: Actions.LOGOUT_SUCCESS_CALLBACK
     };
-    const usingIdp = true;
 
-    actionCreators.attemptSignout(usingIdp, signOut)(dispatch);
-    const firstCallReturnValue = dispatch.getCall(0).returnValue;
+    beforeEach(() => {
+      signOut = stub(idpSelection, "signOut");
+    });
 
-    expect(firstCallReturnValue.type).to.deep.equal(Actions.LOGOUT);
-    expect(firstCallReturnValue.api).to.deep.equal(expected);
-    signOut.restore();
-  });
+    afterEach(() => {
+      signOut.restore();
+    });
 
-  it("should check the 'attemptSignout' to call msal signOut if using IDP", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
-    const signOut = sinon.stub(idpSelection, "signOut");
-    const usingIdp = true;
-    actionCreators.attemptSignout(usingIdp, signOut)(dispatch);
-    expect(signOut).to.have.been.called;
-    signOut.restore();
-  });
+    it("should return the correct object", () => {
+      const usingIdp = true;
 
-  it("should check the 'attemptSignout' to not call msal signOut if not using IDP", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
-    const signOut = sinon.stub(idpSelection, "signOut");
-    const usingIdp = false;
-    actionCreators.attemptSignout(usingIdp, signOut)(dispatch);
-    sinon.assert.notCalled(signOut);
-    signOut.restore();
+      actionCreators.attemptSignout(usingIdp, signOut)(dispatch);
+      const firstCallReturnValue = dispatch.getCall(0).returnValue;
+
+      expect(firstCallReturnValue.type).to.deep.equal(Actions.LOGOUT);
+      expect(firstCallReturnValue.api).to.deep.equal(expected);
+
+    });
+
+    it("should call msal signOut if using IDP", () => {
+      const usingIdp = true;
+      actionCreators.attemptSignout(usingIdp, signOut)(dispatch);
+      expect(signOut).to.have.been.called;
+    });
+
+    it("should not call msal signOut if not using IDP", () => {
+      const usingIdp = false;
+      actionCreators.attemptSignout(usingIdp, signOut)(dispatch);
+      expect(signOut).not.to.have.been.called;
+    });
   });
 
   it("should check the 'checkUserAuthentication' action creator to return the correct object", () => {
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = spy(store, "dispatch");
 
     global.localStorage.setItem("user", '{"id": "1", "username": "primero"}');
     actionCreators.checkUserAuthentication()(dispatch);
@@ -125,7 +128,7 @@ describe("User - Action Creators", () => {
 
   it("should check the 'refreshToken' action creator to return the correct object", () => {
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = spy(store, "dispatch");
     const expected = {
       path: "tokens",
       method: "POST"
