@@ -13,6 +13,7 @@ Rails.application.routes.draw do
              sign_out_via: :delete,
              defaults: { format: :json }, constraints: { format: :json }
 
+  resources :login, only: [:index]
 
   namespace :api do
     namespace :v2, defaults: { format: :json },
@@ -62,7 +63,6 @@ Rails.application.routes.draw do
       resources :lookups
       resources :locations
       get 'alerts', to: 'alerts#bulk_index'
-      get 'login/:provider', to: 'login#provider', defaults: { format: :html }
 
     end
   end
