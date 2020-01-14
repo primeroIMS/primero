@@ -24,7 +24,7 @@ describe("<ToggleFilter>", () => {
     const { component } = setupMockFormComponent(ToggleFilter, props);
 
     ["option-1", "option-2"].forEach(
-      option => expect(component.exists(`input[value='${option}']`)).to.be.true
+      option => expect(component.exists(`button[value='${option}']`)).to.be.true
     );
   });
 });

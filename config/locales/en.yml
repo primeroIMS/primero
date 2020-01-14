@@ -92,6 +92,7 @@ en:
     field_change_alert: "The %{form_name} form was updated by the service provider on %{date}"
     transfer_request_alert: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
     loading: "Loading..."
+    no_changes: "You made no field changes"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -1027,6 +1028,17 @@ en:
     services: "Services"
     agency_office: "Agency Office"
     position: Position
+    phone: "Phone"
+    email: "Email"
+    locale: "Locale"
+    password: "Password"
+    password_confirmation: "Password Confirmation"
+    user_group_unique_ids: "User Groups"
+    module_ids: "Modules"
+    role_id: "Role"
+    is_manager: "Manager"
+    verified: "Verified"
+    user_name: "Username"
     actions:
       delete: "Delete"
     messages:

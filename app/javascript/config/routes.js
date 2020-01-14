@@ -1,4 +1,4 @@
-import {
+import Login, {
   Dashboard,
   Reports,
   Report,
@@ -9,9 +9,9 @@ import {
   NotAuthorized,
   NotFound,
   Admin,
-  UsersList
+  UsersList,
+  UsersForm
 } from "../components/pages";
-import Login from "../components/pages";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
 import { AppLayout, LoginLayout } from "../components/layouts";
@@ -24,7 +24,8 @@ import {
   SHOW_EXPORTS,
   SHOW_TASKS,
   WRITE_RECORDS,
-  ADMIN_RESOURCES
+  ADMIN_RESOURCES,
+  ADMIN_ACTIONS
 } from "../libs/permissions";
 
 import { ROUTES, MODES } from "./constants";
@@ -127,9 +128,34 @@ export default [
         path: ROUTES.admin,
         component: Admin,
         resources: ADMIN_RESOURCES,
+        actions: ADMIN_ACTIONS,
         exact: false,
         extraProps: {
           routes: [
+            {
+              path: `${ROUTES.admin_users}/new`,
+              component: UsersForm,
+              resources: RESOURCES.users,
+              extraProps: {
+                mode: MODES.new
+              }
+            },
+            {
+              path: `${ROUTES.admin_users}/:id/edit`,
+              component: UsersForm,
+              resources: RESOURCES.users,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.admin_users}/:id`,
+              component: UsersForm,
+              resources: RESOURCES.users,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
             {
               path: ROUTES.admin_users,
               component: UsersList,

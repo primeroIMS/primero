@@ -14,11 +14,14 @@ import DateFnsUtils from "@date-io/date-fns";
 import { createMount } from "@material-ui/core/test-utils";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
-import useForm, { FormContext } from "react-hook-form";
+import { useForm, FormContext } from "react-hook-form";
+import { fromJS } from 'immutable'
+import capitalize from "lodash/capitalize";
 
 import { ApplicationProvider } from "../components/application/provider";
 import { I18nProvider } from "../components/i18n";
 import { theme } from "../config";
+import {whichFormMode} from '../components/form'
 
 export const setupMountedComponent = (
   TestComponent,
@@ -29,7 +32,7 @@ export const setupMountedComponent = (
 ) => {
   const history = createBrowserHistory();
   const mockStore = configureStore([routerMiddleware(history), thunk]);
-  const store = mockStore(initialState);
+  const store = mockStore(fromJS(initialState));
 
   const FormikComponent = ({ formikProps, componentProps }) => {
     if (isEmpty(formikProps)) {
@@ -95,7 +98,7 @@ export const setupMountedThemeComponent = (TestComponent, props = {}) =>
 
 export const tick = () =>
   new Promise(resolve => {
-    setTimeout(resolve, 0);
+    setTimeout(resolve, 100);
   });
 
 const setupFormFieldRecord = (FieldRecord, field = {}) => {
@@ -115,12 +118,21 @@ const setupFormFieldRecord = (FieldRecord, field = {}) => {
   );
 };
 
-const setupFormInputProps = (field = {}, props = {}) => {
+const setupFormInputProps = (field = {}, props = {}, mode, errors=[]) => {
+  const formMode = whichFormMode(props.mode);
+  const error = errors?.[field.name];
+
   return Object.assign(
     {},
     {
+      name: field.name,
+      error: typeof error !== "undefined",
+      required: field.required,
+      autoFocus: field.autoFocus,
+      autoComplete: "new-password",
+      disabled: formMode.get(`is${capitalize(mode)}`),
       label: field.display_name,
-      helperText: field.help_text,
+      helperText: error?.message || field.help_text,
       fullWidth: true,
       autoComplete: "off",
       InputLabelProps: {
@@ -131,13 +143,17 @@ const setupFormInputProps = (field = {}, props = {}) => {
   );
 };
 
-export const setupMockFormComponent = (Component, props) => {
+export const setupMockFormComponent = (Component, props={}) => {
   const MockFormComponent = () => {
+    const { name, inputProps, field, mode } = props
     const formMethods = useForm();
+    const formMode = whichFormMode(mode)
+    
+    const commonInputProps = setupFormInputProps(field, inputProps, mode, formMethods?.errors);
 
     return (
-      <FormContext {...formMethods}>
-        <Component {...props} />
+      <FormContext {...formMethods} formMode={formMode} >
+        <Component {...props} commonInputProps={commonInputProps} {...inputProps} />
       </FormContext>
     );
   };
@@ -149,14 +165,17 @@ export const setupMockFieldComponent = (
   fieldComponent,
   FieldRecord,
   fieldRecordSettings = {},
-  inputProps = {}
+  inputProps = {},
+  metaInputProps = {},
+  mode = "new"
 ) => {
   const field = setupFormFieldRecord(FieldRecord, fieldRecordSettings);
-  const commonInputProps = setupFormInputProps(field, inputProps);
 
   return setupMockFormComponent(fieldComponent, {
-    commonInputProps,
-    field
+    inputProps,
+    metaInputProps,
+    field,
+    mode
   });
 };
 

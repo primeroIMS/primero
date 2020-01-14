@@ -82,7 +82,8 @@ describe("Verifying config constant", () => {
       "incidents",
       "potential_matches",
       "reports",
-      "tracing_requests"
+      "tracing_requests",
+      "users"
     ].forEach(property => {
       expect(resources).to.have.property(property);
       expect(resources[property]).to.be.a("string");

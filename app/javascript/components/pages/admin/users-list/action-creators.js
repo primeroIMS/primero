@@ -1,12 +1,12 @@
 import { RECORD_PATH } from "../../../../config";
 
-import { USERS } from "./actions";
+import actions from "./actions";
 
 export const fetchUsers = data => {
   const { options } = data || {};
 
   return {
-    type: USERS,
+    type: actions.USERS,
     api: {
       path: RECORD_PATH.users,
       params: options

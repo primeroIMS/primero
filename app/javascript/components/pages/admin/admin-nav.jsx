@@ -9,10 +9,7 @@ const AdminNav = () => {
 
   return (
     <List>
-      <ListItem
-        button
-        component={props => <Link to="/admin/users" {...props} />}
-      >
+      <ListItem button component={Link} to="/admin/users">
         <ListItemText>{i18n.t("users.label")}</ListItemText>
       </ListItem>
     </List>
@@ -20,7 +17,5 @@ const AdminNav = () => {
 };
 
 AdminNav.displayName = "AdminNav";
-
-AdminNav.propTypes = {};
 
 export default AdminNav;
