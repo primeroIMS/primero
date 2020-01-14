@@ -1,4 +1,4 @@
-import {
+import Login, {
   Dashboard,
   Reports,
   Report,
@@ -12,7 +12,6 @@ import {
   UsersList,
   UsersForm
 } from "../components/pages";
-import Login from "../components/pages";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
 import { AppLayout, LoginLayout } from "../components/layouts";

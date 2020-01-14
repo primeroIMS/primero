@@ -31,7 +31,7 @@ export const validations = (formMode, i18n) =>
     })
   });
 
-export const form = i18n => {
+export const form = (i18n, formMode) => {
   return fromJS([
     FormSectionRecord({
       unique_id: "users",
@@ -60,14 +60,16 @@ export const form = i18n => {
           name: "password",
           type: TEXT_FIELD,
           password: true,
-          hideOnShow: true
+          hideOnShow: true,
+          required: formMode.get("isNew")
         }),
         FieldRecord({
           display_name: i18n.t("user.password_confirmation"),
           name: "password_confirmation",
           type: TEXT_FIELD,
           password: true,
-          hideOnShow: true
+          hideOnShow: true,
+          required: formMode.get("isNew")
         }),
         FieldRecord({
           display_name: i18n.t("user.locale"),

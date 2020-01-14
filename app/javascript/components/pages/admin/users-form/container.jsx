@@ -99,7 +99,7 @@ const Container = ({ mode }) => {
         <Form
           useCancelPrompt
           mode={mode}
-          formSections={form(i18n)}
+          formSections={form(i18n, formMode)}
           onSubmit={handleSubmit}
           ref={formRef}
           validations={validationSchema}
