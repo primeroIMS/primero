@@ -18,6 +18,7 @@ describe("<RecordForm /> - index", () => {
       "getFirstTab",
       "getFormNav",
       "getLoadingState",
+      "getLocations",
       "getOption",
       "getRecordForms",
       "getRecordFormsByUniqueId",
