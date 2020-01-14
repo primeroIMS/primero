@@ -3,12 +3,13 @@ import { fromJS } from "immutable";
 import { expect } from "../../../../test/unit-test-helpers";
 import NAMESPACE from "../namespace";
 
-import { getUser } from "./selectors";
+import { getUser, getErrors } from "./selectors";
 
 const stateWithHeaders = fromJS({
   records: {
     users: {
-      selectedUser: { id: 1 }
+      selectedUser: { id: 1 },
+      errors: [{ message: "error-1" }]
     }
   }
 });
@@ -33,6 +34,22 @@ describe("<UsersForm /> - Selectors", () => {
       const user = getUser(stateWithoutHeaders);
 
       expect(user).to.deep.equal(fromJS({}));
+    });
+  });
+
+  describe("getErrors", () => {
+    it("should return errors", () => {
+      const expected = stateWithHeaders.getIn(["records", NAMESPACE, "errors"]);
+
+      const user = getErrors(stateWithHeaders);
+
+      expect(user).to.deep.equal(expected);
+    });
+
+    it("should return empty object when selected user empty", () => {
+      const user = getErrors(stateWithoutHeaders);
+
+      expect(user).to.deep.equal(fromJS([]));
     });
   });
 });
