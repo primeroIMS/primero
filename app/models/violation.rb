@@ -7,6 +7,9 @@ class Violation
 
   attr_accessor :incident, :violation_object, :category
 
+  PENDING = 'report_pending_verification'
+  VERIFIED = 'verified'
+
   searchable auto_index: self.auto_index? do
     string :category, as: :category_sci
 

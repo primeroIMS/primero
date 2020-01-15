@@ -126,14 +126,10 @@ class Incident < CouchRest::Model::Base
       self.child_types
     end
 
-    #TODO - armed_force_group_names was split in 2
-    #TODO - verify with Sue and Pavel
     string :armed_force_names, multiple: true do
       self.armed_force_names
     end
 
-    #TODO - armed_force_group_names was split in 2
-    #TODO - verify with Sue and Pavel
     string :armed_group_names, multiple: true do
       self.armed_group_names
     end
@@ -182,6 +178,7 @@ class Incident < CouchRest::Model::Base
   def self.make_new_incident(module_id, child=nil, from_module_id=nil, incident_detail_id=nil, user=nil)
     Incident.new.tap do |incident|
       incident['module_id'] = module_id
+      incident.status = STATUS_OPEN
 
       if child.present?
         incident['incident_case_id'] = child.id
@@ -202,7 +199,6 @@ class Incident < CouchRest::Model::Base
         #What matters here is the date for the person creating the incident
         #After its creation the date will not have a timezone
         incident.date_of_first_report = DateTime.current.to_date
-        incident.status = STATUS_OPEN
         incident.set_creation_fields_for user if user.present?
       end
     end
@@ -289,12 +285,9 @@ class Incident < CouchRest::Model::Base
   end
 
   def violation_number_of_violations_verified
-    number_of_violations_verified = 0
-    self.violations_subforms.each do |subform|
-      #TODO Do we need I18n for "Verified" string?
-      number_of_violations_verified += 1 if subform.try(:ctfmr_verified) == "Verified"
-    end
-    number_of_violations_verified
+    violaiton_subforms = self.violations_subforms
+    return 0 if violaiton_subforms.blank?
+    violaiton_subforms.count{|subform| subform.try(:ctfmr_verified) == Violation::VERIFIED}
   end
 
   #Returns the 20 latest open incidents.
@@ -334,6 +327,7 @@ class Incident < CouchRest::Model::Base
     }
   end
 
+  #TODO MRM fix
   #TODO: This belongs in a helper
   def violation_label(violation_type, violation, include_unique_id=false)
     id_fields = self.class.violation_id_fields
@@ -363,7 +357,7 @@ class Incident < CouchRest::Model::Base
       violations_list.uniq! if violations_list.present?
     else
       if violations_list.blank?
-        violations_list << "NONE"
+        violations_list << t("incident.violation.empty_list")
       end
     end
 
@@ -471,10 +465,9 @@ class Incident < CouchRest::Model::Base
     if self.violations.present?
       self.violations.to_hash.each do |key, value|
         value.each do |v|
-          pending = I18n.t('incident.violation.pending')
-          v.verified = pending unless v.verified.present?
-          v.verified_ctfmr_technical = pending unless v.verified_ctfmr_technical.present?
-          v.ctfmr_verified = pending unless v.ctfmr_verified.present?
+          v.verified = Violation::PENDING unless v.verified.present?
+          v.verified_ctfmr_technical = Violation::PENDING unless v.verified_ctfmr_technical.present?
+          v.ctfmr_verified = Violation::PENDING unless v.ctfmr_verified.present?
         end
       end
     end
@@ -552,8 +545,6 @@ class Incident < CouchRest::Model::Base
   end
 
   #TODO - Need rspec test for this
-  #TODO - armed_force_group_names was split in 2
-  #TODO - verify with Sue and Pavel
   def armed_force_names
     armed_forces = []
     if self.perpetrator_subform_section.present?
@@ -564,8 +555,6 @@ class Incident < CouchRest::Model::Base
     return armed_forces
   end
 
-  #TODO - armed_force_group_names was split in 2
-  #TODO - verify with Sue and Pavel
   def armed_group_names
     armed_groups = []
     if self.perpetrator_subform_section.present?

@@ -3,17 +3,17 @@
    subform_section = field.subform_section
    #TODO - booo!!!!  This is bad. Refactor needed.  Don't do a DB query in a template
    shared_subform_section = (subform_section.shared_subform.present? ? FormSection.get_by_unique_id(subform_section.shared_subform) : nil)
-   shared_subform_section_group = subform_section.shared_subform_group
+   shared_subform_section_group_id = subform_section.shared_subform_group
 
    #TODO: a little redundant to re-count the subforms? (see grouped_subforms(formObject, subform))
-   number_of_subforms = subforms_count(formObject, subform, form_group_name)
+   number_of_subforms = subforms_count(formObject, subform, form_group_id)
    data_shared_subform = ""
 
    if shared_subform_section.present?
      data_shared_subform = "data-is_shared_subform=true data-shared_subform=#{subform_section.shared_subform}"
    end
    if number_of_subforms > 0
-     subform_object = get_subform_object(formObject, subform_section, form_group_name, subform.name) || get_subform_object(formObject, shared_subform_section, shared_subform_section_group, subform.name)
+     subform_object = get_subform_object(formObject, subform_section, form_group_id, subform.name) || get_subform_object(formObject, shared_subform_section, shared_subform_section_group_id, subform.name)
      #TODO: This code is being temporarily removed until JOR-141
      #      (users should only see their own referrals) is again revisited,
      #      Pending a full refactor of how we do nested forms headers
@@ -32,7 +32,7 @@
 <% else %>
   <div class="row">
     <div class="large-12 columns">
-      <div id="<%= subform.name %>" class="subforms" <%=data_shared_subform%> data-form_group_name="<%= shared_subform_section_group.dehumanize unless shared_subform_section_group.nil? %>">
+      <div id="<%= subform.name %>" class="subforms" <%=data_shared_subform%> data-form_group_id="<%= shared_subform_section_group_id if shared_subform_section_group_id.present? %>">
         <% if show_alerts?(@child) && subform.name.present? && @child.alerts.any? {|u| u['type'] == subform.name && u['alert_for'] == 'new_form'} %>
           <% incident_alert = @child.alerts.select {|u| u['type'] == subform.name && u['alert_for'] == 'new_form'} %>
           <% if subform.name == 'services_section'
@@ -67,7 +67,7 @@
                                   subform: subform,
                                   subform_section: subform_section,
                                   i: i,
-                                  form_group_name: form_group_name,
+                                  form_group_id: form_group_id,
                                   view_mode: true,
                                   subform_object: formObject_i,
                                   grouped_subforms_header: grouped_subforms_header

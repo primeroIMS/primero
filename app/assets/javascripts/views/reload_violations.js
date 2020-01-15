@@ -29,7 +29,7 @@ _primero.Views.ViolationListReload = _primero.Views.Base.extend({
       $('#incident_incident_violation_category_').val();
 
 
-    $("fieldset[id$='_violation_wrapper']").find('div[data-form_group_name="violations"]').hide();
+    $("fieldset[id$='_violation_wrapper']").find('div[data-form_group_id="violations"]').hide();
     $tabs.hide();
     $violation_group.parent('li').find('.sub li a').removeAttr('active-violation');
 

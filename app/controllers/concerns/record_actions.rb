@@ -146,7 +146,7 @@ module RecordActions
     @record = make_new_record
     # TODO: make the ERB templates use @record
     instance_variable_set("@#{model_class.name.underscore}", @record)
-    @form_sections = @record.class.allowed_formsections(current_user, @record.module, lookups: @lookups)
+    @form_sections = @record.class.allowed_formsections(current_user, @record.module)
 
     respond_to do |format|
       format.html

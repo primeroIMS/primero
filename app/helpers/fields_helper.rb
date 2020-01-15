@@ -93,6 +93,7 @@ module FieldsHelper
     if field_value.blank?
       ""
     elsif field.option_strings_source == 'violations'
+      #TODO MRM fix
       # This is about the cleanest way to do this without totally reworking the
       # template logic.  Just hope we don't ever have any relevant fields
       # nested more than one level
@@ -127,30 +128,20 @@ module FieldsHelper
     end
   end
 
-  def field_keys(subform_name, subform_index, field_name, form_group_name)
+  def field_keys(subform_name, subform_index, field_name, form_group_id)
     field_key = []
-
-    #TODO MRM fix - There should be a better way to handle Violations rather than relying on the form_group_name
-    # if form_group_name.present? and form_group_name == "Violations"
-    #   field_key << form_group_name.downcase
-    # end
-
-    if subform_name.present?
-      field_key << subform_name << subform_index
-    end
-
+    field_key << form_group_id if form_group_id.present? && form_group_id == "violations"
+    field_key << subform_name << subform_index if subform_name.present?
     field_key << field_name
-
     return field_key
   end
 
-  def subforms_count(object, field, form_group_name = "")
+  def subforms_count(object, field, form_group_id = "")
     subforms_count = 0
     # This is for shared subforms
     shared_subform = field.subform_section.shared_subform.downcase if field.subform_section.try(:shared_subform)
     shared_subform_group = field.subform_section.shared_subform_group.downcase if field.subform_section.try(:shared_subform_group)
 
-    #TODO investigate use of form_group_name here...
     # needed for all derived subforms
     if object.try(field.name).present?
       subforms_count = object.try(field.name).count
@@ -159,19 +150,19 @@ module FieldsHelper
       subforms_count = object.try(:[], field.name).count
     elsif object[shared_subform].present?
       object[shared_subform].count
-    elsif form_group_name.present? && object[form_group_name.downcase].present? && object[form_group_name.downcase][field.name].present?
-      #TODO MRM - This looks MRM / Violations related.  Clean up with MRM
-      subforms_count = object[form_group_name.downcase][field.name].count
+    elsif form_group_id.present? && object[form_group_id].present? && object[form_group_id][field.name].present?
+      subforms_count = object[form_group_id][field.name].count
     elsif object[shared_subform_group].present? && object[shared_subform_group][shared_subform].present?
       subforms_count = object[shared_subform_group][shared_subform].count
     end
     return subforms_count
   end
 
-  def get_subform_object(object, subform_section, form_group_name, subform_name)
+  #TODO should this be form_group_id
+  def get_subform_object(object, subform_section, form_group_id, subform_name)
     subform_object = {}
-    if form_group_name.present? && form_group_name == "Violations" && object[form_group_name.downcase].present?
-      subform_object = object[form_group_name.downcase][subform_section.unique_id]
+    if form_group_id.present? && form_group_id == "violations" && object[form_group_id].present?
+      subform_object = object[form_group_id][subform_section.unique_id]
     #TODO: This code is being temporarily removed until JOR-141 (users should only see their own referrals) is again revisited,
     #      Pending a full refactor of how we do nested forms headers
     # elsif subform_name == "transitions"
@@ -194,12 +185,12 @@ module FieldsHelper
     return subform_object
   end
 
-  def violation_status(formObject, form_group_name, subform_name, index)
+  def violation_status(formObject, form_group_id, subform_name, index)
     #TODO MRM - fix this with MRM
-    if form_group_name.present? && formObject[form_group_name.downcase].present? && !formObject[form_group_name.downcase][subform_name].empty? &&
+    if form_group_id.present? && formObject[form_group_id].present? && !formObject[form_group_id][subform_name].empty? &&
       index != 'template'
       content_tag :span, class: 'verification_status' do
-        "(#{formObject[form_group_name.downcase][subform_name][index].ctfmr_verified})"
+        "(#{formObject[form_group_id][subform_name][index].ctfmr_verified})"
       end
     end
   end

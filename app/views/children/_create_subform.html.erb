@@ -16,7 +16,7 @@
         </div>
         <fieldset id="subform_<%= subform_name %>_template" class="<%= subform_name %> subform no-border">
           <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
-            <% fk = field_keys(subform_name, 'template', field.name, form_group_name) %>
+            <% fk = field_keys(subform_name, 'template', field.name, form_group_id) %>
 
             <%= render partial: field_template_path(field, false), object: field, locals: {
               field_keys: fk,

@@ -8,11 +8,11 @@
       subform: subform,
       subform_section: subform_section,
       i: unique_ending,
-      form_group_name: form_group_name,
+      form_group_id: form_group_id,
       grouped_subforms_header: grouped_subforms_header
     } %>
   <%
-    fk_unique_id = field_keys(subform.name, unique_ending, 'unique_id', form_group_name)
+    fk_unique_id = field_keys(subform.name, unique_ending, 'unique_id', form_group_id)
     unique_tag_name = field_tag_name(formObject, nil, fk_unique_id)
     unique_field_id = "#{subform.name.dehumanize}_#{sanitize_to_id unique_tag_name}"
     unique_field_value = action == 'edit' ? field_value(formObject, nil, fk_unique_id) : ''
@@ -27,7 +27,7 @@
   <% end %>
   <%# TODO: Render the individual fields %>
   <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
-    <% fk = field_keys(subform_name, unique_ending, field.name, form_group_name) %>
+    <% fk = field_keys(subform_name, unique_ending, field.name, form_group_id) %>
     <%= render partial: field_template_path(field, false),
       object: field,
       locals: {

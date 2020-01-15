@@ -313,7 +313,7 @@ class FormSection < CouchRest::Model::Base
 
 
     #TODO - can this be done more efficiently?
-    def find_form_groups_by_parent_form parent_form
+    def find_form_groups_by_parent_form(parent_form)
       all_forms = self.find_by_parent_form(parent_form)
 
       form_sections = []
@@ -334,7 +334,7 @@ class FormSection < CouchRest::Model::Base
         end
       end
 
-      form_groups = form_sections.group_by{|e| e.form_group_name}
+      form_groups = form_sections.group_by{|e| e.form_group_id}
     end
     memoize_in_prod :find_form_groups_by_parent_form
 
@@ -362,13 +362,8 @@ class FormSection < CouchRest::Model::Base
     #Return a hash of subforms, where the keys are the form groupings
     def group_forms(forms, opts={})
       grouped_forms = {}
-
-      #Order these forms by group and form
       sorted_forms = forms.sort_by{|f| [f.order_form_group, f.order]}
-
-      if sorted_forms.present?
-        grouped_forms = sorted_forms.group_by{|f| f.form_group_name(lookups: opts[:lookups])}
-      end
+      grouped_forms = sorted_forms.group_by{|f| f.form_group_id} if sorted_forms.present?
       return grouped_forms
     end
 
@@ -519,7 +514,7 @@ class FormSection < CouchRest::Model::Base
       permitted_forms = FormSection.get_permitted_form_sections(primero_module, parent_form, user)
       FormSection.link_subforms(permitted_forms)
       visible_forms = FormSection.get_visible_form_sections(permitted_forms)
-      FormSection.group_forms(visible_forms, lookups: opts[:lookups])
+      FormSection.group_forms(visible_forms)
     end
 
     def determine_parent_form(record_type, apply_to_reports=false)
@@ -910,8 +905,7 @@ class FormSection < CouchRest::Model::Base
   end
 
   def is_violations_group?
-    #TODO MRM - pass english locale to form_group_name and/or have a better way to identify Violations
-    self.form_group_name == 'Violations'
+    self.form_group_id == 'violations'
   end
 
   def is_violation_wrapper?
