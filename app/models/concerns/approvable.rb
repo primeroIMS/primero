@@ -1,18 +1,21 @@
 module Approvable
   extend ActiveSupport::Concern
 
-  BIA = "bia" ; CASE_PLAN = "case_plan" ; CLOSURE = "closure"
+  BIA = 'bia'.freeze
+  CASE_PLAN = 'case_plan'.freeze
+  CLOSURE = 'closure'.freeze
 
-  APPROVAL_STATUS_PENDING = 'pending'
-  APPROVAL_STATUS_REQUESTED = 'requested'
-  APPROVAL_STATUS_APPROVED = 'approved'
-  APPROVAL_STATUS_REJECTED = 'rejected'
-
+  APPROVAL_STATUS_PENDING = 'pending'.freeze
+  APPROVAL_STATUS_REQUESTED = 'requested'.freeze
+  APPROVAL_STATUS_APPROVED = 'approved'.freeze
+  APPROVAL_STATUS_REJECTED = 'rejected'.freeze
 
   included do
     store_accessor :data,
+      :bia_approved, :case_plan_approved, :closure_approved,
       :approval_status_bia, :approval_status_case_plan, :approval_status_closure, :case_plan_approval_type,
       :bia_approved_date, :closure_approved_date, :case_plan_approved_date,
+      :bia_approved_comments, :case_plan_approved_comments, :closure_approved_comments,
       :approval_subforms
 
     searchable do
@@ -23,61 +26,6 @@ module Approvable
       date :case_plan_approved_date
       date :bia_approved_date
       date :closure_approved_date
-    end
-  end
-
-  def request_approval(approval_type, approval_status, approval_status_type)
-    # TODO: Performance - Should we use @system_settings ||= pattern instead of SystemSettings.current?
-    self.add_approval_alert(approval_type, SystemSettings.current)
-    case approval_type
-    when BIA
-      self.approval_status_bia = approval_status
-    when CASE_PLAN
-      self.approval_status_case_plan = approval_status
-
-      if self.module.selectable_approval_types.present?
-        self.case_plan_approval_type = approval_status_type
-      end
-    when CLOSURE
-      self.approval_status_closure = approval_status
-    end
-    self.approval_subforms = self.approval_subforms || []
-    self.approval_subforms << approval_action_record(approval_type, nil, approval_status_type, approval_status)
-  end
-
-  def give_approval(approval, approval_type, comments, user)
-    approval_status = (approval == 'true') ? APPROVAL_STATUS_APPROVED : APPROVAL_STATUS_REJECTED
-    approved = (approval == 'true') ? true : false
-
-    if approval_type.present?
-      case approval_type
-      when BIA
-        self.bia_approved = approved
-        self.approval_status_bia = approval_status
-        self.bia_approved_date = Date.today
-        self.bia_approved_comments = comments if comments.present?
-      when CASE_PLAN
-        self.case_plan_approved = approved
-        self.approval_status_case_plan = approval_status
-        self.case_plan_approved_date = Date.today
-        self.case_plan_approved_comments = comments if comments.present?
-      when CLOSURE
-        self.closure_approved = approved
-        self.approval_status_closure = approval_status
-        self.closure_approved_date = Date.today
-        self.closure_approved_comments = comments if comments.present?
-      else
-        raise("Invalid Approval Type")
-      end
-
-      self.approval_subforms << approval_action_record(
-          nil,
-          approval_type,
-          self.case_plan_approval_type,
-          approval_status,
-          comments,
-          user.user_name
-      )
     end
   end
 
@@ -97,17 +45,4 @@ module Approvable
   def send_approval_response_mail(manager_id, approval_type, approval, host_url, is_gbv = false)
     ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url, is_gbv)
   end
-
-  def approval_action_record(action_requested=nil, action_response=nil, type=nil, status=nil, comments=nil, approved_by=nil)
-    {
-        approval_requested_for: action_requested,
-        approval_response_for: action_response,
-        approval_for_type: type,
-        approval_date: Date.today,
-        approval_manager_comments: comments,
-        approval_status: status == APPROVAL_STATUS_PENDING ? APPROVAL_STATUS_REQUESTED : status,
-        approved_by: approved_by
-    }
-  end
-
 end
