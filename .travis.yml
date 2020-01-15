@@ -16,7 +16,6 @@ addons:
     - postgresql-client-10
 
 before_install:
-- sudo apt-get update
 - nvm install 11.15.0
 before_script:
 - mkdir -p log
