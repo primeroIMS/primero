@@ -15,5 +15,8 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
-  config.active_storage.service = ENV['PRIMERO_STORAGE_TYPE'].to_sym
+  storage_type = %w[test local microsoft amazon].find do |t|
+    t == ENV['PRIMERO_STORAGE_TYPE']
+  end || 'local'
+  config.active_storage.service = storage_type
 end
