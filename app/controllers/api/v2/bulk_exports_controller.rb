@@ -23,7 +23,9 @@ module Api::V2
     end
 
     def destroy
-      authorize! :destroy, BulkExport
+      @export = BulkExport.find(params[:id])
+      authorize! :destroy, @export
+      @export.archive!
     end
 
     def default_sort_field

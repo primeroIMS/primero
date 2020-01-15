@@ -78,11 +78,12 @@ class BulkExport < ApplicationRecord
     save!
   end
 
-  def archive
+  def archive!
     return unless export_file.attached?
 
     self.status = ARCHIVED
     export_file.purge
+    save!
   end
 
   def generate_file_name
