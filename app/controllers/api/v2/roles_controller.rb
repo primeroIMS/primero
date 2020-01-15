@@ -15,8 +15,7 @@ module Api::V2
 
     def create
       authorize! :create, Role
-      @role = Role.new(role_params.except(:permissions))
-      @role.permissions = Role.permissions_attributes(role_params[:permissions])
+      @role = Role.new_with_properties(role_params)
       @role.save!
       status = params[:data][:id].present? ? 204 : 200
       render :create, status: status
@@ -24,7 +23,7 @@ module Api::V2
 
     def update
       authorize! :update, Role
-      @role.update_attributes(role_params)
+      @role.update_properties(role_params)
       @role.save!
     end
 
@@ -36,7 +35,7 @@ module Api::V2
     def role_params
       params.require(:data).permit(:id, :unique_id, :name, :description,
                                    :group_permission, :referral, :transfer,
-                                   :is_manager, Role.permitted_api_params)
+                                   :is_manager, 'permissions' => {})
     end
 
     protected
@@ -44,6 +43,5 @@ module Api::V2
     def load_role
       @role = Role.find(record_id)
     end
-
   end
 end

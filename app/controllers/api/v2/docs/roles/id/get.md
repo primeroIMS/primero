@@ -31,15 +31,26 @@ Show the JSON representation of a role.
     "referral": false,
     "transfer": false,
     "is_manager": true,
-    "permissions": [
-      {
-        "resource": "case",
-        "actions": [
-          "read",
-          "write"
+    "permissions": {
+      "agency": [
+        "read",
+        "write"
+      ],
+      "role": [
+        "read",
+        "write"
+      ],
+      "objects": {
+        "agency": [
+          "role-cp-case-worker",
+          "id_2"
+        ],
+        "role": [
+          "role-cp-case-worker",
+          "id_2"
         ]
       }
-    ]
+    }
   }
 }
 ```

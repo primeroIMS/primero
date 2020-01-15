@@ -35,26 +35,22 @@ Shows a paginated list of all roles that are accessible to this user.
       "referral": false,
       "transfer": false,
       "is_manager": true,
-      "permissions": [
-        {
-          "resource": "case",
-          "actions": [
-              "read",
-              "write"
-          ]
-        },
-        {
-          "resource": "role",
-          "actions": [
+      "permissions": {
+        "case": [
             "read",
-            "write"
-          ],
-          "role_ids": [
-            "role-cp-case-worker",
-            "role-cp-manager",
-          ]
-        }
-      ]
+            "flag"
+        ],
+        "role": [
+            "read",
+            "export_custom"
+        ],
+        "user": [
+          "read"
+        ],
+        "agency": [
+          "read"
+        ]
+      }
     },
     {
       "id": 2,
@@ -65,23 +61,24 @@ Shows a paginated list of all roles that are accessible to this user.
       "referral": false,
       "transfer": false,
       "is_manager": false,
-      "permissions": [
-        {
-          "resource": "case",
-          "actions": [
+      "permissions": {
+        "case": [
             "read",
-            "write",
-          ]
-        },
-        {
-          "resource": "incident",
-          "actions": [
+            "flag",
+            "delete"
+        ],
+        "role": [
             "read",
-            "write",
-            "create"
-          ]
-        }
-      ]
+            "export_custom",
+            "delete"
+        ],
+        "user": [
+          "read"
+        ],
+        "agency": [
+          "read"
+        ]
+      }
     }
   ]
 }

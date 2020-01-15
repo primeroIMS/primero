@@ -85,6 +85,11 @@ class Role < ApplicationRecord
       end
     end
 
+    def new_with_properties(role_params)
+      role = Role.new(role_params.except(:permissions))
+      role.permissions = Permission::PermissionSerializer.load(role_params[:permissions].to_h)
+      role
+    end
   end
 
   def associated_role_ids
@@ -136,23 +141,9 @@ class Role < ApplicationRecord
     end
   end
 
-  def self.permitted_api_params
-    {'permissions' => [ 'resource', {'actions' => [] }, {'role_ids' => [] }, { 'agency_ids' => [] } ]}
-  end
-
-  def update_attributes(role_properties)
-    self.unique_id = role_properties[:unique_id] if role_properties[:unique_id]
-    self.name = role_properties[:name] if role_properties[:name]
-    self.description = role_properties[:description] if role_properties[:description]
-    self.group_permission = role_properties[:group_permission] if role_properties[:group_permission]
-    self.referral = role_properties[:referral] if role_properties[:referral]
-    self.transfer = role_properties[:transfer] if role_properties[:transfer]
-    self.is_manager = role_properties[:is_manager] if role_properties[:is_manager]
-    self.permissions = role_properties[:permissions].map{ | permission | Permission.new(permission) } if role_properties[:permissions]
-  end
-
-  def self.permissions_attributes(role_params)
-    role_params.map{|permission| Permission.new(permission)} if role_params.present?
+  def update_properties(role_properties)
+    assign_attributes(role_properties.except(:permissions))
+    self.permissions = Permission::PermissionSerializer.load(role_properties[:permissions].to_h)
   end
 
   private
@@ -161,5 +152,4 @@ class Role < ApplicationRecord
     current_managed_resources = self.permissions.select{ |p| p.actions == [Permission::MANAGE] }.map(&:resource)
     (resources - current_managed_resources).empty?
   end
-
 end

@@ -20,18 +20,26 @@ Create a new role and return the entire record.
     "name": "CP Administrator 00",
     "description": "Administrator_description",
     "group_permission": "all",
-    "referral": false,
-    "transfer": false,
-    "is_manager": true,
-    "permissions": [
-      {
-        "resource": "case",
-        "actions": [
-          "read",
-          "write"
+    "permissions": {
+      "agency": [
+        "read",
+        "write"
+      ],
+      "role": [
+        "read",
+        "write"
+      ],
+      "objects": {
+        "agency": [
+          "role-cp-case-worker",
+          "id_2"
+        ],
+        "role": [
+          "role-cp-case-worker",
+          "id_2"
         ]
       }
-    ]
+    }
   }
 }
 ```
@@ -58,15 +66,26 @@ No `id` attribute is provided in the `data` hash.
     "referral": false,
     "transfer": false,
     "is_manager": true,
-    "permissions": [
-      {
-        "resource": "case",
-        "actions": [
-          "read",
-          "write"
+    "permissions": {
+      "agency": [
+        "read",
+        "write"
+      ],
+      "role": [
+        "read",
+        "write"
+      ],
+      "objects": {
+        "agency": [
+          "role-cp-case-worker",
+          "id_2"
+        ],
+        "role": [
+          "role-cp-case-worker",
+          "id_2"
         ]
       }
-    ]
+    }
   }
 }
 ```

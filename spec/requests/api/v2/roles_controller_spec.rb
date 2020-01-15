@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Api::V2::RolesController, type: :request do
-
   before :each do
     Role.destroy_all
     permissions_test = [
@@ -11,9 +10,9 @@ describe Api::V2::RolesController, type: :request do
           Permission::EXPORT_PDF,
           Permission::CREATE
         ],
-        role_ids: [
-          'role-cp-case-worker',
-          'role-cp-manager'
+        role_ids: %w[
+          role-cp-case-worker
+          role-cp-manager
         ]
       ),
       Permission.new(
@@ -25,7 +24,7 @@ describe Api::V2::RolesController, type: :request do
         ]
       )
     ]
-    @role_01 = Role.new({
+    @role_a = Role.new(
       unique_id: 'role_test_01',
       name: 'name_test_01',
       description: 'description_test_01',
@@ -34,8 +33,8 @@ describe Api::V2::RolesController, type: :request do
       transfer: false,
       is_manager: true,
       permissions: permissions_test
-    })
-    @role_02 = Role.new({
+    )
+    @role_b = Role.new(
       unique_id: 'role_test_02',
       name: 'name_test_02',
       description: 'description_test_02',
@@ -44,8 +43,8 @@ describe Api::V2::RolesController, type: :request do
       transfer: false,
       is_manager: true,
       permissions: permissions_test
-    })
-    @role_03 = Role.new({
+    )
+    @role_c = Role.new(
       unique_id: 'role_test_03',
       name: 'name_test_03',
       description: 'description_test_03',
@@ -54,49 +53,48 @@ describe Api::V2::RolesController, type: :request do
       transfer: false,
       is_manager: true,
       permissions: permissions_test
-    })
-    @role_01.save!
-    @role_02.save!
-    @role_03.save!
-
+    )
+    @role_a.save!
+    @role_b.save!
+    @role_c.save!
   end
 
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/roles' do
     it 'list the roles' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::ROLE, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
         ]
-      })
+      )
 
       get '/api/v2/roles'
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(3)
       expect(json['data'].first['name']).to eq('name_test_01')
-      expect(json['data'].first['permissions']).to eq(@role_01.permissions.map{|pr| pr.to_h})
+      expect(json['data'].first['permissions']).to eq(Permission::PermissionSerializer.dump(@role_a.permissions))
     end
 
     it 'list the roles with page and per' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::ROLE, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
         ]
-      })
+      )
 
       get '/api/v2/roles?per=2&page=2'
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
-      expect(json['data'].first['unique_id']).to eq(@role_03.unique_id)
+      expect(json['data'].first['unique_id']).to eq(@role_c.unique_id)
     end
 
     it 'returns 403 if user is not authorized to access' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::USER, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])
         ]
-      })
+      )
 
       get '/api/v2/roles'
       expect(response).to have_http_status(403)
@@ -107,37 +105,37 @@ describe Api::V2::RolesController, type: :request do
 
   describe 'GET /api/v2/roles/:id' do
     it 'fetches the correct role with code 200' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::ROLE, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
         ]
-      })
+      )
 
-      get "/api/v2/roles/#{@role_02.id}"
+      get "/api/v2/roles/#{@role_b.id}"
       expect(response).to have_http_status(200)
       expect(json['data']['name']).to eq('name_test_02')
-      expect(json['data']['permissions']).to eq(@role_02.permissions.map{|pr| pr.to_h})
+      expect(json['data']['permissions']).to eq(Permission::PermissionSerializer.dump(@role_b.permissions))
     end
 
     it 'returns 403 if user is not authorized to access' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::USER, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])
         ]
-      })
+      )
 
-      get "/api/v2/roles/#{@role_02.id}"
+      get "/api/v2/roles/#{@role_b.id}"
       expect(response).to have_http_status(403)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/roles/#{@role_02.id}")
+      expect(json['errors'][0]['resource']).to eq("/api/v2/roles/#{@role_b.id}")
       expect(json['errors'][0]['message']).to eq('Forbidden')
     end
 
     it 'returns a 404 when trying to fetch a record with a non-existant id' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::ROLE, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
         ]
-      })
+      )
 
       get '/api/v2/roles/thisdoesntexist'
       expect(response).to have_http_status(404)
@@ -148,11 +146,11 @@ describe Api::V2::RolesController, type: :request do
 
   describe 'POST /api/v2/roles' do
     it 'creates a new role and returns 200 and json' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::ROLE, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
         ]
-      })
+      )
       params = {
         data: {
           unique_id: 'role-cp-administrator-00',
@@ -162,30 +160,41 @@ describe Api::V2::RolesController, type: :request do
           referral: false,
           transfer: false,
           is_manager: true,
-          permissions: [
-            {
-              'resource' => 'case',
-              'actions' => [
-                'read',
-                'write'
+          permissions: {
+            agency: %w[
+              read
+              write
+            ],
+            role: %w[
+              read
+              write
+            ],
+            objects: {
+              agency: %w[
+                role-cp-case-worker
+                id_2
+              ],
+              role: %w[
+                role-cp-case-worker
+                id_2
               ]
             }
-          ]
+          }
         }
       }
 
       post '/api/v2/roles', params: params
       expect(response).to have_http_status(200)
       expect(json['data']['name']).to eq(params[:data][:name])
-      expect(json['data']['permissions']).to eq(params[:data][:permissions])
+      expect(json['data']['permissions']).to eq(params[:data][:permissions].deep_stringify_keys)
     end
 
     it 'Error 409 same uniq_id' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::ROLE, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
         ]
-      })
+      )
       params = {
         data: {
           unique_id: 'role_test_01',
@@ -195,15 +204,26 @@ describe Api::V2::RolesController, type: :request do
           referral: false,
           transfer: false,
           is_manager: true,
-          permissions: [
-            {
-              'resource' => 'case',
-              'actions' => [
-                'read',
-                'write'
+          permissions: {
+            agency: %w[
+              read
+              write
+            ],
+            role: %w[
+              read
+              write
+            ],
+            objects: {
+              agency: %w[
+                role-cp-case-worker
+                id_2
+              ],
+              role: %w[
+                role-cp-case-worker
+                id_2
               ]
             }
-          ]
+          }
         }
       }
 
@@ -215,11 +235,11 @@ describe Api::V2::RolesController, type: :request do
     end
 
     it 'Error 422 save without permissions' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::ROLE, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
         ]
-      })
+      )
       params = {
         data: {
           unique_id: 'role-cp-administrator-00',
@@ -240,60 +260,71 @@ describe Api::V2::RolesController, type: :request do
     end
 
     it 'returns 403 if user is not authorized to access' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::USER, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])
         ]
-      })
+      )
       params = {}
 
       post '/api/v2/roles', params: params
       expect(response).to have_http_status(403)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/roles")
+      expect(json['errors'][0]['resource']).to eq('/api/v2/roles')
       expect(json['errors'][0]['message']).to eq('Forbidden')
     end
   end
 
   describe 'PATCH /api/v2/roles/:id' do
     it 'updates an existing role with 200' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::ROLE, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
         ]
-      })
+      )
       params = {
-        'data' => {
-          'id' => @role_01.id,
-          'unique_id' => 'role_test_01',
-          'name' => 'CP Administrator 00',
-          'description' => 'Administrator_description',
-          'group_permission' => 'all',
-          'referral' => false,
-          'transfer' => false,
-          'is_manager' => true,
-          'permissions' => [
-            {
-              'resource' => 'case',
-              'actions' => [
-                'read',
-                'write'
+        data: {
+          id: @role_a.id,
+          unique_id: 'role_test_01',
+          name: 'CP Administrator 00',
+          description: 'Administrator_description',
+          group_permission: 'all',
+          referral: false,
+          transfer: false,
+          is_manager: true,
+          permissions: {
+            agency: %w[
+              read
+              delete
+            ],
+            role: %w[
+              delete
+              read
+            ],
+            objects: {
+              agency: %w[
+                test_update_agency_00
+                test_update_agency_01
+              ],
+              role: %w[
+                test_update_role_01
+                test_update_role_02
               ]
             }
-          ]
+          }
         }
       }
 
-      patch "/api/v2/roles/#{@role_01.id}", params: params
+      patch "/api/v2/roles/#{@role_a.id}", params: params
       expect(response).to have_http_status(200)
-      expect(json).to eq(params)
+      expect(json).to eq(params.deep_stringify_keys)
     end
 
     it 'updates an non-existing role' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::ROLE, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
         ]
-      })
+      )
       params = {}
 
       patch '/api/v2/roles/thisdoesntexist', params: params
@@ -303,53 +334,53 @@ describe Api::V2::RolesController, type: :request do
     end
 
     it 'returns 403 if user is not authorized to access' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::USER, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])
         ]
-      })
+      )
       params = {}
 
-      patch "/api/v2/roles/#{@role_01.id}", params: params
+      patch "/api/v2/roles/#{@role_a.id}", params: params
       expect(response).to have_http_status(403)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/roles/#{@role_01.id}")
+      expect(json['errors'][0]['resource']).to eq("/api/v2/roles/#{@role_a.id}")
       expect(json['errors'][0]['message']).to eq('Forbidden')
     end
   end
 
   describe 'DELETE /api/v2/roles/:id' do
     it 'successfully deletes a role with a code of 200' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::ROLE, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
         ]
-      })
+      )
 
-      delete "/api/v2/roles/#{@role_01.id}"
+      delete "/api/v2/roles/#{@role_a.id}"
       expect(response).to have_http_status(200)
-      expect(json['data']['id']).to eq(@role_01.id)
-      expect(Role.find_by(id: @role_01.id)).to be nil
+      expect(json['data']['id']).to eq(@role_a.id)
+      expect(Role.find_by(id: @role_a.id)).to be nil
     end
 
     it 'returns 403 if user is not authorized to access' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::USER, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])
         ]
-      })
+      )
 
-      delete "/api/v2/roles/#{@role_01.id}"
+      delete "/api/v2/roles/#{@role_a.id}"
       expect(response).to have_http_status(403)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/roles/#{@role_01.id}")
+      expect(json['errors'][0]['resource']).to eq("/api/v2/roles/#{@role_a.id}")
       expect(json['errors'][0]['message']).to eq('Forbidden')
     end
 
     it 'returns a 404 when trying to delete a role with a non-existant id' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::ROLE, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
         ]
-      })
+      )
 
       delete '/api/v2/roles/thisdoesntexist'
       expect(response).to have_http_status(404)
@@ -361,5 +392,4 @@ describe Api::V2::RolesController, type: :request do
   after :each do
     Role.destroy_all
   end
-
 end
