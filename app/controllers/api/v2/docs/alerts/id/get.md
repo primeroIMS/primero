@@ -8,7 +8,7 @@ Show a list of all alerts from a records. depends of the recordType and the reco
 
 **Authentication** : YES
 
-**Authorization** : All logged in users are permitted to make this request.
+**Authorization** : All logged in users who can view this record are permitted to make this request.
 
 **Parameters** : No parameters
 
@@ -39,6 +39,25 @@ Show a list of all alerts from a records. depends of the recordType and the reco
 }
 ```
 ## Error Response
+
+
+**Condition** : User isn't authorized to view this alert.
+
+**Code** : `403 Forbidden`
+
+**Content** :
+
+```json
+{
+  "errors": [
+    {
+      "code": 403,
+      "resource": "/api/v2/cases/1/alerts",
+      "message": "Forbidden"
+    }
+  ]
+}
+```
 
 **Condition** : The record does not exist in the database.
 
