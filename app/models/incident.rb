@@ -199,7 +199,6 @@ class Incident < CouchRest::Model::Base
         #What matters here is the date for the person creating the incident
         #After its creation the date will not have a timezone
         incident.date_of_first_report = DateTime.current.to_date
-        # incident.status = STATUS_OPEN
         incident.set_creation_fields_for user if user.present?
       end
     end
@@ -286,13 +285,9 @@ class Incident < CouchRest::Model::Base
   end
 
   def violation_number_of_violations_verified
-    number_of_violations_verified = 0
-    self.violations_subforms.each do |subform|
-      #TODO RSE
-      #TODO Do we need I18n for "Verified" string?
-      number_of_violations_verified += 1 if subform.try(:ctfmr_verified) == "Verified"
-    end
-    number_of_violations_verified
+    violaiton_subforms = self.violations_subforms
+    return 0 if violaiton_subforms.blank?
+    violaiton_subforms.count{|subform| subform.try(:ctfmr_verified) == Violation::VERIFIED}
   end
 
   #Returns the 20 latest open incidents.
@@ -332,7 +327,7 @@ class Incident < CouchRest::Model::Base
     }
   end
 
-  #TODO RSE fix
+  #TODO MRM fix
   #TODO: This belongs in a helper
   def violation_label(violation_type, violation, include_unique_id=false)
     id_fields = self.class.violation_id_fields
@@ -362,8 +357,7 @@ class Incident < CouchRest::Model::Base
       violations_list.uniq! if violations_list.present?
     else
       if violations_list.blank?
-        #TODO RSE fix
-        violations_list << "NONE"
+        violations_list << t("incident.violation.empty_list")
       end
     end
 

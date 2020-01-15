@@ -93,7 +93,7 @@ module FieldsHelper
     if field_value.blank?
       ""
     elsif field.option_strings_source == 'violations'
-      #TODO RSE fix
+      #TODO MRM fix
       # This is about the cleanest way to do this without totally reworking the
       # template logic.  Just hope we don't ever have any relevant fields
       # nested more than one level

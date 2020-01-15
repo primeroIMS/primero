@@ -652,6 +652,7 @@ en:
       military_use: "Military use of schools and/or hospitals"
       denial_humanitarian_access: "Denial of humanitarian access for children"
       other_violation: "Other Violation"
+      empty_list: "NONE"
 
   tracing_request:
     label: "Inquirer ID"
