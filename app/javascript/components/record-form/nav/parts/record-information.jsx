@@ -11,7 +11,7 @@ import NavGroup from "../NavGroup";
 import { NavRecord } from "../../records";
 import { useI18n } from "../../../i18n";
 
-const RecordInformation = ({ open, handleClick }) => {
+const RecordInformation = ({ open, handleClick, selectedForm }) => {
   const i18n = useI18n();
   const recordInformationForms = List([
     NavRecord({
@@ -50,15 +50,18 @@ const RecordInformation = ({ open, handleClick }) => {
         group={recordInformationForms}
         handleClick={handleClick}
         open={open}
-        selectedForm=""
+        selectedForm={selectedForm}
       />
     </>
   );
 };
 
+RecordInformation.displayName = "RecordInformation";
+
 RecordInformation.propTypes = {
   handleClick: PropTypes.func,
-  open: PropTypes.object
+  open: PropTypes.object,
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export default RecordInformation;

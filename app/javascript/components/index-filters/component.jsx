@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import useForm, { FormContext } from "react-hook-form";
+import { useForm, FormContext } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";

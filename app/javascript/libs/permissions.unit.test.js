@@ -14,14 +14,14 @@ describe("Verifying config constant", () => {
       "ASSIGN_WITHIN_USER_GROUP",
       "CLOSE",
       "CREATE",
-      "DASH_CASE_RISK",
-      "DASH_TASKS",
-      "DASH_WORKFLOW",
-      "DASH_WORKFLOW_TEAM",
       "DASH_APPROVALS_ASSESSMENT",
       "DASH_APPROVALS_CASE_PLAN",
       "DASH_APPROVALS_CLOSURE",
+      "DASH_CASE_RISK",
       "DASH_REPORTING_LOCATION",
+      "DASH_TASKS",
+      "DASH_WORKFLOW",
+      "DASH_WORKFLOW_TEAM",
       "DISPLAY_VIEW_PAGE",
       "ENABLE_DISABLE_RECORD",
       "EXPORT_CASE_PDF",
@@ -44,6 +44,7 @@ describe("Verifying config constant", () => {
       "REFERRAL",
       "REOPEN",
       "SEARCH_OWNED_BY_OTHERS",
+      "SERVICES_SECTION_FROM_CASE",
       "TRANSFER",
       "WRITE"
     ].forEach(property => {
@@ -81,7 +82,8 @@ describe("Verifying config constant", () => {
       "incidents",
       "potential_matches",
       "reports",
-      "tracing_requests"
+      "tracing_requests",
+      "users"
     ].forEach(property => {
       expect(resources).to.have.property(property);
       expect(resources[property]).to.be.a("string");

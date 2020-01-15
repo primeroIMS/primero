@@ -11,7 +11,8 @@ import {
   Flag,
   MobileScreenShare,
   Person,
-  People
+  People,
+  SettingsApplications
 } from "@material-ui/icons";
 import PropTypes from "prop-types";
 
@@ -53,6 +54,8 @@ const ListIcon = ({ icon }) => {
       return <Person />;
     case "referred_cases":
       return <People />;
+    case "settings":
+      return <SettingsApplications />;
     default:
       return null;
   }

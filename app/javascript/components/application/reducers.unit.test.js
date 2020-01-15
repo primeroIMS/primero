@@ -58,7 +58,12 @@ describe("Application - Reducers", () => {
       locales: ["en", "fr", "ar"],
       defaultLocale: "en",
       baseLanguage: "en",
-      primeroVersion: "2.0.0.1"
+      primeroVersion: "2.0.0.1",
+      reportingLocationConfig: {
+        label_key: "district",
+        admin_level: 2,
+        field_key: "owned_by_location"
+      }
     });
 
     const action = {
@@ -98,7 +103,12 @@ describe("Application - Reducers", () => {
         locales: ["en", "fr", "ar"],
         default_locale: "en",
         base_language: "en",
-        primero_version: "2.0.0.1"
+        primero_version: "2.0.0.1",
+        reporting_location_config: {
+          label_key: "district",
+          admin_level: 2,
+          field_key: "owned_by_location"
+        }
       }
     };
 

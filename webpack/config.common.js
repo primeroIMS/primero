@@ -1,6 +1,6 @@
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const { OUTPUT_DIR, CLIENT_APPLICATION } = require("./config");
+const { OUTPUT_DIR, CLIENT_APPLICATION, ID_APPLICATION } = require("./config");
 
 const svgPrefix = {
   toString: () =>
@@ -10,7 +10,8 @@ const svgPrefix = {
 };
 
 const entry = {
-  application: [CLIENT_APPLICATION]
+  application: [CLIENT_APPLICATION],
+  identity: [ID_APPLICATION]
 };
 
 const output = {
