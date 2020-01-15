@@ -31,10 +31,10 @@ const Component = ({ recordType, defaultFilters }) => {
   const [open, setOpen] = useState(false);
   const [rerender, setRerender] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
-  const [more, setMore] = useState(false);
   const [moreSectionFilters, setMoreSectionFilters] = useState({});
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
+  const [more, setMore] = useState(false);
   const dispatch = useDispatch();
 
   const methods = useForm({
@@ -56,18 +56,22 @@ const Component = ({ recordType, defaultFilters }) => {
     let primaryFilters = filters;
 
     if (recordType === RECORD_PATH.cases) {
-      const selectedFromMoreSection = primaryFilters.filter(
+      const selectedFromMoreSection = primaryFilters.filter(f =>
+        Object.keys(moreSectionFilters).includes(f.field_name)
+      );
+      const queryParamsFilter = primaryFilters.filter(
         f =>
-          Object.keys(moreSectionFilters).includes(f.field_name) &&
+          Object.keys(queryParams).includes(f.field_name) &&
           !(
-            pFilters.map(t => t.field_name).includes(f.field_name) ||
-            defaultf.map(t => t.field_name).includes(f.field_name)
+            defaultf.map(t => t.field_name).includes(f.field_name) ||
+            pFilters.map(t => t.field_name).includes(f.field_name)
           )
       );
 
       const mergedFilters = fromJS([
         ...pFilters,
         ...defaultf,
+        ...queryParamsFilter,
         ...selectedFromMoreSection
       ]);
 
@@ -85,6 +89,9 @@ const Component = ({ recordType, defaultFilters }) => {
           key={filter.field_name}
           moreSectionFilters={moreSectionFilters}
           setMoreSectionFilters={setMoreSectionFilters}
+          isSecondary={Object.keys(moreSectionFilters).includes(
+            filter.field_name
+          )}
         />
       );
     });

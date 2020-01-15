@@ -17,14 +17,16 @@ import {
   registerInput,
   whichOptions,
   optionText,
-  handleMoreFiltersChange
+  handleMoreFiltersChange,
+  resetSecondaryFilter
 } from "./utils";
 import handleFilterChange, { getFilterProps } from "./value-handlers";
 
 const CheckboxFilter = ({
   filter,
   moreSectionFilters,
-  setMoreSectionFilters
+  setMoreSectionFilters,
+  isSecondary
 }) => {
   const i18n = useI18n();
   const { register, unregister, setValue, user, getValues } = useFormContext();
@@ -82,16 +84,25 @@ const CheckboxFilter = ({
       fieldName
     });
 
-    handleMoreFiltersChange(
-      moreSectionFilters,
-      setMoreSectionFilters,
-      fieldName,
-      getValues
-    );
+    if (isSecondary) {
+      handleMoreFiltersChange(
+        moreSectionFilters,
+        setMoreSectionFilters,
+        fieldName,
+        getValues
+      );
+    }
   };
 
   const handleReset = () => {
     setValue(fieldName, defaultValue);
+    resetSecondaryFilter(
+      isSecondary,
+      fieldName,
+      getValues()[fieldName],
+      moreSectionFilters,
+      setMoreSectionFilters
+    );
   };
 
   const renderOptions = () =>
@@ -137,6 +148,7 @@ CheckboxFilter.displayName = "CheckboxFilter";
 
 CheckboxFilter.propTypes = {
   filter: PropTypes.object.isRequired,
+  isSecondary: PropTypes.bool,
   moreSectionFilters: PropTypes.object,
   setMoreSectionFilters: PropTypes.func
 };

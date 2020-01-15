@@ -11,13 +11,19 @@ import { getOption } from "../../../record-form";
 import { useI18n } from "../../../i18n";
 
 import styles from "./styles.css";
-import { registerInput, whichOptions, handleMoreFiltersChange } from "./utils";
+import {
+  registerInput,
+  whichOptions,
+  handleMoreFiltersChange,
+  resetSecondaryFilter
+} from "./utils";
 import handleFilterChange, { valueParser } from "./value-handlers";
 
 const ToggleFilter = ({
   filter,
   moreSectionFilters,
-  setMoreSectionFilters
+  setMoreSectionFilters,
+  isSecondary
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -75,16 +81,25 @@ const ToggleFilter = ({
       fieldName
     });
 
-    handleMoreFiltersChange(
-      moreSectionFilters,
-      setMoreSectionFilters,
-      fieldName,
-      getValues
-    );
+    if (isSecondary) {
+      handleMoreFiltersChange(
+        moreSectionFilters,
+        setMoreSectionFilters,
+        fieldName,
+        getValues
+      );
+    }
   };
 
   const handleReset = () => {
     setValue(fieldName, []);
+    resetSecondaryFilter(
+      isSecondary,
+      fieldName,
+      getValues()[fieldName],
+      moreSectionFilters,
+      setMoreSectionFilters
+    );
   };
 
   const renderOptions = () =>
@@ -125,6 +140,7 @@ ToggleFilter.displayName = "ToggleFilter";
 
 ToggleFilter.propTypes = {
   filter: PropTypes.object.isRequired,
+  isSecondary: PropTypes.bool,
   moreSectionFilters: PropTypes.object,
   setMoreSectionFilters: PropTypes.func
 };

@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "@material-ui/core";
 
+import { useI18n } from "../../i18n";
 import { RECORD_PATH } from "../../../config";
 import { filterType } from "../utils";
 
@@ -15,11 +16,14 @@ const MoreSection = ({
   moreSectionFilters,
   setMoreSectionFilters
 }) => {
+  const i18n = useI18n();
+
   if (recordType !== RECORD_PATH.cases) {
     return null;
   }
 
   const renderSecondaryFilters = () => {
+    // TODO: NEED TO EXCLUDE FROM QUERY_PARAMS
     const secondaryFilters = allAvailable.filter(
       filter =>
         ![
@@ -40,30 +44,22 @@ const MoreSection = ({
           key={filter.field_name}
           moreSectionFilters={moreSectionFilters}
           setMoreSectionFilters={setMoreSectionFilters}
+          isSecondary
         />
       );
     });
   };
 
-  const renderMore = more ? (
-    <>
-      <Link component="button" onClick={() => setMore(false)}>
-        Less...
-      </Link>
-      <br />
-      <br />
-      {renderSecondaryFilters()}
-    </>
-  ) : (
-    <Link component="button" onClick={() => setMore(true)}>
-      More...
-    </Link>
-  );
+  const renderText = more ? i18n.t("filters.less") : i18n.t("filters.more");
+
+  const filters = more ? renderSecondaryFilters() : null;
 
   return (
     <>
-      <br />
-      {renderMore}
+      {filters}
+      <Link component="button" onClick={() => setMore(!more)}>
+        {renderText}
+      </Link>
     </>
   );
 };

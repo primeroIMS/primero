@@ -9,15 +9,20 @@ import { useI18n } from "../../../i18n";
 import Panel from "../panel";
 
 import styles from "./styles.css";
-import { registerInput } from "./utils";
+import { registerInput, handleMoreFiltersChange } from "./utils";
 
-const DateFilter = ({ filter }) => {
+const DateFilter = ({
+  filter,
+  moreSectionFilters,
+  setMoreSectionFilters,
+  isSecondary
+}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState();
   const valueRef = useRef();
-  const { options } = filter;
+  const { options, field_name: fieldName } = filter;
   const isDateFieldSelectable = Object.keys?.(options)?.length > 0;
   const valueSelectedField = options?.[i18n.locale]?.filter(option =>
     Object.keys(getValues({ nest: true })).includes(option.id)
@@ -48,6 +53,8 @@ const DateFilter = ({ filter }) => {
     }
   };
 
+  console.log(getValues());
+
   useEffect(() => {
     if (selectedField) {
       registerInput({
@@ -57,6 +64,15 @@ const DateFilter = ({ filter }) => {
         setInputValue,
         clearSecondaryInput: () => setSelectedField("")
       });
+      // console.log(isSecondary, getValues());
+      // if (isSecondary) {
+      //   handleMoreFiltersChange(
+      //     moreSectionFilters,
+      //     setMoreSectionFilters,
+      //     selectedField,
+      //     getValues
+      //   );
+      // }
     }
 
     return () => {
@@ -122,7 +138,10 @@ const DateFilter = ({ filter }) => {
 };
 
 DateFilter.propTypes = {
-  filter: PropTypes.object.isRequired
+  filter: PropTypes.object.isRequired,
+  isSecondary: PropTypes.bool,
+  moreSectionFilters: PropTypes.object,
+  setMoreSectionFilters: PropTypes.func
 };
 
 DateFilter.displayName = "DateFilter";

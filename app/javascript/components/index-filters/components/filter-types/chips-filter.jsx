@@ -10,10 +10,21 @@ import { getOption } from "../../../record-form";
 import { useI18n } from "../../../i18n";
 
 import styles from "./styles.css";
-import { registerInput, whichOptions, optionText } from "./utils";
+import {
+  registerInput,
+  whichOptions,
+  optionText,
+  handleMoreFiltersChange,
+  resetSecondaryFilter
+} from "./utils";
 import handleFilterChange from "./value-handlers";
 
-const ChipsFilter = ({ filter }) => {
+const ChipsFilter = ({
+  filter,
+  moreSectionFilters,
+  setMoreSectionFilters,
+  isSecondary
+}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { register, unregister, setValue, getValues } = useFormContext();
@@ -33,6 +44,15 @@ const ChipsFilter = ({ filter }) => {
       defaultValue: [],
       setInputValue
     });
+
+    // TODO: MOVE TO HELPER
+    if (
+      Object.keys(moreSectionFilters)?.length &&
+      Object.keys(moreSectionFilters).includes(fieldName)
+    ) {
+      setValue(fieldName, moreSectionFilters[fieldName]);
+      setInputValue(moreSectionFilters[fieldName]);
+    }
 
     return () => {
       unregister(fieldName);
@@ -63,7 +83,7 @@ const ChipsFilter = ({ filter }) => {
     i18n
   });
 
-  const handleChange = event =>
+  const handleChange = event => {
     handleFilterChange({
       type: "checkboxes",
       event,
@@ -73,8 +93,24 @@ const ChipsFilter = ({ filter }) => {
       fieldName
     });
 
+    if (isSecondary) {
+      handleMoreFiltersChange(
+        moreSectionFilters,
+        setMoreSectionFilters,
+        fieldName,
+        getValues
+      );
+    }
+  };
   const handleReset = () => {
     setValue(fieldName, []);
+    resetSecondaryFilter(
+      isSecondary,
+      fieldName,
+      getValues()[fieldName],
+      moreSectionFilters,
+      setMoreSectionFilters
+    );
   };
 
   const renderOptions = () =>
@@ -118,7 +154,10 @@ const ChipsFilter = ({ filter }) => {
 ChipsFilter.displayName = "ChipsFilter";
 
 ChipsFilter.propTypes = {
-  filter: PropTypes.object.isRequired
+  filter: PropTypes.object.isRequired,
+  isSecondary: PropTypes.bool,
+  moreSectionFilters: PropTypes.object,
+  setMoreSectionFilters: PropTypes.func
 };
 
 export default ChipsFilter;

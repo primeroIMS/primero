@@ -11,13 +11,18 @@ import { useFormContext } from "react-hook-form";
 import Panel from "../panel";
 import { useI18n } from "../../../i18n";
 
-import { registerInput, handleMoreFiltersChange } from "./utils";
+import {
+  registerInput,
+  handleMoreFiltersChange,
+  resetSecondaryFilter
+} from "./utils";
 import handleFilterChange from "./value-handlers";
 
 const SwitchFilter = ({
   filter,
   moreSectionFilters,
-  setMoreSectionFilters
+  setMoreSectionFilters,
+  isSecondary
 }) => {
   const i18n = useI18n();
   const { register, unregister, setValue, getValues } = useFormContext();
@@ -37,16 +42,25 @@ const SwitchFilter = ({
       fieldName
     });
 
-    handleMoreFiltersChange(
-      moreSectionFilters,
-      setMoreSectionFilters,
-      fieldName,
-      getValues
-    );
+    if (isSecondary) {
+      handleMoreFiltersChange(
+        moreSectionFilters,
+        setMoreSectionFilters,
+        fieldName,
+        getValues
+      );
+    }
   };
 
   const handleReset = () => {
     setValue(fieldName, false);
+    resetSecondaryFilter(
+      isSecondary,
+      fieldName,
+      getValues()[fieldName],
+      moreSectionFilters,
+      setMoreSectionFilters
+    );
   };
 
   useEffect(() => {
@@ -103,6 +117,7 @@ SwitchFilter.displayName = "SwitchFilter";
 
 SwitchFilter.propTypes = {
   filter: PropTypes.object.isRequired,
+  isSecondary: PropTypes.bool,
   moreSectionFilters: PropTypes.object,
   setMoreSectionFilters: PropTypes.func
 };

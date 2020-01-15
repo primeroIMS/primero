@@ -7,7 +7,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/styles";
 
 import Panel from "../panel";
-import { getOption } from "../../../record-form";
+import { getOption, getLocations } from "../../../record-form";
 import { useI18n } from "../../../i18n";
 
 import styles from "./styles.css";
@@ -41,9 +41,19 @@ const SelectFilter = ({ filter }) => {
     };
   }, [register, unregister, fieldName]);
 
-  const lookups = useSelector(state =>
+  const lookup = useSelector(state =>
     getOption(state, optionStringsSource, i18n.locale)
   );
+
+  const locations = useSelector(state =>
+    getLocations(state, optionStringsSource, i18n.locale)
+  );
+
+  const lookups = ["location", "reporting_location"].includes(
+    optionStringsSource
+  )
+    ? locations?.toJS()
+    : lookup;
 
   const filterOptions = whichOptions({
     optionStringsSource,
@@ -67,7 +77,23 @@ const SelectFilter = ({ filter }) => {
     setValue(fieldName, []);
   };
 
-  const optionLabel = option => option?.display_name || option?.display_text;
+  const optionLabel = option => {
+    let foundOption = option;
+
+    if (typeof option === "string") {
+      [foundOption] = lookups.filter(
+        l => l?.id === option || l?.code === option
+      );
+    }
+
+    return (
+      foundOption?.display_name?.[i18n.locale] ||
+      foundOption?.display_text?.[i18n.locale] ||
+      foundOption?.name?.[i18n.locale]
+    );
+  };
+
+  // console.log(fieldName, filterOptions);
 
   return (
     <Panel filter={filter} getValues={getValues} handleReset={handleReset}>

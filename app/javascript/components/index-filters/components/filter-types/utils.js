@@ -1,3 +1,5 @@
+import isEmpty from "lodash";
+
 import { AGE_MAX } from "../../../../config";
 
 export const registerInput = ({
@@ -74,15 +76,28 @@ export const handleMoreFiltersChange = (
 ) => {
   const formValues = getValues()[fieldName];
 
-  if (!Object.keys(moreFilters).includes(fieldName)) {
-    setMoreFilters({
-      ...moreFilters,
-      [fieldName]: formValues
-    });
-  }
+  setMoreFilters({
+    ...moreFilters,
+    [fieldName]: formValues
+  });
+
   if ((Array.isArray(formValues) && !formValues?.length) || !formValues) {
     const { [fieldName]: deleted, ...rest } = moreFilters;
 
     setMoreFilters(rest);
+  }
+};
+
+export const resetSecondaryFilter = (
+  isSecondary,
+  filterName,
+  values,
+  moreSectionFilters,
+  setMoreSectionFilters
+) => {
+  if (isSecondary && isEmpty(values)) {
+    const { [filterName]: deleted, ...rest } = moreSectionFilters;
+
+    setMoreSectionFilters(rest);
   }
 };
