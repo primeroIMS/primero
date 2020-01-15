@@ -186,7 +186,7 @@ module FieldsHelper
   end
 
   def violation_status(formObject, form_group_id, subform_name, index)
-    #TODO MRM - fix this with MRM - RSE VERIFY!!!
+    #TODO MRM - fix this with MRM
     if form_group_id.present? && formObject[form_group_id].present? && !formObject[form_group_id][subform_name].empty? &&
       index != 'template'
       content_tag :span, class: 'verification_status' do
