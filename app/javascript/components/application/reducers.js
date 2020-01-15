@@ -20,7 +20,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         locales,
         default_locale: defaultLocale,
         base_language: baseLanguage,
-        primero_version: primeroVersion
+        primero_version: primeroVersion,
+        reporting_location_config: reportingLocationConfig
       } = payload;
 
       return state.merge(
@@ -30,7 +31,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           locales,
           defaultLocale,
           baseLanguage,
-          primeroVersion
+          primeroVersion,
+          reportingLocationConfig
         })
       );
     }

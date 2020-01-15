@@ -1,13 +1,13 @@
-import * as Actions from "./actions";
+import { DB } from "../../../config";
 
-export const attemptLogin = data => {
-  return {
-    type: Actions.LOGIN,
+import { LOGIN } from "./actions";
+
+export const loginSystemSettings = () => async dispatch => {
+  return dispatch({
+    type: LOGIN,
     api: {
-      path: "tokens",
-      method: "POST",
-      body: { user: data },
-      successCallback: Actions.LOGIN_SUCCESS_CALLBACK
+      path: "identity_providers",
+      method: "GET"
     }
-  };
+  });
 };

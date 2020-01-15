@@ -5,6 +5,7 @@ module Api::V2
     def index
       authorize! :index, FormSection
       @form_sections = FormSection.list(params)
+      @form_group_lookups = FormSection.form_group_lookups
     end
 
     def show

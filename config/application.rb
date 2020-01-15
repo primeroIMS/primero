@@ -30,6 +30,9 @@ module Primero
       #{config.root}/lib/extensions
     )
 
+
+    config.cache_store = :memory_store
+
     # I18n deprecation
     config.i18n.enforce_available_locales = false
 
@@ -78,6 +81,8 @@ module Primero
     if ENV['RAILS_LOG_PATH'].present?
       config.paths['log'] = "#{ENV['RAILS_LOG_PATH']}/#{ENV['RAILS_ENV']}.log"
     end
+
+    config.beginning_of_week = :sunday
 
     config.logger = Logger.new(config.paths['log'].first, 1, 50.megabytes)
     config.action_view.logger = nil

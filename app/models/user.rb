@@ -1,55 +1,73 @@
+# frozen_string_literal: true
+
+# This model represents the Primero end user and the associated application permissions.
+# Primero can be configured to perform its own password-based authentication, in which case the
+# User model is responsible for storing the encrypted password and associated whitelisted JWT
+# token identifiers. If external identity providers are used (over OpenID Connect), the
+# model is not responsible for storing authentication information, and must mirror a user
+# in external IDP (such as Azure Active Directory).
 class User < ApplicationRecord
   include Importable
   include Devise::JWT::RevocationStrategies::Whitelist
   # include Memoizable
+
+  USER_NAME_REGEX = /\A[^ ]+\z/.freeze
+  EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})$\z/.freeze
+  PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/.freeze
+  ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
 
   attr_reader :refresh_associated_user_groups, :refresh_associated_user_agencies
 
   delegate :can?, :cannot?, to: :ability
 
   devise :database_authenticatable, :timeoutable,
-    :recoverable, :validatable,
-    :jwt_authenticatable, jwt_revocation_strategy: self
+         :recoverable, :validatable,
+         :jwt_authenticatable, jwt_revocation_strategy: self
 
   belongs_to :role
   belongs_to :agency
+  belongs_to :identity_provider, optional: true
 
   has_many :saved_searches
   has_and_belongs_to_many :user_groups
+  has_many :audit_logs
 
   scope :list_by_enabled, -> { where(disabled: false) }
   scope :list_by_disabled, -> { where(disabled: true) }
   scope :by_user_group, (lambda do |ids|
     joins(:user_groups).where(user_groups: { id: ids })
   end)
+  scope :by_agency, (lambda do |id|
+    joins(:agency).where(agencies: { id: id })
+  end)
 
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
-
-  ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id]
 
   before_create :set_agency_services
   before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code
   after_save :update_associated_groups_or_agencies
 
-
-  validates_presence_of :full_name, :message => "errors.models.user.full_name"
-
-  validates_presence_of :password_confirmation, :message => "errors.models.user.password_confirmation", if: -> { password.present? }
-  validates_presence_of :role_id, :message => "errors.models.user.role_ids"
-
-  validates_presence_of :organization, :message => "errors.models.user.organization"
-
-  validates_format_of :user_name, :with => /\A[^ ]+\z/, :message => "errors.models.user.user_name"
-  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})$\z/, :if => :email_entered?,
-                      :message => "errors.models.user.email"
-  validates_format_of :password, :with => /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/,
-                      :message => "errors.models.user.password_text", if: -> { password.present? }
-
-  validates_confirmation_of :password, :message => "errors.models.user.password_mismatch"
-
-  validate :is_user_name_unique
-  validate :validate_locale
+  validates :full_name, presence: { message: 'errors.models.user.full_name' }
+  validates :user_name, presence: true, uniqueness: { message: 'errors.models.user.user_name_uniqueness' }
+  validates :user_name, format: { with: USER_NAME_REGEX, message: 'errors.models.user.user_name' }, unless: :using_idp?
+  validates :user_name, format: { with: EMAIL_REGEX, message: 'errors.models.user.user_name' }, if: :using_idp?
+  validates :email, format: { with: EMAIL_REGEX, message: 'errors.models.user.email' }, allow_nil: true
+  validates :password,
+            presence: true,
+            length: { minimum: 8, message: 'errors.models.user.password_mismatch' },
+            format: { with: PASSWORD_REGEX, message: 'errors.models.user.password_mismatch' },
+            confirmation: { message: 'errors.models.user.password_mismatch' },
+            if: :password_required?
+  validates :password_confirmation,
+            presence: { message: 'errors.models.user.password_confirmation' },
+            if: :password_required?
+  validates :role, presence: { message: 'errors.models.user.role_ids' }
+  validates :agency, presence: { message: 'errors.models.user.organization' }
+  validates :identity_provider, presence: { message: 'errors.models.user.identity_provider' }, if: :using_idp?
+  validates :locale,
+            inclusion: { in: I18n.available_locales.map(&:to_s), message: 'errors.models.user.invalid_locale' },
+            allow_nil: true
 
   class << self
     def hidden_attributes
@@ -57,11 +75,22 @@ class User < ApplicationRecord
     end
 
     def password_parameters
-      %w(password password_confirmation)
+      %w[password password_confirmation]
+    end
+
+    def unique_id_parameters
+      %w[user_group_unique_ids role_unique_id]
+    end
+
+    def permitted_api_params
+      (
+        User.attribute_names + User.password_parameters +
+        [ { user_group_ids: [] }, { user_group_unique_ids: [] }, :role_unique_id ]
+      ) - User.hidden_attributes
     end
 
     def get_unique_instance(attributes)
-      find_by_user_name(attributes['user_name'])
+      User.find_by(user_name: attributes['user_name'])
     end
     # memoize_in_prod :get_unique_instance
 
@@ -71,11 +100,15 @@ class User < ApplicationRecord
     # memoize_in_prod :user_id_from_name
 
     def agencies_for_user(user_names)
-      where(user_name: user_names).map{ |u| u.organization }.uniq
+      where(user_name: user_names).map(&:agency).uniq
     end
 
     def last_login_timestamp(user_name)
       AuditLog.where(action_name: 'login', user_name: user_name).try(:last).try(:timestamp)
+    end
+
+    def agencies_for_user_names(user_names)
+      Agency.joins(:users).where('users.user_name in (?)', user_names)
     end
 
     def default_sort_field
@@ -98,7 +131,7 @@ class User < ApplicationRecord
       users = User.all
       if filters.present?
         filters = filters.compact
-        filters['disabled'] = filters['disabled'] == 'true' ? true : false
+        filters['disabled'] = (filters['disabled'] == 'true')
         users = users.where(filters)
         if user.present? && user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
           users = users.where(organization: user.organization)
@@ -110,7 +143,7 @@ class User < ApplicationRecord
       pagination[:page] = pagination[:page] > 1 ? pagination[:per_page] * pagination[:page] : 0
       users = users.limit(pagination[:per_page]).offset(pagination[:page])
       users = users.order(sort) if sort.present?
-      results.merge({ users: users })
+      results.merge(users: users)
     end
 
     def users_for_assign(user, model)
@@ -165,22 +198,45 @@ class User < ApplicationRecord
           permission: permission
         )
     end
-
   end
 
-  def email_entered?
-    !email.blank?
+  def initialize(attributes = nil, &block)
+    super(attributes&.except(*User.unique_id_parameters), &block)
+    associate_unique_id_properties(attributes.slice(*User.unique_id_parameters)) if attributes.present?
   end
 
-  def is_user_name_unique
-    user = User.find_by_user_name(user_name)
-    return true if user.nil? || id == user.id
-    errors.add(:user_name, I18n.t("errors.models.user.user_name_uniqueness"))
+  def update_with_properties(properties)
+    assign_attributes(properties.except(*User.unique_id_parameters))
+    associate_unique_id_properties(properties)
   end
 
-  def validate_locale
-    return true if self.locale.blank? || Primero::Application::locales.include?(self.locale)
-    errors.add(:locale, I18n.t("errors.models.user.invalid_locale", user_locale: self.locale))
+  def associate_unique_id_properties(properties)
+    associate_role_unique_id(properties[:role_unique_id])
+    associate_groups_unique_id(properties[:user_group_unique_ids])
+  end
+
+  def associate_role_unique_id(role_unique_id)
+    return unless role_unique_id.present?
+
+    self.role = Role.find_by(unique_id: role_unique_id)
+  end
+
+  def associate_groups_unique_id(user_group_unique_ids)
+    return unless user_group_unique_ids.present?
+
+    self.user_groups = UserGroup.where(unique_id: user_group_unique_ids)
+  end
+
+  def user_group_unique_ids
+    user_groups.pluck(:unique_id)
+  end
+
+  def using_idp?
+    Rails.configuration.x.idp.use_identity_provider
+  end
+
+  def password_required?
+    !using_idp? && (!persisted? || !password.nil? || !password_confirmation.nil?)
   end
 
   def user_location
@@ -190,25 +246,26 @@ class User < ApplicationRecord
   alias_method :Location, :user_location
 
   def reporting_location
-    @reporting_location ||= Location.get_reporting_location(self.user_location) if self.user_location.present?
+    return unless user_location.present?
+
+    @reporting_location ||= Location.get_reporting_location(user_location)
   end
 
-  # NOTE: Expensive not called often
   def last_login
-    timestamp = User.last_login_timestamp(self.user_name)
-    @last_login = self.localize_date(timestamp, "%Y-%m-%d %H:%M:%S %Z") if timestamp.present?
+    login = audit_logs.where(action: AuditLog::LOGIN).first
+    login&.timestamp
   end
 
   def modules
-    role.modules
+    @modules ||= role.modules
   end
 
   def module_unique_ids
-    modules.pluck(:unique_id)
+    @module_unique_ids ||= modules.pluck(:unique_id)
   end
 
-  def has_module?(module_id)
-    modules.exists?(module_id)
+  def has_module?(module_unique_id)
+    module_unique_ids.include?(module_unique_id)
   end
 
   def has_permission?(permission)
@@ -242,27 +299,20 @@ class User < ApplicationRecord
     has_permission_by_permission_type?(record_type.parent_form, Permission::DISPLAY_VIEW_PAGE)
   end
 
-  #TODO: May deprecate this method in favor of record_query_scope
   def managed_users
     if group_permission? Permission::ALL
-      @managed_users ||= User.all
-      @record_scope = [Searchable::ALL_FILTER]
+      User.all
+    elsif group_permission?(Permission::AGENCY)
+      User.by_agency(agency_id)
     elsif group_permission?(Permission::GROUP) && user_group_ids.present?
-      @managed_users ||= User.by_user_group(user_group_ids)
-                             .uniq(&:user_name)
+      User.by_user_group(user_group_ids).uniq(&:user_name)
     else
-      @managed_users ||= [self]
+      [self]
     end
-
-    @managed_user_names ||= @managed_users.map(&:user_name)
-    @record_scope ||= @managed_user_names
-    @managed_users
   end
 
-  #TODO: May deprecate this method in favor of record_query_scope
   def managed_user_names
-    managed_users
-    @managed_user_names
+    @managed_user_names ||= managed_users.pluck(:user_name)
   end
 
   def user_managers
@@ -274,12 +324,6 @@ class User < ApplicationRecord
   def managers
     user_managers
     @managers
-  end
-
-  #TODO: Deprecate this method in favor of record_query_scope
-  def record_scope
-    managed_users
-    @record_scope
   end
 
   # This method indicates what records this user can search for.
@@ -303,27 +347,10 @@ class User < ApplicationRecord
   end
 
   def mobile_login_history
-    AuditLog.where(action_name: 'login', user_name: user_name)
-            .where.not('mobile_data @> ?', { mobile_id: nil }.to_json)
-            .order(timestamp: :desc)
+    audit_logs
+      .where(action: AuditLog::LOGIN)
+      .where.not('audit_logs.metadata @> ?', { mobile_id: nil }.to_json)
   end
-
-  def localize_date(date_time, format = "%d %B %Y at %H:%M (%Z)")
-    #TODO - This is merely a patch for the deploy
-    # This needs to be refactored as a helper
-    # Further work needs to be done to clean up how dates are handled
-    if date_time.is_a?(Date)
-      date_time.in_time_zone(self[:time_zone]).strftime(format)
-    elsif date_time.is_a?(String)
-      DateTime.parse(date_time).in_time_zone(self[:time_zone]).strftime(format)
-    else
-      DateTime.parse(date_time.to_s).in_time_zone(self[:time_zone]).strftime(format)
-    end
-  end
-
-  # def self.memoized_dependencies
-  #   [FormSection, PrimeroModule, Role]
-  # end
 
   def admin?
     group_permission?(Permission::ALL)
@@ -339,7 +366,7 @@ class User < ApplicationRecord
 
   def send_welcome_email(host_url)
     @system_settings ||= SystemSettings.current
-    MailJob.perform_later(self.id, host_url) if self.email.present? && @system_settings.try(:welcome_email_enabled) == true
+    MailJob.perform_later(id, host_url) if email && @system_settings&.welcome_email_enabled
   end
 
   # Used by the User import to populate the password with a random string when the input file has no password

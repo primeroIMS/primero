@@ -5,6 +5,11 @@ module Indicators
       SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
     ].freeze
 
+    CLOSED_ENABLED = [
+      SearchFilters::Value.new(field_name: 'record_state', value: true),
+      SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED)
+    ].freeze
+
     OPEN = QueriedIndicator.new(
       name: 'open',
       record_model: Child,
@@ -205,5 +210,86 @@ module Indicators
       ]
     ).freeze
 
+    PROTECTION_CONCERNS_OPEN_CASES = FacetedIndicator.new(
+      name: 'protection_concerns_open_cases',
+      facet: 'protection_concerns',
+      record_model: Child,
+      scope: OPEN_ENABLED
+    ).freeze
+
+    PROTECTION_CONCERNS_NEW_THIS_WEEK = FacetedIndicator.new(
+      name: 'protection_concerns_new_this_week',
+      facet: 'protection_concerns',
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
+      ]
+    ).freeze
+
+    PROTECTION_CONCERNS_ALL_CASES = FacetedIndicator.new(
+      name: 'protection_concerns_all_cases',
+      facet: 'protection_concerns',
+      record_model: Child,
+      scope: [SearchFilters::Value.new(field_name: 'record_state', value: true)]
+    ).freeze
+
+    PROTECTION_CONCERNS_CLOSED_THIS_WEEK = FacetedIndicator.new(
+      name: 'protection_concerns_closed_this_week',
+      facet: 'protection_concerns',
+      record_model: Child,
+      scope: [
+        SearchFilters::Value.new(field_name: 'record_state', value: true),
+        SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
+        SearchFilters::DateRange.new({ field_name: 'date_closure' }.merge(FacetedIndicator.this_week))
+      ]
+    ).freeze
+
+    def self.reporting_location_indicators
+      reporting_location_config = SystemSettings.current.reporting_location_config
+      admin_level = reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      field_key = reporting_location_config&.field_key || ReportingLocation::DEFAULT_FIELD_KEY
+      facet_name = "#{field_key}#{admin_level}"
+
+      [
+        FacetedIndicator.new(
+          name: 'reporting_location_open',
+          facet: facet_name,
+          record_model: Child,
+          scope: OPEN_ENABLED
+        ).freeze,
+        FacetedIndicator.new(
+          name: 'reporting_location_open_last_week',
+          facet: facet_name,
+          record_model: Child,
+          scope: OPEN_ENABLED + [
+            SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.last_week))
+          ],
+        ).freeze,
+        FacetedIndicator.new(
+          name: 'reporting_location_open_this_week',
+          facet: facet_name,
+          record_model: Child,
+          scope: OPEN_ENABLED + [
+            SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.this_week))
+          ]
+        ).freeze,
+        FacetedIndicator.new(
+          name: 'reporting_location_closed_last_week',
+          facet: facet_name,
+          record_model: Child,
+          scope: CLOSED_ENABLED + [
+            SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.last_week))
+          ]
+        ).freeze,
+        FacetedIndicator.new(
+          name: 'reporting_location_closed_this_week',
+          facet: facet_name,
+          record_model: Child,
+          scope: CLOSED_ENABLED + [
+            SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.this_week))
+          ]
+        ).freeze
+      ]
+    end
   end
 end

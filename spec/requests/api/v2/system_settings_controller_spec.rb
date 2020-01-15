@@ -2,32 +2,28 @@ require 'rails_helper'
 
 describe Api::V2::SystemSettingsController, type: :request do
   before :each do
-    Field.destroy_all
-    FormSection.destroy_all
-    Agency.destroy_all
-    PrimeroProgram.destroy_all
-    PrimeroModule.destroy_all
-    SystemSettings.destroy_all
+    clean_data(Field, FormSection, Agency, PrimeroProgram, PrimeroModule, SystemSettings)
     fields = [
-        Field.new({name: 'field_name_2',
-          type: 'text_field',
-          display_name_all: 'Field Name 2',
-          hide_on_view_page: false
-        })
-      ]
-      form = FormSection.new(
-        unique_id: 'form_section_test_1',
-        parent_form: 'case',
-        visible: true,
-        order_form_group: 51,
-        order: 16,
-        order_subform: 0,
-        editable: true,
-        name_all: 'Form Section Test 2',
-        description_all: 'Form Section Test 2',
-        fields: fields
+      Field.new(
+        name: 'field_name_2',
+        type: 'text_field',
+        display_name_all: 'Field Name 2',
+        hide_on_view_page: false
       )
-      form.save!
+    ]
+    form = FormSection.new(
+      unique_id: 'form_section_test_1',
+      parent_form: 'case',
+      visible: true,
+      order_form_group: 51,
+      order: 16,
+      order_subform: 0,
+      editable: true,
+      name_all: 'Form Section Test 2',
+      description_all: 'Form Section Test 2',
+      fields: fields
+    )
+    form.save!
     @agency_a = Agency.create!(name: 'Agency test', agency_code: 'AAA')
     @primero_program = PrimeroProgram.create!(unique_id: 'some_program', name_en: 'Some program')
     @primero_module = PrimeroModule.create!(
@@ -44,18 +40,23 @@ describe Api::V2::SystemSettingsController, type: :request do
         reporting_location_filter: true
       }
     )
-    @system_settings = SystemSettings.create(default_locale: 'en',
+    @system_settings = SystemSettings.create(
+      default_locale: 'en',
       case_code_separator: '-',
       primero_version: '2.0.0',
-      age_ranges: {'primero' => ['0 - 5', '6 - 11', '12 - 17', '18+'], 'unhcr' => ['0 - 4', '5 - 11', '12 - 17', '18 - 59', '60+']},
+      age_ranges: {
+        'primero' => ['0 - 5', '6 - 11', '12 - 17', '18+'],
+        'unhcr' => ['0 - 4', '5 - 11', '12 - 17', '18 - 59', '60+']
+       },
       primary_age_range: 'primero',
       location_limit_for_api: 150,
-      welcome_email_text: 'Welcome to Primero')
+      welcome_email_text: 'Welcome to Primero'
+    )
   end
 
   let(:json) { JSON.parse(response.body) }
 
-  describe "GET /api/v2/system_settings" do
+  describe 'GET /api/v2/system_settings' do
     it 'list system_settings when the param *extended* is not present on the request' do
       login_for_test
       get '/api/v2/system_settings'
@@ -88,12 +89,7 @@ describe Api::V2::SystemSettingsController, type: :request do
   end
 
   after :each do
-    Field.destroy_all
-    FormSection.destroy_all
-    Agency.destroy_all
-    PrimeroProgram.destroy_all
-    PrimeroModule.destroy_all
-    SystemSettings.destroy_all
+    clean_data(Field, FormSection, Agency, PrimeroProgram, PrimeroModule, SystemSettings)
   end
 
 end

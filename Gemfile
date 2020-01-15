@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 ruby '2.6.2'
 
 gem 'rails',            '5.2.4'
+gem 'rack',             '~> 2.0.8'
 gem 'pg',               '~> 1.1'
 gem 'devise',           '4.7.1'
 gem 'devise-jwt',       '0.5.9'
@@ -37,16 +38,15 @@ gem 'rufus-scheduler',   '~> 3.4', require: false
 gem 'backburner',        '~> 1.5', require: false
 gem 'deep_merge',        '~> 1.2', require: 'deep_merge/rails_compat'
 
-gem 'tzinfo',            '~> 1.2'
-gem 'tzinfo-data',       '~> 1.2019'
-
 gem 'activerecord-nulldb-adapter'
 
 # TODO: Re-evaluate if we still need this
 gem 'will_paginate',     '~> 3.1'
 
 # Security assertions:
-gem "nokogiri", ">= 1.10.4"
+gem "nokogiri",          ">= 1.10.4"
+gem 'tzinfo',            '~> 1.2'
+gem 'tzinfo-data',       '~> 1.2019'
 # ---
 
 group :development, :test do

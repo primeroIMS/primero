@@ -23,6 +23,27 @@ const workflowTeamCases = {
   }
 };
 
+const reportingLocation = {
+  name: "dashboard.reporting_location",
+  type: "indicator",
+  indicators: {
+    reporting_location_open: {
+      "1506060": {
+        count: 1,
+        query: [
+          "record_state=true",
+          "status=open",
+          "owned_by_location2=1506060"
+        ]
+      }
+    },
+    reporting_location_open_last_week: {},
+    reporting_location_open_this_week: {},
+    reporting_location_closed_last_week: {},
+    reporting_location_closed_this_week: {}
+  }
+};
+
 const stateWithoutRecords = fromJS({});
 const initialState = fromJS({
   records: {
@@ -46,7 +67,8 @@ const initialState = fromJS({
             }
           }
         },
-        workflowTeamCases
+        workflowTeamCases,
+        reportingLocation
       ]
     }
   }
@@ -91,6 +113,14 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getWorkflowTeamCases(stateWithoutRecords);
 
       expect(values).to.be.empty;
+    });
+  });
+
+  describe("getReportingLocation", () => {
+    it("should return the reporting location config", () => {
+      const values = selectors.getReportingLocation(initialState);
+
+      expect(values).to.deep.equal(fromJS(reportingLocation));
     });
   });
 });

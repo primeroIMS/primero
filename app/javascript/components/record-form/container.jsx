@@ -12,7 +12,13 @@ import { PageContainer } from "../page";
 import { Transitions, fetchTransitions } from "../transitions";
 import { LoadingIndicator } from "../loading-indicator";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
-import { RECORD_TYPES, TRANSITION_TYPE, REFERRAL } from "../../config";
+import {
+  RECORD_TYPES,
+  REFERRAL,
+  RECORD_OWNER,
+  RECORD_INFORMATION
+} from "../../config";
+import RecordOwner from "../record-owner";
 
 import { NAME } from "./constants";
 import { Nav } from "./nav";
@@ -133,7 +139,8 @@ const Container = ({ match, mode }) => {
     selectedForm,
     firstTab,
     handleToggleNav,
-    mobileDisplay
+    mobileDisplay,
+    selectedRecord: record ? record.get("id") : null
   };
 
   useEffect(() => {
@@ -153,12 +160,23 @@ const Container = ({ match, mode }) => {
   }, [params.recordType, params.id]);
 
   // TODO: When transfer_request be implement change the transition_ype
-  const isTransition = TRANSITION_TYPE.includes(selectedForm);
+  const isRecordOwnerForm = RECORD_OWNER === selectedForm;
+  const isRecordInformation = RECORD_INFORMATION.includes(selectedForm);
   const transitionProps = {
     isReferral: REFERRAL === selectedForm,
     recordType: params.recordType,
     record: params.id
   };
+
+  let renderForm;
+
+  if (isRecordOwnerForm) {
+    renderForm = <RecordOwner record={record} recordType={params.recordType} />;
+  } else if (isRecordInformation && !isRecordOwnerForm) {
+    renderForm = <Transitions {...transitionProps} />;
+  } else {
+    renderForm = <RecordForm {...formProps} />;
+  }
 
   return (
     <PageContainer twoCol>
@@ -178,11 +196,7 @@ const Container = ({ match, mode }) => {
             <Nav {...navProps} />
           </div>
           <div className={`${css.recordForms} record-form-container`}>
-            {isTransition ? (
-              <Transitions {...transitionProps} />
-            ) : (
-              <RecordForm {...formProps} />
-            )}
+            {renderForm}
           </div>
         </div>
       </LoadingIndicator>

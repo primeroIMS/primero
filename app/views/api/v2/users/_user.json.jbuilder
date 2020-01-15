@@ -1,8 +1,13 @@
 user_hash = user.attributes.reject { |k, _| User.hidden_attributes.include?(k) }
+user_hash = user_hash.merge({
+  agency_id: user.agency_id,
+  module_unique_ids: user.module_unique_ids,
+  role_unique_id: user.role.unique_id,
+  user_group_unique_ids: user.user_group_unique_ids
+})
+
 if @extended
   user_hash = user_hash.merge(
-    modules: user.module_unique_ids,
-    agency: user.agency_id,
     permissions: {
       list: user.role.permissions.map{ |p| { resource: p.resource.pluralize, actions: p.actions } },
     },
@@ -10,7 +15,7 @@ if @extended
       Child.parent_form,
       Incident.parent_form,
       TracingRequest.parent_form
-    ].map { |record_type| { record_type.pluralize => Filter.get_filters(user, record_type) } }
+    ].map { |record_type| { record_type.pluralize => Filter.filters(user, record_type) } }
      .inject(&:merge),
     list_headers: ([
       Child.parent_form,

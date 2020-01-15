@@ -22,25 +22,8 @@ class Role < ApplicationRecord
   scope :by_referral, -> { where(referral: true) }
   scope :by_transfer, -> { where(transfer: true) }
 
-  # input: either an action string (ex: read, write, flag, etc)
-  #        or a colon separated string, with the first part being resource, action, or management,
-  #        and the second being the value (ex: read, write, case, incident, etc)
-  def has_permission(permission)
-    perm_split = permission.split(':')
-
-    #if input is a single string, not colon separated, then default the key to actions
-    perm_key = (perm_split.count == 1) ? 'actions' : perm_split.first
-    perm_value = perm_split.last
-
-    if perm_key == 'management'
-      self.group_permission == perm_value
-    else
-      self.permissions.map{|p| p[perm_key]}.flatten.include? perm_value
-    end
-  end
-
   def has_permitted_form_id?(form_unique_id_id)
-    self.form_sections.map(&:unique_id).include?(form_unique_id_id)
+    form_sections.map(&:unique_id).include?(form_unique_id_id)
   end
 
   class << self
@@ -111,6 +94,7 @@ class Role < ApplicationRecord
   def dashboards
     dashboard_permissions = permissions.find { |p| p.resource == Permission::DASHBOARD }
     dashboards = dashboard_permissions&.actions&.map do |action|
+      next Dashboard.send(action) if Dashboard::DYNAMIC.include?(action)
       begin
         "Dashboard::#{action.upcase}".constantize
       rescue NameError

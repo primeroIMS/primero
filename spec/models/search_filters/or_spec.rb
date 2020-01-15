@@ -5,11 +5,6 @@ describe SearchFilters::Or do
   describe '.query_scope', search: true do
 
     before :example do
-      reload_model(Child) do
-        allow(Field).to receive(:all_filterable_field_names) { %w(sex) }
-        allow(Field).to receive(:all_filterable_multi_field_names) { %w(protection_concerns) }
-      end
-
       @correct_match1 = Child.create!(data: {name: 'Correct Match1', sex: 'female', protection_concerns: %w(trafficking) })
       @correct_match2 = Child.create!(data: {name: 'Correct Match2', sex: 'male', protection_concerns: %w(statelessness)})
       @incorrect_match = Child.create!(data: {name: 'Incorrect Match', sex: 'male', protection_concerns: %w(trafficking) })

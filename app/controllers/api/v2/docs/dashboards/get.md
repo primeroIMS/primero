@@ -29,14 +29,16 @@ A 1-D dashboard:
     {
       "name": "workflow",
       "type": "indicator",
-      "stats": {
-        "new": {
-          "count": 1,
-          "query": ["record_state=true","status=open","workflow=new"]
-        },
-        "care_plan": {
-          "count": 0, 
-          "query": ["record_state=true","status=open","workflow=care_plan"]
+      "indicators": {
+        "workflow":{
+          "new": {
+            "count": 1,
+            "query": ["record_state=true","status=open","workflow=new"]
+          },
+          "care_plan": {
+            "count": 0,
+            "query": ["record_state=true","status=open","workflow=care_plan"]
+          }
         }
       }
     }
@@ -52,29 +54,31 @@ A 2-D dashboard:
     {
       "name": "workflow_team",
       "type": "indicator",
-      "stats": {
-        "primero": {
-          "new": {
-            "count": 1,
-            "query": ["record_state=true","status=open","owned_by=primero","workflow=new"]
+      "indicators": {
+        "workflow_team": {
+          "primero": {
+            "new": {
+              "count": 1,
+              "query": ["record_state=true","status=open","owned_by=primero","workflow=new"]
+            },
+            "care_plan": {
+              "count": 0,
+              "query": ["record_state=true","status=open","owned_by=primero","workflow=care_plan"]
+            }
           },
-          "care_plan": {
-            "count": 0,
-            "query": ["record_state=true","status=open","owned_by=primero","workflow=care_plan"]
-          }
-        },
-        "primero_cp": {
-          "new": {
-            "count": 1,
-            "query": ["record_state=true","status=open","owned_by=primero_cp","workflow=new"]
-          },
-          "care_plan": {
-            "count": 0,
-            "query": ["record_state=true","status=open","owned_by=primero_cp","workflow=care_plan"]
+          "primero_cp": {
+            "new": {
+              "count": 1,
+              "query": ["record_state=true","status=open","owned_by=primero_cp","workflow=new"]
+            },
+            "care_plan": {
+              "count": 0,
+              "query": ["record_state=true","status=open","owned_by=primero_cp","workflow=care_plan"]
+            }
           }
         }
-      }   
+      }
     }
   ]
-}         
+}
 ```

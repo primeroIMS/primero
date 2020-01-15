@@ -15,7 +15,7 @@ _Child = Class.new(Child) do
   #property :age, Integer
 end
 
-describe Importable do
+xdescribe Importable do
   before :each do
     _Child.any_instance.stub(:field_definitions).and_return([])
   end

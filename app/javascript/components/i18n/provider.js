@@ -1,18 +1,16 @@
 import PropTypes from "prop-types";
 import React, { useContext, createContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { fromJS } from "immutable";
 
 import { setLocale } from "./action-creators";
+import { getLocales, getLocale } from "./selectors";
 
 const Context = createContext();
 
 const I18nProvider = ({ children }) => {
-  const locale = useSelector(state =>
-    state.length
-      ? state.getIn(["ui", "I18n", "locale"]) ||
-        state.getIn(["application", "defaultLocale"])
-      : window.I18n.locale
-  );
+  const locale = useSelector(state => getLocale(state));
+  const locales = useSelector(state => getLocales(state));
 
   const dispatch = useDispatch();
 
@@ -42,10 +40,20 @@ const I18nProvider = ({ children }) => {
     return i18nObject;
   };
 
+  const translateLocales = () =>
+    locales.reduce((prev, value) => {
+      const result = prev.push(
+        fromJS({ id: value, display_text: window.I18n.t(`home.${value}`) })
+      );
+
+      return result;
+    }, fromJS([]));
+
   return (
     <Context.Provider
       value={{
         locale,
+        applicationLocales: translateLocales(),
         ...window.I18n,
         changeLocale,
         getI18nStringFromObject

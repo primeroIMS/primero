@@ -17,12 +17,12 @@ const OverviewBox = ({ items, chartData, sumTitle }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const stats = items.get("stats", fromJS({}));
-  const statsKeys = stats.keySeq();
+  const indicators = items.get("indicators", fromJS({}));
+  const indicatorsKeys = indicators.keySeq();
 
   const sum = () => {
-    return statsKeys.reduce(
-      (prev, current) => prev + (stats.getIn([current, "count"]) || 0),
+    return indicatorsKeys.reduce(
+      (prev, current) => prev + (indicators.getIn([current, "count"]) || 0),
       0
     );
   };
@@ -37,15 +37,15 @@ const OverviewBox = ({ items, chartData, sumTitle }) => {
   };
 
   const statItems = () => {
-    return stats.keySeq().map(item => {
+    return indicators.keySeq().map(item => {
       return (
         <li key={item}>
           <button
             className={css.itemButton}
             type="button"
-            onClick={() => handleClick(stats.getIn([item, "query"], []))}
+            onClick={() => handleClick(indicators.getIn([item, "query"], []))}
           >
-            {stats.getIn([item, "count"])} {i18n.t(`dashboard.${item}`)}
+            {indicators.getIn([item, "count"])} {i18n.t(`dashboard.${item}`)}
           </button>
         </li>
       );

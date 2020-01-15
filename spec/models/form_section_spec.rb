@@ -55,108 +55,6 @@ describe FormSection do
     }
   end
 
-  describe "mobile forms" do
-    before do
-      [
-        Field, FormSection, PrimeroModule,
-        PrimeroProgram, Role, Lookup
-      ].each(&:destroy_all)
-      @form_section_mobile_1_nested = FormSection.create!(unique_id: "MOBILE_1_NESTED", name: "Mobile 1 Nested",
-                                                          parent_form: "case", mobile_form: false, is_nested: true, visible: false,
-                                                          fields: [Field.new(name: "field1", type: "text_field", display_name_all: "field1")])
-      @form_section_mobile_1 = FormSection.create!(unique_id: "MOBILE_1", name: "Mobile 1", parent_form: "case", mobile_form: true,
-                                                   fields: [Field.new(name: "mobile_1_nested", type: "subform",
-                                                                      subform: @form_section_mobile_1_nested, display_name_all: "Mobile 1 Nested")])
-      @mobile_field1 = Field.new(name: "field1", type: "text_field", display_name_all: "field1")
-      @mobile_field2 = Field.new(name: "field2", type: "text_field", display_name_all: "field2", mobile_visible: true)
-      @mobile_field3 = Field.new(name: "field3", type: "text_field", display_name_all: "field3", mobile_visible: false)
-      @mobile_field4 = Field.new(name: "field4", type: "text_field", display_name_all: "field4", mobile_visible: false)
-      @mobile_field5 = Field.new(name: "field5", type: "text_field", display_name_all: "field5")
-      @form_section_mobile_2 = FormSection.create!(unique_id: "MOBILE_2", name: "Mobile 2", parent_form: "case", mobile_form: true,
-                                                   fields: [@mobile_field1, @mobile_field2, @mobile_field3, @mobile_field4,
-                                                            @mobile_field5])
-      @primero_program = PrimeroProgram.create!(unique_id: 'some_program', name_en: "Some program")
-      @mobile_module = PrimeroModule.create!(primero_program: @primero_program, name: "Mobile Module", associated_record_types: ['case'],
-                                             form_sections: [@form_section_a, @form_section_b, @form_section_mobile_1])
-      @roleM = Role.create!(
-        form_sections: [@form_section_b, @form_section_c, @form_section_mobile_1],
-        name: "Test Role Mobile", permissions: [@permission_case_read],
-        modules: [@mobile_module]
-      )
-      @userM = User.new(user_name: "test_user_m", role: @roleM)
-    end
-
-    describe "filter_for_subforms" do
-      before do
-        fs = @userM.permitted_forms('case')
-        @mobile_forms = fs.select(&:mobile_form)
-      end
-      it "returns only mobile forms" do
-        expect(@mobile_forms).to include(@form_section_mobile_1)
-      end
-
-      it "does not return non-mobile forms" do
-        expect(@mobile_forms).not_to include(@form_section_b)
-      end
-    end
-
-    describe 'format_forms_for_mobile' do
-      it 'formats for moble' do
-        expected = {"Children"=>
-                        [{"unique_id"=>"MOBILE_1",
-                          :name=>{"en"=>"Mobile 1", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
-                          "order"=>0,
-                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
-                          "fields"=>
-                              [{"name"=>"mobile_1_nested",
-                                "disabled"=>false,
-                                "multi_select"=>false,
-                                "type"=>"subform",
-                                "subform"=>{"unique_id"=>"MOBILE_1_NESTED",
-                                            :name=>{"en"=>"Mobile 1 Nested", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
-                                            "order"=>0, :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
-                                            "fields"=>
-                                              [{"name"=>"field1",
-                                                "disabled"=>false,
-                                                "multi_select"=>false,
-                                                "type"=>"text_field",
-                                                "required"=>false,
-                                                "option_strings_source"=>nil,
-                                                "show_on_minify_form"=>false,
-                                                "mobile_visible"=>true,
-                                                :display_name=>{"en"=>"field1", "fr"=>"field1", "ar"=>"field1", "ar-LB"=>"field1", "so"=>"field1", "es"=>"field1", "bn"=>"field1"},
-                                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
-                                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[]},
-                                                "date_validation"=>"default_date_validation"}]
-                                              },
-                                "required"=>false,
-                                "option_strings_source"=>nil,
-                                "show_on_minify_form"=>false,
-                                "mobile_visible"=>true,
-                                :display_name=>{"en"=>"Mobile 1 Nested", "fr"=>"Mobile 1 Nested", "ar"=>"Mobile 1 Nested",
-                                                "ar-LB"=>"Mobile 1 Nested", "so"=>"Mobile 1 Nested", "es"=>"Mobile 1 Nested",
-                                                "bn"=>"Mobile 1 Nested"},
-                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
-                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[]},
-                                "date_validation"=>"default_date_validation"}]}]}
-        form_sections = FormSection.group_forms([@form_section_mobile_1])
-        expect(FormSection.format_forms_for_mobile(form_sections, :en, 'case')).to eq(expected)
-      end
-    end
-
-    describe 'all_mobile_fields' do
-      it 'returns the mobile visible fields' do
-        #NOTE: The default of mobile_visible is true.
-        expect(@form_section_mobile_2.all_mobile_fields).to include(@mobile_field1, @mobile_field2, @mobile_field5)
-      end
-
-      it 'does not return fields that are not mobile visible' do
-        expect(@form_section_mobile_2.all_mobile_fields).not_to include(@mobile_field3, @mobile_field4)
-      end
-    end
-
-  end
-
   describe "group_forms" do
     it "groups forms by the group name" do
       form_section_a = FormSection.new(unique_id: "A", name: "A", parent_form: 'case', form_group_id: "x")
@@ -252,7 +150,6 @@ describe FormSection do
     end
 
   end
-
 
   describe "add_textarea_field_to_formsection" do
 
@@ -810,19 +707,20 @@ describe FormSection do
         @form.save!
       end
 
-      it "should not add field with different type" do
+      it 'should not add field with different type' do
         #This field is a text_field in another form.
-        @form.fields << Field.new({
-          "name" => "field_name_2",
-          "type" => Field::SELECT_BOX,
-          "display_name_all" => "Field Name 2",
-          "option_strings_text" => [{"id"=>"test1", "display_text"=>"test1,"}, {"id"=>"test2", "display_text"=>"test2,"}, {"id"=>"test3", "display_text"=>"test3"}]
-        })
-        @form.save.should be_falsey
-
-        #There is other field with the same on other form section
-        #so, we can't change the type.
-        expect(@form.errors.full_messages.join).to eq("Fields is invalid")
+        @form.fields << Field.new(
+          name: 'field_name_2',
+          type: Field::SELECT_BOX,
+          display_name_all: 'Field Name 2',
+          option_strings_text: [
+            { id: 'test1', display_text: 'test1' },
+            { id: 'test2', display_text: 'test2' },
+            { id: 'test3', display_text: 'test3' }
+          ]
+        )
+        expect(@form).to be_invalid
+        expect(@form.save).to be_falsey
       end
 
       it "should allow fields with the same name on different subforms" do

@@ -15,6 +15,7 @@ import { RECORD_TYPES } from "../../../../config";
 import { useThemeHelper } from "../../../../libs";
 
 import styles from "./styles.css";
+import { WORKFLOW_INDICATOR_NAME } from "./constants";
 
 const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
   const { css, theme } = useThemeHelper(styles);
@@ -34,7 +35,7 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
       )
   );
 
-  const activeStep = workflowSteps.findIndex(
+  const activeStep = workflowSteps?.findIndex(
     s => s.id === record.get("workflow")
   );
 
@@ -51,7 +52,7 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
 
   return (
     <Stepper classes={{ root: css.stepper }} activeStep={activeStep || 0}>
-      {workflowSteps.map((s, index) => {
+      {workflowSteps?.map((s, index) => {
         const stepProps = {};
         const label = s.display_text || "";
 
@@ -70,6 +71,8 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
     </Stepper>
   );
 };
+
+WorkflowIndicator.displayName = WORKFLOW_INDICATOR_NAME;
 
 WorkflowIndicator.propTypes = {
   locale: PropTypes.string.isRequired,

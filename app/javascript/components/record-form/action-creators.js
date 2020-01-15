@@ -10,6 +10,13 @@ export const setSelectedForm = payload => {
   };
 };
 
+export const setSelectedRecord = payload => {
+  return {
+    type: Actions.SET_SELECTED_RECORD,
+    payload
+  };
+};
+
 export const fetchForms = () => async dispatch => {
   dispatch({
     type: Actions.RECORD_FORMS,
@@ -31,10 +38,12 @@ const fetchLookups = () => ({
   }
 });
 
+// TODO: The per was added as workaround but it definitely needs to be changed in the future.
 const fetchLocations = () => ({
   type: Actions.SET_LOCATIONS,
   api: {
-    path: URL_LOCATIONS
+    path: URL_LOCATIONS,
+    params: { per: 8000, page: 1 }
   }
 });
 

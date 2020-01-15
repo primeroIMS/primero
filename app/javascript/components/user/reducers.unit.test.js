@@ -96,8 +96,8 @@ describe("User - Reducers", () => {
       user_name: "primero",
       email: "primero@primero.com",
       agency_id: 1,
-      role_id: 19,
-      modules: ["primeromodule-cp", "primeromodule-gbv"],
+      role_unique_id: 19,
+      module_unique_ids: ["primeromodule-cp", "primeromodule-gbv"],
       agency: 1,
       permissions: {
         list: [

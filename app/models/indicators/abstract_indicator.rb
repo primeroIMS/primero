@@ -11,8 +11,26 @@ module Indicators
         Time.zone.now - 10.days
       end
 
+      def last_week
+        {
+          from: 1.week.ago.beginning_of_week,
+          to: 1.week.ago.end_of_week
+        }
+      end
+
+      def this_week
+        {
+          from: present.beginning_of_week,
+          to: present.end_of_week
+        }
+      end
+
       def present
         Time.zone.now
+      end
+
+      def type
+        'indicator'
       end
     end
 
