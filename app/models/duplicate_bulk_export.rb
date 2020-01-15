@@ -71,8 +71,4 @@ class DuplicateBulkExport < BulkExport
   def exporter_type
     Exporters::DuplicateIdCSVExporter
   end
-
-  def job
-    DuplicateBulkExportJob
-  end
 end
