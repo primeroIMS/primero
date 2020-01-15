@@ -136,7 +136,6 @@ class FormSection < CouchRest::Model::Base
   before_save :sync_form_group
   after_save :recalculate_subform_permissions
 
-  #TODO - is this still needed?
   def form_group_name(opts={})
     locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
     return self.send("name_#{locale}") if self.form_group_id.blank?
