@@ -98,7 +98,8 @@ export const ROUTES = {
   tasks: "/tasks",
   tracing_requests: "/tracing_requests",
   admin: "/admin",
-  admin_users: "/admin/users"
+  admin_users: "/admin/users",
+  admin_users_new: "/admin/users/new"
 };
 
 export const PERMITTED_URL = [
@@ -111,9 +112,7 @@ export const PERMITTED_URL = [
   ROUTES.support,
   ROUTES.cases,
   ROUTES.tracing_requests,
-  ROUTES.incidents,
-  ROUTES.admin,
-  ROUTES.admin_users
+  ROUTES.incidents
 ];
 
 export const DATE_FORMAT = "dd-MMM-yyyy";

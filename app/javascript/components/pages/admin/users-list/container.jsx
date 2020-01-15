@@ -1,10 +1,14 @@
 import React from "react";
 import { fromJS } from "immutable";
 import { useSelector } from "react-redux";
+import { IconButton } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
+import { Link } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
+import { ROUTES } from "../../../../config";
 
 import { selectListHeaders } from "./selectors";
 import { fetchUsers } from "./action-creators";
@@ -22,7 +26,7 @@ const Container = () => {
     recordType,
     columns,
     options: {
-      selectableRows: false
+      selectableRows: "none"
     },
     defaultFilters: fromJS({
       per: 20,
@@ -33,7 +37,15 @@ const Container = () => {
 
   return (
     <>
-      <PageHeading title={i18n.t("users.label")} />
+      <PageHeading title={i18n.t("users.label")}>
+        <IconButton
+          to={ROUTES.admin_users_new}
+          component={Link}
+          color="primary"
+        >
+          <AddIcon />
+        </IconButton>
+      </PageHeading>
       <PageContent>
         <IndexTable {...tableOptions} />
       </PageContent>

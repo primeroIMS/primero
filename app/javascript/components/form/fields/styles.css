@@ -1,0 +1,8 @@
+.checkboxContainer {
+  margin-top: 1em;
+
+  & label {
+    font-size: .75rem;
+    color: $(theme.primero.colors.black);
+  }
+}

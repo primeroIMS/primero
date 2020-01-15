@@ -1,4 +1,4 @@
-import NAMESPACE from "./namespace";
+import { namespaceActions } from "../../../../libs";
+import NAMESPACE from "../namespace";
 
-export const USERS = `${NAMESPACE}/USERS`;
-export const USERS_SUCCESS = `${NAMESPACE}/USERS_SUCCESS`;
+export default namespaceActions(NAMESPACE, ["USERS", "USERS_SUCCESS"]);

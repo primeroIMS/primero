@@ -321,9 +321,9 @@ describe Api::V2::UsersController, type: :request do
       post "/api/v2/users", params: params
 
       expect(response).to have_http_status(422)
-      expect(json['errors'].size).to eq(1)
+      expect(json['errors'].size).to eq(2)
       expect(json['errors'][0]['resource']).to eq("/api/v2/users")
-      expect(json['errors'][0]['detail']).to eq("password")
+      expect(json['errors'].map{ |e| e['detail'] }).to contain_exactly('password', 'password_confirmation')
     end
   end
 

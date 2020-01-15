@@ -67,6 +67,8 @@ export const RECORD_RESOURCES = [
   RESOURCES.tracing_requests
 ];
 
+export const ADMIN_ACTIONS = [...MANAGE];
+
 export const ADMIN_RESOURCES = [RESOURCES.users];
 
 export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];

@@ -34,6 +34,15 @@ global.window.matchMedia = query => ({
   removeListener: () => {}
 });
 
+global.document.createRange = () => ({
+  setStart: () => {},
+  setEnd: () => {},
+  commonAncestorContainer: {
+    nodeName: 'BODY',
+    ownerDocument: document,
+  },
+});
+
 global.HTMLCanvasElement.prototype.getContext = () => {
   return {
     fillRect() {},

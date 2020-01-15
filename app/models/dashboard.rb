@@ -110,6 +110,17 @@ class Dashboard < ValueObject
     indicators: [Indicators::Case::TASKS_OVERDUE_FOLLOWUPS]
   ).freeze
 
+  DASH_PROTECTION_CONCERNS = Dashboard.new(
+    name: 'dash_protection_concerns',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::PROTECTION_CONCERNS_OPEN_CASES,
+      Indicators::Case::PROTECTION_CONCERNS_NEW_THIS_WEEK,
+      Indicators::Case::PROTECTION_CONCERNS_ALL_CASES,
+      Indicators::Case::PROTECTION_CONCERNS_CLOSED_THIS_WEEK
+    ]
+  ).freeze
+
   def self.dash_reporting_location
     Dashboard.new(
       name: 'reporting_location',
@@ -117,5 +128,4 @@ class Dashboard < ValueObject
       indicators: Indicators::Case.reporting_location_indicators
     ).freeze
   end
-
 end

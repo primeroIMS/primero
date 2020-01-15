@@ -4,6 +4,7 @@ import qs from "qs";
 import { attemptSignout } from "../components/user";
 import { FETCH_TIMEOUT } from "../config";
 import { syncIndexedDB } from "../db";
+import { signOut } from "../components/pages/login/idp-selection";
 
 const defaultFetchOptions = {
   method: "GET",
@@ -132,7 +133,7 @@ function fetchPayload(action, store, options) {
 
         if (response.status === 401) {
           const usingIdp = store.getState().getIn(["idp", "use_identity_provider"]);
-          store.dispatch(attemptSignout(usingIdp));
+          store.dispatch(attemptSignout(usingIdp, signOut));
         }
       } else {
         await handleSuccess(store, { type, json, normalizeFunc, path, db });

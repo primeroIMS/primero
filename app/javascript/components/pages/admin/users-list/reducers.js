@@ -1,13 +1,12 @@
 import { fromJS } from "immutable";
 
-import { USERS_SUCCESS } from "./actions";
-import NAMESPACE from "./namespace";
+import actions from "./actions";
 
 const DEFAULT_STATE = fromJS({});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case USERS_SUCCESS:
+    case actions.USERS_SUCCESS:
       return state
         .set("data", fromJS(payload.data))
         .set("metadata", fromJS(payload.metadata));
@@ -16,4 +15,4 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   }
 };
 
-export const reducers = { [NAMESPACE]: reducer };
+export const reducers = reducer;
