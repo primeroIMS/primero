@@ -6,6 +6,7 @@ import Divider from "@material-ui/core/Divider";
 
 import { getSelectedRecord } from "../selectors";
 import { setSelectedForm, setSelectedRecord } from "../action-creators";
+import { RECORD_INFORMATION } from "../../../config";
 
 import { NAME } from "./constants";
 import NavGroup from "./NavGroup";
@@ -56,6 +57,24 @@ const Nav = ({
   if (formNav) {
     const [...formGroups] = formNav.values();
 
+    const renderFormGroup = formGroups.map(g => {
+      const key = g.first().formId;
+
+      if (RECORD_INFORMATION.includes(key)) {
+        return null;
+      }
+
+      return (
+        <NavGroup
+          group={g}
+          handleClick={handleClick}
+          open={open}
+          key={key}
+          selectedForm={selectedForm}
+        />
+      );
+    });
+
     return (
       <List>
         <RecordInformation
@@ -64,17 +83,7 @@ const Nav = ({
           selectedForm={selectedForm}
         />
         <Divider />
-        {formGroups.map(g => {
-          return (
-            <NavGroup
-              group={g}
-              handleClick={handleClick}
-              open={open}
-              key={g.first().formId}
-              selectedForm={selectedForm}
-            />
-          );
-        })}
+        {renderFormGroup}
       </List>
     );
   }

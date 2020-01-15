@@ -1,6 +1,7 @@
 import { expect } from "chai";
 
 import NavGroup from "../NavGroup";
+import NavItem from "../NavItem";
 import { setupMountedComponent } from "../../../../test";
 
 import RecordInformation from "./record-information";
@@ -9,7 +10,10 @@ describe("<RecordInformation />", () => {
   let component;
 
   const props = {
-    open: {},
+    open: {
+      identification_registration: true,
+      record_information: true
+    },
     handleClick: () => {},
     selectedForm: ""
   };
@@ -24,5 +28,14 @@ describe("<RecordInformation />", () => {
 
   it("renders a NavGroup component />", () => {
     expect(component.find(NavGroup)).to.have.lengthOf(1);
+  });
+
+  it("renders a NavItem component />", () => {
+    expect(
+      component
+        .find(NavGroup)
+        .find("ul")
+        .find(NavItem)
+    ).to.have.lengthOf(4);
   });
 });

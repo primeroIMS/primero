@@ -13,6 +13,7 @@ import { Transitions, fetchTransitions } from "../transitions";
 import { LoadingIndicator } from "../loading-indicator";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
 import {
+  APPROVALS,
   RECORD_TYPES,
   REFERRAL,
   RECORD_OWNER,
@@ -161,6 +162,7 @@ const Container = ({ match, mode }) => {
 
   // TODO: When transfer_request be implement change the transition_ype
   const isRecordOwnerForm = RECORD_OWNER === selectedForm;
+  const isApprovalsForm = APPROVALS === selectedForm;
   const isRecordInformation = RECORD_INFORMATION.includes(selectedForm);
   const transitionProps = {
     isReferral: REFERRAL === selectedForm,
@@ -172,7 +174,7 @@ const Container = ({ match, mode }) => {
 
   if (isRecordOwnerForm) {
     renderForm = <RecordOwner record={record} recordType={params.recordType} />;
-  } else if (isRecordInformation && !isRecordOwnerForm) {
+  } else if (isRecordInformation && (!isRecordOwnerForm && !isApprovalsForm)) {
     renderForm = <Transitions {...transitionProps} />;
   } else {
     renderForm = <RecordForm {...formProps} />;

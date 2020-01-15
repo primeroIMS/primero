@@ -3,6 +3,7 @@ import { fromJS, Map, OrderedMap } from "immutable";
 import Divider from "@material-ui/core/Divider";
 
 import { setupMountedComponent } from "../../../test";
+import { FormSectionRecord, FieldRecord } from "../records";
 
 import Nav from "./Nav";
 import NavGroup from "./NavGroup";
@@ -28,6 +29,72 @@ describe("<Nav />", () => {
     status: "open"
   });
 
+  const formSections = OrderedMap({
+    1: FormSectionRecord({
+      id: 1,
+      form_group_id: "basic_identity",
+      form_group_name: {
+        en: "Basic Identity",
+        fr: "",
+        ar: ""
+      },
+      order_form_group: 30,
+      name: {
+        en: "Basic Identity",
+        fr: "",
+        ar: ""
+      },
+      order: 10,
+      unique_id: "basic_identity",
+      is_first_tab: true,
+      visible: true,
+      is_nested: false,
+      module_ids: ["primeromodule-cp"],
+      parent_form: "case",
+      fields: [1]
+    })
+  });
+
+  const fields = OrderedMap({
+    1: FieldRecord({
+      id: 1,
+      name: "name_first",
+      type: "text_field",
+      editable: true,
+      disabled: null,
+      visible: true,
+      display_name: {
+        en: "First Name",
+        fr: "",
+        ar: "",
+        "ar-LB": "",
+        so: "",
+        es: ""
+      },
+      subform_section_id: null,
+      help_text: {},
+      multi_select: null,
+      option_strings_source: null,
+      option_strings_text: null,
+      guiding_questions: "",
+      required: true
+    })
+  });
+
+  const formNav = OrderedMap({
+    1: OrderedMap({
+      1: {
+        group: "basic_identity",
+        groupName: "Basic Identity",
+        groupOrder: 9,
+        name: "Basic Identity",
+        order: 9,
+        formId: "basic_identity",
+        is_first_tab: false
+      }
+    })
+  });
+
   const initialState = Map({
     records: fromJS({
       cases: {
@@ -36,13 +103,17 @@ describe("<Nav />", () => {
     }),
     forms: fromJS({
       selectedForm: "record_owner",
-      selectedRecord: "1d8d84eb-25e3-4d8b-8c32-8452eee3e71c"
+      selectedRecord: "1d8d84eb-25e3-4d8b-8c32-8452eee3e71c",
+      formSections,
+      fields,
+      loading: false,
+      errors: false
     })
   });
 
   const props = {
     firstTab: {},
-    formNav: OrderedMap({}),
+    formNav,
     handleToggleNav: () => {},
     mobileDisplay: true,
     selectedForm: "",
@@ -65,7 +136,113 @@ describe("<Nav />", () => {
     expect(component.find(Divider)).to.have.lengthOf(1);
   });
 
-  it("renders a NavGroup component />", () => {
-    expect(component.find(NavGroup)).to.have.lengthOf(1);
+  it("renders a NavGroup component from record information and another one from the others forms groups />", () => {
+    expect(component.find(NavGroup)).to.have.lengthOf(2);
+  });
+
+  describe("when the selectedForm is approvals", () => {
+
+    const formSections = OrderedMap({
+      1: FormSectionRecord({
+        id: 1,
+        form_group_id: "approvals",
+        form_group_name: {
+          en: "Approvals",
+          fr: "",
+          ar: ""
+        },
+        order_form_group: 30,
+        name: {
+          en: "Approvals",
+          fr: "",
+          ar: ""
+        },
+        order: 10,
+        unique_id: "approvals",
+        is_first_tab: true,
+        visible: true,
+        is_nested: false,
+        module_ids: ["primeromodule-cp"],
+        parent_form: "case",
+        fields: [1]
+      })
+    });
+
+    const fields = OrderedMap({
+      1: FieldRecord({
+        id: 1,
+        name: "approval_for_type",
+        type: "text_field",
+        editable: true,
+        disabled: null,
+        visible: true,
+        display_name: {
+          en: "Case Plan type",
+          fr: "",
+          ar: "",
+          "ar-LB": "",
+          so: "",
+          es: ""
+        },
+        subform_section_id: null,
+        help_text: {},
+        multi_select: null,
+        option_strings_source: "lookup lookup-approval-type",
+        option_strings_text: null,
+        guiding_questions: "",
+        required: true
+      })
+    });
+
+    const formNav = OrderedMap({
+      1: OrderedMap({
+        1: {
+          group: "approvals",
+          groupName: "Approvals",
+          groupOrder: 9,
+          name: "Approvals",
+          order: 9,
+          formId: "approvals",
+          is_first_tab: false
+        }
+      })
+    });
+
+    const initialStateApprovals = Map({
+      records: fromJS({
+        cases: {
+          data: [record]
+        }
+      }),
+      forms: fromJS({
+        selectedForm: "approvals",
+        selectedRecord: "1d8d84eb-25e3-4d8b-8c32-8452eee3e71c",
+        formSections,
+        fields,
+        loading: false,
+        errors: false
+      })
+    });
+
+    const propsApprovals = {
+      firstTab: {},
+      formNav,
+      handleToggleNav: () => {},
+      mobileDisplay: true,
+      selectedForm: "",
+      selectedRecord: ""
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Nav,
+        propsApprovals,
+        initialStateApprovals
+      ));
+    });
+
+    it("should render a NavGroup", () => {
+      expect(component.find(NavGroup)).to.have.lengthOf(1);
+    });
   });
 });

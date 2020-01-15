@@ -69,6 +69,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("CODE_FIELD");
     expect(constants).to.have.property("LOOKUPS");
     expect(constants).to.have.property("RECORD_INFORMATION");
+    expect(constants).to.have.property("APPROVALS");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -111,6 +112,7 @@ describe("Verifying config constant", () => {
     delete constants.CODE_FIELD;
     delete constants.LOOKUPS;
     delete constants.RECORD_INFORMATION;
+    delete constants.APPROVALS;
 
     expect(constants).to.deep.equal({});
   });
@@ -171,5 +173,6 @@ describe("Verifying config constant", () => {
       "service_type"
     );
     expect(constants.RECORD_INFORMATION).to.be.an("array");
+    expect(constants.APPROVALS).to.be.an("string");
   });
 });

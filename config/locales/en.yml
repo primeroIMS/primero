@@ -1236,6 +1236,7 @@ en:
       record_information: "Record Information"
       transfers_assignments: "Transfers / Assignments"
       referrals: "Referrals"
+      approvals: "Approvals"
 
   form_section:
     name: "Name"
