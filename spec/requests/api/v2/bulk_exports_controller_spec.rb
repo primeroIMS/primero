@@ -135,6 +135,26 @@ describe Api::V2::BulkExportsController, type: :request do
 
   end
 
+  describe 'DELETE /api/v2/exports/:id' do
+    it 'archives an existing bulk export' do
+      login_for_test(permissions: [@export_permission])
+      delete "/api/v2/exports/#{@export1.id}"
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@export1.id)
+      @export1.reload
+      expect(@export1.status).to eq(BulkExport::ARCHIVED)
+    end
+
+    it 'does not archive a bulk export owned by a different user' do
+      login_for_test(permissions: [@export_permission])
+      delete "/api/v2/exports/#{@export3.id}"
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/exports/#{@export3.id}")
+    end
+  end
 
   after :each do
     clean_data(BulkExport, Child, User)
