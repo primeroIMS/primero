@@ -9,7 +9,11 @@ import { useI18n } from "../../../i18n";
 import Panel from "../panel";
 
 import styles from "./styles.css";
-import { registerInput, handleMoreFiltersChange } from "./utils";
+import {
+  registerInput,
+  handleMoreFiltersChange,
+  resetSecondaryFilter
+} from "./utils";
 
 const DateFilter = ({
   filter,
@@ -44,18 +48,43 @@ const DateFilter = ({
     }
 
     setSelectedField(value);
+
+    if (isSecondary) {
+      handleMoreFiltersChange(
+        moreSectionFilters,
+        setMoreSectionFilters,
+        fieldName,
+        value
+      );
+    }
   };
 
   const handleReset = () => {
     if (selectedField) {
       setSelectedField("");
       setValue(selectedField, undefined);
+
+      resetSecondaryFilter(
+        isSecondary,
+        fieldName,
+        getValues()[fieldName],
+        moreSectionFilters,
+        setMoreSectionFilters
+      );
     }
   };
 
-  console.log(getValues());
-
   useEffect(() => {
+    // TODO: MOVE TO HELPER
+    if (
+      Object.keys(moreSectionFilters)?.length &&
+      Object.keys(moreSectionFilters).includes(fieldName)
+    ) {
+      const storedValues = moreSectionFilters[fieldName];
+
+      setSelectedField(storedValues);
+    }
+
     if (selectedField) {
       registerInput({
         register,
@@ -64,15 +93,6 @@ const DateFilter = ({
         setInputValue,
         clearSecondaryInput: () => setSelectedField("")
       });
-      // console.log(isSecondary, getValues());
-      // if (isSecondary) {
-      //   handleMoreFiltersChange(
-      //     moreSectionFilters,
-      //     setMoreSectionFilters,
-      //     selectedField,
-      //     getValues
-      //   );
-      // }
     }
 
     return () => {
@@ -95,6 +115,7 @@ const DateFilter = ({
       getValues={getValues}
       selectedDefaultValueField={selectedField}
       handleReset={handleReset}
+      moreSectionFilters={moreSectionFilters}
     >
       <div className={css.dateContainer}>
         {" "}

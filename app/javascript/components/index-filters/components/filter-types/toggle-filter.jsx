@@ -86,7 +86,7 @@ const ToggleFilter = ({
         moreSectionFilters,
         setMoreSectionFilters,
         fieldName,
-        getValues
+        getValues()[fieldName]
       );
     }
   };

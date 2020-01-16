@@ -39,11 +39,17 @@ const Panel = ({
     setOpen(hasValue);
   }, [hasValue]);
 
+  const expanded =
+    open ||
+    Object.keys(moreSectionFilters).includes(
+      fieldName || selectedDefaultValueField
+    );
+
   return (
     <ExpansionPanel
       className={css.panel}
       elevation={3}
-      expanded={open || Object.keys(moreSectionFilters).includes(fieldName)}
+      expanded={expanded}
       onChange={handleChange}
     >
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>

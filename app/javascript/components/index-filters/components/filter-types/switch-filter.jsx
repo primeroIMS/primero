@@ -47,7 +47,7 @@ const SwitchFilter = ({
         moreSectionFilters,
         setMoreSectionFilters,
         fieldName,
-        getValues
+        getValues()[fieldName]
       );
     }
   };

@@ -72,16 +72,14 @@ export const handleMoreFiltersChange = (
   moreFilters,
   setMoreFilters,
   fieldName,
-  getValues
+  values
 ) => {
-  const formValues = getValues()[fieldName];
-
   setMoreFilters({
     ...moreFilters,
-    [fieldName]: formValues
+    [fieldName]: values
   });
 
-  if ((Array.isArray(formValues) && !formValues?.length) || !formValues) {
+  if ((Array.isArray(values) && !values?.length) || !values) {
     const { [fieldName]: deleted, ...rest } = moreFilters;
 
     setMoreFilters(rest);

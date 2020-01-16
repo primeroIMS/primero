@@ -89,7 +89,7 @@ const CheckboxFilter = ({
         moreSectionFilters,
         setMoreSectionFilters,
         fieldName,
-        getValues
+        getValues()[fieldName]
       );
     }
   };

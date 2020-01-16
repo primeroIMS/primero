@@ -98,7 +98,7 @@ const ChipsFilter = ({
         moreSectionFilters,
         setMoreSectionFilters,
         fieldName,
-        getValues
+        getValues()[fieldName]
       );
     }
   };

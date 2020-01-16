@@ -11,10 +11,20 @@ import { getOption, getLocations } from "../../../record-form";
 import { useI18n } from "../../../i18n";
 
 import styles from "./styles.css";
-import { registerInput, whichOptions } from "./utils";
+import {
+  registerInput,
+  whichOptions,
+  handleMoreFiltersChange,
+  resetSecondaryFilter
+} from "./utils";
 import handleFilterChange from "./value-handlers";
 
-const SelectFilter = ({ filter }) => {
+const SelectFilter = ({
+  filter,
+  moreSectionFilters,
+  setMoreSectionFilters,
+  isSecondary
+}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { register, unregister, setValue, getValues } = useFormContext();
@@ -25,21 +35,6 @@ const SelectFilter = ({ filter }) => {
     field_name: fieldName,
     option_strings_source: optionStringsSource
   } = filter;
-
-  useEffect(() => {
-    registerInput({
-      register,
-      name: fieldName,
-      ref: valueRef,
-      defaultValue: [],
-      setInputValue,
-      isMultiSelect: true
-    });
-
-    return () => {
-      unregister(fieldName);
-    };
-  }, [register, unregister, fieldName]);
 
   const lookup = useSelector(state =>
     getOption(state, optionStringsSource, i18n.locale)
@@ -55,6 +50,33 @@ const SelectFilter = ({ filter }) => {
     ? locations?.toJS()
     : lookup;
 
+  useEffect(() => {
+    registerInput({
+      register,
+      name: fieldName,
+      ref: valueRef,
+      defaultValue: [],
+      setInputValue,
+      isMultiSelect: true
+    });
+
+    // TODO: MOVE TO HELPER
+    if (
+      Object.keys(moreSectionFilters)?.length &&
+      Object.keys(moreSectionFilters).includes(fieldName)
+    ) {
+      const storedValues = moreSectionFilters[fieldName];
+      const value = lookups.filter(l => storedValues.includes(l?.id));
+
+      setValue(fieldName, value);
+      setInputValue(value);
+    }
+
+    return () => {
+      unregister(fieldName);
+    };
+  }, [register, unregister, fieldName]);
+
   const filterOptions = whichOptions({
     optionStringsSource,
     lookups,
@@ -62,7 +84,7 @@ const SelectFilter = ({ filter }) => {
     i18n
   });
 
-  const handleChange = (event, value) =>
+  const handleChange = (event, value) => {
     handleFilterChange({
       type: "basic",
       event,
@@ -73,17 +95,32 @@ const SelectFilter = ({ filter }) => {
       fieldName
     });
 
+    if (isSecondary) {
+      handleMoreFiltersChange(
+        moreSectionFilters,
+        setMoreSectionFilters,
+        fieldName,
+        getValues()[fieldName]
+      );
+    }
+  };
+
   const handleReset = () => {
     setValue(fieldName, []);
+    resetSecondaryFilter(
+      isSecondary,
+      fieldName,
+      getValues()[fieldName],
+      moreSectionFilters,
+      setMoreSectionFilters
+    );
   };
 
   const optionLabel = option => {
     let foundOption = option;
 
     if (typeof option === "string") {
-      [foundOption] = lookups.filter(
-        l => l?.id === option || l?.code === option
-      );
+      [foundOption] = lookups.filter(l => l?.id === option);
     }
 
     return (
@@ -92,8 +129,6 @@ const SelectFilter = ({ filter }) => {
       foundOption?.name?.[i18n.locale]
     );
   };
-
-  // console.log(fieldName, filterOptions);
 
   return (
     <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
@@ -116,7 +151,10 @@ const SelectFilter = ({ filter }) => {
 SelectFilter.displayName = "SelectFilter";
 
 SelectFilter.propTypes = {
-  filter: PropTypes.object.isRequired
+  filter: PropTypes.object.isRequired,
+  isSecondary: PropTypes.bool,
+  moreSectionFilters: PropTypes.object,
+  setMoreSectionFilters: PropTypes.func
 };
 
 export default SelectFilter;
