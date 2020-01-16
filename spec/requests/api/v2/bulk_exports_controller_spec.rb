@@ -14,9 +14,9 @@ describe Api::V2::BulkExportsController, type: :request do
         Permission::EXPORT_JSON
       ]
     )
-    @export1 = BulkExport.create!(record_type: 'case', format: 'json', file_name: 'export1', owned_by: fake_user_name)
-    @export2 = BulkExport.create!(record_type: 'case', format: 'json', file_name: 'export2', owned_by: fake_user_name)
-    @export3 = BulkExport.create!(record_type: 'case', format: 'json', file_name: 'export3', owned_by: 'other_user')
+    @export1 = BulkExport.create!(status: BulkExport::COMPLETE, record_type: 'case', format: 'json', file_name: 'export1', owned_by: fake_user_name)
+    @export2 = BulkExport.create!(status: BulkExport::COMPLETE, record_type: 'case', format: 'json', file_name: 'export2', owned_by: fake_user_name)
+    @export3 = BulkExport.create!(status: BulkExport::COMPLETE, record_type: 'case', format: 'json', file_name: 'export3', owned_by: 'other_user')
   end
 
   let(:json) { JSON.parse(response.body) }

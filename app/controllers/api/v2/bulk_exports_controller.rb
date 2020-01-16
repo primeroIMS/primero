@@ -6,7 +6,10 @@ module Api::V2
 
     def index
       authorize! :index, BulkExport
-      @exports = BulkExport.owned(current_user.user_name).paginate(pagination)
+      @exports = BulkExport
+                 .owned(current_user.user_name)
+                 .where(export_filters)
+                 .paginate(pagination)
     end
 
     def show
@@ -51,6 +54,11 @@ module Api::V2
         { custom_export_params: {} }, { filters: {} },
         :match_criteria
       )
+    end
+
+    def export_filters
+      params.permit(:status, :record_type, :format)
+            .reverse_merge(status: [BulkExport::COMPLETE, BulkExport::PROCESSING, BulkExport::TERMINATED])
     end
   end
 end
