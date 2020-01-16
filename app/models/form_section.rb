@@ -301,8 +301,9 @@ class FormSection < CouchRest::Model::Base
     memoize_in_prod :sorted_highlighted_fields
 
     def violation_forms
-      ids = Incident.violation_id_fields.keys
-      FormSection.by_unique_id(keys: ids).all
+      @system_settings ||= SystemSettings.current
+      ids = @system_settings.try(:violation_config).try(:keys)
+      ids.present? ? FormSection.by_unique_id(keys: ids).all : []
     end
     memoize_in_prod :violation_forms
 
@@ -909,10 +910,10 @@ class FormSection < CouchRest::Model::Base
   end
 
   def is_violation_wrapper?
+    violation_form_keys = Violation.config.try(:keys)
+    return false if violation_form_keys.blank?
     self.fields.present? &&
-    self.fields.select{|f| f.type == Field::SUBFORM}.any? do |f|
-      Incident.violation_id_fields.keys.include?(f.subform_section_id)
-    end
+    self.fields.select{|f| f.type == Field::SUBFORM}.any? {|f| violation_form_keys.include?(f.subform_section_id) }
   end
 
   #TODO add rspec test

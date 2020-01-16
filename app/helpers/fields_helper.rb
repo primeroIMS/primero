@@ -105,7 +105,7 @@ module FieldsHelper
 
       field_value.map do |violation_id|
         vtype, violation = inc.find_violation_by_unique_id(violation_id)
-        inc.violation_label(vtype, violation, true)
+        inc.violation_label(vtype, violation, true, lookups: lookups)
       end.join('; ')
     else
       options = []

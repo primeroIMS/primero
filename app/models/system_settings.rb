@@ -15,6 +15,7 @@ class SystemSettings < CouchRest::Model::Base
   property :unhcr_needs_codes_mapping, Mapping
   property :export_config_id
   property :reporting_location_config, ReportingLocation
+  property :violation_config, { String => {} }
 
   property :primero_version
   property :age_ranges, { String => [AgeRange] }
