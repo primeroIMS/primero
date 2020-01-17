@@ -124,7 +124,7 @@ ActiveRecord::Schema.define(version: 2019_12_10_000000) do
     t.string "match_criteria"
     t.jsonb "custom_export_params"
     t.string "file_name"
-    t.string "password"
+    t.string "password_ciphertext"
   end
 
   create_table "cases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

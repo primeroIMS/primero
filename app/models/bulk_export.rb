@@ -45,6 +45,16 @@ class BulkExport < ApplicationRecord
     @exporter ||= exporter_type.new(stored_file_name)
   end
 
+  def password
+    # TODO: Add encryption
+    password_ciphertext
+  end
+
+  def password=(password)
+    # TODO: Add encryption
+    self.password_ciphertext = password
+  end
+
   def search_filters
     return [] unless filters.present?
     return @search_filters if @search_filters.present?
@@ -67,14 +77,14 @@ class BulkExport < ApplicationRecord
   def mark_completed!
     self.status = COMPLETE
     self.completed_on = DateTime.now
-    self.password = nil # TODO: yes yes, I know
+    self.password_ciphertext = nil # TODO: yes yes, I know
     # TODO: Log this
     save!
   end
 
   def mark_terminated!
     self.status = TERMINATED
-    self.password = nil
+    self.password_ciphertext = nil
     save!
   end
 
