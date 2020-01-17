@@ -1,4 +1,4 @@
-import { ENQUEUE_SNACKBAR } from "../../../notifier";
+import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import { RECORD_PATH } from "../../../../config";
 
 import actions from "./actions";
@@ -15,7 +15,7 @@ export const saveTransferRequest = (recordId, body, message) => ({
         message,
         options: {
           variant: "success",
-          key: new Date().getTime() + Math.random()
+          key: generate.messageKey()
         }
       }
     }

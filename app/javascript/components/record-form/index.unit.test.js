@@ -24,8 +24,7 @@ describe("<RecordForm /> - index", () => {
       "getRecordFormsByUniqueId",
       "getSelectedForm",
       "reducers",
-      "setSelectedForm",
-      "getLocations"
+      "setSelectedForm"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
