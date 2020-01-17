@@ -1,8 +1,9 @@
 require 'rails_helper'
 
-describe Api::V2::AssignsController, type: :request do
+describe Api::V2::ApprovalsController, type: :request do
   before :each do
-    @system_settings = SystemSettings.create(
+    clean_data(PrimeroModule, SystemSettings)
+    SystemSettings.create!(
       default_locale: 'en',
       approval_forms_to_alert: {
         'cp_bia_form' => 'bia',
@@ -10,6 +11,7 @@ describe Api::V2::AssignsController, type: :request do
         'closure_form' => 'closure'
       }
     )
+    SystemSettings.current(true)
 
     @primero_module = PrimeroModule.new(name: 'CP', selectable_approval_types: true)
     @primero_module.save(validate: false)
@@ -220,6 +222,6 @@ describe Api::V2::AssignsController, type: :request do
   end
 
   after :each do
-    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition)
+    clean_data(SystemSettings, PrimeroModule, UserGroup, Role, User, Child)
   end
 end
