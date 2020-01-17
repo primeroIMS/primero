@@ -1,5 +1,5 @@
 import { RECORD_PATH } from "../../../../config";
-import { ENQUEUE_SNACKBAR } from "../../../notifier";
+import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 
 import actions from "./actions";
 
@@ -28,7 +28,7 @@ export const saveUser = ({ id, body, saveMethod, message }) => {
           message,
           options: {
             variant: "success",
-            key: new Date().getTime() + Math.random()
+            key: generate.messageKey()
           }
         },
         redirectWithIdFromResponse: saveMethod !== "update",
