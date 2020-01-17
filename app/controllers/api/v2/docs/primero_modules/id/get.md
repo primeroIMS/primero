@@ -30,22 +30,7 @@ Show the JSON representation of a primero_module.
     "associated_record_types": [
       "case",
     ],
-    "form_sections": [
-      {
-        "id": 2,
-        "unique_id": "cp_incident_form",
-        "name_i18n": {
-          "en": "CP Incident"
-        }
-      },
-      {
-        "id": 3,
-        "unique_id": "cp_offender_details",
-        "name_i18n": {
-          "en": "Perpetrator Details"
-        }
-      }
-    ],
+    "form_section_unique_ids": [ "cp_incident_form", "cp_offender_details" ],
     "core_resource": false,
     "field_map": {
       "fields": [
@@ -63,19 +48,6 @@ Show the JSON representation of a primero_module.
       "allow_searchable_ids": true,
       "use_workflow_case_plan": true,
       "use_workflow_assessment": false
-    },
-    "primero_program": {
-      "id": 1,
-      "unique_id": "primeroprogram-primero",
-      "name_i18n": {
-        "en": "Primero"
-      },
-      "description_i18n": {
-        "en": "Default Primero Program"
-      },
-      "start_date": null,
-      "end_date": null,
-      "core_resource": false
     }
   }
 }

@@ -78,10 +78,13 @@ class PrimeroModule < ApplicationRecord
     find_by(unique_id: MRM)
   end
 
+  def form_section_unique_ids
+    form_sections.pluck(:unique_id)
+  end
+
   def update_with_properties(params)
-    assign_attributes(params.except('primero_program', 'form_sections'))
-    self.primero_program = PrimeroProgram.find_by(unique_id: params[:primero_program])
-    self.form_sections = FormSection.where(unique_id: params[:form_sections])
+    assign_attributes(params.except('form_section_unique_ids'))
+    self.form_sections = FormSection.where(unique_id: params[:form_section_unique_ids])
   end
 
   class << self

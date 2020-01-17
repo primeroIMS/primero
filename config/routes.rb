@@ -63,7 +63,7 @@ Rails.application.routes.draw do
       resources :lookups
       resources :locations
       get 'alerts', to: 'alerts#bulk_index'
-      resources :primero_modules, only: [:index, :show, :update, :destroy]
+      resources :primero_modules, only: [:index, :show, :update]
     end
   end
 
