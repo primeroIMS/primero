@@ -1,8 +1,7 @@
-import { expect } from "chai";
 import { List, Map } from "immutable";
 import { ListItem } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../test";
+import { setupMountedComponent, expect } from "../../test";
 import { CASES_RECORDS } from "../records/actions";
 
 import ListSavedSearches from "./ListSavedSearches";

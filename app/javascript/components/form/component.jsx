@@ -55,7 +55,7 @@ const Component = ({
   }));
 
   useEffect(() => {
-    formErrors.forEach(error => {
+    formErrors?.forEach(error => {
       formMethods.setError(
         error.get("detail"),
         "",

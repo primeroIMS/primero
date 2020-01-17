@@ -1,4 +1,4 @@
-import { ENQUEUE_SNACKBAR } from "../../notifier";
+import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 
 import { generatePath } from "./parts";
 import actions from "./actions";
@@ -48,7 +48,7 @@ export const saveAssignedUser = (recordId, body, message) => ({
         message,
         options: {
           variant: "success",
-          key: new Date().getTime() + Math.random()
+          key: generate.messageKey()
         }
       }
     }
@@ -67,7 +67,7 @@ export const saveTransferUser = (recordId, body, message) => ({
         message,
         options: {
           variant: "success",
-          key: new Date().getTime() + Math.random()
+          key: generate.messageKey()
         }
       }
     }
@@ -86,7 +86,7 @@ export const saveReferral = (recordId, body, message) => ({
         message,
         options: {
           variant: "success",
-          key: new Date().getTime() + Math.random()
+          key: generate.messageKey()
         }
       }
     }

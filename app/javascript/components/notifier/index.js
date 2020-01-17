@@ -6,3 +6,4 @@ export {
   removeSnackbar
 } from "./action-creators";
 export { ENQUEUE_SNACKBAR, CLOSE_SNACKBAR, REMOVE_SNACKBAR } from "./actions";
+export { generate } from "./utils";
