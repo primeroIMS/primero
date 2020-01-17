@@ -25,6 +25,7 @@ import { ToggleOpen } from "./toggle-open";
 import { Transitions } from "./transitions";
 import AddIncident from "./add-incident";
 import AddService from "./add-service";
+import RequestApproval from "./request-approval";
 
 const Container = ({
   recordType,
@@ -38,6 +39,7 @@ const Container = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openNotesDialog, setOpenNotesDialog] = useState(false);
+  const [requestDialog, setRequestDialog] = useState(false);
   const [transitionType, setTransitionType] = useState("");
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
   const [incidentDialog, setIncidentDialog] = useState(false);
@@ -91,6 +93,28 @@ const Container = ({
     ACTIONS.TRANSFER
   ]);
 
+  const canRequest = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.REQUEST_APPROVAL_BIA,
+    ACTIONS.REQUEST_APPROVAL_CASE_PLAN,
+    ACTIONS.REQUEST_APPROVAL_CLOSURE
+  ]);
+
+  const canRequestBia = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.REQUEST_APPROVAL_BIA
+  ]);
+
+  const canRequestCasePlan = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.REQUEST_APPROVAL_CASE_PLAN
+  ]);
+
+  const canRequestClosure = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.REQUEST_APPROVAL_CLOSURE
+  ]);
+
   const canAddIncident = checkPermissions(userPermissions, ADD_INCIDENT);
 
   const canAddService = checkPermissions(userPermissions, ADD_SERVICE);
@@ -140,6 +164,14 @@ const Container = ({
 
   const handleNotesOpen = () => {
     setOpenNotesDialog(true);
+  };
+
+  const handleRequestClose = () => {
+    setRequestDialog(false);
+  };
+
+  const handleRequestOpen = () => {
+    setRequestDialog(true);
   };
 
   const handleIncidentDialog = () => {
@@ -241,6 +273,12 @@ const Container = ({
       action: handleNotesOpen,
       recordType: "all",
       condition: canAddNotes
+    },
+    {
+      name: i18n.t("actions.request_approval"),
+      action: handleRequestOpen,
+      recordType: "all",
+      condition: canRequest
     }
   ];
 
@@ -262,8 +300,8 @@ const Container = ({
     />
   );
 
-  const actionItems = actions
-    .filter(a => {
+  const filterItems = (items) => {
+    return items.filter(a => {
       const actionCondition = typeof a.condition === "undefined" || a.condition;
 
       if (showListActions) {
@@ -276,21 +314,47 @@ const Container = ({
           (Array.isArray(a.recordType) && a.recordType.includes(recordType))) &&
         actionCondition
       );
-    })
-    .map(action => {
-      const disabled = showListActions && !selectedRecords.length;
-
-      return (
-        <MenuItem
-          key={action.name}
-          selected={action.name === "Pyxis"}
-          onClick={() => handleItemAction(action.action)}
-          disabled={disabled}
-        >
-          {action.name}
-        </MenuItem>
-      );
     });
+  }
+
+  const filteredActions = filterItems(actions);
+  const actionItems = filteredActions?.map(action => {
+    const disabled = showListActions && !selectedRecords.length;
+
+    return (
+      <MenuItem
+        key={action.name}
+        selected={action.name === "Pyxis"}
+        onClick={() => handleItemAction(action.action)}
+        disabled={disabled}
+      >
+        {action.name}
+      </MenuItem>
+    );
+  });
+
+  const requestsApproval = [
+    {
+      name: "Assessment",
+      condition: canRequestBia,
+      recordType: "all",
+      value: "approve_bia"
+    },
+    {
+      name: "Case Plan",
+      condition: canRequestCasePlan,
+      recordType: "all",
+      value: "approve_case_plan"
+    },
+    {
+      name: "Closure",
+      condition: canRequestClosure,
+      recordType: "all",
+      value: "approve_closure"
+    }
+  ];
+
+  const allowedRequestsApproval = filterItems(requestsApproval);
 
   return (
     <>
@@ -346,6 +410,16 @@ const Container = ({
         <Notes
           close={handleNotesClose}
           openNotesDialog={openNotesDialog}
+          record={record}
+          recordType={recordType}
+        />
+      </Permission>
+
+      <Permission resources={recordType} actions={ADD_SERVICE}>
+        <RequestApproval
+          openRequestDialog={requestDialog}
+          close={() => setRequestDialog(false)}
+          subMenuItems={allowedRequestsApproval}
           record={record}
           recordType={recordType}
         />

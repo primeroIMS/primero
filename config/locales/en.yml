@@ -310,6 +310,10 @@ en:
     notes_form_notes: 'Notes'
     case_worker_code: "Case Worker Code"
     agency: "Agency"
+    request_approval_select: "Request approval for"
+    request_approve_bia: "Approve Assessment?"
+    request_approve_case_plan: "Approve Case Plan?"
+    request_approve_closure: "Approve Closure?"
 
     order_by:
       most_recently: "Most recently"
@@ -2063,6 +2067,7 @@ en:
     next: "Next"
     previous: "Previous"
     save: "Save"
+    request_approval: "Request Approval"
     description:
       valid: "Valid record"
       invalid: "Invalid record"

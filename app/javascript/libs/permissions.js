@@ -37,7 +37,11 @@ export const ACTIONS = {
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   TRANSFER: "transfer",
-  WRITE: "write"
+  WRITE: "write",
+  REQUEST_APPROVAL_BIA: "request_approval_bia",
+  REQUEST_APPROVAL_CASE_PLAN: "request_approval_case_plan",
+  REQUEST_APPROVAL_CLOSURE: "request_approval_closure"
+
 };
 
 const MANAGE = [ACTIONS.MANAGE];
