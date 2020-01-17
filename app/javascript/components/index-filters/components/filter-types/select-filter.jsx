@@ -148,6 +148,10 @@ const SelectFilter = ({
   );
 };
 
+SelectFilter.defaultProps = {
+  moreSectionFilters: {}
+};
+
 SelectFilter.displayName = "SelectFilter";
 
 SelectFilter.propTypes = {

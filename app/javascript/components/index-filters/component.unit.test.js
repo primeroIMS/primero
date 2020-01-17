@@ -3,6 +3,7 @@ import { fromJS } from "immutable";
 import { setupMountedComponent, expect } from "../../test";
 
 import IndexFilters from "./component";
+import MoreSection from "./components/more-section";
 
 describe("<IndexFitlers>", () => {
   const state = fromJS({
@@ -28,5 +29,11 @@ describe("<IndexFitlers>", () => {
     const { component } = setupMountedComponent(IndexFilters, props, state);
 
     expect(component.exists("input#search-input")).to.be.true;
+  });
+
+  it("renders MoreSection filters", () => {
+    const { component } = setupMountedComponent(IndexFilters, props, state);
+
+    expect(component.find(MoreSection)).to.have.lengthOf(1);
   });
 });
