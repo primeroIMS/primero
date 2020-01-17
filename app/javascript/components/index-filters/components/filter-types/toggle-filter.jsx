@@ -136,6 +136,10 @@ const ToggleFilter = ({
   );
 };
 
+ToggleFilter.defaultProps = {
+  moreSectionFilters: {}
+};
+
 ToggleFilter.displayName = "ToggleFilter";
 
 ToggleFilter.propTypes = {

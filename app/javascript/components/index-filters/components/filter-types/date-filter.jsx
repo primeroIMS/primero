@@ -158,6 +158,10 @@ const DateFilter = ({
   );
 };
 
+DateFilter.defaultProps = {
+  moreSectionFilters: {}
+};
+
 DateFilter.propTypes = {
   filter: PropTypes.object.isRequired,
   isSecondary: PropTypes.bool,

@@ -85,8 +85,8 @@ const Component = ({ recordType, defaultFilters }) => {
 
       return (
         <Filter
-          filter={filter}
           key={filter.field_name}
+          filter={filter}
           moreSectionFilters={moreSectionFilters}
           setMoreSectionFilters={setMoreSectionFilters}
           isSecondary={Object.keys(moreSectionFilters).includes(

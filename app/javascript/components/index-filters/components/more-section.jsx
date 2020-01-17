@@ -6,6 +6,8 @@ import { useI18n } from "../../i18n";
 import { RECORD_PATH } from "../../../config";
 import { filterType } from "../utils";
 
+import { NAME } from "./constants";
+
 const MoreSection = ({
   recordType,
   more,
@@ -23,7 +25,7 @@ const MoreSection = ({
   }
 
   const renderSecondaryFilters = () => {
-    // TODO: NEED TO EXCLUDE FROM QUERY_PARAMS
+    // TODO: NEED TO EXCLUDE QUERY_PARAMS
     const secondaryFilters = allAvailable.filter(
       filter =>
         ![
@@ -64,7 +66,7 @@ const MoreSection = ({
   );
 };
 
-MoreSection.displayName = "MoreSection";
+MoreSection.displayName = NAME;
 
 MoreSection.propTypes = {
   allAvailable: PropTypes.object,

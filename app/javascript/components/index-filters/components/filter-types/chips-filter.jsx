@@ -151,6 +151,10 @@ const ChipsFilter = ({
   );
 };
 
+ChipsFilter.defaultProps = {
+  moreSectionFilters: {}
+};
+
 ChipsFilter.displayName = "ChipsFilter";
 
 ChipsFilter.propTypes = {
