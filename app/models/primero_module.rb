@@ -78,6 +78,12 @@ class PrimeroModule < ApplicationRecord
     find_by(unique_id: MRM)
   end
 
+  def update_with_properties(params)
+    assign_attributes(params.except('primero_program', 'form_sections'))
+    self.primero_program = PrimeroProgram.find_by(unique_id: params[:primero_program])
+    self.form_sections = FormSection.where(unique_id: params[:form_sections])
+  end
+
   class << self
 
     alias super_import import

@@ -1,0 +1,10 @@
+json.id primero_module.id
+json.unique_id primero_module.unique_id
+json.name primero_module.name
+json.description primero_module.description
+json.associated_record_types primero_module.associated_record_types
+json.form_sections primero_module.form_sections
+json.core_resource primero_module.core_resource
+json.field_map primero_module.field_map
+json.module_options primero_module.module_options
+json.primero_program primero_module.primero_program
