@@ -17,7 +17,12 @@ import { useI18n } from "../i18n";
 import { RECORD_PATH } from "../../config";
 
 import { filterType, compactFilters } from "./utils";
-import { HIDDEN_FIELDS, PRIMARY_FILTERS } from "./constants";
+import {
+  HIDDEN_FIELDS,
+  PRIMARY_FILTERS,
+  MY_CASES_FILTER_NAME,
+  OR_FILTER_NAME
+} from "./constants";
 import { Search } from "./components/filter-types";
 import { getFiltersByRecordType } from "./selectors";
 import { applyFilters, setFilters } from "./action-creators";
@@ -52,12 +57,17 @@ const Component = ({ recordType, defaultFilters }) => {
     [...defaultFilters.keys()].includes(f.field_name)
   );
 
+  const moreSectionKeys = Object.keys(moreSectionFilters);
+
   const renderFilters = () => {
     let primaryFilters = filters;
 
     if (recordType === RECORD_PATH.cases) {
-      const selectedFromMoreSection = primaryFilters.filter(f =>
-        Object.keys(moreSectionFilters).includes(f.field_name)
+      const selectedFromMoreSection = primaryFilters.filter(
+        f =>
+          moreSectionKeys.includes(f.field_name) ||
+          (f.field_name === MY_CASES_FILTER_NAME &&
+            moreSectionKeys.includes(OR_FILTER_NAME))
       );
       const queryParamsFilter = primaryFilters.filter(
         f =>
@@ -89,9 +99,11 @@ const Component = ({ recordType, defaultFilters }) => {
           filter={filter}
           moreSectionFilters={moreSectionFilters}
           setMoreSectionFilters={setMoreSectionFilters}
-          isSecondary={Object.keys(moreSectionFilters).includes(
-            filter.field_name
-          )}
+          isSecondary={
+            moreSectionKeys.includes(filter.field_name) ||
+            (filter.field_name === MY_CASES_FILTER_NAME &&
+              moreSectionKeys.includes(OR_FILTER_NAME))
+          }
         />
       );
     });

@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
 import { useI18n } from "../../i18n";
 import { RECORD_PATH } from "../../../config";
 import { filterType } from "../utils";
+import { MY_CASES_FILTER_NAME, OR_FILTER_NAME } from "../constants";
 
 import { NAME } from "./constants";
 
@@ -19,20 +20,23 @@ const MoreSection = ({
   setMoreSectionFilters
 }) => {
   const i18n = useI18n();
+  const moreSectionKeys = Object.keys(moreSectionFilters);
 
   if (recordType !== RECORD_PATH.cases) {
     return null;
   }
 
   const renderSecondaryFilters = () => {
-    // TODO: NEED TO EXCLUDE QUERY_PARAMS
     const secondaryFilters = allAvailable.filter(
-      filter =>
+      field =>
         ![
           ...primaryFilters.map(p => p.field_name),
           ...defaultFilters.map(d => d.field_name),
-          ...Object.keys(moreSectionFilters)
-        ].includes(filter.field_name)
+          ...moreSectionKeys,
+          ...(moreSectionKeys.includes(OR_FILTER_NAME)
+            ? [MY_CASES_FILTER_NAME]
+            : [])
+        ].includes(field.field_name)
     );
 
     return secondaryFilters.map(filter => {
@@ -59,9 +63,9 @@ const MoreSection = ({
   return (
     <>
       {filters}
-      <Link component="button" onClick={() => setMore(!more)}>
+      <Button color="primary" size="small" onClick={() => setMore(!more)}>
         {renderText}
-      </Link>
+      </Button>
     </>
   );
 };

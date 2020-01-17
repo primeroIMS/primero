@@ -36,6 +36,7 @@ const CheckboxFilter = ({
     user,
     i18n
   });
+
   const defaultValue = isObject ? {} : [];
 
   const [inputValue, setInputValue] = useState(defaultValue);

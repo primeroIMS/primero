@@ -25,3 +25,7 @@ export const PRIMARY_FILTERS = [
 ];
 
 export const OR_FIELDS = ["owned_by", "assigned_user_names"];
+
+export const MY_CASES_FILTER_NAME = "my_cases";
+
+export const OR_FILTER_NAME = "or";
