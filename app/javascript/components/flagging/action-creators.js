@@ -1,4 +1,4 @@
-import { ENQUEUE_SNACKBAR } from "../notifier";
+import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 
 import { FETCH_FLAGS, UNFLAG, ADD_FLAG } from "./actions";
 
@@ -30,7 +30,7 @@ export const unFlag = (
           message,
           options: {
             variant: "success",
-            key: new Date().getTime() + Math.random()
+            key: generate.messageKey()
           }
         }
       }
@@ -51,7 +51,7 @@ export const addFlag = (body, message, path) => async dispatch => {
           message,
           options: {
             variant: "success",
-            key: new Date().getTime() + Math.random()
+            key: generate.messageKey()
           }
         }
       }

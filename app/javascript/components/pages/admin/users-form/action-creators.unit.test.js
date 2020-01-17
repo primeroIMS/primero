@@ -1,10 +1,6 @@
-import {
-  expect,
-  stub,
-  useFakeTimers
-} from "../../../../test/unit-test-helpers";
+import { expect, stub } from "../../../../test/unit-test-helpers";
 import { RECORD_PATH } from "../../../../config";
-import { ENQUEUE_SNACKBAR } from "../../../notifier";
+import * as notifier from "../../../notifier";
 
 import * as actionsCreators from "./action-creators";
 import actions from "./actions";
@@ -33,10 +29,7 @@ describe("<UsersForm /> - Action Creators", () => {
   });
 
   it("should check that 'saveUser' action creator returns the correct object", () => {
-    // Need to mock Math.random. There is a bug in source-map
-    new Error().stack;
-    stub(Math, "random").returns(4);
-    useFakeTimers(new Date("10/01/2020"));
+    stub(notifier.generate, "messageKey").returns(4);
 
     const args = {
       id: 10,
@@ -54,16 +47,16 @@ describe("<UsersForm /> - Action Creators", () => {
         method: "PATCH",
         body: args.body,
         successCallback: {
-          action: ENQUEUE_SNACKBAR,
+          action: notifier.ENQUEUE_SNACKBAR,
           payload: {
             message: args.message,
             options: {
-              key: 1601524800004,
+              key: 4,
               variant: "success"
             }
           },
           redirectWithIdFromResponse: false,
-          redirect: `/admin/${RECORD_PATH.users}/10`
+          redirect: `/admin/${RECORD_PATH.users}`
         }
       }
     };
