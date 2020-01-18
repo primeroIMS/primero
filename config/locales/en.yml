@@ -92,6 +92,7 @@ en:
     field_change_alert: "The %{form_name} form was updated by the service provider on %{date}"
     transfer_request_alert: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
     loading: "Loading..."
+    no_changes: "You made no field changes"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -114,6 +115,8 @@ en:
       successfully_hidden: "Password request notification was successfully hidden."
 
     label: "Login"
+    title: "Log In"
+    provider_title: "with %{provider}"
   header:
     contact: "Contact & Help"
     logged_in_as: "Logged in as:"
@@ -146,6 +149,7 @@ en:
     my_account: "My Account"
     matching_configuration: "Matching"
     logout: "Log out"
+    settings: "Settings"
 
   buttons:
     delete: "Delete"
@@ -1024,6 +1028,17 @@ en:
     services: "Services"
     agency_office: "Agency Office"
     position: Position
+    phone: "Phone"
+    email: "Email"
+    locale: "Locale"
+    password: "Password"
+    password_confirmation: "Password Confirmation"
+    user_group_unique_ids: "User Groups"
+    module_ids: "Modules"
+    role_id: "Role"
+    is_manager: "Manager"
+    verified: "Verified"
+    user_name: "Username"
     actions:
       delete: "Delete"
     messages:
@@ -1854,7 +1869,7 @@ en:
         full_name: "Please enter full name of the user"
         password_confirmation: "Please enter password confirmation"
         password_mismatch: "The password fields do not have the same password"
-        password_text: "- Please create a password that is at least 8 characters in length and contains both letters and numbers"
+        password_text: "Please create a password that is at least 8 characters in length and contains both letters and numbers"
         role_ids: "Please select at least one role"
         module_ids: "Please select at least one module"
         organization: "Please enter the user's organization name"
@@ -1863,6 +1878,7 @@ en:
         user_name_uniqueness: "User name has already been taken! Please select a new User name"
         authenticate: "Can't authenticate an un-saved user"
         invalid_locale: "Locale %{user_locale} is not valid"
+        identity_provider: "A valid identity provider must be specified for this user"
 
       child:
         at_least_one_field: "Please fill in at least one field or upload a file"
@@ -2043,6 +2059,7 @@ en:
     notes: "Add Notes"
     incident_details_from_case: "Add Incident"
     services_section_from_case: "Add Service Provision"
+    services_from_case_creation_success: "Service Provision record successfully created."
     next: "Next"
     previous: "Previous"
     save: "Save"
@@ -2661,3 +2678,17 @@ en:
     no_flags: "No flags found"
     flag_added: "Flag added successfully"
     flag_deleted: "Flag deleted"
+
+  record_information:
+    assigned_user_names: "Other Assigned Users"
+    created_by: "Record created by"
+    created_by_agency: "Created by agency"
+    module_id: "Module"
+    owned_by_text: "Field/Case/Social Worker"
+    owned_by: "Caseworker Code"
+    owned_by_agency_id: "Agency"
+    previously_owned_by: "Previous Owner"
+    previous_agency: "Previous Agency"
+    reassigned_tranferred_on: "Reassigned / Transferred On"
+    current_owner_separator: "Current Owner"
+    record_history_separator: "Record History"

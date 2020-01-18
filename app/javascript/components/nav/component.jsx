@@ -27,7 +27,9 @@ import {
   READ_REPORTS,
   RESOURCES,
   SHOW_EXPORTS,
-  SHOW_TASKS
+  SHOW_TASKS,
+  ADMIN_RESOURCES,
+  ADMIN_ACTIONS
 } from "../../libs/permissions";
 
 import { NAME } from "./constants";
@@ -123,6 +125,13 @@ const Nav = () => {
       divider: true
     },
     { name: username, to: ROUTES.account, icon: "account" },
+    {
+      name: i18n.t("navigation.settings"),
+      to: ROUTES.admin_users,
+      icon: "settings",
+      resources: ADMIN_RESOURCES,
+      actions: ADMIN_ACTIONS
+    },
     { name: i18n.t("navigation.logout"), to: ROUTES.logout, icon: "logout" }
   ];
 
@@ -149,10 +158,7 @@ const Nav = () => {
             classes={{ primary: css.listText }}
           />
           {menuEntry.jewelCount ? (
-            <Jewel
-              value={menuEntry.jewelCount}
-              mobileDisplay={mobileDisplay}
-            />
+            <Jewel value={menuEntry.jewelCount} mobileDisplay={mobileDisplay} />
           ) : null}
         </NavLink>
       </ListItem>
@@ -166,14 +172,14 @@ const Nav = () => {
       return PERMITTED_URL.includes(menuEntry.to) ? (
         renderedMenuEntries
       ) : (
-          <Permission
-            key={menuEntry.to}
-            resources={menuEntry.resources}
-            actions={menuEntry.actions}
-          >
-            {renderedMenuEntries}
-          </Permission>
-        );
+        <Permission
+          key={menuEntry.to}
+          resources={menuEntry.resources}
+          actions={menuEntry.actions}
+        >
+          {renderedMenuEntries}
+        </Permission>
+      );
     });
   };
 

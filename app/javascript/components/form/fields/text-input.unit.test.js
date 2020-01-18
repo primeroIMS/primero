@@ -1,5 +1,6 @@
 import { FieldRecord } from "../records";
 import { expect, setupMockFieldComponent } from "../../../test";
+import { TEXT_AREA } from "../constants";
 
 import TextInput from "./text-input";
 
@@ -11,9 +12,13 @@ describe("<Form /> - fields/<TextInput />", () => {
   });
 
   it("renders textarea", () => {
-    const { component } = setupMockFieldComponent(TextInput, FieldRecord, {
-      type: "textarea"
-    });
+    const { component } = setupMockFieldComponent(
+      TextInput,
+      FieldRecord,
+      {},
+      {},
+      { type: TEXT_AREA }
+    );
 
     expect(component.exists("textarea[name='test_field_2']")).to.be.true;
   });
@@ -36,7 +41,7 @@ describe("<Form /> - fields/<TextInput />", () => {
       .find("FormContext")
       .props()
       .setError("test_field_2", "required", "Name is required");
-
+    
     expect(component.someWhere(n => n.find("Mui-error"))).to.be.true;
     expect(
       component

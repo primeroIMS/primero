@@ -40,7 +40,7 @@ describe("<Form>", () => {
 
   const props = {
     formSections,
-    formMode: FORM_MODE_DIALOG,
+    mode: FORM_MODE_DIALOG,
     onSubmit: formSubmit,
     validations: yup.object().shape({
       test_field_1: yup.string().required()
@@ -82,6 +82,10 @@ describe("<Form>", () => {
     const { component } = setupMountedComponent(Form, {
       ...props,
       initialValues: { test_field_1: "Hello" }
+    });
+
+    component.find('input[name="test_field_1"]').simulate("change", {
+      target: { name: "test_field_1", value: "value-change" }
     });
 
     await submitForm(component, formRef);

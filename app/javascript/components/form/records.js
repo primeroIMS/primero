@@ -20,7 +20,9 @@ export const FieldRecord = Record({
   selected_value: "",
   subform_sort_by: "",
   show_on_minify_form: false,
-  autoFocus: false
+  autoFocus: false,
+  password: false,
+  hideOnShow: false
 });
 
 export const FormSectionRecord = Record({

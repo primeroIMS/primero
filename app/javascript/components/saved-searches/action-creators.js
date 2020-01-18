@@ -1,4 +1,4 @@
-import { ENQUEUE_SNACKBAR } from "../notifier";
+import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 
 import * as Actions from "./actions";
 
@@ -24,7 +24,7 @@ export const saveSearch = (body, message) => async dispatch => {
           message,
           options: {
             variant: "success",
-            key: new Date().getTime() + Math.random()
+            key: generate.messageKey()
           }
         }
       }
@@ -44,7 +44,7 @@ export const removeSavedSearch = (id, message) => dispatch => {
           message,
           options: {
             variant: "success",
-            key: new Date().getTime() + Math.random()
+            key: generate.messageKey()
           }
         }
       }

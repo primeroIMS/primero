@@ -28,7 +28,6 @@ Rails.application.configure do
 
   config.eager_load = false
 
-  config.middleware.use RackSessionAccess::Middleware
   config.log_level = :debug
 
   # Store uploaded files on the local file system (see config/storage.yml for options)

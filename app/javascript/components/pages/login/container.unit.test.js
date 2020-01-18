@@ -1,65 +1,64 @@
 import { expect } from "chai";
-import { Map } from "immutable";
+import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
 
 import Login from "./container";
 
 describe("<Login />", () => {
-  let component;
+  describe("for login form", () => {
+    let component;
 
-  before(() => {
-    component = setupMountedComponent(
-      Login,
-      { isAuthenticated: false },
-      Map({
-        user: Map({
-          module: "primero",
-          agency: "unicef",
-          isAuthenticated: false
+    before(() => {
+      component = setupMountedComponent(
+        Login,
+        { isAuthenticated: false },
+        fromJS({
+          idp: {
+            use_identity_provider: false
+          },
+          user: {
+            module: "primero",
+            agency: "unicef",
+            isAuthenticated: false
+          }
         })
-      })
-    ).component;
+      ).component;
+    });
+
+    it("renders form", () => {
+      expect(component.find("form")).to.have.length(1);
+    });
   });
 
-  it("renders form", () => {
-    expect(component.find("form")).to.have.length(1);
-  });
+  describe("for provider selection", () => {
+    let component;
 
-  it("renders h1 tag", () => {
-    expect(component.find("h1")).to.have.length(1);
-  });
+    before(() => {
+      component = setupMountedComponent(
+        Login,
+        { isAuthenticated: false },
+        fromJS({
+          idp: {
+            use_identity_provider: true,
+            "identity_providers": [
+              {
+                "name": "UNICEF",
+                "type": "b2c",
+                "domain_hint": "unicef",
+                "authority": "authority",
+                "client_id": "clientid",
+                "scope": ["scope"],
+                "redirect_uri": "redirect"
+              }
+            ]
+          }
+        })
+      ).component;
+    });
 
-  it("renders username and password input fields", () => {
-    expect(
-      component
-        .find("input")
-        .first()
-        .prop("name")
-    ).to.have.equal("user_name");
-    expect(
-      component
-        .find("input")
-        .last()
-        .prop("name")
-    ).to.have.equal("password");
-  });
-
-  it("renders forgot password link", () => {
-    expect(
-      component
-        .find("a")
-        .first()
-        .prop("href")
-    ).to.have.equal("/forgot_password");
-  });
-
-  it("renders login button", () => {
-    expect(
-      component
-        .find("button")
-        .first()
-        .prop("type")
-    ).to.equal("submit");
+    it("renders login selection", () => {
+      expect(component.find(".loginSelection")).to.have.length(1);
+    });
   });
 });

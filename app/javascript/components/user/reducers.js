@@ -21,9 +21,9 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return DEFAULT_STATE;
     case Actions.FETCH_USER_DATA_SUCCESS: {
       const {
-        modules,
+        module_unique_ids: modules,
         permissions,
-        role_id: roleId,
+        role_unique_id: roleId,
         list_headers: listHeaders,
         filters
       } = payload;

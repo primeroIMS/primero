@@ -3,16 +3,127 @@
 import { expect } from "chai";
 import React from "react";
 import { Route } from "react-router-dom";
-import { Map, List } from "immutable";
+import { fromJS, Map, List, OrderedMap } from "immutable";
 
 import { setupMountedComponent } from "../../test";
 import { PageContainer } from "../page";
 import { LoadingIndicator } from "../loading-indicator";
+import RecordOwner from "../record-owner";
+import { PrimeroModuleRecord } from "../application/records";
 
+import { Nav } from "./nav";
+import { RecordFormToolbar } from "./form";
 import RecordForms from "./container";
+import { FormSectionRecord, FieldRecord } from "./records";
 
 describe("<RecordForms /> - Component", () => {
   let component;
+  const formSections = OrderedMap({
+    1: FormSectionRecord({
+      id: 1,
+      form_group_id: "identification_registration",
+      form_group_name: {
+        en: "Identification / Registration",
+        fr: "",
+        ar: ""
+      },
+      order_form_group: 30,
+      name: {
+        en: "Basic Identity",
+        fr: "",
+        ar: ""
+      },
+      order: 10,
+      unique_id: "basic_identity",
+      is_first_tab: true,
+      visible: true,
+      is_nested: false,
+      module_ids: ["primeromodule-cp"],
+      parent_form: "case",
+      fields: [1]
+    })
+  });
+
+  const fields = OrderedMap({
+    1: FieldRecord({
+      id: 1,
+      name: "name_first",
+      type: "text_field",
+      editable: true,
+      disabled: null,
+      visible: true,
+      display_name: {
+        en: "First Name",
+        fr: "",
+        ar: "",
+        "ar-LB": "",
+        so: "",
+        es: ""
+      },
+      subform_section_id: null,
+      help_text: {},
+      multi_select: null,
+      option_strings_source: null,
+      option_strings_text: null,
+      guiding_questions: "",
+      required: true,
+      date_validation: "default_date_validation"
+    })
+  });
+
+  const record = {
+    age: 26,
+    sex: "male",
+    name: "Example Record",
+    owned_by: "primero",
+    created_at: "2019-08-06T20:21:19.864Z",
+    case_id_display: "2063a4b",
+    registration_date: "2019-08-06",
+    module_id: "primeromodule-cp",
+    short_id: "96f613f"
+  };
+
+  const initialState = fromJS({
+    records: Map({
+      cases: Map({
+        data: List([Map(record)]),
+        metadata: Map({ per: 20, page: 1, total: 1 }),
+        filters: Map({ status: "open" })
+      })
+    }),
+    forms: Map({
+      selectedForm: "record_owner",
+      selectedRecord: record,
+      formSections,
+      fields,
+      loading: false,
+      errors: false
+    }),
+    user: fromJS({
+      modules: ["primeromodule-cp"]
+    }),
+    application: fromJS({
+      modules: [
+        PrimeroModuleRecord({
+          unique_id: "primeromodule-cp",
+          workflows: {
+            case: {
+              en: [
+                {
+                  id: "new",
+                  display_text: "New"
+                },
+                {
+                  id: "closed",
+                  display_text: "Closed"
+                }
+              ]
+            }
+          }
+        })
+      ]
+    })
+  });
 
   before(() => {
     const routedComponent = initialProps => {
@@ -31,26 +142,7 @@ describe("<RecordForms /> - Component", () => {
       {
         mode: "show"
       },
-      Map({
-        records: Map({
-          cases: Map({
-            data: List([
-              Map({
-                id: "e15acbe5-9501-4615-9f43-cb6873997fc1",
-                age: 26,
-                sex: "male",
-                name: "Gerald Padgett",
-                owned_by: "primero",
-                created_at: "2019-08-06T20:21:19.864Z",
-                case_id_display: "2063a4b",
-                registration_date: "2019-08-06"
-              })
-            ]),
-            metadata: Map({ per: 20, page: 1, total: 1 }),
-            filters: Map({ status: "open" })
-          })
-        })
-      }),
+      initialState,
       ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
     ));
   });
@@ -61,5 +153,17 @@ describe("<RecordForms /> - Component", () => {
 
   it("renders the LoadingIndicator", () => {
     expect(component.find(LoadingIndicator)).to.have.length(1);
+  });
+
+  it("renders the RecordFormToolbar", () => {
+    expect(component.find(RecordFormToolbar)).to.have.length(1);
+  });
+
+  it("renders the Nav", () => {
+    expect(component.find(Nav)).to.have.length(1);
+  });
+
+  it("renders the RecordOwner", () => {
+    expect(component.find(RecordOwner)).to.have.length(1);
   });
 });

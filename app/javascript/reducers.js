@@ -8,12 +8,15 @@ import * as Nav from "./components/nav";
 import * as Notifier from "./components/notifier";
 import * as Dashboard from "./components/pages/dashboard";
 import * as ExportList from "./components/pages/export-list";
-import * as Login from "./components/pages/login";
+import { reducers as loginReducers } from "./components/pages/login/login-form";
+import { reducers as idpReducers } from "./components/pages/login";
 import * as PotentialMatches from "./components/pages/potential-matches";
 import * as Report from "./components/pages/report";
 import * as Reports from "./components/pages/reports-list";
 import * as Support from "./components/pages/support";
 import * as TaskList from "./components/pages/task-list";
+import * as UsersList from "./components/pages/admin/users-list";
+import * as UsersForm from "./components/pages/admin/users-form";
 import * as Transitions from "./components/record-actions/transitions";
 import * as RecordForms from "./components/record-form";
 import * as Records from "./components/records";
@@ -43,6 +46,7 @@ const rootReducer = {
     ),
     ...PotentialMatches.reducers,
     ...TaskList.reducers,
+    users: reduceReducers(UsersList.reducers, UsersForm.reducers),
     ...Dashboard.reducers,
     ...ExportList.reducers,
     ...Support.reducers,
@@ -52,12 +56,13 @@ const rootReducer = {
   ui: combineReducers({
     ...Nav.reducers,
     ...I18n.reducers,
-    ...Login.reducers
+    ...loginReducers
   }),
   ...User.reducers,
   ...RecordForms.reducers,
   ...Notifier.reducers,
-  ...Application.reducers
+  ...Application.reducers,
+  ...idpReducers
 };
 
 export default rootReducer;

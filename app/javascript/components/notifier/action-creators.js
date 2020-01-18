@@ -1,4 +1,5 @@
 import { ENQUEUE_SNACKBAR, CLOSE_SNACKBAR, REMOVE_SNACKBAR } from "./actions";
+import { generate } from "./utils";
 
 export const enqueueSnackbar = (message, type) => {
   return {
@@ -6,7 +7,7 @@ export const enqueueSnackbar = (message, type) => {
     payload: {
       message,
       options: {
-        key: new Date().getTime() + Math.random(),
+        key: generate.messageKey(),
         variant: type || "info"
       }
     }

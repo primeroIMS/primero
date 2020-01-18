@@ -89,12 +89,8 @@ Devise.setup do |config|
   # Notice that if you are skipping storage for all authentication paths, you
   # may want to disable generating routes to Devise's sessions controller by
   # passing skip: :sessions to `devise_for` in your config/routes.rb
-  # TODO: This is a temporary workaround to allow us to use the v1.x UI.
-  if ActiveModel::Type::Boolean.new.cast(ENV['LEGACY_UI'])
-    config.skip_session_storage = [:http_auth]
-  else
-    config.skip_session_storage = [:http_auth, :params_auth]
-  end
+  config.skip_session_storage = [:http_auth, :params_auth]
+
   # By default, Devise cleans up the CSRF token on authentication to
   # avoid CSRF token fixation attacks. This means that, when using AJAX
   # requests for sign in and sign up, you need to get a new CSRF token
@@ -272,10 +268,14 @@ Devise.setup do |config|
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
   #
-  # config.warden do |manager|
-  #   manager.intercept_401 = false
-  #   manager.default_strategies(scope: :user).unshift :some_external_strategy
-  # end
+  config.warden do |manager|
+    # manager.intercept_401 = false
+    if Rails.configuration.x.idp.use_identity_provider
+      # When using an external identity provider we are disabling native Primero authentication
+      manager.strategies.add(:idp_token, IdpTokenStrategy)
+      manager.default_strategies(scope: :user).replace([:idp_token])
+    end
+  end
 
   # ==> Mountable engine configurations
   # When using Devise inside an engine, let's call it `MyEngine`, and this engine
