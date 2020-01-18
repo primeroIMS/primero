@@ -1,7 +1,6 @@
 class RolesController < ApplicationController
   @model_class = Role
 
-  include ExportActions
   include ImportActions
   include CopyActions
   include AuditLogActions

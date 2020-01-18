@@ -1,7 +1,6 @@
 class FormSectionController < ApplicationController
   @model_class = FormSection
 
-  include ExportActions
   include ImportActions
   include FormCustomization
 

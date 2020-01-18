@@ -14,9 +14,7 @@ class CreateBulkExports < ActiveRecord::Migration[5.0]
       t.string 'match_criteria'
       t.jsonb 'custom_export_params'
       t.string 'file_name'
-      #TODO: Temporarily we are going to store INSECURELY the password.
-      #      Going forward, a random password will be generated for each export at download time
-      t.string 'password'
+      t.string 'password_ciphertext'
     end
   end
 end
