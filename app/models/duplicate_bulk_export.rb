@@ -5,10 +5,6 @@
 class DuplicateBulkExport < BulkExport
   FACET_BATCH_SIZE = 100
 
-  def self.get(id)
-    DuplicateBulkExport.new(super(id))
-  end
-
   def process_records_in_batches(batch_size = 500, &block)
     return yield([]) unless duplicate_field_name
 
@@ -44,7 +40,7 @@ class DuplicateBulkExport < BulkExport
       filters = filters_for_duplicates(duplicate_field_name, values)
 
       search = SearchService.search(
-        model_class, filters, record_query_scope, query, { created_at: :desc }, pagination
+        model_class, filters, {}, query, { created_at: :desc }, pagination
       )
       results = search.results
       yield(results)

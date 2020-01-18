@@ -123,7 +123,7 @@ class Role < ApplicationRecord
   end
 
   def permitted_to_export?
-    permissions&.map(&:actions).flatten.any? { |p| p.start_with?('export') } ||
+    permissions&.map(&:actions).flatten.compact.any? { |p| p.start_with?('export') } ||
       permissions&.any? { |p| Permission.records.include?(p.resource) && p.actions.include?(Permission::MANAGE) }
   end
 
