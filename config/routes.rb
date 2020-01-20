@@ -33,7 +33,6 @@ Rails.application.routes.draw do
           post :referrals, to: 'referrals#create_bulk'
           post :transfers, to: 'transfers#create_bulk'
         end
-        resources :assigns, only: [:index, :create]
         resources :approvals, only: [:update]
       end
 

@@ -1,15 +1,6 @@
 module Approvable
   extend ActiveSupport::Concern
 
-  BIA = 'bia'.freeze
-  CASE_PLAN = 'case_plan'.freeze
-  CLOSURE = 'closure'.freeze
-
-  APPROVAL_STATUS_PENDING = 'pending'.freeze
-  APPROVAL_STATUS_REQUESTED = 'requested'.freeze
-  APPROVAL_STATUS_APPROVED = 'approved'.freeze
-  APPROVAL_STATUS_REJECTED = 'rejected'.freeze
-
   included do
     store_accessor :data,
       :bia_approved, :case_plan_approved, :closure_approved,

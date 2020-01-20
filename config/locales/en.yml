@@ -2367,6 +2367,9 @@ en:
     comments_label: "Comments"
     error_select_an_approval_type: "Please select an approval type"
     case_plan_type_label: "Case plan type:"
+    error_request_required: "A request is required to perform this action."
+    error_invalid_id: "Invalid approval ID"
+    error_invalid_status: "Invalid approval status"
 
     status:
       pending: "Pending"

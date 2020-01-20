@@ -1,5 +1,15 @@
+# frozen_string_literal: true
 class Approval < ValueObject
-  attr_accessor :record, :approval_id, :fields
+  attr_accessor :record, :fields, :user_name, :approval_type, :approval_id, :comments
+
+  BIA = 'bia'
+  CASE_PLAN = 'case_plan'
+  CLOSURE = 'closure'
+
+  APPROVAL_STATUS_PENDING = 'pending'
+  APPROVAL_STATUS_REQUESTED = 'requested'
+  APPROVAL_STATUS_APPROVED = 'approved'
+  APPROVAL_STATUS_REJECTED = 'rejected'
 
   BIA_FIELDS = {
     approved: 'bia_approved',
@@ -23,53 +33,61 @@ class Approval < ValueObject
     approved_comments: 'closure_approved_comments'
   }.freeze
 
-  def initialize(args = {})
-    super
+  def self.get!(approval_id, record, user_name, params = {})
+    raise Errors::UnknownPrimeroEntityType, 'approvals.error_invalid_approval' if [
+      Approval::BIA, Approval::CLOSURE, Approval::CASE_PLAN
+    ].exclude?(approval_id)
 
-    raise ArgumentError, 'Invalid Approval Type' if [Child::BIA, Child::CLOSURE, Child::CASE_PLAN].exclude?(approval_id)
-
-    self.fields = "Approval::#{approval_id.upcase}_FIELDS".constantize
+    Approval.new(
+      approval_id: approval_id,
+      record: record,
+      user_name: user_name,
+      fields: "Approval::#{approval_id.upcase}_FIELDS".constantize,
+      approval_type: params[:approval_type],
+      comments: params[:notes]
+    )
   end
 
-  def perform!(status, properties = {})
+  def perform!(status)
     case status
-    when Child::APPROVAL_STATUS_REQUESTED
-      request!(properties[:approval_type])
-    when Child::APPROVAL_STATUS_APPROVED
-      approve!(properties[:user_name], properties[:comments])
-    when Child::APPROVAL_STATUS_REJECTED
-      reject!(properties[:user_name], properties[:comments])
-    else
-      raise ArgumentError, 'Invalid Approval Status'
+    when Approval::APPROVAL_STATUS_REQUESTED then request!
+    when Approval::APPROVAL_STATUS_APPROVED then approve!
+    when Approval::APPROVAL_STATUS_REJECTED then reject!
+    else raise Errors::InvalidPrimeroEntityType, 'approvals.error_invalid_status'
     end
+    record.save!
   end
 
-  def request!(approval_type = nil)
+  def request!
     record.add_approval_alert(approval_id, SystemSettings.current)
-    record.send("#{fields[:approval_status]}=", Child::APPROVAL_STATUS_PENDING)
+    record.send("#{fields[:approval_status]}=", Approval::APPROVAL_STATUS_PENDING)
 
-    if record.module.selectable_approval_types.present? && approval_id == Child::CASE_PLAN
+    if record.module.selectable_approval_types.present? && approval_id == Approval::CASE_PLAN
       record.send("#{fields[:approval_type]}=", approval_type)
     end
 
     record.approval_subforms = record.approval_subforms || []
-    record.approval_subforms << approval_request_action(Child::APPROVAL_STATUS_PENDING, approval_id)
+    record.approval_subforms << approval_request_action(Approval::APPROVAL_STATUS_PENDING, approval_id)
   end
 
-  def approve!(user_name, comments = nil)
+  def approve!
+    raise(Errors::InvalidPrimeroEntityType, 'approvals.error_request_required') if record.approval_subforms.blank?
+
     record.send("#{fields[:approved]}=", true)
-    record.send("#{fields[:approval_status]}=", Child::APPROVAL_STATUS_APPROVED)
+    record.send("#{fields[:approval_status]}=", Approval::APPROVAL_STATUS_APPROVED)
     record.send("#{fields[:approved_date]}=", Date.today)
     record.send("#{fields[:approved_comments]}=", comments) if comments.present?
-    record.approval_subforms << approval_response_action(Child::APPROVAL_STATUS_APPROVED, approval_id, user_name, comments)
+    record.approval_subforms << approval_response_action(Approval::APPROVAL_STATUS_APPROVED, approval_id, user_name, comments)
   end
 
-  def reject!(user_name, comments = nil)
+  def reject!
+    raise(Errors::InvalidPrimeroEntityType, 'approvals.error_request_required') if record.approval_subforms.blank?
+
     record.send("#{fields[:approved]}=", false)
-    record.send("#{fields[:approval_status]}=", Child::APPROVAL_STATUS_REJECTED)
+    record.send("#{fields[:approval_status]}=", Approval::APPROVAL_STATUS_REJECTED)
     record.send("#{fields[:approved_date]}=", Date.today)
     record.send("#{fields[:approved_comments]}=", comments) if comments.present?
-    record.approval_subforms << approval_response_action(Child::APPROVAL_STATUS_REJECTED, approval_id, user_name, comments)
+    record.approval_subforms << approval_response_action(Approval::APPROVAL_STATUS_REJECTED, approval_id, user_name, comments)
   end
 
   def approval_request_action(status, approval_id)
@@ -94,7 +112,7 @@ class Approval < ValueObject
       approval_response_for: nil,
       approval_for_type: record.case_plan_approval_type,
       approval_date: Date.today,
-      approval_status: status == Child::APPROVAL_STATUS_PENDING ? Child::APPROVAL_STATUS_REQUESTED : status,
+      approval_status: status == Approval::APPROVAL_STATUS_PENDING ? Approval::APPROVAL_STATUS_REQUESTED : status,
       approved_by: nil,
       approval_manager_comments: nil
     }.merge(properties)
