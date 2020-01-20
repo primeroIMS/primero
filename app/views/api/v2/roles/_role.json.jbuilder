@@ -6,4 +6,5 @@ json.group_permission role.group_permission
 json.referral role.referral
 json.transfer role.transfer
 json.is_manager role.is_manager
+json.form_section_unique_ids role.form_section_unique_ids
 json.permissions Permission::PermissionSerializer.dump(role.permissions)

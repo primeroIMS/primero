@@ -10,7 +10,7 @@ module Api::V2
     end
 
     def show
-      authorize! :show, Role
+      authorize! :read, @role
     end
 
     def create
@@ -22,20 +22,24 @@ module Api::V2
     end
 
     def update
-      authorize! :update, Role
+      authorize! :update, @role
       @role.update_properties(role_params)
       @role.save!
     end
 
     def destroy
-      authorize! :destroy, Role
+      authorize! :destroy, @role
       @role.destroy!
     end
 
     def role_params
       params.require(:data).permit(:id, :unique_id, :name, :description,
-                                   :group_permission, :referral, :transfer,
-                                   :is_manager, 'permissions' => {})
+                                   :group_permission, :referral, :transfer, :is_manager,
+                                   'permissions' => {}, 'form_section_unique_ids' => [])
+    end
+
+    def per
+      @per ||= (params[:per].try(:to_i) || 100)
     end
 
     protected

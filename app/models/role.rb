@@ -86,7 +86,8 @@ class Role < ApplicationRecord
     end
 
     def new_with_properties(role_params)
-      role = Role.new(role_params.except(:permissions))
+      role = Role.new(role_params.except(:permissions, :form_section_unique_ids))
+      role.form_sections = FormSection.where(unique_id: role_params[:form_section_unique_ids])
       role.permissions = Permission::PermissionSerializer.load(role_params[:permissions].to_h)
       role
     end
@@ -141,8 +142,13 @@ class Role < ApplicationRecord
     end
   end
 
+  def form_section_unique_ids
+    form_sections.pluck(:unique_id)
+  end
+
   def update_properties(role_properties)
-    assign_attributes(role_properties.except(:permissions))
+    assign_attributes(role_properties.except(:permissions, :form_section_unique_ids))
+    self.form_sections = FormSection.where(unique_id: role_properties[:form_section_unique_ids])
     self.permissions = Permission::PermissionSerializer.load(role_properties[:permissions].to_h)
   end
 

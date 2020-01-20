@@ -2,8 +2,10 @@ require 'rails_helper'
 
 describe Api::V2::RolesController, type: :request do
   before :each do
-    Role.destroy_all
-    permissions_test = [
+    clean_data(Role, FormSection)
+    @form_section_a = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
+    @form_section_b = FormSection.create!(unique_id: 'C', name: 'C', parent_form: 'child', form_group_id: 'k')
+    @permissions_test = [
       Permission.new(
         resource: Permission::ROLE,
         actions: [
@@ -32,7 +34,8 @@ describe Api::V2::RolesController, type: :request do
       referral: false,
       transfer: false,
       is_manager: true,
-      permissions: permissions_test
+      permissions: @permissions_test,
+      form_sections: [@form_section_a]
     )
     @role_b = Role.new(
       unique_id: 'role_test_02',
@@ -42,7 +45,8 @@ describe Api::V2::RolesController, type: :request do
       referral: false,
       transfer: false,
       is_manager: true,
-      permissions: permissions_test
+      permissions: @permissions_test,
+      form_sections: [@form_section_a]
     )
     @role_c = Role.new(
       unique_id: 'role_test_03',
@@ -52,7 +56,8 @@ describe Api::V2::RolesController, type: :request do
       referral: false,
       transfer: false,
       is_manager: true,
-      permissions: permissions_test
+      permissions: @permissions_test,
+      form_sections: [@form_section_a]
     )
     @role_a.save!
     @role_b.save!
@@ -74,6 +79,33 @@ describe Api::V2::RolesController, type: :request do
       expect(json['data'].size).to eq(3)
       expect(json['data'].first['name']).to eq('name_test_01')
       expect(json['data'].first['permissions']).to eq(Permission::PermissionSerializer.dump(@role_a.permissions))
+      expect(json['data'].first['form_section_unique_ids'].first).to eq(@form_section_a.unique_id)
+    end
+
+    it 'list of the first 100 roles per page' do
+      (1..100).each do |index|
+        Role.create!(
+          unique_id: "role_loop_test_#{index}",
+          name: "role_loop_test_#{index}",
+          description: "descriptionrole_loop_test_#{index}",
+          group_permission: 'all',
+          referral: false,
+          transfer: false,
+          is_manager: true,
+          permissions: @permissions_test,
+          form_sections: [@form_section_a]
+        )
+      end
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
+        ]
+      )
+
+      get '/api/v2/roles'
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(100)
+      expect(Role.count).to eq(103)
     end
 
     it 'list the roles with page and per' do
@@ -160,6 +192,7 @@ describe Api::V2::RolesController, type: :request do
           referral: false,
           transfer: false,
           is_manager: true,
+          form_section_unique_ids: %w[A C],
           permissions: {
             agency: %w[
               read
@@ -186,6 +219,7 @@ describe Api::V2::RolesController, type: :request do
       post '/api/v2/roles', params: params
       expect(response).to have_http_status(200)
       expect(json['data']['name']).to eq(params[:data][:name])
+      expect(json['data']['form_section_unique_ids']).to eq(params[:data][:form_section_unique_ids])
       expect(json['data']['permissions']).to eq(params[:data][:permissions].deep_stringify_keys)
     end
 
@@ -291,6 +325,7 @@ describe Api::V2::RolesController, type: :request do
           referral: false,
           transfer: false,
           is_manager: true,
+          form_section_unique_ids: %w[C],
           permissions: {
             agency: %w[
               read
@@ -390,6 +425,6 @@ describe Api::V2::RolesController, type: :request do
   end
 
   after :each do
-    Role.destroy_all
+    clean_data(Role, FormSection)
   end
 end
