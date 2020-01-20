@@ -4,9 +4,12 @@ class SystemSettings < ApplicationRecord
   include LocalizableJsonProperty
   include Configuration
 
-  store_accessor :system_options,
+  store_accessor(
+    :system_options,
     :due_date_from_appointment_date, :notification_email_enabled,
-    :welcome_email_enabled, :show_alerts, :use_identity_provider
+    :welcome_email_enabled, :show_alerts, :use_identity_provider,
+    :identity_syncs
+  )
 
   localize_properties [:welcome_email_text]
 

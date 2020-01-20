@@ -1,0 +1,49 @@
+# frozen_string_literal: true
+
+# Publish creation or changes to Primero users to external systems.
+# This is used by the UNICEF SaaS Azure Active Directory, but can be used for MDM,
+# or other case management system integrations.
+# The underlying connectors are configured via consistently named environment variables.
+# The pattern is PRIMERO_IDENTITY_SYNC_<CONNECTOR_ID>_<PROPERTY>.
+# Common properties are: HOST, PORT, TLS (client|truthy|falsey), TLS_CLIENT_KEY, TLS_CLIENT_CERT
+class IdentitySyncService
+  include Singleton
+
+  CONNECTORS = {
+    'aad' => IdentitySync::AzureActiveDirectoryConnector
+  }.freeze
+
+  attr_accessor :connectors
+
+  class << self
+    def instance
+      @instance ||= build.freeze
+    end
+
+    def build
+      instance = new
+      instance.connectors = []
+      SystemSettings.current.identity_syncs&.each do |sync|
+        connector_class = CONNECTORS[sync]
+        prefix = "PRIMERO_IDENTITY_SYNC_#{sync.upcase}_"
+        config = ENV.select { |key, _| key.start_with?(prefix) }
+                    .transform_keys { |key| key.delete_prefix(prefix).downcase }
+        instance.connectors << connector_class.new(config)
+      end
+      instance
+    end
+
+    def sync!(user, connector_id = nil)
+      instance.sync!(user, connector_id)
+    end
+  end
+
+  def sync!(user, connector_id = nil)
+    connectors = connectors.select { |c| c.id == connector_id } if connector_id
+    updates = connectors.reduce({}) do |aggregate, connector|
+      update = connector.sync(user)
+      aggregate.merge(update)
+    end
+    user.update_attributes!(updates) if updates.present?
+  end
+end
