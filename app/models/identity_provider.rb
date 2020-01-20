@@ -43,7 +43,15 @@ class IdentityProvider < ApplicationRecord
       # If we can't fetch a valid JWKS from a url then so be it.
       []
     end
+  end
 
+  def identity_sync_connector
+    connector_type = configuration['identity_sync_connector']
+    return unless connector_type
+
+    "IdentitySync::#{connector_type}".constantize
+  rescue NameError
+    nil
   end
 
 end

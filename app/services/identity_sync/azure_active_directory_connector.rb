@@ -33,30 +33,30 @@ module IdentitySync
     end
 
     def exportable?(user)
-      # TODO
-      # Only Primero idp users
+      # Only if the user's IDP is configured to sync with this connector
+      identity_sync_connector = user&.identity_provider&.configuration&.fetch(:identity_sync_connector)
+      return false unless identity_sync_connector == self.class.name
+
       # Only new users or users with changes on full name or status or idp
-      # validate that the domain name of the user is @primero.org
-      true
+      sync_metadata = user&.identity_provider_sync&.fetch(id)
+      sync_metadata&.fetch(:perform_sync)
     end
 
     def new?(user)
-      # TODO
-      # not indicated that the user was synced
-      true
+      sync_metadata = user&.identity_provider_sync&.fetch(id)
+      sync_metadata&.fetch(:synced_on)
     end
 
     def create(user)
       status, response = connection.post('/users', params(user))
-      # TODO: handle errors.
-      # TODO: indicate that the user was synced
-      response
+      log_response(user, status, response)
+      response_attributes(response)
     end
 
     def update(user)
-      response = connection.patch("/users/#{user.user_name}", params(user))
-      # TODO: handle errors.
-      response
+      status, response = connection.patch("/users/#{user.user_name}", params(user))
+      log_response(user, status, response)
+      response_attributes(response)
     end
 
     def params(user)
@@ -67,5 +67,28 @@ module IdentitySync
       }
     end
 
+    def response_attributes(response)
+      {
+        one_time_password: response['one_time_password'],
+        identity_provider_sync: {
+          aad: {
+            perform_sync: false,
+            synced_on: DateTime.now,
+            message: "(#{response['correlation_id']}) #{response['error_msg']}"
+          }.compact
+        }
+      }.compact
+    end
+
+    def log_response(user, status, response)
+      message_suffix = "with IDP #{user&.identity_provider&.name} (#{user&.identity_provider&.unique_id}): "\
+                       "(#{response['correlation_id']}) #{response['error_msg']}"
+      case status
+      when 200, 201
+        Rails.logger.info("Successfully synced User #{user.user_name} #{message_suffix}")
+      else
+        Rails.logger.error("Error syncing User #{user.user_name} #{message_suffix}")
+      end
+    end
   end
 end

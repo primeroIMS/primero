@@ -24,16 +24,16 @@ module IdentitySync
       end
     end
 
-    def get(*args, &block)
-      wrap { driver.get(*args, &block) }
+    def get(path, params = nil, headers = nil, &block)
+      wrap { driver.get(path, to_query(params), headers, &block) }
     end
 
-    def patch(*args, &block)
-      wrap { driver.patch(*args, &block) }
+    def patch(path, params = nil, headers = nil, &block)
+      wrap { driver.patch(path, to_json(params), headers, &block) }
     end
 
-    def post(*args, &block)
-      wrap { driver.post(*args, &block) }
+    def post(path, params = nil, headers = nil, &block)
+      wrap { driver.post(path, to_json(params), headers, &block) }
     end
 
     def url(options = {})
@@ -56,6 +56,18 @@ module IdentitySync
     def wrap
       response = yield
       [response.status, JSON.parse(response.body)]
+    end
+
+    def to_query(params)
+      return params unless params.is_a?(Hash)
+
+      params.map { |k, v| "#{k}=#{v}" }.join('&')
+    end
+
+    def to_json(params)
+      return params unless params.is_a?(Hash)
+
+      params.to_json
     end
   end
 end

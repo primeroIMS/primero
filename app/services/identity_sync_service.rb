@@ -9,10 +9,6 @@
 class IdentitySyncService
   include Singleton
 
-  CONNECTORS = {
-    'aad' => IdentitySync::AzureActiveDirectoryConnector
-  }.freeze
-
   attr_accessor :connectors
 
   class << self
@@ -23,9 +19,11 @@ class IdentitySyncService
     def build
       instance = new
       instance.connectors = []
-      SystemSettings.current.identity_syncs&.each do |sync|
-        connector_class = CONNECTORS[sync]
-        prefix = "PRIMERO_IDENTITY_SYNC_#{sync.upcase}_"
+      IdentityProvider.all.each do |provider|
+        connector_class = provider.identity_sync_connector
+        next unless connector_class
+
+        prefix = "PRIMERO_IDENTITY_SYNC_#{connector_class::IDENTIFIER.upcase}_"
         config = ENV.select { |key, _| key.start_with?(prefix) }
                     .transform_keys { |key| key.delete_prefix(prefix).downcase }
         instance.connectors << connector_class.new(config)
