@@ -87,6 +87,12 @@ Rails.application.routes.draw do
       resources :user_groups
       resources :primero_modules, only: %i[index show update]
       resources :audit_logs, only: [:index]
+
+      resources :key_performance_indicators do
+        collection do
+          get :number_of_cases
+        end
+      end
     end
   end
 end
