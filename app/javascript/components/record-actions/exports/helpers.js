@@ -26,5 +26,5 @@ export const formatFileName = (filename, format) => {
     return `${filename.split(" ").join("-")}.${format}`;
   }
 
-  return `generate-export-file.${format}`
+  return `generate-export-file.${format}`;
 };

@@ -1,6 +1,6 @@
 import { ACTIONS } from "../../../libs/permissions";
 
-const EXPORT_FORMAT = Object.freeze({
+export const EXPORT_FORMAT = Object.freeze({
   JSON: "json",
   CSV: "csv",
   EXCEL: "xls",
