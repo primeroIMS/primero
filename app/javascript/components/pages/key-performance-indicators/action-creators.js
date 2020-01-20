@@ -2,34 +2,9 @@ import * as Actions from "./actions";
 
 export const fetchNumberOfCases = () => async dispatch => {
   dispatch({
-    type: Actions.NUMBER_OF_CASES_SUCCESS,
-    //    api: {
-    //      path: "key_performance_indicators/number_of_cases"
-    //    },
-    payload: {
-      dates: ["Sep 2019", "Aug 2019", "Jul 2019"],
-      // TODO: Decide on data format for this, something coherent and easy to
-      //       understand but which minimized frontend processing.
-      data: [
-        {
-          "reporting_site": "Site #1",
-          "Sep 2019": 2,
-          "Aug 2019": 1,
-          "Jul 2019": 0
-        },
-        {
-          "reporting_site": "Site #2",
-          "Sep 2019": 2,
-          "Aug 2019": 1,
-          "Jul 2019": 0
-        },
-        {
-          "reporting_site": "Site #3",
-          "Sep 2019": 2,
-          "Aug 2019": 1,
-          "Jul 2019": 0
-        }
-      ]
+    type: Actions.NUMBER_OF_CASES,
+    api: {
+      path: "key_performance_indicators/number_of_cases"
     }
   });
 };

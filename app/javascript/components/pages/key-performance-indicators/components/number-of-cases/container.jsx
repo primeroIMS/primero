@@ -1,5 +1,3 @@
-import { fromJS } from "immutable";
-import { List } from "immutable";
 import * as actions from "../../action-creators";
 import * as selectors from "../../selectors";
 import { withRouter } from "react-router-dom";
