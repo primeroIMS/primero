@@ -2,7 +2,6 @@ module RecordActions
   extend ActiveSupport::Concern
 
   include ImportActions
-  include ExportActions
   include MarkForMobileActions
   include AuditLogActions
 

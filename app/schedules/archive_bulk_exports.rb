@@ -24,7 +24,7 @@ module ArchiveBulkExports
         pagination_ops[:page] = results.next_page
         pagination_ops[:per_page] = 500
       end until results.next_page.nil?
-      bulk_exports.each &:archive
+      bulk_exports.each &:archive!
     end
 
   end
