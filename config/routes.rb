@@ -33,16 +33,19 @@ Rails.application.routes.draw do
           post :referrals, to: 'referrals#create_bulk'
           post :transfers, to: 'transfers#create_bulk'
         end
+        resources :approvals, only: [:update]
       end
 
       resources :incidents do
         resources :flags, only: [:index, :create, :update]
         post :flags, to: 'flags#create_bulk', on: :collection
+        resources :approvals, only: [:update]
       end
 
       resources :tracing_requests do
         resources :flags, only: [:index, :create, :update]
         post :flags, to: 'flags#create_bulk', on: :collection
+        resources :approvals, only: [:update]
       end
 
       resources :form_sections, as: :forms, path: :forms
@@ -62,8 +65,8 @@ Rails.application.routes.draw do
       resources :reports, only: [:index, :show]
       resources :lookups
       resources :locations
+      resources :bulk_exports, as: :exports, path: :exports, only: [:index, :show, :create, :destroy]
       get 'alerts', to: 'alerts#bulk_index'
-
     end
   end
 

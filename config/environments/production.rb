@@ -33,8 +33,11 @@ Rails.application.configure do
   # NEVER UNSET THIS OR YOU WILL BREAK THINGS!
   # config.force_ssl = true
 
-  # Store uploaded files on the local file system (see config/storage.yml for options)
-  config.active_storage.service = :local
+
+  storage_type = %w[local microsoft amazon].find do |t|
+    t == ENV['PRIMERO_STORAGE_TYPE']
+  end || 'local'
+  config.active_storage.service = storage_type.to_sym
 
   config.active_job.queue_adapter = :backburner
 end
