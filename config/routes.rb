@@ -92,6 +92,7 @@ Rails.application.routes.draw do
         collection do
           get :number_of_cases
           get :number_of_incidents
+          get :reporting_delay
         end
       end
     end
