@@ -14,6 +14,7 @@ import {
   ADD_NOTE,
   ADD_INCIDENT,
   ADD_SERVICE,
+  REQUEST_APPROVAL,
   checkPermissions
 } from "../../libs/permissions";
 import Permission from "../application/permission";
@@ -338,19 +339,19 @@ const Container = ({
       name: "Assessment",
       condition: canRequestBia,
       recordType: "all",
-      value: "approve_bia"
+      value: "bia"
     },
     {
       name: "Case Plan",
       condition: canRequestCasePlan,
       recordType: "all",
-      value: "approve_case_plan"
+      value: "case_plan"
     },
     {
       name: "Closure",
       condition: canRequestClosure,
       recordType: "all",
-      value: "approve_closure"
+      value: "closure"
     }
   ];
 
@@ -415,7 +416,7 @@ const Container = ({
         />
       </Permission>
 
-      <Permission resources={recordType} actions={ADD_SERVICE}>
+      <Permission resources={recordType} actions={REQUEST_APPROVAL}>
         <RequestApproval
           openRequestDialog={requestDialog}
           close={() => setRequestDialog(false)}

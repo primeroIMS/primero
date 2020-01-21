@@ -314,6 +314,9 @@ en:
     request_approve_bia: "Approve Assessment?"
     request_approve_case_plan: "Approve Case Plan?"
     request_approve_closure: "Approve Closure?"
+    request_approval_success_bia: "Approval requested for Assessment form."
+    request_approval_success_case_plan: "Approval requested for Case Plan form."
+    request_approval_success_closure: "Approval requested for Closure form."
 
     order_by:
       most_recently: "Most recently"

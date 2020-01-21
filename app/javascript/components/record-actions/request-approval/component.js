@@ -2,12 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { TextField, menuItem, IconButton } from '@material-ui/core';
+import { TextField, menuItem, IconButton, FormLabel } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { useI18n } from "../../i18n";
 import { ActionDialog } from "../../action-dialog";
-import { saveRecord } from "../../records";
+import { approvalRecord } from "./action-creators";
 
 import { NAME } from "./constants";
 
@@ -29,26 +29,44 @@ const useStyles = makeStyles(theme => ({
 const Component = ({ close, openRequestDialog, subMenuItems, record, recordType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  console.log('record:::', record.toJS());
   const enableState =
     record && !record.get("record_state") ? "enable" : "disable";
   const setValue = record ? !record.get("record_state") : true;
   const handleOk = () => {
     // call api to request approval here
+
+    dispatch(
+      approvalRecord(
+        recordType,
+        record.get("id"),
+        approvalId,
+
+
+        recordType,
+        recordId,
+        requestType,
+        { data: { approval_status: "requested" } },
+        i18n.t(`cases.request_approval_success_${requestType}`),
+        false
+      )
+    );
+
     close();
   };
 
   const classes = useStyles();
-  const [requestType, setRequestType] = React.useState('approve_bia');
+  const [requestType, setRequestType] = React.useState('bia');
   const handleChange = event => {
     setRequestType(event.target.value);
   };
 
   const dialogContent = (
     <form className={classes.root} noValidate autoComplete="off">
+      <FormLabel component="legend">{i18n.t("cases.request_approval_select")}</FormLabel>
       <TextField
         id="outlined-select-approval-native"
         select
-        label={i18n.t("cases.request_approval_select")}
         value={requestType}
         onChange={handleChange}
         SelectProps={{
