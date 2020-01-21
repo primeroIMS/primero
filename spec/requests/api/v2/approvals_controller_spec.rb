@@ -16,10 +16,13 @@ describe Api::V2::ApprovalsController, type: :request do
     @primero_module = PrimeroModule.new(name: 'CP', selectable_approval_types: true)
     @primero_module.save(validate: false)
 
+    @user1 = User.new(user_name: 'user1', role: @role)
+    @user1.save(validate: false)
+
     @case = Child.create(
       data: {
         name: 'Test',
-        owned_by: 'faketest',
+        owned_by: 'user1',
         module_id: @primero_module.unique_id
       }
     )

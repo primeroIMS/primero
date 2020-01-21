@@ -18,22 +18,38 @@ module Approvable
       date :bia_approved_date
       date :closure_approved_date
     end
+
+    after_commit :send_approval_mail
   end
 
-  #TODO: This really needs to be on the after_save callback, as soon as we decouple the url host
-  def send_approval_request_mail(approval_type, host_url)
-    managers = self.owner.managers.select{ |manager| manager.email.present? && manager.send_mail }
+  def send_approval_mail
+    return if approval_subforms.blank? || saved_changes_to_record.keys.exclude?('approval_subforms')
+
+    approval = approval_subforms.last
+    if approval['approval_requested_for'].present?
+      send_approval_request_mail(approval)
+    else
+      send_approval_response_mail(approval)
+    end
+  end
+
+  def send_approval_request_mail(approval)
+    managers = owner.managers.select{ |manager| manager.email.present? && manager.send_mail }
     if managers.present?
       managers.each do |manager|
-        ApprovalRequestJob.perform_later(self.owner.id, manager.id, self.id, approval_type, host_url)
+        ApprovalRequestJob.perform_later(id, approval['approval_for_type'], manager.user_name)
       end
     else
       Rails.logger.info "Approval Request Mail not sent.  No managers present with send_mail enabled.  User - [#{self.owner.id}]"
     end
   end
 
-  #TODO: This really needs to be on the after_save callback, as soon as we decouple the url host
-  def send_approval_response_mail(manager_id, approval_type, approval, host_url, is_gbv = false)
-    ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url, is_gbv)
+  def send_approval_response_mail(approval)
+    ApprovalResponseJob.perform_later(
+      id,
+      send("#{approval['approval_response_for']}_approved"),
+      approval['approval_for_type'],
+      approval['approved_by']
+    )
   end
 end

@@ -317,7 +317,7 @@ class User < ApplicationRecord
 
   def user_managers
     @managers = User.all.select do |u|
-      (u.user_group_ids & user_group_ids).any? && u.is_manager
+      (u.user_group_ids & user_group_ids).any? && u.is_manager?
     end
   end
 
@@ -475,6 +475,10 @@ class User < ApplicationRecord
 
   def is_manager?
     role.is_manager
+  end
+
+  def gbv?
+    has_module?(PrimeroModule::GBV)
   end
 
   def tasks(pagination = { per_page: 100, page: 1 })

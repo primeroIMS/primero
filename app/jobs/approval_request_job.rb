@@ -1,7 +1,9 @@
 class ApprovalRequestJob < ApplicationJob
   queue_as :mailer
 
-  def perform(user_id, manager_id, record_id, approval_type, host_url)
-    NotificationMailer.manager_approval_request(user_id, manager_id, record_id, approval_type, host_url).deliver_later
+  def perform(record_id, approval_type, manager_id)
+    return unless system_settings.notification_email_enabled
+
+    NotificationMailer.manager_approval_request(record_id, approval_type, manager_id).deliver_later
   end
 end
