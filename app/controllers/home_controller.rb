@@ -402,13 +402,13 @@ class HomeController < ApplicationController
       if query[:by_approval_type].present?
         facet(:approval_type, zeros: true) do
           row(:bia) do
-            with(:approval_status_bia, Child::APPROVAL_STATUS_PENDING)
+            with(:approval_status_bia, Approval::APPROVAL_STATUS_PENDING)
           end
           row(:case_plan) do
-            with(:approval_status_case_plan, Child::APPROVAL_STATUS_PENDING)
+            with(:approval_status_case_plan, Approval::APPROVAL_STATUS_PENDING)
           end
           row(:closure) do
-            with(:approval_status_closure, Child::APPROVAL_STATUS_PENDING)
+            with(:approval_status_closure, Approval::APPROVAL_STATUS_PENDING)
           end
         end
       end
@@ -586,42 +586,42 @@ class HomeController < ApplicationController
 
       facet(:approval_status_bia, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:approval_status_bia, Child::APPROVAL_STATUS_PENDING)
+          with(:approval_status_bia, Approval::APPROVAL_STATUS_PENDING)
         end
         row(:rejected) do
-          with(:approval_status_bia, Child::APPROVAL_STATUS_REJECTED)
+          with(:approval_status_bia, Approval::APPROVAL_STATUS_REJECTED)
         end
         row(:new) do
           bod = Time.zone.now - 10.days
-          with(:approval_status_bia, Child::APPROVAL_STATUS_APPROVED)
+          with(:approval_status_bia, Approval::APPROVAL_STATUS_APPROVED)
           with(:bia_approved_date, bod..Time.zone.now)
         end
       end
 
       facet(:approval_status_case_plan, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:approval_status_case_plan, Child::APPROVAL_STATUS_PENDING)
+          with(:approval_status_case_plan, Approval::APPROVAL_STATUS_PENDING)
         end
         row(:rejected) do
-          with(:approval_status_case_plan, Child::APPROVAL_STATUS_REJECTED)
+          with(:approval_status_case_plan, Approval::APPROVAL_STATUS_REJECTED)
         end
         row(:new) do
           bod = Time.zone.now - 10.days
-          with(:approval_status_case_plan, Child::APPROVAL_STATUS_APPROVED)
+          with(:approval_status_case_plan, Approval::APPROVAL_STATUS_APPROVED)
           with(:case_plan_approved_date, bod..Time.zone.now)
         end
       end
 
       facet(:approval_status_closure, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:approval_status_closure, Child::APPROVAL_STATUS_PENDING)
+          with(:approval_status_closure, Approval::APPROVAL_STATUS_PENDING)
         end
         row(:rejected) do
-          with(:approval_status_closure, Child::APPROVAL_STATUS_REJECTED)
+          with(:approval_status_closure, Approval::APPROVAL_STATUS_REJECTED)
         end
         row(:new) do
           bod = Time.zone.now - 10.days
-          with(:approval_status_closure, Child::APPROVAL_STATUS_APPROVED)
+          with(:approval_status_closure, Approval::APPROVAL_STATUS_APPROVED)
           with(:closure_approved_date, bod..Time.zone.now)
         end
       end
