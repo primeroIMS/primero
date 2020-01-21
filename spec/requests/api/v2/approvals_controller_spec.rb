@@ -43,6 +43,7 @@ describe Api::V2::ApprovalsController, type: :request do
       expect(json['data']['record']['id']).to eq(@case.id.to_s)
       expect(json['data']['record']['approval_subforms'].size).to eq(1)
       expect(json['data']['record']['approval_subforms'][0]['approval_requested_for']).to eq(approval_id)
+      expect(json['data']['record']['approval_subforms'][0]['requested_by']).to eq(fake_user_name)
       expect(json['data']['record']['approval_subforms'][0]['approval_status']).to eq(Approval::APPROVAL_STATUS_REQUESTED)
       expect(json['data']['record']['approval_subforms'][0]['approval_date']).to eq(Date.today.to_s)
       if approval_id == Approval::CASE_PLAN
@@ -55,11 +56,12 @@ describe Api::V2::ApprovalsController, type: :request do
 
   shared_examples 'approve for the record' do
     before do
+      @case.case_plan_approval_type = approval_type
       @case.approval_subforms = [{
         unique_id: 'aa8af9a2-3b98-11ea-b77f-2e728ce88125',
         approval_requested_for: 'request',
         approval_date: Date.today,
-        approval_stastus: Approval::APPROVAL_STATUS_PENDING
+        approval_status: Approval::APPROVAL_STATUS_PENDING
       }]
       @case.save!
     end
@@ -82,16 +84,22 @@ describe Api::V2::ApprovalsController, type: :request do
       expect(json['data']['record']['approval_subforms'][1]['approval_date']).to eq(Date.today.to_s)
       expect(json['data']['record']['approval_subforms'][1]['approved_by']).to eq(fake_user_name)
       expect(json['data']['record']['approval_subforms'][1]['approval_manager_comments']).to eq(params[:data][:notes])
+      if approval_id == Approval::CASE_PLAN
+        expect(json['data']['record']['approval_subforms'][1]['approval_for_type']).to eq(approval_type)
+      else
+        expect(json['data']['record']['approval_subforms'][1]['approval_for_type']).to be_nil
+      end
     end
   end
 
   shared_examples 'reject for the record' do
     before do
+      @case.case_plan_approval_type = approval_type
       @case.approval_subforms = [{
         unique_id: 'aa8af9a2-3b98-11ea-b77f-2e728ce88125',
         approval_requested_for: 'request',
         approval_date: Date.today,
-        approval_stastus: Approval::APPROVAL_STATUS_PENDING
+        approval_status: Approval::APPROVAL_STATUS_PENDING
       }]
       @case.save!
     end
@@ -114,6 +122,11 @@ describe Api::V2::ApprovalsController, type: :request do
       expect(json['data']['record']['approval_subforms'][1]['approval_date']).to eq(Date.today.to_s)
       expect(json['data']['record']['approval_subforms'][1]['approved_by']).to eq(fake_user_name)
       expect(json['data']['record']['approval_subforms'][1]['approval_manager_comments']).to eq(params[:data][:notes])
+      if approval_id == Approval::CASE_PLAN
+        expect(json['data']['record']['approval_subforms'][1]['approval_for_type']).to eq(approval_type)
+      else
+        expect(json['data']['record']['approval_subforms'][1]['approval_for_type']).to be_nil
+      end
     end
   end
 

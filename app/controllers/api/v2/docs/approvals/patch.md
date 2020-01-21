@@ -42,14 +42,13 @@ If the __approval_status__ is either "rejected" or "approved", an optional __not
       "approval_subforms": [
         {
             "unique_id": "6e96ab79-d786-4117-a48c-c99194741beb",
-            "approved_by": null,
+            "requested_by": "primero_user",
             "approval_date": "2020-01-15",
             "approval_status": "requested",
-            "approval_for_type": null,
-            "approval_response_for": null,
             "approval_requested_for": "bia"
         }
-      ]
+      ],
+      "approval_status_bia": "pending"
     }
   }
 }

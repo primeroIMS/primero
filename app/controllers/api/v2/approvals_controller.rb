@@ -17,11 +17,11 @@ module Api::V2
 
     def approval_permission
       permission_suffix = if @approval_params[:approval_status] == Approval::APPROVAL_STATUS_REQUESTED
-                            'Permission::REQUEST_APPROVAL'
+                            'request_approval'
                           else
-                            'Permission::APPROVE'
+                            'approve'
                           end
-      "#{permission_suffix}_#{params[:id].upcase}".constantize.to_sym
+      "#{permission_suffix}_#{params[:id]}".to_sym
     end
   end
 end

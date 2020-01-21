@@ -67,7 +67,7 @@ class Approval < ValueObject
     end
 
     record.approval_subforms = record.approval_subforms || []
-    record.approval_subforms << approval_request_action(Approval::APPROVAL_STATUS_PENDING, approval_id)
+    record.approval_subforms << approval_request_action(Approval::APPROVAL_STATUS_PENDING, approval_id, user_name)
   end
 
   def approve!
@@ -77,7 +77,12 @@ class Approval < ValueObject
     record.send("#{fields[:approval_status]}=", Approval::APPROVAL_STATUS_APPROVED)
     record.send("#{fields[:approved_date]}=", Date.today)
     record.send("#{fields[:approved_comments]}=", comments) if comments.present?
-    record.approval_subforms << approval_response_action(Approval::APPROVAL_STATUS_APPROVED, approval_id, user_name, comments)
+    record.approval_subforms << approval_response_action(
+      Approval::APPROVAL_STATUS_APPROVED,
+      approval_id,
+      user_name,
+      comments
+    )
   end
 
   def reject!
@@ -87,11 +92,18 @@ class Approval < ValueObject
     record.send("#{fields[:approval_status]}=", Approval::APPROVAL_STATUS_REJECTED)
     record.send("#{fields[:approved_date]}=", Date.today)
     record.send("#{fields[:approved_comments]}=", comments) if comments.present?
-    record.approval_subforms << approval_response_action(Approval::APPROVAL_STATUS_REJECTED, approval_id, user_name, comments)
+    record.approval_subforms << approval_response_action(
+      Approval::APPROVAL_STATUS_REJECTED,
+      approval_id,
+      user_name,
+      comments
+    )
   end
 
-  def approval_request_action(status, approval_id)
-    approval_action(status, approval_requested_for: approval_id)
+  protected
+
+  def approval_request_action(status, approval_id, requested_by)
+    approval_action(status, approval_requested_for: approval_id, requested_by: requested_by)
   end
 
   def approval_response_action(status, approval_id, approved_by, comments = nil)
@@ -104,17 +116,22 @@ class Approval < ValueObject
     )
   end
 
-  protected
-
   def approval_action(status, properties)
-    {
+    action = {
       approval_requested_for: nil,
       approval_response_for: nil,
-      approval_for_type: record.case_plan_approval_type,
+      approval_for_type: nil,
       approval_date: Date.today,
       approval_status: status == Approval::APPROVAL_STATUS_PENDING ? Approval::APPROVAL_STATUS_REQUESTED : status,
       approved_by: nil,
+      requested_by: nil,
       approval_manager_comments: nil
     }.merge(properties)
+
+    if [action[:approval_requested_for], action[:approval_response_for]].include?(Approval::CASE_PLAN)
+      action = action.merge(approval_for_type: record.case_plan_approval_type)
+    end
+
+    action.compact
   end
 end
