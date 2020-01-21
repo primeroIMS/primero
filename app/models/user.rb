@@ -456,6 +456,7 @@ class User < ApplicationRecord
     @permitted_field_names << 'hidden_name' if can?(:update, model_class)
     @permitted_field_names << 'flag_count' if can?(:flag, model_class)
     @permitted_field_names << 'flagged' if can?(:flag, model_class)
+    @permitted_field_names += permitted_approval_field_names(model_class)
     @permitted_field_names
   end
 
@@ -575,5 +576,23 @@ class User < ApplicationRecord
       @refresh_associated_user_groups = false
       @refresh_associated_user_agencies = false
     end
+  end
+
+  def permitted_approval_field_names(model_class)
+    approval_field_names = []
+    [Approval::BIA, Approval::CASE_PLAN, Approval::CLOSURE].each do |approval_id|
+      if can?(:"request_approval_#{approval_id}", model_class) ||
+         can?(:"approve_#{approval_id}", model_class)
+        approval_field_names << 'approval_subforms'
+        approval_field_names << "#{approval_id}_approved"
+        approval_field_names << "approval_status_#{approval_id}"
+        approval_field_names << "#{approval_id}_approved_date"
+        approval_field_names << "#{approval_id}_approved_comments"
+        approval_field_names << "#{approval_id}_approval_type"
+      else
+        next
+      end
+    end
+    approval_field_names
   end
 end
