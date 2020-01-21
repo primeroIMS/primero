@@ -45,7 +45,7 @@
           ]) %>
         <% end %>
         <% if filters_to_show.include? 'Verification Status' %>
-          <%= build_filter_checkboxes(t("incidents.filter_by.verification_status"), 'verification_status', Lookup.values('lookup-incident-status', @lookups, locale: I18n.locale)) %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.verification_status"), 'verification_status', Lookup.values('lookup-verification-status', @lookups, locale: I18n.locale)) %>
         <% end %>
         <% if filters_to_show.include? 'Incident Location' %>
           <%= build_filter_location(t("incidents.filter_by.incident_location"), 'incident_location') %>
@@ -57,13 +57,13 @@
           <%= build_filter_checkboxes(t("incidents.filter_by.unaccompanied_separated_status"), 'unaccompanied_separated_status', Lookup.values('lookup-unaccompanied-separated-status', @lookups, locale: I18n.locale)) %>
         <% end %>
         <% if filters_to_show.include? 'Armed Force' %>
-          <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_name"), 'armed_force_names', Lookup.values('Armed Force Name', @lookups)) %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_name"), 'armed_force_names', Lookup.values('lookup-armed-force-name', @lookups, locale: I18n.locale)) %>
         <% end %>
         <% if filters_to_show.include? 'Armed Group' %>
-          <%= build_filter_checkboxes(t("incidents.filter_by.armed_group_name"), 'armed_group_names', Lookup.values('Armed Group Name', @lookups)) %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.armed_group_name"), 'armed_group_names', Lookup.values('lookup-armed-group-name', @lookups, locale: I18n.locale)) %>
         <% end %>
         <% if filters_to_show.include? 'Armed Force or Group Type' %>
-          <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_type"), 'perpetrator_sub_categories', Lookup.values('Armed Force Group Type', @lookups),
+          <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_type"), 'perpetrator_sub_categories', Lookup.values('lookup-armed-force-group-type', @lookups, locale: I18n.locale),
                                       { multi: true }) %>
         <% end %>
         <% if filters_to_show.include? 'Record State' %>
@@ -71,13 +71,13 @@
                                       [{'true' => t("valid")}, {'false' => t("invalid")}]) %>
         <% end %>
         <% if filters_to_show.include? 'Perpetrator Arrested' %>
-          <%= build_filter_checkboxes(t("incidents.filter_by.perpetrator_arrest"), 'perpetrator_arrest', Lookup.values('Yes No Unknown', @lookups)) %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.perpetrator_arrest"), 'perpetrator_arrest', Lookup.values('lookup-yes-no-unknown', @lookups, locale: I18n.locale)) %>
         <% end %>
         <% if filters_to_show.include? 'Perpetrator Detained' %>
-          <%= build_filter_checkboxes(t("incidents.filter_by.perpetrator_detention"), 'perpetrator_detention', Lookup.values('Yes No Unknown', @lookups)) %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.perpetrator_detention"), 'perpetrator_detention', Lookup.values('lookup-yes-no-unknown', @lookups, locale: I18n.locale)) %>
         <% end %>
         <% if filters_to_show.include? 'Perpetrator Convicted' %>
-          <%= build_filter_checkboxes(t("incidents.filter_by.perpetrator_conviction"), 'perpetrator_conviction', Lookup.values('Yes No Unknown', @lookups)) %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.perpetrator_conviction"), 'perpetrator_conviction', Lookup.values('lookup-yes-no-unknown', @lookups, locale: I18n.locale)) %>
         <% end %>
         <%= render "filter_violations_fields", record: 'incidents', violations: violation_type_list %>
       </div>
@@ -96,18 +96,16 @@
           ]) %>
         <% end %>
         <% if filters_to_show.include? 'Deprived of liberty?' %>
-          <%= build_filter_checkboxes(t("incidents.filter_by.deprived_liberty"), 'victim_deprived_liberty_security_reasons', Lookup.values('Yes No Unknown', @lookups)) %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.deprived_liberty"), 'victim_deprived_liberty_security_reasons', Lookup.values('lookup-yes-no-unknown', @lookups, locale: I18n.locale)) %>
         <% end %>
         <% if filters_to_show.include? 'Reason Deprived of liberty?' %>
-          <%= build_filter_checkboxes(t("incidents.filter_by.reasons_deprivation_liberty"), 'reasons_deprivation_liberty', ["Security reasons", "Association with armed groups or forces"]) %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.reasons_deprivation_liberty"), 'reasons_deprivation_liberty', Lookup.values('lookup-reasons-deprivation-liberty', @lookups, locale: I18n.locale)) %>
         <% end %>
         <% if filters_to_show.include? 'Facilty Deprived of liberty?' %>
-          <%= build_filter_checkboxes(t("incidents.filter_by.victim_facilty_victims_held"), 'victim_facilty_victims_held', [
-            "Civilian infrastructure", "Informal detention facility", "Intelligence agency premises", "Juvenile detention center",
-            "Military facility", "Prison", "Other"]) %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.victim_facilty_victims_held"), 'victim_facilty_victims_held', Lookup.values('lookup-detention-facility-type', @lookups, locale: I18n.locale)) %>
         <% end %>
         <% if filters_to_show.include? 'Punishment Deprived of liberty?' %>
-          <%= build_filter_checkboxes(t("incidents.filter_by.torture_punishment_while_deprivated_liberty"), 'torture_punishment_while_deprivated_liberty', Lookup.values('Yes No Unknown', @lookups)) %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.torture_punishment_while_deprivated_liberty"), 'torture_punishment_while_deprivated_liberty', Lookup.values('lookup-yes-no-unknown', @lookups, locale: I18n.locale)) %>
         <% end %>
       </div>
     </div>
