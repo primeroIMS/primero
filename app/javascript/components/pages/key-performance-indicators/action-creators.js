@@ -11,32 +11,9 @@ export const fetchNumberOfCases = () => async dispatch => {
 
 export const fetchNumberOfIncidents = () => async dispatch => {
   dispatch({
-    type: Actions.NUMBER_OF_INCIDENTS_SUCCESS,
-    //    api: {
-    //      path: "key_performance_indicators/number_of_incidents"
-    //    },
-    payload: {
-      dates: ["Sep 2019", "Aug 2019", "Jul 2019"],
-      data: [
-        {
-          "reporting_site": "Site #1",
-          "Sep 2019": 2,
-          "Aug 2019": 1,
-          "Jul 2019": 0
-        },
-        {
-          "reporting_site": "Site #2",
-          "Sep 2019": 2,
-          "Aug 2019": 1,
-          "Jul 2019": 0
-        },
-        {
-          "reporting_site": "Site #3",
-          "Sep 2019": 2,
-          "Aug 2019": 1,
-          "Jul 2019": 0
-        }
-      ]
+    type: Actions.NUMBER_OF_INCIDENTS,
+    api: {
+      path: "key_performance_indicators/number_of_incidents"
     }
   });
 };
