@@ -20,10 +20,10 @@ export const fetchNumberOfIncidents = () => async dispatch => {
 
 export const fetchReportingDelay = () => async dispatch => {
   dispatch({
-    type: Actions.REPORTING_DELAY_SUCCESS,
-    //    api: {
-    //      path: "key_performance_indicators/reporting_delay"
-    //    },
+    type: Actions.REPORTING_DELAY,
+    api: {
+      path: "key_performance_indicators/reporting_delay"
+    },
     payload: {
       data: [
         { delay: "0-3 days", total_cases: 123, percentage: 0.395 },
