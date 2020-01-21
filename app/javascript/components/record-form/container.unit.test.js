@@ -170,8 +170,8 @@ describe("<RecordForms /> - Component", () => {
     expect(component.find(RecordOwner)).to.have.length(1);
   });
 
-  describe("when approvals is the selectedForm ", () => {
-    const initialStateApprovals = fromJS({
+  describe("when basic_identity is the selectedForm ", () => {
+    const initialState = fromJS({
       records: Map({
         cases: Map({
           data: List([Map(record)]),
@@ -210,7 +210,7 @@ describe("<RecordForms /> - Component", () => {
         {
           mode: "show"
         },
-        initialStateApprovals,
+        initialState,
         ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
       ));
     });

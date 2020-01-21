@@ -36,6 +36,6 @@ describe("<RecordInformation />", () => {
         .find(NavGroup)
         .find("ul")
         .find(NavItem)
-    ).to.have.lengthOf(4);
+    ).to.have.lengthOf(3);
   });
 });
