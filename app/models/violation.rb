@@ -78,29 +78,37 @@ class Violation
     end
   end
 
-  def self.all(options={})
-    violations = []
-    incidents = Incident.all(options).all
-    incidents.each do |incident|
-      violations = violations + from_incident(incident)
+  class << self
+    def all(options={})
+      violations = []
+      incidents = Incident.all(options).all
+      incidents.each do |incident|
+        violations = violations + from_incident(incident)
+      end
+      return violations
     end
-    return violations
-  end
 
-  def self.from_incident(incident)
-    violations = []
-    if incident.violations.present?
-      incident.violations.keys.each do |category|
-        incident.violations[category].each do |violation|
-          violations << Violation.new(category, incident, violation)
+    def from_incident(incident)
+      violations = []
+      if incident.violations.present?
+        incident.violations.keys.each do |category|
+          incident.violations[category].each do |violation|
+            violations << Violation.new(category, incident, violation)
+          end
         end
       end
+      return violations
     end
-    return violations
-  end
 
-  def self.report_filters
-    Incident.report_filters
+    def report_filters
+      Incident.report_filters
+    end
+
+    def config
+      @system_settings ||= SystemSettings.current
+      @system_settings.try(:violation_config)
+    end
+
   end
 
   def initialize(category, incident, violation)

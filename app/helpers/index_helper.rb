@@ -220,10 +220,9 @@ module IndexHelper
 
   def violation_type_list
     violation_types = []
-
-    violation_hash = Incident.violation_id_fields
-    violation_hash.keys.each {|key| violation_types << { key => I18n.t("incident.violation.#{key}") } } if violation_hash.present?
-    return violation_types
+    violation_form_keys = Violation.config.try(:keys)
+    violation_form_keys.each {|key| violation_types << { key => Lookup.display_value('lookup-violation-type', key, @lookups) } } if violation_form_keys.present?
+    violation_types
   end
 
   def build_list_field_by_model(model_name, user)

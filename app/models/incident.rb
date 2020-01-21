@@ -241,15 +241,17 @@ class Incident < CouchRest::Model::Base
     if props['primeromodule-mrm'].present?
       violations_property = Incident.properties.select{|p| p.name == 'violations'}.first
       if violations_property.present?
-        violation_form_keys = Incident.violation_id_fields.keys
-        violation_forms = modules.select{|m| m.id == "primeromodule-mrm"}.map do |m_mrm|
-          m_mrm.associated_forms.select do |fs|
-            fs.fields.any?{|f| (f.type == Field::SUBFORM) && violation_form_keys.include?(f.name)}
-          end
-        end.flatten.map{|f| f.name}
-        props['primeromodule-mrm'].each do |form_name, form|
-          if violation_forms.include? form_name
-            props['primeromodule-mrm'][form_name] = {'violations' => violations_property}
+        violation_form_keys = Violation.config.try(:keys)
+        if violation_form_keys.present?
+          violation_forms = modules.select{|m| m.id == "primeromodule-mrm"}.map do |m_mrm|
+            m_mrm.associated_forms.select do |fs|
+              fs.fields.any?{|f| (f.type == Field::SUBFORM) && violation_form_keys.include?(f.name)}
+            end
+          end.flatten.map{|f| f.name}
+          props['primeromodule-mrm'].each do |form_name, form|
+            if violation_forms.include? form_name
+              props['primeromodule-mrm'][form_name] = {'violations' => violations_property}
+            end
           end
         end
       end
@@ -310,43 +312,34 @@ class Incident < CouchRest::Model::Base
     self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, group_filters[:user_names], nil, nil, group_filters[:user_group_ids]).results
   end
 
-  # Each violation type has a field that is used as part of the identification
-  # of that violation
-  #TODO: This matches up to the collapsed fields on the violation subforms. NOT DRY!!!
-  #TODO - possible refactor - probably should not hard code violation fields
-  def self.violation_id_fields
-    {
-      'killing' => 'weapon_type',
-      'maiming' => 'weapon_type',
-      'recruitment' => 'factors_of_recruitment',
-      'sexual_violence' => 'sexual_violence_type',
-      'abduction' => 'abduction_purpose',
-      'attack_on' => 'facility_attack_type',
-      'military_use' => 'military_use_type',
-      'denial_humanitarian_access' => 'denial_method'
-    }
-  end
-
-  #TODO MRM fix
-  #TODO: This belongs in a helper
-  def violation_label(violation_type, violation, include_unique_id=false)
-    id_fields = self.class.violation_id_fields
-    label_id = violation.try(id_fields[violation_type])
-    label_id_text = (label_id.is_a?(Array) ? label_id.join(', ') : label_id)
-    label = label_id.present? ? "#{violation_type.titleize} - #{label_id_text}" : "#{violation_type.titleize}"
-    if include_unique_id
-      label += " - #{violation['unique_id'].try(:slice, 0, 5)}"
+  #TODO - need rspec test for this
+  def violation_label(violation_type, violation, include_unique_id=false, opts={})
+    violation_text = Lookup.display_value('lookup-violation-type', violation_type, opts[:lookups])
+    label_text = []
+    @violation_config ||= Violation.config
+    if @violation_config.present?
+      violation_type_config = @violation_config[violation_type]
+      if violation_type_config.present?
+        label_ids = violation[violation_type_config['field_id']]
+        if label_ids.is_a?(Array)
+          label_ids.each {|id| label_text << Lookup.display_value(violation_type_config['lookup_id'], id, opts[:lookups])}
+        else
+          label_text << Lookup.display_value(violation_type_config['lookup_id'], label_ids, opts[:lookups])
+        end
+      end
     end
+    label = label_text.present? ? "#{violation_text} - #{label_text.join(', ')}" : "#{violation_text}"
+    label += " - #{violation['unique_id'].try(:slice, 0, 5)}" if include_unique_id
     label
   end
 
   #TODO - Need rspec test for this
-  def violations_list(compact_flag = false, include_unique_id=false)
+  def violations_list(compact_flag = false, include_unique_id=false, opts={})
     violations_list = []
     if self.violations.present?
       self.violations.to_hash.each do |key, value|
         value.each_with_index do |v, i|
-          vlabel = violation_label(key, v, include_unique_id)
+          vlabel = violation_label(key, v, include_unique_id, lookups: opts[:lookups])
           # Add an index if compact_flag is false
           violations_list << vlabel
         end
@@ -364,26 +357,20 @@ class Incident < CouchRest::Model::Base
     return violations_list
   end
 
-  def violations_list_by_unique_id
+  def violations_list_by_unique_id(opts={})
     (self.violations || {}).to_hash.inject({}) do |acc, (vtype, vs)|
       acc.merge(vs.inject({}) do |acc2, v|
-        acc2.merge({violation_label(vtype, v, true) => v['unique_id']})
+        acc2.merge({violation_label(vtype, v, true, lookups: opts[:lookups]) => v['unique_id']})
       end)
     end
   end
 
   #TODO - Need rspec test for this
   def violation_type_list
+    return [] if self.violations.blank?
     violations_list = []
-    if self.violations.present?
-      self.violations.to_hash.each do |key, value|
-        if value.present?
-          violations_list << key
-        end
-      end
-    end
-
-    return violations_list
+    self.violations.to_hash.each{|key, value| violations_list << key if value.present? }
+    violations_list
   end
 
   def individual_violations_list
