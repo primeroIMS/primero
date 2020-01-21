@@ -9,5 +9,8 @@ module Api::V2
 
     def number_of_cases
     end
+
+    def number_of_incidents
+    end
   end
 end

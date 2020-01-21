@@ -91,6 +91,7 @@ Rails.application.routes.draw do
       resources :key_performance_indicators do
         collection do
           get :number_of_cases
+          get :number_of_incidents
         end
       end
     end
