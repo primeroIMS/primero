@@ -1,15 +1,17 @@
-import { setupMockFormComponent, expect } from "../../../../test";
+import { setupMockFormComponent, expect } from "../../../../../test";
 
-import SelectFilter from "./select-filter";
+import DateFilter from "./component";
 
-describe("<SelectFilter>", () => {
+describe("<DateFilter>", () => {
   const filter = {
     field_name: "filter",
     name: "Filter 1",
-    options: [
-      { id: "option-1", display_text: "Option 1" },
-      { id: "option-2", display_text: "Option 2" }
-    ]
+    options: {
+      en: [
+        { id: "option-1", display_text: "Option 1" },
+        { id: "option-2", display_text: "Option 2" }
+      ]
+    }
   };
 
   const props = {
@@ -17,20 +19,20 @@ describe("<SelectFilter>", () => {
   };
 
   it("renders panel", () => {
-    const { component } = setupMockFormComponent(SelectFilter, props);
+    const { component } = setupMockFormComponent(DateFilter, props);
 
     expect(component.exists("Panel")).to.be.true;
   });
 
-  it("renders select as secondary filter, with valid pros in the more section", () => {
+  it("renders date-filter as secondary filter, with valid pros in the more section", () => {
     const newProps = {
       isSecondary: true,
       moreSectionFilters: {},
       setMoreSectionFilters: () => {},
       filter
     };
-    const { component } = setupMockFormComponent(SelectFilter, newProps);
-    const clone = { ...component.find(SelectFilter).props() };
+    const { component } = setupMockFormComponent(DateFilter, newProps);
+    const clone = { ...component.find(DateFilter).props() };
 
     expect(component.exists("Panel")).to.be.true;
 

@@ -1,6 +1,6 @@
-import { setupMockFormComponent, expect } from "../../../../test";
+import { setupMockFormComponent, expect } from "../../../../../test";
 
-import ToggleFilter from "./toggle-filter";
+import ToggleFilter from "./component";
 
 describe("<ToggleFilter>", () => {
   const filter = {

@@ -1,6 +1,6 @@
-import { setupMockFormComponent, expect } from "../../../../test";
+import { setupMockFormComponent, expect } from "../../../../../test";
 
-import CheckboxFilter from "./checkbox-filter";
+import CheckboxFilter from "./component";
 
 describe("<CheckboxFilter>", () => {
   const filter = {

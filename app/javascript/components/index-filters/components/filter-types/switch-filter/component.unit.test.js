@@ -1,6 +1,6 @@
-import { setupMockFormComponent, expect } from "../../../../test";
+import { setupMockFormComponent, expect } from "../../../../../test";
 
-import SwitchFilter from "./switch-filter";
+import SwitchFilter from "./component";
 
 describe("<SwitchFilter>", () => {
   const filter = {

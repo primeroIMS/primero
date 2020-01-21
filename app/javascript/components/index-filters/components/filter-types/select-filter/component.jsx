@@ -6,21 +6,22 @@ import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/styles";
 
-import Panel from "../panel";
-import { getOption, getLocations } from "../../../record-form";
-import { useI18n } from "../../../i18n";
-
-import styles from "./styles.css";
+import Panel from "../../panel";
+import { getOption, getLocations } from "../../../../record-form";
+import { useI18n } from "../../../../i18n";
+import styles from "../styles.css";
 import {
   registerInput,
   whichOptions,
   handleMoreFiltersChange,
   resetSecondaryFilter,
   setMoreFilterOnPrimarySection
-} from "./utils";
-import handleFilterChange from "./value-handlers";
+} from "../utils";
+import handleFilterChange from "../value-handlers";
 
-const SelectFilter = ({
+import { NAME } from "./constants";
+
+const Component = ({
   filter,
   moreSectionFilters,
   setMoreSectionFilters,
@@ -153,17 +154,17 @@ const SelectFilter = ({
   );
 };
 
-SelectFilter.defaultProps = {
+Component.defaultProps = {
   moreSectionFilters: {}
 };
 
-SelectFilter.displayName = "SelectFilter";
+Component.displayName = NAME;
 
-SelectFilter.propTypes = {
+Component.propTypes = {
   filter: PropTypes.object.isRequired,
   isSecondary: PropTypes.bool,
   moreSectionFilters: PropTypes.object,
   setMoreSectionFilters: PropTypes.func
 };
 
-export default SelectFilter;
+export default Component;

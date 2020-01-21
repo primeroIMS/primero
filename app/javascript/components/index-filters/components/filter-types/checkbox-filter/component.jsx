@@ -1,41 +1,47 @@
 import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
+import {
+  FormGroup,
+  FormControlLabel,
+  FormControl,
+  Checkbox
+} from "@material-ui/core";
 import { useSelector } from "react-redux";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import { makeStyles } from "@material-ui/styles";
 
-import Panel from "../panel";
-import { getOption } from "../../../record-form";
-import { useI18n } from "../../../i18n";
-
-import styles from "./styles.css";
+import Panel from "../../panel";
+import { getOption } from "../../../../record-form";
+import { useI18n } from "../../../../i18n";
 import {
   registerInput,
   whichOptions,
+  optionText,
   handleMoreFiltersChange,
   resetSecondaryFilter,
   setMoreFilterOnPrimarySection
-} from "./utils";
-import handleFilterChange, { valueParser } from "./value-handlers";
+} from "../utils";
+import handleFilterChange, { getFilterProps } from "../value-handlers";
 
-const ToggleFilter = ({
+import { NAME } from "./constants";
+
+const Component = ({
   filter,
   moreSectionFilters,
   setMoreSectionFilters,
   isSecondary
 }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
-  const { register, unregister, setValue, getValues } = useFormContext();
-  const [inputValue, setInputValue] = useState([]);
+  const { register, unregister, setValue, user, getValues } = useFormContext();
   const valueRef = useRef();
-  const {
-    options,
-    field_name: fieldName,
-    option_strings_source: optionStringsSource
-  } = filter;
+  const { options, fieldName, optionStringsSource, isObject } = getFilterProps({
+    filter,
+    user,
+    i18n
+  });
+
+  const defaultValue = isObject ? {} : [];
+
+  const [inputValue, setInputValue] = useState(defaultValue);
 
   const setSecondaryValues = (name, values) => {
     setValue(name, values);
@@ -47,7 +53,7 @@ const ToggleFilter = ({
       register,
       name: fieldName,
       ref: valueRef,
-      defaultValue: [],
+      defaultValue,
       setInputValue
     });
 
@@ -73,11 +79,10 @@ const ToggleFilter = ({
     i18n
   });
 
-  const handleChange = (event, value) => {
+  const handleChange = event => {
     handleFilterChange({
-      type: "basic",
+      type: isObject ? "objectCheckboxes" : "checkboxes",
       event,
-      value,
       setInputValue,
       inputValue,
       setValue,
@@ -95,7 +100,7 @@ const ToggleFilter = ({
   };
 
   const handleReset = () => {
-    setValue(fieldName, []);
+    setValue(fieldName, defaultValue);
     resetSecondaryFilter(
       isSecondary,
       fieldName,
@@ -107,49 +112,50 @@ const ToggleFilter = ({
 
   const renderOptions = () =>
     filterOptions.map(option => {
-      const { display_name: displayName, display_text: displayText } = option;
-      const optionValue = valueParser(fieldName, option.id);
-
       return (
-        <ToggleButton
+        <FormControlLabel
           key={`${fieldName}-${option.id}`}
-          value={optionValue}
-          classes={{
-            root: css.toggleButton,
-            selected: css.toggleButtonSelected
-          }}
-        >
-          {displayText || displayName}
-        </ToggleButton>
+          control={
+            <Checkbox
+              onChange={handleChange}
+              value={option.id}
+              checked={
+                isObject
+                  ? option.key in inputValue
+                  : inputValue.includes(option.id)
+              }
+            />
+          }
+          label={optionText(option, i18n)}
+        />
       );
     });
 
   return (
-    <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
-      <ToggleButtonGroup
-        color="primary"
-        value={inputValue}
-        onChange={handleChange}
-        size="small"
-        classes={{ root: css.toggleContainer }}
-      >
-        {renderOptions()}
-      </ToggleButtonGroup>
+    <Panel
+      filter={filter}
+      getValues={getValues}
+      handleReset={handleReset}
+      selectedDefaultValueField={isObject ? "or" : null}
+    >
+      <FormControl component="fieldset">
+        <FormGroup>{renderOptions()}</FormGroup>
+      </FormControl>
     </Panel>
   );
 };
 
-ToggleFilter.defaultProps = {
+Component.defaultProps = {
   moreSectionFilters: {}
 };
 
-ToggleFilter.displayName = "ToggleFilter";
+Component.displayName = NAME;
 
-ToggleFilter.propTypes = {
+Component.propTypes = {
   filter: PropTypes.object.isRequired,
   isSecondary: PropTypes.bool,
   moreSectionFilters: PropTypes.object,
   setMoreSectionFilters: PropTypes.func
 };
 
-export default ToggleFilter;
+export default Component;

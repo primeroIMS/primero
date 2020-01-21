@@ -1,18 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
-import {
-  FormGroup,
-  FormControlLabel,
-  FormControl,
-  Checkbox
-} from "@material-ui/core";
+import { Chip, Checkbox } from "@material-ui/core";
 import { useSelector } from "react-redux";
+import { makeStyles } from "@material-ui/styles";
 
-import Panel from "../panel";
-import { getOption } from "../../../record-form";
-import { useI18n } from "../../../i18n";
-
+import Panel from "../../panel";
+import { getOption } from "../../../../record-form";
+import { useI18n } from "../../../../i18n";
+import styles from "../styles.css";
 import {
   registerInput,
   whichOptions,
@@ -20,27 +16,27 @@ import {
   handleMoreFiltersChange,
   resetSecondaryFilter,
   setMoreFilterOnPrimarySection
-} from "./utils";
-import handleFilterChange, { getFilterProps } from "./value-handlers";
+} from "../utils";
+import handleFilterChange from "../value-handlers";
 
-const CheckboxFilter = ({
+import { NAME } from "./constants";
+
+const Component = ({
   filter,
   moreSectionFilters,
   setMoreSectionFilters,
   isSecondary
 }) => {
   const i18n = useI18n();
-  const { register, unregister, setValue, user, getValues } = useFormContext();
+  const css = makeStyles(styles)();
+  const { register, unregister, setValue, getValues } = useFormContext();
+  const [inputValue, setInputValue] = useState([]);
   const valueRef = useRef();
-  const { options, fieldName, optionStringsSource, isObject } = getFilterProps({
-    filter,
-    user,
-    i18n
-  });
-
-  const defaultValue = isObject ? {} : [];
-
-  const [inputValue, setInputValue] = useState(defaultValue);
+  const {
+    options,
+    field_name: fieldName,
+    option_strings_source: optionStringsSource
+  } = filter;
 
   const setSecondaryValues = (name, values) => {
     setValue(name, values);
@@ -52,7 +48,7 @@ const CheckboxFilter = ({
       register,
       name: fieldName,
       ref: valueRef,
-      defaultValue,
+      defaultValue: [],
       setInputValue
     });
 
@@ -71,6 +67,19 @@ const CheckboxFilter = ({
     getOption(state, optionStringsSource, i18n.locale)
   );
 
+  const whichColor = (value, outlined) => {
+    switch (value) {
+      case "high":
+        return outlined ? css.redChipOutlined : css.redChip;
+      case "medium":
+        return outlined ? css.orangeChipOutlined : css.orangeChip;
+      case "low":
+        return outlined ? css.yellowChipOutlined : css.yellowChip;
+      default:
+        return "";
+    }
+  };
+
   const filterOptions = whichOptions({
     optionStringsSource,
     lookups,
@@ -80,7 +89,7 @@ const CheckboxFilter = ({
 
   const handleChange = event => {
     handleFilterChange({
-      type: isObject ? "objectCheckboxes" : "checkboxes",
+      type: "checkboxes",
       event,
       setInputValue,
       inputValue,
@@ -97,9 +106,8 @@ const CheckboxFilter = ({
       );
     }
   };
-
   const handleReset = () => {
-    setValue(fieldName, defaultValue);
+    setValue(fieldName, []);
     resetSecondaryFilter(
       isSecondary,
       fieldName,
@@ -111,50 +119,53 @@ const CheckboxFilter = ({
 
   const renderOptions = () =>
     filterOptions.map(option => {
+      const optionTxt = optionText(option, i18n);
+
       return (
-        <FormControlLabel
+        <Checkbox
           key={`${fieldName}-${option.id}`}
-          control={
-            <Checkbox
-              onChange={handleChange}
-              value={option.id}
-              checked={
-                isObject
-                  ? option.key in inputValue
-                  : inputValue.includes(option.id)
-              }
+          onChange={handleChange}
+          checked={inputValue.includes(option.id)}
+          value={option.id}
+          disableRipple
+          classes={{ colorSecondary: css.chips }}
+          icon={
+            <Chip
+              size="small"
+              label={optionTxt}
+              variant="outlined"
+              classes={{ root: whichColor(option.id, true) }}
             />
           }
-          label={optionText(option, i18n)}
+          checkedIcon={
+            <Chip
+              size="small"
+              label={optionTxt}
+              classes={{ root: whichColor(option.id) }}
+            />
+          }
         />
       );
     });
 
   return (
-    <Panel
-      filter={filter}
-      getValues={getValues}
-      handleReset={handleReset}
-      selectedDefaultValueField={isObject ? "or" : null}
-    >
-      <FormControl component="fieldset">
-        <FormGroup>{renderOptions()}</FormGroup>
-      </FormControl>
+    <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
+      <div className={css.chipsContainer}>{renderOptions()}</div>
     </Panel>
   );
 };
 
-CheckboxFilter.defaultProps = {
+Component.defaultProps = {
   moreSectionFilters: {}
 };
 
-CheckboxFilter.displayName = "CheckboxFilter";
+Component.displayName = NAME;
 
-CheckboxFilter.propTypes = {
+Component.propTypes = {
   filter: PropTypes.object.isRequired,
   isSecondary: PropTypes.bool,
   moreSectionFilters: PropTypes.object,
   setMoreSectionFilters: PropTypes.func
 };
 
-export default CheckboxFilter;
+export default Component;

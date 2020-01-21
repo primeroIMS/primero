@@ -1,26 +1,27 @@
 import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
-import { Chip, Checkbox } from "@material-ui/core";
 import { useSelector } from "react-redux";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import { makeStyles } from "@material-ui/styles";
 
-import Panel from "../panel";
-import { getOption } from "../../../record-form";
-import { useI18n } from "../../../i18n";
-
-import styles from "./styles.css";
+import Panel from "../../panel";
+import { getOption } from "../../../../record-form";
+import { useI18n } from "../../../../i18n";
+import styles from "../styles.css";
 import {
   registerInput,
   whichOptions,
-  optionText,
   handleMoreFiltersChange,
   resetSecondaryFilter,
   setMoreFilterOnPrimarySection
-} from "./utils";
-import handleFilterChange from "./value-handlers";
+} from "../utils";
+import handleFilterChange, { valueParser } from "../value-handlers";
 
-const ChipsFilter = ({
+import { NAME } from "./constants";
+
+const Component = ({
   filter,
   moreSectionFilters,
   setMoreSectionFilters,
@@ -66,19 +67,6 @@ const ChipsFilter = ({
     getOption(state, optionStringsSource, i18n.locale)
   );
 
-  const whichColor = (value, outlined) => {
-    switch (value) {
-      case "high":
-        return outlined ? css.redChipOutlined : css.redChip;
-      case "medium":
-        return outlined ? css.orangeChipOutlined : css.orangeChip;
-      case "low":
-        return outlined ? css.yellowChipOutlined : css.yellowChip;
-      default:
-        return "";
-    }
-  };
-
   const filterOptions = whichOptions({
     optionStringsSource,
     lookups,
@@ -86,10 +74,11 @@ const ChipsFilter = ({
     i18n
   });
 
-  const handleChange = event => {
+  const handleChange = (event, value) => {
     handleFilterChange({
-      type: "checkboxes",
+      type: "basic",
       event,
+      value,
       setInputValue,
       inputValue,
       setValue,
@@ -105,6 +94,7 @@ const ChipsFilter = ({
       );
     }
   };
+
   const handleReset = () => {
     setValue(fieldName, []);
     resetSecondaryFilter(
@@ -118,53 +108,49 @@ const ChipsFilter = ({
 
   const renderOptions = () =>
     filterOptions.map(option => {
-      const optionTxt = optionText(option, i18n);
+      const { display_name: displayName, display_text: displayText } = option;
+      const optionValue = valueParser(fieldName, option.id);
 
       return (
-        <Checkbox
+        <ToggleButton
           key={`${fieldName}-${option.id}`}
-          onChange={handleChange}
-          checked={inputValue.includes(option.id)}
-          value={option.id}
-          disableRipple
-          classes={{ colorSecondary: css.chips }}
-          icon={
-            <Chip
-              size="small"
-              label={optionTxt}
-              variant="outlined"
-              classes={{ root: whichColor(option.id, true) }}
-            />
-          }
-          checkedIcon={
-            <Chip
-              size="small"
-              label={optionTxt}
-              classes={{ root: whichColor(option.id) }}
-            />
-          }
-        />
+          value={optionValue}
+          classes={{
+            root: css.toggleButton,
+            selected: css.toggleButtonSelected
+          }}
+        >
+          {displayText || displayName}
+        </ToggleButton>
       );
     });
 
   return (
     <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
-      <div className={css.chipsContainer}>{renderOptions()}</div>
+      <ToggleButtonGroup
+        color="primary"
+        value={inputValue}
+        onChange={handleChange}
+        size="small"
+        classes={{ root: css.toggleContainer }}
+      >
+        {renderOptions()}
+      </ToggleButtonGroup>
     </Panel>
   );
 };
 
-ChipsFilter.defaultProps = {
+Component.defaultProps = {
   moreSectionFilters: {}
 };
 
-ChipsFilter.displayName = "ChipsFilter";
+Component.displayName = NAME;
 
-ChipsFilter.propTypes = {
+Component.propTypes = {
   filter: PropTypes.object.isRequired,
   isSecondary: PropTypes.bool,
   moreSectionFilters: PropTypes.object,
   setMoreSectionFilters: PropTypes.func
 };
 
-export default ChipsFilter;
+export default Component;

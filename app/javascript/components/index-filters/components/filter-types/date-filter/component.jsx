@@ -5,18 +5,19 @@ import { Select, MenuItem } from "@material-ui/core";
 import { DatePicker } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/styles";
 
-import { useI18n } from "../../../i18n";
-import Panel from "../panel";
-
-import styles from "./styles.css";
+import { useI18n } from "../../../../i18n";
+import Panel from "../../panel";
+import styles from "../styles.css";
 import {
   registerInput,
   handleMoreFiltersChange,
   resetSecondaryFilter,
   setMoreFilterOnPrimarySection
-} from "./utils";
+} from "../utils";
 
-const DateFilter = ({
+import { NAME } from "./constants";
+
+const Component = ({
   filter,
   moreSectionFilters,
   setMoreSectionFilters,
@@ -159,17 +160,17 @@ const DateFilter = ({
   );
 };
 
-DateFilter.defaultProps = {
+Component.defaultProps = {
   moreSectionFilters: {}
 };
 
-DateFilter.propTypes = {
+Component.propTypes = {
   filter: PropTypes.object.isRequired,
   isSecondary: PropTypes.bool,
   moreSectionFilters: PropTypes.object,
   setMoreSectionFilters: PropTypes.func
 };
 
-DateFilter.displayName = "DateFilter";
+Component.displayName = NAME;
 
-export default DateFilter;
+export default Component;

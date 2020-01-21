@@ -8,17 +8,18 @@ import {
 } from "@material-ui/core";
 import { useFormContext } from "react-hook-form";
 
-import Panel from "../panel";
-import { useI18n } from "../../../i18n";
-
+import Panel from "../../panel";
+import { useI18n } from "../../../../i18n";
 import {
   registerInput,
   handleMoreFiltersChange,
   resetSecondaryFilter
-} from "./utils";
-import handleFilterChange from "./value-handlers";
+} from "../utils";
+import handleFilterChange from "../value-handlers";
 
-const SwitchFilter = ({
+import { NAME } from "./constants";
+
+const Component = ({
   filter,
   moreSectionFilters,
   setMoreSectionFilters,
@@ -109,17 +110,17 @@ const SwitchFilter = ({
   );
 };
 
-SwitchFilter.defaultProps = {
+Component.defaultProps = {
   moreSectionFilters: {}
 };
 
-SwitchFilter.displayName = "SwitchFilter";
+Component.displayName = NAME;
 
-SwitchFilter.propTypes = {
+Component.propTypes = {
   filter: PropTypes.object.isRequired,
   isSecondary: PropTypes.bool,
   moreSectionFilters: PropTypes.object,
   setMoreSectionFilters: PropTypes.func
 };
 
-export default SwitchFilter;
+export default Component;

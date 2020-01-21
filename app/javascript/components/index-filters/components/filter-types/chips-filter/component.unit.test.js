@@ -1,6 +1,6 @@
-import { setupMockFormComponent, expect } from "../../../../test";
+import { setupMockFormComponent, expect } from "../../../../../test";
 
-import ChipsFilter from "./chips-filter";
+import ChipsFilter from "./component";
 
 describe("<ChipsFilter>", () => {
   const filter = {
