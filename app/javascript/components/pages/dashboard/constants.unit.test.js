@@ -6,7 +6,7 @@ describe("Verifying config constant", () => {
   it("should have known constant", () => {
     const clone = { ...constants };
 
-    ["DASHBOARD_NAMES", "INDICATOR_NAMES", "WORKFLOW_ORDER_LABELS"].forEach(
+    ["DASHBOARD_NAMES", "INDICATOR_NAMES", "WORKFLOW_ORDER_NAMES"].forEach(
       property => {
         expect(clone).to.have.property(property);
         delete clone[property];

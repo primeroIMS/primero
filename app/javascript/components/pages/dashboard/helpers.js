@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 
 import { dataToJS } from "../../../libs";
 
-import { INDICATOR_NAMES, WORKFLOW_ORDER_LABELS } from "./constants";
+import { INDICATOR_NAMES, WORKFLOW_ORDER_NAMES } from "./constants";
 
 const translateLabels = (keys, data) => {
   if (!data?.length) {
@@ -22,21 +22,11 @@ const translateSingleLabel = (key, data) => {
   return data.filter(d => d.id === key)[0].display_text;
 };
 
-const compareTeamCasesLabels = (a, b) => {
-  if (!a.name) {
-    return -1;
-  }
-  let comparission = 0;
-  const indexa = WORKFLOW_ORDER_LABELS.indexOf(a.name);
-  const indexb = WORKFLOW_ORDER_LABELS.indexOf(b.name);
+const byTeamCaseNames = (a, b) => {
+  const indexa = WORKFLOW_ORDER_NAMES.indexOf(a?.name);
+  const indexb = WORKFLOW_ORDER_NAMES.indexOf(b?.name);
 
-  if (indexa > indexb) {
-    comparission = 1;
-  } else if (indexa < indexb) {
-    comparission = -1;
-  }
-
-  return comparission;
+  return indexa - indexb;
 };
 
 const getFormattedList = (values, listKey) => {
@@ -80,7 +70,7 @@ export const toListTable = (data, localeLabels) => {
           { name: value, label: translateSingleLabel(value, localeLabels) }
         ];
       }, [])
-      .sort(compareTeamCasesLabels);
+      .sort(byTeamCaseNames);
 
     const { "": removed, ...rows } = indicatorData;
 
