@@ -18,7 +18,8 @@ import {
   whichOptions,
   optionText,
   handleMoreFiltersChange,
-  resetSecondaryFilter
+  resetSecondaryFilter,
+  setMoreFilterOnPrimarySection
 } from "./utils";
 import handleFilterChange, { getFilterProps } from "./value-handlers";
 
@@ -41,6 +42,11 @@ const CheckboxFilter = ({
 
   const [inputValue, setInputValue] = useState(defaultValue);
 
+  const setSecondaryValues = (name, values) => {
+    setValue(name, values);
+    setInputValue(values);
+  };
+
   useEffect(() => {
     registerInput({
       register,
@@ -50,14 +56,11 @@ const CheckboxFilter = ({
       setInputValue
     });
 
-    // TODO: MOVE TO HELPER
-    if (
-      Object.keys(moreSectionFilters)?.length &&
-      Object.keys(moreSectionFilters).includes(fieldName)
-    ) {
-      setValue(fieldName, moreSectionFilters[fieldName]);
-      setInputValue(moreSectionFilters[fieldName]);
-    }
+    setMoreFilterOnPrimarySection(
+      moreSectionFilters,
+      fieldName,
+      setSecondaryValues
+    );
 
     return () => {
       unregister(fieldName);

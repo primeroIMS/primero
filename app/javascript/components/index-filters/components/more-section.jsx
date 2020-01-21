@@ -42,7 +42,7 @@ const MoreSection = ({
     return secondaryFilters.map(filter => {
       const Filter = filterType(filter.type);
 
-      if (!Filter) return null;
+      if (!Filter) return {};
 
       return (
         <Filter

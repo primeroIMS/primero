@@ -6,9 +6,10 @@ describe("<IndexFilters> - Components - Constants", () => {
   it("should have known constant", () => {
     const clone = { ...constants };
 
-    expect(clone).to.have.property("NAME");
-    expect(clone.NAME).to.be.an("string");
-    delete clone.NAME;
+    ["NAME"].forEach(property => {
+      expect(clone).to.have.property(property);
+      delete clone[property];
+    });
 
     expect(clone).to.be.empty;
   });

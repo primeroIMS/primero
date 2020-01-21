@@ -1,4 +1,4 @@
-import isEmpty from "lodash";
+import isEmpty from "lodash/isEmpty";
 
 import { AGE_MAX } from "../../../../config";
 
@@ -97,5 +97,23 @@ export const resetSecondaryFilter = (
     const { [filterName]: deleted, ...rest } = moreSectionFilters;
 
     setMoreSectionFilters(rest);
+  }
+};
+
+export const setMoreFilterOnPrimarySection = (
+  filters,
+  name,
+  setValues,
+  values = null
+) => {
+  const filtersKeys = Object.keys(filters);
+
+  if (filtersKeys?.length && filtersKeys.includes(name)) {
+    let value = filters[name];
+
+    if (values) {
+      value = values;
+    }
+    setValues(name, value);
   }
 };

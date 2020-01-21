@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { expect, spy } from "../../../../test";
 import { AGE_MAX } from "../../../../config";
 
@@ -8,7 +6,8 @@ import {
   optionText,
   whichOptions,
   handleMoreFiltersChange,
-  resetSecondaryFilter
+  resetSecondaryFilter,
+  setMoreFilterOnPrimarySection
 } from "./utils";
 
 const i18n = { locale: "en" };
@@ -111,7 +110,7 @@ describe("<IndexFitlers>/components/filter-types/utils", () => {
         setMoreSectionFilters
       );
 
-      expect(setMoreSectionFilters.getCalls()?.length).to.be.equal(1);
+      expect(setMoreSectionFilters.getCalls().length).to.be.equal(1);
       expect(setMoreSectionFilters).to.have.been.calledWith({});
     });
 
@@ -127,6 +126,28 @@ describe("<IndexFitlers>/components/filter-types/utils", () => {
       );
 
       expect(setMoreSectionFilters).to.have.not.been.called;
+    });
+  });
+
+  describe("setMoreFilterOnPrimarySection()", () => {
+    const filters = { flagged: true };
+    const fieldName = "flagged";
+
+    it("should call setValues if fieldName is included on filters", () => {
+      const setValues = spy();
+
+      setMoreFilterOnPrimarySection(filters, fieldName, setValues);
+
+      expect(setValues.getCalls().length).to.be.equal(1);
+      expect(setValues).to.have.been.calledWith(fieldName, true);
+    });
+
+    it("should not call setValues if fieldName isn't included on filters", () => {
+      const setValues = spy();
+
+      setMoreFilterOnPrimarySection({}, fieldName, setValues);
+
+      expect(setValues).to.have.not.been.called;
     });
   });
 });

@@ -15,7 +15,8 @@ import {
   registerInput,
   whichOptions,
   handleMoreFiltersChange,
-  resetSecondaryFilter
+  resetSecondaryFilter,
+  setMoreFilterOnPrimarySection
 } from "./utils";
 import handleFilterChange from "./value-handlers";
 
@@ -50,6 +51,11 @@ const SelectFilter = ({
     ? locations?.toJS()
     : lookup;
 
+  const setSecondaryValues = (name, values) => {
+    setValue(name, values);
+    setInputValue(values);
+  };
+
   useEffect(() => {
     registerInput({
       register,
@@ -60,17 +66,16 @@ const SelectFilter = ({
       isMultiSelect: true
     });
 
-    // TODO: MOVE TO HELPER
-    if (
-      Object.keys(moreSectionFilters)?.length &&
-      Object.keys(moreSectionFilters).includes(fieldName)
-    ) {
-      const storedValues = moreSectionFilters[fieldName];
-      const value = lookups.filter(l => storedValues.includes(l?.id));
+    const value = lookups.filter(l =>
+      moreSectionFilters?.[fieldName]?.includes(l?.id)
+    );
 
-      setValue(fieldName, value);
-      setInputValue(value);
-    }
+    setMoreFilterOnPrimarySection(
+      moreSectionFilters,
+      fieldName,
+      setSecondaryValues,
+      value
+    );
 
     return () => {
       unregister(fieldName);

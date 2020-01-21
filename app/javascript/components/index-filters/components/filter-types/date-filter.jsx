@@ -12,7 +12,8 @@ import styles from "./styles.css";
 import {
   registerInput,
   handleMoreFiltersChange,
-  resetSecondaryFilter
+  resetSecondaryFilter,
+  setMoreFilterOnPrimarySection
 } from "./utils";
 
 const DateFilter = ({
@@ -74,16 +75,16 @@ const DateFilter = ({
     }
   };
 
-  useEffect(() => {
-    // TODO: MOVE TO HELPER
-    if (
-      Object.keys(moreSectionFilters)?.length &&
-      Object.keys(moreSectionFilters).includes(fieldName)
-    ) {
-      const storedValues = moreSectionFilters[fieldName];
+  const setSecondaryValues = (_name, values) => {
+    setSelectedField(values);
+  };
 
-      setSelectedField(storedValues);
-    }
+  useEffect(() => {
+    setMoreFilterOnPrimarySection(
+      moreSectionFilters,
+      fieldName,
+      setSecondaryValues
+    );
 
     if (selectedField) {
       registerInput({

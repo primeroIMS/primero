@@ -15,7 +15,8 @@ import {
   registerInput,
   whichOptions,
   handleMoreFiltersChange,
-  resetSecondaryFilter
+  resetSecondaryFilter,
+  setMoreFilterOnPrimarySection
 } from "./utils";
 import handleFilterChange, { valueParser } from "./value-handlers";
 
@@ -36,6 +37,11 @@ const ToggleFilter = ({
     option_strings_source: optionStringsSource
   } = filter;
 
+  const setSecondaryValues = (name, values) => {
+    setValue(name, values);
+    setInputValue(values);
+  };
+
   useEffect(() => {
     registerInput({
       register,
@@ -45,14 +51,11 @@ const ToggleFilter = ({
       setInputValue
     });
 
-    // TODO: MOVE TO HELPER
-    if (
-      Object.keys(moreSectionFilters)?.length &&
-      Object.keys(moreSectionFilters).includes(fieldName)
-    ) {
-      setValue(fieldName, moreSectionFilters[fieldName]);
-      setInputValue(moreSectionFilters[fieldName]);
-    }
+    setMoreFilterOnPrimarySection(
+      moreSectionFilters,
+      fieldName,
+      setSecondaryValues
+    );
 
     return () => {
       unregister(fieldName);
