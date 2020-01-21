@@ -66,6 +66,23 @@ class Agency < ApplicationRecord
       value = (agency.present? ? agency.name(locale) : '')
     end
     # memoize_in_prod :display_text
+
+    def new_with_properties(agency_params)
+      agency = Agency.new(agency_params.except(:name, :description))
+      agency.name_i18n = agency_params[:name]
+      agency.description_i18n = agency_params[:description]
+      agency
+    end
+  end
+
+  def update_properties(agency_params)
+    assign_attributes(agency_params.except(:name, :description))
+    self.name_i18n = agency_params[:name] if agency_params[:name].present?
+    self.description_i18n = agency_params[:description] if agency_params[:description].present?
+  end
+
+  def user_ids
+    users.pluck(:id)
   end
 
   private
