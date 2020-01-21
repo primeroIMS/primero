@@ -55,6 +55,8 @@ If the __approval_status__ is either "rejected" or "approved", an optional __not
 }
 ```
 
+---
+
 ## Error Response
 
 **Condition** : User isn't authorized to perform approvals.
@@ -70,6 +72,66 @@ If the __approval_status__ is either "rejected" or "approved", an optional __not
       "code": 403,
       "resource": "/api/v2/cases/b3222e84-a5d7-4692-a643-1ab3d41f17d6/approvals/:approval_id",
       "message": "Forbidden"
+    }
+  ]
+}
+```
+
+---
+
+**Condition** : User performs an approval on a non-existen record.
+
+**Code** : `404 Not Found`
+
+**Content** :
+
+```json
+{
+  "errors": [
+    {
+      "code": 404,
+      "resource": "/api/v2/cases/b3222e84-a5d7-4692-a643-1ab3d41f17d6/approvals/:approval_id",
+      "message": "Not Found"
+    }
+  ]
+}
+```
+
+---
+
+**Condition** : User performs a non-existent approval.
+
+**Code** : `404 Not Found`
+
+**Content** :
+
+```json
+{
+  "errors": [
+    {
+      "code": 404,
+      "resource": "/api/v2/cases/b3222e84-a5d7-4692-a643-1ab3d41f17d6/approvals/unknown-approval-id",
+      "message": "Not Found"
+    }
+  ]
+}
+```
+
+---
+
+**Condition** : The approval parameters would create an invalid approval.
+
+**Code** : `422 Unprocessable Entity`
+
+**Content** :
+
+```json
+{
+  "errors": [
+    {
+      "code": 422,
+      "resource": "/api/v2/cases/b3222e84-a5d7-4692-a643-1ab3d41f17d6/approvals/bia",
+      "message": "approvals.error_invalid_status"
     }
   ]
 }

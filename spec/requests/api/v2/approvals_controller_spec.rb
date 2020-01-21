@@ -234,6 +234,54 @@ describe Api::V2::ApprovalsController, type: :request do
         let(:approval_status) { Approval::APPROVAL_STATUS_REJECTED }
       end
     end
+
+    it 'should return 404 not found if the record_id does not exist' do
+      login_for_test(permissions:
+        [
+          Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_BIA])
+        ])
+
+      params = { data: { approval_status: Approval::APPROVAL_STATUS_REQUESTED } }
+
+      patch "/api/v2/cases/77ad6b98-3c5e-11ea-b77f-2e728ce88125/approvals/bia", params: params
+
+      expect(response).to have_http_status(404)
+      expect(json['errors'][0]['status']).to eq(404)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/77ad6b98-3c5e-11ea-b77f-2e728ce88125/approvals/bia")
+      expect(json['errors'][0]['message']).to eq('Not Found')
+    end
+
+    it 'should return 404 not found if the approval_id does not exist' do
+      login_for_test(permissions:
+        [
+          Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_BIA])
+        ])
+
+      params = { data: { approval_status: Approval::APPROVAL_STATUS_REQUESTED } }
+
+      patch "/api/v2/cases/#{@case.id}/approvals/unknown-approval-id", params: params
+
+      expect(response).to have_http_status(404)
+      expect(json['errors'][0]['status']).to eq(404)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/approvals/unknown-approval-id")
+      expect(json['errors'][0]['message']).to eq('Not Found')
+    end
+
+    it 'should return 422 not found if the approval_status does not exist' do
+      login_for_test(permissions:
+        [
+          Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_BIA])
+        ])
+
+      params = { data: { approval_status: 'open' } }
+
+      patch "/api/v2/cases/#{@case.id}/approvals/bia", params: params
+
+      expect(response).to have_http_status(422)
+      expect(json['errors'][0]['status']).to eq(422)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/approvals/bia")
+      expect(json['errors'][0]['message']).to eq('approvals.error_invalid_status')
+    end
   end
 
   after :each do
