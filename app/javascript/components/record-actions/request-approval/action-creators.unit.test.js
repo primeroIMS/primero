@@ -2,7 +2,7 @@ import { expect } from "chai";
 
 import * as actionCreators from "./action-creators";
 
-describe.only("<RequestApproval /> - Action Creators", () => {
+describe("<RequestApproval /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
