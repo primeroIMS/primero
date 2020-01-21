@@ -26,7 +26,7 @@ export const approvalRecord = (
             key: new Date().getTime() + Math.random()
           }
         },
-        redirectWithIdFromResponse: saveMethod !== "update",
+        redirectWithIdFromResponse: false,
         redirect: redirect === false ? false : redirect || `/${recordType}`
       },
       db: {

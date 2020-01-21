@@ -30,9 +30,11 @@ const Component = ({ close, openRequestDialog, subMenuItems, record, recordType 
   const i18n = useI18n();
   const dispatch = useDispatch();
   console.log('record:::', record.toJS());
-  const enableState =
-    record && !record.get("record_state") ? "enable" : "disable";
-  const setValue = record ? !record.get("record_state") : true;
+  const classes = useStyles();
+  const [requestType, setRequestType] = React.useState('bia');
+  const handleChange = event => {
+    setRequestType(event.target.value);
+  };
   const handleOk = () => {
     // call api to request approval here
 
@@ -40,11 +42,6 @@ const Component = ({ close, openRequestDialog, subMenuItems, record, recordType 
       approvalRecord(
         recordType,
         record.get("id"),
-        approvalId,
-
-
-        recordType,
-        recordId,
         requestType,
         { data: { approval_status: "requested" } },
         i18n.t(`cases.request_approval_success_${requestType}`),
@@ -55,11 +52,7 @@ const Component = ({ close, openRequestDialog, subMenuItems, record, recordType 
     close();
   };
 
-  const classes = useStyles();
-  const [requestType, setRequestType] = React.useState('bia');
-  const handleChange = event => {
-    setRequestType(event.target.value);
-  };
+
 
   const dialogContent = (
     <form className={classes.root} noValidate autoComplete="off">
