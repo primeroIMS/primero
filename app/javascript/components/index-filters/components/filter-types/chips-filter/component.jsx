@@ -5,15 +5,28 @@ import { Chip, Checkbox } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 
-import Panel from "../panel";
-import { getOption } from "../../../record-form";
-import { useI18n } from "../../../i18n";
+import Panel from "../../panel";
+import { getOption } from "../../../../record-form";
+import { useI18n } from "../../../../i18n";
+import styles from "../styles.css";
+import {
+  registerInput,
+  whichOptions,
+  optionText,
+  handleMoreFiltersChange,
+  resetSecondaryFilter,
+  setMoreFilterOnPrimarySection
+} from "../utils";
+import handleFilterChange from "../value-handlers";
 
-import styles from "./styles.css";
-import { registerInput, whichOptions, optionText } from "./utils";
-import handleFilterChange from "./value-handlers";
+import { NAME } from "./constants";
 
-const ChipsFilter = ({ filter }) => {
+const Component = ({
+  filter,
+  moreSectionFilters,
+  setMoreSectionFilters,
+  isSecondary
+}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { register, unregister, setValue, getValues } = useFormContext();
@@ -25,6 +38,11 @@ const ChipsFilter = ({ filter }) => {
     option_strings_source: optionStringsSource
   } = filter;
 
+  const setSecondaryValues = (name, values) => {
+    setValue(name, values);
+    setInputValue(values);
+  };
+
   useEffect(() => {
     registerInput({
       register,
@@ -33,6 +51,12 @@ const ChipsFilter = ({ filter }) => {
       defaultValue: [],
       setInputValue
     });
+
+    setMoreFilterOnPrimarySection(
+      moreSectionFilters,
+      fieldName,
+      setSecondaryValues
+    );
 
     return () => {
       unregister(fieldName);
@@ -63,7 +87,7 @@ const ChipsFilter = ({ filter }) => {
     i18n
   });
 
-  const handleChange = event =>
+  const handleChange = event => {
     handleFilterChange({
       type: "checkboxes",
       event,
@@ -73,8 +97,24 @@ const ChipsFilter = ({ filter }) => {
       fieldName
     });
 
+    if (isSecondary) {
+      handleMoreFiltersChange(
+        moreSectionFilters,
+        setMoreSectionFilters,
+        fieldName,
+        getValues()[fieldName]
+      );
+    }
+  };
   const handleReset = () => {
     setValue(fieldName, []);
+    resetSecondaryFilter(
+      isSecondary,
+      fieldName,
+      getValues()[fieldName],
+      moreSectionFilters,
+      setMoreSectionFilters
+    );
   };
 
   const renderOptions = () =>
@@ -115,10 +155,17 @@ const ChipsFilter = ({ filter }) => {
   );
 };
 
-ChipsFilter.displayName = "ChipsFilter";
-
-ChipsFilter.propTypes = {
-  filter: PropTypes.object.isRequired
+Component.defaultProps = {
+  moreSectionFilters: {}
 };
 
-export default ChipsFilter;
+Component.displayName = NAME;
+
+Component.propTypes = {
+  filter: PropTypes.object.isRequired,
+  isSecondary: PropTypes.bool,
+  moreSectionFilters: PropTypes.object,
+  setMoreSectionFilters: PropTypes.func
+};
+
+export default Component;
