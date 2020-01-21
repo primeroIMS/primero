@@ -180,7 +180,7 @@ describe("<RecordForms /> - Component", () => {
         })
       }),
       forms: Map({
-        selectedForm: "approvals",
+        selectedForm: "basic_identity",
         selectedRecord: record,
         formSections,
         fields,
