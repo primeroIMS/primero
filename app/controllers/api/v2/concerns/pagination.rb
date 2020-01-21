@@ -19,7 +19,7 @@ module Api::V2::Concerns
     end
 
     def order_by
-      @order_by ||= (params[:order_by] || 'created_at')
+      @order_by ||= (params[:order_by] || default_sort_field)
     end
 
     def order
@@ -28,6 +28,10 @@ module Api::V2::Concerns
 
     def sort_order
       { order_by => order}
+    end
+
+    def default_sort_field
+      'created_at'
     end
 
   end

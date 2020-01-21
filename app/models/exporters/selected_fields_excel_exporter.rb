@@ -16,7 +16,7 @@ module Exporters
 
     class << self
       def id
-        'selected_xls'
+        'custom'
       end
 
       def supported_models

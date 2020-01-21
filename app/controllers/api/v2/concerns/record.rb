@@ -54,7 +54,7 @@ module Api::V2::Concerns
     def destroy
       authorize! :enable_disable_record, model_class
       @record = find_record
-      @record.update_properties({record_state: false}, current_user.name)
+      @record.update_properties({ record_state: false }, current_user.name)
       @record.save!
       render 'api/v2/records/destroy'
     end

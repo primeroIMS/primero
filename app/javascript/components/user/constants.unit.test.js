@@ -1,10 +1,10 @@
 import { expect } from "chai";
 
-import * as permissionsConstans from "./constants";
+import * as permissionsConstants from "./constants";
 
 describe("Verifying user constant", () => {
   it("should have known constant", () => {
-    const constants = { ...permissionsConstans };
+    const constants = { ...permissionsConstants };
 
     expect(constants.PERMISSIONS).to.be.an("string");
     delete constants.PERMISSIONS;

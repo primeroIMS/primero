@@ -7,7 +7,7 @@ import { reducers } from "./reducers";
 
 describe("<UsersForm /> - Reducers", () => {
   it("should handle FETCH_USER_STARTED", () => {
-    const expected = fromJS({ loading: true, errors: false });
+    const expected = fromJS({ loading: true, errors: [] });
     const action = {
       type: actions.FETCH_USER_STARTED,
       payload: true
@@ -18,7 +18,7 @@ describe("<UsersForm /> - Reducers", () => {
   });
 
   it("should handle FETCH_USER_FAILURE", () => {
-    const expected = fromJS({ errors: true });
+    const expected = fromJS({ errors: [] });
     const action = {
       type: actions.FETCH_USER_FAILURE,
       payload: ["some error"]
@@ -31,7 +31,7 @@ describe("<UsersForm /> - Reducers", () => {
   it("should handle FETCH_USER_SUCCESS", () => {
     const expected = fromJS({
       selectedUser: { id: 3 },
-      errors: false
+      errors: []
     });
 
     const action = {

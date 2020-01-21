@@ -3,14 +3,11 @@ require 'sunspot'
 
 describe DuplicateBulkExport, search: true do
   before :each do
-    clean_data(Agency, Location, UserGroup, Role, User, Field,
+    clean_data(BulkExport, Agency, Location, UserGroup, Role, User, Field,
                FormSection, Child, PrimeroModule, PrimeroProgram, SystemSettings)
 
     SystemSettings.create(duplicate_export_field: 'national_id_no')
     SystemSettings.current(true)
-    @bulk_exporter = DuplicateBulkExport.new
-    @bulk_exporter.record_type = 'case'
-
     @form_section = create(
       :form_section,
       unique_id: 'test_form',
@@ -23,10 +20,16 @@ describe DuplicateBulkExport, search: true do
         build(:field, name: 'family_count_no', type: 'numeric_field', display_name: 'Family No')
       ]
     )
-
     primero_module = create(:primero_module)
     role = create(:role, form_sections: [@form_section], modules: [primero_module])
     @user = create(:user, role: role)
+
+    @bulk_exporter = DuplicateBulkExport.new(
+      format: Exporters::DuplicateIdCSVExporter.id,
+      record_type: 'case',
+      owned_by: @user.user_name
+    )
+
   end
 
   let(:export_csv) do

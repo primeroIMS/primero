@@ -135,9 +135,18 @@ Query and manipulate users
 
 ## Dashboard Endpoint
 
-Aggregate, actionable dat.a
+Aggregate, actionable data
 
 * [Query avialable dashboards](v2/docs/dashboards/get.md): `GET /api/v2/dashboards`
+
+## Export Endpoints
+
+Initiate and query for exports
+
+* [Query for exports](v2/docs/exports/get.md): `GET /api/v2/exports`
+* [Create an export](v2/docs/exports/post.md): `POST /api/v2/exports`
+* [Query for individual export](v2/docs/exports/id/get.md): `GET /api/v2/exports/:id`
+* [Archive an export](v2/docs/exports/id/delete.md): `DELETE /api/v2/exports/:id`
 
 ## Report Endpoints
 
