@@ -18,3 +18,14 @@ export const INDICATOR_NAMES = Object.freeze({
   REPORTING_LOCATION_ClOSED_LAST_WEEK: "reporting_location_closed_last_week",
   REPORTING_LOCATION_ClOSED_THIS_WEEK: "reporting_location_closed_this_week"
 });
+
+export const WORKFLOW_ORDER_LABELS = Object.freeze([
+  "new",
+  "reopened",
+  "case_plan",
+  "care_plan",
+  "action_plan",
+  "service_provision",
+  "services_implemented",
+  "closed"
+]);
