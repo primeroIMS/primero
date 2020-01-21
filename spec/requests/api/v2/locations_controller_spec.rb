@@ -30,11 +30,11 @@ describe Api::V2::LocationsController, type: :request do
   describe 'GET /api/v2/locations' do
 
     it 'lists locations without hierarchy param' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::METADATA)
+          Permission.new(resource: Permission::METADATA)
         ]
-      })
+      )
       get '/api/v2/locations'
 
       expect(response).to have_http_status(200)
