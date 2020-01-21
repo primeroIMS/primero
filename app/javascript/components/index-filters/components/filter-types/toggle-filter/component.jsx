@@ -6,15 +6,27 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import { makeStyles } from "@material-ui/styles";
 
-import Panel from "../panel";
-import { getOption } from "../../../record-form";
-import { useI18n } from "../../../i18n";
+import Panel from "../../panel";
+import { getOption } from "../../../../record-form";
+import { useI18n } from "../../../../i18n";
+import styles from "../styles.css";
+import {
+  registerInput,
+  whichOptions,
+  handleMoreFiltersChange,
+  resetSecondaryFilter,
+  setMoreFilterOnPrimarySection
+} from "../utils";
+import handleFilterChange, { valueParser } from "../value-handlers";
 
-import styles from "./styles.css";
-import { registerInput, whichOptions } from "./utils";
-import handleFilterChange, { valueParser } from "./value-handlers";
+import { NAME } from "./constants";
 
-const ToggleFilter = ({ filter }) => {
+const Component = ({
+  filter,
+  moreSectionFilters,
+  setMoreSectionFilters,
+  isSecondary
+}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { register, unregister, setValue, getValues } = useFormContext();
@@ -26,6 +38,11 @@ const ToggleFilter = ({ filter }) => {
     option_strings_source: optionStringsSource
   } = filter;
 
+  const setSecondaryValues = (name, values) => {
+    setValue(name, values);
+    setInputValue(values);
+  };
+
   useEffect(() => {
     registerInput({
       register,
@@ -34,6 +51,12 @@ const ToggleFilter = ({ filter }) => {
       defaultValue: [],
       setInputValue
     });
+
+    setMoreFilterOnPrimarySection(
+      moreSectionFilters,
+      fieldName,
+      setSecondaryValues
+    );
 
     return () => {
       unregister(fieldName);
@@ -51,7 +74,7 @@ const ToggleFilter = ({ filter }) => {
     i18n
   });
 
-  const handleChange = (event, value) =>
+  const handleChange = (event, value) => {
     handleFilterChange({
       type: "basic",
       event,
@@ -62,8 +85,25 @@ const ToggleFilter = ({ filter }) => {
       fieldName
     });
 
+    if (isSecondary) {
+      handleMoreFiltersChange(
+        moreSectionFilters,
+        setMoreSectionFilters,
+        fieldName,
+        getValues()[fieldName]
+      );
+    }
+  };
+
   const handleReset = () => {
     setValue(fieldName, []);
+    resetSecondaryFilter(
+      isSecondary,
+      fieldName,
+      getValues()[fieldName],
+      moreSectionFilters,
+      setMoreSectionFilters
+    );
   };
 
   const renderOptions = () =>
@@ -100,10 +140,17 @@ const ToggleFilter = ({ filter }) => {
   );
 };
 
-ToggleFilter.displayName = "ToggleFilter";
-
-ToggleFilter.propTypes = {
-  filter: PropTypes.object.isRequired
+Component.defaultProps = {
+  moreSectionFilters: {}
 };
 
-export default ToggleFilter;
+Component.displayName = NAME;
+
+Component.propTypes = {
+  filter: PropTypes.object.isRequired,
+  isSecondary: PropTypes.bool,
+  moreSectionFilters: PropTypes.object,
+  setMoreSectionFilters: PropTypes.func
+};
+
+export default Component;

@@ -14,14 +14,21 @@ import { SavedSearches, fetchSavedSearches } from "../saved-searches";
 import SavedSearchesForm from "../saved-searches/SavedSearchesForm";
 import { currentUser } from "../user";
 import { useI18n } from "../i18n";
+import { RECORD_PATH } from "../../config";
 
 import { filterType, compactFilters } from "./utils";
-import { HIDDEN_FIELDS } from "./constants";
+import {
+  HIDDEN_FIELDS,
+  PRIMARY_FILTERS,
+  MY_CASES_FILTER_NAME,
+  OR_FILTER_NAME
+} from "./constants";
 import { Search } from "./components/filter-types";
 import { getFiltersByRecordType } from "./selectors";
 import { applyFilters, setFilters } from "./action-creators";
 import Actions from "./components/actions";
 import styles from "./components/styles.css";
+import MoreSection from "./components/more-section";
 
 const Component = ({ recordType, defaultFilters }) => {
   const css = makeStyles(styles)();
@@ -29,8 +36,10 @@ const Component = ({ recordType, defaultFilters }) => {
   const [open, setOpen] = useState(false);
   const [rerender, setRerender] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
+  const [moreSectionFilters, setMoreSectionFilters] = useState({});
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
+  const [more, setMore] = useState(false);
   const dispatch = useDispatch();
 
   const methods = useForm({
@@ -43,13 +52,60 @@ const Component = ({ recordType, defaultFilters }) => {
 
   const userName = useSelector(state => currentUser(state));
 
+  const pFilters = filters.filter(f => PRIMARY_FILTERS.includes(f.field_name));
+  const defaultf = filters.filter(f =>
+    [...defaultFilters.keys()].includes(f.field_name)
+  );
+
+  const moreSectionKeys = Object.keys(moreSectionFilters);
+
   const renderFilters = () => {
-    return filters.map(filter => {
+    let primaryFilters = filters;
+
+    if (recordType === RECORD_PATH.cases) {
+      const selectedFromMoreSection = primaryFilters.filter(
+        f =>
+          moreSectionKeys.includes(f.field_name) ||
+          (f.field_name === MY_CASES_FILTER_NAME &&
+            moreSectionKeys.includes(OR_FILTER_NAME))
+      );
+      const queryParamsFilter = primaryFilters.filter(
+        f =>
+          Object.keys(queryParams).includes(f.field_name) &&
+          !(
+            defaultf.map(t => t.field_name).includes(f.field_name) ||
+            pFilters.map(t => t.field_name).includes(f.field_name)
+          )
+      );
+
+      const mergedFilters = fromJS([
+        ...pFilters,
+        ...defaultf,
+        ...queryParamsFilter,
+        ...selectedFromMoreSection
+      ]);
+
+      primaryFilters = mergedFilters;
+    }
+
+    return primaryFilters.map(filter => {
       const Filter = filterType(filter.type);
 
       if (!Filter) return null;
 
-      return <Filter filter={filter} key={filter.field_name} />;
+      return (
+        <Filter
+          key={filter.field_name}
+          filter={filter}
+          moreSectionFilters={moreSectionFilters}
+          setMoreSectionFilters={setMoreSectionFilters}
+          isSecondary={
+            moreSectionKeys.includes(filter.field_name) ||
+            (filter.field_name === MY_CASES_FILTER_NAME &&
+              moreSectionKeys.includes(OR_FILTER_NAME))
+          }
+        />
+      );
     });
   };
 
@@ -136,6 +192,16 @@ const Component = ({ recordType, defaultFilters }) => {
             <>
               <Actions handleSave={handleSave} handleClear={handleClear} />
               {renderFilters()}
+              <MoreSection
+                recordType={recordType}
+                more={more}
+                setMore={setMore}
+                allAvailable={filters}
+                primaryFilters={pFilters}
+                defaultFilters={defaultf}
+                moreSectionFilters={moreSectionFilters}
+                setMoreSectionFilters={setMoreSectionFilters}
+              />
             </>
           )}
           {tabIndex === 1 && (

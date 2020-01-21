@@ -2667,6 +2667,8 @@ en:
     apply_filters: "Apply"
     clear_filters: "Clear"
     save_filters: "Save"
+    more: "More..."
+    less: "Less..."
 
   flags:
     flags_tab: "Flags"
