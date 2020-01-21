@@ -21,6 +21,8 @@ import { ApplicationProvider } from "./components/application";
 import configureStore, { history } from "./store";
 import ApplicationRoutes from "./components/application-routes";
 
+import "./service-worker";
+
 const store = configureStore();
 
 const jss = create({

@@ -11,11 +11,3 @@ Minipack.configuration do |c|
 
   c.build_cache_key << 'app/javascript/**/*'
 end
-
-
-# module Minipack::Helper
-#   def javascript_bundles_with_chunks_tag(*names, manifest: nil, **options)
-#     binding.pry
-#     javascript_include_tag(*sources_from_manifest_entrypoints(names, 'js', key: manifest), **options)
-#   end
-# end

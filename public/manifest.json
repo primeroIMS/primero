@@ -1,0 +1,16 @@
+{
+  "short_name": "Primero",
+  "name": "Primero",
+  "start_url": "./",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "scope": ".",
+  "icons": [
+    {
+      "src": "/primero-pictorial-144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    }
+  ]
+}
