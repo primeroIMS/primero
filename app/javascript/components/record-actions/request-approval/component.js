@@ -58,37 +58,35 @@ const Component = ({ close, openRequestDialog, subMenuItems, record, recordType 
 
 
   const dialogContent = (
-    <form className={classes.root} noValidate autoComplete="off">
-      <FormLabel component="legend">{i18n.t("cases.request_approval_select")}</FormLabel>
-      <TextField
-        id="outlined-select-approval-native"
-        select
-        value={requestType}
-        onChange={handleChange}
-        SelectProps={{
-          native: true,
-        }}
-      >
-        {subMenuItems.map(option => (
-          <option key={option.value} value={option.value}>
-            {option.name}
-          </option>
-        ))}
-      </TextField>
-      <p>{i18n.t(`cases.request_${requestType}`)} </p>
-    </form>
-  );
-
-  const dialogTitle = (
-    <IconButton aria-label="close" className={classes.closeButton} onClick={close}>
-      <CloseIcon />
-    </IconButton>
+    <>
+      <IconButton aria-label="close" className={classes.closeButton} onClick={close}>
+        <CloseIcon />
+      </IconButton>
+      <form className={classes.root} noValidate autoComplete="off">
+        <FormLabel component="legend">{i18n.t("cases.request_approval_select")}</FormLabel>
+        <TextField
+          id="outlined-select-approval-native"
+          select
+          value={requestType}
+          onChange={handleChange}
+          SelectProps={{
+            native: true,
+          }}
+        >
+          {subMenuItems.map(option => (
+            <option key={option.value} value={option.value}>
+              {option.name}
+            </option>
+          ))}
+        </TextField>
+      </form>
+    </>
   );
 
   return (
     <ActionDialog
       open={openRequestDialog}
-      dialogTitle={dialogTitle}
+      dialogTitle=""
       successHandler={handleOk}
       cancelHandler={close}
       children={dialogContent}
