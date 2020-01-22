@@ -79,6 +79,10 @@ const Component = ({
 
 Component.displayName = "Form";
 
+Component.defaultProps = {
+  formErrors: []
+};
+
 Component.propTypes = {
   formErrors: PropTypes.array,
   formRef: PropTypes.object.isRequired,
