@@ -443,6 +443,10 @@ class User < ApplicationRecord
       return permitted_subform_update_fields(model_class)
     end
 
+    if action_name == 'close' || action_name == 'reopen'
+      return ['status'] if self.can?(:reopen, model_class) || self.can?(:close, model_class)
+    end
+
     @permitted_field_names = []
     @permitted_field_names += %w[id record_in_scope]
     @permitted_field_names += permitted_field_names_from_forms(model_class.parent_form)
