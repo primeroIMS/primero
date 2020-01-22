@@ -30,5 +30,8 @@ module Api::V2
 
     def completed_supervisor_approved_case_action_plans
     end
+
+    def services_provided
+    end
   end
 end

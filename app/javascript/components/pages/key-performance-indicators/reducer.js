@@ -22,6 +22,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set('completedCaseActionPlans', fromJS(payload))
     case Actions.COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS_SUCCESS:
       return state.set('completedSupervisorApprovedCaseActionPlans', fromJS(payload))
+    case Actions.SERVICES_PROVIDED_SUCCESS:
+      return state.set("servicesProvided", fromJS(payload))
     default:
       return state;
   }

@@ -59,3 +59,11 @@ export const completedSupervisorApprovedCaseActionPlans = state => {
     }
   }));
 };
+
+export const servicesProvided = state => {
+  return state.getIn(["records", NAMESPACE, 'servicesProvided'], fromJS({
+    data: {
+      services_provided: []
+    }
+  }))
+}

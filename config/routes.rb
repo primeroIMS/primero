@@ -98,6 +98,7 @@ Rails.application.routes.draw do
           get :completed_case_safety_plans
           get :completed_case_action_plans
           get :completed_supervisor_approved_case_action_plans
+          get :services_provided
         end
       end
     end

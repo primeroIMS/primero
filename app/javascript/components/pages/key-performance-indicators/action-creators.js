@@ -71,3 +71,12 @@ export const fetchCompletedSupervisorApprovedCaseActionPlans = () => async dispa
     }
   })
 }
+
+export const fetchServicesProvided = () => async dispatch => {
+  dispatch({
+    type: Actions.SERVICES_PROVIDED,
+    api: {
+      path: "key_performance_indicators/services_provided"
+    }
+  })
+}
