@@ -69,6 +69,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("CODE_FIELD");
     expect(constants).to.have.property("LOOKUPS");
     expect(constants).to.have.property("RECORD_INFORMATION");
+    expect(constants).to.have.property("ADMIN_NAV");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -111,6 +112,7 @@ describe("Verifying config constant", () => {
     delete constants.CODE_FIELD;
     delete constants.LOOKUPS;
     delete constants.RECORD_INFORMATION;
+    delete constants.ADMIN_NAV;
 
     expect(constants).to.deep.equal({});
   });
