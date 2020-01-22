@@ -6,7 +6,7 @@ describe("Approvals - Summary - index", () => {
   const indexValues = { ...index };
 
   it("should have known exported properties", () => {
-    ["ApprovalSummary"].forEach(property => {
+    ["default"].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });

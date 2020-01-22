@@ -1,1 +1,1 @@
-export { default as ApprovalPanel } from "./component";
+export { default } from "./component";

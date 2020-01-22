@@ -23,28 +23,6 @@
   }
 }
 
-.approvalsLabel {
-  font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(15));
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.67;
-  letter-spacing: normal;
-  color: $(theme.primero.colors.solidBlack);
-}
-
-.approvalsValue {
-  font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(12));
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.33;
-  letter-spacing: normal;
-  color: $(theme.primero.colors.solidBlack);
-}
-
 .wrapper {
   display: flex;
 }

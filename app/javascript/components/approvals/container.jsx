@@ -7,13 +7,13 @@ import { useI18n } from "../i18n";
 import styles from "./styles.css";
 import { NAME } from "./constants";
 import approvalsData from "./mocked-data";
-import { ApprovalPanel } from "./components/panel";
+import ApprovalPanel from "./components/panel";
 
 const Container = ({ approvals }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
-  // when the approvals reducers and actions-creator will be done, we will need to get rid of mocked data
+  // TODO: when the approvals reducers and actions-creator will be done, we will need to get rid of mocked data
   // change approvalsData to approvals
   const renderApprovals =
     approvalsData &&

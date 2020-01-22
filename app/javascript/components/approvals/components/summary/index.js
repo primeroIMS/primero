@@ -1,1 +1,1 @@
-export { default as ApprovalSummary } from "./component";
+export { default } from "./component";

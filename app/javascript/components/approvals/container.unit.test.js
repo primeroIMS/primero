@@ -8,7 +8,7 @@ import {
 import { setupMountedComponent } from "../../test";
 
 import Approvals from "./container";
-import { ApprovalPanel } from "./components/panel";
+import ApprovalPanel from "./components/panel";
 
 describe("<Approvals /> - Component", () => {
   let component;

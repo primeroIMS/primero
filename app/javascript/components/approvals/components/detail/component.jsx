@@ -9,6 +9,7 @@ import {
   STATUS_APPROVED,
   STATUS_REJECTED
 } from "../../constants";
+import DisplayData from "../../../display-data/component";
 
 const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
   const i18n = useI18n();
@@ -28,12 +29,10 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
     approvalSubform.get("approval_requested_for") === CASE_PLAN ? (
       <Grid item md={6} xs={12}>
         <Box className={css.spaceGrid}>
-          <div className={css.approvalsLabel}>
-            {i18n.t("approvals.case_plan_type_label")}
-          </div>
-          <div className={css.approvalsValue}>
-            {approvalSubform.get("approval_for_type")}
-          </div>
+          <DisplayData
+            label={i18n.t("approvals.case_plan_type_label")}
+            value={approvalSubform.get("approval_for_type")}
+          />
         </Box>
       </Grid>
     ) : null;
@@ -53,27 +52,27 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
       <Grid container spacing={2}>
         <Grid item md={6} xs={12}>
           <Box className={css.spaceGrid}>
-            <div className={css.approvalsLabel}>{renderApprovalLabel}</div>
-            <div className={css.approvalsValue}>{renderApprovalValue}</div>
+            <DisplayData
+              label={renderApprovalLabel}
+              value={renderApprovalValue}
+            />
           </Box>
         </Grid>
         <Grid item md={6} xs={12}>
           <Box className={css.spaceGrid}>
-            <div className={css.approvalsLabel}>{renderApprovedByLabel}</div>
-            <div className={css.approvalsValue}>
-              {approvalSubform.get("approved_by")}
-            </div>
+            <DisplayData
+              label={renderApprovedByLabel}
+              value={approvalSubform.get("approved_by")}
+            />
           </Box>
         </Grid>
         {renderCasePlanType}
         <Grid item md={12} xs={12}>
           <Box>
-            <div className={css.approvalsLabel}>
-              {i18n.t("approvals.manager_comments_label")}
-            </div>
-            <div className={css.approvalsValue}>
-              {approvalSubform.get("approval_manager_comments")}
-            </div>
+            <DisplayData
+              label={i18n.t("approvals.manager_comments_label")}
+              value={approvalSubform.get("approval_manager_comments")}
+            />
           </Box>
         </Grid>
       </Grid>

@@ -7,8 +7,8 @@ import {
 } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../test";
-import { ApprovalSummary } from "../summary";
-import { ApprovalDetail } from "../detail";
+import ApprovalSummary from "../summary";
+import ApprovalDetail from "../detail";
 
 import ApprovalPanel from "./component";
 

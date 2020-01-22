@@ -7,8 +7,8 @@ import {
 } from "@material-ui/core";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 
-import { ApprovalSummary } from "../summary";
-import { ApprovalDetail } from "../detail";
+import ApprovalSummary from "../summary";
+import ApprovalDetail from "../detail";
 import { NAME_PANEL } from "../../constants";
 
 const Component = ({ approvalSubform, css }) => {
