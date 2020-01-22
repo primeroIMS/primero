@@ -6,3 +6,5 @@ export const REPORTING_DELAY = "KeyPerformanceIndicators/REPORTING_DELAY";
 export const REPORTING_DELAY_SUCCESS= "KeyPerformanceIndicators/REPORTING_DELAY_SUCCESS";
 export const SERVICE_ACCESS_DELAY = "KeyPerformanceIndicators/SERVICE_ACCESS_DELAY";
 export const SERVICE_ACCESS_DELAY_SUCCESS= "KeyPerformanceIndicators/SERVICE_ACCESS_DELAY_SUCCESS";
+export const ASSESSMENT_STATUS = "KeyPerformanceIndicators/ASSESSMENT_STATUS";
+export const ASSESSMENT_STATUS_SUCCESS= "KeyPerformanceIndicators/ASSESSMENT_STATUS_SUCCESS";

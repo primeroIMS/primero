@@ -94,6 +94,7 @@ Rails.application.routes.draw do
           get :number_of_incidents
           get :reporting_delay
           get :service_access_delay
+          get :assessment_status
         end
       end
     end

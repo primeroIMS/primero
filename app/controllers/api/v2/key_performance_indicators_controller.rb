@@ -18,5 +18,8 @@ module Api::V2
 
     def service_access_delay
     end
+
+    def assessment_status
+    end
   end
 end
