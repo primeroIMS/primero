@@ -53,3 +53,12 @@ export const fetchCompletedCaseSafetyPlans = () => async dispatch => {
     }
   })
 }
+
+export const fetchCompletedCaseActionPlans = () => async dispatch => {
+  dispatch({
+    type: Actions.COMPLETED_CASE_ACTION_PLANS,
+    api: {
+      path: "key_performance_indicators/completed_case_action_plans"
+    }
+  })
+}

@@ -18,6 +18,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("assessmentStatus", fromJS(payload))
     case Actions.COMPLETED_CASE_SAFETY_PLANS_SUCCESS:
       return state.set('completedCaseSafetyPlans', fromJS(payload))
+    case Actions.COMPLETED_CASE_ACTION_PLANS_SUCCESS:
+      return state.set('completedCaseActionPlans', fromJS(payload))
     default:
       return state;
   }

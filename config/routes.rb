@@ -96,6 +96,7 @@ Rails.application.routes.draw do
           get :service_access_delay
           get :assessment_status
           get :completed_case_safety_plans
+          get :completed_case_action_plans
         end
       end
     end
