@@ -51,3 +51,11 @@ export const completedCaseActionPlans = state => {
     }
   }));
 };
+
+export const completedSupervisorApprovedCaseActionPlans = state => {
+  return state.getIn(["records", NAMESPACE, 'completedSupervisorApprovedCaseActionPlans'], fromJS({
+    data: {
+      completed_supervisor_approved_case_action_plans: 0
+    }
+  }));
+};

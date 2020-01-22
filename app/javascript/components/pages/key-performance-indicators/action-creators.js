@@ -62,3 +62,12 @@ export const fetchCompletedCaseActionPlans = () => async dispatch => {
     }
   })
 }
+
+export const fetchCompletedSupervisorApprovedCaseActionPlans = () => async dispatch => {
+  dispatch({
+    type: Actions.COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS,
+    api: {
+      path: "key_performance_indicators/completed_supervisor_approved_case_action_plans"
+    }
+  })
+}
