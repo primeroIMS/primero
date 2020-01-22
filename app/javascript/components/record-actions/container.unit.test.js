@@ -10,6 +10,7 @@ import Notes from "./notes";
 import RecordActions from "./container";
 import { ToggleEnable } from "./toggle-enable";
 import { ToggleOpen } from "./toggle-open";
+import RequestApproval from "./request-approval";
 import { Transitions } from "./transitions";
 
 describe("<RecordActions />", () => {
@@ -142,6 +143,20 @@ describe("<RecordActions />", () => {
     });
   });
 
+  describe("Component RequestApproval", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        props,
+        defaultState
+      ));
+    });
+
+    it("renders RequestApproval", () => {
+      expect(component.find(RequestApproval)).to.have.length(1);
+    });
+  });
+
   describe("Component Transitions", () => {
     beforeEach(() => {
       ({ component } = setupMountedComponent(
@@ -190,7 +205,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.length(12);
+        expect(component.find(MenuItem)).to.have.length(13);
       });
 
       it("renders MenuItem with Refer Cases option", () => {

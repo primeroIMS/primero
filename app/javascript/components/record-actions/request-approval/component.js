@@ -2,7 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { TextField, menuItem, IconButton, FormLabel } from '@material-ui/core';
+import {
+  TextField,
+  menuItem,
+  IconButton,
+  FormLabel
+} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { useI18n } from "../../i18n";
@@ -29,15 +34,13 @@ const useStyles = makeStyles(theme => ({
 const Component = ({ close, openRequestDialog, subMenuItems, record, recordType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  console.log('record:::', record.toJS());
   const classes = useStyles();
   const [requestType, setRequestType] = React.useState('bia');
   const handleChange = event => {
     setRequestType(event.target.value);
   };
-  const handleOk = () => {
-    // call api to request approval here
 
+  const handleOk = () => {
     dispatch(
       approvalRecord(
         recordType,
