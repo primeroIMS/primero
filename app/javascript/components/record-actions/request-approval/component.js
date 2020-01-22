@@ -29,14 +29,14 @@ const Component = ({
 
   const handleOk = () => {
     dispatch(
-      approvalRecord(
+      approvalRecord({
         recordType,
-        record.get("id"),
-        requestType,
-        { data: { approval_status: "requested" } },
-        i18n.t(`cases.request_approval_success_${requestType}`),
-        false
-      )
+        recordId: record.get("id"),
+        approvalId: requestType,
+        body: { data: { approval_status: "requested" } },
+        message: i18n.t(`cases.request_approval_success_${requestType}`),
+        redirect: false
+      })
     );
 
     close();
