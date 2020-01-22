@@ -61,10 +61,8 @@ const Container = ({
     getPermissionsByRecord(state, recordType)
   );
 
-  const isSearchFromList = Boolean(
-    useSelector(state =>
-      getFiltersValuesByRecordType(state, recordType).get("id_search")
-    )
+  const isSearchFromList = useSelector(state =>
+    getFiltersValuesByRecordType(state, recordType).get("id_search")
   );
 
   const canAddNotes = checkPermissions(userPermissions, [
@@ -191,7 +189,7 @@ const Container = ({
       recordListAction: true,
       condition: showListActions
         ? canAddIncident
-        : canAddIncident && isSearchFromList
+        : canAddIncident && Boolean(isSearchFromList)
     },
     {
       name: i18n.t("actions.services_section_from_case"),
@@ -200,7 +198,7 @@ const Container = ({
       recordListAction: true,
       condition: showListActions
         ? canAddService
-        : canAddService && isSearchFromList
+        : canAddService && Boolean(isSearchFromList)
     },
     {
       name: i18n.t(`actions.${openState}`),
