@@ -1,21 +1,17 @@
 import React, { useState } from "react";
 import { Select, MenuItem } from "@material-ui/core";
-import { format } from "date-fns";
-import { withI18n } from "../../I18n";
+import { useI18n } from "components/I18n";
 
-function DateRangeSelect({
-  ranges,
-  selectedRange,
-  withCustomRange,
-  setRange,
-  locale
-}) {
+function DateRangeSelect({ ranges, selectedRange, withCustomRange }) {
+  // FIXME: We should use 'useI18n' but it retruns a null object when called
+  // from here.
+  let i18n = window.I18n;
 
   let [customRange, setCustomRange] = useState({
     value: 'custom-range',
     from: selectedRange.from,
     to: selectedRange.to,
-    name: `${format(selectedRange.from, 'MMM yyyy', { locale: locale })} - ${format(selectedRange.to, 'MMM yyyy', { locale: locale })}`
+    name: `${ i18n.toTime('key_performance_indicators.date_format', selectedRange.from) } - ${  i18n.toTime('key_performance_indicators.date_format', selectedRange.to) }`
   })
 
   return (
@@ -26,4 +22,4 @@ function DateRangeSelect({
   )
 }
 
-export default withI18n(DateRangeSelect);
+export default DateRangeSelect;
