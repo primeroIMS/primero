@@ -28,18 +28,18 @@
 
 .StackedPercentageBarLabels {
   position: relative;
+  display: flex;
   width: 100%;
   min-width: 14rem;
 }
 
 .StackedPercentageBarLabelContainer {
-  display: inline-block;
+  min-width: 9rem;
+  padding-left: 0.5rem;
 }
 
-.StackedPercentageBarLabel {
-  white-space: nowrap;
-}
+.StackedPercentageBarLabel { }
 
 .StackedPercentageBarLabelPercentage {
-  margin: 0.5rem 0 0 0;
+  margin: .5rem 0 0 0;
 }
