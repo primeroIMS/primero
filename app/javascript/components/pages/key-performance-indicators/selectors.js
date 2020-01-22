@@ -35,3 +35,11 @@ export const assessmentStatus = state => {
     }
   }));
 };
+
+export const completedCaseSafetyPlans = state => {
+  return state.getIn(["records", NAMESPACE, 'completedCaseSafetyPlans'], fromJS({
+    data: {
+      completed_case_safety_plans: 0
+    }
+  }));
+};
