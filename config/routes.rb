@@ -95,6 +95,7 @@ Rails.application.routes.draw do
           get :reporting_delay
           get :service_access_delay
           get :assessment_status
+          get :completed_case_safety_plans
         end
       end
     end

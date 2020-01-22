@@ -21,5 +21,8 @@ module Api::V2
 
     def assessment_status
     end
+    
+    def completed_case_safety_plans
+    end
   end
 end

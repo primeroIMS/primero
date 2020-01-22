@@ -1,9 +1,15 @@
-import React from "react";
+import * as actions from "../../action-creators";
+import * as selectors from "../../selectors";
+import { connect } from "react-redux";
+import React, { useEffect } from "react";
 import { OptionsBox } from "components/dashboard";
 import { DateRangeSelect } from "components/key-performance-indicators";
 import { StackedPercentageBar } from "components/key-performance-indicators";
 
-export default function CompletedCaseSafetyPlan() {
+function CompletedCaseSafetyPlan({ fetchCompletedCaseSafetyPlans, completedCaseSafetyPlans }) {
+  useEffect(() => {
+    fetchCompletedCaseSafetyPlans();
+  }, []);
 
   let threeMonthsAgo = new Date();
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
@@ -26,8 +32,28 @@ export default function CompletedCaseSafetyPlan() {
       }
     >
       <StackedPercentageBar
-        percentages={[{ percentage: 0.5, label: "Completed Case Safety Plan" }]}
+        percentages={[
+          {
+            percentage: completedCaseSafetyPlans.get('data').get('completed_case_safety_plans'),
+            label: "Completed Case Safety Plan"
+          }
+        ]}
       />
     </OptionsBox>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    completedCaseSafetyPlans: selectors.completedCaseSafetyPlans(state)
+  };
+};
+
+const mapDispatchToProps = {
+  fetchCompletedCaseSafetyPlans: actions.fetchCompletedCaseSafetyPlans
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CompletedCaseSafetyPlan);
