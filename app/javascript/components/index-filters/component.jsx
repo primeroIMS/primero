@@ -60,7 +60,7 @@ const Component = ({ recordType, defaultFilters }) => {
   const moreSectionKeys = Object.keys(moreSectionFilters);
 
   const renderFilters = () => {
-    let primaryFilters = fromJS([...filters, ...defaultf]);
+    let primaryFilters = filters;
 
     if (recordType === RECORD_PATH.cases) {
       const selectedFromMoreSection = primaryFilters.filter(
