@@ -1,7 +1,7 @@
-import { DB, RECORD_PATH } from "../../../config";
+import { DB } from "../../../config";
 import { ENQUEUE_SNACKBAR } from "../../notifier";
 
-import * as Actions from "./actions";
+import { APPROVE_RECORD } from "./actions";
 
 export const approvalRecord = (
   recordType,
@@ -12,7 +12,7 @@ export const approvalRecord = (
   redirect
 ) => async dispatch => {
   await dispatch({
-    type: `${recordType}/${Actions.APPROVE_RECORD}`,
+    type: `${recordType}/${APPROVE_RECORD}`,
     api: {
       path: `${recordType}/${recordId}/approvals/${approvalId}`,
       method: "PATCH",

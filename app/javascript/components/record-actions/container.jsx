@@ -301,22 +301,20 @@ const Container = ({
     />
   );
 
-  const filterItems = (items) => {
-    return items.filter(a => {
-      const actionCondition = typeof a.condition === "undefined" || a.condition;
+  const filterItems = items => items.filter(a => {
+    const actionCondition = typeof a.condition === "undefined" || a.condition;
 
-      if (showListActions) {
-        return a.recordListAction && actionCondition;
-      }
+    if (showListActions) {
+      return a.recordListAction && actionCondition;
+    }
 
-      return (
-        (a.recordType === "all" ||
-          a.recordType === recordType ||
-          (Array.isArray(a.recordType) && a.recordType.includes(recordType))) &&
-        actionCondition
-      );
-    });
-  }
+    return (
+      (a.recordType === "all" ||
+        a.recordType === recordType ||
+        (Array.isArray(a.recordType) && a.recordType.includes(recordType))) &&
+      actionCondition
+    );
+  });
 
   const filteredActions = filterItems(actions);
   const actionItems = filteredActions?.map(action => {
@@ -419,7 +417,7 @@ const Container = ({
       <Permission resources={recordType} actions={REQUEST_APPROVAL}>
         <RequestApproval
           openRequestDialog={requestDialog}
-          close={() => setRequestDialog(false)}
+          close={() => handleRequestClose()}
           subMenuItems={allowedRequestsApproval}
           record={record}
           recordType={recordType}

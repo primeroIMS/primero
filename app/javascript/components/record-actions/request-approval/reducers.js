@@ -2,7 +2,7 @@ import { fromJS, Map, List } from "immutable";
 
 import { mergeRecord } from "../../../libs";
 
-import * as Actions from "./actions";
+import { APPROVE_RECORD_SUCCESS } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
 
@@ -11,9 +11,9 @@ export const reducers = namespace => (
   { type, payload }
 ) => {
   switch (type) {
-    case `${namespace}/${Actions.APPROVE_RECORD_SUCCESS}`: {
+    case `${namespace}/${APPROVE_RECORD_SUCCESS}`: {
       const { data } = payload;
-      const index = state.get("data").findIndex(r => r.get("id") === data.id);
+      const index = state.getIn("data").findIndex(r => r.get("id") === data.id);
 
       if (index !== -1) {
         return state

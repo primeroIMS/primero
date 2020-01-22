@@ -1,41 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import {
-  TextField,
-  menuItem,
-  IconButton,
-  FormLabel
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import { makeStyles } from "@material-ui/core/styles";
+import { TextField, menuItem, IconButton, FormLabel } from '@material-ui/core';
+import CloseIcon from "@material-ui/icons/Close";
 
 import { useI18n } from "../../i18n";
 import { ActionDialog } from "../../action-dialog";
+
 import { approvalRecord } from "./action-creators";
-
 import { NAME } from "./constants";
+import styles from "./styles.css"
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: 200,
-    },
-  },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  }
-}));
-
-const Component = ({ close, openRequestDialog, subMenuItems, record, recordType }) => {
+const Component = ({
+  close,
+  openRequestDialog,
+  subMenuItems,
+  record,
+  recordType
+}) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const classes = useStyles();
-  const [requestType, setRequestType] = React.useState('bia');
+  const css = makeStyles(styles)();
+  const [requestType, setRequestType] = useState("bia");
   const handleChange = event => {
     setRequestType(event.target.value);
   };
@@ -55,29 +42,36 @@ const Component = ({ close, openRequestDialog, subMenuItems, record, recordType 
     close();
   };
 
-
+  const selectOptions = subMenuItems.map(option => (
+    <option key={option.value} value={option.value}>
+      {option.name}
+    </option>
+  ));
 
   const dialogContent = (
     <>
-      <IconButton aria-label="close" className={classes.closeButton} onClick={close}>
+      <IconButton
+        aria-label="close"
+        className={css.closeButton}
+        onClick={close}
+      >
         <CloseIcon />
       </IconButton>
-      <form className={classes.root} noValidate autoComplete="off">
-        <FormLabel component="legend">{i18n.t("cases.request_approval_select")}</FormLabel>
+      <form noValidate autoComplete="off">
+        <FormLabel component="legend">
+          {i18n.t("cases.request_approval_select")}
+        </FormLabel>
         <TextField
           id="outlined-select-approval-native"
           select
           value={requestType}
           onChange={handleChange}
+          className={css.selectApprovalType}
           SelectProps={{
-            native: true,
+            native: true
           }}
         >
-          {subMenuItems.map(option => (
-            <option key={option.value} value={option.value}>
-              {option.name}
-            </option>
-          ))}
+          {selectOptions}
         </TextField>
       </form>
     </>
@@ -89,9 +83,10 @@ const Component = ({ close, openRequestDialog, subMenuItems, record, recordType 
       dialogTitle=""
       successHandler={handleOk}
       cancelHandler={close}
-      children={dialogContent}
       confirmButtonLabel={i18n.t("cases.ok")}
-    />
+    >
+      {dialogContent}
+    </ ActionDialog>
   );
 };
 
@@ -100,9 +95,9 @@ Component.displayName = NAME;
 Component.propTypes = {
   close: PropTypes.func,
   openRequestDialog: PropTypes.bool,
-  subMenuItems: PropTypes.array,
   record: PropTypes.object,
-  recordType: PropTypes.string
+  recordType: PropTypes.string,
+  subMenuItems: PropTypes.array
 };
 
 export default Component;

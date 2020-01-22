@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Map, OrderedMap, fromJS } from "immutable";
+import { OrderedMap, fromJS } from "immutable";
 import { Menu, MenuItem } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
@@ -32,10 +32,7 @@ describe("<RecordActions />", () => {
         fields: [2],
         is_nested: true,
         subform_prevent_item_removal: false,
-        collapsed_field_names: [
-          "cp_incident_date",
-          "cp_incident_violence_type"
-        ]
+        collapsed_field_names: ["cp_incident_date", "cp_incident_violence_type"]
       }),
       2: FormSectionRecord({
         id: 2,
