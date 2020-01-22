@@ -1,9 +1,15 @@
-import React from "react";
+import * as actions from "../../action-creators";
+import * as selectors from "../../selectors";
+import { connect } from "react-redux";
+import React, { useEffect } from "react";
 import { OptionsBox } from "components/dashboard";
 import { DateRangeSelect } from "components/key-performance-indicators";
 import { StackedPercentageBar } from "components/key-performance-indicators";
 
-export default function CompletedSupervisorApprovedCaseActionPlan() {
+function CompletedSupervisorApprovedCaseActionPlan({ fetchCompletedSupervisorApprovedCaseActionPlans, completedSupervisorApprovedCaseActionPlans }) {
+  useEffect(() => {
+    fetchCompletedSupervisorApprovedCaseActionPlans()
+  }, [])
 
   let threeMonthsAgo = new Date();
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
@@ -26,8 +32,28 @@ export default function CompletedSupervisorApprovedCaseActionPlan() {
       }
     >
       <StackedPercentageBar
-        percentages={[{ percentage: 0.5, label: "Completed action plan approved by supervisor" }]}
+        percentages={[
+          {
+            percentage: completedSupervisorApprovedCaseActionPlans.get('data').get('completed_supervisor_approved_case_action_plans'),
+            label: "Completed action plan approved by supervisor"
+          }
+        ]}
       />
     </OptionsBox>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    completedSupervisorApprovedCaseActionPlans: selectors.completedSupervisorApprovedCaseActionPlans(state)
+  };
+};
+
+const mapDispatchToProps = {
+  fetchCompletedSupervisorApprovedCaseActionPlans: actions.fetchCompletedSupervisorApprovedCaseActionPlans
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CompletedSupervisorApprovedCaseActionPlan);
