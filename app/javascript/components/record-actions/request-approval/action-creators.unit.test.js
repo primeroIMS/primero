@@ -49,5 +49,7 @@ describe("<RequestApproval /> - Action Creators", () => {
     };
 
     expect(actionCreators.approvalRecord(args)).to.deep.equal(expectedAction);
+
+    generate.messageKey.restore();
   });
 });
