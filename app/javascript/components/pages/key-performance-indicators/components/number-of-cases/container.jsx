@@ -1,6 +1,5 @@
 import * as actions from "../../action-creators";
 import * as selectors from "../../selectors";
-import { withRouter } from "react-router-dom";
 import { DateRangeSelect } from "components/key-performance-indicators";
 import { OptionsBox, DashboardTable } from "components/dashboard";
 import { connect, batch } from "react-redux";
@@ -66,9 +65,7 @@ const mapDispatchToProps = {
   fetchNumberOfCases: actions.fetchNumberOfCases
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(NumberOfCases)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NumberOfCases);

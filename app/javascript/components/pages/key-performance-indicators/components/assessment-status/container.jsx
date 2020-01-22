@@ -1,9 +1,17 @@
-import React from "react";
+import * as actions from "../../action-creators";
+import * as selectors from "../../selectors";
+import { connect, batch } from "react-redux";
+import React, { useEffect } from "react";
 import { OptionsBox } from "components/dashboard";
 import { DateRangeSelect } from "components/key-performance-indicators";
 import { StackedPercentageBar } from "components/key-performance-indicators";
 
-export default function AssessmentStatus() {
+function AssessmentStatus({ fetchAssessmentStatus, assessmentStatus }) {
+  useEffect(() => {
+    batch(() => {
+      fetchAssessmentStatus();
+    });
+  }, []);
 
   let threeMonthsAgo = new Date();
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
@@ -26,8 +34,32 @@ export default function AssessmentStatus() {
       }
     >
       <StackedPercentageBar
-        percentages={[{ percentage: 0.5, label: "Completed & Supervisor Approved" }, { percentage: 0.26, label: "Completed Only" }]}
+        percentages={[
+          {
+            percentage: assessmentStatus.get('data').get('completed_supervisor_approved'),
+            label: 'Completed & Supervisor Approved'
+          },
+          {
+            percentage: assessmentStatus.get('data').get('completed_only'),
+            label: 'Completed Only'
+          }
+        ]}
       />
     </OptionsBox>
  );
 }
+
+const mapStateToProps = state => {
+  return {
+    assessmentStatus: selectors.assessmentStatus(state)
+  };
+};
+
+const mapDispatchToProps = {
+  fetchAssessmentStatus: actions.fetchAssessmentStatus
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(AssessmentStatus);

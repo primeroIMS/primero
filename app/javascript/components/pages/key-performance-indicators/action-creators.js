@@ -35,3 +35,12 @@ export const fetchServiceAccessDelay = () => async dispatch => {
     }
   });
 };
+
+export const fetchAssessmentStatus = () => async dispatch => {
+  dispatch({
+    type: Actions.ASSESSMENT_STATUS,
+    api: {
+      path: "key_performance_indicators/assessment_status"
+    }
+  })
+}

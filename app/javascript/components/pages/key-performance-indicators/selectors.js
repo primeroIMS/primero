@@ -26,3 +26,12 @@ export const serviceAccessDelay = state => {
     data: []
   }));
 };
+
+export const assessmentStatus = state => {
+  return state.getIn(["records", NAMESPACE, 'assessmentStatus'], fromJS({
+    data: {
+      completed_supervisor_approved: 0,
+      completed_only: 0
+    }
+  }));
+};

@@ -14,6 +14,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("reportingDelay", fromJS(payload))
     case Actions.SERVICE_ACCESS_DELAY_SUCCESS:
       return state.set("serviceAccessDelay", fromJS(payload))
+    case Actions.ASSESSMENT_STATUS_SUCCESS:
+      return state.set("assessmentStatus", fromJS(payload))
     default:
       return state;
   }
