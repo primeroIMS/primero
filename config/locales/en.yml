@@ -531,6 +531,7 @@ en:
     another_duplicate_after_link: " to see the duplicate record."
     # TODO: Possibly use another method to label the list view columns
     select: "Select"
+    invalid_action_name: "Invalid action name"
 
     messages:
       update_success: "Case %{record_id} was successfully updated."

@@ -439,13 +439,7 @@ class User < ApplicationRecord
   def permitted_field_names(model_class, action_name = nil)
     return @permitted_field_names if @permitted_field_names.present?
 
-    if action_name == 'unscoped_update'
-      return permitted_subform_update_fields(model_class)
-    end
-
-    if action_name == 'close' || action_name == 'reopen'
-      return ['status'] if self.can?(:reopen, model_class) || self.can?(:close, model_class)
-    end
+    return permitted_fields_from_action_name(model_class, action_name) if action_name.present?
 
     @permitted_field_names = []
     @permitted_field_names += %w[id record_in_scope]
@@ -464,15 +458,16 @@ class User < ApplicationRecord
     @permitted_field_names
   end
 
-  def permitted_subform_update_fields(model_class)
-    permitted_field_names = []
-    if model_class == Child
-      permitted_field_names << 'incident_details' if self.can?(:incident_details_from_case, model_class)
-      permitted_field_names << 'services_section' if self.can?(:services_section_from_case, model_class)
-      permitted_field_names << 'notes_section' if self.can?(:add_note, model_class)
-   end
-   permitted_field_names
- end
+  def permitted_fields_from_action_name(model_class, action_name)
+    case action_name
+    when Permission::ADD_NOTE then %w[notes_section] if can?(:add_note, model_class)
+    when Permission::INCIDENT_DETAILS_FROM_CASE then %w[incident_details] if can?(:incident_details_from_case, model_class)
+    when Permission::SERVICES_SECTION_FROM_CASE then %w[services_section] if can?(:services_section_from_case, model_class)
+    when Permission::CLOSE then %w[status]  if can?(:close, model_class)
+    when Permission::REOPEN then %w[status] if can?(:reopen, model_class)
+    else raise Errors::InvalidPrimeroEntityType, 'case.invalid_action_name'
+    end
+  end
 
   def ability
     @ability ||= Ability.new(self)
@@ -503,12 +498,6 @@ class User < ApplicationRecord
 
   def can_approve_closure?
     self.can?(:approve_closure, Child) || self.can?(:request_approval_closure, Child)
-  end
-
-  def can_update_subform_fields?(model_class)
-    self.can?(:incident_details_from_case, model_class) ||
-    self.can?(:services_section_from_case, model_class) ||
-    self.can?(:add_note, model_class)
   end
 
   # If we set something we gonna assume we need to update the user_groups

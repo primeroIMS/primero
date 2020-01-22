@@ -375,21 +375,19 @@ describe Api::V2::ChildrenController, type: :request do
 
     end
 
-    describe 'when a user performs an unscoped_update' do
+    describe 'when a user adds a service subform' do
       it 'updates the subforms if cannot update the record' do
         login_for_test(
           group_permission: Permission::SELF,
           permissions: [
             Permission.new(
               resource: Permission::CASE,
-              actions: [
-                Permission::WRITE, Permission::SERVICES_SECTION_FROM_CASE
-              ]
+              actions: [Permission::SERVICES_SECTION_FROM_CASE]
             )
           ]
         )
 
-        params = { data: { name: 'Tester 1', services_section: [ {service_type: 'Test type' } ] }, unscoped_update: true}
+        params = { data: { name: 'Tester 1', services_section: [ {service_type: 'Test type' } ] }, record_action: Permission::SERVICES_SECTION_FROM_CASE }
 
         patch "/api/v2/cases/#{@case1.id}", params: params
 
@@ -413,7 +411,7 @@ describe Api::V2::ChildrenController, type: :request do
           ]
         )
 
-        params = { data: { name: 'Tester 1', services_section: [ {service_type: 'Test type' } ] }, unscoped_update: true }
+       params = { data: { services_section: [ {service_type: 'Test type' } ] }, record_action: Permission::SERVICES_SECTION_FROM_CASE }
 
         patch "/api/v2/cases/#{@case1.id}", params: params
 
@@ -426,7 +424,7 @@ describe Api::V2::ChildrenController, type: :request do
 
       it 'returns 403 if the user is not authorized' do
         login_for_test(group_permission: Permission::SELF)
-        params = { data: { name: 'Tester 1', services_section: [ {service_type: 'Test type' } ] }, unscoped_update: true}
+        params = { data: { services_section: [ {service_type: 'Test type' } ] }, record_action: Permission::SERVICES_SECTION_FROM_CASE }
         patch "/api/v2/cases/#{@case1.id}", params: params
 
         expect(response).to have_http_status(403)
@@ -435,6 +433,77 @@ describe Api::V2::ChildrenController, type: :request do
       end
     end
 
+    describe 'when a user close a case that cannot update' do
+      it 'close the case if he is authorized to close cases' do
+        login_for_test(
+          group_permission: Permission::SELF,
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE,
+              actions: [Permission::CLOSE]
+            )
+          ]
+        )
+
+        params = { data: { status: 'closed' }, record_action: Permission::CLOSE }
+
+        patch "/api/v2/cases/#{@case1.id}", params: params
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['status']).to eq(Record::STATUS_CLOSED)
+      end
+
+      it 'returns 403 if the user is not authorized' do
+        login_for_test(group_permission: Permission::SELF)
+
+        params = { data: { status: 'closed' }, record_action: Permission::CLOSE }
+
+        patch "/api/v2/cases/#{@case1.id}", params: params
+
+        expect(response).to have_http_status(403)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
+      end
+    end
+
+    describe 'when a user reopens a case that cannot update' do
+      before do
+        @case1.status = Record::STATUS_CLOSED
+        @case1.save!
+        @case1.reload
+      end
+
+      it 'reopens the case if he is authorized to reopen cases' do
+        login_for_test(
+          group_permission: Permission::SELF,
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE,
+              actions: [Permission::REOPEN]
+            )
+          ]
+        )
+
+        params = { data: { status: 'open', case_reopened: true }, record_action: Permission::REOPEN }
+
+        patch "/api/v2/cases/#{@case1.id}", params: params
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['status']).to eq(Record::STATUS_OPEN)
+      end
+
+      it 'returns 403 if the user is not authorized' do
+        login_for_test(group_permission: Permission::SELF)
+
+        params = { data: { status: 'open', case_reopened: true }, record_action: Permission::REOPEN }
+
+        patch "/api/v2/cases/#{@case1.id}", params: params
+
+        expect(response).to have_http_status(403)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
+      end
+    end
   end
 
   describe 'DELETE /api/v2/cases/:id' do
