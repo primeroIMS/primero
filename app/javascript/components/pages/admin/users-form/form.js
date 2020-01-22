@@ -61,7 +61,8 @@ export const form = (i18n, formMode) => {
           name: "user_name",
           disabled: true,
           type: TEXT_FIELD,
-          required: true
+          required: true,
+          editable: false
         }),
         FieldRecord({
           display_name: i18n.t("user.code"),

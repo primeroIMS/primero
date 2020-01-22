@@ -151,6 +151,19 @@ en:
     logout: "Log out"
     settings: "Settings"
 
+  settings: 
+    title: "Settings"
+    navigation:
+      agency: "Agency"
+      roles: "Roles"
+      modules: "Modules"
+      system_settings: "System Settings"
+      matching: "Matching"
+      users: "Users"
+      forms: "Form"
+      locations: "Locations"
+      audit_logs: "Audit Logs"
+
   buttons:
     delete: "Delete"
     disable: "Disable"
@@ -876,6 +889,12 @@ en:
       disabled: "Disabled"
       agency: "Agency"
     register_new_user: "Create User"
+    headers:
+      full_name: "Full Name"
+      user_name: "Username"
+      position: "Position"
+      agency: "Agency"
+
 
   roles:
     label: "Roles"

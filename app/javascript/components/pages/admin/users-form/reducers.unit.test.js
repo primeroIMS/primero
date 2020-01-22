@@ -7,7 +7,7 @@ import { reducers } from "./reducers";
 
 describe("<UsersForm /> - Reducers", () => {
   it("should handle FETCH_USER_STARTED", () => {
-    const expected = fromJS({ loading: true, errors: [] });
+    const expected = fromJS({ loading: true, errors: false, serverErrors: [] });
     const action = {
       type: actions.FETCH_USER_STARTED,
       payload: true
@@ -18,10 +18,10 @@ describe("<UsersForm /> - Reducers", () => {
   });
 
   it("should handle FETCH_USER_FAILURE", () => {
-    const expected = fromJS({ errors: [] });
+    const expected = fromJS({ errors: true, serverErrors: ["some error"] });
     const action = {
       type: actions.FETCH_USER_FAILURE,
-      payload: ["some error"]
+      payload: { errors: ["some error"] }
     };
     const newState = reducers(fromJS({}), action);
 
@@ -31,7 +31,8 @@ describe("<UsersForm /> - Reducers", () => {
   it("should handle FETCH_USER_SUCCESS", () => {
     const expected = fromJS({
       selectedUser: { id: 3 },
-      errors: []
+      errors: false,
+      serverErrors: []
     });
 
     const action = {
@@ -48,6 +49,21 @@ describe("<UsersForm /> - Reducers", () => {
     const expected = fromJS({ loading: false });
     const action = {
       type: actions.FETCH_USER_FINISHED,
+      payload: false
+    };
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle CLEAR_SELECTED_USER", () => {
+    const expected = fromJS({
+      selectedUser: {},
+      errors: false,
+      serverErrors: []
+    });
+    const action = {
+      type: actions.CLEAR_SELECTED_USER,
       payload: false
     };
     const newState = reducers(fromJS({}), action);
