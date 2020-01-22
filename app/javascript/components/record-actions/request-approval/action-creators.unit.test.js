@@ -5,7 +5,7 @@ import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import * as actionCreators from "./action-creators";
 import { APPROVE_RECORD } from "./actions";
 
-describe.only("<RequestApproval /> - Action Creators", () => {
+describe("<RequestApproval /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
