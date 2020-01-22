@@ -36,10 +36,8 @@ import {
   SupervisorToCaseworkerRatio,
   CaseLoad
 } from "./components";
-import * as actions from "./action-creators";
-import * as selectors from "./selectors";
 
-function KeyPerformanceIndicators({ }) {
+function KeyPerformanceIndicators({}) {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
@@ -50,7 +48,7 @@ function KeyPerformanceIndicators({ }) {
         <PageContent>
           <Grid>
             <Box>
-              <h2 className={css.subtitle}>INTRODUCTION &amp; ENGAGEMENT</h2>
+              <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.introduction_and_engagement')}INTRODUCTION &amp; ENGAGEMENT</h2>
 
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={6}>
@@ -74,7 +72,7 @@ function KeyPerformanceIndicators({ }) {
             </Box>
 
             <Box>
-              <h2 className={css.subtitle}>CASE ASSESSMENT</h2>
+              <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.case_assessment')}</h2>
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12}>
                   <AssessmentStatus />
@@ -83,7 +81,7 @@ function KeyPerformanceIndicators({ }) {
             </Box>
 
             <Box>
-              <h2 className={css.subtitle}>CASE ACTION PLANNING</h2>
+              <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.case_action_planning')}</h2>
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={6} xl={4}>
                   <CompletedCaseSafetyPlan />
@@ -100,7 +98,7 @@ function KeyPerformanceIndicators({ }) {
             </Box>
 
             <Box>
-              <h2 className={css.subtitle}>CASE ACTION PLAN IMPLEMENTATION</h2>
+              <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.case_action_plan_implementation')}</h2>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <ServicesProvided />
@@ -125,7 +123,7 @@ function KeyPerformanceIndicators({ }) {
             </Box>
 
             <Box>
-              <h2 className={css.subtitle}>Case Follow-Up</h2>
+              <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.case_follow_up')}</h2>
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={6}>
                   <TotalFollowUpMeetings />
@@ -144,7 +142,7 @@ function KeyPerformanceIndicators({ }) {
             </Box>
 
             <Box>
-              <h2 className={css.subtitle}>Case Closure</h2>
+              <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.case_closure')}</h2>
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12}>
                   <CompletedCaseClosureProcedures />
@@ -176,7 +174,7 @@ function KeyPerformanceIndicators({ }) {
             </Box>
 
             <Box>
-              <h2 className={css.subtitle}>Feedback</h2>
+              <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.feedback')}</h2>
 
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12}>
@@ -186,7 +184,7 @@ function KeyPerformanceIndicators({ }) {
             </Box>
 
             <Box>
-              <h2 className={css.subtitle}>Other</h2>
+              <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.other')}</h2>
 
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={6}>
@@ -212,37 +210,11 @@ function KeyPerformanceIndicators({ }) {
   );
 }
 
-KeyPerformanceIndicators.propTypes = {
-  fetchNumberOfCases: PropTypes.func,
-  numberOfCases: PropTypes.shape({
-    columns: PropTypes.array,
-    data: PropTypes.array
-  }),
-  fetchNumberOfIncidents: PropTypes.func,
-  numberOfIncidents: PropTypes.shape({
-    columns: PropTypes.array,
-    data: PropTypes.array
-  }),
-  fetchReportingDelay: PropTypes.func,
-  reportingDelay: PropTypes.shape({
-    columns: PropTypes.array,
-    data: PropTypes.array
-  })
-};
+KeyPerformanceIndicators.propTypes = {}:
 
-const mapStateToProps = state => {
-  return {
-    numberOfCases: selectors.numberOfCases(state),
-    numberOfIncidents: selectors.numberOfIncidents(state),
-    reportingDelay: selectors.reportingDelay(state)
-  };
-};
+const mapStateToProps = state => {};
 
-const mapDispatchToProps = {
-  fetchNumberOfCases: actions.fetchNumberOfCases,
-  fetchNumberOfIncidents: actions.fetchNumberOfIncidents,
-  fetchReportingDelay: actions.fetchReportingDelay
-};
+const mapDispatchToProps = {};
 
 export default withRouter(
   connect(
