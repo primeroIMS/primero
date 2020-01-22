@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles/";
 
 import ApplicationRoutes from "../../application-routes";
-import { PageContainer, PageHeading, Pa } from "../../page";
+import { PageContainer, PageHeading } from "../../page";
 import { useI18n } from "../../i18n";
 
 import AdminNav from "./admin-nav";
