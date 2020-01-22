@@ -8,13 +8,23 @@ import {
 } from "@material-ui/core";
 import { useFormContext } from "react-hook-form";
 
-import Panel from "../panel";
-import { useI18n } from "../../../i18n";
+import Panel from "../../panel";
+import { useI18n } from "../../../../i18n";
+import {
+  registerInput,
+  handleMoreFiltersChange,
+  resetSecondaryFilter
+} from "../utils";
+import handleFilterChange from "../value-handlers";
 
-import { registerInput } from "./utils";
-import handleFilterChange from "./value-handlers";
+import { NAME } from "./constants";
 
-const SwitchFilter = ({ filter }) => {
+const Component = ({
+  filter,
+  moreSectionFilters,
+  setMoreSectionFilters,
+  isSecondary
+}) => {
   const i18n = useI18n();
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState();
@@ -22,7 +32,7 @@ const SwitchFilter = ({ filter }) => {
   const { options, field_name: fieldName } = filter;
   const label = options?.[i18n.locale]?.[0]?.display_name;
 
-  const handleChange = event =>
+  const handleChange = event => {
     handleFilterChange({
       type: "basic",
       event,
@@ -33,8 +43,25 @@ const SwitchFilter = ({ filter }) => {
       fieldName
     });
 
+    if (isSecondary) {
+      handleMoreFiltersChange(
+        moreSectionFilters,
+        setMoreSectionFilters,
+        fieldName,
+        getValues()[fieldName]
+      );
+    }
+  };
+
   const handleReset = () => {
     setValue(fieldName, false);
+    resetSecondaryFilter(
+      isSecondary,
+      fieldName,
+      getValues()[fieldName],
+      moreSectionFilters,
+      setMoreSectionFilters
+    );
   };
 
   useEffect(() => {
@@ -45,13 +72,26 @@ const SwitchFilter = ({ filter }) => {
       setInputValue
     });
 
+    if (
+      Object.keys(moreSectionFilters)?.length &&
+      Object.keys(moreSectionFilters).includes(fieldName)
+    ) {
+      setValue(fieldName, true);
+      setInputValue(true);
+    }
+
     return () => {
       unregister(fieldName);
     };
   }, [register, unregister, fieldName]);
 
   return (
-    <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
+    <Panel
+      filter={filter}
+      getValues={getValues}
+      handleReset={handleReset}
+      moreSectionFilters={moreSectionFilters}
+    >
       <FormControl>
         <FormGroup>
           <FormControlLabel
@@ -70,10 +110,17 @@ const SwitchFilter = ({ filter }) => {
   );
 };
 
-SwitchFilter.displayName = "SwitchFilter";
-
-SwitchFilter.propTypes = {
-  filter: PropTypes.object.isRequired
+Component.defaultProps = {
+  moreSectionFilters: {}
 };
 
-export default SwitchFilter;
+Component.displayName = NAME;
+
+Component.propTypes = {
+  filter: PropTypes.object.isRequired,
+  isSecondary: PropTypes.bool,
+  moreSectionFilters: PropTypes.object,
+  setMoreSectionFilters: PropTypes.func
+};
+
+export default Component;

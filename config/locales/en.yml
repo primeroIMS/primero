@@ -2369,6 +2369,9 @@ en:
     comments_label: "Comments"
     error_select_an_approval_type: "Please select an approval type"
     case_plan_type_label: "Case plan type"
+    error_request_required: "A request is required to perform this action."
+    error_invalid_id: "Invalid approval ID"
+    error_invalid_status: "Invalid approval status"
     response_for_title: "Approval"
     requested_for_title: "Approval Request"
     response_for_label: "Approval For"
@@ -2378,6 +2381,7 @@ en:
     requested_by: "Requested By"
     approved_by: "Approved By"
     rejected_by: "Rejected By"
+
 
     status:
       pending: "Pending"
@@ -2679,6 +2683,8 @@ en:
     apply_filters: "Apply"
     clear_filters: "Clear"
     save_filters: "Save"
+    more: "More..."
+    less: "Less..."
 
   flags:
     flags_tab: "Flags"
