@@ -37,17 +37,19 @@ If the __approval_status__ is either "rejected" or "approved", an optional __not
 ```json
 {
   "data": {
-    "id": "73367d97-67f0-4073-86e8-f1b95a0f62e2",
-    "approval_subforms": [
-      {
-          "unique_id": "6e96ab79-d786-4117-a48c-c99194741beb",
-          "requested_by": "primero_user",
-          "approval_date": "2020-01-15",
-          "approval_status": "requested",
-          "approval_requested_for": "bia"
-      }
-    ],
-    "approval_status_bia": "pending"
+    "record": {
+      "id": "73367d97-67f0-4073-86e8-f1b95a0f62e2",
+      "approval_subforms": [
+        {
+            "unique_id": "6e96ab79-d786-4117-a48c-c99194741beb",
+            "requested_by": "primero_user",
+            "approval_date": "2020-01-15",
+            "approval_status": "requested",
+            "approval_requested_for": "bia"
+        }
+      ],
+      "approval_status_bia": "pending"
+    }
   }
 }
 ```

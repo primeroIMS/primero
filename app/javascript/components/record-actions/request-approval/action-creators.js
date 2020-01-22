@@ -28,10 +28,6 @@ export const approvalRecord = (
         },
         redirectWithIdFromResponse: false,
         redirect: redirect === false ? false : redirect || `/${recordType}`
-      },
-      db: {
-        collection: DB.RECORDS,
-        recordType
       }
     }
   });
