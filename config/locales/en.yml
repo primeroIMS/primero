@@ -2478,6 +2478,12 @@ en:
     case_closure: "Case Closure"
     feedback: "Feedback"
     other: "Other"
+    date_format: "%b %Y"
+    time_periods:
+      last_3_months: "Last 3 Months"
+    number_of_cases:
+      title: "Number of Cases"
+      reporting_site: "Reporting Site"
 
   reports:
     register_new_report: "Create Report"

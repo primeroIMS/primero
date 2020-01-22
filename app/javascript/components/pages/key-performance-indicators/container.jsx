@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -210,15 +209,4 @@ function KeyPerformanceIndicators({}) {
   );
 }
 
-KeyPerformanceIndicators.propTypes = {}:
-
-const mapStateToProps = state => {};
-
-const mapDispatchToProps = {};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(KeyPerformanceIndicators)
-);
+export default withRouter(KeyPerformanceIndicators);
