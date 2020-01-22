@@ -60,7 +60,7 @@ const Component = ({ recordType, defaultFilters }) => {
   const moreSectionKeys = Object.keys(moreSectionFilters);
 
   const renderFilters = () => {
-    let primaryFilters = filters;
+    let primaryFilters = fromJS([...filters, ...defaultf]);
 
     if (recordType === RECORD_PATH.cases) {
       const selectedFromMoreSection = primaryFilters.filter(
@@ -141,7 +141,7 @@ const Component = ({ recordType, defaultFilters }) => {
 
   const tabs = [
     { name: i18n.t("saved_search.filters_tab"), selected: true },
-    { name: i18n.t("saved_search.saved_searches_tab") }
+    { name: i18n.t("saved_search.saved_searches_tab"), disabled: true }
   ];
 
   const handleSubmit = useCallback(data => {
@@ -178,12 +178,13 @@ const Component = ({ recordType, defaultFilters }) => {
             classes={{ root: css.tabs }}
             variant="fullWidth"
           >
-            {tabs.map(tab => (
+            {tabs.map(({ name, selected, ...rest }) => (
               <Tab
-                label={tab.name}
-                key={tab.name}
+                label={name}
+                key={name}
                 classes={{ root: css.tab, selected: css.tabselected }}
-                selected={tab.selected}
+                selected={selected}
+                {...rest}
               />
             ))}
           </Tabs>
