@@ -2470,6 +2470,14 @@ en:
 
   key_performance_indicators:
     label: "Pulse"
+    introduction_and_engagement: "Introduction & Engagement"
+    case_assessment: "Case Assessment"
+    case_action_planning: "Case Action Planning"
+    case_action_plan_implementation: "Case Action Plan Implementation"
+    case_follow_up: "Case Follow-Up"
+    case_closure: "Case Closure"
+    feedback: "Feedback"
+    other: "Other"
 
   reports:
     register_new_report: "Create Report"
