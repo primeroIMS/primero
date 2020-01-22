@@ -1,6 +1,5 @@
 import React from "react";
 import { fromJS } from "immutable";
-import { useSelector } from "react-redux";
 import { IconButton } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
@@ -10,17 +9,17 @@ import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
 
-import { selectListHeaders } from "./selectors";
 import { fetchUsers } from "./action-creators";
+import { LIST_HEADERS } from "./constants";
 
 const Container = () => {
   const i18n = useI18n();
   const recordType = "users";
-  const listHeaders = useSelector(state =>
-    selectListHeaders(state, recordType)
-  );
 
-  const columns = listHeaders;
+  const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
+    label: i18n.t(label),
+    ...rest
+  }));
 
   const tableOptions = {
     recordType,

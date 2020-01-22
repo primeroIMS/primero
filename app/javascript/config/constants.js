@@ -135,3 +135,23 @@ export const LOOKUPS = {
   workflow: "lookup-workflow",
   service_type: "lookup-service-type"
 };
+
+export const ADMIN_NAV = [
+  { to: "/users", label: "settings.navigation.users" },
+  { to: "/agency", label: "settings.navigation.agency", disabled: true },
+  { to: "/roles", label: "settings.navigation.roles", disabled: true },
+  { to: "/modules", label: "settings.navigation.modules", disabled: true },
+  { to: "/forms", label: "settings.navigation.forms", disabled: true },
+  { to: "/locations", label: "settings.navigation.locations", disabled: true },
+  {
+    to: "/system_settings",
+    label: "settings.navigation.system_settings",
+    disabled: true
+  },
+  {
+    to: "/audit_logs",
+    label: "settings.navigation.audit_logs",
+    disabled: true
+  },
+  { to: "/matching", label: "settings.navigation.matching", disabled: true }
+];
