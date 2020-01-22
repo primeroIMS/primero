@@ -272,7 +272,7 @@ module Exporters
           ""
         end
       when String
-        render_i18n_text(field.display_text(value))
+        render_i18n_text(field.display_text(value.encode('windows-1252', invalid: :replace, undef: :replace, replace: '')))
       when DateTime
         render_i18n_text(I18n.l(value.in_time_zone, format: time_format))
       when Date
