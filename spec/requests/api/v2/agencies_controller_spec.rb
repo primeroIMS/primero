@@ -19,7 +19,7 @@ describe Api::V2::AgenciesController, type: :request do
       order: 1,
       telephone: '12565742',
       logo_enabled: false,
-      disabled: true,
+      disabled: false,
       services: %w[services_a services_b],
       name_i18n: { en: 'Nationality', es: 'Nacionalidad' },
       description_i18n: { en: 'Nationality', es: 'Nacionalidad' }
@@ -373,7 +373,7 @@ describe Api::V2::AgenciesController, type: :request do
   end
 
   describe 'DELETE /api/v2/agencies/:id' do
-    it 'successfully deletes a agency with a code of 200' do
+    it 'successfully disable an agency with a code of 200' do
       login_for_test(
         permissions: [
           Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
@@ -383,7 +383,7 @@ describe Api::V2::AgenciesController, type: :request do
       delete "/api/v2/agencies/#{@agency_a.id}"
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@agency_a.id)
-      expect(Agency.find_by(id: @agency_a.id)).to be nil
+      expect(Agency.find_by(id: @agency_a.id).disabled).to be true
     end
 
     it 'returns 403 if user is not authorized to access' do

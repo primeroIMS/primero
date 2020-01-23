@@ -1,6 +1,6 @@
-# Delete an existing agency
+# Disable an existing agency
 
-Deletes an agency with the specified id.
+Disable an agency with the specified id.
 
 **URL** : `/api/v2/agencies/:id`
 
@@ -8,13 +8,13 @@ Deletes an agency with the specified id.
 
 **Authentication** : YES
 
-**Authorization** : The user must be authorized to delete agencies in Primero.
+**Authorization** : The user must be authorized to disable agencies in Primero.
 
 **Parameters** : No parameters
 
 ## Success Response
 
-**Condition** : User can delete agencies.
+**Condition** : User can disable agencies.
 
 **Code** : `200 OK`
 
@@ -30,7 +30,7 @@ Deletes an agency with the specified id.
 
 ## Error Response
 
-**Condition** : User isn't authorized to delete agency.
+**Condition** : User isn't authorized to disable agency.
 
 **Code** : `403 Forbidden`
 

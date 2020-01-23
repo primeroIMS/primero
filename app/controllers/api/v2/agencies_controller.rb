@@ -29,7 +29,8 @@ module Api::V2
 
     def destroy
       authorize! :destroy, @agency
-      @agency.destroy!
+      @agency.update_properties(disabled: true)
+      @agency.save!
     end
 
     def agency_params
