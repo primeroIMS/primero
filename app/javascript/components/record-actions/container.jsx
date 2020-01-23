@@ -7,6 +7,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { RECORD_TYPES, RECORD_PATH } from "../../config";
 import { useI18n } from "../i18n";
 import { getPermissionsByRecord } from "../user/selectors";
+import { getFiltersValuesByRecordType } from "../index-filters/selectors";
 import {
   ACTIONS,
   EXPORT_CUSTOM,
@@ -58,6 +59,10 @@ const Container = ({
 
   const userPermissions = useSelector(state =>
     getPermissionsByRecord(state, recordType)
+  );
+
+  const isSearchFromList = useSelector(state =>
+    getFiltersValuesByRecordType(state, recordType).get("id_search")
   );
 
   const canAddNotes = checkPermissions(userPermissions, [
@@ -160,39 +165,6 @@ const Container = ({
 
   const actions = [
     {
-      name: i18n.t("buttons.import"),
-      action: () => {
-        // eslint-disable-next-line no-console
-        console.log("Some action");
-      },
-      recordType: "all"
-    },
-    {
-      name: i18n.t("exports.custom_exports.label"),
-      action: () => {
-        // eslint-disable-next-line no-console
-        console.log("Some action");
-      },
-      recordType: "all",
-      condition: canCustomExport
-    },
-    {
-      name: i18n.t("buttons.mark_for_mobile"),
-      action: () => {
-        // eslint-disable-next-line no-console
-        console.log("Some action");
-      },
-      recordType: "all"
-    },
-    {
-      name: i18n.t("buttons.unmark_for_mobile"),
-      action: () => {
-        // eslint-disable-next-line no-console
-        console.log("Some action");
-      },
-      recordType: "all"
-    },
-    {
       name: `${i18n.t("buttons.referral")} ${formRecordType}`,
       action: () => setTransitionType("referral"),
       recordType,
@@ -215,14 +187,18 @@ const Container = ({
       action: handleIncidentDialog,
       recordType: RECORD_PATH.cases,
       recordListAction: true,
-      condition: canAddIncident
+      condition: showListActions
+        ? canAddIncident
+        : canAddIncident && Boolean(isSearchFromList)
     },
     {
       name: i18n.t("actions.services_section_from_case"),
       action: handleServiceDialog,
       recordType: RECORD_PATH.cases,
       recordListAction: true,
-      condition: canAddService
+      condition: showListActions
+        ? canAddService
+        : canAddService && Boolean(isSearchFromList)
     },
     {
       name: i18n.t(`actions.${openState}`),

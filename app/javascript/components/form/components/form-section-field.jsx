@@ -26,7 +26,8 @@ const FormSectionField = ({ field }) => {
     option_strings_text: optionsStringsText,
     options,
     password,
-    multi_select: multiSelect
+    multi_select: multiSelect,
+    editable
   } = field;
   const i18n = useI18n();
   const { formMode, errors } = useFormContext();
@@ -56,7 +57,7 @@ const FormSectionField = ({ field }) => {
     InputLabelProps: {
       shrink: true
     },
-    disabled: formMode.get("isShow")
+    disabled: formMode.get("isShow") || (formMode.get("isEdit") && !editable)
   };
 
   const metaInputProps = {

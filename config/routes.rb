@@ -33,16 +33,19 @@ Rails.application.routes.draw do
           post :referrals, to: 'referrals#create_bulk'
           post :transfers, to: 'transfers#create_bulk'
         end
+        resources :approvals, only: [:update]
       end
 
       resources :incidents do
         resources :flags, only: [:index, :create, :update]
         post :flags, to: 'flags#create_bulk', on: :collection
+        resources :approvals, only: [:update]
       end
 
       resources :tracing_requests do
         resources :flags, only: [:index, :create, :update]
         post :flags, to: 'flags#create_bulk', on: :collection
+        resources :approvals, only: [:update]
       end
 
       resources :form_sections, as: :forms, path: :forms
