@@ -1,25 +1,14 @@
+# frozen_string_literal: true
+
 module IdentitySync
+  # Wraps an HTTP connection with an external service.
   class Connection
     attr_accessor :options, :driver
 
     def initialize(options = {})
       self.options = options
 
-      # host = opts[:host]
-      # port = opts[:port]
-      # tls = opts[:tls] # nil, 'client', 'server'
-      # tls_client_key = opts[:tls_client_key]
-      # tls_client_cert = opts[:tls_client_cert]
-      # ssl = if tls == 'client' && File.exist?(tls_client_key) && File.exist?(tls_client_cert)
-      #         {
-      #           cert: OpenSSL::X509::Certificate.new(File.read(tls_client_cert)),
-      #           key: OpenSSL::PKey::RSA.new(File.read(tls_client_key))
-      #         }
-      #       end || {}
-      # url = "#{tls ? 'https' : 'http'}://#{host}:#{port}"
-      # headers = { 'Content-Type' => 'application/json' }
       self.driver = Faraday.new(url: url(options), headers: options['default_headers'], ssl: ssl(options)) do |faraday|
-        #faraday.adapter = Faraday::Adapter::NetHttpPersistent
         faraday.adapter(:net_http_persistent)
       end
     end
