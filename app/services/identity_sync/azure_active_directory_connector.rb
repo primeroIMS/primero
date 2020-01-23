@@ -4,10 +4,12 @@ module IdentitySync
   # This is the connector for the private MS-developed micro service:
   # Primero User Management API for Azure Active Directory.
   # It only makes sense to use within the context of the UNICEF-hosted Primero SaaS.
-  class AzureActiveDirectoryConnector
-    attr_accessor :connection
-
+  class AzureActiveDirectoryConnector < AbstractConnector
     IDENTIFIER = 'aad'
+
+    def self.id
+      IDENTIFIER
+    end
 
     def initialize(options = {})
       default_headers = {
@@ -17,34 +19,9 @@ module IdentitySync
       self.connection = Connection.new(options.merge('default_headers' => default_headers))
     end
 
-    def id
-      IDENTIFIER
-    end
-
-    def sync(user)
-      return {} unless exportable?(user)
-
-      new?(user) ? create(user) : update(user)
-    end
-
     def fetch(user)
       response = connection.get("/users/#{user.user_name}")
       response[1]
-    end
-
-    def exportable?(user)
-      # Only if the user's IDP is configured to sync with this connector
-      identity_sync_connector = user&.identity_provider&.configuration&.fetch(:identity_sync_connector)
-      return false unless identity_sync_connector == self.class.name
-
-      # Only new users or users with changes on full name or status or idp
-      sync_metadata = user&.identity_provider_sync&.fetch(id)
-      sync_metadata&.fetch(:perform_sync)
-    end
-
-    def new?(user)
-      sync_metadata = user&.identity_provider_sync&.fetch(id)
-      sync_metadata&.fetch(:synced_on)
     end
 
     def create(user)
@@ -85,7 +62,7 @@ module IdentitySync
                        "(#{response['correlation_id']}) #{response['error_msg']}"
       case status
       when 200, 201
-        Rails.logger.info("Successfully synced User #{user.user_name} #{message_suffix}")
+        Rails.logger.info("Connector #{id}: Successfully synced User #{user.user_name} #{message_suffix}")
       else
         Rails.logger.error("Error syncing User #{user.user_name} #{message_suffix}")
       end

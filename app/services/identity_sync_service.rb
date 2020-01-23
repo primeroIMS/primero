@@ -23,10 +23,7 @@ class IdentitySyncService
         connector_class = provider.identity_sync_connector
         next unless connector_class
 
-        prefix = "PRIMERO_IDENTITY_SYNC_#{connector_class::IDENTIFIER.upcase}_"
-        config = ENV.select { |key, _| key.start_with?(prefix) }
-                    .transform_keys { |key| key.delete_prefix(prefix).downcase }
-        instance.connectors << connector_class.new(config)
+        instance.connectors << connector_class.build_from_env
       end
       instance
     end
@@ -38,6 +35,7 @@ class IdentitySyncService
 
   def sync!(user, connector_id = nil)
     connectors = connectors.select { |c| c.id == connector_id } if connector_id
+    # TODO: This needs to be a deep merge
     updates = connectors.reduce({}) do |aggregate, connector|
       update = connector.sync(user)
       aggregate.merge(update)
