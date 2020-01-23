@@ -40,7 +40,10 @@ export const ACTIONS = {
   WRITE: "write",
   REQUEST_APPROVAL_BIA: "request_approval_bia",
   REQUEST_APPROVAL_CASE_PLAN: "request_approval_case_plan",
-  REQUEST_APPROVAL_CLOSURE: "request_approval_closure"
+  REQUEST_APPROVAL_CLOSURE: "request_approval_closure",
+  APPROVE_BIA: "approve_bia",
+  APPROVE_CASE_PLAN: "approve_case_plan",
+  APPROVE_CLOSURE: "approve_closure"
 };
 
 const MANAGE = [ACTIONS.MANAGE];
@@ -110,6 +113,13 @@ export const REQUEST_APPROVAL = [
   ACTIONS.REQUEST_APPROVAL_BIA,
   ACTIONS.REQUEST_APPROVAL_CASE_PLAN,
   ACTIONS.REQUEST_APPROVAL_CLOSURE
+];
+
+export const APPROVE = [
+  ...MANAGE,
+  ACTIONS.APPROVE_BIA,
+  ACTIONS.APPROVE_CASE_PLAN,
+  ACTIONS.APPROVE_CLOSURE
 ];
 
 export const SHOW_EXPORTS = [

@@ -151,7 +151,7 @@ en:
     logout: "Log out"
     settings: "Settings"
 
-  settings: 
+  settings:
     title: "Settings"
     navigation:
       agency: "Agency"
@@ -2090,6 +2090,7 @@ en:
     previous: "Previous"
     save: "Save"
     request_approval: "Request Approval"
+    approvals: "Approvals"
     description:
       valid: "Valid record"
       invalid: "Invalid record"

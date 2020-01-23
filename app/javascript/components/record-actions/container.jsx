@@ -16,6 +16,7 @@ import {
   ADD_INCIDENT,
   ADD_SERVICE,
   REQUEST_APPROVAL,
+  APPROVE,
   checkPermissions
 } from "../../libs/permissions";
 import Permission from "../application/permission";
@@ -42,6 +43,7 @@ const Container = ({
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openNotesDialog, setOpenNotesDialog] = useState(false);
   const [requestDialog, setRequestDialog] = useState(false);
+  const [approvalType, setApprovalType] = useState("approval");
   const [transitionType, setTransitionType] = useState("");
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
   const [incidentDialog, setIncidentDialog] = useState(false);
@@ -121,6 +123,28 @@ const Container = ({
     ACTIONS.REQUEST_APPROVAL_CLOSURE
   ]);
 
+  const canApprove = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_BIA,
+    ACTIONS.APPROVE_CASE_PLAN,
+    ACTIONS.APPROVE_CLOSURE
+  ]);
+
+  const canApproveBia = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_BIA
+  ]);
+
+  const canApproveCasePlan = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_CASE_PLAN
+  ]);
+
+  const canApproveClosure = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_CLOSURE
+  ]);
+
   const canAddIncident = checkPermissions(userPermissions, ADD_INCIDENT);
 
   const canAddService = checkPermissions(userPermissions, ADD_SERVICE);
@@ -177,6 +201,12 @@ const Container = ({
   };
 
   const handleRequestOpen = () => {
+    setApprovalType("request");
+    setRequestDialog(true);
+  };
+
+  const handleApprovalOpen = () => {
+    setApprovalType("approval");
     setRequestDialog(true);
   };
 
@@ -254,6 +284,12 @@ const Container = ({
     {
       name: i18n.t("actions.request_approval"),
       action: handleRequestOpen,
+      recordType: "all",
+      condition: canRequest
+    },
+    {
+      name: i18n.t("actions.approvals"),
+      action: handleApprovalOpen,
       recordType: "all",
       condition: canRequest
     }
@@ -397,6 +433,7 @@ const Container = ({
           subMenuItems={allowedRequestsApproval}
           record={record}
           recordType={recordType}
+          approvalType={approvalType}
         />
       </Permission>
     </>
