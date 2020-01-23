@@ -35,10 +35,9 @@ class IdentitySyncService
 
   def sync!(user, connector_id = nil)
     connectors = connectors.select { |c| c.id == connector_id } if connector_id
-    # TODO: This needs to be a deep merge
     updates = connectors.reduce({}) do |aggregate, connector|
       update = connector.sync(user)
-      aggregate.merge(update)
+      aggregate.deep_merge(update)
     end
     user.update_attributes!(updates) if updates.present?
   end
