@@ -20,9 +20,9 @@
 <div class="row collapse_expand_subform_header">
   <div class="medium-7 columns">
     <% unless grouped_subforms_header.present? %>
-    <span class="subform_header">
-      <%= label_tag subform.name, subform.display_name, :class=>'key' %><%= unique_id %><%= violation_status(formObject, form_group_id, subform_name, i) %>
-    </span>
+      <span class="subform_header">
+        <%= label_tag subform.name, subform.display_name, :class=>'key' %><%= unique_id %><%= violation_status(formObject, form_group_id, subform_name, i) %>
+      </span>
     <% end %>
     <%= render :partial => "form_section/subform_header_collapsed_fields",
       locals: {

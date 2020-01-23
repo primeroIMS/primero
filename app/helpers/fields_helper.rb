@@ -158,7 +158,6 @@ module FieldsHelper
     return subforms_count
   end
 
-  #TODO should this be form_group_id
   def get_subform_object(object, subform_section, form_group_id, subform_name)
     subform_object = {}
     if form_group_id.present? && form_group_id == "violations" && object[form_group_id].present?
@@ -186,11 +185,11 @@ module FieldsHelper
   end
 
   def violation_status(formObject, form_group_id, subform_name, index)
-    #TODO MRM - fix this with MRM
     if form_group_id.present? && formObject[form_group_id].present? && !formObject[form_group_id][subform_name].empty? &&
       index != 'template'
+      verification_status = formObject[form_group_id][subform_name][index].ctfmr_verified
       content_tag :span, class: 'verification_status' do
-        "(#{formObject[form_group_id][subform_name][index].ctfmr_verified})"
+        "(#{Lookup.display_value('lookup-verification-status', verification_status, @lookups)})"
       end
     end
   end
