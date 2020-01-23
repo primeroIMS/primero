@@ -581,7 +581,7 @@ class User < ApplicationRecord
         approval_field_names << "approval_status_#{approval_id}"
         approval_field_names << "#{approval_id}_approved_date"
         approval_field_names << "#{approval_id}_approved_comments"
-        approval_field_names << "#{approval_id}_approval_type"
+        approval_field_names << "#{approval_id}_approval_type" if approval_id == Approval::CASE_PLAN
       else
         next
       end
