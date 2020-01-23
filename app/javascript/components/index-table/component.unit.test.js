@@ -75,7 +75,7 @@ describe("<IndexTable />", () => {
             owned_by_agency_id: 1,
             record_in_scope: true,
             created_at: "2020-01-07T14:27:04.136Z",
-            name: "Test 1",
+            name: "G P",
             alert_count: 0,
             case_id_display: "96f613f",
             owned_by: "primero_cp",
@@ -85,23 +85,6 @@ describe("<IndexTable />", () => {
             flag_count: 0,
             short_id: "96f613f",
             age: 26,
-            workflow: "new"
-          },
-          {
-            sex: "female",
-            owned_by_agency_id: 1,
-            record_in_scope: true,
-            created_at: "2020-01-07T14:27:04.136Z",
-            name: "Test 2",
-            alert_count: 0,
-            case_id_display: "96f613f",
-            owned_by: "primero_cp",
-            status: "open",
-            registration_date: "2020-01-07",
-            id: "d9df44fb-95d0-4407-91fd-ed18c19be1ad",
-            flag_count: 0,
-            short_id: "96f613f",
-            age: 23,
             workflow: "new"
           }
         ],
@@ -142,7 +125,7 @@ describe("<IndexTable />", () => {
     const nameColumnIndex = 3;
     const table = component.find(IndexTable);
 
-    expect(table.find("tbody tr")).to.have.lengthOf(2);
+    expect(table.find("tbody tr")).to.have.lengthOf(1);
     expect(
       table
         .find("div")
