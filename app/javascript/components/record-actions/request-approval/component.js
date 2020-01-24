@@ -44,6 +44,13 @@ const Component = ({
   const handleChangeComment = event => {
     setComment(event.target.value);
   };
+  const handleCancel = () => {
+    close();
+    setRequestType("bia");
+    setApproval("approved");
+    setComment("");
+  }
+
   const actionBody = { data: {} };
 
   actionBody.data.approval_status = approvalType === "request" ? "requested" : approval;
@@ -167,7 +174,7 @@ const Component = ({
       open={openRequestDialog}
       dialogTitle=""
       successHandler={handleOk}
-      cancelHandler={close}
+      cancelHandler={handleCancel}
       confirmButtonLabel={i18n.t("cases.ok")}
     >
       {dialogContent}

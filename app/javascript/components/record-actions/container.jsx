@@ -16,7 +16,7 @@ import {
   ADD_INCIDENT,
   ADD_SERVICE,
   REQUEST_APPROVAL,
-  APPROVE,
+  APPROVAL,
   checkPermissions
 } from "../../libs/permissions";
 import Permission from "../application/permission";
@@ -43,6 +43,7 @@ const Container = ({
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openNotesDialog, setOpenNotesDialog] = useState(false);
   const [requestDialog, setRequestDialog] = useState(false);
+  const [approveDialog, setApproveDialog] = useState(false);
   const [approvalType, setApprovalType] = useState("approval");
   const [transitionType, setTransitionType] = useState("");
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
@@ -207,7 +208,11 @@ const Container = ({
 
   const handleApprovalOpen = () => {
     setApprovalType("approval");
-    setRequestDialog(true);
+    setApproveDialog(true);
+  };
+
+  const handleApprovalClose = () => {
+    setApproveDialog(false);
   };
 
   const handleIncidentDialog = () => {
@@ -291,7 +296,7 @@ const Container = ({
       name: i18n.t("actions.approvals"),
       action: handleApprovalOpen,
       recordType: "all",
-      condition: canRequest
+      condition: canApprove
     }
   ];
 
@@ -365,7 +370,29 @@ const Container = ({
     }
   ];
 
+  const approvals = [
+    {
+      name: "Assessment",
+      condition: canApproveBia,
+      recordType: "all",
+      value: "bia"
+    },
+    {
+      name: "Case Plan",
+      condition: canApproveCasePlan,
+      recordType: "all",
+      value: "case_plan"
+    },
+    {
+      name: "Closure",
+      condition: canApproveClosure,
+      recordType: "all",
+      value: "closure"
+    }
+  ];
+
   const allowedRequestsApproval = filterItems(requestsApproval);
+  const allowedApprovals = filterItems(approvals);
 
   return (
     <>
@@ -431,6 +458,17 @@ const Container = ({
           openRequestDialog={requestDialog}
           close={() => handleRequestClose()}
           subMenuItems={allowedRequestsApproval}
+          record={record}
+          recordType={recordType}
+          approvalType={approvalType}
+        />
+      </Permission>
+
+      <Permission resources={recordType} actions={APPROVAL}>
+        <RequestApproval
+          openRequestDialog={approveDialog}
+          close={() => handleApprovalClose()}
+          subMenuItems={allowedApprovals}
           record={record}
           recordType={recordType}
           approvalType={approvalType}
