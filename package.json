@@ -1,8 +1,9 @@
 {
   "description": "Primero client application",
+  "sideEffects": false,
   "scripts": {
     "build": "node_modules/.bin/webpack --config webpack/config.production.js",
-    "serve": "node_modules/.bin/webpack-dev-server --config webpack/config.development.js",
+    "dev": "node_modules/.bin/webpack-dev-server --config webpack/config.development.js",
     "test": "NODE_ENV=test mocha",
     "test:all": "npm run test './app/javascript/**/*.unit.test.js'",
     "test:inspect": "npm run test -- --inspect-brk=0.0.0.0:9229",

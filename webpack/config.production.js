@@ -1,19 +1,26 @@
 const common = require("./config.common");
 const WebpackAssetsManifest = require("webpack-assets-manifest");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { OUTPUT_DIRNAME } = require("./config");
-common.plugins.push(
-  new WebpackAssetsManifest({
-    entrypoints: true,
-    publicPath: "/packs/"
-  }),
+const { OUTPUT_DIRNAME, EXTERNAL_ENTRY, MANIFEST_OUTPUT_PATH } = require("./config");
+const path = require("path");
+
+const plugins = name => ([
+  ...(!EXTERNAL_ENTRY(name) 
+      ? [ 
+          new WebpackAssetsManifest({
+            output: MANIFEST_OUTPUT_PATH(name),
+            entrypoints: true,
+            publicPath: "/packs/"
+          })
+        ]
+      : []),
   new MiniCssExtractPlugin({
     filename: "[name].[contenthash:8].css",
     chunkFilename: "[name].[contenthash:8].chunk.css"
   })
-);
+]);
 
-common.module.rules.push({
+const rules = [{
   test: /\.(png|svg|jpg|jpeg|gif)$/,
   use: [
     {
@@ -24,6 +31,15 @@ common.module.rules.push({
       }
     }
   ]
-});
+}];
 
-module.exports = common;
+module.exports = common.map(entry => {
+  const { config, name } = entry;
+
+  return Object.assign({}, config, {
+    plugins: [...config.plugins, ...plugins(name)],
+    module: {
+      rules: [...config.module.rules, ...rules]
+    }
+  });
+});

@@ -76,3 +76,6 @@ vendor/ruby/
 venv/*
 public/translations*
 public/javascripts/*
+public/manifests/*
+public/worker.js
+public/precache-manifest*
