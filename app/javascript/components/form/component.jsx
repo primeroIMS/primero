@@ -84,7 +84,7 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
-  formErrors: PropTypes.object,
+  formErrors: PropTypes.array,
   formRef: PropTypes.object.isRequired,
   formSections: PropTypes.object.isRequired,
   initialValues: PropTypes.object,
