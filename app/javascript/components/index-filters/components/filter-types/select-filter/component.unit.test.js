@@ -24,10 +24,14 @@ describe("<SelectFilter>", () => {
 
   it("renders select as secondary filter, with valid pros in the more section", () => {
     const newProps = {
-      isSecondary: true,
+      mode: {
+        secondary: true
+      },
       moreSectionFilters: {},
       setMoreSectionFilters: () => {},
-      filter
+      filter,
+      reset: false,
+      setReset: () => {}
     };
     const { component } = setupMockFormComponent(SelectFilter, newProps);
     const clone = { ...component.find(SelectFilter).props() };
@@ -35,11 +39,13 @@ describe("<SelectFilter>", () => {
     expect(component.exists("Panel")).to.be.true;
 
     [
-      "isSecondary",
-      "moreSectionFilters",
-      "setMoreSectionFilters",
+      "commonInputProps",
       "filter",
-      "commonInputProps"
+      "mode",
+      "moreSectionFilters",
+      "reset",
+      "setMoreSectionFilters",
+      "setReset"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

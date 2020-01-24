@@ -23,7 +23,9 @@ const Component = ({
   filter,
   moreSectionFilters,
   setMoreSectionFilters,
-  isSecondary
+  mode,
+  reset,
+  setReset
 }) => {
   const i18n = useI18n();
   const { register, unregister, setValue, getValues } = useFormContext();
@@ -43,7 +45,7 @@ const Component = ({
       fieldName
     });
 
-    if (isSecondary) {
+    if (mode?.secondary) {
       handleMoreFiltersChange(
         moreSectionFilters,
         setMoreSectionFilters,
@@ -56,7 +58,7 @@ const Component = ({
   const handleReset = () => {
     setValue(fieldName, false);
     resetSecondaryFilter(
-      isSecondary,
+      mode?.secondary,
       fieldName,
       getValues()[fieldName],
       moreSectionFilters,
@@ -80,8 +82,15 @@ const Component = ({
       setInputValue(true);
     }
 
+    if (reset && !mode?.default) {
+      handleReset();
+    }
+
     return () => {
       unregister(fieldName);
+      if (typeof setReset === "function") {
+        setReset(false);
+      }
     };
   }, [register, unregister, fieldName]);
 
@@ -118,9 +127,11 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   filter: PropTypes.object.isRequired,
-  isSecondary: PropTypes.bool,
+  mode: PropTypes.object,
   moreSectionFilters: PropTypes.object,
-  setMoreSectionFilters: PropTypes.func
+  reset: PropTypes.bool,
+  setMoreSectionFilters: PropTypes.func,
+  setReset: PropTypes.func
 };
 
 export default Component;

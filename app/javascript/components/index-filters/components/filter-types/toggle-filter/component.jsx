@@ -25,7 +25,9 @@ const Component = ({
   filter,
   moreSectionFilters,
   setMoreSectionFilters,
-  isSecondary
+  mode,
+  reset,
+  setReset
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -43,6 +45,17 @@ const Component = ({
     setInputValue(values);
   };
 
+  const handleReset = () => {
+    setValue(fieldName, []);
+    resetSecondaryFilter(
+      mode?.secondary,
+      fieldName,
+      getValues()[fieldName],
+      moreSectionFilters,
+      setMoreSectionFilters
+    );
+  };
+
   useEffect(() => {
     registerInput({
       register,
@@ -58,8 +71,15 @@ const Component = ({
       setSecondaryValues
     );
 
+    if (reset && !mode?.default) {
+      handleReset();
+    }
+
     return () => {
       unregister(fieldName);
+      if (typeof setReset === "function") {
+        setReset(false);
+      }
     };
   }, [register, unregister, fieldName]);
 
@@ -85,7 +105,7 @@ const Component = ({
       fieldName
     });
 
-    if (isSecondary) {
+    if (mode?.secondary) {
       handleMoreFiltersChange(
         moreSectionFilters,
         setMoreSectionFilters,
@@ -93,17 +113,6 @@ const Component = ({
         getValues()[fieldName]
       );
     }
-  };
-
-  const handleReset = () => {
-    setValue(fieldName, []);
-    resetSecondaryFilter(
-      isSecondary,
-      fieldName,
-      getValues()[fieldName],
-      moreSectionFilters,
-      setMoreSectionFilters
-    );
   };
 
   const renderOptions = () =>
@@ -148,9 +157,11 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   filter: PropTypes.object.isRequired,
-  isSecondary: PropTypes.bool,
+  mode: PropTypes.object,
   moreSectionFilters: PropTypes.object,
-  setMoreSectionFilters: PropTypes.func
+  reset: PropTypes.bool,
+  setMoreSectionFilters: PropTypes.func,
+  setReset: PropTypes.func
 };
 
 export default Component;

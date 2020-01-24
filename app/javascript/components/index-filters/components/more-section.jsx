@@ -21,6 +21,10 @@ const MoreSection = ({
 }) => {
   const i18n = useI18n();
   const moreSectionKeys = Object.keys(moreSectionFilters);
+  const mode = {
+    secondary: true,
+    default: false
+  };
 
   if (recordType !== RECORD_PATH.cases) {
     return null;
@@ -50,7 +54,7 @@ const MoreSection = ({
           key={filter.field_name}
           moreSectionFilters={moreSectionFilters}
           setMoreSectionFilters={setMoreSectionFilters}
-          isSecondary
+          mode={mode}
         />
       );
     });

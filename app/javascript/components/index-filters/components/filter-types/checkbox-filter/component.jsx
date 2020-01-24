@@ -28,11 +28,14 @@ const Component = ({
   filter,
   moreSectionFilters,
   setMoreSectionFilters,
-  isSecondary
+  mode,
+  reset,
+  setReset
 }) => {
   const i18n = useI18n();
   const { register, unregister, setValue, user, getValues } = useFormContext();
   const valueRef = useRef();
+
   const { options, fieldName, optionStringsSource, isObject } = getFilterProps({
     filter,
     user,
@@ -46,6 +49,17 @@ const Component = ({
   const setSecondaryValues = (name, values) => {
     setValue(name, values);
     setInputValue(values);
+  };
+
+  const handleReset = () => {
+    setValue(fieldName, defaultValue);
+    resetSecondaryFilter(
+      mode?.secondary,
+      fieldName,
+      getValues()[fieldName],
+      moreSectionFilters,
+      setMoreSectionFilters
+    );
   };
 
   useEffect(() => {
@@ -63,8 +77,16 @@ const Component = ({
       setSecondaryValues
     );
 
+    if (reset && !mode?.default) {
+      setValue(fieldName, defaultValue);
+      handleReset();
+    }
+
     return () => {
       unregister(fieldName);
+      if (typeof setReset === "function") {
+        setReset(false);
+      }
     };
   }, [register, unregister, fieldName]);
 
@@ -89,7 +111,7 @@ const Component = ({
       fieldName
     });
 
-    if (isSecondary) {
+    if (mode?.secondary) {
       handleMoreFiltersChange(
         moreSectionFilters,
         setMoreSectionFilters,
@@ -97,17 +119,6 @@ const Component = ({
         getValues()[fieldName]
       );
     }
-  };
-
-  const handleReset = () => {
-    setValue(fieldName, defaultValue);
-    resetSecondaryFilter(
-      isSecondary,
-      fieldName,
-      getValues()[fieldName],
-      moreSectionFilters,
-      setMoreSectionFilters
-    );
   };
 
   const renderOptions = () =>
@@ -153,9 +164,11 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   filter: PropTypes.object.isRequired,
-  isSecondary: PropTypes.bool,
+  mode: PropTypes.object,
   moreSectionFilters: PropTypes.object,
-  setMoreSectionFilters: PropTypes.func
+  reset: PropTypes.bool,
+  setMoreSectionFilters: PropTypes.func,
+  setReset: PropTypes.func
 };
 
 export default Component;
