@@ -150,7 +150,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders RequestApproval", () => {
-      expect(component.find(RequestApproval)).to.have.length(1);
+      expect(component.find(RequestApproval)).to.have.length(2);
     });
   });
 
