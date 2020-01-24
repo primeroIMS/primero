@@ -150,8 +150,6 @@ const Container = ({
 
   const canAddService = checkPermissions(userPermissions, ADD_SERVICE);
 
-  const canCustomExport = checkPermissions(userPermissions, EXPORT_CUSTOM);
-
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };

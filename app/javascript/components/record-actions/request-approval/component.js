@@ -4,14 +4,13 @@ import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   TextField,
-  menuItem,
   IconButton,
   FormControlLabel,
   FormControl,
   FormLabel,
   RadioGroup,
   Radio
-} from '@material-ui/core';
+} from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { useI18n } from "../../i18n";
@@ -19,7 +18,7 @@ import { ActionDialog } from "../../action-dialog";
 
 import { approvalRecord } from "./action-creators";
 import { NAME } from "./constants";
-import styles from "./styles.css"
+import styles from "./styles.css";
 
 const Component = ({
   close,
@@ -49,7 +48,7 @@ const Component = ({
     setRequestType("bia");
     setApproval("approved");
     setComment("");
-  }
+  };
 
   const actionBody = { data: {} };
 
@@ -59,8 +58,10 @@ const Component = ({
     actionBody.data.notes = comment;
   }
 
-  const message = approvalType === "request" ? `cases.request_approval_success_${requestType}` :
-  `cases.${approval}_success_${requestType}`;
+  const message =
+    approvalType === "request"
+    ? `cases.request_approval_success_${requestType}`
+    : `cases.${approval}_success_${requestType}`;
   const handleOk = () => {
     dispatch(
       approvalRecord({
@@ -121,8 +122,16 @@ const Component = ({
       </IconButton>
       <form noValidate autoComplete="off">
         <FormControl component="fieldset">
-          <FormLabel component="legend">{i18n.t("cases.approval_radio")}</FormLabel>
-          <RadioGroup aria-label="position" name="position" value={approval} onChange={handleChangeApproval} row>
+          <FormLabel component="legend">
+            {i18n.t("cases.approval_radio")}
+          </FormLabel>
+          <RadioGroup
+            aria-label="position"
+            name="position"
+            value={approval}
+            onChange={handleChangeApproval}
+            row
+          >
             <FormControlLabel
               value="approved"
               control={<Radio color="primary" />}
@@ -137,8 +146,10 @@ const Component = ({
             />
           </RadioGroup>
         </FormControl>
-        <br/>
-        <FormLabel component="legend">{i18n.t("cases.approval_select")}</FormLabel>
+        <br />
+        <FormLabel component="legend">
+          {i18n.t("cases.approval_select")}
+        </FormLabel>
         <TextField
           id="outlined-select-approval-native"
           select
@@ -146,23 +157,25 @@ const Component = ({
           onChange={handleChangeType}
           className={css.selectApprovalType}
           SelectProps={{
-            native: true,
+            native: true
           }}
         >
           {selectOptions}
         </TextField>
-        <br/>
-        <br/>
-        <FormLabel component="legend">{i18n.t("cases.approval_comments")}</FormLabel>
+        <br />
+        <br />
+        <FormLabel component="legend">
+          {i18n.t("cases.approval_comments")}
+        </FormLabel>
         <TextField
-            id="outlined-multiline-static"
-            label=""
-            multiline
-            rows="4"
-            defaultValue=""
-            variant="outlined"
-            onChange={handleChangeComment}
-          />
+          id="outlined-multiline-static"
+          label=""
+          multiline
+          rows="4"
+          defaultValue=""
+          variant="outlined"
+          onChange={handleChangeComment}
+        />
       </form>
     </>
   );
@@ -185,12 +198,12 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.propTypes = {
+  approvalType: PropTypes.string,
   close: PropTypes.func,
   openRequestDialog: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string,
-  subMenuItems: PropTypes.array,
-  approvalType: PropTypes.string
+  subMenuItems: PropTypes.array
 };
 
 export default Component;
