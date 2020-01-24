@@ -18,7 +18,7 @@
     end
    %>
   <div class="subforms <%=summary_section_class%> large-12 columns" id="<%= subform.name %>" <%=data_shared_subform%> data-form_group_id=<%=form_group_id%>>
-    <% subform_group = grouped_subforms(formObject, subform) %>
+    <% subform_group = grouped_subforms(formObject, subform, form_group_id, subform_name) %>
     <% subform_group.each do |grouped_subforms_header, subform_objects| %>
       <% if grouped_subforms_header.present? && subform_objects.present? %>
         <div class="subform_grouping_header row">
@@ -44,7 +44,7 @@
     <% end %>
     <% if subform_group.count == 0 %>
       <% initial_subforms = subform_section[:initial_subforms] || 0 %>
-      <% if initial_subforms > 0 && formObject.new_record? && !formObject.errors.any? && subform_section.shared_subform.blank? %>
+      <% if initial_subforms > 0 && formObject.new_record? && !formObject.errors.any? %>
         <% subform_section[:initial_subforms].times do |default_number|%>
           <%= render partial: 'form_section/subform_instance',
             locals: {
