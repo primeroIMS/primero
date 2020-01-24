@@ -44,6 +44,12 @@ const Component = ({
     close();
   };
 
+  const successButtonProps = {
+    color: "primary",
+    variant: "contained",
+    autoFocus: true
+  };
+
   const validationSchema = yup.object().shape({
     export_type: yup.string().required(i18n.t("encrypt.export_type")),
     password: yup.string().required(i18n.t("encrypt.password_label"))
@@ -91,11 +97,7 @@ const Component = ({
       confirmButtonLabel={i18n.t("buttons.export")}
       onClose={close}
       omitCloseAfterSuccess
-      confirmButtonProps={{
-        color: "primary",
-        variant: "contained",
-        autoFocus: true
-      }}
+      confirmButtonProps={successButtonProps}
     >
       <Form
         mode={FORM_MODE_DIALOG}

@@ -1,6 +1,4 @@
 import { expect } from "chai";
-import sinon from "sinon";
-import configureStore from "redux-mock-store";
 
 import { ENQUEUE_SNACKBAR } from "../../notifier";
 
@@ -27,24 +25,23 @@ describe("<RecordActions /> - exports/action-creators", () => {
       password: "mypassword"
     };
     const message = "Test message";
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const returnObject = actionCreators.saveExport({ data }, message);
 
-    dispatch(actionCreators.saveExport({ data }, message));
-
-    expect(dispatch).to.have.been.calledWithMatch({
+    expect(returnObject).to.not.be.undefined;
+    expect(returnObject).to.deep.include({
+      type: actions.EXPORT,
       api: {
-        body: { data },
-        method: "POST",
         path: "exports",
+        method: "POST",
+        body: { data },
         successCallback: {
           action: ENQUEUE_SNACKBAR,
           payload: {
-            message
+            message,
+            options: returnObject.api.successCallback.payload.options
           }
         }
-      },
-      type: actions.EXPORT
+      }
     });
   });
 });
