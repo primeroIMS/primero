@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Api::V2::DashboardsController, type: :request do
 
   before :each do
-    clean_data(Lookup)
+    clean_data(User, UserGroup, Role, Child, Location, SystemSettings, Field, FormSection, Lookup)
 
     SystemSettings.create!(reporting_location_config: {
       admin_level: 2,
@@ -44,13 +44,12 @@ describe Api::V2::DashboardsController, type: :request do
     @bar = User.new(user_name: 'bar', user_groups: [group1], location: 'CTY')
     @bar.save(validate: false)
 
-
-    Child.create!(data: { record_state: true, status: 'open', owned_by: 'foo', workflow: 'new', created_at: 1.week.ago, protection_concerns: ['refugee'] })
+    Child.create!(data: { record_state: true, status: 'open', owned_by: 'foo', workflow: 'new', created_at: last_week, protection_concerns: ['refugee'] })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'foo', last_updated_by: 'bar', workflow: 'assessment', protection_concerns: ['refugee'] })
     Child.create!(data: { record_state: false, status: 'open', owned_by: 'foo', workflow: 'new' })
-    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: 1.day.ago, workflow: 'closed', protection_concerns: ['refugee'] })
-    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: 2.days.ago, workflow: 'closed' })
-    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: 15.days.ago, workflow: 'closed', created_at: 1.week.ago, protection_concerns: ['refugee'] })
+    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: this_week, workflow: 'closed', protection_concerns: ['refugee'] })
+    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: this_week, workflow: 'closed' })
+    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: last_week, workflow: 'closed', created_at: last_week, protection_concerns: ['refugee'] })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar', workflow: 'new' })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar' })
 
