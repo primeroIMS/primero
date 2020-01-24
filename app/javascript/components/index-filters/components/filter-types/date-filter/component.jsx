@@ -5,19 +5,30 @@ import { Select, MenuItem } from "@material-ui/core";
 import { DatePicker } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/styles";
 
-import { useI18n } from "../../../i18n";
-import Panel from "../panel";
+import { useI18n } from "../../../../i18n";
+import Panel from "../../panel";
+import styles from "../styles.css";
+import {
+  registerInput,
+  handleMoreFiltersChange,
+  resetSecondaryFilter,
+  setMoreFilterOnPrimarySection
+} from "../utils";
 
-import styles from "./styles.css";
-import { registerInput } from "./utils";
+import { NAME } from "./constants";
 
-const DateFilter = ({ filter }) => {
+const Component = ({
+  filter,
+  moreSectionFilters,
+  setMoreSectionFilters,
+  isSecondary
+}) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState();
   const valueRef = useRef();
-  const { options } = filter;
+  const { options, field_name: fieldName } = filter;
   const isDateFieldSelectable = Object.keys?.(options)?.length > 0;
   const valueSelectedField = options?.[i18n.locale]?.filter(option =>
     Object.keys(getValues({ nest: true })).includes(option.id)
@@ -39,16 +50,43 @@ const DateFilter = ({ filter }) => {
     }
 
     setSelectedField(value);
+
+    if (isSecondary) {
+      handleMoreFiltersChange(
+        moreSectionFilters,
+        setMoreSectionFilters,
+        fieldName,
+        value
+      );
+    }
   };
 
   const handleReset = () => {
     if (selectedField) {
       setSelectedField("");
       setValue(selectedField, undefined);
+
+      resetSecondaryFilter(
+        isSecondary,
+        fieldName,
+        getValues()[fieldName],
+        moreSectionFilters,
+        setMoreSectionFilters
+      );
     }
   };
 
+  const setSecondaryValues = (_name, values) => {
+    setSelectedField(values);
+  };
+
   useEffect(() => {
+    setMoreFilterOnPrimarySection(
+      moreSectionFilters,
+      fieldName,
+      setSecondaryValues
+    );
+
     if (selectedField) {
       registerInput({
         register,
@@ -79,6 +117,7 @@ const DateFilter = ({ filter }) => {
       getValues={getValues}
       selectedDefaultValueField={selectedField}
       handleReset={handleReset}
+      moreSectionFilters={moreSectionFilters}
     >
       <div className={css.dateContainer}>
         {" "}
@@ -121,10 +160,17 @@ const DateFilter = ({ filter }) => {
   );
 };
 
-DateFilter.propTypes = {
-  filter: PropTypes.object.isRequired
+Component.defaultProps = {
+  moreSectionFilters: {}
 };
 
-DateFilter.displayName = "DateFilter";
+Component.propTypes = {
+  filter: PropTypes.object.isRequired,
+  isSecondary: PropTypes.bool,
+  moreSectionFilters: PropTypes.object,
+  setMoreSectionFilters: PropTypes.func
+};
 
-export default DateFilter;
+Component.displayName = NAME;
+
+export default Component;

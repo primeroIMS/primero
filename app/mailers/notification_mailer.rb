@@ -6,25 +6,25 @@
 class NotificationMailer < ApplicationMailer
   helper :application
 
-  def manager_approval_request(user_id, manager_id, record_id, approval_type)
-    @user = User.find_by(id: user_id) || (return log_not_found('User', user_id))
-    @manager = User.find_by(id: manager_id) || (return log_not_found('Manager user', manager_id))
+  def manager_approval_request(record_id, approval_type, manager_user_name)
+    @manager = User.find_by(user_name: manager_user_name) || (return log_not_found('Manager user', manager_user_name))
     @child = Child.find_by(id: record_id) || (return log_not_found('Case', record_id))
+    @user = @child.owner || (return log_not_found('User', @child.owned_by))
     @approval_type = Lookup.display_value('lookup-approval-type', approval_type)
     return log_not_found('Lookup', 'lookup-approval-type') unless @approval_type
 
     mail(to: @manager.email, subject: t('email_notification.approval_request_subject', id: @child.short_id))
   end
 
-  def manager_approval_response(manager_id, record_id, approval_type, approval, is_gbv)
+  def manager_approval_response(record_id, approved, approval_type, manager_user_name)
     @child = Child.find_by(id: record_id) || (return log_not_found('Case', record_id))
     @owner = @child.owner || (return log_not_found('User', @child.owned_by))
     return unless assert_notifications_enabled(@owner)
 
-    @manager = User.find_by(id: manager_id)
-    lookup_name = is_gbv ? 'lookup-gbv-approval-types' : 'lookup-approval-type'
+    @manager = User.find_by(user_name: manager_user_name)
+    lookup_name = @manager.gbv? ? 'lookup-gbv-approval-types' : 'lookup-approval-type'
     @approval_type = Lookup.display_value(lookup_name, approval_type)
-    @approval = approval == 'true' ? t('approvals.status.approved') : t('approvals.status.rejected')
+    @approval = approved ? t('approvals.status.approved') : t('approvals.status.rejected')
 
     mail(to: @owner.email, subject: t('email_notification.approval_response_subject', id: @child.short_id))
   end

@@ -38,6 +38,7 @@ end
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include UploadableFiles
+  config.include DateHelper
   config.include Devise::Test::IntegrationHelpers
   config.include FakeDeviseLogin, type: :request
   config.include FakeLogin, type: :controller
