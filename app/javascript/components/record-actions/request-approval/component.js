@@ -33,7 +33,7 @@ const Component = ({
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const [requestType, setRequestType] = useState("bia");
-  const [approval, setApproval] = React.useState("accept");
+  const [approval, setApproval] = React.useState("approved");
   const [comment, setComment] = React.useState("");
   const handleChangeType = event => {
     setRequestType(event.target.value);
@@ -44,16 +44,24 @@ const Component = ({
   const handleChangeComment = event => {
     setComment(event.target.value);
   };
+  const actionBody = { data: {} };
 
+  actionBody.data.approval_status = approvalType === "request" ? "requested" : approval;
+
+  if (comment !== "") {
+    actionBody.data.notes = comment;
+  }
+
+  const message = approvalType === "request" ? `cases.request_approval_success_${requestType}` :
+  `cases.${approval}_success_${requestType}`;
   const handleOk = () => {
     dispatch(
       approvalRecord({
         recordType,
         recordId: record.get("id"),
         approvalId: requestType,
-        body: { data: { approval_status: "requested" } },
-        message: i18n.t(`cases.request_approval_success_${requestType}`),
-        redirect: false
+        body: actionBody,
+        message: i18n.t(message)
       })
     );
 
@@ -109,13 +117,13 @@ const Component = ({
           <FormLabel component="legend">{i18n.t("cases.approval_radio")}</FormLabel>
           <RadioGroup aria-label="position" name="position" value={approval} onChange={handleChangeApproval} row>
             <FormControlLabel
-              value="accept"
+              value="approved"
               control={<Radio color="primary" />}
-              label={i18n.t("css.request_approval_select")}
+              label={i18n.t("cases.approval_radio_accept")}
               labelPlacement="start"
             />
             <FormControlLabel
-              value="reject"
+              value="rejected"
               control={<Radio color="primary" />}
               label={i18n.t("cases.approval_radio_reject")}
               labelPlacement="start"

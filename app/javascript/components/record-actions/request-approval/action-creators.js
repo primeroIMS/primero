@@ -8,8 +8,7 @@ export const approvalRecord = ({
   recordId,
   approvalId,
   body,
-  message,
-  redirect
+  message
 }) => {
   return {
     type: `${recordType}/${APPROVE_RECORD}`,
@@ -27,7 +26,7 @@ export const approvalRecord = ({
           }
         },
         redirectWithIdFromResponse: false,
-        redirect: redirect === false ? false : redirect || `/${recordType}`
+        redirect: false
       }
     }
   };

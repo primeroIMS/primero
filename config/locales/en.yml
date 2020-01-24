@@ -330,6 +330,17 @@ en:
     request_approval_success_bia: "Approval requested for Assessment form."
     request_approval_success_case_plan: "Approval requested for Case Plan form."
     request_approval_success_closure: "Approval requested for Closure form."
+    approved_success_closure: "Closure - Approved"
+    rejected_success_closure: "Closure - Rejected"
+    approved_success_case_plan: "Case Plan - Approved"
+    rejected_success_case_plan: "Case Plan - Rejected"
+    approved_success_bia: "Assessment - Approved"
+    rejected_success_bia: "Assessment - Rejected"
+    approval_select: "The form for"
+    approval_radio: "I would like to"
+    approval_radio_accept: "Accept"
+    approval_radio_reject: "Reject"
+    approval_comments: "Comments"
 
     order_by:
       most_recently: "Most recently"

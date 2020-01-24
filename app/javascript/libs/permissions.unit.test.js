@@ -49,7 +49,10 @@ describe("Verifying config constant", () => {
       "WRITE",
       "REQUEST_APPROVAL_BIA",
       "REQUEST_APPROVAL_CASE_PLAN",
-      "REQUEST_APPROVAL_CLOSURE"
+      "REQUEST_APPROVAL_CLOSURE",
+      "APPROVE_BIA",
+      "APPROVE_CASE_PLAN",
+      "APPROVE_CLOSURE"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
       expect(permissions[property]).to.be.a("string");
