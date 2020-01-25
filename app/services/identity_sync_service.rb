@@ -7,8 +7,6 @@
 # The pattern is PRIMERO_IDENTITY_SYNC_<CONNECTOR_ID>_<PROPERTY>.
 # Common properties are: HOST, PORT, TLS (client|truthy|falsey), TLS_CLIENT_KEY, TLS_CLIENT_CERT
 class IdentitySyncService
-  include Singleton
-
   attr_accessor :connectors
 
   class << self
@@ -34,11 +32,22 @@ class IdentitySyncService
   end
 
   def sync!(user, connector_id = nil)
-    connectors = connectors.select { |c| c.id == connector_id } if connector_id
+    connectors = if connector_id
+                   self.connectors.select { |c| c.id == connector_id }
+                 else
+                   self.connectors
+                 end
     updates = connectors.reduce({}) do |aggregate, connector|
       update = connector.sync(user)
       aggregate.deep_merge(update)
     end
-    user.update_attributes!(updates) if updates.present?
+    user.update!(sanitize(updates)) && updates
+  end
+
+  def sanitize(updates)
+    return {} unless updates.is_a?(Hash)
+
+    attributes = User.attribute_names.reject { |a| a.include?('password') }
+    updates.with_indifferent_access.slice(*attributes)
   end
 end

@@ -40,25 +40,19 @@ module IdentitySync
       raise NotImplementedError
     end
 
-    def valid_update?(_user)
-      raise NotImplementedError
-    end
-
-    protected
-
     def exportable?(user)
       # Only if the user's IDP is configured to sync with this connector
-      identity_sync_connector = user&.identity_provider&.configuration&.fetch(:identity_sync_connector)
-      return false unless identity_sync_connector == self.class.name
+      identity_sync_connector = user&.identity_provider&.configuration&.dig('identity_sync_connector')
+      return false unless identity_sync_connector == self.class.name.demodulize
 
       # Only new users or users with changes on full name or status or idp
-      sync_metadata = user&.identity_provider_sync&.fetch(id)
-      sync_metadata&.fetch(:perform_sync)
+      sync_metadata = user&.identity_provider_sync&.dig(id)
+      sync_metadata&.dig('perform_sync')
     end
 
     def new?(user)
-      sync_metadata = user&.identity_provider_sync&.fetch(id)
-      sync_metadata&.fetch(:synced_on)
+      sync_metadata = user&.identity_provider_sync&.dig(id)
+      !sync_metadata&.dig('synced_on')
     end
   end
 end
