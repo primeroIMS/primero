@@ -27,13 +27,18 @@ module IdentitySync
     def create(user)
       status, response = connection.post('/users', params(user))
       log_response(user, status, response)
-      response_attributes(response)
+      response_attributes(response, user)
     end
 
     def update(user)
       status, response = connection.patch("/users/#{user.user_name}", params(user))
       log_response(user, status, response)
-      response_attributes(response)
+      response_attributes(response, user)
+    end
+
+    def relevant_updates?(user)
+      user.full_name != user['identity_provider_sync']['aad']['full_name'] ||
+        !user.disabled != user['identity_provider_sync']['aad']['enabled']
     end
 
     def params(user)
@@ -44,17 +49,25 @@ module IdentitySync
       }
     end
 
-    def response_attributes(response)
+    def response_attributes(response, user)
       {
         one_time_password: response['one_time_password'],
         identity_provider_sync: {
           aad: {
-            perform_sync: false,
-            synced_on: DateTime.now,
             message: "(#{response['correlation_id']}) #{response['error_msg']}"
-          }.compact
+          }.merge(synced_attributes(user))
         }
       }.compact
+    end
+
+    def synced_attributes(user)
+      {
+        synced_on: DateTime.now,
+        synced_values: {
+          full_name: user.full_name,
+          enabled: !user.disabled
+        }
+      }
     end
 
     def log_response(user, status, response)

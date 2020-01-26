@@ -23,9 +23,15 @@ module IdentitySync
     def initialize(options = {}); end
 
     def sync(user)
-      return {} unless exportable?(user)
+      return {} unless syncable?(user)
 
-      new?(user) ? create(user) : update(user)
+      if new?(user)
+        create(user)
+      elsif relevant_updates?(user)
+        update(user)
+      else
+        {}
+      end
     end
 
     def fetch(_user)
@@ -40,19 +46,19 @@ module IdentitySync
       raise NotImplementedError
     end
 
-    def exportable?(user)
+    def syncable?(user)
       # Only if the user's IDP is configured to sync with this connector
       identity_sync_connector = user&.identity_provider&.configuration&.dig('identity_sync_connector')
-      return false unless identity_sync_connector == self.class.name.demodulize
-
-      # Only new users or users with changes on full name or status or idp
-      sync_metadata = user&.identity_provider_sync&.dig(id)
-      sync_metadata&.dig('perform_sync')
+      identity_sync_connector == self.class.name.demodulize
     end
 
     def new?(user)
       sync_metadata = user&.identity_provider_sync&.dig(id)
       !sync_metadata&.dig('synced_on')
+    end
+
+    def relevant_updates?(_user)
+      true
     end
   end
 end

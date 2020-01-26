@@ -40,23 +40,17 @@ describe IdentitySync::AzureActiveDirectoryConnector do
     end
   end
 
-  describe '.exportable?' do
+  describe '.syncable?' do
     it 'is not if the IDP of the user is not configured for this connector' do
       user_no_idp = User.new(user_name: 'testuser@test.org', full_name: 'Test user')
 
-      expect(connector.exportable?(user_no_idp)).to be_falsey
+      expect(connector.syncable?(user_no_idp)).to be_falsey
     end
 
-    it 'is not if the user is explicitly not marked to sync for this connector' do
-      user.identity_provider_sync = { aad: { perform_sync: false } }
-
-      expect(connector.exportable?(user)).to be_falsey
-    end
-
-    it 'is when the user is marked to sync for this IDP and the IDP is configured' do
+    it 'is when the IDP of the user is configured for this connector' do
       user.identity_provider_sync = { aad: { perform_sync: true } }
 
-      expect(connector.exportable?(user)).to be_truthy
+      expect(connector.syncable?(user)).to be_truthy
     end
   end
 
@@ -72,5 +66,20 @@ describe IdentitySync::AzureActiveDirectoryConnector do
 
       expect(connector.new?(user)).to be_falsey
     end
+  end
+
+  describe '.relevant_updates?' do
+    it 'is if the full name of the user changed since last sync' do
+      user.identity_provider_sync = { aad: { synced_values: { full_name: 'Test' } } }
+
+      expect(connector.relevant_updates?(user)).to be_truthy
+    end
+
+    it 'is if the user was disabled since last sync' do
+      user.identity_provider_sync = { aad: { synced_values: { enabled: false } } }
+
+      expect(connector.relevant_updates?(user)).to be_truthy
+    end
+
   end
 end
