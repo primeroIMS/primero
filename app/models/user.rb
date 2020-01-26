@@ -11,7 +11,6 @@ class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::Whitelist
 
   USER_NAME_REGEX = /\A[^ ]+\z/.freeze
-  EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})$\z/.freeze
   PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/.freeze
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
 
@@ -19,8 +18,7 @@ class User < ApplicationRecord
 
   delegate :can?, :cannot?, to: :ability
 
-  devise :database_authenticatable, :timeoutable,
-         :recoverable, :validatable,
+  devise :database_authenticatable, :timeoutable, :recoverable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
   belongs_to :role
@@ -50,8 +48,10 @@ class User < ApplicationRecord
   validates :full_name, presence: { message: 'errors.models.user.full_name' }
   validates :user_name, presence: true, uniqueness: { message: 'errors.models.user.user_name_uniqueness' }
   validates :user_name, format: { with: USER_NAME_REGEX, message: 'errors.models.user.user_name' }, unless: :using_idp?
-  validates :user_name, format: { with: EMAIL_REGEX, message: 'errors.models.user.user_name' }, if: :using_idp?
-  validates :email, format: { with: EMAIL_REGEX, message: 'errors.models.user.email' }, allow_nil: true
+  validates :user_name, format: { with: URI::MailTo::EMAIL_REGEXP, message: 'errors.models.user.user_name' },
+                        if: :using_idp?
+  validates :email, presence: true, if: :using_idp?
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP, message: 'errors.models.user.email' }, allow_nil: true
   validates :password,
             presence: true,
             length: { minimum: 8, message: 'errors.models.user.password_mismatch' },
