@@ -1,17 +1,29 @@
 import * as actions from "../../action-creators";
 import * as selectors from "../../selectors";
-import { DateRangeSelect } from "components/key-performance-indicators";
+import { DateRangeSelect, DateRange } from "components/key-performance-indicators/date-range-select";
 import { OptionsBox, DashboardTable } from "components/dashboard";
 import { connect } from "react-redux";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useI18n } from "components/i18n";
+import { subMonths } from "date-fns";
 
 function NumberOfCases({ fetchNumberOfCases, numberOfCases }) {
   let i18n = useI18n();
 
+  let today = new Date();
+  let dateRanges = [
+    new DateRange(
+      '3-months',
+      i18n.t('key_performance_indicators.time_periods.last_3_months'),
+      subMonths(today, 3),
+      today)
+  ]
+
+  let [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);
+
   useEffect(() => {
-    fetchNumberOfCases();
-  }, []);
+    fetchNumberOfCases(currentDateRange);
+  }, [currentDateRange]);
 
   let localizeDate = (date) => i18n.toTime('key_performance_indicators.date_format', date);
 
@@ -30,16 +42,7 @@ function NumberOfCases({ fetchNumberOfCases, numberOfCases }) {
   // is depreciated.
   // TODO: Some of this data my need translating, if it's a date?
   let rows = numberOfCases.get("data")
-    .map(row => columns.map(column => row.get(column.name)))
-
-  let threeMonthsAgo = new Date();
-  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
-  let dateRanges = [{
-    value: '3-months',
-    name: i18n.t('key_performance_indicators.time_periods.last_3_months'),
-    from: threeMonthsAgo,
-    to: new Date()
-  }]
+    .map(row => columns.map(column => row.get(column.name)));
 
   return (
     <OptionsBox
@@ -47,8 +50,9 @@ function NumberOfCases({ fetchNumberOfCases, numberOfCases }) {
       action={
         <DateRangeSelect
           ranges={dateRanges}
-          selectedRange={dateRanges[0]}
+          selectedRange={currentDateRange}
           withCustomRange
+          setSelectedRange={setCurrentDateRange}
         />
       }
     >

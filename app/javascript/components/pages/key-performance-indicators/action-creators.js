@@ -1,10 +1,11 @@
 import * as Actions from "./actions";
 
-export const fetchNumberOfCases = () => async dispatch => {
+export const fetchNumberOfCases = (dateRange) => async dispatch => {
   dispatch({
     type: Actions.NUMBER_OF_CASES,
     api: {
-      path: "key_performance_indicators/number_of_cases"
+      path: "key_performance_indicators/number_of_cases",
+      params: { from: dateRange.from, to: dateRange.to }
     }
   });
 };
