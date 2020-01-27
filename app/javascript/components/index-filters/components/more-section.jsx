@@ -23,7 +23,7 @@ const MoreSection = ({
   const moreSectionKeys = Object.keys(moreSectionFilters);
   const mode = {
     secondary: true,
-    default: false
+    defaultFilter: false
   };
 
   if (recordType !== RECORD_PATH.cases) {

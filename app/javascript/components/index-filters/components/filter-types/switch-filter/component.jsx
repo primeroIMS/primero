@@ -82,7 +82,7 @@ const Component = ({
       setInputValue(true);
     }
 
-    if (reset && !mode?.default) {
+    if (reset && !mode?.defaultFilter) {
       handleReset();
     }
 
@@ -127,7 +127,10 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   filter: PropTypes.object.isRequired,
-  mode: PropTypes.object,
+  mode: PropTypes.shape({
+    defaultFilter: PropTypes.bool,
+    secondary: PropTypes.bool
+  }),
   moreSectionFilters: PropTypes.object,
   reset: PropTypes.bool,
   setMoreSectionFilters: PropTypes.func,

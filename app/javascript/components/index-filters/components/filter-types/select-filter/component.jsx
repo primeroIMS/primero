@@ -91,7 +91,7 @@ const Component = ({
       value
     );
 
-    if (reset && !mode?.default) {
+    if (reset && !mode?.defaultFilter) {
       handleReset();
     }
 
@@ -111,6 +111,7 @@ const Component = ({
   });
 
   const handleChange = (event, value) => {
+    console.log(event, value);
     handleFilterChange({
       type: "basic",
       event,
@@ -171,7 +172,10 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   filter: PropTypes.object.isRequired,
-  mode: PropTypes.object,
+  mode: PropTypes.shape({
+    defaultFilter: PropTypes.bool,
+    secondary: PropTypes.bool
+  }),
   moreSectionFilters: PropTypes.object,
   reset: PropTypes.bool,
   setMoreSectionFilters: PropTypes.func,

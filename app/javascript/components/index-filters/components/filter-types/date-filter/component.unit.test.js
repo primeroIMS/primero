@@ -1,4 +1,6 @@
-import { setupMockFormComponent, expect } from "../../../../../test";
+import { Select } from "@material-ui/core";
+
+import { setupMockFormComponent, expect, spy } from "../../../../../test";
 
 import DateFilter from "./component";
 
@@ -54,5 +56,29 @@ describe("<DateFilter>", () => {
     });
 
     expect(clone).to.be.empty;
+  });
+
+  it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
+    const newProps = {
+      mode: {
+        secondary: false
+      },
+      moreSectionFilters: {},
+      setMoreSectionFilters: spy(),
+      filter,
+      reset: false,
+      setReset: () => {},
+      isDateFieldSelectable: true
+    };
+
+    const { component } = setupMockFormComponent(DateFilter, newProps);
+
+    const select = component.find(Select);
+
+    expect(select).to.have.lengthOf(1);
+
+    select.props().onChange({ target: { value: "option-2" } });
+
+    expect(newProps.setMoreSectionFilters).to.have.not.been.called;
   });
 });

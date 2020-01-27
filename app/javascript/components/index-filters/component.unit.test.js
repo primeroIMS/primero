@@ -4,7 +4,7 @@ import { setupMountedComponent, expect } from "../../test";
 
 import IndexFilters from "./component";
 import MoreSection from "./components/more-section";
-import Actions from "./components/actions";
+import FilterActions from "./components/actions";
 
 describe("<IndexFitlers>", () => {
   const state = fromJS({
@@ -38,9 +38,9 @@ describe("<IndexFitlers>", () => {
     expect(component.find(MoreSection)).to.have.lengthOf(1);
   });
 
-  it("renders Actions filters", () => {
+  it("renders FilterActions filters", () => {
     const { component } = setupMountedComponent(IndexFilters, props, state);
 
-    expect(component.find(Actions)).to.have.lengthOf(1);
+    expect(component.find(FilterActions)).to.have.lengthOf(1);
   });
 });

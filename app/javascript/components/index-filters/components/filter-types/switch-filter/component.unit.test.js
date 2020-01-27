@@ -1,4 +1,4 @@
-import { setupMockFormComponent, expect } from "../../../../../test";
+import { setupMockFormComponent, expect, spy } from "../../../../../test";
 
 import SwitchFilter from "./component";
 
@@ -62,5 +62,26 @@ describe("<SwitchFilter>", () => {
     });
 
     expect(clone).to.be.empty;
+  });
+
+  it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
+    const newProps = {
+      mode: {
+        secondary: false
+      },
+      moreSectionFilters: {},
+      setMoreSectionFilters: spy(),
+      filter,
+      reset: false,
+      setReset: () => {}
+    };
+
+    const { component } = setupMockFormComponent(SwitchFilter, newProps);
+    const switchFilter = component.find("input[type='checkbox']").at(0);
+
+    expect(switchFilter).to.have.lengthOf(1);
+    switchFilter.simulate("change", { target: { checked: true } });
+
+    expect(newProps.setMoreSectionFilters).to.have.not.been.called;
   });
 });

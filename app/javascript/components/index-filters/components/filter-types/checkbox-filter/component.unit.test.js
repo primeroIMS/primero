@@ -28,13 +28,13 @@ describe("<CheckboxFilter>", () => {
     );
   });
 
-  it("renders checkbox as secondary filter, with valid pros in the more section", () => {
+  it("renders checkbox with valid pros in the more section", () => {
     const newProps = {
       mode: {
         secondary: true
       },
       moreSectionFilters: {},
-      setMoreSectionFilters: () => {},
+      setMoreSectionFilters: spy(),
       filter,
       reset: false,
       setReset: () => {}
@@ -61,5 +61,27 @@ describe("<CheckboxFilter>", () => {
     });
 
     expect(clone).to.be.empty;
+  });
+
+  it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
+    const newProps = {
+      mode: {
+        secondary: false
+      },
+      moreSectionFilters: {},
+      setMoreSectionFilters: spy(),
+      filter,
+      reset: false,
+      setReset: () => {}
+    };
+
+    const { component } = setupMockFormComponent(CheckboxFilter, newProps);
+
+    const checkbox = component.find("input[type='checkbox']").at(0);
+
+    expect(checkbox).to.have.lengthOf(1);
+    checkbox.simulate("change", { target: { checked: true } });
+
+    expect(newProps.setMoreSectionFilters).to.have.not.been.called;
   });
 });

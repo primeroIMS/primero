@@ -53,13 +53,15 @@ const Component = ({ recordType, defaultFilters }) => {
 
   const userName = useSelector(state => currentUser(state));
 
-  const pFilters = filters.filter(f => PRIMARY_FILTERS.includes(f.field_name));
-  const defaultf = filters.filter(f =>
+  const allPrimaryFilters = filters.filter(f =>
+    PRIMARY_FILTERS.includes(f.field_name)
+  );
+  const allDefaultFilters = filters.filter(f =>
     [...defaultFilters.keys()].includes(f.field_name)
   );
 
   const moreSectionKeys = Object.keys(moreSectionFilters);
-  const defaultFilterNames = defaultf.map(t => t.field_name);
+  const defaultFilterNames = allDefaultFilters.map(t => t.field_name);
 
   const renderFilters = () => {
     let primaryFilters = filters;
@@ -76,13 +78,13 @@ const Component = ({ recordType, defaultFilters }) => {
           Object.keys(queryParams).includes(f.field_name) &&
           !(
             defaultFilterNames.includes(f.field_name) ||
-            pFilters.map(t => t.field_name).includes(f.field_name)
+            allPrimaryFilters.map(t => t.field_name).includes(f.field_name)
           )
       );
 
       const mergedFilters = fromJS([
-        ...pFilters,
-        ...defaultf,
+        ...allPrimaryFilters,
+        ...allDefaultFilters,
         ...queryParamsFilter,
         ...selectedFromMoreSection
       ]);
@@ -99,7 +101,7 @@ const Component = ({ recordType, defaultFilters }) => {
 
       const mode = {
         secondary,
-        default: defaultFilterNames.includes(filter.field_name)
+        defaultFilter: defaultFilterNames.includes(filter.field_name)
       };
 
       if (!Filter) return null;
@@ -211,8 +213,8 @@ const Component = ({ recordType, defaultFilters }) => {
                 more={more}
                 setMore={setMore}
                 allAvailable={filters}
-                primaryFilters={pFilters}
-                defaultFilters={defaultf}
+                primaryFilters={allPrimaryFilters}
+                defaultFilters={allDefaultFilters}
                 moreSectionFilters={moreSectionFilters}
                 setMoreSectionFilters={setMoreSectionFilters}
               />

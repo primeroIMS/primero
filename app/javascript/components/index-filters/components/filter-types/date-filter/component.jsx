@@ -52,7 +52,6 @@ const Component = ({
     }
 
     setSelectedField(value);
-
     if (mode?.secondary) {
       handleMoreFiltersChange(
         moreSectionFilters,
@@ -98,7 +97,7 @@ const Component = ({
         clearSecondaryInput: () => setSelectedField("")
       });
 
-      if (reset && !mode?.default) {
+      if (reset && !mode?.defaultFilter) {
         handleReset();
       }
     }
@@ -175,7 +174,10 @@ Component.defaultProps = {
 
 Component.propTypes = {
   filter: PropTypes.object.isRequired,
-  mode: PropTypes.object,
+  mode: PropTypes.shape({
+    defaultFilter: PropTypes.bool,
+    secondary: PropTypes.bool
+  }),
   moreSectionFilters: PropTypes.object,
   reset: PropTypes.bool,
   setMoreSectionFilters: PropTypes.func,
