@@ -13,8 +13,7 @@ class SystemSettings < ApplicationRecord
   store_accessor(
     :system_options,
     :due_date_from_appointment_date, :notification_email_enabled,
-    :welcome_email_enabled, :show_alerts, :use_identity_provider,
-    :identity_syncs
+    :welcome_email_enabled, :show_alerts, :use_identity_provider
   )
 
   localize_properties [:welcome_email_text]
@@ -39,6 +38,12 @@ class SystemSettings < ApplicationRecord
 
   def name
     I18n.t('system_settings.label')
+  end
+
+  def system_name
+    system_name = system_options['system_name']
+    system_name = system_name.dig(I18n.locale) if system_name.is_a?(Hash)
+    system_name || Rails.application.routes.default_url_options[:host]
   end
 
   def update_default_locale

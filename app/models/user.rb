@@ -43,8 +43,6 @@ class User < ApplicationRecord
 
   before_create :set_agency_services
   before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code
-  after_create :send_welcome_email
-  after_save :identity_sync
   after_save :reassociate_groups_or_agencies
 
   validates :full_name, presence: { message: 'errors.models.user.full_name' }
@@ -348,17 +346,17 @@ class User < ApplicationRecord
     role&.is_user_admin_role? && group_permission?(Permission::ADMIN_ONLY)
   end
 
-  def send_welcome_email
+  def send_welcome_email(admin_user)
     return unless email && SystemSettings.current&.welcome_email_enabled
     return if identity_provider&.sync_identity?
 
-    MailJob.perform_later(id)
+    UserMailJob.perform_later(id, admin_user.id)
   end
 
-  def identity_sync
+  def identity_sync(admin_user)
     return unless identity_provider&.sync_identity?
 
-    IdentitySyncJob.perform_later(id)
+    IdentitySyncJob.perform_later(id, admin_user.id)
   end
 
   # Used by the User import to populate the password with a random string when the input file has no password

@@ -8,6 +8,8 @@ module Api::V2
     before_action :user_params, only: %i[create update]
     before_action :load_user, only: %i[show update destroy]
     before_action :load_extended, only: %i[index show]
+    after_action :welcome, only: %i[create]
+    after_action :identity_sync, only: %i[create update]
 
     def index
       authorize! :index, User
@@ -55,6 +57,14 @@ module Api::V2
 
     def load_extended
       @extended = params[:extended].present? && params[:extended] == 'true'
+    end
+
+    def welcome
+      @user.send_welcome_email(current_user)
+    end
+
+    def identity_sync
+      @user.identity_sync(current_user)
     end
   end
 end
