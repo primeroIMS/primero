@@ -27,11 +27,7 @@ Show the JSON representation of a user_group.
     "unique_id": "usergroup-primero-ftr",
     "name": "Primero FTR",
     "description": "Default Primero User Group for FTR",
-    "core_resource": false,
-    "user_ids": [
-      1,
-      7
-    ]
+    "core_resource": false
   }
 }
 ```

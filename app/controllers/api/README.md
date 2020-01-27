@@ -180,3 +180,13 @@ Endpoints for querying and manipulating individual locations and related resourc
 Endpoint for querying the count of alerts from cases, incidents and tracing request of the logged user.
 
 * [Query for the count of alerts](v2/docs/alerts/get.md) : `GET /api/v2/alerts`
+
+## User Group Endpoint
+
+Endpoints for querying and manipulating individual locations and related resources in Primero.
+
+* [Query for User Groups](v2/docs/user_groups/get.md) : `GET /api/v2/user_groups`
+* [Fetch an individual User Group](v2/docs/user_groups/id/get.md) : `GET /api/v2/user_groups/:id`
+* [Create a new User Group](v2/docs/user_groups/post.md) : `POST /api/v2/user_groups`
+* [Update an existing User Group](v2/docs/user_groups/id/patch.md) : `PATCH /api/v2/user_groups/:id`
+* [Delete an existing User Group](v2/docs/user_groups/id/delete.md) : `DELETE /api/v2/user_groups/:id`

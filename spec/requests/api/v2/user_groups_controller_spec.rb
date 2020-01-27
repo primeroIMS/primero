@@ -2,48 +2,9 @@ require 'rails_helper'
 
 describe Api::V2::UserGroupsController, type: :request do
   before :each do
-    clean_data(User, UserGroup, Agency, Role)
-    @role = Role.create!(
-      name: 'Test Role 1',
-      unique_id: 'test-role-1',
-      permissions: [
-        Permission.new(
-          resource: Permission::CASE,
-          actions: [Permission::MANAGE]
-        )
-      ]
-    )
-    @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
-    @user_a = User.create!(
-      full_name: 'Test User 1',
-      user_name: 'test_user_1',
-      password: 'a12345678',
-      password_confirmation: 'a12345678',
-      email: 'test_user_1@localhost.com',
-      agency_id: @agency_a.id,
-      role: @role
-    )
-    @user_b = User.create!(
-      full_name: 'Test User 2',
-      user_name: 'test_user_2',
-      password: 'b12345678',
-      password_confirmation: 'b12345678',
-      email: 'test_user_2@localhost.com',
-      agency_id: @agency_a.id,
-      role: @role
-    )
-    @user_c = User.create!(
-      full_name: 'Test User 3',
-      user_name: 'test_user_3',
-      password: 'c12345678',
-      password_confirmation: 'c12345678',
-      email: 'test@localhost.com',
-      agency_id: @agency_a.id,
-      role: @role
-    )
-
-    @user_group_a = UserGroup.create!(unique_id: 'user-group-1', name: 'user group 1', users: [@user_a, @user_b])
-    @user_group_b = UserGroup.create!(unique_id: 'user-group-2', name: 'user group 2', users: [@user_c, @user_b])
+    clean_data(UserGroup)
+    @user_group_a = UserGroup.create!(unique_id: 'user-group-1', name: 'user group 1')
+    @user_group_b = UserGroup.create!(unique_id: 'user-group-2', name: 'user group 2')
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -141,19 +102,13 @@ describe Api::V2::UserGroupsController, type: :request do
           unique_id: 'test_unique_id21',
           name: 'test_nam12',
           description: 'test_description12',
-          core_resource: true,
-          user_ids: [
-            @user_a.id,
-            @user_b.id,
-            @user_c.id
-          ]
+          core_resource: true
         }
       }
 
       post '/api/v2/user_groups', params: params
       expect(response).to have_http_status(200)
       expect(json['data']['name']).to eq(params[:data][:name])
-      expect(json['data']['user_ids']).to eq(params[:data][:user_ids])
     end
 
     it 'Error 409 same uniq_id' do
@@ -167,12 +122,7 @@ describe Api::V2::UserGroupsController, type: :request do
           unique_id: 'user-group-1',
           name: 'test_nam12',
           description: 'test_descriptio1n2',
-          core_resource: true,
-          user_ids: [
-            @user_a.id,
-            @user_b.id,
-            @user_c.id
-          ]
+          core_resource: true
         }
       }
 
@@ -211,19 +161,13 @@ describe Api::V2::UserGroupsController, type: :request do
           unique_id: @user_group_b.unique_id,
           name: 'test_nam12',
           description: 'test_descriptio1n2',
-          core_resource: true,
-          user_ids: [
-            @user_a.id,
-            @user_b.id,
-            @user_c.id
-          ]
+          core_resource: true
         }
       }
 
       patch "/api/v2/user_groups/#{@user_group_b.id}", params: params
       expect(response).to have_http_status(200)
-      expect(json['data'].except('user_ids')).to eq(params[:data].except(:user_ids).deep_stringify_keys)
-      expect(json['data']['user_ids'].count).to eq(3)
+      expect(json['data']).to eq(params[:data].deep_stringify_keys)
     end
 
     it 'updates an non-existing user_group' do
@@ -297,6 +241,6 @@ describe Api::V2::UserGroupsController, type: :request do
   end
 
   after :each do
-    clean_data(User, UserGroup, Agency, Role)
+    clean_data(UserGroup)
   end
 end

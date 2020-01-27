@@ -31,24 +31,14 @@ Shows a paginated list of all user_groups that are accessible to this user.
       "unique_id": "test_unique_id21",
       "name": "test_nam12",
       "description": "test_descriptio1n2",
-      "core_resource": true,
-      "user_ids": [
-        1,
-        11,
-        12
-      ]
+      "core_resource": true
     },
     {
       "id": 6,
       "unique_id": "test_unique_id23",
       "name": "test_nam12",
       "description": "test_descriptio1n2",
-      "core_resource": true,
-      "user_ids": [
-        1,
-        11,
-        12
-      ]
+      "core_resource": true
     }
   ]
 }

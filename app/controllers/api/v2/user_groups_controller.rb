@@ -15,7 +15,7 @@ module Api::V2
 
     def create
       authorize! :create, UserGroup
-      @user_group = UserGroup.new_with_properties(user_group_params)
+      @user_group = UserGroup.new(user_group_params)
       @user_group.save!
       status = params[:data][:id].present? ? 204 : 200
       render :create, status: status
@@ -23,7 +23,7 @@ module Api::V2
 
     def update
       authorize! :update, @user_group
-      @user_group.update_properties(user_group_params)
+      @user_group.assign_attributes(user_group_params)
       @user_group.save!
     end
 
@@ -33,8 +33,7 @@ module Api::V2
     end
 
     def user_group_params
-      params.require(:data).permit(:id, :unique_id, :name, :description,
-                                   :core_resource, 'user_ids' => [])
+      params.require(:data).permit(:id, :unique_id, :name, :description, :core_resource)
     end
 
     protected

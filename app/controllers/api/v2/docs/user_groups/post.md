@@ -15,17 +15,12 @@ Create a new user_group and return the entire record.
 * `data` A JSON representation of the user_group to be created.
 ```json
 {
-	"data":{
-		"unique_id": "test_unique_id31",
-		"name": "test_nam12",
-		"description": "test_descriptio1n2",
-		"core_resource": true,
-		"user_ids": [
-			1,
-			11,
-			12
-		]
-	}
+  "data":{
+    "unique_id": "test_unique_id 2",
+    "name": "test_nam 2",
+    "description": "test_description 2",
+    "core_resource": true
+  }
 }
 ```
 * `data["id"]` Optional. A primary key identifier for the user_group to be created.
@@ -44,15 +39,10 @@ No `id` attribute is provided in the `data` hash.
 {
   "data": {
     "id": 15,
-    "unique_id": "test_unique_id31",
-    "name": "test_nam12",
-    "description": "test_descriptio1n2",
-    "core_resource": true,
-    "user_ids": [
-      1,
-      11,
-      12
-    ]
+    "unique_id": "test_unique_id 2",
+    "name": "test_nam 2",
+    "description": "test_description 2",
+    "core_resource": true
   }
 }
 ```

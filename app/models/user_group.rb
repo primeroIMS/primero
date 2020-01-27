@@ -14,17 +14,6 @@ class UserGroup < ApplicationRecord
       end
       super_clear
     end
-
-    def new_with_properties(user_group_params)
-      user_group = UserGroup.new(user_group_params.except(:user_ids))
-      user_group.users = User.where(id: user_group_params[:user_ids])
-      user_group
-    end
-  end
-
-  def update_properties(user_group_params)
-    assign_attributes(user_group_params.except(:user_ids))
-    self.users = User.where(id: user_group_params[:user_ids])
   end
 
   private

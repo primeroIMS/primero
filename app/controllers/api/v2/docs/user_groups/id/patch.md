@@ -16,16 +16,11 @@ Merge the values submitted in this call into an existing user_group.
 
 ```json
 {
-	"data":{
-		"id": 1,
-		"unique_id": "test_unique_id00",
-		"core_resource": true,
-		"user_ids": [
-			"1",
-			"11",
-			"12"
-		]
-	}
+  "data":{
+    "id": 1,
+    "unique_id": "test_unique_id00",
+    "core_resource": true
+  }
 }
 ```
 
@@ -44,12 +39,7 @@ Merge the values submitted in this call into an existing user_group.
     "unique_id": "test_unique_id00",
     "name": "test_name00",
     "description": "test_description00",
-    "core_resource": true,
-    "user_ids": [
-      1,
-      11,
-      12
-    ]
+    "core_resource": true
   }
 }
 ```
