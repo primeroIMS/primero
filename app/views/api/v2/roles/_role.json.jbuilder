@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.id role.id
 json.unique_id role.unique_id
 json.name role.name
