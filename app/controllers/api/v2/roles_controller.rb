@@ -39,7 +39,7 @@ module Api::V2
     end
 
     def per
-      @per ||= (params[:per].try(:to_i) || 100)
+      @per ||= (params[:per]&.to_i || 100)
     end
 
     protected
