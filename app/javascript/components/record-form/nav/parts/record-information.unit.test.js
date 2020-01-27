@@ -1,8 +1,6 @@
-import { expect } from "chai";
-
 import NavGroup from "../NavGroup";
 import NavItem from "../NavItem";
-import { setupMountedComponent } from "../../../../test";
+import { setupMountedComponent, expect } from "../../../../test";
 
 import RecordInformation from "./record-information";
 

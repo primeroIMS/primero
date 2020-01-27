@@ -56,11 +56,11 @@ const Nav = ({
   if (formNav) {
     const [...formGroups] = formNav.values();
 
-    const renderFormGroups = formGroups.map(g => {
+    const renderFormGroups = formGroups.map(formGroup => {
       return (
         <NavGroup
-          key={g.first().formId}
-          group={g}
+          key={formGroup.first().formId}
+          group={formGroup}
           handleClick={handleClick}
           open={open}
           selectedForm={selectedForm}
