@@ -1,11 +1,10 @@
-import { expect } from "chai";
 import { Map, List, fromJS } from "immutable";
 import {
   ExpansionPanelDetails,
   ExpansionPanelSummary
 } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../test";
+import { setupMountedComponent, expect } from "../../test";
 
 import Approvals from "./container";
 import ApprovalPanel from "./components/panel";

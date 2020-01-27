@@ -1,5 +1,6 @@
-import { expect } from "chai";
 import { List } from "immutable";
+
+import { expect } from "../test";
 
 import * as PERMISSIONS from "./permissions";
 

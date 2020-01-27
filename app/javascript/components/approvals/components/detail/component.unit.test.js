@@ -1,8 +1,7 @@
-import { expect } from "chai";
 import { Map, fromJS } from "immutable";
 import { Box, Grid } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../../../test";
+import { setupMountedComponent, expect } from "../../../../test";
 import DisplayData from "../../../display-data/component";
 import { STATUS_APPROVED } from "../../constants";
 

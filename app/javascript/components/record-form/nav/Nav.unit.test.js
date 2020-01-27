@@ -1,8 +1,7 @@
-import { expect } from "chai";
 import { fromJS, Map, OrderedMap } from "immutable";
 import Divider from "@material-ui/core/Divider";
 
-import { setupMountedComponent } from "../../../test";
+import { setupMountedComponent, expect } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
 
 import Nav from "./Nav";

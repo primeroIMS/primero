@@ -1,9 +1,8 @@
-import { expect } from "chai";
 import { Map, fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
 import Chip from "@material-ui/core/Chip";
 
-import { setupMountedComponent } from "../../../../test";
+import { setupMountedComponent, expect } from "../../../../test";
 
 import ApprovalSummary from "./component";
 

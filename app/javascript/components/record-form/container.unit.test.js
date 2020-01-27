@@ -1,11 +1,10 @@
 /* eslint-disable prefer-destructuring */
 
-import { expect } from "chai";
 import React from "react";
 import { Route } from "react-router-dom";
 import { fromJS, Map, List, OrderedMap } from "immutable";
 
-import { setupMountedComponent } from "../../test";
+import { setupMountedComponent, expect } from "../../test";
 import { PageContainer } from "../page";
 import { LoadingIndicator } from "../loading-indicator";
 import RecordOwner from "../record-owner";
