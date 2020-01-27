@@ -29,7 +29,7 @@ describe("<RecordActions /> - exports/helpers", () => {
       );
     });
 
-    it("should not return only allowed export types depending if they are on user permission", () => {
+    it("should return export types contained in userPermission", () => {
       const expected = [
         {
           id: "csv",
@@ -53,17 +53,13 @@ describe("<RecordActions /> - exports/helpers", () => {
 
   describe("formatFileName", () => {
     it("should set to default filename if any filename was not specified", () => {
-      const expected = "generate-export-file.csv";
-
-      expect(helper.formatFileName("", "csv")).to.deep.equal(expected);
+      expect(helper.formatFileName("", "csv")).to.be.empty;
     });
 
     it("should not return labels if there are not translations", () => {
       const expected = "hello-world.csv";
 
-      expect(helper.formatFileName("hello world", "csv")).to.deep.equal(
-        expected
-      );
+      expect(helper.formatFileName("hello world", "csv")).to.be.equal(expected);
     });
   });
 });

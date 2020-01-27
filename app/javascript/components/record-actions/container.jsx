@@ -212,25 +212,25 @@ const Container = ({
     {
       name: i18n.t(`actions.${openState}`),
       action: handleReopenDialogOpen,
-      recordType: "all",
+      recordType: RECORD_TYPES.all,
       condition: mode && mode.isShow && canOpenOrClose
     },
     {
       name: i18n.t(`actions.${enableState}`),
       action: handleEnableDialogOpen,
-      recordType: "all",
+      recordType: RECORD_TYPES.all,
       condition: mode && mode.isShow && canEnable
     },
     {
       name: i18n.t("actions.notes"),
       action: handleNotesOpen,
-      recordType: "all",
+      recordType: RECORD_TYPES.all,
       condition: canAddNotes
     },
     {
       name: i18n.t("cases.export"),
       action: handleExportsOpen,
-      recordType: "all",
+      recordType: RECORD_TYPES.all,
       condition: canShowExports
     }
   ];
@@ -262,7 +262,7 @@ const Container = ({
       }
 
       return (
-        (a.recordType === "all" ||
+        (a.recordType === RECORD_TYPES.all ||
           a.recordType === recordType ||
           (Array.isArray(a.recordType) && a.recordType.includes(recordType))) &&
         actionCondition

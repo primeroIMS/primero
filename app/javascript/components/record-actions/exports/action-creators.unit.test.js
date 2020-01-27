@@ -1,5 +1,4 @@
-import { expect } from "chai";
-
+import { expect } from "../../../test";
 import { ENQUEUE_SNACKBAR } from "../../notifier";
 
 import actions from "./actions";
@@ -26,9 +25,7 @@ describe("<RecordActions /> - exports/action-creators", () => {
     };
     const message = "Test message";
     const returnObject = actionCreators.saveExport({ data }, message);
-
-    expect(returnObject).to.not.be.undefined;
-    expect(returnObject).to.deep.include({
+    const expected = {
       type: actions.EXPORT,
       api: {
         path: "exports",
@@ -42,6 +39,9 @@ describe("<RecordActions /> - exports/action-creators", () => {
           }
         }
       }
-    });
+    };
+
+    expect(returnObject).to.not.be.undefined;
+    expect(returnObject).to.deep.equals(expected);
   });
 });

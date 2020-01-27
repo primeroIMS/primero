@@ -9,22 +9,28 @@ export const allowedExports = userPermissions => {
   if (userPermissions.includes(ACTIONS.MANAGE)) {
     allowedExportsOptions = exportsTypes;
   } else {
-    allowedExportsOptions = exportsTypes.map(e => {
-      if (userPermissions.includes(e.permission)) {
-        return e;
-      }
+    allowedExportsOptions = exportsTypes
+      .reduce((acc, obj) => {
+        if (userPermissions.includes(obj.permission)) {
+          return [...acc, obj];
+        }
 
-      return {};
-    });
+        return [...acc, {}];
+      }, [])
+      .filter(exportType => Object.keys(exportType).length);
   }
 
-  return allowedExportsOptions.filter(item => Object.keys(item).length > 0);
+  return allowedExportsOptions.filter(item => Object.keys(item).length);
 };
 
-export const formatFileName = (filename, format) => {
-  if (filename) {
-    return `${filename.split(" ").join("-")}.${format}`;
+export const formatFileName = (filename, extension) => {
+  if (filename && extension) {
+    return `${filename
+      .replace(/[^A-Za-z0-9]+/g, "-")
+      .replace(/^-/, "")
+      .replace(/-$/, "")
+      .toLowerCase()}.${extension}`;
   }
 
-  return `generate-export-file.${format}`;
+  return "";
 };

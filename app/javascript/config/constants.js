@@ -27,7 +27,8 @@ export const TOKEN_REFRESH_INTERVAL = 30 * 1000 * 60;
 export const RECORD_TYPES = {
   cases: "case",
   tracing_requests: "tracing_request",
-  incidents: "incident"
+  incidents: "incident",
+  all: "all"
 };
 
 // Max Age allowed in age ranges

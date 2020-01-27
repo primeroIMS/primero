@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { useForm, FormContext } from "react-hook-form";
 import isEmpty from "lodash/isEmpty";
 import { useDispatch } from "react-redux";
+import { fromJS } from "immutable";
 
 import { useI18n } from "../i18n";
 import { enqueueSnackbar } from "../notifier";
@@ -80,11 +81,11 @@ const Component = ({
 Component.displayName = "Form";
 
 Component.defaultProps = {
-  formErrors: []
+  formErrors: fromJS([])
 };
 
 Component.propTypes = {
-  formErrors: PropTypes.array,
+  formErrors: PropTypes.object,
   formRef: PropTypes.object.isRequired,
   formSections: PropTypes.object.isRequired,
   initialValues: PropTypes.object,
