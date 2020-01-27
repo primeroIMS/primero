@@ -1847,6 +1847,10 @@ en:
     approval_assessment_pending: "Pending"
     approval_assessment_rejected: "Rejected"
     approval_assessment_approved: "Approved"
+    pending_approvals: "Pending Approvals"
+    approval_assessment_pending_group: "Assessment"
+    approval_case_plan_pending_group: "Case Plan"
+    approval_closure_pending_group: "Closure"
 
   errors:
     try_again: "Try again"
