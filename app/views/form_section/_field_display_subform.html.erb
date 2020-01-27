@@ -1,17 +1,32 @@
 <%
    subform = field
    subform_section = field.subform_section
-   #TODO - booo!!!!  This is bad. Refactor needed.  Don't do a DB query in a template
-   shared_subform_section = (subform_section.shared_subform.present? ? FormSection.get_by_unique_id(subform_section.shared_subform) : nil)
-   shared_subform_section_group_id = subform_section.shared_subform_group
+
+   data_shared_subform = ""
+   if form_group_id == 'violations'
+     #This is necessary so grouped_subforms helper can find the violation subform
+     violation_form_id = subform_section.unique_id
+     violation_group_id = form_group_id
+   elsif subform_section.shared_subform.present?
+     #TODO MRM - figure out better way to do this
+     #TODO - booo!!!!  This is bad. Refactor needed.  Don't do a DB query in a template
+     shared_subform_section = FormSection.get_by_unique_id(subform_section.shared_subform)
+     shared_subform_section_group_id = subform_section.shared_subform_group
+     if shared_subform_section_group_id == 'violations'
+       #This is necessary so grouped_subforms helper can find the violation subform
+       violation_form_id = subform_section.shared_subform
+       violation_group_id = shared_subform_section_group_id
+     end
+     data_shared_subform = "data-is_shared_subform=true data-shared_subform=#{subform_section.shared_subform}" if shared_subform_section.present?
+   else
+     shared_subform_section_group_id = nil
+     violation_form_id = nil
+     violation_group_id = nil
+   end
 
    #TODO: a little redundant to re-count the subforms? (see grouped_subforms(formObject, subform))
    number_of_subforms = subforms_count(formObject, subform, form_group_id)
-   data_shared_subform = ""
 
-   if shared_subform_section.present?
-     data_shared_subform = "data-is_shared_subform=true data-shared_subform=#{subform_section.shared_subform}"
-   end
    if number_of_subforms > 0
      subform_object = get_subform_object(formObject, subform_section, form_group_id, subform.name).presence ||
                       get_subform_object(formObject, shared_subform_section, shared_subform_section_group_id, subform.name)
@@ -47,7 +62,7 @@
             <p class="notice large-12"><%= t('messages.form_sections_case_update_alert', form_section_name: form_section_name, alert_time: I18n.l(Date.parse(incident_alert.first.try(:[], 'date')))) %></p>
           </div>
         <% end %>
-        <% grouped_subforms(formObject, subform, shared_subform_section_group_id, shared_subform_section.try(:unique_id)).each do |grouped_subforms_header, grouped_subform_objects| %>
+        <% grouped_subforms(formObject, subform, violation_group_id, violation_form_id).each do |grouped_subforms_header, grouped_subform_objects| %>
           <% if grouped_subforms_header.present? && grouped_subform_objects.present? %>
             <div class="subform_grouping_header row">
               <span class="subform_header medium-7 columns">
