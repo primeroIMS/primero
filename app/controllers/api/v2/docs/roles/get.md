@@ -30,11 +30,19 @@ Shows a paginated list of all roles that are accessible to this user.
       "id": 1,
       "unique_id": "role-cp-administrator",
       "name": "CP Administrator",
-      "description": null,
+      "description": "role CP administrator description",
       "group_permission": "all",
       "referral": false,
       "transfer": false,
       "is_manager": true,
+      "module_unique_ids": [
+        "primeromodule-cp",
+        "primeromodule-gbv"
+      ],
+      "form_section_unique_ids": [
+        "activities",
+        "partner_details"
+      ],
       "permissions": {
         "case": [
             "read",
@@ -56,11 +64,19 @@ Shows a paginated list of all roles that are accessible to this user.
       "id": 2,
       "unique_id": "role-cp-case-worker",
       "name": "CP Case Worker",
-      "description": null,
+      "description": "role CP Case Worker description",
       "group_permission": "self",
       "referral": false,
       "transfer": false,
       "is_manager": false,
+      "module_unique_ids": [
+        "primeromodule-cp",
+        "primeromodule-gbv"
+      ],
+      "form_section_unique_ids": [
+        "activities",
+        "partner_details"
+      ],
       "permissions": {
         "case": [
             "read",

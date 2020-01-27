@@ -2,9 +2,30 @@ require 'rails_helper'
 
 describe Api::V2::RolesController, type: :request do
   before :each do
-    clean_data(Role, FormSection)
+    clean_data(Role, FormSection, PrimeroProgram, PrimeroModule)
+    program = PrimeroProgram.create!(
+      unique_id: 'primeroprogram-primero',
+      name: 'Primero',
+      description: 'Default Primero Program'
+    )
     @form_section_a = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
     @form_section_b = FormSection.create!(unique_id: 'C', name: 'C', parent_form: 'child', form_group_id: 'k')
+    @cp_a = PrimeroModule.create!(
+      unique_id: 'primeromodule-cp-a',
+      name: 'CPA',
+      description: 'Child Protection A',
+      associated_record_types: %w[case tracing_request incident],
+      primero_program: program,
+      form_sections: [@form_section_a]
+    )
+    @cp_b = PrimeroModule.create!(
+      unique_id: 'primeromodule-cp-b',
+      name: 'CPB',
+      description: 'Child Protection B',
+      associated_record_types: %w[case tracing_request incident],
+      primero_program: program,
+      form_sections: [@form_section_b]
+    )
     @permissions_test = [
       Permission.new(
         resource: Permission::ROLE,
@@ -35,7 +56,8 @@ describe Api::V2::RolesController, type: :request do
       transfer: false,
       is_manager: true,
       permissions: @permissions_test,
-      form_sections: [@form_section_a]
+      form_sections: [@form_section_a],
+      modules: [@cp_a]
     )
     @role_b = Role.new(
       unique_id: 'role_test_02',
@@ -46,7 +68,8 @@ describe Api::V2::RolesController, type: :request do
       transfer: false,
       is_manager: true,
       permissions: @permissions_test,
-      form_sections: [@form_section_a]
+      form_sections: [@form_section_a],
+      modules: [@cp_b]
     )
     @role_c = Role.new(
       unique_id: 'role_test_03',
@@ -57,7 +80,8 @@ describe Api::V2::RolesController, type: :request do
       transfer: false,
       is_manager: true,
       permissions: @permissions_test,
-      form_sections: [@form_section_a]
+      form_sections: [@form_section_a],
+      modules: [@cp_a]
     )
     @role_a.save!
     @role_b.save!
@@ -78,6 +102,7 @@ describe Api::V2::RolesController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(3)
       expect(json['data'].first['name']).to eq('name_test_01')
+      expect(json['data'].first['module_unique_ids'].first).to eq(@cp_a.unique_id)
       expect(json['data'].first['permissions']).to eq(Permission::PermissionSerializer.dump(@role_a.permissions))
       expect(json['data'].first['form_section_unique_ids'].first).to eq(@form_section_a.unique_id)
     end
@@ -146,6 +171,7 @@ describe Api::V2::RolesController, type: :request do
       get "/api/v2/roles/#{@role_b.id}"
       expect(response).to have_http_status(200)
       expect(json['data']['name']).to eq('name_test_02')
+      expect(json['data']['module_unique_ids'].first).to eq(@cp_b.unique_id)
       expect(json['data']['permissions']).to eq(Permission::PermissionSerializer.dump(@role_b.permissions))
     end
 
@@ -192,6 +218,7 @@ describe Api::V2::RolesController, type: :request do
           referral: false,
           transfer: false,
           is_manager: true,
+          module_unique_ids: [@cp_a.unique_id, @cp_b.unique_id],
           form_section_unique_ids: %w[A C],
           permissions: {
             agency: %w[
@@ -326,6 +353,7 @@ describe Api::V2::RolesController, type: :request do
           transfer: false,
           is_manager: true,
           form_section_unique_ids: %w[C],
+          module_unique_ids: [@cp_b.unique_id],
           permissions: {
             agency: %w[
               read
@@ -425,6 +453,6 @@ describe Api::V2::RolesController, type: :request do
   end
 
   after :each do
-    clean_data(Role, FormSection)
+    clean_data(Role, FormSection, PrimeroProgram, PrimeroModule)
   end
 end

@@ -22,6 +22,14 @@ Merge the values submitted in this call into an existing role.
     "description": "Administrator_description",
     "group_permission": "all",
     "referral": false,
+    "module_unique_ids": [
+      "primeromodule-cp",
+      "primeromodule-gbv"
+    ],
+    "form_section_unique_ids": [
+      "activities",
+      "partner_details"
+    ],
     "permissions": {
       "agency": [
         "read",
@@ -64,6 +72,14 @@ Merge the values submitted in this call into an existing role.
     "referral": false,
     "transfer": false,
     "is_manager": true,
+    "module_unique_ids": [
+      "primeromodule-cp",
+      "primeromodule-gbv"
+    ],
+    "form_section_unique_ids": [
+      "activities",
+      "partner_details"
+    ],
     "permissions": {
       "agency": [
         "read",

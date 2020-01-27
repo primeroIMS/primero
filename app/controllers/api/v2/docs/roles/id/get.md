@@ -26,11 +26,19 @@ Show the JSON representation of a role.
     "id": 1,
     "unique_id": "role-cp-administrator",
     "name": "CP Administrator",
-    "description": null,
+    "description": "CP Administrator description",
     "group_permission": "all",
     "referral": false,
     "transfer": false,
     "is_manager": true,
+    "module_unique_ids": [
+      "primeromodule-cp",
+      "primeromodule-gbv"
+    ],
+    "form_section_unique_ids": [
+      "activities",
+      "partner_details"
+    ],
     "permissions": {
       "agency": [
         "read",

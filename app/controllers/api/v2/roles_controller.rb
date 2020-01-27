@@ -35,7 +35,7 @@ module Api::V2
     def role_params
       params.require(:data).permit(:id, :unique_id, :name, :description,
                                    :group_permission, :referral, :transfer, :is_manager,
-                                   'permissions' => {}, 'form_section_unique_ids' => [])
+                                   'permissions' => {}, 'form_section_unique_ids' => [], 'module_unique_ids' => [])
     end
 
     def per
