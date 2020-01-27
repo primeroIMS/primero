@@ -200,3 +200,9 @@ Endpoints for querying and manipulating individual Roles and related resources i
 * [Create a new role](v2/docs/roles/post.md) : `POST /api/v2/roles`
 * [Update an existing role](v2/docs/roles/id/patch.md) : `PATCH /api/v2/roles/:id`
 * [Delete an existing role](v2/docs/roles/id/delete.md) : `DELETE /api/v2/roles/:id`
+
+## Permission Endpoint
+
+Endpoint for querying all available permissions
+
+* [ Query for all available permissions](v2/docs/permissions/get.md) : `GET /api/v2/permissions`
