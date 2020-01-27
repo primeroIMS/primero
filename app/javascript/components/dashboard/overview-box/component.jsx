@@ -13,7 +13,7 @@ import { useI18n } from "../../i18n";
 
 import styles from "./styles.css";
 
-const OverviewBox = ({ items, chartData, sumTitle }) => {
+const OverviewBox = ({ items, chartData, sumTitle, withTotal }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -53,7 +53,7 @@ const OverviewBox = ({ items, chartData, sumTitle }) => {
   };
 
   const renderSum = () => {
-    return `${sum()} ${sumTitle}`;
+    return withTotal ? `${sum()} ${sumTitle}` : sumTitle;
   };
 
   return (
@@ -77,12 +77,17 @@ const OverviewBox = ({ items, chartData, sumTitle }) => {
   );
 };
 
+OverviewBox.defaultProps = {
+  withTotal: true
+};
+
 OverviewBox.displayName = "OverviewBox";
 
 OverviewBox.propTypes = {
   chartData: PropTypes.object,
   items: PropTypes.object.isRequired,
-  sumTitle: PropTypes.string
+  sumTitle: PropTypes.string,
+  withTotal: PropTypes.bool
 };
 
 export default OverviewBox;

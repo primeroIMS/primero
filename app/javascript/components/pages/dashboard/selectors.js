@@ -83,3 +83,12 @@ export const getWorkflowTeamCases = state =>
 
 export const getReportingLocation = state =>
   getDashboardByName(state, DASHBOARD_NAMES.REPORTING_LOCATION);
+
+export const getApprovalsAssessmentPending = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ASSESSMENT_PENDING);
+
+export const getApprovalsClosurePending = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CASE_PLAN_PENDING);
+
+export const getApprovalsCasePlanPending = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CLOSURE_PENDING);

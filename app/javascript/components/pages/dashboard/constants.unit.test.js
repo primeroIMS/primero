@@ -23,8 +23,11 @@ describe("Verifying config constant", () => {
       "CASE_RISK",
       "WORKFLOW",
       "APPROVALS_ASSESSMENT",
+      "APPROVALS_ASSESSMENT_PENDING",
       "APPROVALS_CASE_PLAN",
+      "APPROVALS_CASE_PLAN_PENDING",
       "APPROVALS_CLOSURE",
+      "APPROVALS_CLOSURE_PENDING",
       "REPORTING_LOCATION",
       "WORKFLOW_TEAM"
     );
