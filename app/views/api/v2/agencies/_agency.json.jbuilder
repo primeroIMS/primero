@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.id agency.id
 json.unique_id agency.unique_id
 json.agency_code agency.agency_code

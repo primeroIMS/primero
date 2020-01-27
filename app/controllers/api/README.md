@@ -180,3 +180,13 @@ Endpoints for querying and manipulating individual locations and related resourc
 Endpoint for querying the count of alerts from cases, incidents and tracing request of the logged user.
 
 * [Query for the count of alerts](v2/docs/alerts/get.md) : `GET /api/v2/alerts`
+
+## Agency Endpoint
+
+Endpoints for querying and manipulating individual agency and related resources in Primero.
+
+* [Query for locations](v2/docs/agencies/get.md) : `GET /api/v2/agencies`
+* [Fetch an individual location](v2/docs/agencies/id/get.md) : `GET /api/v2/agencies/:id`
+* [Create a new location](v2/docs/agencies/post.md) : `POST /api/v2/agencies`
+* [Update an existing location](v2/docs/agencies/id/patch.md) : `PATCH /api/v2/agencies/:id`
+* [Delete an existing location](v2/docs/agencies/id/delete.md) : `DELETE /api/v2/agencies/:id`

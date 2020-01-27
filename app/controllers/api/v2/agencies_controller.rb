@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Api::V2
   class AgenciesController < ApplicationApiController
     include Concerns::Pagination
-    before_action :load_agency, only: [:show, :update, :destroy]
+    before_action :load_agency, only: %i[show update destroy]
 
     def index
       authorize! :index, Agency
@@ -35,7 +37,7 @@ module Api::V2
 
     def agency_params
       params.require(:data).permit(:id, :unique_id, :agency_code, :order, :telephone, :logo_enabled,
-                                   :disabled, 'services' => [], 'name' => {}, 'description' => {})
+                                   :disabled, services: [], name: {}, description: {})
     end
 
     protected
