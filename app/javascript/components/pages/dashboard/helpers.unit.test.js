@@ -124,8 +124,8 @@ describe("<Dashboard /> - Helpers", () => {
       const expected = {
         columns: [
           { name: "", label: "" },
-          { name: "case_plan", label: "Case Plan" },
-          { name: "new", label: "New" }
+          { name: "new", label: "New" },
+          { name: "case_plan", label: "Case Plan" }
         ],
         data: [{ "": "primero", case_plan: 1, new: 3 }],
         query: [

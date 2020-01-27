@@ -317,7 +317,7 @@ class User < ApplicationRecord
 
   def user_managers
     @managers = User.all.select do |u|
-      (u.user_group_ids & user_group_ids).any? && u.is_manager
+      (u.user_group_ids & user_group_ids).any? && u.is_manager?
     end
   end
 
@@ -443,6 +443,10 @@ class User < ApplicationRecord
       return permitted_subform_update_fields(model_class)
     end
 
+    if action_name == 'close' || action_name == 'reopen'
+      return ['status'] if self.can?(:reopen, model_class) || self.can?(:close, model_class)
+    end
+
     @permitted_field_names = []
     @permitted_field_names += %w[id record_in_scope]
     @permitted_field_names += permitted_field_names_from_forms(model_class.parent_form)
@@ -456,6 +460,7 @@ class User < ApplicationRecord
     @permitted_field_names << 'hidden_name' if can?(:update, model_class)
     @permitted_field_names << 'flag_count' if can?(:flag, model_class)
     @permitted_field_names << 'flagged' if can?(:flag, model_class)
+    @permitted_field_names += permitted_approval_field_names(model_class)
     @permitted_field_names
   end
 
@@ -475,6 +480,10 @@ class User < ApplicationRecord
 
   def is_manager?
     role.is_manager
+  end
+
+  def gbv?
+    has_module?(PrimeroModule::GBV)
   end
 
   def tasks(pagination = { per_page: 100, page: 1 })
@@ -571,5 +580,23 @@ class User < ApplicationRecord
       @refresh_associated_user_groups = false
       @refresh_associated_user_agencies = false
     end
+  end
+
+  def permitted_approval_field_names(model_class)
+    approval_field_names = []
+    [Approval::BIA, Approval::CASE_PLAN, Approval::CLOSURE].each do |approval_id|
+      if can?(:"request_approval_#{approval_id}", model_class) ||
+         can?(:"approve_#{approval_id}", model_class)
+        approval_field_names << 'approval_subforms'
+        approval_field_names << "#{approval_id}_approved"
+        approval_field_names << "approval_status_#{approval_id}"
+        approval_field_names << "#{approval_id}_approved_date"
+        approval_field_names << "#{approval_id}_approved_comments"
+        approval_field_names << "#{approval_id}_approval_type"
+      else
+        next
+      end
+    end
+    approval_field_names
   end
 end

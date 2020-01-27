@@ -176,6 +176,13 @@ describe("<RecordActions />", () => {
           RecordActions,
           props,
           fromJS({
+            records: {
+              cases: {
+                filters: {
+                  id_search: true
+                }
+              }
+            },
             user: {
               permissions: {
                 cases: [ACTIONS.MANAGE]
@@ -190,7 +197,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.length(12);
+        expect(component.find(MenuItem)).to.have.length(8);
       });
 
       it("renders MenuItem with Refer Cases option", () => {
@@ -241,7 +248,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.lengthOf(3);
+        expect(component.find(MenuItem)).to.be.empty;
       });
 
       it("renders MenuItem without Refer Cases option", () => {
