@@ -1,0 +1,76 @@
+km:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "នាំចេញ​ឧបករណ៍​កត់ត្រា​ឧប្បត្តិហេតុ xls"
+  exports:
+    incident_recorder_xls:
+      all: ឧបករណ៍​កត់ត្រា​ឧប្បត្តិហេតុ
+      one: ឧបករណ៍​កត់ត្រា​ឧប្បត្តិហេតុ
+      selected: បាន​ជ្រើសរើស​ទៅកាន់​ឧបករណ៍​កត់ត្រា​ឧប្បត្តិហេតុ
+      'yes': "បាទ/ចាស"
+      'no': "ទេ"
+      gender:
+        male: "ប្រុស"
+        female: "ស្រី"
+        both: "ប្រុស និងស្រី"
+      age_group:
+        age: "អាយុ"
+        61_older: "61 ឆ្នាំ & ចាស់​ជាង"
+        unknown: "មិនស្គាល់"
+        header: "ក្រុម​អាយុ​ឧក្រិដ្ឋជនដែល​សង្ស័យ"
+      age_type:
+        adult: "មនុស្ស​ពេញវ័យ"
+        minor: "អនីតិជន"
+        both: "មនុស្ស​ពេញ​វ័យ និងអនីតិជន"
+        unknown: "មិនស្គាល់"
+        header: "ប្រភេទ​​​អាយុ​ឧក្រិដ្ឋជនដែល​សង្ស័យ"
+      service_referral:
+        undecided: "មិន​ទាន់សម្រេចចិត្ត​នៅ​ពេល​រាយការណ៍"
+      headers:
+        incident_id: "លេខ​សម្គាល់​ឧប្បត្តិហេតុ"
+        survivor_code: "លេខ​កូដ​អ្នកនៅ​រស់"
+        case_manager_code: "លេខកូដ​អ្នក​គ្រប់គ្រង​ករណី"
+        case_worker_code: "លេខកូដ​អ្នក​ធ្វើការ​អំពី​ករណី"
+        date_of_interview: "កាលបរិច្ឆេទ​សម្ភាសន៍"
+        date_of_incident: "កាលបរិច្ឆេទ​នៃ​ឧប្បត្តិហេតុ"
+        date_of_birth: "ថ្ងៃ​ខែ​ឆ្នាំ​កំណើត"
+        sex: "ភេទ"
+        ethnicity: "ជនជាតិ"
+        country_of_origin: "ប្រទេស​កំណើត"
+        marital_status: "ស្ថានភាព​គ្រួសារ"
+        displacement_status: "ស្ថានភាព​ផ្លាស់ទី​នៅ​ពេល​រាយការណ៍"
+        disability_type: "មនុស្ស​ពិការ?"
+        unaccompanied_separated_status: "កុមារ​រស់នៅ​ម្នាក់ឯង ឬ​ត្រូវ​បានបំបែក?"
+        stage_of_displacement: "ដំណាក់កាល​នៃ​ការ​ផ្លាស់ទី​នៅ​ក្នុង​ឧប្បត្តិហេតុ"
+        time_of_day: "ពេលវេលា​ឧប្បត្តិហេតុ​​"
+        location: "ទីតាំងកើត​​ឧប្បត្តិហេតុ"
+        county: "ប្រទេសកើត​​ឧប្បត្តិហេតុ"
+        district: "ស្រុក​កើ​ត​ឧប្បត្តិហេតុ"
+        camp_town: "ទីក្រុង​/ជំរុំកើត​ឧប្បត្តិហេតុ"
+        camp: "ជំរុំកើត​ឧប្បត្តិហេតុ"
+        gbv_type: "ប្រភេទ GBV"
+        harmful_traditional_practice: "ការ​អនុវត្ត​បន្ថែម​​ប្រកប​ដោយ​គ្រោះថ្នាក់"
+        goods_money_exchanged: "លុយ របស់របរ​ផ្សេង ផលប្រយោជន៍ និង/ឬ​ការ​ប្ដូរ​សេវាកម្ម?"
+        abduction_type: "ប្រភេទ​នៃ​ការ​ចាប់​ជំរិត"
+        previously_reported: "តើ​បាន​រាយការណ៍​អំពី​ឧប្បត្តិហេតុ​នេះ​ពី​មុន​ដែរ​ឬទេ?"
+        gbv_previous_incidents: "តើ​ជា​ឧប្បត្តិហេតុ GBV ពី​មុនឬ?"
+        number_primary_perpetrators: "ទេ។ ឧក្រិដ្ឋជន​ចម្បងៗ​ដែល​សង្ស័យ"
+        perpetrator:
+          sex: "ភេទ​ឧក្រិដ្ឋជន​ដែល​សង្ស័យ"
+          former: "ឧប្បត្តិហេតុ​ពីមុន​ជា​មួយ​ឧក្រិដ្ឋជន​នេះ"
+          relationship: "ឧក្រិដ្ឋជន​ដែល​សង្ស័យ - ទំនាក់ទំនង​របស់​អ្នកនៅ​រស់"
+          occupation: "មុខរបរ​របស់​ឧក្រិដ្ឋជន​ដែល​សង្ស័យ"
+          age_group: "ក្រុម​អាយុ​ឧក្រិដ្ឋជនដែល​សង្ស័យ"
+          age_type: "ប្រភេទ​​​អាយុ​ឧក្រិដ្ឋជនដែល​សង្ស័យ"
+        service:
+          referred_from: "បាន​បញ្ជូន​មក​ឲ្យ​អ្នក​ពី​ណា?"
+          safehouse_referral: "ផ្ទះ/ជម្រក​សុវត្ថិភាព"
+          medical_referral: "សេវាកម្ម​សុខាភិបាល/វេជ្ជសាស្ត្រ"
+          psycho_referral: "សេវាកម្ម​ផ្លូវចិត្ត"
+          wants_legal_action: "តើត្រូវការសកម្មភាព​ផ្លូវច្បាប់?"
+          legal_referral: "សេវាកម្ម​ជំនួយ​ផ្លូវច្បាប់"
+          police_referral: "ប៉ូលិស/សន្តិសុខ​ផ្សេង"
+          livelihoods_referral: "កម្មវិធី​មុខរបរ"
+          protection_referral: "សេវាកម្ម​ការការពារកុមារ/សេវាកម្ម​អប់រំ"
+        consent: "ការ​យល់ព្រម​ដែល​បានផ្ដល់​ឲ្យ"
+        agency_code: "លេខកូដ​ទីភ្នាក់ងារ​រាយការណ៍"
