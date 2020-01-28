@@ -200,3 +200,13 @@ Endpoints for querying and manipulating individual Roles and related resources i
 * [Create a new role](v2/docs/roles/post.md) : `POST /api/v2/roles`
 * [Update an existing role](v2/docs/roles/id/patch.md) : `PATCH /api/v2/roles/:id`
 * [Delete an existing role](v2/docs/roles/id/delete.md) : `DELETE /api/v2/roles/:id`
+
+## User Group Endpoint
+
+Endpoints for querying and manipulating individual locations and related resources in Primero.
+
+* [Query for User Groups](v2/docs/user_groups/get.md) : `GET /api/v2/user_groups`
+* [Fetch an individual User Group](v2/docs/user_groups/id/get.md) : `GET /api/v2/user_groups/:id`
+* [Create a new User Group](v2/docs/user_groups/post.md) : `POST /api/v2/user_groups`
+* [Update an existing User Group](v2/docs/user_groups/id/patch.md) : `PATCH /api/v2/user_groups/:id`
+* [Delete an existing User Group](v2/docs/user_groups/id/delete.md) : `DELETE /api/v2/user_groups/:id`
