@@ -2,16 +2,18 @@ source 'https://rubygems.org'
 ruby '2.6.2'
 
 gem 'rails',            '5.2.4'
-gem 'rack',             '~> 2.0.8'
+gem 'rack',             '~> 2.0'
 gem 'pg',               '~> 1.1'
 gem 'devise',           '4.7.1'
 gem 'devise-jwt',       '0.5.9'
 gem 'rake',             '~> 12.3'
-gem 'puma',             '~> 4.3.1'
+gem 'puma',             '~> 4.3'
 gem 'file_validators',  '~> 2.3'
 gem 'jbuilder',         '~> 2.8'
-gem 'minipack',         '~> 0.3.3'
-gem 'will_paginate',     '~> 3.1'
+gem 'minipack',         '~> 0.3'
+gem 'will_paginate',    '~> 3.1'
+gem 'faraday',          '~> 0.17'
+gem 'net-http-persistent', '~> 3.1'
 
 # Note: if upgrading Sunspot, update the corresonding version of Solr in Chef if necessaary.
 # Current Solr version is 5.3.1
