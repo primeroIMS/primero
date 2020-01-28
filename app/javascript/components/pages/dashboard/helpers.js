@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 
 import { dataToJS } from "../../../libs";
 
-import { INDICATOR_NAMES } from "./constants";
+import { INDICATOR_NAMES, WORKFLOW_ORDER_NAMES } from "./constants";
 
 const translateLabels = (keys, data) => {
   if (!data?.length) {
@@ -20,6 +20,13 @@ const translateSingleLabel = (key, data) => {
   if (key === "") return key;
 
   return data.filter(d => d.id === key)[0].display_text;
+};
+
+const byTeamCaseNames = (a, b) => {
+  const indexa = WORKFLOW_ORDER_NAMES.indexOf(a?.name);
+  const indexb = WORKFLOW_ORDER_NAMES.indexOf(b?.name);
+
+  return indexa - indexb;
 };
 
 const getFormattedList = (values, listKey) => {
@@ -57,13 +64,13 @@ export const toListTable = (data, localeLabels) => {
     const columns = Object.keys(
       indicatorData[first(Object.keys(indicatorData))]
     )
-      .sort()
       .reduce((acum, value) => {
         return [
           ...acum,
           { name: value, label: translateSingleLabel(value, localeLabels) }
         ];
-      }, []);
+      }, [])
+      .sort(byTeamCaseNames);
 
     const { "": removed, ...rows } = indicatorData;
 
@@ -136,4 +143,20 @@ export const toReportingLocationTable = (data, fieldKey, i18n, locations) => {
     columns,
     data: Object.keys(rows).map(key => rows[key])
   };
+};
+
+export const toApprovalsManager = data => {
+  const resultData = data.reduce(
+    (acc, curr) => {
+      const indicatorData = curr.get("indicators") || fromJS({});
+      const key = indicatorData.keySeq().first();
+
+      acc.indicators[key] = curr.getIn(["indicators", key]);
+
+      return { ...acc };
+    },
+    { indicators: {} }
+  );
+
+  return fromJS(resultData);
 };

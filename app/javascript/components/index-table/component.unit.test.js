@@ -1,20 +1,69 @@
 import { expect } from "chai";
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 import MUIDataTable from "mui-datatables";
 
 import { LoadingIndicator } from "../loading-indicator";
-import { setupMountedComponent } from "../../test";
+import { setupMountedComponent, stub } from "../../test";
 import { RECORD_PATH } from "../../config";
+import { mapEntriesToRecord } from "../../libs";
+import { FieldRecord } from "../record-form";
 
 import IndexTable from "./component";
 
 describe("<IndexTable />", () => {
   let component;
+  const fields = {
+    1: {
+      name: "name_first",
+      type: "text_field",
+      editable: true,
+      disabled: null,
+      visible: true,
+      display_name: {
+        en: "First Name",
+        fr: "",
+        ar: "",
+        "ar-LB": "",
+        so: "",
+        es: ""
+      },
+      subform_section_id: null,
+      help_text: {},
+      multi_select: null,
+      option_strings_source: null,
+      option_strings_text: null,
+      guiding_questions: "",
+      required: true,
+      date_validation: "default_date_validation"
+    }
+  };
   const props = {
-    onTableChange: () => {},
+    onTableChange: stub(),
     recordType: RECORD_PATH.cases,
     defaultFilters: fromJS({}),
-    bypassInitialFetch: true
+    bypassInitialFetch: true,
+    columns: List([
+      {
+        label: "Name",
+        name: "name",
+        id: false,
+        options: {}
+      },
+      {
+        label: "Age",
+        name: "age",
+        id: false,
+        options: {}
+      },
+      {
+        label: "Sex",
+        name: "sex",
+        id: false,
+        options: {}
+      }
+    ]),
+    selectedRecords: [],
+    setSelectedRecords: () => {}
   };
 
   const initialState = fromJS({
@@ -50,6 +99,9 @@ describe("<IndexTable />", () => {
           page: 1
         }
       }
+    },
+    forms: {
+      fields: mapEntriesToRecord(fields, FieldRecord)
     }
   });
 
@@ -63,5 +115,34 @@ describe("<IndexTable />", () => {
 
   it("should render MUIDataTable", () => {
     expect(component.find(MUIDataTable)).to.have.lengthOf(1);
+  });
+
+  it("should change sort order to descending if user clicks on a column", () => {
+    props.onTableChange.returns({
+      type: "test",
+      payload: []
+    });
+    const nameColumnIndex = 3;
+    const table = component.find(IndexTable);
+
+    expect(table.find("tbody tr")).to.have.lengthOf(1);
+    expect(
+      table
+        .find("div")
+        .last()
+        .text()
+    ).to.be.empty;
+
+    table
+      .find("thead th span")
+      .at(nameColumnIndex)
+      .simulate("click");
+
+    expect(
+      table
+        .find("div")
+        .last()
+        .text()
+    ).to.be.be.equals("Table now sorted by name : descending");
   });
 });

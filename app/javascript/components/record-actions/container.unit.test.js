@@ -176,6 +176,13 @@ describe("<RecordActions />", () => {
           RecordActions,
           props,
           fromJS({
+            records: {
+              cases: {
+                filters: {
+                  id_search: true
+                }
+              }
+            },
             user: {
               permissions: {
                 cases: [ACTIONS.MANAGE]
@@ -190,7 +197,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.length(12);
+        expect(component.find(MenuItem)).to.have.length(9);
       });
 
       it("renders MenuItem with Refer Cases option", () => {
@@ -219,6 +226,15 @@ describe("<RecordActions />", () => {
             .includes("actions.services_section_from_case")
         ).to.be.equal(true);
       });
+
+      it("renders MenuItem with Export option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("cases.export")
+        ).to.be.true;
+      });
     });
 
     describe("when user has not access to all menus", () => {
@@ -241,7 +257,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.lengthOf(3);
+        expect(component.find(MenuItem)).to.be.empty;
       });
 
       it("renders MenuItem without Refer Cases option", () => {
@@ -259,6 +275,15 @@ describe("<RecordActions />", () => {
             .find("li")
             .map(l => l.text())
             .includes("exports.custom_exports.label")
+        ).to.be.false;
+      });
+
+      it("renders MenuItem without Export option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("cases.export")
         ).to.be.false;
       });
     });

@@ -23,7 +23,7 @@ describe NotificationMailer, type: :mailer do
 
     describe 'manager_approval_request' do
       let(:mail) do
-        NotificationMailer.manager_approval_request(@owner.id, @manager2.id, @child.id, 'value1')
+        NotificationMailer.manager_approval_request(@child.id, 'value1', @manager2.user_name)
       end
 
       it 'renders the headers' do
@@ -37,7 +37,7 @@ describe NotificationMailer, type: :mailer do
     end
 
     describe "manager_approval_response" do
-      let(:mail) { NotificationMailer.manager_approval_response(@manager1.id, @child.id, 'value1', true, false) }
+     let(:mail) { NotificationMailer.manager_approval_response(@child.id, false, 'value1', @manager1.user_name) }
 
       it "renders the headers" do
         expect(mail.subject).to eq("Case: #{@child.short_id} - Approval Response")
