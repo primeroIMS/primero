@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import uniqBy from "lodash/uniqBy";
@@ -34,6 +34,7 @@ const Component = ({
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
+  const [sortOrder, setSortOrder] = useState();
   const data = useSelector(state => getRecords(state, recordType));
   const loading = useSelector(state => getLoading(state, recordType));
   const errors = useSelector(state => getErrors(state, recordType));
@@ -169,10 +170,11 @@ const Component = ({
               options.order = tableColumns[activeColumn].sortDirection;
             } else {
               options.order =
-                order === tableColumns[activeColumn].sortDirection
+                sortOrder === tableColumns[activeColumn].sortDirection
                   ? "asc"
                   : "desc";
             }
+            setSortOrder(options.order);
             options.order_by = tableColumns[activeColumn].name;
             options.page = page === 0 ? 1 : page;
             break;

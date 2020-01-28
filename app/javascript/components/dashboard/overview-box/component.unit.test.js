@@ -23,7 +23,7 @@ describe("<OverviewBox />", () => {
         }
       }
     }),
-    sumTitle: "dashboard.approvals_closure"
+    sumTitle: "Closure"
   };
 
   beforeEach(() => {
@@ -34,5 +34,32 @@ describe("<OverviewBox />", () => {
     expect(component.find(OverviewBox)).to.have.lengthOf(1);
     expect(component.find("li")).to.have.lengthOf(2);
     expect(component.find("button")).to.have.lengthOf(1);
+    expect(
+      component
+        .find("li")
+        .first()
+        .text()
+    ).to.be.equal("5 Closure");
+  });
+
+  describe("when withTotal props is false", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        OverviewBox,
+        { ...props, withTotal: false },
+        {}
+      ));
+    });
+    it("renders the header without total/>", () => {
+      expect(component.find(OverviewBox)).to.have.lengthOf(1);
+      expect(component.find("li")).to.have.lengthOf(2);
+      expect(component.find("button")).to.have.lengthOf(1);
+      expect(
+        component
+          .find("li")
+          .first()
+          .text()
+      ).to.be.equal("Closure");
+    });
   });
 });

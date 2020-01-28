@@ -11,7 +11,7 @@ import { LineChart } from "../../dashboard/line-chart";
 import { DashboardTable } from "../../dashboard/dashboard-table";
 import { BadgedIndicator } from "../../dashboard/badged-indicator";
 import { PieChart } from "../../dashboard/pie-chart";
-import { ACTIONS } from "../../../libs/permissions";
+import { ACTIONS, DASH_APPROVALS_PENDING } from "../../../libs/permissions";
 
 import Dashboard from "./container";
 
@@ -322,6 +322,70 @@ describe("<Dashboard />", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
       expect(component.find("li")).to.have.lengthOf(2);
       expect(component.find("button")).to.have.lengthOf(1);
+    });
+  });
+
+  describe("render pending approvals dashboards", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.approvals_assessment_pending",
+                  type: "indicator",
+                  indicators: {
+                    approval_assessment_pending_group: {
+                      count: 1,
+                      query: []
+                    }
+                  }
+                },
+                {
+                  name: "dashboard.approvals_case_plan_pending",
+                  type: "indicator",
+                  indicators: {
+                    approval_case_plan_pending_group: {
+                      count: 2,
+                      query: []
+                    }
+                  }
+                },
+                {
+                  name: "dashboard.approvals_closure_pending",
+                  type: "indicator",
+                  indicators: {
+                    approval_closure_pending_group: {
+                      count: 3,
+                      query: []
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [DASH_APPROVALS_PENDING]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the OverviewBox", () => {
+      expect(component.find(OverviewBox)).to.have.lengthOf(1);
+      expect(component.find("li")).to.have.lengthOf(4);
+      expect(component.find("button")).to.have.lengthOf(3);
+      expect(
+        component
+          .find("li")
+          .first()
+          .text()
+      ).to.be.equal("dashboard.pending_approvals");
     });
   });
 });

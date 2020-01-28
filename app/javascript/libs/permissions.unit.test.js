@@ -19,8 +19,11 @@ describe("Verifying config constant", () => {
       "CLOSE",
       "CREATE",
       "DASH_APPROVALS_ASSESSMENT",
+      "DASH_APPROVALS_ASSESSMENT_PENDING",
       "DASH_APPROVALS_CASE_PLAN",
+      "DASH_APPROVALS_CASE_PLAN_PENDING",
       "DASH_APPROVALS_CLOSURE",
+      "DASH_APPROVALS_CLOSURE_PENDING",
       "DASH_CASE_RISK",
       "DASH_REPORTING_LOCATION",
       "DASH_TASKS",
@@ -258,6 +261,39 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.EXPORT_PHOTO_WALL,
       PERMISSIONS.ACTIONS.EXPORT_UNHCR,
       PERMISSIONS.ACTIONS.MANAGE
+    ].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have DASH_APPROVALS_PENDING", () => {
+    const permissions = [...PERMISSIONS.DASH_APPROVALS_PENDING];
+
+    expect(permissions).to.be.a("array");
+    [
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_ASSESSMENT_PENDING,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_CASE_PLAN_PENDING,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_CLOSURE_PENDING
+    ].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have DASH_APPROVALS", () => {
+    const permissions = [...PERMISSIONS.DASH_APPROVALS];
+
+    expect(permissions).to.be.a("array");
+    [
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_ASSESSMENT_PENDING,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_CASE_PLAN_PENDING,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_CLOSURE_PENDING,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_ASSESSMENT,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_CASE_PLAN,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_CLOSURE
     ].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
