@@ -3,7 +3,7 @@
 # This is the connector for the private MS-developed micro service:
 # Primero User Management API for Azure Active Directory.
 # It only makes sense to use within the context of the UNICEF-hosted Primero SaaS.
-class IdentitySync::AzureActiveDirectoryConnector < AbstractConnector
+class IdentitySync::AzureActiveDirectoryConnector < IdentitySync::AbstractConnector
   IDENTIFIER = 'aad'
 
   def self.id
@@ -15,7 +15,7 @@ class IdentitySync::AzureActiveDirectoryConnector < AbstractConnector
       'Content-Type' => 'application/json',
       'cache-control' => 'no-cache'
     }
-    self.connection = Connection.new(options.merge('default_headers' => default_headers))
+    self.connection = IdentitySync::Connection.new(options.merge('default_headers' => default_headers))
   end
 
   def fetch(user)

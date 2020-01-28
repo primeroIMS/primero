@@ -581,10 +581,10 @@ class User < ApplicationRecord
           child.update_associated_user_agencies if @refresh_associated_user_agencies
           child.save!
         end
-        pagination[:page] = results.next_page
-      end until results.next_page.nil?
-      @refresh_associated_user_groups = false
-      @refresh_associated_user_agencies = false
-    end
+      end
+      pagination[:page] = results.next_page
+    end until results.next_page.nil?
+    @refresh_associated_user_groups = false
+    @refresh_associated_user_agencies = false
   end
 end

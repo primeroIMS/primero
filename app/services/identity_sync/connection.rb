@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Wraps an HTTP connection with an external service.
-module IdentitySync::Connection
+class IdentitySync::Connection
   attr_accessor :options, :driver
 
   def initialize(options = {})

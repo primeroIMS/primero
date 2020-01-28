@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Abstract superclass for user identity connectors
-module IdentitySync::AbstractConnector
+class IdentitySync::AbstractConnector
   attr_accessor :connection
 
   def self.build_from_env
