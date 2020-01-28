@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PrimeroModule < ApplicationRecord
   include Configuration
 

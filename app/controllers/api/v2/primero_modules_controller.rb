@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api::V2
   class PrimeroModulesController < ApplicationApiController
     before_action :load_primero_module, only: %i[show update]
@@ -18,7 +20,7 @@ module Api::V2
     end
 
     def modules_params
-      params.require(:data).permit(:description, 'associated_record_types' => [], 'form_section_unique_ids' => [])
+      params.require(:data).permit(:description, associated_record_types: [], form_section_unique_ids: [])
     end
 
     protected

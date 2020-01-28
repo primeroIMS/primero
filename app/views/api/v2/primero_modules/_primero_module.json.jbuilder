@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.id primero_module.id
 json.unique_id primero_module.unique_id
 json.name primero_module.name

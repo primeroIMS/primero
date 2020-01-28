@@ -171,3 +171,11 @@ Endpoints for querying and manipulating individual locations and related resourc
 Endpoint for querying the count of alerts from cases, incidents and tracing request of the logged user.
 
 * [Query for the count of alerts](v2/docs/alerts/get.md) : `GET /api/v2/alerts`
+
+## Primero Module Endpoints
+
+Endpoints for querying and manipulating individual primero module and related resources in Primero.
+
+* [Query for primero modules](v2/docs/primero_modules/get.md) : `GET /api/v2/primero_modules`
+* [Fetch an individual primero module](v2/docs/primero_modules/id/get.md) : `GET /api/v2/primero_modules/:id`
+* [Update an existing primero module](v2/docs/primero_modules/id/patch.md) : `PATCH /api/v2/primero_modules/:id`
