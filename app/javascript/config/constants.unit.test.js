@@ -1,4 +1,4 @@
-import { expect } from "chai";
+import { expect } from "../test";
 
 import * as configConstants from "./constants";
 
@@ -70,6 +70,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("LOOKUPS");
     expect(constants).to.have.property("RECORD_INFORMATION");
     expect(constants).to.have.property("ADMIN_NAV");
+    expect(constants).to.have.property("APPROVALS");
     expect(constants).to.have.property("RECORD_TYPES");
 
     delete constants.FETCH_TIMEOUT;
@@ -114,6 +115,7 @@ describe("Verifying config constant", () => {
     delete constants.LOOKUPS;
     delete constants.RECORD_INFORMATION;
     delete constants.ADMIN_NAV;
+    delete constants.APPROVALS;
     delete constants.RECORD_TYPES;
 
     expect(constants).to.deep.equal({});
@@ -176,5 +178,6 @@ describe("Verifying config constant", () => {
       "service_type"
     );
     expect(constants.RECORD_INFORMATION).to.be.an("array");
+    expect(constants.APPROVALS).to.be.an("string");
   });
 });
