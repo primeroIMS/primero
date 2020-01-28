@@ -26,7 +26,8 @@ const Component = ({
   subMenuItems,
   record,
   recordType,
-  approvalType
+  approvalType,
+  confirmButtonLabel
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -188,7 +189,7 @@ const Component = ({
       dialogTitle=""
       successHandler={handleOk}
       cancelHandler={handleCancel}
-      confirmButtonLabel={i18n.t("cases.ok")}
+      confirmButtonLabel={confirmButtonLabel}
     >
       {dialogContent}
     </ ActionDialog>
@@ -203,7 +204,8 @@ Component.propTypes = {
   openRequestDialog: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string,
-  subMenuItems: PropTypes.array
+  subMenuItems: PropTypes.array,
+  confirmButtonLabel: PropTypes.sting
 };
 
 export default Component;

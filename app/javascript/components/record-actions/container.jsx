@@ -459,6 +459,7 @@ const Container = ({
           record={record}
           recordType={recordType}
           approvalType={approvalType}
+          confirmButtonLabel={i18n.t("buttons.ok")}
         />
       </Permission>
 
@@ -470,6 +471,7 @@ const Container = ({
           record={record}
           recordType={recordType}
           approvalType={approvalType}
+          confirmButtonLabel={i18n.t("buttons.submit")}
         />
       </Permission>
     </>
