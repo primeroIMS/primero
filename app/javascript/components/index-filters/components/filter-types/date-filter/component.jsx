@@ -105,7 +105,7 @@ const Component = ({
     return () => {
       if (selectedField) {
         unregister(selectedField);
-        if (typeof setReset === "function") {
+        if (setReset) {
           setReset(false);
         }
       }

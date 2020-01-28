@@ -86,7 +86,7 @@ const Component = ({ recordType, defaultFilters }) => {
         ...allPrimaryFilters,
         ...allDefaultFilters,
         ...queryParamsFilter,
-        ...selectedFromMoreSection
+        ...(!more ? selectedFromMoreSection : [])
       ]);
 
       primaryFilters = mergedFilters;

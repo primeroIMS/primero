@@ -36,8 +36,8 @@ const MoreSection = ({
         ![
           ...primaryFilters.map(p => p.field_name),
           ...defaultFilters.map(d => d.field_name),
-          ...moreSectionKeys,
-          ...(moreSectionKeys.includes(OR_FILTER_NAME)
+          ...(!more ? moreSectionKeys : []),
+          ...(!more && moreSectionKeys.includes(OR_FILTER_NAME)
             ? [MY_CASES_FILTER_NAME]
             : [])
         ].includes(field.field_name)

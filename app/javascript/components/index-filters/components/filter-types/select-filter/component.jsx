@@ -97,7 +97,7 @@ const Component = ({
 
     return () => {
       unregister(fieldName);
-      if (typeof setReset === "function") {
+      if (setReset) {
         setReset(false);
       }
     };
@@ -111,7 +111,6 @@ const Component = ({
   });
 
   const handleChange = (event, value) => {
-    console.log(event, value);
     handleFilterChange({
       type: "basic",
       event,

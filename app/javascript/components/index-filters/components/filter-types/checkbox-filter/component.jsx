@@ -84,7 +84,7 @@ const Component = ({
 
     return () => {
       unregister(fieldName);
-      if (typeof setReset === "function") {
+      if (setReset) {
         setReset(false);
       }
     };
