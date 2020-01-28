@@ -180,3 +180,13 @@ Endpoints for querying and manipulating individual locations and related resourc
 Endpoint for querying the count of alerts from cases, incidents and tracing request of the logged user.
 
 * [Query for the count of alerts](v2/docs/alerts/get.md) : `GET /api/v2/alerts`
+
+## Role Endpoints
+
+Endpoints for querying and manipulating individual Roles and related resources in Primero.
+
+* [Query for roles](v2/docs/roles/get.md) : `GET /api/v2/locations`
+* [Fetch an individual role](v2/docs/roles/id/get.md) : `GET /api/v2/roles/:id`
+* [Create a new role](v2/docs/roles/post.md) : `POST /api/v2/roles`
+* [Update an existing role](v2/docs/roles/id/patch.md) : `PATCH /api/v2/roles/:id`
+* [Delete an existing role](v2/docs/roles/id/delete.md) : `DELETE /api/v2/roles/:id`

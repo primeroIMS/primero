@@ -27,7 +27,8 @@ export const TOKEN_REFRESH_INTERVAL = 30 * 1000 * 60;
 export const RECORD_TYPES = {
   cases: "case",
   tracing_requests: "tracing_request",
-  incidents: "incident"
+  incidents: "incident",
+  all: "all"
 };
 
 // Max Age allowed in age ranges
@@ -75,12 +76,15 @@ export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
 
 export const REFERRAL = "referral";
 
+export const APPROVALS = "approvals";
+
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
 export const RECORD_INFORMATION = [
+  APPROVALS,
   RECORD_OWNER,
-  TRANSFERS_ASSIGNMENTS,
-  REFERRAL
+  REFERRAL,
+  TRANSFERS_ASSIGNMENTS
 ];
 
 export const ROUTES = {

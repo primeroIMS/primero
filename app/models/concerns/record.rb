@@ -1,7 +1,11 @@
+# frozen_string_literal: true
+
 module Record
   extend ActiveSupport::Concern
 
-  STATUS_OPEN = 'open' ; STATUS_CLOSED = 'closed' ; STATUS_TRANSFERRED = 'transferred'
+  STATUS_OPEN = 'open'
+  STATUS_CLOSED = 'closed'
+  STATUS_TRANSFERRED = 'transferred'
 
   included do
     store_accessor :data, :unique_identifier, :short_id, :record_state, :status, :marked_for_mobile

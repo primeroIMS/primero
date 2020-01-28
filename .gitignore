@@ -25,6 +25,7 @@
 .vscode
 .~*
 /node_modules
+/public/worker.js
 /public/options
 /public/packs
 /public/packs-test

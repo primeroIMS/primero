@@ -1,6 +1,7 @@
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { OUTPUT_DIR, CLIENT_APPLICATION, ID_APPLICATION } = require("./config");
+const { InjectManifest } = require("workbox-webpack-plugin");
 
 const svgPrefix = {
   toString: () =>
@@ -28,7 +29,14 @@ const resolve = {
   }
 };
 
-const plugins = [new CleanWebpackPlugin()];
+const plugins = [
+  new CleanWebpackPlugin(),
+  // new WebpackPwaManifest(PWA_MANIFEST_CONFIG),
+  new InjectManifest({
+    swSrc: path.join(__dirname, "..", "app/javascript/worker.js"),
+    swDest: path.join(__dirname, "..", "public/worker.js")
+  })
+];
 
 const optimization = {
   splitChunks: {

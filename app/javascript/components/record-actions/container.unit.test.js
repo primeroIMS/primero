@@ -238,6 +238,15 @@ describe("<RecordActions />", () => {
             .includes("actions.services_section_from_case")
         ).to.be.equal(true);
       });
+
+      it("renders MenuItem with Export option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("cases.export")
+        ).to.be.true;
+      });
     });
 
     describe("when user has not access to all menus", () => {
@@ -278,6 +287,15 @@ describe("<RecordActions />", () => {
             .find("li")
             .map(l => l.text())
             .includes("exports.custom_exports.label")
+        ).to.be.false;
+      });
+
+      it("renders MenuItem without Export option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("cases.export")
         ).to.be.false;
       });
     });
