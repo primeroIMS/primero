@@ -38,7 +38,7 @@ class UserMailer < ApplicationMailer
       role_name: user.role.name,
       admin_full_name: admin.full_name,
       admin_email: admin.email,
-      host: '', # TODO!
+      host: root_url,
       locale: user.locale
     )
   end
@@ -51,7 +51,7 @@ class UserMailer < ApplicationMailer
       user_name: user.user_name,
       admin_full_name: admin.full_name,
       admin_email: admin.email,
-      host: '', # TODO!
+      host: root_url,
       locale: user.locale
     )
   end
@@ -63,14 +63,14 @@ class UserMailer < ApplicationMailer
       admin_full_name: admin.full_name,
       admin_email: admin.email,
       otp: one_time_password,
-      host: '', # TODO!
+      host: root_url,
       locale: user.locale
     )
   end
 
   def load_users!(user_id, admin_user_id)
-    user = User.find(id: user_id)
-    admin_user = User.find(id: admin_user_id)
+    user = User.find(user_id)
+    admin_user = User.find(admin_user_id)
     [user, admin_user]
   end
 end

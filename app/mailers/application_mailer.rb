@@ -10,6 +10,8 @@ class ApplicationMailer < ActionMailer::Base
     log_mailer_error(error)
   end
 
+  protected
+
   def mail_allowed!
     SystemSettings.current.notification_email_enabled ||
       raise(Errors::MailNotConfiguredError)

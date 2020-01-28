@@ -3,8 +3,8 @@
 LOCALES_FROM_ENV = ENV['LOCALE_ALL']&.split(',')
 
 default_locale = nil
-yaml_file = Rails.root.join(%w[config locales.yml])
-locale_settings = YAML.safe_load(ERB.new(File.read(yaml_file)).result)[Rails.env] if File.exist?(yaml_file)
+yaml_file = Rails.root.join('config', 'locales.yml')
+locale_settings = YAML.load(ERB.new(File.read(yaml_file)).result)[Rails.env] if File.exist?(yaml_file)
 
 begin
   if ActiveRecord::Base.connection.table_exists? :system_settings
