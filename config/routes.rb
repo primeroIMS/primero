@@ -67,6 +67,7 @@ Rails.application.routes.draw do
       resources :locations
       resources :bulk_exports, as: :exports, path: :exports, only: [:index, :show, :create, :destroy]
       get 'alerts', to: 'alerts#bulk_index'
+      resources :agencies
       resources :roles
 
     end
