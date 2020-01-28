@@ -5,7 +5,7 @@ class UserMailer < ApplicationMailer
   def welcome(user_id, admin_user_id, one_time_password = nil)
     user, admin = load_users!(user_id, admin_user_id)
     @email_body = email_body(user, admin, one_time_password)
-    @email_greeting = I18n.t('user.welcome_email.greeting', locale: user.locale)
+    @email_greeting = greeting(user)
     mail(
       to: user.email,
       subject: subject(user)
@@ -17,6 +17,14 @@ class UserMailer < ApplicationMailer
   def subject(user)
     I18n.t(
       'user.welcome_email.subject',
+      system: SystemSettings.current.system_name,
+      locale: user.locale
+    )
+  end
+
+  def greeting(user)
+    I18n.t(
+      'user.welcome_email.greeting',
       system: SystemSettings.current.system_name,
       locale: user.locale
     )

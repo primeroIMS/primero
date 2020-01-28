@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 describe NotificationMailer, type: :mailer do
+  before do
+    system_settings = instance_double(
+      'SystemSettings',
+      notification_email_enabled: true, unhcr_needs_codes_mapping: {},
+      auto_populate_info: nil, changes_field_to_form: {}
+    )
+    allow(SystemSettings).to receive(:current).and_return(system_settings)
+  end
+
   describe 'approvals' do
     before do
       clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role)
@@ -151,10 +160,10 @@ describe NotificationMailer, type: :mailer do
     end
 
     after :each do
-      [PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role].each(&:destroy_all)
-      Child.destroy_all
-      Transition.destroy_all
-      Agency.destroy_all
+      clean_data(
+        PrimeroProgram, PrimeroModule, Field, FormSection,
+        Lookup, User, UserGroup, Role, Child, Transition, Agency
+      )
     end
   end
 
