@@ -42,7 +42,7 @@ class User < ApplicationRecord
   alias_attribute :name, :user_name
 
   before_create :set_agency_services
-  before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code
+  before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code, :set_locale
   after_save :reassociate_groups_or_agencies
 
   validates :full_name, presence: { message: 'errors.models.user.full_name' }
@@ -523,6 +523,10 @@ class User < ApplicationRecord
       child.save!
     end
     @refresh_associated_user_agencies = agency_id_changed?
+  end
+
+  def set_locale
+    self.locale ||= I18n.default_locale.to_s
   end
 
   def update_reporting_location_code

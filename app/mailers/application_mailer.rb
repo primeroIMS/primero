@@ -10,10 +10,6 @@ class ApplicationMailer < ActionMailer::Base
     log_mailer_error(error)
   end
 
-  def send_to_user_allowed!(user)
-    true
-  end
-
   def mail_allowed!
     SystemSettings.current.notification_email_enabled ||
       raise(Errors::MailNotConfiguredError)
@@ -25,7 +21,8 @@ class ApplicationMailer < ActionMailer::Base
       Rails.logger.error("Attempting to send an email for a record that doesn't exist: #{error.message}")
     when Errors::MailNotConfiguredError
       Rails.logger.debug('Email notification not sent because Primero is not configured to send mail!')
+    else
+      Rails.logger.error(error.message)
     end
-
   end
 end

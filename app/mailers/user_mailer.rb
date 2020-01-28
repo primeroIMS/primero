@@ -2,19 +2,25 @@
 
 # Sends out notifications to the email associated with this User.
 class UserMailer < ApplicationMailer
-
   def welcome(user_id, admin_user_id, one_time_password = nil)
     user, admin = load_users!(user_id, admin_user_id)
     @email_body = email_body(user, admin, one_time_password)
-    @email_greeting = I18n.t('user.welcome_email.greeting')
-
+    @email_greeting = I18n.t('user.welcome_email.greeting', locale: user.locale)
     mail(
       to: user.email,
-      subject: I18n.t('user.welcome_email.subject', SystemSettings.current.system_name)
+      subject: subject(user)
     )
   end
 
   private
+
+  def subject(user)
+    I18n.t(
+      'user.welcome_email.subject',
+      system: SystemSettings.current.system_name,
+      locale: user.locale
+    )
+  end
 
   def email_body(user, admin, one_time_password)
     return email_body_native(user, admin) unless user.using_idp?
@@ -32,7 +38,8 @@ class UserMailer < ApplicationMailer
       role_name: user.role.name,
       admin_full_name: admin.full_name,
       admin_email: admin.email,
-      host: '' # TODO!
+      host: '', # TODO!
+      locale: user.locale
     )
   end
 
@@ -44,7 +51,8 @@ class UserMailer < ApplicationMailer
       user_name: user.user_name,
       admin_full_name: admin.full_name,
       admin_email: admin.email,
-      host: '' # TODO!
+      host: '', # TODO!
+      locale: user.locale
     )
   end
 
@@ -55,13 +63,13 @@ class UserMailer < ApplicationMailer
       admin_full_name: admin.full_name,
       admin_email: admin.email,
       otp: one_time_password,
-      host: '' # TODO!
+      host: '', # TODO!
+      locale: user.locale
     )
   end
 
   def load_users!(user_id, admin_user_id)
     user = User.find(id: user_id)
-    send_to_user_allowed!(admin_user_id)
     admin_user = User.find(id: admin_user_id)
     [user, admin_user]
   end
