@@ -16,4 +16,16 @@ export const HIDDEN_FIELDS = [
   "approval_status_closure"
 ];
 
+export const PRIMARY_FILTERS = [
+  "sex",
+  "age",
+  "risk_level",
+  "approval_status_case_plan",
+  "last_updated_at"
+];
+
 export const OR_FIELDS = ["owned_by", "assigned_user_names"];
+
+export const MY_CASES_FILTER_NAME = "my_cases";
+
+export const OR_FILTER_NAME = "or";

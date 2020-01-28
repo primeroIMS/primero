@@ -30,7 +30,6 @@ cp_admin_permissions = [
       Permission::EXPORT_JSON,
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
-      Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
       Permission::SEARCH_OWNED_BY_OTHERS,
       Permission::CREATE,
@@ -54,7 +53,6 @@ cp_admin_permissions = [
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
       Permission::EXPORT_PHOTO_WALL,
-      Permission::EXPORT_PDF,
       Permission::EXPORT_UNHCR,
       Permission::CREATE
     ]
@@ -71,7 +69,6 @@ cp_admin_permissions = [
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
-      Permission::EXPORT_PDF,
       Permission::CREATE
     ],
     role_ids: [
@@ -169,7 +166,6 @@ cp_caseworker_permissions = [
       Permission::EXPORT_JSON,
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
-      Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
       Permission::SYNC_MOBILE,
       Permission::REQUEST_APPROVAL_CASE_PLAN,
@@ -254,7 +250,6 @@ cp_manager_permissions = [
       Permission::EXPORT_JSON,
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
-      Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
       Permission::SYNC_MOBILE,
       Permission::APPROVE_CASE_PLAN,
@@ -371,7 +366,6 @@ cp_user_manager_permissions = [
             Permission::EXPORT_JSON,
             Permission::EXPORT_PHOTO_WALL,
             Permission::EXPORT_PDF,
-            Permission::EXPORT_CASE_PDF,
             Permission::EXPORT_UNHCR,
             Permission::SYNC_MOBILE,
             Permission::APPROVE_CASE_PLAN,
@@ -416,8 +410,7 @@ cp_user_manager_permissions = [
             Permission::EXPORT_LIST_VIEW,
             Permission::EXPORT_CSV,
             Permission::EXPORT_EXCEL,
-            Permission::EXPORT_JSON,
-            Permission::EXPORT_PDF
+            Permission::EXPORT_JSON
         ]
     ),
     Permission.new(
@@ -480,7 +473,6 @@ gbv_worker_permissions = [
       Permission::EXPORT_JSON,
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
-      Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
       Permission::SYNC_MOBILE,
       Permission::INCIDENT_FROM_CASE,
@@ -540,7 +532,6 @@ gbv_manager_permissions = [
       Permission::EXPORT_JSON,
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
-      Permission::EXPORT_CASE_PDF,
       Permission::SYNC_MOBILE,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::REMOVE_ASSIGNED_USERS,
@@ -560,7 +551,6 @@ gbv_manager_permissions = [
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
       Permission::EXPORT_PHOTO_WALL,
-      Permission::EXPORT_PDF,
       Permission::EXPORT_UNHCR,
       Permission::EXPORT_INCIDENT_RECORDER,
       Permission::SYNC_MOBILE
@@ -584,7 +574,6 @@ gbv_manager_permissions = [
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
       Permission::EXPORT_PHOTO_WALL,
-      Permission::EXPORT_PDF,
       Permission::EXPORT_UNHCR
     ]
   ),
@@ -640,7 +629,6 @@ gbv_user_manager_permissions = [
             Permission::EXPORT_JSON,
             Permission::EXPORT_PHOTO_WALL,
             Permission::EXPORT_PDF,
-            Permission::EXPORT_CASE_PDF,
             Permission::EXPORT_UNHCR,
             Permission::SYNC_MOBILE,
             Permission::VIEW_PROTECTION_CONCERNS_FILTER,
@@ -683,7 +671,6 @@ gbv_user_manager_permissions = [
             Permission::EXPORT_EXCEL,
             Permission::EXPORT_JSON,
             Permission::EXPORT_PHOTO_WALL,
-            Permission::EXPORT_PDF,
             Permission::EXPORT_UNHCR
         ]
     ),
@@ -751,7 +738,7 @@ gbv_caseworker_permissions = [
             Permission::WRITE,
             Permission::FLAG,
             Permission::CONSENT_OVERRIDE,
-            Permission::EXPORT_CASE_PDF,
+            Permission::EXPORT_PDF,
             Permission::REQUEST_APPROVAL_CASE_PLAN,
             Permission::REQUEST_APPROVAL_BIA,
             Permission::REQUEST_APPROVAL_CLOSURE,
@@ -803,7 +790,7 @@ gbv_mobile_caseworker_permissions = [
             Permission::WRITE,
             Permission::FLAG,
             Permission::CONSENT_OVERRIDE,
-            Permission::EXPORT_CASE_PDF,
+            Permission::EXPORT_PDF,
             Permission::REQUEST_APPROVAL_CASE_PLAN,
             Permission::REQUEST_APPROVAL_BIA,
             Permission::REQUEST_APPROVAL_CLOSURE,
@@ -847,9 +834,9 @@ gbv_cm_supervisor_permissions = [
             Permission::FLAG,
             Permission::ASSIGN,
             Permission::EXPORT_JSON,
-            Permission::EXPORT_CASE_PDF,
+            Permission::EXPORT_PDF,
             Permission::CONSENT_OVERRIDE,
-            Permission::EXPORT_CASE_PDF,
+            Permission::EXPORT_PDF,
             Permission::APPROVE_BIA,
             Permission::APPROVE_CASE_PLAN,
             Permission::APPROVE_CLOSURE
@@ -967,7 +954,6 @@ gbv_organization_focal_point_permissions = [
             Permission::FLAG,
             Permission::EXPORT_EXCEL,
             Permission::EXPORT_PDF,
-            Permission::EXPORT_CASE_PDF,
             Permission::EXPORT_JSON,
             Permission::IMPORT,
             Permission::ASSIGN,
@@ -992,7 +978,6 @@ gbv_organization_focal_point_permissions = [
         actions: [
             Permission::READ,
             Permission::EXPORT_EXCEL,
-            Permission::EXPORT_PDF,
             Permission::EXPORT_JSON
         ],
         role_ids: ['role-gbv-case-management-supervisor', 'role-gbv-caseworker', 'role-gbv-program-manager']
@@ -1002,7 +987,6 @@ gbv_organization_focal_point_permissions = [
         actions: [
             Permission::READ,
             Permission::EXPORT_EXCEL,
-            Permission::EXPORT_PDF,
             Permission::EXPORT_JSON
         ]
     ),
@@ -1011,7 +995,6 @@ gbv_organization_focal_point_permissions = [
         actions: [
             Permission::READ,
             Permission::EXPORT_EXCEL,
-            Permission::EXPORT_PDF,
             Permission::EXPORT_JSON
         ]
     ),
@@ -1144,9 +1127,8 @@ gbv_system_admin_permissions = [
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_PHOTO_WALL,
-      Permission::EXPORT_PDF,
       Permission::EXPORT_UNHCR,
-      Permission::EXPORT_CASE_PDF,
+      Permission::EXPORT_PDF,
       Permission::EXPORT_JSON,
       Permission::EXPORT_CUSTOM,
       Permission::IMPORT,
@@ -1266,7 +1248,6 @@ referral_permissions = [
       Permission::EXPORT_JSON,
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
-      Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
       Permission::CREATE,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER
@@ -1295,7 +1276,6 @@ transfer_permissions = [
       Permission::EXPORT_JSON,
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
-      Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
       Permission::CREATE,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER
@@ -1324,7 +1304,6 @@ ftr_manager_permissions = [
           Permission::EXPORT_JSON,
           Permission::EXPORT_PHOTO_WALL,
           Permission::EXPORT_PDF,
-          Permission::EXPORT_CASE_PDF,
           Permission::EXPORT_UNHCR,
           Permission::SYNC_MOBILE,
           Permission::CREATE,

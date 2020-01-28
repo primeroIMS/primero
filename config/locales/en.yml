@@ -151,6 +151,19 @@ en:
     logout: "Log out"
     settings: "Settings"
 
+  settings: 
+    title: "Settings"
+    navigation:
+      agency: "Agency"
+      roles: "Roles"
+      modules: "Modules"
+      system_settings: "System Settings"
+      matching: "Matching"
+      users: "Users"
+      forms: "Form"
+      locations: "Locations"
+      audit_logs: "Audit Logs"
+
   buttons:
     delete: "Delete"
     disable: "Disable"
@@ -518,6 +531,7 @@ en:
     another_duplicate_after_link: " to see the duplicate record."
     # TODO: Possibly use another method to label the list view columns
     select: "Select"
+    invalid_action_name: "Invalid action name"
 
     messages:
       update_success: "Case %{record_id} was successfully updated."
@@ -869,6 +883,12 @@ en:
       disabled: "Disabled"
       agency: "Agency"
     register_new_user: "Create User"
+    headers:
+      full_name: "Full Name"
+      user_name: "Username"
+      position: "Position"
+      agency: "Agency"
+
 
   roles:
     label: "Roles"
@@ -1236,6 +1256,7 @@ en:
       record_information: "Record Information"
       transfers_assignments: "Transfers / Assignments"
       referrals: "Referrals"
+      approvals: "Approvals"
 
   form_section:
     name: "Name"
@@ -1828,6 +1849,10 @@ en:
     approval_assessment_pending: "Pending"
     approval_assessment_rejected: "Rejected"
     approval_assessment_approved: "Approved"
+    pending_approvals: "Pending Approvals"
+    approval_assessment_pending_group: "Assessment"
+    approval_case_plan_pending_group: "Case Plan"
+    approval_closure_pending_group: "Closure"
 
   errors:
     try_again: "Try again"
@@ -2364,12 +2389,27 @@ en:
     bia: "BIA"
     case_plan: "Case Plan"
     closure: "Closure"
+    assessment: "Assessment"
     comments_label: "Comments"
     error_select_an_approval_type: "Please select an approval type"
-    case_plan_type_label: "Case plan type:"
+    case_plan_type_label: "Case plan type"
+    error_request_required: "A request is required to perform this action."
+    error_invalid_id: "Invalid approval ID"
+    error_invalid_status: "Invalid approval status"
+    response_for_title: "Approval"
+    requested_for_title: "Approval Request"
+    response_for_label: "Approval For"
+    requested_for_label: "Approval Requested For"
+    manager_comments_label: "Manager Comments"
+    date: "Date"
+    requested_by: "Requested By"
+    approved_by: "Approved By"
+    rejected_by: "Rejected By"
+
 
     status:
       pending: "Pending"
+      requested: "Requested"
       approved: "Approved"
       rejected: "Rejected"
 
@@ -2667,6 +2707,8 @@ en:
     apply_filters: "Apply"
     clear_filters: "Clear"
     save_filters: "Save"
+    more: "More..."
+    less: "Less..."
 
   flags:
     flags_tab: "Flags"

@@ -8,12 +8,9 @@ class BulkExport < ApplicationRecord
   TERMINATED = 'job.status.terminated' # The job terminated due to an error
   COMPLETE = 'job.status.complete'     # The job completed successfully
   ARCHIVED = 'job.status.archived'     # The job's files have been cleaned up
-  # TODO: This will change with ActiveStorage
-  EXPORT_DIR = File.join(Rails.root, 'tmp', 'export')
   ARCHIVE_CUTOFF = 30.days.ago
 
-  # TODO: This will change with ActiveStorage
-  FileUtils.mkdir_p EXPORT_DIR
+  scope :owned, ->(owner_user_name) { where(owned_by: owner_user_name) }
 
   belongs_to :owner, class_name: 'User', foreign_key: 'owned_by', primary_key: 'user_name'
   has_one_attached :export_file
@@ -23,14 +20,16 @@ class BulkExport < ApplicationRecord
   validates :format, presence: true
   validates :export_file, file_size: { less_than_or_equal_to: 50.megabytes }, if: -> { export_file.attached? }
 
+  before_save :generate_file_name
+
   def export
     process_records_in_batches(500) do |records_batch|
-      exporter.export(records_batch, owner, custom_export_params)
+      exporter.export(records_batch, owner, custom_export_params || {})
     end
     exporter.complete
     encrypt_export_file
     attach_export_file
-    mark_completed
+    mark_completed!
   end
 
   def model_class
@@ -39,12 +38,21 @@ class BulkExport < ApplicationRecord
 
   def exporter_type
     @exporter_type ||= Exporters.active_exporters_for_model(model_class)
-                                .select { |e| e.id == format.to_s }.first
+                                .find { |e| e.id == format.to_s }
   end
 
   def exporter
-    # TODO: This may change with ActiveStorage
     @exporter ||= exporter_type.new(stored_file_name)
+  end
+
+  def password
+    # TODO: Add encryption
+    password_ciphertext
+  end
+
+  def password=(password)
+    # TODO: Add encryption
+    self.password_ciphertext = password
   end
 
   def search_filters
@@ -59,43 +67,43 @@ class BulkExport < ApplicationRecord
     @record_query_scope ||= owner&.record_query_scope(model_class)
   end
 
-  def mark_started
+  def mark_started!
     self.status = PROCESSING
     self.started_on = DateTime.now
     # TODO: Log this
-    save
+    save!
   end
 
-  def mark_completed
+  def mark_completed!
     self.status = COMPLETE
     self.completed_on = DateTime.now
-    self.password = nil # TODO: yes yes, I know
+    self.password_ciphertext = nil # TODO: yes yes, I know
     # TODO: Log this
-    save
+    save!
   end
 
-  def mark_terminated
+  def mark_terminated!
     self.status = TERMINATED
-    self.password = nil
-    save
+    self.password_ciphertext = nil
+    save!
   end
 
-  def archive
+  def archive!
     self.status = ARCHIVED
-    return unless stored_file_name.present? && File.exist?(stored_file_name)
+    export_file.purge if export_file.attached?
+    save!
+  end
 
-    # TODO: Is this still relevant with ActiveStorage?
-    begin
-      File.delete(stored_file_name)
-    rescue RuntimeError
-      Rails.logger.warn("Archiving #{stored_file_name}: File missing!")
-    end
+  def generate_file_name
+    return if file_name.present?
+
+    self.file_name = "#{record_type&.pluralize}-#{Time.now.strftime('%Y%m%d.%M%S%M%L')}.#{exporter_type&.mime_type}"
   end
 
   def stored_file_name
     return unless file_name.present?
 
-    File.join(EXPORT_DIR, "#{id}_#{file_name}")
+    File.join(Rails.configuration.exports_directory, "#{id}_#{file_name}")
   end
 
   def encrypted_file_name
@@ -106,7 +114,8 @@ class BulkExport < ApplicationRecord
 
   def process_records_in_batches(batch_size = 500, &block)
     # TODO: This is a good candidate for multi-threading, provided export buffers are thread safe.
-    pagination = { page: 1, per_page: batch_size}
+    pagination = { page: 1, per_page: batch_size }
+    order = self.order || { created_at: :desc }
     begin
       search = SearchService.search(
         model_class, search_filters, record_query_scope, query, order, pagination
@@ -120,30 +129,23 @@ class BulkExport < ApplicationRecord
   end
 
   def attach_export_file
-    return unless stored_file_name
+    return unless encrypted_file_name && File.size?(encrypted_file_name)
 
     export_file.attach(
       io: File.open(encrypted_file_name),
       filename: File.basename(encrypted_file_name)
     )
+    File.delete(encrypted_file_name)
   end
 
   def encrypt_export_file
-    # TODO: Add an else statement that throws an error if the file is empty!
-    # TODO: This code is currently duplicated in the application controller
-    # TODO: Make this ActiveStorage-compliant
-    return unless stored_file_name && File.size?(stored_file_name)
+    return unless stored_file_name && File.size?(stored_file_name) && password
 
-    encrypt = password ? Zip::TraditionalEncrypter.new(password) : nil
-    Zip::OutputStream.open(self.encrypted_file_name, encrypt) do |out|
-      out.put_next_entry(File.basename(self.stored_file_name))
-      out.write open(self.stored_file_name).read
+    encrypt = Zip::TraditionalEncrypter.new(password)
+    Zip::OutputStream.open(encrypted_file_name, encrypt) do |out|
+      out.put_next_entry(File.basename(stored_file_name))
+      out.write File.open(stored_file_name).read
     end
-
-    File.delete self.stored_file_name
-  end
-
-  def job
-    BulkExportJob
+    File.delete(stored_file_name)
   end
 end

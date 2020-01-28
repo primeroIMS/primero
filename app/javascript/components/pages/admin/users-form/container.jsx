@@ -10,10 +10,12 @@ import { PageHeading, PageContent } from "../../../page";
 import { LoadingIndicator } from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
 import { ROUTES } from "../../../../config";
+import { usePermissions } from "../../../user";
+import { WRITE_RECORDS } from "../../../../libs/permissions";
 
 import { form, validations } from "./form";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
-import { getUser, getErrors } from "./selectors";
+import { getUser, getServerErrors } from "./selectors";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -23,10 +25,12 @@ const Container = ({ mode }) => {
   const { pathname } = useLocation();
   const { id } = useParams();
   const user = useSelector(state => getUser(state));
-  const formErrors = useSelector(state => getErrors(state))
+  const formErrors = useSelector(state => getServerErrors(state));
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
   const validationSchema = validations(formMode, i18n);
+
+  const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
 
   const handleSubmit = data => {
     dispatch(
@@ -93,7 +97,7 @@ const Container = ({ mode }) => {
       type={NAMESPACE}
     >
       <PageHeading title={pageHeading}>
-        {editButton}
+        {canEditUsers && editButton}
         {saveButton}
       </PageHeading>
       <PageContent>

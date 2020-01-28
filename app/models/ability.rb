@@ -52,6 +52,7 @@ class Ability
       end
     end
 
+    configure_exports
     baseline_permissions
 
     [Child, TracingRequest, Incident].each do |model|
@@ -169,9 +170,6 @@ class Ability
           user.has_permission?(Permission::DASH_TASKS))
         can :index, Task
       end
-      can [:index, :show], BulkExport do |instance|
-        instance.owned_by == user.user_name
-      end
     else
       can actions, resource
     end
@@ -180,6 +178,14 @@ class Ability
   def configure_flag(resource)
     can [:flag_record], resource do |instance|
       can?(:read, instance) && can?(:flag, instance)
+    end
+  end
+
+  def configure_exports
+    return unless user.role.permitted_to_export?
+
+    can [:index, :create, :read, :destroy], BulkExport do |instance|
+      instance.owned_by == user.user_name
     end
   end
 

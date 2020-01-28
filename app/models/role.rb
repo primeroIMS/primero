@@ -13,9 +13,9 @@ class Role < ApplicationRecord
 
   serialize :permissions, Permission::PermissionSerializer
 
-  validates :permissions, presence: { message: I18n.t("errors.models.role.permission_presence") }
-  validates :name, presence: { message: I18n.t("errors.models.role.name_present") },
-                   uniqueness: { message: I18n.t("errors.models.role.unique_name") }
+  validates :permissions, presence: { message: 'errors.models.role.permission_presence' }
+  validates :name, presence: { message: 'errors.models.role.name_present' },
+                   uniqueness: { message: 'errors.models.role.unique_name' }
 
   before_create :generate_unique_id
 
@@ -85,6 +85,17 @@ class Role < ApplicationRecord
       end
     end
 
+    def new_with_properties(role_params)
+      role = Role.new(role_params.except(:permissions, :form_section_unique_ids, :module_unique_ids))
+      if role_params[:form_section_unique_ids].present?
+        role.form_sections = FormSection.where(unique_id: role_params[:form_section_unique_ids])
+      end
+      if role_params[:module_unique_ids].present?
+        role.modules = PrimeroModule.where(unique_id: role_params[:module_unique_ids])
+      end
+      role.permissions = Permission::PermissionSerializer.load(role_params[:permissions].to_h)
+      role
+    end
   end
 
   def associated_role_ids
@@ -95,6 +106,7 @@ class Role < ApplicationRecord
     dashboard_permissions = permissions.find { |p| p.resource == Permission::DASHBOARD }
     dashboards = dashboard_permissions&.actions&.map do |action|
       next Dashboard.send(action) if Dashboard::DYNAMIC.include?(action)
+
       begin
         "Dashboard::#{action.upcase}".constantize
       rescue NameError
@@ -121,6 +133,11 @@ class Role < ApplicationRecord
     has_managed_resources?(admin_only_resources)
   end
 
+  def permitted_to_export?
+    permissions&.map(&:actions).flatten.compact.any? { |p| p.start_with?('export') } ||
+      permissions&.any? { |p| Permission.records.include?(p.resource) && p.actions.include?(Permission::MANAGE) }
+  end
+
   def generate_unique_id
     if self.name.present? && self.unique_id.blank?
       self.unique_id = "#{self.class.name}-#{self.name}".parameterize.dasherize
@@ -128,12 +145,27 @@ class Role < ApplicationRecord
   end
 
   def associate_all_forms
-    permissions_with_forms = self.permissions.select{|p| p.resource.in?([Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST])}
+    permissions_with_forms = permissions.select{ |p| p.resource.in?(Permission.records) }
     forms_by_parent = FormSection.all_forms_grouped_by_parent
     permissions_with_forms.map do |permission|
       self.form_sections << forms_by_parent[permission.resource].reject {|f| self.form_sections.include?(f)}
       self.save
     end
+  end
+
+  def form_section_unique_ids
+    form_sections.pluck(:unique_id)
+  end
+
+  def module_unique_ids
+    modules.pluck(:unique_id)
+  end
+
+  def update_properties(role_properties)
+    assign_attributes(role_properties.except(:permissions, :form_section_unique_ids, :module_unique_ids))
+    self.form_sections = FormSection.where(unique_id: role_properties[:form_section_unique_ids])
+    self.permissions = Permission::PermissionSerializer.load(role_properties[:permissions].to_h)
+    self.modules = PrimeroModule.where(unique_id: role_properties[:module_unique_ids])
   end
 
   private
@@ -142,5 +174,4 @@ class Role < ApplicationRecord
     current_managed_resources = self.permissions.select{ |p| p.actions == [Permission::MANAGE] }.map(&:resource)
     (resources - current_managed_resources).empty?
   end
-
 end

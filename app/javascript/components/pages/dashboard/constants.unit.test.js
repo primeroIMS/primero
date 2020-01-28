@@ -1,38 +1,38 @@
 import { expect } from "chai";
 
-import * as dashboardPagesConstants from "./constants";
+import * as constants from "./constants";
 
 describe("Verifying config constant", () => {
   it("should have known constant", () => {
-    const constants = { ...dashboardPagesConstants };
+    const clone = { ...constants };
 
-    ["DASHBOARD_NAMES"].forEach(property => {
-      expect(constants).to.have.property(property);
-      delete constants[property];
-    });
+    ["DASHBOARD_NAMES", "INDICATOR_NAMES", "WORKFLOW_ORDER_NAMES"].forEach(
+      property => {
+        expect(clone).to.have.property(property);
+        delete clone[property];
+      }
+    );
 
-    ["INDICATOR_NAMES"].forEach(property => {
-      expect(constants).to.have.property(property);
-      delete constants[property];
-    });
-
-    expect(constants).to.be.empty;
+    expect(clone).to.be.empty;
   });
 
   it("should have correct constant value", () => {
-    const constants = { ...dashboardPagesConstants };
+    const clone = { ...constants };
 
-    expect(constants.DASHBOARD_NAMES).to.have.all.keys(
+    expect(clone.DASHBOARD_NAMES).to.have.all.keys(
       "CASE_RISK",
       "WORKFLOW",
       "APPROVALS_ASSESSMENT",
+      "APPROVALS_ASSESSMENT_PENDING",
       "APPROVALS_CASE_PLAN",
+      "APPROVALS_CASE_PLAN_PENDING",
       "APPROVALS_CLOSURE",
+      "APPROVALS_CLOSURE_PENDING",
       "REPORTING_LOCATION",
       "WORKFLOW_TEAM"
     );
 
-    expect(constants.INDICATOR_NAMES).to.have.all.keys(
+    expect(clone.INDICATOR_NAMES).to.have.all.keys(
       "RISK_LEVEL",
       "WORKFLOW",
       "WORKFLOW_TEAM",

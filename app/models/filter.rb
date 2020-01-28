@@ -343,7 +343,7 @@ class Filter < ValueObject
       id_suffix = field_name.delete_prefix('approval_status_')
       self.options = I18n.available_locales.map do |locale|
         { locale =>
-          [ Child::APPROVAL_STATUS_PENDING, Child::APPROVAL_STATUS_APPROVED, Child::APPROVAL_STATUS_REJECTED].map do |status|
+          [ Approval::APPROVAL_STATUS_PENDING, Approval::APPROVAL_STATUS_APPROVED, Approval::APPROVAL_STATUS_REJECTED].map do |status|
             { id: status, display_name: I18n.t("cases.filter_by.approvals.#{status}", locale: locale) }
           end
         }
