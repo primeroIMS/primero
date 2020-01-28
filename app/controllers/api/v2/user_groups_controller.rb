@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Api::V2
   class UserGroupsController < ApplicationApiController
     include Concerns::Pagination
-    before_action :load_user_group, only: [:show, :update, :destroy]
+    before_action :load_user_group, only: %i[show update destroy]
 
     def index
       authorize! :index, UserGroup
