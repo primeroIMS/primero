@@ -16,6 +16,7 @@ import {
   ADD_INCIDENT,
   ADD_SERVICE,
   REQUEST_APPROVAL,
+  SHOW_EXPORTS,
   checkPermissions
 } from "../../libs/permissions";
 import Permission from "../application/permission";
@@ -28,6 +29,7 @@ import { Transitions } from "./transitions";
 import AddIncident from "./add-incident";
 import AddService from "./add-service";
 import RequestApproval from "./request-approval";
+import Exports from "./exports";
 
 const Container = ({
   recordType,
@@ -46,6 +48,7 @@ const Container = ({
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
   const [incidentDialog, setIncidentDialog] = useState(false);
   const [serviceDialog, setServiceDialog] = useState(false);
+  const [openExportsDialog, setOpenExportsDialog] = useState(false);
 
   const enableState =
     record && record.get("record_state") ? "disable" : "enable";
@@ -127,6 +130,8 @@ const Container = ({
 
   const canCustomExport = checkPermissions(userPermissions, EXPORT_CUSTOM);
 
+  const canShowExports = checkPermissions(userPermissions, SHOW_EXPORTS);
+
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -192,6 +197,10 @@ const Container = ({
     (canReopen && openState === "reopen") ||
     (canClose && openState === "close");
 
+  const handleExportsOpen = () => {
+    setOpenExportsDialog(true);
+  };
+
   const formRecordType = i18n.t(
     `forms.record_types.${RECORD_TYPES[recordType]}`
   );
@@ -236,19 +245,19 @@ const Container = ({
     {
       name: i18n.t(`actions.${openState}`),
       action: handleReopenDialogOpen,
-      recordType: "all",
+      recordType: RECORD_TYPES.all,
       condition: mode && mode.isShow && canOpenOrClose
     },
     {
       name: i18n.t(`actions.${enableState}`),
       action: handleEnableDialogOpen,
-      recordType: "all",
+      recordType: RECORD_TYPES.all,
       condition: mode && mode.isShow && canEnable
     },
     {
       name: i18n.t("actions.notes"),
       action: handleNotesOpen,
-      recordType: "all",
+      recordType: RECORD_TYPES.all,
       condition: canAddNotes
     },
     {
@@ -256,6 +265,12 @@ const Container = ({
       action: handleRequestOpen,
       recordType: "all",
       condition: canRequest
+    },
+    {
+      name: i18n.t("cases.export"),
+      action: handleExportsOpen,
+      recordType: RECORD_TYPES.all,
+      condition: canShowExports
     }
   ];
 
@@ -285,7 +300,7 @@ const Container = ({
     }
 
     return (
-      (a.recordType === "all" ||
+      (a.recordType === RECORD_TYPES.all ||
         a.recordType === recordType ||
         (Array.isArray(a.recordType) && a.recordType.includes(recordType))) &&
       actionCondition
@@ -312,19 +327,19 @@ const Container = ({
     {
       name: "Assessment",
       condition: canRequestBia,
-      recordType: "all",
+      recordType: RECORD_TYPES.all,
       value: "bia"
     },
     {
       name: "Case Plan",
       condition: canRequestCasePlan,
-      recordType: "all",
+      recordType: RECORD_TYPES.all,
       value: "case_plan"
     },
     {
       name: "Closure",
       condition: canRequestClosure,
-      recordType: "all",
+      recordType: RECORD_TYPES.all,
       value: "closure"
     }
   ];
@@ -397,6 +412,15 @@ const Container = ({
           subMenuItems={allowedRequestsApproval}
           record={record}
           recordType={recordType}
+        />
+      </Permission>
+
+      <Permission resources={recordType} actions={SHOW_EXPORTS}>
+        <Exports
+          openExportsDialog={openExportsDialog}
+          close={setOpenExportsDialog}
+          recordType={recordType}
+          userPermissions={userPermissions}
         />
       </Permission>
     </>

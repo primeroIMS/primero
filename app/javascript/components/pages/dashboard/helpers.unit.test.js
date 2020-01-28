@@ -9,13 +9,16 @@ describe("<Dashboard /> - Helpers", () => {
     it("should have known methods", () => {
       const clone = { ...helper };
 
-      ["toData1D", "toListTable", "toReportingLocationTable"].forEach(
-        property => {
-          expect(clone).to.have.property(property);
-          expect(clone[property]).to.be.a("function");
-          delete clone[property];
-        }
-      );
+      [
+        "toData1D",
+        "toListTable",
+        "toReportingLocationTable",
+        "toApprovalsManager"
+      ].forEach(property => {
+        expect(clone).to.have.property(property);
+        expect(clone[property]).to.be.a("function");
+        delete clone[property];
+      });
       expect(clone).to.be.empty;
     });
   });
@@ -227,6 +230,64 @@ describe("<Dashboard /> - Helpers", () => {
         i18nMock,
         locations
       ).data;
+
+      expect(converted).to.deep.equal(expected);
+    });
+  });
+
+  describe("toApprovalsManager", () => {
+    it("should convert the data for OverviewBox", () => {
+      const data = fromJS([
+        {
+          name: "dashboard.approvals_assessment_pending",
+          type: "indicator",
+          indicators: {
+            approval_assessment_pending_group: {
+              count: 3,
+              query: [
+                "record_state=true",
+                "status=open",
+                "approval_status_bia=pending"
+              ]
+            }
+          }
+        },
+        {
+          name: "dashboard.approvals_case_plan_pending",
+          type: "indicator",
+          indicators: {
+            approval_case_plan_pending_group: {
+              count: 2,
+              query: [
+                "record_state=true",
+                "status=open",
+                "approval_status_case_plan=pending"
+              ]
+            }
+          }
+        }
+      ]);
+      const expected = fromJS({
+        indicators: {
+          approval_assessment_pending_group: {
+            count: 3,
+            query: [
+              "record_state=true",
+              "status=open",
+              "approval_status_bia=pending"
+            ]
+          },
+          approval_case_plan_pending_group: {
+            count: 2,
+            query: [
+              "record_state=true",
+              "status=open",
+              "approval_status_case_plan=pending"
+            ]
+          }
+        }
+      });
+      const converted = helper.toApprovalsManager(data);
 
       expect(converted).to.deep.equal(expected);
     });
