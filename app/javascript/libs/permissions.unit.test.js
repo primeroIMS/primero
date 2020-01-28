@@ -10,9 +10,6 @@ describe("Verifying config constant", () => {
 
     [
       "ADD_NOTE",
-      "APPROVE_BIA",
-      "APPROVE_CASE_PLAN",
-      "APPROVE_CLOSURE",
       "ASSIGN",
       "ASSIGN_WITHIN_AGENCY_PERMISSIONS",
       "ASSIGN_WITHIN_USER_GROUP",
