@@ -17,7 +17,12 @@ import { FlagList } from "../../dashboard/flag-list";
 import { Services } from "../../dashboard/services";
 import { useI18n } from "../../i18n";
 import { PageContainer, PageHeading, PageContent } from "../../page";
-import { RESOURCES, ACTIONS } from "../../../libs/permissions";
+import {
+  RESOURCES,
+  ACTIONS,
+  DASH_APPROVALS,
+  DASH_APPROVALS_PENDING
+} from "../../../libs/permissions";
 import Permission from "../../application/permission";
 import { LOOKUPS, MODULES, RECORD_TYPES } from "../../../config";
 import { selectModule } from "../../application";
@@ -37,12 +42,20 @@ import {
   getWorkflowIndividualCases,
   getWorkflowTeamCases,
   getApprovalsAssessment,
+  getApprovalsAssessmentPending,
   getApprovalsCasePlan,
+  getApprovalsCasePlanPending,
   getApprovalsClosure,
+  getApprovalsClosurePending,
   getReportingLocation
 } from "./selectors";
 import styles from "./styles.css";
-import { toData1D, toListTable, toReportingLocationTable } from "./helpers";
+import {
+  toData1D,
+  toListTable,
+  toReportingLocationTable,
+  toApprovalsManager
+} from "./helpers";
 
 const Dashboard = ({
   fetchFlags,
@@ -66,7 +79,10 @@ const Dashboard = ({
   approvalsCasePlan,
   approvalsClosure,
   reportingLocationConfig,
-  locations
+  locations,
+  approvalsAssessmentPending,
+  approvalsCasePlanPending,
+  approvalsClosurePending
 }) => {
   useEffect(() => {
     batch(() => {
@@ -174,21 +190,36 @@ const Dashboard = ({
     )
   };
 
+  const approvalsManagerProps = {
+    items: toApprovalsManager([
+      approvalsAssessmentPending,
+      approvalsCasePlanPending,
+      approvalsClosurePending
+    ]),
+    sumTitle: i18n.t("dashboard.pending_approvals"),
+    withTotal: false
+  };
+
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
       <PageContent>
         <Grid container spacing={3} classes={{ root: css.container }}>
-          <Permission
-            resources={RESOURCES.dashboards}
-            actions={[
-              ACTIONS.DASH_APPROVALS_ASSESSMENT,
-              ACTIONS.DASH_APPROVALS_CASE_PLAN,
-              ACTIONS.DASH_APPROVALS_CLOSURE
-            ]}
-          >
+          <Permission resources={RESOURCES.dashboards} actions={DASH_APPROVALS}>
             <Grid item md={12}>
               <OptionsBox title={i18n.t("dashboard.approvals")}>
+                <Grid container>
+                  <Grid item xs>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={DASH_APPROVALS_PENDING}
+                    >
+                      <OptionsBox flat>
+                        <OverviewBox {...approvalsManagerProps} />
+                      </OptionsBox>
+                    </Permission>
+                  </Grid>
+                </Grid>
                 <Grid container>
                   <Grid item xs>
                     <Permission
@@ -317,8 +348,11 @@ Dashboard.displayName = "Dashboard";
 
 Dashboard.propTypes = {
   approvalsAssessment: PropTypes.object.isRequired,
+  approvalsAssessmentPending: PropTypes.object.isRequired,
   approvalsCasePlan: PropTypes.object.isRequired,
+  approvalsCasePlanPending: PropTypes.object.isRequired,
   approvalsClosure: PropTypes.object.isRequired,
+  approvalsClosurePending: PropTypes.object.isRequired,
   casesByAssessmentLevel: PropTypes.object.isRequired,
   casesByCaseWorker: PropTypes.object.isRequired,
   casesByStatus: PropTypes.object.isRequired,
@@ -349,8 +383,11 @@ const mapStateToProps = state => {
     casesWorkflowTeam: getWorkflowTeamCases(state),
     reportingLocation: getReportingLocation(state),
     approvalsAssessment: getApprovalsAssessment(state),
+    approvalsAssessmentPending: getApprovalsAssessmentPending(state),
     approvalsClosure: getApprovalsClosure(state),
+    approvalsCasePlanPending: getApprovalsClosurePending(state),
     approvalsCasePlan: getApprovalsCasePlan(state),
+    approvalsClosurePending: getApprovalsCasePlanPending(state),
     casesByStatus: selectCasesByStatus(state),
     casesByCaseWorker: selectCasesByCaseWorker(state),
     casesRegistration: selectCasesRegistration(state),

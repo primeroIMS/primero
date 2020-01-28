@@ -5,7 +5,10 @@ export const DASHBOARD_NAMES = Object.freeze({
   APPROVALS_CASE_PLAN: "dashboard.approvals_case_plan",
   APPROVALS_CLOSURE: "dashboard.approvals_closure",
   WORKFLOW_TEAM: "dashboard.workflow_team",
-  REPORTING_LOCATION: "dashboard.reporting_location"
+  REPORTING_LOCATION: "dashboard.reporting_location",
+  APPROVALS_ASSESSMENT_PENDING: "dashboard.approvals_assessment_pending",
+  APPROVALS_CASE_PLAN_PENDING: "dashboard.approvals_case_plan_pending",
+  APPROVALS_CLOSURE_PENDING: "dashboard.approvals_closure_pending"
 });
 
 export const INDICATOR_NAMES = Object.freeze({

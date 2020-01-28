@@ -144,3 +144,19 @@ export const toReportingLocationTable = (data, fieldKey, i18n, locations) => {
     data: Object.keys(rows).map(key => rows[key])
   };
 };
+
+export const toApprovalsManager = data => {
+  const resultData = data.reduce(
+    (acc, curr) => {
+      const indicatorData = curr.get("indicators") || fromJS({});
+      const key = indicatorData.keySeq().first();
+
+      acc.indicators[key] = curr.getIn(["indicators", key]);
+
+      return { ...acc };
+    },
+    { indicators: {} }
+  );
+
+  return fromJS(resultData);
+};
