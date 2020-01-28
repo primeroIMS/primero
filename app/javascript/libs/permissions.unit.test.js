@@ -1,5 +1,6 @@
-import { expect } from "chai";
 import { List } from "immutable";
+
+import { expect } from "../test";
 
 import * as PERMISSIONS from "./permissions";
 
@@ -9,6 +10,9 @@ describe("Verifying config constant", () => {
 
     [
       "ADD_NOTE",
+      "APPROVE_BIA",
+      "APPROVE_CASE_PLAN",
+      "APPROVE_CLOSURE",
       "ASSIGN",
       "ASSIGN_WITHIN_AGENCY_PERMISSIONS",
       "ASSIGN_WITHIN_USER_GROUP",
@@ -46,6 +50,9 @@ describe("Verifying config constant", () => {
       "READ",
       "REFERRAL",
       "REOPEN",
+      "REQUEST_APPROVAL_BIA",
+      "REQUEST_APPROVAL_CASE_PLAN",
+      "REQUEST_APPROVAL_CLOSURE",
       "SEARCH_OWNED_BY_OTHERS",
       "SERVICES_SECTION_FROM_CASE",
       "TRANSFER",
