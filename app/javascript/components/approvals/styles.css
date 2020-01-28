@@ -1,0 +1,82 @@
+.formTitle {
+  display: flex;
+  background: $(theme.primero.colors.stickyGrey);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  align-items: center;
+}
+
+.formHeading {
+  color: $(theme.primero.colors.solidBlack);
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: $(theme.typography.pxToRem(22));
+}
+
+.panel {
+  box-shadow: 0 1px 7px 0 rgba(125, 125, 125, 0.23);
+  margin-bottom: 2px;
+
+  &:before {
+    display: none;
+  }
+}
+
+.wrapper {
+  display: flex;
+}
+
+.titleHeader {
+  text-transform: uppercase;
+  font-family: $(theme.typography.fontFamily);
+  font-size: $(theme.typography.pxToRem(17));
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: $(theme.primero.colors.solidBlack);
+  margin-right: 1em;
+}
+
+.approvalsValueSummary {
+  font-family: $(theme.typography.fontFamily);
+  font-size: $(theme.typography.pxToRem(11));
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.27;
+  letter-spacing: normal;
+  padding-top: 0.5em;
+  color: $(theme.primero.colors.solidBlack);
+}
+
+.separator {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+.spaceGrid {
+  padding: 0.5em 0 0.5em 0;
+}
+
+.chip {
+  font-weight: bold;
+  color: $(theme.primero.colors.white);
+  text-transform: uppercase;
+
+  &.approved {
+    border: solid 1px $(theme.primero.colors.green);
+    background-color: $(theme.primero.colors.green);
+  }
+
+  &.rejected {
+    border: solid 1px $(theme.primero.colors.red);
+    background-color: $(theme.primero.colors.red);
+  }
+}
+
+.approvalsStatus {
+  text-align: right;
+  font-size: $(theme.typography.pxToRem(15));
+}

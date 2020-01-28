@@ -3,7 +3,7 @@ import { Record, Map, List } from "immutable";
 export const FieldRecord = Record({
   name: "",
   type: "",
-  editable: null,
+  editable: true,
   disabled: null,
   visible: null,
   display_name: Map({}),

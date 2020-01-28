@@ -57,4 +57,24 @@ describe("<IndexFilters />/<Panel />", () => {
 
     expect(props.handleReset).to.have.been.calledOnce;
   });
+
+  it("renders valid props for Panel component", () => {
+    const { component } = setupMockFormComponent(Panel, props);
+
+    const clone = { ...component.find(Panel).props() };
+
+    [
+      "filter",
+      "getValues",
+      "handleReset",
+      "children",
+      "commonInputProps",
+      "moreSectionFilters"
+    ].forEach(property => {
+      expect(clone).to.have.property(property);
+      delete clone[property];
+    });
+
+    expect(clone).to.be.empty;
+  });
 });

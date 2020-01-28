@@ -20,6 +20,7 @@ const Panel = ({
   getValues,
   selectedDefaultValueField,
   handleReset,
+  moreSectionFilters,
   children
 }) => {
   const css = makeStyles(styles)();
@@ -38,11 +39,17 @@ const Panel = ({
     setOpen(hasValue);
   }, [hasValue]);
 
+  const expanded =
+    open ||
+    Object.keys(moreSectionFilters).includes(
+      fieldName || selectedDefaultValueField
+    );
+
   return (
     <ExpansionPanel
       className={css.panel}
       elevation={3}
-      expanded={open}
+      expanded={expanded}
       onChange={handleChange}
     >
       <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
@@ -67,6 +74,10 @@ const Panel = ({
   );
 };
 
+Panel.defaultProps = {
+  moreSectionFilters: {}
+};
+
 Panel.displayName = "Panel";
 
 Panel.propTypes = {
@@ -74,6 +85,7 @@ Panel.propTypes = {
   filter: PropTypes.object.isRequired,
   getValues: PropTypes.func.isRequired,
   handleReset: PropTypes.func,
+  moreSectionFilters: PropTypes.object,
   selectedDefaultValueField: PropTypes.string
 };
 

@@ -1,19 +1,27 @@
 import React from "react";
 import { List, ListItem, ListItemText } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
+import { ADMIN_NAV } from "../../../config/constants";
 import { useI18n } from "../../i18n";
 
 const AdminNav = () => {
   const i18n = useI18n();
 
-  return (
-    <List>
-      <ListItem button component={Link} to="/admin/users">
-        <ListItemText>{i18n.t("users.label")}</ListItemText>
-      </ListItem>
-    </List>
-  );
+  const renderNavItems = ADMIN_NAV.map(nav => (
+    <ListItem
+      key={nav.to}
+      button
+      component={NavLink}
+      to={`/admin${nav.to}`}
+      activeClassName="Mui-selected"
+      disabled={nav.disabled}
+    >
+      <ListItemText>{i18n.t(nav.label)}</ListItemText>
+    </ListItem>
+  ));
+
+  return <List>{renderNavItems}</List>;
 };
 
 AdminNav.displayName = "AdminNav";

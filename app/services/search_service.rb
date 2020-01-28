@@ -20,7 +20,7 @@ class SearchService
           end
         end
 
-        sort.each {|sort_field, order| order_by(sort_field, order)}
+        sort.each { |sort_field, order| order_by(sort_field, order) }
         paginate(pagination)
       end
     end

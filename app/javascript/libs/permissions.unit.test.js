@@ -1,5 +1,6 @@
-import { expect } from "chai";
 import { List } from "immutable";
+
+import { expect } from "../test";
 
 import * as PERMISSIONS from "./permissions";
 
@@ -9,14 +10,20 @@ describe("Verifying config constant", () => {
 
     [
       "ADD_NOTE",
+      "APPROVE_BIA",
+      "APPROVE_CASE_PLAN",
+      "APPROVE_CLOSURE",
       "ASSIGN",
       "ASSIGN_WITHIN_AGENCY_PERMISSIONS",
       "ASSIGN_WITHIN_USER_GROUP",
       "CLOSE",
       "CREATE",
       "DASH_APPROVALS_ASSESSMENT",
+      "DASH_APPROVALS_ASSESSMENT_PENDING",
       "DASH_APPROVALS_CASE_PLAN",
+      "DASH_APPROVALS_CASE_PLAN_PENDING",
       "DASH_APPROVALS_CLOSURE",
+      "DASH_APPROVALS_CLOSURE_PENDING",
       "DASH_CASE_RISK",
       "DASH_REPORTING_LOCATION",
       "DASH_TASKS",
@@ -43,6 +50,9 @@ describe("Verifying config constant", () => {
       "READ",
       "REFERRAL",
       "REOPEN",
+      "REQUEST_APPROVAL_BIA",
+      "REQUEST_APPROVAL_CASE_PLAN",
+      "REQUEST_APPROVAL_CLOSURE",
       "SEARCH_OWNED_BY_OTHERS",
       "SERVICES_SECTION_FROM_CASE",
       "TRANSFER",
@@ -251,6 +261,39 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.EXPORT_PHOTO_WALL,
       PERMISSIONS.ACTIONS.EXPORT_UNHCR,
       PERMISSIONS.ACTIONS.MANAGE
+    ].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have DASH_APPROVALS_PENDING", () => {
+    const permissions = [...PERMISSIONS.DASH_APPROVALS_PENDING];
+
+    expect(permissions).to.be.a("array");
+    [
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_ASSESSMENT_PENDING,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_CASE_PLAN_PENDING,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_CLOSURE_PENDING
+    ].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have DASH_APPROVALS", () => {
+    const permissions = [...PERMISSIONS.DASH_APPROVALS];
+
+    expect(permissions).to.be.a("array");
+    [
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_ASSESSMENT_PENDING,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_CASE_PLAN_PENDING,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_CLOSURE_PENDING,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_ASSESSMENT,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_CASE_PLAN,
+      PERMISSIONS.ACTIONS.DASH_APPROVALS_CLOSURE
     ].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);

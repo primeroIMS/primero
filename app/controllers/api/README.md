@@ -135,9 +135,18 @@ Query and manipulate users
 
 ## Dashboard Endpoint
 
-Aggregate, actionable dat.a
+Aggregate, actionable data
 
 * [Query avialable dashboards](v2/docs/dashboards/get.md): `GET /api/v2/dashboards`
+
+## Export Endpoints
+
+Initiate and query for exports
+
+* [Query for exports](v2/docs/exports/get.md): `GET /api/v2/exports`
+* [Create an export](v2/docs/exports/post.md): `POST /api/v2/exports`
+* [Query for individual export](v2/docs/exports/id/get.md): `GET /api/v2/exports/:id`
+* [Archive an export](v2/docs/exports/id/delete.md): `DELETE /api/v2/exports/:id`
 
 ## Report Endpoints
 
@@ -172,3 +181,23 @@ Endpoints for querying the alerts from cases, incidents and tracing request of t
 
 * [Query for the count of alerts](v2/docs/alerts/get.md) : `GET /api/v2/alerts`
 * [Query for alerts of a record](v2/docs/alerts/id/get.md) : `GET /api/v2/:recordType/:recordId/alerts`
+
+## Agency Endpoint
+
+Endpoints for querying and manipulating individual agency and related resources in Primero.
+
+* [Query for locations](v2/docs/agencies/get.md) : `GET /api/v2/agencies`
+* [Fetch an individual location](v2/docs/agencies/id/get.md) : `GET /api/v2/agencies/:id`
+* [Create a new location](v2/docs/agencies/post.md) : `POST /api/v2/agencies`
+* [Update an existing location](v2/docs/agencies/id/patch.md) : `PATCH /api/v2/agencies/:id`
+* [Delete an existing location](v2/docs/agencies/id/delete.md) : `DELETE /api/v2/agencies/:id`
+
+## Role Endpoints
+
+Endpoints for querying and manipulating individual Roles and related resources in Primero.
+
+* [Query for roles](v2/docs/roles/get.md) : `GET /api/v2/locations`
+* [Fetch an individual role](v2/docs/roles/id/get.md) : `GET /api/v2/roles/:id`
+* [Create a new role](v2/docs/roles/post.md) : `POST /api/v2/roles`
+* [Update an existing role](v2/docs/roles/id/patch.md) : `PATCH /api/v2/roles/:id`
+* [Delete an existing role](v2/docs/roles/id/delete.md) : `DELETE /api/v2/roles/:id`

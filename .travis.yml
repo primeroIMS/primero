@@ -8,10 +8,7 @@ jdk:
 addons:
   postgresql: 10
   apt:
-    sources:
-    - google-chrome
     packages:
-    - google-chrome-stable
     - postgresql-10
     - postgresql-client-10
 

@@ -1,13 +1,19 @@
 export const ACTIONS = {
   ADD_NOTE: "add_note",
+  APPROVE_BIA: 'approve_bia',
+  APPROVE_CASE_PLAN: 'approve_case_plan',
+  APPROVE_CLOSURE: 'approve_closure',
   ASSIGN: "assign",
   ASSIGN_WITHIN_AGENCY_PERMISSIONS: "assign_within_agency permissions",
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
   CLOSE: "close",
   CREATE: "create",
   DASH_APPROVALS_ASSESSMENT: "approvals_assessment",
+  DASH_APPROVALS_ASSESSMENT_PENDING: 'approvals_assessment_pending',
   DASH_APPROVALS_CASE_PLAN: "approvals_case_plan",
+  DASH_APPROVALS_CASE_PLAN_PENDING: 'approvals_case_plan_pending',
   DASH_APPROVALS_CLOSURE: "approvals_closure",
+  DASH_APPROVALS_CLOSURE_PENDING: 'approvals_closure_pending',
   DASH_CASE_RISK: "case_risk",
   DASH_REPORTING_LOCATION: "dash_reporting_location",
   DASH_TASKS: "dash_tasks",
@@ -34,6 +40,9 @@ export const ACTIONS = {
   READ: "read",
   REFERRAL: "referral",
   REOPEN: "reopen",
+  REQUEST_APPROVAL_BIA: 'request_approval_bia',
+  REQUEST_APPROVAL_CASE_PLAN: 'request_approval_case_plan',
+  REQUEST_APPROVAL_CLOSURE: 'request_approval_closure',
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   TRANSFER: "transfer",
@@ -67,7 +76,12 @@ export const RECORD_RESOURCES = [
   RESOURCES.tracing_requests
 ];
 
-export const ADMIN_ACTIONS = [...MANAGE];
+export const ADMIN_ACTIONS = [
+  ...MANAGE,
+  ACTIONS.READ,
+  ACTIONS.WRITE,
+  ACTIONS.CREATE
+];
 
 export const ADMIN_RESOURCES = [RESOURCES.users];
 
@@ -111,4 +125,27 @@ export const SHOW_EXPORTS = [
   ACTIONS.EXPORT_PDF,
   ACTIONS.EXPORT_PHOTO_WALL,
   ACTIONS.EXPORT_UNHCR
+];
+
+export const SHOW_APPROVALS = [
+  ...MANAGE,
+  ACTIONS.APPROVE_BIA,
+  ACTIONS.APPROVE_CASE_PLAN,
+  ACTIONS.APPROVE_CLOSURE,
+  ACTIONS.REQUEST_APPROVAL_BIA,
+  ACTIONS.REQUEST_APPROVAL_CASE_PLAN,
+  ACTIONS.REQUEST_APPROVAL_CLOSURE
+];
+
+export const DASH_APPROVALS_PENDING = [
+  ACTIONS.DASH_APPROVALS_ASSESSMENT_PENDING,
+  ACTIONS.DASH_APPROVALS_CASE_PLAN_PENDING,
+  ACTIONS.DASH_APPROVALS_CLOSURE_PENDING
+];
+
+export const DASH_APPROVALS = [
+  ...DASH_APPROVALS_PENDING,
+  ACTIONS.DASH_APPROVALS_ASSESSMENT,
+  ACTIONS.DASH_APPROVALS_CASE_PLAN,
+  ACTIONS.DASH_APPROVALS_CLOSURE
 ];

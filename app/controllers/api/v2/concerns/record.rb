@@ -39,11 +39,7 @@ module Api::V2::Concerns
 
     def update
       @record = find_record
-      begin
-        authorize! :update, @record
-      rescue CanCan::AccessDenied
-        authorize_unscoped_update!
-      end
+      authorize_update!
       params.permit!
       @record.update_properties(record_params, current_user.name)
       @record.save!
@@ -54,14 +50,13 @@ module Api::V2::Concerns
     def destroy
       authorize! :enable_disable_record, model_class
       @record = find_record
-      @record.update_properties({record_state: false}, current_user.name)
+      @record.update_properties({ record_state: false }, current_user.name)
       @record.save!
       render 'api/v2/records/destroy'
     end
 
     def permit_fields
-      current_action = params[:unscoped_update].blank? ? action_name : 'unscoped_update'
-      @permitted_field_names = current_user.permitted_field_names(model_class, current_action)
+      @permitted_field_names = current_user.permitted_field_names(model_class, params[:record_action])
     end
 
     def select_fields_for_show
@@ -96,11 +91,12 @@ module Api::V2::Concerns
       instance_variable_set("@#{model_class.name.underscore}", record)
     end
 
-    def authorize_unscoped_update!
-      unless params[:unscoped_update].present? && current_user.can_update_subform_fields?(model_class)
-        raise Errors::ForbiddenOperation
+    def authorize_update!
+      if params[:record_action].present?
+        authorize!(params[:record_action].to_sym, model_class)
+      else
+        authorize!(:update, @record)
       end
     end
-
   end
 end
