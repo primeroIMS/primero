@@ -18,8 +18,7 @@ Create a new user_group and return the entire record.
   "data":{
     "unique_id": "test_unique_id 2",
     "name": "test_nam 2",
-    "description": "test_description 2",
-    "core_resource": true
+    "description": "test_description 2"
   }
 }
 ```

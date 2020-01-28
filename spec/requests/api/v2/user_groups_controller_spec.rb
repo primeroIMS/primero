@@ -103,8 +103,7 @@ describe Api::V2::UserGroupsController, type: :request do
         data: {
           unique_id: 'test_unique_id21',
           name: 'test_nam12',
-          description: 'test_description12',
-          core_resource: true
+          description: 'test_description12'
         }
       }
 
@@ -123,8 +122,7 @@ describe Api::V2::UserGroupsController, type: :request do
         data: {
           unique_id: 'user-group-1',
           name: 'test_nam12',
-          description: 'test_descriptio1n2',
-          core_resource: true
+          description: 'test_descriptio1n2'
         }
       }
 
@@ -162,14 +160,14 @@ describe Api::V2::UserGroupsController, type: :request do
           id: @user_group_b.id,
           unique_id: @user_group_b.unique_id,
           name: 'test_nam12',
-          description: 'test_descriptio1n2',
-          core_resource: true
+          description: 'test_descriptio1n2'
         }
       }
 
       patch "/api/v2/user_groups/#{@user_group_b.id}", params: params
       expect(response).to have_http_status(200)
-      expect(json['data']).to eq(params[:data].deep_stringify_keys)
+      expect(json['data'].except('core_resource')).to eq(params[:data].deep_stringify_keys)
+      expect(json['data']['core_resource']).to eq(false)
     end
 
     it 'updates an non-existing user_group' do

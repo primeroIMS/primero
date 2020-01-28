@@ -35,7 +35,7 @@ module Api::V2
     end
 
     def user_group_params
-      params.require(:data).permit(:id, :unique_id, :name, :description, :core_resource)
+      params.require(:data).permit(:id, :unique_id, :name, :description)
     end
 
     protected

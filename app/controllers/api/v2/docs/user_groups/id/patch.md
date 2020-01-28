@@ -19,7 +19,8 @@ Merge the values submitted in this call into an existing user_group.
   "data":{
     "id": 1,
     "unique_id": "test_unique_id00",
-    "core_resource": true
+    "name": "test_name00",
+    "description": "test_description00"
   }
 }
 ```
