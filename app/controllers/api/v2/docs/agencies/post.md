@@ -76,8 +76,7 @@ No `id` attribute is provided in the `data` hash.
       "services00"
     ],
     "logo_enabled": true,
-    "disabled": true,
-    "user_ids": []
+    "disabled": true
   }
 }
 ```

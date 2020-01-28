@@ -10,4 +10,3 @@ json.telephone agency.telephone
 json.services agency.services
 json.logo_enabled agency.logo_enabled
 json.disabled agency.disabled
-json.user_ids agency.user_ids

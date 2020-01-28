@@ -48,11 +48,7 @@ Show the JSON representation of an agency.
     "telephone": null,
     "services": [],
     "logo_enabled": false,
-    "disabled": false,
-    "user_ids": [
-      16,
-      15
-    ]
+    "disabled": false
   }
 }
 ```

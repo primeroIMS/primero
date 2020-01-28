@@ -69,8 +69,6 @@ describe Api::V2::AgenciesController, type: :request do
       get '/api/v2/agencies'
       expect(response).to have_http_status(200)
       expect(json['data'].count).to eq(2)
-      expect(json['data'][0]['user_ids'].count).to eq(2)
-      expect(json['data'][1]['user_ids'].count).to eq(0)
       expect(json['data'][0]['unique_id']).to eq(@agency_a.unique_id)
       expect(json['data'][0]['name']).to eq(FieldI18nService.fill_with_locales(@agency_a.name_i18n))
     end
@@ -171,7 +169,6 @@ describe Api::V2::AgenciesController, type: :request do
 
       post '/api/v2/agencies', params: params
       expect(response).to have_http_status(200)
-      expect(json['data']['user_ids'].count).to eq(0)
       expect(json['data']['unique_id']).to eq(params[:data][:unique_id])
       expect(json['data']['name']['en']).to eq(params[:data][:name][:en])
       expect(json['data']['name']['es']).to eq(params[:data][:name][:es])

@@ -70,8 +70,7 @@ Merge the values submitted in this call into an existing agency.
       "services0000"
     ],
     "logo_enabled": true,
-    "disabled": true,
-    "user_ids": []
+    "disabled": true
   }
 }
 ```

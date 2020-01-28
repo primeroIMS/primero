@@ -52,11 +52,7 @@ Shows a paginated list of all agencies that are accessible to this user.
       "telephone": null,
       "services": [],
       "logo_enabled": false,
-      "disabled": false,
-      "user_ids": [
-        16,
-        15
-      ]
+      "disabled": false
     },
     {
       "id": 2,
@@ -86,8 +82,7 @@ Shows a paginated list of all agencies that are accessible to this user.
         "services00"
       ],
       "logo_enabled": true,
-      "disabled": true,
-      "user_ids": []
+      "disabled": true
     }
   ]
 }

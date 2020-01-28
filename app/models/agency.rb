@@ -76,13 +76,9 @@ class Agency < ApplicationRecord
   end
 
   def update_properties(agency_params)
-    assign_attributes(agency_params.except(:name, :description))
-    self.name_i18n = agency_params[:name] if agency_params[:name].present?
-    self.description_i18n = agency_params[:description] if agency_params[:description].present?
-  end
-
-  def user_ids
-    users.pluck(:id)
+    converted_params = FieldI18nService.convert_i18n_properties(Agency, agency_params)
+    merged_props = FieldI18nService.merge_i18n_properties(attributes, converted_params)
+    assign_attributes(agency_params.except(:name, :description).merge(merged_props))
   end
 
   private
