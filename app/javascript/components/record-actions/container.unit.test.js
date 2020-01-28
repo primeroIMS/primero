@@ -197,7 +197,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.length(8);
+        expect(component.find(MenuItem)).to.have.length(9);
       });
 
       it("renders MenuItem with Refer Cases option", () => {
@@ -225,6 +225,15 @@ describe("<RecordActions />", () => {
             .map(l => l.text())
             .includes("actions.services_section_from_case")
         ).to.be.equal(true);
+      });
+
+      it("renders MenuItem with Export option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("cases.export")
+        ).to.be.true;
       });
     });
 
@@ -266,6 +275,15 @@ describe("<RecordActions />", () => {
             .find("li")
             .map(l => l.text())
             .includes("exports.custom_exports.label")
+        ).to.be.false;
+      });
+
+      it("renders MenuItem without Export option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("cases.export")
         ).to.be.false;
       });
     });

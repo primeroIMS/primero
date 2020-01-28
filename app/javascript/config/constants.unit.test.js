@@ -70,6 +70,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("LOOKUPS");
     expect(constants).to.have.property("RECORD_INFORMATION");
     expect(constants).to.have.property("ADMIN_NAV");
+    expect(constants).to.have.property("RECORD_TYPES");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -113,6 +114,7 @@ describe("Verifying config constant", () => {
     delete constants.LOOKUPS;
     delete constants.RECORD_INFORMATION;
     delete constants.ADMIN_NAV;
+    delete constants.RECORD_TYPES;
 
     expect(constants).to.deep.equal({});
   });
@@ -136,7 +138,8 @@ describe("Verifying config constant", () => {
     expect(constants.RECORD_TYPES).to.deep.equal({
       cases: "case",
       tracing_requests: "tracing_request",
-      incidents: "incident"
+      incidents: "incident",
+      all: "all"
     });
     expect(constants.AGE_MAX).equal(999);
     expect(constants.PERMITTED_URL).to.be.an("array");
