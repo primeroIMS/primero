@@ -434,13 +434,7 @@ class User < ApplicationRecord
   def permitted_field_names(model_class, action_name = nil)
     return @permitted_field_names if @permitted_field_names.present?
 
-    if action_name == 'unscoped_update'
-      return permitted_subform_update_fields(model_class)
-    end
-
-    if action_name == 'close' || action_name == 'reopen'
-      return ['status'] if self.can?(:reopen, model_class) || self.can?(:close, model_class)
-    end
+    return permitted_fields_from_action_name(model_class, action_name) if action_name.present?
 
     @permitted_field_names = []
     @permitted_field_names += %w[id record_in_scope]
@@ -459,16 +453,6 @@ class User < ApplicationRecord
     @permitted_field_names
   end
 
-  def permitted_subform_update_fields(model_class)
-    permitted_field_names = []
-    if model_class == Child
-      permitted_field_names << 'incident_details' if can?(:incident_details_from_case, model_class)
-      permitted_field_names << 'services_section' if can?(:services_section_from_case, model_class)
-      permitted_field_names << 'notes_section' if can?(:add_note, model_class)
-    end
-    permitted_field_names
-  end
-
   def permitted_approval_field_names(model_class)
     approval_field_names = []
     [Approval::BIA, Approval::CASE_PLAN, Approval::CLOSURE].each do |approval_id|
@@ -479,12 +463,23 @@ class User < ApplicationRecord
         approval_field_names << "approval_status_#{approval_id}"
         approval_field_names << "#{approval_id}_approved_date"
         approval_field_names << "#{approval_id}_approved_comments"
-        approval_field_names << "#{approval_id}_approval_type"
+        approval_field_names << "#{approval_id}_approval_type" if approval_id == Approval::CASE_PLAN
       else
         next
       end
     end
     approval_field_names
+  end
+
+  def permitted_fields_from_action_name(model_class, action_name)
+    case action_name
+    when Permission::ADD_NOTE then %w[notes_section] if can?(:add_note, model_class)
+    when Permission::INCIDENT_DETAILS_FROM_CASE then %w[incident_details] if can?(:incident_details_from_case, model_class)
+    when Permission::SERVICES_SECTION_FROM_CASE then %w[services_section] if can?(:services_section_from_case, model_class)
+    when Permission::CLOSE then %w[status]  if can?(:close, model_class)
+    when Permission::REOPEN then %w[status] if can?(:reopen, model_class)
+    else raise Errors::InvalidPrimeroEntityType, 'case.invalid_action_name'
+    end
   end
 
   def ability
@@ -516,12 +511,6 @@ class User < ApplicationRecord
 
   def can_approve_closure?
     can?(:approve_closure, Child) || can?(:request_approval_closure, Child)
-  end
-
-  def can_update_subform_fields?(model_class)
-    can?(:incident_details_from_case, model_class) ||
-      can?(:services_section_from_case, model_class) ||
-      can?(:add_note, model_class)
   end
 
   # If we set something we gonna assume we need to update the user_groups
@@ -592,10 +581,10 @@ class User < ApplicationRecord
           child.update_associated_user_agencies if @refresh_associated_user_agencies
           child.save!
         end
-      end
-      pagination[:page] = results.next_page
-    end until results.next_page.nil?
-    @refresh_associated_user_groups = false
-    @refresh_associated_user_agencies = false
+        pagination[:page] = results.next_page
+      end until results.next_page.nil?
+      @refresh_associated_user_groups = false
+      @refresh_associated_user_agencies = false
+    end
   end
 end

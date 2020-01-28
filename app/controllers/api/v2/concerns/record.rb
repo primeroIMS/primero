@@ -39,11 +39,7 @@ module Api::V2::Concerns
 
     def update
       @record = find_record
-      begin
-        authorize! :update, @record
-      rescue CanCan::AccessDenied
-        authorize_unscoped_update!
-      end
+      authorize_update!
       params.permit!
       @record.update_properties(record_params, current_user.name)
       @record.save!
@@ -60,7 +56,7 @@ module Api::V2::Concerns
     end
 
     def permit_fields
-      @permitted_field_names = current_user.permitted_field_names(model_class, unscoped_action)
+      @permitted_field_names = current_user.permitted_field_names(model_class, params[:record_action])
     end
 
     def select_fields_for_show
@@ -95,28 +91,11 @@ module Api::V2::Concerns
       instance_variable_set("@#{model_class.name.underscore}", record)
     end
 
-    def unscoped_action
-      return 'unscoped_update' if params[:unscoped_update].present?
-      if params[:data].present?
-        return 'close' if params[:data][:status] == Child::STATUS_CLOSED && params[:data].keys.size == 1
-        if params[:data].keys.size == 2 && params[:data][:status] == Child::STATUS_OPEN &&
-           params[:data][:case_reopened] == true || params[:data][:case_reopened] == 'true'
-          return 'reopen'
-        end
-      end
-      action_name
-    end
-
-    def authorize_unscoped_update!
-      case unscoped_action
-      when 'unscoped_update'
-        raise Errors::ForbiddenOperation unless current_user.can_update_subform_fields?(model_class)
-      when 'close'
-        raise Errors::ForbiddenOperation unless current_user.can?(:close, model_class)
-      when 'reopen'
-        raise Errors::ForbiddenOperation unless current_user.can?(:reopen, model_class)
+    def authorize_update!
+      if params[:record_action].present?
+        authorize!(params[:record_action].to_sym, model_class)
       else
-        raise Errors::ForbiddenOperation
+        authorize!(:update, @record)
       end
     end
   end

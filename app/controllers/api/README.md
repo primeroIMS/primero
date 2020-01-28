@@ -175,8 +175,39 @@ Endpoints for querying and manipulating individual locations and related resourc
 * [Update an existing location](v2/docs/locations/id/patch.md) : `PATCH /api/v2/locations/:id`
 * [Delete an existing location](v2/docs/locations/id/delete.md) : `DELETE /api/v2/locations/:id`
 
-## Alert Endpoint
+## Alert Endpoints
 
-Endpoint for querying the count of alerts from cases, incidents and tracing request of the logged user.
+Endpoints for querying the alerts from cases, incidents and tracing request of the logged user.
 
 * [Query for the count of alerts](v2/docs/alerts/get.md) : `GET /api/v2/alerts`
+* [Query for alerts of a record](v2/docs/alerts/id/get.md) : `GET /api/v2/:recordType/:recordId/alerts`
+
+## Agency Endpoint
+
+Endpoints for querying and manipulating individual agency and related resources in Primero.
+
+* [Query for locations](v2/docs/agencies/get.md) : `GET /api/v2/agencies`
+* [Fetch an individual location](v2/docs/agencies/id/get.md) : `GET /api/v2/agencies/:id`
+* [Create a new location](v2/docs/agencies/post.md) : `POST /api/v2/agencies`
+* [Update an existing location](v2/docs/agencies/id/patch.md) : `PATCH /api/v2/agencies/:id`
+* [Delete an existing location](v2/docs/agencies/id/delete.md) : `DELETE /api/v2/agencies/:id`
+
+## Role Endpoints
+
+Endpoints for querying and manipulating individual Roles and related resources in Primero.
+
+* [Query for roles](v2/docs/roles/get.md) : `GET /api/v2/locations`
+* [Fetch an individual role](v2/docs/roles/id/get.md) : `GET /api/v2/roles/:id`
+* [Create a new role](v2/docs/roles/post.md) : `POST /api/v2/roles`
+* [Update an existing role](v2/docs/roles/id/patch.md) : `PATCH /api/v2/roles/:id`
+* [Delete an existing role](v2/docs/roles/id/delete.md) : `DELETE /api/v2/roles/:id`
+
+## User Group Endpoint
+
+Endpoints for querying and manipulating individual locations and related resources in Primero.
+
+* [Query for User Groups](v2/docs/user_groups/get.md) : `GET /api/v2/user_groups`
+* [Fetch an individual User Group](v2/docs/user_groups/id/get.md) : `GET /api/v2/user_groups/:id`
+* [Create a new User Group](v2/docs/user_groups/post.md) : `POST /api/v2/user_groups`
+* [Update an existing User Group](v2/docs/user_groups/id/patch.md) : `PATCH /api/v2/user_groups/:id`
+* [Delete an existing User Group](v2/docs/user_groups/id/delete.md) : `DELETE /api/v2/user_groups/:id`

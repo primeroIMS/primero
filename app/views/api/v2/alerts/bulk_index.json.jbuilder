@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.data do
   json.case @alerts[:case]
   json.incident @alerts[:incident]
