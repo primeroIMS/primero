@@ -113,7 +113,7 @@ class Ability
      # As written it is too broad and won't let a user see or assign its own role.
      # It should be limited to only preventing the a role from editing itself:
       elsif ([Permission::ASSIGN, Permission::READ, Permission::WRITE].map(&:to_sym) & actions).present?
-        permission.role_ids.present? ? (permission.role_ids.include? instance.unique_id) : true
+        permission.role_unique_ids.present? ? (permission.role_unique_ids.include? instance.unique_id) : true
       # TODO-permission: This if statement should prevent a role from editing itself, but it should be evaluated before
       # the previous elsif to be effective
       # TODO-permission: I do not believe that the second part of the if statement is helpful or accurate:

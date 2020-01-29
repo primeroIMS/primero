@@ -106,7 +106,7 @@ class Role < ApplicationRecord
     role_permission = permissions.find { |permission| permission.resource == Permission::ROLE }
     return [] if role_permission.blank?
 
-    role_permission.role_ids
+    role_permission.role_unique_ids
   end
 
   def dashboards

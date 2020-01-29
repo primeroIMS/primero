@@ -71,7 +71,7 @@ cp_admin_permissions = [
       Permission::EXPORT_JSON,
       Permission::CREATE
     ],
-    role_ids: [
+    role_unique_ids: [
       'role-cp-case-worker',
       'role-cp-manager',
       'role-cp-user-manager',
@@ -854,7 +854,7 @@ gbv_cm_supervisor_permissions = [
     ),
     Permission.new(
         resource: Permission::ROLE,
-        role_ids: ['role-gbv-caseworker'],
+        role_unique_ids: ['role-gbv-caseworker'],
         actions: [
             Permission::READ
         ]
@@ -980,7 +980,7 @@ gbv_organization_focal_point_permissions = [
             Permission::EXPORT_EXCEL,
             Permission::EXPORT_JSON
         ],
-        role_ids: ['role-gbv-case-management-supervisor', 'role-gbv-caseworker', 'role-gbv-program-manager']
+        role_unique_ids: ['role-gbv-case-management-supervisor', 'role-gbv-caseworker', 'role-gbv-program-manager']
     ),
     Permission.new(
         resource: Permission::USER,
@@ -1023,7 +1023,7 @@ agency_user_admin_permissions = [
             Permission::READ,
             Permission::ASSIGN
         ],
-        role_ids: [
+        role_unique_ids: [
             "role-cp-case-worker",
             "role-cp-manager",
             "role-cp-user-manager",
@@ -1067,7 +1067,7 @@ gbv_agency_user_admin_permissions = [
           Permission::READ,
           Permission::ASSIGN
       ],
-      role_ids: [
+      role_unique_ids: [
           "role-gbv-case-management-supervisor",
           "role-gbv-caseworker",
           "role-gbv-manager",
@@ -1174,7 +1174,7 @@ gbv_system_admin_permissions = [
       Permission::CREATE,
       Permission::ASSIGN
     ],
-    role_ids: [
+    role_unique_ids: [
       'role-gbv-manager',
       'role-gbv-social-worker',
       'role-gbv-user-manager'

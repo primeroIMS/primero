@@ -301,7 +301,7 @@ describe Ability do
 
       context "is set with read access" do
         before :each do
-          @permission_role_specific_read = Permission.new(resource: Permission::ROLE, actions: [Permission::READ], role_ids: [@role_case_read.unique_id])
+          @permission_role_specific_read = Permission.new(resource: Permission::ROLE, actions: [Permission::READ], role_unique_ids: [@role_case_read.unique_id])
           @role_role_specific_read = create :role, permissions: [@permission_role_specific_read], group_permission: Permission::GROUP
           @user1.role = @role_role_specific_read
           @user1.save
@@ -326,7 +326,7 @@ describe Ability do
       context "is set with read write access" do
         before :each do
           @permission_role_specific_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE],
-                                                              role_ids: [@role_case_read.unique_id, @role_incident_read.unique_id])
+                                                              role_unique_ids: [@role_case_read.unique_id, @role_incident_read.unique_id])
           @role_role_specific_read_write = create :role, permissions: [@permission_role_specific_read_write], group_permission: Permission::GROUP
           @user1.role= @role_role_specific_read_write
           @user1.save
@@ -396,7 +396,7 @@ describe Ability do
       context "and specifies 2 roles" do
         before :each do
           @permission_role_assign_2 = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN],
-                                                     role_ids: [@role_case_read.unique_id, @role_incident_read.unique_id])
+                                                     role_unique_ids: [@role_case_read.unique_id, @role_incident_read.unique_id])
           @role_role_assign_2 = create :role, permissions: [@permission_user_read_write, @permission_role_assign_2],
                                        group_permission: Permission::GROUP
           @user1.role = @role_role_assign_2
@@ -575,12 +575,12 @@ describe Ability do
       expect(ability).to_not authorize(:write, @user2)
     end
 
-    it "allows a user with group scope to only edit another user in that group if the user is specified in the permissions role_ids" do
+    it "allows a user with group scope to only edit another user in that group if the user is specified in the permissions role_unique_ids" do
       role2 = create :role, permissions: [@permission_user_read], group_permission: Permission::GROUP
       @permission_user_read_write_group = Permission.new(
                                             resource: Permission::USER,
                                             actions: [Permission::READ, Permission::WRITE, Permission::CREATE],
-                                            role_ids: [role2.unique_id]
+                                            role_unique_ids: [role2.unique_id]
                                           )
       role1 = create :role, permissions: [@permission_user_read_write_group], group_permission: Permission::GROUP
       test_group = build(:user_group, unique_id: 'test_group')
@@ -823,7 +823,7 @@ describe Ability do
       context "and specifies 2 roles" do
         before :each do
           @permission_role_assign_2 = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN],
-                                                     role_ids: [@role_case_read.unique_id, @role_incident_read.unique_id])
+                                                     role_unique_ids: [@role_case_read.unique_id, @role_incident_read.unique_id])
           @role_role_assign_2 = create :role, permissions: [@permission_user_read_write, @permission_role_assign_2],
                                        group_permission: Permission::GROUP
           @user1.role = @role_role_assign_2

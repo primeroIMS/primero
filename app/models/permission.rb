@@ -8,11 +8,11 @@
 # but each individual dashboard entitlement is treated as an action grant.
 class Permission < ValueObject
 
-  # The role_ids property is used solely for the ROLE resource
+  # The role_unique_ids property is used solely for the ROLE resource
   # It associates other roles with this ROLE permission
   # That restricts this role to only be able to manage those associated roles
-  # If the role_ids property is empty on a ROLE permission, then that allows this role to manage all other ROLES
-  attr_accessor :resource, :actions, :role_ids, :agency_ids
+  # If the role_unique_ids property is empty on a ROLE permission, then that allows this role to manage all other ROLES
+  attr_accessor :resource, :actions, :role_unique_ids, :agency_ids
 
   READ = 'read'
   WRITE = 'write'
@@ -326,7 +326,7 @@ class Permission < ValueObject
       json_hash = permissions.inject({}) do |hash, permission|
         hash[permission.resource] = permission.actions
         object_hash[Permission::AGENCY] = permission.agency_ids if permission.agency_ids
-        object_hash[Permission::ROLE] = permission.role_ids if permission.role_ids
+        object_hash[Permission::ROLE] = permission.role_unique_ids if permission.role_unique_ids
         hash
       end
       json_hash['objects'] = object_hash
@@ -340,7 +340,7 @@ class Permission < ValueObject
       json_hash.map do |resource, actions|
         permission = Permission.new(resource: resource, actions: actions)
         if resource == Permission::ROLE && object_hash.key?(Permission::ROLE)
-          permission.role_ids = object_hash[Permission::ROLE]
+          permission.role_unique_ids = object_hash[Permission::ROLE]
         end
         if resource == Permission::AGENCY && object_hash.key?(Permission::AGENCY)
           permission.agency_ids = object_hash[Permission::AGENCY]
