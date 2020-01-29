@@ -1,4 +1,6 @@
 include_recipe 'apt'
+# Hack supervisor/python cookbooks with ahead installation of python.
+include_recipe 'primero::python'
 include_recipe 'supervisor'
 include_recipe 'primero::common'
 
