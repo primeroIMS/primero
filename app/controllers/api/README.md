@@ -211,3 +211,11 @@ Endpoints for querying and manipulating individual locations and related resourc
 * [Create a new User Group](v2/docs/user_groups/post.md) : `POST /api/v2/user_groups`
 * [Update an existing User Group](v2/docs/user_groups/id/patch.md) : `PATCH /api/v2/user_groups/:id`
 * [Delete an existing User Group](v2/docs/user_groups/id/delete.md) : `DELETE /api/v2/user_groups/:id`
+
+## Primero Module Endpoints
+
+Endpoints for querying and manipulating individual primero module and related resources in Primero.
+
+* [Query for primero modules](v2/docs/primero_modules/get.md) : `GET /api/v2/primero_modules`
+* [Fetch an individual primero module](v2/docs/primero_modules/id/get.md) : `GET /api/v2/primero_modules/:id`
+* [Update an existing primero module](v2/docs/primero_modules/id/patch.md) : `PATCH /api/v2/primero_modules/:id`

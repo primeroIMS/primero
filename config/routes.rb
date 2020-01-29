@@ -73,6 +73,7 @@ Rails.application.routes.draw do
       resources :agencies
       resources :roles
       resources :user_groups
+      resources :primero_modules, only: [:index, :show, :update]
 
     end
   end
