@@ -60,6 +60,7 @@ const Component = ({ recordType, defaultFilters }) => {
     [...defaultFilters.keys()].includes(f.field_name)
   );
 
+  const queryParamsKeys = Object.keys(queryParams);
   const moreSectionKeys = Object.keys(moreSectionFilters);
   const defaultFilterNames = allDefaultFilters.map(t => t.field_name);
 
@@ -67,15 +68,21 @@ const Component = ({ recordType, defaultFilters }) => {
     let primaryFilters = filters;
 
     if (recordType === RECORD_PATH.cases) {
+      const showMyCasesFilter = (field, keys) =>
+        field.field_name === MY_CASES_FILTER_NAME &&
+        keys.includes(OR_FILTER_NAME);
+
       const selectedFromMoreSection = primaryFilters.filter(
         f =>
           moreSectionKeys.includes(f.field_name) ||
-          (f.field_name === MY_CASES_FILTER_NAME &&
-            moreSectionKeys.includes(OR_FILTER_NAME))
+          showMyCasesFilter(f, moreSectionKeys)
       );
+
       const queryParamsFilter = primaryFilters.filter(
         f =>
-          Object.keys(queryParams).includes(f.field_name) &&
+          !more &&
+          (queryParamsKeys.includes(f.field_name) ||
+            showMyCasesFilter(f, queryParamsKeys)) &&
           !(
             defaultFilterNames.includes(f.field_name) ||
             allPrimaryFilters.map(t => t.field_name).includes(f.field_name)
@@ -142,8 +149,19 @@ const Component = ({ recordType, defaultFilters }) => {
 
   useEffect(() => {
     if (rerender) {
+      const filtersToApply = isEmpty(queryParams)
+        ? defaultFilters.toJS()
+        : queryParams;
+
+      Object.keys(methods.getValues()).forEach(value => {
+        if (!Object.keys(filtersToApply).includes(value) && !isEmpty(value)) {
+          methods.setValue(value, undefined);
+        }
+      });
+      setMoreSectionFilters({});
+      methods.reset(filtersToApply);
       dispatch(
-        applyFilters({ recordType, data: compactFilters(methods.getValues()) })
+        applyFilters({ recordType, data: compactFilters(filtersToApply) })
       );
 
       setRerender(false);
@@ -152,7 +170,7 @@ const Component = ({ recordType, defaultFilters }) => {
 
   const tabs = [
     { name: i18n.t("saved_search.filters_tab"), selected: true },
-    { name: i18n.t("saved_search.saved_searches_tab"), disabled: true }
+    { name: i18n.t("saved_search.saved_searches_tab") }
   ];
 
   const handleSubmit = useCallback(data => {
