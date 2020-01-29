@@ -25,7 +25,8 @@ class IdentitySync::Connection
   end
 
   def url(options = {})
-    "#{options['tls'].present? ? 'https' : 'http'}://#{options['host']}:#{options['port']}"
+    tls = ::ActiveRecord::Type::Boolean.new.cast(options['tls'])
+    "#{tls ? 'https' : 'http'}://#{options['host']}:#{options['port']}"
   end
 
   private
