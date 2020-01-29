@@ -40,6 +40,7 @@ const Component = ({ recordType, defaultFilters }) => {
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
   const [more, setMore] = useState(false);
+  const [reset, setReset] = useState(false);
   const dispatch = useDispatch();
 
   const methods = useForm({
@@ -52,12 +53,15 @@ const Component = ({ recordType, defaultFilters }) => {
 
   const userName = useSelector(state => currentUser(state));
 
-  const pFilters = filters.filter(f => PRIMARY_FILTERS.includes(f.field_name));
-  const defaultf = filters.filter(f =>
+  const allPrimaryFilters = filters.filter(f =>
+    PRIMARY_FILTERS.includes(f.field_name)
+  );
+  const allDefaultFilters = filters.filter(f =>
     [...defaultFilters.keys()].includes(f.field_name)
   );
 
   const moreSectionKeys = Object.keys(moreSectionFilters);
+  const defaultFilterNames = allDefaultFilters.map(t => t.field_name);
 
   const renderFilters = () => {
     let primaryFilters = filters;
@@ -73,16 +77,16 @@ const Component = ({ recordType, defaultFilters }) => {
         f =>
           Object.keys(queryParams).includes(f.field_name) &&
           !(
-            defaultf.map(t => t.field_name).includes(f.field_name) ||
-            pFilters.map(t => t.field_name).includes(f.field_name)
+            defaultFilterNames.includes(f.field_name) ||
+            allPrimaryFilters.map(t => t.field_name).includes(f.field_name)
           )
       );
 
       const mergedFilters = fromJS([
-        ...pFilters,
-        ...defaultf,
+        ...allPrimaryFilters,
+        ...allDefaultFilters,
         ...queryParamsFilter,
-        ...selectedFromMoreSection
+        ...(!more ? selectedFromMoreSection : [])
       ]);
 
       primaryFilters = mergedFilters;
@@ -90,6 +94,15 @@ const Component = ({ recordType, defaultFilters }) => {
 
     return primaryFilters.map(filter => {
       const Filter = filterType(filter.type);
+      const secondary =
+        moreSectionKeys.includes(filter.field_name) ||
+        (filter.field_name === MY_CASES_FILTER_NAME &&
+          moreSectionKeys.includes(OR_FILTER_NAME));
+
+      const mode = {
+        secondary,
+        defaultFilter: defaultFilterNames.includes(filter.field_name)
+      };
 
       if (!Filter) return null;
 
@@ -99,11 +112,9 @@ const Component = ({ recordType, defaultFilters }) => {
           filter={filter}
           moreSectionFilters={moreSectionFilters}
           setMoreSectionFilters={setMoreSectionFilters}
-          isSecondary={
-            moreSectionKeys.includes(filter.field_name) ||
-            (filter.field_name === MY_CASES_FILTER_NAME &&
-              moreSectionKeys.includes(OR_FILTER_NAME))
-          }
+          reset={reset}
+          setReset={setReset}
+          mode={mode}
         />
       );
     });
@@ -160,6 +171,10 @@ const Component = ({ recordType, defaultFilters }) => {
 
     dispatch(push({}));
     dispatch(applyFilters({ recordType, data: defaultFilters.toJS() }));
+
+    setMoreSectionFilters({});
+    setReset(true);
+    setMore(false);
   });
 
   return (
@@ -198,8 +213,8 @@ const Component = ({ recordType, defaultFilters }) => {
                 more={more}
                 setMore={setMore}
                 allAvailable={filters}
-                primaryFilters={pFilters}
-                defaultFilters={defaultf}
+                primaryFilters={allPrimaryFilters}
+                defaultFilters={allDefaultFilters}
                 moreSectionFilters={moreSectionFilters}
                 setMoreSectionFilters={setMoreSectionFilters}
               />

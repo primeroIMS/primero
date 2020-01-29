@@ -19,9 +19,11 @@ import { NAME } from "./constants";
 
 const Component = ({
   filter,
+  mode,
   moreSectionFilters,
   setMoreSectionFilters,
-  isSecondary
+  reset,
+  setReset
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -50,8 +52,7 @@ const Component = ({
     }
 
     setSelectedField(value);
-
-    if (isSecondary) {
+    if (mode?.secondary) {
       handleMoreFiltersChange(
         moreSectionFilters,
         setMoreSectionFilters,
@@ -67,7 +68,7 @@ const Component = ({
       setValue(selectedField, undefined);
 
       resetSecondaryFilter(
-        isSecondary,
+        mode?.secondary,
         fieldName,
         getValues()[fieldName],
         moreSectionFilters,
@@ -95,11 +96,18 @@ const Component = ({
         setInputValue,
         clearSecondaryInput: () => setSelectedField("")
       });
+
+      if (reset && !mode?.defaultFilter) {
+        handleReset();
+      }
     }
 
     return () => {
       if (selectedField) {
         unregister(selectedField);
+        if (setReset) {
+          setReset(false);
+        }
       }
     };
   }, [register, unregister, selectedField, valueRef]);
@@ -166,9 +174,14 @@ Component.defaultProps = {
 
 Component.propTypes = {
   filter: PropTypes.object.isRequired,
-  isSecondary: PropTypes.bool,
+  mode: PropTypes.shape({
+    defaultFilter: PropTypes.bool,
+    secondary: PropTypes.bool
+  }),
   moreSectionFilters: PropTypes.object,
-  setMoreSectionFilters: PropTypes.func
+  reset: PropTypes.bool,
+  setMoreSectionFilters: PropTypes.func,
+  setReset: PropTypes.func
 };
 
 Component.displayName = NAME;
