@@ -469,6 +469,10 @@ class User < ApplicationRecord
     end
   end
 
+  def permitted_roles
+    role.role_unique_ids.present? ? role.roles : Role.all
+  end
+
   def ability
     @ability ||= Ability.new(self)
   end

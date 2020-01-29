@@ -202,6 +202,20 @@ describe Api::V2::RolesController, type: :request do
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/roles/thisdoesntexist')
     end
+
+    it 'returns 403 if a user is not authorized to see a specific role' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::ROLE, actions: [Permission::READ], role_ids: @role_a.unique_id)
+        ]
+      )
+
+      get "/api/v2/roles/#{@role_b.id}"
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/roles/#{@role_b.id}")
+      expect(json['errors'][0]['message']).to eq('Forbidden')
+    end
   end
 
   describe 'POST /api/v2/roles' do
@@ -409,6 +423,26 @@ describe Api::V2::RolesController, type: :request do
       patch "/api/v2/roles/#{@role_a.id}", params: params
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['resource']).to eq("/api/v2/roles/#{@role_a.id}")
+      expect(json['errors'][0]['message']).to eq('Forbidden')
+    end
+
+    it 'returns 403 if a user is not authorized to update a specific role' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::ROLE, actions: [Permission::READ], role_ids: @role_a.unique_id)
+        ]
+      )
+      params = {
+        data: {
+          unique_id: 'other-id',
+          permissions: { agency: %w[read write], objects: { agency: ['manage'] } }
+        }
+      }
+
+      patch "/api/v2/roles/#{@role_b.id}", params: params
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/roles/#{@role_b.id}")
       expect(json['errors'][0]['message']).to eq('Forbidden')
     end
   end
