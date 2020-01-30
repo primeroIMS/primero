@@ -5,7 +5,7 @@ import { OptionsBox, DashboardTable } from "components/dashboard";
 import { connect } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { useI18n } from "components/i18n";
-import { subMonths } from "date-fns";
+import { subMonths, addMonths, startOfMonth } from "date-fns";
 
 function NumberOfCases({ fetchNumberOfCases, numberOfCases }) {
   let i18n = useI18n();
@@ -15,8 +15,8 @@ function NumberOfCases({ fetchNumberOfCases, numberOfCases }) {
     new DateRange(
       '3-months',
       i18n.t('key_performance_indicators.time_periods.last_3_months'),
-      subMonths(today, 3),
-      today)
+      startOfMonth(subMonths(today, 2)),
+      startOfMonth(addMonths(today, 1)))
   ]
 
   let [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);
@@ -25,22 +25,18 @@ function NumberOfCases({ fetchNumberOfCases, numberOfCases }) {
     fetchNumberOfCases(currentDateRange);
   }, [currentDateRange]);
 
-  let localizeDate = (date) => i18n.toTime('key_performance_indicators.date_format', date);
-
   let columns = [{
     name: "reporting_site",
     label: i18n.t('key_performance_indicators.number_of_cases.reporting_site'),
-    customBodyRender: localizeDate
   }].concat(numberOfCases.get("dates").map(date => {
     return {
       name: date,
-      customHeadRender: localizeDate
+      label: i18n.toTime('key_performance_indicators.date_format', date)
     };
   }).toJS());
 
   // data needs to be in an array as object data as rows to mui-datatables
   // is depreciated.
-  // TODO: Some of this data my need translating, if it's a date?
   let rows = numberOfCases.get("data")
     .map(row => columns.map(column => row.get(column.name)));
 
@@ -51,8 +47,8 @@ function NumberOfCases({ fetchNumberOfCases, numberOfCases }) {
         <DateRangeSelect
           ranges={dateRanges}
           selectedRange={currentDateRange}
-          withCustomRange
           setSelectedRange={setCurrentDateRange}
+          disabled
         />
       }
     >
