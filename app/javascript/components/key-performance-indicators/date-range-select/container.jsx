@@ -70,7 +70,7 @@ function CustomRangeDialog({ open, onClose, currentRange, setRange }) {
   );
 }
 
-function DateRangeSelect({ ranges, selectedRange, withCustomRange, setSelectedRange }) {
+function DateRangeSelect({ ranges, selectedRange, withCustomRange, setSelectedRange, disabled }) {
   // FIXME: We should use 'useI18n' but it retruns a null object when called
   // from here.
   let i18n = window.I18n;
@@ -91,8 +91,8 @@ function DateRangeSelect({ ranges, selectedRange, withCustomRange, setSelectedRa
   };
 
   return (
-    <div>
-      <Select onChange={updateSelectedRange} value={selectedRange.value}>
+    <FormControl>
+      <Select onChange={updateSelectedRange} value={selectedRange.value} disabled={disabled}>
         { ranges.map(r => <MenuItem value={r.value}>{r.name}</MenuItem>) }
         { withCustomRange &&
           <MenuItem value={customRange.value}>
@@ -115,7 +115,7 @@ function DateRangeSelect({ ranges, selectedRange, withCustomRange, setSelectedRa
           setCustomRange(newRange);
         }}
       />
-    </div>
+    </FormControl>
   )
 }
 
