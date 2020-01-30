@@ -205,7 +205,7 @@ Component.propTypes = {
   record: PropTypes.object,
   recordType: PropTypes.string,
   subMenuItems: PropTypes.array,
-  confirmButtonLabel: PropTypes.sting
+  confirmButtonLabel: PropTypes.string
 };
 
 export default Component;
