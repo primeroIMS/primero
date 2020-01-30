@@ -105,12 +105,9 @@ module FormSectionHelper
   end
 
   def subform_placeholder(field, subform, editing=false)
-    if field.base_doc.is_violation?
-      t("incident.violation.violation")
-    else
-      form_string, translation_node = editing ? [subform.form.name, 'editing_subforms'] : [subform.display_name, 'subforms']
-      t("placeholders.#{translation_node}", form: form_string)
-    end
+    return if field.base_doc.is_violations_group? || field.base_doc.is_violation?
+    form_string, translation_node = editing ? [subform.form.name, 'editing_subforms'] : [subform.display_name, 'subforms']
+    t("placeholders.#{translation_node}", form: form_string)
   end
 
   #Returns a hash of tuples {subform_group_label => [subform_object, index]}.
