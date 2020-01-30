@@ -175,7 +175,8 @@ describe("Verifying config constant", () => {
     expect(constants.LOOKUPS).to.have.all.keys(
       "risk_level",
       "workflow",
-      "service_type"
+      "service_type",
+      "protection_concerns"
     );
     expect(constants.RECORD_INFORMATION).to.be.an("array");
     expect(constants.APPROVALS).to.be.an("string");

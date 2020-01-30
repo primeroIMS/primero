@@ -139,7 +139,9 @@ cp_admin_permissions = [
   Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
-      Permission::DASH_REPORTING_LOCATION
+      Permission::DASH_REPORTING_LOCATION,
+      Permission::DASH_PROTECTION_CONCERNS,
+      Permission::DASH_WORKFLOW_TEAM
     ]
   )
 ]
@@ -1221,6 +1223,12 @@ gbv_system_admin_permissions = [
       Permission::READ,
       Permission::WRITE,
       Permission::CREATE
+    ]
+  ),
+  Permission.new(
+    resource: Permission::DASHBOARD,
+    actions: [
+      Permission::DASH_PROTECTION_CONCERNS
     ]
   )
 ]
