@@ -339,11 +339,13 @@ class Permission < ValueObject
       object_hash = json_hash.delete('objects')
       json_hash.map do |resource, actions|
         permission = Permission.new(resource: resource, actions: actions)
-        if resource == Permission::ROLE && object_hash.key?(Permission::ROLE)
-          permission.role_unique_ids = object_hash[Permission::ROLE]
-        end
-        if resource == Permission::AGENCY && object_hash.key?(Permission::AGENCY)
-          permission.agency_ids = object_hash[Permission::AGENCY]
+        if object_hash.present?
+          if resource == Permission::ROLE && object_hash.key?(Permission::ROLE)
+            permission.role_unique_ids = object_hash[Permission::ROLE]
+          end
+          if resource == Permission::AGENCY && object_hash.key?(Permission::AGENCY)
+            permission.agency_ids = object_hash[Permission::AGENCY]
+          end
         end
         permission
       end
