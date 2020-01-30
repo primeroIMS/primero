@@ -1311,7 +1311,7 @@ ar-JO:
     child_status_duplicate: "مكرر"
   dashboard:
     total: 'المجموع'
-    new: 'الحالات المتابعة\المحدثة'
+    new: 'جديد ومحدث'
     pending_transfers: 'عمليات النقل قيد الانتظار'
     rejected_transfers: 'عمليات النقل المرفوضة'
     transers_awaiting_acceptance: 'الحالات المرسلة لي من مؤسسة أخرى بانتظارموافقتي على نقل الملف'
@@ -1331,7 +1331,7 @@ ar-JO:
     overdue_cases_to_assign: 'الحالات المتأخرة بانتظار التعيين'
     closed: 'أغلقت'
     comprehensive_need_intervention: 'تدخل شامل'
-    new_incident: 'حوادث جديدة'
+    new_incident: 'حالات جديدة'
     new_service_provision: 'تقديم خدمة جديدة'
     all_services_implemented: 'تم تقديم جميع الخدمات'
     services_implemented: 'تم تقديم الخدمة'
