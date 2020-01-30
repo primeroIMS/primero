@@ -25,11 +25,7 @@ export const allowedExports = userPermissions => {
 
 export const formatFileName = (filename, extension) => {
   if (filename && extension) {
-    return `${filename
-      .replace(/[^A-Za-z0-9]+/g, "-")
-      .replace(/^-/, "")
-      .replace(/-$/, "")
-      .toLowerCase()}.${extension}`;
+    return `${filename}.${extension}`;
   }
 
   return "";

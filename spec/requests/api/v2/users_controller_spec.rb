@@ -404,7 +404,7 @@ describe Api::V2::UsersController, type: :request do
       )
       params = {
         data: {
-           email: "test_user_2@localhost.com",
+           email: "@localhost.com",
         }
       }
 

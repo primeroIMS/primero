@@ -1,4 +1,4 @@
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 
 import {
   setupMountedComponent,
@@ -6,20 +6,22 @@ import {
   setupMockFormComponent
 } from "../../../test";
 
+import CheckboxFilter from "./filter-types/checkbox-filter/component";
 import MoreSection from "./more-section";
 
 describe("<MoreSection>", () => {
+  const checkboxFilter = [
+    {
+      field_name: "filter1",
+      name: "filter1",
+      options: [{ id: "true", display_name: "Filter 1" }],
+      type: "checkbox"
+    }
+  ];
   const state = fromJS({
     user: {
       filters: {
-        cases: [
-          {
-            field_name: "filter1",
-            name: "filter1",
-            options: [{ id: "true", display_name: "Filter 1" }],
-            type: "checkbox"
-          }
-        ]
+        cases: checkboxFilter
       }
     }
   });
@@ -28,7 +30,7 @@ describe("<MoreSection>", () => {
     recordType: "cases",
     more: true,
     setMore: () => {},
-    allAvailable: fromJS([]),
+    allAvailable: List(checkboxFilter),
     primaryFilters: fromJS([]),
     defaultFilters: fromJS([]),
     moreSectionFilters: {},
@@ -36,8 +38,8 @@ describe("<MoreSection>", () => {
   };
 
   it("renders MoreSection filters", () => {
-    const { component } = setupMountedComponent(MoreSection, props, state);
-    const lessButton = component.find("button");
+    const { component } = setupMockFormComponent(MoreSection, props, state);
+    const lessButton = component.find("button").at(1);
 
     expect(lessButton).to.have.lengthOf(1);
     expect(lessButton.text()).to.be.equal("filters.less");
@@ -63,6 +65,21 @@ describe("<MoreSection>", () => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });
+
+    expect(clone).to.be.empty;
+  });
+
+  it("renders valid props for rendered filters", () => {
+    const { component } = setupMockFormComponent(MoreSection, props);
+
+    const clone = { ...component.find(CheckboxFilter).props() };
+
+    ["filter", "moreSectionFilters", "setMoreSectionFilters", "mode"].forEach(
+      property => {
+        expect(clone).to.have.property(property);
+        delete clone[property];
+      }
+    );
 
     expect(clone).to.be.empty;
   });

@@ -175,11 +175,12 @@ Endpoints for querying and manipulating individual locations and related resourc
 * [Update an existing location](v2/docs/locations/id/patch.md) : `PATCH /api/v2/locations/:id`
 * [Delete an existing location](v2/docs/locations/id/delete.md) : `DELETE /api/v2/locations/:id`
 
-## Alert Endpoint
+## Alert Endpoints
 
-Endpoint for querying the count of alerts from cases, incidents and tracing request of the logged user.
+Endpoints for querying the alerts from cases, incidents and tracing request of the logged user.
 
 * [Query for the count of alerts](v2/docs/alerts/get.md) : `GET /api/v2/alerts`
+* [Query for alerts of a record](v2/docs/alerts/id/get.md) : `GET /api/v2/:recordType/:recordId/alerts`
 
 ## Agency Endpoint
 
@@ -206,3 +207,21 @@ Endpoints for querying and manipulating individual Roles and related resources i
 Endpoint for querying all available permissions
 
 * [ Query for all available permissions](v2/docs/permissions/get.md) : `GET /api/v2/permissions`
+
+## User Group Endpoint
+
+Endpoints for querying and manipulating individual locations and related resources in Primero.
+
+* [Query for User Groups](v2/docs/user_groups/get.md) : `GET /api/v2/user_groups`
+* [Fetch an individual User Group](v2/docs/user_groups/id/get.md) : `GET /api/v2/user_groups/:id`
+* [Create a new User Group](v2/docs/user_groups/post.md) : `POST /api/v2/user_groups`
+* [Update an existing User Group](v2/docs/user_groups/id/patch.md) : `PATCH /api/v2/user_groups/:id`
+* [Delete an existing User Group](v2/docs/user_groups/id/delete.md) : `DELETE /api/v2/user_groups/:id`
+
+## Primero Module Endpoints
+
+Endpoints for querying and manipulating individual primero module and related resources in Primero.
+
+* [Query for primero modules](v2/docs/primero_modules/get.md) : `GET /api/v2/primero_modules`
+* [Fetch an individual primero module](v2/docs/primero_modules/id/get.md) : `GET /api/v2/primero_modules/:id`
+* [Update an existing primero module](v2/docs/primero_modules/id/patch.md) : `PATCH /api/v2/primero_modules/:id`

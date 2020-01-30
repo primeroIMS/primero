@@ -1,4 +1,4 @@
-import { setupMockFormComponent, expect } from "../../../../../test";
+import { setupMockFormComponent, expect, spy } from "../../../../../test";
 
 import ToggleFilter from "./component";
 
@@ -34,10 +34,14 @@ describe("<ToggleFilter>", () => {
 
   it("renders select as secondary filter, with valid pros in the more section", () => {
     const newProps = {
-      isSecondary: true,
+      mode: {
+        secondary: true
+      },
       moreSectionFilters: {},
       setMoreSectionFilters: () => {},
-      filter
+      filter,
+      reset: false,
+      setReset: () => {}
     };
     const { component } = setupMockFormComponent(ToggleFilter, newProps);
     const clone = { ...component.find(ToggleFilter).props() };
@@ -47,16 +51,39 @@ describe("<ToggleFilter>", () => {
     );
 
     [
-      "isSecondary",
-      "moreSectionFilters",
-      "setMoreSectionFilters",
+      "commonInputProps",
       "filter",
-      "commonInputProps"
+      "mode",
+      "moreSectionFilters",
+      "reset",
+      "setMoreSectionFilters",
+      "setReset"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });
 
     expect(clone).to.be.empty;
+  });
+
+  it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
+    const newProps = {
+      mode: {
+        secondary: true
+      },
+      moreSectionFilters: {},
+      setMoreSectionFilters: spy(),
+      filter,
+      reset: false,
+      setReset: () => {}
+    };
+
+    const { component } = setupMockFormComponent(ToggleFilter, newProps);
+    const toggleFilter = component.find("button").at(1);
+
+    expect(toggleFilter).to.have.lengthOf(1);
+    toggleFilter.simulate("click");
+
+    expect(newProps.setMoreSectionFilters).to.have.been.called;
   });
 });

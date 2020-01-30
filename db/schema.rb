@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_10_000000) do
+ActiveRecord::Schema.define(version: 2020_01_27_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -469,6 +469,7 @@ ActiveRecord::Schema.define(version: 2019_12_10_000000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "identity_provider_id"
+    t.jsonb "identity_provider_sync"
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["identity_provider_id"], name: "index_users_on_identity_provider_id"
