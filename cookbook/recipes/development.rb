@@ -123,8 +123,13 @@ end
   end
 end
 
-execute 'Restart Solr' do
-  command 'supervisorctl restart solr'
+execute 'Stop Solr' do
+  command 'supervisorctl stop solr'
+  only_if { ::File.exists?(node[:primero][:solr_core_dir])}
+end
+
+execute 'Start Solr' do
+  command 'supervisorctl start solr'
   only_if { ::File.exists?(node[:primero][:solr_core_dir])}
 end
 
