@@ -3,7 +3,7 @@ import { Box, Grid } from "@material-ui/core";
 
 import { setupMountedComponent, expect } from "../../../../test";
 import DisplayData from "../../../display-data/component";
-import { STATUS_APPROVED } from "../../constants";
+import { CASE_PLAN, STATUS_APPROVED } from "../../constants";
 
 import ApprovalDetail from "./component";
 
@@ -12,7 +12,8 @@ describe("<ApprovalDetail /> - Component", () => {
   const props = {
     approvalSubform: fromJS({
       approval_date: "2020-01-01",
-      approval_status: STATUS_APPROVED
+      approval_status: STATUS_APPROVED,
+      approval_response_for: CASE_PLAN
     }),
     css: {},
     isRequest: false,

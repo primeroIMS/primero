@@ -2390,7 +2390,7 @@ en:
     approve_case_plan_with_selectable_type: "Request Approval for the Case Plan?"
     approve_closure: "Request Approval for the Closure form?"
     approve_closure_label: "Approve Closure Form"
-    bia: "BIA"
+    bia: "Assessment"
     case_plan: "Case Plan"
     closure: "Closure"
     assessment: "Assessment"

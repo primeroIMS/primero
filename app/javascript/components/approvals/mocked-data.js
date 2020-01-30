@@ -7,7 +7,7 @@ export default fromJS([
     approval_date: "2020-01-01",
     approval_status: "rejected",
     approval_for_type: "Action Plan",
-    approval_response_for: "assessment",
+    approval_response_for: "case_plan",
     approval_requested_for: null,
     approval_manager_comments: "First comment"
   },
