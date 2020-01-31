@@ -655,8 +655,4 @@ module IndexHelper
 
     data
   end
-
-  def violation_lookup(options, lookups)
-    options.is_a?(String) ? Lookup.values(options, lookups) : options
-  end
 end
