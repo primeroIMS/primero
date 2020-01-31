@@ -45,15 +45,12 @@ cp_admin_permissions = [
       Permission::READ,
       Permission::WRITE,
       Permission::FLAG,
-      Permission::ASSIGN,
       Permission::IMPORT,
       Permission::EXPORT_CUSTOM,
       Permission::EXPORT_LIST_VIEW,
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
-      Permission::EXPORT_PHOTO_WALL,
-      Permission::EXPORT_UNHCR,
       Permission::CREATE
     ]
   ),
@@ -63,12 +60,6 @@ cp_admin_permissions = [
       Permission::READ,
       Permission::WRITE,
       Permission::ASSIGN,
-      Permission::IMPORT,
-      Permission::EXPORT_CUSTOM,
-      Permission::EXPORT_LIST_VIEW,
-      Permission::EXPORT_CSV,
-      Permission::EXPORT_EXCEL,
-      Permission::EXPORT_JSON,
       Permission::CREATE
     ],
     role_ids: [
@@ -139,7 +130,8 @@ cp_admin_permissions = [
   Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
-      Permission::DASH_REPORTING_LOCATION
+      Permission::DASH_REPORTING_LOCATION,
+      Permission::DASH_PROTECTION_CONCERNS_BY_LOCATION
     ]
   )
 ]
@@ -193,9 +185,7 @@ cp_caseworker_permissions = [
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
-      Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
-      Permission::EXPORT_UNHCR,
       Permission::CREATE
     ]
   ),
@@ -215,7 +205,8 @@ cp_caseworker_permissions = [
       Permission::VIEW_RESPONSE,
       Permission::DASH_CASE_RISK,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
-      Permission::DASH_TASKS
+      Permission::DASH_TASKS,
+      Permission::DASH_CASE_OVERVIEW
     ]
   ),
   Permission.new(
@@ -269,15 +260,12 @@ cp_manager_permissions = [
     actions: [
       Permission::READ,
       Permission::FLAG,
-      Permission::ASSIGN,
       Permission::EXPORT_CUSTOM,
       Permission::EXPORT_LIST_VIEW,
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
-      Permission::EXPORT_PHOTO_WALL,
-      Permission::EXPORT_PDF,
-      Permission::EXPORT_UNHCR
+      Permission::EXPORT_PDF
     ]
   ),
   Permission.new(
@@ -297,13 +285,7 @@ cp_manager_permissions = [
   Permission.new(
     resource: Permission::ROLE,
     actions: [
-      Permission::READ,
-      Permission::EXPORT_CUSTOM,
-      Permission::EXPORT_LIST_VIEW,
-      Permission::EXPORT_CSV,
-      Permission::EXPORT_EXCEL,
-      Permission::EXPORT_JSON,
-      Permission::EXPORT_PDF
+      Permission::READ
     ]
   ),
   Permission.new(
@@ -377,15 +359,12 @@ cp_user_manager_permissions = [
         actions: [
             Permission::READ,
             Permission::FLAG,
-            Permission::ASSIGN,
             Permission::EXPORT_CUSTOM,
             Permission::EXPORT_LIST_VIEW,
             Permission::EXPORT_CSV,
             Permission::EXPORT_EXCEL,
             Permission::EXPORT_JSON,
-            Permission::EXPORT_PHOTO_WALL,
-            Permission::EXPORT_PDF,
-            Permission::EXPORT_UNHCR
+            Permission::EXPORT_PDF
         ]
     ),
     Permission.new(
@@ -405,12 +384,7 @@ cp_user_manager_permissions = [
         resource: Permission::ROLE,
         actions: [
             Permission::READ,
-            Permission::ASSIGN,
-            Permission::EXPORT_CUSTOM,
-            Permission::EXPORT_LIST_VIEW,
-            Permission::EXPORT_CSV,
-            Permission::EXPORT_EXCEL,
-            Permission::EXPORT_JSON
+            Permission::ASSIGN
         ]
     ),
     Permission.new(
@@ -493,9 +467,7 @@ gbv_worker_permissions = [
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
-      Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
-      Permission::EXPORT_UNHCR,
       Permission::EXPORT_INCIDENT_RECORDER,
       Permission::SYNC_MOBILE,
       Permission::CREATE
@@ -506,7 +478,8 @@ gbv_worker_permissions = [
     actions: [
       Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
       Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
-      Permission::DASH_APPROVALS_CLOSURE_PENDING
+      Permission::DASH_APPROVALS_CLOSURE_PENDING,
+      Permission::DASH_CASE_OVERVIEW
     ]
   )
 ]
@@ -545,13 +518,10 @@ gbv_manager_permissions = [
     actions: [
       Permission::READ,
       Permission::FLAG,
-      Permission::ASSIGN,
       Permission::EXPORT_LIST_VIEW,
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
-      Permission::EXPORT_PHOTO_WALL,
-      Permission::EXPORT_UNHCR,
       Permission::EXPORT_INCIDENT_RECORDER,
       Permission::SYNC_MOBILE
     ]
@@ -567,14 +537,7 @@ gbv_manager_permissions = [
   Permission.new(
     resource: Permission::ROLE,
     actions: [
-      Permission::READ,
-      Permission::EXPORT_CUSTOM,
-      Permission::EXPORT_LIST_VIEW,
-      Permission::EXPORT_CSV,
-      Permission::EXPORT_EXCEL,
-      Permission::EXPORT_JSON,
-      Permission::EXPORT_PHOTO_WALL,
-      Permission::EXPORT_UNHCR
+      Permission::READ
     ]
   ),
   Permission.new(
@@ -641,14 +604,11 @@ gbv_user_manager_permissions = [
         actions: [
             Permission::READ,
             Permission::FLAG,
-            Permission::ASSIGN,
             Permission::EXPORT_LIST_VIEW,
             Permission::EXPORT_CSV,
             Permission::EXPORT_EXCEL,
             Permission::EXPORT_JSON,
-            Permission::EXPORT_PHOTO_WALL,
             Permission::EXPORT_PDF,
-            Permission::EXPORT_UNHCR,
             Permission::EXPORT_INCIDENT_RECORDER,
             Permission::SYNC_MOBILE
         ]
@@ -664,14 +624,7 @@ gbv_user_manager_permissions = [
         resource: Permission::ROLE,
         actions: [
             Permission::READ,
-            Permission::ASSIGN,
-            Permission::EXPORT_CUSTOM,
-            Permission::EXPORT_LIST_VIEW,
-            Permission::EXPORT_CSV,
-            Permission::EXPORT_EXCEL,
-            Permission::EXPORT_JSON,
-            Permission::EXPORT_PHOTO_WALL,
-            Permission::EXPORT_UNHCR
+            Permission::ASSIGN
         ]
     ),
     Permission.new(
@@ -805,6 +758,12 @@ gbv_mobile_caseworker_permissions = [
             Permission::FLAG,
             Permission::SYNC_MOBILE
         ]
+    ),
+    Permission.new(
+      resource: Permission::DASHBOARD,
+      actions: [
+        Permission::DASH_CASE_OVERVIEW
+      ]
     )
 ]
 
@@ -848,8 +807,7 @@ gbv_cm_supervisor_permissions = [
             Permission::READ,
             Permission::FLAG,
             Permission::EXPORT_JSON,
-            Permission::IMPORT,
-            Permission::ASSIGN
+            Permission::IMPORT
         ]
     ),
     Permission.new(
@@ -976,9 +934,7 @@ gbv_organization_focal_point_permissions = [
     Permission.new(
         resource: Permission::ROLE,
         actions: [
-            Permission::READ,
-            Permission::EXPORT_EXCEL,
-            Permission::EXPORT_JSON
+            Permission::READ
         ],
         role_ids: ['role-gbv-case-management-supervisor', 'role-gbv-caseworker', 'role-gbv-program-manager']
     ),
@@ -993,7 +949,9 @@ gbv_organization_focal_point_permissions = [
     Permission.new(
         resource: Permission::USER_GROUP,
         actions: [
+            Permission::CREATE,
             Permission::READ,
+            Permission::DELETE,
             Permission::EXPORT_EXCEL,
             Permission::EXPORT_JSON
         ]
@@ -1036,7 +994,6 @@ agency_user_admin_permissions = [
             Permission::AGENCY_READ,
             Permission::CREATE,
             Permission::WRITE,
-            Permission::ASSIGN,
             Permission::MANAGE
         ]
     ),
@@ -1084,7 +1041,6 @@ gbv_agency_user_admin_permissions = [
           Permission::AGENCY_READ,
           Permission::CREATE,
           Permission::WRITE,
-          Permission::ASSIGN,
           Permission::MANAGE
       ]
   ),
@@ -1153,17 +1109,12 @@ gbv_system_admin_permissions = [
       Permission::EXPORT_LIST_VIEW,
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
-      Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
-      Permission::EXPORT_UNHCR,
       Permission::EXPORT_INCIDENT_RECORDER,
       Permission::EXPORT_JSON,
       Permission::EXPORT_CUSTOM,
       Permission::IMPORT,
-      Permission::ASSIGN,
-      Permission::SYNC_MOBILE,
-      Permission::REQUEST_APPROVAL_CASE_PLAN,
-      Permission::REQUEST_APPROVAL_CLOSURE
+      Permission::SYNC_MOBILE
     ]
   ),
   Permission.new(
@@ -1185,8 +1136,7 @@ gbv_system_admin_permissions = [
     actions: [
       Permission::READ,
       Permission::WRITE,
-      Permission::CREATE,
-      Permission::ASSIGN
+      Permission::CREATE
     ]
   ),
   Permission.new(
@@ -1222,6 +1172,12 @@ gbv_system_admin_permissions = [
       Permission::WRITE,
       Permission::CREATE
     ]
+  ),
+  Permission.new(
+    resource: Permission::DASHBOARD,
+    actions: [
+      Permission::DASH_PROTECTION_CONCERNS_BY_LOCATION
+    ]
   )
 ]
 
@@ -1252,6 +1208,12 @@ referral_permissions = [
       Permission::CREATE,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER
     ]
+  ),
+  Permission.new(
+    resource: Permission::DASHBOARD,
+    actions: [
+      Permission::DASH_CASE_OVERVIEW
+    ]
   )
 ]
 
@@ -1279,6 +1241,12 @@ transfer_permissions = [
       Permission::EXPORT_UNHCR,
       Permission::CREATE,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER
+    ]
+  ),
+  Permission.new(
+    resource: Permission::DASHBOARD,
+    actions: [
+      Permission::DASH_CASE_OVERVIEW
     ]
   )
 ]
@@ -1321,9 +1289,7 @@ ftr_manager_permissions = [
           Permission::EXPORT_CSV,
           Permission::EXPORT_EXCEL,
           Permission::EXPORT_JSON,
-          Permission::EXPORT_PHOTO_WALL,
           Permission::EXPORT_PDF,
-          Permission::EXPORT_UNHCR,
           Permission::CREATE
       ]
   ),
