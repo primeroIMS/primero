@@ -13,7 +13,7 @@
         <div class="violation hide" data-type-id="<%= k %>">
           <h3><%= v %></h3>
           <% violation_filters[k.to_sym].each do |f| %>
-            <%= build_filter_checkboxes(t("incidents.filter_by.#{f[:name]}"), f[:name], violation_lookup(f[:options], @lookups), f[:multi]) %>
+            <%= build_filter_checkboxes(t("incidents.filter_by.#{f[:name]}"), f[:name], Lookup.values(f[:options], @lookups, locale: I18n.locale), f[:multi]) %>
           <% end %>
         </div>
       <% end %>
