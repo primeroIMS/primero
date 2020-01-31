@@ -72,6 +72,7 @@ Rails.application.routes.draw do
       get 'alerts', to: 'alerts#bulk_index'
       resources :agencies
       resources :roles
+      resources :permissions, only: [:index]
       resources :user_groups
       resources :primero_modules, only: [:index, :show, :update]
 
