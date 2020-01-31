@@ -4,6 +4,8 @@ import { useFormContext } from "react-hook-form";
 import { Select, MenuItem } from "@material-ui/core";
 import { DatePicker } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/styles";
+import { useLocation } from "react-router-dom";
+import qs from "qs";
 
 import { useI18n } from "../../../../i18n";
 import Panel from "../../panel";
@@ -36,12 +38,18 @@ const Component = ({
     Object.keys(getValues({ nest: true })).includes(option.id)
   )?.[0]?.id;
   const [selectedField, setSelectedField] = useState(valueSelectedField || "");
+  const location = useLocation();
+  const queryParams = qs.parse(location.search.replace("?", ""));
 
   const handleDatePicker = (field, date) => {
     const value = { ...inputValue, [field]: date };
 
     setInputValue(value);
     setValue(selectedField, value);
+
+    if (mode?.secondary) {
+      setMoreSectionFilters({ ...moreSectionFilters, [selectedField]: value });
+    }
   };
 
   const handleSelectedField = event => {
@@ -52,13 +60,10 @@ const Component = ({
     }
 
     setSelectedField(value);
+    // setInputValue({});
+
     if (mode?.secondary) {
-      handleMoreFiltersChange(
-        moreSectionFilters,
-        setMoreSectionFilters,
-        fieldName,
-        value
-      );
+      setMoreSectionFilters({ ...moreSectionFilters, [value]: {} });
     }
   };
 
@@ -69,7 +74,7 @@ const Component = ({
 
       resetSecondaryFilter(
         mode?.secondary,
-        fieldName,
+        selectedField,
         getValues()[fieldName],
         moreSectionFilters,
         setMoreSectionFilters
@@ -77,17 +82,12 @@ const Component = ({
     }
   };
 
-  const setSecondaryValues = (_name, values) => {
-    setSelectedField(values);
+  const setSecondaryValues = (name, values) => {
+    setValue(name, values);
+    setInputValue(values);
   };
 
   useEffect(() => {
-    setMoreFilterOnPrimarySection(
-      moreSectionFilters,
-      fieldName,
-      setSecondaryValues
-    );
-
     if (selectedField) {
       registerInput({
         register,
@@ -100,6 +100,29 @@ const Component = ({
       if (reset && !mode?.defaultFilter) {
         handleReset();
       }
+
+      setMoreFilterOnPrimarySection(
+        moreSectionFilters,
+        selectedField,
+        setSecondaryValues
+      );
+    } else if (
+      Object.keys(queryParams).length &&
+      !Object.keys(moreSectionFilters).length
+    ) {
+      // WHEN IT COMES FROM SAVED SEARCHES OR DASHBOARDS
+      const data = filter?.options?.[i18n.locale].find(option =>
+        Object.keys(queryParams).includes(option.id)
+      );
+      const selectValue = data?.id;
+      const datesValue = queryParams?.[selectValue];
+
+      // SET SELECT VALUE
+      setSelectedField(selectValue);
+      // SET DATES VALUES
+      setInputValue(datesValue);
+      // // SET FORM VALUE
+      // setValue(selectValue, datesValue);
     }
 
     return () => {

@@ -64,6 +64,23 @@ const Component = ({ recordType, defaultFilters }) => {
   const moreSectionKeys = Object.keys(moreSectionFilters);
   const defaultFilterNames = allDefaultFilters.map(t => t.field_name);
 
+  const isDateFieldFromValue = (field, keys) => {
+    if (field.type !== "dates") {
+      return false;
+    }
+
+    const datesOption = field?.options?.[i18n.locale];
+
+    if (!datesOption) {
+      return false;
+    }
+
+    return (
+      datesOption?.filter(dateOption => keys.includes(dateOption.id))?.length >
+      0
+    );
+  };
+
   const renderFilters = () => {
     let primaryFilters = filters;
 
@@ -75,14 +92,16 @@ const Component = ({ recordType, defaultFilters }) => {
       const selectedFromMoreSection = primaryFilters.filter(
         f =>
           moreSectionKeys.includes(f.field_name) ||
-          showMyCasesFilter(f, moreSectionKeys)
+          showMyCasesFilter(f, moreSectionKeys) ||
+          isDateFieldFromValue(f, moreSectionKeys)
       );
 
       const queryParamsFilter = primaryFilters.filter(
         f =>
           !more &&
           (queryParamsKeys.includes(f.field_name) ||
-            showMyCasesFilter(f, queryParamsKeys)) &&
+            showMyCasesFilter(f, queryParamsKeys) ||
+            isDateFieldFromValue(f, queryParamsKeys)) &&
           !(
             defaultFilterNames.includes(f.field_name) ||
             allPrimaryFilters.map(t => t.field_name).includes(f.field_name)
@@ -104,7 +123,8 @@ const Component = ({ recordType, defaultFilters }) => {
       const secondary =
         moreSectionKeys.includes(filter.field_name) ||
         (filter.field_name === MY_CASES_FILTER_NAME &&
-          moreSectionKeys.includes(OR_FILTER_NAME));
+          moreSectionKeys.includes(OR_FILTER_NAME)) ||
+        isDateFieldFromValue(filter, moreSectionKeys);
 
       const mode = {
         secondary,
