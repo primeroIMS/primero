@@ -504,6 +504,39 @@ describe Api::V2::ChildrenController, type: :request do
         expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
       end
     end
+
+    describe 'when a user disables a case that cannot update' do
+      it 'disables the case if he is authorized to disable cases' do
+        login_for_test(
+          group_permission: Permission::SELF,
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE,
+              actions: [Permission::ENABLE_DISABLE_RECORD]
+            )
+          ]
+        )
+
+        params = { data: { record_state: false }, record_action: Permission::ENABLE_DISABLE_RECORD }
+
+        patch "/api/v2/cases/#{@case1.id}", params: params
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['record_state']).to eq(false)
+      end
+
+      it 'returns 403 if the user is not authorized' do
+        login_for_test(group_permission: Permission::SELF)
+
+        params = { data: { record_state: false }, record_action: Permission::ENABLE_DISABLE_RECORD }
+
+        patch "/api/v2/cases/#{@case1.id}", params: params
+
+        expect(response).to have_http_status(403)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
+      end
+    end
   end
 
   describe 'DELETE /api/v2/cases/:id' do

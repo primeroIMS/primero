@@ -5,6 +5,7 @@ class Ability
     alias_action :index, :view, :list, :export, to: :read
     alias_action :edit, :update, :destroy, :disable, to: :write
     alias_action new: :create
+    alias_action destroy: :delete
 
     @user = user
 
