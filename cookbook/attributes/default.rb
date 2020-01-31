@@ -118,7 +118,7 @@ default[:nginx_default_site] = true
 default[:postfix_dir] = '/etc/postfix'
 
 default[:python][:install_method] = 'package'
-default[:python][:setuptools_version] = '3.4.4'
+default[:python][:setuptools_version] = '20.7.0'
 default[:python][:virtualenv_version] = '1.11.4'
-default[:supervisor][:version] = '3.1.2'
+default[:supervisor][:version] = '4.1.0'
 default[:supervisor][:minfds] = 16384
