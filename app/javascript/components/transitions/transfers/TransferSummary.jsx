@@ -5,15 +5,23 @@ import { Grid } from "@material-ui/core";
 
 import { useI18n } from "../../i18n";
 import TransitionStatus from "../TransitionStatus";
+import TransferActionMenu from "./transfer-action-menu";
 
-const TransferSummary = ({ transition, classes }) => {
+const TransferSummary = ({ transition, classes, currentUser }) => {
+  const showTransferApproval = transition.get("transitioned_to") === currentUser && transition.get("status") === "in_progress";
   const i18n = useI18n();
   const transitionStatus = transition.status ? (
     <Grid item md={2} xs={10}>
+      <TransferActionMenu transition={transition} />
       <TransitionStatus status={transition.status} />
     </Grid>
   ) : null;
 
+  // const transferApproval = showTransferApproval ? (
+  //   <Grid item md={2} xs={10}>
+
+  //   </Grid>
+  // ) : null;
   return (
     <Grid container spacing={2}>
       <Grid item md={10} xs={10}>

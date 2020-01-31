@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 import { useI18n } from "../i18n";
 
 import styles from "./styles.css";
-import { selectTransitions } from "./selectors";
+import { selectTransitions, selectCurrentUser } from "./selectors";
 import AssignmentsSummary from "./assignments/AssignmentsSummary";
 import AssignmentsDetails from "./assignments/AssignmentsDetails";
 import TransferSummary from "./transfers/TransferSummary";
@@ -31,12 +31,13 @@ const Transitions = ({ isReferral, recordType, record }) => {
   const dataTransitions = useSelector(state =>
     selectTransitions(state, recordType, record, isReferral)
   );
+  const currentUser = useSelector(state => selectCurrentUser(state));
   const renderSummary = transition => {
     switch (transition.type) {
       case "Assign":
         return <AssignmentsSummary transition={transition} classes={css} />;
       case "Transfer":
-        return <TransferSummary transition={transition} classes={css} />;
+        return <TransferSummary transition={transition} classes={css} currentUser={currentUser} />;
       case "Referral":
         return <ReferralSummary transition={transition} classes={css} />;
       case "TransferRequest":
