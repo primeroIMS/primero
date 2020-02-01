@@ -59,7 +59,7 @@ group :development, :test do
   gem 'i18n-tasks',                 '~> 0.9'
   gem 'json_spec',                  '~> 1.1'
   gem 'letter_opener',              '~> 1.7'
-  gem 'listen'                      '~> 3.1'
+  gem 'listen',                     '~> 3.1'
   gem 'memory-profiler',            '~> 1.0'
   gem 'pry'
   gem 'pry-byebug'
@@ -77,7 +77,7 @@ group :development, :test do
   gem 'rubocop-performance',        '~> 1.1'
   gem 'ruby-prof',                  '~> 0.17'
   gem 'simplecov',                  '~> 0.18'
-  gem 'sunspot_test', require: false
+  gem 'sunspot_test',               '~> 0.4', require: false
   # TODO: Latest version (1.2.5) of this conflicts with sunspot gem. We should be able to upgrade when we upgrade sunspot
   gem 'timecop',                    '~>0.9.1'
 end
