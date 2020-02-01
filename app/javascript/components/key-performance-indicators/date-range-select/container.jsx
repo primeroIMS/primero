@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import { useI18n } from "components/I18n";
+import { useI18n } from "components/i18n";
 import DateRange from "./date-range";
 
 function CustomRangeDialog({ open, onClose, currentRange, setRange }) {
