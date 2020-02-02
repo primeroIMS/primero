@@ -61,15 +61,15 @@ On MacOS:
 
     $ #If xcode-select is not installed yet, install it.
     $ xcode-select --install
-    $ brew install libpq imagemagick postgresql
+    $ brew install libpq imagemagick postgresql libsodium
 
 On Ubuntu:
 
-    $ sudo apt-get install -y libpq imagemagick
+    $ sudo apt-get install -y libpq imagemagick libsodium
 
 On Fedora:
 
-    $ sudo dnf install postgresql-devel ImageMagick
+    $ sudo dnf install postgresql-devel ImageMagick libsodium-devel
 
 ### Starting development
 
