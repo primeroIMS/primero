@@ -21,6 +21,7 @@ module Api::V2
     def create
       authorize! :create, BulkExport
       authorize_export!
+      BulkExport.validate_password!(export_params[:password])
       @export = ExportService.build(export_params, current_user)
       @export.mark_started!
       ExportService.enqueue(@export, export_params[:password])

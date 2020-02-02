@@ -9,6 +9,7 @@ class BulkExport < ApplicationRecord
   COMPLETE = 'job.status.complete'     # The job completed successfully
   ARCHIVED = 'job.status.archived'     # The job's files have been cleaned up
   ARCHIVE_CUTOFF = 30                  # days
+  PASSWORD_LENGTH = 8
 
   scope :owned, ->(owner_user_name) { where(owned_by: owner_user_name) }
 
@@ -21,6 +22,10 @@ class BulkExport < ApplicationRecord
   validates :export_file, file_size: { less_than_or_equal_to: 50.megabytes }, if: -> { export_file.attached? }
 
   before_save :generate_file_name
+
+  def self.validate_password!(password)
+    raise(Errors::InvalidPrimeroEntityType, 'Password is too weak') if password.length < PASSWORD_LENGTH
+  end
 
   def export(password)
     process_records_in_batches(500) do |records_batch|

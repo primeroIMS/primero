@@ -75,7 +75,7 @@ describe Api::V2::BulkExportsController, type: :request do
 
   describe 'POST /api/v2/exports' do
     before do
-      @password = 'password'
+      @password = 'password123'
       @password_encrypted = 'password_encrypted'
       allow(EncryptionService).to receive(:encrypt).with(@password).and_return(@password_encrypted)
       allow(EncryptionService).to receive(:decrypt).with(@password_encrypted).and_return(@password)
@@ -139,6 +139,23 @@ describe Api::V2::BulkExportsController, type: :request do
       post '/api/v2/exports', params: params
 
       expect(response).to have_http_status(403)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/exports')
+    end
+
+    it 'refuses export if provided with a weak password' do
+      login_for_test(permissions: [@export_permission])
+      params = {
+        data: {
+          record_type: 'case',
+          format: 'json',
+          file_name: 'test.json',
+          password: 'weak'
+        }
+      }
+      post '/api/v2/exports', params: params
+
+      expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/exports')
     end
