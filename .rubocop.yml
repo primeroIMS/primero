@@ -12,6 +12,7 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Exclude:
     - Gemfile*
+    - spec/**/*
 
 Metrics/MethodLength:
   Exclude:
