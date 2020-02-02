@@ -8,7 +8,7 @@ class BulkExport < ApplicationRecord
   TERMINATED = 'job.status.terminated' # The job terminated due to an error
   COMPLETE = 'job.status.complete'     # The job completed successfully
   ARCHIVED = 'job.status.archived'     # The job's files have been cleaned up
-  ARCHIVE_CUTOFF = 30.days.ago
+  ARCHIVE_CUTOFF = 30                  # days
 
   scope :owned, ->(owner_user_name) { where(owned_by: owner_user_name) }
 
@@ -22,12 +22,12 @@ class BulkExport < ApplicationRecord
 
   before_save :generate_file_name
 
-  def export
+  def export(password)
     process_records_in_batches(500) do |records_batch|
       exporter.export(records_batch, owner, custom_export_params || {})
     end
     exporter.complete
-    encrypt_export_file
+    encrypt_export_file(password)
     attach_export_file
     mark_completed!
   end
@@ -43,16 +43,6 @@ class BulkExport < ApplicationRecord
 
   def exporter
     @exporter ||= exporter_type.new(stored_file_name)
-  end
-
-  def password
-    # TODO: Add encryption
-    password_ciphertext
-  end
-
-  def password=(password)
-    # TODO: Add encryption
-    self.password_ciphertext = password
   end
 
   def search_filters
@@ -77,14 +67,12 @@ class BulkExport < ApplicationRecord
   def mark_completed!
     self.status = COMPLETE
     self.completed_on = DateTime.now
-    self.password_ciphertext = nil # TODO: yes yes, I know
     # TODO: Log this
     save!
   end
 
   def mark_terminated!
     self.status = TERMINATED
-    self.password_ciphertext = nil
     save!
   end
 
@@ -138,7 +126,7 @@ class BulkExport < ApplicationRecord
     File.delete(encrypted_file_name)
   end
 
-  def encrypt_export_file
+  def encrypt_export_file(password)
     return unless stored_file_name && File.size?(stored_file_name) && password
 
     encrypt = Zip::TraditionalEncrypter.new(password)

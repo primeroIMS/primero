@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 module Api::V2
+  # API endpoint for generating exports, in bulk or for individual records
   class BulkExportsController < ApplicationApiController
-    include Concerns::Pagination
+    include Api::V2::Concerns::Pagination
 
     def index
       authorize! :index, BulkExport
@@ -20,9 +21,9 @@ module Api::V2
     def create
       authorize! :create, BulkExport
       authorize_export!
-      @export = BulkExportBuilderService.build(bulk_export_params, current_user)
+      @export = ExportService.build(export_params, current_user)
       @export.mark_started!
-      BulkExportJob.perform_later(@export.id)
+      ExportService.enqueue(@export, export_params[:password])
     end
 
     def destroy
@@ -42,13 +43,13 @@ module Api::V2
     private
 
     def authorize_export!
-      action = "export_#{bulk_export_params[:format]}".to_sym
-      record_model = bulk_export_params[:record_type] && Record.model_from_name(bulk_export_params[:record_type])
+      action = "export_#{export_params[:format]}".to_sym
+      record_model = export_params[:record_type] && Record.model_from_name(export_params[:record_type])
       authorize! action, record_model
     end
 
-    def bulk_export_params
-      @bulk_export_params ||= params.require(:data).permit(
+    def export_params
+      @export_params ||= params.require(:data).permit(
         :record_type, :format,
         :order, :query, :file_name, :password,
         { custom_export_params: {} }, { filters: {} },

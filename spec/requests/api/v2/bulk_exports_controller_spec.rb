@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::V2::BulkExportsController, type: :request do
@@ -14,15 +16,20 @@ describe Api::V2::BulkExportsController, type: :request do
         Permission::EXPORT_JSON
       ]
     )
-    @export1 = BulkExport.create!(status: BulkExport::COMPLETE, record_type: 'case', format: 'json', file_name: 'export1', owned_by: fake_user_name)
-    @export2 = BulkExport.create!(status: BulkExport::COMPLETE, record_type: 'case', format: 'json', file_name: 'export2', owned_by: fake_user_name)
-    @export3 = BulkExport.create!(status: BulkExport::COMPLETE, record_type: 'case', format: 'json', file_name: 'export3', owned_by: 'other_user')
+    @export1 = BulkExport.create!(
+      status: BulkExport::COMPLETE, record_type: 'case', format: 'json', file_name: 'export1', owned_by: fake_user_name
+    )
+    @export2 = BulkExport.create!(
+      status: BulkExport::COMPLETE, record_type: 'case', format: 'json', file_name: 'export2', owned_by: fake_user_name
+    )
+    @export3 = BulkExport.create!(
+      status: BulkExport::COMPLETE, record_type: 'case', format: 'json', file_name: 'export3', owned_by: 'other_user'
+    )
   end
 
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/exports' do
-
     it 'lists all permitted exports and accompanying metadata' do
       login_for_test(permissions: [@export_permission])
       get '/api/v2/exports'
@@ -43,11 +50,9 @@ describe Api::V2::BulkExportsController, type: :request do
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/exports')
     end
-
   end
 
   describe 'GET /api/v2/exports/:id' do
-
     it 'displays the correct record' do
       login_for_test(permissions: [@export_permission])
       get "/api/v2/exports/#{@export1.id}"
@@ -66,10 +71,15 @@ describe Api::V2::BulkExportsController, type: :request do
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq("/api/v2/exports/#{@export3.id}")
     end
-
   end
 
   describe 'POST /api/v2/exports' do
+    before do
+      @password = 'password'
+      @password_encrypted = 'password_encrypted'
+      allow(EncryptionService).to receive(:encrypt).with(@password).and_return(@password_encrypted)
+      allow(EncryptionService).to receive(:decrypt).with(@password_encrypted).and_return(@password)
+    end
 
     context 'valid export request' do
       before do
@@ -79,7 +89,7 @@ describe Api::V2::BulkExportsController, type: :request do
             record_type: 'case',
             format: 'json',
             file_name: 'test.json',
-            password: 'password'
+            password: @password
           }
         }
         post '/api/v2/exports', params: params
@@ -94,7 +104,7 @@ describe Api::V2::BulkExportsController, type: :request do
 
       it 'triggers an export job' do
         expect(BulkExportJob).to have_been_enqueued
-          .with(json['data']['id'])
+          .with(json['data']['id'], @password_encrypted)
           .at_least(:once)
       end
     end
@@ -106,7 +116,7 @@ describe Api::V2::BulkExportsController, type: :request do
           record_type: 'incident',
           format: 'json',
           file_name: 'test.json',
-          password: 'password'
+          password: @password
         }
       }
       post '/api/v2/exports', params: params
@@ -123,7 +133,7 @@ describe Api::V2::BulkExportsController, type: :request do
           record_type: 'case',
           format: 'csv',
           file_name: 'test.json',
-          password: 'password'
+          password: @password
         }
       }
       post '/api/v2/exports', params: params
@@ -132,7 +142,6 @@ describe Api::V2::BulkExportsController, type: :request do
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/exports')
     end
-
   end
 
   describe 'DELETE /api/v2/exports/:id' do
@@ -159,6 +168,4 @@ describe Api::V2::BulkExportsController, type: :request do
   after :each do
     clean_data(BulkExport, Child, User)
   end
-
-
 end
