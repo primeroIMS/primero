@@ -10,6 +10,7 @@ import * as Dashboard from "./components/pages/dashboard";
 import * as ExportList from "./components/pages/export-list";
 import { reducers as loginReducers } from "./components/pages/login/login-form";
 import { reducers as idpReducers } from "./components/pages/login";
+import { reducers as requestApprovalReducers } from "./components/record-actions/request-approval";
 import * as PotentialMatches from "./components/pages/potential-matches";
 import * as Report from "./components/pages/report";
 import * as Reports from "./components/pages/reports-list";
@@ -33,7 +34,7 @@ const rootReducer = {
       ...Object.keys(RECORD_TYPES).reduce((r, i) => {
         const o = r;
 
-        o[i] = reduceReducers(Records.reducers(i), IndexFilters.reducers(i));
+        o[i] = reduceReducers(Records.reducers(i), IndexFilters.reducers(i), requestApprovalReducers(i));
 
         return o;
       }, {})
