@@ -66,7 +66,7 @@ class Approval < ValueObject
       record.send("#{fields[:approval_type]}=", approval_type)
     end
 
-    record.approval_subforms = record.approval_subforms || []
+    record.approval_subforms ||= []
     record.approval_subforms << approval_request_action(Approval::APPROVAL_STATUS_PENDING, approval_id, user_name)
   end
 
