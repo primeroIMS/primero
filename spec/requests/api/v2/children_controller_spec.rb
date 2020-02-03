@@ -48,9 +48,12 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['metadata']['total']).to eq(3)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
-      expect(json['data'][0]['alert_count']).to eq(2)
-      expect(json['data'][1]['alert_count']).to eq(1)
-      expect(json['data'][2]['alert_count']).to eq(0)
+      case1_data = json['data'].find { |r| r['id'] == @case1.id }
+      expect(case1_data['alert_count']).to eq(0)
+      case2_data = json['data'].find { |r| r['id'] == @case2.id }
+      expect(case2_data['alert_count']).to eq(2)
+      case3_data = json['data'].find { |r| r['id'] == @case3.id }
+      expect(case3_data['alert_count']).to eq(1)
     end
 
     it 'shows relevant fields' do

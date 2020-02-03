@@ -34,11 +34,6 @@ describe Reopenable do
     it 'logs the user responsible for the reopen in the reopen log' do
       expect(@child.reopened_logs.last['reopened_user']).to eq('reopen_user')
     end
-
-    after :each do
-      Child.destroy_all
-    end
-
   end
 
   describe 'automatic record reopens' do
@@ -77,11 +72,24 @@ describe Reopenable do
       expect(@child.case_status_reopened).to be_falsey
       expect(@child.reopened_logs.size).to eq(0)
     end
+  end
 
-    after :each do
-      Child.destroy_all
+  describe 'close record' do
+    let(:child) { Child.create!(name: 'test') }
+
+    it 'marks the closure date if the child is closed' do
+      child.update_attributes(status: Record::STATUS_CLOSED)
+      expect(child.date_closure.present?).to be_truthy
     end
 
+    it 'keeps the closure date blank is the child is still open' do
+      child.update_attributes(name: 'Test 1')
+      expect(child.date_closure.present?).to be_falsey
+    end
+  end
+
+  after :each do
+    clean_data(Child)
   end
 
 end

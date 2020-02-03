@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------- BUILD STAGE
-FROM ruby:2.6.2-alpine3.9 AS build-env
+FROM ruby:2.6.5-alpine3.11 AS build-env
 
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git python
 ENV BUILD_DEP_PACKAGES postgresql-dev
@@ -85,7 +85,7 @@ RUN set -euox pipefail \
 
 # -------------------------------------------------------------------- FINAL
 
-FROM ruby:2.6.2-alpine3.9
+FROM ruby:2.6.5-alpine3.11
 
 ENV BUILD_PACKAGES bash
 ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick

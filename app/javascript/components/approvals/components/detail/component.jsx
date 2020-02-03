@@ -25,7 +25,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
       : i18n.t(`approvals.${approvalSubform.get("approval_response_for")}`);
 
   const renderCasePlanType =
-    isResponse ||
+    approvalSubform.get("approval_response_for") === CASE_PLAN ||
     approvalSubform.get("approval_requested_for") === CASE_PLAN ? (
       <Grid item md={6} xs={12}>
         <Box className={css.spaceGrid}>
@@ -47,6 +47,17 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
     renderApprovedByLabel = i18n.t("approvals.rejected_by");
   }
 
+  const renderManagerComments = isResponse ? (
+    <Grid item md={12} xs={12}>
+      <Box>
+        <DisplayData
+          label={i18n.t("approvals.manager_comments_label")}
+          value={approvalSubform.get("approval_manager_comments")}
+        />
+      </Box>
+    </Grid>
+  ) : null;
+
   return (
     <>
       <Grid container spacing={2}>
@@ -67,14 +78,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
           </Box>
         </Grid>
         {renderCasePlanType}
-        <Grid item md={12} xs={12}>
-          <Box>
-            <DisplayData
-              label={i18n.t("approvals.manager_comments_label")}
-              value={approvalSubform.get("approval_manager_comments")}
-            />
-          </Box>
-        </Grid>
+        {renderManagerComments}
       </Grid>
     </>
   );

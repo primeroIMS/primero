@@ -46,7 +46,10 @@ export const ACTIONS = {
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   TRANSFER: "transfer",
-  WRITE: "write"
+  WRITE: "write",
+  REQUEST_APPROVAL_BIA: "request_approval_bia",
+  REQUEST_APPROVAL_CASE_PLAN: "request_approval_case_plan",
+  REQUEST_APPROVAL_CLOSURE: "request_approval_closure"
 };
 
 const MANAGE = [ACTIONS.MANAGE];
@@ -110,6 +113,13 @@ export const SHOW_TASKS = [...MANAGE, ACTIONS.DASH_TASKS];
 export const ADD_INCIDENT = [...MANAGE, ACTIONS.INCIDENT_DETAILS_FROM_CASE];
 
 export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
+
+export const REQUEST_APPROVAL = [
+  ...MANAGE,
+  ACTIONS.REQUEST_APPROVAL_BIA,
+  ACTIONS.REQUEST_APPROVAL_CASE_PLAN,
+  ACTIONS.REQUEST_APPROVAL_CLOSURE
+];
 
 export const SHOW_EXPORTS = [
   ...MANAGE,
