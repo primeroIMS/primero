@@ -39,8 +39,8 @@ export const WORKFLOW_ORDER_NAMES = Object.freeze([
 ]);
 
 export const PROTECTION_CONCERNS_ORDER_NAMES = Object.freeze([
-  "protection_concerns_all_cases",
-  "protection_concerns_open_cases",
-  "protection_concerns_new_this_week",
-  "protection_concerns_closed_this_week"
+  INDICATOR_NAMES.PROTECTION_CONCERNS_ALL_CASES,
+  INDICATOR_NAMES.PROTECTION_CONCERNS_OPEN_CASES,
+  INDICATOR_NAMES.PROTECTION_CONCERNS_NEW_THIS_WEEK,
+  INDICATOR_NAMES.PROTECTION_CONCERNS_CLOSED_THIS_WEEK
 ]);
