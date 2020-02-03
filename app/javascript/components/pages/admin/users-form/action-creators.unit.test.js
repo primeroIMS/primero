@@ -1,6 +1,6 @@
 import { expect, stub } from "../../../../test/unit-test-helpers";
 import { RECORD_PATH } from "../../../../config";
-import * as notifier from "../../../notifier";
+import { ENQUEUE_SNACKBAR, generate }  from "../../../notifier";
 
 import * as actionsCreators from "./action-creators";
 import actions from "./actions";
@@ -29,7 +29,7 @@ describe("<UsersForm /> - Action Creators", () => {
   });
 
   it("should check that 'saveUser' action creator returns the correct object", () => {
-    stub(notifier.generate, "messageKey").returns(4);
+    stub(generate, "messageKey").returns(4);
 
     const args = {
       id: 10,
@@ -47,7 +47,7 @@ describe("<UsersForm /> - Action Creators", () => {
         method: "PATCH",
         body: args.body,
         successCallback: {
-          action: notifier.ENQUEUE_SNACKBAR,
+          action: ENQUEUE_SNACKBAR,
           payload: {
             message: args.message,
             options: {
@@ -62,5 +62,7 @@ describe("<UsersForm /> - Action Creators", () => {
     };
 
     expect(actionsCreators.saveUser(args)).to.deep.equal(expectedAction);
+
+    generate.messageKey.restore();
   });
 });

@@ -15,6 +15,7 @@ import {
   ADD_NOTE,
   ADD_INCIDENT,
   ADD_SERVICE,
+  REQUEST_APPROVAL,
   SHOW_EXPORTS,
   checkPermissions
 } from "../../libs/permissions";
@@ -27,6 +28,7 @@ import { ToggleOpen } from "./toggle-open";
 import { Transitions } from "./transitions";
 import AddIncident from "./add-incident";
 import AddService from "./add-service";
+import RequestApproval from "./request-approval";
 import Exports from "./exports";
 
 const Container = ({
@@ -41,6 +43,7 @@ const Container = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openNotesDialog, setOpenNotesDialog] = useState(false);
+  const [requestDialog, setRequestDialog] = useState(false);
   const [transitionType, setTransitionType] = useState("");
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
   const [incidentDialog, setIncidentDialog] = useState(false);
@@ -99,6 +102,28 @@ const Container = ({
     ACTIONS.TRANSFER
   ]);
 
+  const canRequest = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.REQUEST_APPROVAL_BIA,
+    ACTIONS.REQUEST_APPROVAL_CASE_PLAN,
+    ACTIONS.REQUEST_APPROVAL_CLOSURE
+  ]);
+
+  const canRequestBia = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.REQUEST_APPROVAL_BIA
+  ]);
+
+  const canRequestCasePlan = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.REQUEST_APPROVAL_CASE_PLAN
+  ]);
+
+  const canRequestClosure = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.REQUEST_APPROVAL_CLOSURE
+  ]);
+
   const canAddIncident = checkPermissions(userPermissions, ADD_INCIDENT);
 
   const canAddService = checkPermissions(userPermissions, ADD_SERVICE);
@@ -150,6 +175,14 @@ const Container = ({
 
   const handleNotesOpen = () => {
     setOpenNotesDialog(true);
+  };
+
+  const handleRequestClose = () => {
+    setRequestDialog(false);
+  };
+
+  const handleRequestOpen = () => {
+    setRequestDialog(true);
   };
 
   const handleIncidentDialog = () => {
@@ -228,6 +261,12 @@ const Container = ({
       condition: canAddNotes
     },
     {
+      name: i18n.t("actions.request_approval"),
+      action: handleRequestOpen,
+      recordType: "all",
+      condition: canRequest
+    },
+    {
       name: i18n.t("cases.export"),
       action: handleExportsOpen,
       recordType: RECORD_TYPES.all,
@@ -253,35 +292,59 @@ const Container = ({
     />
   );
 
-  const actionItems = actions
-    .filter(a => {
-      const actionCondition = typeof a.condition === "undefined" || a.condition;
+  const filterItems = items => items.filter(a => {
+    const actionCondition = typeof a.condition === "undefined" || a.condition;
 
-      if (showListActions) {
-        return a.recordListAction && actionCondition;
-      }
+    if (showListActions) {
+      return a.recordListAction && actionCondition;
+    }
 
-      return (
-        (a.recordType === RECORD_TYPES.all ||
-          a.recordType === recordType ||
-          (Array.isArray(a.recordType) && a.recordType.includes(recordType))) &&
-        actionCondition
-      );
-    })
-    .map(action => {
-      const disabled = showListActions && !selectedRecords.length;
+    return (
+      (a.recordType === RECORD_TYPES.all ||
+        a.recordType === recordType ||
+        (Array.isArray(a.recordType) && a.recordType.includes(recordType))) &&
+      actionCondition
+    );
+  });
 
-      return (
-        <MenuItem
-          key={action.name}
-          selected={action.name === "Pyxis"}
-          onClick={() => handleItemAction(action.action)}
-          disabled={disabled}
-        >
-          {action.name}
-        </MenuItem>
-      );
-    });
+  const filteredActions = filterItems(actions);
+  const actionItems = filteredActions?.map(action => {
+    const disabled = showListActions && !selectedRecords.length;
+
+    return (
+      <MenuItem
+        key={action.name}
+        selected={action.name === "Pyxis"}
+        onClick={() => handleItemAction(action.action)}
+        disabled={disabled}
+      >
+        {action.name}
+      </MenuItem>
+    );
+  });
+
+  const requestsApproval = [
+    {
+      name: "Assessment",
+      condition: canRequestBia,
+      recordType: RECORD_TYPES.all,
+      value: "bia"
+    },
+    {
+      name: "Case Plan",
+      condition: canRequestCasePlan,
+      recordType: RECORD_TYPES.all,
+      value: "case_plan"
+    },
+    {
+      name: "Closure",
+      condition: canRequestClosure,
+      recordType: RECORD_TYPES.all,
+      value: "closure"
+    }
+  ];
+
+  const allowedRequestsApproval = filterItems(requestsApproval);
 
   return (
     <>
@@ -337,6 +400,16 @@ const Container = ({
         <Notes
           close={handleNotesClose}
           openNotesDialog={openNotesDialog}
+          record={record}
+          recordType={recordType}
+        />
+      </Permission>
+
+      <Permission resources={recordType} actions={REQUEST_APPROVAL}>
+        <RequestApproval
+          openRequestDialog={requestDialog}
+          close={() => handleRequestClose()}
+          subMenuItems={allowedRequestsApproval}
           record={record}
           recordType={recordType}
         />

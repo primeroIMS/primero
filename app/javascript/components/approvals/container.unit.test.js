@@ -11,65 +11,54 @@ import ApprovalPanel from "./components/panel";
 
 describe("<Approvals /> - Component", () => {
   let component;
+
   const props = {
-    approvals: fromJS({})
+    approvals: fromJS([
+      {
+        unique_id: "6e96ab79-d786-4117-a48c-c99194741beb",
+        approved_by: "primero",
+        approval_date: "2020-01-01",
+        approval_status: "rejected",
+        approval_for_type: "Action Plan",
+        approval_response_for: "assessment",
+        approval_requested_for: null,
+        approval_manager_comments: "First comment"
+      },
+      {
+        unique_id: "670332c6-1f1d-415d-9df5-1d94039ce79a",
+        approved_by: "primero1",
+        approval_date: "2020-01-02",
+        approval_status: "approved",
+        approval_for_type: "Service Provision",
+        approval_response_for: "bia",
+        approval_requested_for: null,
+        approval_manager_comments: "This is the second comment"
+      },
+      {
+        unique_id: "dab91917-3fbd-4cde-bf42-b09df19dbf08",
+        approved_by: "primero2",
+        approval_date: "2020-01-03",
+        approval_status: "requested",
+        approval_for_type: null,
+        approval_response_for: null,
+        approval_requested_for: "closure",
+        approval_manager_comments: "This is third comment"
+      },
+      {
+        unique_id: "e6952ae6-3515-4000-a6c2-b8dcd93cb28a",
+        approved_by: "primero3",
+        approval_date: "2020-01-04",
+        approval_status: "requested",
+        approval_for_type: "Case Plan",
+        approval_response_for: null,
+        approval_requested_for: "case_plan",
+        approval_manager_comments: "This is the last comment"
+      }
+    ])
   };
-  const initialState = Map({
-    records: Map({
-      approvals: Map({
-        data: List([
-          {
-            id: "6b0018e7-d421-4d6b-80bf-ca4cbf488907",
-            approval_subforms: List([
-              {
-                unique_id: "6e96ab79-d786-4117-a48c-c99194741beb",
-                approved_by: "primero",
-                approval_date: "2020-01-01",
-                approval_status: "requested",
-                approval_for_type: "Action Plan",
-                approval_response_for: "assessment",
-                approval_requested_for: null,
-                approval_manager_comments: "First comment"
-              },
-              {
-                unique_id: "670332c6-1f1d-415d-9df5-1d94039ce79a",
-                approved_by: "primero1",
-                approval_date: "2020-01-02",
-                approval_status: "approved",
-                approval_for_type: "Service Provision",
-                approval_response_for: "bia",
-                approval_requested_for: null,
-                approval_manager_comments: "This is the second comment"
-              },
-              {
-                unique_id: "dab91917-3fbd-4cde-bf42-b09df19dbf08",
-                approved_by: "primero2",
-                approval_date: "2020-01-03",
-                approval_status: "requested",
-                approval_for_type: null,
-                approval_response_for: null,
-                approval_requested_for: "closure",
-                approval_manager_comments: "This is third comment"
-              },
-              {
-                unique_id: "e6952ae6-3515-4000-a6c2-b8dcd93cb28a",
-                approved_by: "primero3",
-                approval_date: "2020-01-04",
-                approval_status: "requested",
-                approval_for_type: "Case Plan",
-                approval_response_for: null,
-                approval_requested_for: "case_plan",
-                approval_manager_comments: "This is the last comment"
-              }
-            ])
-          }
-        ])
-      })
-    })
-  });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(Approvals, props, initialState));
+    ({ component } = setupMountedComponent(Approvals, props, {}));
   });
 
   it("renders Approvals component", () => {
@@ -90,5 +79,24 @@ describe("<Approvals /> - Component", () => {
       delete approvalsProps[property];
     });
     expect(approvalsProps).to.be.empty;
+  });
+
+  describe("When we don't have data", () => {
+    let component;
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(Approvals, fromJS([]), {}));
+    });
+
+    it("renders Approvals component", () => {
+      expect(component.find(Approvals)).to.have.length(1);
+    });
+    it("not renders ApprovalPanel only the title", () => {
+      expect(component.find(ApprovalPanel)).to.have.lengthOf(0);
+      expect(component.find("h1")).to.have.lengthOf(1);
+      expect(component.find("h1").text()).to.equal(
+        "forms.record_types.approvals"
+      );
+    });
   });
 });
