@@ -5,53 +5,39 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { useI18n } from "../../i18n";
 
-const TransferActionMenu = ({ transition }) => {
+import TransferApproval from "./transfer-approval";
+
+const TransferActionMenu = ({ transition, recordType }) => {
   const i18n = useI18n();
   const [transferMenu, setTransferMenu] = useState(null);
-  const [acceptOpen, setAcceptOpen] = useState(true);
-  const [rejectOpen, setRejectOpen] = useState(true);
-
+  const [approvalOpen, setApprovalOpen] = useState(false);
+  const [approvalType, setApprovalType] = useState("accepted");
   const handleTransferMenuClose = () => {
     setTransferMenu(null);
   };
 
-  const handleAcceptOpen = () => {
-    setAcceptOpen(true);
+  const handleAcceptOpen = event => {
+    event.stopPropagation();
+    handleTransferMenuClose();
+    setApprovalType("accepted");
+    setApprovalOpen(true);
   };
 
-  const handleRejectOpen = () => {
-    setRejectOpen(true);
+  const handleRejectOpen = event => {
+    event.stopPropagation();
+    handleTransferMenuClose();
+    setApprovalType("rejected");
+    setApprovalOpen(true);
   };
 
   const handleTransferMenuClick = event => {
+    event.stopPropagation();
     setTransferMenu(event.currentTarget);
   };
 
-  // const handleItemAction = itemAction => {
-  //   handleClose();
-  //   itemAction();
-  // };
-
-  const actionItems = (
-    <>
-      <MenuItem
-        key="approve"
-        selected={action.name === "Pyxis"}
-        onClick={handleAcceptOpen}
-        disabled={disabled}
-      >
-        {"Approve"}
-      </MenuItem>
-      <MenuItem
-        key="reject"
-        selected={action.name === "Pyxis"}
-        onClick={handleRejectOpen}
-        disabled={disabled}
-      >
-        {"Reject"}
-      </MenuItem>
-    </>
-  );
+  const handleClose = () => {
+    setApprovalOpen(false);
+  }
 
   return (
     <>
@@ -61,7 +47,7 @@ const TransferActionMenu = ({ transition }) => {
         aria-haspopup="true"
         onClick={handleTransferMenuClick}
       >
-        <MoreVertIcon color={iconColor} />
+        <MoreVertIcon />
       </IconButton>
       <Menu
         id="long-menu"
@@ -70,14 +56,39 @@ const TransferActionMenu = ({ transition }) => {
         open={Boolean(transferMenu)}
         onClose={handleTransferMenuClose}
       >
-        {actionItems}
+        <MenuItem
+          key="approve"
+          selected={false}
+          onClick={handleAcceptOpen}
+          disabled={false}
+        >
+          {"Approve"}
+        </MenuItem>
+        <MenuItem
+          key="reject"
+          selected={false}
+          onClick={handleRejectOpen}
+          disabled={false}
+        >
+          {"Reject"}
+        </MenuItem>
       </Menu>
+
+      <TransferApproval
+        openTransferDialog={approvalOpen}
+        close={handleClose}
+        approvalType={approvalType}
+        recordId={transition.record_id}
+        transferId={transition.id}
+        recordType={recordType}
+      />
     </>
   );
 };
 
 TransferActionMenu.propTypes = {
-  transition: PropTypes.object
+  transition: PropTypes.object,
+  recordType: PropTypes.string
 };
 
 export default TransferActionMenu;

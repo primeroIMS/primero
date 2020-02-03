@@ -37,7 +37,7 @@ const Transitions = ({ isReferral, recordType, record }) => {
       case "Assign":
         return <AssignmentsSummary transition={transition} classes={css} />;
       case "Transfer":
-        return <TransferSummary transition={transition} classes={css} currentUser={currentUser} />;
+        return <TransferSummary transition={transition} classes={css} currentUser={currentUser} recordType={recordType} />;
       case "Referral":
         return <ReferralSummary transition={transition} classes={css} />;
       case "TransferRequest":

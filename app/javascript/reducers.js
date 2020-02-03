@@ -25,6 +25,7 @@ import * as TransitionsForms from "./components/transitions";
 import * as User from "./components/user";
 import * as IndexFilters from "./components/index-filters";
 import * as TransferRequest from "./components/record-list/view-modal/transfer-request";
+import { reducers as transferApprovalReducers } from "./components/transitions/transfers/transfer-approval";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -33,7 +34,11 @@ const rootReducer = {
       ...Object.keys(RECORD_TYPES).reduce((r, i) => {
         const o = r;
 
-        o[i] = reduceReducers(Records.reducers(i), IndexFilters.reducers(i));
+        o[i] = reduceReducers(
+          Records.reducers(i),
+          IndexFilters.reducers(i),
+          transferApprovalReducers(i)
+        );
 
         return o;
       }, {})
