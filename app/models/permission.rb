@@ -12,7 +12,7 @@ class Permission < ValueObject
   # It associates other roles with this ROLE permission
   # That restricts this role to only be able to manage those associated roles
   # If the role_unique_ids property is empty on a ROLE permission, then that allows this role to manage all other ROLES
-  attr_accessor :resource, :actions, :role_unique_ids, :agency_ids
+  attr_accessor :resource, :actions, :role_unique_ids, :agency_unique_ids
 
   READ = 'read'
   WRITE = 'write'
@@ -325,7 +325,7 @@ class Permission < ValueObject
       object_hash = {}
       json_hash = permissions.inject({}) do |hash, permission|
         hash[permission.resource] = permission.actions
-        object_hash[Permission::AGENCY] = permission.agency_ids if permission.agency_ids
+        object_hash[Permission::AGENCY] = permission.agency_unique_ids if permission.agency_unique_ids
         object_hash[Permission::ROLE] = permission.role_unique_ids if permission.role_unique_ids
         hash
       end
@@ -344,7 +344,7 @@ class Permission < ValueObject
             permission.role_unique_ids = object_hash[Permission::ROLE]
           end
           if resource == Permission::AGENCY && object_hash.key?(Permission::AGENCY)
-            permission.agency_ids = object_hash[Permission::AGENCY]
+            permission.agency_unique_ids = object_hash[Permission::AGENCY]
           end
         end
         permission

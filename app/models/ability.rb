@@ -131,7 +131,7 @@ class Ability
     actions = permission.action_symbols
     can actions, Agency do |instance|
       if ([Permission::ASSIGN, Permission::READ, Permission::WRITE].map(&:to_sym) & actions).present?
-        permission.agency_ids.present? ? (permission.agency_ids.include? instance.id) : true
+        permission.agency_unique_ids.present? ? (permission.agency_unique_ids.include? instance.unique_id) : true
       else
         true
       end

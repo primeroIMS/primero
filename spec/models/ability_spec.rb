@@ -718,7 +718,7 @@ describe Ability do
         before :each do
           @permission_agency_specific_read = Permission.new(
             resource: Permission::AGENCY, actions: [Permission::READ],
-            agency_ids: [@agency1.id]
+            agency_unique_ids: [@agency1.unique_id]
           )
           @role_agency_specific_read = create(
             :role,
@@ -749,7 +749,7 @@ describe Ability do
       context "is set with read write access" do
         before :each do
           @permission_agency_specific_read_write = Permission.new(resource: Permission::AGENCY, actions: [Permission::READ, Permission::WRITE, Permission::CREATE],
-                                                                  agency_ids: [@agency1.id, @agency3.id])
+                                                                  agency_unique_ids: [@agency1.unique_id, @agency3.unique_id])
           @role_agency_specific_read_write = create :role, permissions: [@permission_agency_specific_read_write], group_permission: Permission::GROUP
           @user1.role = @role_agency_specific_read_write
           @user1.save
