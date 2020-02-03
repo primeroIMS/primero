@@ -329,7 +329,9 @@ class Filter < ValueObject
           { id: 'date_case_plan', display_name: I18n.t('children.selectable_date_options.date_case_plan_initiated', locale: locale) },
           { id: 'date_closure', display_name: I18n.t('children.selectable_date_options.closure_approved_date', locale: locale) },
         ]
-        locale_options << { id: 'created_at', display_name: I18n.t('children.selectable_date_options.created_at', locale: locale) } if user.has_module?(PrimeroModule::GBV)
+        date_label = user.has_module?(PrimeroModule::GBV) ? 'created_at' : 'date_of_creation'
+        locale_options << { id: 'created_at',
+                            display_name: I18n.t("children.selectable_date_options.#{date_label}", locale: locale) }
         { locale => locale_options }
       end.inject(&:merge)
     when 'incidents_by_date'
