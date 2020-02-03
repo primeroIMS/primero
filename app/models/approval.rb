@@ -66,17 +66,16 @@ class Approval < ValueObject
       record.send("#{fields[:approval_type]}=", approval_type)
     end
 
-    record.approval_subforms = record.approval_subforms || []
+    record.approval_subforms ||= []
     record.approval_subforms << approval_request_action(Approval::APPROVAL_STATUS_PENDING, approval_id, user_name)
   end
 
   def approve!
-    raise(Errors::InvalidPrimeroEntityType, 'approvals.error_request_required') if record.approval_subforms.blank?
-
     record.send("#{fields[:approved]}=", true)
     record.send("#{fields[:approval_status]}=", Approval::APPROVAL_STATUS_APPROVED)
     record.send("#{fields[:approved_date]}=", Date.today)
     record.send("#{fields[:approved_comments]}=", comments) if comments.present?
+    record.approval_subforms ||= []
     record.approval_subforms << approval_response_action(
       Approval::APPROVAL_STATUS_APPROVED,
       approval_id,
@@ -86,12 +85,11 @@ class Approval < ValueObject
   end
 
   def reject!
-    raise(Errors::InvalidPrimeroEntityType, 'approvals.error_request_required') if record.approval_subforms.blank?
-
     record.send("#{fields[:approved]}=", false)
     record.send("#{fields[:approval_status]}=", Approval::APPROVAL_STATUS_REJECTED)
     record.send("#{fields[:approved_date]}=", Date.today)
     record.send("#{fields[:approved_comments]}=", comments) if comments.present?
+    record.approval_subforms ||= []
     record.approval_subforms << approval_response_action(
       Approval::APPROVAL_STATUS_REJECTED,
       approval_id,
