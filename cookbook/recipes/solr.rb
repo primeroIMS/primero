@@ -63,6 +63,16 @@ end
   end
 end
 
+# TODO: Hack as is in the line 79. make dinamic the gem of sunspot. sunspot_solr-2.3.0
+# For some reason solr try to log in this location despite the fact that we indicate a different one.
+another_log_base_dir = "#{node[:primero][:home_dir]}/.rvm/gems/ruby-#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}/gems/sunspot_solr-2.3.0/solr/server/logs"
+directory another_log_base_dir do
+  action :create
+  mode '0700'
+  owner node[:primero][:solr_user]
+  group node[:primero][:solr_group]
+end
+
 solr_memory = node[:primero][:solr_memory]
 memory_param = solr_memory ? "-m #{solr_memory}" : ""
 
@@ -85,7 +95,7 @@ supervisor_service 'solr' do
   user node[:primero][:solr_user]
   directory solr_bin_dir
   numprocs 1
-  action [:enable, :restart]
+  action [:enable, :stop, :start]
 end
 
 file "/etc/cron.daily/solr_restart" do
@@ -95,6 +105,8 @@ file "/etc/cron.daily/solr_restart" do
   content <<EOH
 #!/bin/bash
 
-supervisorctl restart solr
+supervisorctl stop solr
+sleep 10
+supervisorctl start solr
 EOH
 end

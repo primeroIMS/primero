@@ -1,0 +1,13 @@
+ar-JO:
+  exports:
+    incident_recorder_xls:
+      'yes': "نعم"
+      'no': "لا"
+      age_group:
+        age: "العمر"
+        unknown: "غير معروف"
+      age_type:
+        adult: "بالغ"
+        unknown: "غير معروف"
+      service_referral:
+        undecided: "لم يتم اتخاذ قرار وقت الإبلاغ"
