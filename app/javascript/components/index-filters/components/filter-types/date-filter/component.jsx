@@ -40,6 +40,7 @@ const Component = ({
   const [selectedField, setSelectedField] = useState(valueSelectedField || "");
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
+  const queryParamsKeys = Object.keys(queryParams);
 
   const handleDatePicker = (field, date) => {
     const value = { ...inputValue, [field]: date };
@@ -60,10 +61,15 @@ const Component = ({
     }
 
     setSelectedField(value);
-    // setInputValue({});
+    setValue(value, undefined);
 
     if (mode?.secondary) {
-      setMoreSectionFilters({ ...moreSectionFilters, [value]: {} });
+      handleMoreFiltersChange(
+        moreSectionFilters,
+        setMoreSectionFilters,
+        value,
+        {}
+      );
     }
   };
 
@@ -107,22 +113,17 @@ const Component = ({
         setSecondaryValues
       );
     } else if (
-      Object.keys(queryParams).length &&
+      queryParamsKeys.length &&
       !Object.keys(moreSectionFilters).length
     ) {
-      // WHEN IT COMES FROM SAVED SEARCHES OR DASHBOARDS
       const data = filter?.options?.[i18n.locale].find(option =>
-        Object.keys(queryParams).includes(option.id)
+        queryParamsKeys.includes(option.id)
       );
       const selectValue = data?.id;
       const datesValue = queryParams?.[selectValue];
 
-      // SET SELECT VALUE
       setSelectedField(selectValue);
-      // SET DATES VALUES
       setInputValue(datesValue);
-      // // SET FORM VALUE
-      // setValue(selectValue, datesValue);
     }
 
     return () => {
