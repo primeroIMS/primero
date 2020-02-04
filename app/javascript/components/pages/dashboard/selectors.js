@@ -92,3 +92,6 @@ export const getApprovalsClosurePending = state =>
 
 export const getApprovalsCasePlanPending = state =>
   getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CLOSURE_PENDING);
+
+export const getProtectionConcerns = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.PROTECTION_CONCERNS);

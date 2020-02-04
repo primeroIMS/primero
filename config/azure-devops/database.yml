@@ -1,0 +1,6 @@
+test:
+  adapter: postgresql
+  database: primero_test
+  username: postgres
+  password:
+  host: localhost
