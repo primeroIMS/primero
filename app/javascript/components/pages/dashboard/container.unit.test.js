@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { fromJS, Map, List } from "immutable";
 import { TableRow, TableBody } from "@material-ui/core";
+import MUIDataTable from "mui-datatables";
 
 import { setupMountedComponent } from "../../../test";
 import { OverviewBox } from "../../dashboard/overview-box";
@@ -386,6 +387,65 @@ describe("<Dashboard />", () => {
           .first()
           .text()
       ).to.be.equal("dashboard.pending_approvals");
+    });
+  });
+
+  describe("render protection concerns dashboards", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.dash_protection_concerns",
+                  type: "indicator",
+                  indicators: {
+                    protection_concerns_open_cases: {
+                      statelessness: {
+                        count: 2,
+                        query: []
+                      }
+                    },
+                    protection_concerns_new_this_week: {
+                      statelessness: {
+                        count: 1,
+                        query: []
+                      }
+                    },
+                    protection_concerns_all_cases: {
+                      statelessness: {
+                        count: 4,
+                        query: []
+                      }
+                    },
+                    protection_concerns_closed_this_week: {
+                      statelessness: {
+                        count: 1,
+                        query: []
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_PROTECTION_CONCERNS]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the DashboardTable", () => {
+      expect(component.find(DashboardTable)).to.have.lengthOf(1);
+      expect(component.find(MUIDataTable)).to.have.lengthOf(1);
+      expect(component.find(TableBody)).to.have.lengthOf(1);
+      expect(component.find(TableBody).find(TableRow)).to.have.lengthOf(1);
     });
   });
 });
