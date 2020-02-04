@@ -25,7 +25,7 @@ describe("<IndexFilters />/<Actions />", () => {
       .find("button")
       .at(1)
       .simulate("click");
-    expect(props.handleSave).to.have.not.been.calledOnce;
+    expect(props.handleSave).to.have.been.calledOnce;
   });
 
   it("triggers handleClear()", () => {
