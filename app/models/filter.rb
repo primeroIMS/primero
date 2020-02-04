@@ -208,9 +208,11 @@ class Filter < ValueObject
                 when 'incident' then incident_filters(user, model_class)
                 when 'tracing_request' then tracing_request_filter(user)
                 end
-      filters.each do |filter|
-        filter.with_options_for(user, record_type)
-        filter.resolve_type
+      filters.map do |filter|
+        value = filter.clone
+        value.with_options_for(user, record_type)
+        value.resolve_type
+        value
       end
     end
 

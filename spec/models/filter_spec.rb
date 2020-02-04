@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Filter do
   before :each do
-    clean_data(PrimeroProgram, FormSection, PrimeroModule, Role, Agency, User, SystemSettings)
+    clean_data(PrimeroProgram, Field, FormSection, PrimeroModule, Role, Agency, User, SystemSettings)
     @program = PrimeroProgram.create!(
       unique_id: 'primeroprogram-primero',
       name: 'Primero',
@@ -67,11 +67,13 @@ describe Filter do
       agency_id: @agency_a.id,
       role: @role_b
     )
-    @system_settings = SystemSettings.create(
+    SystemSettings.create!(
       primary_age_range: 'primary',
       age_ranges: { 'primary' => [1..2, 3..4] },
       default_locale: 'en'
     )
+    @system_settings = SystemSettings.current
+    SystemSettings.current(true)
   end
 
   it 'filter' do
@@ -96,6 +98,8 @@ describe Filter do
   end
 
   after do
-    clean_data(PrimeroProgram, FormSection, PrimeroModule, Role, Agency, User, SystemSettings)
+    clean_data(PrimeroProgram, Field, FormSection, PrimeroModule, Role, Agency, User, SystemSettings)
+    @system_settings.save!
+    SystemSettings.current(true)
   end
 end
