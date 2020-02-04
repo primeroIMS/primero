@@ -7,7 +7,7 @@ import { useI18n } from "../../i18n";
 
 import TransferApproval from "./transfer-approval";
 
-const TransferActionMenu = ({ transition, recordType }) => {
+const TransferActionMenu = ({ transition }) => {
   const i18n = useI18n();
   const [transferMenu, setTransferMenu] = useState(null);
   const [approvalOpen, setApprovalOpen] = useState(false);
@@ -80,15 +80,13 @@ const TransferActionMenu = ({ transition, recordType }) => {
         approvalType={approvalType}
         recordId={transition.record_id}
         transferId={transition.id}
-        recordType={recordType}
       />
     </>
   );
 };
 
 TransferActionMenu.propTypes = {
-  transition: PropTypes.object,
-  recordType: PropTypes.string
+  transition: PropTypes.object
 };
 
 export default TransferActionMenu;

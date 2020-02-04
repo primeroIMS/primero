@@ -5,12 +5,11 @@ import { APPROVE_TRANSFER } from "./actions";
 export const approvalTransfer = ({
   body,
   message,
-  recordType,
   recordId,
   transferId
 }) => {
   return {
-    type: `${recordType}/${APPROVE_TRANSFER}`,
+    type: APPROVE_TRANSFER,
     api: {
       path: `cases/${recordId}/transfers/${transferId}`,
       method: "PATCH",

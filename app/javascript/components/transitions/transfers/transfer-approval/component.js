@@ -15,7 +15,6 @@ const Component = ({
   close,
   approvalType,
   recordId,
-  recordType,
   transferId
 }) => {
 
@@ -36,6 +35,9 @@ const Component = ({
     setComment("");
   };
 
+  const stopProp = (event) => {
+    event.stopPropagation();
+  };
 
   const actionBody = {
     data: {
@@ -57,7 +59,6 @@ const Component = ({
       approvalTransfer({
         body: actionBody,
         message,
-        recordType,
         recordId,
         transferId
       })
@@ -90,7 +91,7 @@ const Component = ({
   ): null;
 
   const dialogContent = (
-    <form noValidate autoComplete="off">
+    <form noValidate autoComplete="off" onClick={stopProp}>
       <p>{i18n.t(`cases.transfer_${approvalType}`)}</p>
       {commentField}
     </form>
@@ -124,7 +125,6 @@ Component.propTypes = {
   close: PropTypes.func,
   openTransferDialog: PropTypes.bool,
   recordId: PropTypes.string,
-  recordType: PropTypes.string,
   transferId: PropTypes.string
 };
 

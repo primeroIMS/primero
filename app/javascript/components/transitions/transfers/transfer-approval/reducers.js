@@ -3,29 +3,47 @@ import { fromJS } from "immutable";
 import { mergeRecord } from "../../../../libs";
 
 import { APPROVE_TRANSFER_SUCCESS } from "./actions";
+import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = fromJS({ data: [] });
 
-export const reducers = namespace => (
-  state = DEFAULT_STATE,
-  { type, payload }
-) => {
+export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case `${namespace}/${APPROVE_TRANSFER_SUCCESS}`: {
+    case APPROVE_TRANSFER_SUCCESS: {
+      const caseData = state.getIn(["cases", "data"]);
+      const transferData = state.getIn(["transitions", "data"]);
       const { data } = payload;
       const record = data.record;
-      const index = state.get("data").findIndex(r => r.get("id") === record.id);
-      if (index !== -1) {
-        return state
-          .updateIn(["data", index], u => mergeRecord(u, fromJS(record)))
-          .set("errors", false);
+      delete data.record;
+      const transferIndex = transferData.findIndex(r => r.get("id") === data.id);
+
+      if (transferIndex !== -1) {
+        state = state
+          .updateIn(["transitions", "data", transferIndex], u => mergeRecord(u, fromJS(data)))
+      } else {
+        state = state
+          .updateIn(["transitions", "data"], u => {
+            return u.push(fromJS(data));
+          })
       }
 
-      return state
-        .update("data", u => {
-          return u.push(fromJS(record));
-        })
-        .set("errors", false);
+      if (record) {
+        const index = caseData.findIndex(r => r.get("id") === record.id);
+
+        if (index !== -1) {
+          state = state
+            .updateIn(["cases", "data", index], u => mergeRecord(u, fromJS(record)))
+            .setIn(["cases", "errors"], false);
+        } else {
+          state = state
+            .updateIn(["cases", "data"], u => {
+              return u.push(fromJS(record));
+            })
+            .setIn(["cases", "errors"], false);
+        }
+      }
+
+      return state;
     }
     default:
       return state;
