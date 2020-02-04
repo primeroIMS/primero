@@ -54,13 +54,13 @@ const App = () => {
         <Provider store={store}>
           <I18nProvider>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <SnackbarProvider maxSnack={3}>
-                <ApplicationProvider>
-                  <ConnectedRouter history={history}>
+              <ApplicationProvider>
+                <ConnectedRouter history={history}>
+                  <SnackbarProvider maxSnack={3}>
                     <ApplicationRoutes routes={routes} />
-                  </ConnectedRouter>
-                </ApplicationProvider>
-              </SnackbarProvider>
+                  </SnackbarProvider>
+                </ConnectedRouter>
+              </ApplicationProvider>
             </MuiPickersUtilsProvider>
           </I18nProvider>
         </Provider>

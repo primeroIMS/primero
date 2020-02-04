@@ -39,7 +39,13 @@ const Component = ({
     };
 
     dispatch(
-      saveExport({ data }, i18n.t("exports.queueing", { file_name: fileName }))
+      saveExport(
+        { data },
+        i18n.t("exports.queueing", {
+          file_name: fileName ? `: ${fileName}` : "."
+        }),
+        i18n.t("exports.go_to_exports")
+      )
     );
     close();
   };
