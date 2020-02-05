@@ -92,17 +92,18 @@ const Container = ({ match, mode }) => {
             : {})
         }
       };
-      const message = containerMode.isEdit
-        ? i18n.t(`${recordType}.messages.update_success`, {
-            record_id: record.get("short_id")
-          })
-        : i18n.t(`${recordType}.messages.creation_success`, recordType);
+      const message = queue => {
+        const appendQueue = queue ? "_queue" : "";
 
-      const messageForQueue = containerMode.isEdit
-        ? i18n.t(`${recordType}.messages.update_success_queue`, {
-            record_id: record.get("short_id")
-          })
-        : i18n.t(`${recordType}.messages.creation_success_queue`, recordType);
+        return containerMode.isEdit
+          ? i18n.t(`${recordType}.messages.update_success${appendQueue}`, {
+              record_id: record.get("short_id")
+            })
+          : i18n.t(
+              `${recordType}.messages.creation_success${appendQueue}`,
+              recordType
+            );
+      };
 
       const redirect = containerMode.isNew
         ? `/${params.recordType}`
@@ -114,8 +115,8 @@ const Container = ({ match, mode }) => {
           saveMethod,
           body,
           params.id,
-          message,
-          messageForQueue,
+          message(),
+          message(true),
           redirect
         )
       );

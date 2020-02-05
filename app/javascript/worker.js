@@ -68,6 +68,8 @@ const onFetch = event => {
         ) {
           return caches.match("/");
         }
+
+        return true;
       });
     })
   );
