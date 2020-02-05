@@ -27,8 +27,8 @@ and the user had initiated this export.
      "status": "job.status.processing",
      "owned_by": "primero",
      "completed_on": "2020-01-15T02:33:30.078Z",
-     "format": "csv",
      "record_type": "case",
+     "export_format": "csv",
      "file_name": "export-for-today.csv"
   }
 }

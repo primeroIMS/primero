@@ -9,6 +9,7 @@ module Api::V2
       @exports = BulkExport
                  .owned(current_user.user_name)
                  .where(export_filters)
+                 .order(sort_order)
                  .paginate(pagination)
     end
 
@@ -42,14 +43,14 @@ module Api::V2
     private
 
     def authorize_export!
-      action = "export_#{bulk_export_params[:format]}".to_sym
+      action = "export_#{bulk_export_params[:export_format]}".to_sym
       record_model = bulk_export_params[:record_type] && Record.model_from_name(bulk_export_params[:record_type])
       authorize! action, record_model
     end
 
     def bulk_export_params
       @bulk_export_params ||= params.require(:data).permit(
-        :record_type, :format,
+        :record_type, :export_format,
         :order, :query, :file_name, :password,
         { custom_export_params: {} }, { filters: {} },
         :match_criteria
@@ -57,7 +58,7 @@ module Api::V2
     end
 
     def export_filters
-      params.permit(:status, :record_type, :format)
+      params.permit(:status, :record_type, :export_format)
             .reverse_merge(status: [BulkExport::COMPLETE, BulkExport::PROCESSING, BulkExport::TERMINATED])
     end
   end
