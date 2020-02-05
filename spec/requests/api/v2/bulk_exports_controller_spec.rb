@@ -96,6 +96,8 @@ describe Api::V2::BulkExportsController, type: :request do
       @password_encrypted = 'password_encrypted'
       allow(EncryptionService).to receive(:encrypt).with(@password).and_return(@password_encrypted)
       allow(EncryptionService).to receive(:decrypt).with(@password_encrypted).and_return(@password)
+      allow(ENV).to receive(:[])
+      allow(ENV).to receive(:[]).with('PRIMERO_ZIP_FORMAT').and_return('zip')
     end
 
     context 'valid export request' do
@@ -165,7 +167,7 @@ describe Api::V2::BulkExportsController, type: :request do
       params = {
         data: {
           record_type: 'case',
-          format: 'json',
+          export_format: 'json',
           file_name: 'test.json',
           password: 'weak'
         }

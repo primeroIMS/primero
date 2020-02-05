@@ -5,7 +5,7 @@ require 'rails_helper'
 describe ExportService do
   describe '.build' do
     it 'builds a new BulkExport' do
-      export = ExportService.build({ format: 'json', record_type: 'case' }, nil)
+      export = ExportService.build({ export_format: 'json', record_type: 'case' }, nil)
       expect(export.exporter).to be_instance_of(Exporters::JSONExporter)
     end
 
@@ -15,12 +15,12 @@ describe ExportService do
     end
 
     it 'requires the presence of the record type key before it builds an export' do
-      export = ExportService.build({ format: 'json' }, nil)
+      export = ExportService.build({ export_format: 'json' }, nil)
       expect(export).to be_nil
     end
 
     it 'builds a DuplicateBUlkExport based on the format' do
-      export = ExportService.build({ format: 'duplicate_id_csv', record_type: 'case' }, nil)
+      export = ExportService.build({ export_format: 'duplicate_id_csv', record_type: 'case' }, nil)
       expect(export.exporter).to be_instance_of(Exporters::DuplicateIdCSVExporter)
     end
   end

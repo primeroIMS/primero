@@ -26,7 +26,9 @@ class BulkExport < ApplicationRecord
   before_save :generate_file_name
 
   def self.validate_password!(password)
-    raise(Errors::InvalidPrimeroEntityType, 'Password is too weak') if password.length < PASSWORD_LENGTH
+    return unless ZipService.require_password? && password.length < PASSWORD_LENGTH
+
+    raise(Errors::InvalidPrimeroEntityType, 'Password is too weak')
   end
 
   def export(password)

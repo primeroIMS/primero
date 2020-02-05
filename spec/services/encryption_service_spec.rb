@@ -5,6 +5,7 @@ require 'rails_helper'
 describe EncryptionService do
   context 'valid secret key' do
     let(:service) do
+      allow(ENV).to receive(:fetch)
       allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return('aVnNTxSI1EZmiG1dW6Z_I9fbQCbZB3Po')
       EncryptionService.clone
     end
@@ -36,6 +37,7 @@ describe EncryptionService do
 
   context 'a weak key is defined in the environment' do
     let(:service) do
+      allow(ENV).to receive(:[])
       allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return(':(')
       EncryptionService.clone
     end
