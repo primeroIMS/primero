@@ -15,6 +15,7 @@ export const ACTIONS = {
   DASH_APPROVALS_CLOSURE: "approvals_closure",
   DASH_APPROVALS_CLOSURE_PENDING: 'approvals_closure_pending',
   DASH_CASE_RISK: "case_risk",
+  DASH_PROTECTION_CONCERNS: "dash_protection_concerns",
   DASH_REPORTING_LOCATION: "dash_reporting_location",
   DASH_TASKS: "dash_tasks",
   DASH_WORKFLOW: "dash_workflow",

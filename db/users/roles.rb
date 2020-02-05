@@ -131,7 +131,8 @@ cp_admin_permissions = [
     resource: Permission::DASHBOARD,
     actions: [
       Permission::DASH_REPORTING_LOCATION,
-      Permission::DASH_PROTECTION_CONCERNS_BY_LOCATION
+      Permission::DASH_PROTECTION_CONCERNS_BY_LOCATION,
+      Permission::DASH_PROTECTION_CONCERNS
     ]
   )
 ]
@@ -1176,7 +1177,8 @@ gbv_system_admin_permissions = [
   Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
-      Permission::DASH_PROTECTION_CONCERNS_BY_LOCATION
+      Permission::DASH_PROTECTION_CONCERNS_BY_LOCATION,
+      Permission::DASH_PROTECTION_CONCERNS
     ]
   )
 ]

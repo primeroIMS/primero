@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/styles";
+import { useLocation } from "react-router-dom";
+import qs from "qs";
 
 import Panel from "../../panel";
 import { getOption, getLocations } from "../../../../record-form";
@@ -39,6 +41,8 @@ const Component = ({
     field_name: fieldName,
     option_strings_source: optionStringsSource
   } = filter;
+  const location = useLocation();
+  const queryParams = qs.parse(location.search.replace("?", ""));
 
   const lookup = useSelector(state =>
     getOption(state, optionStringsSource, i18n.locale)
@@ -93,6 +97,19 @@ const Component = ({
 
     if (reset && !mode?.defaultFilter) {
       handleReset();
+    }
+
+    if (Object.keys(queryParams).length) {
+      const paramValues = queryParams[fieldName];
+
+      if (paramValues?.length) {
+        const selected = lookups.filter(l =>
+          paramValues.includes(l.id.toString())
+        );
+
+        setValue(fieldName, selected);
+        setInputValue(selected);
+      }
     }
 
     return () => {

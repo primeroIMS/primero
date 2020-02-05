@@ -16,13 +16,13 @@ Only exports created by this user are viewable.
 
 * `status` Optional. Query by status. Can be used to poll for ongoing jobs. 
 * `record_type` Optional. The record for which the export is being performed.
-* `format` Optional. The type of export that is running.
+* `export_format` Optional. The type of export that is running.
 * `page` Optional. Pagination. Defaults to 1
-* `per` Optional. Records per page. Defaults to 20. 
+* `per` Optional. Records per page. Defaults to 20.
 
 ## Success Response
 
-**Condition** : User is authorized. 
+**Condition** : User is authorized.
 
 **Code** : `200 OK`
 
@@ -36,9 +36,9 @@ Only exports created by this user are viewable.
       "status": "job.status.complete",
       "owned_by": "primero",
       "completed_on": "2020-01-15T02:33:30.078Z",
-      "format": "json",
       "record_type": "case",
       "file_name": "cases-20200114.253525591.json",
+      "export_format": "json",
       "export_file": "/rails/active_storage/blobs/XXXXX/1_cases-20200114.253525591.json.zip"
     }
   ],

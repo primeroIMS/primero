@@ -47,14 +47,16 @@ import {
   getApprovalsCasePlanPending,
   getApprovalsClosure,
   getApprovalsClosurePending,
-  getReportingLocation
+  getReportingLocation,
+  getProtectionConcerns
 } from "./selectors";
 import styles from "./styles.css";
 import {
   toData1D,
   toListTable,
   toReportingLocationTable,
-  toApprovalsManager
+  toApprovalsManager,
+  toProtectionConcernTable
 } from "./helpers";
 
 const Dashboard = ({
@@ -82,7 +84,8 @@ const Dashboard = ({
   locations,
   approvalsAssessmentPending,
   approvalsCasePlanPending,
-  approvalsClosurePending
+  approvalsClosurePending,
+  protectionConcerns
 }) => {
   useEffect(() => {
     batch(() => {
@@ -112,6 +115,10 @@ const Dashboard = ({
 
   const labelsRiskLevel = useSelector(state =>
     getOption(state, LOOKUPS.risk_level, i18n)
+  );
+
+  const protectionConcernsLookup = useSelector(state =>
+    getOption(state, LOOKUPS.protection_concerns, i18n.locale)
   );
 
   const getDoughnutInnerText = () => {
@@ -198,6 +205,14 @@ const Dashboard = ({
     ]),
     sumTitle: i18n.t("dashboard.pending_approvals"),
     withTotal: false
+  };
+
+  const protectionConcernsProps = {
+    ...toProtectionConcernTable(
+      protectionConcerns,
+      i18n,
+      protectionConcernsLookup
+    )
   };
 
   return (
@@ -313,6 +328,17 @@ const Dashboard = ({
               </OptionsBox>
             </Grid>
           </Permission>
+
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={ACTIONS.DASH_PROTECTION_CONCERNS}
+          >
+            <Grid item md={12}>
+              <OptionsBox title={i18n.t("dashboard.protection_concerns")}>
+                <DashboardTable {...protectionConcernsProps} />
+              </OptionsBox>
+            </Grid>
+          </Permission>
           {/* <Grid item md={12} hidden>
             <OptionsBox title="CASE OVERVIEW">
               <DashboardTable columns={columns} data={casesByCaseWorker} />
@@ -360,6 +386,7 @@ Dashboard.propTypes = {
   casesRegistration: PropTypes.object.isRequired,
   casesWorkflow: PropTypes.object.isRequired,
   casesWorkflowTeam: PropTypes.object.isRequired,
+  protectionConcerns: PropTypes.object.isRequired,
   reportingLocation: PropTypes.object.isRequired,
   fetchCasesByCaseWorker: PropTypes.func.isRequired,
   fetchCasesByStatus: PropTypes.func.isRequired,
@@ -394,7 +421,8 @@ const mapStateToProps = state => {
     casesOverview: selectCasesOverview(state),
     servicesStatus: selectServicesStatus(state),
     reportingLocationConfig: getReportingLocationConfig(state),
-    locations: getLocations(state)
+    locations: getLocations(state),
+    protectionConcerns: getProtectionConcerns(state)
   };
 };
 
