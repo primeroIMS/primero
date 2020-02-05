@@ -1,10 +1,10 @@
-import { fromJS, Map, List } from "immutable";
+import { fromJS } from "immutable";
 
 import { mergeRecord } from "../../../libs";
 
 import { APPROVE_RECORD_SUCCESS } from "./actions";
 
-const DEFAULT_STATE = Map({ data: List([]) });
+const DEFAULT_STATE = fromJS({ data: [] });
 
 export const reducers = namespace => (
   state = DEFAULT_STATE,
