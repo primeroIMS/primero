@@ -22,9 +22,8 @@ export const selectTransitions = (state, recordType, id, isReferral) => {
   return transitions.size ? transitions : List([]);
 };
 
-export const selectCurrentUser = (state) => {
-  const user = state
-    .getIn(["user", "username"])
+export const selectCurrentUser = state => {
+  const user = state.getIn(["user", "username"]);
 
   return user;
 };

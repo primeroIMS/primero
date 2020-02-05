@@ -28,12 +28,12 @@ const ActionDialog = ({
 }) => {
   const i18n = useI18n();
 
-  const handleClose = (event) => {
+  const handleClose = event => {
     event.stopPropagation();
     cancelHandler ? cancelHandler() : onClose();
   };
 
-  const handleSuccess = (event) => {
+  const handleSuccess = event => {
     event.stopPropagation();
     successHandler();
     if (!omitCloseAfterSuccess) handleClose(event);

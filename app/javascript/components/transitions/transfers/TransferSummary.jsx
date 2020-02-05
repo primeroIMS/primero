@@ -6,20 +6,17 @@ import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../../i18n";
 import TransitionStatus from "../TransitionStatus";
+
 import TransferActionMenu from "./transfer-action-menu";
 import styles from "./styles.css";
 
-const TransferSummary = ({
-  transition,
-  classes,
-  currentUser,
-  showMode
-}) => {
+const TransferSummary = ({ transition, classes, currentUser, showMode }) => {
   const css = makeStyles(styles)();
-  const showTransferApproval = transition
-    && transition.transitioned_to === currentUser
-    && transition.status === "in_progress"
-    && showMode;
+  const showTransferApproval =
+    transition &&
+    transition.transitioned_to === currentUser &&
+    transition.status === "in_progress" &&
+    showMode;
   const i18n = useI18n();
   const transitionStatus = transition.status ? (
     <Grid item md={2} xs={10}>
@@ -33,6 +30,7 @@ const TransferSummary = ({
     </Grid>
   ) : null;
   const itemWidth = showTransferApproval ? 9 : 10;
+
   return (
     <Grid container spacing={2} alignItems="center">
       <Grid item md={itemWidth} xs={10}>
@@ -55,9 +53,9 @@ const TransferSummary = ({
 
 TransferSummary.propTypes = {
   classes: PropTypes.object.isRequired,
-  transition: PropTypes.object.isRequired,
   currentUser: PropTypes.string,
-  showMode: PropTypes.bool
+  showMode: PropTypes.bool,
+  transition: PropTypes.object.isRequired
 };
 
 export default TransferSummary;

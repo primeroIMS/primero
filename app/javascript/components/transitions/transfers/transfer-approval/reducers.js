@@ -3,7 +3,6 @@ import { fromJS } from "immutable";
 import { mergeRecord } from "../../../../libs";
 
 import { APPROVE_TRANSFER_SUCCESS } from "./actions";
-import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = fromJS({ data: [] });
 

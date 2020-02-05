@@ -1,9 +1,5 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
-import {
-  ExpansionPanelDetails,
-  ExpansionPanelSummary
-} from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../test";
 
@@ -77,7 +73,10 @@ describe("<TransferApproval /> - Component", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(TransferApproval, props, initialState));
+    ({ component } = setupMountedComponent(
+      TransferApproval,
+      props,
+      initialState));
   });
 
   it("renders Transitions component", () => {

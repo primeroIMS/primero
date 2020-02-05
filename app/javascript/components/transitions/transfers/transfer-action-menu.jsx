@@ -37,7 +37,7 @@ const TransferActionMenu = ({ transition }) => {
 
   const handleClose = () => {
     setApprovalOpen(false);
-  }
+  };
 
   return (
     <>
@@ -62,7 +62,7 @@ const TransferActionMenu = ({ transition }) => {
           onClick={handleAcceptOpen}
           disabled={false}
         >
-          {"Approve"}
+          {i18n.t("buttons.accept")}
         </MenuItem>
         <MenuItem
           key="reject"
@@ -70,7 +70,7 @@ const TransferActionMenu = ({ transition }) => {
           onClick={handleRejectOpen}
           disabled={false}
         >
-          {"Reject"}
+          {i18n.t("buttons.reject")}
         </MenuItem>
       </Menu>
 
