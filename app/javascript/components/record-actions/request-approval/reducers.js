@@ -13,7 +13,7 @@ export const reducers = namespace => (
   switch (type) {
     case `${namespace}/${APPROVE_RECORD_SUCCESS}`: {
       const { data } = payload;
-      const record = data.record;
+      const { record } = data;
       const index = state.get("data").findIndex(r => r.get("id") === record.id);
 
       if (index !== -1) {

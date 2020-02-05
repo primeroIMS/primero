@@ -153,8 +153,6 @@ const Container = ({
 
   const canAddService = checkPermissions(userPermissions, ADD_SERVICE);
 
-  const canCustomExport = checkPermissions(userPermissions, EXPORT_CUSTOM);
-
   const canShowExports = checkPermissions(userPermissions, SHOW_EXPORTS);
 
   const handleClick = event => {

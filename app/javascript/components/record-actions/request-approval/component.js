@@ -53,7 +53,8 @@ const Component = ({
 
   const actionBody = { data: {} };
 
-  actionBody.data.approval_status = approvalType === "request" ? "requested" : approval;
+  actionBody.data.approval_status =
+    approvalType === "request" ? "requested" : approval;
 
   if (comment !== "") {
     actionBody.data.notes = comment;
@@ -61,8 +62,8 @@ const Component = ({
 
   const message =
     approvalType === "request"
-    ? `cases.request_approval_success_${requestType}`
-    : `cases.${approval}_success_${requestType}`;
+      ? `cases.request_approval_success_${requestType}`
+      : `cases.${approval}_success_${requestType}`;
   const handleOk = () => {
     dispatch(
       approvalRecord({
@@ -181,7 +182,8 @@ const Component = ({
     </>
   );
 
-  const dialogContent = approvalType === "approval" ? approvalDialogContent : requestDialogContent;
+  const dialogContent =
+    approvalType === "approval" ? approvalDialogContent : requestDialogContent;
 
   return (
     <ActionDialog
@@ -192,7 +194,7 @@ const Component = ({
       confirmButtonLabel={confirmButtonLabel}
     >
       {dialogContent}
-    </ ActionDialog>
+    </ActionDialog>
   );
 };
 
@@ -201,11 +203,11 @@ Component.displayName = NAME;
 Component.propTypes = {
   approvalType: PropTypes.string,
   close: PropTypes.func,
+  confirmButtonLabel: PropTypes.string,
   openRequestDialog: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string,
-  subMenuItems: PropTypes.array,
-  confirmButtonLabel: PropTypes.string
+  subMenuItems: PropTypes.array
 };
 
 export default Component;
