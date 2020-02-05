@@ -2,7 +2,6 @@ const common = require("./config.common");
 const WebpackAssetsManifest = require("webpack-assets-manifest");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { OUTPUT_DIRNAME, EXTERNAL_ENTRY, MANIFEST_OUTPUT_PATH } = require("./config");
-const path = require("path");
 
 const plugins = name => ([
   ...(!EXTERNAL_ENTRY(name) 

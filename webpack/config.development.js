@@ -8,7 +8,8 @@ const plugins = name => ([
           new WebpackAssetsManifest({
             output: MANIFEST_OUTPUT_PATH(name),
             entrypoints: true,
-            publicPath: PUBLIC_PATH
+            publicPath: PUBLIC_PATH,
+            writeToDisk: true
           })
         ] 
       : [])
@@ -34,9 +35,9 @@ module.exports = common.map(entry => {
   return Object.assign({}, config, {
     devServer: DEV_SERVER_CONFIG,
     devtool: "source-map",
-    output: {
+    output: Object.assign({}, config.output, {
       publicPath: PUBLIC_PATH
-    },
+    }),
     plugins: [...config.plugins, ...plugins(name)],
     module: {
       rules: [...config.module.rules, ...rules]

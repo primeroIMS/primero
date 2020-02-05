@@ -6,9 +6,12 @@ const {
   ENTRIES, 
   EXTERNAL_ENTRY, 
   APPLICATION_ENTRY,
-  CLEAN_BEFORE_BUILD 
+  CLEAN_BEFORE_BUILD,
+  MANIFEST_FILE_PATHS,
+  ADDITIONAL_MANIFEST_FILE_PATHS
 } = require("./config");
-const { InjectManifest } = require("workbox-webpack-plugin");
+const WaitPlugin = require("./plugins/wait.js");
+const BuildPrecacheManifest = require("./plugins/build-precache-manifest.js");
 
 const chunkOutput = (hashMethod, data) => {
   return data && data.chunk.name === "worker" 
@@ -23,29 +26,28 @@ const svgPrefix = {
       .substring(2, 8)}_`
 };
 
-const output = outputDir => ({
+const output = (name, outputDir) => ({
   path: outputDir || OUTPUT_DIR,
   filename: (chunkData) => chunkOutput("hash", chunkData),
   chunkFilename: chunkOutput("chunkhash"),
-  publicPath: "/"
+  publicPath: "/",
 });
 
 const resolve = {
   extensions: ["*", ".jsx", ".js"],
   alias: {
-    "@material-ui/styles": path.resolve("node_modules", "@material-ui/styles")
+    "@material-ui/styles": path.resolve("node_modules", "@material-ui/styles"),
+    "window": "self"
   }
 };
 
 const plugins = name => ([
+  new CleanWebpackPlugin({
+    cleanOnceBeforeBuildPatterns: CLEAN_BEFORE_BUILD[name]
+  }),
   ...(EXTERNAL_ENTRY(name) ? [
-    new CleanWebpackPlugin({
-      cleanOnceBeforeBuildPatterns: CLEAN_BEFORE_BUILD
-    }),
-    new InjectManifest({
-      swSrc: "worker.js",
-      swDest: path.join(__dirname, "..", "public/worker.js")
-    })
+    new BuildPrecacheManifest(MANIFEST_FILE_PATHS, ADDITIONAL_MANIFEST_FILE_PATHS),
+    new WaitPlugin(MANIFEST_FILE_PATHS)
   ] : [])
 ]);
 
@@ -108,7 +110,7 @@ module.exports = ENTRIES.map(entry => {
       entry: {
         [name]: path.join(APPLICATION_DIR, entryPath, `${name}.${ext}` )
       },
-      output: output(outputDir),
+      output: output(name, outputDir),
       resolve,
       plugins: plugins(name),
       module: { rules },
