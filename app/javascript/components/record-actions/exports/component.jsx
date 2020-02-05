@@ -32,7 +32,7 @@ const Component = ({
     const { format } = ALL_EXPORT_TYPES.find(e => e.id === values.export_type);
     const fileName = formatFileName(values.custom_export_file_name, format);
     const data = {
-      format,
+      export_format: format,
       record_type: RECORD_TYPES[recordType],
       file_name: fileName,
       password: values.password
