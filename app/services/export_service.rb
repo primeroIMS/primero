@@ -3,6 +3,17 @@
 # A factory for instantiating BulkExports from the API params and enqueueing bulk export jobs.
 class ExportService
   class << self
+    def exporter(record_type, format)
+      [
+        Exporters::IncidentRecorderExporter, Exporters::CSVListViewExporter, Exporters::CSVExporter,
+        Exporters::ExcelExporter, Exporters::JSONExporter, # Exporters::PhotoWallExporter,
+        Exporters::PDFExporter, Exporters::UnhcrCSVExporter, Exporters::DuplicateIdCSVExporter,
+        Exporters::SelectedFieldsExcelExporter # , Expoxrters::MRMViolationExporter
+      ].find do |exporter|
+        exporter.id == format.to_s && exporter.supported_models.include?(record_type)
+      end
+    end
+
     def build(params, user)
       return unless params[:format] && params[:record_type]
 
