@@ -12,6 +12,7 @@ import Form, {
   FORM_MODE_DIALOG
 } from "../../form";
 import { saveRecord } from "../../records";
+import { ACTIONS } from "../../../libs/permissions";
 
 import { NAME } from "./constants";
 
@@ -30,7 +31,7 @@ const Component = ({ close, openNotesDialog, record, recordType }) => {
       saveRecord(
         recordType,
         "update",
-        { data: { notes_section: [data] }, unscoped_update: true },
+        { data: { notes_section: [data] }, record_action: ACTIONS.ADD_NOTE },
         record.get("id"),
         i18n.t(`notes.note_success`),
         false,

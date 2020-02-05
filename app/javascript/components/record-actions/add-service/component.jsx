@@ -15,6 +15,7 @@ import { compactValues } from "../../record-form/helpers";
 import Fields from "../add-incident/fields";
 import submitForm from "../../../submit-form";
 import resetForm from "../../../reset-form";
+import { ACTIONS } from "../../../libs/permissions";
 
 import { NAME, SERVICES_SUBFORM } from "./constants";
 
@@ -87,7 +88,8 @@ const Component = ({
               ...compactValues(values, initialFormValues)
             }
           ]
-        }
+        },
+        record_action: ACTIONS.SERVICES_SECTION_FROM_CASE
       };
 
       selectedIds.map(id =>

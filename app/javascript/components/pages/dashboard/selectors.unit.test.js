@@ -44,6 +44,90 @@ const reportingLocation = {
   }
 };
 
+const approvalsAssessmentPending = {
+  name: "dashboard.approvals_assessment_pending",
+  type: "indicator",
+  indicators: {
+    approval_assessment_pending_group: {
+      count: 3,
+      query: ["record_state=true", "status=open", "approval_status_bia=pending"]
+    }
+  }
+};
+const approvalsCasePlanPending = {
+  name: "dashboard.approvals_case_plan_pending",
+  type: "indicator",
+  indicators: {
+    approval_case_plan_pending_group: {
+      count: 2,
+      query: [
+        "record_state=true",
+        "status=open",
+        "approval_status_case_plan=pending"
+      ]
+    }
+  }
+};
+const approvalsClosurePending = {
+  name: "dashboard.approvals_closure_pending",
+  type: "indicator",
+  indicators: {
+    approval_closure_pending_group: {
+      count: 1,
+      query: [
+        "record_state=true",
+        "status=open",
+        "approval_status_closure=pending"
+      ]
+    }
+  }
+};
+
+const protectionConcern = {
+  name: "dashboard.dash_protection_concerns",
+  type: "indicator",
+  indicators: {
+    protection_concerns_open_cases: {
+      statelessness: {
+        count: 2,
+        query: [
+          "record_state=true",
+          "status=open",
+          "protection_concerns=statelessness"
+        ]
+      }
+    },
+    protection_concerns_new_this_week: {
+      statelessness: {
+        count: 1,
+        query: [
+          "record_state=true",
+          "status=open",
+          "created_at=2020-01-26T00:00:00Z..2020-02-01T23:59:59Z",
+          "protection_concerns=statelessness"
+        ]
+      }
+    },
+    protection_concerns_all_cases: {
+      statelessness: {
+        count: 4,
+        query: ["record_state=true", "protection_concerns=statelessness"]
+      }
+    },
+    protection_concerns_closed_this_week: {
+      statelessness: {
+        count: 1,
+        query: [
+          "record_state=true",
+          "status=closed",
+          "date_closure=2020-01-26T00:00:00Z..2020-02-01T23:59:59Z",
+          "protection_concerns=statelessness"
+        ]
+      }
+    }
+  }
+};
+
 const stateWithoutRecords = fromJS({});
 const initialState = fromJS({
   records: {
@@ -68,7 +152,11 @@ const initialState = fromJS({
           }
         },
         workflowTeamCases,
-        reportingLocation
+        reportingLocation,
+        approvalsAssessmentPending,
+        approvalsCasePlanPending,
+        approvalsClosurePending,
+        protectionConcern
       ]
     }
   }
@@ -121,6 +209,38 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getReportingLocation(initialState);
 
       expect(values).to.deep.equal(fromJS(reportingLocation));
+    });
+  });
+
+  describe("getApprovalsAssessmentPending", () => {
+    it("should return the approvals assessment pending", () => {
+      const values = selectors.getApprovalsAssessmentPending(initialState);
+
+      expect(values).to.deep.equal(fromJS(approvalsAssessmentPending));
+    });
+  });
+
+  describe("getApprovalsClosurePending", () => {
+    it("should return the approvals case plan pending", () => {
+      const values = selectors.getApprovalsClosurePending(initialState);
+
+      expect(values).to.deep.equal(fromJS(approvalsCasePlanPending));
+    });
+  });
+
+  describe("getApprovalsCasePlanPending", () => {
+    it("should return the  approvals closure pending", () => {
+      const values = selectors.getApprovalsCasePlanPending(initialState);
+
+      expect(values).to.deep.equal(fromJS(approvalsClosurePending));
+    });
+  });
+
+  describe("getProtectionConcerns", () => {
+    it("should return the protection concerns data", () => {
+      const values = selectors.getProtectionConcerns(initialState);
+
+      expect(values).to.deep.equal(fromJS(protectionConcern));
     });
   });
 });

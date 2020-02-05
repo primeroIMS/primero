@@ -7,15 +7,14 @@ class Role < ApplicationRecord
 
   has_and_belongs_to_many :form_sections, -> { distinct }
   has_and_belongs_to_many :primero_modules, -> { distinct }
-  has_and_belongs_to_many :roles
 
   alias_attribute :modules, :primero_modules
 
   serialize :permissions, Permission::PermissionSerializer
 
-  validates :permissions, presence: { message: I18n.t("errors.models.role.permission_presence") }
-  validates :name, presence: { message: I18n.t("errors.models.role.name_present") },
-                   uniqueness: { message: I18n.t("errors.models.role.unique_name") }
+  validates :permissions, presence: { message: 'errors.models.role.permission_presence' }
+  validates :name, presence: { message: 'errors.models.role.name_present' },
+                   uniqueness: { message: 'errors.models.role.unique_name' }
 
   before_create :generate_unique_id
 
@@ -65,7 +64,6 @@ class Role < ApplicationRecord
       # According documentation this is the best way to delete the values on HABTM relation
       self.all.each do |f|
         f.form_sections.destroy(f.form_sections)
-        f.roles.destroy(f.roles)
       end
       super_clear
     end
@@ -85,10 +83,30 @@ class Role < ApplicationRecord
       end
     end
 
+    def new_with_properties(role_params)
+      role = Role.new(role_params.except(:permissions, :form_section_unique_ids, :module_unique_ids))
+      if role_params[:form_section_unique_ids].present?
+        role.form_sections = FormSection.where(unique_id: role_params[:form_section_unique_ids])
+      end
+      if role_params[:module_unique_ids].present?
+        role.modules = PrimeroModule.where(unique_id: role_params[:module_unique_ids])
+      end
+      role.permissions = Permission::PermissionSerializer.load(role_params[:permissions].to_h)
+      role
+    end
   end
 
-  def associated_role_ids
-    self.roles.ids.flatten
+  def permitted_roles
+    return Role.none if permitted_role_unique_ids.blank?
+
+    Role.where(unique_id: permitted_role_unique_ids)
+  end
+
+  def permitted_role_unique_ids
+    role_permission = permissions.find { |permission| permission.resource == Permission::ROLE }
+    return [] if role_permission.blank?
+
+    role_permission.role_unique_ids
   end
 
   def dashboards
@@ -142,11 +160,25 @@ class Role < ApplicationRecord
     end
   end
 
+  def form_section_unique_ids
+    form_sections.pluck(:unique_id)
+  end
+
+  def module_unique_ids
+    modules.pluck(:unique_id)
+  end
+
+  def update_properties(role_properties)
+    assign_attributes(role_properties.except(:permissions, :form_section_unique_ids, :module_unique_ids))
+    self.form_sections = FormSection.where(unique_id: role_properties[:form_section_unique_ids])
+    self.permissions = Permission::PermissionSerializer.load(role_properties[:permissions].to_h)
+    self.modules = PrimeroModule.where(unique_id: role_properties[:module_unique_ids])
+  end
+
   private
 
   def has_managed_resources?(resources)
     current_managed_resources = self.permissions.select{ |p| p.actions == [Permission::MANAGE] }.map(&:resource)
     (resources - current_managed_resources).empty?
   end
-
 end

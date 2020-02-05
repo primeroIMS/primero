@@ -20,7 +20,10 @@ const Component = ({ close, openEnableDialog, record, recordType }) => {
       saveRecord(
         recordType,
         "update",
-        { data: { record_state: setValue } },
+        {
+          data: { record_state: setValue },
+          record_action: "enable_disable_record"
+        },
         record.get("id"),
         i18n.t(`cases.${enableState}_success`),
         false,

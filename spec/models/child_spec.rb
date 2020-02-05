@@ -948,8 +948,8 @@ describe Child do
         ap1 = AutoPopulateInformation.new(
           field_key: 'case_id_code',
           format: %w[
-            created_by_user.Location.ancestor_by_type(country).location_code
-            created_by_user.Location.ancestor_by_type(region).location_code
+            created_by_user.user_location.ancestor_by_type(country).location_code
+            created_by_user.user_location.ancestor_by_type(region).location_code
             created_by_user.agency.agency_code
           ],
           auto_populated: true
@@ -974,8 +974,8 @@ describe Child do
         ap1 = AutoPopulateInformation.new(
           field_key: 'case_id_code',
           format: %w[
-            created_by_user.Location.ancestor_by_type(country).location_code
-            created_by_user.Location.ancestor_by_type(region).location_code
+            created_by_user.user_location.ancestor_by_type(country).location_code
+            created_by_user.user_location.ancestor_by_type(region).location_code
             created_by_user.agency.agency_code
           ],
           separator: '-', auto_populated: true

@@ -9,13 +9,17 @@ describe("<Dashboard /> - Helpers", () => {
     it("should have known methods", () => {
       const clone = { ...helper };
 
-      ["toData1D", "toListTable", "toReportingLocationTable"].forEach(
-        property => {
-          expect(clone).to.have.property(property);
-          expect(clone[property]).to.be.a("function");
-          delete clone[property];
-        }
-      );
+      [
+        "toData1D",
+        "toListTable",
+        "toReportingLocationTable",
+        "toApprovalsManager",
+        "toProtectionConcernTable"
+      ].forEach(property => {
+        expect(clone).to.have.property(property);
+        expect(clone[property]).to.be.a("function");
+        delete clone[property];
+      });
       expect(clone).to.be.empty;
     });
   });
@@ -227,6 +231,177 @@ describe("<Dashboard /> - Helpers", () => {
         i18nMock,
         locations
       ).data;
+
+      expect(converted).to.deep.equal(expected);
+    });
+  });
+
+  describe("toApprovalsManager", () => {
+    it("should convert the data for OverviewBox", () => {
+      const data = fromJS([
+        {
+          name: "dashboard.approvals_assessment_pending",
+          type: "indicator",
+          indicators: {
+            approval_assessment_pending_group: {
+              count: 3,
+              query: [
+                "record_state=true",
+                "status=open",
+                "approval_status_bia=pending"
+              ]
+            }
+          }
+        },
+        {
+          name: "dashboard.approvals_case_plan_pending",
+          type: "indicator",
+          indicators: {
+            approval_case_plan_pending_group: {
+              count: 2,
+              query: [
+                "record_state=true",
+                "status=open",
+                "approval_status_case_plan=pending"
+              ]
+            }
+          }
+        }
+      ]);
+      const expected = fromJS({
+        indicators: {
+          approval_assessment_pending_group: {
+            count: 3,
+            query: [
+              "record_state=true",
+              "status=open",
+              "approval_status_bia=pending"
+            ]
+          },
+          approval_case_plan_pending_group: {
+            count: 2,
+            query: [
+              "record_state=true",
+              "status=open",
+              "approval_status_case_plan=pending"
+            ]
+          }
+        }
+      });
+      const converted = helper.toApprovalsManager(data);
+
+      expect(converted).to.deep.equal(expected);
+    });
+  });
+
+  describe("toProtectionConcernTable", () => {
+    it("should convert the data for DashboardTable", () => {
+      const i18nMock = { t: () => ({}), locale: "en" };
+      const lookups = [
+        {
+          id: "sexually_exploited",
+          display_text: { en: "Sexually Exploited", fr: "" }
+        }
+      ];
+
+      const data = fromJS({
+        name: "dashboard.dash_protection_concerns",
+        type: "indicator",
+        indicators: {
+          protection_concerns_open_cases: {
+            sexually_exploited: {
+              count: 1,
+              query: [
+                "record_state=true",
+                "status=open",
+                "protection_concerns=sexually_exploited"
+              ]
+            }
+          },
+          protection_concerns_new_this_week: {
+            sexually_exploited: {
+              count: 2,
+              query: [
+                "record_state=true",
+                "status=open",
+                "created_at=2020-01-26T00:00:00Z..2020-02-01T23:59:59Z",
+                "protection_concerns=sexually_exploited"
+              ]
+            }
+          },
+          protection_concerns_all_cases: {
+            sexually_exploited: {
+              count: 4,
+              query: [
+                "record_state=true",
+                "protection_concerns=sexually_exploited"
+              ]
+            }
+          },
+          protection_concerns_closed_this_week: {
+            sexually_exploited: {
+              count: 1,
+              query: [
+                "record_state=true",
+                "status=closed",
+                "date_closure=2020-01-26T00:00:00Z..2020-02-01T23:59:59Z",
+                "protection_concerns=sexually_exploited"
+              ]
+            }
+          }
+        }
+      });
+
+      const expected = {
+        columns: [
+          { name: "", label: {} },
+          { name: "protection_concerns_all_cases", label: {} },
+          { name: "protection_concerns_open_cases", label: {} },
+          { name: "protection_concerns_new_this_week", label: {} },
+          { name: "protection_concerns_closed_this_week", label: {} }
+        ],
+        data: [
+          {
+            "": "Sexually Exploited",
+            protection_concerns_all_cases: 4,
+            protection_concerns_open_cases: 1,
+            protection_concerns_new_this_week: 2,
+            protection_concerns_closed_this_week: 1
+          }
+        ],
+        query: [
+          {
+            "": "Sexually Exploited",
+            protection_concerns_all_cases: [
+              "record_state=true",
+              "protection_concerns=sexually_exploited"
+            ],
+            protection_concerns_open_cases: [
+              "record_state=true",
+              "status=open",
+              "protection_concerns=sexually_exploited"
+            ],
+            protection_concerns_new_this_week: [
+              "record_state=true",
+              "status=open",
+              "created_at=2020-01-26T00:00:00Z..2020-02-01T23:59:59Z",
+              "protection_concerns=sexually_exploited"
+            ],
+            protection_concerns_closed_this_week: [
+              "record_state=true",
+              "status=closed",
+              "date_closure=2020-01-26T00:00:00Z..2020-02-01T23:59:59Z",
+              "protection_concerns=sexually_exploited"
+            ]
+          }
+        ]
+      };
+
+      const converted = helper.toProtectionConcernTable(
+        data,
+        i18nMock,
+        lookups
+      );
 
       expect(converted).to.deep.equal(expected);
     });

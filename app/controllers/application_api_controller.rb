@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
+# Superclass for nearly all Primero CRUD API calls
 class ApplicationApiController < ActionController::API
   include CanCan::ControllerAdditions
   include AuditLogActions
 
-  #check_authorization #TODO: Uncomment after upgrading to CanCanCan v3
+  # check_authorization #TODO: Uncomment after upgrading to CanCanCan v3
   before_action :authenticate_user!
 
   rescue_from Exception do |exception|
@@ -28,4 +31,13 @@ class ApplicationApiController < ActionController::API
     end
   end
 
+  # Devise Magic method, explicitly declared.
+  def current_user
+    super
+  end
+
+  # Devise Magic method, explicitly declared.
+  def authenticate_user!
+    super
+  end
 end

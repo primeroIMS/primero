@@ -17,7 +17,12 @@ import { FlagList } from "../../dashboard/flag-list";
 import { Services } from "../../dashboard/services";
 import { useI18n } from "../../i18n";
 import { PageContainer, PageHeading, PageContent } from "../../page";
-import { RESOURCES, ACTIONS } from "../../../libs/permissions";
+import {
+  RESOURCES,
+  ACTIONS,
+  DASH_APPROVALS,
+  DASH_APPROVALS_PENDING
+} from "../../../libs/permissions";
 import Permission from "../../application/permission";
 import { LOOKUPS, MODULES, RECORD_TYPES } from "../../../config";
 import { selectModule } from "../../application";
@@ -37,12 +42,22 @@ import {
   getWorkflowIndividualCases,
   getWorkflowTeamCases,
   getApprovalsAssessment,
+  getApprovalsAssessmentPending,
   getApprovalsCasePlan,
+  getApprovalsCasePlanPending,
   getApprovalsClosure,
-  getReportingLocation
+  getApprovalsClosurePending,
+  getReportingLocation,
+  getProtectionConcerns
 } from "./selectors";
 import styles from "./styles.css";
-import { toData1D, toListTable, toReportingLocationTable } from "./helpers";
+import {
+  toData1D,
+  toListTable,
+  toReportingLocationTable,
+  toApprovalsManager,
+  toProtectionConcernTable
+} from "./helpers";
 
 const Dashboard = ({
   fetchFlags,
@@ -66,7 +81,11 @@ const Dashboard = ({
   approvalsCasePlan,
   approvalsClosure,
   reportingLocationConfig,
-  locations
+  locations,
+  approvalsAssessmentPending,
+  approvalsCasePlanPending,
+  approvalsClosurePending,
+  protectionConcerns
 }) => {
   useEffect(() => {
     batch(() => {
@@ -96,6 +115,10 @@ const Dashboard = ({
 
   const labelsRiskLevel = useSelector(state =>
     getOption(state, LOOKUPS.risk_level, i18n)
+  );
+
+  const protectionConcernsLookup = useSelector(state =>
+    getOption(state, LOOKUPS.protection_concerns, i18n.locale)
   );
 
   const getDoughnutInnerText = () => {
@@ -174,21 +197,44 @@ const Dashboard = ({
     )
   };
 
+  const approvalsManagerProps = {
+    items: toApprovalsManager([
+      approvalsAssessmentPending,
+      approvalsCasePlanPending,
+      approvalsClosurePending
+    ]),
+    sumTitle: i18n.t("dashboard.pending_approvals"),
+    withTotal: false
+  };
+
+  const protectionConcernsProps = {
+    ...toProtectionConcernTable(
+      protectionConcerns,
+      i18n,
+      protectionConcernsLookup
+    )
+  };
+
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
       <PageContent>
         <Grid container spacing={3} classes={{ root: css.container }}>
-          <Permission
-            resources={RESOURCES.dashboards}
-            actions={[
-              ACTIONS.DASH_APPROVALS_ASSESSMENT,
-              ACTIONS.DASH_APPROVALS_CASE_PLAN,
-              ACTIONS.DASH_APPROVALS_CLOSURE
-            ]}
-          >
+          <Permission resources={RESOURCES.dashboards} actions={DASH_APPROVALS}>
             <Grid item md={12}>
               <OptionsBox title={i18n.t("dashboard.approvals")}>
+                <Grid container>
+                  <Grid item xs>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={DASH_APPROVALS_PENDING}
+                    >
+                      <OptionsBox flat>
+                        <OverviewBox {...approvalsManagerProps} />
+                      </OptionsBox>
+                    </Permission>
+                  </Grid>
+                </Grid>
                 <Grid container>
                   <Grid item xs>
                     <Permission
@@ -282,6 +328,17 @@ const Dashboard = ({
               </OptionsBox>
             </Grid>
           </Permission>
+
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={ACTIONS.DASH_PROTECTION_CONCERNS}
+          >
+            <Grid item md={12}>
+              <OptionsBox title={i18n.t("dashboard.protection_concerns")}>
+                <DashboardTable {...protectionConcernsProps} />
+              </OptionsBox>
+            </Grid>
+          </Permission>
           {/* <Grid item md={12} hidden>
             <OptionsBox title="CASE OVERVIEW">
               <DashboardTable columns={columns} data={casesByCaseWorker} />
@@ -317,8 +374,11 @@ Dashboard.displayName = "Dashboard";
 
 Dashboard.propTypes = {
   approvalsAssessment: PropTypes.object.isRequired,
+  approvalsAssessmentPending: PropTypes.object.isRequired,
   approvalsCasePlan: PropTypes.object.isRequired,
+  approvalsCasePlanPending: PropTypes.object.isRequired,
   approvalsClosure: PropTypes.object.isRequired,
+  approvalsClosurePending: PropTypes.object.isRequired,
   casesByAssessmentLevel: PropTypes.object.isRequired,
   casesByCaseWorker: PropTypes.object.isRequired,
   casesByStatus: PropTypes.object.isRequired,
@@ -326,6 +386,7 @@ Dashboard.propTypes = {
   casesRegistration: PropTypes.object.isRequired,
   casesWorkflow: PropTypes.object.isRequired,
   casesWorkflowTeam: PropTypes.object.isRequired,
+  protectionConcerns: PropTypes.object.isRequired,
   reportingLocation: PropTypes.object.isRequired,
   fetchCasesByCaseWorker: PropTypes.func.isRequired,
   fetchCasesByStatus: PropTypes.func.isRequired,
@@ -349,15 +410,19 @@ const mapStateToProps = state => {
     casesWorkflowTeam: getWorkflowTeamCases(state),
     reportingLocation: getReportingLocation(state),
     approvalsAssessment: getApprovalsAssessment(state),
+    approvalsAssessmentPending: getApprovalsAssessmentPending(state),
     approvalsClosure: getApprovalsClosure(state),
+    approvalsCasePlanPending: getApprovalsClosurePending(state),
     approvalsCasePlan: getApprovalsCasePlan(state),
+    approvalsClosurePending: getApprovalsCasePlanPending(state),
     casesByStatus: selectCasesByStatus(state),
     casesByCaseWorker: selectCasesByCaseWorker(state),
     casesRegistration: selectCasesRegistration(state),
     casesOverview: selectCasesOverview(state),
     servicesStatus: selectServicesStatus(state),
     reportingLocationConfig: getReportingLocationConfig(state),
-    locations: getLocations(state)
+    locations: getLocations(state),
+    protectionConcerns: getProtectionConcerns(state)
   };
 };
 

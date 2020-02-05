@@ -25,6 +25,7 @@ const Panel = ({
 }) => {
   const css = makeStyles(styles)();
   const { name, field_name: fieldName } = filter;
+
   const hasValue = !isEmpty(
     getValues()?.[selectedDefaultValueField || fieldName]
   );
@@ -42,7 +43,7 @@ const Panel = ({
   const expanded =
     open ||
     Object.keys(moreSectionFilters).includes(
-      fieldName || selectedDefaultValueField
+      selectedDefaultValueField || fieldName
     );
 
   return (

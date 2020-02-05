@@ -21,6 +21,10 @@ const MoreSection = ({
 }) => {
   const i18n = useI18n();
   const moreSectionKeys = Object.keys(moreSectionFilters);
+  const mode = {
+    secondary: true,
+    defaultFilter: false
+  };
 
   if (recordType !== RECORD_PATH.cases) {
     return null;
@@ -32,8 +36,8 @@ const MoreSection = ({
         ![
           ...primaryFilters.map(p => p.field_name),
           ...defaultFilters.map(d => d.field_name),
-          ...moreSectionKeys,
-          ...(moreSectionKeys.includes(OR_FILTER_NAME)
+          ...(!more ? moreSectionKeys : []),
+          ...(!more && moreSectionKeys.includes(OR_FILTER_NAME)
             ? [MY_CASES_FILTER_NAME]
             : [])
         ].includes(field.field_name)
@@ -50,7 +54,7 @@ const MoreSection = ({
           key={filter.field_name}
           moreSectionFilters={moreSectionFilters}
           setMoreSectionFilters={setMoreSectionFilters}
-          isSecondary
+          mode={mode}
         />
       );
     });

@@ -90,6 +90,26 @@ describe Api::V2::ApprovalsController, type: :request do
         expect(json['data']['record']['approval_subforms'][1]['approval_for_type']).to be_nil
       end
     end
+
+    it 'should successfully be approved without previous approvals' do
+      @case.approval_subforms = nil
+      @case.save!
+      login_for_test(permissions:
+        [
+          Permission.new(resource: Permission::CASE, actions: [approval_permission])
+        ])
+      params = { data: { approval_status: Approval::APPROVAL_STATUS_APPROVED, notes: 'some notes' } }
+      patch "/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['record']['id']).to eq(@case.id.to_s)
+      expect(json['data']['record']['approval_subforms'].size).to eq(1)
+      if approval_id == Approval::CASE_PLAN
+        expect(json['data']['record']['approval_subforms'][0]['approval_for_type']).to eq(approval_type)
+      else
+        expect(json['data']['record']['approval_subforms'][0]['approval_for_type']).to be_nil
+      end
+    end
   end
 
   shared_examples 'reject for the record' do
@@ -102,6 +122,26 @@ describe Api::V2::ApprovalsController, type: :request do
         approval_status: Approval::APPROVAL_STATUS_PENDING
       }]
       @case.save!
+    end
+
+    it 'should successfully be rejected without previous approvals' do
+      @case.approval_subforms = nil
+      @case.save!
+      login_for_test(permissions:
+        [
+          Permission.new(resource: Permission::CASE, actions: [approval_permission])
+        ])
+      params = { data: { approval_status: Approval::APPROVAL_STATUS_REJECTED, notes: 'some notes' } }
+      patch "/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['record']['id']).to eq(@case.id.to_s)
+      expect(json['data']['record']['approval_subforms'].size).to eq(1)
+      if approval_id == Approval::CASE_PLAN
+        expect(json['data']['record']['approval_subforms'][0]['approval_for_type']).to eq(approval_type)
+      else
+        expect(json['data']['record']['approval_subforms'][0]['approval_for_type']).to be_nil
+      end
     end
 
     it 'should successfully be rejected' do

@@ -56,6 +56,18 @@ const Nav = ({
   if (formNav) {
     const [...formGroups] = formNav.values();
 
+    const renderFormGroups = formGroups.map(formGroup => {
+      return (
+        <NavGroup
+          key={formGroup.first().formId}
+          group={formGroup}
+          handleClick={handleClick}
+          open={open}
+          selectedForm={selectedForm}
+        />
+      );
+    });
+
     return (
       <List>
         <RecordInformation
@@ -64,17 +76,7 @@ const Nav = ({
           selectedForm={selectedForm}
         />
         <Divider />
-        {formGroups.map(g => {
-          return (
-            <NavGroup
-              group={g}
-              handleClick={handleClick}
-              open={open}
-              key={g.first().formId}
-              selectedForm={selectedForm}
-            />
-          );
-        })}
+        {renderFormGroups}
       </List>
     );
   }

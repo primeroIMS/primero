@@ -8,11 +8,11 @@
 # but each individual dashboard entitlement is treated as an action grant.
 class Permission < ValueObject
 
-  # The role_ids property is used solely for the ROLE resource
+  # The role_unique_ids property is used solely for the ROLE resource
   # It associates other roles with this ROLE permission
   # That restricts this role to only be able to manage those associated roles
-  # If the role_ids property is empty on a ROLE permission, then that allows this role to manage all other ROLES
-  attr_accessor :resource, :actions, :role_ids, :agency_ids
+  # If the role_unique_ids property is empty on a ROLE permission, then that allows this role to manage all other ROLES
+  attr_accessor :resource, :actions, :role_unique_ids, :agency_unique_ids
 
   READ = 'read'
   WRITE = 'write'
@@ -111,6 +111,48 @@ class Permission < ValueObject
   RECEIVE_REFERRAL = 'receive_referral'
   REOPEN = 'reopen'
   CLOSE = 'close'
+  DELETE = 'delete'
+  RESOURCE_ACTIONS = {
+    CASE => [
+      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, INCIDENT_FROM_CASE, INCIDENT_DETAILS_FROM_CASE,
+      SERVICE_PROVISION_INCIDENT_DETAILS, SERVICES_SECTION_FROM_CASE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL,
+      EXPORT_PHOTO_WALL, EXPORT_UNHCR, EXPORT_PDF, EXPORT_DUPLICATE_ID, EXPORT_JSON, EXPORT_CUSTOM, IMPORT,
+      CONSENT_OVERRIDE, SYNC_MOBILE, REQUEST_APPROVAL_BIA, REQUEST_APPROVAL_CASE_PLAN,
+      REQUEST_APPROVAL_CLOSURE, APPROVE_BIA, APPROVE_CASE_PLAN, APPROVE_CLOSURE, MANAGE, SEARCH_OWNED_BY_OTHERS,
+      DISPLAY_VIEW_PAGE, REQUEST_TRANSFER, VIEW_PHOTO, REFERRAL_FROM_SERVICE, ADD_NOTE, FIND_TRACING_MATCH,
+      ASSIGN, ASSIGN_WITHIN_AGENCY, ASSIGN_WITHIN_USER_GROUP, REMOVE_ASSIGNED_USERS, TRANSFER, RECEIVE_TRANSFER,
+      REFERRAL, RECEIVE_REFERRAL, REOPEN, CLOSE
+    ],
+    INCIDENT => [
+      READ, CREATE, WRITE, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PHOTO_WALL, EXPORT_PDF,
+      EXPORT_UNHCR, EXPORT_INCIDENT_RECORDER, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN,
+      SYNC_MOBILE, REQUEST_APPROVAL_BIA, REQUEST_APPROVAL_CASE_PLAN, REQUEST_APPROVAL_CLOSURE, MANAGE
+    ],
+    TRACING_REQUEST => [
+      READ, CREATE, WRITE, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PHOTO_WALL, EXPORT_PDF,
+      EXPORT_UNHCR, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, MANAGE
+    ],
+    ROLE => [CREATE, READ, WRITE, ASSIGN, COPY, MANAGE, DELETE],
+    USER => [CREATE, READ, AGENCY_READ, WRITE, ASSIGN, MANAGE],
+    USER_GROUP => [CREATE, READ, WRITE, ASSIGN, MANAGE, DELETE],
+    AGENCY => [READ, WRITE, ASSIGN, MANAGE],
+    REPORT => [READ, GROUP_READ, CREATE, WRITE, MANAGE],
+    METADATA => [MANAGE],
+    POTENTIAL_MATCH => [READ],
+    DUPLICATE => [READ],
+    SYSTEM => [MANAGE],
+    DASHBOARD => [
+      DASH_CASE_OVERVIEW, DASH_CASE_RISK, DASH_APPROVALS_ASSESSMENT, DASH_APPROVALS_ASSESSMENT_PENDING,
+      DASH_APPROVALS_CASE_PLAN, DASH_APPROVALS_CASE_PLAN_PENDING, DASH_APPROVALS_CLOSURE, DASH_APPROVALS_CLOSURE_PENDING,
+      VIEW_RESPONSE, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS, DASH_MATCHING_RESULTS, MANAGE,
+      DASH_SERVICE_PROVISIONS, DASH_CASES_TO_ASSIGN, DASH_WORKFLOW, DASH_WORKFLOW_TEAM, DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
+      DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN, DASH_CASES_BY_TASK_OVERDUE_SERVICES, DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
+      DASH_MANAGER_TRANSERS, DASH_CASES_BY_SOCIAL_WORKER, DASH_REFFERALS_BY_SOCIAL_WORKER, DASH_TRANSERS_BY_SOCIAL_WORKER,
+      VIEW_PROTECTION_CONCERNS_FILTER, DASH_PROTECTION_CONCERNS_BY_LOCATION, DASH_SHOW_NONE_VALUES, DASH_TASKS
+    ],
+    AUDIT_LOG => [READ],
+    MATCHING_CONFIGURATION => [MANAGE]
+  }.freeze
 
   def initialize(args={})
     super(args)
@@ -211,7 +253,7 @@ class Permission < ValueObject
   end
 
   def self.management
-    [SELF, GROUP, ALL, ADMIN_ONLY]
+    [SELF, GROUP, ALL, ADMIN_ONLY, AGENCY]
   end
 
   def self.all
@@ -223,66 +265,11 @@ class Permission < ValueObject
   end
 
   def self.all_grouped
-    {'actions' => actions, 'resource' => resources, 'management' => management}
+    { 'actions' => actions, 'resource' => resources, 'management' => management }
   end
 
   def self.all_available
-    resources.map{|r| Permission.new({resource: r, actions: resource_actions(r)})}
-  end
-
-  #TODO: This should just be a Hash constant
-  def self.resource_actions(resource)
-    case resource
-    when CASE
-      [READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, INCIDENT_FROM_CASE, INCIDENT_DETAILS_FROM_CASE,
-       SERVICE_PROVISION_INCIDENT_DETAILS, SERVICES_SECTION_FROM_CASE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL,
-       EXPORT_PHOTO_WALL, EXPORT_UNHCR, EXPORT_PDF, EXPORT_DUPLICATE_ID, EXPORT_JSON, EXPORT_CUSTOM, IMPORT,
-       CONSENT_OVERRIDE, SYNC_MOBILE, REQUEST_APPROVAL_BIA, REQUEST_APPROVAL_CASE_PLAN,
-       REQUEST_APPROVAL_CLOSURE, APPROVE_BIA, APPROVE_CASE_PLAN, APPROVE_CLOSURE, MANAGE, SEARCH_OWNED_BY_OTHERS,
-       DISPLAY_VIEW_PAGE, REQUEST_TRANSFER, VIEW_PHOTO, REFERRAL_FROM_SERVICE, ADD_NOTE, FIND_TRACING_MATCH,
-       ASSIGN, ASSIGN_WITHIN_AGENCY, ASSIGN_WITHIN_USER_GROUP, REMOVE_ASSIGNED_USERS, TRANSFER, RECEIVE_TRANSFER, REFERRAL, RECEIVE_REFERRAL, REOPEN, CLOSE]
-    when INCIDENT
-      [READ, CREATE, WRITE, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PHOTO_WALL, EXPORT_PDF,
-       EXPORT_UNHCR, EXPORT_INCIDENT_RECORDER, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN,
-       SYNC_MOBILE, REQUEST_APPROVAL_BIA, REQUEST_APPROVAL_CASE_PLAN, REQUEST_APPROVAL_CLOSURE, MANAGE]
-    when TRACING_REQUEST
-      [READ, CREATE, WRITE, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PHOTO_WALL, EXPORT_PDF,
-       EXPORT_UNHCR, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, MANAGE]
-    when ROLE
-      [READ, WRITE, ASSIGN, COPY, MANAGE]
-    when USER
-      [READ, AGENCY_READ, WRITE, ASSIGN, MANAGE]
-    when USER_GROUP
-      [READ, WRITE, ASSIGN, MANAGE]
-    when AGENCY
-      [READ, WRITE, ASSIGN, MANAGE]
-    when REPORT
-      [READ, GROUP_READ, CREATE, WRITE, MANAGE]
-    when METADATA
-      [MANAGE]
-    when POTENTIAL_MATCH
-      [READ]
-    when DUPLICATE
-      [READ]
-    when SYSTEM
-      [MANAGE]
-    when DASHBOARD
-      [DASH_CASE_OVERVIEW, DASH_CASE_RISK, DASH_APPROVALS_ASSESSMENT, DASH_APPROVALS_ASSESSMENT_PENDING,
-       DASH_APPROVALS_CASE_PLAN, DASH_APPROVALS_CASE_PLAN_PENDING, DASH_APPROVALS_CLOSURE, DASH_APPROVALS_CLOSURE_PENDING,
-       VIEW_RESPONSE, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS,
-       DASH_MATCHING_RESULTS, MANAGE, DASH_SERVICE_PROVISIONS, DASH_CASES_TO_ASSIGN, DASH_WORKFLOW, DASH_WORKFLOW_TEAM,
-       DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT, DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
-       DASH_CASES_BY_TASK_OVERDUE_SERVICES, DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
-       DASH_MANAGER_TRANSERS, DASH_CASES_BY_SOCIAL_WORKER, DASH_REFFERALS_BY_SOCIAL_WORKER,
-       DASH_TRANSERS_BY_SOCIAL_WORKER, VIEW_PROTECTION_CONCERNS_FILTER, DASH_PROTECTION_CONCERNS_BY_LOCATION,
-       DASH_SHOW_NONE_VALUES, DASH_TASKS]
-    when AUDIT_LOG
-      [READ]
-    when MATCHING_CONFIGURATION
-      [MANAGE]
-    else
-      actions
-    end
+    resources.map { |r| Permission.new(resource: r, actions: RESOURCE_ACTIONS[r]) }
   end
 
   def self.all_permissions_list
@@ -325,8 +312,8 @@ class Permission < ValueObject
       object_hash = {}
       json_hash = permissions.inject({}) do |hash, permission|
         hash[permission.resource] = permission.actions
-        object_hash[Permission::AGENCY] = permission.agency_ids if permission.agency_ids
-        object_hash[Permission::ROLE] = permission.role_ids if permission.role_ids
+        object_hash[Permission::AGENCY] = permission.agency_unique_ids if permission.agency_unique_ids
+        object_hash[Permission::ROLE] = permission.role_unique_ids if permission.role_unique_ids
         hash
       end
       json_hash['objects'] = object_hash
@@ -339,11 +326,13 @@ class Permission < ValueObject
       object_hash = json_hash.delete('objects')
       json_hash.map do |resource, actions|
         permission = Permission.new(resource: resource, actions: actions)
-        if resource == Permission::ROLE && object_hash.key?(Permission::ROLE)
-          permission.role_ids = object_hash[Permission::ROLE]
-        end
-        if resource == Permission::AGENCY && object_hash.key?(Permission::AGENCY)
-          permission.agency_ids = object_hash[Permission::AGENCY]
+        if object_hash.present?
+          if resource == Permission::ROLE && object_hash.key?(Permission::ROLE)
+            permission.role_unique_ids = object_hash[Permission::ROLE]
+          end
+          if resource == Permission::AGENCY && object_hash.key?(Permission::AGENCY)
+            permission.agency_unique_ids = object_hash[Permission::AGENCY]
+          end
         end
         permission
       end

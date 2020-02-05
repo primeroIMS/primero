@@ -14,6 +14,7 @@ import { saveRecord, selectRecordsByIndexes } from "../../records";
 import { compactValues } from "../../record-form/helpers";
 import submitForm from "../../../submit-form";
 import resetForm from "../../../reset-form";
+import { ACTIONS } from "../../../libs/permissions";
 
 import { NAME, INCIDENT_SUBFORM } from "./constants";
 import Fields from "./fields";
@@ -89,7 +90,8 @@ const Component = ({
               ...compactValues(values, initialFormValues)
             }
           ]
-        }
+        },
+        record_action: ACTIONS.INCIDENT_DETAILS_FROM_CASE
       };
 
       selectedIds.map(id =>

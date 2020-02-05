@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Map, OrderedMap, fromJS } from "immutable";
+import { OrderedMap, fromJS } from "immutable";
 import { Menu, MenuItem } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
@@ -10,6 +10,7 @@ import Notes from "./notes";
 import RecordActions from "./container";
 import { ToggleEnable } from "./toggle-enable";
 import { ToggleOpen } from "./toggle-open";
+import RequestApproval from "./request-approval";
 import { Transitions } from "./transitions";
 
 describe("<RecordActions />", () => {
@@ -31,10 +32,7 @@ describe("<RecordActions />", () => {
         fields: [2],
         is_nested: true,
         subform_prevent_item_removal: false,
-        collapsed_field_names: [
-          "cp_incident_date",
-          "cp_incident_violence_type"
-        ]
+        collapsed_field_names: ["cp_incident_date", "cp_incident_violence_type"]
       }),
       2: FormSectionRecord({
         id: 2,
@@ -142,6 +140,20 @@ describe("<RecordActions />", () => {
     });
   });
 
+  describe("Component RequestApproval", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        props,
+        defaultState
+      ));
+    });
+
+    it("renders RequestApproval", () => {
+      expect(component.find(RequestApproval)).to.have.length(1);
+    });
+  });
+
   describe("Component Transitions", () => {
     beforeEach(() => {
       ({ component } = setupMountedComponent(
@@ -197,7 +209,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.length(8);
+        expect(component.find(MenuItem)).to.have.length(10);
       });
 
       it("renders MenuItem with Refer Cases option", () => {
@@ -225,6 +237,15 @@ describe("<RecordActions />", () => {
             .map(l => l.text())
             .includes("actions.services_section_from_case")
         ).to.be.equal(true);
+      });
+
+      it("renders MenuItem with Export option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("cases.export")
+        ).to.be.true;
       });
     });
 
@@ -266,6 +287,15 @@ describe("<RecordActions />", () => {
             .find("li")
             .map(l => l.text())
             .includes("exports.custom_exports.label")
+        ).to.be.false;
+      });
+
+      it("renders MenuItem without Export option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("cases.export")
         ).to.be.false;
       });
     });
