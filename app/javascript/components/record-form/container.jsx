@@ -95,6 +95,13 @@ const Container = ({ match, mode }) => {
             record_id: record.get("short_id")
           })
         : i18n.t(`${recordType}.messages.creation_success`, recordType);
+
+      const messageForQueue = containerMode.isEdit
+        ? i18n.t(`${recordType}.messages.update_success_queue`, {
+            record_id: record.get("short_id")
+          })
+        : i18n.t(`${recordType}.messages.creation_success_queue`, recordType);
+
       const redirect = containerMode.isNew
         ? `/${params.recordType}`
         : `/${params.recordType}/${params.id}`;
@@ -106,6 +113,7 @@ const Container = ({ match, mode }) => {
           body,
           params.id,
           message,
+          messageForQueue,
           redirect
         )
       );

@@ -23,6 +23,7 @@ const Component = ({ close, openEnableDialog, record, recordType }) => {
         { data: { record_state: setValue } },
         record.get("id"),
         i18n.t(`cases.${enableState}_success`),
+        false,
         false
       )
     );

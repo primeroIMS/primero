@@ -1,8 +1,7 @@
 if (navigator.serviceWorker) {
-  navigator.serviceWorker
-    .register("/worker.js", { scope: "./" })
-    .then(function(reg) {
-      console.log("[Companion]", "Service worker registered!");
-      console.log(reg);
-    });
+  navigator.serviceWorker.register("/worker.js");
+
+  navigator.serviceWorker.ready.then(registration => {
+    return registration.sync.register("syncActions");
+  });
 }

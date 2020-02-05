@@ -1,61 +1,83 @@
-const CACHE_VERSION = "v1";
+/* eslint-disable no-restricted-globals */
+
+import DB from "./db/db";
+
+const CACHE_VERSION = "v2";
 const CACHE_NAME = `${CACHE_VERSION}:sw-cache-`;
-const CACHE_ADDITIONAL = ["/", "/primero-pictorial-144.png"];
+const CACHE_ADDITIONAL = [
+  "/",
+  "/primero-pictorial-144.png",
+  "javascripts/i18n.js"
+];
 
-function onInstall(event) {
-  console.log("[Serviceworker]", "Installing!", event);
+const sendDispatchMessgaesToClient = async () => {
+  const offlineRequests = (await DB.getAll("offline_requests")) || [];
 
+  if (offlineRequests) {
+    self.clients.matchAll().then(all =>
+      all.map(client =>
+        client.postMessage({
+          type: "offlineRequest",
+          actions: offlineRequests
+        })
+      )
+    );
+  }
+};
+
+const onInstall = event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(function prefill(cache) {
       return cache.addAll(
-        CACHE_ADDITIONAL.concat(
-          (self.__precacheManifest || []).map(function(item) {
-            return item.url;
-          })
-        )
+        CACHE_ADDITIONAL.concat(self.__precacheManifest || [])
       );
     })
   );
-}
+};
 
-function onActivate(event) {
-  console.log("[Serviceworker]", "Activating!", event);
-
+const onActivate = event => {
   event.waitUntil(
-    caches.keys().then(function(cacheNames) {
+    caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames
-          .filter(function(cacheName) {
+          .filter(cacheName => {
             return cacheName.indexOf(CACHE_VERSION) !== 0;
           })
-          .map(function(cacheName) {
+          .map(cacheName => {
             return caches.delete(cacheName);
           })
       );
     })
   );
-}
+};
 
-function onFetch(event) {
+const onFetch = event => {
+  const request = event.request.clone();
+
   event.respondWith(
-    fetch(event.request).catch(function() {
-      return caches.match(event.request).then(function(response) {
+    fetch(request).catch(() => {
+      return caches.match(request).then(response => {
         if (response) {
           return response;
         }
 
         if (
-          event.request.mode === "navigate" ||
-          (event.request.method === "GET" &&
-            event.request.headers.get("accept").includes("text/html"))
+          request.mode === "navigate" ||
+          (request.method === "GET" &&
+            request.headers.get("accept").includes("text/html"))
         ) {
           return caches.match("/");
         }
       });
     })
   );
-}
+};
+
+const onSync = event => {
+  event.waitUntil(sendDispatchMessgaesToClient());
+};
 
 self.addEventListener("install", onInstall);
 self.addEventListener("activate", onActivate);
 self.addEventListener("fetch", onFetch);
+self.addEventListener("sync", onSync);

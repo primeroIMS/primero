@@ -18,5 +18,8 @@
   <script src="/javascripts/i18n.js"></script>
   <script src="/<%= I18N_TRANSLATIONS_FILE %>"></script>
   <%= javascript_bundles_with_chunks_tag 'application', skip_pipeline: true, manifest: :application %>
+  <script>
+    window.i18nManifest = "/<%= I18N_TRANSLATIONS_FILE %>"
+  </script>
 </body>
 </html>

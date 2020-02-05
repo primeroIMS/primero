@@ -32,6 +32,19 @@ const jss = create({
 
 const generateClassName = createGenerateClassName();
 
+navigator.serviceWorker.addEventListener("message", event => {
+  if (event.origin !== window.location.origin) return;
+
+  const { data } = event;
+  const authenticated = store
+    .getState()
+    .getIn(["user", "isAuthenticated"], false);
+
+  if (data?.actions && data?.type === "offlineRequest" && authenticated) {
+    data.actions.forEach(action => store.dispatch(action));
+  }
+});
+
 const App = () => {
   store.subscribe(() => {
     document.querySelector("body").setAttribute(

@@ -4,11 +4,16 @@ import Adapter from "enzyme-adapter-react-16";
 import sinonChai from "sinon-chai";
 import chaiImmutable from "chai-immutable";
 import 'mutationobserver-shim'
+import { IDBFactory, IDBKeyRange } from "shelving-mock-indexeddb";
 
 chai.use(chaiImmutable);
 chai.use(sinonChai);
 
 const storage = {};
+
+global.window.indexedDB = new IDBFactory();
+
+global.window.IDBKeyRange = IDBKeyRange;
 
 global.window.I18n = { defaultLocale: "en", locale: "en", t: path => path };
 

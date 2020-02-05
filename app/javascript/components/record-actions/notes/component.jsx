@@ -33,6 +33,7 @@ const Component = ({ close, openNotesDialog, record, recordType }) => {
         { data: { notes_section: [data] }, unscoped_update: true },
         record.get("id"),
         i18n.t(`notes.note_success`),
+        false,
         false
       )
     );

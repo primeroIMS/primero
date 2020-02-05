@@ -534,11 +534,13 @@ en:
 
     messages:
       update_success: "Case %{record_id} was successfully updated."
+      update_success_queue: "Case %{record_id} was successfully updated in background"
       investigation_error_message: "Please confirm the flagged record should be marked as investigated, and enter any details you have."
       reunite_error_message: "Please confirm this case has been reunited with family or caregivers, and enter any details you have."
       undo_reunite_error_message: "Please confirm case should be marked as Not Reunited, and enter any details you have."
       see_full_size: "Click on the Image to see full size"
       creation_success: "Case record successfully created."
+      creation_success_queue: "Case record successfully created in background."
       not_found: "Child with the given id is not found"
       confirm_duplicate: "Are you sure you want to continue? If so, click OK. If not, click Cancel."
 
@@ -653,7 +655,9 @@ en:
 
     messages:
       update_success: "Incident %{record_id} was successfully updated."
+      update_success_queue: "Incident %{record_id} was successfully updated in background."
       creation_success: "Incident record successfully created."
+      creation_success_queue: "Incident record successfully created in background"
 
     view: "View Incident %{short_id}"
     edit: "Edit Incident"
@@ -722,6 +726,8 @@ en:
     messages:
       update_success: "Tracing Request %{record_id} was successfully updated."
       creation_success: "Tracing Request record successfully created."
+      update_success_queue: "Tracing Request %{record_id} was successfully updated in background."
+      creation_success_queue: "Tracing Request record successfully created in background."
 
     view: "View Tracing Request %{short_id}"
     edit: "Edit Tracing Request"
