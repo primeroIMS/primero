@@ -10,6 +10,8 @@ class BulkExport < ApplicationRecord
   ARCHIVED = 'job.status.archived'     # The job's files have been cleaned up
   ARCHIVE_CUTOFF = 30.days.ago
 
+  alias_attribute :export_format, :format
+
   scope :owned, ->(owner_user_name) { where(owned_by: owner_user_name) }
 
   belongs_to :owner, class_name: 'User', foreign_key: 'owned_by', primary_key: 'user_name'

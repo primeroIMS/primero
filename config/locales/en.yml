@@ -370,6 +370,7 @@ en:
       date_case_plan_initiated: 'Date of Case Plan'
       closure_approved_date: 'Date of Case Closure '
       created_at: 'Case Open Date'
+      date_of_creation: 'Date of Creation'
     filter_by:
       label: "Filter by"
       all: "All"
