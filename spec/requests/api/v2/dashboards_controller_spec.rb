@@ -78,7 +78,7 @@ describe Api::V2::DashboardsController, type: :request do
 
       workflow_dashboard = json['data'].find { |d| d['name'] == 'dashboard.workflow' }
       expect(workflow_dashboard['indicators']['workflow']['assessment']['count']).to eq(1)
-      expect(workflow_dashboard['indicators']['workflow']['assessment']['query']).to match_array(%w[owned_by=foo record_state=true status=open workflow=assessment])
+      expect(workflow_dashboard['indicators']['workflow']['assessment']['query']).to match_array(%w[owned_by=foo record_state=true status=open,closed workflow=assessment])
 
       reporting_location_dashboard = json['data'].find { |d| d['name'] == 'dashboard.reporting_location' }
       expect(reporting_location_dashboard['indicators']['reporting_location_open']['cty']['count']).to eq(2)

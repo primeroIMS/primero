@@ -10,6 +10,11 @@ module Indicators
       SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED)
     ].freeze
 
+    OPEN_CLOSED_ENABLED = [
+      SearchFilters::Value.new(field_name: 'record_state', value: true),
+      SearchFilters::ValueList.new(field_name: 'status', values: [Record::STATUS_OPEN, Record::STATUS_CLOSED])
+    ].freeze
+
     OPEN = QueriedIndicator.new(
       name: 'open',
       record_model: Child,
@@ -43,7 +48,7 @@ module Indicators
       name: 'workflow',
       facet: 'workflow',
       record_model: Child,
-      scope: OPEN_ENABLED,
+      scope: OPEN_CLOSED_ENABLED,
       scope_to_owner: true
     ).freeze
 
@@ -51,7 +56,7 @@ module Indicators
       name: 'workflow_team',
       record_model: Child,
       pivots: %w[owned_by workflow],
-      scope: OPEN_ENABLED
+      scope: OPEN_CLOSED_ENABLED
     ).freeze
 
     RISK = FacetedIndicator.new(
