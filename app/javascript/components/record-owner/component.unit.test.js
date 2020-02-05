@@ -55,4 +55,31 @@ describe("<RecordOwner />", () => {
   it("renders Form", () => {
     expect(component.find(Form)).to.have.lengthOf(1);
   });
+
+  describe("when record is new", () => {
+    const initialState = Map({
+      records: fromJS({
+        cases: {
+          data: [{}]
+        }
+      }),
+      forms: fromJS({
+        selectedForm: "record_owner",
+        selectedRecord: null
+      })
+    });
+
+    const props = {
+      record: null,
+      recordType: RESOURCES.cases
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(RecordOwner, props, initialState));
+    });
+
+    it("should render RecordOwner", () => {
+      expect(component.find(RecordOwner)).to.have.lengthOf(1);
+    });
+  });
 });

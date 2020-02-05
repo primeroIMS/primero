@@ -10,6 +10,7 @@ import { LoadingIndicator } from "../loading-indicator";
 import RecordOwner from "../record-owner";
 import { PrimeroModuleRecord } from "../application/records";
 import { Transitions } from "../transitions";
+import { MODES } from "../../config";
 
 import { Nav } from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
@@ -218,6 +219,54 @@ describe("<RecordForms /> - Component", () => {
       expect(component.find(RecordOwner)).to.have.lengthOf(0);
       expect(component.find(Transitions)).to.have.lengthOf(0);
       expect(component.find(RecordForm)).to.have.lengthOf(1);
+    });
+  });
+
+  describe("when record is new", () => {
+    const initialState = fromJS({
+      records: {
+        cases: {}
+      },
+      forms: {
+        selectedForm: "record_owner",
+        selectedRecord: null,
+        formSections,
+        fields,
+        loading: false,
+        errors: false
+      },
+      user: fromJS({
+        modules: ["primeromodule-cp"]
+      }),
+      application
+    });
+
+    beforeEach(() => {
+      const routedComponent = initialProps => {
+        return (
+          <Route
+            path="/:recordType(cases|incidents|tracing_requests)/:module/new"
+            component={props => (
+              <RecordForms {...{ ...props, ...initialProps }} />
+            )}
+          />
+        );
+      };
+
+      ({ component } = setupMountedComponent(
+        routedComponent,
+        {
+          mode: "new"
+        },
+        initialState,
+        ["/cases/primeromodule-cp/new"]
+      ));
+    });
+
+    it("should render RecordOwner", () => {
+      expect(component.find(RecordOwner)).to.have.lengthOf(1);
+      expect(component.find(Transitions)).to.have.lengthOf(0);
+      expect(component.find(RecordForm)).to.have.lengthOf(0);
     });
   });
 });
