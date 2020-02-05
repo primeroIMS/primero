@@ -483,8 +483,8 @@ class User < ApplicationRecord
     end
   end
 
-  def permitted_roles
-    role.role_unique_ids.present? ? role.roles : Role.all
+  def permitted_roles_to_manage
+    role.permitted_role_unique_ids.present? ? role.permitted_roles : Role.all
   end
 
   def ability

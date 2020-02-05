@@ -7,8 +7,8 @@ module Api::V2
 
     def index
       authorize! :index, Role
-      @total = current_user.permitted_roles.size
-      @roles = current_user.permitted_roles.paginate(pagination)
+      @total = current_user.permitted_roles_to_manage.size
+      @roles = current_user.permitted_roles_to_manage.paginate(pagination)
     end
 
     def show
