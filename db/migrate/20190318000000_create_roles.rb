@@ -25,12 +25,5 @@ class CreateRoles < ActiveRecord::Migration[5.0]
     end
     add_index :primero_modules_roles, [:role_id, :primero_module_id], unique: true
 
-    create_table :roles_roles, id: false do |t|
-      t.integer :role_id
-      t.integer :associated_role_id
-    end
-    add_index :roles_roles, [:role_id, :associated_role_id], unique: true
-
-
   end
 end
