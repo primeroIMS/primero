@@ -1,4 +1,4 @@
-import { setupMockFormComponent, expect } from "../../../../../test";
+import { setupMockFormComponent, expect, spy } from "../../../../../test";
 
 import ChipsFilter from "./component";
 
@@ -32,10 +32,14 @@ describe("<ChipsFilter>", () => {
 
   it("renders chip as secondary filter, with valid pros in the more section", () => {
     const newProps = {
-      isSecondary: true,
+      mode: {
+        secondary: true
+      },
       moreSectionFilters: {},
       setMoreSectionFilters: () => {},
-      filter
+      filter,
+      reset: false,
+      setReset: () => {}
     };
     const { component } = setupMockFormComponent(ChipsFilter, newProps);
 
@@ -46,16 +50,39 @@ describe("<ChipsFilter>", () => {
     const clone = { ...component.find(ChipsFilter).props() };
 
     [
-      "isSecondary",
-      "moreSectionFilters",
-      "setMoreSectionFilters",
+      "commonInputProps",
       "filter",
-      "commonInputProps"
+      "mode",
+      "moreSectionFilters",
+      "reset",
+      "setMoreSectionFilters",
+      "setReset"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });
 
     expect(clone).to.be.empty;
+  });
+
+  it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
+    const newProps = {
+      mode: {
+        secondary: false
+      },
+      moreSectionFilters: {},
+      setMoreSectionFilters: spy(),
+      filter,
+      reset: false,
+      setReset: () => {}
+    };
+
+    const { component } = setupMockFormComponent(ChipsFilter, newProps);
+    const chipFilter = component.find("input[type='checkbox']").at(0);
+
+    expect(chipFilter).to.have.lengthOf(1);
+    chipFilter.simulate("change", { target: { checked: true } });
+
+    expect(newProps.setMoreSectionFilters).to.have.not.been.called;
   });
 });

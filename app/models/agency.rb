@@ -66,6 +66,19 @@ class Agency < ApplicationRecord
       value = (agency.present? ? agency.name(locale) : '')
     end
     # memoize_in_prod :display_text
+
+    def new_with_properties(agency_params)
+      agency = Agency.new(agency_params.except(:name, :description))
+      agency.name_i18n = agency_params[:name]
+      agency.description_i18n = agency_params[:description]
+      agency
+    end
+  end
+
+  def update_properties(agency_params)
+    converted_params = FieldI18nService.convert_i18n_properties(Agency, agency_params)
+    merged_props = FieldI18nService.merge_i18n_properties(attributes, converted_params)
+    assign_attributes(agency_params.except(:name, :description).merge(merged_props))
   end
 
   private

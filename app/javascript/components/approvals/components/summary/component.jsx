@@ -23,7 +23,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
       : i18n.t(`approvals.${approvalSubform.get("approval_response_for")}`);
 
   const renderStatus = isResponse ? (
-    <Grid item md={2} xs={10}>
+    <Grid item md={2} xs={4}>
       <div className={css.approvalsStatus}>
         <Chip
           label={i18n.t(`approvals.status.${status}`)}
@@ -36,7 +36,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item md={10} xs={10}>
+      <Grid item md={10} xs={8}>
         <div className={css.wrapper}>
           <div className={css.titleHeader}>{title}</div>
           <div className={css.approvalsValueSummary}>{renderApprovalValue}</div>

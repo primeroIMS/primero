@@ -57,7 +57,7 @@ describe("<RecordActions /> - exports/helpers", () => {
     });
 
     it("should not return labels if there are not translations", () => {
-      const expected = "hello-world.csv";
+      const expected = "hello world.csv";
 
       expect(helper.formatFileName("hello world", "csv")).to.be.equal(expected);
     });

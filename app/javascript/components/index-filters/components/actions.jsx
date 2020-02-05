@@ -16,7 +16,7 @@ const Actions = ({ handleSave, handleClear }) => {
       <Button type="submit" variant="contained" color="primary">
         {i18n.t("filters.apply_filters")}
       </Button>
-      <Button onClick={handleSave} variant="outlined" disabled>
+      <Button onClick={handleSave} variant="outlined">
         {i18n.t("filters.save_filters")}
       </Button>
       <Button onClick={handleClear} variant="outlined">

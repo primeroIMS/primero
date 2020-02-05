@@ -14,7 +14,6 @@ class IdentityProvider < ApplicationRecord
                  :client_id, :authorization_url, :identity_scope, :verification_url, :issuer
 
   class << self
-
     # Identity providers are set at deployment-time. They should not change.
     # We want to cache them since they are accessed on each HTTP request.
     # Make sure to recreate Primero processes if the IPDs ever change.
@@ -43,7 +42,18 @@ class IdentityProvider < ApplicationRecord
       # If we can't fetch a valid JWKS from a url then so be it.
       []
     end
-
   end
 
+  def identity_sync_connector
+    connector_type = configuration['identity_sync_connector']
+    return unless connector_type
+
+    "IdentitySync::#{connector_type}".constantize
+  rescue NameError
+    nil
+  end
+
+  def sync_identity?
+    configuration['identity_sync_connector'].present?
+  end
 end

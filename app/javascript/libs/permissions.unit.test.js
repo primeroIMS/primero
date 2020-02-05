@@ -22,6 +22,7 @@ describe("Verifying config constant", () => {
       "DASH_APPROVALS_CLOSURE",
       "DASH_APPROVALS_CLOSURE_PENDING",
       "DASH_CASE_RISK",
+      "DASH_PROTECTION_CONCERNS",
       "DASH_REPORTING_LOCATION",
       "DASH_TASKS",
       "DASH_WORKFLOW",

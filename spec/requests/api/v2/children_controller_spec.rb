@@ -48,9 +48,12 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['metadata']['total']).to eq(3)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
-      expect(json['data'][0]['alert_count']).to eq(2)
-      expect(json['data'][1]['alert_count']).to eq(1)
-      expect(json['data'][2]['alert_count']).to eq(0)
+      case1_data = json['data'].find { |r| r['id'] == @case1.id }
+      expect(case1_data['alert_count']).to eq(0)
+      case2_data = json['data'].find { |r| r['id'] == @case2.id }
+      expect(case2_data['alert_count']).to eq(2)
+      case3_data = json['data'].find { |r| r['id'] == @case3.id }
+      expect(case3_data['alert_count']).to eq(1)
     end
 
     it 'shows relevant fields' do
@@ -496,6 +499,39 @@ describe Api::V2::ChildrenController, type: :request do
         login_for_test(group_permission: Permission::SELF)
 
         params = { data: { status: 'open', case_reopened: true }, record_action: Permission::REOPEN }
+
+        patch "/api/v2/cases/#{@case1.id}", params: params
+
+        expect(response).to have_http_status(403)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
+      end
+    end
+
+    describe 'when a user disables a case that cannot update' do
+      it 'disables the case if he is authorized to disable cases' do
+        login_for_test(
+          group_permission: Permission::SELF,
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE,
+              actions: [Permission::ENABLE_DISABLE_RECORD]
+            )
+          ]
+        )
+
+        params = { data: { record_state: false }, record_action: Permission::ENABLE_DISABLE_RECORD }
+
+        patch "/api/v2/cases/#{@case1.id}", params: params
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['record_state']).to eq(false)
+      end
+
+      it 'returns 403 if the user is not authorized' do
+        login_for_test(group_permission: Permission::SELF)
+
+        params = { data: { record_state: false }, record_action: Permission::ENABLE_DISABLE_RECORD }
 
         patch "/api/v2/cases/#{@case1.id}", params: params
 
