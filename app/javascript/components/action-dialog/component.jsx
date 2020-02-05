@@ -24,7 +24,8 @@ const ActionDialog = ({
   children,
   onClose,
   confirmButtonProps,
-  omitCloseAfterSuccess
+  omitCloseAfterSuccess,
+  maxSize
 }) => {
   const i18n = useI18n();
 
@@ -61,7 +62,7 @@ const ActionDialog = ({
         open={open}
         onClose={handleClose}
         fullWidth
-        maxWidth="sm"
+        maxWidth={maxSize ? maxSize : "sm"}
         aria-labelledby="action-dialog-title"
         aria-describedby="action-dialog-description"
       >
@@ -101,6 +102,7 @@ ActionDialog.propTypes = {
   dialogSubtitle: PropTypes.string,
   dialogText: PropTypes.string,
   dialogTitle: PropTypes.string,
+  maxSize: PropTypes.string,
   omitCloseAfterSuccess: PropTypes.bool,
   onClose: PropTypes.func,
   open: PropTypes.bool,

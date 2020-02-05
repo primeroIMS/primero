@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField, menuItem, IconButton, FormLabel } from '@material-ui/core';
+import { TextField, menuItem, IconButton, FormLabel, Grid } from '@material-ui/core';
 import CloseIcon from "@material-ui/icons/Close";
 
 import { useI18n } from "../../i18n";
@@ -57,22 +57,34 @@ const Component = ({
       >
         <CloseIcon />
       </IconButton>
-      <form noValidate autoComplete="off">
-        <FormLabel component="legend">
-          {i18n.t("cases.request_approval_select")}
-        </FormLabel>
-        <TextField
-          id="outlined-select-approval-native"
-          select
-          value={requestType}
-          onChange={handleChange}
-          className={css.selectApprovalType}
-          SelectProps={{
-            native: true
-          }}
+      <form noValidate autoComplete="off" className={css.centerForm}>
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justify="center"
         >
-          {selectOptions}
-        </TextField>
+          <Grid item xs={10}>
+            <FormLabel component="legend">
+              {i18n.t("cases.request_approval_select")}
+            </FormLabel>
+          </Grid>
+          <Grid item xs={10}>
+            <TextField
+              id="outlined-select-approval-native"
+              select
+              value={requestType}
+              onChange={handleChange}
+              className={css.selectApprovalType}
+              SelectProps={{
+                native: true
+              }}
+            >
+              {selectOptions}
+            </TextField>
+          </Grid>
+        </Grid>
       </form>
     </>
   );
@@ -84,6 +96,7 @@ const Component = ({
       successHandler={handleOk}
       cancelHandler={close}
       confirmButtonLabel={i18n.t("cases.ok")}
+      maxSize="xs"
     >
       {dialogContent}
     </ ActionDialog>
