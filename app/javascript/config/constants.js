@@ -134,7 +134,8 @@ export const MODES = {
 export const LOOKUPS = {
   risk_level: "lookup-risk-level",
   workflow: "lookup-workflow",
-  service_type: "lookup-service-type"
+  service_type: "lookup-service-type",
+  protection_concerns: "lookup-protection-concerns"
 };
 
 export const ADMIN_NAV = [

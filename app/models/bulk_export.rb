@@ -11,6 +11,8 @@ class BulkExport < ApplicationRecord
   ARCHIVE_CUTOFF = 30                  # days
   PASSWORD_LENGTH = 8
 
+  alias_attribute :export_format, :format
+
   scope :owned, ->(owner_user_name) { where(owned_by: owner_user_name) }
 
   belongs_to :owner, class_name: 'User', foreign_key: 'owned_by', primary_key: 'user_name'

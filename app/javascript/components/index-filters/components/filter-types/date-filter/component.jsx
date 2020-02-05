@@ -4,6 +4,8 @@ import { useFormContext } from "react-hook-form";
 import { Select, MenuItem } from "@material-ui/core";
 import { DatePicker } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/styles";
+import { useLocation } from "react-router-dom";
+import qs from "qs";
 
 import { useI18n } from "../../../../i18n";
 import Panel from "../../panel";
@@ -36,12 +38,19 @@ const Component = ({
     Object.keys(getValues({ nest: true })).includes(option.id)
   )?.[0]?.id;
   const [selectedField, setSelectedField] = useState(valueSelectedField || "");
+  const location = useLocation();
+  const queryParams = qs.parse(location.search.replace("?", ""));
+  const queryParamsKeys = Object.keys(queryParams);
 
   const handleDatePicker = (field, date) => {
     const value = { ...inputValue, [field]: date };
 
     setInputValue(value);
     setValue(selectedField, value);
+
+    if (mode?.secondary) {
+      setMoreSectionFilters({ ...moreSectionFilters, [selectedField]: value });
+    }
   };
 
   const handleSelectedField = event => {
@@ -52,12 +61,14 @@ const Component = ({
     }
 
     setSelectedField(value);
+    setValue(value, undefined);
+
     if (mode?.secondary) {
       handleMoreFiltersChange(
         moreSectionFilters,
         setMoreSectionFilters,
-        fieldName,
-        value
+        value,
+        {}
       );
     }
   };
@@ -69,7 +80,7 @@ const Component = ({
 
       resetSecondaryFilter(
         mode?.secondary,
-        fieldName,
+        selectedField,
         getValues()[fieldName],
         moreSectionFilters,
         setMoreSectionFilters
@@ -77,17 +88,12 @@ const Component = ({
     }
   };
 
-  const setSecondaryValues = (_name, values) => {
-    setSelectedField(values);
+  const setSecondaryValues = (name, values) => {
+    setValue(name, values);
+    setInputValue(values);
   };
 
   useEffect(() => {
-    setMoreFilterOnPrimarySection(
-      moreSectionFilters,
-      fieldName,
-      setSecondaryValues
-    );
-
     if (selectedField) {
       registerInput({
         register,
@@ -100,6 +106,24 @@ const Component = ({
       if (reset && !mode?.defaultFilter) {
         handleReset();
       }
+
+      setMoreFilterOnPrimarySection(
+        moreSectionFilters,
+        selectedField,
+        setSecondaryValues
+      );
+    } else if (
+      queryParamsKeys.length &&
+      !Object.keys(moreSectionFilters).length
+    ) {
+      const data = filter?.options?.[i18n.locale].find(option =>
+        queryParamsKeys.includes(option.id)
+      );
+      const selectValue = data?.id;
+      const datesValue = queryParams?.[selectValue];
+
+      setSelectedField(selectValue);
+      setInputValue(datesValue);
     }
 
     return () => {

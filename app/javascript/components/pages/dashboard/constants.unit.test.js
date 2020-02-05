@@ -6,12 +6,15 @@ describe("Verifying config constant", () => {
   it("should have known constant", () => {
     const clone = { ...constants };
 
-    ["DASHBOARD_NAMES", "INDICATOR_NAMES", "WORKFLOW_ORDER_NAMES"].forEach(
-      property => {
-        expect(clone).to.have.property(property);
-        delete clone[property];
-      }
-    );
+    [
+      "DASHBOARD_NAMES",
+      "INDICATOR_NAMES",
+      "WORKFLOW_ORDER_NAMES",
+      "PROTECTION_CONCERNS_ORDER_NAMES"
+    ].forEach(property => {
+      expect(clone).to.have.property(property);
+      delete clone[property];
+    });
 
     expect(clone).to.be.empty;
   });
@@ -29,7 +32,8 @@ describe("Verifying config constant", () => {
       "APPROVALS_CLOSURE",
       "APPROVALS_CLOSURE_PENDING",
       "REPORTING_LOCATION",
-      "WORKFLOW_TEAM"
+      "WORKFLOW_TEAM",
+      "PROTECTION_CONCERNS"
     );
 
     expect(clone.INDICATOR_NAMES).to.have.all.keys(
@@ -40,7 +44,13 @@ describe("Verifying config constant", () => {
       "REPORTING_LOCATION_OPEN_LAST_WEEK",
       "REPORTING_LOCATION_OPEN_THIS_WEEK",
       "REPORTING_LOCATION_ClOSED_LAST_WEEK",
-      "REPORTING_LOCATION_ClOSED_THIS_WEEK"
+      "REPORTING_LOCATION_ClOSED_THIS_WEEK",
+      "PROTECTION_CONCERNS_ALL_CASES",
+      "PROTECTION_CONCERNS_NEW_THIS_WEEK",
+      "PROTECTION_CONCERNS_CLOSED_THIS_WEEK",
+      "PROTECTION_CONCERNS_OPEN_CASES"
     );
+
+    expect(clone.PROTECTION_CONCERNS_ORDER_NAMES).to.be.an("array");
   });
 });

@@ -151,7 +151,7 @@ en:
     logout: "Log out"
     settings: "Settings"
 
-  settings: 
+  settings:
     title: "Settings"
     navigation:
       agency: "Agency"
@@ -323,6 +323,13 @@ en:
     notes_form_notes: 'Notes'
     case_worker_code: "Case Worker Code"
     agency: "Agency"
+    request_approval_select: "Request approval for"
+    request_approve_bia: "Approve Assessment?"
+    request_approve_case_plan: "Approve Case Plan?"
+    request_approve_closure: "Approve Closure?"
+    request_approval_success_bia: "Approval requested for Assessment form."
+    request_approval_success_case_plan: "Approval requested for Case Plan form."
+    request_approval_success_closure: "Approval requested for Closure form."
 
     order_by:
       most_recently: "Most recently"
@@ -352,6 +359,7 @@ en:
       date_case_plan_initiated: 'Date of Case Plan'
       closure_approved_date: 'Date of Case Closure '
       created_at: 'Case Open Date'
+      date_of_creation: 'Date of Creation'
     filter_by:
       label: "Filter by"
       all: "All"
@@ -2092,6 +2100,7 @@ en:
     next: "Next"
     previous: "Previous"
     save: "Save"
+    request_approval: "Request Approval"
     description:
       valid: "Valid record"
       invalid: "Invalid record"
@@ -2390,7 +2399,7 @@ en:
     approve_case_plan_with_selectable_type: "Request Approval for the Case Plan?"
     approve_closure: "Request Approval for the Closure form?"
     approve_closure_label: "Approve Closure Form"
-    bia: "BIA"
+    bia: "Assessment"
     case_plan: "Case Plan"
     closure: "Closure"
     assessment: "Assessment"

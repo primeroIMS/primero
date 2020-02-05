@@ -35,7 +35,7 @@ describe Api::V2::RolesController, type: :request do
           Permission::EXPORT_PDF,
           Permission::CREATE
         ],
-        role_ids: %w[
+        role_unique_ids: %w[
           role-cp-case-worker
           role-cp-manager
         ]
@@ -160,6 +160,19 @@ describe Api::V2::RolesController, type: :request do
       expect(json['errors'][0]['resource']).to eq('/api/v2/roles')
       expect(json['errors'][0]['message']).to eq('Forbidden')
     end
+
+    it 'list only those roles authorized for the user' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE], role_unique_ids: [@role_a.unique_id, @role_b.unique_id])
+        ]
+      )
+
+      get '/api/v2/roles'
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(2)
+      expect(json['data'].map { |role| role['unique_id'] }).to include("role_test_01", "role_test_02")
+    end
   end
 
   describe 'GET /api/v2/roles/:id' do
@@ -201,6 +214,20 @@ describe Api::V2::RolesController, type: :request do
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/roles/thisdoesntexist')
+    end
+
+    it 'returns 403 if a user is not authorized to see a specific role' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::ROLE, actions: [Permission::READ], role_unique_ids: [@role_a.unique_id])
+        ]
+      )
+
+      get "/api/v2/roles/#{@role_b.id}"
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/roles/#{@role_b.id}")
+      expect(json['errors'][0]['message']).to eq('Forbidden')
     end
   end
 
@@ -411,6 +438,26 @@ describe Api::V2::RolesController, type: :request do
       expect(json['errors'][0]['resource']).to eq("/api/v2/roles/#{@role_a.id}")
       expect(json['errors'][0]['message']).to eq('Forbidden')
     end
+
+    it 'returns 403 if a user is not authorized to update a specific role' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::ROLE, actions: [Permission::WRITE], role_unique_ids: @role_a.unique_id)
+        ]
+      )
+      params = {
+        data: {
+          unique_id: 'other-id',
+          permissions: { agency: %w[read write] }
+        }
+      }
+
+      patch "/api/v2/roles/#{@role_b.id}", params: params
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/roles/#{@role_b.id}")
+      expect(json['errors'][0]['message']).to eq('Forbidden')
+    end
   end
 
   describe 'DELETE /api/v2/roles/:id' do
@@ -451,6 +498,20 @@ describe Api::V2::RolesController, type: :request do
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/roles/thisdoesntexist')
+    end
+
+    it 'returns 403 if a user is not authorized to delete a specific role' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::ROLE, actions: [Permission::WRITE], role_unique_ids: @role_a.unique_id)
+        ]
+      )
+
+      delete "/api/v2/roles/#{@role_b.id}"
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/roles/#{@role_b.id}")
+      expect(json['errors'][0]['message']).to eq('Forbidden')
     end
   end
 

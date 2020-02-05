@@ -15,10 +15,10 @@ class ExportService
     end
 
     def build(params, user)
-      return unless params[:format] && params[:record_type]
+      return unless params[:export_format] && params[:record_type]
 
       # TODO: Destringify the params?
-      export = bulk_export_class(params[:format]).new(params.except(:password))
+      export = bulk_export_class(params[:export_format]).new(params.except(:password))
       export.owner = user
       export
     end
