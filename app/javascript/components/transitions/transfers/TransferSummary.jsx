@@ -12,10 +12,14 @@ import styles from "./styles.css";
 const TransferSummary = ({
   transition,
   classes,
-  currentUser
+  currentUser,
+  showMode
 }) => {
   const css = makeStyles(styles)();
-  const showTransferApproval = transition.get("transitioned_to") === currentUser && transition.get("status") === "in_progress";
+  const showTransferApproval = transition
+    && transition.transitioned_to === currentUser
+    && transition.status === "in_progress"
+    && showMode;
   const i18n = useI18n();
   const transitionStatus = transition.status ? (
     <Grid item md={2} xs={10}>
@@ -51,7 +55,9 @@ const TransferSummary = ({
 
 TransferSummary.propTypes = {
   classes: PropTypes.object.isRequired,
-  transition: PropTypes.object.isRequired
+  transition: PropTypes.object.isRequired,
+  currentUser: PropTypes.string,
+  showMode: PropTypes.bool
 };
 
 export default TransferSummary;
