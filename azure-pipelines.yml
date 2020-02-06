@@ -55,7 +55,7 @@ jobs:
         displayName: 'Install bundler and its dependencies'
       - bash: |
           sudo apt-get update
-          sudo apt-get install -y libsodium
+          sudo apt-get install -y libsodium-dev
         displayName: 'Install native dependencies'
       - task: Cache@2
         inputs:
