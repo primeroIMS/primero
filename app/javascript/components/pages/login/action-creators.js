@@ -1,4 +1,3 @@
-import { DB } from "../../../config";
 import { DB_COLLECTIONS_NAMES } from "../../../db";
 
 import { LOGIN } from "./actions";

@@ -1,4 +1,3 @@
-import { DB } from "../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 
 import { APPROVE_RECORD } from "./actions";
