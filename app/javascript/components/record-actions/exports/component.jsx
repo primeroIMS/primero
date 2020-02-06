@@ -1,8 +1,10 @@
 import React, { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { List } from "immutable";
 import * as yup from "yup";
+import { withRouter } from "react-router-dom";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 import { ActionDialog } from "../../action-dialog";
@@ -13,6 +15,9 @@ import Form, {
 } from "../../form";
 import submitForm from "../../../submit-form";
 import { RECORD_TYPES } from "../../../config";
+import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
+import { DEFAULT_FILTERS } from "../../index-filters";
+import { getRecords } from "../../index-table";
 
 import { NAME, ALL_EXPORT_TYPES } from "./constants";
 import { allowedExports, formatFileName } from "./helpers";
@@ -22,24 +27,72 @@ const Component = ({
   openExportsDialog,
   close,
   recordType,
-  userPermissions
+  userPermissions,
+  match,
+  record,
+  selectedRecords
 }) => {
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
+  const { params } = match;
+  const isShowPage = Object.keys(params).length > 0;
+
+  const records = useSelector(state => getRecords(state, recordType)).get(
+    "data"
+  );
+  const appliedFilters = useSelector(state =>
+    getFiltersValuesByRecordType(state, recordType)
+  );
+  const allRowsSelected =
+    selectedRecords?.length > 0 &&
+    records.size > 0 &&
+    selectedRecords?.length === records.size;
 
   const handleSubmit = values => {
     const { format } = ALL_EXPORT_TYPES.find(e => e.id === values.export_type);
     const fileName = formatFileName(values.custom_export_file_name, format);
+
+    let filters = {};
+    const shortIds = records
+      .toJS()
+      .filter((_r, i) => selectedRecords.includes(i))
+      .map(r => r.short_id);
+
+    if (isShowPage) {
+      filters = { short_id: [record.get("short_id")] };
+    } else {
+      filters = Object.entries(appliedFilters.toJS()).reduce((acc, curr) => {
+        const [key, value] = curr;
+
+        if (!DEFAULT_FILTERS.includes(key)) {
+          return { ...acc, [key]: value };
+        }
+
+        return acc;
+      }, {});
+
+      if (Object.keys(filters).length && !allRowsSelected) {
+        filters = {
+          short_id: shortIds
+        };
+      }
+    }
+    const { query, ...restFilters } = filters;
+
     const data = {
-      format,
+      export_format: format,
       record_type: RECORD_TYPES[recordType],
       file_name: fileName,
-      password: values.password
+      password: values.password,
+      filters: Object.keys(restFilters).length ? restFilters : shortIds
     };
 
     dispatch(
-      saveExport({ data }, i18n.t("exports.queueing", { file_name: fileName }))
+      saveExport(
+        { data: !isEmpty(query) ? { ...data, query } : data },
+        i18n.t("exports.queueing", { file_name: fileName })
+      )
     );
     close();
   };
@@ -64,7 +117,7 @@ const Component = ({
           name: "export_type",
           type: "select_box",
           option_strings_text: {
-            en: allowedExports(userPermissions)
+            [i18n.locale]: allowedExports(userPermissions, i18n, isShowPage)
           },
           multi_select: false,
           required: true
@@ -76,7 +129,7 @@ const Component = ({
           required: true,
           autoFocus: true,
           help_text: {
-            en: i18n.t("encrypt.password_extra_info")
+            [i18n.locale]: i18n.t("encrypt.password_extra_info")
           },
           password: true
         }),
@@ -118,9 +171,12 @@ Component.defaultProps = {
 
 Component.propTypes = {
   close: PropTypes.func,
+  match: PropTypes.object,
   openExportsDialog: PropTypes.bool,
+  record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  selectedRecords: PropTypes.array,
   userPermissions: PropTypes.object
 };
 
-export default Component;
+export default withRouter(Component);

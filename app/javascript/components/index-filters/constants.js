@@ -24,6 +24,13 @@ export const PRIMARY_FILTERS = [
   "last_updated_at"
 ];
 
+export const DEFAULT_FILTERS = [
+  "fields",
+  "status",
+  "record_state",
+  "id_search"
+];
+
 export const OR_FIELDS = ["owned_by", "assigned_user_names"];
 
 export const MY_CASES_FILTER_NAME = "my_cases";

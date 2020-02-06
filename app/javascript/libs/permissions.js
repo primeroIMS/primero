@@ -34,6 +34,8 @@ export const ACTIONS = {
   EXPORT_PDF: "export_pdf",
   EXPORT_PHOTO_WALL: "export_photowall",
   EXPORT_UNHCR: "export_unhcr_csv",
+  EXPORT_LIST_VIEW: "export_list_view_csv",
+  EXPORT_DUPLICATE_ID: "export_duplicate_id",
   FLAG: "flag",
   GROUP_READ: "group_read",
   INCIDENT_DETAILS_FROM_CASE: "incident_details_from_case",

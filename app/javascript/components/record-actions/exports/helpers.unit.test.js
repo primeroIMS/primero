@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../../../test";
+import { expect, stub } from "../../../test";
 import { ACTIONS } from "../../../libs/permissions";
 
 import { ALL_EXPORT_TYPES, EXPORT_FORMAT } from "./constants";
@@ -21,11 +21,24 @@ describe("<RecordActions /> - exports/helpers", () => {
   });
 
   describe("allowedExports", () => {
+    const i18n = {
+      t: stub()
+    };
+
     it("should return all export types if userPermission contains manage permission", () => {
       const userPermission = fromJS(["manage"]);
 
-      expect(helper.allowedExports(userPermission)).to.deep.equal(
-        ALL_EXPORT_TYPES
+      i18n.t.returns("test.label");
+
+      const expected = ALL_EXPORT_TYPES.map(a => {
+        return {
+          ...a,
+          display_name: "test.label"
+        };
+      });
+
+      expect(helper.allowedExports(userPermission, i18n, false)).to.deep.equal(
+        expected
       );
     });
 
@@ -33,13 +46,13 @@ describe("<RecordActions /> - exports/helpers", () => {
       const expected = [
         {
           id: "csv",
-          display_name: "CSV",
+          display_name: "test.label",
           permission: ACTIONS.EXPORT_CSV,
           format: EXPORT_FORMAT.CSV
         },
         {
           id: "json",
-          display_name: "JSON",
+          display_name: "test.label",
           permission: ACTIONS.EXPORT_JSON,
           format: EXPORT_FORMAT.JSON
         }
@@ -47,7 +60,9 @@ describe("<RecordActions /> - exports/helpers", () => {
 
       const userPermission = fromJS([ACTIONS.EXPORT_CSV, ACTIONS.EXPORT_JSON]);
 
-      expect(helper.allowedExports(userPermission)).to.deep.equal(expected);
+      expect(helper.allowedExports(userPermission, i18n, false)).to.deep.equal(
+        expected
+      );
     });
   });
 

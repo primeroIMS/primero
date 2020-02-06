@@ -11,32 +11,39 @@ export const NAME = "Exports";
 export const ALL_EXPORT_TYPES = Object.freeze([
   Object.freeze({
     id: "csv",
-    display_name: "CSV",
     permission: ACTIONS.EXPORT_CSV,
     format: EXPORT_FORMAT.CSV
   }),
   Object.freeze({
-    id: "excel",
-    display_name: "Excel",
+    id: "xls",
     permission: ACTIONS.EXPORT_EXCEL,
     format: EXPORT_FORMAT.EXCEL
   }),
   Object.freeze({
     id: "json",
-    display_name: "JSON",
     permission: ACTIONS.EXPORT_JSON,
     format: EXPORT_FORMAT.JSON
   }),
   Object.freeze({
-    id: "pdf",
-    display_name: "Photo Wall",
+    id: "photowall",
     permission: ACTIONS.EXPORT_PHOTO_WALL,
     format: EXPORT_FORMAT.PDF
   }),
   Object.freeze({
-    id: "unhcr",
-    display_name: "UNHCR",
+    id: "unhcr_csv",
     permission: ACTIONS.EXPORT_UNHCR,
     format: EXPORT_FORMAT.CSV
+  }),
+  Object.freeze({
+    id: "list_view_csv",
+    permission: ACTIONS.EXPORT_LIST_VIEW,
+    format: EXPORT_FORMAT.CSV,
+    showOnlyOnList: true
+  }),
+  Object.freeze({
+    id: "duplicate_id_csv",
+    permission: ACTIONS.EXPORT_DUPLICATE_ID,
+    format: EXPORT_FORMAT.CSV,
+    showOnlyOnList: true
   })
 ]);
