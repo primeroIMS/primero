@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { List } from "immutable";
 import * as yup from "yup";
+import { withRouter } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
 import { ActionDialog } from "../../action-dialog";
@@ -22,20 +23,30 @@ const Component = ({
   openExportsDialog,
   close,
   recordType,
-  userPermissions
+  userPermissions,
+  match,
+  record,
+  selectedRecords
 }) => {
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
+  const { params } = match;
+  const isShowPage = Object.keys(params).length > 0;
 
   const handleSubmit = values => {
     const { format } = ALL_EXPORT_TYPES.find(e => e.id === values.export_type);
     const fileName = formatFileName(values.custom_export_file_name, format);
+    const filters = {
+      short_id: isShowPage ? [record.get("short_id")] : selectedRecords
+    };
+
     const data = {
       export_format: format,
       record_type: RECORD_TYPES[recordType],
       file_name: fileName,
-      password: values.password
+      password: values.password,
+      filters
     };
 
     dispatch(
@@ -124,9 +135,12 @@ Component.defaultProps = {
 
 Component.propTypes = {
   close: PropTypes.func,
+  match: PropTypes.object,
   openExportsDialog: PropTypes.bool,
+  record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  selectedRecords: PropTypes.array,
   userPermissions: PropTypes.object
 };
 
-export default Component;
+export default withRouter(Component);
