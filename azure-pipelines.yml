@@ -45,7 +45,7 @@ jobs:
         displayName: 'Install npm packages'
       - task: UseRubyVersion@0
         inputs:
-          versionSpec: '= 2.6.5' 
+          versionSpec: '= 2.6.5'
           addToPath: true
         displayName: 'Install ruby'
       - bash: |
@@ -53,10 +53,14 @@ jobs:
           sudo apt-get install -y libpq-dev
           gem install bundler
         displayName: 'Install bundler and its dependencies'
+      - bash: |
+          sudo apt-get update
+          sudo apt-get install -y libsodium
+        displayName: 'Install native dependencies'
       - task: Cache@2
         inputs:
           key: 'gems | "$(Agent.OS)" | Gemfile.lock'
-          restoreKeys: | 
+          restoreKeys: |
             gems | "$(Agent.OS)"
             gems
         displayName: 'Cache gems'
