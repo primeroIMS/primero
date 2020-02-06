@@ -1,7 +1,5 @@
 /* eslint-disable no-restricted-globals */
 
-import DB from "./db/db";
-
 const CACHE_VERSION = "v2";
 const CACHE_NAME = `${CACHE_VERSION}:sw-cache-`;
 const CACHE_ADDITIONAL = [
@@ -9,21 +7,6 @@ const CACHE_ADDITIONAL = [
   "/primero-pictorial-144.png",
   "javascripts/i18n.js"
 ];
-
-const sendDispatchMessgaesToClient = async () => {
-  const offlineRequests = (await DB.getAll("offline_requests")) || [];
-
-  if (offlineRequests) {
-    self.clients.matchAll().then(all =>
-      all.map(client =>
-        client.postMessage({
-          type: "offlineRequest",
-          actions: offlineRequests
-        })
-      )
-    );
-  }
-};
 
 const onInstall = event => {
   event.waitUntil(
@@ -75,11 +58,6 @@ const onFetch = event => {
   );
 };
 
-const onSync = event => {
-  event.waitUntil(sendDispatchMessgaesToClient());
-};
-
 self.addEventListener("install", onInstall);
 self.addEventListener("activate", onActivate);
 self.addEventListener("fetch", onFetch);
-self.addEventListener("sync", onSync);
