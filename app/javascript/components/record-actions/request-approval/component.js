@@ -22,7 +22,8 @@ const Component = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
-  const [requestType, setRequestType] = useState("bia");
+  const startRequestType = subMenuItems && subMenuItems[0] && subMenuItems[0].value;
+  const [requestType, setRequestType] = useState(startRequestType);
   const handleChange = event => {
     setRequestType(event.target.value);
   };
@@ -58,33 +59,22 @@ const Component = ({
         <CloseIcon />
       </IconButton>
       <form noValidate autoComplete="off" className={css.centerForm}>
-        <Grid
-          container
-          spacing={0}
-          direction="column"
-          alignItems="center"
-          justify="center"
+        <FormLabel component="legend">
+          {i18n.t("cases.request_approval_select")}
+        </FormLabel>
+        <TextField
+          id="outlined-select-approval-native"
+          select
+          value={requestType}
+          onChange={handleChange}
+          className={css.selectApprovalType}
+          fullWidth
+          SelectProps={{
+            native: true
+          }}
         >
-          <Grid item xs={10}>
-            <FormLabel component="legend">
-              {i18n.t("cases.request_approval_select")}
-            </FormLabel>
-          </Grid>
-          <Grid item xs={10}>
-            <TextField
-              id="outlined-select-approval-native"
-              select
-              value={requestType}
-              onChange={handleChange}
-              className={css.selectApprovalType}
-              SelectProps={{
-                native: true
-              }}
-            >
-              {selectOptions}
-            </TextField>
-          </Grid>
-        </Grid>
+          {selectOptions}
+        </TextField>
       </form>
     </>
   );
