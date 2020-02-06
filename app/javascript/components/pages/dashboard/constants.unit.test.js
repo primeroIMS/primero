@@ -33,7 +33,11 @@ describe("Verifying config constant", () => {
       "APPROVALS_CLOSURE_PENDING",
       "REPORTING_LOCATION",
       "WORKFLOW_TEAM",
-      "PROTECTION_CONCERNS"
+      "PROTECTION_CONCERNS",
+      "CASES_BY_TASK_OVERDUE_ASSESSMENT",
+      "CASES_BY_TASK_OVERDUE_CASE_PLAN",
+      "CASES_BY_TASK_OVERDUE_SERVICES",
+      "CASES_BY_TASK_OVERDUE_FOLLOWUPS"
     );
 
     expect(clone.INDICATOR_NAMES).to.have.all.keys(

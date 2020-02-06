@@ -331,7 +331,7 @@ const Dashboard = ({
           <Permission
             resources={RESOURCES.dashboards}
             actions={[
-              ACTIONS.DASH_REPORTING_LOCATION,
+              ACTIONS.DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
               ACTIONS.DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
               ACTIONS.DASH_CASES_BY_TASK_OVERDUE_SERVICES,
               ACTIONS.DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS

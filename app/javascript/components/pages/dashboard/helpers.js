@@ -303,7 +303,7 @@ export const toTasksOverdueTable = (overdueTasksDashboards, i18n) => {
     label: i18n.t("dashboard.services")
   };
   dashboardColumns[DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_FOLLOWUPS] = {
-    name: "follow_ups",
+    name: "followups",
     label: i18n.t("dashboard.follow_up")
   };
 
