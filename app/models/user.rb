@@ -450,6 +450,7 @@ class User < ApplicationRecord
     @permitted_field_names << 'flag_count' if can?(:flag, model_class)
     @permitted_field_names << 'flagged' if can?(:flag, model_class)
     @permitted_field_names += permitted_approval_field_names(model_class)
+    @permitted_field_names += permitted_overdue_task_fields
     @permitted_field_names
   end
 
@@ -485,6 +486,15 @@ class User < ApplicationRecord
 
   def permitted_roles_to_manage
     role.permitted_role_unique_ids.present? ? role.permitted_roles : Role.all
+  end
+
+  def permitted_overdue_task_fields
+    overdue_task_fields = []
+    overdue_task_fields << 'assessment_due_dates' if can?(:cases_by_task_overdue_assessment, Dashboard)
+    overdue_task_fields << 'case_plan_due_dates' if can?(:cases_by_task_overdue_case_plan, Dashboard)
+    overdue_task_fields << 'service_due_dates' if can?(:cases_by_task_overdue_services, Dashboard)
+    overdue_task_fields << 'followup_due_dates' if can?(:cases_by_task_overdue_followups, Dashboard)
+    overdue_task_fields
   end
 
   def ability
