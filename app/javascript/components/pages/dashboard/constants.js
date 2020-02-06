@@ -9,7 +9,12 @@ export const DASHBOARD_NAMES = Object.freeze({
   APPROVALS_ASSESSMENT_PENDING: "dashboard.approvals_assessment_pending",
   APPROVALS_CASE_PLAN_PENDING: "dashboard.approvals_case_plan_pending",
   APPROVALS_CLOSURE_PENDING: "dashboard.approvals_closure_pending",
-  PROTECTION_CONCERNS: "dashboard.dash_protection_concerns"
+  PROTECTION_CONCERNS: "dashboard.dash_protection_concerns",
+  CASES_BY_TASK_OVERDUE_ASSESSMENT:
+    "dashboard.cases_by_task_overdue_assessment",
+  CASES_BY_TASK_OVERDUE_CASE_PLAN: "dashboard.cases_by_task_overdue_case_plan",
+  CASES_BY_TASK_OVERDUE_SERVICES: "dashboard.cases_by_task_overdue_services",
+  CASES_BY_TASK_OVERDUE_FOLLOWUPS: "dashboard.cases_by_task_overdue_followups"
 });
 
 export const INDICATOR_NAMES = Object.freeze({

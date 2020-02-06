@@ -13,7 +13,11 @@ export const HIDDEN_FIELDS = [
   "id_search",
   "query",
   "approval_status_bia",
-  "approval_status_closure"
+  "approval_status_closure",
+  "assessment_due_dates",
+  "service_due_dates",
+  "case_plan_due_dates",
+  "followup_due_dates"
 ];
 
 export const PRIMARY_FILTERS = [
