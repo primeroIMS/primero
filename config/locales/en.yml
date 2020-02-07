@@ -2126,7 +2126,8 @@ en:
 
   exports:
     no_records: "No Records Available!"
-    queueing: "Generating the export file"
+    queueing: "Generating the export file%{file_name}"
+    go_to_exports: "Go to Exports page to download"
     pdf:
       all: PDF
       one: PDF

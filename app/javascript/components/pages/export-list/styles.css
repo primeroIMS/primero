@@ -1,4 +1,5 @@
 .root {
+
   & > div {
     padding: 1em;
   }
@@ -7,4 +8,13 @@
 .link {
   display: flex;
   align-items: center;
+
+  & > span {
+    margin-left: 5px;
+  }
+}
+
+.loading {
+  width: 15px !important;
+  height: 15px !important;
 }
