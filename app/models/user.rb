@@ -449,6 +449,7 @@ class User < ApplicationRecord
     @permitted_field_names << 'hidden_name' if can?(:update, model_class)
     @permitted_field_names << 'flag_count' if can?(:flag, model_class)
     @permitted_field_names << 'flagged' if can?(:flag, model_class)
+    @permitted_field_names << 'referred_users_present' if can?(:referred_users_present, model_class)
     @permitted_field_names += permitted_approval_field_names(model_class)
     @permitted_field_names
   end
