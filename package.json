@@ -38,6 +38,7 @@
     "chart.js": "^2.8.0",
     "clean-webpack-plugin": "^3.0.0",
     "clsx": "^1.0.4",
+    "compression-webpack-plugin": "^3.1.0",
     "connected-react-router": "^6.4.0",
     "core-js": "3.3.6",
     "css-to-mui-loader": "^2.0.2",

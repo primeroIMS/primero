@@ -2,6 +2,7 @@ const common = require("./config.common");
 const WebpackAssetsManifest = require("webpack-assets-manifest");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { OUTPUT_DIRNAME, EXTERNAL_ENTRY, MANIFEST_OUTPUT_PATH } = require("./config");
+const CompressionPlugin = require("compression-webpack-plugin");
 
 const plugins = name => ([
   ...(!EXTERNAL_ENTRY(name) 
@@ -16,6 +17,10 @@ const plugins = name => ([
   new MiniCssExtractPlugin({
     filename: "[name].[contenthash:8].css",
     chunkFilename: "[name].[contenthash:8].chunk.css"
+  }),
+  new CompressionPlugin({
+    algorithm: "gzip",
+    test: /\.(js|json)(\?.*)?$/i
   })
 ]);
 

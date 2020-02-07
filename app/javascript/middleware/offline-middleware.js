@@ -3,7 +3,11 @@ import uuid from "uuid/v4";
 import { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { QUEUEABLE_ACTIONS, DB_STORES } from "../db/constants";
 
-import { handleSuccessCallback, generateRecordProperties } from "./utils";
+import {
+  handleSuccessCallback,
+  generateRecordProperties,
+  isOnline
+} from "./utils";
 
 const withGeneratedProperties = (action, store, db) => {
   const { api } = action;
@@ -67,7 +71,7 @@ const queueData = async ({ store, db, action, type }) => {
 };
 
 const offlineMiddleware = store => next => action => {
-  if (!(action.api && "path" in action.api)) {
+  if (!action?.api?.path || isOnline(store)) {
     return next(action);
   }
 

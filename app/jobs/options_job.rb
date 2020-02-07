@@ -8,22 +8,15 @@ class OptionsJob < ApplicationJob
     FileUtils.mkdir_p(dir) unless File.directory?(dir)
     FileUtils.rm_rf Dir.glob("#{dir}/*")
 
-    Primero::Application.locales.each do |locale|
-      locations = {
-        type: 'Location',
-        options: Location.all_names(locale: locale)
-      }
+    locations = Location.all.map{ |location| { 
+      id: location.id, 
+      code: location.location_code, 
+      type: location.type
+    }.merge(FieldI18nService.fill_keys([:name], FieldI18nService.strip_i18n_suffix(location.slice(:name_i18n))))} 
+    
 
-      reporting_locations = {
-        type: 'ReportingLocation',
-        options: Location.all_names_reporting_locations(locale: locale)
-      }
-
-      next unless locations[:options].present?
-
-      File.open("#{dir}/options_#{locale}-#{fingerprint}.json", 'w+') do |f|
-        f.write([locations, reporting_locations].to_json)
-      end
+    File.open("#{dir}/locations-#{fingerprint}.json", 'w+') do |f|
+      f.write(locations.to_json)
     end
   end
 end

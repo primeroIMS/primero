@@ -2,7 +2,7 @@ import qs from "qs";
 
 import { attemptSignout } from "../components/user";
 import { FETCH_TIMEOUT } from "../config";
-import { syncIndexedDB, queueIndexedDB } from "../db";
+import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { signOut } from "../components/pages/login/idp-selection";
 
 import { handleSuccessCallback, isOnline } from "./utils";
@@ -30,10 +30,10 @@ function fetchStatus({ store, type }, action, loading) {
   });
 }
 
-function buildPath(path, options, params) {
-  return `${options.baseUrl}/${path}${
-    params ? `?${queryParams.toString(params)}` : ""
-  }`;
+function buildPath(path, options, params, external) {
+  const endpoint = external ? path : `${options.baseUrl}/${path}`;
+
+  return `${endpoint}${params ? `?${queryParams.toString(params)}` : ""}`;
 }
 
 async function handleSuccess(store, payload) {
@@ -63,7 +63,16 @@ function fetchPayload(action, store, options) {
 
   const {
     type,
-    api: { path, body, params, method, normalizeFunc, successCallback, db },
+    api: {
+      path,
+      body,
+      params,
+      method,
+      normalizeFunc,
+      successCallback,
+      db,
+      external
+    },
     fromQueue
   } = action;
 
@@ -86,7 +95,7 @@ function fetchPayload(action, store, options) {
     Object.assign(fetchOptions.headers, headers)
   );
 
-  const fetchPath = buildPath(path, options, params);
+  const fetchPath = buildPath(path, options, params, external);
 
   const fetch = async () => {
     fetchStatus({ store, type }, "STARTED", true);
@@ -133,9 +142,45 @@ function fetchPayload(action, store, options) {
   return fetch();
 }
 
+const fetchFromCache = (action, store, options, next) => {
+  const {
+    type,
+    api: { db }
+  } = action;
+
+  const fetch = async () => {
+    const manifest = await DB.getRecord("manifests", db?.collection);
+
+    if (manifest?.name === db?.manifest) {
+      try {
+        const payloadFromDB = await syncIndexedDB(db, action, METHODS.READ);
+
+        store.dispatch({
+          type: `${type}_SUCCESS`,
+          payload: payloadFromDB
+        });
+
+        fetchStatus({ store, type }, "FINISHED", false);
+
+        return next(action);
+      } catch {
+        fetchStatus({ store, type }, "FAILURE", false);
+      }
+    }
+
+    return fetchPayload(action, store, options);
+  };
+
+  return fetch();
+};
+
 const restMiddleware = options => store => next => action => {
   if (!(action.api && "path" in action.api) || !isOnline(store)) {
     return next(action);
+  }
+
+  if (action?.api?.db?.alwaysCache) {
+    return fetchFromCache(action, store, options, next);
   }
 
   return fetchPayload(action, store, options);

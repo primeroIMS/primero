@@ -1,8 +1,6 @@
 const fs = require("fs");
-const path = require("path");
 const crypto = require("crypto");
 const ConcatSource = require("webpack-sources").ConcatSource;
-var async = require('async');
 
 class BuildPrecacheManifest {
   constructor(manifestFiles = [], additionalFilePaths = []) {

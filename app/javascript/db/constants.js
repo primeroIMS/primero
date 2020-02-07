@@ -16,6 +16,7 @@ export const DB_COLLECTIONS = [
   ["records", { keyPath: "id" }, ["type", "type", { multiEntry: true }]],
   ["user", { keyPath: "user_name" }],
   ["offline_requests", { keyPath: "fromQueue" }],
+  ["manifests", { keyPath: "collection" }],
   "forms",
   "fields",
   "options",

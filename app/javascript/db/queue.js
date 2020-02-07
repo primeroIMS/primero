@@ -1,6 +1,5 @@
 import { DB_STORES } from "./constants";
-
-import DB from ".";
+import DB from "./db";
 
 const queueIndexedDB = {
   getAll: () => {

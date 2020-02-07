@@ -1,7 +1,9 @@
+import { batch } from "react-redux";
+
 import { DB_COLLECTIONS_NAMES } from "../../db";
 
 import Actions from "./actions";
-import { URL_LOCATIONS, URL_LOOKUPS } from "./constants";
+import { URL_LOOKUPS } from "./constants";
 
 const fetchLookups = () => ({
   type: Actions.SET_OPTIONS,
@@ -14,31 +16,28 @@ const fetchLookups = () => ({
   }
 });
 
-// TODO: The per was added as workaround but it definitely needs to be changed in the future.
 const fetchLocations = () => ({
   type: Actions.SET_LOCATIONS,
   api: {
-    path: URL_LOCATIONS,
-    params: { per: 8000, page: 1 },
+    path: `${window.location.origin}${window.locationManifest}`,
+    external: true,
     db: {
-      collection: DB_COLLECTIONS_NAMES.LOCATIONS
+      collection: DB_COLLECTIONS_NAMES.LOCATIONS,
+      alwaysCache: true,
+      manifest: window.locationManifest
     }
   }
 });
 
-export const setSelectedForm = payload => {
-  return {
-    type: Actions.SET_SELECTED_FORM,
-    payload
-  };
-};
+export const setSelectedForm = payload => ({
+  type: Actions.SET_SELECTED_FORM,
+  payload
+});
 
-export const setSelectedRecord = payload => {
-  return {
-    type: Actions.SET_SELECTED_RECORD,
-    payload
-  };
-};
+export const setSelectedRecord = payload => ({
+  type: Actions.SET_SELECTED_RECORD,
+  payload
+});
 
 export const fetchForms = () => async dispatch => {
   dispatch({
@@ -54,6 +53,8 @@ export const fetchForms = () => async dispatch => {
 };
 
 export const fetchOptions = () => async dispatch => {
-  dispatch(fetchLookups());
-  dispatch(fetchLocations());
+  batch(() => {
+    dispatch(fetchLookups());
+    dispatch(fetchLocations());
+  });
 };
