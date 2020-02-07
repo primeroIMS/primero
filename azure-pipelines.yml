@@ -34,13 +34,6 @@ jobs:
         inputs:
           versionSpec: '11.15.0'
         displayName: 'Install node'
-      - task: Cache@2
-        inputs:
-          key: 'npm | "$(Agent.OS)" | package-lock.json'
-          restoreKeys: |
-            npm | "$(Agent.OS)"
-            npm
-        displayName: 'Cache npm'
       - bash: npm install
         displayName: 'Install npm packages'
       - task: UseRubyVersion@0
@@ -57,13 +50,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libsodium-dev
         displayName: 'Install native dependencies'
-      - task: Cache@2
-        inputs:
-          key: 'gems | "$(Agent.OS)" | Gemfile.lock'
-          restoreKeys: |
-            gems | "$(Agent.OS)"
-            gems
-        displayName: 'Cache gems'
       - bash: bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
         displayName: 'Bundle install'
       - bash: sudo apt-get install -y postgresql-client-10
