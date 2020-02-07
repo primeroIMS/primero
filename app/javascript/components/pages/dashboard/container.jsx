@@ -48,7 +48,11 @@ import {
   getApprovalsClosure,
   getApprovalsClosurePending,
   getReportingLocation,
-  getProtectionConcerns
+  getProtectionConcerns,
+  getCasesByTaskOverdueAssessment,
+  getCasesByTaskOverdueCasePlan,
+  getCasesByTaskOverdueServices,
+  getCasesByTaskOverdueFollowups
 } from "./selectors";
 import styles from "./styles.css";
 import {
@@ -56,7 +60,8 @@ import {
   toListTable,
   toReportingLocationTable,
   toApprovalsManager,
-  toProtectionConcernTable
+  toProtectionConcernTable,
+  toTasksOverdueTable
 } from "./helpers";
 
 const Dashboard = ({
@@ -85,7 +90,11 @@ const Dashboard = ({
   approvalsAssessmentPending,
   approvalsCasePlanPending,
   approvalsClosurePending,
-  protectionConcerns
+  protectionConcerns,
+  casesByTaskOverdueAssessment,
+  casesByTaskOverdueCasePlan,
+  casesByTaskOverdueServices,
+  casesByTaskOverdueFollowups
 }) => {
   useEffect(() => {
     batch(() => {
@@ -215,6 +224,18 @@ const Dashboard = ({
     )
   };
 
+  const tasksOverdueProps = {
+    ...toTasksOverdueTable(
+      [
+        casesByTaskOverdueAssessment,
+        casesByTaskOverdueCasePlan,
+        casesByTaskOverdueServices,
+        casesByTaskOverdueFollowups
+      ],
+      i18n
+    )
+  };
+
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
@@ -309,6 +330,22 @@ const Dashboard = ({
 
           <Permission
             resources={RESOURCES.dashboards}
+            actions={[
+              ACTIONS.DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
+              ACTIONS.DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
+              ACTIONS.DASH_CASES_BY_TASK_OVERDUE_SERVICES,
+              ACTIONS.DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS
+            ]}
+          >
+            <Grid item md={12}>
+              <OptionsBox title={i18n.t("dashboard.cases_by_task_overdue")}>
+                <DashboardTable {...tasksOverdueProps} />
+              </OptionsBox>
+            </Grid>
+          </Permission>
+
+          <Permission
+            resources={RESOURCES.dashboards}
             actions={ACTIONS.DASH_WORKFLOW_TEAM}
           >
             <Grid item md={12} hidden={!casesWorkflowTeam?.size}>
@@ -382,6 +419,10 @@ Dashboard.propTypes = {
   casesByAssessmentLevel: PropTypes.object.isRequired,
   casesByCaseWorker: PropTypes.object.isRequired,
   casesByStatus: PropTypes.object.isRequired,
+  casesByTaskOverdueAssessment: PropTypes.object,
+  casesByTaskOverdueCasePlan: PropTypes.object,
+  casesByTaskOverdueFollowups: PropTypes.object,
+  casesByTaskOverdueServices: PropTypes.object,
   casesOverview: PropTypes.object.isRequired,
   casesRegistration: PropTypes.object.isRequired,
   casesWorkflow: PropTypes.object.isRequired,
@@ -422,7 +463,11 @@ const mapStateToProps = state => {
     servicesStatus: selectServicesStatus(state),
     reportingLocationConfig: getReportingLocationConfig(state),
     locations: getLocations(state),
-    protectionConcerns: getProtectionConcerns(state)
+    protectionConcerns: getProtectionConcerns(state),
+    casesByTaskOverdueAssessment: getCasesByTaskOverdueAssessment(state),
+    casesByTaskOverdueCasePlan: getCasesByTaskOverdueCasePlan(state),
+    casesByTaskOverdueServices: getCasesByTaskOverdueServices(state),
+    casesByTaskOverdueFollowups: getCasesByTaskOverdueFollowups(state)
   };
 };
 
