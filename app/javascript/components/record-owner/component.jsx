@@ -13,11 +13,9 @@ const Component = ({ record, recordType }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
-  const recordOwnerValues =
-    record &&
-    FIELDS.map(a => a.name).reduce((acum, field) => {
-      return { ...acum, [field]: record.get(field) };
-    }, {});
+  const recordOwnerValues = FIELDS.map(a => a.name).reduce((acum, field) => {
+    return { ...acum, [field]: record?.get(field) };
+  }, {});
 
   const renderFields = FIELDS.map(f => {
     const field = { ...f };

@@ -171,7 +171,7 @@ const Container = ({ match, mode }) => {
     record: params.id
   };
 
-  const approvalSubforms = record && record.get("approval_subforms");
+  const approvalSubforms = record?.get("approval_subforms");
 
   let renderForm;
 
