@@ -501,7 +501,7 @@ describe("<Dashboard />", () => {
           .find(TableCell)
           .first()
           .text()
-      ).to.eq("dashboard.case_worker");
+      ).to.equal("dashboard.case_worker");
       expect(
         component
           .find(DashboardTable)
@@ -509,7 +509,7 @@ describe("<Dashboard />", () => {
           .find(TableCell)
           .last()
           .text()
-      ).to.eq("dashboard.assessment");
+      ).to.equal("dashboard.assessment");
     });
   });
 
@@ -564,7 +564,7 @@ describe("<Dashboard />", () => {
           .find(TableCell)
           .first()
           .text()
-      ).to.eq("dashboard.case_worker");
+      ).to.equal("dashboard.case_worker");
       expect(
         component
           .find(DashboardTable)
@@ -572,7 +572,7 @@ describe("<Dashboard />", () => {
           .find(TableCell)
           .last()
           .text()
-      ).to.eq("dashboard.case_plan");
+      ).to.equal("dashboard.case_plan");
     });
   });
 
@@ -627,7 +627,7 @@ describe("<Dashboard />", () => {
           .find(TableCell)
           .first()
           .text()
-      ).to.eq("dashboard.case_worker");
+      ).to.equal("dashboard.case_worker");
       expect(
         component
           .find(DashboardTable)
@@ -635,7 +635,7 @@ describe("<Dashboard />", () => {
           .find(TableCell)
           .last()
           .text()
-      ).to.eq("dashboard.services");
+      ).to.equal("dashboard.services");
     });
   });
 
@@ -690,7 +690,7 @@ describe("<Dashboard />", () => {
           .find(TableCell)
           .first()
           .text()
-      ).to.eq("dashboard.case_worker");
+      ).to.equal("dashboard.case_worker");
       expect(
         component
           .find(DashboardTable)
@@ -698,7 +698,7 @@ describe("<Dashboard />", () => {
           .find(TableCell)
           .last()
           .text()
-      ).to.eq("dashboard.follow_up");
+      ).to.equal("dashboard.follow_up");
     });
   });
 

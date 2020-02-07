@@ -288,23 +288,23 @@ export const toTasksOverdueTable = (overdueTasksDashboards, i18n) => {
     { values: {}, queries: {} }
   );
 
-  const dashboardColumns = {};
-
-  dashboardColumns[DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_ASSESSMENT] = {
-    name: "assessment",
-    label: i18n.t("dashboard.assessment")
-  };
-  dashboardColumns[DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_CASE_PLAN] = {
-    name: "case_plan",
-    label: i18n.t("dashboard.case_plan")
-  };
-  dashboardColumns[DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_SERVICES] = {
-    name: "services",
-    label: i18n.t("dashboard.services")
-  };
-  dashboardColumns[DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_FOLLOWUPS] = {
-    name: "followups",
-    label: i18n.t("dashboard.follow_up")
+  const dashboardColumns = {
+    [DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_ASSESSMENT]: {
+      name: "assessment",
+      label: i18n.t("dashboard.assessment")
+    },
+    [DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_CASE_PLAN]: {
+      name: "case_plan",
+      label: i18n.t("dashboard.case_plan")
+    },
+    [DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_SERVICES]: {
+      name: "services",
+      label: i18n.t("dashboard.services")
+    },
+    [DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_FOLLOWUPS]: {
+      name: "followups",
+      label: i18n.t("dashboard.follow_up")
+    }
   };
 
   const columns = [

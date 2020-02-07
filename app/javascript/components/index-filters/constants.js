@@ -9,16 +9,16 @@ export const FILTER_TYPES = Object.freeze({
 });
 
 export const HIDDEN_FIELDS = [
-  "fields",
-  "id_search",
-  "query",
   "approval_status_bia",
   "approval_status_closure",
   "assessment_due_dates",
-  "service_due_dates",
+  "associated_user_names",
   "case_plan_due_dates",
+  "fields",
   "followup_due_dates",
-  "associated_user_names"
+  "id_search",
+  "query",
+  "service_due_dates"
 ];
 
 export const PRIMARY_FILTERS = [

@@ -1,20 +1,19 @@
 export const DASHBOARD_NAMES = Object.freeze({
-  CASE_RISK: "dashboard.case_risk",
-  WORKFLOW: "dashboard.workflow",
-  APPROVALS_ASSESSMENT: "dashboard.approvals_assessment",
-  APPROVALS_CASE_PLAN: "dashboard.approvals_case_plan",
-  APPROVALS_CLOSURE: "dashboard.approvals_closure",
-  WORKFLOW_TEAM: "dashboard.workflow_team",
-  REPORTING_LOCATION: "dashboard.reporting_location",
   APPROVALS_ASSESSMENT_PENDING: "dashboard.approvals_assessment_pending",
+  APPROVALS_ASSESSMENT: "dashboard.approvals_assessment",
   APPROVALS_CASE_PLAN_PENDING: "dashboard.approvals_case_plan_pending",
+  APPROVALS_CASE_PLAN: "dashboard.approvals_case_plan",
   APPROVALS_CLOSURE_PENDING: "dashboard.approvals_closure_pending",
-  PROTECTION_CONCERNS: "dashboard.dash_protection_concerns",
-  CASES_BY_TASK_OVERDUE_ASSESSMENT:
-    "dashboard.cases_by_task_overdue_assessment",
+  APPROVALS_CLOSURE: "dashboard.approvals_closure",
+  CASE_RISK: "dashboard.case_risk",
+  CASES_BY_TASK_OVERDUE_ASSESSMENT:"dashboard.cases_by_task_overdue_assessment",
   CASES_BY_TASK_OVERDUE_CASE_PLAN: "dashboard.cases_by_task_overdue_case_plan",
+  CASES_BY_TASK_OVERDUE_FOLLOWUPS: "dashboard.cases_by_task_overdue_followups",
   CASES_BY_TASK_OVERDUE_SERVICES: "dashboard.cases_by_task_overdue_services",
-  CASES_BY_TASK_OVERDUE_FOLLOWUPS: "dashboard.cases_by_task_overdue_followups"
+  PROTECTION_CONCERNS: "dashboard.dash_protection_concerns",
+  REPORTING_LOCATION: "dashboard.reporting_location",
+  WORKFLOW_TEAM: "dashboard.workflow_team",
+  WORKFLOW: "dashboard.workflow"
 });
 
 export const INDICATOR_NAMES = Object.freeze({
