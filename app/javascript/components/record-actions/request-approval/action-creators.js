@@ -1,11 +1,11 @@
-import { DB } from "../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
-
-import { APPROVE_RECORD } from "./actions";
+import { REQUESTAPPROVAL } from "../constants";
 import {
   SET_DIALOG,
   SET_DIALOG_PENDING
 } from "../actions";
+
+import { APPROVE_RECORD } from "./actions";
 
 export const approvalRecord = ({
   recordType,
@@ -30,26 +30,20 @@ export const approvalRecord = ({
               variant: "success",
               key: generate.messageKey()
             }
-          },
-          redirectWithIdFromResponse: false,
-          redirect: false
+          }
         },
         {
           action: SET_DIALOG,
           payload: {
-            dialog: "requestApproval",
+            dialog: REQUESTAPPROVAL,
             open: false
-          },
-          redirectWithIdFromResponse: false,
-          redirect: false
+          }
         },
         {
           action: SET_DIALOG_PENDING,
           payload: {
             pending: false
-          },
-          redirectWithIdFromResponse: false,
-          redirect: false
+          }
         }
       ],
       failureCallback: [
@@ -61,17 +55,13 @@ export const approvalRecord = ({
               variant: "error",
               key: generate.messageKey()
             }
-          },
-          redirectWithIdFromResponse: false,
-          redirect: false
+          }
         },
         {
           action: SET_DIALOG_PENDING,
           payload: {
             pending: false
-          },
-          redirectWithIdFromResponse: false,
-          redirect: false
+          }
         }
       ]
     }

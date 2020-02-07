@@ -22,6 +22,7 @@ import {
 import Permission from "../application/permission";
 
 import { setDialog, setPending } from "./action-creators";
+import { REQUESTAPPROVAL } from "./constants";
 import { NAME } from "./config";
 import Notes from "./notes";
 import { ToggleEnable } from "./toggle-enable";
@@ -53,10 +54,10 @@ const Container = ({
   const [openExportsDialog, setOpenExportsDialog] = useState(false);
 
   // const [requestDialog, setRequestDialog] = useState(false);
-  const requestDialog = useSelector(state => selectDialog("requestApproval", state));
+  const requestDialog = useSelector(state => selectDialog(REQUESTAPPROVAL, state));
   const setRequestDialog = open => {
     dispatch(
-      setDialog({ dialog: "requestApproval", open: open })
+      setDialog({ dialog: REQUESTAPPROVAL, open: open })
     );
   };
   const dialogPending = useSelector(state => selectDialogPending(state));
