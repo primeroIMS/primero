@@ -70,13 +70,13 @@ describe IndicatorQueryService, search: true do
     it 'shows the workflows breakdown' do
       expect(stats['case']['workflow']['new']['count']).to eq(1)
       expect(stats['case']['workflow']['assessment']['count']).to eq(1)
-      expect(stats['case']['workflow']['closed']['count']).to eq(0)
+      expect(stats['case']['workflow']['closed']['count']).to eq(3)
     end
 
     it 'shows the string queries to get the workflow breakdown' do
-      expected_query_new = %w[record_state=true status=open owned_by=foo workflow=new]
+      expected_query_new = %w[record_state=true status=open,closed owned_by=foo workflow=new]
       expect(stats['case']['workflow']['new']['query']).to match_array(expected_query_new)
-      expected_query_assessment = %w[record_state=true status=open owned_by=foo workflow=assessment]
+      expected_query_assessment = %w[record_state=true status=open,closed owned_by=foo workflow=assessment]
       expect(stats['case']['workflow']['assessment']['query']).to match_array(expected_query_assessment)
     end
   end
@@ -95,16 +95,16 @@ describe IndicatorQueryService, search: true do
     end
 
     it 'shows the string queries to get the workflow breakdown by user' do
-      expected_query_foo_new = %w[record_state=true status=open owned_by=foo workflow=new]
+      expected_query_foo_new = %w[record_state=true status=open,closed owned_by=foo workflow=new]
       expect(stats['case']['workflow_team']['foo']['new']['query']).to match_array(expected_query_foo_new)
 
-      expected_query_foo_assessment = %w[record_state=true status=open owned_by=foo workflow=assessment]
+      expected_query_foo_assessment = %w[record_state=true status=open,closed owned_by=foo workflow=assessment]
       expect(stats['case']['workflow_team']['foo']['assessment']['query']).to match_array(expected_query_foo_assessment)
 
-      expected_query_bar_new = %w[record_state=true status=open owned_by=bar workflow=new]
+      expected_query_bar_new = %w[record_state=true status=open,closed owned_by=bar workflow=new]
       expect(stats['case']['workflow_team']['bar']['new']['query']).to match_array(expected_query_bar_new)
 
-      expected_query_bar_assessment = %w[record_state=true status=open owned_by=bar workflow=assessment]
+      expected_query_bar_assessment = %w[record_state=true status=open,closed owned_by=bar workflow=assessment]
       expect(stats['case']['workflow_team']['bar']['assessment']['query']).to match_array(expected_query_bar_assessment)
     end
   end

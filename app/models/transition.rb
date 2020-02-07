@@ -56,7 +56,7 @@ class Transition < ApplicationRecord
 
     errors.add(:transitioned_to, 'transition.errors.to_user_can_receive')
   end
-
+  # TODO: Can I modify this method? to solve the rubocop warnning
   def user_can_receive?
     !transitioned_to_user.disabled &&
       transitioned_to_user.role.permissions.any? { |ps| ps.resource == record.class.parent_form } &&

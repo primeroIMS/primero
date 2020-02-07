@@ -128,5 +128,9 @@ class SystemSettings < ApplicationRecord
 
       @current = SystemSettings.first
     end
+
+    def reset
+      @current = nil
+    end
   end
 end

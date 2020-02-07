@@ -327,6 +327,10 @@ class HomeController < ApplicationController
     @display_shared_with_others ||= (can?(:dash_shared_with_others, Dashboard) || current_user.admin?)
   end
 
+  def display_shared_with_me?
+    @display_shared_with_me ||= (can?(:dash_shared_with_me, Dashboard) || current_user.admin?)
+  end
+
   def manager_case_query(query = {})
     module_ids = @module_ids
     risk_levels = @risk_levels

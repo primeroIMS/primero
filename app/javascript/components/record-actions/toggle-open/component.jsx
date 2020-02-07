@@ -18,7 +18,7 @@ const ToggleOpen = ({ close, openReopenDialog, record, recordType }) => {
     record && record.get("status") === "open"
       ? { data: { status: "closed" }, record_action: ACTIONS.CLOSE }
       : {
-          data: { status: "open", case_reopened: true },
+          data: { status: "open", case_status_reopened: true },
           record_action: ACTIONS.REOPEN
         };
 

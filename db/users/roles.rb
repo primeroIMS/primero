@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def create_or_update_role(role_hash)
   role = Role.find_by(unique_id: role_hash[:unique_id])
 
@@ -208,7 +210,8 @@ cp_caseworker_permissions = [
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::DASH_TASKS,
       Permission::DASH_CASE_OVERVIEW,
-      Permission::DASH_SHARED_WITH_OTHERS
+      Permission::DASH_SHARED_WITH_OTHERS,
+      Permission::DASH_SHARED_WITH_ME
     ]
   ),
   Permission.new(
@@ -322,7 +325,8 @@ cp_manager_permissions = [
         Permission::DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
         Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES,
         Permission::DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
-        Permission::DASH_SHARED_WITH_OTHERS
+        Permission::DASH_SHARED_WITH_OTHERS,
+        Permission::DASH_SHARED_WITH_ME
       ]
   )
 ]

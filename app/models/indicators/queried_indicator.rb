@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Indicators
   class QueriedIndicator < AbstractIndicator
     attr_accessor :queries
@@ -14,6 +16,8 @@ module Indicators
       this = self
       sunspot.instance_eval do
         with(:owned_by, user.user_name) if this.scope_to_owner
+        with(:referred_users, user.user_name) if this.scope_to_referred
+        with(:transferred_to_users, user.user_name) if this.scope_to_transferred
         this.scope&.each { |f| f.query_scope(self) }
         facet(this.facet_name, zeros: true) do
           row(this.name) do
@@ -28,6 +32,5 @@ module Indicators
         owner_query_string(owner) +
         (queries&.map(&:to_s) || [])
     end
-
   end
 end

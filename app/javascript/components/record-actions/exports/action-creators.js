@@ -2,7 +2,7 @@ import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 
 import actions from "./actions";
 
-export const saveExport = (body, message) => ({
+export const saveExport = (body, message, actionLabel) => ({
   type: actions.EXPORT,
   api: {
     path: "exports",
@@ -15,7 +15,9 @@ export const saveExport = (body, message) => ({
         options: {
           variant: "success",
           key: generate.messageKey()
-        }
+        },
+        actionLabel,
+        actionUrl: "/exports"
       }
     }
   }
