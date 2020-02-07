@@ -1,9 +1,6 @@
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { REQUESTAPPROVAL } from "../constants";
-import {
-  SET_DIALOG,
-  SET_DIALOG_PENDING
-} from "../actions";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "../actions";
 
 import { APPROVE_RECORD } from "./actions";
 

@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField, menuItem, IconButton, FormLabel, Grid } from '@material-ui/core';
+import {
+  TextField,
+  menuItem,
+  IconButton,
+  FormLabel
+} from '@material-ui/core';
 import CloseIcon from "@material-ui/icons/Close";
 
 import { useI18n } from "../../i18n";
@@ -10,7 +15,7 @@ import { ActionDialog } from "../../action-dialog";
 
 import { approvalRecord } from "./action-creators";
 import { NAME } from "./constants";
-import styles from "./styles.css"
+import styles from "./styles.css";
 
 const Component = ({
   close,
@@ -24,7 +29,8 @@ const Component = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
-  const startRequestType = subMenuItems && subMenuItems[0] && subMenuItems[0].value;
+  const startRequestType =
+    subMenuItems && subMenuItems[0] && subMenuItems[0].value;
   const [requestType, setRequestType] = useState(startRequestType);
   const handleChange = event => {
     setRequestType(event.target.value);
@@ -47,7 +53,7 @@ const Component = ({
   const handleCancel = () => {
     setRequestType(startRequestType);
     close();
-  }
+  };
 
   const selectOptions = subMenuItems.map(option => (
     <option key={option.value} value={option.value}>
@@ -97,7 +103,7 @@ const Component = ({
       pending={pending}
     >
       {dialogContent}
-    </ ActionDialog>
+    </ActionDialog>
   );
 };
 
@@ -105,8 +111,8 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   close: PropTypes.func,
-  pending: PropTypes.bool,
   openRequestDialog: PropTypes.bool,
+  pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string,
   setPending: PropTypes.func,

@@ -1,7 +1,4 @@
-import {
-  SET_DIALOG,
-  SET_DIALOG_PENDING
-} from "./actions";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "./actions";
 
 export const setDialog = payload => {
   return {
@@ -16,5 +13,3 @@ export const setPending = payload => {
     payload
   };
 };
-
-

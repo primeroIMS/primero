@@ -58,7 +58,9 @@ const ActionDialog = ({
     <DialogTitle>{dialogTitle}</DialogTitle>
   );
 
-  const submitButton = pending ? <CircularProgress /> : (
+  const submitButton = pending ? (
+    <CircularProgress />
+  ) : (
     <Button {...{ ...successButtonProps, onClick: handleSuccess }}>
       {confirmButtonLabel}
     </Button>

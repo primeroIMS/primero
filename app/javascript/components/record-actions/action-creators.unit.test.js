@@ -1,9 +1,6 @@
 import { expect } from "../../test/unit-test-helpers";
-import {
-  SET_DIALOG,
-  SET_DIALOG_PENDING
-} from "./actions";
 
+import { SET_DIALOG, SET_DIALOG_PENDING } from "./actions";
 import * as actionCreators from "./action-creators";
 import { REQUESTAPPROVAL } from "./constants";
 

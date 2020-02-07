@@ -5,8 +5,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  IconButton,
-  CircularProgress
+  IconButton
 } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";

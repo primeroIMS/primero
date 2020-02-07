@@ -52,19 +52,15 @@ const Container = ({
   const [incidentDialog, setIncidentDialog] = useState(false);
   const [serviceDialog, setServiceDialog] = useState(false);
   const [openExportsDialog, setOpenExportsDialog] = useState(false);
-
-  // const [requestDialog, setRequestDialog] = useState(false);
-  const requestDialog = useSelector(state => selectDialog(REQUESTAPPROVAL, state));
+  const requestDialog = useSelector(state =>
+    selectDialog(REQUESTAPPROVAL, state)
+  );
   const setRequestDialog = open => {
-    dispatch(
-      setDialog({ dialog: REQUESTAPPROVAL, open: open })
-    );
+    dispatch(setDialog({ dialog: REQUESTAPPROVAL, open: open }));
   };
   const dialogPending = useSelector(state => selectDialogPending(state));
   const setDialogPending = pending => {
-    dispatch(
-      setPending({ pending: pending })
-    );
+    dispatch(setPending({ pending: pending }));
   };
 
   const enableState =
@@ -309,20 +305,22 @@ const Container = ({
     />
   );
 
-  const filterItems = items => items.filter(a => {
-    const actionCondition = typeof a.condition === "undefined" || a.condition;
+  const filterItems = items => items.filter(
+    a => {
+      const actionCondition = typeof a.condition === "undefined" || a.condition;
 
-    if (showListActions) {
-      return a.recordListAction && actionCondition;
+      if (showListActions) {
+        return a.recordListAction && actionCondition;
+      }
+
+      return (
+        (a.recordType === RECORD_TYPES.all ||
+          a.recordType === recordType ||
+          (Array.isArray(a.recordType) && a.recordType.includes(recordType))) &&
+        actionCondition
+      );
     }
-
-    return (
-      (a.recordType === RECORD_TYPES.all ||
-        a.recordType === recordType ||
-        (Array.isArray(a.recordType) && a.recordType.includes(recordType))) &&
-      actionCondition
-    );
-  });
+  );
 
   const filteredActions = filterItems(actions);
   const actionItems = filteredActions?.map(action => {
