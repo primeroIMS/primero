@@ -2,6 +2,10 @@ import { DB } from "../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 
 import { APPROVE_RECORD } from "./actions";
+import {
+  SET_DIALOG,
+  SET_DIALOG_PENDING
+} from "../actions";
 
 export const approvalRecord = ({
   recordType,
@@ -9,7 +13,7 @@ export const approvalRecord = ({
   approvalId,
   body,
   message,
-  redirect
+  failureMessage
 }) => {
   return {
     type: `${recordType}/${APPROVE_RECORD}`,
@@ -17,18 +21,59 @@ export const approvalRecord = ({
       path: `${recordType}/${recordId}/approvals/${approvalId}`,
       method: "PATCH",
       body,
-      successCallback: {
-        action: ENQUEUE_SNACKBAR,
-        payload: {
-          message,
-          options: {
-            variant: "success",
-            key: generate.messageKey()
-          }
+      successCallback: [
+        {
+          action: ENQUEUE_SNACKBAR,
+          payload: {
+            message,
+            options: {
+              variant: "success",
+              key: generate.messageKey()
+            }
+          },
+          redirectWithIdFromResponse: false,
+          redirect: false
         },
-        redirectWithIdFromResponse: false,
-        redirect: redirect === false ? false : redirect || `/${recordType}`
-      }
+        {
+          action: SET_DIALOG,
+          payload: {
+            dialog: "requestApproval",
+            open: false
+          },
+          redirectWithIdFromResponse: false,
+          redirect: false
+        },
+        {
+          action: SET_DIALOG_PENDING,
+          payload: {
+            pending: false
+          },
+          redirectWithIdFromResponse: false,
+          redirect: false
+        }
+      ],
+      failureCallback: [
+        {
+          action: ENQUEUE_SNACKBAR,
+          payload: {
+            message: failureMessage,
+            options: {
+              variant: "error",
+              key: generate.messageKey()
+            }
+          },
+          redirectWithIdFromResponse: false,
+          redirect: false
+        },
+        {
+          action: SET_DIALOG_PENDING,
+          payload: {
+            pending: false
+          },
+          redirectWithIdFromResponse: false,
+          redirect: false
+        }
+      ]
     }
   };
 };

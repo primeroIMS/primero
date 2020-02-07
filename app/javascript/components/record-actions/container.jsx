@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
@@ -21,6 +21,7 @@ import {
 } from "../../libs/permissions";
 import Permission from "../application/permission";
 
+import { setDialog, setPending } from "./action-creators";
 import { NAME } from "./config";
 import Notes from "./notes";
 import { ToggleEnable } from "./toggle-enable";
@@ -30,6 +31,7 @@ import AddIncident from "./add-incident";
 import AddService from "./add-service";
 import RequestApproval from "./request-approval";
 import Exports from "./exports";
+import { selectDialog, selectDialogPending } from "./selectors";
 
 const Container = ({
   recordType,
@@ -40,15 +42,29 @@ const Container = ({
   selectedRecords
 }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openNotesDialog, setOpenNotesDialog] = useState(false);
-  const [requestDialog, setRequestDialog] = useState(false);
   const [transitionType, setTransitionType] = useState("");
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
   const [incidentDialog, setIncidentDialog] = useState(false);
   const [serviceDialog, setServiceDialog] = useState(false);
   const [openExportsDialog, setOpenExportsDialog] = useState(false);
+
+  // const [requestDialog, setRequestDialog] = useState(false);
+  const requestDialog = useSelector(state => selectDialog("requestApproval", state));
+  const setRequestDialog = open => {
+    dispatch(
+      setDialog({ dialog: "requestApproval", open: open })
+    );
+  };
+  const dialogPending = useSelector(state => selectDialogPending(state));
+  const setDialogPending = pending => {
+    dispatch(
+      setPending({ pending: pending })
+    );
+  };
 
   const enableState =
     record && record.get("record_state") ? "disable" : "enable";
@@ -412,6 +428,8 @@ const Container = ({
           subMenuItems={allowedRequestsApproval}
           record={record}
           recordType={recordType}
+          pending={dialogPending}
+          setPending={setDialogPending}
         />
       </Permission>
 

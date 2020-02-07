@@ -51,27 +51,32 @@ async function handleSuccess(store, payload) {
 
 function handleSuccessCallback(store, successCallback, response, json) {
   if (successCallback) {
-    const isCallbackObject = typeof successCallback === "object";
-    const successPayload = isCallbackObject
-      ? {
-          type: successCallback.action,
-          payload: successCallback.payload
-        }
-      : {
-          type: successCallback,
-          payload: { response, json }
-        };
+    if (Array.isArray(successCallback)) {
+      successCallback.forEach(callback => handleSuccessCallback(store, callback, response, json));
+    } else {
 
-    store.dispatch(successPayload);
+      const isCallbackObject = typeof successCallback === "object";
+      const successPayload = isCallbackObject
+        ? {
+            type: successCallback.action,
+            payload: successCallback.payload
+          }
+        : {
+            type: successCallback,
+            payload: { response, json }
+          };
 
-    if (isCallbackObject && successCallback.redirect) {
-      store.dispatch(
-        push(
-          successCallback.redirectWithIdFromResponse
-            ? `${successCallback.redirect}/${json?.data?.id}`
-            : successCallback.redirect
-        )
-      );
+      store.dispatch(successPayload);
+
+      if (isCallbackObject && successCallback.redirect) {
+        store.dispatch(
+          push(
+            successCallback.redirectWithIdFromResponse
+              ? `${successCallback.redirect}/${json?.data?.id}`
+              : successCallback.redirect
+          )
+        );
+      }
     }
   }
 }
@@ -96,6 +101,7 @@ function fetchPayload(action, store, options) {
       method,
       normalizeFunc,
       successCallback,
+      failureCallback,
       db
     }
   } = action;
@@ -135,6 +141,7 @@ function fetchPayload(action, store, options) {
           const usingIdp = store.getState().getIn(["idp", "use_identity_provider"]);
           store.dispatch(attemptSignout(usingIdp, signOut));
         }
+        handleSuccessCallback(store, failureCallback, response, json);
       } else {
         await handleSuccess(store, { type, json, normalizeFunc, path, db });
         handleSuccessCallback(store, successCallback, response, json);
@@ -144,6 +151,7 @@ function fetchPayload(action, store, options) {
       // eslint-disable-next-line no-console
       console.warn(e);
       fetchStatus({ store, type }, "FAILURE", false);
+      handleSuccessCallback(store, failureCallback, {}, json);
     }
   };
 

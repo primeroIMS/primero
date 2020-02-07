@@ -6,7 +6,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  DialogContentText
+  DialogContentText,
+  CircularProgress
 } from "@material-ui/core";
 
 import { useI18n } from "../i18n";
@@ -25,7 +26,8 @@ const ActionDialog = ({
   onClose,
   confirmButtonProps,
   omitCloseAfterSuccess,
-  maxSize
+  maxSize,
+  pending
 }) => {
   const i18n = useI18n();
 
@@ -56,6 +58,12 @@ const ActionDialog = ({
     <DialogTitle>{dialogTitle}</DialogTitle>
   );
 
+  const submitButton = pending ? <CircularProgress /> : (
+    <Button {...{ ...successButtonProps, onClick: handleSuccess }}>
+      {confirmButtonLabel}
+    </Button>
+  );
+
   return (
     <div>
       <Dialog
@@ -75,9 +83,7 @@ const ActionDialog = ({
           )}
         </DialogContent>
         <DialogActions>
-          <Button {...{ ...successButtonProps, onClick: handleSuccess }}>
-            {confirmButtonLabel}
-          </Button>
+          {submitButton}
           {cancelHandler ? (
             <Button onClick={cancelHandler} color="primary">
               {i18n.t("cancel")}
@@ -106,6 +112,7 @@ ActionDialog.propTypes = {
   omitCloseAfterSuccess: PropTypes.bool,
   onClose: PropTypes.func,
   open: PropTypes.bool,
+  pending: PropTypes.bool,
   successHandler: PropTypes.func
 };
 

@@ -17,7 +17,9 @@ const Component = ({
   openRequestDialog,
   subMenuItems,
   record,
-  recordType
+  recordType,
+  pending,
+  setPending
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -29,6 +31,8 @@ const Component = ({
   };
 
   const handleOk = () => {
+    setPending(true);
+
     dispatch(
       approvalRecord({
         recordType,
@@ -36,12 +40,14 @@ const Component = ({
         approvalId: requestType,
         body: { data: { approval_status: "requested" } },
         message: i18n.t(`cases.request_approval_success_${requestType}`),
-        redirect: false
+        failureMessage: i18n.t(`cases.request_approval_failure`)
       })
     );
-
-    close();
   };
+  const handleCancel = () => {
+    setRequestType(startRequestType);
+    close();
+  }
 
   const selectOptions = subMenuItems.map(option => (
     <option key={option.value} value={option.value}>
@@ -84,9 +90,11 @@ const Component = ({
       open={openRequestDialog}
       dialogTitle=""
       successHandler={handleOk}
-      cancelHandler={close}
+      cancelHandler={handleCancel}
       confirmButtonLabel={i18n.t("cases.ok")}
+      omitCloseAfterSuccess
       maxSize="xs"
+      pending={pending}
     >
       {dialogContent}
     </ ActionDialog>
@@ -97,9 +105,11 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   close: PropTypes.func,
+  pending: PropTypes.bool,
   openRequestDialog: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string,
+  setPending: PropTypes.func,
   subMenuItems: PropTypes.array
 };
 
