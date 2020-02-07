@@ -330,7 +330,7 @@ en:
     request_approval_success_bia: "Approval requested for Assessment form."
     request_approval_success_case_plan: "Approval requested for Case Plan form."
     request_approval_success_closure: "Approval requested for Closure form."
-    request_approval_failure: "there was a problem, and that they should contact support."
+    request_approval_failure: "An error occurred, please contact support."
 
     order_by:
       most_recently: "Most recently"
