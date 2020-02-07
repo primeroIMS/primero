@@ -50,7 +50,6 @@ const Component = ({
   const handleSubmit = values => {
     const { format } = ALL_EXPORT_TYPES.find(e => e.id === values.export_type);
     const fileName = formatFileName(values.custom_export_file_name, format);
-
     const shortIds = records
       .toJS()
       .filter((_r, i) => selectedRecords?.includes(i))
@@ -73,10 +72,14 @@ const Component = ({
 
     const data = { ...body, ...filters };
 
-    console.log(filters);
-
     dispatch(
-      saveExport({ data }, i18n.t("exports.queueing", { file_name: fileName }))
+      saveExport(
+        { data },
+        i18n.t("exports.queueing", {
+          file_name: fileName ? `: ${fileName}` : "."
+        }),
+        i18n.t("exports.go_to_exports")
+      )
     );
     close();
   };

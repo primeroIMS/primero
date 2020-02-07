@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# The business logic for performing the record transfer workflow.
 class Transfer < Transition
 
   def perform
@@ -12,7 +15,7 @@ class Transfer < Transition
   def accept!
     return unless in_progress?
 
-    self.status = record.status = Transition::STATUS_ACCEPTED
+    self.status = record.transfer_status = Transition::STATUS_ACCEPTED
     remove_assigned_user
 
     record.previously_owned_by = record.owned_by
@@ -24,7 +27,7 @@ class Transfer < Transition
   def reject!
     return unless in_progress?
 
-    self.status = record.status = Transition::STATUS_REJECTED
+    self.status = record.transfer_status = Transition::STATUS_REJECTED
 
     remove_assigned_user
     record.save! && save!
@@ -71,5 +74,4 @@ class Transfer < Transition
       record.assigned_user_names.delete(transitioned_to)
     end
   end
-
 end

@@ -3,7 +3,7 @@ FROM ruby:2.6.5-alpine3.11 AS build-env
 
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git python
 ENV BUILD_DEP_PACKAGES postgresql-dev
-ENV RUNTIME_PACKAGES libc6-compat nodejs gettext libintl npm imagemagick
+ENV RUNTIME_PACKAGES libc6-compat nodejs gettext libintl npm imagemagick libsodium-dev
 ENV DEV_PACKAGES busybox-extras tree cairo pixman pixman-dev
 ENV RAILS_ENV production
 ENV PYTHON /usr/bin/python
@@ -88,7 +88,7 @@ RUN set -euox pipefail \
 FROM ruby:2.6.5-alpine3.11
 
 ENV BUILD_PACKAGES bash
-ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick
+ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip
 
 ARG APP_ROOT
 ENV APP_ROOT=${APP_ROOT}

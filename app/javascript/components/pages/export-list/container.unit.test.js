@@ -7,6 +7,7 @@ import { PageContainer, PageHeading, PageContent } from "../../page";
 import { ListHeaderRecord } from "../../user/records";
 import { setupMountedComponent } from "../../../test";
 
+import ExportRecord from "./records";
 import ExportList from "./container";
 
 describe("<ExportList />", () => {
@@ -16,24 +17,24 @@ describe("<ExportList />", () => {
     records: {
       bulk_exports: {
         data: [
-          {
+          ExportRecord({
             id: "d5e1a4a019ec727efd34a35d1d9a271e",
             file_name: "PRIMERO-CHILD-UNHCR.CSV",
             record_type: "Case",
-            started_on: "05-Jul-2019 09:36"
-          },
-          {
+            started_on: "2020-02-04T20:32:50.078Z"
+          }),
+          ExportRecord({
             id: "d5e1a4a019ec727efd34a35d1d9a272e",
             file_name: "PRIMERO - CHILD.PDF",
             record_type: "Case",
-            started_on: "05-Jul-2019 09:36"
-          },
-          {
+            started_on: "2020-02-03T20:32:50.078Z"
+          }),
+          ExportRecord({
             id: "d5e1a4a019ec727efd34a35d1d9a273e",
             file_name: "PRIMERO - CHILD.JSON",
             record_type: "Case",
-            started_on: "05-Jul-2019 09:36"
-          }
+            started_on: "2020-02-02T20:32:50.078Z"
+          })
         ],
         metadata: {
           total: 15,

@@ -477,7 +477,7 @@ class User < ApplicationRecord
     when Permission::INCIDENT_DETAILS_FROM_CASE then %w[incident_details] if can?(:incident_details_from_case, model_class)
     when Permission::SERVICES_SECTION_FROM_CASE then %w[services_section] if can?(:services_section_from_case, model_class)
     when Permission::CLOSE then %w[status]  if can?(:close, model_class)
-    when Permission::REOPEN then %w[status] if can?(:reopen, model_class)
+    when Permission::REOPEN then %w[workflow status case_status_reopened] if can?(:reopen, model_class)
     when Permission::ENABLE_DISABLE_RECORD then %w[record_state] if can?(:enable_disable_record, model_class)
     else raise Errors::InvalidPrimeroEntityType, 'case.invalid_action_name'
     end

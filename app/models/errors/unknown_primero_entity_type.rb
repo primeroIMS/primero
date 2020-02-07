@@ -1,5 +1,3 @@
-module Errors
-  # frozen_string_literal: true
+# frozen_string_literal: true
 
-  class UnknownPrimeroEntityType < StandardError; end
-end
+class Errors::UnknownPrimeroEntityType < StandardError; end
