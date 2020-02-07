@@ -256,7 +256,9 @@ module Indicators
     SHARED_WITH_OTHERS_REFERRALS = QueriedIndicator.new(
       name: 'shared_with_others_referrals',
       record_model: Child,
-      queries: OPEN_ENABLED,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'referred_users_present', value: true)
+      ],
       scope_to_owner: true
     ).freeze
 
