@@ -364,19 +364,19 @@ const Container = ({
 
   const requestsApproval = [
     {
-      name: "Assessment",
+      name: i18n.t("cases.assessment"),
       condition: canRequestBia,
       recordType: RECORD_TYPES.all,
       value: "bia"
     },
     {
-      name: "Case Plan",
+      name: i18n.t("cases.case_plan"),
       condition: canRequestCasePlan,
       recordType: RECORD_TYPES.all,
       value: "case_plan"
     },
     {
-      name: "Closure",
+      name: i18n.t("cases.closure"),
       condition: canRequestClosure,
       recordType: RECORD_TYPES.all,
       value: "closure"
@@ -385,19 +385,19 @@ const Container = ({
 
   const approvals = [
     {
-      name: "Assessment",
+      name: i18n.t("cases.assessment"),
       condition: canApproveBia,
       recordType: "all",
       value: "bia"
     },
     {
-      name: "Case Plan",
+      name: i18n.t("cases.case_plan"),
       condition: canApproveCasePlan,
       recordType: "all",
       value: "case_plan"
     },
     {
-      name: "Closure",
+      name: i18n.t("cases.closure"),
       condition: canApproveClosure,
       recordType: "all",
       value: "closure"

@@ -341,6 +341,9 @@ en:
     approval_radio_accept: "Accept"
     approval_radio_reject: "Reject"
     approval_comments: "Comments"
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
 
     order_by:
       most_recently: "Most recently"
