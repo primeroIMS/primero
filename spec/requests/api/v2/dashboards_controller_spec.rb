@@ -174,7 +174,7 @@ describe Api::V2::DashboardsController, type: :request do
 
         expect(response).to have_http_status(200)
 
-        expect(json['data'][0]['indicators']['shared_with_others_referrals']['count']).to eq(2)
+        expect(json['data'][0]['indicators']['shared_with_others_referrals']['count']).to eq(1)
         expect(json['data'][0]['indicators']['shared_with_others_pending_transfers']['count']).to eq(1)
         expect(json['data'][0]['indicators']['shared_with_others_rejected_transfers']['count']).to eq(1)
       end
