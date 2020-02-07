@@ -29,7 +29,7 @@ describe("auth-utils", () => {
         clientId: "123",
         authority: "authorization",
         validateAuthority: false,
-        redirectUri: `http://${window.location.host}/v2/login/b2c`
+        redirectUri: `${window.location.protocol}//${window.location.host}/v2/login/b2c`
       },
       cache: {
         cacheLocation: "sessionStorage",
