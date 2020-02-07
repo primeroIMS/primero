@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { List } from "immutable";
 import * as yup from "yup";
 import { withRouter } from "react-router-dom";
-import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 import { ActionDialog } from "../../action-dialog";
@@ -16,11 +15,10 @@ import Form, {
 import submitForm from "../../../submit-form";
 import { RECORD_TYPES } from "../../../config";
 import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
-import { DEFAULT_FILTERS } from "../../index-filters";
 import { getRecords } from "../../index-table";
 
 import { NAME, ALL_EXPORT_TYPES } from "./constants";
-import { allowedExports, formatFileName } from "./helpers";
+import { allowedExports, formatFileName, exporterFilters } from "./helpers";
 import { saveExport } from "./action-creators";
 
 const Component = ({
@@ -53,46 +51,32 @@ const Component = ({
     const { format } = ALL_EXPORT_TYPES.find(e => e.id === values.export_type);
     const fileName = formatFileName(values.custom_export_file_name, format);
 
-    let filters = {};
     const shortIds = records
       .toJS()
-      .filter((_r, i) => selectedRecords.includes(i))
+      .filter((_r, i) => selectedRecords?.includes(i))
       .map(r => r.short_id);
 
-    if (isShowPage) {
-      filters = { short_id: [record.get("short_id")] };
-    } else {
-      filters = Object.entries(appliedFilters.toJS()).reduce((acc, curr) => {
-        const [key, value] = curr;
+    const filters = exporterFilters(
+      isShowPage,
+      allRowsSelected,
+      shortIds,
+      appliedFilters,
+      record
+    );
 
-        if (!DEFAULT_FILTERS.includes(key)) {
-          return { ...acc, [key]: value };
-        }
-
-        return acc;
-      }, {});
-
-      if (Object.keys(filters).length && !allRowsSelected) {
-        filters = {
-          short_id: shortIds
-        };
-      }
-    }
-    const { query, ...restFilters } = filters;
-
-    const data = {
+    const body = {
       export_format: format,
       record_type: RECORD_TYPES[recordType],
       file_name: fileName,
-      password: values.password,
-      filters: Object.keys(restFilters).length ? restFilters : shortIds
+      password: values.password
     };
 
+    const data = { ...body, ...filters };
+
+    console.log(filters);
+
     dispatch(
-      saveExport(
-        { data: !isEmpty(query) ? { ...data, query } : data },
-        i18n.t("exports.queueing", { file_name: fileName })
-      )
+      saveExport({ data }, i18n.t("exports.queueing", { file_name: fileName }))
     );
     close();
   };

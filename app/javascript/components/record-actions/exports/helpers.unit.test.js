@@ -11,11 +11,13 @@ describe("<RecordActions /> - exports/helpers", () => {
     it("should have known methods", () => {
       const clone = { ...helper };
 
-      ["allowedExports", "formatFileName"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
-        delete clone[property];
-      });
+      ["allowedExports", "formatFileName", "exporterFilters"].forEach(
+        property => {
+          expect(clone).to.have.property(property);
+          expect(clone[property]).to.be.a("function");
+          delete clone[property];
+        }
+      );
       expect(clone).to.be.empty;
     });
   });
@@ -76,5 +78,100 @@ describe("<RecordActions /> - exports/helpers", () => {
 
       expect(helper.formatFileName("hello world", "csv")).to.be.equal(expected);
     });
+  });
+
+  describe("exporterFilters", () => {
+    const record = fromJS({
+      record_state: true,
+      sex: "female",
+      date_of_birth: "2005-01-29",
+      case_id: "1b21e684-c6b1-4e74-b148-317a2b575f47",
+      created_at: "2020-01-29T21:57:00.274Z",
+      name: "User 1",
+      alert_count: 0,
+      case_id_display: "b575f47",
+      created_by: "primero_cp_ar",
+      module_id: "primeromodule-cp",
+      owned_by: "primero_cp",
+      status: "open",
+      registration_date: "2020-01-29",
+      complete: true,
+      type: "cases",
+      id: "b342c488-578e-4f5c-85bc-35ece34cccdf",
+      name_first: "User",
+      short_id: "b575f47",
+      age: 15,
+      workflow: "new"
+    });
+    const appliedFilters = fromJS({
+      sex: ["female"]
+    });
+    const shortIds = ["b575f47"];
+
+    it("should return filters with short_id, if isShowPage true", () => {
+      const expected = { filters: { short_id: shortIds } };
+
+      expect(
+        helper.exporterFilters(true, false, shortIds, appliedFilters, record)
+      ).to.be.deep.equals(expected);
+    });
+
+    it(
+      "should return filters with short_id, " +
+        "if isShowPage is false and allRowsSelected is false and there are not appliedFilters",
+      () => {
+        const expected = { filters: { short_id: shortIds } };
+
+        expect(
+          helper.exporterFilters(false, false, shortIds, fromJS({}), record)
+        ).to.be.deep.equals(expected);
+      }
+    );
+
+    it("should return and object with applied filters, if isShowPage is false and allRowsSelected is true", () => {
+      const expected = { filters: { sex: ["female"] } };
+
+      expect(
+        helper.exporterFilters(false, true, shortIds, appliedFilters, record)
+      ).to.be.deep.equals(expected);
+    });
+
+    it(
+      "should return and object with short_id, and query " +
+        "if isShowPage is false, allRowsSelected is false and a query is specified",
+      () => {
+        const query = "test";
+        const expected = { filters: { short_id: shortIds }, query };
+
+        expect(
+          helper.exporterFilters(
+            false,
+            true,
+            shortIds,
+            fromJS({ query }),
+            record
+          )
+        ).to.be.deep.equals(expected);
+      }
+    );
+
+    it(
+      "should return and object with applied filters and query, " +
+        "if isShowPage is false, allRowsSelected is true and a query is specified",
+      () => {
+        const query = "test";
+        const expected = { filters: { short_id: shortIds }, query };
+
+        expect(
+          helper.exporterFilters(
+            false,
+            true,
+            shortIds,
+            fromJS({ query }),
+            record
+          )
+        ).to.be.deep.equals(expected);
+      }
+    );
   });
 });
