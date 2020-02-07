@@ -17,7 +17,8 @@ export const HIDDEN_FIELDS = [
   "assessment_due_dates",
   "service_due_dates",
   "case_plan_due_dates",
-  "followup_due_dates"
+  "followup_due_dates",
+  "associated_user_names"
 ];
 
 export const PRIMARY_FILTERS = [
