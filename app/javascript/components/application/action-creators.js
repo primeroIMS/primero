@@ -1,6 +1,6 @@
 import { batch } from "react-redux";
 
-import { DB } from "../../config";
+import { DB_COLLECTIONS_NAMES } from "../../db";
 import { fetchForms, fetchOptions } from "../record-form";
 
 import actions from "./actions";
@@ -11,7 +11,7 @@ export const fetchSystemSettings = () => ({
     path: "system_settings",
     params: { extended: true },
     db: {
-      collection: DB.SYSTEM_SETTINGS
+      collection: DB_COLLECTIONS_NAMES.SYSTEM_SETTINGS
     }
   }
 });

@@ -6,7 +6,7 @@ import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
-import { URL_LOCATIONS, URL_LOOKUPS } from "./constants"
+import { URL_LOCATIONS, URL_LOOKUPS } from "./constants";
 
 chai.use(sinonChai);
 

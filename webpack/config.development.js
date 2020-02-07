@@ -1,49 +1,47 @@
 const common = require("./config.common");
-const path = require("path");
-const { OUTPUT_DIR, PORT, WEB_SERVER_HOST } = require("./config");
+const { DEV_SERVER_CONFIG, PUBLIC_PATH, EXTERNAL_ENTRY, MANIFEST_OUTPUT_PATH } = require("./config");
 const WebpackAssetsManifest = require("webpack-assets-manifest");
 
-const publicPath = `http://${WEB_SERVER_HOST}:${PORT}/`;
+const plugins = name => ([
+  ...(!EXTERNAL_ENTRY(name) 
+      ? [ 
+          new WebpackAssetsManifest({
+            output: MANIFEST_OUTPUT_PATH(name),
+            entrypoints: true,
+            publicPath: PUBLIC_PATH,
+            writeToDisk: true
+          })
+        ] 
+      : [])
+]);
 
-const devServer = {
-  contentBase: OUTPUT_DIR,
-  compress: true,
-  port: PORT,
-  historyApiFallback: true,
-  stats: "minimal",
-  hot: true,
-  headers: {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-    "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
-  },
-  writeToDisk: (filePath) => {
-    return /worker\.js$/.test(filePath);
-  }
-};
-
-common.plugins.push(
-  new WebpackAssetsManifest({
-    entrypoints: true,
-    publicPath: publicPath
-  })
-);
-
-common.output.publicPath = publicPath;
-
-common.module.rules.push({
-  test: /\.(png|svg|jpg|jpeg|gif)$/,
-  use: [
-    {
-      loader: require.resolve("file-loader"),
-      options: {
-        outputPath: "images",
+const rules = [
+  {
+    test: /\.(png|svg|jpg|jpeg|gif)$/,
+    use: [
+      {
+        loader: require.resolve("file-loader"),
+        options: {
+          outputPath: "images",
+        }
       }
-    }
-  ]
-});
+    ]
+  }
+];
 
-module.exports = Object.assign({}, common, {
-  devtool: "source-map",
-  devServer
+module.exports = common.map(entry => {
+  const  { config, name } = entry;
+
+  return Object.assign({}, config, {
+    devServer: DEV_SERVER_CONFIG,
+    devtool: "source-map",
+    output: Object.assign({}, config.output, {
+      publicPath: PUBLIC_PATH
+    }),
+    plugins: [...config.plugins, ...plugins(name)],
+    module: {
+      rules: [...config.module.rules, ...rules]
+    },
+    mode: "development",
+  });
 });

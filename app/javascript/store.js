@@ -9,7 +9,7 @@ import { combineReducers } from "redux-immutable";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 
-import { authMiddleware, dbMiddleware, restMiddleware } from "./middleware";
+import customMiddleware from "./middleware";
 import rootReducer from "./reducers";
 
 export const history = createBrowserHistory({
@@ -22,11 +22,11 @@ export default () => {
   const middleware = [
     routerMiddleware(history),
     thunkMiddleware,
-    restMiddleware({
+    customMiddleware.restMiddleware({
       baseUrl: "/api/v2"
     }),
-    authMiddleware,
-    dbMiddleware
+    customMiddleware.authMiddleware,
+    customMiddleware.offlineMiddleware
   ];
 
   if (process.env.NODE_ENV === "development") {

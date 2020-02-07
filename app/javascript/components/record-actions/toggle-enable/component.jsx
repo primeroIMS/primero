@@ -26,6 +26,7 @@ const Component = ({ close, openEnableDialog, record, recordType }) => {
         },
         record.get("id"),
         i18n.t(`cases.${enableState}_success`),
+        false,
         false
       )
     );
