@@ -7,7 +7,7 @@ class Zippers::RubyZip
 
     encrypt = Zip::TraditionalEncrypter.new(password)
     Zip::OutputStream.open(zipped_file_name(file), encrypt) do |out|
-      out.put_next_entry(File.basename(stored_file_name))
+      out.put_next_entry(File.basename(file))
       out.write File.open(file).read
     end
     File.delete(file) && zipped_file_name(file)
