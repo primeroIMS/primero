@@ -65,6 +65,10 @@ class DB {
     return (await this._db).delete(store, item);
   }
 
+  async clear(store) {
+    return (await this._db).clear(store);
+  }
+
   async put(store, item, key = {}, queryIndex) {
     const i = item;
 

@@ -17,4 +17,11 @@ module ApplicationHelper
     Rails.application.routes.default_url_options[:host]
   end
 
+  def available_locations
+    locationFile = Dir.glob("public/options/*").first
+
+    return [] unless locationFile.present?
+
+    locationFile.gsub(/public/, '').to_json.html_safe
+  end
 end

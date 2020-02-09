@@ -39,5 +39,8 @@ const onFetch = event => {
 
 self.addEventListener("fetch", onFetch);
 
-
-workbox.routing.registerRoute(/translations-*.js$/, new workbox.strategies.CacheFirst(), 'GET');
+workbox.routing.registerRoute(
+  /translations-*.js$/,
+  new workbox.strategies.CacheFirst(),
+  "GET"
+);
