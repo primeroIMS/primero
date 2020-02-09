@@ -1,5 +1,4 @@
 const path = require("path");
-const fs = require("fs");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WorkboxPlugin = require("workbox-webpack-plugin");
@@ -16,25 +15,6 @@ const {
 const NAME = ENTRY_NAMES.APPLICATION;
 
 const entry = common(NAME, ENTRIES[NAME]);
-
-const cacheFile = file => {
-  try {
-    const filePath = path.join(projectPath, "public/packs");
-    const buildFiles = fs.readdirSync(filePath);
-
-    if (buildFiles) {
-      const fileSearch = buildFiles.filter(buildFile =>
-        new RegExp(file).test(buildFile)
-      );
-
-      if (fileSearch) {
-        return fileSearch[0];
-      }
-    }
-  } catch (e) {
-    throw new Error(e);
-  }
-};
 
 entry.optimization = {
   ...entry.optimization,

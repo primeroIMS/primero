@@ -84,7 +84,7 @@ module.exports = (name, entry) => {
       path: outputDir || OUTPUT_DIR,
       filename: chunkData => chunkOutput("hash", chunkData),
       chunkFilename: chunkOutput("chunkhash"),
-      publicPath: isProduction ? "/" : PUBLIC_PATH
+      publicPath: isProduction ? "/packs/" : PUBLIC_PATH
     },
     plugins: [
       new CleanWebpackPlugin({
