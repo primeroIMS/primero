@@ -21,6 +21,9 @@ class PermittedFieldService
     @permitted_field_names << 'cases_by_date'
     @permitted_field_names << 'alert_count'
     @permitted_field_names << 'associated_user_names'
+    @permitted_field_names << 'not_edited_by_owner'
+    @permitted_field_names << 'referred_users'
+    @permitted_field_names << 'transferred_to_users'
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
     @permitted_field_names << 'record_state' if user.can?(:enable_disable_record, model_class)
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)

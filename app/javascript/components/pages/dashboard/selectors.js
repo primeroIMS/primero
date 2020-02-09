@@ -107,3 +107,6 @@ export const getCasesByTaskOverdueServices = state =>
 
 export const getCasesByTaskOverdueFollowups = state =>
   getDashboardByName(state, DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_FOLLOWUPS);
+
+export const getSharedWithMe = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.SHARED_WITH_ME);

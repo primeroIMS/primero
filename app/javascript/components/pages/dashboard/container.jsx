@@ -28,6 +28,7 @@ import { LOOKUPS, MODULES, RECORD_TYPES } from "../../../config";
 import { selectModule } from "../../application";
 import { getOption, getLocations } from "../../record-form";
 import { getReportingLocationConfig } from "../../application/selectors";
+import { getPermissions } from "../../user/selectors";
 
 import { INDICATOR_NAMES } from "./constants";
 import * as actions from "./action-creators";
@@ -52,7 +53,8 @@ import {
   getCasesByTaskOverdueAssessment,
   getCasesByTaskOverdueCasePlan,
   getCasesByTaskOverdueServices,
-  getCasesByTaskOverdueFollowups
+  getCasesByTaskOverdueFollowups,
+  getSharedWithMe
 } from "./selectors";
 import styles from "./styles.css";
 import {
@@ -61,7 +63,8 @@ import {
   toReportingLocationTable,
   toApprovalsManager,
   toProtectionConcernTable,
-  toTasksOverdueTable
+  toTasksOverdueTable,
+  permittedSharedWithMe
 } from "./helpers";
 
 const Dashboard = ({
@@ -94,7 +97,9 @@ const Dashboard = ({
   casesByTaskOverdueAssessment,
   casesByTaskOverdueCasePlan,
   casesByTaskOverdueServices,
-  casesByTaskOverdueFollowups
+  casesByTaskOverdueFollowups,
+  sharedWithMe,
+  userPermissions
 }) => {
   useEffect(() => {
     batch(() => {
@@ -236,6 +241,12 @@ const Dashboard = ({
     )
   };
 
+  const sharedWithMeProps = {
+    items: permittedSharedWithMe(sharedWithMe, userPermissions),
+    sumTitle: i18n.t("dashboard.shared_with_me"),
+    withTotal: false
+  };
+
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
@@ -244,7 +255,7 @@ const Dashboard = ({
           <Permission resources={RESOURCES.dashboards} actions={DASH_APPROVALS}>
             <Grid item md={12}>
               <OptionsBox title={i18n.t("dashboard.approvals")}>
-                <Grid container>
+                <Grid container classes={{ root: css.container }}>
                   <Grid item xs>
                     <Permission
                       resources={RESOURCES.dashboards}
@@ -300,23 +311,41 @@ const Dashboard = ({
               </OptionsBox>
             </Grid>
           </Permission>
-          <Permission
-            resources={RESOURCES.dashboards}
-            actions={ACTIONS.DASH_CASE_RISK}
-          >
-            <Grid item md={6}>
-              <OptionsBox title={i18n.t("dashboard.overview")}>
-                <OptionsBox flat>
-                  <BadgedIndicator
-                    data={casesByAssessmentLevel}
-                    sectionTitle={i18n.t(casesByAssessmentLevel.get("name"))}
-                    indicator={INDICATOR_NAMES.RISK_LEVEL}
-                    lookup={labelsRiskLevel}
-                  />
-                </OptionsBox>
-              </OptionsBox>
-            </Grid>
-          </Permission>
+          <Grid item md={6}>
+            <OptionsBox title={i18n.t("dashboard.overview")}>
+              <Grid item md={12}>
+                <Grid container>
+                  <Grid item xs>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_CASE_RISK}
+                    >
+                      <OptionsBox flat>
+                        <BadgedIndicator
+                          data={casesByAssessmentLevel}
+                          sectionTitle={i18n.t(
+                            casesByAssessmentLevel.get("name")
+                          )}
+                          indicator={INDICATOR_NAMES.RISK_LEVEL}
+                          lookup={labelsRiskLevel}
+                        />
+                      </OptionsBox>
+                    </Permission>
+                  </Grid>
+                  <Grid item xs>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_SHARED_WITH_ME}
+                    >
+                      <OptionsBox flat>
+                        <OverviewBox {...sharedWithMeProps} />
+                      </OptionsBox>
+                    </Permission>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </OptionsBox>
+          </Grid>
           <Permission
             resources={RESOURCES.dashboards}
             actions={ACTIONS.DASH_WORKFLOW}
@@ -427,8 +456,6 @@ Dashboard.propTypes = {
   casesRegistration: PropTypes.object.isRequired,
   casesWorkflow: PropTypes.object.isRequired,
   casesWorkflowTeam: PropTypes.object.isRequired,
-  protectionConcerns: PropTypes.object.isRequired,
-  reportingLocation: PropTypes.object.isRequired,
   fetchCasesByCaseWorker: PropTypes.func.isRequired,
   fetchCasesByStatus: PropTypes.func.isRequired,
   fetchCasesOverview: PropTypes.func.isRequired,
@@ -439,35 +466,41 @@ Dashboard.propTypes = {
   getDashboardsData: PropTypes.func.isRequired,
   locations: PropTypes.object,
   openPageActions: PropTypes.func.isRequired,
+  protectionConcerns: PropTypes.object.isRequired,
+  reportingLocation: PropTypes.object.isRequired,
   reportingLocationConfig: PropTypes.object,
-  servicesStatus: PropTypes.object.isRequired
+  servicesStatus: PropTypes.object.isRequired,
+  sharedWithMe: PropTypes.object.isRequired,
+  userPermissions: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    flags: selectFlags(state),
-    casesByAssessmentLevel: getCasesByAssessmentLevel(state),
-    casesWorkflow: getWorkflowIndividualCases(state),
-    casesWorkflowTeam: getWorkflowTeamCases(state),
-    reportingLocation: getReportingLocation(state),
     approvalsAssessment: getApprovalsAssessment(state),
     approvalsAssessmentPending: getApprovalsAssessmentPending(state),
-    approvalsClosure: getApprovalsClosure(state),
-    approvalsCasePlanPending: getApprovalsClosurePending(state),
     approvalsCasePlan: getApprovalsCasePlan(state),
+    approvalsCasePlanPending: getApprovalsClosurePending(state),
+    approvalsClosure: getApprovalsClosure(state),
     approvalsClosurePending: getApprovalsCasePlanPending(state),
-    casesByStatus: selectCasesByStatus(state),
+    casesByAssessmentLevel: getCasesByAssessmentLevel(state),
     casesByCaseWorker: selectCasesByCaseWorker(state),
-    casesRegistration: selectCasesRegistration(state),
-    casesOverview: selectCasesOverview(state),
-    servicesStatus: selectServicesStatus(state),
-    reportingLocationConfig: getReportingLocationConfig(state),
-    locations: getLocations(state),
-    protectionConcerns: getProtectionConcerns(state),
+    casesByStatus: selectCasesByStatus(state),
     casesByTaskOverdueAssessment: getCasesByTaskOverdueAssessment(state),
     casesByTaskOverdueCasePlan: getCasesByTaskOverdueCasePlan(state),
+    casesByTaskOverdueFollowups: getCasesByTaskOverdueFollowups(state),
     casesByTaskOverdueServices: getCasesByTaskOverdueServices(state),
-    casesByTaskOverdueFollowups: getCasesByTaskOverdueFollowups(state)
+    casesOverview: selectCasesOverview(state),
+    casesRegistration: selectCasesRegistration(state),
+    casesWorkflow: getWorkflowIndividualCases(state),
+    casesWorkflowTeam: getWorkflowTeamCases(state),
+    flags: selectFlags(state),
+    locations: getLocations(state),
+    protectionConcerns: getProtectionConcerns(state),
+    reportingLocation: getReportingLocation(state),
+    reportingLocationConfig: getReportingLocationConfig(state),
+    servicesStatus: selectServicesStatus(state),
+    sharedWithMe: getSharedWithMe(state),
+    userPermissions: getPermissions(state)
   };
 };
 
