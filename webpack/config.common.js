@@ -1,70 +1,27 @@
 const path = require("path");
+
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const { 
-  APPLICATION_DIR, 
-  OUTPUT_DIR, 
-  ENTRIES, 
-  EXTERNAL_ENTRY, 
-  APPLICATION_ENTRY,
-  CLEAN_BEFORE_BUILD,
-  MANIFEST_FILE_PATHS,
-  ADDITIONAL_MANIFEST_FILE_PATHS
-} = require("./config");
-const WaitPlugin = require("./plugins/wait.js");
-const BuildPrecacheManifest = require("./plugins/build-precache-manifest.js");
+const WebpackAssetsManifest = require("webpack-assets-manifest");
 
-const chunkOutput = (hashMethod, data) => {
-  return data && data.chunk.name === "worker" 
-    ? "[name].js"
-    : `[name].[${hashMethod}].js`
-}
+const config = require("./config");
 
-const svgPrefix = {
-  toString: () =>
-    `${Math.random()
-      .toString(36)
-      .substring(2, 8)}_`
-};
-
-const output = (name, outputDir) => ({
-  path: outputDir || OUTPUT_DIR,
-  filename: (chunkData) => chunkOutput("hash", chunkData),
-  chunkFilename: chunkOutput("chunkhash"),
-  publicPath: "/",
-});
+const {
+  APPLICATION_DIR,
+  DEV_SERVER_CONFIG,
+  OUTPUT_DIR,
+  OUTPUT_DIRNAME,
+  PUBLIC_PATH,
+  MANIFEST_OUTPUT_PATH,
+  utils: { chunkOutput, isProduction, svgPrefix }
+} = config;
 
 const resolve = {
   extensions: ["*", ".jsx", ".js"],
   alias: {
     "@material-ui/styles": path.resolve("node_modules", "@material-ui/styles"),
-    "window": "self"
+    window: "self"
   }
 };
-
-const plugins = name => ([
-  new CleanWebpackPlugin({
-    cleanOnceBeforeBuildPatterns: CLEAN_BEFORE_BUILD[name]
-  }),
-  ...(EXTERNAL_ENTRY(name) ? [
-    new BuildPrecacheManifest(MANIFEST_FILE_PATHS, ADDITIONAL_MANIFEST_FILE_PATHS),
-    new WaitPlugin(MANIFEST_FILE_PATHS)
-  ] : [])
-]);
-
-const optimization = name => ({
-  usedExports: true,
-  ...(APPLICATION_ENTRY(name) ? {
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: "vendor",
-          chunks: "all"
-        }
-      }
-    }
-  } : {})
-});
 
 const rules = [
   {
@@ -99,24 +56,58 @@ const rules = [
         plugins: [{ cleanupIDs: { prefix: svgPrefix } }]
       }
     }
+  },
+  {
+    test: /\.(png|svg|jpg|jpeg|gif)$/,
+    use: [
+      {
+        loader: require.resolve("file-loader"),
+        options: {
+          outputPath: "images",
+          ...(isProduction && { publicPath: `/${OUTPUT_DIRNAME}/images/` })
+        }
+      }
+    ]
   }
 ];
 
-module.exports = ENTRIES.map(entry => {
-  const { name, outputDir, ext, path: entryPath } = entry;
+module.exports = (name, entry) => {
+  const { ext, path: entryPath, clean, outputDir } = entry;
 
-  return {
-    config: {
-      entry: {
-        [name]: path.join(APPLICATION_DIR, entryPath, `${name}.${ext}` )
-      },
-      output: output(name, outputDir),
-      resolve,
-      plugins: plugins(name),
-      module: { rules },
-      mode: "production",
-      optimization: optimization(name)
+  const entryConfig = {
+    mode: "production",
+    devtool: "none",
+    entry: {
+      [name]: path.join(APPLICATION_DIR, entryPath, `${name}.${ext}`)
     },
-    name
-  }
-})
+    output: {
+      path: outputDir || OUTPUT_DIR,
+      filename: chunkData => chunkOutput("hash", chunkData),
+      chunkFilename: chunkOutput("chunkhash"),
+      publicPath: isProduction ? "/" : PUBLIC_PATH
+    },
+    plugins: [
+      new CleanWebpackPlugin({
+        cleanOnceBeforeBuildPatterns: clean
+      }),
+      new WebpackAssetsManifest({
+        output: MANIFEST_OUTPUT_PATH(name),
+        entrypoints: true,
+        publicPath: isProduction ? "/packs/" : PUBLIC_PATH,
+        writeToDisk: true
+      })
+    ],
+    resolve,
+    module: { rules },
+    optimization: {
+      usedExports: true
+    },
+    ...(!isProduction && {
+      mode: "development",
+      devServer: DEV_SERVER_CONFIG,
+      devtool: "eval-cheap-module-source-map"
+    })
+  };
+
+  return entryConfig;
+};

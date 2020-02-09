@@ -1,8 +1,6 @@
 const path = require("path");
 
-const EXTERNAL_ENTRIES = [
-  "worker"
-]
+const projectPath = path.join(__dirname, "..");
 
 const OUTPUT_DIRNAME = "packs";
 
@@ -10,55 +8,33 @@ const WEB_SERVER_HOST = "localhost";
 
 const PORT = 9000;
 
-const OUTPUT_DIR = path.resolve(__dirname, "..", "public", OUTPUT_DIRNAME);
+const OUTPUT_DIR = path.resolve(projectPath, "public", OUTPUT_DIRNAME);
 
-const MANIFEST_FILES = [
-  "application.json",
-  "identity.json"
-];
+const MANIFEST_FILES = ["application.json", "identity.json"];
 
-exports.APPLICATION_DIR = path.join(__dirname, "..", "app/javascript");
+const APPLICATION_DIR = path.join(projectPath, "app/javascript");
 
-exports.OUTPUT_DIRNAME = OUTPUT_DIRNAME;
+const PUBLIC_PATH = `http://${WEB_SERVER_HOST}:${PORT}/`;
 
-exports.OUTPUT_DIR = OUTPUT_DIR;
-
-exports.PUBLIC_PATH = `http://${WEB_SERVER_HOST}:${PORT}/`;
-
-exports.ENTRIES = [
-  {
-    name:  "identity",
-    ext: "jsx",
-    path: "/packs"
-  },
-  {
-    name:  "application",
-    ext: "jsx",
-    path: "/packs"
-  },
-  {
-    name:  "worker",
-    ext: "js",
-    path: "",
-    outputDir: path.resolve(__dirname, "..", "public")
-  }
-]
-
-exports.CLEAN_BEFORE_BUILD = {
-  worker: [
-    "precache-manifest*",
-    "worker.js"
-  ],
-  application: [
-    "packs/application*",
-    "packs/vendor*",
-  ],
-  identity: [
-    "packs/identity*",
-  ]
+const ENTRY_NAMES = {
+  APPLICATION: "application",
+  IDENTITY: "identity"
 };
 
-exports.DEV_SERVER_CONFIG = {
+const ENTRIES = {
+  [ENTRY_NAMES.IDENTITY]: {
+    ext: "jsx",
+    path: "/packs",
+    clean: ["identity*"]
+  },
+  [ENTRY_NAMES.APPLICATION]: {
+    ext: "jsx",
+    path: "/packs",
+    clean: ["application*", "vendor*", "precache-manifest*"]
+  }
+};
+
+const DEV_SERVER_CONFIG = {
   contentBase: OUTPUT_DIR,
   compress: true,
   port: PORT,
@@ -68,21 +44,57 @@ exports.DEV_SERVER_CONFIG = {
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-    "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+    "Access-Control-Allow-Headers":
+      "X-Requested-With, content-type, Authorization"
   },
-  writeToDisk: (filePath) => {
-    return /(worker\.js|application\.json|identity\.json|precache-manifest.*\.js)$/.test(filePath);
+  writeToDisk: filePath => {
+    return /(worker\.js|application\.json|identity\.json|precache-manifest.*\.js)$/.test(
+      filePath
+    );
   }
 };
 
-exports.EXTERNAL_ENTRY = name => EXTERNAL_ENTRIES.includes(name);
+const MANIFEST_OUTPUT_PATH = name =>
+  path.join(projectPath, "public/manifests", `${name}.json`);
 
-exports.APPLICATION_ENTRY = name => name === "application";
+const MANIFEST_FILE_PATHS = MANIFEST_FILES.map(file =>
+  path.join(projectPath, "public/manifests/", file)
+);
 
-exports.MANIFEST_OUTPUT_PATH = name => path.join(__dirname, "..", "public/manifests", `${name}.json`);
+const ADDITIONAL_MANIFEST_FILE_PATHS = [
+  path.join(projectPath, "config/i18n-manifest.txt")
+];
 
-exports.MANIFEST_FILE_PATHS = MANIFEST_FILES.map(file => path.join(__dirname, "..", "public/manifests/", file));
+const isProduction = process.env.NODE_ENV === "production";
 
-exports.ADDITIONAL_MANIFEST_FILE_PATHS = [
-  path.join(__dirname, "..", "config/i18n-manifest.txt")
-]
+const chunkOutput = (hashMethod, data) => {
+  return data && data.chunk.name === "worker"
+    ? "[name].js"
+    : `[name].[${hashMethod}].js`;
+};
+
+const svgPrefix = {
+  toString: () =>
+    `${Math.random()
+      .toString(36)
+      .substring(2, 8)}_`
+};
+
+module.exports = {
+  utils: {
+    projectPath,
+    chunkOutput,
+    svgPrefix,
+    isProduction
+  },
+  ADDITIONAL_MANIFEST_FILE_PATHS,
+  APPLICATION_DIR,
+  DEV_SERVER_CONFIG,
+  ENTRIES,
+  ENTRY_NAMES,
+  MANIFEST_FILE_PATHS,
+  MANIFEST_OUTPUT_PATH,
+  OUTPUT_DIR,
+  OUTPUT_DIRNAME,
+  PUBLIC_PATH
+};

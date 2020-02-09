@@ -1,38 +1,17 @@
 /* eslint-disable no-restricted-globals */
 
-const CACHE_VERSION = "v2";
-const CACHE_NAME = `${CACHE_VERSION}:sw-cache-`;
 const CACHE_ADDITIONAL = [
   "/",
   "/primero-pictorial-144.png",
+  "/primero-pictorial-192.png",
+  "/primero-pictorial-512.png",
   "javascripts/i18n.js"
-];
+].map(cache => ({ url: cache }));
 
-const onInstall = event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(function prefill(cache) {
-      return cache.addAll(
-        CACHE_ADDITIONAL.concat(self.__precacheManifest || [])
-      );
-    })
-  );
-};
-
-const onActivate = event => {
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames
-          .filter(cacheName => {
-            return cacheName.indexOf(CACHE_VERSION) !== 0;
-          })
-          .map(cacheName => {
-            return caches.delete(cacheName);
-          })
-      );
-    })
-  );
-};
+self.__precacheManifest = []
+  .concat(self.__precacheManifest || [])
+  .concat(CACHE_ADDITIONAL);
+workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
 const onFetch = event => {
   const request = event.request.clone();
@@ -58,6 +37,7 @@ const onFetch = event => {
   );
 };
 
-self.addEventListener("install", onInstall);
-self.addEventListener("activate", onActivate);
 self.addEventListener("fetch", onFetch);
+
+
+workbox.routing.registerRoute(/translations-*.js$/, new workbox.strategies.CacheFirst(), 'GET');
