@@ -1,8 +1,14 @@
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register('/worker.js', {scope: "/v2/"})
-  .then(function(registration) {
-    console.log('Registration successful, scope is:', registration.scope);
-  }).catch(function(err) {
-    console.log('Service worker registration failed, error:', error);
+export default () => {
+  window.addEventListener("load", () => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register(`${window.location.origin}/worker.js`)
+        .then(registration => {
+          console.log("Registration successful, scope is:", registration.scope);
+        })
+        .catch(error => {
+          console.error("Service worker registration failed, error:", error);
+        });
+    }
   });
-}
+};

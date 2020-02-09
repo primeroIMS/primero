@@ -54,16 +54,14 @@ const DEV_SERVER_CONFIG = {
   }
 };
 
+const ADDITIONAL_PRECACHE_MANIFEST_FILES = ["^translations-.*.js$"];
+
 const MANIFEST_OUTPUT_PATH = name =>
   path.join(projectPath, "public/manifests", `${name}.json`);
 
 const MANIFEST_FILE_PATHS = MANIFEST_FILES.map(file =>
   path.join(projectPath, "public/manifests/", file)
 );
-
-const ADDITIONAL_MANIFEST_FILE_PATHS = [
-  path.join(projectPath, "config/i18n-manifest.txt")
-];
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -87,7 +85,7 @@ module.exports = {
     svgPrefix,
     isProduction
   },
-  ADDITIONAL_MANIFEST_FILE_PATHS,
+  ADDITIONAL_PRECACHE_MANIFEST_FILES,
   APPLICATION_DIR,
   DEV_SERVER_CONFIG,
   ENTRIES,
