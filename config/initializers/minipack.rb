@@ -8,7 +8,7 @@ Minipack.configuration do |c|
       a.manifest = if Rails.env.development?
         "http://localhost:9000/#{m}.json"
       else
-        Rails.root.join('public', 'manifest', "#{m}.json")
+        Rails.root.join('public', 'manifests', "#{m}.json")
       end  
     end
   end
