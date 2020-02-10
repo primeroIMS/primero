@@ -17,6 +17,7 @@ import { useI18n } from "../../i18n";
 import { ActionDialog } from "../../action-dialog";
 
 import { approvalRecord } from "./action-creators";
+import ApprovalForm from "./approval-form"
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
@@ -100,6 +101,7 @@ const Component = ({
         <TextField
           id="outlined-select-approval-native"
           select
+          fullWidth
           value={requestType}
           onChange={handleChangeType}
           className={css.selectApprovalType}
@@ -113,74 +115,15 @@ const Component = ({
     </>
   );
 
-  const approvalDialogContent = (
-    <>
-      <IconButton
-        aria-label="close"
-        className={css.closeButton}
-        onClick={close}
-      >
-        <CloseIcon />
-      </IconButton>
-      <form noValidate autoComplete="off">
-        <FormControl component="fieldset">
-          <FormLabel component="legend">
-            {i18n.t("cases.approval_radio")}
-          </FormLabel>
-          <RadioGroup
-            aria-label="position"
-            name="position"
-            value={approval}
-            onChange={handleChangeApproval}
-            row
-          >
-            <FormControlLabel
-              value="approved"
-              control={<Radio color="primary" />}
-              label={i18n.t("cases.approval_radio_accept")}
-              labelPlacement="start"
-            />
-            <FormControlLabel
-              value="rejected"
-              control={<Radio color="primary" />}
-              label={i18n.t("cases.approval_radio_reject")}
-              labelPlacement="start"
-            />
-          </RadioGroup>
-        </FormControl>
-        <br />
-        <FormLabel component="legend">
-          {i18n.t("cases.approval_select")}
-        </FormLabel>
-        <TextField
-          id="outlined-select-approval-native"
-          select
-          value={requestType}
-          onChange={handleChangeType}
-          className={css.selectApprovalType}
-          SelectProps={{
-            native: true
-          }}
-        >
-          {selectOptions}
-        </TextField>
-        <br />
-        <br />
-        <FormLabel component="legend">
-          {i18n.t("cases.approval_comments")}
-        </FormLabel>
-        <TextField
-          id="outlined-multiline-static"
-          label=""
-          multiline
-          rows="4"
-          defaultValue=""
-          variant="outlined"
-          onChange={handleChangeComment}
-        />
-      </form>
-    </>
-  );
+  const approvalDialogContent = ApprovalForm({
+    approval,
+    close,
+    handleChangeApproval,
+    handleChangeComment,
+    handleChangeType,
+    requestType,
+    selectOptions
+  });
 
   const dialogContent =
     approvalType === "approval" ? approvalDialogContent : requestDialogContent;
