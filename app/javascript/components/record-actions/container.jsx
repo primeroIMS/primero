@@ -496,6 +496,8 @@ const Container = ({
           close={setOpenExportsDialog}
           recordType={recordType}
           userPermissions={userPermissions}
+          record={record}
+          selectedRecords={selectedRecords}
         />
       </Permission>
     </>

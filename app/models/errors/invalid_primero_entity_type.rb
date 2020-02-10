@@ -1,5 +1,3 @@
-module Errors
-  # frozen_string_literal: true
+# frozen_string_literal: true
 
-  class InvalidPrimeroEntityType < StandardError; end
-end
+class Errors::InvalidPrimeroEntityType < StandardError; end
