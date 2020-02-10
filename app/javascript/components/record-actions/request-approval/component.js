@@ -34,8 +34,7 @@ const Component = ({
         recordId: record.get("id"),
         approvalId: requestType,
         body: { data: { approval_status: "requested" } },
-        message: i18n.t(`cases.request_approval_success_${requestType}`),
-        redirect: false
+        message: i18n.t(`cases.request_approval_success_${requestType}`)
       })
     );
 

@@ -7,15 +7,16 @@ import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "../../i18n";
 import TransitionStatus from "../TransitionStatus";
 
+import { IN_PROGRESS } from "./constants";
 import TransferActionMenu from "./transfer-action-menu";
 import styles from "./styles.css";
 
-const TransferSummary = ({ transition, classes, currentUser, showMode }) => {
+const TransferSummary = ({ transition, classes, currentUsername, showMode }) => {
   const css = makeStyles(styles)();
   const showTransferApproval =
     transition &&
-    transition.transitioned_to === currentUser &&
-    transition.status === "in_progress" &&
+    transition.transitioned_to === currentUsername &&
+    transition.status === IN_PROGRESS &&
     showMode;
   const i18n = useI18n();
   const transitionStatus = transition.status ? (
@@ -53,7 +54,7 @@ const TransferSummary = ({ transition, classes, currentUser, showMode }) => {
 
 TransferSummary.propTypes = {
   classes: PropTypes.object.isRequired,
-  currentUser: PropTypes.string,
+  currentUsername: PropTypes.string,
   showMode: PropTypes.bool,
   transition: PropTypes.object.isRequired
 };

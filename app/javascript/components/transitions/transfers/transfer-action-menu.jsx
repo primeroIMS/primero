@@ -5,6 +5,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { useI18n } from "../../i18n";
 
+import { ACCEPTED, REJECTED, APPROVE, REJECT } from "./constants";
 import TransferApproval from "./transfer-approval";
 
 const TransferActionMenu = ({ transition }) => {
@@ -19,14 +20,14 @@ const TransferActionMenu = ({ transition }) => {
   const handleAcceptOpen = event => {
     event.stopPropagation();
     handleTransferMenuClose();
-    setApprovalType("accepted");
+    setApprovalType(ACCEPTED);
     setApprovalOpen(true);
   };
 
   const handleRejectOpen = event => {
     event.stopPropagation();
     handleTransferMenuClose();
-    setApprovalType("rejected");
+    setApprovalType(REJECTED);
     setApprovalOpen(true);
   };
 
@@ -57,7 +58,7 @@ const TransferActionMenu = ({ transition }) => {
         onClose={handleTransferMenuClose}
       >
         <MenuItem
-          key="approve"
+          key={APPROVE}
           selected={false}
           onClick={handleAcceptOpen}
           disabled={false}
@@ -65,7 +66,7 @@ const TransferActionMenu = ({ transition }) => {
           {i18n.t("buttons.accept")}
         </MenuItem>
         <MenuItem
-          key="reject"
+          key={REJECT}
           selected={false}
           onClick={handleRejectOpen}
           disabled={false}

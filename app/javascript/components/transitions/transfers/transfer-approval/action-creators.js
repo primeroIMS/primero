@@ -1,6 +1,6 @@
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 
-import { APPROVE_TRANSFER } from "./actions";
+import actions from "./actions";
 
 export const approvalTransfer = ({
   body,
@@ -9,7 +9,7 @@ export const approvalTransfer = ({
   transferId
 }) => {
   return {
-    type: APPROVE_TRANSFER,
+    type: actions.APPROVE_TRANSFER,
     api: {
       path: `cases/${recordId}/transfers/${transferId}`,
       method: "PATCH",

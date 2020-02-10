@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { reducer } from "./reducers";
-import { APPROVE_TRANSFER_SUCCESS } from "./actions";
+import actions from "./actions";
 
 describe("<TransferApproval /> - Reducers", () => {
   const defaultState = fromJS({
@@ -160,7 +160,7 @@ describe("<TransferApproval /> - Reducers", () => {
     });
 
     const action = {
-      type: APPROVE_TRANSFER_SUCCESS,
+      type: actions.APPROVE_TRANSFER_SUCCESS,
       payload
     };
 

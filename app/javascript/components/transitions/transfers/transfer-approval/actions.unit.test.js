@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import * as actions from "./actions";
+import actions from "./actions";
 
 describe("<TransferApproval /> - Actions", () => {
   it("should have known actions", () => {

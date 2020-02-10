@@ -10,9 +10,10 @@ import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../i18n";
+import { currentUser } from "../user/selectors";
 
 import styles from "./styles.css";
-import { selectTransitions, selectCurrentUser } from "./selectors";
+import { selectTransitions } from "./selectors";
 import AssignmentsSummary from "./assignments/AssignmentsSummary";
 import AssignmentsDetails from "./assignments/AssignmentsDetails";
 import TransferSummary from "./transfers/TransferSummary";
@@ -31,13 +32,13 @@ const Transitions = ({ isReferral, recordType, record, showMode }) => {
   const dataTransitions = useSelector(state =>
     selectTransitions(state, recordType, record, isReferral)
   );
-  const currentUser = useSelector(state => selectCurrentUser(state));
+  const currentUsername = useSelector(state => currentUser(state));
   const renderSummary = transition => {
     switch (transition.type) {
       case "Assign":
         return <AssignmentsSummary transition={transition} classes={css} />;
       case "Transfer":
-        return <TransferSummary transition={transition} classes={css} currentUser={currentUser} showMode={showMode} />;
+        return <TransferSummary transition={transition} classes={css} currentUsername={currentUsername} showMode={showMode} />;
       case "Referral":
         return <ReferralSummary transition={transition} classes={css} />;
       case "TransferRequest":

@@ -41,9 +41,7 @@ describe("<RequestApproval /> - Action Creators", () => {
               key: 4,
               variant: "success"
             }
-          },
-          redirectWithIdFromResponse: false,
-          redirect: false
+          }
         }
       }
     };

@@ -53,7 +53,7 @@ const rootReducer = {
     ...ExportList.reducers,
     ...Support.reducers,
     ...Flagging.reducers,
-    ...SavedSearches.reducers,
+    ...SavedSearches.reducers
   }),
   transferApprovalReducers),
   ui: combineReducers({

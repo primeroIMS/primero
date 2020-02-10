@@ -2,13 +2,13 @@ import { fromJS } from "immutable";
 
 import { mergeRecord } from "../../../../libs";
 
-import { APPROVE_TRANSFER_SUCCESS } from "./actions";
+import actions from "./actions";
 
 const DEFAULT_STATE = fromJS({ data: [] });
 
 export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case APPROVE_TRANSFER_SUCCESS: {
+    case actions.APPROVE_TRANSFER_SUCCESS: {
       const caseData = state.getIn(["cases", "data"]);
       const transferData = state.getIn(["transitions", "data"]);
       const { data } = payload;

@@ -3,7 +3,7 @@ import { RECORD_PATH } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 
 import * as actionCreators from "./action-creators";
-import { APPROVE_TRANSFER } from "./actions";
+import actions from "./actions";
 
 describe("<TransferApproval /> - Action Creators", () => {
   it("should have known action creators", () => {
@@ -27,7 +27,7 @@ describe("<TransferApproval /> - Action Creators", () => {
     };
 
     const expectedAction = {
-      type: APPROVE_TRANSFER,
+      type: actions.APPROVE_TRANSFER,
       api: {
         path: "cases/10/transfers/20",
         method: "PATCH",

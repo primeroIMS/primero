@@ -7,7 +7,13 @@ import { useI18n } from "../../../i18n";
 import { ActionDialog } from "../../../action-dialog";
 
 import { approvalTransfer } from "./action-creators";
-import { NAME } from "./constants";
+import {
+  NAME,
+  ACCEPTED,
+  ACCEPT,
+  REJECTED,
+  REJECT
+ } from "./constants";
 // import { saveExport } from "./action-creators";
 
 const Component = ({
@@ -45,12 +51,12 @@ const Component = ({
     }
   };
 
-  if (approvalType === "rejected") {
+  if (approvalType === REJECTED) {
     actionBody.data.rejected_reason = comment;
   }
 
   const message =
-    approvalType === "accepted"
+    approvalType === ACCEPTED
     ? i18n.t("cases.transfer_accepted_success")
     : i18n.t("cases.transfer_accepted_rejected", {record_id: recordId});
 
@@ -73,7 +79,7 @@ const Component = ({
     autoFocus: true
   };
 
-  const commentField = approvalType === "rejected" ? (
+  const commentField = approvalType === REJECTED ? (
     <>
       <FormLabel component="legend">
         {i18n.t("cases.transfer_reject_reason_label")}
@@ -97,7 +103,7 @@ const Component = ({
     </form>
   );
 
-  const buttonLabel = approvalType === "accepted" ? "accept" : "reject";
+  const buttonLabel = approvalType === ACCEPTED ? ACCEPT : REJECT;
 
   return (
     <ActionDialog
