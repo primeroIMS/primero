@@ -8,7 +8,7 @@
     "test:all": "npm run test './app/javascript/**/*.unit.test.js'",
     "test:inspect": "npm run test -- --inspect-brk=0.0.0.0:9229",
     "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test:all",
-    "lint": "eslint './app/javascript/**' --ignore-path ./app/javascript/.eslintignore"
+    "lint": "eslint './app/javascript/**'"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
