@@ -212,7 +212,7 @@ const Component = ({
     onRowsSelect: (currentRowsSelected, allRowsSelected) => {
       setSelectedRecords(allRowsSelected.map(ars => ars.dataIndex));
     },
-    onColumnSortChange: () => setSelectedRecords([]),
+    onColumnSortChange: () => selectedRecords && setSelectedRecords([]),
     onTableChange: handleTableChange,
     rowsPerPageOptions: [20, 50, 75, 100],
     page: page - 1,

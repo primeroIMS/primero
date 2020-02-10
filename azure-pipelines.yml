@@ -34,18 +34,11 @@ jobs:
         inputs:
           versionSpec: '11.15.0'
         displayName: 'Install node'
-      - task: Cache@2
-        inputs:
-          key: 'npm | "$(Agent.OS)" | package-lock.json'
-          restoreKeys: |
-            npm | "$(Agent.OS)"
-            npm
-        displayName: 'Cache npm'
       - bash: npm install
         displayName: 'Install npm packages'
       - task: UseRubyVersion@0
         inputs:
-          versionSpec: '= 2.6.5' 
+          versionSpec: '= 2.6.5'
           addToPath: true
         displayName: 'Install ruby'
       - bash: |
@@ -53,13 +46,10 @@ jobs:
           sudo apt-get install -y libpq-dev
           gem install bundler
         displayName: 'Install bundler and its dependencies'
-      - task: Cache@2
-        inputs:
-          key: 'gems | "$(Agent.OS)" | Gemfile.lock'
-          restoreKeys: | 
-            gems | "$(Agent.OS)"
-            gems
-        displayName: 'Cache gems'
+      - bash: |
+          sudo apt-get update
+          sudo apt-get install -y libsodium-dev
+        displayName: 'Install native dependencies'
       - bash: bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
         displayName: 'Bundle install'
       - bash: sudo apt-get install -y postgresql-client-10

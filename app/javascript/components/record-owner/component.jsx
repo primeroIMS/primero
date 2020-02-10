@@ -14,7 +14,7 @@ const Component = ({ record, recordType }) => {
   const i18n = useI18n();
 
   const recordOwnerValues = FIELDS.map(a => a.name).reduce((acum, field) => {
-    return { ...acum, [field]: record.get(field) };
+    return { ...acum, [field]: record?.get(field) };
   }, {});
 
   const renderFields = FIELDS.map(f => {

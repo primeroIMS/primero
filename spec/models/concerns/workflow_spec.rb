@@ -183,5 +183,24 @@ describe Workflow do
       end
     end
 
+    context 'when case is reopened' do
+      before :each  do
+        @case1.status = Record::STATUS_CLOSED
+        @case1.save!
+      end
+
+      context 'and case has been reopened' do
+        before :each do
+          @case1.case_status_reopened = true
+          @case1.status = Record::STATUS_OPEN
+          @case1.save!
+        end
+
+        it 'workflow status should be REOPENED' do
+          expect(@case1.status).to eq(Record::STATUS_OPEN)
+          expect(@case1.workflow).to eq(Workflow::WORKFLOW_REOPENED)
+        end
+      end
+    end
   end
 end

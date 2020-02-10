@@ -172,12 +172,14 @@ const Container = ({ match, mode }) => {
     showMode: containerMode.isShow
   };
 
+  const approvalSubforms = record?.get("approval_subforms");
+
   let renderForm;
 
   if (isRecordOwnerForm) {
     renderForm = <RecordOwner record={record} recordType={params.recordType} />;
   } else if (isApprovalsForm) {
-    renderForm = <Approvals approvals={record.get("approval_subforms")} />;
+    renderForm = <Approvals approvals={approvalSubforms} />;
   } else if (isTransitions) {
     renderForm = <Transitions {...transitionProps} />;
   } else {

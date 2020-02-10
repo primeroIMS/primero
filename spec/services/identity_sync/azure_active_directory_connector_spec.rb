@@ -16,7 +16,7 @@ describe IdentitySync::AzureActiveDirectoryConnector do
   describe '.create' do
     it 'executes and returns a valid user creation response' do
       expect(connection).to(
-        receive(:post).with('/users', user_name: 'testuser@test.org', full_name: 'Test user', enabled: true)
+        receive(:post).with('/users', user_name: 'testuser@test.org', full_name: 'Test user')
                       .and_return([200, { 'one_time_password' => 'OTP123', 'correlation_id' => 'CORR123' }])
       )
       response = connector.create(user)

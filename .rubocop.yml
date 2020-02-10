@@ -5,11 +5,16 @@ AllCops:
 Layout/LineLength:
   Max: 120
 
-Metrics/MethodLength:
+Metrics/AbcSize:
   Exclude:
     - db/migrate/*
 
-Metrics/AbcSize:
+Metrics/BlockLength:
+  Exclude:
+    - Gemfile*
+    - spec/**/*
+
+Metrics/MethodLength:
   Exclude:
     - db/migrate/*
 

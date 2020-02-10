@@ -323,6 +323,10 @@ class HomeController < ApplicationController
     @display_services_implemented ||= PrimeroModule.cp.use_workflow_service_implemented
   end
 
+  def display_shared_with_me?
+    @display_shared_with_me ||= (can?(:dash_shared_with_me, Dashboard) || current_user.admin?)
+  end
+
   def manager_case_query(query = {})
     module_ids = @module_ids
     risk_levels = @risk_levels
