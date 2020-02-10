@@ -15,7 +15,8 @@ describe("<Dashboard /> - Helpers", () => {
         "toReportingLocationTable",
         "toApprovalsManager",
         "toProtectionConcernTable",
-        "toTasksOverdueTable"
+        "toTasksOverdueTable",
+        "taskOverdueHasData"
       ].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
@@ -458,6 +459,33 @@ describe("<Dashboard /> - Helpers", () => {
       const converted = helper.toTasksOverdueTable(data, i18nMock);
 
       expect(converted).to.deep.equal(expected);
+    });
+  });
+
+  describe("taskOverdueHasData", () => {
+    it("should respond false when taskOverdue has not data", () => {
+      const result = helper.taskOverdueHasData(
+        fromJS({}),
+        fromJS({}),
+        fromJS({}),
+        fromJS({})
+      );
+
+      expect(result).to.be.false;
+    });
+
+    it("should respond true when at least one taskOverdue has data", () => {
+      const result = helper.taskOverdueHasData(
+        fromJS({
+          name: "dashboard.cases_by_task_overdue_assessment",
+          type: "indicator"
+        }),
+        fromJS({}),
+        fromJS({}),
+        fromJS({})
+      );
+
+      expect(result).to.be.true;
     });
   });
 });

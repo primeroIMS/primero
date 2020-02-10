@@ -186,7 +186,9 @@ export const toApprovalsManager = data => {
       const indicatorData = curr.get("indicators") || fromJS({});
       const key = indicatorData.keySeq().first();
 
-      acc.indicators[key] = curr.getIn(["indicators", key]);
+      if (key) {
+        acc.indicators[key] = curr.getIn(["indicators", key]);
+      }
 
       return { ...acc };
     },
@@ -326,4 +328,18 @@ export const toTasksOverdueTable = (overdueTasksDashboards, i18n) => {
       }, {})
     )
   };
+};
+
+export const taskOverdueHasData = (
+  casesByTaskOverdueAssessment,
+  casesByTaskOverdueCasePlan,
+  casesByTaskOverdueServices,
+  casesByTaskOverdueFollowups
+) => {
+  return (
+    !!casesByTaskOverdueAssessment.size ||
+    !!casesByTaskOverdueCasePlan.size ||
+    !!casesByTaskOverdueServices.size ||
+    !!casesByTaskOverdueFollowups.size
+  );
 };
