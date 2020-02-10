@@ -28,6 +28,8 @@ import { LOOKUPS, MODULES, RECORD_TYPES } from "../../../config";
 import { selectModule } from "../../application";
 import { getOption, getLocations } from "../../record-form";
 import { getReportingLocationConfig } from "../../application/selectors";
+import { LoadingIndicator } from "../../loading-indicator";
+import { getLoading, getErrors } from "../../index-table";
 
 import { INDICATOR_NAMES } from "./constants";
 import * as actions from "./action-creators";
@@ -61,8 +63,10 @@ import {
   toReportingLocationTable,
   toApprovalsManager,
   toProtectionConcernTable,
-  toTasksOverdueTable
+  toTasksOverdueTable,
+  taskOverdueHasData
 } from "./helpers";
+import NAMESPACE from "./namespace";
 
 const Dashboard = ({
   fetchFlags,
@@ -130,6 +134,9 @@ const Dashboard = ({
     getOption(state, LOOKUPS.protection_concerns, i18n.locale)
   );
 
+  const loading = useSelector(state => getLoading(state, NAMESPACE));
+  const errors = useSelector(state => getErrors(state, NAMESPACE));
+
   const getDoughnutInnerText = () => {
     const text = [];
     const openCases = casesByStatus.get("open");
@@ -194,7 +201,9 @@ const Dashboard = ({
   };
 
   const casesWorkflowTeamProps = {
-    ...toListTable(casesWorkflowTeam, workflowLabels)
+    ...toListTable(casesWorkflowTeam, workflowLabels),
+    loading,
+    errors
   };
 
   const reportingLocationProps = {
@@ -203,7 +212,9 @@ const Dashboard = ({
       reportingLocationConfig?.get("label_key"),
       i18n,
       locations
-    )
+    ),
+    loading,
+    errors
   };
 
   const approvalsManagerProps = {
@@ -213,7 +224,9 @@ const Dashboard = ({
       approvalsClosurePending
     ]),
     sumTitle: i18n.t("dashboard.pending_approvals"),
-    withTotal: false
+    withTotal: false,
+    loading,
+    errors
   };
 
   const protectionConcernsProps = {
@@ -221,7 +234,16 @@ const Dashboard = ({
       protectionConcerns,
       i18n,
       protectionConcernsLookup
-    )
+    ),
+    loading,
+    errors
+  };
+
+  const loadingIndicatorProps = {
+    overlay: true,
+    type: NAMESPACE,
+    loading,
+    errors
   };
 
   const tasksOverdueProps = {
@@ -233,6 +255,36 @@ const Dashboard = ({
         casesByTaskOverdueFollowups
       ],
       i18n
+    )
+  };
+
+  const loadingIndicatorReportingLocationProps = {
+    ...loadingIndicatorProps,
+    hasData: !!reportingLocation.size
+  };
+
+  const loadingIndicatorWorkflowProps = {
+    ...loadingIndicatorProps,
+    hasData: !!casesWorkflow.size
+  };
+
+  const loadingIndicatorWorkflowTeamProps = {
+    ...loadingIndicatorProps,
+    hasData: !!casesWorkflowTeam.size
+  };
+
+  const loadingIndicatorProtectionConcernsProps = {
+    ...loadingIndicatorProps,
+    hasData: !!protectionConcerns.size
+  };
+
+  const loadingIndicatoTasksOverdueProps = {
+    ...loadingIndicatorProps,
+    hasData: taskOverdueHasData(
+      casesByTaskOverdueAssessment,
+      casesByTaskOverdueCasePlan,
+      casesByTaskOverdueServices,
+      casesByTaskOverdueFollowups
     )
   };
 
@@ -266,6 +318,8 @@ const Dashboard = ({
                         <OverviewBox
                           items={approvalsAssessment}
                           sumTitle={i18n.t(approvalsAssessment.get("name"))}
+                          loading={loading}
+                          errors={errors}
                         />
                       </OptionsBox>
                     </Permission>
@@ -279,6 +333,8 @@ const Dashboard = ({
                         <OverviewBox
                           items={approvalsCasePlan}
                           sumTitle={i18n.t(approvalsCasePlan.get("name"))}
+                          loading={loading}
+                          errors={errors}
                         />
                       </OptionsBox>
                     </Permission>
@@ -292,6 +348,8 @@ const Dashboard = ({
                         <OverviewBox
                           items={approvalsClosure}
                           sumTitle={i18n.t(approvalsClosure.get("name"))}
+                          loading={loading}
+                          errors={errors}
                         />
                       </OptionsBox>
                     </Permission>
@@ -312,6 +370,8 @@ const Dashboard = ({
                     sectionTitle={i18n.t(casesByAssessmentLevel.get("name"))}
                     indicator={INDICATOR_NAMES.RISK_LEVEL}
                     lookup={labelsRiskLevel}
+                    loading={loading}
+                    errors={errors}
                   />
                 </OptionsBox>
               </OptionsBox>
@@ -322,8 +382,10 @@ const Dashboard = ({
             actions={ACTIONS.DASH_WORKFLOW}
           >
             <Grid item md={6}>
-              <OptionsBox title={i18n.t(casesWorkflow.get("name"))}>
-                <PieChart {...casesWorkflowProps} />
+              <OptionsBox title={i18n.t("dashboard.workflow")}>
+                <LoadingIndicator {...loadingIndicatorWorkflowProps}>
+                  <PieChart {...casesWorkflowProps} />
+                </LoadingIndicator>
               </OptionsBox>
             </Grid>
           </Permission>
@@ -339,7 +401,9 @@ const Dashboard = ({
           >
             <Grid item md={12}>
               <OptionsBox title={i18n.t("dashboard.cases_by_task_overdue")}>
-                <DashboardTable {...tasksOverdueProps} />
+                <LoadingIndicator {...loadingIndicatoTasksOverdueProps}>
+                  <DashboardTable {...tasksOverdueProps} />
+                </LoadingIndicator>
               </OptionsBox>
             </Grid>
           </Permission>
@@ -348,9 +412,11 @@ const Dashboard = ({
             resources={RESOURCES.dashboards}
             actions={ACTIONS.DASH_WORKFLOW_TEAM}
           >
-            <Grid item md={12} hidden={!casesWorkflowTeam?.size}>
-              <OptionsBox title={i18n.t(casesWorkflowTeam.get("name"))}>
-                <DashboardTable {...casesWorkflowTeamProps} />
+            <Grid item md={12}>
+              <OptionsBox title={i18n.t("dashboard.workflow_team")}>
+                <LoadingIndicator {...loadingIndicatorWorkflowTeamProps}>
+                  <DashboardTable {...casesWorkflowTeamProps} />
+                </LoadingIndicator>
               </OptionsBox>
             </Grid>
           </Permission>
@@ -359,9 +425,11 @@ const Dashboard = ({
             resources={RESOURCES.dashboards}
             actions={ACTIONS.DASH_REPORTING_LOCATION}
           >
-            <Grid item md={12} hidden={!reportingLocation?.size}>
+            <Grid item md={12}>
               <OptionsBox title={i18n.t("cases.label")}>
-                <DashboardTable {...reportingLocationProps} />
+                <LoadingIndicator {...loadingIndicatorReportingLocationProps}>
+                  <DashboardTable {...reportingLocationProps} />
+                </LoadingIndicator>
               </OptionsBox>
             </Grid>
           </Permission>
@@ -372,7 +440,9 @@ const Dashboard = ({
           >
             <Grid item md={12}>
               <OptionsBox title={i18n.t("dashboard.protection_concerns")}>
-                <DashboardTable {...protectionConcernsProps} />
+                <LoadingIndicator {...loadingIndicatorProtectionConcernsProps}>
+                  <DashboardTable {...protectionConcernsProps} />
+                </LoadingIndicator>
               </OptionsBox>
             </Grid>
           </Permission>
@@ -427,8 +497,6 @@ Dashboard.propTypes = {
   casesRegistration: PropTypes.object.isRequired,
   casesWorkflow: PropTypes.object.isRequired,
   casesWorkflowTeam: PropTypes.object.isRequired,
-  protectionConcerns: PropTypes.object.isRequired,
-  reportingLocation: PropTypes.object.isRequired,
   fetchCasesByCaseWorker: PropTypes.func.isRequired,
   fetchCasesByStatus: PropTypes.func.isRequired,
   fetchCasesOverview: PropTypes.func.isRequired,
@@ -439,6 +507,8 @@ Dashboard.propTypes = {
   getDashboardsData: PropTypes.func.isRequired,
   locations: PropTypes.object,
   openPageActions: PropTypes.func.isRequired,
+  protectionConcerns: PropTypes.object.isRequired,
+  reportingLocation: PropTypes.object.isRequired,
   reportingLocationConfig: PropTypes.object,
   servicesStatus: PropTypes.object.isRequired
 };
