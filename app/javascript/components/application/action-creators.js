@@ -1,7 +1,7 @@
 import { batch } from "react-redux";
 
 import { DB_COLLECTIONS_NAMES } from "../../db";
-import { fetchForms, fetchOptions } from "../record-form";
+import { fetchForms, fetchOptions } from "../record-form/action-creators";
 
 import actions from "./actions";
 
