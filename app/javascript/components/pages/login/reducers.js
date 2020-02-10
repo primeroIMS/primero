@@ -13,7 +13,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           "use_identity_provider",
           fromJS(payload?.metadata?.use_identity_provider)
         )
-        .set("identity_providers", fromJS(payload.data));
+        .set("identity_providers", fromJS(payload?.data));
     default:
       return state;
   }

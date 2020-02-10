@@ -5,7 +5,8 @@ const CACHE_ADDITIONAL = [
   "/primero-pictorial-144.png",
   "/primero-pictorial-192.png",
   "/primero-pictorial-512.png",
-  "javascripts/i18n.js"
+  "/javascripts/i18n.js",
+  "/manifest.json"
 ].map(cache => ({ url: cache }));
 
 self.__precacheManifest = []
