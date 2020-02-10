@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Indicators
   class AbstractIndicator < ValueObject
     attr_accessor :name, :record_model, :scope, :scope_to_owner, :scope_to_referred, :scope_to_transferred
@@ -42,18 +44,18 @@ module Indicators
       name
     end
 
-    def stats_from_search(sunspot_search)
+    def stats_from_search(sunspot_search, user = nil)
       owner = owner_from_search(sunspot_search)
       sunspot_search.facet(facet_name).rows.map do |row|
         stat = {
           'count' => row.count,
-          'query' => stat_query_strings(row, owner)
+          'query' => stat_query_strings(row, owner, user)
         }
         [row.value, stat]
       end.to_h
     end
 
-    def stat_query_strings(_, _)
+    def stat_query_strings(_, _, _ = nil)
       raise NotImplementedError
     end
 
@@ -79,5 +81,20 @@ module Indicators
       end
     end
 
+    def referred_query_string(user)
+      if user.present? && scope_to_referred
+        ["referred_users=#{user.user_name}"]
+      else
+        []
+      end
+    end
+
+    def transferred_query_string(user)
+      if user.present? && scope_to_transferred
+        ["transferred_to_users=#{user.user_name}"]
+      else
+        []
+      end
+    end
   end
 end
