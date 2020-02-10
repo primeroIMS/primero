@@ -32,7 +32,9 @@ class Incident < ApplicationRecord
   def self.summary_field_names
     common_summary_fields + %w[
       date_of_interview date_of_incident violence_type
-      incident_location violations social_worker
+      incident_location violations social_worker date_of_first_report
+      cp_incident_violence_type cp_incident_date
+      gbv_sexual_violence_type incident_date
     ]
   end
 
