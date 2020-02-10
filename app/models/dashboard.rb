@@ -131,6 +131,15 @@ class Dashboard < ValueObject
     ]
   ).freeze
 
+  DASH_GROUP_OVERVIEW = Dashboard.new(
+    name: 'dash_group_overview',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::GROUP_OVERVIEW_OPEN,
+      Indicators::Case::GROUP_OVERVIEW_CLOSED
+    ]
+  ).freeze
+
   def self.dash_reporting_location
     Dashboard.new(
       name: 'reporting_location',
