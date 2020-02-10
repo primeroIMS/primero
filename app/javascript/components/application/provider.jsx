@@ -15,10 +15,10 @@ import { setNetworkStatus } from "./action-creators";
 const Context = createContext();
 
 const ApplicationProvider = ({ children }) => {
+  const dispatch = useDispatch();
   const modules = useSelector(state => selectModules(state));
   const userModules = useSelector(state => selectUserModules(state));
   const online = useSelector(state => selectNetworkStatus(state));
-  const dispatch = useDispatch();
   const authenticated = useSelector(state => getIsAuthenticated(state));
 
   const sendDispatchMessgaesToClient = async () => {
