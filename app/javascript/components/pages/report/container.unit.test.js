@@ -49,7 +49,7 @@ describe("<Report />", () => {
   });
 
   before(() => {
-    component = setupMountedComponent(Report, {}, initialState).component;
+    ({ component } = setupMountedComponent(Report, {}, initialState));
   });
 
   it("renders report component", () => {

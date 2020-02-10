@@ -59,7 +59,7 @@ export const getCasesByAssessmentLevel = state => {
     .filter(f => f.get("name") === DASHBOARD_NAMES.CASE_RISK)
     .first();
 
-  return dashboardData?.size ? dashboardData : fromJS([]);
+  return dashboardData?.size ? dashboardData : fromJS({});
 };
 
 export const getWorkflowIndividualCases = state => {
