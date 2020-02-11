@@ -13,7 +13,7 @@ describe("<RecordActions /> - Action Creators", () => {
     delete creators.setDialog;
     delete creators.setPending;
 
-    expect(creators).to.deep.equal({});
+    expect(creators).to.be.empty;
   });
 
   it("should check that 'setDialog' action creator returns the correct object", () => {

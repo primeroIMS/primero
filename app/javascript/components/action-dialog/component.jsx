@@ -9,10 +9,12 @@ import {
   DialogContentText,
   CircularProgress
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../i18n";
 
 import TitleWithClose from "./text-with-close";
+import styles from "./style.css";
 
 const ActionDialog = ({
   open,
@@ -30,6 +32,7 @@ const ActionDialog = ({
   pending
 }) => {
   const i18n = useI18n();
+  const css = makeStyles(styles)();
 
   const handleClose = () => (cancelHandler ? cancelHandler() : onClose());
 
@@ -58,12 +61,13 @@ const ActionDialog = ({
     <DialogTitle>{dialogTitle}</DialogTitle>
   );
 
-  const submitButton = pending ? (
-    <CircularProgress />
-  ) : (
-    <Button {...{ ...successButtonProps, onClick: handleSuccess }}>
-      {confirmButtonLabel}
-    </Button>
+  const submitButton = (
+    <div className={css.submitButtonWrapper}>
+      <Button {...{ ...successButtonProps, onClick: handleSuccess }} disabled={pending}>
+        {confirmButtonLabel}
+      </Button>
+      {pending && <CircularProgress size={24} className={css.buttonProgress} />}
+    </div>
   );
 
   return (
@@ -72,7 +76,7 @@ const ActionDialog = ({
         open={open}
         onClose={handleClose}
         fullWidth
-        maxWidth={maxSize ? maxSize : "sm"}
+        maxWidth={maxSize || "sm"}
         aria-labelledby="action-dialog-title"
         aria-describedby="action-dialog-description"
       >

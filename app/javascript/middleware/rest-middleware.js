@@ -151,7 +151,7 @@ function fetchPayload(action, store, options) {
       // eslint-disable-next-line no-console
       console.warn(e);
       fetchStatus({ store, type }, "FAILURE", false);
-      handleSuccessCallback(store, failureCallback, {}, json);
+      handleSuccessCallback(store, failureCallback, {}, {});
     }
   };
 

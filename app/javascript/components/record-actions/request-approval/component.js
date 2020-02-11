@@ -29,8 +29,7 @@ const Component = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
-  const startRequestType =
-    subMenuItems && subMenuItems[0] && subMenuItems[0].value;
+  const startRequestType = subMenuItems?.[0]?.value;
   const [requestType, setRequestType] = useState(startRequestType);
   const handleChange = event => {
     setRequestType(event.target.value);
@@ -45,8 +44,8 @@ const Component = ({
         recordId: record.get("id"),
         approvalId: requestType,
         body: { data: { approval_status: "requested" } },
-        message: i18n.t(`cases.request_approval_success_${requestType}`),
-        failureMessage: i18n.t(`cases.request_approval_failure`)
+        message: i18n.t(`${recordType}.request_approval_success_${requestType}`),
+        failureMessage: i18n.t(`${recordType}.request_approval_failure`)
       })
     );
   };
@@ -72,7 +71,7 @@ const Component = ({
       </IconButton>
       <form noValidate autoComplete="off" className={css.centerForm}>
         <FormLabel component="legend">
-          {i18n.t("cases.request_approval_select")}
+          {i18n.t(`${recordType}.request_approval_select`)}
         </FormLabel>
         <TextField
           id="outlined-select-approval-native"
@@ -97,7 +96,7 @@ const Component = ({
       dialogTitle=""
       successHandler={handleOk}
       cancelHandler={handleCancel}
-      confirmButtonLabel={i18n.t("cases.ok")}
+      confirmButtonLabel={i18n.t("buttons.ok")}
       omitCloseAfterSuccess
       maxSize="xs"
       pending={pending}

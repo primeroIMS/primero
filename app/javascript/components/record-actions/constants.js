@@ -1,1 +1,1 @@
-export const REQUESTAPPROVAL = "requestApproval";
+export const REQUEST_APPROVAL_DIALOG = "requestApproval";

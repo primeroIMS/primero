@@ -1,5 +1,5 @@
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
-import { REQUESTAPPROVAL } from "../constants";
+import { REQUEST_APPROVAL_DIALOG } from "../constants";
 import { SET_DIALOG, SET_DIALOG_PENDING } from "../actions";
 
 import { APPROVE_RECORD } from "./actions";
@@ -32,7 +32,7 @@ export const approvalRecord = ({
         {
           action: SET_DIALOG,
           payload: {
-            dialog: REQUESTAPPROVAL,
+            dialog: REQUEST_APPROVAL_DIALOG,
             open: false
           }
         },

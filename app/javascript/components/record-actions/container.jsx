@@ -22,7 +22,7 @@ import {
 import Permission from "../application/permission";
 
 import { setDialog, setPending } from "./action-creators";
-import { REQUESTAPPROVAL } from "./constants";
+import { REQUEST_APPROVAL_DIALOG } from "./constants";
 import { NAME } from "./config";
 import Notes from "./notes";
 import { ToggleEnable } from "./toggle-enable";
@@ -53,10 +53,10 @@ const Container = ({
   const [serviceDialog, setServiceDialog] = useState(false);
   const [openExportsDialog, setOpenExportsDialog] = useState(false);
   const requestDialog = useSelector(state =>
-    selectDialog(REQUESTAPPROVAL, state)
+    selectDialog(REQUEST_APPROVAL_DIALOG, state)
   );
   const setRequestDialog = open => {
-    dispatch(setDialog({ dialog: REQUESTAPPROVAL, open: open }));
+    dispatch(setDialog({ dialog: REQUEST_APPROVAL_DIALOG, open: open }));
   };
   const dialogPending = useSelector(state => selectDialogPending(state));
   const setDialogPending = pending => {
@@ -306,18 +306,17 @@ const Container = ({
   );
 
   const filterItems = items => items.filter(
-    a => {
-      const actionCondition = typeof a.condition === "undefined" || a.condition;
+    item => {
+      const actionCondition = typeof item.condition === "undefined" || item.condition;
 
       if (showListActions) {
-        return a.recordListAction && actionCondition;
+        return item.recordListAction && actionCondition;
       }
 
       return (
-        (a.recordType === RECORD_TYPES.all ||
-          a.recordType === recordType ||
-          (Array.isArray(a.recordType) && a.recordType.includes(recordType))) &&
-        actionCondition
+        ([RECORD_TYPES.all, recordType].includes(item.recordType) ||
+          (Array.isArray(item.recordType) && item.recordType.includes(recordType))) &&
+          actionCondition
       );
     }
   );
