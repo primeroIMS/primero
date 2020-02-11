@@ -19,7 +19,7 @@ module Indicators
       end
     end
 
-    def stat_query_strings(facet_row, owner, user = nil)
+    def stat_query_strings(facet_row, owner, user)
       scope_query_strings +
         owner_query_string(owner) +
         referred_query_string(user) +

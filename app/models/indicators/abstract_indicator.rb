@@ -44,7 +44,7 @@ module Indicators
       name
     end
 
-    def stats_from_search(sunspot_search, user = nil)
+    def stats_from_search(sunspot_search, user)
       owner = owner_from_search(sunspot_search)
       sunspot_search.facet(facet_name).rows.map do |row|
         stat = {
@@ -55,7 +55,7 @@ module Indicators
       end.to_h
     end
 
-    def stat_query_strings(_, _, _ = nil)
+    def stat_query_strings(_, _, _)
       raise NotImplementedError
     end
 

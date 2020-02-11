@@ -23,7 +23,7 @@ module Indicators
       end
     end
 
-    def stats_from_search(sunspot_search, user = nil)
+    def stats_from_search(sunspot_search, user)
       stats = {}
       owner = owner_from_search(sunspot_search)
       name_map = field_name_solr_map
@@ -32,7 +32,7 @@ module Indicators
         stats[row['value']] = row['pivot'].map do |pivot|
           stat = {
             'count' => pivot['count'],
-            'query' => stat_query_strings([row, pivot], owner, name_map, user)
+            'query' => stat_query_strings([row, pivot], owner, user, name_map)
           }
           [pivot['value'], stat]
         end.to_h
@@ -40,7 +40,7 @@ module Indicators
       stats
     end
 
-    def stat_query_strings(row_pivot, owner, name_map = {}, user = nil)
+    def stat_query_strings(row_pivot, owner, user, name_map = {})
       row, pivot = row_pivot
       scope_query_strings + owner_query_string(owner) +
         referred_query_string(user) +
