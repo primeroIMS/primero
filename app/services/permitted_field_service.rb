@@ -3,6 +3,14 @@
 class PermittedFieldService
   attr_accessor :user, :model_class, :action_name
 
+  # Calculated fields needed to perform searches
+  PERMITTED_FILTER_FIELDS = %w[
+    associated_user_names
+    not_edited_by_owner
+    referred_users
+    transferred_to_users
+  ].freeze
+
   def initialize(user, model_class, action_name = nil)
     self.user = user
     self.model_class = model_class
@@ -20,10 +28,7 @@ class PermittedFieldService
     @permitted_field_names << 'or'
     @permitted_field_names << 'cases_by_date'
     @permitted_field_names << 'alert_count'
-    @permitted_field_names << 'associated_user_names'
-    @permitted_field_names << 'not_edited_by_owner'
-    @permitted_field_names << 'referred_users'
-    @permitted_field_names << 'transferred_to_users'
+    @permitted_field_names += PERMITTED_FILTER_FIELDS
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
     @permitted_field_names << 'record_state' if user.can?(:enable_disable_record, model_class)
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
