@@ -17,8 +17,11 @@ export const HIDDEN_FIELDS = [
   "fields",
   "followup_due_dates",
   "id_search",
+  "not_edited_by_owner",
   "query",
-  "service_due_dates"
+  "referred_users",
+  "service_due_dates",
+  "transferred_to_users"
 ];
 
 export const PRIMARY_FILTERS = [

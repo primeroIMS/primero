@@ -245,7 +245,7 @@ describe("<Dashboard />", () => {
 
     it("renders the OverviewBox", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
-      expect(component.find("li")).to.have.lengthOf(2);
+      expect(component.find("li")).to.have.lengthOf(1);
       expect(component.find("button")).to.have.lengthOf(1);
     });
   });
@@ -283,7 +283,7 @@ describe("<Dashboard />", () => {
 
     it("renders the OverviewBox", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
-      expect(component.find("li")).to.have.lengthOf(2);
+      expect(component.find("li")).to.have.lengthOf(1);
       expect(component.find("button")).to.have.lengthOf(1);
     });
   });
@@ -321,7 +321,7 @@ describe("<Dashboard />", () => {
 
     it("renders the OverviewBox", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
-      expect(component.find("li")).to.have.lengthOf(2);
+      expect(component.find("li")).to.have.lengthOf(1);
       expect(component.find("button")).to.have.lengthOf(1);
     });
   });
@@ -379,12 +379,12 @@ describe("<Dashboard />", () => {
 
     it("renders the OverviewBox", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
-      expect(component.find("li")).to.have.lengthOf(4);
+      expect(component.find("li")).to.have.lengthOf(3);
       expect(component.find("button")).to.have.lengthOf(3);
       expect(
         component
-          .find("li")
-          .first()
+          .find(OverviewBox)
+          .find("div div")
           .text()
       ).to.be.equal("dashboard.pending_approvals");
     });
@@ -783,5 +783,56 @@ describe("<Dashboard />", () => {
           .find(TableCell)
       ).to.have.lengthOf(5);
     });
+  });
+
+  describe("render shared with me dashboard", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.dash_shared_with_me",
+                  type: "indicator",
+                  indicators: {
+                    shared_with_me_total_referrals: {
+                      count: 0,
+                      query: ["record_state=true", "status=open"]
+                    },
+                    shared_with_me_new_referrals: {
+                      count: 0,
+                      query: [
+                        "record_state=true",
+                        "status=open",
+                        "not_edited_by_owner=true"
+                      ]
+                    },
+                    shared_with_me_transfers_awaiting_acceptance: {
+                      count: 0,
+                      query: ["record_state=true", "status=open"]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_SHARED_WITH_ME],
+              cases: [ACTIONS.RECEIVE_REFERRAL, ACTIONS.RECEIVE_TRANSFER]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the SharedWithMe Dashboard", () => {
+      expect(component.find(OverviewBox)).to.have.lengthOf(1);
+      expect(component.find(OverviewBox).find("ul li")).to.have.lengthOf(3);
+    });
+
   });
 });

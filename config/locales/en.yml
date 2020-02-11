@@ -1865,6 +1865,10 @@ en:
     approval_assessment_pending_group: "Assessment"
     approval_case_plan_pending_group: "Case Plan"
     approval_closure_pending_group: "Closure"
+    shared_with_me: "Shared With Me"
+    shared_with_me_total_referrals: "Total Referrals"
+    shared_with_me_new_referrals: "New Referrals"
+    shared_with_me_transfers_awaiting_acceptance: "Transfers Awaiting Acceptance"
 
   errors:
     try_again: "Try again"

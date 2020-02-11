@@ -3,19 +3,18 @@
   padding: 15px;
 }
 
+.sectionTitle {
+  padding: 0 1.2em;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
 .overviewList {
   list-style: none;
   font-size: 14px;
   line-height: 1.29;
   color: #231e1f;
-}
-
-.overviewList li:first-child {
-  font-size: 14px;
-  font-weight: bold;
-  color: #231e1f;
-  padding: 0 0 8px 0;
-  text-transform: uppercase;
+  padding: 0 1.2em;
 }
 
 .dashboardChart {
@@ -29,9 +28,15 @@
   font-weight: normal;
   border: none;
   line-height: 1.5em;
+  text-align: left;
 }
 
 @media $(theme.breakpoints.down("sm")) {
+
+  .sectionTitle {
+    padding: 0;
+  }
+
   .overviewList {
     padding: 0;
   }
