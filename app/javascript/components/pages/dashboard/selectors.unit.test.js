@@ -147,6 +147,40 @@ const sharedWithMe = {
   }
 };
 
+const sharedWithOthers = {
+  name: "dashboard.dash_shared_with_others",
+  type: "indicator",
+  indicators: {
+    shared_with_others_referrals: {
+      count: 0,
+      query: [
+        "owned_by=primero_cp",
+        "record_state=true",
+        "status=open",
+        "referred_users_present=true"
+      ]
+    },
+    shared_with_others_pending_transfers: {
+      count: 0,
+      query: [
+        "owned_by=primero_cp",
+        "record_state=true",
+        "status=open",
+        "transfer_status=in_progress"
+      ]
+    },
+    shared_with_others_rejected_transfers: {
+      count: 0,
+      query: [
+        "owned_by=primero_cp",
+        "record_state=true",
+        "status=open",
+        "transfer_status=rejected"
+      ]
+    }
+  }
+};
+
 const stateWithoutRecords = fromJS({});
 const initialState = fromJS({
   records: {
@@ -176,7 +210,8 @@ const initialState = fromJS({
         approvalsCasePlanPending,
         approvalsClosurePending,
         protectionConcern,
-        sharedWithMe
+        sharedWithMe,
+        sharedWithOthers
       ]
     }
   }
@@ -269,6 +304,14 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getSharedWithMe(initialState);
 
       expect(values).to.deep.equal(fromJS(sharedWithMe));
+    });
+  });
+
+  describe("getSharedWithOthers", () => {
+    it("should return the shared with others", () => {
+      const values = selectors.getSharedWithOthers(initialState);
+
+      expect(values).to.deep.equal(fromJS(sharedWithOthers));
     });
   });
 });
