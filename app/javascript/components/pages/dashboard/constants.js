@@ -10,6 +10,7 @@ export const DASHBOARD_NAMES = Object.freeze({
   CASES_BY_TASK_OVERDUE_CASE_PLAN: "dashboard.cases_by_task_overdue_case_plan",
   CASES_BY_TASK_OVERDUE_FOLLOWUPS: "dashboard.cases_by_task_overdue_followups",
   CASES_BY_TASK_OVERDUE_SERVICES: "dashboard.cases_by_task_overdue_services",
+  GROUP_OVERVIEW: "dashboard.dash_group_overview",
   PROTECTION_CONCERNS: "dashboard.dash_protection_concerns",
   REPORTING_LOCATION: "dashboard.reporting_location",
   SHARED_WITH_ME: "dashboard.dash_shared_with_me",

@@ -57,7 +57,8 @@ import {
   getCasesByTaskOverdueCasePlan,
   getCasesByTaskOverdueServices,
   getCasesByTaskOverdueFollowups,
-  getSharedWithMe
+  getSharedWithMe,
+  getGroupOverview
 } from "./selectors";
 import styles from "./styles.css";
 import {
@@ -102,7 +103,8 @@ const Dashboard = ({
   casesByTaskOverdueServices,
   casesByTaskOverdueFollowups,
   sharedWithMe,
-  userPermissions
+  userPermissions,
+  groupOverview
 }) => {
   useEffect(() => {
     batch(() => {
@@ -333,6 +335,28 @@ const Dashboard = ({
                       </OptionsBox>
                     </Permission>
                   </Grid>
+                  <Permission
+                    resources={RESOURCES.dashboards}
+                    actions={ACTIONS.DASH_GROUP_OVERVIEW}
+                  >
+                    <Grid item xs>
+                      <OptionsBox flat>
+                        <LoadingIndicator
+                          type={NAMESPACE}
+                          loading={loading}
+                          errors={errors}
+                          hasData={Boolean(groupOverview.size)}
+                          overlay
+                        >
+                          <OverviewBox
+                            items={groupOverview}
+                            sumTitle={i18n.t("dashboard.dash_group_overview")}
+                            withTotal={false}
+                          />
+                        </LoadingIndicator>
+                      </OptionsBox>
+                    </Grid>
+                  </Permission>
                   <Grid item xs>
                     <Permission
                       resources={RESOURCES.dashboards}
@@ -480,6 +504,7 @@ Dashboard.propTypes = {
   fetchServicesStatus: PropTypes.func.isRequired,
   flags: PropTypes.object.isRequired,
   getDashboardsData: PropTypes.func.isRequired,
+  groupOverview: PropTypes.object.isRequired,
   locations: PropTypes.object,
   openPageActions: PropTypes.func.isRequired,
   protectionConcerns: PropTypes.object.isRequired,
@@ -516,7 +541,8 @@ const mapStateToProps = state => {
     reportingLocationConfig: getReportingLocationConfig(state),
     servicesStatus: selectServicesStatus(state),
     sharedWithMe: getSharedWithMe(state),
-    userPermissions: getPermissions(state)
+    userPermissions: getPermissions(state),
+    groupOverview: getGroupOverview(state)
   };
 };
 
