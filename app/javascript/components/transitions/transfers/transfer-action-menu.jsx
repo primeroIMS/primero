@@ -5,14 +5,16 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { useI18n } from "../../i18n";
 
-import { ACCEPTED, REJECTED, APPROVE, REJECT } from "./constants";
+import { ACCEPTED, REJECTED, REJECT } from "../../../config";
+
+import { APPROVE } from "./constants";
 import TransferApproval from "./transfer-approval";
 
 const TransferActionMenu = ({ transition, recordType }) => {
   const i18n = useI18n();
   const [transferMenu, setTransferMenu] = useState(null);
   const [approvalOpen, setApprovalOpen] = useState(false);
-  const [approvalType, setApprovalType] = useState("accepted");
+  const [approvalType, setApprovalType] = useState(ACCEPTED);
   const handleTransferMenuClose = () => {
     setTransferMenu(null);
   };

@@ -72,6 +72,10 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("ADMIN_NAV");
     expect(constants).to.have.property("APPROVALS");
     expect(constants).to.have.property("RECORD_TYPES");
+    expect(constants).to.have.property("ACCEPTED");
+    expect(constants).to.have.property("ACCEPT");
+    expect(constants).to.have.property("REJECTED");
+    expect(constants).to.have.property("REJECT");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -117,6 +121,10 @@ describe("Verifying config constant", () => {
     delete constants.ADMIN_NAV;
     delete constants.APPROVALS;
     delete constants.RECORD_TYPES;
+    delete constants.ACCEPTED;
+    delete constants.ACCEPT;
+    delete constants.REJECTED;
+    delete constants.REJECT;
 
     expect(constants).to.deep.equal({});
   });

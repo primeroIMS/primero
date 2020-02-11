@@ -631,6 +631,11 @@ en:
       record_state: "Record State"
       interview_date: "Interview Date"
       by_date: "By Date"
+    transfer_accepted: "By clicking 'Accept' you accept the responsibility for this case; once you click ‘Accept' you will become the record owner in the system."
+    transfer_rejected: "By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this case at this time. Please enter a reason that you are rejecting this case; once you click ‘Reject’ you will no longer have access to this case record."
+    transfer_reject_reason_label: "Rejection Reason"
+    transfer_accepted_success: "Case transfer successfully accepted."
+    transfer_accepted_rejected: "Case %{record_id} transfer rejected."
 
   incident:
     label: "Incident ID"
@@ -768,6 +773,18 @@ en:
       separation_cause: "Separation Cause"
       record_state: "Record State"
       by_date: "By Date"
+    transfer_accepted: "By clicking 'Accept' you accept the responsibility for this case; once you click ‘Accept' you will become the record owner in the system."
+    transfer_rejected: "By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this case at this time. Please enter a reason that you are rejecting this case; once you click ‘Reject’ you will no longer have access to this case record."
+    transfer_reject_reason_label: "Rejection Reason"
+    transfer_accepted_success: "Case transfer successfully accepted."
+    transfer_accepted_rejected: "Case %{record_id} transfer rejected."
+
+  all:
+    transfer_accepted: "By clicking 'Accept' you accept the responsibility for this case; once you click ‘Accept' you will become the record owner in the system."
+    transfer_rejected: "By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this case at this time. Please enter a reason that you are rejecting this case; once you click ‘Reject’ you will no longer have access to this case record."
+    transfer_reject_reason_label: "Rejection Reason"
+    transfer_accepted_success: "Case transfer successfully accepted."
+    transfer_accepted_rejected: "Case %{record_id} transfer rejected."
 
   potential_matches:
     empty: "Please access matching through Tracing Requests"

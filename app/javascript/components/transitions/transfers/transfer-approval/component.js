@@ -5,16 +5,15 @@ import { FormLabel, TextField } from "@material-ui/core";
 
 import { useI18n } from "../../../i18n";
 import { ActionDialog } from "../../../action-dialog";
+import {
+  ACCEPTED,
+  REJECTED,
+  ACCEPT,
+  REJECT
+} from "../../../../config";
 
 import { approvalTransfer } from "./action-creators";
-import {
-  NAME,
-  ACCEPTED,
-  ACCEPT,
-  REJECTED,
-  REJECT
- } from "./constants";
-// import { saveExport } from "./action-creators";
+import { NAME } from "./constants";
 
 const Component = ({
   openTransferDialog,
@@ -58,8 +57,8 @@ const Component = ({
 
   const message =
     approvalType === ACCEPTED
-    ? i18n.t("cases.transfer_accepted_success")
-    : i18n.t("cases.transfer_accepted_rejected", {record_id: recordId});
+    ? i18n.t(`${recordType}.transfer_accepted_success`)
+    : i18n.t(`${recordType}.transfer_accepted_rejected`, {record_id: recordId});
 
   const handleOk = () => {
     dispatch(
@@ -84,7 +83,7 @@ const Component = ({
   const commentField = approvalType === REJECTED ? (
     <>
       <FormLabel component="legend">
-        {i18n.t("cases.transfer_reject_reason_label")}
+        {i18n.t(`${recordType}.transfer_reject_reason_label`)}
       </FormLabel>
       <TextField
         id="outlined-multiline-static"
@@ -100,7 +99,7 @@ const Component = ({
 
   const dialogContent = (
     <form noValidate autoComplete="off" onClick={stopProp}>
-      <p>{i18n.t(`cases.transfer_${approvalType}`)}</p>
+      <p>{i18n.t(`${recordType}.transfer_${approvalType}`)}</p>
       {commentField}
     </form>
   );
