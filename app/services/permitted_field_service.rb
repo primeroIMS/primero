@@ -34,6 +34,7 @@ class PermittedFieldService
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
     @permitted_field_names << 'flag_count' if user.can?(:flag, model_class)
     @permitted_field_names << 'flagged' if user.can?(:flag, model_class)
+    @permitted_field_names << 'referred_users_present' if user.can?(:referred_users_present, model_class)
     @permitted_field_names += permitted_approval_field_names
     @permitted_field_names += permitted_overdue_task_fields
     @permitted_field_names
@@ -63,7 +64,7 @@ class PermittedFieldService
     when Permission::INCIDENT_DETAILS_FROM_CASE then %w[incident_details] if user.can?(:incident_details_from_case, model_class)
     when Permission::SERVICES_SECTION_FROM_CASE then %w[services_section] if user.can?(:services_section_from_case, model_class)
     when Permission::CLOSE then %w[status]  if user.can?(:close, model_class)
-    when Permission::REOPEN then %w[status] if user.can?(:reopen, model_class)
+    when Permission::REOPEN then %w[status workflow case_status_reopened] if user.can?(:reopen, model_class)
     when Permission::ENABLE_DISABLE_RECORD then %w[record_state] if user.can?(:enable_disable_record, model_class)
     else raise Errors::InvalidPrimeroEntityType, 'case.invalid_action_name'
     end

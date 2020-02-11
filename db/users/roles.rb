@@ -210,6 +210,7 @@ cp_caseworker_permissions = [
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::DASH_TASKS,
       Permission::DASH_CASE_OVERVIEW,
+      Permission::DASH_SHARED_WITH_OTHERS,
       Permission::DASH_SHARED_WITH_ME
     ]
   ),
@@ -324,7 +325,9 @@ cp_manager_permissions = [
         Permission::DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
         Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES,
         Permission::DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
-        Permission::DASH_SHARED_WITH_ME
+        Permission::DASH_SHARED_WITH_ME,
+        Permission::DASH_SHARED_WITH_OTHERS,
+        Permission::DASH_GROUP_OVERVIEW
       ]
   )
 ]
@@ -425,7 +428,8 @@ cp_user_manager_permissions = [
           Permission::DASH_APPROVALS_CLOSURE_PENDING,
           Permission::VIEW_RESPONSE,
           Permission::DASH_CASE_RISK,
-          Permission::VIEW_PROTECTION_CONCERNS_FILTER
+          Permission::VIEW_PROTECTION_CONCERNS_FILTER,
+          Permission::DASH_GROUP_OVERVIEW
         ]
     )
 ]
@@ -563,7 +567,8 @@ gbv_manager_permissions = [
       Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
       Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
       Permission::DASH_APPROVALS_CLOSURE_PENDING,
-      Permission::DASH_REPORTING_LOCATION
+      Permission::DASH_REPORTING_LOCATION,
+      Permission::DASH_GROUP_OVERVIEW
     ]
   ),
   Permission.new(
@@ -662,7 +667,8 @@ gbv_user_manager_permissions = [
       actions: [
         Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
         Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
-        Permission::DASH_APPROVALS_CLOSURE_PENDING
+        Permission::DASH_APPROVALS_CLOSURE_PENDING,
+        Permission::DASH_GROUP_OVERVIEW
       ]
     )
 ]
@@ -840,6 +846,12 @@ gbv_cm_supervisor_permissions = [
             Permission::GROUP_READ,
             Permission::WRITE
         ]
+    ),
+    Permission.new(
+      resource: Permission::DASHBOARD,
+      actions: [
+        Permission::DASH_GROUP_OVERVIEW
+      ]
     )
 ]
 
@@ -967,6 +979,12 @@ gbv_organization_focal_point_permissions = [
             Permission::GROUP_READ,
             Permission::WRITE
         ]
+    ),
+    Permission.new(
+      resource: Permission::DASHBOARD,
+      actions: [
+        Permission::DASH_GROUP_OVERVIEW
+      ]
     )
 ]
 
