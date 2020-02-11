@@ -121,6 +121,16 @@ class Dashboard < ValueObject
     ]
   ).freeze
 
+  DASH_SHARED_WITH_OTHERS = Dashboard.new(
+    name: 'dash_shared_with_others',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::SHARED_WITH_OTHERS_REFERRALS,
+      Indicators::Case::SHARED_WITH_OTHERS_PENDING_TRANSFERS,
+      Indicators::Case::SHARED_WITH_OTHERS_REJECTED_TRANSFERS
+    ]
+  ).freeze
+
   DASH_SHARED_WITH_ME = Dashboard.new(
     name: 'dash_shared_with_me',
     type: 'indicator',

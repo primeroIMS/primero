@@ -41,7 +41,9 @@ module Indicators
       queries: [
         SearchFilters::Value.new(field_name: 'record_state', value: true),
         SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
-        SearchFilters::DateRange.new(field_name: 'date_closure', from: QueriedIndicator.recent_past, to: QueriedIndicator.present)
+        SearchFilters::DateRange.new(
+          field_name: 'date_closure', from: QueriedIndicator.recent_past, to: QueriedIndicator.present
+        )
       ],
       scope_to_owner: true
     ).freeze
@@ -251,6 +253,33 @@ module Indicators
       ]
     ).freeze
 
+    SHARED_WITH_OTHERS_REFERRALS = QueriedIndicator.new(
+      name: 'shared_with_others_referrals',
+      record_model: Child,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'referred_users_present', value: true)
+      ],
+      scope_to_owner: true
+    ).freeze
+
+    SHARED_WITH_OTHERS_PENDING_TRANSFERS = QueriedIndicator.new(
+      name: 'shared_with_others_pending_transfers',
+      record_model: Child,
+      scope_to_owner: true,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
+      ]
+    ).freeze
+
+    SHARED_WITH_OTHERS_REJECTED_TRANSFERS = QueriedIndicator.new(
+      name: 'shared_with_others_rejected_transfers',
+      record_model: Child,
+      scope_to_owner: true,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_REJECTED)
+      ]
+    ).freeze
+
     SHARED_WITH_ME_TOTAL_REFERRALS = QueriedIndicator.new(
       name: 'shared_with_me_total_referrals',
       record_model: Child,
@@ -292,15 +321,15 @@ module Indicators
           facet: facet_name,
           record_model: Child,
           scope: OPEN_ENABLED + [
-            SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.last_week))
-          ],
+            SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.last_week))
+          ]
         ).freeze,
         FacetedIndicator.new(
           name: 'reporting_location_open_this_week',
           facet: facet_name,
           record_model: Child,
           scope: OPEN_ENABLED + [
-            SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.this_week))
+            SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
           ]
         ).freeze,
         FacetedIndicator.new(
@@ -308,7 +337,7 @@ module Indicators
           facet: facet_name,
           record_model: Child,
           scope: CLOSED_ENABLED + [
-            SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.last_week))
+            SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.last_week))
           ]
         ).freeze,
         FacetedIndicator.new(
@@ -316,7 +345,7 @@ module Indicators
           facet: facet_name,
           record_model: Child,
           scope: CLOSED_ENABLED + [
-            SearchFilters::DateRange.new({field_name: 'created_at'}.merge(FacetedIndicator.this_week))
+            SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
           ]
         ).freeze
       ]
