@@ -17,7 +17,10 @@ class Header < ValueObject
   OWNED_BY_AGENCY = Header.new(name: 'owned_by_agency', field_name: 'owned_by_agency_id', id_search: true)
   DATE_OF_INTERVIEW = Header.new(name: 'date_of_interview', field_name: 'date_of_first_report')
   DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date_derived')
-  VIOLENCE_TYPE = Header.new(name: 'violence_type', field_name: 'cp_incident_violence_type')
+  GBV_DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date')
+  GBV_VIOLENCE_TYPE = Header.new(name: 'violence_type', field_name: 'gbv_sexual_violence_type')
+  CP_DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'cp_incident_date')
+  CP_VIOLENCE_TYPE = Header.new(name: 'violence_type', field_name: 'cp_incident_violence_type')
   INCIDENT_LOCATION = Header.new(name: 'incident_location', field_name: 'incident_location')
   VIOLATIONS = Header.new(name: 'violations', field_name: 'violations')
   NAME_OF_INQUIRER = Header.new(name: 'name_of_inquirer', field_name: 'relation_name')
@@ -78,8 +81,10 @@ class Header < ValueObject
       header_list = []
       header_list << SHORT_ID
       header_list << DATE_OF_INTERVIEW if user.has_module?(PrimeroModule::GBV) || user.has_module?(PrimeroModule::CP)
-      header_list << DATE_OF_INCIDENT
-      header_list << VIOLENCE_TYPE if user.has_module?(PrimeroModule::GBV) || user.has_module?(PrimeroModule::CP)
+      header_list << GBV_DATE_OF_INCIDENT if user.has_module?(PrimeroModule::GBV)
+      header_list << GBV_VIOLENCE_TYPE if user.has_module?(PrimeroModule::GBV)
+      header_list << CP_DATE_OF_INCIDENT if user.has_module?(PrimeroModule::CP)
+      header_list << CP_VIOLENCE_TYPE if user.has_module?(PrimeroModule::CP)
       header_list << INCIDENT_LOCATION if user.has_module?(PrimeroModule::MRM)
       header_list << VIOLATIONS if user.is_manager?
       header_list
