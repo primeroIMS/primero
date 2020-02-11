@@ -121,6 +121,35 @@ class Dashboard < ValueObject
     ]
   ).freeze
 
+  DASH_SHARED_WITH_OTHERS = Dashboard.new(
+    name: 'dash_shared_with_others',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::SHARED_WITH_OTHERS_REFERRALS,
+      Indicators::Case::SHARED_WITH_OTHERS_PENDING_TRANSFERS,
+      Indicators::Case::SHARED_WITH_OTHERS_REJECTED_TRANSFERS
+    ]
+  ).freeze
+
+  DASH_SHARED_WITH_ME = Dashboard.new(
+    name: 'dash_shared_with_me',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::SHARED_WITH_ME_TOTAL_REFERRALS,
+      Indicators::Case::SHARED_WITH_ME_NEW_REFERRALS,
+      Indicators::Case::SHARED_WITH_ME_TRANSFERS_AWAITING_ACCEPTANCE
+    ]
+  ).freeze
+
+  DASH_GROUP_OVERVIEW = Dashboard.new(
+    name: 'dash_group_overview',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::GROUP_OVERVIEW_OPEN,
+      Indicators::Case::GROUP_OVERVIEW_CLOSED
+    ]
+  ).freeze
+
   def self.dash_reporting_location
     Dashboard.new(
       name: 'reporting_location',

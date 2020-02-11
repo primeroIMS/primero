@@ -1,3 +1,3 @@
-module Errors
-  class ImportError < StandardError; end
-end
+# frozen_string_literal: true
+
+class Errors::ImportError < StandardError; end

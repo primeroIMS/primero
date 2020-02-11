@@ -3,6 +3,7 @@ import { ENQUEUE_SNACKBAR } from "../../notifier";
 
 import actions from "./actions";
 import * as actionCreators from "./action-creators";
+import { EXPORT_URL } from "../../pages/export-list/constants";
 
 describe("<RecordActions /> - exports/action-creators", () => {
   it("should have known action creators", () => {
@@ -24,18 +25,25 @@ describe("<RecordActions /> - exports/action-creators", () => {
       password: "mypassword"
     };
     const message = "Test message";
-    const returnObject = actionCreators.saveExport({ data }, message);
+    const actionLabel = "Test action label";
+    const returnObject = actionCreators.saveExport(
+      { data },
+      message,
+      actionLabel
+    );
     const expected = {
       type: actions.EXPORT,
       api: {
-        path: "exports",
+        path: EXPORT_URL,
         method: "POST",
         body: { data },
         successCallback: {
           action: ENQUEUE_SNACKBAR,
           payload: {
             message,
-            options: returnObject.api.successCallback.payload.options
+            options: returnObject.api.successCallback.payload.options,
+            actionLabel,
+            actionUrl: `/${EXPORT_URL}`
           }
         }
       }

@@ -369,12 +369,6 @@ ActiveRecord::Schema.define(version: 2020_01_27_000000) do
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
 
-  create_table "roles_roles", id: false, force: :cascade do |t|
-    t.integer "role_id"
-    t.integer "associated_role_id"
-    t.index ["role_id", "associated_role_id"], name: "index_roles_roles_on_role_id_and_associated_role_id", unique: true
-  end
-
   create_table "saved_searches", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "record_type"

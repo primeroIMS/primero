@@ -83,6 +83,70 @@ const approvalsClosurePending = {
   }
 };
 
+const protectionConcern = {
+  name: "dashboard.dash_protection_concerns",
+  type: "indicator",
+  indicators: {
+    protection_concerns_open_cases: {
+      statelessness: {
+        count: 2,
+        query: [
+          "record_state=true",
+          "status=open",
+          "protection_concerns=statelessness"
+        ]
+      }
+    },
+    protection_concerns_new_this_week: {
+      statelessness: {
+        count: 1,
+        query: [
+          "record_state=true",
+          "status=open",
+          "created_at=2020-01-26T00:00:00Z..2020-02-01T23:59:59Z",
+          "protection_concerns=statelessness"
+        ]
+      }
+    },
+    protection_concerns_all_cases: {
+      statelessness: {
+        count: 4,
+        query: ["record_state=true", "protection_concerns=statelessness"]
+      }
+    },
+    protection_concerns_closed_this_week: {
+      statelessness: {
+        count: 1,
+        query: [
+          "record_state=true",
+          "status=closed",
+          "date_closure=2020-01-26T00:00:00Z..2020-02-01T23:59:59Z",
+          "protection_concerns=statelessness"
+        ]
+      }
+    }
+  }
+};
+
+const sharedWithMe = {
+  name: "dashboard.dash_shared_with_me",
+  type: "indicator",
+  indicators: {
+    shared_with_me_total_referrals: {
+      count: 0,
+      query: ["record_state=true", "status=open"]
+    },
+    shared_with_me_new_referrals: {
+      count: 0,
+      query: ["record_state=true", "status=open", "not_edited_by_owner=true"]
+    },
+    shared_with_me_transfers_awaiting_acceptance: {
+      count: 0,
+      query: ["record_state=true", "status=open"]
+    }
+  }
+};
+
 const stateWithoutRecords = fromJS({});
 const initialState = fromJS({
   records: {
@@ -110,7 +174,9 @@ const initialState = fromJS({
         reportingLocation,
         approvalsAssessmentPending,
         approvalsCasePlanPending,
-        approvalsClosurePending
+        approvalsClosurePending,
+        protectionConcern,
+        sharedWithMe
       ]
     }
   }
@@ -187,6 +253,22 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getApprovalsCasePlanPending(initialState);
 
       expect(values).to.deep.equal(fromJS(approvalsClosurePending));
+    });
+  });
+
+  describe("getProtectionConcerns", () => {
+    it("should return the protection concerns data", () => {
+      const values = selectors.getProtectionConcerns(initialState);
+
+      expect(values).to.deep.equal(fromJS(protectionConcern));
+    });
+  });
+
+  describe("getSharedWithMe", () => {
+    it("should return the shared with me", () => {
+      const values = selectors.getSharedWithMe(initialState);
+
+      expect(values).to.deep.equal(fromJS(sharedWithMe));
     });
   });
 });

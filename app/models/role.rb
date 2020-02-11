@@ -7,7 +7,6 @@ class Role < ApplicationRecord
 
   has_and_belongs_to_many :form_sections, -> { distinct }
   has_and_belongs_to_many :primero_modules, -> { distinct }
-  has_and_belongs_to_many :roles
 
   alias_attribute :modules, :primero_modules
 
@@ -65,7 +64,6 @@ class Role < ApplicationRecord
       # According documentation this is the best way to delete the values on HABTM relation
       self.all.each do |f|
         f.form_sections.destroy(f.form_sections)
-        f.roles.destroy(f.roles)
       end
       super_clear
     end
@@ -98,8 +96,17 @@ class Role < ApplicationRecord
     end
   end
 
-  def associated_role_ids
-    self.roles.ids.flatten
+  def permitted_roles
+    return Role.none if permitted_role_unique_ids.blank?
+
+    Role.where(unique_id: permitted_role_unique_ids)
+  end
+
+  def permitted_role_unique_ids
+    role_permission = permissions.find { |permission| permission.resource == Permission::ROLE }
+    return [] if role_permission.blank?
+
+    role_permission.role_unique_ids
   end
 
   def dashboards

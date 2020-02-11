@@ -28,7 +28,11 @@ import { LOOKUPS, MODULES, RECORD_TYPES } from "../../../config";
 import { selectModule } from "../../application";
 import { getOption, getLocations } from "../../record-form";
 import { getReportingLocationConfig } from "../../application/selectors";
+import { getPermissions } from "../../user/selectors";
+import { LoadingIndicator } from "../../loading-indicator";
+import { getLoading, getErrors } from "../../index-table";
 
+import NAMESPACE from "./namespace";
 import { INDICATOR_NAMES } from "./constants";
 import * as actions from "./action-creators";
 import {
@@ -47,14 +51,23 @@ import {
   getApprovalsCasePlanPending,
   getApprovalsClosure,
   getApprovalsClosurePending,
-  getReportingLocation
+  getReportingLocation,
+  getProtectionConcerns,
+  getCasesByTaskOverdueAssessment,
+  getCasesByTaskOverdueCasePlan,
+  getCasesByTaskOverdueServices,
+  getCasesByTaskOverdueFollowups,
+  getSharedWithMe
 } from "./selectors";
 import styles from "./styles.css";
 import {
   toData1D,
   toListTable,
   toReportingLocationTable,
-  toApprovalsManager
+  toApprovalsManager,
+  toProtectionConcernTable,
+  toTasksOverdueTable,
+  permittedSharedWithMe
 } from "./helpers";
 
 const Dashboard = ({
@@ -82,7 +95,14 @@ const Dashboard = ({
   locations,
   approvalsAssessmentPending,
   approvalsCasePlanPending,
-  approvalsClosurePending
+  approvalsClosurePending,
+  protectionConcerns,
+  casesByTaskOverdueAssessment,
+  casesByTaskOverdueCasePlan,
+  casesByTaskOverdueServices,
+  casesByTaskOverdueFollowups,
+  sharedWithMe,
+  userPermissions
 }) => {
   useEffect(() => {
     batch(() => {
@@ -113,6 +133,14 @@ const Dashboard = ({
   const labelsRiskLevel = useSelector(state =>
     getOption(state, LOOKUPS.risk_level, i18n)
   );
+
+  const protectionConcernsLookup = useSelector(state =>
+    getOption(state, LOOKUPS.protection_concerns, i18n.locale)
+  );
+
+  const loading = useSelector(state => getLoading(state, NAMESPACE));
+
+  const errors = useSelector(state => getErrors(state, NAMESPACE));
 
   const getDoughnutInnerText = () => {
     const text = [];
@@ -200,6 +228,26 @@ const Dashboard = ({
     withTotal: false
   };
 
+  const protectionConcernsProps = {
+    ...toProtectionConcernTable(
+      protectionConcerns,
+      i18n,
+      protectionConcernsLookup
+    )
+  };
+
+  const tasksOverdueProps = {
+    ...toTasksOverdueTable(
+      [
+        casesByTaskOverdueAssessment,
+        casesByTaskOverdueCasePlan,
+        casesByTaskOverdueServices,
+        casesByTaskOverdueFollowups
+      ],
+      i18n
+    )
+  };
+
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
@@ -208,7 +256,7 @@ const Dashboard = ({
           <Permission resources={RESOURCES.dashboards} actions={DASH_APPROVALS}>
             <Grid item md={12}>
               <OptionsBox title={i18n.t("dashboard.approvals")}>
-                <Grid container>
+                <Grid container classes={{ root: css.container }}>
                   <Grid item xs>
                     <Permission
                       resources={RESOURCES.dashboards}
@@ -264,23 +312,56 @@ const Dashboard = ({
               </OptionsBox>
             </Grid>
           </Permission>
-          <Permission
-            resources={RESOURCES.dashboards}
-            actions={ACTIONS.DASH_CASE_RISK}
-          >
-            <Grid item md={6}>
-              <OptionsBox title={i18n.t("dashboard.overview")}>
-                <OptionsBox flat>
-                  <BadgedIndicator
-                    data={casesByAssessmentLevel}
-                    sectionTitle={i18n.t(casesByAssessmentLevel.get("name"))}
-                    indicator={INDICATOR_NAMES.RISK_LEVEL}
-                    lookup={labelsRiskLevel}
-                  />
-                </OptionsBox>
-              </OptionsBox>
-            </Grid>
-          </Permission>
+          <Grid item md={6}>
+            <OptionsBox title={i18n.t("dashboard.overview")}>
+              <Grid item md={12}>
+                <Grid container>
+                  <Grid item xs>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_CASE_RISK}
+                    >
+                      <OptionsBox flat>
+                        <BadgedIndicator
+                          data={casesByAssessmentLevel}
+                          sectionTitle={i18n.t(
+                            casesByAssessmentLevel.get("name")
+                          )}
+                          indicator={INDICATOR_NAMES.RISK_LEVEL}
+                          lookup={labelsRiskLevel}
+                        />
+                      </OptionsBox>
+                    </Permission>
+                  </Grid>
+                  <Grid item xs>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_SHARED_WITH_ME}
+                    >
+                      <OptionsBox flat>
+                        <LoadingIndicator
+                          type={NAMESPACE}
+                          loading={loading}
+                          errors={errors}
+                          hasData={Boolean(sharedWithMe.size)}
+                          overlay
+                        >
+                          <OverviewBox
+                            items={permittedSharedWithMe(
+                              sharedWithMe,
+                              userPermissions
+                            )}
+                            sumTitle={i18n.t("dashboard.shared_with_me")}
+                            withTotal={false}
+                          />
+                        </LoadingIndicator>
+                      </OptionsBox>
+                    </Permission>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </OptionsBox>
+          </Grid>
           <Permission
             resources={RESOURCES.dashboards}
             actions={ACTIONS.DASH_WORKFLOW}
@@ -288,6 +369,22 @@ const Dashboard = ({
             <Grid item md={6}>
               <OptionsBox title={i18n.t(casesWorkflow.get("name"))}>
                 <PieChart {...casesWorkflowProps} />
+              </OptionsBox>
+            </Grid>
+          </Permission>
+
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={[
+              ACTIONS.DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
+              ACTIONS.DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
+              ACTIONS.DASH_CASES_BY_TASK_OVERDUE_SERVICES,
+              ACTIONS.DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS
+            ]}
+          >
+            <Grid item md={12}>
+              <OptionsBox title={i18n.t("dashboard.cases_by_task_overdue")}>
+                <DashboardTable {...tasksOverdueProps} />
               </OptionsBox>
             </Grid>
           </Permission>
@@ -310,6 +407,17 @@ const Dashboard = ({
             <Grid item md={12} hidden={!reportingLocation?.size}>
               <OptionsBox title={i18n.t("cases.label")}>
                 <DashboardTable {...reportingLocationProps} />
+              </OptionsBox>
+            </Grid>
+          </Permission>
+
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={ACTIONS.DASH_PROTECTION_CONCERNS}
+          >
+            <Grid item md={12}>
+              <OptionsBox title={i18n.t("dashboard.protection_concerns")}>
+                <DashboardTable {...protectionConcernsProps} />
               </OptionsBox>
             </Grid>
           </Permission>
@@ -356,11 +464,14 @@ Dashboard.propTypes = {
   casesByAssessmentLevel: PropTypes.object.isRequired,
   casesByCaseWorker: PropTypes.object.isRequired,
   casesByStatus: PropTypes.object.isRequired,
+  casesByTaskOverdueAssessment: PropTypes.object,
+  casesByTaskOverdueCasePlan: PropTypes.object,
+  casesByTaskOverdueFollowups: PropTypes.object,
+  casesByTaskOverdueServices: PropTypes.object,
   casesOverview: PropTypes.object.isRequired,
   casesRegistration: PropTypes.object.isRequired,
   casesWorkflow: PropTypes.object.isRequired,
   casesWorkflowTeam: PropTypes.object.isRequired,
-  reportingLocation: PropTypes.object.isRequired,
   fetchCasesByCaseWorker: PropTypes.func.isRequired,
   fetchCasesByStatus: PropTypes.func.isRequired,
   fetchCasesOverview: PropTypes.func.isRequired,
@@ -371,30 +482,41 @@ Dashboard.propTypes = {
   getDashboardsData: PropTypes.func.isRequired,
   locations: PropTypes.object,
   openPageActions: PropTypes.func.isRequired,
+  protectionConcerns: PropTypes.object.isRequired,
+  reportingLocation: PropTypes.object.isRequired,
   reportingLocationConfig: PropTypes.object,
-  servicesStatus: PropTypes.object.isRequired
+  servicesStatus: PropTypes.object.isRequired,
+  sharedWithMe: PropTypes.object.isRequired,
+  userPermissions: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    flags: selectFlags(state),
-    casesByAssessmentLevel: getCasesByAssessmentLevel(state),
-    casesWorkflow: getWorkflowIndividualCases(state),
-    casesWorkflowTeam: getWorkflowTeamCases(state),
-    reportingLocation: getReportingLocation(state),
     approvalsAssessment: getApprovalsAssessment(state),
     approvalsAssessmentPending: getApprovalsAssessmentPending(state),
-    approvalsClosure: getApprovalsClosure(state),
-    approvalsCasePlanPending: getApprovalsClosurePending(state),
     approvalsCasePlan: getApprovalsCasePlan(state),
+    approvalsCasePlanPending: getApprovalsClosurePending(state),
+    approvalsClosure: getApprovalsClosure(state),
     approvalsClosurePending: getApprovalsCasePlanPending(state),
-    casesByStatus: selectCasesByStatus(state),
+    casesByAssessmentLevel: getCasesByAssessmentLevel(state),
     casesByCaseWorker: selectCasesByCaseWorker(state),
-    casesRegistration: selectCasesRegistration(state),
+    casesByStatus: selectCasesByStatus(state),
+    casesByTaskOverdueAssessment: getCasesByTaskOverdueAssessment(state),
+    casesByTaskOverdueCasePlan: getCasesByTaskOverdueCasePlan(state),
+    casesByTaskOverdueFollowups: getCasesByTaskOverdueFollowups(state),
+    casesByTaskOverdueServices: getCasesByTaskOverdueServices(state),
     casesOverview: selectCasesOverview(state),
-    servicesStatus: selectServicesStatus(state),
+    casesRegistration: selectCasesRegistration(state),
+    casesWorkflow: getWorkflowIndividualCases(state),
+    casesWorkflowTeam: getWorkflowTeamCases(state),
+    flags: selectFlags(state),
+    locations: getLocations(state),
+    protectionConcerns: getProtectionConcerns(state),
+    reportingLocation: getReportingLocation(state),
     reportingLocationConfig: getReportingLocationConfig(state),
-    locations: getLocations(state)
+    servicesStatus: selectServicesStatus(state),
+    sharedWithMe: getSharedWithMe(state),
+    userPermissions: getPermissions(state)
   };
 };
 

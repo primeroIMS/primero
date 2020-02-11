@@ -15,10 +15,16 @@ export const ACTIONS = {
   DASH_APPROVALS_CLOSURE: "approvals_closure",
   DASH_APPROVALS_CLOSURE_PENDING: 'approvals_closure_pending',
   DASH_CASE_RISK: "case_risk",
+  DASH_PROTECTION_CONCERNS: "dash_protection_concerns",
   DASH_REPORTING_LOCATION: "dash_reporting_location",
+  DASH_SHARED_WITH_ME: "dash_shared_with_me",
   DASH_TASKS: "dash_tasks",
   DASH_WORKFLOW: "dash_workflow",
   DASH_WORKFLOW_TEAM: "dash_workflow_team",
+  DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT: "cases_by_task_overdue_assessment",
+  DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN: "cases_by_task_overdue_case_plan",
+  DASH_CASES_BY_TASK_OVERDUE_SERVICES: "cases_by_task_overdue_services",
+  DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS: "cases_by_task_overdue_followups",
   DISPLAY_VIEW_PAGE: "display_view_page",
   ENABLE_DISABLE_RECORD: "enable_disable_record",
   EXPORT_CASE_PDF: "export_case_pdf",
@@ -49,7 +55,9 @@ export const ACTIONS = {
   WRITE: "write",
   REQUEST_APPROVAL_BIA: "request_approval_bia",
   REQUEST_APPROVAL_CASE_PLAN: "request_approval_case_plan",
-  REQUEST_APPROVAL_CLOSURE: "request_approval_closure"
+  REQUEST_APPROVAL_CLOSURE: "request_approval_closure",
+  RECEIVE_REFERRAL: "receive_referral",
+  RECEIVE_TRANSFER: "receive_transfer"
 };
 
 const MANAGE = [ACTIONS.MANAGE];

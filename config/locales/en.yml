@@ -151,7 +151,7 @@ en:
     logout: "Log out"
     settings: "Settings"
 
-  settings: 
+  settings:
     title: "Settings"
     navigation:
       agency: "Agency"
@@ -359,6 +359,7 @@ en:
       date_case_plan_initiated: 'Date of Case Plan'
       closure_approved_date: 'Date of Case Closure '
       created_at: 'Case Open Date'
+      date_of_creation: 'Date of Creation'
     filter_by:
       label: "Filter by"
       all: "All"
@@ -1864,6 +1865,10 @@ en:
     approval_assessment_pending_group: "Assessment"
     approval_case_plan_pending_group: "Case Plan"
     approval_closure_pending_group: "Closure"
+    shared_with_me: "Shared With Me"
+    shared_with_me_total_referrals: "Total Referrals"
+    shared_with_me_new_referrals: "New Referrals"
+    shared_with_me_transfers_awaiting_acceptance: "Transfers Awaiting Acceptance"
 
   errors:
     try_again: "Try again"
@@ -2124,7 +2129,8 @@ en:
 
   exports:
     no_records: "No Records Available!"
-    queueing: "Generating the export file"
+    queueing: "Generating the export file%{file_name}"
+    go_to_exports: "Go to Exports page to download"
     pdf:
       all: PDF
       one: PDF

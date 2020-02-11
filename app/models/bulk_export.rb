@@ -8,7 +8,10 @@ class BulkExport < ApplicationRecord
   TERMINATED = 'job.status.terminated' # The job terminated due to an error
   COMPLETE = 'job.status.complete'     # The job completed successfully
   ARCHIVED = 'job.status.archived'     # The job's files have been cleaned up
-  ARCHIVE_CUTOFF = 30.days.ago
+  ARCHIVE_CUTOFF = 30                  # days
+  PASSWORD_LENGTH = 8
+
+  alias_attribute :export_format, :format
 
   scope :owned, ->(owner_user_name) { where(owned_by: owner_user_name) }
 
@@ -22,13 +25,19 @@ class BulkExport < ApplicationRecord
 
   before_save :generate_file_name
 
-  def export
+  def self.validate_password!(password)
+    return unless ZipService.require_password? && password.length < PASSWORD_LENGTH
+
+    raise(Errors::InvalidPrimeroEntityType, 'Password is too weak')
+  end
+
+  def export(password)
     process_records_in_batches(500) do |records_batch|
       exporter.export(records_batch, owner, custom_export_params || {})
     end
     exporter.complete
-    encrypt_export_file
-    attach_export_file
+    zipped_file = ZipService.zip(stored_file_name, password)
+    attach_export_file(zipped_file)
     mark_completed!
   end
 
@@ -37,22 +46,11 @@ class BulkExport < ApplicationRecord
   end
 
   def exporter_type
-    @exporter_type ||= Exporters.active_exporters_for_model(model_class)
-                                .find { |e| e.id == format.to_s }
+    @exporter_type ||= ExportService.exporter(model_class, format)
   end
 
   def exporter
     @exporter ||= exporter_type.new(stored_file_name)
-  end
-
-  def password
-    # TODO: Add encryption
-    password_ciphertext
-  end
-
-  def password=(password)
-    # TODO: Add encryption
-    self.password_ciphertext = password
   end
 
   def search_filters
@@ -77,14 +75,12 @@ class BulkExport < ApplicationRecord
   def mark_completed!
     self.status = COMPLETE
     self.completed_on = DateTime.now
-    self.password_ciphertext = nil # TODO: yes yes, I know
     # TODO: Log this
     save!
   end
 
   def mark_terminated!
     self.status = TERMINATED
-    self.password_ciphertext = nil
     save!
   end
 
@@ -106,12 +102,6 @@ class BulkExport < ApplicationRecord
     File.join(Rails.configuration.exports_directory, "#{id}_#{file_name}")
   end
 
-  def encrypted_file_name
-    name = stored_file_name
-    name = "#{name}.zip" if name.present?
-    name
-  end
-
   def process_records_in_batches(batch_size = 500, &block)
     # TODO: This is a good candidate for multi-threading, provided export buffers are thread safe.
     pagination = { page: 1, per_page: batch_size }
@@ -128,24 +118,13 @@ class BulkExport < ApplicationRecord
     end until results.next_page.nil?
   end
 
-  def attach_export_file
-    return unless encrypted_file_name && File.size?(encrypted_file_name)
+  def attach_export_file(file)
+    return unless file && File.size?(file)
 
     export_file.attach(
-      io: File.open(encrypted_file_name),
-      filename: File.basename(encrypted_file_name)
+      io: File.open(file),
+      filename: File.basename(file)
     )
-    File.delete(encrypted_file_name)
-  end
-
-  def encrypt_export_file
-    return unless stored_file_name && File.size?(stored_file_name) && password
-
-    encrypt = Zip::TraditionalEncrypter.new(password)
-    Zip::OutputStream.open(encrypted_file_name, encrypt) do |out|
-      out.put_next_entry(File.basename(stored_file_name))
-      out.write File.open(stored_file_name).read
-    end
-    File.delete(stored_file_name)
+    File.delete(file)
   end
 end

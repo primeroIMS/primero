@@ -92,3 +92,21 @@ export const getApprovalsClosurePending = state =>
 
 export const getApprovalsCasePlanPending = state =>
   getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CLOSURE_PENDING);
+
+export const getProtectionConcerns = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.PROTECTION_CONCERNS);
+
+export const getCasesByTaskOverdueAssessment = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_ASSESSMENT);
+
+export const getCasesByTaskOverdueCasePlan = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_CASE_PLAN);
+
+export const getCasesByTaskOverdueServices = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_SERVICES);
+
+export const getCasesByTaskOverdueFollowups = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_FOLLOWUPS);
+
+export const getSharedWithMe = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.SHARED_WITH_ME);

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Transfer do
-
   before :each do
     @module_cp = PrimeroModule.new(name: 'CP')
     @module_cp.save(validate: false)
@@ -19,15 +20,16 @@ describe Transfer do
     @group2 = UserGroup.create!(name: 'Group2')
     @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2])
     @user2.save(validate: false)
-    @case = Child.create(data: {
-      name: 'Test', owned_by: 'user1',
-      module_id: @module_cp.unique_id,
-      disclosure_other_orgs: true
-    })
+    @case = Child.create(
+      data: {
+        name: 'Test', owned_by: 'user1',
+        module_id: @module_cp.unique_id,
+        disclosure_other_orgs: true
+      }
+    )
   end
 
   describe 'consent' do
-
     it 'denies consent for transferring records if consent properties are not set' do
       @case.update_attributes(disclosure_other_orgs: nil)
       transfer = Transfer.new(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
@@ -47,13 +49,10 @@ describe Transfer do
 
       expect(transfer.consent_given?).to be_truthy
     end
-
   end
 
   describe 'perform' do
-
     context 'in system' do
-
       it 'allows the targeted user to have access to this record' do
         transfer = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
 
@@ -85,8 +84,9 @@ describe Transfer do
 
       expect(transfer.status).to eq(Transition::STATUS_ACCEPTED)
       expect(@case.owned_by).to eq('user2')
+      expect(@case.transfer_status).to eq(Transition::STATUS_ACCEPTED)
+      expect(@case.status).to eq(Record::STATUS_OPEN)
     end
-
   end
 
   describe 'reject' do
@@ -96,17 +96,12 @@ describe Transfer do
 
       expect(transfer.status).to eq(Transition::STATUS_REJECTED)
       expect(@case.assigned_user_names.present?).to be_falsey
+      expect(@case.transfer_status).to eq(Transition::STATUS_REJECTED)
+      expect(@case.status).to eq(Record::STATUS_OPEN)
     end
-
   end
 
   after :each do
-    PrimeroModule.destroy_all
-    UserGroup.destroy_all
-    Role.destroy_all
-    User.destroy_all
-    Child.destroy_all
-    Transition.destroy_all
+    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition)
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def create_or_update_role(role_hash)
   role = Role.find_by(unique_id: role_hash[:unique_id])
 
@@ -62,7 +64,7 @@ cp_admin_permissions = [
       Permission::ASSIGN,
       Permission::CREATE
     ],
-    role_ids: [
+    role_unique_ids: [
       'role-cp-case-worker',
       'role-cp-manager',
       'role-cp-user-manager',
@@ -131,7 +133,8 @@ cp_admin_permissions = [
     resource: Permission::DASHBOARD,
     actions: [
       Permission::DASH_REPORTING_LOCATION,
-      Permission::DASH_PROTECTION_CONCERNS_BY_LOCATION
+      Permission::DASH_PROTECTION_CONCERNS_BY_LOCATION,
+      Permission::DASH_PROTECTION_CONCERNS
     ]
   )
 ]
@@ -206,7 +209,9 @@ cp_caseworker_permissions = [
       Permission::DASH_CASE_RISK,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::DASH_TASKS,
-      Permission::DASH_CASE_OVERVIEW
+      Permission::DASH_CASE_OVERVIEW,
+      Permission::DASH_SHARED_WITH_OTHERS,
+      Permission::DASH_SHARED_WITH_ME
     ]
   ),
   Permission.new(
@@ -319,7 +324,10 @@ cp_manager_permissions = [
         Permission::DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
         Permission::DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
         Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES,
-        Permission::DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS
+        Permission::DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
+        Permission::DASH_SHARED_WITH_ME,
+        Permission::DASH_SHARED_WITH_OTHERS,
+        Permission::DASH_GROUP_OVERVIEW
       ]
   )
 ]
@@ -420,7 +428,8 @@ cp_user_manager_permissions = [
           Permission::DASH_APPROVALS_CLOSURE_PENDING,
           Permission::VIEW_RESPONSE,
           Permission::DASH_CASE_RISK,
-          Permission::VIEW_PROTECTION_CONCERNS_FILTER
+          Permission::VIEW_PROTECTION_CONCERNS_FILTER,
+          Permission::DASH_GROUP_OVERVIEW
         ]
     )
 ]
@@ -558,7 +567,8 @@ gbv_manager_permissions = [
       Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
       Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
       Permission::DASH_APPROVALS_CLOSURE_PENDING,
-      Permission::DASH_REPORTING_LOCATION
+      Permission::DASH_REPORTING_LOCATION,
+      Permission::DASH_GROUP_OVERVIEW
     ]
   ),
   Permission.new(
@@ -657,7 +667,8 @@ gbv_user_manager_permissions = [
       actions: [
         Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
         Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
-        Permission::DASH_APPROVALS_CLOSURE_PENDING
+        Permission::DASH_APPROVALS_CLOSURE_PENDING,
+        Permission::DASH_GROUP_OVERVIEW
       ]
     )
 ]
@@ -812,7 +823,7 @@ gbv_cm_supervisor_permissions = [
     ),
     Permission.new(
         resource: Permission::ROLE,
-        role_ids: ['role-gbv-caseworker'],
+        role_unique_ids: ['role-gbv-caseworker'],
         actions: [
             Permission::READ
         ]
@@ -835,6 +846,12 @@ gbv_cm_supervisor_permissions = [
             Permission::GROUP_READ,
             Permission::WRITE
         ]
+    ),
+    Permission.new(
+      resource: Permission::DASHBOARD,
+      actions: [
+        Permission::DASH_GROUP_OVERVIEW
+      ]
     )
 ]
 
@@ -936,7 +953,7 @@ gbv_organization_focal_point_permissions = [
         actions: [
             Permission::READ
         ],
-        role_ids: ['role-gbv-case-management-supervisor', 'role-gbv-caseworker', 'role-gbv-program-manager']
+        role_unique_ids: ['role-gbv-case-management-supervisor', 'role-gbv-caseworker', 'role-gbv-program-manager']
     ),
     Permission.new(
         resource: Permission::USER,
@@ -962,6 +979,12 @@ gbv_organization_focal_point_permissions = [
             Permission::GROUP_READ,
             Permission::WRITE
         ]
+    ),
+    Permission.new(
+      resource: Permission::DASHBOARD,
+      actions: [
+        Permission::DASH_GROUP_OVERVIEW
+      ]
     )
 ]
 
@@ -981,7 +1004,7 @@ agency_user_admin_permissions = [
             Permission::READ,
             Permission::ASSIGN
         ],
-        role_ids: [
+        role_unique_ids: [
             "role-cp-case-worker",
             "role-cp-manager",
             "role-cp-user-manager",
@@ -1024,7 +1047,7 @@ gbv_agency_user_admin_permissions = [
           Permission::READ,
           Permission::ASSIGN
       ],
-      role_ids: [
+      role_unique_ids: [
           "role-gbv-case-management-supervisor",
           "role-gbv-caseworker",
           "role-gbv-manager",
@@ -1125,7 +1148,7 @@ gbv_system_admin_permissions = [
       Permission::CREATE,
       Permission::ASSIGN
     ],
-    role_ids: [
+    role_unique_ids: [
       'role-gbv-manager',
       'role-gbv-social-worker',
       'role-gbv-user-manager'
@@ -1176,7 +1199,8 @@ gbv_system_admin_permissions = [
   Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
-      Permission::DASH_PROTECTION_CONCERNS_BY_LOCATION
+      Permission::DASH_PROTECTION_CONCERNS_BY_LOCATION,
+      Permission::DASH_PROTECTION_CONCERNS
     ]
   )
 ]

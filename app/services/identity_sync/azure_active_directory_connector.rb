@@ -24,13 +24,13 @@ class IdentitySync::AzureActiveDirectoryConnector < IdentitySync::AbstractConnec
   end
 
   def create(user)
-    status, response = connection.post('/users', params(user))
+    status, response = connection.post('/users', post_params(user))
     log_response(user, status, response)
     response_attributes(response, user)
   end
 
   def update(user)
-    status, response = connection.patch("/users/#{user.user_name}", params(user))
+    status, response = connection.patch("/users/#{user.user_name}", patch_params(user))
     log_response(user, status, response)
     response_attributes(response, user)
   end
@@ -40,7 +40,14 @@ class IdentitySync::AzureActiveDirectoryConnector < IdentitySync::AbstractConnec
       !user.disabled != user['identity_provider_sync']['aad']['enabled']
   end
 
-  def params(user)
+  def post_params(user)
+    {
+      user_name: user.user_name,
+      full_name: user.full_name
+    }
+  end
+
+  def patch_params(user)
     {
       user_name: user.user_name,
       full_name: user.full_name,

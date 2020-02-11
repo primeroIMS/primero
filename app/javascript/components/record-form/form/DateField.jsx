@@ -6,6 +6,7 @@ import { InputAdornment } from "@material-ui/core";
 import { FastField, connect, getIn } from "formik";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import omitBy from "lodash/omitBy";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 
@@ -51,7 +52,9 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
     }
     form.setFieldValue(name, dateValue, true);
 
-    return dateValue;
+    return dateIncludeTime || isEmpty(value)
+      ? dateValue
+      : dateValue.concat("T00:00:00");
   };
 
   const fieldError = getIn(formik.errors, name);
@@ -62,9 +65,8 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
       {...fieldProps}
       render={({ field, form }) => {
         const dateProps = {
-          ...field,
+          ...{ ...field, value: getDateValue(form, field) },
           ...omitBy(rest, (v, k) => ["recordType", "recordID"].includes(k)),
-          value: getDateValue(form, field),
           format: dateIncludeTime ? "dd-MMM-yyyy HH:mm" : "dd-MMM-yyyy",
           helperText:
             (fieldTouched && fieldError) ||

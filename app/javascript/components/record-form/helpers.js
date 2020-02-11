@@ -48,7 +48,13 @@ function difference(object, base, nested) {
       let val = value;
 
       if (isDate(val)) {
-        val = format(value, "dd-MMM-yyyy");
+        const initialValue = base[key];
+        const currentValue = value.toISOString();
+
+        val =
+          !isEmpty(initialValue) && initialValue.length === currentValue.length
+            ? value.toISOString()
+            : format(value, "dd-MMM-yyyy");
       }
 
       if (Array.isArray(val)) {

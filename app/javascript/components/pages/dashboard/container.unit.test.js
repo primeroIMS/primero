@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { fromJS, Map, List } from "immutable";
-import { TableRow, TableBody } from "@material-ui/core";
+import { TableRow, TableBody, TableHead, TableCell } from "@material-ui/core";
+import MUIDataTable from "mui-datatables";
 
 import { setupMountedComponent } from "../../../test";
 import { OverviewBox } from "../../dashboard/overview-box";
@@ -244,7 +245,7 @@ describe("<Dashboard />", () => {
 
     it("renders the OverviewBox", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
-      expect(component.find("li")).to.have.lengthOf(2);
+      expect(component.find("li")).to.have.lengthOf(1);
       expect(component.find("button")).to.have.lengthOf(1);
     });
   });
@@ -282,7 +283,7 @@ describe("<Dashboard />", () => {
 
     it("renders the OverviewBox", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
-      expect(component.find("li")).to.have.lengthOf(2);
+      expect(component.find("li")).to.have.lengthOf(1);
       expect(component.find("button")).to.have.lengthOf(1);
     });
   });
@@ -320,7 +321,7 @@ describe("<Dashboard />", () => {
 
     it("renders the OverviewBox", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
-      expect(component.find("li")).to.have.lengthOf(2);
+      expect(component.find("li")).to.have.lengthOf(1);
       expect(component.find("button")).to.have.lengthOf(1);
     });
   });
@@ -378,14 +379,460 @@ describe("<Dashboard />", () => {
 
     it("renders the OverviewBox", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
-      expect(component.find("li")).to.have.lengthOf(4);
+      expect(component.find("li")).to.have.lengthOf(3);
       expect(component.find("button")).to.have.lengthOf(3);
       expect(
         component
-          .find("li")
-          .first()
+          .find(OverviewBox)
+          .find("div div")
           .text()
       ).to.be.equal("dashboard.pending_approvals");
     });
+  });
+
+  describe("render protection concerns dashboards", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.dash_protection_concerns",
+                  type: "indicator",
+                  indicators: {
+                    protection_concerns_open_cases: {
+                      statelessness: {
+                        count: 2,
+                        query: []
+                      }
+                    },
+                    protection_concerns_new_this_week: {
+                      statelessness: {
+                        count: 1,
+                        query: []
+                      }
+                    },
+                    protection_concerns_all_cases: {
+                      statelessness: {
+                        count: 4,
+                        query: []
+                      }
+                    },
+                    protection_concerns_closed_this_week: {
+                      statelessness: {
+                        count: 1,
+                        query: []
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_PROTECTION_CONCERNS]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the DashboardTable", () => {
+      expect(component.find(DashboardTable)).to.have.lengthOf(1);
+      expect(component.find(MUIDataTable)).to.have.lengthOf(1);
+      expect(component.find(TableBody)).to.have.lengthOf(1);
+      expect(component.find(TableBody).find(TableRow)).to.have.lengthOf(1);
+    });
+  });
+
+
+  describe("render overdue task assesment dashboard", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.cases_by_task_overdue_assessment",
+                  type: "indicator",
+                  indicators: {
+                    tasks_overdue_assessment: {
+                      primero: {
+                        count: 0,
+                        query: ["record_state=true"]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the DashboardTable", () => {
+      expect(component.find(DashboardTable)).to.have.lengthOf(1);
+    });
+
+    it("renders only the columns case worker and assessment", () => {
+      expect(
+        component
+          .find(DashboardTable)
+          .find(TableHead)
+          .find(TableCell)
+      ).to.have.lengthOf(2);
+      expect(
+        component
+          .find(DashboardTable)
+          .find(TableHead)
+          .find(TableCell)
+          .first()
+          .text()
+      ).to.equal("dashboard.case_worker");
+      expect(
+        component
+          .find(DashboardTable)
+          .find(TableHead)
+          .find(TableCell)
+          .last()
+          .text()
+      ).to.equal("dashboard.assessment");
+    });
+  });
+
+  describe("render overdue task case plan dashboard", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.cases_by_task_overdue_case_plan",
+                  type: "indicator",
+                  indicators: {
+                    tasks_overdue_case_plan: {
+                      primero: {
+                        count: 0,
+                        query: ["record_state=true"]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the DashboardTable", () => {
+      expect(component.find(DashboardTable)).to.have.lengthOf(1);
+    });
+
+    it("renders only the columns case worker and case plan", () => {
+      expect(
+        component
+          .find(DashboardTable)
+          .find(TableHead)
+          .find(TableCell)
+      ).to.have.lengthOf(2);
+      expect(
+        component
+          .find(DashboardTable)
+          .find(TableHead)
+          .find(TableCell)
+          .first()
+          .text()
+      ).to.equal("dashboard.case_worker");
+      expect(
+        component
+          .find(DashboardTable)
+          .find(TableHead)
+          .find(TableCell)
+          .last()
+          .text()
+      ).to.equal("dashboard.case_plan");
+    });
+  });
+
+  describe("render overdue task services dashboard", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.cases_by_task_overdue_services",
+                  type: "indicator",
+                  indicators: {
+                    tasks_overdue_services: {
+                      primero: {
+                        count: 0,
+                        query: ["record_state=true"]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_CASES_BY_TASK_OVERDUE_SERVICES]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the DashboardTable", () => {
+      expect(component.find(DashboardTable)).to.have.lengthOf(1);
+    });
+
+    it("renders only the columns case worker and case plan", () => {
+      expect(
+        component
+          .find(DashboardTable)
+          .find(TableHead)
+          .find(TableCell)
+      ).to.have.lengthOf(2);
+      expect(
+        component
+          .find(DashboardTable)
+          .find(TableHead)
+          .find(TableCell)
+          .first()
+          .text()
+      ).to.equal("dashboard.case_worker");
+      expect(
+        component
+          .find(DashboardTable)
+          .find(TableHead)
+          .find(TableCell)
+          .last()
+          .text()
+      ).to.equal("dashboard.services");
+    });
+  });
+
+  describe("render overdue task followups dashboard", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.cases_by_task_overdue_followups",
+                  type: "indicator",
+                  indicators: {
+                    tasks_overdue_followups: {
+                      primero: {
+                        count: 0,
+                        query: ["record_state=true"]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the DashboardTable", () => {
+      expect(component.find(DashboardTable)).to.have.lengthOf(1);
+    });
+
+    it("renders only the columns case worker and case plan", () => {
+      expect(
+        component
+          .find(DashboardTable)
+          .find(TableHead)
+          .find(TableCell)
+      ).to.have.lengthOf(2);
+      expect(
+        component
+          .find(DashboardTable)
+          .find(TableHead)
+          .find(TableCell)
+          .first()
+          .text()
+      ).to.equal("dashboard.case_worker");
+      expect(
+        component
+          .find(DashboardTable)
+          .find(TableHead)
+          .find(TableCell)
+          .last()
+          .text()
+      ).to.equal("dashboard.follow_up");
+    });
+  });
+
+  describe("render all overdue tasks", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.cases_by_task_overdue_assessment",
+                  type: "indicator",
+                  indicators: {
+                    tasks_overdue_assessment: {
+                      primero: {
+                        count: 0,
+                        query: ["record_state=true"]
+                      }
+                    }
+                  }
+                },
+                {
+                  name: "dashboard.cases_by_task_overdue_case_plan",
+                  type: "indicator",
+                  indicators: {
+                    tasks_overdue_case_plan: {
+                      primero: {
+                        count: 0,
+                        query: ["record_state=true"]
+                      }
+                    }
+                  }
+                },
+                {
+                  name: "dashboard.cases_by_task_overdue_services",
+                  type: "indicator",
+                  indicators: {
+                    tasks_overdue_services: {
+                      primero: {
+                        count: 0,
+                        query: ["record_state=true"]
+                      }
+                    }
+                  }
+                },
+                {
+                  name: "dashboard.cases_by_task_overdue_followups",
+                  type: "indicator",
+                  indicators: {
+                    tasks_overdue_followups: {
+                      primero: {
+                        count: 0,
+                        query: ["record_state=true"]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the DashboardTable", () => {
+      expect(component.find(DashboardTable)).to.have.lengthOf(1);
+    });
+
+    it("renders all the columns of the task overdues dashboards", () => {
+      expect(
+        component
+          .find(DashboardTable)
+          .find(TableHead)
+          .find(TableCell)
+      ).to.have.lengthOf(5);
+    });
+  });
+
+  describe("render shared with me dashboard", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.dash_shared_with_me",
+                  type: "indicator",
+                  indicators: {
+                    shared_with_me_total_referrals: {
+                      count: 0,
+                      query: ["record_state=true", "status=open"]
+                    },
+                    shared_with_me_new_referrals: {
+                      count: 0,
+                      query: [
+                        "record_state=true",
+                        "status=open",
+                        "not_edited_by_owner=true"
+                      ]
+                    },
+                    shared_with_me_transfers_awaiting_acceptance: {
+                      count: 0,
+                      query: ["record_state=true", "status=open"]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_SHARED_WITH_ME],
+              cases: [ACTIONS.RECEIVE_REFERRAL, ACTIONS.RECEIVE_TRANSFER]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the SharedWithMe Dashboard", () => {
+      expect(component.find(OverviewBox)).to.have.lengthOf(1);
+      expect(component.find(OverviewBox).find("ul li")).to.have.lengthOf(3);
+    });
+
   });
 });

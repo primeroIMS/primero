@@ -1,6 +1,7 @@
 import { fromJS } from "immutable";
 
 import { expect } from "../../../test";
+import { ACTIONS, RESOURCES } from "../../../libs/permissions";
 
 import * as helper from "./helpers";
 
@@ -13,7 +14,10 @@ describe("<Dashboard /> - Helpers", () => {
         "toData1D",
         "toListTable",
         "toReportingLocationTable",
-        "toApprovalsManager"
+        "toApprovalsManager",
+        "toProtectionConcernTable",
+        "toTasksOverdueTable",
+        "permittedSharedWithMe"
       ].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
@@ -290,6 +294,283 @@ describe("<Dashboard /> - Helpers", () => {
       const converted = helper.toApprovalsManager(data);
 
       expect(converted).to.deep.equal(expected);
+    });
+  });
+
+  describe("toProtectionConcernTable", () => {
+    it("should convert the data for DashboardTable", () => {
+      const i18nMock = { t: () => ({}), locale: "en" };
+      const lookups = [
+        {
+          id: "sexually_exploited",
+          display_text: { en: "Sexually Exploited", fr: "" }
+        }
+      ];
+
+      const data = fromJS({
+        name: "dashboard.dash_protection_concerns",
+        type: "indicator",
+        indicators: {
+          protection_concerns_open_cases: {
+            sexually_exploited: {
+              count: 1,
+              query: [
+                "record_state=true",
+                "status=open",
+                "protection_concerns=sexually_exploited"
+              ]
+            }
+          },
+          protection_concerns_new_this_week: {
+            sexually_exploited: {
+              count: 2,
+              query: [
+                "record_state=true",
+                "status=open",
+                "created_at=2020-01-26T00:00:00Z..2020-02-01T23:59:59Z",
+                "protection_concerns=sexually_exploited"
+              ]
+            }
+          },
+          protection_concerns_all_cases: {
+            sexually_exploited: {
+              count: 4,
+              query: [
+                "record_state=true",
+                "protection_concerns=sexually_exploited"
+              ]
+            }
+          },
+          protection_concerns_closed_this_week: {
+            sexually_exploited: {
+              count: 1,
+              query: [
+                "record_state=true",
+                "status=closed",
+                "date_closure=2020-01-26T00:00:00Z..2020-02-01T23:59:59Z",
+                "protection_concerns=sexually_exploited"
+              ]
+            }
+          }
+        }
+      });
+
+      const expected = {
+        columns: [
+          { name: "", label: {} },
+          { name: "protection_concerns_all_cases", label: {} },
+          { name: "protection_concerns_open_cases", label: {} },
+          { name: "protection_concerns_new_this_week", label: {} },
+          { name: "protection_concerns_closed_this_week", label: {} }
+        ],
+        data: [
+          {
+            "": "Sexually Exploited",
+            protection_concerns_all_cases: 4,
+            protection_concerns_open_cases: 1,
+            protection_concerns_new_this_week: 2,
+            protection_concerns_closed_this_week: 1
+          }
+        ],
+        query: [
+          {
+            "": "Sexually Exploited",
+            protection_concerns_all_cases: [
+              "record_state=true",
+              "protection_concerns=sexually_exploited"
+            ],
+            protection_concerns_open_cases: [
+              "record_state=true",
+              "status=open",
+              "protection_concerns=sexually_exploited"
+            ],
+            protection_concerns_new_this_week: [
+              "record_state=true",
+              "status=open",
+              "created_at=2020-01-26T00:00:00Z..2020-02-01T23:59:59Z",
+              "protection_concerns=sexually_exploited"
+            ],
+            protection_concerns_closed_this_week: [
+              "record_state=true",
+              "status=closed",
+              "date_closure=2020-01-26T00:00:00Z..2020-02-01T23:59:59Z",
+              "protection_concerns=sexually_exploited"
+            ]
+          }
+        ]
+      };
+
+      const converted = helper.toProtectionConcernTable(
+        data,
+        i18nMock,
+        lookups
+      );
+
+      expect(converted).to.deep.equal(expected);
+    });
+  });
+
+  describe("toTasksOverdueTable", () => {
+    it("should convert the data for DashboardTable", () => {
+      const i18nMock = { t: () => ({}), locale: "en" };
+
+      const data = [
+        fromJS({
+          name: "dashboard.cases_by_task_overdue_followups",
+          type: "indicator",
+          indicators: {
+            tasks_overdue_followups: {
+              primero: {
+                count: 0,
+                query: ["record_state=true"]
+              }
+            }
+          }
+        }),
+        fromJS({
+          name: "dashboard.cases_by_task_overdue_case_plan",
+          type: "indicator",
+          indicators: {
+            tasks_overdue_case_plan: {
+              primero: {
+                count: 0,
+                query: ["record_state=true"]
+              }
+            }
+          }
+        })
+      ];
+
+      const expected = {
+        columns: [
+          { name: "case_worker", label: {} },
+          { name: "followups", label: {} },
+          { name: "case_plan", label: {} }
+        ],
+        data: [["primero", 0, 0]],
+        query: [
+          {
+            case_worker: [],
+            followups: ["record_state=true"],
+            case_plan: ["record_state=true"]
+          }
+        ]
+      };
+
+      const converted = helper.toTasksOverdueTable(data, i18nMock);
+
+      expect(converted).to.deep.equal(expected);
+    });
+  });
+
+  describe("permittedSharedWithMe", () => {
+    const sharedWithMe = fromJS({
+      name: "dashboard.dash_shared_with_me",
+      type: "indicator",
+      indicators: {
+        shared_with_me_total_referrals: {
+          count: 0,
+          query: ["record_state=true", "status=open"]
+        },
+        shared_with_me_new_referrals: {
+          count: 0,
+          query: [
+            "record_state=true",
+            "status=open",
+            "not_edited_by_owner=true"
+          ]
+        },
+        shared_with_me_transfers_awaiting_acceptance: {
+          count: 0,
+          query: ["record_state=true", "status=open"]
+        }
+      }
+    });
+
+    it("should return transfer indicators only", () => {
+      const userPermissions = fromJS({
+        [RESOURCES.cases]: [ACTIONS.RECEIVE_TRANSFER]
+      });
+
+      const expected = fromJS({
+        indicators: {
+          shared_with_me_transfers_awaiting_acceptance: {
+            count: 0,
+            query: ["record_state=true", "status=open"]
+          }
+        }
+      });
+
+      const permitted = helper.permittedSharedWithMe(
+        sharedWithMe,
+        userPermissions
+      );
+
+      expect(permitted).to.deep.equal(expected);
+    });
+
+    it("should return referral indicators only", () => {
+      const userPermissions = fromJS({
+        [RESOURCES.cases]: [ACTIONS.RECEIVE_REFERRAL]
+      });
+
+      const expected = fromJS({
+        indicators: {
+          shared_with_me_total_referrals: {
+            count: 0,
+            query: ["record_state=true", "status=open"]
+          },
+          shared_with_me_new_referrals: {
+            count: 0,
+            query: [
+              "record_state=true",
+              "status=open",
+              "not_edited_by_owner=true"
+            ]
+          }
+        }
+      });
+
+      const permitted = helper.permittedSharedWithMe(
+        sharedWithMe,
+        userPermissions
+      );
+
+      expect(permitted).to.deep.equal(expected);
+    });
+
+    it("should return all the indicators", () => {
+      const userPermissions = fromJS({
+        [RESOURCES.cases]: [ACTIONS.RECEIVE_REFERRAL, ACTIONS.RECEIVE_TRANSFER]
+      });
+
+      const expected = fromJS({
+        indicators: {
+          shared_with_me_total_referrals: {
+            count: 0,
+            query: ["record_state=true", "status=open"]
+          },
+          shared_with_me_new_referrals: {
+            count: 0,
+            query: [
+              "record_state=true",
+              "status=open",
+              "not_edited_by_owner=true"
+            ]
+          },
+          shared_with_me_transfers_awaiting_acceptance: {
+            count: 0,
+            query: ["record_state=true", "status=open"]
+          }
+        }
+      });
+
+      const permitted = helper.permittedSharedWithMe(
+        sharedWithMe,
+        userPermissions
+      );
+
+      expect(permitted).to.deep.equal(expected);
     });
   });
 });

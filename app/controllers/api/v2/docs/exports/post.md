@@ -17,7 +17,7 @@ perform exports for the format requested for this record type.
 ```json
 {
   "data": {
-      "format": "csv",
+      "export_format": "csv",
       "record_type": "case",
       "file_name": "export-for-today.csv",
       "password": "mypassword"
@@ -27,7 +27,7 @@ perform exports for the format requested for this record type.
 
 ## Success Response
 
-**Condition** : Authorized.   
+**Condition** : Authorized.
 
 **Code** : `200 OK`
 
@@ -40,7 +40,7 @@ perform exports for the format requested for this record type.
      "status": "job.status.processing",
      "owned_by": "primero",
      "completed_on": "2020-01-15T02:33:30.078Z",
-     "format": "csv",
+     "export_format": "csv",
      "record_type": "case",
      "file_name": "export-for-today.csv"
   }
