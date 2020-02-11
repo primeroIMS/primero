@@ -29,7 +29,10 @@ import { selectModule } from "../../application";
 import { getOption, getLocations } from "../../record-form";
 import { getReportingLocationConfig } from "../../application/selectors";
 import { getPermissions } from "../../user/selectors";
+import { LoadingIndicator } from "../../loading-indicator";
+import { getLoading, getErrors } from "../../index-table";
 
+import NAMESPACE from "./namespace";
 import { INDICATOR_NAMES } from "./constants";
 import * as actions from "./action-creators";
 import {
@@ -134,6 +137,10 @@ const Dashboard = ({
   const protectionConcernsLookup = useSelector(state =>
     getOption(state, LOOKUPS.protection_concerns, i18n.locale)
   );
+
+  const loading = useSelector(state => getLoading(state, NAMESPACE));
+
+  const errors = useSelector(state => getErrors(state, NAMESPACE));
 
   const getDoughnutInnerText = () => {
     const text = [];
@@ -241,12 +248,6 @@ const Dashboard = ({
     )
   };
 
-  const sharedWithMeProps = {
-    items: permittedSharedWithMe(sharedWithMe, userPermissions),
-    sumTitle: i18n.t("dashboard.shared_with_me"),
-    withTotal: false
-  };
-
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
@@ -338,7 +339,22 @@ const Dashboard = ({
                       actions={ACTIONS.DASH_SHARED_WITH_ME}
                     >
                       <OptionsBox flat>
-                        <OverviewBox {...sharedWithMeProps} />
+                        <LoadingIndicator
+                          type={NAMESPACE}
+                          loading={loading}
+                          errors={errors}
+                          hasData={Boolean(sharedWithMe.size)}
+                          overlay
+                        >
+                          <OverviewBox
+                            items={permittedSharedWithMe(
+                              sharedWithMe,
+                              userPermissions
+                            )}
+                            sumTitle={i18n.t("dashboard.shared_with_me")}
+                            withTotal={false}
+                          />
+                        </LoadingIndicator>
                       </OptionsBox>
                     </Permission>
                   </Grid>
