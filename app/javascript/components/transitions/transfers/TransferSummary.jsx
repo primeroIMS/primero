@@ -11,7 +11,7 @@ import { IN_PROGRESS } from "./constants";
 import TransferActionMenu from "./transfer-action-menu";
 import styles from "./styles.css";
 
-const TransferSummary = ({ transition, classes, currentUsername, showMode }) => {
+const TransferSummary = ({ transition, classes, currentUsername, showMode, recordType }) => {
   const css = makeStyles(styles)();
   const showTransferApproval =
     transition &&
@@ -27,7 +27,7 @@ const TransferSummary = ({ transition, classes, currentUsername, showMode }) => 
 
   const transferApproval = showTransferApproval ? (
     <Grid item md={1} xs={10} className={css.transferMenuIconContainer}>
-      <TransferActionMenu transition={transition} />
+      <TransferActionMenu transition={transition} recordType={recordType} />
     </Grid>
   ) : null;
   const itemWidth = showTransferApproval ? 9 : 10;
@@ -55,6 +55,7 @@ const TransferSummary = ({ transition, classes, currentUsername, showMode }) => 
 TransferSummary.propTypes = {
   classes: PropTypes.object.isRequired,
   currentUsername: PropTypes.string,
+  recordType: PropTypes.string,
   showMode: PropTypes.bool,
   transition: PropTypes.object.isRequired
 };

@@ -21,6 +21,7 @@ const Component = ({
   close,
   approvalType,
   recordId,
+  recordType,
   transferId
 }) => {
 
@@ -66,6 +67,7 @@ const Component = ({
         body: actionBody,
         message,
         recordId,
+        recordType,
         transferId
       })
     );
@@ -131,6 +133,7 @@ Component.propTypes = {
   close: PropTypes.func,
   openTransferDialog: PropTypes.bool,
   recordId: PropTypes.string,
+  recordType: PropTypes.string,
   transferId: PropTypes.string
 };
 

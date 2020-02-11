@@ -31,6 +31,13 @@ export const RECORD_TYPES = {
   all: "all"
 };
 
+export const RECORD_TYPE = {
+  case: "cases",
+  tracing_request: "tracing_requests",
+  incident: "incidents",
+  all: "all"
+};
+
 // Max Age allowed in age ranges
 export const AGE_MAX = 999;
 

@@ -6,12 +6,13 @@ export const approvalTransfer = ({
   body,
   message,
   recordId,
+  recordType,
   transferId
 }) => {
   return {
     type: actions.APPROVE_TRANSFER,
     api: {
-      path: `cases/${recordId}/transfers/${transferId}`,
+      path: `${recordType}/${recordId}/transfers/${transferId}`,
       method: "PATCH",
       body,
       successCallback: {

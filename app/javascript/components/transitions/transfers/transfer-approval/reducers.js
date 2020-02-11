@@ -1,6 +1,7 @@
 import { fromJS } from "immutable";
 
 import { mergeRecord } from "../../../../libs";
+import {RECORD_TYPE} from "../../../../config";
 
 import actions from "./actions";
 
@@ -9,7 +10,6 @@ const DEFAULT_STATE = fromJS({ data: [] });
 export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case actions.APPROVE_TRANSFER_SUCCESS: {
-      const caseData = state.getIn(["cases", "data"]);
       const transferData = state.getIn(["transitions", "data"]);
       const { data } = payload;
       const record = data.record;
@@ -27,18 +27,20 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       }
 
       if (record) {
-        const index = caseData.findIndex(r => r.get("id") === record.id);
+        const recordType = RECORD_TYPE[data.record_type];
+        const recordData = state.getIn([recordType, "data"]);
+        const recordIndex = recordData ? recordData.findIndex(r => r.get("id") === record.id) : -1;
 
-        if (index !== -1) {
+        if (recordIndex !== -1) {
           state = state
-            .updateIn(["cases", "data", index], u => mergeRecord(u, fromJS(record)))
-            .setIn(["cases", "errors"], false);
+            .updateIn([recordType, "data", recordIndex], u => mergeRecord(u, fromJS(record)))
+            .setIn([recordType, "errors"], false);
         } else {
           state = state
-            .updateIn(["cases", "data"], u => {
+            .updateIn([recordType, "data"], u => {
               return u.push(fromJS(record));
             })
-            .setIn(["cases", "errors"], false);
+            .setIn([recordType, "errors"], false);
         }
       }
 
