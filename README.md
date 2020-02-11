@@ -86,7 +86,6 @@ Prepare development configuration. Review the created configurations files and a
     $ cp config/sunspot.yml.development config/sunspot.yml
 
 Set development environment variables:
-
     $ echo "export PRIMERO_SECRET_KEY_BASE=PRIMERO_SECRET_KEY_BASE" >> ~/.bashrc
     $ echo "export DEVISE_SECRET_KEY=DEVISE_SECRET_KEY" >> ~/.bashrc
     $ echo "export DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY" >> ~/.bashrc
@@ -97,6 +96,9 @@ You may be pedantic about the secrets in development, and set them to something 
 Optionally use the command below to generate a random secret:
 
     $ rails secret
+
+Set this enviroment variable with a 32 bytes secret value:
+    $ echo "export PRIMERO_MESSAGE_SECRET=PRIMERO_MESSAGE_SECRET" >> ~/.bashrc
 
 Make sure that the secrets we set earlier are in your environment (replace .basharc with the rc file for your shell if you use a shell other than bash):
 
