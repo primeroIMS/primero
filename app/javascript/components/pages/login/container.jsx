@@ -9,6 +9,7 @@ import { selectUseIdentityProvider } from "./selectors";
 const Container = () => {
   const useIdentity = useSelector(state => selectUseIdentityProvider(state));
   const identityForm = typeof useIdentity !== "undefined" ? useIdentity ? <IdpSelection /> : <LoginForm /> : "";
+
   return (
     <>
       {identityForm}
