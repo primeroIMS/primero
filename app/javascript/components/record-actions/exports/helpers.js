@@ -60,7 +60,7 @@ export const exporterFilters = (
   if (isShowPage) {
     filters = { short_id: [record.get("short_id")] };
   } else {
-    filters = Object.entries(appliedFilters.toJS()).reduce((acc, curr) => {
+    filters = appliedFilters.entrySeq().reduce((acc, curr) => {
       const [key, value] = curr;
 
       if (!DEFAULT_FILTERS.includes(key)) {

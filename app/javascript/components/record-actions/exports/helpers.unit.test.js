@@ -129,7 +129,7 @@ describe("<RecordActions /> - exports/helpers", () => {
     );
 
     it("should return and object with applied filters, if isShowPage is false and allRowsSelected is true", () => {
-      const expected = { filters: { sex: ["female"] } };
+      const expected = { filters: { sex: fromJS(["female"]) } };
 
       expect(
         helper.exporterFilters(false, true, shortIds, appliedFilters, record)
