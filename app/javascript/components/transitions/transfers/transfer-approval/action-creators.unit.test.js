@@ -20,6 +20,7 @@ describe("<TransferApproval /> - Action Creators", () => {
 
     const args = {
       recordId: "10",
+      recordType: "cases",
       approvalId: "bia",
       body: { data: { status: "accepted" } },
       message: "Updated successfully",

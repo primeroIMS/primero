@@ -1,7 +1,8 @@
 import { fromJS } from "immutable";
+import { findKey } from "lodash";
 
 import { mergeRecord } from "../../../../libs";
-import {RECORD_TYPE} from "../../../../config";
+import {RECORD_TYPES} from "../../../../config";
 
 import actions from "./actions";
 
@@ -27,7 +28,7 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       }
 
       if (record) {
-        const recordType = RECORD_TYPE[data.record_type];
+        const recordType = findKey(RECORD_TYPES, (value) => value === data.record_type);
         const recordData = state.getIn([recordType, "data"]);
         const recordIndex = recordData ? recordData.findIndex(r => r.get("id") === record.id) : -1;
 
