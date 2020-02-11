@@ -303,6 +303,18 @@ module Indicators
       scope_to_transferred: true
     ).freeze
 
+    GROUP_OVERVIEW_OPEN = QueriedIndicator.new(
+      name: 'group_overview_open',
+      record_model: Child,
+      queries: OPEN_ENABLED
+    ).freeze
+
+    GROUP_OVERVIEW_CLOSED = QueriedIndicator.new(
+      name: 'group_overview_closed',
+      record_model: Child,
+      queries: CLOSED_ENABLED
+    ).freeze
+
     def self.reporting_location_indicators
       reporting_location_config = SystemSettings.current.reporting_location_config
       admin_level = reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL

@@ -24,7 +24,8 @@ describe Api::V2::DashboardsController, type: :request do
         Permission::DASH_WORKFLOW,
         Permission::DASH_CASE_OVERVIEW,
         Permission::DASH_REPORTING_LOCATION,
-        Permission::DASH_PROTECTION_CONCERNS
+        Permission::DASH_PROTECTION_CONCERNS,
+        Permission::DASH_GROUP_OVERVIEW
       ]
     )
 
@@ -39,7 +40,7 @@ describe Api::V2::DashboardsController, type: :request do
       unique_id: 'lookup-protection-concerns',
       name_en: 'Protection Concerns',
       lookup_values_en: [
-        {id: 'refugee', display_text: 'Refugee'}.with_indifferent_access
+        { id: 'refugee', display_text: 'Refugee' }.with_indifferent_access
       ]
     )
 
@@ -72,7 +73,7 @@ describe Api::V2::DashboardsController, type: :request do
       get '/api/v2/dashboards'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(4)
+      expect(json['data'].size).to eq(5)
 
       case_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.case_overview' }
       expect(case_overview_dashboard['indicators']['open']['count']).to eq(2)
@@ -94,6 +95,10 @@ describe Api::V2::DashboardsController, type: :request do
       expect(protection_concerns_dashboard['indicators']['protection_concerns_new_this_week']['refugee']['count']).to eq(1)
       expect(protection_concerns_dashboard['indicators']['protection_concerns_all_cases']['refugee']['count']).to eq(4)
       expect(protection_concerns_dashboard['indicators']['protection_concerns_closed_this_week']['refugee']['count']).to eq(1)
+
+      group_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.dash_group_overview' }
+      expect(group_overview_dashboard['indicators']['group_overview_open']['count']).to eq(2)
+      expect(group_overview_dashboard['indicators']['group_overview_closed']['count']).to eq(3)
     end
 
     describe 'Test the shared with dashboard', search: true do
