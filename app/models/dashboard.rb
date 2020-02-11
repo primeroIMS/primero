@@ -15,8 +15,7 @@ class Dashboard < ValueObject
     name: 'case_overview',
     type: 'indicator',
     indicators: [
-      Indicators::Case::OPEN, Indicators::Case::UPDATED,
-      Indicators::Case::CLOSED_RECENTLY
+      Indicators::Case::OPEN, Indicators::Case::UPDATED
     ]
   ).freeze
 
