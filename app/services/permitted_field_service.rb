@@ -26,6 +26,7 @@ class PermittedFieldService
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
     @permitted_field_names << 'flag_count' if user.can?(:flag, model_class)
     @permitted_field_names << 'flagged' if user.can?(:flag, model_class)
+    @permitted_field_names << 'referred_users_present' if user.can?(:referred_users_present, model_class)
     @permitted_field_names += permitted_approval_field_names
     @permitted_field_names += permitted_overdue_task_fields
     @permitted_field_names

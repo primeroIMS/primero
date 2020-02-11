@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Indicators
   class AbstractIndicator < ValueObject
     attr_accessor :name, :record_model, :scope, :scope_to_owner, :scope_to_referred, :scope_to_transferred
@@ -78,6 +80,5 @@ module Indicators
         []
       end
     end
-
   end
 end
