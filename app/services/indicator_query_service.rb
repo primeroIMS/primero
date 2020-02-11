@@ -1,7 +1,7 @@
+# frozen_string_literal: true
+
 class IndicatorQueryService
-
   class << self
-
     def query(indicators, user)
       result = {}
       group_indicators(indicators).each do |record_model, record_indicators|
@@ -9,7 +9,7 @@ class IndicatorQueryService
         result[record_type] = {}
         group_indicators_by_scope(record_indicators).each do |_, scoped_indicators|
           search = record_query(record_model, scoped_indicators, user)
-          stats = scoped_indicators.map { |i| [i.name, i.stats_from_search(search)] }.to_h
+          stats = scoped_indicators.map { |i| [i.name, i.stats_from_search(search, user)] }.to_h
           result[record_type] = result[record_type].merge(stats)
         end
       end
@@ -38,9 +38,6 @@ class IndicatorQueryService
         scope_key = indicator.scope&.map(&:to_h) || {}
         [indicator.scope_to_owner, indicator.scope_to_referred, indicator.scope_to_transferred, scope_key]
       end
-
     end
-
   end
-
 end

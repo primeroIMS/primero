@@ -44,18 +44,18 @@ module Indicators
       name
     end
 
-    def stats_from_search(sunspot_search)
+    def stats_from_search(sunspot_search, user)
       owner = owner_from_search(sunspot_search)
       sunspot_search.facet(facet_name).rows.map do |row|
         stat = {
           'count' => row.count,
-          'query' => stat_query_strings(row, owner)
+          'query' => stat_query_strings(row, owner, user)
         }
         [row.value, stat]
       end.to_h
     end
 
-    def stat_query_strings(_, _)
+    def stat_query_strings(_, _, _)
       raise NotImplementedError
     end
 
@@ -76,6 +76,22 @@ module Indicators
     def owner_query_string(owner)
       if owner.present?
         ["owned_by=#{owner}"]
+      else
+        []
+      end
+    end
+
+    def referred_query_string(user)
+      if user.present? && scope_to_referred
+        ["referred_users=#{user.user_name}"]
+      else
+        []
+      end
+    end
+
+    def transferred_query_string(user)
+      if user.present? && scope_to_transferred
+        ["transferred_to_users=#{user.user_name}"]
       else
         []
       end
