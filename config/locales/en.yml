@@ -640,6 +640,10 @@ en:
       record_state: "Record State"
       interview_date: "Interview Date"
       by_date: "By Date"
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
+    export: "Export"
 
   incident:
     label: "Incident ID"
@@ -777,6 +781,16 @@ en:
       separation_cause: "Separation Cause"
       record_state: "Record State"
       by_date: "By Date"
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
+    export: "Export"
+
+  all:
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
+    export: "Export"
 
   potential_matches:
     empty: "Please access matching through Tracing Requests"

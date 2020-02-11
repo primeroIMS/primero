@@ -23,6 +23,7 @@ import {
 import Permission from "../application/permission";
 
 import { NAME } from "./config";
+import { APPROVAL_TYPE, REQUEST_TYPE } from "./constants";
 import Notes from "./notes";
 import { ToggleEnable } from "./toggle-enable";
 import { ToggleOpen } from "./toggle-open";
@@ -46,7 +47,7 @@ const Container = ({
   const [openNotesDialog, setOpenNotesDialog] = useState(false);
   const [requestDialog, setRequestDialog] = useState(false);
   const [approveDialog, setApproveDialog] = useState(false);
-  const [approvalType, setApprovalType] = useState("approval");
+  const [approvalType, setApprovalType] = useState(APPROVAL_TYPE);
   const [transitionType, setTransitionType] = useState("");
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
   const [incidentDialog, setIncidentDialog] = useState(false);
@@ -205,12 +206,12 @@ const Container = ({
   };
 
   const handleRequestOpen = () => {
-    setApprovalType("request");
+    setApprovalType(REQUEST_TYPE);
     setRequestDialog(true);
   };
 
   const handleApprovalOpen = () => {
-    setApprovalType("approval");
+    setApprovalType(APPROVAL_TYPE);
     setApproveDialog(true);
   };
 
@@ -306,7 +307,7 @@ const Container = ({
       condition: canApprove
     },
     {
-      name: i18n.t("cases.export"),
+      name: i18n.t(`${recordType}.export`),
       action: handleExportsOpen,
       recordType: RECORD_TYPES.all,
       condition: canShowExports
@@ -364,19 +365,19 @@ const Container = ({
 
   const requestsApproval = [
     {
-      name: i18n.t("cases.assessment"),
+      name: i18n.t(`${recordType}.assessment`),
       condition: canRequestBia,
       recordType: RECORD_TYPES.all,
       value: "bia"
     },
     {
-      name: i18n.t("cases.case_plan"),
+      name: i18n.t(`${recordType}.case_plan`),
       condition: canRequestCasePlan,
       recordType: RECORD_TYPES.all,
       value: "case_plan"
     },
     {
-      name: i18n.t("cases.closure"),
+      name: i18n.t(`${recordType}.closure`),
       condition: canRequestClosure,
       recordType: RECORD_TYPES.all,
       value: "closure"
@@ -385,19 +386,19 @@ const Container = ({
 
   const approvals = [
     {
-      name: i18n.t("cases.assessment"),
+      name: i18n.t(`${recordType}.assessment`),
       condition: canApproveBia,
       recordType: "all",
       value: "bia"
     },
     {
-      name: i18n.t("cases.case_plan"),
+      name: i18n.t(`${recordType}.case_plan`),
       condition: canApproveCasePlan,
       recordType: "all",
       value: "case_plan"
     },
     {
-      name: i18n.t("cases.closure"),
+      name: i18n.t(`${recordType}.closure`),
       condition: canApproveClosure,
       recordType: "all",
       value: "closure"
