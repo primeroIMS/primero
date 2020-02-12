@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Location do
 
   before do
     Location.delete_all
-    Primero::Application.stub :locales => [ Primero::Application::LOCALE_ENGLISH, Primero::Application::LOCALE_FRENCH]
-    Primero::Application.stub :default_locale => Primero::Application::LOCALE_ENGLISH
+    Primero::Application.stub locales: [ Primero::Application::LOCALE_ENGLISH, Primero::Application::LOCALE_FRENCH]
+    Primero::Application.stub default_locale: Primero::Application::LOCALE_ENGLISH
 
     @country = create :location, admin_level: 0, placename_all: 'MyCountry', type: 'country', location_code: 'MC01', hierarchy_path: 'MC01'
     @province1 = create :location, hierarchy_path: "#{@country.location_code}.PR01", placename_all: 'Province 1', type: 'province', location_code: 'PR01'
@@ -315,10 +317,10 @@ describe Location do
     end
   end
 
-  it "should not be valid if location code is empty" do
-    location = Location.new(:placename => "test_location")
+  it 'should not be valid if location code is empty' do
+    location = Location.new(placename: 'test_location')
     location.should_not be_valid
-    location.errors[:location_code].should == ["must not be blank"]
+    location.errors[:location_code].should == ['must not be blank']
   end
 
   describe "Batch processing" do

@@ -212,7 +212,7 @@ class Location < ApplicationRecord
     return unless parent_location.present?
 
     new_admin_level = ((parent_location.admin_level || 0) + 1)
-    self.admin_level = ADMIN_LEVELS.include? new_admin_level ? new_admin_level : ADMIN_LEVEL_OUT_OF_RANGE
+    self.admin_level = ADMIN_LEVELS.include?(new_admin_level) ? new_admin_level : ADMIN_LEVEL_OUT_OF_RANGE
   end
 
   def descendants
@@ -251,9 +251,9 @@ class Location < ApplicationRecord
   end
 
   def set_hierarchy_from_parent(parent)
-    self.hierarchy_path = (parent && parent.hierarchy_path.present? ? "#{parent.hierarchy_path}." : '')
+    self.hierarchy_path = parent&.hierarchy_path.present? ? "#{parent.hierarchy_path}." : ''
     # TODO: Use  self.location_code.underscore
-    self.hierarchy_path << location_code
+    self.hierarchy_path << location_code.to_s
   end
 
   def parent=(parent)
@@ -322,7 +322,7 @@ class Location < ApplicationRecord
   end
 
   def hierarchy
-    @hierarchy = self.hierarchy_path.split('.')[0...-1]
+    @hierarchy = hierarchy_path.split('.')[0...-1]
   end
 
   def hierarchy=(hierarchy)
