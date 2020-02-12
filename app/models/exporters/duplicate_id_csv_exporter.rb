@@ -38,18 +38,6 @@ module Exporters
       def id
         'duplicate_id_csv'
       end
-
-      def mime_type
-        'csv'
-      end
-
-      def supported_models
-        [Child]
-      end
-
-      def authorize_fields_to_user?
-        false
-      end
     end
 
     def initialize(output_file_path = nil)

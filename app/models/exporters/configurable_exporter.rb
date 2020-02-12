@@ -1,6 +1,22 @@
+# frozen_string_literal: true
+
 module Exporters
   class ConfigurableExporter < BaseExporter
-    def initialize(output_file_path=nil, export_config_id=nil)
+    class << self
+      def mime_type
+        'csv'
+      end
+
+      def supported_models
+        [Child]
+      end
+
+      def authorize_fields_to_user?
+        false
+      end
+    end
+
+    def initialize(output_file_path = nil, export_config_id = nil)
       super(output_file_path)
       @export_configuration = ExportConfiguration.find_by(unique_id: export_config_id) if export_config_id.present?
     end
@@ -38,6 +54,5 @@ module Exporters
       return false if @export_configuration.blank? || @export_configuration.opt_out_field.blank?
       record.try(:send, @export_configuration.opt_out_field) == true
     end
-
   end
 end
