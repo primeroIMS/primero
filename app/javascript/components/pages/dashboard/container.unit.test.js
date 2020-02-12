@@ -449,7 +449,6 @@ describe("<Dashboard />", () => {
     });
   });
 
-
   describe("render overdue task assesment dashboard", () => {
     beforeEach(() => {
       ({ component } = setupMountedComponent(
@@ -836,7 +835,7 @@ describe("<Dashboard />", () => {
           .find(OverviewBox)
           .find("div div")
           .text()
-      ).to.be.equal("dashboard.shared_with_me");
+      ).to.be.equal("dashboard.dash_shared_with_me");
       expect(component.find(OverviewBox).find("ul li")).to.have.lengthOf(3);
     });
   });
@@ -904,6 +903,53 @@ describe("<Dashboard />", () => {
           .text()
       ).to.be.equal("dashboard.dash_shared_with_others");
       expect(component.find(OverviewBox).find("ul li")).to.have.lengthOf(3);
+    });
+  });
+
+  describe("render my group's cases", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.dash_group_overview",
+                  type: "indicator",
+                  indicators: {
+                    group_overview_open: {
+                      count: 5,
+                      query: ["record_state=true", "status=open"]
+                    },
+                    group_overview_closed: {
+                      count: 0,
+                      query: ["record_state=true", "status=closed"]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_GROUP_OVERVIEW]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the My Group's Cases Dashboard", () => {
+      expect(component.find(OverviewBox)).to.have.lengthOf(1);
+      expect(
+        component
+          .find(OverviewBox)
+          .find("div div")
+          .text()
+      ).to.be.equal("dashboard.dash_group_overview");
+      expect(component.find(OverviewBox).find("ul li")).to.have.lengthOf(2);
     });
   });
 });

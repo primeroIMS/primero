@@ -58,7 +58,8 @@ import {
   getCasesByTaskOverdueServices,
   getCasesByTaskOverdueFollowups,
   getSharedWithMe,
-  getSharedWithOthers
+  getSharedWithOthers,
+  getGroupOverview
 } from "./selectors";
 import styles from "./styles.css";
 import {
@@ -104,6 +105,7 @@ const Dashboard = ({
   casesByTaskOverdueFollowups,
   sharedWithMe,
   userPermissions,
+  groupOverview,
   sharedWithOthers
 }) => {
   useEffect(() => {
@@ -337,6 +339,28 @@ const Dashboard = ({
                   </Grid>
                   <Permission
                     resources={RESOURCES.dashboards}
+                    actions={ACTIONS.DASH_GROUP_OVERVIEW}
+                  >
+                    <Grid item xs>
+                      <OptionsBox flat>
+                        <LoadingIndicator
+                          type={NAMESPACE}
+                          loading={loading}
+                          errors={errors}
+                          hasData={Boolean(groupOverview.size)}
+                          overlay
+                        >
+                          <OverviewBox
+                            items={groupOverview}
+                            sumTitle={i18n.t("dashboard.dash_group_overview")}
+                            withTotal={false}
+                          />
+                        </LoadingIndicator>
+                      </OptionsBox>
+                    </Grid>
+                  </Permission>
+                  <Permission
+                    resources={RESOURCES.dashboards}
                     actions={ACTIONS.DASH_SHARED_WITH_ME}
                   >
                     <Grid item xs>
@@ -506,6 +530,7 @@ Dashboard.propTypes = {
   fetchServicesStatus: PropTypes.func.isRequired,
   flags: PropTypes.object.isRequired,
   getDashboardsData: PropTypes.func.isRequired,
+  groupOverview: PropTypes.object.isRequired,
   locations: PropTypes.object,
   openPageActions: PropTypes.func.isRequired,
   protectionConcerns: PropTypes.object.isRequired,
@@ -544,6 +569,7 @@ const mapStateToProps = state => {
     servicesStatus: selectServicesStatus(state),
     sharedWithMe: getSharedWithMe(state),
     userPermissions: getPermissions(state),
+    groupOverview: getGroupOverview(state),
     sharedWithOthers: getSharedWithOthers(state)
   };
 };

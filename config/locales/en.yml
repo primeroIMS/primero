@@ -1901,6 +1901,9 @@ en:
     shared_with_others_referrals: "Referrals"
     shared_with_others_pending_transfers: "Pending Transfers"
     shared_with_others_rejected_transfers: "Rejected Transfers"
+    dash_group_overview: "My Group's Cases"
+    group_overview_open: "Open"
+    group_overview_closed: "Closed"
 
   errors:
     try_again: "Try again"

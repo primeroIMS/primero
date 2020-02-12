@@ -181,6 +181,21 @@ const sharedWithOthers = {
   }
 };
 
+const groupOverview = {
+  name: "dashboard.dash_group_overview",
+  type: "indicator",
+  indicators: {
+    group_overview_open: {
+      count: 5,
+      query: ["record_state=true", "status=open"]
+    },
+    group_overview_closed: {
+      count: 0,
+      query: ["record_state=true", "status=closed"]
+    }
+  }
+};
+
 const stateWithoutRecords = fromJS({});
 const initialState = fromJS({
   records: {
@@ -211,7 +226,8 @@ const initialState = fromJS({
         approvalsClosurePending,
         protectionConcern,
         sharedWithMe,
-        sharedWithOthers
+        sharedWithOthers,
+        groupOverview
       ]
     }
   }
@@ -312,6 +328,14 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getSharedWithOthers(initialState);
 
       expect(values).to.deep.equal(fromJS(sharedWithOthers));
+    });
+  });
+
+  describe("getGroupOverview", () => {
+    it("should return the group overview", () => {
+      const values = selectors.getGroupOverview(initialState);
+
+      expect(values).to.deep.equal(fromJS(groupOverview));
     });
   });
 });
