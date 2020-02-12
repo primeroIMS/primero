@@ -12,14 +12,14 @@ const ReferralActionMenu = ({ transition, recordType }) => {
   const i18n = useI18n();
   const [referralMenu, setReferralMenu] = useState(null);
   const [referralOpen, setReferralOpen] = useState(false);
-  const [referralType, SetReferralType] = useState(DONE);
-  const handleTransferMenuClose = () => {
-    setTransferMenu(null);
+  const [referralType, setReferralType] = useState(DONE);
+  const handleReferralMenuClose = () => {
+    setReferralMenu(null);
   };
 
   const handleDoneOpen = event => {
     event.stopPropagation();
-    handleTransferMenuClose();
+    handleReferralMenuClose();
     setReferralType(DONE);
     setReferralOpen(true);
   };
@@ -45,10 +45,10 @@ const ReferralActionMenu = ({ transition, recordType }) => {
       </IconButton>
       <Menu
         id="long-menu"
-        anchorEl={transferMenu}
+        anchorEl={referralMenu}
         keepMounted
-        open={Boolean(transferMenu)}
-        onClose={handleTransferMenuClose}
+        open={Boolean(referralMenu)}
+        onClose={handleReferralMenuClose}
       >
         <MenuItem
           key={DONE}
@@ -61,7 +61,7 @@ const ReferralActionMenu = ({ transition, recordType }) => {
       </Menu>
 
       <ReferralAction
-        openDoneDialog={referralOpen}
+        openReferralDialog={referralOpen}
         close={handleClose}
         recordId={transition.record_id}
         transistionId={transition.id}

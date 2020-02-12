@@ -50,6 +50,7 @@ const Summary = ({ transition, classes, showMode, recordType }) => {
         </div>
       </Grid>
       {transitionStatus}
+      {transferApproval}
     </Grid>
   );
 };

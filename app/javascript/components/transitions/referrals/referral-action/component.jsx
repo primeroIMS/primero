@@ -11,7 +11,7 @@ import { DONE } from "../constants";
 import { NAME } from "./constants";
 
 const Component = ({
-  openDoneDialog,
+  openReferralDialog,
   close,
   recordId,
   recordType,
@@ -39,31 +39,31 @@ const Component = ({
     event.stopPropagation();
   };
 
-  const actionBody = {
-    data: {
-      status: approvalType
-    }
-  };
+  // const actionBody = {
+  //   data: {
+  //     status: approvalType
+  //   }
+  // };
 
-  if (approvalType === REJECTED) {
-    actionBody.data.rejected_reason = comment;
-  }
+  // if (approvalType === REJECTED) {
+  //   actionBody.data.rejected_reason = comment;
+  // }
 
-  const message =
-    approvalType === ACCEPTED
-    ? i18n.t(`${recordType}.transfer_accepted_success`)
-    : i18n.t(`${recordType}.transfer_accepted_rejected`, {record_id: recordId});
+  // const message =
+  //   approvalType === ACCEPTED
+  //   ? i18n.t(`${recordType}.transfer_accepted_success`)
+  //   : i18n.t(`${recordType}.transfer_accepted_rejected`, {record_id: recordId});
 
   const handleOk = () => {
-    dispatch(
-      approvalTransfer({
-        body: actionBody,
-        message,
-        recordId,
-        recordType,
-        transferId
-      })
-    );
+    // dispatch(
+    //   approvalTransfer({
+    //     body: actionBody,
+    //     message,
+    //     recordId,
+    //     recordType,
+    //     transferId
+    //   })
+    // );
 
     close();
   };
@@ -74,35 +74,18 @@ const Component = ({
     autoFocus: true
   };
 
-  const commentField = approvalType === REJECTED ? (
-    <>
-      <FormLabel component="legend">
-        {i18n.t(`${recordType}.transfer_reject_reason_label`)}
-      </FormLabel>
-      <TextField
-        id="outlined-multiline-static"
-        label=""
-        multiline
-        rows="4"
-        defaultValue=""
-        variant="outlined"
-        onChange={handleChangeComment}
-      />
-    </>
-  ): null;
 
   const dialogContent = (
     <form noValidate autoComplete="off" onClick={stopProp}>
-      <p>{i18n.t(`${recordType}.transfer_${approvalType}`)}</p>
-      {commentField}
+
     </form>
   );
 
-  const buttonLabel = approvalType === ACCEPTED ? ACCEPT : REJECT;
+  const buttonLabel = "ok";
 
   return (
     <ActionDialog
-      open={openTransferDialog}
+      open={openReferralDialog}
       successHandler={handleOk}
       cancelHandler={handleCancel}
       dialogTitle=""
@@ -122,7 +105,7 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
-  openDoneDialog: PropTypes.bool,
+  openReferralDialog: PropTypes.bool,
   close: PropTypes.func,
   recordId: PropTypes.string,
   recordType: PropTypes.string,
