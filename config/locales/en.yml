@@ -781,16 +781,6 @@ en:
     request_approval_success_closure: "Approval requested for Closure form."
     request_approval_failure: "An error occurred, please contact support."
 
-  all:
-    request_approval_select: "Request approval for"
-    request_approve_bia: "Approve Assessment?"
-    request_approve_case_plan: "Approve Case Plan?"
-    request_approve_closure: "Approve Closure?"
-    request_approval_success_bia: "Approval requested for Assessment form."
-    request_approval_success_case_plan: "Approval requested for Case Plan form."
-    request_approval_success_closure: "Approval requested for Closure form."
-    request_approval_failure: "An error occurred, please contact support."
-
   potential_matches:
     empty: "Please access matching through Tracing Requests"
     no_match: "There is no match in the system for %{type} %{id}"
