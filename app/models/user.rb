@@ -43,7 +43,7 @@ class User < ApplicationRecord
 
   before_create :set_agency_services
   before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code, :set_locale
-  after_save :reassociate_groups_or_agencies
+  after_update :reassociate_groups_or_agencies
 
   validates :full_name, presence: { message: 'errors.models.user.full_name' }
   validates :user_name, presence: true, uniqueness: { message: 'errors.models.user.user_name_uniqueness' }

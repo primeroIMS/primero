@@ -35,7 +35,7 @@ export const mapListToObject = (entries, key, val) => {
 };
 
 export const listEntriesToRecord = (entries, record) => {
-  return List(entries.map(entry => record(entry)));
+  return List(entries?.map(entry => record(entry)) || []);
 };
 
 export const arrayToObject = (data, key = "id") => {

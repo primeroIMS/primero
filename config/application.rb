@@ -30,7 +30,8 @@ module Primero
       #{config.root}/lib/extensions
     )
 
-
+    config.middleware.use Rack::Deflater
+    
     config.cache_store = :memory_store
 
     # I18n deprecation

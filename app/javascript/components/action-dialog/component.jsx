@@ -34,11 +34,15 @@ const ActionDialog = ({
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
-  const handleClose = () => (cancelHandler ? cancelHandler() : onClose());
+  const handleClose = event => {
+    event.stopPropagation();
+    cancelHandler ? cancelHandler() : onClose();
+  };
 
-  const handleSuccess = () => {
+  const handleSuccess = event => {
+    event.stopPropagation();
     successHandler();
-    if (!omitCloseAfterSuccess) handleClose();
+    if (!omitCloseAfterSuccess) handleClose(event);
   };
 
   const defaultSuccessButtonProps = {

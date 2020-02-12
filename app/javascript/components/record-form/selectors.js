@@ -23,7 +23,7 @@ const forms = (state, { recordType, primeroModule }) => {
 export const getFirstTab = (state, query) => {
   const selectedForms = forms(state, query);
 
-  if (!selectedForms) return null;
+  if (selectedForms.isEmpty()) return null;
 
   const firstFormSection = selectedForms.filter(
     fs => fs.get("is_first_tab") === true

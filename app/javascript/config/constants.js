@@ -4,16 +4,6 @@ export const FETCH_TIMEOUT = 50000;
 // IndexedDB database name
 export const DATABASE_NAME = "primero";
 
-// IndexedDB database collections
-export const DB = {
-  USER: "user",
-  FIELDS: "fields",
-  FORMS: "forms",
-  OPTIONS: "options",
-  RECORDS: "records",
-  SYSTEM_SETTINGS: "system_settings"
-};
-
 // Time (ms) when the idle dialog will activate when a user is inactive
 export const IDLE_TIMEOUT = 15 * 1000 * 60;
 
@@ -157,3 +147,8 @@ export const ADMIN_NAV = [
   },
   { to: "/matching", label: "settings.navigation.matching", disabled: true }
 ];
+
+export const ACCEPTED = "accepted";
+export const ACCEPT = "accept";
+export const REJECTED = "rejected";
+export const REJECT = "reject";

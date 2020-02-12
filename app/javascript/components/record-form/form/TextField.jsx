@@ -70,6 +70,7 @@ const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
         { data: { hidden_name: !isHiddenName } },
         renderProps.form.initialValues.id,
         false,
+        false,
         false
       )
     );

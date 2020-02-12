@@ -1,10 +1,11 @@
-import { push } from "connected-react-router";
 import qs from "qs";
 
 import { attemptSignout } from "../components/user";
 import { FETCH_TIMEOUT } from "../config";
-import { syncIndexedDB } from "../db";
+import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { signOut } from "../components/pages/login/idp-selection";
+
+import { handleSuccessCallback, isOnline } from "./utils";
 
 const defaultFetchOptions = {
   method: "GET",
@@ -22,10 +23,6 @@ const queryParams = {
   parse: str => qs.parse(str)
 };
 
-function isOnline(store) {
-  return store.getState().getIn(["application", "online"], false);
-}
-
 function fetchStatus({ store, type }, action, loading) {
   store.dispatch({
     type: `${type}_${action}`,
@@ -33,52 +30,24 @@ function fetchStatus({ store, type }, action, loading) {
   });
 }
 
-function buildPath(path, options, params) {
-  return `${options.baseUrl}/${path}${
-    params ? `?${queryParams.toString(params)}` : ""
-  }`;
+function buildPath(path, options, params, external) {
+  const endpoint = external ? path : `${options.baseUrl}/${path}`;
+
+  return `${endpoint}${params ? `?${queryParams.toString(params)}` : ""}`;
 }
 
 async function handleSuccess(store, payload) {
-  const { type, json, normalizeFunc, db } = payload;
-  const payloadFromDB = await syncIndexedDB(db, json, normalizeFunc);
+  const { type, json, db, fromQueue } = payload;
+  const payloadFromDB = await syncIndexedDB(db, json);
+
+  if (fromQueue) {
+    queueIndexedDB.delete(fromQueue);
+  }
 
   store.dispatch({
     type: `${type}_SUCCESS`,
     payload: payloadFromDB
   });
-}
-
-function handleSuccessCallback(store, successCallback, response, json) {
-  if (successCallback) {
-    if (Array.isArray(successCallback)) {
-      successCallback.forEach(callback => handleSuccessCallback(store, callback, response, json));
-    } else {
-
-      const isCallbackObject = typeof successCallback === "object";
-      const successPayload = isCallbackObject
-        ? {
-            type: successCallback.action,
-            payload: successCallback.payload
-          }
-        : {
-            type: successCallback,
-            payload: { response, json }
-          };
-
-      store.dispatch(successPayload);
-
-      if (isCallbackObject && successCallback.redirect) {
-        store.dispatch(
-          push(
-            successCallback.redirectWithIdFromResponse
-              ? `${successCallback.redirect}/${json?.data?.id}`
-              : successCallback.redirect
-          )
-        );
-      }
-    }
-  }
 }
 
 const getToken = () => {
@@ -102,8 +71,10 @@ function fetchPayload(action, store, options) {
       normalizeFunc,
       successCallback,
       failureCallback,
-      db
-    }
+      db,
+      external
+    },
+    fromQueue
   } = action;
 
   const fetchOptions = {
@@ -125,7 +96,7 @@ function fetchPayload(action, store, options) {
     Object.assign(fetchOptions.headers, headers)
   );
 
-  const fetchPath = buildPath(path, options, params);
+  const fetchPath = buildPath(path, options, params, external);
 
   const fetch = async () => {
     fetchStatus({ store, type }, "STARTED", true);
@@ -138,13 +109,29 @@ function fetchPayload(action, store, options) {
         fetchStatus({ store, type }, "FAILURE", json);
 
         if (response.status === 401) {
-          const usingIdp = store.getState().getIn(["idp", "use_identity_provider"]);
+          const usingIdp = store
+            .getState()
+            .getIn(["idp", "use_identity_provider"]);
+
           store.dispatch(attemptSignout(usingIdp, signOut));
         }
         handleSuccessCallback(store, failureCallback, response, json);
       } else {
-        await handleSuccess(store, { type, json, normalizeFunc, path, db });
-        handleSuccessCallback(store, successCallback, response, json);
+        await handleSuccess(store, {
+          type,
+          json,
+          normalizeFunc,
+          path,
+          db,
+          fromQueue
+        });
+        handleSuccessCallback(
+          store,
+          successCallback,
+          response,
+          json,
+          fromQueue
+        );
       }
       fetchStatus({ store, type }, "FINISHED", false);
     } catch (e) {
@@ -158,9 +145,45 @@ function fetchPayload(action, store, options) {
   return fetch();
 }
 
+const fetchFromCache = (action, store, options, next) => {
+  const {
+    type,
+    api: { db }
+  } = action;
+
+  const fetch = async () => {
+    const manifest = await DB.getRecord("manifests", db?.collection);
+
+    if (manifest?.name === db?.manifest) {
+      try {
+        const payloadFromDB = await syncIndexedDB(db, action, METHODS.READ);
+
+        store.dispatch({
+          type: `${type}_SUCCESS`,
+          payload: payloadFromDB
+        });
+
+        fetchStatus({ store, type }, "FINISHED", false);
+
+        return next(action);
+      } catch {
+        fetchStatus({ store, type }, "FAILURE", false);
+      }
+    }
+
+    return fetchPayload(action, store, options);
+  };
+
+  return fetch();
+};
+
 const restMiddleware = options => store => next => action => {
   if (!(action.api && "path" in action.api) || !isOnline(store)) {
     return next(action);
+  }
+
+  if (action?.api?.db?.alwaysCache) {
+    return fetchFromCache(action, store, options, next);
   }
 
   return fetchPayload(action, store, options);
