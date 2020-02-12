@@ -17,6 +17,8 @@ export const ACTIONS = {
   DASH_CASE_RISK: "case_risk",
   DASH_PROTECTION_CONCERNS: "dash_protection_concerns",
   DASH_REPORTING_LOCATION: "dash_reporting_location",
+  DASH_SHARED_WITH_ME: "dash_shared_with_me",
+  DASH_SHARED_WITH_OTHERS: "dash_shared_with_others",
   DASH_TASKS: "dash_tasks",
   DASH_WORKFLOW: "dash_workflow",
   DASH_WORKFLOW_TEAM: "dash_workflow_team",
@@ -57,7 +59,9 @@ export const ACTIONS = {
   REQUEST_APPROVAL_CLOSURE: "request_approval_closure",
   APPROVE_BIA: "approve_bia",
   APPROVE_CASE_PLAN: "approve_case_plan",
-  APPROVE_CLOSURE: "approve_closure"
+  APPROVE_CLOSURE: "approve_closure",
+  RECEIVE_REFERRAL: "receive_referral",
+  RECEIVE_TRANSFER: "receive_transfer"
 };
 
 const MANAGE = [ACTIONS.MANAGE];

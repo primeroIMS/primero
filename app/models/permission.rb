@@ -72,6 +72,7 @@ class Permission < ValueObject
   DASH_CASE_RISK = 'case_risk'
   DASH_REPORTING_LOCATION = 'dash_reporting_location'
   DASH_PROTECTION_CONCERNS = 'dash_protection_concerns'
+  DASH_SHARED_WITH_OTHERS = 'dash_shared_with_others'
   DASH_SERVICE_PROVISIONS = 'dash_service_provisions'
   DASH_MATCHING_RESULTS = 'dash_matching_results'
   DASH_REFFERALS_BY_SOCIAL_WORKER = 'dash_referrals_by_socal_worker'
@@ -89,6 +90,7 @@ class Permission < ValueObject
   DASH_TASKS = 'dash_tasks'
   DASH_PROTECTION_CONCERNS_BY_LOCATION = 'dash_protection_concerns_by_location'
   DASH_SHARED_WITH_ME = 'dash_shared_with_me'
+  DASH_GROUP_OVERVIEW = 'dash_group_overview'
   SEARCH_OWNED_BY_OTHERS = 'search_owned_by_others'
   DISPLAY_VIEW_PAGE = 'display_view_page'
   REQUEST_TRANSFER = 'request_transfer'
@@ -150,7 +152,7 @@ class Permission < ValueObject
       DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN, DASH_CASES_BY_TASK_OVERDUE_SERVICES, DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
       DASH_MANAGER_TRANSERS, DASH_CASES_BY_SOCIAL_WORKER, DASH_REFFERALS_BY_SOCIAL_WORKER, DASH_TRANSERS_BY_SOCIAL_WORKER,
       VIEW_PROTECTION_CONCERNS_FILTER, DASH_PROTECTION_CONCERNS_BY_LOCATION, DASH_SHOW_NONE_VALUES, DASH_TASKS,
-      DASH_SHARED_WITH_ME
+      DASH_SHARED_WITH_ME, DASH_SHARED_WITH_OTHERS, DASH_GROUP_OVERVIEW
     ],
     AUDIT_LOG => [READ],
     MATCHING_CONFIGURATION => [MANAGE]
@@ -242,7 +244,9 @@ class Permission < ValueObject
       DASH_SHOW_NONE_VALUES,
       DASH_PROTECTION_CONCERNS_BY_LOCATION,
       AGENCY_READ,
-      DASH_SHARED_WITH_ME
+      DASH_SHARED_WITH_ME,
+      DASH_SHARED_WITH_OTHERS,
+      DASH_GROUP_OVERVIEW
     ]
   end
 

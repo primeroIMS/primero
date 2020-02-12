@@ -310,6 +310,7 @@ const Container = ({
       name: i18n.t(`${recordType}.export`),
       action: handleExportsOpen,
       recordType: RECORD_TYPES.all,
+      recordListAction: true,
       condition: canShowExports
     }
   ];

@@ -17,8 +17,11 @@ export const HIDDEN_FIELDS = [
   "fields",
   "followup_due_dates",
   "id_search",
+  "not_edited_by_owner",
   "query",
-  "service_due_dates"
+  "referred_users",
+  "service_due_dates",
+  "transferred_to_users"
 ];
 
 export const PRIMARY_FILTERS = [
@@ -27,6 +30,13 @@ export const PRIMARY_FILTERS = [
   "risk_level",
   "approval_status_case_plan",
   "last_updated_at"
+];
+
+export const DEFAULT_FILTERS = [
+  "fields",
+  "status",
+  "record_state",
+  "id_search"
 ];
 
 export const OR_FIELDS = ["owned_by", "assigned_user_names"];

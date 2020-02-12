@@ -36,6 +36,8 @@ describe("Verifying config constant", () => {
       "CASES_BY_TASK_OVERDUE_SERVICES",
       "PROTECTION_CONCERNS",
       "REPORTING_LOCATION",
+      "SHARED_WITH_ME",
+      "SHARED_WITH_OTHERS",
       "WORKFLOW_TEAM",
       "WORKFLOW"
     );

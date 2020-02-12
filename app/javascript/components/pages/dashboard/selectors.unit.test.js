@@ -128,6 +128,59 @@ const protectionConcern = {
   }
 };
 
+const sharedWithMe = {
+  name: "dashboard.dash_shared_with_me",
+  type: "indicator",
+  indicators: {
+    shared_with_me_total_referrals: {
+      count: 0,
+      query: ["record_state=true", "status=open"]
+    },
+    shared_with_me_new_referrals: {
+      count: 0,
+      query: ["record_state=true", "status=open", "not_edited_by_owner=true"]
+    },
+    shared_with_me_transfers_awaiting_acceptance: {
+      count: 0,
+      query: ["record_state=true", "status=open"]
+    }
+  }
+};
+
+const sharedWithOthers = {
+  name: "dashboard.dash_shared_with_others",
+  type: "indicator",
+  indicators: {
+    shared_with_others_referrals: {
+      count: 0,
+      query: [
+        "owned_by=primero_cp",
+        "record_state=true",
+        "status=open",
+        "referred_users_present=true"
+      ]
+    },
+    shared_with_others_pending_transfers: {
+      count: 0,
+      query: [
+        "owned_by=primero_cp",
+        "record_state=true",
+        "status=open",
+        "transfer_status=in_progress"
+      ]
+    },
+    shared_with_others_rejected_transfers: {
+      count: 0,
+      query: [
+        "owned_by=primero_cp",
+        "record_state=true",
+        "status=open",
+        "transfer_status=rejected"
+      ]
+    }
+  }
+};
+
 const stateWithoutRecords = fromJS({});
 const initialState = fromJS({
   records: {
@@ -156,7 +209,9 @@ const initialState = fromJS({
         approvalsAssessmentPending,
         approvalsCasePlanPending,
         approvalsClosurePending,
-        protectionConcern
+        protectionConcern,
+        sharedWithMe,
+        sharedWithOthers
       ]
     }
   }
@@ -241,6 +296,22 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getProtectionConcerns(initialState);
 
       expect(values).to.deep.equal(fromJS(protectionConcern));
+    });
+  });
+
+  describe("getSharedWithMe", () => {
+    it("should return the shared with me", () => {
+      const values = selectors.getSharedWithMe(initialState);
+
+      expect(values).to.deep.equal(fromJS(sharedWithMe));
+    });
+  });
+
+  describe("getSharedWithOthers", () => {
+    it("should return the shared with others", () => {
+      const values = selectors.getSharedWithOthers(initialState);
+
+      expect(values).to.deep.equal(fromJS(sharedWithOthers));
     });
   });
 });
