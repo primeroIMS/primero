@@ -330,6 +330,20 @@ en:
     request_approval_success_bia: "Approval requested for Assessment form."
     request_approval_success_case_plan: "Approval requested for Case Plan form."
     request_approval_success_closure: "Approval requested for Closure form."
+    approved_success_closure: "Closure - Approved"
+    rejected_success_closure: "Closure - Rejected"
+    approved_success_case_plan: "Case Plan - Approved"
+    rejected_success_case_plan: "Case Plan - Rejected"
+    approved_success_bia: "Assessment - Approved"
+    rejected_success_bia: "Assessment - Rejected"
+    approval_select: "The form for"
+    approval_radio: "I would like to"
+    approval_radio_accept: "Accept"
+    approval_radio_reject: "Reject"
+    approval_comments: "Comments"
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
 
     order_by:
       most_recently: "Most recently"
@@ -626,6 +640,10 @@ en:
       record_state: "Record State"
       interview_date: "Interview Date"
       by_date: "By Date"
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
+    export: "Export"
 
   incident:
     label: "Incident ID"
@@ -763,6 +781,16 @@ en:
       separation_cause: "Separation Cause"
       record_state: "Record State"
       by_date: "By Date"
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
+    export: "Export"
+
+  all:
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
+    export: "Export"
 
   potential_matches:
     empty: "Please access matching through Tracing Requests"
@@ -1865,10 +1893,17 @@ en:
     approval_assessment_pending_group: "Assessment"
     approval_case_plan_pending_group: "Case Plan"
     approval_closure_pending_group: "Closure"
-    shared_with_me: "Shared With Me"
+    dash_shared_with_me: "Shared With Me"
     shared_with_me_total_referrals: "Total Referrals"
     shared_with_me_new_referrals: "New Referrals"
     shared_with_me_transfers_awaiting_acceptance: "Transfers Awaiting Acceptance"
+    dash_shared_with_others: "Shared With Others"
+    shared_with_others_referrals: "Referrals"
+    shared_with_others_pending_transfers: "Pending Transfers"
+    shared_with_others_rejected_transfers: "Rejected Transfers"
+    dash_group_overview: "My Group's Cases"
+    group_overview_open: "Open"
+    group_overview_closed: "Closed"
 
   errors:
     try_again: "Try again"
@@ -2105,6 +2140,7 @@ en:
     previous: "Previous"
     save: "Save"
     request_approval: "Request Approval"
+    approvals: "Approvals"
     description:
       valid: "Valid record"
       invalid: "Invalid record"
