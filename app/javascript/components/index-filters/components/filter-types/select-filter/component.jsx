@@ -152,8 +152,8 @@ const Component = ({
     let foundOption = option;
 
     if (typeof option === "string") {
-      [foundOption] = lookups.filter(
-        l => l?.code === option || l?.id === option
+      [foundOption] = lookups.filter(lookupValue =>
+        [lookupValue?.code, lookupValue?.id].includes(option)
       );
     }
 
