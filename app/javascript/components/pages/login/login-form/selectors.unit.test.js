@@ -1,12 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import {
-  selectModules,
-  selectAgency,
-  selectAuthErrors,
-  selectAuthenticated
-} from "./selectors";
+import { selectModules, selectAgency, selectAuthErrors } from "./selectors";
 
 const stateWithNoRecords = fromJS({});
 const stateWithRecords = fromJS({
@@ -60,20 +55,6 @@ describe("<LoginForm /> - Selectors", () => {
       const meta = selectAuthErrors(stateWithNoRecords);
 
       expect(meta).to.deep.equal("");
-    });
-  });
-
-  describe("selectAuthenticated", () => {
-    it("should return records meta", () => {
-      const meta = selectAuthenticated(stateWithRecords);
-
-      expect(meta).to.deep.equal(true);
-    });
-
-    it("should return empty object when records empty", () => {
-      const meta = selectAuthenticated(stateWithNoRecords);
-
-      expect(meta).to.deep.equal(false);
     });
   });
 });

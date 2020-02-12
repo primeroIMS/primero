@@ -15,8 +15,11 @@
 </head>
 <body dir="ltr">
   <div id="root"></div>
+  <script>
+    window.locationManifest = <%= available_locations %>
+  </script>
   <script src="/javascripts/i18n.js"></script>
   <script src="/<%= I18N_TRANSLATIONS_FILE %>"></script>
-  <%= javascript_bundles_with_chunks_tag 'application', skip_pipeline: true %>
+  <%= javascript_bundles_with_chunks_tag 'application', skip_pipeline: true, manifest: :application %>
 </body>
 </html>

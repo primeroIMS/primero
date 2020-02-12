@@ -1,0 +1,4 @@
+**/*.css
+app/javascript/test
+app/javascript/images
+node_modules

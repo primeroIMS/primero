@@ -34,7 +34,11 @@ const rootReducer = {
       ...Object.keys(RECORD_TYPES).reduce((r, i) => {
         const o = r;
 
-        o[i] = reduceReducers(Records.reducers(i), IndexFilters.reducers(i), requestApprovalReducers(i));
+        o[i] = reduceReducers(
+          Records.reducers(i),
+          IndexFilters.reducers(i),
+          requestApprovalReducers(i)
+        );
 
         return o;
       }, {})
