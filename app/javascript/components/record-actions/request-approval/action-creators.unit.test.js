@@ -20,6 +20,7 @@ describe("<RequestApproval /> - Action Creators", () => {
 
     const args = {
       recordType: "cases",
+      dialogName: "dialog",
       recordId: 10,
       approvalId: "bia",
       body: { data: { approval_status: "requested" } },
@@ -47,7 +48,7 @@ describe("<RequestApproval /> - Action Creators", () => {
           {
             action: SET_DIALOG,
             payload: {
-              dialog: "requestApproval",
+              dialog: args.dialogName,
               open: false
             }
           },
