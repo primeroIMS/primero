@@ -58,6 +58,7 @@ import {
   getCasesByTaskOverdueServices,
   getCasesByTaskOverdueFollowups,
   getSharedWithMe,
+  getSharedWithOthers,
   getGroupOverview
 } from "./selectors";
 import styles from "./styles.css";
@@ -104,7 +105,8 @@ const Dashboard = ({
   casesByTaskOverdueFollowups,
   sharedWithMe,
   userPermissions,
-  groupOverview
+  groupOverview,
+  sharedWithOthers
 }) => {
   useEffect(() => {
     batch(() => {
@@ -357,11 +359,11 @@ const Dashboard = ({
                       </OptionsBox>
                     </Grid>
                   </Permission>
-                  <Grid item xs>
-                    <Permission
-                      resources={RESOURCES.dashboards}
-                      actions={ACTIONS.DASH_SHARED_WITH_ME}
-                    >
+                  <Permission
+                    resources={RESOURCES.dashboards}
+                    actions={ACTIONS.DASH_SHARED_WITH_ME}
+                  >
+                    <Grid item xs>
                       <OptionsBox flat>
                         <LoadingIndicator
                           type={NAMESPACE}
@@ -375,13 +377,37 @@ const Dashboard = ({
                               sharedWithMe,
                               userPermissions
                             )}
-                            sumTitle={i18n.t("dashboard.shared_with_me")}
+                            sumTitle={i18n.t("dashboard.dash_shared_with_me")}
                             withTotal={false}
                           />
                         </LoadingIndicator>
                       </OptionsBox>
-                    </Permission>
-                  </Grid>
+                    </Grid>
+                  </Permission>
+                  <Permission
+                    resources={RESOURCES.dashboards}
+                    actions={ACTIONS.DASH_SHARED_WITH_OTHERS}
+                  >
+                    <Grid item xs>
+                      <OptionsBox flat>
+                        <LoadingIndicator
+                          type={NAMESPACE}
+                          loading={loading}
+                          errors={errors}
+                          hasData={Boolean(sharedWithOthers.size)}
+                          overlay
+                        >
+                          <OverviewBox
+                            items={sharedWithOthers}
+                            sumTitle={i18n.t(
+                              "dashboard.dash_shared_with_others"
+                            )}
+                            withTotal={false}
+                          />
+                        </LoadingIndicator>
+                      </OptionsBox>
+                    </Grid>
+                  </Permission>
                 </Grid>
               </Grid>
             </OptionsBox>
@@ -512,6 +538,7 @@ Dashboard.propTypes = {
   reportingLocationConfig: PropTypes.object,
   servicesStatus: PropTypes.object.isRequired,
   sharedWithMe: PropTypes.object.isRequired,
+  sharedWithOthers: PropTypes.object.isRequired,
   userPermissions: PropTypes.object.isRequired
 };
 
@@ -542,7 +569,8 @@ const mapStateToProps = state => {
     servicesStatus: selectServicesStatus(state),
     sharedWithMe: getSharedWithMe(state),
     userPermissions: getPermissions(state),
-    groupOverview: getGroupOverview(state)
+    groupOverview: getGroupOverview(state),
+    sharedWithOthers: getSharedWithOthers(state)
   };
 };
 

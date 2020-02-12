@@ -14,6 +14,7 @@ export const DASHBOARD_NAMES = Object.freeze({
   PROTECTION_CONCERNS: "dashboard.dash_protection_concerns",
   REPORTING_LOCATION: "dashboard.reporting_location",
   SHARED_WITH_ME: "dashboard.dash_shared_with_me",
+  SHARED_WITH_OTHERS: "dashboard.dash_shared_with_others",
   WORKFLOW_TEAM: "dashboard.workflow_team",
   WORKFLOW: "dashboard.workflow"
 });
