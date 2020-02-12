@@ -147,3 +147,8 @@ export const ADMIN_NAV = [
   },
   { to: "/matching", label: "settings.navigation.matching", disabled: true }
 ];
+
+export const ACCEPTED = "accepted";
+export const ACCEPT = "accept";
+export const REJECTED = "rejected";
+export const REJECT = "reject";

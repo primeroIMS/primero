@@ -177,7 +177,8 @@ const Container = ({ match, mode }) => {
   const transitionProps = {
     isReferral: REFERRAL === selectedForm,
     recordType: params.recordType,
-    record: params.id
+    record: params.id,
+    showMode: containerMode.isShow
   };
 
   const approvalSubforms = record?.get("approval_subforms");

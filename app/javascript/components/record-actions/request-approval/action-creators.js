@@ -23,9 +23,7 @@ export const approvalRecord = ({
             variant: "success",
             key: generate.messageKey()
           }
-        },
-        redirectWithIdFromResponse: false,
-        redirect: false
+        }
       }
     }
   };
