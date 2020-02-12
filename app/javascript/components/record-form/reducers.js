@@ -1,7 +1,6 @@
 import { OrderedMap, Map, fromJS } from "immutable";
 
 import { mapEntriesToRecord } from "../../libs";
-import { RECORD_STARTED, RECORD_FINISHED } from "../records/actions";
 
 import NAMESPACE from "./namespace";
 import Actions from "./actions";
@@ -43,14 +42,6 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("selectedRecord", payload);
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
-    case `cases/${RECORD_STARTED}`:
-    case `incidents/${RECORD_STARTED}`:
-    case `tracing_requests/${RECORD_STARTED}`:
-      return state.set("loading", fromJS(payload));
-    case `cases/${RECORD_FINISHED}`:
-    case `incidents/${RECORD_FINISHED}`:
-    case `tracing_requests/${RECORD_FINISHED}`:
-      return state.set("loading", fromJS(payload));
     default:
       return state;
   }

@@ -7,7 +7,9 @@ import { RECORD_PATH } from "../../config";
 import {
   selectRecord,
   selectRecordAttribute,
-  selectRecordsByIndexes
+  selectRecordsByIndexes,
+  getSavingRecord,
+  getLoadingRecordState
 } from "./selectors";
 
 const record = {
@@ -189,6 +191,50 @@ describe("Records - Selectors", () => {
       );
 
       expect(records).to.be.empty;
+    });
+  });
+
+  describe("getSavingRecord", () => {
+    const stateWithSavingTrue = Map({ records: { cases: { saving: true } } });
+    const stateWithSavingFalse = Map({
+      records: { cases: { saving: false } }
+    });
+
+    it("should return saving state value", () => {
+      const savingState = getSavingRecord(stateWithSavingTrue, recordType);
+
+      expect(savingState).to.be.true;
+    });
+
+    it("should return false when there is not any saving state", () => {
+      const savingState = getSavingRecord(stateWithSavingFalse, recordType);
+
+      expect(savingState).to.be.false;
+    });
+  });
+
+  describe("getLoadingState", () => {
+    const stateWithLoadingTrue = Map({ records: { cases: { loading: true } } });
+    const stateWithLoadingFalse = Map({
+      records: { cases: { loading: false } }
+    });
+
+    it("should return loading state value", () => {
+      const loadingState = getLoadingRecordState(
+        stateWithLoadingTrue,
+        recordType
+      );
+
+      expect(loadingState).to.be.true;
+    });
+
+    it("should return false when there is not any loading state", () => {
+      const loadingState = getLoadingRecordState(
+        stateWithLoadingFalse,
+        recordType
+      );
+
+      expect(loadingState).to.be.false;
     });
   });
 });

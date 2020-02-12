@@ -3,6 +3,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import { fromJS, Map, List, OrderedMap } from "immutable";
+import { CircularProgress } from "@material-ui/core";
 
 import { setupMountedComponent, expect } from "../../test";
 import { PageContainer } from "../page";
@@ -347,7 +348,11 @@ describe("<RecordForms /> - Component", () => {
   describe("when record is new", () => {
     const initialState = fromJS({
       records: {
-        cases: {}
+        cases: Map({
+          data: List([Map(record)]),
+          metadata: Map({ per: 20, page: 1, total: 1 }),
+          filters: Map({ status: "open" })
+        })
       },
       forms: {
         selectedForm: "approvals",
@@ -390,6 +395,58 @@ describe("<RecordForms /> - Component", () => {
       expect(component.find(ApprovalPanel)).to.have.lengthOf(0);
       expect(component.find(Transitions)).to.have.lengthOf(0);
       expect(component.find(RecordForm)).to.have.lengthOf(0);
+    });
+  });
+
+  describe("when forms are loading", () => {
+    const initialState = fromJS({
+      records: Map({
+        cases: Map({
+          data: List([Map(record)]),
+          metadata: Map({ per: 20, page: 1, total: 1 }),
+          filters: Map({ status: "open" }),
+          loading: true
+        })
+      }),
+      forms: Map({
+        selectedForm: "basic_identity",
+        selectedRecord: null,
+        formSections: OrderedMap({}),
+        fields,
+        loading: true,
+        errors: false
+      }),
+      user: fromJS({
+        modules: ["primeromodule-cp"]
+      }),
+      application
+    });
+
+    beforeEach(() => {
+      const routedComponent = initialProps => {
+        return (
+          <Route
+            path="/:recordType(cases|incidents|tracing_requests)/:id"
+            component={props => (
+              <RecordForms {...{ ...props, ...initialProps }} />
+            )}
+          />
+        );
+      };
+
+      ({ component } = setupMountedComponent(
+        routedComponent,
+        {
+          mode: "show"
+        },
+        initialState,
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
+      ));
+    });
+
+    it("should render CircularProgress", () => {
+      expect(component.find(RecordForms)).to.have.lengthOf(1);
+      expect(component.find(CircularProgress)).to.have.lengthOf(1);
     });
   });
 });

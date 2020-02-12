@@ -21,6 +21,7 @@ import {
 } from "../../config";
 import RecordOwner from "../record-owner";
 import { Approvals } from "../approvals";
+import { getLoadingRecordState } from "../records/selectors";
 
 import { NAME } from "./constants";
 import { Nav } from "./nav";
@@ -65,7 +66,10 @@ const Container = ({ match, mode }) => {
   const formNav = useSelector(state => getFormNav(state, selectedModule));
   const forms = useSelector(state => getRecordForms(state, selectedModule));
   const firstTab = useSelector(state => getFirstTab(state, selectedModule));
-  const loading = useSelector(state => getLoadingState(state));
+  const loadingForm = useSelector(state => getLoadingState(state));
+  const loadingRecord = useSelector(state =>
+    getLoadingRecordState(state, params.recordType)
+  );
   const errors = useSelector(state => getErrors(state));
   const selectedForm = useSelector(state => getSelectedForm(state));
 
@@ -185,10 +189,15 @@ const Container = ({ match, mode }) => {
     renderForm = <RecordForm {...formProps} />;
   }
 
+  const hasData = Boolean(
+    forms && formNav && firstTab && (containerMode.isNew || record)
+  );
+  const loading = Boolean(loadingForm || loadingRecord);
+
   return (
     <PageContainer twoCol>
       <LoadingIndicator
-        hasData={!!(forms && formNav && firstTab)}
+        hasData={hasData}
         type={params.recordType}
         loading={loading}
         errors={errors}

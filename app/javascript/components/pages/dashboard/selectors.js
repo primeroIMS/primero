@@ -53,7 +53,7 @@ export const getCasesByAssessmentLevel = state => {
   const currentState = getDashboards(state);
 
   if (!currentState) {
-    return fromJS([]);
+    return fromJS({});
   }
   const dashboardData = currentState
     .filter(f => f.get("name") === DASHBOARD_NAMES.CASE_RISK)

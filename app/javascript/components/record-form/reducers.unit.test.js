@@ -2,7 +2,6 @@ import { expect } from "chai";
 import { fromJS, OrderedMap } from "immutable";
 
 import * as userActions from "../user/actions";
-import { RECORD_STARTED, RECORD_FINISHED } from "../records/actions";
 
 import { FieldRecord, FormSectionRecord } from "./records";
 import { reducers } from "./reducers";
@@ -234,31 +233,4 @@ describe("<RecordForm /> - Reducers", () => {
     expect(newState).to.deep.equal(expected);
   });
 
-  it("should handle cases/RECORD_STARTED", () => {
-    const expected = fromJS({ loading: true });
-    const defaultState = fromJS({});
-
-    const action = {
-      type: `cases/${RECORD_STARTED}`,
-      payload: true
-    };
-
-    const newState = reducers.forms(defaultState, action);
-
-    expect(newState).to.deep.equal(expected);
-  });
-
-  it("should handle cases/RECORD_FINISHED", () => {
-    const expected = fromJS({ loading: false });
-    const defaultState = fromJS({});
-
-    const action = {
-      type: `cases/${RECORD_FINISHED}`,
-      payload: false
-    };
-
-    const newState = reducers.forms(defaultState, action);
-
-    expect(newState).to.deep.equal(expected);
-  });
 });
