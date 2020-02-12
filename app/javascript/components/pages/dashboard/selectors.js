@@ -116,3 +116,22 @@ export const getSharedWithOthers = state =>
 
 export const getGroupOverview = state =>
   getDashboardByName(state, DASHBOARD_NAMES.GROUP_OVERVIEW);
+
+export const getCaseOverview = () =>
+  fromJS({
+    name: "dashboard.case_overview",
+    type: "indicator",
+    indicators: {
+      open: {
+        count: 0,
+        query: ["status=open", "record_state=true"]
+      },
+      closed: {
+        count: 0,
+        query: ["status=closed", "record_state=true"]
+      }
+    }
+  });
+
+// export const getCaseOverview = state =>
+//   getDashboardByName(state, DASHBOARD_NAMES.CASE_OVERVIEW);

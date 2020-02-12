@@ -952,4 +952,51 @@ describe("<Dashboard />", () => {
       expect(component.find(OverviewBox).find("ul li")).to.have.lengthOf(2);
     });
   });
+
+  describe("render my cases dashboard", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.case_overview",
+                  type: "indicator",
+                  indicators: {
+                    open: {
+                      count: 5,
+                      query: ["record_state=true", "status=open"]
+                    },
+                    closed: {
+                      count: 0,
+                      query: ["record_state=true", "status=closed"]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_CASE_OVERVIEW]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the My Cases Dashboard", () => {
+      expect(component.find(OverviewBox)).to.have.lengthOf(1);
+      expect(
+        component
+          .find(OverviewBox)
+          .find("div div")
+          .text()
+      ).to.be.equal("dashboard.case_overview");
+      expect(component.find(OverviewBox).find("ul li")).to.have.lengthOf(2);
+    });
+  });
 });
