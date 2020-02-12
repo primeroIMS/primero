@@ -24,7 +24,7 @@ import TransferRequestDetails from "./transfer_requests/details";
 import ReferralDetails from "./referrals/details";
 import { TRANSITIONS_NAME } from "./constants";
 
-const Transitions = ({ isReferral, recordType, record }) => {
+const Transitions = ({ isReferral, recordType, record, showMode }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -38,7 +38,7 @@ const Transitions = ({ isReferral, recordType, record }) => {
       case "Transfer":
         return <TransferSummary transition={transition} classes={css} />;
       case "Referral":
-        return <ReferralSummary transition={transition} classes={css} />;
+        return <ReferralSummary transition={transition} classes={css} showMode={showMode} recordType={recordType} />;
       case "TransferRequest":
         return <TransferRequestSummary transition={transition} classes={css} />;
       default:
@@ -103,7 +103,8 @@ Transitions.displayName = TRANSITIONS_NAME;
 Transitions.propTypes = {
   isReferral: PropTypes.bool.isRequired,
   record: PropTypes.string.isRequired,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  showMode: PropTypes.bool
 };
 
 export default Transitions;
