@@ -449,7 +449,6 @@ describe("<Dashboard />", () => {
     });
   });
 
-
   describe("render overdue task assesment dashboard", () => {
     beforeEach(() => {
       ({ component } = setupMountedComponent(
@@ -836,7 +835,7 @@ describe("<Dashboard />", () => {
           .find(OverviewBox)
           .find("div div")
           .text()
-      ).to.be.equal("dashboard.shared_with_me");
+      ).to.be.equal("dashboard.dash_shared_with_me");
       expect(component.find(OverviewBox).find("ul li")).to.have.lengthOf(3);
     });
   });
