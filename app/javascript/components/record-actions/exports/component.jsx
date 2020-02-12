@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { List } from "immutable";
 import * as yup from "yup";
@@ -14,9 +14,11 @@ import Form, {
 } from "../../form";
 import submitForm from "../../../submit-form";
 import { RECORD_TYPES } from "../../../config";
+import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
+import { getRecords } from "../../index-table";
 
 import { NAME, ALL_EXPORT_TYPES } from "./constants";
-import { allowedExports, formatFileName } from "./helpers";
+import { allowedExports, formatFileName, exporterFilters } from "./helpers";
 import { saveExport } from "./action-creators";
 
 const Component = ({
@@ -34,20 +36,41 @@ const Component = ({
   const { params } = match;
   const isShowPage = Object.keys(params).length > 0;
 
+  const records = useSelector(state => getRecords(state, recordType)).get(
+    "data"
+  );
+  const appliedFilters = useSelector(state =>
+    getFiltersValuesByRecordType(state, recordType)
+  );
+  const allRowsSelected =
+    selectedRecords?.length > 0 &&
+    records.size > 0 &&
+    selectedRecords?.length === records.size;
+
   const handleSubmit = values => {
     const { format } = ALL_EXPORT_TYPES.find(e => e.id === values.export_type);
     const fileName = formatFileName(values.custom_export_file_name, format);
-    const filters = {
-      short_id: isShowPage ? [record.get("short_id")] : selectedRecords
-    };
+    const shortIds = records
+      .toJS()
+      .filter((_r, i) => selectedRecords?.includes(i))
+      .map(r => r.short_id);
 
-    const data = {
+    const filters = exporterFilters(
+      isShowPage,
+      allRowsSelected,
+      shortIds,
+      appliedFilters,
+      record
+    );
+
+    const body = {
       export_format: format,
       record_type: RECORD_TYPES[recordType],
       file_name: fileName,
-      password: values.password,
-      filters
+      password: values.password
     };
+
+    const data = { ...body, ...filters };
 
     dispatch(
       saveExport(
@@ -81,7 +104,7 @@ const Component = ({
           name: "export_type",
           type: "select_box",
           option_strings_text: {
-            en: allowedExports(userPermissions)
+            [i18n.locale]: allowedExports(userPermissions, i18n, isShowPage)
           },
           multi_select: false,
           required: true
@@ -93,7 +116,7 @@ const Component = ({
           required: true,
           autoFocus: true,
           help_text: {
-            en: i18n.t("encrypt.password_extra_info")
+            [i18n.locale]: i18n.t("encrypt.password_extra_info")
           },
           password: true
         }),

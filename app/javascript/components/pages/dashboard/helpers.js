@@ -2,6 +2,7 @@ import first from "lodash/first";
 import { fromJS } from "immutable";
 
 import { dataToJS } from "../../../libs";
+import { ACTIONS, RESOURCES } from "../../../libs/permissions";
 
 import {
   INDICATOR_NAMES,
@@ -72,6 +73,31 @@ const dashboardTableData = (optionsByIndex, data, indicators, listKey) => {
   }, {});
 
   return Object.keys(rows).map(key => rows[key]);
+};
+
+const userHasPermission = (userPermissions, resource, action) =>
+  userPermissions
+    .get(resource, fromJS([]))
+    .filter(resourceAction => resourceAction === action)
+    .isEmpty() === false;
+
+const isPermittedIndicator = (userPermissions, indicatorName) => {
+  const indicators = {
+    shared_with_me_total_referrals: [RESOURCES.cases, ACTIONS.RECEIVE_REFERRAL],
+    shared_with_me_new_referrals: [RESOURCES.cases, ACTIONS.RECEIVE_REFERRAL],
+    shared_with_me_transfers_awaiting_acceptance: [
+      RESOURCES.cases,
+      ACTIONS.RECEIVE_TRANSFER
+    ]
+  };
+
+  const [resource, action] = indicators[indicatorName];
+
+  if (resource && action) {
+    return userHasPermission(userPermissions, resource, action);
+  }
+
+  return false;
 };
 
 export const toData1D = (data, localeLabels) => {
@@ -328,6 +354,19 @@ export const toTasksOverdueTable = (overdueTasksDashboards, i18n) => {
       }, {})
     )
   };
+};
+
+export const permittedSharedWithMe = (
+  sharedWithMeDashboard,
+  userPermissions
+) => {
+  const permittedIndicators = sharedWithMeDashboard
+    .get("indicators", fromJS({}))
+    .filter((v, k) => isPermittedIndicator(userPermissions, k));
+
+  return fromJS({
+    indicators: permittedIndicators
+  });
 };
 
 export const taskOverdueHasData = (

@@ -1,6 +1,7 @@
 import { fromJS } from "immutable";
 
 import { expect } from "../../../test";
+import { ACTIONS, RESOURCES } from "../../../libs/permissions";
 
 import * as helper from "./helpers";
 
@@ -16,6 +17,7 @@ describe("<Dashboard /> - Helpers", () => {
         "toApprovalsManager",
         "toProtectionConcernTable",
         "toTasksOverdueTable",
+        "permittedSharedWithMe",
         "taskOverdueHasData"
       ].forEach(property => {
         expect(clone).to.have.property(property);
@@ -459,6 +461,117 @@ describe("<Dashboard /> - Helpers", () => {
       const converted = helper.toTasksOverdueTable(data, i18nMock);
 
       expect(converted).to.deep.equal(expected);
+    });
+  });
+
+  describe("permittedSharedWithMe", () => {
+    const sharedWithMe = fromJS({
+      name: "dashboard.dash_shared_with_me",
+      type: "indicator",
+      indicators: {
+        shared_with_me_total_referrals: {
+          count: 0,
+          query: ["record_state=true", "status=open"]
+        },
+        shared_with_me_new_referrals: {
+          count: 0,
+          query: [
+            "record_state=true",
+            "status=open",
+            "not_edited_by_owner=true"
+          ]
+        },
+        shared_with_me_transfers_awaiting_acceptance: {
+          count: 0,
+          query: ["record_state=true", "status=open"]
+        }
+      }
+    });
+
+    it("should return transfer indicators only", () => {
+      const userPermissions = fromJS({
+        [RESOURCES.cases]: [ACTIONS.RECEIVE_TRANSFER]
+      });
+
+      const expected = fromJS({
+        indicators: {
+          shared_with_me_transfers_awaiting_acceptance: {
+            count: 0,
+            query: ["record_state=true", "status=open"]
+          }
+        }
+      });
+
+      const permitted = helper.permittedSharedWithMe(
+        sharedWithMe,
+        userPermissions
+      );
+
+      expect(permitted).to.deep.equal(expected);
+    });
+
+    it("should return referral indicators only", () => {
+      const userPermissions = fromJS({
+        [RESOURCES.cases]: [ACTIONS.RECEIVE_REFERRAL]
+      });
+
+      const expected = fromJS({
+        indicators: {
+          shared_with_me_total_referrals: {
+            count: 0,
+            query: ["record_state=true", "status=open"]
+          },
+          shared_with_me_new_referrals: {
+            count: 0,
+            query: [
+              "record_state=true",
+              "status=open",
+              "not_edited_by_owner=true"
+            ]
+          }
+        }
+      });
+
+      const permitted = helper.permittedSharedWithMe(
+        sharedWithMe,
+        userPermissions
+      );
+
+      expect(permitted).to.deep.equal(expected);
+    });
+
+    it("should return all the indicators", () => {
+      const userPermissions = fromJS({
+        [RESOURCES.cases]: [ACTIONS.RECEIVE_REFERRAL, ACTIONS.RECEIVE_TRANSFER]
+      });
+
+      const expected = fromJS({
+        indicators: {
+          shared_with_me_total_referrals: {
+            count: 0,
+            query: ["record_state=true", "status=open"]
+          },
+          shared_with_me_new_referrals: {
+            count: 0,
+            query: [
+              "record_state=true",
+              "status=open",
+              "not_edited_by_owner=true"
+            ]
+          },
+          shared_with_me_transfers_awaiting_acceptance: {
+            count: 0,
+            query: ["record_state=true", "status=open"]
+          }
+        }
+      });
+
+      const permitted = helper.permittedSharedWithMe(
+        sharedWithMe,
+        userPermissions
+      );
+
+      expect(permitted).to.deep.equal(expected);
     });
   });
 

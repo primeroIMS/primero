@@ -34,6 +34,7 @@ describe("Verifying config constant", () => {
       "DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN",
       "DASH_CASES_BY_TASK_OVERDUE_SERVICES",
       "DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS",
+      "DASH_SHARED_WITH_ME",
       "DISPLAY_VIEW_PAGE",
       "ENABLE_DISABLE_RECORD",
       "EXPORT_CASE_PDF",
@@ -61,7 +62,9 @@ describe("Verifying config constant", () => {
       "SEARCH_OWNED_BY_OTHERS",
       "SERVICES_SECTION_FROM_CASE",
       "TRANSFER",
-      "WRITE"
+      "WRITE",
+      "RECEIVE_TRANSFER",
+      "RECEIVE_REFERRAL"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
       expect(permissions[property]).to.be.a("string");

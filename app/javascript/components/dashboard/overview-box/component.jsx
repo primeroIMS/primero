@@ -73,7 +73,18 @@ const OverviewBox = ({
     return withTotal ? `${sum()} ${sumTitle}` : sumTitle;
   };
 
-  return (
+  const renderItems = () => (
+    <LoadingIndicator {...loadingIndicatorProps}>
+      <div className={css.overviewBox}>
+        <div className={css.sectionTitle}>{renderSum()}</div>
+        <ul className={css.overviewList}>
+          {statItems()}
+        </ul>
+      </div>
+    </LoadingIndicator>
+  );
+
+  const renderWithChart = () => (
     <div className={css.root}>
       <Grid container spacing={3}>
         {chartData && (
@@ -82,18 +93,15 @@ const OverviewBox = ({
           </Grid>
         )}
         <Grid item md={8} xs={12}>
-          <LoadingIndicator {...loadingIndicatorProps}>
-            <div className={css.overviewBox}>
-              <ul className={css.overviewList}>
-                <li>{renderSum()}</li>
-                {statItems()}
-              </ul>
-            </div>
-          </LoadingIndicator>
+          {renderItems()}
         </Grid>
       </Grid>
     </div>
   );
+
+  const renderOverviewBox = chartData ? renderWithChart() : renderItems();
+
+  return <>{renderOverviewBox}</>;
 };
 
 OverviewBox.defaultProps = {
