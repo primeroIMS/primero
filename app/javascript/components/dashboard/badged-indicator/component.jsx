@@ -28,7 +28,7 @@ const BadgedIndicator = ({
 
   const loadingIndicatorProps = {
     overlay: true,
-    hasData: !!data.size,
+    hasData: Boolean(data.size),
     type: NAMESPACE,
     loading,
     errors

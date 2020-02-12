@@ -8,7 +8,6 @@ import uniqBy from "lodash/uniqBy";
 import isEmpty from "lodash/isEmpty";
 import startsWith from "lodash/startsWith";
 import { List } from "immutable";
-import { CircularProgress } from "@material-ui/core";
 
 import { dataToJS } from "../../libs";
 import { LoadingIndicator } from "../loading-indicator";
@@ -235,7 +234,7 @@ const Component = ({
 
   const loadingIndicatorProps = {
     overlay: true,
-    hasData: !!records?.size,
+    hasData: Boolean(records?.size),
     type: recordType,
     loading,
     errors,

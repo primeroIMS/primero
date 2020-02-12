@@ -260,22 +260,22 @@ const Dashboard = ({
 
   const loadingIndicatorReportingLocationProps = {
     ...loadingIndicatorProps,
-    hasData: !!reportingLocation.size
+    hasData: Boolean(reportingLocation.size)
   };
 
   const loadingIndicatorWorkflowProps = {
     ...loadingIndicatorProps,
-    hasData: !!casesWorkflow.size
+    hasData: Boolean(casesWorkflow.size)
   };
 
   const loadingIndicatorWorkflowTeamProps = {
     ...loadingIndicatorProps,
-    hasData: !!casesWorkflowTeam.size
+    hasData: Boolean(casesWorkflowTeam.size)
   };
 
   const loadingIndicatorProtectionConcernsProps = {
     ...loadingIndicatorProps,
-    hasData: !!protectionConcerns.size
+    hasData: Boolean(protectionConcerns.size)
   };
 
   const loadingIndicatoTasksOverdueProps = {
