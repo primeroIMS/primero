@@ -10,9 +10,6 @@ describe("Verifying config constant", () => {
 
     [
       "ADD_NOTE",
-      "APPROVE_BIA",
-      "APPROVE_CASE_PLAN",
-      "APPROVE_CLOSURE",
       "ASSIGN",
       "ASSIGN_WITHIN_AGENCY_PERMISSIONS",
       "ASSIGN_WITHIN_USER_GROUP",
@@ -64,6 +61,9 @@ describe("Verifying config constant", () => {
       "SERVICES_SECTION_FROM_CASE",
       "TRANSFER",
       "WRITE",
+      "APPROVE_BIA",
+      "APPROVE_CASE_PLAN",
+      "APPROVE_CLOSURE",
       "RECEIVE_TRANSFER",
       "RECEIVE_REFERRAL"
     ].forEach(property => {
