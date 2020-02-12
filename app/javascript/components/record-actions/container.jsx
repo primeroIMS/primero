@@ -16,12 +16,14 @@ import {
   ADD_INCIDENT,
   ADD_SERVICE,
   REQUEST_APPROVAL,
+  APPROVAL,
   SHOW_EXPORTS,
   checkPermissions
 } from "../../libs/permissions";
 import Permission from "../application/permission";
 
 import { NAME } from "./config";
+import { APPROVAL_TYPE, REQUEST_TYPE } from "./constants";
 import Notes from "./notes";
 import { ToggleEnable } from "./toggle-enable";
 import { ToggleOpen } from "./toggle-open";
@@ -44,6 +46,8 @@ const Container = ({
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openNotesDialog, setOpenNotesDialog] = useState(false);
   const [requestDialog, setRequestDialog] = useState(false);
+  const [approveDialog, setApproveDialog] = useState(false);
+  const [approvalType, setApprovalType] = useState(APPROVAL_TYPE);
   const [transitionType, setTransitionType] = useState("");
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
   const [incidentDialog, setIncidentDialog] = useState(false);
@@ -124,11 +128,31 @@ const Container = ({
     ACTIONS.REQUEST_APPROVAL_CLOSURE
   ]);
 
+  const canApprove = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_BIA,
+    ACTIONS.APPROVE_CASE_PLAN,
+    ACTIONS.APPROVE_CLOSURE
+  ]);
+
+  const canApproveBia = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_BIA
+  ]);
+
+  const canApproveCasePlan = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_CASE_PLAN
+  ]);
+
+  const canApproveClosure = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_CLOSURE
+  ]);
+
   const canAddIncident = checkPermissions(userPermissions, ADD_INCIDENT);
 
   const canAddService = checkPermissions(userPermissions, ADD_SERVICE);
-
-  const canCustomExport = checkPermissions(userPermissions, EXPORT_CUSTOM);
 
   const canShowExports = checkPermissions(userPermissions, SHOW_EXPORTS);
 
@@ -182,7 +206,17 @@ const Container = ({
   };
 
   const handleRequestOpen = () => {
+    setApprovalType(REQUEST_TYPE);
     setRequestDialog(true);
+  };
+
+  const handleApprovalOpen = () => {
+    setApprovalType(APPROVAL_TYPE);
+    setApproveDialog(true);
+  };
+
+  const handleApprovalClose = () => {
+    setApproveDialog(false);
   };
 
   const handleIncidentDialog = () => {
@@ -267,9 +301,16 @@ const Container = ({
       condition: canRequest
     },
     {
-      name: i18n.t("cases.export"),
+      name: i18n.t("actions.approvals"),
+      action: handleApprovalOpen,
+      recordType: "all",
+      condition: canApprove
+    },
+    {
+      name: i18n.t(`${recordType}.export`),
       action: handleExportsOpen,
       recordType: RECORD_TYPES.all,
+      recordListAction: true,
       condition: canShowExports
     }
   ];
@@ -325,26 +366,48 @@ const Container = ({
 
   const requestsApproval = [
     {
-      name: "Assessment",
+      name: i18n.t(`${recordType}.assessment`),
       condition: canRequestBia,
       recordType: RECORD_TYPES.all,
       value: "bia"
     },
     {
-      name: "Case Plan",
+      name: i18n.t(`${recordType}.case_plan`),
       condition: canRequestCasePlan,
       recordType: RECORD_TYPES.all,
       value: "case_plan"
     },
     {
-      name: "Closure",
+      name: i18n.t(`${recordType}.closure`),
       condition: canRequestClosure,
       recordType: RECORD_TYPES.all,
       value: "closure"
     }
   ];
 
+  const approvals = [
+    {
+      name: i18n.t(`${recordType}.assessment`),
+      condition: canApproveBia,
+      recordType: "all",
+      value: "bia"
+    },
+    {
+      name: i18n.t(`${recordType}.case_plan`),
+      condition: canApproveCasePlan,
+      recordType: "all",
+      value: "case_plan"
+    },
+    {
+      name: i18n.t(`${recordType}.closure`),
+      condition: canApproveClosure,
+      recordType: "all",
+      value: "closure"
+    }
+  ];
+
   const allowedRequestsApproval = filterItems(requestsApproval);
+  const allowedApprovals = filterItems(approvals);
 
   return (
     <>
@@ -412,6 +475,20 @@ const Container = ({
           subMenuItems={allowedRequestsApproval}
           record={record}
           recordType={recordType}
+          approvalType={approvalType}
+          confirmButtonLabel={i18n.t("buttons.ok")}
+        />
+      </Permission>
+
+      <Permission resources={recordType} actions={APPROVAL}>
+        <RequestApproval
+          openRequestDialog={approveDialog}
+          close={() => handleApprovalClose()}
+          subMenuItems={allowedApprovals}
+          record={record}
+          recordType={recordType}
+          approvalType={approvalType}
+          confirmButtonLabel={i18n.t("buttons.submit")}
         />
       </Permission>
 

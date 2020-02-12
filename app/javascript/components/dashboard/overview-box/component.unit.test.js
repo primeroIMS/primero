@@ -32,14 +32,9 @@ describe("<OverviewBox />", () => {
 
   it("renders a component/>", () => {
     expect(component.find(OverviewBox)).to.have.lengthOf(1);
-    expect(component.find("li")).to.have.lengthOf(2);
+    expect(component.find("li")).to.have.lengthOf(1);
     expect(component.find("button")).to.have.lengthOf(1);
-    expect(
-      component
-        .find("li")
-        .first()
-        .text()
-    ).to.be.equal("5 Closure");
+    expect(component.find("div div").text()).to.equal("5 Closure");
   });
 
   describe("when withTotal props is false", () => {
@@ -52,14 +47,9 @@ describe("<OverviewBox />", () => {
     });
     it("renders the header without total/>", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
-      expect(component.find("li")).to.have.lengthOf(2);
+      expect(component.find("li")).to.have.lengthOf(1);
       expect(component.find("button")).to.have.lengthOf(1);
-      expect(
-        component
-          .find("li")
-          .first()
-          .text()
-      ).to.be.equal("Closure");
+      expect(component.find("div div").text()).to.equal("Closure");
     });
   });
 });

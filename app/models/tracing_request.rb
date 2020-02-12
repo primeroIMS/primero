@@ -31,7 +31,7 @@ class TracingRequest < ApplicationRecord
 
   def self.summary_field_names
     common_summary_fields + %w[
-      name_of_inquirer date_of_inquiry tracing_requests
+      relation_name inquiry_date tracing_requests
     ]
   end
 

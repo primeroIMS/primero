@@ -162,61 +162,13 @@ SOLR_LOG_LEVEL - sets the logging level for solr. `INFO` or `ERROR`
 LOCALE_DEFAULT - set this to the language which Primero will use. `en` by
 default.
 
-## Troubleshooting
+## Primero application configuration
 
-Primero's Docker containers rely heavily on Docker containers. If you are having
-issues, it may make sense to delete all of your volumes and rebuild. Do not do
-this on a production instance! You will lose all of your data.
+If you want to run Ruby configuration scripts other than the default Primero seeds,
+you can run the script below. It's assumed that a Primero configuration directory 
+will have a script named `load_configuration.rb`.
 
-```bash
-./compose.prod.sh down
-docker volume prune
-./build.sh all
-./compose.prod.sh up
 ```
-
-## Containers - NGINX and CertBot
-
-Currently, CertBot is being performed from inside of the NGINX container. We are
-using supervisor to accomplish this.
-
-## Environmental Substitution
-
-On Primero's Docker, we substitute values in from our Docker environment
-into the container config files at runtime. To do this, we place shell style
-variables in any config file and then point the sub.sh script towards the
-correct folder. This is explained in detail in the sub.sh errata section.
-
-## Technical Errata - sub.sh
-
-Dependencies: envsubst and bash
-
-The sub.sh script performs substitutions on configuration files during runtime
-container creation. Pass sub.sh a folder path and it will search for template
-files recursively.
-
-The sub.sh script looks through the specified folder, and all sub-directories,
-for any files ending in `.template`. Within those files, it looks for any shell
-style variables: `$HOST` or `${HOST}` and performs substitution from the
-environment (ie .env files). It will create a copy of the file without the
-`.template` suffix.
-
-Note: the script will not perform substitutions on variables that are not
-defined. For example, NGINX config files use the shell variable style for
-internal variables. These will be left alone.
-
-The substitution are performed during the container entrypoint script. To use
-add the follow section to your entrypoint after copying the sub.sh script to the
-container root.
-
-```bash
-/sub.sh folder_path
-```
-
-The list of folders to operate on are stored as a bash array. Edit the list of
-folders to operate on. This can also be overridden in the environment.
-
-## Container Requirements
-
-The all entrypoints are written in Bash. Thus, Bash must be installed on the
-containers.
+cd docker
+./compose.configure.sh /path/to/primero/config/directory
+``` 

@@ -12,6 +12,7 @@ import { ToggleEnable } from "./toggle-enable";
 import { ToggleOpen } from "./toggle-open";
 import RequestApproval from "./request-approval";
 import { Transitions } from "./transitions";
+import Exports from "./exports";
 
 describe("<RecordActions />", () => {
   const forms = {
@@ -99,6 +100,32 @@ describe("<RecordActions />", () => {
   };
   let component;
   const defaultState = fromJS({
+    records: {
+      cases: {
+        data: [
+          {
+            sex: "female",
+            owned_by_agency_id: 1,
+            record_in_scope: true,
+            created_at: "2020-01-29T21:57:00.274Z",
+            name: "User 1",
+            alert_count: 0,
+            case_id_display: "b575f47",
+            owned_by: "primero_cp_ar",
+            status: "open",
+            registration_date: "2020-01-29",
+            id: "b342c488-578e-4f5c-85bc-35ece34cccdf",
+            flag_count: 0,
+            short_id: "b575f47",
+            age: 15,
+            workflow: "new"
+          }
+        ],
+        filters: {
+          status: ["true"]
+        }
+      }
+    },
     user: {
       permissions: {
         cases: [ACTIONS.MANAGE]
@@ -150,7 +177,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders RequestApproval", () => {
-      expect(component.find(RequestApproval)).to.have.length(1);
+      expect(component.find(RequestApproval)).to.have.length(2);
     });
   });
 
@@ -209,7 +236,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.length(10);
+        expect(component.find(MenuItem)).to.have.length(11);
       });
 
       it("renders MenuItem with Refer Cases option", () => {
@@ -298,6 +325,38 @@ describe("<RecordActions />", () => {
             .includes("cases.export")
         ).to.be.false;
       });
+    });
+  });
+
+  describe("Component Exports", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        props,
+        defaultState
+      ));
+    });
+
+    it("renders Exports", () => {
+      expect(component.find(Exports)).to.have.lengthOf(1);
+    });
+
+    it("renders valid props for Exports components", () => {
+      const exportProps = { ...component.find(Exports).props() };
+
+      expect(component.find(Exports)).to.have.lengthOf(1);
+      [
+        "close",
+        "openExportsDialog",
+        "record",
+        "recordType",
+        "selectedRecords",
+        "userPermissions"
+      ].forEach(property => {
+        expect(exportProps).to.have.property(property);
+        delete exportProps[property];
+      });
+      expect(exportProps).to.be.empty;
     });
   });
 });

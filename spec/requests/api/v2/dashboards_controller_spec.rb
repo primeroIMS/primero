@@ -24,7 +24,8 @@ describe Api::V2::DashboardsController, type: :request do
         Permission::DASH_WORKFLOW,
         Permission::DASH_CASE_OVERVIEW,
         Permission::DASH_REPORTING_LOCATION,
-        Permission::DASH_PROTECTION_CONCERNS
+        Permission::DASH_PROTECTION_CONCERNS,
+        Permission::DASH_GROUP_OVERVIEW
       ]
     )
 
@@ -39,7 +40,7 @@ describe Api::V2::DashboardsController, type: :request do
       unique_id: 'lookup-protection-concerns',
       name_en: 'Protection Concerns',
       lookup_values_en: [
-        {id: 'refugee', display_text: 'Refugee'}.with_indifferent_access
+        { id: 'refugee', display_text: 'Refugee' }.with_indifferent_access
       ]
     )
 
@@ -72,7 +73,7 @@ describe Api::V2::DashboardsController, type: :request do
       get '/api/v2/dashboards'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(4)
+      expect(json['data'].size).to eq(5)
 
       case_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.case_overview' }
       expect(case_overview_dashboard['indicators']['open']['count']).to eq(2)
@@ -94,9 +95,13 @@ describe Api::V2::DashboardsController, type: :request do
       expect(protection_concerns_dashboard['indicators']['protection_concerns_new_this_week']['refugee']['count']).to eq(1)
       expect(protection_concerns_dashboard['indicators']['protection_concerns_all_cases']['refugee']['count']).to eq(4)
       expect(protection_concerns_dashboard['indicators']['protection_concerns_closed_this_week']['refugee']['count']).to eq(1)
+
+      group_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.dash_group_overview' }
+      expect(group_overview_dashboard['indicators']['group_overview_open']['count']).to eq(2)
+      expect(group_overview_dashboard['indicators']['group_overview_closed']['count']).to eq(3)
     end
 
-    describe 'Test the shared with me dashboard', search: true do
+    describe 'Test the shared with dashboard', search: true do
       before :each do
         @primero_module = PrimeroModule.new(name: 'CP')
         @primero_module.save(validate: false)
@@ -116,22 +121,37 @@ describe Api::V2::DashboardsController, type: :request do
         @group_b = UserGroup.create!(name: 'Group_b')
         @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group_b])
         @user2.save(validate: false)
-        @case = Child.create(
+        @case_a = Child.create(
           data: {
-            name: 'Test', owned_by: 'user1',
+            name: 'Test_a', owned_by: 'user1',
+            disclosure_other_orgs: true, consent_for_services: true,
+            module_id: @primero_module.unique_id, last_updated_by: 'user2'
+          }
+        )
+        @case_b = Child.create(
+          data: {
+            name: 'Test_b', owned_by: 'user1',
             disclosure_other_orgs: true, consent_for_services: true,
             module_id: @primero_module.unique_id, last_updated_by: 'user2'
           }
         )
 
-        @permission_dashboard = Permission.new(
+        @permission_dashboard_shared_with_me = Permission.new(
           resource: Permission::DASHBOARD,
           actions: [
             Permission::DASH_SHARED_WITH_ME
           ]
         )
-        Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
-        Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+        @permission_dashboard_shared_with_others = Permission.new(
+          resource: Permission::DASHBOARD,
+          actions: [
+            Permission::DASH_SHARED_WITH_OTHERS
+          ]
+        )
+        Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
+        Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
+        Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_b)
+        @case_b.update(transfer_status: Transition::STATUS_REJECTED)
         Sunspot.commit
       end
 
@@ -139,14 +159,29 @@ describe Api::V2::DashboardsController, type: :request do
         login_for_test(
           user_name: 'user2',
           group_permission: Permission::SELF,
-          permissions: [@permission_case, @permission_dashboard]
+          permissions: [@permission_case, @permission_dashboard_shared_with_me]
         )
         get '/api/v2/dashboards'
         expect(response).to have_http_status(200)
 
         expect(json['data'][0]['indicators']['shared_with_me_total_referrals']['count']).to eq(1)
         expect(json['data'][0]['indicators']['shared_with_me_new_referrals']['count']).to eq(1)
-        expect(json['data'][0]['indicators']['shared_with_me_transfers_awaiting_acceptance']['count']).to eq(1)
+        expect(json['data'][0]['indicators']['shared_with_me_transfers_awaiting_acceptance']['count']).to eq(2)
+      end
+
+      it 'lists statistics for permitted shared with others dashboards' do
+        login_for_test(
+          user_name: 'user1',
+          group_permission: Permission::SELF,
+          permissions: [@permission_case, @permission_dashboard_shared_with_others]
+        )
+        get '/api/v2/dashboards'
+
+        expect(response).to have_http_status(200)
+
+        expect(json['data'][0]['indicators']['shared_with_others_referrals']['count']).to eq(1)
+        expect(json['data'][0]['indicators']['shared_with_others_pending_transfers']['count']).to eq(1)
+        expect(json['data'][0]['indicators']['shared_with_others_rejected_transfers']['count']).to eq(1)
       end
 
       after :each do
