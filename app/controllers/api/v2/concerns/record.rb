@@ -56,7 +56,11 @@ module Api::V2::Concerns
     end
 
     def permit_fields
-      @permitted_field_names = current_user.permitted_field_names(model_class, params[:record_action])
+      @permitted_field_names = PermittedFieldService.new(
+        current_user,
+        model_class,
+        params[:record_action]
+      ).permitted_field_names
     end
 
     def select_fields_for_show
@@ -66,9 +70,7 @@ module Api::V2::Concerns
 
     def select_fields_for_index
       params_for_fields = params
-      if params[:id_search]
-        params_for_fields = { fields: 'short', id_search: true }
-      end
+      params_for_fields = { fields: 'short', id_search: true } if params[:id_search]
       @selected_field_names = FieldSelectionService.select_fields_to_show(
         params_for_fields, model_class, @permitted_field_names, current_user
       )

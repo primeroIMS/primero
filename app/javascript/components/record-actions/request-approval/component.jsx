@@ -4,16 +4,20 @@ import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   TextField,
-  menuItem,
   IconButton,
-  FormLabel
-} from '@material-ui/core';
+  FormControlLabel,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  Radio
+} from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { useI18n } from "../../i18n";
 import { ActionDialog } from "../../action-dialog";
 
 import { approvalRecord } from "./action-creators";
+import ApprovalForm from "./approval-form"
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
@@ -24,17 +28,48 @@ const Component = ({
   record,
   recordType,
   pending,
-  setPending
+  setPending,
+  approvalType,
+  confirmButtonLabel,
+  dialogName
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const startRequestType = subMenuItems?.[0]?.value;
   const [requestType, setRequestType] = useState(startRequestType);
-  const handleChange = event => {
+  const [approval, setApproval] = React.useState("approved");
+  const [comment, setComment] = React.useState("");
+
+  const handleChangeType = event => {
     setRequestType(event.target.value);
   };
+  const handleChangeApproval = event => {
+    setApproval(event.target.value);
+  };
+  const handleChangeComment = event => {
+    setComment(event.target.value);
+  };
+  const handleCancel = () => {
+    close();
+    setRequestType(startRequestType);
+    setApproval("approved");
+    setComment("");
+  };
 
+  const actionBody = { data: {} };
+
+  actionBody.data.approval_status =
+    approvalType === "request" ? "requested" : approval;
+
+  if (comment !== "") {
+    actionBody.data.notes = comment;
+  }
+
+  const message =
+    approvalType === "request"
+      ? `${recordType}.request_approval_success_${requestType}`
+      : `${recordType}.${approval}_success_${requestType}`;
   const handleOk = () => {
     setPending(true);
 
@@ -43,15 +78,12 @@ const Component = ({
         recordType,
         recordId: record.get("id"),
         approvalId: requestType,
-        body: { data: { approval_status: "requested" } },
-        message: i18n.t(`${recordType}.request_approval_success_${requestType}`),
-        failureMessage: i18n.t(`${recordType}.request_approval_failure`)
+        body: actionBody,
+        message: i18n.t(message),
+        failureMessage: i18n.t(`${recordType}.request_approval_failure`),
+        dialogName
       })
     );
-  };
-  const handleCancel = () => {
-    setRequestType(startRequestType);
-    close();
   };
 
   const selectOptions = subMenuItems.map(option => (
@@ -60,7 +92,7 @@ const Component = ({
     </option>
   ));
 
-  const dialogContent = (
+  const requestDialogContent = (
     <>
       <IconButton
         aria-label="close"
@@ -76,8 +108,9 @@ const Component = ({
         <TextField
           id="outlined-select-approval-native"
           select
+          fullWidth
           value={requestType}
-          onChange={handleChange}
+          onChange={handleChangeType}
           className={css.selectApprovalType}
           fullWidth
           SelectProps={{
@@ -90,16 +123,29 @@ const Component = ({
     </>
   );
 
+  const approvalDialogContent = ApprovalForm({
+    approval,
+    close,
+    handleChangeApproval,
+    handleChangeComment,
+    handleChangeType,
+    requestType,
+    selectOptions
+  });
+
+  const dialogContent =
+    approvalType === "approval" ? approvalDialogContent : requestDialogContent;
+
   return (
     <ActionDialog
       open={openRequestDialog}
       dialogTitle=""
       successHandler={handleOk}
       cancelHandler={handleCancel}
-      confirmButtonLabel={i18n.t("buttons.ok")}
       omitCloseAfterSuccess
       maxSize="xs"
       pending={pending}
+      confirmButtonLabel={confirmButtonLabel}
     >
       {dialogContent}
     </ActionDialog>
@@ -109,13 +155,16 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.propTypes = {
+  approvalType: PropTypes.string,
   close: PropTypes.func,
+  confirmButtonLabel: PropTypes.string,
   openRequestDialog: PropTypes.bool,
   pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string,
   setPending: PropTypes.func,
-  subMenuItems: PropTypes.array
+  subMenuItems: PropTypes.array,
+  dialogName: PropTypes.string
 };
 
 export default Component;

@@ -21,7 +21,11 @@ end
 
 if locale_settings.present?
   default_locale ||= locale_settings[:default_locale] if locale_settings[:default_locale].present?
-  I18n.available_locales = locale_settings[:locales].present? ? locale_settings[:locales] : Primero::Application::LOCALES
+  I18n.available_locales = if locale_settings[:locales].present?
+                             locale_settings[:locales]
+                           else
+                             Primero::Application::LOCALES
+                           end
 else
   default_locale ||= Primero::Application::LOCALE_ENGLISH
   I18n.available_locales = Primero::Application::LOCALES

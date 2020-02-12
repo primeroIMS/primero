@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { fromJS } from "immutable";
@@ -75,6 +75,15 @@ const Container = ({ match, location }) => {
     status: ["open"],
     record_state: ["true"]
   });
+
+  useEffect(() => {
+    dispatch(
+      fetchRecords({
+        recordType,
+        options: defaultFilters.toJS()
+      })
+    );
+  }, []);
 
   const canSearchOthers =
     permissions.includes(ACTIONS.MANAGE) ||

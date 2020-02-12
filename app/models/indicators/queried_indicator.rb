@@ -27,9 +27,11 @@ module Indicators
       end
     end
 
-    def stat_query_strings(_, owner)
+    def stat_query_strings(_, owner, user)
       scope_query_strings +
         owner_query_string(owner) +
+        referred_query_string(user) +
+        transferred_query_string(user) +
         (queries&.map(&:to_s) || [])
     end
   end

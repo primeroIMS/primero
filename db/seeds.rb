@@ -25,10 +25,6 @@ require File.dirname(__FILE__) + "/exports/configuration.rb" if should_seed?(Exp
 puts "Seeding the system settings"
 require File.dirname(__FILE__) + "/system_settings/system_settings.rb" if should_seed? SystemSettings
 
-#Seed the identity providers table
-puts "Seeding the identity providers"
-require File.dirname(__FILE__) + "/system_settings/idp.rb" if should_seed? IdentityProvider
-
 #Create the forms
 puts "[Re-]Seeding the forms"
 Dir[File.dirname(__FILE__) + '/forms/*/*.rb'].each {|file| require file } if should_seed? FormSection

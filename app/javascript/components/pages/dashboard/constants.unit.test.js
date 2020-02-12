@@ -23,17 +23,24 @@ describe("Verifying config constant", () => {
     const clone = { ...constants };
 
     expect(clone.DASHBOARD_NAMES).to.have.all.keys(
-      "CASE_RISK",
-      "WORKFLOW",
-      "APPROVALS_ASSESSMENT",
       "APPROVALS_ASSESSMENT_PENDING",
-      "APPROVALS_CASE_PLAN",
+      "APPROVALS_ASSESSMENT",
       "APPROVALS_CASE_PLAN_PENDING",
-      "APPROVALS_CLOSURE",
+      "APPROVALS_CASE_PLAN",
       "APPROVALS_CLOSURE_PENDING",
+      "APPROVALS_CLOSURE",
+      "CASE_RISK",
+      "CASES_BY_TASK_OVERDUE_ASSESSMENT",
+      "CASES_BY_TASK_OVERDUE_CASE_PLAN",
+      "CASES_BY_TASK_OVERDUE_FOLLOWUPS",
+      "CASES_BY_TASK_OVERDUE_SERVICES",
+      "GROUP_OVERVIEW",
+      "PROTECTION_CONCERNS",
       "REPORTING_LOCATION",
+      "SHARED_WITH_ME",
+      "SHARED_WITH_OTHERS",
       "WORKFLOW_TEAM",
-      "PROTECTION_CONCERNS"
+      "WORKFLOW"
     );
 
     expect(clone.INDICATOR_NAMES).to.have.all.keys(
