@@ -344,6 +344,7 @@ en:
     assessment: "Assessment"
     case_plan: "Case Plan"
     closure: "Closure"
+    referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
 
     order_by:
       most_recently: "Most recently"
@@ -644,6 +645,7 @@ en:
     case_plan: "Case Plan"
     closure: "Closure"
     export: "Export"
+    referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
 
   incident:
     label: "Incident ID"
@@ -785,6 +787,7 @@ en:
     case_plan: "Case Plan"
     closure: "Closure"
     export: "Export"
+    referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
 
   all:
     assessment: "Assessment"

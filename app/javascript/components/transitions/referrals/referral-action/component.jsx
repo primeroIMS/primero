@@ -45,15 +45,6 @@ const Component = ({
   //   }
   // };
 
-  // if (approvalType === REJECTED) {
-  //   actionBody.data.rejected_reason = comment;
-  // }
-
-  // const message =
-  //   approvalType === ACCEPTED
-  //   ? i18n.t(`${recordType}.transfer_accepted_success`)
-  //   : i18n.t(`${recordType}.transfer_accepted_rejected`, {record_id: recordId});
-
   const handleOk = () => {
     // dispatch(
     //   approvalTransfer({
@@ -75,13 +66,7 @@ const Component = ({
   };
 
 
-  const dialogContent = (
-    <form noValidate autoComplete="off" onClick={stopProp}>
-
-    </form>
-  );
-
-  const buttonLabel = "ok";
+  const dialogContent = <p>{i18n.t(`${recordType}.referral_done`)}</p>;
 
   return (
     <ActionDialog
@@ -89,7 +74,7 @@ const Component = ({
       successHandler={handleOk}
       cancelHandler={handleCancel}
       dialogTitle=""
-      confirmButtonLabel={i18n.t(`buttons.${buttonLabel}`)}
+      confirmButtonLabel={i18n.t("buttons.done")}
       confirmButtonProps={successButtonProps}
       onClose={close}
     >
