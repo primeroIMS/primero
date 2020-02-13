@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { FormLabel, TextField } from "@material-ui/core";
 
 import { useI18n } from "../../../i18n";
 import { ActionDialog } from "../../../action-dialog";
-import { DONE } from "../constants";
 
-// import { approvalTransfer } from "./action-creators";
+import { referralDone } from "./action-creators";
 import { NAME } from "./constants";
 
 const Component = ({
@@ -20,11 +18,6 @@ const Component = ({
 
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const [comment, setComment] = React.useState("");
-
-  const handleChangeComment = event => {
-    setComment(event.target.value);
-  };
 
   const handleCancel = (event) => {
     if (event) {
@@ -32,29 +25,21 @@ const Component = ({
     }
 
     close();
-    setComment("");
   };
 
-  const stopProp = (event) => {
+  const stopProp = event => {
     event.stopPropagation();
   };
 
-  // const actionBody = {
-  //   data: {
-  //     status: approvalType
-  //   }
-  // };
-
   const handleOk = () => {
-    // dispatch(
-    //   approvalTransfer({
-    //     body: actionBody,
-    //     message,
-    //     recordId,
-    //     recordType,
-    //     transferId
-    //   })
-    // );
+    dispatch(
+      referralDone({
+        message: i18n.t(`${recordType}.referral_done_success`),
+        recordId,
+        recordType,
+        transistionId
+      })
+    );
 
     close();
   };
@@ -64,7 +49,6 @@ const Component = ({
     variant: "contained",
     autoFocus: true
   };
-
 
   const dialogContent = <p>{i18n.t(`${recordType}.referral_done`)}</p>;
 
