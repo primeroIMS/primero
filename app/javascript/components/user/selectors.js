@@ -16,3 +16,6 @@ export const getPermissionsByRecord = (state, recordType) => {
 export const hasUserPermissions = state => {
   return state.hasIn([NAMESPACE, PERMISSIONS], false);
 };
+
+export const getIsAuthenticated = state =>
+  state.getIn([NAMESPACE, "isAuthenticated"], false);

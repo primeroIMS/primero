@@ -177,7 +177,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders RequestApproval", () => {
-      expect(component.find(RequestApproval)).to.have.length(1);
+      expect(component.find(RequestApproval)).to.have.length(2);
     });
   });
 
@@ -236,7 +236,7 @@ describe("<RecordActions />", () => {
       });
 
       it("renders MenuItem", () => {
-        expect(component.find(MenuItem)).to.have.length(10);
+        expect(component.find(MenuItem)).to.have.length(11);
       });
 
       it("renders MenuItem with Refer Cases option", () => {

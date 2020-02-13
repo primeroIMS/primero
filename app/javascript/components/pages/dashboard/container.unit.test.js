@@ -991,8 +991,126 @@ describe("<Dashboard />", () => {
 
     it("renders the SharedWithMe Dashboard", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
+      expect(
+        component
+          .find(OverviewBox)
+          .find("div div")
+          .text()
+      ).to.be.equal("dashboard.dash_shared_with_me");
       expect(component.find(OverviewBox).find("ul li")).to.have.lengthOf(3);
     });
+  });
 
+  describe("render shared with others dashboard", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.dash_shared_with_others",
+                  type: "indicator",
+                  indicators: {
+                    shared_with_others_referrals: {
+                      count: 0,
+                      query: [
+                        "owned_by=primero_cp",
+                        "record_state=true",
+                        "status=open",
+                        "referred_users_present=true"
+                      ]
+                    },
+                    shared_with_others_pending_transfers: {
+                      count: 0,
+                      query: [
+                        "owned_by=primero_cp",
+                        "record_state=true",
+                        "status=open",
+                        "transfer_status=in_progress"
+                      ]
+                    },
+                    shared_with_others_rejected_transfers: {
+                      count: 0,
+                      query: [
+                        "owned_by=primero_cp",
+                        "record_state=true",
+                        "status=open",
+                        "transfer_status=rejected"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_SHARED_WITH_OTHERS]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the SharedWithMe Dashboard", () => {
+      expect(component.find(OverviewBox)).to.have.lengthOf(1);
+      expect(
+        component
+          .find(OverviewBox)
+          .find("div div")
+          .text()
+      ).to.be.equal("dashboard.dash_shared_with_others");
+      expect(component.find(OverviewBox).find("ul li")).to.have.lengthOf(3);
+    });
+  });
+
+  describe("render my group's cases", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.dash_group_overview",
+                  type: "indicator",
+                  indicators: {
+                    group_overview_open: {
+                      count: 5,
+                      query: ["record_state=true", "status=open"]
+                    },
+                    group_overview_closed: {
+                      count: 0,
+                      query: ["record_state=true", "status=closed"]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_GROUP_OVERVIEW]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders the My Group's Cases Dashboard", () => {
+      expect(component.find(OverviewBox)).to.have.lengthOf(1);
+      expect(
+        component
+          .find(OverviewBox)
+          .find("div div")
+          .text()
+      ).to.be.equal("dashboard.dash_group_overview");
+      expect(component.find(OverviewBox).find("ul li")).to.have.lengthOf(2);
+    });
   });
 });

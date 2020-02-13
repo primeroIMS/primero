@@ -1,4 +1,5 @@
-import { DB, RECORD_PATH } from "../../config";
+import { RECORD_PATH } from "../../config";
+import { DB_COLLECTIONS_NAMES } from "../../db";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 
 import { cleanUpFilters } from "./helpers";
@@ -26,7 +27,7 @@ export const fetchCases = data => async dispatch => {
       path: RECORD_PATH.cases,
       params: cleanUpFilters(options),
       db: {
-        collection: DB.RECORDS,
+        collection: DB_COLLECTIONS_NAMES.RECORDS,
         recordType: RECORD_PATH.cases
       }
     }
@@ -42,7 +43,7 @@ export const fetchIncidents = data => async dispatch => {
       path: RECORD_PATH.incidents,
       params: cleanUpFilters(options),
       db: {
-        collection: DB.RECORDS,
+        collection: DB_COLLECTIONS_NAMES.RECORDS,
         recordType: RECORD_PATH.incidents
       }
     }
@@ -58,7 +59,7 @@ export const fetchTracingRequests = data => async dispatch => {
       path: RECORD_PATH.tracing_requests,
       params: cleanUpFilters(options),
       db: {
-        collection: DB.RECORDS,
+        collection: DB_COLLECTIONS_NAMES.RECORDS,
         recordType: RECORD_PATH.tracing_requests
       }
     }
@@ -71,8 +72,9 @@ export const fetchRecord = (recordType, id) => async dispatch => {
     api: {
       path: `${recordType}/${id}`,
       db: {
-        collection: DB.RECORDS,
-        recordType
+        collection: DB_COLLECTIONS_NAMES.RECORDS,
+        recordType,
+        id
       }
     }
   });
@@ -84,6 +86,7 @@ export const saveRecord = (
   body,
   id,
   message,
+  messageForQueue,
   redirect
 ) => async dispatch => {
   await dispatch({
@@ -96,6 +99,7 @@ export const saveRecord = (
         action: ENQUEUE_SNACKBAR,
         payload: {
           message,
+          messageForQueue,
           options: {
             variant: "success",
             key: generate.messageKey()
@@ -105,7 +109,7 @@ export const saveRecord = (
         redirect: redirect === false ? false : redirect || `/${recordType}`
       },
       db: {
-        collection: DB.RECORDS,
+        collection: DB_COLLECTIONS_NAMES.RECORDS,
         recordType
       }
     }

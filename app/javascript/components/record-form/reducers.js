@@ -16,9 +16,9 @@ const DEFAULT_STATE = Map({
 export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.SET_OPTIONS_SUCCESS:
-      return state.setIn(["options", "lookups"], fromJS(payload.data));
+      return state.setIn(["options", "lookups"], fromJS(payload));
     case Actions.SET_LOCATIONS_SUCCESS:
-      return state.setIn(["options", "locations"], fromJS(payload.data));
+      return state.setIn(["options", "locations"], fromJS(payload));
     case Actions.RECORD_FORMS_SUCCESS:
       if (payload) {
         return state

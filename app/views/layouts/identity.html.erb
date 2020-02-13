@@ -5,6 +5,6 @@
 </head>
 <body>
   <%= yield %>
-  <%= javascript_bundles_with_chunks_tag 'identity', skip_pipeline: true %>
+  <%= javascript_bundles_with_chunks_tag 'identity', skip_pipeline: true, manifest: :identity %>
 </body>
 </html>

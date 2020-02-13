@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { fromJS } from "immutable";
 import { withRouter } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
+import qs from "qs";
 
 import IndexTable from "../index-table";
 import { PageContainer } from "../page";
@@ -33,6 +34,7 @@ const Container = ({ match, location }) => {
   const css = makeStyles(styles)();
   const { theme } = useThemeHelper({});
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const queryParams = qs.parse(location.search.replace("?", ""));
   const [drawer, setDrawer] = useState(false);
 
   const { url } = match;
@@ -75,6 +77,17 @@ const Container = ({ match, location }) => {
     status: ["open"],
     record_state: ["true"]
   });
+
+  useEffect(() => {
+    dispatch(
+      fetchRecords({
+        recordType,
+        options: Object.keys(queryParams).length
+          ? queryParams
+          : defaultFilters.toJS()
+      })
+    );
+  }, []);
 
   const canSearchOthers =
     permissions.includes(ACTIONS.MANAGE) ||

@@ -323,6 +323,11 @@ en:
     notes_form_notes: 'Notes'
     case_worker_code: "Case Worker Code"
     agency: "Agency"
+    transfer_accepted: "By clicking 'Accept' you accept the responsibility for this case; once you click ‘Accept' you will become the record owner in the system."
+    transfer_rejected: "By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this case at this time. Please enter a reason that you are rejecting this case; once you click ‘Reject’ you will no longer have access to this case record."
+    transfer_reject_reason_label: "Rejection Reason"
+    transfer_accepted_success: "Case transfer successfully accepted."
+    transfer_accepted_rejected: "Case %{record_id} transfer rejected."
     request_approval_select: "Request approval for"
     request_approve_bia: "Approve Assessment?"
     request_approve_case_plan: "Approve Case Plan?"
@@ -330,6 +335,21 @@ en:
     request_approval_success_bia: "Approval requested for Assessment form."
     request_approval_success_case_plan: "Approval requested for Case Plan form."
     request_approval_success_closure: "Approval requested for Closure form."
+    request_approval_failure: "An error occurred, please contact support."
+    approved_success_closure: "Closure - Approved"
+    rejected_success_closure: "Closure - Rejected"
+    approved_success_case_plan: "Case Plan - Approved"
+    rejected_success_case_plan: "Case Plan - Rejected"
+    approved_success_bia: "Assessment - Approved"
+    rejected_success_bia: "Assessment - Rejected"
+    approval_select: "The form for"
+    approval_radio: "I would like to"
+    approval_radio_accept: "Accept"
+    approval_radio_reject: "Reject"
+    approval_comments: "Comments"
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
 
     order_by:
       most_recently: "Most recently"
@@ -543,11 +563,13 @@ en:
 
     messages:
       update_success: "Case %{record_id} was successfully updated."
+      update_success_queue: "Case %{record_id} was successfully updated in background"
       investigation_error_message: "Please confirm the flagged record should be marked as investigated, and enter any details you have."
       reunite_error_message: "Please confirm this case has been reunited with family or caregivers, and enter any details you have."
       undo_reunite_error_message: "Please confirm case should be marked as Not Reunited, and enter any details you have."
       see_full_size: "Click on the Image to see full size"
       creation_success: "Case record successfully created."
+      creation_success_queue: "Case record successfully created in background."
       not_found: "Child with the given id is not found"
       confirm_duplicate: "Are you sure you want to continue? If so, click OK. If not, click Cancel."
 
@@ -600,6 +622,14 @@ en:
     incident_location: "Incident Location"
     violations: "Violations"
     social_worker: "Social Worker"
+    request_approval_select: "Request approval for"
+    request_approve_bia: "Approve Assessment?"
+    request_approve_case_plan: "Approve Case Plan?"
+    request_approve_closure: "Approve Closure?"
+    request_approval_success_bia: "Approval requested for Assessment form."
+    request_approval_success_case_plan: "Approval requested for Case Plan form."
+    request_approval_success_closure: "Approval requested for Closure form."
+    request_approval_failure: "An error occurred, please contact support."
     selectable_date_options:
       date_of_first_report: "Interview Date"
       incident_date_derived: "Incident Date"
@@ -626,6 +656,15 @@ en:
       record_state: "Record State"
       interview_date: "Interview Date"
       by_date: "By Date"
+    transfer_accepted: "By clicking 'Accept' you accept the responsibility for this case; once you click ‘Accept' you will become the record owner in the system."
+    transfer_rejected: "By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this case at this time. Please enter a reason that you are rejecting this case; once you click ‘Reject’ you will no longer have access to this case record."
+    transfer_reject_reason_label: "Rejection Reason"
+    transfer_accepted_success: "Case transfer successfully accepted."
+    transfer_accepted_rejected: "Case %{record_id} transfer rejected."
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
+    export: "Export"
 
   incident:
     label: "Incident ID"
@@ -662,7 +701,9 @@ en:
 
     messages:
       update_success: "Incident %{record_id} was successfully updated."
+      update_success_queue: "Incident %{record_id} was successfully updated in background."
       creation_success: "Incident record successfully created."
+      creation_success_queue: "Incident record successfully created in background"
 
     view: "View Incident %{short_id}"
     edit: "Edit Incident"
@@ -731,6 +772,8 @@ en:
     messages:
       update_success: "Tracing Request %{record_id} was successfully updated."
       creation_success: "Tracing Request record successfully created."
+      update_success_queue: "Tracing Request %{record_id} was successfully updated in background."
+      creation_success_queue: "Tracing Request record successfully created in background."
 
     view: "View Tracing Request %{short_id}"
     edit: "Edit Tracing Request"
@@ -763,6 +806,18 @@ en:
       separation_cause: "Separation Cause"
       record_state: "Record State"
       by_date: "By Date"
+    request_approval_select: "Request approval for"
+    request_approve_bia: "Approve Assessment?"
+    request_approve_case_plan: "Approve Case Plan?"
+    request_approve_closure: "Approve Closure?"
+    request_approval_success_bia: "Approval requested for Assessment form."
+    request_approval_success_case_plan: "Approval requested for Case Plan form."
+    request_approval_success_closure: "Approval requested for Closure form."
+    request_approval_failure: "An error occurred, please contact support."
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
+    export: "Export"
 
   potential_matches:
     empty: "Please access matching through Tracing Requests"
@@ -1865,10 +1920,17 @@ en:
     approval_assessment_pending_group: "Assessment"
     approval_case_plan_pending_group: "Case Plan"
     approval_closure_pending_group: "Closure"
-    shared_with_me: "Shared With Me"
+    dash_shared_with_me: "Shared With Me"
     shared_with_me_total_referrals: "Total Referrals"
     shared_with_me_new_referrals: "New Referrals"
     shared_with_me_transfers_awaiting_acceptance: "Transfers Awaiting Acceptance"
+    dash_shared_with_others: "Shared With Others"
+    shared_with_others_referrals: "Referrals"
+    shared_with_others_pending_transfers: "Pending Transfers"
+    shared_with_others_rejected_transfers: "Rejected Transfers"
+    dash_group_overview: "My Group's Cases"
+    group_overview_open: "Open"
+    group_overview_closed: "Closed"
 
   errors:
     try_again: "Try again"
@@ -2105,6 +2167,7 @@ en:
     previous: "Previous"
     save: "Save"
     request_approval: "Request Approval"
+    approvals: "Approvals"
     description:
       valid: "Valid record"
       invalid: "Invalid record"

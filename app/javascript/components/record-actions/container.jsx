@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
@@ -16,11 +16,19 @@ import {
   ADD_INCIDENT,
   ADD_SERVICE,
   REQUEST_APPROVAL,
+  APPROVAL,
   SHOW_EXPORTS,
   checkPermissions
 } from "../../libs/permissions";
 import Permission from "../application/permission";
 
+import { setDialog, setPending } from "./action-creators";
+import {
+  REQUEST_APPROVAL_DIALOG,
+  APPROVAL_DIALOG,
+  APPROVAL_TYPE,
+  REQUEST_TYPE
+} from "./constants";
 import { NAME } from "./config";
 import Notes from "./notes";
 import { ToggleEnable } from "./toggle-enable";
@@ -30,6 +38,7 @@ import AddIncident from "./add-incident";
 import AddService from "./add-service";
 import RequestApproval from "./request-approval";
 import Exports from "./exports";
+import { selectDialog, selectDialogPending } from "./selectors";
 
 const Container = ({
   recordType,
@@ -40,15 +49,32 @@ const Container = ({
   selectedRecords
 }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openNotesDialog, setOpenNotesDialog] = useState(false);
-  const [requestDialog, setRequestDialog] = useState(false);
+  const [approvalType, setApprovalType] = useState(APPROVAL_TYPE);
   const [transitionType, setTransitionType] = useState("");
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
   const [incidentDialog, setIncidentDialog] = useState(false);
   const [serviceDialog, setServiceDialog] = useState(false);
   const [openExportsDialog, setOpenExportsDialog] = useState(false);
+  const requestDialog = useSelector(state =>
+    selectDialog(REQUEST_APPROVAL_DIALOG, state)
+  );
+  const setRequestDialog = open => {
+    dispatch(setDialog({ dialog: REQUEST_APPROVAL_DIALOG, open: open }));
+  };
+  const dialogPending = useSelector(state => selectDialogPending(state));
+  const setDialogPending = pending => {
+    dispatch(setPending({ pending: pending }));
+  };
+  const approveDialog = useSelector(state =>
+    selectDialog(APPROVAL_DIALOG, state)
+  );
+  const setApproveDialog = open => {
+    dispatch(setDialog({ dialog: APPROVAL_DIALOG, open: open }));
+  };
 
   const enableState =
     record && record.get("record_state") ? "disable" : "enable";
@@ -124,11 +150,31 @@ const Container = ({
     ACTIONS.REQUEST_APPROVAL_CLOSURE
   ]);
 
+  const canApprove = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_BIA,
+    ACTIONS.APPROVE_CASE_PLAN,
+    ACTIONS.APPROVE_CLOSURE
+  ]);
+
+  const canApproveBia = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_BIA
+  ]);
+
+  const canApproveCasePlan = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_CASE_PLAN
+  ]);
+
+  const canApproveClosure = checkPermissions(userPermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.APPROVE_CLOSURE
+  ]);
+
   const canAddIncident = checkPermissions(userPermissions, ADD_INCIDENT);
 
   const canAddService = checkPermissions(userPermissions, ADD_SERVICE);
-
-  const canCustomExport = checkPermissions(userPermissions, EXPORT_CUSTOM);
 
   const canShowExports = checkPermissions(userPermissions, SHOW_EXPORTS);
 
@@ -182,7 +228,17 @@ const Container = ({
   };
 
   const handleRequestOpen = () => {
+    setApprovalType(REQUEST_TYPE);
     setRequestDialog(true);
+  };
+
+  const handleApprovalOpen = () => {
+    setApprovalType(APPROVAL_TYPE);
+    setApproveDialog(true);
+  };
+
+  const handleApprovalClose = () => {
+    setApproveDialog(false);
   };
 
   const handleIncidentDialog = () => {
@@ -267,7 +323,13 @@ const Container = ({
       condition: canRequest
     },
     {
-      name: i18n.t("cases.export"),
+      name: i18n.t("actions.approvals"),
+      action: handleApprovalOpen,
+      recordType: "all",
+      condition: canApprove
+    },
+    {
+      name: i18n.t(`${recordType}.export`),
       action: handleExportsOpen,
       recordType: RECORD_TYPES.all,
       recordListAction: true,
@@ -293,20 +355,21 @@ const Container = ({
     />
   );
 
-  const filterItems = items => items.filter(a => {
-    const actionCondition = typeof a.condition === "undefined" || a.condition;
+  const filterItems = items => items.filter(
+    item => {
+      const actionCondition = typeof item.condition === "undefined" || item.condition;
 
-    if (showListActions) {
-      return a.recordListAction && actionCondition;
+      if (showListActions) {
+        return item.recordListAction && actionCondition;
+      }
+
+      return (
+        ([RECORD_TYPES.all, recordType].includes(item.recordType) ||
+          (Array.isArray(item.recordType) && item.recordType.includes(recordType))) &&
+          actionCondition
+      );
     }
-
-    return (
-      (a.recordType === RECORD_TYPES.all ||
-        a.recordType === recordType ||
-        (Array.isArray(a.recordType) && a.recordType.includes(recordType))) &&
-      actionCondition
-    );
-  });
+  );
 
   const filteredActions = filterItems(actions);
   const actionItems = filteredActions?.map(action => {
@@ -326,26 +389,48 @@ const Container = ({
 
   const requestsApproval = [
     {
-      name: "Assessment",
+      name: i18n.t(`${recordType}.assessment`),
       condition: canRequestBia,
       recordType: RECORD_TYPES.all,
       value: "bia"
     },
     {
-      name: "Case Plan",
+      name: i18n.t(`${recordType}.case_plan`),
       condition: canRequestCasePlan,
       recordType: RECORD_TYPES.all,
       value: "case_plan"
     },
     {
-      name: "Closure",
+      name: i18n.t(`${recordType}.closure`),
       condition: canRequestClosure,
       recordType: RECORD_TYPES.all,
       value: "closure"
     }
   ];
 
+  const approvals = [
+    {
+      name: i18n.t(`${recordType}.assessment`),
+      condition: canApproveBia,
+      recordType: "all",
+      value: "bia"
+    },
+    {
+      name: i18n.t(`${recordType}.case_plan`),
+      condition: canApproveCasePlan,
+      recordType: "all",
+      value: "case_plan"
+    },
+    {
+      name: i18n.t(`${recordType}.closure`),
+      condition: canApproveClosure,
+      recordType: "all",
+      value: "closure"
+    }
+  ];
+
   const allowedRequestsApproval = filterItems(requestsApproval);
+  const allowedApprovals = filterItems(approvals);
 
   return (
     <>
@@ -413,6 +498,26 @@ const Container = ({
           subMenuItems={allowedRequestsApproval}
           record={record}
           recordType={recordType}
+          pending={dialogPending}
+          setPending={setDialogPending}
+          approvalType={approvalType}
+          confirmButtonLabel={i18n.t("buttons.ok")}
+          dialogName={REQUEST_APPROVAL_DIALOG}
+        />
+      </Permission>
+
+      <Permission resources={recordType} actions={APPROVAL}>
+        <RequestApproval
+          openRequestDialog={approveDialog}
+          close={() => handleApprovalClose()}
+          subMenuItems={allowedApprovals}
+          record={record}
+          recordType={recordType}
+          pending={dialogPending}
+          setPending={setDialogPending}
+          approvalType={approvalType}
+          confirmButtonLabel={i18n.t("buttons.submit")}
+          dialogName={APPROVAL_DIALOG}
         />
       </Permission>
 

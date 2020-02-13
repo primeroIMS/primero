@@ -34,6 +34,7 @@ const Component = ({ close, openNotesDialog, record, recordType }) => {
         { data: { notes_section: [data] }, record_action: ACTIONS.ADD_NOTE },
         record.get("id"),
         i18n.t(`notes.note_success`),
+        false,
         false
       )
     );
