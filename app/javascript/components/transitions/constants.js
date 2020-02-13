@@ -10,3 +10,7 @@ export const TRANSITION_STATUS = Object.freeze({
   done: "done",
   inProgress: "in_progress"
 });
+export const TRANSITIONS_TYPES = Object.freeze({
+  transfer: "transfer",
+  referral: "referral"
+});

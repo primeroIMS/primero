@@ -60,7 +60,7 @@ const ActionDialog = ({
   );
 
   return (
-    <div>
+    <div onClick={event => event.stopPropagation()}>
       <Dialog
         open={open}
         onClose={handleClose}
