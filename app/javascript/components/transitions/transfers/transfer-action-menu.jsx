@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -6,17 +7,29 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { useI18n } from "../../i18n";
 
 import { ACCEPTED, REJECTED, REJECT } from "../../../config";
+import { setDialog, setPending } from "../../record-actions/action-creators";
+import { selectDialog, selectDialogPending } from "../../record-actions/selectors";
 
-import { APPROVE } from "./constants";
+import { APPROVE, TRANSFER_APPROVAL_DIALOG } from "./constants";
 import TransferApproval from "./transfer-approval";
 
 const TransferActionMenu = ({ transition, recordType }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const [transferMenu, setTransferMenu] = useState(null);
-  const [approvalOpen, setApprovalOpen] = useState(false);
   const [approvalType, setApprovalType] = useState(ACCEPTED);
   const handleTransferMenuClose = () => {
     setTransferMenu(null);
+  };
+  const approvalOpen = useSelector(state =>
+    selectDialog(TRANSFER_APPROVAL_DIALOG, state)
+  );
+  const setApprovalOpen = open => {
+    dispatch(setDialog({ dialog: TRANSFER_APPROVAL_DIALOG, open: open }));
+  };
+  const dialogPending = useSelector(state => selectDialogPending(state));
+  const setDialogPending = pending => {
+    dispatch(setPending({ pending: pending }));
   };
 
   const handleAcceptOpen = event => {
@@ -82,8 +95,11 @@ const TransferActionMenu = ({ transition, recordType }) => {
         close={handleClose}
         approvalType={approvalType}
         recordId={transition.record_id}
+        pending={dialogPending}
+        setPending={setDialogPending}
         transferId={transition.id}
         recordType={recordType}
+        dialogName={TRANSFER_APPROVAL_DIALOG}
       />
     </>
   );
