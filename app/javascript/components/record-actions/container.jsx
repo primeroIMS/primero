@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
@@ -22,8 +22,14 @@ import {
 } from "../../libs/permissions";
 import Permission from "../application/permission";
 
+import { setDialog, setPending } from "./action-creators";
+import {
+  REQUEST_APPROVAL_DIALOG,
+  APPROVAL_DIALOG,
+  APPROVAL_TYPE,
+  REQUEST_TYPE
+} from "./constants";
 import { NAME } from "./config";
-import { APPROVAL_TYPE, REQUEST_TYPE } from "./constants";
 import Notes from "./notes";
 import { ToggleEnable } from "./toggle-enable";
 import { ToggleOpen } from "./toggle-open";
@@ -32,6 +38,7 @@ import AddIncident from "./add-incident";
 import AddService from "./add-service";
 import RequestApproval from "./request-approval";
 import Exports from "./exports";
+import { selectDialog, selectDialogPending } from "./selectors";
 
 const Container = ({
   recordType,
@@ -42,17 +49,32 @@ const Container = ({
   selectedRecords
 }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
   const [openReopenDialog, setOpenReopenDialog] = useState(false);
   const [openNotesDialog, setOpenNotesDialog] = useState(false);
-  const [requestDialog, setRequestDialog] = useState(false);
-  const [approveDialog, setApproveDialog] = useState(false);
   const [approvalType, setApprovalType] = useState(APPROVAL_TYPE);
   const [transitionType, setTransitionType] = useState("");
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
   const [incidentDialog, setIncidentDialog] = useState(false);
   const [serviceDialog, setServiceDialog] = useState(false);
   const [openExportsDialog, setOpenExportsDialog] = useState(false);
+  const requestDialog = useSelector(state =>
+    selectDialog(REQUEST_APPROVAL_DIALOG, state)
+  );
+  const setRequestDialog = open => {
+    dispatch(setDialog({ dialog: REQUEST_APPROVAL_DIALOG, open: open }));
+  };
+  const dialogPending = useSelector(state => selectDialogPending(state));
+  const setDialogPending = pending => {
+    dispatch(setPending({ pending: pending }));
+  };
+  const approveDialog = useSelector(state =>
+    selectDialog(APPROVAL_DIALOG, state)
+  );
+  const setApproveDialog = open => {
+    dispatch(setDialog({ dialog: APPROVAL_DIALOG, open: open }));
+  };
 
   const enableState =
     record && record.get("record_state") ? "disable" : "enable";
@@ -333,20 +355,21 @@ const Container = ({
     />
   );
 
-  const filterItems = items => items.filter(a => {
-    const actionCondition = typeof a.condition === "undefined" || a.condition;
+  const filterItems = items => items.filter(
+    item => {
+      const actionCondition = typeof item.condition === "undefined" || item.condition;
 
-    if (showListActions) {
-      return a.recordListAction && actionCondition;
+      if (showListActions) {
+        return item.recordListAction && actionCondition;
+      }
+
+      return (
+        ([RECORD_TYPES.all, recordType].includes(item.recordType) ||
+          (Array.isArray(item.recordType) && item.recordType.includes(recordType))) &&
+          actionCondition
+      );
     }
-
-    return (
-      (a.recordType === RECORD_TYPES.all ||
-        a.recordType === recordType ||
-        (Array.isArray(a.recordType) && a.recordType.includes(recordType))) &&
-      actionCondition
-    );
-  });
+  );
 
   const filteredActions = filterItems(actions);
   const actionItems = filteredActions?.map(action => {
@@ -475,8 +498,11 @@ const Container = ({
           subMenuItems={allowedRequestsApproval}
           record={record}
           recordType={recordType}
+          pending={dialogPending}
+          setPending={setDialogPending}
           approvalType={approvalType}
           confirmButtonLabel={i18n.t("buttons.ok")}
+          dialogName={REQUEST_APPROVAL_DIALOG}
         />
       </Permission>
 
@@ -487,8 +513,11 @@ const Container = ({
           subMenuItems={allowedApprovals}
           record={record}
           recordType={recordType}
+          pending={dialogPending}
+          setPending={setDialogPending}
           approvalType={approvalType}
           confirmButtonLabel={i18n.t("buttons.submit")}
+          dialogName={APPROVAL_DIALOG}
         />
       </Permission>
 

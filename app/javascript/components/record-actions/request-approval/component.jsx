@@ -27,15 +27,20 @@ const Component = ({
   subMenuItems,
   record,
   recordType,
+  pending,
+  setPending,
   approvalType,
-  confirmButtonLabel
+  confirmButtonLabel,
+  dialogName
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
-  const [requestType, setRequestType] = useState("bia");
+  const startRequestType = subMenuItems?.[0]?.value;
+  const [requestType, setRequestType] = useState(startRequestType);
   const [approval, setApproval] = React.useState("approved");
   const [comment, setComment] = React.useState("");
+
   const handleChangeType = event => {
     setRequestType(event.target.value);
   };
@@ -47,7 +52,7 @@ const Component = ({
   };
   const handleCancel = () => {
     close();
-    setRequestType("bia");
+    setRequestType(startRequestType);
     setApproval("approved");
     setComment("");
   };
@@ -63,20 +68,22 @@ const Component = ({
 
   const message =
     approvalType === "request"
-      ? `cases.request_approval_success_${requestType}`
-      : `cases.${approval}_success_${requestType}`;
+      ? `${recordType}.request_approval_success_${requestType}`
+      : `${recordType}.${approval}_success_${requestType}`;
   const handleOk = () => {
+    setPending(true);
+
     dispatch(
       approvalRecord({
         recordType,
         recordId: record.get("id"),
         approvalId: requestType,
         body: actionBody,
-        message: i18n.t(message)
+        message: i18n.t(message),
+        failureMessage: i18n.t(`${recordType}.request_approval_failure`),
+        dialogName
       })
     );
-
-    close();
   };
 
   const selectOptions = subMenuItems.map(option => (
@@ -94,9 +101,9 @@ const Component = ({
       >
         <CloseIcon />
       </IconButton>
-      <form noValidate autoComplete="off">
+      <form noValidate autoComplete="off" className={css.centerForm}>
         <FormLabel component="legend">
-          {i18n.t("cases.request_approval_select")}
+          {i18n.t(`${recordType}.request_approval_select`)}
         </FormLabel>
         <TextField
           id="outlined-select-approval-native"
@@ -105,6 +112,7 @@ const Component = ({
           value={requestType}
           onChange={handleChangeType}
           className={css.selectApprovalType}
+          fullWidth
           SelectProps={{
             native: true
           }}
@@ -134,6 +142,9 @@ const Component = ({
       dialogTitle=""
       successHandler={handleOk}
       cancelHandler={handleCancel}
+      omitCloseAfterSuccess
+      maxSize="xs"
+      pending={pending}
       confirmButtonLabel={confirmButtonLabel}
     >
       {dialogContent}
@@ -148,9 +159,12 @@ Component.propTypes = {
   close: PropTypes.func,
   confirmButtonLabel: PropTypes.string,
   openRequestDialog: PropTypes.bool,
+  pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string,
-  subMenuItems: PropTypes.array
+  setPending: PropTypes.func,
+  subMenuItems: PropTypes.array,
+  dialogName: PropTypes.string
 };
 
 export default Component;
