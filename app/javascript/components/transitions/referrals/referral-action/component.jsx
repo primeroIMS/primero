@@ -11,6 +11,9 @@ import { NAME } from "./constants";
 const Component = ({
   openReferralDialog,
   close,
+  dialogName,
+  pending,
+  setPending,
   recordId,
   recordType,
   transistionId
@@ -32,16 +35,18 @@ const Component = ({
   };
 
   const handleOk = () => {
+    setPending(true);
+
     dispatch(
       referralDone({
+        dialogName,
         message: i18n.t(`${recordType}.referral_done_success`),
+        failureMessage: i18n.t(`${recordType}.request_approval_failure`),
         recordId,
         recordType,
         transistionId
       })
     );
-
-    close();
   };
 
   const successButtonProps = {
@@ -58,6 +63,8 @@ const Component = ({
       successHandler={handleOk}
       cancelHandler={handleCancel}
       dialogTitle=""
+      pending={pending}
+      omitCloseAfterSuccess
       confirmButtonLabel={i18n.t("buttons.done")}
       confirmButtonProps={successButtonProps}
       onClose={close}
@@ -74,10 +81,13 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
-  openReferralDialog: PropTypes.bool,
   close: PropTypes.func,
+  dialogName: PropTypes.string,
+  openReferralDialog: PropTypes.bool,
+  pending: PropTypes.bool,
   recordId: PropTypes.string,
   recordType: PropTypes.string,
+  setPending: PropTypes.func,
   transistionId: PropTypes.string
 };
 

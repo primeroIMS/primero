@@ -1,18 +1,31 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { useI18n } from "../../i18n";
+import { setDialog, setPending } from "../../record-actions/action-creators";
+import { selectDialog, selectDialogPending } from "../../record-actions/selectors";
 
-import { DONE } from "./constants";
+import { DONE, REFERRAL_DONE_DIALOG } from "./constants";
 import ReferralAction from "./referral-action";
 
 const ReferralActionMenu = ({ transition, recordType }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const [referralMenu, setReferralMenu] = useState(null);
-  const [referralOpen, setReferralOpen] = useState(false);
   const [referralType, setReferralType] = useState(DONE);
+  const referralOpen = useSelector(state =>
+    selectDialog(REFERRAL_DONE_DIALOG, state)
+  );
+  const setReferralOpen = open => {
+    dispatch(setDialog({ dialog: REFERRAL_DONE_DIALOG, open: open }));
+  };
+  const dialogPending = useSelector(state => selectDialogPending(state));
+  const setDialogPending = pending => {
+    dispatch(setPending({ pending: pending }));
+  };
   const handleReferralMenuClose = () => {
     setReferralMenu(null);
   };
@@ -64,8 +77,11 @@ const ReferralActionMenu = ({ transition, recordType }) => {
         openReferralDialog={referralOpen}
         close={handleClose}
         recordId={transition.record_id}
+        pending={dialogPending}
+        setPending={setDialogPending}
         transistionId={transition.id}
         recordType={recordType}
+        dialogName={REFERRAL_DONE_DIALOG}
       />
     </>
   );

@@ -27,7 +27,6 @@ const Summary = ({ transition, classes, showMode, recordType }) => {
       <TransitionStatus status={transition.status} />
     </Grid>
   ) : null;
-  console.log('showReferralMenu:::', transition, transition && transition.transitioned_to === currentUsername && transition.status === IN_PROGRESS && showMode, showReferralMenu);
   const itemWidth = showReferralMenu ? 9 : 10;
   const transferApproval = showReferralMenu ? (
     <Grid item md={1} xs={10} className={css.referralMenuIconContainer}>

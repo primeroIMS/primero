@@ -1,6 +1,7 @@
 import { expect, stub } from "../../../../test/unit-test-helpers";
 import { RECORD_PATH } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "../../../record-actions/actions";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
@@ -20,8 +21,10 @@ describe("<ReferralAction /> - Action Creators", () => {
 
     const args = {
       message: "Updated successfully",
+      failureMessage: "Updated unsuccessfully",
       recordId: "10",
       recordType: "cases",
+      dialogName: "dialog name",
       transistionId: "20"
     };
 
@@ -30,18 +33,51 @@ describe("<ReferralAction /> - Action Creators", () => {
       api: {
         path: `cases/10/referrals/20`,
         method: "DELETE",
-        successCallback: {
-          action: ENQUEUE_SNACKBAR,
-          payload: {
-            message: args.message,
-            options: {
-              variant: "success",
-              key: 4
+        successCallback: [
+          {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              message: args.message,
+              options: {
+                variant: "success",
+                key: 4
+              }
+            },
+            redirectWithIdFromResponse: false,
+            redirect: `/${RECORD_PATH.cases}`
+          },
+          {
+            action: SET_DIALOG,
+            payload: {
+              dialog: args.dialogName,
+              open: false
             }
           },
-          redirectWithIdFromResponse: false,
-          redirect: `/${RECORD_PATH.cases}`
-        }
+          {
+            action: SET_DIALOG_PENDING,
+            payload: {
+              pending: false
+            }
+          }
+        ],
+        failureCallback: [
+          {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              message: args.failureMessage,
+              options: {
+                variant: "error",
+                key: 4
+              }
+            }
+          },
+          {
+            action: SET_DIALOG_PENDING,
+            payload: {
+              pending: false
+            }
+          }
+        ]
       }
     };
 
