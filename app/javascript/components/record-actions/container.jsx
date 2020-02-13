@@ -30,7 +30,6 @@ import {
   REQUEST_TYPE
 } from "./constants";
 import { NAME } from "./config";
-import { } from "./constants";
 import Notes from "./notes";
 import { ToggleEnable } from "./toggle-enable";
 import { ToggleOpen } from "./toggle-open";
