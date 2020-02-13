@@ -120,7 +120,7 @@ You may start the development Rails server on port 3000:
 
 And in a separate terminal window, the development Rails Webpacker server:
 
-    $ npm run serve
+    $ npm run dev
 
 Alternatively, to bring everything up together you can use:
 

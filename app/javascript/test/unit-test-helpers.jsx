@@ -15,13 +15,13 @@ import { createMount } from "@material-ui/core/test-utils";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import { useForm, FormContext } from "react-hook-form";
-import { fromJS } from 'immutable'
+import { fromJS } from "immutable";
 import capitalize from "lodash/capitalize";
 
 import { ApplicationProvider } from "../components/application/provider";
 import { I18nProvider } from "../components/i18n";
 import { theme } from "../config";
-import {whichFormMode} from '../components/form'
+import { whichFormMode } from "../components/form";
 
 export const setupMountedComponent = (
   TestComponent,
@@ -38,6 +38,7 @@ export const setupMountedComponent = (
     if (isEmpty(formikProps)) {
       return <TestComponent {...componentProps} />;
     }
+
     return (
       <Formik {...formikProps}>
         <Form>
@@ -52,6 +53,7 @@ export const setupMountedComponent = (
       formikProps: formProps,
       componentProps: props
     };
+
     if (isEmpty(initialEntries)) {
       return (
         <ThemeProvider theme={theme}>
@@ -61,6 +63,7 @@ export const setupMountedComponent = (
         </ThemeProvider>
       );
     }
+
     return (
       <ApplicationProvider>
         <ThemeProvider theme={theme}>
@@ -102,58 +105,59 @@ export const tick = () =>
   });
 
 const setupFormFieldRecord = (FieldRecord, field = {}) => {
-  return FieldRecord(
-    Object.assign(
-      {},
-      {
-        display_name: "Test Field 2",
-        name: "test_field_2",
-        type: "text_field",
-        help_text: "Test Field 2 help text",
-        required: true,
-        autoFocus: true
-      },
-      field
-    )
-  );
+  return FieldRecord({
+    display_name: "Test Field 2",
+    name: "test_field_2",
+    type: "text_field",
+    help_text: "Test Field 2 help text",
+    required: true,
+    autoFocus: true,
+    ...field
+  });
 };
 
-const setupFormInputProps = (field = {}, props = {}, mode, errors=[]) => {
+const setupFormInputProps = (field = {}, props = {}, mode, errors = []) => {
   const formMode = whichFormMode(props.mode);
   const error = errors?.[field.name];
 
-  return Object.assign(
-    {},
-    {
-      name: field.name,
-      error: typeof error !== "undefined",
-      required: field.required,
-      autoFocus: field.autoFocus,
-      autoComplete: "new-password",
-      disabled: formMode.get(`is${capitalize(mode)}`),
-      label: field.display_name,
-      helperText: error?.message || field.help_text,
-      fullWidth: true,
-      autoComplete: "off",
-      InputLabelProps: {
-        shrink: true
-      }
+  return {
+    name: field.name,
+    error: typeof error !== "undefined",
+    required: field.required,
+    autoFocus: field.autoFocus,
+    autoComplete: "new-password",
+    disabled: formMode.get(`is${capitalize(mode)}`),
+    label: field.display_name,
+    helperText: error?.message || field.help_text,
+    fullWidth: true,
+    autoComplete: "off",
+    InputLabelProps: {
+      shrink: true
     },
-    props
-  );
+    ...props
+  };
 };
 
-export const setupMockFormComponent = (Component, props={}) => {
+export const setupMockFormComponent = (Component, props = {}) => {
   const MockFormComponent = () => {
-    const { name, inputProps, field, mode } = props
+    const { name, inputProps, field, mode } = props;
     const formMethods = useForm();
-    const formMode = whichFormMode(mode)
-    
-    const commonInputProps = setupFormInputProps(field, inputProps, mode, formMethods?.errors);
+    const formMode = whichFormMode(mode);
+
+    const commonInputProps = setupFormInputProps(
+      field,
+      inputProps,
+      mode,
+      formMethods?.errors
+    );
 
     return (
-      <FormContext {...formMethods} formMode={formMode} >
-        <Component {...props} commonInputProps={commonInputProps} {...inputProps} />
+      <FormContext {...formMethods} formMode={formMode}>
+        <Component
+          {...props}
+          commonInputProps={commonInputProps}
+          {...inputProps}
+        />
       </FormContext>
     );
   };

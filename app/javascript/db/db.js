@@ -2,33 +2,29 @@
 import merge from "deepmerge";
 import { openDB } from "idb";
 
-import { DATABASE_NAME, DB as DBCollections } from "../config";
+import { DATABASE_NAME } from "../config/constants";
+
+import { DB_COLLECTIONS_NAMES, DB_COLLECTIONS } from "./constants";
 
 class DB {
   constructor() {
     if (!DB.instance) {
-      this._db = openDB(DATABASE_NAME, 1, {
+      this._db = openDB(DATABASE_NAME, 2, {
         upgrade(db) {
-          const recordStores = db.createObjectStore("records", {
-            keyPath: "id"
-          });
+          DB_COLLECTIONS.forEach(collection => {
+            if (Array.isArray(collection)) {
+              const [name, options, index] = collection;
 
-          db.createObjectStore("user", { keyPath: "user_name" });
-          db.createObjectStore("forms", {
-            keyPath: "id",
-            autoIncrement: true
-          });
-          db.createObjectStore("fields", {
-            keyPath: "id",
-            autoIncrement: true
-          });
-          db.createObjectStore("options");
-          db.createObjectStore("system_settings", {
-            keyPath: "id",
-            autoIncrement: true
-          });
+              const store = db.createObjectStore(name, options);
 
-          recordStores.createIndex("type", "type", { multiEntry: true });
+              if (index) store.createIndex(...index);
+            } else {
+              db.createObjectStore(collection, {
+                keyPath: "id",
+                autoIncrement: true
+              });
+            }
+          });
         }
       });
       DB.instance = this;
@@ -38,16 +34,39 @@ class DB {
   }
 
   async clearDB() {
-    return this.asyncForEach(Object.keys(DBCollections), async collection => {
-      const store = DBCollections[collection];
-      const tx = (await this._db).transaction(store, "readwrite");
+    return this.asyncForEach(
+      Object.keys(DB_COLLECTIONS_NAMES),
+      async collection => {
+        const store = DB_COLLECTIONS_NAMES[collection];
+        const tx = (await this._db).transaction(store, "readwrite");
 
-      await tx.objectStore(store).clear();
-    });
+        await tx.objectStore(store).clear();
+      }
+    );
   }
 
   async getRecord(store, key) {
     return (await this._db).get(store, key);
+  }
+
+  async getAll(store) {
+    return (await this._db).getAll(store);
+  }
+
+  async getAllFromIndex(store, index, key) {
+    return (await this._db).getAllFromIndex(store, index, key);
+  }
+
+  async add(store, item) {
+    return (await this._db).add(store, item);
+  }
+
+  async delete(store, item) {
+    return (await this._db).delete(store, item);
+  }
+
+  async clear(store) {
+    return (await this._db).clear(store);
   }
 
   async put(store, item, key = {}, queryIndex) {
@@ -63,11 +82,10 @@ class DB {
       if (prev) {
         return (await this._db).put(store, merge(prev, { ...i, ...key }));
       }
+      throw new Error("Record is new");
     } catch (e) {
       return (await this._db).put(store, { ...i, ...key });
     }
-
-    return true;
   }
 
   async asyncForEach(array, callback) {

@@ -6,6 +6,3 @@ export const selectAgency = state => state.getIn([NAMESPACE, "agency"]);
 
 export const selectAuthErrors = state =>
   state.getIn(["ui", NAMESPACE, "error"], "");
-
-export const selectAuthenticated = state =>
-  state.getIn([NAMESPACE, "isAuthenticated"], false);

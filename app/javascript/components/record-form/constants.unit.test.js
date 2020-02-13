@@ -22,7 +22,6 @@ describe("Verifying config constant", () => {
       "TEXT_FIELD",
       "TICK_FIELD",
       "URL_LOOKUPS",
-      "URL_LOCATIONS"
     ].forEach((property) => {
       expect(constants).to.have.property(property);
       delete constants[property];
