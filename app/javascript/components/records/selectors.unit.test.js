@@ -213,7 +213,7 @@ describe("Records - Selectors", () => {
     });
   });
 
-  describe("getLoadingState", () => {
+  describe("getLoadingRecordState", () => {
     const stateWithLoadingTrue = Map({ records: { cases: { loading: true } } });
     const stateWithLoadingFalse = Map({
       records: { cases: { loading: false } }
