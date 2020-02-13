@@ -29,16 +29,23 @@
   border: none;
   line-height: 1.5em;
   text-align: left;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.itemButton:hover{
+  text-decoration: underline;
 }
 
 @media $(theme.breakpoints.down("sm")) {
 
   .sectionTitle {
-    padding: 0;
+    padding-left: 1em;
   }
 
   .overviewList {
-    padding: 0;
+    padding-left: 1em;
   }
 
   .dashboardChart {
