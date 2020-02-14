@@ -234,10 +234,11 @@ const Component = ({
 
   const loadingIndicatorProps = {
     overlay: true,
-    hasData: !!records,
+    hasData: Boolean(records?.size),
     type: recordType,
     loading,
-    errors
+    errors,
+    fromTableList: true
   };
 
   const DataTable = () => (

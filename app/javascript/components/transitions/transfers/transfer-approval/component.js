@@ -19,9 +19,12 @@ const Component = ({
   openTransferDialog,
   close,
   approvalType,
+  dialogName,
   recordId,
   recordType,
-  transferId
+  pending,
+  setPending,
+  transferId,
 }) => {
 
   const i18n = useI18n();
@@ -61,17 +64,19 @@ const Component = ({
     : i18n.t(`${recordType}.transfer_accepted_rejected`, {record_id: recordId});
 
   const handleOk = () => {
+    setPending(true);
+
     dispatch(
       approvalTransfer({
         body: actionBody,
+        dialogName,
         message,
+        failureMessage: i18n.t(`${recordType}.request_approval_failure`),
         recordId,
         recordType,
         transferId
       })
     );
-
-    close();
   };
 
   const successButtonProps = {
@@ -112,6 +117,8 @@ const Component = ({
       successHandler={handleOk}
       cancelHandler={handleCancel}
       dialogTitle=""
+      pending={pending}
+      omitCloseAfterSuccess
       confirmButtonLabel={i18n.t(`buttons.${buttonLabel}`)}
       confirmButtonProps={successButtonProps}
       onClose={close}
@@ -130,9 +137,12 @@ Component.defaultProps = {
 Component.propTypes = {
   approvalType: PropTypes.string,
   close: PropTypes.func,
+  dialogName: PropTypes.string,
   openTransferDialog: PropTypes.bool,
+  pending: PropTypes.bool,
   recordId: PropTypes.string,
   recordType: PropTypes.string,
+  setPending: PropTypes.func,
   transferId: PropTypes.string
 };
 
