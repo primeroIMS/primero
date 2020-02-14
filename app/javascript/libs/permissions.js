@@ -74,7 +74,8 @@ export const RESOURCES = {
   potential_matches: "potential_matches",
   reports: "reports",
   tracing_requests: "tracing_requests",
-  users: "users"
+  users: "users",
+  user_groups: "user_groups"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {
