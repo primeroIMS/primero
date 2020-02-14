@@ -176,6 +176,10 @@ const SelectField = ({
       );
     }
 
+    if (!field?.visible) {
+      return null;
+    }
+
     return (
       <FormControl
         fullWidth

@@ -15,6 +15,10 @@ const Component = ({ field, formik, mode }) => {
 
   const initialSubformValue = constructInitialValues([subformSectionID]);
 
+  if (!field?.visible) {
+    return null;
+  }
+
   return (
     <>
       <FieldArray name={name}>

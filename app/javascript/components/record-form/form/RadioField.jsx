@@ -62,6 +62,10 @@ const RadioField = ({
   const fieldError = getIn(formik.errors, name);
   const fieldTouched = getIn(formik.touched, name);
 
+  if (!field?.visible) {
+    return null;
+  }
+
   return (
     <FormControl fullWidth error={!!(fieldError && fieldTouched)}>
       <InputLabel shrink htmlFor={fieldProps.name} className={css.inputLabel}>
