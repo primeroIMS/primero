@@ -41,7 +41,7 @@ describe("<ReferralAction /> - Reducers", () => {
         remote: false,
         consent_individual_transfer: true,
         created_at: "2020-02-13T19:41:52.825Z",
-        record_access_denied: true,
+        record_access_denied: true
       }
     };
 
@@ -65,7 +65,7 @@ describe("<ReferralAction /> - Reducers", () => {
           service: ""
         }
       ],
-      "errors": false
+      errors: false
     });
 
     const action = {

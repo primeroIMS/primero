@@ -7,6 +7,7 @@ import { ActionDialog } from "../../../action-dialog";
 
 import { referralDone } from "./action-creators";
 import { NAME } from "./constants";
+import { DONE } from "../constants";
 
 const Component = ({
   openReferralDialog,
@@ -16,7 +17,8 @@ const Component = ({
   setPending,
   recordId,
   recordType,
-  transistionId
+  transistionId,
+  referralType
 }) => {
 
   const i18n = useI18n();
@@ -34,13 +36,17 @@ const Component = ({
     event.stopPropagation();
   };
 
+  const message = referralType === DONE ?
+    i18n.t(`${recordType}.referral_done_success`) :
+    "";
+
   const handleOk = () => {
     setPending(true);
 
     dispatch(
       referralDone({
         dialogName,
-        message: i18n.t(`${recordType}.referral_done_success`),
+        message,
         failureMessage: i18n.t(`${recordType}.request_approval_failure`),
         recordId,
         recordType,
@@ -55,7 +61,13 @@ const Component = ({
     autoFocus: true
   };
 
-  const dialogContent = <p>{i18n.t(`${recordType}.referral_done`)}</p>;
+  const dialogContent = referralType === DONE ?
+    (<div onClick={stopProp}><p>{i18n.t(`${recordType}.referral_done`)}</p></div>) :
+    "";
+  const confirmButtonLabel = referralType === DONE ?
+    "buttons.done" :
+    "buttons.ok";
+
 
   return (
     <ActionDialog
@@ -65,7 +77,7 @@ const Component = ({
       dialogTitle=""
       pending={pending}
       omitCloseAfterSuccess
-      confirmButtonLabel={i18n.t("buttons.done")}
+      confirmButtonLabel={i18n.t(confirmButtonLabel)}
       confirmButtonProps={successButtonProps}
       onClose={close}
     >
@@ -88,7 +100,8 @@ Component.propTypes = {
   recordId: PropTypes.string,
   recordType: PropTypes.string,
   setPending: PropTypes.func,
-  transistionId: PropTypes.string
+  transistionId: PropTypes.string,
+  referralType: PropTypes.string
 };
 
 export default Component;

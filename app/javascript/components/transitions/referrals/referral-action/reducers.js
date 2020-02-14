@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+
 import { mergeRecord } from "../../../../libs";
 
 import actions from "./actions";

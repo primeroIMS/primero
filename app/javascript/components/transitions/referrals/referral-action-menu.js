@@ -82,6 +82,7 @@ const ReferralActionMenu = ({ transition, recordType }) => {
         transistionId={transition.id}
         recordType={recordType}
         dialogName={REFERRAL_DONE_DIALOG}
+        referralType={referralType}
       />
     </>
   );

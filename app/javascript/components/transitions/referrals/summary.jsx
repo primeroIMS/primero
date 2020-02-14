@@ -18,7 +18,8 @@ const Summary = ({ transition, classes, showMode, recordType }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const currentUsername = useSelector(state => currentUser(state));
-  const showReferralMenu = transition &&
+  const showReferralMenu =
+    transition &&
     transition.transitioned_to === currentUsername &&
     transition.status === IN_PROGRESS &&
     showMode;

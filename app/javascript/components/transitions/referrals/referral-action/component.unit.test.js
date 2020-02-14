@@ -38,7 +38,8 @@ describe("<ReferralAction /> - Component", () => {
     ({ component } = setupMountedComponent(
       ReferralAction,
       props,
-      initialState));
+      initialState
+    ));
   });
 
   it("renders ReferralAction component", () => {
