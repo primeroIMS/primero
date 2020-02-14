@@ -24,9 +24,13 @@ const Permission = ({ resources, actions, redirect, children, match }) => {
 
       return acum;
     }, {});
+
+  const verifyAction = element =>
+    Array.isArray(actions) ? actions.includes(element) : actions === element;
+
   const userHasPermission = List(Object.values(filteredPermissions))
     .flatten()
-    .some(t => actions.includes(t));
+    .some(verifyAction);
 
   if (userHasPermission) {
     return children;

@@ -57,4 +57,46 @@ describe("<RecordList /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("should handle SAVE_RECORD_STARTED", () => {
+    const expected = fromJS({ saving: true });
+    const defaultState = fromJS({});
+
+    const action = {
+      type: "TestRecordType/SAVE_RECORD_STARTED",
+      payload: true
+    };
+
+    const newState = reducer(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SAVE_RECORD_FINISHED", () => {
+    const expected = fromJS({ saving: false });
+    const defaultState = fromJS({});
+
+    const action = {
+      type: "TestRecordType/SAVE_RECORD_FINISHED",
+      payload: false
+    };
+
+    const newState = reducer(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SAVE_RECORD_FAILURE", () => {
+    const expected = fromJS({ saving: false });
+    const defaultState = fromJS({});
+
+    const action = {
+      type: "TestRecordType/SAVE_RECORD_FAILURE",
+      payload: false
+    };
+
+    const newState = reducer(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });

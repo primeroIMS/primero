@@ -133,3 +133,7 @@
 .attachmentInputField {
   display: none;
 }
+
+.loadingMargin {
+  position: absolute;
+}
