@@ -133,7 +133,8 @@ describe("<Reports /> - Reducers", () => {
   it("should handle FETCH_REPORT_STARTED", () => {
     const expected = fromJS({
       loading: true,
-      errors: false
+      errors: false,
+      selectedReport: {}
     });
     const action = {
       type: actions.FETCH_REPORT_STARTED,
@@ -194,6 +195,30 @@ describe("<Reports /> - Reducers", () => {
     };
 
     const newState = reducers(initialState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle user/LOGOUT_SUCCESS", () => {
+    const defaultState = fromJS({
+      selectedReport: [
+        {
+          id: 1,
+          name: { en: "Test Report" },
+          graph: true,
+          graph_type: "bar"
+        }
+      ],
+      errors: false
+    });
+
+    const expected = fromJS({});
+    const action = {
+      type: "user/LOGOUT_SUCCESS",
+      payload: true
+    };
+
+    const newState = reducers(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
