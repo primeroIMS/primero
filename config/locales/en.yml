@@ -1101,6 +1101,9 @@ en:
     description: "Description"
     successfully_updated: "User Group details are successfully updated."
     error_in_updating: "Error in updating the User Group details."
+    messages:
+      created: "User Group was successfully created."
+      updated: "User Group was successfully updated."
 
   user:
     label: "user"
