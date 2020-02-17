@@ -8,7 +8,7 @@ Attach a file, encoded as base64, to a record
 
 **Authentication** : YES
 
-**Authorization** : The user must be authorized to update the record.
+**Authorization** : The user must be authorized to update the record and the declared `field_name`.
 
 **Parameters** : 
 
@@ -52,7 +52,7 @@ Attach a file, encoded as base64, to a record
 
 ## Error Response
 
-**Condition** : User isn't authorized to update record. 
+**Condition** : User isn't authorized to update record or the declared `field_name`.
 
 **Code** : `403 Forbidden`
 

@@ -4,6 +4,9 @@ require 'rails_helper'
 
 describe Api::V2::AttachmentsController, type: :request do
   before :each do
+    allow_any_instance_of(PermittedFieldService).to(
+      receive(:permitted_field_names).and_return(%w[photos])
+    )
     @case = Child.create(data: { name: 'Test' })
   end
 
@@ -24,6 +27,30 @@ describe Api::V2::AttachmentsController, type: :request do
       expect(json['data']['file_name']).to eq('jorge.jpg')
       expect(json['data']['record']['id']).to eq(@case.id)
     end
+
+    context '`photos` is a forbidden field' do
+      before :each do
+        allow_any_instance_of(PermittedFieldService).to(
+          receive(:permitted_field_names).and_return([])
+        )
+      end
+
+      it 'refuses to attach a file' do
+        login_for_test
+        params = {
+          data: {
+            field_name: 'photos', attachment_type: 'image',
+            file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
+          }
+        }
+        post "/api/v2/cases/#{@case.id}/attachments", params: params
+
+        expect(response).to have_http_status(403)
+        expect(json['errors'][0]['status']).to eq(403)
+        expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/attachments")
+        expect(json['errors'][0]['message']).to eq('Forbidden')
+      end
+    end
   end
 
   describe 'DELETE /api/v2/:record/:id/attachment/:attachment-id' do
@@ -42,6 +69,25 @@ describe Api::V2::AttachmentsController, type: :request do
 
       expect(response).to have_http_status(204)
       expect(@case.attachments.count).to eq(0)
+    end
+
+    context '`photos` is a forbidden field' do
+      before :each do
+        allow_any_instance_of(PermittedFieldService).to(
+          receive(:permitted_field_names).and_return([])
+        )
+      end
+
+      it 'removes an attached record' do
+        login_for_test
+        delete "/api/v2/cases/#{@case.id}/attachments/#{attachment.id}"
+
+        expect(response).to have_http_status(403)
+        expect(json['errors'][0]['status']).to eq(403)
+        expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/attachments/#{attachment.id}")
+        expect(json['errors'][0]['message']).to eq('Forbidden')
+        expect(@case.attachments.count).to eq(1)
+      end
     end
   end
 
