@@ -32,36 +32,39 @@ import { reducer as revokeTransitionReducers } from "./components/transitions/co
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
-  records: reduceReducers(combineReducers({
-    ...{
-      ...Object.keys(RECORD_TYPES).reduce((r, i) => {
-        const o = r;
+  records: reduceReducers(
+    combineReducers({
+      ...{
+        ...Object.keys(RECORD_TYPES).reduce((r, i) => {
+          const o = r;
 
-        o[i] = reduceReducers(
-          Records.reducers(i),
-          IndexFilters.reducers(i),
-          requestApprovalReducers(i)
-        );
+          o[i] = reduceReducers(
+            Records.reducers(i),
+            IndexFilters.reducers(i),
+            requestApprovalReducers(i)
+          );
 
-        return o;
-      }, {})
-    },
-    reports: reduceReducers(Reports.reducers, Report.reducers),
-    transitions: reduceReducers(
-      Transitions.reducers,
-      TransitionsForms.reducers,
-      TransferRequest.reducers
-    ),
-    ...PotentialMatches.reducers,
-    ...TaskList.reducers,
-    users: reduceReducers(UsersList.reducers, UsersForm.reducers),
-    ...Dashboard.reducers,
-    ...ExportList.reducers,
-    ...Support.reducers,
-    ...Flagging.reducers,
-    ...SavedSearches.reducers
-  }),
-  transferApprovalReducers, revokeTransitionReducers),
+          return o;
+        }, {})
+      },
+      reports: reduceReducers(Reports.reducers, Report.reducers),
+      transitions: reduceReducers(
+        Transitions.reducers,
+        TransitionsForms.reducers,
+        TransferRequest.reducers
+      ),
+      ...PotentialMatches.reducers,
+      ...TaskList.reducers,
+      users: reduceReducers(UsersList.reducers, UsersForm.reducers),
+      ...Dashboard.reducers,
+      ...ExportList.reducers,
+      ...Support.reducers,
+      ...Flagging.reducers,
+      ...SavedSearches.reducers
+    }),
+    transferApprovalReducers,
+    revokeTransitionReducers
+  ),
   ui: combineReducers({
     ...Nav.reducers,
     ...I18n.reducers,

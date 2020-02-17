@@ -22,8 +22,15 @@ export const selectTransitions = (state, recordType, id, isReferral) => {
   return transitions.size ? transitions : List([]);
 };
 
-export const selectTranstionByType = (state, transitionType) => {
-  console.log(transitionType);
-
-  return state;
-};
+export const selectTranstionByTypeAndStatus = (
+  state,
+  transitionTypes,
+  status
+) =>
+  state
+    .getIn(["records", NAMESPACE, "data"])
+    .filter(
+      transition =>
+        transitionTypes.includes(transition.type) &&
+        transition.status === status
+    );

@@ -1,6 +1,7 @@
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import { TRANSITIONS_TYPES } from "../../constants";
-import { RECORD_PATH, REJECTED } from "../../../../config";
+import { REJECTED } from "../../../../config";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "../../../record-actions";
 
 import actions from "./actions";
 
@@ -9,7 +10,9 @@ export const revokeTransition = ({
   recordType,
   recordId,
   transitionType,
-  transitionId
+  transitionId,
+  dialogName,
+  failureMessage
 }) => {
   const isReferral = transitionType === TRANSITIONS_TYPES.referral;
   const path = `${recordType}/${recordId}/${
@@ -30,18 +33,49 @@ export const revokeTransition = ({
       path,
       method,
       body,
-      successCallback: {
-        action: ENQUEUE_SNACKBAR,
-        payload: {
-          message,
-          options: {
-            variant: "success",
-            key: generate.messageKey()
+      successCallback: [
+        {
+          action: ENQUEUE_SNACKBAR,
+          payload: {
+            message,
+            options: {
+              variant: "success",
+              key: generate.messageKey()
+            }
           }
         },
-        redirectWithIdFromResponse: false,
-        redirect: `/${RECORD_PATH.cases}`
-      }
+        {
+          action: SET_DIALOG,
+          payload: {
+            dialog: dialogName,
+            open: false
+          }
+        },
+        {
+          action: SET_DIALOG_PENDING,
+          payload: {
+            pending: false
+          }
+        }
+      ],
+      failureCallback: [
+        {
+          action: ENQUEUE_SNACKBAR,
+          payload: {
+            message: failureMessage,
+            options: {
+              variant: "error",
+              key: generate.messageKey()
+            }
+          }
+        },
+        {
+          action: SET_DIALOG_PENDING,
+          payload: {
+            pending: false
+          }
+        }
+      ]
     }
   };
 };

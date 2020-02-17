@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -13,13 +13,32 @@ import { useI18n } from "../../../i18n";
 import { ACCEPTED, REJECTED } from "../../../../config";
 import RevokeModal from "../revoke-modal";
 import TransferApproval from "../../transfers/transfer-approval";
+import {
+  selectDialog,
+  selectDialogPending
+} from "../../../record-actions/selectors";
+import { setDialog, setPending } from "../../../record-actions/action-creators";
 
-import { NAME } from "./constants";
+import { NAME, REVOKE_MODAL, TRANSFER_MODAL } from "./constants";
 
 const Component = ({ transition, showMode, recordType, classes }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const [optionMenu, setOptionMenu] = useState(null);
-  const [openRevokeDialog, setRevokeDialog] = useState(false);
+  const dialogPending = useSelector(state => selectDialogPending(state));
+  const setDialogPending = pending => {
+    dispatch(setPending({ pending }));
+  };
+  const isReferral = transition.type === TRANSITIONS_TYPES.referral;
+  const revokeModalName = `${isReferral ? REVOKE_MODAL : TRANSFER_MODAL}-${
+    transition.id
+  }`;
+  const openRevokeDialog = useSelector(state =>
+    selectDialog(revokeModalName, state)
+  );
+  const setRevokeDialog = open => {
+    dispatch(setDialog({ dialog: revokeModalName, open }));
+  };
   const [approvalOpen, setApprovalOpen] = useState(false);
   const [approvalType, setApprovalType] = useState(ACCEPTED);
   const username = useSelector(state => currentUser(state));
@@ -126,10 +145,13 @@ const Component = ({ transition, showMode, recordType, classes }) => {
       </Menu>
 
       <RevokeModal
+        name={revokeModalName}
         open={openRevokeDialog}
         transition={transition}
         close={() => setRevokeDialog(false)}
         recordType={recordType}
+        pending={dialogPending}
+        setPending={setDialogPending}
       />
       <TransferApproval
         openTransferDialog={approvalOpen}
