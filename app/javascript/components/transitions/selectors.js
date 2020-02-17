@@ -21,3 +21,9 @@ export const selectTransitions = (state, recordType, id, isReferral) => {
 
   return transitions.size ? transitions : List([]);
 };
+
+export const selectTranstionByType = (state, transitionType) => {
+  console.log(transitionType);
+
+  return state;
+};

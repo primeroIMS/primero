@@ -22,7 +22,6 @@ const Component = ({ transition, showMode, recordType, classes }) => {
   const [openRevokeDialog, setRevokeDialog] = useState(false);
   const [approvalOpen, setApprovalOpen] = useState(false);
   const [approvalType, setApprovalType] = useState(ACCEPTED);
-  const open = Boolean(optionMenu);
   const username = useSelector(state => currentUser(state));
   const userPermissions = useSelector(state =>
     getPermissionsByRecord(state, recordType)
@@ -36,6 +35,7 @@ const Component = ({ transition, showMode, recordType, classes }) => {
 
   const showRevokeAction =
     isInProgress && canRevokeTransition && !isCurrentUserRecipient && showMode;
+
   const showTransferApproval =
     isInProgress &&
     transition &&
@@ -119,7 +119,7 @@ const Component = ({ transition, showMode, recordType, classes }) => {
       <Menu
         id="long-menu"
         anchorEl={optionMenu}
-        open={open}
+        open={Boolean(optionMenu)}
         onClose={event => handleClose(event)}
       >
         {actions}

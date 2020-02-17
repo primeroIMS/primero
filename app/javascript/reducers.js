@@ -28,6 +28,7 @@ import * as User from "./components/user";
 import * as IndexFilters from "./components/index-filters";
 import * as TransferRequest from "./components/record-list/view-modal/transfer-request";
 import { reducer as transferApprovalReducers } from "./components/transitions/transfers/transfer-approval";
+import { reducer as revokeTransitionReducers } from "./components/transitions/components/revoke-modal";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -60,7 +61,7 @@ const rootReducer = {
     ...Flagging.reducers,
     ...SavedSearches.reducers
   }),
-  transferApprovalReducers),
+  transferApprovalReducers, revokeTransitionReducers),
   ui: combineReducers({
     ...Nav.reducers,
     ...I18n.reducers,

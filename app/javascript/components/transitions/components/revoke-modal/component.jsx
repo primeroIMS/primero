@@ -28,7 +28,6 @@ const Component = ({ open, close, transition, recordType }) => {
   };
 
   const handleOk = () => {
-    console.log(transition);
     const message = i18n.t("cases.revoke_success_message", {
       case_id: transition.record_id,
       transition_type: i18n.t(`transition.type.${transitionType}`),
