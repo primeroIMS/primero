@@ -61,6 +61,18 @@ family_details_fields_subform = [
              "display_name_en" => "Date of Birth",
              "date_validation" => "not_future_date"
            }),
+  Field.new({"name" => "relation_national_id",
+            "type" => "text_field",
+            "display_name_en" => "National ID"
+            }),
+  Field.new({"name" => "relation_unhcr_individual_id",
+            "type" => "text_field",
+            "display_name_en" => "UNHCR Individual ID"
+            }),
+  Field.new({"name" => "relation_other_id",
+            "type" => "text_field",
+            "display_name_en" => "Other ID"
+            }),
   Field.new({"name" => "relation_language",
              "type" => "select_box",
              "display_name_en" => "Language",
