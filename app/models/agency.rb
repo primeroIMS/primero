@@ -11,9 +11,9 @@ class Agency < ApplicationRecord
   }.freeze
 
   localize_properties :name, :description
-  attribute :logo_full_attachment, :string
+  attribute :logo_full_base64, :string
   attribute :logo_full_file_name, :string
-  attribute :logo_icon_attachment, :string
+  attribute :logo_icon_base64, :string
   attribute :logo_icon_file_name, :string
 
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.agency.unique_id' }
@@ -61,8 +61,8 @@ class Agency < ApplicationRecord
   end
 
   def attach_logos(agency_params)
-    attach_logo(agency_params[:logo_full_file_name], agency_params[:logo_full_attachment], logo_full)
-    attach_logo(agency_params[:logo_icon_file_name], agency_params[:logo_icon_attachment], logo_icon)
+    attach_logo(agency_params[:logo_full_file_name], agency_params[:logo_full_base64], logo_full)
+    attach_logo(agency_params[:logo_icon_file_name], agency_params[:logo_icon_base64], logo_icon)
   end
 
   def logo_full_file_name
@@ -76,12 +76,12 @@ class Agency < ApplicationRecord
   private
 
   def attach_logo(file_name, logo_base64, logo)
-    return unless file_name.present?
-    return logo.purge unless logo_base64.present?
+    return logo.purge if !file_name.present? && logo_base64&.length&.zero?
+    return unless file_name.present? && logo_base64.present?
 
     decoded_attachment = Base64.decode64(logo_base64)
     io = StringIO.new(decoded_attachment)
-    logo.attach(io: io, filename: file_name) || true
+    logo.attach(io: io, filename: file_name)
   end
 
   def detach_logo(logo)

@@ -81,31 +81,43 @@ describe Agency do
     end
   end
 
-  it 'should not allow invalid logo uploads' do
-    agency = Agency.new(name: 'Agency I', agency_code: 'agency_i')
-    agency.logo_icon.attach(FilesTestHelper.uploadable_audio_mp3)
-    agency.should_not be_valid
-    expect(agency.errors[:logo_icon].first).to eq('file should be one of image/png')
-  end
+  describe 'logos' do
 
-  it 'should allow valid logo uploads' do
-    agency = Agency.new(
-      name: 'irc', agency_code: '12345', logo_icon: FilesTestHelper.logo, logo_full: FilesTestHelper.logo
-    )
-    agency.should be_valid
-  end
+    it 'should not allow invalid logo uploads' do
+      agency = Agency.new(name: 'Agency I', agency_code: 'agency_i')
+      agency.logo_icon.attach(FilesTestHelper.uploadable_audio_mp3)
+      agency.should_not be_valid
+      expect(agency.errors[:logo_icon].first).to eq('file should be one of image/png')
+    end
 
-  it 'should remove old logos before updating logos' do
-    agency = Agency.new(name: 'irc', agency_code: '12345', logo_icon: FilesTestHelper.logo_old)
-    agency.save
-    expect(agency.logo_icon.attached?).to be_truthy
-    expect(agency.logo_icon.attachment.filename.to_s).to eq('unicef-old.png')
+    it 'should allow valid logo uploads' do
+      agency = Agency.new(
+        name: 'irc', agency_code: '12345', logo_icon: FilesTestHelper.logo, logo_full: FilesTestHelper.logo
+      )
+      agency.should be_valid
+    end
 
-    agency.update_attributes(logo_icon: FilesTestHelper.logo)
-    agency.save
-    expect(agency.logo_icon.attached?).to be_truthy
-    expect(agency.logo_icon.attachment.filename.to_s).to eq('unicef.png')
-    expect(agency.logo_icon.attachment.content_type).to eq('image/png')
+    it 'should remove old logos before updating logos' do
+      agency = Agency.new(name: 'irc', agency_code: '12345', logo_icon: FilesTestHelper.logo_old)
+      agency.save
+      expect(agency.logo_icon.attached?).to be_truthy
+      expect(agency.logo_icon.attachment.filename.to_s).to eq('unicef-old.png')
+
+      agency.update_attributes(logo_icon: FilesTestHelper.logo)
+      agency.save
+      expect(agency.logo_icon.attached?).to be_truthy
+      expect(agency.logo_icon.attachment.filename.to_s).to eq('unicef.png')
+      expect(agency.logo_icon.attachment.content_type).to eq('image/png')
+    end
+
+    it 'will not clear out an existing logo when updating unrelated attributes' do
+      agency = Agency.new(name: 'irc', agency_code: '12345', logo_icon: FilesTestHelper.logo_old)
+      agency.save
+      expect(agency.logo_icon.attached?).to be_truthy
+
+      agency.update_properties(name: 'IRC')
+      expect(agency.logo_icon.attached?).to be_truthy
+    end
   end
 
   describe 'internationalization' do
