@@ -11,7 +11,7 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   end
 
   def destroy
-    @attachment = AttachmentService.find(params[:id])
+    @attachment = Attachment.find(params[:id])
     @attachment.detach!
     updates_for_record(@record)
   end
