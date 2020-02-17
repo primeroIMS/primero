@@ -18,8 +18,9 @@ Attach a file, encoded as base64, to a record
   "data": {
      "field_name": "<name of field>",
      "type": "image|audio|document",
+     "content_type": "application/pdf - optional but strongly recommended",
      "date": "<client date>",
-     "document_description": "<text>",
+     "description": "<text>",
      "is_current": true|false,
      "comments": "<text>",
      "attachment": "<base64encoded string>"
@@ -36,13 +37,13 @@ Attach a file, encoded as base64, to a record
 ```json
 {
     "data": {
-      "id": <int id>,
-      "record_field_scope": <name of field>
-      "date": <client date>,
-      "document_description" <text>,
+      "id": "<int id>",
+      "record_field_scope": "<name of field>",
+      "date": "<client date>",
+      "document_description": "<text>",
       "is_current": true|false,
-      "comments": <text>,
-      "attachment_url": <activestorage url>
+      "comments": "text",
+      "attachment_url": "activestorage url>",
       "record": {
          "id": "record idx"
       }

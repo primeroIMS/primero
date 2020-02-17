@@ -16,6 +16,7 @@ class Attachment < ApplicationRecord
   has_one_attached :file
   attribute :attachment, :string # This is a base64 encoded representation of the file
   attribute :file_name, :string
+  attribute :content_type, :string
 
   validates :field_name, presence: true
   validates :attachment_type, presence: true, inclusion: { in: [IMAGE, AUDIO, DOCUMENT] }
@@ -32,7 +33,7 @@ class Attachment < ApplicationRecord
 
     decoded_attachment = Base64.decode64(attachment)
     io = StringIO.new(decoded_attachment)
-    file.attach(io: io, filename: file_name) || true
+    file.attach(io: io, filename: file_name, content_type: content_type) || true
   end
 
   def attach!
@@ -54,7 +55,11 @@ class Attachment < ApplicationRecord
   end
 
   def file_name
-    self[:file_name] || file.filename.to_s
+    self[:file_name] || file&.filename&.to_s
+  end
+
+  def content_type
+    self[:content_type] || (file.attachment && file&.content_type&.to_s)
   end
 
   def valid_content_types

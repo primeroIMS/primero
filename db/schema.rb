@@ -73,7 +73,6 @@ ActiveRecord::Schema.define(version: 2020_02_15_000000) do
     t.string "record_type"
     t.uuid "record_id"
     t.string "field_name"
-    t.string "content_type"
     t.string "description"
     t.date "date"
     t.string "comments"
