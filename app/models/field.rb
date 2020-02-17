@@ -574,6 +574,10 @@ class Field < ApplicationRecord
     Field.where(type: [Field::PHOTO_UPLOAD_BOX, Field::AUDIO_UPLOAD_BOX, Field::DOCUMENT_UPLOAD_BOX])
   end
 
+  def self.binary_field_names
+    Field.binary_fields.pluck(&:name)
+  end
+
   private
 
   def validate_unique_name

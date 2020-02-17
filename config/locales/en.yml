@@ -1947,6 +1947,9 @@ en:
       logo_size: "Please upload a file smaller than 10mb"
       logo_format: "Please upload a valid logo file (jpg, gif, or png)"
 
+    attachments:
+      maximum: "You have exceeded the maximum number of attachments per record: %{number}"
+
     models:
       flags:
         message: "Flags: message field is invalid"

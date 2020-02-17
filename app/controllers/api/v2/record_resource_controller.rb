@@ -34,7 +34,8 @@ class Api::V2::RecordResourceController < ApplicationApiController
 
   def updates_for_records(records)
     @updated_field_names_hash = records.inject({}) do |hash, record|
-      hash[record.id] = record_updated_fields(record) && hash
+      hash[record.id] = record_updated_fields(record)
+      hash
     end
   end
 

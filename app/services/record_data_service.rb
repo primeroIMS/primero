@@ -10,6 +10,7 @@ class RecordDataService
       data = embed_hidden_name(data, record, selected_field_names)
       data = embed_flag_metadata(data, record, selected_field_names)
       data = embed_alert_metadata(data, record, selected_field_names)
+      data = embed_photo_metadata(data, record, selected_field_names)
       embed_attachments(data, record, selected_field_names)
     end
 
@@ -39,10 +40,17 @@ class RecordDataService
       data
     end
 
+    def embed_photo_metadata(data, record, selected_field_names)
+      return data unless selected_field_names.include?('photos')
+
+      data['photo'] = record.photo_url
+      data
+    end
+
     def embed_attachments(data, record, selected_field_names)
-      attachment_field_names = Field.binary_fields.pluck(:name) # TODO: move to Attachable concern?
+      attachment_field_names = Field.binary_field_names
       attachment_field_names &= selected_field_names
-      return unless attachment_field_names.present?
+      return data unless attachment_field_names.present?
 
       attachments = record.attachments
       attachment_field_names.each do |field_name|

@@ -45,16 +45,12 @@ describe DuplicateBulkExport, search: true do
     create(:child, national_id_no: 'test2', age: 2, name: 'Test Child 3')
     Sunspot.commit
 
-    expected_output = [
-      [
-        ' ', 'MOHA ID DEPRECATED', 'National ID No', 'Case ID', 'Progress ID',
-        'Child Name', 'Age', 'Sex', 'Family Size'
-      ],
-      ['1', 'test1', 'test1', child1.case_id, nil, '1, Test Child', '5', 'U', nil],
-      ['2', 'test1', 'test1', child2.case_id, nil, '2, Test Child', '6', 'U', nil]
+    expected_headers = [
+      ' ', 'MOHA ID DEPRECATED', 'National ID No', 'Case ID', 'Progress ID',
+      'Child Name', 'Age', 'Sex', 'Family Size'
     ]
-
-    expect(export_csv).to eq(expected_output)
+    expect(export_csv[0]).to eq(expected_headers)
+    expect([export_csv[1][3], export_csv[2][3]]).to include(child1.case_id, child2.case_id)
   end
 
   context 'when no cases found' do
