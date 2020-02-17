@@ -14,8 +14,6 @@ module FilesTestHelper
     Rails.root.join('spec', 'resources', file_name)
   end
 
-  # TODO: Clean methods below up with agency spec
-
   def uploadable_audio_mp3
     file_path = Rails.root.join('spec', 'resources', 'sample.mp3')
     fixture_file_upload(file_path, 'audio/mpeg')
