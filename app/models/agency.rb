@@ -1,13 +1,14 @@
-class Agency < ApplicationRecord
+# frozen_string_literal: true
 
-  # include Memoizable #TODO: We may pull this out or have a more polite way of caching
+# Organizations that users who manage the the data in Primero belong to.
+class Agency < ApplicationRecord
   include LocalizableJsonProperty
   include Configuration
 
   LOGO_DIMENSION = {
-    logo_large: { width: 512, height: 512 },
-    logo_small: { width: 72, height: 72 }
-  }
+    logo_full: { width: 512, height: 512 },
+    logo_icon: { width: 100, height: 100 }
+  }.freeze
 
   localize_properties :name, :description
 
@@ -15,57 +16,29 @@ class Agency < ApplicationRecord
   validates :agency_code, presence: { message: 'errors.models.agency.code_present' }
   validate :validate_name_in_english
 
-  has_one_attached :logo_large
-  has_one_attached :logo_small
+  has_one_attached :logo_full
+  has_one_attached :logo_icon
   has_many :users, inverse_of: :agency
 
+  scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
 
-  validates :logo_large, file_size: { less_than_or_equal_to: 10.megabytes },
-                         file_content_type: { allow: 'image/png' }, if: -> { logo_large.attached? }
-  validates :logo_small, file_size: { less_than_or_equal_to: 10.megabytes },
-                         file_content_type: { allow: 'image/png' }, if: -> { logo_small.attached? }
+  validates :logo_full, file_size: { less_than_or_equal_to: 1.megabytes },
+                        file_content_type: { allow: 'image/png' }, if: -> { logo_full.attached? }
+  validates :logo_icon, file_size: { less_than_or_equal_to: 1.megabytes },
+                        file_content_type: { allow: 'image/png' }, if: -> { logo_icon.attached? }
 
-  validate :validate_logo_large_dimension, if: -> { logo_large.attached? }
-  validate :validate_logo_small_dimension, if: -> { logo_small.attached? }
+  validate :validate_logo_full_dimension, if: -> { logo_full.attached? }
+  validate :validate_logo_icon_dimension, if: -> { logo_icon.attached? }
 
   after_initialize :generate_unique_id, unless: :persisted?
 
-
   class << self
-    alias :old_all :all
-    alias :by_all :all
-    alias :list_by_all :all
-
-    def all
-      old_all
-    end
-    # memoize_in_prod :all
-    # memoize_in_prod :list_by_all
-
-    #TODO: Consider moving this to a shared concern
-    def enabled(is_enabled=true)
-      where(disabled: !is_enabled)
-    end
-
-    #This method returns a list of id / display_text value pairs
-    #It is used to create the select options list for Agency fields
-    def all_names
-      enabled.map{|r| {id: r.id, display_text: r.name}.with_indifferent_access}
-    end
-    # memoize_in_prod :all_names
-
-    # This method must be refactored
-    def retrieve_logo_ids
-      Agency.where(logo_enabled: true).map(&:logo_small)
-    end
-    # memoize_in_prod :retrieve_logo_ids
-
-    def display_text(agency_id, opts={})
+    # TODO: This method may be unused.
+    def display_text(agency_id, opts = {})
       locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
       agency = Agency.find_by_id(agency_id)
-      value = (agency.present? ? agency.name(locale) : '')
+      (agency.present? ? agency.name(locale) : '')
     end
-    # memoize_in_prod :display_text
 
     def new_with_properties(agency_params)
       agency = Agency.new(agency_params.except(:name, :description))
@@ -82,37 +55,50 @@ class Agency < ApplicationRecord
   end
 
   private
+
   def validate_name_in_english
-    return true if self.name_en.present?
+    return true if name_en.present?
+
     errors.add(:name, 'errors.models.agency.name_present')
-    return false
   end
 
-  def validate_logo_large_dimension
-    validate_image_dimension('logo_large')
-  end
-  def validate_logo_small_dimension
-    validate_image_dimension('logo_small')
+  def validate_logo_full_dimension
+    return unless image?(logo_full)
+
+    validate_image_dimensions(
+      logo_full,
+      LOGO_DIMENSION[:logo_full][:width], LOGO_DIMENSION[:logo_full][:height]
+    )
   end
 
-  def validate_image_dimension(type)
-    return true unless send(type).attachment.content_type.start_with?('image/*')
-    metadata = ActiveStorage::Analyzer::ImageAnalyzer.new(send(type)).metadata
+  def validate_logo_icon_dimension
+    return unless image?(logo_icon)
+
+    validate_image_dimensions(
+      logo_icon,
+      LOGO_DIMENSION[:logo_icon][:width], LOGO_DIMENSION[:logo_icon][:height]
+    )
+  end
+
+  def validate_image_dimensions(image, valid_width, valid_height)
+    # return unless image.attachment.content_type.start_with?('image/*')
+
+    metadata = ActiveStorage::Analyzer::ImageAnalyzer.new(image).metadata
     width = metadata.dig(:width)
     height = metadata.dig(:height)
+    return if width.blank? || height.blank?
+    return unless width > valid_width || height > valid_height
 
-    valid_width = LOGO_DIMENSION[type.to_sym][:width]
-    valid_height = LOGO_DIMENSION[type.to_sym][:height]
-    return true if width.blank? || height.blank?
-    if (width > valid_width || height > valid_height)
-      errors.add(type.to_sym, I18n.t('errors.models.agency.logo_dimension', width: valid_width.to_s, height: valid_height.to_s))
-      return false
-    end
+    errors.add(image.name.to_sym, 'errors.models.agency.logo_dimension')
+  end
+
+  def image?(image)
+    image.attachment.content_type.start_with?('image/*')
   end
 
   def generate_unique_id
-    if self.agency_code.present? && self.unique_id.blank?
-      self.unique_id = "agency-#{self.agency_code}".parameterize.dasherize
-    end
+    return unless agency_code.present? && unique_id.blank?
+
+    self.unique_id = "agency-#{agency_code}".parameterize.dasherize
   end
 end
