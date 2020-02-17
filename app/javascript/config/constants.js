@@ -57,7 +57,8 @@ export const RECORD_PATH = {
   incidents: "incidents",
   tasks: "tasks",
   tracing_requests: "tracing_requests",
-  users: "users"
+  users: "users",
+  agencies: "agencies"
 };
 
 export const RECORD_OWNER = "record_owner";
@@ -93,7 +94,9 @@ export const ROUTES = {
   tracing_requests: "/tracing_requests",
   admin: "/admin",
   admin_users: "/admin/users",
-  admin_users_new: "/admin/users/new"
+  admin_users_new: "/admin/users/new",
+  admin_agencies: "/admin/agencies",
+  admin_agencies_new: "/admin/agencies/new"
 };
 
 export const PERMITTED_URL = [
@@ -130,7 +133,7 @@ export const LOOKUPS = {
 
 export const ADMIN_NAV = [
   { to: "/users", label: "settings.navigation.users" },
-  { to: "/agency", label: "settings.navigation.agency", disabled: true },
+  { to: "/agencies", label: "settings.navigation.agencies" },
   { to: "/roles", label: "settings.navigation.roles", disabled: true },
   { to: "/modules", label: "settings.navigation.modules", disabled: true },
   { to: "/forms", label: "settings.navigation.forms", disabled: true },

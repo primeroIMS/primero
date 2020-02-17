@@ -154,7 +154,7 @@ en:
   settings:
     title: "Settings"
     navigation:
-      agency: "Agency"
+      agencies: "Agencies"
       roles: "Roles"
       modules: "Modules"
       system_settings: "System Settings"

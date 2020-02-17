@@ -10,7 +10,8 @@ import Login, {
   NotFound,
   Admin,
   UsersList,
-  UsersForm
+  UsersForm,
+  AgenciesList
 } from "../components/pages";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
@@ -160,6 +161,11 @@ export default [
               path: ROUTES.admin_users,
               component: UsersList,
               resources: RESOURCES.users
+            },
+            {
+              path: ROUTES.admin_agencies,
+              component: AgenciesList,
+              resources: RESOURCES.agencies
             }
           ]
         }

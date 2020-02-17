@@ -19,6 +19,7 @@ import * as Support from "./components/pages/support";
 import * as TaskList from "./components/pages/task-list";
 import * as UsersList from "./components/pages/admin/users-list";
 import * as UsersForm from "./components/pages/admin/users-form";
+import * as AgenciesList from "./components/pages/admin/agencies-list";
 import * as Transitions from "./components/record-actions/transitions";
 import * as RecordForms from "./components/record-form";
 import * as Records from "./components/records";
@@ -54,6 +55,7 @@ const rootReducer = {
     ...PotentialMatches.reducers,
     ...TaskList.reducers,
     users: reduceReducers(UsersList.reducers, UsersForm.reducers),
+    agencies: reduceReducers(AgenciesList.reducers),
     ...Dashboard.reducers,
     ...ExportList.reducers,
     ...Support.reducers,

@@ -19,3 +19,6 @@ export const hasUserPermissions = state => {
 
 export const getIsAuthenticated = state =>
   state.getIn([NAMESPACE, "isAuthenticated"], false);
+
+export const getListHeaders = (state, resource) =>
+  state.getIn([NAMESPACE, "listHeaders", resource], List([]));
