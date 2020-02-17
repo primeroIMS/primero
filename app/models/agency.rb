@@ -11,6 +11,10 @@ class Agency < ApplicationRecord
   }.freeze
 
   localize_properties :name, :description
+  attribute :logo_full_attachment, :string
+  attribute :logo_full_file_name, :string
+  attribute :logo_icon_attachment, :string
+  attribute :logo_icon_file_name, :string
 
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.agency.unique_id' }
   validates :agency_code, presence: { message: 'errors.models.agency.code_present' }
@@ -44,6 +48,7 @@ class Agency < ApplicationRecord
       agency = Agency.new(agency_params.except(:name, :description))
       agency.name_i18n = agency_params[:name]
       agency.description_i18n = agency_params[:description]
+      agency.attach_logos(agency_params)
       agency
     end
   end
@@ -52,9 +57,36 @@ class Agency < ApplicationRecord
     converted_params = FieldI18nService.convert_i18n_properties(Agency, agency_params)
     merged_props = FieldI18nService.merge_i18n_properties(attributes, converted_params)
     assign_attributes(agency_params.except(:name, :description).merge(merged_props))
+    attach_logos(agency_params)
+  end
+
+  def attach_logos(agency_params)
+    attach_logo(agency_params[:logo_full_file_name], agency_params[:logo_full_attachment], logo_full)
+    attach_logo(agency_params[:logo_icon_file_name], agency_params[:logo_icon_attachment], logo_icon)
+  end
+
+  def logo_full_file_name
+    self[:logo_full_file_name] || (logo_full.attached? && logo_full&.filename&.to_s)
+  end
+
+  def logo_icon_file_name
+    self[:logo_icon_file_name] || (logo_icon.attached? && logo_icon&.filename&.to_s)
   end
 
   private
+
+  def attach_logo(file_name, logo_base64, logo)
+    return unless file_name.present?
+    return logo.purge unless logo_base64.present?
+
+    decoded_attachment = Base64.decode64(logo_base64)
+    io = StringIO.new(decoded_attachment)
+    logo.attach(io: io, filename: file_name) || true
+  end
+
+  def detach_logo(logo)
+    logo.purge
+  end
 
   def validate_name_in_english
     return true if name_en.present?
@@ -80,20 +112,18 @@ class Agency < ApplicationRecord
     )
   end
 
-  def validate_image_dimensions(image, valid_width, valid_height)
-    # return unless image.attachment.content_type.start_with?('image/*')
-
-    metadata = ActiveStorage::Analyzer::ImageAnalyzer.new(image).metadata
+  def validate_image_dimensions(logo, valid_width, valid_height)
+    metadata = ActiveStorage::Analyzer::ImageAnalyzer.new(logo).metadata
     width = metadata.dig(:width)
     height = metadata.dig(:height)
     return if width.blank? || height.blank?
     return unless width > valid_width || height > valid_height
 
-    errors.add(image.name.to_sym, 'errors.models.agency.logo_dimension')
+    errors.add(logo.name.to_sym, 'errors.models.agency.logo_dimension')
   end
 
-  def image?(image)
-    image.attachment.content_type.start_with?('image/*')
+  def image?(logo)
+    logo.attachment.content_type.start_with?('image/*')
   end
 
   def generate_unique_id
