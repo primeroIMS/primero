@@ -19,7 +19,20 @@ module Alertable
     before_update :remove_alert_on_save
 
     def self.alert_count(current_user)
-      joins(:alerts).owned_by(current_user.user_name).distinct.count
+      query_scope = current_user.record_query_scope(self.class)[:user]
+      if query_scope.blank?
+        joins(:alerts).distinct.count
+      elsif query_scope[Permission::AGENCY].present?
+        joins(:alerts).where("data -> 'associated_user_agencies' ? :agency", agency: current_user.agency.unique_id)
+                      .distinct.count
+      elsif query_scope[Permission::GROUP].present?
+        joins(:alerts).where(
+          "data -> 'associated_user_groups' ?& array[:group]",
+          group: current_user.user_groups.pluck(:unique_id)
+        ).distinct.count
+      else
+        joins(:alerts).owned_by(current_user.user_name).distinct.count
+      end
     end
 
     def alert_count
