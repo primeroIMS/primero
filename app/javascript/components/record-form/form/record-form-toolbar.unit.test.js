@@ -6,6 +6,7 @@ import { RECORD_PATH, RECORD_TYPES, MODULES } from "../../../config";
 import { ACTIONS } from "../../../libs/permissions";
 import { PrimeroModuleRecord } from "../../application/records";
 
+import { WorkflowIndicator } from "./components";
 import RecordFormToolbar from "./record-form-toolbar";
 
 describe("<RecordFormToolbar />", () => {
@@ -19,6 +20,34 @@ describe("<RecordFormToolbar />", () => {
     recordType: RECORD_PATH.cases,
     id: "ca1c1365-3be6-427f-9b56-000e35e2ef20"
   };
+
+  const disabledRecord = fromJS({
+    record_state: false,
+    sex: "male",
+    owned_by_agency_id: 1,
+    date_of_birth: "2012-02-14",
+    record_in_scope: true,
+    case_id: "5739e72d-907c-4860-8e9d-0cfbc0b8a627",
+    created_at: "2020-02-14T16:23:10.147Z",
+    name_last: 1,
+    name: "Test 1",
+    alert_count: 0,
+    previously_owned_by: "primero_test",
+    case_id_display: "0b8a627",
+    created_by: "primero_test",
+    module_id: "primeromodule-cp",
+    owned_by: "primero_test",
+    status: "open",
+    registration_date: "2020-02-14",
+    complete: true,
+    type: "cases",
+    id: "2e5dc889-b325-4468-8bd9-d7d69aa9e5b7",
+    flag_count: 0,
+    name_first: "Test",
+    short_id: "0b8a627",
+    age: 8,
+    workflow: "new"
+  });
 
   const record = fromJS({
     record_state: true,
@@ -116,6 +145,23 @@ describe("<RecordFormToolbar />", () => {
   it("renders a RecordFormToolbar/>", () => {
     expect(component.find(RecordFormToolbar)).to.have.lengthOf(1);
     expect(component.find(Fab)).to.have.lengthOf(2);
+  });
+
+  it("renders a <WorkflowIndicator /> component, when record is enabled", () => {
+    expect(component.find(WorkflowIndicator)).to.have.lengthOf(1);
+  });
+
+  it("renders 'Case is disabled' text, when record is disabled", () => {
+    const { component: recordFormToolbarComponent } = setupMountedComponent(
+      RecordFormToolbar,
+      { ...props, record: disabledRecord },
+      fromJS(initialState)
+    );
+
+    expect(recordFormToolbarComponent.find(WorkflowIndicator)).to.be.empty;
+    expect(recordFormToolbarComponent.find("h3").text()).to.be.equals(
+      "case.message.case_disabled"
+    );
   });
 
   describe("when records is being save", () => {
