@@ -327,7 +327,8 @@ cp_manager_permissions = [
         Permission::DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
         Permission::DASH_SHARED_WITH_ME,
         Permission::DASH_SHARED_WITH_OTHERS,
-        Permission::DASH_GROUP_OVERVIEW
+        Permission::DASH_GROUP_OVERVIEW,
+        Permission::DASH_SHARED_WITH_MY_TEAM
       ]
   )
 ]
@@ -568,7 +569,8 @@ gbv_manager_permissions = [
       Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
       Permission::DASH_APPROVALS_CLOSURE_PENDING,
       Permission::DASH_REPORTING_LOCATION,
-      Permission::DASH_GROUP_OVERVIEW
+      Permission::DASH_GROUP_OVERVIEW,
+      Permission::DASH_SHARED_WITH_MY_TEAM
     ]
   ),
   Permission.new(
@@ -851,7 +853,8 @@ gbv_cm_supervisor_permissions = [
     Permission.new(
       resource: Permission::DASHBOARD,
       actions: [
-        Permission::DASH_GROUP_OVERVIEW
+        Permission::DASH_GROUP_OVERVIEW,
+        Permission::DASH_SHARED_WITH_MY_TEAM
       ]
     )
 ]
@@ -984,7 +987,8 @@ gbv_organization_focal_point_permissions = [
     Permission.new(
       resource: Permission::DASHBOARD,
       actions: [
-        Permission::DASH_GROUP_OVERVIEW
+        Permission::DASH_GROUP_OVERVIEW,
+        Permission::DASH_SHARED_WITH_MY_TEAM
       ]
     )
 ]

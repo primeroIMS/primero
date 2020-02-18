@@ -171,6 +171,12 @@ describe Api::V2::DashboardsController, type: :request do
             Permission::DASH_SHARED_WITH_OTHERS
           ]
         )
+        @permission_dashboard_shared_with_me_team = Permission.new(
+          resource: Permission::DASHBOARD,
+          actions: [
+            Permission::DASH_SHARED_WITH_MY_TEAM
+          ]
+        )
         Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
         Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
         Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_b)
@@ -205,6 +211,20 @@ describe Api::V2::DashboardsController, type: :request do
         expect(json['data'][0]['indicators']['shared_with_others_referrals']['count']).to eq(1)
         expect(json['data'][0]['indicators']['shared_with_others_pending_transfers']['count']).to eq(1)
         expect(json['data'][0]['indicators']['shared_with_others_rejected_transfers']['count']).to eq(1)
+      end
+
+      it 'lists statistics for permitted shared with my team dashboard dashboards' do
+        login_for_test(
+          user_name: 'user1',
+          group_permission: Permission::SELF,
+          permissions: [@permission_case, @permission_dashboard_shared_with_me_team]
+        )
+        get '/api/v2/dashboards'
+
+        expect(response).to have_http_status(200)
+        indicators = json['data'][0]['indicators']
+        expect(indicators['shared_with_my_team_referrals'][@user2.user_name]['count']).to eq(1)
+        expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(2)
       end
 
       after :each do
