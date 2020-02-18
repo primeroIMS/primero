@@ -69,21 +69,27 @@ const RecordFormToolbar = ({
     </Fab>
   );
 
-  const renderRecordStatusIndicator =
+  let renderRecordStatusIndicator = null;
+
+  if (record && !record.get("record_state")) {
+    renderRecordStatusIndicator = (
+      <h3 className={css.caseDisabled}>
+        {i18n.t("case.messages.case_disabled")}
+      </h3>
+    );
+  } else if (
     (mode.isShow || mode.isEdit) &&
-    params.recordType === RECORD_PATH.cases &&
-    record.get("record_state") ? (
+    params.recordType === RECORD_PATH.cases
+  ) {
+    renderRecordStatusIndicator = (
       <WorkflowIndicator
         locale={i18n.locale}
         primeroModule={primeroModule}
         recordType={params.recordType}
         record={record}
       />
-    ) : (
-      <h3 className={css.caseDisabled}>
-        {i18n.t("case.messages.case_disabled")}
-      </h3>
     );
+  }
 
   return (
     <Box

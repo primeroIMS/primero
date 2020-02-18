@@ -160,7 +160,7 @@ describe("<RecordFormToolbar />", () => {
 
     expect(recordFormToolbarComponent.find(WorkflowIndicator)).to.be.empty;
     expect(recordFormToolbarComponent.find("h3").text()).to.be.equals(
-      "case.message.case_disabled"
+      "case.messages.case_disabled"
     );
   });
 
