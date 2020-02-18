@@ -32,12 +32,16 @@ basic_identity_fields = [
              "display_name_en" => "Marked for mobile?",
              "editable" => false,
              "disabled" => true,
+             "mobile_visible" => false,
+             "visible" => false
             }),
   Field.new({"name" => "status",
              "type" =>"select_box" ,
              "selected_value" => Record::STATUS_OPEN,
              "display_name_en" => "Case Status",
-             "option_strings_source" => "lookup lookup-case-status"
+             "option_strings_source" => "lookup lookup-case-status",
+             "editable" => false,
+             "disabled" => true,
             }),
   Field.new({"name" => "case_status_reopened",
              "type" => "tick_box",
