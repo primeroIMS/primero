@@ -49,12 +49,27 @@ describe Api::V2::DashboardsController, type: :request do
     @bar = User.new(user_name: 'bar', user_groups: [group1], location: 'CTY')
     @bar.save(validate: false)
 
-    Child.create!(data: { record_state: true, status: 'open', owned_by: 'foo', workflow: 'new', created_at: last_week, protection_concerns: ['refugee'] })
-    Child.create!(data: { record_state: true, status: 'open', owned_by: 'foo', last_updated_by: 'bar', workflow: 'assessment', protection_concerns: ['refugee'] })
+    Child.create!(data: {
+                    record_state: true, status: 'open', owned_by: 'foo', workflow: 'new',
+                    created_at: last_week, protection_concerns: ['refugee']
+                  })
+    Child.create!(data: {
+                    record_state: true, status: 'open', owned_by: 'foo', last_updated_by: 'bar',
+                    workflow: 'assessment', protection_concerns: ['refugee']
+                  })
     Child.create!(data: { record_state: false, status: 'open', owned_by: 'foo', workflow: 'new' })
-    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: this_week, workflow: 'closed', protection_concerns: ['refugee'] })
-    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: this_week, workflow: 'closed' })
-    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: last_week, workflow: 'closed', created_at: last_week, protection_concerns: ['refugee'] })
+    Child.create!(data: {
+                    record_state: true, status: 'closed', owned_by: 'foo',
+                    date_closure: this_week, workflow: 'closed', protection_concerns: ['refugee']
+                  })
+    Child.create!(data: {
+                    record_state: true, status: 'closed', owned_by: 'foo',
+                    date_closure: this_week, workflow: 'closed'
+                  })
+    Child.create!(data: {
+                    record_state: true, status: 'closed', owned_by: 'foo', date_closure: last_week,
+                    workflow: 'closed', created_at: last_week, protection_concerns: ['refugee']
+                  })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar', workflow: 'new' })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar' })
 
@@ -76,12 +91,20 @@ describe Api::V2::DashboardsController, type: :request do
       expect(json['data'].size).to eq(5)
 
       case_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.case_overview' }
-      expect(case_overview_dashboard['indicators']['open']['count']).to eq(2)
-      expect(case_overview_dashboard['indicators']['open']['query']).to match_array(%w[owned_by=foo record_state=true status=open])
+      expect(case_overview_dashboard['indicators']['total']['count']).to eq(2)
+      expect(case_overview_dashboard['indicators']['total']['query']).to match_array(
+        %w[record_state=true status=open]
+      )
+      expect(case_overview_dashboard['indicators']['new_or_updated']['count']).to eq(1)
+      expect(case_overview_dashboard['indicators']['new_or_updated']['query']).to match_array(
+        %w[record_state=true status=open not_edited_by_owner=true]
+      )
 
       workflow_dashboard = json['data'].find { |d| d['name'] == 'dashboard.workflow' }
       expect(workflow_dashboard['indicators']['workflow']['assessment']['count']).to eq(1)
-      expect(workflow_dashboard['indicators']['workflow']['assessment']['query']).to match_array(%w[owned_by=foo record_state=true status=open,closed workflow=assessment])
+      expect(workflow_dashboard['indicators']['workflow']['assessment']['query']).to match_array(
+        %w[owned_by=foo record_state=true status=open,closed workflow=assessment]
+      )
 
       reporting_location_dashboard = json['data'].find { |d| d['name'] == 'dashboard.reporting_location' }
       expect(reporting_location_dashboard['indicators']['reporting_location_open']['cty']['count']).to eq(2)

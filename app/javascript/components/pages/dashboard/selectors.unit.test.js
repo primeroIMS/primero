@@ -261,6 +261,22 @@ describe("<Dashboard /> - Selectors", () => {
     });
   });
 
+  describe("getCasesByAssessmentLevel empty value", () => {
+    it("should return a map when dashboard is empty", () => {
+      const emptyResult = fromJS({});
+
+      const initialState = fromJS({
+        name: DASHBOARD_NAMES.CASE_RISK,
+        type: "indicator",
+        stats: {}
+      });
+
+      const expected = selectors.getCasesByAssessmentLevel(initialState);
+
+      expect(emptyResult).to.deep.equal(expected);
+    });
+  });
+
   describe("getWorkflowTeamCases", () => {
     it("should return list of headers allowed to the user", () => {
       const values = selectors.getWorkflowTeamCases(initialState);

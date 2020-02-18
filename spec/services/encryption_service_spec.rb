@@ -22,22 +22,18 @@ describe EncryptionService do
       ciphertext = service.encrypt(text)
       expect(service.decrypt(ciphertext)).to eq(text)
     end
-  end
 
-  context 'no key defined in the environment' do
-    let(:service) do
-      EncryptionService.clone
-    end
-
-    it 'raises an error on encryption attempt' do
-      # TODO: Rspec is not picking up the re-raised Errors::MisconfiguredEncryptionError
-      expect { service.encrypt('Some secret') }.to raise_error(KeyError)
+    it 'will produce a UTF8 ciphertext string that can be converted to valid JSON' do
+      text = 'This is a secret'
+      ciphertext = service.encrypt(text)
+      expect(ciphertext.to_json).to be
     end
   end
 
   context 'a weak key is defined in the environment' do
     let(:service) do
       allow(ENV).to receive(:[])
+      allow(ENV).to receive(:fetch)
       allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return(':(')
       EncryptionService.clone
     end

@@ -724,7 +724,8 @@ gbv_caseworker_permissions = [
       resource: Permission::DASHBOARD,
       actions: [
         Permission::DASH_APPROVALS_CASE_PLAN,
-        Permission::DASH_APPROVALS_CLOSURE
+        Permission::DASH_APPROVALS_CLOSURE,
+        Permission::DASH_CASE_OVERVIEW
       ]
     )
 ]
