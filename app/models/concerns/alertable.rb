@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Alertable
   extend ActiveSupport::Concern
 
@@ -18,20 +20,30 @@ module Alertable
     before_save :add_alert_on_field_change
     before_update :remove_alert_on_save
 
-    def self.alert_count(current_user)
-      query_scope = current_user.record_query_scope(self.class)[:user]
-      if query_scope.blank?
-        joins(:alerts).distinct.count
-      elsif query_scope[Permission::AGENCY].present?
+    class << self
+      def alert_count(current_user)
+        query_scope = current_user.record_query_scope(self.class)[:user]
+        if query_scope.blank?
+          joins(:alerts).distinct.count
+        elsif query_scope[Permission::AGENCY].present?
+          alert_count_agency(current_user)
+        elsif query_scope[Permission::GROUP].present?
+          alert_count_group(current_user)
+        else
+          joins(:alerts).owned_by(current_user.user_name).distinct.count
+        end
+      end
+
+      def alert_count_agency(current_user)
         joins(:alerts).where("data -> 'associated_user_agencies' ? :agency", agency: current_user.agency.unique_id)
                       .distinct.count
-      elsif query_scope[Permission::GROUP].present?
+      end
+
+      def alert_count_group(current_user)
         joins(:alerts).where(
           "data -> 'associated_user_groups' ?& array[:group]",
           group: current_user.user_groups.pluck(:unique_id)
         ).distinct.count
-      else
-        joins(:alerts).owned_by(current_user.user_name).distinct.count
       end
     end
 
