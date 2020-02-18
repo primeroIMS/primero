@@ -11,7 +11,8 @@ import Login, {
   Admin,
   UsersList,
   UsersForm,
-  AgenciesList
+  AgenciesList,
+  AgenciesForm
 } from "../components/pages";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
@@ -161,6 +162,14 @@ export default [
               path: ROUTES.admin_users,
               component: UsersList,
               resources: RESOURCES.users
+            },
+            {
+              path: `${ROUTES.admin_agencies}/new`,
+              component: AgenciesForm,
+              resources: RESOURCES.agencies,
+              extraProps: {
+                mode: MODES.new
+              }
             },
             {
               path: ROUTES.admin_agencies,
