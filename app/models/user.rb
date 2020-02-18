@@ -477,10 +477,6 @@ class User < ApplicationRecord
     super
   end
 
-  def user_groups_user_names
-    UserGroup.joins(:users).where(id: user_groups).pluck(:user_name)
-  end
-
   private
 
   def update_owned_by_fields
