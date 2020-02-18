@@ -18,21 +18,19 @@ module Indicators
     ].freeze
 
     OPEN = QueriedIndicator.new(
-      name: 'open',
+      name: 'total',
       record_model: Child,
-      queries: OPEN_ENABLED,
-      scope_to_owner: true
+      queries: OPEN_ENABLED
     ).freeze
 
     #NEW = TODO: Cases that have just been assigned to me. Need extra work.
 
     UPDATED = QueriedIndicator.new(
-      name: 'updated',
+      name: 'new_or_updated',
       record_model: Child,
       queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'not_edited_by_owner', value: true)
-      ],
-      scope_to_owner: true
+      ]
     ).freeze
 
     CLOSED_RECENTLY = QueriedIndicator.new(
