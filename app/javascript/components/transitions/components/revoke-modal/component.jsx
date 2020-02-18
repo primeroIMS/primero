@@ -6,7 +6,7 @@ import { push } from "connected-react-router";
 
 import { ActionDialog } from "../../../action-dialog";
 import { useI18n } from "../../../i18n";
-import { selectTranstionByTypeAndStatus } from "../../selectors";
+import { selectTransitionByTypeAndStatus } from "../../selectors";
 import { TRANSITIONS_TYPES, TRANSITION_STATUS } from "../../constants";
 import { RECORD_PATH } from "../../../../config";
 
@@ -28,7 +28,7 @@ const Component = ({
   const localizedTransitionType = i18n.t(`transition.type.${transitionType}`);
 
   const inProgressTransitions = useSelector(state =>
-    selectTranstionByTypeAndStatus(
+    selectTransitionByTypeAndStatus(
       state,
       [
         upperFirst(TRANSITIONS_TYPES.referral),

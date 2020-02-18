@@ -79,5 +79,3 @@ export const revokeTransition = ({
     }
   };
 };
-
-export default revokeTransition;

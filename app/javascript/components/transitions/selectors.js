@@ -22,13 +22,13 @@ export const selectTransitions = (state, recordType, id, isReferral) => {
   return transitions.size ? transitions : List([]);
 };
 
-export const selectTranstionByTypeAndStatus = (
+export const selectTransitionByTypeAndStatus = (
   state,
   transitionTypes,
   status
 ) =>
   state
-    .getIn(["records", NAMESPACE, "data"])
+    .getIn(["records", NAMESPACE, "data"], List([]))
     .filter(
       transition =>
         transitionTypes.includes(transition.type) &&

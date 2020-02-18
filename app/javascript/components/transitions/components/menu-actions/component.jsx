@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { TRANSITION_STATUS, TRANSITIONS_TYPES } from "../../constants";
@@ -19,7 +17,7 @@ import {
 } from "../../../record-actions/selectors";
 import { setDialog, setPending } from "../../../record-actions/action-creators";
 
-import { NAME, REVOKE_MODAL, TRANSFER_MODAL } from "./constants";
+import { NAME, REVOKE_MODAL } from "./constants";
 
 const Component = ({ transition, showMode, recordType, classes }) => {
   const i18n = useI18n();
@@ -29,10 +27,7 @@ const Component = ({ transition, showMode, recordType, classes }) => {
   const setDialogPending = pending => {
     dispatch(setPending({ pending }));
   };
-  const isReferral = transition.type === TRANSITIONS_TYPES.referral;
-  const revokeModalName = `${isReferral ? REVOKE_MODAL : TRANSFER_MODAL}-${
-    transition.id
-  }`;
+  const revokeModalName = `${REVOKE_MODAL}-${transition.id}`;
   const openRevokeDialog = useSelector(state =>
     selectDialog(revokeModalName, state)
   );
@@ -110,21 +105,24 @@ const Component = ({ transition, showMode, recordType, classes }) => {
     handleClose();
   };
 
-  const actions = options
-    .filter(option => option.condition)
-    .map(option => {
-      return (
-        <MenuItem
-          key={option.name}
-          selected={option === "Pyxis"}
-          onClick={event => handleAction(event, option.action)}
-        >
-          {option.name}
-        </MenuItem>
-      );
-    });
+  const filteredActions = options.filter(option => option.condition);
+  const actions = filteredActions.map(option => {
+    return (
+      <MenuItem
+        key={option.name}
+        selected={option === "Pyxis"}
+        onClick={event => handleAction(event, option.action)}
+      >
+        {option.name}
+      </MenuItem>
+    );
+  });
 
-  const menu = actions?.length ? (
+  if (!actions?.length) {
+    return null;
+  }
+
+  return (
     <div className={classes.iconBar}>
       <IconButton
         aria-label="more"
@@ -162,9 +160,7 @@ const Component = ({ transition, showMode, recordType, classes }) => {
         recordType={recordType}
       />
     </div>
-  ) : null;
-
-  return <>{menu}</>;
+  );
 };
 
 Component.displayName = NAME;

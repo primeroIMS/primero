@@ -66,7 +66,8 @@ describe("Verifying config constant", () => {
       "APPROVE_CASE_PLAN",
       "APPROVE_CLOSURE",
       "RECEIVE_TRANSFER",
-      "RECEIVE_REFERRAL"
+      "RECEIVE_REFERRAL",
+      "REMOVE_ASSIGNED_USERS"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
       expect(permissions[property]).to.be.a("string");
