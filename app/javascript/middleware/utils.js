@@ -63,3 +63,14 @@ export const generateRecordProperties = (store, api, recordType, isRecord) => {
     ...(isRecord && generateName(api?.body))
   };
 };
+
+export const partitionObject = (obj, filterFn) => {
+  return Object.keys(obj).reduce(
+    (result, key) => {
+      result[filterFn(obj[key], key) ? 0 : 1][key] = obj[key];
+
+      return result;
+    },
+    [{}, {}]
+  );
+};

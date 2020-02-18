@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { SEPERATOR_NAME } from "./constants";
+import { SEPERATOR_NAME } from "../constants";
 
 const Seperator = ({ label }) => {
   return (

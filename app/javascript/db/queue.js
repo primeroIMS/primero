@@ -7,7 +7,10 @@ const queueIndexedDB = {
   },
 
   add: action => {
-    DB.add(DB_STORES.OFFLINE_REQUESTS, action);
+    DB[Array.isArray(action) ? "bulkAdd" : "add"](
+      DB_STORES.OFFLINE_REQUESTS,
+      action
+    );
   },
 
   delete: index => {

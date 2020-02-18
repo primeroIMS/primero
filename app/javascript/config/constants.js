@@ -148,6 +148,14 @@ export const ADMIN_NAV = [
   { to: "/matching", label: "settings.navigation.matching", disabled: true }
 ];
 
+export const METHODS = Object.freeze({
+  DELETE: "DELETE",
+  GET: "GET",
+  PATCH: "PATCH",
+  POST: "POST",
+  PUT: "PUT"
+});
+
 export const ACCEPTED = "accepted";
 export const ACCEPT = "accept";
 export const REJECTED = "rejected";

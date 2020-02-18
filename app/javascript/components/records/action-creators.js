@@ -92,6 +92,8 @@ export const saveRecord = (
   await dispatch({
     type: `${recordType}/${Actions.SAVE_RECORD}`,
     api: {
+      id,
+      recordType,
       path: saveMethod === "update" ? `${recordType}/${id}` : `${recordType}`,
       method: saveMethod === "update" ? "PATCH" : "POST",
       body,
@@ -111,7 +113,8 @@ export const saveRecord = (
       db: {
         collection: DB_COLLECTIONS_NAMES.RECORDS,
         recordType
-      }
+      },
+      queueAttachments: true
     }
   });
 };

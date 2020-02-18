@@ -1,11 +1,12 @@
 import qs from "qs";
+import uuid from "uuid/v4";
 
 import { attemptSignout } from "../components/user";
-import { FETCH_TIMEOUT } from "../config";
+import { FETCH_TIMEOUT, METHODS as REST_METHODS } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { signOut } from "../components/pages/login/idp-selection";
 
-import { handleSuccessCallback, isOnline } from "./utils";
+import { handleSuccessCallback, isOnline, partitionObject } from "./utils";
 
 const defaultFetchOptions = {
   method: "GET",
@@ -54,6 +55,36 @@ const getToken = () => {
   return sessionStorage.getItem("msal.idtoken");
 };
 
+const processAttachments = ({ attachments, id, recordType }) => {
+  const actions = Object.keys(attachments).reduce((prev, current) => {
+    attachments[current].forEach(attachment => {
+      const method = attachment?._destroy
+        ? REST_METHODS.DELETE
+        : REST_METHODS.POST;
+
+      const path = `/${recordType}/${id}/attachments/${
+        method === "DELETE" ? `/${attachment?.id}` : ""
+      }`;
+
+      prev.push({
+        type: `${recordType}/SAVE_ATTACHMENT`,
+        api: {
+          path,
+          method,
+          body: { data: { attachment } },
+          fromQueue: uuid()
+        }
+      });
+    });
+
+    return prev;
+  }, []);
+
+  if (actions) {
+    queueIndexedDB.add(actions);
+  }
+};
+
 function fetchPayload(action, store, options) {
   const controller = new AbortController();
 
@@ -64,6 +95,8 @@ function fetchPayload(action, store, options) {
   const {
     type,
     api: {
+      id,
+      recordType,
       path,
       body,
       params,
@@ -71,16 +104,28 @@ function fetchPayload(action, store, options) {
       normalizeFunc,
       successCallback,
       db,
-      external
+      external,
+      queueAttachments
     },
     fromQueue
   } = action;
+
+  const [attachments, formData] = queueAttachments
+    ? partitionObject(body?.data, (value, key) =>
+        store
+          .getState()
+          .getIn(["forms", "attachmentFields"], [])
+          .includes(key)
+      )
+    : [false, body];
 
   const fetchOptions = {
     ...defaultFetchOptions,
     method,
     signal: controller.signal,
-    ...(body && { body: JSON.stringify(body) })
+    ...(formData && {
+      body: JSON.stringify(formData?.data ? formData : { data: formData })
+    })
   };
 
   const token = getToken();
@@ -123,6 +168,15 @@ function fetchPayload(action, store, options) {
           db,
           fromQueue
         });
+
+        if (attachments) {
+          processAttachments({
+            attachments,
+            id: id || json?.data?.id,
+            recordType
+          });
+        }
+
         handleSuccessCallback(
           store,
           successCallback,

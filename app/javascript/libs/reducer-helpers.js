@@ -48,6 +48,11 @@ export const arrayToObject = (data, key = "id") => {
   }, {});
 };
 
+export const listAttachmentFields = (fields = [], types = []) =>
+  Object.values(fields)
+    .filter(field => types.includes(field.type))
+    .map(item => item.name);
+
 export const mergeRecord = (record, payload) => {
   const reduceSubformToMap = (result, item) => {
     return result.set(item.get("unique_id"), item);
