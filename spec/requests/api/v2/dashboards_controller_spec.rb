@@ -113,13 +113,22 @@ describe Api::V2::DashboardsController, type: :request do
             Permission::TRANSFER, Permission::RECEIVE_TRANSFER
           ]
         )
-        @role = Role.new(permissions: [@permission_refer_case], modules: [@primero_module])
+        @permission_dashboard_shared_from_my_team = Permission.new(
+          resource: Permission::DASHBOARD,
+          actions: [
+            Permission::DASH_SHARED_FROM_MY_TEAM
+          ]
+        )
+        @role = Role.new(permissions: [
+                           @permission_refer_case,
+                           @permission_dashboard_shared_from_my_team
+                         ], modules: [@primero_module])
         @role.save(validate: false)
         @group_a = UserGroup.create!(name: 'Group_a')
         @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group_a])
         @user1.save(validate: false)
         @group_b = UserGroup.create!(name: 'Group_b')
-        @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group_b])
+        @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group_a])
         @user2.save(validate: false)
         @case_a = Child.create(
           data: {
@@ -182,6 +191,18 @@ describe Api::V2::DashboardsController, type: :request do
         expect(json['data'][0]['indicators']['shared_with_others_referrals']['count']).to eq(1)
         expect(json['data'][0]['indicators']['shared_with_others_pending_transfers']['count']).to eq(1)
         expect(json['data'][0]['indicators']['shared_with_others_rejected_transfers']['count']).to eq(1)
+      end
+
+      it 'lists statistics for permitted shared from my team dashboard dashboards' do
+        sign_in(@user1)
+        get '/api/v2/dashboards'
+
+        expect(response).to have_http_status(200)
+
+        dash = json['data'][0]['indicators']
+        expect(dash['shared_from_my_team_referrals'][@user1.user_name]['count']).to eq(1)
+        expect(dash['shared_from_my_team_pending_transfers'][@user1.user_name]['count']).to eq(1)
+        expect(dash['shared_from_my_team_rejected_transfers'][@user1.user_name]['count']).to eq(1)
       end
 
       after :each do

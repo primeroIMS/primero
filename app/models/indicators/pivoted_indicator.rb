@@ -10,6 +10,7 @@ module Indicators
         with(:owned_by, user.user_name) if this.scope_to_owner
         with(:referred_users, user.user_name) if this.scope_to_referred
         with(:transferred_to_users, user.user_name) if this.scope_to_transferred
+        with(:owned_by_groups, user.user_group_ids) if this.scope_to_owned_by_groups
         this.scope&.each { |f| f.query_scope(self) }
         adjust_solr_params do |params|
           params['facet'] = 'true'
@@ -44,7 +45,8 @@ module Indicators
       row, pivot = row_pivot
       scope_query_strings + owner_query_string(owner) +
         referred_query_string(user) +
-        transferred_query_string(user) + [
+        transferred_query_string(user) +
+        owned_by_groups_query_string(user) + [
           "#{name_map[row['field']]}=#{row['value']}",
           "#{name_map[pivot['field']]}=#{pivot['value']}"
         ]

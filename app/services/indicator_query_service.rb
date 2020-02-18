@@ -36,7 +36,13 @@ class IndicatorQueryService
     def group_indicators_by_scope(indicators)
       indicators.group_by do |indicator|
         scope_key = indicator.scope&.map(&:to_h) || {}
-        [indicator.scope_to_owner, indicator.scope_to_referred, indicator.scope_to_transferred, scope_key]
+        [
+          indicator.scope_to_owner,
+          indicator.scope_to_referred,
+          indicator.scope_to_transferred,
+          indicator.scope_to_owned_by_groups,
+          scope_key
+        ]
       end
     end
   end

@@ -14,6 +14,7 @@ module Indicators
         with(:owned_by, user.user_name) if this.scope_to_owner
         with(:referred_users, user.user_name) if this.scope_to_referred
         with(:transferred_to_users, user.user_name) if this.scope_to_transferred
+        with(:owned_by_groups, user.user_group_ids) if this.scope_to_owned_by_groups
         this.scope&.each { |f| f.query_scope(self) }
         facet(this.facet_name, zeros: true)
       end
@@ -24,6 +25,7 @@ module Indicators
         owner_query_string(owner) +
         referred_query_string(user) +
         transferred_query_string(user) +
+        owned_by_groups_query_string(user) +
         ["#{facet_name}=#{facet_row.value}"]
     end
   end

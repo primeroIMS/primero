@@ -315,6 +315,36 @@ module Indicators
       queries: CLOSED_ENABLED
     ).freeze
 
+    SHARED_FROM_MY_TEAM_REFERRALS = FacetedIndicator.new(
+      name: 'shared_from_my_team_referrals',
+      facet: 'owned_by',
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'referred_users_present', value: true)
+      ],
+      scope_to_owned_by_groups: true
+    ).freeze
+
+    SHARED_FROM_MY_TEAM_PENDING_TRANSFERS = FacetedIndicator.new(
+      name: 'shared_from_my_team_pending_transfers',
+      facet: 'owned_by',
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
+      ],
+      scope_to_owned_by_groups: true
+    ).freeze
+
+    SHARED_FROM_MY_TEAM_REJECTED_TRANSFERS = FacetedIndicator.new(
+      name: 'shared_from_my_team_rejected_transfers',
+      facet: 'owned_by',
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_REJECTED)
+      ],
+      scope_to_owned_by_groups: true
+    ).freeze
+
     def self.reporting_location_indicators
       reporting_location_config = SystemSettings.current.reporting_location_config
       admin_level = reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
