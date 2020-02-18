@@ -10,6 +10,7 @@ import * as Dashboard from "./components/pages/dashboard";
 import * as ExportList from "./components/pages/export-list";
 import { reducers as loginReducers } from "./components/pages/login/login-form";
 import { reducers as idpReducers } from "./components/pages/login";
+import { reducers as recordActionsReducers } from "./components/record-actions";
 import { reducers as requestApprovalReducers } from "./components/record-actions/request-approval";
 import * as PotentialMatches from "./components/pages/potential-matches";
 import * as Report from "./components/pages/report";
@@ -63,7 +64,8 @@ const rootReducer = {
   ui: combineReducers({
     ...Nav.reducers,
     ...I18n.reducers,
-    ...loginReducers
+    ...loginReducers,
+    ...recordActionsReducers
   }),
   ...User.reducers,
   ...RecordForms.reducers,

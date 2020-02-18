@@ -31,7 +31,7 @@ const Report = ({ match }) => {
 
   const errors = useSelector(state => getErrors(state, namespace));
   const loading = useSelector(state => getLoading(state, namespace));
-  const report = useSelector(state => getReport(state, params.id));
+  const report = useSelector(state => getReport(state));
 
   const loadingIndicatorProps = {
     overlay: true,

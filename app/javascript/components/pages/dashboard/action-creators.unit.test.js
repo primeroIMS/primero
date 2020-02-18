@@ -40,7 +40,7 @@ describe("<Dashboard /> - Action Creators", () => {
     dispatch(actionCreators.fetchDashboards());
 
     expect(dispatch.getCall(0).returnValue.type).to.eql(
-      actionsValues.FETCH_DASHBOARDS
+      actionsValues.DASHBOARDS
     );
 
     expect(dispatch.getCall(0).returnValue.api.path).to.eql(

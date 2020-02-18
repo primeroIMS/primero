@@ -50,7 +50,7 @@ module Exporters
         render_image(pdf, child.primary_photo.data)
       else
         no_photo_clip = File.binread("app/assets/images/no_photo_clip.jpg")
-        attachment = FileAttachment.new("no_photo", "image/jpg", no_photo_clip)
+        # attachment = FileAttachment.new("no_photo", "image/jpg", no_photo_clip)
         render_image(pdf, attachment.data)
       end
       pdf.move_down 25

@@ -12,6 +12,7 @@ export const reducers = namespace => (
 ) => {
   switch (type) {
     case `${namespace}/${Actions.RECORDS_STARTED}`:
+    case `${namespace}/${Actions.RECORD_STARTED}`:
       return state.set("loading", fromJS(payload)).set("errors", false);
     case `${namespace}/${Actions.RECORDS_FAILURE}`:
       return state.set("errors", true);
@@ -38,6 +39,11 @@ export const reducers = namespace => (
       return state.set("loading", fromJS(payload));
     case `${namespace}/${Actions.RECORD}`:
       return state.set("loading", true);
+    case `${namespace}/${Actions.SAVE_RECORD_STARTED}`:
+      return state.set("saving", true);
+    case `${namespace}/${Actions.SAVE_RECORD_FINISHED}`:
+    case `${namespace}/${Actions.SAVE_RECORD_FAILURE}`:
+      return state.set("saving", false);
     case `${namespace}/${Actions.SAVE_RECORD_SUCCESS}`:
     case `${namespace}/${Actions.RECORD_SUCCESS}`: {
       const { data } = payload;

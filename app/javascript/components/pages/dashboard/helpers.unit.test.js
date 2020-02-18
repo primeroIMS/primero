@@ -17,7 +17,8 @@ describe("<Dashboard /> - Helpers", () => {
         "toApprovalsManager",
         "toProtectionConcernTable",
         "toTasksOverdueTable",
-        "permittedSharedWithMe"
+        "permittedSharedWithMe",
+        "taskOverdueHasData"
       ].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
@@ -290,6 +291,66 @@ describe("<Dashboard /> - Helpers", () => {
             ]
           }
         }
+      });
+      const converted = helper.toApprovalsManager(data);
+
+      expect(converted).to.deep.equal(expected);
+    });
+
+    it("should convert the data if one of the indicators is not present OverviewBox", () => {
+      const data = fromJS([
+        {
+          name: "dashboard.approvals_assessment_pending",
+          type: "indicator",
+          indicators: {
+            approval_assessment_pending_group: {
+              count: 3,
+              query: [
+                "record_state=true",
+                "status=open",
+                "approval_status_bia=pending"
+              ]
+            }
+          }
+        },
+        {
+          name: "dashboard.approvals_case_plan_pending",
+          type: "indicator",
+          indicators: {}
+        }
+      ]);
+      const expected = fromJS({
+        indicators: {
+          approval_assessment_pending_group: {
+            count: 3,
+            query: [
+              "record_state=true",
+              "status=open",
+              "approval_status_bia=pending"
+            ]
+          }
+        }
+      });
+      const converted = helper.toApprovalsManager(data);
+
+      expect(converted).to.deep.equal(expected);
+    });
+
+    it("should return an empty indicator key", () => {
+      const data = fromJS([
+        {
+          name: "dashboard.approvals_assessment_pending",
+          type: "indicator",
+          indicators: {}
+        },
+        {
+          name: "dashboard.approvals_case_plan_pending",
+          type: "indicator",
+          indicators: {}
+        }
+      ]);
+      const expected = fromJS({
+        indicators: {}
       });
       const converted = helper.toApprovalsManager(data);
 
@@ -571,6 +632,33 @@ describe("<Dashboard /> - Helpers", () => {
       );
 
       expect(permitted).to.deep.equal(expected);
+    });
+  });
+
+  describe("taskOverdueHasData", () => {
+    it("should respond false when taskOverdue has not data", () => {
+      const result = helper.taskOverdueHasData(
+        fromJS({}),
+        fromJS({}),
+        fromJS({}),
+        fromJS({})
+      );
+
+      expect(result).to.be.false;
+    });
+
+    it("should respond true when at least one taskOverdue has data", () => {
+      const result = helper.taskOverdueHasData(
+        fromJS({
+          name: "dashboard.cases_by_task_overdue_assessment",
+          type: "indicator"
+        }),
+        fromJS({}),
+        fromJS({}),
+        fromJS({})
+      );
+
+      expect(result).to.be.true;
     });
   });
 });

@@ -103,6 +103,7 @@ function fetchPayload(action, store, options) {
       method,
       normalizeFunc,
       successCallback,
+      failureCallback,
       db,
       external,
       queueAttachments
@@ -159,6 +160,7 @@ function fetchPayload(action, store, options) {
 
           store.dispatch(attemptSignout(usingIdp, signOut));
         }
+        handleSuccessCallback(store, failureCallback, response, json);
       } else {
         await handleSuccess(store, {
           type,
@@ -190,6 +192,7 @@ function fetchPayload(action, store, options) {
       // eslint-disable-next-line no-console
       console.warn(e);
       fetchStatus({ store, type }, "FAILURE", false);
+      handleSuccessCallback(store, failureCallback, {}, {});
     }
   };
 

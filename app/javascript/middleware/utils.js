@@ -19,27 +19,31 @@ export const handleSuccessCallback = (
   fromQueue = false
 ) => {
   if (successCallback) {
-    const isCallbackObject = typeof successCallback === "object";
-    const successPayload = isCallbackObject
-      ? {
-          type: successCallback.action,
-          payload: successCallback.payload
-        }
-      : {
-          type: successCallback,
-          payload: { response, json }
-        };
+    if (Array.isArray(successCallback)) {
+      successCallback.forEach(callback => handleSuccessCallback(store, callback, response, json, fromQueue));
+    } else {
+      const isCallbackObject = typeof successCallback === "object";
+      const successPayload = isCallbackObject
+        ? {
+            type: successCallback.action,
+            payload: successCallback.payload
+          }
+        : {
+            type: successCallback,
+            payload: { response, json }
+          };
 
-    store.dispatch(successPayload);
+      store.dispatch(successPayload);
 
-    if (isCallbackObject && successCallback.redirect && !fromQueue) {
-      store.dispatch(
-        push(
-          successCallback.redirectWithIdFromResponse
-            ? `${successCallback.redirect}/${json?.data?.id}`
-            : successCallback.redirect
-        )
-      );
+      if (isCallbackObject && successCallback.redirect && !fromQueue) {
+        store.dispatch(
+          push(
+            successCallback.redirectWithIdFromResponse
+              ? `${successCallback.redirect}/${json?.data?.id}`
+              : successCallback.redirect
+          )
+        );
+      }
     }
   }
 };
