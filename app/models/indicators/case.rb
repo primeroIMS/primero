@@ -18,21 +18,19 @@ module Indicators
     ].freeze
 
     OPEN = QueriedIndicator.new(
-      name: 'open',
+      name: 'total',
       record_model: Child,
-      queries: OPEN_ENABLED,
-      scope_to_owner: true
+      queries: OPEN_ENABLED
     ).freeze
 
     #NEW = TODO: Cases that have just been assigned to me. Need extra work.
 
     UPDATED = QueriedIndicator.new(
-      name: 'updated',
+      name: 'new_or_updated',
       record_model: Child,
       queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'not_edited_by_owner', value: true)
-      ],
-      scope_to_owner: true
+      ]
     ).freeze
 
     CLOSED_RECENTLY = QueriedIndicator.new(
@@ -343,6 +341,24 @@ module Indicators
         SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_REJECTED)
       ],
       scope_to_owned_by_groups: true
+    ).freeze
+
+    SHARED_WITH_MY_TEAM_REFERRALS = FacetedIndicator.new(
+      name: 'shared_with_my_team_referrals',
+      record_model: Child,
+      facet: 'referred_users',
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'referred_users_present', value: true)
+      ]
+    ).freeze
+
+    SHARED_WITH_MY_TEAM_PENDING_TRANSFERS = FacetedIndicator.new(
+      name: 'shared_with_my_team_pending_transfers',
+      record_model: Child,
+      facet: 'transferred_to_users',
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
+      ]
     ).freeze
 
     def self.reporting_location_indicators
