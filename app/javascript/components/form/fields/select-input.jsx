@@ -42,7 +42,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       defaultValue={defaultValue}
       filterSelectedOptions
       renderInput={params => (
-        <TextField {...params} margin="normal" {...commonProps} />
+        <TextField {...params} name={name} margin="normal" {...commonProps} />
       )}
     />
   );

@@ -1159,6 +1159,8 @@ en:
       url_label: "Primero"
       enabled_label: "Send Welcome Email?"
       text_label: "Welcome Email Text"
+    identity_provider: "Identity Provider"
+    provider_username_help: "Example: my.username@%{domain}"
 
   phone: "Phone"
   email: "Email"

@@ -15,7 +15,7 @@ import { WRITE_RECORDS } from "../../../../libs/permissions";
 
 import { form, validations } from "./form";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
-import { getUser, getServerErrors } from "./selectors";
+import { getUser, getServerErrors, selectIdentityProviders } from "./selectors";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -26,9 +26,12 @@ const Container = ({ mode }) => {
   const { id } = useParams();
   const user = useSelector(state => getUser(state));
   const formErrors = useSelector(state => getServerErrors(state));
+  const idp = useSelector(state => selectIdentityProviders(state));
+  const useIdentityProviders = idp?.get("use_identity_provider");
+  const providers = idp?.get("identity_providers");
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
-  const validationSchema = validations(formMode, i18n);
+  const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
 
   const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
 
@@ -104,7 +107,12 @@ const Container = ({ mode }) => {
         <Form
           useCancelPrompt
           mode={mode}
-          formSections={form(i18n, formMode)}
+          formSections={form(
+            i18n,
+            formMode,
+            useIdentityProviders,
+            providers
+          )}
           onSubmit={handleSubmit}
           ref={formRef}
           validations={validationSchema}

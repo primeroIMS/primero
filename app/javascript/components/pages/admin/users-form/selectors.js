@@ -13,3 +13,7 @@ export const getErrors = state => {
 export const getServerErrors = state => {
   return state.getIn(["records", NAMESPACE, "serverErrors"], fromJS([]));
 };
+
+export const selectIdentityProviders = state => {
+  return state.get("idp", fromJS({}));
+};

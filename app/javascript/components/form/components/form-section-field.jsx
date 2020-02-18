@@ -27,7 +27,10 @@ const FormSectionField = ({ field }) => {
     options,
     password,
     multi_select: multiSelect,
-    editable
+    editable,
+    watchInput,
+    hideIfWatch,
+    helpTextIfWatch
   } = field;
   const i18n = useI18n();
   const { formMode, errors } = useFormContext();
@@ -63,7 +66,10 @@ const FormSectionField = ({ field }) => {
   const metaInputProps = {
     type,
     password,
-    multiSelect
+    multiSelect,
+    watchInput,
+    hideIfWatch,
+    helpTextIfWatch
   };
 
   const Field = (fieldType => {

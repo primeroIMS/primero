@@ -40,5 +40,7 @@ export const signIn = async (idp, tokenCallback) => {
 };
 
 export const signOut = () => {
-  msalApp.logout();
+  if (msalApp) {
+    msalApp.logout();
+  }
 };

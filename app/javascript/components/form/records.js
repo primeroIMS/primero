@@ -22,7 +22,10 @@ export const FieldRecord = Record({
   show_on_minify_form: false,
   autoFocus: false,
   password: false,
-  hideOnShow: false
+  hideOnShow: false,
+  watchInput: null,
+  hideIfWatch: null,
+  helpTextIfWatch: null
 });
 
 export const FormSectionRecord = Record({
