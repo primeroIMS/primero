@@ -19,10 +19,6 @@ const TickField = ({ name, label, formik, ...rest }) => {
     }
   }, []);
 
-  if (!rest?.field) {
-    return null;
-  }
-
   return (
     <FormControlLabel
       label={label}

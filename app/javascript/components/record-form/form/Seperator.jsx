@@ -3,10 +3,7 @@ import PropTypes from "prop-types";
 
 import { SEPERATOR_NAME } from "./constants";
 
-const Seperator = ({ label, field }) => {
-  if (!field?.visible) {
-    return null;
-  }
+const Seperator = ({ label }) => {
 
   return (
     <>
@@ -18,7 +15,6 @@ const Seperator = ({ label, field }) => {
 Seperator.displayName = SEPERATOR_NAME;
 
 Seperator.propTypes = {
-  field: PropTypes.object,
   label: PropTypes.string
 };
 

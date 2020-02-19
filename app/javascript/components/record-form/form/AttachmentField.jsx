@@ -54,10 +54,6 @@ const AttachmentField = ({ name, field, label, disabled, formik, mode }) => {
 
   const valuesSize = values.length;
 
-  if (!field?.visible) {
-    return null;
-  }
-
   return (
     <FieldArray
       name={name}
