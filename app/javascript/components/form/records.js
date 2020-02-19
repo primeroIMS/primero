@@ -25,7 +25,9 @@ export const FieldRecord = Record({
   hideOnShow: false,
   watchInput: null,
   hideIfWatch: null,
-  helpTextIfWatch: null
+  helpTextIfWatch: null,
+  watchDisableInput: null,
+  watchDisable: null
 });
 
 export const FormSectionRecord = Record({

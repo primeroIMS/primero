@@ -30,7 +30,9 @@ const FormSectionField = ({ field }) => {
     editable,
     watchInput,
     hideIfWatch,
-    helpTextIfWatch
+    helpTextIfWatch,
+    watchDisableInput,
+    watchDisable
   } = field;
   const i18n = useI18n();
   const { formMode, errors } = useFormContext();
@@ -69,7 +71,9 @@ const FormSectionField = ({ field }) => {
     multiSelect,
     watchInput,
     hideIfWatch,
-    helpTextIfWatch
+    helpTextIfWatch,
+    watchDisableInput,
+    watchDisable
   };
 
   const Field = (fieldType => {

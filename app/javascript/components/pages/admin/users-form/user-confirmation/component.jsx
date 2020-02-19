@@ -11,16 +11,14 @@ import { NAME } from "./constants";
 
 const Component = ({
   close,
-  data,
   dialogName,
   id,
   pending,
   saveMethod,
   setPending,
-  userConfirmationOpen
+  userConfirmationOpen,
+  userData
 }) => {
-  console.log('data:', data);
-
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -31,10 +29,12 @@ const Component = ({
       saveUser({
         id,
         saveMethod,
-        body: { data },
+        dialogName,
+        body: { userData },
         message: i18n.t(
           `user.messages.${ saveMethod === "update" ? "updated" : "created"}`
-        )
+        ),
+        failureMessage:i18n.t("user.messages.failure")
       })
     );
   };
@@ -46,8 +46,9 @@ const Component = ({
   };
 
   const dialogContent = (
-    <p>{i18n.t(`user.create_confirm`, {username: data.username, name: data.name, role: data.role, email: data.email})}</p>
+    <p>{i18n.t(`user.messages.${saveMethod}_confirm`, {username: userData.user_name, identity: userData.identity_provider, role: userData.role_unique_id, email: userData.email})}</p>
   );
+
   return (
     <ActionDialog
       open={userConfirmationOpen}
@@ -73,13 +74,13 @@ Component.defaultProps = {
 
 Component.propTypes = {
   close: PropTypes.func,
-  data: PropTypes.object,
   dialogName: PropTypes.string,
   id: PropTypes.string,
   pending: PropTypes.bool,
   saveMethod: PropTypes.string,
   setPending: PropTypes.func,
-  userConfirmationOpen: PropTypes.bool
+  userConfirmationOpen: PropTypes.bool,
+  userData: PropTypes.object
 };
 
 export default Component;

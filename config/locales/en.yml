@@ -1132,6 +1132,9 @@ en:
       passwords_do_not_match: "does not match current password"
       password_changed_successfully: "Password changed successfully"
       time_zone_updated: "The change was successfully updated."
+      new_confirm: "You are about to invite the user %{username} from %{identity} the with role %{role} to use Primero. A confirmation email will be sent to %{email}. Would you like to proceed?"
+      update_confirm: "You are about to update the user %{username} from %{identity} the with role %{role}. Would you like to proceed?"
+      failure: "An error occurred, please contact support."
     update: "Update"
     verify: "Verify"
     create: "Create"
@@ -1161,7 +1164,6 @@ en:
       text_label: "Welcome Email Text"
     identity_provider: "Identity Provider"
     provider_username_help: "Example: my.username@%{domain}"
-    create_confirm: "You are about to invite the user ${username} from ${name} the with role ${role} to use Primero. A confirmation email will be sent to %{email}. Would you like to proceed?"
 
   phone: "Phone"
   email: "Email"

@@ -20,21 +20,22 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
     user_group_unique_ids: yup.array().required()
   };
 
+
   if (useIdentityProviders, providers) {
     validations.identity_provider = yup.string().required();
     validations.user_name = yup.string()
       .when(['identity_provider'], {
         is: (provider) => provider === "unicef",
-        then: yup.string().matches(/@unicef.org$/).required()
+        then: yup.string().matches(/@unicef.org$/)
       })
       .when(['identity_provider'], {
         is: (provider) => provider === "primeroims",
-        then: yup.string().matches(/@cpims-gh.primero.org$/).required()
+        then: yup.string().matches(/@cpims-gh.primero.org$/)
       })
       .when(['identity_provider'], {
-        is: (provider) => provider === null,
-        then: yup.string().required()
-      });
+        is: (provider) => !provider,
+        then: yup.string()
+      }).required();
     // let providerRegex;
     // validations.user_name = yup.string()
     //   .when(['identity_provider'], {
@@ -48,6 +49,8 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
     //     is: (provider) => provider === "",
     //     then: yup.string().required()
     //   });
+
+    //TODO: this is the validation
     // validations.user_name = yup.lazy(() => {
     //   const provider = providers.find((provider) => provider.get("unique_id") === yup.ref("identity_provider"));
     //   if (provider) {
@@ -94,6 +97,11 @@ export const form = (
   useIdentityProviders,
   providers
 ) => {
+  const providersDisable = (input) => {
+    console.log('input value:::', input);
+    console.log("testif disable:", useIdentityProviders, providers, input, "should disable", useIdentityProviders && providers && input === "");
+    return useIdentityProviders && providers && input === ""
+  }
   const formData = {
     unique_id: "users",
     fields: [
@@ -113,10 +121,12 @@ export const form = (
         editable: false,
         watchInput: "identity_provider",
         helpTextIfWatch: (input) => {
-          const provider = providers.find((provider) => provider.get("unique_id") === input);
+          const provider = providers ? providers.find((provider) => provider.get("unique_id") === input) : null;
 
           return provider ? i18n.t("user.provider_username_help", {domain: provider.get("user_domain")}) : null;
-        }
+        },
+        watchDisableInput: "identity_provider",
+        watchDisable: providersDisable
       }),
       FieldRecord({
         display_name: i18n.t("user.code"),
@@ -223,9 +233,7 @@ export const form = (
         display_name: i18n.t("user.email"),
         name: "email",
         required: true,
-        type: TEXT_FIELD,
-        watchInput: "identity_provider",
-        hideIfWatch: (input) => input === "primeroims"
+        type: TEXT_FIELD
       }),
       FieldRecord({
         display_name: i18n.t("user.organization"),

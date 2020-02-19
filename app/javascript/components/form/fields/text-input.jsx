@@ -7,9 +7,17 @@ import { TEXT_AREA } from "../constants";
 
 const TextInput = ({ commonInputProps, metaInputProps }) => {
   const { watch } = useFormContext();
-  const { type, password, watchInput, hideIfWatch, helpTextIfWatch } = metaInputProps;
+  const {
+    type,
+    password,
+    watchInput,
+    hideIfWatch,
+    helpTextIfWatch,
+    watchDisable,
+    watchDisableInput
+  } = metaInputProps;
   const inputType = password ? "password" : "text";
-  const { helperText, ...additionalInputProps } = commonInputProps;
+  const { helperText, disabled, ...additionalInputProps } = commonInputProps;
   const watchedField = watchInput ? watch(watchInput, commonInputProps.label) : null;
   let showField = true;
 
@@ -18,6 +26,13 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
   }
 
   const watchHelperText = helpTextIfWatch && watchedField ? helpTextIfWatch(watchedField) : helperText;
+
+  const watchedDisableField = watchDisableInput ? watch(watchDisableInput, "") : false;
+
+  let disableField = disabled;
+  if (!disabled && watchDisableInput && watchDisable && watchedDisableField !== false) {
+    disableField = watchDisable(watchedDisableField);
+  }
 
   return showField ? (
     <>
@@ -28,6 +43,7 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
       multiline={type && type === TEXT_AREA}
       helperText={watchHelperText}
       defaultValue=""
+      disabled={disableField}
     />
     </>
   ) : null;

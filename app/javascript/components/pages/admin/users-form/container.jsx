@@ -36,7 +36,7 @@ const Container = ({ mode }) => {
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
   const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
-  const [userData, setUserData] = React.useState("");
+  const [userData, setUserData] = React.useState({});
 
   const userConfirmationOpen = useSelector(state =>
     selectDialog(USER_CONFIRMATION_DIALOG, state)
