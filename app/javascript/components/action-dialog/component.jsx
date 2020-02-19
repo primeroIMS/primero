@@ -45,6 +45,8 @@ const ActionDialog = ({
     if (!omitCloseAfterSuccess) handleClose(event);
   };
 
+  const stopPropagation = event => event.stopPropagation();
+
   const defaultSuccessButtonProps = {
     color: "primary",
     autoFocus: true
@@ -75,7 +77,7 @@ const ActionDialog = ({
   );
 
   return (
-    <div onClick={event => event.stopPropagation()}>
+    <div onClick={stopPropagation}>
       <Dialog
         open={open}
         onClose={handleClose}
