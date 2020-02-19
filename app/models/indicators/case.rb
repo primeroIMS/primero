@@ -175,7 +175,7 @@ module Indicators
 
     TASKS_OVERDUE_ASSESSMENT = FacetedIndicator.new(
       name: 'tasks_overdue_assessment',
-      facet: 'associated_user_names',
+      facet: 'owned_by',
       record_model: Child,
       scope: OPEN_ENABLED + [
         SearchFilters::DateRange.new(
@@ -186,7 +186,7 @@ module Indicators
 
     TASKS_OVERDUE_CASE_PLAN = FacetedIndicator.new(
       name: 'tasks_overdue_case_plan',
-      facet: 'associated_user_names',
+      facet: 'owned_by',
       record_model: Child,
       scope: OPEN_ENABLED + [
         SearchFilters::DateRange.new(
@@ -197,7 +197,7 @@ module Indicators
 
     TASKS_OVERDUE_SERVICES = FacetedIndicator.new(
       name: 'tasks_overdue_services',
-      facet: 'associated_user_names',
+      facet: 'owned_by',
       record_model: Child,
       scope: OPEN_ENABLED + [
         SearchFilters::DateRange.new(
@@ -208,7 +208,7 @@ module Indicators
 
     TASKS_OVERDUE_FOLLOWUPS = FacetedIndicator.new(
       name: 'tasks_overdue_followups',
-      facet: 'associated_user_names',
+      facet: 'owned_by',
       record_model: Child,
       scope: OPEN_ENABLED + [
         SearchFilters::DateRange.new(

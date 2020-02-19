@@ -25,7 +25,11 @@ describe Api::V2::DashboardsController, type: :request do
         Permission::DASH_CASE_OVERVIEW,
         Permission::DASH_REPORTING_LOCATION,
         Permission::DASH_PROTECTION_CONCERNS,
-        Permission::DASH_GROUP_OVERVIEW
+        Permission::DASH_GROUP_OVERVIEW,
+        Permission::DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
+        Permission::DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
+        Permission::DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
+        Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES
       ]
     )
 
@@ -50,12 +54,23 @@ describe Api::V2::DashboardsController, type: :request do
     @bar.save(validate: false)
 
     Child.create!(data: {
-                    record_state: true, status: 'open', owned_by: 'foo', workflow: 'new',
-                    created_at: last_week, protection_concerns: ['refugee']
+                    record_state: true, status: 'open', owned_by: 'foo', workflow: 'new', created_at: last_week,
+                    protection_concerns: ['refugee'], followup_subform_section: [
+                      { followup_needed_by_date: [Time.zone.now] }
+                    ], assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now, services_section: [
+                      {
+                        service_type: 'health_medical_service', service_referral: 'referred',
+                        service_implemented: 'not_implemented', service_response_type: 'care_plan',
+                        service_appointment_date: (Date.today - 7.days),
+                        service_response_day_time: (Date.today - 7.days), service_response_timeframe: '3_days'
+                      }
+                    ]
                   })
     Child.create!(data: {
-                    record_state: true, status: 'open', owned_by: 'foo', last_updated_by: 'bar',
-                    workflow: 'assessment', protection_concerns: ['refugee']
+                    record_state: true, status: 'open', owned_by: 'foo', last_updated_by: 'bar', workflow: 'assessment',
+                    protection_concerns: ['refugee'], followup_subform_section: [
+                      { followup_needed_by_date: [Time.zone.now] }
+                    ], assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now
                   })
     Child.create!(data: { record_state: false, status: 'open', owned_by: 'foo', workflow: 'new' })
     Child.create!(data: {
@@ -88,7 +103,7 @@ describe Api::V2::DashboardsController, type: :request do
       get '/api/v2/dashboards'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(5)
+      expect(json['data'].size).to eq(9)
 
       case_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.case_overview' }
       expect(case_overview_dashboard['indicators']['total']['count']).to eq(2)
@@ -113,15 +128,31 @@ describe Api::V2::DashboardsController, type: :request do
       expect(reporting_location_dashboard['indicators']['reporting_location_closed_this_week']['cty']['count']).to eq(2)
       expect(reporting_location_dashboard['indicators']['reporting_location_closed_last_week']['cty']['count']).to eq(1)
 
-      protection_concerns_dashboard = json['data'].find { |d| d['name'] == 'dashboard.dash_protection_concerns' }
-      expect(protection_concerns_dashboard['indicators']['protection_concerns_open_cases']['refugee']['count']).to eq(2)
-      expect(protection_concerns_dashboard['indicators']['protection_concerns_new_this_week']['refugee']['count']).to eq(1)
-      expect(protection_concerns_dashboard['indicators']['protection_concerns_all_cases']['refugee']['count']).to eq(4)
-      expect(protection_concerns_dashboard['indicators']['protection_concerns_closed_this_week']['refugee']['count']).to eq(1)
+      protection_concerns = json['data'].find { |d| d['name'] == 'dashboard.dash_protection_concerns' }['indicators']
+      expect(protection_concerns['protection_concerns_open_cases']['refugee']['count']).to eq(2)
+      expect(protection_concerns['protection_concerns_new_this_week']['refugee']['count']).to eq(1)
+      expect(protection_concerns['protection_concerns_all_cases']['refugee']['count']).to eq(4)
+      expect(protection_concerns['protection_concerns_closed_this_week']['refugee']['count']).to eq(1)
 
       group_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.dash_group_overview' }
       expect(group_overview_dashboard['indicators']['group_overview_open']['count']).to eq(2)
       expect(group_overview_dashboard['indicators']['group_overview_closed']['count']).to eq(3)
+
+      tasks_overdue_assessment = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_assessment' }
+      expect(tasks_overdue_assessment['indicators']['tasks_overdue_assessment']['foo']['count']).to eq(2)
+      expect(tasks_overdue_assessment['indicators']['tasks_overdue_assessment'].count).to eq(2)
+
+      tasks_overdue_case_plan = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_case_plan' }
+      expect(tasks_overdue_case_plan['indicators']['tasks_overdue_case_plan']['foo']['count']).to eq(2)
+      expect(tasks_overdue_case_plan['indicators']['tasks_overdue_case_plan'].count).to eq(2)
+
+      tasks_overdue_followups = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_followups' }
+      expect(tasks_overdue_followups['indicators']['tasks_overdue_followups']['foo']['count']).to eq(2)
+      expect(tasks_overdue_followups['indicators']['tasks_overdue_followups'].count).to eq(2)
+
+      tasks_overdue_services = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_services' }
+      expect(tasks_overdue_services['indicators']['tasks_overdue_services']['foo']['count']).to eq(1)
+      expect(tasks_overdue_services['indicators']['tasks_overdue_services'].count).to eq(2)
     end
 
     describe 'Test the shared with dashboard', search: true do
