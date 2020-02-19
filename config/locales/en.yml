@@ -575,6 +575,7 @@ en:
       creation_success_queue: "Case record successfully created in background."
       not_found: "Child with the given id is not found"
       confirm_duplicate: "Are you sure you want to continue? If so, click OK. If not, click Cancel."
+      case_disabled: "Case is disabled"
 
     actions:
       mark_as_investigated: "Mark as Investigated"
