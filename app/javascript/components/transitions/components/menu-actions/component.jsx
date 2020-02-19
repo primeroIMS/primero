@@ -11,6 +11,9 @@ import { useI18n } from "../../../i18n";
 import { ACCEPTED, REJECTED } from "../../../../config";
 import RevokeModal from "../revoke-modal";
 import TransferApproval from "../../transfers/transfer-approval";
+import ReferralAction from "../../referrals/referral-action";
+import { DONE, REFERRAL_DONE_DIALOG } from "../../referrals/constants";
+import { TRANSFER_APPROVAL_DIALOG } from "../../transfers/constants";
 import {
   selectDialog,
   selectDialogPending
@@ -34,8 +37,21 @@ const Component = ({ transition, showMode, recordType, classes }) => {
   const setRevokeDialog = open => {
     dispatch(setDialog({ dialog: revokeModalName, open }));
   };
-  const [approvalOpen, setApprovalOpen] = useState(false);
   const [approvalType, setApprovalType] = useState(ACCEPTED);
+  const approvalOpen = useSelector(state =>
+    selectDialog(TRANSFER_APPROVAL_DIALOG, state)
+  );
+  const setApprovalOpen = open => {
+    dispatch(setDialog({ dialog: TRANSFER_APPROVAL_DIALOG, open }));
+  };
+
+  const [referralType, setReferralType] = useState(DONE);
+  const referralOpen = useSelector(state =>
+    selectDialog(REFERRAL_DONE_DIALOG, state)
+  );
+  const setReferralOpen = open => {
+    dispatch(setDialog({ dialog: REFERRAL_DONE_DIALOG, open }));
+  };
   const username = useSelector(state => currentUser(state));
   const userPermissions = useSelector(state =>
     getPermissionsByRecord(state, recordType)
@@ -57,6 +73,13 @@ const Component = ({ transition, showMode, recordType, classes }) => {
     showMode &&
     transition.type.toLowerCase() === TRANSITIONS_TYPES.transfer;
 
+  const showReferralMenu =
+    isInProgress &&
+    transition &&
+    isCurrentUserRecipient &&
+    showMode &&
+    transition.type.toLowerCase() === TRANSITIONS_TYPES.referral;
+
   const handleCloseApproval = () => setApprovalOpen(false);
 
   const handleRejectOpen = () => {
@@ -67,6 +90,15 @@ const Component = ({ transition, showMode, recordType, classes }) => {
   const handleAcceptOpen = () => {
     setApprovalType(ACCEPTED);
     setApprovalOpen(true);
+  };
+
+  const handleDoneOpen = () => {
+    setReferralType(DONE);
+    setReferralOpen(true);
+  };
+
+  const handleDoneClose = () => {
+    setReferralOpen(false);
   };
 
   const options = [
@@ -84,6 +116,11 @@ const Component = ({ transition, showMode, recordType, classes }) => {
       name: i18n.t("buttons.reject"),
       condition: showTransferApproval,
       action: event => handleRejectOpen(event)
+    },
+    {
+      name: i18n.t("buttons.done"),
+      condition: showReferralMenu,
+      action: event => handleDoneOpen(event)
     }
   ];
 
@@ -156,8 +193,22 @@ const Component = ({ transition, showMode, recordType, classes }) => {
         close={handleCloseApproval}
         approvalType={approvalType}
         recordId={transition.record_id}
+        pending={dialogPending}
+        setPending={setDialogPending}
         transferId={transition.id}
         recordType={recordType}
+        dialogName={TRANSFER_APPROVAL_DIALOG}
+      />
+      <ReferralAction
+        openReferralDialog={referralOpen}
+        close={handleDoneClose}
+        recordId={transition.record_id}
+        pending={dialogPending}
+        setPending={setDialogPending}
+        transistionId={transition.id}
+        recordType={recordType}
+        dialogName={REFERRAL_DONE_DIALOG}
+        referralType={referralType}
       />
     </div>
   );

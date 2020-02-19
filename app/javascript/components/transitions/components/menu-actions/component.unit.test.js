@@ -5,6 +5,7 @@ import { ACTIONS } from "../../../../libs/permissions";
 import { TransitionRecord } from "../../records";
 import RevokeModal from "../revoke-modal";
 import TransferApproval from "../../transfers/transfer-approval";
+import ReferralAction from "../../referrals/referral-action";
 
 import TransitionActions from "./component";
 
@@ -289,7 +290,77 @@ describe("<MenuActions /> - Component", () => {
         "approvalType",
         "recordId",
         "transferId",
-        "recordType"
+        "recordType",
+        "pending",
+        "setPending",
+        "dialogName"
+      ].forEach(property => {
+        expect(exportProps).to.have.property(property);
+        delete exportProps[property];
+      });
+      expect(exportProps).to.be.empty;
+    });
+  });
+
+  describe("Component ReferralAction", () => {
+    const state = {
+      ui: {
+        dialogs: {
+          pending: false,
+          "showReferral-804d74bc-53b0-4b71-9a81-8ac419792f75": false
+        }
+      },
+      user: {
+        username: "primero_test",
+        permissions: {
+          cases: [ACTIONS.MANAGE]
+        }
+      }
+    };
+
+    const props = {
+      transition: TransitionRecord({
+        id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+        record_id: "5a291f55-c92a-4786-be2a-13b98fd143e1",
+        record_type: "case",
+        created_at: "2020-02-14T23:00:35.345Z",
+        notes: "",
+        rejected_reason: "",
+        status: "in_progress",
+        type: "Referral",
+        consent_overridden: true,
+        consent_individual_transfer: false,
+        transitioned_by: "primero_admin_cp",
+        transitioned_to: "primero_cp_ar",
+        service: "legal_assistance_service"
+      }),
+      showMode: true,
+      recordType: "cases",
+      classes: {}
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(TransitionActions, props, state));
+    });
+
+    it("renders ReferralAction", () => {
+      expect(component.find(ReferralAction)).to.have.lengthOf(1);
+    });
+
+    it("renders valid props for ReferralAction components", () => {
+      const exportProps = { ...component.find(ReferralAction).props() };
+
+      expect(component.find(ReferralAction)).to.have.lengthOf(1);
+      [
+        "openReferralDialog",
+        "close",
+        "recordId",
+        "pending",
+        "setPending",
+        "transistionId",
+        "recordType",
+        "dialogName",
+        "referralType"
       ].forEach(property => {
         expect(exportProps).to.have.property(property);
         delete exportProps[property];
