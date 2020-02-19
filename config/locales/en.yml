@@ -160,6 +160,7 @@ en:
       system_settings: "System Settings"
       matching: "Matching"
       users: "Users"
+      user_groups: "User Groups"
       forms: "Form"
       locations: "Locations"
       audit_logs: "Audit Logs"
