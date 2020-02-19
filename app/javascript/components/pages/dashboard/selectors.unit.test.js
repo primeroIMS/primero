@@ -196,6 +196,21 @@ const groupOverview = {
   }
 };
 
+const caseOverview = {
+  name: "dashboard.case_overview",
+  type: "indicator",
+  indicators: {
+    total: {
+      count: 2,
+      query: ["record_state=true", "status=open"]
+    },
+    new_or_updated: {
+      count: 1,
+      query: ["record_state=true", "status=closed", "not_edited_by_owner=true"]
+    }
+  }
+};
+
 const stateWithoutRecords = fromJS({});
 const initialState = fromJS({
   records: {
@@ -227,7 +242,8 @@ const initialState = fromJS({
         protectionConcern,
         sharedWithMe,
         sharedWithOthers,
-        groupOverview
+        groupOverview,
+        caseOverview
       ]
     }
   }
@@ -352,6 +368,14 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getGroupOverview(initialState);
 
       expect(values).to.deep.equal(fromJS(groupOverview));
+    });
+  });
+
+  describe("getCaseOverview", () => {
+    it("should return the case overview", () => {
+      const values = selectors.getCaseOverview(initialState);
+
+      expect(values).to.deep.equal(fromJS(caseOverview));
     });
   });
 });

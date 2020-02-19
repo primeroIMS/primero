@@ -1932,6 +1932,7 @@ en:
     group_overview_open: "Open"
     group_overview_closed: "Closed"
     case_overview: "My Cases"
+    new_or_updated: "New or Updated"
 
   errors:
     try_again: "Try again"
