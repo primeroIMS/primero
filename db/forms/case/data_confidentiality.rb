@@ -5,7 +5,7 @@ consent_fields = [
              "option_strings_text_en" => [
                { id: 'individual', display_text: "Individual" },
                { id: 'caregiver', display_text: "Caregiver" },
-               { id: 'other', display_text: "Other (please specify)" }
+               { id: 'other', display_text: "Other" }
              ].map(&:with_indifferent_access)
             }),
   Field.new({"name" => "consent_source_other",
@@ -77,7 +77,7 @@ consent_fields = [
              "option_strings_text_en" => [
                 { id: 'fear', display_text: "Fear of harm to themselves or others" }.with_indifferent_access,
                 { id: 'communicate_information', display_text: "Want to communicate information themselves" }.with_indifferent_access,
-                { id: 'others', display_text: "Other reason, please specify" }.with_indifferent_access
+                { id: 'others', display_text: "Other" }.with_indifferent_access
               ]
             }),
   Field.new({"name" => "withholding_info_other_reason",
