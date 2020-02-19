@@ -172,6 +172,22 @@ export default [
               }
             },
             {
+              path: `${ROUTES.admin_user_groups}/:id/edit`,
+              component: UserGroupsForm,
+              resources: RESOURCES.user_groups,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.admin_user_groups}/:id`,
+              component: UserGroupsForm,
+              resources: RESOURCES.user_groups,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
               path: ROUTES.admin_user_groups,
               component: UserGroupsList,
               resources: RESOURCES.user_groups

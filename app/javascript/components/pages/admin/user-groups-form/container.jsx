@@ -91,9 +91,9 @@ const Container = ({ mode }) => {
       </>
     ) : null;
 
-  const editButton = formMode.get("isShow") && (
+  const editButton = formMode.get("isShow") ? (
     <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} />
-  );
+  ) : null;
 
   const pageHeading = userGroup?.size
     ? `${i18n.t("user_groups.label")} ${userGroup.get("name")}`
