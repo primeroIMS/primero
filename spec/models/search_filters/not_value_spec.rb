@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe SearchFilters::Value do
+describe SearchFilters::NotValue do
   describe '.query_scope', search: true do
     before :example do
       @correct_match = Child.create!(data: { name: 'Correct Match', sex: 'female', age: 12, record_state: true })
@@ -11,7 +11,7 @@ describe SearchFilters::Value do
     end
 
     it 'matches on string values' do
-      filter = SearchFilters::Value.new(field_name: 'sex', value: 'female')
+      filter = SearchFilters::NotValue.new(field_name: 'sex', value: 'male')
 
       search = Child.search do
         filter.query_scope(self)
@@ -22,7 +22,7 @@ describe SearchFilters::Value do
     end
 
     it 'matches on boolean value' do
-      filter = SearchFilters::Value.new(field_name: 'record_state', value: true)
+      filter = SearchFilters::NotValue.new(field_name: 'record_state', value: false)
 
       search = Child.search do
         filter.query_scope(self)
