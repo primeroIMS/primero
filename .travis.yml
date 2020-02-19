@@ -3,6 +3,8 @@ bundler_args: "--without production"
 env:
 - RAILS_ENV=test
 cache: bundler
+jdk:
+  - openjdk8
 addons:
   postgresql: "10"
   apt:
