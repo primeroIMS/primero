@@ -157,7 +157,7 @@ describe Api::V2::DashboardsController, type: :request do
           data: {
             name: 'Test_a', owned_by: 'user1',
             disclosure_other_orgs: true, consent_for_services: true,
-            module_id: @primero_module.unique_id, last_updated_by: 'user2'
+            module_id: @primero_module.unique_id, last_updated_by: 'user1'
           }
         )
         @case_b = Child.create(
@@ -202,9 +202,19 @@ describe Api::V2::DashboardsController, type: :request do
         get '/api/v2/dashboards'
         expect(response).to have_http_status(200)
 
-        expect(json['data'][0]['indicators']['shared_with_me_total_referrals']['count']).to eq(1)
-        expect(json['data'][0]['indicators']['shared_with_me_new_referrals']['count']).to eq(1)
-        expect(json['data'][0]['indicators']['shared_with_me_transfers_awaiting_acceptance']['count']).to eq(2)
+        shared_with_me_dashboard = json['data'][0]['indicators']
+        expect(shared_with_me_dashboard['shared_with_me_total_referrals']['count']).to eq(1)
+        expect(shared_with_me_dashboard['shared_with_me_new_referrals']['count']).to eq(1)
+        expect(shared_with_me_dashboard['shared_with_me_transfers_awaiting_acceptance']['count']).to eq(2)
+        expect(shared_with_me_dashboard['shared_with_me_total_referrals']['query']).to match_array(
+          %w[referred_users=user2 record_state=true status=open]
+        )
+        expect(shared_with_me_dashboard['shared_with_me_new_referrals']['query']).to match_array(
+          %w[referred_users=user2 !last_updated_by=user2 record_state=true status=open]
+        )
+        expect(shared_with_me_dashboard['shared_with_me_transfers_awaiting_acceptance']['query']).to match_array(
+          %w[transferred_to_users=user2 record_state=true status=open]
+        )
       end
 
       it 'lists statistics for permitted shared with others dashboards' do

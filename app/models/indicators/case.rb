@@ -288,10 +288,9 @@ module Indicators
     SHARED_WITH_ME_NEW_REFERRALS = QueriedIndicator.new(
       name: 'shared_with_me_new_referrals',
       record_model: Child,
-      queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'not_edited_by_owner', value: true)
-      ],
-      scope_to_referred: true
+      queries: OPEN_ENABLED,
+      scope_to_referred: true,
+      scope_to_not_last_update: true
     ).freeze
 
     SHARED_WITH_ME_TRANSFERS_AWAITING_ACCEPTANCE = QueriedIndicator.new(
