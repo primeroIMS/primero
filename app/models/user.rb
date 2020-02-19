@@ -43,7 +43,7 @@ class User < ApplicationRecord
 
   before_create :set_agency_services
   before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code, :set_locale
-  after_save :reassociate_groups_or_agencies
+  after_update :reassociate_groups_or_agencies
 
   validates :full_name, presence: { message: 'errors.models.user.full_name' }
   validates :user_name, presence: true, uniqueness: { message: 'errors.models.user.user_name_uniqueness' }
@@ -522,21 +522,13 @@ class User < ApplicationRecord
   def reassociate_groups_or_agencies
     return unless @refresh_associated_user_groups || @refresh_associated_user_agencies
 
-    pagination = { page: 1, per_page: 500 }
-    begin
-      results = Child.search do
-        with(:associated_user_names, user_name)
-        paginate pagination
-      end.results
-      Child.transaction do
-        results.each do |child|
-          child.update_associated_user_groups if @refresh_associated_user_groups
-          child.update_associated_user_agencies if @refresh_associated_user_agencies
-          child.save!
-        end
+    Child.transaction do
+      Child.associated_with(user_name).find_each(batch_size: 500) do |child|
+        child.update_associated_user_groups if @refresh_associated_user_groups
+        child.update_associated_user_agencies if @refresh_associated_user_agencies
+        child.save!
       end
-      pagination[:page] = results.next_page
-    end until results.next_page.nil?
+    end
     @refresh_associated_user_groups = false
     @refresh_associated_user_agencies = false
   end

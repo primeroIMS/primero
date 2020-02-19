@@ -2,16 +2,25 @@
   "short_name": "Primero",
   "name": "Primero",
   "description": "Primero is an open source software platform that helps social services, humanitarian and development workers manage protection-related data, with tools that facilitate case management, incident monitoring and family tracing and reunification.",
-  "start_url": "./v2/login",
+  "start_url": "v2/",
   "background_color": "#ffffff",
   "display": "fullscreen",
   "theme_color": "#0093ba",
-  "scope": ".",
   "icons": [
     {
       "src": "/primero-pictorial-144.png",
       "type": "image/png",
       "sizes": "144x144"
+    },
+    {
+      "src": "/primero-pictorial-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/primero-pictorial-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ]
 }

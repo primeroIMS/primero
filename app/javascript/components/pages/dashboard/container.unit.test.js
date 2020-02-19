@@ -1,6 +1,12 @@
 import { expect } from "chai";
 import { fromJS, Map, List } from "immutable";
-import { TableRow, TableBody, TableHead, TableCell } from "@material-ui/core";
+import {
+  TableRow,
+  TableBody,
+  TableHead,
+  TableCell,
+  CircularProgress
+} from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 
 import { setupMountedComponent } from "../../../test";
@@ -13,11 +19,20 @@ import { DashboardTable } from "../../dashboard/dashboard-table";
 import { BadgedIndicator } from "../../dashboard/badged-indicator";
 import { PieChart } from "../../dashboard/pie-chart";
 import { ACTIONS, DASH_APPROVALS_PENDING } from "../../../libs/permissions";
+import { LoadingIndicator } from "../../loading-indicator";
 
 import Dashboard from "./container";
 
 describe("<Dashboard />", () => {
   let component;
+
+  const emptyRecords = {
+    records: {
+      dashboard: {
+        loading: true
+      }
+    }
+  };
 
   before(() => {
     ({ component } = setupMountedComponent(
@@ -213,34 +228,36 @@ describe("<Dashboard />", () => {
   });
 
   describe("render approvals dashboards assessment", () => {
-    beforeEach(() => {
-      ({ component } = setupMountedComponent(
-        Dashboard,
-        {},
-        fromJS({
-          records: {
-            dashboard: {
-              data: [
-                {
-                  name: "dashboard.approvals_assessment",
-                  type: "indicator",
-                  indicators: {
-                    approval_assessment_pending: {
-                      count: 1,
-                      query: []
-                    }
-                  }
+    const userPermissions = {
+      user: {
+        permissions: {
+          dashboards: [ACTIONS.DASH_APPROVALS_ASSESSMENT]
+        }
+      }
+    };
+
+    const initialState = fromJS({
+      records: {
+        dashboard: {
+          data: [
+            {
+              name: "dashboard.approvals_assessment",
+              type: "indicator",
+              indicators: {
+                approval_assessment_pending: {
+                  count: 1,
+                  query: []
                 }
-              ]
+              }
             }
-          },
-          user: {
-            permissions: {
-              dashboards: [ACTIONS.DASH_APPROVALS_ASSESSMENT]
-            }
-          }
-        })
-      ));
+          ]
+        }
+      },
+      ...userPermissions
+    });
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(Dashboard, {}, initialState));
     });
 
     it("renders the OverviewBox", () => {
@@ -248,9 +265,38 @@ describe("<Dashboard />", () => {
       expect(component.find("li")).to.have.lengthOf(1);
       expect(component.find("button")).to.have.lengthOf(1);
     });
+
+    describe("when the data is loading", () => {
+      const initialStateDataLoading = fromJS({
+        ...emptyRecords,
+        ...userPermissions
+      });
+
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(
+          Dashboard,
+          {},
+          initialStateDataLoading
+        ));
+      });
+
+      it("renders the OverviewBox with Loading Indicator", () => {
+        expect(component.find(OverviewBox)).to.have.lengthOf(1);
+        expect(component.find(LoadingIndicator)).to.have.lengthOf(1);
+        expect(component.find(CircularProgress)).to.have.lengthOf(1);
+      });
+    });
   });
 
   describe("render approvals dashboards case plan", () => {
+    const userPermissions = {
+      user: {
+        permissions: {
+          dashboards: [ACTIONS.DASH_APPROVALS_CASE_PLAN]
+        }
+      }
+    };
+
     beforeEach(() => {
       ({ component } = setupMountedComponent(
         Dashboard,
@@ -272,11 +318,7 @@ describe("<Dashboard />", () => {
               ]
             }
           },
-          user: {
-            permissions: {
-              dashboards: [ACTIONS.DASH_APPROVALS_CASE_PLAN]
-            }
-          }
+          ...userPermissions
         })
       ));
     });
@@ -286,9 +328,38 @@ describe("<Dashboard />", () => {
       expect(component.find("li")).to.have.lengthOf(1);
       expect(component.find("button")).to.have.lengthOf(1);
     });
+
+    describe("when the data is loading", () => {
+      const initialStateDataLoading = fromJS({
+        ...emptyRecords,
+        ...userPermissions
+      });
+
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(
+          Dashboard,
+          {},
+          initialStateDataLoading
+        ));
+      });
+
+      it("renders the OverviewBox with Loading Indicator", () => {
+        expect(component.find(OverviewBox)).to.have.lengthOf(1);
+        expect(component.find(LoadingIndicator)).to.have.lengthOf(1);
+        expect(component.find(CircularProgress)).to.have.lengthOf(1);
+      });
+    });
   });
 
   describe("render approvals dashboards closure", () => {
+    const userPermissions = {
+      user: {
+        permissions: {
+          dashboards: [ACTIONS.DASH_APPROVALS_CLOSURE]
+        }
+      }
+    };
+
     beforeEach(() => {
       ({ component } = setupMountedComponent(
         Dashboard,
@@ -310,11 +381,7 @@ describe("<Dashboard />", () => {
               ]
             }
           },
-          user: {
-            permissions: {
-              dashboards: [ACTIONS.DASH_APPROVALS_CLOSURE]
-            }
-          }
+          ...userPermissions
         })
       ));
     });
@@ -324,9 +391,38 @@ describe("<Dashboard />", () => {
       expect(component.find("li")).to.have.lengthOf(1);
       expect(component.find("button")).to.have.lengthOf(1);
     });
+
+    describe("when the data is loading", () => {
+      const initialStateDataLoading = fromJS({
+        ...emptyRecords,
+        ...userPermissions
+      });
+
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(
+          Dashboard,
+          {},
+          initialStateDataLoading
+        ));
+      });
+
+      it("renders the OverviewBox with Loading Indicator", () => {
+        expect(component.find(OverviewBox)).to.have.lengthOf(1);
+        expect(component.find(LoadingIndicator)).to.have.lengthOf(1);
+        expect(component.find(CircularProgress)).to.have.lengthOf(1);
+      });
+    });
   });
 
   describe("render pending approvals dashboards", () => {
+    const userPermissions = {
+      user: {
+        permissions: {
+          dashboards: [DASH_APPROVALS_PENDING]
+        }
+      }
+    };
+
     beforeEach(() => {
       ({ component } = setupMountedComponent(
         Dashboard,
@@ -368,11 +464,7 @@ describe("<Dashboard />", () => {
               ]
             }
           },
-          user: {
-            permissions: {
-              dashboards: [DASH_APPROVALS_PENDING]
-            }
-          }
+          ...userPermissions
         })
       ));
     });
@@ -388,9 +480,38 @@ describe("<Dashboard />", () => {
           .text()
       ).to.be.equal("dashboard.pending_approvals");
     });
+
+    describe("when the data is loading", () => {
+      const initialStateDataLoading = fromJS({
+        ...emptyRecords,
+        ...userPermissions
+      });
+
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(
+          Dashboard,
+          {},
+          initialStateDataLoading
+        ));
+      });
+
+      it("renders the OverviewBox with Loading Indicator", () => {
+        expect(component.find(OverviewBox)).to.have.lengthOf(1);
+        expect(component.find(LoadingIndicator)).to.have.lengthOf(1);
+        expect(component.find(CircularProgress)).to.have.lengthOf(1);
+      });
+    });
   });
 
   describe("render protection concerns dashboards", () => {
+    const userPermissions = {
+      user: {
+        permissions: {
+          dashboards: [ACTIONS.DASH_PROTECTION_CONCERNS]
+        }
+      }
+    };
+
     beforeEach(() => {
       ({ component } = setupMountedComponent(
         Dashboard,
@@ -432,11 +553,7 @@ describe("<Dashboard />", () => {
               ]
             }
           },
-          user: {
-            permissions: {
-              dashboards: [ACTIONS.DASH_PROTECTION_CONCERNS]
-            }
-          }
+          ...userPermissions
         })
       ));
     });
@@ -446,6 +563,26 @@ describe("<Dashboard />", () => {
       expect(component.find(MUIDataTable)).to.have.lengthOf(1);
       expect(component.find(TableBody)).to.have.lengthOf(1);
       expect(component.find(TableBody).find(TableRow)).to.have.lengthOf(1);
+    });
+
+    describe("when the data is loading", () => {
+      const initialStateDataLoading = fromJS({
+        ...emptyRecords,
+        ...userPermissions
+      });
+
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(
+          Dashboard,
+          {},
+          initialStateDataLoading
+        ));
+      });
+
+      it("renders the DashboardTable with Loading Indicator", () => {
+        expect(component.find(LoadingIndicator)).to.have.lengthOf(1);
+        expect(component.find(CircularProgress)).to.have.lengthOf(1);
+      });
     });
   });
 
@@ -702,6 +839,14 @@ describe("<Dashboard />", () => {
   });
 
   describe("render all overdue tasks", () => {
+    const userPermissions = {
+      user: {
+        permissions: {
+          dashboards: [ACTIONS.DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS]
+        }
+      }
+    };
+
     beforeEach(() => {
       ({ component } = setupMountedComponent(
         Dashboard,
@@ -761,11 +906,7 @@ describe("<Dashboard />", () => {
               ]
             }
           },
-          user: {
-            permissions: {
-              dashboards: [ACTIONS.DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS]
-            }
-          }
+          ...userPermissions
         })
       ));
     });
@@ -781,6 +922,26 @@ describe("<Dashboard />", () => {
           .find(TableHead)
           .find(TableCell)
       ).to.have.lengthOf(5);
+    });
+
+    describe("when the data is loading", () => {
+      const initialStateDataLoading = fromJS({
+        ...emptyRecords,
+        ...userPermissions
+      });
+
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(
+          Dashboard,
+          {},
+          initialStateDataLoading
+        ));
+      });
+
+      it("renders the DashboardTable with Loading Indicator", () => {
+        expect(component.find(LoadingIndicator)).to.have.lengthOf(1);
+        expect(component.find(CircularProgress)).to.have.lengthOf(1);
+      });
     });
   });
 

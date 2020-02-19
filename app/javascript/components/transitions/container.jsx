@@ -10,6 +10,7 @@ import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../i18n";
+import { currentUser } from "../user/selectors";
 
 import styles from "./styles.css";
 import { selectTransitions } from "./selectors";
@@ -24,19 +25,20 @@ import TransferRequestDetails from "./transfer_requests/details";
 import ReferralDetails from "./referrals/details";
 import { TRANSITIONS_NAME } from "./constants";
 
-const Transitions = ({ isReferral, recordType, record }) => {
+const Transitions = ({ isReferral, recordType, record, showMode }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
   const dataTransitions = useSelector(state =>
     selectTransitions(state, recordType, record, isReferral)
   );
+  const currentUsername = useSelector(state => currentUser(state));
   const renderSummary = transition => {
     switch (transition.type) {
       case "Assign":
         return <AssignmentsSummary transition={transition} classes={css} />;
       case "Transfer":
-        return <TransferSummary transition={transition} classes={css} />;
+        return <TransferSummary transition={transition} classes={css} currentUsername={currentUsername} showMode={showMode} recordType={recordType} />;
       case "Referral":
         return <ReferralSummary transition={transition} classes={css} />;
       case "TransferRequest":
@@ -103,7 +105,8 @@ Transitions.displayName = TRANSITIONS_NAME;
 Transitions.propTypes = {
   isReferral: PropTypes.bool.isRequired,
   record: PropTypes.string.isRequired,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  showMode: PropTypes.bool
 };
 
 export default Transitions;

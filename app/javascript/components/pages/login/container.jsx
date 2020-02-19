@@ -8,12 +8,13 @@ import { selectUseIdentityProvider } from "./selectors";
 
 const Container = () => {
   const useIdentity = useSelector(state => selectUseIdentityProvider(state));
+  let identityForm = "";
 
-  return (
-    <>
-      {useIdentity ? <IdpSelection /> : <LoginForm />}
-    </>
-  );
+  if (typeof useIdentity !== "undefined") {
+    identityForm = useIdentity ? <IdpSelection /> : <LoginForm />;
+  }
+
+  return <>{identityForm}</>;
 };
 
 Container.displayName = NAME;

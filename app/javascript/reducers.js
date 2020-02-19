@@ -10,6 +10,7 @@ import * as Dashboard from "./components/pages/dashboard";
 import * as ExportList from "./components/pages/export-list";
 import { reducers as loginReducers } from "./components/pages/login/login-form";
 import { reducers as idpReducers } from "./components/pages/login";
+import { reducers as recordActionsReducers } from "./components/record-actions";
 import { reducers as requestApprovalReducers } from "./components/record-actions/request-approval";
 import * as PotentialMatches from "./components/pages/potential-matches";
 import * as Report from "./components/pages/report";
@@ -26,15 +27,20 @@ import * as TransitionsForms from "./components/transitions";
 import * as User from "./components/user";
 import * as IndexFilters from "./components/index-filters";
 import * as TransferRequest from "./components/record-list/view-modal/transfer-request";
+import { reducer as transferApprovalReducers } from "./components/transitions/transfers/transfer-approval";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
-  records: combineReducers({
+  records: reduceReducers(combineReducers({
     ...{
       ...Object.keys(RECORD_TYPES).reduce((r, i) => {
         const o = r;
 
-        o[i] = reduceReducers(Records.reducers(i), IndexFilters.reducers(i), requestApprovalReducers(i));
+        o[i] = reduceReducers(
+          Records.reducers(i),
+          IndexFilters.reducers(i),
+          requestApprovalReducers(i)
+        );
 
         return o;
       }, {})
@@ -54,10 +60,12 @@ const rootReducer = {
     ...Flagging.reducers,
     ...SavedSearches.reducers
   }),
+  transferApprovalReducers),
   ui: combineReducers({
     ...Nav.reducers,
     ...I18n.reducers,
-    ...loginReducers
+    ...loginReducers,
+    ...recordActionsReducers
   }),
   ...User.reducers,
   ...RecordForms.reducers,

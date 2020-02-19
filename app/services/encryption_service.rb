@@ -28,10 +28,10 @@ class EncryptionService
   end
 
   def encrypt(value)
-    @secret_box.encrypt(value)
+    Base64.encode64(@secret_box.encrypt(value))
   end
 
   def decrypt(encrypted_value)
-    @secret_box.decrypt(encrypted_value)
+    @secret_box.decrypt(Base64.decode64(encrypted_value))
   end
 end

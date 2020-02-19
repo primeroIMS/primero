@@ -8,6 +8,7 @@ json.data do
     json.authorization_url identity_provider.authorization_url
     json.identity_scope identity_provider.identity_scope
     json.verification_url identity_provider.verification_url
+    json.user_domain identity_provider.user_domain
   end
 end
 json.metadata do

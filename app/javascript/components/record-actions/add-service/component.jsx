@@ -100,6 +100,7 @@ const Component = ({
             body,
             id,
             i18n.t(`actions.services_from_case_creation_success`),
+            false,
             false
           )
         )
