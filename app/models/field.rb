@@ -575,7 +575,7 @@ class Field < ApplicationRecord
   end
 
   def self.binary_field_names
-    Field.binary_fields.pluck(&:name)
+    Field.binary_fields.pluck(:name)
   end
 
   private
