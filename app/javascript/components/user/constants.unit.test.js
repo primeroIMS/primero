@@ -6,8 +6,11 @@ describe("Verifying user constant", () => {
   it("should have known constant", () => {
     const constants = { ...permissionsConstants };
 
-    expect(constants.PERMISSIONS).to.be.an("string");
-    delete constants.PERMISSIONS;
-    expect(constants).to.deep.equal({});
+    ["PERMISSIONS", "LIST_HEADERS"].forEach(property => {
+      expect(constants).to.have.property(property);
+      delete constants[property];
+    });
+
+    expect(constants).to.be.empty;
   });
 });

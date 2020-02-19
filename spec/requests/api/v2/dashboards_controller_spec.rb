@@ -49,12 +49,27 @@ describe Api::V2::DashboardsController, type: :request do
     @bar = User.new(user_name: 'bar', user_groups: [group1], location: 'CTY')
     @bar.save(validate: false)
 
-    Child.create!(data: { record_state: true, status: 'open', owned_by: 'foo', workflow: 'new', created_at: last_week, protection_concerns: ['refugee'] })
-    Child.create!(data: { record_state: true, status: 'open', owned_by: 'foo', last_updated_by: 'bar', workflow: 'assessment', protection_concerns: ['refugee'] })
+    Child.create!(data: {
+                    record_state: true, status: 'open', owned_by: 'foo', workflow: 'new',
+                    created_at: last_week, protection_concerns: ['refugee']
+                  })
+    Child.create!(data: {
+                    record_state: true, status: 'open', owned_by: 'foo', last_updated_by: 'bar',
+                    workflow: 'assessment', protection_concerns: ['refugee']
+                  })
     Child.create!(data: { record_state: false, status: 'open', owned_by: 'foo', workflow: 'new' })
-    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: this_week, workflow: 'closed', protection_concerns: ['refugee'] })
-    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: this_week, workflow: 'closed' })
-    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'foo', date_closure: last_week, workflow: 'closed', created_at: last_week, protection_concerns: ['refugee'] })
+    Child.create!(data: {
+                    record_state: true, status: 'closed', owned_by: 'foo',
+                    date_closure: this_week, workflow: 'closed', protection_concerns: ['refugee']
+                  })
+    Child.create!(data: {
+                    record_state: true, status: 'closed', owned_by: 'foo',
+                    date_closure: this_week, workflow: 'closed'
+                  })
+    Child.create!(data: {
+                    record_state: true, status: 'closed', owned_by: 'foo', date_closure: last_week,
+                    workflow: 'closed', created_at: last_week, protection_concerns: ['refugee']
+                  })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar', workflow: 'new' })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar' })
 
@@ -76,12 +91,20 @@ describe Api::V2::DashboardsController, type: :request do
       expect(json['data'].size).to eq(5)
 
       case_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.case_overview' }
-      expect(case_overview_dashboard['indicators']['open']['count']).to eq(2)
-      expect(case_overview_dashboard['indicators']['open']['query']).to match_array(%w[owned_by=foo record_state=true status=open])
+      expect(case_overview_dashboard['indicators']['total']['count']).to eq(2)
+      expect(case_overview_dashboard['indicators']['total']['query']).to match_array(
+        %w[record_state=true status=open]
+      )
+      expect(case_overview_dashboard['indicators']['new_or_updated']['count']).to eq(1)
+      expect(case_overview_dashboard['indicators']['new_or_updated']['query']).to match_array(
+        %w[record_state=true status=open not_edited_by_owner=true]
+      )
 
       workflow_dashboard = json['data'].find { |d| d['name'] == 'dashboard.workflow' }
       expect(workflow_dashboard['indicators']['workflow']['assessment']['count']).to eq(1)
-      expect(workflow_dashboard['indicators']['workflow']['assessment']['query']).to match_array(%w[owned_by=foo record_state=true status=open,closed workflow=assessment])
+      expect(workflow_dashboard['indicators']['workflow']['assessment']['query']).to match_array(
+        %w[owned_by=foo record_state=true status=open,closed workflow=assessment]
+      )
 
       reporting_location_dashboard = json['data'].find { |d| d['name'] == 'dashboard.reporting_location' }
       expect(reporting_location_dashboard['indicators']['reporting_location_open']['cty']['count']).to eq(2)
@@ -125,7 +148,7 @@ describe Api::V2::DashboardsController, type: :request do
           data: {
             name: 'Test_a', owned_by: 'user1',
             disclosure_other_orgs: true, consent_for_services: true,
-            module_id: @primero_module.unique_id, last_updated_by: 'user2'
+            module_id: @primero_module.unique_id, last_updated_by: 'user1'
           }
         )
         @case_b = Child.create(
@@ -148,6 +171,12 @@ describe Api::V2::DashboardsController, type: :request do
             Permission::DASH_SHARED_WITH_OTHERS
           ]
         )
+        @permission_dashboard_shared_with_me_team = Permission.new(
+          resource: Permission::DASHBOARD,
+          actions: [
+            Permission::DASH_SHARED_WITH_MY_TEAM
+          ]
+        )
         Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
         Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
         Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_b)
@@ -164,9 +193,19 @@ describe Api::V2::DashboardsController, type: :request do
         get '/api/v2/dashboards'
         expect(response).to have_http_status(200)
 
-        expect(json['data'][0]['indicators']['shared_with_me_total_referrals']['count']).to eq(1)
-        expect(json['data'][0]['indicators']['shared_with_me_new_referrals']['count']).to eq(1)
-        expect(json['data'][0]['indicators']['shared_with_me_transfers_awaiting_acceptance']['count']).to eq(2)
+        shared_with_me_dashboard = json['data'][0]['indicators']
+        expect(shared_with_me_dashboard['shared_with_me_total_referrals']['count']).to eq(1)
+        expect(shared_with_me_dashboard['shared_with_me_new_referrals']['count']).to eq(1)
+        expect(shared_with_me_dashboard['shared_with_me_transfers_awaiting_acceptance']['count']).to eq(2)
+        expect(shared_with_me_dashboard['shared_with_me_total_referrals']['query']).to match_array(
+          %w[referred_users=user2 record_state=true status=open]
+        )
+        expect(shared_with_me_dashboard['shared_with_me_new_referrals']['query']).to match_array(
+          %w[referred_users=user2 !last_updated_by=user2 record_state=true status=open]
+        )
+        expect(shared_with_me_dashboard['shared_with_me_transfers_awaiting_acceptance']['query']).to match_array(
+          %w[transferred_to_users=user2 record_state=true status=open]
+        )
       end
 
       it 'lists statistics for permitted shared with others dashboards' do
@@ -182,6 +221,20 @@ describe Api::V2::DashboardsController, type: :request do
         expect(json['data'][0]['indicators']['shared_with_others_referrals']['count']).to eq(1)
         expect(json['data'][0]['indicators']['shared_with_others_pending_transfers']['count']).to eq(1)
         expect(json['data'][0]['indicators']['shared_with_others_rejected_transfers']['count']).to eq(1)
+      end
+
+      it 'lists statistics for permitted shared with my team dashboard dashboards' do
+        login_for_test(
+          user_name: 'user1',
+          group_permission: Permission::SELF,
+          permissions: [@permission_case, @permission_dashboard_shared_with_me_team]
+        )
+        get '/api/v2/dashboards'
+
+        expect(response).to have_http_status(200)
+        indicators = json['data'][0]['indicators']
+        expect(indicators['shared_with_my_team_referrals'][@user2.user_name]['count']).to eq(1)
+        expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(2)
       end
 
       after :each do

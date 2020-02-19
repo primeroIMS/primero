@@ -84,7 +84,10 @@ class User < ApplicationRecord
     def permitted_api_params
       (
         User.attribute_names + User.password_parameters +
-        [{ user_group_ids: [] }, { user_group_unique_ids: [] }, :role_unique_id]
+        [
+          { user_group_ids: [] }, { user_group_unique_ids: [] },
+          { module_unique_ids: [] }, :role_unique_id
+        ]
       ) - User.hidden_attributes
     end
 

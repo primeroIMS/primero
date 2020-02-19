@@ -61,8 +61,12 @@ jobs:
           bundle exec rails db:drop
           bundle exec rails db:create
           bundle exec rails db:migrate
+          status=0
           bundle exec rspec spec
+          status=$((${status} + $?))
           npm run test:all
+          status=$((${status} + $?))
+          exit ${status}
         displayName: 'Run tests'
         env:
           DEVISE_JWT_SECRET_KEY: $(DEVISE_JWT_SECRET_KEY)
