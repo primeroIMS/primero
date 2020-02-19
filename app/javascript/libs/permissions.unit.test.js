@@ -21,6 +21,7 @@ describe("Verifying config constant", () => {
       "DASH_APPROVALS_CASE_PLAN_PENDING",
       "DASH_APPROVALS_CLOSURE",
       "DASH_APPROVALS_CLOSURE_PENDING",
+      "DASH_CASE_OVERVIEW",
       "DASH_CASE_RISK",
       "DASH_PROTECTION_CONCERNS",
       "DASH_REPORTING_LOCATION",
@@ -103,7 +104,9 @@ describe("Verifying config constant", () => {
       "potential_matches",
       "reports",
       "tracing_requests",
-      "users"
+      "users",
+      "agencies",
+      "user_groups"
     ].forEach(property => {
       expect(resources).to.have.property(property);
       expect(resources[property]).to.be.a("string");

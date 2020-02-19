@@ -192,3 +192,9 @@
 .loadingMargin {
   position: absolute;
 }
+
+.caseDisabled {
+  color: $(theme.primero.colors.midGrey);
+  font-size: $(theme.typography.pxToRem(17));
+  text-transform: uppercase;
+}

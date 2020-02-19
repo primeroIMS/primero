@@ -154,12 +154,13 @@ en:
   settings:
     title: "Settings"
     navigation:
-      agency: "Agency"
+      agencies: "Agencies"
       roles: "Roles"
       modules: "Modules"
       system_settings: "System Settings"
       matching: "Matching"
       users: "Users"
+      user_groups: "User Groups"
       forms: "Form"
       locations: "Locations"
       audit_logs: "Audit Logs"
@@ -351,6 +352,8 @@ en:
     assessment: "Assessment"
     case_plan: "Case Plan"
     closure: "Closure"
+    referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
+    referral_done_success: "Referral done."
 
     order_by:
       most_recently: "Most recently"
@@ -573,6 +576,7 @@ en:
       creation_success_queue: "Case record successfully created in background."
       not_found: "Child with the given id is not found"
       confirm_duplicate: "Are you sure you want to continue? If so, click OK. If not, click Cancel."
+      case_disabled: "Case is disabled"
 
     actions:
       mark_as_investigated: "Mark as Investigated"
@@ -666,6 +670,8 @@ en:
     case_plan: "Case Plan"
     closure: "Closure"
     export: "Export"
+    referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
+    referral_done_success: "Referral done."
 
   incident:
     label: "Incident ID"
@@ -807,6 +813,17 @@ en:
       separation_cause: "Separation Cause"
       record_state: "Record State"
       by_date: "By Date"
+    referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
+    referral_done_success: "Referral done."
+    transfer_accepted: "By clicking 'Accept' you accept the responsibility for this case; once you click ‘Accept' you will become the record owner in the system."
+    transfer_rejected: "By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this case at this time. Please enter a reason that you are rejecting this case; once you click ‘Reject’ you will no longer have access to this case record."
+    transfer_reject_reason_label: "Rejection Reason"
+    transfer_accepted_success: "Case transfer successfully accepted."
+    transfer_accepted_rejected: "Case %{record_id} transfer rejected."
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
+    export: "Export"
     request_approval_select: "Request approval for"
     request_approve_bia: "Approve Assessment?"
     request_approve_case_plan: "Approve Case Plan?"
@@ -815,10 +832,6 @@ en:
     request_approval_success_case_plan: "Approval requested for Case Plan form."
     request_approval_success_closure: "Approval requested for Closure form."
     request_approval_failure: "An error occurred, please contact support."
-    assessment: "Assessment"
-    case_plan: "Case Plan"
-    closure: "Closure"
-    export: "Export"
 
   potential_matches:
     empty: "Please access matching through Tracing Requests"
@@ -1101,6 +1114,9 @@ en:
     description: "Description"
     successfully_updated: "User Group details are successfully updated."
     error_in_updating: "Error in updating the User Group details."
+    messages:
+      created: "User Group was successfully created."
+      updated: "User Group was successfully updated."
 
   user:
     label: "user"
@@ -1932,6 +1948,8 @@ en:
     dash_group_overview: "My Group's Cases"
     group_overview_open: "Open"
     group_overview_closed: "Closed"
+    case_overview: "My Cases"
+    new_or_updated: "New or Updated"
 
   errors:
     try_again: "Try again"

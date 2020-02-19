@@ -1,8 +1,6 @@
 import React from "react";
 
-import { RECORD_PATH } from "../../config";
 import { ToggleIconCell } from "../index-table";
-import { fetchCases, fetchIncidents, fetchTracingRequests } from "../records";
 
 export const buildTableColumns = (columns, i18n, recordType, css) => {
   const iconColumns = ["photo", "alert_count"];
@@ -41,15 +39,4 @@ export const buildTableColumns = (columns, i18n, recordType, css) => {
       };
     })
     .sortBy(column => (iconColumns.includes(column.name) ? 1 : 0));
-};
-
-export const getRecordsFetcherByType = type => {
-  switch (type) {
-    case RECORD_PATH.incidents:
-      return fetchIncidents;
-    case RECORD_PATH.tracing_requests:
-      return fetchTracingRequests;
-    default:
-      return fetchCases;
-  }
 };
