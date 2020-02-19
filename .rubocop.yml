@@ -13,6 +13,7 @@ Metrics/BlockLength:
   Exclude:
     - Gemfile*
     - spec/**/*
+    - config/routes.rb
 
 Metrics/MethodLength:
   Exclude:

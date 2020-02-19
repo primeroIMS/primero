@@ -43,7 +43,7 @@ class Header < ValueObject
   FULL_NAME = Header.new(name: 'full_name', field_name: 'full_name')
   POSITION = Header.new(name: 'position', field_name: 'position')
   AGENCY = Header.new(name: 'agency', field_name: 'agency')
-  USER_GROUP_NAME = Header.new(name: 'user_group.name', field_name: 'user_group.name')
+  USER_GROUP_NAME = Header.new(name: 'user_group.name', field_name: 'name')
   STATUS = Header.new(name: 'status', field_name: 'status')
   ALERT_COUNT = Header.new(name: 'alert_count', field_name: 'alert_count')
 

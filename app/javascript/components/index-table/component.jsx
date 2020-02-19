@@ -152,7 +152,7 @@ const Component = ({
       dispatch(
         onTableChange({
           recordType,
-          options: { per, ...defaultFilters.merge(filters).toJS() }
+          data: { per, ...defaultFilters.merge(filters).toJS() }
         })
       );
     }
@@ -203,7 +203,7 @@ const Component = ({
     };
 
     if (validActions.includes(action)) {
-      dispatch(onTableChange({ recordType, options: selectedFilters }));
+      dispatch(onTableChange({ recordType, data: selectedFilters }));
     }
   };
 

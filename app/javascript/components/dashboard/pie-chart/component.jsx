@@ -44,6 +44,10 @@ const PieChart = ({ data, labels, query }) => {
         legend: {
           display: false
         },
+        onHover: (event, chartElement) => {
+          // eslint-disable-next-line no-param-reassign
+          event.target.style.cursor = chartElement[0] ? "pointer" : "default";
+        },
         onClick: (e, item) => handleClick(item)
       }
     });

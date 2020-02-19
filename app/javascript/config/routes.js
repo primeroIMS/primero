@@ -11,6 +11,8 @@ import Login, {
   Admin,
   UsersList,
   UsersForm,
+  UserGroupsList,
+  UserGroupsForm,
   AgenciesList,
   AgenciesForm
 } from "../components/pages";
@@ -162,6 +164,35 @@ export default [
               path: ROUTES.admin_users,
               component: UsersList,
               resources: RESOURCES.users
+            },
+            {
+              path: `${ROUTES.admin_user_groups}/new`,
+              component: UserGroupsForm,
+              resources: RESOURCES.user_groups,
+              extraProps: {
+                mode: MODES.new
+              }
+            },
+            {
+              path: `${ROUTES.admin_user_groups}/:id/edit`,
+              component: UserGroupsForm,
+              resources: RESOURCES.user_groups,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.admin_user_groups}/:id`,
+              component: UserGroupsForm,
+              resources: RESOURCES.user_groups,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
+              path: ROUTES.admin_user_groups,
+              component: UserGroupsList,
+              resources: RESOURCES.user_groups
             },
             {
               path: `${ROUTES.admin_agencies}/new`,

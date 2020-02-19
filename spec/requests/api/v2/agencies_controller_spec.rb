@@ -356,6 +356,47 @@ describe Api::V2::AgenciesController, type: :request do
       expect(json['errors'][0]['resource']).to eq('/api/v2/agencies/thisdoesntexist')
     end
 
+    it 'attaches a new logo' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
+        ]
+      )
+      params = {
+        data: {
+          logo_full_base64: attachment_base64('unicef.png'),
+          logo_full_file_name: 'unicef.png'
+        }
+      }
+      patch "/api/v2/agencies/#{@agency_a.id}", params: params
+
+      expect(response).to have_http_status(200)
+      @agency_a.reload
+      expect(@agency_a.logo_full.attached?).to be_truthy
+    end
+
+    it 'deletes a logo' do
+      @agency_a.logo_full = logo
+      @agency_a.save!
+      expect(@agency_a.logo_full.attached?).to be_truthy
+
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
+        ]
+      )
+      params = {
+        data: {
+          logo_full_base64: ''
+        }
+      }
+      patch "/api/v2/agencies/#{@agency_a.id}", params: params
+
+      expect(response).to have_http_status(200)
+      @agency_a.reload
+      expect(@agency_a.logo_full.attached?).to be_falsey
+    end
+
     it 'returns 403 if user is not authorized to access' do
       login_for_test(
         permissions: [

@@ -20,6 +20,8 @@ import * as TaskList from "./components/pages/task-list";
 import * as UsersList from "./components/pages/admin/users-list";
 import * as UsersForm from "./components/pages/admin/users-form";
 import * as AgenciesList from "./components/pages/admin/agencies-list";
+import * as UserGroupsList from "./components/pages/admin/user-groups-list";
+import * as UserGroupsForm from "./components/pages/admin/user-groups-form";
 import * as Transitions from "./components/record-actions/transitions";
 import * as RecordForms from "./components/record-form";
 import * as Records from "./components/records";
@@ -29,6 +31,7 @@ import * as User from "./components/user";
 import * as IndexFilters from "./components/index-filters";
 import * as TransferRequest from "./components/record-list/view-modal/transfer-request";
 import { reducer as transferApprovalReducers } from "./components/transitions/transfers/transfer-approval";
+import { reducers as referralActionReducers } from "./components/transitions/referrals/referral-action";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -50,12 +53,17 @@ const rootReducer = {
     transitions: reduceReducers(
       Transitions.reducers,
       TransitionsForms.reducers,
-      TransferRequest.reducers
+      TransferRequest.reducers,
+      referralActionReducers
     ),
     ...PotentialMatches.reducers,
     ...TaskList.reducers,
     users: reduceReducers(UsersList.reducers, UsersForm.reducers),
     agencies: reduceReducers(AgenciesList.reducers),
+    user_groups: reduceReducers(
+      UserGroupsList.reducers,
+      UserGroupsForm.reducers
+    ),
     ...Dashboard.reducers,
     ...ExportList.reducers,
     ...Support.reducers,
