@@ -309,6 +309,7 @@ const Dashboard = ({
             resources={RESOURCES.dashboards}
             actions={[
               ACTIONS.DASH_CASE_RISK,
+              ACTIONS.DASH_CASE_OVERVIEW,
               ACTIONS.DASH_GROUP_OVERVIEW,
               ACTIONS.DASH_SHARED_WITH_ME,
               ACTIONS.DASH_SHARED_WITH_OTHERS
