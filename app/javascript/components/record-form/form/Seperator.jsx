@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { SEPERATOR_NAME } from "./constants";
 
 const Seperator = ({ label }) => {
-
   return (
     <>
       <h4>{label}</h4>
