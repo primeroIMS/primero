@@ -2,132 +2,50 @@ require 'rails_helper'
 
 describe Role do
   before :each do
-    Role.delete_all
+    clean_data(Role, PrimeroModule)
   end
   it "should not be valid if name is empty" do
     role = Role.new
     role.should_not be_valid
-    role.errors[:name].should == ["Name must not be blank"]
+    role.errors[:name].should == ['errors.models.role.name_present']
   end
 
   it "should not be valid if permissions is empty" do
     role = Role.new
     role.should_not be_valid
-    role.errors[:permissions_list].should == ["Please select at least one permission"]
+    role.errors[:permissions].should == ['errors.models.role.permission_presence']
   end
 
   it "should sanitize and check for permissions" do
-    role = Role.new(:name => "Name", :permissions_list => [])
+    role = Role.new(:name => "Name", :permissions => [])
     role.save
     role.should_not be_valid
-    role.errors[:permissions_list].should == ["Please select at least one permission"]
+    role.errors[:permissions].should == ['errors.models.role.permission_presence']
   end
 
   it "should not be valid if a role name has been taken already" do
-    Role.create({:name => "Unique", :permissions_list => Permission.all_permissions_list})
-    role = Role.new({:name => "Unique", :permissions_list => Permission.all_permissions_list})
+    Role.create({:name => "Unique", :permissions => Permission.all_permissions_list})
+    role = Role.new({:name => "Unique", :permissions => Permission.all_permissions_list})
     role.should_not be_valid
-    role.errors[:name].should == ["A role with that name already exists, please enter a different name"]
+    role.errors[:name].should == ['errors.models.role.unique_name']
   end
 
   it "should create a valid role" do
-    Role.new(:name => "some_role", :permissions_list => Permission.all_permissions_list).should be_valid
+    Role.new(:name => "some_role", :permissions => Permission.all_permissions_list).should be_valid
   end
 
   it "should create a valid transfer role" do
-    Role.new(:name => "some_role", :permissions_list => Permission.all_permissions_list, :transfer => true).should be_valid
+    Role.new(:name => "some_role", :permissions => Permission.all_permissions_list, :transfer => true).should be_valid
   end
 
   it "should create a valid referral role" do
-    Role.new(:name => "some_role", :permissions_list => Permission.all_permissions_list, :referral => true).should be_valid
+    Role.new(:name => "some_role", :permissions => Permission.all_permissions_list, :referral => true).should be_valid
   end
-
-
 
   it "should generate unique_id" do
-    Role.destroy_all
-    role = create :role, :name => 'test role 1234', :permissions_list => Permission.all_permissions_list, :unique_id => nil
-    role.unique_id.should == "role-test-role-1234"
-  end
-
-  describe "has_permission" do
-    before do
-      Role.all.each(&:destroy)
-      @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
-      @permission_incident_read_write = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
-      @permission_role_assign = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN])
-    end
-
-    context 'when a role has a single permission' do
-      before do
-        @role = Role.new(name: "some_role", permissions_list: [@permission_case_read])
-        @role.save
-      end
-      context 'and a single action string is passed in' do
-        it "should only grant permissions that are assigned to a role" do
-          expect(@role).to be_valid
-          expect(@role.has_permission(Permission::READ)).to be_truthy
-          expect(@role.has_permission(Permission::WRITE)).to be_falsey
-        end
-      end
-
-      context 'and a colon separated action string is passed in' do
-        it "should only grant permissions that are assigned to a role" do
-          expect(@role.has_permission("actions:#{Permission::READ}")).to be_truthy
-          expect(@role.has_permission("actions:#{Permission::WRITE}")).to be_falsey
-        end
-      end
-
-      context 'and a colon separated resource string is passed in' do
-        it "should only grant permissions that are assigned to a role" do
-          expect(@role.has_permission("resource:#{Permission::CASE}")).to be_truthy
-          expect(@role.has_permission("resource:#{Permission::INCIDENT}")).to be_falsey
-        end
-      end
-    end
-
-    context 'when a role has multiple permissions' do
-      before do
-        @role = Role.new(name: "some_role",
-                         permissions_list: [@permission_case_read, @permission_incident_read_write, @permission_role_assign],
-                         group_permission: Permission::GROUP)
-      end
-      context 'and a single action string is passed in' do
-        it "should only grant permissions that are assigned to a role" do
-          expect(@role).to be_valid
-          expect(@role.has_permission(Permission::READ)).to be_truthy
-          expect(@role.has_permission(Permission::WRITE)).to be_truthy
-          expect(@role.has_permission(Permission::ASSIGN)).to be_truthy
-          expect(@role.has_permission(Permission::FLAG)).to be_falsey
-        end
-      end
-
-      context 'and a colon separated action string is passed in' do
-        it "should only grant permissions that are assigned to a role" do
-          expect(@role.has_permission("actions:#{Permission::READ}")).to be_truthy
-          expect(@role.has_permission("actions:#{Permission::WRITE}")).to be_truthy
-          expect(@role.has_permission("actions:#{Permission::ASSIGN}")).to be_truthy
-          expect(@role.has_permission("actions:#{Permission::FLAG}")).to be_falsey
-        end
-      end
-
-      context 'and a colon separated resource string is passed in' do
-        it "should only grant permissions that are assigned to a role" do
-          expect(@role.has_permission("resource:#{Permission::CASE}")).to be_truthy
-          expect(@role.has_permission("resource:#{Permission::INCIDENT}")).to be_truthy
-          expect(@role.has_permission("resource:#{Permission::ROLE}")).to be_truthy
-          expect(@role.has_permission("resource:#{Permission::TRACING_REQUEST}")).to be_falsey
-        end
-      end
-
-      context 'amd a colon separated management string is passed in' do
-        it "should only grant permissions that are assigned to a role" do
-          expect(@role.has_permission("management:#{Permission::SELF}")).to be_falsey
-          expect(@role.has_permission("management:#{Permission::GROUP}")).to be_truthy
-          expect(@role.has_permission("management:#{Permission::ALL}")).to be_falsey
-        end
-      end
-    end
+    role = Role.new(name: 'test role 1234', permissions: Permission.all_permissions_list)
+    role.save(validate: false)
+    expect(role.unique_id).to eq('role-test-role-1234')
   end
 
   describe "is_super_user_role?" do
@@ -143,8 +61,8 @@ describe Role do
 
     context 'depending on the permissions of a role' do
       before do
-        @role_super_user = Role.new(name: "super_user_role", permissions_list: @permissions_super_user)
-        @role_not_super_user = Role.new(name: "not_super_user_role", permissions_list: [@permission_not_super_user])
+        @role_super_user = Role.new(name: "super_user_role", permissions: @permissions_super_user)
+        @role_not_super_user = Role.new(name: "not_super_user_role", permissions: [@permission_not_super_user])
       end
       context 'if the role manages all of the permissions of the super user' do
         it "should return true for is_super_user_role?" do
@@ -172,8 +90,8 @@ describe Role do
 
     context 'depending on the permissions of a role' do
       before do
-        @role_user_admin = Role.new(name: "super_user_role", permissions_list: @permissions_user_admin)
-        @role_not_user_admin = Role.new(name: "not_super_user_role", permissions_list: [@permission_not_user_admin])
+        @role_user_admin = Role.new(name: "super_user_role", permissions: @permissions_user_admin)
+        @role_not_user_admin = Role.new(name: "not_super_user_role", permissions: [@permission_not_user_admin])
       end
       context 'if the role manages all of the permissions of the user admin' do
         it "should return true for is_user_admin_role?" do
@@ -193,10 +111,10 @@ describe Role do
     before do
       Role.all.each &:destroy
       role_permissions = [Permission.new(resource: Permission::CASE, actions: [Permission::READ])]
-      @referral_role = Role.create!(name: "Referral Role", permissions_list: role_permissions, referral: true)
-      @transfer_role = Role.create!(name: "Transfer Role", permissions_list: role_permissions, transfer: true)
-      @referral_transfer_role = Role.create!(name: "Referral Transfer Role", permissions_list: role_permissions, referral: true, transfer: true)
-      @neither_role = Role.create!(name: "Neither Role", permissions_list: role_permissions)
+      @referral_role = Role.create!(name: "Referral Role", permissions: role_permissions, referral: true)
+      @transfer_role = Role.create!(name: "Transfer Role", permissions: role_permissions, transfer: true)
+      @referral_transfer_role = Role.create!(name: "Referral Transfer Role", permissions: role_permissions, referral: true, transfer: true)
+      @neither_role = Role.create!(name: "Neither Role", permissions: role_permissions)
     end
 
     describe "names_and_ids_by_referral" do
@@ -222,16 +140,16 @@ describe Role do
 
   describe "associate_all_forms" do
     before do
-      Role.delete_all
-      Field.delete_all
-      FormSection.delete_all
+      Role.destroy_all
+      Field.destroy_all
+      FormSection.destroy_all
       @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case', form_group_id: "m")
       @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case', form_group_id: "x")
       @form_section_child = FormSection.create!(unique_id: "child", name: "child_form", is_nested: true, parent_form: 'case')
       @field_subform = Field.create!(name: "field_subform", display_name: "child_form", type: Field::SUBFORM, subform: @form_section_child)
 
       role_case_permissions = [Permission.new(resource: Permission::CASE, actions: [Permission::READ])]
-      @role = Role.create!(name: "Role", permissions_list: role_case_permissions)
+      @role = Role.create!(name: "Role", permissions: role_case_permissions)
 
     end
     context 'when the role has permission to case' do

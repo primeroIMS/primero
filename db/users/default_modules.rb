@@ -220,6 +220,7 @@ create_or_update_module(
     ]
   },
   module_options: {
+    workflow_status_indicator: true,
     allow_searchable_ids: true,
     use_workflow_service_implemented: true,
     use_workflow_case_plan: true,

@@ -22,38 +22,6 @@ class PrimeroDate < Date
     str.join('-')
   end
 
-  # TODO-time: Keep all backend times in UTC
-  def self.couchrest_typecast(parent, property, value)
-    begin
-      # The value comes from the database as a string with the format 'yyyy/mm/dd'
-      # And a DateTime object converted to string has the same format 'yyyy/mm/dd'
-      # If this statement is true data comes from the database or a model
-      # It should return a datetime in local time for application
-      # TODO: # It should return a datetime in utc time because the time remains on the backend
-      if value.to_s =~ /(\d{4})[\-|\/](\d{2})[\-|\/](\d{2})/
-        year = $1.to_i
-        month = $2.to_i
-        day = $3.to_i
-
-        database_datetime_format = /^(\d{4})[\-|\/](\d{2})[\-|\/](\d{2,4})\s(\d{1,2}:\d{1,2}:\d{1,2})(\s[\+|-]\d{1,4})?$/
-        rails_datetime_format = /\d{4}[\-|\/]\d{2}[\-|\/]\d{2}T\d{2}:\d{2}:\d{2}/
-        # Faster than parsing the date
-        if value.to_s =~ database_datetime_format || value.to_s =~ rails_datetime_format
-        # TODO-time: Change 'in_time_zone' to 'utc'
-          DateTime.parse(value.to_s).utc.to_datetime
-        else
-          Date.new(year, month, day)
-        end
-      # Else, the data is a string being read from the browser application and is in local time
-      # We should then return a datetime in UTC for the database to store
-      else
-        self.parse_with_format(value)
-      end
-    rescue ArgumentError
-      value
-    end
-  end
-
   def self.determine_format(data)
     # Determine whether we are given the month number or the month name
     @month_format = data[2].match(/^(0[1-9]|[1-9]|1[0-2])$/).nil? ? "%b" : "%m"

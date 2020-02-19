@@ -25,6 +25,7 @@
 .rvmrc
 .vagrant
 .~*
+.vscode
 Guardfile
 node_modules
 capybara_features
@@ -45,3 +46,18 @@ vendor/bundle/
 vendor/cache/
 vendor/ruby/
 venv/
+storage/
+bitbucket-pipelines.yml
+Procfile.dev
+.travis.yml
+.rspec
+.pryrc
+.gitignore
+.tx
+.travis.yml
+.mochaignore.js
+CHANGELOG.md
+CONTRIBUTING.md
+README.md
+app/controllers/api/README.md
+app/controllers/api/docs

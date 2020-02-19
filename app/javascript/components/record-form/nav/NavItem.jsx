@@ -4,7 +4,11 @@ import { ListItem, ListItemText } from "@material-ui/core";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/styles";
+
+import { Jewel } from "../../jewel";
+
 import styles from "./styles.css";
+import { NAV_ITEM } from "./constants";
 
 const NavItem = ({
   form,
@@ -37,21 +41,24 @@ const NavItem = ({
       }}
     >
       <ListItemText className={groupItem ? css.nestedItem : css.item}>
-        {name}
+        {/* TODO: This will need to be dynamic once connected to endpoint */}
+        {name === "Case Plan" ? <Jewel value={name} isForm /> : name}
       </ListItemText>
       {isNested && (open ? <ExpandMore /> : <ExpandLess />)}
     </ListItem>
   );
 };
 
+NavItem.displayName = NAV_ITEM;
+
 NavItem.propTypes = {
   form: PropTypes.object,
-  isNested: PropTypes.bool,
-  open: PropTypes.bool,
-  handleClick: PropTypes.func,
-  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   groupItem: PropTypes.bool,
-  name: PropTypes.string
+  handleClick: PropTypes.func,
+  isNested: PropTypes.bool,
+  name: PropTypes.string,
+  open: PropTypes.bool,
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export default NavItem;

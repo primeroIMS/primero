@@ -2,14 +2,14 @@ class FormSection < ApplicationRecord
 
   include LocalizableJsonProperty
   include Configuration
-  #include Importable #TODO: This will need to be rewritten
+  # include Importable # TODO: This will need to be rewritten
   # include Memoizable
 
-  RECORD_TYPES = ['case', 'incident', 'tracing_request']
+  RECORD_TYPES = %w[case incident tracing_request].freeze
 
   localize_properties :name, :help_text, :description
 
-  has_many :fields, -> { order(:order) }, :dependent => :destroy
+  has_many :fields, -> { order(:order) }, dependent: :destroy
   accepts_nested_attributes_for :fields
   has_many :collapsed_fields, class_name: 'Field', foreign_key: 'collapsed_field_for_subform_section_id'
   has_and_belongs_to_many :roles
@@ -18,18 +18,19 @@ class FormSection < ApplicationRecord
   attr_accessor :module_name
   attribute :collapsed_field_names
 
+  validate :validate_fields_unique_name
   validate :validate_name_in_english
   validate :validate_name_format
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.form_section.unique_id' }
 
-  after_initialize :defaults, :generate_unique_id
+  after_initialize :defaults, :generate_unique_id, unless: :persisted?
   before_validation :calculate_fields_order
   before_save :sync_form_group, :recalculate_editable
   after_save :recalculate_collapsed_fields
 
-  #TODO: Move to migration
+  # TODO: Move to migration
   def defaults
-    %w(order order_form_group order_subform initial_subforms).each{|p| self[p] ||= 0}
+    %w[order order_form_group order_subform initial_subforms].each { |p| self[p] ||= 0 }
   end
 
   def generate_unique_id
@@ -41,14 +42,16 @@ class FormSection < ApplicationRecord
   # TODO: This method will go away after UIUX refactor
   def form_group_name(opts={})
     locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
-    return name(locale) if self.form_group_id.blank?
+    return name(locale) if form_group_id.blank?
+
     form_group_name_all[locale.to_s]
   end
 
   # This replaces form_group_name above
-  def form_group_name_all
-    return self.name_i18n if self.form_group_id.blank?
-    Lookup.form_group_name_all(self.form_group_id, self.parent_form, self.module_name)
+  def form_group_name_all(lookups = nil)
+    return name_i18n if form_group_id.blank?
+
+    Lookup.form_group_name_all(form_group_id, parent_form, module_name, lookups)
   end
 
   def localized_property_hash(locale=Primero::Application::BASE_LANGUAGE, show_hidden_fields=false)
@@ -77,11 +80,11 @@ class FormSection < ApplicationRecord
 
     def permitted_api_params
       [
-        "id", "unique_id", {"name"=>{}}, {"help_text"=>{}}, {"description"=>{}}, "parent_form", "visible",
-        "order", "order_form_group", "order_subform", "form_group_keyed", "form_group_id", "is_nested",
-        "is_first_tab", "initial_subforms", "subform_prevent_item_removal", "subform_append_only",
-        "subform_header_links", "display_help_text_view", "shared_subform", "shared_subform_group",
-        "is_summary_section", "hide_subform_placeholder", "mobile_form", "collapsed_field_names"
+        'id', 'unique_id', { 'name' => {} }, { 'help_text' => {} }, { 'description' => {} }, 'parent_form',
+        'visible', 'order', 'order_form_group', 'order_subform', 'form_group_keyed', 'form_group_id', 'is_nested',
+        'is_first_tab', 'initial_subforms', 'subform_prevent_item_removal', 'subform_append_only',
+        'subform_header_links', 'display_help_text_view', 'shared_subform', 'shared_subform_group',
+        'is_summary_section', 'hide_subform_placeholder', 'mobile_form', 'collapsed_field_names'
       ]
     end
 
@@ -158,6 +161,10 @@ class FormSection < ApplicationRecord
     #TODO: This needs to be made not hard-coded. Used only in Exporters to exclude binary data
     def binary_form_names
       ['Photos and Audio', 'Other Documents', 'BID Records', 'BIA Records']
+    end
+
+    def form_group_lookups
+      Lookup.where("unique_id like 'lookup-form-group-%'")
     end
 
     #Force eager loading of subforms
@@ -248,177 +255,6 @@ class FormSection < ApplicationRecord
       end
     end
 
-
-    #TODO: NEXT TIME ANYBODY TOUCHES THIS METHOD FOR ANY REASON,
-    #      ADD AN EXTRA DAY TO YOUR ESTIMATE AND REFACTOR THIS MONSTER, ADD RSPECS
-    #      THEN THOROUGHLY RETEST EXPORTS AND REPORTS
-    def all_exportable_fields_by_form(primero_modules, record_type, user, types, apply_to_reports=false)
-      custom_exportable = {}
-      if primero_modules.present?
-        parent_form = determine_parent_form(record_type, apply_to_reports)
-        #hide_on_view_page will filter fields for readonly users.
-        model = Record::model_from_name(parent_form)
-        user_can_edit = user.can?(:write, model)
-        minimum_reportable_fields = model.minimum_reportable_fields.values.flatten
-        nested_reportable_subform = Report.record_type_is_nested_reportable_subform?(parent_form, record_type)
-        primero_modules.each do |primero_module|
-          if record_type == 'violation'
-            #Custom export does not have violation type, just reporting.
-            #Copied this code from the old reporting method.
-            #TODO - this can be improved
-            forms = user.permitted_forms(primero_module, parent_form)
-            forms = forms.select{|f| f.is_violation? || !f.is_nested?}
-          else
-            if apply_to_reports
-              #For reporting show all forms, not just the visible.
-              forms = user.permitted_forms(primero_module, parent_form)
-              #For reporting avoid subforms.
-
-              # Filtering out nested subform minus any selected reportable subforms.
-              forms = forms.select do |f|
-                if Report.record_type_is_nested_reportable_subform?(parent_form, record_type)
-                  !f.is_nested? || Report.get_reportable_subform_record_field_name(parent_form ,record_type).eql?(f.unique_id)
-                else
-                  !f.is_nested?
-                end
-              end
-            else
-              #For custom export shows only visible forms.
-              forms = user.permitted_forms(primero_module, parent_form, true)
-              #Need a plain structure.
-              forms = forms.map{|key, forms_sections| forms_sections}.flatten
-            end
-          end
-          custom_exportable[primero_module.name] = get_exportable_fields(forms, minimum_reportable_fields, parent_form,
-                                                                         record_type, types, apply_to_reports,
-                                                                         nested_reportable_subform, user_can_edit)
-        end
-      end
-      custom_exportable
-    end
-
-    #TODO - needs further refactoring
-    def get_exportable_fields(forms, minimum_reportable_fields, parent_form, record_type, types, apply_to_reports, nested_reportable_subform, user_can_edit)
-      #Collect the information as: [[form name, fields list], ...].
-      #fields list got the format: [field name, display name, type].
-      #fields list for subforms got the format: [subform name:field name, display name, type]
-      #Subforms will appears as another section because there is no way
-      #to manage nested optgroup in choosen or select.
-
-      include_field = (apply_to_reports ? lambda {|f| types.include?(f.type)} : lambda {|f| types.include?(f.type) && f.visible?})
-
-      forms_and_fields = []
-      forms.sort_by{|f| [f.order_form_group, f.order]}.each do |form|
-        fields = []
-        subforms = []
-        # TODO: Refactor the mess below
-        if apply_to_reports && nested_reportable_subform
-          # Keep nested form and minimal fields only
-          form.fields.select(&include_field).each do |f|
-            if minimum_reportable_fields.include?(f.name) || form.unique_id == Report.get_reportable_subform_record_field_name(parent_form, record_type)
-              add_field_to_fields(user_can_edit, fields, f, apply_to_reports)
-            end
-          end
-        else
-          form.fields.select(&include_field).each do |f|
-            if f.type == Field::SUBFORM
-              #Process subforms fields only for custom exports, for now.
-              if !apply_to_reports
-                if f.subform_section.present?
-                  #Collect subforms fields to build the section.
-                  subform_fields = f.subform_section.fields.select{|sf| types.include?(sf.type) && sf.visible?}
-                  subform_fields = subform_fields.map do |sf|
-                    #TODO - do I need location block here?
-                    ["#{f.name}:#{sf.name}", sf.display_name, sf.type] if user_can_edit || (!user_can_edit && !sf.hide_on_view_page)
-                  end
-                  subforms << ["#{form.name}:#{f.display_name}", subform_fields.compact]
-                end
-              end
-            else
-              #Not subforms fields.
-              add_field_to_fields(user_can_edit, fields, f, apply_to_reports)
-            end
-          end
-        end
-        #Add the section for the current form and the not subforms fields.
-        forms_and_fields << [form.name, fields]
-        #For every subform add the section as well.
-        subforms.each{|subform| forms_and_fields << subform}
-      end
-      forms_and_fields.select{|f| f[1].present?}
-    end
-
-    def add_field_to_fields(user_can_edit, fields, field, apply_to_reports)
-      if user_can_edit || (!user_can_edit && !field.hide_on_view_page)
-        if field.is_location?
-          Location::ADMIN_LEVELS.each do |admin_level|
-            #TODO - i18n
-            Location.type_by_admin_level(admin_level).each do |lct_type|
-              field_display = "#{field.display_name} - " + I18n.t("location.base_types.#{lct_type}") + " - ADM #{admin_level}"
-              field_key = (apply_to_reports ? "#{field.name}#{admin_level}" : "#{field.name}|||location|||#{admin_level}|||#{field_display}")
-              fields << ["#{field_key}", "#{field_display}", field.type]
-            end
-          end
-        else
-          fields << [field.name, field.display_name, field.type]
-        end
-      end
-    end
-
-    def format_forms_for_mobile(form_sections, locale=nil, parent_form=nil)
-      form_sections = form_sections.reduce([]){|memo, elem| memo + elem[1]}.flatten
-
-      forms_hash = mobile_forms_to_hash(form_sections, locale).group_by { |f| mobile_form_type(f['parent_form']) }
-      mobile_form_type = mobile_form_type(parent_form)
-      forms_hash[mobile_form_type].each{|form_hash| simplify_mobile_form(form_hash)}
-      forms_hash
-    end
-
-    def mobile_forms_to_hash(form_sections, locale=nil)
-      locales = ((locale.present? && Primero::Application::locales.include?(locale)) ? [locale] : Primero::Application::locales)
-      lookups = Lookup.all
-      locations = self.include_locations_for_mobile? ? Location.all_names(locale: I18n.locale) : []
-      form_sections.map {|form| mobile_form_to_hash(form, locales, lookups, locations)}
-    end
-
-    def mobile_form_to_hash(form, locales, lookups, locations)
-      form_hash = form.localized_attributes_hash(locales)
-      form_hash['fields'] = mobile_fields_to_hash(form, locales, lookups, locations)
-      form_hash
-    end
-
-    def mobile_fields_to_hash(form, locales, lookups, locations)
-      form.all_mobile_fields.map do |f|
-        field_hash = f.localized_attributes_hash(locales, lookups, locations)
-        #TODO: Improve performance by eagerloading subform
-        field_hash['subform'] = mobile_form_to_hash(f.subform, locales, lookups, locations) if f.subform_section_id.present?
-        field_hash
-      end
-    end
-
-    def simplify_mobile_form(form_hash)
-      form_hash.slice!('unique_id', :name, 'order', :help_text, 'fields')
-      form_hash['fields'].each do |field|
-        field.slice!('name', 'disabled', 'multi_select', 'type', 'subform', 'required', 'option_strings_source',
-          'show_on_minify_form','mobile_visible', :display_name, :help_text, :option_strings_text, 'date_validation')
-        simplify_mobile_form(field['subform']) if (field['type'] == 'subform' && field['subform'].present?)
-      end
-    end
-
-    #This keeps the forms compatible with the mobile API
-    def mobile_form_type(parent_form)
-      case parent_form
-        when 'case'
-          'Children'
-        when 'child'
-          'Children'
-        when 'tracing_request'
-          'Enquiries' #TODO: This may be controversial
-        else
-          parent_form.camelize.pluralize
-      end
-    end
-
     def import_translations(form_hash={}, locale)
       if locale.present? && I18n.available_locales.include?(locale.try(:to_sym))
         unique_id = form_hash.keys.first
@@ -462,15 +298,13 @@ class FormSection < ApplicationRecord
       end
     end
 
-    def list_or_filter_by_record_type_and_module_id(record_type = nil, module_id = nil)
-      return FormSection.all if record_type.blank? && module_id.blank?
-      form_sections = self
-      if module_id.present?
-        form_sections = form_sections.joins(:primero_modules).where(primero_modules: { unique_id: module_id })
-      end
-      form_sections = form_sections.where(parent_form: record_type) if record_type.present?
+    def list(params={})
+      form_sections = all.includes(:fields, :collapsed_fields, :primero_modules)
+      form_sections = form_sections.where(parent_form: params[:record_type]) if params[:record_type]
+      form_sections = form_sections.where(primero_modules: { unique_id: params[:module_id] }) if params[:module_id]
       form_sections
     end
+
 
   end
 
@@ -672,6 +506,15 @@ class FormSection < ApplicationRecord
     else
       return true
     end
+  end
+
+  def validate_fields_unique_name
+    return true if self.fields.blank?
+    field_names = self.fields.map(&:name)
+    if field_names.length > field_names.dup.uniq.length
+      return errors.add(:fields, 'errors.models.form_section.unique_field_names')
+    end
+    true
   end
 
   def calculate_fields_order

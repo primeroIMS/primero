@@ -51,6 +51,11 @@ describe DestringifyService do
     expect(result).to eq(%w(a b c))
   end
 
+  it 'keeps an empty hash as hash' do
+    result = DestringifyService.destringify({})
+    expect(result).to eq({})
+  end
+
   describe 'lists and ranges' do
 
     it 'converts range formatted numerics to a range hash' do

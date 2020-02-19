@@ -1,13 +1,16 @@
-import * as Actions from "./actions";
+import { DB_COLLECTIONS_NAMES } from "../../../db";
 
-export const attemptLogin = data => async dispatch => {
-  dispatch({
-    type: Actions.LOGIN,
+import { LOGIN } from "./actions";
+
+export const loginSystemSettings = () => async dispatch => {
+  return dispatch({
+    type: LOGIN,
     api: {
-      path: "tokens",
-      method: "POST",
-      body: { user: data },
-      successCallback: Actions.LOGIN_SUCCESS_CALLBACK
+      path: "identity_providers",
+      method: "GET",
+      db: {
+        collection: DB_COLLECTIONS_NAMES.IDP
+      }
     }
   });
 };

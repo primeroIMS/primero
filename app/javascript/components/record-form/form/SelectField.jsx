@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   InputLabel,
@@ -11,14 +11,21 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { Select } from "formik-material-ui";
-import { FastField, connect, getIn } from "formik";
+import { Field, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
 import { useSelector } from "react-redux";
-import { useI18n } from "components/i18n";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import find from "lodash/find";
 import isEmpty from "lodash/isEmpty";
-import { getOption } from "../selectors";
+
+import { useI18n } from "../../i18n";
+import { getLocations, getOption } from "../selectors";
+import { valuesToSearchableSelect } from "../../../libs";
+import { selectAgencies } from "../../application/selectors";
+import { SearchableSelect } from "../../searchable-select";
+import { CODE_FIELD, NAME_FIELD } from "../../../config";
+
+import { SELECT_FIELD_NAME } from "./constants";
 import styles from "./styles.css";
 
 const ITEM_HEIGHT = 48;
@@ -52,23 +59,58 @@ const SelectField = ({
 
   const value = getIn(formik.values, name);
 
-  const options = useSelector(state => getOption(state, option, i18n));
+  const selectedValue = field.selected_value;
 
-  const findOptionDisplayText = v =>
-    (find(options, { id: v }) || {}).display_text;
+  const options = useSelector(state => getOption(state, option, i18n.locale));
+
+  const agencies = useSelector(state => selectAgencies(state));
+
+  const locations = useSelector(state => getLocations(state, i18n));
+
+  const translatedText = displayText => {
+    return typeof displayText === "string"
+      ? displayText
+      : displayText[i18n.locale];
+  };
+  const specialLookups = ["Location", "Agency"];
+
+  const findOptionDisplayText = v => {
+    const foundOptions = find(options, { id: v }) || {};
+    let optionValue = [];
+
+    if (Object.keys(foundOptions).length && !specialLookups.includes(option)) {
+      optionValue = translatedText(foundOptions.display_text);
+    } else if (option === "Agency") {
+      optionValue = value
+        ? agencies.find(a => a.get("id") === value)?.get("name")
+        : value;
+    } else {
+      optionValue = "";
+    }
+
+    return optionValue;
+  };
 
   const fieldProps = {
     component: Select,
     name,
     ...omitBy(other, (v, k) =>
-      ["InputProps", "helperText", "InputLabelProps"].includes(k)
+      [
+        "InputProps",
+        "helperText",
+        "InputLabelProps",
+        "recordType",
+        "recordID"
+      ].includes(k)
     ),
     displayEmpty: !mode.isShow,
     input: <Input />,
+    native: false,
     renderValue: selected => {
       if (!options) {
         return i18n.t("string_sources_failed");
       }
+
       return field.multi_select
         ? selected.map(s => findOptionDisplayText(s)).join(", ") ||
             i18n.t("fields.select_multiple")
@@ -83,7 +125,57 @@ const SelectField = ({
   const fieldError = getIn(formik.errors, name);
   const fieldTouched = getIn(formik.touched, name);
 
+  useEffect(() => {
+    if (mode.isNew && selectedValue && value === "") {
+      formik.setFieldValue(name, selectedValue, false);
+    }
+  }, []);
+
   if (!isEmpty(formik.values)) {
+    if (option === "Location") {
+      const values = valuesToSearchableSelect(
+        locations,
+        CODE_FIELD,
+        NAME_FIELD,
+        i18n.locale
+      );
+      const handleChange = (data, form) => {
+        form.setFieldValue(name, data ? data.value : "", false);
+      };
+
+      const searchableSelectProps = {
+        id: name,
+        name,
+        isDisabled: mode.isShow,
+        isClearable: true,
+        menuPosition: "absolute",
+        TextFieldProps: {
+          label,
+          margin: "dense",
+          fullWidth: true,
+          InputLabelProps: {
+            htmlFor: name,
+            shrink: true
+          }
+        },
+        excludeEmpty: true,
+        options: values && values,
+        defaultValue: value && values.filter(v => v.value === value.toString())
+      };
+
+      return (
+        <Field name={name}>
+          {/* eslint-disable-next-line no-unused-vars */}
+          {({ f, form }) => (
+            <SearchableSelect
+              {...searchableSelectProps}
+              onChange={data => handleChange(data, form)}
+            />
+          )}
+        </Field>
+      );
+    }
+
     return (
       <FormControl
         fullWidth
@@ -93,17 +185,17 @@ const SelectField = ({
         <InputLabel shrink htmlFor={other.name} {...InputLabelProps}>
           {label}
         </InputLabel>
-        <FastField {...fieldProps}>
+        <Field {...fieldProps}>
           {options &&
             options.map(o => (
               <MenuItem key={o.id} value={o.id}>
                 {field.multi_select && (
                   <Checkbox checked={value && value.indexOf(o.id) > -1} />
                 )}
-                <ListItemText primary={o.display_text} />
+                <ListItemText primary={translatedText(o.display_text) || ""} />
               </MenuItem>
             ))}
-        </FastField>
+        </Field>
         <FormHelperText>
           {fieldError && fieldTouched ? fieldError : helperText}
         </FormHelperText>
@@ -114,16 +206,18 @@ const SelectField = ({
   return null;
 };
 
+SelectField.displayName = SELECT_FIELD_NAME;
+
 SelectField.propTypes = {
-  name: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
   field: PropTypes.object.isRequired,
-  label: PropTypes.string.isRequired,
+  formik: PropTypes.object.isRequired,
   helperText: PropTypes.string,
   InputLabelProps: PropTypes.object,
   InputProps: PropTypes.object,
+  label: PropTypes.string.isRequired,
   mode: PropTypes.object,
-  disabled: PropTypes.bool,
-  formik: PropTypes.object.isRequired
+  name: PropTypes.string.isRequired
 };
 
 export default connect(SelectField);

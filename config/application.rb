@@ -1,6 +1,16 @@
 require_relative 'boot'
 
-require 'rails/all'
+# Expanding the below requires to remove loading of sprockets
+# If we upgrade rails in the future, make sure to check the following
+# imports to ensure we don't missing loading of anything important or new.
+# require 'rails/all'
+require "active_model/railtie"
+require "active_job/railtie"
+require "active_record/railtie"
+require "action_controller/railtie"
+require "action_mailer/railtie"
+require "action_view/railtie"
+require "active_storage/engine"
 
 Bundler.require(*Rails.groups)
 
@@ -18,9 +28,11 @@ module Primero
       #{config.root}/lib
       #{config.root}/lib/primero
       #{config.root}/lib/extensions
-      #{config.root}/app/presenters
-      #{config.root}/app
     )
+
+    config.middleware.use Rack::Deflater
+    
+    config.cache_store = :memory_store
 
     # I18n deprecation
     config.i18n.enforce_available_locales = false
@@ -32,17 +44,6 @@ module Primero
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
-
-    # i18n-js recommended configuration.
-    config.assets.initialize_on_precompile = true
-
-    # Asset pipeline
-    config.assets.enabled = true
-    config.assets.version = '1.0'
-
-    config.assets.precompile += %w(
-      translations.js
-    )
 
     LOCALE_ENGLISH = 'en'
     LOCALE_FRENCH = 'fr'
@@ -81,6 +82,8 @@ module Primero
     if ENV['RAILS_LOG_PATH'].present?
       config.paths['log'] = "#{ENV['RAILS_LOG_PATH']}/#{ENV['RAILS_ENV']}.log"
     end
+
+    config.beginning_of_week = :sunday
 
     config.logger = Logger.new(config.paths['log'].first, 1, 50.megabytes)
     config.action_view.logger = nil

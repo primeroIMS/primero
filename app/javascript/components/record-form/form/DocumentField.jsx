@@ -12,11 +12,14 @@ import {
   IconButton
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { useI18n } from "components/i18n";
 import { FastField } from "formik";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
+
+import { useI18n } from "../../i18n";
+
+import { DOCUMENT_FIELD_NAME } from "./constants";
 import DateField from "./DateField";
 import styles from "./styles.css";
 
@@ -28,7 +31,8 @@ const DocumentField = ({
   open,
   resetOpenLastDialog,
   value,
-  removeFunc
+  removeFunc,
+  field
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -49,6 +53,8 @@ const DocumentField = ({
   };
 
   const supportingInputsProps = {
+    field,
+    mode,
     readOnly: mode.isShow,
     fullWidth: true,
     autoComplete: "off",
@@ -152,15 +158,18 @@ const DocumentField = ({
   );
 };
 
+DocumentField.displayName = DOCUMENT_FIELD_NAME;
+
 DocumentField.propTypes = {
-  title: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  field: PropTypes.object,
   index: PropTypes.number.isRequired,
   mode: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
   open: PropTypes.bool,
+  removeFunc: PropTypes.func.isRequired,
   resetOpenLastDialog: PropTypes.func.isRequired,
-  value: PropTypes.object.isRequired,
-  removeFunc: PropTypes.func.isRequired
+  title: PropTypes.string.isRequired,
+  value: PropTypes.object.isRequired
 };
 
 export default DocumentField;

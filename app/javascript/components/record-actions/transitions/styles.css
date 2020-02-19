@@ -1,0 +1,50 @@
+.modalTitle {
+  
+  & span {
+    font-size: $(theme.typography.pxToRem(17));
+    font-weight: bold;
+    color: #231e1f;
+  }
+
+  & button {
+    padding: 3px;
+    float: right;
+    color: #231e1f
+  }
+}
+
+.modalAction {
+  margin-top: 4em;
+
+  & button {
+    margin-right: 8px;
+  }
+}
+
+.modalActionButton {
+  box-shadow: none;
+}
+
+.autoCompleteOverflow {
+  overflow-y: visible;
+}
+
+.alertTransferModal {
+  background-color: $(theme.primero.colors.lightGrey);
+  border-radius: 5px;
+  padding: 16px;
+  marginTop: 5px;
+}
+
+.alertTransferModalIcon {
+  font-size: 2.3em;
+}
+
+.searchableSelect {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.transferExternal {
+  margin-top: 8px;
+}

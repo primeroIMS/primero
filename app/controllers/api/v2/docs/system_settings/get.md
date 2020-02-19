@@ -87,7 +87,8 @@ Retrieve the current Primero system settings as JSON
             "show_alerts": true,
             "welcome_email_enabled": false,
             "notification_email_enabled": true,
-            "due_date_from_appointment_date": false
+            "due_date_from_appointment_date": false,
+            "use_identity_provider": false
         },
         "agencies": [
             {
@@ -132,7 +133,7 @@ Retrieve the current Primero system settings as JSON
 ```
 ## Error Response
 
-**Condition** : User isn't authorized to query for system settings. 
+**Condition** : User isn't authorized to query for system settings.
 
 **Code** : `403 Forbidden`
 

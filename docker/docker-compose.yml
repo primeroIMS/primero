@@ -2,24 +2,26 @@
 version: '3'
 services:
   postgres:
-    image: postgres:prim-latest
+    image: 'primero/postgres:${PRIMERO_TAG:-latest}'
     volumes:
       - log:/var/log/postgresql
       - database:/var/lib/postgresql/data
     env_file:
       - docker/defaults.env
   solr:
-    image: solr:prim-latest
+    image: 'primero/solr:${PRIMERO_TAG:-latest}'
     env_file:
       - docker/defaults.env
     volumes:
       - solr_cores:/opt/solr/server/solr/mycores
   beanstalkd:
-    image: beanstalkd:prim-latest
+    image: 'primero/beanstalkd:${PRIMERO_TAG:-latest}'
     env_file:
       - docker/defaults.env
+    volumes:
+      - beanstalkd:/var/lib/beanstalkd
   application:
-    image: application:prim-latest
+    image: 'primero/application:${PRIMERO_TAG:-latest}'
     depends_on:
       - solr
       - beanstalkd
@@ -27,45 +29,42 @@ services:
     volumes:
       - log:/srv/primero/application/log
       - public:/share/public
-      - tmp:/srv/primero/application/tmp
       - storage:/srv/primero/storage
     env_file:
       - docker/defaults.env
     stdin_open: true
     tty: true
   backburner:
-    image: application:prim-latest
+    image: 'primero/application:${PRIMERO_TAG:-latest}'
     depends_on:
       - solr
       - beanstalkd
       - postgres
     volumes:
       - log:/srv/primero/application/log
-      - tmp:/srv/primero/application/tmp
       - public:/share/public
     env_file:
       - docker/defaults.env
     command: ["bundle", "exec", "rails", "backburner:work"]
   scheduler:
-    image: application:prim-latest
+    image: 'primero/application:${PRIMERO_TAG:-latest}'
     depends_on:
       - solr
       - beanstalkd
       - postgres
     volumes:
       - log:/srv/primero/application/log
-      - tmp:/srv/primero/application/tmp
       - public:/share/public
     env_file:
       - docker/defaults.env
     command: ["bundle", "exec", "rails", "scheduler:run"]
 volumes:
+  beanstalkd:
   database:
   certbot_certs:
   selfsigned_certs:
   certbot_var:
   certbot_etc:
-  tmp:
   log:
   public:
   solr_cores:

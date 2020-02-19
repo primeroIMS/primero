@@ -8,13 +8,18 @@
   <meta name="google" value="notranslate" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Primero</title>
+  <link rel="manifest" href="/manifest.json">
   <%= favicon_link_tag('favicon-16x16.png?v=3') %>
   <%= csrf_meta_tag %>
   <!-- jss-insertion-point -->
 </head>
 <body dir="ltr">
-<div id="root"></div>
-<%= javascript_include_tag 'translations' %>
-<%= javascript_packs_with_chunks_tag 'application' %>
+  <div id="root"></div>
+  <script>
+    window.locationManifest = <%= available_locations %>
+  </script>
+  <script src="/javascripts/i18n.js"></script>
+  <script src="/<%= I18N_TRANSLATIONS_FILE %>"></script>
+  <%= javascript_bundles_with_chunks_tag 'application', skip_pipeline: true, manifest: :application %>
 </body>
 </html>

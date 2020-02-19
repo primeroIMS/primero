@@ -12,7 +12,7 @@ module Serviceable
 
     store_accessor :data, :consent_for_services, :services_section #TODO: Do we need a services alias for this?
 
-    searchable auto_index: self.auto_index? do
+    searchable do
       boolean :consent_for_services
       time :service_due_dates, multiple: true
     end
@@ -72,11 +72,11 @@ module Serviceable
       appointment_date = service['service_appointment_date']
       appointment_time = appointment_date.try(:end_of_day).try(:strftime, '%H:%M:%S')
 
-      if @system_settings.present? && created_on.present? && appointment_date.present?
-        if @system_settings.due_date_from_appointment_date.present?
+      if @system_settings.present?
+        if @system_settings.due_date_from_appointment_date && appointment_date
           appointment_date_time = "#{appointment_date} #{appointment_time}"
           DateTime.parse(appointment_date_time)
-        elsif timeframe.present?
+        elsif created_on && timeframe
           converted_timeframe = convert_time(timeframe)
           converted_timeframe.present? ? created_on + converted_timeframe : nil
         end

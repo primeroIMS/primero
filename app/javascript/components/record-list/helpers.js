@@ -1,70 +1,42 @@
 import React from "react";
-import { Map } from "immutable";
-import { ToggleIconCell } from "components/index-table";
-import { pickBy } from "lodash";
 
-// TODO: Revist this when user endpoint if finished. Index fields will come
-// this endpoint
-export const buildTableColumns = (columns, i18n, recordType) => {
-  const lastColumns = ["photo", "flags"];
+import { ToggleIconCell } from "../index-table";
+
+export const buildTableColumns = (columns, i18n, recordType, css) => {
+  const iconColumns = ["photo", "alert_count"];
+
+  const emptyHeader = name => <th key={name} className={css.overdueHeading} />;
 
   return columns
-    .map(c => {
+    .map(column => {
       const options = {
         ...{
-          ...(["photos"].includes(c.name)
+          ...(["photos"].includes(column.get("name"))
             ? {
                 customBodyRender: value => (
                   <ToggleIconCell value={value} icon="photo" />
+                )
+              }
+            : {}),
+          ...(["alert_count", "flag_count"].includes(column.get("name"))
+            ? {
+                customHeadRender: columnMeta => emptyHeader(columnMeta),
+                customBodyRender: value => (
+                  <ToggleIconCell value={value} icon="alert_count" />
                 )
               }
             : {})
         }
       };
 
-      const noLabelColumns = ["photo"];
-
       return {
-        label: noLabelColumns.includes(c.name)
+        label: iconColumns.includes(column.get("name"))
           ? ""
-          : i18n.t(`${recordType}.${c.name}`),
-        name: c.field_name,
-        id: c.id_search,
+          : i18n.t(`${recordType}.${column.get("name")}`),
+        name: column.get("field_name"),
+        id: column.get("id_search"),
         options
       };
     })
-    .sortBy(i => (lastColumns.includes(i.name) ? 1 : 0));
-};
-
-export const cleanUpFilters = filters => {
-  const filtersArray = pickBy(filters, value => {
-    const isMap = Map.isMap(value);
-    return !(
-      value === "" ||
-      value === null ||
-      (Array.isArray(value) && value.length === 0) ||
-      ((isMap || typeof value === "object") &&
-        Object.values(isMap ? value.toJS() : value).includes(null))
-    );
-  });
-
-  Object.entries(filtersArray).forEach(filter => {
-    const [key, value] = filter;
-    if (Array.isArray(value)) {
-      filtersArray[key] = value.join(",");
-    } else if (
-      typeof value === "object" &&
-      !Object.values(value).includes(null)
-    ) {
-      const valueConverted = {};
-      Object.entries(value).forEach(keys => {
-        const [k, v] = keys;
-        valueConverted[k] = v;
-      });
-      filtersArray[key] = valueConverted;
-    } else {
-      filtersArray[key] = value;
-    }
-  });
-  return filtersArray;
+    .sortBy(column => (iconColumns.includes(column.name) ? 1 : 0));
 };

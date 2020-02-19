@@ -1,66 +1,60 @@
-import { ENQUEUE_SNACKBAR } from "components/notifier";
-import { normalizeData } from "./schema";
-import * as Actions from "./actions";
-import mockedData from "./mocked-data";
-import { Option } from "./records";
+import { batch } from "react-redux";
 
-export const setSelectedForm = payload => {
-  return {
-    type: Actions.SET_SELECTED_FORM,
-    payload
-  };
-};
+import { DB_COLLECTIONS_NAMES } from "../../db";
+
+import Actions from "./actions";
+import { URL_LOOKUPS } from "./constants";
+
+const fetchLookups = () => ({
+  type: Actions.SET_OPTIONS,
+  api: {
+    path: URL_LOOKUPS,
+    params: { per: 999, page: 1 },
+    db: {
+      collection: DB_COLLECTIONS_NAMES.OPTIONS
+    }
+  }
+});
+
+const fetchLocations = () => ({
+  type: Actions.SET_LOCATIONS,
+  api: {
+    path: `${window.location.origin}${window.locationManifest}`,
+    external: true,
+    db: {
+      collection: DB_COLLECTIONS_NAMES.LOCATIONS,
+      alwaysCache: true,
+      manifest: window.locationManifest
+    }
+  }
+});
+
+export const setSelectedForm = payload => ({
+  type: Actions.SET_SELECTED_FORM,
+  payload
+});
+
+export const setSelectedRecord = payload => ({
+  type: Actions.SET_SELECTED_RECORD,
+  payload
+});
 
 export const fetchForms = () => async dispatch => {
   dispatch({
     type: Actions.RECORD_FORMS,
     api: {
       path: "forms",
-      normalizeFunc: normalizeData
-    }
-  });
-};
-
-export const fetchRecord = (namespace, id) => async dispatch => {
-  dispatch({
-    type: Actions.SELECTED_RECORD,
-    api: {
-      path: `${namespace}/${id}`
+      normalizeFunc: "normalizeFormData",
+      db: {
+        collection: DB_COLLECTIONS_NAMES.FORMS
+      }
     }
   });
 };
 
 export const fetchOptions = () => async dispatch => {
-  dispatch({
-    type: Actions.SET_OPTIONS,
-    payload: mockedData.data.map(option => Option(option))
-  });
-};
-
-export const saveRecord = (
-  namespace,
-  saveMethod,
-  body,
-  id,
-  message
-) => async dispatch => {
-  await dispatch({
-    type: Actions.SAVE_RECORD,
-    api: {
-      path: saveMethod === "update" ? `${namespace}/${id}` : `${namespace}`,
-      method: saveMethod === "update" ? "PATCH" : "POST",
-      body,
-      successCallback: {
-        action: ENQUEUE_SNACKBAR,
-        payload: {
-          message,
-          options: {
-            variant: "success",
-            key: new Date().getTime() + Math.random()
-          }
-        },
-        redirect: `/${namespace}`
-      }
-    }
+  batch(() => {
+    dispatch(fetchLookups());
+    dispatch(fetchLocations());
   });
 };

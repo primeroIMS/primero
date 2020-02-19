@@ -1,32 +1,47 @@
 import { expect } from "chai";
-import "test/test.setup";
-import { List, Map } from "immutable";
+import { fromJS } from "immutable";
 
 import { buildTableColumns } from "./helpers";
 
-const i18n = { t: name => {
-  name = name.split('.')[1];
-  return name.charAt(0).toUpperCase() + name.slice(1)
-}};
+const i18n = {
+  t: name => {
+    name = name.split(".")[1];
+
+    return name.charAt(0).toUpperCase() + name.slice(1);
+  }
+};
 
 describe("<RecordList /> - buildTableColumns", () => {
   it("should return list of columns for table", () => {
     const expected = [
-      { label: "Id", name: "id", id: true, options: {} },
-      { label: "Name", name: "name", id: false, options: {} }
+      { label: "James", name: "James", id: false, options: {} },
+      {
+        label: "",
+        name: "alert_count",
+        id: undefined,
+        options: {}
+      }
     ];
 
-    const records = List([
-      Map({
-        id: "test",
-        name: "james"
-      })
+    const records = fromJS([
+      {
+        id_search: false,
+        name: "james",
+        field_name: "James"
+      },
+      {
+        name: "alert_count",
+        field_name: "alert_count"
+      }
     ]);
-
-    const columns = buildTableColumns(records, "testRecordType", i18n);
+    const columns = buildTableColumns(records, i18n, "testRecordType");
 
     columns.forEach((v, k) => {
-      expect(v).to.deep.equal(expected[k + 1]);
-    })
+      expect(v.id).to.equal(expected[k].id);
+      expect(v.name).to.equal(expected[k].name);
+      expect(v.label).to.equal(expected[k].label);
+      expect(v).to.have.property("options");
+    });
   });
 });
+

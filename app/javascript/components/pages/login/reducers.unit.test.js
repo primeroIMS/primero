@@ -1,97 +1,34 @@
-import chai, { expect } from "chai";
-import { Map } from "immutable";
-import chaiImmutable from "chai-immutable";
-import * as r from "./reducers";
+import { expect } from "chai";
+import { fromJS } from "immutable";
 
-chai.use(chaiImmutable);
+import { reducers } from "./reducers";
 
 describe("<Login /> - Reducers", () => {
-
-  const default_state = Map({
-    module: "primero",
-    agency: "unicef",
-    isAuthenticated: false
-  });
-
-  it("should handle SET_STYLE", () => {
-    const expected = Map({
-      module: "gbv",
-      agency: "unicef",
-      isAuthenticated: false
-    });
-    const action = {
-      type: "user/SET_STYLE",
-      payload: {
-        module: "gbv",
-        agency: "unicef"
-      }
-    };
-    const newState = r.reducers.user(default_state, action);
-    expect(newState).to.deep.equal(expected);
-  });
-
-  it("should handle SET_AUTH", () => {
-    const expected = Map({
-      module: "primero",
-      agency: "unicef",
-      isAuthenticated: undefined,
-      username: undefined
-    });
-    const action = {
-      type: "user/SET_AUTH",
-      payload: true
-    };
-    const newState = r.reducers.user(default_state, action);
-    expect(newState).to.deep.equal(expected);
-  });
+  const defaultState = fromJS({});
 
   it("should handle LOGIN_SUCCESS", () => {
-    const expected = Map({
-      module: "primero",
-      agency: "unicef",
-      isAuthenticated: true,
-      username: "primero"
+    const expected = fromJS({
+      identity_providers: [
+        {name: "unicef"},
+        {name: "primero"}
+      ],
+      use_identity_provider: true
     });
+
     const action = {
-      type: "user/LOGIN_SUCCESS",
+      type: "idp/LOGIN_SUCCESS",
       payload: {
-        user_name: "primero"
+        data: [
+          {name: "unicef"},
+          {name: "primero"}
+        ],
+        metadata: {
+          use_identity_provider: true
+        }
       }
     };
-    const newState = r.reducers.user(default_state, action);
-    expect(newState).to.deep.equal(expected);
-  });
+    const newState = reducers.idp(defaultState, action);
 
-  it("should handle LOGIN_FAILURE", () => {
-    const expected = Map({
-      module: "primero",
-      agency: "unicef",
-      isAuthenticated: false,
-      messages: Map({
-        error: "Invalid User name or password."
-      })
-    });
-    const action = {
-      type: "user/LOGIN_FAILURE",
-      payload: {
-        error: "Invalid User name or password."
-      }
-    };
-    const newState = r.reducers.user(default_state, action);
-    expect(newState).to.deep.equal(expected);
-  });
-
-  it("should handle LOGOUT_SUCCESS", () => {
-    const expected = Map({
-      module: "primero",
-      agency: "unicef",
-      isAuthenticated: false,
-      username: null
-    });
-    const action = {
-      type: "user/LOGOUT_SUCCESS"
-    };
-    const newState = r.reducers.user(default_state, action);
     expect(newState).to.deep.equal(expected);
   });
 });

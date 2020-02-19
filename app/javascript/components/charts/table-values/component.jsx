@@ -9,10 +9,31 @@ import {
   TableRow
 } from "@material-ui/core";
 import makeStyles from "@material-ui/styles/makeStyles";
+
 import styles from "./styles.css";
 
 const TableValues = ({ columns, values }) => {
   const css = makeStyles(styles)();
+
+  const singleRowRender = rowValues => (
+    <TableRow
+      key={`${rowValues[0]}-${Math.floor(Math.random() * 100 + 1)}-data`}
+    >
+      {rowValues.map(row => (
+        <TableCell key={`${row}-${Math.floor(Math.random() * 100 + 1)}-value`}>
+          {row}
+        </TableCell>
+      ))}
+    </TableRow>
+  );
+
+  const rowRender = rowValues => {
+    if (Array.isArray(rowValues[0])) {
+      return rowValues.map(row => rowRender(row));
+    }
+
+    return singleRowRender(rowValues);
+  };
 
   return (
     <Paper className={css.root}>
@@ -24,23 +45,13 @@ const TableValues = ({ columns, values }) => {
             })}
           </TableRow>
         </TableHead>
-        <TableBody>
-          {values.map(value => (
-            <TableRow key={`${value[0]}-row-data`}>
-              {value.map(row => (
-                <TableCell
-                  key={`${row}-${Math.floor(Math.random() * 100 + 1)}-value`}
-                >
-                  {row}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
+        <TableBody>{rowRender(values)}</TableBody>
       </Table>
     </Paper>
   );
 };
+
+TableValues.displayName = "TableValues";
 
 TableValues.propTypes = {
   columns: PropTypes.array,

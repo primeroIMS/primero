@@ -1,27 +1,27 @@
+# frozen_string_literal: true
+
+# Executes a bulk export
 class BulkExportJob < ApplicationJob
   queue_as :export
 
-  def perform(bulk_export_id, opts={})
-    bulk_export = BulkExport.find_by(id: bulk_export_id) #We are Rails 4.0 and don't use GlobalId yet
-    if bulk_export.present?
-      user = bulk_export.owner
-      exporter = bulk_export.exporter_type.new(bulk_export.stored_file_name)
-      permitted_fields = exporter.class.permitted_fields_to_export(user, bulk_export.record_type)
-      options = bulk_export.custom_export_params
+  def perform(bulk_export_id, encrypted_password)
+    bulk_export = BulkExport.find_by(id: bulk_export_id)
+    password = EncryptionService.decrypt(encrypted_password)
+    return log_bulk_export_missing(bulk_export_id) unless bulk_export.present?
 
-      bulk_export.process_records_in_batches(500) do |records_batch|
-        exporter.export(records_batch, permitted_fields, user, options)
-      end
+    bulk_export.export(password)
+  rescue Errors::MisconfiguredEncryptionError => e
+    log_encryption_error(bulk_export_id, e)
+  end
 
-      exporter.complete
+  def log_bulk_export_missing(id)
+    Rails.logger.warn("BulkExport Id: #{id} was not found. Skipping...")
+  end
 
-      bulk_export.encrypt_export_file
-
-      bulk_export.attach_export_file
-
-      bulk_export.mark_completed
-    else
-      Rails.logger.warn("BulkExport Id: #{bulk_export_id} was not found. Skipping...")
-    end
+  def log_encryption_error(id, error)
+    Rails.logger.error(
+      "BulkExport Id: #{id} could not be enqueued because the password could not be decrypted!" \
+      "\n#{error.backtrace}"
+    )
   end
 end

@@ -1,0 +1,10 @@
+.selectApprovalType select {
+    width: 200px;
+    margin: 8px;
+}
+
+.closeButton {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+}

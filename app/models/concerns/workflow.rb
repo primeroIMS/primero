@@ -1,5 +1,7 @@
-#Note: Currently this concern contains logic / fields specific to Child/Case.
-#Note: This is dependent on the Serviceable concern.  Serviceable must be included before Workflow
+# frozen_string_literal: true
+
+# Note: Currently this concern contains logic / fields specific to Child/Case.
+# Note: This is dependent on the Serviceable concern.  Serviceable must be included before Workflow
 module Workflow
   extend ActiveSupport::Concern
 
@@ -11,11 +13,13 @@ module Workflow
   WORKFLOW_CASE_PLAN = 'case_plan'
   WORKFLOW_ASSESSMENT = 'assessment'
 
+  LOOKUP_RESPONSE_TYPES = 'lookup-service-response-type'
+
   included do
     store_accessor :data, :workflow
     alias_method :workflow_status, :workflow
 
-    searchable auto_index: self.auto_index? do
+    searchable do
       string :workflow_status, as: 'workflow_status_sci'
       string :workflow, as: 'workflow_sci'
     end
@@ -24,11 +28,11 @@ module Workflow
     before_save :calculate_workflow
 
     def set_workflow_new
-      self.workflow = WORKFLOW_NEW
+      self.workflow ||= WORKFLOW_NEW
     end
 
     def calculate_workflow
-      if self.child_status == Record::STATUS_OPEN
+      if self.status == Record::STATUS_OPEN
         if workflow_case_reopened?
           self.workflow = WORKFLOW_REOPENED
         elsif workflow_services_implemented?
@@ -43,14 +47,14 @@ module Workflow
         elsif workflow_assessment?
           self.workflow = WORKFLOW_ASSESSMENT
         end
-      elsif self.child_status == Record::STATUS_CLOSED
+      elsif self.status == Record::STATUS_CLOSED
         self.workflow = WORKFLOW_CLOSED
       end
     end
 
     def workflow_case_reopened?
       (self.changes_to_save_for_record.key?('case_status_reopened') ||
-       self.changes_to_save_for_record.key?('child_status')) &&
+       self.changes_to_save_for_record.key?('status')) &&
       self.case_status_reopened
     end
 
@@ -77,49 +81,39 @@ module Workflow
       self.module.use_workflow_assessment
     end
 
-    def workflow_sequence_strings(lookups=nil)
-      status_list = self.class.workflow_statuses([self.module], lookups)
-      if self.case_status_reopened.present?
-        status_list.reject! {|status| status['id'] == WORKFLOW_NEW}
-      else
-        status_list.reject! {|status| status['id'] == WORKFLOW_REOPENED}
-      end
-      status_list.map {|status| [status['display_text'], status['id']]}
-    end
   end
 
   module ClassMethods
-    def workflow_statuses(modules=[], lookups=nil)
-      status_list = []
-      status_list << workflow_key_value(WORKFLOW_NEW)
-      status_list << workflow_key_value(WORKFLOW_REOPENED)
-      status_list << workflow_key_value(WORKFLOW_ASSESSMENT) if modules.try(:any?) {|m| m.use_workflow_assessment}
-      status_list << workflow_key_value(WORKFLOW_CASE_PLAN) if modules.try(:any?) {|m| m.use_workflow_case_plan}
-      status_list += Lookup.values('lookup-service-response-type', lookups, locale: I18n.locale)
-      status_list << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED) if modules.try(:any?) {|m| m.use_workflow_service_implemented}
-      status_list << workflow_key_value(WORKFLOW_CLOSED)
-      status_list
-    end
 
-    def workflow_statuses_all_locales(modules=[], lookups=nil)
+    def workflow_statuses(modules = [], lookups=nil)
+      lookup = lookup_response_types(lookups)
+
       I18n.available_locales.map do |locale|
         status_list = []
         status_list << workflow_key_value(WORKFLOW_NEW, locale)
         status_list << workflow_key_value(WORKFLOW_REOPENED, locale)
         status_list << workflow_key_value(WORKFLOW_ASSESSMENT, locale) if modules.try(:any?) {|m| m.use_workflow_assessment}
         status_list << workflow_key_value(WORKFLOW_CASE_PLAN, locale) if modules.try(:any?) {|m| m.use_workflow_case_plan}
-        status_list += Lookup.values('lookup-service-response-type', lookups, locale: locale)
+        status_list += lookup&.lookup_values(locale) || []
         status_list << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED, locale) if modules.try(:any?) {|m| m.use_workflow_service_implemented}
         status_list << workflow_key_value(WORKFLOW_CLOSED, locale)
         { locale => status_list }
       end.inject(&:merge)
     end
 
+    def lookup_response_types(lookups = nil)
+      lookup = lookups&.find { |lkp| lkp.unique_id == LOOKUP_RESPONSE_TYPES }
+      lookup || Lookup.find_by(unique_id: LOOKUP_RESPONSE_TYPES)
+    end
+
     private
 
-    #TODO - concept of 'display_text' would fit better in a helper
+    #TODO: - concept of 'display_text' would fit better in a helper
     def workflow_key_value(status, locale = I18n.locale)
-      {'id' => status, 'display_text' => I18n.t("case.workflow.#{status}", locale: locale)}
+      {
+        'id' => status,
+        'display_text' => I18n.t("case.workflow.#{status}", locale: locale)
+      }
     end
   end
 end

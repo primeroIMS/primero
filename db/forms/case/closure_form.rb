@@ -25,11 +25,13 @@ closure_fields = [
              "disabled" => true,
              "option_strings_source" => "lookup lookup-approval-status"
             }),
-  Field.new({"name" => "child_status",
+  Field.new({"name" => "status",
              "type" =>"select_box" ,
              "selected_value" => Record::STATUS_OPEN,
              "display_name_en" => "Case Status",
-             "option_strings_source" => "lookup lookup-case-status"
+             "option_strings_source" => "lookup lookup-case-status",
+             "editable" => false,
+             "disabled" => true
             }),
   Field.new({"name" => "closure_reason",
              "type" => "select_box",

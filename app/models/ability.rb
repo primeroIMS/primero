@@ -2,11 +2,17 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    alias_action :index, :view, :list, :export, :to => :read
-    alias_action :edit, :update, :destroy, :disable, :to => :write
-    alias_action :new => :create
+    alias_action :index, :view, :list, :export, to: :read
+    alias_action :edit, :update, :destroy, :disable, to: :write
+    alias_action new: :create
+    alias_action destroy: :delete
 
     @user = user
+
+    can [:index], SystemSettings
+    can :index, FormSection
+    can [:index], Lookup
+    can [:index], Location
 
     can [:read_self, :write_self], User do |uzer|
       uzer.user_name == user.user_name
@@ -23,7 +29,7 @@ class Ability
     can [:show_user], User do |uzer|
       can?(:read_self, uzer) || can?(:read, uzer)
     end
-  
+
     can [:edit_user], User do |uzer|
       can?(:write_self, uzer) || can?(:edit, uzer)
     end
@@ -47,21 +53,21 @@ class Ability
       end
     end
 
+    configure_exports
     baseline_permissions
 
-    if user.has_permission? Permission::SYNC_MOBILE
-      can :index, FormSection
-      can :index, SystemSettings
+    [Child, TracingRequest, Incident].each do |model|
+      configure_flag(model)
     end
   end
 
   def baseline_permissions
     can [:read, :write, :create], SavedSearch do |search|
-      user.user_name == search.user_name
+      user.user_name == search.user.user_name
     end
   end
 
-  def user_permissions actions
+  def user_permissions(actions)
     can actions, User do |uzer|
       if (user.super_user?)
         true
@@ -106,15 +112,14 @@ class Ability
         false
      # TODO-permission: The following code prevents a role from having access to itself.
      # As written it is too broad and won't let a user see or assign its own role.
-     # It should be limitted to only preventing the a role from editting itself:
-      elsif [Permission::ASSIGN, Permission::READ, Permission::WRITE].map{|p| p.to_sym}.any? {|p| actions.include?(p)}
-        #TODO-permission: This else statements should default to false, not true when the conditions are not met
-        permission.role_ids.present? ? (permission.role_ids.include? instance.id) : true
+     # It should be limited to only preventing the a role from editing itself:
+      elsif ([Permission::ASSIGN, Permission::READ, Permission::WRITE].map(&:to_sym) & actions).present?
+        permission.role_unique_ids.present? ? (permission.role_unique_ids.include? instance.unique_id) : true
       # TODO-permission: This if statement should prevent a role from editing itself, but it should be evaluated before
       # the previous elsif to be effective
       # TODO-permission: I do not believe that the second part of the if statement is helpful or accurate:
       # Not even the super user is allowed to edit their own role, consider removing.
-      elsif (user.role_id == instance.id && !user.group_permission?(Permission::ALL))
+      elsif user.role_id == instance.id && !user.group_permission?(Permission::ALL)
         false
       else
         #TODO-permission: This else statements should default to false, not 'true' when the conditions are not met
@@ -123,12 +128,11 @@ class Ability
     end
   end
 
-  def agency_permissions permission
+  def agency_permissions(permission)
     actions = permission.action_symbols
     can actions, Agency do |instance|
-      #TODO-permission: BOTH of these else statements should default to false not true when the conditions are not met
-      if [Permission::ASSIGN, Permission::READ, Permission::WRITE].map{|p| p.to_sym}.any? {|p| actions.include?(p)}
-        permission.agency_ids.present? ? (permission.agency_ids.include? instance.id) : true
+      if ([Permission::ASSIGN, Permission::READ, Permission::WRITE].map(&:to_sym) & actions).present?
+        permission.agency_unique_ids.present? ? (permission.agency_unique_ids.include? instance.unique_id) : true
       else
         true
       end
@@ -167,11 +171,22 @@ class Ability
           user.has_permission?(Permission::DASH_TASKS))
         can :index, Task
       end
-      can [:index, :show], BulkExport do |instance|
-        instance.owned_by == user.user_name
-      end
     else
       can actions, resource
+    end
+  end
+
+  def configure_flag(resource)
+    can [:flag_record], resource do |instance|
+      can?(:read, instance) && can?(:flag, instance)
+    end
+  end
+
+  def configure_exports
+    return unless user.role.permitted_to_export?
+
+    can [:index, :create, :read, :destroy], BulkExport do |instance|
+      instance.owned_by == user.user_name
     end
   end
 

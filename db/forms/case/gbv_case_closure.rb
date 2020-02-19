@@ -13,7 +13,7 @@ case_closure_fields = [
              "type" => "date_field",
              "display_name_en" => "Case Closure Date"
             }),
-  Field.new({"name" => "child_status",
+  Field.new({"name" => "status",
              "mobile_visible" => true,
              "type" =>"select_box" ,
              "selected_value" => Record::STATUS_OPEN,

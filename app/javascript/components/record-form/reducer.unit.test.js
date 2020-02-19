@@ -1,110 +1,22 @@
 import chai, { expect } from "chai";
 import { Map, List } from "immutable";
-import { mapEntriesToRecord } from "libs";
 import chaiImmutable from "chai-immutable";
+
+import { mapEntriesToRecord } from "../../libs";
+
 import * as R from "./records";
 import * as r from "./reducers";
 
 chai.use(chaiImmutable);
 
 describe("<RecordForm /> - Reducers", () => {
-  const defaultState = Map({
+  const initialState = Map({
     selectedForm: null,
     formSections: Map({}),
     fields: Map({})
   });
 
-  it("should handle SELECTED_RECORD_SUCCESS", () => {
-    const expected = Map({
-      selectedForm: null,
-      formSections: Map({}),
-      fields: Map({}),
-      selectedRecord: Map({
-        age: 26,
-        case_id: "caf0cf17-901b-4b01-80d5-5ceb72063a4b",
-        case_id_display: "2063a4b",
-        created_at: "2019-08-06T20:21:19.864Z",
-        created_by: "primero",
-        date_of_birth: "1993-06-05",
-        id: "e15acbe5-9501-4615-9f43-cb6873997fc1",
-        module_id: "primeromodule-cp",
-        name: "Gerald Padgett",
-        name_first: "Gerald",
-        name_given_post_separation: true,
-        name_last: "Padgett",
-        owned_by: "primero",
-        owned_by_agency_id: 1,
-        previously_owned_by: "primero",
-        record_state: true,
-        registration_date: "2019-08-06",
-        sex: "male",
-        short_id: "2063a4b"
-      }),
-      errors: false
-    });
-    const action = {
-      type: "forms/SELECTED_RECORD_SUCCESS",
-      payload: {
-        data: {
-          age: 26,
-          case_id: "caf0cf17-901b-4b01-80d5-5ceb72063a4b",
-          case_id_display: "2063a4b",
-          created_at: "2019-08-06T20:21:19.864Z",
-          created_by: "primero",
-          date_of_birth: "1993-06-05",
-          id: "e15acbe5-9501-4615-9f43-cb6873997fc1",
-          module_id: "primeromodule-cp",
-          name: "Gerald Padgett",
-          name_first: "Gerald",
-          name_given_post_separation: true,
-          name_last: "Padgett",
-          owned_by: "primero",
-          owned_by_agency_id: 1,
-          previously_owned_by: "primero",
-          record_state: true,
-          registration_date: "2019-08-06",
-          sex: "male",
-          short_id: "2063a4b"
-        }
-      }
-    };
-
-    const newState = r.reducers.forms(defaultState, action);
-    expect(newState).to.deep.equal(expected);
-  });
-
-  it("should handle SELECTED_RECORD_STARTED", () => {
-    const expected = Map({
-      selectedForm: null,
-      formSections: Map({}),
-      fields: Map({}),
-      selectedRecord: null,
-      loading: true
-    });
-    const action = {
-      type: "forms/SELECTED_RECORD_STARTED"
-    };
-
-    const newState = r.reducers.forms(defaultState, action);
-    expect(newState).to.deep.equal(expected);
-  });
-
-  it("should handle SELECTED_RECORD_FAILURE", () => {
-    const expected = Map({
-      selectedForm: null,
-      formSections: Map({}),
-      fields: Map({}),
-      errors: true
-    });
-    const action = {
-      type: "forms/SELECTED_RECORD_FAILURE"
-    };
-
-    const newState = r.reducers.forms(defaultState, action);
-    expect(newState).to.deep.equal(expected);
-  });
-
-  it("should handle SET_OPTIONS", () => {
+  it("deprecated forms/SET_OPTIONS", () => {
     const expected = Map({
       selectedForm: null,
       formSections: Map({}),
@@ -132,8 +44,9 @@ describe("<RecordForm /> - Reducers", () => {
       ]
     };
 
-    const newState = r.reducers.forms(defaultState, action);
-    expect(newState).to.deep.equal(expected);
+    const newState = r.reducers.forms(initialState, action);
+
+    expect(newState).to.deep.equal(initialState);
   });
 
   it("should handle RECORD_FORMS_SUCCESS", () => {
@@ -168,7 +81,7 @@ describe("<RecordForm /> - Reducers", () => {
         fields: [1],
         is_nested: null
       }
-    ]
+    ];
     const fields = [
       {
         name: "name_first",
@@ -207,23 +120,9 @@ describe("<RecordForm /> - Reducers", () => {
       }
     };
 
-    const newState = r.reducers.forms(defaultState, action);
+    const newState = r.reducers.forms(initialState, action);
+
     expect(newState).to.deep.equal(expectedState);
-  });
-
-  it("should handle SELECTED_RECORD_FAILURE", () => {
-    const expected = Map({
-      selectedForm: null,
-      formSections: Map({}),
-      fields: Map({}),
-      errors: true
-    });
-    const action = {
-      type: "forms/SELECTED_RECORD_FAILURE"
-    };
-
-    const newState = r.reducers.forms(defaultState, action);
-    expect(newState).to.deep.equal(expected);
   });
 
   it("should handle RECORD_FORMS_STARTED", () => {
@@ -238,7 +137,8 @@ describe("<RecordForm /> - Reducers", () => {
       type: "forms/RECORD_FORMS_STARTED"
     };
 
-    const newState = r.reducers.forms(defaultState, action);
+    const newState = r.reducers.forms(initialState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -253,7 +153,8 @@ describe("<RecordForm /> - Reducers", () => {
       type: "forms/RECORD_FORMS_FINISHED"
     };
 
-    const newState = r.reducers.forms(defaultState, action);
+    const newState = r.reducers.forms(initialState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 
@@ -268,7 +169,8 @@ describe("<RecordForm /> - Reducers", () => {
       payload: "referral_transfer"
     };
 
-    const newState = r.reducers.forms(defaultState, action);
+    const newState = r.reducers.forms(initialState, action);
+
     expect(newState).to.deep.equal(expected);
   });
 });

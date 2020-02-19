@@ -1,14 +1,22 @@
 import React from "react";
-import { useI18n } from "components/i18n";
+import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles/";
 import DownloadIcon from "@material-ui/icons/GetApp";
-import { PageContainer, PageHeading } from "components/page-container";
-import { IndexTable } from "components/index-table";
-import { useSelector } from "react-redux";
-import { Map } from "immutable";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { fromJS } from "immutable";
+import startCase from "lodash/startCase";
+import { format, parseISO } from "date-fns";
+
+import { PageContainer, PageHeading, PageContent } from "../../page";
+import IndexTable from "../../index-table";
+import { useI18n } from "../../i18n";
+import { DATE_TIME_FORMAT } from "../../../config";
+
 import { fetchExports } from "./action-creators";
 import styles from "./styles.css";
 import { selectListHeaders } from "./selectors";
+import { NAME, EXPORT_STATUS, EXPORT_COLUMNS } from "./constants";
 
 const ExportList = () => {
   const i18n = useI18n();
@@ -19,31 +27,55 @@ const ExportList = () => {
     selectListHeaders(state, recordType)
   );
 
-  const columns = listHeaders.map(c => {
-    const options = {
-      ...{
-        ...(c.name === "file_name"
-          ? {
-              id: true,
-              customBodyRender: value => {
-                return (
-                  <div className={css.link}>
-                    <DownloadIcon />
-                    {value}
-                  </div>
-                );
-              }
-            }
-          : {})
-      }
-    };
+  const isRecordProcessing = status => status === EXPORT_STATUS.processing;
 
-    return {
-      name: c.field_name,
-      label: c.name,
-      options
-    };
-  });
+  const columns = data =>
+    listHeaders.map(c => {
+      const options = {
+        ...{
+          ...(c.name === EXPORT_COLUMNS.fileName
+            ? {
+                id: true,
+                // eslint-disable-next-line react/display-name
+                customBodyRender: (value, tableMeta) => {
+                  const exportStatus = data.get("data").get(tableMeta.rowIndex)
+                    .status;
+
+                  const exportIcon = isRecordProcessing(exportStatus) ? (
+                    <CircularProgress color="inherit" className={css.loading} />
+                  ) : (
+                    <DownloadIcon fontSize="small" />
+                  );
+
+                  return (
+                    <div className={css.link}>
+                      {exportIcon}
+                      <span>{value}</span>
+                    </div>
+                  );
+                }
+              }
+            : {}),
+          ...(c.name === EXPORT_COLUMNS.recordType
+            ? {
+                customBodyRender: value => startCase(value)
+              }
+            : {}),
+          ...(c.name === EXPORT_COLUMNS.startedOn
+            ? {
+                customBodyRender: value =>
+                  format(parseISO(value), DATE_TIME_FORMAT)
+              }
+            : {})
+        }
+      };
+
+      return {
+        name: c.field_name,
+        label: i18n.t(`bulk_export.${c.name}`),
+        options
+      };
+    });
 
   const options = {
     selectableRows: "none"
@@ -53,19 +85,32 @@ const ExportList = () => {
     recordType,
     columns,
     options,
-    defaultFilters: Map({
+    defaultFilters: fromJS({
       per: 20,
       page: 1
     }),
-    onTableChange: fetchExports
+    onTableChange: fetchExports,
+    rowHover: false,
+    onRowClick: record =>
+      !isRecordProcessing(record.status)
+        ? window.open(record.export_file, "_self")
+        : null
   };
 
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.bulk_exports")} />
-      <IndexTable {...tableOptions} />
+      <PageContent>
+        <IndexTable {...tableOptions} />
+      </PageContent>
     </PageContainer>
   );
+};
+
+ExportList.displayName = NAME;
+
+ExportList.propTypes = {
+  match: PropTypes.object
 };
 
 export default ExportList;

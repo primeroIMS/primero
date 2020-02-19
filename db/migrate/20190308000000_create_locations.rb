@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLocations < ActiveRecord::Migration[5.0]
   enable_extension 'ltree' unless extension_enabled?('ltree')
   def change
@@ -8,9 +10,9 @@ class CreateLocations < ActiveRecord::Migration[5.0]
       t.integer 'admin_level'
       t.string  'type'
       t.boolean 'disabled', null: false, default: false
-      t.ltree 'hierarchy', null: false, default: ''
+      t.ltree   'hierarchy_path', null: false, default: ''
     end
     add_index :locations, :location_code, unique: true
-    add_index :locations, :hierarchy, using: 'gist'
+    add_index :locations, :hierarchy_path, using: 'gist'
   end
 end

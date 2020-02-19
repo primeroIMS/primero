@@ -1,7 +1,11 @@
 import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
-import { useI18n } from "components/i18n";
+
+import { useI18n } from "../../i18n";
+import * as C from "../constants";
+
+import { FORM_SECTION_FIELD_NAME } from "./constants";
 import DateField from "./DateField";
 import SelectField from "./SelectField";
 import TextField from "./TextField";
@@ -9,10 +13,9 @@ import TickField from "./TickField";
 import Seperator from "./Seperator";
 import RadioField from "./RadioField";
 import AttachmentField from "./AttachmentField";
-import * as C from "../constants";
 import styles from "./styles.css";
 
-const FormSectionField = ({ name, field, mode }) => {
+const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -21,12 +24,15 @@ const FormSectionField = ({ name, field, mode }) => {
     help_text: helpText,
     display_name: displayName,
     disabled,
-    editable
+    required,
+    selected_value: selectedValue
   } = field;
 
   const fieldProps = {
     name,
     field,
+    recordType,
+    recordID,
     autoComplete: "off",
     fullWidth: true,
     InputProps: {
@@ -37,13 +43,15 @@ const FormSectionField = ({ name, field, mode }) => {
     },
     InputLabelProps: {
       shrink: true,
+      required,
       classes: {
         root: css.inputLabel
       }
     },
     label: displayName[i18n.locale],
     helperText: helpText ? helpText[i18n.locale] : "",
-    disabled: mode.isShow || disabled || !editable
+    disabled: mode.isShow || disabled,
+    checked: ["t", "true"].includes(selectedValue)
   };
 
   const FieldComponent = (t => {
@@ -70,10 +78,14 @@ const FormSectionField = ({ name, field, mode }) => {
   return <FieldComponent {...fieldProps} mode={mode} />;
 };
 
+FormSectionField.displayName = FORM_SECTION_FIELD_NAME;
+
 FormSectionField.propTypes = {
-  name: PropTypes.string.isRequired,
   field: PropTypes.object.isRequired,
-  mode: PropTypes.object.isRequired
+  mode: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  recordID: PropTypes.string,
+  recordType: PropTypes.string
 };
 
 export default memo(FormSectionField);

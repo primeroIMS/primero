@@ -41,102 +41,16 @@ describe Child do
       child.update_properties({}, "jdoe")
       child.last_updated_by.should == 'jdoe'
     end
-
-    xit "should not update attachments when the photo value is nil" do
-      child = Child.new
-      child.update_with_attachements({}, "mr jones")
-      child.photos.should be_empty
-    end
-
-    xit "should update attachment when there is audio update" do
-      Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
-      child = Child.new
-      child.update_properties_with_user_name "jdoe", nil, nil, uploadable_audio, false, {}
-      child['_attachments']['sample']['data'].should_not be_blank
-    end
-
-    xit "should respond nil for photo when there is no photo associated with the child" do
-      child = Child.new
-      child.photo.should == nil
-    end
-
-    xit "should update photo keys" do
-      child = Child.new
-      child.should_receive(:update_photo_keys)
-      child.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      child.photos.should be_empty
-    end
-
   end
 
   describe "validation" do
-
-    xit "should disallow file formats that are not photo formats" do
-      child = Child.new
-      child.photo = uploadable_photo_gif
-      child.should_not be_valid
-      child.photo = uploadable_photo_bmp
-      child.should_not be_valid
-    end
-
-    xit "should disallow uploading executable files for documents" do
-      child = Child.new
-      child.upload_other_document = [{'document' => uploadable_executable_file}]
-      child.should_not be_valid
-    end
-
-    xit "should disallow uploading executable files for bia_documents" do
-      child = Child.new
-      child.upload_bia_document = [{'document' => uploadable_executable_file}]
-      child.should_not be_valid
-    end
-
-    xit "should disallow uploading executable files for bid_documents" do
-      child = Child.new
-      child.upload_bid_document = [{'document' => uploadable_executable_file}]
-      child.should_not be_valid
-    end
-
-    xit "should disallow uploading more than 100 documents" do
-      documents = []
-      101.times { documents.push({'document' => uploadable_photo_gif}) }
-      child = Child.new
-      child.upload_other_document = documents
-      child.upload_bia_document = documents
-      child.upload_bid_document = documents
-      child.should_not be_valid
-    end
-
-    xit "should disallow uploading a document larger than 2 megabytes" do
-      child = Child.new
-      child.upload_other_document = [{'document' => uploadable_large_photo}]
-      child.should_not be_valid
-    end
-
     it "should allow blank age" do
       child = Child.new(data: {:age => "", :another_field => "blah"})
       child.should be_valid
       child = Child.new(data: {foo: "bar"})
       child.should be_valid
     end
-
-    xit "should disallow image file formats that are not png or jpg" do
-      child = Child.new
-      child.photo = uploadable_photo
-      child.should be_valid
-      child.photo = uploadable_text_file
-      child.should_not be_valid
-    end
-
-    xit "should disallow a photo larger than 10 megabytes" do
-      photo = uploadable_large_photo
-      child = Child.new
-      child.photo = photo
-      child.should_not be_valid
-    end
-
   end
-
 
   describe 'save' do
 
@@ -159,35 +73,6 @@ describe Child do
       child.registration_date.should eq Date.parse('19/Jul/2014')
     end
 
-    xit "should not save file formats that are not photo formats" do
-      child = Child.new
-      child.photo = uploadable_photo_gif
-      child.save.should == false
-      child.photo = uploadable_photo_bmp
-      child.save.should == false
-    end
-
-    xit "should save file based on content type" do
-      child = Child.new('created_by' => "me", 'created_organization' => "stc")
-      photo = uploadable_jpg_photo_without_file_extension
-      child[:photo] = photo
-      child.save.present?.should == true
-    end
-
-    xit "should not save with file formats that are not supported audio formats" do
-      child = Child.new('created_by' => "me", 'created_organization' => "stc")
-      child.audio = uploadable_photo_gif
-      child.save.should == false
-      child.audio = uploadable_audio_amr
-      child.save.present?.should == true
-      child.audio = uploadable_audio_mp3
-      child.save.present?.should == true
-      child.audio = uploadable_audio_wav
-      child.save.should == false
-      child.audio = uploadable_audio_ogg
-      child.save.should == false
-    end
-
     it "should save blank age" do
       #TODO - i18n could change depending on how we want name / display to look
       User.stub(:find_by_user_name).and_return(double(:organization => "stc", :location => "my_country::my_state::my_town", :agency => "unicef-un"))
@@ -196,25 +81,6 @@ describe Child do
       child = Child.new(data: {foo: "bar"})
       child.save.present?.should == true
     end
-
-    xit "should not save with image file formats that are not png or jpg" do
-      photo = uploadable_photo
-      child = Child.new('created_by' => "me", 'created_organization' => "stc")
-      child.photo = photo
-      child.save.present?.should == true
-      loaded_child = Child.get(child.id)
-      loaded_child.save.present?.should == true
-      loaded_child.photo = uploadable_text_file
-      loaded_child.save.should == false
-    end
-
-    xit "should not save with a photo larger than 10 megabytes" do
-      photo = uploadable_large_photo
-      child = Child.new('created_by' => "me", 'created_organization' => "stc")
-      child.photo = photo
-      child.save.should == false
-    end
-
   end
 
   describe "new_with_user_name" do
@@ -295,290 +161,9 @@ describe Child do
 
   end
 
-  xdescribe "document attachments" do
-    before(:each) do
-      Clock.stub(:now).and_return(Time.parse("Jan 20 2010 17:10:32"))
-    end
-
-    context "with no documents" do
-      it "should have an empty set" do
-        Child.new.document_keys.should be_empty
-      end
-    end
-
-    context "with a single new document" do
-      before :each do
-        User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
-        @child = Child.create('upload_other_document' => [{'document' => uploadable_photo}], 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-      end
-
-      it "should only have one document on creation" do
-        @child.other_documents.size.should eql 1
-      end
-    end
-
-    context "with multiple documents" do
-      it "should only have one document on creation" do
-        User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
-        docs = [uploadable_photo, uploadable_photo_jeff, uploadable_photo_jorge].map {|d| {'document' => d}}
-        @child = Child.create('upload_other_document' => docs, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-        @child.other_documents.size.should eql 3
-      end
-    end
-  end
-
-  xdescribe "photo attachments" do
-
-    before(:each) do
-      Clock.stub(:now).and_return(Time.parse("Jan 20 2010 17:10:32"))
-    end
-
-    context "with no photos" do
-      it "should have an empty set" do
-        Child.new.photos.should be_empty
-      end
-
-      it "should not have a primary photo" do
-        Child.new.primary_photo.should be_nil
-      end
-    end
-
-    context "with a single new photo" do
-      before :each do
-        User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
-        @child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-      end
-
-      it "should only have one photo on creation" do
-        @child.photos.size.should eql 1
-      end
-
-      it "should be the primary photo" do
-        @child.primary_photo.should match_photo uploadable_photo
-      end
-
-    end
-
-    context "with multiple new photos" do
-      before :each do
-        User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
-        @child = Child.create('photo' => {'0' => uploadable_photo_jeff, '1' => uploadable_photo_jorge}, 'last_known_location' => 'London', 'created_by' => "me")
-      end
-
-      it "should have corrent number of photos after creation" do
-        @child.photos.size.should eql 2
-      end
-
-      it "should order by primary photo" do
-        @child.primary_photo_id = @child["photo_keys"].last
-        @child.photos.first.name.should == @child.current_photo_key
-      end
-
-      it "should return the first photo as a primary photo" do
-        @child.primary_photo.should match_photo uploadable_photo_jeff
-      end
-
-    end
-
-    context "when rotating an existing photo" do
-      before :each do
-        User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
-        @child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-        Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
-      end
-
-      it "should become the primary photo" do
-        existing_photo = @child.primary_photo
-        @child.rotate_photo(180)
-        @child.save
-        #TODO: should be a better way to check rotation other than stubbing Minimagic ?
-        @child.primary_photo.should_not match_photo existing_photo
-      end
-
-      it "should delete the original orientation" do
-        existing_photo = @child.primary_photo
-        @child.rotate_photo(180)
-        @child.save
-        @child.primary_photo.name.should eql existing_photo.name
-        existing_photo.should_not match_photo @child.primary_photo
-        @child.photos.size.should eql 1
-      end
-
-    end
-
-    context "validate photo size" do
-      before :each do
-        User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
-        Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
-      end
-
-      it "should not save child if new photos are more than 10" do
-        photos = []
-        (1..11).each do |i|
-          photos << stub_photo_properties(i)
-        end
-        child = Child.new('last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-        child.photos = photos
-        child.save.should == false
-        child.errors[:photo].should == ["You are only allowed 10 photos per case."]
-      end
-
-      it "should not save child if new photos and existing photos are more than 10" do
-        photos = []
-        (1..5).each do |i|
-          photos << stub_photo_properties(i)
-        end
-        child = Child.new('last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-        child.photos = photos
-        child.save
-        child.new? == false
-        child['photo_keys'].size == 5
-
-        photos = []
-        (6..11).each do |i|
-          photos << stub_photo_properties(i)
-        end
-        child.photos = photos
-        child.save.should == false
-        child['photo_keys'].size == 5
-        child.errors[:photo].should == ["You are only allowed 10 photos per case."]
-      end
-
-      it "should save child if new and existing photos are 10" do
-        photos = []
-        (1..5).each do |i|
-          photos << stub_photo_properties(i)
-        end
-        child = Child.new('last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-        child.photos = photos
-        child.save
-        child.new? == false
-        child['photo_keys'].size == 5
-
-        photos = []
-        (6..10).each do |i|
-          photos << stub_photo_properties(i)
-        end
-        child.photos = photos
-        child.save
-        child.new? == false
-        child['photo_keys'].size == 10
-      end
-
-      it "should save child 10 new photos" do
-        photos = []
-        (1..10).each do |i|
-          photos << stub_photo_properties(i)
-        end
-        child = Child.new('last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-        child.photos = photos
-        child.save
-        child.new? == false
-        child['photo_keys'].size == 10
-      end
-
-      it "should save child after delete some photos" do
-        photos = []
-        (1..10).each do |i|
-          photos << stub_photo_properties(i)
-        end
-        child = Child.new('last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-        child.photos = photos
-        child.save
-        child.new? == false
-        child['photo_keys'].size == 10
-
-        #Should fails because it reach the limit
-        child.photos = [stub_photo_properties(11)]
-        child.save.should == false
-
-        #By deleting one, it should save.
-        photo_key_to_delete = child['photo_keys'][0]
-        child.delete_photos([photo_key_to_delete])
-        child.photos = [stub_photo_properties(11)]
-        child.save
-        child.new? == false
-        child['photo_keys'].size == 10
-        child['photo_keys'].find_index(photo_key_to_delete).should == nil
-      end
-
-      def stub_photo_properties(i)
-        photo = uploadable_photo
-        photo.stub(:original_filename).and_return(i.to_s)
-        photo.stub(:path).and_return(i.to_s)
-        photo.stub(:size).and_return(i)
-        photo.stub(:content_type).and_return("image/jpg")
-        photo
-      end
-
-    end
-
-  end
-
   describe "history log" do
     before :each do
       RecordHistory.delete_all
-    end
-
-    xdescribe "photo logging" do
-
-      before :each do
-        Clock.stub(:now).and_return(Time.parse("Jan 20 2010 12:04:24"))
-        User.stub(:find_by_user_name).and_return(double(:organization => 'stc'))
-        @child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-        Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:24"))
-      end
-
-      it "should log new photo key on adding a photo" do
-        @child.photo = uploadable_photo_jeff
-        @child.save
-        changes = @child.histories.first.changes
-        changes['photo_keys']['to'].last.should == "jeff"
-      end
-
-      it "should log multiple photos being added" do
-        @child.photos = [uploadable_photo_jeff, uploadable_photo_jorge_300x300]
-        @child.save
-        ch = @child.histories.first.changes['photo_keys']
-        (ch['to'] - ch['from']).should have(2).photo_keys
-        (ch['from'] - ch['to']).should == []
-      end
-
-      it "should log a photo being deleted" do
-        @child.photos = [uploadable_photo_jeff, uploadable_photo_jorge]
-        @child.save
-        @child.delete_photos([@child.photos.first.name])
-        @child.save
-        ch = @child.histories.first.changes['photo_keys']
-        (ch['from'] - ch['to']).should have(1).photo_key
-        (ch['to'] - ch['from']).should == []
-      end
-
-      it "should select a new primary photo if the current one is deleted" do
-        @child.photos = [uploadable_photo_jeff]
-        @child.save
-        original_primary_photo_key = @child.photos[0].name
-        jeff_photo_key = @child.photos[1].name
-        @child.primary_photo.name.should == original_primary_photo_key
-        @child.delete_photos([original_primary_photo_key])
-        @child.save
-        @child.primary_photo.name.should == jeff_photo_key
-      end
-
-      it "should take the current photo key during child creation and update it appropriately with the correct format" do
-        @child = Child.create('photo' => {"0" => uploadable_photo, "1" => uploadable_photo_jeff}, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-        @child.save
-        @child.primary_photo.name.should == @child.photos.first.name
-        @child.primary_photo.name.should == "jorge"
-      end
-
-      it "should not log anything if no photo changes have been made" do
-        @child["last_known_location"] = "Moscow"
-        @child.save
-        changes = @child.histories.first.changes
-        changes['photo_keys'].should be_nil
-      end
-
     end
 
     xit "should maintain history when child is flagged and message is added" do
@@ -601,77 +186,6 @@ describe Child do
       reunited_message_history['from'].should be_nil
       reunited_message_history['to'].should == 'Finally home!'
     end
-
-    xdescribe "photo changes" do
-
-      before :each do
-        Clock.stub(:now).and_return(Time.parse("Jan 20 2010 12:04:24"))
-        User.stub(:find_by_user_name).and_return(double(:organization => 'stc'))
-        @child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-        Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:24"))
-      end
-
-      it "should delete items like _328 and _160x160 in attachments" do
-        child = Child.new
-        child.photo = uploadable_photo
-        child.save
-
-        photo_key = child.photos[0].name
-        uploadable_photo_328 = FileAttachment.new(photo_key+"_328", "image/jpg", "data")
-        uploadable_photo_160x160 = FileAttachment.new(photo_key+"_160x160", "image/jpg", "data")
-        child.attach(uploadable_photo_328)
-        child.attach(uploadable_photo_160x160)
-        child.save
-        child[:_attachments].keys.size.should == 3
-
-        child.delete_photos [child.primary_photo.name]
-        child.save
-        child[:_attachments].keys.size.should == 0
-      end
-    end
-
-  end
-
-
-  xdescribe ".photo" do
-
-    it "should return nil if the record has no attached photo" do
-      child = create_child "Bob McBobberson"
-      Child.all.find { |c| c.id == child.id }.photo.should be_nil
-    end
-
-  end
-
-
-  xdescribe "primary_photo =" do
-
-    before :each do
-      @photo1 = uploadable_photo("spec/resources/jorge.jpg")
-      @photo2 = uploadable_photo("spec/resources/jeff.png")
-      User.stub(:find_by_user_name).and_return(double(:organization => 'UNICEF'))
-      @child = Child.new("name" => "Tom", 'created_by' => "me")
-      @child.photo= {0 => @photo1, 1 => @photo2}
-      @child.save
-    end
-
-    it "should update the primary photo selection" do
-      photos = @child.photos
-      orig_primary_photo = photos[0]
-      new_primary_photo = photos[1]
-      @child.primary_photo_id.should == orig_primary_photo.name
-      @child.primary_photo_id = new_primary_photo.name
-      @child.save
-      @child.primary_photo_id.should == new_primary_photo.name
-    end
-
-    context "when selected photo id doesn't exist" do
-
-      it "should show an error" do
-        lambda { @child.primary_photo_id="non-existant-id" }.should raise_error "Failed trying to set 'non-existant-id' to primary photo: no such photo key"
-      end
-
-    end
-
   end
 
   describe 'organization' do
@@ -690,66 +204,6 @@ describe Child do
       child.created_organization.should == 'UNICEF'
     end
   end
-
-  describe "views" do
-
-    #TODO: Revisit with Mobile compatibility
-    xdescribe "all ids and revs" do
-      before do
-        Child.destroy_all!
-        @owner = create :user
-        @owner2 = create :user
-        @child1 = child_with_created_by(@owner.user_name, :name => "child1", :marked_for_mobile => true, :module_id => PrimeroModule::GBV)
-        @child2 = child_with_created_by(@owner.user_name, :name => "child2", :marked_for_mobile => false, :module_id => PrimeroModule::CP)
-        @child3 = child_with_created_by(@owner2.user_name, :name => "child3", :marked_for_mobile => true, :module_id => PrimeroModule::CP)
-        @child4 = child_with_created_by(@owner2.user_name, :name => "child4", :marked_for_mobile => false, :module_id => PrimeroModule::GBV)
-
-        @child1.create!
-        @child2.create!
-        @child3.create!
-        @child4.create!
-      end
-
-      context 'when mobile' do
-        context 'and module id is CP' do
-          it 'returns all CP mobile _ids and revs' do
-            ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', PrimeroModule::CP)
-            expect(ids_and_revs.count).to eq(1)
-            expect(ids_and_revs).to eq([{"_id" => @child3.id, "_rev" => @child3.rev}])
-          end
-        end
-
-        context 'and module id is GBV' do
-          it 'returns all GBV mobile _ids and revs' do
-            ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', PrimeroModule::GBV)
-            expect(ids_and_revs.count).to eq(1)
-            expect(ids_and_revs).to eq([{"_id" => @child1.id, "_rev" => @child1.rev}])
-          end
-        end
-
-        context 'and module id is not provided' do
-          it 'returns all mobile _ids and revs' do
-            ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', '')
-            expect(ids_and_revs.count).to eq(2)
-            expect(ids_and_revs).to include({"_id" => @child1.id, "_rev" => @child1.rev},
-                                            {"_id" => @child3.id, "_rev" => @child3.rev})
-          end
-        end
-      end
-
-      context 'when not mobile' do
-        it 'returns all _ids and revs' do
-          ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], false, '2000/01/01', '')
-          expect(ids_and_revs.count).to eq(4)
-          expect(ids_and_revs).to include({"_id" => @child1.id, "_rev" => @child1.rev},
-                                          {"_id" => @child2.id, "_rev" => @child2.rev},
-                                          {"_id" => @child3.id, "_rev" => @child3.rev},
-                                          {"_id" => @child4.id, "_rev" => @child4.rev})
-        end
-      end
-    end
-  end
-
 
   #TODO: For now skipping JSON datatype validation against form definition
   xdescribe 'validate dates and date ranges fields' do
@@ -891,114 +345,127 @@ describe Child do
     end
   end
 
-  describe "case id code" do
-    before :all do
-      clean_data(User, Location, Role, Agency, PrimeroModule, PrimeroProgram, UserGroup)
+  describe 'case id code' do
+    before :each do
+      clean_data(User, Location, Role, Agency, PrimeroModule, PrimeroProgram, UserGroup, SystemSettings)
 
-      @permission_case ||= Permission.new(:resource => Permission::CASE,
-                                          :actions => [Permission::READ, Permission::WRITE, Permission::CREATE])
-      @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI", admin_level: 0
-      @location_region = Location.create! placename: "Kindia", type: "region", location_code: "GUI123", hierarchy: ["GUI"], admin_level: 1
-      admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
-      field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [@permission_case])
-      agency = Agency.create! agency_code: "UN", name: "UNICEF"
-      SystemSettings.create default_locale: "en"
-      user = create(:user, user_name: "bob123", full_name: 'full', password: 'passw0rd', password_confirmation: 'passw0rd',
-                           email: 'embob123@dd.net', agency_id: agency.id, role_id: admin_role.id, disabled: 'false',
-                           location: @location_region.location_code)
-
-      user2 = create(:user, user_name: "joe456", full_name: 'full', password: 'passw0rd', password_confirmation: 'passw0rd',
-                            email: 'emjoe456@dd.net', agency_id: agency.id, role_id: admin_role.id, disabled: 'false')
-
-      user3 = create(:user, user_name: "tom789", full_name: 'full', password: 'passw0rd', password_confirmation: 'passw0rd',
-                            email: 'emtom789@dd.net', agency_id: agency.id, role_id: admin_role.id, disabled: 'false',
-                            location: @location_region.location_code)
+      @permission_case ||= Permission.new(
+        resource: Permission::CASE,
+        actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
+      )
+      @location_country = Location.create!(placename: 'Guinea', type: 'country', location_code: 'GUI', admin_level: 0)
+      @location_region = Location.create!(
+        placename: 'Kindia', type: 'region',
+        location_code: 'GUI123', hierarchy: ['GUI'],
+        admin_level: 1
+      )
+      admin_role = Role.create!(name: 'Admin', permissions: Permission.all_permissions_list)
+      agency = Agency.create!(agency_code: 'UN', name: 'UNICEF')
+      @user = create(
+        :user,
+        user_name: 'bob123', full_name: 'full', password: 'passw0rd', password_confirmation: 'passw0rd',
+        email: 'embob123@dd.net', agency_id: agency.id, role_id: admin_role.id, disabled: 'false',
+        location: @location_region.location_code
+      )
+      @user2 = create(
+        :user,
+        user_name: 'joe456', full_name: 'full', password: 'passw0rd', password_confirmation: 'passw0rd',
+        email: 'emjoe456@dd.net', agency_id: agency.id, role_id: admin_role.id, disabled: 'false'
+      )
+      @user3 = create(
+        :user,
+        user_name: 'tom789', full_name: 'full', password: 'passw0rd', password_confirmation: 'passw0rd',
+        email: 'emtom789@dd.net', agency_id: agency.id, role_id: admin_role.id, disabled: 'false',
+        location: @location_region.location_code
+      )
     end
 
     context 'system case code format empty' do
-      before :all do
-        SystemSettings.all.each &:destroy
-        @system_settings = SystemSettings.create default_locale: "en"
+      before :each do
+        SystemSettings.create(default_locale: 'en')
+        SystemSettings.current(true)
       end
 
       it 'should create an empty case id code' do
-        child = Child.create!(data: {case_id: 'xyz123', created_by: 'bob123'})
+        child = Child.create!(data: { case_id: 'xyz123', created_by: @user.user_name })
         expect(child.case_id_code).to be_nil
       end
 
       it 'should create a case id display that matches short id' do
-        child = Child.create!(data: {case_id: 'xyz123', created_by: 'bob123'})
+        child = Child.create!(data: { case_id: 'xyz123', created_by: @user.user_name })
         expect(child.case_id_display).to eq(child.short_id)
       end
     end
 
     context 'system case code separator empty' do
-      before :all do
-        SystemSettings.all.each &:destroy
-        ap1 = AutoPopulateInformation.new(field_key: 'case_id_code',
-                                          format: [
-                                              "created_by_user.Location.ancestor_by_type(country).location_code",
-                                              "created_by_user.Location.ancestor_by_type(region).location_code",
-                                              "created_by_user.agency.agency_code"
-                                          ],
-                                          auto_populated: true)
-
-        @system_settings = SystemSettings.create(default_locale: "en", auto_populate_list: [ap1])
+      before :each do
+        ap1 = AutoPopulateInformation.new(
+          field_key: 'case_id_code',
+          format: %w[
+            created_by_user.user_location.ancestor_by_type(country).location_code
+            created_by_user.user_location.ancestor_by_type(region).location_code
+            created_by_user.agency.agency_code
+          ],
+          auto_populated: true
+        )
+        SystemSettings.create(default_locale: 'en', auto_populate_list: [ap1])
+        SystemSettings.current(true)
       end
 
       it 'should create a case id code without separators' do
-        child = Child.create!(data: {case_id: 'xyz123', created_by: 'bob123'})
-        expect(child.case_id_code).to eq("GUI123UN")
+        child = Child.create!(data: { case_id: 'xyz123', created_by: @user.user_name })
+        expect(child.case_id_code).to eq('GUIGUI123UN')
       end
 
       it 'should create a case id display without separators' do
-        child = Child.create!(data: {case_id: 'xyz123', created_by: 'bob123'})
-        expect(child.case_id_display).to eq("GUI123UN#{child.short_id}")
+        child = Child.create!(data: { case_id: 'xyz123', created_by: @user.user_name })
+        expect(child.case_id_display).to eq("GUIGUI123UN#{child.short_id}")
       end
     end
 
     context 'system case code format and separator present' do
-      before :all do
-        SystemSettings.all.each &:destroy
-        ap1 = AutoPopulateInformation.new(field_key: 'case_id_code',
-                                          format: [
-                                              "created_by_user.Location.ancestor_by_type(country).location_code",
-                                              "created_by_user.Location.ancestor_by_type(region).location_code",
-                                              "created_by_user.agency.agency_code"
-                                          ],
-                                          separator: '-', auto_populated: true)
-
-        @system_settings = SystemSettings.create(default_locale: "en", auto_populate_list: [ap1])
+      before :each do
+        ap1 = AutoPopulateInformation.new(
+          field_key: 'case_id_code',
+          format: %w[
+            created_by_user.user_location.ancestor_by_type(country).location_code
+            created_by_user.user_location.ancestor_by_type(region).location_code
+            created_by_user.agency.agency_code
+          ],
+          separator: '-', auto_populated: true
+        )
+        SystemSettings.create(default_locale: 'en', auto_populate_list: [ap1])
+        SystemSettings.current(true)
       end
 
       it 'should create a case id code with separators' do
-        child = Child.create!(data: {case_id: 'xyz123', created_by: 'bob123'})
-        expect(child.case_id_code).to eq("GUI123-UN")
+        child = Child.create!(data: { case_id: 'xyz123', created_by: @user.user_name })
+        expect(child.case_id_code).to eq('GUI-GUI123-UN')
       end
 
       it 'should create a case id display with separators' do
-        child = Child.create!(data: { case_id: 'xyz123', created_by: 'bob123'})
-        expect(child.case_id_display).to eq("GUI123-UN-#{child.short_id}")
+        child = Child.create!(data: { case_id: 'xyz123', created_by: @user.user_name })
+        expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.short_id}")
       end
 
       it 'should create a case id code if user location is missing' do
-        child = Child.create!(data: {case_id: 'abc456', created_by: 'joe456'})
-        expect(child.case_id_code).to eq("UN")
+        child = Child.create!(data: { case_id: 'abc456', created_by: @user2.user_name })
+        expect(child.case_id_code).to eq('UN')
       end
 
       it 'should create a case id display if user location is missing' do
-        child = Child.create!(data: { case_id: 'abc456', created_by: 'joe456'})
+        child = Child.create!(data: { case_id: 'abc456', created_by: @user2.user_name })
         expect(child.case_id_display).to eq("UN-#{child.short_id}")
       end
 
       it 'should create a case id code if user agency is missing' do
-        child = Child.create!(data: { case_id: 'zzz', created_by: 'tom789'})
-        expect(child.case_id_code).to eq("GUI123-UN")
+        child = Child.create!(data: { case_id: 'zzz', created_by: @user3.user_name })
+        expect(child.case_id_code).to eq('GUI-GUI123-UN')
       end
 
       it 'should create a case id display if user agency is missing' do
-        child = Child.create!(data: { case_id: 'zzz', created_by: 'tom789'})
-        expect(child.case_id_display).to eq("GUI123-UN-#{child.short_id}")
+        child = Child.create!(data: { case_id: 'zzz', created_by: @user3.user_name })
+        expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.short_id}")
       end
     end
   end
@@ -1046,7 +513,7 @@ describe Child do
       Field.destroy_all
       FormSection.destroy_all
       fields = [
-          Field.new({"name" => "child_status",
+          Field.new({"name" => "status",
                      "type" => "text_field",
                      "display_name_all" => "Child Status"
                     }),

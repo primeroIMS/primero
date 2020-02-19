@@ -5,6 +5,7 @@ class Incident < ApplicationRecord
   include Historical
   include Ownable
   include Flaggable
+  include Alertable
   include Attachable
   #include Importable #TODO: refactor with Import
   #include IncidentMonitoringRecording #TODO: Refactor with Violations
@@ -23,20 +24,26 @@ class Incident < ApplicationRecord
   scope :by_incident_detail_id, ->(incident_detail_id) { where('data @> ?', {incident_detail_id: incident_detail_id}.to_json) }
 
   def self.quicksearch_fields
-    %w(incident_id incident_code super_incident_name incident_description
+    %w[incident_id incident_code super_incident_name incident_description
        monitor_number survivor_code individual_ids incidentid_ir
-    )
+    ]
   end
 
   def self.summary_field_names
-    %w(short_id date_of_interview date_of_incident violence_type incident_location violations social_worker flag_count)
+    common_summary_fields + %w[
+      date_of_interview date_of_incident violence_type
+      incident_location violations social_worker date_of_first_report
+      cp_incident_violence_type cp_incident_date
+      gbv_sexual_violence_type incident_date
+    ]
   end
 
-  searchable auto_index: self.auto_index? do
+  searchable do
     date :incident_date_derived do
       self.incident_date_derived
     end
 
+    string :status, as: 'status_sci'
     quicksearch_fields.each do |f|
       text(f) { self.data[f] }
     end

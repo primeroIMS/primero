@@ -1,25 +1,48 @@
 import { fromJS, Map } from "immutable";
-import * as Actions from "./actions";
+
+import {
+  DASHBOARD_FLAGS,
+  CASES_BY_STATUS,
+  CASES_BY_CASE_WORKER,
+  CASES_REGISTRATION,
+  CASES_OVERVIEW,
+  DASHBOARDS_STARTED,
+  DASHBOARDS_SUCCESS,
+  DASHBOARDS_FINISHED,
+  DASHBOARDS_FAILURE,
+  SERVICES_STATUS,
+  OPEN_PAGE_ACTIONS
+} from "./actions";
 import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = Map({});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.DASHBOARD_FLAGS:
+    case DASHBOARD_FLAGS:
       return state.set("flags", fromJS(payload));
-    case Actions.CASES_BY_STATUS:
+    case CASES_BY_STATUS:
       return state.set("casesByStatus", fromJS(payload.casesByStatus));
-    case Actions.CASES_BY_CASE_WORKER:
+    case CASES_BY_CASE_WORKER:
       return state.set("casesByCaseWorker", fromJS(payload.casesByCaseWorker));
-    case Actions.CASES_REGISTRATION:
+    case CASES_REGISTRATION:
       return state.set("casesRegistration", fromJS(payload.casesRegistration));
-    case Actions.CASES_OVERVIEW:
+    case CASES_OVERVIEW:
       return state.set("casesOverview", fromJS(payload.casesOverview));
-    case Actions.SERVICES_STATUS:
+    case DASHBOARDS_STARTED:
+      return state.set("loading", fromJS(payload)).set("errors", false);
+    case DASHBOARDS_SUCCESS:
+      return state.set("data", fromJS(payload.data));
+    case DASHBOARDS_FINISHED:
+      return state.set("loading", fromJS(payload));
+    case DASHBOARDS_FAILURE:
+      return state.set("errors", true);
+    case SERVICES_STATUS:
       return state.set("servicesStatus", fromJS(payload.services));
-    case Actions.OPEN_PAGE_ACTIONS:
+    case OPEN_PAGE_ACTIONS:
       return state.set("isOpenPageActions", fromJS(payload));
+    case "user/LOGOUT_SUCCESS":
+      return DEFAULT_STATE;
     default:
       return state;
   }

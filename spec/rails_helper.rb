@@ -3,8 +3,6 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 if ENV['COVERAGE'] == 'true'
   require 'simplecov'
-  require 'simplecov-rcov'
-  SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
   SimpleCov.start 'rails'
   SimpleCov.coverage_dir 'coverage/rspec'
 end
@@ -20,7 +18,6 @@ require 'sunspot_test/rspec'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
-# This clears couchdb between tests.
 Mime::Type.register 'application/zip', :mock
 
 ActiveJob::Base.queue_adapter = :test
@@ -37,12 +34,12 @@ end
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
-  config.include UploadableFiles
+  config.include DateHelper
   config.include Devise::Test::IntegrationHelpers
   config.include FakeDeviseLogin, type: :request
   config.include FakeLogin, type: :controller
   config.include VerifyAndResetHelpers
-  config.include ModelReloader
+  config.include FilesTestHelper
 
   config.formatter = :progress
 
@@ -113,7 +110,6 @@ RSpec.configure do |config|
 
   config.before(:each) { I18n.locale = I18n.default_locale = :en }
   config.before(:each) { I18n.available_locales = Primero::Application.locales }
-
 end
 
 def stub_env(new_env)
@@ -125,5 +121,7 @@ ensure
 end
 
 def clean_data(*models)
-  models.each(&:delete_all)
+  models.each(&:destroy_all)
+  SystemSettings.reset if models.include?(SystemSettings)
+  Sunspot.commit if self.class.metadata&.dig(:search)
 end

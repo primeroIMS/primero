@@ -14,7 +14,12 @@ export const FieldRecord = Record({
   option_strings_text: null,
   guiding_questions: "",
   required: false,
-  date_validation: null
+  date_validation: null,
+  hide_on_view_page: false,
+  date_include_time: false,
+  selected_value: "",
+  subform_sort_by: "",
+  show_on_minify_form: false
 });
 
 export const FormSectionRecord = Record({
@@ -31,7 +36,9 @@ export const FormSectionRecord = Record({
   form_group_id: "",
   form_group_name: "",
   fields: [],
-  is_nested: null
+  is_nested: null,
+  subform_prevent_item_removal: false,
+  collapsed_field_names: []
 });
 
 export const Option = Record({
@@ -46,5 +53,6 @@ export const NavRecord = Record({
   name: null,
   order: null,
   formId: null,
-  is_first_tab: false
+  is_first_tab: false,
+  permission_actions: []
 });

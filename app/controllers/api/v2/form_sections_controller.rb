@@ -1,11 +1,11 @@
 module Api::V2
   class FormSectionsController < ApplicationApiController
-    helper I18nFieldHelper
     before_action :form_section_params, only: [:create, :update]
 
     def index
       authorize! :index, FormSection
-      @form_sections = FormSection.list_or_filter_by_record_type_and_module_id(params[:record_type], params[:module_id])
+      @form_sections = FormSection.list(params)
+      @form_group_lookups = FormSection.form_group_lookups
     end
 
     def show

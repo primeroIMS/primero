@@ -1,19 +1,49 @@
-import * as Page from "components/pages";
-import { RecordForm } from "components/record-form";
-import { RecordList } from "components/record-list";
-import { AppLayout, LoginLayout } from "components/layouts";
+import Login, {
+  Dashboard,
+  Reports,
+  Report,
+  PotentialMatches,
+  TaskList,
+  ExportList,
+  Support,
+  NotAuthorized,
+  NotFound,
+  Admin,
+  UsersList,
+  UsersForm,
+  AgenciesList,
+  UserGroupsList,
+  UserGroupsForm
+} from "../components/pages";
+import RecordForm from "../components/record-form";
+import RecordList from "../components/record-list";
+import { AppLayout, LoginLayout } from "../components/layouts";
+import {
+  CREATE_RECORDS,
+  RECORD_RESOURCES,
+  READ_RECORDS,
+  READ_REPORTS,
+  RESOURCES,
+  SHOW_EXPORTS,
+  SHOW_TASKS,
+  WRITE_RECORDS,
+  ADMIN_RESOURCES,
+  ADMIN_ACTIONS
+} from "../libs/permissions";
+
+import { ROUTES, MODES } from "./constants";
 
 export default [
   {
     layout: LoginLayout,
     routes: [
       {
-        path: "/login",
-        component: Page.Login
+        path: ROUTES.login,
+        component: Login
       },
       {
-        path: "/logout",
-        component: Page.Login
+        path: ROUTES.logout,
+        component: Login
       }
     ]
   },
@@ -21,55 +51,164 @@ export default [
     layout: AppLayout,
     routes: [
       {
-        path: "/dashboard",
-        component: Page.Dashboard
+        path: ROUTES.dashboard,
+        component: Dashboard
       },
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:id/edit",
         component: RecordForm,
-        mode: "edit"
+        extraProps: {
+          mode: MODES.edit
+        },
+        actions: WRITE_RECORDS
       },
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:module/new",
         component: RecordForm,
-        mode: "new"
+        extraProps: {
+          mode: MODES.new
+        },
+        actions: CREATE_RECORDS
       },
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:id",
         component: RecordForm,
-        mode: "show"
+        extraProps: {
+          mode: MODES.show
+        },
+        actions: READ_RECORDS
       },
       {
-        path: "/:recordType(cases|incidents|tracing_requests)",
-        component: RecordList
+        path: "/cases",
+        component: RecordList,
+        actions: READ_RECORDS
       },
       {
-        path: "/reports",
-        component: Page.Reports
+        path: "/incidents",
+        component: RecordList,
+        actions: READ_RECORDS
       },
       {
-        path: "/reports/:id",
-        component: Page.ReportDetail
+        path: "/tracing_requests",
+        component: RecordList,
+        actions: READ_RECORDS
       },
       {
-        path: "/matches",
-        component: Page.PotentialMatches
+        path: ROUTES.reports,
+        component: Reports,
+        resources: RESOURCES.reports,
+        actions: READ_REPORTS
       },
       {
-        path: "/tasks",
-        component: Page.TaskList
+        path: `${ROUTES.reports}/:id`,
+        component: Report,
+        resources: RESOURCES.reports,
+        actions: READ_REPORTS
       },
       {
-        path: "/exports",
-        component: Page.ExportList
+        path: ROUTES.matches,
+        component: PotentialMatches,
+        resources: RESOURCES.potential_matches,
+        actions: READ_RECORDS
       },
       {
-        path: "/support",
-        component: Page.Support
+        path: ROUTES.tasks,
+        component: TaskList,
+        resources: RESOURCES.dashboards,
+        actions: SHOW_TASKS
+      },
+      {
+        path: ROUTES.exports,
+        component: ExportList,
+        resources: RECORD_RESOURCES,
+        actions: SHOW_EXPORTS
+      },
+      {
+        path: ROUTES.support,
+        component: Support
+      },
+      {
+        path: ROUTES.admin,
+        component: Admin,
+        resources: ADMIN_RESOURCES,
+        actions: ADMIN_ACTIONS,
+        exact: false,
+        extraProps: {
+          routes: [
+            {
+              path: `${ROUTES.admin_users}/new`,
+              component: UsersForm,
+              resources: RESOURCES.users,
+              extraProps: {
+                mode: MODES.new
+              }
+            },
+            {
+              path: `${ROUTES.admin_users}/:id/edit`,
+              component: UsersForm,
+              resources: RESOURCES.users,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.admin_users}/:id`,
+              component: UsersForm,
+              resources: RESOURCES.users,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
+              path: ROUTES.admin_users,
+              component: UsersList,
+              resources: RESOURCES.users
+            },
+            {
+
+              path: `${ROUTES.admin_user_groups}/new`,
+              component: UserGroupsForm,
+              resources: RESOURCES.user_groups,
+              extraProps: {
+                mode: MODES.new
+              }
+            },
+            {
+              path: `${ROUTES.admin_user_groups}/:id/edit`,
+              component: UserGroupsForm,
+              resources: RESOURCES.user_groups,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.admin_user_groups}/:id`,
+              component: UserGroupsForm,
+              resources: RESOURCES.user_groups,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
+              path: ROUTES.admin_user_groups,
+              component: UserGroupsList,
+              resources: RESOURCES.user_groups
+            },
+            {
+              path: ROUTES.admin_agencies,
+              component: AgenciesList,
+              resources: RESOURCES.agencies
+            }
+          ]
+        }
+      },
+      {
+        path: ROUTES.not_authorized,
+        component: NotAuthorized
       }
     ]
   },
   {
-    component: Page.NotFound
+    component: NotFound
   }
 ];

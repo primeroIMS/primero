@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-/usr/bin/env ssh -o "StrictHostKeyChecking=yes" -o "UserKnownHostsFile=<%= @known_hosts_file %>" -i "<%= @deploy_private_key_path %>" $1 $2

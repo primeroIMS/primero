@@ -1,29 +1,22 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
-
-  # Settings specified here will take precedence over those in config/environment.rb
-
-  # The production environment is meant for finished, "live" apps.
-  # Code is not reloaded between requests
   config.cache_classes = false
+  config.action_controller.perform_caching = false
+  config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local = true
-  config.action_controller.perform_caching = false
-
   # See everything in the log (default is :info)
   config.log_level = :debug
 
-  # For nginx:
-  # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
-
-  # Asset pipeline
-  config.assets.compress = false
-  config.assets.debug = ENV['DEBUG_ASSETS'] == 'no' ? false : true
-
-  config.eager_load = ENV['PROFILE'] == 'true' ? true : false
+  config.eager_load = ENV['PROFILE'] == 'true'
 
   config.action_mailer.raise_delivery_errors = false
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
-  config.active_storage.service = :local
+  storage_type = %w[test local microsoft amazon].find do |t|
+    t == ENV['PRIMERO_STORAGE_TYPE']
+  end || 'local'
+  config.active_storage.service = storage_type
 end

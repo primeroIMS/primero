@@ -17,7 +17,7 @@ tracing_request_inquirer_fields = [
              "show_on_minify_form" => true,
              "display_name_en" => "Date of Inquiry"
             }),
-  Field.new({"name" => "inquiry_status",
+  Field.new({"name" => "status",
              "type" =>"select_box" ,
              "selected_value" => Record::STATUS_OPEN,
              "display_name_en" => "Inquiry Status",

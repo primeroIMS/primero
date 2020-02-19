@@ -1,15 +1,19 @@
-import { Map } from "immutable";
-import * as Actions from "./actions";
+import { fromJS } from "immutable";
+
+import { LOGIN_SUCCESS } from "./actions";
 import NAMESPACE from "./namespace";
 
-const DEFAULT_STATE = Map({});
+const DEFAULT_STATE = fromJS({});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.LOGIN_STARTED:
-      return state.set("error", null);
-    case Actions.LOGIN_FAILURE:
-      return state.set("error", payload.error);
+    case LOGIN_SUCCESS:
+      return state
+        .set(
+          "use_identity_provider",
+          fromJS(payload?.metadata?.use_identity_provider)
+        )
+        .set("identity_providers", fromJS(payload?.data));
     default:
       return state;
   }

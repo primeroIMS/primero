@@ -1,14 +1,15 @@
 import {
-  routerMiddleware,
-  connectRouter
+  connectRouter,
+  routerMiddleware
 } from "connected-react-router/immutable";
-import { Map } from "immutable";
+import { createBrowserHistory } from "history";
+import { fromJS } from "immutable";
 import { applyMiddleware, compose, createStore } from "redux";
+import { combineReducers } from "redux-immutable";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
-import { restMiddleware, authMiddleware } from "middleware";
-import { createBrowserHistory } from "history";
-import { combineReducers } from "redux-immutable";
+
+import customMiddleware from "./middleware";
 import rootReducer from "./reducers";
 
 export const history = createBrowserHistory({
@@ -16,15 +17,16 @@ export const history = createBrowserHistory({
 });
 
 export default () => {
-  const preloadedState = Map();
+  const preloadedState = fromJS({});
 
   const middleware = [
     routerMiddleware(history),
     thunkMiddleware,
-    restMiddleware({
+    customMiddleware.restMiddleware({
       baseUrl: "/api/v2"
     }),
-    authMiddleware
+    customMiddleware.authMiddleware,
+    customMiddleware.offlineMiddleware
   ];
 
   if (process.env.NODE_ENV === "development") {
@@ -36,7 +38,10 @@ export default () => {
     typeof window !== "object" ||
     !window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       ? compose
-      : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+      : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+          trace: true,
+          traceLimit: 25
+        });
 
   const store = createStore(
     combineReducers({
@@ -46,5 +51,6 @@ export default () => {
     preloadedState,
     composeEnhancers(applyMiddleware(...middleware))
   );
+
   return store;
 };

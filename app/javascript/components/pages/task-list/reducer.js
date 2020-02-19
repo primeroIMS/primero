@@ -1,15 +1,27 @@
-import { fromJS, Map } from "immutable";
-import * as Actions from "./actions";
+import { fromJS } from "immutable";
+
+import {
+  TASKS_SUCCESS,
+  TASKS_STARTED,
+  TASKS_FINISHED,
+  TASKS_FAILURE
+} from "./actions";
 import NAMESPACE from "./namespace";
 
-const DEFAULT_STATE = Map({});
+const DEFAULT_STATE = fromJS({ data: [] });
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.TASKS:
+    case TASKS_STARTED:
+      return state.set("loading", fromJS(payload)).set("errors", false);
+    case TASKS_SUCCESS:
       return state
         .set("data", fromJS(payload.data))
         .set("metadata", fromJS(payload.metadata));
+    case TASKS_FINISHED:
+      return state.set("loading", fromJS(payload));
+    case TASKS_FAILURE:
+      return state.set("errors", true);
     default:
       return state;
   }

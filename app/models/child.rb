@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 class Child < ApplicationRecord
   self.table_name = 'cases'
 
   CHILD_PREFERENCE_MAX = 3
-  RISK_LEVEL_HIGH = 'high' ; RISK_LEVEL_NONE = 'none'
+  RISK_LEVEL_HIGH = 'high'
+  RISK_LEVEL_NONE = 'none'
 
   class << self
     def parent_form
@@ -37,6 +40,8 @@ class Child < ApplicationRecord
   include Alertable
   include Matchable
   include Attachable
+  include Noteable
+
   # include Importable #TODO: Refactor with Imports and Exports
 
   store_accessor :data,
@@ -45,7 +50,8 @@ class Child < ApplicationRecord
     :name_first, :name_middle, :name_last, :name_nickname, :name_other,
     :registration_date, :age, :estimated, :date_of_birth, :sex, :address_last,
     :reunited, :reunited_message, :investigated, :verified, #TODO: These are RapidFTR attributes and should be removed
-    :risk_level, :case_status_reopened, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
+    :risk_level, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
+    :date_closure,
     :system_generated_followup,
     :assessment_due_date, :assessment_requested_on,
     :followup_subform_section, :protection_concern_detail_subform_section, #TODO: Do we need followups, protection_concern_details aliases?
@@ -55,14 +61,7 @@ class Child < ApplicationRecord
     :tent_number, :nfi_distribution_id,
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
-    :duplicate, :notes_section, :location_current, :tracing_status, :name_caregiver
-
-
-  alias child_status status ; alias child_status= status=
-
-  attach_documents fields: [:other_documents, :bia_documents, :bid_documents]
-  attach_images fields: [:photos]
-  attach_audio fields: [:recorded_audio]
+    :duplicate, :location_current, :tracing_status, :name_caregiver
 
   has_many :incidents
   belongs_to :matched_tracing_request, class_name: 'TracingRequest', optional: true
@@ -75,36 +74,40 @@ class Child < ApplicationRecord
   def self.quicksearch_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
     # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
-    %w(unique_identifier short_id case_id_display name name_nickname name_other
-       ration_card_no icrc_ref_no rc_id_no unhcr_id_no unhcr_individual_no un_no
-       other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
-       family_count_no dss_id camp_id tent_number nfi_distribution_id
-    )
+    %w[ unique_identifier short_id case_id_display name name_nickname name_other
+        ration_card_no icrc_ref_no rc_id_no unhcr_id_no unhcr_individual_no un_no
+        other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
+        family_count_no dss_id camp_id tent_number nfi_distribution_id ]
   end
 
   def self.summary_field_names
-    %w(case_id_display name survivor_code_no age sex registration_date created_at
-       owned_by owned_by_agency photos flag_count hidden_name
-    )
+    common_summary_fields + %w[
+      case_id_display name survivor_code_no age sex registration_date
+      hidden_name workflow case_status_reopened
+    ]
   end
 
-  searchable auto_index: self.auto_index? do
+  searchable do
     extend Matchable::Searchable
     configure_searchable(Child)
 
     quicksearch_fields.each do |f|
-      text(f) { self.data[f] }
+      text(f) { data[f] }
     end
 
-    %w(date_case_plan_initiated assessment_requested_on).each{|f| date(f)}
-
+    %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
     boolean :estimated
     integer :day_of_birth
+    integer :age
 
-    string :child_status, as: 'child_status_sci'
+    string :status, as: 'status_sci'
     string :risk_level, as: 'risk_level_sci' do
-      self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
+      risk_level.present? ? risk_level : RISK_LEVEL_NONE
     end
+    string :sex, as: 'sex_sci'
+    string :national_id_no, as: 'national_id_no_sci'
+    string :protection_concerns, multiple: true
+
 
     date :assessment_due_dates, multiple: true do
       Tasks::AssessmentTask.from_case(self).map(&:due_date)
@@ -140,12 +143,12 @@ class Child < ApplicationRecord
   end
 
   def family_detail_values(field)
-    self.data['family_details_section'].map { |fds| fds[field] }.compact.uniq.join(' ') if self.data['family_details_section'].present?
+    data['family_details_section'].map { |fds| fds[field] }.compact.uniq.join(' ') if self.data['family_details_section'].present?
   end
 
   def self.report_filters
     [
-        {'attribute' => 'child_status', 'value' => [STATUS_OPEN]},
+        {'attribute' => 'status', 'value' => [STATUS_OPEN]},
         {'attribute' => 'record_state', 'value' => ['true']}
     ]
   end
@@ -156,7 +159,7 @@ class Child < ApplicationRecord
   def self.minimum_reportable_fields
     {
         'boolean' => ['record_state'],
-         'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by', 'workflow', 'workflow_status', 'risk_level'],
+         'string' => ['status', 'sex', 'risk_level', 'owned_by_agency_id', 'owned_by', 'workflow', 'workflow_status', 'risk_level'],
     'multistring' => ['associated_user_names', 'owned_by_groups'],
            'date' => ['registration_date'],
         'integer' => ['age'],
@@ -178,14 +181,8 @@ class Child < ApplicationRecord
     end
   end
 
-  alias super_index_for_search index_for_search
-  def index_for_search
-    super_index_for_search
-    self.index_nested_reportables
-  end
-
   def validate_date_of_birth
-    if self.date_of_birth.present? && (!self.date_of_birth.is_a?(Date) || self.date_of_birth.year > Date.today.year)
+    if date_of_birth.present? && (!date_of_birth.is_a?(Date) || date_of_birth.year > Date.today.year)
       errors.add(:date_of_birth, I18n.t("errors.models.child.date_of_birth"))
       #error_with_section(:date_of_birth, I18n.t("errors.models.child.date_of_birth")) #TODO: Remove with UIUIX?
       false
@@ -195,7 +192,7 @@ class Child < ApplicationRecord
   end
 
   def validate_registration_date
-    if self.registration_date.present? && (!self.registration_date.is_a?(Date) || self.registration_date.year > Date.today.year)
+    if registration_date.present? && (!registration_date.is_a?(Date) || registration_date.year > Date.today.year)
       errors.add(:registration_date, I18n.t("messages.enter_valid_date"))
       #error_with_section(:registration_date, I18n.t("messages.enter_valid_date")) #TODO: Remove with UIUIX?
       false
@@ -205,8 +202,9 @@ class Child < ApplicationRecord
   end
 
   def validate_child_wishes
-    return true if self.data['child_preferences_section'].nil? || self.data['child_preferences_section'].size <= CHILD_PREFERENCE_MAX
-    errors.add(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
+    return true if data['child_preferences_section'].nil? || data['child_preferences_section'].size <= CHILD_PREFERENCE_MAX
+
+    errors.add(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", preferences_count: CHILD_PREFERENCE_MAX))
     #TODO: Remove with UIUIX?
     #error_with_section(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
   end
@@ -231,7 +229,7 @@ class Child < ApplicationRecord
 
   def set_instance_id
     system_settings = SystemSettings.current
-    self.case_id ||= self.unique_identifier
+    self.case_id ||= unique_identifier
     self.case_id_code ||= auto_populate('case_id_code', system_settings)
     self.case_id_display ||= create_case_id_display(system_settings)
   end
@@ -246,11 +244,7 @@ class Child < ApplicationRecord
   end
 
   def create_case_id_display(system_settings)
-    [self.case_id_code, self.short_id].reject(&:blank?).join(self.auto_populate_separator('case_id_code', system_settings))
-  end
-
-  def sortable_name
-    self.name
+    [case_id_code, short_id].compact.join(auto_populate_separator('case_id_code', system_settings))
   end
 
   def family(relation=nil)
@@ -306,13 +300,6 @@ class Child < ApplicationRecord
     end
   end
 
-  def add_note(notes, note_subject, user)
-    self.notes_section << {
-        'field_notes_subform_fields' => notes, 'note_subject' => note_subject,
-        'notes_date' => DateTime.now, 'note_created_by' => user.user_name
-    }
-  end
-
   def mark_as_duplicate(parent_id)
     self.duplicate = true
     self.duplicate_case_id = parent_id
@@ -356,20 +343,9 @@ class Child < ApplicationRecord
     match_criteria.merge(match_criteria_subform) { |_key, v1, v2| v1 + v2 }.compact
   end
 
-  def reopen(status, reopen_status, user_name)
-    self.child_status = status
-    self.case_status_reopened = reopen_status
-    self.add_reopened_log(user_name)
-  end
-
   #Override method in record concern
   def display_id
     case_id_display
-  end
-
-  def primary_photo
-    primary_photo = self.photos.find(&:is_current?) || self.photos.try(:first)
-    primary_photo.try(:image)
   end
 
 end

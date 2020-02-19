@@ -1,8 +1,10 @@
-export * from "./dashboard-table";
-export * from "./doughnut-chart";
-export * from "./flag-box";
-export * from "./line-chart";
-export * from "./options-box";
-export * from "./overview-box";
-export * from "./action-menu";
-export * from "./dashboard-chip";
+export { BadgedIndicator } from "./badged-indicator";
+export { DashboardTable } from "./dashboard-table";
+export { DoughnutChart } from "./doughnut-chart";
+export { FlagBox } from "./flag-box";
+export { LineChart } from "./line-chart";
+export { OptionsBox } from "./options-box";
+export { OverviewBox } from "./overview-box";
+export { ActionMenu } from "./action-menu";
+export { DashboardChip } from "./dashboard-chip";
+export { PieChart } from "./pie-chart";

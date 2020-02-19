@@ -1,6 +1,8 @@
 import isEmpty from "lodash/isEmpty";
-import { fromJS } from "immutable";
-import { denormalizeData } from "./schema";
+import { fromJS, OrderedMap } from "immutable";
+
+import { denormalizeFormData } from "../../schemas";
+
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
 
@@ -9,19 +11,19 @@ const forms = (state, { recordType, primeroModule }) => {
 
   if (isEmpty(formSections)) return null;
 
-  return formSections.filter(fs => {
-    return (
-      fs.get("parent_form") === recordType &&
-      fs.get("module_ids").includes(primeroModule) &&
-      !fs.get("is_nested")
-    );
-  });
+  return formSections.filter(
+    fs =>
+      fs.module_ids.includes(primeroModule) &&
+      fs.parent_form === recordType &&
+      fs.visible &&
+      !fs.is_nested
+  );
 };
 
 export const getFirstTab = (state, query) => {
   const selectedForms = forms(state, query);
 
-  if (!selectedForms) return null;
+  if (selectedForms.isEmpty()) return null;
 
   const firstFormSection = selectedForms.filter(
     fs => fs.get("is_first_tab") === true
@@ -29,6 +31,7 @@ export const getFirstTab = (state, query) => {
 
   if (firstFormSection && firstFormSection.size > 0) {
     const form = firstFormSection.first();
+
     return form;
   }
 
@@ -39,6 +42,7 @@ export const getFormNav = (state, query) => {
   const selectedForms = forms(state, query);
 
   if (!selectedForms) return null;
+
   return selectedForms
     .map(fs =>
       NavRecord({
@@ -61,33 +65,48 @@ export const getRecordForms = (state, query) => {
 
   if (!selectedForms) return null;
 
-  const [...selectedFormKeys] = selectedForms.keys();
+  const denormalizedForms = denormalizeFormData(
+    OrderedMap(selectedForms.map(f => f.id)),
+    state.getIn(["forms"])
+  );
 
-  return denormalizeData(fromJS(selectedFormKeys), state.getIn(["forms"]));
+  return denormalizedForms.valueSeq();
+};
+
+export const getRecordFormsByUniqueId = (state, query) => {
+  const { recordType, primeroModule, formName } = query;
+
+  return getRecordForms(state, { recordType, primeroModule }).filter(
+    f => f.unique_id === formName
+  );
 };
 
 export const getOption = (state, option, locale) => {
   if (typeof option === "string") {
     const selectedOptions = state
-      .getIn([NAMESPACE, "options"], fromJS([]))
-      .filter(o => o.type === option.replace(/lookup /, ""))
+      .getIn([NAMESPACE, "options", "lookups"], fromJS([]))
+      .filter(o => o.get("unique_id") === option.replace(/lookup /, ""))
       .first();
 
-    return selectedOptions ? selectedOptions.options : [];
+    return selectedOptions?.size ? selectedOptions.get("values").toJS() : [];
   }
 
-  return option[locale];
+  return option && option[locale] ? option[locale] : [];
 };
 
-export const getRecord = (state, mode) => {
-  if (mode.isEdit || mode.isShow) {
-    return state.getIn([NAMESPACE, "selectedRecord"]);
-  }
+export const getOptions = state =>
+  state.getIn([NAMESPACE, "options", "lookups"], fromJS([]));
 
-  return null;
-};
+export const getLocations = state =>
+  state.getIn([NAMESPACE, "options", "locations"], fromJS([]));
 
 export const getLoadingState = state =>
   state.getIn([NAMESPACE, "loading"], false);
 
 export const getErrors = state => state.getIn([NAMESPACE, "errors"], false);
+
+export const getSelectedForm = state =>
+  state.getIn([NAMESPACE, "selectedForm"]);
+
+export const getSelectedRecord = state =>
+  state.getIn([NAMESPACE, "selectedRecord"]);

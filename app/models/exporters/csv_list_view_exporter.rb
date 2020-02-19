@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'csv'
 
 module Exporters
+  # Export as CSV the record list that the user sees.
   class CSVListViewExporter < BaseExporter
     class << self
       def id
@@ -16,47 +19,50 @@ module Exporters
       end
     end
 
-    def build_field_map(model_name, current_user)
-      field_map = {}
-      properties = ApplicationController.helpers.build_list_field_by_model(model_name, current_user)
+    def export(records, user, options = {})
+      list_headers = list_headers(records, user)
 
-      properties[:fields].each do |key, value|
-        if properties[:type] == "incident" && value == "violations"
-          field_map.merge!({ key => ->(c) { c.violations_list(true).join(", ") } })
-        elsif properties[:type] == "incident" && value == "incident_date_derived"
-          field_map.merge!({ key => ->(c) { c.incident_date_to_export } })
-        elsif properties[:type] == "tracing_request" && value == "tracing_names"
-          field_map.merge!({ key => ->(c) { c.tracing_names.join(", ") } })
-        else
-          field_map.merge!({ key => value })
-        end
-      end
-      field_map
-    end
+      csv_export = CSV.generate do |rows|
+        next unless list_headers
 
-    def export(models, properties, current_user, params)
-      field_map = build_field_map(models.first.class.name, current_user)
-
-      csv_list = CSV.generate do |rows|
-        # @called_first_time is a trick for batching purposes,
-        # so that headers are saved only once 
-        rows << field_map.keys if @called_first_time.nil?
+        rows << headers(list_headers) if @called_first_time.nil?
         @called_first_time ||= true
 
-        models.each do |model|
-          rows << field_map.map do |_, generator|
-            return generator.call(model) if generator.is_a?(Proc)
-            field = properties.select { |p| generator.eql?(p.try(:name)) }.first
-            if generator.is_a?(Array)
-              self.class.translate_value(field.first, model.value_for_attr_keys(field))
-            else
-              self.class.translate_value(field, CSVListViewExporter.to_exported_value(model.try(generator.to_sym)))
-            end
-          end
+        records.each do |record|
+          rows << row(record, list_headers, user)
         end
       end
-      self.buffer.write(csv_list)
+      buffer.write(csv_export)
     end
 
+    def list_headers(records, user)
+      return @list_headers if @list_headers
+
+      @record_type ||= model_class(records)&.parent_form
+      @list_headers = @record_type && Header.get_headers(user, @record_type)
+    end
+
+    def headers(list_headers)
+      list_headers.map do |header|
+        I18n.t("#{@record_type.pluralize}.#{header.name}", default: '', locale: locale)
+      end
+    end
+
+    def row(record, list_headers, user)
+      field_names = list_headers.map(&:field_name)
+      data = RecordDataService.data(record, user, field_names)
+      header_fields = header_fields(list_headers)
+      list_headers.map do |header|
+        field = header_fields.find { |f| f.name == header.field_name }
+        export_value(data[header.field_name], field)
+      end
+    end
+
+    def header_fields(list_headers)
+      return @header_fields if @header_fields
+
+      field_names = list_headers.map(&:field_name)
+      @header_fields = Field.where(name: field_names).uniq(&:name)
+    end
   end
 end

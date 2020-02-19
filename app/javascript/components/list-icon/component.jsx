@@ -11,10 +11,16 @@ import {
   Flag,
   MobileScreenShare,
   Person,
-  People
+  People,
+  SettingsApplications
 } from "@material-ui/icons";
 import PropTypes from "prop-types";
-import { CasesIcon, IncidentsIcon, LogoutIcon } from "images/primero-icons";
+
+import {
+  CasesIcon,
+  IncidentsIcon,
+  LogoutIcon
+} from "../../images/primero-icons";
 
 const ListIcon = ({ icon }) => {
   switch (icon) {
@@ -48,10 +54,14 @@ const ListIcon = ({ icon }) => {
       return <Person />;
     case "referred_cases":
       return <People />;
+    case "settings":
+      return <SettingsApplications />;
     default:
       return null;
   }
 };
+
+ListIcon.displayName = "ListIcon";
 
 ListIcon.propTypes = {
   icon: PropTypes.string.isRequired

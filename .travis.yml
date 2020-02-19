@@ -1,20 +1,17 @@
 language: ruby
 bundler_args: "--without production"
 env:
-- RAILS_ENV=test
+- RAILS_ENV=test DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
 cache: bundler
 jdk:
   - openjdk8
 addons:
   postgresql: "10"
   apt:
-    sources:
-    - google-chrome
     packages:
-    - google-chrome-stable
     - postgresql-10
     - postgresql-client-10
-
+    - libsodium-dev
 before_install:
 - nvm install 11.15.0
 - sudo cp /etc/postgresql/{9.6,10}/main/pg_hba.conf
@@ -27,14 +24,14 @@ before_script:
 - mkdir -p solr/data/test
 - mkdir -p solr/cores/test
 - cp config/travis/core.properties solr/cores/test/
-- yarn install
+- npm install
 script:
 - bundle exec rake sunspot:solr:start
 - bundle exec rails db:drop
 - bundle exec rails db:create
 - bundle exec rails db:migrate
 - bundle exec rspec spec
-- yarn run test:all
+- npm run test:all
 services:
 - postgresql
 branches:

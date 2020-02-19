@@ -1,109 +1,132 @@
+# frozen_string_literal: true
+
+# A shared concern for all core Primero record types: Cases (child), Incidents, Tracing Requests
 module Record
   extend ActiveSupport::Concern
 
-  STATUS_OPEN = 'open' ; STATUS_CLOSED = 'closed'
+  STATUS_OPEN = 'open'
+  STATUS_CLOSED = 'closed'
+  STATUS_TRANSFERRED = 'transferred'
 
   included do
     store_accessor :data, :unique_identifier, :short_id, :record_state, :status, :marked_for_mobile
 
-    after_initialize :defaults
+    after_initialize :defaults, unless: :persisted?
     before_create :create_identification
     before_save :populate_subform_ids
-    after_save :index_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
-    after_destroy :unindex_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
+    after_save :index_nested_reportables
+    after_destroy :unindex_nested_reportables
   end
 
-  #TODO: Refactor when making names
   def self.model_from_name(name)
     case name
-      when 'case' then Child
-      when 'violation' then Incident
-      else Object.const_get(name.camelize)
+    when 'case' then Child
+    when 'violation' then Incident
+    else Object.const_get(name.camelize)
     end
+  rescue NameError
+    nil
+  end
+
+  def self.map_name(name)
+    name = name.underscore
+    name = 'case' if name == 'child'
+    name
   end
 
   module ClassMethods
-
     def new_with_user(user, data = {})
       id = data.delete('id')
-      record = self.new
+      record = new
       record.id = id if id.present?
       record.data = Utils.merge_data(record.data, data)
       record.set_creation_fields_for(user)
       record.set_owner_fields_for(user)
-      record.set_attachment_fields(data)
       record
     end
 
-    #TODO: This method is currently unused, but should eventually replace the mess in the record actions controller
+    def common_summary_fields
+      %w[created_at owned_by owned_by_agency_id photos
+         flag_count status record_in_scope short_id alert_count]
+    end
+
+    # TODO: This method is currently unused, but should eventually replace the mess in the record actions controller
     def find_or_initialize(unique_identifier)
       record = find_by_unique_identifier(unique_identifier)
       if record.nil?
         record = self.new
       end
-      return record
+      record
     end
 
     def find_by_unique_identifier(unique_identifier)
-      self.find_by('data @> ?', {unique_identifier: unique_identifier}.to_json)
+      find_by('data @> ?', { unique_identifier: unique_identifier }.to_json)
     end
 
     def generate_unique_id
-      return SecureRandom.uuid
+      SecureRandom.uuid
     end
 
     def parent_form
-      self.name.underscore.downcase
+      name.underscore.downcase
     end
 
+    def preview_field_names
+      Field.joins(:form_section).where(
+        form_sections: { parent_form: parent_form },
+        show_on_minify_form: true
+      ).pluck(:name)
+    end
 
-    #TODO: Refactor with UIUX
+    # TODO: Refactor with UIUX
     def model_name_for_messages
-      self.name.titleize.downcase
+      name.titleize.downcase
     end
 
-    #TODO: Refactor with UIUX
+    # TODO: Refactor with UIUX
     def locale_prefix
-      self.name.underscore.downcase
+      name.underscore.downcase
     end
 
-    def nested_reportable_types ; [] ; end
-
+    def nested_reportable_types
+      []
+    end
   end
 
 
-  #Override this in the implementing classes to set your own defaults
+  # Override this in the implementing classes to set your own defaults
   def defaults
-    self.record_state = true if self.record_state.nil?
+    self.record_state = true if record_state.nil?
     self.status ||= STATUS_OPEN
   end
 
   def create_identification
     self.unique_identifier ||= self.class.generate_unique_id
     self.short_id ||= self.unique_identifier.to_s.last(7)
-    self.set_instance_id
+    set_instance_id
   end
 
   def display_field(field_or_name, lookups = nil)
-    result = ""
+    result = ''
     if field_or_name.present?
       if field_or_name.is_a?(Field)
-        result = field_or_name.display_text(self.data[field_or_name.name], lookups)
+        result = field_or_name.display_text(data[field_or_name.name], lookups)
       else
         field = Field.get_by_name(field_or_name)
         if field.present?
-          result = field.display_text(self.data[field_or_name], lookups)
+          result = field.display_text(data[field_or_name], lookups)
         end
       end
     end
-    return result
+    result
   end
 
   def display_id
     short_id
   end
 
-  #TODO: Refactor or delete with UIUX. This looks like its only useful for setting and getting via the form
+  # TODO: Refactor or delete with UIUX. This looks like its only useful for setting and getting via the form
+  # TODO: This is used in configurable exporters. Rename to something meaningful if useful
   # # @param attr_keys: An array whose elements are properties and array indeces
   #   # Ex: `child.value_for_attr_keys(['family_details_section', 0, 'relation_name'])`
   #   # is equivalent to doing `child.family_details_section[0].relation_name`
@@ -117,20 +140,19 @@ module Record
     end
   end
 
-  #TODO: Refactor or delete with UIUX. This looks like its only useful for setting and getting via the form
+  # TODO: Refactor or delete with UIUX. This looks like its only useful for setting and getting via the form
   def set_value_for_attr_keys(attr_keys, value)
     parent = value_for_attr_keys(attr_keys[0..-2])
     parent[attr_keys[-1]] = value
   end
 
-  def update_properties(properties, user_name)
-    self.data = Utils.merge_data(self.data, properties)
+  def update_properties(data, user_name)
+    self.data = Utils.merge_data(self.data, data)
     self.last_updated_by = user_name
-    self.set_attachment_fields(properties)
   end
 
   def nested_reportables_hash
-    #TODO: Consider returning this as a straight list
+    # TODO: Consider returning this as a straight list
     self.class.nested_reportable_types.reduce({}) do |hash, type|
       if self.try(type.record_field_name).present?
         hash[type] = type.from_record(self)
@@ -140,31 +162,29 @@ module Record
   end
 
   def populate_subform_ids
-    if self.data.present?
-      self.data.each do |_, value|
-        if value.is_a?(Array) && value.first.is_a?(Hash)
-          value.each do |subform|
-            unless subform['unique_id'].present?
-              subform['unique_id'] = SecureRandom.uuid
-            end
-          end
-        end
+    return unless data.present?
+
+    data.each do |_, value|
+      next unless value.is_a?(Array) && value.first.is_a?(Hash)
+
+      value.each do |subform|
+        subform['unique_id'].present? ||
+          (subform['unique_id'] = SecureRandom.uuid)
       end
     end
   end
 
   def index_nested_reportables
-    self.nested_reportables_hash.each do |_, reportables|
+    nested_reportables_hash.each do |_, reportables|
       Sunspot.index! reportables if reportables.present?
     end
   end
 
   def unindex_nested_reportables
-    self.nested_reportables_hash.each do |_, reportables|
+    nested_reportables_hash.each do |_, reportables|
       Sunspot.remove! reportables if reportables.present?
     end
   end
-
 
   class Utils
     def self.merge_data(old_data, new_data)
@@ -197,7 +217,5 @@ module Record
     def self.is_an_array_of_hashes?(value)
       value.is_a?(Array) && (value.blank? || value.first.is_a?(Hash))
     end
-
   end
-
 end

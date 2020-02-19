@@ -1,0 +1,135 @@
+.pageTitle {
+  font-family: $(theme.typography.fontFamily);
+  font-size: $(theme.typography.pxToRem(22));
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: $(theme.primero.colors.solidBlack);
+  margin: 13px 0;
+  text-transform: uppercase;
+}
+
+.formTitle {
+  padding-bottom: 2em;
+  display: flex;
+  background: $(theme.primero.colors.stickyGrey);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  align-items: center;
+}
+
+.titleHeader {
+  text-transform: uppercase;
+  font-family: $(theme.typography.fontFamily);
+  font-size: $(theme.typography.pxToRem(17));
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  color: $(theme.primero.colors.solidBlack);
+  margin-right: 1em;
+}
+
+.wrapper {
+  display: flex;
+}
+
+.transtionLabel {
+  font-family: $(theme.typography.fontFamily);
+  font-size: $(theme.typography.pxToRem(15));
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.67;
+  letter-spacing: normal;
+  color: $(theme.primero.colors.solidBlack);
+}
+
+.transtionValue {
+  font-family: $(theme.typography.fontFamily);
+  font-size: $(theme.typography.pxToRem(12));
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  color: $(theme.primero.colors.solidBlack);
+}
+
+.date {
+  font-family: $(theme.typography.fontFamily);
+  font-size: $(theme.typography.pxToRem(11));
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.27;
+  letter-spacing: normal;
+  padding-top: 0.5em;
+  color: $(theme.primero.colors.solidBlack);
+}
+
+.spaceGrid {
+  padding: 0.5em 0 0.5em 0;
+}
+
+.chip {
+  font-weight: bold;
+  color: $(theme.primero.colors.white);
+  text-transform: uppercase;
+
+  &.pending {
+    border: solid 1px $(theme.primero.colors.orange);
+    background-color: $(theme.primero.colors.orange);
+  }
+
+  &.accepted {
+    border: solid 1px $(theme.primero.colors.green);
+    background-color: $(theme.primero.colors.green);
+  }
+
+  &.rejected {
+    border: solid 1px $(theme.primero.colors.red);
+    background-color: $(theme.primero.colors.red);
+  }
+
+  &.inprogress, &.in_progress {
+    border: solid 1px $(theme.primero.colors.blue);
+    background-color: $(theme.primero.colors.blue);
+  }
+  
+  &.done {
+    border: solid 1px $(theme.primero.colors.green);
+    background-color: $(theme.primero.colors.green);
+  }
+}
+
+.successIcon {
+  color: $(theme.primero.colors.green);
+}
+
+.transtionIconValue {
+  & label {
+    margin-left: 0;
+  }
+}
+
+.transtionStatus {
+  text-align: right;
+  font-size: $(theme.typography.pxToRem(15));
+}
+
+.panel {
+  box-shadow: 0 1px 7px 0 rgba(125, 125, 125, 0.23);
+  margin-bottom: 2px;
+
+  &:before {
+    display: none;
+  }
+}
+
+.divider {
+  margin-bottom: 8px;
+}

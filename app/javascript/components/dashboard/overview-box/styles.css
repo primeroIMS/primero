@@ -3,19 +3,18 @@
   padding: 15px;
 }
 
+.sectionTitle {
+  padding: 0 1.2em;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
 .overviewList {
   list-style: none;
   font-size: 14px;
   line-height: 1.29;
   color: #231e1f;
-}
-
-.overviewList li:first-child {
-  font-size: 14px;
-  font-weight: bold;
-  color: #231e1f;
-  padding: 0 0 8px 0;
-  text-transform: uppercase;
+  padding: 0 1.2em;
 }
 
 .dashboardChart {
@@ -24,9 +23,29 @@
   padding: 0;
 }
 
+.itemButton {
+  font-size: 1em;
+  font-weight: normal;
+  border: none;
+  line-height: 1.5em;
+  text-align: left;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.itemButton:hover{
+  text-decoration: underline;
+}
+
 @media $(theme.breakpoints.down("sm")) {
+
+  .sectionTitle {
+    padding-left: 1em;
+  }
+
   .overviewList {
-    padding: 0;
+    padding-left: 1em;
   }
 
   .dashboardChart {

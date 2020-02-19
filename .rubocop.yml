@@ -1,0 +1,27 @@
+AllCops:
+  Exclude:
+    - db/schema.rb
+
+Layout/LineLength:
+  Max: 120
+
+Metrics/AbcSize:
+  Exclude:
+    - db/migrate/*
+
+Metrics/BlockLength:
+  Exclude:
+    - Gemfile*
+    - spec/**/*
+    - config/routes.rb
+
+Metrics/MethodLength:
+  Exclude:
+    - db/migrate/*
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
+Style/Documentation:
+  Exclude:
+    - db/migrate/*

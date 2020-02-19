@@ -1,10 +1,12 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { fromJS } from "immutable";
-import { useI18n } from "components/i18n";
-import { PrioritySummary } from "components/dashboard/priority-summary";
-import { OptionsBox, ActionMenu } from "components/dashboard";
+import PropTypes from "prop-types";
+import React from "react";
 import { useTheme } from "@material-ui/styles";
+
+import { PrioritySummary } from "../priority-summary";
+import { useI18n } from "../../i18n";
+import { OptionsBox } from "../options-box";
+import { ActionMenu } from "../action-menu";
 
 const Services = ({ servicesList }) => {
   const theme = useTheme();
@@ -35,7 +37,6 @@ const Services = ({ servicesList }) => {
       <OptionsBox
         classes={styleOverrides}
         title={i18n.t("dashboard.case_management_service")}
-        action={<ActionMenu open={false} items={actionMenuItems} />}
       >
         {caseManagement.map(summary => {
           return (
@@ -47,7 +48,6 @@ const Services = ({ servicesList }) => {
       <OptionsBox
         title={i18n.t("dashboard.screening_service")}
         classes={styleOverrides}
-        action={<ActionMenu open={false} items={actionMenuItems} />}
       >
         {screening.map(summary => {
           return (
@@ -58,6 +58,8 @@ const Services = ({ servicesList }) => {
     </>
   );
 };
+
+Services.displayName = "Services";
 
 Services.propTypes = {
   servicesList: PropTypes.object

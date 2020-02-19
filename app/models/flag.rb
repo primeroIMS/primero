@@ -11,7 +11,7 @@ class Flag < ApplicationRecord
   after_create :flag_history
   after_update :unflag_history
 
-  searchable auto_index: self.auto_index? do
+  searchable do
     date :flag_date, :stored => true do
       self.date.present? ? self.date : nil
     end
@@ -59,6 +59,18 @@ class Flag < ApplicationRecord
     end
     string :flag_record_owner, :stored => true do
       record.owned_by
+    end
+    string :flag_groups_owner, :stored => true, :multiple => true do
+      record.owned_by_groups
+    end
+    string :flag_associated_groups, :stored => true, :multiple => true do
+      record.associated_user_groups
+    end
+    string :flag_agency_id_owner, :stored => true, :multiple => true do
+      record.owned_by_agency_id
+    end
+    string :flag_associated_agencies, :stored => true, :multiple => true do
+      record.associated_user_agencies
     end
   end
 

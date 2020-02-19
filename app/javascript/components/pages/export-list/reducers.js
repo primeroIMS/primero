@@ -1,13 +1,20 @@
-import { fromJS, Map } from "immutable";
-import * as Actions from "./actions";
+import { fromJS } from "immutable";
+
+import { mapEntriesToRecord } from "../../../libs";
+
+import actions from "./actions";
+import ExportRecord from "./records";
 import NAMESPACE from "./namespace";
 
-const DEFAULT_STATE = Map({});
+const DEFAULT_STATE = fromJS({});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.EXPORTS:
-      return state.set("data", fromJS(payload.data));
+    case actions.FETCH_EXPORTS_SUCCESS: {
+      return state
+        .set("data", mapEntriesToRecord(payload.data, ExportRecord, false))
+        .set("metadata", fromJS(payload.metadata));
+    }
     default:
       return state;
   }

@@ -43,6 +43,11 @@ create_or_update_system_setting(
     "cp_case_plan" => "case_plan",
     "closure_form" => "closure"
   },
+  changes_field_to_form: {
+    notes_section: 'notes',
+    incident_details: 'incident_details_container',
+    services_section: 'services'
+  },
   due_date_from_appointment_date: false,
   notification_email_enabled: true,
   welcome_email_enabled: false,
@@ -51,5 +56,6 @@ create_or_update_system_setting(
     "unhcr" => "export-unhcr-csv",
     "duplicate_id" => "export-duplicate-id-csv"
   },
-  duplicate_export_field: "national_id_no"
+  duplicate_export_field: "national_id_no",
+  use_identity_provider: false
 )

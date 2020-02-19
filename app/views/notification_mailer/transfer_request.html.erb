@@ -4,8 +4,22 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
   <body>
-    <p><%= t("email_notification.transfer_request_html", user: @user.user_name, agency: @agency,
-             record_type: @record_type, record_id: link_to(@record.short_id, @url)).html_safe %></p>
-    <p><%= t("email_notification.transfer_request_notes_html", request_transfer_notes: @request_transfer_notes).html_safe %></p>
+    <p>
+      <%= t('email_notification.transfer_request_html',
+             user: @transition.transitioned_by,
+             agency: @transition&.transitioned_by_user&.agency&.name,
+             record_type: t("forms.record_types.#{@transition&.record.class.parent_form}"),
+             record_id: link_to(
+                 @transition&.record&.short_id, url_for_v2(@transition&.record)
+             )
+           ).html_safe
+       %>
+    </p>
+    <p>
+      <%= t('email_notification.transfer_request_notes_html',
+             request_transfer_notes: @transition.notes
+           ).html_safe
+       %>
+    </p>
   </body>
 </html>

@@ -34,12 +34,17 @@
   font-size: $(theme.typography.pxToRem(14));
 }
 
+.actionButtonsContainer {
+  width: 260px;
+  text-align: right;
+}
+
 .actionButton,
 .actionButtonCancel {
   box-shadow: none;
   color: $(theme.primero.colors.white);
   background: $(theme.primero.colors.blue);
-  width: 10em;
+  width: 8em;
   height: 32px;
 
   &:hover {
@@ -49,7 +54,7 @@
 
 .actionButtonCancel {
   background: $(theme.primero.colors.grey);
-  margin: 0 1em;
+  margin: 0 .5em;
 }
 
 .toolbar {
@@ -127,4 +132,14 @@
 .inputField,
 .attachmentInputField {
   display: none;
+}
+
+.loadingMargin {
+  position: absolute;
+}
+
+.caseDisabled {
+  color: $(theme.primero.colors.midGrey);
+  font-size: $(theme.typography.pxToRem(17));
+  text-transform: uppercase;
 }

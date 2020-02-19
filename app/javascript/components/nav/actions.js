@@ -1,1 +1,4 @@
 export const OPEN_DRAWER = "OPEN_DRAWER";
+
+export const FETCH_ALERTS = "FETCH_ALERTS";
+export const FETCH_ALERTS_SUCCESS = "FETCH_ALERTS_SUCCESS";

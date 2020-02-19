@@ -7,8 +7,11 @@ import { Box, IconButton, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
-import { useI18n } from "components/i18n";
+
+import { useI18n } from "../../i18n";
+
 import styles from "./styles.css";
+import { ATTACHMENT_FIELD_NAME } from "./constants";
 import DocumentField from "./DocumentField";
 
 // TODO: No link to display / download upload
@@ -41,11 +44,12 @@ const AttachmentField = ({ name, field, label, disabled, formik, mode }) => {
   };
 
   if (attachment === "document") {
-    initialAttachmentValue = Object.assign({}, initialAttachmentValue, {
+    initialAttachmentValue = {
+      ...initialAttachmentValue,
       document_description: "",
       date: null,
       comments: ""
-    });
+    };
   }
 
   const valuesSize = values.length;
@@ -84,6 +88,7 @@ const AttachmentField = ({ name, field, label, disabled, formik, mode }) => {
                       resetOpenLastDialog={resetOpenLastDialog}
                       value={a}
                       removeFunc={arrayHelpers.remove}
+                      field={field}
                     />
                   ) : (
                     <Box className={css.uploadBox}>
@@ -135,13 +140,15 @@ const AttachmentField = ({ name, field, label, disabled, formik, mode }) => {
   );
 };
 
+AttachmentField.displayName = ATTACHMENT_FIELD_NAME;
+
 AttachmentField.propTypes = {
-  name: PropTypes.string,
-  field: PropTypes.object,
-  label: PropTypes.string,
   disabled: PropTypes.bool,
+  field: PropTypes.object,
   formik: PropTypes.object,
-  mode: PropTypes.object
+  label: PropTypes.string,
+  mode: PropTypes.object,
+  name: PropTypes.string
 };
 
 export default connect(AttachmentField);

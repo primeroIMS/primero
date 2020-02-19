@@ -15,14 +15,14 @@ prim_export_local_binaries() {
 
 # Check if the postgres credentials are defined. If they aren't then complain.
 prim_check_postgres_credentials() {
-  set +u
+  set +ux
   if [ -z "$POSTGRES_PASSWORD" ] ||  [ -z "$POSTGRES_USER" ];
   then
     printf "Postgres credentials not defined! Please check configuration.\\n"
-    set -u
+    set -ux
     return 1
   fi
-  set -u
+  set -ux
   return 0
 }
 
@@ -46,7 +46,11 @@ prim_create_folders_and_logs() {
   # Create the folder for the node modules that will be installed during asset
   # compile
   mkdir -p "${APP_ROOT}/node_modules"
-  mkdir -p "$RAILS_SCHEDULER_LOG_DIR"
+  set +u
+  if [[ "$RAILS_SCHEDULER_LOG_DIR" ]] ; then
+    mkdir -p "$RAILS_SCHEDULER_LOG_DIR"
+  fi
+  set -u
   return 0
 }
 
@@ -54,13 +58,21 @@ prim_create_folders_and_logs() {
 # appropriated. we will rely on the env variable over the file because it is
 # less places to change the path.
 prim_check_for_bootstrap() {
-  if [ -f "${APP_ROOT}/tmp/.primero-bootstrapped" ];
+  current_db_version=$(bin/rails db:version || echo "EMPTY")
+  db_empty=$(echo "${current_db_version}" | grep EMPTY)
+  if [[ -n "${db_empty}" ]] ;
   then
-    # bootstrap found. no need to bootstrap.
-    return 1
-  else
-    # bootstrap not found. we must bootstrap.
     return 0
+  else
+    return 1
+  fi
+}
+
+prim_stage_translations()  {
+  translation_file=$(basename "$(find "${APP_ROOT}/public/" -name "translations*")")
+  if [[ ! -f /share/public/${translation_file} ]] && [[ "${RAILS_PUBLIC_FILE_SERVER}" == "true" ]]
+  then
+    cp -Rrv "$APP_ROOT/public/translations-"* "$APP_ROOT/public/javascripts" "/share/public"
   fi
 }
 
@@ -69,10 +81,13 @@ prim_bootstrap() {
   printf "Starting bootstrap\\n"
   # shellcheck disable=SC2034
   bin/rails db:create
-  bin/rails db:schema:load
-  bin/rails db:seed
-  bin/rails sunspot:reindex
-  touch "${APP_ROOT}/tmp/.primero-bootstrapped"
+  bin/rails db:migrate
+  if [[ -n "${PRIMERO_CONFIGURATION_FILE}" ]]
+  then
+    bin/rails r "${PRIMERO_CONFIGURATION_FILE}"
+  else
+    bin/rails db:seed
+  fi
   return 0
 }
 
@@ -80,6 +95,7 @@ prim_update() {
   printf "Updating primero\\n"
   bin/rails db:migrate
   bin/rails sunspot:reindex
+  prim_stage_translations
   return 0
 }
 
@@ -89,6 +105,8 @@ prim_start() {
   then
     printf "Primero needs to be bootstrapped.\\nBeginning bootstrap.\\n"
     prim_bootstrap
+    bin/rails sunspot:reindex
+    prim_stage_translations
   fi
   printf "Starting primero.\\n"
   prim_check_for_puma_pid
@@ -164,31 +182,21 @@ prim_app_start() {
   prim_check_postgres_credentials
   prim_create_folders_and_logs
 
-  # main argument execution loop.
-  # we are looking for any primero specific commands, execute them in order,
-  # and then exec anything else
-  while :; do
-    case $1 in
-      primero-bootstrap)
-        prim_bootstrap
-        prim_start
-        shift
-        ;;
-      primero-start)
-        prim_start
-        break
-        ;;
-      primero-update)
-        prim_update
-        prim_start
-        shift
-        ;;
-      *)
-        exec "$@"
-        break
-        ;;
-    esac
-  done
+  case $1 in
+    primero-bootstrap)
+      prim_bootstrap
+      ;;
+    primero-start)
+      prim_start
+      ;;
+    primero-update)
+      prim_update
+      prim_start
+      ;;
+    *)
+      exec "$@"
+      ;;
+  esac
 }
 
 # pass all arguments to the prim_app_start method

@@ -4,7 +4,11 @@
 }
 
 .item {
-  font-size: $(theme.typography.pxToRem(16))
+  font-size: $(theme.typography.pxToRem(16));
+
+  & span {
+    font-weight: 500;
+  }
 }
 
 .nestedItem {

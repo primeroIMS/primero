@@ -2,7 +2,13 @@ require 'rails_helper'
 
 describe Api::V2::UsersController, type: :request do
   before :each do
+    FormSection.destroy_all
     PrimeroModule.destroy_all
+    Role.destroy_all
+    User.destroy_all
+    Agency.destroy_all
+    PrimeroProgram.destroy_all
+
     SystemSettings.stub(:current).and_return(SystemSettings.new(
       primary_age_range: "primero",
       age_ranges: {
@@ -43,10 +49,13 @@ describe Api::V2::UsersController, type: :request do
           :resource => Permission::CASE,
           :actions => [Permission::MANAGE]
         )
-      ]
+      ],
+      modules: [@cp]
     )
     @agency_1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
     @agency_2 = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
+
+    @user_group_1 = UserGroup.create!(unique_id:'user-group-1', name: 'user group 1')
 
     @user_1 = User.create!(
                 full_name: "Test User 1",
@@ -55,8 +64,7 @@ describe Api::V2::UsersController, type: :request do
                 password_confirmation: 'a12345678',
                 email: "test_user_1@localhost.com",
                 agency_id: @agency_1.id,
-                role: @role,
-                primero_modules: [@cp]
+                role: @role
               )
 
     @user_2 = User.create!(
@@ -66,8 +74,7 @@ describe Api::V2::UsersController, type: :request do
                 password_confirmation: 'b12345678',
                 email: "test_user_2@localhost.com",
                 agency_id: @agency_1.id,
-                role: @role,
-                primero_modules: [@cp]
+                role: @role
               )
 
     @user_3 = User.create!(
@@ -77,8 +84,7 @@ describe Api::V2::UsersController, type: :request do
                 password_confirmation: 'c12345678',
                 email: "test@localhost.com",
                 agency_id: @agency_2.id,
-                role: @role,
-                primero_modules: [@cp]
+                role: @role
               )
   end
 
@@ -122,7 +128,7 @@ describe Api::V2::UsersController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(3)
-      expect(json['data'][0]['agency']).to eq(@agency_1.id)
+      expect(json['data'][0]['agency_id']).to eq(@agency_1.id)
       expect(json['data'][0]['filters']).not_to be_nil
       expect(json['data'][0]['permissions']).not_to be_nil
       expect(json['data'][0]['list_headers']).not_to be_nil
@@ -190,17 +196,17 @@ describe Api::V2::UsersController, type: :request do
       login_for_test(permissions:[
         Permission.new(:resource => Permission::USER, :actions => [Permission::CREATE])
       ])
-      params = { 
+      params = {
         data: {
           full_name: "Test User API",
           user_name: "test_user_api",
           code: "test/code",
           email: "test_user_api@localhost.com",
           agency_id: @agency_1.id,
-          role_id: @role.id,
-          module_ids: @cp.id,
+          role_unique_id: @role.unique_id,
           password_confirmation: "a12345678",
-          password: "a12345678"
+          password: "a12345678",
+          user_group_unique_ids: ['user-group-1']
         }
       }
 
@@ -210,7 +216,8 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data']['id']).not_to be_nil
       expect(json['data']['user_name']).to eq(params[:data][:user_name])
       expect(json['data']['agency_id']).to eq(params[:data][:agency_id])
-      expect(json['data']['role_id']).to eq(params[:data][:role_id])
+      expect(json['data']['role_unique_id']).to eq(params[:data][:role_unique_id])
+      expect(json['data']['user_group_unique_ids']).to eq(params[:data][:user_group_unique_ids])
       expect(User.find_by(id: json['data']['id'])).not_to be_nil
     end
 
@@ -224,7 +231,7 @@ describe Api::V2::UsersController, type: :request do
             Permission.new(:resource => Permission::USER, :actions => [Permission::CREATE])
           ])
         id =  (rand() * 1000).to_i
-        params = { 
+        params = {
           data: {
             id: id,
             full_name: "Test User API 2",
@@ -232,8 +239,7 @@ describe Api::V2::UsersController, type: :request do
             code: "test/code",
             email: "test_user_api@localhost.com",
             agency_id: @agency_1.id,
-            role_id: @role.id,
-            module_ids: @cp.id,
+            role_unique_id: @role.unique_id,
             password_confirmation: "a12345678",
             password: "a12345678"
           }
@@ -250,18 +256,14 @@ describe Api::V2::UsersController, type: :request do
     it "returns 403 if user isn't authorized to create records" do
       login_for_test
 
-      id = (rand() * 1000).to_i
-
-      params = { 
+      params = {
         data: {
-          id: id,
           full_name: "Test User API",
           user_name: "test_user_api",
           code: "test/code",
           email: "test_user_api@localhost.com",
           agency_id: @agency_1.id,
-          role_id: @role.id,
-          module_ids: @cp.id,
+          role_unique_id: @role.id,
           password_confirmation: "a12345678",
           password: "a12345678"
         }
@@ -272,7 +274,6 @@ describe Api::V2::UsersController, type: :request do
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq("/api/v2/users")
-      expect(User.find_by(id: id)).to be_nil
     end
 
     it 'returns a 409 if record already exists' do
@@ -280,7 +281,7 @@ describe Api::V2::UsersController, type: :request do
         permissions:[
           Permission.new(:resource => Permission::USER, :actions => [Permission::CREATE])
       ])
-      params = { 
+      params = {
         data: {
           id: @user_1.id,
           full_name: "Test User 5",
@@ -288,8 +289,7 @@ describe Api::V2::UsersController, type: :request do
           code: "test/code",
           email: "test_user_5@localhost.com",
           agency_id: @agency_1.id,
-          role_id: @role.id,
-          module_ids: @cp.id,
+          role_unique_id: @role.unique_id,
           password_confirmation: "a12345678",
           password: "a12345678"
         }
@@ -307,7 +307,7 @@ describe Api::V2::UsersController, type: :request do
         permissions:[
           Permission.new(:resource => Permission::USER, :actions => [Permission::CREATE])
       ])
-      params = { 
+      params = {
         data: {
           id: @user_1.id,
           full_name: "Test User 5",
@@ -315,16 +315,15 @@ describe Api::V2::UsersController, type: :request do
           code: "test/code",
           email: "test_user_5@localhost.com",
           agency_id: @agency_1.id,
-          role_id: @role.id,
-          module_ids: @cp.id
+          role_unique_id: @role.unique_id
         }
       }
       post "/api/v2/users", params: params
 
       expect(response).to have_http_status(422)
-      expect(json['errors'].size).to eq(1)
+      expect(json['errors'].size).to eq(2)
       expect(json['errors'][0]['resource']).to eq("/api/v2/users")
-      expect(json['errors'][0]['detail']).to eq("password")
+      expect(json['errors'].map{ |e| e['detail'] }).to contain_exactly('password', 'password_confirmation')
     end
   end
 
@@ -342,9 +341,10 @@ describe Api::V2::UsersController, type: :request do
         ],
         group_permission: Permission::ADMIN_ONLY
       )
-      params = { 
+      params = {
         data: {
-          full_name: "Updated User 1"
+          full_name: "Updated User 1",
+          user_group_unique_ids: ['user-group-1']
         }
       }
 
@@ -354,12 +354,14 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data']['id']).to eq(@user_1.id)
 
       user1 = User.find_by(id: @user_1.id)
+
       expect(user1.full_name).to eq('Updated User 1')
+      expect(user1.user_groups.map(&:unique_id)).to eq(params[:data][:user_group_unique_ids])
     end
 
     it "returns 403 if user isn't authorized to update users" do
       login_for_test
-      params = { 
+      params = {
         data: {
           full_name: "Updated User 1"
         }
@@ -375,7 +377,7 @@ describe Api::V2::UsersController, type: :request do
     it "returns a 404 when trying to update a user with a non-existant id" do
       login_for_test
 
-      params = { 
+      params = {
         data: {
           full_name: "Updated User 1"
         }
@@ -400,9 +402,9 @@ describe Api::V2::UsersController, type: :request do
         ],
         group_permission: Permission::ADMIN_ONLY
       )
-      params = { 
+      params = {
         data: {
-           email: "test_user_2@localhost.com",
+           email: "@localhost.com",
         }
       }
 
@@ -469,12 +471,6 @@ describe Api::V2::UsersController, type: :request do
   end
 
   after :each do
-    FormSection.destroy_all
-    PrimeroModule.destroy_all
-    Role.destroy_all
-    User.destroy_all
-    Agency.destroy_all
-    PrimeroProgram.destroy_all
+    clean_data(FormSection, PrimeroModule, Role, User, Agency, PrimeroProgram, UserGroup)
   end
-
 end

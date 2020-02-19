@@ -1,16 +1,22 @@
-module Api::V2
-  class UsersController < ApplicationApiController
-    include Concerns::Pagination
+# frozen_string_literal: true
 
-    before_action :user_params, only: [:create, :update]
-    before_action :load_user, only: [:show, :update, :destroy]
-    before_action :load_extended, only: [:index, :show]
+module Api::V2
+  # Users CRUD API
+  class UsersController < ApplicationApiController
+    include Api::V2::Concerns::Pagination
+
+    before_action :user_params, only: %i[create update]
+    before_action :load_user, only: %i[show update destroy]
+    before_action :load_extended, only: %i[index show]
+    after_action :welcome, only: %i[create]
+    after_action :identity_sync, only: %i[create update]
 
     def index
       authorize! :index, User
       filters = params.permit(:agency, :location, :services, :disabled).to_h
       results = User.find_permitted_users(
-        filters.compact, pagination, { user_name: :asc}, current_user)
+        filters.compact, pagination, { user_name: :asc }, current_user
+      )
       @users = results[:users]
       @total = results[:total]
     end
@@ -30,7 +36,8 @@ module Api::V2
     def update
       authorize! :disable, @user if @user_params.include?('disabled')
       authorize! :edit_user, @user
-      @user.update_attributes!(@user_params)
+      @user.update_with_properties(@user_params)
+      @user.save!
     end
 
     def destroy
@@ -41,18 +48,23 @@ module Api::V2
     protected
 
     def user_params
-      @user_params = params.require(:data).permit(
-        (User.attribute_names + User.password_parameters) - User.hidden_attributes
-      )
+      @user_params = params.require(:data).permit(User.permitted_api_params)
     end
 
     def load_user
-      @user = User.find(params[:id])
+      @user = User.includes(:role).joins(:role).find(params[:id])
     end
 
     def load_extended
       @extended = params[:extended].present? && params[:extended] == 'true'
     end
 
+    def welcome
+      @user.send_welcome_email(current_user)
+    end
+
+    def identity_sync
+      @user.identity_sync(current_user)
+    end
   end
 end

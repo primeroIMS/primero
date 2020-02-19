@@ -8,38 +8,36 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
 
   # Specifies the header that your server uses for sending files
-  config.action_dispatch.x_sendfile_header = "X-Sendfile"
+  config.action_dispatch.x_sendfile_header = 'X-Sendfile'
+  config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
 
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
-  config.public_file_server.enabled = false
+  config.public_file_server.enabled = ::ActiveRecord::Type::Boolean.new.cast(ENV['RAILS_PUBLIC_FILE_SERVER'])
   # config.serve_static_files = false
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  # Asset pipeline
-  config.assets.compress = true
-  config.assets.compile = true
-  config.assets.digest = true
-  config.assets.js_compressor = :uglifier
-  config.assets.css_compressor = :sass
-  config.assets.cache_store = :memory_store
-
-  config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
-
-  config.assets.paths << Rails.root.join("assets")
-
   config.eager_load = true
 
-  config.filter_parameters += [:child, :incident, :tracing_request]
+  config.filter_parameters += %i[child incident tracing_request]
 
   config.log_level = :debug
+
+  if ENV['LOG_TO_STDOUT'].present?
+    config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+  end
 
   # WARNING **
   # NEVER UNSET THIS OR YOU WILL BREAK THINGS!
   # config.force_ssl = true
 
-  # Store uploaded files on the local file system (see config/storage.yml for options)
-  config.active_storage.service = :local
+
+  storage_type = %w[local microsoft amazon].find do |t|
+    t == ENV['PRIMERO_STORAGE_TYPE']
+  end || 'local'
+  config.active_storage.service = storage_type.to_sym
+
+  config.active_job.queue_adapter = :backburner
 end

@@ -1,39 +1,62 @@
-import chai, { expect } from "chai";
-import { Map, List } from "immutable";
-import chaiImmutable from "chai-immutable";
+import { expect } from "chai";
+import { fromJS } from "immutable";
+
+import { FieldRecord } from "../form";
 
 import * as selectors from "./selectors";
 
-chai.use(chaiImmutable);
-
-const stateWithNoRecords = Map({});
-const stateWithRecords = Map({
-  records: Map({
-    TestRecordType: Map({
-      loading: true,
-      data: List([Map({ id: 1 })]),
-      filters: Map({
-        gender: "male"
-      }),
-      metadata: Map({ per: 20 })
-    })
-  })
+const agencies = fromJS([
+  { name: "Name", field_name: "agency.name", id_search: false },
+  {
+    name: "Description",
+    field_name: "agency.description",
+    id_search: false
+  }
+]);
+const field = FieldRecord({
+  display_name: "Test Field 1",
+  name: "test_field_1",
+  type: "text_field"
+});
+const stateWithoutRecords = fromJS({});
+const stateWithRecords = fromJS({
+  user: {
+    listHeaders: {
+      agencies
+    }
+  },
+  forms: {
+    fields: field
+  }
 });
 
 describe("<RecordList /> - Selectors", () => {
-  const recordType = "TestRecordType";
+  describe("getListHeaders", () => {
+    it("should return list of headers allowed to the user", () => {
+      const expected = agencies;
+      const values = selectors.getListHeaders(stateWithRecords, "agencies");
 
-  describe("selectListHeaders", () => {
-    it("should return records", () => {
-      const expected = List([Map({ id: 1 })]);
-      const records = selectors.selectRecords(stateWithRecords, recordType);
-      expect(records).to.deep.equal(expected);
+      expect(values).to.deep.equal(agencies);
     });
 
-    it("should return empty object when records empty", () => {
-      const expected = List([]);
-      const records = selectors.selectRecords(stateWithNoRecords, recordType);
-      expect(records).to.deep.equal(expected);
+    it("should return false when there are not users in store", () => {
+      const values = selectors.getListHeaders(stateWithoutRecords);
+
+      expect(values).to.be.empty;
+    });
+  });
+
+  describe("getFields", () => {
+    it("should return all fields", () => {
+      const values = selectors.getFields(stateWithRecords);
+
+      expect(values).to.deep.equal(field);
+    });
+
+    it("should return undefined when there are not messages in store", () => {
+      const values = selectors.getFields(stateWithoutRecords);
+
+      expect(values).to.be.empty;
     });
   });
 });

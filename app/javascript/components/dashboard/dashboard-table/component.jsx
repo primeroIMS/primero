@@ -1,8 +1,15 @@
+import { useDispatch } from "react-redux";
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import React from "react";
+import { push } from "connected-react-router";
 
-const DashboardTable = ({ columns, data }) => {
+import { dataToJS } from "../../../libs";
+import { ROUTES } from "../../../config";
+import { buildFilter } from "../helpers";
+
+const DashboardTable = ({ columns, data, query }) => {
+  const dispatch = useDispatch();
   const options = {
     responsive: "stacked",
     fixedHeader: false,
@@ -17,21 +24,39 @@ const DashboardTable = ({ columns, data }) => {
     customToolbarSelect: () => null,
     onTableChange: () => null,
     pagination: false,
-    selectableRows: "none"
+    selectableRows: "none",
+    sort: false,
+    onCellClick: (colData, cellMeta) => {
+      const { colIndex, rowIndex } = cellMeta;
+      const columnName = columns[colIndex].name;
+      const clickedCellQuery = query[rowIndex][columnName];
+
+      if (Array.isArray(clickedCellQuery)) {
+        dispatch(
+          push({
+            pathname: ROUTES.cases,
+            search: buildFilter(clickedCellQuery, true)
+          })
+        );
+      }
+    }
   };
 
   const tableOptions = {
     columns,
     options,
-    data: data.toJS()
+    data: dataToJS(data)
   };
 
   return <MUIDataTable {...tableOptions} />;
 };
 
+DashboardTable.displayName = "DashboardTable";
+
 DashboardTable.propTypes = {
-  columns: PropTypes.array.isRequired,
-  data: PropTypes.object.isRequired
+  columns: PropTypes.array,
+  data: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  query: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
 };
 
 export default DashboardTable;

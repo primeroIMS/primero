@@ -1,68 +1,20 @@
-import chai, { expect } from "chai";
-import { Map, List } from "immutable";
-import chaiImmutable from "chai-immutable";
+import { expect } from "chai";
+import { fromJS } from "immutable";
 
-import * as selectors from "./selectors";
+import { selectUseIdentityProvider } from "./selectors";
 
-chai.use(chaiImmutable);
-
-const stateWithNoRecords = Map({});
-const stateWithRecords = Map({
-  user: Map({
-    module: "gbv",
-    agency: "unicef",
-    isAuthenticated: true,
-    messages: null
-  })
+const stateWithProviders = fromJS({
+  idp: {
+    use_identity_provider: true
+  }
 });
 
 describe("<Login /> - Selectors", () => {
+  describe("selectUseIdentityProvider", () => {
+    it("should return identity providers", () => {
+      const useProviders = selectUseIdentityProvider(stateWithProviders);
 
-  describe("selectModule", () => {
-    it("should return records", () => {
-      const records = selectors.selectModule(stateWithRecords);
-      expect(records).to.deep.equal("gbv");
-    });
-
-    it("should return empty object when records empty", () => {
-      const records = selectors.selectModule(stateWithNoRecords);
-      expect(records).to.be.undefined;
-    });
-  });
-
-  describe("selectAgency", () => {
-    it("should return records", () => {
-      const records = selectors.selectAgency(stateWithRecords);
-      expect(records).to.deep.equal("unicef");
-    });
-
-    it("should return empty object when records empty", () => {
-      const records = selectors.selectAgency(stateWithNoRecords);
-      expect(records).to.be.undefined;
-    });
-  });
-
-  describe("selectAuthErrors", () => {
-    it("should return records meta", () => {
-      const meta = selectors.selectAuthErrors(stateWithRecords);
-      expect(meta).to.deep.equal("");
-    });
-
-    it("should return empty object when records empty", () => {
-      const meta = selectors.selectAuthErrors(stateWithNoRecords);
-      expect(meta).to.deep.equal("");
-    });
-  });
-
-  describe("selectAuthenticated", () => {
-    it("should return records meta", () => {
-      const meta = selectors.selectAuthenticated(stateWithRecords);
-      expect(meta).to.deep.equal(true);
-    });
-
-    it("should return empty object when records empty", () => {
-      const meta = selectors.selectAuthenticated(stateWithNoRecords);
-      expect(meta).to.deep.equal(false);
+      expect(useProviders).to.equal(true);
     });
   });
 });

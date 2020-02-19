@@ -31,47 +31,24 @@ The recordType must be a cases, tracing_requests or incidents.
 
 ```json
 {
-    "data": [
-        {
-            "record_id": "749e9c6e-60db-45ec-8f5a-69da7c223a79",
-            "record_type": "Child",
-            "date": "2019-08-01",
-            "message": "This is a flag",
-            "flagged_by": "primero",
-            "removed": false,
-            "unflag_message": null,
-            "created_at": "2019-08-19T13:47:18.182Z",
-            "system_generated_followup": false,
-            "unflagged_by": null,
-            "unflagged_date": null
-        },
-        {
-            "record_id": "749e9c6e-60db-45ec-8f5a-69da7c223a79",
-            "record_type": "Child",
-            "date": "2019-08-01",
-            "message": "This is a flag",
-            "flagged_by": "primero",
-            "removed": false,
-            "unflag_message": null,
-            "created_at": "2019-08-16T22:11:16.737Z",
-            "system_generated_followup": false,
-            "unflagged_by": null,
-            "unflagged_date": null
-        },
-        {
-            "record_id": "749e9c6e-60db-45ec-8f5a-69da7c223a79",
-            "record_type": "Child",
-            "date": "2019-08-01",
-            "message": "This is a flag",
-            "flagged_by": "primero",
-            "removed": false,
-            "unflag_message": null,
-            "created_at": "2019-08-16T22:03:34.511Z",
-            "system_generated_followup": false,
-            "unflagged_by": null,
-            "unflagged_date": null
+    "data": {
+        "id": 4,
+        "record_id": "860ee0ca-0165-4ab8-8750-663cec9fb320",
+        "record_type": "cases",
+        "date": "2019-08-03",
+        "message": "This is a flag message",
+        "flagged_by": "primero",
+        "removed": false,
+        "unflag_message": null,
+        "created_at": "2019-10-30T14:20:54.228Z",
+        "system_generated_followup": false,
+        "unflagged_by": null,
+        "unflagged_date": null,
+        "record_access_denied": false,
+        "record": {
+            "id": "860ee0ca-0165-4ab8-8750-663cec9fb320"
         }
-    ]
+    }
 }
 
 ```

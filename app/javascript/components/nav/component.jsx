@@ -1,24 +1,37 @@
-import {
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  useMediaQuery
-} from "@material-ui/core";
-import { AgencyLogo } from "components/agency-logo";
+import { Drawer, List, useMediaQuery } from "@material-ui/core";
 import React, { useEffect, useCallback } from "react";
-import { ModuleLogo } from "components/module-logo";
-import { NavLink } from "react-router-dom";
-import { useI18n } from "components/i18n";
-import { useThemeHelper } from "libs";
 import { useDispatch, useSelector } from "react-redux";
-import { MobileToolbar } from "components/mobile-toolbar";
-import { ListIcon } from "components/list-icon";
+
+import { AgencyLogo } from "../agency-logo";
+import { ModuleLogo } from "../module-logo";
+import { useI18n } from "../i18n";
+import { useThemeHelper } from "../../libs";
+import { MobileToolbar } from "../mobile-toolbar";
+import { useApp } from "../application";
+import Permission from "../application/permission";
 import { TranslationsToggle } from "../translations-toggle";
+import { PERMITTED_URL, ROUTES } from "../../config";
+import {
+  RECORD_RESOURCES,
+  READ_RECORDS,
+  READ_REPORTS,
+  RESOURCES,
+  SHOW_EXPORTS,
+  SHOW_TASKS,
+  ADMIN_RESOURCES,
+  ADMIN_ACTIONS
+} from "../../libs/permissions";
+
+import { NAME } from "./constants";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as Selectors from "./selectors";
+import {
+  selectDrawerOpen,
+  selectUsername,
+  selectUserAgency,
+  selectAlerts
+} from "./selectors";
+import MenuEntry from "./components/menu-entry";
 
 const Nav = () => {
   const { css, theme } = useThemeHelper(styles);
@@ -30,44 +43,91 @@ const Nav = () => {
     dispatch
   ]);
 
-  // TODO: Username should come from redux once user built.
-  const username = useSelector(state => Selectors.selectUsername(state));
-  const agency = useSelector(state => Selectors.selectUserAgency(state));
-  const drawerOpen = useSelector(state => Selectors.selectDrawerOpen(state));
+  useEffect(() => {
+    dispatch(actions.fetchAlerts());
+  }, []);
 
+  const { userModules } = useApp();
+  const module = userModules.first();
+
+  // TODO: Username should come from redux once user built.
+  const username = useSelector(state => selectUsername(state));
+  const agency = useSelector(state => selectUserAgency(state));
+  const drawerOpen = useSelector(state => selectDrawerOpen(state));
+  const dataAlerts = useSelector(state => selectAlerts(state));
   const nav = [
-    { name: i18n.t("navigation.home"), to: "/dashboard", icon: "home" },
-    { name: i18n.t("navigation.tasks"), to: "/tasks", icon: "tasks" },
-    { name: i18n.t("navigation.cases"), to: "/cases", icon: "cases" },
+    { name: i18n.t("navigation.home"), to: ROUTES.dashboard, icon: "home" },
+    {
+      name: i18n.t("navigation.tasks"),
+      to: ROUTES.tasks,
+      icon: "tasks",
+      resources: RESOURCES.dashboards,
+      actions: SHOW_TASKS
+    },
+    {
+      name: i18n.t("navigation.cases"),
+      to: ROUTES.cases,
+      icon: "cases",
+      jewelCount: dataAlerts.get("case"),
+      resources: RESOURCES.cases,
+      actions: READ_RECORDS
+    },
     {
       name: i18n.t("navigation.incidents"),
-      to: "/incidents",
-      icon: "incidents"
+      to: ROUTES.incidents,
+      icon: "incidents",
+      jewelCount: dataAlerts.get("incident"),
+      resources: RESOURCES.incidents,
+      actions: READ_RECORDS
     },
     {
       name: i18n.t("navigation.tracing_request"),
-      to: "/tracing_requests",
-      icon: "tracing_request"
+      to: ROUTES.tracing_requests,
+      icon: "tracing_request",
+      jewelCount: dataAlerts.get("tracing_request"),
+      resources: RESOURCES.tracing_requests,
+      actions: READ_RECORDS
     },
     {
       name: i18n.t("navigation.potential_match"),
-      to: "/matches",
-      icon: "matches"
+      to: ROUTES.matches,
+      icon: "matches",
+      resources: RESOURCES.potential_matches,
+      actions: READ_RECORDS,
+      disableOffline: true
     },
-    { name: i18n.t("navigation.reports"), to: "/reports", icon: "reports" },
+    {
+      name: i18n.t("navigation.reports"),
+      to: ROUTES.reports,
+      icon: "reports",
+      resources: RESOURCES.reports,
+      actions: READ_REPORTS,
+      disableOffline: true
+    },
     {
       name: i18n.t("navigation.bulk_exports"),
-      to: "/exports",
-      icon: "exports"
+      to: ROUTES.exports,
+      icon: "exports",
+      resources: RECORD_RESOURCES,
+      actions: SHOW_EXPORTS,
+      disableOffline: true
     },
     {
       name: i18n.t("navigation.support"),
-      to: "/support",
+      to: ROUTES.support,
       icon: "support",
       divider: true
     },
-    { name: username, to: "/account", icon: "account" },
-    { name: i18n.t("navigation.logout"), to: "/logout", icon: "logout" }
+    { name: username, to: ROUTES.account, icon: "account" },
+    {
+      name: i18n.t("navigation.settings"),
+      to: ROUTES.admin_users,
+      icon: "settings",
+      resources: ADMIN_RESOURCES,
+      actions: ADMIN_ACTIONS,
+      disableOffline: true
+    },
+    { name: i18n.t("navigation.logout"), to: ROUTES.logout, icon: "logout" }
   ];
 
   useEffect(() => {
@@ -75,6 +135,30 @@ const Nav = () => {
       openDrawer(true);
     }
   }, [drawerOpen, mobileDisplay, openDrawer]);
+
+  const permittedMenuEntries = menuEntries => {
+    return menuEntries.map(menuEntry => {
+      const renderedMenuEntries = (
+        <MenuEntry
+          key={menuEntry.to}
+          menuEntry={menuEntry}
+          mobileDisplay={mobileDisplay}
+        />
+      );
+
+      return PERMITTED_URL.includes(menuEntry.to) ? (
+        renderedMenuEntries
+      ) : (
+        <Permission
+          key={menuEntry.to}
+          resources={menuEntry.resources}
+          actions={menuEntry.actions}
+        >
+          {renderedMenuEntries}
+        </Permission>
+      );
+    });
+  };
 
   return (
     <>
@@ -92,42 +176,27 @@ const Nav = () => {
         }}
       >
         {!mobileDisplay && (
-          <ModuleLogo moduleLogo="primero" username={username} />
+          <ModuleLogo
+            moduleLogo={module ? module.unique_id : "primero"}
+            username={username}
+          />
         )}
-        <List className={css.navList}>
-          {nav.map(l => (
-            <div key={l.to}>
-              {l.divider && <div className={css.navSeparator} />}
-              <ListItem key={l.to}>
-                <NavLink
-                  to={l.to}
-                  className={css.navLink}
-                  activeClassName={css.navActive}
-                  exact
-                >
-                  <ListItemIcon classes={{ root: css.listIcon }}>
-                    <ListIcon icon={l.icon} />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={l.name}
-                    classes={{ primary: css.listText }}
-                  />
-                </NavLink>
-              </ListItem>
-            </div>
-          ))}
-        </List>
-        {/* TODO: Need to pass agency and logo path from api */}
-        <AgencyLogo
-          agency={agency && agency.unique_id}
-          logo={`${window.location.protocol}//${
-            window.location.host
-          }${(agency.logo && agency.logo.small) || ""}`}
-        />
+        <List className={css.navList}>{permittedMenuEntries(nav)}</List>
+
+        {agency && agency.get("logo") && (
+          <AgencyLogo
+            agency={agency && agency.get("unique_id")}
+            logo={`${(agency.get("logo") &&
+              agency.getIn(["logo", "small"], "")) ||
+              ""}`}
+          />
+        )}
         {!mobileDisplay && <TranslationsToggle />}
       </Drawer>
     </>
   );
 };
+
+Nav.displayName = NAME;
 
 export default Nav;

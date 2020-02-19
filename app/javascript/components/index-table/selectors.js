@@ -1,16 +1,18 @@
-import { keyIn } from "libs";
+import { Map } from "immutable";
 
-export const selectRecords = (state, namespace) => {
+import { keyIn } from "../../libs";
+
+export const getRecords = (state, namespace) => {
   const data = state.getIn(["records", namespace]);
 
   return data.filter(keyIn("data", "metadata"));
 };
 
-export const selectFilters = (state, namespace) =>
-  state.getIn(["records", namespace, "filters"], undefined);
+export const getFilters = (state, namespace) =>
+  state.getIn(["records", namespace, "filters"], Map({}));
 
-export const selectLoading = (state, namespace) =>
+export const getLoading = (state, namespace) =>
   state.getIn(["records", namespace, "loading"]);
 
-export const selectErrors = (state, namespace) =>
+export const getErrors = (state, namespace) =>
   state.getIn(["records", namespace, "errors"], false);

@@ -1,5 +1,3 @@
-export { default as Login } from "./container";
-export * from "./action-creators";
-export * from "./reducers";
-export * from "./selectors";
-export * from "./actions";
+export { default } from "./container";
+export { reducers } from "./reducers";
+export { loginSystemSettings } from "./action-creators";

@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { withSnackbar } from "notistack";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Button } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import { Link } from "react-router-dom";
+
 import { getMessages } from "./selectors";
 import { removeSnackbar, closeSnackbar } from "./action-creators";
 
@@ -17,6 +19,7 @@ class Notifier extends Component {
   shouldComponentUpdate({ messages: newSnacks = [] }) {
     if (!newSnacks.size) {
       this.displayed = [];
+
       return false;
     }
 
@@ -55,7 +58,7 @@ class Notifier extends Component {
     } = this.props;
 
     messages.forEach(m => {
-      const { message, options } = m;
+      const { message, options, actionLabel, actionUrl } = m;
 
       if (this.displayed.includes(options.key)) {
         return;
@@ -79,9 +82,21 @@ class Notifier extends Component {
           }
 
           return (
-            <IconButton onClick={handleSnackClose}>
-              <CloseIcon />
-            </IconButton>
+            <>
+              {actionLabel && actionUrl ? (
+                <Button
+                  component={Link}
+                  to={actionUrl}
+                  color="inherit"
+                  size="small"
+                >
+                  {actionLabel}
+                </Button>
+              ) : null}
+              <IconButton onClick={handleSnackClose}>
+                <CloseIcon />
+              </IconButton>
+            </>
           );
         },
         onClose: (event, reason, key) => {
@@ -106,12 +121,14 @@ class Notifier extends Component {
   }
 }
 
+Notifier.displayName = "Notifier";
+
 Notifier.propTypes = {
-  enqueueSnackbar: PropTypes.func.isRequired,
   closeSnackbar: PropTypes.func.isRequired,
+  dismissSnackbar: PropTypes.func.isRequired,
+  enqueueSnackbar: PropTypes.func.isRequired,
   messages: PropTypes.object,
-  removeSnackbar: PropTypes.func.isRequired,
-  dismissSnackbar: PropTypes.func.isRequired
+  removeSnackbar: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

@@ -1,8 +1,19 @@
-import * as Actions from "./actions";
+import { RECORD_PATH } from "../../../config";
 
-export const fetchFlags = () => async dispatch => {
-  dispatch({
-    type: Actions.DASHBOARD_FLAGS,
+import {
+  DASHBOARD_FLAGS,
+  CASES_BY_STATUS,
+  CASES_BY_CASE_WORKER,
+  CASES_REGISTRATION,
+  CASES_OVERVIEW,
+  DASHBOARDS,
+  SERVICES_STATUS,
+  OPEN_PAGE_ACTIONS
+} from "./actions";
+
+export const fetchFlags = () => {
+  return {
+    type: DASHBOARD_FLAGS,
     payload: {
       flags: [
         {
@@ -26,24 +37,24 @@ export const fetchFlags = () => async dispatch => {
       ],
       totalCount: 10
     }
-  });
+  };
 };
 
-export const fetchCasesByStatus = () => async dispatch => {
-  dispatch({
-    type: Actions.CASES_BY_STATUS,
+export const fetchCasesByStatus = () => {
+  return {
+    type: CASES_BY_STATUS,
     payload: {
       casesByStatus: {
         open: "100",
         closed: "100"
       }
     }
-  });
+  };
 };
 
-export const fetchCasesByCaseWorker = () => async dispatch => {
-  dispatch({
-    type: Actions.CASES_BY_CASE_WORKER,
+export const fetchCasesByCaseWorker = () => {
+  return {
+    type: CASES_BY_CASE_WORKER,
     payload: {
       casesByCaseWorker: [
         {
@@ -62,12 +73,12 @@ export const fetchCasesByCaseWorker = () => async dispatch => {
         }
       ]
     }
-  });
+  };
 };
 
-export const fetchCasesRegistration = () => async dispatch => {
-  dispatch({
-    type: Actions.CASES_REGISTRATION,
+export const fetchCasesRegistration = () => {
+  return {
+    type: CASES_REGISTRATION,
     payload: {
       casesRegistration: {
         jan: 150,
@@ -81,12 +92,12 @@ export const fetchCasesRegistration = () => async dispatch => {
         sep: 120
       }
     }
-  });
+  };
 };
 
-export const fetchCasesOverview = () => async dispatch => {
-  dispatch({
-    type: Actions.CASES_OVERVIEW,
+export const fetchCasesOverview = () => {
+  return {
+    type: CASES_OVERVIEW,
     payload: {
       casesOverview: {
         transfers: 4,
@@ -95,12 +106,12 @@ export const fetchCasesOverview = () => async dispatch => {
         rejected: 1
       }
     }
-  });
+  };
 };
 
-export const fetchServicesStatus = () => async dispatch => {
-  dispatch({
-    type: Actions.SERVICES_STATUS,
+export const fetchServicesStatus = () => {
+  return {
+    type: SERVICES_STATUS,
     payload: {
       services: {
         caseManagement: [
@@ -115,12 +126,19 @@ export const fetchServicesStatus = () => async dispatch => {
         ]
       }
     }
-  });
+  };
 };
 
 export const openPageActions = payload => {
   return {
-    type: Actions.OPEN_PAGE_ACTIONS,
+    type: OPEN_PAGE_ACTIONS,
     payload
   };
 };
+
+export const fetchDashboards = () => ({
+  type: DASHBOARDS,
+  api: {
+    path: RECORD_PATH.dashboards
+  }
+});

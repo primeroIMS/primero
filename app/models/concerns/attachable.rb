@@ -1,82 +1,43 @@
+# frozen_string_literal: true
+
+# Implements class methods for declaring attachments of type image, audio, and document
+# on Records. Has idiomatic methods for handing case photos
 module Attachable
   extend ActiveSupport::Concern
 
-  ATTACHMENT_TYPES = %w(images documents audio)
-  MAX_PHOTOS = 10
-  MAX_DOCUMENTS = 100
-  module ClassMethods
-    attr_accessor :attachment_images_fields, :attachment_documents_fields, :attachment_audio_fields
+  MAX_ATTACHMENTS = 100
+  PHOTOS_FIELD_NAME = 'photos'
 
-    def attach_documents(args)
-      if args[:fields].present?
-        @attachment_documents_fields = args[:fields]
-        args[:fields].each do |f|
-          validates f, length: { maximum: MAX_DOCUMENTS }
-          build_association(f, 'documents')
-        end
-      end
-    end
-
-    def attach_images(args)
-      if args[:fields].present?
-        @attachment_images_fields = args[:fields]
-        args[:fields].each do |f|
-          validates f, length: { maximum: MAX_PHOTOS }
-          build_association(f, 'images')
-        end
-      end
-    end
-
-    def attach_audio(args)
-      if args[:fields].present?
-        @attachment_audio_fields = args[:fields]
-        args[:fields].each do |f|
-          build_association(f, 'audio')
-        end
-      end
-    end
-
-    def attachment_model(type)
-      "Attachment#{type.singularize.titleize}"
-    end
-
-    def compact_properties(properties={})
-      properties.each { |attachments| attachments.compact! }.delete_if &:empty?
-    end
-
-    private
-
-    def build_association(field, type)
-      build_attachment_association(field, attachment_model(type))
-      accepts_nested_attributes_for(field, allow_destroy: true)
-    end
-
-    def build_attachment_association(field_name, class_name)
-      has_many field_name, -> { where record_field_scope: field_name.to_s },
-        as: :record, class_name: class_name
-    end
+  included do
+    has_many :attachments, -> { order('date DESC NULLS LAST') }, as: :record
+    validate :maximum_attachments_exceeded
   end
 
-  def set_attachment_fields(record_data)
-    ATTACHMENT_TYPES.each do |type|
-      fields = self.class.try(:"attachment_#{type}_fields")
+  def has_photo
+    @has_photo ||= current_photo.count.positive?
+  end
+  alias has_photo? has_photo
+  alias photo? has_photo
 
-      if fields.present?
-        fields.each do |f|
-          if record_data[f.to_s].present?
-            attachments = self.class.compact_properties(record_data[f.to_s])
+  def photo
+    @photo ||= current_photo.first
+  end
 
-            attachments.each do |attachment|
-              if attachment['id'].present?
-                self.send("#{f}_attributes=".to_sym, [attachment])
-              else
-                self.send(f).send(:build, attachment)
-              end
-            end
-            self.data.delete(f.to_s)
-          end
-        end
-      end
-    end
+  def photo_url
+    return unless photo&.file
+
+    Rails.application.routes.url_helpers.rails_blob_path(photo.file, only_path: true)
+  end
+
+  private
+
+  def current_photo
+    @current_photo ||= attachments.where(field_name: PHOTOS_FIELD_NAME)
+  end
+
+  def maximum_attachments_exceeded
+    return unless attachments.count > (MAX_ATTACHMENTS - 1)
+
+    errors[:attachments] << 'errors.attachments.maximum'
   end
 end

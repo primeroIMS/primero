@@ -10,11 +10,14 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { RadioGroup } from "formik-material-ui";
-import { FastField, connect, getIn } from "formik";
+import { Field, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
 import { useSelector } from "react-redux";
-import { useI18n } from "components/i18n";
+
+import { useI18n } from "../../i18n";
 import { getOption } from "../selectors";
+
+import { RADIO_FIELD_NAME } from "./constants";
 import styles from "./styles.css";
 
 const RadioField = ({
@@ -45,7 +48,14 @@ const RadioField = ({
   const fieldProps = {
     name,
     ...omitBy(rest, (v, k) =>
-      ["InputProps", "helperText", "InputLabelProps", "fullWidth"].includes(k)
+      [
+        "InputProps",
+        "helperText",
+        "InputLabelProps",
+        "fullWidth",
+        "recordType",
+        "recordID"
+      ].includes(k)
     )
   };
 
@@ -57,7 +67,7 @@ const RadioField = ({
       <InputLabel shrink htmlFor={fieldProps.name} className={css.inputLabel}>
         {label}
       </InputLabel>
-      <FastField
+      <Field
         {...fieldProps}
         render={({ form }) => {
           return (
@@ -74,7 +84,7 @@ const RadioField = ({
                     <FormControlLabel
                       key={o.id}
                       value={o.id.toString()}
-                      label={o.display_text}
+                      label={o.display_text[i18n.locale]}
                       {...radioProps}
                     />
                   ))}
@@ -90,13 +100,15 @@ const RadioField = ({
   );
 };
 
+RadioField.displayName = RADIO_FIELD_NAME;
+
 RadioField.propTypes = {
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  helperText: PropTypes.string,
   disabled: PropTypes.bool,
   field: PropTypes.object.isRequired,
-  formik: PropTypes.object.isRequired
+  formik: PropTypes.object.isRequired,
+  helperText: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired
 };
 
 export default connect(RadioField);

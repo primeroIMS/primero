@@ -3,12 +3,14 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
 import { Card, CardContent } from "@material-ui/core";
-import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { PageContainer, PageHeading } from "components/page-container";
+
+import { useI18n } from "../../i18n";
+import { PageContainer, PageHeading, PageContent } from "../../page";
+
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import * as selectors from "./selectors";
+import { selectPotentialMatches } from "./selectors";
 
 const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
   useEffect(() => {
@@ -66,37 +68,42 @@ const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
       ? potentialMatches.get("matches").toJS()
       : []
   };
+
   return (
     <PageContainer>
       <PageHeading title="Matches" />
-      <Card>
-        <CardContent>
-          <h4>
-            {i18n.t("potential_matches.display", {
-              type: i18n.t("forms.record_types.tracing_request"),
-              id: potentialMatches.get("tracingRequestId")
-            })}
-          </h4>
-          <div className={css.firstTable}>
-            <MUIDataTable {...tracingRequestTableOptions} />
-          </div>
-          <div className={css.lastTable}>
-            <MUIDataTable {...matchesTableOptions} />
-          </div>
-        </CardContent>
-      </Card>
+      <PageContent>
+        <Card>
+          <CardContent>
+            <h4>
+              {i18n.t("potential_matches.display", {
+                type: i18n.t("forms.record_types.tracing_request"),
+                id: potentialMatches.get("tracingRequestId")
+              })}
+            </h4>
+            <div className={css.firstTable}>
+              <MUIDataTable {...tracingRequestTableOptions} />
+            </div>
+            <div className={css.lastTable}>
+              <MUIDataTable {...matchesTableOptions} />
+            </div>
+          </CardContent>
+        </Card>
+      </PageContent>
     </PageContainer>
   );
 };
 
+PotentialMatches.displayName = "PotentialMatches";
+
 PotentialMatches.propTypes = {
-  potentialMatches: PropTypes.object.isRequired,
-  fetchPotentialMatches: PropTypes.func.isRequired
+  fetchPotentialMatches: PropTypes.func.isRequired,
+  potentialMatches: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    potentialMatches: selectors.selectPotentialMatches(state)
+    potentialMatches: selectPotentialMatches(state)
   };
 };
 

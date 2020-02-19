@@ -761,8 +761,8 @@ describe "record field model" do
     form = FormSection.create :name => 'test_form2', :unique_id => 'test_form', :fields => fields
     expect(fields.first.errors.count).to eq(0)
     fields.first.errors[:name].should == []
-    expect(fields.last.errors.count).to be > 0
-    fields.last.errors[:name].should == ["Field already exists on this form"]
+    expect(form.errors.count).to be > 0
+    form.errors[:fields].should == ['errors.models.form_section.unique_field_names']
     #Because it fails save, fields remains new.
     expect(fields.first.new_record?).to be_truthy
     expect(fields.last.new_record?).to be_truthy
@@ -1252,8 +1252,8 @@ describe "record field model" do
 
   describe "find fields of type subform that are linked to a subform_append_only form" do
     before do
-      FormSection.delete_all
-      Field.delete_all
+      FormSection.destroy_all
+      Field.destroy_all
       subform_append_only = FormSection.create!(unique_id: 'subform_append_only', name_en: "Subform Append Only", subform_append_only: true, is_nested: true)
       subform_regular = FormSection.create!(unique_id: 'subform_regular', name_en: "Subform Regular", is_nested: true)
 

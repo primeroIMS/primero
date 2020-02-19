@@ -1,6 +1,5 @@
 class SearchFilterService
-
-  EXCLUDED = %w(format controller action page per order order_by fields)
+  EXCLUDED = %w[format controller action page per order order_by fields id_search].freeze
 
   def self.build_filters(params, permitted_field_names)
     service = SearchFilterService.new
@@ -13,7 +12,7 @@ class SearchFilterService
     params.map do |key, value|
       if key == 'or'
         if value.is_a?(Array)
-          SearchFilters::Or.new(filters: value.map{|v| build_filters(v).first})
+          SearchFilters::Or.new(filters: value.map { |v| build_filters(v).first })
         elsif value.is_a?(Hash)
           SearchFilters::Or.new(filters: build_filters(value))
         end
@@ -25,17 +24,16 @@ class SearchFilterService
         end
       elsif value.is_a?(Array)
         SearchFilters::ValueList.new(field_name: key, values: value)
+      elsif key.start_with?('!')
+        SearchFilters::NotValue.new(field_name: key[1..-1], value: value)
       else
         SearchFilters::Value.new(field_name: key, value: value)
       end
     end
-
   end
 
   def select_filter_params(params, permitted_field_names)
-    filter_params = params.reject{|key,_| EXCLUDED.include?(key)}
-    filter_params.select{|key, _| permitted_field_names.include?(key)}
+    filter_params = params.reject { |key, _| EXCLUDED.include?(key) }
+    filter_params.select { |key, _| permitted_field_names.include?(key) }
   end
-
-
 end

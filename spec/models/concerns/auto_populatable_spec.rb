@@ -19,6 +19,7 @@ describe AutoPopulatable do
                                         separator: '-', auto_populated: false)
 
       @system_settings = SystemSettings.create(default_locale: "en", auto_populate_list: [ap1, ap2, ap3, ap4])
+      SystemSettings.stub(:current).and_return(SystemSettings.first)
     end
 
     context 'and auto_populated is true' do
@@ -228,6 +229,10 @@ describe AutoPopulatable do
           expect(@t1.auto_populate('no_code')).to be_nil
         end
       end
+    end
+
+    after :each do
+      SystemSettings.destroy_all
     end
   end
 

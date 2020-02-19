@@ -74,21 +74,9 @@ module ReportableNestedRecord
           fields.each{|f| integer(f){record_value(f)}}
         when 'location'
           fields.each do |field|
-            #TODO - Refactor needed
-            #TODO - There is a lot of similarity to Admin Level code in searchable concern
             Location::ADMIN_LEVELS.each do |admin_level|
               string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
-                location = Location.find_by(location_code: record_value(field))
-                if location.present?
-                  # break if admin_level > location.admin_level
-                  if admin_level == location.admin_level
-                    location.location_code
-                  elsif location.admin_level.present? && (admin_level < location.admin_level)
-                    # find the ancestor with the current admin_level
-                    lct = location.ancestors.select{|l| l.admin_level == admin_level}
-                    lct.present? ? lct.first.location_code : nil
-                  end
-                end
+                Location.value_for_index(record_value(field), admin_level)
               end
             end
           end
@@ -102,9 +90,9 @@ module ReportableNestedRecord
           case field.type
           when Field::SELECT_BOX, Field::RADIO_BUTTON
             if field.multi_select
-              string(field.name, as: "#{field.name}_sci".to_sym) {object_value(field.name)}
-            else
               string(field.name, multiple: true) {object_value(field.name)}
+            else
+              string(field.name, as: "#{field.name}_sci".to_sym) {object_value(field.name)}
             end
           when Field::TICK_BOX
             boolean(field.name) {object_value(field.name)}

@@ -1,122 +1,192 @@
 import qs from "qs";
-import { attemptSignout } from "components/user";
-import { FETCH_TIMEOUT } from "config";
-import { push } from "connected-react-router";
 
-export const queryParams = {
+import { attemptSignout } from "../components/user";
+import { FETCH_TIMEOUT } from "../config";
+import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
+import { signOut } from "../components/pages/login/idp-selection";
+
+import { handleSuccessCallback, isOnline } from "./utils";
+
+const defaultFetchOptions = {
+  method: "GET",
+  mode: "same-origin",
+  credentials: "same-origin",
+  cache: "no-cache",
+  redirect: "follow",
+  headers: {
+    "content-type": "application/json"
+  }
+};
+
+const queryParams = {
   toString: obj => qs.stringify(obj),
   parse: str => qs.parse(str)
 };
 
+function fetchStatus({ store, type }, action, loading) {
+  store.dispatch({
+    type: `${type}_${action}`,
+    payload: loading
+  });
+}
+
+function buildPath(path, options, params, external) {
+  const endpoint = external ? path : `${options.baseUrl}/${path}`;
+
+  return `${endpoint}${params ? `?${queryParams.toString(params)}` : ""}`;
+}
+
+async function handleSuccess(store, payload) {
+  const { type, json, db, fromQueue } = payload;
+  const payloadFromDB = await syncIndexedDB(db, json);
+
+  if (fromQueue) {
+    queueIndexedDB.delete(fromQueue);
+  }
+
+  store.dispatch({
+    type: `${type}_SUCCESS`,
+    payload: payloadFromDB
+  });
+}
+
 const getToken = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  return user ? user.token : null;
+  return sessionStorage.getItem("msal.idtoken");
 };
 
-const restMiddleware = options => store => next => action => {
-  if (!(action.api && "path" in action.api)) {
-    return next(action);
-  }
-
-  // TODO: We will store this elsewhere in the future. This is not secure
-  const token = getToken();
-
-  const headers = {
-    "content-type": "application/json"
-  };
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
+function fetchPayload(action, store, options) {
   const controller = new AbortController();
 
   setTimeout(() => {
     controller.abort();
   }, FETCH_TIMEOUT);
 
-  const defaultFetchOptions = {
-    method: "GET",
-    mode: "same-origin",
-    credentials: "same-origin",
-    cache: "no-cache",
-    redirect: "follow",
-    headers: new Headers(headers),
-    signal: controller.signal
+  const {
+    type,
+    api: {
+      path,
+      body,
+      params,
+      method,
+      normalizeFunc,
+      successCallback,
+      failureCallback,
+      db,
+      external
+    },
+    fromQueue
+  } = action;
+
+  const fetchOptions = {
+    ...defaultFetchOptions,
+    method,
+    signal: controller.signal,
+    ...(body && { body: JSON.stringify(body) })
   };
 
-  const { type, api } = action;
-  const { path, body, params, method, normalizeFunc, successCallback } = api;
-  const fetchOptions = Object.assign({}, defaultFetchOptions, { method });
+  const token = getToken();
 
-  let fetchPath = `${options.baseUrl}/${path}`;
+  const headers = {};
 
-  if (body) {
-    fetchOptions.body = JSON.stringify(body);
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
   }
 
-  if (params) {
-    fetchPath += `?${queryParams.toString(params)}`;
-  }
+  fetchOptions.headers = new Headers(
+    Object.assign(fetchOptions.headers, headers)
+  );
+
+  const fetchPath = buildPath(path, options, params, external);
 
   const fetch = async () => {
-    store.dispatch({
-      type: `${type}_STARTED`,
-      payload: true
-    });
+    fetchStatus({ store, type }, "STARTED", true);
 
     try {
       const response = await window.fetch(fetchPath, fetchOptions);
       const json = await response.json();
 
       if (!response.ok) {
-        store.dispatch({
-          type: `${type}_FAILURE`,
-          payload: json
-        });
+        fetchStatus({ store, type }, "FAILURE", json);
 
         if (response.status === 401) {
-          store.dispatch(attemptSignout());
+          const usingIdp = store
+            .getState()
+            .getIn(["idp", "use_identity_provider"]);
+
+          store.dispatch(attemptSignout(usingIdp, signOut));
         }
+        handleSuccessCallback(store, failureCallback, response, json);
       } else {
-        store.dispatch({
-          type: `${type}_SUCCESS`,
-          payload: normalizeFunc ? normalizeFunc(json.data).entities : json
+        await handleSuccess(store, {
+          type,
+          json,
+          normalizeFunc,
+          path,
+          db,
+          fromQueue
         });
-
-        if (successCallback) {
-          const isCallbackObject = typeof successCallback === "object";
-          const successPayload = isCallbackObject
-            ? {
-                type: successCallback.action,
-                payload: successCallback.payload
-              }
-            : {
-                type: successCallback,
-                payload: { response, json }
-              };
-
-          store.dispatch(successPayload);
-
-          if (isCallbackObject && successCallback.redirect) {
-            store.dispatch(push(successCallback.redirect));
-          }
-        }
+        handleSuccessCallback(
+          store,
+          successCallback,
+          response,
+          json,
+          fromQueue
+        );
       }
-
-      store.dispatch({
-        type: `${type}_FINISHED`,
-        payload: false
-      });
+      fetchStatus({ store, type }, "FINISHED", false);
     } catch (e) {
-      store.dispatch({
-        type: `${type}_FAILURE`,
-        payload: true
-      });
+      // eslint-disable-next-line no-console
+      console.warn(e);
+      fetchStatus({ store, type }, "FAILURE", false);
+      handleSuccessCallback(store, failureCallback, {}, {});
     }
   };
 
   return fetch();
+}
+
+const fetchFromCache = (action, store, options, next) => {
+  const {
+    type,
+    api: { db }
+  } = action;
+
+  const fetch = async () => {
+    const manifest = await DB.getRecord("manifests", db?.collection);
+
+    if (manifest?.name === db?.manifest) {
+      try {
+        const payloadFromDB = await syncIndexedDB(db, action, METHODS.READ);
+
+        store.dispatch({
+          type: `${type}_SUCCESS`,
+          payload: payloadFromDB
+        });
+
+        fetchStatus({ store, type }, "FINISHED", false);
+
+        return next(action);
+      } catch {
+        fetchStatus({ store, type }, "FAILURE", false);
+      }
+    }
+
+    return fetchPayload(action, store, options);
+  };
+
+  return fetch();
+};
+
+const restMiddleware = options => store => next => action => {
+  if (!(action.api && "path" in action.api) || !isOnline(store)) {
+    return next(action);
+  }
+
+  if (action?.api?.db?.alwaysCache) {
+    return fetchFromCache(action, store, options, next);
+  }
+
+  return fetchPayload(action, store, options);
 };
 
 export default restMiddleware;

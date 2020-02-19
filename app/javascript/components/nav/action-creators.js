@@ -1,8 +1,17 @@
-import * as Actions from "./actions";
+import { RECORD_PATH } from "../../config";
+
+import { OPEN_DRAWER, FETCH_ALERTS } from "./actions";
 
 export const openDrawer = payload => {
   return {
-    type: Actions.OPEN_DRAWER,
+    type: OPEN_DRAWER,
     payload
   };
 };
+
+export const fetchAlerts = () => ({
+  type: FETCH_ALERTS,
+  api: {
+    path: RECORD_PATH.alerts
+  }
+});

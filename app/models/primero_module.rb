@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PrimeroModule < ApplicationRecord
   include Configuration
 
@@ -11,8 +13,6 @@ class PrimeroModule < ApplicationRecord
     :user_group_filter
 
   belongs_to :primero_program
-
-  has_and_belongs_to_many :users
   has_and_belongs_to_many :form_sections, inverse_of: :primero_modules
 
   validates :name, presence: { message: I18n.t("errors.models.primero_module.name_present") },
@@ -80,15 +80,16 @@ class PrimeroModule < ApplicationRecord
     find_by(unique_id: MRM)
   end
 
-  class << self
+  def form_section_unique_ids
+    form_sections.pluck(:unique_id)
+  end
 
-    alias super_clear clear
-    def clear
-      self.all.each do |pm|
-        pm.users.destroy(pm.users)
-      end
-      super_clear
-    end
+  def update_with_properties(params)
+    assign_attributes(params.except('form_section_unique_ids'))
+    self.form_sections = FormSection.where(unique_id: params[:form_section_unique_ids])
+  end
+
+  class << self
 
     alias super_import import
     def import(data)

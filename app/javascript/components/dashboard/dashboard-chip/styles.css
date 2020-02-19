@@ -9,13 +9,18 @@
   }
 
   &.medium {
-    border: solid 1px #B4B4B4;
-    background-color: $(theme.primero.colors.white);
-    color: #b4b4b4;
+    border: solid 1px #f76900;
+    background-color: #e7712d;
   }
 
   &.low {
     border: solid 1px #F2B417;
     background-color: #F2B417;
+  }
+
+  &.noaction {
+    border: solid 1px #B4B4B4;
+    background-color: $(theme.primero.colors.white);
+    color: #b4b4b4;
   }
 }

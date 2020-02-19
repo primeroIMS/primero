@@ -1,0 +1,110 @@
+trigger:
+  branches:
+    exclude:
+      - maint*
+  tags:
+    include:
+      - v2.*
+
+resources:
+  - repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  vmImageName: 'Ubuntu-18.04'
+  latestBranch: development_v2
+
+jobs:
+  - job: Test
+    displayName: 'Run tests'
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+      - bash: |
+          set -e
+          mkdir -p log
+          cp config/azure-devops/database.yml config/
+          cp config/azure-devops/sunspot.yml config/
+          cp config/azure-devops/mailers.yml config/
+          mkdir -p solr/data/test
+          mkdir -p solr/cores/test
+          cp config/azure-devops/core.properties solr/cores/test/
+        displayName: 'Make required directories and copy files'
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '11.15.0'
+        displayName: 'Install node'
+      - bash: npm install
+        displayName: 'Install npm packages'
+      - task: UseRubyVersion@0
+        inputs:
+          versionSpec: '= 2.6.5'
+          addToPath: true
+        displayName: 'Install ruby'
+      - bash: |
+          sudo apt-get update
+          sudo apt-get install -y libpq-dev
+          gem install bundler
+        displayName: 'Install bundler and its dependencies'
+      - bash: |
+          sudo apt-get update
+          sudo apt-get install -y libsodium-dev
+        displayName: 'Install native dependencies'
+      - bash: bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
+        displayName: 'Bundle install'
+      - bash: sudo apt-get install -y postgresql-client-10
+        displayName: 'Install postgres client'
+      - bash: docker run --rm -d -p 5432:5432 postgres:10
+        displayName: 'Start postgres'
+      - bash: |
+          bundle exec rake sunspot:solr:start
+          bundle exec rails db:drop
+          bundle exec rails db:create
+          bundle exec rails db:migrate
+          status=0
+          bundle exec rspec spec
+          status=$((${status} + $?))
+          npm run test:all
+          status=$((${status} + $?))
+          exit ${status}
+        displayName: 'Run tests'
+        env:
+          DEVISE_JWT_SECRET_KEY: $(DEVISE_JWT_SECRET_KEY)
+          DEVISE_SECRET_KEY: $(DEVISE_SECRET_KEY)
+  - job: Build
+    displayName: 'Build and push'
+    dependsOn: Test
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development_v2'))
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+      - bash: echo "##vso[task.setvariable variable=tag]$(docker/git-to-docker-tag.sh ${BUILD_SOURCEBRANCH} ${LATESTBRANCH})"
+      - task: CmdLine@2
+        displayName: 'Build Primero Docker images'
+        inputs:
+          script: './build.sh all -t $(tag) -r $(containerRegistry)'
+          workingDirectory: 'docker/'
+
+      - task: Docker@2
+        displayName: 'Application Push an image to container registry'
+        inputs:
+          containerRegistry: '$(dockerRegistryServiceConnection)'
+          repository: 'primero/application'
+          command: 'push'
+          tags: '$(tag)'
+
+      - task: Docker@2
+        displayName: 'Beanstalkd Push an image to container registry'
+        inputs:
+          containerRegistry: '$(dockerRegistryServiceConnection)'
+          repository: 'primero/beanstalkd'
+          command: 'push'
+          tags: '$(tag)'
+
+      - task: Docker@2
+        displayName: 'Solr - Push an image to container registry'
+        inputs:
+          containerRegistry: '$(dockerRegistryServiceConnection)'
+          repository: 'primero/solr'
+          command: 'push'
+          tags: '$(tag)'
