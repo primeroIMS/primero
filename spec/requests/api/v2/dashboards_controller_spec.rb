@@ -242,6 +242,9 @@ describe Api::V2::DashboardsController, type: :request do
         expect(dash['shared_from_my_team_referrals'][@user1.user_name]['count']).to eq(1)
         expect(dash['shared_from_my_team_pending_transfers'][@user1.user_name]['count']).to eq(1)
         expect(dash['shared_from_my_team_rejected_transfers'][@user1.user_name]['count']).to eq(1)
+        expect(dash['shared_from_my_team_referrals'].count).to eq(1)
+        expect(dash['shared_from_my_team_pending_transfers'].count).to eq(1)
+        expect(dash['shared_from_my_team_rejected_transfers'].count).to eq(1)
       end
 
       it 'lists statistics for permitted shared with my team dashboard dashboards' do
