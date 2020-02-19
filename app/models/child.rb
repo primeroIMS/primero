@@ -63,10 +63,6 @@ class Child < ApplicationRecord
     :displacement_status, :marital_status, :disability_type, :incident_details,
     :duplicate, :location_current, :tracing_status, :name_caregiver
 
-  attach_documents_to fields: [:other_documents, :bia_documents, :bid_documents]
-  attach_images_to fields: [:photos]
-  attach_audio_to fields: [:recorded_audio]
-
   has_many :incidents
   belongs_to :matched_tracing_request, class_name: 'TracingRequest', optional: true
 

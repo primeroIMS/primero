@@ -15,8 +15,7 @@ class Dashboard < ValueObject
     name: 'case_overview',
     type: 'indicator',
     indicators: [
-      Indicators::Case::OPEN, Indicators::Case::UPDATED,
-      Indicators::Case::CLOSED_RECENTLY
+      Indicators::Case::OPEN, Indicators::Case::UPDATED
     ]
   ).freeze
 
@@ -147,6 +146,15 @@ class Dashboard < ValueObject
     indicators: [
       Indicators::Case::GROUP_OVERVIEW_OPEN,
       Indicators::Case::GROUP_OVERVIEW_CLOSED
+    ]
+  ).freeze
+
+  DASH_SHARED_WITH_MY_TEAM = Dashboard.new(
+    name: 'dash_shared_with_my_team',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::SHARED_WITH_MY_TEAM_REFERRALS,
+      Indicators::Case::SHARED_WITH_MY_TEAM_PENDING_TRANSFERS
     ]
   ).freeze
 
