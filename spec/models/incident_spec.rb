@@ -174,16 +174,6 @@ describe Incident do
     after :all do
       FormSection.all.each { |form| form.destroy }
     end
-
-    # TODO: full text searching not implemented yet. Effects the next 13 test.
-    # it "should return all results" do
-    #   40.times do
-    #     create_incident("Exact")
-    #   end
-    #   criteria_list = SearchCriteria.build_from_params("1" => {:field => "description", :value => "Exact", :join => "AND", :display_name => "description" } )
-    #   query = SearchCriteria.lucene_query(criteria_list)
-    #   Incident.sunspot_search(1, query).last.count.should == 40
-    # end
   end
 
   describe 'save' do
@@ -330,55 +320,6 @@ describe Incident do
       incident.created_organization.should == 'UNICEF'
     end
   end
-
-  xdescribe "validation" do
-    before :each do
-      Incident.any_instance.stub(:field_definitions).and_return([])
-    end
-
-    it "should disallow uploading executable files for documents" do
-      incident = Incident.new
-      incident.upload_other_document = [{'document' => uploadable_executable_file}]
-      incident.should_not be_valid
-    end
-
-    it "should disallow uploading more than 100 documents" do
-      documents = []
-      101.times { documents.push({'document' => uploadable_photo_gif}) }
-      incident = Incident.new
-      incident.upload_other_document = documents
-      incident.should_not be_valid
-    end
-
-    it "should disallow uploading a document larger than 2 megabytes" do
-      incident = Incident.new
-      incident.upload_other_document = [{'document' => uploadable_large_photo}]
-      incident.should_not be_valid
-    end
-  end
-
-  describe "views" do
-
-    #describe "all ids and revs" do
-      #before do
-        #Child.all.each { |child| child.destroy }
-      #end
-#
-      #it "should return all _ids and revs in the system" do
-        #child1 = create_child_with_created_by("user1", :name => "child1")
-        #child2 = create_child_with_created_by("user2", :name => "child2")
-        #child3 = create_child_with_created_by("user3", :name => "child3")
-        #child1.create!
-        #child2.create!
-        #child3.create!
-#
-        #ids_and_revs = Child.fetch_all_ids_and_revs
-        #ids_and_revs.count.should == 3
-        #ids_and_revs.should =~ [{"_id" => child1.id, "_rev" => child1.rev}, {"_id" => child2.id, "_rev" => child2.rev}, {"_id" => child3.id, "_rev" => child3.rev}]
-      #end
-    #end
-  end
-
 
   describe "Batch processing" do
     before do

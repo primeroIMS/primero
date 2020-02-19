@@ -11,10 +11,18 @@ describe("records - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    expect(creators).to.have.property("setFilters");
-    expect(creators).to.have.property("fetchCases");
-    expect(creators).to.have.property("fetchIncidents");
-    expect(creators).to.have.property("fetchTracingRequests");
+    expect(creators, "DEPRECATED setFilters").to.not.have.property(
+      "setFilters"
+    );
+    expect(creators, "DEPRECATED fetchCases").to.not.have.property(
+      "fetchCases"
+    );
+    expect(creators, "DEPRECATED fetchIncidents").to.not.have.property(
+      "fetchIncidents"
+    );
+    expect(creators, "DEPRECATED fetchTracingRequests").to.not.have.property(
+      "fetchTracingRequests"
+    );
     expect(creators).to.have.property("fetchRecord");
     expect(creators).to.have.property("saveRecord");
     delete creators.setFilters;
@@ -25,78 +33,6 @@ describe("records - Action Creators", () => {
     delete creators.saveRecord;
 
     expect(creators).to.deep.equal({});
-  });
-
-  it("should check the 'fetchCases' action creator to return the correct object", () => {
-    const options = { status: "open" };
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
-
-    actionCreators.fetchCases({
-      options: { status: "open" }
-    })(dispatch);
-
-    expect(dispatch).not.to.have.been.calledWithMatch({
-      payload: options,
-      type: "cases/SET_FILTERS"
-    });
-
-    expect(dispatch).to.have.been.calledWithMatch({
-      api: {
-        db: { collection: "records", recordType: "cases" },
-        params: options,
-        path: "cases"
-      },
-      type: "cases/RECORDS"
-    });
-  });
-
-  it("should check the 'fetchIncidents' action creator to return the correct object", () => {
-    const options = { status: "open" };
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
-
-    actionCreators.fetchIncidents({
-      options: { status: "open" }
-    })(dispatch);
-
-    expect(dispatch).not.to.have.been.calledWithMatch({
-      payload: options,
-      type: "cases/SET_FILTERS"
-    });
-
-    expect(dispatch).to.have.been.calledWithMatch({
-      api: {
-        db: { collection: "records", recordType: "incidents" },
-        params: options,
-        path: "incidents"
-      },
-      type: "incidents/RECORDS"
-    });
-  });
-
-  it("should check the 'fetchTracingRequests' action creator to return the correct object", () => {
-    const options = { status: "open" };
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
-
-    actionCreators.fetchTracingRequests({
-      options: { status: "open" }
-    })(dispatch);
-
-    expect(dispatch).not.to.have.been.calledWithMatch({
-      payload: options,
-      type: "cases/SET_FILTERS"
-    });
-
-    expect(dispatch).to.have.been.calledWithMatch({
-      api: {
-        db: { collection: "records", recordType: "tracing_requests" },
-        params: options,
-        path: "tracing_requests"
-      },
-      type: "tracing_requests/RECORDS"
-    });
   });
 
   it("should check the 'fetchRecord' action creator to return the correct object", () => {

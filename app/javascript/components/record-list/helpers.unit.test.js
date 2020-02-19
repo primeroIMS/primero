@@ -1,10 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { RECORD_PATH } from "../../config";
-import { fetchCases, fetchIncidents, fetchTracingRequests } from "../records";
-
-import { buildTableColumns, getRecordsFetcherByType } from "./helpers";
+import { buildTableColumns } from "./helpers";
 
 const i18n = {
   t: name => {
@@ -48,14 +45,3 @@ describe("<RecordList /> - buildTableColumns", () => {
   });
 });
 
-describe("<RecordList /> - getRecordsFetcherByType", () => {
-  it("should return the correct fetchRecords for the type", () => {
-    expect(getRecordsFetcherByType(RECORD_PATH.cases)).to.equal(fetchCases);
-    expect(getRecordsFetcherByType(RECORD_PATH.incidents)).to.equal(
-      fetchIncidents
-    );
-    expect(getRecordsFetcherByType(RECORD_PATH.tracing_requests)).to.equal(
-      fetchTracingRequests
-    );
-  });
-});

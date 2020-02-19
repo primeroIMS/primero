@@ -116,3 +116,6 @@ export const getSharedWithOthers = state =>
 
 export const getGroupOverview = state =>
   getDashboardByName(state, DASHBOARD_NAMES.GROUP_OVERVIEW);
+
+export const getCaseOverview = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.CASE_OVERVIEW);
