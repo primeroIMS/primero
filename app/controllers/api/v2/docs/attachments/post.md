@@ -2,7 +2,7 @@
 
 Attach a file, encoded as base64, to a record
 
-**URL** : `/api/v2/:recordType/:reordId/attachments`
+**URL** : `/api/v2/:recordType/:recordId/attachments`
 
 **Method** : `POST`
 

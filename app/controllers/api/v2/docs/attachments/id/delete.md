@@ -2,7 +2,7 @@
 
 Remove a file from a record. The file will be irretrievably lost.
 
-**URL** : `/api/v2/:recordType/:reordId/attachments/:id`
+**URL** : `/api/v2/:recordType/:recordId/attachments/:id`
 
 **Method** : `DELETE`
 
