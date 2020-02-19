@@ -76,6 +76,7 @@ export const RESOURCES = {
   reports: "reports",
   tracing_requests: "tracing_requests",
   users: "users",
+  agencies: "agencies",
   user_groups: "user_groups"
 };
 

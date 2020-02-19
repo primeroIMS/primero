@@ -11,6 +11,7 @@ import Login, {
   Admin,
   UsersList,
   UsersForm,
+  AgenciesList,
   UserGroupsList,
   UserGroupsForm
 } from "../components/pages";
@@ -164,6 +165,7 @@ export default [
               resources: RESOURCES.users
             },
             {
+
               path: `${ROUTES.admin_user_groups}/new`,
               component: UserGroupsForm,
               resources: RESOURCES.user_groups,
@@ -191,6 +193,11 @@ export default [
               path: ROUTES.admin_user_groups,
               component: UserGroupsList,
               resources: RESOURCES.user_groups
+            },
+            {
+              path: ROUTES.admin_agencies,
+              component: AgenciesList,
+              resources: RESOURCES.agencies
             }
           ]
         }

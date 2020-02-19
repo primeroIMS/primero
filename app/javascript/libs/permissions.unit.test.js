@@ -105,6 +105,7 @@ describe("Verifying config constant", () => {
       "reports",
       "tracing_requests",
       "users",
+      "agencies",
       "user_groups"
     ].forEach(property => {
       expect(resources).to.have.property(property);

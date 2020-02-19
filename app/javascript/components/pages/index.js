@@ -13,5 +13,6 @@ export {
   UsersList,
   UsersForm,
   UserGroupsList,
-  UserGroupsForm
+  UserGroupsForm,
+  AgenciesList
 } from "./admin";
