@@ -1161,6 +1161,7 @@ en:
       text_label: "Welcome Email Text"
     identity_provider: "Identity Provider"
     provider_username_help: "Example: my.username@%{domain}"
+    create_confirm: "You are about to invite the user ${username} from ${name} the with role ${role} to use Primero. A confirmation email will be sent to %{email}. Would you like to proceed?"
 
   phone: "Phone"
   email: "Email"

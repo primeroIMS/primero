@@ -19,6 +19,7 @@ const Component = ({
   setPending,
   userConfirmationOpen
 }) => {
+  console.log('data:', data);
 
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -45,9 +46,8 @@ const Component = ({
   };
 
   const dialogContent = (
-    <p>{dialogName}</p>
+    <p>{i18n.t(`user.create_confirm`, {username: data.username, name: data.name, role: data.role, email: data.email})}</p>
   );
-
   return (
     <ActionDialog
       open={userConfirmationOpen}

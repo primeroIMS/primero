@@ -30,6 +30,10 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
       .when(['identity_provider'], {
         is: (provider) => provider === "primeroims",
         then: yup.string().matches(/@cpims-gh.primero.org$/).required()
+      })
+      .when(['identity_provider'], {
+        is: (provider) => provider === null,
+        then: yup.string().required()
       });
     // let providerRegex;
     // validations.user_name = yup.string()
