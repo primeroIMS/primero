@@ -20,6 +20,7 @@ export const HIDDEN_FIELDS = [
   "not_edited_by_owner",
   "query",
   "referred_users",
+  "referred_users_present",
   "service_due_dates",
   "transferred_to_users"
 ];

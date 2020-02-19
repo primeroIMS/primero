@@ -63,7 +63,8 @@ class LoadingIndicator extends React.Component {
       emptyIndicator,
       type,
       errors,
-      i18n
+      i18n,
+      fromTableList
     } = this.props;
 
     const loadingProps = {
@@ -99,7 +100,7 @@ class LoadingIndicator extends React.Component {
       return <Loading {...loadingProps} />;
     }
 
-    if (!loading && !hasData) {
+    if (loading === false && !hasData && !fromTableList) {
       return (
         emptyIndicator || (
           <div className={classes.emptyContainer}>
@@ -120,6 +121,10 @@ class LoadingIndicator extends React.Component {
 
 LoadingIndicator.displayName = "LoadingIndicator";
 
+LoadingIndicator.defaultProps = {
+  fromTableList: false
+};
+
 LoadingIndicator.propTypes = {
   children: PropTypes.node.isRequired,
   classes: PropTypes.object,
@@ -128,6 +133,7 @@ LoadingIndicator.propTypes = {
   errorIndicator: PropTypes.node,
   errorMessage: PropTypes.string,
   errors: PropTypes.bool,
+  fromTableList: PropTypes.bool,
   hasData: PropTypes.bool.isRequired,
   i18n: PropTypes.object.isRequired,
   loading: PropTypes.bool,

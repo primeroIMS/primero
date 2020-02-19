@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_27_000000) do
+ActiveRecord::Schema.define(version: 2020_02_15_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -68,33 +68,18 @@ ActiveRecord::Schema.define(version: 2020_01_27_000000) do
     t.index ["user_id"], name: "index_alerts_on_user_id"
   end
 
-  create_table "attachment_audios", force: :cascade do |t|
+  create_table "attachments", force: :cascade do |t|
+    t.string "attachment_type"
     t.string "record_type"
     t.uuid "record_id"
-    t.string "record_field_scope"
-    t.index ["record_field_scope"], name: "index_attachment_audios_on_record_field_scope"
-    t.index ["record_type", "record_id"], name: "index_attachment_audios_on_record_type_and_record_id"
-  end
-
-  create_table "attachment_documents", force: :cascade do |t|
-    t.string "record_type"
-    t.uuid "record_id"
-    t.string "record_field_scope"
-    t.string "document_description"
+    t.string "field_name"
+    t.string "description"
     t.date "date"
     t.string "comments"
-    t.boolean "is_current"
-    t.index ["record_field_scope"], name: "index_attachment_documents_on_record_field_scope"
-    t.index ["record_type", "record_id"], name: "index_attachment_documents_on_record_type_and_record_id"
-  end
-
-  create_table "attachment_images", force: :cascade do |t|
-    t.string "record_type"
-    t.uuid "record_id"
-    t.string "record_field_scope"
-    t.boolean "is_current"
-    t.index ["record_field_scope"], name: "index_attachment_images_on_record_field_scope"
-    t.index ["record_type", "record_id"], name: "index_attachment_images_on_record_type_and_record_id"
+    t.boolean "is_current", default: false, null: false
+    t.jsonb "metadata"
+    t.index ["field_name"], name: "index_attachments_on_field_name"
+    t.index ["record_type", "record_id"], name: "index_attachments_on_record_type_and_record_id"
   end
 
   create_table "audit_logs", id: :serial, force: :cascade do |t|

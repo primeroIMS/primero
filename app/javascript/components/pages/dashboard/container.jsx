@@ -59,7 +59,8 @@ import {
   getCasesByTaskOverdueFollowups,
   getSharedWithMe,
   getSharedWithOthers,
-  getGroupOverview
+  getGroupOverview,
+  getCaseOverview
 } from "./selectors";
 import styles from "./styles.css";
 import {
@@ -69,7 +70,8 @@ import {
   toApprovalsManager,
   toProtectionConcernTable,
   toTasksOverdueTable,
-  permittedSharedWithMe
+  permittedSharedWithMe,
+  taskOverdueHasData
 } from "./helpers";
 
 const Dashboard = ({
@@ -106,7 +108,8 @@ const Dashboard = ({
   sharedWithMe,
   userPermissions,
   groupOverview,
-  sharedWithOthers
+  sharedWithOthers,
+  caseOverview
 }) => {
   useEffect(() => {
     batch(() => {
@@ -210,7 +213,9 @@ const Dashboard = ({
   };
 
   const casesWorkflowTeamProps = {
-    ...toListTable(casesWorkflowTeam, workflowLabels)
+    ...toListTable(casesWorkflowTeam, workflowLabels),
+    loading,
+    errors
   };
 
   const reportingLocationProps = {
@@ -219,7 +224,9 @@ const Dashboard = ({
       reportingLocationConfig?.get("label_key"),
       i18n,
       locations
-    )
+    ),
+    loading,
+    errors
   };
 
   const approvalsManagerProps = {
@@ -229,7 +236,9 @@ const Dashboard = ({
       approvalsClosurePending
     ]),
     sumTitle: i18n.t("dashboard.pending_approvals"),
-    withTotal: false
+    withTotal: false,
+    loading,
+    errors
   };
 
   const protectionConcernsProps = {
@@ -237,7 +246,16 @@ const Dashboard = ({
       protectionConcerns,
       i18n,
       protectionConcernsLookup
-    )
+    ),
+    loading,
+    errors
+  };
+
+  const loadingIndicatorProps = {
+    overlay: true,
+    type: NAMESPACE,
+    loading,
+    errors
   };
 
   const tasksOverdueProps = {
@@ -252,15 +270,188 @@ const Dashboard = ({
     )
   };
 
+  const loadingIndicatorReportingLocationProps = {
+    ...loadingIndicatorProps,
+    hasData: Boolean(reportingLocation.size)
+  };
+
+  const loadingIndicatorWorkflowProps = {
+    ...loadingIndicatorProps,
+    hasData: Boolean(casesWorkflow.size)
+  };
+
+  const loadingIndicatorWorkflowTeamProps = {
+    ...loadingIndicatorProps,
+    hasData: Boolean(casesWorkflowTeam.size)
+  };
+
+  const loadingIndicatorProtectionConcernsProps = {
+    ...loadingIndicatorProps,
+    hasData: Boolean(protectionConcerns.size)
+  };
+
+  const loadingIndicatoTasksOverdueProps = {
+    ...loadingIndicatorProps,
+    hasData: taskOverdueHasData(
+      casesByTaskOverdueAssessment,
+      casesByTaskOverdueCasePlan,
+      casesByTaskOverdueServices,
+      casesByTaskOverdueFollowups
+    )
+  };
+
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
       <PageContent>
-        <Grid container spacing={3} classes={{ root: css.container }}>
+        <Grid container spacing={3}>
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={[
+              ACTIONS.DASH_CASE_RISK,
+              ACTIONS.DASH_CASE_OVERVIEW,
+              ACTIONS.DASH_GROUP_OVERVIEW,
+              ACTIONS.DASH_SHARED_WITH_ME,
+              ACTIONS.DASH_SHARED_WITH_OTHERS
+            ]}
+          >
+            <Grid item xl={9} md={8} xs={12}>
+              <OptionsBox title={i18n.t("dashboard.overview")}>
+                <Grid item md={12}>
+                  <Grid container>
+                    <Grid item xs>
+                      <Permission
+                        resources={RESOURCES.dashboards}
+                        actions={ACTIONS.DASH_CASE_RISK}
+                      >
+                        <OptionsBox flat>
+                          <BadgedIndicator
+                            data={casesByAssessmentLevel}
+                            sectionTitle={i18n.t(
+                              casesByAssessmentLevel.get("name")
+                            )}
+                            indicator={INDICATOR_NAMES.RISK_LEVEL}
+                            lookup={labelsRiskLevel}
+                            loading={loading}
+                            errors={errors}
+                          />
+                        </OptionsBox>
+                      </Permission>
+                    </Grid>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_GROUP_OVERVIEW}
+                    >
+                      <Grid item xs>
+                        <OptionsBox flat>
+                          <LoadingIndicator
+                            type={NAMESPACE}
+                            loading={loading}
+                            errors={errors}
+                            hasData={Boolean(groupOverview.size)}
+                            overlay
+                          >
+                            <OverviewBox
+                              items={groupOverview}
+                              sumTitle={i18n.t("dashboard.dash_group_overview")}
+                              withTotal={false}
+                            />
+                          </LoadingIndicator>
+                        </OptionsBox>
+                      </Grid>
+                    </Permission>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_CASE_OVERVIEW}
+                    >
+                      <Grid item xs>
+                        <OptionsBox flat>
+                          <LoadingIndicator
+                            type={NAMESPACE}
+                            loading={loading}
+                            errors={errors}
+                            hasData={Boolean(caseOverview.size)}
+                            overlay
+                          >
+                            <OverviewBox
+                              items={caseOverview}
+                              sumTitle={i18n.t("dashboard.case_overview")}
+                              withTotal={false}
+                            />
+                          </LoadingIndicator>
+                        </OptionsBox>
+                      </Grid>
+                    </Permission>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_SHARED_WITH_ME}
+                    >
+                      <Grid item xs>
+                        <OptionsBox flat>
+                          <LoadingIndicator
+                            type={NAMESPACE}
+                            loading={loading}
+                            errors={errors}
+                            hasData={Boolean(sharedWithMe.size)}
+                            overlay
+                          >
+                            <OverviewBox
+                              items={permittedSharedWithMe(
+                                sharedWithMe,
+                                userPermissions
+                              )}
+                              sumTitle={i18n.t("dashboard.dash_shared_with_me")}
+                              withTotal={false}
+                            />
+                          </LoadingIndicator>
+                        </OptionsBox>
+                      </Grid>
+                    </Permission>
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_SHARED_WITH_OTHERS}
+                    >
+                      <Grid item xs>
+                        <OptionsBox flat>
+                          <LoadingIndicator
+                            type={NAMESPACE}
+                            loading={loading}
+                            errors={errors}
+                            hasData={Boolean(sharedWithOthers.size)}
+                            overlay
+                          >
+                            <OverviewBox
+                              items={sharedWithOthers}
+                              sumTitle={i18n.t(
+                                "dashboard.dash_shared_with_others"
+                              )}
+                              withTotal={false}
+                            />
+                          </LoadingIndicator>
+                        </OptionsBox>
+                      </Grid>
+                    </Permission>
+                  </Grid>
+                </Grid>
+              </OptionsBox>
+            </Grid>
+          </Permission>
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={ACTIONS.DASH_WORKFLOW}
+          >
+            <Grid item xl={3} md={4} xs={12}>
+              <OptionsBox title={i18n.t(casesWorkflow.get("name"))}>
+                <LoadingIndicator {...loadingIndicatorWorkflowProps}>
+                  <PieChart {...casesWorkflowProps} />
+                </LoadingIndicator>
+              </OptionsBox>
+            </Grid>
+          </Permission>
           <Permission resources={RESOURCES.dashboards} actions={DASH_APPROVALS}>
-            <Grid item md={12}>
+            <Grid item xl={9} md={8} xs={12}>
               <OptionsBox title={i18n.t("dashboard.approvals")}>
-                <Grid container classes={{ root: css.container }}>
+                <Grid container>
                   <Grid item xs>
                     <Permission
                       resources={RESOURCES.dashboards}
@@ -282,6 +473,8 @@ const Dashboard = ({
                         <OverviewBox
                           items={approvalsAssessment}
                           sumTitle={i18n.t(approvalsAssessment.get("name"))}
+                          loading={loading}
+                          errors={errors}
                         />
                       </OptionsBox>
                     </Permission>
@@ -295,6 +488,8 @@ const Dashboard = ({
                         <OverviewBox
                           items={approvalsCasePlan}
                           sumTitle={i18n.t(approvalsCasePlan.get("name"))}
+                          loading={loading}
+                          errors={errors}
                         />
                       </OptionsBox>
                     </Permission>
@@ -308,6 +503,8 @@ const Dashboard = ({
                         <OverviewBox
                           items={approvalsClosure}
                           sumTitle={i18n.t(approvalsClosure.get("name"))}
+                          loading={loading}
+                          errors={errors}
                         />
                       </OptionsBox>
                     </Permission>
@@ -316,113 +513,6 @@ const Dashboard = ({
               </OptionsBox>
             </Grid>
           </Permission>
-          <Grid item md={6}>
-            <OptionsBox title={i18n.t("dashboard.overview")}>
-              <Grid item md={12}>
-                <Grid container>
-                  <Grid item xs>
-                    <Permission
-                      resources={RESOURCES.dashboards}
-                      actions={ACTIONS.DASH_CASE_RISK}
-                    >
-                      <OptionsBox flat>
-                        <BadgedIndicator
-                          data={casesByAssessmentLevel}
-                          sectionTitle={i18n.t(
-                            casesByAssessmentLevel.get("name")
-                          )}
-                          indicator={INDICATOR_NAMES.RISK_LEVEL}
-                          lookup={labelsRiskLevel}
-                        />
-                      </OptionsBox>
-                    </Permission>
-                  </Grid>
-                  <Permission
-                    resources={RESOURCES.dashboards}
-                    actions={ACTIONS.DASH_GROUP_OVERVIEW}
-                  >
-                    <Grid item xs>
-                      <OptionsBox flat>
-                        <LoadingIndicator
-                          type={NAMESPACE}
-                          loading={loading}
-                          errors={errors}
-                          hasData={Boolean(groupOverview.size)}
-                          overlay
-                        >
-                          <OverviewBox
-                            items={groupOverview}
-                            sumTitle={i18n.t("dashboard.dash_group_overview")}
-                            withTotal={false}
-                          />
-                        </LoadingIndicator>
-                      </OptionsBox>
-                    </Grid>
-                  </Permission>
-                  <Permission
-                    resources={RESOURCES.dashboards}
-                    actions={ACTIONS.DASH_SHARED_WITH_ME}
-                  >
-                    <Grid item xs>
-                      <OptionsBox flat>
-                        <LoadingIndicator
-                          type={NAMESPACE}
-                          loading={loading}
-                          errors={errors}
-                          hasData={Boolean(sharedWithMe.size)}
-                          overlay
-                        >
-                          <OverviewBox
-                            items={permittedSharedWithMe(
-                              sharedWithMe,
-                              userPermissions
-                            )}
-                            sumTitle={i18n.t("dashboard.dash_shared_with_me")}
-                            withTotal={false}
-                          />
-                        </LoadingIndicator>
-                      </OptionsBox>
-                    </Grid>
-                  </Permission>
-                  <Permission
-                    resources={RESOURCES.dashboards}
-                    actions={ACTIONS.DASH_SHARED_WITH_OTHERS}
-                  >
-                    <Grid item xs>
-                      <OptionsBox flat>
-                        <LoadingIndicator
-                          type={NAMESPACE}
-                          loading={loading}
-                          errors={errors}
-                          hasData={Boolean(sharedWithOthers.size)}
-                          overlay
-                        >
-                          <OverviewBox
-                            items={sharedWithOthers}
-                            sumTitle={i18n.t(
-                              "dashboard.dash_shared_with_others"
-                            )}
-                            withTotal={false}
-                          />
-                        </LoadingIndicator>
-                      </OptionsBox>
-                    </Grid>
-                  </Permission>
-                </Grid>
-              </Grid>
-            </OptionsBox>
-          </Grid>
-          <Permission
-            resources={RESOURCES.dashboards}
-            actions={ACTIONS.DASH_WORKFLOW}
-          >
-            <Grid item md={6}>
-              <OptionsBox title={i18n.t(casesWorkflow.get("name"))}>
-                <PieChart {...casesWorkflowProps} />
-              </OptionsBox>
-            </Grid>
-          </Permission>
-
           <Permission
             resources={RESOURCES.dashboards}
             actions={[
@@ -432,9 +522,11 @@ const Dashboard = ({
               ACTIONS.DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS
             ]}
           >
-            <Grid item md={12}>
+            <Grid item xl={9} md={8} xs={12}>
               <OptionsBox title={i18n.t("dashboard.cases_by_task_overdue")}>
-                <DashboardTable {...tasksOverdueProps} />
+                <LoadingIndicator {...loadingIndicatoTasksOverdueProps}>
+                  <DashboardTable {...tasksOverdueProps} />
+                </LoadingIndicator>
               </OptionsBox>
             </Grid>
           </Permission>
@@ -443,9 +535,11 @@ const Dashboard = ({
             resources={RESOURCES.dashboards}
             actions={ACTIONS.DASH_WORKFLOW_TEAM}
           >
-            <Grid item md={12} hidden={!casesWorkflowTeam?.size}>
-              <OptionsBox title={i18n.t(casesWorkflowTeam.get("name"))}>
-                <DashboardTable {...casesWorkflowTeamProps} />
+            <Grid item xl={9} md={8} xs={12} hidden={!casesWorkflowTeam?.size}>
+              <OptionsBox title={i18n.t("dashboard.workflow_team")}>
+                <LoadingIndicator {...loadingIndicatorWorkflowTeamProps}>
+                  <DashboardTable {...casesWorkflowTeamProps} />
+                </LoadingIndicator>
               </OptionsBox>
             </Grid>
           </Permission>
@@ -454,9 +548,11 @@ const Dashboard = ({
             resources={RESOURCES.dashboards}
             actions={ACTIONS.DASH_REPORTING_LOCATION}
           >
-            <Grid item md={12} hidden={!reportingLocation?.size}>
+            <Grid item xl={9} md={8} xs={12} hidden={!reportingLocation?.size}>
               <OptionsBox title={i18n.t("cases.label")}>
-                <DashboardTable {...reportingLocationProps} />
+                <LoadingIndicator {...loadingIndicatorReportingLocationProps}>
+                  <DashboardTable {...reportingLocationProps} />
+                </LoadingIndicator>
               </OptionsBox>
             </Grid>
           </Permission>
@@ -465,9 +561,11 @@ const Dashboard = ({
             resources={RESOURCES.dashboards}
             actions={ACTIONS.DASH_PROTECTION_CONCERNS}
           >
-            <Grid item md={12}>
+            <Grid item xl={9} md={8} xs={12}>
               <OptionsBox title={i18n.t("dashboard.protection_concerns")}>
-                <DashboardTable {...protectionConcernsProps} />
+                <LoadingIndicator {...loadingIndicatorProtectionConcernsProps}>
+                  <DashboardTable {...protectionConcernsProps} />
+                </LoadingIndicator>
               </OptionsBox>
             </Grid>
           </Permission>
@@ -511,6 +609,7 @@ Dashboard.propTypes = {
   approvalsCasePlanPending: PropTypes.object.isRequired,
   approvalsClosure: PropTypes.object.isRequired,
   approvalsClosurePending: PropTypes.object.isRequired,
+  caseOverview: PropTypes.object.isRequired,
   casesByAssessmentLevel: PropTypes.object.isRequired,
   casesByCaseWorker: PropTypes.object.isRequired,
   casesByStatus: PropTypes.object.isRequired,
@@ -570,7 +669,8 @@ const mapStateToProps = state => {
     sharedWithMe: getSharedWithMe(state),
     userPermissions: getPermissions(state),
     groupOverview: getGroupOverview(state),
-    sharedWithOthers: getSharedWithOthers(state)
+    sharedWithOthers: getSharedWithOthers(state),
+    caseOverview: getCaseOverview(state)
   };
 };
 

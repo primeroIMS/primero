@@ -1,15 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, IconButton, Fab } from "@material-ui/core";
+import { Box, IconButton, Fab, CircularProgress } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import CreateIcon from "@material-ui/icons/Create";
+import { useSelector } from "react-redux";
 
 import { useI18n } from "../../i18n";
 import { Flagging } from "../../flagging";
 import RecordActions from "../../record-actions";
 import Permission from "../../application/permission";
 import { FLAG_RECORDS, WRITE_RECORDS } from "../../../libs/permissions";
+import { getSavingRecord } from "../../records/selectors";
+import { RECORD_PATH } from "../../../config";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
@@ -27,6 +30,9 @@ const RecordFormToolbar = ({
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const savingRecord = useSelector(state =>
+    getSavingRecord(state, params.recordType)
+  );
 
   const PageHeading = () => {
     let heading = "";
@@ -46,6 +52,45 @@ const RecordFormToolbar = ({
     history.goBack();
   };
 
+  const renderCircularProgress = savingRecord && (
+    <CircularProgress size={24} value={25} className={css.loadingMargin} />
+  );
+
+  const renderSaveButton = (
+    <Fab
+      className={css.actionButton}
+      variant="extended"
+      aria-label={i18n.t("buttons.save")}
+      onClick={handleFormSubmit}
+      disabled={savingRecord}
+    >
+      {renderCircularProgress}
+      {i18n.t("buttons.save")}
+    </Fab>
+  );
+
+  let renderRecordStatusIndicator = null;
+
+  if (record && !record.get("record_state")) {
+    renderRecordStatusIndicator = (
+      <h3 className={css.caseDisabled}>
+        {i18n.t("case.messages.case_disabled")}
+      </h3>
+    );
+  } else if (
+    (mode.isShow || mode.isEdit) &&
+    params.recordType === RECORD_PATH.cases
+  ) {
+    renderRecordStatusIndicator = (
+      <WorkflowIndicator
+        locale={i18n.locale}
+        primeroModule={primeroModule}
+        recordType={params.recordType}
+        record={record}
+      />
+    );
+  }
+
   return (
     <Box
       className={css.toolbar}
@@ -57,14 +102,7 @@ const RecordFormToolbar = ({
     >
       <Box flexGrow={1} display="flex" flexDirection="column">
         <PageHeading />
-        {(mode.isShow || mode.isEdit) && params.recordType === "cases" && (
-          <WorkflowIndicator
-            locale={i18n.locale}
-            primeroModule={primeroModule}
-            recordType={params.recordType}
-            record={record}
-          />
-        )}
+        {renderRecordStatusIndicator}
       </Box>
       <Box>
         {mode.isShow && params && (
@@ -82,14 +120,7 @@ const RecordFormToolbar = ({
             >
               {i18n.t("buttons.cancel")}
             </Fab>
-            <Fab
-              className={css.actionButton}
-              variant="extended"
-              aria-label={i18n.t("buttons.save")}
-              onClick={handleFormSubmit}
-            >
-              {i18n.t("buttons.save")}
-            </Fab>
+            {renderSaveButton}
           </div>
         )}
         {mode.isShow && (

@@ -59,19 +59,9 @@ describe TracingRequest do
       TracingRequest.searchable_string_fields.should include("relation_name")
       FormSection.all.each { |form_section| form_section.destroy }
     end
-
-    # TODO: build_solr_schema under developme nt. Temp removed
-    # it "should call Sunspot with all fields" do
-    #   Sunspot.should_receive(:setup)
-    #   TracingRequest.should_receive(:build_text_fields_for_solar)
-    #   TracingRequest.should_receive(:build_date_fields_for_solar)
-    #   TracingRequest.build_solar_schema
-    # end
-
   end
 
-  describe ".search" do
-
+  xdescribe ".search" do
     before :each do
       Sunspot.remove_all(TracingRequest)
     end
@@ -176,35 +166,9 @@ describe TracingRequest do
     #   search = double("search", :query => "thirumanixxx12345", :valid? => true)
     #   TracingRequest.search_by_created_user(search, "rajagopalan", 1).first.map(&:name).should =~ []
     # end
-
-
-  end
-
-  describe ".sunspot_search" do
-    before :each do
-      Sunspot.remove_all(TracingRequest)
-    end
-
-    before :all do
-      FormSection.all.each { |form| form.destroy }
-      form = FormSection.new(:name => "test_form", :parent_form => 'tracing_request')
-      form.fields << Field.new(:name => "relation_name", :type => Field::TEXT_FIELD, :display_name => "relation_name")
-      form.save!
-    end
-
-    # TODO: full text searching not implemented yet.
-    # it "should return all results" do
-    #   40.times do
-    #     create_tracing_request("Exact")
-    #   end
-    #   criteria_list = SearchCriteria.build_from_params("1" => {:field => "relation_name", :value => "Exact", :join => "AND", :display_name => "relation_name" } )
-    #   query = SearchCriteria.lucene_query(criteria_list)
-    #   TracingRequest.sunspot_search(1, query).last.count.should == 40
-    # end
   end
 
   describe 'save' do
-
     before(:each) do
       clean_data(Agency)
       create(:agency)
@@ -223,65 +187,6 @@ describe TracingRequest do
       tracing_request[:id].should_not be_nil
       tracing_request.inquiry_date.should eq '19/Jul/2014'
     end
-
-    it "should not save file formats that are not photo formats" do
-      tracing_request = TracingRequest.new
-      tracing_request.attach(FilesTestHelper.image('gif'))
-      expect(tracing_request.save).to be false
-      tracing_request.attach(FilesTestHelper.image('bmp'))
-      expect(tracing_request.save).to be false
-    end
-
-    it "should save file based on content type" do
-      tracing_request = TracingRequest.new('created_by' => "me", 'created_organization' => "stc")
-      tracing_request.attach(FilesTestHelper.image_without_extension)
-      expect(tracing_request.save).to be true
-    end
-
-    it "should not save with file formats that are not supported audio formats" do
-      tracing_request = TracingRequest.new(created_by: 'me', created_organization: 'stc')
-      tracing_request.attach(FilesTestHelper.audio('png'))
-      expect(tracing_request.save).to be false
-
-      tracing_request.recorded_audio = []
-      tracing_request.attach(FilesTestHelper.audio('wav'))
-      expect(tracing_request.save).to be false
-
-      tracing_request.recorded_audio = []
-      tracing_request.attach(FilesTestHelper.audio('ogg'))
-      expect(tracing_request.save).to be false
-
-      tracing_request.recorded_audio = []
-      tracing_request.attach(FilesTestHelper.audio('amr'))
-      expect(tracing_request.save).to be true
-
-      tracing_request.recorded_audio = []
-      tracing_request.attach(FilesTestHelper.audio( 'mp3'))
-      expect(tracing_request.save).to be true
-    end
-
-    it "should not save with image file formats that are not png or jpg" do
-      tracing_request = TracingRequest.new(created_by: 'me', created_organization: 'stc')
-      tracing_request.attach(FilesTestHelper.image('jpg'))
-      expect(tracing_request.save).to be true
-
-      tracing_request.reload
-      tracing_request.attach(FilesTestHelper.image('bmp'))
-      expect(tracing_request.save).to be false
-    end
-
-    it "should not save with a photo larger than 10 megabytes" do
-      tracing_request = TracingRequest.new(created_by: 'me', created_organization: 'stc')
-      tracing_request.attach(FilesTestHelper.large_photo_as_a_parameter)
-      expect(tracing_request.save).to be false
-    end
-
-    it "should not save with an audio file larger than 10 megabytes" do
-      tracing_request = TracingRequest.new(created_by: 'me', created_organization: 'stc')
-      tracing_request.attach(FilesTestHelper.large_audio_as_a_parameter)
-      expect(tracing_request.save).to be false
-    end
-
   end
 
   describe "new_with_user_name" do
@@ -351,206 +256,6 @@ describe TracingRequest do
 
   end
 
-  describe "photo attachments" do
-
-    context "with no photos" do
-      it "should have an empty set" do
-        TracingRequest.new.photos.should be_empty
-      end
-
-      it "should not have a primary photo" do
-        TracingRequest.new.current_photo.should be_nil
-      end
-    end
-
-    context "with a single new photo" do
-      before :each do
-        User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
-        @tracing_request = TracingRequest.create( 'created_by' => "me", 'created_organization' => "stc")
-        @tracing_request.attach(FilesTestHelper.image('jpg'))
-      end
-
-      it "should only have one photo on creation" do
-        @tracing_request.photos.size.should eql 1
-      end
-
-      it "should be the primary photo" do
-        @tracing_request.current_photo.should match_photo FilesTestHelper.image('jpg')
-      end
-
-    end
-
-    context "with multiple new photos" do
-      before :each do
-        User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
-        @tracing_request = TracingRequest.create(created_by: 'me')
-        @tracing_request.attach(FilesTestHelper.multiple_image(2))
-      end
-
-      it "should have corrent number of photos after creation" do
-        @tracing_request.photos.size.should eql 2
-      end
-
-      it "should order by primary photo" do
-        expect(@tracing_request.photos.first.image.filename).to eq(@tracing_request.current_photo.filename)
-      end
-
-      it "should return the first photo as a primary photo" do
-        @tracing_request.current_photo.should match_photo FilesTestHelper.image('jpg')
-      end
-
-    end
-
-    context "validate photo size" do
-      before :each do
-        User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
-        @tracing_request = TracingRequest.new(created_by: 'me', created_organization: 'stc')
-      end
-
-      it "should not save tracing request if new photos are more than 10" do
-        photos = FilesTestHelper.multiple_image(11)
-        @tracing_request.attach(photos)
-        expect(@tracing_request.save).to be false
-        expect(@tracing_request.errors[:photos]).to eq(['errors.models.photo.photo_count'])
-      end
-
-      it "should not save tracing request if new photos and existing photos are more than 10" do
-        photos = FilesTestHelper.multiple_image(5)
-        another_photos = FilesTestHelper.multiple_image(6)
-        @tracing_request.attach(photos)
-        @tracing_request.save
-        @tracing_request.reload
-        expect(@tracing_request.new_record?).to be false
-        expect(@tracing_request.photos.size). to eq(5)
-
-        @tracing_request.attach(another_photos)
-        expect(@tracing_request.save).to be false
-        expect(@tracing_request.photos.size). to eq(11)
-        expect(@tracing_request.errors[:photos]).to eq(['errors.models.photo.photo_count'])
-      end
-
-      it "should save tracing request if new and existing photos are 10" do
-        photos = FilesTestHelper.multiple_image(5)
-        another_photos = FilesTestHelper.multiple_image(5)
-        @tracing_request.attach(photos)
-        @tracing_request.save
-        @tracing_request.reload
-        expect(@tracing_request.new_record?).to be false
-        expect(@tracing_request.photos.size). to eq(5)
-
-        @tracing_request.attach(another_photos)
-        expect(@tracing_request.save).to be true
-        expect(@tracing_request.photos.size). to eq(10)
-      end
-
-      it "should save tracing request 10 new photos" do
-        photos = FilesTestHelper.multiple_image(10)
-        @tracing_request.attach(photos)
-        @tracing_request.save
-        expect(@tracing_request.new_record?).to be false
-        expect(@tracing_request.photos.size). to eq(10)
-      end
-
-      xit "should save tracing request after delete some photos" do
-        photos = []
-        (1..10).each do |i|
-          photos << stub_photo_properties(i)
-        end
-        tracing_request = TracingRequest.new('last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-        tracing_request.photos = photos
-        tracing_request.save
-        tracing_request.new? == false
-        tracing_request.photo_keys.size == 10
-
-        #Should fails because it reach the limit
-        tracing_request.photos = [stub_photo_properties(11)]
-        tracing_request.save.should == false
-
-        #By deleting one, it should save.
-        photo_key_to_delete = tracing_request['photo_keys'][0]
-        tracing_request.delete_photos([photo_key_to_delete])
-        tracing_request.photos = [stub_photo_properties(11)]
-        tracing_request.save
-        tracing_request.new? == false
-        tracing_request.photo_keys.size == 10
-        tracing_request.photo_keys.find_index(photo_key_to_delete).should == nil
-      end
-    end
-
-  end
-
-  describe ".audio=" do
-
-    before(:each) do
-      @tracing_request = TracingRequest.new
-    end
-
-    it "should create an audio" do
-      @tracing_request.attach(FilesTestHelper.audio('wav'))
-      @tracing_request.save
-      expect(@tracing_request.recorded_audio.size). to eq(1)
-    end
-
-    it "should store the audio attachment key with the 'mime-type'" do
-      audio_attachment = FilesTestHelper.audio('mp3')
-      @tracing_request.attach(audio_attachment)
-      @tracing_request.save
-      expect(@tracing_request.recorded_audio.first.audio.filename).to eq(audio_attachment['recorded_audio'][0]['audio'].original_filename)
-      expect(@tracing_request.recorded_audio.first.audio.content_type).to eq(audio_attachment['recorded_audio'][0]['audio'].content_type)
-    end
-
-    xit "should call delete_audio_attachment_file when set an audio file" do
-      @tracing_request.id = "id"
-      @tracing_request['audio_attachments'] = {}
-      @tracing_request.should_receive(:delete_audio_attachment_file).and_call_original
-      @tracing_request.audio = uploadable_audio_mp3
-    end
-
-  end
-
-  xdescribe ".delete_audio" do
-    it "should call delete_audio_attachment_file when delete current audio file" do
-      @tracing_request = TracingRequest.new
-      @tracing_request.id = "id"
-      @tracing_request['audio_attachments'] = {}
-      @tracing_request.should_receive(:delete_audio_attachment_file).and_call_original
-      @tracing_request.delete_audio
-    end
-  end
-
-  describe ".audio" do
-
-    before :each do
-      User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
-    end
-
-    it "should return nil if no audio file has been set" do
-      tracing_request = TracingRequest.new
-      tracing_request.recorded_audio.should be_empty
-    end
-
-    it "should check audio attachment is present" do
-      tracing_request = TracingRequest.create(created_by: 'me', created_organization: 'stc')
-      tracing_request.attach(FilesTestHelper.audio('mp3'))
-      tracing_request.save
-      expect(tracing_request.recorded_audio.present?).to be true
-    end
-  end
-
-
-  describe "audio attachment" do
-    it "should change audio file if a new audio file is set" do
-      tracing_request = TracingRequest.create(created_by: 'me', created_organization: 'stc')
-      tracing_request.attach(FilesTestHelper.audio('mp3'))
-      tracing_request.save
-      new_audio = FilesTestHelper.audio_to_update(tracing_request.recorded_audio.first.id)
-      tracing_request.attach(new_audio)
-      tracing_request.save
-      expect(tracing_request.recorded_audio.first.audio.filename).to eq('sample.amr')
-    end
-
-  end
-
   it "should maintain history when tracing_request is reunited and message is added" do
     tracing_request = TracingRequest.create('created_by' => "me", 'created_organization' => "stc")
     tracing_request.reunited = true
@@ -583,51 +288,6 @@ describe TracingRequest do
       tracing_requests = TracingRequest.all.order("data -> 'relation_name' ASC")
       tracing_requests.first.relation_name.should == ''
       TracingRequest.count.should == 3
-    end
-
-  end
-
-
-  describe ".photo" do
-
-    it "should return nil if the record has no attached photo" do
-      tracing_request = create_tracing_request "Bob McBobberson"
-      TracingRequest.find(tracing_request.id).photos.should be_empty
-    end
-
-  end
-
-  xdescribe ".audio" do
-
-    it "should return nil if the record has no audio" do
-      tracing_request = create_tracing_request "Bob McBobberson"
-      tracing_request.audio.should be_nil
-    end
-
-  end
-  describe "current_photo =" do
-    before :each do
-      @attach_photos = FilesTestHelper.multiple_image(2)
-      @tracing_request = TracingRequest.create(created_by: 'me')
-      @tracing_request.attach(@attach_photos)
-      @tracing_request.save
-    end
-
-    it "should update the current photo selection" do
-      old_primary_photo = @tracing_request.photos.first
-      new_primary_photo = @tracing_request.photos.last
-
-      expect(@tracing_request.current_photo.id).to eql(old_primary_photo.image.id)
-      @tracing_request.current_photo = new_primary_photo.id
-      @tracing_request.save
-      expect(@tracing_request.current_photo.id).to eql(new_primary_photo.image.id)
-
-    end
-    context "when selected photo id doesn't exist" do
-      it "should show an error" do
-        new_primary_photo = FilesTestHelper.jpg_as_a_parameter_to_update(0)
-        expect { @tracing_request.current_photo = new_primary_photo['photos'][0]['id'] }.to raise_error(ActiveRecord::RecordNotFound)
-      end
     end
   end
 

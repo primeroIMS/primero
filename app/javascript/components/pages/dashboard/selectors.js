@@ -53,13 +53,13 @@ export const getCasesByAssessmentLevel = state => {
   const currentState = getDashboards(state);
 
   if (!currentState) {
-    return fromJS([]);
+    return fromJS({});
   }
   const dashboardData = currentState
     .filter(f => f.get("name") === DASHBOARD_NAMES.CASE_RISK)
     .first();
 
-  return dashboardData?.size ? dashboardData : fromJS([]);
+  return dashboardData?.size ? dashboardData : fromJS({});
 };
 
 export const getWorkflowIndividualCases = state => {
@@ -116,3 +116,6 @@ export const getSharedWithOthers = state =>
 
 export const getGroupOverview = state =>
   getDashboardByName(state, DASHBOARD_NAMES.GROUP_OVERVIEW);
+
+export const getCaseOverview = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.CASE_OVERVIEW);

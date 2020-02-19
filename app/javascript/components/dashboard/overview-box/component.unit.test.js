@@ -1,5 +1,6 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
+import { CircularProgress } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../test";
 
@@ -50,6 +51,30 @@ describe("<OverviewBox />", () => {
       expect(component.find("li")).to.have.lengthOf(1);
       expect(component.find("button")).to.have.lengthOf(1);
       expect(component.find("div div").text()).to.equal("Closure");
+    });
+  });
+
+  describe("When data still loading", () => {
+    let component;
+    const props = {
+      items: fromJS({
+        name: "dashboard.approvals_closure",
+        type: "indicator",
+        indicators: {}
+      }),
+      sumTitle: "Closure",
+      loading: true
+    };
+
+    before(() => {
+      ({ component } = setupMountedComponent(OverviewBox, props, {}));
+    });
+
+    it("renders BadgedIndicator component", () => {
+      expect(component.find(OverviewBox)).to.have.lengthOf(1);
+    });
+    it("renders CircularProgress", () => {
+      expect(component.find(CircularProgress)).to.have.lengthOf(1);
     });
   });
 });

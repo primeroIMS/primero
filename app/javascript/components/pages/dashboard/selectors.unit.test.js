@@ -196,6 +196,21 @@ const groupOverview = {
   }
 };
 
+const caseOverview = {
+  name: "dashboard.case_overview",
+  type: "indicator",
+  indicators: {
+    total: {
+      count: 2,
+      query: ["record_state=true", "status=open"]
+    },
+    new_or_updated: {
+      count: 1,
+      query: ["record_state=true", "status=closed", "not_edited_by_owner=true"]
+    }
+  }
+};
+
 const stateWithoutRecords = fromJS({});
 const initialState = fromJS({
   records: {
@@ -227,7 +242,8 @@ const initialState = fromJS({
         protectionConcern,
         sharedWithMe,
         sharedWithOthers,
-        groupOverview
+        groupOverview,
+        caseOverview
       ]
     }
   }
@@ -258,6 +274,22 @@ describe("<Dashboard /> - Selectors", () => {
       });
 
       expect(records).to.deep.equal(expected);
+    });
+  });
+
+  describe("getCasesByAssessmentLevel empty value", () => {
+    it("should return a map when dashboard is empty", () => {
+      const emptyResult = fromJS({});
+
+      const initialState = fromJS({
+        name: DASHBOARD_NAMES.CASE_RISK,
+        type: "indicator",
+        stats: {}
+      });
+
+      const expected = selectors.getCasesByAssessmentLevel(initialState);
+
+      expect(emptyResult).to.deep.equal(expected);
     });
   });
 
@@ -336,6 +368,14 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getGroupOverview(initialState);
 
       expect(values).to.deep.equal(fromJS(groupOverview));
+    });
+  });
+
+  describe("getCaseOverview", () => {
+    it("should return the case overview", () => {
+      const values = selectors.getCaseOverview(initialState);
+
+      expect(values).to.deep.equal(fromJS(caseOverview));
     });
   });
 });
