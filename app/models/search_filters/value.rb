@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SearchFilters
   class Value < SearchFilter
     attr_accessor :field_name, :value
@@ -20,6 +22,5 @@ module SearchFilters
     def to_s
       "#{field_name}=#{value}"
     end
-
   end
 end

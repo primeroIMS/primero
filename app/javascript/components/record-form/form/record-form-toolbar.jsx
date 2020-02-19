@@ -12,6 +12,7 @@ import RecordActions from "../../record-actions";
 import Permission from "../../application/permission";
 import { FLAG_RECORDS, WRITE_RECORDS } from "../../../libs/permissions";
 import { getSavingRecord } from "../../records/selectors";
+import { RECORD_PATH } from "../../../config";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
@@ -68,6 +69,28 @@ const RecordFormToolbar = ({
     </Fab>
   );
 
+  let renderRecordStatusIndicator = null;
+
+  if (record && !record.get("record_state")) {
+    renderRecordStatusIndicator = (
+      <h3 className={css.caseDisabled}>
+        {i18n.t("case.messages.case_disabled")}
+      </h3>
+    );
+  } else if (
+    (mode.isShow || mode.isEdit) &&
+    params.recordType === RECORD_PATH.cases
+  ) {
+    renderRecordStatusIndicator = (
+      <WorkflowIndicator
+        locale={i18n.locale}
+        primeroModule={primeroModule}
+        recordType={params.recordType}
+        record={record}
+      />
+    );
+  }
+
   return (
     <Box
       className={css.toolbar}
@@ -79,14 +102,7 @@ const RecordFormToolbar = ({
     >
       <Box flexGrow={1} display="flex" flexDirection="column">
         <PageHeading />
-        {(mode.isShow || mode.isEdit) && params.recordType === "cases" && (
-          <WorkflowIndicator
-            locale={i18n.locale}
-            primeroModule={primeroModule}
-            recordType={params.recordType}
-            record={record}
-          />
-        )}
+        {renderRecordStatusIndicator}
       </Box>
       <Box>
         {mode.isShow && params && (

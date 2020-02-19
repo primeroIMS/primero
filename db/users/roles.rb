@@ -327,7 +327,9 @@ cp_manager_permissions = [
         Permission::DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
         Permission::DASH_SHARED_WITH_ME,
         Permission::DASH_SHARED_WITH_OTHERS,
-        Permission::DASH_GROUP_OVERVIEW
+        Permission::DASH_GROUP_OVERVIEW,
+        Permission::DASH_SHARED_FROM_MY_TEAM,
+        Permission::DASH_SHARED_WITH_MY_TEAM
       ]
   )
 ]
@@ -568,7 +570,9 @@ gbv_manager_permissions = [
       Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
       Permission::DASH_APPROVALS_CLOSURE_PENDING,
       Permission::DASH_REPORTING_LOCATION,
-      Permission::DASH_GROUP_OVERVIEW
+      Permission::DASH_GROUP_OVERVIEW,
+      Permission::DASH_SHARED_FROM_MY_TEAM,
+      Permission::DASH_SHARED_WITH_MY_TEAM
     ]
   ),
   Permission.new(
@@ -722,7 +726,8 @@ gbv_caseworker_permissions = [
       resource: Permission::DASHBOARD,
       actions: [
         Permission::DASH_APPROVALS_CASE_PLAN,
-        Permission::DASH_APPROVALS_CLOSURE
+        Permission::DASH_APPROVALS_CLOSURE,
+        Permission::DASH_CASE_OVERVIEW
       ]
     )
 ]
@@ -850,7 +855,9 @@ gbv_cm_supervisor_permissions = [
     Permission.new(
       resource: Permission::DASHBOARD,
       actions: [
-        Permission::DASH_GROUP_OVERVIEW
+        Permission::DASH_GROUP_OVERVIEW,
+        Permission::DASH_SHARED_FROM_MY_TEAM,
+        Permission::DASH_SHARED_WITH_MY_TEAM
       ]
     )
 ]
@@ -983,7 +990,9 @@ gbv_organization_focal_point_permissions = [
     Permission.new(
       resource: Permission::DASHBOARD,
       actions: [
-        Permission::DASH_GROUP_OVERVIEW
+        Permission::DASH_GROUP_OVERVIEW,
+        Permission::DASH_SHARED_FROM_MY_TEAM,
+        Permission::DASH_SHARED_WITH_MY_TEAM
       ]
     )
 ]
@@ -1408,10 +1417,11 @@ superuser_permissions = [
     actions: [
       # Permission::VIEW_APPROVALS,
       # Permission::VIEW_RESPONSE,
-      Permission::DASH_CASE_RISK,
+      # Permission::DASH_CASE_RISK,
       # Permission::VIEW_PROTECTION_CONCERNS_FILTER,
-      Permission::DASH_PROTECTION_CONCERNS,
-      Permission::DASH_TASKS
+      # Permission::DASH_PROTECTION_CONCERNS,
+      # Permission::DASH_TASKS,
+      Permission::DASH_SHARED_WITH_ME
     ]
   )
 ]

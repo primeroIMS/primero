@@ -6,6 +6,7 @@ import { RECORD_PATH, RECORD_TYPES, MODULES } from "../../../config";
 import { ACTIONS } from "../../../libs/permissions";
 import { PrimeroModuleRecord } from "../../application/records";
 
+import { WorkflowIndicator } from "./components";
 import RecordFormToolbar from "./record-form-toolbar";
 
 describe("<RecordFormToolbar />", () => {
@@ -116,6 +117,23 @@ describe("<RecordFormToolbar />", () => {
   it("renders a RecordFormToolbar/>", () => {
     expect(component.find(RecordFormToolbar)).to.have.lengthOf(1);
     expect(component.find(Fab)).to.have.lengthOf(2);
+  });
+
+  it("renders a <WorkflowIndicator /> component, when record is enabled", () => {
+    expect(component.find(WorkflowIndicator)).to.have.lengthOf(1);
+  });
+
+  it("renders 'Case is disabled' text, when record is disabled", () => {
+    const { component: recordFormToolbarComponent } = setupMountedComponent(
+      RecordFormToolbar,
+      { ...props, record: fromJS({ record_state: false }) },
+      fromJS(initialState)
+    );
+
+    expect(recordFormToolbarComponent.find(WorkflowIndicator)).to.be.empty;
+    expect(recordFormToolbarComponent.find("h3").text()).to.be.equals(
+      "case.messages.case_disabled"
+    );
   });
 
   describe("when records is being save", () => {

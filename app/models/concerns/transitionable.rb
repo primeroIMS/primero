@@ -2,7 +2,6 @@ module Transitionable
   extend ActiveSupport::Concern
 
   included do
-    #TODO: This will need to be changed toi individual associations per type?
     has_many :transitions, as: :record
 
     store_accessor :data,
