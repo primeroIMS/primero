@@ -142,6 +142,10 @@ const RecordForm = ({
                 recordID: record?.get("id")
               };
 
+              if (!field?.visible) {
+                return null;
+              }
+
               return (
                 <Box my={3} key={field.name}>
                   {C.SUBFORM_SECTION === field.type ? (

@@ -1,0 +1,11 @@
+.submitButtonWrapper {
+  position: relative;
+}
+
+.buttonProgress {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -13px;
+  margin-left: -16px;
+}

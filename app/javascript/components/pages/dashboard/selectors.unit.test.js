@@ -147,6 +147,70 @@ const sharedWithMe = {
   }
 };
 
+const sharedWithOthers = {
+  name: "dashboard.dash_shared_with_others",
+  type: "indicator",
+  indicators: {
+    shared_with_others_referrals: {
+      count: 0,
+      query: [
+        "owned_by=primero_cp",
+        "record_state=true",
+        "status=open",
+        "referred_users_present=true"
+      ]
+    },
+    shared_with_others_pending_transfers: {
+      count: 0,
+      query: [
+        "owned_by=primero_cp",
+        "record_state=true",
+        "status=open",
+        "transfer_status=in_progress"
+      ]
+    },
+    shared_with_others_rejected_transfers: {
+      count: 0,
+      query: [
+        "owned_by=primero_cp",
+        "record_state=true",
+        "status=open",
+        "transfer_status=rejected"
+      ]
+    }
+  }
+};
+
+const groupOverview = {
+  name: "dashboard.dash_group_overview",
+  type: "indicator",
+  indicators: {
+    group_overview_open: {
+      count: 5,
+      query: ["record_state=true", "status=open"]
+    },
+    group_overview_closed: {
+      count: 0,
+      query: ["record_state=true", "status=closed"]
+    }
+  }
+};
+
+const caseOverview = {
+  name: "dashboard.case_overview",
+  type: "indicator",
+  indicators: {
+    total: {
+      count: 2,
+      query: ["record_state=true", "status=open"]
+    },
+    new_or_updated: {
+      count: 1,
+      query: ["record_state=true", "status=closed", "not_edited_by_owner=true"]
+    }
+  }
+};
+
 const stateWithoutRecords = fromJS({});
 const initialState = fromJS({
   records: {
@@ -176,7 +240,10 @@ const initialState = fromJS({
         approvalsCasePlanPending,
         approvalsClosurePending,
         protectionConcern,
-        sharedWithMe
+        sharedWithMe,
+        sharedWithOthers,
+        groupOverview,
+        caseOverview
       ]
     }
   }
@@ -207,6 +274,22 @@ describe("<Dashboard /> - Selectors", () => {
       });
 
       expect(records).to.deep.equal(expected);
+    });
+  });
+
+  describe("getCasesByAssessmentLevel empty value", () => {
+    it("should return a map when dashboard is empty", () => {
+      const emptyResult = fromJS({});
+
+      const initialState = fromJS({
+        name: DASHBOARD_NAMES.CASE_RISK,
+        type: "indicator",
+        stats: {}
+      });
+
+      const expected = selectors.getCasesByAssessmentLevel(initialState);
+
+      expect(emptyResult).to.deep.equal(expected);
     });
   });
 
@@ -269,6 +352,30 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getSharedWithMe(initialState);
 
       expect(values).to.deep.equal(fromJS(sharedWithMe));
+    });
+  });
+
+  describe("getSharedWithOthers", () => {
+    it("should return the shared with others", () => {
+      const values = selectors.getSharedWithOthers(initialState);
+
+      expect(values).to.deep.equal(fromJS(sharedWithOthers));
+    });
+  });
+
+  describe("getGroupOverview", () => {
+    it("should return the group overview", () => {
+      const values = selectors.getGroupOverview(initialState);
+
+      expect(values).to.deep.equal(fromJS(groupOverview));
+    });
+  });
+
+  describe("getCaseOverview", () => {
+    it("should return the case overview", () => {
+      const values = selectors.getCaseOverview(initialState);
+
+      expect(values).to.deep.equal(fromJS(caseOverview));
     });
   });
 });

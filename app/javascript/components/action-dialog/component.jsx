@@ -6,12 +6,15 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  DialogContentText
+  DialogContentText,
+  CircularProgress
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../i18n";
 
 import TitleWithClose from "./text-with-close";
+import styles from "./style.css";
 
 const ActionDialog = ({
   open,
@@ -24,15 +27,22 @@ const ActionDialog = ({
   children,
   onClose,
   confirmButtonProps,
-  omitCloseAfterSuccess
+  omitCloseAfterSuccess,
+  maxSize,
+  pending
 }) => {
   const i18n = useI18n();
+  const css = makeStyles(styles)();
 
-  const handleClose = () => (cancelHandler ? cancelHandler() : onClose());
+  const handleClose = event => {
+    event.stopPropagation();
+    cancelHandler ? cancelHandler() : onClose();
+  };
 
-  const handleSuccess = () => {
+  const handleSuccess = event => {
+    event.stopPropagation();
     successHandler();
-    if (!omitCloseAfterSuccess) handleClose();
+    if (!omitCloseAfterSuccess) handleClose(event);
   };
 
   const defaultSuccessButtonProps = {
@@ -55,13 +65,22 @@ const ActionDialog = ({
     <DialogTitle>{dialogTitle}</DialogTitle>
   );
 
+  const submitButton = (
+    <div className={css.submitButtonWrapper}>
+      <Button {...{ ...successButtonProps, onClick: handleSuccess }} disabled={pending}>
+        {confirmButtonLabel}
+      </Button>
+      {pending && <CircularProgress size={24} className={css.buttonProgress} />}
+    </div>
+  );
+
   return (
     <div>
       <Dialog
         open={open}
         onClose={handleClose}
         fullWidth
-        maxWidth="sm"
+        maxWidth={maxSize || "sm"}
         aria-labelledby="action-dialog-title"
         aria-describedby="action-dialog-description"
       >
@@ -74,9 +93,7 @@ const ActionDialog = ({
           )}
         </DialogContent>
         <DialogActions>
-          <Button {...{ ...successButtonProps, onClick: handleSuccess }}>
-            {confirmButtonLabel}
-          </Button>
+          {submitButton}
           {cancelHandler ? (
             <Button onClick={cancelHandler} color="primary">
               {i18n.t("cancel")}
@@ -101,9 +118,11 @@ ActionDialog.propTypes = {
   dialogSubtitle: PropTypes.string,
   dialogText: PropTypes.string,
   dialogTitle: PropTypes.string,
+  maxSize: PropTypes.string,
   omitCloseAfterSuccess: PropTypes.bool,
   onClose: PropTypes.func,
   open: PropTypes.bool,
+  pending: PropTypes.bool,
   successHandler: PropTypes.func
 };
 

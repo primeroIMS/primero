@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { fromJS, List } from "immutable";
 import MUIDataTable from "mui-datatables";
+import { CircularProgress } from "@material-ui/core";
 
 import { LoadingIndicator } from "../loading-indicator";
 import { setupMountedComponent, stub } from "../../test";
@@ -145,4 +146,41 @@ describe("<IndexTable />", () => {
         .text()
     ).to.be.be.equals("Table now sorted by name : descending");
   });
+
+  describe("When data still loading", () => {
+    let component;
+
+    const initialState = fromJS({
+      records: {
+        cases: {
+          data: [],
+          filters: {
+            status: ["open"]
+          },
+          loading: true,
+          errors: false,
+          metadata: {
+            total: 1,
+            per: 20,
+            page: 1
+          }
+        }
+      },
+      forms: {
+        fields: mapEntriesToRecord(fields, FieldRecord)
+      }
+    });
+
+    before(() => {
+      ({ component } = setupMountedComponent(IndexTable, props, initialState));
+    });
+
+    it("renders IndexTable component", () => {
+      expect(component.find(IndexTable)).to.have.lengthOf(1);
+    });
+    it("renders CircularProgress", () => {
+      expect(component.find(CircularProgress)).to.have.lengthOf(1);
+    });
+  });
+
 });

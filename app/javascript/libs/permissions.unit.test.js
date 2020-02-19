@@ -10,9 +10,6 @@ describe("Verifying config constant", () => {
 
     [
       "ADD_NOTE",
-      "APPROVE_BIA",
-      "APPROVE_CASE_PLAN",
-      "APPROVE_CLOSURE",
       "ASSIGN",
       "ASSIGN_WITHIN_AGENCY_PERMISSIONS",
       "ASSIGN_WITHIN_USER_GROUP",
@@ -24,6 +21,7 @@ describe("Verifying config constant", () => {
       "DASH_APPROVALS_CASE_PLAN_PENDING",
       "DASH_APPROVALS_CLOSURE",
       "DASH_APPROVALS_CLOSURE_PENDING",
+      "DASH_CASE_OVERVIEW",
       "DASH_CASE_RISK",
       "DASH_PROTECTION_CONCERNS",
       "DASH_REPORTING_LOCATION",
@@ -35,6 +33,8 @@ describe("Verifying config constant", () => {
       "DASH_CASES_BY_TASK_OVERDUE_SERVICES",
       "DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS",
       "DASH_SHARED_WITH_ME",
+      "DASH_SHARED_WITH_OTHERS",
+      "DASH_GROUP_OVERVIEW",
       "DISPLAY_VIEW_PAGE",
       "ENABLE_DISABLE_RECORD",
       "EXPORT_CASE_PDF",
@@ -63,6 +63,9 @@ describe("Verifying config constant", () => {
       "SERVICES_SECTION_FROM_CASE",
       "TRANSFER",
       "WRITE",
+      "APPROVE_BIA",
+      "APPROVE_CASE_PLAN",
+      "APPROVE_CLOSURE",
       "RECEIVE_TRANSFER",
       "RECEIVE_REFERRAL"
     ].forEach(property => {
@@ -101,7 +104,9 @@ describe("Verifying config constant", () => {
       "potential_matches",
       "reports",
       "tracing_requests",
-      "users"
+      "users",
+      "agencies",
+      "user_groups"
     ].forEach(property => {
       expect(resources).to.have.property(property);
       expect(resources[property]).to.be.a("string");

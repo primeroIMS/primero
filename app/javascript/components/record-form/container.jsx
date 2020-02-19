@@ -21,6 +21,7 @@ import {
 } from "../../config";
 import RecordOwner from "../record-owner";
 import { Approvals } from "../approvals";
+import { getLoadingRecordState } from "../records/selectors";
 
 import { NAME } from "./constants";
 import { Nav } from "./nav";
@@ -65,7 +66,10 @@ const Container = ({ match, mode }) => {
   const formNav = useSelector(state => getFormNav(state, selectedModule));
   const forms = useSelector(state => getRecordForms(state, selectedModule));
   const firstTab = useSelector(state => getFirstTab(state, selectedModule));
-  const loading = useSelector(state => getLoadingState(state));
+  const loadingForm = useSelector(state => getLoadingState(state));
+  const loadingRecord = useSelector(state =>
+    getLoadingRecordState(state, params.recordType)
+  );
   const errors = useSelector(state => getErrors(state));
   const selectedForm = useSelector(state => getSelectedForm(state));
 
@@ -92,11 +96,19 @@ const Container = ({ match, mode }) => {
             : {})
         }
       };
-      const message = containerMode.isEdit
-        ? i18n.t(`${recordType}.messages.update_success`, {
-            record_id: record.get("short_id")
-          })
-        : i18n.t(`${recordType}.messages.creation_success`, recordType);
+      const message = queue => {
+        const appendQueue = queue ? "_queue" : "";
+
+        return containerMode.isEdit
+          ? i18n.t(`${recordType}.messages.update_success${appendQueue}`, {
+              record_id: record.get("short_id")
+            })
+          : i18n.t(
+              `${recordType}.messages.creation_success${appendQueue}`,
+              recordType
+            );
+      };
+
       const redirect = containerMode.isNew
         ? `/${params.recordType}`
         : `/${params.recordType}/${params.id}`;
@@ -107,7 +119,8 @@ const Container = ({ match, mode }) => {
           saveMethod,
           body,
           params.id,
-          message,
+          message(),
+          message(true),
           redirect
         )
       );
@@ -168,7 +181,8 @@ const Container = ({ match, mode }) => {
   const transitionProps = {
     isReferral: REFERRAL === selectedForm,
     recordType: params.recordType,
-    record: params.id
+    record: params.id,
+    showMode: containerMode.isShow
   };
 
   const approvalSubforms = record?.get("approval_subforms");
@@ -185,10 +199,15 @@ const Container = ({ match, mode }) => {
     renderForm = <RecordForm {...formProps} />;
   }
 
+  const hasData = Boolean(
+    forms && formNav && firstTab && (containerMode.isNew || record)
+  );
+  const loading = Boolean(loadingForm || loadingRecord);
+
   return (
     <PageContainer twoCol>
       <LoadingIndicator
-        hasData={!!(forms && formNav && firstTab)}
+        hasData={hasData}
         type={params.recordType}
         loading={loading}
         errors={errors}

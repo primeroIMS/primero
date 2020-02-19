@@ -1,4 +1,5 @@
 import configureStore from "redux-mock-store";
+import thunk from "redux-thunk";
 
 import { expect, spy, stub } from "../../test";
 import * as idpSelection from "../pages/login/idp-selection";
@@ -7,6 +8,57 @@ import { Actions } from "./actions";
 import * as actionCreators from "./action-creators";
 
 describe("User - Action Creators", () => {
+  const middlewares = [thunk];
+  const expectedAsyncActions = [
+    {
+      type: "user/SET_AUTHENTICATED_USER",
+      payload: { id: 1, username: "primero" }
+    },
+    {
+      type: "user/FETCH_USER_DATA",
+      api: {
+        path: "users/1",
+        params: { extended: true },
+        db: { collection: "user" }
+      }
+    },
+    {
+      type: "application/FETCH_SYSTEM_SETTINGS",
+      api: {
+        path: "system_settings",
+        params: { extended: true },
+        db: { collection: "system_settings" }
+      }
+    },
+    {
+      type: "forms/RECORD_FORMS",
+      api: {
+        path: "forms",
+        normalizeFunc: "normalizeFormData",
+        db: { collection: "forms" }
+      }
+    },
+    {
+      type: "forms/SET_OPTIONS",
+      api: {
+        path: "lookups",
+        params: { page: 1, per: 999 },
+        db: { collection: "options" }
+      }
+    },
+    {
+      type: "forms/SET_LOCATIONS",
+      api: {
+        path: "nullundefined",
+        external: true,
+        db: {
+          alwaysCache: true,
+          collection: "locations",
+          manifest: undefined
+        }
+      }
+    }
+  ];
 
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
@@ -28,20 +80,21 @@ describe("User - Action Creators", () => {
   });
 
   it("should check the 'setAuthenticatedUser' action creator to return the correct object", () => {
-    const store = configureStore()({});
-    const dispatch = spy(store, "dispatch");
+    const store = configureStore(middlewares)({});
+
     const user = {
       id: 1,
       username: "primero"
     };
 
-    actionCreators.setAuthenticatedUser(user)(dispatch);
-    const firstCallReturnValue = dispatch.getCall(0).returnValue;
+    return store
+      .dispatch(actionCreators.setAuthenticatedUser(user))
+      .then(() => {
+        const actions = store.getActions();
 
-    expect(firstCallReturnValue.type).to.deep.equal(
-      Actions.SET_AUTHENTICATED_USER
-    );
-    expect(firstCallReturnValue.payload).to.deep.equal(user);
+        expect(actions).to.have.lengthOf(6);
+        expect(actions).to.be.deep.equal(expectedAsyncActions);
+      });
   });
 
   it("should check the 'setUser' action creator to return the correct object", () => {
@@ -98,32 +151,33 @@ describe("User - Action Creators", () => {
 
       expect(firstCallReturnValue.type).to.deep.equal(Actions.LOGOUT);
       expect(firstCallReturnValue.api).to.deep.equal(expected);
-
     });
 
     it("should call msal signOut if using IDP", () => {
       const usingIdp = true;
+
       actionCreators.attemptSignout(usingIdp, signOut)(dispatch);
       expect(signOut).to.have.been.called;
     });
 
     it("should not call msal signOut if not using IDP", () => {
       const usingIdp = false;
+
       actionCreators.attemptSignout(usingIdp, signOut)(dispatch);
       expect(signOut).not.to.have.been.called;
     });
   });
 
   it("should check the 'checkUserAuthentication' action creator to return the correct object", () => {
-    const store = configureStore()({});
-    const dispatch = spy(store, "dispatch");
+    global.localStorage.setItem("user", '{"id": 1, "username": "primero"}');
+    const store = configureStore(middlewares)({});
 
-    global.localStorage.setItem("user", '{"id": "1", "username": "primero"}');
-    actionCreators.checkUserAuthentication()(dispatch);
-    const firstCall = dispatch.getCall(0);
+    return store.dispatch(actionCreators.checkUserAuthentication()).then(() => {
+      const actions = store.getActions();
 
-    expect(dispatch).to.have.been.called;
-    expect(firstCall.args[0]).to.be.a("function");
+      expect(actions).to.have.lengthOf(6);
+      expect(actions).to.be.deep.equal(expectedAsyncActions);
+    });
   });
 
   it("should check the 'refreshToken' action creator to return the correct object", () => {

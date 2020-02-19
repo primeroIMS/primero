@@ -6,7 +6,7 @@ import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
-import { URL_LOCATIONS, URL_LOOKUPS } from "./constants"
+import { URL_LOOKUPS } from "./constants";
 
 chai.use(sinonChai);
 
@@ -76,6 +76,5 @@ describe("<RecordForm /> - Action Creators", () => {
     expect(firstCallReturnValue.type).to.eql(actions.SET_OPTIONS);
     expect(firstCallReturnValue.api.path).to.eql(URL_LOOKUPS);
     expect(secondCallReturnValue.type).to.eql(actions.SET_LOCATIONS);
-    expect(secondCallReturnValue.api.path).to.eql(URL_LOCATIONS);
   });
 });

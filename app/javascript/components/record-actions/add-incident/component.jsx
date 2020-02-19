@@ -102,6 +102,7 @@ const Component = ({
             body,
             id,
             i18n.t(`incident.messages.creation_success`),
+            false,
             false
           )
         )

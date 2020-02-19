@@ -85,7 +85,7 @@ const Component = ({
     });
 
     const value = lookups.filter(l =>
-      moreSectionFilters?.[fieldName]?.includes(l?.id)
+      moreSectionFilters?.[fieldName]?.includes(l?.code || l?.id)
     );
 
     setMoreFilterOnPrimarySection(
@@ -104,7 +104,7 @@ const Component = ({
 
       if (paramValues?.length) {
         const selected = lookups.filter(l =>
-          paramValues.includes(l.id.toString())
+          paramValues.includes(l?.code?.toString() || l?.id?.toString())
         );
 
         setValue(fieldName, selected);
@@ -152,10 +152,14 @@ const Component = ({
     let foundOption = option;
 
     if (typeof option === "string") {
-      [foundOption] = lookups.filter(l => l?.id === option);
+      [foundOption] = lookups.filter(lookupValue =>
+        [lookupValue?.code, lookupValue?.id].includes(option)
+      );
     }
 
     return (
+      foundOption?.display_name ||
+      foundOption?.display_text ||
       foundOption?.display_name?.[i18n.locale] ||
       foundOption?.display_text?.[i18n.locale] ||
       foundOption?.name?.[i18n.locale]

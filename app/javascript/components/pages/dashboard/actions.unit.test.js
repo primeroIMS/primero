@@ -14,8 +14,11 @@ describe("<Dashboard /> - Actions", () => {
       "CASES_BY_STATUS",
       "CASES_REGISTRATION",
       "CASES_OVERVIEW",
-      "FETCH_DASHBOARDS",
-      "FETCH_DASHBOARDS_SUCCESS",
+      "DASHBOARDS",
+      "DASHBOARDS_STARTED",
+      "DASHBOARDS_SUCCESS",
+      "DASHBOARDS_FINISHED",
+      "DASHBOARDS_FAILURE",
       "OPEN_PAGE_ACTIONS",
       "SERVICES_STATUS"
     ].forEach(property => {

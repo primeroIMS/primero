@@ -4,16 +4,6 @@ export const FETCH_TIMEOUT = 50000;
 // IndexedDB database name
 export const DATABASE_NAME = "primero";
 
-// IndexedDB database collections
-export const DB = {
-  USER: "user",
-  FIELDS: "fields",
-  FORMS: "forms",
-  OPTIONS: "options",
-  RECORDS: "records",
-  SYSTEM_SETTINGS: "system_settings"
-};
-
 // Time (ms) when the idle dialog will activate when a user is inactive
 export const IDLE_TIMEOUT = 15 * 1000 * 60;
 
@@ -67,7 +57,9 @@ export const RECORD_PATH = {
   incidents: "incidents",
   tasks: "tasks",
   tracing_requests: "tracing_requests",
-  users: "users"
+  users: "users",
+  user_groups: "user_groups",
+  agencies: "agencies"
 };
 
 export const RECORD_OWNER = "record_owner";
@@ -103,7 +95,11 @@ export const ROUTES = {
   tracing_requests: "/tracing_requests",
   admin: "/admin",
   admin_users: "/admin/users",
-  admin_users_new: "/admin/users/new"
+  admin_users_new: "/admin/users/new",
+  admin_user_groups: "/admin/user_groups",
+  admin_user_groups_new: "/admin/user_groups/new",
+  admin_agencies: "/admin/agencies",
+  admin_agencies_new: "/admin/agencies/new"
 };
 
 export const PERMITTED_URL = [
@@ -140,8 +136,12 @@ export const LOOKUPS = {
 
 export const ADMIN_NAV = [
   { to: "/users", label: "settings.navigation.users" },
-  { to: "/agency", label: "settings.navigation.agency", disabled: true },
+  { to: "/agencies", label: "settings.navigation.agencies" },
   { to: "/roles", label: "settings.navigation.roles", disabled: true },
+  {
+    to: "/user_groups",
+    label: "settings.navigation.user_groups"
+  },
   { to: "/modules", label: "settings.navigation.modules", disabled: true },
   { to: "/forms", label: "settings.navigation.forms", disabled: true },
   { to: "/locations", label: "settings.navigation.locations", disabled: true },
@@ -157,3 +157,8 @@ export const ADMIN_NAV = [
   },
   { to: "/matching", label: "settings.navigation.matching", disabled: true }
 ];
+
+export const ACCEPTED = "accepted";
+export const ACCEPT = "accept";
+export const REJECTED = "rejected";
+export const REJECT = "reject";

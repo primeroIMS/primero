@@ -21,7 +21,8 @@ export const registerInput = ({
         set(data) {
           setInputValue(data || defaultValue);
 
-          ref.current = isMultiSelect && data ? data.map(d => d.id) : data;
+          ref.current =
+            isMultiSelect && data ? data.map(d => d?.code || d.id) : data;
 
           if (!data && clearSecondaryInput) {
             clearSecondaryInput();

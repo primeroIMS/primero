@@ -65,6 +65,10 @@ const Component = ({
     });
   }, [formErrors]);
 
+  useEffect(() => {
+    formMethods.reset(initialValues);
+  }, [initialValues]);
+
   const renderFormSections = () =>
     formSections.map(formSection => (
       <FormSection formSection={formSection} key={formSection.unique_id} />
