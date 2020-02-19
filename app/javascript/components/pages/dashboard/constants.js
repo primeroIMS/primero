@@ -5,8 +5,10 @@ export const DASHBOARD_NAMES = Object.freeze({
   APPROVALS_CASE_PLAN: "dashboard.approvals_case_plan",
   APPROVALS_CLOSURE_PENDING: "dashboard.approvals_closure_pending",
   APPROVALS_CLOSURE: "dashboard.approvals_closure",
+  CASE_OVERVIEW: "dashboard.case_overview",
   CASE_RISK: "dashboard.case_risk",
-  CASES_BY_TASK_OVERDUE_ASSESSMENT: "dashboard.cases_by_task_overdue_assessment",
+  CASES_BY_TASK_OVERDUE_ASSESSMENT:
+    "dashboard.cases_by_task_overdue_assessment",
   CASES_BY_TASK_OVERDUE_CASE_PLAN: "dashboard.cases_by_task_overdue_case_plan",
   CASES_BY_TASK_OVERDUE_FOLLOWUPS: "dashboard.cases_by_task_overdue_followups",
   CASES_BY_TASK_OVERDUE_SERVICES: "dashboard.cases_by_task_overdue_services",

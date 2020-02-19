@@ -28,6 +28,7 @@ import * as User from "./components/user";
 import * as IndexFilters from "./components/index-filters";
 import * as TransferRequest from "./components/record-list/view-modal/transfer-request";
 import { reducer as transferApprovalReducers } from "./components/transitions/transfers/transfer-approval";
+import { reducers as referralActionReducers } from "./components/transitions/referrals/referral-action";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -49,7 +50,8 @@ const rootReducer = {
     transitions: reduceReducers(
       Transitions.reducers,
       TransitionsForms.reducers,
-      TransferRequest.reducers
+      TransferRequest.reducers,
+      referralActionReducers
     ),
     ...PotentialMatches.reducers,
     ...TaskList.reducers,

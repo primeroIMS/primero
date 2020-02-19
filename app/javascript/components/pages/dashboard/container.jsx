@@ -59,7 +59,8 @@ import {
   getCasesByTaskOverdueFollowups,
   getSharedWithMe,
   getSharedWithOthers,
-  getGroupOverview
+  getGroupOverview,
+  getCaseOverview
 } from "./selectors";
 import styles from "./styles.css";
 import {
@@ -107,7 +108,8 @@ const Dashboard = ({
   sharedWithMe,
   userPermissions,
   groupOverview,
-  sharedWithOthers
+  sharedWithOthers,
+  caseOverview
 }) => {
   useEffect(() => {
     batch(() => {
@@ -359,6 +361,28 @@ const Dashboard = ({
                     </Permission>
                     <Permission
                       resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_CASE_OVERVIEW}
+                    >
+                      <Grid item xs>
+                        <OptionsBox flat>
+                          <LoadingIndicator
+                            type={NAMESPACE}
+                            loading={loading}
+                            errors={errors}
+                            hasData={Boolean(caseOverview.size)}
+                            overlay
+                          >
+                            <OverviewBox
+                              items={caseOverview}
+                              sumTitle={i18n.t("dashboard.case_overview")}
+                              withTotal={false}
+                            />
+                          </LoadingIndicator>
+                        </OptionsBox>
+                      </Grid>
+                    </Permission>
+                    <Permission
+                      resources={RESOURCES.dashboards}
                       actions={ACTIONS.DASH_SHARED_WITH_ME}
                     >
                       <Grid item xs>
@@ -584,6 +608,7 @@ Dashboard.propTypes = {
   approvalsCasePlanPending: PropTypes.object.isRequired,
   approvalsClosure: PropTypes.object.isRequired,
   approvalsClosurePending: PropTypes.object.isRequired,
+  caseOverview: PropTypes.object.isRequired,
   casesByAssessmentLevel: PropTypes.object.isRequired,
   casesByCaseWorker: PropTypes.object.isRequired,
   casesByStatus: PropTypes.object.isRequired,
@@ -643,7 +668,8 @@ const mapStateToProps = state => {
     sharedWithMe: getSharedWithMe(state),
     userPermissions: getPermissions(state),
     groupOverview: getGroupOverview(state),
-    sharedWithOthers: getSharedWithOthers(state)
+    sharedWithOthers: getSharedWithOthers(state),
+    caseOverview: getCaseOverview(state)
   };
 };
 
