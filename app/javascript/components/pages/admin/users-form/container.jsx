@@ -12,10 +12,14 @@ import NAMESPACE from "../namespace";
 import { ROUTES } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
+import { setDialog, setPending } from "../../../record-actions/action-creators";
+import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
 
 import { form, validations } from "./form";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
+import { USER_CONFIRMATION_DIALOG } from "./constants";
 import { getUser, getServerErrors, selectIdentityProviders } from "./selectors";
+import UserConfirmation from "./user-confirmation";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -30,10 +34,20 @@ const Container = ({ mode }) => {
   const useIdentityProviders = idp?.get("use_identity_provider");
   const providers = idp?.get("identity_providers");
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-
   const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
-
   const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
+  const [userData, setUserData] = React.useState("");
+
+  const userConfirmationOpen = useSelector(state =>
+    selectDialog(USER_CONFIRMATION_DIALOG, state)
+  );
+  const setUserConfirmationOpen = open => {
+    dispatch(setDialog({ dialog: USER_CONFIRMATION_DIALOG, open: open }));
+  };
+  const dialogPending = useSelector(state => selectDialogPending(state));
+  const setDialogPending = pending => {
+    dispatch(setPending({ pending: pending }));
+  };
 
   const handleSubmit = data => {
     dispatch(
@@ -47,6 +61,15 @@ const Container = ({ mode }) => {
       })
     );
   };
+
+  const handleClose = () => {
+    setUserConfirmationOpen(false);
+  };
+
+  const handleHostedIdentitySubmit = data => {
+    setUserData(data);
+    setUserConfirmationOpen(true);
+  }
 
   const bindFormSubmit = () => {
     formRef.current.submitForm();
@@ -113,11 +136,21 @@ const Container = ({ mode }) => {
             useIdentityProviders,
             providers
           )}
-          onSubmit={handleSubmit}
+          onSubmit={handleHostedIdentitySubmit}
           ref={formRef}
           validations={validationSchema}
           initialValues={user.toJS()}
           formErrors={formErrors}
+        />
+        <UserConfirmation
+          userConfirmationOpen={userConfirmationOpen}
+          close={handleClose}
+          saveMethod={formMode.get("isEdit") ? "update" : "new"}
+          pending={dialogPending}
+          setPending={setDialogPending}
+          id={id}
+          dialogName={USER_CONFIRMATION_DIALOG}
+          userData={userData}
         />
       </PageContent>
     </LoadingIndicator>

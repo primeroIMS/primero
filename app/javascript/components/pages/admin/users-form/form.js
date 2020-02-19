@@ -31,6 +31,29 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
         is: (provider) => provider === "primeroims",
         then: yup.string().matches(/@cpims-gh.primero.org$/).required()
       });
+    // let providerRegex;
+    // validations.user_name = yup.string()
+    //   .when(['identity_provider'], {
+    //     is: (provider) => {
+    //       const foundProvider = providers.find((prov) => prov.get("unique_id") === provider);
+    //       providerRegex = new RegExp(`@${foundProvider.get("user_domain")}$`);
+    //     },
+    //     then: yup.string().matches(providerRegex).required()
+    //   })
+    //   .when(['identity_provider'], {
+    //     is: (provider) => provider === "",
+    //     then: yup.string().required()
+    //   });
+    // validations.user_name = yup.lazy(() => {
+    //   const provider = providers.find((provider) => provider.get("unique_id") === yup.ref("identity_provider"));
+    //   if (provider) {
+    //     const regexMatch = new RegExp(`@${provider.get("user_domain")}$`);
+    //     return yup.string().matches(regexMatch).required();
+    //   } else {
+    //     return yup.string().required();
+    //   }
+    // });
+
   } else {
     validations.password = yup.lazy(() => {
       const defaultValidation = yup.string().min(8);
@@ -57,7 +80,6 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
     });
     validations.user_name = yup.string().required();
   }
-  console.log('testvalidation::', validations);
 
   return yup.object().shape(validations);
 }
@@ -89,7 +111,6 @@ export const form = (
         helpTextIfWatch: (input) => {
           const provider = providers.find((provider) => provider.get("unique_id") === input);
 
-          console.log('provider', provider);
           return provider ? i18n.t("user.provider_username_help", {domain: provider.get("user_domain")}) : null;
         }
       }),
