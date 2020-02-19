@@ -54,7 +54,7 @@ jobs:
         displayName: 'Bundle install'
       - bash: sudo apt-get install -y postgresql-client-10
         displayName: 'Install postgres client'
-      - bash: docker run --rm -d -p 5432:5432 postgres:10
+      - bash: docker run --rm -d -p 5432:5432 postgres:10@sha256:2aef165ab4f30fbb109e88959271d8b57489790ea13a77d27c02d8adb8feb20f
         displayName: 'Start postgres'
       - bash: |
           bundle exec rake sunspot:solr:start
