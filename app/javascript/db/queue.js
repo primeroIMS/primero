@@ -1,3 +1,6 @@
+import EventManager from "../libs/messenger";
+import { QUEUE_ADD, QUEUE_FINISHED } from "../libs/queue";
+
 import { DB_STORES } from "./constants";
 import DB from "./db";
 
@@ -7,14 +10,13 @@ const queueIndexedDB = {
   },
 
   add: action => {
-    DB[Array.isArray(action) ? "bulkAdd" : "add"](
-      DB_STORES.OFFLINE_REQUESTS,
-      action
-    );
+    DB.add(DB_STORES.OFFLINE_REQUESTS, action);
+    EventManager.publish(QUEUE_ADD, action);
   },
 
-  delete: index => {
-    DB.delete(DB_STORES.OFFLINE_REQUESTS, index);
+  delete: async index => {
+    await DB.delete(DB_STORES.OFFLINE_REQUESTS, index);
+    EventManager.publish(QUEUE_FINISHED, index);
   }
 };
 

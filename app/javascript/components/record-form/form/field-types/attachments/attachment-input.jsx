@@ -20,7 +20,11 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
   });
 
   const loadingFile = (loading, data) => {
-    setFile({ loading, data: data?.result, fileName: data?.name });
+    setFile({
+      loading,
+      data: `${data?.content}${data?.result}`,
+      fileName: data?.name
+    });
   };
 
   const handleChange = (form, event) => {
@@ -32,6 +36,15 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
       toBase64(selectedFile).then(data => {
         form.setFieldValue(fields.attachment, data?.result, true);
         form.setFieldValue(fields.contentType, data?.fileType, true);
+        form.setFieldValue(fields.fileName, data?.fileName, true);
+        form.setFieldValue(fields.attachmentType, attachment, true);
+        form.setFieldValue(fields.fieldName, name, true);
+
+        if (
+          [ATTACHMENT_TYPES.photo, ATTACHMENT_TYPES.audio].includes(attachment)
+        ) {
+          form.setFieldValue(fields.date, new Date(), true);
+        }
         loadingFile(false, data);
       });
     }
@@ -80,8 +93,6 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
             );
           }}
         />
-        <FastField name={fields.type} type="hidden" value={attachment} />
-        <FastField name={fields.fieldName} type="hidden" value={name} />
       </div>
       {renderPreview()}
     </div>

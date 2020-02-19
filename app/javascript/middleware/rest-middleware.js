@@ -1,12 +1,18 @@
 import qs from "qs";
-import uuid from "uuid/v4";
 
 import { attemptSignout } from "../components/user";
-import { FETCH_TIMEOUT, METHODS as REST_METHODS } from "../config";
+import { FETCH_TIMEOUT } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { signOut } from "../components/pages/login/idp-selection";
+import EventManager from "../libs/messenger";
+import { QUEUE_FAILED } from "../libs/queue";
 
-import { handleSuccessCallback, isOnline, partitionObject } from "./utils";
+import {
+  handleSuccessCallback,
+  isOnline,
+  partitionObject,
+  processAttachments
+} from "./utils";
 
 const defaultFetchOptions = {
   method: "GET",
@@ -55,36 +61,6 @@ const getToken = () => {
   return sessionStorage.getItem("msal.idtoken");
 };
 
-const processAttachments = ({ attachments, id, recordType }) => {
-  const actions = Object.keys(attachments).reduce((prev, current) => {
-    attachments[current].forEach(attachment => {
-      const method = attachment?._destroy
-        ? REST_METHODS.DELETE
-        : REST_METHODS.POST;
-
-      const path = `/${recordType}/${id}/attachments/${
-        method === "DELETE" ? `/${attachment?.id}` : ""
-      }`;
-
-      prev.push({
-        type: `${recordType}/SAVE_ATTACHMENT`,
-        api: {
-          path,
-          method,
-          body: { data: { attachment } },
-          fromQueue: uuid()
-        }
-      });
-    });
-
-    return prev;
-  }, []);
-
-  if (actions) {
-    queueIndexedDB.add(actions);
-  }
-};
-
 function fetchPayload(action, store, options) {
   const controller = new AbortController();
 
@@ -118,14 +94,14 @@ function fetchPayload(action, store, options) {
           .getIn(["forms", "attachmentFields"], [])
           .includes(key)
       )
-    : [false, body];
+    : [false, false];
 
   const fetchOptions = {
     ...defaultFetchOptions,
     method,
     signal: controller.signal,
-    ...(formData && {
-      body: JSON.stringify(formData?.data ? formData : { data: formData })
+    ...((formData || body) && {
+      body: JSON.stringify(formData ? { data: formData } : body)
     })
   };
 
@@ -191,6 +167,11 @@ function fetchPayload(action, store, options) {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.warn(e);
+
+      if (fromQueue) {
+        EventManager.publish(QUEUE_FAILED, action);
+      }
+
       fetchStatus({ store, type }, "FAILURE", false);
       handleSuccessCallback(store, failureCallback, {}, {});
     }

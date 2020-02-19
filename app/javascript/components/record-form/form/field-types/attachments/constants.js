@@ -6,13 +6,14 @@ export const ATTACHMENT_FIELDS = Object.freeze({
   date: "date",
   description: "description",
   fieldName: "field_name",
+  fileName: "file_name",
   isCurrent: "is_current",
   type: "type"
 });
 
 export const ATTACHMENT_TYPES = Object.freeze({
   document: "document",
-  photo: "photo",
+  photo: "image",
   audio: "audio"
 });
 

@@ -1,6 +1,9 @@
 import { push } from "connected-react-router";
 import uuid from "uuid/v4";
 
+import { queueIndexedDB } from "../db";
+import { METHODS } from "../config";
+
 const generateName = (body = {}) => {
   const { name_first: nameFirst, name_last: nameLast, name } = body;
 
@@ -20,7 +23,9 @@ export const handleSuccessCallback = (
 ) => {
   if (successCallback) {
     if (Array.isArray(successCallback)) {
-      successCallback.forEach(callback => handleSuccessCallback(store, callback, response, json, fromQueue));
+      successCallback.forEach(callback =>
+        handleSuccessCallback(store, callback, response, json, fromQueue)
+      );
     } else {
       const isCallbackObject = typeof successCallback === "object";
       const successPayload = isCallbackObject
@@ -77,4 +82,32 @@ export const partitionObject = (obj, filterFn) => {
     },
     [{}, {}]
   );
+};
+
+export const processAttachments = ({ attachments, id, recordType }) => {
+  const actions = Object.keys(attachments).reduce((prev, current) => {
+    attachments[current].forEach(attachment => {
+      const method = attachment?._destroy ? METHODS.DELETE : METHODS.POST;
+
+      const path = `/${recordType}/${id}/attachments${
+        method === "DELETE" ? `/${attachment?.id}` : ""
+      }`;
+
+      prev.push({
+        type: `${recordType}/SAVE_ATTACHMENT`,
+        api: {
+          path,
+          method,
+          body: { data: { ...attachment } }
+        },
+        fromQueue: uuid()
+      });
+    });
+
+    return prev;
+  }, []);
+
+  if (actions) {
+    actions.forEach(action => queueIndexedDB.add(action));
+  }
 };
