@@ -1,6 +1,6 @@
 export { default } from "./container";
 export { getListHeaders } from "./selectors";
-export { buildTableColumns, getRecordsFetcherByType } from "./helpers";
+export { buildTableColumns } from "./helpers";
 export {
   RECORDS_FAILURE,
   RECORDS_STARTED,
