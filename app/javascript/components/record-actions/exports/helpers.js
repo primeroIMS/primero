@@ -54,8 +54,7 @@ export const exporterFilters = (
   shortIds,
   appliedFilters,
   queryParams,
-  record,
-  isQueryVisible
+  record
 ) => {
   let filters = {};
   const defaultFilters = {
@@ -94,7 +93,7 @@ export const exporterFilters = (
     ? restFilters
     : { short_id: shortIds };
 
-  if (!isEmpty(query) && isQueryVisible) {
+  if (!isEmpty(query)) {
     return { filters: returnFilters, query };
   }
 

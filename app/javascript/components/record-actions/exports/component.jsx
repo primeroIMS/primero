@@ -58,16 +58,13 @@ const Component = ({
       .filter((_r, i) => selectedRecords?.includes(i))
       .map(r => r.short_id);
 
-    // TODO: document.getElementById("search-input").value, should be removed
-    // once search-filter component is clean when loading case-list
     const filters = exporterFilters(
       isShowPage,
       allCurrentRowsSelected,
       shortIds,
       appliedFilters,
       queryParams,
-      record,
-      document.getElementById("search-input").value
+      record
     );
 
     const body = {
