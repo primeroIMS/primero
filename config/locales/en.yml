@@ -350,6 +350,8 @@ en:
     assessment: "Assessment"
     case_plan: "Case Plan"
     closure: "Closure"
+    referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
+    referral_done_success: "Referral done."
 
     order_by:
       most_recently: "Most recently"
@@ -665,6 +667,8 @@ en:
     case_plan: "Case Plan"
     closure: "Closure"
     export: "Export"
+    referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
+    referral_done_success: "Referral done."
 
   incident:
     label: "Incident ID"
@@ -806,6 +810,17 @@ en:
       separation_cause: "Separation Cause"
       record_state: "Record State"
       by_date: "By Date"
+    referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
+    referral_done_success: "Referral done."
+    transfer_accepted: "By clicking 'Accept' you accept the responsibility for this case; once you click ‘Accept' you will become the record owner in the system."
+    transfer_rejected: "By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this case at this time. Please enter a reason that you are rejecting this case; once you click ‘Reject’ you will no longer have access to this case record."
+    transfer_reject_reason_label: "Rejection Reason"
+    transfer_accepted_success: "Case transfer successfully accepted."
+    transfer_accepted_rejected: "Case %{record_id} transfer rejected."
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
+    export: "Export"
     request_approval_select: "Request approval for"
     request_approve_bia: "Approve Assessment?"
     request_approve_case_plan: "Approve Case Plan?"
@@ -814,10 +829,6 @@ en:
     request_approval_success_case_plan: "Approval requested for Case Plan form."
     request_approval_success_closure: "Approval requested for Closure form."
     request_approval_failure: "An error occurred, please contact support."
-    assessment: "Assessment"
-    case_plan: "Case Plan"
-    closure: "Closure"
-    export: "Export"
 
   potential_matches:
     empty: "Please access matching through Tracing Requests"
