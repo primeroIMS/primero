@@ -93,6 +93,16 @@ describe Alertable do
         data: { owned_by: @user_b.user_name },
         alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_b.id)]
       )
+      @test_class_c = Child.create(
+        name: 'foo',
+        data: { owned_by: @user_b.user_name, record_state: false },
+        alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_b.id)]
+      )
+      @test_class_d = Child.create(
+        name: 'foo',
+        data: { owned_by: @user_b.user_name, status: Record::STATUS_CLOSED },
+        alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_b.id)]
+      )
     end
 
     context 'and current user is not the record owner' do
@@ -120,6 +130,11 @@ describe Alertable do
           expect(Child.alert_count(@user_b)).to eq(2)
           expect(Child.alert_count(@user_c)).to eq(1)
           expect(Child.alert_count(@user_d)).to eq(0)
+        end
+
+        it 'show only the open enabled recod for the open_enabled_records method' do
+          expect(Child.all.count).to eq(4)
+          expect(Child.open_enabled_records.count).to eq(2)
         end
       end
     end

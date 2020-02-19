@@ -24,26 +24,34 @@ module Alertable
       def alert_count(current_user)
         query_scope = current_user.record_query_scope(self.class)[:user]
         if query_scope.blank?
-          joins(:alerts).distinct.count
+          open_enabled_records.distinct.count
         elsif query_scope[Permission::AGENCY].present?
-          alert_count_agency(current_user)
+          alert_count_agency(current_user.agency.unique_id)
         elsif query_scope[Permission::GROUP].present?
-          alert_count_group(current_user)
+          alert_count_group(current_user.user_groups.pluck(:unique_id))
         else
-          joins(:alerts).owned_by(current_user.user_name).distinct.count
+          alert_count_self(current_user.user_name)
         end
       end
 
-      def alert_count_agency(current_user)
-        joins(:alerts).where("data -> 'associated_user_agencies' ? :agency", agency: current_user.agency.unique_id)
-                      .distinct.count
+      def alert_count_agency(agency_unique_id)
+        open_enabled_records.where("data -> 'associated_user_agencies' ? :agency", agency: agency_unique_id)
+                            .distinct.count
       end
 
-      def alert_count_group(current_user)
-        joins(:alerts).where(
+      def alert_count_group(user_groups_unique_id)
+        open_enabled_records.where(
           "data -> 'associated_user_groups' ?& array[:group]",
-          group: current_user.user_groups.pluck(:unique_id)
+          group: user_groups_unique_id
         ).distinct.count
+      end
+
+      def alert_count_self(current_user_name)
+        open_enabled_records.owned_by(current_user_name).distinct.count
+      end
+
+      def open_enabled_records
+        joins(:alerts).where('data @> ?', { record_state: true, status: Record::STATUS_OPEN }.to_json)
       end
     end
 
