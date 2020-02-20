@@ -112,7 +112,15 @@ describe("<RecordActions /> - exports/helpers", () => {
       const expected = { filters: { short_id: shortIds } };
 
       expect(
-        helper.exporterFilters(true, false, shortIds, appliedFilters, record)
+        helper.exporterFilters(
+          true,
+          false,
+          shortIds,
+          appliedFilters,
+          {},
+          record,
+          false
+        )
       ).to.be.deep.equals(expected);
     });
 
@@ -123,16 +131,32 @@ describe("<RecordActions /> - exports/helpers", () => {
         const expected = { filters: { short_id: shortIds } };
 
         expect(
-          helper.exporterFilters(false, false, shortIds, fromJS({}), record)
+          helper.exporterFilters(
+            false,
+            false,
+            shortIds,
+            fromJS({}),
+            {},
+            record,
+            false
+          )
         ).to.be.deep.equals(expected);
       }
     );
 
     it("should return and object with applied filters, if isShowPage is false and allRowsSelected is true", () => {
-      const expected = { filters: { sex: fromJS(["female"]) } };
+      const expected = { filters: { short_id: shortIds } };
 
       expect(
-        helper.exporterFilters(false, true, shortIds, appliedFilters, record)
+        helper.exporterFilters(
+          false,
+          true,
+          shortIds,
+          appliedFilters,
+          {},
+          record,
+          false
+        )
       ).to.be.deep.equals(expected);
     });
 
@@ -141,7 +165,7 @@ describe("<RecordActions /> - exports/helpers", () => {
         "if isShowPage is false, allRowsSelected is false and a query is specified",
       () => {
         const query = "test";
-        const expected = { filters: { short_id: shortIds }, query };
+        const expected = { filters: { short_id: shortIds } };
 
         expect(
           helper.exporterFilters(
@@ -149,7 +173,9 @@ describe("<RecordActions /> - exports/helpers", () => {
             true,
             shortIds,
             fromJS({ query }),
-            record
+            {},
+            record,
+            false
           )
         ).to.be.deep.equals(expected);
       }
@@ -160,7 +186,7 @@ describe("<RecordActions /> - exports/helpers", () => {
         "if isShowPage is false, allRowsSelected is true and a query is specified",
       () => {
         const query = "test";
-        const expected = { filters: { short_id: shortIds }, query };
+        const expected = { filters: { short_id: shortIds } };
 
         expect(
           helper.exporterFilters(
@@ -168,7 +194,9 @@ describe("<RecordActions /> - exports/helpers", () => {
             true,
             shortIds,
             fromJS({ query }),
-            record
+            {},
+            record,
+            false
           )
         ).to.be.deep.equals(expected);
       }
