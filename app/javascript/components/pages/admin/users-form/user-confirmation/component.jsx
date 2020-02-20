@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { FormLabel, TextField } from "@material-ui/core";
 
 import { useI18n } from "../../../../i18n";
 import { ActionDialog } from "../../../../action-dialog";
@@ -32,9 +31,9 @@ const Component = ({
         dialogName,
         body: { userData },
         message: i18n.t(
-          `user.messages.${ saveMethod === "update" ? "updated" : "created"}`
+          `user.messages.${saveMethod === "update" ? "updated" : "created"}`
         ),
-        failureMessage:i18n.t("user.messages.failure")
+        failureMessage: i18n.t("user.messages.failure")
       })
     );
   };
@@ -46,7 +45,16 @@ const Component = ({
   };
 
   const dialogContent = (
-    <p dangerouslySetInnerHTML={{__html: i18n.t(`user.messages.${saveMethod}_confirm_html`, {username: userData.user_name, identity: userData.identity_provider, role: userData.role_unique_id, email: userData.email})}} />
+    <p
+      dangerouslySetInnerHTML={{
+        __html: i18n.t(`user.messages.${saveMethod}_confirm_html`, {
+          username: userData.user_name,
+          identity: userData.identity_provider,
+          role: userData.role_unique_id,
+          email: userData.email
+        })
+      }}
+    />
   );
 
   return (

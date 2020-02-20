@@ -14,13 +14,7 @@ import styles from "./styles.css";
 
 const CheckboxInput = ({ commonInputProps, options, metaInputProps }) => {
   const css = makeStyles(styles)();
-  const {
-    name,
-    error,
-    required,
-    label,
-    helperText
-  } = commonInputProps;
+  const { name, error, required, label, helperText } = commonInputProps;
 
   return (
     <FormControl
@@ -55,6 +49,7 @@ CheckboxInput.propTypes = {
     name: PropTypes.string.isRequired,
     required: PropTypes.bool
   }),
+  metaInputProps: PropTypes.object,
   options: PropTypes.array
 };
 

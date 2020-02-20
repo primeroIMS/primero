@@ -6,11 +6,7 @@ import { Controller, useFormContext } from "react-hook-form";
 
 const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const { watch } = useFormContext();
-  const {
-    multiSelect,
-    watchDisableInput,
-    watchDisable
-  } = metaInputProps;
+  const { multiSelect, watchDisableInput, watchDisable } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
 
   const optionLabel = option => {
@@ -33,10 +29,17 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
 
   const optionEquality = (option, value) =>
     multiSelect ? option.id === value : option.id === value.id;
-  const watchedDisableField = watchDisableInput ? watch(watchDisableInput, "") : false;
+  const watchedDisableField = watchDisableInput
+    ? watch(watchDisableInput, "")
+    : false;
   let disableField = disabled;
 
-  if (!disabled && watchDisableInput && watchDisable && watchedDisableField !== false) {
+  if (
+    !disabled &&
+    watchDisableInput &&
+    watchDisable &&
+    watchedDisableField !== false
+  ) {
     disableField = watchDisable(watchedDisableField);
   }
 

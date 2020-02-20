@@ -13,10 +13,17 @@ const SwitchInput = ({ commonInputProps, metaInputProps }) => {
   const { helperText, error, disabled, name, label } = commonInputProps;
   const { watchDisableInput, watchDisable } = metaInputProps;
   const { watch } = useFormContext();
-  const watchedDisableField = watchDisableInput ? watch(watchDisableInput, "") : false;
+  const watchedDisableField = watchDisableInput
+    ? watch(watchDisableInput, "")
+    : false;
   let disableField = disabled;
 
-  if (!disabled && watchDisableInput && watchDisable && watchedDisableField !== false) {
+  if (
+    !disabled &&
+    watchDisableInput &&
+    watchDisable &&
+    watchedDisableField !== false
+  ) {
     disableField = watchDisable(watchedDisableField);
   }
 
@@ -49,6 +56,7 @@ SwitchInput.propTypes = {
     error: PropTypes.bool,
     helperText: PropTypes.string,
     label: PropTypes.string,
+    metaInputProps: PropTypes.object,
     name: PropTypes.string
   })
 };

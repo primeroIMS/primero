@@ -18,23 +18,34 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
   } = metaInputProps;
   const inputType = password ? "password" : "text";
   const { helperText, disabled, ...additionalInputProps } = commonInputProps;
-  const watchedField = watchInput ? watch(watchInput, commonInputProps.label) : null;
+  const watchedField = watchInput
+    ? watch(watchInput, commonInputProps.label)
+    : null;
   let showField = true;
 
   if (watchedField && hideIfWatch) {
     showField = !hideIfWatch(watchedField);
   }
 
-  const watchHelperText = helpTextIfWatch && watchedField ? helpTextIfWatch(watchedField) : helperText;
-  const watchedDisableField = watchDisableInput ? watch(watchDisableInput, "") : false;
+  const watchHelperText =
+    helpTextIfWatch && watchedField
+    ? helpTextIfWatch(watchedField)
+    : helperText;
+  const watchedDisableField = watchDisableInput
+    ? watch(watchDisableInput, "")
+    : false;
   let disableField = disabled;
 
-  if (!disabled && watchDisableInput && watchDisable && watchedDisableField !== false) {
+  if (
+    !disabled &&
+    watchDisableInput &&
+    watchDisable &&
+    watchedDisableField !== false
+  ) {
     disableField = watchDisable(watchedDisableField);
   }
 
   return showField ? (
-    <>
     <Controller
       type={inputType}
       as={TextField}
@@ -44,7 +55,6 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
       defaultValue=""
       disabled={disableField}
     />
-    </>
   ) : null;
 };
 

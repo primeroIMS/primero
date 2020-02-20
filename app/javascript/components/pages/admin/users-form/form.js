@@ -1,4 +1,4 @@
-import { fromJS, map } from "immutable";
+import { fromJS } from "immutable";
 import * as yup from "yup";
 
 import {
@@ -25,23 +25,25 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
     validations.identity_provider = yup.string().required();
 
     const isIdpProvider = function(ref, message) {
-      return this.test(
-        'isIdpProvider',
-        message,
-        function (value) {
-          const providerName = this.resolve(ref);
-          const provider = providers.find((provider) => provider.get("unique_id") === providerName);
-          if (provider) {
-            const regexMatch = new RegExp(`@${provider.get("user_domain")}$`);
-            return value.match(regexMatch);
-          }
+      return this.test( 'isIdpProvider', message, function (value) {
+        const providerName = this.resolve(ref);
+        const provider = providers.find(
+          currentProvider => currentProvider.get("unique_id") === providerName
+        );
+        if (provider) {
+          const regexMatch = new RegExp(`@${provider.get("user_domain")}$`);
+
+          return value.match(regexMatch);
         }
-      );
+      });
     };
 
     yup.addMethod(yup.string, "isIdpProvider", isIdpProvider);
 
-    validations.user_name = yup.string().isIdpProvider(yup.ref("identity_provider")).required();
+    validations.user_name = yup
+      .string()
+      .isIdpProvider(yup.ref("identity_provider"))
+      .required();
   } else {
     validations.password = yup.lazy(() => {
       const defaultValidation = yup.string().min(8);
@@ -70,26 +72,19 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
   }
 
   return yup.object().shape(validations);
-}
+};
 
-export const form = (
-  i18n,
-  formMode,
-  useIdentityProviders,
-  providers
-) => {
-
-
+export const form = (i18n, formMode, useIdentityProviders, providers) => {
   let formData;
 
-  if(useIdentityProviders && providers) {
+  if (useIdentityProviders && providers) {
     const identityOptions = providers.toJS().map(provider => {
-      return {id: provider.unique_id, display_text: provider.name};
+      return { id: provider.unique_id, display_text: provider.name };
     });
 
-    const providersDisable = (input) => {
+    const providersDisable = input => {
       return input === "";
-    }
+    };
 
     formData = {
       unique_id: "users",
@@ -118,10 +113,16 @@ export const form = (
           required: true,
           editable: false,
           watchInput: "identity_provider",
-          helpTextIfWatch: (input) => {
-            const provider = providers ? providers.find((provider) => provider.get("unique_id") === input) : null;
+          helpTextIfWatch: input => {
+            const provider = providers
+              ? providers.find(currentProvider => currentProvider.get("unique_id") === input)
+              : null;
 
-            return provider ? i18n.t("user.provider_username_help", {domain: provider.get("user_domain")}) : null;
+            return currentProvider
+              ? i18n.t("user.provider_username_help", {
+                domain: currentProvider.get("user_domain")
+              })
+              : null;
           },
           watchDisableInput: "identity_provider",
           watchDisable: providersDisable
