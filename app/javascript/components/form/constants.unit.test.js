@@ -16,7 +16,8 @@ describe("<Form /> - Constants", () => {
       "FORM_MODE_DIALOG",
       "SELECT_FIELD",
       "TICK_FIELD",
-      "CHECK_BOX_FIELD"
+      "CHECK_BOX_FIELD",
+      "PHOTO_FIELD"
     ].forEach(property => {
       expect(clonedConstants).to.have.property(property);
       delete clonedConstants[property];
