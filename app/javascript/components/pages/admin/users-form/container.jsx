@@ -139,6 +139,7 @@ const Container = ({ mode }) => {
           isIdp={useIdentityProviders}
           dialogName={USER_CONFIRMATION_DIALOG}
           userData={userData}
+          userName={formMode.get("isEdit") ? user.get("user_name") : userData.user_name}
         />
       </PageContent>
     </LoadingIndicator>

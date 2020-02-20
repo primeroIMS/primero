@@ -17,7 +17,8 @@ const Component = ({
   saveMethod,
   setPending,
   userConfirmationOpen,
-  userData
+  userData,
+  userName
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -49,7 +50,7 @@ const Component = ({
     <p
       dangerouslySetInnerHTML={{
         __html: i18n.t(`user.messages.${saveMethod}_confirm_${isIdp ? "" : "non_identity_"}html`, {
-          username: userData.user_name,
+          username: userName,
           identity: userData.identity_provider,
           role: userData.role_unique_id,
           email: userData.email
@@ -90,7 +91,8 @@ Component.propTypes = {
   saveMethod: PropTypes.string,
   setPending: PropTypes.func,
   userConfirmationOpen: PropTypes.bool,
-  userData: PropTypes.object
+  userData: PropTypes.object,
+  userName: PropTypes.string
 };
 
 export default Component;
