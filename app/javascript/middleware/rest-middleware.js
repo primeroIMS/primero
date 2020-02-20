@@ -4,8 +4,15 @@ import { attemptSignout } from "../components/user";
 import { FETCH_TIMEOUT } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { signOut } from "../components/pages/login/idp-selection";
+import EventManager from "../libs/messenger";
+import { QUEUE_FAILED } from "../libs/queue";
 
-import { handleSuccessCallback, isOnline } from "./utils";
+import {
+  handleSuccessCallback,
+  isOnline,
+  partitionObject,
+  processAttachments
+} from "./utils";
 
 const defaultFetchOptions = {
   method: "GET",
@@ -64,6 +71,8 @@ function fetchPayload(action, store, options) {
   const {
     type,
     api: {
+      id,
+      recordType,
       path,
       body,
       params,
@@ -72,16 +81,28 @@ function fetchPayload(action, store, options) {
       successCallback,
       failureCallback,
       db,
-      external
+      external,
+      queueAttachments
     },
     fromQueue
   } = action;
+
+  const [attachments, formData] = queueAttachments
+    ? partitionObject(body?.data, (value, key) =>
+        store
+          .getState()
+          .getIn(["forms", "attachmentFields"], [])
+          .includes(key)
+      )
+    : [false, false];
 
   const fetchOptions = {
     ...defaultFetchOptions,
     method,
     signal: controller.signal,
-    ...(body && { body: JSON.stringify(body) })
+    ...((formData || body) && {
+      body: JSON.stringify(formData ? { data: formData } : body)
+    })
   };
 
   const token = getToken();
@@ -125,6 +146,15 @@ function fetchPayload(action, store, options) {
           db,
           fromQueue
         });
+
+        if (attachments) {
+          processAttachments({
+            attachments,
+            id: id || json?.data?.id,
+            recordType
+          });
+        }
+
         handleSuccessCallback(
           store,
           successCallback,
@@ -137,6 +167,11 @@ function fetchPayload(action, store, options) {
     } catch (e) {
       // eslint-disable-next-line no-console
       console.warn(e);
+
+      if (fromQueue) {
+        EventManager.publish(QUEUE_FAILED, action);
+      }
+
       fetchStatus({ store, type }, "FAILURE", false);
       handleSuccessCallback(store, failureCallback, {}, {});
     }

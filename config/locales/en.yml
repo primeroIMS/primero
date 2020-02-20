@@ -166,6 +166,7 @@ en:
       audit_logs: "Audit Logs"
 
   buttons:
+    download: "Download"
     delete: "Delete"
     disable: "Disable"
     enable: "Enable"

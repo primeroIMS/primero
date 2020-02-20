@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
-import FormSectionField from "../../FormSectionField";
+import FormSectionField from "../../form-section-field";
 import { SUBFORM_DIALOG } from "../constants";
 
 const Component = ({
