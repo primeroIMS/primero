@@ -60,9 +60,9 @@ import {
   getSharedWithMe,
   getSharedWithOthers,
   getGroupOverview,
-  getCaseOverview
+  getCaseOverview,
+  getSharedWithMyTeam
 } from "./selectors";
-import styles from "./styles.css";
 import {
   toData1D,
   toListTable,
@@ -71,7 +71,8 @@ import {
   toProtectionConcernTable,
   toTasksOverdueTable,
   permittedSharedWithMe,
-  taskOverdueHasData
+  taskOverdueHasData,
+  teamSharingTable
 } from "./helpers";
 
 const Dashboard = ({
@@ -82,16 +83,10 @@ const Dashboard = ({
   fetchCasesOverview,
   fetchServicesStatus,
   getDashboardsData,
-  flags,
   casesByAssessmentLevel,
-  casesByStatus,
-  casesByCaseWorker,
-  casesRegistration,
-  casesOverview,
   casesWorkflow,
   casesWorkflowTeam,
   reportingLocation,
-  servicesStatus,
   approvalsAssessment,
   approvalsCasePlan,
   approvalsClosure,
@@ -109,7 +104,8 @@ const Dashboard = ({
   userPermissions,
   groupOverview,
   sharedWithOthers,
-  caseOverview
+  caseOverview,
+  sharedWithMyTeam
 }) => {
   useEffect(() => {
     batch(() => {
@@ -131,10 +127,6 @@ const Dashboard = ({
     getDashboardsData
   ]);
 
-  const css = makeStyles(styles)();
-
-  const theme = useTheme();
-
   const i18n = useI18n();
 
   const labelsRiskLevel = useSelector(state =>
@@ -149,58 +141,6 @@ const Dashboard = ({
 
   const errors = useSelector(state => getErrors(state, NAMESPACE));
 
-  const getDoughnutInnerText = () => {
-    const text = [];
-    const openCases = casesByStatus.get("open");
-    const closedCases = casesByStatus.get("closed");
-    const baseFontStyle = theme.typography.fontFamily.replace(/"/g, "");
-
-    if (openCases) {
-      text.push({
-        text: `${openCases} ${i18n.t("dashboard.open")}`,
-        fontStyle: `bold ${baseFontStyle}`
-      });
-    }
-    if (closedCases) {
-      text.push({
-        text: `${closedCases} ${i18n.t("dashboard.closed")}`,
-        fontStyle: baseFontStyle
-      });
-    }
-
-    return text;
-  };
-
-  const columns = [
-    { label: i18n.t("dashboard.case_worker"), name: "case_worker", id: true },
-    { label: i18n.t("dashboard.assessment"), name: "assessment" },
-    { label: i18n.t("dashboard.case_plan"), name: "case_plan" },
-    { label: i18n.t("dashboard.follow_up"), name: "follow_up" },
-    { label: i18n.t("dashboard.services"), name: "services" }
-  ];
-
-  const casesChartData = {
-    innerTextConfig: getDoughnutInnerText(),
-    labels: [i18n.t("dashboard.open"), i18n.t("dashboard.closed")],
-    datasets: [
-      {
-        data: [casesByStatus.get("open"), casesByStatus.get("closed")],
-        backgroundColor: ["#0094BE", "#E0DFD6"]
-      }
-    ]
-  };
-
-  const registrationChartData = {
-    labels: casesRegistration.keySeq().toJS(),
-    datasets: [
-      {
-        data: casesRegistration.valueSeq().toJS(),
-        lineTension: 0.1,
-        steppedLine: false
-      }
-    ]
-  };
-
   const workflowLabels = useSelector(
     state =>
       selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]?.[
@@ -214,6 +154,12 @@ const Dashboard = ({
 
   const casesWorkflowTeamProps = {
     ...toListTable(casesWorkflowTeam, workflowLabels),
+    loading,
+    errors
+  };
+
+  const sharedWithMyTeamProps = {
+    ...teamSharingTable(sharedWithMyTeam, i18n),
     loading,
     errors
   };
@@ -436,6 +382,23 @@ const Dashboard = ({
               </OptionsBox>
             </Grid>
           </Permission>
+
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={ACTIONS.DASH_SHARED_WITH_MY_TEAM}
+          >
+            <Grid item xl={9} md={8} xs={12}>
+              <OptionsBox title={i18n.t("dashboard.dash_shared_with_my_team")}>
+                <LoadingIndicator
+                  {...loadingIndicatorProps}
+                  hasData={Boolean(sharedWithMyTeam.size)}
+                >
+                  <DashboardTable {...sharedWithMyTeamProps} />
+                </LoadingIndicator>
+              </OptionsBox>
+            </Grid>
+          </Permission>
+
           <Permission
             resources={RESOURCES.dashboards}
             actions={ACTIONS.DASH_WORKFLOW}
@@ -637,6 +600,7 @@ Dashboard.propTypes = {
   reportingLocationConfig: PropTypes.object,
   servicesStatus: PropTypes.object.isRequired,
   sharedWithMe: PropTypes.object.isRequired,
+  sharedWithMyTeam: PropTypes.object.isRequired,
   sharedWithOthers: PropTypes.object.isRequired,
   userPermissions: PropTypes.object.isRequired
 };
@@ -670,7 +634,8 @@ const mapStateToProps = state => {
     userPermissions: getPermissions(state),
     groupOverview: getGroupOverview(state),
     sharedWithOthers: getSharedWithOthers(state),
-    caseOverview: getCaseOverview(state)
+    caseOverview: getCaseOverview(state),
+    sharedWithMyTeam: getSharedWithMyTeam(state)
   };
 };
 

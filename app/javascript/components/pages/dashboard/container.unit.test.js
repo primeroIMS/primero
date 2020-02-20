@@ -1160,4 +1160,59 @@ describe("<Dashboard />", () => {
       expect(component.find(OverviewBox).find("ul li")).to.have.lengthOf(2);
     });
   });
+
+  describe("renders shared with my team dashboard", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Dashboard,
+        {},
+        fromJS({
+          records: {
+            dashboard: {
+              data: [
+                {
+                  name: "dashboard.dash_shared_with_my_team",
+                  type: "indicator",
+                  indicators: {
+                    shared_with_my_team_referrals: {
+                      primero_cp: {
+                        count: 1,
+                        query: ["referred_users=primero_cp"]
+                      }
+                    },
+                    shared_with_my_team_pending_transfers: {
+                      primero_cp: {
+                        count: 2,
+                        query: ["transferred_to_users=primero_cp"]
+                      },
+                      primero_cp_ar: {
+                        count: 1,
+                        query: ["transferred_to_users=primero_cp_ar"]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          user: {
+            permissions: {
+              dashboards: [ACTIONS.DASH_SHARED_WITH_MY_TEAM]
+            }
+          }
+        })
+      ));
+    });
+
+    it("renders DashboardTable component with two rows", () => {
+      expect(component.find(DashboardTable)).to.have.lengthOf(1);
+
+      expect(
+        component
+          .find(DashboardTable)
+          .find(TableBody)
+          .find(TableRow)
+      ).to.have.lengthOf(2);
+    });
+  });
 });

@@ -119,3 +119,6 @@ export const getGroupOverview = state =>
 
 export const getCaseOverview = state =>
   getDashboardByName(state, DASHBOARD_NAMES.CASE_OVERVIEW);
+
+export const getSharedWithMyTeam = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.SHARED_WITH_MY_TEAM);
