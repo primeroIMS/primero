@@ -30,7 +30,7 @@
   font-style: normal;
   letter-spacing: normal;
   color: $(theme.primero.colors.solidBlack);
-  margin-right: 1em;
+  margin-right: .5em;
 }
 
 .wrapper {
@@ -132,4 +132,16 @@
 
 .divider {
   margin-bottom: 8px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.iconBar{
+  border-left: solid 1px $(theme.primero.colors.darkGrey);
+  margin-left: 10px;
+  padding-left: 10px;
 }

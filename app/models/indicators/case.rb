@@ -175,7 +175,7 @@ module Indicators
 
     TASKS_OVERDUE_ASSESSMENT = FacetedIndicator.new(
       name: 'tasks_overdue_assessment',
-      facet: 'associated_user_names',
+      facet: 'owned_by',
       record_model: Child,
       scope: OPEN_ENABLED + [
         SearchFilters::DateRange.new(
@@ -186,7 +186,7 @@ module Indicators
 
     TASKS_OVERDUE_CASE_PLAN = FacetedIndicator.new(
       name: 'tasks_overdue_case_plan',
-      facet: 'associated_user_names',
+      facet: 'owned_by',
       record_model: Child,
       scope: OPEN_ENABLED + [
         SearchFilters::DateRange.new(
@@ -197,7 +197,7 @@ module Indicators
 
     TASKS_OVERDUE_SERVICES = FacetedIndicator.new(
       name: 'tasks_overdue_services',
-      facet: 'associated_user_names',
+      facet: 'owned_by',
       record_model: Child,
       scope: OPEN_ENABLED + [
         SearchFilters::DateRange.new(
@@ -208,7 +208,7 @@ module Indicators
 
     TASKS_OVERDUE_FOLLOWUPS = FacetedIndicator.new(
       name: 'tasks_overdue_followups',
-      facet: 'associated_user_names',
+      facet: 'owned_by',
       record_model: Child,
       scope: OPEN_ENABLED + [
         SearchFilters::DateRange.new(
@@ -310,6 +310,39 @@ module Indicators
       name: 'group_overview_closed',
       record_model: Child,
       queries: CLOSED_ENABLED
+    ).freeze
+
+    SHARED_FROM_MY_TEAM_REFERRALS = FacetedIndicator.new(
+      name: 'shared_from_my_team_referrals',
+      facet: 'owned_by',
+      include_zeros: false,
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'referred_users_present', value: true)
+      ],
+      scope_to_owned_by_groups: true
+    ).freeze
+
+    SHARED_FROM_MY_TEAM_PENDING_TRANSFERS = FacetedIndicator.new(
+      name: 'shared_from_my_team_pending_transfers',
+      facet: 'owned_by',
+      include_zeros: false,
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
+      ],
+      scope_to_owned_by_groups: true
+    ).freeze
+
+    SHARED_FROM_MY_TEAM_REJECTED_TRANSFERS = FacetedIndicator.new(
+      name: 'shared_from_my_team_rejected_transfers',
+      facet: 'owned_by',
+      include_zeros: false,
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_REJECTED)
+      ],
+      scope_to_owned_by_groups: true
     ).freeze
 
     SHARED_WITH_MY_TEAM_REFERRALS = FacetedIndicator.new(

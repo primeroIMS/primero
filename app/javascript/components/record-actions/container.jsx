@@ -373,7 +373,8 @@ const Container = ({
 
   const filteredActions = filterItems(actions);
   const actionItems = filteredActions?.map(action => {
-    const disabled = showListActions && !selectedRecords.length;
+    const disabled =
+      showListActions && !selectedRecords.length && action.name !== "Export";
 
     return (
       <MenuItem

@@ -50,32 +50,43 @@ export const formatFileName = (filename, extension) => {
 
 export const exporterFilters = (
   isShowPage,
-  allRowsSelected,
+  allCurrentRowsSelected,
   shortIds,
   appliedFilters,
+  queryParams,
   record
 ) => {
   let filters = {};
+  const defaultFilters = {
+    status: ["open"],
+    record_state: ["true"]
+  };
 
   if (isShowPage) {
     filters = { short_id: [record.get("short_id")] };
   } else {
-    filters = appliedFilters.entrySeq().reduce((acc, curr) => {
+    const applied = appliedFilters.entrySeq().reduce((acc, curr) => {
       const [key, value] = curr;
 
-      if (!DEFAULT_FILTERS.includes(key)) {
+      if (!["fields", "id_search"].includes(key)) {
         return { ...acc, [key]: value };
       }
 
       return acc;
     }, {});
 
-    if (Object.keys(filters).length && !allRowsSelected) {
-      filters = {
-        short_id: shortIds
-      };
+    if (allCurrentRowsSelected || shortIds.length) {
+      filters = { short_id: shortIds };
+    } else if (
+      Object.keys(queryParams || {}).length ||
+      Object.keys(applied || {}).length
+    ) {
+      filters = { ...(queryParams || {}), ...(applied || {}) };
+    } else {
+      filters = defaultFilters;
     }
   }
+
   const { query, ...restFilters } = filters;
 
   const returnFilters = Object.keys(restFilters).length

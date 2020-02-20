@@ -40,6 +40,7 @@ class IndicatorQueryService
           indicator.scope_to_owner,
           indicator.scope_to_referred,
           indicator.scope_to_transferred,
+          indicator.scope_to_owned_by_groups,
           indicator.scope_to_not_last_update,
           scope_key
         ]
