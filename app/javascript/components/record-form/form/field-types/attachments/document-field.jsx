@@ -63,6 +63,7 @@ const DocumentField = ({
   };
 
   const supportingInputsProps = {
+    disabled: mode.isShow,
     fullWidth: true,
     autoComplete: "off",
     InputProps: {
@@ -77,6 +78,8 @@ const DocumentField = ({
       }
     }
   };
+
+  const dialogActionText = `buttons.${mode.isShow ? "close" : "save"}`;
 
   return (
     <>
@@ -162,7 +165,7 @@ const DocumentField = ({
             variant="contained"
             disableElevation
           >
-            Save
+            {i18n.t(dialogActionText)}
           </Button>
         </DialogActions>
       </Dialog>

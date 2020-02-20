@@ -150,7 +150,12 @@
   height: 140px;
   float: left;
   display: block;
-  margin-bottom: 1em;
+  margin: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  padding: 4px;
 }
 
 .img {

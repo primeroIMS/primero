@@ -1,5 +1,7 @@
 import { List, Map, OrderedMap, fromJS } from "immutable";
-import { extend, mapValues } from "lodash";
+import extend from "lodash/extend";
+import mapValues from "lodash/mapValues";
+import pickBy from "lodash/pickBy";
 
 export const namespaceActions = (namespace, keys) =>
   Object.freeze(
@@ -55,7 +57,7 @@ export const listAttachmentFields = (fields = [], types = []) =>
 
 export const mergeRecord = (record, payload) => {
   const reduceSubformToMap = (result, item) => {
-    return result.set(item.get("unique_id"), item);
+    return result.set(item.get("unique_id") || item.get("id"), item);
   };
 
   const mergeSubforms = (prev, next) => {
@@ -74,4 +76,8 @@ export const mergeRecord = (record, payload) => {
     // Everything else
     return next;
   }, payload);
+};
+
+export const rejectKeys = (collection, keys = []) => {
+  return pickBy(collection, (value, key) => keys.include(key));
 };

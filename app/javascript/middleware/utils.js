@@ -88,20 +88,27 @@ export const processAttachments = ({ attachments, id, recordType }) => {
   const actions = Object.keys(attachments).reduce((prev, current) => {
     attachments[current].forEach(attachment => {
       const method = attachment?._destroy ? METHODS.DELETE : METHODS.POST;
+      const isDelete = method === "DELETE";
 
-      const path = `/${recordType}/${id}/attachments${
-        method === "DELETE" ? `/${attachment?.id}` : ""
+      const path = `${recordType}/${id}/attachments${
+        isDelete ? `/${attachment?._destroy}` : ""
       }`;
 
-      prev.push({
-        type: `${recordType}/SAVE_ATTACHMENT`,
-        api: {
-          path,
-          method,
-          body: { data: { ...attachment } }
-        },
-        fromQueue: uuid()
-      });
+      const action = isDelete ? "DELETE_ATTACHMENT" : "SAVE_ATTACHMENT";
+
+      if (!attachment?.attachment_url) {
+        prev.push({
+          type: `${recordType}/${action}`,
+          api: {
+            path,
+            method,
+            ...(!isDelete && {
+              body: { data: { ...attachment, field_name: current } }
+            })
+          },
+          fromQueue: uuid()
+        });
+      }
     });
 
     return prev;

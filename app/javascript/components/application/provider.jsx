@@ -39,7 +39,7 @@ const ApplicationProvider = ({ children }) => {
 
   useEffect(() => {
     if (online && authenticated) {
-      Queue.online = online && authenticated;
+      Queue.ready = online && authenticated;
       Queue.dispatch = dispatch;
     }
   }, [online, authenticated]);

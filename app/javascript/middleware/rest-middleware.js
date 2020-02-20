@@ -5,7 +5,7 @@ import { FETCH_TIMEOUT } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { signOut } from "../components/pages/login/idp-selection";
 import EventManager from "../libs/messenger";
-import { QUEUE_FAILED } from "../libs/queue";
+import { QUEUE_FAILED, QUEUE_SKIP } from "../libs/queue";
 
 import {
   handleSuccessCallback,
@@ -43,13 +43,17 @@ function buildPath(path, options, params, external) {
   return `${endpoint}${params ? `?${queryParams.toString(params)}` : ""}`;
 }
 
+const deleteFromQueue = fromQueue => {
+  if (fromQueue) {
+    queueIndexedDB.delete(fromQueue);
+  }
+};
+
 async function handleSuccess(store, payload) {
   const { type, json, db, fromQueue } = payload;
   const payloadFromDB = await syncIndexedDB(db, json);
 
-  if (fromQueue) {
-    queueIndexedDB.delete(fromQueue);
-  }
+  deleteFromQueue(fromQueue);
 
   store.dispatch({
     type: `${type}_SUCCESS`,
@@ -59,6 +63,18 @@ async function handleSuccess(store, payload) {
 
 const getToken = () => {
   return sessionStorage.getItem("msal.idtoken");
+};
+
+const messageQueueFailed = fromQueue => {
+  if (fromQueue) {
+    EventManager.publish(QUEUE_FAILED);
+  }
+};
+
+const messageQueueSkip = fromQueue => {
+  if (fromQueue) {
+    EventManager.publish(QUEUE_SKIP);
+  }
 };
 
 function fetchPayload(action, store, options) {
@@ -129,6 +145,13 @@ function fetchPayload(action, store, options) {
       if (!response.ok) {
         fetchStatus({ store, type }, "FAILURE", json);
 
+        if (response.status === 404) {
+          deleteFromQueue(fromQueue);
+          messageQueueSkip();
+        } else {
+          messageQueueFailed(fromQueue);
+        }
+
         if (response.status === 401) {
           const usingIdp = store
             .getState()
@@ -168,9 +191,7 @@ function fetchPayload(action, store, options) {
       // eslint-disable-next-line no-console
       console.warn(e);
 
-      if (fromQueue) {
-        EventManager.publish(QUEUE_FAILED, action);
-      }
+      messageQueueFailed(fromQueue);
 
       fetchStatus({ store, type }, "FAILURE", false);
       handleSuccessCallback(store, failureCallback, {}, {});

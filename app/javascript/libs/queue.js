@@ -7,19 +7,32 @@ import EventManager from "./messenger";
 const QUEUE_ADD = "queue-add";
 const QUEUE_FINISHED = "queue-finished";
 const QUEUE_FAILED = "queue-failed";
+const QUEUE_SKIP = "queue-skip";
 
 class Queue {
   constructor() {
     this.queue = [];
+    this.tries = 0;
     this.working = false;
 
     EventManager.subscribe(QUEUE_ADD, action => {
-      this.add(action);
+      this.add([action]);
+    });
+
+    EventManager.subscribe(QUEUE_SKIP, () => {
+      this.tries = 0;
+      this.queue.shift();
+
+      if (!this.working) this.process();
     });
 
     EventManager.subscribe(QUEUE_FAILED, () => {
-      this.queue[0][1] = this.queue[0][1] + 1;
-      this.queue.push(this.queue.shift());
+      this.tries = this.tries + 1;
+
+      if (this.tries === 3) {
+        this.queue.shift();
+        this.tries = 0;
+      }
 
       if (!this.working) this.process();
     });
@@ -34,9 +47,7 @@ class Queue {
   }
 
   async fromDB() {
-    const offlineRequests =
-      (await (await DB.getAll("offline_requests")).map(item => [item, 0])) ||
-      [];
+    const offlineRequests = (await DB.getAll("offline_requests")) || [];
 
     this.add(offlineRequests);
   }
@@ -46,7 +57,7 @@ class Queue {
   }
 
   add(actions) {
-    this.queue.push(...(Array.isArray(actions) ? actions : [[actions, 0]]));
+    this.queue.push(...actions);
 
     if (!this.working.process) {
       this.process();
@@ -60,20 +71,15 @@ class Queue {
   }
 
   process() {
-    if (this.online) {
+    if (this.ready) {
       this.working = true;
 
       const item = head(this.queue);
 
       if (item) {
-        const [action, retries] = item;
+        const action = item;
 
-        if (retries < 2) {
-          this.dispatch(action);
-        } else {
-          this.queue.shift();
-          this.process();
-        }
+        this.dispatch(action);
       }
 
       this.working = false;

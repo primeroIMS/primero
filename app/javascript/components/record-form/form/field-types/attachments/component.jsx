@@ -3,12 +3,17 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { FieldArray, connect, getIn } from "formik";
+import { Box } from "@material-ui/core";
 
 import { useI18n } from "../../../../i18n";
 import { ATTACHMENT_FIELD_NAME } from "../../constants";
-import { PHOTO_FIELD } from "../../../constants";
+import { PHOTO_FIELD, AUDIO_FIELD } from "../../../constants";
 
-import { ATTACHMENT_TYPES, FIELD_ATTACHMENT_TYPES } from "./constants";
+import {
+  ATTACHMENT_FIELDS_INITIAL_VALUES,
+  ATTACHMENT_TYPES,
+  FIELD_ATTACHMENT_TYPES
+} from "./constants";
 import AttachmentLabel from "./attachment-label";
 import DocumentField from "./document-field";
 import AttachmentField from "./attachment-field";
@@ -22,9 +27,7 @@ const Component = ({ name, field, label, disabled, formik, mode }) => {
 
   const [openLastDialog, setOpenLastDialog] = useState(false);
 
-  let initialAttachmentValue = {
-    attachment: null
-  };
+  let initialAttachmentValue = ATTACHMENT_FIELDS_INITIAL_VALUES;
 
   const handleAttachmentAddition = arrayHelpers => {
     arrayHelpers.push(initialAttachmentValue);
@@ -57,7 +60,7 @@ const Component = ({ name, field, label, disabled, formik, mode }) => {
         <div key={`${attachment}-${index}`}>
           {attachment === ATTACHMENT_TYPES.document ? (
             <DocumentField
-              title={`${i18n.t("fields.add")} ${label}`}
+              title={`${mode.isShow ? "" : i18n.t("fields.add")} ${label}`}
               index={index}
               name={name}
               mode={mode}
@@ -83,9 +86,30 @@ const Component = ({ name, field, label, disabled, formik, mode }) => {
       );
     });
 
-  if (field.type === PHOTO_FIELD && mode.isShow) {
-    return <PhotoArray images={values.map(value => value.attachment_url)} />;
-  }
+  const audioAttachments = () =>
+    values.map(value => {
+      const { attachment_url: attachmentUrl } = value;
+
+      return (
+        <Box my={2}>
+          <audio controls>
+            <source src={attachmentUrl} />
+          </audio>
+        </Box>
+      );
+    });
+
+  const renderField = arrayHelpers => {
+    if (field.type === PHOTO_FIELD && mode.isShow) {
+      return <PhotoArray images={values.map(value => value.attachment_url)} />;
+    }
+
+    if (field.type === AUDIO_FIELD && mode.isShow) {
+      return audioAttachments();
+    }
+
+    return renderAttachmentInputFields(arrayHelpers);
+  };
 
   return (
     <FieldArray
@@ -100,7 +124,7 @@ const Component = ({ name, field, label, disabled, formik, mode }) => {
             disabled={disabled}
           />
 
-          {renderAttachmentInputFields(arrayHelpers)}
+          {renderField(arrayHelpers)}
         </div>
       )}
     />

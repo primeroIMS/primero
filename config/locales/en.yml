@@ -171,6 +171,7 @@ en:
     disable: "Disable"
     enable: "Enable"
     save: "Save"
+    close: "Close"
     save_and_add_service_provision: "Save and Add Service Provision"
     login: "Log in"
     logout: "Log out"

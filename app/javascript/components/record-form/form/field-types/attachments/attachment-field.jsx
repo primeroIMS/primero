@@ -8,6 +8,7 @@ import styles from "../../styles.css";
 
 import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
+import AttachmentPreview from "./attachment-preview";
 
 const AttachmentField = ({
   name,
@@ -19,18 +20,14 @@ const AttachmentField = ({
   value
 }) => {
   const css = makeStyles(styles)();
-  const {
-    attachment_url: attachmentUrl,
-    unique_id: uniqueID,
-    _destroy: destroyed
-  } = value;
+  const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
 
   const fields = buildAttachmentFieldsObject(name, index);
 
   const handleRemove = () => {
     if (attachmentUrl) {
       arrayHelpers.replace(index, {
-        _destroy: uniqueID,
+        _destroy: id,
         attachment_type: attachment
       });
     } else {
@@ -47,7 +44,10 @@ const AttachmentField = ({
           {!mode.isShow && (
             <>
               {attachmentUrl ? (
-                <img src={attachmentUrl} alt="" className={css.editImg} />
+                <AttachmentPreview
+                  attachment={attachment}
+                  attachmentUrl={attachmentUrl}
+                />
               ) : (
                 <AttachmentInput
                   fields={fields}

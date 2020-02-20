@@ -9,6 +9,7 @@ import { toBase64 } from "../../../../../libs/base64";
 import styles from "../../styles.css";
 
 import { ATTACHMENT_TYPES } from "./constants";
+import AttachmentPreview from "./attachment-preview";
 
 const AttachmentInput = ({ attachment, fields, name, value }) => {
   const i18n = useI18n();
@@ -51,12 +52,16 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
   };
 
   const renderPreview = () => {
-    const { data, fileName } = file;
+    const { data } = file;
 
-    return data && attachment === ATTACHMENT_TYPES.photo ? (
-      <img src={data} alt="" className={css.preview} />
-    ) : (
-      <div>{fileName}</div>
+    if (!data) return false;
+
+    return (
+      <AttachmentPreview
+        attachment={attachment}
+        attachmentUrl={data}
+        className={css.preview}
+      />
     );
   };
 
@@ -66,17 +71,19 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
     <div className={css.attachment}>
       <label htmlFor={fields.attachment}>
         <div className={css.buttonWrapper}>
-          <Button
-            variant="outlined"
-            color="primary"
-            component="span"
-            disabled={fieldDisabled()}
-          >
-            {i18n.t("fields.file_upload_box.select_file_button_text")}
-            {file.loading && (
-              <CircularProgress size={24} className={css.buttonProgress} />
-            )}
-          </Button>
+          {!file.data && (
+            <Button
+              variant="outlined"
+              color="primary"
+              component="span"
+              disabled={fieldDisabled()}
+            >
+              {i18n.t("fields.file_upload_box.select_file_button_text")}
+              {file.loading && (
+                <CircularProgress size={24} className={css.buttonProgress} />
+              )}
+            </Button>
+          )}
         </div>
       </label>
       <div className={css.inputField}>
