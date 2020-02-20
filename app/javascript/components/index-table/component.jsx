@@ -7,7 +7,7 @@ import { push } from "connected-react-router";
 import uniqBy from "lodash/uniqBy";
 import isEmpty from "lodash/isEmpty";
 import startsWith from "lodash/startsWith";
-import { List } from "immutable";
+import { List, fromJS } from "immutable";
 
 import { dataToJS } from "../../libs";
 import { LoadingIndicator } from "../loading-indicator";
@@ -30,7 +30,8 @@ const Component = ({
   onRowClick,
   bypassInitialFetch,
   selectedRecords,
-  setSelectedRecords
+  setSelectedRecords,
+  localizedFields
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -132,12 +133,26 @@ const Component = ({
     }, List());
   }
 
+  if (localizedFields && records) {
+    translatedRecords = records.map(current => {
+      const translatedFields = localizedFields.reduce(
+        (acc, field) =>
+          acc.merge({
+            [field]: current.getIn([field, i18n.locale], fromJS({}))
+          }),
+        fromJS({})
+      );
+
+      return current.merge(translatedFields);
+    });
+  }
+
   useEffect(() => {
     if (!bypassInitialFetch) {
       dispatch(
         onTableChange({
           recordType,
-          options: { per, ...defaultFilters.merge(filters).toJS() }
+          data: { per, ...defaultFilters.merge(filters).toJS() }
         })
       );
     }
@@ -188,7 +203,7 @@ const Component = ({
     };
 
     if (validActions.includes(action)) {
-      dispatch(onTableChange({ recordType, options: selectedFilters }));
+      dispatch(onTableChange({ recordType, data: selectedFilters }));
     }
   };
 
@@ -229,7 +244,10 @@ const Component = ({
   const tableOptions = {
     columns: componentColumns,
     options,
-    data: validRecordTypes ? dataToJS(translatedRecords) : dataToJS(records)
+    data:
+      validRecordTypes || localizedFields
+        ? dataToJS(translatedRecords)
+        : dataToJS(records)
   };
 
   const loadingIndicatorProps = {
@@ -260,6 +278,7 @@ Component.propTypes = {
   bypassInitialFetch: PropTypes.bool,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   defaultFilters: PropTypes.object,
+  localizedFields: PropTypes.arrayOf(PropTypes.string),
   onRowClick: PropTypes.func,
   onTableChange: PropTypes.func.isRequired,
   options: PropTypes.object,

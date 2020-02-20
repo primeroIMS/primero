@@ -15,6 +15,7 @@ export const ACTIONS = {
   DASH_APPROVALS_CLOSURE: "approvals_closure",
   DASH_APPROVALS_CLOSURE_PENDING: 'approvals_closure_pending',
   DASH_CASE_RISK: "case_risk",
+  DASH_CASE_OVERVIEW: "case_overview",
   DASH_PROTECTION_CONCERNS: "dash_protection_concerns",
   DASH_REPORTING_LOCATION: "dash_reporting_location",
   DASH_SHARED_WITH_ME: "dash_shared_with_me",
@@ -47,6 +48,7 @@ export const ACTIONS = {
   MANAGE: "manage",
   READ: "read",
   REFERRAL: "referral",
+  REMOVE_ASSIGNED_USERS: "remove_assigned_users",
   REOPEN: "reopen",
   REQUEST_APPROVAL_BIA: 'request_approval_bia',
   REQUEST_APPROVAL_CASE_PLAN: 'request_approval_case_plan',
@@ -74,7 +76,9 @@ export const RESOURCES = {
   potential_matches: "potential_matches",
   reports: "reports",
   tracing_requests: "tracing_requests",
-  users: "users"
+  users: "users",
+  agencies: "agencies",
+  user_groups: "user_groups"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {

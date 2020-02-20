@@ -2,7 +2,8 @@
 
 module Indicators
   class AbstractIndicator < ValueObject
-    attr_accessor :name, :record_model, :scope, :scope_to_owner, :scope_to_referred, :scope_to_transferred
+    attr_accessor :name, :record_model, :scope, :scope_to_owner, :scope_to_referred,
+                  :scope_to_transferred, :scope_to_not_last_update, :scope_to_owned_by_groups
 
     class << self
       def dawn_of_time
@@ -92,6 +93,22 @@ module Indicators
     def transferred_query_string(user)
       if user.present? && scope_to_transferred
         ["transferred_to_users=#{user.user_name}"]
+      else
+        []
+      end
+    end
+
+    def owned_by_groups_query_string(user)
+      if user.present? && scope_to_owned_by_groups
+        ["owned_by_groups=#{user.user_group_ids}"]
+      else
+        []
+      end
+    end
+
+    def not_last_updated_query_string(user)
+      if user.present? && scope_to_not_last_update
+        ["!last_updated_by=#{user.user_name}"]
       else
         []
       end

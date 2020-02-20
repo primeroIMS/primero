@@ -18,21 +18,19 @@ module Indicators
     ].freeze
 
     OPEN = QueriedIndicator.new(
-      name: 'open',
+      name: 'total',
       record_model: Child,
-      queries: OPEN_ENABLED,
-      scope_to_owner: true
+      queries: OPEN_ENABLED
     ).freeze
 
     #NEW = TODO: Cases that have just been assigned to me. Need extra work.
 
     UPDATED = QueriedIndicator.new(
-      name: 'updated',
+      name: 'new_or_updated',
       record_model: Child,
       queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'not_edited_by_owner', value: true)
-      ],
-      scope_to_owner: true
+      ]
     ).freeze
 
     CLOSED_RECENTLY = QueriedIndicator.new(
@@ -177,7 +175,7 @@ module Indicators
 
     TASKS_OVERDUE_ASSESSMENT = FacetedIndicator.new(
       name: 'tasks_overdue_assessment',
-      facet: 'associated_user_names',
+      facet: 'owned_by',
       record_model: Child,
       scope: OPEN_ENABLED + [
         SearchFilters::DateRange.new(
@@ -188,7 +186,7 @@ module Indicators
 
     TASKS_OVERDUE_CASE_PLAN = FacetedIndicator.new(
       name: 'tasks_overdue_case_plan',
-      facet: 'associated_user_names',
+      facet: 'owned_by',
       record_model: Child,
       scope: OPEN_ENABLED + [
         SearchFilters::DateRange.new(
@@ -199,7 +197,7 @@ module Indicators
 
     TASKS_OVERDUE_SERVICES = FacetedIndicator.new(
       name: 'tasks_overdue_services',
-      facet: 'associated_user_names',
+      facet: 'owned_by',
       record_model: Child,
       scope: OPEN_ENABLED + [
         SearchFilters::DateRange.new(
@@ -210,7 +208,7 @@ module Indicators
 
     TASKS_OVERDUE_FOLLOWUPS = FacetedIndicator.new(
       name: 'tasks_overdue_followups',
-      facet: 'associated_user_names',
+      facet: 'owned_by',
       record_model: Child,
       scope: OPEN_ENABLED + [
         SearchFilters::DateRange.new(
@@ -290,10 +288,9 @@ module Indicators
     SHARED_WITH_ME_NEW_REFERRALS = QueriedIndicator.new(
       name: 'shared_with_me_new_referrals',
       record_model: Child,
-      queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'not_edited_by_owner', value: true)
-      ],
-      scope_to_referred: true
+      queries: OPEN_ENABLED,
+      scope_to_referred: true,
+      scope_to_not_last_update: true
     ).freeze
 
     SHARED_WITH_ME_TRANSFERS_AWAITING_ACCEPTANCE = QueriedIndicator.new(
@@ -313,6 +310,57 @@ module Indicators
       name: 'group_overview_closed',
       record_model: Child,
       queries: CLOSED_ENABLED
+    ).freeze
+
+    SHARED_FROM_MY_TEAM_REFERRALS = FacetedIndicator.new(
+      name: 'shared_from_my_team_referrals',
+      facet: 'owned_by',
+      include_zeros: false,
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'referred_users_present', value: true)
+      ],
+      scope_to_owned_by_groups: true
+    ).freeze
+
+    SHARED_FROM_MY_TEAM_PENDING_TRANSFERS = FacetedIndicator.new(
+      name: 'shared_from_my_team_pending_transfers',
+      facet: 'owned_by',
+      include_zeros: false,
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
+      ],
+      scope_to_owned_by_groups: true
+    ).freeze
+
+    SHARED_FROM_MY_TEAM_REJECTED_TRANSFERS = FacetedIndicator.new(
+      name: 'shared_from_my_team_rejected_transfers',
+      facet: 'owned_by',
+      include_zeros: false,
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_REJECTED)
+      ],
+      scope_to_owned_by_groups: true
+    ).freeze
+
+    SHARED_WITH_MY_TEAM_REFERRALS = FacetedIndicator.new(
+      name: 'shared_with_my_team_referrals',
+      record_model: Child,
+      facet: 'referred_users',
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'referred_users_present', value: true)
+      ]
+    ).freeze
+
+    SHARED_WITH_MY_TEAM_PENDING_TRANSFERS = FacetedIndicator.new(
+      name: 'shared_with_my_team_pending_transfers',
+      record_model: Child,
+      facet: 'transferred_to_users',
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
+      ]
     ).freeze
 
     def self.reporting_location_indicators
