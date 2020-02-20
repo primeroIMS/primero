@@ -5,12 +5,10 @@ import {
   ExpansionPanelDetails,
   ExpansionPanelSummary
 } from "@material-ui/core";
-// import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../i18n";
-import { currentUser } from "../user/selectors";
 
 import styles from "./styles.css";
 import { selectTransitions } from "./selectors";
@@ -32,7 +30,6 @@ const Transitions = ({ isReferral, recordType, record, showMode }) => {
   const dataTransitions = useSelector(state =>
     selectTransitions(state, recordType, record, isReferral)
   );
-  const currentUsername = useSelector(state => currentUser(state));
   const renderSummary = transition => {
     switch (transition.type) {
       case "Assign":
@@ -42,7 +39,6 @@ const Transitions = ({ isReferral, recordType, record, showMode }) => {
           <TransferSummary
             transition={transition}
             classes={css}
-            currentUsername={currentUsername}
             showMode={showMode}
             recordType={recordType}
           />
