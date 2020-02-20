@@ -20,7 +20,6 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
     user_group_unique_ids: yup.array().required()
   };
 
-
   if (useIdentityProviders && providers) {
     validations.identity_provider = yup.string().required();
 

@@ -24,7 +24,6 @@ export const saveUser = ({
   message,
   failureMessage
 }) => {
-  console.log('body:', body);
   return {
     type: actions.SAVE_USER,
     api: {
