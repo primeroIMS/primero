@@ -2,10 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
 const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
-  const { multiSelect } = metaInputProps;
+  const { watch } = useFormContext();
+  const {
+    multiSelect,
+    watchDisableInput,
+    watchDisable
+  } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
 
   const optionLabel = option => {
@@ -28,6 +33,12 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
 
   const optionEquality = (option, value) =>
     multiSelect ? option.id === value : option.id === value.id;
+  const watchedDisableField = watchDisableInput ? watch(watchDisableInput, "") : false;
+  let disableField = disabled;
+
+  if (!disabled && watchDisableInput && watchDisable && watchedDisableField !== false) {
+    disableField = watchDisable(watchedDisableField);
+  }
 
   return (
     <Controller
@@ -37,7 +48,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       getOptionLabel={optionLabel}
       options={options}
       getOptionSelected={optionEquality}
-      disabled={disabled}
+      disabled={disableField}
       onChange={handleChange}
       defaultValue={defaultValue}
       filterSelectedOptions

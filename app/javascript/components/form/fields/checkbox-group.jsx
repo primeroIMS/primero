@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { FormControlLabel, Checkbox } from "@material-ui/core";
+import { useFormContext } from "react-hook-form";
 
 import { useI18n } from "../../i18n";
 import { optionText } from "../utils";
 
-const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
+const CheckboxGroup = ({ onChange, value, options, commonInputProps, metaInputProps }) => {
   const i18n = useI18n();
+  const { watch } = useFormContext();
   const [checked, setChecked] = useState([]);
   const { name, disabled } = commonInputProps;
+  const { watchDisable, watchDisableInput } = metaInputProps;
+  const watchedDisableField = watchDisableInput ? watch(watchDisableInput, "") : false;
+  let disableField = disabled;
+
+  if (!disabled && watchDisableInput && watchDisable && watchedDisableField !== false) {
+    disableField = watchDisable(watchedDisableField);
+  }
 
   const handleChange = e => {
     const { value: selectedValue } = e.target;
@@ -35,7 +44,7 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
             onChange={handleChange}
             value={option.id}
             checked={checked.includes(option.id)}
-            disabled={disabled}
+            disabled={disableField}
           />
         }
         label={optionText(option, i18n)}

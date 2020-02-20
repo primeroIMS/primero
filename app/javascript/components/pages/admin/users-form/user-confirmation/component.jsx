@@ -46,7 +46,7 @@ const Component = ({
   };
 
   const dialogContent = (
-    <p>{i18n.t(`user.messages.${saveMethod}_confirm`, {username: userData.user_name, identity: userData.identity_provider, role: userData.role_unique_id, email: userData.email})}</p>
+    <p dangerouslySetInnerHTML={{__html: i18n.t(`user.messages.${saveMethod}_confirm_html`, {username: userData.user_name, identity: userData.identity_provider, role: userData.role_unique_id, email: userData.email})}} />
   );
 
   return (
