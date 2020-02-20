@@ -1,6 +1,7 @@
 import { expect, stub } from "../../../../test/unit-test-helpers";
 import { RECORD_PATH } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate }  from "../../../notifier";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "../../../record-actions/actions";
 
 import * as actionsCreators from "./action-creators";
 import actions from "./actions";
@@ -37,7 +38,9 @@ describe("<UsersForm /> - Action Creators", () => {
         prop1: "prop-1"
       },
       saveMethod: "update",
-      message: "Updated successfully"
+      message: "Updated successfully",
+      failureMessage: "Updated unsuccessfully",
+      dialogName: "dialog"
     };
 
     const expectedAction = {
@@ -46,18 +49,51 @@ describe("<UsersForm /> - Action Creators", () => {
         path: `${RECORD_PATH.users}/10`,
         method: "PATCH",
         body: args.body,
-        successCallback: {
-          action: ENQUEUE_SNACKBAR,
-          payload: {
-            message: args.message,
-            options: {
-              key: 4,
-              variant: "success"
+        successCallback: [
+          {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              message: args.message,
+              options: {
+                key: 4,
+                variant: "success"
+              }
+            },
+            redirectWithIdFromResponse: false,
+            redirect: `/admin/${RECORD_PATH.users}`
+          },
+          {
+            action: SET_DIALOG,
+            payload: {
+              dialog: args.dialogName,
+              open: false
             }
           },
-          redirectWithIdFromResponse: false,
-          redirect: `/admin/${RECORD_PATH.users}`
-        }
+          {
+            action: SET_DIALOG_PENDING,
+            payload: {
+              pending: false
+            }
+          }
+        ],
+        failureCallback: [
+          {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              message: args.failureMessage,
+              options: {
+                variant: "error",
+                key: 4
+              }
+            }
+          },
+          {
+            action: SET_DIALOG_PENDING,
+            payload: {
+              pending: false
+            }
+          }
+        ]
       }
     };
 
