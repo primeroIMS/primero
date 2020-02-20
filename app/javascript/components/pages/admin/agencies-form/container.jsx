@@ -13,7 +13,7 @@ import { ROUTES } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
 
-import { localizeData } from "./helpers";
+import { localizeData, translateFields } from "./helpers";
 import { NAME } from "./constants";
 import { form, validations } from "./form";
 import {
@@ -41,10 +41,12 @@ const Container = ({ mode }) => {
   const handleSubmit = data => {
     const localizedData = localizeData(data, ["name", "description"], i18n);
 
-    localizedData.name = {
-      en: "No translation provided",
-      ...localizedData.name
-    };
+    if (formMode.get("isNew")) {
+      localizedData.name = {
+        en: "No translation provided",
+        ...localizedData.name
+      };
+    }
 
     dispatch(
       saveAgency({
@@ -101,7 +103,7 @@ const Container = ({ mode }) => {
   );
 
   const pageHeading = agency?.size
-    ? `${i18n.t("agencies.label")} ${agency.get(["name", i18n.locale])}`
+    ? `${i18n.t("agencies.label")} ${agency.getIn(["name", i18n.locale])}`
     : i18n.t("agencies.label");
 
   return (
@@ -121,7 +123,11 @@ const Container = ({ mode }) => {
           onSubmit={handleSubmit}
           ref={formRef}
           validations={validationSchema}
-          initialValues={agency.toJS()}
+          initialValues={translateFields(
+            agency.toJS(),
+            ["name", "description"],
+            i18n
+          )}
           formErrors={formErrors}
         />
       </PageContent>
