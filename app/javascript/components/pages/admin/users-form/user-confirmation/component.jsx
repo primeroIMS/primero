@@ -12,6 +12,7 @@ const Component = ({
   close,
   dialogName,
   id,
+  isIdp,
   pending,
   saveMethod,
   setPending,
@@ -29,7 +30,7 @@ const Component = ({
         id,
         saveMethod,
         dialogName,
-        body: { userData },
+        body: { data: userData },
         message: i18n.t(
           `user.messages.${saveMethod === "update" ? "updated" : "created"}`
         ),
@@ -47,7 +48,7 @@ const Component = ({
   const dialogContent = (
     <p
       dangerouslySetInnerHTML={{
-        __html: i18n.t(`user.messages.${saveMethod}_confirm_html`, {
+        __html: i18n.t(`user.messages.${saveMethod}_confirm_${isIdp ? "" : "non_identity_"}html`, {
           username: userData.user_name,
           identity: userData.identity_provider,
           role: userData.role_unique_id,
@@ -84,6 +85,7 @@ Component.propTypes = {
   close: PropTypes.func,
   dialogName: PropTypes.string,
   id: PropTypes.string,
+  isIdp: PropTypes.bool,
   pending: PropTypes.bool,
   saveMethod: PropTypes.string,
   setPending: PropTypes.func,

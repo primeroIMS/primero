@@ -21,7 +21,7 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
   };
 
 
-  if (useIdentityProviders, providers) {
+  if (useIdentityProviders && providers) {
     validations.identity_provider = yup.string().required();
 
     const isIdpProvider = function(ref, message) {
@@ -118,9 +118,9 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
               ? providers.find(currentProvider => currentProvider.get("unique_id") === input)
               : null;
 
-            return currentProvider
+            return provider
               ? i18n.t("user.provider_username_help", {
-                domain: currentProvider.get("user_domain")
+                domain: provider.get("user_domain")
               })
               : null;
           },

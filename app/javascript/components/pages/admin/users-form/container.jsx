@@ -49,24 +49,11 @@ const Container = ({ mode }) => {
     dispatch(setPending({ pending: pending }));
   };
 
-  const handleSubmit = data => {
-    dispatch(
-      saveUser({
-        id,
-        saveMethod: formMode.get("isEdit") ? "update" : "new",
-        body: { data },
-        message: i18n.t(
-          `user.messages.${formMode.get("isEdit") ? "updated" : "created"}`
-        )
-      })
-    );
-  };
-
   const handleClose = () => {
     setUserConfirmationOpen(false);
   };
 
-  const handleHostedIdentitySubmit = data => {
+  const handleSubmit = data => {
     setUserData(data);
     setUserConfirmationOpen(true);
   }
@@ -136,7 +123,7 @@ const Container = ({ mode }) => {
             useIdentityProviders,
             providers
           )}
-          onSubmit={handleHostedIdentitySubmit}
+          onSubmit={handleSubmit}
           ref={formRef}
           validations={validationSchema}
           initialValues={user.toJS()}
@@ -149,6 +136,7 @@ const Container = ({ mode }) => {
           pending={dialogPending}
           setPending={setDialogPending}
           id={id}
+          isIdp={useIdentityProviders}
           dialogName={USER_CONFIRMATION_DIALOG}
           userData={userData}
         />
