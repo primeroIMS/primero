@@ -32,46 +32,50 @@ import * as User from "./components/user";
 import * as IndexFilters from "./components/index-filters";
 import * as TransferRequest from "./components/record-list/view-modal/transfer-request";
 import { reducer as transferApprovalReducers } from "./components/transitions/transfers/transfer-approval";
+import { reducer as revokeTransitionReducers } from "./components/transitions/components/revoke-modal";
 import { reducers as referralActionReducers } from "./components/transitions/referrals/referral-action";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
-  records: reduceReducers(combineReducers({
-    ...{
-      ...Object.keys(RECORD_TYPES).reduce((r, i) => {
-        const o = r;
+  records: reduceReducers(
+    combineReducers({
+      ...{
+        ...Object.keys(RECORD_TYPES).reduce((r, i) => {
+          const o = r;
 
-        o[i] = reduceReducers(
-          Records.reducers(i),
-          IndexFilters.reducers(i),
-          requestApprovalReducers(i)
-        );
+          o[i] = reduceReducers(
+            Records.reducers(i),
+            IndexFilters.reducers(i),
+            requestApprovalReducers(i)
+          );
 
-        return o;
-      }, {})
-    },
-    reports: reduceReducers(Reports.reducers, Report.reducers),
-    transitions: reduceReducers(
-      Transitions.reducers,
-      TransitionsForms.reducers,
-      TransferRequest.reducers,
-      referralActionReducers
-    ),
-    ...PotentialMatches.reducers,
-    ...TaskList.reducers,
-    users: reduceReducers(UsersList.reducers, UsersForm.reducers),
-    agencies: reduceReducers(AgenciesList.reducers, AgenciesForm.reducers),
-    user_groups: reduceReducers(
-      UserGroupsList.reducers,
-      UserGroupsForm.reducers
-    ),
-    ...Dashboard.reducers,
-    ...ExportList.reducers,
-    ...Support.reducers,
-    ...Flagging.reducers,
-    ...SavedSearches.reducers
-  }),
-  transferApprovalReducers),
+          return o;
+        }, {})
+      },
+      reports: reduceReducers(Reports.reducers, Report.reducers),
+      transitions: reduceReducers(
+        Transitions.reducers,
+        TransitionsForms.reducers,
+        TransferRequest.reducers,
+        referralActionReducers
+      ),
+      ...PotentialMatches.reducers,
+      ...TaskList.reducers,
+      users: reduceReducers(UsersList.reducers, UsersForm.reducers),
+      agencies: reduceReducers(AgenciesList.reducers, AgenciesForm.reducers),
+      user_groups: reduceReducers(
+        UserGroupsList.reducers,
+        UserGroupsForm.reducers
+      ),
+      ...Dashboard.reducers,
+      ...ExportList.reducers,
+      ...Support.reducers,
+      ...Flagging.reducers,
+      ...SavedSearches.reducers
+    }),
+    transferApprovalReducers,
+    revokeTransitionReducers
+  ),
   ui: combineReducers({
     ...Nav.reducers,
     ...I18n.reducers,

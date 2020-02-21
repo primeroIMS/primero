@@ -8,9 +8,8 @@ import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import omitBy from "lodash/omitBy";
 import isEmpty from "lodash/isEmpty";
 
-import { useI18n } from "../../i18n";
-
-import { DATE_FIELD_NAME } from "./constants";
+import { useI18n } from "../../../i18n";
+import { DATE_FIELD_NAME } from "../constants";
 
 const DateField = ({ name, helperText, mode, formik, ...rest }) => {
   const i18n = useI18n();
@@ -46,7 +45,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
     } else if (
       !value &&
       allowedDefaultValues.includes(selectedValue.toUpperCase()) &&
-      !mode.isShow
+      !mode?.isShow
     ) {
       dateValue = new Date();
     }
@@ -60,7 +59,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
   const fieldError = getIn(formik.errors, name);
   const fieldTouched = getIn(formik.touched, name);
 
-  return !(mode.isShow && hideOnViewPage) && visible ? (
+  return !(mode?.isShow && hideOnViewPage) && visible ? (
     <FastField
       {...fieldProps}
       render={({ field, form }) => {

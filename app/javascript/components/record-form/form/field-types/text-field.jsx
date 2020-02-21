@@ -7,11 +7,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { ButtonBase } from "@material-ui/core";
 import { FastField, connect } from "formik";
 
-import { useI18n } from "../../i18n";
-import { saveRecord, selectRecordAttribute } from "../../records";
-
-import { GuidingQuestions } from "./components";
-import { TEXT_FIELD_NAME } from "./constants";
+import { useI18n } from "../../../i18n";
+import { saveRecord, selectRecordAttribute } from "../../../records";
+import { GuidingQuestions } from "../components";
+import { TEXT_FIELD_NAME } from "../constants";
 
 const useStyles = makeStyles(theme => ({
   hideNameStyle: {

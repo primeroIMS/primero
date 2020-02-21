@@ -328,6 +328,7 @@ cp_manager_permissions = [
         Permission::DASH_SHARED_WITH_ME,
         Permission::DASH_SHARED_WITH_OTHERS,
         Permission::DASH_GROUP_OVERVIEW,
+        Permission::DASH_SHARED_FROM_MY_TEAM,
         Permission::DASH_SHARED_WITH_MY_TEAM
       ]
   )
@@ -570,6 +571,7 @@ gbv_manager_permissions = [
       Permission::DASH_APPROVALS_CLOSURE_PENDING,
       Permission::DASH_REPORTING_LOCATION,
       Permission::DASH_GROUP_OVERVIEW,
+      Permission::DASH_SHARED_FROM_MY_TEAM,
       Permission::DASH_SHARED_WITH_MY_TEAM
     ]
   ),
@@ -854,6 +856,7 @@ gbv_cm_supervisor_permissions = [
       resource: Permission::DASHBOARD,
       actions: [
         Permission::DASH_GROUP_OVERVIEW,
+        Permission::DASH_SHARED_FROM_MY_TEAM,
         Permission::DASH_SHARED_WITH_MY_TEAM
       ]
     )
@@ -988,6 +991,7 @@ gbv_organization_focal_point_permissions = [
       resource: Permission::DASHBOARD,
       actions: [
         Permission::DASH_GROUP_OVERVIEW,
+        Permission::DASH_SHARED_FROM_MY_TEAM,
         Permission::DASH_SHARED_WITH_MY_TEAM
       ]
     )

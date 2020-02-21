@@ -166,10 +166,12 @@ en:
       audit_logs: "Audit Logs"
 
   buttons:
+    download: "Download"
     delete: "Delete"
     disable: "Disable"
     enable: "Enable"
     save: "Save"
+    close: "Close"
     save_and_add_service_provision: "Save and Add Service Provision"
     login: "Log in"
     logout: "Log out"
@@ -337,6 +339,7 @@ en:
     request_approval_success_case_plan: "Approval requested for Case Plan form."
     request_approval_success_closure: "Approval requested for Closure form."
     request_approval_failure: "An error occurred, please contact support."
+    revoke_failure: "An error occurred while revoking the %{transition_type}, please contact support."
     approved_success_closure: "Closure - Approved"
     rejected_success_closure: "Closure - Rejected"
     approved_success_case_plan: "Case Plan - Approved"
@@ -351,6 +354,8 @@ en:
     assessment: "Assessment"
     case_plan: "Case Plan"
     closure: "Closure"
+    revoke_message: "By clicking ‘Revoke’, you will remove the %{transition_type} recipient’s access to the case."
+    revoke_success_message: "Case %{case_id} %{transition_type} to %{recipient_username} revoked."
     referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
     referral_done_success: "Referral done."
 
@@ -1030,7 +1035,7 @@ en:
     name: "Agency Name"
     code: "Agency Code"
     services: "Agency Services"
-    logo_small: "Small Logo"
+    logo_icon: "Icon Logo"
     logo_large: "Large Logo"
     logo_enabled: "Logo Enabled?"
     description: "Description"
@@ -2193,6 +2198,7 @@ en:
     save: "Save"
     request_approval: "Request Approval"
     approvals: "Approvals"
+    revoke: "Revoke"
     description:
       valid: "Valid record"
       invalid: "Invalid record"

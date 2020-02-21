@@ -18,15 +18,14 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import find from "lodash/find";
 import isEmpty from "lodash/isEmpty";
 
-import { useI18n } from "../../i18n";
-import { getLocations, getOption } from "../selectors";
-import { valuesToSearchableSelect } from "../../../libs";
-import { selectAgencies } from "../../application/selectors";
-import { SearchableSelect } from "../../searchable-select";
-import { CODE_FIELD, NAME_FIELD } from "../../../config";
-
-import { SELECT_FIELD_NAME } from "./constants";
-import styles from "./styles.css";
+import { useI18n } from "../../../i18n";
+import { getLocations, getOption } from "../../selectors";
+import { valuesToSearchableSelect } from "../../../../libs";
+import { selectAgencies } from "../../../application/selectors";
+import { SearchableSelect } from "../../../searchable-select";
+import { CODE_FIELD, NAME_FIELD } from "../../../../config";
+import { SELECT_FIELD_NAME } from "../constants";
+import styles from "../styles.css";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

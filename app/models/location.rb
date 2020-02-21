@@ -33,6 +33,8 @@ class Location < ApplicationRecord
   scope :by_parent, ->(parent_path) { where('hierarchy_path ~ ?', "#{parent_path}.*{1}") }
 
   def generate_location_files
+    return if ENV['PRIMERO_BOOTSTRAP']
+
     OptionsJob.set(wait_until: 5.minutes.from_now).perform_later unless OptionsQueueStats.jobs?
   end
 
