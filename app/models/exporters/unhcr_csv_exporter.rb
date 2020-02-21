@@ -19,33 +19,14 @@ module Exporters
     def initialize(output_file_path = nil)
       super(output_file_path, export_config_id)
       @fields = Field.find_by_name(ID_FIELD_NAMES).inject({}) { |acc, field| acc.merge(field.name => field) }
-      @props = properties_to_export(PROPERTIES)
-      @props_opt_out = opt_out_properties_to_export(@props)
       @headers = [' '] +
-                 @props.keys.map do |prop|
+                 properties_to_export(PROPERTIES).keys.map do |prop|
                    I18n.t("exports.unhcr_csv.headers.#{prop}")
                  end
     end
 
-    def export(cases, *_args)
-      unhcr_export = CSV.generate do |rows|
-        write_header(rows)
-        cases.each_with_index do |record, index|
-          write_case(record, index, rows)
-        end
-      end
-      buffer.write(unhcr_export)
-    end
-
-    def write_header(rows)
-      return if @called_once
-
-      rows << @headers
-      @called_once = true
-    end
-
     def write_case(record, index, rows)
-      props_to_export = opting_out?(record) ? @props_opt_out : @props
+      props_to_export = properties_to_export(PROPERTIES, opting_out?(record))
       values = props_to_export.map do |_, generator|
         case generator
         when Array

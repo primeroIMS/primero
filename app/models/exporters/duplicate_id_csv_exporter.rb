@@ -6,7 +6,6 @@ module Exporters
   # This generates a CSV report of all cases that share the same value
   # for certain core identifiers such as national id and UNHCR number.
   class DuplicateIdCSVExporter < ConfigurableExporter
-
     ID_FIELD_NAMES = %w[
       national_id_no case_id unhcr_individual_no
       name age sex family_count_no
@@ -50,23 +49,6 @@ module Exporters
                  end
     end
 
-    def export(cases, *_args)
-      duplicate_export = CSV.generate do |rows|
-        write_header(rows)
-        cases.each_with_index do |record, index|
-          write_case(record, index, rows)
-        end
-      end
-      buffer.write(duplicate_export)
-    end
-
-    def write_header(rows)
-      return if @called_once
-
-      rows << @headers
-      @called_once = true
-    end
-
     def write_case(record, index, rows)
       values = @properties.map do |_, generator|
         case generator
@@ -91,4 +73,3 @@ module Exporters
     end
   end
 end
-

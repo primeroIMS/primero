@@ -21,25 +21,10 @@ module Exporters
       @export_configuration = ExportConfiguration.find_by(unique_id: export_config_id) if export_config_id.present?
     end
 
-    def properties_to_export(props = {})
-      return props if config_property_keys.blank?
+    def properties_to_export(props = {}, opting_out = false)
+      return properties_from_config(props) unless opting_out
 
-      properties_to_export = {}
-      config_property_keys.each do |config_key|
-        prop = props.select { |k, _| k == config_key }
-        properties_to_export.merge!(prop) if prop.present?
-      end
-      properties_to_export
-    end
-
-    def opt_out_properties_to_export(props={})
-      opt_out_properties_to_export = {}
-      props.each do |k, v|
-        prop = {}
-        prop[k] = (opt_out_property_keys.include?(k) ? v : '')
-        opt_out_properties_to_export.merge!(prop)
-      end
-      opt_out_properties_to_export
+      properties_from_config(props).map { |k, v| [k, opt_out_property_keys.include?(k) ? v : ''] }.to_h
     end
 
     def config_property_keys
@@ -52,7 +37,33 @@ module Exporters
 
     def opting_out?(record)
       return false if @export_configuration.blank? || @export_configuration.opt_out_field.blank?
+
       record.try(:send, @export_configuration.opt_out_field) == true
+    end
+
+    def write_header(rows)
+      return if @called_once
+
+      rows << @headers
+      @called_once = true
+    end
+
+    def export(cases, *_args)
+      duplicate_export = CSV.generate do |rows|
+        write_header(rows)
+        cases.each_with_index do |record, index|
+          write_case(record, index, rows)
+        end
+      end
+      buffer.write(duplicate_export)
+    end
+
+    private
+
+    def properties_from_config(props)
+      return props if config_property_keys.blank?
+
+      config_property_keys.map{ |config_key| props.select { |k, _| k == config_key } }.reduce(&:merge)
     end
   end
 end
