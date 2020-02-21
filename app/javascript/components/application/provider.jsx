@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import DB from "../../db";
 import { getIsAuthenticated } from "../user/selectors";
+import { fetchContactInformation } from "../pages/support/action-creators";
 
 import {
   selectModules,
@@ -49,6 +50,10 @@ const ApplicationProvider = ({ children }) => {
       window.removeEventListener("online", () => handleNetworkChange(true));
       window.removeEventListener("offline", () => handleNetworkChange(false));
     };
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchContactInformation());
   }, []);
 
   return (

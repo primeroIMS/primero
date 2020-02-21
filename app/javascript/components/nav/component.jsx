@@ -25,12 +25,7 @@ import {
 import { NAME } from "./constants";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
-import {
-  selectDrawerOpen,
-  selectUsername,
-  selectUserAgency,
-  selectAlerts
-} from "./selectors";
+import { selectDrawerOpen, selectUsername, selectAlerts } from "./selectors";
 import MenuEntry from "./components/menu-entry";
 
 const Nav = () => {
@@ -52,7 +47,6 @@ const Nav = () => {
 
   // TODO: Username should come from redux once user built.
   const username = useSelector(state => selectUsername(state));
-  const agency = useSelector(state => selectUserAgency(state));
   const drawerOpen = useSelector(state => selectDrawerOpen(state));
   const dataAlerts = useSelector(state => selectAlerts(state));
   const nav = [
@@ -182,15 +176,9 @@ const Nav = () => {
           />
         )}
         <List className={css.navList}>{permittedMenuEntries(nav)}</List>
-
-        {agency && agency.get("logo") && (
-          <AgencyLogo
-            agency={agency && agency.get("unique_id")}
-            logo={`${(agency.get("logo") &&
-              agency.getIn(["logo", "small"], "")) ||
-              ""}`}
-          />
-        )}
+        <div className={css.navAgencies}>
+          <AgencyLogo />
+        </div>
         {!mobileDisplay && <TranslationsToggle />}
       </Drawer>
     </>

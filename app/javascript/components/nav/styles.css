@@ -31,8 +31,6 @@
 }
 
 .navList {
-  flex: 1;
-
   & svg {
     color: $(theme.primero.colors.darkGrey);
   }
@@ -138,6 +136,14 @@
     rgba(232, 232, 232, 0.26) 18%,
     #d8d8d8
   );
+}
+
+.navAgencies {
+  flex: 1;
+
+  & div {
+    height: 100%;
+  }
 }
 
 @media $(theme.breakpoints.only("md")) {

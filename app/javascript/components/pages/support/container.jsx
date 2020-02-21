@@ -8,7 +8,7 @@ import { useI18n } from "../../i18n";
 import { PageContainer } from "../../page";
 
 import styles from "./styles.css";
-import { fetchData } from "./action-creators";
+import { fetchContactInformation } from "./action-creators";
 import { selectSupportData } from "./selectors";
 
 const DisplayData = ({ title, value }) => {
@@ -71,7 +71,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  fetchSupportData: fetchData
+  fetchSupportData: fetchContactInformation
 };
 
 export default connect(
