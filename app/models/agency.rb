@@ -135,7 +135,7 @@ class Agency < ApplicationRecord
   end
 
   def set_logo_enabled
-    return unless logo_full.attached? && logo_icon.attached?
+    return if logo_full.attached? && logo_icon.attached?
 
     self.logo_enabled = false
   end
