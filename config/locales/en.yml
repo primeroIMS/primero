@@ -286,7 +286,7 @@ en:
       by_date: 'By Date'
       date: 'Date'
       approvals:
-        pending: "Pending Approvals"
+        pending: "Pending"
         approved: "Approved"
         rejected: "Rejected"
       enabled_disabled: "Enabled / Disabled"
