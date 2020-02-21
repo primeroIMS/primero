@@ -19,13 +19,13 @@ default_ui_filters = [
   },
   {
     type: 'select',
-    name: 'perpetrator_category',
+    name: 'perpetrator_categories',
     options: ["Armed force", "Armed group", "Other party to the conflict", "Unknown"],
     multiple: true
   },
   {
     type: 'select',
-    name: 'armed_force_name',
+    name: 'armed_force_names',
     options: 'lookup-armed-force-name',
     multiple: true,
   },
