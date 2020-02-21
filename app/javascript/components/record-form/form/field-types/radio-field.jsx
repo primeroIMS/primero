@@ -14,11 +14,10 @@ import { Field, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
 import { useSelector } from "react-redux";
 
-import { useI18n } from "../../i18n";
-import { getOption } from "../selectors";
-
-import { RADIO_FIELD_NAME } from "./constants";
-import styles from "./styles.css";
+import { useI18n } from "../../../i18n";
+import { getOption } from "../../selectors";
+import { RADIO_FIELD_NAME } from "../constants";
+import styles from "../styles.css";
 
 const RadioField = ({
   name,

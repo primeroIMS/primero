@@ -18,7 +18,7 @@ import { constructInitialValues } from "../helpers";
 import * as C from "../constants";
 
 import { RECORD_FORM_NAME } from "./constants";
-import FormSectionField from "./FormSectionField";
+import FormSectionField from "./form-section-field";
 import styles from "./styles.css";
 import SubformField from "./subforms";
 
