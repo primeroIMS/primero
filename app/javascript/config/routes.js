@@ -203,6 +203,22 @@ export default [
               }
             },
             {
+              path: `${ROUTES.admin_agencies}/:id/edit`,
+              component: AgenciesForm,
+              resources: RESOURCES.agencies,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.admin_agencies}/:id`,
+              component: AgenciesForm,
+              resources: RESOURCES.agencies,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
               path: ROUTES.admin_agencies,
               component: AgenciesList,
               resources: RESOURCES.agencies
