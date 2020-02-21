@@ -48,6 +48,7 @@ export const ACTIONS = {
   MANAGE: "manage",
   READ: "read",
   REFERRAL: "referral",
+  REMOVE_ASSIGNED_USERS: "remove_assigned_users",
   REOPEN: "reopen",
   REQUEST_APPROVAL_BIA: 'request_approval_bia',
   REQUEST_APPROVAL_CASE_PLAN: 'request_approval_case_plan',

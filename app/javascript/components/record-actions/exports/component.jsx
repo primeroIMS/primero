@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { List } from "immutable";
 import * as yup from "yup";
-import { withRouter } from "react-router-dom";
+import { withRouter, useLocation } from "react-router-dom";
+import qs from "qs";
 
 import { useI18n } from "../../i18n";
 import { ActionDialog } from "../../action-dialog";
@@ -42,7 +43,9 @@ const Component = ({
   const appliedFilters = useSelector(state =>
     getFiltersValuesByRecordType(state, recordType)
   );
-  const allRowsSelected =
+  const location = useLocation();
+  const queryParams = qs.parse(location.search.replace("?", ""));
+  const allCurrentRowsSelected =
     selectedRecords?.length > 0 &&
     records.size > 0 &&
     selectedRecords?.length === records.size;
@@ -57,9 +60,10 @@ const Component = ({
 
     const filters = exporterFilters(
       isShowPage,
-      allRowsSelected,
+      allCurrentRowsSelected,
       shortIds,
       appliedFilters,
+      queryParams,
       record
     );
 

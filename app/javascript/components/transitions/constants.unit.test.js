@@ -29,6 +29,14 @@ describe("<Transitions /> - Constants", () => {
     );
     delete constants.TRANSITION_STATUS;
 
+    expect(constants).to.have.property("TRANSITIONS_TYPES");
+    expect(constants.TRANSITIONS_TYPES).to.be.an("object");
+    expect(constants.TRANSITIONS_TYPES).to.have.all.keys(
+      "transfer",
+      "referral"
+    );
+    delete constants.TRANSITIONS_TYPES;
+
     expect(constants).to.be.empty;
   });
 });
