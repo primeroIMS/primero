@@ -8,6 +8,14 @@ import {
   FORM_MODE_DIALOG
 } from "./constants";
 
+export const optionText = (option, i18n) => {
+  const { display_text: displayText, display_name: displayName } = option;
+
+  return displayText instanceof Object || displayName instanceof Object
+    ? displayText?.[i18n.locale] || displayName?.[i18n.locale]
+    : displayText || displayName;
+};
+
 export const whichOptions = ({
   optionStringsSource,
   options,
@@ -15,18 +23,17 @@ export const whichOptions = ({
   lookups
 }) => {
   if (optionStringsSource) {
-    return lookups;
+    return lookups.map(lookup => {
+      const displayText = optionText(lookup, i18n);
+      const display = lookup.display_text
+        ? { display_text: displayText }
+        : { display_name: displayText };
+
+      return { ...lookup, ...display };
+    });
   }
 
   return Array.isArray(options) ? options : options?.[i18n.locale];
-};
-
-export const optionText = (option, i18n) => {
-  const { display_text: displayText, display_name: displayName } = option;
-
-  return displayText instanceof Object || displayName instanceof Object
-    ? displayText?.[i18n.locale] || displayName?.[i18n.locale]
-    : displayText || displayName;
 };
 
 export const whichFormMode = currentMode => {

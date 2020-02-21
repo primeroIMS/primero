@@ -1031,12 +1031,16 @@ en:
     error_in_updating: "Error in updating the Agency details."
 
   agency:
-    edit: 'Edit Agency'
-    name: 'Agency Name'
-    code: 'Agency Code'
-    services: 'Agency Services'
-    logo_small: 'Small Logo'
-    logo_large: 'Large Logo'
+    edit: "Edit Agency"
+    name: "Agency Name"
+    code: "Agency Code"
+    services: "Agency Services"
+    logo_small: "Small Logo"
+    logo_large: "Large Logo"
+    logo_enabled: "Logo Enabled?"
+    description: "Description"
+    telephone: "Telephone"
+    disabled: "Disabled"
 
   system_settings:
     label: "System Settings"

@@ -6,6 +6,7 @@ export {
   TICK_FIELD,
   TEXT_FIELD,
   CHECK_BOX_FIELD,
-  SELECT_FIELD
+  SELECT_FIELD,
+  TEXT_AREA
 } from "./constants";
 export { whichFormMode } from "./utils";
