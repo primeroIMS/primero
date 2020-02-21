@@ -319,11 +319,11 @@ const Dashboard = ({
               <OptionsBox title={i18n.t("dashboard.overview")}>
                 <Grid item md={12}>
                   <Grid container>
-                    <Grid item xs>
-                      <Permission
-                        resources={RESOURCES.dashboards}
-                        actions={ACTIONS.DASH_CASE_RISK}
-                      >
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_CASE_RISK}
+                    >
+                      <Grid item xs>
                         <OptionsBox flat>
                           <BadgedIndicator
                             data={casesByAssessmentLevel}
@@ -336,8 +336,8 @@ const Dashboard = ({
                             errors={errors}
                           />
                         </OptionsBox>
-                      </Permission>
-                    </Grid>
+                      </Grid>
+                    </Permission>
                     <Permission
                       resources={RESOURCES.dashboards}
                       actions={ACTIONS.DASH_GROUP_OVERVIEW}
