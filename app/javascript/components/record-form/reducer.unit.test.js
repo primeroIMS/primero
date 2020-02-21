@@ -110,6 +110,7 @@ describe("<RecordForm /> - Reducers", () => {
     const expectedState = Map({
       selectedForm: null,
       formSections: mapEntriesToRecord(formSections, R.FormSectionRecord),
+      attachmentFields: List([]),
       fields: mapEntriesToRecord(fields, R.FieldRecord)
     });
     const action = {
