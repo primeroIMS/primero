@@ -12,12 +12,12 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
     const { display_name: displayName, display_text: displayText } =
       typeof option === "object"
         ? option
-        : options.find(opt => opt.id === String(option)) || {};
+        : options.find(opt => opt.id === option) || {};
 
     return displayName || displayText;
   };
 
-  const defaultValue = multiSelect ? [] : undefined;
+  const defaultValue = multiSelect ? [] : { id: "", display_text: "" };
 
   const handleChange = data =>
     multiSelect
@@ -39,8 +39,8 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       getOptionSelected={optionEquality}
       disabled={disabled}
       onChange={handleChange}
-      defaultValue={defaultValue}
       filterSelectedOptions
+      defaultValue={defaultValue}
       renderInput={params => (
         <TextField {...params} margin="normal" {...commonProps} />
       )}
