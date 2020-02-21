@@ -25,6 +25,7 @@ class Agency < ApplicationRecord
   has_many :users, inverse_of: :agency
 
   scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
+  scope :with_logos, -> { enabled.where(logo_enabled: true) }
 
   validates :logo_full, file_size: { less_than_or_equal_to: 1.megabytes },
                         file_content_type: { allow: 'image/png' }, if: -> { logo_full.attached? }
@@ -35,6 +36,7 @@ class Agency < ApplicationRecord
   validate :validate_logo_icon_dimension, if: -> { logo_icon.attached? }
 
   after_initialize :generate_unique_id, unless: :persisted?
+  before_save :set_logo_enabled
 
   class << self
     # TODO: This method may be unused.
@@ -130,5 +132,11 @@ class Agency < ApplicationRecord
     return unless agency_code.present? && unique_id.blank?
 
     self.unique_id = "agency-#{agency_code}".parameterize.dasherize
+  end
+
+  def set_logo_enabled
+    return if logo_full.attached? && logo_icon.attached?
+
+    self.logo_enabled = false
   end
 end

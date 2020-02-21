@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
 import { getIsAuthenticated } from "../user/selectors";
+import { fetchContactInformation } from "../pages/support/action-creators";
 import Queue from "../../libs/queue";
 
 import {
@@ -35,6 +36,10 @@ const ApplicationProvider = ({ children }) => {
       window.removeEventListener("online", () => handleNetworkChange(true));
       window.removeEventListener("offline", () => handleNetworkChange(false));
     };
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchContactInformation());
   }, []);
 
   useEffect(() => {
