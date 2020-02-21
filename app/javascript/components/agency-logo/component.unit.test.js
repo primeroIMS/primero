@@ -1,26 +1,47 @@
 import { expect } from "chai";
+import { fromJS } from "immutable";
 
 import UnicefLogo from "../../images/unicef.png";
-import { setupMountedThemeComponent } from "../../test";
+import { setupMountedComponent } from "../../test";
+import { ContactInformationRecord } from "../pages/support/records";
 
 import AgencyLogo from "./component";
 
 describe("<AgencyLogo />", () => {
-  it("renders agency logo from props", () => {
-    const props = {
-      logo: "http://primero.com/img.png",
-      agency: "usng"
-    };
-    const component = setupMountedThemeComponent(AgencyLogo, props);
+  it("renders agency logo from state", () => {
+    const state = fromJS({
+      records: {
+        support: {
+          data: ContactInformationRecord({
+            agencies: [
+              {
+                unique_id: "1",
+                logo_icon: "logo-icon.png",
+                logo_full: "logo-full.png"
+              }
+            ]
+          })
+        }
+      }
+    });
+    const { component } = setupMountedComponent(AgencyLogo, {}, state);
 
-    expect(component.find("img").prop("src")).to.equal(props.logo);
-    expect(component.find("img").prop("alt")).to.equal(props.agency);
+    expect(
+      component
+        .find("div")
+        .at(1)
+        .prop("style")
+    ).to.have.property("backgroundImage", "url(logo-full.png)");
   });
 
   it("renders default agency logo", () => {
-    const component = setupMountedThemeComponent(AgencyLogo);
+    const { component } = setupMountedComponent(AgencyLogo);
 
-    expect(component.find("img").prop("src")).to.equal(UnicefLogo);
-    expect(component.find("img").prop("alt")).to.equal("unicef");
+    expect(
+      component
+        .find("div")
+        .at(1)
+        .prop("style")
+    ).to.have.property("backgroundImage", `url(${UnicefLogo})`);
   });
 });

@@ -30,4 +30,4 @@ export const getReportingLocationConfig = state =>
   state.getIn([NAMESPACE, "reportingLocationConfig"]);
 
 export const getAgencyLogos = state =>
-  state.getIn(["records", "support", "data", "agencies"], fromJS([]));
+  state.getIn(["records", "support", "data", "agencies"], []);
