@@ -215,7 +215,7 @@ const Component = ({ recordType, defaultFilters }) => {
     <div className={css.root}>
       <FormContext {...methods} user={userName}>
         <form onSubmit={methods.handleSubmit(handleSubmit)}>
-          <Search />
+          <Search handleReset={handleClear} />
           <Tabs
             value={tabIndex}
             onChange={(event, value) => setTabIndex(value)}
