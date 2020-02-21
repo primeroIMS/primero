@@ -5,12 +5,12 @@
 # We are not interested in re-writing active storage controllers: just locking them down
 ActiveStorage::BlobsController.class_eval do
   include ActiveStorageAuth
-  before_action :authorize_blob!
+  # before_action :authorize_blob!
 end
 
 ActiveStorage::RepresentationsController.class_eval do
   include ActiveStorageAuth
-  before_action :authorize_blob!
+  # before_action :authorize_blob!
 end
 
 ActiveStorage::DiskController.class_eval do

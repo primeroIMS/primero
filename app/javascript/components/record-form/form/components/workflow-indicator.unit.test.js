@@ -5,7 +5,7 @@ import { StepLabel } from "@material-ui/core";
 import { setupMountedComponent } from "../../../../test";
 import { PrimeroModuleRecord } from "../../../application/records";
 
-import WorkflowIndicator from "./WorkflowIndicator";
+import WorkflowIndicator from "./workflow-indicator";
 
 describe("<WorkflowIndicator />", () => {
   let state;

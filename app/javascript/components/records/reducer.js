@@ -1,6 +1,6 @@
 import { fromJS, Map, List } from "immutable";
 
-import { mergeRecord } from "../../libs";
+import { mergeRecord, rejectKeys } from "../../libs";
 
 import * as Actions from "./actions";
 
