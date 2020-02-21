@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 2020_02_15_000000) do
     t.string "match_criteria"
     t.jsonb "custom_export_params"
     t.string "file_name"
-    t.string "password"
+    t.string "password_ciphertext"
   end
 
   create_table "cases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -250,6 +250,7 @@ ActiveRecord::Schema.define(version: 2020_02_15_000000) do
     t.string "unique_id"
     t.string "provider_type"
     t.jsonb "configuration"
+    t.index ["configuration"], name: "index_identity_providers_on_configuration", using: :gin
     t.index ["unique_id"], name: "index_identity_providers_on_unique_id", unique: true
   end
 
@@ -353,12 +354,6 @@ ActiveRecord::Schema.define(version: 2020_02_15_000000) do
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
 
-  create_table "roles_roles", id: false, force: :cascade do |t|
-    t.integer "role_id"
-    t.integer "associated_role_id"
-    t.index ["role_id", "associated_role_id"], name: "index_roles_roles_on_role_id_and_associated_role_id", unique: true
-  end
-
   create_table "saved_searches", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "record_type"
@@ -452,9 +447,11 @@ ActiveRecord::Schema.define(version: 2020_02_15_000000) do
     t.datetime "reset_password_sent_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "identity_provider_id"
     t.jsonb "identity_provider_sync"
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["identity_provider_id"], name: "index_users_on_identity_provider_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["user_name"], name: "index_users_on_user_name", unique: true

@@ -7,7 +7,8 @@ import {
   TICK_FIELD,
   TEXT_FIELD,
   TEXT_AREA,
-  SELECT_FIELD
+  SELECT_FIELD,
+  PHOTO_FIELD
 } from "../../../form";
 
 export const validations = formMode =>
@@ -16,6 +17,8 @@ export const validations = formMode =>
     description: yup.string(),
     disabled: yup.boolean(),
     logo_enabled: yup.boolean(),
+    logo_full_base64: yup.string(),
+    logo_full_file_name: yup.string(),
     name: yup.string().required(),
     services: yup.array(),
     telephone: yup.string()
@@ -50,6 +53,16 @@ export const form = (i18n, formMode) => {
           type: SELECT_FIELD,
           multi_select: true,
           option_strings_source: "lookup-service-type"
+        }),
+        FieldRecord({
+          display_name: i18n.t("agency.logo_icon"),
+          name: "logo_icon",
+          type: PHOTO_FIELD
+        }),
+        FieldRecord({
+          display_name: i18n.t("agency.logo_large"),
+          name: "logo_full",
+          type: PHOTO_FIELD
         }),
         FieldRecord({
           display_name: i18n.t("agency.logo_enabled"),

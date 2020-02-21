@@ -1035,7 +1035,7 @@ en:
     name: "Agency Name"
     code: "Agency Code"
     services: "Agency Services"
-    logo_small: "Small Logo"
+    logo_icon: "Icon Logo"
     logo_large: "Large Logo"
     logo_enabled: "Logo Enabled?"
     description: "Description"
