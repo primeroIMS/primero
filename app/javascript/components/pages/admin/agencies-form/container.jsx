@@ -106,6 +106,14 @@ const Container = ({ mode }) => {
     ? `${i18n.t("agencies.label")} ${agency.getIn(["name", i18n.locale])}`
     : i18n.t("agencies.label");
 
+  const selectedAgency = {
+    ...agency.toJS(),
+    ...{
+      logo_full_url: agency.get("logo_full"),
+      logo_icon_url: agency.get("logo_icon")
+    }
+  };
+
   return (
     <LoadingIndicator
       hasData={formMode.get("isNew") || agency?.size > 0}
@@ -124,7 +132,7 @@ const Container = ({ mode }) => {
           ref={formRef}
           validations={validationSchema}
           initialValues={translateFields(
-            agency.toJS(),
+            selectedAgency,
             ["name", "description"],
             i18n
           )}

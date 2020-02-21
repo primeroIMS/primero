@@ -11,7 +11,7 @@ import { PHOTO_FIELD } from "../constants";
 import styles from "./styles.css";
 
 const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
-  const { setValue, getValues, watch, register } = useFormContext();
+  const { setValue, watch, register, getValues } = useFormContext();
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [file, setFile] = useState({
@@ -21,10 +21,10 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
   });
 
   const { type } = metaInputProps;
-  const { name, label } = commonInputProps;
+  const { name, label, disabled } = commonInputProps;
 
-  const fileBase64 = watch(`${name}_base64`, "");
-  const fileName = watch(`${name}_file_name`, "");
+  const fileBase64 = watch(`${name}_base64`);
+  const fileUrl = watch(`${name}_url`);
 
   const loadingFile = (loading, data) => {
     setFile({
@@ -51,15 +51,34 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
     }
   };
 
-  const fieldDisabled = () => file.loading || Boolean(fileBase64 && !file?.data);
+  const fieldDisabled = () =>
+    file.loading || Boolean(fileBase64 && !file?.data);
 
   const renderPreview = () => {
     const { data, fileName } = file;
 
-    return data && type === PHOTO_FIELD ? (
-      <img src={data} alt="" className={css.preview} />
+    return (data || fileUrl) && type === PHOTO_FIELD ? (
+      <img src={data || fileUrl} alt="" className={css.preview} />
     ) : (
       <div>{fileName}</div>
+    );
+  };
+
+  const renderButton = () => {
+    return disabled ? null : (
+      <div className={css.buttonWrapper}>
+        <Button
+          variant="outlined"
+          color="primary"
+          component="span"
+          disabled={disabled || fieldDisabled()}
+        >
+          {i18n.t("fields.file_upload_box.select_file_button_text")}
+          {file.loading && (
+            <CircularProgress size={24} className={css.buttonProgress} />
+          )}
+        </Button>
+      </div>
     );
   };
 
@@ -67,19 +86,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
     <div className={css.attachment}>
       <label htmlFor={name}>
         <InputLabel>{label}</InputLabel>
-        <div className={css.buttonWrapper}>
-          <Button
-            variant="outlined"
-            color="primary"
-            component="span"
-            disabled={fieldDisabled()}
-          >
-            {i18n.t("fields.file_upload_box.select_file_button_text")}
-            {file.loading && (
-              <CircularProgress size={24} className={css.buttonProgress} />
-            )}
-          </Button>
-        </div>
+        {renderButton()}
       </label>
       <div className={css.inputField}>
         <input
@@ -88,22 +95,13 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
           name={name}
           onChange={handleChange}
           ref={register}
-          disabled={fieldDisabled()}
+          disabled={disabled || fieldDisabled()}
         />
-        <input
-          type="hidden"
-          name={`${name}_base64`}
-          defaultValue={fileBase64}
-          ref={register}
-        />
-        <input
-          type="hidden"
-          name={`${name}_file_name`}
-          defaultValue={fileName}
-          ref={register}
-        />
+        <input type="hidden" name={`${name}_base64`} ref={register} />
+        <input type="hidden" name={`${name}_file_name`} ref={register} />
+        <input type="hidden" name={`${name}_url`} ref={register} />
       </div>
-      {renderPreview()}
+      <div>{renderPreview()}</div>
     </div>
   );
 };
