@@ -33,15 +33,4 @@ describe("<AgencyLogo />", () => {
         .prop("style")
     ).to.have.property("backgroundImage", "url(logo-full.png)");
   });
-
-  it("renders default agency logo", () => {
-    const { component } = setupMountedComponent(AgencyLogo);
-
-    expect(
-      component
-        .find("div")
-        .at(1)
-        .prop("style")
-    ).to.have.property("backgroundImage", `url(${UnicefLogo})`);
-  });
 });

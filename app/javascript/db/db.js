@@ -9,7 +9,7 @@ import { DB_COLLECTIONS_NAMES, DB_COLLECTIONS } from "./constants";
 class DB {
   constructor() {
     if (!DB.instance) {
-      this._db = openDB(DATABASE_NAME, 2, {
+      this._db = openDB(DATABASE_NAME, 1, {
         upgrade(db) {
           DB_COLLECTIONS.forEach(collection => {
             if (Array.isArray(collection)) {
