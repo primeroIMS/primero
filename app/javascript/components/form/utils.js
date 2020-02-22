@@ -21,7 +21,8 @@ export const whichOptions = ({
   options,
   i18n,
   lookups,
-  agencies
+  agencies,
+  locations
 }) => {
   if (optionStringsSource) {
     switch (optionStringsSource) {
@@ -30,6 +31,13 @@ export const whichOptions = ({
           .map(agency => ({
             id: agency.get("id"),
             display_text: agency.get("name")
+          }))
+          .toJS();
+      case "Location":
+        return locations
+          .map(location => ({
+            id: location.get("code"),
+            display_text: location.getIn(["name", i18n.locale], "")
           }))
           .toJS();
       default:

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
+import { getLocations, getOption } from "../../record-form";
 import TextInput from "../fields/text-input";
 import SwitchInput from "../fields/switch-input";
 import SelectInput from "../fields/select-input";
@@ -17,7 +18,6 @@ import {
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
 import { whichOptions } from "../utils";
-import { getOption } from "../../record-form";
 import { selectAgencies } from "../../application";
 
 const FormSectionField = ({ field }) => {
@@ -47,10 +47,13 @@ const FormSectionField = ({ field }) => {
 
   const agencies = useSelector(state => selectAgencies(state));
 
+  const locations = useSelector(state => getLocations(state, i18n));
+
   const inputOptions = whichOptions({
     optionStringsSource,
     lookups,
     agencies,
+    locations,
     options: options || optionsStringsText,
     i18n
   });
