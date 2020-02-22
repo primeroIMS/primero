@@ -12,8 +12,6 @@ import NAMESPACE from "../namespace";
 import { ROUTES } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
-import { selectAgencies } from "../../../application";
-import { getLocations } from "../../../record-form/selectors";
 
 import { form, validations } from "./form";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
@@ -28,8 +26,6 @@ const Container = ({ mode }) => {
   const { id } = useParams();
   const user = useSelector(state => getUser(state));
   const formErrors = useSelector(state => getServerErrors(state));
-  const agencies = useSelector(state => selectAgencies(state));
-  const locations = useSelector(state => getLocations(state, i18n));
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
   const validationSchema = validations(formMode, i18n);
@@ -108,7 +104,7 @@ const Container = ({ mode }) => {
         <Form
           useCancelPrompt
           mode={mode}
-          formSections={form(i18n, formMode, { agencies, locations })}
+          formSections={form(i18n, formMode)}
           onSubmit={handleSubmit}
           ref={formRef}
           validations={validationSchema}

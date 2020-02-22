@@ -44,7 +44,7 @@ export const validations = (formMode, i18n) =>
     user_name: yup.string().required()
   });
 
-export const form = (i18n, formMode, options) => {
+export const form = (i18n, formMode) => {
   return fromJS([
     FormSectionRecord({
       unique_id: "users",
@@ -176,12 +176,7 @@ export const form = (i18n, formMode, options) => {
           name: "agency_id",
           type: SELECT_FIELD,
           required: true,
-          option_strings_text: options.agencies
-            .map(agency => ({
-              id: agency.get("id"),
-              display_text: agency.get("name")
-            }))
-            .toJS()
+          option_strings_source: "Agency"
         }),
         FieldRecord({
           display_name: i18n.t("user.agency_office"),
@@ -197,7 +192,6 @@ export const form = (i18n, formMode, options) => {
           display_name: i18n.t("user.location"),
           name: "location",
           type: SELECT_FIELD,
-
           option_strings_source: "location"
         }),
         FieldRecord({
