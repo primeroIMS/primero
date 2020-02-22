@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-for */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { TextField as MuiTextField } from "formik-material-ui";
+import { TextField } from "formik-material-ui";
 import {
   Box,
   Dialog,
@@ -16,14 +16,18 @@ import { FastField } from "formik";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
+import some from "lodash/some";
 
-import { useI18n } from "../../i18n";
+import { useI18n } from "../../../../i18n";
+import { DOCUMENT_FIELD_NAME } from "../../constants";
+import DateField from "../date-field";
+import styles from "../../styles.css";
 
-import { DOCUMENT_FIELD_NAME } from "./constants";
-import DateField from "./DateField";
-import styles from "./styles.css";
+import { buildAttachmentFieldsObject } from "./utils";
+import AttachmentInput from "./attachment-input";
 
 const DocumentField = ({
+  attachment,
   title,
   name,
   index,
@@ -37,8 +41,14 @@ const DocumentField = ({
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [dialog, setDialog] = useState(false);
+  const { attachment_url: attachmentUrl } = value;
+
+  const fields = buildAttachmentFieldsObject(name, index);
 
   const handleClose = () => {
+    if (!some(value)) {
+      removeFunc(index);
+    }
     resetOpenLastDialog();
     setDialog(false);
   };
@@ -53,13 +63,10 @@ const DocumentField = ({
   };
 
   const supportingInputsProps = {
-    field,
-    mode,
-    readOnly: mode.isShow,
+    disabled: mode.isShow,
     fullWidth: true,
     autoComplete: "off",
     InputProps: {
-      readOnly: mode.isShow,
       classes: {
         root: css.input
       }
@@ -72,6 +79,8 @@ const DocumentField = ({
     }
   };
 
+  const dialogActionText = `buttons.${mode.isShow ? "close" : "save"}`;
+
   return (
     <>
       <div className={css.attachment}>
@@ -79,7 +88,7 @@ const DocumentField = ({
           <span>
             {value.date && i18n.l("date.formats.default", value.date)}
           </span>
-          {value.document_description}
+          {value.description}
         </div>
         <div>
           <IconButton onClick={handleOpen}>
@@ -104,53 +113,59 @@ const DocumentField = ({
         </DialogTitle>
         <DialogContent>
           <div className={css.attachmentUploadField}>
-            <label htmlFor={`${name}[${index}][document]`}>
-              <Button variant="outlined" color="primary" component="span">
-                {i18n.t("fields.file_upload_box.select_file_button_text")}
-              </Button>
-            </label>
-            <div className={css.attachmentInputField}>
-              <FastField
-                id={`${name}[${index}][document]`}
-                name={`${name}[${index}][document]`}
-                type="file"
+            {attachmentUrl ? (
+              <Button href={attachmentUrl}>{i18n.t("buttons.download")}</Button>
+            ) : (
+              <AttachmentInput
+                fields={fields}
+                attachment={attachment}
+                value={value.attachment}
+                name={name}
               />
-            </div>
-            <IconButton onClick={handleRemove}>
-              <DeleteIcon />
-            </IconButton>
+            )}
+            {mode.isShow || (
+              <IconButton onClick={handleRemove}>
+                <DeleteIcon />
+              </IconButton>
+            )}
           </div>
+
           <Box my={2}>
             <FastField
-              component={MuiTextField}
+              component={TextField}
               {...supportingInputsProps}
               label={i18n.t("fields.document.name")}
-              name={`${name}[${index}][document_description]`}
+              name={fields.description}
             />
           </Box>
           <Box my={2}>
             <DateField
               {...supportingInputsProps}
-              readOnly={mode.isShow}
-              name={`${name}[${index}][date]`}
+              field={field}
+              name={fields.date}
               label={i18n.t("fields.document.date")}
             />
           </Box>
           <Box my={2}>
             <FastField
-              component={MuiTextField}
+              component={TextField}
               margin="dense"
               {...supportingInputsProps}
               multiline
               label={i18n.t("fields.document.comments")}
-              name={`${name}[${index}][comments]`}
+              name={fields.comments}
             />
           </Box>
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose} color="primary" variant="contained">
-            Save
+          <Button
+            onClick={handleClose}
+            color="primary"
+            variant="contained"
+            disableElevation
+          >
+            {i18n.t(dialogActionText)}
           </Button>
         </DialogActions>
       </Dialog>
@@ -161,6 +176,7 @@ const DocumentField = ({
 DocumentField.displayName = DOCUMENT_FIELD_NAME;
 
 DocumentField.propTypes = {
+  attachment: PropTypes.string.isRequired,
   field: PropTypes.object,
   index: PropTypes.number.isRequired,
   mode: PropTypes.object.isRequired,

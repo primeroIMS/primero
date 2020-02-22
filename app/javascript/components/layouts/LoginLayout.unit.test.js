@@ -37,18 +37,10 @@ describe("<LoginLayout />", () => {
   });
 
   it("renders default agency logo", () => {
-    expect(
-      component
-        .find("img")
-        .last()
-        .prop("src")
-    ).to.equal(UnicefLogo);
-    expect(
-      component
-        .find("img")
-        .last()
-        .prop("alt")
-    ).to.equal("unicef");
+    expect(component.find("#unicef-logo").prop("style")).to.have.property(
+      "backgroundImage",
+      `url(${UnicefLogo})`
+    );
   });
 
   it("renders a module logo", () => {

@@ -1,4 +1,4 @@
-import { Record } from "immutable";
+import { Record, fromJS } from "immutable";
 
 export const ContactInformationRecord = Record({
   name: "",
@@ -7,5 +7,6 @@ export const ContactInformationRecord = Record({
   other_information: "",
   support_forum: "",
   position: "",
-  system_version: ""
+  system_version: "",
+  agencies: fromJS([])
 });

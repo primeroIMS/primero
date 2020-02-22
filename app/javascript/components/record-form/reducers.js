@@ -1,7 +1,8 @@
 import { OrderedMap, Map, fromJS } from "immutable";
 
-import { mapEntriesToRecord } from "../../libs";
+import { mapEntriesToRecord, listAttachmentFields } from "../../libs";
 
+import { FIELD_ATTACHMENT_TYPES } from "./form/field-types/attachments/constants";
 import NAMESPACE from "./namespace";
 import Actions from "./actions";
 import { FieldRecord, FormSectionRecord } from "./records";
@@ -22,6 +23,15 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
     case Actions.RECORD_FORMS_SUCCESS:
       if (payload) {
         return state
+          .set(
+            "attachmentFields",
+            fromJS(
+              listAttachmentFields(
+                payload.fields,
+                Object.keys(FIELD_ATTACHMENT_TYPES)
+              )
+            )
+          )
           .set("fields", mapEntriesToRecord(payload.fields, FieldRecord, true))
           .set(
             "formSections",

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::V2::ContactInformationController, type: :request do
@@ -17,7 +19,10 @@ describe Api::V2::ContactInformationController, type: :request do
       default_locale: 'en',
       case_code_separator: '-',
       primero_version: '2.0.0',
-      age_ranges: {'primero' => ['0 - 5', '6 - 11', '12 - 17', '18+'], 'unhcr' => ['0 - 4', '5 - 11', '12 - 17', '18 - 59', '60+']},
+      age_ranges: {
+        'primero' => ['0 - 5', '6 - 11', '12 - 17', '18+'],
+        'unhcr' => ['0 - 4', '5 - 11', '12 - 17', '18 - 59', '60+']
+      },
       primary_age_range: 'primero',
       location_limit_for_api: 150,
       welcome_email_text: 'Welcome to Primero'
@@ -27,17 +32,14 @@ describe Api::V2::ContactInformationController, type: :request do
 
   let(:json) { JSON.parse(response.body) }
 
-  describe "GET /api/v2/contact_information" do
+  describe 'GET /api/v2/contact_information' do
     it 'list contact information' do
-
       get '/api/v2/contact_information'
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(9)
-      expect(json['data']['name']).to eq( @contact_info.name)
+      expect(json['data']['name']).to eq(@contact_info.name)
       expect(json['data']['organization']).to eq(@contact_info.organization)
       expect(json['data']['support_forum']).to eq(@contact_info.support_forum)
       expect(json['data']['system_version']).to eq(@system_settings.primero_version)
     end
   end
-
 end

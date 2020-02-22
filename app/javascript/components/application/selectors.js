@@ -1,4 +1,4 @@
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
 
 import NAMESPACE from "./namespace";
 
@@ -28,3 +28,6 @@ export const selectNetworkStatus = state => state.getIn([NAMESPACE, "online"]);
 
 export const getReportingLocationConfig = state =>
   state.getIn([NAMESPACE, "reportingLocationConfig"]);
+
+export const getAgencyLogos = state =>
+  state.getIn(["records", "support", "data", "agencies"], []);

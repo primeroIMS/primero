@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Card, CardContent } from "@material-ui/core";
@@ -8,7 +8,6 @@ import { useI18n } from "../../i18n";
 import { PageContainer } from "../../page";
 
 import styles from "./styles.css";
-import { fetchData } from "./action-creators";
 import { selectSupportData } from "./selectors";
 
 const DisplayData = ({ title, value }) => {
@@ -27,13 +26,9 @@ DisplayData.propTypes = {
   value: PropTypes.string.isRequired
 };
 
-const Support = ({ supportData, fetchSupportData }) => {
+const Support = ({ supportData }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-
-  useEffect(() => {
-    fetchSupportData();
-  }, [fetchSupportData]);
 
   return (
     <PageContainer>
@@ -70,11 +65,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = {
-  fetchSupportData: fetchData
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Support);
+export default connect(mapStateToProps)(Support);

@@ -75,6 +75,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("ACCEPT");
     expect(constants).to.have.property("REJECTED");
     expect(constants).to.have.property("REJECT");
+    expect(constants).to.have.property("METHODS");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -123,6 +124,7 @@ describe("Verifying config constant", () => {
     delete constants.ACCEPT;
     delete constants.REJECTED;
     delete constants.REJECT;
+    delete constants.METHODS;
 
     expect(constants).to.deep.equal({});
   });
