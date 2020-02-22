@@ -26,7 +26,7 @@ class Filter < ValueObject
   APPROVALS_STATUS_BIA = Filter.new(name: 'approvals.bia', field_name: 'approval_status_bia')
   APPROVALS_STATUS_CASE_PLAN = Filter.new(name: 'approvals.case_plan', field_name: 'approval_status_case_plan')
   APPROVALS_STATUS_CLOSURE = Filter.new(name: 'approvals.closure', field_name: 'approval_status_closure')
-  AGENCY =  Filter.new(name: 'cases.filter_by.agency', field_name: 'owned_by_agency', type: 'checkbox')
+  AGENCY =  Filter.new(name: 'cases.filter_by.agency', field_name: 'owned_by_agency_id', type: 'checkbox')
   STATUS =  Filter.new(
     name: 'cases.filter_by.status',
     field_name: 'status',
@@ -307,7 +307,7 @@ class Filter < ValueObject
       end
     when 'workflow'
       self.options = Child.workflow_statuses(user_modules)
-    when 'owned_by_agency'
+    when 'owned_by_agency_id'
       agencies = User.agencies_for_user_names(managed_user_names)
       self.options = I18n.available_locales.map do |locale|
         locale_options = agencies.map do |agency|
