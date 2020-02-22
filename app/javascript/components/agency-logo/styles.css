@@ -13,6 +13,7 @@
 
 .agencyLogoContainer {
   display: flex;
+  min-height: 140px;
   width: 100%;
   flex-direction: column;
   align-items: center;
