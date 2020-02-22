@@ -6,7 +6,8 @@ module ActiveStorageAuth
   extend ActiveSupport::Concern
 
   included do
-    before_action :authenticate_user!
+    # TODO: We need to secure ActiveStorage controllers
+    # before_action :authenticate_user!
 
     rescue_from CanCan::AccessDenied do
       render plain: 'Forbidden', status: 403
