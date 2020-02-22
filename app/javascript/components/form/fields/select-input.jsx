@@ -17,14 +17,17 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
     return displayName || displayText;
   };
 
-  const defaultValue = multiSelect ? [] : { id: "", display_text: "" };
+  const defaultOption = { id: "", display_text: "" };
 
-  const handleChange = data =>
-    multiSelect
+  const defaultValue = multiSelect ? [] : defaultOption;
+
+  const handleChange = data => {
+    return multiSelect
       ? data?.[1]?.map(selected =>
           typeof selected === "object" ? selected?.id : selected
         )
-      : data?.[1]?.id;
+      : data?.[1]?.id || defaultOption;
+  };
 
   const optionEquality = (option, value) =>
     multiSelect ? option.id === value : option.id === value.id;
