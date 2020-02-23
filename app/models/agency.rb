@@ -20,8 +20,8 @@ class Agency < ApplicationRecord
   validates :agency_code, presence: { message: 'errors.models.agency.code_present' }
   validate :validate_name_in_english
 
-  has_one_attached :logo_full
-  has_one_attached :logo_icon
+  has_one_attached :logo_full, dependent: false
+  has_one_attached :logo_icon, dependent: false
   has_many :users, inverse_of: :agency
 
   scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
