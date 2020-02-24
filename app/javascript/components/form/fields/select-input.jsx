@@ -18,7 +18,10 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
     return displayName || displayText;
   };
 
-  const defaultValue = multiSelect ? [] : defaultOption;
+  const optionsUseIntegerIds = Number.isInteger(options?.[0]?.id);
+
+  // eslint-disable-next-line no-nested-ternary
+  const defaultValue = multiSelect ? [] : optionsUseIntegerIds ? null : "";
 
   const handleChange = data => {
     return multiSelect
@@ -34,26 +37,29 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   return (
     <Controller
       name={name}
-      as={Autocomplete}
-      multiple={multiSelect}
-      getOptionLabel={optionLabel}
-      options={options}
-      getOptionSelected={optionEquality}
-      disabled={disabled}
-      onChange={handleChange}
-      filterSelectedOptions
       defaultValue={defaultValue}
-      renderInput={params => (
-        <TextField {...params} margin="normal" {...commonProps} />
-      )}
-      renderTags={(value, getTagProps) =>
-        value.map((option, index) => (
-          <Chip
-            label={optionLabel(option)}
-            {...getTagProps({ index })}
-            disabled={disabled}
-          />
-        ))
+      onChange={handleChange}
+      as={
+        <Autocomplete
+          multiple={multiSelect}
+          getOptionLabel={optionLabel}
+          options={options}
+          getOptionSelected={optionEquality}
+          disabled={disabled}
+          filterSelectedOptions
+          renderInput={params => (
+            <TextField {...params} margin="normal" {...commonProps} />
+          )}
+          renderTags={(value, getTagProps) =>
+            value.map((option, index) => (
+              <Chip
+                label={optionLabel(option)}
+                {...getTagProps({ index })}
+                disabled={disabled}
+              />
+            ))
+          }
+        />
       }
     />
   );
