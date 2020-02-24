@@ -23,7 +23,7 @@ import { getLocations, getOption } from "../../selectors";
 import { valuesToSearchableSelect } from "../../../../libs";
 import { selectAgencies } from "../../../application/selectors";
 import { SearchableSelect } from "../../../searchable-select";
-import { CODE_FIELD, NAME_FIELD, ID_FIELD} from "../../../../config";
+import { CODE_FIELD, NAME_FIELD, ID_FIELD } from "../../../../config";
 import { SELECT_FIELD_NAME } from "../constants";
 import styles from "../styles.css";
 
