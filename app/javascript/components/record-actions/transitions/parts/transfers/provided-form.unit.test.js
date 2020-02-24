@@ -100,6 +100,6 @@ describe("<ProvidedForm /> - transfers", () => {
       .find("input")
       .simulate("change", { target: { checked: true } });
 
-    expect(storeActions[0]).to.deep.equal(expectedAction);
+    expect(storeActions[1]).to.deep.equal(expectedAction);
   });
 });

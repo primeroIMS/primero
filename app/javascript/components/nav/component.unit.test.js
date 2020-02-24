@@ -110,13 +110,14 @@ describe("<Nav />", () => {
       ).to.have.lengthOf(1);
     });
 
-    it("renders matches link", () => {
-      expect(
-        component
-          .find(NavLink)
-          .findWhere(link => link.prop("to") === ROUTES.matches)
-      ).to.have.lengthOf(1);
-    });
+    // TODO: Temporary removed
+    // it("renders matches link", () => {
+    //   expect(
+    //     component
+    //       .find(NavLink)
+    //       .findWhere(link => link.prop("to") === ROUTES.matches)
+    //   ).to.have.lengthOf(1);
+    // });
 
     it("renders reports link", () => {
       expect(
