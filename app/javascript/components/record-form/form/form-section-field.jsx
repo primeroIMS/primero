@@ -39,7 +39,8 @@ const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
       readOnly: mode.isShow,
       classes: {
         root: css.input
-      }
+      },
+      autoComplete: "new-password"
     },
     InputLabelProps: {
       shrink: true,
