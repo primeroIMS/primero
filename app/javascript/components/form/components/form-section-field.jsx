@@ -74,9 +74,6 @@ const FormSectionField = ({ field }) => {
     InputLabelProps: {
       shrink: true
     },
-    InputProps: {
-      autoComplete: "new-password"
-    },
     disabled: formMode.get("isShow") || (formMode.get("isEdit") && !editable)
   };
 
