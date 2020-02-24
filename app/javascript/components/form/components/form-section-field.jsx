@@ -45,12 +45,14 @@ const FormSectionField = ({ field }) => {
     !isEmpty(optionStringsSource)
   );
 
-  const agencies = useSelector(state =>
-    selectAgencies(state, optionStringsSource === "Agency")
+  const agencies = useSelector(
+    state => selectAgencies(state),
+    (agencies1, agencies2) => agencies1.equals(agencies2)
   );
 
-  const locations = useSelector(state =>
-    getLocations(state, optionStringsSource === "Location")
+  const locations = useSelector(
+    state => getLocations(state),
+    (locations1, locations2) => locations1.equals(locations2)
   );
 
   const inputOptions = whichOptions({
@@ -73,9 +75,6 @@ const FormSectionField = ({ field }) => {
     autoComplete: "new-password",
     InputLabelProps: {
       shrink: true
-    },
-    InputProps: {
-      autoComplete: "new-password"
     },
     disabled: formMode.get("isShow") || (formMode.get("isEdit") && !editable)
   };

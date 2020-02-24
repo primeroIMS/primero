@@ -4,6 +4,8 @@ import {
   ExpansionPanelSummary
 } from "@material-ui/core";
 
+
+import RecordFormTitle from "../record-form/form/record-form-title";
 import { setupMountedComponent, expect } from "../../test";
 
 import Approvals from "./container";
@@ -84,8 +86,13 @@ describe("<Approvals /> - Component", () => {
   describe("When we don't have data", () => {
     let component;
 
+    const emptyProps = {
+      mobileDisplay: true,
+      handleToggleNav: () => {}
+    };
+
     beforeEach(() => {
-      ({ component } = setupMountedComponent(Approvals, fromJS([]), {}));
+      ({ component } = setupMountedComponent(Approvals, emptyProps, {}));
     });
 
     it("renders Approvals component", () => {
@@ -93,8 +100,8 @@ describe("<Approvals /> - Component", () => {
     });
     it("not renders ApprovalPanel only the title", () => {
       expect(component.find(ApprovalPanel)).to.have.lengthOf(0);
-      expect(component.find("h1")).to.have.lengthOf(1);
-      expect(component.find("h1").text()).to.equal(
+      expect(component.find(RecordFormTitle)).to.have.lengthOf(1);
+      expect(component.find(RecordFormTitle).text()).to.equal(
         "forms.record_types.approvals"
       );
     });
