@@ -11,7 +11,15 @@ import DisableOffline from "../../../disable-offline";
 
 const Component = ({ menuEntry, mobileDisplay }) => {
   const css = makeStyles(styles)();
-  const { to, divider, icon, jewelCount, name, disableOffline } = menuEntry;
+  const {
+    to,
+    divider,
+    icon,
+    jewelCount,
+    name,
+    disableOffline,
+    disabled
+  } = menuEntry;
 
   const jewel = jewelCount ? (
     <Jewel value={jewelCount} mobileDisplay={mobileDisplay} />
@@ -21,13 +29,16 @@ const Component = ({ menuEntry, mobileDisplay }) => {
 
   const DisabledOffline = disableOffline ? DisableOffline : Fragment;
 
+  const navlinkProps = {
+    ...(!disabled && { component: NavLink, to })
+  };
+
   return (
     <div>
       {renderDivider}
       <DisabledOffline>
         <ListItem
-          component={NavLink}
-          to={to}
+          {...navlinkProps}
           className={css.navLink}
           activeClassName={css.navActive}
         >

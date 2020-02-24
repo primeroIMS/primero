@@ -86,9 +86,9 @@ const Container = () => {
           </Form>
         )}
       />
-      <Grid item xs className={css.recoveryLink}>
+      {/* <Grid item xs className={css.recoveryLink}>
         <Link href="/forgot_password">{i18n.t("user.forgot_password")}</Link>
-      </Grid>
+      </Grid> */}
     </>
   );
 };
