@@ -24,11 +24,12 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
     validations.identity_provider = yup.string().required();
 
     const isIdpProvider = function(ref, message) {
-      return this.test( 'isIdpProvider', message, function (value) {
-        const providerName = this.resolve(ref);
+      return this.test( "isIdpProvider", message, function (value) {
+        const providerId = this.resolve(ref);
         const provider = providers.find(
-          currentProvider => currentProvider.get("id") === providerName
+          currentProvider => currentProvider.get("id") === parseInt(providerId, 10)
         );
+
         if (provider) {
           const regexMatch = new RegExp(`@${provider.get("user_domain")}$`);
 
@@ -116,7 +117,7 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
           watchInput: "identity_provider_id",
           helpTextIfWatch: input => {
             const provider = providers
-              ? providers.find(currentProvider => currentProvider.get("id") === input)
+              ? providers.find(currentProvider => currentProvider.get("id") === parseInt(input, 10))
               : null;
 
             return provider
