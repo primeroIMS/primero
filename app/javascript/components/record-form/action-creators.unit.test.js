@@ -3,6 +3,7 @@ import chai, { expect } from "chai";
 import sinon from "sinon";
 import sinonChai from "sinon-chai";
 import configureStore from "redux-mock-store";
+import thunk from "redux-thunk";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
@@ -52,29 +53,26 @@ describe("<RecordForm /> - Action Creators", () => {
   });
 
   it("should check the 'fetchForms' action creator to return the correct object", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const store = configureStore([thunk])({});
 
-    actionCreators.fetchForms()(dispatch);
+    return store.dispatch(actionCreators.fetchForms()).then(() => {
+      const expectedActions = store.getActions();
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql("forms/RECORD_FORMS");
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql("forms");
-    expect(typeof dispatch.getCall(0).returnValue.api.normalizeFunc).to.eql(
-      "string"
-    );
+      expect(expectedActions[0].type).to.eql("forms/RECORD_FORMS");
+      expect(expectedActions[0].api.path).to.eql("forms");
+      expect(expectedActions[0].api.normalizeFunc).to.eql("normalizeFormData");
+    });
   });
 
   it("should check the 'fetchOptions' action creator to return the correct object", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const store = configureStore([thunk])({});
 
-    actionCreators.fetchOptions()(dispatch);
+    return store.dispatch(actionCreators.fetchOptions()).then(() => {
+      const expectedActions = store.getActions();
 
-    const firstCallReturnValue = dispatch.getCall(0).returnValue;
-    const secondCallReturnValue = dispatch.getCall(1).returnValue;
-
-    expect(firstCallReturnValue.type).to.eql(actions.SET_OPTIONS);
-    expect(firstCallReturnValue.api.path).to.eql(URL_LOOKUPS);
-    expect(secondCallReturnValue.type).to.eql(actions.SET_LOCATIONS);
+      expect(expectedActions[0].type).to.eql(actions.SET_OPTIONS);
+      expect(expectedActions[0].api.path).to.eql(URL_LOOKUPS);
+      expect(expectedActions[1].type).to.eql(actions.SET_LOCATIONS);
+    });
   });
 });
