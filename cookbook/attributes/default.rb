@@ -23,7 +23,7 @@ default[:primero].tap do |p|
   p[:site].tap do |s|
     s[:proxy_connect_timeout] = '30m'
     s[:proxy_send_timeout] = '30m'
-    s[:proxy_read_timeout] = '30m'  
+    s[:proxy_read_timeout] = '30m'
   end
 
   p[:couch_watcher].tap do |cw|
