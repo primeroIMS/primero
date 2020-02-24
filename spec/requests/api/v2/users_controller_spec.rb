@@ -10,8 +10,8 @@ describe Api::V2::UsersController, type: :request do
       SystemSettings.new(
         primary_age_range: 'primero',
         age_ranges: {
-          'primero' => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
-          'unhcr' => [0..4, 5..11, 12..17, 18..59, 60..AgeRange::MAX]
+          primero: [0..5, 6..11, 12..17, 18..AgeRange::MAX],
+          unhcr: [0..4, 5..11, 12..17, 18..59, 60..AgeRange::MAX]
         }
       )
     )
@@ -116,7 +116,7 @@ describe Api::V2::UsersController, type: :request do
   describe 'GET /api/v2/users' do
     it 'list the users' do
       login_for_test(
-        'permissions': [
+        permissions: [
           Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])
         ]
       )
