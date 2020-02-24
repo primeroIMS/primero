@@ -6,7 +6,7 @@ import makeStyles from "@material-ui/styles/makeStyles";
 
 import styles from "./styles.css";
 
-function RecordFormTitle({ displayText, handleToggleNav, mobileDisplay }) {
+const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay }) => {
   const css = makeStyles(styles)();
 
   if (!mobileDisplay) {
