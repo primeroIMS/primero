@@ -65,8 +65,16 @@ module Exporters
         }
       }
 
+      # This font provides lot of unicodes
+      @pdf.font_families["Arial_Unicode_MS"] = {
+        normal: {
+          :file => Rails.root.join('public/i18n_fonts/arial-unicode-ms.ttf'),
+          :font => "Arial_Unicode_MS"
+        }
+      }
+
       # Add fallback fonts to array
-      @pdf.fallback_fonts = ["Riwaj", "Kalimati_Regular"]
+      @pdf.fallback_fonts = ["Riwaj", "Kalimati_Regular", "Arial_Unicode_MS"]
 
       @pdf.text_direction self.class.reverse_page_direction ? :rtl : :ltr
 

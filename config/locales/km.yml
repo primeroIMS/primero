@@ -1,0 +1,2164 @@
+km:
+  valid: "ត្រឹមត្រូវ"
+  invalid: "មិនត្រឹមត្រូវ"
+  offline: កម្មវិធីមិនមាន​អ៊ីនធឺណិតទេ។
+  name: "ឈ្មោះ"
+  home:
+    fr: "បារាំង"
+    en: "អង់គ្លេស"
+    ar: "العربية"
+    ar-LB: "العربية (اللبنانية)"
+    zh: "中文"
+    es: "Español"
+    ru: "Русский"
+    so: "Af-Soomaali"
+    bn: "বাংলা"
+    id: "Bahasa"
+    my: "ဗမာစာ"
+    th: "ไทย"
+    ku: "کوردی"
+    pt: "Português"
+    km: "ភាសាខ្មែរ"
+    dashboard: "ផ្ទាំងគ្រប់គ្រង"
+    welcome: "សូម​ស្វាគមន៍​មក​កាន់ Primero"
+    current_time_zone: "ល្វែងម៉ោងបច្ចុប្បន្ន"
+    language: "ភាសា"
+    view_records: "មើល​កំណត់ត្រា"
+    users: "គ្រប់គ្រងអ្នកប្រើប្រាស់"
+    manage_system_users: "គ្រប់គ្រងអ្នកប្រើប្រាស់ដែលធ្វើសមកាលកម្ម​ម៉ាស៊ីន​មេ"
+    records_need_attention: "កំណត់ត្រា​ទាមទារចំណាប់អារម្មណ៍"
+    label: "ទំព័រដើម"
+  clear: "សម្អាត"
+  messages:
+    delete_item: |
+        ប្រុងប្រយ័ត្ន៖ ប្រសិន​បើ​អ្នក​បន្ត ទិន្នន័យ​ដែល​បាន​ភ្ជាប់​ជា​មួយ​កន្លែង​បញ្ចូលនេះ​នឹង​បាត់បង់។
+        ប្រសិនបើ​អ្នក​មិន​ប្រាកដ សូម​បិទ​កន្លែង​បញ្ចូល។
+        ចុចបោះបង់ ដើម្បី​ថយក្រោយ។ ចុច​យល់ព្រម ដើម្បី​លុប​កន្លែង​បញ្ចូល។
+    move_item: "អ្នក​ហៀប​នឹង​ផ្លាស់ទី​កន្លែង​បញ្ចូល​នេះ​ទៅ​ផ្នែក​ទម្រង់​ផ្សេង ({{selection_key}}) ។ តើ​មិនមាន​បញ្ហា​អ្វី​មែនទេ?"
+    enter_valid_date: "សូម​បញ្ចូល​កាលបរិច្ឆេទ​ជា​ទម្រង់​ដែល​ត្រឹមត្រូវ (dd-mmm-yyyy)"
+    enter_valid_field_value: "សូម​បញ្ចូល​តម្លៃ​កន្លែង​បញ្ចូល​ដែល​ត្រឹមត្រូវ។"
+    enter_valid_number_in_tally: "%{field}: %{tally} ត្រូវ​តែ​ជា​លេខ​ដែល​ត្រឹមត្រូវ"
+    enter_valid_number: "%{field} ត្រូវ​តែ​ជា​លេខ​ដែល​ត្រឹមត្រូវ"
+    more_than_200_chars: "%{field} មិន​អាច​​ច្រើន​ជាង 200 តួអក្សរ​ទេ"
+    no_more_than_x_chars: "%{field} មិន​អាច​ច្រើន​ជាង %{length} តួអក្សរ​ទេ"
+    valid_search_criteria: "សូម​បញ្ចូល​លក្ខខណ្ឌ​ស្វែងរក​យ៉ាង​ហោចណាស់មួយ"
+    show_hide_forms: "សូម​ជ្រើសរើស​ទម្រង់​ដែល​អ្នក​ចង់​បង្ហាញ/លាក់។"
+    show_forms: "តើ​អ្នកប្រាកដ​ជា​ចង់​ធ្វើ​ឲ្យ​ទម្រង់​ទាំង​នេះ​មើល​ឃើញ​មែនទេ?"
+    hide_forms: "តើ​អ្នក​ប្រាកដ​ជា​ចង់​លាក់​ទម្រង់​ទាំង​នេះ​មែនទេ?"
+    primary_photo_changed: "បាន​ផ្លាស់ប្ដូរ​រូបថតចម្បង។"
+    select_photo: "សូមជ្រើសរើសរូបថតមួយ។"
+    are_you_sure: "តើអ្នកពិតជាចង់"
+    this_user: "អ្នកប្រើប្រាស់ម្នាក់នេះ?"
+    keep_working: "បាទ/ចាស បន្តការងារ"
+    logoff: "ទេ​ ចេញ"
+    record_navigation_confirmation_message: "ការ​ចុច​យល់ព្រម នឹង​បោះបង់​ការ​ផ្លាស់ប្ដូរ​ដែល​មិនបាន​រក្សាទុក និង​រុករក​ទៅ​ទំព័រ​ដែល​បាន​ស្នើ។ ចុច​បោះបង់ ដើម្បី​ត្រឡប់​ទៅ​កំណត់​ត្រា​វិញ។"
+    confirmation_message: "ការ​ចុច​យល់ព្រម នឹង​បោះបង់​ការ​ផ្លាស់ប្ដូរ​ដែល​មិនបាន​រក្សាទុក និងត្រឡប់​ទៅ​ទិដ្ឋភាព​បញ្ជី។ ចុច​បោះបង់ ដើម្បី​ត្រឡប់​ទៅ​កំណត់​ត្រា​វិញ។"
+    cancel_confirmation: "តើអ្នកពិតជាចង់បោះបង់មែន​ទេ?"
+    logoff_warning_prefix: "អ្នកនឹង​ត្រូវ​បាន​ចេញពី"
+    logoff_warning_suffix: "វិនាទី។"
+    logoff_confirmation: "តើអ្នកចង់បន្តសកម្មភាពរបស់អ្នកដែរឬទេ?"
+    warning: |
+        ប្រុងប្រយ័ត្ន៖ ប្រសិន​បើ​អ្នក​បន្ត ទិន្នន័យ​ដែល​បាន​ភ្ជាប់​ជា​មួយ​កន្លែង​បញ្ចូលនេះ​នឹង​បាត់បង់។
+        ប្រសិនបើ​អ្នក​មិន​ប្រាកដ សូម​បិទ​កន្លែង​បញ្ចូល។
+        ចុចបោះបង់ ដើម្បី​ថយក្រោយ។ ចុច​យល់ព្រម ដើម្បី​លុប​កន្លែង​បញ្ចូល។
+    enter_each_in_one_line: "បញ្ចូល​ជម្រើស​នីមួយៗ​នៅ​បន្ទាត់​ថ្មី"
+    record_count: "បង្ហាញ​កំណត់ត្រា %{start} to %{end} នៃ %{total}"
+    form_sections_help_text_for_edit: "ចុច​ប៊ូតុង​កែសម្រួល ដើម្បី​បញ្ចូល​ព័ត៌មាន​លម្អិត​របស់ %{form_section_name}"
+    form_sections_case_update_alert: "%{form_section_name} ថ្មី​មួយ​ត្រូវ​បានបញ្ចូល​ទៅ​ករណី​នៅ %{alert_time}"
+    service_provision: "ការ​ផ្ដល់សេវាកម្ម"
+    enable_disable_record: "ការ​ចុច​យល់ព្រម​នឹង​ផ្លាស់ប្ដូរ​ស្ថានភាព​កំណត់​ត្រា​នេះ​ទៅ '%{action}'"
+    reopen_record: "ការ​ចុច​យល់ព្រម នឹង​ផ្លាស់ប្ដូរ​ស្ថានភាព​ករណីនេះ​ទៅ​ជា​បើក"
+    flag_multiple_records_error_message: "មាន​បញ្ហា​នៅ​ពេល​ព្យាយាម​សម្គាល់​កំណត់ត្រា៖"
+    record_not_flagged_message: "%{short_id}៖ មិន​បាន​សម្គាល់"
+    invalid_date_filter_value: "តម្រង​មួយ​ចំនួន​មិន​ត្រូវ​បាន​អនុវត្ត​ទេ ដោយសារ​តែ​តម្លៃ​កាលបរិច្ឆេទ​មិន​ត្រឹមត្រូវ។ សូម​ពិនិត្យ​មើល​តម្លៃ​តម្រង​កាលបរិច្ឆេទ"
+    scroll_up: "រំកិលឡើងលើ ដើម្បីមើលបន្ថែម"
+    scroll_down: "រំកិលចុះក្រោម ដើម្បីមើលបន្ថែម"
+    forms_export: "ការ​នាំចេញ​នេះ​ផ្ដល់​នូវ​សៀវភៅ​បញ្ជី​របស់​ទម្រង់ និង​កន្លែង​បញ្ចូល​ក្នុង​ទម្រង់​ដែល​មាន។ សៀវភៅ​បញ្ជី​នេះ​ត្រូវ​បានប្រើប្រាស់​សម្រាប់​បង្កើត​ផែនទី​ការ​កំណត់​រចនាសម្ព័ន្ធ​ទម្រង់​ដែល​ត្រូវ​ប្រើប្រាស់​នៅ​ក្នុងការ​អនុវត្ត។ សម្គាល់​ថា សៀវភៅ​បញ្ជី​នេះ​មិន​អាច​ត្រូវ​បានប្រើប្រាស់​ដើម្បី​នាំចូល​ទិន្នន័យ​ទៅ​ក្នុង Primero បាន​ទេ។"
+    string_sources_failed: "មិន​អាច​ផ្ទុក​កន្លែង​បញ្ចូល​មួយ​ចំនួនបាន​ទេ សូម​ផ្ទុក​ទំព័រ​ឡើងវិញ ដើម្បី​ផ្ទុក​កន្លែង​បញ្ចូល​ទាំងអស់។"
+    system_settings_failed: "មិន​អាច​ផ្ទុក​ការកំណត់ប្រព័ន្ធ​បាន​ទេ។"
+    approval_alert: "ការអនុម័តកំពុងរងចាំសម្រាប់ %{form_name}"
+    field_change_alert: "ទម្រង់ %{form_name} ត្រូវ​បាន​ធ្វើ​បច្ចុប្បន្ន​ដោយ​អ្នក​ផ្ដល់​សេវាកម្ម​នៅ %{date}"
+    transfer_request_alert: "សំណើ​ផ្ទេរ​ថ្មី​ត្រូវ​បាន​បង្កើត​នៅ %{date} ដោយ%{user} នៅ %{agency}"
+    loading: "កំពុងផ្ទុក..."
+  data_base:
+    delete_all_documents: "បាន​លុប​ឯកសាររបស់កុមារទាំងអស់"
+    operation_not_allowed: "ប្រតិបត្តិការ​មិន​បាន​អនុញ្ញាត​នៅ​ក្នុង​បរិស្ថាន %{rails_env} ទេ"
+  login:
+    details: "ព័ត៌មាន​លម្អិត​អំពី​ការ​ចូល"
+    username: "អ្នកប្រើប្រាស់"
+    notification:
+      enter_user_name: 'សូមបញ្ចូល​ឈ្មោះ​អ្នក​ប្រើប្រាស់'
+      users_requested_password_reset: "អ្នកប្រើ​ប្រាស់​ទាំងនេះបានស្នើសុំការកំណត់​ពាក្យសម្ងាត់​ឡើងវិញ។ សូមទាក់ទង​ពួកគេជាភ្លាមៗ។"
+      users_does_not_exist: "%{user} នៅ %{created}.  អ្នកប្រើប្រាស់មិនមាននៅក្នុងប្រព័ន្ធ"
+      at: "នៅ %{created}។"
+      cannot_remember_username: "ប្រសិនបើ​អ្នកមិន​ចងចាំ​ឈ្មោះ​អ្នក​ប្រើប្រាស់របស់​ទេ អ្នក​គ្រាន់តែ​បញ្ចូល​ឈ្មោះ និង​ព័ត៌មាន​ នោះ​អ្នក​គ្រប់គ្រង​អាច​ប្រើប្រាស់ ដើម្បី​កំណត់​អត្តសញ្ញាណ រួច​ទាក់ទង​ទៅ​អ្នក។"
+    password:
+      label: "ពាក្យសម្ងាត់"
+      reset: "ស្នើរស៉ំកំណត់ពាក្យសម្ងាត់​ឡើងវិញ"
+      re_enter: "បញ្ចូលពាក្យសម្ងាត់ម្តងទៀត"
+      success_notice: "សូមអរគុណ។ អ្នក​គ្រប់គ្រង RapidFTR នឹង​ទាក់តង​អ្នក​ក្នុង​ពេល​ឆាប់ៗ​នេះ។ ប្រសិនបើ​អាច ទាក់ទង​អ្នក​គ្រប់គ្រង​ដោយ​ផ្ទាល់។"
+      successfully_hidden: "ការ​ជូន​ដំណឹង​សំណើ​ពាក្យសម្ងាត់​ត្រូវ​បាន​លាក់​ដោយ​ជោគជ័យ។"
+    label: "ចូល"
+  header:
+    contact: "ទំនាក់ទំនង និងជំនួយ"
+    logged_in_as: "បាន​ចូលក្នុង​នាម​ជា៖"
+    welcome: "សូមស្វាគមន៍"
+    logout: "ចេញ"
+    my_account: "គណនីរបស់ខ្ញុំ"
+    system_settings: "ការកំណត់របស់ប្រព័ន្ធ"
+  navigation:
+    home: "ទំព័រដើម"
+    cases: "ករណី"
+    tracing_request: "សំណើ​ស្វែងរក"
+    incidents: "ឧប្បត្តិហេតុ"
+    potential_match: "ការផ្គូរផ្គង"
+    duplicates: "ស្ទួន"
+    children: "កុមារ"
+    forms: "ទម្រង់"
+    lookups: "ស្វែងរក"
+    users: "ការកំណត់"
+    replications: "ធ្វើសមកាលកម្ម"
+    reports: "របាយការណ៍"
+    advanced_search: "ការ​ស្វែងរក​កម្រិត​ខ្ពស់"
+    go: "ទៅ"
+    search: "ស្វែងរក"
+    locations: "ទីតាំង"
+    bulk_exports: "ការ​នាំចេញ​ច្រើន"
+    tasks: "កិច្ចការ"
+    audit_logs: "កំណត់​ហេតុ​ត្រួតពិនិត្យ"
+    matching_configuration: "ការ​ផ្គូផ្គង"
+  buttons:
+    delete: "លុប"
+    disable: "បិទ"
+    enable: "បើក"
+    save: "រក្សាទុក"
+    save_and_add_service_provision: "រក្សាទុក និង​បញ្ចូល​ការ​ផ្ដល់សេវាកម្ម"
+    login: "ចូល"
+    reunite: "បង្រួបបង្រួម"
+    edit: "កែសម្រួល"
+    back: "ថយក្រោយ"
+    submit: "ដាក់បញ្ជូន"
+    export: "នាំចេញ"
+    import: "នាំចូល"
+    change_password: "ផ្លាស់ប្តូរពាក្យសម្ងាត់"
+    enable_photo_wall: "បើក​ផ្ទាំង​រូបថត"
+    disable_photo_wall: "បិទ​ផ្ទាំង​រូបថត"
+    create_incident: "បង្កើតឧប្បត្តិហេតុ"
+    create_case: "បង្កើតករណី"
+    guiding_questions: "សំណួរ​ណែនាំ"
+    filter_label: "តម្រង៖"
+    filter: "អនុវត្ត​តម្រង"
+    filter_clear: "លុបតម្រង"
+    find_tracing_match: "រក​ការ​ផ្គូផ្គង​ស្វែងរក"
+    filter_restore: "ស្ដារ​ទៅ​ការ​កំណត់​ប្រព័ន្ធ​ឡើងវិញ"
+    flag_records: "សម្គាល់"
+    flag_model: "សម្គាល់ %{model}"
+    unflag_model: "មិន​សម្គាល់ %{model}"
+    unflag_model_history: "ប្រវត្តិ​សម្គាល់ %{model}"
+    ok: 'យល់ព្រម'
+    cancel: "បោះបង់"
+    edit_subform: 'កែសម្រួល​ទម្រង់រង'
+    create_new_record: "បង្កើតថ្មី %{model}"
+    bundle_import: "កញ្ចប់​កំណត់​រចនាសម្ព័ន្ធ"
+    bundle_export: "កញ្ចប់​កំណត់​រចនាសម្ព័ន្ធ"
+    transfer: "ផ្ទេរ %{model}"
+    reassign: "ចាត់ចែង %{model}"
+    referral: "យោង %{model}"
+    mark_for_mobile: "សម្គាល់​សម្រាប់​ឧបករណ៍​ចល័ត"
+    unmark_for_mobile: "មិន​សម្គាល់​សម្រាប់ឧបករណ៍​ចល័ត"
+    approve_bia: "អនុម័ត BIA"
+    approve_case_plan: "អនុម័ត​ផែនការ​ករណី"
+    sort_by_tr: "សំណើ​ស្វែងរក"
+    sort_by_case: "ករណី"
+    approve_closure: "អនុម័ត​ការបិទ"
+    view_flags_history: "មើល​ប្រវត្តិ"
+    request_approval: "ការ​អនុម័ត​សំណើ"
+    approvals: "ការអនុម័ត"
+    accept: "ព្រម​ទទួល"
+    reject: "បដិសេដ"
+    done: "រួចរាល់"
+    remove_referrals: "ដក​ការ​បញ្ជូន​ចេញ"
+    view: "មើល"
+    request_transfer: "ស្នើ​សុំ​ការ​ផ្ទេរ"
+    add_note: "បញ្ចូល​កំណត់សម្គាល់"
+  placeholders:
+    subforms: "ចុច​ប៊ូតុង​កែសម្រួល ដើម្បី​បញ្ចូល​ព័ត៌មាន​លម្អិត​របស់ %{form} "
+    editing_subforms: "ចុច​ប៊ូតុង​​បញ្ចូល ដើម្បី​បញ្ចូល​ព័ត៌មាន​លម្អិត​អំពី %{form}"
+  cases:
+    label: "ករណី"
+    register_new_case: "ករណីថ្មី"
+    export: "នាំចេញ"
+    filter_by:
+      flag: "បាន​សម្គាល់៖"
+      flag_label: "បាន​សម្គាល់​ឬ?"
+      mobile: "ឧបករណ៍​ចល័ត៖"
+      mobile_label: "បាន​សម្គាល់​សម្រាប់​ឧបករណ៍​ចល័ត"
+      social_worker: "កន្លែង​បញ្ចូល/ករណី/បុគ្គលិក​សង្គម៖"
+      my_cases: "ករណីរបស់ខ្ញុំ"
+      workflow: "ករណី​តាមលំហូរ​ការងារ"
+      no_activity: "គ្មានសកម្មភាព"
+      3month_inactivity: "សម្រាប់លើស​ពី 3 ខែ"
+      referred_cases: "ករណី​បានបញ្ជូន​មក​ខ្ញុំ"
+      agency: "ទីភ្នាក់ងារ៖"
+      status: "ស្ថានភាព៖"
+      age_range: "អាយុចន្លោះ ៖"
+      sex: "ភេទ៖"
+      male: "ប្រុស"
+      female: "ស្រី"
+      displacement_status: "ស្ថានភាព​ផ្លាស់ទី៖"
+      protection_status: "ស្ថានភាពនៃការការពារ៖"
+      urgent_protection_concern: "កង្វល់​អំពី​ការការពារ​បន្ទាន់"
+      protection_concerns: "កង្វល់​អំពី​ការការពារ​"
+      type_of_risk: "ប្រភេទហានីភ័យ"
+      risk_level: "កម្រិតហានីភ័យ"
+      current_location: "ទីតាំងបច្ចុប្បន្ន៖"
+      district: "ស្រុក៖"
+      registration_date: "កាលបរិច្ឆេទ​ចុះឈ្មោះ៖"
+      case_open_date: "កាលបរិច្ឆេទ​បើក​ករណី៖"
+      record_state: "ស្ថានភាព​កំណត់ត្រា៖"
+      photo: "រូបថត៖"
+      photo_label: "មានរូបថតដែរឬទេ?"
+      by_date: 'តាមកាលបរិច្ឆេទ៖'
+      date: 'កាលបរិច្ឆេទ'
+      approvals:
+        pending: "ការ​អនុម័ត​កំពុង​រង់ចាំ"
+        approved: "បាន​អនុម័ត"
+        rejected: "បានបដិសេធ"
+    clear_filter: "សម្អាត"
+    apply_filter: "អនុវត្ត"
+    save_filter: "រក្សាទុក"
+    my_filters: "តម្រង​របស់​ខ្ញុំ"
+    order_by:
+      most_recently: "ថ្មីៗបំផុត"
+      label: "តម្រៀបតាម"
+      name: "ឈ្មោះ"
+    flag_summary: "ព័ត៌មាន​សង្ខេប​នៃ​ការ​សម្គាល់"
+    filer_by:
+      all: "ទាំងអស់"
+      active: "សកម្ម"
+    hidden_text_field_text: "*****"
+    hide_name: "លាក់ឈ្មោះ"
+    view_name: "មើល​ឈ្មោះ"
+    ok: "យល់ព្រម"
+    hide_name_error: "បញ្ហា​មួយ​បាន​កើត​នៅ​ពេល​រក្សាទុក​ការ​ផ្លាស់ប្ដូរ​របស់​អ្នក។ សូម​ព្យាយាម​ម្ដង​ទៀត។"
+    quick_view:
+      tracing_message: "កំណត់​សម្គាល់៖ មាន​ការ​ផ្គូផ្គង​មួយ​នៅ​ក​្នុង​ប្រព័ន្ធ​ដែល​មាន​ការ​រក​មើល​របស់​អ្នក​សង្កេតសម្រាប់​កុមារ​ម្នាក់​នេះ។ សូម​ទាក់ទង​បុគ្គលិក​សង្គម​​នៃ​កំណត់​ត្រា​នេះ​សម្រាប់​សកម្មភាព​បន្ថែម​ប្រសិនបើ​កុមារ​ចង់។"
+  children:
+    label: "កុមារ"
+    register_new_child: "ចុះឈ្មោះកុមារថ្មី"
+    export: "នាំចេញ"
+    selectable_date_options:
+      registration_date: 'កាលបរិច្ឆេទ​ចុះឈ្មោះ'
+      assessment_requested_on: 'កាលបរិច្ឆេទ​ប៉ាន់ប្រមាណ'
+      date_case_plan_initiated: 'កាលបរិច្ឆេទ​នៃ​ផែនការ​ករណី'
+      closure_approved_date: 'កាលបរិច្ឆេទ​នៃការបិទករណី'
+      created_at: 'កាលបរិច្ឆេទ​នៃការបើកករណី'
+    filter_by:
+      label: "ត្រង​តាម"
+      all: "ទាំងអស់"
+      active: "សកម្ម"
+      reunited: "បានបង្រួបបង្រួម"
+      flag: "បាន​សម្គាល់"
+      created: "បាន​បង្កើត"
+    order_by:
+      most_recently: "ថ្មីៗបំផុត"
+      label: "តម្រៀបតាម"
+      name: "ឈ្មោះ"
+    flag_summary: "ព័ត៌មាន​សង្ខេប​នៃ​ការ​សម្គាល់"
+    filer_by:
+      all: "ទាំងអស់"
+      active: "សកម្ម"
+      reunited: "បានបង្រួបបង្រួម"
+      flagged: "បាន​សម្គាល់"
+  child:
+    flagged_by: "បាន​សម្គាល់​តាម៖"
+    last_updated: "បាន​ធ្វើ​បច្ចុប្បន្នភាពចុងក្រោយ"
+    registered_by: "ចុះឈ្មោះដោយ"
+    mark_as_duplicate: "សម្គាល់​ថាស្ទួន"
+    flag_record: "សម្គាល់"
+    flag_label: "សម្គាល់"
+    flag_reason: "ហេតុផលសម្គាល់"
+    flag_reason_date: "កាលបរិច្ឆេទ (ជា​ជម្រើស)"
+    unflag_record: "មិន​សម្គាល់កំណត់​ត្រា"
+    unflag_reason: "មិនសម្គាល់​ហេតុផល"
+    unflagged_label: "ហេតុផល"
+    unflag_date: "កាលបរិច្ឆេទ"
+    unflag_by: "មិន​បាន​សម្គាល់"
+    unflag_label: "មិន​សម្គាល់"
+    unflag_error_message: "សូមពន្យល់ពីមូលហេតុដែល​អ្នក​កំពុង​មិន​​​សម្គាល់​កំណត់ត្រានេះ។"
+    id_of_record_this_duplicate_of: "សូមបញ្ចូលលេខសម្លា់​​កំណត់ត្រា នេះជាកំណត់ត្រាស្ទួននៃ៖"
+    duplicate_header: "សម្គាល់ថា%{child_name} ជាទិន្នន័យស្ទួន"
+    flag_error_message: "សូមពន្យល់ពីមូលហេតុនៃការដាក់ទង់លើកំណត់ត្រានេះ។"
+    flag_records_error_message: "បញ្ចូល​ហេតុផល​សម្គាល់ និង​ប្រសិនបើ​បញ្ចូល​កាលបរិច្ឆេទ​ដោយ​ប្រើប្រាស់​ទម្រង់​កាលបរិច្ឆេទ​ត្រឹមត្រូវ។"
+    selected_records_error_message: "សូមជ្រើសរើសកំណត់ត្រាមួយ ឬច្រើនដើម្បីសម្គាល់។"
+    investigation_details: "ព័ត៌មាន​លម្អិត​អំពី​ការស៊ើបអង្កេត៖"
+    reunite_details: "ព័ត៌មាន​លម្អិត​អំពី​ការបង្រួបបង្រួម៖"
+    another_duplicate_before_link: "កំណត់​ត្រា​ផ្សេង​ទៀត​ត្រូវ​បាន​សម្គាល់​ថា​ស្ទួន​ជា​មួយ​កំណត់ត្រា​មួយ​នេះ។ ចុច"
+    another_duplicate_after_link: "ដើម្បីមើលកំណត់ដែលស្ទួន។"
+    export_error: "មិនមាន​កំណត់ត្រាទេ!"
+    id: "ID#"
+    name: "ឈ្មោះ"
+    age: "អាយុ"
+    sex: "ភេទ"
+    registration_date: "កាលបរិច្ឆេទ​ចុះឈ្មោះ៖"
+    status: "ស្ថានភាព"
+    match_record: "ការ​ផ្គូផ្គង"
+    match_record_success: "បានផ្គូផ្គង​កំណត់ត្រា"
+    match_record_failed: "រក​មិន​ឃើញកំណត់ត្រា​ទេ"
+    messages:
+      update_success: "បាន​ធ្វើ​បច្ចុប្បន្ន​ភាព​ករណី %{record_id} ដោយជោគជ័យ។"
+      investigation_error_message: "សូម​បញ្ជាក់​កំណត់ត្រា​ដែល​បាន​សម្គាល់​ថា​គួរ​ត្រូវ​បាន​សម្គាល់​ថា​បាន​ស៊ើបអង្កេត ហើយ​បញ្ចូល​ព័ត៌មាន​លម្អិត​ដែល​អ្នក​មាន។"
+      undo_investigation_error_message: "ត្រឡប់​ព័ត៌មាន​លម្អិត​អំពី​ការស៊ើបអង្កេតវិញ"
+      reunite_error_message: "សូម​បញ្ជាក់​កុមារ​ម្នាក់​នេះ​ថា​ត្រូ​វបានបង្រួបបង្រួម​ជា​មួយ​គ្រួសារ ឬ​អ្នក​ថែទាំ ហើយ​បញ្ចូល​ព័ត៌មាន​លម្អិត​ដែល​អ្នក​មាន។"
+      undo_reunite_error_message: "សូម​បញ្ជាក់ថា​កុមារ​គួរ​ត្រូវ​​បាន​សម្គាល់​ថា​មិន​បាន​បង្រួបបង្រួម ហើយ​បញ្ចូលព័ត៌មាន​លម្អិត​ដែល​អ្នក​មាន។​"
+      see_full_size: "សូមចុចលើរូបភាព ដើម្បីមើលរូបឲ្យបានច្បាស់"
+      creation_success: "បាន​បង្កើត​កំណត់ត្រា​ករណី %{record_id} ដោយ​ជោគជ័យ។"
+      not_found: "រក​មិន​ឃើញ​កុមារ​​មាន​លេខ​សម្គាល់​ដែល​បានផ្ដល់​ឲ្យ​ទេ"
+      confirm_duplicate: "តើ​អ្នក​ប្រាកដ​ជា​ចង់​បន្ត​មែនទេ? ប្រសិនបើ​បន្ត សូម​ចុច​យល់ព្រម។ ប្រសិនបើ​មិនបន្ត សូម​ចុច​បោះបង់។"
+      create_details_error: "សូម​ប្រាកដថា​មាន​តែ​ករណី​មួយ​ប៉ុណ្ណោះ​ត្រូ​វបាន​ជ្រើសរើស"
+    actions:
+      mark_as_investigated: "សម្គាល់​ថា​បាន​ស៊ើប​អង្កេត"
+      mark_as_reunited: "សម្គាល់​ថា​បានបង្រួបបង្រួម"
+      export_to_photo_wall: "នាំចេញ​ទៅ​ផ្ទាំង​រូបថត"
+      export_to_pdf: "នាំចេញជាឯកសារ PDF"
+      export_to_csv: "នាំចេញជាឯកសារ CSV"
+      change_log: "កំណត់ហេតុ​ការផ្លាស់ប្តូរ"
+      mark_as_not_investigated: "សម្គាល់​ថា​មិន​បាន​ស៊ើប​អង្កេត"
+      reunited: "សម្គាល់​ថា​បានបង្រួបបង្រួម"
+      reunited_details: "ព័ត៌មាន​លម្អិត​អំពី​ការបង្រួបបង្រួម៖"
+      reunite: "​បង្រួបបង្រួម"
+      not_reunited: "សម្គាល់​ថា​មិន​បាន​បង្រួបបង្រួម"
+      undo_reunited_details: "ត្រឡប់​ហេតុផល​បង្រួបបង្រួម​វិញ៖"
+      undo_reunite: "ត្រឡប់​ការ​បង្រួបបង្រួម​វិញ"
+      investigation_details: "ព័ត៌មាន​លម្អិត​អំពី​ការ​ស៊ើបអង្កេត"
+      undo_investigation_details: "ត្រឡប់​ព័ត៌មាន​លម្អិត​អំពី​ការ​ស៊ើបអង្កេតវិញ"
+      undo_investigated: "ត្រឡប់​អ្វី​បាន​ស៊ើប​អង្កេត​វិញ"
+      cancel: "បោះបង់"
+      delete_photo: "លុបរូបថតឬ?"
+      delete_audio: "លុបសំឡេងឬ?"
+      delete_document: "លុបឯកសារឬ?"
+      choose_as_primary_photo: "ជ្រើសរើស​រូបថត​ចម្បង"
+      rotate_anti_clockwise: "បង្វិល​ច្រាស​ទ្រនិចនាឡិកា"
+      restore_image: "ស្ដាររូបភាព​ដើម​ឡើងវិញ"
+      rotate_clockwise: "បង្វិល​ស្របទ្រនិចនាឡិកា"
+      view_full_size_photo: "មើលរូបថត​ពេញ​ទំហំ"
+    change_log: "កំណត់ហេតុ​ការផ្លាស់ប្តូរ"
+    flagged_as_suspected: "បាន​សម្គាល់​ដោយ"
+    posted_from_mobile: "បាន​បង្ហោះ​ពី​កម្មវិធី​ចល័ត​នៅ៖"
+    edit_photo: "កែសម្រួល​រូបថត"
+    manage_photos: "គ្រប់គ្រងរូបថត"
+    view: "​មើល​ករណី %{short_id}"
+    edit: "កែសម្រួល​ករណី"
+    mark_child_as_duplicate: "សម្គាល់ %{short_id} ថា​ស្ទួន"
+    history_of: "ប្រវត្តិរបស់ %{short_id}"
+  saved_search:
+    save_success: "បាន​រក្សាទុក​ការ​ស្វែងរក​ដោយ​ជោគជ័យ។"
+    save_error: "មិន​អាច​រក្សាទុកបាន​ទេ។"
+    deleted: "បាន​លុបការស្វែងរកដោយជោគជ័យ។"
+    delete_error: "មិន​អាច​លុប​បាន​ទេ។"
+    saved_searches_tab: "ការ​ស្វែងរក​ដែល​បាន​រក្សាទុក"
+    filters_tab: "តម្រង"
+  task:
+    id: "ID#"
+    priority: "កម្រិត​អាទិភាព"
+    type: "ប្រភេទសកម្មភាព"
+    due_date: "កាលបរិច្ឆេទកំណត់"
+    types:
+      assessment: "ការ​ប៉ាន់ប្រមាណ"
+      case_plan: "ផែនការករណី"
+      follow_up: "ការតាមដាន - %{subtype}"
+      service: "សេវាកម្ម - %{subtype}"
+  case:
+    create_new_case: "បង្កើតករណីថ្មី"
+    enter_id_number: "បញ្ចូលលេខកូដ ដើម្បីស្វែងរកកំណត់ត្រាដែលមានស្រាប់"
+    id_number_required: "លេខកូដចាំបាច់ត្រូវតែមាន"
+    id_search_no_results: "មិនមានការ​ផ្គូផ្គង​នៅ​ក្នុង​ប្រព័ន្ធ​សម្រាប់ “%{id}” ទេ សូម​បង្កើត​កំណត់​ត្រា​ថ្មី។"
+    id_search_results_html: "សម្រាប់ <span>%{id}</span>"
+    label: "លេខសម្គាល់​ករណី"
+    workflow:
+      created_on: "បានបង្កើត​នៅ"
+      on_label: "នៅ"
+      in_progress: "កំពុងដំណើរការ"
+      new: "ថ្មី"
+      closed: "បានបិទ"
+      reopened: "បានបើកឡើងវិញ"
+      service_implemented: បាន​អនុវត្ត​សេវាកម្ម
+      services_implemented: បាន​អនុវត្ត​សេវាកម្ម
+      case_plan: "ផែនការករណី"
+      assessment: "ការ​ប៉ាន់ប្រមាណ"
+    flagged_by: "បាន​សម្គាល់​ដោយ៖"
+    last_updated: "បានបច្ចុប្បន្នភាពចុងក្រោយ"
+    registered_by: "បានចុះឈ្មោះដោយ"
+    mark_as_duplicate: "សម្គាល់​ថាស្ទួន"
+    flag_record: "សម្គាល់​កំណត់​ត្រា"
+    flag_label: "សម្គាល់"
+    flag_reason: "ហេតុផលដាក់ទង់"
+    flag_reason_date: "កាលបរិច្ឆេទ (ជា​ជម្រើស)"
+    unflag_record: "មិន​សម្គាល់​កំណត់ត្រា"
+    unflag_reason: "មិន​ស្គាល់ហេតុផល"
+    unflagged_label: "ហេតុផល"
+    unflag_date: "កាលបរិច្ឆេទ"
+    unflag_by: "មិន​បាន​សម្គាល់"
+    unflag_label: "មិន​សម្គាល់"
+    unflag_error_message: "សូមពន្យល់ពីមូលហេតុនៃការ​មិន​សម្គាល់​កំណត់ត្រានេះ។"
+    id_of_record_this_duplicate_of: "សូមបញ្ចូលលេខសម្លា់​​កំណត់ត្រា នេះជាកំណត់ត្រាស្ទួននៃ៖"
+    duplicate_header: "សម្គាល់ %{child_name} ថា​ស្ទួន"
+    flag_error_message: "សូមពន្យល់ពីមូលហេតុដែល​អ្នក​កំពុង​សម្គាល់​កំណត់ត្រានេះ។"
+    investigation_details: "ព័ត៌មាន​លម្អិត​អំពី​ការស៊ើបអង្កេត៖"
+    reunite_details: "ព័ត៌មាន​លម្អិត​អំពី​ការបង្រួបបង្រួម៖"
+    another_duplicate_before_link: "កំណត់​ត្រា​ផ្សេង​ទៀត​ត្រូវ​បាន​សម្គាល់​ថា​ស្ទួន​ជា​មួយ​កំណត់ត្រា​មួយ​នេះ។ ចុច"
+    another_duplicate_after_link: "ដើម្បីមើលកំណត់ដែលស្ទួន។"
+    select: "ជ្រើសរើស"
+    id: "ID#"
+    name: "ឈ្មោះ"
+    age: "អាយុ"
+    sex: "ភេទ"
+    registration_date: "កាលបរិច្ឆេទ​ចុះឈ្មោះ៖"
+    status: "ស្ថានភាព"
+    social_worker: "បុគ្គលិកសង្គម"
+    survivor_code: "លេខកូដ​អ្នកនៅ​មាន​ជីវិត"
+    case_opening_date: "កាលបរិច្ឆេទ​នៃការបើកករណី"
+    photo: "រូបថត"
+    owned_by: 'ម្ចាស់​កំណត់​ត្រា'
+    owned_by_agency: 'ទីភ្នាក់ងារ​ម្ចាស់​កំណត់​ត្រា'
+    messages:
+      update_success: "បាន​ធ្វើ​បច្ចុប្បន្ន​ភាព​ករណី %{record_id} ដោយជោគជ័យ។"
+      investigation_error_message: "សូម​បញ្ជាក់​កំណត់ត្រា​ដែល​បាន​សម្គាល់​ថា​គួរ​ត្រូវ​បាន​សម្គាល់​ថា​បាន​ស៊ើបអង្កេត ហើយ​បញ្ចូល​ព័ត៌មាន​លម្អិត​ដែល​អ្នក​មាន។"
+      undo_investigation_error_message: "ត្រឡប់​ព័ត៌មាន​លម្អិត​អំពី​ការស៊ើបអង្កេតវិញ"
+      reunite_error_message: "សូម​បញ្ជាក់​ថា​ករណី​ត្រូវ​បាន​បង្រួបបង្រួម​ជា​មួយ​គ្រួសារ ឬ​អ្នក​ថែទាំ ហើយ​បញ្ចូល​ព័ត៌មាន​លម្អិត​ដែល​អ្នក​មាន។"
+      undo_reunite_error_message: "សូម​បញ្ជាក់​​ករណី​ត្រូវ​បាន​សម្គាល់​ថា​មិន​បានបង្រួបបង្រួម ហើយ​បញ្ចូល​ព័ត៌មាន​លម្អិត​ដែល​អ្នក។"
+      see_full_size: "សូមចុចលើរូបភាព ដើម្បីមើលរូបឲ្យបានច្បាស់"
+      creation_success: "បាន​បង្កើត​កំណត់​ត្រា​ដោយ​ជោគជ័យ។"
+      not_found: "រក​មិន​ឃើញ​កុមារ​​មាន​លេខ​សម្គាល់​ដែល​បានផ្ដល់​ឲ្យ​ទេ"
+      confirm_duplicate: "តើ​អ្នក​ប្រាកដ​ជា​ចង់​បន្ត​មែនទេ? ប្រសិនបើ​បន្ត សូម​ចុច​យល់ព្រម។ ប្រសិនបើ​មិនបន្ត សូម​ចុច​បោះបង់។"
+    actions:
+      mark_as_investigated: "សម្គាល់​ថា​បាន​ស៊ើប​អង្កេត"
+      mark_as_reunited: "សម្គាល់​ថា​បានបង្រួបបង្រួម"
+      change_log: "កំណត់ហេតុ​ការផ្លាស់ប្តូរ"
+      mark_as_not_investigated: "សម្គាល់​ថា​មិន​បាន​ស៊ើប​អង្កេត"
+      reunited: "សម្គាល់​ថា​បានបង្រួបបង្រួម"
+      reunited_details: "ព័ត៌មាន​លម្អិត​អំពី​ការបង្រួបបង្រួម៖"
+      reunite: "បង្រួបបង្រួម"
+      not_reunited: "សម្គាល់​ថា​មិន​បាន​បង្រួបបង្រួម"
+      undo_reunited_details: "ត្រឡប់​ហេតុផល​បង្រួបបង្រួម​វិញ៖"
+      undo_reunite: "ត្រឡប់​ការ​បង្រួបបង្រួម​វិញ"
+      investigation_details: "ព័ត៌មាន​លម្អិត​អំពី​ការ​ស៊ើបអង្កេត"
+      undo_investigation_details: "ត្រឡប់​ព័ត៌មាន​លម្អិត​អំពី​ការ​ស៊ើបអង្កេតវិញ"
+      undo_investigated: "ត្រឡប់​អ្វី​បាន​ស៊ើប​អង្កេត​វិញ"
+      cancel: "បោះបង់"
+      delete_photo: "លុបរូបថតនេះឬ?"
+      delete_audio: "លុបសំឡេងឬ?"
+      choose_as_primary_photo: "ជ្រើសរើស​រូបថត​ចម្បង"
+      rotate_anti_clockwise: "បង្វិល​ច្រាស​ទ្រនិចនាឡិកា"
+      restore_image: "ស្ដាររូបភាព​ដើម​ឡើងវិញ"
+      rotate_clockwise: "បង្វិល​ស្របទ្រនិចនាឡិកា"
+      view_full_size_photo: "មើលរូបថត​ពេញ​ទំហំ"
+    change_log: "កំណត់ហេតុនៃការផ្លាស់ប្តូរ"
+    flagged_as_suspected: "បាន​សម្គាល់​ដោយ"
+    posted_from_mobile: "បាន​បង្ហោះ​ពី​កម្មវិធី​ចល័ត​នៅ៖"
+    edit_photo: "កែសម្រួល​រូបថត"
+    manage_photos: "គ្រប់គ្រងរូបថត"
+    view: "មើល​ករណី %{short_id}"
+    edit: "កែសម្រួល​ករណី"
+    mark_child_as_duplicate: "សម្គាល់ %{short_id} ថា​ស្ទួន"
+    history_of: "ប្រវត្តិនៃ %{short_id}"
+    incident_details_separator: "ព័ត៌មាន​លម្អិត​អំពី​ឧប្បត្តិហេតុ"
+    services_section_separator: "ទិដ្ឋភាព​ទូទៅ​នៃ​ការ​ឆ្លើយតប"
+  incidents:
+    label: "ឧប្បត្តិហេតុ"
+    register_new_incident: "ឧប្បត្តិហេតុ​​ថ្មី"
+    selectable_date_options:
+      date_of_first_report: "កាលបរិច្ឆេទ​សម្ភាសន៍"
+      incident_date_derived: "កាលបរិច្ឆេទ​ឧប្បត្តិហេតុ"
+    filter_by:
+      flag: "បាន​សម្គាល់៖"
+      flag_label: "បាន​សម្គាល់​ឬ?"
+      mobile: "ឧបករណ៍​ចល័ត៖"
+      mobile_label: "បាន​សម្គាល់​សម្រាប់​ឧបករណ៍​ចល័តឬ?"
+      violation: "ការរំលោភបំពាន៖"
+      violence_type: "ប្រភេទនៃការរំលោភបំពាន៖"
+      social_worker: "អ្នក​ធ្វើការ​​អំពី​ករណី៖"
+      status: "ស្ថានភាព៖"
+      age_range: "អាយុចន្លោះ៖"
+      children: "កុមារ៖"
+      boys: "កុមារា"
+      girls: "កុមារី"
+      unknown: "មិនស្គាល់"
+      verification_status: "ស្ថានភាពការ​ផ្ទៀងផ្ទាត់៖"
+      incident_location: "ទីតាំង​ឧប្បត្តិហេតុ៖"
+      incident_date: "ថ្ងៃខែឆ្នាំឧប្បត្តិហេតុ៖"
+      unaccompanied_separated_status: "ស្ថានភាពនៃការការពារ៖"
+      armed_force_group_name: "ក្រុម ឬ​កងកម្លាំង​ប្រដាប់​អាវុធ៖"
+      armed_force_group_type: "ប្រភេទក្រុម ឬ​កងកម្លាំង​ប្រដាប់​អាវុធ៖"
+      record_state: "ស្ថានភាព​កំណត់ត្រា៖"
+      interview_date: "កាលបរិច្ឆេទ​សម្ភាសន៍៖"
+  incident:
+    label: "លេខ​សម្គាល់ឧប្បត្តិហេតុ"
+    flagged_by: "បាន​សម្គាល់​ដោយ៖"
+    last_updated: "បាន​ធ្វើ​បច្ចុប្បន្នភាពចុងក្រោយ"
+    registered_by: "បានចុះឈ្មោះដោយ"
+    mark_as_duplicate: "សម្គាល់​ថាស្ទួន"
+    flag_record: "សម្គាល់"
+    flag_label: "សម្គាល់"
+    flag_reason: "ហេតុផលសម្គាល់"
+    flag_reason_date: "កាលបរិច្ឆេទ (ជា​ជម្រើស)"
+    unflag_record: "មិន​សម្គាល់​កំណត់ត្រា"
+    unflag_reason: "មិន​ស្គាល់ហេតុផល"
+    unflagged_label: "ហេតុផល"
+    unflag_date: "កាលបរិច្ឆេទ"
+    unflag_by: "មិន​បាន​សម្គាល់"
+    unflag_label: "មិន​សម្គាល់"
+    unflag_error_message: "សូមពន្យល់ពីមូលហេតុនៃការ​មិន​សម្គាល់​កំណត់ត្រានេះ។"
+    flagged_as_suspected: "បាន​សម្គាល់​ដោយ"
+    id_of_record_this_duplicate_of: "សូមបញ្ចូលលេខសម្លា់​​កំណត់ត្រា នេះជាកំណត់ត្រាស្ទួននៃ៖"
+    duplicate_header: "សម្គាល់ %{child_name} ថា​ស្ទួន"
+    flag_error_message: "សូមពន្យល់ពីមូលហេតុដែល​អ្នក​កំពុង​សម្គាល់​កំណត់ត្រានេះ។"
+    flag_records_error_message: "បញ្ចូល​ហេតុផល​សម្គាល់ និង​ប្រសិនបើ​បញ្ចូល​កាលបរិច្ឆេទ​ដោយ​ប្រើប្រាស់​ទម្រង់​កាលបរិច្ឆេទ​ត្រឹមត្រូវ។"
+    selected_records_error_message: "សូមជ្រើសរើសកំណត់ត្រាមួយ ឬច្រើនដើម្បីសម្គាល់។"
+    investigation_details: "ព័ត៌មាន​លម្អិត​អំពី​ការស៊ើបអង្កេត៖"
+    reunite_details: "ព័ត៌មាន​លម្អិត​អំពី​ការបង្រួបបង្រួម៖"
+    another_duplicate_before_link: "កំណត់​ត្រា​ផ្សេង​ទៀត​ត្រូវ​បាន​សម្គាល់​ថា​ស្ទួន​ជា​មួយ​កំណត់ត្រា​មួយ​នេះ។ ចុច"
+    another_duplicate_after_link: "ដើម្បីមើលកំណត់ដែលស្ទួន។"
+    violation_status_verified: "បានផ្ទៀងផ្ទាត់"
+    empty_violation: "ដើម្បី​បញ្ចូល​ការ​រំលោភបំពាន បញ្ចូល​ប្រភេទ​ការ​រំលោភបំពាន​នៅ​លើ​ទម្រង់​ឧប្បត្តិហេតុ ដើម្បី​មើល​ទម្រង់​រំលោភបំពាន​ដែល​ទាក់ទង។"
+    add_violations: "ចុច ដើម្បី​បញ្ចូល​ព័ត៌មាន​លម្អិត​អំពី​ការរំលោភបំពាន។"
+    create_incident_cp: "បង្កើត​កំណត់ត្រា​​ឧប្បត្តិហេតុ​ដែល​អាច​បោះពុម្ព​បាន​ដែរ​ឬទេ?"
+    link_to_incident: "ភ្ជាប់ជា​មួយ​ឧប្បត្តិហេតុ"
+    messages:
+      update_success: "បាន​ធ្វើ​បច្ចុប្បន្នភាព​ឧប្បត្តិហេតុ %{record_id} ដោយ​ជោគជ័យ។"
+      creation_success: "បាន​បង្កើត​កំណត់ត្រា​ឧប្បត្តិហេតុ %{record_id} ដោយ​ជោគជ័យ។"
+    view: "មើល​ឧប្បត្តិហេតុ %{short_id}"
+    edit: "កែសម្រួល​ឧប្បត្តិហេតុ"
+    select: "ជ្រើសរើស"
+    id: "ID#"
+    survivor_code: "លេខកូដ​អ្នកនៅ​មាន​ជីវិត"
+    case_worker_code: "លេខ​កូដ​​បុគ្គលិក​សង្គម"
+    date_of_interview: "កាលបរិច្ឆេទ​សម្ភាសន៍"
+    date_of_incident: "កាលបរិច្ឆេទ​ឧប្បត្តិហេតុ"
+    violence_type: "ប្រភេទនៃការរំលោភបំពាន"
+    incident_location: "ទីតាំង​ឧប្បត្តិហេតុ"
+    violations: "ការរំលោភបំពាន"
+    social_worker: "បុគ្គលិកសង្គម"
+    change_log: "កំណត់ហេតុនៃការផ្លាស់ប្តូរ"
+    actions:
+      change_log: "កំណត់ហេតុនៃការផ្លាស់ប្តូរ"
+    history_of: "ប្រវត្តិនៃ %{short_id}"
+    violation:
+      violation: "ការរំលោភបំពាន"
+      pending: 'ការផ្ទៀងផ្ទាត់​ដែល​កំពុង​រង់ចាំ'
+      killing: "ការ​សម្លាប់"
+      maiming: "ការ​ធ្វើ​ឲ្យ​ពិការ"
+      recruitment: "ការជ្រើសរើស"
+      sexual_violence: "អំពើហិង្សាផ្លូវភេទ"
+      abduction: "ការចាប់ជំរិត"
+      attack_on_schools: "ការវាយប្រហារនៅឯសាលារៀន"
+      attack_on_hospitals: "ការវាយប្រហារនៅក្នុងមន្ទីរពេទ្យ"
+      denial_humanitarian_access: "ការបដិសេធប្រើប្រាស់​មនុស្ស​ធម៌"
+      other_violation: "ការរំលោភបំពានផ្សេងៗ"
+  tracing_request:
+    label: "លេខសម្គាល់​អ្នក​សង្កេត"
+    register_new_tracing_request: "សំណើ​ស្វែងរក​ថ្មី"
+    name_of_inquirer: "ឈ្មោះ​អ្នក​សង្កេត"
+    date_of_inquiry: "កាលបរិច្ឆេទ​សាកសួរ"
+    tracing_requests: "សំណើ​ស្វែងរក"
+    change_log: "កំណត់ហេតុនៃការផ្លាស់ប្តូរ"
+    last_updated: "បាន​ធ្វើ​បច្ចុប្បន្នភាពចុងក្រោយ"
+    registered_by: "បានចុះឈ្មោះដោយ"
+    edit_photo: "កែសម្រួល​រូបថត"
+    flag_record: "សម្គាល់"
+    flag_label: "សម្គាល់"
+    flag_reason: "ហេតុផលសម្គាល់"
+    flag_reason_date: "កាលបរិច្ឆេទ (ជា​ជម្រើស)"
+    flag_records_error_message: "បញ្ចូល​ហេតុផល​សម្គាល់ និង​ប្រសិនបើ​បញ្ចូល​កាលបរិច្ឆេទ​ដោយ​ប្រើប្រាស់​ទម្រង់​កាលបរិច្ឆេទ​ត្រឹមត្រូវ។"
+    selected_records_error_message: "សូមជ្រើសរើសកំណត់ត្រាមួយ ឬច្រើនដើម្បីដាក់ទង។"
+    unflag_record: "មិន​សម្គាល់​កំណត់ត្រា"
+    unflag_reason: "មិនសម្គាល់​ហេតុផល"
+    unflagged_label: "ហេតុផល"
+    unflag_date: "កាលបរិច្ឆេទ"
+    unflag_by: "មិន​បាន​សម្គាល់"
+    unflag_label: "មិន​សម្គាល់"
+    unflag_error_message: "សូមពន្យល់ពីមូលហេតុដែល​អ្នក​កំពុង​មិន​​​សម្គាល់​កំណត់ត្រានេះ។"
+    flag_error_message: "សូមពន្យល់ពីមូលហេតុដែល​អ្នក​កំពុង​សម្គាល់​កំណត់ត្រានេះ។"
+    flagged_as_suspected: "បាន​សម្គាល់​ដោយ"
+    find_match: "រក​ការ​ផ្គូផ្គង​"
+    actions:
+      change_log: "កំណត់ហេតុនៃការផ្លាស់ប្តូរ"
+      delete_photo: "លុបរូបថតនេះឬ?"
+      delete_audio: "លុបសំឡេងឬ?"
+    messages:
+      update_success: "បាន​ធ្វើបច្ចុប្បន្នភាព​សំណើ​ស្វែងរក %{record_id} ដោយ​ជោគជ័យ។"
+      creation_success: "បាន​បង្កើត​កំណត់​សំណើ​ស្វែងរក %{record_id} ដោយ​ជោគជ័យ។"
+    view: "មើល​សំណើ​ស្វែងរក %{short_id}"
+    edit: "កែសម្រួល​សំណើ​ស្វែងរក"
+    select: "ជ្រើសរើស"
+    id: "ID#"
+    enquirer_name: "ឈ្មោះ​អ្នកសង្កេត"
+    enquirer_date: "កាលបរិច្ឆេទ​សាកសួរ"
+    history_of: "ប្រវត្តិនៃ %{short_id}"
+  tracing_requests:
+    register_new_tracing_request: "សំណើ​ស្វែងរក​ថ្មី"
+    export: "នាំចេញ"
+    selectable_date_options:
+      inquiry_date: "កាលបរិច្ឆេទ​សាកសួរ"
+    filter_by:
+      flag: "បាន​សម្គាល់៖"
+      flag_label: "បាន​សម្គាល់​ឬ?"
+      social_worker: "កន្លែង​បញ្ចូល/ករណី/បុគ្គលិក​សង្គម៖"
+      inquiry_date: "កាលបរិច្ឆេទ​សាកសួរ៖"
+      inquiry_status: "ស្ថានភាពការ​សាកសួរ៖"
+      location_separation: "ទីតាំងលែងលះ៖"
+      separation_cause: "មូលហេតុ​នៃការ​លែងលះ៖"
+      record_state: "ស្ថានភាព​កំណត់ត្រា៖"
+  potential_matches:
+    empty: "សូម​​ចូលមើល​ការ​ផ្គូផ្គង​តាមរយៈ​សំណើ​ស្វែងរក"
+    no_match: "មិនមាន​ការ​ផ្គូផ្គង​នៅ​ក្នុង​ប្រព័ន្ធ​សម្រាប់ %{type} %{id} ទេ"
+    display: "បង្ហាញ​កា​រផ្គូផ្គង​ខ្លាំង​សម្រាប់ %{type} %{id}"
+    filter_by:
+      score_range: "ចន្លោះពិន្ទុ"
+      age_range_case: "ចន្លោះ​មធ្យម​របស់​ករណី"
+      age_range_tracing_request: "ចន្លោះ​មធ្យម​នៃ​សំណើ​ស្វែងរក"
+      sex_case: "លក្ខណៈ​ករណី"
+      sex_tracing_request: "លក្ខណៈ​សំណើ​ស្វែងរក"
+      male: "ប្រុស"
+      female: "ស្រី"
+  potential_match:
+    header_key: "លក្ខខណ្ឌ​ផ្គូផ្គង៖"
+    inquirer_id: 'លេខ​សម្គាល់​អ្នក​សង្កេត'
+    inquirer_name: 'ឈ្មោះ​អ្នក​សង្កេត'
+    inquiry_date: 'កាលបរិច្ឆេទ​សង្កេត'
+    inquirer_tr_name: 'សំណើ​ស្វែងរក'
+    child_id: 'លេខ​សម្គាល់​កុមារ'
+    child_age: 'អាយុ'
+    child_gender: 'ភេទ'
+    child_date_of_birth: 'ថ្ងៃខែឆ្នាំកំណើត'
+    reg_date: 'កាលបរិច្ឆេទ​ចុះឈ្មោះ'
+    social_worker: 'បុគ្គលិកសង្គម'
+    social_worker_agency: 'ទីភ្នាក់ងារ៖'
+    score: 'ពិន្ទុ'
+    show_more: 'បង្ហាញ​ច្រើន​ជាង'
+    show_less: 'បង្ហាញ​តិច​ជាង'
+    trace: 'ស្វែងរក'
+    case: 'ករណី'
+    name: 'ឈ្មោះ'
+    name_other: 'ឈ្មោះ​ផ្សេង​ទៀត'
+    name_nickname: 'ឈ្មោះ​ហៅ​ក្រៅ'
+    likelihood:
+      likely: 'ប្រហែល​អាចធ្វើបាន'
+      possible: 'អាច​ធ្វើ​បាន'
+  duplicates:
+    search_for_duplicates: 'ស្វែងរក​ភាព​ស្ទួន'
+    clear_filter: 'សម្អាត'
+    filter_by:
+      name: "ឈ្មោះ"
+      name_nickname: "ឈ្មោះ​ហៅ​ក្រៅ"
+      name_other: "ឈ្មោះ​ផ្សេង​ទៀត"
+      sex: "ភេទ"
+      age: "អាយុ"
+      age_range: "អាយុចន្លោះ"
+      date_of_birth: "ថ្ងៃខែឆ្នាំកំណើត"
+      nationality: "សញ្ជាតិ"
+      location_last: "ទីតាំង​ចុងក្រោយ"
+      telephone_last: "លេខទូរសព្ទ​ចុងក្រោយ"
+      ethnicity: "ជនជាតិ"
+      date_of_separation: "កាលបរិច្ឆេទ​លែងលះ"
+      separation_cause: "មូលហេតុចម្បង​នៃ​ការ​លែងលះ"
+      location_separation: "ទីតាំងលែងលះ"
+      relation_name: "ឈ្មោះ​សាច់ញាតិ"
+      relation: "ទំនាក់ទំនង"
+      relation_nickname: "ឈ្មោះ​ហៅ​ក្រៅ​របស់​សាច់ញាតិ"
+      relation_language: "ភាសា​របស់​សាច់ញាតិ"
+      relation_religion: "សាសនា​របស់​សាច់ញាតិ"
+      relation_ethnicity: "ជនជាតិ​របស់​សាច់ញាតិ"
+      relation_nationality: "សញ្ជាតិ​របស់​សាច់ញាតិ"
+      relation_address_current: "អាសយដ្ឋាន​បច្ចុប្បន្ន​របស់​សាច់ញាតិ"
+      relation_location_current: "ទីតាំង​បច្ចុប្បន្ន​របស់​សាច់ញាតិ"
+      relation_telephone: "លេខទូរសព្ទ​របស់​សាច់ញាតិ"
+  audit_log:
+    timestamp: "ពេលវេលា - UTC"
+    user_name: "ឈ្មោះអ្នកប្រើប្រាស់"
+    action: "សកម្មភាព"
+    description: "ការពណ៌នា"
+    record_owner: "ម្ចាស់​កំណត់​ត្រា"
+  audit_logs:
+    action_options:
+      login: "ចូល"
+      logout: "ចេញ"
+      create: "បង្កើត"
+      copy: "ចម្លង"
+      destroy: "លុប"
+      show: "មើល"
+      edit: "កែសម្រួល"
+      update: "ធ្វើបច្ចុប្បន្នភាព"
+      export: "នាំចេញ​ទិន្នន័យ​សម្រាប់"
+      referral: "យោង"
+      reassign: "ចាត់ចែង"
+      transfer: "ផ្ទេរ"
+      reopen_case: "បើកឡើងវិញ"
+    filter_by:
+      action: 'ឈ្មោះសកម្មភាព'
+      date: 'កាលបរិច្ឆេទ'
+      timestamp: 'ពេលវេលា'
+      user: 'ឈ្មោះអ្នកប្រើប្រាស់'
+  preposition:
+    on_label: "នៅ"
+    because: "ពីព្រោះ"
+    at_label: "នៅ"
+  pagination:
+    zero: "រកមិន​ឃើញ %{model}"
+    page_entries_info: បង្ហាញ _START_ to _END_ of _TOTAL_ %{model}
+  users:
+    unverified: "អ្នកប្រើប្រាស់​ដែល​មិន​បាន​ផ្ទៀងផ្ទាត់"
+    select_role: "សូម​ជ្រើសរើស​តួនាទី​មុន​ពេល​ផ្ទៀងផ្ទាត់​អ្នក​ប្រើប្រាស់"
+    manage: "គ្រប់គ្រងអ្នកប្រើប្រាស់"
+    label: "អ្នកប្រើប្រាស់"
+    create: "បង្កើត​អ្នកប្រើប្រាស់"
+    account_details: "ព័ត៌មាន​លម្អិត​អំពី​គណនី"
+    actions:
+      show_all: "បង្ហាញ​ទាំងអស់"
+      show: "បង្ហាញ"
+      edit: "កែសម្រួល"
+    messages:
+      disable: 'តើ​អ្នក​ប្រាកដ​ជា​ចង់​បិទ​អ្នកប្រើប្រាស់​ម្នាក់​នេះមែនទេ?'
+    sort_by:
+      label: "តម្រៀប​តាម"
+      full_name: "ឈ្មោះ​ពេញ"
+      agency: "ទីភ្នាក់ងារ"
+    filter_by:
+      status: "ស្ថានភាព"
+      enabled: "បាន​បើក"
+      disabled: "បាន​បិទ"
+      agency: "ទីភ្នាក់ងារ"
+    register_new_user: "បង្កើត​អ្នកប្រើប្រាស់"
+  roles:
+    label: "តួនាទី"
+    list: "បញ្ជី​តួនាទី"
+    sort_by:
+      label: "តម្រៀប​តាម"
+      ascending: "លំដាប់ឡើង"
+      descending: "លំដាប់ចុះ"
+    name: "ឈ្មោះ​តួនាទី"
+    actions:
+      show_all: "បង្ហាញ​ទាំងអស់"
+      show: "បង្ហាញ"
+      edit: "កែសម្រួល"
+      update: "ធ្វើបច្ចុប្បន្នភាព"
+      create: "បង្កើត"
+      delete: "លុប"
+      copy: "ចម្លង"
+    view: "មើលតួនាទី"
+    messages:
+      confirmation: "តើ​អ្នក​ប្រាកដ​ជា​ចង់លុប​តួនាទីនេះ​ឬ? ការ​លុប​មិន​ត្រឡប់​វិញ​បាន​ទេ។ ចុច​យល់ព្រម ដើម្បី​លុប​តួនាទី។"
+  role:
+    create: "បង្កើត​តួនាទី"
+    edit: "កែសម្រួល​តួនាទី"
+    name: "ឈ្មោះ"
+    description: "ការពណ៌នា"
+    successfully_updated: "បាន​ធ្វើបច្ចុប្បន្នភាព​ព័ត៌មានលម្អិត​អំពី​តួនាទី​ដោយ​ជោគជ័យ។"
+    error_in_updating: "មាន​បញ្ហា​ក្នុងការ​ធ្វើ​បច្ចុប្បន្នភាព​ព័ត៌មាន​លម្អិត​​អំពី​តួនាទី។"
+    copy_success: "បាន​ចម្លង​តួនាទី​ដោយ​ជោគជ័យ។"
+    copy_failure: "មាន​បញ្ហា​ក្នុងការ​ចម្លង​តួនាទី៖ សូម​ប្រាកដថា ឈ្មោះ​មិន​ស្ទួន​គ្នា​ជា​មួយ​តួនាទី​ផ្សេង​ទៀត។"
+    transfer_label: "តើ​អាច​ប្រើប្រាស់​តួនាទី​នេះ​សម្រាប់ការ​ផ្ទេរ​បាន​ដែ​ររទេ?"
+    referral_label: "តើ​អាច​ប្រើប្រាស់​តួនាទី​នេះ​សម្រាប់​ការ​បញ្ជូន​បាន​ដែរ​ឬទេ?"
+    group_permission_label: "តើ​តួនាទី​នេះ​ប៉ះពាល់​ដល់​កំណត់ត្រា​អ្វីដែរ?​"
+    role_ids_label: "តួនាទី​ផ្សេង​បានគ្រប់គ្រង​ដោយ​តួនាទី​នេះ"
+  agencies:
+    logo: 'រូបសញ្ញា'
+    logo_enabled: 'តើ​បាន​បើក​រូប​សញ្ញា?'
+    label: "ទីភ្នាក់ងារ"
+    view: "មើល​ទីភ្នាក់ងារ"
+    successfully_created: "បាន​បង្កើត​ទីភ្នាក់ងារ​ដោយ​ជោគជ័យ។"
+    successfully_updated: "បាន​ធ្វើ​បច្ចុប្បន្នភាព​ទីភ្នាក់ងារ​ដោយ​ជោគជ័យ។"
+    actions:
+      show_all: "បង្ហាញ​ទាំងអស់"
+      show: "បង្ហាញ"
+      edit: "កែសម្រួល"
+      update: "ធ្វើបច្ចុប្បន្នភាព"
+      create: "បង្កើត"
+      delete: "លុប"
+    filter_by:
+      status: "ស្ថានភាព"
+      enabled: "បាន​បើក"
+      disabled: "បាន​បិទ"
+    messages:
+      confirmation: "តើអ្នក​ប្រាកដ​ជា​ចង់​លុប​ទីភ្នាក់ងារ​នេះ​ដែរ​ឬទេ? ការ​លុប​មិន​អាច​ត្រឡប់​វិញ​បាន​ទេ។ ចុចយល់ព្រម​ ដើម្បី​លុប​ទីភ្នាក់ងារ។"
+    select_prompt: "សូម​ជ្រើសរើស​ទីភ្នាក់ងារ"
+    error_in_updating: "មានបញ្ហា​ក្នុងការ​ធ្វើ​បច្ចុប្បន្នភាព​ព័ត៌មាន​លម្អិត​អំពី​ទីភ្នាក់ងារ។"
+  agency:
+    edit: 'កែសម្រួល​ទីភ្នាក់ងារ'
+    name: 'ឈ្មោះ​ទីភ្នាក់ងារ'
+    code: 'លេខកូដ​ទីភ្នាក់ងារ'
+    services: 'សេវាកម្ម​ទីភ្នាក់ងារ'
+  system_settings:
+    label: "ការកំណត់ប្រព័ន្ធ"
+    edit: "កែសម្រួល​ការកំណត់​ប្រព័ន្ធ"
+    show: "ការកំណត់ប្រព័ន្ធ"
+    updated: "បាន​ធ្វើបច្ចុប្បន្នភាព​ការ​កំណត់​ប្រព័ន្ធ​ដោយ​ជោគជ័យ។"
+    primero_version: "កំណែ​ប្រព័ន្ធ"
+  primero_modules:
+    label: "ម៉ូឌុល"
+    view: "មើល​ម៉ុឌុល"
+    actions:
+      show_all: "បង្ហាញ​ទាំងអស់"
+      show: "បង្ហាញ"
+      edit: "កែសម្រួល"
+      update: "ធ្វើបច្ចុប្បន្នភាព"
+      create: "បង្កើត"
+      delete: "លុប"
+    messages:
+      confirmation: "តើ​អ្នក​ប្រាកដ​ជា​ចង់លុបម៉ូឌុល​នេះ​ឬ? ការ​លុប​មិន​ត្រឡប់​វិញ​បាន​ទេ។ ចុច​យល់ព្រម ដើម្បី​លុប​ម៉ូឌុល។"
+      invalid: "ម៉ូឌុល​មិន​ត្រឹមត្រូវ"
+  primero_module:
+    create: "បង្កើត​ម៉ូឌុល"
+    edit: "កែសម្រួលម៉ូឌុល"
+    show: "មើល"
+    name: "ឈ្មោះ"
+    description: "ការពណ៌នា"
+    successfully_updated: "បាន​ធ្វើបច្ចុប្បន្នភាព​ព័ត៌មានលម្អិត​អំពី​ម៉ូឌុល​​ដោយ​ជោគជ័យ។"
+    error_in_updating: "មាន​បញ្ហា​ក្នុងការ​ធ្វើ​បច្ចុប្បន្នភាព​ព័ត៌មាន​លម្អិត​​អំពីម៉ូឌុល។"
+    record_type: "ប្រភេទ​កំណត់​ត្រា​សម្រាប់​ម៉ូឌុល"
+    forms: "បាន​កំណត់​​ទម្រង់​ទៅ​ម៉ូឌុលនេះ"
+    program: "កម្មវិធី"
+    associated_record_types: "ប្រភេទ​កំណត់​ត្រា​ដែល​បាន​ភ្ជាប់"
+    associated_form_ids: "លេខសម្គាល់​ទម្រង់​ដែល​បាន​ភ្ជាប់"
+  primero_programs:
+    label: "កម្មវិធី"
+    view: "មើល​កម្មវិធី"
+    actions:
+      show_all: "បង្ហាញ​ទាំងអស់"
+      show: "បង្ហាញ"
+      edit: "កែសម្រួល"
+      update: "ធ្វើបច្ចុប្បន្នភាព"
+      create: "បង្កើត"
+      delete: "លុប"
+    messages:
+      confirmation: "តើ​អ្នក​ប្រាកដ​ជា​ចង់លុប​ម៉ូឌុល​កម្មវិធី​​នេះ​ឬ? ការ​លុប​មិន​ត្រឡប់​វិញ​បាន​ទេ។ ចុច​យល់ព្រម ដើម្បី​លុប​កម្មវិធី។"
+  primero_program:
+    create: "បង្កើត​កម្មវិធី"
+    edit: "កែសម្រួលកម្មវិធី"
+    show: "មើល"
+    name: "ឈ្មោះ"
+    description: "ការពណ៌នា"
+    start_date: "កាលបរិច្ឆេទ​ចាប់ផ្ដើម​កម្មវិធី"
+    end_date: "កាលបរិច្ឆេទ​បញ្ចប់កម្មវិធី"
+    successfully_updated: "បាន​ធ្វើបច្ចុប្បន្នភាព​ព័ត៌មាន​លម្អិត​អំពី​កម្មវិធី​ដោយ​ជោគជ័យ។"
+    error_in_updating: "មាន​បញ្ហា​ក្នុងការ​ធ្វើ​បច្ចុប្បន្នភាព​ព័ត៌មាន​លម្អិត​​អំពី​​កម្មវិធី។"
+  user_groups:
+    label: "ក្រុម​អ្នកប្រើប្រាស់"
+    view: "មើល​ក្រុម​អ្នក​ប្រើប្រាស់"
+    actions:
+      show_all: "បង្ហាញ​ទាំងអស់"
+      show: "បង្ហាញ"
+      edit: "កែសម្រួល"
+      update: "ធ្វើបច្ចុប្បន្នភាព"
+      create: "បង្កើត"
+      delete: "លុប"
+    messages:
+      confirmation: "តើ​អ្នក​ប្រាកដ​ជា​ចង់លុបក្រុម​អ្នក​ប្រើប្រាស់​នេះ​ឬ? ការ​លុប​មិន​ត្រឡប់​វិញ​បាន​ទេ។ ចុច​យល់ព្រម ដើម្បី​លុបក្រុម​អ្នក​ប្រើប្រាស់។"
+  user_group:
+    create: "បង្កើត​ក្រុម​អ្នក​ប្រើប្រាស់"
+    edit: "កែសម្រួល​ក្រុម​អ្នក​ប្រើប្រាស់"
+    name: "ឈ្មោះ"
+    description: "ការពណ៌នា"
+    successfully_updated: "បាន​ធ្វើបច្ចុប្បន្នភាព​ព័ត៌មានលម្អិត​អំពី​ក្រុម​អ្នក​ប្រើប្រាស់​​ដោយ​ជោគជ័យ។"
+    error_in_updating: "មាន​បញ្ហា​ក្នុងការ​ធ្វើ​បច្ចុប្បន្នភាព​ព័ត៌មាន​លម្អិត​​អំពី​ក្រុម​អ្នក​ប្រើប្រាស់។"
+  user:
+    label: "អ្នកប្រើប្រាស់"
+    full_name: "ឈ្មោះ​ពេញ"
+    code: "លេខ​កូដ​អ្នក​ប្រើប្រាស់"
+    history_of: "ប្រវត្តិ​របស់ %{user_name}"
+    disabled: "បាន​បិទ"
+    services: "សេវាកម្ម"
+    agency_office: "ការិយាល័យ​ទីភ្នាក់ងារ"
+    position: មុខតំណែង
+    actions:
+      delete: "លុប"
+    messages:
+      confirmation: "តើ​អ្នក​ប្រាកដ​ជា​ចង់លុប​​អ្នក​ប្រើប្រាស់​ម្នាក់​នេះ​ឬ? ការ​លុប​មិន​ត្រឡប់​វិញ​បាន​ទេ។ ចុច​យល់ព្រម ដើម្បី​លុប​អ្នក​ប្រើប្រាស់។"
+      created: "បាន​បង្កើតអ្នក​ប្រើប្រាស់​​ដោយ​ជោគជ័យ។"
+      updated: "បាន​ធ្វើបច្ចុប្បន្នភាព​អ្នក​ប្រើប្រាស់​ដោយ​ជោគជ័យ។"
+      not_found: "រក​មិន​ឃើញ​អ្នក​ប្រើប្រាស់​ដែល​មាន​លេខសម្គាល់​ដែល​បាន​ផ្ដល់​ឲ្យ​ទេ"
+      passwords_do_not_match: "មិន​ដូច​នឹង​ពាក្យសម្ងាត់​បច្ចុប្ប​ន្ន​ទេ"
+      password_changed_successfully: "បាន​ផ្លាស់ប្ដូរ​ពាក្យ​សម្ងាត់​ដោយ​ជោគជ័យ"
+      time_zone_updated: "បាន​ធ្វើ​បច្ចុប្បន្នភាព​ការ​ផ្លាស់ប្ដូរ​ដោយ​ជោគជ័យ។"
+    update: "ធ្វើបច្ចុប្បន្នភាព"
+    verify: "ផ្ទៀងផ្ទាត់"
+    create: "បង្កើត"
+    no_blank: "មិន​អាច​គ្មាន​ឈ្មោះ​អ្នក​ប្រើប្រាស់​បាន​ទេ"
+    manage_password: "ផ្លាស់ប្តូរពាក្យសម្ងាត់"
+    old_password: "ពាក្យសម្ងាត់​ចាស់"
+    new_password: "ពាក្យសម្ងាត់​ថ្មី"
+    password_strength: "ពាក្យសម្ងាត់​ត្រូវ​តែ​មាន​ 8 តួអក្សរ និង​មាន​ទាំង​អក្សរ​តូច និង​លេខ​"
+    new_password_confirmation: "បញ្ជាក់​ពាក្យសម្ងាត់​ថ្មី"
+    new: "អ្នក​ប្រើប្រាស់​ថ្មី"
+    user_action_history: "ប្រវត្តិសកម្មភាព​អ្នក​ប្រើប្រាស់"
+    no_activity: "គ្មាន​សកម្មភាព​ទេ"
+    location: "ទីតាំង"
+    organization: "ស្ថាប័ន"
+    agency: "ទីភ្នាក់ងារ"
+    manager: "អ្នក​គ្រប់គ្រង"
+    send_mail: "តើ​ទទួល​បាន​ការ​ជូន​ដំណឹង​តាម​អ៊ីមែល​ដែ​រឬទេ?"
+    welcome_email:
+      greeting: "សូម​ស្វាគមន៍​មក​កាន់ Primero"
+      url_label: "Primero"
+      enabled_label: "តើ​ផ្ញើ​អ៊ីមែល​ស្វាគមន៍​ឬ?"
+      text_label: "អត្ថបទ​អ៊ីមែល​ស្វាគមន៍"
+  phone: "ទូរសព្ទ"
+  email: "អ៊ីមែល"
+  organization: "ស្ថាប័ន"
+  position: "មុខតំណែង"
+  'false': "ទេ"
+  'true': "បាទ/ចាស"
+  mandatory_field: "បាន​សម្គាល់​កន្លែង​បញ្ចូល​ថា​ចាំបាច់"
+  add: "បញ្ចូល"
+  belonging_to: "ជារបស់"
+  imei: "IMEI"
+  blacklisted: "បាន​ដាក់ក្នុង​បញ្ជី​ខ្មៅ?"
+  visible_for_web: "កម្មវិធី​បណ្ដាញ​អាច​មើលឃើញ"
+  visible_for_mobile: "កម្មវិធី​ឧបករណ៍​ចល័ត​អាច​មើល​ឃើញ"
+  selective_syncing_mobile: "ការ​ធ្វើសមកាលកម្ម​ដោយ​ជ្រើសរើស (ឧបករណ៍​ចល័ត)"
+  hidden: "បានលាក់"
+  help_text: "អត្ថបទ​ជំនួយ"
+  multi_select: "ពហុជ្រើសរើស"
+  option_strings_source: "ប្រភព​សារ​ជា​ជម្រើស"
+  discard: "បោះបង់"
+  form: "ទម្រង់"
+  details: "ព័ត៌មានលម្អិត​"
+  enabled: "បាន​បើក"
+  status: "ស្ថានភាព"
+  devices: "ឧបករណ៍"
+  replications: "ការ​ចម្លង"
+  provide_translation: "ផ្ដល់​ការ​បកប្រែ​សម្រាប់"
+  select_language: "ជ្រើសរើស​ភាសា"
+  hide_on_view_page: "លាក់​នៅ​លើ​ទំព័រ​ទិដ្ឋភាព"
+  show_on_short_form: "បង្ហាញ​នៅ​លើ​ទម្រង់​ខ្លី"
+  last_login: "ការ​ចូល​ចុងក្រោយ"
+  record: "កំណត់​ត្រា"
+  description: "ការពណ៌នា"
+  unique_id: "លេខសម្លាល់​តែ​មួយ​គត់"
+  permissions:
+    label: "ការ​អនុញ្ញាត"
+    Actions: "សកម្មភាព"
+    Resources: "ធនធាន"
+    Management: "ការគ្រប់គ្រង"
+    group:
+      actions: "សកម្មភាព"
+      resources: "ធនធាន"
+      resource: "ធនធាន"
+      management: "ការគ្រប់គ្រង"
+    permission:
+      read: "អាន"
+      write: "សរសេរ"
+      enable_disable_record: "បិទ"
+      flag: "សម្គាល់"
+      assign: "ចាត់ចែង"
+      case: "ករណី"
+      incident: "ឧប្បត្តិហេតុ"
+      tracing_request: "សំណើ​ស្វែងរក"
+      potential_match: "ការ​ផ្គូផ្គង​ខ្លាំង"
+      role: "តួនាទី"
+      user: "អ្នកប្រើប្រាស់"
+      user_group: "ក្រុម​អ្នកប្រើប្រាស់"
+      agency: "ទីភ្នាក់ងារ"
+      metadata: "ទម្រង់, ការ​រក​មើល"
+      system: "ប្រព័ន្ធ"
+      report: "របាយការណ៍"
+      self: "ចូលប្រើប្រាស់​តែ​កំណត់ត្រា ឬ​អ្នក​ប្រើប្រាស់​របស់ខ្ញុំ​ប៉ុណ្ណោះ"
+      group: "ចូលប្រើប្រាស់កំណត់​ត្រា ឬ​អ្នក​ប្រើប្រាស់​​ទាំងអស់នៅ​ក្នុង​ក្រុម​របស់​ខ្ញុំ"
+      all: "ចូលប្រើប្រាស់​កំណត់ត្រា ឬ​អ្នក​ប្រើប្រាស់​ទាំងអស់"
+      admin_only: "គ្មាន​កំណត់ត្រា - សម្រាប់​តែ​មុខងារ​អ្នក​គ្រប់គ្រង​ប៉ុណ្ណោះ"
+      All: "ទាំងអស់"
+      specific_roles: "ចូលប្រើប្រាស់​បញ្ជី​មុខងារ​ដែល​បានបញ្ជាក់"
+      consent_override: "បដិសេធ​ការ​យល់ព្រម"
+      export_list_view_csv: "នាំចេញ​ទិដ្ឋភាព​បញ្ជី cvs"
+      export_csv: "នាំចេញជា csv"
+      export_xls: "នាំចេញជា xls"
+      export_photowall: "នាំចេញ​ផ្ទាំង​រូបថត"
+      export_pdf: "នាំចេញជា pdf"
+      export_unhcr_csv: "នាំចេញជា unhcr csv"
+      export_mrm_violation_xls: "នាំចេញ​ការ​បំពាន mrm ជា xls"
+      export_case_pdf: "នាំចេញ​ករណីជា pdf"
+      export_json: "នាំចេញ​ជា json"
+      export_custom: "នាំចេញ​ផ្ទាល់ខ្លួន"
+      export_duplicate_id_csv: "នាំចេញ​ភាព​ស្ទួន"
+      import: "នាំចូល"
+      transfer: "ផ្ទេរ"
+      reassign: "ចាត់ចែង​ឡើងវិញ"
+      referral: "ការបញ្ចូន"
+      sync_mobile: "ធ្វើសមកាលកម្ម​ជា​មួយ​ឧបបករណ៍​ចល័ត"
+      request_approval: "ស្នើសុំ​ការ​អនុម័ត"
+      request_approval_bia: "ស្នើសុំ​ការ​នុម័ត BIA"
+      request_approval_case_plan: "ស្នើ​សុំ​ការ​អនុម័ត​ផែនការករណី"
+      request_approval_closure: "ស្នើសុំ​ការ​អនុម័ត​កា​របិទ"
+      approve_bia: "អនុម័តទម្រង់ BIA"
+      approve_case_plan: "អនុម័ត​ផែនការ​ករណី"
+      approve_closure: "អនុម័ត​ទម្រង់​បិទ"
+      copy: "ចម្លង"
+      manage: "គ្រប់គ្រង"
+      administrator_read: "​អ្នក​គ្រប់គ្រងអាន"
+      group_read: "ក្រុម​អាន"
+      agency_read: "ទីភ្នាក់ងារ​អាន"
+      dashboard: "ផ្ទាំងគ្រប់គ្រង"
+      view_approvals: "មើល​ការ​អនុម័ត"
+      view_assessment: "មើល​ការ​ប៉ាន់ប្រមាណ"
+      dash_reporting_location: "មើល​ទីតាំង​រាយការណ៍"
+      dash_protection_concerns: "មើល​កង្វល់​អំពី​ការការពារ​"
+      dash_matching_results: "មើល​លទ្ធផល​ផ្គូផ្គង"
+      dash_service_provisions: "មើល​ការ​ផ្ដល់​សេវាកម្ម"
+      dash_referrals_by_socal_worker: "មើល​ការ​បញ្ជូន​ដោយ​បុគ្គលិកសង្គម"
+      dash_transfers_by_socal_worker: "មើល​កា​រផ្ទេរ​ដោយ​បុគ្គលិកសង្គម"
+      dash_cases_by_social_worker: "មើល​ករណី​ដោយ​បុគ្គលិកសង្គម"
+      dash_manager_transfers: "មើល​អ្នកគ្រប់គ្រង​ការ​ផ្ទេរ"
+      dash_cases_by_workflow: "មើល​ករណី​តាម​លំហូរ​ការងារ"
+      dash_cases_by_task_overdue: "មើលករណី​តាម​ការ​ហួស​ពេលកំណត់​នៃ​កិច្ចការ"
+      dash_cases_to_assign: "មើល​ករណី​ដើម្បី​ចាត់ចែង"
+      dash_show_none_values: "មើល​ករណី​ជា​មួយ 'កម្រិត​គ្មាន​ហានីភ័យ' នៅ​ក្នុង​ផ្ទាំង​គ្រប់គ្រង​ការ​ប៉ាន់ប្រមាណ"
+      dash_tasks: "មើលកិច្ចការ"
+      dash_protection_concerns_by_location: "មើល​កង្វល់​អំពី​ការការពារ​តាម​ទីតាំង"
+      search_owned_by_others: "ស្វែងរក​កំណត់ត្រា​ករណីដែល​បាន​គ្រប់គ្រង​ដោយ​អ្នកប្រើប្រាស់​ផ្សេង"
+      incident_from_case: "បង្កើត​ឧបទ្ទវហេតុ​ពី​ករណី"
+      incident_details_from_case: "បញ្ចូល​ព័ត៌មាន​លម្អិត​អំពី​ឧប្បត្តិហេតុ​ទៅ​ក្នុង​ករណី​របស់​អ្នក​ប្រើប្រាស់​ផ្សេង"
+      services_section_from_case: "បញ្ចូល​ការ​ផ្ដល់​សេវាកម្ម​ទៅ​ក្នុង​ករណី​របស់​អ្នក​អ្នក​ប្រើប្រាស់​ផ្សេង"
+      create: "បង្កើត"
+      referral_from_service: "បញ្ជូន​ករណី​ពី​ទម្រង់​សេវាកម្ម"
+      view_protection_concerns_filter: "មើលតម្រង​ស្ដី​ពី​​កង្វល់​អំពី​ការការពារ​"
+      saved_search: "ការ​ស្វែងរក​ដែល​បាន​រក្សាទុក"
+      save_search: "រក្សាទុក​ការ​ស្វែងរក"
+      remove_assigned_users: "ដក​​អ្នកប្រើប្រាស់​ដែល​បាន​ចាត់ចែង​ផ្សេងៗ​ចេញ (ការ​បញ្ជូន)"
+      audit_log: "កំណត់​ហេតុ​ត្រួតពិនិត្យ"
+      display_view_page: "បង្ហាញ​ទំព័រ​ទិដ្ឋភាព"
+      service_provision_incident_details: "មើល​ការ​បញ្ចូល​ប៊ូតុង​ផ្ដល់សេវាកម្ម​នៅ​លើ​បែបបទ​ព័ត៌មាន​លម្អិត​អំពី​ឧប្បត្តិហេតុ"
+      request_transfer: "ស្នើសុំការផ្ទេរ"
+      view_photo: "មើល​រូបថត"
+      matching_configuration: "ផ្គូផ្គង​ការ​កំណត់​រចនាសម្ព័ន្ធ"
+      add_note: "បញ្ចូល​កំណត់សម្គាល់"
+      assign_within_agency: "ចាត់ចែង​នៅ​ក្នុង​ទីភ្នាក់ងារ"
+      assign_within_user_group: "ចាត់ចែង​នៅ​ក្នុង​ក្រុម​របស់​អ្នក​ប្រើប្រាស់"
+      receive_referral: "ទទួល​ការ​បញ្ជូន"
+      receive_transfer: "ទទួល​ការ​ផ្ទេរ"
+      find_tracing_match: "រក​ការ​ផ្គូផ្គង​ស្វែងរក​ពី​ករណី"
+      duplicate: "ស្ទួន​ការ​ស្វែងរក"
+      view_response: "មើលការ​ឆ្លើយតប"
+  forms:
+    label: "ទម្រង់"
+    save: "រក្សាទុក​ទម្រង់"
+    save_details: "រក្សាទុក"
+    messages:
+      use_existing: "យើង​លើក​ទឹកចិត្ត​ឲ្យ​អ្នក​ប្រើប្រាស់​ទម្រង់​ដែល​មាន​ស្រាប់​ដូច​នេះ​​ដើម្បីចែករំលែក​ទិន្នន័យ និង​បញ្ចូល​ទិន្នន័យ​ចូល​គ្នា​រវាង​ស្ថាប័ន​បាន​កាន់តែ​ងាយស្រួល។"
+    initial_language: "ភាសា​ដំបូង"
+    cannot_be_edited: "មិន​អាច​កែសម្រួល​កន្លែង​បញ្ចូល​នៅ​លើ​ទម្រង់នេះ​បាន​ទេ។"
+    record_types:
+      case: "ករណី"
+      child: "ករណី"
+      incident: "ឧប្បត្តិហេតុ"
+      tracing_request: "សំណើ​ស្វែងរក"
+      potential_match: "ការ​ផ្គូផ្គង​ខ្លាំង"
+      violation: "ការរំលោភបំពាន"
+      reportable_service: "សេវាកម្ម"
+      reportable_follow_up: "តាមដាន"
+      reportable_protection_concern: "កង្វល់​អំពី​ការការពារ​"
+  form_section:
+    name: "ឈ្មោះ"
+    description: "ការពណ៌នា"
+    create: "ទម្រង់​ថ្មី"
+    visibility: "ភាព​មើល​ឃើញ"
+    ordering: "ការ​តម្រៀប"
+    label: "ទម្រង់"
+    group: "ក្រុម"
+    details: "ព័ត៌មានលម្អិត​"
+    back: "ត្រឡប់​ទៅ​ទំព័រ​ទម្រង់"
+    help_text: "អត្ថបទ​ជំនួយ"
+    actions:
+      label: "សកម្មភាព"
+      add_custom_field: "បញ្ចូលកន្លែង​បញ្ចូល​ផ្ទាល់ខ្លួន"
+      save_order: "រក្សា​ទុក​លំដាប់"
+    messages:
+      order_saved: "បាន​រក្សាទុក​លំដាប់​ដោយ​ជោគជ័យ។"
+      cannot_create: "មិន​អាច​បង្កើត​ផ្នែក​ទម្រង់​បាន​ទេ"
+      correct_errors: "សូម​កែ​បញ្ហា​ដូច​ខាង​ក្រោម ហើយ​ដាក់​បញ្ជូន​ម្ដ​ងទៀត៖"
+      hide_confirmation: "តើ​អ្នក​ប្រាកដ​​ជា​ចង់​លាក់​កន្លែង​បញ្ចូល​ឬ?"
+      show_confirmation: "តើ​អ្នក​ប្រាកដ​​ជា​ចង់​បង្ហាញ​កន្លែង​បញ្ចូល​ឬ?"
+      drag_drop_help_text: អ្នក​អាច​ចុច​លើ​កន្លែង​បញ្ចូល​ ដើម្បី​អូស និង​ទម្លាក់​នៅ​លើ​លំដាប់​ដែល​ទាមទារ។
+      updated: "បាន​បញ្ចូល​ផ្នែក​ទម្រង់​ដោយ​ជោគជ័យ"
+    hide: "បានលាក់​ឬ?"
+    show: "បង្ហាញ"
+    manage: "គ្រប់គ្រង​ផ្នែក​ទម្រង់"
+    edit: "កែសម្រួល​ផ្នែក​ទម្រង់"
+    buttons:
+      add: "បញ្ចូល"
+    options: "ជម្រើស"
+    confirm_delete: "តើ​អ្នក​ប្រាកដ​ជា​ចង់​លុប​ទម្រង់នេះ​ឬ?"
+    required_field: "%{field} ត្រូវ​បាន​ទាមទារ"
+    required_field_js: "គឺ​ជា​កន្លែង​បញ្ចូល​ដែល​ទាមទារ។ បច្ចុប្បន្ន​វា​ទទេ ឬ​មិន​ត្រឹមត្រូវ។"
+    form_group_name: "ឈ្មោះ​ក្រុម​ទម្រង់"
+    form_group: "ក្រុម​ទម្រង់"
+    modal_sidebar_help: "ជ្រើសរើស​ប្រភេទ​កន្លែង​បញ្ចូល"
+    modal_sidebar_help_selected: "ប្រភេទ​កន្លែង​បញ្ចូល"
+    translation: "ការ​បកប្រែ"
+    translation_missing: "(បាត់​ការ​បកប្រែ​សម្រាប់ %{lang})"
+    base_language_help_text: "ត្រូវ​តែ​បញ្ចូល​នៅ​ក្នុង %{lang} ។"
+    selective_syncing_mobile_help_text: "ទម្រង់​រង​នឹង​មិន​ធ្វើ​សមកាលកម្ម​ពី​ម៉ាស៊ីន​ទៅ​ឧបករណ៍​ចល័តទេ ប៉ុន្តែ​អ្នក​ប្រើប្រាស់​អាច​បញ្ចូល​ទម្រង់​រង​នៅ​លើ​ឧបករណ៍​ចល័ត​ដែល​បន្ទាប់​មក​នឹង​ធ្វើ​សមកាលកម្ម​ទៅ​ម៉ាស៊ីន​មេ។"
+    form_group_translation_help_text: "ដើម្បី​បញ្ចូល​ការ​បកប្រែ​សម្រាប់​ក្រុម​ទម្រង់ កែសម្រួល​ការ​ស្វែងរក​​ក្រុម​​ទម្រង់​នៅ​ក្នុងកម្មវិធី​កែ​ការ​ស្វែងរក។"
+    initial_lang_help_text: "ត្រូវ​តែ​បង្កើតកន្លែង​បញ្ចូល​នៅ​ក្នុង %{lang} មុន​ការ​បកប្រែ​អាច​ត្រូវ​បាន​បញ្ចូល។"
+    field_db_help_text: "ប្រសិន​បើ​ទុក​ទំនេរ ឈ្មោះប្រព័ន្ធ​ទិន្នន័យ​នឹង​ត្រូវ​បាន​បង្កើត​។ អនុញ្ញាត​តែ​អក្សរ​ឡាតាំង លេខ និង​សញ្ញា (_) ។"
+  advanced_search:
+    instruction: "បំបែក​ពាក្យ​ដោយ OR ដើម្បី​ស្វែងរក​ជម្រើស​ច្រើន​ជាង​មួយ ឧ. Tim OR Rahul"
+    date_instruction: "បញ្ចូលកាលបរិច្ឆេទ (yyyy-mm-dd) នៅ​ក្នុង​ប្រអប់ទីមួយ ដើម្បី​ស្វែងរក​កំណត់ត្រា​ដែល​បានបង្កើត ឬ​បាន​ធ្វើបច្ចុប្បន្នបន្ទាប់​ពី​កាលបរិច្ឆេទ​នោះ។        បញ្ចូល​កាលបរិច្ឆេទ (yyyy-mm-dd) នៅ​ក្នុង​ប្រអប់​ទី​ពីរ ដើម្បី​ស្វែងរក​កំណត់ត្រា​ដែល​បានបង្កើត ឬ​បាន​ធ្វើបច្ចុប្បន្នបន្ទាប់​ពី​កាលបរិច្ឆេទ​នោះ។។ បញ្ចូលកាលបរិច្ឆេទ​នៅ​ក្នុង​ប្រអប់​ទាំង​ពីរ ដើម្បី​មើល​មើល​កំណត់ត្រា​ដែល​បាន​បង្កើត​ចន្លោះ​កាលបរិច្ឆេទ​នោះ។"
+    created_by_org: "បានបង្កើត​ដោយ (ស្ថាប័ន) ៖"
+    date_created: "កាលបរិច្ឆេទ​បាន​បង្កើត ៖"
+    updated_by: "បានធ្វើបច្ចុប្បន្នភាពដោយ (អ្នក​ប្រើប្រាស់) ៖"
+    after: "បន្ទាប់​ពី ៖"
+    before: "មុន ៖"
+    created_by: "បាន​បង្កើត​ដោយ​ (អ្នកប្រើប្រាស់) ៖"
+    date_updated: "កាលបរិច្ឆេទ​បាន​ធ្វើ​បច្ចុប្បន្នភាព៖"
+    select_a_criteria: "ជ្រើសរើស​លក្ខខណ្ឌ"
+    records_found:
+      other: "បាន​រកឃើញ​កំណត់ត្រា %{count}"
+  search: "ស្វែងរក"
+  select_all: "ជ្រើសរើស​កំណត់​ត្រា​ទាំងអស់"
+  no_results_found: "រកមិន​ឃើញ​លទ្ធផល"
+  date_format: "yy-mm-dd"
+  yes_label: "បាទ/ចាស"
+  cancel: "បោះបង់"
+  contact:
+    message: "ប្រសិន​បើ​អ្នក​មាន​បញ្ហា​ជា​មួយ RapidFTR ឬ​ជឿ​ថា​ពាក្យសម្ងាត់​របស់​អ្នកត្រូវ​បាន​បង្ហាញ សូម​ទាក់ទង​អ្នក​គ្រប់គ្រង​ប្រព័ន្ធ​ភ្លាមៗ។"
+    field:
+      name: "ឈ្មោះ"
+      position: "មុខតំណែង"
+      organization: "ស្ថាប័ន"
+      email: "អ៊ីមែល"
+      phone: "ទូរសព្ទ"
+      location: "ទីតាំង"
+      other_information: "ព័ត៌មាន​ផ្សេងៗ"
+      support_forum: "វេទិកា​ជំនួយ"
+    updated: "បាន​ធ្វើបច្ចុប្បន្នភាព​ព័ត៌មាន​ទំនាក់ទំនង​ដោយ​ជោគជ័យ។"
+    edit_info: "កែសម្រួល​ព័ត៌មាន​ទំនាក់ទំនង"
+    info_label: "​ព័ត៌មាន​ទំនាក់ទំនង"
+    not_found: "រកមិន​ឃើញ​ព័ត៌មាន​ទំនាក់ទំនង​ដែល​មាន​លេខ​សម្គាល់ %{id} ទេ"
+  device:
+    blacklist: "ដាក់​ឧបករណ៍​ក្នុង​បញ្ជី​ខ្មៅ"
+    messages:
+      blacklist: "តើ​អ្នក​ចង់​បញ្ចូល​ឧបករណ៍​នេះ​ទៅ​ក្នុង​បញ្ជី​ខ្មៅ​ដែ​រឬទេ?"
+      remove_blacklist: "តើ​អ្នក​ចង់​ដក​ឧបករណ៍​នេះ​​ចេញ​ពី​បញ្ជី​ខ្មៅ​ដែ​រឬទេ?"
+      disable: 'តើ​អ្នកប្រាកដ​ជា​ចង់​បិទ​ឧបករណ៍​នេះ​មែនទេ?'
+    information: "​ព័ត៌មាន​អំពី​ឧបករណ៍"
+    mobile_number: "លេខ​ទូរសព្ទចល័ត"
+    timestamp: "ពេលវេលា"
+  admin:
+    contact_info: "​ព័ត៌មាន​ទំនាក់ទំនង​អ្នក​គ្រប់គ្រង"
+    highlight_fields: "រំលេច​កន្លែង​បញ្ចូល"
+    manage_system_users: "គ្រប់គ្រងអ្នកប្រើប្រាស់ដែលធ្វើសមកាលកម្មទៅកាន់ម៉ាស៊ីនមេ"
+    create_system_user: បង្កើត​អ្នក​ប្រើប្រាស់​ប្រព័ន្ធ
+    system_logs: "កំណត់ហេតុ​ប្រព័ន្ធ"
+  fields:
+    label: "កន្លែង​បញ្ចូល"
+    field_name: "ឈ្មោះ​កន្លែង​បញ្ចូល"
+    display_name: "ឈ្មោះ​បង្ហាញ"
+    db_name: "ឈ្មោះ​ប្រព័ន្ធ​ទិន្នន័យ"
+    help_text: "អត្ថបទ​ជំនួយ"
+    actions: "សកម្មភាព"
+    option_strings_text: "ជម្រើស"
+    option_strings_text_key: "លេខ​កូដ​ជម្រើស"
+    option_strings_text_display: "អត្ថបទ​ជម្រើស"
+    option_strings_source: "រក​មើល"
+    option_strings_add_option: "បញ្ចូល​ជម្រើស"
+    options_or_lookup_warning: "សូម​បញ្ចូល​ជម្រើស ឬ​ជ្រើសរើស​ការ​រកមើល។ កុំ​បញ្ចូល​ទាំង​ពីរ។"
+    form_name: "ឈ្មោះ​ទម្រង់"
+    action: "សកម្មភាព"
+    remove: "ដក​ចេញ"
+    subform_remove_message: "តើ​អ្នក​ប្រាកដជា​ចង់​ដក​ទម្រង់​រង​នេះ​ចេញ​មែនទេ?"
+    text_field: "កន្លែង​បញ្ចូល​អត្ថបទ"
+    check_box: "ប្រអប់​គូស​ធីក"
+    select_box: "ជ្រើសរើស​បញ្ជី​ទម្លាក់ចុះ"
+    radio_button: "ប៊ូតុង​មូល"
+    text_area: "តំបន់​អត្ថបទ"
+    textarea: "តំបន់​អត្ថបទ"
+    numeric_field: "កន្លែង​បញ្ចូល​ជា​លេខ"
+    date_field: "កន្លែង​បញ្ចូលកាលបរិច្ឆេទ"
+    date_range_field: "ចន្លោះ​កាលបរិច្ឆេទ"
+    subform: "ទម្រង់​រង"
+    tick_box: "ប្រអប់​គូស​ធីក"
+    tick_box_label: "ស្លាក​ប្រអប់​គូស​ធីក"
+    tally_field: "កន្លែង​បញ្ចូលចំនួន​សរុប"
+    select_date_validation: "ជ្រើសរើស​វិធី​សាស្ត្រ​ផ្ទៀងផ្ទាត់​កាលបរិច្ឆេទ"
+    not_future_date: "មិនមែន​ជា​កាលបរិច្ឆេទ​នៅ​ពេល​អនាគត"
+    default_date_validation: "ការ​ផ្ទៀងផ្ទាត់​កាលបរិច្ឆេទ​លំនាំដើម"
+    date_not_valid: "កាលបរិច្ឆេទ​នេះ​មិន​ត្រឹមត្រូវ​ទេ។"
+    future_date_not_valid: "កាលបរិច្ឆេទ​នេះ​មិន​អាច​ស្ថិត​ក្នុង​ពេល​អនាគត​ទេ។"
+    number_not_valid: "សូម​បញ្ចូល​ទិន្នន័យ​ជា​លេខ"
+    separator: "សញ្ញា​បំបែក"
+    successfully_added: "បាន​បញ្ចូលកន្លែង​បញ្ចូល​ដោយ​ជោគជ័យ"
+    updated: "បាន​ធ្វើបច្ចុប្បន្នភាព​កន្លែង​បញ្ចូល"
+    deleted: "បាន​លុប​កន្លែង​បញ្ចូល %{display_name} ។"
+    add: "បញ្ចូល"
+    type: "ប្រភេទ​កន្លែង​បញ្ចូល"
+    move_to: "ផ្លាស់ទី​ទៅ"
+    select_box_empty_item: "(ជ្រើសរើស...)"
+    chosen_placeholder: "ជ្រើសរើស​ទាំងអស់​ដែល​អនុវត្ត"
+    multi_select: "ការ​ជ្រើសរើស​ច្រើន"
+    date_help: "dd-mmm-yyyy"
+    date_help_with_time: "dd-mmm-yyyy hh:mm"
+    date_range:
+      from: "ពី"
+      to: "ទៅ"
+      date: "កាលបរិច្ឆេទ"
+      date_range: "ចន្លោះ​កាលបរិច្ឆេទ"
+    file_upload_box:
+      select_file_button_text: "ជ្រើសរើសឯកសារ"
+      no_file_selected: "គ្មាន​ឯកសារ​បាន​ជ្រើសរើស​ទេ។"
+      document_file_restrictions_message: "ឯកសារ​មិន​គួរ​ធំជាង 2 MB មិន​អាច​បង្ហោះ​ឯកសារ (executable (.exe) បាន​ទេ)។"
+      photo_file_restrictions_message: "រូបថត​មិនគួរ​ធំ​ជាង 10mb ទេ ។ ឯកសារ​សំឡេង​មិន​គួរ​ធំជាង 10mb ទេ។ កាន់តែ​តូច​កាន់តែ​ល្អ។"
+      add_document_label: "បញ្ចូល​ឯកសារ"
+      add_photo_label: "បញ្ចូល​រូបថត"
+      recorded_audio_label: "សំឡេង​ដែល​បាន​ថត"
+      add_new_document_button_text: "បញ្ចូល​ឯកសារ​ផ្សេង​ទៀត"
+      add_new_photo_button_text: "បញ្ចូល​រូបថត​ផ្សេង​ទៀត"
+      document_description: "ការពណ៌នា​អំពី​ឯកសារ"
+    upload_bia_document: "ឯកសារ BIA"
+    upload_bid_document: "ឯកសារ BID"
+    upload_other_document: "ឯកសារ​ផ្សេងៗ"
+    document:
+      comments: "មតិយោបល់"
+      date: "កាលបរិច្ឆេទ​ឯកសារ"
+      name: "ឈ្មោះ​ឯកសារ"
+      current: "តើ​នេះ​ជា​ឯកសារ​បច្ចុប្បន្ន​ឬ?"
+    audio:
+      current: "សំឡេង​បច្ចុប្បន្ន"
+  replication:
+    label: ការ​ចម្លង
+    index: គ្រប់គ្រង​ការ​ចម្លង
+    create: បញ្ចូល​ម៉ាស៊ីន​មេ​ពី​ចម្ងាយ
+    edit: កែសម្រួល​ការ​កំណត់​រចនាសម្ព័ន្ធ
+    remote_app_uri: Primero URL
+    actions: សកម្មភាព
+    status: ស្ថានភាព
+    description: ការពណ៌នា
+    timestamp: ពេលវេលា
+    delete: លុប
+    completed: ជោគជ័យ
+    triggered: កំពុងដំណើរការ
+    error: បាន​បរាជ័យ
+    confirm_delete: តើ​អ្នក​ពិតជា​ចង់​លុប​ការ​ចម្លង​នេះ​មែន​ឬ?
+    start: ចាប់ផ្ដើម​សមកាលកម្ម
+    stop: បញ្ឈប់​សមកាលកម្ម
+    configure_a_server: កំំណត់​រចនាសម្ព័ន្ធ​ម៉ាស៊ីន​មេ
+    reindex_pending: កំពុង​រង់ចាំ​ការ​ធ្វើ​សន្ទស្សន៍​ឡើងវិញ
+    is_continuous: បន្ត
+  lookup:
+    actions: "សកម្មភាព"
+    edit: "កែសម្រួល​ការ​រក​មើល"
+    create: "កា​ររក​មើល​ថ្មី"
+    label: "ការ​រក​មើល"
+    index: "គ្រប់គ្រង​ការ​រក​មើល"
+    name: "ឈ្មោះ"
+    values: "ជម្រើស"
+    add_value: "បញ្ចូល​ជម្រើស"
+    remove: "ដក​ចេញ"
+    confirm_delete: តើ​អ្នក​ប្រាកដ​ជា​ចង់​លុប​ការ​រក​មើល​នេះមែនទេ?
+    initial_lang_help_text: "ត្រូវ​តែ​បញ្ចូល​នៅ​ក្នុង %{lang} ។"
+    messages:
+      cannot_create: "មិន​អាច​បង្កើត​ការ​រក​មើល​បាន​ទេ"
+      correct_errors: "សូម​កែ​បញ្ហា​ដូច​ខាង​ក្រោម ហើយ​ដាក់​បញ្ជូន​ម្ដ​ងទៀត៖"
+      updated: "បាន​បញ្ចូល​ការ​រកមើល​ដោយ​ជោគជ័យ"
+  location:
+    location_code_warning: ចំណាំ​ថា ប្រសិនបើ​អ្នក​ផ្លាស់ប្ដូរ​លេខ​កូដ​ទីតាំង​ដែល​មាន​ស្រាប់ អ្នក​នឹង​ត្រូវ​កែសម្រួល​ការ​បញ្ចូល​កន្លែង​បញ្ចូល​ទីតាំងឡើងវិញ​សម្រាប់​កំណត់​ត្រា​ណា​មួយ​ដោយ​ប្រើប្រាស់​ទីតាំង​នេះ។
+    create: "ទីតាំង​ថ្មី"
+    edit: "កែសម្រួល​ទីតាំង"
+    label: "ទីតាំង"
+    index: "គ្រប់គ្រង​ទីតាំង"
+    name: "ឈ្មោះ"
+    code: "លេខ​កូដ"
+    hierarchy: "ឋានានុក្រម"
+    confirm_delete: តើ​អ្នកប្រាកដ​​ជា​ចង់​លុប​ទីតាំង​នេះ​មែនទេ?
+    placename: "ឈ្មោះ​ទីកន្លែង"
+    type: "ប្រភេទ"
+    parent: "ទីតាំង​មេ"
+    admin_level: "កម្រិត​អ្នក​គ្រប់គ្រង"
+    messages:
+      cannot_create: "មិន​អាច​បង្កើត​ទីតាំង​បាន​ទេ"
+      correct_errors: "សូម​កែ​បញ្ហា​ដូច​ខាង​ក្រោម ហើយ​ដាក់​បញ្ជូន​ម្ដ​ងទៀត៖"
+      updated: "បាន​បញ្ចូល​ទីតាំង​ដោយ​ជោគជ័យ"
+      deleted: "បាន​លុប​ទីតាំង​ដោយ​ជោគជ័យ"
+    base_types:
+      country: 'ប្រទេស'
+      region: 'តំបន់'
+      province: 'ខេត្ត'
+      district: 'ស្រុក'
+      governorate: 'តំបន់'
+      chiefdom: 'Chiefdom'
+      county: 'ស្រុក'
+      state: 'រដ្ឋ'
+      city: 'ទីក្រុង'
+      camp: 'ជំរុំ'
+      site: 'តំបន់'
+      village: 'ភូមិ'
+      zone: 'តំបន់'
+      other: 'ផ្សេងៗ'
+      locality: 'មូលដ្ឋាន'
+      sub-district: 'ឃុំ'
+  matching_configuration:
+    edit: "កែសម្រួល​ការកំណត់រចនាសម្ព័ន្ធ​ផ្គូផ្គង"
+    case_fields: "កន្លែង​បញ្ចូល​ករណី​ដែល​អាច​ផ្គូផ្គង​បាន"
+    tracing_request_fields: "កន្លែង​បញ្ចូល​សំណើ​ស្វែងរក​ដែល​អាច​ផ្គូផ្គង​បាន"
+    updated: "បាន​ធ្វើបច្ចុប្បន្នភាព​ការ​កំណត់​រចនាសម្ព័ន្ធ​ផ្គូផ្គង"
+    update_error: "មាន​បញ្ហា​ក្នុងការ​ធ្វើ​បច្ចុប្បន្នភាព​ការ​កំណត់​រចនាសម្ព័ន្ធ​ផ្គូផ្គង"
+    label: "ផ្គូផ្គង​ការ​កំណត់​រចនាសម្ព័ន្ធ"
+  session:
+    about_to_expire: "វគ្គរបស់​អ្នក​ហៀប​នឹង​ផុត​កំណត់​ហើយ!"
+    has_expired: "វគ្គ​របស់​អ្នក​បានផុត​កំណត់​ហើយ។ សូម​ចូល​ម្ដ​ងទៀត។"
+    invalid_credentials: "ព័ត៌មាន​សម្ងាត់​មិន​ត្រឹមត្រូវ។ សូម​ព្យាយាម​ម្ដង​ទៀត!"
+    login_error: "មាន​បញ្ហា​ក្នុងការ​ចូល។ សូម​ព្យាយាម​ម្ដ​ងទៀត។"
+    invalid_token: "ថូខឹន​វគ្គ​មិន​ត្រឹមត្រូវ"
+    no_token_provided: "គ្មាន​ថូខឹន​វគ្គ​បាន​ផ្ដល់​ឲ្យ​ទេ"
+    no_token_in_header: "គ្មាន​ថូខឹន​វគ្គ​នៅ​ក្នុង​ផ្នែក​ខាង​លើ ឬ​ខូឃី​ទេ"
+  reports:
+    register_new_report: "បង្កើត​របាយការណ៍"
+    label: "របាយការណ៍"
+    tabs:
+      table: "តារាង"
+      graph: "ក្រាហ្វ"
+    actions:
+      delete: "លុប"
+    limited_pivots: "ជ្រើសរើស​តែ​កន្លែង​បញ្ចូលកាលរិច្ឆេទ​ ដើម្បី​ធ្វើ​តារាង​សម្រាប់​របាយការណ៍​នេះ។ កន្លែង​បញ្ចូល​កាលបរិច្ឆេទ​អាច​​ជា​តារាង​ទីមួយ ឬ​ទីពីរ​តែប៉ុណ្ណោះ។"
+    messages:
+      confirmation: "តើ​អ្នក​ប្រាកដ​ជា​ចង់​លុប​របាយការណ៍​នេះ​មែនទេ? ការ​លុប​មិន​អាច​ត្រឡប់​វិញ​បាន​ទេ។ ចុច​យល់ព្រម ដើម្បី​លុប​របាយការណ៍។"
+  report:
+    name: "ឈ្មោះ"
+    description: "ការពណ៌នា"
+    heading: "របាយការណ៍ Primero"
+    type: "ប្រភេទ"
+    as_of_date: "ត្រឹម​កាលបរិច្ឆេទ"
+    download: "ទាញយក"
+    all: "សរុប"
+    total: "សរុប"
+    modules: "ម៉ូឌុល"
+    record_type: "ប្រភេទ​កំណត់ត្រា"
+    aggregate_by: "ដាក់ជា​ក្រុម​តាម​ជួរ​ដេក"
+    disaggregate_by: "ដាក់ជា​ក្រុម​តាម​ជួរឈរ"
+    aggregate_counts_from: "ចំនួន​បូកសរុប​ពី"
+    group_ages: "ប្រើប្រាស់​ចន្លោះ​អាយុ"
+    group_dates_by: "ប្រើប្រាស់​ចន្លោះ​កាលបរិច្ឆេទ"
+    add_default_filters: "រួម​បញ្ចូល​តម្រង​លំនាំដើម"
+    add_default_filters_help: "បើក ហើយ​ផ្ទៀងផ្ទាត់"
+    date_ranges:
+      date: "ថ្ងៃ"
+      week: "សប្ដាហ៍"
+      month: "ខែ"
+      year: "ឆ្នាំ"
+    filters:
+      label: "តម្រង​របាយការណ៍"
+      attribute: "តម្រង"
+      value: "ជា​មួយ"
+      not_null: "មិន​អាច​គ្មាន​តម្លៃ​ទម្រង់​ទេ"
+    is_graph: "បង្កើត​ក្រាហ្វមែនទេ?"
+    no_data: "មិនមាន​ទិន្នន័យ​សម្រាប់​របាយការណ៍​នេះ​ទេ"
+    export:
+      graph: "ក្រាហ្វ"
+      data: "ទិន្នន័យ"
+    successfully_updated: "បាន​ធ្វើបច្ចុប្បន្នភាព​ការកំណត់​រចនាសម្ព័ន្ធ​របាយការណ៍​ដោយ​ជោគជ័យ។"
+    error_in_updating: "មាន​បញ្ហា​ក្នុងការ​ធ្វើ​បច្ចុប្បន្នភាព​ការ​កំណត់រចនាសម្ព័ន្ធ​របាយការណ៍។"
+    messages:
+      delete_success: "បានលុប​របាយការណ៍​ដោយជោគជ័យ។"
+    edit: "កែសម្រួល"
+    exclude_empty_rows: "កុំ​បង្ហាញ​ជួរដេក​ទទេ"
+  encrypt:
+    password_title: "បង្កើត​ពាក្យសម្ងាត់"
+    password_label: "សូម​បញ្ចូល​ពាក្យសម្ងាត់​ដែល​នឹង​អ៊ីនគ្រិប​ឯកសារ​របស់​អ្នក។"
+    password_mandatory: "បញ្ចូល​ពាក្យសម្ងាត់​ដែល​ត្រឹមត្រូវ"
+    password_extra_info: "ពាក្យសម្ងាត់​នេះ​នឹង​ត្រូវ​បាន​ភ្ជាប់​ជា​មួយ​ឯកសារ​ដែល​បាននាំចេញ ហើយ​នឹង​ត្រូវ​បានបញ្ចូល​ដោយ​អ្នក​ណា​ម្នាក់​ដែល​បើក​ឯកសារ​នេះ​នៅ​ពេល​អនាគត។"
+    file_name: "បង្កើត​ឈ្មោះ​ឯកសារ​ផ្ទាល់​របស់​អ្នក (ជា​ជម្រើស)"
+  administration: "ការ​គ្រប់គ្រង"
+  new: "ថ្មី"
+  saved: "បានរក្សាទុក"
+  account: "គណនី"
+  moved_from: "%{field_name} បាន​ផ្លាស់ទី​ពី %{from_fs} ទៅ %{to_fs}"
+  couchrest:
+    fields:
+      Name: "ឈ្មោះ"
+      Username: "អ្នកប្រើប្រាស់"
+      Password: "ពាក្យសម្ងាត់"
+      Description: "ការពណ៌នា"
+      Remote app url: "url កម្មវិធី​ពីចម្ងាយ"
+    attributes:
+      report:
+        aggregate_by: "ដាក់ជា​ក្រុម​តាម​ជួរ​ដេក"
+    validations:
+      blank: "%s មិន​ត្រូវ​ទំនេរ​ទេ"
+  gbv_report:
+    18_and_over_age: "អាយុ 18 ឆ្នាំ និងច្រើន​ជាង"
+    12_17_age: "12-17"
+    0_11_age: "0-11"
+    unknown: "មិនស្គាល់"
+    adult: "មនុស្ស​ពេញវ័យ"
+    child: "កុមារ"
+    'yes': "បាទ/ចាស"
+    'no': "ទេ"
+    none: "គ្មាន"
+    uam_sc_ovc: "UAM/SC/OVC"
+    unaccompanied_minor: "អានីតិជន​នៅ​ម្នាក់ឯង"
+    separated_child: "កុមារ​ដែល​បានបំបែក​ចេញ"
+    other_vulnerable_child: "កុមារ​ងាយរងគ្រោះ​ផ្សេង​ទៀត"
+    rape: "ការ​រំលោភ"
+    sexual_assault: "រំលោភ​​ផ្លូវភេទ"
+    non_gbv: "មិនមែន GBV"
+    disability: "ពិការ"
+    sexual_violence: "អំពើហឹង្សាផ្លូវភេទ"
+    intimate_partner_former_partner: "ដៃគូ​ស្និទ្ធស្នាល/អតីតដៃគូ"
+    intimate_partner_violence: "អំពើហិង្សា​ដោយ​ដៃគូស្និទ្ធស្នាល"
+    child_sexual_abuse: "ការ​រំលោភបំពាន​ផ្លូវភេទ​កុមារ"
+    forced_marriage: "ការរៀបការ​ដោយបង្ខំ"
+    early_marriage: "កា​ររៀបការ​មុន​អាយុ"
+    harmful_traditional_practice: "អនុវត្ត​ប្រពៃណី​បែប​បំផ្លាញ"
+    possible_sexual_exploitation: "ការ​កេងប្រវ័ញ្ច​ផ្លូវភេទ​ដែល​អាច​កើតឡើង"
+    possible_sexual_slavery: "ទេសករ​ផ្លូវភេទ​ដែល​អាច​កើតឡើង"
+    over_1_month: "លើស​ពី 1 ខែ"
+    2_weeks_1_month: "2 សប្ដាហ៍ - 1 ខែ"
+    6_14_days: "6-14 ថ្ងៃ"
+    4_5_days: "4-5 ថ្ងៃ"
+    0_3_days: "0-3 ថ្ងៃ"
+    exclude: "មិន​រាប់បញ្ចូល"
+    include: "រាប់បញ្ចូល"
+    quarter_4: "ត្រីមាស​ទី 4"
+    quarter_3: "ត្រីមាស​ទី 3"
+    quarter_2: "ត្រីមាស​ទី 2"
+    quarter_1: "ត្រីមាស​ទី 1"
+    undecided: "មិន​ទាន់សម្រេចចិត្ត​នៅ​ពេល​រាយការណ៍"
+  followup_reminders:
+    system_generated_followup_flag: "ការ​ចុះពិនិត្យតាមដាន​ដែល​ចាំបាច់"
+    system_generated_followup_unflag: "បាន​ផុត​កំណត់"
+    system_generated_followup_unflag_cancelled: "បានបោះបង់"
+    high_risk_level: "ខ្ពស់"
+    medium_risk_level: "មធ្យម"
+    low_risk_level: "ទាប"
+    child_status_open: "បើក"
+    child_status_closed: "បានបិទ"
+    child_status_transferred: "បាន​ផ្ទេរ"
+    child_status_duplicate: "ស្ទួន"
+  dashboard:
+    total: 'សរុប'
+    new: 'ថ្មី និង​បាន​ធ្វើបច្ចុប្បន្នភាព'
+    pending_transfers: 'ការ​ផ្ទេរ​ដែល​កំពុង​រង់ចាំ'
+    rejected_transfers: 'ការ​ផ្ទេរ​ដែល​បាន​បដិសេធ'
+    transers_awaiting_acceptance: 'ការ​ទទួលយក​ការ​ផ្ទេរ​ដែល​កំពុង​រង់ចាំ'
+    total_referred: "ការ​បញ្ជូន​សរុប"
+    new_referred: "ការ​បញ្ជូន​ថ្មី"
+    high_risk: 'អាទិភាព​ខ្ពស់'
+    low_risk: 'អាទិភាព​ទាប'
+    none_risk: 'គ្មាន​អាទិភាព'
+    no_action_risk: 'គ្មាន​សកម្មភាព'
+    medium_risk: 'អាទិភាព​មធ្យម'
+    pending: 'កំពុង​រង់ចាំ'
+    rejected: 'បានបដិសេធ'
+    near_deadline: 'ជិត​ដល់​ពេលកំណត់'
+    due: 'ហួស​ពេលកំណត់'
+    response: 'ការ​ឆ្លើយតប <span>(កំពុង​ដំណើរការ)</span>'
+    immediate_response: 'ការ​ឆ្លើយតប​ភ្លាមៗ'
+    cases_to_assign: 'ករណី​ត្រូវ​ចាត់ចែង'
+    overdue_cases_to_assign: 'ករណី​ហួស​ពេលកំណត់​ត្រូវ​ចាត់ចែង'
+    closed: 'បានបិទ'
+    comprehensive_need_intervention: 'ការឆ្លើយតប​ពេញលេញ'
+    new_incident: 'ឧប្បត្តិហេតុ​ថ្មីៗ'
+    new_service_provision: 'ការ​ផ្ដល់​សេវាកម្ម​ថ្មីៗ'
+    all_services_implemented: 'បាន​អនុវត្ត​សេវាកម្ម​ទាំងអស់'
+    services_implemented: 'បាន​អនុវត្ត​សេវាកម្ម'
+    approved: 'បាន​អនុម័ត'
+    cases_by_workflow: 'ករណី​តាម​លំហូរ​ការងារ'
+    cases_by_task_overdue: 'កិច្ចការ​ដែល​ហួស​ពេលកំណត់'
+    assessment: 'ការ​ប៉ាន់ប្រមាណ'
+    case_plan: 'ផែនការករណី'
+    follow_up: 'តាមដាន'
+    services: 'សេវាកម្ម'
+    admin_only: "ចុច​លើ %{links} ដើម្បី​ធ្វើការ​ផ្លាស់ប្ដូរ​ចំពោះ​កម្មវិធី។"
+    forms: "ផ្ទាំង​ទម្រង់"
+    users: "រូបតំណាង​ការ​កំណត់"
+    flagged_by: "បាន​សម្គាល់​ដោយ៖"
+    no_recent_activities: "គ្មាន​សកម្មភាព​ថ្មីៗ​ទេ"
+    no_scheduled_activities: "គ្មាន​សកម្មភាព​ដែល​បានកំណត់​កាលវិភាគ​ទេ"
+    no_overdue_activities: "គ្មាន​សកម្មភាព​ដែល​ហួស​ពេល​កំណត់​ទេ"
+    no_caseworker_data: "គ្មាន​ទិន្នន័យ​​អ្នក​ធ្វើការ​លើ​ករណី​ទេ"
+    no_flagged_child: "គ្មាន​ករណី​ដែល​បាន​សម្គាល់​ទេ"
+    no_flagged_incident: "គ្មាន​ឧប្បត្តិហេតុ​ដែល​បាន​សម្គាល់​ទេ"
+    no_open_incidents: "គ្មាន​ឧប្បត្តិហេតុ​ដែល​បានបើក​ទេ"
+    no_case_stats: "គ្មាន​ស្ថិតិ​ករណីទេ"
+    scheduled_activities: "ករណី​ដែល​បាន​កំណត់កាលវិភាគ"
+    overdue_activities: "ករណី​ហួស​ពេល​កំណត់"
+    recent_activities: "សកម្មភាព​ថ្មីៗ"
+    case_id: "លេខ​សម្គាល់ករណី"
+    name: "ឈ្មោះ"
+    activity: "សកម្មភាព"
+    date: "កាលបរិច្ឆេទ"
+    incident_id: "លេខ​សម្គាល់​ឧប្បត្តិហេតុ"
+    incident_location: "ទីតាំង​ឧប្បត្តិហេតុ"
+    new_child_assigned_to_you: "ករណី​ថ្មីៗ​បាន​ចាត់ចែង​ឲ្យ​អ្នក"
+    new_incident_assigned_to_you: "ឧប្បត្តិហេតុ​ដែល​បាន​ចាត់ចែង​ថ្មីៗ"
+    recently_flagged_child: "ករណី​ដែល​បាន​សម្គាល់​ថ្មីៗ"
+    flagged_by_me: "បាន​សម្គាល់​ដោយ​ខ្ញុំ"
+    flagged_by_other: "បាន​សម្គាល់​ដោយ​អ្នក​ផ្សេង"
+    recently_flagged_incident: "ឧប្បត្តិហេតុ​ដែល​បាន​សម្គាល់​ថ្មីៗ"
+    incident_status_open: "បើក"
+    number_of_victims: "ចំនួន​ជនរងគ្រោះ"
+    number_of_violations: "ចំនួន​ការរំលោភបំពាន"
+    number_of_violations_verified: "បាន​ផ្ទៀងផ្ទាត់​ការ​រំលោភបំពាន"
+    link_see_all: "មើល​ទាំងអស់"
+    open_incidents: "បើក​ឧប្បត្តិហេតុ"
+    status_of_cases: "ស្ថានភាព​ករណី"
+    case_worker: "អ្នក​ធ្វើការ​លើករណី"
+    total_cases: "ករណី​សរុប"
+    cases_this_week: "ករណី​ក្នុង​សប្ដាហ៍​នេះ"
+    missed_cases: "ករណី​ដែល​បាន​ខកខាន"
+    date_of_incident: "កាលបរិច្ឆេទ​ឧប្បត្តិហេតុ"
+    violence_type: "ប្រភេទនៃការរំលោភបំពាន"
+    date_of_interview: "កាលបរិច្ឆេទ​សម្ភាសន៍"
+    system_user: "ប្រព័ន្ធ"
+    name_or_survivor_code: "ឈ្មោះ ឬ​លេខកូដ​អ្នកនៅ​មាន​ជីវិត"
+    current_owner: "ម្ចាស់​បច្ចុប្បន្ន"
+    last_updated: "បាន​ធ្វើបច្ចុប្បន្នភាព​ចុងក្រោយ"
+    case_stats: "ករណី"
+    tr_stats: "សំណើ​ស្វែងរក"
+    cases_by_social_worker: "ករណី​ដោយ​បុគ្គលិកសង្គម"
+    approvals: "អនុម័ត"
+    referrals_by_social_worker: "ការ​បញ្ជូន​ដោយ​បុគ្គលិកសង្គម"
+    transfers_by_social_worker: "ការ​ផ្ទេរ​ដោយ​បុគ្គលិកសង្គម"
+    case_stat_by_assessment_level: "ករណី​ដោយ​កម្រិត​ប៉ាន់ប្រមាណ"
+    case_stat_by_approval_type: "អនុម័ត"
+    case_stat_referrals: "ការ​បញ្ជូន"
+    protection_concern: "កង្វល់​អំពី​ការការពារ​"
+    protection_concerns: "កង្វល់​អំពី​ការការពារ​"
+    geographic_area: "តំបន់​ភូមិសាស្ត្រ"
+    all_cases: "គ្រប់ករណី​ទាំង​អស់"
+    open: "បើក"
+    range4: "0-4"
+    range4_8: "4-8"
+    range8_12: "8-12"
+    range12+: "12+"
+    match_result: "លទ្ធផល​ផ្គូផ្គង"
+    score_range: "ចន្លោះពិន្ទុ"
+    count_risk_level_total:
+      other: "អ្នមាន​ %{stat} ករនី​ហានីភ័យ <span>%{stat_type} </span>"
+    count_risk_level_new:
+      other: "និង %{stat} ករណី​ហានីភ័យ<span>ថ្មី</span> <span>%{stat_type} </span>"
+    count_records_total:
+      other: "អ្នក​មាន​ករណីសរុប %{stat} <span></span>"
+    count_records_new:
+      other: "និងករណី %{stat} <span>ថ្មី</span>"
+    count_referrals_total:
+      other: "អ្នក​មាន​ការ​បញ្ជូន %{stat} <span>សរុប</span>"
+    worker_count_referrals_total:
+      other: "<span>%{case_worker}</span> មាន​ការ​បញ្ជូន %{stat} <span>សរុប</span>"
+    count_referrals_new:
+      other: "និងការ​បញ្ជូន %{stat} <span>ថ្មី</span>"
+    worker_count_total:
+      other: "<span>%{case_worker}</span> មាន​ករណី %{stat} <span>សរុប</span>"
+    manager_count_open_total:
+      other: "អ្នកមាន​ករណី %{stat} <span>បានបើក</span>"
+    manager_count_closed_total:
+      other: "និង​ករណី %{stat} <span>បាន​បិទ</span>"
+    manager_transfers_totals:
+      other: "អ្នកមាន​ការ​ផ្ទេរ %{stat} <span>%{stat_type}</span>"
+    count_pending_approval_total:
+      other: "អ្នក​មាន​ការ​អនុម័ត %{stat} <span>កំពុង​រង់ចាំ %{stat_type}</span>"
+    count_rejected_approval_total:
+      other: "និងបាន​បដិសេធ %{stat} <span>កា​រអនុម័ត %{stat_type}</span>"
+    count_new_bia_approvals:
+      other: "%{stat} <span>ការ​អនុម័តថ្មី %{stat_type}</span>"
+    count_new_case_plan_approvals:
+      other: "%{stat} <span>ការ​អនុម័តថ្មី %{stat_type}</span>"
+    count_new_closure_approvals:
+      other: "%{stat} <span>កា​រអនុម័តថ្មី %{stat_type}</span> "
+    count_pending_transfers:
+      other: "អ្នកមាន​ការ​ផ្ទេរ %{stat} <span>កំពុង​រង់ចាំ</span>"
+    count_rejected_transfers:
+      other: "និងបាន​បដិសេធ​ការ​ផ្ទេរ %{stat} <span></span>"
+    count_waiting_for_acceptance_transfers: "អ្នក​មាន​ការ​ផ្ទេរ %{stat} <span>កំពុង​រង់ចាំ</span> សម្រាប់​កា​រទទួល​យក​របស់​អ្នក"
+    open_cases: "បើក​ករណី"
+    new_last_week: "ថ្មី <span>(សប្ដាហ៍​មុន)</span>"
+    new_this_week: "ថ្មី <span>(សប្ដាហ៍​នេះ)</span>"
+    closed_last_week: "បាន​បិទ <span>(សប្ដាហ៍​មុន)</span>"
+    closed_this_week: "បាន​បិទ <span>(សប្ដាហ៍​នេះ)</span>"
+    you_have: "អ្នក​មាន"
+    and: "និង"
+  errors:
+    template:
+      header:
+        one: "បាន​ហាមឃាត់​បញ្ហា 1 %{model} មិន​ឲ្យ​រក្សា​ទុក"
+        other: "មាន​ហាមឃាត់​បញ្ហា %{count}  %{model} មិន​ឲ្យ​រក្សាទុក"
+        body: "មាន​បញ្ហា​ជា​មួយកន្លែង​បញ្ចូល​ដូច​ខាង​ក្រោម៖"
+        body_js: "ដើម្បី​រក្សាទុក​កំណត់ត្រា បញ្ហា​ជា​មួយ​កន្លែង​បញ្ចូល​ដូច​ខាង​ក្រោម​ត្រូវ​តែ​បាន​បញ្ជាក់៖"
+    agencies:
+      logo_size: "សូម​បង្ហោះ​ឯកសារ​តូច​ជាង 10mb"
+      logo_format: "សូមបង្ហោះ​ឯកសារ​រូបសញ្ញា​ដែល​ត្រឹមត្រូវ (jpg, gif ឬ png)"
+    models:
+      flags:
+        message: "សម្គាល់៖ កន្លែង​បញ្ចូល​សារ​មិន​ត្រឹមត្រូវ"
+        date: "សម្គាល់៖ កន្លែង​បញ្ចូលកាលបរិច្ឆេទ​មិន​ត្រឹមត្រូវ"
+        index: "សម្គាល់៖ មិន​អាច​ដក​ការ​សម្គាល់​ចេញ​នៅ​ទីតាំង %{index} បាន​ទេ"
+      date_range_invalid: "<span>%{field_name}:</span> សូម​បញ្ចូល​ចន្លោះកាលបរិច្ឆេទ​ដែល​ត្រឹមត្រូវ 'ពី៖' គួរតែ​មុន 'ដល់៖'"
+      photo:
+        primary_photo_id: "មិន​អាច​ព្យាយាម​កំណត់ '%{photo_id}' ទៅជា​រូបថត​ចម្បង​បាន​ទេ៖ គ្មាន​រូបថត​បែប​នេះ​ទេ"
+        photo_size: "សូម​បង្ហោះ​ឯកសារ​តូច​ជាង 10mb"
+        photo_format: "សូម​បង្ហោះ​ឯកសារ​រូបថត​ដែល​ត្រឹមត្រូវ (jpg ឬ png) សម្រាប់​កំណត់ត្រា %{model_name} នេះ"
+        photo_count: "អ្នក​ត្រូវ​បាន​អនញ្ញាត​តែ​រូបថត %{photos_count} ក្នុង​មួយ %{model_name} ប៉ុណ្ណោះ។"
+      audio:
+        audio_size: "សូម​បង្ហោះ​ឯកសារ​តូច​ជាង 10mb"
+        audio_format: "សូមបង្ហោះ​ឯកសារ​សំឡេង​ដែល​ត្រឹមត្រូវ (amr ឬ mp3) សម្រាប់​កំណត់ត្រា %{model_name} នេះ"
+      user:
+        full_name: "សូម​បញ្ចូល​ឈ្មោះ​ពេញ​របស់​អ្នក​ប្រើប្រាស់"
+        password_confirmation: "សូម​បញ្ចូល​ការ​បញ្ជាក់​ពាក្យ​សម្ងាត់"
+        password_mismatch: "កន្លែង​បញ្ចូល​ពាក្យសម្ងាត់​មិនមាន​​ពាក្យ​សម្ងាត់​ដូច​គ្នា"
+        password_text: "- សូម​បង្កើត​ពាក្យសម្ងាត់​ដែល​មាន​យ៉ាង​ហោចណាស់​ 8 តួអក្សរ និង​មាន​ទាំង​អក្សរ និង​លេខ"
+        role_ids: "សូម​ជ្រើសរើស​តួនាទី​យ៉ាងហោចណាស់​មួយ"
+        module_ids: "សូម​ជ្រើរើស​ម៉ូឌុល​យ៉ាង​ហោចណាស់​មួយ"
+        organization: "សូម​បញ្ចូល​ឈ្មោះ​ស្ថាប័ន​របស់​អ្នក​ប្រើប្រាស់"
+        user_name: "សូម​បញ្ចូល​ឈ្មោះ​អ្នក​ប្រើប្រាស់​ដែល​ត្រឹមត្រូវ"
+        email: "សូម​បញ្ចូល​អាសយដ្ឋាន​អ៊ីមែល​ដែល​ត្រឹមត្រូវ"
+        user_name_uniqueness: "ឈ្មោះ​អ្នកប្រើប្រាស់​ត្រូវ​បាន​គេ​យក​រួច​ហើយ! សូម​ជ្រើសរើស​ឈ្មោះ​អ្នកប្រើប្រាស់​ថ្មី​"
+        authenticate: "មិន​អាច​ផ្ទៀងផ្ទាត់​​អ្នក​ប្រើប្រាស់​ដែល​មិន​បាន​រក្សាទុក​ទេ"
+        invalid_locale: "ការ​កំណត់ %{user_locale} គឺ​មិន​ត្រឹមត្រូវ"
+      child:
+        at_least_one_field: "សូម​បំពេញ​កន្លែង​បញ្ចូល​យ៉ាង​ហោចណស់​មួយ ឬ​បង្ហោះ​ឯកសារ​មួយ"
+        age: "អាយុ​ត្រូវ​តែ​ចន្លោះ​ពី 0 និង 130"
+        validate_duplicate: "ត្រូវ​តែ​ផ្ដល់​លេខ​សម្គាល់​ស្ទួន​ដែល​ត្រមឹត្រូវ"
+        date_of_birth: "សូម​បញ្ចូល​ថ្ងៃខែ​ឆ្នាំ​កំណើត​ដែល​ត្រឹមត្រូវ​សម្រាប់​កំណត់​ត្រា​ករណី​នេះ"
+        wishes_preferences_count: "អ្នក​ត្រូវ​បាន​អនុញ្ញាតចំណូលចិត្តកុមារតែ %{preferences_count} ប៉ុណ្ណោះ។"
+        value_range: "%{field_name} ត្រូវ​តែ​នៅ​ចន្លោះ %{min} និង %{max}"
+        document_type: "ប្រភេទ %{type} គឺ​មិនត្រឹមត្រូវ។"
+        document_size: "សូម​បង្ហោះ​ឯកសារ​តូ​ចជាង 2MB"
+        documents_count: "អ្នក​ត្រូវ​បាន​អនុញ្ញាត​ឯកសារ​តែ %{documents_count} ក្នុង​មួយ​ករណី។"
+        document_format: "មិន​បាន​អនុញ្ញាត​ឯកសារ​ដែល​អាច​ប្រតិបត្តិ​បាន​ទេ។​"
+        date_closure: "កាលបរិច្ឆេទ​បិទ​ករណី​គួរ​តែ​ក្រោយ ឬ​ស្មើ​កាលបរិច្ឆេទ​បើក​ករណី។"
+      incident:
+        document_size: "សូម​បង្ហោះ​ឯកសារ​តូច​ជាង 10mb"
+        documents_count: "អ្នក​ត្រូវ​បា​ន​អនុញ្ញាត​តែ​ឯកសារ %{documents_count} ក្នុងមួយ​ករណី។"
+        document_format: "មិន​បាន​អនុញ្ញាត​ឯកសារ​ដែល​អាច​ប្រតិបត្តិ​បាន​ទេ។​"
+      field:
+        display_name_presence: "មិន​អាច​គ្មាន​ឈ្មោះ​បង្ហាញ​បាន​ទេ។"
+        display_name_format: "ឈ្មោះ​បង្ហាញ​ត្រូវ​តែ​មាន​តួអក្សរ​​តាម​លំដាប់​យ៉ាង​ហោចណាស់​មួយ"
+        name_format: "ឈ្មោះ​កន្លែង​បញ្ចូល​ត្រូវ​តែ​មានតែ​​តួអក្សរ​តាម​លំដាប់​ជា​អក្សរតូច​ លេខ​និង​សញ្ញា (_)។"
+        name_presence: "មិន​អាច​គ្មាន​ឈ្មោះ​កន្លែង​បញ្ចូល​បាន​ទេ"
+        name_format_number_first: "ឈ្មោះ​កន្លែង​បញ្ចូលមិន​អាច​ចាប់ផ្ដើម​ដោយ​លេខ​ទេ"
+        default_value: "រក​មិន​ឃើញ​តម្លៃ​លំនាំដើម​សម្រាប់​ប្រភេទ"
+        has_2_options: "កន្លែង​បញ្ចូល​ត្រូវ​តែ​មាន​ជម្រើស​យ៉ាង​ហោចណាស់​ 2"
+        has_1_option: "ប្រអប់​គូស​ធីក​ត្រូវ​តែ​មាន​ជម្រើស​យ៉ាង​ហោចណាស់ 1"
+        translated_options_do_not_match: "ជម្រើស​ដែល​បានបកប្រែ​របស់កន្លែង​បញ្ចូល​ត្រូវ​តែ​មាន​លេខ​សម្គាល់​ដូច​គ្នា"
+        unique_name_other: "មាន​កន្លែង​បញ្ចូល​នៅ​លើទម្រង់ '%{form_name}' រួច​ហើយ"
+        unique_name_this: "មាន​កន្លែង​បញ្ចូល​នៅ​លើ​ទម្រង់នេះ​រួច​ហើយ"
+        change_type_existing_field: "មិន​អាច​ប្ដូរ​ប្រភេទ​កន្លែង​បញ្ចូល​ដែល​មាន​ស្រាប់ '%{field_name}' នៅ​លើ​ទម្រង់ '%{form_name}' បាន​ទេ"
+        option_strings_text:
+          not_array: "អត្ថបទ​ជម្រើស​មិន​មែនជា​អារ៉េទេ"
+          not_hash: "ជម្រើស​អត្ថបទ​ជា​ជម្រើស​មិន​​មែន​ជា​សញ្ញា (#) ទេ"
+          id_blank: "លេខ​សម្គាល់​ជម្រើស​អត្ថបទ​ជា​ជម្រើស​មិ​ន​អាច​ទទេ។"
+          display_text_blank: "អត្ថបទ​បង្ហាញ​ជម្រើស​អត្ថបទ​ជា​ជម្រើស​​គឺ​ទទេ"
+          id_not_unique: "លេខ​សម្គាល់​ជម្រើស​អត្ថបទ​ជា​ជម្រើស​មិនមាន​តែ​មួយ​គត់​ទេ"
+      form_section:
+        presence_of_name: "ឈ្មោះ​មិន​ត្រូវ​ទទេ"
+        presence_of_base_language_name: "មិន​អាច​គ្មាន​ឈ្មោះ​ភាសា​គោល '%{base_language}' ទេ"
+        format_of_name: "ឈ្មោះ​ត្រូវ​តែ​មាន​តួអក្សរ​ជា​លេខ និង​ដក​ឃ្លា"
+        visible_method: "visible can't be false if perm_visible is true"
+        fixed_order_method: "fixed_order can't be false if perm_enabled is true"
+        perm_visible_method: "perm_visible can't be false if perm_enabled is true"
+        add_field_to_form_section: "ផ្នែក​នៃ​ទម្រង់មិន​អាច​កែ​បាន​ទេ"
+        delete_field: "មិន​អាច​លុប​កន្លែងបញ្ចូល​ដែល​មិន​អាច​កែ​បាន​ទេ"
+        unique_name: "ឈ្មោះ '%{name}' ត្រូវ​បាន​គេយក​រួច​ហើយ។"
+        unique_id: "លេខ​សម្គាល់​តែ​មួយ​គត់ '%{unique_id}' ត្រូវ​បានគេ​យក​រួច​ហើយ។"
+      enquiry:
+        presence_of_criteria: "សូម​បញ្ចូល​លក្ខខណ្ឌ​សម្រាប់​ការ​សាកសួរ​របស់​អ្នក"
+        presence_of_enquirer_name: "សូម​បញ្ចូល​ឈ្មោះ​អ្នកសង្កេត​ទៅ​ក្នុងការ​សង្កេត​របស់​អ្នក"
+        presence_of_reporter_details: "សូម​បញ្ចូល​ព័ត៌មានលម្អិត​របស់​អ្នក​រាយការណ៍​ទៅ​ក្នុង​ការ​សង្កេត​របស់​អ្នក"
+        create_forbidden: "បាន​ហាម​ឃាត់"
+        not_found: "រក​មិន​ឃើញ"
+        malformed_query: "សំណើ​មិន​ត្រឹមត្រូវ"
+      role:
+        name_present: "ឈ្មោះ​មិន​ត្រូវ​ទទេ"
+        permission_presence: "សូម​ជ្រើសរើស​កា​រអនុញ្ញាត​យ៉ាង​ហោចណាស់​មួយ"
+        unique_name: "មាន​តួនាទី​ដែល​មាន​ឈ្មោះ​នោះ​រួច​ហើយ សូម​បញ្ចូល​តួនាទី​ផ្សេង"
+        permission:
+          resource_presence: "សូម​ជ្រើសរើស​ធនធានមួយ"
+      primero_module:
+        name_present: "ឈ្មោះ​មិន​ត្រូវ​ទទេ"
+        unique_name: "មានម៉ូឌុល​ដែលមាន​ឈ្មោះ​នោះ​រួច​ហើយ សូម​បញ្ចូល​ឈ្មោះ​​​ផ្សេង"
+        program: "ត្រូវ​តែ​មាន​កម្មវិធី​មួយ​បាន​ភ្ជាប់​ជា​មួយ​ម៉ូឌុល​នេះ"
+        associated_form_ids: "យ៉ាង​ហោច​ណាស់​ត្រូវ​ភ្ជាប់​ទម្រង់​មួយ​ជា​មួយ​ម៉ូឌុល​នេះ"
+        associated_record_types: "យ៉ាង​ហោចណាស់​​​ត្រូវ​​ភ្ជាប់​ប្រភេទ​កំណត់​ត្រា​មួយ​ជា​មួយ​ម៉ូឌុល​នេះ"
+      primero_program:
+        name_present: "ឈ្មោះ​មិន​ត្រូវ​ទទេ"
+        unique_name: "មាន​កម្មវិធី​ដែល​មាន​ឈ្មោះ​នោះ​រួច​ហើយ សូម​បញ្ចូល​ឈ្មោះ​​ផ្សេង"
+      lookup:
+        name_present: "ឈ្មោះ​មិន​ត្រូវ​ទទេ"
+        value_presence: "សូម​ជ្រើសរើស​​តម្លៃ​រក​មើល​យ៉ាង​ហោចណាស់​មួយ"
+        unique_name: "មាន​ការ​រក​មើល​ដែល​មាន​ឈ្មោះ​នោះ​រួច​ហើយ សូម​បញ្ចូល​ឈ្មោះ​ផ្សេង"
+        being_used: "ការ​រកមើល​នេះ​កំពុង​ត្រូ​វបាន​ប្រើប្រាស់ ហើយ​មិន​អាច​លុប​បាន​ទេ"
+      system_users:
+        username_unique: "ឈ្មោះ​អ្នកប្រើប្រាស់​ត្រូវ​បាន​គេ​យក​រួច​ហើយ! សូម​ជ្រើសរើស​ឈ្មោះ​អ្នកប្រើប្រាស់​ថ្មី​"
+      replication:
+        remote_app_uri: "សូម​បញ្ចូល URL Primero ដែល​ត្រឹមត្រូវ"
+        remote_unauthorized: "ឈ្មោះ​អ្នក​ប្រើប្រាស់ ឬ​ពាក្យ​សម្ងាត់​ដែល​អ្នក​បាន​បញ្ចូល​គឺ​មិន​ត្រឹមត្រូវ​ទេ"
+        remote_error: "មិន​អាច​ភ្ជាប់​ទៅ​ម៉ាស៊ីន​មេ​ពី​ចម្ងាយ​បាន​ទេ"
+        is_continuous: 'ការ​ចម្លង​ជា​បន្តបន្ទាប់ឬ?'
+      password_recovery_request:
+        user_name_mandatory: "សូម​បញ្ចូល​ឈ្មោះ​អ្នក​ប្រើប្រាស់​ដែល​ត្រឹមត្រូវ"
+      ownership:
+        associated_user_names_present: "ត្រូវ​តែ​ភ្ជាប់​អ្នកប្រើប្រាស់​ជា​មួយ​កំណត់​ត្រា​នេះ"
+        module_id_prsesnt: "ត្រូវ​តែ​ភ្ជាប់​ម៉ូឌុលជា​មួយ​កំណត់​ត្រា​នេះ"
+      agency:
+        unique_name: "មាន​ទីភ្នាក់ងារ​ដែល​មាន​ឈ្មោះ​នោះ​រួច​ហើយ សូម​បញ្ចូល​ឈ្មោះ​ផ្សេង"
+        name_present: "មិន​អាច​ទទេ​"
+        code_present: "មិន​អាច​ទទេ​"
+      location:
+        name_present: "មិន​អាច​ទទេ​"
+        code_present: "មិន​អាច​ទទេ​"
+        admin_level_present: "មិន​អាច​ទទេ​"
+        unique_name: "មាន​ទីតាំង​ដែល​មាន​ឈ្មោះ​នោះ​រួច​ហើយ សូម​បញ្ចូល​ឈ្មោះ​ផ្សេង"
+        unique_location_code: "មាន​ទីតាំង​ដែល​មាន​លេខ​កូដ​ទីតាំង​នោះ​រួច​ហើយ សូម​បញ្ចូល​លេខ​កូដ​ទីតាំង​ផ្សេង"
+      reporting_location:
+        label_key: "សោ​ស្លាក​ត្រូវ​តែ​ជា​តម្លៃ​របស់ទីតាំង​ផ្អែក​តាម​ប្រភេទ​​មួយ"
+        admin_level: "កម្រិត​អ្នក​គ្រប់គ្រង​ត្រូវ​តែ​ជា​តម្លៃ​កម្រិតគ្រប់គ្រង​​ទីតាំង​មួយ"
+      report:
+        name_presence: "ឈ្មោះ​មិន​ត្រូវ​ទទេ"
+        module_presence: "ម៉ូឌុល​មិន​អាច​ទទេ"
+        module_syntax: "ត្រូវ​តែ​មាន​ម៉ូឌុល​របាយការណ៍​ទាំងអស់"
+        record_type_presence: "ប្រភេទ​កំណត់​ត្រា​មិន​អាច​ទទេ"
+        group_by_row_presence: "ការ​ដាក់​ជា​ក្រុម​តាម​អាយុ​មិន​អាច​ទទេ"
+        use_date_ranges_presence: "ការ​ប្រើប្រាស់​ចន្លោះ​កាលបរិច្ឆេទ​មិន​អាច​ទទេ"
+      system_settings:
+        default_locale: "ភាសា​ប្រព័ន្ធ​មិន​អាច​ទទេ"
+        locales: "ត្រូវ​តែ​មាន​ភាសា​អង់គ្លេស​ជា​ភាសា​ប្រព័ន្ធ"
+      export_configuration:
+        record_type: "ប្រភេទ​កំណត់​ត្រា​មិន​ត្រឹមត្រូវ។ ត្រូវ​តែ​ជា​កុមារ សំណើ​ស្វែងរក ឬ​ឧប្បត្តិហេតុ។"
+        opt_out_field_does_not_exist: "មិនមាន​កន្លែង​បញ្ចូល opt_out ដែល​បាន​បញ្ជាក់​នៅ​លើ​កំណត់​ត្រា។"
+  select_all_results: "ជ្រើសរើស​លទ្ធផល​ទាំងអស់"
+  histories:
+    of: "នៃ"
+    to: "ដល់"
+    by: "ដោយ"
+    added_by: "បាន​បញ្ចូល​ដោយ"
+    belong_to: "ជារបស់"
+    because: "ពីព្រោះ៖"
+    deleted_by: "បាន​លុប​ដោយ"
+    referral: "បានបញ្ជូន​ទៅ %{to_user} ដោយ %{by_user}"
+    transfer: "បាន​ផ្ទេរ​ទៅ %{to_user} ដោយ %{by_user}"
+    record_by: "កំណត់ត្រា​បានបង្កើត​ដោយ"
+    child_status_changed: "បាន​ផ្លាស់ប្ដូរ​ស្ថានភាព​កុមារ​ទៅ​បានបង្រួបបង្រួម​ដោយ"
+    system_logs:
+      records_performed_by: "បាន​អនុវត្ត​កំណត់ត្រា​ដោយ"
+      performed_by: "បាន​អនុវត្ត​ដោយ"
+      of_child_with_id: "កុមារ​មាន​លេខ​សម្គាល់"
+    audio:
+      audio: "សំឡេង"
+      audio_change: "បាន​ផ្លាស់ប្ដូរ​សំឡេង​ពី"
+    duplicate:
+      mark_as_duplicate: "សម្គាល់​កំណត់ត្រា​នេះ​ថា​សន្ទួន​ជា​មួយ"
+      no_longer_active: "កំណត់ត្រា​បច្ចុប្បន្ន​លែង​សកម្ម ឬ​កែបាន​ហើយ"
+    flag:
+      record_flagged_by: "កំណត់ត្រា​ត្រូវ​បាន​សម្គាល់​ដោយ"
+      record_unflagged_by: "កំណត់ត្រា​មិន​ត្រូវ​បាន​សម្គាល់​ដោយ"
+    investigated:
+      mark_as_investigated_by: "កំណត់ត្រា​ត្រូវ​បាន​សម្គាល់​ថា​បាន​ស៊ើបអង្កេត​ដោយ"
+      mark_as_not_investigated_by: "កំណត់ត្រា​ត្រូវ​បាន​សម្គាល់​ថា​មិន​បាន​ស៊ើបអង្កេត​ដោយ"
+    reunited:
+      child_status_changed: "បាន​ផ្លាស់ប្ដូរ​ស្ថានភាព​កុមារ​ទៅ​សកម្ម​ដោយ"
+      with_details: "ជា​មួយ​ព័ត៌មាន​លម្អិតទាំង​នេះ៖"
+  actions:
+    button: "សកម្មភាព"
+    enable: "បើក"
+    disable: "បិទ"
+    reopen: "បើក​ឡើងវិញ"
+    incident_details_from_case: "បញ្ចូល​ឧប្បត្តិហេតុ"
+    services_section_from_case: "បញ្ចូល​ការ​ផ្ដល់​សេវាកម្ម"
+    description:
+      valid: "កំណត់ត្រា​ត្រឹមត្រូវ"
+      invalid: "កំណត់ត្រា​មិន​ត្រឹមត្រូវ"
+  record_panel:
+    valid: "កំណត់ត្រា​ត្រឹមត្រូវ"
+    invalid: "កំណត់ត្រា​មិន​ត្រឹមត្រូវ"
+    record_state: "ស្ថានភាព​កំណត់ត្រា៖"
+    created_by: "បានបង្កើត​ដោយ"
+    last_update: "ធ្វើ​បច្ចុប្បន្នភាព​ចុងក្រោយ"
+    current_owner: "ម្ចាស់​បច្ចុប្បន្ន"
+    change_log: "កំណត់ហេតុនៃការផ្លាស់ប្តូរ"
+    record_information: "ព័ត៌មាន​កំណត់​ត្រា"
+    name_date_seperator: "នៅ"
+  bulk_export:
+    file_name: "ឯកសារ"
+    record_type: "ប្រភេទ"
+    started_on: "បាន​ចាប់ផ្ដើម"
+    status: "ស្ថានភាព"
+    retry: "ការ​នាំចេញ​នេះ​មិន​ត្រឹមត្រូវ​ទេ។ សូម​សាកល្បង​បង្កើត​ការ​នាំចេញ​របស់​អ្នក​ឡើងវិញ។"
+  exports:
+    no_records: "មិនមាន​កំណត់ត្រាទេ!"
+    queueing: "បង្កើត​ឯកសារ​នាំចេញ"
+    pdf:
+      all: PDF
+      one: PDF
+      selected: បាន​ជ្រើសរើស​ទៅ​ជា PDF
+    photowall:
+      all: ផ្ទាំង​រូបថត
+      one: ផ្ទាំង​រូបថត
+      selected: បាន​ជ្រើសរើស​ទៅ​ផ្ទាំង​រូបថត
+    case_pdf:
+      all: PDF
+      one: PDF
+      selected: បាន​ជ្រើសរើស​ទៅ​ជា PDF
+    list_view_csv:
+      all: ទិដ្ឋភាព​បញ្ជីនាំចេញ
+      selected: បាន​ជ្រើសរើស​ទៅ​ជា CSV
+    csv:
+      all: CSV
+      one: CSV
+      selected: បាន​ជ្រើសរើស​ទៅ​ជា CSV
+    xls:
+      all: Excel
+      one: Excel
+      selected: បាន​ជ្រើសរើស​ទៅ Excel
+    selected_xls:
+      all: Excel
+      one: Excel
+      selected: បាន​ជ្រើសរើស​ទៅ Excel
+    json:
+      all: JSON
+      one: JSON
+      selected: បាន​ជ្រើសរើស​ទៅ JSON
+    unhcr_csv:
+      all: UNHCR
+      one: UNHCR
+      selected: បាន​ជ្រើសរើស​ទៅ UNHCR
+      female_abbreviation: "F"
+      male_abbreviation: "M"
+      unknown_abbreviation: "U"
+      headers:
+        id: "លេខ​សម្គាល់"
+        long_id: "លេខសម្គាល់​វែង"
+        short_id: "លេខសម្គាល់​ខ្លី"
+        individual_progress_id: "លេខសម្គាល់​វឌ្ឍនភាព​នីមួយៗ"
+        progres_id: "លេខ​សម្គាល់​វឌ្ឍនភាព"
+        cpims_code: "លេខកូដ CPIMS"
+        date_of_identification: "កាលបរិច្ឆេទ​បញ្ជី​អត្តសញ្ញាណ"
+        primary_protection_concerns: "កង្វល់​អំពី​ការការពារ​​ចម្ប​ង"
+        secondary_protection_concerns: "កង្វល់​អំពី​ការការពារ​​រង"
+        governorate_country: "តំបន់ - ប្រទេស"
+        sex: "ភេទ"
+        sex_mapping_m_f_u: "ភេទ"
+        date_of_birth: "ថ្ងៃខែឆ្នាំកំណតើ"
+        age: "អាយុ"
+        causes_of_separation: "មូលហេតុនៃ​ការ​លែងលះ"
+        country_of_origin: "ប្រទេស​កំណើត"
+        current_care_arrangement: "ការ​រៀបចំ​ថែទាំ​បច្ចុប្បន្ន"
+        reunification_status: "ស្ថានភាពបង្រួបបង្រួម"
+        case_status: "ស្ថានភាព​ករណី"
+        family_count_no: "លេខ​ចំនួន​គ្រួសារ"
+        moha_id: "លេខសម្គាល់ MOHA"
+        name_of_child_last_first: "ឈ្មោះ​ពេញ​របស់​កុមារ"
+        name_of_caregiver: "ឈ្មោះ​ពេញ​របស់​អ្នក​ថែទាំ"
+        vulnerability_code: "លេខកូដ​ងាយរងគ្រោះ"
+        vulnerability_details_code: "លេខកូដ​ព័ត៌មានលម្អិត​ងាយរងក្រោះ"
+        locations_by_level: "អាសយដ្ឋាន (ជំរុំ, ប្លុក និង​កម្រិត​អាសយដ្ឋាន​ដែល​មាន​ផ្សេងៗ​ទៀត ដូច​ជា​និយាមការ​ជីភីអេស​ទី​ជម្រក)"
+    duplicate_id_csv:
+      all: លេខសម្គាល់​ស្ទួន
+      female_abbreviation: "ស"
+      male_abbreviation: "ប"
+      unknown_abbreviation: "U"
+      headers:
+        moha_id: "បាន​បដិសេធ​លេខ​សម្គាល់ MOHA"
+        national_id_no: "លេខ​អត្តសញ្ញាណប័ណ្ណ"
+        case_id: "លេខកូដករណី"
+        progress_id: "លេខ​សម្គាល់​វឌ្ឍនភាព"
+        child_name_last_first: "ឈ្មោះ​កុមារ"
+        age: "អាយុ"
+        sex_mapping_m_f_u: "ភេទ"
+        family_size: "ទំហំ​គ្រួសារ"
+    mrm_violation_xls:
+      all: ការ​រំលោភបំពាន MRM
+      one: ការ​រំលោភបំពាន MRM
+      selected: បាន​ជ្រើសរើស​ទៅ​ការ​រំលោភបំបាន MRM
+    custom_exports:
+      label: ការ​នាំចេញ​ផ្ទាល់ខ្លួន
+      format_label: ជ្រើសរើស​ទម្រង់
+      field_label: កន្លែង​បញ្ចូល
+      form_label: ទម្រង់
+      forms: ជ្រើសរើស​ទម្រង់​ដើម្បីនាំចេញ
+      fields: ជ្រើសរើស​កន្លែង​បញ្ចូល ដើម្បីនាំចេញ
+      submit: យល់ព្រម
+      select_module: ជ្រើសរើស​ម៉ូឌុល
+      choose_fields: តើ​អ្នកច​ង់​ជ្រើសរើស​កន្លែង​បញ្ចូលនីមួយៗ​សម្រាប់​ទម្រង់​ដែរ​ឬទេ?
+      module_placeholder: សូម​ជ្រើសរើស​ម៉ូឌុល​មួយ។
+      empty_password: សូម​បញ្ចូល​ពាក្យសម្ងាត់​ដែល​នឹង​អ៊ីនគ្រិប​ឯកសារ​របស់​អ្នក។
+      empty_fields_forms: សូម​ជ្រើសរើស​ទម្រង់ ឬ​កន្លែង​បញ្ចូល​​ខ្លះ​ដើម្បី​នាំចេញ។
+      empty_format: សូម​ជ្រើសរើស​ទម្រង់​ដើម្បី​នាំចេញ។
+      empty_module: សូម​ជ្រើសរើស​ម៉ុឌុល​ដើម្បីនាំចេញ។
+    pdf_exports:
+      label: PDF
+    forms:
+      label: នាំចេញ
+      button: ទម្រង់​នាំចេញ
+  imports:
+    password_label: "ពាក្យសម្ងាត់ (ប្រសិនបើ​ទាមទារ)"
+    format_label: "ទម្រង់"
+    successful: "បាន​នាំចូល​ឯកសារ​ដោយជោគជ័យ"
+    error: "ការ​នាំចូលមានបញ្ហា​ដូច​ខាងក្រោម៖ %{error}"
+    file_missing: "អ្នក​ត្រូវ​តែ​ជ្រើសរើស​ឯកសារ​ដើម្បីនាំចេញ"
+    unknown_type: "មិន​ស្គាល់​ប្រភេទ​ឯកសារ​នាំចូល ឬ​មិន​ត្រឹមត្រូវ"
+    decrypt_error: "មិនអាច​ឌិគ្រីប​ឯកសារ​ដែល​មាន​ពាក្យ​សម្ងាត់​ដែលបានផ្ដល់ឲ្យ​ទេ"
+    guess_file_type_option: "ការ​រកឃើញ​ដោយ​ស្វ័យប្រវត្តិ​ផ្អែក​លើ​កន្ទុយ​ឯកសារ"
+    zip_file:
+      unknown_type: "ប័ណ្ណសារ​មាន​ឯកសារ​មួយ ឬ​ច្រើន​មាន​ប្រភេទ​ដែល​មិន​ស្គាល់"
+  referral:
+    type_label: "ប្រភេទ​ការ​បញ្ជូន"
+    existing_user_label: "អ្នកប្រើប្រាស់​ដែល​មាន​ស្រាប់"
+    other_user_label: "អ្នកប្រើប្រាស់​ផ្សេងៗ"
+    other_user_agency_label: "ទីភ្នាក់ងារ​​របស់​អ្នក​ប្រើប្រាស់​ផ្សេង"
+    service_label: "សេវាកម្ម"
+    consent_label: "កំណត់ត្រា​មិន​បានផ្ដល់​ការ​យល់ព្រម​ទេ។"
+    consent_override_label: "តើ​អ្នក​ចង់​សរសេរ​ជាន់លើ​ការ​កំណត់​នេះ​ដែ​រឬទេ?"
+    is_remote_label: "តើ​អ្នក​កំពុង​បញ្ជូន​ទៅ​ប្រព័ន្ធ​ពី​ចម្ងាយ​ឬ?"
+    type_of_export: "តើ​ការ​នាំចេញ​ប្រភេទ​ណា​ដែល​អ្នក​ចង់​បាន"
+    notes_label: "កំណត់សម្គាល់"
+    user_mandatory: "ឈ្មោះ​អ្នកប្រើប្រាស់​ត្រូវ​បាន​ទាមទារ"
+    no_records_selected: "គ្មាន​កំណត់ត្រា​បាន​ជ្រើសរើស​ទេ"
+    failure: "ការ​បញ្ជូន %{record_type} %{id} ​មិន​ជោគជ័យ (ពិនិត្យ​មើល​​ថា​តើ​កន្លែង​បញ្ចូល​ការ​យល់ព្រម​ត្រូវ​បាន​ជ្រើសរើស​ដែរ​ឬទេ)"
+    success: "បាន​បញ្ជូន​ %{record_type} %{id} ដោយ​ជោគជ័យ"
+    failure_batch: "ការ​បញ្ជូន %{failed_count} មិន​ជោគជ័យ (ពិនិត្យមើល​ថាតើ​កន្លែង​បញ្ចូល​ការ​យល់ព្រម​ត្រូវ​បាន​ជ្រើសរើស​ដែរ​ឬទេ)"
+    success_batch: "បាន​ធ្វើការ​បញ្ជូន %{success_count} ដោយ​ជោគជ័យ"
+    to_user_local_status_label: "ស្ថានភាព"
+    user_local_status_pending: "កំពុង​រង់ចាំ"
+    user_local_status_accepted: "បាន​ទទួល​យក"
+    user_local_status_rejected: "បានបដិសេធ"
+    user_local_status_inprogress: "កំពុងដំណើរការ"
+    user_local_status_done: "រួចរាល់"
+    complete_referral_label: "ការ​ចុច​យល់ព្រម​មាន​ន័យ​ថា​អ្នក​បានបញ្ចប់​ការងារយោង​​ដែល​បាន​ភ្ជាប់​ជា​មួយ​ករណី​នេះ។ នៅ​ពេល​អ្នក​ចុច​យល់ព្រម អ្នក​នឹង​លែង​អាច​ចូលប្រើប្រាស់​កំណត់ត្រា​នេះ​បាន​ហើយ។"
+    done_success_message: "ការ​បញ្ជូន​រួចរាល់។"
+    agency_label: "ទីភ្នាក់ងារ៖"
+    location_label: "ទីតាំង"
+  reassign:
+    reassign_case_title: "ចាត់ចែង​ករណី​ទៅ​ឲ្យ៖"
+    existing_user_label: "អ្នកប្រើប្រាស់​ដែល​មាន​ស្រាប់"
+    user_mandatory: "ឈ្មោះ​អ្នកប្រើប្រាស់​ត្រូវ​បាន​ទាមទារ"
+    no_records_selected: "គ្មាន​កំណត់ត្រា​បាន​ជ្រើសរើស​ទេ"
+    notes_label: "កំណត់សម្គាល់"
+  transfer:
+    type_label: "ប្រភេទ​ការ​ផ្ទេរ"
+    existing_user_label: "អ្នកប្រើប្រាស់​ដែល​មាន​ស្រាប់"
+    other_user_label: "អ្នកប្រើប្រាស់​ផ្សេងៗ"
+    other_user_agency_label: "ទីភ្នាក់ងារ​​របស់​អ្នក​ប្រើប្រាស់​ផ្សេង"
+    consent_label: "កំណត់ត្រា​មិន​បានផ្ដល់​ការ​យល់ព្រម​ទេ។"
+    consent_override_label: "តើ​អ្នក​ចង់​សរសេរ​ជាន់លើ​ការ​កំណត់​នេះ​ដែ​រឬទេ?"
+    is_remote_label: "តើ​អ្នកកំពុង​ផ្ទេរ​ទៅ​ប្រព័ន្ធ​ពី​ចម្ងាយ​មែនទេ?"
+    consent_individual_transfer: "តើ​អ្នកមាន​ការ​យល់ព្រម​ពី​មនុស្ស​ម្នាក់ៗ​ដើម្បី​ធ្វើ​ការ​ផ្ទេរ​នេះ​ដែ​រឬទេ?"
+    type_of_export: "តើ​ការ​នាំចេញ​ប្រភេទ​ណា​ដែល​អ្នក​ចង់​បាន"
+    notes_label: "កំណត់សម្គាល់"
+    user_mandatory: "ឈ្មោះ​អ្នកប្រើប្រាស់​ត្រូវ​បាន​ទាមទារ"
+    failure: "ការ​ផ្ទេរ %{record_type} %{id} មិន​ជោគជ័យ (ពិនិត្យមើល​ថាតើ​កន្លែង​បញ្ចូល​ការ​យល់ព្រម​ត្រូវ​បាន​ជ្រើសរើស)"
+    success: "បាន​ផ្ទេរ %{record_type} %{id} ដោយ​ជោគជ័យ"
+    rejected: "បាន​បដិសេធ​ការ​ផ្ទេរ%{record_type} %{id}"
+    failure_batch: "ការ​ផ្ទេរ %{failed_count} មិន​ជោគជ័យ (ពិនិត្យ​មើល​ថាតើ​កន្លែង​បញ្ចូល​ការ​យល់ព្រម​ត្រូវ​បាន​ជ្រើសរើស)"
+    success_batch: "បាន​ធ្វើ​ការ​ផ្ទេរ %{success_count} ដោយជោគជ័យ"
+    to_user_local_status_label: "ស្ថានភាព"
+    user_local_status_pending: "កំពុង​រង់ចាំ"
+    user_local_status_accepted: "បាន​ទទួល​យក"
+    user_local_status_rejected: "បានបដិសេធ"
+    user_local_status_inprogress: "កំពុងដំណើរការ"
+    reject: "ហេតុផល​បដិសេធ"
+    accept_label: "ដោយ​ចុច​ 'ព្រម​ទទួល' អ្នកព្រម​ទទួល​​ចំពោះ​ការ​ទទួល​ខុសត្រូវ​សម្រាប់​ករណី​នេះ នៅ​ពេល​អ្នក​ចុច​ 'យល់ព្រម' អ្នក​នឹង​ក្លាយ​ជា​ម្ចាស់​កំណត់ត្រា​នៅ​​ក្នុង​ប្រព័ន្ធ។"
+    reject_label: "ការ​ចុច​ 'បដិសេធ' ​មាន​ន័យ​ថា​អ្នកមិន​ទាន់រួចរាល់​ដើម្បី​ទទួលយក​ការ​ទទួល​ខុស​ត្រូវ​​សម្រាប់​ករណីនេះ​នៅ​ពេល​នេះ​បាន​ទេ។ សូម​បញ្ចូល​មូលហេតុ​ដែល​អ្នក​បដិសេធ​ករណី​នេះ នៅ​ពេល​អ្នក​ចុចអ្នក​ចុច​យល់ព្រម អ្នក​នឹង​លែង​អាច​ចូលប្រើប្រាស់​កំណត់ត្រា​នេះ​បាន​ហើយ។"
+    unknown_status: "ស្ថានភាព​ផ្ទេរ​ដេល​មិន​ស្គាល់៖ %{status}"
+    unknown_transfer: "%{record_type} %{id} ការផ្ទេរ​មិន​ត្រឹមត្រូវ"
+    not_valid_transfer: "ការ​ផ្ទេរ %{record_type} %{id} មិន​ត្រឹមត្រូវ មិន​អាច​ធ្វើបច្ចុប្បន្នភាព​​បាន​ទេ​ គឺ​វា​កំពុង​ដំណើរការ ឬ​អ្នក​មិនមាន​សិទ្ធិ​លើករណី​នេះ"
+    search:
+      rejected: "បានបដិសេធ"
+      in_progress: "កំពុងដំណើរការ"
+    agency_label: "ទីភ្នាក់ងារ៖"
+    location_label: "ទីតាំង"
+  request_transfer:
+    success: "បាន​ផ្ញើ​សំណើ​ផ្ទេរ"
+    notes_label: "កំណត់សម្គាល់"
+    submit_label: "ផ្ញើ​សំណើ"
+    error:
+      owner_has_no_email: "ម្ចាស់​កំណត់ត្រា​មិនមាន​អាសយដ្ឋាន​អ៊ីមែល​ទេ"
+      record_not_found: "រកមិន​ឃើញ​កំណត់ត្រា"
+      record_not_saved: "មិន​អាច​រក្សាទុក​កំណត់​ត្រា​សំណើ​ផ្ទេរ"
+  transition:
+    export_type:
+      primero: "Primero"
+      non_primero: "មិនមែន Primero"
+      pdf_export: "នាំចេញ PDF"
+  mark_for_mobile:
+    no_records_selected: "គ្មាន​កំណត់ត្រា​បាន​ជ្រើសរើស​ទេ"
+    failure: "%{record_type} %{id} មិន​អាច​សម្គាល់​ថា​សម្រាប់​ឧបករណ៍​ចល័ត​បាន​ទេ"
+    success: "បាន​សម្គាល់​ %{record_type} %{id} សម្រាប់​ឧបករណ៍​ចល័ត​ដោយ​ជោគជ័យ"
+    failure_batch: "មិន​អាច​សម្គាល់​កំណត់ត្រា %{failed_count} សម្រាប់​ឧបករណ៍​ចល័ត​បាន​ទេ"
+    success_batch: "បាន​សម្គាល់កំណត់ត្រា %{success_count} សម្រាប់​ឧបករណ៍​ចល័ត​ដោយ​ជោគជ័យ"
+  unmark_for_mobile:
+    failure: "មិន​អាច​មិន​សម្គាល់ %{record_type} %{id} សម្រាប់​ឧបករណ៍​ចល័ត​បាន​ទេ"
+    success: "មិន​សម្គាល់ %{record_type} %{id} សម្រាប់​ឧបករណ៍​ចល័ត​ដោយ​ជោគជ័យ"
+    failure_batch: "មិន​អាច​មិន​សម្គាល់កំណត់ត្រា %{failed_count} សម្រាប់​ឧបករណ៍​ចល័ត​បាន​ទេ"
+    success_batch: "មិនបាន​សម្គាល់កំណត់ត្រា %{success_count} សម្រាប់​ឧបករណ៍​ចល័ត"
+  approvals:
+    approve_bia: "ស្នើសុំ​ការ​អនុម័តសម្រាប់​ទម្រង់ BIA ឬ?"
+    approve_bia_label: "អនុម័ត​ទម្រង់ BIA"
+    approve_care_plan: "ស្នើសុំ​កា​រអនុម័ត​សម្រាប់​ទម្រង់​ផែនការ​ករណី​ឬ?"
+    approve_case_plan_label: "អនុម័ត​ផែនការ​ករណី"
+    approve_case_plan: "ស្នើសុំ​កា​រអនុម័ត​សម្រាប់​ទម្រង់​ផែនការ​ករណី​ឬ?"
+    approve_case_plan_with_selectable_type: "ស្នើសុំការ​អនុម័ត​សម្រាប់​ផែនការ​ករណីឬ?"
+    approve_closure: "ស្នើសុំ​ការ​អនុម័ត​សម្រាប់​ទម្រង់​បិទ​ឬ?"
+    approve_closure_label: "អនុម័ត​ទម្រង់បិទ"
+    bia: "BIA"
+    case_plan: "ផែនការករណី"
+    closure: "ការ​បិទ"
+    comments_label: "មតិយោបល់"
+    error_select_an_approval_type: "សូម​ជ្រើសរើស​ប្រភេទ​ការ​អនុម័ត"
+    case_plan_type_label: "ប្រភេទ​ផែនការ​ករណី៖"
+    status:
+      pending: "កំពុង​រង់ចាំ"
+      approved: "បាន​អនុម័ត"
+      rejected: "បានបដិសេធ"
+  notes:
+    notes_label: "កំណត់សម្គាល់"
+    subject_label: "ប្រធានបទ"
+    no_records_selected: "គ្មាន​កំណត់ត្រា​បាន​ជ្រើសរើស​ទេ"
+    error_adding_note: "មាន​បញ្ហា​ក្នុង​ការ​បញ្ចូលកំណត់​សម្គាល់"
+  per_page_translation: "ក្នុង​មួយ page _MENU_"
+  total: សរុប
+  caregiver: " (អ្នក​ថែទាំ)"
+  disabled:
+    filter_label: "បង្ហាញ"
+    status:
+      enabled: "បាន​បើក"
+      disabled: "បាន​បិទ"
+      all: "ទាំងអស់"
+      label: "ស្ថានភាព"
+  sort_by:
+    label: "តម្រៀប​តាម"
+  logger:
+    to: "ដល់"
+    to_user: "ចំពោះ​អ្នកប្រើប្រាស់"
+    by_user: "ដោយ​អ្នកប្រើប្រាស់"
+    login: "ចូលប្រើប្រាស់"
+    logout: "ចាកចេញ"
+    create: "បង្កើត"
+    copy: "ចម្លង"
+    destroy: "លុប"
+    show: "មើល"
+    edit: "កែសម្រួល"
+    update: "ធ្វើបច្ចុប្បន្នភាព"
+    export: "នាំចេញ​ទិន្នន័យ​សម្រាប់"
+    referral: "យោង"
+    reassign: "ចាត់ចែង"
+    transfer: "ផ្ទេរ"
+    reopen_case: "បើកឡើងវិញ"
+    quick_view: "មើល​ទិដ្ឋភាព​រហ័ស"
+    request_transfer_view: "មើល​ការ​ផ្ទេរ​សំណើ"
+    request_transfer: "ផ្ញើ​សំណើ​ផ្ទេរ"
+    save_subform: "រក្សាទុក​ទម្រង់​រង"
+    create_subform: "បង្កើត​ទម្រង់​រង"
+    consent_count: "ចំនួន​ការ​យល់ព្រម"
+    match_record: "ផ្គូផ្គង​កំណត់​ត្រា"
+    index: "រាយ​កំណត់ត្រា"
+    search: "ការ​ស្វែងរក API"
+    relinquish_referral: "បាន​បដិសេធ​ការ​បញ្ជូន​រួច​រាល់"
+    flag: សម្គាល់
+    unflag: មិន​សម្គាល់
+    flag_records: សម្គាល់
+    transfer_status:
+      Accepted: "បាន​ទទួល​យក​ការ​ផ្ទេរ"
+      Rejected: "បានបដិសេធ​ការ​ផ្ទេរ"
+    hide_name:
+      protect: "លាក់ឈ្មោះ"
+      view: "បង្ហាញឈ្មោះ"
+    request_approval:
+      bia: "ស្នើសុំ​ការ​អនុម័ត​សម្រាប់​ទម្រង់ BIA"
+      case_plan: "ស្នើសុំ​កា​រអនុម័ត​សម្រាប់​ទម្រង់​ផែនការ​ករណី"
+      closure: "ស្នើសុំ​ការ​អនុម័ត​សម្រាប់​ទម្រង់​បិទ​"
+    approve_form:
+      'false': "បដិសេដ"
+      'true': "អនុម័ត"
+      bia: "ទម្រង់ BIA"
+      case_plan: "ទម្រង់​ផែនការករណី"
+      closure: "ទម្រង់​បិទ"
+    mark_for_mobile:
+      'false': "មិន​សម្គាល់​សម្រាប់​ឧបករណ៍​ចល័ត"
+      'true': "កំណត់ចំណាំសម្រាប់កម្មវិធីទូរស័ព្ទ"
+    record_state:
+      'false': "បិទ"
+      'true': "បើក"
+    graph_data: "មើល​ទិន្នន័យ​ក្រាហ្វ"
+    permitted_field_list: បញ្ជី​កន្លែង​បញ្ចូល​ដែល​បាន​អនុញ្ញាត
+    lookups_for_field: រកមើល​កន្លែង​បញ្ចូល
+  job:
+    status:
+      complete: 'បញ្ចប់'
+  string_sources_failed: "មិន​អាច​ផ្ទុក​កន្លែង​បញ្ចូល​មួយ​ចំនួនបាន​ទេ សូម​ផ្ទុក​ទំព័រ​ឡើងវិញ ដើម្បី​ផ្ទុក​កន្លែង​បញ្ចូល​ទាំងអស់។"
+  error_message:
+    notice: 'មាន​បញ្ហា​ក្នុងការ​ហាមឃាត់​កំណត់​នេះ​មិន​ឲ្យ​រក្សាទុក'
+    fields_notice: 'មាន​បញ្ហា​ជា​មួយកន្លែង​បញ្ចូល​ដូច​ខាង​ក្រោម៖'
+  error_page:
+    internal_server_error:
+      something_went_wrong: សូម​ទោស មាន​អ្វី​មួយ​មិន​ប្រក្រតី!
+      contact_admin: សូម​ទាក់ទង​អ្នក​គ្រប់គ្រង​របស់​អ្នក​ប្រសិន​បើ​នៅ​តែ​មាន​បញ្ហា។
+      server_error: បញ្ហា​ម៉ាស៊ីនមេ
+    not_found:
+      something_went_wrong: សូម​ទោស មាន​អ្វី​មួយ​មិន​ប្រក្រតី!
+      contact_admin: ប្រសិន​បើ​អ្នក​នៅ​ទីនេះ​ដោយ​សារ​មាន​កំហុស សូម​ទាក់ទង​អ្នក​គ្រប់គ្រង​របស់​អ្នក។
+      server_error: រកមិនឃើញ​ទំព័រ
+  audio:
+    update_browser:
+      title: 'តម្រូវ​ឲ្យ​ធ្វើ​បច្ចុប្បន្នភាព'
+      message: "ដើម្បី​ចាក់​មេឌៀ​អ្នក​នឹង​ត្រូវ​ធ្វើ​បច្ចុប្បន្នភាព​កម្មវិធី​រុករក​តាម​អ៊ីនធឺណិត​ទៅ​កំណែ​ថ្មី ឬ​​ធ្វើ​បច្ចុប្បន្ន​កម្មវិធី​របស់អ្នក"
+      link_text: "កម្មវិធី​ជំនួយ Flash"
+  saved_searches:
+    no_save_searches: "អ្នក​​មិនមានការ​ស្វែងរក​ដែល​បាន​រក្សាទុក​ទេ។"
+    name: "ឈ្មោះ"
+    save_search: "រក្សាទុក​ការ​ស្វែងរក"
+    delete: "ការ​ចុច​យល់ព្រម នឹង​លុប \"%{filter_name}\""
+  email_notification:
+    enabled_label: "ផ្ញើ​ការ​ជូន​ដំណឹង​តាម​អ៊ីមែលមែនទេ?"
+    approval_request_subject: "ករណី៖ %{id} - សំណើ​អនុម័ត"
+    approval_response_subject: "ករណី៖ %{id} - ការ​ឆ្លើយតប​ការ​អនុម័ត"
+    referral_subject: "%{record_type}: %{id} - ការ​បញ្ជូន"
+    transfer_subject: "%{record_type}: %{id} - ការ​ផ្ទេរ"
+    transfer_request_subject: "សំណើ​ផ្ទេរ​សម្រាប់​ករណី​មួយ​ក្នុង​ចំណោម​ករណី​របស់​អ្នក"
+    reassign_subject: "%{record_type}: %{id} - បាន​ចាត់ចែង​ឲ្យ​អ្នក"
+    approval_request: "អ្នកប្រើប្រាស់ %{user} កំពុង​ស្នើសុំ​ការ​អនុម័ត​សម្រាប់ %{approval_type} អំពី​ករណី %{case_id} ។"
+    approval_response: "%{user} មានការ​ស្នើសុំ​ %{status} សម្រាប់​កា​រអនុម័ត​សម្រាប់ %{approval_type} សម្រាប់​ករណី %{case_id} ។"
+    referral: "%{user} ពី %{agency} បាន​ផ្ទេរ​%{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖%{record_id} សម្រាប់ %{service_type} ។"
+    transfer: "%{user} បាន​ផ្ទេរ %{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖ %{record_id} ។"
+    reassign: "%{user} បាន​ចាត់ចែក​ %{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖ %{record_id} ។"
+    transfer_request: "អ្នក​ប្រើប្រាស់ Primero %{user} ពី %{agency} កំពុង​ស្នើសុំ​ឲ្យ​អ្នក​ផ្ទេរ​​ភាព​ជា​ម្ចាស់​របស់កំណត់ត្រា %{record_type} %{record_id} ដូច្នេះ​ពួកគេ​អាច​ផ្ដល់​សេវាកម្ម​គ្រប់គ្រង %{record_type} សម្រាប់​កំណត់ត្រា​នីមួយៗ​នៅ​ក្នុង​តំបន់​របស់​ពួកគេ។ ប្រសិនបើ​ការ​ផ្ទេរ​នេះ​អ្នក​អាច​ទទួលួក​បាន សូម​ចុច​លើ​តំណ​លេខ​សម្គាល់ %{record_type} នៅ​ក្នុង​អ៊ីមែល ដើម្បី​បើក %{record_type} នៅ​ក្នុង Primero និង​ចាប់ផ្ដើម​ការ​ផ្ទេរ។"
+    approval_request_html: "អ្នក​ប្រើប្រាស់ <strong>%{user}</strong> កំពុង​ស្នើសុំ​ការ​អនុម័ត​សម្រាប់ <strong> %{approval_type}</strong> នៅ​លើ​ករណី <strong>%{case_id}</strong> ។"
+    approval_response_html: "<strong>%{user}</strong> មានសំណើ <strong>%{status}</strong> សម្រាប់​ការ​អនុម័ត​សម្រាប់ <strong>%{approval_type}</strong> សម្រាប់ករណី <strong>%{case_id}</strong> ។"
+    referral_html: "<strong>%{user}</strong> ពី %{agency} បាន​ផ្ទេរ​ %{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖ <strong>%{record_id}</strong> សម្រាប់ %{service_type} ។"
+    transfer_html: "<strong>%{user}</strong> បាន​ផ្ទេរ​ %{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖ <strong>%{record_id}</strong> ។"
+    reassign_html: "<strong>%{user}</strong> បាន​ចាត់ចែង %{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖ <strong>%{record_id}</strong>។"
+    transfer_request_html: "អ្នក​ប្រើប្រាស់ Primero %{user} ពី %{agency} កំពុង​ស្នើសុំ​ឲ្យ​អ្នក​ផ្ទេរ​​ភាព​ជា​ម្ចាស់​របស់កំណត់ត្រា %{record_type} នេះ %{record_id} ដូច្នេះ​ពួកគេ​អាច​ផ្ដល់​សេវាកម្ម​គ្រប់គ្រង %{record_type} សម្រាប់​កំណត់ត្រា​នីមួយៗ​នៅ​ក្នុង​តំបន់​របស់​ពួកគេ។ ប្រសិនបើ​ការ​ផ្ទេរ​នេះ​អ្នក​អាច​ទទួលួក​បាន សូម​ចុច​លើ​តំណ​លេខ​សម្គាល់ %{record_type} នៅ​ក្នុង​អ៊ីមែល ដើម្បី​បើក %{record_type} នៅ​ក្នុង Primero និង​ចាប់ផ្ដើម​ការ​ផ្ទេរ។"
+    transfer_request_notes_html: "កំណត់សម្គាល់​ពី​​មនុស្ស​ម្នាក់ៗ​ធ្វើការ​ស្នើសុំ៖ %{request_transfer_notes}"
+  will_paginate:
+    previous_label: "&#8592; មុន"
+    next_label: "បន្ទាប់ &#8594;"
+    page_gap: "&hellip;"
+    page_entries_info:
+      single_page_html:
+        zero: "រកមិន​ឃើញ %{model}"
+        one: "បង្ហាញ <b>1</b> %{model}"
+        other: "បង្ហាញ <b>ទាំងអស់ %{count}</b> %{model}"
+      multi_page_html: "បង្ហាញ %{model} <b>%{from} - %{to}</b> នៃ <b>%{count}</b> សរុប"
+    models:
+      agency:
+        one: "ទីភ្នាក់ងារ៖"
+        other: "ទីភ្នាក់ងារ៖"
+      report:
+        one: "របាយការណ៍"
+        other: "របាយការណ៍"
+      child:
+        one: "ករណី"
+        other: "ករណី"
+      incident:
+        one: "ឧប្បត្តិហេតុ"
+        other: "ឧប្បត្តិហេតុ"
+      hash:
+        one: "លទ្ធផល​ផ្គូផ្គង"
+        other: "លទ្ធផល​ផ្គូផ្គង"
+      bulk_export:
+        one: "នាំចេញឯកសារ​ច្រើន"
+        other: "នាំចេញឯកសារ​ច្រើន"
+      task:
+        one: "កិច្ចការ"
+        other: "កិច្ចការ"
+      user_group:
+        one: "ក្រុម​អ្នកប្រើប្រាស់"
+        other: "ក្រុម​អ្នកប្រើប្រាស់"
