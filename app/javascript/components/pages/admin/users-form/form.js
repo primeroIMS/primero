@@ -176,7 +176,7 @@ export const form = (i18n, formMode) => {
           name: "agency_id",
           type: SELECT_FIELD,
           required: true,
-          option_strings_text: [{ id: "1", display_text: "UNICEF" }]
+          option_strings_source: "Agency"
         }),
         FieldRecord({
           display_name: i18n.t("user.agency_office"),
@@ -192,7 +192,6 @@ export const form = (i18n, formMode) => {
           display_name: i18n.t("user.location"),
           name: "location",
           type: SELECT_FIELD,
-
           option_strings_source: "location"
         }),
         FieldRecord({

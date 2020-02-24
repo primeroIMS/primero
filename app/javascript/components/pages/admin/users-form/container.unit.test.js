@@ -25,6 +25,9 @@ describe("<UsersList />", () => {
           metadata: { total: 2, per: 20, page: 1 }
         }
       },
+      application: {
+        agencies: [{id: 1, unique_id: "agency-unicef", name: "UNICEF"}]
+      },
       user: {
         permissions: {
           users: [ACTIONS.MANAGE]

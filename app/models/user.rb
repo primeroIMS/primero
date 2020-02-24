@@ -100,7 +100,7 @@ class User < ApplicationRecord
     end
 
     def agencies_for_user_names(user_names)
-      Agency.joins(:users).where('users.user_name in (?)', user_names)
+      Agency.joins(:users).where('users.user_name in (?)', user_names).distinct
     end
 
     def default_sort_field
