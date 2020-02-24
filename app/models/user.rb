@@ -486,6 +486,7 @@ class User < ApplicationRecord
     # TODO: The following gets all the cases by user and updates the
     # location/district. Performance degrades on save if the user
     # changes their location.
+    return if ENV['PRIMERO_BOOTSTRAP']
     return unless location_changed? || @refresh_associated_user_groups || agency_id_changed?
 
     Child.owned_by(user_name).each do |child|
