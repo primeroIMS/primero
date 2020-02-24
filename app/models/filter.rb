@@ -76,7 +76,7 @@ class Filter < ValueObject
   CURRENT_LOCATION = Filter.new(
     name: 'cases.filter_by.current_location',
     field_name: 'location_current',
-    option_strings_source: 'location',
+    option_strings_source: 'Location',
     type: 'multi_select'
   )
   AGENCY_OFFICE = Filter.new(
@@ -89,7 +89,7 @@ class Filter < ValueObject
     Filter.new(
       name: "location.base_types.#{label}",
       field_name: "#{admin_level}",
-      option_strings_source: 'reporting_location',
+      option_strings_source: 'ReportingLocation',
       type: 'multi_select'
     )
   end
@@ -144,7 +144,7 @@ class Filter < ValueObject
   INCIDENT_LOCATION = Filter.new(
     name: 'incidents.filter_by.incident_location',
     field_name: 'incident_location',
-    option_strings_source: 'location',
+    option_strings_source: 'Location',
     type: 'multi_select'
   )
   INCIDENT_DATE = Filter.new(
@@ -176,7 +176,7 @@ class Filter < ValueObject
   SEPARATION_LOCATION = Filter.new(
     name: 'tracing_requests.filter_by.location_separation',
     field_name: 'location_separation',
-    option_strings_source: 'location',
+    option_strings_source: 'Location',
     type: 'multi_select'
   )
   SEPARATION_CAUSE = Filter.new(

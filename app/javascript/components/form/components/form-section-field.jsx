@@ -49,7 +49,9 @@ const FormSectionField = ({ field }) => {
     selectAgencies(state, optionStringsSource === "Agency")
   );
 
-  const locations = useSelector(state => getLocations(state, i18n));
+  const locations = useSelector(state =>
+    getLocations(state, optionStringsSource === "Location")
+  );
 
   const inputOptions = whichOptions({
     optionStringsSource,

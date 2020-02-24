@@ -49,10 +49,10 @@ const Component = ({
   );
 
   const locations = useSelector(state =>
-    getLocations(state, optionStringsSource, i18n.locale)
+    getLocations(state, optionStringsSource === "Location")
   );
 
-  const lookups = ["location", "reporting_location"].includes(
+  const lookups = ["Location", "ReportingLocation"].includes(
     optionStringsSource
   )
     ? locations?.toJS()
