@@ -35,14 +35,6 @@ describe("<LoginLayout />", () => {
         .prop("alt")
     ).to.equal("Primero");
   });
-
-  it("renders default agency logo", () => {
-    expect(component.find("#unicef-logo").prop("style")).to.have.property(
-      "backgroundImage",
-      `url(${UnicefLogo})`
-    );
-  });
-
   it("renders a module logo", () => {
     expect(component.find(ModuleLogo)).to.have.lengthOf(1);
   });
