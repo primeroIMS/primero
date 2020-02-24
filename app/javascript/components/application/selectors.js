@@ -24,7 +24,11 @@ export const selectModule = (state, id) => {
 export const selectUserIdle = state =>
   state.getIn([NAMESPACE, "userIdle"], false);
 
-export const selectNetworkStatus = state => state.getIn([NAMESPACE, "online"]);
+export const selectNetworkStatus = state =>
+  state.getIn([NAMESPACE, "online"], false);
 
 export const getReportingLocationConfig = state =>
   state.getIn([NAMESPACE, "reportingLocationConfig"]);
+
+export const getAgencyLogos = state =>
+  state.getIn(["records", "support", "data", "agencies"], []);

@@ -2,8 +2,9 @@ import React, { useContext, createContext, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
-import DB from "../../db";
 import { getIsAuthenticated } from "../user/selectors";
+import { fetchContactInformation } from "../pages/support/action-creators";
+import Queue from "../../libs/queue";
 
 import {
   selectModules,
@@ -21,22 +22,8 @@ const ApplicationProvider = ({ children }) => {
   const online = useSelector(state => selectNetworkStatus(state));
   const authenticated = useSelector(state => getIsAuthenticated(state));
 
-  const sendDispatchMessgaesToClient = async () => {
-    if (authenticated) {
-      const offlineRequests = (await DB.getAll("offline_requests")) || [];
-
-      if (offlineRequests) {
-        offlineRequests.forEach(action => dispatch(action));
-      }
-    }
-  };
-
   const handleNetworkChange = isOnline => {
     dispatch(setNetworkStatus(isOnline));
-
-    if (isOnline) {
-      sendDispatchMessgaesToClient();
-    }
   };
 
   useEffect(() => {
@@ -50,6 +37,17 @@ const ApplicationProvider = ({ children }) => {
       window.removeEventListener("offline", () => handleNetworkChange(false));
     };
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchContactInformation());
+  }, []);
+
+  useEffect(() => {
+    if (online && authenticated) {
+      Queue.ready = online && authenticated;
+      Queue.dispatch = dispatch;
+    }
+  }, [online, authenticated]);
 
   return (
     <Context.Provider value={{ modules, userModules, online }}>

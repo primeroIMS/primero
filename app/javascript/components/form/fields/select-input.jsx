@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { TextField } from "@material-ui/core";
+import { TextField, Chip } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Controller, useFormContext } from "react-hook-form";
 
@@ -58,6 +58,15 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       renderInput={params => (
         <TextField {...params} name={name} margin="normal" {...commonProps} />
       )}
+      renderTags={(value, getTagProps) =>
+        value.map((option, index) => (
+          <Chip
+            label={optionLabel(option)}
+            {...getTagProps({ index })}
+            disabled={disabled}
+          />
+        ))
+      }
     />
   );
 };

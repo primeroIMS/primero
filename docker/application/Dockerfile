@@ -63,6 +63,7 @@ RUN set -euox pipefail \
 COPY [ ".", "$APP_ROOT" ]
 
 RUN set -euox pipefail \
+        ; mkdir -p "$APP_ROOT/tmp/export" "$RAILS_LOG_PATH" \
         ; mkdir -p "$APP_ROOT/tmp/exports" "$RAILS_LOG_PATH" \
         ; rake primero:i18n_js
 

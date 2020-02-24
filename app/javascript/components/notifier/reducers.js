@@ -23,7 +23,7 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         )
       );
     case REMOVE_SNACKBAR:
-      return state.filter(m => m.options.key !== payload.key);
+      return state.filter(message => message.options.key !== payload.key);
     default:
       return state;
   }

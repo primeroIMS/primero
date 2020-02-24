@@ -35,22 +35,6 @@ describe("<LoginLayout />", () => {
         .prop("alt")
     ).to.equal("Primero");
   });
-
-  it("renders default agency logo", () => {
-    expect(
-      component
-        .find("img")
-        .last()
-        .prop("src")
-    ).to.equal(UnicefLogo);
-    expect(
-      component
-        .find("img")
-        .last()
-        .prop("alt")
-    ).to.equal("unicef");
-  });
-
   it("renders a module logo", () => {
     expect(component.find(ModuleLogo)).to.have.lengthOf(1);
   });

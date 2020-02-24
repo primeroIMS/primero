@@ -1,49 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, useMediaQuery } from "@material-ui/core";
-import PropTypes from "prop-types";
 import { makeStyles, useTheme } from "@material-ui/styles";
+import { useSelector } from "react-redux";
 
-import UnicefLogo from "../../images/unicef.png";
-import UnicefPictorial from "../../images/unicef-pictorial.png";
+import { getAgencyLogos } from "../application/selectors";
 
 import styles from "./styles.css";
 
-const AgencyLogo = ({ logo, agency }) => {
+const AgencyLogo = () => {
   const css = makeStyles(styles)();
   const theme = useTheme();
-  const tabletDisplay = useMediaQuery(theme.breakpoints.only("md"));
-  const unicefLogo = tabletDisplay ? UnicefPictorial : UnicefLogo;
-  const [showImage, setShowImage] = useState(true);
+  const agencyLogos = useSelector(state => getAgencyLogos(state));
+  const tabletDisplay = useMediaQuery(theme.breakpoints.down("md"));
 
-  return (
-    <Box className={css.agencyLogoContainer}>
-      {showImage ? (
-        <>
-          <div className={css.line} />
-          <img
-            onError={() => {
-              setShowImage(false);
-            }}
-            className={css.agencyLogo}
-            src={logo || unicefLogo}
-            alt={agency}
-          />
-          <div className={css.line} />
-        </>
-      ) : null}
-    </Box>
-  );
+  const renderLogos = () => {
+    return agencyLogos.map(agency => {
+      const {
+        unique_id: uniqueId,
+        logo_icon: logoIcon,
+        logo_full: logoFull
+      } = agency;
+      const logo = tabletDisplay ? logoIcon : logoFull;
+
+      return (
+        <div
+          id={`${uniqueId}-logo`}
+          key={uniqueId}
+          className={css.agencyLogo}
+          style={{ backgroundImage: `url(${logo})` }}
+        />
+      );
+    });
+  };
+
+  return <Box className={css.agencyLogoContainer}>{renderLogos()}</Box>;
 };
 
 AgencyLogo.displayName = "AgencyLogo";
-
-AgencyLogo.defaultProps = {
-  agency: "unicef"
-};
-
-AgencyLogo.propTypes = {
-  agency: PropTypes.string,
-  logo: PropTypes.string
-};
 
 export default AgencyLogo;

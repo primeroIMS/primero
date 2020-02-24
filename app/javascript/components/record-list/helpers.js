@@ -11,7 +11,7 @@ export const buildTableColumns = (columns, i18n, recordType, css) => {
     .map(column => {
       const options = {
         ...{
-          ...(["photos"].includes(column.get("name"))
+          ...(["photo"].includes(column.get("name"))
             ? {
                 customBodyRender: value => (
                   <ToggleIconCell value={value} icon="photo" />

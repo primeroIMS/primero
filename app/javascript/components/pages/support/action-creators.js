@@ -1,6 +1,6 @@
 import { FETCH_DATA } from "./actions";
 
-export const fetchData = () => {
+export const fetchContactInformation = () => {
   return {
     type: FETCH_DATA,
     api: {

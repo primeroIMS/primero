@@ -48,14 +48,15 @@ describe("<LoginForm />", () => {
     ).to.have.equal("password");
   });
 
-  it("renders forgot password link", () => {
-    expect(
-      component
-        .find("a")
-        .first()
-        .prop("href")
-    ).to.have.equal("/forgot_password");
-  });
+  // TODO: Temp removal
+  // it("renders forgot password link", () => {
+  //   expect(
+  //     component
+  //       .find("a")
+  //       .first()
+  //       .prop("href")
+  //   ).to.have.equal("/forgot_password");
+  // });
 
   it("renders login button", () => {
     expect(

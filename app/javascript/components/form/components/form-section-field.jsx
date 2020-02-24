@@ -8,8 +8,14 @@ import { useI18n } from "../../i18n";
 import TextInput from "../fields/text-input";
 import SwitchInput from "../fields/switch-input";
 import SelectInput from "../fields/select-input";
-import { TICK_FIELD, CHECK_BOX_FIELD, SELECT_FIELD } from "../constants";
+import {
+  TICK_FIELD,
+  CHECK_BOX_FIELD,
+  SELECT_FIELD,
+  PHOTO_FIELD
+} from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
+import AttachmentInput from "../fields/attachment-input";
 import { whichOptions } from "../utils";
 import { getOption } from "../../record-form";
 
@@ -62,6 +68,9 @@ const FormSectionField = ({ field }) => {
     InputLabelProps: {
       shrink: true
     },
+    InputProps: {
+      autoComplete: "new-password"
+    },
     disabled: formMode.get("isShow") || (formMode.get("isEdit") && !editable)
   };
 
@@ -84,6 +93,8 @@ const FormSectionField = ({ field }) => {
         return CheckboxInput;
       case SELECT_FIELD:
         return SelectInput;
+      case PHOTO_FIELD:
+        return AttachmentInput;
       default:
         return TextInput;
     }

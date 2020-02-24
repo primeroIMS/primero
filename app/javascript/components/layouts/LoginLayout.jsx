@@ -2,10 +2,8 @@ import React from "react";
 import { Grid, Box } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
-import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
-import { selectAgency } from "../pages/login/login-form";
 import { ModuleLogo } from "../module-logo";
 import { AgencyLogo } from "../agency-logo";
 import { ListIcon } from "../list-icon";
@@ -21,7 +19,6 @@ const LoginLayout = ({ children }) => {
 
   // TODO: Module hardcoded till we figure out when to switch modules
   const primeroModule = "cp";
-  const agency = useSelector(state => selectAgency(state));
 
   return (
     <>
@@ -37,7 +34,7 @@ const LoginLayout = ({ children }) => {
                 <div className={css.form}>{children}</div>
               </div>
               <div className={css.loginLogo}>
-                <AgencyLogo agency={agency} />
+                <AgencyLogo />
               </div>
             </div>
           </div>
@@ -47,7 +44,7 @@ const LoginLayout = ({ children }) => {
             <TranslationsToggle />
           </Grid>
           <Grid item xs={8} />
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <NavLink
               to="/support"
               className={css.navLink}
@@ -57,7 +54,7 @@ const LoginLayout = ({ children }) => {
               <ListIcon icon="support" />
               <span>{i18n.t("navigation.support")}</span>
             </NavLink>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Box>
     </>

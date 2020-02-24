@@ -6,13 +6,13 @@ import { useI18n } from "../../i18n";
 import * as C from "../constants";
 
 import { FORM_SECTION_FIELD_NAME } from "./constants";
-import DateField from "./DateField";
-import SelectField from "./SelectField";
-import TextField from "./TextField";
-import TickField from "./TickField";
-import Seperator from "./Seperator";
-import RadioField from "./RadioField";
-import AttachmentField from "./AttachmentField";
+import DateField from "./field-types/date-field";
+import SelectField from "./field-types/select-field";
+import TextField from "./field-types/text-field";
+import TickField from "./field-types/tick-field";
+import Seperator from "./field-types/seperator";
+import RadioField from "./field-types/radio-field";
+import AttachmentField from "./field-types/attachments";
 import styles from "./styles.css";
 
 const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
@@ -39,7 +39,8 @@ const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
       readOnly: mode.isShow,
       classes: {
         root: css.input
-      }
+      },
+      autoComplete: "new-password"
     },
     InputLabelProps: {
       shrink: true,
