@@ -45,7 +45,9 @@ const FormSectionField = ({ field }) => {
     !isEmpty(optionStringsSource)
   );
 
-  const agencies = useSelector(state => selectAgencies(state));
+  const agencies = useSelector(state =>
+    selectAgencies(state, optionStringsSource === "Agency")
+  );
 
   const locations = useSelector(state => getLocations(state, i18n));
 
