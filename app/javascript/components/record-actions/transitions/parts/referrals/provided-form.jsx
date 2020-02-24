@@ -63,10 +63,10 @@ const ProvidedForm = ({ setDisabled, canConsentOverride, recordType }) => {
   return (
     <div className={css.alertTransferModal}>
       <Grid container direction="row" justify="flex-start" alignItems="center">
-        <Grid item xs={1}>
+        <Grid item xs={2} className={css.alignCenter}>
           <CasesIcon className={css.alertTransferModalIcon} />
         </Grid>
-        <Grid item xs={11}>
+        <Grid item xs={10}>
           <span>{i18n.t("referral.provided_consent_label")}</span>
           <br />
           {referAnyway}

@@ -1,16 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/styles/makeStyles";
 import { Formik, Form } from "formik";
 
 import { FieldRecord, FormSectionField } from "../record-form";
 import { useI18n } from "../i18n";
+import RecordFormTitle from "../record-form/form/record-form-title";
 
-import styles from "./styles.css";
 import { NAME, FIELDS } from "./constants";
 
-const Component = ({ record, recordType }) => {
-  const css = makeStyles(styles)();
+const Component = ({ record, recordType, mobileDisplay, handleToggleNav }) => {
   const i18n = useI18n();
 
   const recordOwnerValues = FIELDS.map(a => a.name).reduce((acum, field) => {
@@ -44,11 +42,11 @@ const Component = ({ record, recordType }) => {
 
   return (
     <div key="record-owner-div">
-      <div className={css.formTitle}>
-        <h1 className={css.formHeading}>
-          {i18n.t("forms.record_types.record_information")}
-        </h1>
-      </div>
+      <RecordFormTitle
+        mobileDisplay={mobileDisplay}
+        handleToggleNav={handleToggleNav}
+        displayText={i18n.t("forms.record_types.record_information")}
+      />
       <Formik key="record-owner-formik" initialValues={recordOwnerValues}>
         <Form>{renderFields}</Form>
       </Formik>
@@ -59,6 +57,8 @@ const Component = ({ record, recordType }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  handleToggleNav: PropTypes.func.isRequired,
+  mobileDisplay: PropTypes.bool.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string
 };

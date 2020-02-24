@@ -3,12 +3,13 @@ import PropTypes from "prop-types";
 import makeStyles from "@material-ui/styles/makeStyles";
 
 import { useI18n } from "../i18n";
+import RecordFormTitle from "../record-form/form/record-form-title";
 
 import styles from "./styles.css";
 import { NAME } from "./constants";
 import ApprovalPanel from "./components/panel";
 
-const Container = ({ approvals }) => {
+const Container = ({ approvals, mobileDisplay, handleToggleNav }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -25,11 +26,11 @@ const Container = ({ approvals }) => {
   return (
     <div>
       <div key="approvals-div">
-        <div className={css.formTitle}>
-          <h1 className={css.formHeading}>
-            {i18n.t("forms.record_types.approvals")}
-          </h1>
-        </div>
+        <RecordFormTitle
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          displayText={i18n.t("forms.record_types.approvals")}
+        />
         {renderApprovals}
       </div>
     </div>
@@ -39,6 +40,8 @@ const Container = ({ approvals }) => {
 Container.displayName = NAME;
 
 Container.propTypes = {
-  approvals: PropTypes.object
+  approvals: PropTypes.object,
+  handleToggleNav: PropTypes.func.isRequired,
+  mobileDisplay: PropTypes.bool.isRequired
 };
 export default Container;
