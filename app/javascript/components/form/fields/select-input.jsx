@@ -13,12 +13,12 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
     const { display_name: displayName, display_text: displayText } =
       typeof option === "object"
         ? option
-        : options.find(opt => opt.id === String(option)) || {};
+        : options.find(opt => String(opt.id) === String(option)) || {};
 
     return displayName || displayText;
   };
 
-  const defaultValue = multiSelect ? [] : undefined;
+  const defaultValue = multiSelect ? [] : {id: "", display_text: ""};
 
   const handleChange = data =>
     multiSelect

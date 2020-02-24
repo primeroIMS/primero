@@ -27,7 +27,7 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
       return this.test( 'isIdpProvider', message, function (value) {
         const providerName = this.resolve(ref);
         const provider = providers.find(
-          currentProvider => currentProvider.get("unique_id") === providerName
+          currentProvider => currentProvider.get("id") === providerName
         );
         if (provider) {
           const regexMatch = new RegExp(`@${provider.get("user_domain")}$`);
@@ -41,7 +41,7 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
 
     validations.user_name = yup
       .string()
-      .isIdpProvider(yup.ref("identity_provider"))
+      .isIdpProvider(yup.ref("identity_provider_id"))
       .required();
   } else {
     validations.password = yup.lazy(() => {
@@ -78,11 +78,11 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
 
   if (useIdentityProviders && providers) {
     const identityOptions = providers.toJS().map(provider => {
-      return { id: provider.unique_id, display_text: provider.name };
+      return { id: String(provider.id), display_text: provider.name };
     });
 
     const providersDisable = input => {
-      return input === "";
+      return input?.id === "";
     };
 
     formData = {
@@ -90,9 +90,11 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
       fields: [
         FieldRecord({
           display_name: i18n.t("user.identity_provider"),
-          name: "identity_provider",
+          name: "identity_provider_id",
           type: SELECT_FIELD,
+          disabled: true,
           required: true,
+          editable: false,
           option_strings_text: identityOptions
         }),
         FieldRecord({
@@ -101,7 +103,7 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
           type: "text_field",
           required: true,
           autoFocus: true,
-          watchDisableInput: "identity_provider",
+          watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         }),
         FieldRecord({
@@ -111,10 +113,10 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
           type: TEXT_FIELD,
           required: true,
           editable: false,
-          watchInput: "identity_provider",
+          watchInput: "identity_provider_id",
           helpTextIfWatch: input => {
             const provider = providers
-              ? providers.find(currentProvider => currentProvider.get("unique_id") === input)
+              ? providers.find(currentProvider => currentProvider.get("id") === input)
               : null;
 
             return provider
@@ -123,14 +125,14 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
               })
               : null;
           },
-          watchDisableInput: "identity_provider",
+          watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         }),
         FieldRecord({
           display_name: i18n.t("user.code"),
           name: "code",
           type: TEXT_FIELD,
-          watchDisableInput: "identity_provider",
+          watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         }),
         FieldRecord({
@@ -138,7 +140,7 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
           name: "locale",
           type: SELECT_FIELD,
           option_strings_text: i18n.applicationLocales.toJS(),
-          watchDisableInput: "identity_provider",
+          watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         }),
         FieldRecord({
@@ -188,7 +190,7 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
             { id: "role-ftr-manager", display_text: "FTR Manager" },
             { id: "role-superuser", display_text: "Superuser" }
           ],
-          watchDisableInput: "identity_provider",
+          watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         }),
         FieldRecord({
@@ -200,7 +202,7 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
             { id: "primeromodule-cp", display_text: "CP" },
             { id: "primeromodule-gbv", display_text: "GBV" }
           ],
-          watchDisableInput: "identity_provider",
+          watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         }),
         FieldRecord({
@@ -213,14 +215,14 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
             { id: "usergroup-primero-ftf", display_text: "Primero FTR" },
             { id: "usergroup-primero-gbv", display_text: "Primero GBV" }
           ],
-          watchDisableInput: "identity_provider",
+          watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         }),
         FieldRecord({
           display_name: i18n.t("user.phone"),
           name: "phone",
           type: TEXT_FIELD,
-          watchDisableInput: "identity_provider",
+          watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         }),
         FieldRecord({
@@ -228,7 +230,7 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
           name: "email",
           required: true,
           type: TEXT_FIELD,
-          watchDisableInput: "identity_provider",
+          watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         }),
         FieldRecord({
@@ -237,21 +239,21 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
           type: SELECT_FIELD,
           required: true,
           option_strings_text: [{ id: "1", display_text: "UNICEF" }],
-          watchDisableInput: "identity_provider",
+          watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         }),
         FieldRecord({
           display_name: i18n.t("user.agency_office"),
           name: "agency_office",
           type: TEXT_FIELD,
-          watchDisableInput: "identity_provider",
+          watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         }),
         FieldRecord({
           display_name: i18n.t("user.position"),
           name: "position",
           type: TEXT_FIELD,
-          watchDisableInput: "identity_provider",
+          watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         }),
         FieldRecord({
@@ -259,21 +261,21 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
           name: "location",
           type: SELECT_FIELD,
           option_strings_source: "location",
-          watchDisableInput: "identity_provider",
+          watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         }),
         FieldRecord({
           display_name: i18n.t("user.disabled"),
           name: "disabled",
           type: TICK_FIELD,
-          watchDisableInput: "identity_provider",
+          watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         }),
         FieldRecord({
           display_name: i18n.t("user.send_mail"),
           name: "send_mail",
           type: TICK_FIELD,
-          watchDisableInput: "identity_provider",
+          watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         })
       ]
