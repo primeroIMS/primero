@@ -80,7 +80,7 @@
 .navLink {
   text-decoration: none;
   color: $(theme.primero.colors.black);
-  padding: 8px 16px;
+  padding: 8px 16px !important;
   display: flex;
   width: 100%;
   align-items: center;

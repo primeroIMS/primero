@@ -1,12 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../../i18n";
 import { RECORD_PATH } from "../../../config";
 import { filterType } from "../utils";
 import { MY_CASES_FILTER_NAME, OR_FILTER_NAME } from "../constants";
 
+import styles from "./styles.css";
 import { NAME } from "./constants";
 
 const MoreSection = ({
@@ -20,6 +22,7 @@ const MoreSection = ({
   setMoreSectionFilters
 }) => {
   const i18n = useI18n();
+  const css = makeStyles(styles)();
   const moreSectionKeys = Object.keys(moreSectionFilters);
   const mode = {
     secondary: true,
@@ -64,10 +67,19 @@ const MoreSection = ({
 
   const filters = more ? renderSecondaryFilters() : null;
 
+  const handleMore = () => setMore(!more);
+
   return (
     <>
       {filters}
-      <Button color="primary" size="small" onClick={() => setMore(!more)}>
+      <Button
+        className={css.moreBtn}
+        color="primary"
+        size="small"
+        variant="outlined"
+        fullWidth
+        onClick={handleMore}
+      >
         {renderText}
       </Button>
     </>

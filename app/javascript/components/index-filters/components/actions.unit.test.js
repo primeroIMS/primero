@@ -4,11 +4,16 @@ import Actions from "./actions";
 
 describe("<IndexFilters />/<Actions />", () => {
   let props;
+  let state;
 
   beforeEach(() => {
     props = {
       handleSave: spy(),
       handleClear: spy()
+    };
+
+    state = {
+      application: { online: true }
     };
   });
 
@@ -19,7 +24,7 @@ describe("<IndexFilters />/<Actions />", () => {
   });
 
   it("triggers handleSave()", () => {
-    const { component } = setupMockFormComponent(Actions, props);
+    const { component } = setupMockFormComponent(Actions, props, {}, state);
 
     component
       .find("button")
@@ -29,7 +34,7 @@ describe("<IndexFilters />/<Actions />", () => {
   });
 
   it("triggers handleClear()", () => {
-    const { component } = setupMockFormComponent(Actions, props);
+    const { component } = setupMockFormComponent(Actions, props, {}, state);
 
     component
       .find("button")

@@ -13,6 +13,7 @@ import Permission from "../../application/permission";
 import { FLAG_RECORDS, WRITE_RECORDS } from "../../../libs/permissions";
 import { getSavingRecord } from "../../records/selectors";
 import { RECORD_PATH } from "../../../config";
+import DisableOffline from "../../disable-offline";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
@@ -104,10 +105,12 @@ const RecordFormToolbar = ({
         <PageHeading />
         {renderRecordStatusIndicator}
       </Box>
-      <Box>
+      <Box display="flex">
         {mode.isShow && params && (
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
-            <Flagging recordType={params.recordType} record={params.id} />
+            <DisableOffline>
+              <Flagging recordType={params.recordType} record={params.id} />
+            </DisableOffline>
           </Permission>
         )}
         {(mode.isEdit || mode.isNew) && (

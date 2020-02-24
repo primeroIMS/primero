@@ -44,7 +44,7 @@ const LoginLayout = ({ children }) => {
             <TranslationsToggle />
           </Grid>
           <Grid item xs={8} />
-          <Grid item xs={2}>
+          {/* <Grid item xs={2}>
             <NavLink
               to="/support"
               className={css.navLink}
@@ -54,7 +54,7 @@ const LoginLayout = ({ children }) => {
               <ListIcon icon="support" />
               <span>{i18n.t("navigation.support")}</span>
             </NavLink>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Box>
     </>
