@@ -1,11 +1,9 @@
-import { Map } from "immutable";
+import { Map, List } from "immutable";
 
 import NAMESPACE from "./namespace";
 
 export const selectAgencies = (state, isAgencyLookup = true) =>
-  isAgencyLookup
-    ? state.getIn([NAMESPACE, "agencies"], fromJS([]))
-    : fromJS([]);
+  isAgencyLookup ? state.getIn([NAMESPACE, "agencies"], List([])) : List([]);
 
 export const selectModules = state => state.getIn([NAMESPACE, "modules"], []);
 
