@@ -17,6 +17,7 @@ import { ActionDialog } from "../../action-dialog";
 import { constructInitialValues } from "../helpers";
 import * as C from "../constants";
 
+import RecordFormTitle from "./record-form-title";
 import { RECORD_FORM_NAME } from "./constants";
 import FormSectionField from "./form-section-field";
 import styles from "./styles.css";
@@ -123,16 +124,11 @@ const RecordForm = ({
       if (selectedForm === form.unique_id) {
         return (
           <div key={form.unique_id}>
-            <div className={css.formTitle}>
-              {mobileDisplay && (
-                <div>
-                  <IconButton onClick={handleToggleNav}>
-                    <ArrowBackIosIcon />
-                  </IconButton>
-                </div>
-              )}
-              <h1 className={css.formHeading}>{form.name[i18n.locale]}</h1>
-            </div>
+            <RecordFormTitle
+              mobileDisplay={mobileDisplay}
+              handleToggleNav={handleToggleNav}
+              displayText={form.name[i18n.locale]}
+            />
 
             {form.fields.map(field => {
               const fieldProps = {

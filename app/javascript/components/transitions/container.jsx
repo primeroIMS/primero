@@ -9,6 +9,7 @@ import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../i18n";
+import RecordFormTitle from "../record-form/form/record-form-title";
 
 import styles from "./styles.css";
 import { selectTransitions } from "./selectors";
@@ -23,7 +24,14 @@ import TransferRequestDetails from "./transfer_requests/details";
 import ReferralDetails from "./referrals/details";
 import { TRANSITIONS_NAME } from "./constants";
 
-const Transitions = ({ isReferral, recordType, record, showMode }) => {
+const Transitions = ({
+  isReferral,
+  recordType,
+  record,
+  showMode,
+  mobileDisplay,
+  handleToggleNav
+}) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -103,9 +111,11 @@ const Transitions = ({ isReferral, recordType, record, showMode }) => {
 
   return (
     <div>
-      <div className={css.formTitle}>
-        <h1 className={css.pageTitle}>{transitionTitle}</h1>
-      </div>
+      <RecordFormTitle
+        mobileDisplay={mobileDisplay}
+        handleToggleNav={handleToggleNav}
+        displayText={transitionTitle}
+      />
       {renderDataTransitions}
     </div>
   );
@@ -114,7 +124,9 @@ const Transitions = ({ isReferral, recordType, record, showMode }) => {
 Transitions.displayName = TRANSITIONS_NAME;
 
 Transitions.propTypes = {
+  handleToggleNav: PropTypes.func.isRequired,
   isReferral: PropTypes.bool.isRequired,
+  mobileDisplay: PropTypes.bool.isRequired,
   record: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
   showMode: PropTypes.bool
