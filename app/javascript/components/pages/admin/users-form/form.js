@@ -192,7 +192,7 @@ export const form = (i18n, formMode) => {
           display_name: i18n.t("user.location"),
           name: "location",
           type: SELECT_FIELD,
-          option_strings_source: "location"
+          option_strings_source: "Location"
         }),
         FieldRecord({
           display_name: i18n.t("user.disabled"),
