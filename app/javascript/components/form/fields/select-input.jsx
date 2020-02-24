@@ -7,17 +7,16 @@ import { Controller } from "react-hook-form";
 const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const { multiSelect } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
+  const defaultOption = { id: "", display_text: "" };
 
   const optionLabel = option => {
     const { display_name: displayName, display_text: displayText } =
       typeof option === "object"
         ? option
-        : options.find(opt => opt.id === option) || {};
+        : options.find(opt => opt.id === option) || defaultOption;
 
     return displayName || displayText;
   };
-
-  const defaultOption = { id: "", display_text: "" };
 
   const defaultValue = multiSelect ? [] : defaultOption;
 
