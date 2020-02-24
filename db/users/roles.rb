@@ -38,7 +38,8 @@ cp_admin_permissions = [
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::ENABLE_DISABLE_RECORD,
       Permission::REOPEN,
-      Permission::CLOSE
+      Permission::CLOSE,
+      Permission::VIEW_PHOTO
     ]
   ),
   Permission.new(
@@ -175,7 +176,8 @@ cp_caseworker_permissions = [
       Permission::REMOVE_ASSIGNED_USERS,
       Permission::ENABLE_DISABLE_RECORD,
       Permission::DISPLAY_VIEW_PAGE,
-      Permission::INCIDENT_DETAILS_FROM_CASE
+      Permission::INCIDENT_DETAILS_FROM_CASE,
+      Permission::VIEW_PHOTO
     ]
   ),
   Permission.new(
@@ -257,7 +259,8 @@ cp_manager_permissions = [
       Permission::REOPEN,
       Permission::CLOSE,
       Permission::DISPLAY_VIEW_PAGE,
-      Permission::RECEIVE_TRANSFER
+      Permission::RECEIVE_TRANSFER,
+      Permission::VIEW_PHOTO
     ]
   ),
   Permission.new(
@@ -361,7 +364,8 @@ cp_user_manager_permissions = [
             Permission::EXPORT_UNHCR,
             Permission::SYNC_MOBILE,
             Permission::APPROVE_CASE_PLAN,
-            Permission::VIEW_PROTECTION_CONCERNS_FILTER
+            Permission::VIEW_PROTECTION_CONCERNS_FILTER,
+            Permission::VIEW_PHOTO
         ]
     ),
     Permission.new(
