@@ -32,9 +32,7 @@ const Component = ({
         saveMethod,
         dialogName,
         body: { data: userData },
-        message: i18n.t(
-          `user.messages.${saveMethod === "update" ? "updated" : "created"}`
-        ),
+        message: i18n.t("user.messages.created"),
         failureMessage: i18n.t("user.messages.failure")
       })
     );
@@ -49,7 +47,7 @@ const Component = ({
   const dialogContent = (
     <p
       dangerouslySetInnerHTML={{
-        __html: i18n.t(`user.messages.${saveMethod}_confirm_${isIdp ? "" : "non_identity_"}html`, {
+        __html: i18n.t(`user.messages.new_confirm_${isIdp ? "" : "non_identity_"}html`, {
           username: userName,
           identity: userData.identity_provider,
           role: userData.role_unique_id,

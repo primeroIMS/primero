@@ -56,7 +56,20 @@ const Container = ({ mode }) => {
   const handleSubmit = data => {
     setUserData(data);
     setUserConfirmationOpen(true);
-  }
+  };
+
+  const handleEditSubmit = data => {
+    dispatch(
+      saveUser({
+        id,
+        saveMethod: formMode.get("isEdit") ? "update" : "new",
+        dialogName: USER_CONFIRMATION_DIALOG,
+        body: { data },
+        message: i18n.t("user.messages.updated"),
+        failureMessage: i18n.t("user.messages.failure")
+      })
+    );
+   };
 
   const bindFormSubmit = () => {
     formRef.current.submitForm();
@@ -123,7 +136,7 @@ const Container = ({ mode }) => {
             useIdentityProviders,
             providers
           )}
-          onSubmit={handleSubmit}
+          onSubmit={formMode.get("isEdit") ? handleEditSubmit : handleSubmit}
           ref={formRef}
           validations={validationSchema}
           initialValues={user.toJS()}

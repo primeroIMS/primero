@@ -118,7 +118,6 @@ const Nav = () => {
       icon: "support",
       divider: true
     },
-    { name: username, to: ROUTES.account, icon: "account" },
     {
       name: i18n.t("navigation.settings"),
       to: ROUTES.admin_users,
