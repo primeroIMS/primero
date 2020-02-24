@@ -8,24 +8,26 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const { watch } = useFormContext();
   const { multiSelect, watchDisableInput, watchDisable } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
+  const defaultOption = { id: "", display_text: "" };
 
   const optionLabel = option => {
     const { display_name: displayName, display_text: displayText } =
       typeof option === "object"
         ? option
-        : options.find(opt => String(opt.id) === String(option)) || {};
+        : options.find(opt => opt.id === option) || defaultOption;
 
     return displayName || displayText;
   };
 
-  const defaultValue = multiSelect ? [] : {id: "", display_text: ""};
+  const defaultValue = multiSelect ? [] : defaultOption;
 
-  const handleChange = data =>
-    multiSelect
+  const handleChange = data => {
+    return multiSelect
       ? data?.[1]?.map(selected =>
           typeof selected === "object" ? selected?.id : selected
         )
-      : data?.[1]?.id;
+      : data?.[1]?.id || defaultOption;
+  };
 
   const optionEquality = (option, value) =>
     multiSelect ? option.id === value : option.id === value.id;
@@ -53,8 +55,8 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       getOptionSelected={optionEquality}
       disabled={disableField}
       onChange={handleChange}
-      defaultValue={defaultValue}
       filterSelectedOptions
+      defaultValue={defaultValue}
       renderInput={params => (
         <TextField {...params} name={name} margin="normal" {...commonProps} />
       )}

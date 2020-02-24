@@ -1041,6 +1041,9 @@ en:
     description: "Description"
     telephone: "Telephone"
     disabled: "Disabled"
+    messages:
+      created: "Agency was successfully created."
+      updated: "Agency was successfully updated."
 
   system_settings:
     label: "System Settings"
