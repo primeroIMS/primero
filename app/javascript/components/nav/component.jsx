@@ -50,7 +50,12 @@ const Nav = () => {
   const drawerOpen = useSelector(state => selectDrawerOpen(state));
   const dataAlerts = useSelector(state => selectAlerts(state));
   const nav = [
-    { name: i18n.t("navigation.home"), to: ROUTES.dashboard, icon: "home" },
+    {
+      name: i18n.t("navigation.home"),
+      to: ROUTES.dashboard,
+      icon: "home",
+      disableOffline: true
+    },
     {
       name: i18n.t("navigation.tasks"),
       to: ROUTES.tasks,
@@ -82,14 +87,14 @@ const Nav = () => {
       resources: RESOURCES.tracing_requests,
       actions: READ_RECORDS
     },
-    {
-      name: i18n.t("navigation.potential_match"),
-      to: ROUTES.matches,
-      icon: "matches",
-      resources: RESOURCES.potential_matches,
-      actions: READ_RECORDS,
-      disableOffline: true
-    },
+    // {
+    //   name: i18n.t("navigation.potential_match"),
+    //   to: ROUTES.matches,
+    //   icon: "matches",
+    //   resources: RESOURCES.potential_matches,
+    //   actions: READ_RECORDS,
+    //   disableOffline: true
+    // },
     {
       name: i18n.t("navigation.reports"),
       to: ROUTES.reports,
@@ -112,7 +117,7 @@ const Nav = () => {
       icon: "support",
       divider: true
     },
-    { name: username, to: ROUTES.account, icon: "account" },
+    { name: username, to: ROUTES.account, icon: "account", disabled: true },
     {
       name: i18n.t("navigation.settings"),
       to: ROUTES.admin_users,

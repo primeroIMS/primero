@@ -6,6 +6,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
 import { makeStyles } from "@material-ui/styles";
 
+import DisableOffline from "../../../disable-offline";
 import { useI18n } from "../../../i18n";
 
 import styles from "./styles.css";
@@ -62,13 +63,15 @@ const Search = ({ handleReset }) => {
   return (
     <div className={css.searchContainer}>
       <div className={css.searchInputContainer}>
-        <IconButton
-          className={css.iconSearchButton}
-          aria-label="menu"
-          type="submit"
-        >
-          <SearchIcon />
-        </IconButton>
+        <DisableOffline>
+          <IconButton
+            className={css.iconSearchButton}
+            aria-label="menu"
+            type="submit"
+          >
+            <SearchIcon />
+          </IconButton>
+        </DisableOffline>
         <InputBase
           id="search-input"
           className={css.searchInput}

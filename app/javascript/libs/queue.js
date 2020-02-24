@@ -91,4 +91,4 @@ const instance = new Queue();
 
 export default instance;
 
-export { QUEUE_ADD, QUEUE_FINISHED, QUEUE_FAILED };
+export { QUEUE_ADD, QUEUE_FINISHED, QUEUE_FAILED, QUEUE_SKIP };

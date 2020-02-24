@@ -1,8 +1,11 @@
-import { Map, fromJS } from "immutable";
+import { Map } from "immutable";
 
 import NAMESPACE from "./namespace";
 
-export const selectAgencies = state => state.getIn([NAMESPACE, "agencies"], []);
+export const selectAgencies = (state, isAgencyLookup = true) =>
+  isAgencyLookup
+    ? state.getIn([NAMESPACE, "agencies"], fromJS([]))
+    : fromJS([]);
 
 export const selectModules = state => state.getIn([NAMESPACE, "modules"], []);
 
@@ -24,7 +27,8 @@ export const selectModule = (state, id) => {
 export const selectUserIdle = state =>
   state.getIn([NAMESPACE, "userIdle"], false);
 
-export const selectNetworkStatus = state => state.getIn([NAMESPACE, "online"]);
+export const selectNetworkStatus = state =>
+  state.getIn([NAMESPACE, "online"], false);
 
 export const getReportingLocationConfig = state =>
   state.getIn([NAMESPACE, "reportingLocationConfig"]);

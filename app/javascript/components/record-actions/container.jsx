@@ -21,6 +21,7 @@ import {
   checkPermissions
 } from "../../libs/permissions";
 import Permission from "../application/permission";
+import DisableOffline from "../disable-offline";
 
 import { setDialog, setPending } from "./action-creators";
 import {
@@ -63,17 +64,17 @@ const Container = ({
     selectDialog(REQUEST_APPROVAL_DIALOG, state)
   );
   const setRequestDialog = open => {
-    dispatch(setDialog({ dialog: REQUEST_APPROVAL_DIALOG, open: open }));
+    dispatch(setDialog({ dialog: REQUEST_APPROVAL_DIALOG, open }));
   };
   const dialogPending = useSelector(state => selectDialogPending(state));
   const setDialogPending = pending => {
-    dispatch(setPending({ pending: pending }));
+    dispatch(setPending({ pending }));
   };
   const approveDialog = useSelector(state =>
     selectDialog(APPROVAL_DIALOG, state)
   );
   const setApproveDialog = open => {
-    dispatch(setDialog({ dialog: APPROVAL_DIALOG, open: open }));
+    dispatch(setDialog({ dialog: APPROVAL_DIALOG, open }));
   };
 
   const enableState =
@@ -355,9 +356,10 @@ const Container = ({
     />
   );
 
-  const filterItems = items => items.filter(
-    item => {
-      const actionCondition = typeof item.condition === "undefined" || item.condition;
+  const filterItems = items =>
+    items.filter(item => {
+      const actionCondition =
+        typeof item.condition === "undefined" || item.condition;
 
       if (showListActions) {
         return item.recordListAction && actionCondition;
@@ -365,11 +367,11 @@ const Container = ({
 
       return (
         ([RECORD_TYPES.all, recordType].includes(item.recordType) ||
-          (Array.isArray(item.recordType) && item.recordType.includes(recordType))) &&
-          actionCondition
+          (Array.isArray(item.recordType) &&
+            item.recordType.includes(recordType))) &&
+        actionCondition
       );
-    }
-  );
+    });
 
   const filteredActions = filterItems(actions);
   const actionItems = filteredActions?.map(action => {
@@ -377,14 +379,16 @@ const Container = ({
       showListActions && !selectedRecords.length && action.name !== "Export";
 
     return (
-      <MenuItem
-        key={action.name}
-        selected={action.name === "Pyxis"}
-        onClick={() => handleItemAction(action.action)}
-        disabled={disabled}
-      >
-        {action.name}
-      </MenuItem>
+      <DisableOffline>
+        <MenuItem
+          key={action.name}
+          selected={action.name === "Pyxis"}
+          onClick={() => handleItemAction(action.action)}
+          disabled={disabled}
+        >
+          {action.name}
+        </MenuItem>
+      </DisableOffline>
     );
   });
 

@@ -23,7 +23,7 @@ import { getLocations, getOption } from "../../selectors";
 import { valuesToSearchableSelect } from "../../../../libs";
 import { selectAgencies } from "../../../application/selectors";
 import { SearchableSelect } from "../../../searchable-select";
-import { CODE_FIELD, NAME_FIELD } from "../../../../config";
+import { CODE_FIELD, NAME_FIELD, ID_FIELD } from "../../../../config";
 import { SELECT_FIELD_NAME } from "../constants";
 import styles from "../styles.css";
 
@@ -130,12 +130,25 @@ const SelectField = ({
     }
   }, []);
 
+  const specialLookupsConfig = {
+    Location: {
+      options: locations,
+      fieldValue: CODE_FIELD,
+      fieldLabel: NAME_FIELD
+    },
+    Agency: {
+      options: agencies,
+      fieldValue: ID_FIELD,
+      fieldLabel: NAME_FIELD
+    }
+  };
+
   if (!isEmpty(formik.values)) {
-    if (option === "Location") {
+    if (specialLookups.includes(option)) {
       const values = valuesToSearchableSelect(
-        locations,
-        CODE_FIELD,
-        NAME_FIELD,
+        specialLookupsConfig[option].options,
+        specialLookupsConfig[option].fieldValue,
+        specialLookupsConfig[option].fieldLabel,
         i18n.locale
       );
       const handleChange = (data, form) => {
@@ -159,7 +172,7 @@ const SelectField = ({
         },
         excludeEmpty: true,
         options: values && values,
-        defaultValue: value && values.filter(v => v.value === value.toString())
+        defaultValue: value && values.filter(v => String(v.value) === value.toString())
       };
 
       return (
