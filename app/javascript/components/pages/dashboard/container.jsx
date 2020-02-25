@@ -60,7 +60,8 @@ import {
   getSharedWithMe,
   getSharedWithOthers,
   getGroupOverview,
-  getCaseOverview
+  getCaseOverview,
+  getSharedFromMyTeam
 } from "./selectors";
 import styles from "./styles.css";
 import {
@@ -71,7 +72,8 @@ import {
   toProtectionConcernTable,
   toTasksOverdueTable,
   permittedSharedWithMe,
-  taskOverdueHasData
+  taskOverdueHasData,
+  teamSharingTable
 } from "./helpers";
 
 const Dashboard = ({
@@ -109,7 +111,8 @@ const Dashboard = ({
   userPermissions,
   groupOverview,
   sharedWithOthers,
-  caseOverview
+  caseOverview,
+  sharedFromMyTeam
 }) => {
   useEffect(() => {
     batch(() => {
@@ -218,6 +221,12 @@ const Dashboard = ({
     errors
   };
 
+  const sharedFromMyTeamProps = {
+    ...teamSharingTable(sharedFromMyTeam, i18n),
+    loading,
+    errors
+  };
+
   const reportingLocationProps = {
     ...toReportingLocationTable(
       reportingLocation,
@@ -319,11 +328,11 @@ const Dashboard = ({
               <OptionsBox title={i18n.t("dashboard.overview")}>
                 <Grid item md={12}>
                   <Grid container>
-                    <Grid item xs>
-                      <Permission
-                        resources={RESOURCES.dashboards}
-                        actions={ACTIONS.DASH_CASE_RISK}
-                      >
+                    <Permission
+                      resources={RESOURCES.dashboards}
+                      actions={ACTIONS.DASH_CASE_RISK}
+                    >
+                      <Grid item xs>
                         <OptionsBox flat>
                           <BadgedIndicator
                             data={casesByAssessmentLevel}
@@ -336,8 +345,8 @@ const Dashboard = ({
                             errors={errors}
                           />
                         </OptionsBox>
-                      </Permission>
-                    </Grid>
+                      </Grid>
+                    </Permission>
                     <Permission
                       resources={RESOURCES.dashboards}
                       actions={ACTIONS.DASH_GROUP_OVERVIEW}
@@ -362,7 +371,7 @@ const Dashboard = ({
                     </Permission>
                     <Permission
                       resources={RESOURCES.dashboards}
-                      actions={ACTIONS.DASH_CASE_OVERVIEW}
+                      actions={[ACTIONS.DASH_CASE_OVERVIEW]}
                     >
                       <Grid item xs>
                         <OptionsBox flat>
@@ -384,7 +393,10 @@ const Dashboard = ({
                     </Permission>
                     <Permission
                       resources={RESOURCES.dashboards}
-                      actions={ACTIONS.DASH_SHARED_WITH_ME}
+                      actions={[
+                        ACTIONS.DASH_SHARED_WITH_ME,
+                        ACTIONS.RECEIVE_REFERRAL
+                      ]}
                     >
                       <Grid item xs>
                         <OptionsBox flat>
@@ -436,6 +448,23 @@ const Dashboard = ({
               </OptionsBox>
             </Grid>
           </Permission>
+
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={ACTIONS.DASH_SHARED_FROM_MY_TEAM}
+          >
+            <Grid item xl={9} md={8} xs={12}>
+              <OptionsBox title={i18n.t("dashboard.dash_shared_from_my_team")}>
+                <LoadingIndicator
+                  {...loadingIndicatorProps}
+                  hasData={Boolean(sharedFromMyTeam.size)}
+                >
+                  <DashboardTable {...sharedFromMyTeamProps} />
+                </LoadingIndicator>
+              </OptionsBox>
+            </Grid>
+          </Permission>
+
           <Permission
             resources={RESOURCES.dashboards}
             actions={ACTIONS.DASH_WORKFLOW}
@@ -636,6 +665,7 @@ Dashboard.propTypes = {
   reportingLocation: PropTypes.object.isRequired,
   reportingLocationConfig: PropTypes.object,
   servicesStatus: PropTypes.object.isRequired,
+  sharedFromMyTeam: PropTypes.object.isRequired,
   sharedWithMe: PropTypes.object.isRequired,
   sharedWithOthers: PropTypes.object.isRequired,
   userPermissions: PropTypes.object.isRequired
@@ -670,7 +700,8 @@ const mapStateToProps = state => {
     userPermissions: getPermissions(state),
     groupOverview: getGroupOverview(state),
     sharedWithOthers: getSharedWithOthers(state),
-    caseOverview: getCaseOverview(state)
+    caseOverview: getCaseOverview(state),
+    sharedFromMyTeam: getSharedFromMyTeam(state)
   };
 };
 

@@ -1,5 +1,6 @@
 import first from "lodash/first";
 import { fromJS } from "immutable";
+import uniq from "lodash/uniq";
 
 import { dataToJS } from "../../../libs";
 import { ACTIONS, RESOURCES } from "../../../libs/permissions";
@@ -78,16 +79,22 @@ const dashboardTableData = (optionsByIndex, data, indicators, listKey) => {
 const userHasPermission = (userPermissions, resource, action) =>
   userPermissions
     .get(resource, fromJS([]))
-    .filter(resourceAction => resourceAction === action)
+    .filter(resourceAction => action.includes(resourceAction))
     .isEmpty() === false;
 
 const isPermittedIndicator = (userPermissions, indicatorName) => {
   const indicators = {
-    shared_with_me_total_referrals: [RESOURCES.cases, ACTIONS.RECEIVE_REFERRAL],
-    shared_with_me_new_referrals: [RESOURCES.cases, ACTIONS.RECEIVE_REFERRAL],
+    shared_with_me_total_referrals: [
+      RESOURCES.cases,
+      [ACTIONS.RECEIVE_REFERRAL, ACTIONS.MANAGE]
+    ],
+    shared_with_me_new_referrals: [
+      RESOURCES.cases,
+      [ACTIONS.RECEIVE_REFERRAL, ACTIONS.MANAGE]
+    ],
     shared_with_me_transfers_awaiting_acceptance: [
       RESOURCES.cases,
-      ACTIONS.RECEIVE_TRANSFER
+      [ACTIONS.RECEIVE_TRANSFER, ACTIONS.MANAGE]
     ]
   };
 
@@ -381,4 +388,57 @@ export const taskOverdueHasData = (
     !!casesByTaskOverdueServices.size ||
     !!casesByTaskOverdueFollowups.size
   );
+};
+
+export const teamSharingTable = (dashboard, i18n) => {
+  const data = dataToJS(dashboard);
+
+  if (!Object.keys(data).length) {
+    return {};
+  }
+  const { indicators } = data;
+  const columns = Object.keys(indicators).reduce((acc, curr) => {
+    return [...acc, { name: curr, label: i18n.t(`dashboard.${curr}`) }];
+  }, []);
+
+  columns.unshift({
+    name: "caseWorker",
+    label: i18n.t("dashboard.case_worker")
+  });
+
+  const caseWorkers = uniq(
+    Object.values(indicators).reduce((acc, curr) => {
+      return [...acc, ...Object.keys(curr)];
+    }, [])
+  );
+  const rowsWithValues = key => {
+    return caseWorkers.map(caseWorker => {
+      const caseWorkerWithValues = columns
+        .map(column => {
+          if (column.name !== "caseWorker") {
+            return {
+              [column.name]:
+                typeof indicators[column.name] !== "undefined" &&
+                indicators[column.name].hasOwnProperty(caseWorker)
+                  ? indicators[column.name][caseWorker][key]
+                  : 0
+            };
+          }
+
+          return "";
+        })
+        .reduce((acc, obj) => ({ ...acc, ...obj }));
+
+      return {
+        caseWorker,
+        ...caseWorkerWithValues
+      };
+    });
+  };
+
+  return {
+    columns,
+    data: rowsWithValues("count"),
+    query: rowsWithValues("query")
+  };
 };
