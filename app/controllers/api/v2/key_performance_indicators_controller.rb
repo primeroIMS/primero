@@ -7,20 +7,7 @@ module Api::V2
     # provide this information.
     skip_after_action :write_audit_log
 
-    def indexed_field_name(type, field_name)
-      # TODO: Check if there can be duplicate field names
-      Sunspot::Setup.for(type).
-        all_field_factories.
-        map(&:build).
-        select { |field| field.name == field_name }.
-        map { |field| field.indexed_name }.
-        first
-    end
-
     def number_of_cases
-      created_at = indexed_field_name(Child, :created_at)
-      owned_by_location = indexed_field_name(Child, :owned_by_location)
-
       search = Child.search do
         facet :created_at,
           tag: :per_month,
@@ -49,7 +36,6 @@ module Api::V2
 
           { reporting_site: location }.merge(counts)
         end
-
     end
 
     def number_of_incidents
