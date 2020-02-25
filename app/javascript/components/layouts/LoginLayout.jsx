@@ -34,7 +34,7 @@ const LoginLayout = ({ children }) => {
                 <div className={css.form}>{children}</div>
               </div>
               <div className={css.loginLogo}>
-                <AgencyLogo />
+                <AgencyLogo alwaysFullLogo />
               </div>
             </div>
           </div>

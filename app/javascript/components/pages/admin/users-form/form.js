@@ -12,15 +12,27 @@ import {
 
 export const validations = (formMode, i18n) =>
   yup.object().shape({
-    agency_id: yup.string().required(),
-    email: yup.string().required(),
-    full_name: yup.string().required(),
-    module_unique_ids: yup.array().required(),
+    agency_id: yup
+      .number()
+      .required()
+      .label(i18n.t("user.organization")),
+    email: yup
+      .string()
+      .required()
+      .label(i18n.t("user.email")),
+    full_name: yup
+      .string()
+      .required()
+      .label(i18n.t("user.full_name")),
+    location: yup
+      .string()
+      .required()
+      .label(i18n.t("user.location")),
     password: yup.lazy(() => {
       const defaultValidation = yup.string().min(8);
 
       if (formMode.get("isNew")) {
-        return defaultValidation.required();
+        return defaultValidation.required().label(i18n.t("user.password"));
       }
 
       return defaultValidation;
@@ -34,14 +46,25 @@ export const validations = (formMode, i18n) =>
         );
 
       if (formMode.get("isNew")) {
-        return defaultValidation.required();
+        return defaultValidation
+          .required()
+          .label(i18n.t("user.password_confirmation"));
       }
 
       return defaultValidation;
     }),
-    role_unique_id: yup.string().required(),
-    user_group_unique_ids: yup.array().required(),
-    user_name: yup.string().required()
+    role_unique_id: yup
+      .string()
+      .required()
+      .label(i18n.t("user.role_id")),
+    user_group_unique_ids: yup
+      .array()
+      .required()
+      .label(i18n.t("user.user_group_unique_ids")),
+    user_name: yup
+      .string()
+      .required()
+      .label(i18n.t("user.user_name"))
   });
 
 export const form = (i18n, formMode) => {
@@ -140,16 +163,6 @@ export const form = (i18n, formMode) => {
           ]
         }),
         FieldRecord({
-          display_name: i18n.t("user.module_ids"),
-          name: "module_unique_ids",
-          type: CHECK_BOX_FIELD,
-          required: true,
-          option_strings_text: [
-            { id: "primeromodule-cp", display_text: "CP" },
-            { id: "primeromodule-gbv", display_text: "GBV" }
-          ]
-        }),
-        FieldRecord({
           display_name: i18n.t("user.user_group_unique_ids"),
           name: "user_group_unique_ids",
           type: CHECK_BOX_FIELD,
@@ -192,7 +205,8 @@ export const form = (i18n, formMode) => {
           display_name: i18n.t("user.location"),
           name: "location",
           type: SELECT_FIELD,
-          option_strings_source: "Location"
+          option_strings_source: "Location",
+          required: true
         }),
         FieldRecord({
           display_name: i18n.t("user.disabled"),
