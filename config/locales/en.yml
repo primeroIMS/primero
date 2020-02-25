@@ -2484,6 +2484,9 @@ en:
     number_of_cases:
       title: "Number of Cases"
       reporting_site: "Reporting Site"
+    number_of_incidents:
+      title: "Number of Incidents"
+      reporting_site: "Reporting Site"
 
   reports:
     register_new_report: "Create Report"
