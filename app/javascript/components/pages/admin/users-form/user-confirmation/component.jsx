@@ -18,7 +18,9 @@ const Component = ({
   setPending,
   userConfirmationOpen,
   userData,
-  userName
+  userName,
+  identityOptions,
+  roleOptions
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -43,14 +45,20 @@ const Component = ({
     variant: "contained",
     autoFocus: true
   };
+  const identity = identityOptions.find(currentIdentity =>
+    currentIdentity.id === userData.identity_provider_id
+  );
+  const role = roleOptions.find(currentRole =>
+    currentRole.id === userData.role_unique_id
+  );
 
   const dialogContent = (
     <p
       dangerouslySetInnerHTML={{
         __html: i18n.t(`user.messages.new_confirm_${isIdp ? "" : "non_identity_"}html`, {
           username: userName,
-          identity: userData.identity_provider_id,
-          role: userData.role_unique_id,
+          identity: identity?.display_text,
+          role: role?.display_text,
           email: userData.email
         })
       }}
@@ -84,8 +92,10 @@ Component.propTypes = {
   close: PropTypes.func,
   dialogName: PropTypes.string,
   id: PropTypes.string,
+  identityOptions: PropTypes.object,
   isIdp: PropTypes.bool,
   pending: PropTypes.bool,
+  roleOptions: PropTypes.object,
   saveMethod: PropTypes.string,
   setPending: PropTypes.func,
   userConfirmationOpen: PropTypes.bool,
