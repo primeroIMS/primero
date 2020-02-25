@@ -1,5 +1,4 @@
 class UserGroup < ApplicationRecord
-
   include Configuration
 
   before_create :set_unique_id
@@ -9,18 +8,25 @@ class UserGroup < ApplicationRecord
   class << self
     alias super_clear clear
     def clear
-      self.all.each do |ug|
+      all.each do |ug|
         ug.users.destroy(ug.users)
       end
       super_clear
+    end
+
+    def new_with_properties(params, user)
+      user_group = UserGroup.new(params)
+      if user.group_permission?(Permission::AGENCY) || user.group_permission?(Permission::GROUP) ||
+         user.group_permission?(Permission::SELF)
+        user_group.users = [user]
+      end
+      user_group
     end
   end
 
   private
 
   def set_unique_id
-    unless self.unique_id.present?
-      self.unique_id = "#{self.class.name}-#{self.name}".parameterize.dasherize
-    end
+    self.unique_id = "#{self.class.name}-#{name}".parameterize.dasherize unless unique_id.present?
   end
 end

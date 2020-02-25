@@ -110,6 +110,66 @@ describe Api::V2::UserGroupsController, type: :request do
       post '/api/v2/user_groups', params: params
       expect(response).to have_http_status(200)
       expect(json['data']['name']).to eq(params[:data][:name])
+      expect(UserGroup.first.users.count).to eq(0)
+    end
+
+    describe 'POST user_group as a admin' do
+      before :each do
+        clean_data(UserGroup, Agency, PrimeroModule, Role, User, FormSection, PrimeroProgram)
+        agency = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+        program = PrimeroProgram.create!(
+          unique_id: 'primeroprogram-primero',
+          name: 'Primero',
+          description: 'Default Primero Program'
+        )
+        cp = PrimeroModule.create!(
+          unique_id: 'primeromodule-cp',
+          name: 'CP',
+          description: 'Child Protection',
+          associated_record_types: %w[case tracing_request incident],
+          primero_program: program,
+          form_sections: [FormSection.create!(name: 'form_1')]
+        )
+        role = Role.create!(
+          name: 'Test Role 1',
+          unique_id: 'test-role-1',
+          permissions: [
+            Permission.new(resource: Permission::USER_GROUP, actions: [Permission::MANAGE])
+          ],
+          group_permission: Permission::SELF,
+          modules: [cp]
+        )
+        @user = User.create!(
+          full_name: 'Test User 1',
+          user_name: 'test_user_1',
+          password: 'a12345678',
+          password_confirmation: 'a12345678',
+          email: 'test_user_1@localhost.com',
+          agency_id: agency.id,
+          role: role
+        )
+      end
+
+      it 'creates a new user_group as a admin' do
+        sign_in(@user)
+        params = {
+          data: {
+            unique_id: 'test_unique_id21',
+            name: 'test_nam12',
+            description: 'test_description12'
+          }
+        }
+
+        post '/api/v2/user_groups', params: params
+        expect(response).to have_http_status(200)
+        expect(json['data']['name']).to eq(params[:data][:name])
+        expect(UserGroup.first.users.count).to eq(1)
+        expect(UserGroup.first.users.first).to eq(@user)
+      end
+
+      after :each do
+        clean_data(UserGroup, Agency, PrimeroModule, Role, User, FormSection, PrimeroProgram)
+      end
     end
 
     it 'Error 409 same uniq_id' do
