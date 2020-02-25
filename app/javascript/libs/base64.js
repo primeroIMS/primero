@@ -1,16 +1,17 @@
 export const toBase64 = file =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
-
+    console.log(reader)
     reader.readAsDataURL(file);
     reader.onload = () => {
       const results = reader.result;
+      const parsedResults = results.match(/(^.*base64,)(.*)/);
 
       return resolve({
-        result: results.replace(/^.*base64,/, ""),
+        result: parsedResults?.[2],
         fileType: file.type,
         fileName: file.name,
-        content: results.replace(/(?<=base64,)(.*)/, "")
+        content: parsedResults?.[1]
       });
     };
     reader.onerror = error => reject(error);
