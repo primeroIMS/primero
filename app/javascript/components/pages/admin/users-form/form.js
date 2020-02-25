@@ -39,7 +39,7 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
   };
 
   if (useIdentityProviders && providers) {
-    validations.identity_provider = yup.string().required();
+    validations.identity_provider_id = yup.number().required();
 
     const isIdpProvider = function(ref, message) {
       return this.test( "isIdpProvider", message, function (value) {
@@ -101,11 +101,11 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
 
   if (useIdentityProviders && providers) {
     const identityOptions = providers.toJS().map(provider => {
-      return { id: String(provider.id), display_text: provider.name };
+      return { id: provider.id, display_text: provider.name };
     });
 
     const providersDisable = input => {
-      return input?.id === "";
+      return input === null;
     };
 
     formData = {
@@ -217,18 +217,6 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
           watchDisable: providersDisable
         }),
         FieldRecord({
-          display_name: i18n.t("user.module_ids"),
-          name: "module_unique_ids",
-          type: CHECK_BOX_FIELD,
-          required: true,
-          option_strings_text: [
-            { id: "primeromodule-cp", display_text: "CP" },
-            { id: "primeromodule-gbv", display_text: "GBV" }
-          ],
-          watchDisableInput: "identity_provider_id",
-          watchDisable: providersDisable
-        }),
-        FieldRecord({
           display_name: i18n.t("user.user_group_unique_ids"),
           name: "user_group_unique_ids",
           type: CHECK_BOX_FIELD,
@@ -283,9 +271,10 @@ export const form = (i18n, formMode, useIdentityProviders, providers) => {
           display_name: i18n.t("user.location"),
           name: "location",
           type: SELECT_FIELD,
-          option_strings_source: "location",
+          option_strings_source: "Location",
           watchDisableInput: "identity_provider_id",
-          watchDisable: providersDisable
+          watchDisable: providersDisable,
+          required: true
         }),
         FieldRecord({
           display_name: i18n.t("user.disabled"),

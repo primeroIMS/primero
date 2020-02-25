@@ -49,7 +49,7 @@ const Component = ({
       dangerouslySetInnerHTML={{
         __html: i18n.t(`user.messages.new_confirm_${isIdp ? "" : "non_identity_"}html`, {
           username: userName,
-          identity: userData.identity_provider,
+          identity: userData.identity_provider_id,
           role: userData.role_unique_id,
           email: userData.email
         })
