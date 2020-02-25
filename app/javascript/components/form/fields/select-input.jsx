@@ -13,7 +13,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
     const { display_name: displayName, display_text: displayText } =
       typeof option === "object"
         ? option
-        : options.find(opt => opt.id === option) || defaultOption;
+        : options?.find(opt => opt.id === option) || defaultOption;
 
     return displayName || displayText;
   };
