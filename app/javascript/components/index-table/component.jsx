@@ -180,19 +180,24 @@ const Component = ({
       ...options,
       ...(() => {
         switch (action) {
-          case "sort":
+          case "sort": {
+            const customSortFields = {
+              photo: "has_photo"
+            };
+            const { sortDirection, name } = tableColumns[activeColumn];
+
             if (typeof sortOrder === "undefined") {
-              options.order = tableColumns[activeColumn].sortDirection;
+              options.order = sortDirection;
             } else {
-              options.order =
-                sortOrder === tableColumns[activeColumn].sortDirection
-                  ? "asc"
-                  : "desc";
+              options.order = sortOrder === sortDirection ? "asc" : "desc";
             }
             setSortOrder(options.order);
-            options.order_by = tableColumns[activeColumn].name;
+            options.order_by = Object.keys(customSortFields).includes(name)
+              ? customSortFields[name]
+              : name;
             options.page = page === 0 ? 1 : page;
             break;
+          }
           case "changePage":
             options.page = tableState.page >= page ? page + 1 : page - 1;
             break;
