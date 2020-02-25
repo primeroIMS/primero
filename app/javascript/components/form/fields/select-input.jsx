@@ -14,12 +14,15 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
     const { display_name: displayName, display_text: displayText } =
       typeof option === "object"
         ? option
-        : options.find(opt => opt.id === option) || defaultOption;
+        : options?.find(opt => opt.id === option) || defaultOption;
 
     return displayName || displayText;
   };
 
-  const defaultValue = multiSelect ? [] : defaultOption;
+  const optionsUseIntegerIds = Number.isInteger(options?.[0]?.id);
+
+  // eslint-disable-next-line no-nested-ternary
+  const defaultValue = multiSelect ? [] : optionsUseIntegerIds ? null : "";
 
   const handleChange = data => {
     return multiSelect
@@ -48,26 +51,29 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   return (
     <Controller
       name={name}
-      as={Autocomplete}
-      multiple={multiSelect}
-      getOptionLabel={optionLabel}
-      options={options}
-      getOptionSelected={optionEquality}
-      disabled={disableField}
-      onChange={handleChange}
-      filterSelectedOptions
       defaultValue={defaultValue}
-      renderInput={params => (
-        <TextField {...params} name={name} margin="normal" {...commonProps} />
-      )}
-      renderTags={(value, getTagProps) =>
-        value.map((option, index) => (
-          <Chip
-            label={optionLabel(option)}
-            {...getTagProps({ index })}
-            disabled={disabled}
-          />
-        ))
+      onChange={handleChange}
+      as={
+        <Autocomplete
+          multiple={multiSelect}
+          getOptionLabel={optionLabel}
+          options={options}
+          getOptionSelected={optionEquality}
+          disabled={disabled}
+          filterSelectedOptions
+          renderInput={params => (
+            <TextField {...params} margin="normal" {...commonProps} />
+          )}
+          renderTags={(value, getTagProps) =>
+            value.map((option, index) => (
+              <Chip
+                label={optionLabel(option)}
+                {...getTagProps({ index })}
+                disabled={disabled}
+              />
+            ))
+          }
+        />
       }
     />
   );
