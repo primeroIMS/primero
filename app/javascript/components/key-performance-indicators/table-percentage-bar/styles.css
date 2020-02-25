@@ -13,9 +13,9 @@
 }
 
 .filledColor {
-  background-color: blue;
+  background-color: $(theme.palette.primary.main);
 }
 
 .emptyColor {
-  background-color: grey;
+  background-color: $(theme.primero.colors.warmGrey1);
 }
