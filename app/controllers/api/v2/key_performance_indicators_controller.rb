@@ -39,6 +39,33 @@ module Api::V2
     end
 
     def number_of_incidents
+      search = Incident.search do
+        facet :created_at,
+          tag: :per_month,
+          range: from..to,
+          range_interval: '+1MONTH',
+          minimum_count: -1
+
+        pivot :owned_by_location,
+          range: :per_month
+
+        paginate page: 1, per_page: 0
+      end
+
+      @columns = search.facet(:created_at).rows.
+        map { |result| result.value.first.iso8601(0) }
+
+      @data = search.pivot(:owned_by_location).rows.
+        map do |row|
+          # use instance to get this?
+          location = Location.
+            find_by({ location_code: row.result['value'].upcase }).
+            placename
+
+          counts = row.range(:created_at).counts
+
+          { reporting_site: location }.merge(counts)
+        end
     end
 
     def reporting_delay
