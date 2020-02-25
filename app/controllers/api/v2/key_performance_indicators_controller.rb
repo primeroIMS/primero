@@ -16,8 +16,7 @@ module Api::V2
           minimum_count: -1
 
         pivot :owned_by_location,
-          range: :per_month,
-          minimum_count: -1
+          range: :per_month
 
         paginate page: 1, per_page: 0
       end
