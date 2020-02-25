@@ -2481,12 +2481,18 @@ en:
     date_format: "%b %Y"
     time_periods:
       last_3_months: "Last 3 Months"
+      last_6_months: "Last 6 Months"
+      last_1_year: "Last Year"
     number_of_cases:
       title: "Number of Cases"
       reporting_site: "Reporting Site"
     number_of_incidents:
       title: "Number of Incidents"
       reporting_site: "Reporting Site"
+    reporting_delay:
+      title: "Reporting Delay"
+      delay: "Delay"
+      total_cases: "Total Cases"
 
   reports:
     register_new_report: "Create Report"

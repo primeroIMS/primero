@@ -37,8 +37,8 @@ function ReportingDelay({ fetchReportingDelay, reportingDelay }) {
   }, [currentDateRange]);
 
   let columns = [
-    { name: "delay", label: "Delay" },
-    { name: "total_cases", label: "Total Cases"},
+    { name: "delay", label: i18n.t('key_performance_indicators.reporting_delay.delay') },
+    { name: "total_cases", label: i18n.t('key_performance_indicators.reporting_delay.total_cases') },
     {
       name: "percentage",
       label: "",
@@ -55,7 +55,7 @@ function ReportingDelay({ fetchReportingDelay, reportingDelay }) {
 
   return (
     <OptionsBox
-      title="Reporting Delay"
+      title={i18n.t('key_performance_indicators.reporting_delay.title')}
       action={
         <DateRangeSelect
           ranges={dateRanges}
