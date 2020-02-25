@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { useI18n } from "../../../../i18n";
 import { ActionDialog } from "../../../../action-dialog";
 import { saveUser } from "../action-creators";
+import { ROLE_OPTIONS } from "../constants";
 
 import { NAME } from "./constants";
 
@@ -19,8 +20,7 @@ const Component = ({
   userConfirmationOpen,
   userData,
   userName,
-  identityOptions,
-  roleOptions
+  identityOptions
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -45,10 +45,10 @@ const Component = ({
     variant: "contained",
     autoFocus: true
   };
-  const identity = identityOptions.find(currentIdentity =>
+  const identity = identityOptions ? identityOptions.find(currentIdentity =>
     currentIdentity.id === userData.identity_provider_id
-  );
-  const role = roleOptions.find(currentRole =>
+  ) : "";
+  const role = ROLE_OPTIONS.find(currentRole =>
     currentRole.id === userData.role_unique_id
   );
 

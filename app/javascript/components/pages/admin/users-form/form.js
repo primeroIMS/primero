@@ -10,6 +10,8 @@ import {
   CHECK_BOX_FIELD
 } from "../../../form";
 
+import { ROLE_OPTIONS } from "./constants";
+
 export const validations = (formMode, i18n, useIdentityProviders, providers) => {
   const validations = {
     agency_id: yup
@@ -96,21 +98,16 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
   return yup.object().shape(validations);
 };
 
-export const form = ({
+export const form = (
   i18n,
   formMode,
   useIdentityProviders,
   providers,
-  roleOptions,
   identityOptions
-}) => {
+) => {
   let formData;
 
   if (useIdentityProviders && providers) {
-    const identityOptions = providers.toJS().map(provider => {
-      return { id: provider.id, display_text: provider.name };
-    });
-
     const providersDisable = input => {
       return input === null;
     };
@@ -178,7 +175,7 @@ export const form = ({
           name: "role_unique_id",
           type: SELECT_FIELD,
           required: true,
-          option_strings_text: roleOptions,
+          option_strings_text: ROLE_OPTIONS,
           watchDisableInput: "identity_provider_id",
           watchDisable: providersDisable
         }),
@@ -309,7 +306,7 @@ export const form = ({
           name: "role_unique_id",
           type: SELECT_FIELD,
           required: true,
-          option_strings_text: roleOptions
+          option_strings_text: ROLE_OPTIONS
         }),
         FieldRecord({
           display_name: i18n.t("user.user_group_unique_ids"),
