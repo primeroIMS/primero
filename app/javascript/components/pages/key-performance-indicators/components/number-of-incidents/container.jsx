@@ -32,7 +32,7 @@ function NumberOfIncidents({ fetchNumberOfIncidents, numberOfIncidents }) {
   }].concat(numberOfIncidents.get("dates").map(date => {
     return {
       name: date,
-      label: date
+      label: i18n.toTime('key_performance_indicators.date_format', date)
     };
   }).toJS());
 
