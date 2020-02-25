@@ -3,14 +3,12 @@ import * as selectors from "../../selectors";
 import { withRouter } from "react-router-dom";
 import { DateRangeSelect } from "components/key-performance-indicators";
 import { OptionsBox, DashboardTable } from "components/dashboard";
-import { connect, batch } from "react-redux";
+import { connect  } from "react-redux";
 import React, { useEffect } from "react";
 
 function NumberOfIncidents({ fetchNumberOfIncidents, numberOfIncidents }) {
   useEffect(() => {
-    batch(() => {
-      fetchNumberOfIncidents();
-    });
+    fetchNumberOfIncidents();
   }, []);
 
   let columns = [{
