@@ -28,7 +28,7 @@ function NumberOfIncidents({ fetchNumberOfIncidents, numberOfIncidents }) {
 
   let columns = [{
     name: "reporting_site",
-    label: "Reporting Site"
+    label: i18n.t('key_performance_indicators.number_of_incidents.reporting_site'),
   }].concat(numberOfIncidents.get("dates").map(date => {
     return {
       name: date,
@@ -43,7 +43,7 @@ function NumberOfIncidents({ fetchNumberOfIncidents, numberOfIncidents }) {
 
   return (
     <OptionsBox
-      title="Number of Incidents"
+      title={i18n.t('key_performance_indicators.number_of_incidents.title')}
       action={
         <DateRangeSelect
           ranges={dateRanges}
