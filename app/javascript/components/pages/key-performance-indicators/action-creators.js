@@ -10,11 +10,12 @@ export const fetchNumberOfCases = (dateRange) => async dispatch => {
   });
 };
 
-export const fetchNumberOfIncidents = () => async dispatch => {
+export const fetchNumberOfIncidents = (dateRange) => async dispatch => {
   dispatch({
     type: Actions.NUMBER_OF_INCIDENTS,
     api: {
-      path: "key_performance_indicators/number_of_incidents"
+      path: "key_performance_indicators/number_of_incidents",
+      params: { from: dateRange.from, to: dateRange.to }
     }
   });
 };
