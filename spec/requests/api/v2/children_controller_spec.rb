@@ -102,6 +102,17 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['data'].find { |r| r['name'] == @case2.name }['alert_count']).to eq(2)
       expect(json['data'].find { |r| r['name'] == @case3.name }['alert_count']).to eq(1)
     end
+
+    it 'Search flagged children' do
+      @case1.add_flag('This is a flag', Date.today, 'faketest')
+
+      login_for_test(permissions: permission_flag_record)
+      get '/api/v2/cases?flagged=true'
+
+      expect(response).to have_http_status(200)
+      expect(json['data'][0]['flag_count']).to eq(1)
+      expect(json['data'][0]['id']).to eq(@case1.id)
+    end
   end
 
   describe 'GET /api/v2/cases/:id' do
