@@ -3,6 +3,8 @@ import uuid from "uuid/v4";
 
 import { queueIndexedDB } from "../db";
 import { METHODS } from "../config";
+import { ENQUEUE_SNACKBAR, generate } from "../components/notifier";
+import { SET_DIALOG_PENDING } from "../components/record-actions/request-approval/actions";
 
 const generateName = (body = {}) => {
   const { name_first: nameFirst, name_last: nameLast, name } = body;
@@ -14,7 +16,7 @@ const generateName = (body = {}) => {
   return nameFirst || nameLast ? { name: `${nameFirst} ${nameLast}` } : {};
 };
 
-export const handleSuccessCallback = (
+export const handleRestCallback = (
   store,
   successCallback,
   response,
@@ -24,7 +26,7 @@ export const handleSuccessCallback = (
   if (successCallback) {
     if (Array.isArray(successCallback)) {
       successCallback.forEach(callback =>
-        handleSuccessCallback(store, callback, response, json, fromQueue)
+        handleRestCallback(store, callback, response, json, fromQueue)
       );
     } else {
       const isCallbackObject = typeof successCallback === "object";
@@ -51,6 +53,29 @@ export const handleSuccessCallback = (
       }
     }
   }
+};
+
+export const defaultErrorCallback = (store, response, json) => {
+  const errorPayload = [
+    {
+      action: ENQUEUE_SNACKBAR,
+      payload: {
+        messageKey: "errors.api.internal_server",
+        options: {
+          variant: "error",
+          key: generate.messageKey()
+        }
+      }
+    },
+    {
+      action: SET_DIALOG_PENDING,
+      payload: {
+        pending: false
+      }
+    }
+  ];
+
+  handleRestCallback(store, errorPayload, response, json);
 };
 
 export const isOnline = store => {

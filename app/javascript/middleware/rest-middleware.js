@@ -10,10 +10,11 @@ import { ENQUEUE_SNACKBAR, generate } from "../components/notifier";
 import { SET_DIALOG_PENDING } from "../components/record-actions/request-approval/actions";
 
 import {
-  handleSuccessCallback,
+  handleRestCallback,
   isOnline,
   partitionObject,
-  processAttachments
+  processAttachments,
+  defaultErrorCallback
 } from "./utils";
 
 const defaultFetchOptions = {
@@ -150,32 +151,12 @@ function fetchPayload(action, store, options) {
         if (response.status === 404) {
           deleteFromQueue(fromQueue);
           messageQueueSkip();
-        } else if (response.status === 500) {
-          const errorPayload = [
-            {
-              action: ENQUEUE_SNACKBAR,
-              payload: {
-                messageKey: "errors.api.internal_server",
-                options: {
-                  variant: "error",
-                  key: generate.messageKey()
-                }
-              }
-            },
-            {
-              action: SET_DIALOG_PENDING,
-              payload: {
-                pending: false
-              }
-            }
-          ];
-
-          deleteFromQueue(fromQueue);
-          messageQueueSkip();
-          handleSuccessCallback(store, errorPayload, response, json);
+        } else if (failureCallback) {
+          messageQueueFailed(fromQueue);
+          handleRestCallback(store, failureCallback, response, json);
         } else {
           messageQueueFailed(fromQueue);
-          handleSuccessCallback(store, failureCallback, response, json);
+          defaultErrorCallback(store, response, json);
         }
 
         if (response.status === 401) {
@@ -203,7 +184,7 @@ function fetchPayload(action, store, options) {
           });
         }
 
-        handleSuccessCallback(
+        handleRestCallback(
           store,
           successCallback,
           response,
@@ -219,7 +200,12 @@ function fetchPayload(action, store, options) {
       messageQueueFailed(fromQueue);
 
       fetchStatus({ store, type }, "FAILURE", false);
-      handleSuccessCallback(store, failureCallback, {}, {});
+
+      if (failureCallback) {
+        handleRestCallback(store, failureCallback, {}, {});
+      } else {
+        defaultErrorCallback(store, {}, {});
+      }
     }
   };
 
