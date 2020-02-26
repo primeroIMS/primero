@@ -13,7 +13,7 @@ import Form, {
   FormSectionRecord,
   FORM_MODE_DIALOG
 } from "../../form";
-import submitForm from "../../../submit-form";
+import submitForm from "../../../libs/submit-form";
 import { RECORD_TYPES } from "../../../config";
 import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
 import { getRecords } from "../../index-table";
