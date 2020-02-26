@@ -6,6 +6,8 @@ import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { signOut } from "../components/pages/login/idp-selection";
 import EventManager from "../libs/messenger";
 import { QUEUE_FAILED, QUEUE_SKIP } from "../libs/queue";
+import { ENQUEUE_SNACKBAR, generate } from "../components/notifier";
+import { SET_DIALOG_PENDING } from "../components/record-actions/request-approval/actions";
 
 import {
   handleSuccessCallback,
@@ -148,8 +150,32 @@ function fetchPayload(action, store, options) {
         if (response.status === 404) {
           deleteFromQueue(fromQueue);
           messageQueueSkip();
+        } else if (response.status === 500) {
+          const errorPayload = [
+            {
+              action: ENQUEUE_SNACKBAR,
+              payload: {
+                messageKey: "errors.api.internal_server",
+                options: {
+                  variant: "error",
+                  key: generate.messageKey()
+                }
+              }
+            },
+            {
+              action: SET_DIALOG_PENDING,
+              payload: {
+                pending: false
+              }
+            }
+          ];
+
+          deleteFromQueue(fromQueue);
+          messageQueueSkip();
+          handleSuccessCallback(store, errorPayload, response, json);
         } else {
           messageQueueFailed(fromQueue);
+          handleSuccessCallback(store, failureCallback, response, json);
         }
 
         if (response.status === 401) {
@@ -159,7 +185,6 @@ function fetchPayload(action, store, options) {
 
           store.dispatch(attemptSignout(usingIdp, signOut));
         }
-        handleSuccessCallback(store, failureCallback, response, json);
       } else {
         await handleSuccess(store, {
           type,
