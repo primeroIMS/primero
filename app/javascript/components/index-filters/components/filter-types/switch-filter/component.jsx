@@ -33,13 +33,12 @@ const Component = ({
   const valueRef = useRef();
   const { options, field_name: fieldName } = filter;
   const label = options?.[i18n.locale]?.[0]?.display_name;
-  const id = options?.[i18n.locale]?.[0]?.id;
 
   const handleChange = event => {
     handleFilterChange({
       type: "basic",
       event,
-      value: id || event.target.checked,
+      value: event.target.checked,
       setInputValue,
       inputValue,
       setValue,
@@ -79,8 +78,8 @@ const Component = ({
       Object.keys(moreSectionFilters)?.length &&
       Object.keys(moreSectionFilters).includes(fieldName)
     ) {
-      setValue(fieldName, id || true);
-      setInputValue(id || true);
+      setValue(fieldName, true);
+      setInputValue(true);
     }
 
     if (reset && !mode?.defaultFilter) {
