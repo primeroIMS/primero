@@ -1,4 +1,4 @@
-import React, { useState, cloneElement } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Backdrop, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
@@ -12,23 +12,24 @@ const Component = ({ trigger, image }) => {
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {
-    console.log("here");
-    setOpen(!open);
+    if (image) {
+      setOpen(!open);
+    }
   };
-
-  if (!image) return false;
 
   return (
     <>
       <button onClick={handleClose} type="button" className={css.button}>
         {trigger}
       </button>
-      <Backdrop className={css.backdrop} open={open} onClick={handleClose}>
-        <IconButton className={css.backdropClose}>
-          <CloseIcon />
-        </IconButton>
-        <img src={image} alt="" />
-      </Backdrop>
+      {image && (
+        <Backdrop className={css.backdrop} open={open} onClick={handleClose}>
+          <IconButton className={css.backdropClose}>
+            <CloseIcon />
+          </IconButton>
+          <img src={image} alt="" />
+        </Backdrop>
+      )}
     </>
   );
 };
