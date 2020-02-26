@@ -20,11 +20,12 @@ export const fetchNumberOfIncidents = (dateRange) => async dispatch => {
   });
 };
 
-export const fetchReportingDelay = () => async dispatch => {
+export const fetchReportingDelay = (dateRange) => async dispatch => {
   dispatch({
     type: Actions.REPORTING_DELAY,
     api: {
-      path: "key_performance_indicators/reporting_delay"
+      path: "key_performance_indicators/reporting_delay",
+      params: { from: dateRange.from, to: dateRange.to }
     }
   });
 };
