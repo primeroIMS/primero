@@ -15,7 +15,14 @@ import RadioField from "./field-types/radio-field";
 import AttachmentField from "./field-types/attachments";
 import styles from "./styles.css";
 
-const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
+const FormSectionField = ({
+  name,
+  field,
+  mode,
+  recordType,
+  recordID,
+  filters
+}) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -33,6 +40,7 @@ const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
     field,
     recordType,
     recordID,
+    filters,
     autoComplete: "off",
     fullWidth: true,
     InputProps: {
@@ -83,6 +91,7 @@ FormSectionField.displayName = FORM_SECTION_FIELD_NAME;
 
 FormSectionField.propTypes = {
   field: PropTypes.object.isRequired,
+  filters: PropTypes.object,
   mode: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   recordID: PropTypes.string,

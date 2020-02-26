@@ -10,6 +10,7 @@ import {
   DialogTitle
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import { getIn } from "formik";
 
 import FormSectionField from "../../form-section-field";
 import { SUBFORM_DIALOG } from "../constants";
@@ -22,10 +23,44 @@ const Component = ({
   setOpen,
   title,
   dialogIsNew,
-  i18n
+  i18n,
+  formik
 }) => {
   const handleClose = () => {
     setOpen({ open: false, index: null });
+  };
+
+  const filters = (subform, optionStringsSource, subformIndex) => {
+    if (subform.subform_section_id.unique_id === "services_section") {
+      switch (optionStringsSource) {
+        case "Agency":
+          return {
+            service: getIn(
+              formik.values,
+              `${subform.name}[${subformIndex}].service_type`
+            )
+          };
+        case "User":
+          return {
+            service: getIn(
+              formik.values,
+              `${subform.name}[${subformIndex}].service_type`
+            ),
+            location: getIn(
+              formik.values,
+              `${subform.name}[${subformIndex}].service_delivery_location`
+            ),
+            agency: getIn(
+              formik.values,
+              `${subform.name}[${subformIndex}].service_implementing_agency`
+            )
+          };
+        default:
+          return {};
+      }
+    }
+
+    return {};
   };
 
   if (index !== null) {
@@ -60,7 +95,8 @@ const Component = ({
               field: f,
               mode,
               index,
-              parentField: field
+              parentField: field,
+              filters: filters(field, f.option_strings_source, index)
             };
 
             return (
@@ -83,6 +119,7 @@ Component.displayName = SUBFORM_DIALOG;
 Component.propTypes = {
   dialogIsNew: PropTypes.bool.isRequired,
   field: PropTypes.object.isRequired,
+  formik: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   mode: PropTypes.object.isRequired,

@@ -13,19 +13,31 @@ import { makeStyles } from "@material-ui/styles";
 import { Select } from "formik-material-ui";
 import { Field, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import find from "lodash/find";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
-import { getLocations, getOption } from "../../selectors";
+import {
+  getLocations,
+  getOption,
+  getReportingLocations
+} from "../../selectors";
+import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
+import { getUsersByTransitionType } from "../../../record-actions/transitions/selectors";
 import { valuesToSearchableSelect } from "../../../../libs";
-import { selectAgencies } from "../../../application/selectors";
+import {
+  selectAgencies,
+  getAgenciesWithService,
+  getReportingLocationConfig
+} from "../../../application/selectors";
 import { SearchableSelect } from "../../../searchable-select";
-import { CODE_FIELD, NAME_FIELD, ID_FIELD } from "../../../../config";
+import { CODE_FIELD, NAME_FIELD, UNIQUE_ID_FIELD } from "../../../../config";
 import { SELECT_FIELD_NAME } from "../constants";
 import styles from "../styles.css";
+import { LoadingIndicator } from "../../../loading-indicator";
+import { getLoading, getErrors } from "../../../index-table";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -53,6 +65,7 @@ const SelectField = ({
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  const dispatch = useDispatch();
 
   const option = field.option_strings_source || field.option_strings_text;
 
@@ -62,16 +75,59 @@ const SelectField = ({
 
   const options = useSelector(state => getOption(state, option, i18n.locale));
 
-  const agencies = useSelector(state => selectAgencies(state));
+  const { service, agency, location } = other?.filters || {};
 
-  const locations = useSelector(state => getLocations(state, i18n));
+  const agencies = useSelector(
+    state =>
+      service ? getAgenciesWithService(state, service) : selectAgencies(state),
+    (agencies1, agencies2) => agencies1.equals(agencies2)
+  );
+
+  const adminLevel = useSelector(state =>
+    getReportingLocationConfig(state).get("admin_level")
+  );
+
+  const locations = useSelector(
+    state => getLocations(state, i18n),
+    (locations1, locations2) => locations1.equals(locations2)
+  );
+
+  const reportingLocations = useSelector(
+    state => getReportingLocations(state, adminLevel),
+    (rptLocations1, rptLocations2) => rptLocations1.equals(rptLocations2)
+  );
+
+  const referralUsers = useSelector(
+    state => getUsersByTransitionType(state, "referral"),
+    (users1, users2) => users1.equals(users2)
+  );
+
+  useEffect(() => {
+    const filters = Object.entries({
+      services: service,
+      agency,
+      location
+    }).reduce((acc, entry) => {
+      return entry[1] ? { ...acc, [entry[0]]: entry[1] } : acc;
+    }, {});
+
+    if (option === "User") {
+      dispatch(
+        fetchReferralUsers({
+          record_type: "case",
+          ...filters
+        })
+      );
+    }
+  }, [service, agency, location]);
 
   const translatedText = displayText => {
     return typeof displayText === "string"
       ? displayText
       : displayText[i18n.locale];
   };
-  const specialLookups = ["Location", "Agency"];
+
+  const specialLookups = ["User", "Location", "Agency", "ReportingLocation"];
 
   const findOptionDisplayText = v => {
     const foundOptions = find(options, { id: v }) || {};
@@ -130,6 +186,20 @@ const SelectField = ({
     }
   }, []);
 
+  const NAMESPACE = ["transitions", "referral"];
+
+  const loading = useSelector(state => getLoading(state, NAMESPACE));
+
+  const errors = useSelector(state => getErrors(state, NAMESPACE));
+
+  const loadingIndicatorProps = {
+    overlay: true,
+    type: NAMESPACE[0],
+    loading,
+    errors,
+    hasData: !loading
+  };
+
   const specialLookupsConfig = {
     Location: {
       options: locations,
@@ -138,8 +208,18 @@ const SelectField = ({
     },
     Agency: {
       options: agencies,
-      fieldValue: ID_FIELD,
+      fieldValue: UNIQUE_ID_FIELD,
       fieldLabel: NAME_FIELD
+    },
+    ReportingLocation: {
+      options: reportingLocations,
+      fieldValue: CODE_FIELD,
+      fieldLabel: NAME_FIELD
+    },
+    User: {
+      options: referralUsers || [],
+      fieldValue: "user_name",
+      fieldLabel: "user_name"
     }
   };
 
@@ -172,10 +252,11 @@ const SelectField = ({
         },
         excludeEmpty: true,
         options: values && values,
-        defaultValue: value && values.filter(v => String(v.value) === value.toString())
+        defaultValue:
+          value && values.filter(v => String(v.value) === value.toString())
       };
 
-      return (
+      const renderField = () => (
         <Field name={name}>
           {/* eslint-disable-next-line no-unused-vars */}
           {({ f, form }) => (
@@ -185,6 +266,21 @@ const SelectField = ({
             />
           )}
         </Field>
+      );
+
+      return (
+        <>
+          {[
+            "service_implementing_agency_individual",
+            "service_implementing_agency"
+          ].find(fieldName => name.endsWith(fieldName)) ? (
+            <LoadingIndicator {...loadingIndicatorProps}>
+              {renderField()}
+            </LoadingIndicator>
+          ) : (
+            renderField()
+          )}
+        </>
       );
     }
 
