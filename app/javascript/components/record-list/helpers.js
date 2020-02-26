@@ -1,5 +1,7 @@
 import React from "react";
+import { Button } from "@material-ui/core";
 
+import Lightbox from "../lightbox";
 import { ToggleIconCell } from "../index-table";
 
 export const buildTableColumns = (columns, i18n, recordType, css) => {
@@ -14,7 +16,12 @@ export const buildTableColumns = (columns, i18n, recordType, css) => {
           ...(["photo"].includes(column.get("name"))
             ? {
                 customBodyRender: value => (
-                  <ToggleIconCell value={value} icon="photo" />
+                  <Lightbox
+                    trigger={
+                      <ToggleIconCell value={Boolean(value)} icon="photo" />
+                    }
+                    image={value}
+                  />
                 )
               }
             : {}),

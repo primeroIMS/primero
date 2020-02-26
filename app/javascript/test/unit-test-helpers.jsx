@@ -130,7 +130,6 @@ const setupFormInputProps = (field = {}, props = {}, mode, errors = []) => {
     label: field.display_name,
     helperText: error?.message || field.help_text,
     fullWidth: true,
-    autoComplete: "off",
     InputLabelProps: {
       shrink: true
     },

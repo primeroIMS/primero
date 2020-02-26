@@ -13,8 +13,8 @@ import { MODULES, RECORD_TYPES, ID_FIELD } from "../../../config";
 import { saveRecord, selectRecordsByIndexes } from "../../records";
 import { compactValues } from "../../record-form/helpers";
 import Fields from "../add-incident/fields";
-import submitForm from "../../../submit-form";
-import resetForm from "../../../reset-form";
+import submitForm from "../../../libs/submit-form";
+import resetForm from "../../../libs/reset-form";
 import { ACTIONS } from "../../../libs/permissions";
 
 import { NAME, SERVICES_SUBFORM } from "./constants";

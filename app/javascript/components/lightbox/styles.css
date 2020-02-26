@@ -1,0 +1,14 @@
+.backdrop {
+  z-index: 99999;
+}
+
+.backdropClose {
+  color: $(theme.primero.colors.white);
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.button {
+  display: contents;
+}
