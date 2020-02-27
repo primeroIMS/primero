@@ -51,7 +51,13 @@ function ReportingDelay({ fetchReportingDelay, reportingDelay }) {
   ];
 
   let rows = reportingDelay.get("data")
-    .map(row => columns.map(column => row.get(column.name)))
+    .map(row => {
+      return [
+        i18n.t(`key_performance_indicators.time_periods.${row.get('delay')}`),
+        row.get('total_cases'),
+        row.get('percentage')
+      ]
+    })
 
   return (
     <OptionsBox

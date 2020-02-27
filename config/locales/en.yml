@@ -2483,6 +2483,12 @@ en:
       last_3_months: "Last 3 Months"
       last_6_months: "Last 6 Months"
       last_1_year: "Last Year"
+      0-3days: "0 - 3 Days"
+      4-5days: "4 - 5 Days"
+      6-14days: "6 - 14 Days"
+      15-30days: "15 - 30 Days"
+      1-3months: "1 - 3 Months"
+      4months: "> 4 Months"
     number_of_cases:
       title: "Number of Cases"
       reporting_site: "Reporting Site"
