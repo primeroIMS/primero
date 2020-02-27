@@ -4,7 +4,7 @@ import uuid from "uuid/v4";
 import { queueIndexedDB } from "../db";
 import { METHODS } from "../config";
 import { ENQUEUE_SNACKBAR, generate } from "../components/notifier";
-import { SET_DIALOG_PENDING } from "../components/record-actions/request-approval/actions";
+import { SET_DIALOG_PENDING } from "../components/record-actions/actions";
 
 const generateName = (body = {}) => {
   const { name_first: nameFirst, name_last: nameLast, name } = body;

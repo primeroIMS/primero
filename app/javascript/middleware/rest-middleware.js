@@ -6,8 +6,6 @@ import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { signOut } from "../components/pages/login/idp-selection";
 import EventManager from "../libs/messenger";
 import { QUEUE_FAILED, QUEUE_SKIP } from "../libs/queue";
-import { ENQUEUE_SNACKBAR, generate } from "../components/notifier";
-import { SET_DIALOG_PENDING } from "../components/record-actions/request-approval/actions";
 
 import {
   handleRestCallback,
@@ -184,13 +182,7 @@ function fetchPayload(action, store, options) {
           });
         }
 
-        handleRestCallback(
-          store,
-          successCallback,
-          response,
-          json,
-          fromQueue
-        );
+        handleRestCallback(store, successCallback, response, json, fromQueue);
       }
       fetchStatus({ store, type }, "FINISHED", false);
     } catch (e) {
