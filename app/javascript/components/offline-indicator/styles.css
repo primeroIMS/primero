@@ -1,5 +1,7 @@
 .offline {
     position: sticky;
+    display: flex;
+    justify-content: center;
     top: 0;
     text-align: center;
     text-transform: uppercase;
@@ -9,4 +11,12 @@
     z-index: 9999;
     background: $(theme.palette.warning.main);
     color: $(theme.palette.warning.contrast);
+
+    & div {
+        margin: 0 1em;
+    }
+}
+
+.divider {
+    letter-spacing: .29vw;
 }
