@@ -2498,7 +2498,7 @@ en:
     reporting_delay:
       title: "Reporting Delay"
       delay: "Delay"
-      total_cases: "Total Cases"
+      total_incidents: "Total Incidents"
 
   reports:
     register_new_report: "Create Report"
