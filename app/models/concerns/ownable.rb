@@ -89,9 +89,8 @@ module Ownable
       self.owned_by = nil
     end
 
-    previous_data_changes = changes['data'].try(:fetch, 0)
-    self.previously_owned_by = previous_data_changes.try(:[], 'owned_by') || owned_by
-    self.previously_owned_by_full_name = previous_data_changes.try(:[], 'owned_by_full_name') || owned_by_full_name
+    self.previously_owned_by = changes['owned_by'].try(:fetch, 0) || owned_by
+    self.previously_owned_by_full_name = changes['owned_by_full_name'].try(:fetch, 0) || owned_by_full_name
 
     if owned_by.present? && (new_record? || changes_to_save_for_record['owned_by'].present?)
       self.owned_by_agency_id = owner&.organization&.id
