@@ -1,0 +1,12 @@
+.offline {
+    position: sticky;
+    top: 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: .8rem;
+    padding: .2rem;
+    font-weight: bold;
+    z-index: 9999;
+    background: $(theme.palette.warning.main);
+    color: $(theme.palette.warning.contrast);
+}
