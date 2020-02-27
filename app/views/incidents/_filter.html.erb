@@ -1,17 +1,19 @@
-<% #All options need to be translated %>
 <%
   violation_types = violation_type_list
 %>
-<ul class="tabs index-filter-tabbed" data-tab data-options="deep_linking:true; scroll_to_content: false;">
-  <li class="tab-title active"><a href="#violations"><%= t("incidents.violations_tab") %></a></li>
-  <li class="tab-title"><a href="#individual"><%= t("incidents.individual_victims_tab") %></a></li>
+
+<%= render 'record_shared/filter_buttons', do_saved_search: true %>
+<%= render 'record_shared/saved_search_modal' %>
+<ul class="tabs" data-tabs id="index-filter-tabbed">
+  <li class="tabs-title is-active"><a href="#violations" aria-selected="true"><%= t("incidents.violations_tab") %></a></li>
+  <li class="tabs-title"><a data-tabs-target="#individual" href="#individual"><%= t('incidents.individual_victims_tab') %></a></li>
 </ul>
+
 <div class="panel">
-  <%= render 'record_shared/filter_buttons', do_saved_search: true %>
-  <%= render 'record_shared/saved_search_modal' %>
+
   <form id="index_filter_form" autocomplete="off">
-    <div class="tabs-content">
-      <div role="tabpanel" class="content active" id="violations">
+    <div class="tabs-content" data-tabs-content="index-filter-tabbed">
+      <div class="tabs-panel is-active" id="violations">
         <% if filters_to_show.include? 'Flagged' %>
           <%= build_filter_checkboxes(t("incidents.filter_by.flag"), 'flag', [{flag: t("incidents.filter_by.flag_label")}], nil, nil, 'single') %>
         <% end %>
@@ -84,7 +86,7 @@
         <% end %>
         <%= render "filter_violations_fields", record: 'incidents', violations: violation_types %>
       </div>
-      <div role="tabpanel" class="content" id="individual">
+      <div class="tabs-panel" id="individual">
         <% if filters_to_show.include? 'Individual Violation' %>
           <%= build_filter_checkboxes(t("incidents.filter_by.individual_violation"), 'individual_violations', violation_types, { multi: true }, false) %>
         <% end %>

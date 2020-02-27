@@ -322,27 +322,6 @@ div.scope_bar {
   &:hover {
     text-decoration: none;
   }
-
-  .tabs .tab-title {
-    &.active {
-      border-top: 2px solid $stroke_green_color;
-      
-      a {
-        background: #f1f5ec;
-        font-weight: bold
-      }
-    }
-
-    > a {
-      color: $green_color;
-      background: #fff;
-      padding: .8em .5em;
-      font-size: .8rem;
-      text-transform: uppercase;
-      text-decoration: none;
-      outline: none;
-    }
-  }
 }
 
 .violation-fields {
