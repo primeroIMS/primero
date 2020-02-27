@@ -4,6 +4,7 @@
 # on Records. Has idiomatic methods for handing case photos
 module Attachable
   extend ActiveSupport::Concern
+  include Sunspot::Rails::Searchable
 
   MAX_ATTACHMENTS = 100
   PHOTOS_FIELD_NAME = 'photos'
@@ -11,8 +12,14 @@ module Attachable
   included do
     has_many :attachments, -> { order('date DESC NULLS LAST') }, as: :record
     validate :maximum_attachments_exceeded
-  end
 
+    searchable do
+      boolean :has_photo do
+        self.has_photo?
+      end
+    end
+
+  end
   def has_photo
     @has_photo ||= current_photo.count.positive?
   end
@@ -40,4 +47,5 @@ module Attachable
 
     errors[:attachments] << 'errors.attachments.maximum'
   end
+
 end
