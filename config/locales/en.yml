@@ -16,7 +16,9 @@ en:
   "false": "No"
   valid: "Valid"
   invalid: "Invalid"
-  offline: The application is offline.
+  offline: "* * * Offline * * *"
+  connection_lost: "Connection Lost"
+  connected: "Connected"
   name: "Name"
   home:
     fr: "Français"
@@ -182,6 +184,7 @@ en:
     submit: "Submit"
     export: "Export"
     import: "Import"
+    new: "New"
     change_password: "Change Password"
     enable_photo_wall: "Enable photo wall"
     disable_photo_wall: "Disable photo wall"
@@ -194,6 +197,7 @@ en:
     find_tracing_match: "Find Tracing Match"
     filter_restore: "Restore to System Settings"
     flag_records: "Flag"
+    flags: "Flags"
     flag_model: "Flag %{model}"
     unflag_model: "Unflag %{model}"
     unflag_model_history: "Flag History %{model}"
