@@ -231,11 +231,15 @@ const Component = ({
     onTableChange: handleTableChange,
     rowsPerPageOptions: [20, 50, 75, 100],
     page: page - 1,
-    onRowClick: (rowData, rowMeta) => {
-      if (onRowClick) {
-        onRowClick(records.get(rowMeta.dataIndex));
-      } else {
-        dispatch(push(`${url}/${records.getIn([rowMeta.dataIndex, "id"])}`));
+    onCellClick: (colData, cellMeta) => {
+      const { dataIndex } = cellMeta;
+
+      if (!(colData instanceof Object)) {
+        if (onRowClick) {
+          onRowClick(records.get(dataIndex));
+        } else {
+          dispatch(push(`${url}/${records.getIn([dataIndex, "id"])}`));
+        }
       }
     },
     ...tableOptionsProps
