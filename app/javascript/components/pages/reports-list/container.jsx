@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import {
-  IconButton,
+  Button,
   Card,
   CardContent,
   CardActionArea,
@@ -80,15 +80,16 @@ const Reports = () => {
     <div>
       <PageContainer>
         <PageHeading title={i18n.t("reports.label")}>
-          <Permission resources={RESOURCES.reports} actions={CREATE_REPORTS}>
-            <IconButton
-              to={ROUTES.reports}
-              component={Link}
-              className={css.new}
-            >
-              <AddIcon />
-            </IconButton>
-          </Permission>
+          {/*<Permission resources={RESOURCES.reports} actions={CREATE_REPORTS}>*/}
+          {/*  <Button*/}
+          {/*    to={ROUTES.reports}*/}
+          {/*    component={Link}*/}
+          {/*    className={css.new}*/}
+          {/*    startIcon={<AddIcon />}*/}
+          {/*  >*/}
+          {/*    {i18n.t("buttons.new")}*/}
+          {/*  </Button>*/}
+          {/*</Permission>*/}
         </PageHeading>
         <PageContent>
           <LoadingIndicator
