@@ -38,7 +38,7 @@ function ReportingDelay({ fetchReportingDelay, reportingDelay }) {
 
   let columns = [
     { name: "delay", label: i18n.t('key_performance_indicators.reporting_delay.delay') },
-    { name: "total_cases", label: i18n.t('key_performance_indicators.reporting_delay.total_cases') },
+    { name: "total_incidents", label: i18n.t('key_performance_indicators.reporting_delay.total_incidents') },
     {
       name: "percentage",
       label: "",
@@ -54,7 +54,7 @@ function ReportingDelay({ fetchReportingDelay, reportingDelay }) {
     .map(row => {
       return [
         i18n.t(`key_performance_indicators.time_periods.${row.get('delay')}`),
-        row.get('total_cases'),
+        row.get('total_incidents'),
         row.get('percentage')
       ]
     })
