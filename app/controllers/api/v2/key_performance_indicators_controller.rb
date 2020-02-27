@@ -85,12 +85,12 @@ module Api::V2
         adjust_solr_params do |params|
           params[:'facet'] = true
           params[:'facet.query'] = [
-            "{!key=0-3days frange u=#{days3}} ms(#{incident_date_derived},#{incident_date_derived})",
-            "{!key=4-5days frange l=#{days3 + 1} u=#{days5}} ms(#{incident_date_derived},#{incident_date_derived})",
-            "{!key=6-14days frange l=#{days5 + 1} u=#{days14}} ms(#{incident_date_derived},#{incident_date_derived})",
-            "{!key=15-30days frange l=#{days14 + 1} u=#{days30}} ms(#{incident_date_derived},#{incident_date_derived})",
-            "{!key=1-3months frange l=#{days30 + 1} u=#{months3}} ms(#{incident_date_derived},#{incident_date_derived})",
-            "{!key=4months frange l=#{months3 + 1}} ms(#{incident_date_derived},#{incident_date_derived})"
+            "{!key=0-3days frange u=#{days3}} ms(#{created_at},#{incident_date_derived})",
+            "{!key=4-5days frange l=#{days3 + 1} u=#{days5}} ms(#{created_at},#{incident_date_derived})",
+            "{!key=6-14days frange l=#{days5 + 1} u=#{days14}} ms(#{created_at},#{incident_date_derived})",
+            "{!key=15-30days frange l=#{days14 + 1} u=#{days30}} ms(#{created_at},#{incident_date_derived})",
+            "{!key=1-3months frange l=#{days30 + 1} u=#{months3}} ms(#{created_at},#{incident_date_derived})",
+            "{!key=4months frange l=#{months3 + 1}} ms(#{created_at},#{incident_date_derived})"
           ]
         end
       end
