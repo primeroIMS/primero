@@ -13,7 +13,7 @@ class Flag < ApplicationRecord
 
   after_create :flag_history
   after_update :unflag_history
-  after_save :index_flags
+  after_save :index_record
 
   searchable do
     date :flag_date, stored: true do
@@ -89,7 +89,7 @@ class Flag < ApplicationRecord
     update_flag_history(EVENT_UNFLAG, unflagged_by)
   end
 
-  def index_flags
+  def index_record
     Sunspot.index!(record) if record
   end
 
