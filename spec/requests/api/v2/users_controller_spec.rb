@@ -150,6 +150,29 @@ describe Api::V2::UsersController, type: :request do
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/users')
     end
+
+    it 'Searching by services and agency at the same time' do
+      @user_1.update(services: ['test'])
+      @role.update(
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::MANAGE, Permission::RECEIVE_REFERRAL]
+          )
+        ]
+      )
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE]),
+          Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])
+        ]
+      )
+      get "/api/v2/users/refer-to?record_type=case&services=test&agency=#{@agency_1.unique_id}"
+
+      expect(response).to have_http_status(200)
+      expect(json['data'][0]['id']).to eq(@user_1.id)
+      expect(json['data'][0]['user_name']).to eq(@user_1.user_name)
+    end
   end
 
   describe 'GET /api/v2/users/:id' do

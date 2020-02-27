@@ -168,7 +168,7 @@ class User < ApplicationRecord
         agencies_filter = filters.delete('agency')
         users = users.where(filters) if filters.present?
         if services_filter.present?
-          users = users.where(':service = ANY (services)', service: services_filter)
+          users = users.where(':service = ANY (users.services)', service: services_filter)
         end
         if agencies_filter.present?
           users = users.joins(:agency).where(agencies: { unique_id: agencies_filter })
