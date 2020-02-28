@@ -1,4 +1,5 @@
 import React from "react";
+import { format, parseISO } from "date-fns";
 import TableCell from "@material-ui/core/TableCell";
 
 import Lightbox from "../lightbox";
@@ -48,6 +49,18 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
                     />
                   </div>
                 )
+              }
+            : {}),
+          ...(column.get("name") === "registration_date"
+            ? {
+                customBodyRender: value =>
+                  format(parseISO(value), "dd-MMM-yyyy")
+              }
+            : {}),
+          ...(column.get("name") === "case_opening_date"
+            ? {
+                customBodyRender: value =>
+                  format(parseISO(value), "dd-MMM-yyyy HH:mm")
               }
             : {})
         }
