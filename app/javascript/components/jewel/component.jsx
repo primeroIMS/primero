@@ -5,8 +5,12 @@ import { Brightness1 as Circle } from "@material-ui/icons";
 
 import styles from "./styles.css";
 
-const Jewel = ({ value, isForm }) => {
+const Jewel = ({ value, isForm, isList }) => {
   const css = makeStyles(styles)();
+
+  if (isList) {
+    return <Circle className={css.circleList} />;
+  }
 
   return (
     <>
@@ -29,6 +33,7 @@ Jewel.displayName = "Jewel";
 
 Jewel.propTypes = {
   isForm: PropTypes.bool,
+  isList: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 
