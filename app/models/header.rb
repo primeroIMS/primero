@@ -10,7 +10,7 @@ class Header < ValueObject
   AGE = Header.new(name: 'age', field_name: 'age', id_search: true)
   SEX = Header.new(name: 'sex', field_name: 'sex', id_search: true)
   REGISTRATION_DATE = Header.new(name: 'registration_date', field_name: 'registration_date')
-  CASE_OPENING_DATE = Header.new(name: 'case_opening_date', field_name: 'case_opening_date')
+  CASE_OPENING_DATE = Header.new(name: 'case_opening_date', field_name: 'created_at')
   PHOTO = Header.new(name: 'photo', field_name: 'photo')
   SOCIAL_WORKER = Header.new(name: 'social_worker', field_name: 'owned_by')
   OWNED_BY = Header.new(name: 'owned_by', field_name: 'owned_by', id_search: true)
@@ -46,6 +46,7 @@ class Header < ValueObject
   USER_GROUP_NAME = Header.new(name: 'user_group.name', field_name: 'name')
   STATUS = Header.new(name: 'status', field_name: 'status')
   ALERT_COUNT = Header.new(name: 'alert_count', field_name: 'alert_count')
+  FLAG_COUNT = Header.new(name: 'flag_count', field_name: 'flag_count')
 
   class << self
 
@@ -71,6 +72,7 @@ class Header < ValueObject
       header_list << PHOTO if user.has_module?(PrimeroModule::CP) && user.can?(:view_photo, Child)
       header_list << SOCIAL_WORKER if user.is_manager?
       header_list << ALERT_COUNT if user.has_module?(PrimeroModule::CP)
+      header_list << FLAG_COUNT if user.has_module?(PrimeroModule::CP)
 
       header_list
     end

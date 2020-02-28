@@ -10,10 +10,13 @@ import { ListIcon } from "../list-icon";
 import { TranslationsToggle } from "../translations-toggle";
 import { useI18n } from "../i18n";
 import { Notifier } from "../notifier";
+import { useApp } from "../application";
+import OfflineIndicator from "../offline-indicator";
 
 import styles from "./login-styles.css";
 
 const LoginLayout = ({ children }) => {
+  const { online } = useApp();
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -23,6 +26,7 @@ const LoginLayout = ({ children }) => {
   return (
     <>
       <Notifier />
+      <OfflineIndicator />
       <Box className={[css.primeroBackground, css[primeroModule]].join(" ")}>
         <div className={css.content}>
           <div className={css.loginHeader}>
@@ -34,7 +38,7 @@ const LoginLayout = ({ children }) => {
                 <div className={css.form}>{children}</div>
               </div>
               <div className={css.loginLogo}>
-                <AgencyLogo />
+                <AgencyLogo alwaysFullLogo />
               </div>
             </div>
           </div>

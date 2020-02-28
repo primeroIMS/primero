@@ -173,6 +173,29 @@ describe Api::V2::UsersController, type: :request do
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/users')
     end
+
+    it 'Searching by services and agency at the same time' do
+      @user_a.update(services: ['test'])
+      @role.update(
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::MANAGE, Permission::RECEIVE_REFERRAL]
+          )
+        ]
+      )
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE]),
+          Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])
+        ]
+      )
+      get "/api/v2/users/refer-to?record_type=case&services=test&agency=#{@agency_a.unique_id}"
+
+      expect(response).to have_http_status(200)
+      expect(json['data'][0]['id']).to eq(@user_a.id)
+      expect(json['data'][0]['user_name']).to eq(@user_a.user_name)
+    end
   end
 
   describe 'GET /api/v2/users/:id' do
@@ -381,7 +404,6 @@ describe Api::V2::UsersController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@user_a.id)
       user1 = User.find_by(id: @user_a.id)
-
       expect(user1.full_name).to eq('Updated User 1')
       expect(user1.user_groups.map(&:unique_id)).to eq(params[:data][:user_group_unique_ids])
       expect(user1.identity_provider_id).to eq(@identity_provider_b.id)
