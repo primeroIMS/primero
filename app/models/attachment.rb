@@ -25,6 +25,7 @@ class Attachment < ApplicationRecord
             file_content_type: { allow: ->(a) { a.valid_content_types } },
             if: :attached?
   validates_associated :record
+  after_save :index_record
 
   def attach
     return unless record.present?
@@ -79,5 +80,9 @@ class Attachment < ApplicationRecord
     hash = slice(:id, :field_name, :file_name, :date, :description, :is_current, :comments)
     hash[:attachment_url] = Rails.application.routes.url_helpers.rails_blob_path(file, only_path: true)
     hash
+  end
+
+  def index_record
+    Sunspot.index!(record) if record
   end
 end
