@@ -10,7 +10,7 @@ class Header < ValueObject
   AGE = Header.new(name: 'age', field_name: 'age', id_search: true)
   SEX = Header.new(name: 'sex', field_name: 'sex', id_search: true)
   REGISTRATION_DATE = Header.new(name: 'registration_date', field_name: 'registration_date')
-  CASE_OPENING_DATE = Header.new(name: 'case_opening_date', field_name: 'case_opening_date')
+  CASE_OPENING_DATE = Header.new(name: 'case_opening_date', field_name: 'created_at')
   PHOTO = Header.new(name: 'photo', field_name: 'photo')
   SOCIAL_WORKER = Header.new(name: 'social_worker', field_name: 'owned_by')
   OWNED_BY = Header.new(name: 'owned_by', field_name: 'owned_by', id_search: true)
