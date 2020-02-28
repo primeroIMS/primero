@@ -89,7 +89,7 @@ group :development do
 end
 
 group :test, :cucumber, :development do
-  gem 'puma', '~> 3.7'
+  gem 'puma', '~> 3.12'
   gem 'pry'
   gem 'pry-byebug'
   gem 'sunspot_test', require: false
