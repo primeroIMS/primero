@@ -16,8 +16,8 @@ const ToggleIconCell = ({ value, icon }) => {
       {
         {
           photo: <Photo />,
-          flag_count: <Flag />,
-          alert_count: <Jewel isForm />
+          flag_count: <Flag fontSize="small" />,
+          alert_count: <Jewel isList />
         }[icon]
       }
     </Icon>
@@ -27,7 +27,7 @@ const ToggleIconCell = ({ value, icon }) => {
 ToggleIconCell.displayName = "ToggleIconCell";
 
 ToggleIconCell.propTypes = {
-  icon: PropTypes.oneOf(["photo", "flag", "alert_count"]),
+  icon: PropTypes.oneOf(["photo", "flag_count", "alert_count"]),
   value: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.array,

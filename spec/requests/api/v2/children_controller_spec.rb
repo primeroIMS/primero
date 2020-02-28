@@ -113,6 +113,15 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['data'][0]['flag_count']).to eq(1)
       expect(json['data'][0]['id']).to eq(@case1.id)
     end
+
+    it 'Search through photo' do
+      login_for_test(permissions: permission_flag_record)
+
+      get '/api/v2/cases?has_photo=true'
+      expect(response).to have_http_status(200)
+      expect(json['data'].count).to eq(1)
+      expect(json['data'][0]['id']).to eq(@case1.id)
+    end
   end
 
   describe 'GET /api/v2/cases/:id' do
