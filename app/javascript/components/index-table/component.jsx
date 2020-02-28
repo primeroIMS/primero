@@ -16,6 +16,7 @@ import { getOptions } from "../record-form/selectors";
 import { selectAgencies } from "../application/selectors";
 import { useI18n } from "../i18n";
 import { STRING_SOURCES_TYPES, RECORD_PATH } from "../../config";
+import { ALERTS_COLUMNS } from "../record-list/constants";
 
 import { NAME } from "./config";
 import { getRecords, getLoading, getErrors, getFilters } from "./selectors";
@@ -250,13 +251,30 @@ const Component = ({
     ...tableOptionsProps
   };
 
+  const tableData =
+    validRecordTypes || localizedFields
+      ? dataToJS(translatedRecords)
+      : dataToJS(records);
+
+  const rowKeys =
+    typeof tableData?.[0] !== "undefined" ? Object.keys(tableData[0]) : [];
+
+  const dataWithAlertsColumn =
+    rowKeys &&
+    rowKeys.includes(ALERTS_COLUMNS.alert_count, ALERTS_COLUMNS.flag_count)
+      ? tableData.map(row => ({
+          ...row,
+          alerts: {
+            alert_count: row?.alert_count || 0,
+            flag_count: row?.flag_count || 0
+          }
+        }))
+      : tableData;
+
   const tableOptions = {
     columns: componentColumns,
     options,
-    data:
-      validRecordTypes || localizedFields
-        ? dataToJS(translatedRecords)
-        : dataToJS(records)
+    data: dataWithAlertsColumn
   };
 
   const loadingIndicatorProps = {
