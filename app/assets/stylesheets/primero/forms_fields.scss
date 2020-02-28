@@ -171,6 +171,12 @@ p.help {
   }
 
   .postfix {
+    display: block;
+    line-height: 2.3125rem;
+    text-align: center;
+    border-style: solid;
+    border-width: 1px;
+    border-right: 0rem;
     font-size: $thirteen_px;
   }
 
