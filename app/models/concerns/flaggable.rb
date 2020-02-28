@@ -12,20 +12,11 @@ module Flaggable
 
     has_many :flags, as: :record
 
-    after_save :index_flags, unless: Proc.new{ Rails.env == 'production' }
-
     def add_flag(message, date, user_name)
       date_flag = date.presence || Date.today
       flag = Flag.new(flagged_by: user_name, message: message, date: date_flag, created_at: DateTime.now)
       self.flags << flag
       flag
-    end
-
-    #TODO: Is this necessary?
-    def index_flags
-      if self.flags.present?
-        Sunspot.index! self.flags
-      end
     end
 
     def remove_flag(id, user_name, unflag_message)

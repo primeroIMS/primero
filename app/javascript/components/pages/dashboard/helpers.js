@@ -19,13 +19,13 @@ const translateLabels = (keys, data) => {
   return keys
     .map(k => data.filter(d => d.id === k))
     .flat()
-    .map(sorted => sorted.display_text);
+    .map(sorted => sorted?.display_text);
 };
 
 const translateSingleLabel = (key, data) => {
   if (key === "") return key;
 
-  return data.filter(d => d.id === key)[0].display_text;
+  return data.filter(d => d.id === key)[0]?.display_text;
 };
 
 const byTeamCaseNames = (a, b) => {

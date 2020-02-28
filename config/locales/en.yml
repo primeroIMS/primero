@@ -16,7 +16,7 @@ en:
   "false": "No"
   valid: "Valid"
   invalid: "Invalid"
-  offline: "* * * Offline * * *"
+  offline: "Offline"
   connection_lost: "Connection Lost"
   connected: "Connected"
   name: "Name"
