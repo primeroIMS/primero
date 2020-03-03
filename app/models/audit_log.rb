@@ -2,7 +2,6 @@
 
 # An audit log record is created for every invocation of a Primero endpoint.
 class AuditLog < ApplicationRecord
-
   LOGIN = 'login'
 
   default_scope { order(timestamp: :desc) }
@@ -25,6 +24,8 @@ class AuditLog < ApplicationRecord
   end
 
   def user_name
+    return user.user_name if metadata.blank?
+
     metadata['user_name'] || user.user_name
   end
 
@@ -34,5 +35,4 @@ class AuditLog < ApplicationRecord
     logger_action_suffix = "#{I18n.t('logger.by_user', locale: :en)} '#{user_name}'"
     "#{logger_action_prefix} #{logger_action_identifier} #{logger_action_suffix}"
   end
-
 end
