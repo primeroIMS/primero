@@ -231,3 +231,9 @@ Endpoints for querying and manipulating individual primero module and related re
 * [Query for primero modules](v2/docs/primero_modules/get.md) : `GET /api/v2/primero_modules`
 * [Fetch an individual primero module](v2/docs/primero_modules/id/get.md) : `GET /api/v2/primero_modules/:id`
 * [Update an existing primero module](v2/docs/primero_modules/id/patch.md) : `PATCH /api/v2/primero_modules/:id`
+
+## Audit Log Endpoints
+
+Endpoints for querying and manipulating individual audit log and related resources in Primero.
+
+* [Query for audit logs](v2/docs/audit_logs/get.md) : `GET /api/v2/audit_logs`
