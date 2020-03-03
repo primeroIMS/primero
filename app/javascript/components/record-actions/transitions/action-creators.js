@@ -1,7 +1,56 @@
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
+import { REFER_DIALOG, TRANSFER_DIALOG, ASSIGN_DIALOG } from "../constants";
 
 import { generatePath } from "./parts";
 import actions from "./actions";
+
+import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
+
+const successCallbackActions = (modalName, message) => [
+  {
+    action: ENQUEUE_SNACKBAR,
+    payload: {
+      message,
+      options: {
+        variant: "success",
+        key: generate.messageKey()
+      }
+    }
+  },
+  {
+    action: SET_DIALOG,
+    payload: {
+      dialog: modalName,
+      open: false
+    }
+  },
+  {
+    action: SET_DIALOG_PENDING,
+    payload: {
+      pending: false
+    }
+  }
+];
+
+const failureCallbackActions = failureMessage => [
+  {
+    action: ENQUEUE_SNACKBAR,
+    payload: {
+      // TODO: Delete once middleware handles errors
+      message: failureMessage,
+      options: {
+        variant: "error",
+        key: generate.messageKey()
+      }
+    }
+  },
+  {
+    action: SET_DIALOG_PENDING,
+    payload: {
+      pending: false
+    }
+  }
+];
 
 export const fetchAssignUsers = recordType => ({
   type: actions.ASSIGN_USERS_FETCH,
@@ -36,59 +85,35 @@ export const removeFormErrors = payload => {
   };
 };
 
-export const saveAssignedUser = (recordId, body, message) => ({
+export const saveAssignedUser = (recordId, body, message, failureMessage) => ({
   type: actions.ASSIGN_USER_SAVE,
   api: {
     path: generatePath(actions.CASES_ASSIGNS, recordId),
     method: "POST",
     body,
-    successCallback: {
-      action: ENQUEUE_SNACKBAR,
-      payload: {
-        message,
-        options: {
-          variant: "success",
-          key: generate.messageKey()
-        }
-      }
-    }
+    successCallback: successCallbackActions(ASSIGN_DIALOG, message),
+    failureCallback: failureCallbackActions(failureMessage)
   }
 });
 
-export const saveTransferUser = (recordId, body, message) => ({
+export const saveTransferUser = (recordId, body, message, failureMessage) => ({
   type: actions.TRANSFER_USER,
   api: {
     path: generatePath(actions.CASES_TRANSFERS, recordId),
     method: "POST",
     body,
-    successCallback: {
-      action: ENQUEUE_SNACKBAR,
-      payload: {
-        message,
-        options: {
-          variant: "success",
-          key: generate.messageKey()
-        }
-      }
-    }
+    successCallback: successCallbackActions(TRANSFER_DIALOG, message),
+    failureCallback: failureCallbackActions(failureMessage)
   }
 });
 
-export const saveReferral = (recordId, body, message) => ({
+export const saveReferral = (recordId, body, message, failureMessage) => ({
   type: actions.REFER_USER,
   api: {
     path: generatePath(actions.CASES_REFERRALS, recordId),
     method: "POST",
     body,
-    successCallback: {
-      action: ENQUEUE_SNACKBAR,
-      payload: {
-        message,
-        options: {
-          variant: "success",
-          key: generate.messageKey()
-        }
-      }
-    }
+    successCallback: successCallbackActions(REFER_DIALOG, message),
+    failureCallback: failureCallbackActions(failureMessage)
   }
 });

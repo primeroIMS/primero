@@ -28,7 +28,10 @@ import {
   REQUEST_APPROVAL_DIALOG,
   APPROVAL_DIALOG,
   APPROVAL_TYPE,
-  REQUEST_TYPE
+  REQUEST_TYPE,
+  REFER_DIALOG,
+  TRANSFER_DIALOG,
+  ASSIGN_DIALOG
 } from "./constants";
 import { NAME } from "./config";
 import Notes from "./notes";
@@ -75,6 +78,20 @@ const Container = ({
   );
   const setApproveDialog = open => {
     dispatch(setDialog({ dialog: APPROVAL_DIALOG, open }));
+  };
+  const referDialog = useSelector(state => selectDialog(REFER_DIALOG, state));
+  const setReferDialog = open => {
+    dispatch(setDialog({ dialog: REFER_DIALOG, open }));
+  };
+  const transferDialog = useSelector(state =>
+    selectDialog(TRANSFER_DIALOG, state)
+  );
+  const setTransferDialog = open => {
+    dispatch(setDialog({ dialog: TRANSFER_DIALOG, open }));
+  };
+  const assignDialog = useSelector(state => selectDialog(ASSIGN_DIALOG, state));
+  const setAssignDialog = open => {
+    dispatch(setDialog({ dialog: ASSIGN_DIALOG, open }));
   };
 
   const enableState =
@@ -213,7 +230,15 @@ const Container = ({
     transitionType,
     setTransitionType,
     recordType,
-    userPermissions
+    userPermissions,
+    referDialog,
+    transferDialog,
+    assignDialog,
+    handleReferClose: () => setReferDialog(false),
+    handleTransferClose: () => setTransferDialog(false),
+    handleAssignClose: () => setAssignDialog(false),
+    pending: dialogPending,
+    setPending: setDialogPending
   };
 
   const handleNotesClose = () => {
@@ -265,19 +290,19 @@ const Container = ({
   const actions = [
     {
       name: `${i18n.t("buttons.referral")} ${formRecordType}`,
-      action: () => setTransitionType("referral"),
+      action: () => setReferDialog(true),
       recordType,
       condition: canRefer
     },
     {
       name: `${i18n.t("buttons.reassign")} ${formRecordType}`,
-      action: () => setTransitionType("reassign"),
+      action: () => setAssignDialog(true),
       recordType,
       condition: canAssign
     },
     {
       name: `${i18n.t("buttons.transfer")} ${formRecordType}`,
-      action: () => setTransitionType("transfer"),
+      action: () => setTransferDialog(true),
       recordType: ["cases", "incidents"],
       condition: canTransfer
     },

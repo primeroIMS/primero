@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
 
-import { removeFormErrors } from "./action-creators";
+import { useI18n } from "../../i18n";
+import submitForm from "../../../libs/submit-form";
+import { TRANSITIONS_TYPES } from "../../transitions/constants";
+
+import { NAME } from "./constants";
 import { hasProvidedConsent } from "./parts/helpers";
 import {
   TransitionDialog,
@@ -12,81 +15,137 @@ import {
 } from "./parts";
 
 const Transitions = ({
-  transitionType,
   record,
-  setTransitionType,
   recordType,
-  userPermissions
+  userPermissions,
+  referDialog,
+  assignDialog,
+  transferDialog,
+  handleReferClose,
+  handleAssignClose,
+  handleTransferClose,
+  pending,
+  setPending
 }) => {
-  const dispatch = useDispatch();
+  const i18n = useI18n();
   const providedConsent = record && hasProvidedConsent(record);
+  const referralFormikRef = useRef();
+  const transferFormikRef = useRef();
+  const assignFormikRef = useRef();
+  const [disabledReferButton, setDisabledReferButton] = useState(false);
+  const [disabledTransferButton, setDisabledTransferButton] = useState(false);
 
-  const handleClose = () => {
-    setTransitionType("");
-    dispatch(removeFormErrors(transitionType));
-  };
-
-  const transitionDialogProps = {
+  const commonDialogProps = {
+    omitCloseAfterSuccess: true,
+    pending,
     record,
-    open: !!transitionType,
-    transitionType,
-    handleClose,
     recordType
   };
 
-  const renderTransitionForm = type => {
-    switch (type) {
-      case "referral": {
-        const referralProps = {
-          handleClose,
-          userPermissions,
-          providedConsent,
-          recordType,
-          record
-        };
+  // eslint-disable-next-line react/display-name
+  const renderTransitionForm = () => {
+    if (referDialog) {
+      const referralOnClose = () => {
+        setDisabledReferButton(false);
+        handleReferClose();
+      };
 
-        return <ReferralForm {...referralProps} />;
-      }
-      case "reassign": {
-        const reassignProps = {
-          recordType,
-          record,
-          handleClose
-        };
-
-        return <ReassignForm {...reassignProps} />;
-      }
-      case "transfer": {
-        // TODO: isBulkTransfer should be dynamic once record-actions
-        // it's been implemented on <RecordList />
-        const transferProps = {
-          providedConsent,
-          isBulkTransfer: false,
-          userPermissions,
-          handleClose,
-          transitionType,
-          record,
-          recordType
-        };
-
-        return <TransferForm {...transferProps} />;
-      }
-      default:
-        return <></>;
+      return (
+        <TransitionDialog
+          onClose={referralOnClose}
+          confirmButtonLabel={i18n.t("buttons.referral")}
+          open={referDialog}
+          successHandler={() => submitForm(referralFormikRef)}
+          transitionType={TRANSITIONS_TYPES.referral}
+          disableSuccess={disabledReferButton || providedConsent}
+          {...commonDialogProps}
+        >
+          <ReferralForm
+            userPermissions={userPermissions}
+            providedConsent={providedConsent}
+            recordType={recordType}
+            record={record}
+            referralRef={referralFormikRef}
+            setPending={setPending}
+            disabled={disabledReferButton}
+            setDisabled={setDisabledReferButton}
+          />
+        </TransitionDialog>
+      );
     }
+
+    if (transferDialog) {
+      const transferOnClose = () => {
+        setDisabledTransferButton(false);
+        handleTransferClose();
+      };
+
+      return (
+        <TransitionDialog
+          onClose={transferOnClose}
+          confirmButtonLabel={i18n.t("buttons.transfer")}
+          open={transferDialog}
+          successHandler={() => submitForm(transferFormikRef)}
+          transitionType={TRANSITIONS_TYPES.transfer}
+          disableSuccess={disabledTransferButton || providedConsent}
+          {...commonDialogProps}
+        >
+          <TransferForm
+            providedConsent={providedConsent}
+            isBulkTransfer={false}
+            userPermissions={userPermissions}
+            record={record}
+            recordType={recordType}
+            transferRef={transferFormikRef}
+            setPending={setPending}
+            disabled={disabledTransferButton}
+            setDisabled={setDisabledTransferButton}
+          />
+        </TransitionDialog>
+      );
+    }
+
+    if (assignDialog) {
+      return (
+        <TransitionDialog
+          onClose={handleAssignClose}
+          confirmButtonLabel={i18n.t("buttons.save")}
+          open={assignDialog}
+          successHandler={() => submitForm(assignFormikRef)}
+          transitionType={TRANSITIONS_TYPES.reassign}
+          disableSuccess
+          {...commonDialogProps}
+        >
+          <ReassignForm
+            record={record}
+            recordType={recordType}
+            setPending={setPending}
+            assignRef={assignFormikRef}
+          />
+        </TransitionDialog>
+      );
+    }
+
+    return null;
   };
 
-  return (
-    <TransitionDialog {...transitionDialogProps}>
-      {renderTransitionForm(transitionType)}
-    </TransitionDialog>
-  );
+  return renderTransitionForm();
 };
 
+Transitions.displayName = NAME;
+
 Transitions.propTypes = {
+  assignDialog: PropTypes.bool,
+  handleAssignClose: PropTypes.func,
+  handleReferClose: PropTypes.func,
+  handleTransferClose: PropTypes.func,
+  pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  referDialog: PropTypes.bool,
+  setPending: PropTypes.func,
   setTransitionType: PropTypes.func.isRequired,
+  transferDialog: PropTypes.bool,
   transitionType: PropTypes.string.isRequired,
   userPermissions: PropTypes.object.isRequired
 };

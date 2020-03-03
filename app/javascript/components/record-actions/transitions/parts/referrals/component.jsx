@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name */
+/* eslint-disable react/no-multi-comp */
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -19,15 +21,18 @@ import {
 } from "./constants";
 
 const ReferralForm = ({
-  handleClose,
   userPermissions,
   providedConsent,
   recordType,
-  record
+  record,
+  referralRef,
+  setPending,
+  disabled,
+  setDisabled
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const [disabled, setDisabled] = useState(false);
+  // const [disabled, setDisabled] = useState(false);
 
   const canConsentOverride =
     userPermissions &&
@@ -40,7 +45,6 @@ const ReferralForm = ({
     canConsentOverride,
     disabled,
     setDisabled,
-    handleClose,
     recordType
   };
 
@@ -60,8 +64,11 @@ const ReferralForm = ({
       [TRANSITIONED_TO_FIELD]: "",
       [NOTES_FIELD]: ""
     },
+    ref: referralRef,
     onSubmit: (values, { setSubmitting }) => {
       const recordId = record.get("id");
+
+      setPending(true);
 
       dispatch(
         saveReferral(
@@ -72,7 +79,8 @@ const ReferralForm = ({
               consent_overridden: canConsentOverride || values[REFERRAL_FIELD]
             }
           },
-          i18n.t("referral.success", { record_type: recordType, id: recordId })
+          i18n.t("referral.success", { record_type: recordType, id: recordId }),
+          i18n.t("referral.error")
         )
       );
       setSubmitting(false);
@@ -87,10 +95,13 @@ const ReferralForm = ({
 };
 
 ReferralForm.propTypes = {
-  handleClose: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  referralRef: PropTypes.object,
+  setDisabled: PropTypes.func,
+  setPending: PropTypes.func,
   userPermissions: PropTypes.object
 };
 
