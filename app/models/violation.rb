@@ -63,6 +63,8 @@ class Violation
 
     string('armed_group_names', multiple: true){armed_group_names}
 
+    string('perpetrator_categories', multiple: true){perpetrator_categories}
+
     integer('individual_age', multiple: true){ individual_victims_age }
 
     string('incident_total_tally', multiple: true) do
@@ -144,6 +146,10 @@ class Violation
 
   def armed_force_names
     perpetrators.map(&:armed_force_name).compact
+  end
+
+  def perpetrator_categories
+    perpetrators.map(&:perpetrator_category).compact
   end
 
   def armed_group_names
