@@ -68,7 +68,7 @@ module Api::V2
     end
 
     def reporting_delay
-      created_at = SolrUtils.indexed_field_name(Incident, :created_at)
+      date_of_first_report = SolrUtils.indexed_field_name(Incident, :date_of_first_report)
       incident_date_derived = SolrUtils.indexed_field_name(Incident, :incident_date_derived)
 
       days3 = 3 * 24 * 60 * 60 * 1000
@@ -80,17 +80,17 @@ module Api::V2
       # For the purposes of this query 1 month is 30.4167 days or
       # 30.4167 * 24 * 60 * 60 * 1000 milliseconds
       search = Incident.search do
-        with :created_at, from..to
+        with :date_of_first_report, from..to
 
         adjust_solr_params do |params|
           params[:'facet'] = true
           params[:'facet.query'] = [
-            "{!key=0-3days frange u=#{days3}} ms(#{created_at},#{incident_date_derived})",
-            "{!key=4-5days frange l=#{days3 + 1} u=#{days5}} ms(#{created_at},#{incident_date_derived})",
-            "{!key=6-14days frange l=#{days5 + 1} u=#{days14}} ms(#{created_at},#{incident_date_derived})",
-            "{!key=15-30days frange l=#{days14 + 1} u=#{days30}} ms(#{created_at},#{incident_date_derived})",
-            "{!key=1-3months frange l=#{days30 + 1} u=#{months3}} ms(#{created_at},#{incident_date_derived})",
-            "{!key=4months frange l=#{months3 + 1}} ms(#{created_at},#{incident_date_derived})"
+            "{!key=0-3days frange u=#{days3}} ms(#{date_of_first_report},#{incident_date_derived})",
+            "{!key=4-5days frange l=#{days3 + 1} u=#{days5}} ms(#{date_of_first_report},#{incident_date_derived})",
+            "{!key=6-14days frange l=#{days5 + 1} u=#{days14}} ms(#{date_of_first_report},#{incident_date_derived})",
+            "{!key=15-30days frange l=#{days14 + 1} u=#{days30}} ms(#{date_of_first_report},#{incident_date_derived})",
+            "{!key=1-3months frange l=#{days30 + 1} u=#{months3}} ms(#{date_of_first_report},#{incident_date_derived})",
+            "{!key=4months frange l=#{months3 + 1}} ms(#{date_of_first_report},#{incident_date_derived})"
           ]
         end
       end

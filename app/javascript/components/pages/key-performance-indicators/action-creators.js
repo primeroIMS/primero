@@ -30,11 +30,12 @@ export const fetchReportingDelay = (dateRange) => async dispatch => {
   });
 };
 
-export const fetchServiceAccessDelay = () => async dispatch => {
+export const fetchServiceAccessDelay = (dateRange) => async dispatch => {
   dispatch({
     type: Actions.SERVICE_ACCESS_DELAY,
     api: {
-      path: "key_performance_indicators/service_access_delay"
+      path: "key_performance_indicators/service_access_delay",
+      params: { from: dateRange.from, to: dateRange.to }
     }
   });
 };

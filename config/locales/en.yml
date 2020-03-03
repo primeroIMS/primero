@@ -2499,6 +2499,10 @@ en:
       title: "Reporting Delay"
       delay: "Delay"
       total_incidents: "Total Incidents"
+    service_access_delay:
+      title: "Service Access Delay"
+      delay: "Delay"
+      total_incidents: "Total Incidents"
 
   reports:
     register_new_report: "Create Report"

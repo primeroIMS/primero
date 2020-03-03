@@ -1,20 +1,43 @@
 import * as actions from "../../action-creators";
 import * as selectors from "../../selectors";
-import { TablePercentageBar, DateRangeSelect } from "components/key-performance-indicators";
+import { TablePercentageBar, DateRangeSelect, DateRange} from "components/key-performance-indicators";
 import { OptionsBox, DashboardTable } from "components/dashboard";
-import { connect, batch } from "react-redux";
-import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useI18n } from "components/i18n";
+import { subMonths, addMonths, startOfMonth } from "date-fns";
 
 function ServiceAccessDelay({ fetchServiceAccessDelay, serviceAccessDelay }) {
+  let i18n = useI18n();
+
+  let today = new Date();
+  let dateRanges = [
+    new DateRange(
+      '3-months',
+      i18n.t('key_performance_indicators.time_periods.last_3_months'),
+      startOfMonth(subMonths(today, 2)),
+      startOfMonth(addMonths(today, 1))),
+    new DateRange(
+      '6-months',
+      i18n.t('key_performance_indicators.time_periods.last_6_months'),
+      startOfMonth(subMonths(today, 5)),
+      startOfMonth(addMonths(today, 1))),
+    new DateRange(
+      '1-year',
+      i18n.t('key_performance_indicators.time_periods.last_1_year'),
+      startOfMonth(subMonths(today, 12)),
+      startOfMonth(addMonths(today, 1)))
+  ]
+
+  let [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);
+
   useEffect(() => {
-    batch(() => {
-      fetchServiceAccessDelay();
-    });
-  }, []);
+    fetchServiceAccessDelay(currentDateRange);
+  }, [currentDateRange]);
 
   let columns = [
-    { name: "delay", label: "Delay" },
-    { name: "total_cases", label: "Total Cases"},
+    { name: "delay", label: i18n.t('key_performance_indicators.service_access_delay.delay') },
+    { name: "total_incidents", label: i18n.t('key_performance_indicators.service_access_delay.total_incidents') },
     {
       name: "percentage",
       label: "",
@@ -27,24 +50,22 @@ function ServiceAccessDelay({ fetchServiceAccessDelay, serviceAccessDelay }) {
   ];
 
   let rows = serviceAccessDelay.get("data")
-    .map(row => columns.map(column => row.get(column.name)))
-
-  let threeMonthsAgo = new Date();
-  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
-  let dateRanges = [{
-    value: '3-months',
-    name: 'Last 3 Months',
-    from: threeMonthsAgo,
-    to: new Date()
-  }]
+    .map(row => {
+      return [
+        i18n.t(`key_performance_indicators.time_periods.${row.get('delay')}`),
+        row.get('total_incidents'),
+        row.get('percentage')
+      ]
+    })
 
   return (
     <OptionsBox
-      title="Service Access Delay"
+      title={i18n.t('key_performance_indicators.service_access_delay.title')}
       action={
         <DateRangeSelect
           ranges={dateRanges}
-          selectedRange={dateRanges[0]}
+          selectedRange={currentDateRange}
+          setSelectedRange={setCurrentDateRange}
           withCustomRange
         />
       }
@@ -68,6 +89,6 @@ const mapDispatchToProps = {
 };
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ServiceAccessDelay);
+  mapStateToProps,
+  mapDispatchToProps
+)(ServiceAccessDelay);
