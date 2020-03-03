@@ -130,6 +130,10 @@ class Incident < CouchRest::Model::Base
       self.armed_force_names
     end
 
+    string :perpetrator_categories, multiple: true do
+      self.perpetrator_categories
+    end
+
     string :armed_group_names, multiple: true do
       self.armed_group_names
     end
@@ -540,6 +544,16 @@ class Incident < CouchRest::Model::Base
     armed_forces.uniq! if armed_forces.present?
 
     return armed_forces
+  end
+
+  def perpetrator_categories
+    perpetrator_categories = []
+    if self.perpetrator_subform_section.present?
+      self.perpetrator_subform_section.each {|p| perpetrator_categories << p.perpetrator_category if p.perpetrator_category.present?}
+    end
+    perpetrator_categories.uniq! if perpetrator_categories.present?
+
+    return perpetrator_categories
   end
 
   def armed_group_names
