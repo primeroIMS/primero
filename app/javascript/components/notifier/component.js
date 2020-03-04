@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from "notistack";
 
+import { useI18n } from "../i18n";
+
 import { getMessages } from "./selectors";
 import { removeSnackbar } from "./action-creators";
 import SnackbarAction from "./snackbar-action";
@@ -18,6 +20,7 @@ const snackbarOptions = {
 };
 
 const Notifier = () => {
+  const i18n = useI18n();
   const dispatch = useDispatch();
   const notifications = useSelector(state => getMessages(state));
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -41,6 +44,7 @@ const Notifier = () => {
         options: { key, onClose, action, ...otherOptions },
         dismissed,
         message,
+        messageKey,
         actionLabel,
         actionUrl
       } = snack;
@@ -53,7 +57,19 @@ const Notifier = () => {
 
       if (displayed.includes(key)) return;
 
-      enqueueSnackbar(message, {
+      let snackMessage = message;
+
+      if (messageKey) {
+        const translatedMessage = i18n.t(messageKey);
+
+        if (/^\[missing/.test(translatedMessage)) {
+          snackMessage = messageKey;
+        } else {
+          snackMessage = translatedMessage;
+        }
+      }
+
+      enqueueSnackbar(snackMessage, {
         ...otherOptions,
         ...snackbarOptions,
         key,

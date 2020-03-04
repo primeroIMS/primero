@@ -1970,6 +1970,8 @@ en:
     try_again: "Try again"
     error_loading: "Error Loading Record(s)"
     not_found: "No Record(s) Found"
+    api:
+      internal_server: "An error occurred, please contact support."
     template:
       header:
         one: "1 error prohibited this %{model} from being saved"
