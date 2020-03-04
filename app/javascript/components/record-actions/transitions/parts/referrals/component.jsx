@@ -32,7 +32,6 @@ const ReferralForm = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  // const [disabled, setDisabled] = useState(false);
 
   const canConsentOverride =
     userPermissions &&

@@ -25,6 +25,7 @@ import {
 } from "../../selectors";
 import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
 import { valuesToSearchableSelect } from "../../../../../libs";
+import { TRANSITIONS_TYPES } from "../../../../transitions/constants";
 
 import TransferInternal from "./transfer-internal";
 import ProvidedConsent from "./provided-consent";
@@ -43,7 +44,6 @@ const TransferForm = ({
   providedConsent,
   isBulkTransfer,
   userPermissions,
-  transitionType,
   record,
   recordType,
   transferRef,
@@ -61,11 +61,11 @@ const TransferForm = ({
   }, []);
 
   const users = useSelector(state =>
-    getUsersByTransitionType(state, transitionType)
+    getUsersByTransitionType(state, TRANSITIONS_TYPES.transfer)
   );
 
   const hasErrors = useSelector(state =>
-    getErrorsByTransitionType(state, transitionType)
+    getErrorsByTransitionType(state, TRANSITIONS_TYPES.transfer)
   );
 
   const agencies = useSelector(state => selectAgencies(state));
@@ -280,7 +280,6 @@ TransferForm.propTypes = {
   setDisabled: PropTypes.func,
   setPending: PropTypes.func,
   transferRef: PropTypes.object,
-  transitionType: PropTypes.string,
   userPermissions: PropTypes.object.isRequired,
   values: PropTypes.object
 };
