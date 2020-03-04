@@ -9,7 +9,6 @@ import { setupMountedComponent } from "../../../../../test";
 import FormInternal from "./form-internal";
 import ProvidedConsent from "./provided-consent";
 import MainForm from "./main-form";
-import Actions from "./actions";
 import {
   SERVICE_FIELD,
   AGENCY_FIELD,
@@ -108,25 +107,6 @@ describe("<MainForm />", () => {
 
   it("renders FormInternal", () => {
     expect(component.find(FormInternal)).to.have.lengthOf(1);
-  });
-
-  it("renders Box", () => {
-    expect(component.find(Box)).to.have.lengthOf(1);
-  });
-
-  it("renders Actions with two props", () => {
-    const referActions = component.find(Actions);
-    const referActionsProps = referActions.props();
-
-    expect(referActions).to.have.lengthOf(1);
-    expect(referActionsProps).to.have.property("handleClose");
-    expect(referActionsProps.handleClose).to.be.a("function");
-    expect(referActionsProps).to.have.property("disabled");
-    expect(referActionsProps.disabled).to.be.a("boolean");
-    delete referActionsProps.handleClose;
-    delete referActionsProps.disabled;
-
-    expect(referActionsProps).to.be.empty;
   });
 
   describe("when mounting fields for FormInternal ", () => {

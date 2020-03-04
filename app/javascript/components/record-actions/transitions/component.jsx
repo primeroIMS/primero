@@ -144,9 +144,7 @@ Transitions.propTypes = {
   recordType: PropTypes.string.isRequired,
   referDialog: PropTypes.bool,
   setPending: PropTypes.func,
-  setTransitionType: PropTypes.func.isRequired,
   transferDialog: PropTypes.bool,
-  transitionType: PropTypes.string.isRequired,
   userPermissions: PropTypes.object.isRequired
 };
 

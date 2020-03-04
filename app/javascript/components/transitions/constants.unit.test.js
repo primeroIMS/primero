@@ -33,7 +33,8 @@ describe("<Transitions /> - Constants", () => {
     expect(constants.TRANSITIONS_TYPES).to.be.an("object");
     expect(constants.TRANSITIONS_TYPES).to.have.all.keys(
       "transfer",
-      "referral"
+      "referral",
+      "reassign"
     );
     delete constants.TRANSITIONS_TYPES;
 

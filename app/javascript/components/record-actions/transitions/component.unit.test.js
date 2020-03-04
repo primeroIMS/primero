@@ -42,11 +42,17 @@ describe("<Transitions />", () => {
 
   describe("when transitionType is 'referral'", () => {
     const props = {
-      recordType: "cases",
-      transitionType: "referral",
-      setTransitionType: () => {},
       record,
-      userPermissions: fromJS({ cases: ["manage"] })
+      recordType: "cases",
+      userPermissions: fromJS({ cases: ["manage"] }),
+      referDialog: true,
+      assignDialog: false,
+      transferDialog: false,
+      handleReferClose: () => {},
+      handleAssignClose: () => {},
+      handleTransferClose: () => {},
+      pending: false,
+      setPending: () => {}
     };
 
     beforeEach(() => {
@@ -54,22 +60,25 @@ describe("<Transitions />", () => {
     });
 
     it("renders TransitionDialog", () => {
-      expect(component.find(TransitionDialog)).to.have.length(1);
+      expect(component.find(TransitionDialog)).to.have.lengthOf(1);
     });
 
     it("renders ReferralForm", () => {
-      expect(component.find(ReferralForm)).to.have.length(1);
+      expect(component.find(ReferralForm)).to.have.lengthOf(1);
     });
 
     describe("with props", () => {
       it("should check the allowed props", () => {
         const referralForm = component.find(ReferralForm);
         const validProps = [
-          "handleClose",
           "userPermissions",
           "providedConsent",
           "recordType",
-          "record"
+          "record",
+          "referralRef",
+          "setPending",
+          "disabled",
+          "setDisabled"
         ];
 
         expect(Object.keys(referralForm.props())).to.deep.equal(validProps);
@@ -88,10 +97,25 @@ describe("<Transitions />", () => {
           })
         );
       });
-      it("should check the handleClose prop", () => {
+      it("should check the setPending prop", () => {
         const referralForm = component.find(ReferralForm);
 
-        expect(typeof referralForm.props().handleClose).to.be.equal("function");
+        expect(referralForm.props().setPending).to.be.a("function");
+      });
+      it("should check the setDisabled prop", () => {
+        const referralForm = component.find(ReferralForm);
+
+        expect(referralForm.props().setDisabled).to.be.a("function");
+      });
+      it("should check the referralRef prop", () => {
+        const referralForm = component.find(ReferralForm);
+
+        expect(referralForm.props().referralRef).to.be.an("object");
+      });
+      it("should check the disabled prop", () => {
+        const referralForm = component.find(ReferralForm);
+
+        expect(referralForm.props().disabled).to.be.false;
       });
       it("should check the recordType prop", () => {
         const referralForm = component.find(ReferralForm);
@@ -108,11 +132,17 @@ describe("<Transitions />", () => {
 
   describe("when transitionType is 'reassign'", () => {
     const props = {
-      recordType: "cases",
-      transitionType: "reassign",
-      setTransitionType: () => {},
       record,
-      userPermissions: fromJS({ cases: ["manage"] })
+      recordType: "cases",
+      userPermissions: fromJS({ cases: ["manage"] }),
+      referDialog: false,
+      assignDialog: true,
+      transferDialog: false,
+      handleReferClose: () => {},
+      handleAssignClose: () => {},
+      handleTransferClose: () => {},
+      pending: false,
+      setPending: () => {}
     };
 
     beforeEach(() => {
@@ -120,21 +150,28 @@ describe("<Transitions />", () => {
     });
 
     it("renders TransitionDialog", () => {
-      expect(component.find(TransitionDialog)).to.have.length(1);
+      expect(component.find(TransitionDialog)).to.have.lengthOf(1);
     });
 
     it("renders ReassignForm", () => {
-      expect(component.find(ReassignForm)).to.have.length(1);
+      expect(component.find(ReassignForm)).to.have.lengthOf(1);
     });
   });
 
   describe("when transitionType is 'transfer'", () => {
     const props = {
-      recordType: "cases",
-      transitionType: "transfer",
-      setTransitionType: () => {},
       record,
-      userPermissions: fromJS({ cases: ["manage"] })
+      recordType: "cases",
+      userPermissions: fromJS({ cases: ["manage"] }),
+      referDialog: false,
+      assignDialog: false,
+      transferDialog: true,
+      handleReferClose: () => {},
+      handleAssignClose: () => {},
+      handleTransferClose: () => {},
+      pending: false,
+      isBulkTransfer: false,
+      setPending: () => {}
     };
 
     beforeEach(() => {
@@ -159,10 +196,12 @@ describe("<Transitions />", () => {
           "providedConsent",
           "isBulkTransfer",
           "userPermissions",
-          "handleClose",
-          "transitionType",
           "record",
-          "recordType"
+          "recordType",
+          "transferRef",
+          "setPending",
+          "disabled",
+          "setDisabled"
         ];
 
         expect(Object.keys(transferForm.props())).to.deep.equal(validProps);
@@ -180,11 +219,20 @@ describe("<Transitions />", () => {
           })
         );
       });
-      it("should check the handleClose prop", () => {
-        expect(typeof transferForm.props().handleClose).to.be.equal("function");
+      it("should check the setPending prop", () => {
+        expect(transferForm.props().setPending).to.be.a("function");
       });
-      it("should check the transitionType prop", () => {
-        expect(transferForm.props().transitionType).to.deep.equal("transfer");
+      it("should check the setDisabled prop", () => {
+        expect(transferForm.props().setDisabled).to.be.a("function");
+      });
+      it("should check the transferRef prop", () => {
+        expect(transferForm.props().transferRef).to.be.an("object");
+      });
+      it("should check the disabled prop", () => {
+        expect(transferForm.props().disabled).to.be.false;
+      });
+      it("should check the isBulkTransfer prop", () => {
+        expect(transferForm.props().isBulkTransfer).to.be.false;
       });
       it("should check the record prop", () => {
         expect(transferForm.props().record).to.deep.equal(record);
