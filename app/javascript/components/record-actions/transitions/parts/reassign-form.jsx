@@ -98,8 +98,7 @@ const ReassignForm = ({ record, recordType, setPending, assignRef }) => {
       saveAssignedUser(
         record.get("id"),
         { data: values },
-        i18n.t("reassign.successfully"),
-        i18n.t("transfer.error")
+        i18n.t("reassign.successfully")
       )
     );
     setSubmitting(false);

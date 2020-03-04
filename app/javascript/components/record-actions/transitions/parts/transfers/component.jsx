@@ -255,8 +255,7 @@ const TransferForm = ({
               consent_overridden: canConsentOverride || values[TRANSFER_FIELD]
             }
           },
-          i18n.t("transfer.success"),
-          i18n.t("transfer.error")
+          i18n.t("transfer.success")
         )
       );
       setSubmitting(false);

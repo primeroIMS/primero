@@ -79,8 +79,7 @@ const ReferralForm = ({
               consent_overridden: canConsentOverride || values[REFERRAL_FIELD]
             }
           },
-          i18n.t("referral.success", { record_type: recordType, id: recordId }),
-          i18n.t("referral.error")
+          i18n.t("referral.success", { record_type: recordType, id: recordId })
         )
       );
       setSubmitting(false);

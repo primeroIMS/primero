@@ -32,26 +32,6 @@ const successCallbackActions = (modalName, message) => [
   }
 ];
 
-const failureCallbackActions = failureMessage => [
-  {
-    action: ENQUEUE_SNACKBAR,
-    payload: {
-      // TODO: Delete once middleware handles errors
-      message: failureMessage,
-      options: {
-        variant: "error",
-        key: generate.messageKey()
-      }
-    }
-  },
-  {
-    action: SET_DIALOG_PENDING,
-    payload: {
-      pending: false
-    }
-  }
-];
-
 export const fetchAssignUsers = recordType => ({
   type: actions.ASSIGN_USERS_FETCH,
   api: {
@@ -85,35 +65,32 @@ export const removeFormErrors = payload => {
   };
 };
 
-export const saveAssignedUser = (recordId, body, message, failureMessage) => ({
+export const saveAssignedUser = (recordId, body, message) => ({
   type: actions.ASSIGN_USER_SAVE,
   api: {
     path: generatePath(actions.CASES_ASSIGNS, recordId),
     method: "POST",
     body,
-    successCallback: successCallbackActions(ASSIGN_DIALOG, message),
-    failureCallback: failureCallbackActions(failureMessage)
+    successCallback: successCallbackActions(ASSIGN_DIALOG, message)
   }
 });
 
-export const saveTransferUser = (recordId, body, message, failureMessage) => ({
+export const saveTransferUser = (recordId, body, message) => ({
   type: actions.TRANSFER_USER,
   api: {
     path: generatePath(actions.CASES_TRANSFERS, recordId),
     method: "POST",
     body,
-    successCallback: successCallbackActions(TRANSFER_DIALOG, message),
-    failureCallback: failureCallbackActions(failureMessage)
+    successCallback: successCallbackActions(TRANSFER_DIALOG, message)
   }
 });
 
-export const saveReferral = (recordId, body, message, failureMessage) => ({
+export const saveReferral = (recordId, body, message) => ({
   type: actions.REFER_USER,
   api: {
     path: generatePath(actions.CASES_REFERRALS, recordId),
     method: "POST",
     body,
-    successCallback: successCallbackActions(REFER_DIALOG, message),
-    failureCallback: failureCallbackActions(failureMessage)
+    successCallback: successCallbackActions(REFER_DIALOG, message)
   }
 });
