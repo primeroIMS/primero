@@ -33,18 +33,20 @@ module Indicators
       ]
     ).freeze
 
-    CLOSED_RECENTLY = QueriedIndicator.new(
-      name: 'closed_recently',
-      record_model: Child,
-      queries: [
-        SearchFilters::Value.new(field_name: 'record_state', value: true),
-        SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
-        SearchFilters::DateRange.new(
-          field_name: 'date_closure', from: QueriedIndicator.recent_past, to: QueriedIndicator.present
-        )
-      ],
-      scope_to_owner: true
-    ).freeze
+    def self.closed_recently
+      QueriedIndicator.new(
+        name: 'closed_recently',
+        record_model: Child,
+        queries: [
+          SearchFilters::Value.new(field_name: 'record_state', value: true),
+          SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
+          SearchFilters::DateRange.new(
+            field_name: 'date_closure', from: QueriedIndicator.recent_past, to: QueriedIndicator.present
+          )
+        ],
+        scope_to_owner: true
+      ).freeze
+    end
 
     WORKFLOW = FacetedIndicator.new(
       name: 'workflow',
@@ -173,49 +175,57 @@ module Indicators
       ]
     ).freeze
 
-    TASKS_OVERDUE_ASSESSMENT = FacetedIndicator.new(
-      name: 'tasks_overdue_assessment',
-      facet: 'owned_by',
-      record_model: Child,
-      scope: OPEN_ENABLED + [
-        SearchFilters::DateRange.new(
-          field_name: 'assessment_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
-        )
-      ]
-    ).freeze
+    def self.tasks_overdue_assessment
+      FacetedIndicator.new(
+        name: 'tasks_overdue_assessment',
+        facet: 'owned_by',
+        record_model: Child,
+        scope: OPEN_ENABLED + [
+          SearchFilters::DateRange.new(
+            field_name: 'assessment_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+          )
+        ]
+      ).freeze
+    end
 
-    TASKS_OVERDUE_CASE_PLAN = FacetedIndicator.new(
-      name: 'tasks_overdue_case_plan',
-      facet: 'owned_by',
-      record_model: Child,
-      scope: OPEN_ENABLED + [
-        SearchFilters::DateRange.new(
-          field_name: 'case_plan_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
-        )
-      ]
-    ).freeze
+    def self.tasks_overdue_case_plan
+      FacetedIndicator.new(
+        name: 'tasks_overdue_case_plan',
+        facet: 'owned_by',
+        record_model: Child,
+        scope: OPEN_ENABLED + [
+          SearchFilters::DateRange.new(
+            field_name: 'case_plan_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+          )
+        ]
+      ).freeze
+    end
 
-    TASKS_OVERDUE_SERVICES = FacetedIndicator.new(
-      name: 'tasks_overdue_services',
-      facet: 'owned_by',
-      record_model: Child,
-      scope: OPEN_ENABLED + [
-        SearchFilters::DateRange.new(
-          field_name: 'service_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
-        )
-      ]
-    ).freeze
+    def self.tasks_overdue_services
+      FacetedIndicator.new(
+        name: 'tasks_overdue_services',
+        facet: 'owned_by',
+        record_model: Child,
+        scope: OPEN_ENABLED + [
+          SearchFilters::DateRange.new(
+            field_name: 'service_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+          )
+        ]
+      ).freeze
+    end
 
-    TASKS_OVERDUE_FOLLOWUPS = FacetedIndicator.new(
-      name: 'tasks_overdue_followups',
-      facet: 'owned_by',
-      record_model: Child,
-      scope: OPEN_ENABLED + [
-        SearchFilters::DateRange.new(
-          field_name: 'followup_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
-        )
-      ]
-    ).freeze
+    def self.tasks_overdue_followups
+      FacetedIndicator.new(
+        name: 'tasks_overdue_followups',
+        facet: 'owned_by',
+        record_model: Child,
+        scope: OPEN_ENABLED + [
+          SearchFilters::DateRange.new(
+            field_name: 'followup_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+          )
+        ]
+      ).freeze
+    end
 
     PROTECTION_CONCERNS_OPEN_CASES = FacetedIndicator.new(
       name: 'protection_concerns_open_cases',
@@ -224,14 +234,16 @@ module Indicators
       scope: OPEN_ENABLED
     ).freeze
 
-    PROTECTION_CONCERNS_NEW_THIS_WEEK = FacetedIndicator.new(
-      name: 'protection_concerns_new_this_week',
-      facet: 'protection_concerns',
-      record_model: Child,
-      scope: OPEN_ENABLED + [
-        SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
-      ]
-    ).freeze
+    def self.protection_concerns_new_this_week
+      FacetedIndicator.new(
+        name: 'protection_concerns_new_this_week',
+        facet: 'protection_concerns',
+        record_model: Child,
+        scope: OPEN_ENABLED + [
+          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
+        ]
+      ).freeze
+    end
 
     PROTECTION_CONCERNS_ALL_CASES = FacetedIndicator.new(
       name: 'protection_concerns_all_cases',
@@ -240,16 +252,18 @@ module Indicators
       scope: [SearchFilters::Value.new(field_name: 'record_state', value: true)]
     ).freeze
 
-    PROTECTION_CONCERNS_CLOSED_THIS_WEEK = FacetedIndicator.new(
-      name: 'protection_concerns_closed_this_week',
-      facet: 'protection_concerns',
-      record_model: Child,
-      scope: [
-        SearchFilters::Value.new(field_name: 'record_state', value: true),
-        SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
-        SearchFilters::DateRange.new({ field_name: 'date_closure' }.merge(FacetedIndicator.this_week))
-      ]
-    ).freeze
+    def self.protection_concerns_closed_this_week
+      FacetedIndicator.new(
+        name: 'protection_concerns_closed_this_week',
+        facet: 'protection_concerns',
+        record_model: Child,
+        scope: [
+          SearchFilters::Value.new(field_name: 'record_state', value: true),
+          SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
+          SearchFilters::DateRange.new({ field_name: 'date_closure' }.merge(FacetedIndicator.this_week))
+        ]
+      ).freeze
+    end
 
     SHARED_WITH_OTHERS_REFERRALS = QueriedIndicator.new(
       name: 'shared_with_others_referrals',
