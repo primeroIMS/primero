@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, IconButton, Fab, CircularProgress } from "@material-ui/core";
+import { Box, Button, Fab, CircularProgress } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import CreateIcon from "@material-ui/icons/Create";
@@ -128,12 +128,14 @@ const RecordFormToolbar = ({
         )}
         {mode.isShow && (
           <Permission resources={params.recordType} actions={WRITE_RECORDS}>
-            <IconButton
+            <Button
               to={`/${params.recordType}/${params.id}/edit`}
               component={Link}
+              startIcon={<CreateIcon />}
+              size="small"
             >
-              <CreateIcon />
-            </IconButton>
+              {i18n.t("buttons.edit")}
+            </Button>
           </Permission>
         )}
         <RecordActions

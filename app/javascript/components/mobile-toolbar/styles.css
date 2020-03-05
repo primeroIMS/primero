@@ -1,4 +1,5 @@
 .appBar {
+  z-index: 9999;
   transition: $(
     theme.transitions.create(
       [ "margin",

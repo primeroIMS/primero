@@ -171,7 +171,9 @@ const Container = ({ match, mode }) => {
   ]);
 
   useEffect(() => {
-    dispatch(fetchTransitions(params.recordType, params.id));
+    if (!containerMode.isNew) {
+      dispatch(fetchTransitions(params.recordType, params.id));
+    }
   }, [params.recordType, params.id]);
 
   // TODO: When transfer_request be implement change the transition_ype
