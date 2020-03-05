@@ -5,11 +5,7 @@ env:
 - RAILS_ENV=test
 cache: bundler
 addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
+  chrome: stable
 before_script:
 - mkdir -p log
 - export DB_HOST="http://127.0.0.1:5984"
