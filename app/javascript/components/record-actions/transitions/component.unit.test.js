@@ -75,8 +75,8 @@ describe("<Transitions />", () => {
           "providedConsent",
           "recordType",
           "record",
-          "referralRef",
           "setPending",
+          "referralRef",
           "disabled",
           "setDisabled"
         ];
@@ -193,13 +193,13 @@ describe("<Transitions />", () => {
       });
       it("should check the allowed props", () => {
         const validProps = [
-          "providedConsent",
-          "isBulkTransfer",
           "userPermissions",
-          "record",
+          "providedConsent",
           "recordType",
-          "transferRef",
+          "record",
           "setPending",
+          "isBulkTransfer",
+          "transferRef",
           "disabled",
           "setDisabled"
         ];
