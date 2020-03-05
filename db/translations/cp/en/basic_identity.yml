@@ -32,7 +32,9 @@ en:
       name_given_post_separation:
         display_name: "Name(s) given to child after separation?"
       registration_date:
-        display_name: Date of Registration or Interview
+        display_name: Date of Registration
+      identification_date:
+        display_name: "Date Case Identified / Reported"
       assessment_due_date:
         display_name: Date Assessment Due
       sex:
