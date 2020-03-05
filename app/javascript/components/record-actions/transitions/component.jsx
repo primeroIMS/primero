@@ -57,7 +57,7 @@ const Transitions = ({
           open={referDialog}
           successHandler={() => submitForm(referralFormikRef)}
           transitionType={TRANSITIONS_TYPES.referral}
-          disableSuccess={disabledReferButton || providedConsent}
+          enabledSuccessButton={disabledReferButton || providedConsent}
           {...commonDialogProps}
         >
           <ReferralForm
@@ -87,7 +87,7 @@ const Transitions = ({
           open={transferDialog}
           successHandler={() => submitForm(transferFormikRef)}
           transitionType={TRANSITIONS_TYPES.transfer}
-          disableSuccess={disabledTransferButton || providedConsent}
+          enabledSuccessButton={disabledTransferButton || providedConsent}
           {...commonDialogProps}
         >
           <TransferForm
@@ -113,7 +113,7 @@ const Transitions = ({
           open={assignDialog}
           successHandler={() => submitForm(assignFormikRef)}
           transitionType={TRANSITIONS_TYPES.reassign}
-          disableSuccess
+          enabledSuccessButton
           {...commonDialogProps}
         >
           <ReassignForm

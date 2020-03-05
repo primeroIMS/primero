@@ -15,7 +15,7 @@ const TransitionDialog = ({
   recordType,
   successHandler,
   transitionType,
-  disableSuccess
+  enabledSuccessButton
 }) => {
   const recordName = {
     cases: "Case",
@@ -56,7 +56,7 @@ const TransitionDialog = ({
     successHandler,
     dialogTitle: title,
     cancelHandler: onClose,
-    disableSuccess
+    enabledSuccessButton
   };
 
   return <ActionDialog {...dialogProps}>{children}</ActionDialog>;
@@ -65,7 +65,7 @@ const TransitionDialog = ({
 TransitionDialog.propTypes = {
   children: PropTypes.node.isRequired,
   confirmButtonLabel: PropTypes.string,
-  disableSuccess: PropTypes.bool,
+  enabledSuccessButton: PropTypes.bool,
   omitCloseAfterSuccess: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
