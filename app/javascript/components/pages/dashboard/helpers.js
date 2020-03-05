@@ -6,7 +6,6 @@ import { ACTIONS, RESOURCES } from "../../../libs/permissions";
 
 import {
   INDICATOR_NAMES,
-  WORKFLOW_ORDER_NAMES,
   PROTECTION_CONCERNS_ORDER_NAMES,
   DASHBOARD_NAMES
 } from "./constants";
@@ -25,14 +24,7 @@ const translateLabels = (keys, data) => {
 const translateSingleLabel = (key, data) => {
   if (key === "") return key;
 
-  return data.filter(d => d.id === key)[0]?.display_text;
-};
-
-const byTeamCaseNames = (a, b) => {
-  const indexa = WORKFLOW_ORDER_NAMES.indexOf(a?.name);
-  const indexb = WORKFLOW_ORDER_NAMES.indexOf(b?.name);
-
-  return indexa - indexb;
+  return data?.filter(d => d.id === key)[0]?.display_text;
 };
 
 const byProtectionConcernsNames = (a, b) => {
@@ -128,6 +120,7 @@ export const toListTable = (data, localeLabels) => {
 
   if (result.length || Object.keys(result).length) {
     const indicatorData = result.indicators[INDICATOR_NAMES.WORKFLOW_TEAM];
+
     const columns = Object.keys(
       indicatorData[first(Object.keys(indicatorData))]
     )
@@ -137,7 +130,14 @@ export const toListTable = (data, localeLabels) => {
           { name: value, label: translateSingleLabel(value, localeLabels) }
         ];
       }, [])
-      .sort(byTeamCaseNames);
+      .filter(column => typeof column.label !== "undefined")
+      .sort((a, b) => {
+        const workflowOrder = localeLabels?.map(localeLabel => localeLabel.id);
+        const indexa = workflowOrder.indexOf(a?.name);
+        const indexb = workflowOrder.indexOf(b?.name);
+
+        return indexa - indexb;
+      });
 
     const { "": removed, ...rows } = indicatorData;
 

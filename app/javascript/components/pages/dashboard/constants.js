@@ -36,17 +36,6 @@ export const INDICATOR_NAMES = Object.freeze({
   PROTECTION_CONCERNS_CLOSED_THIS_WEEK: "protection_concerns_closed_this_week"
 });
 
-export const WORKFLOW_ORDER_NAMES = Object.freeze([
-  "new",
-  "reopened",
-  "case_plan",
-  "care_plan",
-  "action_plan",
-  "service_provision",
-  "services_implemented",
-  "closed"
-]);
-
 export const PROTECTION_CONCERNS_ORDER_NAMES = Object.freeze([
   INDICATOR_NAMES.PROTECTION_CONCERNS_ALL_CASES,
   INDICATOR_NAMES.PROTECTION_CONCERNS_OPEN_CASES,
