@@ -1,4 +1,5 @@
 import first from "lodash/first";
+import uniq from "lodash/uniq";
 import { fromJS } from "immutable";
 
 import { dataToJS } from "../../../libs";
@@ -387,4 +388,57 @@ export const taskOverdueHasData = (
     !!casesByTaskOverdueServices.size ||
     !!casesByTaskOverdueFollowups.size
   );
+};
+
+export const teamSharingTable = (dashboard, i18n) => {
+  const data = dataToJS(dashboard);
+
+  if (!Object.keys(data).length) {
+    return {};
+  }
+  const { indicators } = data;
+  const columns = Object.keys(indicators).reduce((acc, curr) => {
+    return [...acc, { name: curr, label: i18n.t(`dashboard.${curr}`) }];
+  }, []);
+
+  columns.unshift({
+    name: "caseWorker",
+    label: i18n.t("dashboard.case_worker")
+  });
+
+  const caseWorkers = uniq(
+    Object.values(indicators).reduce((acc, curr) => {
+      return [...acc, ...Object.keys(curr)];
+    }, [])
+  );
+  const rowsWithValues = key => {
+    return caseWorkers.map(caseWorker => {
+      const caseWorkerWithValues = columns
+        .map(column => {
+          if (column.name !== "caseWorker") {
+            return {
+              [column.name]:
+                typeof indicators[column.name] !== "undefined" &&
+                indicators[column.name].hasOwnProperty(caseWorker)
+                  ? indicators[column.name][caseWorker][key]
+                  : 0
+            };
+          }
+
+          return "";
+        })
+        .reduce((acc, obj) => ({ ...acc, ...obj }));
+
+      return {
+        caseWorker,
+        ...caseWorkerWithValues
+      };
+    });
+  };
+
+  return {
+    columns,
+    data: rowsWithValues("count"),
+    query: rowsWithValues("query")
+  };
 };

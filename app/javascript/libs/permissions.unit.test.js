@@ -33,6 +33,7 @@ describe("Verifying config constant", () => {
       "DASH_CASES_BY_TASK_OVERDUE_SERVICES",
       "DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS",
       "DASH_SHARED_WITH_ME",
+      "DASH_SHARED_WITH_MY_TEAM",
       "DASH_SHARED_WITH_OTHERS",
       "DASH_GROUP_OVERVIEW",
       "DISPLAY_VIEW_PAGE",

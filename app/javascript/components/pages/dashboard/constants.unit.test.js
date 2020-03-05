@@ -39,6 +39,7 @@ describe("Verifying config constant", () => {
       "PROTECTION_CONCERNS",
       "REPORTING_LOCATION",
       "SHARED_WITH_ME",
+      "SHARED_WITH_MY_TEAM",
       "SHARED_WITH_OTHERS",
       "WORKFLOW_TEAM",
       "WORKFLOW"

@@ -1965,6 +1965,9 @@ en:
     group_overview_closed: "Closed"
     case_overview: "My Cases"
     new_or_updated: "New or Updated"
+    dash_shared_with_my_team: "Shared With My Team"
+    shared_with_my_team_referrals: "Referrals"
+    shared_with_my_team_pending_transfers: "Pending Transfers"
 
   errors:
     try_again: "Try again"
