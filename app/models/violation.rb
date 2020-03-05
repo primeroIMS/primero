@@ -48,7 +48,7 @@ class Violation
       integer(f) {incident_value(f)}
     end
     Incident.searchable_location_fields.each do |f|
-      text(f, as: "#{f}_lngram".to_sym) {incident_value(f)}
+      string(f, as: "#{f}_sci".to_sym) {incident_value(f)}
     end
 
     string('armed_force_group_names', multiple: true){armed_force_group_names}

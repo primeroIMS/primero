@@ -51,5 +51,6 @@ create_or_update_system_setting(
     "unhcr" => "export-unhcr-csv",
     "duplicate_id" => "export-duplicate-id-csv"
   },
+  changes_field_to_form: {'notes_section': 'notes'},
   duplicate_export_field: "national_id_no"
 )
