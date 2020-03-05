@@ -99,7 +99,13 @@ basic_identity_fields = [
              "type" => "date_field",
              "selected_value" => "today",
              "required" => false,
-             "display_name_en" => "Date of Registration or Interview",
+             "display_name_en" => "Date of Registration",
+             "date_validation" => "not_future_date"
+            }),
+  Field.new({"name" => "identification_date",
+             "type" => "date_field",
+             "selected_value" => "today",
+             "display_name_en" => "Date Case Identified / Reported",
              "date_validation" => "not_future_date"
             }),
   Field.new({"name" => "assessment_due_date",
