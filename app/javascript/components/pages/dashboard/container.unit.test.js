@@ -281,7 +281,6 @@ describe("<Dashboard />", () => {
       });
 
       it("renders the OverviewBox with Loading Indicator", () => {
-        expect(component.find(OverviewBox)).to.have.lengthOf(1);
         expect(component.find(LoadingIndicator)).to.have.lengthOf(1);
         expect(component.find(CircularProgress)).to.have.lengthOf(1);
       });
@@ -344,7 +343,6 @@ describe("<Dashboard />", () => {
       });
 
       it("renders the OverviewBox with Loading Indicator", () => {
-        expect(component.find(OverviewBox)).to.have.lengthOf(1);
         expect(component.find(LoadingIndicator)).to.have.lengthOf(1);
         expect(component.find(CircularProgress)).to.have.lengthOf(1);
       });
@@ -407,7 +405,6 @@ describe("<Dashboard />", () => {
       });
 
       it("renders the OverviewBox with Loading Indicator", () => {
-        expect(component.find(OverviewBox)).to.have.lengthOf(1);
         expect(component.find(LoadingIndicator)).to.have.lengthOf(1);
         expect(component.find(CircularProgress)).to.have.lengthOf(1);
       });
@@ -496,7 +493,6 @@ describe("<Dashboard />", () => {
       });
 
       it("renders the OverviewBox with Loading Indicator", () => {
-        expect(component.find(OverviewBox)).to.have.lengthOf(1);
         expect(component.find(LoadingIndicator)).to.have.lengthOf(1);
         expect(component.find(CircularProgress)).to.have.lengthOf(1);
       });
