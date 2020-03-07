@@ -10,10 +10,10 @@ import {
   DialogTitle
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-import { getIn } from "formik";
 
 import FormSectionField from "../../form-section-field";
 import { SUBFORM_DIALOG } from "../constants";
+import ServicesSubform from "../services-subform";
 
 const Component = ({
   index,
@@ -28,39 +28,6 @@ const Component = ({
 }) => {
   const handleClose = () => {
     setOpen({ open: false, index: null });
-  };
-
-  const filters = (subform, optionStringsSource, subformIndex) => {
-    if (subform.subform_section_id.unique_id === "services_section") {
-      switch (optionStringsSource) {
-        case "Agency":
-          return {
-            service: getIn(
-              formik.values,
-              `${subform.name}[${subformIndex}].service_type`
-            )
-          };
-        case "User":
-          return {
-            service: getIn(
-              formik.values,
-              `${subform.name}[${subformIndex}].service_type`
-            ),
-            location: getIn(
-              formik.values,
-              `${subform.name}[${subformIndex}].service_delivery_location`
-            ),
-            agency: getIn(
-              formik.values,
-              `${subform.name}[${subformIndex}].service_implementing_agency`
-            )
-          };
-        default:
-          return {};
-      }
-    }
-
-    return {};
   };
 
   if (index !== null) {
@@ -89,22 +56,30 @@ const Component = ({
           </Box>
         </DialogTitle>
         <DialogContent>
-          {field.subform_section_id.fields.map(f => {
-            const fieldProps = {
-              name: `${field.name}[${index}].${f.name}`,
-              field: f,
-              mode,
-              index,
-              parentField: field,
-              filters: filters(field, f.option_strings_source, index)
-            };
+          {field.subform_section_id.unique_id === "services_section" ? (
+            <ServicesSubform
+              field={field}
+              index={index}
+              mode={mode}
+              formik={formik}
+            />
+          ) : (
+            field.subform_section_id.fields.map(f => {
+              const fieldProps = {
+                name: `${field.name}[${index}].${f.name}`,
+                field: f,
+                mode,
+                index,
+                parentField: field
+              };
 
-            return (
-              <Box my={3} key={f.name}>
-                <FormSectionField {...fieldProps} />
-              </Box>
-            );
-          })}
+              return (
+                <Box my={3} key={f.name}>
+                  <FormSectionField {...fieldProps} />
+                </Box>
+              );
+            })
+          )}
         </DialogContent>
         <DialogActions>{actionButton}</DialogActions>
       </Dialog>

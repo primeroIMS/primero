@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
   InputLabel,
@@ -38,6 +38,7 @@ import { SELECT_FIELD_NAME } from "../constants";
 import styles from "../styles.css";
 import { LoadingIndicator } from "../../../loading-indicator";
 import { getLoading, getErrors } from "../../../index-table";
+import { appendDisabledAgency, appendDisabledUser } from "../helpers";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -61,6 +62,7 @@ const SelectField = ({
   mode,
   disabled,
   formik,
+  index,
   ...other
 }) => {
   const i18n = useI18n();
@@ -75,12 +77,23 @@ const SelectField = ({
 
   const options = useSelector(state => getOption(state, option, i18n.locale));
 
-  const { service, agency, location } = other?.filters || {};
+  const { service, agency, location } = other?.filters?.values || {};
+
+  const { filtersChanged, setFiltersChanged } = other?.filters || {};
 
   const agencies = useSelector(
     state =>
       service ? getAgenciesWithService(state, service) : selectAgencies(state),
     (agencies1, agencies2) => agencies1.equals(agencies2)
+  );
+
+  const allAgencies = useSelector(
+    state => selectAgencies(state),
+    (agency1, agency2) => agency1.equals(agency2)
+  );
+
+  const selectedAgency = allAgencies.find(
+    current => current.get("unique_id") === value
   );
 
   const adminLevel = useSelector(state =>
@@ -102,7 +115,13 @@ const SelectField = ({
     (users1, users2) => users1.equals(users2)
   );
 
-  useEffect(() => {
+  const NAMESPACE = ["transitions", "referral"];
+
+  const loading = useSelector(state => getLoading(state, NAMESPACE));
+
+  const errors = useSelector(state => getErrors(state, NAMESPACE));
+
+  const reloadReferralUsers = () => {
     const filters = Object.entries({
       services: service,
       agency,
@@ -111,15 +130,26 @@ const SelectField = ({
       return entry[1] ? { ...acc, [entry[0]]: entry[1] } : acc;
     }, {});
 
-    if (option === "User") {
-      dispatch(
-        fetchReferralUsers({
-          record_type: "case",
-          ...filters
-        })
-      );
+    dispatch(
+      fetchReferralUsers({
+        record_type: "case",
+        ...filters
+      })
+    );
+  };
+
+  useEffect(() => {
+    if (filtersChanged && ["service_implementing_agency_individual", "service_implementing_agency"]
+        .find( fieldName => name.endsWith(fieldName))) {
+      formik.setFieldValue(name, "", false);
     }
-  }, [service, agency, location]);
+  }, [service, agency]);
+
+  useEffect(() => {
+    if(filtersChanged && name.endsWith("service_implementing_agency_individual")) {
+        formik.setFieldValue(name, "", false);
+    }
+  }, [location]);
 
   const translatedText = displayText => {
     return typeof displayText === "string"
@@ -174,7 +204,15 @@ const SelectField = ({
     MenuProps,
     multiple: field.multi_select,
     IconComponent: !mode.isShow ? ArrowDropDownIcon : () => null,
-    disabled: !options || disabled
+    disabled: !options || disabled,
+    inputProps: {
+      onChange: (event, currentValue) => {
+        if (name.endsWith("service_type")) {
+          formik.setFieldValue(name, currentValue.props.value, false);
+          setFiltersChanged(true);
+        }
+      }
+    }
   };
 
   const fieldError = getIn(formik.errors, name);
@@ -184,21 +222,11 @@ const SelectField = ({
     if (mode.isNew && selectedValue && value === "") {
       formik.setFieldValue(name, selectedValue, false);
     }
+
+    if (name.endsWith("service_implementing_agency_individual")) {
+      reloadReferralUsers();
+    }
   }, []);
-
-  const NAMESPACE = ["transitions", "referral"];
-
-  const loading = useSelector(state => getLoading(state, NAMESPACE));
-
-  const errors = useSelector(state => getErrors(state, NAMESPACE));
-
-  const loadingIndicatorProps = {
-    overlay: true,
-    type: NAMESPACE[0],
-    loading,
-    errors,
-    hasData: !loading
-  };
 
   const specialLookupsConfig = {
     Location: {
@@ -207,7 +235,9 @@ const SelectField = ({
       fieldLabel: NAME_FIELD
     },
     Agency: {
-      options: agencies,
+      options: !filtersChanged
+        ? appendDisabledAgency(agencies, selectedAgency)
+        : agencies,
       fieldValue: UNIQUE_ID_FIELD,
       fieldLabel: NAME_FIELD
     },
@@ -217,7 +247,9 @@ const SelectField = ({
       fieldLabel: NAME_FIELD
     },
     User: {
-      options: referralUsers || [],
+      options: !filtersChanged
+        ? appendDisabledUser(referralUsers, value)
+        : referralUsers,
       fieldValue: "user_name",
       fieldLabel: "user_name"
     }
@@ -233,6 +265,13 @@ const SelectField = ({
       );
       const handleChange = (data, form) => {
         form.setFieldValue(name, data ? data.value : "", false);
+        if (
+          ["service_delivery_location", "service_implementing_agency"].find(
+            fieldName => name.endsWith(fieldName)
+          )
+        ) {
+          setFiltersChanged(true);
+        }
       };
 
       const searchableSelectProps = {
@@ -252,12 +291,21 @@ const SelectField = ({
         },
         excludeEmpty: true,
         options: values && values,
-        defaultValue:
-          value && values.filter(v => String(v.value) === value.toString())
+        isLoading: name.endsWith("service_implementing_agency_individual")
+          ? loading
+          : false,
+        onMenuOpen: () => {
+          if (name.endsWith("service_implementing_agency_individual")) {
+            reloadReferralUsers();
+          }
+        },
+        defaultValues: value
+          ? values.filter(v => String(v.value) === value.toString())
+          : ""
       };
 
-      const renderField = () => (
-        <Field name={name}>
+      return (
+         <Field name={name}>
           {/* eslint-disable-next-line no-unused-vars */}
           {({ f, form }) => (
             <SearchableSelect
@@ -266,21 +314,6 @@ const SelectField = ({
             />
           )}
         </Field>
-      );
-
-      return (
-        <>
-          {[
-            "service_implementing_agency_individual",
-            "service_implementing_agency"
-          ].find(fieldName => name.endsWith(fieldName)) ? (
-            <LoadingIndicator {...loadingIndicatorProps}>
-              {renderField()}
-            </LoadingIndicator>
-          ) : (
-            renderField()
-          )}
-        </>
       );
     }
 
@@ -321,6 +354,7 @@ SelectField.propTypes = {
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   helperText: PropTypes.string,
+  index: PropTypes.number,
   InputLabelProps: PropTypes.object,
   InputProps: PropTypes.object,
   label: PropTypes.string.isRequired,
