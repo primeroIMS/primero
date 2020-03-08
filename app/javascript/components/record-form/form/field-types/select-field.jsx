@@ -36,9 +36,12 @@ import { SearchableSelect } from "../../../searchable-select";
 import { CODE_FIELD, NAME_FIELD, UNIQUE_ID_FIELD } from "../../../../config";
 import { SELECT_FIELD_NAME } from "../constants";
 import styles from "../styles.css";
-import { LoadingIndicator } from "../../../loading-indicator";
-import { getLoading, getErrors } from "../../../index-table";
-import { appendDisabledAgency, appendDisabledUser } from "../helpers";
+import { getLoading } from "../../../index-table";
+import {
+  appendDisabledAgency,
+  appendDisabledUser,
+  getConnectedFields
+} from "../helpers";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -79,21 +82,12 @@ const SelectField = ({
 
   const { service, agency, location } = other?.filters?.values || {};
 
-  const { filtersChanged, setFiltersChanged } = other?.filters || {};
+  const { filterState, setFilterState } = other?.filters || {};
 
   const agencies = useSelector(
     state =>
       service ? getAgenciesWithService(state, service) : selectAgencies(state),
     (agencies1, agencies2) => agencies1.equals(agencies2)
-  );
-
-  const allAgencies = useSelector(
-    state => selectAgencies(state),
-    (agency1, agency2) => agency1.equals(agency2)
-  );
-
-  const selectedAgency = allAgencies.find(
-    current => current.get("unique_id") === value
   );
 
   const adminLevel = useSelector(state =>
@@ -119,8 +113,6 @@ const SelectField = ({
 
   const loading = useSelector(state => getLoading(state, NAMESPACE));
 
-  const errors = useSelector(state => getErrors(state, NAMESPACE));
-
   const reloadReferralUsers = () => {
     const filters = Object.entries({
       services: service,
@@ -139,15 +131,25 @@ const SelectField = ({
   };
 
   useEffect(() => {
-    if (filtersChanged && ["service_implementing_agency_individual", "service_implementing_agency"]
-        .find( fieldName => name.endsWith(fieldName))) {
+    if (
+      filterState?.filtersChanged &&
+      !filterState?.userIsSelected &&
+      [
+        "service_implementing_agency_individual",
+        "service_implementing_agency"
+      ].find(fieldName => name.endsWith(fieldName))
+    ) {
       formik.setFieldValue(name, "", false);
     }
   }, [service, agency]);
 
   useEffect(() => {
-    if(filtersChanged && name.endsWith("service_implementing_agency_individual")) {
-        formik.setFieldValue(name, "", false);
+    if (
+      filterState?.filtersChanged &&
+      !filterState?.userIsSelected &&
+      name.endsWith("service_implementing_agency_individual")
+    ) {
+      formik.setFieldValue(name, "", false);
     }
   }, [location]);
 
@@ -209,7 +211,7 @@ const SelectField = ({
       onChange: (event, currentValue) => {
         if (name.endsWith("service_type")) {
           formik.setFieldValue(name, currentValue.props.value, false);
-          setFiltersChanged(true);
+          setFilterState({ filtersChanged: true, userIsSelected: false });
         }
       }
     }
@@ -235,8 +237,8 @@ const SelectField = ({
       fieldLabel: NAME_FIELD
     },
     Agency: {
-      options: !filtersChanged
-        ? appendDisabledAgency(agencies, selectedAgency)
+      options: !filterState?.filtersChanged
+        ? appendDisabledAgency(agencies, value)
         : agencies,
       fieldValue: UNIQUE_ID_FIELD,
       fieldLabel: NAME_FIELD
@@ -247,7 +249,7 @@ const SelectField = ({
       fieldLabel: NAME_FIELD
     },
     User: {
-      options: !filtersChanged
+      options: !filterState?.filtersChanged
         ? appendDisabledUser(referralUsers, value)
         : referralUsers,
       fieldValue: "user_name",
@@ -270,7 +272,42 @@ const SelectField = ({
             fieldName => name.endsWith(fieldName)
           )
         ) {
-          setFiltersChanged(true);
+          setFilterState({ filtersChanged: true, userIsSelected: false });
+        }
+
+        if (name.endsWith("service_implementing_agency_individual")) {
+          const selectedUser = referralUsers.find(
+            user => user.get("user_name") === data.value
+          );
+
+          if (selectedUser?.size) {
+            const userAgency = selectedUser.get("agency");
+            const userLocation = selectedUser.get("location");
+
+            if (
+              agencies.find(current => current.get("unique_id") === userAgency)
+            ) {
+              form.setFieldValue(
+                getConnectedFields(index).agency,
+                userAgency,
+                false
+              );
+            }
+
+            if (
+              reportingLocations.find(
+                current => current.get("code") === userLocation
+              )
+            ) {
+              form.setFieldValue(
+                getConnectedFields(index).location,
+                userLocation,
+                false
+              );
+            }
+          }
+
+          setFilterState({ filtersChanged: true, userIsSelected: true });
         }
       };
 
@@ -305,7 +342,7 @@ const SelectField = ({
       };
 
       return (
-         <Field name={name}>
+        <Field name={name}>
           {/* eslint-disable-next-line no-unused-vars */}
           {({ f, form }) => (
             <SearchableSelect

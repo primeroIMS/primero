@@ -8,7 +8,10 @@ import FormSectionField from "../../form-section-field";
 import { NAME } from "./constants";
 
 const Component = ({ field, formik, index, mode }) => {
-  const [filtersChanged, setFiltersChanged] = useState(false);
+  const [filterState, setFilterState] = useState({
+    filtersChanged: false,
+    userIsSelected: false
+  });
 
   const filters = (subform, optionStringsSource, subformIndex) => {
     if (subform.subform_section_id.unique_id === "services_section") {
@@ -52,8 +55,8 @@ const Component = ({ field, formik, index, mode }) => {
           parentField: field,
           filters: {
             values: filters(field, f.option_strings_source, index),
-            filtersChanged,
-            setFiltersChanged
+            filterState,
+            setFilterState
           }
         };
 
