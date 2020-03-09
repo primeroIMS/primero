@@ -65,7 +65,6 @@ module MigrationHelper
   end
 
   def get_value(value, options)
-    lm = location_map
     if value.present? && options.present?
       if value.is_a?(Array)
         #look for value iin either the ids or in the display text
