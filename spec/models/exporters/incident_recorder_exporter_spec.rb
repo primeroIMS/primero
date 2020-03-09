@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 require 'spreadsheet'
@@ -58,7 +60,8 @@ module Exporters
       @user = create(:user, user_name: 'fakeadmin', role: @role)
 
       incident_a = Incident.create!(
-        data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1', owned_by: @user.user_name, incidentid_ir: 'test' }
+        data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1',
+                owned_by: @user.user_name, incidentid_ir: 'test' }
       )
       incident_b = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' })
       @records = [incident_a, incident_b]
@@ -89,7 +92,7 @@ module Exporters
             'INCIDENT ID', 'SURVIVOR CODE', 'CASE MANAGER CODE', 'DATE OF INTERVIEW', 'DATE OF INCIDENT',
             'DATE OF BIRTH', 'SEX', 'ETHNICITY', 'COUNTRY OF ORIGIN', 'CIVIL / MARITAL STATUS',
             'DISPLACEMENT STATUS AT REPORT', 'PERSON WITH DISABILITY?', 'UNACCOMPANIED OR SEPARATED CHILD?',
-            'STAGE OF DISPLACEMENT AT INCIDENT', 'INCIDENT TIME OF DAY','INCIDENT LOCATION', 'INCIDENT COUNTY',
+            'STAGE OF DISPLACEMENT AT INCIDENT', 'INCIDENT TIME OF DAY', 'INCIDENT LOCATION', 'INCIDENT COUNTY',
             'INCIDENT DISTRICT', 'INCIDENT CAMP / TOWN', 'GBV TYPE', 'HARMFUL TRADITIONAL PRACTICE',
             'MONEY, GOODS, BENEFITS AND / OR SERVICES EXCHANGED ?', 'TYPE OF ABDUCTION',
             'PREVIOUSLY REPORTED THIS INCIDENT?', 'PREVIOUS GBV INCIDENTS?', 'No. ALLEGED PRIMARY PERPETRATOR(S)',
@@ -105,8 +108,6 @@ module Exporters
         )
       end
     end
-
-
 
     context 'Selected fields' do
       let(:workbook) do
