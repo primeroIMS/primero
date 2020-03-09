@@ -13,7 +13,10 @@ import bindFormSubmit from "../../../../libs/submit-form";
 
 import { NAME } from "./constants";
 import { form } from "./form";
-import { selectContactInformation } from "./selectors";
+import {
+  selectContactInformation,
+  selectSavingContactInformation
+} from "./selectors";
 import { saveContactInformation } from "./action-creators";
 
 const Component = ({ mode }) => {
@@ -24,6 +27,9 @@ const Component = ({ mode }) => {
   const formMode = whichFormMode(mode);
   const contactInformation = useSelector(state =>
     selectContactInformation(state)
+  );
+  const savingRecord = useSelector(state =>
+    selectSavingContactInformation(state)
   );
   const id = contactInformation.get("id");
   const handleCancel = () => {
@@ -59,6 +65,7 @@ const Component = ({ mode }) => {
         <FormAction
           actionHandler={() => bindFormSubmit(formRef)}
           text={i18n.t("buttons.save")}
+          savingRecord={savingRecord}
         />
       </>
     ) : null;
