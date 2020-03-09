@@ -5,3 +5,4 @@ export { default as UserGroupsForm } from "./user-groups-form";
 export { UserGroupsList } from "./user-groups-list";
 export { AgenciesList } from "./agencies-list";
 export { default as AgenciesForm } from "./agencies-form";
+export { default as ContactInformation } from "./contact-information";

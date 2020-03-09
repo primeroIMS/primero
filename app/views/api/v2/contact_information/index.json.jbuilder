@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 json.data do
-  json.merge! @contact_information.attributes.except('id')
+  json.merge! @contact_information.attributes
   json.system_version @system_settings.primero_version
   json.agencies do
     json.array!(@agencies_with_logos) do |agency|
