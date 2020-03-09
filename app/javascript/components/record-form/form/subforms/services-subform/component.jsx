@@ -14,33 +14,31 @@ const Component = ({ field, formik, index, mode }) => {
   });
 
   const filters = (subform, optionStringsSource, subformIndex) => {
-    if (subform.subform_section_id.unique_id === "services_section") {
-      switch (optionStringsSource) {
-        case "Agency":
-          return {
-            service: getIn(
-              formik.values,
-              `${subform.name}[${subformIndex}].service_type`
-            )
-          };
-        case "User":
-          return {
-            service: getIn(
-              formik.values,
-              `${subform.name}[${subformIndex}].service_type`
-            ),
-            location: getIn(
-              formik.values,
-              `${subform.name}[${subformIndex}].service_delivery_location`
-            ),
-            agency: getIn(
-              formik.values,
-              `${subform.name}[${subformIndex}].service_implementing_agency`
-            )
-          };
-        default:
-          return {};
-      }
+    switch (optionStringsSource) {
+      case "Agency":
+        return {
+          service: getIn(
+            formik.values,
+            `${subform.name}[${subformIndex}].service_type`
+          )
+        };
+      case "User":
+        return {
+          service: getIn(
+            formik.values,
+            `${subform.name}[${subformIndex}].service_type`
+          ),
+          location: getIn(
+            formik.values,
+            `${subform.name}[${subformIndex}].service_delivery_location`
+          ),
+          agency: getIn(
+            formik.values,
+            `${subform.name}[${subformIndex}].service_implementing_agency`
+          )
+        };
+      default:
+        return {};
     }
   };
 

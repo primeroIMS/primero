@@ -1,9 +1,14 @@
 import { fromJS } from "immutable";
 
-export const appendDisabledAgency = (agencies, agency) =>
-  agency?.size && !agencies.includes(agency)
+export const appendDisabledAgency = (agencies, agencyUniqueId) =>
+  agencyUniqueId &&
+  !agencies.map(agency => agency.get("unique_id")).includes(agencyUniqueId)
     ? agencies.push(
-        fromJS({ unique_id: agency, name: agency, isDisabled: true })
+        fromJS({
+          unique_id: agencyUniqueId,
+          name: agencyUniqueId,
+          isDisabled: true
+        })
       )
     : agencies;
 
