@@ -69,7 +69,7 @@ module TransitionActions
       raise(I18n.t('request_transfer.error.record_not_found')) if @record.blank?
       @record.add_transition(Transition::TYPE_TRANSFER_REQUEST, @record.owned_by, '', current_user.agency&.id,
                              Transition::TO_USER_LOCAL_STATUS_INPROGRESS, request_transfer_notes,
-                             false, '', current_user.user_name, false, false, '', '')
+                             false, '', current_user.user_name, false, false, '')
 
       @record.update_last_updated_by(current_user)
       @record.try(:add_alert, Alertable::TRANSFER_REQUEST, Alertable::TRANSFER_REQUEST, transition_form_id, current_user.user_name, current_user.agency&.id)
