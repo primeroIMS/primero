@@ -69,7 +69,7 @@ module TransitionActions
       raise(I18n.t('request_transfer.error.record_not_found')) if @record.blank?
       @record.add_transition(Transition::TYPE_TRANSFER_REQUEST, @record.owned_by, '', current_user.agency&.id,
                              Transition::TO_USER_LOCAL_STATUS_INPROGRESS, request_transfer_notes,
-                             false, '', current_user.user_name, false, false, '')
+                             false, '', current_user.user_name, false, false, '', '')
 
       @record.update_last_updated_by(current_user)
       @record.try(:add_alert, Alertable::TRANSFER_REQUEST, Alertable::TRANSFER_REQUEST, transition_form_id, current_user.user_name, current_user.agency&.id)
@@ -215,7 +215,7 @@ module TransitionActions
   def log_to_history(records)
     records.each do |record|
       record.add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, to_user_local_status, notes,
-                            is_remote?, type_of_export, current_user.user_name, consent_overridden(record), consent_individual_transfer, service)
+                            is_remote?, type_of_export, current_user.user_name, consent_overridden(record), consent_individual_transfer, service, service_object_id)
       #TODO - should this be done here or somewhere else?
       #ONLY save the record if remote transfer/referral.  Local transfer/referral will update and save the record(s)
       record.set_service_as_referred( service_object_id )
