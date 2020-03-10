@@ -116,7 +116,8 @@ The API behavior is similar to that of cases.
 
 Endpoints for querying contact information
 
-* [Query for contact informationg](v2/docs/contact_information/get.md) : `GET /api/v2/contact_information`
+* [Query for contact information](v2/docs/contact_information/get.md) : `GET /api/v2/contact_information`
+* [Update the cuerrent contact information](v2/docs/contact_information/patch.md) : `PATCH /api/v2/contact_information`
 
 
 ## System Setting Endpoints
