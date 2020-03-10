@@ -1,3 +1,5 @@
+import { fromJS } from "immutable";
+
 import NAMESPACE from "./namespace";
 
 export const getErrorsByTransitionType = (state, transitionType) => {
@@ -5,4 +7,4 @@ export const getErrorsByTransitionType = (state, transitionType) => {
 };
 
 export const getUsersByTransitionType = (state, transitionType) =>
-  state.getIn(["records", NAMESPACE, transitionType, "users"]);
+  state.getIn(["records", NAMESPACE, transitionType, "users"], fromJS([]));

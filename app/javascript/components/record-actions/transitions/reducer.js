@@ -52,8 +52,20 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         .update("data", data => {
           return data.push(TransitionRecord(payload.data));
         });
+    case Actions.REFERRAL_USERS_FETCH_STARTED:
+      return state
+        .setIn(["referral", "loading"], true)
+        .setIn(["referral", "errors"], false);
     case Actions.REFERRAL_USERS_FETCH_SUCCESS:
       return state.setIn(["referral", "users"], fromJS(payload.data));
+    case Actions.REFERRAL_USERS_FETCH_FINISHED:
+      return state
+        .setIn(["referral", "loading"], false)
+        .setIn(["referral", "errors"], false);
+    case Actions.REFERRAL_USERS_FETCH_FAILURE:
+      return state
+        .setIn(["referral", "loading"], false)
+        .setIn(["referral", "errors"], true);
     case Actions.REFER_USER_FAILURE:
       return state
         .setIn(["referral", "errors"], true)
