@@ -7,7 +7,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
 
-import { selectAgencies } from "../../../../application/selectors";
+import {
+  getAgenciesWithService,
+  selectAgencies,
+  getReportingLocationConfig
+} from "../../../../application/selectors";
 import { getOption } from "../../../../record-form";
 import { useI18n } from "../../../../i18n";
 import {
@@ -20,15 +24,15 @@ import {
   CODE_FIELD,
   LOOKUPS
 } from "../../../../../config";
-import { getInternalFields } from "../helpers";
 import {
   getUsersByTransitionType,
   getErrorsByTransitionType
 } from "../../selectors";
 import { fetchReferralUsers } from "../../action-creators";
 import { enqueueSnackbar } from "../../../../notifier";
-import { getLocations } from "../../../../record-form/selectors";
+import { getReportingLocations } from "../../../../record-form/selectors";
 import { valuesToSearchableSelect } from "../../../../../libs";
+import { getLoading } from "../../../../index-table";
 
 import ProvidedConsent from "./provided-consent";
 import FormInternal from "./form-internal";
@@ -38,7 +42,9 @@ import {
   AGENCY_FIELD,
   LOCATION_FIELD,
   TRANSITIONED_TO_FIELD,
-  NOTES_FIELD
+  NOTES_FIELD,
+  MAIN_FORM,
+  SERVICE_RECORD_FIELD
 } from "./constants";
 
 const MainForm = ({ formProps, rest }) => {
@@ -55,8 +61,49 @@ const MainForm = ({ formProps, rest }) => {
     recordType
   } = rest;
   const { handleSubmit, initialValues, values, resetForm } = formProps;
-  const { referral } = values;
+  const { referral, services, agency, location } = values;
   const disableControl = !providedConsent && !disabled;
+
+  const serviceTypes = useSelector(state =>
+    getOption(state, LOOKUPS.service_type, i18n)
+  );
+
+  const adminLevel = useSelector(state =>
+    getReportingLocationConfig(state).get("admin_level")
+  );
+
+  const reportingLocations = useSelector(
+    state => getReportingLocations(state, adminLevel),
+    (rptLocations1, rptLocations2) => rptLocations1.equals(rptLocations2)
+  );
+
+  const NAMESPACE = ["transitions", "referral"];
+
+  const loading = useSelector(state => getLoading(state, NAMESPACE));
+
+  const agencies = useSelector(state =>
+    services ? getAgenciesWithService(state, services) : selectAgencies(state)
+  );
+  const users = useSelector(state =>
+    getUsersByTransitionType(state, transitionType)
+  );
+
+  const loadReferralUsers = () => {
+    const filters = Object.entries({
+      services,
+      agency,
+      location
+    }).reduce((acc, entry) => {
+      return entry[1] ? { ...acc, [entry[0]]: entry[1] } : acc;
+    }, {});
+
+    dispatch(
+      fetchReferralUsers({
+        record_type: RECORD_TYPES[recordType],
+        ...filters
+      })
+    );
+  };
 
   if (
     !referral &&
@@ -71,8 +118,8 @@ const MainForm = ({ formProps, rest }) => {
   );
 
   useEffect(() => {
-    dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[recordType] }));
-  }, []);
+    loadReferralUsers();
+  }, [referral]);
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -92,51 +139,27 @@ const MainForm = ({ formProps, rest }) => {
     }
   }, [hasErrors]);
 
-  const services = useSelector(state =>
-    getOption(state, LOOKUPS.service_type, i18n)
-  );
-  const locations = useSelector(state => getLocations(state));
-  const agencies = useSelector(state => selectAgencies(state));
-  const users = useSelector(state =>
-    getUsersByTransitionType(state, transitionType)
-  );
-
   const clearDependentValues = (dependants, form) =>
     dependants.forEach(value => {
       form.setFieldValue(value, "", false);
     });
-
-  const getUsers = (name, currentValue, formValues, fields) => {
-    const result = getInternalFields(formValues, fields);
-    const params = {
-      record_type: RECORD_TYPES[recordType],
-      [name]: currentValue,
-      ...result
-    };
-
-    if (currentValue !== formValues[name]) {
-      dispatch(fetchReferralUsers(params));
-    }
-  };
 
   const fields = [
     {
       id: SERVICE_FIELD,
       label: i18n.t("referral.service_label"),
       options: valuesToSearchableSelect(
-        services,
+        serviceTypes,
         ID_FIELD,
         DISPLAY_TEXT_FIELD,
         i18n.locale
       ),
       onChange: (data, field, form) => {
         const { value } = data;
-        const queryValues = [LOCATION_FIELD];
         const dependentValues = [AGENCY_FIELD, TRANSITIONED_TO_FIELD];
 
         form.setFieldValue(field.name, value, false);
         clearDependentValues(dependentValues, form);
-        getUsers(field.name, value, form.values, queryValues);
       }
     },
     {
@@ -150,31 +173,27 @@ const MainForm = ({ formProps, rest }) => {
       ),
       onChange: (data, field, form) => {
         const { value } = data;
-        const queryValues = [SERVICE_FIELD, LOCATION_FIELD];
         const dependentValues = [TRANSITIONED_TO_FIELD];
 
         form.setFieldValue(field.name, value, false);
         clearDependentValues(dependentValues, form);
-        getUsers(field.name, value, form.values, queryValues);
       }
     },
     {
       id: LOCATION_FIELD,
       label: i18n.t("referral.location_label"),
       options: valuesToSearchableSelect(
-        locations,
+        reportingLocations,
         CODE_FIELD,
         NAME_FIELD,
         i18n.locale
       ),
       onChange: (data, field, form) => {
         const { value } = data;
-        const queryValues = [SERVICE_FIELD, AGENCY_FIELD];
         const dependentValues = [TRANSITIONED_TO_FIELD];
 
         form.setFieldValue(field.name, value, false);
         clearDependentValues(dependentValues, form);
-        getUsers(field.name, value, form.values, queryValues);
       }
     },
     {
@@ -182,20 +201,34 @@ const MainForm = ({ formProps, rest }) => {
       label: i18n.t("referral.recipient_label"),
       required: true,
       options: users
-        ? users.valueSeq().map(user => {
-            const userName = user.get(USER_NAME_FIELD);
+        ? users
+            .valueSeq()
+            .map(user => {
+              const userName = user.get(USER_NAME_FIELD);
 
-            return {
-              value: userName.toLowerCase(),
-              label: userName
-            };
-          })
+              return {
+                value: userName.toLowerCase(),
+                label: userName
+              };
+            })
+            .toJS()
         : [],
       onChange: (data, field, form) => {
         const { value } = data;
 
+        const selectedUser = users.find(
+          user => user.get("user_name") === value
+        );
+
         form.setFieldValue(field.name, value, false);
-      }
+
+        if (selectedUser?.size) {
+          form.setFieldValue("agency", selectedUser.get("agency"));
+          form.setFieldValue("location", selectedUser.get("location"));
+        }
+      },
+      onMenuOpen: loadReferralUsers,
+      isLoading: loading
     },
     {
       id: NOTES_FIELD,
@@ -218,21 +251,34 @@ const MainForm = ({ formProps, rest }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <ProvidedConsent {...providedConsentProps} />
-      <FormControlLabel
-        control={
-          <Field
-            name="remoteSystem"
-            component={MuiCheckbox}
-            disabled={disableControl}
-          />
+      {referral && Object.keys(referral) ? (
+        <FormControlLabel
+          control={
+            <Field
+              name="remoteSystem"
+              component={MuiCheckbox}
+              disabled={disableControl}
+            />
+          }
+          label={i18n.t("referral.is_remote_label")}
+        />
+      ) : null}
+      <Field
+        name={SERVICE_RECORD_FIELD}
+        value={
+          referral && referral[SERVICE_RECORD_FIELD]
+            ? referral[SERVICE_RECORD_FIELD]
+            : ""
         }
-        label={i18n.t("referral.is_remote_label")}
+        type="hidden"
       />
       <FormInternal fields={fields} disabled={disableControl} />
       <Actions {...actionProps} />
     </Form>
   );
 };
+
+MainForm.displayName = MAIN_FORM;
 
 MainForm.propTypes = {
   formProps: PropTypes.object,

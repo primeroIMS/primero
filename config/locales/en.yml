@@ -210,6 +210,7 @@ en:
     transfer: "Transfer"
     reassign: "Assign"
     referral: "Refer"
+    referral_again: "Refer Again"
     mark_for_mobile: "Mark for mobile"
     unmark_for_mobile: "Un-mark for mobile"
     approve_bia: "Approve BIA"

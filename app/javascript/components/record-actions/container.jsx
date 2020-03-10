@@ -47,7 +47,9 @@ const Container = ({
   record,
   mode,
   showListActions,
-  selectedRecords
+  selectedRecords,
+  referral,
+  setReferral
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -213,7 +215,9 @@ const Container = ({
     transitionType,
     setTransitionType,
     recordType,
-    userPermissions
+    userPermissions,
+    referral,
+    setReferral
   };
 
   const handleNotesClose = () => {
@@ -265,7 +269,10 @@ const Container = ({
   const actions = [
     {
       name: `${i18n.t("buttons.referral")} ${formRecordType}`,
-      action: () => setTransitionType("referral"),
+      action: () => {
+        setReferral(null);
+        setTransitionType("referral");
+      },
       recordType,
       condition: canRefer
     },
@@ -547,7 +554,9 @@ Container.propTypes = {
   mode: PropTypes.object,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  referral: PropTypes.object,
   selectedRecords: PropTypes.array,
+  setReferral: PropTypes.func,
   showListActions: PropTypes.bool
 };
 

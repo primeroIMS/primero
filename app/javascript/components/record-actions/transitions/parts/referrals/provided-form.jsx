@@ -3,41 +3,19 @@ import PropTypes from "prop-types";
 import { Grid, FormControlLabel, Checkbox } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Field } from "formik";
-import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../../../i18n";
 import { CasesIcon } from "../../../../../images/primero-icons";
 import styles from "../../styles.css";
-import { internalFieldsDirty } from "../helpers";
-import { fetchReferralUsers } from "../../action-creators";
-import { RECORD_TYPES } from "../../../../../config";
-
-import {
-  SERVICE_FIELD,
-  AGENCY_FIELD,
-  LOCATION_FIELD,
-  TRANSITIONED_TO_FIELD
-} from "./constants";
 
 const ProvidedForm = ({ setDisabled, canConsentOverride, recordType }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
-  const dispatch = useDispatch();
 
   const onChangeReferAnyway = props => {
     const { field, form } = props;
     const { value } = field;
     const onChange = (fieldCheckbox, formCheckbox) => {
-      if (
-        internalFieldsDirty(formCheckbox.values, [
-          SERVICE_FIELD,
-          AGENCY_FIELD,
-          LOCATION_FIELD,
-          TRANSITIONED_TO_FIELD
-        ])
-      ) {
-        dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[recordType] }));
-      }
       setDisabled(!fieldCheckbox.value);
       formCheckbox.setFieldValue(
         fieldCheckbox.name,

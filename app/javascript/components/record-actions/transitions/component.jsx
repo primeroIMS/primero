@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 
@@ -10,13 +10,16 @@ import {
   ReassignForm,
   TransferForm
 } from "./parts";
+import { NAME } from "./constants";
 
 const Transitions = ({
   transitionType,
   record,
   setTransitionType,
   recordType,
-  userPermissions
+  userPermissions,
+  referral,
+  setReferral
 }) => {
   const dispatch = useDispatch();
   const providedConsent = record && hasProvidedConsent(record);
@@ -34,6 +37,12 @@ const Transitions = ({
     recordType
   };
 
+  useEffect(() => {
+    if (referral && Object.keys(referral).length) {
+      setTransitionType("referral");
+    }
+  }, [referral]);
+
   const renderTransitionForm = type => {
     switch (type) {
       case "referral": {
@@ -42,7 +51,9 @@ const Transitions = ({
           userPermissions,
           providedConsent,
           recordType,
-          record
+          record,
+          referral,
+          setReferral
         };
 
         return <ReferralForm {...referralProps} />;
@@ -83,9 +94,13 @@ const Transitions = ({
   );
 };
 
+Transitions.displayName = NAME;
+
 Transitions.propTypes = {
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  referral: PropTypes.object,
+  setReferral: PropTypes.func,
   setTransitionType: PropTypes.func.isRequired,
   transitionType: PropTypes.string.isRequired,
   userPermissions: PropTypes.object.isRequired

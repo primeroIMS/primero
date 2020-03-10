@@ -6,6 +6,9 @@ import { Box, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 
+import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
+import Permission from "../../../../application/permission";
+import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
 import { SUBFORM_FIELDS } from "../constants";
 
@@ -16,7 +19,8 @@ const Component = ({
   mode,
   setDialogIsNew,
   setOpen,
-  values
+  values,
+  setReferral
 }) => {
   const {
     subform_sort_by: subformSortBy,
@@ -67,6 +71,12 @@ const Component = ({
     return (
       <>
         {sortedValues.map((c, index) => {
+          const canReferFromService = Boolean(
+            values[index].service_response_type &&
+              values[index].service_type &&
+              values[index].service_implementing_agency_individual
+          );
+
           if (values?.[index]?._destroy) return false;
 
           return (
@@ -85,6 +95,18 @@ const Component = ({
                   <IconButton onClick={() => handleDelete(index)}>
                     <DeleteIcon />
                   </IconButton>
+                ) : null}
+                {mode.isShow && canReferFromService ? (
+                  <Permission
+                    resources={RESOURCES.cases}
+                    actions={REFER_FROM_SERVICE}
+                  >
+                    <SubformMenu
+                      index={index}
+                      setReferral={setReferral}
+                      values={values}
+                    />
+                  </Permission>
                 ) : null}
                 <IconButton onClick={() => handleEdit(index)}>
                   <ArrowIcon />
@@ -109,6 +131,7 @@ Component.propTypes = {
   mode: PropTypes.object.isRequired,
   setDialogIsNew: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,
+  setReferral: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired
 };
 

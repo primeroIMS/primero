@@ -15,7 +15,8 @@ import {
   AGENCY_FIELD,
   LOCATION_FIELD,
   TRANSITIONED_TO_FIELD,
-  NOTES_FIELD
+  NOTES_FIELD,
+  NAME
 } from "./constants";
 
 const ReferralForm = ({
@@ -23,7 +24,8 @@ const ReferralForm = ({
   userPermissions,
   providedConsent,
   recordType,
-  record
+  record,
+  referral
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -58,7 +60,8 @@ const ReferralForm = ({
       [AGENCY_FIELD]: "",
       [LOCATION_FIELD]: "",
       [TRANSITIONED_TO_FIELD]: "",
-      [NOTES_FIELD]: ""
+      [NOTES_FIELD]: "",
+      ...referral
     },
     onSubmit: (values, { setSubmitting }) => {
       const recordId = record.get("id");
@@ -86,11 +89,14 @@ const ReferralForm = ({
   return <Formik {...formProps} />;
 };
 
+ReferralForm.displayName = NAME;
+
 ReferralForm.propTypes = {
   handleClose: PropTypes.func.isRequired,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  referral: PropTypes.object,
   userPermissions: PropTypes.object
 };
 

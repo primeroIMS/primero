@@ -38,10 +38,10 @@ class Referral < Transition
   private
 
   def mark_service_object_referred
-    if service_record_id.present?
-      service_object = record.services_section.select {|s| s.unique_id == service_record_id}.first
-      service_object['service_status_referred'] = true if service_object.present?
-    end
+    return if service_record_id.blank?
+
+    service_object = record.services_section.select { |s| s['unique_id'] == service_record_id }.first
+    service_object['service_status_referred'] = true if service_object.present?
   end
 
   def perform_system_referral
