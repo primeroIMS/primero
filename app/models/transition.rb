@@ -13,6 +13,7 @@ class Transition
   property :notes, String
   property :transitioned_by, String
   property :service, String #service referers to the 'Type of Service'
+  property :service_section_unique_id, String
   property :is_remote, TrueClass
   property :type_of_export, String
   property :consent_overridden, TrueClass

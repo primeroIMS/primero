@@ -18,6 +18,7 @@ describe Transitionable do
                     :to_user_remote => nil,
                     :to_user_agency => nil,
                     :transitioned_by => @user.user_name,
+                    :to_user_local_status => Transition::TO_USER_LOCAL_STATUS_PENDING,
                     :notes => "bla bla bla",
                     :is_remote => true,
                     :type_of_export => nil,
@@ -90,6 +91,18 @@ describe Transitionable do
     expect(test.transitions.count).to equal(3)
     expect(test.referrals.count).to equal(2)
     expect(test.transfers.count).to equal(1)
+  end
+
+  it 'returns services_section_unique_id' do
+    test = TestClass.new()
+    service_section_unique_id = "c48b55d7-3e1a593"
+    test.add_transition(@referral.type, @referral.to_user_local,
+                        @referral.to_user_remote, @referral.to_user_agency, @referral.to_user_local_status,
+                        @referral.notes, @referral.is_remote, @referral.type_of_export,
+                        @referral.transitioned_by, @referral.consent_overridden, false, @referral.service, service_section_unique_id)
+
+    expect(test.referrals.count).to equal(1)
+    expect(test.referrals.first.service_section_unique_id).to equal(service_section_unique_id)
   end
 
   describe "mailer" do
