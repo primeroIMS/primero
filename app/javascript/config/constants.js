@@ -99,7 +99,8 @@ export const ROUTES = {
   admin_user_groups: "/admin/user_groups",
   admin_user_groups_new: "/admin/user_groups/new",
   admin_agencies: "/admin/agencies",
-  admin_agencies_new: "/admin/agencies/new"
+  admin_agencies_new: "/admin/agencies/new",
+  lookups: "/admin/lookups"
 };
 
 export const PERMITTED_URL = [
@@ -143,7 +144,20 @@ export const ADMIN_NAV = [
     label: "settings.navigation.user_groups"
   },
   { to: "/modules", label: "settings.navigation.modules", disabled: true },
-  { to: "/forms", label: "settings.navigation.forms", disabled: true },
+  {
+    to: "/forms-parent",
+    label: "settings.navigation.forms",
+    items: [
+      {
+        to: "/forms",
+        label: "settings.navigation.forms"
+      },
+      {
+        to: "/lookups",
+        label: "settings.navigation.lookups"
+      }
+    ]
+  },
   { to: "/locations", label: "settings.navigation.locations", disabled: true },
   {
     to: "/system_settings",

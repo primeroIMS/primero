@@ -14,7 +14,8 @@ import Login, {
   UserGroupsList,
   UserGroupsForm,
   AgenciesList,
-  AgenciesForm
+  AgenciesForm,
+  LookupsList
 } from "../components/pages";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
@@ -222,6 +223,11 @@ export default [
               path: ROUTES.admin_agencies,
               component: AgenciesList,
               resources: RESOURCES.agencies
+            },
+             {
+              path: ROUTES.lookups,
+              component: LookupsList,
+              resources: RESOURCES.lookups
             }
           ]
         }

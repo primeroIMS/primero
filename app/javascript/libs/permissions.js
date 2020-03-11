@@ -79,7 +79,8 @@ export const RESOURCES = {
   tracing_requests: "tracing_requests",
   users: "users",
   agencies: "agencies",
-  user_groups: "user_groups"
+  user_groups: "user_groups",
+  lookups: "lookups"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {
