@@ -18,7 +18,7 @@ describe Transitionable do
                     :to_user_remote => nil,
                     :to_user_agency => nil,
                     :transitioned_by => @user.user_name,
-                    :to_user_local_status => "pending",
+                    :to_user_local_status => Transition::TO_USER_LOCAL_STATUS_PENDING,
                     :notes => "bla bla bla",
                     :is_remote => true,
                     :type_of_export => nil,
