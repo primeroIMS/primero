@@ -95,7 +95,15 @@ transitions_subform = [
                "disabled" => true,
                "display_name_en" => "Date of referral or transfer",
                "date_include_time" => true
-              })
+              }),
+    Field.new({"name" => "service_section_unique_id",
+               "type" => "text_field",
+               "editable"=> false,
+               "disabled" => true,
+               "visible" => false,
+               "mobile_visible" => false,
+               "display_name_en" => "Service Form ID",
+              }),
 ]
 
 transitions = FormSection.create_or_update_form_section({
