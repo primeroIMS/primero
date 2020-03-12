@@ -61,6 +61,7 @@ import {
   getSharedWithOthers,
   getGroupOverview,
   getCaseOverview,
+  getSharedFromMyTeam,
   getSharedWithMyTeam
 } from "./selectors";
 import {
@@ -105,6 +106,7 @@ const Dashboard = ({
   groupOverview,
   sharedWithOthers,
   caseOverview,
+  sharedFromMyTeam,
   sharedWithMyTeam
 }) => {
   useEffect(() => {
@@ -154,6 +156,12 @@ const Dashboard = ({
 
   const casesWorkflowTeamProps = {
     ...toListTable(casesWorkflowTeam, workflowLabels),
+    loading,
+    errors
+  };
+
+  const sharedFromMyTeamProps = {
+    ...teamSharingTable(sharedFromMyTeam, i18n),
     loading,
     errors
   };
@@ -308,7 +316,7 @@ const Dashboard = ({
                     </Permission>
                     <Permission
                       resources={RESOURCES.dashboards}
-                      actions={ACTIONS.DASH_CASE_OVERVIEW}
+                      actions={[ACTIONS.DASH_CASE_OVERVIEW]}
                     >
                       <Grid item xs>
                         <OptionsBox flat>
@@ -330,7 +338,10 @@ const Dashboard = ({
                     </Permission>
                     <Permission
                       resources={RESOURCES.dashboards}
-                      actions={ACTIONS.DASH_SHARED_WITH_ME}
+                      actions={[
+                        ACTIONS.DASH_SHARED_WITH_ME,
+                        ACTIONS.RECEIVE_REFERRAL
+                      ]}
                     >
                       <Grid item xs>
                         <OptionsBox flat>
@@ -379,6 +390,22 @@ const Dashboard = ({
                     </Permission>
                   </Grid>
                 </Grid>
+              </OptionsBox>
+            </Grid>
+          </Permission>
+
+          <Permission
+            resources={RESOURCES.dashboards}
+            actions={ACTIONS.DASH_SHARED_FROM_MY_TEAM}
+          >
+            <Grid item xl={9} md={8} xs={12}>
+              <OptionsBox title={i18n.t("dashboard.dash_shared_from_my_team")}>
+                <LoadingIndicator
+                  {...loadingIndicatorProps}
+                  hasData={Boolean(sharedFromMyTeam.size)}
+                >
+                  <DashboardTable {...sharedFromMyTeamProps} />
+                </LoadingIndicator>
               </OptionsBox>
             </Grid>
           </Permission>
@@ -599,6 +626,7 @@ Dashboard.propTypes = {
   reportingLocation: PropTypes.object.isRequired,
   reportingLocationConfig: PropTypes.object,
   servicesStatus: PropTypes.object.isRequired,
+  sharedFromMyTeam: PropTypes.object.isRequired,
   sharedWithMe: PropTypes.object.isRequired,
   sharedWithMyTeam: PropTypes.object.isRequired,
   sharedWithOthers: PropTypes.object.isRequired,
@@ -635,6 +663,7 @@ const mapStateToProps = state => {
     groupOverview: getGroupOverview(state),
     sharedWithOthers: getSharedWithOthers(state),
     caseOverview: getCaseOverview(state),
+    sharedFromMyTeam: getSharedFromMyTeam(state),
     sharedWithMyTeam: getSharedWithMyTeam(state)
   };
 };
