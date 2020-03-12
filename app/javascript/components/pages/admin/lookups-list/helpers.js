@@ -1,5 +1,3 @@
-/* eslint-disable react/display-name */
-/* eslint-disable import/prefer-default-export */
 import React from "react";
 import truncate from "lodash/truncate";
 import { TableCell, Grid, Typography } from "@material-ui/core";
