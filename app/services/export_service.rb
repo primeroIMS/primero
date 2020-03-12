@@ -6,7 +6,7 @@ class ExportService
     def exporter(record_type, format)
       [
         Exporters::IncidentRecorderExporter, Exporters::CSVListViewExporter, Exporters::CSVExporter,
-        Exporters::ExcelExporter, Exporters::JSONExporter, # Exporters::PhotoWallExporter,
+        Exporters::ExcelExporter, Exporters::JSONExporter, Exporters::PhotoWallExporter,
         Exporters::PDFExporter, Exporters::UnhcrCSVExporter, Exporters::DuplicateIdCSVExporter,
         Exporters::SelectedFieldsExcelExporter # , Expoxrters::MRMViolationExporter
       ].find do |exporter|
