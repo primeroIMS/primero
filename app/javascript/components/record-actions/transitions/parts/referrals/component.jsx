@@ -43,7 +43,8 @@ const ReferralForm = ({
     disabled,
     setDisabled,
     handleClose,
-    recordType
+    recordType,
+    referral
   };
 
   const validationSchema = Yup.object().shape({

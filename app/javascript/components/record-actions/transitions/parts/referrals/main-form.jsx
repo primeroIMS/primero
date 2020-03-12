@@ -61,7 +61,7 @@ const MainForm = ({ formProps, rest }) => {
     recordType
   } = rest;
   const { handleSubmit, initialValues, values, resetForm } = formProps;
-  const { referral, services, agency, location } = values;
+  const { services, agency, location } = values;
   const disableControl = !providedConsent && !disabled;
 
   const serviceTypes = useSelector(state =>
@@ -106,7 +106,7 @@ const MainForm = ({ formProps, rest }) => {
   };
 
   if (
-    !referral &&
+    !rest.referral &&
     !providedConsent &&
     !isEqual(omit(initialValues, transitionType), omit(values, transitionType))
   ) {
@@ -119,7 +119,7 @@ const MainForm = ({ formProps, rest }) => {
 
   useEffect(() => {
     loadReferralUsers();
-  }, [referral]);
+  }, [rest.referral]);
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -251,7 +251,7 @@ const MainForm = ({ formProps, rest }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <ProvidedConsent {...providedConsentProps} />
-      {referral && Object.keys(referral) ? (
+      {rest.referral && Object.keys(rest.referral) ? null : (
         <FormControlLabel
           control={
             <Field
@@ -262,17 +262,22 @@ const MainForm = ({ formProps, rest }) => {
           }
           label={i18n.t("referral.is_remote_label")}
         />
-      ) : null}
+      )}
       <Field
         name={SERVICE_RECORD_FIELD}
         value={
-          referral && referral[SERVICE_RECORD_FIELD]
-            ? referral[SERVICE_RECORD_FIELD]
+          rest.referral && rest.referral[SERVICE_RECORD_FIELD]
+            ? rest.referral[SERVICE_RECORD_FIELD]
             : ""
         }
         type="hidden"
       />
-      <FormInternal fields={fields} disabled={disableControl} />
+      <FormInternal
+        fields={fields}
+        disabled={
+          Boolean(rest.referral && Object.keys(rest.referral)) || disableControl
+        }
+      />
       <Actions {...actionProps} />
     </Form>
   );

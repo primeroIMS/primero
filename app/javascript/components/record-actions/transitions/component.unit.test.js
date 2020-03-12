@@ -69,7 +69,9 @@ describe("<Transitions />", () => {
           "userPermissions",
           "providedConsent",
           "recordType",
-          "record"
+          "record",
+          "referral",
+          "setReferral"
         ];
 
         expect(Object.keys(referralForm.props())).to.deep.equal(validProps);

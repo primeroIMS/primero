@@ -195,10 +195,12 @@ describe("<MainForm />", () => {
         )
       };
 
-      [...searchableFieldProps, "required"].forEach(property => {
-        expect(transitionToFieldProps).to.have.property(property);
-        delete transitionToFieldProps[property];
-      });
+      [...searchableFieldProps, "required", "onMenuOpen", "isLoading"].forEach(
+        property => {
+          expect(transitionToFieldProps).to.have.property(property);
+          delete transitionToFieldProps[property];
+        }
+      );
 
       expect(transitionToFieldProps).to.be.empty;
     });
