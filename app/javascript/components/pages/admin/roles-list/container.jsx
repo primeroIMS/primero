@@ -1,5 +1,5 @@
 import React from "react";
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 import { IconButton } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
@@ -23,7 +23,7 @@ const Container = () => {
 
   const tableOptions = {
     recordType,
-    columns,
+    columns: List(columns),
     options: {
       selectableRows: "none"
     },
@@ -53,7 +53,5 @@ const Container = () => {
 };
 
 Container.displayName = NAME;
-
-Container.propTypes = {};
 
 export default Container;
