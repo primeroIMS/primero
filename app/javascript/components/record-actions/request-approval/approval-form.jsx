@@ -85,13 +85,13 @@ const Component = ({
         </FormLabel>
         <TextField
           id="outlined-multiline-static"
-          label=""
           multiline
           fullWidth
           rows="4"
           defaultValue=""
           variant="outlined"
           onChange={handleChangeComment}
+          labelWidth={0}
         />
       </form>
     </>

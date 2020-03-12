@@ -140,7 +140,7 @@ const overrides = {
         }
       }
     },
-    cellStacked: {
+    stackedCommon: {
       [muiTheme.breakpoints.down("sm")]: {
         width: "50%",
         height: "40px",
@@ -153,7 +153,7 @@ const overrides = {
         padding: "2em 10px"
       }
     },
-    responsiveStacked: {
+    responsiveStackedSmall: {
       [muiTheme.breakpoints.down("sm")]: {
         width: "50%",
         height: "40px",

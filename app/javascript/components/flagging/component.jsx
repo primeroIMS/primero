@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { IconButton } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import FlagIcon from "@material-ui/icons/Flag";
+
+import { useI18n } from "../i18n";
 
 import { FlagForm, ListFlags, FlagDialog } from "./components";
 import { fetchFlags } from "./action-creators";
@@ -12,6 +14,7 @@ const Flagging = ({ recordType, record, control }) => {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const dispatch = useDispatch();
+  const i18n = useI18n();
 
   useEffect(() => {
     dispatch(fetchFlags(recordType, record));
@@ -53,9 +56,9 @@ const Flagging = ({ recordType, record, control }) => {
   return (
     <>
       {(control && <control onClick={handleOpen} />) || (
-        <IconButton onClick={handleOpen}>
-          <FlagIcon />
-        </IconButton>
+        <Button onClick={handleOpen} startIcon={<FlagIcon />} size="small">
+          {i18n.t("buttons.flags")}
+        </Button>
       )}
       <FlagDialog {...flagDialogProps}>
         <div hidetab={isBulkFlags.toString()}>

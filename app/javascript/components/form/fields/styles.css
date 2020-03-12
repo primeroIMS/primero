@@ -6,3 +6,27 @@
     color: $(theme.primero.colors.black);
   }
 }
+
+.attachment {
+  align-items: center;
+  padding: 10px 0;
+}
+
+.inputField,
+.attachmentInputField {
+  display: none;
+}
+
+.preview {
+  height: 100px;
+}
+
+.buttonWrapper {
+  position: relative;
+}
+
+.buttonProgress {
+  position: absolute;
+  margin-top: -12;
+  margin-left: -12;
+}

@@ -20,6 +20,7 @@ export const ACTIONS = {
   DASH_REPORTING_LOCATION: "dash_reporting_location",
   DASH_SHARED_FROM_MY_TEAM: "dash_shared_with_my_team",
   DASH_SHARED_WITH_ME: "dash_shared_with_me",
+  DASH_SHARED_WITH_MY_TEAM: "dash_shared_with_my_team",
   DASH_SHARED_WITH_OTHERS: "dash_shared_with_others",
   DASH_TASKS: "dash_tasks",
   DASH_WORKFLOW: "workflow",

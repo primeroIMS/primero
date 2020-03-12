@@ -171,7 +171,9 @@ const Container = ({ match, mode }) => {
   ]);
 
   useEffect(() => {
-    dispatch(fetchTransitions(params.recordType, params.id));
+    if (!containerMode.isNew) {
+      dispatch(fetchTransitions(params.recordType, params.id));
+    }
   }, [params.recordType, params.id]);
 
   // TODO: When transfer_request be implement change the transition_ype
@@ -182,7 +184,9 @@ const Container = ({ match, mode }) => {
     isReferral: REFERRAL === selectedForm,
     recordType: params.recordType,
     record: params.id,
-    showMode: containerMode.isShow
+    showMode: containerMode.isShow,
+    mobileDisplay,
+    handleToggleNav
   };
 
   const approvalSubforms = record?.get("approval_subforms");
@@ -190,9 +194,22 @@ const Container = ({ match, mode }) => {
   let renderForm;
 
   if (isRecordOwnerForm) {
-    renderForm = <RecordOwner record={record} recordType={params.recordType} />;
+    renderForm = (
+      <RecordOwner
+        record={record}
+        recordType={params.recordType}
+        mobileDisplay={mobileDisplay}
+        handleToggleNav={handleToggleNav}
+      />
+    );
   } else if (isApprovalsForm) {
-    renderForm = <Approvals approvals={approvalSubforms} />;
+    renderForm = (
+      <Approvals
+        approvals={approvalSubforms}
+        mobileDisplay={mobileDisplay}
+        handleToggleNav={handleToggleNav}
+      />
+    );
   } else if (isTransitions) {
     renderForm = <Transitions {...transitionProps} />;
   } else {

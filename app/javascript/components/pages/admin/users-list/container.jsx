@@ -1,6 +1,6 @@
 import React from "react";
 import { fromJS } from "immutable";
-import { IconButton } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 
@@ -39,9 +39,14 @@ const Container = () => {
   };
 
   const newUserBtn = canAddUsers && (
-    <IconButton to={ROUTES.admin_users_new} component={Link} color="primary">
-      <AddIcon />
-    </IconButton>
+    <Button
+      to={ROUTES.admin_users_new}
+      component={Link}
+      color="primary"
+      startIcon={<AddIcon />}
+    >
+      {i18n.t("buttons.new")}
+    </Button>
   );
 
   return (

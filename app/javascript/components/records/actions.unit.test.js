@@ -28,6 +28,8 @@ describe("records - Actions", () => {
     expect(actions).to.have.property("SAVE_RECORD_SUCCESS");
     expect(actions).to.have.property("SAVE_RECORD_FINISHED");
     expect(actions).to.have.property("SAVE_RECORD_FAILURE");
+    expect(actions).to.have.property("DELETE_ATTACHMENT_SUCCESS");
+    expect(actions).to.have.property("SAVE_ATTACHMENT_SUCCESS");
     delete actions.CASES_RECORDS;
     delete actions.INCIDENTS_RECORDS;
     delete actions.TRACING_REQUESTS_RECORDS;
@@ -46,6 +48,8 @@ describe("records - Actions", () => {
     delete actions.SAVE_RECORD_SUCCESS;
     delete actions.SAVE_RECORD_FINISHED;
     delete actions.SAVE_RECORD_FAILURE;
+    delete actions.DELETE_ATTACHMENT_SUCCESS
+    delete actions.SAVE_ATTACHMENT_SUCCESS
 
     expect(actions).to.deep.equal({});
   });

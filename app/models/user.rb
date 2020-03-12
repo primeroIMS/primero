@@ -100,7 +100,7 @@ class User < ApplicationRecord
     end
 
     def agencies_for_user_names(user_names)
-      Agency.joins(:users).where('users.user_name in (?)', user_names)
+      Agency.joins(:users).where('users.user_name in (?)', user_names).distinct
     end
 
     def default_sort_field
@@ -167,12 +167,8 @@ class User < ApplicationRecord
         services_filter = filters.delete('services')
         agencies_filter = filters.delete('agency')
         users = users.where(filters) if filters.present?
-        if services_filter.present?
-          users = users.where(':service = ANY (services)', service: services_filter)
-        end
-        if agencies_filter.present?
-          users = users.joins(:agency).where(agencies: { unique_id: agencies_filter })
-        end
+        users = users.where(':service = ANY (users.services)', service: services_filter) if services_filter.present?
+        users = users.joins(:agency).where(agencies: { unique_id: agencies_filter }) if agencies_filter.present?
       end
       users
     end
@@ -451,7 +447,7 @@ class User < ApplicationRecord
   end
 
   def tasks(pagination = { per_page: 100, page: 1 })
-    cases = Child.owned_by(self.user_name)
+    cases = Child.owned_by(user_name)
                  .where('data @> ?', { record_state: true, status: Child::STATUS_OPEN }.to_json)
     tasks = Task.from_case(cases.to_a)
     { total: tasks.size, tasks: tasks.paginate(pagination) }
@@ -486,6 +482,7 @@ class User < ApplicationRecord
     # TODO: The following gets all the cases by user and updates the
     # location/district. Performance degrades on save if the user
     # changes their location.
+    return if ENV['PRIMERO_BOOTSTRAP']
     return unless location_changed? || @refresh_associated_user_groups || agency_id_changed?
 
     Child.owned_by(user_name).each do |child|

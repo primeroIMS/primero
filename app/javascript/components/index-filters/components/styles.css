@@ -24,9 +24,11 @@
   font-weight: bold;
   text-align: center;
   padding: 16px 0;
+  display: flex;
+  justify-content: center;
 
-  & button {
-    margin-left: 5px;
+  & > * {
+    margin: 0 2.5px;
   }
 }
 
@@ -67,10 +69,16 @@
   text-align: center;
   height: 34px;
   min-height: 34px;
+  flex: 1;
 }
+
 .tabselected {
   font-weight: bold;
   background-color: $(theme.primero.colors.lightGrey);
+}
+
+.moreBtn {
+  margin-top: 1em;
 }
 
 @media $(theme.breakpoints.up("md")) {

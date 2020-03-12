@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { IconButton, InputBase, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
 import { makeStyles } from "@material-ui/styles";
 
+import DisableOffline from "../../../disable-offline";
 import { useI18n } from "../../../i18n";
 
 import styles from "./styles.css";
 import { registerInput } from "./utils";
 import handleFilterChange from "./value-handlers";
 
-const Search = () => {
+const Search = ({ handleReset }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const { register, unregister, setValue } = useFormContext();
@@ -55,18 +57,21 @@ const Search = () => {
   const handleClear = () => {
     setValue(fieldName, undefined);
     setValue(fieldNameIdSearch, undefined);
+    handleReset();
   };
 
   return (
     <div className={css.searchContainer}>
       <div className={css.searchInputContainer}>
-        <IconButton
-          className={css.iconSearchButton}
-          aria-label="menu"
-          type="submit"
-        >
-          <SearchIcon />
-        </IconButton>
+        <DisableOffline>
+          <IconButton
+            className={css.iconSearchButton}
+            aria-label="menu"
+            type="submit"
+          >
+            <SearchIcon />
+          </IconButton>
+        </DisableOffline>
         <InputBase
           id="search-input"
           className={css.searchInput}
@@ -93,6 +98,8 @@ const Search = () => {
 
 Search.displayName = "Search";
 
-Search.propTypes = {};
+Search.propTypes = {
+  handleReset: PropTypes.func
+};
 
 export default Search;

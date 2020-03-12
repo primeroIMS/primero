@@ -16,7 +16,9 @@ en:
   "false": "No"
   valid: "Valid"
   invalid: "Invalid"
-  offline: The application is offline.
+  offline: "Offline"
+  connection_lost: "Connection Lost"
+  connected: "Connected"
   name: "Name"
   home:
     fr: "Français"
@@ -166,10 +168,12 @@ en:
       audit_logs: "Audit Logs"
 
   buttons:
+    download: "Download"
     delete: "Delete"
     disable: "Disable"
     enable: "Enable"
     save: "Save"
+    close: "Close"
     save_and_add_service_provision: "Save and Add Service Provision"
     login: "Log in"
     logout: "Log out"
@@ -180,6 +184,7 @@ en:
     submit: "Submit"
     export: "Export"
     import: "Import"
+    new: "New"
     change_password: "Change Password"
     enable_photo_wall: "Enable photo wall"
     disable_photo_wall: "Disable photo wall"
@@ -192,6 +197,7 @@ en:
     find_tracing_match: "Find Tracing Match"
     filter_restore: "Restore to System Settings"
     flag_records: "Flag"
+    flags: "Flags"
     flag_model: "Flag %{model}"
     unflag_model: "Unflag %{model}"
     unflag_model_history: "Flag History %{model}"
@@ -284,7 +290,7 @@ en:
       by_date: 'By Date'
       date: 'Date'
       approvals:
-        pending: "Pending Approvals"
+        pending: "Pending"
         approved: "Approved"
         rejected: "Rejected"
       enabled_disabled: "Enabled / Disabled"
@@ -339,15 +345,15 @@ en:
     request_approval_failure: "An error occurred, please contact support."
     revoke_failure: "An error occurred while revoking the %{transition_type}, please contact support."
     approved_success_closure: "Closure - Approved"
-    rejected_success_closure: "Closure - Rejected"
+    rejected_success_closure: "Closure - Not Approved"
     approved_success_case_plan: "Case Plan - Approved"
-    rejected_success_case_plan: "Case Plan - Rejected"
+    rejected_success_case_plan: "Case Plan - Not Approved"
     approved_success_bia: "Assessment - Approved"
-    rejected_success_bia: "Assessment - Rejected"
+    rejected_success_bia: "Assessment - Not Approved"
     approval_select: "The form for"
     approval_radio: "I would like to"
-    approval_radio_accept: "Accept"
-    approval_radio_reject: "Reject"
+    approval_radio_accept: "Approve"
+    approval_radio_reject: "Not Approve"
     approval_comments: "Comments"
     assessment: "Assessment"
     case_plan: "Case Plan"
@@ -1029,12 +1035,19 @@ en:
     error_in_updating: "Error in updating the Agency details."
 
   agency:
-    edit: 'Edit Agency'
-    name: 'Agency Name'
-    code: 'Agency Code'
-    services: 'Agency Services'
-    logo_small: 'Small Logo'
-    logo_large: 'Large Logo'
+    edit: "Edit Agency"
+    name: "Agency Name"
+    code: "Agency Code"
+    services: "Agency Services"
+    logo_icon: "Icon Logo"
+    logo_large: "Large Logo"
+    logo_enabled: "Logo Enabled?"
+    description: "Description"
+    telephone: "Telephone"
+    disabled: "Disabled"
+    messages:
+      created: "Agency was successfully created."
+      updated: "Agency was successfully updated."
 
   system_settings:
     label: "System Settings"
@@ -1956,6 +1969,9 @@ en:
     shared_from_my_team_referrals: "Referrals"
     shared_from_my_team_pending_transfers: "Pending Transfers"
     shared_from_my_team_rejected_transfers: "Rejected Transfers"
+    dash_shared_with_my_team: "Shared With My Team"
+    shared_with_my_team_referrals: "Referrals"
+    shared_with_my_team_pending_transfers: "Pending Transfers"
 
   errors:
     try_again: "Try again"

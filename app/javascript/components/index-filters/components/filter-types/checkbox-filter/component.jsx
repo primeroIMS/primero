@@ -133,7 +133,7 @@ const Component = ({
               checked={
                 isObject
                   ? option.key in inputValue
-                  : inputValue.includes(option.id)
+                  : inputValue.includes(String(option.id))
               }
             />
           }

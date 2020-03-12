@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { IconButton } from "@material-ui/core";
+import { Icon } from "@material-ui/core";
 import { Photo, Flag } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 
@@ -12,22 +12,22 @@ const ToggleIconCell = ({ value, icon }) => {
   const css = makeStyles(styles)();
 
   return value ? (
-    <IconButton color="primary" className={css.iconButton}>
+    <Icon color="primary" className={css.iconButton}>
       {
         {
           photo: <Photo />,
-          flag_count: <Flag />,
-          alert_count: <Jewel isForm />
+          flag_count: <Flag fontSize="small" />,
+          alert_count: <Jewel isList />
         }[icon]
       }
-    </IconButton>
+    </Icon>
   ) : null;
 };
 
 ToggleIconCell.displayName = "ToggleIconCell";
 
 ToggleIconCell.propTypes = {
-  icon: PropTypes.oneOf(["photo", "flag", "alert_count"]),
+  icon: PropTypes.oneOf(["photo", "flag_count", "alert_count"]),
   value: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.array,

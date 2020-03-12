@@ -65,13 +65,11 @@ export const setupMountedComponent = (
     }
 
     return (
-      <ApplicationProvider>
-        <ThemeProvider theme={theme}>
-          <MemoryRouter initialEntries={initialEntries}>
-            <FormikComponent {...formikComponentProps} />
-          </MemoryRouter>
-        </ThemeProvider>
-      </ApplicationProvider>
+      <ThemeProvider theme={theme}>
+        <MemoryRouter initialEntries={initialEntries}>
+          <FormikComponent {...formikComponentProps} />
+        </MemoryRouter>
+      </ThemeProvider>
     );
   };
 
@@ -80,7 +78,9 @@ export const setupMountedComponent = (
       <I18nProvider>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <SnackbarProvider>
-            <RoutedProvider />
+            <ApplicationProvider>
+              <RoutedProvider />
+            </ApplicationProvider>
           </SnackbarProvider>
         </MuiPickersUtilsProvider>
       </I18nProvider>
@@ -130,7 +130,6 @@ const setupFormInputProps = (field = {}, props = {}, mode, errors = []) => {
     label: field.display_name,
     helperText: error?.message || field.help_text,
     fullWidth: true,
-    autoComplete: "off",
     InputLabelProps: {
       shrink: true
     },
@@ -138,9 +137,14 @@ const setupFormInputProps = (field = {}, props = {}, mode, errors = []) => {
   };
 };
 
-export const setupMockFormComponent = (Component, props = {}) => {
+export const setupMockFormComponent = (
+  Component,
+  props = {},
+  parentProps = {},
+  state = {}
+) => {
   const MockFormComponent = () => {
-    const { name, inputProps, field, mode } = props;
+    const { inputProps, field, mode } = props;
     const formMethods = useForm();
     const formMode = whichFormMode(mode);
 
@@ -162,7 +166,7 @@ export const setupMockFormComponent = (Component, props = {}) => {
     );
   };
 
-  return setupMountedComponent(MockFormComponent);
+  return setupMountedComponent(MockFormComponent, parentProps, state);
 };
 
 export const setupMockFieldComponent = (
