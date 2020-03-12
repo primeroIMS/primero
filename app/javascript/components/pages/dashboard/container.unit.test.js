@@ -1201,11 +1201,12 @@ describe("<Dashboard />", () => {
     });
 
     it("renders DashboardTable component with two rows", () => {
-      expect(component.find(DashboardTable)).to.have.lengthOf(1);
+      expect(component.find(DashboardTable).at(1)).to.have.lengthOf(1);
 
       expect(
         component
           .find(DashboardTable)
+          .at(1)
           .find(TableBody)
           .find(TableRow)
       ).to.have.lengthOf(2);
