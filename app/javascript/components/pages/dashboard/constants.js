@@ -1,3 +1,5 @@
+export const NAME = "Dashboard";
+
 export const DASHBOARD_NAMES = Object.freeze({
   APPROVALS_ASSESSMENT_PENDING: "dashboard.approvals_assessment_pending",
   APPROVALS_ASSESSMENT: "dashboard.approvals_assessment",
@@ -55,3 +57,8 @@ export const PROTECTION_CONCERNS_ORDER_NAMES = Object.freeze([
   INDICATOR_NAMES.PROTECTION_CONCERNS_NEW_THIS_WEEK,
   INDICATOR_NAMES.PROTECTION_CONCERNS_CLOSED_THIS_WEEK
 ]);
+
+export const DASHBOARD_TYPES = Object.freeze({
+  BADGED_INDICATOR: "badged_indicator",
+  OVERVIEW_BOX: "overview_box"
+});

@@ -34,7 +34,7 @@ const OptionsBox = ({
     <CardHeader
       action={action}
       title={
-        typeof to !== "undefined" ? (
+        to ? (
           <Link to={to} className={css.cardLink}>
             {title}
           </Link>
@@ -57,6 +57,11 @@ const OptionsBox = ({
 };
 
 OptionsBox.displayName = "OptionsBox";
+
+OptionsBox.defaultProps = {
+  hasData: true,
+  type: ""
+};
 
 OptionsBox.propTypes = {
   action: PropTypes.node,
