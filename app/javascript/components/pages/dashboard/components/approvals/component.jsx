@@ -48,7 +48,6 @@ const Component = ({ loadingIndicator }) => {
     approvalsCasePlanPending,
     approvalsClosurePending
   ]);
-  console.log(pendingApprovalsItems);
 
   const approvalsDashHasData = Boolean(
     pendingApprovalsItems.get("indicators").size ||
