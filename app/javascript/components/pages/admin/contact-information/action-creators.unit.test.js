@@ -21,7 +21,6 @@ describe("<ContactInformation /> - Action Creators", () => {
     stub(generate, "messageKey").returns(4);
 
     const args = {
-      id: 10,
       body: {
         prop1: "prop-1"
       },
@@ -32,7 +31,7 @@ describe("<ContactInformation /> - Action Creators", () => {
     const expectedAction = {
       type: actions.SAVE_CONTACT_INFORMATION,
       api: {
-        path: `${RECORD_PATH.contact_information}/10`,
+        path: RECORD_PATH.contact_information,
         method: "PATCH",
         body: args.body,
         successCallback: {

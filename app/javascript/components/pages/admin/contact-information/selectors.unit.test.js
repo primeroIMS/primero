@@ -8,7 +8,6 @@ import {
 } from "./selectors";
 
 const contactInformation = fromJS({
-  id: 1,
   name: "Primero test",
   organization: "PT",
   phone: "123456789",

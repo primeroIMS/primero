@@ -3,11 +3,11 @@ import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 
 import actions from "./actions";
 
-export const saveContactInformation = ({ id, body, saveMethod, message }) => {
+export const saveContactInformation = ({ body, saveMethod, message }) => {
   return {
     type: actions.SAVE_CONTACT_INFORMATION,
     api: {
-      path: `${RECORD_PATH.contact_information}/${id}`,
+      path: RECORD_PATH.contact_information,
       method: "PATCH",
       body,
       successCallback: {

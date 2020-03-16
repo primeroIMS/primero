@@ -31,17 +31,15 @@ const Component = ({ mode }) => {
   const savingRecord = useSelector(state =>
     selectSavingContactInformation(state)
   );
-  const id = contactInformation.get("id");
   const handleCancel = () => {
     dispatch(push(ROUTES.contact_information));
   };
   const handleEdit = () => {
-    dispatch(push(`${pathname}/${id}/edit`));
+    dispatch(push(`${pathname}/edit`));
   };
   const handleSubmit = data => {
     return dispatch(
       saveContactInformation({
-        id,
         saveMethod: formMode.get("isEdit") ? "update" : "new",
         body: { data },
         message: i18n.t("contact.updated")

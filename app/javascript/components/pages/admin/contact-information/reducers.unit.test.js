@@ -20,7 +20,6 @@ describe("<ContactInformation /> - Reducers", () => {
 
   it("should handle SAVE_CONTACT_INFORMATION_SUCCESS", () => {
     const data = {
-      id: 1,
       name: "Primero test",
       organization: "PT",
       phone: "123456789",

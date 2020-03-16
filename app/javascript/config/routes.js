@@ -192,7 +192,7 @@ export default [
               }
             },
             {
-              path: `${ROUTES.contact_information}/:id/edit`,
+              path: `${ROUTES.contact_information}/edit`,
               component: ContactInformation,
               resources: RESOURCES.contact_information,
               extraProps: {

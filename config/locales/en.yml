@@ -166,6 +166,7 @@ en:
       forms: "Form"
       locations: "Locations"
       audit_logs: "Audit Logs"
+      contact_information: "Contact Information"
 
   buttons:
     download: "Download"

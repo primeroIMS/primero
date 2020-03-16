@@ -1,7 +1,6 @@
 import { Record, fromJS } from "immutable";
 
 export const ContactInformationRecord = Record({
-  id: "",
   name: "",
   organization: "",
   phone: "",
