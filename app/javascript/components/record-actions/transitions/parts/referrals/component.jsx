@@ -70,6 +70,7 @@ const ReferralForm = ({
       dispatch(
         saveReferral(
           recordId,
+          recordType,
           {
             data: {
               ...values,

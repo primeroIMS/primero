@@ -143,7 +143,9 @@ describe("<Transitions /> - Action Creators", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
-    dispatch(actionCreators.saveReferral("123abc", body, "Success Message"));
+    dispatch(
+      actionCreators.saveReferral("123abc", "cases", body, "Success Message")
+    );
 
     const firstCallReturnValue = dispatch.getCall(0).returnValue;
 

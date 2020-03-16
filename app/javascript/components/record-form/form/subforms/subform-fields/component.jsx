@@ -71,12 +71,6 @@ const Component = ({
     return (
       <>
         {sortedValues.map((c, index) => {
-          const canReferFromService = Boolean(
-            values[index].service_response_type &&
-              values[index].service_type &&
-              values[index].service_implementing_agency_individual
-          );
-
           if (values?.[index]?._destroy) return false;
 
           return (
@@ -96,7 +90,9 @@ const Component = ({
                     <DeleteIcon />
                   </IconButton>
                 ) : null}
-                {mode.isShow && canReferFromService ? (
+                {mode.isShow &&
+                // eslint-disable-next-line camelcase
+                values[index]?.service_is_referrable ? (
                   <Permission
                     resources={RESOURCES.cases}
                     actions={REFER_FROM_SERVICE}

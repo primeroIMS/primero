@@ -39,7 +39,8 @@ describe("<Transitions /> - Actions", () => {
       "USERS_REFER_TO",
       "CASES_ASSIGNS",
       "CASES_TRANSFERS",
-      "CASES_REFERRALS"
+      "CASES_REFERRALS",
+      "SERVICE_REFERRED_SAVE"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("string");

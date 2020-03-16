@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import omit from "lodash/omit";
-import isEqual from "lodash/isEqual";
 import { FormControlLabel } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { Form, Field } from "formik";
@@ -60,7 +58,7 @@ const MainForm = ({ formProps, rest }) => {
     handleClose,
     recordType
   } = rest;
-  const { handleSubmit, initialValues, values, resetForm } = formProps;
+  const { handleSubmit, values } = formProps;
   const { services, agency, location } = values;
   const disableControl = !providedConsent && !disabled;
 
@@ -104,14 +102,6 @@ const MainForm = ({ formProps, rest }) => {
       })
     );
   };
-
-  if (
-    !rest.referral &&
-    !providedConsent &&
-    !isEqual(omit(initialValues, transitionType), omit(values, transitionType))
-  ) {
-    resetForm();
-  }
 
   const hasErrors = useSelector(state =>
     getErrorsByTransitionType(state, transitionType)
@@ -223,8 +213,21 @@ const MainForm = ({ formProps, rest }) => {
         form.setFieldValue(field.name, value, false);
 
         if (selectedUser?.size) {
-          form.setFieldValue("agency", selectedUser.get("agency"));
-          form.setFieldValue("location", selectedUser.get("location"));
+          if (
+            agencies.find(
+              current => current.get("unique_id") === selectedUser.get("agency")
+            )
+          ) {
+            form.setFieldValue("agency", selectedUser.get("agency"));
+          }
+
+          if (
+            reportingLocations.find(
+              current => current.get("code") === selectedUser.get("location")
+            )
+          ) {
+            form.setFieldValue("location", selectedUser.get("location"));
+          }
         }
       },
       onMenuOpen: loadReferralUsers,
