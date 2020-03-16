@@ -9,7 +9,6 @@ describe("Verifying config constant", () => {
     [
       "DASHBOARD_NAMES",
       "INDICATOR_NAMES",
-      "WORKFLOW_ORDER_NAMES",
       "PROTECTION_CONCERNS_ORDER_NAMES",
       "NAME",
       "DASHBOARD_TYPES"
