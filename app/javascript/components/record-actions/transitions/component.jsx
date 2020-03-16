@@ -1,6 +1,3 @@
-/* eslint-disable react/no-multi-comp */
-/* eslint-disable react/jsx-no-undef */
-/* eslint-disable react/display-name */
 import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 

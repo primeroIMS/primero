@@ -66,30 +66,30 @@ const Container = ({
   const requestDialog = useSelector(state =>
     selectDialog(REQUEST_APPROVAL_DIALOG, state)
   );
-  const setRequestDialog = open => {
-    dispatch(setDialog({ dialog: REQUEST_APPROVAL_DIALOG, open }));
-  };
   const dialogPending = useSelector(state => selectDialogPending(state));
-  const setDialogPending = pending => {
-    dispatch(setPending({ pending }));
-  };
   const approveDialog = useSelector(state =>
     selectDialog(APPROVAL_DIALOG, state)
   );
-  const setApproveDialog = open => {
-    dispatch(setDialog({ dialog: APPROVAL_DIALOG, open }));
-  };
   const referDialog = useSelector(state => selectDialog(REFER_DIALOG, state));
-  const setReferDialog = open => {
-    dispatch(setDialog({ dialog: REFER_DIALOG, open }));
-  };
   const transferDialog = useSelector(state =>
     selectDialog(TRANSFER_DIALOG, state)
   );
+  const assignDialog = useSelector(state => selectDialog(ASSIGN_DIALOG, state));
+  const setRequestDialog = open => {
+    dispatch(setDialog({ dialog: REQUEST_APPROVAL_DIALOG, open }));
+  };
+  const setDialogPending = pending => {
+    dispatch(setPending({ pending }));
+  };
+  const setApproveDialog = open => {
+    dispatch(setDialog({ dialog: APPROVAL_DIALOG, open }));
+  };
+  const setReferDialog = open => {
+    dispatch(setDialog({ dialog: REFER_DIALOG, open }));
+  };
   const setTransferDialog = open => {
     dispatch(setDialog({ dialog: TRANSFER_DIALOG, open }));
   };
-  const assignDialog = useSelector(state => selectDialog(ASSIGN_DIALOG, state));
   const setAssignDialog = open => {
     dispatch(setDialog({ dialog: ASSIGN_DIALOG, open }));
   };

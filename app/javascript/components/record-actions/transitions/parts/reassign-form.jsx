@@ -1,4 +1,3 @@
-/* eslint-disable react/display-name */
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
@@ -15,6 +14,8 @@ import { saveAssignedUser, fetchAssignUsers } from "../action-creators";
 import { SearchableSelect } from "../../../searchable-select";
 import { enqueueSnackbar } from "../../../notifier";
 import { useI18n } from "../../../i18n";
+
+import { REASSIGN_FORM_NAME } from "./constants";
 
 const initialValues = { transitioned_to: "", notes: "" };
 
@@ -148,6 +149,8 @@ const ReassignForm = ({ record, recordType, setPending, assignRef }) => {
     </Formik>
   );
 };
+
+ReassignForm.displayName = REASSIGN_FORM_NAME;
 
 ReassignForm.propTypes = {
   assignRef: PropTypes.object,
