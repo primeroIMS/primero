@@ -95,7 +95,7 @@ class Dashboard < ValueObject
       name: 'cases_by_task_overdue_assessment',
       type: 'indicator',
       indicators: [Indicators::Case.tasks_overdue_assessment]
-    ).freeze
+    )
   end
 
   def self.cases_by_task_overdue_case_plan
@@ -103,7 +103,7 @@ class Dashboard < ValueObject
       name: 'cases_by_task_overdue_case_plan',
       type: 'indicator',
       indicators: [Indicators::Case.tasks_overdue_case_plan]
-    ).freeze
+    )
   end
 
   def self.cases_by_task_overdue_services
@@ -111,7 +111,7 @@ class Dashboard < ValueObject
       name: 'cases_by_task_overdue_services',
       type: 'indicator',
       indicators: [Indicators::Case.tasks_overdue_services]
-    ).freeze
+    )
   end
 
   def self.cases_by_task_overdue_followups
@@ -119,7 +119,7 @@ class Dashboard < ValueObject
       name: 'cases_by_task_overdue_followups',
       type: 'indicator',
       indicators: [Indicators::Case.tasks_overdue_followups]
-    ).freeze
+    )
   end
 
   def self.dash_protection_concerns
@@ -132,7 +132,7 @@ class Dashboard < ValueObject
         Indicators::Case::PROTECTION_CONCERNS_ALL_CASES,
         Indicators::Case.protection_concerns_closed_this_week
       ]
-    ).freeze
+    )
   end
 
   DASH_SHARED_WITH_OTHERS = Dashboard.new(
@@ -188,6 +188,6 @@ class Dashboard < ValueObject
       name: 'reporting_location',
       type: 'indicator',
       indicators: Indicators::Case.reporting_location_indicators
-    ).freeze
+    )
   end
 end

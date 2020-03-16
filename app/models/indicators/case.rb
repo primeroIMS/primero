@@ -45,7 +45,7 @@ module Indicators
           )
         ],
         scope_to_owner: true
-      ).freeze
+      )
     end
 
     WORKFLOW = FacetedIndicator.new(
@@ -185,7 +185,7 @@ module Indicators
             field_name: 'assessment_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
           )
         ]
-      ).freeze
+      )
     end
 
     def self.tasks_overdue_case_plan
@@ -198,7 +198,7 @@ module Indicators
             field_name: 'case_plan_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
           )
         ]
-      ).freeze
+      )
     end
 
     def self.tasks_overdue_services
@@ -211,7 +211,7 @@ module Indicators
             field_name: 'service_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
           )
         ]
-      ).freeze
+      )
     end
 
     def self.tasks_overdue_followups
@@ -224,7 +224,7 @@ module Indicators
             field_name: 'followup_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
           )
         ]
-      ).freeze
+      )
     end
 
     PROTECTION_CONCERNS_OPEN_CASES = FacetedIndicator.new(
@@ -242,7 +242,7 @@ module Indicators
         scope: OPEN_ENABLED + [
           SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
         ]
-      ).freeze
+      )
     end
 
     PROTECTION_CONCERNS_ALL_CASES = FacetedIndicator.new(
@@ -262,7 +262,7 @@ module Indicators
           SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
           SearchFilters::DateRange.new({ field_name: 'date_closure' }.merge(FacetedIndicator.this_week))
         ]
-      ).freeze
+      )
     end
 
     SHARED_WITH_OTHERS_REFERRALS = QueriedIndicator.new(
@@ -389,7 +389,7 @@ module Indicators
           facet: facet_name,
           record_model: Child,
           scope: OPEN_ENABLED
-        ).freeze,
+        ),
         FacetedIndicator.new(
           name: 'reporting_location_open_last_week',
           facet: facet_name,
@@ -397,7 +397,7 @@ module Indicators
           scope: OPEN_ENABLED + [
             SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.last_week))
           ]
-        ).freeze,
+        ),
         FacetedIndicator.new(
           name: 'reporting_location_open_this_week',
           facet: facet_name,
@@ -405,7 +405,7 @@ module Indicators
           scope: OPEN_ENABLED + [
             SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
           ]
-        ).freeze,
+        ),
         FacetedIndicator.new(
           name: 'reporting_location_closed_last_week',
           facet: facet_name,
@@ -413,7 +413,7 @@ module Indicators
           scope: CLOSED_ENABLED + [
             SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.last_week))
           ]
-        ).freeze,
+        ),
         FacetedIndicator.new(
           name: 'reporting_location_closed_this_week',
           facet: facet_name,
@@ -421,7 +421,7 @@ module Indicators
           scope: CLOSED_ENABLED + [
             SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
           ]
-        ).freeze
+        )
       ]
     end
   end
