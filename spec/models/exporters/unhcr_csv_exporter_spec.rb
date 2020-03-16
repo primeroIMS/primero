@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 module Exporters
-  xdescribe UnhcrCSVExporter do
+  describe UnhcrCSVExporter do
     before do
-      [Field, FormSection, Lookup].each(&:destroy_all)
+      clean_data(Field, FormSection, Lookup, User, Role, Agency)
       @lookup = Lookup.create!(unique_id: 'lookup-unhcr-needs-codes', name: 'UNHCR Needs Codes',
                                lookup_values: [
                                  {id: "cr-cp", display_text: "CR-CP"},
