@@ -17,7 +17,7 @@ module Serviceable
       time :service_due_dates, multiple: true
     end
 
-    before_save :update_implement_field
+    before_save :update_implement_field, :mark_referrable_services
 
     def update_implement_field
       services = self.services_section || []
@@ -104,6 +104,25 @@ module Serviceable
     def service_not_implemented?(service)
       service['service_type'].present? &&
       service['service_implemented_day_time'].blank?
+    end
+
+    def mark_referrable_services
+      return if services_section.nil?
+
+      lookup_service_type = Lookup.find_by(unique_id: 'lookup-service-type')
+      services_section.each do |service|
+        is_referrable =
+          service['service_implementing_agency'].present? &&
+          service['service_implementing_agency_individual'].present? &&
+          service['service_provider'].present? &&
+          lookup_service_type&.contains_form_group_id?(service['service_type']).present? &&
+          Agency.where(unique_id: service['service_implementing_agency'], disabled: false)
+                .where('services @> ?', "{#{service['service_type']}}").present? &&
+          User.where(user_name: service['service_implementing_agency_individual'], disabled: false)
+              .where('services @> ?', "{#{service['service_type']}}").present?
+
+        service['service_is_referrable'] = is_referrable
+      end
     end
 
     private
