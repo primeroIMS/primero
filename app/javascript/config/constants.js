@@ -60,6 +60,7 @@ export const RECORD_PATH = {
   users: "users",
   user_groups: "user_groups",
   agencies: "agencies",
+  contact_information: "contact_information",
   roles: "roles"
 };
 
@@ -98,6 +99,7 @@ export const ROUTES = {
   admin_users: "/admin/users",
   admin_users_new: "/admin/users/new",
   admin_user_groups: "/admin/user_groups",
+  contact_information: "/admin/contact_information",
   admin_user_groups_new: "/admin/user_groups/new",
   admin_agencies: "/admin/agencies",
   admin_agencies_new: "/admin/agencies/new",
@@ -145,6 +147,10 @@ export const ADMIN_NAV = [
   {
     to: "/user_groups",
     label: "settings.navigation.user_groups"
+  },
+  {
+    to: "/contact_information",
+    label: "settings.navigation.contact_information"
   },
   { to: "/modules", label: "settings.navigation.modules", disabled: true },
   { to: "/forms", label: "settings.navigation.forms", disabled: true },

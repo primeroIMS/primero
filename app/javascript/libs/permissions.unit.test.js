@@ -110,6 +110,7 @@ describe("Verifying config constant", () => {
       "users",
       "agencies",
       "user_groups",
+      "contact_information",
       "roles"
     ].forEach(property => {
       expect(resources).to.have.property(property);
