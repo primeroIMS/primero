@@ -76,6 +76,11 @@ prim_stage_translations()  {
   fi
 }
 
+prim_generate_locations() {
+  printf "Generating locations\\n"
+  bin/rails location_files:generate
+}
+
 # this method is called to create a new primero instance from a clean container
 prim_bootstrap() {
   printf "Starting bootstrap\\n"
@@ -88,6 +93,7 @@ prim_bootstrap() {
   else
     bin/rails db:seed
   fi
+  prim_generate_locations
   return 0
 }
 
@@ -96,6 +102,7 @@ prim_update() {
   bin/rails db:migrate
   bin/rails sunspot:reindex
   prim_stage_translations
+  prim_generate_locations
   return 0
 }
 
