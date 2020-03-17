@@ -40,11 +40,12 @@ export const fetchServiceAccessDelay = (dateRange) => async dispatch => {
   });
 };
 
-export const fetchAssessmentStatus = () => async dispatch => {
+export const fetchAssessmentStatus = (dateRange) => async dispatch => {
   dispatch({
     type: Actions.ASSESSMENT_STATUS,
     api: {
-      path: "key_performance_indicators/assessment_status"
+      path: "key_performance_indicators/assessment_status",
+      params: { from: dateRange.from, to: dateRange.to }
     }
   })
 }
