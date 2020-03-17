@@ -9,7 +9,7 @@
   height: 2rem;
   min-width: 14rem;
   border-radius: 1rem;
-  background-color: grey;
+  background-color: $(theme.primero.colors.lightGrey);
 }
 
 .StackedPercentageBar1Complete {
@@ -17,13 +17,13 @@
   height: 100%;
   border-top-left-radius: 1rem;
   border-bottom-left-radius: 1rem;
-  background-color: blue;
+  background-color: $(theme.palette.primary.main);
 }
 
 .StackedPercentageBar2Complete {
   display: inline-block;
   height: 100%;
-  background-color: red;
+  background-color: $(theme.primero.colors.lightBlue)
 }
 
 .StackedPercentageBarLabels {

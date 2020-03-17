@@ -1,35 +1,42 @@
 import * as actions from "../../action-creators";
 import * as selectors from "../../selectors";
-import { connect, batch } from "react-redux";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { useI18n } from "components/i18n";
+import { subMonths, addMonths, startOfMonth } from "date-fns";
 import { OptionsBox } from "components/dashboard";
-import { DateRangeSelect } from "components/key-performance-indicators";
+import { DateRangeSelect, DateRange } from "components/key-performance-indicators";
 import { StackedPercentageBar } from "components/key-performance-indicators";
 
 function AssessmentStatus({ fetchAssessmentStatus, assessmentStatus }) {
-  useEffect(() => {
-    batch(() => {
-      fetchAssessmentStatus();
-    });
-  }, []);
+  let i18n = useI18n();
 
-  let threeMonthsAgo = new Date();
-  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
-  let dateRanges = [{
-    value: '3-months',
-    name: 'Last 3 Months',
-    from: threeMonthsAgo,
-    to: new Date()
-  }]
+  let today = new Date();
+  let dateRanges = [
+    new DateRange(
+      'all-time',
+      i18n.t('key_performance_indicators.time_periods.all_time'),
+      // earliest date representable
+      new Date(-8640000000000000),
+      startOfMonth(addMonths(today, 1)))
+  ]
+
+  let [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);
+
+  useEffect(() => {
+    fetchAssessmentStatus(currentDateRange);
+  }, [currentDateRange]);
 
   return (
     <OptionsBox
-      title="Assessment Status"
+      title={i18n.t('key_performance_indicators.assessment_status.title')}
       action={
         <DateRangeSelect
           ranges={dateRanges}
-          selectedRange={dateRanges[0]}
+          selectedRange={currentDateRange}
+          setSelectedRange={setCurrentDateRange}
           withCustomRange
+          disabled
         />
       }
     >
@@ -37,11 +44,11 @@ function AssessmentStatus({ fetchAssessmentStatus, assessmentStatus }) {
         percentages={[
           {
             percentage: assessmentStatus.get('data').get('completed_supervisor_approved'),
-            label: 'Completed & Supervisor Approved'
+            label: i18n.t('key_performance_indicators.assessment_status.completed_supervisor_approved')
           },
           {
             percentage: assessmentStatus.get('data').get('completed_only'),
-            label: 'Completed Only'
+            label: i18n.t('key_performance_indicators.assessment_status.completed')
           }
         ]}
       />

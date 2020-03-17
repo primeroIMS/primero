@@ -2480,6 +2480,7 @@ en:
     other: "Other"
     date_format: "%b %Y"
     time_periods:
+      all_time: 'All Time'
       last_3_months: "Last 3 Months"
       last_6_months: "Last 6 Months"
       last_1_year: "Last Year"
@@ -2503,6 +2504,10 @@ en:
       title: "Service Access Delay"
       delay: "Delay"
       total_incidents: "Total Incidents"
+    assessment_status:
+      title: "Assessment Status"
+      completed: "Completed"
+      completed_supervisor_approved: "Completed & Supervisor Approved"
 
   reports:
     register_new_report: "Create Report"
