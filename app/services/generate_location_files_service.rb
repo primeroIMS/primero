@@ -25,7 +25,7 @@ class GenerateLocationFilesService
       }.merge(FieldI18nService.fill_keys([:name], FieldI18nService.strip_i18n_suffix(location.slice(:name_i18n)))) }
     end
 
-    def fingerprints
+    def fingerprint
       Digest::MD5.hexdigest Time.now.to_s
     end
 
