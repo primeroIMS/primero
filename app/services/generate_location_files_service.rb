@@ -7,14 +7,14 @@ class GenerateLocationFilesService
       write_files
     end
 
-    private
-
     def parent_dir
-      Rails.env.production? && APP_SHARE_DIR.present? ? APP_SHARE_DIR : Rails.root
+      Rails.env.production? && APP_SHARE_DIR.present? ? APP_SHARE_DIR : "#{Rails.root}/public"
     end
 
-    def locations_dir
-      "#{parent_dir}/public/options"
+    private
+
+    def output_dir
+      "#{parent_dir}/options"
     end
 
     def locations
@@ -30,12 +30,12 @@ class GenerateLocationFilesService
     end
 
     def create_directory
-      FileUtils.mkdir_p(locations_dir) unless File.directory?(locations_dir)
-      FileUtils.rm_rf Dir.glob("#{locations_dir}/*")
+      FileUtils.mkdir_p(output_dir) unless File.directory?(output_dir)
+      FileUtils.rm_rf Dir.glob("#{output_dir}/*")
     end
 
     def write_files
-      File.open("#{locations_dir}/locations-#{fingerprint}.json", 'w+') do |f|
+      File.open("#{output_dir}/locations-#{fingerprint}.json", 'w+') do |f|
         f.write(locations.to_json)
       end
     end
