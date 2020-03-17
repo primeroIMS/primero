@@ -123,15 +123,25 @@ end
   end
 end
 
+# Start HACK
+# 'supervisorctl restart solr' isn't working because it seems like solr
+# take sometimes in obey the termination signal and when run the start the
+# process still there and so it fails. Just calling Stop and Start
+# it doesn't work neither, so we relay on the sleep method at the OS
+# to make time to the process obey the signal.
+# Tried stopwaitsecs of supervisor but didn't work.
 execute 'Stop Solr' do
   command 'supervisorctl stop solr'
   only_if { ::File.exists?(node[:primero][:solr_core_dir])}
 end
-
+execute 'sleep' do
+  command 'sleep 10'
+end
 execute 'Start Solr' do
   command 'supervisorctl start solr'
   only_if { ::File.exists?(node[:primero][:solr_core_dir])}
 end
+# End Hack
 
 directory '/home/vagrant/primero/log' do
   action :create
