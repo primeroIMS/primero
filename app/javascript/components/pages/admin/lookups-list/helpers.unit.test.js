@@ -1,6 +1,4 @@
-import truncate from "lodash/truncate";
-
-import { expect } from "../../../../test/";
+import { expect } from "../../../../test";
 
 import { columns } from "./helpers";
 
@@ -12,14 +10,13 @@ describe("<LookupsList /> pages/admin/helpers", () => {
         label: "lookup.name",
         name: "name",
         options: {
-          sort: false
+          customBodyRender: () => {}
         }
       },
       {
         label: "lookup.values",
         name: "values",
         options: {
-          sort: false,
           customBodyRender: () => {}
         }
       }

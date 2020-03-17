@@ -60,7 +60,8 @@ export const RECORD_PATH = {
   users: "users",
   user_groups: "user_groups",
   agencies: "agencies",
-  roles: "roles"
+  roles: "roles",
+  lookups: "lookups"
 };
 
 export const RECORD_OWNER = "record_owner";
