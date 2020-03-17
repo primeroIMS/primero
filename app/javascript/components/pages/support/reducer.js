@@ -7,7 +7,6 @@ import {
   FETCH_DATA_FAILURE
 } from "./actions";
 import { ContactInformationRecord } from "./records";
-import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = fromJS({});
 
@@ -26,4 +25,4 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   }
 };
 
-export const reducers = { [NAMESPACE]: reducer };
+export const reducers = reducer;

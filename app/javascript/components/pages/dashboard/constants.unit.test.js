@@ -9,7 +9,6 @@ describe("Verifying config constant", () => {
     [
       "DASHBOARD_NAMES",
       "INDICATOR_NAMES",
-      "WORKFLOW_ORDER_NAMES",
       "PROTECTION_CONCERNS_ORDER_NAMES"
     ].forEach(property => {
       expect(clone).to.have.property(property);
@@ -38,7 +37,9 @@ describe("Verifying config constant", () => {
       "GROUP_OVERVIEW",
       "PROTECTION_CONCERNS",
       "REPORTING_LOCATION",
+      "SHARED_FROM_MY_TEAM",
       "SHARED_WITH_ME",
+      "SHARED_WITH_MY_TEAM",
       "SHARED_WITH_OTHERS",
       "WORKFLOW_TEAM",
       "WORKFLOW"

@@ -76,10 +76,6 @@ describe("<ReferralForm />", () => {
     expect(component.find(MuiCheckbox)).to.have.length(1);
   });
 
-  it("renders Button", () => {
-    expect(component.find(Button)).to.have.length(2);
-  });
-
   it("should accept valid props", () => {
     const componentProps = clone(
       component

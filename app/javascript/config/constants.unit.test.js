@@ -176,7 +176,8 @@ describe("Verifying config constant", () => {
       "risk_level",
       "workflow",
       "service_type",
-      "protection_concerns"
+      "protection_concerns",
+      "followup_type"
     );
     expect(constants.RECORD_INFORMATION).to.be.an("array");
     expect(constants.APPROVALS).to.be.an("string");

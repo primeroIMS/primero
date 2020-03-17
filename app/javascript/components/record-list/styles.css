@@ -29,6 +29,29 @@
 }
 
 .overdueHeading {
+  width: 45px;
   cursor: pointer;
   border-bottom: 1px solid rgba(224, 224, 224, 1);
+}
+
+.photoHeader {
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+  color: #4a4a4a;
+  padding: 10px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.photoHeader, .photoIcon, .alerts {
+  width: 45px;
+  text-align: center;
+}
+
+.alerts {
+
+  & span {
+    margin-left: 5px;
+  }
 }
