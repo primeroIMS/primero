@@ -166,6 +166,7 @@ en:
       forms: "Form"
       locations: "Locations"
       audit_logs: "Audit Logs"
+      contact_information: "Contact Information"
 
   buttons:
     download: "Download"
@@ -1977,6 +1978,8 @@ en:
     try_again: "Try again"
     error_loading: "Error Loading Record(s)"
     not_found: "No Record(s) Found"
+    api:
+      internal_server: "An error occurred, please contact support."
     template:
       header:
         one: "1 error prohibited this %{model} from being saved"
@@ -2371,6 +2374,7 @@ en:
     no_records_selected: "No records selected"
     failure: "%{record_type} %{id} referral failed (check that consent fields are selected)"
     success: "%{record_type} %{id} successfully referred"
+    error: "An error occurred referring the case, please contact support."
     failure_batch: "%{failed_count} Referral(s) failed (check that consent fields are selected)"
     success_batch: "%{success_count} Referral(s) successfully made"
     to_user_local_status_label: "Status"

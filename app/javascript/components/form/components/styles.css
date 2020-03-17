@@ -14,3 +14,7 @@
   background: $(theme.primero.colors.grey);
   margin: 0 .5em;
 }
+
+.loadingMargin {
+  position: absolute;
+}
