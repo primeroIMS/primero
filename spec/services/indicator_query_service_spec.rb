@@ -112,6 +112,28 @@ describe IndicatorQueryService, search: true do
       expected_query_bar_assessment = %w[record_state=true status=open,closed owned_by=bar workflow=assessment]
       expect(stats['case']['workflow_team']['bar']['assessment']['query']).to match_array(expected_query_bar_assessment)
     end
+
+    it 'Get the real present date time' do
+      role_overdue_services = Role.new(
+        permissions: [Permission.new(
+          resource: Permission::DASHBOARD,
+          actions: [Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES]
+        )]
+      )
+      user_services = User.new(user_name: 'user_service', role: role_overdue_services)
+      user_services.save(validate: false)
+
+      indicators = user_services.role.dashboards.map(&:indicators).flatten
+      indicator_stats = IndicatorQueryService.query(indicators, user_services)
+      present_date_a = indicator_stats['case']['tasks_overdue_services']['bar']['query'][2].split('..').last
+      sleep(2) # To get a diferent present date time
+
+      indicators = user_services.role.dashboards.map(&:indicators).flatten
+      indicator_stats = IndicatorQueryService.query(indicators, user_services)
+      present_date_b = indicator_stats['case']['tasks_overdue_services']['bar']['query'][2].split('..').last
+
+      expect(present_date_a).not_to eq(present_date_b)
+    end
   end
 
   after :each do

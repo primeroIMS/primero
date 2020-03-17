@@ -6,6 +6,8 @@ export const ContactInformationRecord = Record({
   phone: "",
   other_information: "",
   support_forum: "",
+  email: "",
+  location: "",
   position: "",
   system_version: "",
   agencies: fromJS([])

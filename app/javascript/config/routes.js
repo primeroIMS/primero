@@ -16,6 +16,7 @@ import Login, {
   AgenciesList,
   AgenciesForm,
   LookupsList,
+  ContactInformation,
   RolesList
 } from "../components/pages";
 import RecordForm from "../components/record-form";
@@ -187,6 +188,22 @@ export default [
               path: `${ROUTES.admin_user_groups}/:id`,
               component: UserGroupsForm,
               resources: RESOURCES.user_groups,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
+              path: `${ROUTES.contact_information}/edit`,
+              component: ContactInformation,
+              resources: RESOURCES.contact_information,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.contact_information}`,
+              component: ContactInformation,
+              resources: RESOURCES.contact_information,
               extraProps: {
                 mode: MODES.show
               }

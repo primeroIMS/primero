@@ -82,6 +82,7 @@ export const RESOURCES = {
   agencies: "agencies",
   user_groups: "user_groups",
   lookups: "lookups",
+  contact_information: "contact_information",
   roles: "roles"
 };
 
