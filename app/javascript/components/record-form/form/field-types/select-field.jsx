@@ -277,7 +277,7 @@ const SelectField = ({
 
         if (name.endsWith("service_implementing_agency_individual")) {
           const selectedUser = referralUsers.find(
-            user => user.get("user_name") === data.value
+            user => user.get("user_name") === data?.value
           );
 
           if (selectedUser?.size) {

@@ -10,7 +10,6 @@ import { getPermissionsByRecord } from "../user/selectors";
 import { getFiltersValuesByRecordType } from "../index-filters/selectors";
 import {
   ACTIONS,
-  EXPORT_CUSTOM,
   ENABLE_DISABLE_RECORD,
   ADD_NOTE,
   ADD_INCIDENT,
@@ -28,7 +27,10 @@ import {
   REQUEST_APPROVAL_DIALOG,
   APPROVAL_DIALOG,
   APPROVAL_TYPE,
-  REQUEST_TYPE
+  REQUEST_TYPE,
+  REFER_DIALOG,
+  TRANSFER_DIALOG,
+  ASSIGN_DIALOG
 } from "./constants";
 import { NAME } from "./config";
 import Notes from "./notes";
@@ -65,18 +67,32 @@ const Container = ({
   const requestDialog = useSelector(state =>
     selectDialog(REQUEST_APPROVAL_DIALOG, state)
   );
-  const setRequestDialog = open => {
-    dispatch(setDialog({ dialog: REQUEST_APPROVAL_DIALOG, open }));
-  };
   const dialogPending = useSelector(state => selectDialogPending(state));
-  const setDialogPending = pending => {
-    dispatch(setPending({ pending }));
-  };
   const approveDialog = useSelector(state =>
     selectDialog(APPROVAL_DIALOG, state)
   );
+  const referDialog = useSelector(state => selectDialog(REFER_DIALOG, state));
+  const transferDialog = useSelector(state =>
+    selectDialog(TRANSFER_DIALOG, state)
+  );
+  const assignDialog = useSelector(state => selectDialog(ASSIGN_DIALOG, state));
+  const setRequestDialog = open => {
+    dispatch(setDialog({ dialog: REQUEST_APPROVAL_DIALOG, open }));
+  };
+  const setDialogPending = pending => {
+    dispatch(setPending({ pending }));
+  };
   const setApproveDialog = open => {
     dispatch(setDialog({ dialog: APPROVAL_DIALOG, open }));
+  };
+  const setReferDialog = open => {
+    dispatch(setDialog({ dialog: REFER_DIALOG, open }));
+  };
+  const setTransferDialog = open => {
+    dispatch(setDialog({ dialog: TRANSFER_DIALOG, open }));
+  };
+  const setAssignDialog = open => {
+    dispatch(setDialog({ dialog: ASSIGN_DIALOG, open }));
   };
 
   const enableState =
@@ -217,7 +233,15 @@ const Container = ({
     recordType,
     userPermissions,
     referral,
-    setReferral
+    setReferral,
+    referDialog,
+    transferDialog,
+    assignDialog,
+    handleReferClose: () => setReferDialog(false),
+    handleTransferClose: () => setTransferDialog(false),
+    handleAssignClose: () => setAssignDialog(false),
+    pending: dialogPending,
+    setPending: setDialogPending
   };
 
   const handleNotesClose = () => {
@@ -272,19 +296,20 @@ const Container = ({
       action: () => {
         setReferral(null);
         setTransitionType("referral");
+        setReferDialog(true);
       },
       recordType,
       condition: canRefer
     },
     {
       name: `${i18n.t("buttons.reassign")} ${formRecordType}`,
-      action: () => setTransitionType("reassign"),
+      action: () => setAssignDialog(true),
       recordType,
       condition: canAssign
     },
     {
       name: `${i18n.t("buttons.transfer")} ${formRecordType}`,
-      action: () => setTransitionType("transfer"),
+      action: () => setTransferDialog(true),
       recordType: ["cases", "incidents"],
       condition: canTransfer
     },

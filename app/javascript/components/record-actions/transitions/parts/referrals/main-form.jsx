@@ -34,7 +34,6 @@ import { getLoading } from "../../../../index-table";
 
 import ProvidedConsent from "./provided-consent";
 import FormInternal from "./form-internal";
-import Actions from "./actions";
 import {
   SERVICE_FIELD,
   AGENCY_FIELD,
@@ -55,7 +54,6 @@ const MainForm = ({ formProps, rest }) => {
     canConsentOverride,
     disabled,
     setDisabled,
-    handleClose,
     recordType
   } = rest;
   const { handleSubmit, values } = formProps;
@@ -108,7 +106,9 @@ const MainForm = ({ formProps, rest }) => {
   );
 
   useEffect(() => {
-    loadReferralUsers();
+    if (rest.referral) {
+      loadReferralUsers();
+    }
   }, [rest.referral]);
 
   useEffect(() => {
@@ -124,8 +124,6 @@ const MainForm = ({ formProps, rest }) => {
 
     if (messages !== "") {
       dispatch(enqueueSnackbar(messages, "error"));
-    } else {
-      handleClose();
     }
   }, [hasErrors]);
 
@@ -246,11 +244,6 @@ const MainForm = ({ formProps, rest }) => {
     recordType
   };
 
-  const actionProps = {
-    handleClose,
-    disabled: disableControl
-  };
-
   return (
     <Form onSubmit={handleSubmit}>
       <ProvidedConsent {...providedConsentProps} />
@@ -281,7 +274,6 @@ const MainForm = ({ formProps, rest }) => {
           Boolean(rest.referral && Object.keys(rest.referral)) || disableControl
         }
       />
-      <Actions {...actionProps} />
     </Form>
   );
 };
