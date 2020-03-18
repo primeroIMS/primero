@@ -1,12 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Fab } from "@material-ui/core";
+import { Fab, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
 import styles from "./styles.css";
 
-const FormAction = ({ actionHandler, text, cancel }) => {
+const FormAction = ({ actionHandler, text, cancel, savingRecord }) => {
   const css = makeStyles(styles)();
+
+  const renderCircularProgress = savingRecord && !cancel && (
+    <CircularProgress size={24} value={25} className={css.loadingMargin} />
+  );
 
   return (
     <Fab
@@ -14,7 +18,9 @@ const FormAction = ({ actionHandler, text, cancel }) => {
       variant="extended"
       aria-label={text}
       onClick={actionHandler}
+      disabled={savingRecord}
     >
+      {renderCircularProgress}
       {text}
     </Fab>
   );
@@ -22,9 +28,14 @@ const FormAction = ({ actionHandler, text, cancel }) => {
 
 FormAction.displayName = "FormAction";
 
+FormAction.defaultProps = {
+  savingRecord: false
+};
+
 FormAction.propTypes = {
   actionHandler: PropTypes.func.isRequired,
   cancel: PropTypes.bool,
+  savingRecord: PropTypes.bool,
   text: PropTypes.string.isRequired
 };
 
