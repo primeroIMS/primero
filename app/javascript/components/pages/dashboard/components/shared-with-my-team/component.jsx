@@ -9,7 +9,6 @@ import { teamSharingTable } from "../../helpers";
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
-import { LoadingIndicator } from "../../../../loading-indicator";
 
 import { NAME } from "./constants";
 
@@ -26,13 +25,12 @@ const Component = ({ loadingIndicator }) => {
       actions={ACTIONS.DASH_SHARED_WITH_MY_TEAM}
     >
       <Grid item xl={9} md={8} xs={12}>
-        <OptionsBox title={i18n.t("dashboard.dash_shared_with_my_team")}>
-          <LoadingIndicator
-            {...loadingIndicator}
-            hasData={Boolean(sharedWithMyTeam.size)}
-          >
-            <DashboardTable {...sharedWithMyTeamProps} />
-          </LoadingIndicator>
+        <OptionsBox
+          title={i18n.t("dashboard.dash_shared_with_my_team")}
+          {...loadingIndicator}
+          hasData={Boolean(sharedWithMyTeam.size)}
+        >
+          <DashboardTable {...sharedWithMyTeamProps} />
         </OptionsBox>
       </Grid>
     </Permission>

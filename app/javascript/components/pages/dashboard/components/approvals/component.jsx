@@ -28,6 +28,7 @@ import { NAME } from "./constants";
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
+
   const approvalsAssessmentPending = useSelector(state =>
     getApprovalsAssessmentPending(state)
   );
