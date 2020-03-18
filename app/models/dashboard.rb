@@ -5,8 +5,13 @@ class Dashboard < ValueObject
     "dashboard.#{name}"
   end
 
-  DYNAMIC = [
-    'dash_reporting_location'
+  DYNAMIC = %w[
+    dash_reporting_location
+    dash_protection_concerns
+    cases_by_task_overdue_assessment
+    cases_by_task_overdue_case_plan
+    cases_by_task_overdue_services
+    cases_by_task_overdue_followups
   ].freeze
 
   # Note: The constant name of each Dashboard needs to match the value of the corresponding Permission
@@ -85,40 +90,50 @@ class Dashboard < ValueObject
     indicators: [Indicators::Case::APPROVALS_CLOSURE_PENDING_GROUP]
   ).freeze
 
-  CASES_BY_TASK_OVERDUE_ASSESSMENT = Dashboard.new(
-    name: 'cases_by_task_overdue_assessment',
-    type: 'indicator',
-    indicators: [Indicators::Case::TASKS_OVERDUE_ASSESSMENT]
-  ).freeze
+  def self.cases_by_task_overdue_assessment
+    Dashboard.new(
+      name: 'cases_by_task_overdue_assessment',
+      type: 'indicator',
+      indicators: [Indicators::Case.tasks_overdue_assessment]
+    )
+  end
 
-  CASES_BY_TASK_OVERDUE_CASE_PLAN = Dashboard.new(
-    name: 'cases_by_task_overdue_case_plan',
-    type: 'indicator',
-    indicators: [Indicators::Case::TASKS_OVERDUE_CASE_PLAN]
-  ).freeze
+  def self.cases_by_task_overdue_case_plan
+    Dashboard.new(
+      name: 'cases_by_task_overdue_case_plan',
+      type: 'indicator',
+      indicators: [Indicators::Case.tasks_overdue_case_plan]
+    )
+  end
 
-  CASES_BY_TASK_OVERDUE_SERVICES = Dashboard.new(
-    name: 'cases_by_task_overdue_services',
-    type: 'indicator',
-    indicators: [Indicators::Case::TASKS_OVERDUE_SERVICES]
-  ).freeze
+  def self.cases_by_task_overdue_services
+    Dashboard.new(
+      name: 'cases_by_task_overdue_services',
+      type: 'indicator',
+      indicators: [Indicators::Case.tasks_overdue_services]
+    )
+  end
 
-  CASES_BY_TASK_OVERDUE_FOLLOWUPS = Dashboard.new(
-    name: 'cases_by_task_overdue_followups',
-    type: 'indicator',
-    indicators: [Indicators::Case::TASKS_OVERDUE_FOLLOWUPS]
-  ).freeze
+  def self.cases_by_task_overdue_followups
+    Dashboard.new(
+      name: 'cases_by_task_overdue_followups',
+      type: 'indicator',
+      indicators: [Indicators::Case.tasks_overdue_followups]
+    )
+  end
 
-  DASH_PROTECTION_CONCERNS = Dashboard.new(
-    name: 'dash_protection_concerns',
-    type: 'indicator',
-    indicators: [
-      Indicators::Case::PROTECTION_CONCERNS_OPEN_CASES,
-      Indicators::Case::PROTECTION_CONCERNS_NEW_THIS_WEEK,
-      Indicators::Case::PROTECTION_CONCERNS_ALL_CASES,
-      Indicators::Case::PROTECTION_CONCERNS_CLOSED_THIS_WEEK
-    ]
-  ).freeze
+  def self.dash_protection_concerns
+    Dashboard.new(
+      name: 'dash_protection_concerns',
+      type: 'indicator',
+      indicators: [
+        Indicators::Case::PROTECTION_CONCERNS_OPEN_CASES,
+        Indicators::Case.protection_concerns_new_this_week,
+        Indicators::Case::PROTECTION_CONCERNS_ALL_CASES,
+        Indicators::Case.protection_concerns_closed_this_week
+      ]
+    )
+  end
 
   DASH_SHARED_WITH_OTHERS = Dashboard.new(
     name: 'dash_shared_with_others',
@@ -173,6 +188,6 @@ class Dashboard < ValueObject
       name: 'reporting_location',
       type: 'indicator',
       indicators: Indicators::Case.reporting_location_indicators
-    ).freeze
+    )
   end
 end
