@@ -23,9 +23,9 @@ module Exporters
       end
     end
 
-    def initialize(output_file_path = nil)
+    def initialize(output_file_path = nil, pdf = nil)
       super(output_file_path)
-      @pdf = Prawn::Document.new
+      @pdf = pdf || Prawn::Document.new
     end
 
     def complete
