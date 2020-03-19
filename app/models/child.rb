@@ -117,7 +117,6 @@ class Child < ApplicationRecord
     string :protection_concerns, multiple: true
     boolean :urgent_protection_concern, as: 'urgent_protection_concern_b'
 
-
     date :assessment_due_dates, multiple: true do
       Tasks::AssessmentTask.from_case(self).map(&:due_date)
     end
@@ -129,8 +128,9 @@ class Child < ApplicationRecord
     date :followup_due_dates, multiple: true do
       Tasks::FollowUpTask.from_case(self).map(&:due_date)
     end
-  end
 
+    boolean :completed_survivor_assessment, :completed_survivor_assessment
+  end
 
   validate :validate_date_of_birth
   validate :validate_registration_date
@@ -355,6 +355,24 @@ class Child < ApplicationRecord
   #Override method in record concern
   def display_id
     case_id_display
+  end
+
+  # Should be an attribute on Field
+  def self.survivor_assessment_mandatory_fields
+    [
+      'assessment_family_situation',
+      'assessment_current_living_situation',
+      'assessment_presenting_problem',
+      'assessment_current_situation'
+    ]
+  end
+
+  def completed_survivor_assessment
+    # Is there a better way for testing for presents of form?
+    if respond_to?(:survivor_assessment_form)
+      self.class.survivor_assessment_mandatory_fields.
+        all? { |field_name| !self.survivor_assessment_form[field_name].nil? }
+    end
   end
 
 end
