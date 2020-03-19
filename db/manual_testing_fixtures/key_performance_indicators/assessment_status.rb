@@ -26,10 +26,11 @@ Child.new_with_user(TEST_USER, {
     "survivor_caretaker_other"=>"None else",
     "unaccompanied_separated_status"=>"no",
     "survivor_assessment_form" => [{
-      'assessment_family_situation' => 'Something',
-      'assessment_current_living_situation' => 'Something else',
-      'assessment_presenting_problem' => 'No one is eating out any more :(',
-      'assessment_current_situation' => 'Something even more else'
+      'assessment_emotional_state_start' => 'Overwhelmed',
+      'assessment_emotional_state_end' => 'Resilient',
+      'assessment_presenting_problem' => 'Anxiety',
+      'assessment_main_concerns' => 'Poor sales',
+      'assessment_current_situation' => 'Poor'
     }]
 }).save!
 

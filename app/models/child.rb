@@ -360,9 +360,10 @@ class Child < ApplicationRecord
   # Should be an attribute on Field
   def self.survivor_assessment_mandatory_fields
     [
-      'assessment_family_situation',
-      'assessment_current_living_situation',
+      'assessment_emotional_state_start',
+      'assessment_emotional_state_end',
       'assessment_presenting_problem',
+      'assessment_main_concerns',
       'assessment_current_situation'
     ]
   end
