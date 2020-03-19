@@ -3,7 +3,7 @@ import * as selectors from "../../selectors";
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useI18n } from "components/i18n";
-import { subMonths, addMonths, startOfMonth } from "date-fns";
+import { addMonths, startOfMonth } from "date-fns";
 import { OptionsBox } from "components/dashboard";
 import { DateRangeSelect, DateRange } from "components/key-performance-indicators";
 import { StackedPercentageBar } from "components/key-performance-indicators";
