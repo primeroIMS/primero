@@ -2508,6 +2508,9 @@ en:
       title: "Assessment Status"
       completed: "Completed"
       completed_supervisor_approved: "Completed & Supervisor Approved"
+    completed_case_safety_plan:
+      title: "Completed Case Safety Plans"
+      completed: "Completed Case Safety Plan"
 
   reports:
     register_new_report: "Create Report"

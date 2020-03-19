@@ -1,3 +1,3 @@
 json.data({
-    "completed_case_safety_plans": 0.5
+    "completed": @completed_percentage
 })
