@@ -69,7 +69,7 @@ export const ACTIONS = {
   RECEIVE_TRANSFER: "receive_transfer"
 };
 
-const MANAGE = [ACTIONS.MANAGE];
+export const MANAGE = [ACTIONS.MANAGE];
 
 export const RESOURCES = {
   cases: "cases",
@@ -82,7 +82,8 @@ export const RESOURCES = {
   agencies: "agencies",
   user_groups: "user_groups",
   contact_information: "contact_information",
-  roles: "roles"
+  roles: "roles",
+  systems: "systems"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {

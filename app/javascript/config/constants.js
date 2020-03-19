@@ -150,7 +150,8 @@ export const ADMIN_NAV = [
   },
   {
     to: "/contact_information",
-    label: "settings.navigation.contact_information"
+    label: "settings.navigation.contact_information",
+    manageRequired: true
   },
   { to: "/modules", label: "settings.navigation.modules", disabled: true },
   { to: "/forms", label: "settings.navigation.forms", disabled: true },
