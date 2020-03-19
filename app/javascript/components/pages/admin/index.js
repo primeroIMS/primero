@@ -7,3 +7,4 @@ export { AgenciesList } from "./agencies-list";
 export { default as AgenciesForm } from "./agencies-form";
 export { RolesList } from "./roles-list";
 export { default as ContactInformation } from "./contact-information";
+export { FormsList } from "./forms";

@@ -104,7 +104,8 @@ export const ROUTES = {
   admin_agencies: "/admin/agencies",
   admin_agencies_new: "/admin/agencies/new",
   admin_roles: "/admin/roles",
-  admin_roles_new: "/admin/roles/new"
+  admin_roles_new: "/admin/roles/new",
+  forms: "/admin/forms"
 };
 
 export const PERMITTED_URL = [
@@ -153,7 +154,7 @@ export const ADMIN_NAV = [
     label: "settings.navigation.contact_information"
   },
   { to: "/modules", label: "settings.navigation.modules", disabled: true },
-  { to: "/forms", label: "settings.navigation.forms", disabled: true },
+  { to: "/forms", label: "settings.navigation.forms" },
   { to: "/locations", label: "settings.navigation.locations", disabled: true },
   {
     to: "/system_settings",

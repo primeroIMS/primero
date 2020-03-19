@@ -82,7 +82,8 @@ export const RESOURCES = {
   agencies: "agencies",
   user_groups: "user_groups",
   contact_information: "contact_information",
-  roles: "roles"
+  roles: "roles",
+  forms: "forms"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {

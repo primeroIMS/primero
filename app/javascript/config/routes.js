@@ -16,7 +16,8 @@ import Login, {
   AgenciesList,
   AgenciesForm,
   ContactInformation,
-  RolesList
+  RolesList,
+  FormsList
 } from "../components/pages";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
@@ -245,6 +246,16 @@ export default [
               path: ROUTES.admin_roles,
               component: RolesList,
               resources: RESOURCES.roles
+            },
+            {
+              path: ROUTES.admin_roles,
+              component: RolesList,
+              resources: RESOURCES.roles
+            },
+            {
+              path: ROUTES.forms,
+              component: FormsList,
+              // resources:
             }
           ]
         }

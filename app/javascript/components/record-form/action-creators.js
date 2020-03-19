@@ -39,18 +39,16 @@ export const setSelectedRecord = payload => ({
   payload
 });
 
-export const fetchForms = () => async dispatch => {
-  dispatch({
-    type: Actions.RECORD_FORMS,
-    api: {
-      path: "forms",
-      normalizeFunc: "normalizeFormData",
-      db: {
-        collection: DB_COLLECTIONS_NAMES.FORMS
-      }
+export const fetchForms = () => ({
+  type: Actions.RECORD_FORMS,
+  api: {
+    path: "forms",
+    normalizeFunc: "normalizeFormData",
+    db: {
+      collection: DB_COLLECTIONS_NAMES.FORMS
     }
-  });
-};
+  }
+});
 
 export const fetchOptions = () => async dispatch => {
   batch(() => {

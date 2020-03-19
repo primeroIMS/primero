@@ -36,6 +36,7 @@ import * as TransferRequest from "./components/record-list/view-modal/transfer-r
 import { reducer as transferApprovalReducers } from "./components/transitions/transfers/transfer-approval";
 import { reducer as revokeTransitionReducers } from "./components/transitions/components/revoke-modal";
 import { reducers as referralActionReducers } from "./components/transitions/referrals/referral-action";
+import { reducers as adminFormListReducers } from "./components/pages/admin/forms/forms-list/reducers";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -84,6 +85,9 @@ const rootReducer = {
     ...I18n.reducers,
     ...loginReducers,
     ...recordActionsReducers
+  }),
+  admin: combineReducers({
+    ...adminFormListReducers
   }),
   ...User.reducers,
   ...RecordForms.reducers,
