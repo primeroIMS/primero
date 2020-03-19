@@ -14,7 +14,9 @@ class User < ApplicationRecord
   PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/.freeze
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
 
+  attr_accessor :exists_reporting_location
   attr_reader :refresh_associated_user_groups, :refresh_associated_user_agencies
+  attr_writer :user_location, :reporting_location
 
   delegate :can?, :cannot?, to: :ability
 
@@ -150,7 +152,7 @@ class User < ApplicationRecord
     end
 
     def users_for_referral(user, model, filters)
-      users_for_transition(user, model, filters, Permission::RECEIVE_REFERRAL)
+      users_for_transition(user, model, filters, Permission::RECEIVE_REFERRAL).includes(:agency).joins(:agency)
     end
 
     def users_for_transfer(user, model, filters)
@@ -227,7 +229,7 @@ class User < ApplicationRecord
   end
 
   def reporting_location
-    return unless user_location.present?
+    return if user_location.blank? || exists_reporting_location == false
 
     @reporting_location ||= Location.get_reporting_location(user_location)
   end
