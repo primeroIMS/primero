@@ -12,5 +12,6 @@ export const TRANSITION_STATUS = Object.freeze({
 });
 export const TRANSITIONS_TYPES = Object.freeze({
   transfer: "transfer",
-  referral: "referral"
+  referral: "referral",
+  reassign: "reassign"
 });

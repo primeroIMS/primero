@@ -32,6 +32,13 @@ const TaskList = () => {
     }
   );
 
+  const lookupFollowupType = useSelector(
+    state => getOption(state, LOOKUPS.followup_type, i18n.locale),
+    (prev, actual) => {
+      return isEqual(prev, actual);
+    }
+  );
+
   const columns = data => {
     return listHeaders.map(c => {
       const options = {
@@ -57,11 +64,15 @@ const TaskList = () => {
                 customBodyRender: (value, tableMeta) => {
                   const recordData = data.get("data").get(tableMeta.rowIndex);
                   const lookupAction = recordData.get("detail");
+
                   const translatedValue =
-                    lookupServiceType &&
-                    lookupServiceType.find(
-                      serviceType => serviceType.id === lookupAction
-                    )?.display_text[i18n.locale];
+                    value === TASK_TYPES.SERVICE
+                      ? lookupServiceType.find(
+                          serviceType => serviceType.id === lookupAction
+                        )?.display_text[i18n.locale]
+                      : lookupFollowupType.find(
+                          followup => followup.id === lookupAction
+                        )?.display_text[i18n.locale];
 
                   const renderValue = [
                     TASK_TYPES.SERVICE,

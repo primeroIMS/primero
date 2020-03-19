@@ -42,4 +42,41 @@ describe Api::V2::ContactInformationController, type: :request do
       expect(json['data']['system_version']).to eq(@system_settings.primero_version)
     end
   end
+
+  describe 'PATCH /api/v2/contact_information' do
+    it 'updates the current contact_information with 200' do
+      params = {
+        data: {
+          name: 'name_test',
+          organization: 'organization_test',
+          phone: 'phone_test',
+          location: 'location_test',
+          other_information: 'other_information_test',
+          support_forum: 'support_forum_test',
+          email: 'email_test',
+          position: 'position_test'
+        }
+      }
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::SYSTEM, actions: [Permission::MANAGE])
+        ]
+      )
+      patch '/api/v2/contact_information', params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@contact_info.id)
+      expect(json['data'].except('id')).to eq(params[:data].stringify_keys)
+    end
+
+    it 'returns 403 if user is not authorized to access' do
+      login_for_test
+
+      patch '/api/v2/contact_information', params: {}
+      expect(response).to have_http_status(403)
+      expect(json['errors'].count).to eq(1)
+      expect(json['errors'][0]['message']).to eq('Forbidden')
+      expect(json['errors'][0]['resource']).to eq('/api/v2/contact_information')
+    end
+  end
 end
