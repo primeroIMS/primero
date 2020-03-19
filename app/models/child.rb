@@ -62,7 +62,7 @@ class Child < ApplicationRecord
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
     :duplicate, :location_current, :tracing_status, :name_caregiver,
-    :urgent_protection_concern
+    :urgent_protection_concern, :survivor_assessment_form
 
   has_many :incidents
   belongs_to :matched_tracing_request, class_name: 'TracingRequest', optional: true
@@ -371,7 +371,10 @@ class Child < ApplicationRecord
     # Is there a better way for testing for presents of form?
     if respond_to?(:survivor_assessment_form)
       self.class.survivor_assessment_mandatory_fields.
-        all? { |field_name| !self.survivor_assessment_form[field_name].nil? }
+        # we're assuming a single survivor_assessment_form here, theres no
+        # definition for a completed assessment if a case has multiple
+        # assessments completed.
+        all? { |field_name| !self.survivor_assessment_form.first[field_name].nil? }
     end
   end
 
