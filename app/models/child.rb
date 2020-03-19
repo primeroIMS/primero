@@ -368,14 +368,14 @@ class Child < ApplicationRecord
   end
 
   def completed_survivor_assessment
-    # Is there a better way for testing for presents of form?
-    if respond_to?(:survivor_assessment_form)
-      self.class.survivor_assessment_mandatory_fields.
-        # we're assuming a single survivor_assessment_form here, theres no
-        # definition for a completed assessment if a case has multiple
-        # assessments completed.
-        all? { |field_name| !self.survivor_assessment_form.first[field_name].nil? }
-    end
+    return false unless respond_to?(:survivor_assessment_form)
+    return false if self.survivor_assessment_form.nil?
+
+    self.class.survivor_assessment_mandatory_fields.
+      # we're assuming a single survivor_assessment_form here, theres no
+      # definition for a completed assessment if a case has multiple
+      # assessments completed.
+      all? { |field_name| !self.survivor_assessment_form.first[field_name].nil? }
   end
 
 end
