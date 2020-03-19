@@ -43,11 +43,7 @@ function AssessmentStatus({ fetchAssessmentStatus, assessmentStatus }) {
       <StackedPercentageBar
         percentages={[
           {
-            percentage: assessmentStatus.get('data').get('completed_supervisor_approved'),
-            label: i18n.t('key_performance_indicators.assessment_status.completed_supervisor_approved')
-          },
-          {
-            percentage: assessmentStatus.get('data').get('completed_only'),
+            percentage: assessmentStatus.get('data').get('completed'),
             label: i18n.t('key_performance_indicators.assessment_status.completed')
           }
         ]}
