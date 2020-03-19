@@ -16,12 +16,15 @@ class UserGroup < ApplicationRecord
 
     def new_with_properties(params, user)
       user_group = UserGroup.new(params)
-      if user.group_permission?(Permission::AGENCY) || user.group_permission?(Permission::GROUP) ||
-         user.group_permission?(Permission::SELF)
-        user_group.users = [user]
-      end
+      user_group.add_creating_user(user)
       user_group
     end
+  end
+
+  def add_creating_user(user)
+    return unless [Permission::AGENCY, Permission::GROUP, Permission::SELF].include?(user.role&.group_permission)
+
+    users << user
   end
 
   private
