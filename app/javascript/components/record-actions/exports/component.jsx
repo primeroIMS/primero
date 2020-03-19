@@ -17,6 +17,7 @@ import submitForm from "../../../libs/submit-form";
 import { RECORD_TYPES } from "../../../config";
 import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
 import { getRecords } from "../../index-table";
+import { EXPORT_DIALOG } from "../constants";
 
 import { NAME, ALL_EXPORT_TYPES } from "./constants";
 import { allowedExports, formatFileName, exporterFilters } from "./helpers";
@@ -29,7 +30,9 @@ const Component = ({
   userPermissions,
   match,
   record,
-  selectedRecords
+  selectedRecords,
+  pending,
+  setPending
 }) => {
   const i18n = useI18n();
   const formRef = useRef();
@@ -76,22 +79,18 @@ const Component = ({
 
     const data = { ...body, ...filters };
 
+    setPending(true);
+
     dispatch(
       saveExport(
         { data },
         i18n.t("exports.queueing", {
           file_name: fileName ? `: ${fileName}` : "."
         }),
-        i18n.t("exports.go_to_exports")
+        i18n.t("exports.go_to_exports"),
+        EXPORT_DIALOG
       )
     );
-    close();
-  };
-
-  const successButtonProps = {
-    color: "primary",
-    variant: "contained",
-    autoFocus: true
   };
 
   const validationSchema = yup.object().shape({
@@ -141,7 +140,8 @@ const Component = ({
       confirmButtonLabel={i18n.t("buttons.export")}
       onClose={close}
       omitCloseAfterSuccess
-      confirmButtonProps={successButtonProps}
+      cancelHandler={close}
+      pending={pending}
     >
       <Form
         mode={FORM_MODE_DIALOG}
@@ -164,9 +164,11 @@ Component.propTypes = {
   close: PropTypes.func,
   match: PropTypes.object,
   openExportsDialog: PropTypes.bool,
+  pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   selectedRecords: PropTypes.array,
+  setPending: PropTypes.func,
   userPermissions: PropTypes.object
 };
 
