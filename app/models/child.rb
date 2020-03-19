@@ -53,13 +53,16 @@ class Child < ApplicationRecord
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
     :location_current, :tracing_status, :name_caregiver,
-    :urgent_protection_concern, :child_preferences_section, :family_details_section
+    :urgent_protection_concern, :child_preferences_section, :family_details_section,
+    :duplicate, :location_current, :tracing_status, :name_caregiver,
+    :urgent_protection_concern, :survivor_assessment_form
   )
 
   has_many :incidents, foreign_key: :incident_case_id
   has_many :matched_traces, class_name: 'Trace', foreign_key: 'matched_case_id'
   has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
   belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id', optional: true
+  belongs_to :matched_tracing_request, class_name: 'TracingRequest', optional: true
 
   scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
 
@@ -287,7 +290,10 @@ class Child < ApplicationRecord
     # Is there a better way for testing for presents of form?
     if respond_to?(:survivor_assessment_form)
       self.class.survivor_assessment_mandatory_fields.
-        all? { |field_name| !self.survivor_assessment_form[field_name].nil? }
+        # we're assuming a single survivor_assessment_form here, theres no
+        # definition for a completed assessment if a case has multiple
+        # assessments completed.
+        all? { |field_name| !self.survivor_assessment_form.first[field_name].nil? }
     end
   end
 end
