@@ -5,7 +5,7 @@ import NAMESPACE from "./namespace";
 export const selectAgencies = state =>
   state.getIn([NAMESPACE, "agencies"], fromJS([]));
 
-export const selectModules = state => state.getIn([NAMESPACE, "modules"], []);
+export const selectModules = state => state.getIn([NAMESPACE, "modules"], fromJS([]));
 
 export const selectLocales = state => state.getIn([NAMESPACE, "locales"], []);
 
@@ -33,3 +33,6 @@ export const getReportingLocationConfig = state =>
 
 export const getAgencyLogos = state =>
   state.getIn(["records", "support", "data", "agencies"], []);
+
+export const getSystemPermissions = state =>
+  state.getIn([NAMESPACE, "permissions"], fromJS({}));

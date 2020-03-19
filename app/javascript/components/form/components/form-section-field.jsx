@@ -20,7 +20,7 @@ import AttachmentInput from "../fields/attachment-input";
 import { whichOptions } from "../utils";
 import { selectAgencies } from "../../application";
 
-const FormSectionField = ({ field }) => {
+const FormSectionField = ({ field, checkErrors }) => {
   const {
     type,
     hideOnShow,
@@ -64,11 +64,18 @@ const FormSectionField = ({ field }) => {
     i18n
   });
 
+  const renderError = () =>
+    checkErrors?.size
+      ? Object.keys(errors).some(
+          errorKey => checkErrors.includes(errorKey) && name.includes(errorKey)
+        )
+      : false;
+
   const commonInputProps = {
     name,
     required,
     autoFocus,
-    error: typeof error !== "undefined",
+    error: typeof error !== "undefined" || renderError(),
     label: i18n.getI18nStringFromObject(displayName),
     helperText: error?.message || i18n.getI18nStringFromObject(helpText),
     fullWidth: true,
@@ -117,6 +124,7 @@ const FormSectionField = ({ field }) => {
 FormSectionField.displayName = "FormSectionField";
 
 FormSectionField.propTypes = {
+  checkErrors: PropTypes.object,
   field: PropTypes.object.isRequired
 };
 

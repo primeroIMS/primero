@@ -10,7 +10,8 @@ export {
   getErrors,
   getSelectedForm,
   getLocations,
-  getRecordFormsByUniqueId
+  getRecordFormsByUniqueId,
+  getFormsByParentForm
 } from "./selectors";
 export { FormSectionField } from "./form";
 export { FieldRecord } from "./records";
