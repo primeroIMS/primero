@@ -278,26 +278,6 @@ class Permission < ValueObject
     resources.map { |r| Permission.new(resource: r, actions: RESOURCE_ACTIONS[r]) }
   end
 
-  def self.all_permissions_list
-    [
-      self.new(:resource => CASE, :actions => [MANAGE]),
-      self.new(:resource => INCIDENT, :actions => [MANAGE]),
-      self.new(:resource => TRACING_REQUEST, :actions => [MANAGE]),
-      self.new(:resource => POTENTIAL_MATCH, :actions => [READ]),
-      self.new(:resource => DUPLICATE, :actions => [READ]),
-      self.new(:resource => REPORT, :actions => [MANAGE]),
-      self.new(:resource => ROLE, :actions => [MANAGE]),
-      self.new(:resource => USER, :actions => [MANAGE]),
-      self.new(:resource => USER_GROUP, :actions => [MANAGE]),
-      self.new(:resource => AGENCY, :actions => [MANAGE]),
-      self.new(:resource => METADATA, :actions => [MANAGE]),
-      self.new(:resource => SYSTEM, :actions => [MANAGE]),
-      self.new(:resource => DASHBOARD, :actions => [MANAGE]),
-      self.new(:resource => AUDIT_LOG, :actions => [MANAGE]),
-      self.new(:resource => MATCHING_CONFIGURATION, :actions => [MANAGE])
-    ]
-  end
-
   def is_record?
     [CASE, INCIDENT, TRACING_REQUEST].include? self.resource
   end
