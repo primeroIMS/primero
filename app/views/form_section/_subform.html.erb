@@ -3,11 +3,15 @@
     #TODO: This will break for nested nested subforms if we decide to have those.
     subform_section = subform.subform_section
     data_shared_subform = ""
+    violation_form_id = nil
+    violation_group_id = nil
     subform_name = subform.name
     if subform_section.shared_subform.present?
       data_shared_subform = "data-is_shared_subform=true data-shared_subform=#{subform_section.shared_subform}"
-      form_group_id = subform_section.shared_subform_group
-      subform_name = subform_section.shared_subform
+      if subform_section.shared_subform == 'violations'
+        violation_form_id = subform_section.shared_subform_group
+        violation_group_id = subform_section.shared_subform
+      end
     end
     number_of_subforms = subforms_count(formObject, subform, form_group_id)
     disable_action_buttons = ""
@@ -18,7 +22,7 @@
     end
    %>
   <div class="subforms <%=summary_section_class%> large-12 columns" id="<%= subform.name %>" <%=data_shared_subform%> data-form_group_id=<%=form_group_id%>>
-    <% subform_group = grouped_subforms(formObject, subform, form_group_id, subform_name) %>
+    <% subform_group = grouped_subforms(formObject, subform, violation_group_id, violation_form_id) %>
     <% subform_group.each do |grouped_subforms_header, subform_objects| %>
       <% if grouped_subforms_header.present? && subform_objects.present? %>
         <div class="subform_grouping_header row">
