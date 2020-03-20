@@ -134,12 +134,22 @@ div.scope_bar {
     }
   }
 
+  label {
+    display: flex;
+    text-indent: inherit;
+    padding: 0 2px;
+    margin-bottom: 2px;
+    width: 100%;
+    position: relative;
+  }
+
   .mCS-dir-rtl > .mCSB_inside > .mCSB_container{ /* RTL direction/left-side scrollbar */
     @if $global-text-direction == rtl {
       margin-left: rem_calc(23) !important;
       margin-right: 0 !important;
     }
   }
+
 
   ul.chosen-choices {
     background: transparent;
@@ -151,6 +161,9 @@ div.scope_bar {
     input {
       color: $green_color;
     }
+  }
+  label span {
+    margin-left: 4px;
   }
 
   .filter {
@@ -182,7 +195,11 @@ div.scope_bar {
           margin-top: 0 !important;
         }
       }
+    }
 
+    input[type="checkbox"] {
+      margin: 0;
+      margin-top: 3.5px;
     }
 
     .form_date_field {
@@ -304,5 +321,37 @@ div.scope_bar {
 
   &:hover {
     text-decoration: none;
+  }
+}
+
+.violation-fields {
+  .violation > h3 {
+    border-top: none;
+    position: relative;
+    line-height: 1.3em;
+    text-transform: capitalize;
+    border-bottom: 1px dashed $stroke_green_color;
+    width: 90%;
+    margin: 1em auto;
+    padding: 0 0 0.5em;
+    margin-bottom: 1em;
+  }
+
+  .filter {
+    border-bottom: 1px dashed $stroke_green_color;
+    padding-bottom: .5em;
+
+    h3 {
+      border: none;
+      font-size: .7rem;
+      color: $green_color;
+      overflow-wrap: break-word;
+      line-height: 1.5em;
+      padding-top: 0;
+    }
+
+    .field-controls-multi {
+      margin: 5px 0 0 0;
+    }
   }
 }

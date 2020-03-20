@@ -18,9 +18,21 @@ end
 describe IncidentsController, :type => :controller do
 
   before do
-    SystemSettings.all.each &:destroy
-    SystemSettings.create(default_locale: "en",
-      primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
+    SystemSettings.all.each(&:destroy)
+    SystemSettings.create(
+      default_locale: "en",
+      primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]},
+      violation_config: {
+        'killing' => {'field_id' => 'weapon_type', 'lookup_id' => 'lookup-weapon-type'},
+        'maiming' => {'field_id' => 'weapon_type', 'lookup_id' => 'lookup-weapon-type'},
+        'recruitment' => {'field_id' => 'factors_of_recruitment', 'lookup_id' => 'lookup-recruitment-factors'},
+        'sexual_violence' => {'field_id' => 'sexual_violence_type', 'lookup_id' => 'lookup-mrm-sexual-violence-type'},
+        'abduction' => {'field_id' => 'abduction_purpose', 'lookup_id' => 'lookup-abduction-purpose'},
+        'attack_on' => {'field_id' => 'facility_attack_type', 'lookup_id' => 'lookup-facility-attack-type'},
+        'military_use' => {'field_id' => 'military_use_type', 'lookup_id' => 'lookup-military-use-type'},
+        'denial_humanitarian_access' => {'field_id' => 'denial_method', 'lookup_id' => 'lookup-denial-method'}
+      }
+    )
   end
 
   before :each do |example|

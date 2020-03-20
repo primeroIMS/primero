@@ -31,7 +31,7 @@
           <% if can? :read, Duplicate %>
             <li><%= link_to t("navigation.duplicates"), duplicates_path(:record_type => "case"), class: current_menu("duplicates") %></li>
           <% end  %>
-          <% if current_user_name==nil || can?(:manage, FormSection) %>
+          <% if current_user_name==nil or can? :manage, FormSection %>
             <li><%= link_to t("navigation.forms"), form_sections_path, class: current_menu("forms") %></li>
           <% end %>
           <%# We use UserGroup here instead of User because all users have access to manage themselves. %>

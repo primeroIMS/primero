@@ -43,7 +43,7 @@ module MediaActions
   def document_filename attachment
     object = instance_variable_get("@#{self.model_class.name.underscore.downcase}")
     if object['document_keys'].include? attachment.name
-      doc_forms = object.keys.select{ |k| k.include? '_documents' }
+      doc_forms = object.keys.select{ |k| (k.include? '_documents') || (k.include? '_materials') }
       doc_forms.each do |form_name|
         file = object[form_name].select{ |f| f.attachment_key == attachment.name }.first
         return file['file_name'] if file.present? && file['file_name'].present?

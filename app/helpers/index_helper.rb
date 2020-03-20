@@ -220,10 +220,9 @@ module IndexHelper
 
   def violation_type_list
     violation_types = []
-
-    violation_hash = Incident.violation_id_fields
-    violation_hash.keys.each {|key| violation_types << { key => I18n.t("incident.violation.#{key}") } } if violation_hash.present?
-    return violation_types
+    violation_form_keys = Violation.config.try(:keys)
+    violation_form_keys.each {|key| violation_types << { key => Lookup.display_value('lookup-violation-type', key, @lookups) } } if violation_form_keys.present?
+    violation_types
   end
 
   def build_list_field_by_model(model_name, user)
@@ -456,21 +455,32 @@ module IndexHelper
     filters << "Flagged"
     filters << "Mobile" if @can_sync_mobile
     filters << "Violation" if @is_mrm
+    filters << "Deprived of liberty?" if @is_mrm
     filters << "Violence Type" if @is_gbv
     filters << "Social Worker" if @is_manager
     filters << "Agency Office" if @is_gbv
     filters << "User Group" if @is_gbv && @current_user.present? && @current_user.has_user_group_filter?
     filters << "Status"
-    filters << "Age Range"
+    filters << "Age Range" if @is_gbv
     filters << "Children" if @is_mrm
     filters << "Verification Status" if @is_mrm
     filters << "Incident Location"
     filters << "Dates"
     filters << "Protection Status" if @is_gbv
-    filters << "Armed Force or Group" if @is_mrm
-    filters << "Armed Force or Group Type" if @is_mrm
+    filters << "Armed Force" if @is_mrm
+    filters << "Armed Group" if @is_mrm
+    #TODO perpetrator_sub_category has been removed
+    # filters << "Armed Force or Group Type" if @is_mrm
     filters << "Record State"
-
+    filters << "Individual Age" if @is_mrm
+    filters << "Individual Sex" if @is_mrm
+    filters << "Individual Violation" if @is_mrm
+    filters << "Perpetrator Arrested" if @is_mrm
+    filters << "Perpetrator Detained" if @is_mrm
+    filters << "Perpetrator Convicted" if @is_mrm
+    filters << "Reason Deprived of liberty?" if @is_mrm
+    filters << "Facilty Deprived of liberty?" if @is_mrm
+    filters << "Punishment Deprived of liberty?" if @is_mrm
     return filters
   end
 

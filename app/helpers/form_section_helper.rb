@@ -27,10 +27,10 @@ module FormSectionHelper
 
   # If multiple forms in a group, display the form group name with the forms grouped below
   # If only 1 form in a group, just display the form name and link directly to it
-  def build_form_tabs(group, forms, show_summary = false)
+  def build_form_tabs(forms, show_summary = false, lookups)
     form = forms.first
     if forms.count > 1
-      group_name = raw(group + group_alert_prefix(forms))
+      group_name = raw(form.form_group_name(lookups: lookups) + group_alert_prefix(forms))
       content_tag :li, class: 'group' do
         concat(
           link_to("#tab_#{form.section_name}", class: 'group',
@@ -105,17 +105,14 @@ module FormSectionHelper
   end
 
   def subform_placeholder(field, subform, editing=false)
-    if field.base_doc.is_violation?
-      t("incident.violation.violation")
-    else
-      form_string, translation_node = editing ? [subform.form.name, 'editing_subforms'] : [subform.display_name, 'subforms']
-      t("placeholders.#{translation_node}", form: form_string)
-    end
+    return if field.base_doc.is_violations_group? || field.base_doc.is_violation?
+    form_string, translation_node = editing ? [subform.form.name, 'editing_subforms'] : [subform.display_name, 'subforms']
+    t("placeholders.#{translation_node}", form: form_string)
   end
 
   #Returns a hash of tuples {subform_group_label => [subform_object, index]}.
-  def grouped_subforms(formObject, subform_field)
-    objects = formObject.try(subform_field.name)
+  def grouped_subforms(formObject, subform_field, violation_group_id=nil, violation_subform_id=nil)
+    objects = formObject.try(subform_field.name).presence || formObject.try(:[], violation_group_id).try(:[], violation_subform_id)
     if objects.present?
       objects = objects.map.with_index{|o,i| [o,i]}
       subform_group_by_field = subform_field.subform_group_by_field
@@ -184,7 +181,7 @@ module FormSectionHelper
       if field.type == Field::SUBFORM
         #If subform is the only field in the form and the first, check is is empty.
         if form_section.is_violations_group?
-          return formObject[form_section.form_group_name.downcase][field.name].blank?
+          return formObject[form_section.form_group_id][field.name].blank?
         else
           return formObject[field.name].blank?
         end

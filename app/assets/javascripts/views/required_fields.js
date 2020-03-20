@@ -23,7 +23,7 @@ _primero.Views.RequiredFields = _primero.Views.Base.extend({
     _.each($invalid_fields, function(field) {
       var $field = $(field);
       var $fieldset = $field.parents('fieldset.tab'),
-        group = $fieldset.data('form-section-group-name'),
+        group = $fieldset.data('form-section-group-id'),
         form = $fieldset.data('form-name'),
         required_text = _primero.form_error_messages.required,
         label = $("label[for='" + $field.attr('id') + "']:first").text(),

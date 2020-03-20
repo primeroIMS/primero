@@ -51,7 +51,7 @@ _primero.Views.ReportTable = _primero.Views.Base.extend({
     if ($canvas.length) {
       $('.spacer').height(0)
       //TODO: AJAX call to the report data. Not really Backbone at all.
-      var graph_url = window.location.pathname + '/graph_data'
+      var graph_url = window.location.pathname + '/graph_data' + window.location.search
       $.ajax(graph_url).done(function(graph_data){
         var colors = self.generateColors(graph_data.datasets.length);
         var context = $canvas.get(0).getContext("2d");
