@@ -22,3 +22,6 @@ export const getIsAuthenticated = state =>
 
 export const getListHeaders = (state, resource) =>
   state.getIn([NAMESPACE, LIST_HEADERS, resource], List([]));
+
+export const getUserModules = state =>
+  state.getIn([NAMESPACE, "modules"], List([]));
