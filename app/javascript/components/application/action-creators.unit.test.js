@@ -12,11 +12,13 @@ describe("Application - Action Creators", () => {
     expect(creators).to.have.property("loadApplicationResources");
     expect(creators).to.have.property("setUserIdle");
     expect(creators).to.have.property("setNetworkStatus");
+    expect(creators).to.have.property("fetchSystemPermissions")
 
     delete creators.fetchSystemSettings;
     delete creators.loadApplicationResources;
     delete creators.setUserIdle;
     delete creators.setNetworkStatus;
+    delete creators.fetchSystemPermissions;
 
     expect(creators).to.deep.equal({});
   });
@@ -57,5 +59,21 @@ describe("Application - Action Creators", () => {
     };
 
     expect(actionCreators.setNetworkStatus(true)).to.eql(expectedAction);
+  });
+
+  it("should check the 'fetchSystemPermissions' action creator to return the correct object", () => {
+    const expected = {
+      path: "permissions",
+    };
+    const store = configureStore()({});
+    const dispatch = sinon.spy(store, "dispatch");
+
+    dispatch(actionCreators.fetchSystemPermissions());
+
+    expect(dispatch.getCall(0).returnValue.type).to.eql(
+      "application/FETCH_SYSTEM_PERMISSIONS"
+    );
+
+    expect(dispatch.getCall(0).returnValue.api).to.eql(expected);
   });
 });
