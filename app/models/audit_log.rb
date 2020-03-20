@@ -13,6 +13,14 @@ class AuditLog < ApplicationRecord
     self.timestamp ||= DateTime.now
   end
 
+  def self.for_user(params)
+    filter = {}
+    range = DestringifyService.destringify(params[:timestamp].to_h)
+    filter['timestamp'] = (range['from'] || Time.at(0).to_datetime)..(range['to'] || DateTime.now.end_of_day)
+    filter['users.user_name'] = params[:user_name] if params[:user_name].present?
+    joins(:user).where(filter)
+  end
+
   def display_id
     return '' unless record.present?
 
