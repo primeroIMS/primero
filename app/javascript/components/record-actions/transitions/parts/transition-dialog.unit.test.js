@@ -21,7 +21,9 @@ describe("<TransitionDialog />", () => {
     record,
     children: <></>,
     handleClose: () => {},
-    recordType: "cases"
+    recordType: "cases",
+    onClose: () => {},
+    successHandler: () => {}
   };
 
   beforeEach(() => {
@@ -53,12 +55,9 @@ describe("<TransitionDialog />", () => {
     });
 
     it("should render 'Referral Case No.' as title", () => {
-      expect(
-        component
-          .find("span")
-          .first()
-          .text()
-      ).to.equals("Referral Case 1234abc");
+      expect(component.find(DialogTitle).text()).to.equals(
+        "Referral Case 1234abc"
+      );
     });
   });
 
@@ -73,12 +72,9 @@ describe("<TransitionDialog />", () => {
     });
 
     it("should render 'Assign Case No.' as title", () => {
-      expect(
-        component
-          .find("span")
-          .first()
-          .text()
-      ).to.equals("Assign Case 1234abc");
+      expect(component.find(DialogTitle).text()).to.equals(
+        "Assign Case 1234abc"
+      );
     });
   });
 
@@ -93,12 +89,9 @@ describe("<TransitionDialog />", () => {
     });
 
     it("should render 'Transfer Case No.' as title", () => {
-      expect(
-        component
-          .find("span")
-          .first()
-          .text()
-      ).to.equals("Transfer Case 1234abc");
+      expect(component.find(DialogTitle).text()).to.equals(
+        "Transfer Case 1234abc"
+      );
     });
   });
 });

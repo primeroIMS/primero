@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/display-name */
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Box, FormControlLabel } from "@material-ui/core";
@@ -24,10 +25,10 @@ import {
 } from "../../selectors";
 import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
 import { valuesToSearchableSelect } from "../../../../../libs";
+import { TRANSITIONS_TYPES } from "../../../../transitions/constants";
 
 import TransferInternal from "./transfer-internal";
 import ProvidedConsent from "./provided-consent";
-import TransferActions from "./transfer-actions";
 import BulkTransfer from "./bulk-transfer";
 import {
   TRANSFER_FIELD,
@@ -43,31 +44,28 @@ const TransferForm = ({
   providedConsent,
   isBulkTransfer,
   userPermissions,
-  handleClose,
-  transitionType,
   record,
-  recordType
+  recordType,
+  transferRef,
+  setPending,
+  disabled,
+  setDisabled
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const [disabled, setDisabled] = useState(false);
 
   const firstUpdate = React.useRef(true);
-
-  const closeModal = () => {
-    handleClose();
-  };
 
   useEffect(() => {
     dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType] }));
   }, []);
 
   const users = useSelector(state =>
-    getUsersByTransitionType(state, transitionType)
+    getUsersByTransitionType(state, TRANSITIONS_TYPES.transfer)
   );
 
   const hasErrors = useSelector(state =>
-    getErrorsByTransitionType(state, transitionType)
+    getErrorsByTransitionType(state, TRANSITIONS_TYPES.transfer)
   );
 
   const agencies = useSelector(state => selectAgencies(state));
@@ -93,8 +91,6 @@ const TransferForm = ({
 
     if (messages !== "") {
       dispatch(enqueueSnackbar(messages, "error"));
-    } else {
-      closeModal();
     }
   }, [hasErrors]);
 
@@ -226,7 +222,6 @@ const TransferForm = ({
             fields={internalFields}
             disableControl={disableControl}
           />
-          <TransferActions closeModal={closeModal} disabled={disableControl} />
         </Box>
       </Form>
     );
@@ -248,7 +243,9 @@ const TransferForm = ({
       [TRANSITIONED_TO_FIELD]: "",
       [NOTES_FIELD]: ""
     },
+    ref: transferRef,
     onSubmit: (values, { setSubmitting }) => {
+      setPending(true);
       dispatch(
         saveTransferUser(
           record.get("id"),
@@ -273,14 +270,16 @@ const TransferForm = ({
 };
 
 TransferForm.propTypes = {
-  handleClose: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
   handleSubmit: PropTypes.func,
   isBulkTransfer: PropTypes.bool.isRequired,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   resetForm: PropTypes.func,
-  transitionType: PropTypes.string,
+  setDisabled: PropTypes.func,
+  setPending: PropTypes.func,
+  transferRef: PropTypes.object,
   userPermissions: PropTypes.object.isRequired,
   values: PropTypes.object
 };

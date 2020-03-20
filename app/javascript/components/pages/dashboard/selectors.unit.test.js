@@ -211,6 +211,23 @@ const caseOverview = {
   }
 };
 
+const sharedWithMyTeam = {
+  name: "dashboard.dash_shared_with_my_team",
+  type: "indicator",
+  indicators: {
+    shared_with_my_team_referrals: {
+      primero_cp: { count: 1, query: ["referred_users=primero_cp"] },
+    },
+    shared_with_my_team_pending_transfers: {
+      primero_cp: { count: 2, query: ["transferred_to_users=primero_cp"] },
+      primero_cp_ar: {
+        count: 1,
+        query: ["transferred_to_users=primero_cp_ar"]
+      }
+    }
+  }
+};
+
 const stateWithoutRecords = fromJS({});
 const initialState = fromJS({
   records: {
@@ -243,7 +260,8 @@ const initialState = fromJS({
         sharedWithMe,
         sharedWithOthers,
         groupOverview,
-        caseOverview
+        caseOverview,
+        sharedWithMyTeam
       ]
     }
   }
@@ -376,6 +394,14 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getCaseOverview(initialState);
 
       expect(values).to.deep.equal(fromJS(caseOverview));
+    });
+  });
+
+  describe("getSharedWithMyTeam", () => {
+    it("should return the shared with my team dashboard", () => {
+      const values = selectors.getSharedWithMyTeam(initialState);
+
+      expect(values).to.deep.equal(fromJS(sharedWithMyTeam));
     });
   });
 });
