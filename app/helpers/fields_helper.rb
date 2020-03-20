@@ -185,8 +185,8 @@ module FieldsHelper
   end
 
   def violation_status(formObject, form_group_id, subform_name, index)
-    if form_group_id.present? && formObject[form_group_id].present? && !formObject[form_group_id][subform_name].empty? &&
-      index != 'template'
+    return unless form_group_id == 'violations'
+    if form_group_id.present? && formObject[form_group_id].present? && !formObject[form_group_id][subform_name].empty? && index != 'template'
       verification_status = formObject[form_group_id][subform_name][index].ctfmr_verified
       content_tag :span, class: 'verification_status' do
         "(#{Lookup.display_value('lookup-verification-status', verification_status, @lookups)})"
