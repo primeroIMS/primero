@@ -18,7 +18,7 @@ export const FIELDS = [
   {
     name: "reassigned_tranferred_on",
     type: "text_field",
-    visible: true
+    visible: false
   },
   {
     name: "owned_by_agency_id",

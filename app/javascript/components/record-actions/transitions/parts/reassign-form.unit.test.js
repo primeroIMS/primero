@@ -46,10 +46,6 @@ describe("<ReassignForm />", () => {
     expect(component.find(Field)).to.have.length(2);
   });
 
-  it("renders Button", () => {
-    expect(component.find(Button)).to.have.length(2);
-  });
-
   describe("with getUsersByTransitionType", () => {
     describe("when mounting component", () => {
       const state = fromJS({

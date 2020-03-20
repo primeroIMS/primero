@@ -17,7 +17,9 @@ const Support = ({ supportData }) => {
   const renderInformation =
     supportData.toSeq().size > 0 &&
     supportData._keys.map(x => {
-      if (x === "agencies") return;
+      if (["agencies", "id"].includes(x)) {
+        return null;
+      }
 
       return (
         <DisplayData

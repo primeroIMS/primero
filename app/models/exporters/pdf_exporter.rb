@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 require 'prawn/document'
 require 'arabic-letter-connector'
 
 module Exporters
   class PDFExporter < BaseExporter
-    extend BaseSelectFields
 
     class << self
       def id
@@ -66,7 +67,7 @@ module Exporters
       }
 
       # Add fallback fonts to array
-      @pdf.fallback_fonts = ["Riwaj", "Kalimati_Regular"]
+      @pdf.fallback_fonts = %w[Riwaj Kalimati_Regular Arial_Unicode_MS]
 
       @pdf.text_direction self.class.reverse_page_direction ? :rtl : :ltr
 

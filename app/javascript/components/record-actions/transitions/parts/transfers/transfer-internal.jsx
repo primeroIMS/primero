@@ -22,6 +22,7 @@ const TransferInternal = ({ disableControl, fields }) => {
             shrink: true
           }}
           fullWidth
+          autoComplete="off"
         />
       );
     }
