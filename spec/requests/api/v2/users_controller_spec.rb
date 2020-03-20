@@ -125,7 +125,9 @@ describe Api::V2::UsersController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(3)
-      expect(json['data'].map { |user| user['identity_provider_id'] }.compact.count).to eq(2)
+      expect(json['data'].map { |user| user['identity_provider_unique_id'] }.compact).to eq(
+        [@identity_provider_a.unique_id, @identity_provider_a.unique_id]
+      )
     end
 
     it 'list the users of a specific agency' do
@@ -215,7 +217,7 @@ describe Api::V2::UsersController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@user_a.id)
-      expect(json['data']['identity_provider_id']).to eq(@identity_provider_a.id)
+      expect(json['data']['identity_provider_unique_id']).to eq(@identity_provider_a.unique_id)
     end
 
     it "returns 403 if user isn't authorized to access" do
@@ -255,7 +257,7 @@ describe Api::V2::UsersController, type: :request do
           password_confirmation: 'a12345678',
           password: 'a12345678',
           user_group_unique_ids: ['user-group-1'],
-          identity_provider_id: @identity_provider_a.id
+          identity_provider_unique_id: @identity_provider_a.unique_id
         }
       }
 
@@ -268,7 +270,7 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data']['role_unique_id']).to eq(params[:data][:role_unique_id])
       expect(json['data']['user_group_unique_ids']).to eq(params[:data][:user_group_unique_ids])
       expect(User.find_by(id: json['data']['id'])).not_to be_nil
-      expect(json['data']['identity_provider_id']).to eq(@identity_provider_a.id)
+      expect(json['data']['identity_provider_unique_id']).to eq(@identity_provider_a.unique_id)
     end
 
     describe 'empty response' do
@@ -395,7 +397,7 @@ describe Api::V2::UsersController, type: :request do
         data: {
           full_name: 'Updated User 1',
           user_group_unique_ids: ['user-group-1'],
-          identity_provider_id: @identity_provider_b.id
+          identity_provider_unique_id: @identity_provider_b.unique_id
         }
       }
 
@@ -406,7 +408,7 @@ describe Api::V2::UsersController, type: :request do
       user1 = User.find_by(id: @user_a.id)
       expect(user1.full_name).to eq('Updated User 1')
       expect(user1.user_groups.map(&:unique_id)).to eq(params[:data][:user_group_unique_ids])
-      expect(user1.identity_provider_id).to eq(@identity_provider_b.id)
+      expect(user1.identity_provider.unique_id).to eq(@identity_provider_b.unique_id)
     end
 
     it "returns 403 if user isn't authorized to update users" do

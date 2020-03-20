@@ -36,7 +36,7 @@ Show the JSON representation of a user.
         "send_mail": true,
         "created_at": "2019-08-09T19:54:36.592Z",
         "updated_at": "2019-08-09T19:54:36.592Z",
-        "role_unique_id": 10
+        "identity_provider_unique_id": "primeroims_2"
     }
 }
 

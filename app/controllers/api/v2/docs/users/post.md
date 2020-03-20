@@ -27,7 +27,7 @@ Create a new form
         "send_mail": true,
         "password_confirmation": "a12345678",
         "password": "a12345678",
-        "role_unique_id": 10
+        "identity_provider_unique_id": "primeroims_2"
     }
 }
 ```
@@ -55,7 +55,7 @@ No `id` attribute is provided in the `data` hash.
         "send_mail": true,
         "created_at": "2019-08-09T19:54:36.592Z",
         "updated_at": "2019-08-09T19:54:36.592Z",
-        "role_unique_id": 10
+        "identity_provider_unique_id": "primeroims_2"
     }
 }
 ```
