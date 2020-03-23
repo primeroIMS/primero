@@ -54,7 +54,8 @@ const Nav = () => {
       name: i18n.t("navigation.home"),
       to: ROUTES.dashboard,
       icon: "home",
-      disableOffline: true
+      disableOffline: true,
+      validateWithUserPermissions: true
     },
     {
       name: i18n.t("navigation.tasks"),
@@ -69,7 +70,8 @@ const Nav = () => {
       icon: "cases",
       jewelCount: dataAlerts.get("case"),
       resources: RESOURCES.cases,
-      actions: READ_RECORDS
+      actions: READ_RECORDS,
+      validateWithUserPermissions: true
     },
     {
       name: i18n.t("navigation.incidents"),
@@ -77,7 +79,8 @@ const Nav = () => {
       icon: "incidents",
       jewelCount: dataAlerts.get("incident"),
       resources: RESOURCES.incidents,
-      actions: READ_RECORDS
+      actions: READ_RECORDS,
+      validateWithUserPermissions: true
     },
     {
       name: i18n.t("navigation.tracing_request"),
@@ -85,7 +88,8 @@ const Nav = () => {
       icon: "tracing_request",
       jewelCount: dataAlerts.get("tracing_request"),
       resources: RESOURCES.tracing_requests,
-      actions: READ_RECORDS
+      actions: READ_RECORDS,
+      validateWithUserPermissions: true
     },
     // {
     //   name: i18n.t("navigation.potential_match"),
@@ -101,7 +105,8 @@ const Nav = () => {
       icon: "reports",
       resources: RESOURCES.reports,
       actions: READ_REPORTS,
-      disableOffline: true
+      disableOffline: true,
+      validateWithUserPermissions: true
     },
     {
       name: i18n.t("navigation.bulk_exports"),

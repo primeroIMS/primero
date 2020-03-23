@@ -85,7 +85,7 @@ export const RECORD_INFORMATION = [
 export const ROUTES = {
   account: "/account",
   cases: "/cases",
-  dashboard: "/dashboard",
+  dashboard: "/dashboards",
   exports: "/exports",
   incidents: "/incidents",
   login: "/login",
@@ -152,7 +152,8 @@ export const ADMIN_NAV = [
   },
   {
     to: "/contact_information",
-    label: "settings.navigation.contact_information"
+    label: "settings.navigation.contact_information",
+    manageRequired: true
   },
   { to: "/modules", label: "settings.navigation.modules", disabled: true },
   {
