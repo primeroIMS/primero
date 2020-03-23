@@ -84,7 +84,7 @@ export const RECORD_INFORMATION = [
 export const ROUTES = {
   account: "/account",
   cases: "/cases",
-  dashboard: "/dashboard",
+  dashboard: "/dashboards",
   exports: "/exports",
   incidents: "/incidents",
   login: "/login",
