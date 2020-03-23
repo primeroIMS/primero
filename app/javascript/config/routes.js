@@ -15,6 +15,7 @@ import Login, {
   UserGroupsForm,
   AgenciesList,
   AgenciesForm,
+  LookupsList,
   ContactInformation,
   RolesList,
   RolesForm
@@ -241,6 +242,11 @@ export default [
               path: ROUTES.admin_agencies,
               component: AgenciesList,
               resources: RESOURCES.agencies
+            },
+            {
+              path: ROUTES.lookups,
+              component: LookupsList,
+              resources: RESOURCES.lookups
             },
             {
               path: `${ROUTES.admin_roles}/new`,

@@ -1,5 +1,10 @@
 export { default } from "./container";
-export { setSelectedForm, fetchForms, fetchOptions } from "./action-creators";
+export {
+  setSelectedForm,
+  fetchForms,
+  fetchOptions,
+  fetchLookups
+} from "./action-creators";
 export { reducers } from "./reducers";
 export {
   getFirstTab,
@@ -11,7 +16,8 @@ export {
   getSelectedForm,
   getLocations,
   getRecordFormsByUniqueId,
-  getFormsByParentForm
+  getFormsByParentForm,
+  getLookups
 } from "./selectors";
 export { FormSectionField } from "./form";
 export { FieldRecord } from "./records";
