@@ -210,7 +210,7 @@ Primero::Application.routes.draw do
   end
 
   match '/incidents/:incident_id/document/:document_id' => 'incident_media#download_document', :as => :incident_document, :via => [:post, :get, :put, :delete]
-  match '/incidents/:incident_id/create_cp_case_from_individual_details/:individual_details_subform_section' => 'incidents#create_cp_case_from_individual_details', :as => :create_cp_case_from_individual_details, :via => [:post, :get]
+  match '/incidents/:incident_id/create_cp_case_from_individual_details/:individual_victims_subform_section' => 'incidents#create_cp_case_from_individual_details', :as => :create_cp_case_from_individual_details, :via => [:post, :get]
 
 #######################
 # POTENTIAL MATCHES URLS

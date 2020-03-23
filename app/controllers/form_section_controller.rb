@@ -59,7 +59,7 @@ class FormSectionController < ApplicationController
 
   def update
     authorize! :update, FormSection
-    @form_section = FormSection.get_by_unique_id(params[:id], true)
+    @form_section = FormSection.get_by_unique_id(params[:id])
     @form_section.properties = params[:form_section].to_h
     if (@form_section.valid?)
       @form_section.save!
@@ -81,7 +81,7 @@ class FormSectionController < ApplicationController
 
   def toggle
     authorize! :update, FormSection
-    form = FormSection.get_by_unique_id(params[:id], true)
+    form = FormSection.get_by_unique_id(params[:id])
     form.visible = !form.visible?
     form.save!
     render plain: 'OK'
@@ -90,7 +90,7 @@ class FormSectionController < ApplicationController
   def save_order
     authorize! :update, FormSection
     params[:ids].each_with_index do |unique_id, index|
-      form_section = FormSection.get_by_unique_id(unique_id, true)
+      form_section = FormSection.get_by_unique_id(unique_id)
       form_section.order = index + 1
       form_section.save!
     end
@@ -137,7 +137,7 @@ class FormSectionController < ApplicationController
   end
 
   def get_form_section
-    @form_section = FormSection.get_by_unique_id(params[:id], true)
+    @form_section = FormSection.get_by_unique_id(params[:id])
     @parent_form = @form_section.parent_form
   end
 

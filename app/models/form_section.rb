@@ -283,7 +283,7 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :find_by_parent_form
 
-    def get_by_unique_id unique_id
+    def get_by_unique_id(unique_id)
       by_unique_id(:key => unique_id).first
     end
     memoize_in_prod :get_by_unique_id
@@ -301,8 +301,9 @@ class FormSection < CouchRest::Model::Base
     memoize_in_prod :sorted_highlighted_fields
 
     def violation_forms
-      ids = Incident.violation_id_fields.keys
-      FormSection.by_unique_id(keys: ids).all
+      @system_settings ||= SystemSettings.current
+      ids = @system_settings.try(:violation_config).try(:keys)
+      ids.present? ? FormSection.by_unique_id(keys: ids).all : []
     end
     memoize_in_prod :violation_forms
 
@@ -313,7 +314,7 @@ class FormSection < CouchRest::Model::Base
 
 
     #TODO - can this be done more efficiently?
-    def find_form_groups_by_parent_form parent_form
+    def find_form_groups_by_parent_form(parent_form)
       all_forms = self.find_by_parent_form(parent_form)
 
       form_sections = []
@@ -334,7 +335,7 @@ class FormSection < CouchRest::Model::Base
         end
       end
 
-      form_groups = form_sections.group_by{|e| e.form_group_name}
+      form_groups = form_sections.group_by{|e| e.form_group_id}
     end
     memoize_in_prod :find_form_groups_by_parent_form
 
@@ -362,13 +363,8 @@ class FormSection < CouchRest::Model::Base
     #Return a hash of subforms, where the keys are the form groupings
     def group_forms(forms, opts={})
       grouped_forms = {}
-
-      #Order these forms by group and form
       sorted_forms = forms.sort_by{|f| [f.order_form_group, f.order]}
-
-      if sorted_forms.present?
-        grouped_forms = sorted_forms.group_by{|f| f.form_group_name(lookups: opts[:lookups])}
-      end
+      grouped_forms = sorted_forms.group_by{|f| f.form_group_id} if sorted_forms.present?
       return grouped_forms
     end
 
@@ -519,11 +515,11 @@ class FormSection < CouchRest::Model::Base
       permitted_forms = FormSection.get_permitted_form_sections(primero_module, parent_form, user)
       FormSection.link_subforms(permitted_forms)
       visible_forms = FormSection.get_visible_form_sections(permitted_forms)
-      FormSection.group_forms(visible_forms, lookups: opts[:lookups])
+      FormSection.group_forms(visible_forms)
     end
 
     def determine_parent_form(record_type, apply_to_reports=false)
-      if record_type == "violation"
+      if ["violation", "individual_victim"].include?(record_type)
         "incident"
       elsif record_type.starts_with?("reportable") && apply_to_reports
         # Used to figure out if reportable nested form belongs to incident, child, or tracing request.
@@ -910,15 +906,14 @@ class FormSection < CouchRest::Model::Base
   end
 
   def is_violations_group?
-    #TODO MRM - pass english locale to form_group_name and/or have a better way to identify Violations
-    self.form_group_name == 'Violations'
+    self.form_group_id == 'violations'
   end
 
   def is_violation_wrapper?
+    violation_form_keys = Violation.config.try(:keys)
+    return false if violation_form_keys.blank?
     self.fields.present? &&
-    self.fields.select{|f| f.type == Field::SUBFORM}.any? do |f|
-      Incident.violation_id_fields.keys.include?(f.subform_section_id)
-    end
+    self.fields.select{|f| f.type == Field::SUBFORM}.any? {|f| violation_form_keys.include?(f.subform_section_id) }
   end
 
   #TODO add rspec test

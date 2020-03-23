@@ -78,7 +78,7 @@ describe "_subform.html.erb" do
       :order_form_group => 51,
       :order => 16,
       :order_subform => 0,
-      :form_group_name => "Form Section Test",
+      :form_group_id => "form_section_test",
       "editable" => true,
       "name_all" => "Form Section Test 1",
       "description_all" => "Form Section Test 1",
@@ -118,7 +118,7 @@ describe "_subform.html.erb" do
                 {
                  :field => form.fields[1],
                  :formObject => @formObject,
-                 :form_group_name => form.form_group_name,
+                 :form_group_id => form.form_group_id,
                  :lookups => @lookups
                 },
              :formats => [:html], :handlers => [:erb]
@@ -130,7 +130,7 @@ describe "_subform.html.erb" do
                  {
                   :field => form.fields[2],
                   :formObject => @formObject,
-                  :form_group_name => form.form_group_name,
+                  :form_group_id => form.form_group_id,
                   :lookups => @lookups
                  },
               :formats => [:html], :handlers => [:erb]
@@ -144,11 +144,11 @@ describe "_subform.html.erb" do
                 {
                  :field => form.fields[1],
                  :formObject => @formObject,
-                 :form_group_name => form.form_group_name,
+                 :form_group_id => form.form_group_id,
                  :lookups => @lookups
                 },
              :formats => [:html], :handlers => [:erb]
-       rendered.should match(/<div id="subform_section_1" class="subforms"  data-form_group_name="">/)
+       rendered.should match(/<div id="subform_section_1" class="subforms"  data-form_group_id="">/)
        #formObject should contains an hash "subform_section_1" which is the field name instead the subform unique_id
        #With that in mind will generate the next bunch of elements.
        rendered.should match(/<label class="key field_name_1">Field Name 1<\/label>/)
@@ -159,11 +159,11 @@ describe "_subform.html.erb" do
                     {
                      :field => form.fields[2],
                      :formObject => @formObject,
-                     :form_group_name => form.form_group_name,
+                     :form_group_id => form.form_group_id,
                      :lookups => @lookups
                     },
                  :formats => [:html], :handlers => [:erb]
-       rendered.should match(/<div id="subform_section_2" class="subforms"  data-form_group_name="">/)
+       rendered.should match(/<div id="subform_section_2" class="subforms"  data-form_group_id="">/)
        #formObject should contains an hash "subform_section_2" which is the field name instead the subform unique_id
        #With that in mind will generate the next bunch of elements.
        rendered.should match(/<label class="key field_name_2">Field Name 2<\/label>/)
@@ -182,7 +182,7 @@ describe "_subform.html.erb" do
                  :subform => form.fields[1],
                  :subform_section => subform_section,
                  :formObject => @formObject,
-                 :form_group_name => form.form_group_name,
+                 :form_group_id => form.form_group_id,
                  :grouped_subforms_header => nil,
                  :i => 0
                 },
@@ -197,7 +197,7 @@ describe "_subform.html.erb" do
                  :subform => form.fields[2],
                  :subform_section => subform_section,
                  :formObject => @formObject,
-                 :form_group_name => form.form_group_name,
+                 :form_group_id => form.form_group_id,
                  :grouped_subforms_header => nil,
                  :i => 0
                 },
@@ -215,7 +215,7 @@ describe "_subform.html.erb" do
                 {
                  :subform => form.fields[1],
                  :formObject => @formObject,
-                 :form_group_name => form.form_group_name,
+                 :form_group_id => form.form_group_id,
                  :grouped_subforms_header => nil,
                 },
              :formats => [:html], :handlers => [:erb]
@@ -232,7 +232,7 @@ describe "_subform.html.erb" do
                 {
                  :subform => form.fields[2],
                  :formObject => @formObject,
-                 :form_group_name => form.form_group_name,
+                 :form_group_id => form.form_group_id,
                  :grouped_subforms_header => nil,
                 },
              :formats => [:html], :handlers => [:erb]

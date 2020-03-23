@@ -284,6 +284,12 @@ Primero = _primero.Views.Base.extend({
     document.addEventListener('mouseup', close_popover_on_click_outside);
   },
 
+  engage_select_popover: function(evt) {
+    evt.preventDefault();
+    var guided_link = $(evt.target);
+    guided_link.popover('toggle');
+  },
+
   init_sticky: function() {
     var control = $(".record_controls_container, .index_controls_container"),
     stickem = control.sticky({

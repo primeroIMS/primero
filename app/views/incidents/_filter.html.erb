@@ -1,66 +1,118 @@
-<% #All options need to be translated %>
+<%
+  violation_types = violation_type_list
+%>
+
+<%= render 'record_shared/filter_buttons', do_saved_search: true %>
+<%= render 'record_shared/saved_search_modal' %>
+<ul class='tabs' data-tabs id='index-filter-tabbed'>
+  <li class="tabs-title is-active"><a href="#violations" aria-selected="true"><%= t('incidents.violations_tab') %></a></li>
+  <li class="tabs-title"><a data-tabs-target="#individual" href="#individual"><%= t('incidents.individual_victims_tab') %></a></li>
+</ul>
+
 <div class="panel">
-  <%= render 'record_shared/filter_buttons', do_saved_search: true %>
-  <%= render 'record_shared/saved_search_modal' %>
   <form id="index_filter_form" autocomplete="off">
-    <% if filters_to_show.include? 'Flagged' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.flag"), 'flag', [{flag: t("incidents.filter_by.flag_label")}], nil, nil, 'single') %>
-    <% end %>
-    <% if filters_to_show.include? 'Mobile' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.mobile"), 'marked_for_mobile', [{true: t("incidents.filter_by.mobile_label")}], nil, nil, 'single') %>
-    <% end %>
-    <% if filters_to_show.include? 'Violation' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.violation"), 'violations', violation_type_list, { multi: true }, false) %>
-    <% end %>
-    <% if filters_to_show.include? 'Violence Type' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.violence_type"), 'gbv_sexual_violence_type', Lookup.values('lookup-gbv-sexual-violence-type', @lookups, locale: I18n.locale),
-        { multi: true }) %>
-    <% end %>
-    <% if filters_to_show.include? 'Social Worker' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.social_worker"), 'owned_by', @associated_users, { multi: true }, false) %>
-    <% end %>
-    <% if filters_to_show.include? 'User Group' %>
-      <%= build_filter_checkboxes(t("permissions.permission.user_group"), 'owned_by_groups', @user_group_ids, { multi: true }, false) %>
-    <% end %>
-    <% if filters_to_show.include?('Agency Office') && @agency_offices.present? %>
-      <%= build_filter_checkboxes(t("user.agency_office"), 'created_agency_office', @agency_offices, { multi: true }, false) %>
-    <% end %>
-    <% if filters_to_show.include? 'Status' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.status"), 'status', Lookup.values('lookup-incident-status', @lookups, locale: I18n.locale)) %>
-    <% end %>
-    <% if filters_to_show.include? 'Age Range' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.age_range"), 'age', @age_ranges, nil, nil, 'range') %>
-    <% end %>
-    <% if filters_to_show.include? 'Children' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.children"), 'child_types', [
-        {boys: t("incidents.filter_by.boys")},
-        {girls: t("incidents.filter_by.girls")},
-        {unknown: t("incidents.filter_by.unknown")}
-      ]) %>
-    <% end %>
-    <% if filters_to_show.include? 'Verification Status' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.verification_status"), 'verification_status', Lookup.values('lookup-incident-status', @lookups, locale: I18n.locale)) %>
-    <% end %>
-    <% if filters_to_show.include? 'Incident Location' %>
-      <%= build_filter_location(t("incidents.filter_by.incident_location"), 'incident_location') %>
-    <% end %>
-    <% if filters_to_show.include? 'Dates' %>
-      <%= render 'record_shared/filter_date', record: 'incidents' %>
-    <% end %>
-    <% if filters_to_show.include? 'Protection Status' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.unaccompanied_separated_status"), 'unaccompanied_separated_status', Lookup.values('lookup-unaccompanied-separated-status', @lookups, locale: I18n.locale)) %>
-    <% end %>
-    <% if filters_to_show.include? 'Armed Force or Group' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_name"), 'armed_force_group_names', Lookup.values('lookup-armed-force-group-name', @lookups, locale: I18n.locale)) %>
-    <% end %>
-    <% if filters_to_show.include? 'Armed Force or Group Type' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_type"), 'perpetrator_sub_categories', Lookup.values('lookup-armed-force-group-type', @lookups, locale: I18n.locale),
-        { multi: true }) %>
-    <% end %>
-    <% if filters_to_show.include? 'Record State' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.record_state"), 'record_state',
-                                  [{'true' => t("valid")}, {'false' => t("invalid")}]) %>
-    <% end %>
+    <div class='tabs-content' data-tabs-content='index-filter-tabbed'>
+      <div class='tabs-panel is-active' id='violations'>
+        <% if filters_to_show.include? 'Flagged' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.flag"), 'flag', [{flag: t("incidents.filter_by.flag_label")}], nil, nil, 'single') %>
+        <% end %>
+        <% if filters_to_show.include? 'Mobile' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.mobile"), 'marked_for_mobile', [{true: t("incidents.filter_by.mobile_label")}], nil, nil, 'single') %>
+        <% end %>
+        <% if filters_to_show.include? 'Violation' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.violation"), 'violations', violation_types, { multi: true }, false) %>
+        <% end %>
+        <% if filters_to_show.include? 'Violence Type' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.violence_type"), 'gbv_sexual_violence_type', Lookup.values('lookup-gbv-sexual-violence-type', @lookups, locale: I18n.locale),
+            { multi: true }) %>
+        <% end %>
+        <% if filters_to_show.include? 'Social Worker' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.social_worker"), 'owned_by', @associated_users, { multi: true }, false) %>
+        <% end %>
+        <% if filters_to_show.include? 'User Group' %>
+          <%= build_filter_checkboxes(t("permissions.permission.user_group"), 'owned_by_groups', @user_group_ids, { multi: true }, false) %>
+        <% end %>
+        <% if filters_to_show.include?('Agency Office') && @agency_offices.present? %>
+          <%= build_filter_checkboxes(t("user.agency_office"), 'created_agency_office', @agency_offices, { multi: true }, false) %>
+        <% end %>
+        <% if filters_to_show.include? 'Status' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.status"), 'status', Lookup.values('lookup-incident-status', @lookups, locale: I18n.locale)) %>
+        <% end %>
+        <% if filters_to_show.include? 'Age Range' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.age_range"), 'age', @age_ranges, nil, nil, 'range') %>
+        <% end %>
+        <% if filters_to_show.include? 'Children' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.children"), 'child_types', [
+            {boys: t("incidents.filter_by.boys")},
+            {girls: t("incidents.filter_by.girls")},
+            {unknown: t("incidents.filter_by.unknown")}
+          ]) %>
+        <% end %>
+        <% if filters_to_show.include? 'Verification Status' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.verification_status"), 'verification_status', Lookup.values('lookup-verification-status', @lookups, locale: I18n.locale)) %>
+        <% end %>
+        <% if filters_to_show.include? 'Incident Location' %>
+          <%= build_filter_location(t("incidents.filter_by.incident_location"), 'incident_location') %>
+        <% end %>
+        <% if filters_to_show.include? 'Dates' %>
+          <%= render 'record_shared/filter_date', record: 'incidents' %>
+        <% end %>
+        <% if filters_to_show.include? 'Protection Status' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.unaccompanied_separated_status"), 'unaccompanied_separated_status', Lookup.values('lookup-unaccompanied-separated-status', @lookups, locale: I18n.locale)) %>
+        <% end %>
+        <% if filters_to_show.include? 'Armed Force' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_name"), 'armed_force_names', Lookup.values('lookup-armed-force-name', @lookups, locale: I18n.locale)) %>
+        <% end %>
+        <% if filters_to_show.include? 'Armed Group' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.armed_group_name"), 'armed_group_names', Lookup.values('lookup-armed-group-name', @lookups, locale: I18n.locale)) %>
+        <% end %>
+        <% if filters_to_show.include? 'Armed Force or Group Type' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_type"), 'perpetrator_sub_categories', Lookup.values('lookup-armed-force-group-type', @lookups, locale: I18n.locale),
+                                      { multi: true }) %>
+        <% end %>
+        <% if filters_to_show.include? 'Record State' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.record_state"), 'record_state',
+                                      [{'true' => t("valid")}, {'false' => t("invalid")}]) %>
+        <% end %>
+        <% if filters_to_show.include? 'Perpetrator Arrested' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.perpetrator_arrest"), 'perpetrator_arrest', Lookup.values('lookup-yes-no-unknown', @lookups, locale: I18n.locale)) %>
+        <% end %>
+        <% if filters_to_show.include? 'Perpetrator Detained' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.perpetrator_detention"), 'perpetrator_detention', Lookup.values('lookup-yes-no-unknown', @lookups, locale: I18n.locale)) %>
+        <% end %>
+        <% if filters_to_show.include? 'Perpetrator Convicted' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.perpetrator_conviction"), 'perpetrator_conviction', Lookup.values('lookup-yes-no-unknown', @lookups, locale: I18n.locale)) %>
+        <% end %>
+        <%= render "filter_violations_fields", record: 'incidents', violations: violation_types %>
+      </div>
+      <div class='tabs-panel' id='individual'>
+        <% if filters_to_show.include? 'Individual Violation' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.individual_violation"), 'individual_violations', violation_types, { multi: true }, false) %>
+        <% end %>
+        <% if filters_to_show.include? 'Individual Age' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.individual_age"), 'individual_age', ['0-15', '16-18'], nil, nil, 'range') %>
+        <% end %>
+        <% if filters_to_show.include? 'Individual Sex' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.individual_sex"), 'individual_sex', [
+            { Male: t("incidents.filter_by.boys") },
+            { Female: t("incidents.filter_by.girls") },
+            { Unknown: t("incidents.filter_by.unknown") }
+          ]) %>
+        <% end %>
+        <% if filters_to_show.include? 'Deprived of liberty?' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.deprived_liberty"), 'victim_deprived_liberty_security_reasons', Lookup.values('lookup-yes-no-unknown', @lookups, locale: I18n.locale)) %>
+        <% end %>
+        <% if filters_to_show.include? 'Reason Deprived of liberty?' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.reasons_deprivation_liberty"), 'reasons_deprivation_liberty', Lookup.values('lookup-reasons-deprivation-liberty', @lookups, locale: I18n.locale)) %>
+        <% end %>
+        <% if filters_to_show.include? 'Facilty Deprived of liberty?' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.victim_facilty_victims_held"), 'victim_facilty_victims_held', Lookup.values('lookup-detention-facility-type', @lookups, locale: I18n.locale)) %>
+        <% end %>
+        <% if filters_to_show.include? 'Punishment Deprived of liberty?' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.torture_punishment_while_deprivated_liberty"), 'torture_punishment_while_deprivated_liberty', Lookup.values('lookup-yes-no-unknown', @lookups, locale: I18n.locale)) %>
+        <% end %>
+      </div>
+    </div>
   </form>
   <div class="clearfix"></div>
 </div>

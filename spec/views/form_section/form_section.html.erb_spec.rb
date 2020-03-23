@@ -9,7 +9,7 @@ describe "form_section/_form_section.html.erb" do
       :order_form_group => 40,
       :order => 80,
       :order_subform => 0,
-      :form_group_name => "Test Group"
+      :form_group_id => "test_group"
     })
   end
 
@@ -37,7 +37,7 @@ describe "form_section/_form_section.html.erb" do
   #     translated_name = "translated_heading"
   #     I18n.locale = :fr
   #     I18n.backend.store_translations("fr", @form_section.unique_id => translated_name)
-  #     @form_sections = [ @form_section ].group_by{|e| e.form_group_name}
+  #     @form_sections = [ @form_section ].group_by{|e| e.form_group_id}
 
   #     render :partial => 'form_section/show_form_section', :formats => [:html], :handlers => [:erb]
 
@@ -47,7 +47,7 @@ describe "form_section/_form_section.html.erb" do
 
   #     it "should not be shown with translated heading" do
   #       I18n.backend.store_translations("fr", @form_section.unique_id => nil)
-  #       @form_sections = [ @form_section ].group_by{|e| e.form_group_name}
+  #       @form_sections = [ @form_section ].group_by{|e| e.form_group_id}
   #       render :partial => 'form_section/show_form_section', :formats => [:html], :handlers => [:erb]
   #     end
   # end
@@ -59,7 +59,7 @@ describe "form_section/_form_section.html.erb" do
       it "renders text fields with a corresponding label" do
         @form_section.add_field(build(:field, name: 'name'))
         @child = Child.new
-        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
+        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_id => @form_section.form_group_id }, :formats => [:html], :handlers => [:erb]
 
         @form_section.fields.each do |field|
           rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_#{field.tag_id}\">")
@@ -73,7 +73,7 @@ describe "form_section/_form_section.html.erb" do
       it "prepopulates the text field with the existing value" do
         @child = Child.new :name => "Jessica"
         @form_section.add_field(build(:field, name: 'name'))
-        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
+        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_id => @form_section.form_group_id }, :formats => [:html], :handlers => [:erb]
         rendered.should have_tag("input[type='text'][value='Jessica']")
       end
     end
@@ -87,7 +87,7 @@ describe "form_section/_form_section.html.erb" do
         @form_section.add_field(build(:field, type: "radio_button", name: "is_age_exact".dehumanize,
                                       display_name: "is_age_exact".humanize,
                                       option_strings_text_all: ["Is Exact", "Approximate"].join("\n")))
-        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
+        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_id => @form_section.form_group_id }, :formats => [:html], :handlers => [:erb]
         expect(rendered).to have_tag("input[type='radio'][value='is_exact']")
         expect(rendered).to match(/<label for="#{@form_section.name.dehumanize}_child_isageexact_is_exact">Is Exact<\/label>/)
         expect(rendered).to have_tag("input[type='radio'][value='approximate']")
@@ -103,7 +103,7 @@ describe "form_section/_form_section.html.erb" do
                                       display_name: "is_age_exact".humanize,
                                       option_strings_text_all: ["exact", "approximate"].join("\n")))
 
-        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
+        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_id => @form_section.form_group_id }, :formats => [:html], :handlers => [:erb]
 
         rendered.should have_selector('input', id: "#{@form_section.name.dehumanize}_child_isageexact")
         expect(rendered).to have_tag("input[type='radio'][value='exact']")
@@ -121,7 +121,7 @@ describe "form_section/_form_section.html.erb" do
                                       display_name: "date_of_separation".humanize,
                                       option_strings_text_all: ["1-2 weeks ago", "More than a year ago"].join("\n")))
 
-        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
+        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_id => @form_section.form_group_id }, :formats => [:html], :handlers => [:erb]
         rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_child_dateofseparation\">Date of separation<\/label>")
         expect(rendered).to have_selector('select', class: 'chosen-select', id: "displayedformname_child_dateofseparation")
         expect(rendered).to have_selector("select.chosen-select[name='child[dateofseparation]']")
@@ -138,7 +138,7 @@ describe "form_section/_form_section.html.erb" do
                                     display_name: "date_of_separation".humanize,
                                     option_strings_text_all: ["1-2 weeks ago", "More than a year ago"].join("\n")))
 
-      render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
+      render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_id => @form_section.form_group_id }, :formats => [:html], :handlers => [:erb]
       rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_child_dateofseparation\">Date of separation<\/label>")
       expect(rendered).to have_selector('select', class: 'chosen-select', id: "displayedformname_child_dateofseparation")
       expect(rendered).to have_selector("select.chosen-select[name='child[dateofseparation]']")
@@ -157,7 +157,7 @@ describe "form_section/_form_section.html.erb" do
                           })
         @form_section.add_field field
 
-        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
+        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_id => @form_section.form_group_id }, :formats => [:html], :handlers => [:erb]
 
         rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_#{field.tag_id}\">")
         expect(rendered).to have_selector('input', class: 'form_date_field', id: "displayedformname_child_test_date_range_from")
@@ -178,7 +178,7 @@ describe "form_section/_form_section.html.erb" do
           :order => 80,
           :order_subform => 1,
           :initial_subforms => 1,
-          :form_group_name => "Test Group"
+          :form_group_id => "test_group"
         })
       end
 
@@ -203,7 +203,7 @@ describe "form_section/_form_section.html.erb" do
 
           #TODO for now - this will not render because the subform does not exist in the database
           #If you were to make this to work, the subform would have to exist in the db
-          render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
+          render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_id => @form_section.form_group_id }, :formats => [:html], :handlers => [:erb]
 
           rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_#{field.tag_id}\">")
           #rendered.should be_include("<input id=\"#{@form_section.name.dehumanize}_#{field.tag_id}_from\" name=\"#{field.tag_name_attribute}\" type=\"text\" value=\"\" />")

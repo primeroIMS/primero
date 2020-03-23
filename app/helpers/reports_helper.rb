@@ -99,4 +99,15 @@ module ReportsHelper
     return grouped_fields_options
   end
 
+  def report_filter_options(lookups, options)
+    if options.present?
+      if options.is_a?(Array)
+        options.first.is_a?(Hash) ? options.map{ |o| [o["display_text"], o["id"]] } : options
+      else
+        lookups.present? ? lookups.select{|l| l[:type] == options }.first.try(:[], :options) : []
+      end
+    else
+     []
+    end
+  end
 end

@@ -146,7 +146,7 @@ module RecordActions
     @record = make_new_record
     # TODO: make the ERB templates use @record
     instance_variable_set("@#{model_class.name.underscore}", @record)
-    @form_sections = @record.class.allowed_formsections(current_user, @record.module, lookups: @lookups)
+    @form_sections = @record.class.allowed_formsections(current_user, @record.module)
 
     respond_to do |format|
       format.html
@@ -373,7 +373,8 @@ module RecordActions
   # All the stuff that isn't properties that should be allowed
   def extra_permitted_parameters
     ['base_revision', 'unique_identifier', 'record_state', 'upload_bid_document', 'update_bid_document',
-     'upload_other_document', 'update_other_document', 'upload_bia_document', 'update_bia_document']
+     'upload_other_document', 'upload_supporting_material', 'update_other_document', 'upload_bia_document',
+     'update_bia_document', 'update_supporting_material']
   end
 
   def permitted_property_keys(record, user = current_user, read_only_user = false)
