@@ -85,9 +85,6 @@ describe("<RecordForm /> - Action Creators", () => {
 
     expect(dispatch.getCall(0).returnValue).to.eql({
       api: {
-        db: {
-          collection: "options"
-        },
         params: {
           page: 1,
           per: 999
