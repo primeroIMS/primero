@@ -18,7 +18,8 @@ import {
 } from "../../../application";
 import { fetchRoles } from "../roles-list";
 import { getRecords } from "../../../index-table";
-import { getFormsByParentForm } from "../../../record-form";
+import { getAssignableForms } from "../../../record-form";
+import bindFormSubmit from "../../../../libs/submit-form";
 
 import {
   form,
@@ -29,7 +30,7 @@ import {
   formSectionsForm
 } from "./form";
 import { fetchRole, clearSelectedRole, saveRole } from "./action-creators";
-import { getRole, getServerErrors } from "./selectors";
+import { getRole, getServerErrors, getSavingRecord } from "./selectors";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -45,13 +46,18 @@ const Container = ({ mode }) => {
   const role = useSelector(state => getRole(state), compare);
   const agencies = useSelector(state => selectAgencies(state), compare);
   const formErrors = useSelector(state => getServerErrors(state), compare);
+  const saving = useSelector(state => getSavingRecord(state));
   const systemPermissions = useSelector(
     state => getSystemPermissions(state),
     compare
   );
-  const formSections = useSelector(
-    state => getFormsByParentForm(state),
+  const assignableForms = useSelector(
+    state => getAssignableForms(state),
     compare
+  );
+
+  const formsByParentForm = assignableForms.groupBy(assignableForm =>
+    assignableForm.get("parent_form")
   );
 
   const validationSchema = validations(formMode, i18n);
@@ -74,6 +80,30 @@ const Container = ({ mode }) => {
     return { ...data, form_section_unique_ids: formSectionUniqueIds };
   };
 
+  const groupSelectedIdsByParentForm = data => {
+    const formSectionUniqueIds = data.get("form_section_unique_ids");
+
+    if (formSectionUniqueIds?.size && assignableForms?.size) {
+      const selectedFormsByParentForm = assignableForms
+        .filter(assignableForm =>
+          formSectionUniqueIds.includes(assignableForm.get("unique_id"))
+        )
+        .groupBy(assignableForm => assignableForm.get("parent_form"));
+
+      const selectedUniqueIdsByParentForm = selectedFormsByParentForm.mapEntries(
+        ([parentForm, formSections]) =>
+          fromJS([
+            parentForm,
+            formSections.valueSeq().map(fs => fs.get("unique_id"))
+          ])
+      );
+
+      return data.set("form_section_unique_ids", selectedUniqueIdsByParentForm);
+    }
+
+    return data;
+  };
+
   const handleSubmit = data => {
     dispatch(
       saveRole({
@@ -85,10 +115,6 @@ const Container = ({ mode }) => {
         )
       })
     );
-  };
-
-  const bindFormSubmit = () => {
-    formRef.current.submitForm();
   };
 
   const handleEdit = () => {
@@ -125,8 +151,9 @@ const Container = ({ mode }) => {
         text={i18n.t("buttons.cancel")}
       />
       <FormAction
-        actionHandler={bindFormSubmit}
+        actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
+        savingRecord={saving}
       />
     </>
   );
@@ -165,7 +192,7 @@ const Container = ({ mode }) => {
         i18n,
         formMode
       ),
-      formSectionsForm(formSections, i18n, formMode)
+      formSectionsForm(formsByParentForm, i18n, formMode)
     ].flat()
   );
 
@@ -186,7 +213,9 @@ const Container = ({ mode }) => {
           onSubmit={handleSubmit}
           ref={formRef}
           validations={validationSchema}
-          initialValues={mergeFormSections(role.toJS())}
+          initialValues={groupSelectedIdsByParentForm(
+            role.filter(v => Boolean(v))
+          ).toJS()}
           formErrors={formErrors}
         />
       </PageContent>

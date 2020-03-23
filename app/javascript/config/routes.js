@@ -257,6 +257,22 @@ export default [
               }
             },
             {
+              path: `${ROUTES.admin_roles}/:id/edit`,
+              component: RolesForm,
+              resources: RESOURCES.roles,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.admin_roles}/:id`,
+              component: RolesForm,
+              resources: RESOURCES.roles,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
               path: ROUTES.admin_roles,
               component: RolesList,
               resources: RESOURCES.roles

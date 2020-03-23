@@ -25,7 +25,7 @@ describe("<RecordForm /> - index", () => {
       "getSelectedForm",
       "reducers",
       "setSelectedForm",
-      "getFormsByParentForm",
+      "getAssignableForms",
       "fetchLookups",
       "getLookups"
     ].forEach(property => {

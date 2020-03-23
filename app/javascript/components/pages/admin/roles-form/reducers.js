@@ -23,6 +23,10 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state
         .set("errors", true)
         .set("serverErrors", fromJS(payload.errors));
+    case actions.SAVE_ROLE_STARTED:
+      return state.set("saving", true);
+    case actions.SAVE_ROLE_FINISHED:
+      return state.set("saving", false);
     case actions.CLEAR_SELECTED_ROLE:
       return state
         .set("selectedRole", fromJS({}))

@@ -1013,6 +1013,9 @@ en:
     role_ids_label: "Others roles managed by this role"
     agency_ids_label: "Agencies managed by this role"
     manager: "Manager"
+    messages:
+      created: "Role was successfully created."
+      updated: "Role was successfully updated."
 
   agencies:
     logo: 'Logo'

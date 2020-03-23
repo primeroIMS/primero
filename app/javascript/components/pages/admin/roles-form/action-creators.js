@@ -32,7 +32,11 @@ export const saveRole = ({ id, body, saveMethod, message }) => {
           }
         },
         redirectWithIdFromResponse: saveMethod !== "update",
-        redirect: `/admin/${RECORD_PATH.roles}`
+        redirect: `/admin/${
+          saveMethod === "update"
+            ? `${RECORD_PATH.roles}/${id}`
+            : RECORD_PATH.roles
+        }`
       }
     }
   };
