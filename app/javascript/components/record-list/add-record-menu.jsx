@@ -7,24 +7,18 @@ import AddIcon from "@material-ui/icons/Add";
 import { push } from "connected-react-router";
 
 import { useI18n } from "../i18n";
-import { useApp } from "../application";
-import { getUserModules } from "../user/selectors";
+import { selectUserModules } from "../application/selectors";
 
 const AddRecordMenu = ({ recordType }) => {
-  const { modules } = useApp();
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
-  const userModule = useSelector(state => getUserModules(state));
-
-  const modulesByUserModules = modules.filter(module =>
-    userModule.includes(module.unique_id)
-  );
+  const userModules = useSelector(state => selectUserModules(state));
 
   const handleClick = event => {
-    const { unique_id: uniqueId } = modulesByUserModules.first();
+    const { unique_id: uniqueId } = userModules.first();
 
-    if (modulesByUserModules.size === 1) {
+    if (userModules.size === 1) {
       dispatch(push(`/${recordType}/${uniqueId}/new`));
     } else {
       setAnchorEl(event.currentTarget);
@@ -46,7 +40,7 @@ const AddRecordMenu = ({ recordType }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {modulesByUserModules.map(m => (
+        {userModules.map(m => (
           <MenuItem
             key={m.unique_id}
             component={Link}
