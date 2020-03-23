@@ -35,10 +35,11 @@ export default function StackedPercentageBar({ percentages, className }) {
           percentages.map((percentageDescriptor, i) => {
             let percentage = percentageDescriptor.percentage * 100;
 
+
             return (
               <div className={css.StackedPercentageBarLabelContainer} style={{ width: percentage > 0 ? percentage + "%" : 'auto' }}>
                 <div>
-                  <h1 className={css.StackedPercentageBarLabelPercentage}>{percentage + '%'}</h1>
+                  <h1 className={css.StackedPercentageBarLabelPercentage}>{percentage.toFixed(0) + '%'}</h1>
                 </div>
                 <div className={css.StackedPercentageBarLabel}>{percentageDescriptor.label}</div>
               </div>

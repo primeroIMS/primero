@@ -2511,6 +2511,9 @@ en:
     completed_case_safety_plan:
       title: "Completed Case Safety Plans"
       completed: "Completed Case Safety Plan"
+    completed_case_action_plan:
+      title: "Completed Case Action Plans"
+      completed: "Completed Case Action Plan"
 
   reports:
     register_new_report: "Create Report"

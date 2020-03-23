@@ -26,6 +26,7 @@ function CompletedCaseSafetyPlan({ fetchCompletedCaseSafetyPlans, completedCaseS
   useEffect(() => {
     fetchCompletedCaseSafetyPlans(currentDateRange);
   }, [currentDateRange]);
+
   return (
     <OptionsBox
       title={i18n.t('key_performance_indicators.completed_case_safety_plan.title')}

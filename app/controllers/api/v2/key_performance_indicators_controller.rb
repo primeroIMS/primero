@@ -115,8 +115,10 @@ module Api::V2
       number_of_cases_with_completed_assessments = search.
         facet(:completed_survivor_assessment).rows.count
 
-      @completed_percentage =
-        number_of_cases_with_completed_assessments / number_of_cases.to_f
+      @completed_percentage = nan_safe_divide(
+        number_of_cases_with_completed_assessments,
+        number_of_cases
+      )
     end
     
     def completed_case_safety_plans
@@ -132,11 +134,28 @@ module Api::V2
       with_completed_safety_plans = search.
         facet(:completed_safety_plan).rows.count
 
-      @completed_percentage =
-        with_completed_safety_plans / requiring_safety_plan.to_f
+      @completed_percentage = nan_safe_divide(
+        with_completed_safety_plans,
+        requiring_safety_plan
+      )
     end
 
     def completed_case_action_plans
+      search = Child.search do
+        with :status, Record::STATUS_OPEN
+        with :created_at, from..to
+
+        facet :completed_action_plan, only: true
+      end
+
+      active_cases = search.total
+      with_completed_action_plans = search.
+        facet(:completed_action_plan).rows.count
+
+      @completed_percentage = nan_safe_divide(
+        with_completed_action_plans,
+        active_cases
+      )
     end
 
     def completed_supervisor_approved_case_action_plans
@@ -154,6 +173,14 @@ module Api::V2
 
     def to
       params[:to]
+    end
+
+    # This handles cases where 0% of something exists as in normal
+    # ruby floating point math that is 0 / total which is Float::NaN
+    # where we are looking for 0.
+    def nan_safe_divide(numerator, denominator)
+      return 0 if numerator == 0
+      numerator / denominator.to_f
     end
   end
 end
