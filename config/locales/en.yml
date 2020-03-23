@@ -164,6 +164,7 @@ en:
       users: "Users"
       user_groups: "User Groups"
       forms: "Form"
+      lookups: "Lookups"
       locations: "Locations"
       audit_logs: "Audit Logs"
       contact_information: "Contact Information"

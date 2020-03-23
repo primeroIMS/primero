@@ -42,8 +42,7 @@ describe("User - Action Creators", () => {
       type: "forms/SET_OPTIONS",
       api: {
         path: "lookups",
-        params: { page: 1, per: 999 },
-        db: { collection: "options" }
+        params: { page: 1, per: 999 }
       }
     },
     {
