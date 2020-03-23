@@ -115,11 +115,13 @@ class Child < CouchRest::Model::Base
   def self.quicksearch_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
     # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
+    # The fields oscar_number and mosvy_number are hacked in only because of Cambodia
     [
       'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
       'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no',
       'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no', 'biometrics_id',
-      'family_count_no', 'dss_id', 'camp_id', 'tent_number', 'nfi_distribution_id'
+      'family_count_no', 'dss_id', 'camp_id', 'tent_number', 'nfi_distribution_id',
+      'oscar_number', 'mosvy_number'
     ]
   end
 
@@ -159,6 +161,8 @@ class Child < CouchRest::Model::Base
     boolean :consent_for_services
 
     time :service_due_dates, :multiple => true
+    date :transitions_created_at, :multiple => true
+    string :service_response_types, :multiple => true
 
     string :workflow_status, as: 'workflow_status_sci'
     string :workflow, as: 'workflow_sci'
@@ -422,6 +426,24 @@ class Child < CouchRest::Model::Base
         service.service_due_date
       end.compact
     end
+  end
+
+  def transitions_created_at
+    transitions_list = []
+    return transitions_list if self.transitions.blank?
+    self.transitions.each do |transition|
+      transitions_list << transition.created_at
+    end
+    transitions_list
+  end
+
+  def service_response_types
+    response_types_list = []
+    return response_types_list if self.services_section.blank?
+    self.services_section.each do |section|
+      response_types_list << section.service_response_type
+    end
+    response_types_list
   end
 
   def reopen(status, reopen_status, user_name)

@@ -427,10 +427,26 @@ module RecordActions
 
   private
 
+  def permitted_properties_names
+    current_modules
+    properties = export_properties(Exporters::JSONExporter)
+    Exporters::JSONExporter.properties_to_export(properties).map(&:name)
+  end
+
+  def select_permitted_fields(record)
+    prop_names = permitted_properties_names
+    record.select do |key, value|
+      prop_names.include?(key)
+    end
+  end
+
   #Discard nil values and empty arrays.
   def format_json_response(record)
     record = record.as_couch_json.clone
-    if params[:mobile].present?
+
+    record = select_permitted_fields(record)
+
+    if params[:mobile].present? || is_remote_request?
       record.each do |field_key, value|
         if value.kind_of? Array
           if value.size == 0
@@ -469,7 +485,7 @@ module RecordActions
 
     reindex_hash record_params
     @record_filtered_params = filter_params(@record)
-    merge_append_only_subforms(@record) if has_mobile_param?
+    merge_append_only_subforms(@record) if has_mobile_param? || is_remote_request?
     update_record_with_attachments(@record)
   end
 
@@ -490,6 +506,10 @@ module RecordActions
 
   def has_mobile_param?
     params[:mobile].present? && params[:mobile] == 'true'
+  end
+
+  def is_remote_request?
+    [true, 'true'].include?(params[:remote])
   end
 
   protected
