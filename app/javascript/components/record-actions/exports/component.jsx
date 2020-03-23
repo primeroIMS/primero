@@ -51,7 +51,9 @@ const Component = ({
     selectedRecords?.length === records.size;
 
   const handleSubmit = values => {
-    const { format } = ALL_EXPORT_TYPES.find(e => e.id === values.export_type);
+    const { id, format } = ALL_EXPORT_TYPES.find(
+      e => e.id === values.export_type
+    );
     const fileName = formatFileName(values.custom_export_file_name, format);
     const shortIds = records
       .toJS()
@@ -68,7 +70,7 @@ const Component = ({
     );
 
     const body = {
-      export_format: format,
+      export_format: id,
       record_type: RECORD_TYPES[recordType],
       file_name: fileName,
       password: values.password
