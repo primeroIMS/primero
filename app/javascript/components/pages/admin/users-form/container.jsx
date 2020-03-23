@@ -13,10 +13,11 @@ import { ROUTES } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
 import { fetchSystemSettings } from "../../../application";
+import bindFormSubmit from "../../../../libs/submit-form";
 
 import { form, validations } from "./form";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
-import { getUser, getServerErrors } from "./selectors";
+import { getUser, getServerErrors, getSavingRecord } from "./selectors";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -28,6 +29,7 @@ const Container = ({ mode }) => {
   const user = useSelector(state => getUser(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+  const saving = useSelector(state => getSavingRecord(state));
 
   const validationSchema = validations(formMode, i18n);
 
@@ -44,10 +46,6 @@ const Container = ({ mode }) => {
         )
       })
     );
-  };
-
-  const bindFormSubmit = () => {
-    formRef.current.submitForm();
   };
 
   const handleEdit = () => {
@@ -82,8 +80,9 @@ const Container = ({ mode }) => {
         text={i18n.t("buttons.cancel")}
       />
       <FormAction
-        actionHandler={bindFormSubmit}
+        actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
+        savingRecord={saving}
       />
     </>
   );

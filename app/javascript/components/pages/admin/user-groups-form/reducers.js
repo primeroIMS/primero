@@ -28,6 +28,10 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         .set("selectedUserGroup", fromJS({}))
         .set("errors", false)
         .set("serverErrors", fromJS([]));
+    case actions.SAVE_USER_GROUP_STARTED:
+      return state.set("saving", true);
+    case actions.SAVE_USER_GROUP_FINISHED:
+      return state.set("saving", false);
     default:
       return state;
   }

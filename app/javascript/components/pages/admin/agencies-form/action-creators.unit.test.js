@@ -56,7 +56,7 @@ describe("<AgenciesForm /> - Action Creators", () => {
             }
           },
           redirectWithIdFromResponse: false,
-          redirect: `/admin/${RECORD_PATH.agencies}`
+          redirect: `/admin/${RECORD_PATH.agencies}/10`
         }
       }
     };

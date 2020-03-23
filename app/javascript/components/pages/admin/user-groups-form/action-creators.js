@@ -32,7 +32,11 @@ export const saveUserGroup = ({ id, body, saveMethod, message }) => {
           }
         },
         redirectWithIdFromResponse: saveMethod !== "update",
-        redirect: `/admin/${RECORD_PATH.user_groups}`
+        redirect: `/admin/${
+          saveMethod === "update"
+            ? `${RECORD_PATH.user_groups}/${id}`
+            : RECORD_PATH.user_groups
+        }`
       }
     }
   };

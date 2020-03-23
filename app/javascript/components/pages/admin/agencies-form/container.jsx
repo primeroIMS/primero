@@ -12,6 +12,7 @@ import NAMESPACE from "../agencies-list/namespace";
 import { ROUTES } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
+import bindFormSubmit from "../../../../libs/submit-form";
 
 import { localizeData, translateFields } from "./helpers";
 import { NAME } from "./constants";
@@ -21,7 +22,7 @@ import {
   clearSelectedAgency,
   saveAgency
 } from "./action-creators";
-import { getAgency, getServerErrors } from "./selectors";
+import { getAgency, getServerErrors, getSavingRecord } from "./selectors";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -37,6 +38,8 @@ const Container = ({ mode }) => {
   const validationSchema = validations(formMode, i18n);
 
   const canEditAgencies = usePermissions(NAMESPACE, WRITE_RECORDS);
+
+  const saving = useSelector(state => getSavingRecord(state));
 
   const handleSubmit = data => {
     const localizedData = localizeData(data, ["name", "description"], i18n);
@@ -58,10 +61,6 @@ const Container = ({ mode }) => {
         )
       })
     );
-  };
-
-  const bindFormSubmit = () => {
-    formRef.current.submitForm();
   };
 
   const handleEdit = () => {
@@ -92,8 +91,9 @@ const Container = ({ mode }) => {
         text={i18n.t("buttons.cancel")}
       />
       <FormAction
-        actionHandler={bindFormSubmit}
+        actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
+        savingRecord={saving}
       />
     </>
   );

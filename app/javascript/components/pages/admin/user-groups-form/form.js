@@ -5,7 +5,7 @@ import { FieldRecord, FormSectionRecord, TEXT_FIELD } from "../../../form";
 
 export const validations = (formMode, i18n) =>
   yup.object().shape({
-    description: yup.string(),
+    description: yup.string().nullable(),
     name: yup.string().required()
   });
 

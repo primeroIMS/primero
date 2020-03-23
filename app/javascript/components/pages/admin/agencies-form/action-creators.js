@@ -32,7 +32,11 @@ export const saveAgency = ({ id, body, saveMethod, message }) => {
           }
         },
         redirectWithIdFromResponse: saveMethod !== "update",
-        redirect: `/admin/${RECORD_PATH.agencies}`
+        redirect: `/admin/${
+          saveMethod === "update"
+            ? `${RECORD_PATH.agencies}/${id}`
+            : RECORD_PATH.agencies
+        }`
       }
     }
   };

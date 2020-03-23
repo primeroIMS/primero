@@ -28,6 +28,10 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         .set("selectedAgency", fromJS({}))
         .set("errors", false)
         .set("serverErrors", fromJS([]));
+    case actions.SAVE_AGENCY_STARTED:
+      return state.set("saving", true);
+    case actions.SAVE_AGENCY_FINISHED:
+      return state.set("saving", false);
     default:
       return state;
   }

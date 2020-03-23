@@ -12,6 +12,7 @@ import NAMESPACE from "../user-groups-list/namespace";
 import { ROUTES } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
+import bindFormSubmit from "../../../../libs/submit-form";
 
 import { form, validations } from "./form";
 import {
@@ -19,7 +20,7 @@ import {
   clearSelectedUserGroup,
   saveUserGroup
 } from "./action-creators";
-import { getUserGroup, getServerErrors } from "./selectors";
+import { getUserGroup, getServerErrors, getSavingRecord } from "./selectors";
 import { NAME } from "./constants";
 
 const Container = ({ mode }) => {
@@ -32,7 +33,7 @@ const Container = ({ mode }) => {
   const userGroup = useSelector(state => getUserGroup(state));
   const formErrors = useSelector(state => getServerErrors(state));
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-
+  const saving = useSelector(state => getSavingRecord(state));
   const validationSchema = validations(formMode, i18n);
 
   const cantEditUserGroup = usePermissions(NAMESPACE, WRITE_RECORDS);
@@ -50,10 +51,6 @@ const Container = ({ mode }) => {
         )
       })
     );
-  };
-
-  const bindFormSubmit = () => {
-    formRef.current.submitForm();
   };
 
   const handleEdit = () => {
@@ -85,8 +82,9 @@ const Container = ({ mode }) => {
           text={i18n.t("buttons.cancel")}
         />
         <FormAction
-          actionHandler={bindFormSubmit}
+          actionHandler={() => bindFormSubmit(formRef)}
           text={i18n.t("buttons.save")}
+          savingRecord={saving}
         />
       </>
     ) : null;
