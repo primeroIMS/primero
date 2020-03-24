@@ -14,7 +14,6 @@ import { LIST_HEADERS, NAME } from "./constants";
 
 const Container = () => {
   const i18n = useI18n();
-  const recordType = "roles";
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
@@ -22,7 +21,7 @@ const Container = () => {
   }));
 
   const tableOptions = {
-    recordType,
+    recordType: ["admin", "roles"],
     columns: List(columns),
     options: {
       selectableRows: "none"
@@ -31,7 +30,8 @@ const Container = () => {
       per: 20,
       page: 1
     }),
-    onTableChange: fetchRoles
+    onTableChange: fetchRoles,
+    targetRecordType: "roles"
   };
 
   return (

@@ -40,9 +40,13 @@ const Container = ({ mode }) => {
   const { pathname } = useLocation();
   const { id } = useParams();
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+  // TODO: Reuse comparator function
   const compare = (prev, next) => prev.equals(next);
   const primeroModules = useSelector(state => selectModules(state), compare);
-  const roles = useSelector(state => getRecords(state, "roles"), compare);
+  const roles = useSelector(
+    state => getRecords(state, ["admin", "roles"]),
+    compare
+  );
   const role = useSelector(state => getRole(state), compare);
   const agencies = useSelector(state => selectAgencies(state), compare);
   const formErrors = useSelector(state => getServerErrors(state), compare);

@@ -37,10 +37,12 @@ const Component = ({
   const dispatch = useDispatch();
   const i18n = useI18n();
   const [sortOrder, setSortOrder] = useState();
-  const data = useSelector(state => getRecords(state, recordType));
+  // TODO: Reuse comparator function
+  const compare = (prev, next) => prev.equals(next)
+  const data = useSelector(state => getRecords(state, recordType), compare);
   const loading = useSelector(state => getLoading(state, recordType));
   const errors = useSelector(state => getErrors(state, recordType));
-  const filters = useSelector(state => getFilters(state, recordType));
+  const filters = useSelector(state => getFilters(state, recordType), compare);
 
   const { order, order_by: orderBy } = filters || {};
   const records = data.get("data");
@@ -55,9 +57,9 @@ const Component = ({
   ].includes(recordType);
   let translatedRecords = [];
 
-  const allFields = useSelector(state => getFields(state));
-  const allLookups = useSelector(state => getOptions(state));
-  const allAgencies = useSelector(state => selectAgencies(state));
+  const allFields = useSelector(state => getFields(state), compare);
+  const allLookups = useSelector(state => getOptions(state), compare);
+  const allAgencies = useSelector(state => selectAgencies(state), compare);
 
   let componentColumns =
     typeof columns === "function" ? columns(data) : columns;
@@ -286,7 +288,7 @@ const Component = ({
   const loadingIndicatorProps = {
     overlay: true,
     hasData: Boolean(records?.size),
-    type: recordType,
+    type: targetRecordType || recordType,
     loading,
     errors,
     fromTableList: true

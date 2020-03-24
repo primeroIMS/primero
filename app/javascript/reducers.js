@@ -67,7 +67,6 @@ const rootReducer = {
       ...TaskList.reducers,
       users: reduceReducers(UsersList.reducers, UsersForm.reducers),
       agencies: reduceReducers(AgenciesList.reducers, AgenciesForm.reducers),
-      roles: reduceReducers(RolesList.reducers, RolesForm.reducers),
       user_groups: reduceReducers(
         UserGroupsList.reducers,
         UserGroupsForm.reducers
@@ -78,7 +77,8 @@ const rootReducer = {
       ...Flagging.reducers,
       ...SavedSearches.reducers,
       admin: combineReducers({
-        lookups: reduceReducers(AdminLookupsList.reducers)
+        lookups: reduceReducers(AdminLookupsList.reducers),
+        roles: reduceReducers(RolesList.reducers, RolesForm.reducers)
       })
     }),
     transferApprovalReducers,
