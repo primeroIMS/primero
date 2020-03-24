@@ -37,6 +37,7 @@ import { reducer as transferApprovalReducers } from "./components/transitions/tr
 import { reducer as revokeTransitionReducers } from "./components/transitions/components/revoke-modal";
 import { reducers as referralActionReducers } from "./components/transitions/referrals/referral-action";
 import { reducers as adminFormListReducers } from "./components/pages/admin/forms/forms-list/reducers";
+import * as AdminLookupsList from "./components/pages/admin/lookups-list";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -77,7 +78,8 @@ const rootReducer = {
       ...Flagging.reducers,
       ...SavedSearches.reducers,
       admin: combineReducers({
-        ...adminFormListReducers
+        ...adminFormListReducers,
+        lookups: reduceReducers(AdminLookupsList.reducers)
       })
     }),
     transferApprovalReducers,
