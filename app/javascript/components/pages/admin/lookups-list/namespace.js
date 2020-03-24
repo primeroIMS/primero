@@ -1,1 +1,1 @@
-export default "lookups";
+export default "admin/lookups";
