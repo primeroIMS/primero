@@ -75,7 +75,10 @@ const rootReducer = {
       ...ExportList.reducers,
       support: reduceReducers(ContactInformation.reducers, Support.reducers),
       ...Flagging.reducers,
-      ...SavedSearches.reducers
+      ...SavedSearches.reducers,
+      admin: combineReducers({
+        ...adminFormListReducers
+      })
     }),
     transferApprovalReducers,
     revokeTransitionReducers
@@ -85,9 +88,6 @@ const rootReducer = {
     ...I18n.reducers,
     ...loginReducers,
     ...recordActionsReducers
-  }),
-  admin: combineReducers({
-    ...adminFormListReducers
   }),
   ...User.reducers,
   ...RecordForms.reducers,

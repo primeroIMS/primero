@@ -1,65 +1,49 @@
-/* eslint-disable react/display-name */
-/* eslint-disable react/no-multi-comp */
-import React, { useEffect } from "react";
-import {
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails
-} from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { makeStyles } from "@material-ui/core";
 
 import { useI18n } from "../../../../i18n";
+import { useApp } from "../../../../application";
+import { PageHeading, PageContent } from "../../../../page";
 
+import FormGroup from "./components/form-group";
+import FormSection from "./components/form-section";
 import { fetchForms } from "./action-creators";
 import { getFormSections } from "./selectors";
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-  userSelect: "none",
-  background: isDragging ? "lightgreen" : "grey",
-  ...draggableStyle
-});
-
-const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey"
-});
-
-const DraggableFormSection = ({ name, id, index, children }) => {
-  return (
-    <Draggable draggableId={id} index={index}>
-      {(provided, snapshot) => (
-        <div
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          style={getItemStyle(
-            snapshot.isDragging,
-            provided.draggableProps.style
-          )}
-        >
-          <ExpansionPanel>
-            <ExpansionPanelSummary>{name}</ExpansionPanelSummary>
-            <ExpansionPanelDetails>{children}</ExpansionPanelDetails>
-          </ExpansionPanel>
-        </div>
-      )}
-    </Draggable>
-  );
-};
+import { getListStyle, getItemStyle } from "./utils";
+import FormFilters from "./components/form-filters";
+import styles from "./styles.css";
 
 const Component = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const formSectionsByGroup = useSelector(state => getFormSections(state));
+  const css = makeStyles(styles)();
+  const defaultFilterValues = {
+    recordType: "case",
+    primeroModule: "primeromodule-cp"
+  };
+  const [filterValues, setFilterValues] = useState(defaultFilterValues);
+  const formSectionsByGroup = useSelector(state =>
+    getFormSections(state, filterValues)
+  );
+  const { modules } = useApp();
+
+  const handleSetFilterValue = (name, value) => {
+    setFilterValues({ ...filterValues, ...{ [name]: value } });
+  };
+
+  const handleClearValue = () => {
+    setFilterValues(defaultFilterValues);
+  };
 
   useEffect(() => {
     dispatch(fetchForms());
   }, []);
 
+  // TODO: Handle sorting logic once endpoint available.
   const handleDragEnd = result => {
-    if (!result.destination) return;
-
-    // handleRecorder, send payload to api
+    console.log(result);
   };
 
   const renderFormSections = () =>
@@ -67,36 +51,49 @@ const Component = () => {
       const { name, form_group_id: formGroupID } = group.first() || {};
 
       return (
-        <DraggableFormSection
+        <FormGroup
           name={i18n.getI18nStringFromObject(name)}
           index={index}
           key={formGroupID}
           id={formGroupID}
         >
-          {group.map(formSections => {
-            return <div>i18n.getI18nStringFromObject(formSections.name)</div>
-          })}
-          </DraggableFormSection>
+          <FormSection group={group} collection={formGroupID} />
+        </FormGroup>
       );
     });
 
-  // snapshot.isDraggingOver container styles
-  // snapshot.isDragging form item
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <Droppable dropableId>
-        {(provided, snapshot) => (
-          <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            style={getListStyle(snapshot.isDraggingOver)}
-          >
-            {renderFormSections()}
-            {provided.placeholder}
+    <>
+      <PageHeading title={i18n.t("forms.label")} />
+      <PageContent>
+        <div className={css.indexContainer}>
+          <div className={css.forms}>
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <Droppable droppableId="droppable" type="formGroup">
+                {(provided, snapshot) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    style={getListStyle(snapshot.isDraggingOver)}
+                  >
+                    {renderFormSections()}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
           </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+          <div className={css.filters}>
+            <FormFilters
+              filterValues={filterValues}
+              modules={modules}
+              handleSetFilterValue={handleSetFilterValue}
+              handleClearValue={handleClearValue}
+            />
+          </div>
+        </div>
+      </PageContent>
+    </>
   );
 };
 
