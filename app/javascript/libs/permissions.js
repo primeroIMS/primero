@@ -84,7 +84,8 @@ export const RESOURCES = {
   lookups: "lookups",
   contact_information: "contact_information",
   roles: "roles",
-  systems: "systems"
+  systems: "systems",
+  audit_logs: "audit_logs"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {

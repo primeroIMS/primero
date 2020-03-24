@@ -62,7 +62,8 @@ export const RECORD_PATH = {
   agencies: "agencies",
   roles: "roles",
   lookups: "lookups",
-  contact_information: "contact_information"
+  contact_information: "contact_information",
+  audit_logs: "audit_logs"
 };
 
 export const RECORD_OWNER = "record_owner";
@@ -106,7 +107,8 @@ export const ROUTES = {
   admin_agencies_new: "/admin/agencies/new",
   lookups: "/admin/lookups",
   admin_roles: "/admin/roles",
-  admin_roles_new: "/admin/roles/new"
+  admin_roles_new: "/admin/roles/new",
+  audit_logs: "/admin/audit_logs"
 };
 
 export const PERMITTED_URL = [
@@ -178,8 +180,7 @@ export const ADMIN_NAV = [
   },
   {
     to: "/audit_logs",
-    label: "settings.navigation.audit_logs",
-    disabled: true
+    label: "settings.navigation.audit_logs"
   },
   { to: "/matching", label: "settings.navigation.matching", disabled: true }
 ];

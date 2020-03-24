@@ -912,8 +912,8 @@ en:
       relation_telephone: "Relative's Telephone"
 
   audit_log:
-    timestamp: "Timestamp - UTC"
-    user_name: "User Name"
+    timestamp: "Time"
+    user_name: "Performed By"
     action: "Action"
     description: "Description"
     record_owner: "Record Owner"
