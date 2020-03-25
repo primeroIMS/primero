@@ -27,7 +27,9 @@ const RecordFormToolbar = ({
   shortId,
   history,
   primeroModule,
-  record
+  record,
+  referral,
+  setReferral
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -142,6 +144,8 @@ const RecordFormToolbar = ({
           recordType={params.recordType}
           record={record}
           mode={mode}
+          referral={referral}
+          setReferral={setReferral}
         />
       </Box>
     </Box>
@@ -158,6 +162,8 @@ RecordFormToolbar.propTypes = {
   primeroModule: PropTypes.string.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  referral: PropTypes.object,
+  setReferral: PropTypes.func.isRequired,
   shortId: PropTypes.string
 };
 

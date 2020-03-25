@@ -10,7 +10,6 @@ import { getPermissionsByRecord } from "../user/selectors";
 import { getFiltersValuesByRecordType } from "../index-filters/selectors";
 import {
   ACTIONS,
-  EXPORT_CUSTOM,
   ENABLE_DISABLE_RECORD,
   ADD_NOTE,
   ADD_INCIDENT,
@@ -51,7 +50,9 @@ const Container = ({
   record,
   mode,
   showListActions,
-  selectedRecords
+  selectedRecords,
+  referral,
+  setReferral
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -237,6 +238,8 @@ const Container = ({
     setTransitionType,
     recordType,
     userPermissions,
+    referral,
+    setReferral,
     referDialog,
     transferDialog,
     assignDialog,
@@ -292,7 +295,11 @@ const Container = ({
   const actions = [
     {
       name: `${i18n.t("buttons.referral")} ${formRecordType}`,
-      action: () => setReferDialog(true),
+      action: () => {
+        setReferral(null);
+        setTransitionType("referral");
+        setReferDialog(true);
+      },
       recordType,
       condition: canRefer
     },
@@ -576,7 +583,9 @@ Container.propTypes = {
   mode: PropTypes.object,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  referral: PropTypes.object,
   selectedRecords: PropTypes.array,
+  setReferral: PropTypes.func,
   showListActions: PropTypes.bool
 };
 
