@@ -35,7 +35,7 @@ class Location < ApplicationRecord
   def generate_location_files
     return if ENV['PRIMERO_BOOTSTRAP']
 
-    OptionsJob.set(wait_until: 5.minutes.from_now).perform_later unless OptionsQueueStats.jobs?
+    GenerateLocationFilesJob.set(wait_until: 5.minutes.from_now).perform_later unless OptionsQueueStats.jobs?
   end
 
   class << self
