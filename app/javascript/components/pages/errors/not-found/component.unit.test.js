@@ -1,6 +1,7 @@
 import { expect } from "chai";
 
 import { setupMountedComponent } from "../../../../test";
+import { ROUTES } from "../../../../config";
 
 import NotFound from "./component";
 
@@ -29,6 +30,6 @@ describe("<NotFound />", () => {
         .find("a")
         .first()
         .prop("href")
-    ).to.have.equal("/dashboard");
+    ).to.have.equal(ROUTES.dashboard);
   });
 });
