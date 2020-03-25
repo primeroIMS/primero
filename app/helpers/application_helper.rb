@@ -18,7 +18,7 @@ module ApplicationHelper
   end
 
   def available_locations
-    locationFile = Dir.glob("#{GenerateLocationFilesService.parent_dir}/options/*").first
+    locationFile = Dir.glob("#{GenerateLocationFilesService.options_parent_dir}/options/*").first
 
     return [] unless locationFile.present?
 

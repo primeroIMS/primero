@@ -5,10 +5,26 @@ class GenerateLocationFilesService
       write_files
     end
 
+    def options_parent_dir
+      use_app_share_dir? ? ENV['APP_SHARE_DIR'] : public_dir
+    end
+
     private
 
+    def public_dir
+      "#{Rails.root}/public"
+    end
+
+    def app_share_dir
+      ENV['APP_SHARE_DIR']
+    end
+
+    def use_app_share_dir?
+      Rails.env.production? && app_share_dir.present?
+    end
+
     def output_dir
-      dir_path = "#{Rails.root}/public/options"
+      dir_path = "#{public_dir}/options"
       { root: dir_path, locationsFile: "#{dir_path}/locations.json"}
     end
 
@@ -28,9 +44,7 @@ class GenerateLocationFilesService
     end
 
     def copy_to_production_dir
-      app_share_dir = ENV['APP_SHARE_DIR']
-
-      if Rails.env.production? && app_share_dir.present?
+      if use_app_share_dir?
         FileUtils.cp_r("#{output_dir[:root]}/.", "#{app_share_dir}/options")
       end
     end
