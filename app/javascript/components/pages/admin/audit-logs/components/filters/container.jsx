@@ -1,14 +1,18 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useForm, FormContext } from "react-hook-form";
 
 import { filterType } from "../../../../../index-filters/utils";
 import { FILTER_TYPES } from "../../../../../index-filters";
 import { currentUser } from "../../../../../user";
+import { fetchAuditLogs } from "../../action-creators";
+import Actions from "../../../../../index-filters/components/actions";
 
-import { NAME } from "./constants";
+import { NAME, USER_NAME, TIMESTAMP } from "./constants";
 
-const Component = () => {
+const Container = () => {
+  const methods = useForm();
+  const dispatch = useDispatch();
   const userName = useSelector(state => currentUser(state));
 
   // TODO: LOAD USERS FROM REDUX STORE AND CHECK MULTIPLE PROPERTY
@@ -19,12 +23,12 @@ const Component = () => {
       type: FILTER_TYPES.DATES,
       option_strings_source: null,
       options: {
-        en: [{ id: "timestamp", display_name: "Timestamp" }]
+        en: [{ id: TIMESTAMP, display_name: "Timestamp" }]
       }
     },
     {
       name: "audit_log.user_name",
-      field_name: "status",
+      field_name: USER_NAME,
       option_strings_source: null,
       options: [
         { id: "primero", display_name: "primero" },
@@ -49,13 +53,18 @@ const Component = () => {
         { id: "primero_cp", display_name: "primero_cp" },
         { id: "gpadgett", display_name: "gpadgett" }
       ],
-      type: FILTER_TYPES.MULTI_SELECT
+      type: FILTER_TYPES.MULTI_SELECT,
+      multiple: false
     }
   ];
 
-  const methods = useForm({
-    defaultValues: {}
-  });
+  console.log(methods);
+  const onSubmit = data => dispatch(fetchAuditLogs(data));
+
+  const onClear = () => {
+    methods.setValue(USER_NAME, {});
+    methods.setValue(TIMESTAMP, undefined);
+  };
 
   const renderFilters = () => {
     return filters.map(filter => {
@@ -63,21 +72,30 @@ const Component = () => {
 
       if (!Filter) return null;
 
-      return <Filter key={filter.field_name} filter={filter} />;
+      return (
+        <Filter
+          key={filter.field_name}
+          filter={filter}
+          multiple={filter.multiple}
+        />
+      );
     });
   };
 
   return (
     <div>
       <FormContext {...methods} user={userName}>
-        <form onSubmit={methods.handleSubmit(() => {})}>{renderFilters()}</form>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <Actions handleClear={onClear} />
+          {renderFilters()}
+        </form>
       </FormContext>
     </div>
   );
 };
 
-Component.displayName = NAME;
+Container.displayName = NAME;
 
-// Component.propTypes = {};
+// Container.propTypes = {};
 
-export default Component;
+export default Container;

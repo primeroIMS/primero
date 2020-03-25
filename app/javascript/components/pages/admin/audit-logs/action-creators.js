@@ -1,10 +1,10 @@
-/* eslint-disable import/prefer-default-export */
 import { RECORD_PATH } from "../../../../config";
+import { compactFilters } from "../../../index-filters/utils";
 
 import actions from "./actions";
 
-export const fetchAuditLogs = _params => {
-  // const { data } = params || {};
+export const fetchAuditLogs = params => {
+  console.log("TO SEND", compactFilters(params));
 
   return {
     type: actions.FETCH_AUDIT_LOGS,

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 import { fromJS } from "immutable";
@@ -72,8 +72,14 @@ const Container = () => {
         {newUserGroupBtn}
       </PageHeading>
       <PageContent>
-        <IndexTable {...tableOptions} />
-        <Filters />
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={9}>
+            <IndexTable {...tableOptions} />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <Filters />
+          </Grid>
+        </Grid>
       </PageContent>
     </>
   );

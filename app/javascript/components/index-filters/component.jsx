@@ -51,8 +51,6 @@ const Component = ({ recordType, defaultFilters }) => {
     getFiltersByRecordType(state, recordType)
   );
 
-  console.log(filters);
-
   const userName = useSelector(state => currentUser(state));
 
   const allPrimaryFilters = filters.filter(f =>
