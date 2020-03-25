@@ -10,7 +10,7 @@ export const getAgenciesWithService = (state, service) =>
     agency.get("services", fromJS([])).includes(service)
   );
 
-export const selectModules = state => state.getIn([NAMESPACE, "modules"], []);
+export const selectModules = state => state.getIn([NAMESPACE, "modules"], fromJS([]));
 
 export const selectLocales = state => state.getIn([NAMESPACE, "locales"], []);
 
