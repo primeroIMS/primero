@@ -34,7 +34,7 @@ describe("<RecordForm /> - Reducers", () => {
       formSections: OrderedMap({}),
       fields: OrderedMap({}),
       options: {
-        lookups: { data: [lookup] }
+        lookups: [lookup]
       }
     });
     const action = {
