@@ -289,7 +289,7 @@ const Component = ({
   const loadingIndicatorProps = {
     overlay: true,
     hasData: !dataIsLoading && Boolean(records?.size),
-    type: recordType,
+    type: targetRecordType || recordType,
     loading: dataIsLoading,
     errors,
     fromTableList: true
