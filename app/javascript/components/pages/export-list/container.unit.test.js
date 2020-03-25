@@ -6,6 +6,8 @@ import IndexTable from "../../index-table";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 import { ListHeaderRecord } from "../../user/records";
 import { setupMountedComponent } from "../../../test";
+import { FieldRecord } from "../../record-form";
+import { mapEntriesToRecord } from "../../../libs";
 
 import ExportRecord from "./records";
 import ExportList from "./container";
@@ -67,6 +69,29 @@ describe("<ExportList />", () => {
       permissions: {
         exports: ["manage"],
         bulk_exports: ["manage"]
+      }
+    },
+    forms: {
+      fields: mapEntriesToRecord(
+        {
+          1: {
+            name: "name_first",
+            type: "text_field"
+          }
+        },
+        FieldRecord
+      ),
+      options: {
+        lookups: [
+          {
+            id: 1,
+            unique_id: "lookup-location-type",
+            values: [
+              { id: "country", display_text: "Country" },
+              { id: "region", display_text: "Region" }
+            ]
+          }
+        ]
       }
     }
   });
