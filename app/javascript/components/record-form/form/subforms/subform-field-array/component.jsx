@@ -68,6 +68,7 @@ const Component = ({
         title={title}
         dialogIsNew={dialogIsNew}
         i18n={i18n}
+        formik={formik}
       />
     </>
   );

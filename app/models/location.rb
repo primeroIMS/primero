@@ -184,6 +184,12 @@ class Location < ApplicationRecord
         hierarchy_path: hierarchy_path_from_parent_code(location_properties[:parent_code], location_properties[:code])
       )
     end
+
+    def reporting_locations_for_hierarchies(hierarchies)
+      admin_level = SystemSettings.current&.reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      Location.where('hierarchy_path @> ARRAY[:ltrees]::ltree[]', ltrees: hierarchies.compact.uniq)
+              .where(admin_level: admin_level)
+    end
   end
 
   def generate_hierarchy_placenames(locales)
