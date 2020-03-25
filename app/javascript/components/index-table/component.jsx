@@ -12,7 +12,7 @@ import { List, fromJS } from "immutable";
 import { dataToJS } from "../../libs";
 import { LoadingIndicator } from "../loading-indicator";
 import { getFields } from "../record-list/selectors";
-import { getOptions } from "../record-form/selectors";
+import { getOptions, getLoadingState } from "../record-form/selectors";
 import { selectAgencies } from "../application/selectors";
 import { useI18n } from "../i18n";
 import { STRING_SOURCES_TYPES, RECORD_PATH } from "../../config";
@@ -136,13 +136,19 @@ const Component = ({
 
   if (localizedFields && records) {
     translatedRecords = records.map(current => {
-      const translatedFields = localizedFields.reduce(
-        (acc, field) =>
-          acc.merge({
-            [field]: current.getIn([field, i18n.locale], fromJS({}))
-          }),
-        fromJS({})
-      );
+      const translatedFields = localizedFields.reduce((acc, field) => {
+        const translatedValue = current.getIn([field, i18n.locale], fromJS({}));
+
+        return acc.merge({
+          [field]:
+            field === "values"
+              ? current
+                  .get(field)
+                  .map(value => value.getIn(["display_text", i18n.locale], ""))
+                  .join(", ")
+              : translatedValue
+        });
+      }, fromJS({}));
 
       return current.merge(translatedFields);
     });
@@ -277,11 +283,14 @@ const Component = ({
     data: dataWithAlertsColumn
   };
 
+  const formsAreLoading = useSelector(state => getLoadingState(state));
+  const dataIsLoading = loading || formsAreLoading || !allLookups.size > 0;
+
   const loadingIndicatorProps = {
     overlay: true,
-    hasData: Boolean(records?.size),
+    hasData: !dataIsLoading && Boolean(records?.size),
     type: recordType,
-    loading,
+    loading: dataIsLoading,
     errors,
     fromTableList: true
   };
@@ -309,7 +318,7 @@ Component.propTypes = {
   onRowClick: PropTypes.func,
   onTableChange: PropTypes.func.isRequired,
   options: PropTypes.object,
-  recordType: PropTypes.string.isRequired,
+  recordType: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   selectedRecords: PropTypes.arrayOf(PropTypes.number),
   setSelectedRecords: PropTypes.func,
   targetRecordType: PropTypes.string

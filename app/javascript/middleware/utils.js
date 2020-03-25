@@ -56,11 +56,12 @@ export const handleRestCallback = (
 };
 
 export const defaultErrorCallback = (store, response, json) => {
+  const messages = json?.errors?.map(error => error.message).join(", ");
   const errorPayload = [
     {
       action: ENQUEUE_SNACKBAR,
       payload: {
-        messageKey: "errors.api.internal_server",
+        messageKey: messages || "errors.api.internal_server",
         options: {
           variant: "error",
           key: generate.messageKey()

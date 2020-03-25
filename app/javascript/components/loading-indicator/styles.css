@@ -4,6 +4,7 @@
   flex: 1;
   height: 80%;
   align-items: center;
+  margin: 3.5em 0;
 }
 
 .overlayLoading {

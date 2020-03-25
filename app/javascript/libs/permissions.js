@@ -70,7 +70,7 @@ export const ACTIONS = {
   REFERRAL_FROM_SERVICE: "referral_from_service"
 };
 
-const MANAGE = [ACTIONS.MANAGE];
+export const MANAGE = [ACTIONS.MANAGE];
 
 export const RESOURCES = {
   cases: "cases",
@@ -82,8 +82,10 @@ export const RESOURCES = {
   users: "users",
   agencies: "agencies",
   user_groups: "user_groups",
+  lookups: "lookups",
   contact_information: "contact_information",
-  roles: "roles"
+  roles: "roles",
+  systems: "systems"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {
