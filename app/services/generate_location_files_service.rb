@@ -31,7 +31,7 @@ class GenerateLocationFilesService
       app_share_dir = ENV['APP_SHARE_DIR']
 
       if Rails.env.production? && app_share_dir.present?
-        FileUtils.cp(output_dir[:locationsFile], "#{app_share_dir}/options")
+        FileUtils.cp_r("#{output_dir[:root]}/.", "#{app_share_dir}/options")
       end
     end
 
