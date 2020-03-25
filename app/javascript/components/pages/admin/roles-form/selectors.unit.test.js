@@ -34,7 +34,7 @@ describe("<RolesForm /> - Selectors", () => {
     it("should return empty object when selected role empty", () => {
       const role = getRole(stateWithoutHeaders);
 
-      expect(role).to.deep.equal(fromJS({}));
+      expect(role).to.be.empty;
     });
   });
 
@@ -70,7 +70,7 @@ describe("<RolesForm /> - Selectors", () => {
     it("should return empty object when no server errors", () => {
       const user = getServerErrors(stateWithoutHeaders);
 
-      expect(user).to.deep.equal(fromJS([]));
+      expect(user).to.be.empty;
     });
   });
 });

@@ -2,7 +2,7 @@ AllCops:
   Exclude:
     - db/schema.rb
 
-Layout/LineLength:
+Metrics/LineLength:
   Max: 120
 
 Metrics/AbcSize:
