@@ -102,15 +102,16 @@ describe User do
         )
         role_cannot = Role.new(permissions: [permission_cannot])
         role_cannot.save(validate: false)
+        agency = Agency.new(unique_id: "fake-agency", agency_code: "fkagency")
+        agency.save(validate: false)
 
-
-        @user1 = User.new(user_name: 'user1', role: role_receive)
+        @user1 = User.new(user_name: 'user1', role: role_receive, agency: agency)
         @user1.save(validate: false)
-        @user2 = User.new(user_name: 'user2', role: role_receive, services: %w[safehouse_service])
+        @user2 = User.new(user_name: 'user2', role: role_receive, services: %w[safehouse_service], agency: agency)
         @user2.save(validate: false)
-        @user3 = User.new(user_name: 'user3', role: role_receive)
+        @user3 = User.new(user_name: 'user3', role: role_receive, agency: agency)
         @user3.save(validate: false)
-        @user4 = User.new(user_name: 'user4', role: role_cannot)
+        @user4 = User.new(user_name: 'user4', role: role_cannot, agency: agency)
         @user4.save(validate: false)
       end
 
