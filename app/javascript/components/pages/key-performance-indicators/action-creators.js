@@ -70,11 +70,12 @@ export const fetchCompletedCaseActionPlans = (dateRange) => async dispatch => {
   })
 }
 
-export const fetchCompletedSupervisorApprovedCaseActionPlans = () => async dispatch => {
+export const fetchCompletedSupervisorApprovedCaseActionPlans = (dateRange) => async dispatch => {
   dispatch({
     type: Actions.COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS,
     api: {
-      path: "key_performance_indicators/completed_supervisor_approved_case_action_plans"
+      path: "key_performance_indicators/completed_supervisor_approved_case_action_plans",
+      params: { from: dateRange.from, to: dateRange.to }
     }
   })
 }
