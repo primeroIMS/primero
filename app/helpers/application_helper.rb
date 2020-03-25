@@ -18,10 +18,12 @@ module ApplicationHelper
   end
 
   def available_locations
-    locationFile = Dir.glob("public/options/*").first
+    locationFile = Dir.glob("#{GenerateLocationFilesService.options_parent_dir}/options/*").first
 
     return [] unless locationFile.present?
 
-    locationFile.gsub(/public/, '').to_json.html_safe
+    if file = locationFile.match(/(\/options\/.*.json)$/)
+      file[0].to_json.html_safe
+    end
   end
 end

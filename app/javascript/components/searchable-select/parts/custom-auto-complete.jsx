@@ -60,7 +60,7 @@ const CustomAutoComplete = ({ props }) => {
         components={components}
         menuPosition="fixed"
         options={searchOptions}
-        defaultValue={excludeEmpty ? defaultValues : searchOptions[0]}
+        value={excludeEmpty ? defaultValues : searchOptions[0]}
         {...rest}
       />
     </NoSsr>

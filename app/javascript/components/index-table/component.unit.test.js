@@ -104,16 +104,18 @@ describe("<IndexTable />", () => {
     forms: {
       fields: mapEntriesToRecord(fields, FieldRecord),
       options: {
-        lookups: [
-          {
-            id: 1,
-            unique_id: "lookup-location-type",
-            values: [
-              { id: "country", display_text: "Country" },
-              { id: "region", display_text: "Region" }
-            ]
-          }
-        ]
+        lookups: {
+          data: [
+            {
+              id: 1,
+              unique_id: "lookup-location-type",
+              values: [
+                { id: "country", display_text: "Country" },
+                { id: "region", display_text: "Region" }
+              ]
+            }
+          ]
+        }
       }
     }
   });
