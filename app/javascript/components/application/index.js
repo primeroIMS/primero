@@ -14,5 +14,6 @@ export {
   selectLocales,
   selectUserIdle,
   selectUserModules,
-  getSystemPermissions
+  getSystemPermissions,
+  getResourceActions
 } from "./selectors";

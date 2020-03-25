@@ -45,7 +45,7 @@ describe("<RolesForm />", () => {
   });
 
   it("renders role form", () => {
-    expect(component.find("form")).to.have.length(1);
+    expect(component.find("form")).to.have.lengthOf(1);
   });
 
   it("renders heading with action buttons", () => {

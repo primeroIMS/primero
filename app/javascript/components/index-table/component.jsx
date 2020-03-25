@@ -9,7 +9,7 @@ import isEmpty from "lodash/isEmpty";
 import startsWith from "lodash/startsWith";
 import { List, fromJS } from "immutable";
 
-import { dataToJS } from "../../libs";
+import { dataToJS, compare} from "../../libs";
 import { LoadingIndicator } from "../loading-indicator";
 import { getFields } from "../record-list/selectors";
 import { getOptions } from "../record-form/selectors";
@@ -37,8 +37,6 @@ const Component = ({
   const dispatch = useDispatch();
   const i18n = useI18n();
   const [sortOrder, setSortOrder] = useState();
-  // TODO: Reuse comparator function
-  const compare = (prev, next) => prev.equals(next)
   const data = useSelector(state => getRecords(state, recordType), compare);
   const loading = useSelector(state => getLoading(state, recordType));
   const errors = useSelector(state => getErrors(state, recordType));

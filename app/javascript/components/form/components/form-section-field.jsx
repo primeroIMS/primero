@@ -9,11 +9,13 @@ import { getLocations, getOption } from "../../record-form";
 import TextInput from "../fields/text-input";
 import SwitchInput from "../fields/switch-input";
 import SelectInput from "../fields/select-input";
+import ErrorField from "../fields/error-field";
 import {
   TICK_FIELD,
   CHECK_BOX_FIELD,
   SELECT_FIELD,
-  PHOTO_FIELD
+  PHOTO_FIELD,
+  ERROR_FIELD
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
@@ -34,11 +36,16 @@ const FormSectionField = ({ field, checkErrors }) => {
     options,
     password,
     multi_select: multiSelect,
-    editable
+    editable,
+    check_errors: fieldCheckErrors
   } = field;
   const i18n = useI18n();
   const { formMode, errors } = useFormContext();
   const error = errors[name];
+
+  const errorsToCheck = checkErrors
+    ? checkErrors.concat(fieldCheckErrors)
+    : fieldCheckErrors;
 
   const lookups = useSelector(
     state => getOption(state, optionStringsSource, i18n.locale),
@@ -102,6 +109,8 @@ const FormSectionField = ({ field, checkErrors }) => {
         return SelectInput;
       case PHOTO_FIELD:
         return AttachmentInput;
+      case ERROR_FIELD:
+        return ErrorField;
       default:
         return TextInput;
     }
@@ -115,6 +124,7 @@ const FormSectionField = ({ field, checkErrors }) => {
           commonInputProps={commonInputProps}
           metaInputProps={metaInputProps}
           options={inputOptions}
+          errorsToCheck={errorsToCheck}
         />
       )}
     </div>

@@ -36,3 +36,6 @@ export const getAgencyLogos = state =>
 
 export const getSystemPermissions = state =>
   state.getIn([NAMESPACE, "permissions"], fromJS({}));
+
+export const getResourceActions = (state, resource) =>
+  getSystemPermissions(state).getIn(["resource_actions", resource], fromJS([]));

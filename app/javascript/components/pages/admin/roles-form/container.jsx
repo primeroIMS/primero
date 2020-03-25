@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from "react";
-import { fromJS } from "immutable";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector, batch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 
@@ -10,9 +9,10 @@ import Form, { FormAction, whichFormMode } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import { LoadingIndicator } from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
-import { ROUTES, RECORD_TYPES } from "../../../../config";
+import { ROUTES } from "../../../../config";
 import {
   getSystemPermissions,
+  getResourceActions,
   selectAgencies,
   selectModules
 } from "../../../application";
@@ -20,15 +20,14 @@ import { fetchRoles } from "../roles-list";
 import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
 import bindFormSubmit from "../../../../libs/submit-form";
+import { compare } from "../../../../libs";
 
-import {
-  form,
-  roleForms,
-  agencyForms,
-  resourcesForm,
-  validations,
-  formSectionsForm
-} from "./form";
+import { validations } from "./form";
+import { 
+  getFormsToRender,
+  mergeFormSections,
+  groupSelectedIdsByParentForm
+} from "./helpers";
 import { fetchRole, clearSelectedRole, saveRole } from "./action-creators";
 import { getRole, getServerErrors, getSavingRecord } from "./selectors";
 
@@ -40,8 +39,6 @@ const Container = ({ mode }) => {
   const { pathname } = useLocation();
   const { id } = useParams();
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  // TODO: Reuse comparator function
-  const compare = (prev, next) => prev.equals(next);
   const primeroModules = useSelector(state => selectModules(state), compare);
   const roles = useSelector(
     state => getRecords(state, ["admin", "roles"]),
@@ -55,6 +52,14 @@ const Container = ({ mode }) => {
     state => getSystemPermissions(state),
     compare
   );
+  const roleActions = useSelector(
+    state => getResourceActions(state, "role"),
+    compare
+  );
+  const agencyActions = useSelector(
+    state => getResourceActions(state, "agency"),
+    compare
+  );
   const assignableForms = useSelector(
     state => getAssignableForms(state),
     compare
@@ -65,48 +70,6 @@ const Container = ({ mode }) => {
   );
 
   const validationSchema = validations(formMode, i18n);
-
-  const recordTypes = [
-    RECORD_TYPES.cases,
-    RECORD_TYPES.tracing_requests,
-    RECORD_TYPES.incidents
-  ];
-
-  const mergeFormSections = data => {
-    if (!data.form_section_unique_ids) {
-      return data;
-    }
-
-    const formSectionUniqueIds = recordTypes
-      .map(recordType => data.form_section_unique_ids[recordType])
-      .flat();
-
-    return { ...data, form_section_unique_ids: formSectionUniqueIds };
-  };
-
-  const groupSelectedIdsByParentForm = data => {
-    const formSectionUniqueIds = data.get("form_section_unique_ids");
-
-    if (formSectionUniqueIds?.size && assignableForms?.size) {
-      const selectedFormsByParentForm = assignableForms
-        .filter(assignableForm =>
-          formSectionUniqueIds.includes(assignableForm.get("unique_id"))
-        )
-        .groupBy(assignableForm => assignableForm.get("parent_form"));
-
-      const selectedUniqueIdsByParentForm = selectedFormsByParentForm.mapEntries(
-        ([parentForm, formSections]) =>
-          fromJS([
-            parentForm,
-            formSections.valueSeq().map(fs => fs.get("unique_id"))
-          ])
-      );
-
-      return data.set("form_section_unique_ids", selectedUniqueIdsByParentForm);
-    }
-
-    return data;
-  };
 
   const handleSubmit = data => {
     dispatch(
@@ -130,9 +93,7 @@ const Container = ({ mode }) => {
   };
 
   useEffect(() => {
-    batch(() => {
-      dispatch(fetchRoles());
-    });
+    dispatch(fetchRoles());
   }, []);
 
   useEffect(() => {
@@ -170,35 +131,17 @@ const Container = ({ mode }) => {
     ? `${i18n.t("roles.label")} ${role.get("name")}`
     : i18n.t("roles.label");
 
-  const roleActions = systemPermissions.getIn(
-    ["resource_actions", "role"],
-    fromJS([])
-  );
-  const agencyActions = systemPermissions.getIn(
-    ["resource_actions", "agency"],
-    fromJS([])
-  );
-
-  const formsToRender = fromJS(
-    [
-      form(
-        primeroModules,
-        systemPermissions.get("management", fromJS([])),
-        i18n,
-        formMode
-      ),
-      roleForms(roles, roleActions, i18n, formMode),
-      agencyForms(agencies, agencyActions, i18n, formMode),
-      resourcesForm(
-        systemPermissions
-          .get("resource_actions", fromJS({}))
-          .filterNot((v, k) => ["role", "agency"].includes(k)),
-        i18n,
-        formMode
-      ),
-      formSectionsForm(formsByParentForm, i18n, formMode)
-    ].flat()
-  );
+  const formsToRender = getFormsToRender({
+    primeroModules,
+    systemPermissions,
+    i18n,
+    roles,
+    agencies,
+    roleActions,
+    agencyActions,
+    formMode,
+    formSections: formsByParentForm
+  });
 
   return (
     <LoadingIndicator
