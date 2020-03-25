@@ -29,8 +29,8 @@ class User < ApplicationRecord
   has_and_belongs_to_many :user_groups
   has_many :audit_logs
 
-  scope :list_by_enabled, -> { where(disabled: false) }
-  scope :list_by_disabled, -> { where(disabled: true) }
+  scope :enabled, -> { where(disabled: false) }
+  scope :disabled, -> { where(disabled: true) }
   scope :by_user_group, (lambda do |ids|
     joins(:user_groups).where(user_groups: { id: ids })
   end)
@@ -111,7 +111,7 @@ class User < ApplicationRecord
     # This method returns a list of id / display_text value pairs
     # It is used to create the select options list for User fields
     def all_names
-      list_by_enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
+      enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
     end
 
     def find_permitted_users(filters = nil, pagination = nil, sort = nil, user = nil)

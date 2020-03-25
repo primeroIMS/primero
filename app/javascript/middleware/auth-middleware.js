@@ -9,6 +9,7 @@ import {
   setAuthenticatedUser
 } from "../components/user";
 import DB from "../db";
+import { ROUTES } from "../config";
 
 function redirectTo(store, path) {
   store.dispatch(push(path));
@@ -30,7 +31,7 @@ async function loginSuccessHandler(store, user) {
 
   localStorage.setItem("user", JSON.stringify({ username, id }));
   store.dispatch(setAuthenticatedUser({ username, id }));
-  redirectTo(store, "/dashboard");
+  redirectTo(store, ROUTES.dashboard);
 }
 
 const authMiddleware = store => next => action => {
@@ -50,7 +51,7 @@ const authMiddleware = store => next => action => {
   }
 
   if (["/login", "/"].includes(location) && isAuthenticated) {
-    redirectTo(store, "/dashboard");
+    redirectTo(store, ROUTES.dashboard);
   }
 
   if (action.type === LOGIN_SUCCESS_CALLBACK) {

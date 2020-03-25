@@ -270,7 +270,7 @@ class ChildrenController < ApplicationController
   def load_users_by_permission
     if can?(:assign, Child)
       @user_can_assign = true
-      users = User.list_by_enabled
+      users = User.enabled
     elsif can?(:assign_within_agency, Child)
       @user_can_assign = true
       criteria = { disabled: false, organization: current_user.organization }
@@ -279,7 +279,7 @@ class ChildrenController < ApplicationController
       users = User.find_by_criteria(criteria, pagination, sort).try(:results) || []
     elsif can?(:assign_within_user_group, Child)
       @user_can_assign = true
-      users = User.by_user_group(current_user.user_group_ids).list_by_enabled
+      users = User.by_user_group(current_user.user_group_ids).enabled
     else
       @user_can_assign = false
       users = []

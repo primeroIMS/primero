@@ -4,6 +4,7 @@ import { Button, CssBaseline, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
+import { ROUTES } from "../../../../config";
 
 import styles from "./styles.css";
 
@@ -24,7 +25,7 @@ const NotAuthorized = () => {
         {i18n.t("error_page.not_authorized.server_error")}
       </Typography>
       <Button
-        to="/dashboard"
+        to={ROUTES.dashboard}
         variant="contained"
         color="primary"
         component={Link}

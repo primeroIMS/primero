@@ -100,7 +100,7 @@ const stateWithRecords = fromJS({
     loading: true,
     errors: true,
     options: {
-      lookups: [serviceTypeLookup],
+      lookups: { data: [serviceTypeLookup] },
       locations: [location]
     },
     selectedRecord: {
