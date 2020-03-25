@@ -2514,6 +2514,10 @@ en:
     completed_case_action_plan:
       title: "Completed Case Action Plans"
       completed: "Completed Case Action Plan"
+    completed_supervisor_approved_case_action_plan:
+      title: "Completed Action Plans Approved by Supervisor"
+      completed_and_approved: "Completed Case Action Plans Approved by Supervisor"
+
 
   reports:
     register_new_report: "Create Report"

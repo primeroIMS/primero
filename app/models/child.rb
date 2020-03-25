@@ -134,6 +134,7 @@ class Child < ApplicationRecord
     boolean :safety_plan_required
     boolean :completed_safety_plan
     boolean :completed_action_plan
+    boolean :case_plan_approved
   end
 
   validate :validate_date_of_birth

@@ -159,6 +159,31 @@ module Api::V2
     end
 
     def completed_supervisor_approved_case_action_plans
+      search = Child.search do
+        with :status, Record::STATUS_OPEN
+        with :created_at, from..to
+
+        # This seems like an obtuse way to use an in a facet query
+        facet :completed_action_plan, only: true do
+          row :approved do
+            with(:case_plan_approved, true)
+          end
+        end
+      end
+
+      active_cases = search.total
+      completed_and_approved = search.
+        # 0 results will cause rows = [], so first will be nil
+        # This is a problem caused by needing to use the above
+        # row :approved do
+        #   ...
+        # end
+        facet(:completed_action_plan).rows.first&.count || 0
+
+      @completed_and_approved_percentage = nan_safe_divide(
+        completed_and_approved,
+        active_cases
+      )
     end
 
     def services_provided
