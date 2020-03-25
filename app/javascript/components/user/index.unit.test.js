@@ -21,8 +21,7 @@ describe("User - index", () => {
       "setUser",
       "usePermissions",
       "getIsAuthenticated",
-      "getListHeaders",
-      "getUserModules"
+      "getListHeaders"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Menu, MenuItem, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -7,13 +7,13 @@ import AddIcon from "@material-ui/icons/Add";
 import { push } from "connected-react-router";
 
 import { useI18n } from "../i18n";
-import { selectUserModules } from "../application/selectors";
+import { useApp } from "../application";
 
 const AddRecordMenu = ({ recordType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
-  const userModules = useSelector(state => selectUserModules(state));
+  const { userModules } = useApp();
 
   const handleClick = event => {
     const { unique_id: uniqueId } = userModules.first();

@@ -100,20 +100,4 @@ describe("User - Selectors", () => {
       expect(meta).to.deep.equal(false);
     });
   });
-
-  describe("with getUserModules", () => {
-    it("should return current user if module is set", () => {
-      const getUserModules = selectors.getUserModules(stateWithUser);
-
-      expect(getUserModules).to.deep.equal(
-        fromJS(["primeromodule-test1", "primeromodule-test2"])
-      );
-    });
-
-    it("should return undefined if module is no set", () => {
-      const getUserModules = selectors.getUserModules(stateWithoutUser);
-
-      expect(getUserModules).to.be.empty;
-    });
-  });
 });
