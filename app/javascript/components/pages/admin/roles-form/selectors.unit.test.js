@@ -7,10 +7,12 @@ import { getRole, getErrors, getServerErrors } from "./selectors";
 
 const stateWithHeaders = fromJS({
   records: {
-    roles: {
-      selectedRole: { id: 1 },
-      errors: true,
-      serverErrors: [{ message: "error-1" }]
+    admin: {
+      roles: {
+        selectedRole: { id: 1 },
+        errors: true,
+        serverErrors: [{ message: "error-1" }]
+      }
     }
   }
 });
@@ -22,6 +24,7 @@ describe("<RolesForm /> - Selectors", () => {
     it("should return selected role", () => {
       const expected = stateWithHeaders.getIn([
         "records",
+        "admin",
         NAMESPACE,
         "selectedRole"
       ]);
@@ -38,26 +41,11 @@ describe("<RolesForm /> - Selectors", () => {
     });
   });
 
-  describe("getErrors", () => {
-    it("should return errors", () => {
-      const expected = stateWithHeaders.getIn(["records", NAMESPACE, "errors"]);
-
-      const role = getErrors(stateWithHeaders);
-
-      expect(role).to.deep.equal(expected);
-    });
-
-    it("should return false when errors empty", () => {
-      const role = getErrors(stateWithoutHeaders);
-
-      expect(role).to.deep.equal(false);
-    });
-  });
-
   describe("getServerErrors", () => {
     it("should return server errors", () => {
       const expected = stateWithHeaders.getIn([
         "records",
+        "admin",
         NAMESPACE,
         "serverErrors"
       ]);
