@@ -12,7 +12,7 @@ Rails.application.config.after_initialize do
                                            .flatten
                                            .first
       if count_system_settings.positive? && count_locations.positive?
-        GenerateLocationFilesJob.perform_now
+        GenerateLocationFilesService.generate
       end
     end
   rescue ActiveRecord::NoDatabaseError => e
