@@ -73,6 +73,10 @@ const Component = ({
                 parentField: field
               };
 
+              if (!f?.visible) {
+                return null;
+              }
+
               return (
                 <Box my={3} key={f.name}>
                   <FormSectionField {...fieldProps} />

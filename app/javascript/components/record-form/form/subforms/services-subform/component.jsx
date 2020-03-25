@@ -58,6 +58,10 @@ const Component = ({ field, formik, index, mode }) => {
           }
         };
 
+        if (!f?.visible) {
+          return null;
+        }
+
         return (
           <Box my={3} key={f.name}>
             <FormSectionField {...fieldProps} />
