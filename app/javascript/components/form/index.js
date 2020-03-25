@@ -8,6 +8,7 @@ export {
   CHECK_BOX_FIELD,
   SELECT_FIELD,
   TEXT_AREA,
-  PHOTO_FIELD
+  PHOTO_FIELD,
+  ERROR_FIELD
 } from "./constants";
 export { whichFormMode } from "./utils";

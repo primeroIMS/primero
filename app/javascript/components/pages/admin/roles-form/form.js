@@ -8,7 +8,8 @@ import {
   TICK_FIELD,
   TEXT_FIELD,
   SELECT_FIELD,
-  CHECK_BOX_FIELD
+  CHECK_BOX_FIELD,
+  ERROR_FIELD
 } from "../../../form";
 
 const actionsAsOptions = (actions, i18n) =>
@@ -36,18 +37,22 @@ const groupPermissionOptions = (groupPermissions, i18n) => {
   }));
 };
 
-export const validations = formMode =>
+export const validations = (formMode, i18n) =>
   yup.object().shape({
     name: yup.string().required(),
     permissions: yup
       .object()
-      .test("permissions", "permissions is required", async value => {
-        const selectedPermissions = { ...value };
+      .test(
+        "permissions",
+        i18n.t("errors.models.role.permission_presence"),
+        async value => {
+          const selectedPermissions = { ...value };
 
-        delete selectedPermissions.objects;
+          delete selectedPermissions.objects;
 
-        return Object.values(selectedPermissions).flat().length > 0;
-      })
+          return Object.values(selectedPermissions).flat().length > 0;
+        }
+      )
   });
 
 export const form = (primeroModules, groupPermissions, i18n, formMode) => {
@@ -118,6 +123,10 @@ export const roleForms = (roles, actions, i18n, formMode) => {
       unique_id: "associated_roles",
       name: formNames,
       fields: [
+        FieldRecord({
+          type: ERROR_FIELD,
+          check_errors: fromJS(["permissions"])
+        }),
         FieldRecord({
           display_name: i18n.t("role.role_ids_label"),
           name: "permissions[objects][role]",
