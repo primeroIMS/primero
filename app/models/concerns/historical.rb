@@ -143,10 +143,6 @@ module Historical
     return  changes_to_save_for_record
   end
 
-  def services_section_change?
-    hash_diff(data_change[1], data_change[0]).to_h['services_section'].present?
-  end
-
   private
 
   # #Returns all pairs in hash A that have a different value in B

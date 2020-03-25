@@ -119,6 +119,10 @@ module Serviceable
       end
     end
 
+    def services_section_change?
+      hash_diff(data_change[1], data_change[0]).to_h['services_section'].present?
+    end
+
     private
 
     def convert_time(string)
