@@ -102,7 +102,19 @@ describe("<IndexTable />", () => {
       }
     },
     forms: {
-      fields: mapEntriesToRecord(fields, FieldRecord)
+      fields: mapEntriesToRecord(fields, FieldRecord),
+      options: {
+        lookups: [
+          {
+            id: 1,
+            unique_id: "lookup-location-type",
+            values: [
+              { id: "country", display_text: "Country" },
+              { id: "region", display_text: "Region" }
+            ]
+          }
+        ]
+      }
     }
   });
 
@@ -182,5 +194,4 @@ describe("<IndexTable />", () => {
       expect(component.find(CircularProgress)).to.have.lengthOf(1);
     });
   });
-
 });
