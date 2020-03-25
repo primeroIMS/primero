@@ -28,7 +28,8 @@ const actions = namespaceActions(NAMESPACE, [
   "TRANSFER_USER",
   "TRANSFER_USER_SUCCESS",
   "TRANSFER_USER_STARTED",
-  "TRANSFER_USER_FAILURE"
+  "TRANSFER_USER_FAILURE",
+  "SERVICE_REFERRED_SAVE"
 ]);
 
 export default {

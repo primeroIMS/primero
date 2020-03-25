@@ -15,6 +15,7 @@ json.data do
         if agency.logo_enabled && agency.logo_icon.attached?
           json.logo_icon = rails_blob_path(agency.logo_icon, only_path: true)
         end
+        json.disabled agency.disabled
       end
     end
   end

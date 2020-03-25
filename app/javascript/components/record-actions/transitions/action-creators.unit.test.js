@@ -230,7 +230,9 @@ describe("<Transitions /> - Action Creators", () => {
     };
 
     expect(
-      dispatch(actionCreators.saveReferral("123abc", body, "Success Message"))
+      dispatch(
+        actionCreators.saveReferral("123abc", "cases", body, "Success Message")
+      )
     ).to.deep.equals(expected);
   });
 
