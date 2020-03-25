@@ -35,3 +35,5 @@ export const valuesToSearchableSelect = (
 
   return result;
 };
+
+export const compare = (prev, next) => prev.equals(next);
