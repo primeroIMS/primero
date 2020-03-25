@@ -32,7 +32,9 @@ describe("Verifying config constant", () => {
       "DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN",
       "DASH_CASES_BY_TASK_OVERDUE_SERVICES",
       "DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS",
+      "DASH_SHARED_FROM_MY_TEAM",
       "DASH_SHARED_WITH_ME",
+      "DASH_SHARED_WITH_MY_TEAM",
       "DASH_SHARED_WITH_OTHERS",
       "DASH_GROUP_OVERVIEW",
       "DISPLAY_VIEW_PAGE",
@@ -107,7 +109,11 @@ describe("Verifying config constant", () => {
       "tracing_requests",
       "users",
       "agencies",
-      "user_groups"
+      "user_groups",
+      "lookups",
+      "contact_information",
+      "roles",
+      "systems"
     ].forEach(property => {
       expect(resources).to.have.property(property);
       expect(resources[property]).to.be.a("string");

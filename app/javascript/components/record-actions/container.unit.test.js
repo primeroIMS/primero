@@ -351,7 +351,9 @@ describe("<RecordActions />", () => {
         "record",
         "recordType",
         "selectedRecords",
-        "userPermissions"
+        "userPermissions",
+        "pending",
+        "setPending"
       ].forEach(property => {
         expect(exportProps).to.have.property(property);
         delete exportProps[property];

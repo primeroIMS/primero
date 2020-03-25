@@ -8,7 +8,7 @@ class ExportService
         Exporters::IncidentRecorderExporter, Exporters::CSVListViewExporter, Exporters::CSVExporter,
         Exporters::ExcelExporter, Exporters::JSONExporter, # Exporters::PhotoWallExporter,
         Exporters::PDFExporter, Exporters::UnhcrCSVExporter, Exporters::DuplicateIdCSVExporter,
-        Exporters::SelectedFieldsExcelExporter # , Expoxrters::MRMViolationExporter
+        Exporters::SelectedFieldsExcelExporter, Exporters::IncidentRecorderExporter # , Expoxrters::MRMViolationExporter
       ].find do |exporter|
         exporter.id == format.to_s && exporter.supported_models.include?(record_type)
       end

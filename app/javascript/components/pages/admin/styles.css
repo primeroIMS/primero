@@ -10,3 +10,8 @@
 .content {
   flex: 1;
 }
+
+.nestedItem {
+  padding: 0 1em;
+  font-size: 0.875rem;
+}

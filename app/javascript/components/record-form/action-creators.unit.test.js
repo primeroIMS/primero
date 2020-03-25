@@ -15,17 +15,19 @@ describe("<RecordForm /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = clone(actionCreators);
 
-    expect(creators).to.have.property("setSelectedForm");
-    expect(creators).to.have.property("setSelectedRecord");
-    expect(creators).to.have.property("fetchForms");
-    expect(creators).to.have.property("fetchOptions");
+    [
+      "setSelectedForm",
+      "setSelectedRecord",
+      "fetchForms",
+      "fetchOptions",
+      "fetchLookups"
+    ].forEach(property => {
+      expect(creators).to.have.property(property);
+      expect(creators[property]).to.be.a("function");
+      delete creators[property];
+    });
 
-    delete creators.setSelectedForm;
-    delete creators.setSelectedRecord;
-    delete creators.fetchForms;
-    delete creators.fetchOptions;
-
-    expect(creators).to.deep.equal({});
+    expect(creators).to.be.empty;
   });
 
   it("should check the 'setSelectedForm' action creator to return the correct object", () => {
@@ -73,6 +75,23 @@ describe("<RecordForm /> - Action Creators", () => {
       expect(expectedActions[0].type).to.eql(actions.SET_OPTIONS);
       expect(expectedActions[0].api.path).to.eql(URL_LOOKUPS);
       expect(expectedActions[1].type).to.eql(actions.SET_LOCATIONS);
+    });
+  });
+
+  it("should check the 'fetchLookups' action creator to return the correct object", () => {
+    const dispatch = sinon.spy(actionCreators, "fetchLookups");
+
+    actionCreators.fetchLookups();
+
+    expect(dispatch.getCall(0).returnValue).to.eql({
+      api: {
+        params: {
+          page: 1,
+          per: 999
+        },
+        path: "lookups"
+      },
+      type: "forms/SET_OPTIONS"
     });
   });
 });

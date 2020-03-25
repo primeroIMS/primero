@@ -32,7 +32,6 @@ import { valuesToSearchableSelect } from "../../../../../libs";
 
 import ProvidedConsent from "./provided-consent";
 import FormInternal from "./form-internal";
-import Actions from "./actions";
 import {
   SERVICE_FIELD,
   AGENCY_FIELD,
@@ -51,7 +50,6 @@ const MainForm = ({ formProps, rest }) => {
     canConsentOverride,
     disabled,
     setDisabled,
-    handleClose,
     recordType
   } = rest;
   const { handleSubmit, initialValues, values, resetForm } = formProps;
@@ -87,8 +85,6 @@ const MainForm = ({ formProps, rest }) => {
 
     if (messages !== "") {
       dispatch(enqueueSnackbar(messages, "error"));
-    } else {
-      handleClose();
     }
   }, [hasErrors]);
 
@@ -210,11 +206,6 @@ const MainForm = ({ formProps, rest }) => {
     recordType
   };
 
-  const actionProps = {
-    handleClose,
-    disabled: disableControl
-  };
-
   return (
     <Form onSubmit={handleSubmit}>
       <ProvidedConsent {...providedConsentProps} />
@@ -229,7 +220,6 @@ const MainForm = ({ formProps, rest }) => {
         label={i18n.t("referral.is_remote_label")}
       />
       <FormInternal fields={fields} disabled={disableControl} />
-      <Actions {...actionProps} />
     </Form>
   );
 };
