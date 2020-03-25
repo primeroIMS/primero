@@ -1,5 +1,5 @@
 import chai, { expect } from "chai";
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
 import chaiImmutable from "chai-immutable";
 
 import * as selectors from "./selectors";
@@ -31,10 +31,10 @@ describe("<Transitions /> - Selectors", () => {
       expect(values).to.deep.equal(expected);
     });
 
-    it("should return false when there are not users in store", () => {
+    it("should return empty when there are not users in store", () => {
       const errors = selectors.getUsersByTransitionType(stateWithNoRecords);
 
-      expect(errors).to.be.equal(undefined);
+      expect(errors).to.be.equal(fromJS([]));
     });
   });
 
