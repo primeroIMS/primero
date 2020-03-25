@@ -43,7 +43,9 @@ const FormSectionField = ({ field, checkErrors }) => {
   const { formMode, errors } = useFormContext();
   const error = errors[name];
 
-  const errorsToCheck = checkErrors.concat(fieldCheckErrors);
+  const errorsToCheck = checkErrors
+    ? checkErrors.concat(fieldCheckErrors)
+    : fieldCheckErrors;
 
   const lookups = useSelector(
     state => getOption(state, optionStringsSource, i18n.locale),

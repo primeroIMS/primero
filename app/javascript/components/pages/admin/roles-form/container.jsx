@@ -132,7 +132,7 @@ const Container = ({ mode }) => {
     agencyActions,
     formMode,
     formSections 
-  })
+  });
 
   return (
     <LoadingIndicator
