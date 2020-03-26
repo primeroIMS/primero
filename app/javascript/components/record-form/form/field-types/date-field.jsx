@@ -16,9 +16,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
   const allowedDefaultValues = ["TODAY", "NOW"];
 
   const {
-    visible,
     date_include_time: dateIncludeTime,
-    hide_on_view_page: hideOnViewPage,
     selected_value: selectedValue
   } = rest.field;
 

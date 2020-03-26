@@ -24,12 +24,7 @@ const useStyles = makeStyles(theme => ({
 const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
   const css = useStyles();
 
-  const {
-    type,
-    visible,
-    guiding_questions: guidingQuestions,
-    hide_on_view_page: hideOnViewPage
-  } = field;
+  const { type, guiding_questions: guidingQuestions } = field;
   const i18n = useI18n();
   const dispatch = useDispatch();
 
