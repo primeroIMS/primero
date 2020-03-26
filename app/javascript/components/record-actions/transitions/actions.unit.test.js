@@ -22,6 +22,8 @@ describe("<Transitions /> - Actions", () => {
       "TRANSFER_USER_SUCCESS",
       "TRANSFER_USER_STARTED",
       "TRANSFER_USER_FAILURE",
+      "REFERRAL_USERS_FETCH_STARTED",
+      "REFERRAL_USERS_FETCH_FINISHED",
       "REFERRAL_USERS_FETCH",
       "REFERRAL_USERS_FETCH_SUCCESS",
       "REFERRAL_USER",
@@ -37,7 +39,8 @@ describe("<Transitions /> - Actions", () => {
       "USERS_REFER_TO",
       "CASES_ASSIGNS",
       "CASES_TRANSFERS",
-      "CASES_REFERRALS"
+      "CASES_REFERRALS",
+      "SERVICE_REFERRED_SAVE"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("string");

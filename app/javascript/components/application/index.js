@@ -8,6 +8,7 @@ export { ApplicationProvider, useApp } from "./provider";
 export { reducers } from "./reducers";
 export {
   selectAgencies,
+  getAgenciesWithService,
   selectModules,
   selectModule,
   selectLocales,

@@ -6,6 +6,9 @@ import { Box, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 
+import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
+import Permission from "../../../../application/permission";
+import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
 import { SUBFORM_FIELDS } from "../constants";
 
@@ -16,7 +19,8 @@ const Component = ({
   mode,
   setDialogIsNew,
   setOpen,
-  values
+  values,
+  setReferral
 }) => {
   const {
     subform_sort_by: subformSortBy,
@@ -86,6 +90,20 @@ const Component = ({
                     <DeleteIcon />
                   </IconButton>
                 ) : null}
+                {mode.isShow &&
+                // eslint-disable-next-line camelcase
+                values[index]?.service_is_referrable ? (
+                  <Permission
+                    resources={RESOURCES.cases}
+                    actions={REFER_FROM_SERVICE}
+                  >
+                    <SubformMenu
+                      index={index}
+                      setReferral={setReferral}
+                      values={values}
+                    />
+                  </Permission>
+                ) : null}
                 <IconButton onClick={() => handleEdit(index)}>
                   <ArrowIcon />
                 </IconButton>
@@ -109,6 +127,7 @@ Component.propTypes = {
   mode: PropTypes.object.isRequired,
   setDialogIsNew: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,
+  setReferral: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired
 };
 

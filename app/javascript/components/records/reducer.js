@@ -1,6 +1,7 @@
 import { fromJS, Map, List } from "immutable";
 
 import { mergeRecord, rejectKeys } from "../../libs";
+import TransitionActions from "../record-actions/transitions/actions";
 
 import * as Actions from "./actions";
 
@@ -67,6 +68,29 @@ export const reducers = namespace => (
       return state.set("loading", false);
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
+    case `${namespace}/${TransitionActions.SERVICE_REFERRED_SAVE}`: {
+      const {
+        id: recordId,
+        services_section: servicesSection
+      } = payload.json.data.record;
+
+      const referredService = fromJS(servicesSection ? servicesSection[0] : []);
+      const recordIndex = state
+        .get("data")
+        .findIndex(record => record.get("id") === recordId);
+
+      const serviceIndex = state
+        .getIn(["data", recordIndex, "services_section"])
+        ?.findIndex(
+          service =>
+            service.get("unique_id") === referredService.get("unique_id")
+        );
+
+      return state.updateIn(
+        ["data", recordIndex, "services_section", serviceIndex],
+        data => data?.merge(referredService)
+      );
+    }
     default:
       return state;
   }
