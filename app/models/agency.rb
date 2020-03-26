@@ -54,10 +54,10 @@ class Agency < ApplicationRecord
       agency
     end
 
-    def disabled_agencies_filter(disabled)
-      return enabled(false) if disabled == 'true'
+    def list(params = {})
+      return all if params.blank?
 
-      enabled
+      where(params)
     end
   end
 

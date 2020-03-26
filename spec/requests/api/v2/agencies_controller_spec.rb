@@ -70,7 +70,7 @@ describe Api::V2::AgenciesController, type: :request do
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/agencies' do
-    it 'list the enabled agencies' do
+    it 'list agencies' do
       login_for_test(
         permissions: [
           Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
@@ -79,7 +79,7 @@ describe Api::V2::AgenciesController, type: :request do
 
       get '/api/v2/agencies'
       expect(response).to have_http_status(200)
-      expect(json['data'].count).to eq(2)
+      expect(json['data'].count).to eq(3)
       expect(json['data'][0]['unique_id']).to eq(@agency_a.unique_id)
       expect(json['data'][0]['name']).to eq(FieldI18nService.fill_with_locales(@agency_a.name_i18n))
     end
@@ -96,6 +96,22 @@ describe Api::V2::AgenciesController, type: :request do
       expect(json['data'].count).to eq(1)
       expect(json['data'][0]['unique_id']).to eq(@agency_c.unique_id)
       expect(json['data'][0]['name']).to eq(FieldI18nService.fill_with_locales(@agency_c.name_i18n))
+    end
+
+    it 'list the enabled agencies' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
+        ]
+      )
+
+      get '/api/v2/agencies?disabled=false'
+      expect(response).to have_http_status(200)
+      expect(json['data'].count).to eq(2)
+      expect(json['data'][0]['unique_id']).to eq(@agency_a.unique_id)
+      expect(json['data'][0]['name']).to eq(FieldI18nService.fill_with_locales(@agency_a.name_i18n))
+      expect(json['data'][1]['unique_id']).to eq(@agency_b.unique_id)
+      expect(json['data'][1]['name']).to eq(FieldI18nService.fill_with_locales(@agency_b.name_i18n))
     end
 
     it 'list the agencies with page and per' do

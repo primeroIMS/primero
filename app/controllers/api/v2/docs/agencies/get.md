@@ -14,7 +14,7 @@ Shows a paginated list of all agencies that are accessible to this user.
 
 * `page` Optional. Pagination. Defaults to 1
 * `per` Optional. Records per page. Defaults to 20.
-* `disabled` Optional. Get all the disabled agencies of the value is 'true'. Defaults get the enabled
+* `disabled` Optional. Get all the disabled or enabled agencies. Defaults get all the agencies
 
 ## Success Response
 
@@ -83,7 +83,7 @@ Shows a paginated list of all agencies that are accessible to this user.
         "services00"
       ],
       "logo_enabled": true,
-      "disabled": false
+      "disabled": true
     }
   ]
 }
@@ -101,12 +101,57 @@ Shows a paginated list of all agencies that are accessible to this user.
 {
   "data": [
     {
-      "id": 3,
-      "unique_id": "agency_test004",
-      "agency_code": "a00053",
-      "order": 6,
+      "id": 2,
+      "unique_id": "agency_test003",
+      "agency_code": "a00052",
+      "order": 5,
       "name": {
-        "en": "UNICEF-2",
+        "en": "Nationality",
+        "fr": "",
+        "ar": "",
+        "ar-LB": "",
+        "so": "",
+        "es": "Nacionalidad",
+        "bn": ""
+      },
+      "description": {
+        "en": "Nationality",
+        "fr": "",
+        "ar": "",
+        "ar-LB": "",
+        "so": "",
+        "es": "Nacionalidad",
+        "bn": ""
+      },
+      "telephone": "87452168",
+      "services": [
+        "services00"
+      ],
+      "logo_enabled": true,
+      "disabled": true
+    }
+  ]
+}
+```
+
+## Success Response with param disabled=false
+
+**Condition** : User can see one or more agencies.
+
+**Code** : `200 OK`
+
+**Content** :
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "unique_id": "agency-unicef",
+      "agency_code": "UNICEF",
+      "order": 0,
+      "name": {
+        "en": "UNICEF",
         "fr": "",
         "ar": "",
         "ar-LB": "",
@@ -115,7 +160,7 @@ Shows a paginated list of all agencies that are accessible to this user.
         "bn": ""
       },
       "description": {
-        "en": "UNICEF-2",
+        "en": "",
         "fr": "",
         "ar": "",
         "ar-LB": "",
@@ -126,7 +171,7 @@ Shows a paginated list of all agencies that are accessible to this user.
       "telephone": null,
       "services": [],
       "logo_enabled": false,
-      "disabled": true
+      "disabled": false
     }
   ]
 }
