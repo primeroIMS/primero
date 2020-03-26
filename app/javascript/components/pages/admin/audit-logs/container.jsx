@@ -8,8 +8,10 @@ import { format, parseISO } from "date-fns";
 
 import { useI18n } from "../../../i18n";
 import { ROUTES, DATE_TIME_FORMAT } from "../../../../config";
+import { RESOURCES, SHOW_AUDIT_LOGS } from "../../../../libs/permissions";
 import { PageHeading, PageContent } from "../../../page";
 import IndexTable from "../../../index-table";
+import Permission from "../../../application/permission";
 
 import { NAME, AUDIT_LOG } from "./constants";
 import { fetchAuditLogs, fetchPerformedBy } from "./action-creators";
@@ -73,7 +75,11 @@ const Container = () => {
   };
 
   return (
-    <>
+    <Permission
+      resources={RESOURCES.audit_logs}
+      actions={SHOW_AUDIT_LOGS}
+      redirect
+    >
       <PageHeading title={i18n.t("settings.navigation.audit_logs")}>
         {newUserGroupBtn}
       </PageHeading>
@@ -87,7 +93,7 @@ const Container = () => {
           </Grid>
         </Grid>
       </PageContent>
-    </>
+    </Permission>
   );
 };
 

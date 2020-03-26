@@ -3,7 +3,7 @@ import { List, Collapse } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useSelector } from "react-redux";
 
-import { getPermissionsByRecord } from "../../user/selectors";
+import { getPermissions } from "../../user/selectors";
 import { ADMIN_NAV } from "../../../config/constants";
 import { MANAGE, RESOURCES, checkPermissions } from "../../../libs/permissions";
 
@@ -18,17 +18,16 @@ const AdminNav = () => {
     setOpen(!open);
   };
 
-  const userPermissions = useSelector(state =>
-    getPermissionsByRecord(state, RESOURCES.systems)
-  );
-
-  const hasManagePermission = checkPermissions(userPermissions, MANAGE);
+  const userPermissions = useSelector(state => getPermissions(state));
 
   const renderNavItems = ADMIN_NAV.map(nav => {
     const isParent = "items" in nav;
+    const { recordType, permission } = nav;
 
-    if (!hasManagePermission && nav.manageRequired) {
-      return null;
+    if (recordType && permission.length) {
+      if (!checkPermissions(userPermissions.get(recordType), permission)) {
+        return null;
+      }
     }
 
     if (isParent) {

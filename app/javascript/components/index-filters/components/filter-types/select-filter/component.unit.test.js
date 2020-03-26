@@ -47,7 +47,8 @@ describe("<SelectFilter>", () => {
       "moreSectionFilters",
       "reset",
       "setMoreSectionFilters",
-      "setReset"
+      "setReset",
+      "multiple"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

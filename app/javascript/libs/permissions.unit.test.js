@@ -113,7 +113,8 @@ describe("Verifying config constant", () => {
       "lookups",
       "contact_information",
       "roles",
-      "systems"
+      "systems",
+      "audit_logs"
     ].forEach(property => {
       expect(resources).to.have.property(property);
       expect(resources[property]).to.be.a("string");

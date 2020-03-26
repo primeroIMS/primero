@@ -1,3 +1,5 @@
+import { SHOW_AUDIT_LOGS, MANAGE, RESOURCES } from "../libs/permissions";
+
 // Time (ms) when fetch request will timeout
 export const FETCH_TIMEOUT = 50000;
 
@@ -155,7 +157,8 @@ export const ADMIN_NAV = [
   {
     to: "/contact_information",
     label: "settings.navigation.contact_information",
-    manageRequired: true
+    permission: MANAGE,
+    recordType: RESOURCES.systems
   },
   { to: "/modules", label: "settings.navigation.modules", disabled: true },
   {
@@ -180,7 +183,9 @@ export const ADMIN_NAV = [
   },
   {
     to: "/audit_logs",
-    label: "settings.navigation.audit_logs"
+    label: "settings.navigation.audit_logs",
+    permission: SHOW_AUDIT_LOGS,
+    recordType: RESOURCES.audit_logs
   },
   { to: "/matching", label: "settings.navigation.matching", disabled: true }
 ];
