@@ -33,7 +33,9 @@ const FormSectionField = ({
     display_name: displayName,
     disabled,
     required,
-    selected_value: selectedValue
+    selected_value: selectedValue,
+    hide_on_view_page: hideOnViewPage,
+    visible
   } = field;
 
   const fieldProps = {
@@ -85,6 +87,8 @@ const FormSectionField = ({
         return TextField;
     }
   })(type);
+
+  if ((mode?.isShow && hideOnViewPage) || !visible) return false;
 
   return <FieldComponent {...fieldProps} mode={mode} />;
 };

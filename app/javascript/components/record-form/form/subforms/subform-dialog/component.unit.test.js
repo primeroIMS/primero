@@ -1,25 +1,25 @@
 import { expect, setupMountedComponent } from "../../../../../test";
 import { FieldRecord, FormSectionRecord } from "../../../records";
-import FormSectionField from "../../form-section-field";
 import TextField from "../../field-types/text-field";
 
-import ServicesSubform from "./component";
+import SubformDialog from "./component";
 
-describe("<ServicesSubform />", () => {
+describe("<SubformDialog />", () => {
   const props = {
+    dialogIsNew: true,
     field: FieldRecord({
       name: "services_section",
       subform_section_id: FormSectionRecord({
         fields: [
           FieldRecord({
-            name: "service_implementing_agency",
+            name: "relation_name",
             visible: true,
-            option_strings_source: "Agency"
+            type: "text_field"
           }),
           FieldRecord({
-            name: "service_implementing_agency_individual",
+            name: "relation_child_is_in_contact",
             visible: true,
-            option_strings_source: "User"
+            type: "text_field"
           })
         ]
       })
@@ -30,13 +30,17 @@ describe("<ServicesSubform />", () => {
     mode: {
       isShow: true
     },
-    index: 0
+    index: 0,
+    i18n: {},
+    open: true,
+    setOpen: () => {},
+    title: "Family details"
   };
 
   const formProps = {
     initialValues: {
-      service_implementing_agency: "",
-      service_implementing_agency_individual: ""
+      relation_name: "",
+      relation_child_is_in_contact: ""
     }
   };
 
@@ -44,7 +48,7 @@ describe("<ServicesSubform />", () => {
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(
-      ServicesSubform,
+      SubformDialog,
       props,
       {},
       [],
@@ -52,24 +56,29 @@ describe("<ServicesSubform />", () => {
     ));
   });
 
-  it("renders the subform", () => {
-    expect(component.find(FormSectionField)).lengthOf(2);
+  it("render the subform", () => {
+    expect(component.find(SubformDialog)).lengthOf(1);
+  });
+
+  it("renders the FormSectionField", () => {
+    expect(component.find(TextField)).lengthOf(2);
   });
 
   describe("when field is visible should not be render", () => {
     const propsFieldNotVisible = {
+      dialogIsNew: true,
       field: FieldRecord({
         name: "services_section",
         subform_section_id: FormSectionRecord({
           fields: [
             FieldRecord({
-              name: "service_implementing_agency",
-              option_strings_source: "Agency",
+              name: "relation_name",
+              type: "text_field",
               visible: true
             }),
             FieldRecord({
-              name: "service_implementing_agency_individual",
-              option_strings_source: "User",
+              name: "relation_child_is_in_contact",
+              type: "text_field",
               visible: false
             })
           ]
@@ -81,19 +90,23 @@ describe("<ServicesSubform />", () => {
       mode: {
         isShow: true
       },
-      index: 0
+      index: 0,
+      i18n: {},
+      open: true,
+      setOpen: () => {},
+      title: "Family details"
     };
 
     const formProps = {
       initialValues: {
-        service_implementing_agency: "",
-        service_implementing_agency_individual: ""
+        relation_name: "",
+        relation_child_is_in_contact: ""
       }
     };
 
     beforeEach(() => {
       ({ component } = setupMountedComponent(
-        ServicesSubform,
+        SubformDialog,
         propsFieldNotVisible,
         {},
         [],
@@ -101,7 +114,11 @@ describe("<ServicesSubform />", () => {
       ));
     });
 
-    it("renders the subform", () => {
+    it("render the subform", () => {
+      expect(component.find(SubformDialog)).lengthOf(1);
+    });
+
+    it("renders the visible FormSectionField", () => {
       expect(component.find(TextField)).lengthOf(1);
     });
   });
