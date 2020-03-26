@@ -75,7 +75,7 @@ const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
     );
   };
 
-  return !(rest.mode.isShow && hideOnViewPage) && visible ? (
+  return (
     <FastField
       name={name}
       render={renderProps => {
@@ -120,7 +120,7 @@ const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
         );
       }}
     />
-  ) : null;
+  );
 };
 
 TextField.displayName = TEXT_FIELD_NAME;

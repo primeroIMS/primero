@@ -1,6 +1,7 @@
 import { expect, setupMountedComponent } from "../../../../../test";
 import { FieldRecord, FormSectionRecord } from "../../../records";
 import FormSectionField from "../../form-section-field";
+import TextField from "../../field-types/text-field";
 
 import ServicesSubform from "./component";
 
@@ -101,7 +102,7 @@ describe("<ServicesSubform />", () => {
     });
 
     it("renders the subform", () => {
-      expect(component.find(FormSectionField)).lengthOf(1);
+      expect(component.find(TextField)).lengthOf(1);
     });
   });
 });

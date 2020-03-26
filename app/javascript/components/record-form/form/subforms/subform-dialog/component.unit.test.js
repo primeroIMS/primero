@@ -1,6 +1,6 @@
 import { expect, setupMountedComponent } from "../../../../../test";
 import { FieldRecord, FormSectionRecord } from "../../../records";
-import FormSectionField from "../../form-section-field";
+import TextField from "../../field-types/text-field";
 
 import SubformDialog from "./component";
 
@@ -61,7 +61,7 @@ describe("<SubformDialog />", () => {
   });
 
   it("renders the FormSectionField", () => {
-    expect(component.find(FormSectionField)).lengthOf(2);
+    expect(component.find(TextField)).lengthOf(2);
   });
 
   describe("when field is visible should not be render", () => {
@@ -119,7 +119,7 @@ describe("<SubformDialog />", () => {
     });
 
     it("renders the visible FormSectionField", () => {
-      expect(component.find(FormSectionField)).lengthOf(1);
+      expect(component.find(TextField)).lengthOf(1);
     });
   });
 });
