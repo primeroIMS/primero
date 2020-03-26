@@ -159,26 +159,23 @@ module Api::V2
     end
 
     def completed_supervisor_approved_case_action_plans
+      completed_action_plan = SolrUtils.indexed_field_name(Child, :completed_action_plan)
+      case_plan_approved = SolrUtils.indexed_field_name(Child, :case_plan_approved)
+
       search = Child.search do
         with :status, Record::STATUS_OPEN
         with :created_at, from..to
 
         # This seems like an obtuse way to use an in a facet query
-        facet :completed_action_plan, only: true do
-          row :approved do
-            with(:case_plan_approved, true)
-          end
+        adjust_solr_params do |params|
+          params[:facet] = true
+          params[:'facet.query'] = "{! key=completed_and_approved } #{completed_action_plan}:true AND #{case_plan_approved}:true"
         end
       end
 
       active_cases = search.total
       completed_and_approved = search.
-        # 0 results will cause rows = [], so first will be nil
-        # This is a problem caused by needing to use the above
-        # row :approved do
-        #   ...
-        # end
-        facet(:completed_action_plan).rows.first&.count || 0
+        facet_response['facet_queries']['completed_and_approved']
 
       @completed_and_approved_percentage = nan_safe_divide(
         completed_and_approved,
