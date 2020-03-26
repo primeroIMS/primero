@@ -39,21 +39,6 @@ const cacheFile = file => {
   return false;
 };
 
-const manifestTransform = originalManifest => {
-  const warnings = [];
-  const manifest = originalManifest;
-
-  ADDITIONAL_PRECACHE_MANIFEST_FILES.forEach(file => {
-    const additionalFile = cacheFile(file);
-
-    if (additionalFile) {
-      manifest.push({ url: additionalFile });
-    }
-  });
-
-  return { manifest, warnings };
-};
-
 entry.optimization = {
   ...entry.optimization,
   splitChunks: {
@@ -71,8 +56,7 @@ entry.plugins.push(
   new WorkboxPlugin.InjectManifest({
     swDest: path.join(projectPath, "public/worker.js"),
     swSrc: path.join(projectPath, "app/javascript/worker.js"),
-    exclude: [/\*.json$/],
-    manifestTransforms: [manifestTransform]
+    exclude: [/\*.json$/]
   })
 );
 
