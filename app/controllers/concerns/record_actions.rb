@@ -427,14 +427,14 @@ module RecordActions
 
   private
 
-  def permitted_properties_names
+  def permitted_property_names
     current_modules
     properties = export_properties(Exporters::JSONExporter)
     Exporters::JSONExporter.properties_to_export(properties).map(&:name)
   end
 
   def select_permitted_fields(record)
-    prop_names = permitted_properties_names
+    prop_names = permitted_property_names
     record.select do |key, value|
       prop_names.include?(key)
     end
