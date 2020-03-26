@@ -2,23 +2,29 @@ import * as actions from "../../action-creators";
 import * as selectors from "../../selectors";
 import { connect } from "react-redux";
 import React, { useEffect } from "react";
-import { fromJS } from "immutable";
+import { useI18n } from "components/i18n";
 import { OptionsBox, DashboardTable } from "components/dashboard";
 
 function ServicesProvided({ fetchServicesProvided, servicesProvided }) {
-  useEffect(() => {
-    fetchServicesProvided()
-  }, [])
+  let i18n = useI18n();
 
-  let columns = ['Service'];
-  // wrap each service in an array as DashboardTable expects an
-  // array of arrays.
-  let rows = servicesProvided.get('data').get('services_provided').
-    map(s => [s])
+  useEffect(() => {
+    fetchServicesProvided();
+  }, []);
+
+  let columns = [{
+    name: 'service',
+    label: i18n.t('key_performance_indicators.services_provided.service')
+  }, {
+    name: 'count',
+    label: i18n.t('key_performance_indicators.services_provided.count')
+  }];
+  let rows = servicesProvided.get('data').get('services_provided')
+    .map(row => columns.map(column => row.get(column.name)));
 
   return (
     <OptionsBox
-      title="Services Provided"
+      title={i18n.t('key_performance_indicators.services_provided.title')}
     >
       <DashboardTable
         columns={columns}
