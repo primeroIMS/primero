@@ -7,8 +7,9 @@ class Api::V2::AgenciesController < ApplicationApiController
 
   def index
     authorize! :index, Agency
-    @total = Agency.all.size
-    @agencies = Agency.paginate(pagination)
+    filter_agencies = Agency.disabled_agencies_filter(params[:disabled])
+    @total = filter_agencies.size
+    @agencies = filter_agencies.paginate(pagination)
   end
 
   def show

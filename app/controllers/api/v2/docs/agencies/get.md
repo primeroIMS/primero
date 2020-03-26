@@ -14,6 +14,7 @@ Shows a paginated list of all agencies that are accessible to this user.
 
 * `page` Optional. Pagination. Defaults to 1
 * `per` Optional. Records per page. Defaults to 20.
+* `disabled` Optional. Get all the disabled agencies of the value is 'true'. Defaults get the enabled
 
 ## Success Response
 
@@ -82,11 +83,55 @@ Shows a paginated list of all agencies that are accessible to this user.
         "services00"
       ],
       "logo_enabled": true,
+      "disabled": false
+    }
+  ]
+}
+```
+
+## Success Response with param disabled=true
+
+**Condition** : User can see one or more agencies.
+
+**Code** : `200 OK`
+
+**Content** :
+
+```json
+{
+  "data": [
+    {
+      "id": 3,
+      "unique_id": "agency_test004",
+      "agency_code": "a00053",
+      "order": 6,
+      "name": {
+        "en": "UNICEF-2",
+        "fr": "",
+        "ar": "",
+        "ar-LB": "",
+        "so": "",
+        "es": "",
+        "bn": ""
+      },
+      "description": {
+        "en": "UNICEF-2",
+        "fr": "",
+        "ar": "",
+        "ar-LB": "",
+        "so": "",
+        "es": "",
+        "bn": ""
+      },
+      "telephone": null,
+      "services": [],
+      "logo_enabled": false,
       "disabled": true
     }
   ]
 }
 ```
+
 ## Error Response
 
 **Condition** : User isn't authorized to query for agencies.

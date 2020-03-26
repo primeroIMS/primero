@@ -53,6 +53,12 @@ class Agency < ApplicationRecord
       agency.attach_logos(agency_params)
       agency
     end
+
+    def disabled_agencies_filter(disabled)
+      return enabled(false) if disabled == 'true'
+
+      enabled
+    end
   end
 
   def update_properties(agency_params)
