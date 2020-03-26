@@ -150,7 +150,7 @@ module Api::V2
 
       active_cases = search.total
       with_completed_action_plans = search.
-        facet(:completed_action_plan).rows.count
+        facet(:completed_action_plan).rows.first.count
 
       @completed_percentage = nan_safe_divide(
         with_completed_action_plans,
