@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Button, Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
@@ -11,11 +12,16 @@ import { PageHeading, PageContent } from "../../../page";
 import IndexTable from "../../../index-table";
 
 import { NAME, AUDIT_LOG } from "./constants";
-import { fetchAuditLogs } from "./action-creators";
+import { fetchAuditLogs, fetchPerformedBy } from "./action-creators";
 import { Filters } from "./components";
 
 const Container = () => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPerformedBy({ options: { per: 999 } }));
+  }, []);
 
   const newUserGroupBtn = (
     <Button
@@ -72,7 +78,7 @@ const Container = () => {
         {newUserGroupBtn}
       </PageHeading>
       <PageContent>
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={9}>
             <IndexTable {...tableOptions} />
           </Grid>

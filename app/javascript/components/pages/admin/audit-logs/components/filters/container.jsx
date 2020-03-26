@@ -7,15 +7,17 @@ import { FILTER_TYPES } from "../../../../../index-filters";
 import { currentUser } from "../../../../../user";
 import { fetchAuditLogs } from "../../action-creators";
 import Actions from "../../../../../index-filters/components/actions";
+import { getFilterUsers } from "../../selectors";
+import { searchableUsers, buildAuditLogsQuery } from "../../helpers";
 
 import { NAME, USER_NAME, TIMESTAMP } from "./constants";
 
 const Container = () => {
   const methods = useForm();
   const dispatch = useDispatch();
+  const filterUsers = useSelector(state => getFilterUsers(state));
   const userName = useSelector(state => currentUser(state));
 
-  // TODO: LOAD USERS FROM REDUX STORE AND CHECK MULTIPLE PROPERTY
   const filters = [
     {
       name: "audit_log.timestamp",
@@ -30,36 +32,14 @@ const Container = () => {
       name: "audit_log.user_name",
       field_name: USER_NAME,
       option_strings_source: null,
-      options: [
-        { id: "primero", display_name: "primero" },
-        { id: "primero_admin_cp", display_name: "primero_admin_cp" },
-        { id: "primero_mgr_cp", display_name: "primero_mgr_cp" },
-        { id: "primero_gbv", display_name: "primero_gbv" },
-        { id: "primero_mgr_gbv", display_name: "primero_mgr_gbv" },
-        { id: "primero_ftr_manager", display_name: "primero_ftr_manager" },
-        { id: "primero_user_mgr_cp", display_name: "primero_user_mgr_cp" },
-        { id: "primero_user_mgr_gbv", display_name: "primero_user_mgr_gbv" },
-        { id: "agency_user_admin", display_name: "agency_user_admin" },
-        {
-          id: "primero_system_admin_gbv",
-          display_name: "primero_system_admin_gbv"
-        },
-        { id: "agency_user_admin_gbv", display_name: "agency_user_admin_gbv" },
-        { id: "primero_cp_ar", display_name: "primero_cp_ar" },
-        { id: "primero_mgr_cp_ar", display_name: "primero_mgr_cp_ar" },
-        { id: "primero_gbv_ar", display_name: "primero_gbv_ar" },
-        { id: "primero_mgr_gbv_ar", display_name: "primero_mgr_gbv_ar" },
-        { id: "primero_sup_gbv", display_name: "primero_sup_gbv" },
-        { id: "primero_cp", display_name: "primero_cp" },
-        { id: "gpadgett", display_name: "gpadgett" }
-      ],
+      options: searchableUsers(filterUsers),
       type: FILTER_TYPES.MULTI_SELECT,
       multiple: false
     }
   ];
 
-  console.log(methods);
-  const onSubmit = data => dispatch(fetchAuditLogs(data));
+  const onSubmit = data =>
+    dispatch(fetchAuditLogs({ options: buildAuditLogsQuery(data) }));
 
   const onClear = () => {
     methods.setValue(USER_NAME, {});
@@ -95,7 +75,5 @@ const Container = () => {
 };
 
 Container.displayName = NAME;
-
-// Container.propTypes = {};
 
 export default Container;

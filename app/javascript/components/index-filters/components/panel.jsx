@@ -40,7 +40,6 @@ const Panel = ({
     setOpen(hasValue);
   }, [hasValue]);
 
-  // debugger;
   const expanded =
     open ||
     Object.keys(moreSectionFilters).includes(
