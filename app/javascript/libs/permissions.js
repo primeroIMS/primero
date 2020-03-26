@@ -67,7 +67,8 @@ export const ACTIONS = {
   APPROVE_CLOSURE: "approve_closure",
   RECEIVE_REFERRAL: "receive_referral",
   RECEIVE_TRANSFER: "receive_transfer",
-  REFERRAL_FROM_SERVICE: "referral_from_service"
+  REFERRAL_FROM_SERVICE: "referral_from_service",
+  DELETE: "delete"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];

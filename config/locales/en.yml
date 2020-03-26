@@ -1014,9 +1014,12 @@ en:
     role_ids_label: "Others roles managed by this role"
     agency_ids_label: "Agencies managed by this role"
     manager: "Manager"
+    delete_header: "Delete Role"
     messages:
       created: "Role was successfully created."
       updated: "Role was successfully updated."
+      deleted: "Role was successfully deleted."
+      confirmation: "Are you sure you want to delete this role? Deletion can not be undone. Click OK to delete the role."
 
   agencies:
     logo: 'Logo'

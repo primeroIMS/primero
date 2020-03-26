@@ -1,11 +1,14 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, Link } from "react-router-dom";
+import { Button } from "@material-ui/core";
+import CreateIcon from "@material-ui/icons/Create";
 
+import Permission from "../../../application/permission";
 import { useI18n } from "../../../i18n";
-import Form, { FormAction, whichFormMode } from "../../../form";
+import Form, { FormAction, whichFormMode, ActionsMenu } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import { LoadingIndicator } from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
@@ -21,14 +24,27 @@ import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
 import bindFormSubmit from "../../../../libs/submit-form";
 import { compare } from "../../../../libs";
+import {
+  RESOURCES,
+  ACTIONS,
+  WRITE_RECORDS,
+  checkPermissions
+} from "../../../../libs/permissions";
+import { getPermissionsByRecord } from "../../../user/selectors";
+import { ActionDialog } from "../../../action-dialog";
 
 import { validations } from "./form";
-import { 
+import {
   getFormsToRender,
   mergeFormSections,
   groupSelectedIdsByParentForm
 } from "./helpers";
-import { fetchRole, clearSelectedRole, saveRole } from "./action-creators";
+import {
+  fetchRole,
+  clearSelectedRole,
+  saveRole,
+  deleteRole
+} from "./action-creators";
 import { getRole, getServerErrors, getSavingRecord } from "./selectors";
 
 const Container = ({ mode }) => {
@@ -38,6 +54,7 @@ const Container = ({ mode }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const primeroModules = useSelector(state => selectModules(state), compare);
   const roles = useSelector(
@@ -64,6 +81,10 @@ const Container = ({ mode }) => {
     state => getAssignableForms(state),
     compare
   );
+  const rolePermissions = useSelector(
+    state => getPermissionsByRecord(state, RESOURCES.roles),
+    compare
+  );
 
   const formsByParentForm = assignableForms.groupBy(assignableForm =>
     assignableForm.get("parent_form")
@@ -84,13 +105,32 @@ const Container = ({ mode }) => {
     );
   };
 
-  const handleEdit = () => {
-    dispatch(push(`${pathname}/edit`));
-  };
-
   const handleCancel = () => {
     dispatch(push(ROUTES.admin_roles));
   };
+
+  const handleSuccess = () => {
+    dispatch(
+      deleteRole({
+        id,
+        message: i18n.t("role.messages.deleted")
+      })
+    );
+    setOpenDeleteDialog(false);
+  };
+
+  const canDeleteRole = checkPermissions(rolePermissions, [
+    ACTIONS.MANAGE,
+    ACTIONS.DELETE
+  ]);
+
+  const actions = [
+    {
+      name: `${i18n.t("buttons.delete")}`,
+      action: () => setOpenDeleteDialog(true),
+      condition: canDeleteRole
+    }
+  ];
 
   useEffect(() => {
     dispatch(fetchRoles());
@@ -124,7 +164,16 @@ const Container = ({ mode }) => {
   );
 
   const editButton = formMode.get("isShow") && (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} />
+    <Permission resources={RESOURCES.roles} actions={WRITE_RECORDS}>
+      <Button
+        to={`${pathname}/edit`}
+        component={Link}
+        startIcon={<CreateIcon />}
+        size="small"
+      >
+        {i18n.t("buttons.edit")}
+      </Button>
+    </Permission>
   );
 
   const pageHeading = role?.size
@@ -151,6 +200,7 @@ const Container = ({ mode }) => {
       <PageHeading title={pageHeading}>
         {editButton}
         {saveButton}
+        {formMode.get("isShow") ? <ActionsMenu actionItems={actions} /> : null}
       </PageHeading>
       <PageContent>
         <Form
@@ -166,6 +216,16 @@ const Container = ({ mode }) => {
           formErrors={formErrors}
         />
       </PageContent>
+      {formMode.get("isShow") ? (
+        <ActionDialog
+          open={openDeleteDialog}
+          successHandler={handleSuccess}
+          cancelHandler={() => setOpenDeleteDialog(false)}
+          dialogTitle={i18n.t("role.delete_header")}
+          dialogText={i18n.t("role.messages.confirmation")}
+          confirmButtonLabel={i18n.t("buttons.ok")}
+        />
+      ) : null}
     </LoadingIndicator>
   );
 };

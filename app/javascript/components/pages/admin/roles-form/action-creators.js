@@ -42,6 +42,28 @@ export const saveRole = ({ id, body, saveMethod, message }) => {
   };
 };
 
+export const deleteRole = ({ id, message }) => {
+  return {
+    type: actions.DELETE_ROLE,
+    api: {
+      path: `${RECORD_PATH.roles}/${id}`,
+      method: "DELETE",
+      successCallback: {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          message,
+          options: {
+            variant: "success",
+            key: generate.messageKey()
+          }
+        },
+        redirectWithIdFromResponse: false,
+        redirect: `/admin/${RECORD_PATH.roles}`
+      }
+    }
+  };
+};
+
 export const clearSelectedRole = () => {
   return {
     type: actions.CLEAR_SELECTED_ROLE

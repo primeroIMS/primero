@@ -9,10 +9,12 @@ describe("<RolesForm /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
-    ["fetchRole", "saveRole", "clearSelectedRole"].forEach(property => {
-      expect(creators).to.have.property(property);
-      delete creators[property];
-    });
+    ["fetchRole", "saveRole", "clearSelectedRole", "deleteRole"].forEach(
+      property => {
+        expect(creators).to.have.property(property);
+        delete creators[property];
+      }
+    );
 
     expect(creators).to.be.empty;
   });
@@ -27,7 +29,6 @@ describe("<RolesForm /> - Action Creators", () => {
 
     expect(actionsCreators.fetchRole(10)).to.deep.equal(expectedAction);
   });
-
 
   it("should check that 'saveRole' action creator returns the correct object", () => {
     stub(generate, "messageKey").returns(4);
@@ -62,6 +63,39 @@ describe("<RolesForm /> - Action Creators", () => {
     };
 
     expect(actionsCreators.saveRole(args)).to.deep.equal(expectedAction);
+
+    generate.messageKey.restore();
+  });
+
+  it("should check that 'deleteRole' action creator returns the correct object", () => {
+    stub(generate, "messageKey").returns(4);
+
+    const args = {
+      id: 10,
+      message: "Deleted successfully"
+    };
+
+    const expectedAction = {
+      type: actions.DELETE_ROLE,
+      api: {
+        path: `${RECORD_PATH.roles}/10`,
+        method: "DELETE",
+        successCallback: {
+          action: ENQUEUE_SNACKBAR,
+          payload: {
+            message: "Deleted successfully",
+            options: {
+              key: 4,
+              variant: "success"
+            }
+          },
+          redirectWithIdFromResponse: false,
+          redirect: `/admin/${RECORD_PATH.roles}`
+        }
+      }
+    };
+
+    expect(actionsCreators.deleteRole(args)).to.deep.equal(expectedAction);
 
     generate.messageKey.restore();
   });

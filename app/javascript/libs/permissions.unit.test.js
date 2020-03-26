@@ -71,7 +71,8 @@ describe("Verifying config constant", () => {
       "RECEIVE_TRANSFER",
       "RECEIVE_REFERRAL",
       "REMOVE_ASSIGNED_USERS",
-      "REFERRAL_FROM_SERVICE"
+      "REFERRAL_FROM_SERVICE",
+      "DELETE"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
       expect(permissions[property]).to.be.a("string");
