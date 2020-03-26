@@ -428,24 +428,6 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  def transitions_created_at
-    transitions_list = []
-    return transitions_list if self.transitions.blank?
-    self.transitions.each do |transition|
-      transitions_list << transition.created_at
-    end
-    transitions_list
-  end
-
-  def service_response_types
-    response_types_list = []
-    return response_types_list if self.services_section.blank?
-    self.services_section.each do |section|
-      response_types_list << section.service_response_type
-    end
-    response_types_list
-  end
-
   def reopen(status, reopen_status, user_name)
     self.child_status = status
     self.case_status_reopened = reopen_status
