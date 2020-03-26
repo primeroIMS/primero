@@ -1,13 +1,13 @@
-import { expect } from "../../../../test/unit-test-helpers";
+import { expect } from "../../../../../../test";
 
 import * as constants from "./constants";
 
-describe("<AuditLogs /> pages/admin/audit-logs/constants", () => {
+describe("<AuditLogs /> pages/admin/audit-logs/components/filters/constants", () => {
   it("should have known properties", () => {
     const clone = { ...constants };
 
     expect(clone).to.be.an("object");
-    ["NAME", "AUDIT_LOG"].forEach(property => {
+    ["NAME", "USER_NAME", "TIMESTAMP"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });

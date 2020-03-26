@@ -19,7 +19,7 @@ export const buildAuditLogsQuery = data => {
     const [key, value] = obj;
 
     if (key === USER_NAME) {
-      return { ...acc, [USER_NAME]: value.id };
+      return { ...acc, [USER_NAME]: value?.id };
     }
 
     return { ...acc, [key]: value };

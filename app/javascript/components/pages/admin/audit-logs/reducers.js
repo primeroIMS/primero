@@ -10,8 +10,6 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case actions.FETCH_AUDIT_LOGS_STARTED:
       return state.set("loading", fromJS(payload)).set("errors", false);
-    // TODO: Remove line 12, added for testing purposes
-    case actions.FETCH_AUDIT_LOGS:
     case actions.FETCH_AUDIT_LOGS_SUCCESS:
       return state
         .set("data", fromJS(payload.data))
