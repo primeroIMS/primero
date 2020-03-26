@@ -188,7 +188,14 @@ module Api::V2
         facet :services_provided
       end
 
-      @services = search.facet(:services_provided).rows
+      @services = search.facet(:services_provided).
+        rows.
+        map  do |row| 
+          {
+            service: Lookup.display_value('lookup-service-type', row.value),
+            count: row.count
+          }
+        end
     end
 
     private

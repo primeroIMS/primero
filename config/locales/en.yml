@@ -2517,6 +2517,10 @@ en:
     completed_supervisor_approved_case_action_plan:
       title: "Completed Action Plans Approved by Supervisor"
       completed_and_approved: "Completed Case Action Plans Approved by Supervisor"
+    services_provided:
+      title: 'Services Provided'
+      service: 'Service'
+      count: 'Times Provided'
 
 
   reports:
