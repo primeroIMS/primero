@@ -1,3 +1,3 @@
 json.data({
-  "services_provided": ['PSS', 'Medical', 'Service Name Three', 'Service Name Four']
+  "services_provided": @services.map { |row| row.value }
 })

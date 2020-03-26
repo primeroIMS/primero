@@ -135,6 +135,7 @@ class Child < ApplicationRecord
     boolean :completed_safety_plan
     boolean :completed_action_plan
     boolean :case_plan_approved
+    string :services_provided, multiple: true
   end
 
   validate :validate_date_of_birth
@@ -431,5 +432,18 @@ class Child < ApplicationRecord
       self.class.action_plan_mandatory_fields.
         all? { |field_name| !plan[field_name].nil? }
     end
+  end
+
+  def services_provided
+    return [] unless respond_to?(:action_plan)
+    return [] if action_plan.nil?
+
+    action_plan.flat_map do |form|
+      next [] unless form['gbv_follow_up_subform_section']
+
+      form['gbv_follow_up_subform_section'].map do |subform|
+        subform['service_type_provided']
+      end
+    end.compact.uniq
   end
 end

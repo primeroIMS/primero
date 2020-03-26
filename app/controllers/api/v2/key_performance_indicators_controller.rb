@@ -184,6 +184,11 @@ module Api::V2
     end
 
     def services_provided
+      search = Child.search do
+        facet :services_provided
+      end
+
+      @services = search.facet(:services_provided).rows
     end
 
     private
