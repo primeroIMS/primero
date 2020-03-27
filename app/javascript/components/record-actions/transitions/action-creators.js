@@ -85,12 +85,24 @@ export const saveTransferUser = (recordId, body, message) => ({
   }
 });
 
-export const saveReferral = (recordId, body, message) => ({
-  type: actions.REFER_USER,
-  api: {
-    path: generatePath(actions.CASES_REFERRALS, recordId),
-    method: "POST",
-    body,
-    successCallback: successCallbackActions(REFER_DIALOG, message)
-  }
-});
+export const saveReferral = (recordId, recordType, body, message) => {
+  const successActions = successCallbackActions(REFER_DIALOG, message);
+
+  const successCallback =
+    body.data && body.data.service_record_id
+      ? [
+          `${recordType}/${actions.SERVICE_REFERRED_SAVE}`,
+          successActions
+        ].flat()
+      : successActions;
+
+  return {
+    type: actions.REFER_USER,
+    api: {
+      path: generatePath(actions.CASES_REFERRALS, recordId),
+      method: "POST",
+      body,
+      successCallback
+    }
+  };
+};

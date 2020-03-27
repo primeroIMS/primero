@@ -15,7 +15,15 @@ import RadioField from "./field-types/radio-field";
 import AttachmentField from "./field-types/attachments";
 import styles from "./styles.css";
 
-const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
+const FormSectionField = ({
+  name,
+  field,
+  mode,
+  recordType,
+  recordID,
+  filters,
+  index
+}) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -25,7 +33,9 @@ const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
     display_name: displayName,
     disabled,
     required,
-    selected_value: selectedValue
+    selected_value: selectedValue,
+    hide_on_view_page: hideOnViewPage,
+    visible
   } = field;
 
   const fieldProps = {
@@ -33,6 +43,7 @@ const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
     field,
     recordType,
     recordID,
+    filters,
     autoComplete: "off",
     fullWidth: true,
     InputProps: {
@@ -52,7 +63,8 @@ const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
     label: displayName[i18n.locale],
     helperText: helpText ? helpText[i18n.locale] : "",
     disabled: mode.isShow || disabled,
-    checked: ["t", "true"].includes(selectedValue)
+    checked: ["t", "true"].includes(selectedValue),
+    index
   };
 
   const FieldComponent = (t => {
@@ -76,6 +88,8 @@ const FormSectionField = ({ name, field, mode, recordType, recordID }) => {
     }
   })(type);
 
+  if ((mode?.isShow && hideOnViewPage) || !visible) return false;
+
   return <FieldComponent {...fieldProps} mode={mode} />;
 };
 
@@ -83,6 +97,8 @@ FormSectionField.displayName = FORM_SECTION_FIELD_NAME;
 
 FormSectionField.propTypes = {
   field: PropTypes.object.isRequired,
+  filters: PropTypes.object,
+  index: PropTypes.number,
   mode: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   recordID: PropTypes.string,

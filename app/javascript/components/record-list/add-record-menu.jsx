@@ -1,19 +1,28 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Menu, MenuItem, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
+import { push } from "connected-react-router";
 
 import { useI18n } from "../i18n";
 import { useApp } from "../application";
 
 const AddRecordMenu = ({ recordType }) => {
-  const { modules } = useApp();
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
+  const { userModules } = useApp();
 
   const handleClick = event => {
-    setAnchorEl(event.currentTarget);
+    const { unique_id: uniqueId } = userModules.first();
+
+    if (userModules.size === 1) {
+      dispatch(push(`/${recordType}/${uniqueId}/new`));
+    } else {
+      setAnchorEl(event.currentTarget);
+    }
   };
 
   const handleClose = () => {
@@ -31,7 +40,7 @@ const AddRecordMenu = ({ recordType }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {modules.map(m => (
+        {userModules.map(m => (
           <MenuItem
             key={m.unique_id}
             component={Link}

@@ -66,7 +66,8 @@ export const ACTIONS = {
   APPROVE_CASE_PLAN: "approve_case_plan",
   APPROVE_CLOSURE: "approve_closure",
   RECEIVE_REFERRAL: "receive_referral",
-  RECEIVE_TRANSFER: "receive_transfer"
+  RECEIVE_TRANSFER: "receive_transfer",
+  REFERRAL_FROM_SERVICE: "referral_from_service"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -139,6 +140,8 @@ export const ADD_INCIDENT = [...MANAGE, ACTIONS.INCIDENT_DETAILS_FROM_CASE];
 export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
 
 export const SHOW_AUDIT_LOGS = [...MANAGE, ACTIONS.READ];
+
+export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL_FROM_SERVICE];
 
 export const REQUEST_APPROVAL = [
   ...MANAGE,

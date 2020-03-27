@@ -78,7 +78,9 @@ describe("<Transitions />", () => {
           "setPending",
           "referralRef",
           "disabled",
-          "setDisabled"
+          "setDisabled",
+          "referral",
+          "setReferral"
         ];
 
         expect(Object.keys(referralForm.props())).to.deep.equal(validProps);

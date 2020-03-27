@@ -8,12 +8,14 @@ json.data do
         json.id agency.id
         json.unique_id agency.unique_id
         json.name agency.name
+        json.services agency.services
         if agency.logo_enabled && agency.logo_full.attached?
           json.logo_full = rails_blob_path(agency.logo_full, only_path: true)
         end
         if agency.logo_enabled && agency.logo_icon.attached?
           json.logo_icon = rails_blob_path(agency.logo_icon, only_path: true)
         end
+        json.disabled agency.disabled
       end
     end
   end
