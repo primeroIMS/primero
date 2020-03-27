@@ -13,7 +13,7 @@ describe("<LookupList />", () => {
   const state = fromJS({
     user: {
       permissions: {
-        agencies: [ACTIONS.MANAGE]
+        metadata: [ACTIONS.MANAGE]
       }
     },
     forms: {
@@ -36,9 +36,7 @@ describe("<LookupList />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(LookupList, {}, state, [
-      "/admin/lookups"
-    ]));
+    ({ component } = setupMountedComponent(LookupList, {}, state));
   });
 
   it("renders a PageHeading component", () => {
