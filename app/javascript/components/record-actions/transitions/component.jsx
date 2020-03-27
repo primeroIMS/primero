@@ -18,8 +18,6 @@ const Transitions = ({
   record,
   recordType,
   userPermissions,
-  referral,
-  setReferral,
   referDialog,
   assignDialog,
   transferDialog,
@@ -37,20 +35,12 @@ const Transitions = ({
   const [disabledReferButton, setDisabledReferButton] = useState(false);
   const [disabledTransferButton, setDisabledTransferButton] = useState(false);
 
-  const transitions = { referDialog, transferDialog, assignDialog };
-
   const commonDialogProps = {
     omitCloseAfterSuccess: true,
     pending,
     record,
     recordType
   };
-
-  useEffect(() => {
-    if (referral && Object.keys(referral).length) {
-      transitions.referDialog = true;
-    }
-  }, [referral]);
 
   const commonTransitionProps = {
     userPermissions,
@@ -79,8 +69,6 @@ const Transitions = ({
           referralRef={referralFormikRef}
           disabled={disabledReferButton}
           setDisabled={setDisabledReferButton}
-          referral={referral}
-          setReferral={setReferral}
         />
       );
     }
@@ -94,7 +82,7 @@ const Transitions = ({
   };
 
   const renderTransitionForm = () => {
-    if (transitions.referDialog) {
+    if (referDialog) {
       const referralOnClose = () => {
         setDisabledReferButton(false);
         handleReferClose();
@@ -110,7 +98,7 @@ const Transitions = ({
       };
     }
 
-    if (transitions.transferDialog) {
+    if (transferDialog) {
       const transferOnClose = () => {
         setDisabledTransferButton(false);
         handleTransferClose();
@@ -126,7 +114,7 @@ const Transitions = ({
       };
     }
 
-    if (transitions.assignDialog) {
+    if (assignDialog) {
       return {
         onClose: handleAssignClose,
         confirmButtonLabel: i18n.t("buttons.save"),
@@ -147,7 +135,7 @@ const Transitions = ({
 
   return (
     <TransitionDialog {...customProps} {...commonDialogProps}>
-      {transitionComponent(transitions)}
+      {transitionComponent({ referDialog, transferDialog, assignDialog })}
     </TransitionDialog>
   );
 };
@@ -163,9 +151,7 @@ Transitions.propTypes = {
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   referDialog: PropTypes.bool,
-  referral: PropTypes.object,
   setPending: PropTypes.func,
-  setReferral: PropTypes.func,
   transferDialog: PropTypes.bool,
   userPermissions: PropTypes.object.isRequired
 };

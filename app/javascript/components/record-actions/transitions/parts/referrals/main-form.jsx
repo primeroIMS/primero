@@ -28,9 +28,13 @@ import {
 } from "../../selectors";
 import { fetchReferralUsers } from "../../action-creators";
 import { enqueueSnackbar } from "../../../../notifier";
-import { getReportingLocations } from "../../../../record-form/selectors";
+import {
+  getReportingLocations,
+  getServiceToRefer
+} from "../../../../record-form/selectors";
 import { valuesToSearchableSelect } from "../../../../../libs";
 import { getLoading } from "../../../../index-table";
+import { getUserFilters } from "../helpers";
 
 import ProvidedConsent from "./provided-consent";
 import FormInternal from "./form-internal";
@@ -83,15 +87,10 @@ const MainForm = ({ formProps, rest }) => {
   const users = useSelector(state =>
     getUsersByTransitionType(state, transitionType)
   );
+  const serviceToRefer = useSelector(state => getServiceToRefer(state));
 
   const loadReferralUsers = () => {
-    const filters = Object.entries({
-      services,
-      agency,
-      location
-    }).reduce((acc, entry) => {
-      return entry[1] ? { ...acc, [entry[0]]: entry[1] } : acc;
-    }, {});
+    const filters = getUserFilters({ services, agency, location });
 
     dispatch(
       fetchReferralUsers({
@@ -104,12 +103,6 @@ const MainForm = ({ formProps, rest }) => {
   const hasErrors = useSelector(state =>
     getErrorsByTransitionType(state, transitionType)
   );
-
-  useEffect(() => {
-    if (rest.referral) {
-      loadReferralUsers();
-    }
-  }, [rest.referral]);
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -247,7 +240,7 @@ const MainForm = ({ formProps, rest }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <ProvidedConsent {...providedConsentProps} />
-      {rest.referral && Object.keys(rest.referral) ? null : (
+      {serviceToRefer.size ? null : (
         <FormControlLabel
           control={
             <Field
@@ -259,20 +252,10 @@ const MainForm = ({ formProps, rest }) => {
           label={i18n.t("referral.is_remote_label")}
         />
       )}
-      <Field
-        name={SERVICE_RECORD_FIELD}
-        value={
-          rest.referral && rest.referral[SERVICE_RECORD_FIELD]
-            ? rest.referral[SERVICE_RECORD_FIELD]
-            : ""
-        }
-        type="hidden"
-      />
+      <Field name={SERVICE_RECORD_FIELD} type="hidden" />
       <FormInternal
         fields={fields}
-        disabled={
-          Boolean(rest.referral && Object.keys(rest.referral)) || disableControl
-        }
+        disabled={Boolean(serviceToRefer.size) || disableControl}
       />
     </Form>
   );

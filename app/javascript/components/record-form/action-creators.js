@@ -38,6 +38,11 @@ export const setSelectedRecord = payload => ({
   payload
 });
 
+export const setServiceToRefer = payload => ({
+  type: Actions.SET_SERVICE_TO_REFER,
+  payload
+});
+
 export const fetchForms = () => async dispatch => {
   dispatch({
     type: Actions.RECORD_FORMS,

@@ -133,3 +133,6 @@ export const getSelectedForm = state =>
 
 export const getSelectedRecord = state =>
   state.getIn([NAMESPACE, "selectedRecord"]);
+
+export const getServiceToRefer = state =>
+  state.getIn([NAMESPACE, "serviceToRefer"], fromJS({}));

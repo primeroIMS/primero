@@ -43,9 +43,7 @@ const RecordForm = ({
   record,
   handleToggleNav,
   mobileDisplay,
-  recordType,
-  referral,
-  setReferral
+  recordType
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -137,9 +135,7 @@ const RecordForm = ({
                 field,
                 mode,
                 recordType,
-                recordID: record?.get("id"),
-                referral,
-                setReferral
+                recordID: record?.get("id")
               };
 
               if (!field?.visible) {
@@ -218,9 +214,7 @@ RecordForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  referral: PropTypes.object,
-  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  setReferral: PropTypes.func.isRequired
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export default memo(RecordForm);

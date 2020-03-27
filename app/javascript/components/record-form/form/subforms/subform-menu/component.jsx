@@ -1,30 +1,29 @@
 import React, { useState } from "react";
+import { useDispatch, batch } from "react-redux";
 import PropTypes from "prop-types";
 import { Menu, MenuItem, IconButton } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
+import { setServiceToRefer } from "../../../action-creators";
+import { setDialog } from "../../../../record-actions/action-creators";
 import { useI18n } from "../../../../i18n";
 
 import { NAME } from "./constants";
 
-const Component = ({ index, setReferral, values }) => {
+const Component = ({ index, values }) => {
   const i18n = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const referralParams = {
-    services: values[index].service_type,
-    agency: values[index].service_implementing_agency,
-    location: values[index].service_delivery_location,
-    transitioned_to: values[index].service_implementing_agency_individual,
-    service_record_id: values[index].unique_id
-  };
+  const dispatch = useDispatch();
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleReferral = () => {
-    setReferral(referralParams);
+    batch(() => {
+      dispatch(setServiceToRefer({ ...values[index] }));
+      dispatch(setDialog({ dialog: "referral", open: true }));
+    });
     setAnchorEl(null);
   };
 
@@ -67,7 +66,6 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   index: PropTypes.number.isRequired,
-  setReferral: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired
 };
 

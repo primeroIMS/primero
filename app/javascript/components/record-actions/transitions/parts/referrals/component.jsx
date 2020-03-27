@@ -1,13 +1,18 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { Formik } from "formik";
+import { fromJS } from "immutable";
 
+import { RECORD_TYPES } from "../../../../../config";
+import { setServiceToRefer } from "../../../../record-form/action-creators";
+import { getServiceToRefer } from "../../../../record-form";
 import { useI18n } from "../../../../i18n";
-import { saveReferral } from "../../action-creators";
+import { saveReferral, fetchReferralUsers } from "../../action-creators";
+import { getUserFilters } from "../helpers";
 
 import MainForm from "./main-form";
 import {
@@ -34,6 +39,33 @@ const ReferralForm = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const serviceToRefer = useSelector(state => getServiceToRefer(state));
+
+  useEffect(() => {
+    return () => dispatch(setServiceToRefer(fromJS({})));
+  }, []);
+
+  const referralFromService = {
+    [SERVICE_FIELD]: serviceToRefer.get("service_type"),
+    [AGENCY_FIELD]: serviceToRefer.get("service_implementing_agency"),
+    [LOCATION_FIELD]: serviceToRefer.get("service_delivery_location"),
+    [TRANSITIONED_TO_FIELD]: serviceToRefer.get(
+      "service_implementing_agency_individual"
+    )
+  };
+
+  useEffect(() => {
+    if (serviceToRefer.size) {
+      const filters = getUserFilters(referralFromService);
+
+      dispatch(
+        fetchReferralUsers({
+          record_type: RECORD_TYPES[recordType],
+          ...filters
+        })
+      );
+    }
+  }, [serviceToRefer]);
 
   const canConsentOverride =
     userPermissions &&
@@ -65,7 +97,7 @@ const ReferralForm = ({
       [LOCATION_FIELD]: "",
       [TRANSITIONED_TO_FIELD]: "",
       [NOTES_FIELD]: "",
-      ...referral
+      ...referralFromService
     },
     ref: referralRef,
     onSubmit: (values, { setSubmitting }) => {

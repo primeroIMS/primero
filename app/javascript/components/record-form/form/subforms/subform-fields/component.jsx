@@ -19,8 +19,7 @@ const Component = ({
   mode,
   setDialogIsNew,
   setOpen,
-  values,
-  setReferral
+  values
 }) => {
   const {
     subform_sort_by: subformSortBy,
@@ -99,7 +98,6 @@ const Component = ({
                   >
                     <SubformMenu
                       index={index}
-                      setReferral={setReferral}
                       values={values}
                     />
                   </Permission>
@@ -127,7 +125,6 @@ Component.propTypes = {
   mode: PropTypes.object.isRequired,
   setDialogIsNew: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,
-  setReferral: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired
 };
 

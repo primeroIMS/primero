@@ -25,7 +25,8 @@ describe("<RecordForm /> - Actions", () => {
       "SET_LOCATIONS_STARTED",
       "SET_LOCATIONS_SUCCESS",
       "SET_LOCATIONS_FINISHED",
-      "SET_LOCATIONS_FAILURE"
+      "SET_LOCATIONS_FAILURE",
+      "SET_SERVICE_TO_REFER"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       delete cloneActions[property];

@@ -20,7 +20,8 @@ describe("<RecordForm /> - Action Creators", () => {
       "setSelectedRecord",
       "fetchForms",
       "fetchOptions",
-      "fetchLookups"
+      "fetchLookups",
+      "setServiceToRefer"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -93,5 +94,26 @@ describe("<RecordForm /> - Action Creators", () => {
       },
       type: "forms/SET_OPTIONS"
     });
+  });
+
+  it("should check the 'setServiceToRefer' action creator return the correct object", () => {
+    const store = configureStore()({});
+    const dispatch = sinon.spy(store, "dispatch");
+    const expected = {
+      type: "forms/SET_SERVICE_TO_REFER",
+      payload: {
+        service_type: "service_1",
+        service_implementing_agency: "agency_1"
+      }
+    };
+
+    expect(
+      dispatch(
+        actionCreators.setServiceToRefer({
+          service_type: "service_1",
+          service_implementing_agency: "agency_1"
+        })
+      )
+    ).to.deep.equals(expected);
   });
 });
