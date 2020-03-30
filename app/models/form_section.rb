@@ -128,7 +128,7 @@ class FormSection < ApplicationRecord
         Rails.logger.info {"Updating form section #{unique_id}"}
         fields = fields.map do |field|
           updated_field = Field.find_or_initialize_by(name: field.name, form_section_id: form_section.id)
-          attributes = field.attributes.reject{|k,_| !([:id, :form_section_id].include?(k))}
+          attributes = field.attributes.select{|k,_| !([:id, :form_section_id, 'id', 'form_section_id'].include?(k))}
           updated_field.assign_attributes(attributes)
           updated_field
         end

@@ -14,11 +14,14 @@ describe Api::V2::UsersTransitionsController, type: :request do
     role = Role.new(permissions: [permissions])
     role.save(validate: false)
 
-    @user1 = User.new(user_name: 'user1', role: role)
+    agency = Agency.new(unique_id: "fake-agency", agency_code: "fkagency")
+    agency.save(validate: false)
+
+    @user1 = User.new(user_name: 'user1', role: role, agency: agency)
     @user1.save(validate: false)
-    @user2 = User.new(user_name: 'user2', role: role)
+    @user2 = User.new(user_name: 'user2', role: role, agency: agency)
     @user2.save(validate: false)
-    @user3 = User.new(user_name: 'user3', role: role)
+    @user3 = User.new(user_name: 'user3', role: role, agency: agency)
     @user3.save(validate: false)
   end
 
@@ -58,7 +61,7 @@ describe Api::V2::UsersTransitionsController, type: :request do
   end
 
   after :each do
-    [User, Role].each(&:destroy_all)
+    [User, Role, Agency].each(&:destroy_all)
   end
 
 

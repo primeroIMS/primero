@@ -6,7 +6,36 @@ describe Api::V2::ChildrenController, type: :request do
   include ActiveJob::TestHelper
 
   before :each do
-    clean_data(Alert, Flag, Attachment, Child)
+    clean_data(Alert, Flag, Attachment, Child, Agency, User, Role, Lookup)
+    @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
+    role_self = Role.create!(
+      name: 'Test Role 3',
+      unique_id: 'test-role-3',
+      group_permission: Permission::SELF,
+      permissions: [
+        Permission.new(
+          resource: Permission::CASE,
+          actions: [Permission::MANAGE]
+        )
+      ]
+    )
+    @user = User.create!(
+      full_name: 'Test User 2',
+      user_name: 'test_user_2',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'test_user_2@localhost.com',
+      agency_id: @agency.id,
+      role: role_self,
+      services: ['Test type']
+    )
+    Lookup.create!(
+      unique_id: 'lookup-service-type',
+      name_en: 'Service Type',
+      lookup_values_en: [
+        { id: 'Test type', display_text: 'Safehouse Service' }.with_indifferent_access
+      ]
+    )
     @case1 = Child.create!(
       data: { name: 'Test1', age: 5, sex: 'male' }
     )
@@ -410,6 +439,7 @@ describe Api::V2::ChildrenController, type: :request do
         expect(json['data']['name']).to be_nil
         @case1.reload
         expect(@case1.name).to eq('Test1')
+        expect(json['data']['services_section'][0]['service_is_referrable']).to be_falsey
       end
 
       it 'updates the subforms if cannot read/write cases' do
@@ -450,6 +480,37 @@ describe Api::V2::ChildrenController, type: :request do
         expect(response).to have_http_status(403)
         expect(json['errors'].size).to eq(1)
         expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
+      end
+
+      it 'when a user adds a referrable service subform' do
+        login_for_test(
+          group_permission: Permission::SELF,
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE,
+              actions: [Permission::SERVICES_SECTION_FROM_CASE]
+            )
+          ]
+        )
+
+        params = {
+          data: { name: 'Tester 1', services_section: [
+            {
+              service_type: 'Test type', service_implementing_agency: @agency.unique_id,
+              service_implementing_agency_individual: @user.user_name, service_provider: true
+            }
+          ] },
+          record_action: Permission::SERVICES_SECTION_FROM_CASE
+        }
+
+        patch "/api/v2/cases/#{@case1.id}", params: params
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['services_section'][0]['service_is_referrable']).to be_truthy
+        expect(json['data']['services_section'].first['service_type']).to eq('Test type')
+        expect(json['data']['name']).to be_nil
+        @case1.reload
+        expect(@case1.name).to eq('Test1')
       end
     end
 
@@ -595,7 +656,7 @@ describe Api::V2::ChildrenController, type: :request do
   end
 
   after :each do
-    clean_data(Alert, Flag, Attachment, Child)
+    clean_data(Alert, Flag, Attachment, Child, Agency, User, Role, Lookup)
     clear_performed_jobs
     clear_enqueued_jobs
   end

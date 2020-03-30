@@ -70,7 +70,8 @@ describe("Verifying config constant", () => {
       "APPROVE_CLOSURE",
       "RECEIVE_TRANSFER",
       "RECEIVE_REFERRAL",
-      "REMOVE_ASSIGNED_USERS"
+      "REMOVE_ASSIGNED_USERS",
+      "REFERRAL_FROM_SERVICE"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
       expect(permissions[property]).to.be.a("string");
@@ -110,8 +111,10 @@ describe("Verifying config constant", () => {
       "users",
       "agencies",
       "user_groups",
+      "lookups",
       "contact_information",
-      "roles"
+      "roles",
+      "systems"
     ].forEach(property => {
       expect(resources).to.have.property(property);
       expect(resources[property]).to.be.a("string");
