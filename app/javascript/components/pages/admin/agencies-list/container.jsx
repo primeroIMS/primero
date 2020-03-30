@@ -1,6 +1,6 @@
 import React from "react";
 import { fromJS } from "immutable";
-import { Button } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -16,6 +16,7 @@ import { headersToColumns } from "../helper";
 import { fetchAgencies } from "./action-creators";
 import { NAME } from "./constants";
 import NAMESPACE from "./namespace";
+import { Filters } from "./components";
 
 const Container = () => {
   const i18n = useI18n();
@@ -57,7 +58,14 @@ const Container = () => {
     <>
       <PageHeading title={i18n.t("agencies.label")}>{newAgencyBtn}</PageHeading>
       <PageContent>
-        <IndexTable {...tableOptions} />
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={9}>
+            <IndexTable {...tableOptions} />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <Filters />
+          </Grid>
+        </Grid>
       </PageContent>
     </>
   );
