@@ -183,11 +183,11 @@ describe("<Dashboard /> - Helpers", () => {
             "1506060": {
               count: 0,
               query: [
-                "record_state=true",,
-                "status=open",,
-                "created_at=2019-,12-25T00:00:00Z..2019-12-31T23:59:59Z",
-                "owned_by_location2=1506060,"
-              ],
+                "record_state=true",
+                "status=open",
+                "created_at=2019-12-25T00:00:00Z..2019-12-31T23:59:59Z",
+                "owned_by_location2=1506060"
+              ]
             }
           },
           reporting_location_open_this_week: {
