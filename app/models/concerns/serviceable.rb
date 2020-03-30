@@ -73,6 +73,12 @@ module Serviceable
       end
     end
 
+  def service_response_types
+    return [] if services_section.blank?
+    services_section.map(&:service_response_type).compact
+  end
+
+
     private
 
     def service_implemented?(service)

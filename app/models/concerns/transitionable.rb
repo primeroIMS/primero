@@ -136,4 +136,9 @@ module Transitionable
     end
   end
 
+  def transitions_created_at
+    return [] if transitions.blank?
+    transitions.map(&:created_at).compact
+  end
+
 end

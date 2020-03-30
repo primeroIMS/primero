@@ -84,7 +84,9 @@ module RecordActions
           if params[:ids].present?
             @records = @records.map{|r| r.id}
           else
-            @records = @records.map{|r| format_json_response(r)}
+            # Since this method expect a Module record, we can get this one from the records.
+            permitted_property_names = model_class.permitted_property_names(current_user, @records.first&.module)
+            @records = @records.map{|r| format_json_response(r, permitted_property_names)}
           end
 
           render :json => @records
@@ -123,10 +125,11 @@ module RecordActions
 
       format.json do
         if @record.present?
+          permitted_property_names = model_class.permitted_property_names(current_user, @record.module)
           # TODO: This method is doing an incorrect assumption about that the name of the FormSection is identical to the name of the Field that contains it.
           # For example: A form parent_form_1 can have a subform field subform_field_1 and the actual subform can be called subform_1 instead of subform_field_1.
           @record = clear_append_only_subforms(@record)
-          @record = format_json_response(@record)
+          @record = format_json_response(@record, permitted_property_names)
           render :json => @record
         else
           render :json => '', :status => :not_found
@@ -164,10 +167,11 @@ module RecordActions
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
         format.json do
+          permitted_property_names = model_class.permitted_property_names(current_user, @record.module)
           # TODO: This method is doing an incorrect assumption about that the name of the FormSection is identical to the name of the Field that contains it.
           # For example: A form parent_form_1 can have a subform field subform_field_1 and the actual subform can be called subform_1 instead of subform_field_1.
           @record = clear_append_only_subforms(@record)
-          @record = format_json_response(@record)
+          @record = format_json_response(@record, permitted_property_names)
           render :json => @record, :status => :created, :location => @record
         end
       else
@@ -210,10 +214,11 @@ module RecordActions
           end
         end
         format.json do
+          permitted_property_names = model_class.permitted_property_names(current_user, @record.module)
           # TODO: This method is doing an incorrect assumption about that the name of the FormSection is identical to the name of the Field that contains it.
           # For example: A form parent_form_1 can have a subform field subform_field_1 and the actual subform can be called subform_1 instead of subform_field_1.
           @record = clear_append_only_subforms(@record)
-          @record = format_json_response(@record)
+          @record = format_json_response(@record, permitted_property_names)
           render :json => @record.slice!("_attachments", "histories")
         end
       else
@@ -427,10 +432,19 @@ module RecordActions
 
   private
 
+  def select_permitted_fields(record, permitted_property_names)
+    record.select do |key, value|
+      permitted_property_names.include?(key)
+    end
+  end
+
   #Discard nil values and empty arrays.
-  def format_json_response(record)
+  def format_json_response(record, permitted_property_names)
     record = record.as_couch_json.clone
-    if params[:mobile].present?
+
+    record = select_permitted_fields(record, permitted_property_names)
+
+    if params[:mobile].present? || is_remote_request?
       record.each do |field_key, value|
         if value.kind_of? Array
           if value.size == 0
@@ -469,7 +483,7 @@ module RecordActions
 
     reindex_hash record_params
     @record_filtered_params = filter_params(@record)
-    merge_append_only_subforms(@record) if has_mobile_param?
+    merge_append_only_subforms(@record) if has_mobile_param? || is_remote_request?
     update_record_with_attachments(@record)
   end
 
@@ -490,6 +504,10 @@ module RecordActions
 
   def has_mobile_param?
     params[:mobile].present? && params[:mobile] == 'true'
+  end
+
+  def is_remote_request?
+    [true, 'true'].include?(params[:remote])
   end
 
   protected
