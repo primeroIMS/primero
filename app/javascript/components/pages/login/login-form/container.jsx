@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Formik, Field, Form } from "formik";
 import { TextField } from "formik-material-ui";
-import * as yup from "yup";
+import { object, string } from "yup";
 
 import { useI18n } from "../../../i18n";
 import { enqueueSnackbar } from "../../../notifier";
@@ -16,9 +16,9 @@ import styles from "./styles.css";
 import { attemptLogin } from "./action-creators";
 import { selectAuthErrors } from "./selectors";
 
-const validationSchema = yup.object().shape({
-  password: yup.string().required(),
-  user_name: yup.string().required()
+const validationSchema = object().shape({
+  password: string().required(),
+  user_name: string().required()
 });
 
 const Container = () => {

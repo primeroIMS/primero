@@ -77,12 +77,7 @@ describe("<ReferralForm />", () => {
   });
 
   it("should accept valid props", () => {
-    const componentProps = clone(
-      component
-        .find(ReferralForm)
-        .first()
-        .props()
-    );
+    const componentProps = clone(component.find(ReferralForm).first().props());
 
     expect(componentProps).to.have.property("handleClose");
     expect(componentProps).to.have.property("userPermissions");

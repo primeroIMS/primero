@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 import { DropdownDoubleIcon } from "../../images/primero-icons";
 import { useI18n } from "../i18n";
-import * as Selectors from "../application/selectors";
+import { selectLocales } from "../application/selectors";
 
 import styles from "./styles.css";
 
@@ -28,7 +28,7 @@ const TranslationsToggle = () => {
   };
 
   // TODO: Need better list of locales with direction from backend
-  const locales = useSelector(state => Selectors.selectLocales(state));
+  const locales = useSelector(state => selectLocales(state));
 
   return (
     <>

@@ -80,16 +80,16 @@ const Reports = () => {
     <div>
       <PageContainer>
         <PageHeading title={i18n.t("reports.label")}>
-          {/*<Permission resources={RESOURCES.reports} actions={CREATE_REPORTS}>*/}
-          {/*  <Button*/}
-          {/*    to={ROUTES.reports}*/}
-          {/*    component={Link}*/}
-          {/*    className={css.new}*/}
-          {/*    startIcon={<AddIcon />}*/}
-          {/*  >*/}
-          {/*    {i18n.t("buttons.new")}*/}
-          {/*  </Button>*/}
-          {/*</Permission>*/}
+          {/* <Permission resources={RESOURCES.reports} actions={CREATE_REPORTS}> */}
+          {/*  <Button */}
+          {/*    to={ROUTES.reports} */}
+          {/*    component={Link} */}
+          {/*    className={css.new} */}
+          {/*    startIcon={<AddIcon />} */}
+          {/*  > */}
+          {/*    {i18n.t("buttons.new")} */}
+          {/*  </Button> */}
+          {/* </Permission> */}
         </PageHeading>
         <PageContent>
           <LoadingIndicator

@@ -115,7 +115,6 @@ export const getLocations = state =>
   state.getIn([NAMESPACE, "options", "locations"], fromJS([]));
 
 export const getReportingLocations = (state, adminLevel) => {
-
   return adminLevel
     ? getLocations(state).filter(
         location => location.get("admin_level") === adminLevel

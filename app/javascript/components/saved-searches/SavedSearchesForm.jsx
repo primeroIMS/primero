@@ -11,7 +11,7 @@ import {
   TextField
 } from "@material-ui/core";
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
+import { object, string } from "yup";
 import isEmpty from "lodash/isEmpty";
 import omitBy from "lodash/omitBy";
 import qs from "qs";
@@ -36,8 +36,8 @@ const FormErrors = () => {
   return null;
 };
 
-const validationSchema = yup.object().shape({
-  name: yup.string().required()
+const validationSchema = object().shape({
+  name: string().required()
 });
 
 const SavedSearchesForm = ({ recordType, open, setOpen, getValues }) => {

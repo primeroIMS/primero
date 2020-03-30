@@ -40,7 +40,9 @@ describe("<CustomAutoComplete />", () => {
 
     const { component: mountedComponent } = setupMountedComponent(
       CustomAutoComplete,
-      { props: { ...props, excludeEmpty } }
+      {
+        props: { ...props, excludeEmpty }
+      }
     );
     const reactSelect = mountedComponent.find(ReactSelect).props();
 

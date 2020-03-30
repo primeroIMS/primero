@@ -16,11 +16,7 @@ const SingleValue = props => {
       : children;
 
   return (
-    <Typography
-      noWrap
-      className={css.singleValue}
-      {...innerProps}
-    >
+    <Typography noWrap className={css.singleValue} {...innerProps}>
       {translatedLabel}
     </Typography>
   );

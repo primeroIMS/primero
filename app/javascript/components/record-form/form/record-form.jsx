@@ -1,7 +1,7 @@
 import React, { memo, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import * as yup from "yup";
+import { number, date, array, object, string } from "yup";
 import { Formik, Form } from "formik";
 import { addDays } from "date-fns";
 import isEmpty from "lodash/isEmpty";
@@ -15,7 +15,7 @@ import { useI18n } from "../../i18n";
 import { enqueueSnackbar } from "../../notifier";
 import { ActionDialog } from "../../action-dialog";
 import { constructInitialValues } from "../helpers";
-import * as C from "../constants";
+import { NUMERIC_FIELD, DATE_FIELD, SUBFORM_SECTION } from "../constants";
 
 import RecordFormTitle from "./record-form-title";
 import { RECORD_FORM_NAME } from "./constants";
@@ -60,42 +60,37 @@ const RecordForm = ({
     const { name, type, required } = field;
     const validations = {};
 
-    if (C.NUMERIC_FIELD === type) {
+    if (NUMERIC_FIELD === type) {
       if (name.match(/.*age$/)) {
-        validations[name] = yup
-          .number()
+        validations[name] = number()
           .nullable()
           .transform(cv => (NaN.isNaN(cv) ? undefined : cv))
           .positive()
           .min(0, i18n.t("errors.models.child.age"))
           .max(130, i18n.t("errors.models.child.age"));
       } else {
-        validations[name] = yup
-          .number()
-          .nullable()
-          .min(0)
-          .max(2147483647);
+        validations[name] = number().nullable().min(0).max(2147483647);
       }
-    } else if (C.DATE_FIELD === type) {
-      validations[name] = yup.date().nullable();
+    } else if (DATE_FIELD === type) {
+      validations[name] = date().nullable();
       if (field.date_validation === "default_date_validation") {
         validations[name] = validations[name].max(
           addDays(new Date(), 1),
           i18n.t("fields.future_date_not_valid")
         );
       }
-    } else if (C.SUBFORM_SECTION === type) {
+    } else if (SUBFORM_SECTION === type) {
       const subformSchema = field.subform_section_id.fields.map(sf => {
         return fieldValidations(sf);
       });
 
-      validations[name] = yup
-        .array()
-        .of(yup.object().shape(Object.assign({}, ...subformSchema)));
+      validations[name] = array().of(
+        object().shape(Object.assign({}, ...subformSchema))
+      );
     }
 
     if (required) {
-      validations[name] = (validations[name] || yup.string()).required(
+      validations[name] = (validations[name] || string()).required(
         i18n.t("form_section.required_field", {
           field: field.display_name[i18n.locale]
         })
@@ -114,7 +109,7 @@ const RecordForm = ({
       );
     }, {});
 
-    return yup.object().shape(schema);
+    return object().shape(schema);
   };
 
   useEffect(() => {
@@ -148,7 +143,7 @@ const RecordForm = ({
 
               return (
                 <Box my={3} key={field.name}>
-                  {C.SUBFORM_SECTION === field.type ? (
+                  {SUBFORM_SECTION === field.type ? (
                     <SubformField {...fieldProps} />
                   ) : (
                     <FormSectionField name={field.name} {...fieldProps} />

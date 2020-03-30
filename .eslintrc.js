@@ -70,6 +70,7 @@ module.exports = {
       "mocha": true
     },
     "rules": {
+      "import/no-namespace": "off",
       "no-unused-expressions": "off",
       "no-unused-vars": [
         "error",

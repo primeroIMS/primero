@@ -77,9 +77,7 @@ const OverviewBox = ({
     <LoadingIndicator {...loadingIndicatorProps}>
       <div className={css.overviewBox}>
         <div className={css.sectionTitle}>{renderSum()}</div>
-        <ul className={css.overviewList}>
-          {statItems()}
-        </ul>
+        <ul className={css.overviewList}>{statItems()}</ul>
       </div>
     </LoadingIndicator>
   );

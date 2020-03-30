@@ -2,9 +2,9 @@ import { expect } from "chai";
 import Typography from "@material-ui/core/Typography";
 
 import { setupMountedComponent } from "../../../test";
+import ActionDialog from "../../action-dialog/component";
 
 import SingleValue from "./single-value";
-import ActionDialog from "../../action-dialog/component";
 
 describe("<SingleValue />", () => {
   let component;

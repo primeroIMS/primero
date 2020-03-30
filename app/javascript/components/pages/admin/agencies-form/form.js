@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import * as yup from "yup";
+import { object, string, boolean, array } from "yup";
 
 import {
   FieldRecord,
@@ -12,16 +12,16 @@ import {
 } from "../../../form";
 
 export const validations = formMode =>
-  yup.object().shape({
-    agency_code: yup.string().required(),
-    description: yup.string(),
-    disabled: yup.boolean(),
-    logo_enabled: yup.boolean(),
-    logo_full_base64: yup.string(),
-    logo_full_file_name: yup.string(),
-    name: yup.string().required(),
-    services: yup.array(),
-    telephone: yup.string()
+  object().shape({
+    agency_code: string().required(),
+    description: string(),
+    disabled: boolean(),
+    logo_enabled: boolean(),
+    logo_full_base64: string(),
+    logo_full_file_name: string(),
+    name: string().required(),
+    services: array(),
+    telephone: string()
   });
 
 export const form = (i18n, formMode) => {

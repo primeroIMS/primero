@@ -46,7 +46,7 @@ describe("<Nav />", () => {
       agency: "agency_1",
       permissions
     }
-  })
+  });
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(

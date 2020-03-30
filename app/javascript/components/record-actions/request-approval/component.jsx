@@ -17,7 +17,7 @@ import { useI18n } from "../../i18n";
 import { ActionDialog } from "../../action-dialog";
 
 import { approvalRecord } from "./action-creators";
-import ApprovalForm from "./approval-form"
+import ApprovalForm from "./approval-form";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 

@@ -6,9 +6,7 @@ export const columns = (i18n, css) => [
     name: "name",
     options: {
       customBodyRender: value => {
-        return (
-          <div className={css.lookupName}>{value}</div>
-        );
+        return <div className={css.lookupName}>{value}</div>;
       }
     }
   },

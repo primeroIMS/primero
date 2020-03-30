@@ -1,20 +1,20 @@
 import reduceReducers from "reduce-reducers";
 import { combineReducers } from "redux-immutable";
 
-import * as Application from "./components/application";
-import * as Flagging from "./components/flagging";
-import * as I18n from "./components/i18n";
-import * as Nav from "./components/nav";
-import * as Notifier from "./components/notifier";
-import * as Dashboard from "./components/pages/dashboard";
-import * as ExportList from "./components/pages/export-list";
+import { reducers } from "./components/application";
+import { reducers as Flagging_reducers } from "./components/flagging";
+import { reducers as I18n_reducers } from "./components/i18n";
+import { reducers as Nav_reducers } from "./components/nav";
+import { reducers as Notifier_reducers } from "./components/notifier";
+import { reducers as Dashboard_reducers } from "./components/pages/dashboard";
+import { reducers as ExportList_reducers } from "./components/pages/export-list";
 import { reducers as loginReducers } from "./components/pages/login/login-form";
 import { reducers as idpReducers } from "./components/pages/login";
 import { reducers as recordActionsReducers } from "./components/record-actions";
 import { reducers as requestApprovalReducers } from "./components/record-actions/request-approval";
-import * as PotentialMatches from "./components/pages/potential-matches";
-import * as Report from "./components/pages/report";
-import * as Reports from "./components/pages/reports-list";
+import { reducers as PotentialMatches_reducers } from "./components/pages/potential-matches";
+import { reducers as Report_reducers } from "./components/pages/report";
+import { reducers as Reports_reducers } from "./components/pages/reports-list";
 import * as Support from "./components/pages/support";
 import * as TaskList from "./components/pages/task-list";
 import * as UsersList from "./components/pages/admin/users-list";
@@ -55,14 +55,14 @@ const rootReducer = {
           return o;
         }, {})
       },
-      reports: reduceReducers(Reports.reducers, Report.reducers),
+      reports: reduceReducers(Reports_reducers, Report_reducers),
       transitions: reduceReducers(
         Transitions.reducers,
         TransitionsForms.reducers,
         TransferRequest.reducers,
         referralActionReducers
       ),
-      ...PotentialMatches.reducers,
+      ...PotentialMatches_reducers,
       ...TaskList.reducers,
       users: reduceReducers(UsersList.reducers, UsersForm.reducers),
       agencies: reduceReducers(AgenciesList.reducers, AgenciesForm.reducers),
@@ -71,10 +71,10 @@ const rootReducer = {
         UserGroupsList.reducers,
         UserGroupsForm.reducers
       ),
-      ...Dashboard.reducers,
-      ...ExportList.reducers,
+      ...Dashboard_reducers,
+      ...ExportList_reducers,
       support: reduceReducers(ContactInformation.reducers, Support.reducers),
-      ...Flagging.reducers,
+      ...Flagging_reducers,
       ...SavedSearches.reducers,
       admin: combineReducers({
         lookups: reduceReducers(AdminLookupsList.reducers)
@@ -84,15 +84,15 @@ const rootReducer = {
     revokeTransitionReducers
   ),
   ui: combineReducers({
-    ...Nav.reducers,
-    ...I18n.reducers,
+    ...Nav_reducers,
+    ...I18n_reducers,
     ...loginReducers,
     ...recordActionsReducers
   }),
   ...User.reducers,
   ...RecordForms.reducers,
-  ...Notifier.reducers,
-  ...Application.reducers,
+  ...Notifier_reducers,
+  ...reducers,
   ...idpReducers
 };
 

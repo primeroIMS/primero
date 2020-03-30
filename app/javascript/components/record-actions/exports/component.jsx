@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { List } from "immutable";
-import * as yup from "yup";
+import { object, string } from "yup";
 import { withRouter, useLocation } from "react-router-dom";
 import qs from "qs";
 
@@ -95,9 +95,9 @@ const Component = ({
     );
   };
 
-  const validationSchema = yup.object().shape({
-    export_type: yup.string().required(i18n.t("encrypt.export_type")),
-    password: yup.string().required(i18n.t("encrypt.password_label"))
+  const validationSchema = object().shape({
+    export_type: string().required(i18n.t("encrypt.export_type")),
+    password: string().required(i18n.t("encrypt.password_label"))
   });
 
   const formSections = List([

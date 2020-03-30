@@ -30,8 +30,7 @@ describe("<RevokeModal /> - Component", () => {
       service: "legal_assistance_service"
     }
   };
-  const state = fromJS({
-  });
+  const state = fromJS({});
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(RevokeModal, props, state));

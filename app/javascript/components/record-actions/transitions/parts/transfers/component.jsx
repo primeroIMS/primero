@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { Box, FormControlLabel } from "@material-ui/core";
 import { Formik, Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
-import * as yup from "yup";
+import { object, string } from "yup";
 
 import { useI18n } from "../../../../i18n";
 import { enqueueSnackbar } from "../../../../notifier";
@@ -207,7 +207,10 @@ const TransferForm = ({
     if (
       !transfer &&
       !providedConsent &&
-      internalFieldsDirty(values, internalFields.map(f => f.id))
+      internalFieldsDirty(
+        values,
+        internalFields.map(f => f.id)
+      )
     ) {
       resetForm();
     }
@@ -227,10 +230,10 @@ const TransferForm = ({
     );
   };
 
-  const validationSchema = yup.object().shape({
-    [TRANSITIONED_TO_FIELD]: yup
-      .string()
-      .required(i18n.t("transfer.user_mandatory"))
+  const validationSchema = object().shape({
+    [TRANSITIONED_TO_FIELD]: string().required(
+      i18n.t("transfer.user_mandatory")
+    )
   });
 
   const formProps = {

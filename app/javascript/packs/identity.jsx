@@ -1,4 +1,5 @@
 import { UserAgentApplication } from "msal";
+
 import { DOMAIN } from "../components/pages/login/idp-selection/config";
 
 export const setMsalConfig = {
@@ -14,6 +15,6 @@ export const setMsalConfig = {
   }
 };
 
-export const setMsalApp = (msalConfig) => {
+export const setMsalApp = msalConfig => {
   return new UserAgentApplication(msalConfig);
 };

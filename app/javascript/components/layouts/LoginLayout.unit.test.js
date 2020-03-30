@@ -22,18 +22,10 @@ describe("<LoginLayout />", () => {
   });
 
   it("renders default PrimeroModule logo", () => {
-    expect(
-      component
-        .find("img")
-        .first()
-        .prop("src")
-    ).to.equal(PrimeroWhiteLogo);
-    expect(
-      component
-        .find("img")
-        .first()
-        .prop("alt")
-    ).to.equal("Primero");
+    expect(component.find("img").first().prop("src")).to.equal(
+      PrimeroWhiteLogo
+    );
+    expect(component.find("img").first().prop("alt")).to.equal("Primero");
   });
   it("renders a module logo", () => {
     expect(component.find(ModuleLogo)).to.have.lengthOf(1);

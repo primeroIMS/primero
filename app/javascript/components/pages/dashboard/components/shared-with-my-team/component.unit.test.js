@@ -44,10 +44,7 @@ describe("<SharedWithMyTeam> - pages/dashboard/components/shared-with-my-team", 
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(SharedWithMyTeam, {}, state));
-    tableCells = component
-      .find(DashboardTable)
-      .find(TableHead)
-      .find(TableCell);
+    tableCells = component.find(DashboardTable).find(TableHead).find(TableCell);
   });
 
   it("should render a <DashboardTable /> component", () => {

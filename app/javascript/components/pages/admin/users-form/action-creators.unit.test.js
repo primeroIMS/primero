@@ -1,6 +1,6 @@
 import { expect, stub } from "../../../../test/unit-test-helpers";
 import { RECORD_PATH } from "../../../../config";
-import { ENQUEUE_SNACKBAR, generate }  from "../../../notifier";
+import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 
 import * as actionsCreators from "./action-creators";
 import actions from "./actions";

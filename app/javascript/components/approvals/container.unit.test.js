@@ -4,7 +4,6 @@ import {
   ExpansionPanelSummary
 } from "@material-ui/core";
 
-
 import RecordFormTitle from "../record-form/form/record-form-title";
 import { setupMountedComponent, expect } from "../../test";
 
