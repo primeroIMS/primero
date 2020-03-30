@@ -183,11 +183,11 @@ describe("<Dashboard /> - Helpers", () => {
             "1506060": {
               count: 0,
               query: [
-                "record_state=true",
-                "status=open",
-                "created_at=2019-12-25T00:00:00Z..2019-12-31T23:59:59Z",
-                "owned_by_location2=1506060"
-              ]
+                "record_state=true",,
+                "status=open",,
+                "created_at=2019-,12-25T00:00:00Z..2019-12-31T23:59:59Z",
+                "owned_by_location2=1506060,"
+              ],
             }
           },
           reporting_location_open_this_week: {
@@ -226,7 +226,16 @@ describe("<Dashboard /> - Helpers", () => {
         }
       });
 
-      const expected = [["My District", 1, 0, 1, 0, 0]];
+      const expected = [
+        {
+          "": "My District",
+          reporting_location_closed_last_week: 0,
+          reporting_location_closed_this_week: 0,
+          reporting_location_open: 1,
+          reporting_location_open_last_week: 0,
+          reporting_location_open_this_week: 1
+        }
+      ];
 
       const i18nMock = { t: () => ({}), locale: "en" };
 
