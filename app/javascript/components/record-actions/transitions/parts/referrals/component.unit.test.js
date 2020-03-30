@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import clone from "lodash/clone";
-import { Map, List } from "immutable";
+import { Map, List, fromJS } from "immutable";
 import { Formik } from "formik";
 import { Button, FormControlLabel } from "@material-ui/core";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
@@ -14,17 +14,17 @@ import ReferralForm from "./component";
 
 describe("<ReferralForm />", () => {
   let component;
-  const initialState = Map({
-    records: Map({
-      transitions: Map({
+  const initialState = fromJS({
+    records: {
+      transitions: {
         mockUsers: users
-      })
-    }),
-    application: Map({
-      agencies: List([{ unique_id: "agency-unicef", name: "UNICEF" }])
-    }),
-    forms: Map({
-      options: List([
+      }
+    },
+    application: {
+      agencies: [{ unique_id: "agency-unicef", name: "UNICEF" }]
+    },
+    forms: {
+      options: [
         {
           type: "lookup-service-type",
           options: [{ id: "health", display_text: "Health" }]
@@ -33,8 +33,8 @@ describe("<ReferralForm />", () => {
           type: "reporting_location",
           options: [{ id: "location_a", display_text: "Location A" }]
         }
-      ])
-    })
+      ]
+    }
   });
   const record = Map({
     id: "03cdfdfe-a8fc-4147-b703-df976d200977",

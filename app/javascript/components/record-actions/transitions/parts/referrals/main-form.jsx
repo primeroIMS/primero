@@ -6,8 +6,8 @@ import { Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
 
 import {
-  getAgenciesWithService,
-  selectAgencies,
+  getEnabledAgenciesWithServices,
+  getEnabledAgencies,
   getReportingLocationConfig
 } from "../../../../application/selectors";
 import { getOption } from "../../../../record-form";
@@ -60,9 +60,12 @@ const MainForm = ({ formProps, rest }) => {
     setDisabled,
     recordType
   } = rest;
-  const { handleSubmit, values } = formProps;
+
+  const { handleSubmit, values, setValues } = formProps;
   const { services, agency, location } = values;
   const disableControl = !providedConsent && !disabled;
+
+  const serviceToRefer = useSelector(state => getServiceToRefer(state));
 
   const serviceTypes = useSelector(state =>
     getOption(state, LOOKUPS.service_type, i18n)
@@ -82,12 +85,14 @@ const MainForm = ({ formProps, rest }) => {
   const loading = useSelector(state => getLoading(state, NAMESPACE));
 
   const agencies = useSelector(state =>
-    services ? getAgenciesWithService(state, services) : selectAgencies(state)
+     services
+      ? getEnabledAgenciesWithServices(state, services)
+      : getEnabledAgencies(state)
   );
+
   const users = useSelector(state =>
     getUsersByTransitionType(state, transitionType)
   );
-  const serviceToRefer = useSelector(state => getServiceToRefer(state));
 
   const loadReferralUsers = () => {
     const filters = getUserFilters({ services, agency, location });
@@ -99,6 +104,33 @@ const MainForm = ({ formProps, rest }) => {
       })
     );
   };
+
+  useEffect(() => {
+    const filters = getUserFilters({ services, agency, location });
+
+    dispatch(
+      fetchReferralUsers({
+        record_type: RECORD_TYPES[recordType],
+        ...filters
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    const selectedUserName = serviceToRefer.get(
+      "service_implementing_agency_individual",
+      ""
+    );
+    const selectedUser = users.find(
+      user => user.get("user_name") === selectedUserName
+    );
+
+    if (selectedUser?.size) {
+      setValues({ ...values, [TRANSITIONED_TO_FIELD]: selectedUserName });
+    } else {
+      setValues({ ...values, [TRANSITIONED_TO_FIELD]: "" });
+    }
+  }, [users]);
 
   const hasErrors = useSelector(state =>
     getErrorsByTransitionType(state, transitionType)

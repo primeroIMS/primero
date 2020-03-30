@@ -7,6 +7,11 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { fromJS } from "immutable";
 
+import {
+  getEnabledAgenciesWithServices,
+  getEnabledAgencies,
+  getReportingLocationConfig
+} from "../../../../application/selectors";
 import { RECORD_TYPES } from "../../../../../config";
 import { setServiceToRefer } from "../../../../record-form/action-creators";
 import { getServiceToRefer } from "../../../../record-form";
@@ -40,10 +45,12 @@ const ReferralForm = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
   const serviceToRefer = useSelector(state => getServiceToRefer(state));
-
-  useEffect(() => {
-    return () => dispatch(setServiceToRefer(fromJS({})));
-  }, []);
+  const services = serviceToRefer.get("service_type", "");
+  const agencies = useSelector(state =>
+    services
+      ? getEnabledAgenciesWithServices(state, services)
+      : getEnabledAgencies(state)
+  );
 
   const referralFromService = {
     [SERVICE_FIELD]: serviceToRefer.get("service_type"),
@@ -55,17 +62,24 @@ const ReferralForm = ({
   };
 
   useEffect(() => {
-    if (serviceToRefer.size) {
-      const filters = getUserFilters(referralFromService);
+    const selectedAgencyId = serviceToRefer.get(
+      "service_implementing_agency",
+      ""
+    );
+    const selectedAgency = agencies.find(
+      current => current.get("unique_id") === selectedAgencyId
+    );
 
-      dispatch(
-        fetchReferralUsers({
-          record_type: RECORD_TYPES[recordType],
-          ...filters
-        })
-      );
+    if (selectedAgency?.size) {
+      referralFromService[AGENCY_FIELD] = selectedAgencyId;
+    } else {
+      referralFromService[AGENCY_FIELD] = "";
     }
-  }, [serviceToRefer]);
+  }, [agencies]);
+
+  useEffect(() => {
+    return () => dispatch(setServiceToRefer(fromJS({})));
+  }, []);
 
   const canConsentOverride =
     userPermissions &&

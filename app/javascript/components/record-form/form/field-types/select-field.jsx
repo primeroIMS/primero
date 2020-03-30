@@ -28,8 +28,8 @@ import { fetchReferralUsers } from "../../../record-actions/transitions/action-c
 import { getUsersByTransitionType } from "../../../record-actions/transitions/selectors";
 import { valuesToSearchableSelect } from "../../../../libs";
 import {
-  selectAgencies,
-  getAgenciesWithService,
+  getEnabledAgencies,
+  getEnabledAgenciesWithServices,
   getReportingLocationConfig
 } from "../../../application/selectors";
 import { SearchableSelect } from "../../../searchable-select";
@@ -42,6 +42,7 @@ import {
   appendDisabledUser,
   getConnectedFields
 } from "../helpers";
+import { getUserFilters } from "../../../record-actions/transitions/parts/helpers";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -86,7 +87,9 @@ const SelectField = ({
 
   const agencies = useSelector(
     state =>
-      service ? getAgenciesWithService(state, service) : selectAgencies(state),
+      service
+        ? getEnabledAgenciesWithServices(state, service)
+        : getEnabledAgencies(state),
     (agencies1, agencies2) => agencies1.equals(agencies2)
   );
 
@@ -114,13 +117,7 @@ const SelectField = ({
   const loading = useSelector(state => getLoading(state, NAMESPACE));
 
   const reloadReferralUsers = () => {
-    const filters = Object.entries({
-      services: service,
-      agency,
-      location
-    }).reduce((acc, entry) => {
-      return entry[1] ? { ...acc, [entry[0]]: entry[1] } : acc;
-    }, {});
+    const filters = getUserFilters({ services: service, agency, location });
 
     dispatch(
       fetchReferralUsers({
