@@ -35,9 +35,12 @@ module Exporters
     end
 
     def export(child_data, _, *_args)
-      child_data.each do |child|
+      child_with_photo = child_data.map { |child| child if child.has_photo }.compact
+      return no_photo_available(@pdf) if child_with_photo.empty?
+
+      child_with_photo.each do |child|
         add_child_photo(@pdf, child, true)
-        @pdf.start_new_page unless child_data.last == child
+        @pdf.start_new_page unless child_with_photo.last == child
       rescue StandardError => e
         Rails.logger.error e
       end
@@ -45,16 +48,15 @@ module Exporters
 
     private
 
+    def no_photo_available(pdf)
+      pdf.text 'No photos available', size: 40, align: :center, style: :bold
+    end
+
     def add_child_photo(pdf, child, with_full_id = false)
-      if child.has_photo
-        storage_disk_service = ActiveStorage::Service::DiskService.new(root: Rails.root.to_s + '/storage/')
-        render_image(pdf, storage_disk_service.send(:path_for, child.photo.file.blob.key))
-      else
-        render_image(pdf, "#{Rails.root}/app/assets/images/no_photo_clip.jpg")
-      end
+      storage_disk_service = ActiveStorage::Service::DiskService.new(root: Rails.root.to_s + '/storage/')
+      render_image(pdf, storage_disk_service.send(:path_for, child.photo.file.blob.key))
       pdf.move_down 25
       pdf.text child.short_id, size: 40, align: :center, style: :bold if with_full_id
-
       pdf.y -= 3.mm
     end
 
