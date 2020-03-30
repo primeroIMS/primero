@@ -10,6 +10,8 @@ import Form, { FormAction, whichFormMode } from "../../../form";
 import { ROUTES } from "../../../../config";
 import { LoadingIndicator } from "../../../loading-indicator";
 import bindFormSubmit from "../../../../libs/submit-form";
+import { MANAGE, RESOURCES } from "../../../../libs/permissions";
+import Permission from "../../../application/permission";
 
 import { NAME } from "./constants";
 import { form } from "./form";
@@ -69,22 +71,24 @@ const Component = ({ mode }) => {
     ) : null;
 
   return (
-    <LoadingIndicator hasData={contactInformation?.size > 0} type={NAME}>
-      <PageHeading title={pageHeading}>
-        {editButton}
-        {saveButton}
-      </PageHeading>
-      <PageContent>
-        <Form
-          useCancelPrompt
-          mode={mode}
-          formSections={form(i18n)}
-          onSubmit={handleSubmit}
-          ref={formRef}
-          initialValues={contactInformation.toJS()}
-        />
-      </PageContent>
-    </LoadingIndicator>
+    <Permission resources={RESOURCES.systems} actions={MANAGE} redirect>
+      <LoadingIndicator hasData={contactInformation?.size > 0} type={NAME}>
+        <PageHeading title={pageHeading}>
+          {editButton}
+          {saveButton}
+        </PageHeading>
+        <PageContent>
+          <Form
+            useCancelPrompt
+            mode={mode}
+            formSections={form(i18n)}
+            onSubmit={handleSubmit}
+            ref={formRef}
+            initialValues={contactInformation.toJS()}
+          />
+        </PageContent>
+      </LoadingIndicator>
+    </Permission>
   );
 };
 

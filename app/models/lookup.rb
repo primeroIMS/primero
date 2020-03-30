@@ -65,7 +65,7 @@ class Lookup < ApplicationRecord
       return nil if lookup_ids.blank?
 
       lookups ||= Lookup.where(unique_id: lookup_ids)
-      lookup = lookups.find { |l| l.contains_form_group_id?(form_group_id) }
+      lookup = lookups.find { |l| l.contains_option_id?(form_group_id) }
 
       return nil unless lookup.present?
 
@@ -136,8 +136,8 @@ class Lookup < ApplicationRecord
     end
   end
 
-  def contains_form_group_id?(form_group_id)
-    lookup_values_i18n.values.flatten.find { |form_group| form_group['id'] == form_group_id }.present?
+  def contains_option_id?(option_id)
+    lookup_values_i18n.values.flatten.find { |form_group| form_group['id'] == option_id }.present?
   end
 
   def localized_property_hash(locale = Primero::Application::BASE_LANGUAGE)

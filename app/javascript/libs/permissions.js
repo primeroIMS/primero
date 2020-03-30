@@ -66,10 +66,11 @@ export const ACTIONS = {
   APPROVE_CASE_PLAN: "approve_case_plan",
   APPROVE_CLOSURE: "approve_closure",
   RECEIVE_REFERRAL: "receive_referral",
-  RECEIVE_TRANSFER: "receive_transfer"
+  RECEIVE_TRANSFER: "receive_transfer",
+  REFERRAL_FROM_SERVICE: "referral_from_service"
 };
 
-const MANAGE = [ACTIONS.MANAGE];
+export const MANAGE = [ACTIONS.MANAGE];
 
 export const RESOURCES = {
   cases: "cases",
@@ -81,8 +82,10 @@ export const RESOURCES = {
   users: "users",
   agencies: "agencies",
   user_groups: "user_groups",
+  lookups: "lookups",
   contact_information: "contact_information",
-  roles: "roles"
+  roles: "roles",
+  systems: "systems"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {
@@ -134,6 +137,8 @@ export const SHOW_TASKS = [...MANAGE, ACTIONS.DASH_TASKS];
 export const ADD_INCIDENT = [...MANAGE, ACTIONS.INCIDENT_DETAILS_FROM_CASE];
 
 export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
+
+export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL_FROM_SERVICE];
 
 export const REQUEST_APPROVAL = [
   ...MANAGE,

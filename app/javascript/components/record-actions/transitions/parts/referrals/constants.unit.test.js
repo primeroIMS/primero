@@ -14,7 +14,9 @@ describe("<Referral /> - Constants", () => {
       "AGENCY_FIELD",
       "LOCATION_FIELD",
       "TRANSITIONED_TO_FIELD",
-      "NOTES_FIELD"
+      "NOTES_FIELD",
+      "SERVICE_RECORD_FIELD",
+      "MAIN_FORM"
     ].forEach(property => {
       expect(constants).to.have.property(property);
       expect(constants[property]).to.be.a("string");

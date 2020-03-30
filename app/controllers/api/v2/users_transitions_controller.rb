@@ -18,6 +18,7 @@ module Api::V2
     def refer_to
       authorize!(:referral, @record_model)
       @users = User.users_for_referral(current_user, @record_model, user_filters)
+      UserLocationService.inject_locations(@users)
       render 'api/v2/users/users_for_transition'
     end
 

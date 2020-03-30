@@ -10,7 +10,6 @@ import { getPermissionsByRecord } from "../user/selectors";
 import { getFiltersValuesByRecordType } from "../index-filters/selectors";
 import {
   ACTIONS,
-  EXPORT_CUSTOM,
   ENABLE_DISABLE_RECORD,
   ADD_NOTE,
   ADD_INCIDENT,
@@ -31,7 +30,8 @@ import {
   REQUEST_TYPE,
   REFER_DIALOG,
   TRANSFER_DIALOG,
-  ASSIGN_DIALOG
+  ASSIGN_DIALOG,
+  EXPORT_DIALOG
 } from "./constants";
 import { NAME } from "./config";
 import Notes from "./notes";
@@ -50,7 +50,9 @@ const Container = ({
   record,
   mode,
   showListActions,
-  selectedRecords
+  selectedRecords,
+  referral,
+  setReferral
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -62,7 +64,6 @@ const Container = ({
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
   const [incidentDialog, setIncidentDialog] = useState(false);
   const [serviceDialog, setServiceDialog] = useState(false);
-  const [openExportsDialog, setOpenExportsDialog] = useState(false);
   const requestDialog = useSelector(state =>
     selectDialog(REQUEST_APPROVAL_DIALOG, state)
   );
@@ -75,6 +76,9 @@ const Container = ({
     selectDialog(TRANSFER_DIALOG, state)
   );
   const assignDialog = useSelector(state => selectDialog(ASSIGN_DIALOG, state));
+  const openExportsDialog = useSelector(state =>
+    selectDialog(EXPORT_DIALOG, state)
+  );
   const setRequestDialog = open => {
     dispatch(setDialog({ dialog: REQUEST_APPROVAL_DIALOG, open }));
   };
@@ -92,6 +96,9 @@ const Container = ({
   };
   const setAssignDialog = open => {
     dispatch(setDialog({ dialog: ASSIGN_DIALOG, open }));
+  };
+  const setOpenExportsDialog = open => {
+    dispatch(setDialog({ dialog: EXPORT_DIALOG, open }));
   };
 
   const enableState =
@@ -231,6 +238,8 @@ const Container = ({
     setTransitionType,
     recordType,
     userPermissions,
+    referral,
+    setReferral,
     referDialog,
     transferDialog,
     assignDialog,
@@ -279,10 +288,6 @@ const Container = ({
     (canReopen && openState === "reopen") ||
     (canClose && openState === "close");
 
-  const handleExportsOpen = () => {
-    setOpenExportsDialog(true);
-  };
-
   const formRecordType = i18n.t(
     `forms.record_types.${RECORD_TYPES[recordType]}`
   );
@@ -290,7 +295,11 @@ const Container = ({
   const actions = [
     {
       name: `${i18n.t("buttons.referral")} ${formRecordType}`,
-      action: () => setReferDialog(true),
+      action: () => {
+        setReferral(null);
+        setTransitionType("referral");
+        setReferDialog(true);
+      },
       recordType,
       condition: canRefer
     },
@@ -356,7 +365,7 @@ const Container = ({
     },
     {
       name: i18n.t(`${recordType}.export`),
-      action: handleExportsOpen,
+      action: () => setOpenExportsDialog(true),
       recordType: RECORD_TYPES.all,
       recordListAction: true,
       condition: canShowExports
@@ -554,11 +563,13 @@ const Container = ({
       <Permission resources={recordType} actions={SHOW_EXPORTS}>
         <Exports
           openExportsDialog={openExportsDialog}
-          close={setOpenExportsDialog}
+          close={() => setOpenExportsDialog(false)}
           recordType={recordType}
           userPermissions={userPermissions}
           record={record}
           selectedRecords={selectedRecords}
+          pending={dialogPending}
+          setPending={setDialogPending}
         />
       </Permission>
     </>
@@ -572,7 +583,9 @@ Container.propTypes = {
   mode: PropTypes.object,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  referral: PropTypes.object,
   selectedRecords: PropTypes.array,
+  setReferral: PropTypes.func,
   showListActions: PropTypes.bool
 };
 

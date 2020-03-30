@@ -35,7 +35,7 @@ class Location < ApplicationRecord
   def generate_location_files
     return if ENV['PRIMERO_BOOTSTRAP']
 
-    OptionsJob.set(wait_until: 5.minutes.from_now).perform_later unless OptionsQueueStats.jobs?
+    GenerateLocationFilesJob.set(wait_until: 5.minutes.from_now).perform_later unless OptionsQueueStats.jobs?
   end
 
   class << self
@@ -183,6 +183,12 @@ class Location < ApplicationRecord
         placename_i18n: location_properties[:placename],
         hierarchy_path: hierarchy_path_from_parent_code(location_properties[:parent_code], location_properties[:code])
       )
+    end
+
+    def reporting_locations_for_hierarchies(hierarchies)
+      admin_level = SystemSettings.current&.reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      Location.where('hierarchy_path @> ARRAY[:ltrees]::ltree[]', ltrees: hierarchies.compact.uniq)
+              .where(admin_level: admin_level)
     end
   end
 

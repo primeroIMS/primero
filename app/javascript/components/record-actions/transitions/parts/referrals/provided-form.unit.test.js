@@ -70,33 +70,4 @@ describe("<ProvidedForm /> - referrals", () => {
       "should not render Checkbox"
     ).to.not.have.lengthOf(1);
   });
-
-  it("should reload users if any agency, location or user has changed", () => {
-    const props = {
-      canConsentOverride: true,
-      setDisabled: () => {},
-      recordType: "cases"
-    };
-    const { component } = setupMountedComponent(
-      ProvidedForm,
-      props,
-      {},
-      [],
-      formProps
-    );
-    const referAnyway = component.find(Checkbox);
-    const storeActions = component.props().store.getActions();
-    const expectedAction = {
-      type: actions.REFERRAL_USERS_FETCH,
-      api: {
-        path: actions.USERS_REFER_TO,
-        params: {
-          record_type: RECORD_TYPES.cases
-        }
-      }
-    };
-
-    referAnyway.find("input").simulate("change", { target: { checked: true } });
-    expect(storeActions[1]).to.deep.equal(expectedAction);
-  });
 });

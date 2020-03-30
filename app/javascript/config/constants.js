@@ -60,8 +60,9 @@ export const RECORD_PATH = {
   users: "users",
   user_groups: "user_groups",
   agencies: "agencies",
-  contact_information: "contact_information",
-  roles: "roles"
+  roles: "roles",
+  lookups: "lookups",
+  contact_information: "contact_information"
 };
 
 export const RECORD_OWNER = "record_owner";
@@ -84,7 +85,7 @@ export const RECORD_INFORMATION = [
 export const ROUTES = {
   account: "/account",
   cases: "/cases",
-  dashboard: "/dashboard",
+  dashboard: "/dashboards",
   exports: "/exports",
   incidents: "/incidents",
   login: "/login",
@@ -103,6 +104,7 @@ export const ROUTES = {
   admin_user_groups_new: "/admin/user_groups/new",
   admin_agencies: "/admin/agencies",
   admin_agencies_new: "/admin/agencies/new",
+  lookups: "/admin/lookups",
   admin_roles: "/admin/roles",
   admin_roles_new: "/admin/roles/new"
 };
@@ -150,10 +152,24 @@ export const ADMIN_NAV = [
   },
   {
     to: "/contact_information",
-    label: "settings.navigation.contact_information"
+    label: "settings.navigation.contact_information",
+    manageRequired: true
   },
   { to: "/modules", label: "settings.navigation.modules", disabled: true },
-  { to: "/forms", label: "settings.navigation.forms", disabled: true },
+  {
+    to: "/forms-parent",
+    label: "settings.navigation.forms",
+    items: [
+      {
+        to: "/forms",
+        label: "settings.navigation.forms"
+      },
+      {
+        to: "/lookups",
+        label: "settings.navigation.lookups"
+      }
+    ]
+  },
   { to: "/locations", label: "settings.navigation.locations", disabled: true },
   {
     to: "/system_settings",
