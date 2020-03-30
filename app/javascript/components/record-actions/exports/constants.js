@@ -27,7 +27,8 @@ export const ALL_EXPORT_TYPES = Object.freeze([
   Object.freeze({
     id: "photowall",
     permission: ACTIONS.EXPORT_PHOTO_WALL,
-    format: EXPORT_FORMAT.PDF
+    format: EXPORT_FORMAT.PDF,
+    message: "exports.photowall.success_message"
   }),
   Object.freeze({
     id: "unhcr_csv",
