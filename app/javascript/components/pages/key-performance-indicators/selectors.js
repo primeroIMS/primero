@@ -67,3 +67,11 @@ export const servicesProvided = state => {
     }
   }))
 }
+
+export const averageReferrals = state => {
+  return state.getIn(["records", NAMESPACE, 'averageReferrals'], fromJS({
+    data: {
+      average_referrals: 0
+    }
+  }))
+}
