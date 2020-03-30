@@ -1,14 +1,19 @@
 import * as Actions from "./actions";
 
-export const fetchNumberOfCases = (dateRange) => async dispatch => {
+const fetcherFactory = (config) => (dateRange) => async (dispatch) => {
   dispatch({
-    type: Actions.NUMBER_OF_CASES,
+    type: config.type,
     api: {
-      path: "key_performance_indicators/number_of_cases",
+      path: config.path,
       params: { from: dateRange.from, to: dateRange.to }
     }
   });
 };
+
+export const fetchNumberOfCases = fetcherFactory({
+  type: Actions.NUMBER_OF_CASES,
+  path: "key_performance_indicators/number_of_cases"
+})
 
 export const fetchNumberOfIncidents = (dateRange) => async dispatch => {
   dispatch({
@@ -80,11 +85,17 @@ export const fetchCompletedSupervisorApprovedCaseActionPlans = (dateRange) => as
   })
 }
 
-export const fetchServicesProvided = () => async dispatch => {
+export const fetchServicesProvided = (dateRange) => async dispatch => {
   dispatch({
     type: Actions.SERVICES_PROVIDED,
     api: {
-      path: "key_performance_indicators/services_provided"
+      path: "key_performance_indicators/services_provided",
+      params: { from: dateRange.from, to: dateRange.to }
     }
   })
 }
+
+export const fetchAverageReferrals = fetcherFactory({
+  type: Actions.AVERAGE_REFERRALS,
+  path: "key_performance_indicators/average_referrals"
+})

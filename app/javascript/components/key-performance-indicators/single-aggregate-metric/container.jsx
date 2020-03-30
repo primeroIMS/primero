@@ -7,7 +7,7 @@ export default function SingleAggregateMetric({ value, label }) {
 
   return (
     <div className={css.root}>
-      <h1 className={css.value}>{value}</h1>
+      <h1 className={css.value}>{value.toFixed(1)}</h1>
       <span className={css.label}>{label}</span>
     </div>
   );
