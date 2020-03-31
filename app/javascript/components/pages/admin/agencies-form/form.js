@@ -11,7 +11,7 @@ import {
   PHOTO_FIELD
 } from "../../../form";
 
-export const validations = formMode =>
+export const validations = () =>
   object().shape({
     agency_code: string().required(),
     description: string(),
@@ -24,7 +24,7 @@ export const validations = formMode =>
     telephone: string()
   });
 
-export const form = (i18n, formMode) => {
+export const form = i18n => {
   return fromJS([
     FormSectionRecord({
       unique_id: "agencies",

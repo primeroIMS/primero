@@ -6,9 +6,7 @@ import PropTypes from "prop-types";
 import { ModuleLogo } from "../module-logo";
 import { AgencyLogo } from "../agency-logo";
 import { TranslationsToggle } from "../translations-toggle";
-import { useI18n } from "../i18n";
 import { Notifier } from "../notifier";
-import { useApp } from "../application";
 import OfflineIndicator from "../offline-indicator";
 
 import styles from "./login-styles.css";

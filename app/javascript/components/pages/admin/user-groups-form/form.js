@@ -3,13 +3,13 @@ import { object, string } from "yup";
 
 import { FieldRecord, FormSectionRecord, TEXT_FIELD } from "../../../form";
 
-export const validations = (formMode, i18n) =>
+export const validations = () =>
   object().shape({
     description: string(),
     name: string().required()
   });
 
-export const form = (i18n, formMode) => {
+export const form = i18n => {
   return fromJS([
     FormSectionRecord({
       unique_id: "user_groups",
