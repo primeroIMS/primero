@@ -79,5 +79,10 @@ module.exports = {
         }
       ]
     }
+  }, {
+    "files": ["worker.js"],
+    "globals": {
+      "workbox": "readonly"
+    }
   }]
 };
