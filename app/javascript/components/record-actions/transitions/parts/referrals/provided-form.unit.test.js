@@ -4,8 +4,6 @@ import { Grid, FormControlLabel, Checkbox } from "@material-ui/core";
 import { Field } from "formik";
 
 import { setupMountedComponent } from "../../../../../test";
-import actions from "../../actions";
-import { RECORD_TYPES } from "../../../../../config";
 
 import ProvidedForm from "./provided-form";
 

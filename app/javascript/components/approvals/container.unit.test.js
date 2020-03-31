@@ -1,4 +1,4 @@
-import { Map, List, fromJS } from "immutable";
+import { fromJS } from "immutable";
 import {
   ExpansionPanelDetails,
   ExpansionPanelSummary

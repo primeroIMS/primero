@@ -8,6 +8,7 @@ import { useI18n } from "../i18n";
 import { selectLocales } from "../application/selectors";
 
 import styles from "./styles.css";
+import { NAME } from "./constants";
 
 const TranslationsToggle = () => {
   const { changeLocale, locale, ...i18n } = useI18n();
@@ -65,5 +66,7 @@ const TranslationsToggle = () => {
     </>
   );
 };
+
+TranslationsToggle.displayName = NAME;
 
 export default TranslationsToggle;

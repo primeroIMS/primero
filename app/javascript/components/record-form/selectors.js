@@ -2,7 +2,6 @@ import isEmpty from "lodash/isEmpty";
 import { fromJS, OrderedMap } from "immutable";
 
 import { denormalizeFormData } from "../../schemas";
-import { getReportingLocationConfig } from "../application";
 
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";

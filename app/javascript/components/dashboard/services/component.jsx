@@ -6,7 +6,6 @@ import { useTheme } from "@material-ui/styles";
 import { PrioritySummary } from "../priority-summary";
 import { useI18n } from "../../i18n";
 import { OptionsBox } from "../options-box";
-import { ActionMenu } from "../action-menu";
 
 const Services = ({ servicesList }) => {
   const theme = useTheme();
@@ -25,12 +24,6 @@ const Services = ({ servicesList }) => {
 
   const caseManagement = servicesList.get("caseManagement") || [];
   const screening = servicesList.get("screening") || [];
-  const actionMenuItems = fromJS([
-    {
-      id: "add-new",
-      label: "Add New"
-    }
-  ]);
 
   return (
     <>

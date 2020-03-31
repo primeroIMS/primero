@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import {
-  Button,
   Card,
   CardContent,
   CardActionArea,
@@ -9,15 +8,11 @@ import {
 } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import AddIcon from "@material-ui/icons/Add";
 import makeStyles from "@material-ui/styles/makeStyles";
 
 import { PageContainer, PageHeading, PageContent } from "../../page";
 import { useI18n } from "../../i18n";
 import LoadingIndicator from "../../loading-indicator/component";
-import { RESOURCES, CREATE_REPORTS } from "../../../libs/permissions";
-import { ROUTES } from "../../../config";
-import Permission from "../../application/permission";
 
 import { fetchReports } from "./action-creators";
 import styles from "./styles.css";
@@ -79,18 +74,7 @@ const Reports = () => {
   return (
     <div>
       <PageContainer>
-        <PageHeading title={i18n.t("reports.label")}>
-          {/* <Permission resources={RESOURCES.reports} actions={CREATE_REPORTS}> */}
-          {/*  <Button */}
-          {/*    to={ROUTES.reports} */}
-          {/*    component={Link} */}
-          {/*    className={css.new} */}
-          {/*    startIcon={<AddIcon />} */}
-          {/*  > */}
-          {/*    {i18n.t("buttons.new")} */}
-          {/*  </Button> */}
-          {/* </Permission> */}
-        </PageHeading>
+        <PageHeading title={i18n.t("reports.label")} />
         <PageContent>
           <LoadingIndicator
             hasData={reports.size > 0}

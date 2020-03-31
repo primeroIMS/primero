@@ -8,7 +8,7 @@ import { useI18n } from "../../../../i18n";
 import { CasesIcon } from "../../../../../images/primero-icons";
 import styles from "../../styles.css";
 
-const ProvidedForm = ({ setDisabled, canConsentOverride, recordType }) => {
+const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 

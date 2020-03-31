@@ -1,5 +1,4 @@
 import { expect } from "chai";
-import { Button } from "@material-ui/core";
 import { Formik, Field, Form } from "formik";
 import { Map, List, fromJS } from "immutable";
 import * as keydown from "keyevent";

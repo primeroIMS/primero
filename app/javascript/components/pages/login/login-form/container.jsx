@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Grid, Button, Link } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -86,9 +86,6 @@ const Container = () => {
           </Form>
         )}
       />
-      {/* <Grid item xs className={css.recoveryLink}>
-        <Link href="/forgot_password">{i18n.t("user.forgot_password")}</Link>
-      </Grid> */}
     </>
   );
 };

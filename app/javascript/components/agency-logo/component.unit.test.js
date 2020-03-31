@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import UnicefLogo from "../../images/unicef.png";
 import { setupMountedComponent } from "../../test";
 import { ContactInformationRecord } from "../pages/support/records";
 

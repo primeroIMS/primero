@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, CircularProgress, InputLabel } from "@material-ui/core";
 import { useFormContext } from "react-hook-form";
@@ -11,7 +11,7 @@ import { PHOTO_FIELD } from "../constants";
 import styles from "./styles.css";
 
 const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
-  const { setValue, watch, register, getValues } = useFormContext();
+  const { setValue, watch, register } = useFormContext();
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [file, setFile] = useState({

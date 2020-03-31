@@ -7,7 +7,7 @@ import styles from "./styles.css";
 
 const SingleValue = props => {
   const css = makeStyles(styles)();
-  const { selectProps, innerProps, children, options, data } = props;
+  const { innerProps, children, options, data } = props;
 
   const foundOption = options.find(op => op.value === data.value);
   const translatedLabel =

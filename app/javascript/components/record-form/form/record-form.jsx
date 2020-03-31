@@ -6,9 +6,7 @@ import { Formik, Form } from "formik";
 import { addDays } from "date-fns";
 import isEmpty from "lodash/isEmpty";
 import some from "lodash/some";
-import { Box, IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import { Box } from "@material-ui/core";
 import NavigationPrompt from "react-router-navigation-prompt";
 
 import { useI18n } from "../../i18n";
@@ -20,7 +18,6 @@ import { NUMERIC_FIELD, DATE_FIELD, SUBFORM_SECTION } from "../constants";
 import RecordFormTitle from "./record-form-title";
 import { RECORD_FORM_NAME } from "./constants";
 import FormSectionField from "./form-section-field";
-import styles from "./styles.css";
 import SubformField from "./subforms";
 
 const ValidationErrors = () => {
@@ -47,7 +44,6 @@ const RecordForm = ({
   referral,
   setReferral
 }) => {
-  const css = makeStyles(styles)();
   const i18n = useI18n();
 
   let initialFormValues = constructInitialValues(forms.values());

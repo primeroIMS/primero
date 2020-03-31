@@ -6,7 +6,6 @@ import { TranslationsToggle } from "../translations-toggle";
 import { AgencyLogo } from "../agency-logo";
 import { ModuleLogo } from "../module-logo";
 import PrimeroWhiteLogo from "../../images/primero-logo-white.png";
-import UnicefLogo from "../../images/unicef.png";
 
 import LoginLayout from "./LoginLayout";
 

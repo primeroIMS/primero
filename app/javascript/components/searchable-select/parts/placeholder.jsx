@@ -7,7 +7,7 @@ import styles from "./styles.css";
 
 const Placeholder = props => {
   const css = makeStyles(styles)();
-  const { selectProps, innerProps = {}, children } = props;
+  const { innerProps = {}, children } = props;
 
   return (
     <Typography
