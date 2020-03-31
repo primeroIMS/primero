@@ -14,7 +14,7 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 
 import { useI18n } from "../../i18n";
-import { ActionDialog } from "../../action-dialog";
+import ActionDialog from "../../action-dialog";
 
 import { approvalRecord } from "./action-creators";
 import ApprovalForm from "./approval-form";

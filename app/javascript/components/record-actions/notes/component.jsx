@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { object, string } from "yup";
 
 import { useI18n } from "../../i18n";
-import { ActionDialog } from "../../action-dialog";
+import ActionDialog from "../../action-dialog";
 import Form, {
   FieldRecord,
   FormSectionRecord,

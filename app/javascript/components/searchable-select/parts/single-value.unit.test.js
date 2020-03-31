@@ -2,7 +2,7 @@ import { expect } from "chai";
 import Typography from "@material-ui/core/Typography";
 
 import { setupMountedComponent } from "../../../test";
-import ActionDialog from "../../action-dialog/component";
+import ActionDialog from "../../action-dialog";
 
 import SingleValue from "./single-value";
 

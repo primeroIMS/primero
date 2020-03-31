@@ -7,7 +7,7 @@ import { withRouter, useLocation } from "react-router-dom";
 import qs from "qs";
 
 import { useI18n } from "../../i18n";
-import { ActionDialog } from "../../action-dialog";
+import ActionDialog from "../../action-dialog";
 import Form, {
   FieldRecord,
   FormSectionRecord,

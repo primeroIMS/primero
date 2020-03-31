@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { FormLabel, TextField } from "@material-ui/core";
 
 import { useI18n } from "../../../i18n";
-import { ActionDialog } from "../../../action-dialog";
+import ActionDialog from "../../../action-dialog";
 import { ACCEPTED, REJECTED, ACCEPT, REJECT } from "../../../../config";
 
 import { approvalTransfer } from "./action-creators";

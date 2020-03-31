@@ -37,7 +37,6 @@ import { reducers as transferApprovalReducers } from "./components/transitions/t
 import { reducers as revokeModalReducers } from "./components/transitions/components/revoke-modal";
 import { reducers as referralActionReducers } from "./components/transitions/referrals/referral-action";
 import { reducers as lookupsListReducers } from "./components/pages/admin/lookups-list";
-
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
