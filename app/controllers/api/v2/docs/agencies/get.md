@@ -54,42 +54,12 @@ Shows a paginated list of all agencies that are accessible to this user.
       "services": [],
       "logo_enabled": false,
       "disabled": false
-    },
-    {
-      "id": 2,
-      "unique_id": "agency_test003",
-      "agency_code": "a00052",
-      "order": 5,
-      "name": {
-        "en": "Nationality",
-        "fr": "",
-        "ar": "",
-        "ar-LB": "",
-        "so": "",
-        "es": "Nacionalidad",
-        "bn": ""
-      },
-      "description": {
-        "en": "Nationality",
-        "fr": "",
-        "ar": "",
-        "ar-LB": "",
-        "so": "",
-        "es": "Nacionalidad",
-        "bn": ""
-      },
-      "telephone": "87452168",
-      "services": [
-        "services00"
-      ],
-      "logo_enabled": true,
-      "disabled": true
     }
   ]
 }
 ```
 
-## Success Response with param disabled=true
+## Success Response with param disabled[]=true
 
 **Condition** : User can see one or more agencies.
 
@@ -134,7 +104,7 @@ Shows a paginated list of all agencies that are accessible to this user.
 }
 ```
 
-## Success Response with param disabled=false
+## Success Response with param disabled[]=false&disabled[]=true
 
 **Condition** : User can see one or more agencies.
 
@@ -172,6 +142,36 @@ Shows a paginated list of all agencies that are accessible to this user.
       "services": [],
       "logo_enabled": false,
       "disabled": false
+    },
+    {
+      "id": 2,
+      "unique_id": "agency_test003",
+      "agency_code": "a00052",
+      "order": 5,
+      "name": {
+        "en": "Nationality",
+        "fr": "",
+        "ar": "",
+        "ar-LB": "",
+        "so": "",
+        "es": "Nacionalidad",
+        "bn": ""
+      },
+      "description": {
+        "en": "Nationality",
+        "fr": "",
+        "ar": "",
+        "ar-LB": "",
+        "so": "",
+        "es": "Nacionalidad",
+        "bn": ""
+      },
+      "telephone": "87452168",
+      "services": [
+        "services00"
+      ],
+      "logo_enabled": true,
+      "disabled": true
     }
   ]
 }

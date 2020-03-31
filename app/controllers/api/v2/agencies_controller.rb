@@ -7,7 +7,7 @@ class Api::V2::AgenciesController < ApplicationApiController
 
   def index
     authorize! :index, Agency
-    filter_agencies = Agency.list(params.permit(:disabled))
+    filter_agencies = Agency.list(params.permit(disabled: []))
     @total = filter_agencies.size
     @agencies = filter_agencies.paginate(pagination)
   end
