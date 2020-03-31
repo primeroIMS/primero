@@ -4,10 +4,10 @@ import { DOMAIN } from "../components/pages/login/idp-selection/config";
 
 export const setMsalConfig = {
   auth: {
-    clientId: IDP.providerClientId,
-    authority: IDP.authorizationUrl,
+    clientId: window.IDP.providerClientId,
+    authority: window.IDP.authorizationUrl,
     validateAuthority: false,
-    redirectUri: `http://${DOMAIN}/login/${IDP.providerType}`
+    redirectUri: `http://${DOMAIN}/login/${window.IDP.providerType}`
   },
   cache: {
     cacheLocation: "sessionStorage",
