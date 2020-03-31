@@ -76,7 +76,9 @@ export const defaultErrorCallback = (store, response, json) => {
     }
   ];
 
-  handleRestCallback(store, errorPayload, response, json);
+  if (response.status !== 401) {
+    handleRestCallback(store, errorPayload, response, json);
+  }
 };
 
 export const isOnline = store => {
