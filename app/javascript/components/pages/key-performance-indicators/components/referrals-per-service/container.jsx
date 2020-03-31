@@ -1,6 +1,6 @@
 import React from "react";
 import { fromJS } from "immutable";
-import { DateRangeSelect } from "components/key-performance-indicators";
+import { DateRangeSelect, CommonDateRanges } from "components/key-performance-indicators";
 import { OptionsBox, DashboardTable } from "components/dashboard";
 
 export default function ReferralsPerService({ }) {
@@ -14,15 +14,12 @@ export default function ReferralsPerService({ }) {
     ['Safety & security', 0],
     ['Livelihood services', 1]
   ];
-  
-  let currentMonth = new Date();
-  currentMonth.setMonth(currentMonth.getMonth() - 3)
-  let dateRanges = [{
-    value: '1-month',
-    name: 'Current Month',
-    from: currentMonth,
-    to: new Date()
-  }]
+
+  let commonDateRanges = CommonDateRanges.from(new Date());
+
+  let dateRanges = [
+    commonDateRanges.CurrentMonth
+  ];
 
   return (
     <OptionsBox
