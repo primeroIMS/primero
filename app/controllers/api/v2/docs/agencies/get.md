@@ -59,7 +59,7 @@ Shows a paginated list of all agencies that are accessible to this user.
 }
 ```
 
-## Success Response with param disabled[]=true
+## Success Response with param disabled[0]=true
 
 **Condition** : User can see one or more agencies.
 
@@ -104,7 +104,7 @@ Shows a paginated list of all agencies that are accessible to this user.
 }
 ```
 
-## Success Response with param disabled[]=false&disabled[]=true
+## Success Response with param disabled[0]=false&disabled[1]=true
 
 **Condition** : User can see one or more agencies.
 

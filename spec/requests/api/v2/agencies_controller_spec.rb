@@ -77,7 +77,7 @@ describe Api::V2::AgenciesController, type: :request do
         ]
       )
 
-      get '/api/v2/agencies?disabled[]=true&disabled[]=false'
+      get '/api/v2/agencies?disabled[0]=true&disabled[1]=false'
       expect(response).to have_http_status(200)
       expect(json['data'].count).to eq(3)
       expect(json['data'][0]['unique_id']).to eq(@agency_a.unique_id)
@@ -91,7 +91,7 @@ describe Api::V2::AgenciesController, type: :request do
         ]
       )
 
-      get '/api/v2/agencies?disabled[]=true'
+      get '/api/v2/agencies?disabled[0]=true'
       expect(response).to have_http_status(200)
       expect(json['data'].count).to eq(1)
       expect(json['data'][0]['unique_id']).to eq(@agency_c.unique_id)
