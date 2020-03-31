@@ -1,9 +1,9 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Button, Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -12,14 +12,16 @@ import { ROUTES } from "../../../../config";
 import { usePermissions, getListHeaders } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { headersToColumns } from "../helper";
+import { AdminFilters } from "../components";
 
 import { fetchAgencies } from "./action-creators";
-import { NAME } from "./constants";
+import { NAME, DISABLED } from "./constants";
+import { getFilters } from "./helpers";
 import NAMESPACE from "./namespace";
-import { Filters } from "./components";
 
 const Container = () => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const canAddAgencies = usePermissions(NAMESPACE, CREATE_RECORDS);
   const recordType = RESOURCES.agencies;
 
@@ -43,6 +45,15 @@ const Container = () => {
     localizedFields: ["name", "description"]
   };
 
+  const filterProps = {
+    clearFields: [DISABLED],
+    filters: getFilters(i18n),
+    onSubmit: data => dispatch(fetchAgencies({ options: data })),
+    defaultFilters: {
+      [DISABLED]: ["false"]
+    }
+  };
+
   const newAgencyBtn = canAddAgencies ? (
     <Button
       to={ROUTES.admin_agencies_new}
@@ -63,7 +74,7 @@ const Container = () => {
             <IndexTable {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={3}>
-            <Filters />
+            <AdminFilters {...filterProps} />
           </Grid>
         </Grid>
       </PageContent>

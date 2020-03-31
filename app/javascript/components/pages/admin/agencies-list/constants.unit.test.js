@@ -7,7 +7,7 @@ describe("<AgenciesList /> - Constants", () => {
     const clonedActions = { ...constants };
 
     expect(clonedActions).to.be.an("object");
-    ["NAME"].forEach(property => {
+    ["NAME", "DISABLED"].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];
     });

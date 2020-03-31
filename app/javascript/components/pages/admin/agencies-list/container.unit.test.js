@@ -3,6 +3,7 @@ import { fromJS } from "immutable";
 import { setupMountedComponent, expect } from "../../../../test";
 import IndexTable from "../../../index-table";
 import { ACTIONS } from "../../../../libs/permissions";
+import { AdminFilters } from "../components";
 
 import AgenciesList from "./container";
 
@@ -43,6 +44,10 @@ describe("<AgenciesList />", () => {
   });
 
   it("renders record list table", () => {
-    expect(component.find(IndexTable)).to.have.length(1);
+    expect(component.find(IndexTable)).to.have.lengthOf(1);
+  });
+
+  it("renders <AdminFilters /> component", () => {
+    expect(component.find(AdminFilters)).to.have.lengthOf(1);
   });
 });
