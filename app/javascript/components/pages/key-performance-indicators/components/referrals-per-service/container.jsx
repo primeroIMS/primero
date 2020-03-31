@@ -2,18 +2,10 @@ import React from "react";
 import { fromJS } from "immutable";
 import { DateRangeSelect, CommonDateRanges } from "components/key-performance-indicators";
 import { OptionsBox, DashboardTable } from "components/dashboard";
+import { useI18n } from "components/i18n";
 
-export default function ReferralsPerService({ }) {
-  let columns = ['Service', 'Referrals'];
-
-  let rows = [
-    ['Safe house / Shelter', 3],
-    ['Health / Medical', 19],
-    ['Psycholosocial', 16],
-    ['Legal assistance', 0],
-    ['Safety & security', 0],
-    ['Livelihood services', 1]
-  ];
+function ReferralsPerService({ fetchReferralsPerService, referralsPerService }) {
+  let i18n = useI18n();
 
   let commonDateRanges = CommonDateRanges.from(new Date());
 
@@ -21,14 +13,32 @@ export default function ReferralsPerService({ }) {
     commonDateRanges.CurrentMonth
   ];
 
+  let [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);
+
+  useEffect(() => {
+    fetchReferralsPerService(currentDateRange);
+  }, [currentDateRange]);
+
+  let columns = [{
+    name: 'service',
+    label: 'Service'
+  },{
+    name: 'referrals',
+    label: 'Referrals'
+  }];
+
+  let rows = referralsPerService.get("data")
+    .map(row => columns.map(column => row.get(column.name)));
+  
   return (
     <OptionsBox
-      title="Referrals Per Service"
+      title={i18n.t('key_performance_indicators.referrals_per_service.title')}
       action={
         <DateRangeSelect
           ranges={dateRanges}
-          selectedRange={dateRanges[0]}
-          withCustomRange
+          selectedRange={currentDateRange}
+          setSelectedRange={setCurrentDateRange}
+          disabled
         />
       }
     >
@@ -39,3 +49,18 @@ export default function ReferralsPerService({ }) {
     </OptionsBox>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    referralsPerService: selectors.referralsPerService(state)
+  };
+};
+
+const mapDispatchToProps = {
+  fetchReferralsPerService: actions.fetchReferralsPerService
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ReferralsPerService);
