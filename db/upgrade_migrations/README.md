@@ -73,9 +73,3 @@ Things to verify in the generated config scripts and correct if necessary
 - Create lookup:  lookup-service-response-type
   
 - Create lookup:  lookup-location-type
-
-  
-  
-  Added new permissions that did not exist in 1.3.  See PRIM-1187
-  Admin CP - add Assign User Group permission  PRIM-1282
-  Added approval forms to SL config   PRIM-1342
