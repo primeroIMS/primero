@@ -99,3 +99,8 @@ export const fetchAverageReferrals = fetcherFactory({
   type: Actions.AVERAGE_REFERRALS,
   path: "key_performance_indicators/average_referrals"
 })
+
+export const fetchReferralsPerService = fetcherFactory({
+  type: Actions.REFERRALS_PER_SERVICE,
+  path: "key_performance_indicators/referrals_per_service"
+})

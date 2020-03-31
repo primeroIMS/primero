@@ -100,6 +100,7 @@ Rails.application.routes.draw do
           get :completed_supervisor_approved_case_action_plans
           get :services_provided
           get :average_referrals
+          get :referrals_per_service
         end
       end
     end

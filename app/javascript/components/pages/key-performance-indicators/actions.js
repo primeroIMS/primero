@@ -18,3 +18,5 @@ export const SERVICES_PROVIDED = "KeyPerformanceIndicators/SERVICES_PROVIDED";
 export const SERVICES_PROVIDED_SUCCESS= "KeyPerformanceIndicators/SERVICES_PROVIDED_SUCCESS";
 export const AVERAGE_REFERRALS = "KeyPerformanceIndicators/AVERAGE_REFERRALS";
 export const AVERAGE_REFERRALS_SUCCESS= "KeyPerformanceIndicators/AVERAGE_REFERRALS_SUCCESS";
+export const REFERRALS_PER_SERVICE = "KeyPerformanceIndicators/REFERRALS_PER_SERVICE";
+export const REFERRALS_PER_SERVICE_SUCCESS= "KeyPerformanceIndicators/REFERRALS_PER_SERVICE_SUCCESS";

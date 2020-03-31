@@ -137,6 +137,7 @@ class Child < ApplicationRecord
     boolean :case_plan_approved
     string :services_provided, multiple: true
     string :action_plan_referral_statuses, multiple: true
+    string :referred_services, multiple: true
   end
 
   validate :validate_date_of_birth
@@ -457,6 +458,19 @@ class Child < ApplicationRecord
 
       form['action_plan_subform_section'].map do |subform|
         subform['service_referral']
+      end
+    end.compact
+  end
+
+  def referred_services
+    return [] unless respond_to?(:action_plan)
+    return [] if action_plan.nil? || action_plan.empty?
+    
+    action_plan.flat_map do |form|
+      return [] unless form['gbv_follow_up_subform_section']
+
+      form['gbv_follow_up_subform_section'].map do |subform|
+        subform['service_type_provided']
       end
     end.compact
   end

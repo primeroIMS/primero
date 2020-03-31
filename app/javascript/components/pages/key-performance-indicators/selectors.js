@@ -65,7 +65,7 @@ export const servicesProvided = state => {
     data: {
       services_provided: []
     }
-  }))
+  }));
 }
 
 export const averageReferrals = state => {
@@ -73,5 +73,11 @@ export const averageReferrals = state => {
     data: {
       average_referrals: 0
     }
-  }))
+  }));
+}
+
+export const referralsPerService = state => {
+  return state.getIn(["records", NAMESPACE, 'referralsPerService'], fromJS({
+    data: []
+  }));
 }
