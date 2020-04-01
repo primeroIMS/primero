@@ -1,19 +1,29 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/styles";
 
 import FormSectionField from "./form-section-field";
 import FormSectionTitle from "./form-section-title";
+import styles from "./styles.css";
 
 const FormSection = ({ formSection }) => {
   const { fields } = formSection;
+  const css = makeStyles(styles)();
+  const renderFields = fieldsToRender => {
+    return fieldsToRender.map(field => {
+      if (Array.isArray(field)) {
+        return <div className={css.row}>{renderFields(field)}</div>;
+      }
+
+      return <FormSectionField field={field} key={field.name} />;
+    });
+  };
 
   return (
     <>
       <FormSectionTitle formSection={formSection} />
 
-      {fields.map(field => {
-        return <FormSectionField field={field} key={field.name} />;
-      })}
+      {renderFields(fields)}
     </>
   );
 };

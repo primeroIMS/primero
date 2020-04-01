@@ -18,7 +18,8 @@ import Login, {
   LookupsList,
   ContactInformation,
   RolesList,
-  FormsList
+  FormsList,
+  FormsForm
 } from "../components/pages";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
@@ -259,9 +260,17 @@ export default [
               resources: RESOURCES.roles
             },
             {
+              path: `${ROUTES.forms}/new`,
+              component: FormsForm,
+              resources: RESOURCES.forms,
+              extraProps: {
+                mode: MODES.new
+              }
+            },
+            {
               path: ROUTES.forms,
               component: FormsList,
-              // resources:
+              resources: RESOURCES.forms
             }
           ]
         }

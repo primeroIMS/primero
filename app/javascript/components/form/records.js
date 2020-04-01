@@ -22,7 +22,9 @@ export const FieldRecord = Record({
   show_on_minify_form: false,
   autoFocus: false,
   password: false,
-  hideOnShow: false
+  hideOnShow: false,
+  inlineCheckboxes: false,
+  freeSolo: false
 });
 
 export const FormSectionRecord = Record({
