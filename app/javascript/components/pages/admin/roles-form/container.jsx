@@ -31,7 +31,7 @@ import {
   checkPermissions
 } from "../../../../libs/permissions";
 import { getPermissionsByRecord } from "../../../user/selectors";
-import { ActionDialog } from "../../../action-dialog";
+import ActionDialog from "../../../action-dialog";
 
 import { validations } from "./form";
 import {
