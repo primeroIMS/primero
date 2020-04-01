@@ -161,7 +161,8 @@ const Container = ({ match, mode }) => {
     firstTab,
     handleToggleNav,
     mobileDisplay,
-    selectedRecord: record ? record.get("id") : null
+    selectedRecord: record ? record.get("id") : null,
+    recordType: params.recordType
   };
 
   useEffect(() => {

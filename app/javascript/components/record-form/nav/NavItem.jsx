@@ -4,6 +4,7 @@ import { ListItem, ListItemText } from "@material-ui/core";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/styles";
+import isEmpty from "lodash/isEmpty";
 
 import { Jewel } from "../../jewel";
 
@@ -17,7 +18,9 @@ const NavItem = ({
   handleClick,
   selectedForm,
   groupItem,
-  name
+  name,
+  recordAlerts,
+  itemsOfGroup
 }) => {
   const css = makeStyles(styles)();
 
@@ -28,6 +31,22 @@ const NavItem = ({
     group: isNested ? group : false,
     parentItem: isNested
   };
+
+  const formsWithAlerts =
+    recordAlerts?.size &&
+    [...recordAlerts.map(alert => alert.get("form_unique_id"))].filter(
+      alert => !isEmpty(alert)
+    );
+
+  let showJewel = false;
+
+  if (isNested) {
+    showJewel = itemsOfGroup?.some(alert => formsWithAlerts?.includes(alert));
+  } else {
+    showJewel = formsWithAlerts?.includes(formId);
+  }
+
+  const formText = showJewel ? <Jewel value={name} isForm /> : name;
 
   return (
     <ListItem
@@ -41,8 +60,7 @@ const NavItem = ({
       }}
     >
       <ListItemText className={groupItem ? css.nestedItem : css.item}>
-        {/* TODO: This will need to be dynamic once connected to endpoint */}
-        {name === "Case Plan" ? <Jewel value={name} isForm /> : name}
+        {formText}
       </ListItemText>
       {isNested && (open ? <ExpandMore /> : <ExpandLess />)}
     </ListItem>
@@ -56,8 +74,10 @@ NavItem.propTypes = {
   groupItem: PropTypes.bool,
   handleClick: PropTypes.func,
   isNested: PropTypes.bool,
+  itemsOfGroup: PropTypes.array,
   name: PropTypes.string,
   open: PropTypes.bool,
+  recordAlerts: PropTypes.object,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
