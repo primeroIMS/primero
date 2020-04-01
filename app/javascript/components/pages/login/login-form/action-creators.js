@@ -1,13 +1,13 @@
-import * as Actions from "./actions";
+import { LOGIN, LOGIN_SUCCESS_CALLBACK } from "./actions";
 
 export const attemptLogin = data => {
   return {
-    type: Actions.LOGIN,
+    type: LOGIN,
     api: {
       path: "tokens",
       method: "POST",
       body: { user: data },
-      successCallback: Actions.LOGIN_SUCCESS_CALLBACK
+      successCallback: LOGIN_SUCCESS_CALLBACK
     }
   };
 };

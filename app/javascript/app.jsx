@@ -32,14 +32,12 @@ const generateClassName = createGenerateClassName();
 
 const App = () => {
   store.subscribe(() => {
-    document.querySelector("body").setAttribute(
-      "dir",
-      store
-        .getState()
-        .get("ui")
-        .get(NAMESPACE)
-        .get("dir")
-    );
+    document
+      .querySelector("body")
+      .setAttribute(
+        "dir",
+        store.getState().get("ui").get(NAMESPACE).get("dir")
+      );
   });
 
   store.dispatch(checkUserAuthentication());

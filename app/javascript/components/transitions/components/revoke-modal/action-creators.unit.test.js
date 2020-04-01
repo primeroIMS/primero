@@ -1,5 +1,5 @@
-import { expect, stub } from "../../../../test";
-import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
+import { expect } from "../../../../test";
+import { ENQUEUE_SNACKBAR } from "../../../notifier";
 import { SET_DIALOG, SET_DIALOG_PENDING } from "../../../record-actions";
 
 import actions from "./actions";

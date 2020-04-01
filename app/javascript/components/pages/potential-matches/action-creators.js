@@ -1,8 +1,8 @@
-import * as Actions from "./actions";
+import { POTENTIAL_MATCHES } from "./actions";
 
 export const fetchPotentialMatches = () => {
   return {
-    type: Actions.POTENTIAL_MATCHES,
+    type: POTENTIAL_MATCHES,
     payload: {
       data: {
         tracingRequestId: "123",

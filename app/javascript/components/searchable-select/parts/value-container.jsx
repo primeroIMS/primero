@@ -6,7 +6,7 @@ import styles from "./styles.css";
 
 const ValueContainer = props => {
   const css = makeStyles(styles)();
-  const { selectProps, children } = props;
+  const { children } = props;
 
   return <div className={css.valueContainer}>{children}</div>;
 };

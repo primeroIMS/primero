@@ -1,5 +1,4 @@
 import { expect } from "chai";
-import { Button } from "@material-ui/core";
 import { Formik, Field, Form } from "formik";
 import { Map, List, fromJS } from "immutable";
 import * as keydown from "keyevent";
@@ -71,14 +70,10 @@ describe("<ReassignForm />", () => {
         ));
       });
       it("should have same no. of users", () => {
-        component
-          .find(ReassignForm)
-          .find("input")
-          .first()
-          .simulate("keyDown", {
-            key: "ArrowDown",
-            keyCode: keydown.DOM_VK_DOWN
-          });
+        component.find(ReassignForm).find("input").first().simulate("keyDown", {
+          key: "ArrowDown",
+          keyCode: keydown.DOM_VK_DOWN
+        });
         expect(
           component.find("div.MuiButtonBase-root.MuiListItem-root")
         ).to.have.lengthOf(values.size);

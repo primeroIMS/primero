@@ -1,6 +1,5 @@
 import { fromJS } from "immutable";
 import MUIDataTable from "mui-datatables";
-import { TableBody, TableRow } from "@material-ui/core";
 
 import { setupMountedComponent, expect } from "../../../../test";
 import { PageHeading } from "../../../page";

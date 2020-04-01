@@ -2,7 +2,6 @@ import isEmpty from "lodash/isEmpty";
 import { fromJS, OrderedMap } from "immutable";
 
 import { denormalizeFormData } from "../../schemas";
-import { getReportingLocationConfig } from "../application";
 
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
@@ -115,7 +114,6 @@ export const getLocations = state =>
   state.getIn([NAMESPACE, "options", "locations"], fromJS([]));
 
 export const getReportingLocations = (state, adminLevel) => {
-
   return adminLevel
     ? getLocations(state).filter(
         location => location.get("admin_level") === adminLevel

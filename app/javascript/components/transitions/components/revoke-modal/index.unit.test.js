@@ -7,7 +7,7 @@ describe("<RevokeModal /> - transitions/components/revoke-modal/index", () => {
 
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
-    ["default", "reducer"].forEach(property => {
+    ["default", "reducers"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });
