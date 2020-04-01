@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import { PROVIDED_CONSENT_NAME as NAME } from "./constants";
 import ProvidedForm from "./provided-form";
 
 const ProvidedConsent = ({
@@ -21,6 +22,8 @@ const ProvidedConsent = ({
 
   return <ProvidedForm {...providedFormProps} />;
 };
+
+ProvidedConsent.displayName = NAME;
 
 ProvidedConsent.propTypes = {
   canConsentOverride: PropTypes.bool,

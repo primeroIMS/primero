@@ -78,6 +78,7 @@ module.exports = {
           "varsIgnorePattern": "should|expect"
         }
       ],
+      "react/display-name": "off",
       "react/no-multi-comp": "off"
     }
   }, {

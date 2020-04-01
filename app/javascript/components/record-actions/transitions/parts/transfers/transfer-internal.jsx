@@ -5,6 +5,7 @@ import { Field } from "formik";
 
 import { useI18n } from "../../../../i18n";
 
+import { TRANSFER_INTERNAL_NAME as NAME } from "./constants";
 import searchableField from "./searchable-field";
 
 const TransferInternal = ({ disableControl, fields }) => {
@@ -57,6 +58,8 @@ const TransferInternal = ({ disableControl, fields }) => {
 
   return <>{transferInternalForm}</>;
 };
+
+TransferInternal.displayName = NAME;
 
 TransferInternal.propTypes = {
   disableControl: PropTypes.bool.isRequired,
