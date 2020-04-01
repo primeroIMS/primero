@@ -57,7 +57,7 @@ class Agency < ApplicationRecord
     def list(params = {})
       return where(disabled: false) if params.blank?
 
-      where(disabled: params.values)
+      where(params)
     end
   end
 
