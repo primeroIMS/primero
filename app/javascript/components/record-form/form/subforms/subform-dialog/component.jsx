@@ -13,6 +13,7 @@ import CloseIcon from "@material-ui/icons/Close";
 
 import FormSectionField from "../../form-section-field";
 import { SUBFORM_DIALOG } from "../constants";
+import ServicesSubform from "../services-subform";
 
 const Component = ({
   index,
@@ -22,7 +23,8 @@ const Component = ({
   setOpen,
   title,
   dialogIsNew,
-  i18n
+  i18n,
+  formik
 }) => {
   const handleClose = () => {
     setOpen({ open: false, index: null });
@@ -54,21 +56,30 @@ const Component = ({
           </Box>
         </DialogTitle>
         <DialogContent>
-          {field.subform_section_id.fields.map(f => {
-            const fieldProps = {
-              name: `${field.name}[${index}].${f.name}`,
-              field: f,
-              mode,
-              index,
-              parentField: field
-            };
+          {field.subform_section_id.unique_id === "services_section" ? (
+            <ServicesSubform
+              field={field}
+              index={index}
+              mode={mode}
+              formik={formik}
+            />
+          ) : (
+            field.subform_section_id.fields.map(f => {
+              const fieldProps = {
+                name: `${field.name}[${index}].${f.name}`,
+                field: f,
+                mode,
+                index,
+                parentField: field
+              };
 
-            return (
-              <Box my={3} key={f.name}>
-                <FormSectionField {...fieldProps} />
-              </Box>
-            );
-          })}
+              return (
+                <Box my={3} key={f.name}>
+                  <FormSectionField {...fieldProps} />
+                </Box>
+              );
+            })
+          )}
         </DialogContent>
         <DialogActions>{actionButton}</DialogActions>
       </Dialog>
@@ -83,6 +94,7 @@ Component.displayName = SUBFORM_DIALOG;
 Component.propTypes = {
   dialogIsNew: PropTypes.bool.isRequired,
   field: PropTypes.object.isRequired,
+  formik: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   mode: PropTypes.object.isRequired,

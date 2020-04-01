@@ -2,7 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { ActionDialog } from "../../../action-dialog";
+import ActionDialog from "../../../action-dialog";
 
 const TransitionDialog = ({
   onClose,

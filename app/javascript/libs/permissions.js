@@ -59,14 +59,9 @@ export const ACTIONS = {
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   TRANSFER: "transfer",
   WRITE: "write",
-  REQUEST_APPROVAL_BIA: "request_approval_bia",
-  REQUEST_APPROVAL_CASE_PLAN: "request_approval_case_plan",
-  REQUEST_APPROVAL_CLOSURE: "request_approval_closure",
-  APPROVE_BIA: "approve_bia",
-  APPROVE_CASE_PLAN: "approve_case_plan",
-  APPROVE_CLOSURE: "approve_closure",
   RECEIVE_REFERRAL: "receive_referral",
-  RECEIVE_TRANSFER: "receive_transfer"
+  RECEIVE_TRANSFER: "receive_transfer",
+  REFERRAL_FROM_SERVICE: "referral_from_service"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -136,6 +131,8 @@ export const SHOW_TASKS = [...MANAGE, ACTIONS.DASH_TASKS];
 export const ADD_INCIDENT = [...MANAGE, ACTIONS.INCIDENT_DETAILS_FROM_CASE];
 
 export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
+
+export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL_FROM_SERVICE];
 
 export const REQUEST_APPROVAL = [
   ...MANAGE,

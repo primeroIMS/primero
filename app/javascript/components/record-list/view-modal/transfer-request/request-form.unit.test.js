@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Form, Field } from "formik";
+import { Field } from "formik";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";

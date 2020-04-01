@@ -67,12 +67,7 @@ describe("<TransferForm />", () => {
   });
 
   it("should accept valid props", () => {
-    const componentProps = clone(
-      component
-        .find(TransferForm)
-        .first()
-        .props()
-    );
+    const componentProps = clone(component.find(TransferForm).first().props());
 
     expect(componentProps).to.have.property("providedConsent");
     expect(componentProps).to.have.property("isBulkTransfer");

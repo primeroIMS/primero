@@ -5,11 +5,10 @@ import sinon from "sinon";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { expect, stub } from "../../../test/unit-test-helpers";
 import { ASSIGN_DIALOG, TRANSFER_DIALOG, REFER_DIALOG } from "../constants";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
-
-import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
 
 describe("<Transitions /> - Action Creators", () => {
   before(() => {
@@ -230,7 +229,9 @@ describe("<Transitions /> - Action Creators", () => {
     };
 
     expect(
-      dispatch(actionCreators.saveReferral("123abc", body, "Success Message"))
+      dispatch(
+        actionCreators.saveReferral("123abc", "cases", body, "Success Message")
+      )
     ).to.deep.equals(expected);
   });
 

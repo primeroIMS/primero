@@ -1,7 +1,7 @@
 import React from "react";
 import { expect } from "chai";
 import { Formik, Form } from "formik";
-import { FormControlLabel, Box } from "@material-ui/core";
+import { FormControlLabel } from "@material-ui/core";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../../test";
@@ -175,10 +175,12 @@ describe("<MainForm />", () => {
         )
       };
 
-      [...searchableFieldProps, "required"].forEach(property => {
-        expect(transitionToFieldProps).to.have.property(property);
-        delete transitionToFieldProps[property];
-      });
+      [...searchableFieldProps, "required", "onMenuOpen", "isLoading"].forEach(
+        property => {
+          expect(transitionToFieldProps).to.have.property(property);
+          delete transitionToFieldProps[property];
+        }
+      );
 
       expect(transitionToFieldProps).to.be.empty;
     });

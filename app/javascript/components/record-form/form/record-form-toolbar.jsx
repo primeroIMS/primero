@@ -17,6 +17,7 @@ import DisableOffline from "../../disable-offline";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
+import PageHeading from "./page-heading";
 import styles from "./styles.css";
 
 const RecordFormToolbar = ({
@@ -27,27 +28,15 @@ const RecordFormToolbar = ({
   shortId,
   history,
   primeroModule,
-  record
+  record,
+  referral,
+  setReferral
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const savingRecord = useSelector(state =>
     getSavingRecord(state, params.recordType)
   );
-
-  const PageHeading = () => {
-    let heading = "";
-
-    if (mode.isNew) {
-      heading = i18n.t(`${params.recordType}.register_new_${recordType}`);
-    } else if (mode.isEdit || mode.isShow) {
-      heading = i18n.t(`${params.recordType}.show_${recordType}`, {
-        short_id: shortId || "-------"
-      });
-    }
-
-    return <h2 className={css.toolbarHeading}>{heading}</h2>;
-  };
 
   const goBack = () => {
     history.goBack();
@@ -102,7 +91,14 @@ const RecordFormToolbar = ({
       alignItems="center"
     >
       <Box flexGrow={1} display="flex" flexDirection="column">
-        <PageHeading />
+        <PageHeading
+          i18n={i18n}
+          mode={mode}
+          params={params}
+          recordType={recordType}
+          shortId={shortId}
+          toolbarHeading={css.toolbarHeading}
+        />
         {renderRecordStatusIndicator}
       </Box>
       <Box display="flex">
@@ -142,6 +138,8 @@ const RecordFormToolbar = ({
           recordType={params.recordType}
           record={record}
           mode={mode}
+          referral={referral}
+          setReferral={setReferral}
         />
       </Box>
     </Box>
@@ -158,6 +156,8 @@ RecordFormToolbar.propTypes = {
   primeroModule: PropTypes.string.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  referral: PropTypes.object,
+  setReferral: PropTypes.func.isRequired,
   shortId: PropTypes.string
 };
 

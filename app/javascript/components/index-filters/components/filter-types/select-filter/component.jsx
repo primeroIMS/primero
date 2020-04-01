@@ -52,9 +52,7 @@ const Component = ({
     getLocations(state, optionStringsSource === "Location")
   );
 
-  const lookups = ["Location", "ReportingLocation"].includes(
-    optionStringsSource
-  )
+  const lookups = ["Location"].includes(optionStringsSource)
     ? locations?.toJS()
     : lookup;
 

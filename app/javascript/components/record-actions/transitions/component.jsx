@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../i18n";
@@ -18,6 +18,8 @@ const Transitions = ({
   record,
   recordType,
   userPermissions,
+  referral,
+  setReferral,
   referDialog,
   assignDialog,
   transferDialog,
@@ -44,6 +46,12 @@ const Transitions = ({
     recordType
   };
 
+  useEffect(() => {
+    if (referral && Object.keys(referral).length) {
+      transitions.referDialog = true;
+    }
+  }, [referral]);
+
   const commonTransitionProps = {
     userPermissions,
     providedConsent,
@@ -52,6 +60,7 @@ const Transitions = ({
     setPending
   };
 
+  // eslint-disable-next-line react/no-multi-comp
   const transitionComponent = t => {
     if (t.transferDialog) {
       return (
@@ -71,6 +80,8 @@ const Transitions = ({
           referralRef={referralFormikRef}
           disabled={disabledReferButton}
           setDisabled={setDisabledReferButton}
+          referral={referral}
+          setReferral={setReferral}
         />
       );
     }
@@ -80,7 +91,7 @@ const Transitions = ({
       );
     }
 
-    return <></>;
+    return null;
   };
 
   const renderTransitionForm = () => {
@@ -153,7 +164,9 @@ Transitions.propTypes = {
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   referDialog: PropTypes.bool,
+  referral: PropTypes.object,
   setPending: PropTypes.func,
+  setReferral: PropTypes.func,
   transferDialog: PropTypes.bool,
   userPermissions: PropTypes.object.isRequired
 };

@@ -113,6 +113,14 @@ export const getLookups = (state, page = 1, per = 20) => {
 export const getLocations = state =>
   state.getIn([NAMESPACE, "options", "locations"], fromJS([]));
 
+export const getReportingLocations = (state, adminLevel) => {
+  return adminLevel
+    ? getLocations(state).filter(
+        location => location.get("admin_level") === adminLevel
+      )
+    : fromJS([]);
+};
+
 export const getLoadingState = state =>
   state.getIn([NAMESPACE, "loading"], false);
 

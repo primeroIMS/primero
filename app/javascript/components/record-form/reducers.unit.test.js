@@ -34,7 +34,7 @@ describe("<RecordForm /> - Reducers", () => {
       formSections: OrderedMap({}),
       fields: OrderedMap({}),
       options: {
-        lookups: { data: [lookup] }
+        lookups: [lookup]
       }
     });
     const action = {
@@ -229,5 +229,4 @@ describe("<RecordForm /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
-
 });

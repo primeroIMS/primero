@@ -1,9 +1,9 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import * as Yup from "yup";
+import { object, string } from "yup";
 import { Formik } from "formik";
 
 import { useI18n } from "../../../../i18n";
@@ -17,7 +17,8 @@ import {
   AGENCY_FIELD,
   LOCATION_FIELD,
   TRANSITIONED_TO_FIELD,
-  NOTES_FIELD
+  NOTES_FIELD,
+  NAME
 } from "./constants";
 
 const ReferralForm = ({
@@ -25,6 +26,7 @@ const ReferralForm = ({
   providedConsent,
   recordType,
   record,
+  referral,
   referralRef,
   setPending,
   disabled,
@@ -44,11 +46,12 @@ const ReferralForm = ({
     canConsentOverride,
     disabled,
     setDisabled,
-    recordType
+    recordType,
+    referral
   };
 
-  const validationSchema = Yup.object().shape({
-    [TRANSITIONED_TO_FIELD]: Yup.string().required(
+  const validationSchema = object().shape({
+    [TRANSITIONED_TO_FIELD]: string().required(
       i18n.t("referral.user_mandatory_label")
     )
   });
@@ -61,7 +64,8 @@ const ReferralForm = ({
       [AGENCY_FIELD]: "",
       [LOCATION_FIELD]: "",
       [TRANSITIONED_TO_FIELD]: "",
-      [NOTES_FIELD]: ""
+      [NOTES_FIELD]: "",
+      ...referral
     },
     ref: referralRef,
     onSubmit: (values, { setSubmitting }) => {
@@ -72,6 +76,7 @@ const ReferralForm = ({
       dispatch(
         saveReferral(
           recordId,
+          recordType,
           {
             data: {
               ...values,
@@ -92,11 +97,14 @@ const ReferralForm = ({
   return <Formik {...formProps} />;
 };
 
+ReferralForm.displayName = NAME;
+
 ReferralForm.propTypes = {
   disabled: PropTypes.bool,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  referral: PropTypes.object,
   referralRef: PropTypes.object,
   setDisabled: PropTypes.func,
   setPending: PropTypes.func,
