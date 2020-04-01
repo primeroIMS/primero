@@ -365,6 +365,31 @@ class Child < ApplicationRecord
     case_id_display
   end
 
+  # #find_in_form(path : [String], form : Object | {}) : []
+  # 
+  # This method will find all of the non nil values in a array of objects
+  # which may have attributes which themselves are arrays of objects. All of the
+  # non nil values are returned as a flat array.
+  def find_in_form(path, form = self)
+    return [] if path.empty?
+    name_or_id, *rest = *path
+
+    field_or_forms = form[name_or_id] || begin
+      form.public_send(name_or_id.to_sym) if form.respond_to?(name_or_id.to_sym)
+    end
+
+    return [] unless field_or_forms
+    return field_or_forms if rest.empty?
+    Array(field_or_forms).flat_map { |result| find_in_form(rest, result) }
+  end
+
+  # #form_is_completed(form : {}, mandatory_fields : [String]) : Boolean
+  #
+  # Checks to see if all of the mandatory fields are present in the form.
+  def form_is_complete(form, mandatory_fields)
+    mandatory_fields.all? { |field| form[field].present? }
+  end
+
   # Should be an attribute on Field
   def self.survivor_assessment_mandatory_fields
     [
@@ -377,14 +402,10 @@ class Child < ApplicationRecord
   end
 
   def completed_survivor_assessment
-    return false unless respond_to?(:survivor_assessment_form)
-    return false if self.survivor_assessment_form.nil?
-
-    self.class.survivor_assessment_mandatory_fields.
-      # we're assuming a single survivor_assessment_form here, theres no
-      # definition for a completed assessment if a case has multiple
-      # assessments completed.
-      all? { |field_name| !survivor_assessment_form.first[field_name].nil? }
+    find_in_form(['survivor_assessment_form']).
+      all? do |form|
+        form_is_complete(form, self.class.survivor_assessment_mandatory_fields)
+      end
   end
 
   def self.safety_plan_mandatory_fields
@@ -399,23 +420,18 @@ class Child < ApplicationRecord
   end
 
   def requires_safety_plan?
-    return false unless respond_to?(:safety_plan)
-    return false if self.safety_plan.nil?
-    # This is a lot of concrete domain knowledge to need about a
-    # dynamic form. Should this by dynamic? Should the form be hard coded?
-    return safety_plan.first['safety_plan_needed'] == 'yes'
+    find_in_form(['safety_plan']).
+      # This is a lot of concrete domain knowledge to need about a
+      # dynamic form. Should this by dynamic? Should the form be hard coded?
+      any? { |plan| plan['safety_plan_needed'] == 'yes' }
   end
   alias :safety_plan_required :requires_safety_plan?
 
   def completed_safety_plan
-    return false unless respond_to?(:safety_plan)
-    return false if safety_plan.nil?
-
-    self.class.safety_plan_mandatory_fields.
-      # we're assuming a single safety_plan here, theres no
-      # definition for a completed plan if a case has multiple
-      # plans completed.
-      all? { |field_name| !safety_plan.first[field_name].nil? }
+    find_in_form(['safety_plan']).
+      any? do |plan|
+        form_is_complete(plan, self.class.safety_plan_mandatory_fields)
+      end
   end
 
   def self.action_plan_mandatory_fields
@@ -427,51 +443,28 @@ class Child < ApplicationRecord
   end
 
   def completed_action_plan
-    return false unless respond_to?(:action_plan)
-    return false if action_plan.nil?
-
-    action_plan.any? do |plan|
-      self.class.action_plan_mandatory_fields.
-        all? { |field_name| !plan[field_name].nil? }
-    end
+    find_in_form(['action_plan']).
+      any? do |plan|
+        form_is_complete(plan, self.class.action_plan_mandatory_fields)
+      end
   end
 
   def services_provided
-    return [] unless respond_to?(:action_plan)
-    return [] if action_plan.nil?
-
-    action_plan.flat_map do |form|
-      next [] unless form['gbv_follow_up_subform_section']
-
-      form['gbv_follow_up_subform_section'].map do |subform|
-        subform['service_type_provided']
-      end
-    end.compact.uniq
+    find_in_form(
+      ['action_plan', 'gbv_follow_up_subform_section', 'service_type_provided']
+    ).uniq
   end
 
   def action_plan_referral_statuses
-    return [] unless respond_to?(:action_plan)
-    return [] if action_plan.nil? || action_plan.empty?
-    
-    action_plan.flat_map do |form|
-      return [] unless form['action_plan_subform_section']
-
-      form['action_plan_subform_section'].map do |subform|
-        subform['service_referral']
-      end
-    end.compact
+    find_in_form(['action_plan', 'action_plan_subform_section', 'service_referral'])
   end
 
   def referred_services
-    return [] unless respond_to?(:action_plan)
-    return [] if action_plan.nil? || action_plan.empty?
-    
-    action_plan.flat_map do |form|
-      return [] unless form['gbv_follow_up_subform_section']
+    find_in_form(['action_plan', 'gbv_follow_up_subform_section', 'service_type_provided'])
+  end
 
-      form['gbv_follow_up_subform_section'].map do |subform|
-        subform['service_type_provided']
-      end
-    end.compact
+  def number_of_meetings
+    find_in_form(['action_plan', 'gbv_follow_up_subform_section', 'followup_date']).
+      count
   end
 end

@@ -1008,6 +1008,47 @@ describe Child do
     end
   end
 
+  describe "#find_in_form" do
+    it "should return [] when form isn't present" do
+      Child.new.
+        find_in_form(['action_plan','action_plan_section', 'action_plan_description']).
+        should == []
+    end
+
+    it "should return an array of forms if a form is present" do
+      Child.new({ 'action_plan' => [{}] }).
+        find_in_form(['action_plan']).
+        should == [{}]
+    end
+
+    it "should return an array of subforms if the form and subforms exist" do
+      Child.new({ 'action_plan' => [
+          { 'action_plan_section' => [{}] },
+          { 'action_plan_section' => [{}] }
+        ]}).
+        find_in_form(['action_plan', 'action_plan_section']).
+        should == [{}, {}]
+    end
+
+    it "should return an array of field values if the field values without nils" do
+      Child.new({ 'action_plan' => [
+          {
+            'action_plan_section' => [
+              { 'action_plan_description' => 'This is a test description' }
+            ]
+          }, {
+            'action_plan_section' => [
+              { 'action_plan_description' => 'This is a test description' }
+            ]
+          }, {
+            'action_plan_section' => [{ }]
+          }
+        ]}).
+        find_in_form(['action_plan', 'action_plan_section', 'action_plan_description']).
+        should == ['This is a test description', 'This is a test description']
+    end
+  end
+
   after :all do
     Child.destroy_all
     Field.destroy_all
