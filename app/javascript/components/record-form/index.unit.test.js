@@ -27,7 +27,12 @@ describe("<RecordForm /> - index", () => {
       "setSelectedForm",
       "fetchLookups",
       "getLookups",
-      "getServiceToRefer"
+      "getServiceToRefer",
+      "getEnabledAgencies",
+      "getEnabledAgenciesWithService",
+      "getReportingLocations",
+      "getOptionsAreLoading",
+      "fetchAgencies"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

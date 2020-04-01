@@ -7,17 +7,14 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { fromJS } from "immutable";
 
-import {
-  getEnabledAgenciesWithServices,
-  getEnabledAgencies,
-  getReportingLocationConfig
-} from "../../../../application/selectors";
-import { RECORD_TYPES } from "../../../../../config";
 import { setServiceToRefer } from "../../../../record-form/action-creators";
-import { getServiceToRefer } from "../../../../record-form";
+import {
+  getServiceToRefer,
+  getEnabledAgenciesWithService,
+  getEnabledAgencies
+} from "../../../../record-form";
 import { useI18n } from "../../../../i18n";
-import { saveReferral, fetchReferralUsers } from "../../action-creators";
-import { getUserFilters } from "../helpers";
+import { saveReferral } from "../../action-creators";
 
 import MainForm from "./main-form";
 import {
@@ -48,7 +45,7 @@ const ReferralForm = ({
   const services = serviceToRefer.get("service_type", "");
   const agencies = useSelector(state =>
     services
-      ? getEnabledAgenciesWithServices(state, services)
+      ? getEnabledAgenciesWithService(state, services)
       : getEnabledAgencies(state)
   );
 

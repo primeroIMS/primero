@@ -1,4 +1,7 @@
+import find from "lodash/find";
 import { fromJS } from "immutable";
+
+import { CODE_FIELD, NAME_FIELD, UNIQUE_ID_FIELD } from "../../../config";
 
 export const appendDisabledAgency = (agencies, agencyUniqueId) =>
   agencyUniqueId &&
@@ -36,3 +39,103 @@ export const getConnectedFields = index => {
 
   return connectedFields;
 };
+
+export const handleChangeOnServiceUser = ({
+  setFilterState,
+  referralUsers,
+  data,
+  agencies,
+  reportingLocations,
+  form,
+  index
+}) => {
+  const selectedUser = referralUsers.find(
+    user => user.get("user_name") === data?.value
+  );
+
+  if (selectedUser?.size) {
+    const userAgency = selectedUser.get("agency");
+    const userLocation = selectedUser.get("location");
+
+    if (agencies.find(current => current.get("unique_id") === userAgency)) {
+      form.setFieldValue(getConnectedFields(index).agency, userAgency, false);
+    }
+
+    if (
+      reportingLocations.find(current => current.get("code") === userLocation)
+    ) {
+      form.setFieldValue(
+        getConnectedFields(index).location,
+        userLocation,
+        false
+      );
+    }
+  }
+
+  setFilterState({ filtersChanged: true, userIsSelected: true });
+};
+
+export const translatedText = (displayText, i18n) => {
+  return typeof displayText === "string"
+    ? displayText
+    : displayText[i18n.locale];
+};
+
+export const findOptionDisplayText = ({
+  agencies,
+  specialLookups,
+  options,
+  option,
+  value,
+  currentValue,
+  i18n
+}) => {
+  const foundOptions = find(options, { id: currentValue }) || {};
+  let optionValue = [];
+
+  if (Object.keys(foundOptions).length && !specialLookups.includes(option)) {
+    optionValue = translatedText(foundOptions.display_text, i18n);
+  } else if (option === "Agency") {
+    optionValue = value
+      ? agencies.find(a => a.get("id") === value)?.get("name")
+      : value;
+  } else {
+    optionValue = "";
+  }
+
+  return optionValue;
+};
+
+export const buildCustomLookupsConfig = ({
+  locations,
+  reportingLocations,
+  agencies,
+  referralUsers,
+  filterState,
+  value
+}) => ({
+  Location: {
+    options: locations,
+    fieldValue: CODE_FIELD,
+    fieldLabel: NAME_FIELD
+  },
+  Agency: {
+    options: !filterState?.filtersChanged
+      ? appendDisabledAgency(agencies, value)
+      : agencies,
+    fieldValue: UNIQUE_ID_FIELD,
+    fieldLabel: NAME_FIELD
+  },
+  ReportingLocation: {
+    options: reportingLocations,
+    fieldValue: CODE_FIELD,
+    fieldLabel: NAME_FIELD
+  },
+  User: {
+    options: !filterState?.filtersChanged
+      ? appendDisabledUser(referralUsers, value)
+      : referralUsers,
+    fieldValue: "user_name",
+    fieldLabel: "user_name"
+  }
+});

@@ -62,3 +62,12 @@ export const fetchOptions = () => async dispatch => {
     dispatch(fetchLocations());
   });
 };
+
+export const fetchAgencies = params => ({
+  type: Actions.FETCH_AGENCIES,
+  api: {
+    path: "agencies",
+    method: "GET",
+    params
+  }
+});

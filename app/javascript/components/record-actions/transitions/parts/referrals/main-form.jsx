@@ -1,16 +1,11 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { FormControlLabel } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, batch } from "react-redux";
 import { Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
 
-import {
-  getEnabledAgenciesWithServices,
-  getEnabledAgencies,
-  getReportingLocationConfig
-} from "../../../../application/selectors";
-import { getOption } from "../../../../record-form";
+import { getReportingLocationConfig } from "../../../../application/selectors";
 import { useI18n } from "../../../../i18n";
 import {
   RECORD_TYPES,
@@ -30,8 +25,13 @@ import { fetchReferralUsers } from "../../action-creators";
 import { enqueueSnackbar } from "../../../../notifier";
 import {
   getReportingLocations,
-  getServiceToRefer
-} from "../../../../record-form/selectors";
+  getServiceToRefer,
+  getEnabledAgenciesWithService,
+  getEnabledAgencies,
+  getOption,
+  getOptionsAreLoading,
+  fetchAgencies
+} from "../../../../record-form";
 import { valuesToSearchableSelect } from "../../../../../libs";
 import { getLoading } from "../../../../index-table";
 import { getUserFilters } from "../helpers";
@@ -80,13 +80,15 @@ const MainForm = ({ formProps, rest }) => {
     (rptLocations1, rptLocations2) => rptLocations1.equals(rptLocations2)
   );
 
+  const agenciesLoading = useSelector(state => getOptionsAreLoading(state));
+
   const NAMESPACE = ["transitions", "referral"];
 
   const loading = useSelector(state => getLoading(state, NAMESPACE));
 
   const agencies = useSelector(state =>
-     services
-      ? getEnabledAgenciesWithServices(state, services)
+    services
+      ? getEnabledAgenciesWithService(state, services)
       : getEnabledAgencies(state)
   );
 
@@ -105,15 +107,20 @@ const MainForm = ({ formProps, rest }) => {
     );
   };
 
-  useEffect(() => {
-    const filters = getUserFilters({ services, agency, location });
+  const loadAgencies = () => {
+    dispatch(fetchAgencies());
+  };
 
-    dispatch(
-      fetchReferralUsers({
-        record_type: RECORD_TYPES[recordType],
-        ...filters
-      })
-    );
+  useEffect(() => {
+    batch(() => {
+      dispatch(
+        fetchReferralUsers({
+          record_type: RECORD_TYPES[recordType],
+          ...getUserFilters({ services, agency, location })
+        })
+      );
+      dispatch(fetchAgencies());
+    });
   }, []);
 
   useEffect(() => {
@@ -184,6 +191,8 @@ const MainForm = ({ formProps, rest }) => {
         NAME_FIELD,
         i18n.locale
       ),
+      onMenuOpen: loadAgencies,
+      isLoading: agenciesLoading,
       onChange: (data, field, form) => {
         const { value } = data;
         const dependentValues = [TRANSITIONED_TO_FIELD];

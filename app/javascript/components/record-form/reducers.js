@@ -52,6 +52,16 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("selectedRecord", payload);
     case Actions.SET_SERVICE_TO_REFER:
       return state.set("serviceToRefer", fromJS(payload));
+    case Actions.FETCH_AGENCIES_STARTED:
+      return state.setIn(["options", "loading"], true);
+    case Actions.FETCH_AGENCIES_SUCCESS:
+      return state
+        .setIn(["options", "agencies"], fromJS(payload.data))
+        .setIn(["options", "errors"], false);
+    case Actions.FETCH_AGENCIES_FAILURE:
+      return state.setIn(["options", "errors"], true);
+    case Actions.FETCH_AGENCIES_FINISHED:
+      return state.setIn(["options", "loading"], false);
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
     default:

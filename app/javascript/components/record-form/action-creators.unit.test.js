@@ -21,7 +21,8 @@ describe("<RecordForm /> - Action Creators", () => {
       "fetchForms",
       "fetchOptions",
       "fetchLookups",
-      "setServiceToRefer"
+      "setServiceToRefer",
+      "fetchAgencies"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -115,5 +116,20 @@ describe("<RecordForm /> - Action Creators", () => {
         })
       )
     ).to.deep.equals(expected);
+  });
+
+  it("should check the 'fetchAgencies' action creator return the correct object", () => {
+    const store = configureStore()({});
+    const dispatch = sinon.spy(store, "dispatch");
+    const expected = {
+      type: "forms/FETCH_AGENCIES",
+      api: {
+        path: "agencies",
+        method: "GET",
+        params: undefined
+      }
+    };
+
+    expect(dispatch(actionCreators.fetchAgencies())).to.deep.equals(expected);
   });
 });

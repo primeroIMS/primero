@@ -136,3 +136,16 @@ export const getSelectedRecord = state =>
 
 export const getServiceToRefer = state =>
   state.getIn([NAMESPACE, "serviceToRefer"], fromJS({}));
+
+export const getEnabledAgencies = state =>
+  state
+    .getIn([NAMESPACE, "options", "agencies"], fromJS([]))
+    .filter(agency => !agency.get("disabled"));
+
+export const getEnabledAgenciesWithService = (state, service) =>
+  getEnabledAgencies(state).filter(agency =>
+    agency.get("services", fromJS([])).includes(service)
+  );
+
+export const getOptionsAreLoading = state =>
+  state.getIn([NAMESPACE, "options", "loading"], false)
