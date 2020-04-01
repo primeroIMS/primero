@@ -5,7 +5,6 @@ import { expect, setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../../libs/permissions";
 import { DashboardTable } from "../../../../dashboard/dashboard-table";
 import { LoadingIndicator } from "../../../../loading-indicator";
-import { PrimeroModuleRecord } from "../../../../application/records";
 
 import SharedFromMyTeam from "./component";
 
@@ -50,10 +49,7 @@ describe("<SharedFromMyTeam> - pages/dashboard/components/shared-from-my-team", 
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(SharedFromMyTeam, {}, state));
-    tableCells = component
-      .find(DashboardTable)
-      .find(TableHead)
-      .find(TableCell);
+    tableCells = component.find(DashboardTable).find(TableHead).find(TableCell);
   });
 
   it("should render a <DashboardTable /> component", () => {

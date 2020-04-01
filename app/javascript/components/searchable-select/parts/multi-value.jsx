@@ -9,14 +9,7 @@ import styles from "./styles.css";
 
 const MultiValue = props => {
   const css = makeStyles(styles)();
-  const {
-    children,
-    selectProps,
-    isFocused,
-    removeProps,
-    options,
-    data
-  } = props;
+  const { children, isFocused, removeProps, options, data } = props;
 
   const foundOption = options.find(op => op.value === data.value);
   const translatedLabel =

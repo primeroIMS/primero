@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { TextField, Divider } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 
 import { useI18n } from "../../i18n";
-import { ActionDialog } from "../../action-dialog";
+import ActionDialog from "../../action-dialog";
 import DisplayData from "../../display-data/component";
 
 import { TransferRequest } from "./transfer-request";

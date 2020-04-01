@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
-import { ActionDialog } from "../../../action-dialog";
+import ActionDialog from "../../../action-dialog";
 
 import TransferRequest from "./component";
 

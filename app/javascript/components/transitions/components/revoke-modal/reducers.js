@@ -6,7 +6,7 @@ import actions from "./actions";
 
 const DEFAULT_STATE = fromJS({ data: [] });
 
-export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case actions.REVOKE_TRANSITION_SUCCESS: {
       let newState = state;

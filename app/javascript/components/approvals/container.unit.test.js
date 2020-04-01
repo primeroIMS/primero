@@ -1,9 +1,8 @@
-import { Map, List, fromJS } from "immutable";
+import { fromJS } from "immutable";
 import {
   ExpansionPanelDetails,
   ExpansionPanelSummary
 } from "@material-ui/core";
-
 
 import RecordFormTitle from "../record-form/form/record-form-title";
 import { setupMountedComponent, expect } from "../../test";

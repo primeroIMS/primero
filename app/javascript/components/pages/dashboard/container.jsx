@@ -20,14 +20,14 @@ import {
 } from "./components";
 import NAMESPACE from "./namespace";
 import { NAME } from "./constants";
-import * as actions from "./action-creators";
+import { fetchDashboards } from "./action-creators";
 
 const Dashboard = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(actions.fetchDashboards());
+    dispatch(fetchDashboards());
   }, []);
 
   const userPermissions = useSelector(state => getPermissions(state));
