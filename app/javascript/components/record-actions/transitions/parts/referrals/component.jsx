@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import * as Yup from "yup";
+import { object, string } from "yup";
 import { Formik } from "formik";
 import { fromJS } from "immutable";
 
@@ -93,8 +93,8 @@ const ReferralForm = ({
     referral
   };
 
-  const validationSchema = Yup.object().shape({
-    [TRANSITIONED_TO_FIELD]: Yup.string().required(
+  const validationSchema = object().shape({
+    [TRANSITIONED_TO_FIELD]: string().required(
       i18n.t("referral.user_mandatory_label")
     )
   });

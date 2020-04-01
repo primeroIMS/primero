@@ -48,8 +48,8 @@ describe("records - Actions", () => {
     delete actions.SAVE_RECORD_SUCCESS;
     delete actions.SAVE_RECORD_FINISHED;
     delete actions.SAVE_RECORD_FAILURE;
-    delete actions.DELETE_ATTACHMENT_SUCCESS
-    delete actions.SAVE_ATTACHMENT_SUCCESS
+    delete actions.DELETE_ATTACHMENT_SUCCESS;
+    delete actions.SAVE_ATTACHMENT_SUCCESS;
 
     expect(actions).to.deep.equal({});
   });

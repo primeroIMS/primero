@@ -67,13 +67,10 @@ describe("<FormInternal />", () => {
   });
 
   it("renders default label for SearchableSelect", () => {
-    component
-      .find("input")
-      .first()
-      .simulate("keyDown", {
-        key: "ArrowDown",
-        keyCode: keydown.DOM_VK_DOWN
-      });
+    component.find("input").first().simulate("keyDown", {
+      key: "ArrowDown",
+      keyCode: keydown.DOM_VK_DOWN
+    });
 
     expect(component.find("div.Mui-selected").text()).to.be.equal(
       "fields.select_single"
@@ -82,10 +79,7 @@ describe("<FormInternal />", () => {
 
   it("renders TextFieldProps from SearchableSelect with valid props", () => {
     const textFieldProps = {
-      ...component
-        .find(SearchableSelect)
-        .first()
-        .props().TextFieldProps
+      ...component.find(SearchableSelect).first().props().TextFieldProps
     };
 
     [

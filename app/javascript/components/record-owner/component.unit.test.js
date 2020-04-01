@@ -83,12 +83,9 @@ describe("<RecordOwner />", () => {
     it("should render RecordOwner and its fields", () => {
       expect(component.find(RecordOwner)).to.have.lengthOf(1);
       expect(component.find(FormSectionField)).to.have.lengthOf(12);
-      expect(
-        component
-          .find("input")
-          .first()
-          .prop("name")
-      ).to.be.equal("owned_by_text");
+      expect(component.find("input").first().prop("name")).to.be.equal(
+        "owned_by_text"
+      );
     });
   });
 
@@ -132,12 +129,9 @@ describe("<RecordOwner />", () => {
     it("should render RecordOwner and its fields", () => {
       expect(component.find(RecordOwner)).to.have.lengthOf(1);
       expect(component.find(FormSectionField)).to.have.lengthOf(12);
-      expect(
-        component
-          .find("input")
-          .first()
-          .prop("name")
-      ).to.be.equal("owned_by_text");
+      expect(component.find("input").first().prop("name")).to.be.equal(
+        "owned_by_text"
+      );
     });
   });
 });

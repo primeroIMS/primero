@@ -101,10 +101,7 @@ describe("<WorkflowTeamCases> - pages/dashboard/components/workflow-team-cases",
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(WorkflowTeamCases, {}, state));
-    tableCells = component
-      .find(DashboardTable)
-      .find(TableHead)
-      .find(TableCell);
+    tableCells = component.find(DashboardTable).find(TableHead).find(TableCell);
   });
 
   it("should render a <DashboardTable /> component", () => {

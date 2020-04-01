@@ -9,4 +9,3 @@ export const setPending = payload => ({
   type: SET_DIALOG_PENDING,
   payload
 });
-

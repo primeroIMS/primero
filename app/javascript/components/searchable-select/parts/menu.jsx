@@ -7,7 +7,7 @@ import styles from "./styles.css";
 
 const Menu = props => {
   const css = makeStyles(styles)();
-  const { selectProps, innerProps, children } = props;
+  const { innerProps, children } = props;
 
   return (
     <Paper square className={css.paper} {...innerProps}>
@@ -18,8 +18,7 @@ const Menu = props => {
 
 Menu.propTypes = {
   children: PropTypes.element.isRequired,
-  innerProps: PropTypes.object.isRequired,
-  selectProps: PropTypes.object.isRequired
+  innerProps: PropTypes.object.isRequired
 };
 
 export default Menu;

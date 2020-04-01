@@ -124,6 +124,7 @@ export const processAttachments = ({ attachments, id, recordType }) => {
 
       const action = isDelete ? "DELETE_ATTACHMENT" : "SAVE_ATTACHMENT";
 
+      // eslint-disable-next-line camelcase
       if (!attachment?.attachment_url) {
         prev.push({
           type: `${recordType}/${action}`,

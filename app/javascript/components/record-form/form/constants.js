@@ -4,6 +4,7 @@ export const DOCUMENT_FIELD_NAME = "DocumentField";
 export const FORM_SECTION_FIELD_NAME = "FormSectionField";
 export const RADIO_FIELD_NAME = "RadioField";
 export const RECORD_FORM_TOOLBAR_NAME = "RecordFormToolbar";
+export const RECORD_FORM_TOOLBAR_PAGE_HEADING_NAME = `${RECORD_FORM_TOOLBAR_NAME}PageHeading`;
 export const RECORD_FORM_NAME = "RecordForm";
 export const SELECT_FIELD_NAME = "SelectField";
 export const SEPERATOR_NAME = "Seperator";

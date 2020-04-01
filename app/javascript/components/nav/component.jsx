@@ -24,7 +24,10 @@ import {
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
-import * as actions from "./action-creators";
+import {
+  openDrawer as actions_openDrawer,
+  fetchAlerts
+} from "./action-creators";
 import { selectDrawerOpen, selectUsername, selectAlerts } from "./selectors";
 import MenuEntry from "./components/menu-entry";
 
@@ -34,12 +37,12 @@ const Nav = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const openDrawer = useCallback(value => dispatch(actions.openDrawer(value)), [
+  const openDrawer = useCallback(value => dispatch(actions_openDrawer(value)), [
     dispatch
   ]);
 
   useEffect(() => {
-    dispatch(actions.fetchAlerts());
+    dispatch(fetchAlerts());
   }, []);
 
   const { userModules } = useApp();

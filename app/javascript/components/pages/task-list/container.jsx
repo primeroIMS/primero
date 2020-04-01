@@ -45,6 +45,7 @@ const TaskList = () => {
         ...{
           ...(c.name === "priority"
             ? {
+                // eslint-disable-next-line react/no-multi-comp, react/display-name
                 customBodyRender: value => {
                   return (
                     <DashboardChip
@@ -61,6 +62,7 @@ const TaskList = () => {
             : {}),
           ...(c.name === "type"
             ? {
+                // eslint-disable-next-line react/no-multi-comp, react/display-name
                 customBodyRender: (value, tableMeta) => {
                   const recordData = data.get("data").get(tableMeta.rowIndex);
                   const lookupAction = recordData.get("detail");
@@ -89,6 +91,7 @@ const TaskList = () => {
             : {}),
           ...(c.name === "status"
             ? {
+                // eslint-disable-next-line react/no-multi-comp, react/display-name
                 customBodyRender: (value, tableMeta) => {
                   const recordData = data.get("data").get(tableMeta.rowIndex);
                   const overdue = recordData.get("overdue");

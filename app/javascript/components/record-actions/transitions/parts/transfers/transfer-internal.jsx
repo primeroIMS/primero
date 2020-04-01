@@ -4,7 +4,8 @@ import { TextField } from "formik-material-ui";
 import { Field } from "formik";
 
 import { useI18n } from "../../../../i18n";
-import { SearchableSelect } from "../../../../searchable-select";
+
+import searchableField from "./searchable-field";
 
 const TransferInternal = ({ disableControl, fields }) => {
   const i18n = useI18n();
@@ -45,40 +46,11 @@ const TransferInternal = ({ disableControl, fields }) => {
       };
     };
 
-    const searchableValue = field => {
-      const { value } = field;
-      const selected = f.options.filter(option => option.value === value)[0];
-
-      return !disableControl && value !== ""
-        ? selected
-        : { value: "", label: i18n.t("fields.select_single") };
-    };
-
-    const searchableField = (searchField, props) => {
-      const { id, options } = searchField;
-      const { field, form, ...other } = props;
-
-      return (
-        <>
-          <SearchableSelect
-            id={id}
-            isDisabled={disableControl}
-            options={options}
-            value={searchableValue(field)}
-            onChange={data => f.onChange(data, field, form)}
-            TextFieldProps={searchTextFieldProps(searchField, form)}
-            {...other}
-            onBlur={field.onBlur}
-          />
-        </>
-      );
-    };
-
     return (
       <Field
         key={f.id}
         name={f.id}
-        render={props => searchableField(f, props)}
+        render={props => searchableField(f, props, disableControl, i18n)}
       />
     );
   });

@@ -256,9 +256,10 @@ const SelectField = ({
       const handleChange = (data, form) => {
         form.setFieldValue(name, data ? data.value : "", false);
         if (
-          ["service_delivery_location", "service_implementing_agency"].find(
-            fieldName => name.endsWith(fieldName)
-          )
+          [
+            "service_delivery_location",
+            "service_implementing_agency"
+          ].find(fieldName => name.endsWith(fieldName))
         ) {
           setFilterState({ filtersChanged: true, userIsSelected: false });
         }

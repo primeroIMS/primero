@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import upperFirst from "lodash/upperFirst";
 import { push } from "connected-react-router";
 
-import { ActionDialog } from "../../../action-dialog";
+import ActionDialog from "../../../action-dialog";
 import { useI18n } from "../../../i18n";
 import { selectTransitionByTypeAndStatus } from "../../selectors";
 import { TRANSITIONS_TYPES, TRANSITION_STATUS } from "../../constants";

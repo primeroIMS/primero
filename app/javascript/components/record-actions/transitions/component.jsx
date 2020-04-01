@@ -50,6 +50,7 @@ const Transitions = ({
     setPending
   };
 
+  // eslint-disable-next-line react/no-multi-comp
   const transitionComponent = t => {
     if (t.transferDialog) {
       return (
@@ -78,7 +79,7 @@ const Transitions = ({
       );
     }
 
-    return <></>;
+    return null;
   };
 
   const renderTransitionForm = () => {

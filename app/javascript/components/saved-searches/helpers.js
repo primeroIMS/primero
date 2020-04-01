@@ -12,7 +12,7 @@ export const buildFiltersApi = filters => {
       (isObject && Object.keys(value).length <= 0) ||
       excludeDefaultFiltersKeys.includes(key)
     ) {
-        return acc;
+      return acc;
     }
     const newValue = isArray || isObject ? value : [value.toString()];
 
