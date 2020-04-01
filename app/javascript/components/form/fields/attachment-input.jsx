@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, CircularProgress, InputLabel } from "@material-ui/core";
 import { useFormContext } from "react-hook-form";
@@ -11,7 +11,7 @@ import { PHOTO_FIELD } from "../constants";
 import styles from "./styles.css";
 
 const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
-  const { setValue, watch, register, getValues } = useFormContext();
+  const { setValue, watch, register } = useFormContext();
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [file, setFile] = useState({
@@ -54,6 +54,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
   const fieldDisabled = () =>
     file.loading || Boolean(fileBase64 && !file?.data);
 
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
   const renderPreview = () => {
     const { data, fileName } = file;
 
@@ -64,6 +65,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
     );
   };
 
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
   const renderButton = () => {
     return disabled ? null : (
       <div className={css.buttonWrapper}>

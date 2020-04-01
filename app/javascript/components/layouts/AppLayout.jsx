@@ -41,7 +41,6 @@ const AppLayout = ({ children }) => {
       </main>
     </div>
   );
-
 };
 
 AppLayout.displayName = "AppLayout";

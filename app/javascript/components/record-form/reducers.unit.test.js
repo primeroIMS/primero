@@ -229,5 +229,4 @@ describe("<RecordForm /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
-
 });

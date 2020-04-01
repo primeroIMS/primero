@@ -4,7 +4,7 @@ import { mapObjectPropertiesToRecords, mapListToObject } from "../../libs";
 
 import { Actions } from "./actions";
 import NAMESPACE from "./namespace";
-import * as Record from "./records";
+import { ListHeaderRecord, FilterRecord } from "./records";
 
 const DEFAULT_STATE = Map({
   isAuthenticated: false
@@ -35,9 +35,9 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           roleId,
           listHeaders: mapObjectPropertiesToRecords(
             listHeaders,
-            Record.ListHeaderRecord
+            ListHeaderRecord
           ),
-          filters: mapObjectPropertiesToRecords(filters, Record.FilterRecord)
+          filters: mapObjectPropertiesToRecords(filters, FilterRecord)
         })
       );
     }

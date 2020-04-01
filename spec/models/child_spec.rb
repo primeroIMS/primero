@@ -359,7 +359,7 @@ describe Child do
         location_code: 'GUI123', hierarchy: ['GUI'],
         admin_level: 1
       )
-      admin_role = Role.create!(name: 'Admin', permissions: Permission.all_permissions_list)
+      admin_role = Role.create!(name: 'Admin', permissions: Permission.all_available)
       agency = Agency.create!(agency_code: 'UN', name: 'UNICEF')
       @user = create(
         :user,

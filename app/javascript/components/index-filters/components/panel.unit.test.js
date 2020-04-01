@@ -29,12 +29,7 @@ describe("<IndexFilters />/<Panel />", () => {
     props.getValues.returns({ filter1: "option-1" });
     const { component } = setupMockFormComponent(Panel, props);
 
-    expect(
-      component
-        .find("Panel")
-        .childAt(0)
-        .prop("expanded")
-    ).to.be.true;
+    expect(component.find("Panel").childAt(0).prop("expanded")).to.be.true;
   });
 
   it("closes if field has value on click", () => {
@@ -42,12 +37,7 @@ describe("<IndexFilters />/<Panel />", () => {
     const { component } = setupMockFormComponent(Panel, props);
 
     component.find("Panel button").simulate("click");
-    expect(
-      component
-        .find("Panel")
-        .childAt(0)
-        .prop("expanded")
-    ).to.be.false;
+    expect(component.find("Panel").childAt(0).prop("expanded")).to.be.false;
   });
 
   it("resets field value", () => {

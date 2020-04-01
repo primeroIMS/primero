@@ -5,10 +5,12 @@ import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { useI18n } from "../../i18n";
-
 import { ACCEPTED, REJECTED, REJECT } from "../../../config";
 import { setDialog, setPending } from "../../record-actions/action-creators";
-import { selectDialog, selectDialogPending } from "../../record-actions/selectors";
+import {
+  selectDialog,
+  selectDialogPending
+} from "../../record-actions/selectors";
 
 import { APPROVE, TRANSFER_APPROVAL_DIALOG } from "./constants";
 import TransferApproval from "./transfer-approval";
@@ -25,11 +27,11 @@ const TransferActionMenu = ({ transition, recordType }) => {
     selectDialog(TRANSFER_APPROVAL_DIALOG, state)
   );
   const setApprovalOpen = open => {
-    dispatch(setDialog({ dialog: TRANSFER_APPROVAL_DIALOG, open: open }));
+    dispatch(setDialog({ dialog: TRANSFER_APPROVAL_DIALOG, open }));
   };
   const dialogPending = useSelector(state => selectDialogPending(state));
   const setDialogPending = pending => {
-    dispatch(setPending({ pending: pending }));
+    dispatch(setPending({ pending }));
   };
 
   const handleAcceptOpen = event => {

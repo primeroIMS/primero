@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import * as Yup from "yup";
+import { object, string } from "yup";
 import { Formik, Field, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { TextField } from "formik-material-ui";
@@ -54,10 +54,8 @@ const ReassignForm = ({ record, recordType, setPending, assignRef }) => {
     }
   }, [hasErrors]);
 
-  const validationSchema = Yup.object().shape({
-    transitioned_to: Yup.string().required(
-      i18n.t("reassign.user_mandatory_label")
-    )
+  const validationSchema = object().shape({
+    transitioned_to: string().required(i18n.t("reassign.user_mandatory_label"))
   });
 
   const inputProps = {

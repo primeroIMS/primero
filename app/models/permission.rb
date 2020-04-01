@@ -147,7 +147,7 @@ class Permission < ValueObject
       DASH_CASE_OVERVIEW, DASH_CASE_RISK, DASH_APPROVALS_ASSESSMENT, DASH_APPROVALS_ASSESSMENT_PENDING,
       DASH_APPROVALS_CASE_PLAN, DASH_APPROVALS_CASE_PLAN_PENDING, DASH_APPROVALS_CLOSURE,
       DASH_APPROVALS_CLOSURE_PENDING, VIEW_RESPONSE, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS,
-      DASH_MATCHING_RESULTS, MANAGE, DASH_SERVICE_PROVISIONS, DASH_CASES_TO_ASSIGN, DASH_WORKFLOW,
+      DASH_MATCHING_RESULTS, DASH_SERVICE_PROVISIONS, DASH_CASES_TO_ASSIGN, DASH_WORKFLOW,
       DASH_WORKFLOW_TEAM, DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT, DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
       DASH_CASES_BY_TASK_OVERDUE_SERVICES, DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS, DASH_CASES_BY_SOCIAL_WORKER,
       VIEW_PROTECTION_CONCERNS_FILTER, DASH_PROTECTION_CONCERNS_BY_LOCATION, DASH_SHOW_NONE_VALUES,
@@ -276,26 +276,6 @@ class Permission < ValueObject
 
   def self.all_available
     resources.map { |r| Permission.new(resource: r, actions: RESOURCE_ACTIONS[r]) }
-  end
-
-  def self.all_permissions_list
-    [
-      self.new(:resource => CASE, :actions => [MANAGE]),
-      self.new(:resource => INCIDENT, :actions => [MANAGE]),
-      self.new(:resource => TRACING_REQUEST, :actions => [MANAGE]),
-      self.new(:resource => POTENTIAL_MATCH, :actions => [READ]),
-      self.new(:resource => DUPLICATE, :actions => [READ]),
-      self.new(:resource => REPORT, :actions => [MANAGE]),
-      self.new(:resource => ROLE, :actions => [MANAGE]),
-      self.new(:resource => USER, :actions => [MANAGE]),
-      self.new(:resource => USER_GROUP, :actions => [MANAGE]),
-      self.new(:resource => AGENCY, :actions => [MANAGE]),
-      self.new(:resource => METADATA, :actions => [MANAGE]),
-      self.new(:resource => SYSTEM, :actions => [MANAGE]),
-      self.new(:resource => DASHBOARD, :actions => [MANAGE]),
-      self.new(:resource => AUDIT_LOG, :actions => [MANAGE]),
-      self.new(:resource => MATCHING_CONFIGURATION, :actions => [MANAGE])
-    ]
   end
 
   def is_record?

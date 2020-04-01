@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Grid, FormControlLabel, Checkbox } from "@material-ui/core";
+import { Grid, FormControlLabel } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Field } from "formik";
 
@@ -8,27 +8,17 @@ import { useI18n } from "../../../../i18n";
 import { CasesIcon } from "../../../../../images/primero-icons";
 import styles from "../../styles.css";
 
-const ProvidedForm = ({ setDisabled, canConsentOverride, recordType }) => {
+import onChangeReferAnyway from "./on-change-refer-anyway";
+
+const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
-  const onChangeReferAnyway = props => {
-    const { field, form } = props;
-    const { value } = field;
-    const onChange = (fieldCheckbox, formCheckbox) => {
-      setDisabled(!fieldCheckbox.value);
-      formCheckbox.setFieldValue(
-        fieldCheckbox.name,
-        !fieldCheckbox.value,
-        false
-      );
-    };
-
-    return <Checkbox checked={value} onChange={() => onChange(field, form)} />;
-  };
-
   const fieldReferAnyway = (
-    <Field name="referral" render={props => onChangeReferAnyway(props)} />
+    <Field
+      name="referral"
+      render={props => onChangeReferAnyway(props, setDisabled)}
+    />
   );
 
   const referAnyway = canConsentOverride ? (
@@ -56,7 +46,6 @@ const ProvidedForm = ({ setDisabled, canConsentOverride, recordType }) => {
 
 ProvidedForm.propTypes = {
   canConsentOverride: PropTypes.bool,
-  recordType: PropTypes.string,
   setDisabled: PropTypes.func
 };
 

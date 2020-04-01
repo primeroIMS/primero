@@ -1,5 +1,4 @@
 import { fromJS } from "immutable";
-import { TableHead, TableCell } from "@material-ui/core";
 
 import { expect, setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../../libs/permissions";

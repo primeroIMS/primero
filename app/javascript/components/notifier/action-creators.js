@@ -1,3 +1,5 @@
+import kebabCase from "lodash/kebabCase";
+
 import { ENQUEUE_SNACKBAR, CLOSE_SNACKBAR, REMOVE_SNACKBAR } from "./actions";
 import { generate } from "./utils";
 
@@ -7,7 +9,7 @@ export const enqueueSnackbar = (message, type) => {
     payload: {
       message,
       options: {
-        key: generate.messageKey(),
+        key: message ? kebabCase(message) : generate.messageKey(),
         variant: type || "info"
       }
     }

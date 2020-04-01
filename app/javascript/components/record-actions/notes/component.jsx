@@ -2,10 +2,10 @@ import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { List } from "immutable";
 import { useDispatch } from "react-redux";
-import * as yup from "yup";
+import { object, string } from "yup";
 
 import { useI18n } from "../../i18n";
-import { ActionDialog } from "../../action-dialog";
+import ActionDialog from "../../action-dialog";
 import Form, {
   FieldRecord,
   FormSectionRecord,
@@ -16,9 +16,9 @@ import { ACTIONS } from "../../../libs/permissions";
 
 import { NAME } from "./constants";
 
-const validationSchema = yup.object().shape({
-  note_subject: yup.string().required(),
-  note_text: yup.string().required()
+const validationSchema = object().shape({
+  note_subject: string().required(),
+  note_text: string().required()
 });
 
 const Component = ({ close, openNotesDialog, record, recordType }) => {
