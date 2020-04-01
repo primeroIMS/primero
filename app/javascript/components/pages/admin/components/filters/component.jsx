@@ -70,10 +70,10 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
-  clearFields: PropTypes.func.isRequired,
+  clearFields: PropTypes.array.isRequired,
   defaultFilters: PropTypes.object,
   filters: PropTypes.array.isRequired,
-  onSubmit: PropTypes.array.isRequired
+  onSubmit: PropTypes.func.isRequired
 };
 
 export default Component;
