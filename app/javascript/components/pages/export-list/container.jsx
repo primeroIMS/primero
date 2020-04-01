@@ -41,7 +41,7 @@ const ExportList = () => {
           ...(c.name === EXPORT_COLUMNS.fileName
             ? {
                 id: true,
-                // eslint-disable-next-line react/display-name
+                // eslint-disable-next-line react/no-multi-comp, react/display-name
                 customBodyRender: (value, tableMeta) => {
                   const exportRecord = data.getIn(["data", tableMeta.rowIndex]);
                   const { status } = exportRecord;

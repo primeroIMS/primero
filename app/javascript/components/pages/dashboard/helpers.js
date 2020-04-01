@@ -295,12 +295,7 @@ export const toProtectionConcernTable = (data, i18n, lookups) => {
 export const toTasksOverdueTable = (overdueTasksDashboards, i18n) => {
   const indicatorsResults = overdueTasksDashboards
     .filter(dashboard => dashboard.size)
-    .map(dashboard =>
-      dashboard
-        .get("indicators")
-        .valueSeq()
-        .first()
-    );
+    .map(dashboard => dashboard.get("indicators").valueSeq().first());
 
   const hashedData = indicatorsResults.reduce(
     (acc, indicatorResult) => {

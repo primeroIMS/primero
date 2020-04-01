@@ -76,7 +76,9 @@ export const defaultErrorCallback = (store, response, json) => {
     }
   ];
 
-  handleRestCallback(store, errorPayload, response, json);
+  if (response.status !== 401) {
+    handleRestCallback(store, errorPayload, response, json);
+  }
 };
 
 export const isOnline = store => {
@@ -122,6 +124,7 @@ export const processAttachments = ({ attachments, id, recordType }) => {
 
       const action = isDelete ? "DELETE_ATTACHMENT" : "SAVE_ATTACHMENT";
 
+      // eslint-disable-next-line camelcase
       if (!attachment?.attachment_url) {
         prev.push({
           type: `${recordType}/${action}`,

@@ -1,12 +1,14 @@
 import PropTypes from "prop-types";
-import React, { useContext, createContext } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
 
 import { setLocale } from "./action-creators";
 import { getLocales, getLocale } from "./selectors";
+import Context from "./context";
 
-const Context = createContext();
+export { default as withI18n } from "./with-i18n";
+export { default as useI18n } from "./use-i18n";
 
 const I18nProvider = ({ children }) => {
   const locale = useSelector(state => getLocale(state));
@@ -71,13 +73,3 @@ I18nProvider.propTypes = {
 };
 
 export { I18nProvider };
-
-export const useI18n = () => useContext(Context);
-
-export const withI18n = Component => {
-  return props => {
-    const i18nHook = useI18n();
-
-    return <Component {...props} i18n={i18nHook} />;
-  };
-};

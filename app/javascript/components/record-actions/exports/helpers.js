@@ -1,7 +1,6 @@
 import isEmpty from "lodash/isEmpty";
 
 import { ACTIONS } from "../../../libs/permissions";
-import { DEFAULT_FILTERS } from "../../index-filters";
 
 import { ALL_EXPORT_TYPES } from "./constants";
 

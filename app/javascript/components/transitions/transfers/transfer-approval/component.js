@@ -1,16 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { FormLabel, TextField } from "@material-ui/core";
 
 import { useI18n } from "../../../i18n";
-import { ActionDialog } from "../../../action-dialog";
-import {
-  ACCEPTED,
-  REJECTED,
-  ACCEPT,
-  REJECT
-} from "../../../../config";
+import ActionDialog from "../../../action-dialog";
+import { ACCEPTED, REJECTED, ACCEPT, REJECT } from "../../../../config";
 
 import { approvalTransfer } from "./action-creators";
 import { NAME } from "./constants";
@@ -24,9 +19,8 @@ const Component = ({
   recordType,
   pending,
   setPending,
-  transferId,
+  transferId
 }) => {
-
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [comment, setComment] = React.useState("");
@@ -35,7 +29,7 @@ const Component = ({
     setComment(event.target.value);
   };
 
-  const handleCancel = (event) => {
+  const handleCancel = event => {
     if (event) {
       event.stopPropagation();
     }
@@ -44,7 +38,7 @@ const Component = ({
     setComment("");
   };
 
-  const stopProp = (event) => {
+  const stopProp = event => {
     event.stopPropagation();
   };
 
@@ -60,8 +54,10 @@ const Component = ({
 
   const message =
     approvalType === ACCEPTED
-    ? i18n.t(`${recordType}.transfer_accepted_success`)
-    : i18n.t(`${recordType}.transfer_accepted_rejected`, {record_id: recordId});
+      ? i18n.t(`${recordType}.transfer_accepted_success`)
+      : i18n.t(`${recordType}.transfer_accepted_rejected`, {
+          record_id: recordId
+        });
 
   const handleOk = () => {
     setPending(true);
@@ -85,22 +81,23 @@ const Component = ({
     autoFocus: true
   };
 
-  const commentField = approvalType === REJECTED ? (
-    <>
-      <FormLabel component="legend">
-        {i18n.t(`${recordType}.transfer_reject_reason_label`)}
-      </FormLabel>
-      <TextField
-        id="outlined-multiline-static"
-        label=""
-        multiline
-        rows="4"
-        defaultValue=""
-        variant="outlined"
-        onChange={handleChangeComment}
-      />
-    </>
-  ): null;
+  const commentField =
+    approvalType === REJECTED ? (
+      <>
+        <FormLabel component="legend">
+          {i18n.t(`${recordType}.transfer_reject_reason_label`)}
+        </FormLabel>
+        <TextField
+          id="outlined-multiline-static"
+          label=""
+          multiline
+          rows="4"
+          defaultValue=""
+          variant="outlined"
+          onChange={handleChangeComment}
+        />
+      </>
+    ) : null;
 
   const dialogContent = (
     <form noValidate autoComplete="off" onClick={stopProp}>

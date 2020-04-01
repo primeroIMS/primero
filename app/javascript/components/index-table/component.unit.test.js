@@ -141,24 +141,13 @@ describe("<IndexTable />", () => {
     const table = component.find(IndexTable);
 
     expect(table.find("tbody tr")).to.have.lengthOf(1);
-    expect(
-      table
-        .find("div")
-        .last()
-        .text()
-    ).to.be.empty;
+    expect(table.find("div").last().text()).to.be.empty;
 
-    table
-      .find("thead th span")
-      .at(nameColumnIndex)
-      .simulate("click");
+    table.find("thead th span").at(nameColumnIndex).simulate("click");
 
-    expect(
-      table
-        .find("div")
-        .last()
-        .text()
-    ).to.be.be.equals("Table now sorted by name : descending");
+    expect(table.find("div").last().text()).to.be.be.equals(
+      "Table now sorted by name : descending"
+    );
   });
 
   describe("When data still loading", () => {

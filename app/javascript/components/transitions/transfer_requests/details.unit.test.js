@@ -62,7 +62,6 @@ describe("<ReferralDetail />", () => {
   });
 
   describe("with status", () => {
-
     describe("when is rejected", () => {
       beforeEach(() => {
         ({ component } = setupMountedComponent(

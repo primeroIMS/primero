@@ -2,7 +2,7 @@ import { expect } from "chai";
 import clone from "lodash/clone";
 import { Map, List } from "immutable";
 import { Formik } from "formik";
-import { Button, FormControlLabel } from "@material-ui/core";
+import { FormControlLabel } from "@material-ui/core";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
 
 import { setupMountedComponent } from "../../../../../test";
@@ -77,12 +77,7 @@ describe("<ReferralForm />", () => {
   });
 
   it("should accept valid props", () => {
-    const componentProps = clone(
-      component
-        .find(ReferralForm)
-        .first()
-        .props()
-    );
+    const componentProps = clone(component.find(ReferralForm).first().props());
 
     expect(componentProps).to.have.property("handleClose");
     expect(componentProps).to.have.property("userPermissions");
