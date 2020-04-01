@@ -138,6 +138,7 @@ class Child < ApplicationRecord
     string :services_provided, multiple: true
     string :action_plan_referral_statuses, multiple: true
     string :referred_services, multiple: true
+    string :number_of_meetings
   end
 
   validate :validate_date_of_birth
