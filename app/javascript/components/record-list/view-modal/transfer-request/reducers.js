@@ -7,7 +7,7 @@ import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = fromJS({ data: [] });
 
-const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case actions.TRANSFER_REQUEST_FAILURE:
       return state
@@ -29,5 +29,3 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state;
   }
 };
-
-export const reducers = reducer;

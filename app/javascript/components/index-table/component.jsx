@@ -10,7 +10,7 @@ import startsWith from "lodash/startsWith";
 import { List, fromJS } from "immutable";
 
 import { dataToJS } from "../../libs";
-import { LoadingIndicator } from "../loading-indicator";
+import LoadingIndicator from "../loading-indicator";
 import { getFields } from "../record-list/selectors";
 import { getOptions, getLoadingState } from "../record-form/selectors";
 import { selectAgencies } from "../application/selectors";

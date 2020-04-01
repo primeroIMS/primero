@@ -1,1 +1,1 @@
-export { default as MobileToolbar } from "./component";
+export { default } from "./component";

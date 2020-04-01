@@ -5,7 +5,7 @@ import { Field, Form, Formik } from "formik";
 import * as keydown from "keyevent";
 
 import { setupMountedComponent } from "../../../../../test";
-import { SearchableSelect } from "../../../../searchable-select";
+import SearchableSelect from "../../../../searchable-select";
 
 import TransferInternal from "./transfer-internal";
 

@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { CircularProgress } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../test";
-import { DashboardChip } from "../dashboard-chip";
+import DashboardChip from "../dashboard-chip";
 import { DASHBOARD_NAMES } from "../../pages/dashboard";
 import { INDICATOR_NAMES } from "../../pages/dashboard/constants";
 

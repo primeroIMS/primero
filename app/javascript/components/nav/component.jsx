@@ -2,14 +2,14 @@ import { Drawer, List, useMediaQuery } from "@material-ui/core";
 import React, { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { AgencyLogo } from "../agency-logo";
-import { ModuleLogo } from "../module-logo";
+import AgencyLogo from "../agency-logo";
+import ModuleLogo from "../module-logo";
 import { useI18n } from "../i18n";
 import { useThemeHelper } from "../../libs";
-import { MobileToolbar } from "../mobile-toolbar";
+import MobileToolbar from "../mobile-toolbar";
 import { useApp } from "../application";
 import Permission from "../application/permission";
-import { TranslationsToggle } from "../translations-toggle";
+import TranslationsToggle from "../translations-toggle";
 import { PERMITTED_URL, ROUTES } from "../../config";
 import {
   RECORD_RESOURCES,

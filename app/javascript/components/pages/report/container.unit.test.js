@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { PageContainer, PageContent, PageHeading } from "../../page";
 import { expect, setupMountedComponent } from "../../../test";
 import { TableValues } from "../../charts";
-import { LoadingIndicator } from "../../loading-indicator";
+import LoadingIndicator from "../../loading-indicator";
 
 import Report from "./container";
 

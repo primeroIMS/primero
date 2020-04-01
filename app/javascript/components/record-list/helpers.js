@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import React from "react";
 import { format, parseISO } from "date-fns";
 import TableCell from "@material-ui/core/TableCell";

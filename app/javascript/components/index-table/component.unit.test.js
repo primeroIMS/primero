@@ -3,7 +3,7 @@ import { fromJS, List } from "immutable";
 import MUIDataTable from "mui-datatables";
 import { CircularProgress } from "@material-ui/core";
 
-import { LoadingIndicator } from "../loading-indicator";
+import LoadingIndicator from "../loading-indicator";
 import { setupMountedComponent, stub } from "../../test";
 import { RECORD_PATH } from "../../config";
 import { mapEntriesToRecord } from "../../libs";

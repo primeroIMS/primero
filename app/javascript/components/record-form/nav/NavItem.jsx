@@ -5,7 +5,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/styles";
 
-import { Jewel } from "../../jewel";
+import Jewel from "../../jewel";
 
 import styles from "./styles.css";
 import { NAV_ITEM } from "./constants";

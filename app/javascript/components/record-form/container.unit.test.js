@@ -7,15 +7,15 @@ import { CircularProgress } from "@material-ui/core";
 
 import { setupMountedComponent, expect } from "../../test";
 import { PageContainer } from "../page";
-import { LoadingIndicator } from "../loading-indicator";
+import LoadingIndicator from "../loading-indicator";
 import RecordOwner from "../record-owner";
 import { PrimeroModuleRecord } from "../application/records";
 import { Transitions } from "../transitions";
 import { MODES } from "../../config";
-import { Approvals } from "../approvals";
+import Approvals from "../approvals";
 import ApprovalPanel from "../approvals/components/panel";
 
-import { Nav } from "./nav";
+import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import RecordForms from "./container";
 import { FormSectionRecord, FieldRecord } from "./records";
