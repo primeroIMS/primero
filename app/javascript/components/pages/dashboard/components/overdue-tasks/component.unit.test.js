@@ -82,10 +82,7 @@ describe("<OverdueTasks> - pages/dashboard/components/overdue-tasks", () => {
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(OverdueTasks, {}, state));
-    tableCells = component
-      .find(DashboardTable)
-      .find(TableHead)
-      .find(TableCell);
+    tableCells = component.find(DashboardTable).find(TableHead).find(TableCell);
   });
 
   it("should render a <DashboardTable /> component", () => {

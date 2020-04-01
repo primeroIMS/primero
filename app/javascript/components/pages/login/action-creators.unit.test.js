@@ -1,6 +1,4 @@
 import { expect } from "chai";
-import sinon from "sinon";
-import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
 

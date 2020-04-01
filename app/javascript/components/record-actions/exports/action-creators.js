@@ -1,9 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
 
 import actions from "./actions";
-
-import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
 
 export const saveExport = (body, message, actionLabel, dialogName) => ({
   type: actions.EXPORT,

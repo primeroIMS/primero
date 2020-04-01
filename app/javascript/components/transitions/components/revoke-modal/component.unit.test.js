@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 
 import { expect, setupMountedComponent } from "../../../../test";
-import { ActionDialog } from "../../../action-dialog";
+import ActionDialog from "../../../action-dialog";
 
 import RevokeModal from "./component";
 
@@ -30,8 +30,7 @@ describe("<RevokeModal /> - Component", () => {
       service: "legal_assistance_service"
     }
   };
-  const state = fromJS({
-  });
+  const state = fromJS({});
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(RevokeModal, props, state));

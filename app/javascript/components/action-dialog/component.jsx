@@ -37,7 +37,11 @@ const ActionDialog = ({
 
   const handleClose = event => {
     event.stopPropagation();
-    cancelHandler ? cancelHandler() : onClose();
+    if (cancelHandler) {
+      cancelHandler();
+    } else {
+      onClose();
+    }
   };
 
   const handleSuccess = event => {

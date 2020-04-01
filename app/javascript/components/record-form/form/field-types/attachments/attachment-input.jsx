@@ -9,7 +9,7 @@ import { toBase64 } from "../../../../../libs/base64";
 import styles from "../../styles.css";
 
 import { ATTACHMENT_TYPES } from "./constants";
-import AttachmentPreview from "./attachment-preview";
+import renderPreview from "./render-preview";
 
 const AttachmentInput = ({ attachment, fields, name, value }) => {
   const i18n = useI18n();
@@ -51,20 +51,6 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
     }
   };
 
-  const renderPreview = () => {
-    const { data } = file;
-
-    if (!data) return false;
-
-    return (
-      <AttachmentPreview
-        attachment={attachment}
-        attachmentUrl={data}
-        className={css.preview}
-      />
-    );
-  };
-
   const fieldDisabled = () => file.loading || (value && !file?.data);
 
   return (
@@ -101,7 +87,7 @@ const AttachmentInput = ({ attachment, fields, name, value }) => {
           }}
         />
       </div>
-      {renderPreview()}
+      {renderPreview(attachment, file, css)}
     </div>
   );
 };

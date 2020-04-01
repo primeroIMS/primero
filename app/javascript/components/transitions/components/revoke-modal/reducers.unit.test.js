@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { expect } from "../../../../test";
 import { TransitionRecord } from "../../records";
 
-import { reducer } from "./reducers";
+import reducers from "./reducers";
 import actions from "./actions";
 
 describe("<RevokeModal /> - transitions/components/revoke-modal/reducers", () => {
@@ -38,7 +38,7 @@ describe("<RevokeModal /> - transitions/components/revoke-modal/reducers", () =>
       }
     };
 
-    const newState = reducer(state, action);
+    const newState = reducers(state, action);
 
     delete data.record;
     const expected = fromJS({
