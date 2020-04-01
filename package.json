@@ -4,11 +4,13 @@
   "scripts": {
     "build": "NODE_ENV=production node_modules/.bin/webpack --config webpack/index.js",
     "dev": "node_modules/.bin/webpack-dev-server --config webpack/index.js",
-    "test": "NODE_ENV=test mocha",
-    "test:all": "npm run test './app/javascript/**/*.unit.test.js'",
-    "test:inspect": "npm run test -- --inspect-brk=0.0.0.0:9229",
+    "test": "npm run test:run './app/javascript/**/*.unit.test.js'",
+    "test:all": "npm test",
+    "test:inspect": "npm run test:run -- --inspect-brk=0.0.0.0:9229",
     "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test:all",
-    "lint": "eslint --fix './app/javascript/**'"
+    "test:run": "NODE_ENV=test mocha",
+    "lint": "npm run lint:run './app/javascript/**'",
+    "lint:run": "eslint --fix"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

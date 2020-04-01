@@ -13,6 +13,7 @@ describe("Verifying config constant", () => {
       "FORM_SECTION_FIELD_NAME",
       "RADIO_FIELD_NAME",
       "RECORD_FORM_TOOLBAR_NAME",
+      "RECORD_FORM_TOOLBAR_PAGE_HEADING_NAME",
       "RECORD_FORM_NAME",
       "SELECT_FIELD_NAME",
       "SEPERATOR_NAME",

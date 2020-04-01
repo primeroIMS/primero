@@ -3,20 +3,8 @@ import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 
+import Input from "./input";
 import styles from "./styles.css";
-
-const inputComponent = ({ inputRef, ...props }) => {
-  return <div ref={inputRef} {...props} />;
-};
-
-inputComponent.propTypes = {
-  inputRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({
-      current: PropTypes.any.isRequired
-    })
-  ])
-};
 
 const Control = props => {
   const css = makeStyles(styles)();
@@ -31,7 +19,7 @@ const Control = props => {
     <TextField
       fullWidth
       InputProps={{
-        inputComponent,
+        inputComponent: Input,
         inputProps: {
           className: css.input,
           ref: innerRef,

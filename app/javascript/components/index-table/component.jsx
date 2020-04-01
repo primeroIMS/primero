@@ -295,13 +295,11 @@ const Component = ({
     fromTableList: true
   };
 
-  const DataTable = () => (
+  return (
     <LoadingIndicator {...loadingIndicatorProps}>
       <MUIDataTable {...tableOptions} />
     </LoadingIndicator>
   );
-
-  return <DataTable />;
 };
 
 Component.displayName = NAME;

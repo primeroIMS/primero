@@ -25,6 +25,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
         ...{
           ...([ALERTS_COLUMNS.photo].includes(column.get("name"))
             ? {
+                // eslint-disable-next-line react/no-multi-comp
                 customHeadRender: (columnMeta, handleToggleColumn) => {
                   return (
                     <TableCell
@@ -36,6 +37,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
                     </TableCell>
                   );
                 },
+                // eslint-disable-next-line react/no-multi-comp
                 customBodyRender: value => (
                   <div className={css.photoIcon}>
                     <Lightbox
@@ -91,6 +93,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
     sort: false,
     options: {
       customHeadRender: columnMeta => emptyHeader(columnMeta),
+      // eslint-disable-next-line react/no-multi-comp
       customBodyRender: value => {
         const alertIcon =
           canShowAlertIcon && value?.alert_count > 0 ? (

@@ -73,6 +73,7 @@ const OverviewBox = ({
     return withTotal ? `${sum()} ${sumTitle}` : sumTitle;
   };
 
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
   const renderItems = () => (
     <LoadingIndicator {...loadingIndicatorProps}>
       <div className={css.overviewBox}>
@@ -82,6 +83,7 @@ const OverviewBox = ({
     </LoadingIndicator>
   );
 
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
   const renderWithChart = () => (
     <div className={css.root}>
       <Grid container spacing={3}>

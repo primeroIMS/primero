@@ -54,6 +54,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
   const fieldDisabled = () =>
     file.loading || Boolean(fileBase64 && !file?.data);
 
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
   const renderPreview = () => {
     const { data, fileName } = file;
 
@@ -64,6 +65,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps }) => {
     );
   };
 
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
   const renderButton = () => {
     return disabled ? null : (
       <div className={css.buttonWrapper}>

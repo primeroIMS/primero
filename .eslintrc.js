@@ -77,7 +77,8 @@ module.exports = {
         {
           "varsIgnorePattern": "should|expect"
         }
-      ]
+      ],
+      "react/no-multi-comp": "off"
     }
   }, {
     "files": ["worker.js"],
