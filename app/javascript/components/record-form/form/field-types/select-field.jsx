@@ -188,7 +188,7 @@ const SelectField = ({
       return field.multi_select
         ? selected
             .map(s =>
-              findOptionDisplayText({ ...displayOptions, currentValue: s })
+              findOptionDisplayText({ ...displayOptions, value: s })
             )
             .join(", ") || i18n.t("fields.select_multiple")
         : findOptionDisplayText({ ...displayOptions }) ||

@@ -83,17 +83,16 @@ export const translatedText = (displayText, i18n) => {
 
 export const findOptionDisplayText = ({
   agencies,
-  specialLookups,
+  customLookups,
   options,
   option,
   value,
-  currentValue,
   i18n
 }) => {
-  const foundOptions = find(options, { id: currentValue }) || {};
+  const foundOptions = find(options, { id: value }) || {};
   let optionValue = [];
 
-  if (Object.keys(foundOptions).length && !specialLookups.includes(option)) {
+  if (Object.keys(foundOptions).length && !customLookups.includes(option)) {
     optionValue = translatedText(foundOptions.display_text, i18n);
   } else if (option === "Agency") {
     optionValue = value
