@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 import isEmpty from "lodash/isEmpty";
 
 import { AGE_MAX } from "../../../../config";
