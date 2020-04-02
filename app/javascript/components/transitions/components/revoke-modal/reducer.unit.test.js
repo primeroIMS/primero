@@ -3,10 +3,10 @@ import { fromJS } from "immutable";
 import { expect } from "../../../../test";
 import { TransitionRecord } from "../../records";
 
-import reducers from "./reducers";
+import reducer from "./reducer";
 import actions from "./actions";
 
-describe("<RevokeModal /> - transitions/components/revoke-modal/reducers", () => {
+describe("<RevokeModal /> - transitions/components/revoke-modal/reducer", () => {
   it("should handle REVOKE_TRANSITION_SUCCESS", () => {
     const transition = {
       status: "in_progress",
@@ -38,7 +38,7 @@ describe("<RevokeModal /> - transitions/components/revoke-modal/reducers", () =>
       }
     };
 
-    const newState = reducers(state, action);
+    const newState = reducer(state, action);
 
     delete data.record;
     const expected = fromJS({

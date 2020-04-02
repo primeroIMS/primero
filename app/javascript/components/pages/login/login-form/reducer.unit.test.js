@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import reducers from "./reducers";
+import reducer from "./reducer";
 
 describe("<LoginForm /> - Reducers", () => {
   const defaultState = fromJS({
@@ -23,7 +23,7 @@ describe("<LoginForm /> - Reducers", () => {
         error: null
       }
     };
-    const newState = reducers.user(defaultState, action);
+    const newState = reducer.user(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -41,7 +41,7 @@ describe("<LoginForm /> - Reducers", () => {
         error: "Invalid User name or password."
       }
     };
-    const newState = reducers.user(defaultState, action);
+    const newState = reducer.user(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });

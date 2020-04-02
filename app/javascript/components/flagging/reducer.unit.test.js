@@ -4,10 +4,10 @@ import { Map, List } from "immutable";
 import { mapEntriesToRecord } from "../../libs";
 
 import { FlagRecord } from "./records";
-import { reducers } from "./reducers";
+import reducer from "./reducer";
 
 describe("<Flagging /> - Reducers", () => {
-  const reducer = reducers.flags;
+  const nsReducer = reducer.flags;
   const defaultState = Map({
     data: List([
       FlagRecord({
@@ -49,7 +49,7 @@ describe("<Flagging /> - Reducers", () => {
         data
       }
     };
-    const newState = reducer(defaultState, action);
+    const newState = nsReducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -89,7 +89,7 @@ describe("<Flagging /> - Reducers", () => {
         }
       }
     };
-    const newState = reducer(defaultState, action);
+    const newState = nsReducer(defaultState, action);
 
     expect(List(newState.get("data"))).to.deep.equal(
       List(expected.get("data"))
@@ -109,7 +109,7 @@ describe("<Flagging /> - Reducers", () => {
       }
     };
 
-    const newState = reducer(defaultState, action);
+    const newState = nsReducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });

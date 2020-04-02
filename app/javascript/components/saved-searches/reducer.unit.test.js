@@ -5,7 +5,7 @@ import chaiImmutable from "chai-immutable";
 import { mapEntriesToRecord } from "../../libs";
 
 import { SavedSearchesRecord } from "./records";
-import { reducers } from "./reducers";
+import reducer from "./reducer";
 
 chai.use(chaiImmutable);
 
@@ -39,7 +39,7 @@ describe("<SavedSearches /> - Reducers", () => {
       }
     };
 
-    const newState = reducers.savedSearches(defaultState, action);
+    const newState = reducer.savedSearches(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -76,7 +76,7 @@ describe("<SavedSearches /> - Reducers", () => {
       }
     };
 
-    const newState = reducers.savedSearches(defaultStateSavedSearch, action);
+    const newState = reducer.savedSearches(defaultStateSavedSearch, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -129,7 +129,7 @@ describe("<SavedSearches /> - Reducers", () => {
       }
     };
 
-    const newState = reducers.savedSearches(defaultStateSuccess, action);
+    const newState = reducer.savedSearches(defaultStateSuccess, action);
 
     // Using toJS(), because SavedSearchesRecord doesn't implement immutable js
     expect(newState.toJS()).to.deep.equal(expected);

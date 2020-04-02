@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import reducers from "./reducers";
+import reducer from "./reducer";
 import { SET_DIALOG, SET_DIALOG_PENDING } from "./actions";
 
 describe("<RecordActions /> - Reducers", () => {
@@ -25,7 +25,7 @@ describe("<RecordActions /> - Reducers", () => {
       payload
     };
 
-    const newState = reducers.dialogs(defaultState, action);
+    const newState = reducer.dialogs(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -50,7 +50,7 @@ describe("<RecordActions /> - Reducers", () => {
       payload
     };
 
-    const newState = reducers.dialogs(defaultState, action);
+    const newState = reducer.dialogs(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });

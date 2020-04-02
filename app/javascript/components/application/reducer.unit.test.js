@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { Map } from "immutable";
 
-import reducers from "./reducers";
+import reducer from "./reducer";
 import actions from "./actions";
 
 describe("Application - Reducers", () => {
@@ -15,7 +15,7 @@ describe("Application - Reducers", () => {
       payload: true
     };
 
-    const newState = reducers.application(defaultState, action);
+    const newState = reducer.application(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -112,7 +112,7 @@ describe("Application - Reducers", () => {
       }
     };
 
-    const newState = reducers.application(defaultState, action);
+    const newState = reducer.application(defaultState, action);
 
     expect(newState.toJS()).to.eql(expected.toJS());
   });
@@ -127,7 +127,7 @@ describe("Application - Reducers", () => {
       payload: true
     };
 
-    const newState = reducers.application(defaultState, action);
+    const newState = reducer.application(defaultState, action);
 
     expect(newState).to.eql(expected);
   });

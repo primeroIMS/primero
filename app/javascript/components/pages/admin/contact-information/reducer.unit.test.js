@@ -4,7 +4,7 @@ import { expect } from "../../../../test/unit-test-helpers";
 import { ContactInformationRecord } from "../../support/records";
 
 import actions from "./actions";
-import reducers from "./reducers";
+import reducer from "./reducer";
 
 describe("<ContactInformation /> - Reducers", () => {
   it("should handle SAVE_CONTACT_INFORMATION_STARTED", () => {
@@ -13,7 +13,7 @@ describe("<ContactInformation /> - Reducers", () => {
       type: actions.SAVE_CONTACT_INFORMATION_STARTED,
       payload: true
     };
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -41,7 +41,7 @@ describe("<ContactInformation /> - Reducers", () => {
       }
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -52,7 +52,7 @@ describe("<ContactInformation /> - Reducers", () => {
       type: actions.SAVE_CONTACT_INFORMATION_FINISHED,
       payload: false
     };
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });

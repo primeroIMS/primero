@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import reducers from "./reducers";
+import reducer from "./reducer";
 import { APPROVE_RECORD_SUCCESS } from "./actions";
 
 describe("<RequestApproval /> - Reducers", () => {
@@ -81,7 +81,7 @@ describe("<RequestApproval /> - Reducers", () => {
       payload
     };
 
-    const newState = reducers("cases")(defaultState, action);
+    const newState = reducer("cases")(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });

@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { Map, fromJS } from "immutable";
 
-import reducers from "./reducers";
+import reducer from "./reducer";
 import { SET_FILTERS } from "./actions";
 
 describe("<IndexFilters /> - Reducers", () => {
@@ -15,7 +15,7 @@ describe("<IndexFilters /> - Reducers", () => {
       type: `${namespace}/${SET_FILTERS}`,
       payload
     };
-    const newState = reducers(namespace)(defaultState, action);
+    const newState = reducer(namespace)(defaultState, action);
 
     expect(newState.get("filters")).to.deep.equal(fromJS(payload));
   });

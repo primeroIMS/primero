@@ -3,9 +3,9 @@ import { fromJS } from "immutable";
 import { expect } from "../../../../test/unit-test-helpers";
 
 import actions from "./actions";
-import reducers from "./reducers";
+import reducer from "./reducer";
 
-describe("<LookupsList /> - pages/admin/lookups-list/reducers", () => {
+describe("<LookupsList /> - pages/admin/lookups-list/reducer", () => {
   it("should handle FETCH_LOOKUPS_STARTED", () => {
     const expected = fromJS({
       loading: true,
@@ -17,7 +17,7 @@ describe("<LookupsList /> - pages/admin/lookups-list/reducers", () => {
       payload: true
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -33,7 +33,7 @@ describe("<LookupsList /> - pages/admin/lookups-list/reducers", () => {
       payload: { data: [{ id: 3 }], metadata: { per: 20 } }
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -48,7 +48,7 @@ describe("<LookupsList /> - pages/admin/lookups-list/reducers", () => {
       type: actions.FETCH_LOOKUPS_FAILURE
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -63,7 +63,7 @@ describe("<LookupsList /> - pages/admin/lookups-list/reducers", () => {
       type: actions.FETCH_LOOKUPS_FINISHED
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });

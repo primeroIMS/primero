@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 import { mapEntriesToRecord } from "../../libs";
 
 import { TransitionRecord } from "./records";
-import { reducers } from "./reducers";
+import reducer from "./reducer";
 import * as Actions from "./actions";
 
 describe("<Transitions /> - Reducers", () => {
@@ -48,7 +48,7 @@ describe("<Transitions /> - Reducers", () => {
       }
     };
 
-    const newState = reducers(initialState, action);
+    const newState = reducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });

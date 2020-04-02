@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { expect } from "../../../../test/unit-test-helpers";
 
 import actions from "./actions";
-import reducers from "./reducers";
+import reducer from "./reducer";
 
 describe("<UserGroupsList /> - Reducers", () => {
   it("should handle USER_GROUPS_SUCCESS", () => {
@@ -20,7 +20,7 @@ describe("<UserGroupsList /> - Reducers", () => {
       }
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });

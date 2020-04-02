@@ -2,11 +2,11 @@ import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import ExportRecord from "./records";
-import reducers from "./reducers";
+import reducer from "./reducer";
 import actions from "./actions";
 import { EXPORT_STATUS } from "./constants";
 
-describe("<ExportList /> - pages/export-list/reducers", () => {
+describe("<ExportList /> - pages/export-list/reducer", () => {
   const defaultState = fromJS({
     data: []
   });
@@ -40,7 +40,7 @@ describe("<ExportList /> - pages/export-list/reducers", () => {
       payload
     };
 
-    const newState = reducers.bulk_exports(defaultState, action);
+    const newState = reducer.bulk_exports(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });

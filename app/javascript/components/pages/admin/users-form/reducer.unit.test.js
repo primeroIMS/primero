@@ -3,70 +3,70 @@ import { fromJS } from "immutable";
 import { expect } from "../../../../test/unit-test-helpers";
 
 import actions from "./actions";
-import reducers from "./reducers";
+import reducer from "./reducer";
 
-describe("<AgenciesForm /> - Reducers", () => {
-  it("should handle FETCH_AGENCY_STARTED", () => {
+describe("<UsersForm /> - Reducers", () => {
+  it("should handle FETCH_USER_STARTED", () => {
     const expected = fromJS({ loading: true, errors: false, serverErrors: [] });
     const action = {
-      type: actions.FETCH_AGENCY_STARTED,
+      type: actions.FETCH_USER_STARTED,
       payload: true
     };
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
 
-  it("should handle FETCH_AGENCY_FAILURE", () => {
+  it("should handle FETCH_USER_FAILURE", () => {
     const expected = fromJS({ errors: true, serverErrors: ["some error"] });
     const action = {
-      type: actions.FETCH_AGENCY_FAILURE,
+      type: actions.FETCH_USER_FAILURE,
       payload: { errors: ["some error"] }
     };
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
 
-  it("should handle FETCH_AGENCY_SUCCESS", () => {
+  it("should handle FETCH_USER_SUCCESS", () => {
     const expected = fromJS({
-      selectedAgency: { id: 3 },
+      selectedUser: { id: 3 },
       errors: false,
       serverErrors: []
     });
 
     const action = {
-      type: actions.FETCH_AGENCY_SUCCESS,
+      type: actions.FETCH_USER_SUCCESS,
       payload: { data: { id: 3 } }
     };
 
-    const newState = reducers(fromJS({ selectedAgency: {} }), action);
+    const newState = reducer(fromJS({ selectedUser: {} }), action);
 
     expect(newState).to.deep.equal(expected);
   });
 
-  it("should handle FETCH_AGENCY_FINISHED", () => {
+  it("should handle FETCH_USER_FINISHED", () => {
     const expected = fromJS({ loading: false });
     const action = {
-      type: actions.FETCH_AGENCY_FINISHED,
+      type: actions.FETCH_USER_FINISHED,
       payload: false
     };
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
 
-  it("should handle CLEAR_SELECTED_AGENCY", () => {
+  it("should handle CLEAR_SELECTED_USER", () => {
     const expected = fromJS({
-      selectedAgency: {},
+      selectedUser: {},
       errors: false,
       serverErrors: []
     });
     const action = {
-      type: actions.CLEAR_SELECTED_AGENCY,
+      type: actions.CLEAR_SELECTED_USER,
       payload: false
     };
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });

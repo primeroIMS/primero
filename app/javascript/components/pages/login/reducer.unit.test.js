@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import reducers from "./reducers";
+import reducer from "./reducer";
 
 describe("<Login /> - Reducers", () => {
   const defaultState = fromJS({});
@@ -21,7 +21,7 @@ describe("<Login /> - Reducers", () => {
         }
       }
     };
-    const newState = reducers.idp(defaultState, action);
+    const newState = reducer.idp(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });

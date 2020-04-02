@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import reducers from "./reducers";
+import reducer from "./reducer";
 import actions from "./actions";
 
 describe("<TransferApproval /> - Reducers", () => {
@@ -164,7 +164,7 @@ describe("<TransferApproval /> - Reducers", () => {
       payload
     };
 
-    const newState = reducers(defaultState, action);
+    const newState = reducer(defaultState, action);
 
     expect(newState.toJS()).to.deep.equal(expected.toJS());
   });

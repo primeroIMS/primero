@@ -23,7 +23,7 @@ describe("<RecordForm /> - index", () => {
       "getRecordForms",
       "getRecordFormsByUniqueId",
       "getSelectedForm",
-      "reducers",
+      "reducer",
       "setSelectedForm",
       "fetchLookups",
       "getLookups"

@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 
 import { mapListToObject, mapObjectPropertiesToRecords } from "../../libs";
 
-import reducers from "./reducers";
+import reducer from "./reducer";
 import Actions from "./actions";
 import { FilterRecord, ListHeaderRecord } from "./records";
 
@@ -27,7 +27,7 @@ describe("User - Reducers", () => {
       payload
     };
 
-    const newState = reducers.user(initialState, action);
+    const newState = reducer.user(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -37,7 +37,7 @@ describe("User - Reducers", () => {
       type: Actions.LOGOUT_SUCCESS
     };
 
-    const newState = reducers.user(initialState, action);
+    const newState = reducer.user(initialState, action);
 
     expect(newState).to.deep.equal(initialState);
   });
@@ -139,7 +139,7 @@ describe("User - Reducers", () => {
       payload
     };
 
-    const newState = reducers.user(initialState, action);
+    const newState = reducer.user(initialState, action);
 
     // TODO: Remove .toJS()
     expect(newState.toJS()).to.deep.equal(expected.toJS());

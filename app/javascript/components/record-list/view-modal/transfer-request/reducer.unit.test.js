@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 
 import { TransitionRecord } from "../../../transitions/records";
 
-import reducers from "./reducers";
+import reducer from "./reducer";
 import actions from "./actions";
 
 describe("<Transitions /> - Reducers", () => {
@@ -33,7 +33,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = reducers(initialState, action);
+    const newState = reducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -50,7 +50,7 @@ describe("<Transitions /> - Reducers", () => {
       payload: true
     };
 
-    const newState = reducers(initialState, action);
+    const newState = reducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -84,7 +84,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = reducers(initialState, action);
+    const newState = reducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });

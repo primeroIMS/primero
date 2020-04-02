@@ -15,7 +15,7 @@ describe("User - index", () => {
       "getPermissions",
       "getPermissionsByRecord",
       "hasUserPermissions",
-      "reducers",
+      "reducer",
       "refreshToken",
       "setAuthenticatedUser",
       "setUser",

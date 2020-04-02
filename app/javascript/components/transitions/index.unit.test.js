@@ -10,7 +10,6 @@ describe("<Transitions /> - index", () => {
     [
       "fetchTransitions",
       "reducer",
-      "reducers",
       "selectTransitions",
       "selectTransitionByTypeAndStatus",
       "Transitions"

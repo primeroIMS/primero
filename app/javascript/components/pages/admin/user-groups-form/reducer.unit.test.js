@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { expect } from "../../../../test/unit-test-helpers";
 
 import actions from "./actions";
-import reducers from "./reducers";
+import reducer from "./reducer";
 
 describe("<UserGroupsForm /> - Reducers", () => {
   it("should handle FETCH_USER_GROUP_STARTED", () => {
@@ -12,7 +12,7 @@ describe("<UserGroupsForm /> - Reducers", () => {
       type: actions.FETCH_USER_GROUP_STARTED,
       payload: true
     };
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -23,7 +23,7 @@ describe("<UserGroupsForm /> - Reducers", () => {
       type: actions.FETCH_USER_GROUP_FAILURE,
       payload: { errors: ["some error"] }
     };
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -40,7 +40,7 @@ describe("<UserGroupsForm /> - Reducers", () => {
       payload: { data: { id: 3 } }
     };
 
-    const newState = reducers(fromJS({ selectedUserGroup: {} }), action);
+    const newState = reducer(fromJS({ selectedUserGroup: {} }), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -51,7 +51,7 @@ describe("<UserGroupsForm /> - Reducers", () => {
       type: actions.FETCH_USER_GROUP_FINISHED,
       payload: false
     };
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -66,7 +66,7 @@ describe("<UserGroupsForm /> - Reducers", () => {
       type: actions.CLEAR_SELECTED_USER_GROUP,
       payload: false
     };
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });

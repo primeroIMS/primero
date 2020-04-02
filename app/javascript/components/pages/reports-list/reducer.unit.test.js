@@ -1,8 +1,13 @@
-import { fromJS } from "immutable";
 import { expect } from "chai";
+import { fromJS } from "immutable";
 
-import * as actions from "./actions";
-import reducers from "./reducers";
+import {
+  FETCH_REPORTS_SUCCESS,
+  FETCH_REPORTS_STARTED,
+  FETCH_REPORTS_FINISHED,
+  FETCH_REPORTS_FAILURE
+} from "./actions";
+import reducer from "./reducer";
 
 describe("<Reports /> - Reducers", () => {
   const initialState = fromJS({});
@@ -24,7 +29,7 @@ describe("<Reports /> - Reducers", () => {
       }
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(initialState);
   });
@@ -63,7 +68,7 @@ describe("<Reports /> - Reducers", () => {
       }
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(initialState);
   });
@@ -103,7 +108,7 @@ describe("<Reports /> - Reducers", () => {
       }
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(initialState);
   });
@@ -125,28 +130,27 @@ describe("<Reports /> - Reducers", () => {
       }
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(initialState);
   });
 
-  it("should handle FETCH_REPORT_STARTED", () => {
+  it("should handle FETCH_REPORTS_STARTED", () => {
     const expected = fromJS({
       loading: true,
-      errors: false,
-      selectedReport: {}
+      errors: false
     });
     const action = {
-      type: actions.FETCH_REPORT_STARTED,
+      type: FETCH_REPORTS_STARTED,
       payload: true
     };
 
-    const newState = reducers(initialState, action);
+    const newState = reducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
 
-  it("should handle FETCH_REPORT_SUCCESS", () => {
+  it("should handle FETCH_REPORTS_SUCCESS", () => {
     const data = [
       {
         id: 1,
@@ -156,69 +160,55 @@ describe("<Reports /> - Reducers", () => {
       }
     ];
     const expected = fromJS({
-      selectedReport: data,
-      errors: false
+      data,
+      errors: false,
+      metadata: {
+        total: 17,
+        per: 20,
+        page: 1
+      }
     });
     const action = {
-      type: actions.FETCH_REPORT_SUCCESS,
+      type: FETCH_REPORTS_SUCCESS,
       payload: {
-        data
+        data,
+        metadata: {
+          total: 17,
+          per: 20,
+          page: 1
+        }
       }
     };
 
-    const newState = reducers(initialState, action);
+    const newState = reducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
 
-  it("should handle FETCH_REPORT_FINISHED", () => {
+  it("should handle FETCH_REPORTS_FINISHED", () => {
     const expected = fromJS({
       loading: false
     });
     const action = {
-      type: actions.FETCH_REPORT_FINISHED,
+      type: FETCH_REPORTS_FINISHED,
       payload: false
     };
 
-    const newState = reducers(initialState, action);
+    const newState = reducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
 
-  it("should handle FETCH_REPORT_FAILURE", () => {
+  it("should handle FETCH_REPORTS_FAILURE", () => {
     const expected = fromJS({
       errors: true
     });
     const action = {
-      type: actions.FETCH_REPORT_FAILURE,
+      type: FETCH_REPORTS_FAILURE,
       payload: true
     };
 
-    const newState = reducers(initialState, action);
-
-    expect(newState).to.deep.equal(expected);
-  });
-
-  it("should handle user/LOGOUT_SUCCESS", () => {
-    const defaultState = fromJS({
-      selectedReport: [
-        {
-          id: 1,
-          name: { en: "Test Report" },
-          graph: true,
-          graph_type: "bar"
-        }
-      ],
-      errors: false
-    });
-
-    const expected = fromJS({});
-    const action = {
-      type: "user/LOGOUT_SUCCESS",
-      payload: true
-    };
-
-    const newState = reducers(defaultState, action);
+    const newState = reducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
