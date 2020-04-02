@@ -81,3 +81,11 @@ export const referralsPerService = state => {
     data: []
   }));
 }
+
+export const averageFollowupMeetingsPerCase = state => {
+  return state.getIn(["records", NAMESPACE, 'averageFollowupMeetingsPerCase'], fromJS({
+    data: {
+      average_meetings: 0
+    }
+  }));
+}

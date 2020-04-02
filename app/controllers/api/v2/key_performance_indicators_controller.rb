@@ -227,7 +227,7 @@ module Api::V2
         stats :number_of_meetings
       end
 
-      @average_number_of_meetings = search.stats(:number_of_meetings).mean
+      @average_meetings = search.stats(:number_of_meetings).mean || 0
     end
 
     private

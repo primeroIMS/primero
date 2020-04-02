@@ -22,8 +22,8 @@ import {
   AverageReferrals,
   ReferralsPerService,
   CompletedReferralsPerService,
-  TotalFollowUpMeetings,
-  AverageFollowUpMeetings,
+  TotalFollowupMeetings,
+  AverageFollowupMeetingsPerCase,
   GoalProgressPerNeed,
   CompletedCaseClosureProcedures,
   TimeFromCaseOpenToClose,
@@ -125,11 +125,11 @@ function KeyPerformanceIndicators({}) {
               <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.case_follow_up')}</h2>
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={6}>
-                  <TotalFollowUpMeetings />
+                  <TotalFollowupMeetings />
                 </Grid>
 
                 <Grid item className={css.grow} xs={12} md={6}>
-                  <AverageFollowUpMeetings />
+                  <AverageFollowupMeetingsPerCase />
                 </Grid>
               </Grid>
 

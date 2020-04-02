@@ -12,6 +12,6 @@ Child.new_with_user(TEST_USER, {
       'followup_date' => Date.today
     }]
   }]
-})
+}).save!
 
 puts "Add case with 4 followup meetings"

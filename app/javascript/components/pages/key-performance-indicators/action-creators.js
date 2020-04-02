@@ -104,3 +104,8 @@ export const fetchReferralsPerService = fetcherFactory({
   type: Actions.REFERRALS_PER_SERVICE,
   path: "key_performance_indicators/referrals_per_service"
 })
+
+export const fetchAverageFollowupMeetingsPerCase = fetcherFactory({
+  type: Actions.AVERAGE_FOLLOWUP_MEETINGS_PER_CASE,
+  path: "key_performance_indicators/average_followup_meetings_per_case"
+})

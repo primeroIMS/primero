@@ -1,1 +1,1 @@
-export { default as TotalFollowUpMeetings } from "./container";
+export { default as TotalFollowupMeetings } from "./container";
