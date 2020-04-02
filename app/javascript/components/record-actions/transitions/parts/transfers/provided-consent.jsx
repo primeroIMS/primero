@@ -28,6 +28,7 @@ ProvidedConsent.displayName = NAME;
 ProvidedConsent.propTypes = {
   canConsentOverride: PropTypes.bool,
   providedConsent: PropTypes.bool,
+  recordType: PropTypes.string,
   setDisabled: PropTypes.func
 };
 

@@ -15,8 +15,7 @@ const ValueContainer = props => {
 ValueContainer.displayName = NAME;
 
 ValueContainer.propTypes = {
-  children: PropTypes.node,
-  selectProps: PropTypes.object.isRequired
+  children: PropTypes.node
 };
 
 export default ValueContainer;
