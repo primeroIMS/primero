@@ -42,8 +42,6 @@ const NavItem = ({
 
   let showJewel = false;
 
-  console.log(currentUser, recordOwner);
-
   if (currentUser !== recordOwner) {
     if (isNested) {
       showJewel = itemsOfGroup?.some(

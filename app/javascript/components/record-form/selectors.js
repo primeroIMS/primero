@@ -133,4 +133,4 @@ export const getSelectedRecord = state =>
   state.getIn([NAMESPACE, "selectedRecord"]);
 
 export const getRecordAlerts = state =>
-  state.getIn([NAMESPACE, "recordAlerts"]);
+  state.getIn([NAMESPACE, "recordAlerts"], fromJS([]));
