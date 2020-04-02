@@ -63,7 +63,7 @@ describe("<BadgedIndicator />", () => {
   });
 
   describe("When data still loading", () => {
-    let component;
+    let loadingComponent;
     const propsDataLoading = {
       ...props,
       data: fromJS({}),
@@ -71,7 +71,7 @@ describe("<BadgedIndicator />", () => {
     };
 
     before(() => {
-      ({ component } = setupMountedComponent(
+      ({ component: loadingComponent } = setupMountedComponent(
         BadgedIndicator,
         propsDataLoading,
         {}
@@ -79,10 +79,10 @@ describe("<BadgedIndicator />", () => {
     });
 
     it("renders BadgedIndicator component", () => {
-      expect(component.find(BadgedIndicator)).to.have.lengthOf(1);
+      expect(loadingComponent.find(BadgedIndicator)).to.have.lengthOf(1);
     });
     it("renders CircularProgress", () => {
-      expect(component.find(CircularProgress)).to.have.lengthOf(1);
+      expect(loadingComponent.find(CircularProgress)).to.have.lengthOf(1);
     });
   });
 });

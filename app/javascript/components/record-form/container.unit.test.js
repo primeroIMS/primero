@@ -110,7 +110,7 @@ describe("<RecordForms /> - Component", () => {
     id: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab"
   };
 
-  const initialState = fromJS({
+  const rootInitialState = fromJS({
     records: Map({
       cases: Map({
         data: List([Map(record)]),
@@ -149,7 +149,7 @@ describe("<RecordForms /> - Component", () => {
       {
         mode: "show"
       },
-      initialState,
+      rootInitialState,
       ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
     ));
   });

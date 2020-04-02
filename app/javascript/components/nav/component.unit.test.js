@@ -137,7 +137,7 @@ describe("<Nav />", () => {
   });
 
   describe("when have restricted permission", () => {
-    const initialState = fromJS({
+    const restrictedPermissionInitialState = fromJS({
       ui: { Nav: { drawerOpen: true } },
       application: {
         modules: {},
@@ -162,7 +162,7 @@ describe("<Nav />", () => {
       ({ component } = setupMountedComponent(
         ProvidedNav,
         { username: "username" },
-        initialState
+        restrictedPermissionInitialState
       ));
     });
 
