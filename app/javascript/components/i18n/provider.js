@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
 
 import { setLocale } from "./action-creators";
-import { getLocales, getLocale } from "./selectors";
 import Context from "./context";
-import { default as withI18n } from "./with-i18n";
-import { default as useI18n } from "./use-i18n";
+import { getLocales, getLocale } from "./selectors";
+import useI18n from "./use-i18n";
+import withI18n from "./with-i18n";
 
 const I18nProvider = ({ children }) => {
   const locale = useSelector(state => getLocale(state));
