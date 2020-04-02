@@ -89,3 +89,9 @@ export const averageFollowupMeetingsPerCase = state => {
     }
   }));
 }
+
+export const goalProgressPerNeed = state => {
+  return state.getIn(["records", NAMESPACE, 'goalProgressPerNeed'], fromJS({
+    data: []
+  }));
+}

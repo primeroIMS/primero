@@ -4,6 +4,10 @@ import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = Map({});
 
+// TODO: Lots of strings here with no warn of spelling mistakes. We should
+// move these over to a core set of defined strings with language features
+// that will warn us when they are wrong.
+
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.NUMBER_OF_CASES_SUCCESS:
@@ -30,6 +34,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("referralsPerService", fromJS(payload));
     case Actions.AVERAGE_FOLLOWUP_MEETINGS_PER_CASE_SUCCESS:
       return state.set("averageFollowupMeetingsPerCase", fromJS(payload));
+    case Actions.GOAL_PROGRESS_PER_NEED_SUCCESS:
+      return state.set("goalProgressPerNeed", fromJS(payload));
     default:
       return state;
   }
