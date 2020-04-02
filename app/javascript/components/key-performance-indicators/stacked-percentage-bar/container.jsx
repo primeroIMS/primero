@@ -23,6 +23,7 @@ export default function StackedPercentageBar({ percentages, className }) {
 
               return (
                 <div
+                  key={i}
                   className={css["StackedPercentageBar" + (i + 1) + "Complete"]}
                   style={{ width: percentage + "%" }}
                 ></div>
@@ -35,9 +36,8 @@ export default function StackedPercentageBar({ percentages, className }) {
           percentages.map((percentageDescriptor, i) => {
             let percentage = percentageDescriptor.percentage * 100;
 
-
             return (
-              <div className={css.StackedPercentageBarLabelContainer} style={{ width: percentage > 0 ? percentage + "%" : 'auto' }}>
+              <div key={i} className={css.StackedPercentageBarLabelContainer} style={{ width: percentage > 0 ? percentage + "%" : 'auto' }}>
                 <div>
                   <h1 className={css.StackedPercentageBarLabelPercentage}>{percentage.toFixed(0) + '%'}</h1>
                 </div>

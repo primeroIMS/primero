@@ -6,23 +6,23 @@ import { useI18n } from "components/i18n";
 import { OptionsBox } from "components/dashboard";
 import { DateRangeSelect, CommonDateRanges, SingleAggregateMetric } from "components/key-performance-indicators";
 
-function AverageReferrals({ fetchAverageReferrals, averageReferrals }) {
+function AverageFollowupMeetingsPerCase({ fetchAverageFollowupMeetingsPerCase, averageFollowupMeetingsPerCase }) {
   let i18n = useI18n();
   let commonDateRanges = CommonDateRanges.from(new Date());
 
   let dateRanges = [
-    commonDateRanges.AllTime
+    commonDateRanges.Last3Months
   ]
 
   let [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);
 
   useEffect(() => {
-    fetchAverageReferrals(currentDateRange);
+    fetchAverageFollowupMeetingsPerCase(currentDateRange);
   }, [currentDateRange]);
 
   return (
     <OptionsBox
-      title={i18n.t('key_performance_indicators.average_referrals.title')}
+      title={i18n.t('key_performance_indicators.average_followup_meetings_per_case.title')}
       action={
         <DateRangeSelect
           ranges={dateRanges}
@@ -34,8 +34,8 @@ function AverageReferrals({ fetchAverageReferrals, averageReferrals }) {
       }
     >
       <SingleAggregateMetric
-        value={averageReferrals.get('data').get('average_referrals')}
-        label={i18n.t('key_performance_indicators.average_referrals.label')}
+        value={averageFollowupMeetingsPerCase.get('data').get('average_meetings')}
+        label={i18n.t('key_performance_indicators.average_followup_meetings_per_case.label')}
       />
     </OptionsBox>
   );
@@ -43,15 +43,15 @@ function AverageReferrals({ fetchAverageReferrals, averageReferrals }) {
 
 const mapStateToProps = state => {
   return {
-    averageReferrals: selectors.averageReferrals(state)
+    averageFollowupMeetingsPerCase: selectors.averageFollowupMeetingsPerCase(state)
   };
 };
 
 const mapDispatchToProps = {
-  fetchAverageReferrals: actions.fetchAverageReferrals
+  fetchAverageFollowupMeetingsPerCase: actions.fetchAverageFollowupMeetingsPerCase
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AverageReferrals);
+)(AverageFollowupMeetingsPerCase);
