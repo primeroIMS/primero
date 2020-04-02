@@ -1,3 +1,11 @@
 .tabContainer {
   padding: 1em;
 }
+
+.hideTab {
+  display: none;
+}
+
+.showTab {
+  display: block;
+}

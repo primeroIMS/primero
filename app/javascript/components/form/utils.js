@@ -8,11 +8,11 @@ import {
   FORM_MODE_DIALOG
 } from "./constants";
 
-export const optionText = (option, i18n) => {
+export const optionText = (option, locale) => {
   const { display_text: displayText, display_name: displayName } = option;
 
   return displayText instanceof Object || displayName instanceof Object
-    ? displayText?.[i18n.locale] || displayName?.[i18n.locale]
+    ? displayText?.[locale] || displayName?.[locale]
     : displayText || displayName;
 };
 
@@ -42,7 +42,7 @@ export const whichOptions = ({
           .toJS();
       default:
         return lookups.map(lookup => {
-          const displayText = optionText(lookup, i18n);
+          const displayText = optionText(lookup, i18n.locale);
           const display = lookup.display_text
             ? { display_text: displayText }
             : { display_name: displayText };

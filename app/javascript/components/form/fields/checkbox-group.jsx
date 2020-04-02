@@ -38,7 +38,7 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
             disabled={disabled}
           />
         }
-        label={optionText(option, i18n)}
+        label={optionText(option, i18n.locale)}
       />
     ));
 

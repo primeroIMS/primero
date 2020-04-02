@@ -28,7 +28,6 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const defaultValue = multiSelect ? [] : optionsUseIntegerIds ? null : "";
 
   const handleChange = data => {
-    console.log(data)
     return multiSelect
       ? data?.[1]?.map(selected =>
           typeof selected === "object" ? selected?.id : selected
@@ -39,6 +38,8 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const optionEquality = (option, value) =>
     multiSelect ? option.id === value : option.id === value.id;
 
+  // TODO: Waiting on input from Mal/Jack to see if form group name can be dynamically added. Remove all freesolo 
+  // logic if another route is provided
   const filterOptions = {
     ...(freeSolo && {
       filterOptions: (selected, params) => {

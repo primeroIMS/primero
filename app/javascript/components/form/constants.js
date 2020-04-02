@@ -11,6 +11,7 @@ export const FORM_MODE_DIALOG = "dialog";
 export const SELECT_FIELD = "select_box";
 export const TICK_FIELD = "tick_box";
 export const CHECK_BOX_FIELD = "check_boxes";
+export const LABEL_FIELD = "label";
 // export const SEPERATOR = "separator";
 // export const RADIO_FIELD = "radio_button";
 export const PHOTO_FIELD = "photo_upload_box";
