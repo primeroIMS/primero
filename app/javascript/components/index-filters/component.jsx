@@ -52,7 +52,7 @@ const Component = ({ recordType, defaultFilters }) => {
     getReportingLocationConfig(state)
   );
 
-  const OWNED_BY_LOCATION = `${reportingLocationConfig.get(
+  const ownedByLocation = `${reportingLocationConfig.get(
     "field_key"
   )}${reportingLocationConfig.get("admin_level")}`;
 
@@ -157,14 +157,14 @@ const Component = ({ recordType, defaultFilters }) => {
   };
 
   useEffect(() => {
-    [...HIDDEN_FIELDS, OWNED_BY_LOCATION].forEach(field =>
+    [...HIDDEN_FIELDS, ownedByLocation].forEach(field =>
       methods.register({ name: field })
     );
 
     methods.setValue("fields", "short");
 
     return () => {
-      [...HIDDEN_FIELDS, OWNED_BY_LOCATION].forEach(field =>
+      [...HIDDEN_FIELDS, ownedByLocation].forEach(field =>
         methods.unregister({ name: field })
       );
     };
