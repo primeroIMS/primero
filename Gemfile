@@ -69,7 +69,7 @@ gem "nokogiri", ">= 1.10.4"
 
 group :production do
   #TODO - Do not upgrade passenger
-  gem 'passenger', '4.0.59', require: false
+  gem 'passenger', '5.1.0', require: false
 end
 
 #TODO: Are these getting installed?

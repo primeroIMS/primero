@@ -144,7 +144,6 @@ GEM
       mime-types (>= 1.16)
       tzinfo (>= 0.3.22)
     crass (1.0.4)
-    daemon_controller (1.2.0)
     daemons (1.2.6)
     dante (0.2.0)
     debug_inspector (0.0.3)
@@ -254,8 +253,7 @@ GEM
     parallel (1.17.0)
     parser (2.6.3.0)
       ast (~> 2.4.0)
-    passenger (4.0.59)
-      daemon_controller (>= 1.2.0)
+    passenger (5.1.0)
       rack
       rake (>= 0.8.1)
     pdf-core (0.7.0)
@@ -493,7 +491,7 @@ DEPENDENCIES
   multi_json (~> 1.12.2)
   nokogiri (>= 1.10.4)
   os (~> 1.0.0)
-  passenger (= 4.0.59)
+  passenger (= 5.1.0)
   pdf-inspector
   pdf-reader (= 2.0.0)
   prawn (~> 2.2.2)
