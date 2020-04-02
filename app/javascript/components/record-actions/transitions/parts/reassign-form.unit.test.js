@@ -3,7 +3,7 @@ import { Formik, Field, Form } from "formik";
 import { Map, List, fromJS } from "immutable";
 import * as keydown from "keyevent";
 
-import { SearchableSelect } from "../../../searchable-select";
+import SearchableSelect from "../../../searchable-select";
 import { setupMountedComponent } from "../../../../test";
 import { getUsersByTransitionType } from "../selectors";
 

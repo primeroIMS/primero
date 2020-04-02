@@ -35,9 +35,9 @@ import {
 } from "./constants";
 import { NAME } from "./config";
 import Notes from "./notes";
-import { ToggleEnable } from "./toggle-enable";
-import { ToggleOpen } from "./toggle-open";
-import { Transitions } from "./transitions";
+import ToggleEnable from "./toggle-enable";
+import ToggleOpen from "./toggle-open";
+import Transitions from "./transitions";
 import AddIncident from "./add-incident";
 import AddService from "./add-service";
 import RequestApproval from "./request-approval";

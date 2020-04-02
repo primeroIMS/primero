@@ -137,7 +137,7 @@ describe("<RecordFormToolbar />", () => {
   });
 
   describe("when records is being save", () => {
-    let component;
+    let savingComponent;
 
     const initialStateSavingRecord = fromJS({
       ...initialState,
@@ -149,7 +149,7 @@ describe("<RecordFormToolbar />", () => {
     });
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(
+      ({ component: savingComponent } = setupMountedComponent(
         RecordFormToolbar,
         props,
         fromJS(initialStateSavingRecord)
@@ -157,8 +157,8 @@ describe("<RecordFormToolbar />", () => {
     });
 
     it("renders a RecordFormToolbar/>", () => {
-      expect(component.find(RecordFormToolbar)).to.have.lengthOf(1);
-      expect(component.find(CircularProgress)).to.have.lengthOf(1);
+      expect(savingComponent.find(RecordFormToolbar)).to.have.lengthOf(1);
+      expect(savingComponent.find(CircularProgress)).to.have.lengthOf(1);
     });
   });
 });

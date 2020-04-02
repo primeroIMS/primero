@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { CONTROL_NAME as NAME } from "./constants";
 import Input from "./input";
 import styles from "./styles.css";
 
@@ -31,6 +32,8 @@ const Control = props => {
     />
   );
 };
+
+Control.displayName = NAME;
 
 Control.propTypes = {
   children: PropTypes.node,

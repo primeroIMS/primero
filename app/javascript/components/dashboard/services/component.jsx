@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import { useTheme } from "@material-ui/styles";
 
-import { PrioritySummary } from "../priority-summary";
+import PrioritySummary from "../priority-summary";
 import { useI18n } from "../../i18n";
-import { OptionsBox } from "../options-box";
+import OptionsBox from "../options-box";
 
 const Services = ({ servicesList }) => {
   const theme = useTheme();

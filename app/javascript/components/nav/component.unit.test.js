@@ -5,9 +5,9 @@ import { NavLink } from "react-router-dom";
 
 import { setupMountedComponent } from "../../test";
 import { ROUTES, RECORD_PATH } from "../../config";
-import { TranslationsToggle } from "../translations-toggle";
-import { AgencyLogo } from "../agency-logo";
-import { ModuleLogo } from "../module-logo";
+import TranslationsToggle from "../translations-toggle";
+import AgencyLogo from "../agency-logo";
+import ModuleLogo from "../module-logo";
 import { ApplicationProvider } from "../application/provider";
 import { ACTIONS } from "../../libs/permissions";
 
@@ -137,7 +137,7 @@ describe("<Nav />", () => {
   });
 
   describe("when have restricted permission", () => {
-    const initialState = fromJS({
+    const restrictedPermissionInitialState = fromJS({
       ui: { Nav: { drawerOpen: true } },
       application: {
         modules: {},
@@ -162,7 +162,7 @@ describe("<Nav />", () => {
       ({ component } = setupMountedComponent(
         ProvidedNav,
         { username: "username" },
-        initialState
+        restrictedPermissionInitialState
       ));
     });
 

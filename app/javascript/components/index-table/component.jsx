@@ -10,7 +10,7 @@ import startsWith from "lodash/startsWith";
 import { List, fromJS } from "immutable";
 
 import { dataToJS } from "../../libs";
-import { LoadingIndicator } from "../loading-indicator";
+import LoadingIndicator from "../loading-indicator";
 import { getFields } from "../record-list/selectors";
 import { getOptions, getLoadingState } from "../record-form/selectors";
 import { selectAgencies } from "../application/selectors";
@@ -271,7 +271,9 @@ const Component = ({
       ? tableData.map(row => ({
           ...row,
           alerts: {
+            // eslint-disable-next-line camelcase
             alert_count: row?.alert_count || 0,
+            // eslint-disable-next-line camelcase
             flag_count: row?.flag_count || 0
           }
         }))

@@ -28,7 +28,7 @@ import { buildTableColumns } from "./helpers";
 import RecordListToolbar from "./record-list-toolbar";
 import { getListHeaders } from "./selectors";
 import styles from "./styles.css";
-import { ViewModal } from "./view-modal";
+import ViewModal from "./view-modal";
 
 const Container = ({ match, location }) => {
   const i18n = useI18n();

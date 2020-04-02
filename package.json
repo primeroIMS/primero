@@ -2,8 +2,8 @@
   "description": "Primero client application",
   "sideEffects": false,
   "scripts": {
-    "build": "NODE_ENV=production node_modules/.bin/webpack --config webpack/index.js",
-    "dev": "node_modules/.bin/webpack-dev-server --config webpack/index.js",
+    "build": "NODE_ENV=production webpack --config webpack/index.js",
+    "dev": "webpack-dev-server --config webpack/index.js",
     "test": "npm run test:run './app/javascript/**/*.unit.test.js'",
     "test:all": "npm test",
     "test:inspect": "npm run test:run -- --inspect-brk=0.0.0.0:9229",

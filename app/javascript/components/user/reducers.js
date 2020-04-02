@@ -2,7 +2,7 @@ import { Map, fromJS } from "immutable";
 
 import { mapObjectPropertiesToRecords, mapListToObject } from "../../libs";
 
-import { Actions } from "./actions";
+import Actions from "./actions";
 import NAMESPACE from "./namespace";
 import { ListHeaderRecord, FilterRecord } from "./records";
 
@@ -46,4 +46,4 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   }
 };
 
-export const reducers = { [NAMESPACE]: reducer };
+export default { [NAMESPACE]: reducer };

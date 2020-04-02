@@ -9,7 +9,7 @@ import {
   DASHBOARDS_FINISHED,
   DASHBOARDS_FAILURE
 } from "./actions";
-import { reducers } from "./reducer";
+import reducers from "./reducer";
 
 describe("<Dashboard /> - Reducers", () => {
   const reducer = reducers.dashboard;

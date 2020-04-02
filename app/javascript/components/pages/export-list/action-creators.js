@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import actions from "./actions";
 import { EXPORT_URL } from "./constants";
 

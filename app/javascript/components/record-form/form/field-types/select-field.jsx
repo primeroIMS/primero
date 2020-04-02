@@ -31,7 +31,7 @@ import { fetchReferralUsers } from "../../../record-actions/transitions/action-c
 import { getUsersByTransitionType } from "../../../record-actions/transitions/selectors";
 import { valuesToSearchableSelect } from "../../../../libs";
 import { getReportingLocationConfig } from "../../../application/selectors";
-import { SearchableSelect } from "../../../searchable-select";
+import SearchableSelect from "../../../searchable-select";
 import { SELECT_FIELD_NAME } from "../constants";
 import styles from "../styles.css";
 import { getLoading } from "../../../index-table";

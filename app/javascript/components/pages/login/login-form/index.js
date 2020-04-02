@@ -1,6 +1,6 @@
 export { default } from "./container";
 export { attemptLogin } from "./action-creators";
-export { reducers } from "./reducers";
+export { default as reducers } from "./reducers";
 export { selectModules, selectAgency, selectAuthErrors } from "./selectors";
 export {
   LOGIN,

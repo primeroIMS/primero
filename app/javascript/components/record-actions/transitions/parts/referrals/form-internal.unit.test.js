@@ -6,7 +6,7 @@ import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 
 import { setupMountedComponent } from "../../../../../test";
-import { SearchableSelect } from "../../../../searchable-select";
+import SearchableSelect from "../../../../searchable-select";
 
 import FormInternal from "./form-internal";
 

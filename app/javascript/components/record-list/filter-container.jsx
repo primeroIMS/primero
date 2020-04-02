@@ -2,6 +2,8 @@ import React from "react";
 import { Drawer, Box } from "@material-ui/core";
 import PropTypes from "prop-types";
 
+import { FILTER_CONTAINER_NAME as NAME } from "./constants";
+
 const FilterContainer = ({ children, mobileDisplay, drawer, handleDrawer }) => {
   if (mobileDisplay) {
     return (
@@ -13,6 +15,8 @@ const FilterContainer = ({ children, mobileDisplay, drawer, handleDrawer }) => {
 
   return <Box mx={2}>{children}</Box>;
 };
+
+FilterContainer.displayName = NAME;
 
 FilterContainer.propTypes = {
   children: PropTypes.node.isRequired,

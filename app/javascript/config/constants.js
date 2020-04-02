@@ -1,3 +1,5 @@
+import { MANAGE, RESOURCES } from "../libs/permissions";
+
 // Time (ms) when fetch request will timeout
 export const FETCH_TIMEOUT = 50000;
 
@@ -153,7 +155,8 @@ export const ADMIN_NAV = [
   {
     to: "/contact_information",
     label: "settings.navigation.contact_information",
-    manageRequired: true
+    permission: MANAGE,
+    recordType: RESOURCES.systems
   },
   { to: "/modules", label: "settings.navigation.modules", disabled: true },
   {
@@ -166,7 +169,9 @@ export const ADMIN_NAV = [
       },
       {
         to: "/lookups",
-        label: "settings.navigation.lookups"
+        label: "settings.navigation.lookups",
+        permission: MANAGE,
+        recordType: RESOURCES.metadata
       }
     ]
   },
