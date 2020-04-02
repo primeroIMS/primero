@@ -5,7 +5,15 @@ import { List, Collapse } from "@material-ui/core";
 import NavItem from "./NavItem";
 import { NAV_GROUP } from "./constants";
 
-const NavGroup = ({ group, open, handleClick, selectedForm, recordAlerts }) => {
+const NavGroup = ({
+  group,
+  open,
+  handleClick,
+  selectedForm,
+  recordAlerts,
+  recordOwner,
+  currentUser
+}) => {
   const [...forms] = group.values();
   const isNested = forms.length > 1;
   const parentForm = forms[0];
@@ -21,7 +29,9 @@ const NavGroup = ({ group, open, handleClick, selectedForm, recordAlerts }) => {
     handleClick,
     selectedForm,
     recordAlerts,
-    itemsOfGroup: forms.map(form => form.formId)
+    itemsOfGroup: forms.map(form => form.formId),
+    recordOwner,
+    currentUser
   };
 
   return (
@@ -49,10 +59,12 @@ const NavGroup = ({ group, open, handleClick, selectedForm, recordAlerts }) => {
 NavGroup.displayName = NAV_GROUP;
 
 NavGroup.propTypes = {
+  currentUser: PropTypes.string,
   group: PropTypes.object,
   handleClick: PropTypes.func,
   open: PropTypes.object,
   recordAlerts: PropTypes.object,
+  recordOwner: PropTypes.string,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 

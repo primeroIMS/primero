@@ -22,6 +22,7 @@ import {
 import RecordOwner from "../record-owner";
 import { Approvals } from "../approvals";
 import { getLoadingRecordState } from "../records/selectors";
+import { currentUser } from "../user";
 
 import { NAME } from "./constants";
 import { Nav } from "./nav";
@@ -35,6 +36,7 @@ import {
   getErrors,
   getSelectedForm
 } from "./selectors";
+import { fetchRecordsAlerts } from "./action-creators";
 import { compactValues } from "./helpers";
 
 const Container = ({ match, mode }) => {
@@ -74,6 +76,7 @@ const Container = ({ match, mode }) => {
   );
   const errors = useSelector(state => getErrors(state));
   const selectedForm = useSelector(state => getSelectedForm(state));
+  const userName = useSelector(state => currentUser(state));
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -162,12 +165,14 @@ const Container = ({ match, mode }) => {
     handleToggleNav,
     mobileDisplay,
     selectedRecord: record ? record.get("id") : null,
-    recordType: params.recordType
+    selectedRecordOwner: record ? record.get("owned_by") : null,
+    currentUser: userName
   };
 
   useEffect(() => {
     if (params.id && (containerMode.isShow || containerMode.isEdit)) {
       dispatch(fetchRecord(params.recordType, params.id));
+      dispatch(fetchRecordsAlerts(params.recordType, params.id));
     }
   }, [
     containerMode.isEdit,

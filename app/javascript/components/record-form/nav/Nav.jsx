@@ -5,11 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
 
 import { getSelectedRecord, getRecordAlerts } from "../selectors";
-import {
-  setSelectedForm,
-  setSelectedRecord,
-  fetchRecordsAlerts
-} from "../action-creators";
+import { setSelectedForm, setSelectedRecord } from "../action-creators";
 
 import { NAME } from "./constants";
 import NavGroup from "./NavGroup";
@@ -22,7 +18,8 @@ const Nav = ({
   handleToggleNav,
   mobileDisplay,
   selectedRecord,
-  recordType
+  selectedRecordOwner,
+  currentUser
 }) => {
   const [open, setOpen] = useState({});
   const dispatch = useDispatch();
@@ -44,10 +41,6 @@ const Nav = ({
   };
 
   const storedRecord = useSelector(state => getSelectedRecord(state));
-
-  useEffect(() => {
-    dispatch(fetchRecordsAlerts(recordType, selectedRecord));
-  }, []);
 
   useEffect(() => {
     if (!selectedRecord || selectedRecord !== storedRecord) {
@@ -76,6 +69,8 @@ const Nav = ({
           open={open}
           selectedForm={selectedForm}
           recordAlerts={recordAlerts}
+          recordOwner={selectedRecordOwner}
+          currentUser={currentUser}
         />
       );
     });
@@ -99,13 +94,14 @@ const Nav = ({
 Nav.displayName = NAME;
 
 Nav.propTypes = {
+  currentUser: PropTypes.string,
   firstTab: PropTypes.object,
   formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
-  recordType: PropTypes.string,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  selectedRecord: PropTypes.string
+  selectedRecord: PropTypes.string,
+  selectedRecordOwner: PropTypes.string
 };
 
 export default Nav;
