@@ -8,7 +8,7 @@ import { useI18n } from "../../../i18n";
 import { PageHeading, PageContent } from "../../../page";
 import Form, { FormAction, whichFormMode } from "../../../form";
 import { ROUTES } from "../../../../config";
-import { LoadingIndicator } from "../../../loading-indicator";
+import LoadingIndicator from "../../../loading-indicator";
 import bindFormSubmit from "../../../../libs/submit-form";
 import { MANAGE, RESOURCES } from "../../../../libs/permissions";
 import Permission from "../../../application/permission";

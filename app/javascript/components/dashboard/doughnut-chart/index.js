@@ -1,1 +1,1 @@
-export { default as DoughnutChart } from "./component";
+export { default } from "./component";

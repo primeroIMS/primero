@@ -7,7 +7,7 @@ describe("<TransferRequest /> - index", () => {
 
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
-    ["TransferRequest", "reducers"].forEach(property => {
+    ["default", "reducers"].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });

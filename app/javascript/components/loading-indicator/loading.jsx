@@ -2,6 +2,8 @@ import { CircularProgress, Fade } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React from "react";
 
+import { NAME } from "./constants";
+
 const Component = ({ loadingIndicator, loading, classes }) =>
   loadingIndicator || (
     <Fade
@@ -16,6 +18,8 @@ const Component = ({ loadingIndicator, loading, classes }) =>
       </div>
     </Fade>
   );
+
+Component.displayName = NAME;
 
 Component.propTypes = {
   classes: PropTypes.string.isRequired,

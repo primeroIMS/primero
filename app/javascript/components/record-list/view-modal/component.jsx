@@ -5,9 +5,9 @@ import Grid from "@material-ui/core/Grid";
 
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
-import DisplayData from "../../display-data/component";
+import DisplayData from "../../display-data";
 
-import { TransferRequest } from "./transfer-request";
+import TransferRequest from "./transfer-request";
 import { NAME } from "./constants";
 
 const ViewModal = ({ close, openViewModal, currentRecord }) => {

@@ -5,7 +5,7 @@ import { AppBar, Toolbar, IconButton, makeStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 
 import OfflineIndicator from "../offline-indicator";
-import { ModuleLogo } from "../module-logo";
+import ModuleLogo from "../module-logo";
 
 import styles from "./styles.css";
 

@@ -60,7 +60,7 @@ const Transitions = ({
     setPending
   };
 
-  // eslint-disable-next-line react/no-multi-comp
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
   const transitionComponent = t => {
     if (t.transferDialog) {
       return (

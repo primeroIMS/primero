@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import { POTENTIAL_MATCHES } from "./actions";
 
 export const fetchPotentialMatches = () => {

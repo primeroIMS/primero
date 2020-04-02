@@ -3,9 +3,9 @@ import { Grid, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 
-import { ModuleLogo } from "../module-logo";
-import { AgencyLogo } from "../agency-logo";
-import { TranslationsToggle } from "../translations-toggle";
+import ModuleLogo from "../module-logo";
+import AgencyLogo from "../agency-logo";
+import TranslationsToggle from "../translations-toggle";
 import { Notifier } from "../notifier";
 import OfflineIndicator from "../offline-indicator";
 
@@ -42,17 +42,6 @@ const LoginLayout = ({ children }) => {
             <TranslationsToggle />
           </Grid>
           <Grid item xs={8} />
-          {/* <Grid item xs={2}>
-            <NavLink
-              to="/support"
-              className={css.navLink}
-              activeClassName={css.navActive}
-              exact
-            >
-              <ListIcon icon="support" />
-              <span>{i18n.t("navigation.support")}</span>
-            </NavLink>
-          </Grid> */}
         </Grid>
       </Box>
     </>

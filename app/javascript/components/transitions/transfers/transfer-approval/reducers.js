@@ -9,9 +9,11 @@ import actions from "./actions";
 const DEFAULT_STATE = fromJS({ data: [] });
 
 export default (state = DEFAULT_STATE, { type, payload }) => {
+  let newState = state;
+
   switch (type) {
     case actions.APPROVE_TRANSFER_SUCCESS: {
-      const transferData = state.getIn(["transitions", "data"]);
+      const transferData = newState.getIn(["transitions", "data"]);
       const { data } = payload;
       const { record } = data;
 
@@ -21,11 +23,12 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       );
 
       if (transferIndex !== -1) {
-        state = state.updateIn(["transitions", "data", transferIndex], u =>
-          mergeRecord(u, fromJS(data))
+        newState = newState.updateIn(
+          ["transitions", "data", transferIndex],
+          u => mergeRecord(u, fromJS(data))
         );
       } else {
-        state = state.updateIn(["transitions", "data"], u => {
+        newState = newState.updateIn(["transitions", "data"], u => {
           return u.push(fromJS(data));
         });
       }
@@ -35,19 +38,19 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           RECORD_TYPES,
           value => value === data.record_type
         );
-        const recordData = state.getIn([recordType, "data"]);
+        const recordData = newState.getIn([recordType, "data"]);
         const recordIndex = recordData
           ? recordData.findIndex(r => r.get("id") === record.id)
           : -1;
 
         if (recordIndex !== -1) {
-          state = state
+          newState = newState
             .updateIn([recordType, "data", recordIndex], u =>
               mergeRecord(u, fromJS(record))
             )
             .setIn([recordType, "errors"], false);
         } else {
-          state = state
+          newState = newState
             .updateIn([recordType, "data"], u => {
               return u.push(fromJS(record));
             })
@@ -55,9 +58,9 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         }
       }
 
-      return state;
+      return newState;
     }
     default:
-      return state;
+      return newState;
   }
 };

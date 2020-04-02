@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { PageContainer, PageContent, PageHeading } from "../../page";
 import { expect, setupMountedComponent } from "../../../test";
 import { TableValues } from "../../charts";
-import { LoadingIndicator } from "../../loading-indicator";
+import LoadingIndicator from "../../loading-indicator";
 
 import Report from "./container";
 
@@ -67,8 +67,8 @@ describe("<Report />", () => {
   });
 
   describe("When data still loading", () => {
-    let component;
-    const initialState = fromJS({
+    let loadingComponent;
+    const loadingInitialState = fromJS({
       records: {
         reports: {
           loading: true,
@@ -79,15 +79,16 @@ describe("<Report />", () => {
     });
 
     before(() => {
-      component = setupMountedComponent(Report, {}, initialState).component;
+      loadingComponent = setupMountedComponent(Report, {}, loadingInitialState)
+        .component;
     });
 
     it("renders report component", () => {
-      expect(component.find(Report)).to.have.lengthOf(1);
+      expect(loadingComponent.find(Report)).to.have.lengthOf(1);
     });
     it("renders LoadingIndicator", () => {
-      expect(component.find(LoadingIndicator)).to.have.lengthOf(1);
-      expect(component.find(TableValues)).to.have.lengthOf(0);
+      expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
+      expect(loadingComponent.find(TableValues)).to.have.lengthOf(0);
     });
   });
 });
