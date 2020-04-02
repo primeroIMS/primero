@@ -9,7 +9,7 @@ import clsx from "clsx";
 import { useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import { PageContainer } from "../page";
-import { Transitions, fetchTransitions } from "../transitions";
+import Transitions, { fetchTransitions } from "../transitions";
 import LoadingIndicator from "../loading-indicator";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
 import {

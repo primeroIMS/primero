@@ -7,7 +7,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import { useSelector } from "react-redux";
 
 import { useI18n } from "../../i18n";
-import { Flagging } from "../../flagging";
+import Flagging from "../../flagging";
 import RecordActions from "../../record-actions";
 import Permission from "../../application/permission";
 import { FLAG_RECORDS, WRITE_RECORDS } from "../../../libs/permissions";
