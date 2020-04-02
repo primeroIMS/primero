@@ -111,7 +111,7 @@ module Alertable
     #TODO: Is this necessary? This methods is called in add_approval_alert then in Approvable concern
     def get_alert(approval_type, system_settings)
       system_settings ||= SystemSettings.current
-      system_settings.approval_forms_to_alert.key(approval_type)
+      system_settings.approval_forms_to_alert.dig(approval_type)
     end
 
     #TODO: Is this necessary? This methods is called in Approvable concern

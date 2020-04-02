@@ -1,14 +1,12 @@
 import { fromJS, Map, OrderedMap } from "immutable";
-import Divider from "@material-ui/core/Divider";
+import { ListItem, ListItemText } from "@material-ui/core";
 
 import { setupMountedComponent, expect } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
 
-import Nav from "./Nav";
-import NavGroup from "./NavGroup";
-import RecordInformation from "./parts/record-information";
+import NavItem from "./NavItem";
 
-describe("<Nav />", () => {
+describe("<NavItem />", () => {
   let component;
 
   const record = fromJS({
@@ -80,20 +78,6 @@ describe("<Nav />", () => {
     })
   });
 
-  const formNav = OrderedMap({
-    1: OrderedMap({
-      1: {
-        group: "basic_identity",
-        groupName: "Basic Identity",
-        groupOrder: 9,
-        name: "Basic Identity",
-        order: 9,
-        formId: "basic_identity",
-        is_first_tab: false
-      }
-    })
-  });
-
   const initialState = Map({
     records: fromJS({
       cases: {
@@ -111,53 +95,51 @@ describe("<Nav />", () => {
   });
 
   const props = {
-    firstTab: {},
-    formNav,
-    handleToggleNav: () => {},
-    mobileDisplay: true,
+    form: {},
+    isNested: false,
+    open: false,
+    handleClick: () => {},
     selectedForm: "",
-    selectedRecord: "",
-    selectedRecordOwner: "",
-    currentUser: ""
+    groupItem: false,
+    name: "",
+    recordAlerts: {},
+    itemsOfGroup: [],
+    currentUser: "",
+    recordOwner: ""
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(Nav, props, initialState));
+    ({ component } = setupMountedComponent(NavItem, props, initialState));
   });
 
-  it("renders a Nav component />", () => {
-    expect(component.find(Nav)).to.have.lengthOf(1);
+  it("renders a ListItem component />", () => {
+    expect(component.find(ListItem)).to.have.lengthOf(1);
   });
 
-  it("renders a RecordInformation component />", () => {
-    expect(component.find(RecordInformation)).to.have.lengthOf(1);
-  });
-
-  it("renders a Divider component />", () => {
-    expect(component.find(Divider)).to.have.lengthOf(1);
-  });
-
-  it("renders a NavGroup component from record information and another one from the others forms groups />", () => {
-    expect(component.find(NavGroup)).to.have.lengthOf(2);
+  it("renders a ListItemText component />", () => {
+    expect(component.find(ListItemText)).to.have.lengthOf(1);
   });
 
   it("should render valid props", () => {
-    const navProps = { ...component.find(Nav).props() };
+    const NavItemProps = { ...component.find(NavItem).props() };
 
-    expect(component.find(Nav)).to.have.lengthOf(1);
+    expect(component.find(NavItem)).to.have.lengthOf(1);
     [
-      "firstTab",
-      "formNav",
-      "handleToggleNav",
-      "mobileDisplay",
+      "form",
+      "isNested",
+      "open",
+      "handleClick",
       "selectedForm",
-      "selectedRecord",
-      "selectedRecordOwner",
-      "currentUser"
+      "groupItem",
+      "name",
+      "recordAlerts",
+      "itemsOfGroup",
+      "currentUser",
+      "recordOwner"
     ].forEach(property => {
-      expect(navProps).to.have.property(property);
-      delete navProps[property];
+      expect(NavItemProps).to.have.property(property);
+      delete NavItemProps[property];
     });
-    expect(navProps).to.be.empty;
+    expect(NavItemProps).to.be.empty;
   });
 });
