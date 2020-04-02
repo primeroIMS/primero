@@ -11,7 +11,11 @@ import {
   selectDialogPending
 } from "../../record-actions/selectors";
 
-import { DONE, REFERRAL_DONE_DIALOG } from "./constants";
+import {
+  DONE,
+  REFERRAL_DONE_DIALOG,
+  REFERRAL_ACTION_MENU_NAME as NAME
+} from "./constants";
 import ReferralAction from "./referral-action";
 
 const ReferralActionMenu = ({ transition, recordType }) => {
@@ -90,6 +94,8 @@ const ReferralActionMenu = ({ transition, recordType }) => {
     </>
   );
 };
+
+ReferralActionMenu.displayName = NAME;
 
 ReferralActionMenu.propTypes = {
   recordType: PropTypes.string,

@@ -7,7 +7,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { useI18n } from "../../../i18n";
 import Form, { FormAction, whichFormMode } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
-import { LoadingIndicator } from "../../../loading-indicator";
+import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
 import { ROUTES } from "../../../../config";
 import { usePermissions } from "../../../user";

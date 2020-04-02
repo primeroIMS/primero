@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { expect, setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, OverviewBox } from "../../../../dashboard";
-import { LoadingIndicator } from "../../../../loading-indicator";
+import LoadingIndicator from "../../../../loading-indicator";
 
 import Overview from "./component";
 

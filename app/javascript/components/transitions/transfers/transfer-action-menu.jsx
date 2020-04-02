@@ -12,7 +12,11 @@ import {
   selectDialogPending
 } from "../../record-actions/selectors";
 
-import { APPROVE, TRANSFER_APPROVAL_DIALOG } from "./constants";
+import {
+  APPROVE,
+  TRANSFER_APPROVAL_DIALOG,
+  TRANSFER_ACTION_MENU_NAME as NAME
+} from "./constants";
 import TransferApproval from "./transfer-approval";
 
 const TransferActionMenu = ({ transition, recordType }) => {
@@ -106,6 +110,8 @@ const TransferActionMenu = ({ transition, recordType }) => {
     </>
   );
 };
+
+TransferActionMenu.displayName = NAME;
 
 TransferActionMenu.propTypes = {
   recordType: PropTypes.string,

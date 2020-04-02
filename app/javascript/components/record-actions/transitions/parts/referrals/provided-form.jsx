@@ -8,6 +8,7 @@ import { useI18n } from "../../../../i18n";
 import { CasesIcon } from "../../../../../images/primero-icons";
 import styles from "../../styles.css";
 
+import { PROVIDED_FORM_NAME as NAME } from "./constants";
 import onChangeReferAnyway from "./on-change-refer-anyway";
 
 const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
@@ -43,6 +44,8 @@ const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
     </div>
   );
 };
+
+ProvidedForm.displayName = NAME;
 
 ProvidedForm.propTypes = {
   canConsentOverride: PropTypes.bool,

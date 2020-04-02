@@ -8,7 +8,7 @@ describe("<PieChart /> - index", () => {
 
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
-    ["PieChart"].forEach(property => {
+    ["default"].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });

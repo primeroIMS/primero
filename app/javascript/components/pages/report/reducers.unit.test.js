@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 import { expect } from "chai";
 
 import * as actions from "./actions";
-import { reducers } from "./reducers";
+import reducers from "./reducers";
 
 describe("<Reports /> - Reducers", () => {
   const initialState = fromJS({});

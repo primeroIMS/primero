@@ -1,5 +1,7 @@
+/* eslint-disable import/prefer-default-export */
+
 import { Map } from "immutable";
-import { pickBy } from "lodash";
+import pickBy from "lodash/pickBy";
 
 export const cleanUpFilters = filters => {
   const filterSelector = filters instanceof Map ? filters.toJS() : filters;

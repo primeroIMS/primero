@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { reducers } from "./reducers";
+import reducers from "./reducers";
 import actions from "./actions";
 
 describe("<ReferralAction /> - Reducers", () => {

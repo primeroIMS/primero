@@ -156,9 +156,13 @@ const Component = ({
     }
 
     return (
+      // eslint-disable-next-line camelcase
       foundOption?.display_name ||
+      // eslint-disable-next-line camelcase
       foundOption?.display_text ||
+      // eslint-disable-next-line camelcase
       foundOption?.display_name?.[i18n.locale] ||
+      // eslint-disable-next-line camelcase
       foundOption?.display_text?.[i18n.locale] ||
       foundOption?.name?.[i18n.locale]
     );

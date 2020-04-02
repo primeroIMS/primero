@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import { cleanUpFilters } from "../../records/helpers";
 
 import { FETCH_REPORTS } from "./actions";

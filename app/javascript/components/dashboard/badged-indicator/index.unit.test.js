@@ -7,7 +7,7 @@ describe("<BadgedIndicator /> - Index", () => {
     const indexValues = { ...index };
 
     expect(indexValues).to.be.an("object");
-    ["BadgedIndicator"].forEach(property => {
+    ["default"].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });

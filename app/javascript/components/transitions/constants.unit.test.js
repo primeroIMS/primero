@@ -9,6 +9,9 @@ describe("<Transitions /> - Constants", () => {
     [
       "REFERRAL_SUMMARY_NAME",
       "REFERRAL_DETAILS_NAME",
+      "TRANSITION_PANEL_NAME",
+      "TRANSITION_STATUS_NAME",
+      "TRANSITION_USER_NAME",
       "TRANSITIONS_NAME",
       "TRANSFER_REQUEST_SUMMARY_NAME",
       "TRANSFER_REQUEST_DETAILS_NAME"

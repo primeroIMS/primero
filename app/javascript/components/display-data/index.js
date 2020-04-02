@@ -1,1 +1,1 @@
-export { default as DisplayData } from "./component";
+export { default } from "./component";

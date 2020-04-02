@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import { FETCH_DATA } from "./actions";
 
 export const fetchContactInformation = () => {

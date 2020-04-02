@@ -11,7 +11,7 @@ import { useI18n } from "../i18n";
 import { PageContainer } from "../page";
 import { Transitions, fetchTransitions } from "../transitions";
 import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
-import { LoadingIndicator } from "../loading-indicator";
+import LoadingIndicator from "../loading-indicator";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
 import {
   APPROVALS,
@@ -21,11 +21,11 @@ import {
   TRANSITION_TYPE
 } from "../../config";
 import RecordOwner from "../record-owner";
-import { Approvals } from "../approvals";
+import Approvals from "../approvals";
 import { getLoadingRecordState } from "../records/selectors";
 
 import { NAME } from "./constants";
-import { Nav } from "./nav";
+import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
 import { fetchAgencies } from "./action-creators";

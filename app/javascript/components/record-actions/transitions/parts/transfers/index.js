@@ -1,1 +1,1 @@
-export { default as TransferForm } from "./component";
+export { default } from "./component";

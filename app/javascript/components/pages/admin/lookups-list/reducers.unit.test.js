@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { expect } from "../../../../test/unit-test-helpers";
 
 import actions from "./actions";
-import { reducers } from "./reducers";
+import reducers from "./reducers";
 
 describe("<LookupsList /> - pages/admin/lookups-list/reducers", () => {
   it("should handle FETCH_LOOKUPS_STARTED", () => {

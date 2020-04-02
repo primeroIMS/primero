@@ -1,1 +1,1 @@
-export { default as ModuleLogo } from "./component";
+export { default } from "./component";
