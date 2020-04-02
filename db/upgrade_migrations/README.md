@@ -60,6 +60,7 @@ Things to verify in the generated config scripts and correct if necessary
 - Add new permissions to roles that did not exist in the old version
   DASH_CASES_BY_SOCIAL_WORKER
   DASH_REFFERALS_BY_SOCIAL_WORKER
+  VIEW_PROTECTION_CONCERNS_FILTER
   
 - Add 'approvals' to the associated_form_ids for the CP module
   
