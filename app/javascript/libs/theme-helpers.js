@@ -1,6 +1,6 @@
 import { makeStyles, useTheme } from "@material-ui/styles";
 
-export const useThemeHelper = css => {
+export default css => {
   const theme = useTheme();
 
   return {

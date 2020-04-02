@@ -8,8 +8,12 @@ describe("<TransferForm /> - index", () => {
 
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
-    expect(indexValues).to.have.property("TransferForm");
-    delete indexValues.TransferForm;
+
+    ["default"].forEach(property => {
+      expect(indexValues).to.have.property(property);
+      delete indexValues[property];
+    });
+
     expect(indexValues).to.deep.equal({});
   });
 });

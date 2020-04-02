@@ -32,7 +32,7 @@ import {
   getAgenciesWithService,
   getReportingLocationConfig
 } from "../../../application/selectors";
-import { SearchableSelect } from "../../../searchable-select";
+import SearchableSelect from "../../../searchable-select";
 import { CODE_FIELD, NAME_FIELD, UNIQUE_ID_FIELD } from "../../../../config";
 import { SELECT_FIELD_NAME } from "../constants";
 import styles from "../styles.css";

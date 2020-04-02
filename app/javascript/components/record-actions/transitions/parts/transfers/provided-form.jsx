@@ -7,8 +7,9 @@ import { useDispatch } from "react-redux";
 
 import { CasesIcon } from "../../../../../images/primero-icons";
 import { useI18n } from "../../../../i18n";
-import * as styles from "../../styles.css";
+import styles from "../../styles.css";
 
+import { PROVIDED_FORM_NAME as NAME } from "./constants";
 import onChangeTransferAnyway from "./on-change-transfer-anyway";
 
 const ProvidedForm = ({ setDisabled, canConsentOverride, recordType }) => {
@@ -47,6 +48,8 @@ const ProvidedForm = ({ setDisabled, canConsentOverride, recordType }) => {
     </div>
   );
 };
+
+ProvidedForm.displayName = NAME;
 
 ProvidedForm.propTypes = {
   canConsentOverride: PropTypes.bool,

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { MENU_NAME as NAME } from "./constants";
 import styles from "./styles.css";
 
 const Menu = props => {
@@ -15,6 +16,8 @@ const Menu = props => {
     </Paper>
   );
 };
+
+Menu.displayName = NAME;
 
 Menu.propTypes = {
   children: PropTypes.element.isRequired,

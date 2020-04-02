@@ -104,7 +104,6 @@ const Component = ({
           value={requestType}
           onChange={handleChangeType}
           className={css.selectApprovalType}
-          fullWidth
           SelectProps={{
             native: true
           }}
@@ -150,13 +149,13 @@ Component.propTypes = {
   approvalType: PropTypes.string,
   close: PropTypes.func,
   confirmButtonLabel: PropTypes.string,
+  dialogName: PropTypes.string,
   openRequestDialog: PropTypes.bool,
   pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string,
   setPending: PropTypes.func,
-  subMenuItems: PropTypes.array,
-  dialogName: PropTypes.string
+  subMenuItems: PropTypes.array
 };
 
 export default Component;

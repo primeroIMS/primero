@@ -1,1 +1,1 @@
-export { default as ReferralForm } from "./component";
+export { default } from "./component";

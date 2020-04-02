@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { Map, fromJS } from "immutable";
 
-import { reducers } from "./reducers";
+import reducers from "./reducers";
 import { SET_FILTERS } from "./actions";
 
 describe("<IndexFilters /> - Reducers", () => {

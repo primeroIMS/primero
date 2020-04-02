@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { FormControlLabel, Checkbox } from "@material-ui/core";
 
+import { TRANSFER_CHECKBOX_NAME as NAME } from "./constants";
+
 const TransferCheckbox = ({ checked, onChange, label, disabled }) => {
   return (
     <FormControlLabel
@@ -12,6 +14,8 @@ const TransferCheckbox = ({ checked, onChange, label, disabled }) => {
     />
   );
 };
+
+TransferCheckbox.displayName = NAME;
 
 TransferCheckbox.propTypes = {
   checked: PropTypes.bool.isRequired,

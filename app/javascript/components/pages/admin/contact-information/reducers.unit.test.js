@@ -4,7 +4,7 @@ import { expect } from "../../../../test/unit-test-helpers";
 import { ContactInformationRecord } from "../../support/records";
 
 import actions from "./actions";
-import { reducers } from "./reducers";
+import reducers from "./reducers";
 
 describe("<ContactInformation /> - Reducers", () => {
   it("should handle SAVE_CONTACT_INFORMATION_STARTED", () => {

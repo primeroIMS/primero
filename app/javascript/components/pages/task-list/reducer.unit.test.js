@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { reducers } from "./reducer";
+import reducers from "./reducer";
 import {
   TASKS_SUCCESS,
   TASKS_STARTED,
