@@ -84,55 +84,5 @@ describe Serviceable do
         end
       end
     end
-
-    context 'Testing the mark_referrable_services method' do
-      before do
-        clean_data(Child, Agency, User, Role, Lookup)
-        @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
-        role_self = Role.create!(
-          name: 'Test Role 3',
-          unique_id: 'test-role-3',
-          group_permission: Permission::SELF,
-          permissions: [
-            Permission.new(
-              resource: Permission::CASE,
-              actions: [Permission::MANAGE]
-            )
-          ]
-        )
-        @user = User.create!(
-          full_name: 'Test User 2',
-          user_name: 'test_user_2',
-          password: 'a12345632',
-          password_confirmation: 'a12345632',
-          email: 'test_user_2@localhost.com',
-          agency_id: @agency.id,
-          role: role_self,
-          services: ['Test type']
-        )
-        Lookup.create!(
-          unique_id: 'lookup-service-type',
-          name_en: 'Service Type',
-          lookup_values_en: [
-            { id: 'Test type', display_text: 'Safehouse Service' }.with_indifferent_access
-          ]
-        )
-      end
-      it 'Testing the mark_referrable_services method' do
-        child_with_service = Child.create!(
-          data: { name: 'Test1', age: 5, sex: 'male', services_section: [
-            {
-              service_type: 'Test type', service_implementing_agency: @agency.unique_id,
-              service_implementing_agency_individual: @user.user_name, service_provider: true
-            }
-          ] }
-        )
-        expect(Child.count).to eq(1)
-        expect(child_with_service.data['services_section'][0]['service_is_referrable']).to be_truthy
-      end
-      after do
-        clean_data(Child, Agency, User, Role, Lookup)
-      end
-    end
   end
 end

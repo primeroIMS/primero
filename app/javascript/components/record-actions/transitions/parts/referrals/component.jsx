@@ -25,7 +25,8 @@ import {
   LOCATION_FIELD,
   TRANSITIONED_TO_FIELD,
   NOTES_FIELD,
-  NAME
+  NAME,
+  SERVICE_RECORD_FIELD
 } from "./constants";
 
 const ReferralForm = ({
@@ -49,14 +50,17 @@ const ReferralForm = ({
       : getEnabledAgencies(state)
   );
 
-  const referralFromService = {
-    [SERVICE_FIELD]: serviceToRefer.get("service_type"),
-    [AGENCY_FIELD]: serviceToRefer.get("service_implementing_agency"),
-    [LOCATION_FIELD]: serviceToRefer.get("service_delivery_location"),
-    [TRANSITIONED_TO_FIELD]: serviceToRefer.get(
-      "service_implementing_agency_individual"
-    )
-  };
+  const referralFromService = serviceToRefer?.size
+    ? {
+        [SERVICE_FIELD]: serviceToRefer.get("service_type"),
+        [AGENCY_FIELD]: serviceToRefer.get("service_implementing_agency"),
+        [LOCATION_FIELD]: serviceToRefer.get("service_delivery_location"),
+        [TRANSITIONED_TO_FIELD]: serviceToRefer.get(
+          "service_implementing_agency_individual"
+        ),
+        [SERVICE_RECORD_FIELD]: serviceToRefer.get("unique_id")
+      }
+    : {};
 
   useEffect(() => {
     const selectedAgencyId = serviceToRefer.get(

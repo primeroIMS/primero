@@ -1,7 +1,7 @@
 import React, { useEffect, memo, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, batch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
 import clsx from "clsx";
@@ -10,6 +10,7 @@ import { useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import { PageContainer } from "../page";
 import { Transitions, fetchTransitions } from "../transitions";
+import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
 import { LoadingIndicator } from "../loading-indicator";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
 import {
@@ -27,6 +28,7 @@ import { NAME } from "./constants";
 import { Nav } from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
+import { fetchAgencies } from "./action-creators";
 import {
   getFirstTab,
   getFormNav,
@@ -172,7 +174,15 @@ const Container = ({ match, mode }) => {
 
   useEffect(() => {
     if (!containerMode.isNew) {
-      dispatch(fetchTransitions(params.recordType, params.id));
+      batch(() => {
+        dispatch(fetchTransitions(params.recordType, params.id));
+        dispatch(fetchAgencies());
+        dispatch(
+          fetchReferralUsers({
+            record_type: RECORD_TYPES[params.recordType]
+          })
+        );
+      });
     }
   }, [params.recordType, params.id]);
 

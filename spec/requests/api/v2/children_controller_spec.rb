@@ -439,7 +439,6 @@ describe Api::V2::ChildrenController, type: :request do
         expect(json['data']['name']).to be_nil
         @case1.reload
         expect(@case1.name).to eq('Test1')
-        expect(json['data']['services_section'][0]['service_is_referrable']).to be_falsey
       end
 
       it 'updates the subforms if cannot read/write cases' do
@@ -480,37 +479,6 @@ describe Api::V2::ChildrenController, type: :request do
         expect(response).to have_http_status(403)
         expect(json['errors'].size).to eq(1)
         expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
-      end
-
-      it 'when a user adds a referrable service subform' do
-        login_for_test(
-          group_permission: Permission::SELF,
-          permissions: [
-            Permission.new(
-              resource: Permission::CASE,
-              actions: [Permission::SERVICES_SECTION_FROM_CASE]
-            )
-          ]
-        )
-
-        params = {
-          data: { name: 'Tester 1', services_section: [
-            {
-              service_type: 'Test type', service_implementing_agency: @agency.unique_id,
-              service_implementing_agency_individual: @user.user_name, service_provider: true
-            }
-          ] },
-          record_action: Permission::SERVICES_SECTION_FROM_CASE
-        }
-
-        patch "/api/v2/cases/#{@case1.id}", params: params
-
-        expect(response).to have_http_status(200)
-        expect(json['data']['services_section'][0]['service_is_referrable']).to be_truthy
-        expect(json['data']['services_section'].first['service_type']).to eq('Test type')
-        expect(json['data']['name']).to be_nil
-        @case1.reload
-        expect(@case1.name).to eq('Test1')
       end
     end
 
