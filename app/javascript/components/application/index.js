@@ -5,7 +5,7 @@ export {
   setUserIdle
 } from "./action-creators";
 export { ApplicationProvider, useApp } from "./provider";
-export { default as reducers } from "./reducers";
+export { default as reducer } from "./reducer";
 export {
   selectAgencies,
   getAgenciesWithService,

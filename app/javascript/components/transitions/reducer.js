@@ -7,7 +7,7 @@ import { TransitionRecord } from "./records";
 
 const DEFAULT_STATE = Map({ data: [] });
 
-export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case FETCH_TRANSITIONS_SUCCESS:
       return state.set(
@@ -18,5 +18,3 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state;
   }
 };
-
-export const reducers = reducer;

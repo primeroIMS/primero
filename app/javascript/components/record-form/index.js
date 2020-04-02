@@ -5,7 +5,7 @@ export {
   fetchOptions,
   fetchLookups
 } from "./action-creators";
-export { reducers } from "./reducers";
+export { default as reducer } from "./reducer";
 export {
   getFirstTab,
   getFormNav,

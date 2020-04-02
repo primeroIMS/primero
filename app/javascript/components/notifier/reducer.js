@@ -6,7 +6,7 @@ import { MessageRecord } from "./records";
 
 const DEFAULT_STATE = List([]);
 
-export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case ENQUEUE_SNACKBAR:
       if (payload.message || payload.messageKey) {
@@ -29,4 +29,4 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   }
 };
 
-export const reducers = { [NAMESPACE]: reducer };
+export default { [NAMESPACE]: reducer };

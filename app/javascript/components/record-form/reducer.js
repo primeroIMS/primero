@@ -14,7 +14,7 @@ const DEFAULT_STATE = Map({
   fields: OrderedMap({})
 });
 
-export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.SET_OPTIONS_SUCCESS:
       return state.setIn(["options", "lookups"], fromJS(payload));
@@ -57,4 +57,4 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   }
 };
 
-export const reducers = { [NAMESPACE]: reducer };
+export default { [NAMESPACE]: reducer };

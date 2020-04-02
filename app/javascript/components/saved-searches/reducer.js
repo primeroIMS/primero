@@ -33,4 +33,4 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   }
 };
 
-export const reducers = { [NAMESPACE]: reducer };
+export default { [NAMESPACE]: reducer };
