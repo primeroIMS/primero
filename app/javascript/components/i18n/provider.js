@@ -6,9 +6,8 @@ import { fromJS } from "immutable";
 import { setLocale } from "./action-creators";
 import { getLocales, getLocale } from "./selectors";
 import Context from "./context";
-
-export { default as withI18n } from "./with-i18n";
-export { default as useI18n } from "./use-i18n";
+import { default as withI18n } from "./with-i18n";
+import { default as useI18n } from "./use-i18n";
 
 const I18nProvider = ({ children }) => {
   const locale = useSelector(state => getLocale(state));
@@ -72,4 +71,4 @@ I18nProvider.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-export { I18nProvider };
+export { I18nProvider, useI18n, withI18n };
