@@ -9,7 +9,7 @@ import {
 
 const DEFAULT_STATE = fromJS({});
 
-const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case FETCH_REPORTS_STARTED:
       return state.set("loading", fromJS(payload)).set("errors", false);
@@ -26,5 +26,3 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state;
   }
 };
-
-export const reducers = reducer;

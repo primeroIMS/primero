@@ -6,9 +6,16 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { useI18n } from "../../i18n";
 import { setDialog, setPending } from "../../record-actions/action-creators";
-import { selectDialog, selectDialogPending } from "../../record-actions/selectors";
+import {
+  selectDialog,
+  selectDialogPending
+} from "../../record-actions/selectors";
 
-import { DONE, REFERRAL_DONE_DIALOG } from "./constants";
+import {
+  DONE,
+  REFERRAL_DONE_DIALOG,
+  REFERRAL_ACTION_MENU_NAME as NAME
+} from "./constants";
 import ReferralAction from "./referral-action";
 
 const ReferralActionMenu = ({ transition, recordType }) => {
@@ -20,11 +27,11 @@ const ReferralActionMenu = ({ transition, recordType }) => {
     selectDialog(REFERRAL_DONE_DIALOG, state)
   );
   const setReferralOpen = open => {
-    dispatch(setDialog({ dialog: REFERRAL_DONE_DIALOG, open: open }));
+    dispatch(setDialog({ dialog: REFERRAL_DONE_DIALOG, open }));
   };
   const dialogPending = useSelector(state => selectDialogPending(state));
   const setDialogPending = pending => {
-    dispatch(setPending({ pending: pending }));
+    dispatch(setPending({ pending }));
   };
   const handleReferralMenuClose = () => {
     setReferralMenu(null);
@@ -87,6 +94,8 @@ const ReferralActionMenu = ({ transition, recordType }) => {
     </>
   );
 };
+
+ReferralActionMenu.displayName = NAME;
 
 ReferralActionMenu.propTypes = {
   recordType: PropTypes.string,

@@ -9,7 +9,7 @@ describe("<Dashboard /> - index", () => {
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
     [
-      "Dashboard",
+      "default",
       "namespace",
       "reducers",
       "selectFlags",

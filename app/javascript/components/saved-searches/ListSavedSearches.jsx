@@ -15,7 +15,7 @@ import { push } from "connected-react-router";
 import qs from "qs";
 
 import { useI18n } from "../i18n";
-import { ActionDialog } from "../action-dialog";
+import ActionDialog from "../action-dialog";
 import { ROUTES } from "../../config";
 
 import { removeSavedSearch } from "./action-creators";

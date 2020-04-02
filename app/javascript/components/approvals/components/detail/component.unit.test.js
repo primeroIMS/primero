@@ -2,7 +2,7 @@ import { Map, fromJS } from "immutable";
 import { Box, Grid } from "@material-ui/core";
 
 import { setupMountedComponent, expect } from "../../../../test";
-import DisplayData from "../../../display-data/component";
+import DisplayData from "../../../display-data";
 import { CASE_PLAN, STATUS_APPROVED } from "../../constants";
 
 import ApprovalDetail from "./component";

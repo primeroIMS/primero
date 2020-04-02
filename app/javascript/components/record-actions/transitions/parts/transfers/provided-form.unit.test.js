@@ -55,10 +55,7 @@ describe("<ProvidedForm /> - transfers", () => {
 
     expect(component.find(Grid), "renders 3 Grid").to.have.lengthOf(3);
     expect(
-      component
-        .find(Grid)
-        .find("span")
-        .props().children,
+      component.find(Grid).find("span").props().children,
       "renders span with transfer.provided_consent_labe"
     ).to.be.equal("transfer.provided_consent_label");
     expect(

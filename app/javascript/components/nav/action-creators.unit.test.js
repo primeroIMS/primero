@@ -27,6 +27,4 @@ describe("<Nav /> - Action Creators", () => {
     expect(dispatch.getCall(0).returnValue.type).to.eql(actions.FETCH_ALERTS);
     expect(dispatch.getCall(0).returnValue.api.path).to.eql(RECORD_PATH.alerts);
   });
-
-
 });

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 
-import { ActionDialog } from "../../action-dialog";
+import ActionDialog from "../../action-dialog";
 import { useI18n } from "../../i18n";
 import {
   getRecordFormsByUniqueId,

@@ -16,15 +16,19 @@ const translateLabels = (keys, data) => {
     return {};
   }
 
-  return keys
-    .map(k => data.filter(d => d.id === k))
-    .flat()
-    .map(sorted => sorted?.display_text);
+  return (
+    keys
+      .map(k => data.filter(d => d.id === k))
+      .flat()
+      // eslint-disable-next-line camelcase
+      .map(sorted => sorted?.display_text)
+  );
 };
 
 const translateSingleLabel = (key, data) => {
   if (key === "") return key;
 
+  // eslint-disable-next-line camelcase
   return data?.filter(d => d.id === key)[0]?.display_text;
 };
 
@@ -295,12 +299,7 @@ export const toProtectionConcernTable = (data, i18n, lookups) => {
 export const toTasksOverdueTable = (overdueTasksDashboards, i18n) => {
   const indicatorsResults = overdueTasksDashboards
     .filter(dashboard => dashboard.size)
-    .map(dashboard =>
-      dashboard
-        .get("indicators")
-        .valueSeq()
-        .first()
-    );
+    .map(dashboard => dashboard.get("indicators").valueSeq().first());
 
   const hashedData = indicatorsResults.reduce(
     (acc, indicatorResult) => {

@@ -5,3 +5,4 @@ export const ALERTS_COLUMNS = Object.freeze({
   flag_count: "flag_count",
   photo: "photo"
 });
+export const FILTER_CONTAINER_NAME = `${NAME}FilterContainer`;

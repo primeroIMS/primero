@@ -5,18 +5,12 @@ import Chip from "@material-ui/core/Chip";
 import Cancel from "@material-ui/icons/Cancel";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { MULTI_VALUE_NAME as NAME } from "./constants";
 import styles from "./styles.css";
 
 const MultiValue = props => {
   const css = makeStyles(styles)();
-  const {
-    children,
-    selectProps,
-    isFocused,
-    removeProps,
-    options,
-    data
-  } = props;
+  const { children, isFocused, removeProps, options, data } = props;
 
   const foundOption = options.find(op => op.value === data.value);
   const translatedLabel =
@@ -37,6 +31,8 @@ const MultiValue = props => {
     />
   );
 };
+
+MultiValue.displayName = NAME;
 
 MultiValue.propTypes = {
   children: PropTypes.node,

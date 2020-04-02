@@ -4,7 +4,7 @@ import thunk from "redux-thunk";
 import { expect, spy, stub } from "../../test";
 import * as idpSelection from "../pages/login/idp-selection";
 
-import { Actions } from "./actions";
+import Actions from "./actions";
 import * as actionCreators from "./action-creators";
 
 describe("User - Action Creators", () => {

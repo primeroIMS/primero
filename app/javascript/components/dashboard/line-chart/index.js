@@ -1,1 +1,2 @@
-export { default as LineChart } from "./component";
+// FIXME: Is this used?
+export { default } from "./component";

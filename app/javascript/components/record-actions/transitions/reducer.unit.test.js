@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 
 import { TransitionRecord } from "../../transitions/records";
 
-import { reducers } from "./reducer";
+import reducers from "./reducer";
 import actions from "./actions";
 
 describe("<Transitions /> - Reducers", () => {

@@ -1,1 +1,1 @@
-export { default as AgencyLogo } from "./component";
+export { default } from "./component";

@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import * as yup from "yup";
+import { object, number, string, lazy, ref, array } from "yup";
 
 import {
   FieldRecord,
@@ -11,25 +11,13 @@ import {
 } from "../../../form";
 
 export const validations = (formMode, i18n) =>
-  yup.object().shape({
-    agency_id: yup
-      .number()
-      .required()
-      .label(i18n.t("user.organization")),
-    email: yup
-      .string()
-      .required()
-      .label(i18n.t("user.email")),
-    full_name: yup
-      .string()
-      .required()
-      .label(i18n.t("user.full_name")),
-    location: yup
-      .string()
-      .required()
-      .label(i18n.t("user.location")),
-    password: yup.lazy(() => {
-      const defaultValidation = yup.string().min(8);
+  object().shape({
+    agency_id: number().required().label(i18n.t("user.organization")),
+    email: string().required().label(i18n.t("user.email")),
+    full_name: string().required().label(i18n.t("user.full_name")),
+    location: string().required().label(i18n.t("user.location")),
+    password: lazy(() => {
+      const defaultValidation = string().min(8);
 
       if (formMode.get("isNew")) {
         return defaultValidation.required().label(i18n.t("user.password"));
@@ -37,13 +25,11 @@ export const validations = (formMode, i18n) =>
 
       return defaultValidation;
     }),
-    password_confirmation: yup.lazy(() => {
-      const defaultValidation = yup
-        .string()
-        .oneOf(
-          [yup.ref("password"), null],
-          i18n.t("errors.models.user.password_mismatch")
-        );
+    password_confirmation: lazy(() => {
+      const defaultValidation = string().oneOf(
+        [ref("password"), null],
+        i18n.t("errors.models.user.password_mismatch")
+      );
 
       if (formMode.get("isNew")) {
         return defaultValidation
@@ -53,18 +39,11 @@ export const validations = (formMode, i18n) =>
 
       return defaultValidation;
     }),
-    role_unique_id: yup
-      .string()
-      .required()
-      .label(i18n.t("user.role_id")),
-    user_group_unique_ids: yup
-      .array()
+    role_unique_id: string().required().label(i18n.t("user.role_id")),
+    user_group_unique_ids: array()
       .required()
       .label(i18n.t("user.user_group_unique_ids")),
-    user_name: yup
-      .string()
-      .required()
-      .label(i18n.t("user.user_name"))
+    user_name: string().required().label(i18n.t("user.user_name"))
   });
 
 export const form = (i18n, formMode) => {

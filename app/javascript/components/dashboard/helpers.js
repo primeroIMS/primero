@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import qs from "qs";
 
 import { OR_FIELDS } from "../index-filters";

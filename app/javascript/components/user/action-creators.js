@@ -1,7 +1,7 @@
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { loadApplicationResources } from "../application";
 
-import { Actions } from "./actions";
+import Actions from "./actions";
 
 export const setUser = payload => {
   return {

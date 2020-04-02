@@ -3,7 +3,16 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../../i18n";
-import * as C from "../constants";
+import {
+  DATE_FIELD,
+  SELECT_FIELD,
+  TICK_FIELD,
+  RADIO_FIELD,
+  SEPERATOR,
+  PHOTO_FIELD,
+  AUDIO_FIELD,
+  DOCUMENT_FIELD
+} from "../constants";
 
 import { FORM_SECTION_FIELD_NAME } from "./constants";
 import DateField from "./field-types/date-field";
@@ -33,7 +42,9 @@ const FormSectionField = ({
     display_name: displayName,
     disabled,
     required,
-    selected_value: selectedValue
+    selected_value: selectedValue,
+    hide_on_view_page: hideOnViewPage,
+    visible
   } = field;
 
   const fieldProps = {
@@ -67,24 +78,26 @@ const FormSectionField = ({
 
   const FieldComponent = (t => {
     switch (t) {
-      case C.DATE_FIELD:
+      case DATE_FIELD:
         return DateField;
-      case C.SELECT_FIELD:
+      case SELECT_FIELD:
         return SelectField;
-      case C.TICK_FIELD:
+      case TICK_FIELD:
         return TickField;
-      case C.RADIO_FIELD:
+      case RADIO_FIELD:
         return RadioField;
-      case C.SEPERATOR:
+      case SEPERATOR:
         return Seperator;
-      case C.PHOTO_FIELD:
-      case C.AUDIO_FIELD:
-      case C.DOCUMENT_FIELD:
+      case PHOTO_FIELD:
+      case AUDIO_FIELD:
+      case DOCUMENT_FIELD:
         return AttachmentField;
       default:
         return TextField;
     }
   })(type);
+
+  if ((mode?.isShow && hideOnViewPage) || !visible) return false;
 
   return <FieldComponent {...fieldProps} mode={mode} />;
 };

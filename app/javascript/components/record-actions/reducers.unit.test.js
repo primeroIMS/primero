@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { reducers } from "./reducers";
+import reducers from "./reducers";
 import { SET_DIALOG, SET_DIALOG_PENDING } from "./actions";
 
 describe("<RecordActions /> - Reducers", () => {

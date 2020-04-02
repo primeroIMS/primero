@@ -1,1 +1,1 @@
-export { default as OverviewBox } from "./component";
+export { default } from "./component";
