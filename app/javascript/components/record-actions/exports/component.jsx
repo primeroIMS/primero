@@ -87,7 +87,7 @@ const Component = ({
       saveExport(
         { data },
         i18n.t(message || "exports.queueing", {
-          file_name: fileName ? `: ${fileName}` : "."
+          file_name: fileName ? `: ${fileName}.` : "."
         }),
         i18n.t("exports.go_to_exports"),
         EXPORT_DIALOG
