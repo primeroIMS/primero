@@ -1,2 +1,2 @@
-export { default as LookupsList } from "./component";
-export { reducers } from "./reducers";
+export { default } from "./component";
+export { default as reducers } from "./reducers";

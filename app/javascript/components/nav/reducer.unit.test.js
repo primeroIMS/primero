@@ -1,12 +1,12 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { reducers } from "./reducer";
+import reducers from "./reducer";
 import * as actions from "./actions";
 
 describe("<Nav /> - Reducers", () => {
   it("should handle FETCH_ALERTS", () => {
-    const reducer = reducers.Nav;
+    const reducer = reducers.Nav; // FIXME: Should use NAMESPACE
     const initialState = fromJS({});
     const data = {
       case: 2,

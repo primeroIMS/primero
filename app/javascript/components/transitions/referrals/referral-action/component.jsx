@@ -100,9 +100,9 @@ Component.propTypes = {
   pending: PropTypes.bool,
   recordId: PropTypes.string,
   recordType: PropTypes.string,
+  referralType: PropTypes.string,
   setPending: PropTypes.func,
-  transistionId: PropTypes.string,
-  referralType: PropTypes.string
+  transistionId: PropTypes.string
 };
 
 export default Component;

@@ -7,8 +7,13 @@ describe("<Transfer /> - Constants", () => {
     const constants = { ...transferConstants };
 
     [
+      "BULK_TRANSFER_NAME",
       "NAME",
+      "PROVIDED_CONSENT_NAME",
+      "PROVIDED_FORM_NAME",
+      "TRANSFER_CHECKBOX_NAME",
       "TRANSFER_FIELD",
+      "TRANSFER_INTERNAL_NAME",
       "REMOTE_SYSTEM_FIELD",
       "CONSENT_INDIVIDUAL_FIELD",
       "AGENCY_FIELD",

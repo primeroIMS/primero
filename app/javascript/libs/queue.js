@@ -1,6 +1,6 @@
 import head from "lodash/head";
 
-import DB from "../db";
+import DB from "../db/db";
 
 import EventManager from "./messenger";
 

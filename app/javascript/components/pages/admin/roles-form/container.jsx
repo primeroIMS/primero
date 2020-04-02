@@ -10,7 +10,7 @@ import Permission from "../../../application/permission";
 import { useI18n } from "../../../i18n";
 import Form, { FormAction, whichFormMode, ActionsMenu } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
-import { LoadingIndicator } from "../../../loading-indicator";
+import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
 import { ROUTES } from "../../../../config";
 import {

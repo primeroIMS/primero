@@ -7,16 +7,18 @@ describe("<Transitions /> - parts/index", () => {
 
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
-    expect(indexValues).to.have.property("TransferForm");
-    expect(indexValues).to.have.property("TransitionDialog");
-    expect(indexValues).to.have.property("ReferralForm");
-    expect(indexValues).to.have.property("ReassignForm");
-    expect(indexValues).to.have.property("generatePath");
-    delete indexValues.TransferForm;
-    delete indexValues.TransitionDialog;
-    delete indexValues.ReferralForm;
-    delete indexValues.ReassignForm;
-    delete indexValues.generatePath;
+
+    [
+      "TransferForm",
+      "TransitionDialog",
+      "ReferralForm",
+      "ReassignForm",
+      "generatePath"
+    ].forEach(property => {
+      expect(indexValues).to.have.property(property);
+      delete indexValues[property];
+    });
+
     expect(indexValues).to.be.empty;
   });
 });

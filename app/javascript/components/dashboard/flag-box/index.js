@@ -1,1 +1,1 @@
-export { default as FlagBox } from "./component";
+export { default } from "./component";
