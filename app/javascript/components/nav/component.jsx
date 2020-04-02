@@ -25,7 +25,7 @@ import {
 import { NAME } from "./constants";
 import styles from "./styles.css";
 import {
-  openDrawer as actions_openDrawer,
+  openDrawer as openDrawerActionCreator,
   fetchAlerts
 } from "./action-creators";
 import { selectDrawerOpen, selectUsername, selectAlerts } from "./selectors";
@@ -37,9 +37,10 @@ const Nav = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const openDrawer = useCallback(value => dispatch(actions_openDrawer(value)), [
-    dispatch
-  ]);
+  const openDrawer = useCallback(
+    value => dispatch(openDrawerActionCreator(value)),
+    [dispatch]
+  );
 
   useEffect(() => {
     dispatch(fetchAlerts());

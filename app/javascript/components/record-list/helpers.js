@@ -99,6 +99,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
       // eslint-disable-next-line react/no-multi-comp, react/display-name
       customBodyRender: value => {
         const alertIcon =
+          // eslint-disable-next-line camelcase
           canShowAlertIcon && value?.alert_count > 0 ? (
             <ToggleIconCell
               value={value.alert_count}
@@ -107,6 +108,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
           ) : null;
 
         const flagIcon =
+          // eslint-disable-next-line camelcase
           canShowFlagIcon && value?.flag_count > 0 ? (
             <ToggleIconCell
               value={value.flag_count}

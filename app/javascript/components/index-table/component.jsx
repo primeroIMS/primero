@@ -271,7 +271,9 @@ const Component = ({
       ? tableData.map(row => ({
           ...row,
           alerts: {
+            // eslint-disable-next-line camelcase
             alert_count: row?.alert_count || 0,
+            // eslint-disable-next-line camelcase
             flag_count: row?.flag_count || 0
           }
         }))

@@ -11,6 +11,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state
         .set(
           "use_identity_provider",
+          // eslint-disable-next-line camelcase
           fromJS(payload?.metadata?.use_identity_provider)
         )
         .set("identity_providers", fromJS(payload?.data));
