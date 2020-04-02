@@ -130,6 +130,10 @@ class Child < ApplicationRecord
       Tasks::FollowUpTask.from_case(self).map(&:due_date)
     end
 
+    # Stuff for KPIs
+    # TODO: Is this worth moving out into a concern? It's not re-usable
+    # logic so the only reason would be breaking the code into smaller
+    # chunks perhaps for clarity?
     boolean :completed_survivor_assessment
     boolean :safety_plan_required
     boolean :completed_safety_plan
@@ -139,6 +143,11 @@ class Child < ApplicationRecord
     string :action_plan_referral_statuses, multiple: true
     string :referred_services, multiple: true
     integer :number_of_meetings
+    float :safety_goals_progress
+    float :health_goals_progress
+    float :psychosocial_goals_progress
+    float :justice_goals_progress
+    float :other_goals_progress
   end
 
   validate :validate_date_of_birth
@@ -467,5 +476,58 @@ class Child < ApplicationRecord
   def number_of_meetings
     find_in_form(['action_plan', 'gbv_follow_up_subform_section', 'followup_date']).
       count
+  end
+
+  def percentage_goals_met(goals)
+    return nil if goals.empty?
+
+    applicable_goals = goals.count { |status| status != 'n_a' }
+    return nil if applicable_goals == 0
+
+    met_goals = goals.count { |status| status == 'met' }
+    return 0 if met_goals == 0
+
+    met_goals / applicable_goals.to_f
+  end
+
+  def safety_goals_progress
+    percentage_goals_met(find_in_form([
+      'action_plan',
+      'gbv_follow_up_subform_section',
+      'gbv_assessment_progress_safety'
+    ]))
+  end
+
+  def health_goals_progress
+    percentage_goals_met(find_in_form([
+      'action_plan',
+      'gbv_follow_up_subform_section',
+      'gbv_assessment_progress_health'
+    ]))
+  end
+
+  def psychosocial_goals_progress
+    percentage_goals_met(find_in_form([
+      'action_plan',
+      'gbv_follow_up_subform_section',
+      'gbv_assessment_progress_psychosocial'
+    ]))
+  end
+  
+  def justice_goals_progress
+    percentage_goals_met(find_in_form([
+      'action_plan',
+      'gbv_follow_up_subform_section',
+      'gbv_assessment_progress_justice'
+    ]))
+  end
+
+  def other_goals_progress
+    percentage_goals_met(find_in_form([
+      'action_plan',
+      'gbv_follow_up_subform_section',
+      # This naming is not the same as the other goals which is jarring.
+      'gbv_assessment_other_goals'
+    ]))
   end
 end

@@ -109,3 +109,8 @@ export const fetchAverageFollowupMeetingsPerCase = fetcherFactory({
   type: Actions.AVERAGE_FOLLOWUP_MEETINGS_PER_CASE,
   path: "key_performance_indicators/average_followup_meetings_per_case"
 })
+
+export const fetchGoalProgressPerNeed = fetcherFactory({
+  type: Actions.GOAL_PROGRESS_PER_NEED,
+  path: "key_performance_indicators/goal_progress_per_need"
+})

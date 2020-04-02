@@ -102,6 +102,7 @@ Rails.application.routes.draw do
           get :average_referrals
           get :referrals_per_service
           get :average_followup_meetings_per_case
+          get :goal_progress_per_need
         end
       end
     end

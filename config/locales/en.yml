@@ -2530,6 +2530,14 @@ en:
     average_followup_meetings_per_case:
       title: "Average Follow-Up Meetings per Case"
       label: "Average follow-up meetings per case"
+    goal_progress_per_need:
+      title: "Goal Progress per Need"
+      need: "Need"
+      safety: "Safety"
+      health: "Health"
+      psychosocial: "Psychosocial"
+      justice: "Justice"
+      other: "Other"
 
   reports:
     register_new_report: "Create Report"
