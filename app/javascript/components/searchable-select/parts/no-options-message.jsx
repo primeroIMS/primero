@@ -3,11 +3,12 @@ import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { NO_OPTIONS_MESSAGE_NAME as NAME } from "./constants";
 import styles from "./styles.css";
 
 const NoOptionsMessage = props => {
   const css = makeStyles(styles)();
-  const { selectProps, innerProps, children } = props;
+  const { innerProps, children } = props;
 
   return (
     <Typography
@@ -19,6 +20,8 @@ const NoOptionsMessage = props => {
     </Typography>
   );
 };
+
+NoOptionsMessage.displayName = NAME;
 
 NoOptionsMessage.propTypes = {
   children: PropTypes.node,

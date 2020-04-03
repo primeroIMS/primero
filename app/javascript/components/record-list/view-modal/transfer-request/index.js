@@ -1,2 +1,2 @@
-export { default as TransferRequest } from "./component";
-export * from "./reducers";
+export { default } from "./component";
+export { default as reducers } from "./reducers";

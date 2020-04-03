@@ -9,7 +9,7 @@ import makeStyles from "@material-ui/styles/makeStyles";
 
 import { BarChart as BarChartGraphic, TableValues } from "../../charts";
 import { getLoading, getErrors } from "../../index-table/selectors";
-import { LoadingIndicator } from "../../loading-indicator";
+import LoadingIndicator from "../../loading-indicator";
 import { useI18n } from "../../i18n";
 import { PageContainer, PageContent, PageHeading } from "../../page";
 

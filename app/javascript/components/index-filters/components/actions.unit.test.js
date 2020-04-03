@@ -28,20 +28,14 @@ describe("<IndexFilters />/<Actions />", () => {
   it("triggers handleSave()", () => {
     const { component } = setupMockFormComponent(Actions, props, {}, state);
 
-    component
-      .find("button")
-      .at(1)
-      .simulate("click");
+    component.find("button").at(1).simulate("click");
     expect(props.handleSave).to.have.been.calledOnce;
   });
 
   it("triggers handleClear()", () => {
     const { component } = setupMockFormComponent(Actions, props, {}, state);
 
-    component
-      .find("button")
-      .at(2)
-      .simulate("click");
+    component.find("button").at(2).simulate("click");
     expect(props.handleClear).to.have.been.calledOnce;
   });
 

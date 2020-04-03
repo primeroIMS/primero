@@ -9,7 +9,7 @@ import { useI18n } from "../../i18n";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 
 import styles from "./styles.css";
-import * as actions from "./action-creators";
+import { fetchPotentialMatches } from "./action-creators";
 import { selectPotentialMatches } from "./selectors";
 
 const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
@@ -108,10 +108,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  fetchPotentialMatches: actions.fetchPotentialMatches
+  fetchPotentialMatches
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PotentialMatches);
+export default connect(mapStateToProps, mapDispatchToProps)(PotentialMatches);

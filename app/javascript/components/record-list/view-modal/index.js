@@ -1,1 +1,1 @@
-export { default as ViewModal } from "./component";
+export { default } from "./component";

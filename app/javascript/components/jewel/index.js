@@ -1,1 +1,1 @@
-export { default as Jewel } from "./component";
+export { default } from "./component";

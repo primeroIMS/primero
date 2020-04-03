@@ -1,10 +1,14 @@
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 
-import * as Actions from "./actions";
+import {
+  FETCH_SAVED_SEARCHES,
+  SAVE_SEARCH,
+  REMOVE_SAVED_SEARCH
+} from "./actions";
 
 export const fetchSavedSearches = () => async dispatch => {
   dispatch({
-    type: Actions.FETCH_SAVED_SEARCHES,
+    type: FETCH_SAVED_SEARCHES,
     api: {
       path: "saved_searches"
     }
@@ -13,7 +17,7 @@ export const fetchSavedSearches = () => async dispatch => {
 
 export const saveSearch = (body, message) => async dispatch => {
   await dispatch({
-    type: Actions.SAVE_SEARCH,
+    type: SAVE_SEARCH,
     api: {
       path: "saved_searches",
       method: "POST",
@@ -34,7 +38,7 @@ export const saveSearch = (body, message) => async dispatch => {
 
 export const removeSavedSearch = (id, message) => dispatch => {
   dispatch({
-    type: Actions.REMOVE_SAVED_SEARCH,
+    type: REMOVE_SAVED_SEARCH,
     api: {
       path: `saved_searches/${id}`,
       method: "DELETE",

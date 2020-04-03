@@ -3,8 +3,8 @@ import { TableHead, TableCell } from "@material-ui/core";
 
 import { expect, setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../../libs/permissions";
-import { DashboardTable } from "../../../../dashboard/dashboard-table";
-import { LoadingIndicator } from "../../../../loading-indicator";
+import DashboardTable from "../../../../dashboard/dashboard-table";
+import LoadingIndicator from "../../../../loading-indicator";
 import { PrimeroModuleRecord } from "../../../../application/records";
 
 import WorkflowTeamCases from "./component";
@@ -101,10 +101,7 @@ describe("<WorkflowTeamCases> - pages/dashboard/components/workflow-team-cases",
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(WorkflowTeamCases, {}, state));
-    tableCells = component
-      .find(DashboardTable)
-      .find(TableHead)
-      .find(TableCell);
+    tableCells = component.find(DashboardTable).find(TableHead).find(TableCell);
   });
 
   it("should render a <DashboardTable /> component", () => {

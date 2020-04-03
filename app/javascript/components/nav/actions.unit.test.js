@@ -12,7 +12,8 @@ describe("<Nav /> - Actions", () => {
       property => {
         expect(actionsNav).to.have.property(property);
         delete actionsNav[property];
-    });
+      }
+    );
 
     expect(actionsNav).to.be.empty;
   });

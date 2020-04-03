@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { Formik, Form } from "formik";
 import { fromJS, Map, OrderedMap } from "immutable";
 
-import { ActionDialog } from "../../action-dialog";
+import ActionDialog from "../../action-dialog";
 import { setupMountedComponent } from "../../../test";
 import { FieldRecord, FormSectionRecord } from "../../record-form/records";
 import { RECORD_PATH } from "../../../config";

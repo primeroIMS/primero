@@ -1,1 +1,1 @@
-export { default as NotAuthorized } from "./component";
+export { default } from "./component";

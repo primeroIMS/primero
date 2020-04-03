@@ -5,7 +5,7 @@ import { Field, Form, Formik } from "formik";
 import * as keydown from "keyevent";
 
 import { setupMountedComponent } from "../../../../../test";
-import { SearchableSelect } from "../../../../searchable-select";
+import SearchableSelect from "../../../../searchable-select";
 
 import TransferInternal from "./transfer-internal";
 
@@ -61,13 +61,10 @@ describe("<TransferInternal />", () => {
   });
 
   it("renders default label for SearchableSelect", () => {
-    component
-      .find("input")
-      .first()
-      .simulate("keyDown", {
-        key: "ArrowDown",
-        keyCode: keydown.DOM_VK_DOWN
-      });
+    component.find("input").first().simulate("keyDown", {
+      key: "ArrowDown",
+      keyCode: keydown.DOM_VK_DOWN
+    });
 
     expect(component.find("div.Mui-selected").text()).to.be.equal(
       "fields.select_single"
