@@ -1,14 +1,22 @@
 {
+  "name": "primero",
   "description": "Primero client application",
   "sideEffects": false,
+  "license": "AGPL-3.0",
+  "repository": "https://github.com/primeroIMS/primero",
+  "engines": {
+    "node": ">=12.13.0 <13.0.0"
+  },
   "scripts": {
-    "build": "NODE_ENV=production node_modules/.bin/webpack --config webpack/index.js",
-    "dev": "node_modules/.bin/webpack-dev-server --config webpack/index.js",
+    "build": "NODE_ENV=production webpack --config webpack/index.js",
+    "dev": "webpack-dev-server --config webpack/index.js",
     "test": "npm run test:run './app/javascript/**/*.unit.test.js'",
     "test:all": "npm test",
     "test:inspect": "npm run test:run -- --inspect-brk=0.0.0.0:9229",
     "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test:all",
     "test:run": "NODE_ENV=test mocha",
+    "jscpd": "npm run jscpd:run 'app/javascript/**'",
+    "jscpd:run": "jscpd",
     "lint": "npm run lint:run './app/javascript/**'",
     "lint:run": "eslint --fix"
   },
@@ -71,6 +79,7 @@
     "i18n-js": "^3.3.0",
     "idb": "^4.0.4",
     "immutable": "^4.0.0-rc.12",
+    "jscpd": "~3.1.0",
     "jsdom": "^15.1.0",
     "jsdom-global": "^3.0.2",
     "jss": "^10.0.0",
@@ -127,10 +136,14 @@
     "workbox-webpack-plugin": "^4.3.1",
     "yup": "^0.27.0"
   },
-  "license": "AGPL-3.0",
-  "repository": "https://github.com/primeroIMS/primero",
-  "engines": {
-    "node": ">=12.13.0 <13.0.0"
+  "jscpd": {
+    "output": "./reports/jscpd/",
+    "reporters": [
+      "console",
+      "json",
+      "html",
+      "time"
+    ]
   },
   "mocha": {
     "require": [

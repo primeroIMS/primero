@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { expect } from "../../../../test/unit-test-helpers";
 
 import actions from "./actions";
-import { reducers } from "./reducers";
+import reducers from "./reducers";
 
 describe("<UserGroupsForm /> - Reducers", () => {
   it("should handle FETCH_USER_GROUP_STARTED", () => {

@@ -2,7 +2,7 @@ import { expect } from "../../test/unit-test-helpers";
 
 import { SET_DIALOG, SET_DIALOG_PENDING } from "./actions";
 import * as actionCreators from "./action-creators";
-import { REQUESTAPPROVAL } from "./constants";
+import { REQUEST_APPROVAL_DIALOG } from "./constants";
 
 describe("<RecordActions /> - Action Creators", () => {
   it("should have known action creators", () => {
@@ -18,13 +18,13 @@ describe("<RecordActions /> - Action Creators", () => {
 
   it("should check that 'setDialog' action creator returns the correct object", () => {
     const args = {
-      dialog: REQUESTAPPROVAL,
+      dialog: REQUEST_APPROVAL_DIALOG,
       open: true
     };
 
     const expectedAction = {
       type: SET_DIALOG,
-      payload: { dialog: REQUESTAPPROVAL, open: true }
+      payload: { dialog: REQUEST_APPROVAL_DIALOG, open: true }
     };
 
     expect(actionCreators.setDialog(args)).to.deep.equal(expectedAction);

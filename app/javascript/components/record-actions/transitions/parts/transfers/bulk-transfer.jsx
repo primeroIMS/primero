@@ -5,8 +5,9 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { CasesIcon } from "../../../../../images/primero-icons";
 import { useI18n } from "../../../../i18n";
-import * as styles from "../../styles.css";
+import styles from "../../styles.css";
 
+import { BULK_TRANSFER_NAME as NAME } from "./constants";
 import TransferCheckbox from "./transfer-checkbox";
 
 const BulkTransfer = ({ isBulkTransfer }) => {
@@ -37,6 +38,8 @@ const BulkTransfer = ({ isBulkTransfer }) => {
     </div>
   );
 };
+
+BulkTransfer.displayName = NAME;
 
 BulkTransfer.propTypes = {
   isBulkTransfer: PropTypes.bool

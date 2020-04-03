@@ -78,7 +78,9 @@ module.exports = {
           "varsIgnorePattern": "should|expect"
         }
       ],
-      "react/no-multi-comp": "off"
+      "react/display-name": "off",
+      "react/no-multi-comp": "off",
+      "react/prop-types": "off"
     }
   }, {
     "files": ["worker.js"],

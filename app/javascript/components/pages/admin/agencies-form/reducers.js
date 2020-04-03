@@ -4,7 +4,7 @@ import actions from "./actions";
 
 const DEFAULT_STATE = fromJS({});
 
-const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case actions.FETCH_AGENCY_STARTED:
       return state
@@ -36,5 +36,3 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state;
   }
 };
-
-export const reducers = reducer;

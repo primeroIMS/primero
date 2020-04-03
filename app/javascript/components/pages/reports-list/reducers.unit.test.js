@@ -7,7 +7,7 @@ import {
   FETCH_REPORTS_FINISHED,
   FETCH_REPORTS_FAILURE
 } from "./actions";
-import { reducers } from "./reducers";
+import reducers from "./reducers";
 
 describe("<Reports /> - Reducers", () => {
   const initialState = fromJS({});

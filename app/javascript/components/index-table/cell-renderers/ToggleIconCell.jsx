@@ -4,7 +4,7 @@ import { Icon } from "@material-ui/core";
 import { Photo, Flag } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 
-import { Jewel } from "../../jewel";
+import Jewel from "../../jewel";
 
 import styles from "./styles.css";
 

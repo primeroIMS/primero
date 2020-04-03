@@ -9,6 +9,7 @@ import renderDetails from "./render-details";
 import renderSummary from "./render-summary";
 import TransitionPanel from "./TransitionPanel";
 
+// eslint-disable-next-line react/display-name
 export default (transition, css, recordType, showMode) => (
   <div key={transition.id}>
     <TransitionPanel key={transition.id} name={transition.id}>
