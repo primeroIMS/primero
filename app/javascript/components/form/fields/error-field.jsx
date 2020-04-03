@@ -7,17 +7,21 @@ import Alert from "@material-ui/lab/Alert";
 const ErrorField = ({ errorsToCheck }) => {
   const { errors } = useFormContext();
 
+  if (!errorsToCheck?.size) {
+    return false;
+  }
+
+  const errorsToRender = errorsToCheck?.size
+    ? Object.keys(errors).filter(error => errorsToCheck.includes(error))
+    : [];
+
   return (
     <>
-      {errorsToCheck?.size
-        ? Object.keys(errors)
-            .filter(error => errorsToCheck.includes(error))
-            .map(error => (
-              <Alert variant="outlined" severity="error" key={error}>
-                {errors[error]?.message}
-              </Alert>
-            ))
-        : null}
+      {errorsToRender.map(error => (
+        <Alert variant="outlined" severity="error" key={error}>
+          {errors[error]?.message}
+        </Alert>
+      ))}
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
 
 import reducers from "./reducers";
 import actions from "./actions";
@@ -125,6 +125,29 @@ describe("Application - Reducers", () => {
     const action = {
       type: actions.NETWORK_STATUS,
       payload: true
+    };
+
+    const newState = reducers.application(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
+
+  it("should handle FETCH_SYSTEM_PERMISSIONS_SUCCESS", () => {
+    const expected = fromJS({
+      permissions: {
+        management: ["self"],
+        resource_actions: { case: ["read"] }
+      }
+    });
+
+    const action = {
+      type: actions.FETCH_SYSTEM_PERMISSIONS_SUCCESS,
+      payload: {
+        data: {
+          management: ["self"],
+          resource_actions: { case: ["read"] }
+        }
+      }
     };
 
     const newState = reducers.application(defaultState, action);
