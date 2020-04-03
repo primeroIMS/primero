@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { setupMountedComponent, expect } from "../../../../test";
 import IndexTable from "../../../index-table";
 import { ACTIONS } from "../../../../libs/permissions";
-import { AdminFilters } from "../components";
+import { Filters as AdminFilters } from "../components";
 
 import AgenciesList from "./container";
 

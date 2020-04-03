@@ -12,11 +12,11 @@ import { ROUTES } from "../../../../config";
 import { usePermissions, getListHeaders } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { headersToColumns } from "../helper";
-import { AdminFilters } from "../components";
+import { Filters as AdminFilters } from "../components";
 
 import { fetchAgencies } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
-import { getFilters } from "./helpers";
+import { getFilters } from "./utils";
 import NAMESPACE from "./namespace";
 
 const Container = () => {

@@ -1,1 +1,1 @@
-export { default as AdminFilters } from "./filters";
+export { default as Filters } from "./filters";

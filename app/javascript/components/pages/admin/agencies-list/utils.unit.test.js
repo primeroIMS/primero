@@ -1,8 +1,8 @@
 import { expect } from "../../../../test";
 
-import { getFilters } from "./helpers";
+import { getFilters } from "./utils";
 
-describe("<AgenciesList /> pages/admin/agencies-list/helpers", () => {
+describe("<AgenciesList /> pages/admin/agencies-list/utils", () => {
   it("should return default filters for agencies-list", () => {
     const i18n = { t: value => value, locale: "en" };
     const expected = [

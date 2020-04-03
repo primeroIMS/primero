@@ -7,7 +7,7 @@ describe("<Components /> - pages/admin/components/index", () => {
 
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
-    ["AdminFilters"].forEach(property => {
+    ["Filters"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });
