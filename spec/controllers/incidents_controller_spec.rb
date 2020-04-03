@@ -938,6 +938,7 @@ describe IncidentsController, :type => :controller do
                                            record_state: true, marked_for_mobile: true, consent_for_services: false, incident_status: Record::STATUS_OPEN,
                                            name: "Velma Dinkley", name_first: "Velma", name_last: "Dinkley")
         @gbv_user = User.new(:user_name => 'primero_gbv', :is_manager => false)
+        Incident.stub(:permitted_property_names).and_return(%w[_id short_id name])
       end
 
 

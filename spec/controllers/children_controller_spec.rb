@@ -1246,6 +1246,7 @@ describe ChildrenController, :type => :controller do
                          relation_child_is_separated_from: "Yes", relation_nickname: "", relation_is_alive: "Unknown",
                          relation_age: 40, relation_date_of_birth: "01-Jan-1977"}], hidden_name: false})
         @gbv_user = User.new(:user_name => 'primero_gbv', :is_manager => false)
+        Child.stub(:permitted_property_names).and_return(%w[_id short_id name])
       end
       it 'returns a GBV case' do
         get :show, params: {id: @gbv_case.id, mobile: true, format: :json}
