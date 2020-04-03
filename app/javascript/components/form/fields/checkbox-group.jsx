@@ -19,7 +19,8 @@ const CheckboxGroup = ({
   const { name, disabled } = commonInputProps;
   const { watchDisable, watchDisableInput } = metaInputProps;
   const watchedDisableField = watchDisableInput
-    ? watch(watchDisableInput, "") : false;
+    ? watch(watchDisableInput, "")
+    : false;
   let disableField = disabled;
 
   if (

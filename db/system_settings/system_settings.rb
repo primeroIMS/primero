@@ -57,5 +57,5 @@ create_or_update_system_setting(
     "duplicate_id" => "export-duplicate-id-csv"
   },
   duplicate_export_field: "national_id_no",
-  use_identity_provider: true
+  use_identity_provider: false
 )

@@ -29,8 +29,8 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
 
   const watchHelperText =
     helpTextIfWatch && watchedField
-    ? helpTextIfWatch(watchedField)
-    : helperText;
+      ? helpTextIfWatch(watchedField)
+      : helperText;
   const watchedDisableField = watchDisableInput
     ? watch(watchDisableInput, "")
     : false;

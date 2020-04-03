@@ -74,7 +74,6 @@ export const touchedFormData = (
   hasInitialValues = false,
   initialValues
 ) => {
-
   return Object.keys(touched).reduce((prev, current) => {
     const obj = prev;
 
