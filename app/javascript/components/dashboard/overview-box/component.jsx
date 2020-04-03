@@ -8,9 +8,9 @@ import { push } from "connected-react-router";
 
 import { ROUTES } from "../../../config";
 import { buildFilter } from "../helpers";
-import { DoughnutChart } from "../doughnut-chart";
+import DoughnutChart from "../doughnut-chart";
 import { useI18n } from "../../i18n";
-import { LoadingIndicator } from "../../loading-indicator";
+import LoadingIndicator from "../../loading-indicator";
 import NAMESPACE from "../../pages/dashboard/namespace";
 
 import styles from "./styles.css";
@@ -73,17 +73,17 @@ const OverviewBox = ({
     return withTotal ? `${sum()} ${sumTitle}` : sumTitle;
   };
 
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
   const renderItems = () => (
     <LoadingIndicator {...loadingIndicatorProps}>
       <div className={css.overviewBox}>
         <div className={css.sectionTitle}>{renderSum()}</div>
-        <ul className={css.overviewList}>
-          {statItems()}
-        </ul>
+        <ul className={css.overviewList}>{statItems()}</ul>
       </div>
     </LoadingIndicator>
   );
 
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
   const renderWithChart = () => (
     <div className={css.root}>
       <Grid container spacing={3}>

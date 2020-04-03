@@ -16,9 +16,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
   const allowedDefaultValues = ["TODAY", "NOW"];
 
   const {
-    visible,
     date_include_time: dateIncludeTime,
-    hide_on_view_page: hideOnViewPage,
     selected_value: selectedValue
   } = rest.field;
 
@@ -59,7 +57,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
   const fieldError = getIn(formik.errors, name);
   const fieldTouched = getIn(formik.touched, name);
 
-  return !(mode?.isShow && hideOnViewPage) && visible ? (
+  return (
     <FastField
       {...fieldProps}
       render={({ field, form }) => {
@@ -97,7 +95,7 @@ const DateField = ({ name, helperText, mode, formik, ...rest }) => {
         );
       }}
     />
-  ) : null;
+  );
 };
 
 DateField.displayName = DATE_FIELD_NAME;

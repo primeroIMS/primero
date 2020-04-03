@@ -26,7 +26,7 @@ describe("<UsersList />", () => {
         }
       },
       application: {
-        agencies: [{id: 1, unique_id: "agency-unicef", name: "UNICEF"}]
+        agencies: [{ id: 1, unique_id: "agency-unicef", name: "UNICEF" }]
       },
       user: {
         permissions: {
@@ -49,17 +49,9 @@ describe("<UsersList />", () => {
 
   it("renders heading with action buttons", () => {
     expect(component.find("header h1").contains("users.label")).to.be.true;
-    expect(
-      component
-        .find("header button")
-        .at(0)
-        .contains("buttons.cancel")
-    ).to.be.true;
-    expect(
-      component
-        .find("header button")
-        .at(1)
-        .contains("buttons.save")
-    ).to.be.true;
+    expect(component.find("header button").at(0).contains("buttons.cancel")).to
+      .be.true;
+    expect(component.find("header button").at(1).contains("buttons.save")).to.be
+      .true;
   });
 });

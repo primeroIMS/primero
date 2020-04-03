@@ -9,19 +9,19 @@ import styles from "./styles.css";
 const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay }) => {
   const css = makeStyles(styles)();
 
-  if (!mobileDisplay) {
-    return null;
-  }
+  const showMobileIcon = mobileDisplay ? (
+    <IconButton onClick={handleToggleNav}>
+      <ArrowBackIosIcon />
+    </IconButton>
+  ) : null;
 
   return (
     <div className={css.formTitle}>
-      <IconButton onClick={handleToggleNav}>
-        <ArrowBackIosIcon />
-      </IconButton>
+      {showMobileIcon}
       <h1 className={css.formHeading}>{displayText}</h1>
     </div>
   );
-}
+};
 
 RecordFormTitle.displayName = "RecordFormTitle";
 

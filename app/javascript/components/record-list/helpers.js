@@ -1,29 +1,71 @@
+/* eslint-disable import/prefer-default-export */
+
 import React from "react";
+import { format, parseISO } from "date-fns";
+import TableCell from "@material-ui/core/TableCell";
 
+import Lightbox from "../lightbox";
 import { ToggleIconCell } from "../index-table";
+import { RECORD_PATH } from "../../config";
 
-export const buildTableColumns = (columns, i18n, recordType, css) => {
-  const iconColumns = ["photo", "alert_count"];
+import { ALERTS_COLUMNS, ALERTS } from "./constants";
 
+export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
+  const iconColumns = Object.values(ALERTS_COLUMNS);
+
+  // eslint-disable-next-line react/display-name
   const emptyHeader = name => <th key={name} className={css.overdueHeading} />;
 
-  return columns
+  const columns = allowedColumns
+    .filter(
+      column =>
+        ![ALERTS_COLUMNS.flag_count, ALERTS_COLUMNS.alert_count].includes(
+          column.get("name")
+        )
+    )
     .map(column => {
       const options = {
         ...{
-          ...(["photo"].includes(column.get("name"))
+          ...([ALERTS_COLUMNS.photo].includes(column.get("name"))
             ? {
+                // eslint-disable-next-line react/no-multi-comp, react/display-name
+                customHeadRender: (columnMeta, handleToggleColumn) => {
+                  return (
+                    <TableCell
+                      key={columnMeta.index}
+                      className={css.photoHeader}
+                      onClick={() => handleToggleColumn(columnMeta.index)}
+                    >
+                      {columnMeta.name}
+                    </TableCell>
+                  );
+                },
+                // eslint-disable-next-line react/no-multi-comp, react/display-name
                 customBodyRender: value => (
-                  <ToggleIconCell value={value} icon="photo" />
+                  <div className={css.photoIcon}>
+                    <Lightbox
+                      trigger={
+                        <ToggleIconCell
+                          value={Boolean(value)}
+                          icon={ALERTS_COLUMNS.photo}
+                        />
+                      }
+                      image={value}
+                    />
+                  </div>
                 )
               }
             : {}),
-          ...(["alert_count", "flag_count"].includes(column.get("name"))
+          ...(column.get("name") === "registration_date"
             ? {
-                customHeadRender: columnMeta => emptyHeader(columnMeta),
-                customBodyRender: value => (
-                  <ToggleIconCell value={value} icon="alert_count" />
-                )
+                customBodyRender: value =>
+                  format(parseISO(value), "dd-MMM-yyyy")
+              }
+            : {}),
+          ...(column.get("name") === "case_opening_date"
+            ? {
+                customBodyRender: value =>
+                  format(parseISO(value), "dd-MMM-yyyy HH:mm")
               }
             : {})
         }
@@ -39,4 +81,56 @@ export const buildTableColumns = (columns, i18n, recordType, css) => {
       };
     })
     .sortBy(column => (iconColumns.includes(column.name) ? 1 : 0));
+
+  const canShowAlertIcon = allowedColumns
+    .map(allowedColumn => allowedColumn.name)
+    .includes(ALERTS_COLUMNS.alert_count);
+  const canShowFlagIcon = allowedColumns
+    .map(allowedColumn => allowedColumn.name)
+    .includes(ALERTS_COLUMNS.flag_count);
+
+  const columsWithAlerts = columns.push({
+    label: "",
+    name: ALERTS,
+    id: false,
+    sort: false,
+    options: {
+      customHeadRender: columnMeta => emptyHeader(columnMeta),
+      // eslint-disable-next-line react/no-multi-comp, react/display-name
+      customBodyRender: value => {
+        const alertIcon =
+          // eslint-disable-next-line camelcase
+          canShowAlertIcon && value?.alert_count > 0 ? (
+            <ToggleIconCell
+              value={value.alert_count}
+              icon={ALERTS_COLUMNS.alert_count}
+            />
+          ) : null;
+
+        const flagIcon =
+          // eslint-disable-next-line camelcase
+          canShowFlagIcon && value?.flag_count > 0 ? (
+            <ToggleIconCell
+              value={value.flag_count}
+              icon={ALERTS_COLUMNS.flag_count}
+            />
+          ) : null;
+
+        return (
+          <div className={css.alerts}>
+            {alertIcon}
+            {flagIcon}
+          </div>
+        );
+      }
+    }
+  });
+
+  return [
+    RECORD_PATH.cases,
+    RECORD_PATH.incidents,
+    RECORD_PATH.tracing_requests
+  ].includes(recordType)
+    ? columsWithAlerts
+    : columns;
 };

@@ -8,10 +8,11 @@ import EventManager from "../libs/messenger";
 import { QUEUE_FAILED, QUEUE_SKIP } from "../libs/queue";
 
 import {
-  handleSuccessCallback,
+  handleRestCallback,
   isOnline,
   partitionObject,
-  processAttachments
+  processAttachments,
+  defaultErrorCallback
 } from "./utils";
 
 const defaultFetchOptions = {
@@ -105,10 +106,7 @@ function fetchPayload(action, store, options) {
 
   const [attachments, formData] = queueAttachments
     ? partitionObject(body?.data, (value, key) =>
-        store
-          .getState()
-          .getIn(["forms", "attachmentFields"], [])
-          .includes(key)
+        store.getState().getIn(["forms", "attachmentFields"], []).includes(key)
       )
     : [false, false];
 
@@ -148,8 +146,12 @@ function fetchPayload(action, store, options) {
         if (response.status === 404) {
           deleteFromQueue(fromQueue);
           messageQueueSkip();
+        } else if (failureCallback) {
+          messageQueueFailed(fromQueue);
+          handleRestCallback(store, failureCallback, response, json);
         } else {
           messageQueueFailed(fromQueue);
+          defaultErrorCallback(store, response, json);
         }
 
         if (response.status === 401) {
@@ -159,7 +161,6 @@ function fetchPayload(action, store, options) {
 
           store.dispatch(attemptSignout(usingIdp, signOut));
         }
-        handleSuccessCallback(store, failureCallback, response, json);
       } else {
         await handleSuccess(store, {
           type,
@@ -178,13 +179,7 @@ function fetchPayload(action, store, options) {
           });
         }
 
-        handleSuccessCallback(
-          store,
-          successCallback,
-          response,
-          json,
-          fromQueue
-        );
+        handleRestCallback(store, successCallback, response, json, fromQueue);
       }
       fetchStatus({ store, type }, "FINISHED", false);
     } catch (e) {
@@ -194,7 +189,12 @@ function fetchPayload(action, store, options) {
       messageQueueFailed(fromQueue);
 
       fetchStatus({ store, type }, "FAILURE", false);
-      handleSuccessCallback(store, failureCallback, {}, {});
+
+      if (failureCallback) {
+        handleRestCallback(store, failureCallback, {}, {});
+      } else {
+        defaultErrorCallback(store, {}, {});
+      }
     }
   };
 

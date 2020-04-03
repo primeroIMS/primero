@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import * as yup from "yup";
+import { object, number, string, lazy, ref, array, addMethod } from "yup";
 
 import {
   FieldRecord,
@@ -12,42 +12,32 @@ import {
 
 import { ROLE_OPTIONS } from "./constants";
 
-export const validations = (formMode, i18n, useIdentityProviders, providers) => {
-  const validations = {
-    agency_id: yup
-      .number()
-      .required()
-      .label(i18n.t("user.organization")),
-    email: yup
-      .string()
-      .required()
-      .label(i18n.t("user.email")),
-    full_name: yup
-      .string()
-      .required()
-      .label(i18n.t("user.full_name")),
-    location: yup
-      .string()
-      .required()
-      .label(i18n.t("user.location")),
-    role_unique_id: yup
-      .string()
-      .required()
-      .label(i18n.t("user.role_id")),
-    user_group_unique_ids: yup
-      .array()
+export const validations = (
+  formMode,
+  i18n,
+  useIdentityProviders,
+  providers
+) => {
+  const inputValidations = {
+    agency_id: number().required().label(i18n.t("user.organization")),
+    email: string().required().label(i18n.t("user.email")),
+    full_name: string().required().label(i18n.t("user.full_name")),
+    location: string().required().label(i18n.t("user.location")),
+    role_unique_id: string().required().label(i18n.t("user.role_id")),
+    user_group_unique_ids: array()
       .required()
       .label(i18n.t("user.user_group_unique_ids"))
   };
 
   if (useIdentityProviders && providers) {
-    validations.identity_provider_id = yup.number().required();
+    inputValidations.identity_provider_id = number().required();
 
-    const isIdpProvider = function(ref, message) {
-      return this.test( "isIdpProvider", message, function (value) {
-        const providerId = this.resolve(ref);
+    const isIdpProvider = (inputRef, message) => {
+      return this.test("isIdpProvider", message, value => {
+        const providerId = this.resolve(inputRef);
         const provider = providers.find(
-          currentProvider => currentProvider.get("id") === parseInt(providerId, 10)
+          currentProvider =>
+            currentProvider.get("id") === parseInt(providerId, 10)
         );
 
         if (provider) {
@@ -58,15 +48,14 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
       });
     };
 
-    yup.addMethod(yup.string, "isIdpProvider", isIdpProvider);
+    addMethod(string, "isIdpProvider", isIdpProvider);
 
-    validations.user_name = yup
-      .string()
-      .isIdpProvider(yup.ref("identity_provider_id"))
+    inputValidations.user_name = string()
+      .isIdpProvider(ref("identity_provider_id"))
       .required();
   } else {
-    validations.password = yup.lazy(() => {
-      const defaultValidation = yup.string().min(8);
+    inputValidations.password = lazy(() => {
+      const defaultValidation = string().min(8);
 
       if (formMode.get("isNew")) {
         return defaultValidation.required().label(i18n.t("user.password"));
@@ -74,13 +63,12 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
 
       return defaultValidation;
     });
-    validations.password_confirmation = yup.lazy(() => {
-      const defaultValidation = yup
-        .string()
-        .oneOf(
-          [yup.ref("password"), null],
-          i18n.t("errors.models.user.password_mismatch")
-        );
+
+    inputValidations.password_confirmation = lazy(() => {
+      const defaultValidation = string().oneOf(
+        [ref("password"), null],
+        i18n.t("errors.models.user.password_mismatch")
+      );
 
       if (formMode.get("isNew")) {
         return defaultValidation
@@ -90,12 +78,13 @@ export const validations = (formMode, i18n, useIdentityProviders, providers) => 
 
       return defaultValidation;
     });
-    validations.user_name = yup.string()
+
+    inputValidations.user_name = string()
       .required()
       .label(i18n.t("user.user_name"));
   }
 
-  return yup.object().shape(validations);
+  return object().shape(inputValidations);
 };
 
 export const form = (
@@ -143,13 +132,16 @@ export const form = (
           watchInput: "identity_provider_id",
           helpTextIfWatch: input => {
             const provider = providers
-              ? providers.find(currentProvider => currentProvider.get("id") === parseInt(input, 10))
+              ? providers.find(
+                  currentProvider =>
+                    currentProvider.get("id") === parseInt(input, 10)
+                )
               : null;
 
             return provider
               ? i18n.t("user.provider_username_help", {
-                domain: provider.get("user_domain")
-              })
+                  domain: provider.get("user_domain")
+                })
               : null;
           },
           watchDisableInput: "identity_provider_id",
@@ -368,7 +360,5 @@ export const form = (
     };
   }
 
-  return fromJS([
-    FormSectionRecord(formData)
-  ]);
+  return fromJS([FormSectionRecord(formData)]);
 };

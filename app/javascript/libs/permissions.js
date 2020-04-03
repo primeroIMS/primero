@@ -1,24 +1,26 @@
 export const ACTIONS = {
   ADD_NOTE: "add_note",
-  APPROVE_BIA: 'approve_bia',
-  APPROVE_CASE_PLAN: 'approve_case_plan',
-  APPROVE_CLOSURE: 'approve_closure',
+  APPROVE_BIA: "approve_bia",
+  APPROVE_CASE_PLAN: "approve_case_plan",
+  APPROVE_CLOSURE: "approve_closure",
   ASSIGN: "assign",
   ASSIGN_WITHIN_AGENCY_PERMISSIONS: "assign_within_agency permissions",
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
   CLOSE: "close",
   CREATE: "create",
   DASH_APPROVALS_ASSESSMENT: "approvals_assessment",
-  DASH_APPROVALS_ASSESSMENT_PENDING: 'approvals_assessment_pending',
+  DASH_APPROVALS_ASSESSMENT_PENDING: "approvals_assessment_pending",
   DASH_APPROVALS_CASE_PLAN: "approvals_case_plan",
-  DASH_APPROVALS_CASE_PLAN_PENDING: 'approvals_case_plan_pending',
+  DASH_APPROVALS_CASE_PLAN_PENDING: "approvals_case_plan_pending",
   DASH_APPROVALS_CLOSURE: "approvals_closure",
-  DASH_APPROVALS_CLOSURE_PENDING: 'approvals_closure_pending',
+  DASH_APPROVALS_CLOSURE_PENDING: "approvals_closure_pending",
   DASH_CASE_RISK: "case_risk",
   DASH_CASE_OVERVIEW: "case_overview",
   DASH_PROTECTION_CONCERNS: "dash_protection_concerns",
   DASH_REPORTING_LOCATION: "dash_reporting_location",
+  DASH_SHARED_FROM_MY_TEAM: "dash_shared_with_my_team",
   DASH_SHARED_WITH_ME: "dash_shared_with_me",
+  DASH_SHARED_WITH_MY_TEAM: "dash_shared_with_my_team",
   DASH_SHARED_WITH_OTHERS: "dash_shared_with_others",
   DASH_TASKS: "dash_tasks",
   DASH_WORKFLOW: "workflow",
@@ -50,24 +52,19 @@ export const ACTIONS = {
   REFERRAL: "referral",
   REMOVE_ASSIGNED_USERS: "remove_assigned_users",
   REOPEN: "reopen",
-  REQUEST_APPROVAL_BIA: 'request_approval_bia',
-  REQUEST_APPROVAL_CASE_PLAN: 'request_approval_case_plan',
-  REQUEST_APPROVAL_CLOSURE: 'request_approval_closure',
+  REQUEST_APPROVAL_BIA: "request_approval_bia",
+  REQUEST_APPROVAL_CASE_PLAN: "request_approval_case_plan",
+  REQUEST_APPROVAL_CLOSURE: "request_approval_closure",
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   TRANSFER: "transfer",
   WRITE: "write",
-  REQUEST_APPROVAL_BIA: "request_approval_bia",
-  REQUEST_APPROVAL_CASE_PLAN: "request_approval_case_plan",
-  REQUEST_APPROVAL_CLOSURE: "request_approval_closure",
-  APPROVE_BIA: "approve_bia",
-  APPROVE_CASE_PLAN: "approve_case_plan",
-  APPROVE_CLOSURE: "approve_closure",
   RECEIVE_REFERRAL: "receive_referral",
-  RECEIVE_TRANSFER: "receive_transfer"
+  RECEIVE_TRANSFER: "receive_transfer",
+  REFERRAL_FROM_SERVICE: "referral_from_service"
 };
 
-const MANAGE = [ACTIONS.MANAGE];
+export const MANAGE = [ACTIONS.MANAGE];
 
 export const RESOURCES = {
   cases: "cases",
@@ -78,7 +75,12 @@ export const RESOURCES = {
   tracing_requests: "tracing_requests",
   users: "users",
   agencies: "agencies",
-  user_groups: "user_groups"
+  user_groups: "user_groups",
+  lookups: "lookups",
+  contact_information: "contact_information",
+  roles: "roles",
+  systems: "systems",
+  metadata: "metadata"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {
@@ -130,6 +132,8 @@ export const SHOW_TASKS = [...MANAGE, ACTIONS.DASH_TASKS];
 export const ADD_INCIDENT = [...MANAGE, ACTIONS.INCIDENT_DETAILS_FROM_CASE];
 
 export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
+
+export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL_FROM_SERVICE];
 
 export const REQUEST_APPROVAL = [
   ...MANAGE,

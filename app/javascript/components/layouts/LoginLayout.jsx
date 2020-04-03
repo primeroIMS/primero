@@ -1,21 +1,18 @@
 import React from "react";
 import { Grid, Box } from "@material-ui/core";
-import { NavLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 
-import { ModuleLogo } from "../module-logo";
-import { AgencyLogo } from "../agency-logo";
-import { ListIcon } from "../list-icon";
-import { TranslationsToggle } from "../translations-toggle";
-import { useI18n } from "../i18n";
+import ModuleLogo from "../module-logo";
+import AgencyLogo from "../agency-logo";
+import TranslationsToggle from "../translations-toggle";
 import { Notifier } from "../notifier";
+import OfflineIndicator from "../offline-indicator";
 
 import styles from "./login-styles.css";
 
 const LoginLayout = ({ children }) => {
   const css = makeStyles(styles)();
-  const i18n = useI18n();
 
   // TODO: Module hardcoded till we figure out when to switch modules
   const primeroModule = "cp";
@@ -23,6 +20,7 @@ const LoginLayout = ({ children }) => {
   return (
     <>
       <Notifier />
+      <OfflineIndicator />
       <Box className={[css.primeroBackground, css[primeroModule]].join(" ")}>
         <div className={css.content}>
           <div className={css.loginHeader}>
@@ -44,17 +42,6 @@ const LoginLayout = ({ children }) => {
             <TranslationsToggle />
           </Grid>
           <Grid item xs={8} />
-          {/* <Grid item xs={2}>
-            <NavLink
-              to="/support"
-              className={css.navLink}
-              activeClassName={css.navActive}
-              exact
-            >
-              <ListIcon icon="support" />
-              <span>{i18n.t("navigation.support")}</span>
-            </NavLink>
-          </Grid> */}
         </Grid>
       </Box>
     </>

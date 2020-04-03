@@ -1,13 +1,20 @@
-/* eslint-disable no-unused-expressions */
 import clone from "lodash/clone";
-import { expect } from "chai";
-import sinon from "sinon";
 import configureStore from "redux-mock-store";
+import sinon from "sinon";
+
+import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
+import { expect, stub } from "../../../test/unit-test-helpers";
+import { ASSIGN_DIALOG, TRANSFER_DIALOG, REFER_DIALOG } from "../constants";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
 
 describe("<Transitions /> - Action Creators", () => {
+  before(() => {
+    stub(generate, "messageKey").returns(4);
+  });
+
   it("should have known action creators", () => {
     const creators = clone(actionCreators);
 
@@ -75,22 +82,45 @@ describe("<Transitions /> - Action Creators", () => {
     };
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
+    const expected = {
+      type: actions.ASSIGN_USER_SAVE,
+      api: {
+        body,
+        method: "POST",
+        path: "cases/123abc/assigns",
+        successCallback: [
+          {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              message: "Success Message",
+              options: {
+                key: 4,
+                variant: "success"
+              }
+            }
+          },
+          {
+            action: SET_DIALOG,
+            payload: {
+              dialog: ASSIGN_DIALOG,
+              open: false
+            }
+          },
+          {
+            action: SET_DIALOG_PENDING,
+            payload: {
+              pending: false
+            }
+          }
+        ]
+      }
+    };
 
-    dispatch(
-      actionCreators.saveAssignedUser("123abc", body, "Success Message")
-    );
-    const firstCallReturnValue = dispatch.getCall(0).returnValue;
-
-    expect(firstCallReturnValue.type).to.equal(actions.ASSIGN_USER_SAVE);
-    expect(firstCallReturnValue.api.path).to.equal("cases/123abc/assigns");
-    expect(firstCallReturnValue.api.method).to.equal("POST");
-    expect(firstCallReturnValue.api.body).to.equal(body);
-    expect(firstCallReturnValue.api.successCallback.action).to.equal(
-      "notifications/ENQUEUE_SNACKBAR"
-    );
-    expect(firstCallReturnValue.api.successCallback.payload.message).to.equal(
-      "Success Message"
-    );
+    expect(
+      dispatch(
+        actionCreators.saveAssignedUser("123abc", body, "Success Message")
+      )
+    ).to.deep.equals(expected);
   });
 
   it("should check the 'saveTransferUser' action creator to return the correct object", () => {
@@ -102,23 +132,45 @@ describe("<Transitions /> - Action Creators", () => {
     };
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
+    const expected = {
+      type: actions.TRANSFER_USER,
+      api: {
+        body,
+        method: "POST",
+        path: "cases/123abc/transfers",
+        successCallback: [
+          {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              message: "Success Message",
+              options: {
+                key: 4,
+                variant: "success"
+              }
+            }
+          },
+          {
+            action: SET_DIALOG,
+            payload: {
+              dialog: TRANSFER_DIALOG,
+              open: false
+            }
+          },
+          {
+            action: SET_DIALOG_PENDING,
+            payload: {
+              pending: false
+            }
+          }
+        ]
+      }
+    };
 
-    dispatch(
-      actionCreators.saveTransferUser("123abc", body, "Success Message")
-    );
-
-    const firstCallReturnValue = dispatch.getCall(0).returnValue;
-
-    expect(firstCallReturnValue.type).to.equal(actions.TRANSFER_USER);
-    expect(firstCallReturnValue.api.path).to.equal("cases/123abc/transfers");
-    expect(firstCallReturnValue.api.method).to.equal("POST");
-    expect(firstCallReturnValue.api.body).to.equal(body);
-    expect(firstCallReturnValue.api.successCallback.action).to.equal(
-      "notifications/ENQUEUE_SNACKBAR"
-    );
-    expect(firstCallReturnValue.api.successCallback.payload.message).to.equal(
-      "Success Message"
-    );
+    expect(
+      dispatch(
+        actionCreators.saveTransferUser("123abc", body, "Success Message")
+      )
+    ).to.deep.equals(expected);
   });
 
   it("should check the 'fetchReferralUsers' action creator to return the correct object", () => {
@@ -142,20 +194,48 @@ describe("<Transitions /> - Action Creators", () => {
     };
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
+    const expected = {
+      type: actions.REFER_USER,
+      api: {
+        body,
+        method: "POST",
+        path: "cases/123abc/referrals",
+        successCallback: [
+          {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              message: "Success Message",
+              options: {
+                key: 4,
+                variant: "success"
+              }
+            }
+          },
+          {
+            action: SET_DIALOG,
+            payload: {
+              dialog: REFER_DIALOG,
+              open: false
+            }
+          },
+          {
+            action: SET_DIALOG_PENDING,
+            payload: {
+              pending: false
+            }
+          }
+        ]
+      }
+    };
 
-    dispatch(actionCreators.saveReferral("123abc", body, "Success Message"));
+    expect(
+      dispatch(
+        actionCreators.saveReferral("123abc", "cases", body, "Success Message")
+      )
+    ).to.deep.equals(expected);
+  });
 
-    const firstCallReturnValue = dispatch.getCall(0).returnValue;
-
-    expect(firstCallReturnValue.type).to.equal(actions.REFER_USER);
-    expect(firstCallReturnValue.api.path).to.equal("cases/123abc/referrals");
-    expect(firstCallReturnValue.api.method).to.equal("POST");
-    expect(firstCallReturnValue.api.body).to.equal(body);
-    expect(firstCallReturnValue.api.successCallback.action).to.equal(
-      "notifications/ENQUEUE_SNACKBAR"
-    );
-    expect(firstCallReturnValue.api.successCallback.payload.message).to.equal(
-      "Success Message"
-    );
+  after(() => {
+    generate.messageKey.restore();
   });
 });

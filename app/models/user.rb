@@ -14,7 +14,9 @@ class User < ApplicationRecord
   PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/.freeze
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
 
+  attr_accessor :exists_reporting_location
   attr_reader :refresh_associated_user_groups, :refresh_associated_user_agencies
+  attr_writer :user_location, :reporting_location
 
   delegate :can?, :cannot?, to: :ability
 
@@ -29,8 +31,8 @@ class User < ApplicationRecord
   has_and_belongs_to_many :user_groups
   has_many :audit_logs
 
-  scope :list_by_enabled, -> { where(disabled: false) }
-  scope :list_by_disabled, -> { where(disabled: true) }
+  scope :enabled, -> { where(disabled: false) }
+  scope :disabled, -> { where(disabled: true) }
   scope :by_user_group, (lambda do |ids|
     joins(:user_groups).where(user_groups: { id: ids })
   end)
@@ -111,7 +113,7 @@ class User < ApplicationRecord
     # This method returns a list of id / display_text value pairs
     # It is used to create the select options list for User fields
     def all_names
-      list_by_enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
+      enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
     end
 
     def find_permitted_users(filters = nil, pagination = nil, sort = nil, user = nil)
@@ -150,7 +152,7 @@ class User < ApplicationRecord
     end
 
     def users_for_referral(user, model, filters)
-      users_for_transition(user, model, filters, Permission::RECEIVE_REFERRAL)
+      users_for_transition(user, model, filters, Permission::RECEIVE_REFERRAL).includes(:agency).joins(:agency)
     end
 
     def users_for_transfer(user, model, filters)
@@ -167,12 +169,8 @@ class User < ApplicationRecord
         services_filter = filters.delete('services')
         agencies_filter = filters.delete('agency')
         users = users.where(filters) if filters.present?
-        if services_filter.present?
-          users = users.where(':service = ANY (services)', service: services_filter)
-        end
-        if agencies_filter.present?
-          users = users.joins(:agency).where(agencies: { unique_id: agencies_filter })
-        end
+        users = users.where(':service = ANY (users.services)', service: services_filter) if services_filter.present?
+        users = users.joins(:agency).where(agencies: { unique_id: agencies_filter }) if agencies_filter.present?
       end
       users
     end
@@ -231,7 +229,7 @@ class User < ApplicationRecord
   end
 
   def reporting_location
-    return unless user_location.present?
+    return if user_location.blank? || exists_reporting_location == false
 
     @reporting_location ||= Location.get_reporting_location(user_location)
   end
@@ -451,7 +449,7 @@ class User < ApplicationRecord
   end
 
   def tasks(pagination = { per_page: 100, page: 1 })
-    cases = Child.owned_by(self.user_name)
+    cases = Child.owned_by(user_name)
                  .where('data @> ?', { record_state: true, status: Child::STATUS_OPEN }.to_json)
     tasks = Task.from_case(cases.to_a)
     { total: tasks.size, tasks: tasks.paginate(pagination) }

@@ -1,11 +1,16 @@
-import { expect } from "../../../test";
-import { ENQUEUE_SNACKBAR } from "../../notifier";
+import { expect, stub } from "../../../test";
+import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
+import { EXPORT_URL } from "../../pages/export-list/constants";
+import { EXPORT_DIALOG } from "../constants";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
 
 import actions from "./actions";
 import * as actionCreators from "./action-creators";
-import { EXPORT_URL } from "../../pages/export-list/constants";
 
 describe("<RecordActions /> - exports/action-creators", () => {
+  before(() => {
+    stub(generate, "messageKey").returns(4);
+  });
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
@@ -29,27 +34,51 @@ describe("<RecordActions /> - exports/action-creators", () => {
     const returnObject = actionCreators.saveExport(
       { data },
       message,
-      actionLabel
+      actionLabel,
+      EXPORT_DIALOG
     );
+
     const expected = {
       type: actions.EXPORT,
       api: {
         path: EXPORT_URL,
         method: "POST",
         body: { data },
-        successCallback: {
-          action: ENQUEUE_SNACKBAR,
-          payload: {
-            message,
-            options: returnObject.api.successCallback.payload.options,
-            actionLabel,
-            actionUrl: `/${EXPORT_URL}`
+        successCallback: [
+          {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              message,
+              options: {
+                key: 4,
+                variant: "success"
+              },
+              actionLabel,
+              actionUrl: `/${EXPORT_URL}`
+            }
+          },
+          {
+            action: SET_DIALOG,
+            payload: {
+              dialog: EXPORT_DIALOG,
+              open: false
+            }
+          },
+          {
+            action: SET_DIALOG_PENDING,
+            payload: {
+              pending: false
+            }
           }
-        }
+        ]
       }
     };
 
     expect(returnObject).to.not.be.undefined;
     expect(returnObject).to.deep.equals(expected);
+  });
+
+  after(() => {
+    generate.messageKey.restore();
   });
 });

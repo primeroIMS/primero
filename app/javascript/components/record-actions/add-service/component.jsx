@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 
-import { ActionDialog } from "../../action-dialog";
+import ActionDialog from "../../action-dialog";
 import { useI18n } from "../../i18n";
 import {
   getRecordFormsByUniqueId,
@@ -13,8 +13,8 @@ import { MODULES, RECORD_TYPES, ID_FIELD } from "../../../config";
 import { saveRecord, selectRecordsByIndexes } from "../../records";
 import { compactValues } from "../../record-form/helpers";
 import Fields from "../add-incident/fields";
-import submitForm from "../../../submit-form";
-import resetForm from "../../../reset-form";
+import submitForm from "../../../libs/submit-form";
+import resetForm from "../../../libs/reset-form";
 import { ACTIONS } from "../../../libs/permissions";
 
 import { NAME, SERVICES_SUBFORM } from "./constants";

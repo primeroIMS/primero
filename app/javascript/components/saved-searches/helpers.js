@@ -1,24 +1,22 @@
 export const buildFiltersApi = filters => {
-  const excludeDefaultFiltersKeys = ["short", "per", "page"];
+  const excludeDefaultFiltersKeys = ["short", "per", "page", "fields"];
 
-  return filters.reduce((obj, filter) => {
-    const o = {};
+  return filters.reduce((acc, filter) => {
     const [key, value] = filter;
+    const isArray = Array.isArray(value);
+    const isObject = typeof value === "object";
 
-    if (!excludeDefaultFiltersKeys.includes(key)) {
-      const isArrayWithData = Array.isArray(value) && value.length > 0;
-      const isObjectWithData =
-        !Array.isArray(value) &&
-        typeof value === "object" &&
-        !Object.values(value).includes(null);
-
-      if (isArrayWithData || isObjectWithData) {
-        o.name = key;
-        o.value = value;
-      }
+    if (
+      value === undefined ||
+      (isArray && value.length <= 0) ||
+      (isObject && Object.keys(value).length <= 0) ||
+      excludeDefaultFiltersKeys.includes(key)
+    ) {
+      return acc;
     }
+    const newValue = isArray || isObject ? value : [value.toString()];
 
-    return obj.concat(o);
+    return [...acc, { name: key, value: newValue }];
   }, []);
 };
 

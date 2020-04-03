@@ -1,3 +1,2 @@
 export { default } from "./component";
-export { reducer } from "./reducers";
-
+export { default as reducers } from "./reducers";

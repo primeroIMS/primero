@@ -32,7 +32,7 @@ module FakeLogin
   end
 
   def fake_admin_login user = User.new(:user_name => 'fakeadmin')
-    user.stub(:roles).and_return([Role.new(permissions: Permission.all_permissions_list, group_permission: Permission::ALL)])
+    user.stub(:roles).and_return([Role.new(permissions: Permission.all_available, group_permission: Permission::ALL)])
     fake_login user
   end
 
@@ -65,18 +65,18 @@ module FakeLogin
   end
 
   def fake_login_as(resource = nil, actions = [], group_permission = Permission::SELF, user_group_ids = [])
-    permission_list = (resource.blank? || actions.blank?) ? Permission.all_permissions_list :
+    permission_list = (resource.blank? || actions.blank?) ? Permission.all_available :
                                                             [Permission.new(resource: resource, actions: actions)]
     user = User.new(:user_name => 'fakelimited', :user_group_ids => user_group_ids)
     user.stub(:roles).and_return([Role.new(permissions: permission_list, group_permission: group_permission)])
     fake_login user
   end
 
-  def fake_login_with_permissions(permission_list = Permission.all_permissions_list, group_permission = Permission::SELF)
+  def fake_login_with_permissions(permission_list = Permission.all_available, group_permission = Permission::SELF)
     fake_login_with_user_and_permissions(User.new(:user_name => 'fakelimited'), permission_list, group_permission)
   end
 
-  def fake_login_with_user_and_permissions(user, permission_list = Permission.all_permissions_list, group_permission = Permission::SELF)
+  def fake_login_with_user_and_permissions(user, permission_list = Permission.all_available, group_permission = Permission::SELF)
     user.stub(:roles).and_return([Role.new(permissions: permission_list, group_permission: group_permission)])
     fake_login user
   end

@@ -1,19 +1,13 @@
 import { expect } from "chai";
 import { Map, List } from "immutable";
-import {
-  FormControlLabel,
-  Checkbox,
-  TextField,
-  Button
-} from "@material-ui/core";
+import { FormControlLabel, Checkbox, TextField } from "@material-ui/core";
 import clone from "lodash/clone";
 import { Formik } from "formik";
 
 import { setupMountedComponent } from "../../../../../test";
 import { MODULES } from "../../../../../config";
-import { SearchableSelect } from "../../../../searchable-select";
+import SearchableSelect from "../../../../searchable-select";
 
-import TransferActions from "./transfer-actions";
 import ProvidedConsent from "./provided-consent";
 import TransferForm from "./component";
 
@@ -72,17 +66,8 @@ describe("<TransferForm />", () => {
     expect(component.find(SearchableSelect)).to.have.length(3);
   });
 
-  it("renders Button", () => {
-    expect(component.find(Button)).to.have.length(2);
-  });
-
   it("should accept valid props", () => {
-    const componentProps = clone(
-      component
-        .find(TransferForm)
-        .first()
-        .props()
-    );
+    const componentProps = clone(component.find(TransferForm).first().props());
 
     expect(componentProps).to.have.property("providedConsent");
     expect(componentProps).to.have.property("isBulkTransfer");
@@ -100,21 +85,6 @@ describe("<TransferForm />", () => {
     delete componentProps.recordType;
 
     expect(componentProps).to.deep.equal({});
-  });
-
-  it("renders TransferActions with two props", () => {
-    const transferActions = component.find(TransferActions);
-    const transferActionsProps = transferActions.props();
-
-    expect(transferActions).to.have.lengthOf(1);
-    expect(transferActionsProps).to.have.property("closeModal");
-    expect(transferActionsProps.closeModal).to.be.a("function");
-    expect(transferActionsProps).to.have.property("disabled");
-    expect(transferActionsProps.disabled).to.be.a("boolean");
-    delete transferActionsProps.closeModal;
-    delete transferActionsProps.disabled;
-
-    expect(transferActionsProps).to.be.empty;
   });
 
   it("renders ProvidedConsent with valid props", () => {

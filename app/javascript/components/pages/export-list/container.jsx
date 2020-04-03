@@ -29,6 +29,11 @@ const ExportList = () => {
 
   const isRecordProcessing = status => status === EXPORT_STATUS.processing;
 
+  const onRowClick = record =>
+    !isRecordProcessing(record.status)
+      ? window.open(record.export_file, "_self")
+      : null;
+
   const columns = data =>
     listHeaders.map(c => {
       const options = {
@@ -36,19 +41,24 @@ const ExportList = () => {
           ...(c.name === EXPORT_COLUMNS.fileName
             ? {
                 id: true,
-                // eslint-disable-next-line react/display-name
+                // eslint-disable-next-line react/no-multi-comp, react/display-name
                 customBodyRender: (value, tableMeta) => {
-                  const exportStatus = data.get("data").get(tableMeta.rowIndex)
-                    .status;
+                  const exportRecord = data.getIn(["data", tableMeta.rowIndex]);
+                  const { status } = exportRecord;
 
-                  const exportIcon = isRecordProcessing(exportStatus) ? (
+                  const exportIcon = isRecordProcessing(status) ? (
                     <CircularProgress color="inherit" className={css.loading} />
                   ) : (
                     <DownloadIcon fontSize="small" />
                   );
 
                   return (
-                    <div className={css.link}>
+                    <div
+                      className={css.link}
+                      onClick={() => onRowClick(exportRecord)}
+                      role="button"
+                      tabIndex={tableMeta.rowIndex}
+                    >
                       {exportIcon}
                       <span>{value}</span>
                     </div>
@@ -91,10 +101,7 @@ const ExportList = () => {
     }),
     onTableChange: fetchExports,
     rowHover: false,
-    onRowClick: record =>
-      !isRecordProcessing(record.status)
-        ? window.open(record.export_file, "_self")
-        : null
+    onRowClick: record => onRowClick(record)
   };
 
   return (

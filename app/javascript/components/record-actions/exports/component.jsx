@@ -2,21 +2,22 @@ import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { List } from "immutable";
-import * as yup from "yup";
+import { object, string } from "yup";
 import { withRouter, useLocation } from "react-router-dom";
 import qs from "qs";
 
 import { useI18n } from "../../i18n";
-import { ActionDialog } from "../../action-dialog";
+import ActionDialog from "../../action-dialog";
 import Form, {
   FieldRecord,
   FormSectionRecord,
   FORM_MODE_DIALOG
 } from "../../form";
-import submitForm from "../../../submit-form";
+import submitForm from "../../../libs/submit-form";
 import { RECORD_TYPES } from "../../../config";
 import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
 import { getRecords } from "../../index-table";
+import { EXPORT_DIALOG } from "../constants";
 
 import { NAME, ALL_EXPORT_TYPES } from "./constants";
 import { allowedExports, formatFileName, exporterFilters } from "./helpers";
@@ -29,7 +30,9 @@ const Component = ({
   userPermissions,
   match,
   record,
-  selectedRecords
+  selectedRecords,
+  pending,
+  setPending
 }) => {
   const i18n = useI18n();
   const formRef = useRef();
@@ -51,7 +54,9 @@ const Component = ({
     selectedRecords?.length === records.size;
 
   const handleSubmit = values => {
-    const { format } = ALL_EXPORT_TYPES.find(e => e.id === values.export_type);
+    const { id, format } = ALL_EXPORT_TYPES.find(
+      e => e.id === values.export_type
+    );
     const fileName = formatFileName(values.custom_export_file_name, format);
     const shortIds = records
       .toJS()
@@ -68,7 +73,7 @@ const Component = ({
     );
 
     const body = {
-      export_format: format,
+      export_format: id,
       record_type: RECORD_TYPES[recordType],
       file_name: fileName,
       password: values.password
@@ -76,27 +81,23 @@ const Component = ({
 
     const data = { ...body, ...filters };
 
+    setPending(true);
+
     dispatch(
       saveExport(
         { data },
         i18n.t("exports.queueing", {
           file_name: fileName ? `: ${fileName}` : "."
         }),
-        i18n.t("exports.go_to_exports")
+        i18n.t("exports.go_to_exports"),
+        EXPORT_DIALOG
       )
     );
-    close();
   };
 
-  const successButtonProps = {
-    color: "primary",
-    variant: "contained",
-    autoFocus: true
-  };
-
-  const validationSchema = yup.object().shape({
-    export_type: yup.string().required(i18n.t("encrypt.export_type")),
-    password: yup.string().required(i18n.t("encrypt.password_label"))
+  const validationSchema = object().shape({
+    export_type: string().required(i18n.t("encrypt.export_type")),
+    password: string().required(i18n.t("encrypt.password_label"))
   });
 
   const formSections = List([
@@ -141,7 +142,8 @@ const Component = ({
       confirmButtonLabel={i18n.t("buttons.export")}
       onClose={close}
       omitCloseAfterSuccess
-      confirmButtonProps={successButtonProps}
+      cancelHandler={close}
+      pending={pending}
     >
       <Form
         mode={FORM_MODE_DIALOG}
@@ -164,9 +166,11 @@ Component.propTypes = {
   close: PropTypes.func,
   match: PropTypes.object,
   openExportsDialog: PropTypes.bool,
+  pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   selectedRecords: PropTypes.array,
+  setPending: PropTypes.func,
   userPermissions: PropTypes.object
 };
 

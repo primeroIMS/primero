@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import ExportRecord from "./records";
-import { reducers } from "./reducers";
+import reducers from "./reducers";
 import actions from "./actions";
 import { EXPORT_STATUS } from "./constants";
 

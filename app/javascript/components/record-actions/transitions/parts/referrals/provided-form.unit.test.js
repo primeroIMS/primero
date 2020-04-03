@@ -4,8 +4,6 @@ import { Grid, FormControlLabel, Checkbox } from "@material-ui/core";
 import { Field } from "formik";
 
 import { setupMountedComponent } from "../../../../../test";
-import actions from "../../actions";
-import { RECORD_TYPES } from "../../../../../config";
 
 import ProvidedForm from "./provided-form";
 
@@ -55,10 +53,7 @@ describe("<ProvidedForm /> - referrals", () => {
 
     expect(component.find(Grid), "renders 3 Grid").to.have.lengthOf(3);
     expect(
-      component
-        .find(Grid)
-        .find("span")
-        .props().children,
+      component.find(Grid).find("span").props().children,
       "renders span with referral.provided_consent_labe"
     ).to.be.equal("referral.provided_consent_label");
     expect(
@@ -69,34 +64,5 @@ describe("<ProvidedForm /> - referrals", () => {
       component.find(Checkbox),
       "should not render Checkbox"
     ).to.not.have.lengthOf(1);
-  });
-
-  it("should reload users if any agency, location or user has changed", () => {
-    const props = {
-      canConsentOverride: true,
-      setDisabled: () => {},
-      recordType: "cases"
-    };
-    const { component } = setupMountedComponent(
-      ProvidedForm,
-      props,
-      {},
-      [],
-      formProps
-    );
-    const referAnyway = component.find(Checkbox);
-    const storeActions = component.props().store.getActions();
-    const expectedAction = {
-      type: actions.REFERRAL_USERS_FETCH,
-      api: {
-        path: actions.USERS_REFER_TO,
-        params: {
-          record_type: RECORD_TYPES.cases
-        }
-      }
-    };
-
-    referAnyway.find("input").simulate("change", { target: { checked: true } });
-    expect(storeActions[1]).to.deep.equal(expectedAction);
   });
 });

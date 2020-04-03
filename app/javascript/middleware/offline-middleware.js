@@ -4,7 +4,7 @@ import { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { QUEUEABLE_ACTIONS, DB_STORES } from "../db/constants";
 
 import {
-  handleSuccessCallback,
+  handleRestCallback,
   generateRecordProperties,
   isOnline
 } from "./utils";
@@ -38,7 +38,7 @@ const dispatchSuccess = (store, action, payload) => {
     payload
   });
 
-  handleSuccessCallback(store, api?.successCallback, null, payload, fromQueue);
+  handleRestCallback(store, api?.successCallback, null, payload, fromQueue);
 
   store.dispatch({
     type: `${type}_FINISHED`,
@@ -52,6 +52,7 @@ const retreiveData = async ({ store, db, action, type }) => {
 
     dispatchSuccess(store, action, payloadFromDB);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error, type);
   }
 };
@@ -66,6 +67,7 @@ const queueData = async ({ store, db, action, type }) => {
 
     dispatchSuccess(store, action, payloadFromDB);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error, type);
   }
 };

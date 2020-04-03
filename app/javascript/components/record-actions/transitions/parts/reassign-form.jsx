@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import * as Yup from "yup";
+import { object, string } from "yup";
 import { Formik, Field, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { TextField } from "formik-material-ui";
-import { Box, Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 import { RECORD_TYPES, USER_NAME_FIELD } from "../../../../config";
 import {
@@ -13,17 +11,17 @@ import {
   getErrorsByTransitionType
 } from "../selectors";
 import { saveAssignedUser, fetchAssignUsers } from "../action-creators";
-import styles from "../styles.css";
-import { SearchableSelect } from "../../../searchable-select";
+import SearchableSelect from "../../../searchable-select";
 import { enqueueSnackbar } from "../../../notifier";
 import { useI18n } from "../../../i18n";
 
+import { REASSIGN_FORM_NAME } from "./constants";
+
 const initialValues = { transitioned_to: "", notes: "" };
 
-const ReassignForm = ({ handleClose, record, recordType }) => {
+const ReassignForm = ({ record, recordType, setPending, assignRef }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
   const transitionType = "reassign";
 
   const firstUpdate = React.useRef(true);
@@ -40,10 +38,6 @@ const ReassignForm = ({ handleClose, record, recordType }) => {
     getErrorsByTransitionType(state, transitionType)
   );
 
-  const closeModal = () => {
-    handleClose();
-  };
-
   useEffect(() => {
     if (firstUpdate.current) {
       firstUpdate.current = false;
@@ -57,15 +51,11 @@ const ReassignForm = ({ handleClose, record, recordType }) => {
 
     if (messages !== "") {
       dispatch(enqueueSnackbar(messages, "error"));
-    } else {
-      closeModal();
     }
   }, [hasErrors]);
 
-  const validationSchema = Yup.object().shape({
-    transitioned_to: Yup.string().required(
-      i18n.t("reassign.user_mandatory_label")
-    )
+  const validationSchema = object().shape({
+    transitioned_to: string().required(i18n.t("reassign.user_mandatory_label"))
   });
 
   const inputProps = {
@@ -74,7 +64,8 @@ const ReassignForm = ({ handleClose, record, recordType }) => {
     fullWidth: true,
     InputLabelProps: {
       shrink: true
-    }
+    },
+    autoComplete: "off"
   };
 
   const searchableSelectProps = {
@@ -101,6 +92,7 @@ const ReassignForm = ({ handleClose, record, recordType }) => {
   };
 
   const handleAssign = (values, { setSubmitting }) => {
+    setPending(true);
     dispatch(
       saveAssignedUser(
         record.get("id"),
@@ -114,7 +106,8 @@ const ReassignForm = ({ handleClose, record, recordType }) => {
   const formProps = {
     initialValues,
     validationSchema,
-    onSubmit: handleAssign
+    onSubmit: handleAssign,
+    ref: assignRef
   };
 
   return (
@@ -148,24 +141,6 @@ const ReassignForm = ({ handleClose, record, recordType }) => {
             />
             <br />
             <Field name="notes" {...inputProps} />
-            <Box
-              display="flex"
-              my={3}
-              justifyContent="flex-start"
-              className={css.modalAction}
-            >
-              <Button
-                type="submit"
-                color="primary"
-                variant="contained"
-                className={css.modalActionButton}
-              >
-                {i18n.t("buttons.save")}
-              </Button>
-              <Button onClick={closeModal} color="primary" variant="outlined">
-                {i18n.t("buttons.cancel")}
-              </Button>
-            </Box>
           </Form>
         );
       }}
@@ -173,11 +148,14 @@ const ReassignForm = ({ handleClose, record, recordType }) => {
   );
 };
 
+ReassignForm.displayName = REASSIGN_FORM_NAME;
+
 ReassignForm.propTypes = {
+  assignRef: PropTypes.object,
   formik: PropTypes.object,
-  handleClose: PropTypes.func,
   record: PropTypes.object,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  setPending: PropTypes.func
 };
 
 export default ReassignForm;

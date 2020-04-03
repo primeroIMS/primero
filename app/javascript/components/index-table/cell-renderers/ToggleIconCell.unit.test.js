@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
-import { Jewel } from "../../jewel";
+import Jewel from "../../jewel";
 
 import ToggleIconCell from "./ToggleIconCell";
 

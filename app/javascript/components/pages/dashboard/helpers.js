@@ -1,4 +1,5 @@
 import first from "lodash/first";
+import uniq from "lodash/uniq";
 import { fromJS } from "immutable";
 
 import { dataToJS } from "../../../libs";
@@ -6,7 +7,6 @@ import { ACTIONS, RESOURCES } from "../../../libs/permissions";
 
 import {
   INDICATOR_NAMES,
-  WORKFLOW_ORDER_NAMES,
   PROTECTION_CONCERNS_ORDER_NAMES,
   DASHBOARD_NAMES
 } from "./constants";
@@ -16,23 +16,20 @@ const translateLabels = (keys, data) => {
     return {};
   }
 
-  return keys
-    .map(k => data.filter(d => d.id === k))
-    .flat()
-    .map(sorted => sorted.display_text);
+  return (
+    keys
+      .map(k => data.filter(d => d.id === k))
+      .flat()
+      // eslint-disable-next-line camelcase
+      .map(sorted => sorted?.display_text)
+  );
 };
 
 const translateSingleLabel = (key, data) => {
   if (key === "") return key;
 
-  return data.filter(d => d.id === key)[0].display_text;
-};
-
-const byTeamCaseNames = (a, b) => {
-  const indexa = WORKFLOW_ORDER_NAMES.indexOf(a?.name);
-  const indexb = WORKFLOW_ORDER_NAMES.indexOf(b?.name);
-
-  return indexa - indexb;
+  // eslint-disable-next-line camelcase
+  return data?.filter(d => d.id === key)[0]?.display_text;
 };
 
 const byProtectionConcernsNames = (a, b) => {
@@ -128,6 +125,7 @@ export const toListTable = (data, localeLabels) => {
 
   if (result.length || Object.keys(result).length) {
     const indicatorData = result.indicators[INDICATOR_NAMES.WORKFLOW_TEAM];
+
     const columns = Object.keys(
       indicatorData[first(Object.keys(indicatorData))]
     )
@@ -137,7 +135,14 @@ export const toListTable = (data, localeLabels) => {
           { name: value, label: translateSingleLabel(value, localeLabels) }
         ];
       }, [])
-      .sort(byTeamCaseNames);
+      .filter(column => typeof column.label !== "undefined")
+      .sort((a, b) => {
+        const workflowOrder = localeLabels?.map(localeLabel => localeLabel.id);
+        const indexa = workflowOrder.indexOf(a?.name);
+        const indexb = workflowOrder.indexOf(b?.name);
+
+        return indexa - indexb;
+      });
 
     const { "": removed, ...rows } = indicatorData;
 
@@ -294,12 +299,7 @@ export const toProtectionConcernTable = (data, i18n, lookups) => {
 export const toTasksOverdueTable = (overdueTasksDashboards, i18n) => {
   const indicatorsResults = overdueTasksDashboards
     .filter(dashboard => dashboard.size)
-    .map(dashboard =>
-      dashboard
-        .get("indicators")
-        .valueSeq()
-        .first()
-    );
+    .map(dashboard => dashboard.get("indicators").valueSeq().first());
 
   const hashedData = indicatorsResults.reduce(
     (acc, indicatorResult) => {
@@ -387,4 +387,57 @@ export const taskOverdueHasData = (
     !!casesByTaskOverdueServices.size ||
     !!casesByTaskOverdueFollowups.size
   );
+};
+
+export const teamSharingTable = (dashboard, i18n) => {
+  const data = dataToJS(dashboard);
+
+  if (!Object.keys(data).length) {
+    return {};
+  }
+  const { indicators } = data;
+  const columns = Object.keys(indicators).reduce((acc, curr) => {
+    return [...acc, { name: curr, label: i18n.t(`dashboard.${curr}`) }];
+  }, []);
+
+  columns.unshift({
+    name: "caseWorker",
+    label: i18n.t("dashboard.case_worker")
+  });
+
+  const caseWorkers = uniq(
+    Object.values(indicators).reduce((acc, curr) => {
+      return [...acc, ...Object.keys(curr)];
+    }, [])
+  );
+  const rowsWithValues = key => {
+    return caseWorkers.map(caseWorker => {
+      const caseWorkerWithValues = columns
+        .map(column => {
+          if (column.name !== "caseWorker") {
+            return {
+              [column.name]:
+                typeof indicators[column.name] !== "undefined" &&
+                indicators[column.name].hasOwnProperty(caseWorker)
+                  ? indicators[column.name][caseWorker][key]
+                  : 0
+            };
+          }
+
+          return "";
+        })
+        .reduce((acc, obj) => ({ ...acc, ...obj }));
+
+      return {
+        caseWorker,
+        ...caseWorkerWithValues
+      };
+    });
+  };
+
+  return {
+    columns,
+    data: rowsWithValues("count"),
+    query: rowsWithValues("query")
+  };
 };

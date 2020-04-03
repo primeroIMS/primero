@@ -4,7 +4,7 @@ import thunk from "redux-thunk";
 import { expect, spy, stub } from "../../test";
 import * as idpSelection from "../pages/login/idp-selection";
 
-import { Actions } from "./actions";
+import Actions from "./actions";
 import * as actionCreators from "./action-creators";
 
 describe("User - Action Creators", () => {
@@ -42,8 +42,7 @@ describe("User - Action Creators", () => {
       type: "forms/SET_OPTIONS",
       api: {
         path: "lookups",
-        params: { page: 1, per: 999 },
-        db: { collection: "options" }
+        params: { page: 1, per: 999 }
       }
     },
     {

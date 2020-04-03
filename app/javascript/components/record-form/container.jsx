@@ -10,7 +10,7 @@ import { useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import { PageContainer } from "../page";
 import { Transitions, fetchTransitions } from "../transitions";
-import { LoadingIndicator } from "../loading-indicator";
+import LoadingIndicator from "../loading-indicator";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
 import {
   APPROVALS,
@@ -20,11 +20,11 @@ import {
   TRANSITION_TYPE
 } from "../../config";
 import RecordOwner from "../record-owner";
-import { Approvals } from "../approvals";
+import Approvals from "../approvals";
 import { getLoadingRecordState } from "../records/selectors";
 
 import { NAME } from "./constants";
-import { Nav } from "./nav";
+import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
 import {
@@ -62,6 +62,8 @@ const Container = ({ match, mode }) => {
     recordType,
     primeroModule: record ? record.get("module_id") : params.module
   };
+
+  const [referral, setReferral] = useState({});
 
   const formNav = useSelector(state => getFormNav(state, selectedModule));
   const forms = useSelector(state => getRecordForms(state, selectedModule));
@@ -136,7 +138,9 @@ const Container = ({ match, mode }) => {
     forms,
     mode: containerMode,
     record,
-    recordType: params.recordType
+    recordType: params.recordType,
+    referral,
+    setReferral
   };
 
   const toolbarProps = {
@@ -146,7 +150,9 @@ const Container = ({ match, mode }) => {
     handleFormSubmit,
     shortId: record ? record.get("short_id") : null,
     primeroModule: selectedModule.primeroModule,
-    record
+    record,
+    referral,
+    setReferral
   };
 
   const navProps = {
@@ -171,7 +177,9 @@ const Container = ({ match, mode }) => {
   ]);
 
   useEffect(() => {
-    dispatch(fetchTransitions(params.recordType, params.id));
+    if (!containerMode.isNew) {
+      dispatch(fetchTransitions(params.recordType, params.id));
+    }
   }, [params.recordType, params.id]);
 
   // TODO: When transfer_request be implement change the transition_ype

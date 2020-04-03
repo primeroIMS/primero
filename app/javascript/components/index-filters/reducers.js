@@ -4,10 +4,7 @@ import { SET_FILTERS } from "./actions";
 
 const DEFAULT_STATE = Map({});
 
-export const reducers = namespace => (
-  state = DEFAULT_STATE,
-  { type, payload }
-) => {
+export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case `${namespace}/${SET_FILTERS}`:
       return state.set("filters", fromJS(payload));

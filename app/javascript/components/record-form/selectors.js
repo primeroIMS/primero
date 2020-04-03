@@ -84,7 +84,7 @@ export const getRecordFormsByUniqueId = (state, query) => {
 export const getOption = (state, option, locale) => {
   if (typeof option === "string") {
     const selectedOptions = state
-      .getIn([NAMESPACE, "options", "lookups"], fromJS([]))
+      .getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]))
       .filter(o => o.get("unique_id") === option.replace(/lookup /, ""))
       .first();
 
@@ -95,10 +95,31 @@ export const getOption = (state, option, locale) => {
 };
 
 export const getOptions = state =>
-  state.getIn([NAMESPACE, "options", "lookups"], fromJS([]));
+  state.getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]));
+
+export const getLookups = (state, page = 1, per = 20) => {
+  const data = state.getIn([NAMESPACE, "options", "lookups"], fromJS({}));
+
+  if (data.size > 0) {
+    return fromJS({
+      data: data?.get("data")?.slice((page - 1) * per, page * per),
+      count: data?.get("data")?.size
+    });
+  }
+
+  return fromJS({});
+};
 
 export const getLocations = state =>
   state.getIn([NAMESPACE, "options", "locations"], fromJS([]));
+
+export const getReportingLocations = (state, adminLevel) => {
+  return adminLevel
+    ? getLocations(state).filter(
+        location => location.get("admin_level") === adminLevel
+      )
+    : fromJS([]);
+};
 
 export const getLoadingState = state =>
   state.getIn([NAMESPACE, "loading"], false);

@@ -62,11 +62,7 @@ describe("<Form>", () => {
     });
 
     expect(
-      component
-        .find("FormContext")
-        .first()
-        .props()
-        .getValues().test_field_2
+      component.find("FormContext").first().props().getValues().test_field_2
     ).to.equal("Hello");
   });
 

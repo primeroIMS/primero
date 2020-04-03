@@ -5,7 +5,7 @@ import makeStyles from "@material-ui/styles/makeStyles";
 
 import { useI18n } from "../../i18n";
 import { PageContainer, PageContent } from "../../page";
-import { DisplayData } from "../../display-data";
+import DisplayData from "../../display-data";
 
 import styles from "./styles.css";
 import { selectSupportData } from "./selectors";
@@ -17,7 +17,9 @@ const Support = ({ supportData }) => {
   const renderInformation =
     supportData.toSeq().size > 0 &&
     supportData._keys.map(x => {
-      if (x === "agencies") return;
+      if (["agencies", "id"].includes(x)) {
+        return null;
+      }
 
       return (
         <DisplayData

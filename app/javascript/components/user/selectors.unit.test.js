@@ -10,6 +10,7 @@ const stateWithUser = fromJS({
   user: {
     isAuthenticated: true,
     username: "primero",
+    modules: ["primeromodule-test1", "primeromodule-test2"],
     permissions: {
       incidents: [ACTIONS.MANAGE],
       tracing_requests: [ACTIONS.MANAGE],

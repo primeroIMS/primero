@@ -3,6 +3,8 @@ import uuid from "uuid/v4";
 
 import { queueIndexedDB } from "../db";
 import { METHODS } from "../config";
+import { ENQUEUE_SNACKBAR, generate } from "../components/notifier";
+import { SET_DIALOG_PENDING } from "../components/record-actions/actions";
 
 const generateName = (body = {}) => {
   const { name_first: nameFirst, name_last: nameLast, name } = body;
@@ -14,7 +16,7 @@ const generateName = (body = {}) => {
   return nameFirst || nameLast ? { name: `${nameFirst} ${nameLast}` } : {};
 };
 
-export const handleSuccessCallback = (
+export const handleRestCallback = (
   store,
   successCallback,
   response,
@@ -24,7 +26,7 @@ export const handleSuccessCallback = (
   if (successCallback) {
     if (Array.isArray(successCallback)) {
       successCallback.forEach(callback =>
-        handleSuccessCallback(store, callback, response, json, fromQueue)
+        handleRestCallback(store, callback, response, json, fromQueue)
       );
     } else {
       const isCallbackObject = typeof successCallback === "object";
@@ -53,6 +55,32 @@ export const handleSuccessCallback = (
   }
 };
 
+export const defaultErrorCallback = (store, response, json) => {
+  const messages = json?.errors?.map(error => error.message).join(", ");
+  const errorPayload = [
+    {
+      action: ENQUEUE_SNACKBAR,
+      payload: {
+        messageKey: messages || "errors.api.internal_server",
+        options: {
+          variant: "error",
+          key: generate.messageKey()
+        }
+      }
+    },
+    {
+      action: SET_DIALOG_PENDING,
+      payload: {
+        pending: false
+      }
+    }
+  ];
+
+  if (response.status !== 401) {
+    handleRestCallback(store, errorPayload, response, json);
+  }
+};
+
 export const isOnline = store => {
   return store.getState().getIn(["application", "online"], false);
 };
@@ -73,16 +101,14 @@ export const generateRecordProperties = (store, api, recordType, isRecord) => {
   };
 };
 
-export const partitionObject = (obj, filterFn) => {
-  return Object.keys(obj).reduce(
-    (result, key) => {
-      result[filterFn(obj[key], key) ? 0 : 1][key] = obj[key];
-
-      return result;
-    },
+export const partitionObject = (obj, filterFn) =>
+  Object.keys(obj).reduce(
+    (result, key) =>
+      filterFn(obj[key], key)
+        ? [{ ...result[0], [key]: obj[key] }, result[1]]
+        : [result[0], { ...result[1], [key]: obj[key] }],
     [{}, {}]
   );
-};
 
 export const processAttachments = ({ attachments, id, recordType }) => {
   const actions = Object.keys(attachments).reduce((prev, current) => {
@@ -96,6 +122,7 @@ export const processAttachments = ({ attachments, id, recordType }) => {
 
       const action = isDelete ? "DELETE_ATTACHMENT" : "SAVE_ATTACHMENT";
 
+      // eslint-disable-next-line camelcase
       if (!attachment?.attachment_url) {
         prev.push({
           type: `${recordType}/${action}`,

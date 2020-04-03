@@ -29,14 +29,19 @@ const ActionDialog = ({
   confirmButtonProps,
   omitCloseAfterSuccess,
   maxSize,
-  pending
+  pending,
+  enabledSuccessButton
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
   const handleClose = event => {
     event.stopPropagation();
-    cancelHandler ? cancelHandler() : onClose();
+    if (cancelHandler) {
+      cancelHandler();
+    } else {
+      onClose();
+    }
   };
 
   const handleSuccess = event => {
@@ -69,7 +74,10 @@ const ActionDialog = ({
 
   const submitButton = (
     <div className={css.submitButtonWrapper}>
-      <Button {...{ ...successButtonProps, onClick: handleSuccess }} disabled={pending}>
+      <Button
+        {...{ ...successButtonProps, onClick: handleSuccess }}
+        disabled={pending || !enabledSuccessButton}
+      >
         {confirmButtonLabel}
       </Button>
       {pending && <CircularProgress size={24} className={css.buttonProgress} />}
@@ -109,6 +117,10 @@ const ActionDialog = ({
 
 ActionDialog.displayName = "ActionDialog";
 
+ActionDialog.defaultProps = {
+  enabledSuccessButton: true
+};
+
 ActionDialog.propTypes = {
   cancelHandler: PropTypes.func,
   children: PropTypes.oneOfType([
@@ -120,6 +132,7 @@ ActionDialog.propTypes = {
   dialogSubtitle: PropTypes.string,
   dialogText: PropTypes.string,
   dialogTitle: PropTypes.string,
+  enabledSuccessButton: PropTypes.bool,
   maxSize: PropTypes.string,
   omitCloseAfterSuccess: PropTypes.bool,
   onClose: PropTypes.func,

@@ -21,6 +21,12 @@
   padding-top: 4px;
 }
 
+.circleList {
+  font-size: .9rem;
+  margin-bottom: 2px;
+  color: $(theme.primero.colors.moonYellow);
+}
+
 @media $(theme.breakpoints.only('md')) {
   .root {
     position: absolute;

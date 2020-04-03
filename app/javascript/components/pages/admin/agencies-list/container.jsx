@@ -1,6 +1,6 @@
 import React from "react";
 import { fromJS } from "immutable";
-import { IconButton } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -43,9 +43,14 @@ const Container = () => {
   };
 
   const newAgencyBtn = canAddAgencies ? (
-    <IconButton to={ROUTES.admin_agencies_new} component={Link} color="primary">
-      <AddIcon />
-    </IconButton>
+    <Button
+      to={ROUTES.admin_agencies_new}
+      component={Link}
+      color="primary"
+      startIcon={<AddIcon />}
+    >
+      {i18n.t("buttons.new")}
+    </Button>
   ) : null;
 
   return (

@@ -1,0 +1,16 @@
+.lookupName{
+  min-width: 16em;
+}
+
+.truncateValues {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+
+  & div {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: table-cell;
+  }
+}
