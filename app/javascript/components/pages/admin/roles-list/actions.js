@@ -1,5 +1,5 @@
 import { namespaceActions } from "../../../../libs";
-import NAMESPACE from "../namespace";
+import NAMESPACE from "../roles-form/namespace";
 
 export default namespaceActions(NAMESPACE, [
   "ROLES",

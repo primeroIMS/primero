@@ -430,4 +430,15 @@ describe("<RecordForm /> - Selectors", () => {
       expect(record).to.be.empty;
     });
   });
+
+  describe("getFormsByParentForm", () => {
+    it("should return the forms grouped by parent form", () => {
+      const expected = fromJS({
+        case: mapEntriesToRecord(formSections, R.FormSectionRecord)
+      });
+      const forms = selectors.getFormsByParentForm(stateWithRecords);
+
+      expect(forms).to.deep.equal(expected);
+    });
+  });
 });

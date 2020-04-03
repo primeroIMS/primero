@@ -19,16 +19,19 @@ const actionsAsOptions = (actions, i18n) =>
   }));
 
 const permissionFields = (permissions, i18n) =>
-  (permissions || fromJS({})).keySeq().map(key =>
-    FieldRecord({
-      display_name: i18n.t(`permissions.permission.${key}`),
-      name: `permissions[${key}]`,
-      disabled: true,
-      type: CHECK_BOX_FIELD,
-      editable: false,
-      option_strings_text: actionsAsOptions(permissions.get(key), i18n).toJS()
-    })
-  );
+  (permissions || fromJS({}))
+    .keySeq()
+    .toJS()
+    .map(key =>
+      FieldRecord({
+        display_name: i18n.t(`permissions.permission.${key}`),
+        name: `permissions[${key}]`,
+        disabled: true,
+        type: CHECK_BOX_FIELD,
+        editable: false,
+        option_strings_text: actionsAsOptions(permissions.get(key), i18n).toJS()
+      })
+    );
 
 const groupPermissionOptions = (groupPermissions, i18n) => {
   return (groupPermissions || fromJS([])).map(groupPermission => ({
