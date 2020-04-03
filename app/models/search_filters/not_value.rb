@@ -20,7 +20,7 @@ module SearchFilters
     end
 
     def to_s
-      "!#{field_name}=#{value}"
+      "not[#{field_name}]=#{value}"
     end
   end
 end
