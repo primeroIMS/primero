@@ -13,7 +13,10 @@ import { ROUTES } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
 import { setDialog, setPending } from "../../../record-actions/action-creators";
-import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
+import {
+  selectDialog,
+  selectDialogPending
+} from "../../../record-actions/selectors";
 import { fetchSystemSettings } from "../../../application";
 
 import { form, validations } from "./form";
@@ -35,7 +38,12 @@ const Container = ({ mode }) => {
   const useIdentityProviders = idp?.get("use_identity_provider");
   const providers = idp?.get("identity_providers");
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  const validationSchema = validations(formMode, i18n, useIdentityProviders, providers);
+  const validationSchema = validations(
+    formMode,
+    i18n,
+    useIdentityProviders,
+    providers
+  );
   const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
   const [userData, setUserData] = React.useState({});
 
@@ -43,11 +51,11 @@ const Container = ({ mode }) => {
     selectDialog(USER_CONFIRMATION_DIALOG, state)
   );
   const setUserConfirmationOpen = open => {
-    dispatch(setDialog({ dialog: USER_CONFIRMATION_DIALOG, open: open }));
+    dispatch(setDialog({ dialog: USER_CONFIRMATION_DIALOG, open }));
   };
   const dialogPending = useSelector(state => selectDialogPending(state));
   const setDialogPending = pending => {
-    dispatch(setPending({ pending: pending }));
+    dispatch(setPending({ pending }));
   };
 
   const handleClose = () => {
@@ -70,7 +78,7 @@ const Container = ({ mode }) => {
         failureMessage: i18n.t("user.messages.failure")
       })
     );
-   };
+  };
 
   const bindFormSubmit = () => {
     formRef.current.submitForm();
@@ -122,9 +130,11 @@ const Container = ({ mode }) => {
     ? `${i18n.t("users.label")} ${user.get("full_name")}`
     : i18n.t("users.label");
 
-  const identityOptions = providers ? providers.toJS().map(provider => {
-    return { id: provider.id, display_text: provider.name };
-  }) : [];
+  const identityOptions = providers
+    ? providers.toJS().map(provider => {
+        return { id: provider.id, display_text: provider.name };
+      })
+    : [];
 
   return (
     <LoadingIndicator
@@ -162,7 +172,9 @@ const Container = ({ mode }) => {
           isIdp={useIdentityProviders}
           dialogName={USER_CONFIRMATION_DIALOG}
           userData={userData}
-          userName={formMode.get("isEdit") ? user.get("user_name") : userData.user_name}
+          userName={
+            formMode.get("isEdit") ? user.get("user_name") : userData.user_name
+          }
           identityOptions={identityOptions}
         />
       </PageContent>

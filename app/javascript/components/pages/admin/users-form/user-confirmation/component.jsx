@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../../../i18n";
-import { ActionDialog } from "../../../../action-dialog";
+import ActionDialog from "../../../../action-dialog";
 import { saveUser } from "../action-creators";
 import { ROLE_OPTIONS } from "../constants";
 
@@ -45,22 +45,27 @@ const Component = ({
     variant: "contained",
     autoFocus: true
   };
-  const identity = identityOptions ? identityOptions.find(currentIdentity =>
-    currentIdentity.id === userData.identity_provider_id
-  ) : "";
-  const role = ROLE_OPTIONS.find(currentRole =>
-    currentRole.id === userData.role_unique_id
+  const identity = identityOptions
+    ? identityOptions.find(
+        currentIdentity => currentIdentity.id === userData.identity_provider_id
+      )
+    : "";
+  const role = ROLE_OPTIONS.find(
+    currentRole => currentRole.id === userData.role_unique_id
   );
 
   const dialogContent = (
     <p
       dangerouslySetInnerHTML={{
-        __html: i18n.t(`user.messages.new_confirm_${isIdp ? "" : "non_identity_"}html`, {
-          username: userName,
-          identity: identity?.display_text,
-          role: role?.display_text,
-          email: userData.email
-        })
+        __html: i18n.t(
+          `user.messages.new_confirm_${isIdp ? "" : "non_identity_"}html`,
+          {
+            username: userName,
+            identity: identity?.display_text,
+            role: role?.display_text,
+            email: userData.email
+          }
+        )
       }}
     />
   );
