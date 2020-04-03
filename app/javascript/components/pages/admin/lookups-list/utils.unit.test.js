@@ -1,8 +1,8 @@
 import { expect } from "../../../../test";
 
-import { columns } from "./helpers";
+import { columns } from "./utils";
 
-describe("<LookupsList /> pages/admin/helpers", () => {
+describe("<LookupsList /> pages/admin/utils", () => {
   it("should return default columns", () => {
     const i18n = { t: value => value };
     const expected = [

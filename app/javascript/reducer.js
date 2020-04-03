@@ -67,10 +67,7 @@ const rootReducer = {
       users: reduceReducers(usersListReducer, usersFormReducer),
       agencies: reduceReducers(agenciesListReducer, agenciesFormReducer),
       roles: reduceReducers(rolesListReducer),
-      user_groups: reduceReducers(
-        userGroupsListReducer,
-        userGroupsFormReducer
-      ),
+      user_groups: reduceReducers(userGroupsListReducer, userGroupsFormReducer),
       ...dashboardReducer,
       ...exportListReducer,
       support: reduceReducers(contactInformationReducer, supportReducer),

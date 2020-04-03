@@ -1,6 +1,6 @@
 import { expect } from "../../../../test/unit-test-helpers";
 
-import { localizeData, translateFields } from "./helpers";
+import { localizeData, translateFields } from "./utils";
 
 describe("<AgenciesForm /> - Helpers", () => {
   it("localizeData should return the localized version of the field", () => {

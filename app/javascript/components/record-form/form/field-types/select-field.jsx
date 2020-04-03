@@ -41,7 +41,7 @@ import {
   appendDisabledAgency,
   appendDisabledUser,
   getConnectedFields
-} from "../helpers";
+} from "../utils";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

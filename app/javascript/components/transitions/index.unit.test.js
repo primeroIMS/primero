@@ -8,11 +8,11 @@ describe("<Transitions /> - index", () => {
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
     [
+      "default",
       "fetchTransitions",
       "reducer",
       "selectTransitions",
-      "selectTransitionByTypeAndStatus",
-      "Transitions"
+      "selectTransitionByTypeAndStatus"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

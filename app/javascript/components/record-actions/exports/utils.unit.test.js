@@ -4,12 +4,12 @@ import { expect, stub } from "../../../test";
 import { ACTIONS } from "../../../libs/permissions";
 
 import { ALL_EXPORT_TYPES, EXPORT_FORMAT } from "./constants";
-import * as helper from "./helpers";
+import * as utils from "./utils";
 
-describe("<RecordActions /> - exports/helpers", () => {
+describe("<RecordActions /> - exports/utils", () => {
   describe("with exposed properties", () => {
     it("should have known methods", () => {
-      const clone = { ...helper };
+      const clone = { ...utils };
 
       ["allowedExports", "formatFileName", "exporterFilters"].forEach(
         property => {
@@ -39,7 +39,7 @@ describe("<RecordActions /> - exports/helpers", () => {
         };
       });
 
-      expect(helper.allowedExports(userPermission, i18n, false)).to.deep.equal(
+      expect(utils.allowedExports(userPermission, i18n, false)).to.deep.equal(
         expected
       );
     });
@@ -62,7 +62,7 @@ describe("<RecordActions /> - exports/helpers", () => {
 
       const userPermission = fromJS([ACTIONS.EXPORT_CSV, ACTIONS.EXPORT_JSON]);
 
-      expect(helper.allowedExports(userPermission, i18n, false)).to.deep.equal(
+      expect(utils.allowedExports(userPermission, i18n, false)).to.deep.equal(
         expected
       );
     });
@@ -70,13 +70,13 @@ describe("<RecordActions /> - exports/helpers", () => {
 
   describe("formatFileName", () => {
     it("should set to default filename if any filename was not specified", () => {
-      expect(helper.formatFileName("", "csv")).to.be.empty;
+      expect(utils.formatFileName("", "csv")).to.be.empty;
     });
 
     it("should not return labels if there are not translations", () => {
       const expected = "hello world.csv";
 
-      expect(helper.formatFileName("hello world", "csv")).to.be.equal(expected);
+      expect(utils.formatFileName("hello world", "csv")).to.be.equal(expected);
     });
   });
 
@@ -112,7 +112,7 @@ describe("<RecordActions /> - exports/helpers", () => {
       const expected = { filters: { short_id: shortIds } };
 
       expect(
-        helper.exporterFilters(
+        utils.exporterFilters(
           true,
           false,
           shortIds,
@@ -131,7 +131,7 @@ describe("<RecordActions /> - exports/helpers", () => {
         const expected = { filters: { short_id: shortIds } };
 
         expect(
-          helper.exporterFilters(
+          utils.exporterFilters(
             false,
             false,
             shortIds,
@@ -148,7 +148,7 @@ describe("<RecordActions /> - exports/helpers", () => {
       const expected = { filters: { short_id: shortIds } };
 
       expect(
-        helper.exporterFilters(
+        utils.exporterFilters(
           false,
           true,
           shortIds,
@@ -168,7 +168,7 @@ describe("<RecordActions /> - exports/helpers", () => {
         const expected = { filters: { short_id: shortIds } };
 
         expect(
-          helper.exporterFilters(
+          utils.exporterFilters(
             false,
             true,
             shortIds,
@@ -189,7 +189,7 @@ describe("<RecordActions /> - exports/helpers", () => {
         const expected = { filters: { short_id: shortIds } };
 
         expect(
-          helper.exporterFilters(
+          utils.exporterFilters(
             false,
             true,
             shortIds,

@@ -12,7 +12,7 @@ import { SavedSearchesRecord } from "./records";
 
 const DEFAULT_STATE = fromJS({ data: [] });
 
-export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case FETCH_SAVED_SEARCHES_SUCCESS:
       return state.set(

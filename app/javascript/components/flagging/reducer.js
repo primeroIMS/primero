@@ -12,7 +12,7 @@ import { FlagRecord } from "./records";
 
 const DEFAULT_STATE = Map({ data: [] });
 
-export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case FETCH_FLAGS_SUCCESS:
       return state.set("data", listEntriesToRecord(payload.data, FlagRecord));

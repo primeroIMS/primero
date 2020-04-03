@@ -11,7 +11,7 @@ import {
   NAME_FIELD
 } from "../../../../../config";
 import { valuesToSearchableSelect } from "../../../../../libs";
-import { internalFieldsDirty } from "../helpers";
+import { internalFieldsDirty } from "../utils";
 
 import BulkTransfer from "./bulk-transfer";
 import {

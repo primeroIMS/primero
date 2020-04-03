@@ -1,8 +1,8 @@
 import { expect } from "chai";
 
-import * as helpers from "./helpers";
+import * as utils from "./utils";
 
-describe("<RecordForms /> - Helpers", () => {
+describe("<RecordForms /> - utils", () => {
   describe("compactValues", () => {
     it("returns object of values that changed", () => {
       const initialValues = {
@@ -95,7 +95,7 @@ describe("<RecordForms /> - Helpers", () => {
         ]
       };
 
-      expect(helpers.compactValues(values, initialValues)).to.deep.equal(
+      expect(utils.compactValues(values, initialValues)).to.deep.equal(
         expected
       );
     });

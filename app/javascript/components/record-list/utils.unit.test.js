@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { buildTableColumns } from "./helpers";
+import { buildTableColumns } from "./utils";
 
 const i18n = {
   t: name => {

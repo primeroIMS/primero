@@ -3,14 +3,15 @@ import { fromJS } from "immutable";
 import { expect } from "../../../test";
 import { ACTIONS, RESOURCES } from "../../../libs/permissions";
 
-import * as helper from "./helpers";
+import * as utils from "./utils";
 
-describe("<Dashboard /> - Helpers", () => {
+describe("<Dashboard /> - utils", () => {
   describe("with exposed properties", () => {
     it("should have known methods", () => {
-      const clone = { ...helper };
+      const clone = { ...utils };
 
       [
+        "dashboardType",
         "toData1D",
         "toListTable",
         "toReportingLocationTable",
@@ -73,13 +74,13 @@ describe("<Dashboard /> - Helpers", () => {
         { id: "closed", display_text: "Closed" }
       ];
 
-      expect(helper.toData1D(casesWorkflow, workflowLabels)).to.deep.equal(
+      expect(utils.toData1D(casesWorkflow, workflowLabels)).to.deep.equal(
         expected
       );
     });
 
     it("should not return labels if there are not translations", () => {
-      const { labels } = helper.toData1D(casesWorkflow, []);
+      const { labels } = utils.toData1D(casesWorkflow, []);
 
       expect(labels).to.be.empty;
     });
@@ -150,7 +151,7 @@ describe("<Dashboard /> - Helpers", () => {
         ]
       };
 
-      expect(helper.toListTable(data, labels)).to.deep.equal(expected);
+      expect(utils.toListTable(data, labels)).to.deep.equal(expected);
     });
   });
 
@@ -230,7 +231,7 @@ describe("<Dashboard /> - Helpers", () => {
 
       const i18nMock = { t: () => ({}), locale: "en" };
 
-      const converted = helper.toReportingLocationTable(
+      const converted = utils.toReportingLocationTable(
         data,
         "district",
         i18nMock,
@@ -293,7 +294,7 @@ describe("<Dashboard /> - Helpers", () => {
           }
         }
       });
-      const converted = helper.toApprovalsManager(data);
+      const converted = utils.toApprovalsManager(data);
 
       expect(converted).to.deep.equal(expected);
     });
@@ -332,7 +333,7 @@ describe("<Dashboard /> - Helpers", () => {
           }
         }
       });
-      const converted = helper.toApprovalsManager(data);
+      const converted = utils.toApprovalsManager(data);
 
       expect(converted).to.deep.equal(expected);
     });
@@ -353,7 +354,7 @@ describe("<Dashboard /> - Helpers", () => {
       const expected = fromJS({
         indicators: {}
       });
-      const converted = helper.toApprovalsManager(data);
+      const converted = utils.toApprovalsManager(data);
 
       expect(converted).to.deep.equal(expected);
     });
@@ -462,11 +463,7 @@ describe("<Dashboard /> - Helpers", () => {
         ]
       };
 
-      const converted = helper.toProtectionConcernTable(
-        data,
-        i18nMock,
-        lookups
-      );
+      const converted = utils.toProtectionConcernTable(data, i18nMock, lookups);
 
       expect(converted).to.deep.equal(expected);
     });
@@ -519,7 +516,7 @@ describe("<Dashboard /> - Helpers", () => {
         ]
       };
 
-      const converted = helper.toTasksOverdueTable(data, i18nMock);
+      const converted = utils.toTasksOverdueTable(data, i18nMock);
 
       expect(converted).to.deep.equal(expected);
     });
@@ -563,7 +560,7 @@ describe("<Dashboard /> - Helpers", () => {
         }
       });
 
-      const permitted = helper.permittedSharedWithMe(
+      const permitted = utils.permittedSharedWithMe(
         sharedWithMe,
         userPermissions
       );
@@ -593,7 +590,7 @@ describe("<Dashboard /> - Helpers", () => {
         }
       });
 
-      const permitted = helper.permittedSharedWithMe(
+      const permitted = utils.permittedSharedWithMe(
         sharedWithMe,
         userPermissions
       );
@@ -627,7 +624,7 @@ describe("<Dashboard /> - Helpers", () => {
         }
       });
 
-      const permitted = helper.permittedSharedWithMe(
+      const permitted = utils.permittedSharedWithMe(
         sharedWithMe,
         userPermissions
       );
@@ -638,7 +635,7 @@ describe("<Dashboard /> - Helpers", () => {
 
   describe("taskOverdueHasData", () => {
     it("should respond false when taskOverdue has not data", () => {
-      const result = helper.taskOverdueHasData(
+      const result = utils.taskOverdueHasData(
         fromJS({}),
         fromJS({}),
         fromJS({}),
@@ -649,7 +646,7 @@ describe("<Dashboard /> - Helpers", () => {
     });
 
     it("should respond true when at least one taskOverdue has data", () => {
-      const result = helper.taskOverdueHasData(
+      const result = utils.taskOverdueHasData(
         fromJS({
           name: "dashboard.cases_by_task_overdue_assessment",
           type: "indicator"
@@ -689,7 +686,7 @@ describe("<Dashboard /> - Helpers", () => {
     });
 
     it("should return empty object if data is empty ", () => {
-      expect(helper.teamSharingTable(fromJS({}), i18nMock)).to.be.empty;
+      expect(utils.teamSharingTable(fromJS({}), i18nMock)).to.be.empty;
     });
 
     it("should respond true when at least one taskOverdue has data", () => {
@@ -735,7 +732,7 @@ describe("<Dashboard /> - Helpers", () => {
         ]
       };
 
-      expect(helper.teamSharingTable(data, i18nMock)).to.deep.equals(expected);
+      expect(utils.teamSharingTable(data, i18nMock)).to.deep.equals(expected);
     });
   });
 });

@@ -1,6 +1,6 @@
 import { expect } from "../../../test/unit-test-helpers";
 
-import { headersToColumns } from "./helper";
+import { headersToColumns } from "./utils";
 
 describe("headersToColumns", () => {
   it("should conver the headers to columns", () => {

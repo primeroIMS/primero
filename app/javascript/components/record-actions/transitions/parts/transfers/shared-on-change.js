@@ -1,6 +1,6 @@
 import { fetchTransferUsers } from "../../action-creators";
 import { RECORD_TYPES } from "../../../../../config";
-import { getInternalFields } from "../helpers";
+import { getInternalFields } from "../utils";
 
 export default (data, field, form, queryValues, recordType, dispatch) => {
   const { value } = data;

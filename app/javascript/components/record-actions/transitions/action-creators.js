@@ -2,7 +2,7 @@ import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { REFER_DIALOG, TRANSFER_DIALOG, ASSIGN_DIALOG } from "../constants";
 import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
 
-import { generatePath } from "./parts/helpers";
+import { generatePath } from "./parts/utils";
 import actions from "./actions";
 
 const successCallbackActions = (modalName, message) => [

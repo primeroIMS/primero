@@ -1,6 +1,6 @@
 import { RECORD_TYPES } from "../../../../../config";
 import { fetchTransferUsers } from "../../action-creators";
-import { internalFieldsDirty } from "../helpers";
+import { internalFieldsDirty } from "../utils";
 
 import {
   AGENCY_FIELD,

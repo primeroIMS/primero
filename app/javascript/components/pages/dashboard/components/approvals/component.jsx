@@ -13,8 +13,7 @@ import {
 import { OptionsBox } from "../../../../dashboard";
 import { DASHBOARD_TYPES } from "../../constants";
 import { useI18n } from "../../../../i18n";
-import { toApprovalsManager } from "../../helpers";
-import dashboardType from "../../utils";
+import { dashboardType, toApprovalsManager } from "../../utils";
 import {
   getApprovalsAssessmentPending,
   getApprovalsClosurePending,

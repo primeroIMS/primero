@@ -1,6 +1,6 @@
 import { expect } from "../../test";
 
-import { buildFilter } from "./helpers";
+import { buildFilter } from "./utils";
 
 describe("<Dashboard /> - Helpers", () => {
   describe("toData1D", () => {

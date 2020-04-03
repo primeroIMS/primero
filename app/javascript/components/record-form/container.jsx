@@ -35,7 +35,7 @@ import {
   getErrors,
   getSelectedForm
 } from "./selectors";
-import { compactValues } from "./helpers";
+import { compactValues } from "./utils";
 
 const Container = ({ match, mode }) => {
   let submitForm = null;

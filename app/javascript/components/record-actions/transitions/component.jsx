@@ -6,7 +6,7 @@ import submitForm from "../../../libs/submit-form";
 import { TRANSITIONS_TYPES } from "../../transitions/constants";
 
 import { NAME } from "./constants";
-import { hasProvidedConsent } from "./parts/helpers";
+import { hasProvidedConsent } from "./parts/utils";
 import {
   TransitionDialog,
   ReferralForm,
