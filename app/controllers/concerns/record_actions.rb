@@ -434,7 +434,7 @@ module RecordActions
 
   def select_permitted_fields(record, permitted_property_names, is_remote_request)
     # put here fields requeried if it's a mobile
-    default_fields_to_share = is_remote_request ? [] : %w[_id _rev couchrest-type histories photo_keys document_keys case_id short_id owned_by created_by registration_date]
+    default_fields_to_share = is_remote_request ? [] : %w[_id _rev couchrest-type histories photo_keys document_keys case_id short_id owned_by created_by registration_date incident_id tracing_request_id inquiry_date]
     properties_to_check = default_fields_to_share + permitted_property_names
     record.select do |key, value|
       properties_to_check.include?(key.to_s)
