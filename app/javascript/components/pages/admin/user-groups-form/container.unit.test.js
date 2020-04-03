@@ -1,29 +1,28 @@
 import { fromJS } from "immutable";
 
 import { setupMountedComponent, expect } from "../../../../test";
-import { ACTIONS } from "../../../../libs/permissions";
+import { WRITE_RECORDS } from "../../../../libs/permissions";
 import { FormAction } from "../../../form";
 
-import UsersForm from "./container";
+import UserGroupsForm from "./container";
 
-describe("<UsersList />", () => {
+describe("<UserGroupsForm />", () => {
   let component;
 
   beforeEach(() => {
     const initialState = fromJS({
       records: {
-        users: {
+        user_groups: {
           data: [
             {
-              id: "1",
-              user_name: "Jose"
-            },
-            {
-              id: "2",
-              user_name: "Carlos"
+              id: 1,
+              unique_id: "usergroup-test",
+              name: "Test",
+              description: "Default Test usergroup",
+              core_resource: false
             }
           ],
-          metadata: { total: 2, per: 20, page: 1 }
+          metadata: { total: 1, per: 20, page: 1 }
         }
       },
       application: {
@@ -31,16 +30,16 @@ describe("<UsersList />", () => {
       },
       user: {
         permissions: {
-          users: [ACTIONS.MANAGE]
+          user_groups: [WRITE_RECORDS]
         }
       }
     });
 
     ({ component } = setupMountedComponent(
-      UsersForm,
+      UserGroupsForm,
       { mode: "new" },
       initialState,
-      ["/admin/users"]
+      ["/admin/user_groups"]
     ));
   });
 
@@ -49,7 +48,8 @@ describe("<UsersList />", () => {
   });
 
   it("renders heading with action buttons", () => {
-    expect(component.find("header h1").contains("users.label")).to.be.true;
+    expect(component.find("header h1").contains("user_groups.label")).to.be
+      .true;
     expect(component.find("header button").at(0).contains("buttons.cancel")).to
       .be.true;
     expect(component.find("header button").at(1).contains("buttons.save")).to.be
