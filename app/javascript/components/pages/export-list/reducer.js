@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { mapEntriesToRecord } from "../../../libs";
 
 import actions from "./actions";
-import ExportRecord from "./records";
+import { ExportRecord } from "./records";
 import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = fromJS({});
