@@ -9,7 +9,7 @@ import {
   ReferralForm,
   ReassignForm,
   TransferForm
-} from "./parts";
+} from "./components";
 import mockUsers from "./mocked-users";
 import Transitions from "./component";
 

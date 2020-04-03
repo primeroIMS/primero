@@ -2,7 +2,7 @@ import { expect } from "chai";
 
 import * as constants from "./constants";
 
-describe("<Transitions /> - record-actions/transitions/parts/constants", () => {
+describe("<Transitions /> - record-actions/transitions/components/constants", () => {
   it("should have known constant", () => {
     const clone = { ...constants };
 

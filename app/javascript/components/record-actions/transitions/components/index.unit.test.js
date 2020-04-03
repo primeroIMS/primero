@@ -2,7 +2,7 @@ import { expect } from "chai";
 
 import * as index from "./index";
 
-describe("<Transitions /> - parts/index", () => {
+describe("<Transitions /> - components/index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
