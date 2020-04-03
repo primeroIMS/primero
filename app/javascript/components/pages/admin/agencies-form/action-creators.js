@@ -13,7 +13,7 @@ export const fetchAgency = id => {
 };
 
 export const saveAgency = ({ id, body, saveMethod, message }) => {
-  const redirectPath =
+  const path =
     saveMethod === "update"
       ? `${RECORD_PATH.agencies}/${id}`
       : RECORD_PATH.agencies;
@@ -21,10 +21,7 @@ export const saveAgency = ({ id, body, saveMethod, message }) => {
   return {
     type: actions.SAVE_AGENCY,
     api: {
-      path:
-        saveMethod === "update"
-          ? `${RECORD_PATH.agencies}/${id}`
-          : RECORD_PATH.agencies,
+      path,
       method: saveMethod === "update" ? "PATCH" : "POST",
       body,
       successCallback: {
@@ -37,7 +34,7 @@ export const saveAgency = ({ id, body, saveMethod, message }) => {
           }
         },
         redirectWithIdFromResponse: saveMethod !== "update",
-        redirect: `/admin/${redirectPath}`
+        redirect: `/admin/${path}`
       }
     }
   };
