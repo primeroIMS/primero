@@ -430,4 +430,15 @@ describe("<RecordForm /> - Selectors", () => {
       expect(record).to.be.empty;
     });
   });
+
+  describe("getAssignableForms", () => {
+    it("should return the forms that can be assigned to a role", () => {
+      const expected = fromJS(
+        mapEntriesToRecord(formSections, R.FormSectionRecord)
+      );
+      const forms = selectors.getAssignableForms(stateWithRecords);
+
+      expect(forms).to.deep.equal(expected);
+    });
+  });
 });
