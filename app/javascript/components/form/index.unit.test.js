@@ -6,20 +6,20 @@ describe("<Form /> - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
-    expect(indexValues).to.be.an("object");
     [
-      "default",
-      "FieldRecord",
-      "FormSectionRecord",
-      "FormAction",
-      "FORM_MODE_DIALOG",
-      "TICK_FIELD",
-      "TEXT_FIELD",
       "CHECK_BOX_FIELD",
+      "default",
+      "ERROR_FIELD",
+      "FORM_MODE_DIALOG",
+      "FieldRecord",
+      "FormAction",
+      "FormSectionRecord",
+      "PHOTO_FIELD",
+      "PARENT_FORM",
       "SELECT_FIELD",
       "TEXT_AREA",
-      "PHOTO_FIELD",
-      "ERROR_FIELD",
+      "TEXT_FIELD",
+      "TICK_FIELD",
       "whichFormMode"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);

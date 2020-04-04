@@ -42,6 +42,39 @@ const formSections = {
   }
 };
 
+const invisibleFormSection = {
+  62: {
+    id: 62,
+    unique_id: "invisible_form",
+    name: {
+      en: "Invisible Form",
+      fr: "",
+      ar: "",
+      "ar-LB": "",
+      so: "",
+      es: ""
+    },
+    visible: false,
+    is_first_tab: true,
+    order: 10,
+    order_form_group: 30,
+    parent_form: "case",
+    editable: true,
+    module_ids: ["primeromodule-cp"],
+    form_group_id: "invisible",
+    form_group_name: {
+      en: "Invisible",
+      fr: "",
+      ar: "",
+      "ar-LB": "",
+      so: "",
+      es: ""
+    },
+    fields: [1],
+    is_nested: null
+  }
+};
+
 const fields = {
   1: {
     name: "name_first",
@@ -126,6 +159,11 @@ const stateWithRecords = fromJS({
     }
   }
 });
+
+const stateWithInvisibleForms = stateWithRecords.setIn(
+  ["forms", "formSections"],
+  fromJS(mapEntriesToRecord(invisibleFormSection, R.FormSectionRecord))
+);
 
 describe("<RecordForm /> - Selectors", () => {
   describe("getErrors", () => {
@@ -431,14 +469,28 @@ describe("<RecordForm /> - Selectors", () => {
     });
   });
 
-  describe("getFormsByParentForm", () => {
-    it("should return the forms grouped by parent form", () => {
-      const expected = fromJS({
-        case: mapEntriesToRecord(formSections, R.FormSectionRecord)
-      });
-      const forms = selectors.getFormsByParentForm(stateWithRecords);
+  describe("getAssignableForms", () => {
+    it("should return the forms that can be assigned to a role", () => {
+      const expected = fromJS(
+        mapEntriesToRecord(formSections, R.FormSectionRecord)
+      );
+      const forms = selectors.getAssignableForms(stateWithRecords);
 
       expect(forms).to.deep.equal(expected);
+    });
+
+    it("should return empty if there are not forms to assign", () => {
+      const expected = fromJS([]);
+      const forms = selectors.getAssignableForms(stateWithNoRecords);
+
+      expect(forms).to.be.empty;
+    });
+
+    it("should return empty if the forms are not assignable", () => {
+      const expected = fromJS([]);
+      const forms = selectors.getAssignableForms(stateWithInvisibleForms);
+
+      expect(forms).to.be.empty;
     });
   });
 });

@@ -41,7 +41,7 @@ const FormSectionField = ({ field, checkErrors }) => {
   } = field;
   const i18n = useI18n();
   const { formMode, errors } = useFormContext();
-  const error = errors[name];
+  const error = errors ? errors[name] : undefined;
 
   const errorsToCheck = checkErrors
     ? checkErrors.concat(fieldCheckErrors)
@@ -72,7 +72,7 @@ const FormSectionField = ({ field, checkErrors }) => {
   });
 
   const renderError = () =>
-    checkErrors?.size
+    checkErrors?.size && errors
       ? Object.keys(errors).some(
           errorKey => checkErrors.includes(errorKey) && name.includes(errorKey)
         )

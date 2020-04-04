@@ -2,11 +2,11 @@ import { expect } from "../../../../test/unit-test-helpers";
 
 import * as constants from "./constants";
 
-describe("<RolesList /> - Constants", () => {
+describe("<RolesForm /> - Constants", () => {
   it("should have known properties", () => {
     const clonedActions = { ...constants };
 
-    ["ADMIN_NAMESPACE", "LIST_HEADERS", "NAME"].forEach(property => {
+    ["FIELD_NAMES", "FORM_CHECK_ERRORS", "NAME"].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];
     });

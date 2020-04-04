@@ -2,11 +2,7 @@ import { Map } from "immutable";
 
 import { keyIn } from "../../libs";
 
-const getNamespacePath = namespace => {
-  const defaultPath = ["records", namespace];
-
-  return Array.isArray(namespace) ? defaultPath.flat() : defaultPath;
-};
+const getNamespacePath = namespace => ["records"].concat(namespace);
 
 export const getRecords = (state, namespace) => {
   const data = state.getIn(getNamespacePath(namespace), Map({}));

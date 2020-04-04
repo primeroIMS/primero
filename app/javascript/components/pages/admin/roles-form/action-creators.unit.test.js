@@ -62,7 +62,11 @@ describe("<RolesForm /> - Action Creators", () => {
     };
 
     expect(actionsCreators.saveRole(args)).to.deep.equal(expectedAction);
+  });
 
-    generate.messageKey.restore();
+  afterEach(() => {
+    if (generate.messageKey.restore) {
+      generate.messageKey.restore();
+    }
   });
 });

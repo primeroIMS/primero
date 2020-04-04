@@ -20,6 +20,7 @@ describe("libs/index", () => {
 
     [
       "arrayToObject",
+      "compare",
       "dataToJS",
       "keyIn",
       "listAttachmentFields",
@@ -32,8 +33,7 @@ describe("libs/index", () => {
       "rejectKeys",
       "toBase64",
       "useThemeHelper",
-      "valuesToSearchableSelect",
-      "compare"
+      "valuesToSearchableSelect"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(moduleToTest).to.have.property(property);

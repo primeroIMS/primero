@@ -1,6 +1,9 @@
 import { expect } from "chai";
 import { Map, fromJS } from "immutable";
 
+import { RECORD_TYPES } from "../../config";
+import { GROUP_PERMISSIONS, ACTIONS } from "../../libs/permissions";
+
 import * as selectors from "./selectors";
 
 const stateWithNoRecords = Map({});
@@ -44,8 +47,8 @@ const stateWithRecords = Map({
       field_key: "owned_by_location"
     },
     permissions: fromJS({
-      management: ["self"],
-      resource_actions: { case: ["read"] }
+      management: [GROUP_PERMISSIONS.SELF],
+      resource_actions: { case: [ACTIONS.READ] }
     }),
     locales: ["en", "fr", "ar"],
     defaultLocale: "en",
@@ -157,8 +160,8 @@ describe("Application - Selectors", () => {
     it("should return the system permissions", () => {
       const selector = selectors.getSystemPermissions(stateWithRecords);
       const permissions = {
-        management: ["self"],
-        resource_actions: { case: ["read"] }
+        management: [GROUP_PERMISSIONS.SELF],
+        resource_actions: { case: [ACTIONS.READ] }
       };
 
       expect(selector).to.deep.equal(fromJS(permissions));
@@ -167,9 +170,9 @@ describe("Application - Selectors", () => {
 
   describe("getResourceActions", () => {
     it("should return the resource actions", () => {
-      const selector = selectors.getResourceActions(stateWithRecords, "case");
+      const selector = selectors.getResourceActions(stateWithRecords, RECORD_TYPES.cases);
 
-      expect(selector).to.deep.equal(fromJS(["read"]));
+      expect(selector).to.deep.equal(fromJS([ACTIONS.READ]));
     });
   });
 });

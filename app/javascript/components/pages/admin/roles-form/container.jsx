@@ -5,7 +5,7 @@ import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
-import Form, { FormAction, whichFormMode } from "../../../form";
+import Form, { FormAction, whichFormMode, PARENT_FORM } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
@@ -14,22 +14,24 @@ import {
   getSystemPermissions,
   getResourceActions,
   selectAgencies,
-  selectModules
+  selectModules,
+  RESOURCES
 } from "../../../application";
-import { fetchRoles } from "../roles-list";
+import { fetchRoles, ADMIN_NAMESPACE } from "../roles-list";
 import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
 import bindFormSubmit from "../../../../libs/submit-form";
 import { compare } from "../../../../libs";
 
-import { validations } from "./form";
+import { Validations } from "./forms";
 import {
   getFormsToRender,
   mergeFormSections,
   groupSelectedIdsByParentForm
-} from "./helpers";
+} from "./utils";
 import { fetchRole, clearSelectedRole, saveRole } from "./action-creators";
 import { getRole, getServerErrors, getSavingRecord } from "./selectors";
+import { NAME } from "./constants";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -41,7 +43,7 @@ const Container = ({ mode }) => {
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const primeroModules = useSelector(state => selectModules(state), compare);
   const roles = useSelector(
-    state => getRecords(state, ["admin", "roles"]),
+    state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]),
     compare
   );
   const role = useSelector(state => getRole(state), compare);
@@ -53,11 +55,11 @@ const Container = ({ mode }) => {
     compare
   );
   const roleActions = useSelector(
-    state => getResourceActions(state, "role"),
+    state => getResourceActions(state, RESOURCES.role),
     compare
   );
   const agencyActions = useSelector(
-    state => getResourceActions(state, "agency"),
+    state => getResourceActions(state, RESOURCES.agency),
     compare
   );
   const assignableForms = useSelector(
@@ -66,10 +68,10 @@ const Container = ({ mode }) => {
   );
 
   const formsByParentForm = assignableForms.groupBy(assignableForm =>
-    assignableForm.get("parent_form")
+    assignableForm.get(PARENT_FORM)
   );
 
-  const validationSchema = validations(formMode, i18n);
+  const validationSchema = Validations(formMode, i18n);
 
   const handleSubmit = data => {
     dispatch(
@@ -143,6 +145,11 @@ const Container = ({ mode }) => {
     formSections: formsByParentForm
   });
 
+  const initialValues = groupSelectedIdsByParentForm(
+    role.filter(prop => Boolean(prop)),
+    assignableForms
+  ).toJS();
+
   return (
     <LoadingIndicator
       hasData={formMode.get("isNew") || role?.size > 0}
@@ -160,9 +167,7 @@ const Container = ({ mode }) => {
           onSubmit={handleSubmit}
           ref={formRef}
           validations={validationSchema}
-          initialValues={groupSelectedIdsByParentForm(
-            role.filter(v => Boolean(v))
-          ).toJS()}
+          initialValues={initialValues}
           formErrors={formErrors}
         />
       </PageContent>
@@ -170,7 +175,7 @@ const Container = ({ mode }) => {
   );
 };
 
-Container.displayName = "RolesForm";
+Container.displayName = NAME;
 
 Container.propTypes = {
   mode: PropTypes.string.isRequired
