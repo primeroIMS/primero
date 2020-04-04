@@ -22,12 +22,12 @@ import { getAssignableForms } from "../../../record-form";
 import bindFormSubmit from "../../../../libs/submit-form";
 import { compare } from "../../../../libs";
 
-import { validations } from "./form";
+import { Validations } from "./forms";
 import {
   getFormsToRender,
   mergeFormSections,
   groupSelectedIdsByParentForm
-} from "./helpers";
+} from "./utils";
 import { fetchRole, clearSelectedRole, saveRole } from "./action-creators";
 import { getRole, getServerErrors, getSavingRecord } from "./selectors";
 
@@ -69,7 +69,7 @@ const Container = ({ mode }) => {
     assignableForm.get("parent_form")
   );
 
-  const validationSchema = validations(formMode, i18n);
+  const validationSchema = Validations(formMode, i18n);
 
   const handleSubmit = data => {
     dispatch(
@@ -161,8 +161,7 @@ const Container = ({ mode }) => {
           ref={formRef}
           validations={validationSchema}
           initialValues={groupSelectedIdsByParentForm(
-            role.filter(v => Boolean(v))
-          ).toJS()}
+            role.filter(v => Boolean(v)), assignableForms).toJS()}
           formErrors={formErrors}
         />
       </PageContent>

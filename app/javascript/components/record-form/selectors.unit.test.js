@@ -431,12 +431,12 @@ describe("<RecordForm /> - Selectors", () => {
     });
   });
 
-  describe("getFormsByParentForm", () => {
-    it("should return the forms grouped by parent form", () => {
-      const expected = fromJS({
-        case: mapEntriesToRecord(formSections, R.FormSectionRecord)
-      });
-      const forms = selectors.getFormsByParentForm(stateWithRecords);
+  describe("getAssignableForms", () => {
+    it("should return the forms that can be assigned to a role", () => {
+      const expected = fromJS(
+        mapEntriesToRecord(formSections, R.FormSectionRecord)
+      );
+      const forms = selectors.getAssignableForms(stateWithRecords);
 
       expect(forms).to.deep.equal(expected);
     });

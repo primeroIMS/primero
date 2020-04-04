@@ -8,17 +8,17 @@ describe("<RolesForm /> - Actions", () => {
 
     expect(clonedActions).to.be.an("object");
     [
-      "CLEAR_SELECTED_ROLE",
-       "FETCH_ROLE",
-       "FETCH_ROLE_STARTED",
-       "FETCH_ROLE_SUCCESS",
-       "FETCH_ROLE_FINISHED",
-       "FETCH_ROLE_FAILURE",
-       "SAVE_ROLE",
-       "SAVE_ROLE_STARTED",
-       "SAVE_ROLE_FINISHED",
-       "SAVE_ROLE_SUCCESS",
-       "SAVE_ROLE_FAILURE"
+      "FETCH_ROLE",
+      "FETCH_ROLE_FAILURE",
+      "FETCH_ROLE_FINISHED",
+      "FETCH_ROLE_STARTED",
+      "FETCH_ROLE_SUCCESS",
+      "SAVE_ROLE",
+      "SAVE_ROLE_FAILURE",
+      "SAVE_ROLE_FINISHED",
+      "SAVE_ROLE_STARTED",
+      "SAVE_ROLE_SUCCESS",
+      "CLEAR_SELECTED_ROLE"
     ].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];

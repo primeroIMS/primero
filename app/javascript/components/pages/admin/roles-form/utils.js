@@ -3,12 +3,12 @@ import { fromJS } from "immutable";
 import { RECORD_TYPES } from "../../../../config";
 
 import {
-  form,
-  roleForms,
-  agencyForms,
-  resourcesForm,
-  formSectionsForm
-} from "./form";
+  RolesMainForm,
+  ResourcesForm,
+  AssociatedRolesForm,
+  AssociatedFormSectionsForm,
+  AssociatedAgenciesForm
+} from "./forms";
 
 export const getFormsToRender = ({
   primeroModules,
@@ -23,22 +23,22 @@ export const getFormsToRender = ({
 }) =>
   fromJS(
     [
-      form(
+      RolesMainForm(
         primeroModules,
         systemPermissions.get("management", fromJS([])),
         i18n,
         formMode
       ),
-      roleForms(roles, roleActions, i18n, formMode),
-      agencyForms(agencies, agencyActions, i18n, formMode),
-      resourcesForm(
+      AssociatedRolesForm(roles, roleActions, i18n, formMode),
+      AssociatedAgenciesForm(agencies, agencyActions, i18n, formMode),
+      ResourcesForm(
         systemPermissions
           .get("resource_actions", fromJS({}))
           .filterNot((v, k) => ["role", "agency"].includes(k)),
         i18n,
         formMode
       ),
-      formSectionsForm(formSections, i18n, formMode)
+      AssociatedFormSectionsForm(formSections, i18n, formMode)
     ].flat()
   );
 

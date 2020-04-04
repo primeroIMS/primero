@@ -2,12 +2,19 @@ import { expect } from "chai";
 
 import * as index from "./index";
 
-describe("pages/admin/<RolesForm> - index", () => {
+describe("pages/admin/<RolesForm>/forms - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
-    ["default", "reducers", "NAMESPACE"].forEach(property => {
+    [
+      "AssociatedAgenciesForm",
+      "AssociatedFormSectionsForm",
+      "AssociatedRolesForm",
+      "ResourcesForm",
+      "RolesMainForm",
+      "Validations"
+    ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });
