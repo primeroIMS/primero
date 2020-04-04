@@ -1,9 +1,9 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../../../../test/unit-test-helpers";
+import { expect } from "../../../../test";
 
 import actions from "./actions";
-import { reducers } from "./reducers";
+import reducers from "./reducer";
 
 describe("<RolesForm /> - Reducers", () => {
   it("should handle FETCH_ROLE_STARTED", () => {

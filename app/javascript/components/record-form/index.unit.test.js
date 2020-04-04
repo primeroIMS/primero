@@ -8,26 +8,26 @@ describe("<RecordForm /> - index", () => {
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
     [
+      "FieldRecord",
+      "FormSectionField",
       "constructInitialValues",
       "default",
       "fetchForms",
+      "fetchLookups",
       "fetchOptions",
-      "FieldRecord",
-      "FormSectionField",
+      "getAssignableForms",
       "getErrors",
       "getFirstTab",
       "getFormNav",
       "getLoadingState",
       "getLocations",
+      "getLookups",
       "getOption",
       "getRecordForms",
       "getRecordFormsByUniqueId",
       "getSelectedForm",
       "reducers",
-      "setSelectedForm",
-      "getAssignableForms",
-      "fetchLookups",
-      "getLookups"
+      "setSelectedForm"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

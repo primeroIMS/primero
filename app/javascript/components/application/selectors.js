@@ -12,7 +12,7 @@ export const getAgenciesWithService = (state, service) =>
 
 export const selectModules = state => state.getIn([NAMESPACE, "modules"], fromJS([]));
 
-export const selectLocales = state => state.getIn([NAMESPACE, "locales"], []);
+export const selectLocales = state => state.getIn([NAMESPACE, "locales"], fromJS([]));
 
 export const selectUserModules = state =>
   state.getIn([NAMESPACE, "modules"], Map({})).filter(m => {
@@ -37,7 +37,7 @@ export const getReportingLocationConfig = state =>
   state.getIn([NAMESPACE, "reportingLocationConfig"], fromJS({}));
 
 export const getAgencyLogos = state =>
-  state.getIn(["records", "support", "data", "agencies"], []);
+  state.getIn(["records", "support", "data", "agencies"], fromJS([]));
 
 export const getSystemPermissions = state =>
   state.getIn([NAMESPACE, "permissions"], fromJS({}));

@@ -7,7 +7,7 @@ describe("<RolesList /> - Constants", () => {
     const clonedActions = { ...constants };
 
     expect(clonedActions).to.be.an("object");
-    ["LIST_HEADERS", "NAME"].forEach(property => {
+    ["LIST_HEADERS", "NAME", "ADMIN_NAMESPACE"].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];
     });

@@ -2,9 +2,9 @@ import { fromJS } from "immutable";
 
 import { expect } from "../../../../test";
 
-import * as helpers from "./helpers";
+import * as helpers from "./utils";
 
-describe("pages/admin/<RolesForm> - helpers", () => {
+describe("pages/admin/<RolesForm> - utils", () => {
   describe("getFormsToRender", () => {
     it("should return the forms to render", () => {
       const formsToRender = helpers.getFormsToRender({
