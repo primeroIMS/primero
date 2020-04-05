@@ -9,7 +9,7 @@ import makeStyles from "@material-ui/styles/makeStyles";
 
 import { BarChart as BarChartGraphic, TableValues } from "../../charts";
 import { getLoading, getErrors } from "../../index-table/selectors";
-import { LoadingIndicator } from "../../loading-indicator";
+import LoadingIndicator from "../../loading-indicator";
 import { useI18n } from "../../i18n";
 import { PageContainer, PageContent, PageHeading } from "../../page";
 
@@ -31,7 +31,7 @@ const Report = ({ match }) => {
 
   const errors = useSelector(state => getErrors(state, namespace));
   const loading = useSelector(state => getLoading(state, namespace));
-  const report = useSelector(state => getReport(state, params.id));
+  const report = useSelector(state => getReport(state));
 
   const loadingIndicatorProps = {
     overlay: true,

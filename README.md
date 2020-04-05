@@ -61,15 +61,15 @@ On MacOS:
 
     $ #If xcode-select is not installed yet, install it.
     $ xcode-select --install
-    $ brew install libpq imagemagick postgresql libsodium
+    $ brew install libpq imagemagick postgresql libsodium p7zip
 
 On Ubuntu:
 
-    $ sudo apt-get install -y libpq imagemagick libsodium
+    $ sudo apt-get install -y libpq imagemagick libsodium-dev p7zip
 
 On Fedora:
 
-    $ sudo dnf install postgresql-devel ImageMagick libsodium-devel
+    $ sudo dnf install postgresql-devel ImageMagick libsodium-devel p7zip
 
 ### Starting development
 
@@ -86,7 +86,6 @@ Prepare development configuration. Review the created configurations files and a
     $ cp config/sunspot.yml.development config/sunspot.yml
 
 Set development environment variables:
-
     $ echo "export PRIMERO_SECRET_KEY_BASE=PRIMERO_SECRET_KEY_BASE" >> ~/.bashrc
     $ echo "export DEVISE_SECRET_KEY=DEVISE_SECRET_KEY" >> ~/.bashrc
     $ echo "export DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY" >> ~/.bashrc
@@ -97,6 +96,9 @@ You may be pedantic about the secrets in development, and set them to something 
 Optionally use the command below to generate a random secret:
 
     $ rails secret
+
+Set this enviroment variable with a 32 bytes secret value:
+    $ echo "export PRIMERO_MESSAGE_SECRET=PRIMERO_MESSAGE_SECRET" >> ~/.bashrc
 
 Make sure that the secrets we set earlier are in your environment (replace .basharc with the rc file for your shell if you use a shell other than bash):
 
@@ -118,7 +120,7 @@ You may start the development Rails server on port 3000:
 
 And in a separate terminal window, the development Rails Webpacker server:
 
-    $ npm run serve
+    $ npm run dev
 
 Alternatively, to bring everything up together you can use:
 

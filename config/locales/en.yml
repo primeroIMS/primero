@@ -16,7 +16,9 @@ en:
   "false": "No"
   valid: "Valid"
   invalid: "Invalid"
-  offline: The application is offline.
+  offline: "Offline"
+  connection_lost: "Connection Lost"
+  connected: "Connected"
   name: "Name"
   home:
     fr: "Français"
@@ -154,21 +156,26 @@ en:
   settings:
     title: "Settings"
     navigation:
-      agency: "Agency"
+      agencies: "Agencies"
       roles: "Roles"
       modules: "Modules"
       system_settings: "System Settings"
       matching: "Matching"
       users: "Users"
+      user_groups: "User Groups"
       forms: "Form"
+      lookups: "Lookups"
       locations: "Locations"
       audit_logs: "Audit Logs"
+      contact_information: "Contact Information"
 
   buttons:
+    download: "Download"
     delete: "Delete"
     disable: "Disable"
     enable: "Enable"
     save: "Save"
+    close: "Close"
     save_and_add_service_provision: "Save and Add Service Provision"
     login: "Log in"
     logout: "Log out"
@@ -179,6 +186,7 @@ en:
     submit: "Submit"
     export: "Export"
     import: "Import"
+    new: "New"
     change_password: "Change Password"
     enable_photo_wall: "Enable photo wall"
     disable_photo_wall: "Disable photo wall"
@@ -191,6 +199,7 @@ en:
     find_tracing_match: "Find Tracing Match"
     filter_restore: "Restore to System Settings"
     flag_records: "Flag"
+    flags: "Flags"
     flag_model: "Flag %{model}"
     unflag_model: "Unflag %{model}"
     unflag_model_history: "Flag History %{model}"
@@ -203,6 +212,7 @@ en:
     transfer: "Transfer"
     reassign: "Assign"
     referral: "Refer"
+    referral_again: "Refer Again"
     mark_for_mobile: "Mark for mobile"
     unmark_for_mobile: "Un-mark for mobile"
     approve_bia: "Approve BIA"
@@ -283,7 +293,7 @@ en:
       by_date: 'By Date'
       date: 'Date'
       approvals:
-        pending: "Pending Approvals"
+        pending: "Pending"
         approved: "Approved"
         rejected: "Rejected"
       enabled_disabled: "Enabled / Disabled"
@@ -323,6 +333,11 @@ en:
     notes_form_notes: 'Notes'
     case_worker_code: "Case Worker Code"
     agency: "Agency"
+    transfer_accepted: "By clicking 'Accept' you accept the responsibility for this case; once you click ‘Accept' you will become the record owner in the system."
+    transfer_rejected: "By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this case at this time. Please enter a reason that you are rejecting this case; once you click ‘Reject’ you will no longer have access to this case record."
+    transfer_reject_reason_label: "Rejection Reason"
+    transfer_accepted_success: "Case transfer successfully accepted."
+    transfer_accepted_rejected: "Case %{record_id} transfer rejected."
     request_approval_select: "Request approval for"
     request_approve_bia: "Approve Assessment?"
     request_approve_case_plan: "Approve Case Plan?"
@@ -330,6 +345,26 @@ en:
     request_approval_success_bia: "Approval requested for Assessment form."
     request_approval_success_case_plan: "Approval requested for Case Plan form."
     request_approval_success_closure: "Approval requested for Closure form."
+    request_approval_failure: "An error occurred, please contact support."
+    revoke_failure: "An error occurred while revoking the %{transition_type}, please contact support."
+    approved_success_closure: "Closure - Approved"
+    rejected_success_closure: "Closure - Not Approved"
+    approved_success_case_plan: "Case Plan - Approved"
+    rejected_success_case_plan: "Case Plan - Not Approved"
+    approved_success_bia: "Assessment - Approved"
+    rejected_success_bia: "Assessment - Not Approved"
+    approval_select: "The form for"
+    approval_radio: "I would like to"
+    approval_radio_accept: "Approve"
+    approval_radio_reject: "Not Approve"
+    approval_comments: "Comments"
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
+    revoke_message: "By clicking ‘Revoke’, you will remove the %{transition_type} recipient’s access to the case."
+    revoke_success_message: "Case %{case_id} %{transition_type} to %{recipient_username} revoked."
+    referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
+    referral_done_success: "Referral done."
 
     order_by:
       most_recently: "Most recently"
@@ -543,13 +578,16 @@ en:
 
     messages:
       update_success: "Case %{record_id} was successfully updated."
+      update_success_queue: "Case %{record_id} was successfully updated in background"
       investigation_error_message: "Please confirm the flagged record should be marked as investigated, and enter any details you have."
       reunite_error_message: "Please confirm this case has been reunited with family or caregivers, and enter any details you have."
       undo_reunite_error_message: "Please confirm case should be marked as Not Reunited, and enter any details you have."
       see_full_size: "Click on the Image to see full size"
       creation_success: "Case record successfully created."
+      creation_success_queue: "Case record successfully created in background."
       not_found: "Child with the given id is not found"
       confirm_duplicate: "Are you sure you want to continue? If so, click OK. If not, click Cancel."
+      case_disabled: "Case is disabled"
 
     actions:
       mark_as_investigated: "Mark as Investigated"
@@ -600,6 +638,14 @@ en:
     incident_location: "Incident Location"
     violations: "Violations"
     social_worker: "Social Worker"
+    request_approval_select: "Request approval for"
+    request_approve_bia: "Approve Assessment?"
+    request_approve_case_plan: "Approve Case Plan?"
+    request_approve_closure: "Approve Closure?"
+    request_approval_success_bia: "Approval requested for Assessment form."
+    request_approval_success_case_plan: "Approval requested for Case Plan form."
+    request_approval_success_closure: "Approval requested for Closure form."
+    request_approval_failure: "An error occurred, please contact support."
     selectable_date_options:
       date_of_first_report: "Interview Date"
       incident_date_derived: "Incident Date"
@@ -626,6 +672,17 @@ en:
       record_state: "Record State"
       interview_date: "Interview Date"
       by_date: "By Date"
+    transfer_accepted: "By clicking 'Accept' you accept the responsibility for this case; once you click ‘Accept' you will become the record owner in the system."
+    transfer_rejected: "By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this case at this time. Please enter a reason that you are rejecting this case; once you click ‘Reject’ you will no longer have access to this case record."
+    transfer_reject_reason_label: "Rejection Reason"
+    transfer_accepted_success: "Case transfer successfully accepted."
+    transfer_accepted_rejected: "Case %{record_id} transfer rejected."
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
+    export: "Export"
+    referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
+    referral_done_success: "Referral done."
 
   incident:
     label: "Incident ID"
@@ -662,7 +719,9 @@ en:
 
     messages:
       update_success: "Incident %{record_id} was successfully updated."
+      update_success_queue: "Incident %{record_id} was successfully updated in background."
       creation_success: "Incident record successfully created."
+      creation_success_queue: "Incident record successfully created in background"
 
     view: "View Incident %{short_id}"
     edit: "Edit Incident"
@@ -731,6 +790,8 @@ en:
     messages:
       update_success: "Tracing Request %{record_id} was successfully updated."
       creation_success: "Tracing Request record successfully created."
+      update_success_queue: "Tracing Request %{record_id} was successfully updated in background."
+      creation_success_queue: "Tracing Request record successfully created in background."
 
     view: "View Tracing Request %{short_id}"
     edit: "Edit Tracing Request"
@@ -763,6 +824,25 @@ en:
       separation_cause: "Separation Cause"
       record_state: "Record State"
       by_date: "By Date"
+    referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
+    referral_done_success: "Referral done."
+    transfer_accepted: "By clicking 'Accept' you accept the responsibility for this case; once you click ‘Accept' you will become the record owner in the system."
+    transfer_rejected: "By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this case at this time. Please enter a reason that you are rejecting this case; once you click ‘Reject’ you will no longer have access to this case record."
+    transfer_reject_reason_label: "Rejection Reason"
+    transfer_accepted_success: "Case transfer successfully accepted."
+    transfer_accepted_rejected: "Case %{record_id} transfer rejected."
+    assessment: "Assessment"
+    case_plan: "Case Plan"
+    closure: "Closure"
+    export: "Export"
+    request_approval_select: "Request approval for"
+    request_approve_bia: "Approve Assessment?"
+    request_approve_case_plan: "Approve Case Plan?"
+    request_approve_closure: "Approve Closure?"
+    request_approval_success_bia: "Approval requested for Assessment form."
+    request_approval_success_case_plan: "Approval requested for Case Plan form."
+    request_approval_success_closure: "Approval requested for Closure form."
+    request_approval_failure: "An error occurred, please contact support."
 
   potential_matches:
     empty: "Please access matching through Tracing Requests"
@@ -958,12 +1038,19 @@ en:
     error_in_updating: "Error in updating the Agency details."
 
   agency:
-    edit: 'Edit Agency'
-    name: 'Agency Name'
-    code: 'Agency Code'
-    services: 'Agency Services'
-    logo_small: 'Small Logo'
-    logo_large: 'Large Logo'
+    edit: "Edit Agency"
+    name: "Agency Name"
+    code: "Agency Code"
+    services: "Agency Services"
+    logo_icon: "Icon Logo"
+    logo_large: "Large Logo"
+    logo_enabled: "Logo Enabled?"
+    description: "Description"
+    telephone: "Telephone"
+    disabled: "Disabled"
+    messages:
+      created: "Agency was successfully created."
+      updated: "Agency was successfully updated."
 
   system_settings:
     label: "System Settings"
@@ -1045,6 +1132,9 @@ en:
     description: "Description"
     successfully_updated: "User Group details are successfully updated."
     error_in_updating: "Error in updating the User Group details."
+    messages:
+      created: "User Group was successfully created."
+      updated: "User Group was successfully updated."
 
   user:
     label: "user"
@@ -1592,7 +1682,7 @@ en:
     password_title: "Create Password"
     password_label: "Please enter a password that will encrypt your file."
     password_mandatory: "Enter a valid password"
-    password_extra_info: "This password will be associated with the exported file and will need to be entered by anyone opening this file in the future."
+    password_extra_info: "Password must be at least 8 characters. This password will be associated with the exported file and will need to be entered by anyone opening this file in the future."
     file_name: "Create your own file name (Optional)"
     export_type: "Type of export"
 
@@ -1865,11 +1955,33 @@ en:
     approval_assessment_pending_group: "Assessment"
     approval_case_plan_pending_group: "Case Plan"
     approval_closure_pending_group: "Closure"
+    dash_shared_with_me: "Shared With Me"
+    shared_with_me_total_referrals: "Total Referrals"
+    shared_with_me_new_referrals: "New Referrals"
+    shared_with_me_transfers_awaiting_acceptance: "Transfers Awaiting Acceptance"
+    dash_shared_with_others: "Shared With Others"
+    shared_with_others_referrals: "Referrals"
+    shared_with_others_pending_transfers: "Pending Transfers"
+    shared_with_others_rejected_transfers: "Rejected Transfers"
+    dash_group_overview: "My Group's Cases"
+    group_overview_open: "Open"
+    group_overview_closed: "Closed"
+    case_overview: "My Cases"
+    new_or_updated: "New or Updated"
+    dash_shared_from_my_team: "Shared From My Team"
+    shared_from_my_team_referrals: "Referrals"
+    shared_from_my_team_pending_transfers: "Pending Transfers"
+    shared_from_my_team_rejected_transfers: "Rejected Transfers"
+    dash_shared_with_my_team: "Shared With My Team"
+    shared_with_my_team_referrals: "Referrals"
+    shared_with_my_team_pending_transfers: "Pending Transfers"
 
   errors:
     try_again: "Try again"
     error_loading: "Error Loading Record(s)"
     not_found: "No Record(s) Found"
+    api:
+      internal_server: "An error occurred, please contact support."
     template:
       header:
         one: "1 error prohibited this %{model} from being saved"
@@ -1880,6 +1992,9 @@ en:
     agencies:
       logo_size: "Please upload a file smaller than 10mb"
       logo_format: "Please upload a valid logo file (jpg, gif, or png)"
+
+    attachments:
+      maximum: "You have exceeded the maximum number of attachments per record: %{number}"
 
     models:
       flags:
@@ -2101,6 +2216,8 @@ en:
     previous: "Previous"
     save: "Save"
     request_approval: "Request Approval"
+    approvals: "Approvals"
+    revoke: "Revoke"
     description:
       valid: "Valid record"
       invalid: "Invalid record"
@@ -2125,7 +2242,8 @@ en:
 
   exports:
     no_records: "No Records Available!"
-    queueing: "Generating the export file"
+    queueing: "Generating the export file%{file_name}"
+    go_to_exports: "Go to Exports page to download"
     pdf:
       all: PDF
       one: PDF
@@ -2134,6 +2252,7 @@ en:
       all: Photo Wall
       one: Photo Wall
       selected: Selected to Photo Wall
+      success_message: "Creating Photowall%{file_name} Cases without photos will not be included."
     case_pdf:
       all: PDF
       one: PDF
@@ -2258,6 +2377,7 @@ en:
     no_records_selected: "No records selected"
     failure: "%{record_type} %{id} referral failed (check that consent fields are selected)"
     success: "%{record_type} %{id} successfully referred"
+    error: "An error occurred referring the case, please contact support."
     failure_batch: "%{failed_count} Referral(s) failed (check that consent fields are selected)"
     success_batch: "%{success_count} Referral(s) successfully made"
     to_user_local_status_label: "Status"

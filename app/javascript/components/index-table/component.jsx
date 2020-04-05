@@ -7,15 +7,16 @@ import { push } from "connected-react-router";
 import uniqBy from "lodash/uniqBy";
 import isEmpty from "lodash/isEmpty";
 import startsWith from "lodash/startsWith";
-import { List } from "immutable";
+import { List, fromJS } from "immutable";
 
 import { dataToJS } from "../../libs";
-import { LoadingIndicator } from "../loading-indicator";
+import LoadingIndicator from "../loading-indicator";
 import { getFields } from "../record-list/selectors";
-import { getOptions } from "../record-form/selectors";
+import { getOptions, getLoadingState } from "../record-form/selectors";
 import { selectAgencies } from "../application/selectors";
 import { useI18n } from "../i18n";
 import { STRING_SOURCES_TYPES, RECORD_PATH } from "../../config";
+import { ALERTS_COLUMNS } from "../record-list/constants";
 
 import { NAME } from "./config";
 import { getRecords, getLoading, getErrors, getFilters } from "./selectors";
@@ -30,7 +31,8 @@ const Component = ({
   onRowClick,
   bypassInitialFetch,
   selectedRecords,
-  setSelectedRecords
+  setSelectedRecords,
+  localizedFields
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -132,12 +134,32 @@ const Component = ({
     }, List());
   }
 
+  if (localizedFields && records) {
+    translatedRecords = records.map(current => {
+      const translatedFields = localizedFields.reduce((acc, field) => {
+        const translatedValue = current.getIn([field, i18n.locale], fromJS({}));
+
+        return acc.merge({
+          [field]:
+            field === "values"
+              ? current
+                  .get(field)
+                  .map(value => value.getIn(["display_text", i18n.locale], ""))
+                  .join(", ")
+              : translatedValue
+        });
+      }, fromJS({}));
+
+      return current.merge(translatedFields);
+    });
+  }
+
   useEffect(() => {
     if (!bypassInitialFetch) {
       dispatch(
         onTableChange({
           recordType,
-          options: { per, ...defaultFilters.merge(filters).toJS() }
+          data: { per, ...defaultFilters.merge(filters).toJS() }
         })
       );
     }
@@ -165,19 +187,24 @@ const Component = ({
       ...options,
       ...(() => {
         switch (action) {
-          case "sort":
+          case "sort": {
+            const customSortFields = {
+              photo: "has_photo"
+            };
+            const { sortDirection, name } = tableColumns[activeColumn];
+
             if (typeof sortOrder === "undefined") {
-              options.order = tableColumns[activeColumn].sortDirection;
+              options.order = sortDirection;
             } else {
-              options.order =
-                sortOrder === tableColumns[activeColumn].sortDirection
-                  ? "asc"
-                  : "desc";
+              options.order = sortOrder === sortDirection ? "asc" : "desc";
             }
             setSortOrder(options.order);
-            options.order_by = tableColumns[activeColumn].name;
+            options.order_by = Object.keys(customSortFields).includes(name)
+              ? customSortFields[name]
+              : name;
             options.page = page === 0 ? 1 : page;
             break;
+          }
           case "changePage":
             options.page = tableState.page >= page ? page + 1 : page - 1;
             break;
@@ -188,7 +215,7 @@ const Component = ({
     };
 
     if (validActions.includes(action)) {
-      dispatch(onTableChange({ recordType, options: selectedFilters }));
+      dispatch(onTableChange({ recordType, data: selectedFilters }));
     }
   };
 
@@ -212,41 +239,69 @@ const Component = ({
     onRowsSelect: (currentRowsSelected, allRowsSelected) => {
       setSelectedRecords(allRowsSelected.map(ars => ars.dataIndex));
     },
-    onColumnSortChange: () => setSelectedRecords([]),
+    onColumnSortChange: () => selectedRecords && setSelectedRecords([]),
     onTableChange: handleTableChange,
     rowsPerPageOptions: [20, 50, 75, 100],
     page: page - 1,
-    onRowClick: (rowData, rowMeta) => {
-      if (onRowClick) {
-        onRowClick(records.get(rowMeta.dataIndex));
-      } else {
-        dispatch(push(`${url}/${records.getIn([rowMeta.dataIndex, "id"])}`));
+    onCellClick: (colData, cellMeta) => {
+      const { dataIndex } = cellMeta;
+
+      if (!(colData instanceof Object)) {
+        if (onRowClick) {
+          onRowClick(records.get(dataIndex));
+        } else {
+          dispatch(push(`${url}/${records.getIn([dataIndex, "id"])}`));
+        }
       }
     },
     ...tableOptionsProps
   };
 
+  const tableData =
+    validRecordTypes || localizedFields
+      ? dataToJS(translatedRecords)
+      : dataToJS(records);
+
+  const rowKeys =
+    typeof tableData?.[0] !== "undefined" ? Object.keys(tableData[0]) : [];
+
+  const dataWithAlertsColumn =
+    rowKeys &&
+    rowKeys.includes(ALERTS_COLUMNS.alert_count, ALERTS_COLUMNS.flag_count)
+      ? tableData.map(row => ({
+          ...row,
+          alerts: {
+            // eslint-disable-next-line camelcase
+            alert_count: row?.alert_count || 0,
+            // eslint-disable-next-line camelcase
+            flag_count: row?.flag_count || 0
+          }
+        }))
+      : tableData;
+
   const tableOptions = {
     columns: componentColumns,
     options,
-    data: validRecordTypes ? dataToJS(translatedRecords) : dataToJS(records)
+    data: dataWithAlertsColumn
   };
+
+  const formsAreLoading = useSelector(state => getLoadingState(state));
+  const dataIsLoading = loading || formsAreLoading || !allLookups.size > 0;
 
   const loadingIndicatorProps = {
     overlay: true,
-    hasData: !!records,
+    hasData: !dataIsLoading && Boolean(records?.size),
     type: recordType,
-    loading,
-    errors
+    loading: dataIsLoading,
+    errors,
+    fromTableList: true
   };
 
-  const DataTable = () => (
+  return (
     <LoadingIndicator {...loadingIndicatorProps}>
       <MUIDataTable {...tableOptions} />
     </LoadingIndicator>
   );
-
-  return <DataTable />;
 };
 
 Component.displayName = NAME;
@@ -259,10 +314,11 @@ Component.propTypes = {
   bypassInitialFetch: PropTypes.bool,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   defaultFilters: PropTypes.object,
+  localizedFields: PropTypes.arrayOf(PropTypes.string),
   onRowClick: PropTypes.func,
   onTableChange: PropTypes.func.isRequired,
   options: PropTypes.object,
-  recordType: PropTypes.string.isRequired,
+  recordType: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   selectedRecords: PropTypes.arrayOf(PropTypes.number),
   setSelectedRecords: PropTypes.func,
   targetRecordType: PropTypes.string

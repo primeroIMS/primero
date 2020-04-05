@@ -1,10 +1,9 @@
 import { expect } from "chai";
-import { Button } from "@material-ui/core";
 import { Formik, Field, Form } from "formik";
 import { Map, List, fromJS } from "immutable";
 import * as keydown from "keyevent";
 
-import { SearchableSelect } from "../../../searchable-select";
+import SearchableSelect from "../../../searchable-select";
 import { setupMountedComponent } from "../../../../test";
 import { getUsersByTransitionType } from "../selectors";
 
@@ -46,10 +45,6 @@ describe("<ReassignForm />", () => {
     expect(component.find(Field)).to.have.length(2);
   });
 
-  it("renders Button", () => {
-    expect(component.find(Button)).to.have.length(2);
-  });
-
   describe("with getUsersByTransitionType", () => {
     describe("when mounting component", () => {
       const state = fromJS({
@@ -75,14 +70,10 @@ describe("<ReassignForm />", () => {
         ));
       });
       it("should have same no. of users", () => {
-        component
-          .find(ReassignForm)
-          .find("input")
-          .first()
-          .simulate("keyDown", {
-            key: "ArrowDown",
-            keyCode: keydown.DOM_VK_DOWN
-          });
+        component.find(ReassignForm).find("input").first().simulate("keyDown", {
+          key: "ArrowDown",
+          keyCode: keydown.DOM_VK_DOWN
+        });
         expect(
           component.find("div.MuiButtonBase-root.MuiListItem-root")
         ).to.have.lengthOf(values.size);

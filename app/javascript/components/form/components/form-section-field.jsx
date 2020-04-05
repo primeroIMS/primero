@@ -5,13 +5,20 @@ import { useSelector } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
+import { getLocations, getOption } from "../../record-form";
 import TextInput from "../fields/text-input";
 import SwitchInput from "../fields/switch-input";
 import SelectInput from "../fields/select-input";
-import { TICK_FIELD, CHECK_BOX_FIELD, SELECT_FIELD } from "../constants";
+import {
+  TICK_FIELD,
+  CHECK_BOX_FIELD,
+  SELECT_FIELD,
+  PHOTO_FIELD
+} from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
+import AttachmentInput from "../fields/attachment-input";
 import { whichOptions } from "../utils";
-import { getOption } from "../../record-form";
+import { selectAgencies } from "../../application";
 
 const FormSectionField = ({ field }) => {
   const {
@@ -38,9 +45,21 @@ const FormSectionField = ({ field }) => {
     !isEmpty(optionStringsSource)
   );
 
+  const agencies = useSelector(
+    state => selectAgencies(state),
+    (agencies1, agencies2) => agencies1.equals(agencies2)
+  );
+
+  const locations = useSelector(
+    state => getLocations(state),
+    (locations1, locations2) => locations1.equals(locations2)
+  );
+
   const inputOptions = whichOptions({
     optionStringsSource,
     lookups,
+    agencies,
+    locations,
     options: options || optionsStringsText,
     i18n
   });
@@ -74,6 +93,8 @@ const FormSectionField = ({ field }) => {
         return CheckboxInput;
       case SELECT_FIELD:
         return SelectInput;
+      case PHOTO_FIELD:
+        return AttachmentInput;
       default:
         return TextInput;
     }

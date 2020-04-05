@@ -1,34 +1,22 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/display-name */
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { Box, FormControlLabel } from "@material-ui/core";
-import { Formik, Form, Field } from "formik";
-import { Checkbox as MuiCheckbox } from "formik-material-ui";
-import * as yup from "yup";
+import { Formik } from "formik";
+import { object, string } from "yup";
 
 import { useI18n } from "../../../../i18n";
 import { enqueueSnackbar } from "../../../../notifier";
 import { selectAgencies } from "../../../../application/selectors";
 import { getLocations } from "../../../../record-form/selectors";
-import {
-  RECORD_TYPES,
-  USER_NAME_FIELD,
-  UNIQUE_ID_FIELD,
-  CODE_FIELD,
-  NAME_FIELD
-} from "../../../../../config";
-import { internalFieldsDirty, getInternalFields } from "../helpers";
+import { RECORD_TYPES } from "../../../../../config";
 import {
   getUsersByTransitionType,
   getErrorsByTransitionType
 } from "../../selectors";
 import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
-import { valuesToSearchableSelect } from "../../../../../libs";
+import { TRANSITIONS_TYPES } from "../../../../transitions/constants";
 
-import TransferInternal from "./transfer-internal";
-import ProvidedConsent from "./provided-consent";
-import TransferActions from "./transfer-actions";
-import BulkTransfer from "./bulk-transfer";
 import {
   TRANSFER_FIELD,
   REMOTE_SYSTEM_FIELD,
@@ -38,36 +26,34 @@ import {
   TRANSITIONED_TO_FIELD,
   NOTES_FIELD
 } from "./constants";
+import formikForm from "./formik-form";
 
 const TransferForm = ({
   providedConsent,
   isBulkTransfer,
   userPermissions,
-  handleClose,
-  transitionType,
   record,
-  recordType
+  recordType,
+  transferRef,
+  setPending,
+  disabled,
+  setDisabled
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const [disabled, setDisabled] = useState(false);
 
   const firstUpdate = React.useRef(true);
-
-  const closeModal = () => {
-    handleClose();
-  };
 
   useEffect(() => {
     dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType] }));
   }, []);
 
   const users = useSelector(state =>
-    getUsersByTransitionType(state, transitionType)
+    getUsersByTransitionType(state, TRANSITIONS_TYPES.transfer)
   );
 
   const hasErrors = useSelector(state =>
-    getErrorsByTransitionType(state, transitionType)
+    getErrorsByTransitionType(state, TRANSITIONS_TYPES.transfer)
   );
 
   const agencies = useSelector(state => selectAgencies(state));
@@ -93,149 +79,15 @@ const TransferForm = ({
 
     if (messages !== "") {
       dispatch(enqueueSnackbar(messages, "error"));
-    } else {
-      closeModal();
     }
   }, [hasErrors]);
 
-  const sharedOnChange = (data, field, form, queryValues) => {
-    const { value } = data;
-
-    form.setFieldValue(field.name, value, false);
-
-    if (queryValues) {
-      const result = getInternalFields(form.values, queryValues);
-      const params = {
-        record_type: RECORD_TYPES[recordType],
-        [field.name]: value,
-        ...result
-      };
-
-      if (value !== form.values[field.name]) {
-        dispatch(fetchTransferUsers(params));
-      }
-    }
-  };
-
-  const internalFields = [
-    {
-      id: AGENCY_FIELD,
-      label: i18n.t("transfer.agency_label"),
-      options: valuesToSearchableSelect(
-        agencies,
-        UNIQUE_ID_FIELD,
-        NAME_FIELD,
-        i18n.locale
-      ),
-      onChange: (data, field, form) => {
-        form.setFieldValue([TRANSITIONED_TO_FIELD], "", false);
-        sharedOnChange(data, field, form, [LOCATION_FIELD]);
-      }
-    },
-    {
-      id: LOCATION_FIELD,
-      label: i18n.t("transfer.location_label"),
-      options: valuesToSearchableSelect(
-        locations,
-        CODE_FIELD,
-        NAME_FIELD,
-        i18n.locale
-      ),
-      onChange: (data, field, form) => {
-        form.setFieldValue([TRANSITIONED_TO_FIELD], "", false);
-        sharedOnChange(data, field, form, [AGENCY_FIELD]);
-      }
-    },
-    {
-      id: TRANSITIONED_TO_FIELD,
-      label: i18n.t("transfer.recipient_label"),
-      required: true,
-      options: users
-        ? users.valueSeq().map(user => {
-            const userName = user.get(USER_NAME_FIELD);
-
-            return {
-              value: userName.toLowerCase(),
-              label: userName
-            };
-          })
-        : [],
-      onChange: (data, field, form) => {
-        sharedOnChange(data, field, form);
-      }
-    },
-    {
-      id: NOTES_FIELD,
-      label: i18n.t("transfer.notes_label")
-    }
-  ];
-
-  const providedConsentProps = {
-    canConsentOverride,
-    providedConsent,
-    setDisabled,
-    recordType
-  };
-
   const disableControl = !providedConsent && !disabled;
 
-  const sharedFields = [
-    {
-      id: "remoteSystem",
-      label: i18n.t("transfer.is_remote_label")
-    },
-    {
-      id: "consent_individual_transfer",
-      label: i18n.t("transfer.consent_from_individual_label")
-    }
-  ];
-
-  const sharedControls = sharedFields.map(field => (
-    <FormControlLabel
-      key={field.id}
-      control={
-        <Field
-          name={field.id}
-          component={MuiCheckbox}
-          disabled={disableControl}
-        />
-      }
-      label={field.label}
-    />
-  ));
-
-  const formikForm = props => {
-    const { handleSubmit, values, resetForm } = props;
-    const { transfer } = values;
-
-    if (
-      !transfer &&
-      !providedConsent &&
-      internalFieldsDirty(values, internalFields.map(f => f.id))
-    ) {
-      resetForm();
-    }
-
-    return (
-      <Form onSubmit={handleSubmit}>
-        <ProvidedConsent {...providedConsentProps} />
-        <BulkTransfer isBulkTransfer={isBulkTransfer} />
-        <Box>
-          {sharedControls}
-          <TransferInternal
-            fields={internalFields}
-            disableControl={disableControl}
-          />
-          <TransferActions closeModal={closeModal} disabled={disableControl} />
-        </Box>
-      </Form>
-    );
-  };
-
-  const validationSchema = yup.object().shape({
-    [TRANSITIONED_TO_FIELD]: yup
-      .string()
-      .required(i18n.t("transfer.user_mandatory"))
+  const validationSchema = object().shape({
+    [TRANSITIONED_TO_FIELD]: string().required(
+      i18n.t("transfer.user_mandatory")
+    )
   });
 
   const formProps = {
@@ -248,7 +100,9 @@ const TransferForm = ({
       [TRANSITIONED_TO_FIELD]: "",
       [NOTES_FIELD]: ""
     },
+    ref: transferRef,
     onSubmit: (values, { setSubmitting }) => {
+      setPending(true);
       dispatch(
         saveTransferUser(
           record.get("id"),
@@ -263,7 +117,21 @@ const TransferForm = ({
       );
       setSubmitting(false);
     },
-    render: props => formikForm(props),
+    render: props =>
+      formikForm(
+        props,
+        isBulkTransfer,
+        users,
+        agencies,
+        locations,
+        recordType,
+        setDisabled,
+        disableControl,
+        i18n,
+        dispatch,
+        providedConsent,
+        canConsentOverride
+      ),
     validateOnBlur: false,
     validateOnChange: false,
     validationSchema
@@ -273,14 +141,16 @@ const TransferForm = ({
 };
 
 TransferForm.propTypes = {
-  handleClose: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
   handleSubmit: PropTypes.func,
   isBulkTransfer: PropTypes.bool.isRequired,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   resetForm: PropTypes.func,
-  transitionType: PropTypes.string,
+  setDisabled: PropTypes.func,
+  setPending: PropTypes.func,
+  transferRef: PropTypes.object,
   userPermissions: PropTypes.object.isRequired,
   values: PropTypes.object
 };

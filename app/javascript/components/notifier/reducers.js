@@ -9,7 +9,7 @@ const DEFAULT_STATE = List([]);
 export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case ENQUEUE_SNACKBAR:
-      if (payload.message) {
+      if (payload.message || payload.messageKey) {
         return state.update(a => a.push(MessageRecord(payload)));
       }
 
@@ -23,7 +23,7 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         )
       );
     case REMOVE_SNACKBAR:
-      return state.filter(m => m.options.key !== payload.key);
+      return state.filter(message => message.options.key !== payload.key);
     default:
       return state;
   }

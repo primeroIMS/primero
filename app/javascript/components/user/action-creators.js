@@ -1,7 +1,7 @@
-import { DB } from "../../config";
+import { DB_COLLECTIONS_NAMES } from "../../db";
 import { loadApplicationResources } from "../application";
 
-import { Actions } from "./actions";
+import Actions from "./actions";
 
 export const setUser = payload => {
   return {
@@ -19,7 +19,7 @@ export const fetchAuthenticatedUserData = id => async dispatch => {
         extended: true
       },
       db: {
-        collection: DB.USER
+        collection: DB_COLLECTIONS_NAMES.USER
       }
     }
   });

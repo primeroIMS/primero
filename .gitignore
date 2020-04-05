@@ -65,6 +65,7 @@ npm-error.log*
 .tmp
 .npm-integrity
 .nyc_output
+/reports
 spec/reports/
 storage/
 tags
@@ -76,3 +77,6 @@ vendor/ruby/
 venv/*
 public/translations*
 public/javascripts/*
+public/manifests/*
+public/worker.js
+public/precache-manifest*

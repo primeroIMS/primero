@@ -3,6 +3,9 @@
 
 # Please keep the seeding idempotent, as it may be used as a migration if upgrading a production
 # instance is necessary and the target version has introduced any new types requiring seeds.
+
+ENV['PRIMERO_BOOTSTRAP'] = 'true'
+
 def should_seed? model
   empty = table_empty?(model) || ENV['NO_RESEED'] != 'true'
   puts(empty ? "Seeding #{model}." : "Not seeding #{model}. Already populated.")
@@ -24,10 +27,6 @@ require File.dirname(__FILE__) + "/exports/configuration.rb" if should_seed?(Exp
 #Seed the system settings table
 puts "Seeding the system settings"
 require File.dirname(__FILE__) + "/system_settings/system_settings.rb" if should_seed? SystemSettings
-
-#Seed the identity providers table
-puts "Seeding the identity providers"
-require File.dirname(__FILE__) + "/system_settings/idp.rb" if should_seed? IdentityProvider
 
 #Create the forms
 puts "[Re-]Seeding the forms"

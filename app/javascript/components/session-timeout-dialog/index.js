@@ -1,1 +1,1 @@
-export { default as SessionTimeoutDialog } from "./component";
+export { default } from "./component";

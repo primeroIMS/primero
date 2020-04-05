@@ -223,4 +223,17 @@ if Primero::Application.locales.include?(Primero::Application::LOCALE_ARABIC)
     'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
     'locale' => Primero::Application::LOCALE_ARABIC
   )
+
+  create_or_update_user(
+    'user_name' => 'primero_sup_gbv',
+    'password' => 'primer0!',
+    'password_confirmation' => 'primer0!',
+    'full_name' => 'GBV Supervisor',
+    'email' => 'primero_sup_gbv@primero.com',
+    'disabled' => 'false',
+    'agency_id' => unicef.id,
+    'role_id' => Role.find_by_name('GBV Case Management Supervisor').id,
+    'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
+    'locale' => Primero::Application::LOCALE_ENGLISH
+  )
 end

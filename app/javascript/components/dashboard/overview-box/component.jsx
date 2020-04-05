@@ -8,17 +8,34 @@ import { push } from "connected-react-router";
 
 import { ROUTES } from "../../../config";
 import { buildFilter } from "../helpers";
-import { DoughnutChart } from "../doughnut-chart";
+import DoughnutChart from "../doughnut-chart";
 import { useI18n } from "../../i18n";
+import LoadingIndicator from "../../loading-indicator";
+import NAMESPACE from "../../pages/dashboard/namespace";
 
 import styles from "./styles.css";
 
-const OverviewBox = ({ items, chartData, sumTitle, withTotal }) => {
+const OverviewBox = ({
+  items,
+  chartData,
+  sumTitle,
+  withTotal,
+  loading,
+  errors
+}) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const dispatch = useDispatch();
   const indicators = items.get("indicators", fromJS({}));
   const indicatorsKeys = indicators.keySeq();
+
+  const loadingIndicatorProps = {
+    overlay: true,
+    hasData: indicators.size > 1,
+    type: NAMESPACE,
+    loading,
+    errors
+  };
 
   const sum = () => {
     return indicatorsKeys.reduce(
@@ -56,7 +73,18 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal }) => {
     return withTotal ? `${sum()} ${sumTitle}` : sumTitle;
   };
 
-  return (
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
+  const renderItems = () => (
+    <LoadingIndicator {...loadingIndicatorProps}>
+      <div className={css.overviewBox}>
+        <div className={css.sectionTitle}>{renderSum()}</div>
+        <ul className={css.overviewList}>{statItems()}</ul>
+      </div>
+    </LoadingIndicator>
+  );
+
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
+  const renderWithChart = () => (
     <div className={css.root}>
       <Grid container spacing={3}>
         {chartData && (
@@ -65,16 +93,15 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal }) => {
           </Grid>
         )}
         <Grid item md={8} xs={12}>
-          <div className={css.overviewBox}>
-            <ul className={css.overviewList}>
-              <li>{renderSum()}</li>
-              {statItems()}
-            </ul>
-          </div>
+          {renderItems()}
         </Grid>
       </Grid>
     </div>
   );
+
+  const renderOverviewBox = chartData ? renderWithChart() : renderItems();
+
+  return <>{renderOverviewBox}</>;
 };
 
 OverviewBox.defaultProps = {
@@ -85,7 +112,9 @@ OverviewBox.displayName = "OverviewBox";
 
 OverviewBox.propTypes = {
   chartData: PropTypes.object,
+  errors: PropTypes.bool,
   items: PropTypes.object.isRequired,
+  loading: PropTypes.bool,
   sumTitle: PropTypes.string,
   withTotal: PropTypes.bool
 };

@@ -1,62 +1,50 @@
-import { DB as DB_COLLECTIONS } from "../config";
-import * as schemas from "../schemas";
+import collections from "./collections";
+import { DB_COLLECTIONS_NAMES, METHODS } from "./constants";
 
-import DB from "./db";
-
-export const syncIndexedDB = async (
+const syncIndexedDB = async (
   db = { recordType: "", collection: "" },
   json,
-  normalizeFunc
+  method = METHODS.WRITE
 ) => {
   const { recordType, collection } = db;
 
-  switch (collection) {
-    case DB_COLLECTIONS.USER:
-      await DB.put(collection, json.data);
-
-      return json.data;
-    case DB_COLLECTIONS.SYSTEM_SETTINGS:
-      await DB.put(collection, json.data, { id: 1 });
-
-      return json.data;
-    case DB_COLLECTIONS.RECORDS: {
-      const { data, metadata } = json;
-      const dataIsArray = Array.isArray(data);
-      const recordData = Array.isArray(data)
-        ? data
-        : { ...data, complete: true };
-
-      if (dataIsArray) {
-        await DB.bulkAdd(collection, recordData, {
-          index: "type",
-          value: recordType
-        });
-      } else {
-        await DB.put(collection, recordData, null, {
-          index: "type",
-          value: recordType
-        });
+  const getCollection = (() => {
+    switch (collection) {
+      case DB_COLLECTIONS_NAMES.OPTIONS:
+      case DB_COLLECTIONS_NAMES.LOCATIONS: {
+        return collections.Options;
       }
-
-      return {
-        data: recordData,
-        ...(dataIsArray && { metadata })
-      };
+      case DB_COLLECTIONS_NAMES.FORMS: {
+        return collections.Forms;
+      }
+      case DB_COLLECTIONS_NAMES.RECORDS: {
+        return collections.Records;
+      }
+      case DB_COLLECTIONS_NAMES.SYSTEM_SETTINGS: {
+        return collections.SystemSettings;
+      }
+      case DB_COLLECTIONS_NAMES.USER: {
+        return collections.User;
+      }
+      case DB_COLLECTIONS_NAMES.IDP: {
+        return collections.Idp;
+      }
+      default: {
+        return false;
+      }
     }
-    case DB_COLLECTIONS.FORMS: {
-      const { formSections, fields } = schemas[normalizeFunc](
-        json.data
-      ).entities;
+  })();
 
-      await DB.bulkAdd("forms", formSections);
-      await DB.bulkAdd("fields", fields);
-
-      return {
-        formSections,
-        fields
-      };
-    }
-    default:
-      return json;
+  if (getCollection) {
+    return getCollection[method === METHODS.WRITE ? "save" : "find"]({
+      recordType,
+      collection,
+      json,
+      db
+    });
   }
+
+  return json;
 };
+
+export default syncIndexedDB;

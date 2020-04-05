@@ -8,7 +8,7 @@ class ExportService
         Exporters::IncidentRecorderExporter, Exporters::CSVListViewExporter, Exporters::CSVExporter,
         Exporters::ExcelExporter, Exporters::JSONExporter, # Exporters::PhotoWallExporter,
         Exporters::PDFExporter, Exporters::UnhcrCSVExporter, Exporters::DuplicateIdCSVExporter,
-        Exporters::SelectedFieldsExcelExporter # , Expoxrters::MRMViolationExporter
+        Exporters::SelectedFieldsExcelExporter, Exporters::IncidentRecorderExporter # , Expoxrters::MRMViolationExporter
       ].find do |exporter|
         exporter.id == format.to_s && exporter.supported_models.include?(record_type)
       end
@@ -17,8 +17,8 @@ class ExportService
     def build(params, user)
       return unless params[:export_format] && params[:record_type]
 
-      # TODO: Destringify the params?
-      export = bulk_export_class(params[:export_format]).new(params.except(:password))
+      params_hash = DestringifyService.destringify(params.except(:password).to_h, true)
+      export = bulk_export_class(params[:export_format]).new(params_hash)
       export.owner = user
       export
     end

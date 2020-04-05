@@ -1,0 +1,13 @@
+.disabledLink {
+  cursor: not-allowed;
+
+  & a {
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+  }
+
+  & button {
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+  }
+}

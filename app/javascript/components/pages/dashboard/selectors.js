@@ -53,13 +53,13 @@ export const getCasesByAssessmentLevel = state => {
   const currentState = getDashboards(state);
 
   if (!currentState) {
-    return fromJS([]);
+    return fromJS({});
   }
   const dashboardData = currentState
     .filter(f => f.get("name") === DASHBOARD_NAMES.CASE_RISK)
     .first();
 
-  return dashboardData?.size ? dashboardData : fromJS([]);
+  return dashboardData?.size ? dashboardData : fromJS({});
 };
 
 export const getWorkflowIndividualCases = state => {
@@ -95,3 +95,33 @@ export const getApprovalsCasePlanPending = state =>
 
 export const getProtectionConcerns = state =>
   getDashboardByName(state, DASHBOARD_NAMES.PROTECTION_CONCERNS);
+
+export const getCasesByTaskOverdueAssessment = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_ASSESSMENT);
+
+export const getCasesByTaskOverdueCasePlan = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_CASE_PLAN);
+
+export const getCasesByTaskOverdueServices = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_SERVICES);
+
+export const getCasesByTaskOverdueFollowups = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.CASES_BY_TASK_OVERDUE_FOLLOWUPS);
+
+export const getSharedWithMe = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.SHARED_WITH_ME);
+
+export const getSharedWithOthers = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.SHARED_WITH_OTHERS);
+
+export const getGroupOverview = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.GROUP_OVERVIEW);
+
+export const getCaseOverview = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.CASE_OVERVIEW);
+
+export const getSharedFromMyTeam = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.SHARED_FROM_MY_TEAM);
+
+export const getSharedWithMyTeam = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.SHARED_WITH_MY_TEAM);

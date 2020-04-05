@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import * as yup from "yup";
+import { object, number, string, lazy, ref, array } from "yup";
 
 import {
   FieldRecord,
@@ -11,37 +11,39 @@ import {
 } from "../../../form";
 
 export const validations = (formMode, i18n) =>
-  yup.object().shape({
-    agency_id: yup.string().required(),
-    email: yup.string().required(),
-    full_name: yup.string().required(),
-    module_unique_ids: yup.array().required(),
-    password: yup.lazy(() => {
-      const defaultValidation = yup.string().min(8);
+  object().shape({
+    agency_id: number().required().label(i18n.t("user.organization")),
+    email: string().required().label(i18n.t("user.email")),
+    full_name: string().required().label(i18n.t("user.full_name")),
+    location: string().required().label(i18n.t("user.location")),
+    password: lazy(() => {
+      const defaultValidation = string().min(8);
 
       if (formMode.get("isNew")) {
-        return defaultValidation.required();
+        return defaultValidation.required().label(i18n.t("user.password"));
       }
 
       return defaultValidation;
     }),
-    password_confirmation: yup.lazy(() => {
-      const defaultValidation = yup
-        .string()
-        .oneOf(
-          [yup.ref("password"), null],
-          i18n.t("errors.models.user.password_mismatch")
-        );
+    password_confirmation: lazy(() => {
+      const defaultValidation = string().oneOf(
+        [ref("password"), null],
+        i18n.t("errors.models.user.password_mismatch")
+      );
 
       if (formMode.get("isNew")) {
-        return defaultValidation.required();
+        return defaultValidation
+          .required()
+          .label(i18n.t("user.password_confirmation"));
       }
 
       return defaultValidation;
     }),
-    role_unique_id: yup.string().required(),
-    user_group_unique_ids: yup.array().required(),
-    user_name: yup.string().required()
+    role_unique_id: string().required().label(i18n.t("user.role_id")),
+    user_group_unique_ids: array()
+      .required()
+      .label(i18n.t("user.user_group_unique_ids")),
+    user_name: string().required().label(i18n.t("user.user_name"))
   });
 
 export const form = (i18n, formMode) => {
@@ -140,16 +142,6 @@ export const form = (i18n, formMode) => {
           ]
         }),
         FieldRecord({
-          display_name: i18n.t("user.module_ids"),
-          name: "module_unique_ids",
-          type: CHECK_BOX_FIELD,
-          required: true,
-          option_strings_text: [
-            { id: "primeromodule-cp", display_text: "CP" },
-            { id: "primeromodule-gbv", display_text: "GBV" }
-          ]
-        }),
-        FieldRecord({
           display_name: i18n.t("user.user_group_unique_ids"),
           name: "user_group_unique_ids",
           type: CHECK_BOX_FIELD,
@@ -176,7 +168,7 @@ export const form = (i18n, formMode) => {
           name: "agency_id",
           type: SELECT_FIELD,
           required: true,
-          option_strings_text: [{ id: "1", display_text: "UNICEF" }]
+          option_strings_source: "Agency"
         }),
         FieldRecord({
           display_name: i18n.t("user.agency_office"),
@@ -192,8 +184,8 @@ export const form = (i18n, formMode) => {
           display_name: i18n.t("user.location"),
           name: "location",
           type: SELECT_FIELD,
-
-          option_strings_source: "location"
+          option_strings_source: "Location",
+          required: true
         }),
         FieldRecord({
           display_name: i18n.t("user.disabled"),

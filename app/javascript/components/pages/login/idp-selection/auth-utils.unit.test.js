@@ -1,11 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import {
-  setMsalConfig,
-  getLoginRequest,
-  getTokenRequest
-} from "./auth-utils";
+import { setMsalConfig, getLoginRequest, getTokenRequest } from "./auth-utils";
 
 describe("auth-utils", () => {
   let idp;
@@ -19,7 +15,6 @@ describe("auth-utils", () => {
       authorization_url: "authorization",
       identity_scope: ["123"],
       verification_url: "verification"
-
     });
   });
 
@@ -29,7 +24,7 @@ describe("auth-utils", () => {
         clientId: "123",
         authority: "authorization",
         validateAuthority: false,
-        redirectUri: `http://${window.location.host}/v2/login/b2c`
+        redirectUri: `${window.location.protocol}//${window.location.host}/v2/login/b2c`
       },
       cache: {
         cacheLocation: "sessionStorage",
@@ -43,7 +38,7 @@ describe("auth-utils", () => {
   it("returns login request", () => {
     const expected = {
       scopes: ["123"],
-      extraQueryParameters: {domain_hint: "domain"}
+      extraQueryParameters: { domain_hint: "domain" }
     };
 
     expect(getLoginRequest(["123"], "domain")).to.deep.equal(expected);

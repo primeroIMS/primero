@@ -1,61 +1,47 @@
-const CACHE_VERSION = "v1";
-const CACHE_NAME = `${CACHE_VERSION}:sw-cache-`;
-const CACHE_ADDITIONAL = ["/", "/primero-pictorial-144.png"];
+/* eslint-disable no-restricted-globals */
 
-function onInstall(event) {
-  console.log("[Serviceworker]", "Installing!", event);
+const CACHE_ADDITIONAL = [
+  "/",
+  "/primero-pictorial-144.png",
+  "/primero-pictorial-192.png",
+  "/primero-pictorial-512.png",
+  "/javascripts/i18n.js",
+  "/manifest.json"
+].map(cache => ({ url: cache }));
 
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(function prefill(cache) {
-      return cache.addAll(
-        CACHE_ADDITIONAL.concat(
-          (self.__precacheManifest || []).map(function(item) {
-            return item.url;
-          })
-        )
-      );
-    })
-  );
-}
+self.__precacheManifest = []
+  .concat(self.__precacheManifest || [])
+  .concat(CACHE_ADDITIONAL);
+workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-function onActivate(event) {
-  console.log("[Serviceworker]", "Activating!", event);
+const onFetch = event => {
+  const request = event.request.clone();
 
-  event.waitUntil(
-    caches.keys().then(function(cacheNames) {
-      return Promise.all(
-        cacheNames
-          .filter(function(cacheName) {
-            return cacheName.indexOf(CACHE_VERSION) !== 0;
-          })
-          .map(function(cacheName) {
-            return caches.delete(cacheName);
-          })
-      );
-    })
-  );
-}
-
-function onFetch(event) {
   event.respondWith(
-    fetch(event.request).catch(function() {
-      return caches.match(event.request).then(function(response) {
+    fetch(request).catch(() => {
+      return caches.match(request).then(response => {
         if (response) {
           return response;
         }
 
         if (
-          event.request.mode === "navigate" ||
-          (event.request.method === "GET" &&
-            event.request.headers.get("accept").includes("text/html"))
+          request.mode === "navigate" ||
+          (request.method === "GET" &&
+            request.headers.get("accept").includes("text/html"))
         ) {
           return caches.match("/");
         }
+
+        return true;
       });
     })
   );
-}
+};
 
-self.addEventListener("install", onInstall);
-self.addEventListener("activate", onActivate);
 self.addEventListener("fetch", onFetch);
+
+workbox.routing.registerRoute(
+  /translations-*.js$/,
+  new workbox.strategies.CacheFirst(),
+  "GET"
+);

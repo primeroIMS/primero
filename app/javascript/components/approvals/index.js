@@ -1,1 +1,1 @@
-export { default as Approvals } from "./container";
+export { default } from "./container";

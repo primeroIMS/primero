@@ -1,6 +1,7 @@
 import { expect } from "chai";
 
 import { setupMountedComponent } from "../../../../test";
+import { ROUTES } from "../../../../config";
 
 import NotAuthorized from "./component";
 
@@ -24,11 +25,8 @@ describe("<NotAuthorized />", () => {
   });
 
   it("renders forgot a tag", () => {
-    expect(
-      component
-        .find("a")
-        .first()
-        .prop("href")
-    ).to.have.equal("/dashboard");
+    expect(component.find("a").first().prop("href")).to.have.equal(
+      ROUTES.dashboard
+    );
   });
 });

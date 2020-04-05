@@ -5,9 +5,9 @@ import { NavLink } from "react-router-dom";
 
 import { setupMountedComponent } from "../../test";
 import { ROUTES, RECORD_PATH } from "../../config";
-import { TranslationsToggle } from "../translations-toggle";
-import { AgencyLogo } from "../agency-logo";
-import { ModuleLogo } from "../module-logo";
+import TranslationsToggle from "../translations-toggle";
+import AgencyLogo from "../agency-logo";
+import ModuleLogo from "../module-logo";
 import { ApplicationProvider } from "../application/provider";
 import { ACTIONS } from "../../libs/permissions";
 
@@ -46,7 +46,7 @@ describe("<Nav />", () => {
       agency: "agency_1",
       permissions
     }
-  })
+  });
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(
@@ -110,13 +110,14 @@ describe("<Nav />", () => {
       ).to.have.lengthOf(1);
     });
 
-    it("renders matches link", () => {
-      expect(
-        component
-          .find(NavLink)
-          .findWhere(link => link.prop("to") === ROUTES.matches)
-      ).to.have.lengthOf(1);
-    });
+    // TODO: Temporary removed
+    // it("renders matches link", () => {
+    //   expect(
+    //     component
+    //       .find(NavLink)
+    //       .findWhere(link => link.prop("to") === ROUTES.matches)
+    //   ).to.have.lengthOf(1);
+    // });
 
     it("renders reports link", () => {
       expect(
@@ -136,7 +137,7 @@ describe("<Nav />", () => {
   });
 
   describe("when have restricted permission", () => {
-    const initialState = fromJS({
+    const restrictedPermissionInitialState = fromJS({
       ui: { Nav: { drawerOpen: true } },
       application: {
         modules: {},
@@ -161,7 +162,7 @@ describe("<Nav />", () => {
       ({ component } = setupMountedComponent(
         ProvidedNav,
         { username: "username" },
-        initialState
+        restrictedPermissionInitialState
       ));
     });
 

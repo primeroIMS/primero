@@ -14,7 +14,9 @@ class User < ApplicationRecord
   PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/.freeze
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
 
+  attr_accessor :exists_reporting_location
   attr_reader :refresh_associated_user_groups, :refresh_associated_user_agencies
+  attr_writer :user_location, :reporting_location
 
   delegate :can?, :cannot?, to: :ability
 
@@ -29,8 +31,8 @@ class User < ApplicationRecord
   has_and_belongs_to_many :user_groups
   has_many :audit_logs
 
-  scope :list_by_enabled, -> { where(disabled: false) }
-  scope :list_by_disabled, -> { where(disabled: true) }
+  scope :enabled, -> { where(disabled: false) }
+  scope :disabled, -> { where(disabled: true) }
   scope :by_user_group, (lambda do |ids|
     joins(:user_groups).where(user_groups: { id: ids })
   end)
@@ -43,7 +45,7 @@ class User < ApplicationRecord
 
   before_create :set_agency_services
   before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code, :set_locale
-  after_save :reassociate_groups_or_agencies
+  after_update :reassociate_groups_or_agencies
 
   validates :full_name, presence: { message: 'errors.models.user.full_name' }
   validates :user_name, presence: true, uniqueness: { message: 'errors.models.user.user_name_uniqueness' }
@@ -84,7 +86,10 @@ class User < ApplicationRecord
     def permitted_api_params
       (
         User.attribute_names + User.password_parameters +
-        [{ user_group_ids: [] }, { user_group_unique_ids: [] }, :role_unique_id]
+        [
+          { user_group_ids: [] }, { user_group_unique_ids: [] },
+          { module_unique_ids: [] }, :role_unique_id
+        ]
       ) - User.hidden_attributes
     end
 
@@ -97,7 +102,7 @@ class User < ApplicationRecord
     end
 
     def agencies_for_user_names(user_names)
-      Agency.joins(:users).where('users.user_name in (?)', user_names)
+      Agency.joins(:users).where('users.user_name in (?)', user_names).distinct
     end
 
     def default_sort_field
@@ -108,7 +113,7 @@ class User < ApplicationRecord
     # This method returns a list of id / display_text value pairs
     # It is used to create the select options list for User fields
     def all_names
-      list_by_enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
+      enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
     end
 
     def find_permitted_users(filters = nil, pagination = nil, sort = nil, user = nil)
@@ -147,7 +152,7 @@ class User < ApplicationRecord
     end
 
     def users_for_referral(user, model, filters)
-      users_for_transition(user, model, filters, Permission::RECEIVE_REFERRAL)
+      users_for_transition(user, model, filters, Permission::RECEIVE_REFERRAL).includes(:agency).joins(:agency)
     end
 
     def users_for_transfer(user, model, filters)
@@ -164,12 +169,8 @@ class User < ApplicationRecord
         services_filter = filters.delete('services')
         agencies_filter = filters.delete('agency')
         users = users.where(filters) if filters.present?
-        if services_filter.present?
-          users = users.where(':service = ANY (services)', service: services_filter)
-        end
-        if agencies_filter.present?
-          users = users.joins(:agency).where(agencies: { unique_id: agencies_filter })
-        end
+        users = users.where(':service = ANY (users.services)', service: services_filter) if services_filter.present?
+        users = users.joins(:agency).where(agencies: { unique_id: agencies_filter }) if agencies_filter.present?
       end
       users
     end
@@ -228,7 +229,7 @@ class User < ApplicationRecord
   end
 
   def reporting_location
-    return unless user_location.present?
+    return if user_location.blank? || exists_reporting_location == false
 
     @reporting_location ||= Location.get_reporting_location(user_location)
   end
@@ -431,58 +432,6 @@ class User < ApplicationRecord
     permitted_fields(record_type, visible_forms_only).distinct.pluck(:name)
   end
 
-  def permitted_field_names(model_class, action_name = nil)
-    return @permitted_field_names if @permitted_field_names.present?
-
-    return permitted_fields_from_action_name(model_class, action_name) if action_name.present?
-
-    @permitted_field_names = []
-    @permitted_field_names += %w[id record_in_scope]
-    @permitted_field_names += permitted_field_names_from_forms(model_class.parent_form)
-    @permitted_field_names << 'or'
-    @permitted_field_names << 'cases_by_date'
-    @permitted_field_names << 'alert_count'
-    if model_class == Child
-      @permitted_field_names += %w[workflow status case_status_reopened]
-    end
-    @permitted_field_names << 'record_state' if can?(:enable_disable_record, model_class)
-    @permitted_field_names << 'hidden_name' if can?(:update, model_class)
-    @permitted_field_names << 'flag_count' if can?(:flag, model_class)
-    @permitted_field_names << 'flagged' if can?(:flag, model_class)
-    @permitted_field_names += permitted_approval_field_names(model_class)
-    @permitted_field_names
-  end
-
-  def permitted_approval_field_names(model_class)
-    approval_field_names = []
-    [Approval::BIA, Approval::CASE_PLAN, Approval::CLOSURE].each do |approval_id|
-      if can?(:"request_approval_#{approval_id}", model_class) ||
-         can?(:"approve_#{approval_id}", model_class)
-        approval_field_names << 'approval_subforms'
-        approval_field_names << "#{approval_id}_approved"
-        approval_field_names << "approval_status_#{approval_id}"
-        approval_field_names << "#{approval_id}_approved_date"
-        approval_field_names << "#{approval_id}_approved_comments"
-        approval_field_names << "#{approval_id}_approval_type" if approval_id == Approval::CASE_PLAN
-      else
-        next
-      end
-    end
-    approval_field_names
-  end
-
-  def permitted_fields_from_action_name(model_class, action_name)
-    case action_name
-    when Permission::ADD_NOTE then %w[notes_section] if can?(:add_note, model_class)
-    when Permission::INCIDENT_DETAILS_FROM_CASE then %w[incident_details] if can?(:incident_details_from_case, model_class)
-    when Permission::SERVICES_SECTION_FROM_CASE then %w[services_section] if can?(:services_section_from_case, model_class)
-    when Permission::CLOSE then %w[status]  if can?(:close, model_class)
-    when Permission::REOPEN then %w[status] if can?(:reopen, model_class)
-    when Permission::ENABLE_DISABLE_RECORD then %w[record_state] if can?(:enable_disable_record, model_class)
-    else raise Errors::InvalidPrimeroEntityType, 'case.invalid_action_name'
-    end
-  end
-
   def permitted_roles_to_manage
     role.permitted_role_unique_ids.present? ? role.permitted_roles : Role.all
   end
@@ -500,7 +449,7 @@ class User < ApplicationRecord
   end
 
   def tasks(pagination = { per_page: 100, page: 1 })
-    cases = Child.owned_by(self.user_name)
+    cases = Child.owned_by(user_name)
                  .where('data @> ?', { record_state: true, status: Child::STATUS_OPEN }.to_json)
     tasks = Task.from_case(cases.to_a)
     { total: tasks.size, tasks: tasks.paginate(pagination) }
@@ -535,6 +484,7 @@ class User < ApplicationRecord
     # TODO: The following gets all the cases by user and updates the
     # location/district. Performance degrades on save if the user
     # changes their location.
+    return if ENV['PRIMERO_BOOTSTRAP']
     return unless location_changed? || @refresh_associated_user_groups || agency_id_changed?
 
     Child.owned_by(user_name).each do |child|
@@ -574,21 +524,13 @@ class User < ApplicationRecord
   def reassociate_groups_or_agencies
     return unless @refresh_associated_user_groups || @refresh_associated_user_agencies
 
-    pagination = { page: 1, per_page: 500 }
-    begin
-      results = Child.search do
-        with(:associated_user_names, user_name)
-        paginate pagination
-      end.results
-      Child.transaction do
-        results.each do |child|
-          child.update_associated_user_groups if @refresh_associated_user_groups
-          child.update_associated_user_agencies if @refresh_associated_user_agencies
-          child.save!
-        end
+    Child.transaction do
+      Child.associated_with(user_name).find_each(batch_size: 500) do |child|
+        child.update_associated_user_groups if @refresh_associated_user_groups
+        child.update_associated_user_agencies if @refresh_associated_user_agencies
+        child.save!
       end
-      pagination[:page] = results.next_page
-    end until results.next_page.nil?
+    end
     @refresh_associated_user_groups = false
     @refresh_associated_user_agencies = false
   end

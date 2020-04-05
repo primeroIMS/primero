@@ -10,7 +10,7 @@ import { useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import { PageContainer } from "../page";
 import { Transitions, fetchTransitions } from "../transitions";
-import { LoadingIndicator } from "../loading-indicator";
+import LoadingIndicator from "../loading-indicator";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
 import {
   APPROVALS,
@@ -20,10 +20,11 @@ import {
   TRANSITION_TYPE
 } from "../../config";
 import RecordOwner from "../record-owner";
-import { Approvals } from "../approvals";
+import Approvals from "../approvals";
+import { getLoadingRecordState } from "../records/selectors";
 
 import { NAME } from "./constants";
-import { Nav } from "./nav";
+import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
 import {
@@ -62,10 +63,15 @@ const Container = ({ match, mode }) => {
     primeroModule: record ? record.get("module_id") : params.module
   };
 
+  const [referral, setReferral] = useState({});
+
   const formNav = useSelector(state => getFormNav(state, selectedModule));
   const forms = useSelector(state => getRecordForms(state, selectedModule));
   const firstTab = useSelector(state => getFirstTab(state, selectedModule));
-  const loading = useSelector(state => getLoadingState(state));
+  const loadingForm = useSelector(state => getLoadingState(state));
+  const loadingRecord = useSelector(state =>
+    getLoadingRecordState(state, params.recordType)
+  );
   const errors = useSelector(state => getErrors(state));
   const selectedForm = useSelector(state => getSelectedForm(state));
 
@@ -92,11 +98,19 @@ const Container = ({ match, mode }) => {
             : {})
         }
       };
-      const message = containerMode.isEdit
-        ? i18n.t(`${recordType}.messages.update_success`, {
-            record_id: record.get("short_id")
-          })
-        : i18n.t(`${recordType}.messages.creation_success`, recordType);
+      const message = queue => {
+        const appendQueue = queue ? "_queue" : "";
+
+        return containerMode.isEdit
+          ? i18n.t(`${recordType}.messages.update_success${appendQueue}`, {
+              record_id: record.get("short_id")
+            })
+          : i18n.t(
+              `${recordType}.messages.creation_success${appendQueue}`,
+              recordType
+            );
+      };
+
       const redirect = containerMode.isNew
         ? `/${params.recordType}`
         : `/${params.recordType}/${params.id}`;
@@ -107,7 +121,8 @@ const Container = ({ match, mode }) => {
           saveMethod,
           body,
           params.id,
-          message,
+          message(),
+          message(true),
           redirect
         )
       );
@@ -123,7 +138,9 @@ const Container = ({ match, mode }) => {
     forms,
     mode: containerMode,
     record,
-    recordType: params.recordType
+    recordType: params.recordType,
+    referral,
+    setReferral
   };
 
   const toolbarProps = {
@@ -133,7 +150,9 @@ const Container = ({ match, mode }) => {
     handleFormSubmit,
     shortId: record ? record.get("short_id") : null,
     primeroModule: selectedModule.primeroModule,
-    record
+    record,
+    referral,
+    setReferral
   };
 
   const navProps = {
@@ -158,7 +177,9 @@ const Container = ({ match, mode }) => {
   ]);
 
   useEffect(() => {
-    dispatch(fetchTransitions(params.recordType, params.id));
+    if (!containerMode.isNew) {
+      dispatch(fetchTransitions(params.recordType, params.id));
+    }
   }, [params.recordType, params.id]);
 
   // TODO: When transfer_request be implement change the transition_ype
@@ -168,25 +189,48 @@ const Container = ({ match, mode }) => {
   const transitionProps = {
     isReferral: REFERRAL === selectedForm,
     recordType: params.recordType,
-    record: params.id
+    record: params.id,
+    showMode: containerMode.isShow,
+    mobileDisplay,
+    handleToggleNav
   };
+
+  const approvalSubforms = record?.get("approval_subforms");
 
   let renderForm;
 
   if (isRecordOwnerForm) {
-    renderForm = <RecordOwner record={record} recordType={params.recordType} />;
+    renderForm = (
+      <RecordOwner
+        record={record}
+        recordType={params.recordType}
+        mobileDisplay={mobileDisplay}
+        handleToggleNav={handleToggleNav}
+      />
+    );
   } else if (isApprovalsForm) {
-    renderForm = <Approvals approvals={record.get("approval_subforms")} />;
+    renderForm = (
+      <Approvals
+        approvals={approvalSubforms}
+        mobileDisplay={mobileDisplay}
+        handleToggleNav={handleToggleNav}
+      />
+    );
   } else if (isTransitions) {
     renderForm = <Transitions {...transitionProps} />;
   } else {
     renderForm = <RecordForm {...formProps} />;
   }
 
+  const hasData = Boolean(
+    forms && formNav && firstTab && (containerMode.isNew || record)
+  );
+  const loading = Boolean(loadingForm || loadingRecord);
+
   return (
     <PageContainer twoCol>
       <LoadingIndicator
-        hasData={!!(forms && formNav && firstTab)}
+        hasData={hasData}
         type={params.recordType}
         loading={loading}
         errors={errors}

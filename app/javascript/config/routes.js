@@ -10,7 +10,14 @@ import Login, {
   NotFound,
   Admin,
   UsersList,
-  UsersForm
+  UsersForm,
+  UserGroupsList,
+  UserGroupsForm,
+  AgenciesList,
+  AgenciesForm,
+  LookupsList,
+  ContactInformation,
+  RolesList
 } from "../components/pages";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
@@ -160,6 +167,90 @@ export default [
               path: ROUTES.admin_users,
               component: UsersList,
               resources: RESOURCES.users
+            },
+            {
+              path: `${ROUTES.admin_user_groups}/new`,
+              component: UserGroupsForm,
+              resources: RESOURCES.user_groups,
+              extraProps: {
+                mode: MODES.new
+              }
+            },
+            {
+              path: `${ROUTES.admin_user_groups}/:id/edit`,
+              component: UserGroupsForm,
+              resources: RESOURCES.user_groups,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.admin_user_groups}/:id`,
+              component: UserGroupsForm,
+              resources: RESOURCES.user_groups,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
+              path: `${ROUTES.contact_information}/edit`,
+              component: ContactInformation,
+              resources: RESOURCES.contact_information,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.contact_information}`,
+              component: ContactInformation,
+              resources: RESOURCES.contact_information,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
+              path: ROUTES.admin_user_groups,
+              component: UserGroupsList,
+              resources: RESOURCES.user_groups
+            },
+            {
+              path: `${ROUTES.admin_agencies}/new`,
+              component: AgenciesForm,
+              resources: RESOURCES.agencies,
+              extraProps: {
+                mode: MODES.new
+              }
+            },
+            {
+              path: `${ROUTES.admin_agencies}/:id/edit`,
+              component: AgenciesForm,
+              resources: RESOURCES.agencies,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.admin_agencies}/:id`,
+              component: AgenciesForm,
+              resources: RESOURCES.agencies,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
+              path: ROUTES.admin_agencies,
+              component: AgenciesList,
+              resources: RESOURCES.agencies
+            },
+            {
+              path: ROUTES.lookups,
+              component: LookupsList,
+              resources: RESOURCES.lookups
+            },
+            {
+              path: ROUTES.admin_roles,
+              component: RolesList,
+              resources: RESOURCES.roles
             }
           ]
         }

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::V2::TracingRequestsController, type: :request do
-
   before :each do
     @tracing_request1 = TracingRequest.create!(data: { inquiry_date: Date.new(2019, 3, 1), relation_name: 'Test 1' })
     @tracing_request2 = TracingRequest.create!(data: { inquiry_date: Date.new(2018, 3, 1), relation_name: 'Test 2' })
@@ -17,7 +18,10 @@ describe Api::V2::TracingRequestsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
-      expect(json['data'].map{|c| c['relation_name']}).to include(@tracing_request1.relation_name , @tracing_request2.relation_name)
+      expect(json['data'].map { |c| c['relation_name'] }).to include(
+        @tracing_request1.relation_name,
+        @tracing_request2.relation_name
+      )
       expect(json['metadata']['total']).to eq(2)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
@@ -30,8 +34,9 @@ describe Api::V2::TracingRequestsController, type: :request do
       get '/api/v2/tracing_requests?fields=short'
 
       expect(response).to have_http_status(200)
-      expect(json['data'][0]['flag_count']).to eq(1)
-
+      expect(
+        json['data'].map { |record| record['flag_count'] if record['id'] == @tracing_request1.id }.compact
+      ).to eq([1])
     end
   end
 
@@ -48,7 +53,7 @@ describe Api::V2::TracingRequestsController, type: :request do
   describe 'POST /api/v2/tracing_requests' do
     it 'creates a new record with 200 and returns it as JSON' do
       login_for_test
-      params = {data: {inquiry_date: '2019-04-01', relation_name: 'Test' }}
+      params = { data: { inquiry_date: '2019-04-01', relation_name: 'Test' } }
       post '/api/v2/tracing_requests', params: params
 
       expect(response).to have_http_status(200)
@@ -62,7 +67,7 @@ describe Api::V2::TracingRequestsController, type: :request do
   describe 'PATCH /api/v2/tracing_requests/:id' do
     it 'updates an existing record with 200' do
       login_for_test
-      params = {data: {inquiry_date: '2019-04-01', relation_name: 'Tester' }}
+      params = { data: { inquiry_date: '2019-04-01', relation_name: 'Tester' } }
       patch "/api/v2/tracing_requests/#{@tracing_request1.id}", params: params
 
       expect(response).to have_http_status(200)
@@ -76,7 +81,11 @@ describe Api::V2::TracingRequestsController, type: :request do
 
   describe 'DELETE /api/v2/tracing_requests/:id' do
     it 'successfully deletes a record with a code of 200' do
-      login_for_test(permissions: [Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::ENABLE_DISABLE_RECORD])])
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::ENABLE_DISABLE_RECORD])
+        ]
+      )
       delete "/api/v2/tracing_requests/#{@tracing_request1.id}"
 
       expect(response).to have_http_status(200)
@@ -86,5 +95,4 @@ describe Api::V2::TracingRequestsController, type: :request do
       expect(tracing_request1.record_state).to be false
     end
   end
-
 end

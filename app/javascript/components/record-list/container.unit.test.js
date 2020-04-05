@@ -2,18 +2,14 @@ import { expect } from "chai";
 import React from "react";
 import { Route } from "react-router-dom";
 import { fromJS, OrderedMap } from "immutable";
-import { ExpansionPanel } from "@material-ui/core";
-import isEmpty from "lodash/isEmpty";
 
 import Filters from "../index-filters";
-import Panel from "../index-filters/components/panel";
-import ToggleFilter from "../index-filters/components/filter-types";
 import IndexTable from "../index-table";
 import { ACTIONS } from "../../libs/permissions";
 import { setupMountedComponent } from "../../test";
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
 
-import { ViewModal } from "./view-modal";
+import ViewModal from "./view-modal";
 import RecordList from "./container";
 
 describe("<RecordList />", () => {

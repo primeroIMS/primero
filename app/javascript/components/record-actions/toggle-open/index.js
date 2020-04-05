@@ -1,1 +1,1 @@
-export { default as ToggleOpen } from "./component";
+export { default } from "./component";

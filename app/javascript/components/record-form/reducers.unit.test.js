@@ -28,9 +28,7 @@ describe("<RecordForm /> - Reducers", () => {
         bn: ""
       }
     };
-    const payload = {
-      data: [lookup]
-    };
+    const payload = [lookup];
     const expected = fromJS({
       selectedForm: null,
       formSections: OrderedMap({}),
@@ -64,9 +62,7 @@ describe("<RecordForm /> - Reducers", () => {
         bn: ""
       }
     };
-    const payload = {
-      data: [location]
-    };
+    const payload = [location];
     const expected = fromJS({
       selectedForm: null,
       formSections: OrderedMap({}),
@@ -128,6 +124,7 @@ describe("<RecordForm /> - Reducers", () => {
           collapsed_field_names: []
         })
       ],
+      attachmentFields: [],
       fields: [
         FieldRecord({
           name: "current_owner_section",

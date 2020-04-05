@@ -8,7 +8,9 @@ import * as selectors from "./selectors";
 const stateWithoutUser = fromJS({});
 const stateWithUser = fromJS({
   user: {
+    isAuthenticated: true,
     username: "primero",
+    modules: ["primeromodule-test1", "primeromodule-test2"],
     permissions: {
       incidents: [ACTIONS.MANAGE],
       tracing_requests: [ACTIONS.MANAGE],
@@ -82,6 +84,20 @@ describe("User - Selectors", () => {
       const currentUser = selectors.currentUser(stateWithoutUser);
 
       expect(currentUser).to.be.undefined;
+    });
+  });
+
+  describe("getIsAuthenticated", () => {
+    it("should return isAuthenticated", () => {
+      const meta = selectors.getIsAuthenticated(stateWithUser);
+
+      expect(meta).to.deep.equal(true);
+    });
+
+    it("should return false when user not autenticated", () => {
+      const meta = selectors.getIsAuthenticated(stateWithoutUser);
+
+      expect(meta).to.deep.equal(false);
     });
   });
 });

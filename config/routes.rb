@@ -25,7 +25,6 @@ Rails.application.routes.draw do
     namespace :v2, defaults: { format: :json },
                    constraints: { format: :json },
                    only: %i[index create show update destroy] do
-
       resources :children, as: :cases, path: :cases do
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
@@ -34,6 +33,7 @@ Rails.application.routes.draw do
         resources :transfers, only: %i[index create update]
         resources :transfer_requests, only: %i[index create update]
         resources :transitions, only: [:index]
+        resources :attachments, only: %i[create destroy]
         collection do
           post :flags, to: 'flags#create_bulk'
           post :assigns, to: 'assigns#create_bulk'
@@ -46,15 +46,17 @@ Rails.application.routes.draw do
       resources :incidents do
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
-        post :flags, to: 'flags#create_bulk', on: :collection
         resources :approvals, only: [:update]
+        resources :attachments, only: %i[create destroy]
+        post :flags, to: 'flags#create_bulk', on: :collection
       end
 
       resources :tracing_requests do
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
-        post :flags, to: 'flags#create_bulk', on: :collection
         resources :approvals, only: [:update]
+        resources :attachments, only: %i[create destroy]
+        post :flags, to: 'flags#create_bulk', on: :collection
       end
 
       resources :form_sections, as: :forms, path: :forms
@@ -67,7 +69,7 @@ Rails.application.routes.draw do
       end
       resources :identity_providers, only: [:index]
       resources :dashboards, only: [:index]
-      resources :contact_information, only: [:index]
+      resource :contact_information, only: %i[show update], controller: 'contact_information'
       resources :system_settings, only: [:index]
       resources :tasks, only: [:index]
       resources :saved_searches, only: %i[index create destroy]

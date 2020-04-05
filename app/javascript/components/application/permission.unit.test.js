@@ -45,14 +45,14 @@ describe("<Permission />", () => {
   });
 
   describe("When User doesn't have permission", () => {
-    const permission = "write";
+    const actions = "write";
 
     beforeEach(() => {
       ({ component } = setupMountedComponent(
         Permission,
         {
           ...props,
-          permission
+          actions
         },
         initialState
       ));
@@ -72,7 +72,7 @@ describe("<Permission />", () => {
       ({ component } = setupMountedComponent(
         Permission,
         {
-          permission: ACTIONS.READ,
+          actions: ACTIONS.READ,
           children: <div />,
           match: {
             url: ROUTES.cases
@@ -87,13 +87,13 @@ describe("<Permission />", () => {
     });
   });
 
-  describe("When having multiple permissionType", () => {
+  describe("When having multiple resources", () => {
     beforeEach(() => {
       ({ component } = setupMountedComponent(
         Permission,
         {
-          permissionType: [RESOURCES.cases, RESOURCES.incidents],
-          permission: [ACTIONS.READ, ACTIONS.EXPORT_EXCEL],
+          resources: [RESOURCES.cases, RESOURCES.incidents],
+          actions: [ACTIONS.READ, ACTIONS.EXPORT_EXCEL],
           children: <div />,
           match: {
             url: "/cases"
@@ -106,5 +106,32 @@ describe("<Permission />", () => {
     it("renders children", () => {
       expect(component.find(Permission)).to.have.lengthOf(1);
     });
-  })
+  });
+
+  describe("When doesn't has the exact permissions", () => {
+    const wrongPermissionsProps = {
+      resources: RESOURCES.dashboards,
+      actions: ACTIONS.DASH_WORKFLOW_TEAM,
+      children: <h1>Test</h1>
+    };
+    const initialStateDashboad = fromJS({
+      user: {
+        permissions: {
+          dashboards: [ACTIONS.DASH_WORKFLOW, ACTIONS.DASH_CASE_RISK]
+        }
+      }
+    });
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Permission,
+        wrongPermissionsProps,
+        initialStateDashboad
+      ));
+    });
+
+    it("doesn't render children", () => {
+      expect(component.find("h1")).to.be.empty;
+    });
+  });
 });

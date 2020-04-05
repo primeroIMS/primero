@@ -8,7 +8,6 @@ describe("Verifying config constant", () => {
 
     expect(constants).to.have.property("FETCH_TIMEOUT");
     expect(constants).to.have.property("DATABASE_NAME");
-    expect(constants).to.have.property("DB");
     expect(constants).to.have.property("IDLE_TIMEOUT");
     expect(constants).to.have.property("IDLE_LOGOUT_TIMEOUT");
     expect(constants).to.have.property("TOKEN_REFRESH_INTERVAL");
@@ -72,10 +71,14 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("ADMIN_NAV");
     expect(constants).to.have.property("APPROVALS");
     expect(constants).to.have.property("RECORD_TYPES");
+    expect(constants).to.have.property("ACCEPTED");
+    expect(constants).to.have.property("ACCEPT");
+    expect(constants).to.have.property("REJECTED");
+    expect(constants).to.have.property("REJECT");
+    expect(constants).to.have.property("METHODS");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
-    delete constants.DB;
     delete constants.IDLE_TIMEOUT;
     delete constants.IDLE_LOGOUT_TIMEOUT;
     delete constants.TOKEN_REFRESH_INTERVAL;
@@ -117,6 +120,11 @@ describe("Verifying config constant", () => {
     delete constants.ADMIN_NAV;
     delete constants.APPROVALS;
     delete constants.RECORD_TYPES;
+    delete constants.ACCEPTED;
+    delete constants.ACCEPT;
+    delete constants.REJECTED;
+    delete constants.REJECT;
+    delete constants.METHODS;
 
     expect(constants).to.deep.equal({});
   });
@@ -126,14 +134,6 @@ describe("Verifying config constant", () => {
 
     expect(constants.FETCH_TIMEOUT).equal(50000);
     expect(constants.DATABASE_NAME).equal("primero");
-    expect(constants.DB).to.deep.equal({
-      USER: "user",
-      FIELDS: "fields",
-      FORMS: "forms",
-      OPTIONS: "options",
-      RECORDS: "records",
-      SYSTEM_SETTINGS: "system_settings"
-    });
     expect(constants.IDLE_TIMEOUT).equal(15 * 1000 * 60);
     expect(constants.IDLE_LOGOUT_TIMEOUT).equal(5 * 1000 * 60);
     expect(constants.TOKEN_REFRESH_INTERVAL).equal(30 * 1000 * 60);
@@ -176,7 +176,8 @@ describe("Verifying config constant", () => {
       "risk_level",
       "workflow",
       "service_type",
-      "protection_concerns"
+      "protection_concerns",
+      "followup_type"
     );
     expect(constants.RECORD_INFORMATION).to.be.an("array");
     expect(constants.APPROVALS).to.be.an("string");

@@ -6,7 +6,10 @@ import {
   CASES_BY_CASE_WORKER,
   CASES_REGISTRATION,
   CASES_OVERVIEW,
-  FETCH_DASHBOARDS_SUCCESS,
+  DASHBOARDS_STARTED,
+  DASHBOARDS_SUCCESS,
+  DASHBOARDS_FINISHED,
+  DASHBOARDS_FAILURE,
   SERVICES_STATUS,
   OPEN_PAGE_ACTIONS
 } from "./actions";
@@ -26,15 +29,23 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("casesRegistration", fromJS(payload.casesRegistration));
     case CASES_OVERVIEW:
       return state.set("casesOverview", fromJS(payload.casesOverview));
-    case FETCH_DASHBOARDS_SUCCESS:
+    case DASHBOARDS_STARTED:
+      return state.set("loading", fromJS(payload)).set("errors", false);
+    case DASHBOARDS_SUCCESS:
       return state.set("data", fromJS(payload.data));
+    case DASHBOARDS_FINISHED:
+      return state.set("loading", fromJS(payload));
+    case DASHBOARDS_FAILURE:
+      return state.set("errors", true);
     case SERVICES_STATUS:
       return state.set("servicesStatus", fromJS(payload.services));
     case OPEN_PAGE_ACTIONS:
       return state.set("isOpenPageActions", fromJS(payload));
+    case "user/LOGOUT_SUCCESS":
+      return DEFAULT_STATE;
     default:
       return state;
   }
 };
 
-export const reducers = { [NAMESPACE]: reducer };
+export default { [NAMESPACE]: reducer };

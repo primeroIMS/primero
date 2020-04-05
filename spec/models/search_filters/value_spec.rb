@@ -1,12 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe SearchFilters::Value do
-
   describe '.query_scope', search: true do
-
     before :example do
-      @correct_match = Child.create!(data: {name: 'Correct Match', sex: 'female', age: 12, record_state: true })
-      @incorrect_match = Child.create!(data: {name: 'Incorrect Match', sex: 'male', age: 8, record_state: false })
+      @correct_match = Child.create!(data: { name: 'Correct Match', sex: 'female', age: 12, record_state: true })
+      @incorrect_match = Child.create!(data: { name: 'Incorrect Match', sex: 'male', age: 8, record_state: false })
       Sunspot.commit
     end
 
@@ -36,7 +36,5 @@ describe SearchFilters::Value do
       @correct_match.destroy
       @incorrect_match.destroy
     end
-
   end
-
 end

@@ -7,11 +7,12 @@ import { useLocation, useParams } from "react-router-dom";
 import { useI18n } from "../../../i18n";
 import Form, { FormAction, whichFormMode } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
-import { LoadingIndicator } from "../../../loading-indicator";
+import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
 import { ROUTES } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
+import { fetchSystemSettings } from "../../../application";
 
 import { form, validations } from "./form";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
@@ -56,6 +57,10 @@ const Container = ({ mode }) => {
   const handleCancel = () => {
     dispatch(push(ROUTES.admin_users));
   };
+
+  useEffect(() => {
+    dispatch(fetchSystemSettings());
+  }, []);
 
   useEffect(() => {
     if (isEditOrShow) {

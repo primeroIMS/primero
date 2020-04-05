@@ -10,7 +10,15 @@ import {
 } from "lodash";
 import { isDate, format } from "date-fns";
 
-import * as C from "./constants";
+import {
+  SUBFORM_SECTION,
+  PHOTO_FIELD,
+  AUDIO_FIELD,
+  DOCUMENT_FIELD,
+  SELECT_FIELD,
+  DATE_FIELD,
+  TICK_FIELD
+} from "./constants";
 
 function compareArray(value, base) {
   return value.reduce((acc, v) => {
@@ -48,7 +56,13 @@ function difference(object, base, nested) {
       let val = value;
 
       if (isDate(val)) {
-        val = format(value, "dd-MMM-yyyy");
+        const initialValue = base[key];
+        const currentValue = value.toISOString();
+
+        val =
+          !isEmpty(initialValue) && initialValue.length === currentValue.length
+            ? value.toISOString()
+            : format(value, "dd-MMM-yyyy");
       }
 
       if (Array.isArray(val)) {
@@ -83,17 +97,17 @@ export const constructInitialValues = formMap => {
 
               if (
                 [
-                  C.SUBFORM_SECTION,
-                  C.PHOTO_FIELD,
-                  C.AUDIO_FIELD,
-                  C.DOCUMENT_FIELD
+                  SUBFORM_SECTION,
+                  PHOTO_FIELD,
+                  AUDIO_FIELD,
+                  DOCUMENT_FIELD
                 ].includes(f.type) ||
-                (f.type === C.SELECT_FIELD && f.multi_select)
+                (f.type === SELECT_FIELD && f.multi_select)
               ) {
                 defaultValue = [];
-              } else if ([C.DATE_FIELD].includes(f.type)) {
+              } else if ([DATE_FIELD].includes(f.type)) {
                 defaultValue = null;
-              } else if (f.type === C.TICK_FIELD) {
+              } else if (f.type === TICK_FIELD) {
                 defaultValue = false;
               } else {
                 defaultValue = "";

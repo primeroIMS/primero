@@ -152,10 +152,6 @@ const Component = ({ recordType, defaultFilters }) => {
 
     methods.setValue("fields", "short");
 
-    dispatch(
-      applyFilters({ recordType, data: compactFilters(methods.getValues()) })
-    );
-
     return () => {
       HIDDEN_FIELDS.forEach(field => methods.unregister({ name: field }));
     };
@@ -219,7 +215,7 @@ const Component = ({ recordType, defaultFilters }) => {
     <div className={css.root}>
       <FormContext {...methods} user={userName}>
         <form onSubmit={methods.handleSubmit(handleSubmit)}>
-          <Search />
+          <Search handleReset={handleClear} />
           <Tabs
             value={tabIndex}
             onChange={(event, value) => setTabIndex(value)}

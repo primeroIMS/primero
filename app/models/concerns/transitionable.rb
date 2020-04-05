@@ -2,7 +2,6 @@ module Transitionable
   extend ActiveSupport::Concern
 
   included do
-    #TODO: This will need to be changed toi individual associations per type?
     has_many :transitions, as: :record
 
     store_accessor :data,
@@ -13,6 +12,7 @@ module Transitionable
       string :referred_users, multiple: true
       string :transferred_to_users, multiple: true
       time :reassigned_transferred_on
+      boolean :referred_users_present
     end
   end
 
@@ -69,4 +69,7 @@ module Transitionable
       .pluck(:transitioned_to).uniq
   end
 
+  def referred_users_present
+    referred_users.present?
+  end
 end

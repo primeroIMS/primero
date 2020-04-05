@@ -4,6 +4,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
+import { OPTION_NAME as NAME } from "./constants";
 import styles from "./styles.css";
 
 const Option = props => {
@@ -24,6 +25,8 @@ const Option = props => {
     </MenuItem>
   );
 };
+
+Option.displayName = NAME;
 
 Option.propTypes = {
   children: PropTypes.node,

@@ -1,6 +1,6 @@
 import { expect, stub } from "../../../test/unit-test-helpers";
-import { RECORD_PATH } from "../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "../actions";
 
 import * as actionCreators from "./action-creators";
 import { APPROVE_RECORD } from "./actions";
@@ -20,11 +20,12 @@ describe("<RequestApproval /> - Action Creators", () => {
 
     const args = {
       recordType: "cases",
+      dialogName: "dialog",
       recordId: 10,
       approvalId: "bia",
       body: { data: { approval_status: "requested" } },
       message: "Updated successfully",
-      redirect: false
+      failureMessage: "updated unsuccessfully"
     };
 
     const expectedAction = {
@@ -33,18 +34,49 @@ describe("<RequestApproval /> - Action Creators", () => {
         path: "cases/10/approvals/bia",
         method: "PATCH",
         body: args.body,
-        successCallback: {
-          action: ENQUEUE_SNACKBAR,
-          payload: {
-            message: args.message,
-            options: {
-              key: 4,
-              variant: "success"
+        successCallback: [
+          {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              message: args.message,
+              options: {
+                variant: "success",
+                key: generate.messageKey()
+              }
             }
           },
-          redirectWithIdFromResponse: false,
-          redirect: false
-        }
+          {
+            action: SET_DIALOG,
+            payload: {
+              dialog: args.dialogName,
+              open: false
+            }
+          },
+          {
+            action: SET_DIALOG_PENDING,
+            payload: {
+              pending: false
+            }
+          }
+        ],
+        failureCallback: [
+          {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              message: args.failureMessage,
+              options: {
+                variant: "error",
+                key: generate.messageKey()
+              }
+            }
+          },
+          {
+            action: SET_DIALOG_PENDING,
+            payload: {
+              pending: false
+            }
+          }
+        ]
       }
     };
 

@@ -21,8 +21,6 @@ import { ApplicationProvider } from "./components/application";
 import configureStore, { history } from "./store";
 import ApplicationRoutes from "./components/application-routes";
 
-import "./service-worker";
-
 const store = configureStore();
 
 const jss = create({
@@ -34,14 +32,12 @@ const generateClassName = createGenerateClassName();
 
 const App = () => {
   store.subscribe(() => {
-    document.querySelector("body").setAttribute(
-      "dir",
-      store
-        .getState()
-        .get("ui")
-        .get(NAMESPACE)
-        .get("dir")
-    );
+    document
+      .querySelector("body")
+      .setAttribute(
+        "dir",
+        store.getState().get("ui").get(NAMESPACE).get("dir")
+      );
   });
 
   store.dispatch(checkUserAuthentication());
@@ -54,13 +50,13 @@ const App = () => {
         <Provider store={store}>
           <I18nProvider>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <SnackbarProvider maxSnack={3}>
-                <ApplicationProvider>
-                  <ConnectedRouter history={history}>
+              <ApplicationProvider>
+                <ConnectedRouter history={history}>
+                  <SnackbarProvider maxSnack={3}>
                     <ApplicationRoutes routes={routes} />
-                  </ConnectedRouter>
-                </ApplicationProvider>
-              </SnackbarProvider>
+                  </SnackbarProvider>
+                </ConnectedRouter>
+              </ApplicationProvider>
             </MuiPickersUtilsProvider>
           </I18nProvider>
         </Provider>

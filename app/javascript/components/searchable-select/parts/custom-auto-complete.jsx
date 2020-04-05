@@ -60,7 +60,7 @@ const CustomAutoComplete = ({ props }) => {
         components={components}
         menuPosition="fixed"
         options={searchOptions}
-        defaultValue={excludeEmpty ? defaultValues : searchOptions[0]}
+        value={excludeEmpty ? defaultValues : searchOptions[0]}
         {...rest}
       />
     </NoSsr>
@@ -71,7 +71,10 @@ CustomAutoComplete.displayName = CUSTOM_AUTOCOMPLETE_NAME;
 
 CustomAutoComplete.propTypes = {
   components: PropTypes.object,
+  defaultValues: PropTypes.object,
+  excludeEmpty: PropTypes.bool,
   id: PropTypes.string,
+  options: PropTypes.object,
   props: PropTypes.object
 };
 

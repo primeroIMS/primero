@@ -5,21 +5,34 @@ import makeStyles from "@material-ui/styles/makeStyles";
 import { push } from "connected-react-router";
 import isEmpty from "lodash/isEmpty";
 
-import { DashboardChip } from "../dashboard-chip";
+import DashboardChip from "../dashboard-chip";
 import { useI18n } from "../../i18n";
 import { ROUTES } from "../../../config";
 import { buildFilter } from "../helpers";
+import LoadingIndicator from "../../loading-indicator";
+import NAMESPACE from "../../pages/dashboard/namespace";
 
 import styles from "./styles.css";
 
-const BadgedIndicator = ({ data, lookup, sectionTitle, indicator }) => {
+const BadgedIndicator = ({
+  data,
+  lookup,
+  sectionTitle,
+  indicator,
+  loading,
+  errors
+}) => {
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
-  if (!data.size) {
-    return null;
-  }
+  const loadingIndicatorProps = {
+    overlay: true,
+    hasData: Boolean(data.size),
+    type: NAMESPACE,
+    loading,
+    errors
+  };
 
   const dashboardChips = lookup.map(lk => {
     const value = data.getIn(["indicators", indicator, lk.id]);
@@ -50,10 +63,12 @@ const BadgedIndicator = ({ data, lookup, sectionTitle, indicator }) => {
 
   return (
     <>
-      {sectionTitle && <div className={css.sectionTitle}>{sectionTitle}</div>}
-      <ul className={css.statusList} key={data.get("name")}>
-        <ul>{dashboardChips}</ul>
-      </ul>
+      <LoadingIndicator {...loadingIndicatorProps}>
+        {sectionTitle && <div className={css.sectionTitle}>{sectionTitle}</div>}
+        <ul className={css.statusList} key={data.get("name")}>
+          <ul>{dashboardChips}</ul>
+        </ul>
+      </LoadingIndicator>
     </>
   );
 };
@@ -62,7 +77,9 @@ BadgedIndicator.displayName = "BadgedIndicator";
 
 BadgedIndicator.propTypes = {
   data: PropTypes.object.isRequired,
+  errors: PropTypes.bool,
   indicator: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
   lookup: PropTypes.array.isRequired,
   sectionTitle: PropTypes.string
 };

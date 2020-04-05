@@ -4,7 +4,7 @@ import { Field } from "formik";
 import { TextField } from "formik-material-ui";
 
 import { useI18n } from "../../../../i18n";
-import { SearchableSelect } from "../../../../searchable-select";
+import SearchableSelect from "../../../../searchable-select";
 
 const FormInternal = ({ fields, disabled }) => {
   const i18n = useI18n();
@@ -22,14 +22,15 @@ const FormInternal = ({ fields, disabled }) => {
             shrink: true
           }}
           fullWidth
+          autoComplete="off"
         />
       );
     }
     const searchableValue = field => {
       const { value } = field;
-      const selected = f.options?.filter(option => option.value === value)[0];
+      const selected = f.options?.find(option => option.value === value);
 
-      return !disabled && value !== ""
+      return value !== ""
         ? selected
         : { value: "", label: i18n.t("fields.select_single") };
     };
@@ -68,6 +69,8 @@ const FormInternal = ({ fields, disabled }) => {
                 TextFieldProps={searchTextFieldProps(f, form)}
                 {...other}
                 onBlur={field.onBlur}
+                onMenuOpen={f.onMenuOpen}
+                isLoading={f.isLoading}
               />
             </>
           );
@@ -78,6 +81,8 @@ const FormInternal = ({ fields, disabled }) => {
 
   return <>{internalFields}</>;
 };
+
+FormInternal.displayName = "ReferralFormInternal";
 
 FormInternal.propTypes = {
   disabled: PropTypes.bool,

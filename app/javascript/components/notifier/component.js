@@ -1,135 +1,105 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { withSnackbar } from "notistack";
-import { IconButton } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useSnackbar } from "notistack";
+
+import { useI18n } from "../i18n";
 
 import { getMessages } from "./selectors";
-import { removeSnackbar, closeSnackbar } from "./action-creators";
+import { removeSnackbar } from "./action-creators";
+import SnackbarAction from "./snackbar-action";
 
-class Notifier extends Component {
-  constructor(props) {
-    super(props);
+let displayed = [];
 
-    this.displayed = [];
-  }
+const snackbarOptions = {
+  anchorOrigin: {
+    vertical: "bottom",
+    horizontal: "center"
+  },
+  preventDuplicate: true,
+  autoHideDuration: 6000
+};
 
-  shouldComponentUpdate({ messages: newSnacks = [] }) {
-    if (!newSnacks.size) {
-      this.displayed = [];
+const Notifier = () => {
+  const i18n = useI18n();
+  const dispatch = useDispatch();
+  const notifications = useSelector(state => getMessages(state));
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-      return false;
-    }
+  const storeDisplayed = id => {
+    displayed = [...displayed, id];
+  };
 
-    const {
-      messages: currentSnacks,
-      closeSnackbar: closeSnack,
-      removeSnackbar: removeSnack
-    } = this.props;
+  const removeDisplayed = id => {
+    displayed = [...displayed.filter(key => id !== key)];
+  };
 
-    let notExists = false;
+  const removeMessage = key => {
+    dispatch(removeSnackbar(key));
+    removeDisplayed(key);
+  };
 
-    newSnacks.forEach(snack => {
-      const { options, dismissed } = snack;
+  useEffect(() => {
+    notifications.forEach(snack => {
+      const {
+        options: { key, onClose, action, ...otherOptions },
+        dismissed,
+        message,
+        messageKey,
+        actionLabel,
+        actionUrl
+      } = snack;
 
       if (dismissed) {
-        closeSnack(options.key);
-        removeSnack(options.key);
-      }
+        closeSnackbar(key);
 
-      if (notExists) return;
-
-      notExists =
-        notExists ||
-        !currentSnacks.filter(({ options: { key } }) => options.key === key)
-          .size;
-    });
-
-    return notExists;
-  }
-
-  componentDidUpdate() {
-    const {
-      messages,
-      dismissSnackbar,
-      enqueueSnackbar: enqueueSnack
-    } = this.props;
-
-    messages.forEach(m => {
-      const { message, options } = m;
-
-      if (this.displayed.includes(options.key)) {
         return;
       }
 
-      enqueueSnack(message, {
-        ...options,
-        anchorOrigin: {
-          vertical: "bottom",
-          horizontal: "center"
-        },
-        preventDuplicate: true,
-        autoHideDuration: 6000,
-        action: key => {
-          const handleSnackClose = () => {
-            dismissSnackbar(key);
-          };
+      if (displayed.includes(key)) return;
 
-          if (options.action) {
-            return <>{options.action(key, handleSnackClose)}</>;
-          }
+      let snackMessage = message;
 
-          return (
-            <IconButton onClick={handleSnackClose}>
-              <CloseIcon />
-            </IconButton>
-          );
-        },
-        onClose: (event, reason, key) => {
-          if (options.onClose) {
-            options.onClose(event, reason, key);
-          }
+      if (messageKey) {
+        const translatedMessage = i18n.t(messageKey);
 
-          removeSnackbar(options.key);
+        if (/^\[missing/.test(translatedMessage)) {
+          snackMessage = messageKey;
+        } else {
+          snackMessage = translatedMessage;
         }
+      }
+
+      enqueueSnackbar(snackMessage, {
+        ...otherOptions,
+        ...snackbarOptions,
+        key,
+        onExited: (event, snackKey) => {
+          removeMessage(snackKey);
+        },
+        onClose: (event, reason, snackKey) => {
+          if (onClose) {
+            onClose(event, reason, snackKey);
+          }
+        },
+        // eslint-disable-next-line react/display-name
+        action: snackKey => (
+          <SnackbarAction
+            action={action}
+            actionLabel={actionLabel}
+            actionUrl={actionUrl}
+            closeSnackbar={closeSnackbar}
+            key={snackKey}
+          />
+        )
       });
 
-      this.storeDisplayed(options.key);
+      storeDisplayed(key);
     });
-  }
+  }, [notifications, closeSnackbar, enqueueSnackbar, dispatch]);
 
-  storeDisplayed(id) {
-    this.displayed = [...this.displayed, id];
-  }
-
-  render() {
-    return null;
-  }
-}
+  return null;
+};
 
 Notifier.displayName = "Notifier";
 
-Notifier.propTypes = {
-  closeSnackbar: PropTypes.func.isRequired,
-  dismissSnackbar: PropTypes.func.isRequired,
-  enqueueSnackbar: PropTypes.func.isRequired,
-  messages: PropTypes.object,
-  removeSnackbar: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => ({
-  messages: getMessages(state)
-});
-
-const mapDispatchToProps = {
-  removeSnackbar,
-  dismissSnackbar: closeSnackbar
-};
-
-export default withSnackbar(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Notifier)
-);
+export default Notifier;

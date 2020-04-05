@@ -35,25 +35,27 @@ describe("<CustomAutoComplete />", () => {
     expect(component.find(ReactSelect)).to.have.length(1);
   });
 
-  it("renders a single option and defaultValue prop if excludeEmpty is true", () => {
+  it("renders a single option and value prop if excludeEmpty is true", () => {
     const excludeEmpty = true;
 
     const { component: mountedComponent } = setupMountedComponent(
       CustomAutoComplete,
-      { props: { ...props, excludeEmpty } }
+      {
+        props: { ...props, excludeEmpty }
+      }
     );
     const reactSelect = mountedComponent.find(ReactSelect).props();
 
-    expect(reactSelect).to.have.property("defaultValue");
+    expect(reactSelect).to.have.property("value");
     expect(reactSelect).to.have.property("options");
     expect(reactSelect.options).to.have.lengthOf(1);
-    expect(reactSelect.defaultValue).to.be.deep.equal(defaultValue);
+    expect(reactSelect.value).to.be.deep.equal(defaultValue);
   });
 
-  it("renders two options and defaultValue prop if excludeEmpty is false", () => {
+  it("renders two options and value prop if excludeEmpty is false", () => {
     const reactSelect = component.find(ReactSelect).props();
 
-    expect(reactSelect).to.have.property("defaultValue");
+    expect(reactSelect).to.have.property("value");
     expect(reactSelect).to.have.property("options");
     expect(reactSelect.options).to.have.lengthOf(2);
   });

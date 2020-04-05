@@ -1,7 +1,7 @@
 import chai, { expect } from "chai";
-import sinon from "sinon";
 import sinonChai from "sinon-chai";
 import configureStore from "redux-mock-store";
+import thunk from "redux-thunk";
 
 import * as actionCreators from "./action-creators";
 
@@ -11,10 +11,18 @@ describe("records - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    expect(creators).to.have.property("setFilters");
-    expect(creators).to.have.property("fetchCases");
-    expect(creators).to.have.property("fetchIncidents");
-    expect(creators).to.have.property("fetchTracingRequests");
+    expect(creators, "DEPRECATED setFilters").to.not.have.property(
+      "setFilters"
+    );
+    expect(creators, "DEPRECATED fetchCases").to.not.have.property(
+      "fetchCases"
+    );
+    expect(creators, "DEPRECATED fetchIncidents").to.not.have.property(
+      "fetchIncidents"
+    );
+    expect(creators, "DEPRECATED fetchTracingRequests").to.not.have.property(
+      "fetchTracingRequests"
+    );
     expect(creators).to.have.property("fetchRecord");
     expect(creators).to.have.property("saveRecord");
     delete creators.setFilters;
@@ -27,86 +35,17 @@ describe("records - Action Creators", () => {
     expect(creators).to.deep.equal({});
   });
 
-  it("should check the 'fetchCases' action creator to return the correct object", () => {
-    const options = { status: "open" };
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
-
-    actionCreators.fetchCases({
-      options: { status: "open" }
-    })(dispatch);
-
-    expect(dispatch).not.to.have.been.calledWithMatch({
-      payload: options,
-      type: "cases/SET_FILTERS"
-    });
-
-    expect(dispatch).to.have.been.calledWithMatch({
-      api: {
-        db: { collection: "records", recordType: "cases" },
-        params: options,
-        path: "cases"
-      },
-      type: "cases/RECORDS"
-    });
-  });
-
-  it("should check the 'fetchIncidents' action creator to return the correct object", () => {
-    const options = { status: "open" };
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
-
-    actionCreators.fetchIncidents({
-      options: { status: "open" }
-    })(dispatch);
-
-    expect(dispatch).not.to.have.been.calledWithMatch({
-      payload: options,
-      type: "cases/SET_FILTERS"
-    });
-
-    expect(dispatch).to.have.been.calledWithMatch({
-      api: {
-        db: { collection: "records", recordType: "incidents" },
-        params: options,
-        path: "incidents"
-      },
-      type: "incidents/RECORDS"
-    });
-  });
-
-  it("should check the 'fetchTracingRequests' action creator to return the correct object", () => {
-    const options = { status: "open" };
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
-
-    actionCreators.fetchTracingRequests({
-      options: { status: "open" }
-    })(dispatch);
-
-    expect(dispatch).not.to.have.been.calledWithMatch({
-      payload: options,
-      type: "cases/SET_FILTERS"
-    });
-
-    expect(dispatch).to.have.been.calledWithMatch({
-      api: {
-        db: { collection: "records", recordType: "tracing_requests" },
-        params: options,
-        path: "tracing_requests"
-      },
-      type: "tracing_requests/RECORDS"
-    });
-  });
-
   it("should check the 'fetchRecord' action creator to return the correct object", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const store = configureStore([thunk])({});
 
-    actionCreators.fetchRecord("cases", "123")(dispatch);
+    return store
+      .dispatch(actionCreators.fetchRecord("cases", "123"))
+      .then(() => {
+        const actions = store.getActions();
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql("cases/RECORD");
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql("cases/123");
+        expect(actions[0].type).to.eql("cases/RECORD");
+        expect(actions[0].api.path).to.eql("cases/123");
+      });
   });
 
   describe("should check the 'saveRecord' action creator", () => {
@@ -124,31 +63,37 @@ describe("records - Action Creators", () => {
     };
 
     it("when path it's 'update' should return the correct object", () => {
-      const store = configureStore()({});
-      const dispatch = sinon.spy(store, "dispatch");
+      const store = configureStore([thunk])({});
 
-      actionCreators.saveRecord("cases", "update", body, "123", () => {})(
-        dispatch
-      );
+      return store
+        .dispatch(
+          actionCreators.saveRecord("cases", "update", body, "123", () => {})
+        )
+        .then(() => {
+          const actions = store.getActions();
 
-      expect(dispatch.getCall(0).returnValue.type).to.eql("cases/SAVE_RECORD");
-      expect(dispatch.getCall(0).returnValue.api.path).to.eql("cases/123");
-      expect(dispatch.getCall(0).returnValue.api.method).to.eql("PATCH");
-      expect(dispatch.getCall(0).returnValue.api.body).to.eql(body);
+          expect(actions[0].type).to.eql("cases/SAVE_RECORD");
+          expect(actions[0].api.path).to.eql("cases/123");
+          expect(actions[0].api.method).to.eql("PATCH");
+          expect(actions[0].api.body).to.eql(body);
+        });
     });
 
     it("when path it's not 'update', the path and method should be different", () => {
-      const store = configureStore()({});
-      const dispatch = sinon.spy(store, "dispatch");
+      const store = configureStore([thunk])({});
 
-      actionCreators.saveRecord("cases", "edit", body, "123", () => {})(
-        dispatch
-      );
+      return store
+        .dispatch(
+          actionCreators.saveRecord("cases", "update", body, "123", () => {})
+        )
+        .then(() => {
+          const actions = store.getActions();
 
-      expect(dispatch.getCall(0).returnValue.type).to.eql("cases/SAVE_RECORD");
-      expect(dispatch.getCall(0).returnValue.api.path).to.eql("cases");
-      expect(dispatch.getCall(0).returnValue.api.method).to.eql("POST");
-      expect(dispatch.getCall(0).returnValue.api.body).to.eql(body);
+          expect(actions[0].type).to.eql("cases/SAVE_RECORD");
+          expect(actions[0].api.path).to.eql("cases/123");
+          expect(actions[0].api.method).to.eql("PATCH");
+          expect(actions[0].api.body).to.eql(body);
+        });
     });
   });
 });

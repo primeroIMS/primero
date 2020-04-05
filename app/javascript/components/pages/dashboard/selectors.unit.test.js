@@ -128,6 +128,106 @@ const protectionConcern = {
   }
 };
 
+const sharedWithMe = {
+  name: "dashboard.dash_shared_with_me",
+  type: "indicator",
+  indicators: {
+    shared_with_me_total_referrals: {
+      count: 0,
+      query: ["record_state=true", "status=open"]
+    },
+    shared_with_me_new_referrals: {
+      count: 0,
+      query: ["record_state=true", "status=open", "not_edited_by_owner=true"]
+    },
+    shared_with_me_transfers_awaiting_acceptance: {
+      count: 0,
+      query: ["record_state=true", "status=open"]
+    }
+  }
+};
+
+const sharedWithOthers = {
+  name: "dashboard.dash_shared_with_others",
+  type: "indicator",
+  indicators: {
+    shared_with_others_referrals: {
+      count: 0,
+      query: [
+        "owned_by=primero_cp",
+        "record_state=true",
+        "status=open",
+        "referred_users_present=true"
+      ]
+    },
+    shared_with_others_pending_transfers: {
+      count: 0,
+      query: [
+        "owned_by=primero_cp",
+        "record_state=true",
+        "status=open",
+        "transfer_status=in_progress"
+      ]
+    },
+    shared_with_others_rejected_transfers: {
+      count: 0,
+      query: [
+        "owned_by=primero_cp",
+        "record_state=true",
+        "status=open",
+        "transfer_status=rejected"
+      ]
+    }
+  }
+};
+
+const groupOverview = {
+  name: "dashboard.dash_group_overview",
+  type: "indicator",
+  indicators: {
+    group_overview_open: {
+      count: 5,
+      query: ["record_state=true", "status=open"]
+    },
+    group_overview_closed: {
+      count: 0,
+      query: ["record_state=true", "status=closed"]
+    }
+  }
+};
+
+const caseOverview = {
+  name: "dashboard.case_overview",
+  type: "indicator",
+  indicators: {
+    total: {
+      count: 2,
+      query: ["record_state=true", "status=open"]
+    },
+    new_or_updated: {
+      count: 1,
+      query: ["record_state=true", "status=closed", "not_edited_by_owner=true"]
+    }
+  }
+};
+
+const sharedWithMyTeam = {
+  name: "dashboard.dash_shared_with_my_team",
+  type: "indicator",
+  indicators: {
+    shared_with_my_team_referrals: {
+      primero_cp: { count: 1, query: ["referred_users=primero_cp"] }
+    },
+    shared_with_my_team_pending_transfers: {
+      primero_cp: { count: 2, query: ["transferred_to_users=primero_cp"] },
+      primero_cp_ar: {
+        count: 1,
+        query: ["transferred_to_users=primero_cp_ar"]
+      }
+    }
+  }
+};
+
 const stateWithoutRecords = fromJS({});
 const initialState = fromJS({
   records: {
@@ -156,7 +256,12 @@ const initialState = fromJS({
         approvalsAssessmentPending,
         approvalsCasePlanPending,
         approvalsClosurePending,
-        protectionConcern
+        protectionConcern,
+        sharedWithMe,
+        sharedWithOthers,
+        groupOverview,
+        caseOverview,
+        sharedWithMyTeam
       ]
     }
   }
@@ -187,6 +292,24 @@ describe("<Dashboard /> - Selectors", () => {
       });
 
       expect(records).to.deep.equal(expected);
+    });
+  });
+
+  describe("getCasesByAssessmentLevel empty value", () => {
+    it("should return a map when dashboard is empty", () => {
+      const emptyResult = fromJS({});
+
+      const emptyValueInitialState = fromJS({
+        name: DASHBOARD_NAMES.CASE_RISK,
+        type: "indicator",
+        stats: {}
+      });
+
+      const expected = selectors.getCasesByAssessmentLevel(
+        emptyValueInitialState
+      );
+
+      expect(emptyResult).to.deep.equal(expected);
     });
   });
 
@@ -241,6 +364,46 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getProtectionConcerns(initialState);
 
       expect(values).to.deep.equal(fromJS(protectionConcern));
+    });
+  });
+
+  describe("getSharedWithMe", () => {
+    it("should return the shared with me", () => {
+      const values = selectors.getSharedWithMe(initialState);
+
+      expect(values).to.deep.equal(fromJS(sharedWithMe));
+    });
+  });
+
+  describe("getSharedWithOthers", () => {
+    it("should return the shared with others", () => {
+      const values = selectors.getSharedWithOthers(initialState);
+
+      expect(values).to.deep.equal(fromJS(sharedWithOthers));
+    });
+  });
+
+  describe("getGroupOverview", () => {
+    it("should return the group overview", () => {
+      const values = selectors.getGroupOverview(initialState);
+
+      expect(values).to.deep.equal(fromJS(groupOverview));
+    });
+  });
+
+  describe("getCaseOverview", () => {
+    it("should return the case overview", () => {
+      const values = selectors.getCaseOverview(initialState);
+
+      expect(values).to.deep.equal(fromJS(caseOverview));
+    });
+  });
+
+  describe("getSharedWithMyTeam", () => {
+    it("should return the shared with my team dashboard", () => {
+      const values = selectors.getSharedWithMyTeam(initialState);
+
+      expect(values).to.deep.equal(fromJS(sharedWithMyTeam));
     });
   });
 });

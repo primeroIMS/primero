@@ -52,6 +52,12 @@ Endpoints for query and manipulating flags for cases, tracing request and incide
 * [Unflag a record](v2/docs/flags/id/patch.md) `POST /api/v2/:recordType/:recordId/flags/:id`
 * [Create a bulk of flags for multiple records](v2/docs/flags/id/post.md) `POST /api/v2/:recordType/:recordId/flags`
 
+## Attachments
+
+Endpoints for associating files with records.
+* [Attach a file](v2/docs/attachments/post.md): `POST /api/v2/:recordType/:recordId/attachments`
+* [Detach a file](v2/docs/attachments/id/delete.md): `DELETE /api/v2/:recordType/:recordId/attachments/:id`
+
 ## Transitions
 
 Transitions change the access rights of users to records. 
@@ -110,7 +116,8 @@ The API behavior is similar to that of cases.
 
 Endpoints for querying contact information
 
-* [Query for contact informationg](v2/docs/contact_information/get.md) : `GET /api/v2/contact_information`
+* [Query for contact information](v2/docs/contact_information/get.md) : `GET /api/v2/contact_information`
+* [Update the current contact information](v2/docs/contact_information/patch.md) : `PATCH /api/v2/contact_information`
 
 
 ## System Setting Endpoints

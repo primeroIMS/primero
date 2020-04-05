@@ -1,25 +1,35 @@
 export const ACTIONS = {
   ADD_NOTE: "add_note",
-  APPROVE_BIA: 'approve_bia',
-  APPROVE_CASE_PLAN: 'approve_case_plan',
-  APPROVE_CLOSURE: 'approve_closure',
+  APPROVE_BIA: "approve_bia",
+  APPROVE_CASE_PLAN: "approve_case_plan",
+  APPROVE_CLOSURE: "approve_closure",
   ASSIGN: "assign",
   ASSIGN_WITHIN_AGENCY_PERMISSIONS: "assign_within_agency permissions",
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
   CLOSE: "close",
   CREATE: "create",
   DASH_APPROVALS_ASSESSMENT: "approvals_assessment",
-  DASH_APPROVALS_ASSESSMENT_PENDING: 'approvals_assessment_pending',
+  DASH_APPROVALS_ASSESSMENT_PENDING: "approvals_assessment_pending",
   DASH_APPROVALS_CASE_PLAN: "approvals_case_plan",
-  DASH_APPROVALS_CASE_PLAN_PENDING: 'approvals_case_plan_pending',
+  DASH_APPROVALS_CASE_PLAN_PENDING: "approvals_case_plan_pending",
   DASH_APPROVALS_CLOSURE: "approvals_closure",
-  DASH_APPROVALS_CLOSURE_PENDING: 'approvals_closure_pending',
+  DASH_APPROVALS_CLOSURE_PENDING: "approvals_closure_pending",
   DASH_CASE_RISK: "case_risk",
+  DASH_CASE_OVERVIEW: "case_overview",
   DASH_PROTECTION_CONCERNS: "dash_protection_concerns",
   DASH_REPORTING_LOCATION: "dash_reporting_location",
+  DASH_SHARED_FROM_MY_TEAM: "dash_shared_with_my_team",
+  DASH_SHARED_WITH_ME: "dash_shared_with_me",
+  DASH_SHARED_WITH_MY_TEAM: "dash_shared_with_my_team",
+  DASH_SHARED_WITH_OTHERS: "dash_shared_with_others",
   DASH_TASKS: "dash_tasks",
-  DASH_WORKFLOW: "dash_workflow",
-  DASH_WORKFLOW_TEAM: "dash_workflow_team",
+  DASH_WORKFLOW: "workflow",
+  DASH_WORKFLOW_TEAM: "workflow_team",
+  DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT: "cases_by_task_overdue_assessment",
+  DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN: "cases_by_task_overdue_case_plan",
+  DASH_CASES_BY_TASK_OVERDUE_SERVICES: "cases_by_task_overdue_services",
+  DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS: "cases_by_task_overdue_followups",
+  DASH_GROUP_OVERVIEW: "dash_group_overview",
   DISPLAY_VIEW_PAGE: "display_view_page",
   ENABLE_DISABLE_RECORD: "enable_disable_record",
   EXPORT_CASE_PDF: "export_case_pdf",
@@ -40,20 +50,21 @@ export const ACTIONS = {
   MANAGE: "manage",
   READ: "read",
   REFERRAL: "referral",
+  REMOVE_ASSIGNED_USERS: "remove_assigned_users",
   REOPEN: "reopen",
-  REQUEST_APPROVAL_BIA: 'request_approval_bia',
-  REQUEST_APPROVAL_CASE_PLAN: 'request_approval_case_plan',
-  REQUEST_APPROVAL_CLOSURE: 'request_approval_closure',
+  REQUEST_APPROVAL_BIA: "request_approval_bia",
+  REQUEST_APPROVAL_CASE_PLAN: "request_approval_case_plan",
+  REQUEST_APPROVAL_CLOSURE: "request_approval_closure",
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   TRANSFER: "transfer",
   WRITE: "write",
-  REQUEST_APPROVAL_BIA: "request_approval_bia",
-  REQUEST_APPROVAL_CASE_PLAN: "request_approval_case_plan",
-  REQUEST_APPROVAL_CLOSURE: "request_approval_closure"
+  RECEIVE_REFERRAL: "receive_referral",
+  RECEIVE_TRANSFER: "receive_transfer",
+  REFERRAL_FROM_SERVICE: "referral_from_service"
 };
 
-const MANAGE = [ACTIONS.MANAGE];
+export const MANAGE = [ACTIONS.MANAGE];
 
 export const RESOURCES = {
   cases: "cases",
@@ -62,7 +73,14 @@ export const RESOURCES = {
   potential_matches: "potential_matches",
   reports: "reports",
   tracing_requests: "tracing_requests",
-  users: "users"
+  users: "users",
+  agencies: "agencies",
+  user_groups: "user_groups",
+  lookups: "lookups",
+  contact_information: "contact_information",
+  roles: "roles",
+  systems: "systems",
+  metadata: "metadata"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {
@@ -115,11 +133,20 @@ export const ADD_INCIDENT = [...MANAGE, ACTIONS.INCIDENT_DETAILS_FROM_CASE];
 
 export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
 
+export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL_FROM_SERVICE];
+
 export const REQUEST_APPROVAL = [
   ...MANAGE,
   ACTIONS.REQUEST_APPROVAL_BIA,
   ACTIONS.REQUEST_APPROVAL_CASE_PLAN,
   ACTIONS.REQUEST_APPROVAL_CLOSURE
+];
+
+export const APPROVAL = [
+  ...MANAGE,
+  ACTIONS.APPROVE_BIA,
+  ACTIONS.APPROVE_CASE_PLAN,
+  ACTIONS.APPROVE_CLOSURE
 ];
 
 export const SHOW_EXPORTS = [

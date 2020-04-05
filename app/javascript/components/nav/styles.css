@@ -31,8 +31,6 @@
 }
 
 .navList {
-  flex: 1;
-
   & svg {
     color: $(theme.primero.colors.darkGrey);
   }
@@ -82,7 +80,7 @@
 .navLink {
   text-decoration: none;
   color: $(theme.primero.colors.black);
-  padding: 8px 16px;
+  padding: 8px 16px !important;
   display: flex;
   width: 100%;
   align-items: center;
@@ -138,6 +136,14 @@
     rgba(232, 232, 232, 0.26) 18%,
     #d8d8d8
   );
+}
+
+.navAgencies {
+  flex: 1;
+
+  & div {
+    height: 100%;
+  }
 }
 
 @media $(theme.breakpoints.only("md")) {
