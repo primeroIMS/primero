@@ -16,6 +16,14 @@ describe Ability do
     @permission_case_read_write = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
   end
 
+  after do
+    clean_data(
+      User, Child, Field, FormSection,
+      PrimeroModule, PrimeroProgram, Role,
+      Agency, UserGroup
+    )
+  end
+
   describe 'Records' do
 
     before :each do

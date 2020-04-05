@@ -59,6 +59,10 @@ describe ActiveStorageAuth do
   end
 
   describe 'Agency logo' do
+    before(:each) do
+      clean_data(Agency)
+    end
+
     let(:agency) do
       agency = Agency.create!(
         unique_id: 'agency_1',
