@@ -53,7 +53,9 @@ function KeyPerformanceIndicators({}) {
 
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={6}>
-                  <NumberOfCases />
+                  <NumberOfCases 
+                    dateRanges={[commonDateRanges.Last3Months]}
+                  />
                 </Grid>
 
                 <Grid item className={css.grow} xs={12} md={6}>

@@ -1,48 +1,11 @@
-import * as actions from "../../action-creators";
-import * as selectors from "../../selectors";
-import { DateRangeSelect } from "components/key-performance-indicators/date-range-select";
-import { OptionsBox, DashboardTable } from "components/dashboard";
-import { connect } from "react-redux";
+import  { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
+import { DashboardTable } from "components/dashboard";
+import React from "react";
 import { useI18n } from "components/i18n";
-import React, { useEffect, useState } from "react";
 
-function asKeyPerformanceIndicator(identifier, defaultData) {
-  return (Visualizer) => {
-    // TODO: need a better name for this
-    let enhance = connect(
-      (state) => ({ data: selectors.forKPI(identifier, state, defaultData) }),
-      { fetchData: actions.dataFetcherFor(identifier) }
-    );
+function TimeFromCaseOpenToClose({ data, identifier }) {
+  let i18n = useI18n();
 
-    return enhance(({ data, fetchData, dateRanges, ...props }) => {
-      let i18n = useI18n();
-
-      let [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);
-
-      useEffect(() => {
-        fetchData(currentDateRange);
-      }, [currentDateRange]);
-
-      return (
-        <OptionsBox
-          title={i18n.t(`key_performance_indicators.${identifier}.title`)}
-          action={
-            <DateRangeSelect
-              ranges={dateRanges}
-              selectedRange={currentDateRange}
-              setSelectedRange={setCurrentDateRange}
-              withCustomRange
-            />
-          }
-        >
-          <Visualizer data={data} {...props} />
-        </OptionsBox>
-      );
-    });
-  };
-}
-
-function TimeFromCaseOpenToClose({ data, identifer }) {
   let columns = [{
     name: 'time',
     label: i18n.t(`key_performance_indicators.${identifier}.time`)
