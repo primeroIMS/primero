@@ -9,7 +9,7 @@ import Form, { FormAction, whichFormMode } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
-import { ROUTES } from "../../../../config";
+import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
 import { fetchSystemSettings } from "../../../application";
@@ -39,7 +39,9 @@ const Container = ({ mode }) => {
     dispatch(
       saveUser({
         id,
-        saveMethod: formMode.get("isEdit") ? "update" : "new",
+        saveMethod: formMode.get("isEdit")
+          ? SAVE_METHODS.update
+          : SAVE_METHODS.new,
         body: { data },
         message: i18n.t(
           `user.messages.${formMode.get("isEdit") ? "updated" : "created"}`

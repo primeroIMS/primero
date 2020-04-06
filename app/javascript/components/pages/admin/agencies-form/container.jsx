@@ -9,7 +9,7 @@ import Form, { FormAction, whichFormMode } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../agencies-list/namespace";
-import { ROUTES } from "../../../../config";
+import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
 import bindFormSubmit from "../../../../libs/submit-form";
@@ -54,7 +54,9 @@ const Container = ({ mode }) => {
     dispatch(
       saveAgency({
         id,
-        saveMethod: formMode.get("isEdit") ? "update" : "new",
+        saveMethod: formMode.get("isEdit")
+          ? SAVE_METHODS.update
+          : SAVE_METHODS.new,
         body: { data: localizedData },
         message: i18n.t(
           `agency.messages.${formMode.get("isEdit") ? "updated" : "created"}`

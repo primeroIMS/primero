@@ -1,4 +1,4 @@
-import { RECORD_PATH } from "../../../../config";
+import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 
 import actions from "./actions";
@@ -14,7 +14,7 @@ export const fetchAgency = id => {
 
 export const saveAgency = ({ id, body, saveMethod, message }) => {
   const path =
-    saveMethod === "update"
+    saveMethod === SAVE_METHODS.update
       ? `${RECORD_PATH.agencies}/${id}`
       : RECORD_PATH.agencies;
 
@@ -22,7 +22,7 @@ export const saveAgency = ({ id, body, saveMethod, message }) => {
     type: actions.SAVE_AGENCY,
     api: {
       path,
-      method: saveMethod === "update" ? "PATCH" : "POST",
+      method: saveMethod === SAVE_METHODS.update ? "PATCH" : "POST",
       body,
       successCallback: {
         action: ENQUEUE_SNACKBAR,
@@ -33,7 +33,7 @@ export const saveAgency = ({ id, body, saveMethod, message }) => {
             key: generate.messageKey()
           }
         },
-        redirectWithIdFromResponse: saveMethod !== "update",
+        redirectWithIdFromResponse: saveMethod !== SAVE_METHODS.update,
         redirect: `/admin/${path}`
       }
     }
