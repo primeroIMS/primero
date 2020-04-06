@@ -35,7 +35,7 @@ export default function asKeyPerformanceIndicator(identifier, defaultData) {
             />
           }
         >
-          <Visualizer data={data} {...props} />
+          <Visualizer identifier={identifier} data={data} {...props} />
         </OptionsBox>
       );
     });

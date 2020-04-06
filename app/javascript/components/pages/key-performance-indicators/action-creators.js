@@ -27,26 +27,6 @@ const fetcherFactory = (config) => (dateRange) => async (dispatch) => {
   });
 };
 
-export const fetchNumberOfIncidents = (dateRange) => async dispatch => {
-  dispatch({
-    type: Actions.NUMBER_OF_INCIDENTS,
-    api: {
-      path: "key_performance_indicators/number_of_incidents",
-      params: { from: dateRange.from, to: dateRange.to }
-    }
-  });
-};
-
-export const fetchReportingDelay = (dateRange) => async dispatch => {
-  dispatch({
-    type: Actions.REPORTING_DELAY,
-    api: {
-      path: "key_performance_indicators/reporting_delay",
-      params: { from: dateRange.from, to: dateRange.to }
-    }
-  });
-};
-
 export const fetchServiceAccessDelay = (dateRange) => async dispatch => {
   dispatch({
     type: Actions.SERVICE_ACCESS_DELAY,
