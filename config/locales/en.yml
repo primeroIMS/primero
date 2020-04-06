@@ -2538,6 +2538,10 @@ en:
       psychosocial: "Psychosocial"
       justice: "Justice"
       other: "Other"
+    time_from_case_open_to_close:
+      title: "Time From Case Open To Case Close"
+      time: "Time"
+      percent: "Percentage of Cases"
 
   reports:
     register_new_report: "Create Report"

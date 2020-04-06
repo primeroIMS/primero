@@ -35,10 +35,12 @@ import {
   SupervisorToCaseworkerRatio,
   CaseLoad
 } from "./components";
+import { CommonDateRanges } from "components/key-performance-indicators";
 
 function KeyPerformanceIndicators({}) {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  const commonDateRanges = CommonDateRanges.from(new Date());
 
   return (
     <div>
@@ -150,7 +152,9 @@ function KeyPerformanceIndicators({}) {
 
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={6}>
-                  <TimeFromCaseOpenToClose />
+                  <TimeFromCaseOpenToClose
+                    dateRanges={[commonDateRanges.Last3Months]}
+                  />
                 </Grid>
 
                 <Grid item className={css.grow} xs={12} md={6}>
