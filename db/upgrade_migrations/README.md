@@ -74,3 +74,18 @@ Things to verify in the generated config scripts and correct if necessary
 - Create lookup:  lookup-service-response-type
   
 - Create lookup:  lookup-location-type
+
+- Create lookup:  lookup-approval-status
+
+- Create lookup:  lookup-approval-type
+
+
+1.7 only upgrades
+-----------------
+- Fix form groups.
+  - Create manually form-group lookups
+  - Replace form-group-name with form-group-id in each form
+
+- Agencies and users must to have associated services for selecting them in a services form
+
+- Users must to associate a location
