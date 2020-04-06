@@ -1,4 +1,4 @@
-import { expect } from "../../../../test/unit-test-helpers";
+import { expect } from "../../../../test";
 
 import { localizeData, translateFields } from "./helpers";
 

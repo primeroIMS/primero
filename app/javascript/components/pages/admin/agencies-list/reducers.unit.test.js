@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../../../../test/unit-test-helpers";
+import { expect } from "../../../../test";
 
 import actions from "./actions";
 import reducers from "./reducers";

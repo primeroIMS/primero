@@ -1,4 +1,4 @@
-import { expect, stub } from "../../../../test/unit-test-helpers";
+import { expect, stub } from "../../../../test";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import {
   SET_DIALOG,

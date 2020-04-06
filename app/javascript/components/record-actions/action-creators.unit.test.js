@@ -1,4 +1,4 @@
-import { expect } from "../../test/unit-test-helpers";
+import { expect } from "../../test";
 
 import { SET_DIALOG, SET_DIALOG_PENDING } from "./actions";
 import * as actionCreators from "./action-creators";

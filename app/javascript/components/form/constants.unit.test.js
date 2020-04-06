@@ -1,4 +1,4 @@
-import { expect } from "../../test/unit-test-helpers";
+import { expect } from "../../test";
 
 import * as constants from "./constants";
 
