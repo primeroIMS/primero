@@ -1,68 +1,24 @@
-import * as actions from "../../action-creators";
-import * as selectors from "../../selectors";
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import React from "react";
 import { useI18n } from "components/i18n";
-import { addMonths, startOfMonth } from "date-fns";
-import { OptionsBox } from "components/dashboard";
-import { DateRangeSelect, DateRange } from "components/key-performance-indicators";
 import { StackedPercentageBar } from "components/key-performance-indicators";
+import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-function AssessmentStatus({ fetchAssessmentStatus, assessmentStatus }) {
+function AssessmentStatus({ data, identifier}) {
   let i18n = useI18n();
 
-  let today = new Date();
-  let dateRanges = [
-    new DateRange(
-      'all-time',
-      i18n.t('key_performance_indicators.time_periods.all_time'),
-      // earliest date representable
-      new Date(-8640000000000000),
-      startOfMonth(addMonths(today, 1)))
-  ]
-
-  let [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);
-
-  useEffect(() => {
-    fetchAssessmentStatus(currentDateRange);
-  }, [currentDateRange]);
-
   return (
-    <OptionsBox
-      title={i18n.t('key_performance_indicators.assessment_status.title')}
-      action={
-        <DateRangeSelect
-          ranges={dateRanges}
-          selectedRange={currentDateRange}
-          setSelectedRange={setCurrentDateRange}
-          withCustomRange
-          disabled
-        />
-      }
-    >
       <StackedPercentageBar
         percentages={[
           {
-            percentage: assessmentStatus.get('data').get('completed'),
-            label: i18n.t('key_performance_indicators.assessment_status.completed')
+            percentage: data.get('data').get('completed'),
+            label: i18n.t(`key_performance_indicators.${identifier}.completed`)
           }
         ]}
       />
-    </OptionsBox>
  );
 }
 
-const mapStateToProps = state => {
-  return {
-    assessmentStatus: selectors.assessmentStatus(state)
-  };
-};
-
-const mapDispatchToProps = {
-  fetchAssessmentStatus: actions.fetchAssessmentStatus
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default asKeyPerformanceIndicator(
+  'assessment_status',
+  { data: { completed: 0 } }
 )(AssessmentStatus);

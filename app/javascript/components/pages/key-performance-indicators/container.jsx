@@ -81,7 +81,11 @@ function KeyPerformanceIndicators({}) {
               <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.case_assessment')}</h2>
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12}>
-                  <AssessmentStatus />
+                  <AssessmentStatus
+                    dateRanges={[
+                      commonDateRanges.AllTime
+                    ]}
+                  />
                 </Grid>
               </Grid>
             </Box>

@@ -1,7 +1,5 @@
 export const forKPI = (identifier) => `KeyPerformanceIndicators/${identifier}`
 
-export const ASSESSMENT_STATUS = "KeyPerformanceIndicators/ASSESSMENT_STATUS";
-export const ASSESSMENT_STATUS_SUCCESS= "KeyPerformanceIndicators/ASSESSMENT_STATUS_SUCCESS";
 export const COMPLETED_CASE_SAFETY_PLANS = "KeyPerformanceIndicators/COMPLETED_CASE_SAFETY_PLANS";
 export const COMPLETED_CASE_SAFETY_PLANS_SUCCESS= "KeyPerformanceIndicators/COMPLETED_CASE_SAFETY_PLANS_SUCCESS";
 export const COMPLETED_CASE_ACTION_PLANS = "KeyPerformanceIndicators/COMPLETED_CASE_ACTION_PLANS";
