@@ -11,7 +11,7 @@ import { FORM_CHECK_ERRORS } from "../constants";
 
 import { buildPermissionOptions } from "./utils";
 
-export default (roles, actions, i18n, formMode) => {
+export default (roles, actions, i18n) => {
   const formNames = {};
 
   formNames[`${i18n.locale}`] = i18n.t("permissions.label");

@@ -7,7 +7,7 @@ import {
   CHECK_BOX_FIELD
 } from "../../../../form";
 
-export default (formSections, i18n, formMode) => {
+export default (formSections, i18n) => {
   const formNames = {};
 
   formNames[`${i18n.locale}`] = i18n.t("forms.label");

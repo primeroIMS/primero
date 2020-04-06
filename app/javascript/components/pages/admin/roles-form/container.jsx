@@ -71,7 +71,7 @@ const Container = ({ mode }) => {
     assignableForm.get(PARENT_FORM)
   );
 
-  const validationSchema = Validations(formMode, i18n);
+  const validationSchema = Validations(i18n);
 
   const handleSubmit = data => {
     dispatch(
@@ -141,7 +141,6 @@ const Container = ({ mode }) => {
     agencies,
     roleActions,
     agencyActions,
-    formMode,
     formSections: formsByParentForm
   });
 

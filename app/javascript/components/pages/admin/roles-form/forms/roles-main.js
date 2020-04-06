@@ -9,7 +9,7 @@ import { FIELD_NAMES } from "../constants";
 
 import { buildPermissionOptions } from "./utils";
 
-export default (primeroModules, groupPermissions, i18n, formMode) => {
+export default (primeroModules, groupPermissions, i18n) => {
   return FormSectionRecord({
     unique_id: "roles",
     fields: [
