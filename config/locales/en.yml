@@ -2509,13 +2509,14 @@ en:
       title: "Assessment Status"
       completed: "Completed"
       completed_supervisor_approved: "Completed & Supervisor Approved"
-    completed_case_safety_plan:
+    completed_case_safety_plans:
       title: "Completed Case Safety Plans"
       completed: "Completed Case Safety Plan"
-    completed_case_action_plan:
+    completed_case_action_plans:
       title: "Completed Case Action Plans"
       completed: "Completed Case Action Plan"
-    completed_supervisor_approved_case_action_plan:
+      label: "Completed Case Action Plan"
+    completed_supervisor_approved_case_action_plans:
       title: "Completed Action Plans Approved by Supervisor"
       completed_and_approved: "Completed Case Action Plans Approved by Supervisor"
     services_provided:

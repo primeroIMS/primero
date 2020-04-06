@@ -1,66 +1,6 @@
 import { fromJS } from "immutable";
 import NAMESPACE from "./namespace";
 
-export const forKPI = (identifer, state, _default) => {
-  return state.getIn(["records", NAMESPACE, identifer], fromJS(_default));
-}
-
-export const completedCaseSafetyPlans = state => {
-  return state.getIn(["records", NAMESPACE, 'completedCaseSafetyPlans'], fromJS({
-    data: {
-      completed_case_safety_plans: 0
-    }
-  }));
-};
-
-export const completedCaseActionPlans = state => {
-  return state.getIn(["records", NAMESPACE, 'completedCaseActionPlans'], fromJS({
-    data: {
-      completed_case_action_plans: 0
-    }
-  }));
-};
-
-export const completedSupervisorApprovedCaseActionPlans = state => {
-  return state.getIn(["records", NAMESPACE, 'completedSupervisorApprovedCaseActionPlans'], fromJS({
-    data: {
-      completed_supervisor_approved_case_action_plans: 0
-    }
-  }));
-};
-
-export const servicesProvided = state => {
-  return state.getIn(["records", NAMESPACE, 'servicesProvided'], fromJS({
-    data: {
-      services_provided: []
-    }
-  }));
-}
-
-export const averageReferrals = state => {
-  return state.getIn(["records", NAMESPACE, 'averageReferrals'], fromJS({
-    data: {
-      average_referrals: 0
-    }
-  }));
-}
-
-export const referralsPerService = state => {
-  return state.getIn(["records", NAMESPACE, 'referralsPerService'], fromJS({
-    data: []
-  }));
-}
-
-export const averageFollowupMeetingsPerCase = state => {
-  return state.getIn(["records", NAMESPACE, 'averageFollowupMeetingsPerCase'], fromJS({
-    data: {
-      average_meetings: 0
-    }
-  }));
-}
-
-export const goalProgressPerNeed = state => {
-  return state.getIn(["records", NAMESPACE, 'goalProgressPerNeed'], fromJS({
-    data: []
-  }));
+export const forKPI = (identifier, state, _default) => {
+  return state.getIn(["records", NAMESPACE, identifier], fromJS(_default));
 }

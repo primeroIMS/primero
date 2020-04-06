@@ -1,18 +1,2 @@
-export const forKPI = (identifier) => `KeyPerformanceIndicators/${identifier}`
-
-export const COMPLETED_CASE_SAFETY_PLANS = "KeyPerformanceIndicators/COMPLETED_CASE_SAFETY_PLANS";
-export const COMPLETED_CASE_SAFETY_PLANS_SUCCESS= "KeyPerformanceIndicators/COMPLETED_CASE_SAFETY_PLANS_SUCCESS";
-export const COMPLETED_CASE_ACTION_PLANS = "KeyPerformanceIndicators/COMPLETED_CASE_ACTION_PLANS";
-export const COMPLETED_CASE_ACTION_PLANS_SUCCESS= "KeyPerformanceIndicators/COMPLETED_CASE_ACTION_PLANS_SUCCESS";
-export const COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS = "KeyPerformanceIndicators/COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS";
-export const COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS_SUCCESS= "KeyPerformanceIndicators/COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS_SUCCESS";
-export const SERVICES_PROVIDED = "KeyPerformanceIndicators/SERVICES_PROVIDED";
-export const SERVICES_PROVIDED_SUCCESS= "KeyPerformanceIndicators/SERVICES_PROVIDED_SUCCESS";
-export const AVERAGE_REFERRALS = "KeyPerformanceIndicators/AVERAGE_REFERRALS";
-export const AVERAGE_REFERRALS_SUCCESS= "KeyPerformanceIndicators/AVERAGE_REFERRALS_SUCCESS";
-export const REFERRALS_PER_SERVICE = "KeyPerformanceIndicators/REFERRALS_PER_SERVICE";
-export const REFERRALS_PER_SERVICE_SUCCESS= "KeyPerformanceIndicators/REFERRALS_PER_SERVICE_SUCCESS";
-export const AVERAGE_FOLLOWUP_MEETINGS_PER_CASE = "KeyPerformanceIndicators/AVERAGE_FOLLOWUP_MEETINGS_PER_CASE";
-export const AVERAGE_FOLLOWUP_MEETINGS_PER_CASE_SUCCESS= "KeyPerformanceIndicators/AVERAGE_FOLLOWUP_MEETINGS_PER_CASE_SUCCESS";
-export const GOAL_PROGRESS_PER_NEED = "KeyPerformanceIndicators/GOAL_PROGRESS_PER_NEED";
-export const GOAL_PROGRESS_PER_NEED_SUCCESS= "KeyPerformanceIndicators/GOAL_PROGRESS_PER_NEED_SUCCESS";
+export const forKPI =
+  (identifier) => `KeyPerformanceIndicators/${identifier}`
