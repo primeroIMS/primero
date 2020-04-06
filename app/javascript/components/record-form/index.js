@@ -16,6 +16,7 @@ export {
   getSelectedForm,
   getLocations,
   getRecordFormsByUniqueId,
+  getFormsByParentForm,
   getLookups
 } from "./selectors";
 export { FormSectionField } from "./form";

@@ -20,6 +20,7 @@ describe("libs/index", () => {
 
     [
       "arrayToObject",
+      "compare",
       "dataToJS",
       "keyIn",
       "listAttachmentFields",

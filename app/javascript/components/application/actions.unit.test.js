@@ -4,18 +4,26 @@ import * as applicationActions from "./actions";
 
 describe("Application - Actions", () => {
   it("should have known actions", () => {
-    const actions = { ...applicationActions.default };
+    const cloneActions = { ...applicationActions.default };
 
-    expect(actions).to.have.property("FETCH_SYSTEM_SETTINGS");
-    expect(actions).to.have.property("FETCH_SYSTEM_SETTINGS_SUCCESS");
-    expect(actions).to.have.property("SET_USER_IDLE");
-    expect(actions).to.have.property("NETWORK_STATUS");
+    [
+      "FETCH_SYSTEM_PERMISSIONS",
+      "FETCH_SYSTEM_PERMISSIONS_STARTED",
+      "FETCH_SYSTEM_PERMISSIONS_SUCCESS",
+      "FETCH_SYSTEM_PERMISSIONS_FINISHED",
+      "FETCH_SYSTEM_PERMISSIONS_FAILURE",
+      "FETCH_SYSTEM_SETTINGS",
+      "FETCH_SYSTEM_SETTINGS_SUCCESS",
+      "SET_USER_IDLE",
+      "NETWORK_STATUS"
+    ].forEach(property => {
+      expect(cloneActions).to.have.property(property);
+      expect(cloneActions[property]).to.be.a("string");
+      delete cloneActions[property];
+    });
 
-    delete actions.FETCH_SYSTEM_SETTINGS;
-    delete actions.FETCH_SYSTEM_SETTINGS_SUCCESS;
-    delete actions.SET_USER_IDLE;
-    delete actions.NETWORK_STATUS;
 
-    expect(actions).to.deep.equal({});
+    expect(cloneActions).to.deep.equal({});
   });
+
 });

@@ -3,26 +3,26 @@ import { fromJS } from "immutable";
 import { setupMountedComponent, expect } from "../../../../test";
 import { ACTIONS } from "../../../../libs/permissions";
 
-import AgenciesForm from "./container";
+import RolesForm from "./container";
 
-describe("<AgencyForm />", () => {
+describe("<RolesForm />", () => {
   let component;
 
   beforeEach(() => {
     const initialState = fromJS({
       records: {
-        agencies: {
+        roles: {
           data: [
             {
               id: "1",
               name: {
-                en: "Agency 1"
+                en: "Role 1"
               }
             },
             {
               id: "2",
               name: {
-                en: "Agency 2"
+                en: "Role 2"
               }
             }
           ],
@@ -31,28 +31,36 @@ describe("<AgencyForm />", () => {
       },
       user: {
         permissions: {
-          agencies: [ACTIONS.MANAGE]
+          roles: [ACTIONS.MANAGE]
         }
       }
     });
 
     ({ component } = setupMountedComponent(
-      AgenciesForm,
+      RolesForm,
       { mode: "new" },
       initialState,
-      ["/admin/agencies"]
+      ["/admin/roles"]
     ));
   });
 
-  it("renders record form", () => {
-    expect(component.find("form")).to.have.length(1);
+  it("renders role form", () => {
+    expect(component.find("form")).to.have.lengthOf(1);
   });
 
   it("renders heading with action buttons", () => {
-    expect(component.find("header h1").contains("agencies.label")).to.be.true;
-    expect(component.find("header button").at(0).contains("buttons.cancel")).to
-      .be.true;
-    expect(component.find("header button").at(1).contains("buttons.save")).to.be
-      .true;
+    expect(component.find("header h1").contains("roles.label")).to.be.true;
+    expect(
+      component
+        .find("header button")
+        .at(0)
+        .contains("buttons.cancel")
+    ).to.be.true;
+    expect(
+      component
+        .find("header button")
+        .at(1)
+        .contains("buttons.save")
+    ).to.be.true;
   });
 });

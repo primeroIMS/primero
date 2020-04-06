@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
 
 import * as selectors from "./selectors";
 
@@ -43,6 +43,10 @@ const stateWithRecords = Map({
       admin_level: 2,
       field_key: "owned_by_location"
     },
+    permissions: fromJS({
+      management: ["self"],
+      resource_actions: { case: ["read"] }
+    }),
     locales: ["en", "fr", "ar"],
     defaultLocale: "en",
     baseLanguage: "en",
@@ -146,6 +150,26 @@ describe("Application - Selectors", () => {
       };
 
       expect(selector).to.deep.equal(config);
+    });
+  });
+
+  describe("getSystemPermissions", () => {
+    it("should return the system permissions", () => {
+      const selector = selectors.getSystemPermissions(stateWithRecords);
+      const permissions = {
+        management: ["self"],
+        resource_actions: { case: ["read"] }
+      };
+
+      expect(selector).to.deep.equal(fromJS(permissions));
+    });
+  });
+
+  describe("getResourceActions", () => {
+    it("should return the resource actions", () => {
+      const selector = selectors.getResourceActions(stateWithRecords, "case");
+
+      expect(selector).to.deep.equal(fromJS(["read"]));
     });
   });
 });
