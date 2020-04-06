@@ -34,6 +34,15 @@ class SearchFilterService
 
   def select_filter_params(params, permitted_field_names)
     filter_params = params.reject { |key, _| EXCLUDED.include?(key) }
-    filter_params.select { |key, _| permitted_field_names.include?(key) }
+    filter_params.select { |key, _| permitted_field_names.include?(numeric_suffix(key)) }
+  end
+
+  def numeric_suffix(value)
+    last_char = value.chars.last
+    if last_char.is_number?
+      last_char.to_i.between?(0, 5) ? value.delete_suffix(last_char) : value
+    else
+      value
+    end
   end
 end
