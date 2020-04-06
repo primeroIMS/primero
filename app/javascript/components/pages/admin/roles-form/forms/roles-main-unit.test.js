@@ -8,9 +8,10 @@ describe("pages/admin/<RolesForm>/forms - RolesMainForm", () => {
   const i18n = { t: () => "" };
 
   it("returns the roles form with fields", () => {
-      const rolesMainForm = RolesMainForm(fromJS([]), fromJS([]), i18n);
 
-      expect(rolesMainForm.unique_id).to.be.equal("roles");
-      expect(rolesMainForm.fields).to.have.lengthOf(6);
-    });
+    const rolesMainForm = RolesMainForm(fromJS([]), fromJS([]), i18n);
+
+    expect(rolesMainForm.unique_id).to.be.equal("roles");
+    expect(rolesMainForm.fields).to.have.lengthOf(6);
+  });
 });

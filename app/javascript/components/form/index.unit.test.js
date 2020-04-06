@@ -8,7 +8,9 @@ describe("<Form /> - index", () => {
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
     [
+      "ActionsMenu",
       "CHECK_BOX_FIELD",
+      "default",
       "ERROR_FIELD",
       "FORM_MODE_DIALOG",
       "FieldRecord",
@@ -19,7 +21,6 @@ describe("<Form /> - index", () => {
       "TEXT_AREA",
       "TEXT_FIELD",
       "TICK_FIELD",
-      "default",
       "whichFormMode"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
