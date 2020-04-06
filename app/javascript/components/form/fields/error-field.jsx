@@ -20,7 +20,7 @@ const ErrorField = ({ errorsToCheck }) => {
 
   return errorsToRender.map(error => (
     <Alert variant="outlined" severity="error" key={error}>
-      {errors[error]?.message}
+      {errors[error].message}
     </Alert>
   ));
 };
