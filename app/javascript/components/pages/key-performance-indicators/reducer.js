@@ -8,7 +8,12 @@ const DEFAULT_STATE = Map({});
 // move these over to a core set of defined strings with language features
 // that will warn us when they are wrong.
 
-const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+const reducer = (state = DEFAULT_STATE, { type, KPIidentifier, payload }) => {
+
+  if (type.endsWith('SUCCESS') && KPIidentifier) {
+    return state.set(KPIidentifier, fromJS(payload));
+  }
+
   switch (type) {
     case Actions.NUMBER_OF_CASES_SUCCESS:
       return state.set("numberOfCases", fromJS(payload));
