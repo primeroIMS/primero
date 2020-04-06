@@ -27,16 +27,6 @@ const fetcherFactory = (config) => (dateRange) => async (dispatch) => {
   });
 };
 
-export const fetchServiceAccessDelay = (dateRange) => async dispatch => {
-  dispatch({
-    type: Actions.SERVICE_ACCESS_DELAY,
-    api: {
-      path: "key_performance_indicators/service_access_delay",
-      params: { from: dateRange.from, to: dateRange.to }
-    }
-  });
-};
-
 export const fetchAssessmentStatus = (dateRange) => async dispatch => {
   dispatch({
     type: Actions.ASSESSMENT_STATUS,

@@ -5,12 +5,6 @@ export const forKPI = (identifer, state, _default) => {
   return state.getIn(["records", NAMESPACE, identifer], fromJS(_default));
 }
 
-export const serviceAccessDelay = state => {
-  return state.getIn(["records", NAMESPACE, 'serviceAccessDelay'], fromJS({
-    data: []
-  }));
-};
-
 export const assessmentStatus = state => {
   return state.getIn(["records", NAMESPACE, 'assessmentStatus'], fromJS({
     data: {
