@@ -170,7 +170,10 @@ describe("Application - Selectors", () => {
 
   describe("getResourceActions", () => {
     it("should return the resource actions", () => {
-      const selector = selectors.getResourceActions(stateWithRecords, RECORD_TYPES.cases);
+      const selector = selectors.getResourceActions(
+        stateWithRecords,
+        RECORD_TYPES.cases
+      );
 
       expect(selector).to.deep.equal(fromJS([ACTIONS.READ]));
     });
