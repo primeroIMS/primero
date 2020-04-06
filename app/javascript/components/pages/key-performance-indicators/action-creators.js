@@ -1,7 +1,7 @@
 import * as Actions from "./actions";
 import * as Paths from "./paths";
 
-export const dataFetcherFor = (identifier) => {
+export const forKPI = (identifier) => {
   let getKPI = Actions.forKPI(identifier);
   let path = Paths.forKPI(identifier);
 
@@ -26,11 +26,6 @@ const fetcherFactory = (config) => (dateRange) => async (dispatch) => {
     }
   });
 };
-
-export const fetchNumberOfCases = fetcherFactory({
-  type: Actions.NUMBER_OF_CASES,
-  path: "key_performance_indicators/number_of_cases"
-})
 
 export const fetchNumberOfIncidents = (dateRange) => async dispatch => {
   dispatch({
