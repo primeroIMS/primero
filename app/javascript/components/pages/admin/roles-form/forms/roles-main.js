@@ -32,7 +32,7 @@ export default (primeroModules, groupPermissions, i18n, formMode) => {
       }),
       FieldRecord({
         display_name: i18n.t("role.referral_label"),
-        name: FIELD_NAMES.treferral,
+        name: FIELD_NAMES.referral,
         type: TICK_FIELD
       }),
       FieldRecord({
