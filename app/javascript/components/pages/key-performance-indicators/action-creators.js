@@ -27,16 +27,6 @@ const fetcherFactory = (config) => (dateRange) => async (dispatch) => {
   });
 };
 
-export const fetchAssessmentStatus = (dateRange) => async dispatch => {
-  dispatch({
-    type: Actions.ASSESSMENT_STATUS,
-    api: {
-      path: "key_performance_indicators/assessment_status",
-      params: { from: dateRange.from, to: dateRange.to }
-    }
-  })
-}
-
 export const fetchCompletedCaseSafetyPlans = (dateRange) => async dispatch => {
   dispatch({
     type: Actions.COMPLETED_CASE_SAFETY_PLANS,

@@ -5,15 +5,6 @@ export const forKPI = (identifer, state, _default) => {
   return state.getIn(["records", NAMESPACE, identifer], fromJS(_default));
 }
 
-export const assessmentStatus = state => {
-  return state.getIn(["records", NAMESPACE, 'assessmentStatus'], fromJS({
-    data: {
-      completed_supervisor_approved: 0,
-      completed_only: 0
-    }
-  }));
-};
-
 export const completedCaseSafetyPlans = state => {
   return state.getIn(["records", NAMESPACE, 'completedCaseSafetyPlans'], fromJS({
     data: {

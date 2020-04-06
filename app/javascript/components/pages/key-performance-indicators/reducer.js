@@ -9,6 +9,13 @@ const DEFAULT_STATE = Map({});
 // that will warn us when they are wrong.
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+
+  if (!type.startsWith('KeyPerformanceIndicators'))
+    return state;
+
+  if (!type.endsWith('SUCCESS'))
+    return state;
+
   let identifier = type.match(/KeyPerformanceIndicators\/([a-z_]*?)_SUCCESS/)?.[1];
 
   if (identifier) {
@@ -16,8 +23,6 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   }
 
   switch (type) {
-    case Actions.ASSESSMENT_STATUS_SUCCESS:
-      return state.set("assessmentStatus", fromJS(payload));
     case Actions.COMPLETED_CASE_SAFETY_PLANS_SUCCESS:
       return state.set('completedCaseSafetyPlans', fromJS(payload));
     case Actions.COMPLETED_CASE_ACTION_PLANS_SUCCESS:
