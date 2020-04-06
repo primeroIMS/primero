@@ -65,7 +65,7 @@ function KeyPerformanceIndicators({}) {
               </Grid>
 
               <Grid container spacing={2}>
-                <Grid item className={css.grow} xs={12} md={6}>
+                <Grid item className={css.grow} xs={12} md={12}>
                   <ReportingDelay
                     dateRanges={[
                       commonDateRanges.Last3Months,
@@ -73,10 +73,6 @@ function KeyPerformanceIndicators({}) {
                       commonDateRanges.LastYear
                     ]}
                   />
-                </Grid>
-
-                <Grid item className={css.grow} xs={12} md={6}>
-                  <ServiceAccessDelay />
                 </Grid>
               </Grid>
             </Box>
