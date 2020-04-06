@@ -432,9 +432,12 @@ module RecordActions
 
   private
 
-  def select_permitted_fields(record, permitted_property_names)
+  def select_permitted_fields(record, permitted_property_names, is_remote_request)
+    # put here fields required if it's a mobile
+    default_fields_to_share = is_remote_request ? [] : %w[_id _rev couchrest-type histories photo_keys document_keys case_id short_id owned_by created_by registration_date incident_id tracing_request_id inquiry_date incident_links]
+    properties_to_check = default_fields_to_share + permitted_property_names
     record.select do |key, value|
-      permitted_property_names.include?(key)
+      properties_to_check.include?(key.to_s)
     end
   end
 
@@ -442,7 +445,7 @@ module RecordActions
   def format_json_response(record, permitted_property_names)
     record = record.as_couch_json.clone
 
-    record = select_permitted_fields(record, permitted_property_names)
+    record = select_permitted_fields(record, permitted_property_names, is_remote_request?)
 
     if params[:mobile].present? || is_remote_request?
       record.each do |field_key, value|
