@@ -35,6 +35,7 @@ import {
   CaseLoad
 } from "./components";
 import { CommonDateRanges } from "components/key-performance-indicators";
+import {common} from "@material-ui/core/colors";
 
 function KeyPerformanceIndicators({}) {
   const i18n = useI18n();
@@ -94,15 +95,27 @@ function KeyPerformanceIndicators({}) {
               <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.case_action_planning')}</h2>
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={6} xl={4}>
-                  <CompletedCaseSafetyPlan />
+                  <CompletedCaseSafetyPlan
+                    dateRanges={[
+                      commonDateRanges.AllTime
+                    ]}
+                  />
                 </Grid>
 
                 <Grid item className={css.grow} xs={12} md={6} xl={4}>
-                  <CompletedCaseActionPlan />
+                  <CompletedCaseActionPlan
+                    dateRanges={[
+                      commonDateRanges.AllTime
+                    ]}
+                  />
                 </Grid>
 
                 <Grid item className={css.grow} xs={12} xl={4}>
-                  <CompletedSupervisorApprovedCaseActionPlan />
+                  <CompletedSupervisorApprovedCaseActionPlan
+                    dateRanges={[
+                      commonDateRanges.AllTime
+                    ]}
+                  />
                 </Grid>
               </Grid>
             </Box>
@@ -111,23 +124,21 @@ function KeyPerformanceIndicators({}) {
               <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.case_action_plan_implementation')}</h2>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <ServicesProvided />
+                  <ServicesProvided
+                    dateRanges={[
+                      commonDateRanges.AllTime
+                    ]}
+                  />
                 </Grid>
               </Grid>
 
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <AverageReferrals />
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={2}>
-                <Grid item className={css.grow} xs={12} md={6}>
-                  <ReferralsPerService />
-                </Grid>
-
-                <Grid item className={css.grow} xs={12} md={6}>
-                  <CompletedReferralsPerService />
+                  <AverageReferrals
+                    dateRanges={[
+                      commonDateRanges.AllTime
+                    ]}
+                  />
                 </Grid>
               </Grid>
             </Box>
@@ -135,30 +146,28 @@ function KeyPerformanceIndicators({}) {
             <Box>
               <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.case_follow_up')}</h2>
               <Grid container spacing={2}>
-                <Grid item className={css.grow} xs={12} md={6}>
-                  <TotalFollowupMeetings />
-                </Grid>
-
-                <Grid item className={css.grow} xs={12} md={6}>
-                  <AverageFollowupMeetingsPerCase />
+                <Grid item className={css.grow} xs={12} md={12}>
+                  <AverageFollowupMeetingsPerCase
+                    dateRanges={[
+                      commonDateRanges.Last3Months
+                    ]}
+                  />
                 </Grid>
               </Grid>
 
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12}>
-                  <GoalProgressPerNeed />
+                  <GoalProgressPerNeed
+                    dateRanges={[
+                      commonDateRanges.AllTime
+                    ]}
+                  />
                 </Grid>
               </Grid>
             </Box>
 
             <Box>
               <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.case_closure')}</h2>
-              <Grid container spacing={2}>
-                <Grid item className={css.grow} xs={12}>
-                  <CompletedCaseClosureProcedures />
-                </Grid>
-              </Grid>
-
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={6}>
                   <TimeFromCaseOpenToClose

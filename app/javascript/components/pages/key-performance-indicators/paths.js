@@ -1,1 +1,1 @@
-export const forKPI = (identifer) => `key_performance_indicators/${identifer}`;
+export const forKPI = (identifier) => `key_performance_indicators/${identifier}`;
