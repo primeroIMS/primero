@@ -1,6 +1,5 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
 import { PageContainer, PageHeading, PageContent } from "components/page";
 import {
   Grid,
@@ -59,13 +58,21 @@ function KeyPerformanceIndicators({}) {
                 </Grid>
 
                 <Grid item className={css.grow} xs={12} md={6}>
-                  <NumberOfIncidents />
+                  <NumberOfIncidents
+                    dateRanges={[commonDateRanges.Last3Months]}
+                  />
                 </Grid>
               </Grid>
 
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={6}>
-                  <ReportingDelay />
+                  <ReportingDelay
+                    dateRanges={[
+                      commonDateRanges.Last3Months,
+                      commonDateRanges.Last6Months,
+                      commonDateRanges.LastYear
+                    ]}
+                  />
                 </Grid>
 
                 <Grid item className={css.grow} xs={12} md={6}>

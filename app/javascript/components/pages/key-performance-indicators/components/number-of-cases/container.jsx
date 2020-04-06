@@ -3,12 +3,12 @@ import { DashboardTable } from "components/dashboard";
 import React from "react";
 import { useI18n } from "components/i18n";
 
-function NumberOfCases({ data }) {
+function NumberOfCases({ data, identifier }) {
   let i18n = useI18n();
 
   let columns = [{
     name: "reporting_site",
-    label: i18n.t('key_performance_indicators.number_of_cases.reporting_site'),
+    label: i18n.t(`key_performance_indicators.${identifier}.reporting_site`),
   }].concat(data.get("dates").map(date => {
     return {
       name: date,
