@@ -1,23 +1,17 @@
 import * as actions from "../../action-creators";
 import * as selectors from "../../selectors";
-import { withRouter } from "react-router-dom";
-import { DateRangeSelect, DateRange } from "components/key-performance-indicators/date-range-select";
+import { DateRangeSelect, CommonDateRanges } from "components/key-performance-indicators";
 import { OptionsBox, DashboardTable } from "components/dashboard";
 import { connect } from "react-redux";
 import { useI18n } from "components/i18n";
-import { subMonths, addMonths, startOfMonth } from "date-fns";
 import React, { useEffect, useState } from "react";
 
 function NumberOfIncidents({ fetchNumberOfIncidents, numberOfIncidents }) {
   let i18n = useI18n();
+  let commonDateRanges = CommonDateRanges.from(new Date());
 
-  let today = new Date();
   let dateRanges = [
-    new DateRange(
-      '3-months',
-      i18n.t('key_performance_indicators.time_periods.last_3_months'),
-      startOfMonth(subMonths(today, 2)),
-      startOfMonth(addMonths(today, 1)))
+    commonDateRanges.Last3Months
   ]
 
   let [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);
@@ -71,9 +65,7 @@ const mapDispatchToProps = {
   fetchNumberOfIncidents: actions.fetchNumberOfIncidents
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(NumberOfIncidents)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NumberOfIncidents);
