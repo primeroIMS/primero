@@ -9,7 +9,7 @@ import {
 
 import { buildPermissionOptions } from "./utils";
 
-export default (agencies, actions, i18n, formMode) => {
+export default (agencies, actions, i18n) => {
   return [
     FormSectionRecord({
       unique_id: "associated_agencies",

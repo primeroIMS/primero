@@ -8,10 +8,10 @@ describe("<RecordForm /> - index", () => {
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
     [
-      "FieldRecord",
-      "FormSectionField",
       "constructInitialValues",
       "default",
+      "FieldRecord",
+      "FormSectionField",
       "fetchForms",
       "fetchLookups",
       "fetchOptions",

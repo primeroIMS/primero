@@ -3,17 +3,18 @@ import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
+import actions from "./actions";
 
 describe("Application - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
     [
+      "fetchSystemPermissions",
       "fetchSystemSettings",
       "loadApplicationResources",
-      "setUserIdle",
       "setNetworkStatus",
-      "fetchSystemPermissions"
+      "setUserIdle"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
@@ -62,12 +63,12 @@ describe("Application - Action Creators", () => {
 
   it("should check the 'fetchSystemPermissions' action creator to return the correct object", () => {
     const expected = {
-      type: "application/FETCH_SYSTEM_PERMISSIONS",
+      type: actions.FETCH_SYSTEM_PERMISSIONS,
       api: {
         path: "permissions"
       }
     };
 
-    expect(actionCreators.fetchSystemPermissions()).to.eql(expected);
+    expect(actionCreators.fetchSystemPermissions()).to.deep.equal(expected);
   });
 });

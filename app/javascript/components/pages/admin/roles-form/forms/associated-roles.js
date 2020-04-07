@@ -7,10 +7,11 @@ import {
   CHECK_BOX_FIELD,
   ERROR_FIELD
 } from "../../../../form";
+import { FORM_CHECK_ERRORS } from "../constants";
 
 import { buildPermissionOptions } from "./utils";
 
-export default (roles, actions, i18n, formMode) => {
+export default (roles, actions, i18n) => {
   const formNames = {};
 
   formNames[`${i18n.locale}`] = i18n.t("permissions.label");
@@ -22,7 +23,7 @@ export default (roles, actions, i18n, formMode) => {
       fields: [
         FieldRecord({
           type: ERROR_FIELD,
-          check_errors: fromJS(["permissions"])
+          check_errors: fromJS(FORM_CHECK_ERRORS)
         }),
         FieldRecord({
           display_name: i18n.t("role.role_ids_label"),
@@ -40,7 +41,7 @@ export default (roles, actions, i18n, formMode) => {
     }),
     FormSectionRecord({
       unique_id: "role_permissions",
-      check_errors: fromJS(["permissions"]),
+      check_errors: fromJS(FORM_CHECK_ERRORS),
       fields: [
         FieldRecord({
           display_name: i18n.t(`permissions.permission.role`),

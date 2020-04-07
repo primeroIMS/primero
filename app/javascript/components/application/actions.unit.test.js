@@ -14,8 +14,8 @@ describe("Application - Actions", () => {
       "FETCH_SYSTEM_PERMISSIONS_SUCCESS",
       "FETCH_SYSTEM_SETTINGS",
       "FETCH_SYSTEM_SETTINGS_SUCCESS",
-      "SET_USER_IDLE",
-      "NETWORK_STATUS"
+      "NETWORK_STATUS",
+      "SET_USER_IDLE"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("string");
@@ -23,7 +23,7 @@ describe("Application - Actions", () => {
     });
 
 
-    expect(cloneActions).to.deep.equal({});
+    expect(cloneActions).to.be.empty;
   });
 
 });

@@ -11,18 +11,18 @@ import SwitchInput from "../fields/switch-input";
 import SelectInput from "../fields/select-input";
 import ErrorField from "../fields/error-field";
 import {
-  TICK_FIELD,
   CHECK_BOX_FIELD,
-  SELECT_FIELD,
+  ERROR_FIELD,
   PHOTO_FIELD,
-  ERROR_FIELD
+  SELECT_FIELD,
+  TICK_FIELD
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
 import { whichOptions } from "../utils";
 import { selectAgencies } from "../../application";
 
-const FormSectionField = ({ field, checkErrors }) => {
+const FormSectionField = ({ checkErrors, field }) => {
   const {
     type,
     hideOnShow,
@@ -41,7 +41,7 @@ const FormSectionField = ({ field, checkErrors }) => {
   } = field;
   const i18n = useI18n();
   const { formMode, errors } = useFormContext();
-  const error = errors[name];
+  const error = errors ? errors[name] : undefined;
 
   const errorsToCheck = checkErrors
     ? checkErrors.concat(fieldCheckErrors)
@@ -72,7 +72,7 @@ const FormSectionField = ({ field, checkErrors }) => {
   });
 
   const renderError = () =>
-    checkErrors?.size
+    checkErrors?.size && errors
       ? Object.keys(errors).some(
           errorKey => checkErrors.includes(errorKey) && name.includes(errorKey)
         )

@@ -1,6 +1,8 @@
 import { expect } from "chai";
 import { Map, fromJS } from "immutable";
 
+import { GROUP_PERMISSIONS, ACTIONS } from "../../libs/permissions";
+
 import reducers from "./reducers";
 import actions from "./actions";
 
@@ -135,8 +137,8 @@ describe("Application - Reducers", () => {
   it("should handle FETCH_SYSTEM_PERMISSIONS_SUCCESS", () => {
     const expected = fromJS({
       permissions: {
-        management: ["self"],
-        resource_actions: { case: ["read"] }
+        management: [GROUP_PERMISSIONS.SELF],
+        resource_actions: { case: [ACTIONS.READ] }
       }
     });
 
@@ -144,14 +146,14 @@ describe("Application - Reducers", () => {
       type: actions.FETCH_SYSTEM_PERMISSIONS_SUCCESS,
       payload: {
         data: {
-          management: ["self"],
-          resource_actions: { case: ["read"] }
+          management: [GROUP_PERMISSIONS.SELF],
+          resource_actions: { case: [ACTIONS.READ] }
         }
       }
     };
 
     const newState = reducers.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).to.deep.equal(expected);
   });
 });

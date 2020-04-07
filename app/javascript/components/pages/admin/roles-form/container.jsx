@@ -2,13 +2,10 @@ import React, { useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
-import { useLocation, useParams, Link } from "react-router-dom";
-import { Button } from "@material-ui/core";
-import CreateIcon from "@material-ui/icons/Create";
+import { useParams } from "react-router-dom";
 
-import Permission from "../../../application/permission";
 import { useI18n } from "../../../i18n";
-import Form, { FormAction, whichFormMode, ActionsMenu } from "../../../form";
+import Form, { whichFormMode, PARENT_FORM } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
@@ -17,23 +14,16 @@ import {
   getSystemPermissions,
   getResourceActions,
   selectAgencies,
-  selectModules
+  selectModules,
+  RESOURCES
 } from "../../../application";
-import { fetchRoles } from "../roles-list";
+import { fetchRoles, ADMIN_NAMESPACE } from "../roles-list";
 import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
-import bindFormSubmit from "../../../../libs/submit-form";
 import { compare } from "../../../../libs";
-import {
-  RESOURCES,
-  ACTIONS,
-  WRITE_RECORDS,
-  checkPermissions
-} from "../../../../libs/permissions";
-import { getPermissionsByRecord } from "../../../user/selectors";
 import ActionDialog from "../../../action-dialog";
 
-import { Validations } from "./forms";
+import { Validations, ActionButtons } from "./forms";
 import {
   getFormsToRender,
   mergeFormSections,
@@ -45,53 +35,46 @@ import {
   saveRole,
   deleteRole
 } from "./action-creators";
-
-import { getRole, getServerErrors, getSavingRecord } from "./selectors";
+import { getRole } from "./selectors";
+import { NAME } from "./constants";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
-  const { pathname } = useLocation();
   const { id } = useParams();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const primeroModules = useSelector(state => selectModules(state), compare);
   const roles = useSelector(
-    state => getRecords(state, ["admin", "roles"]),
+    state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]),
     compare
   );
   const role = useSelector(state => getRole(state), compare);
   const agencies = useSelector(state => selectAgencies(state), compare);
-  const formErrors = useSelector(state => getServerErrors(state), compare);
-  const saving = useSelector(state => getSavingRecord(state));
   const systemPermissions = useSelector(
     state => getSystemPermissions(state),
     compare
   );
   const roleActions = useSelector(
-    state => getResourceActions(state, "role"),
+    state => getResourceActions(state, RESOURCES.role),
     compare
   );
   const agencyActions = useSelector(
-    state => getResourceActions(state, "agency"),
+    state => getResourceActions(state, RESOURCES.agency),
     compare
   );
   const assignableForms = useSelector(
     state => getAssignableForms(state),
     compare
   );
-  const rolePermissions = useSelector(
-    state => getPermissionsByRecord(state, RESOURCES.roles),
-    compare
-  );
 
   const formsByParentForm = assignableForms.groupBy(assignableForm =>
-    assignableForm.get("parent_form")
+    assignableForm.get(PARENT_FORM)
   );
 
-  const validationSchema = Validations(formMode, i18n);
+  const validationSchema = Validations(i18n);
 
   const handleSubmit = data => {
     dispatch(
@@ -110,29 +93,6 @@ const Container = ({ mode }) => {
     dispatch(push(ROUTES.admin_roles));
   };
 
-  const handleSuccess = () => {
-    dispatch(
-      deleteRole({
-        id,
-        message: i18n.t("role.messages.deleted")
-      })
-    );
-    setOpenDeleteDialog(false);
-  };
-
-  const canDeleteRole = checkPermissions(rolePermissions, [
-    ACTIONS.MANAGE,
-    ACTIONS.DELETE
-  ]);
-
-  const actions = [
-    {
-      name: `${i18n.t("buttons.delete")}`,
-      action: () => setOpenDeleteDialog(true),
-      condition: canDeleteRole
-    }
-  ];
-
   useEffect(() => {
     dispatch(fetchRoles());
   }, []);
@@ -149,34 +109,6 @@ const Container = ({ mode }) => {
     };
   }, [id]);
 
-  const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
-    <>
-      <FormAction
-        cancel
-        actionHandler={handleCancel}
-        text={i18n.t("buttons.cancel")}
-      />
-      <FormAction
-        actionHandler={() => bindFormSubmit(formRef)}
-        text={i18n.t("buttons.save")}
-        savingRecord={saving}
-      />
-    </>
-  );
-
-  const editButton = formMode.get("isShow") && (
-    <Permission resources={RESOURCES.roles} actions={WRITE_RECORDS}>
-      <Button
-        to={`${pathname}/edit`}
-        component={Link}
-        startIcon={<CreateIcon />}
-        size="small"
-      >
-        {i18n.t("buttons.edit")}
-      </Button>
-    </Permission>
-  );
-
   const pageHeading = role?.size
     ? `${i18n.t("roles.label")} ${role.get("name")}`
     : i18n.t("roles.label");
@@ -189,9 +121,34 @@ const Container = ({ mode }) => {
     agencies,
     roleActions,
     agencyActions,
-    formMode,
     formSections: formsByParentForm
   });
+
+  const initialValues = groupSelectedIdsByParentForm(
+    role.filter(prop => Boolean(prop)),
+    assignableForms
+  ).toJS();
+
+  const handleSuccess = () => {
+    dispatch(
+      deleteRole({
+        id,
+        message: i18n.t("role.messages.deleted")
+      })
+    );
+    setOpenDeleteDialog(false);
+  };
+
+  const renderOpenDialog = formMode.get("isShow") ? (
+    <ActionDialog
+      open={openDeleteDialog}
+      successHandler={handleSuccess}
+      cancelHandler={() => setOpenDeleteDialog(false)}
+      dialogTitle={i18n.t("role.delete_header")}
+      dialogText={i18n.t("role.messages.confirmation")}
+      confirmButtonLabel={i18n.t("buttons.ok")}
+    />
+  ) : null;
 
   return (
     <LoadingIndicator
@@ -199,9 +156,12 @@ const Container = ({ mode }) => {
       type={NAMESPACE}
     >
       <PageHeading title={pageHeading}>
-        {editButton}
-        {saveButton}
-        {formMode.get("isShow") ? <ActionsMenu actionItems={actions} /> : null}
+        <ActionButtons
+          formMode={formMode}
+          formRef={formRef}
+          handleCancel={handleCancel}
+          setOpenDeleteDialog={setOpenDeleteDialog}
+        />
       </PageHeading>
       <PageContent>
         <Form
@@ -211,26 +171,15 @@ const Container = ({ mode }) => {
           onSubmit={handleSubmit}
           ref={formRef}
           validations={validationSchema}
-          initialValues={groupSelectedIdsByParentForm(
-            role.filter(v => Boolean(v)), assignableForms).toJS()}
-          formErrors={formErrors}
+          initialValues={initialValues}
         />
       </PageContent>
-      {formMode.get("isShow") ? (
-        <ActionDialog
-          open={openDeleteDialog}
-          successHandler={handleSuccess}
-          cancelHandler={() => setOpenDeleteDialog(false)}
-          dialogTitle={i18n.t("role.delete_header")}
-          dialogText={i18n.t("role.messages.confirmation")}
-          confirmButtonLabel={i18n.t("buttons.ok")}
-        />
-      ) : null}
+      {renderOpenDialog}
     </LoadingIndicator>
   );
 };
 
-Container.displayName = "RolesForm";
+Container.displayName = NAME;
 
 Container.propTypes = {
   mode: PropTypes.string.isRequired

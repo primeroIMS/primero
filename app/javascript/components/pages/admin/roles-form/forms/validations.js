@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export default (formMode, i18n) =>
+export default i18n =>
   yup.object().shape({
     name: yup.string().required(),
     permissions: yup

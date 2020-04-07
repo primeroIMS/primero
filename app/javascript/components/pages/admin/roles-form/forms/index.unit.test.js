@@ -6,8 +6,8 @@ describe("pages/admin/<RolesForm>/forms - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
-    expect(indexValues).to.be.an("object");
     [
+      "ActionButtons",
       "AssociatedAgenciesForm",
       "AssociatedFormSectionsForm",
       "AssociatedRolesForm",

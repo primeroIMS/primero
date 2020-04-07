@@ -1,5 +1,6 @@
 import { namespaceActions } from "../../../../libs";
-import NAMESPACE from "../namespace";
+
+import NAMESPACE from "./namespace";
 
 export default namespaceActions(NAMESPACE, [
   "CLEAR_SELECTED_ROLE",

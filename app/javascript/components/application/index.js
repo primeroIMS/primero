@@ -18,3 +18,4 @@ export {
   getSystemPermissions,
   getResourceActions
 } from "./selectors";
+export { PERMISSIONS, RESOURCES, RESOURCE_ACTIONS } from "./constants";

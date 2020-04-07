@@ -9,7 +9,7 @@ import isEmpty from "lodash/isEmpty";
 import startsWith from "lodash/startsWith";
 import { List, fromJS } from "immutable";
 
-import { dataToJS, compare } from "../../libs";
+import { compare, dataToJS } from "../../libs";
 import LoadingIndicator from "../loading-indicator";
 import { getFields } from "../record-list/selectors";
 import { getOptions, getLoadingState } from "../record-form/selectors";

@@ -6,7 +6,6 @@ describe("<Form /> - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
-    expect(indexValues).to.be.an("object");
     [
       "ActionsMenu",
       "CHECK_BOX_FIELD",
@@ -16,6 +15,7 @@ describe("<Form /> - index", () => {
       "FieldRecord",
       "FormAction",
       "FormSectionRecord",
+      "PARENT_FORM",
       "PHOTO_FIELD",
       "SELECT_FIELD",
       "TEXT_AREA",

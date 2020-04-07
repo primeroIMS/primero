@@ -6,19 +6,18 @@ describe("pages/admin - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
-    expect(indexValues).to.be.an("object");
     [
       "Admin",
-      "UsersForm",
-      "UsersList",
+      "AgenciesForm",
+      "AgenciesList",
+      "ContactInformation",
+      "LookupsList",
+      "RolesForm",
+      "RolesList",
       "UserGroupsForm",
       "UserGroupsList",
-      "AgenciesList",
-      "AgenciesForm",
-      "RolesForm",
-      "LookupsList",
-      "RolesList",
-      "ContactInformation"
+      "UsersForm",
+      "UsersList"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

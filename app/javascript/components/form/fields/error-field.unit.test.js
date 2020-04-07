@@ -21,4 +21,17 @@ describe("<Form /> - fields/<ErrorField />", () => {
 
     expect(component.find(Alert)).to.have.lengthOf(1);
   });
+
+  it("does not render the error field if the form doesn't have errors", () => {
+    const { component } = setupMockFieldComponent(
+      () => (
+        <FormContext formMode={fromJS({})}>
+          <ErrorField errorsToCheck={fromJS(["name"])} />
+        </FormContext>
+      ),
+      FieldRecord
+    );
+
+    expect(component.find(Alert)).to.be.empty;
+  });
 });

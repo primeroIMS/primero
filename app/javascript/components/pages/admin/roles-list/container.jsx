@@ -11,7 +11,8 @@ import { ROUTES } from "../../../../config";
 import { NAMESPACE } from "../roles-form";
 
 import { fetchRoles } from "./action-creators";
-import { LIST_HEADERS, NAME, ADMIN_NAMESPACE } from "./constants";
+import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
+
 
 const Container = () => {
   const i18n = useI18n();

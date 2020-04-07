@@ -70,4 +70,48 @@ describe("<RolesForm /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("should handle SAVE_ROLE_FAILURE", () => {
+    const expected = fromJS({ errors: true, serverErrors: ["some error"] });
+    const action = {
+      type: actions.SAVE_ROLE_FAILURE,
+      payload: { errors: ["some error"] }
+    };
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SAVE_ROLE_STARTED", () => {
+    const expected = fromJS({ saving: true });
+    const action = {
+      type: actions.SAVE_ROLE_STARTED,
+      payload: true
+    };
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SAVE_ROLE_FINISHED", () => {
+    const expected = fromJS({ saving: false });
+    const action = {
+      type: actions.SAVE_ROLE_FINISHED,
+      payload: false
+    };
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should return the same state if action is unknown", () => {
+    const expected = fromJS({});
+    const action = {
+      type: "roles/unknown",
+      payload: false
+    };
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });
