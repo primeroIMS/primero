@@ -8,25 +8,18 @@ function TimeFromCaseOpenToClose({ data, identifier }) {
 
   let columns = [{
     name: 'time',
-    label: i18n.t(`key_performance_indicators.${identifier}.time`)
+    label: i18n.t(`key_performance_indicators.${identifier}.time`),
+    transform: (time) => i18n.t(`key_performance_indicators.time_periods.${time}`)
   }, {
     name: 'percent',
-    label: i18n.t(`key_performance_indicators.${identifier}.percent`)
+    label: i18n.t(`key_performance_indicators.${identifier}.percent`),
+    transform: (percent) => (percent * 100).toFixed(0) + '%'
   }];
 
   let rows = data.get("data")
-    .map(row => columns.map(column => row.get(column.name)))
+    .map(row => columns.map(column => column.transform(row.get(column.name))))
 
-  /*
-  let rows = [
-    ['<1 month', '65%'],
-    ['1-3 months', '13%'],
-    ['3-6 months', '9%'],
-    ['>6 months', '7%']
-  ];
-  */
-
-  return (<DashboardTable columns={columns} rows={rows}/>);
+  return (<DashboardTable columns={columns} data={rows}/>);
 }
 
 export default asKeyPerformanceIndicator(
