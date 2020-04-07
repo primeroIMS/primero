@@ -128,6 +128,14 @@ const stateWithRecords = fromJS({
   },
   forms: {
     selectedForm: "basic_identity",
+    recordAlerts: [
+      {
+        alert_for: "field_change",
+        type: "notes",
+        date: "2020-04-02",
+        form_unique_id: "notes"
+      }
+    ],
     formSections: mapEntriesToRecord(formSections, R.FormSectionRecord),
     fields: mapEntriesToRecord(fields, R.FieldRecord),
     loading: true,
@@ -464,6 +472,29 @@ describe("<RecordForm /> - Selectors", () => {
 
     it("should return an empty array when there are not any options", () => {
       const record = selectors.getLocations(stateWithNoRecords);
+
+      expect(record).to.be.empty;
+    });
+  });
+
+  describe("getRecordAlerts", () => {
+    it("should return the list of alerts", () => {
+      const expected = fromJS([
+        {
+          alert_for: "field_change",
+          type: "notes",
+          date: "2020-04-02",
+          form_unique_id: "notes"
+        }
+      ]);
+
+      expect(selectors.getRecordAlerts(stateWithRecords)).to.deep.equals(
+        expected
+      );
+    });
+
+    it("should return an empty array when there are not any options", () => {
+      const record = selectors.getRecordAlerts(stateWithNoRecords);
 
       expect(record).to.be.empty;
     });
