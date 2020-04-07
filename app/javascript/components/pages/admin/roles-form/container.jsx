@@ -1,12 +1,11 @@
 import React, { useRef, useEffect } from "react";
-import { fromJS } from "immutable";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector, batch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
-import Form, { FormAction, whichFormMode } from "../../../form";
+import Form, { whichFormMode, PARENT_FORM } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
@@ -15,17 +14,23 @@ import {
   getSystemPermissions,
   getResourceActions,
   selectAgencies,
-  selectModules
+  selectModules,
+  RESOURCES
 } from "../../../application";
-import { fetchRoles } from "../roles-list";
+import { fetchRoles, ADMIN_NAMESPACE } from "../roles-list";
 import { getRecords } from "../../../index-table";
-import { getFormsByParentForm } from "../../../record-form";
+import { getAssignableForms } from "../../../record-form";
 import { compare } from "../../../../libs";
 
-import { validations } from "./form";
-import { getFormsToRender, mergeFormSections } from "./helpers";
+import { Validations, ActionButtons } from "./forms";
+import {
+  getFormsToRender,
+  mergeFormSections,
+  groupSelectedIdsByParentForm
+} from "./utils";
 import { fetchRole, clearSelectedRole, saveRole } from "./action-creators";
-import { getRole, getServerErrors } from "./selectors";
+import { getRole } from "./selectors";
+import { NAME } from "./constants";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -36,28 +41,34 @@ const Container = ({ mode }) => {
   const { id } = useParams();
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const primeroModules = useSelector(state => selectModules(state), compare);
-  const roles = useSelector(state => getRecords(state, "roles"), compare);
+  const roles = useSelector(
+    state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]),
+    compare
+  );
   const role = useSelector(state => getRole(state), compare);
   const agencies = useSelector(state => selectAgencies(state), compare);
-  const formErrors = useSelector(state => getServerErrors(state), compare);
-  const systemPermissions = useSelector(state =>
-    getSystemPermissions(state),
+  const systemPermissions = useSelector(
+    state => getSystemPermissions(state),
     compare
   );
   const roleActions = useSelector(
-    state => getResourceActions(state, "role"),
+    state => getResourceActions(state, RESOURCES.role),
     compare
   );
   const agencyActions = useSelector(
-    state => getResourceActions(state, "agency"),
+    state => getResourceActions(state, RESOURCES.agency),
     compare
   );
-  const formSections = useSelector(
-    state => getFormsByParentForm(state),
+  const assignableForms = useSelector(
+    state => getAssignableForms(state),
     compare
   );
 
-  const validationSchema = validations(formMode, i18n);
+  const formsByParentForm = assignableForms.groupBy(assignableForm =>
+    assignableForm.get(PARENT_FORM)
+  );
+
+  const validationSchema = Validations(i18n);
 
   const handleSubmit = data => {
     dispatch(
@@ -70,10 +81,6 @@ const Container = ({ mode }) => {
         )
       })
     );
-  };
-
-  const bindFormSubmit = () => {
-    formRef.current.submitForm();
   };
 
   const handleEdit = () => {
@@ -100,39 +107,25 @@ const Container = ({ mode }) => {
     };
   }, [id]);
 
-  const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
-    <>
-      <FormAction
-        cancel
-        actionHandler={handleCancel}
-        text={i18n.t("buttons.cancel")}
-      />
-      <FormAction
-        actionHandler={bindFormSubmit}
-        text={i18n.t("buttons.save")}
-      />
-    </>
-  );
-
-  const editButton = formMode.get("isShow") && (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} />
-  );
-
   const pageHeading = role?.size
     ? `${i18n.t("roles.label")} ${role.get("name")}`
     : i18n.t("roles.label");
-  
+
   const formsToRender = getFormsToRender({
     primeroModules,
-    systemPermissions, 
+    systemPermissions,
     i18n,
     roles,
     agencies,
     roleActions,
     agencyActions,
-    formMode,
-    formSections 
+    formSections: formsByParentForm
   });
+
+  const initialValues = groupSelectedIdsByParentForm(
+    role.filter(prop => Boolean(prop)),
+    assignableForms
+  ).toJS();
 
   return (
     <LoadingIndicator
@@ -140,8 +133,7 @@ const Container = ({ mode }) => {
       type={NAMESPACE}
     >
       <PageHeading title={pageHeading}>
-        {editButton}
-        {saveButton}
+        <ActionButtons formMode={formMode} formRef={formRef} handleCancel={handleCancel} handleEdit={handleEdit} />
       </PageHeading>
       <PageContent>
         <Form
@@ -151,15 +143,14 @@ const Container = ({ mode }) => {
           onSubmit={handleSubmit}
           ref={formRef}
           validations={validationSchema}
-          initialValues={mergeFormSections(role.toJS())}
-          formErrors={formErrors}
+          initialValues={initialValues}
         />
       </PageContent>
     </LoadingIndicator>
   );
 };
 
-Container.displayName = "RolesForm";
+Container.displayName = NAME;
 
 Container.propTypes = {
   mode: PropTypes.string.isRequired

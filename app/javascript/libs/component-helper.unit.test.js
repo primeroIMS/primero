@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 
 import { expect } from "../test";
 
-import { dataToJS, valuesToSearchableSelect } from "./component-helpers";
+import { compare, dataToJS, valuesToSearchableSelect } from "./component-helpers";
 
 describe("component-helpers", () => {
   describe("dataToJS", () => {
@@ -47,6 +47,22 @@ describe("component-helpers", () => {
       expect(
         valuesToSearchableSelect(data, "id", "userName", "es")
       ).to.deep.equal(expected);
+    });
+  });
+
+  describe("compare", () => {
+    it("should return true if two objects are equal", () => {
+      const obj1 = fromJS({ name: "User Name" });
+      const obj2 = fromJS({ name: "User Name" });
+
+      expect(compare(obj1, obj2)).to.equal(true);
+    });
+
+    it("should return false if two objects are not equal", () => {
+      const obj1 = fromJS({ name: "User Name 1" });
+      const obj2 = fromJS({ name: "User Name 2" });
+
+      expect(compare(obj1, obj2)).to.equal(false);
     });
   });
 });
