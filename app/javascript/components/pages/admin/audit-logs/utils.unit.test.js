@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { expect } from "../../../../test";
 
 import { USER_NAME, TIMESTAMP } from "./constants";
-import * as helper from "./helpers";
+import * as helper from "./utils";
 
 describe("<AuditLogs /> - Helpers", () => {
   describe("with exposed properties", () => {

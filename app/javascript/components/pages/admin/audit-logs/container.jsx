@@ -17,7 +17,7 @@ import { Filters as AdminFilters } from "../components";
 import { AUDIT_LOG, NAME, TIMESTAMP, USER_NAME } from "./constants";
 import { fetchAuditLogs, fetchPerformedBy } from "./action-creators";
 import { getFilterUsers } from "./selectors";
-import { getFilters, buildAuditLogsQuery } from "./helpers";
+import { getFilters, buildAuditLogsQuery } from "./utils";
 
 const Container = () => {
   const i18n = useI18n();

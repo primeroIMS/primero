@@ -1,2 +1,2 @@
-export { default as AuditLogs } from "./container";
-export { reducers } from "./reducers";
+export { default } from "./container";
+export { reducers } from "./reducer";

@@ -7,7 +7,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/index", () => {
 
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
-    ["AuditLogs", "reducers"].forEach(property => {
+    ["default", "reducers"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });
