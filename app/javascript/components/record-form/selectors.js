@@ -131,3 +131,8 @@ export const getSelectedForm = state =>
 
 export const getSelectedRecord = state =>
   state.getIn([NAMESPACE, "selectedRecord"]);
+
+export const getAssignableForms = state =>
+  state
+    .getIn([NAMESPACE, "formSections"], fromJS([]))
+    .filter(form => !form.get("is_nested") && form.get("visible"));

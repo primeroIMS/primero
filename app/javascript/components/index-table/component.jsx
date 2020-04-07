@@ -9,7 +9,7 @@ import isEmpty from "lodash/isEmpty";
 import startsWith from "lodash/startsWith";
 import { List, fromJS } from "immutable";
 
-import { dataToJS } from "../../libs";
+import { compare, dataToJS } from "../../libs";
 import LoadingIndicator from "../loading-indicator";
 import { getFields } from "../record-list/selectors";
 import { getOptions, getLoadingState } from "../record-form/selectors";
@@ -37,10 +37,10 @@ const Component = ({
   const dispatch = useDispatch();
   const i18n = useI18n();
   const [sortOrder, setSortOrder] = useState();
-  const data = useSelector(state => getRecords(state, recordType));
+  const data = useSelector(state => getRecords(state, recordType), compare);
   const loading = useSelector(state => getLoading(state, recordType));
   const errors = useSelector(state => getErrors(state, recordType));
-  const filters = useSelector(state => getFilters(state, recordType));
+  const filters = useSelector(state => getFilters(state, recordType), compare);
 
   const { order, order_by: orderBy } = filters || {};
   const records = data.get("data");
@@ -55,9 +55,9 @@ const Component = ({
   ].includes(recordType);
   let translatedRecords = [];
 
-  const allFields = useSelector(state => getFields(state));
-  const allLookups = useSelector(state => getOptions(state));
-  const allAgencies = useSelector(state => selectAgencies(state));
+  const allFields = useSelector(state => getFields(state), compare);
+  const allLookups = useSelector(state => getOptions(state), compare);
+  const allAgencies = useSelector(state => selectAgencies(state), compare);
 
   let componentColumns =
     typeof columns === "function" ? columns(data) : columns;
@@ -291,7 +291,7 @@ const Component = ({
   const loadingIndicatorProps = {
     overlay: true,
     hasData: !dataIsLoading && Boolean(records?.size),
-    type: recordType,
+    type: targetRecordType || recordType,
     loading: dataIsLoading,
     errors,
     fromTableList: true
