@@ -2,25 +2,32 @@
 
 module SearchFilters
   class NotValue < SearchFilter
-    attr_accessor :field_name, :value
+    attr_accessor :filters
 
     def query_scope(sunspot)
       this = self
       sunspot.instance_eval do
-        without(this.field_name, this.value)
+        any_of do
+          this.filters.each do |filter|
+            without(filter.field_name, filter.value)
+          end
+        end
       end
     end
 
     def to_h
+      filters_hash = filters&.map(&:to_h) || []
       {
-        type: 'not_value',
-        field_name: field_name,
-        value: value
+        type: 'not',
+        filters: filters_hash
       }
     end
 
     def to_s
-      "not[#{field_name}]=#{value}"
+      filters.map do |filter|
+        key, value = filter.to_s.split('=')
+        "not[#{key}]=#{value}"
+      end
     end
   end
 end
