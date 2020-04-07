@@ -6,7 +6,7 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/styles";
 import isEmpty from "lodash/isEmpty";
 
-import { Jewel } from "../../jewel";
+import Jewel from "../../jewel";
 
 import styles from "./styles.css";
 import { NAV_ITEM } from "./constants";

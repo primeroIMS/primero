@@ -10,7 +10,7 @@ export const getAgenciesWithService = (state, service) =>
     agency.get("services", fromJS([])).includes(service)
   );
 
-export const selectModules = state => state.getIn([NAMESPACE, "modules"], []);
+export const selectModules = state => state.getIn([NAMESPACE, "modules"], fromJS([]));
 
 export const selectLocales = state => state.getIn([NAMESPACE, "locales"], []);
 
@@ -38,3 +38,9 @@ export const getReportingLocationConfig = state =>
 
 export const getAgencyLogos = state =>
   state.getIn(["records", "support", "data", "agencies"], []);
+
+export const getSystemPermissions = state =>
+  state.getIn([NAMESPACE, "permissions"], fromJS({}));
+
+export const getResourceActions = (state, resource) =>
+  getSystemPermissions(state).getIn(["resource_actions", resource], fromJS([]));

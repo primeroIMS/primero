@@ -5,7 +5,7 @@ import { Form, Field } from "formik";
 import { TextField as MuiTextField } from "formik-material-ui";
 
 import { useI18n } from "../../../i18n";
-import DisplayData from "../../../display-data/component";
+import DisplayData from "../../../display-data";
 
 import { REQUEST_FORM_NAME, NOTES_FIELD } from "./constants";
 

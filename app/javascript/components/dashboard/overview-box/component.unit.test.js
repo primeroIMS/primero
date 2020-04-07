@@ -55,8 +55,8 @@ describe("<OverviewBox />", () => {
   });
 
   describe("When data still loading", () => {
-    let component;
-    const props = {
+    let loadingComponent;
+    const loadingProps = {
       items: fromJS({
         name: "dashboard.approvals_closure",
         type: "indicator",
@@ -67,14 +67,18 @@ describe("<OverviewBox />", () => {
     };
 
     before(() => {
-      ({ component } = setupMountedComponent(OverviewBox, props, {}));
+      ({ component: loadingComponent } = setupMountedComponent(
+        OverviewBox,
+        loadingProps,
+        {}
+      ));
     });
 
     it("renders BadgedIndicator component", () => {
-      expect(component.find(OverviewBox)).to.have.lengthOf(1);
+      expect(loadingComponent.find(OverviewBox)).to.have.lengthOf(1);
     });
     it("renders CircularProgress", () => {
-      expect(component.find(CircularProgress)).to.have.lengthOf(1);
+      expect(loadingComponent.find(CircularProgress)).to.have.lengthOf(1);
     });
   });
 });

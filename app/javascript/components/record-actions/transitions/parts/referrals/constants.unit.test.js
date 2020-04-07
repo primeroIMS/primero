@@ -8,6 +8,8 @@ describe("<Referral /> - Constants", () => {
 
     [
       "NAME",
+      "PROVIDED_CONSENT_NAME",
+      "PROVIDED_FORM_NAME",
       "REFERRAL_FIELD",
       "REMOTE_SYSTEM_FIELD",
       "SERVICE_FIELD",

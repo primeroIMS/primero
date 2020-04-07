@@ -4,7 +4,7 @@ import makeStyles from "@material-ui/styles/makeStyles";
 import PropTypes from "prop-types";
 import React from "react";
 
-import { LoadingIndicator } from "../../loading-indicator";
+import LoadingIndicator from "../../loading-indicator";
 
 import styles from "./styles.css";
 

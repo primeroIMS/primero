@@ -54,7 +54,7 @@ const Component = ({
     selectedRecords?.length === records.size;
 
   const handleSubmit = values => {
-    const { id, format } = ALL_EXPORT_TYPES.find(
+    const { id, format, message } = ALL_EXPORT_TYPES.find(
       e => e.id === values.export_type
     );
     const fileName = formatFileName(values.custom_export_file_name, format);
@@ -86,8 +86,8 @@ const Component = ({
     dispatch(
       saveExport(
         { data },
-        i18n.t("exports.queueing", {
-          file_name: fileName ? `: ${fileName}` : "."
+        i18n.t(message || "exports.queueing", {
+          file_name: fileName ? `: ${fileName}.` : "."
         }),
         i18n.t("exports.go_to_exports"),
         EXPORT_DIALOG

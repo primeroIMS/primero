@@ -1,3 +1,5 @@
+/* eslint-disable react/display-name, react/prop-types */
+
 import { Box } from "@material-ui/core";
 import { Form } from "formik";
 import React from "react";

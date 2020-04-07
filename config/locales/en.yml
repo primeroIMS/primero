@@ -1012,6 +1012,7 @@ en:
     referral_label: "Can this role be used for Referrals?"
     group_permission_label: "What records does this role affect?"
     role_ids_label: "Others roles managed by this role"
+    agency_ids_label: "Agencies managed by this role"
     manager: "Manager"
 
   agencies:
@@ -2252,6 +2253,7 @@ en:
       all: Photo Wall
       one: Photo Wall
       selected: Selected to Photo Wall
+      success_message: "Creating Photowall%{file_name} Cases without photos will not be included."
     case_pdf:
       all: PDF
       one: PDF

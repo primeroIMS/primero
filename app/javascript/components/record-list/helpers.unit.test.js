@@ -5,9 +5,9 @@ import { buildTableColumns } from "./helpers";
 
 const i18n = {
   t: name => {
-    name = name.split(".")[1];
+    const fragment = name.split(".")[1];
 
-    return name.charAt(0).toUpperCase() + name.slice(1);
+    return fragment.charAt(0).toUpperCase() + fragment.slice(1);
   }
 };
 

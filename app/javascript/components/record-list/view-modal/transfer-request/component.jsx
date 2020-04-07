@@ -53,7 +53,7 @@ const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
       }
     },
     ref: formikRef,
-    // eslint-disable-next-line react/no-multi-comp
+    // eslint-disable-next-line react/no-multi-comp, react/display-name
     render: props => <RequestForm formProps={props} record={currentRecord} />,
     validateOnBlur: false,
     validateOnChange: false,

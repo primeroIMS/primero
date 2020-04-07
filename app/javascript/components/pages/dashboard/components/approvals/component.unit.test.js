@@ -6,7 +6,7 @@ import {
   DASH_APPROVALS_PENDING
 } from "../../../../../libs/permissions";
 import { OverviewBox, OptionsBox } from "../../../../dashboard";
-import { LoadingIndicator } from "../../../../loading-indicator";
+import LoadingIndicator from "../../../../loading-indicator";
 
 import Approvals from "./component";
 

@@ -1,1 +1,1 @@
-export { default as DashboardChip } from "./component";
+export { default } from "./component";

@@ -7,8 +7,11 @@ describe("<ReferralForm /> - index", () => {
 
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
-    expect(indexValues).to.have.property("ReferralForm");
-    delete indexValues.ReferralForm;
+    ["default"].forEach(property => {
+      expect(indexValues).to.have.property(property);
+      delete indexValues[property];
+    });
+
     expect(indexValues).to.deep.equal({});
   });
 });

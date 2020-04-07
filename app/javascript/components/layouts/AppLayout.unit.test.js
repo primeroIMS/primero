@@ -4,7 +4,7 @@ import { CircularProgress } from "@material-ui/core";
 
 import { routes } from "../../config";
 import { setupMountedComponent } from "../../test";
-import { Nav } from "../nav";
+import Nav from "../nav";
 
 import AppLayout from "./AppLayout";
 

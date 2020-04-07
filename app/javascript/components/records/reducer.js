@@ -21,10 +21,7 @@ import {
 
 const DEFAULT_STATE = Map({ data: List([]) });
 
-export const reducers = namespace => (
-  state = DEFAULT_STATE,
-  { type, payload }
-) => {
+export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case `${namespace}/${RECORDS_STARTED}`:
     case `${namespace}/${RECORD_STARTED}`:

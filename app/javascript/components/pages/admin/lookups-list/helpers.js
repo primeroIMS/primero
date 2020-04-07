@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export, react/display-name */
+
 import React from "react";
 
 export const columns = (i18n, css) => [

@@ -109,7 +109,7 @@ describe("<Permission />", () => {
   });
 
   describe("When doesn't has the exact permissions", () => {
-    const props = {
+    const wrongPermissionsProps = {
       resources: RESOURCES.dashboards,
       actions: ACTIONS.DASH_WORKFLOW_TEAM,
       children: <h1>Test</h1>
@@ -125,7 +125,7 @@ describe("<Permission />", () => {
     beforeEach(() => {
       ({ component } = setupMountedComponent(
         Permission,
-        props,
+        wrongPermissionsProps,
         initialStateDashboad
       ));
     });

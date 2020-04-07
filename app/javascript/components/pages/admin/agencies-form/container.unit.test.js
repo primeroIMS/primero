@@ -5,7 +5,7 @@ import { ACTIONS } from "../../../../libs/permissions";
 
 import AgenciesForm from "./container";
 
-describe("<AgenciesList />", () => {
+describe("<AgencyForm />", () => {
   let component;
 
   beforeEach(() => {

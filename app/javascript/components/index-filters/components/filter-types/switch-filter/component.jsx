@@ -32,6 +32,7 @@ const Component = ({
   const [inputValue, setInputValue] = useState();
   const valueRef = useRef();
   const { options, field_name: fieldName } = filter;
+  // eslint-disable-next-line camelcase
   const label = options?.[i18n.locale]?.[0]?.display_name;
 
   const handleChange = event => {

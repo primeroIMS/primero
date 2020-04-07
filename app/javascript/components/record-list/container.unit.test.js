@@ -9,7 +9,7 @@ import { ACTIONS } from "../../libs/permissions";
 import { setupMountedComponent } from "../../test";
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
 
-import { ViewModal } from "./view-modal";
+import ViewModal from "./view-modal";
 import RecordList from "./container";
 
 describe("<RecordList />", () => {
