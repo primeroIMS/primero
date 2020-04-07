@@ -9,6 +9,11 @@ describe("<RolesForm /> - Actions", () => {
     expect(clonedActions).to.be.an("object");
     [
       "CLEAR_SELECTED_ROLE",
+      "DELETE_ROLE",
+      "DELETE_ROLE_FAILURE",
+      "DELETE_ROLE_FINISHED",
+      "DELETE_ROLE_STARTED",
+      "DELETE_ROLE_SUCCESS",
       "FETCH_ROLE",
       "FETCH_ROLE_FAILURE",
       "FETCH_ROLE_FINISHED",

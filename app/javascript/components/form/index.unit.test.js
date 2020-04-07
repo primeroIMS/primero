@@ -7,6 +7,7 @@ describe("<Form /> - index", () => {
 
   it("should have known properties", () => {
     [
+      "ActionsMenu",
       "CHECK_BOX_FIELD",
       "default",
       "ERROR_FIELD",

@@ -40,6 +40,7 @@ describe("Verifying config constant", () => {
       "DASH_TASKS",
       "DASH_WORKFLOW",
       "DASH_WORKFLOW_TEAM",
+      "DELETE",
       "DISPLAY_VIEW_PAGE",
       "ENABLE_DISABLE_RECORD",
       "EXPORT_CASE_PDF",

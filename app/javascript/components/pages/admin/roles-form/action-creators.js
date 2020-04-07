@@ -1,5 +1,5 @@
 import { RECORD_PATH } from "../../../../config";
-import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
+import { ENQUEUE_SNACKBAR, generate, SNACKBAR_VARIANTS } from "../../../notifier";
 
 import actions from "./actions";
 
@@ -24,7 +24,7 @@ export const saveRole = ({ id, body, saveMethod, message }) => ({
       payload: {
         message,
         options: {
-          variant: "success",
+          variant: SNACKBAR_VARIANTS.success,
           key: generate.messageKey()
         }
       },
@@ -34,6 +34,26 @@ export const saveRole = ({ id, body, saveMethod, message }) => ({
           ? `${RECORD_PATH.roles}/${id}`
           : RECORD_PATH.roles
       }`
+    }
+  }
+});
+
+export const deleteRole = ({ id, message }) => ({
+  type: actions.DELETE_ROLE,
+  api: {
+    path: `${RECORD_PATH.roles}/${id}`,
+    method: "DELETE",
+    successCallback: {
+      action: ENQUEUE_SNACKBAR,
+      payload: {
+        message,
+        options: {
+          variant: SNACKBAR_VARIANTS.success,
+          key: generate.messageKey()
+        }
+      },
+      redirectWithIdFromResponse: false,
+      redirect: `/admin/${RECORD_PATH.roles}`
     }
   }
 });
