@@ -8,3 +8,4 @@ export const FIELD_NAMES = {
   moduleIds: "module_ids",
   groupPermission: "group_permission"
 };
+export const ACTION_BUTTONS_NAME = "ActionButtons";

@@ -5,7 +5,7 @@ import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
-import Form, { FormAction, whichFormMode, PARENT_FORM } from "../../../form";
+import Form, { whichFormMode, PARENT_FORM } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
@@ -20,17 +20,16 @@ import {
 import { fetchRoles, ADMIN_NAMESPACE } from "../roles-list";
 import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
-import bindFormSubmit from "../../../../libs/submit-form";
 import { compare } from "../../../../libs";
 
-import { Validations } from "./forms";
+import { Validations, ActionButtons } from "./forms";
 import {
   getFormsToRender,
   mergeFormSections,
   groupSelectedIdsByParentForm
 } from "./utils";
 import { fetchRole, clearSelectedRole, saveRole } from "./action-creators";
-import { getRole, getServerErrors, getSavingRecord } from "./selectors";
+import { getRole } from "./selectors";
 import { NAME } from "./constants";
 
 const Container = ({ mode }) => {
@@ -48,8 +47,6 @@ const Container = ({ mode }) => {
   );
   const role = useSelector(state => getRole(state), compare);
   const agencies = useSelector(state => selectAgencies(state), compare);
-  const formErrors = useSelector(state => getServerErrors(state), compare);
-  const saving = useSelector(state => getSavingRecord(state));
   const systemPermissions = useSelector(
     state => getSystemPermissions(state),
     compare
@@ -110,25 +107,6 @@ const Container = ({ mode }) => {
     };
   }, [id]);
 
-  const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
-    <>
-      <FormAction
-        cancel
-        actionHandler={handleCancel}
-        text={i18n.t("buttons.cancel")}
-      />
-      <FormAction
-        actionHandler={() => bindFormSubmit(formRef)}
-        text={i18n.t("buttons.save")}
-        savingRecord={saving}
-      />
-    </>
-  );
-
-  const editButton = formMode.get("isShow") && (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} />
-  );
-
   const pageHeading = role?.size
     ? `${i18n.t("roles.label")} ${role.get("name")}`
     : i18n.t("roles.label");
@@ -155,8 +133,7 @@ const Container = ({ mode }) => {
       type={NAMESPACE}
     >
       <PageHeading title={pageHeading}>
-        {editButton}
-        {saveButton}
+        <ActionButtons formMode={formMode} formRef={formRef} handleCancel={handleCancel} handleEdit={handleEdit} />
       </PageHeading>
       <PageContent>
         <Form
@@ -167,7 +144,6 @@ const Container = ({ mode }) => {
           ref={formRef}
           validations={validationSchema}
           initialValues={initialValues}
-          formErrors={formErrors}
         />
       </PageContent>
     </LoadingIndicator>
