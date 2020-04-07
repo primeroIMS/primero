@@ -22,7 +22,9 @@ const Container = ({ actionItems }) => {
   };
 
   const actionMenuItems = actionItems
-    .filter(action => action.condition)
+    .filter(
+      action => typeof action.condition === "undefined" || action.condition
+    )
     .map(action => (
       <MenuItem
         key={action.name}
