@@ -1,6 +1,7 @@
 import { fromJS } from "immutable";
 
 import NAMESPACE from "../namespace";
+import { SAVING } from "../../../../config";
 
 export const getUser = state => {
   return state.getIn(["records", NAMESPACE, "selectedUser"], fromJS({}));
@@ -17,3 +18,6 @@ export const getServerErrors = state => {
 export const selectIdentityProviders = state => {
   return state.get("idp", fromJS({}));
 };
+
+export const getSavingRecord = state =>
+  state.getIn(["records", NAMESPACE, SAVING], false);

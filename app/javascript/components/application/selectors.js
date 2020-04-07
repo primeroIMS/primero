@@ -1,5 +1,6 @@
 import { Map, fromJS } from "immutable";
 
+import { PERMISSIONS, RESOURCE_ACTIONS } from "./constants";
 import NAMESPACE from "./namespace";
 
 export const selectAgencies = state =>
@@ -10,9 +11,9 @@ export const getAgenciesWithService = (state, service) =>
     agency.get("services", fromJS([])).includes(service)
   );
 
-export const selectModules = state => state.getIn([NAMESPACE, "modules"], []);
+export const selectModules = state => state.getIn([NAMESPACE, "modules"], fromJS([]));
 
-export const selectLocales = state => state.getIn([NAMESPACE, "locales"], []);
+export const selectLocales = state => state.getIn([NAMESPACE, "locales"], fromJS([]));
 
 export const selectUserModules = state =>
   state.getIn([NAMESPACE, "modules"], Map({})).filter(m => {
@@ -37,4 +38,10 @@ export const getReportingLocationConfig = state =>
   state.getIn([NAMESPACE, "reportingLocationConfig"], fromJS({}));
 
 export const getAgencyLogos = state =>
-  state.getIn(["records", "support", "data", "agencies"], []);
+  state.getIn(["records", "support", "data", "agencies"], fromJS([]));
+
+export const getSystemPermissions = state =>
+  state.getIn([NAMESPACE, PERMISSIONS], fromJS({}));
+
+export const getResourceActions = (state, resource) =>
+  getSystemPermissions(state).getIn([RESOURCE_ACTIONS, resource], fromJS([]));

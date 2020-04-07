@@ -31,6 +31,12 @@ describe("User - Action Creators", () => {
       }
     },
     {
+      type: "application/FETCH_SYSTEM_PERMISSIONS",
+      api: {
+        path: "permissions"
+      }
+    },
+    {
       type: "forms/RECORD_FORMS",
       api: {
         path: "forms",
@@ -91,7 +97,7 @@ describe("User - Action Creators", () => {
       .then(() => {
         const actions = store.getActions();
 
-        expect(actions).to.have.lengthOf(6);
+        expect(actions).to.have.lengthOf(7);
         expect(actions).to.be.deep.equal(expectedAsyncActions);
       });
   });
@@ -174,7 +180,7 @@ describe("User - Action Creators", () => {
     return store.dispatch(actionCreators.checkUserAuthentication()).then(() => {
       const actions = store.getActions();
 
-      expect(actions).to.have.lengthOf(6);
+      expect(actions).to.have.lengthOf(7);
       expect(actions).to.be.deep.equal(expectedAsyncActions);
     });
   });

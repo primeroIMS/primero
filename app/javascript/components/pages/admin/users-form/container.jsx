@@ -9,7 +9,7 @@ import Form, { FormAction, whichFormMode } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
-import { ROUTES } from "../../../../config";
+import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
 import { setDialog, setPending } from "../../../record-actions/action-creators";
@@ -18,11 +18,17 @@ import {
   selectDialogPending
 } from "../../../record-actions/selectors";
 import { fetchSystemSettings } from "../../../application";
+import bindFormSubmit from "../../../../libs/submit-form";
 
 import { form, validations } from "./form";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
 import { USER_CONFIRMATION_DIALOG } from "./constants";
-import { getUser, getServerErrors, selectIdentityProviders } from "./selectors";
+import {
+  getUser,
+  getServerErrors,
+  selectIdentityProviders,
+  getSavingRecord
+} from "./selectors";
 import UserConfirmation from "./user-confirmation";
 
 const Container = ({ mode }) => {
@@ -46,6 +52,7 @@ const Container = ({ mode }) => {
   );
   const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
   const [userData, setUserData] = React.useState({});
+  const saving = useSelector(state => getSavingRecord(state));
 
   const userConfirmationOpen = useSelector(state =>
     selectDialog(USER_CONFIRMATION_DIALOG, state)
@@ -71,17 +78,15 @@ const Container = ({ mode }) => {
     dispatch(
       saveUser({
         id,
-        saveMethod: formMode.get("isEdit") ? "update" : "new",
         dialogName: USER_CONFIRMATION_DIALOG,
+        saveMethod: formMode.get("isEdit")
+          ? SAVE_METHODS.update
+          : SAVE_METHODS.new,
         body: { data },
         message: i18n.t("user.messages.updated"),
         failureMessage: i18n.t("user.messages.failure")
       })
     );
-  };
-
-  const bindFormSubmit = () => {
-    formRef.current.submitForm();
   };
 
   const handleEdit = () => {
@@ -116,8 +121,9 @@ const Container = ({ mode }) => {
         text={i18n.t("buttons.cancel")}
       />
       <FormAction
-        actionHandler={bindFormSubmit}
+        actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
+        savingRecord={saving}
       />
     </>
   );

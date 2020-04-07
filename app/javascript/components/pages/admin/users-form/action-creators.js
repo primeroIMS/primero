@@ -1,4 +1,4 @@
-import { RECORD_PATH } from "../../../../config";
+import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import {
   SET_DIALOG,
@@ -24,14 +24,16 @@ export const saveUser = ({
   message,
   failureMessage
 }) => {
+  const path =
+    saveMethod === SAVE_METHODS.update
+      ? `${RECORD_PATH.users}/${id}`
+      : RECORD_PATH.users;
+
   return {
     type: actions.SAVE_USER,
     api: {
-      path:
-        saveMethod === "update"
-          ? `${RECORD_PATH.users}/${id}`
-          : RECORD_PATH.users,
-      method: saveMethod === "update" ? "PATCH" : "POST",
+      path,
+      method: saveMethod === SAVE_METHODS.update ? "PATCH" : "POST",
       body,
       successCallback: [
         {
@@ -43,9 +45,8 @@ export const saveUser = ({
               key: generate.messageKey()
             }
           },
-
-          redirectWithIdFromResponse: saveMethod !== "update",
-          redirect: `/admin/${RECORD_PATH.users}`
+          redirectWithIdFromResponse: saveMethod !== SAVE_METHODS.update,
+          redirect: `/admin/${path}`
         },
         {
           action: SET_DIALOG,
