@@ -1,5 +1,3 @@
-import { expect } from "../../../test";
-
 import { headersToColumns } from "./helper";
 
 describe("headersToColumns", () => {

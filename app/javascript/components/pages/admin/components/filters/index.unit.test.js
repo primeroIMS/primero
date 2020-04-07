@@ -1,5 +1,3 @@
-import { expect } from "../../../../../test";
-
 import * as index from "./index";
 
 describe("<AdminFilters /> - pages/admin/components/filters/index", () => {

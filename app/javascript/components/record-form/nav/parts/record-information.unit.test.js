@@ -1,6 +1,6 @@
 import NavGroup from "../NavGroup";
 import NavItem from "../NavItem";
-import { setupMountedComponent, expect } from "../../../../test";
+import { setupMountedComponent } from "../../../../test";
 
 import RecordInformation from "./record-information";
 

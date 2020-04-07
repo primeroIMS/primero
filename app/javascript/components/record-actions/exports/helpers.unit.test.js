@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { expect, stub } from "../../../test";
+import { stub } from "../../../test";
 import { ACTIONS } from "../../../libs/permissions";
 
 import { ALL_EXPORT_TYPES, EXPORT_FORMAT } from "./constants";

@@ -1,6 +1,6 @@
 import { Menu } from "@material-ui/core";
 
-import { expect, setupMountedComponent } from "../../../../../test";
+import { setupMountedComponent } from "../../../../../test";
 
 import SubformMenu from "./component";
 

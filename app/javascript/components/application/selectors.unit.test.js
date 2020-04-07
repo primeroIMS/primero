@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { Map, fromJS } from "immutable";
 
 import { RECORD_TYPES } from "../../config";

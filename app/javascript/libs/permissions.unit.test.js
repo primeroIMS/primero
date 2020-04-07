@@ -1,7 +1,5 @@
 import { List } from "immutable";
 
-import { expect } from "../test";
-
 import * as PERMISSIONS from "./permissions";
 
 describe("Verifying config constant", () => {

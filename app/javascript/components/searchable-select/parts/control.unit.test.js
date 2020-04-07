@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import TextField from "@material-ui/core/TextField";
 
 import { setupMountedComponent } from "../../../test";

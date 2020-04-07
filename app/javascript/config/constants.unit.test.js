@@ -1,5 +1,3 @@
-import { expect } from "../test";
-
 import * as configConstants from "./constants";
 
 describe("Verifying config constant", () => {

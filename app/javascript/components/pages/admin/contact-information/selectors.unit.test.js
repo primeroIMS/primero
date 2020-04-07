@@ -1,7 +1,5 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../../../../test";
-
 import {
   selectContactInformation,
   selectSavingContactInformation

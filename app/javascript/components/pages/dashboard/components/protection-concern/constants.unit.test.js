@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as constants from "./constants";
 
 describe("<ProtectionConcern> - pages/dashboard/components/protection-concern/constants", () => {

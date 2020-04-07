@@ -1,6 +1,5 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../../../../test";
 import { TransitionRecord } from "../../records";
 
 import reducers from "./reducers";

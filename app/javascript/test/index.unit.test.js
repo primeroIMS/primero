@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as moduleToTest from "./index";
 
 describe("app/javascript/test/index", () => {
@@ -10,7 +8,6 @@ describe("app/javascript/test/index", () => {
   });
 
   [
-    'expect',
     "setupMockFieldComponent",
     "setupMockFormComponent",
     'setupMountedComponent',

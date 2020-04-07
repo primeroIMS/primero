@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as moduleToTest from "./utils";
 
 describe("middleware/utils", () => {

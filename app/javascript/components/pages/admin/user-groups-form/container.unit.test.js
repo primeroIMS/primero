@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent, expect } from "../../../../test";
+import { setupMountedComponent } from "../../../../test";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
 import { FormAction } from "../../../form";
 

@@ -1,5 +1,4 @@
 import React from "react";
-import { expect } from "chai";
 import { Formik, Form } from "formik";
 import { FormControlLabel } from "@material-ui/core";
 import { fromJS } from "immutable";

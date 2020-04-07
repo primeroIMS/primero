@@ -1,6 +1,5 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../../../../test";
 import NAMESPACE from "../agencies-list/namespace";
 
 import {

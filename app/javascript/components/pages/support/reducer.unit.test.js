@@ -1,11 +1,7 @@
-import chai, { expect } from "chai";
 import { fromJS } from "immutable";
-import chaiImmutable from "chai-immutable";
 
 import reducers from "./reducer";
 import { ContactInformationRecord } from "./records";
-
-chai.use(chaiImmutable);
 
 describe("<RecordList /> - Reducers", () => {
   it("should handle FETCH_DATA_SUCCESS", () => {

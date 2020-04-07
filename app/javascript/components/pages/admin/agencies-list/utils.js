@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import { FILTER_TYPES } from "../../../index-filters";
 
 import { DISABLED } from "./constants";

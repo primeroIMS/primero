@@ -1,7 +1,5 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../../../../../test";
-
 import AssociatedFormSectionsForm from "./associated-form-sections";
 
 describe("pages/admin/<RolesForm>/forms - AssociatedFormSectionsForm", () => {

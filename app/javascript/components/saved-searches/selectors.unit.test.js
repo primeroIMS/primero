@@ -1,13 +1,10 @@
-import chai, { expect } from "chai";
 import { Map, List } from "immutable";
-import chaiImmutable from "chai-immutable";
 
 import { mapEntriesToRecord } from "../../libs";
 
 import * as R from "./records";
 import * as selectors from "./selectors";
 
-chai.use(chaiImmutable);
 const filters = [
   {
     id: 1,

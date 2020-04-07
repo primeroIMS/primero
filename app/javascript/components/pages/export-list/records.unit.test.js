@@ -1,5 +1,3 @@
-import { expect } from "../../../test";
-
 import * as records from "./records";
 
 describe("<ExportList/> - pages/export-list/records", () => {

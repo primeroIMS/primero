@@ -1,6 +1,5 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../../../../test";
 import { ContactInformationRecord } from "../../support/records";
 
 import actions from "./actions";

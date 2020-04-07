@@ -1,7 +1,5 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../../../../../test";
-
 import ResourcesForm from "./resources";
 
 describe("pages/admin/<RolesForm>/forms - ResourcesForm", () => {

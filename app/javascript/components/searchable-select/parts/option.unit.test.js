@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import { setupMountedComponent } from "../../../test";

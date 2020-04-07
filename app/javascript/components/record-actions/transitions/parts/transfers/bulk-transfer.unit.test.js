@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import { setupMountedComponent } from "../../../../../test";
 
 import TransferCheckbox from "./transfer-checkbox";

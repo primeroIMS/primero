@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as index from "./index";
 
 describe("<Transitions /> - parts/index", () => {

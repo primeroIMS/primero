@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import NoSsr from "@material-ui/core/NoSsr";
 import ReactSelect from "react-select";
 

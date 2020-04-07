@@ -3,7 +3,7 @@ import configureStore from "redux-mock-store";
 import sinon from "sinon";
 
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
-import { expect, stub } from "../../../test";
+import { stub } from "../../../test";
 import { ASSIGN_DIALOG, TRANSFER_DIALOG, REFER_DIALOG } from "../constants";
 import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
 

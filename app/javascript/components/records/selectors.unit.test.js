@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { Map, OrderedMap, fromJS } from "immutable";
 
 import { FieldRecord, FormSectionRecord } from "../record-form/records";

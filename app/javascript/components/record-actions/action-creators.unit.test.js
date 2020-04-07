@@ -1,5 +1,3 @@
-import { expect } from "../../test";
-
 import { SET_DIALOG, SET_DIALOG_PENDING } from "./actions";
 import * as actionCreators from "./action-creators";
 import { REQUEST_APPROVAL_DIALOG } from "./constants";

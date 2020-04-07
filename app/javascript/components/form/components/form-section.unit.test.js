@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { expect, setupMockFormComponent } from "../../../test";
+import { setupMockFormComponent } from "../../../test";
 import { FieldRecord, FormSectionRecord } from "../records";
 
 import FormSection from "./form-section";

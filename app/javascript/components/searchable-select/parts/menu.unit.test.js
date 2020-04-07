@@ -1,5 +1,4 @@
 import React from "react";
-import { expect } from "chai";
 import Paper from "@material-ui/core/Paper";
 
 import { setupMountedComponent } from "../../../test";

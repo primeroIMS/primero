@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import Actions from "./actions";
 
 describe("User - Actions", () => {

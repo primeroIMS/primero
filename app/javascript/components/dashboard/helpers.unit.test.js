@@ -1,5 +1,3 @@
-import { expect } from "../../test";
-
 import { buildFilter } from "./helpers";
 
 describe("<Dashboard /> - Helpers", () => {

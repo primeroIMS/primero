@@ -1,13 +1,9 @@
-import chai, { expect } from "chai";
 import { fromJS } from "immutable";
-import chaiImmutable from "chai-immutable";
 
 import { mapEntriesToRecord } from "../../libs";
 
 import { SavedSearchesRecord } from "./records";
 import { reducers } from "./reducers";
-
-chai.use(chaiImmutable);
 
 describe("<SavedSearches /> - Reducers", () => {
   const defaultState = fromJS({
