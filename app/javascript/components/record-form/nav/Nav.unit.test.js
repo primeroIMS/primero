@@ -116,7 +116,9 @@ describe("<Nav />", () => {
     handleToggleNav: () => {},
     mobileDisplay: true,
     selectedForm: "",
-    selectedRecord: ""
+    selectedRecord: "",
+    selectedRecordOwner: "",
+    currentUser: ""
   };
 
   beforeEach(() => {
@@ -137,5 +139,25 @@ describe("<Nav />", () => {
 
   it("renders a NavGroup component from record information and another one from the others forms groups />", () => {
     expect(component.find(NavGroup)).to.have.lengthOf(2);
+  });
+
+  it("should render valid props", () => {
+    const navProps = { ...component.find(Nav).props() };
+
+    expect(component.find(Nav)).to.have.lengthOf(1);
+    [
+      "firstTab",
+      "formNav",
+      "handleToggleNav",
+      "mobileDisplay",
+      "selectedForm",
+      "selectedRecord",
+      "selectedRecordOwner",
+      "currentUser"
+    ].forEach(property => {
+      expect(navProps).to.have.property(property);
+      delete navProps[property];
+    });
+    expect(navProps).to.be.empty;
   });
 });

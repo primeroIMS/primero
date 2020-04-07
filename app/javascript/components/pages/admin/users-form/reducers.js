@@ -1,5 +1,7 @@
 import { fromJS } from "immutable";
 
+import { SAVING } from "../../../../config";
+
 import actions from "./actions";
 
 const DEFAULT_STATE = fromJS({});
@@ -28,6 +30,10 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .set("selectedUser", fromJS({}))
         .set("errors", false)
         .set("serverErrors", fromJS([]));
+    case actions.SAVE_USER_STARTED:
+      return state.set(SAVING, true);
+    case actions.SAVE_USER_SUCCESS:
+      return state.set(SAVING, false);
     default:
       return state;
   }

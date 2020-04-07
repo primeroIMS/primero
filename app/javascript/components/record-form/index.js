@@ -8,21 +8,22 @@ export {
 } from "./action-creators";
 export { reducers } from "./reducers";
 export {
-  getFirstTab,
-  getFormNav,
-  getRecordForms,
-  getOption,
-  getLoadingState,
-  getErrors,
-  getSelectedForm,
-  getLocations,
-  getRecordFormsByUniqueId,
-  getLookups,
-  getServiceToRefer,
+  getAssignableForms,
   getEnabledAgencies,
   getEnabledAgenciesWithService,
+  getErrors,
+  getFirstTab,
+  getFormNav,
+  getLoadingState,
+  getLocations,
+  getLookups,
+  getOption,
+  getOptionsAreLoading,
+  getRecordForms,
+  getRecordFormsByUniqueId,
   getReportingLocations,
-  getOptionsAreLoading
+  getSelectedForm,
+  getServiceToRefer
 } from "./selectors";
 export { FormSectionField } from "./form";
 export { FieldRecord } from "./records";
