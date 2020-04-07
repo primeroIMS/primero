@@ -21,16 +21,17 @@ const Container = ({ actionItems }) => {
     itemAction();
   };
 
-  const actionMenuItems = actionItems.map(action => (
-     <MenuItem
-      key={action.name}
-      selected={action.name === "Pyxis"}
-      onClick={() => handleItemAction(action.action)}
-    >
-      {action.name}
-    </MenuItem>
-  ));
-
+  const actionMenuItems = actionItems
+    .filter(action => action.condition)
+    .map(action => (
+      <MenuItem
+        key={action.name}
+        selected={action.name === "Pyxis"}
+        onClick={() => handleItemAction(action.action)}
+      >
+        {action.name}
+      </MenuItem>
+    ));
 
   return (
     <>
