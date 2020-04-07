@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { expect } from "../../../../test/unit-test-helpers";
 
 import actions from "./actions";
-import { reducers } from "./reducers";
+import reducers from "./reducers";
 
 describe("<UsersForm /> - Reducers", () => {
   it("should handle FETCH_USER_STARTED", () => {
@@ -64,6 +64,28 @@ describe("<UsersForm /> - Reducers", () => {
     });
     const action = {
       type: actions.CLEAR_SELECTED_USER,
+      payload: false
+    };
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SAVE_USER_STARTED", () => {
+    const expected = fromJS({ saving: true });
+    const action = {
+      type: actions.SAVE_USER_STARTED,
+      payload: true
+    };
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SAVE_USER_SUCCESS", () => {
+    const expected = fromJS({ saving: false });
+    const action = {
+      type: actions.SAVE_USER_SUCCESS,
       payload: false
     };
     const newState = reducers(fromJS({}), action);

@@ -6,10 +6,7 @@ import { APPROVE_RECORD_SUCCESS } from "./actions";
 
 const DEFAULT_STATE = fromJS({ data: [] });
 
-export const reducers = namespace => (
-  state = DEFAULT_STATE,
-  { type, payload }
-) => {
+export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case `${namespace}/${APPROVE_RECORD_SUCCESS}`: {
       const { data } = payload;

@@ -1,1 +1,1 @@
-export { default as ListIcon } from "./component";
+export { default } from "./component";

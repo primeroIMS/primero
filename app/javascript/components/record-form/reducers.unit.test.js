@@ -229,4 +229,32 @@ describe("<RecordForm /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("should handle forms/FETCH_RECORD_ALERTS", () => {
+    const data = [
+      {
+        alert_for: "field_change",
+        type: "notes",
+        date: "2020-04-02",
+        form_unique_id: "notes"
+      }
+    ];
+    const expected = fromJS({
+      selectedForm: null,
+      formSections: OrderedMap({}),
+      fields: OrderedMap({}),
+      recordAlerts: fromJS(data)
+    });
+
+    const action = {
+      type: actions.FETCH_RECORD_ALERTS_SUCCESS,
+      payload: {
+        data
+      }
+    };
+
+    const newState = reducers.forms(defaultState, action);
+
+    expect(newState).to.deep.equals(expected);
+  });
 });

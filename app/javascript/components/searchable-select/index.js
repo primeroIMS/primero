@@ -1,1 +1,1 @@
-export { default as SearchableSelect } from "./component";
+export { default } from "./component";

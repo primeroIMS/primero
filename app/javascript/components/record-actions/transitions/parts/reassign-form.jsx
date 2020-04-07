@@ -11,7 +11,7 @@ import {
   getErrorsByTransitionType
 } from "../selectors";
 import { saveAssignedUser, fetchAssignUsers } from "../action-creators";
-import { SearchableSelect } from "../../../searchable-select";
+import SearchableSelect from "../../../searchable-select";
 import { enqueueSnackbar } from "../../../notifier";
 import { useI18n } from "../../../i18n";
 

@@ -7,11 +7,12 @@ import { useLocation, useParams } from "react-router-dom";
 import { useI18n } from "../../../i18n";
 import Form, { FormAction, whichFormMode } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
-import { LoadingIndicator } from "../../../loading-indicator";
+import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../agencies-list/namespace";
-import { ROUTES } from "../../../../config";
+import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
+import bindFormSubmit from "../../../../libs/submit-form";
 
 import { localizeData, translateFields } from "./helpers";
 import { NAME } from "./constants";
@@ -21,7 +22,7 @@ import {
   clearSelectedAgency,
   saveAgency
 } from "./action-creators";
-import { getAgency, getServerErrors } from "./selectors";
+import { getAgency, getServerErrors, getSavingRecord } from "./selectors";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -38,6 +39,8 @@ const Container = ({ mode }) => {
 
   const canEditAgencies = usePermissions(NAMESPACE, WRITE_RECORDS);
 
+  const saving = useSelector(state => getSavingRecord(state));
+
   const handleSubmit = data => {
     const localizedData = localizeData(data, ["name", "description"], i18n);
 
@@ -51,17 +54,15 @@ const Container = ({ mode }) => {
     dispatch(
       saveAgency({
         id,
-        saveMethod: formMode.get("isEdit") ? "update" : "new",
+        saveMethod: formMode.get("isEdit")
+          ? SAVE_METHODS.update
+          : SAVE_METHODS.new,
         body: { data: localizedData },
         message: i18n.t(
           `agency.messages.${formMode.get("isEdit") ? "updated" : "created"}`
         )
       })
     );
-  };
-
-  const bindFormSubmit = () => {
-    formRef.current.submitForm();
   };
 
   const handleEdit = () => {
@@ -92,8 +93,9 @@ const Container = ({ mode }) => {
         text={i18n.t("buttons.cancel")}
       />
       <FormAction
-        actionHandler={bindFormSubmit}
+        actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
+        savingRecord={saving}
       />
     </>
   );

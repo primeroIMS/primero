@@ -3,14 +3,20 @@ import { fromJS } from "immutable";
 import { expect } from "../../../../test/unit-test-helpers";
 import NAMESPACE from "../namespace";
 
-import { getUser, getErrors, getServerErrors } from "./selectors";
+import {
+  getUser,
+  getErrors,
+  getServerErrors,
+  getSavingRecord
+} from "./selectors";
 
 const stateWithHeaders = fromJS({
   records: {
     users: {
       selectedUser: { id: 1 },
       errors: true,
-      serverErrors: [{ message: "error-1" }]
+      serverErrors: [{ message: "error-1" }],
+      saving: true
     }
   }
 });
@@ -71,6 +77,20 @@ describe("<UsersForm /> - Selectors", () => {
       const user = getServerErrors(stateWithoutHeaders);
 
       expect(user).to.deep.equal(fromJS([]));
+    });
+  });
+
+  describe("getSavingRecord", () => {
+    it("should return server errors", () => {
+      const serverErrors = getSavingRecord(stateWithHeaders);
+
+      expect(serverErrors).to.be.true;
+    });
+
+    it("should return empty object when no server errors", () => {
+      const user = getSavingRecord(stateWithoutHeaders);
+
+      expect(user).to.be.false;
     });
   });
 });

@@ -12,7 +12,7 @@ import makeStyles from "@material-ui/styles/makeStyles";
 
 import { PageContainer, PageHeading, PageContent } from "../../page";
 import { useI18n } from "../../i18n";
-import LoadingIndicator from "../../loading-indicator/component";
+import LoadingIndicator from "../../loading-indicator";
 
 import { fetchReports } from "./action-creators";
 import styles from "./styles.css";

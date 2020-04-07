@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { expect } from "../../../../test/unit-test-helpers";
 
 import actions from "./actions";
-import { reducers } from "./reducers";
+import reducers from "./reducers";
 
 describe("<AgenciesForm /> - Reducers", () => {
   it("should handle FETCH_AGENCY_STARTED", () => {
@@ -64,6 +64,28 @@ describe("<AgenciesForm /> - Reducers", () => {
     });
     const action = {
       type: actions.CLEAR_SELECTED_AGENCY,
+      payload: false
+    };
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SAVE_AGENCY_STARTED", () => {
+    const expected = fromJS({ saving: true });
+    const action = {
+      type: actions.SAVE_AGENCY_STARTED,
+      payload: true
+    };
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SAVE_AGENCY_FINISHED", () => {
+    const expected = fromJS({ saving: false });
+    const action = {
+      type: actions.SAVE_AGENCY_FINISHED,
       payload: false
     };
     const newState = reducers(fromJS({}), action);

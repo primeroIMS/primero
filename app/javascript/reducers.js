@@ -25,6 +25,7 @@ import { reducers as agenciesListReducers } from "./components/pages/admin/agenc
 import { reducers as agenciesFormReducers } from "./components/pages/admin/agencies-form";
 import { reducers as contactInformationReducers } from "./components/pages/admin/contact-information";
 import { reducers as rolesListReducers } from "./components/pages/admin/roles-list";
+import { reducers as rolesFormReducers } from "./components/pages/admin/roles-form";
 import { reducers as recordActionsTransitionsReducers } from "./components/record-actions/transitions";
 import { reducers as recordFormReducers } from "./components/record-form";
 import { reducers as recordsReducers } from "./components/records";
@@ -36,7 +37,6 @@ import { reducers as transferRequestReducers } from "./components/record-list/vi
 import { reducers as transferApprovalReducers } from "./components/transitions/transfers/transfer-approval";
 import { reducers as revokeModalReducers } from "./components/transitions/components/revoke-modal";
 import { reducers as referralActionReducers } from "./components/transitions/referrals/referral-action";
-import { reducers as AdminLookupsListReducers } from "./components/pages/admin/lookups-list";
 import { reducers as AuditLogsReducers } from "./components/pages/admin/audit-logs";
 import { reducers as lookupsListReducers } from "./components/pages/admin/lookups-list";
 import { RECORD_TYPES } from "./config";
@@ -68,7 +68,6 @@ const rootReducer = {
       ...taskListReducers,
       users: reduceReducers(usersListReducers, usersFormReducers),
       agencies: reduceReducers(agenciesListReducers, agenciesFormReducers),
-      roles: reduceReducers(rolesListReducers),
       user_groups: reduceReducers(
         userGroupsListReducers,
         userGroupsFormReducers
@@ -80,7 +79,8 @@ const rootReducer = {
       ...savedSearchesReducers,
       admin: combineReducers({
         audit_logs: reduceReducers(AuditLogsReducers),
-        lookups: reduceReducers(lookupsListReducers, AdminLookupsListReducers)
+        roles: reduceReducers(rolesListReducers, rolesFormReducers),
+        lookups: reduceReducers(lookupsListReducers)
       })
     }),
     transferApprovalReducers,

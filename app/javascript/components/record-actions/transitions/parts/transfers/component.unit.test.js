@@ -6,7 +6,7 @@ import { Formik } from "formik";
 
 import { setupMountedComponent } from "../../../../../test";
 import { MODULES } from "../../../../../config";
-import { SearchableSelect } from "../../../../searchable-select";
+import SearchableSelect from "../../../../searchable-select";
 
 import ProvidedConsent from "./provided-consent";
 import TransferForm from "./component";

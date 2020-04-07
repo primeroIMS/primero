@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles, Button } from "@material-ui/core";
 
-import { ListIcon } from "../list-icon";
+import ListIcon from "../list-icon";
 import { withI18n } from "../i18n";
 
 import Loading from "./loading";

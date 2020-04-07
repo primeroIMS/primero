@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { SINGLE_VALUE_NAME as NAME } from "./constants";
 import styles from "./styles.css";
 
 const SingleValue = props => {
@@ -21,6 +22,8 @@ const SingleValue = props => {
     </Typography>
   );
 };
+
+SingleValue.displayName = NAME;
 
 SingleValue.propTypes = {
   children: PropTypes.node,

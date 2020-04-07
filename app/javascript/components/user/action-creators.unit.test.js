@@ -4,7 +4,7 @@ import thunk from "redux-thunk";
 import { expect, spy, stub } from "../../test";
 import * as idpSelection from "../pages/login/idp-selection";
 
-import { Actions } from "./actions";
+import Actions from "./actions";
 import * as actionCreators from "./action-creators";
 
 describe("User - Action Creators", () => {
@@ -28,6 +28,12 @@ describe("User - Action Creators", () => {
         path: "system_settings",
         params: { extended: true },
         db: { collection: "system_settings" }
+      }
+    },
+    {
+      type: "application/FETCH_SYSTEM_PERMISSIONS",
+      api: {
+        path: "permissions"
       }
     },
     {
@@ -91,7 +97,7 @@ describe("User - Action Creators", () => {
       .then(() => {
         const actions = store.getActions();
 
-        expect(actions).to.have.lengthOf(6);
+        expect(actions).to.have.lengthOf(7);
         expect(actions).to.be.deep.equal(expectedAsyncActions);
       });
   });
@@ -174,7 +180,7 @@ describe("User - Action Creators", () => {
     return store.dispatch(actionCreators.checkUserAuthentication()).then(() => {
       const actions = store.getActions();
 
-      expect(actions).to.have.lengthOf(6);
+      expect(actions).to.have.lengthOf(7);
       expect(actions).to.be.deep.equal(expectedAsyncActions);
     });
   });

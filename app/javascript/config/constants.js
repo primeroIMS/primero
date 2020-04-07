@@ -171,7 +171,9 @@ export const ADMIN_NAV = [
       },
       {
         to: "/lookups",
-        label: "settings.navigation.lookups"
+        label: "settings.navigation.lookups",
+        permission: MANAGE,
+        recordType: RESOURCES.metadata
       }
     ]
   },
@@ -198,7 +200,13 @@ export const METHODS = Object.freeze({
   PUT: "PUT"
 });
 
+export const SAVE_METHODS = Object.freeze({
+  new: "new",
+  update: "update"
+});
+
 export const ACCEPTED = "accepted";
 export const ACCEPT = "accept";
 export const REJECTED = "rejected";
 export const REJECT = "reject";
+export const SAVING = "saving";

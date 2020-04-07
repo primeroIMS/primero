@@ -56,7 +56,7 @@ describe("<UsersForm /> - Action Creators", () => {
             }
           },
           redirectWithIdFromResponse: false,
-          redirect: `/admin/${RECORD_PATH.users}`
+          redirect: `/admin/${RECORD_PATH.users}/10`
         }
       }
     };

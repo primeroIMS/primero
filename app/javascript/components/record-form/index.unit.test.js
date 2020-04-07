@@ -10,23 +10,24 @@ describe("<RecordForm /> - index", () => {
     [
       "constructInitialValues",
       "default",
-      "fetchForms",
-      "fetchOptions",
       "FieldRecord",
       "FormSectionField",
+      "fetchForms",
+      "fetchLookups",
+      "fetchOptions",
+      "getAssignableForms",
       "getErrors",
       "getFirstTab",
       "getFormNav",
       "getLoadingState",
       "getLocations",
+      "getLookups",
       "getOption",
       "getRecordForms",
       "getRecordFormsByUniqueId",
       "getSelectedForm",
       "reducers",
-      "setSelectedForm",
-      "fetchLookups",
-      "getLookups"
+      "setSelectedForm"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
