@@ -3,6 +3,7 @@ import { fromJS } from "immutable";
 import { setupMountedComponent, expect } from "../../../../test";
 import { ACTIONS } from "../../../../libs/permissions";
 import { ActionsMenu } from "../../../form";
+import { ROUTES } from "../../../../config/constants";
 
 import RolesForm from "./container";
 
@@ -42,7 +43,7 @@ describe("<RolesForm />", () => {
         RolesForm,
         { mode: "new" },
         initialState,
-        ["/admin/roles"]
+        [ROUTES.admin_roles]
       ));
     });
 
