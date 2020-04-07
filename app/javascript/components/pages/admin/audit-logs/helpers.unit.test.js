@@ -2,6 +2,7 @@ import { fromJS } from "immutable";
 
 import { expect } from "../../../../test";
 
+import { USER_NAME, TIMESTAMP } from "./constants";
 import * as helper from "./helpers";
 
 describe("<AuditLogs /> - Helpers", () => {
@@ -9,11 +10,13 @@ describe("<AuditLogs /> - Helpers", () => {
     it("should have known methods", () => {
       const clone = { ...helper };
 
-      ["searchableUsers", "buildAuditLogsQuery"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
-        delete clone[property];
-      });
+      ["searchableUsers", "buildAuditLogsQuery", "getFilters"].forEach(
+        property => {
+          expect(clone).to.have.property(property);
+          expect(clone[property]).to.be.a("function");
+          delete clone[property];
+        }
+      );
       expect(clone).to.be.empty;
     });
   });
@@ -53,6 +56,32 @@ describe("<AuditLogs /> - Helpers", () => {
       const converted = helper.buildAuditLogsQuery(data);
 
       expect(converted).to.deep.equal(expected);
+    });
+  });
+
+  describe("getFilters", () => {
+    it("should convert the data for DashboardTable", () => {
+      const data = fromJS([{ id: "user_test", display_name: "user_test" }]);
+
+      const expected = [
+        {
+          name: "audit_log.timestamp",
+          field_name: "audit_log_date",
+          type: "dates",
+          option_strings_source: null,
+          options: { en: [{ id: TIMESTAMP, display_name: "Timestamp" }] }
+        },
+        {
+          name: "audit_log.user_name",
+          field_name: USER_NAME,
+          option_strings_source: null,
+          options: helper.searchableUsers(data),
+          type: "multi_select",
+          multiple: false
+        }
+      ];
+
+      expect(helper.getFilters(data)).to.deep.equal(expected);
     });
   });
 });

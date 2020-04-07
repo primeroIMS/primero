@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
@@ -12,14 +12,17 @@ import { RESOURCES, SHOW_AUDIT_LOGS } from "../../../../libs/permissions";
 import { PageHeading, PageContent } from "../../../page";
 import IndexTable from "../../../index-table";
 import Permission from "../../../application/permission";
+import { Filters as AdminFilters } from "../components";
 
-import { NAME, AUDIT_LOG } from "./constants";
+import { AUDIT_LOG, NAME, TIMESTAMP, USER_NAME } from "./constants";
 import { fetchAuditLogs, fetchPerformedBy } from "./action-creators";
-import { Filters } from "./components";
+import { getFilterUsers } from "./selectors";
+import { getFilters, buildAuditLogsQuery } from "./helpers";
 
 const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const filterUsers = useSelector(state => getFilterUsers(state));
 
   useEffect(() => {
     dispatch(fetchPerformedBy({ options: { per: 999 } }));
@@ -35,6 +38,13 @@ const Container = () => {
       {i18n.t("buttons.new")}
     </Button>
   );
+
+  const filterProps = {
+    clearFields: [USER_NAME, TIMESTAMP],
+    filters: getFilters(filterUsers),
+    onSubmit: data =>
+      dispatch(fetchAuditLogs({ options: buildAuditLogsQuery(data) }))
+  };
 
   const tableOptions = {
     recordType: ["admin", AUDIT_LOG],
@@ -89,7 +99,8 @@ const Container = () => {
             <IndexTable {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={3}>
-            <Filters />
+            {/* <Filters /> */}
+            <AdminFilters {...filterProps} />
           </Grid>
         </Grid>
       </PageContent>

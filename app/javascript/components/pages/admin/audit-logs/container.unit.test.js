@@ -4,8 +4,8 @@ import { setupMountedComponent, expect } from "../../../../test";
 import { PageHeading } from "../../../page";
 import { ACTIONS } from "../../../../libs/permissions";
 import IndexTable from "../../../index-table";
+import { Filters } from "../components";
 
-import { Filters } from "./components";
 import AuditLogs from "./container";
 
 describe("<AuditLogs />", () => {

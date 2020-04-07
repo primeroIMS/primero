@@ -7,7 +7,7 @@ describe("<AuditLogs /> pages/admin/audit-logs/constants", () => {
     const clone = { ...constants };
 
     expect(clone).to.be.an("object");
-    ["NAME", "AUDIT_LOG"].forEach(property => {
+    ["AUDIT_LOG", "NAME", "TIMESTAMP", "USER_NAME"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });

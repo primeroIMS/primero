@@ -1,6 +1,7 @@
 import { dataToJS } from "../../../../libs";
+import { FILTER_TYPES } from "../../../index-filters";
 
-import { USER_NAME } from "./components/filters/constants";
+import { USER_NAME, TIMESTAMP } from "./constants";
 
 export const searchableUsers = data => {
   const users = dataToJS(data);
@@ -25,3 +26,23 @@ export const buildAuditLogsQuery = data => {
     return { ...acc, [key]: value };
   }, {});
 };
+
+export const getFilters = filterUsers => [
+  {
+    name: "audit_log.timestamp",
+    field_name: "audit_log_date",
+    type: FILTER_TYPES.DATES,
+    option_strings_source: null,
+    options: {
+      en: [{ id: TIMESTAMP, display_name: "Timestamp" }]
+    }
+  },
+  {
+    name: "audit_log.user_name",
+    field_name: USER_NAME,
+    option_strings_source: null,
+    options: searchableUsers(filterUsers),
+    type: FILTER_TYPES.MULTI_SELECT,
+    multiple: false
+  }
+];
