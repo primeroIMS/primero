@@ -32,15 +32,15 @@ describe("pages/admin/<RolesForm> - utils", () => {
         }
       };
 
-      const expected = [
-        "case_form_1",
-        "tracing_request_form_1",
-        "incident_form_1"
-      ];
+      const expected = {
+        form_section_unique_ids: [
+          "case_form_1",
+          "tracing_request_form_1",
+          "incident_form_1"
+        ]
+      };
 
-      expect(
-        utils.mergeFormSections(data).form_section_unique_ids
-      ).to.deep.equal(expected);
+      expect(utils.mergeFormSections(data)).to.deep.equal(expected);
     });
   });
 

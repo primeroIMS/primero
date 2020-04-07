@@ -43,11 +43,9 @@ export const getFormsToRender = ({
   );
 
 export const mergeFormSections = data => {
-  const recordTypes = [
-    RECORD_TYPES.cases,
-    RECORD_TYPES.tracing_requests,
-    RECORD_TYPES.incidents
-  ];
+  const recordTypes = Object.values(RECORD_TYPES).filter(
+    type => type !== RECORD_TYPES.all
+  );
 
   if (!data.form_section_unique_ids) {
     return data;
