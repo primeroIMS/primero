@@ -19,12 +19,11 @@ import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
 import {
+  getEnabledAgencies,
   getLocations,
   getOption,
-  getReportingLocations,
-  getEnabledAgencies,
-  getEnabledAgenciesWithService,
-  getOptionsAreLoading
+  getOptionsAreLoading,
+  getReportingLocations
 } from "../../selectors";
 import { fetchAgencies } from "../../action-creators";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
@@ -36,12 +35,14 @@ import { SELECT_FIELD_NAME } from "../constants";
 import styles from "../styles.css";
 import { getLoading } from "../../../index-table";
 import {
-  handleChangeOnServiceUser,
-  translatedText,
+  buildCustomLookupsConfig,
   findOptionDisplayText,
-  buildCustomLookupsConfig
+  handleChangeOnServiceUser,
+  translatedText
 } from "../helpers";
 import { getUserFilters } from "../../../record-actions/transitions/parts/helpers";
+import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/parts/referrals"
+import { REFERRAL_TYPE } from "../../../record-actions/transitions"
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -85,10 +86,7 @@ const SelectField = ({
   const { filterState, setFilterState } = other?.filters || {};
 
   const agencies = useSelector(
-    state =>
-      service
-        ? getEnabledAgenciesWithService(state, service)
-        : getEnabledAgencies(state),
+    state => getEnabledAgencies(state, service),
     (agencies1, agencies2) => agencies1.equals(agencies2)
   );
 
@@ -107,11 +105,11 @@ const SelectField = ({
   );
 
   const referralUsers = useSelector(
-    state => getUsersByTransitionType(state, "referral"),
+    state => getUsersByTransitionType(state, REFERRAL_TYPE),
     (users1, users2) => users1.equals(users2)
   );
 
-  const NAMESPACE = ["transitions", "referral"];
+  const NAMESPACE = ["transitions", REFERRAL_TYPE];
 
   const loading = useSelector(state => getLoading(state, NAMESPACE));
   const agenciesLoading = useSelector(state => getOptionsAreLoading(state));
@@ -136,8 +134,8 @@ const SelectField = ({
       filterState?.filtersChanged &&
       !filterState?.userIsSelected &&
       [
-        "service_implementing_agency_individual",
-        "service_implementing_agency"
+        SERVICE_SECTION_FIELDS.implementingAgencyIndividual,
+        SERVICE_SECTION_FIELDS.implementingAgency
       ].find(fieldName => name.endsWith(fieldName))
     ) {
       formik.setFieldValue(name, "", false);
@@ -148,7 +146,7 @@ const SelectField = ({
     if (
       filterState?.filtersChanged &&
       !filterState?.userIsSelected &&
-      name.endsWith("service_implementing_agency_individual")
+      name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
     ) {
       formik.setFieldValue(name, "", false);
     }
@@ -216,7 +214,7 @@ const SelectField = ({
       formik.setFieldValue(name, selectedValue, false);
     }
 
-    if (name.endsWith("service_implementing_agency_individual")) {
+    if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {
       reloadReferralUsers();
     }
 
@@ -235,10 +233,10 @@ const SelectField = ({
   });
 
   const selectIsLoading = fieldName => {
-    if (fieldName.endsWith("service_implementing_agency_individual")) {
+    if (fieldName.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {
       return loading;
     }
-    if (fieldName.endsWith("service_implementing_agency")) {
+    if (fieldName.endsWith(SERVICE_SECTION_FIELDS.implementingAgency)) {
       return agenciesLoading;
     }
 
@@ -257,13 +255,13 @@ const SelectField = ({
         form.setFieldValue(name, data ? data.value : "", false);
         if (
           [
-            "service_delivery_location",
-            "service_implementing_agency"
+            SERVICE_SECTION_FIELDS.deliveryLocation,
+            SERVICE_SECTION_FIELDS.implementingAgency
           ].find(fieldName => name.endsWith(fieldName))
         ) {
           setFilterState({ filtersChanged: true, userIsSelected: false });
         }
-        if (name.endsWith("service_implementing_agency_individual")) {
+        if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {
           handleChangeOnServiceUser({
             setFilterState,
             referralUsers,
@@ -295,10 +293,10 @@ const SelectField = ({
         options: values && values,
         isLoading: selectIsLoading(name),
         onMenuOpen: () => {
-          if (name.endsWith("service_implementing_agency_individual")) {
+          if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {
             reloadReferralUsers();
           }
-          if (name.endsWith("service_implementing_agency")) {
+          if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgency)) {
             reloadAgencies();
           }
         },

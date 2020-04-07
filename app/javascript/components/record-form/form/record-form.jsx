@@ -32,15 +32,15 @@ const ValidationErrors = () => {
 };
 
 const RecordForm = ({
-  selectedForm,
-  forms,
-  onSubmit,
-  mode,
   bindSubmitForm,
-  record,
+  forms,
   handleToggleNav,
   mobileDisplay,
-  recordType
+  mode,
+  onSubmit,
+  record,
+  recordType,
+  selectedForm
 }) => {
   const i18n = useI18n();
 

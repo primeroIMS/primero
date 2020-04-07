@@ -1,16 +1,15 @@
 export { default } from "./container";
 export {
-  setSelectedForm,
+  fetchAgencies,
   fetchForms,
-  fetchOptions,
   fetchLookups,
-  fetchAgencies
+  fetchOptions,
+  setSelectedForm
 } from "./action-creators";
 export { reducers } from "./reducers";
 export {
   getAssignableForms,
   getEnabledAgencies,
-  getEnabledAgenciesWithService,
   getErrors,
   getFirstTab,
   getFormNav,

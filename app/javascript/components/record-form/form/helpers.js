@@ -41,13 +41,13 @@ export const getConnectedFields = index => {
 };
 
 export const handleChangeOnServiceUser = ({
-  setFilterState,
-  referralUsers,
-  data,
   agencies,
-  reportingLocations,
+  data,
   form,
-  index
+  index,
+  referralUsers,
+  reportingLocations,
+  setFilterState
 }) => {
   const selectedUser = referralUsers.find(
     user => user.get("user_name") === data?.value
@@ -84,10 +84,10 @@ export const translatedText = (displayText, i18n) => {
 export const findOptionDisplayText = ({
   agencies,
   customLookups,
-  options,
+  i18n,
   option,
-  value,
-  i18n
+  options,
+  value
 }) => {
   const foundOptions = find(options, { id: value }) || {};
   let optionValue = [];
@@ -106,35 +106,35 @@ export const findOptionDisplayText = ({
 };
 
 export const buildCustomLookupsConfig = ({
-  locations,
-  reportingLocations,
   agencies,
-  referralUsers,
   filterState,
+  locations,
+  referralUsers,
+  reportingLocations,
   value
 }) => ({
   Location: {
-    options: locations,
+    fieldLabel: NAME_FIELD,
     fieldValue: CODE_FIELD,
-    fieldLabel: NAME_FIELD
+    options: locations
   },
   Agency: {
+    fieldLabel: NAME_FIELD,
+    fieldValue: UNIQUE_ID_FIELD,
     options: !filterState?.filtersChanged
       ? appendDisabledAgency(agencies, value)
-      : agencies,
-    fieldValue: UNIQUE_ID_FIELD,
-    fieldLabel: NAME_FIELD
+      : agencies
   },
   ReportingLocation: {
-    options: reportingLocations,
+    fieldLabel: NAME_FIELD,
     fieldValue: CODE_FIELD,
-    fieldLabel: NAME_FIELD
+    options: reportingLocations
   },
   User: {
+    fieldLabel: "user_name",
+    fieldValue: "user_name",
     options: !filterState?.filtersChanged
       ? appendDisabledUser(referralUsers, value)
-      : referralUsers,
-    fieldValue: "user_name",
-    fieldLabel: "user_name"
+      : referralUsers
   }
 });

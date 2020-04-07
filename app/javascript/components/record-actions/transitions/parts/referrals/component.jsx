@@ -10,7 +10,6 @@ import { fromJS } from "immutable";
 import { setServiceToRefer } from "../../../../record-form/action-creators";
 import {
   getServiceToRefer,
-  getEnabledAgenciesWithService,
   getEnabledAgencies
 } from "../../../../record-form";
 import { useI18n } from "../../../../i18n";
@@ -18,14 +17,15 @@ import { saveReferral } from "../../action-creators";
 
 import MainForm from "./main-form";
 import {
+  AGENCY_FIELD,
+  LOCATION_FIELD,
+  NAME,
+  NOTES_FIELD,
   REFERRAL_FIELD,
   REMOTE_SYSTEM_FIELD,
   SERVICE_FIELD,
-  AGENCY_FIELD,
-  LOCATION_FIELD,
-  TRANSITIONED_TO_FIELD,
-  NOTES_FIELD,
-  NAME
+  SERVICE_SECTION_FIELDS,
+  TRANSITIONED_TO_FIELD
 } from "./constants";
 
 const ReferralForm = ({
@@ -42,25 +42,25 @@ const ReferralForm = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
   const serviceToRefer = useSelector(state => getServiceToRefer(state));
-  const services = serviceToRefer.get("service_type", "");
-  const agencies = useSelector(state =>
-    services
-      ? getEnabledAgenciesWithService(state, services)
-      : getEnabledAgencies(state)
-  );
+  const services = serviceToRefer.get(SERVICE_SECTION_FIELDS.type, "");
+  const agencies = useSelector(state => getEnabledAgencies(state, services));
 
   const referralFromService = {
-    [SERVICE_FIELD]: serviceToRefer.get("service_type"),
-    [AGENCY_FIELD]: serviceToRefer.get("service_implementing_agency"),
-    [LOCATION_FIELD]: serviceToRefer.get("service_delivery_location"),
+    [SERVICE_FIELD]: serviceToRefer.get(SERVICE_SECTION_FIELDS.type),
+    [AGENCY_FIELD]: serviceToRefer.get(
+      SERVICE_SECTION_FIELDS.implementingAgency
+    ),
+    [LOCATION_FIELD]: serviceToRefer.get(
+      SERVICE_SECTION_FIELDS.deliveryLocation
+    ),
     [TRANSITIONED_TO_FIELD]: serviceToRefer.get(
-      "service_implementing_agency_individual"
+      SERVICE_SECTION_FIELDS.implementingAgencyIndividual
     )
   };
 
   useEffect(() => {
     const selectedAgencyId = serviceToRefer.get(
-      "service_implementing_agency",
+      SERVICE_SECTION_FIELDS.implementingAgency,
       ""
     );
     const selectedAgency = agencies.find(

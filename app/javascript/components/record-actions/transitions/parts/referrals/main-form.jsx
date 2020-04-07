@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { FormControlLabel } from "@material-ui/core";
-import { useSelector, useDispatch, batch } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 import { Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
 
@@ -24,13 +24,13 @@ import {
 import { fetchReferralUsers } from "../../action-creators";
 import { enqueueSnackbar } from "../../../../notifier";
 import {
-  getReportingLocations,
-  getServiceToRefer,
-  getEnabledAgenciesWithService,
+  fetchAgencies,
   getEnabledAgencies,
+  getEnabledAgenciesWithService,
   getOption,
   getOptionsAreLoading,
-  fetchAgencies
+  getReportingLocations,
+  getServiceToRefer
 } from "../../../../record-form";
 import { valuesToSearchableSelect } from "../../../../../libs";
 import { getLoading } from "../../../../index-table";
@@ -61,7 +61,7 @@ const MainForm = ({ formProps, rest }) => {
     recordType
   } = rest;
 
-  const { handleSubmit, values, setValues } = formProps;
+  const { handleSubmit, setValues, values } = formProps;
   const { services, agency, location } = values;
   const disableControl = !providedConsent && !disabled;
 
@@ -87,9 +87,7 @@ const MainForm = ({ formProps, rest }) => {
   const loading = useSelector(state => getLoading(state, NAMESPACE));
 
   const agencies = useSelector(state =>
-    services
-      ? getEnabledAgenciesWithService(state, services)
-      : getEnabledAgencies(state)
+    getEnabledAgencies(state, services)
   );
 
   const users = useSelector(state =>

@@ -104,7 +104,7 @@ describe("<RecordForm /> - Action Creators", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
     const expected = {
-      type: "forms/SET_SERVICE_TO_REFER",
+      type: actions.SET_SERVICE_TO_REFER,
       payload: {
         service_type: "service_1",
         service_implementing_agency: "agency_1"
@@ -112,12 +112,10 @@ describe("<RecordForm /> - Action Creators", () => {
     };
 
     expect(
-      dispatch(
-        actionCreators.setServiceToRefer({
-          service_type: "service_1",
-          service_implementing_agency: "agency_1"
-        })
-      )
+      actionCreators.setServiceToRefer({
+        service_type: "service_1",
+        service_implementing_agency: "agency_1"
+      })
     ).to.deep.equals(expected);
   });
 

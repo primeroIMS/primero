@@ -10,11 +10,11 @@ describe("<Transition /> - helper", () => {
     const cloneActions = { ...helper };
 
     [
-      "internalFieldsDirty",
-      "getInternalFields",
-      "hasProvidedConsent",
       "generatePath",
-      "getUserFilters"
+      "getInternalFields",
+      "getUserFilters",
+      "hasProvidedConsent",
+      "internalFieldsDirty"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("function");
