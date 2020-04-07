@@ -2547,6 +2547,9 @@ en:
       title: "Time From Case Open To Case Close"
       time: "Time"
       percent: "Percentage of Cases"
+    case_closure_rate:
+      title: "Case Closure Rate"
+      reporting_site: "Reporting Site"
 
   reports:
     register_new_report: "Create Report"
