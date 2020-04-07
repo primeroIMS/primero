@@ -267,6 +267,32 @@ module Api::V2
       ]
     end
 
+    def time_from_case_open_to_close
+      created_at = SolrUtils.indexed_field_name(Child, :created_at)
+      date_closure = SolrUtils.indexed_field_name(Child, :date_closure)
+
+      month = 2_628_000_000
+
+      search = Child.search do
+        with :created_at, from..to
+        with :date_closure
+        without :duplicate, true
+
+        adjust_solr_params do |params|
+          params[:facet] = true
+          params[:'facet.query'] = [
+            "{!key=1-month frange u=#{month}} ms(#{date_closure},#{created_at})",
+            "{!key=1-3months frange l=#{month + 1} u=#{month * 3}} ms(#{date_closure},#{created_at})",
+            "{!key=3-6months frange l=#{(month * 3) + 1} u=#{month * 6}} ms(#{date_closure},#{created_at})",
+            "{!key=7-months frange l=#{(month * 6) + 1}} ms(#{date_closure},#{created_at})"
+          ]
+        end
+      end
+
+      @total = search.total
+      @results = search.facet_response['facet_queries']
+    end
+
     private
 
     # TODO: Add these to permitted params

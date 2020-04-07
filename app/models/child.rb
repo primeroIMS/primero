@@ -148,6 +148,7 @@ class Child < ApplicationRecord
     float :psychosocial_goals_progress
     float :justice_goals_progress
     float :other_goals_progress
+    boolean :duplicate
   end
 
   validate :validate_date_of_birth

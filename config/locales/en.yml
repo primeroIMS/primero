@@ -2491,6 +2491,10 @@ en:
       15-30days: "15 - 30 Days"
       1-3months: "1 - 3 Months"
       4months: "> 4 Months"
+      1-month: "< 1 Month"
+      3-6months: "3 - 6 Months"
+      7-months: "> 6 Months"
+
     number_of_cases:
       title: "Number of Cases"
       reporting_site: "Reporting Site"

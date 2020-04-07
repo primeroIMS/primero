@@ -103,6 +103,7 @@ Rails.application.routes.draw do
           get :referrals_per_service
           get :average_followup_meetings_per_case
           get :goal_progress_per_need
+          get :time_from_case_open_to_close
         end
       end
     end
