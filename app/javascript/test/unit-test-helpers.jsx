@@ -8,8 +8,6 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
-import { expect } from "chai";
-import { spy, useFakeTimers, stub } from "sinon";
 import DateFnsUtils from "@date-io/date-fns";
 import { createMount } from "@material-ui/core/test-utils";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -186,5 +184,3 @@ export const setupMockFieldComponent = (
     mode
   });
 };
-
-export { expect, spy, useFakeTimers, stub };
