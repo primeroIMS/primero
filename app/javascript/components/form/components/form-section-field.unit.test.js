@@ -33,4 +33,15 @@ describe("<Form /> - components/<FormSectionField />", () => {
 
     expect(component.find(Alert)).to.have.lengthOf(1);
   });
+
+  it("does not render an error field", () => {
+    const field = FieldRecord({ name: "test_field", type: "error_field" });
+    const { component } = setupMockFormComponent(() => (
+      <FormContext formMode={fromJS({})}>
+        <FormSectionField field={field} checkErrors={fromJS(["name"])} />
+      </FormContext>
+    ));
+
+    expect(component.find(Alert)).to.be.empty;
+  });
 });

@@ -8,13 +8,13 @@ import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
+import { NAMESPACE } from "../roles-form";
 
 import { fetchRoles } from "./action-creators";
-import { LIST_HEADERS, NAME } from "./constants";
+import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
 
 const Container = () => {
   const i18n = useI18n();
-  const recordType = "roles";
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
@@ -22,7 +22,7 @@ const Container = () => {
   }));
 
   const tableOptions = {
-    recordType,
+    recordType: [ADMIN_NAMESPACE, NAMESPACE],
     columns: List(columns),
     options: {
       selectableRows: "none"
@@ -31,7 +31,8 @@ const Container = () => {
       per: 20,
       page: 1
     }),
-    onTableChange: fetchRoles
+    onTableChange: fetchRoles,
+    targetRecordType: NAMESPACE
   };
 
   return (

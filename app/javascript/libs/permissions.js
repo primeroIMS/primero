@@ -187,3 +187,10 @@ export const DASH_APPROVALS = [
   ACTIONS.DASH_APPROVALS_CASE_PLAN,
   ACTIONS.DASH_APPROVALS_CLOSURE
 ];
+
+export const GROUP_PERMISSIONS = {
+  AGENCY: "agency",
+  ALL: "all",
+  GROUP: "group",
+  SELF: "self"
+};

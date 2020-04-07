@@ -42,14 +42,14 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("online", payload);
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
-    case actions.FETCH_SYSTEM_PERMISSIONS_STARTED:
-      return state.set("loading", true).set("errors", false);
-    case actions.FETCH_SYSTEM_PERMISSIONS_SUCCESS:
-      return state.set("permissions", fromJS(payload.data));
     case actions.FETCH_SYSTEM_PERMISSIONS_FAILURE:
       return state.set("errors", true);
     case actions.FETCH_SYSTEM_PERMISSIONS_FINISHED:
       return state.set("loading", false);
+    case actions.FETCH_SYSTEM_PERMISSIONS_STARTED:
+      return state.set("loading", true).set("errors", false);
+    case actions.FETCH_SYSTEM_PERMISSIONS_SUCCESS:
+      return state.set("permissions", fromJS(payload.data));
     default:
       return state;
   }

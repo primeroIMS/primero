@@ -4,7 +4,7 @@ import actions from "./actions";
 
 const DEFAULT_STATE = fromJS({});
 
-const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case actions.FETCH_ROLE_STARTED:
       return state
@@ -23,6 +23,10 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state
         .set("errors", true)
         .set("serverErrors", fromJS(payload.errors));
+    case actions.SAVE_ROLE_STARTED:
+      return state.set("saving", true);
+    case actions.SAVE_ROLE_FINISHED:
+      return state.set("saving", false);
     case actions.CLEAR_SELECTED_ROLE:
       return state
         .set("selectedRole", fromJS({}))
@@ -32,5 +36,3 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state;
   }
 };
-
-export const reducers = reducer;

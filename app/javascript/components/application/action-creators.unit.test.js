@@ -3,24 +3,24 @@ import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
+import actions from "./actions";
 
 describe("Application - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    expect(creators).to.have.property("fetchSystemSettings");
-    expect(creators).to.have.property("loadApplicationResources");
-    expect(creators).to.have.property("setUserIdle");
-    expect(creators).to.have.property("setNetworkStatus");
-    expect(creators).to.have.property("fetchSystemPermissions")
+    [
+      "fetchSystemPermissions",
+      "fetchSystemSettings",
+      "loadApplicationResources",
+      "setNetworkStatus",
+      "setUserIdle"
+    ].forEach(property => {
+      expect(creators).to.have.property(property);
+      delete creators[property];
+    });
 
-    delete creators.fetchSystemSettings;
-    delete creators.loadApplicationResources;
-    delete creators.setUserIdle;
-    delete creators.setNetworkStatus;
-    delete creators.fetchSystemPermissions;
-
-    expect(creators).to.deep.equal({});
+    expect(creators).to.be.empty;
   });
 
   it("should check the 'fetchSystemSettings' action creator to return the correct object", () => {
@@ -63,17 +63,12 @@ describe("Application - Action Creators", () => {
 
   it("should check the 'fetchSystemPermissions' action creator to return the correct object", () => {
     const expected = {
-      path: "permissions",
+      type: actions.FETCH_SYSTEM_PERMISSIONS,
+      api: {
+        path: "permissions"
+      }
     };
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
 
-    dispatch(actionCreators.fetchSystemPermissions());
-
-    expect(dispatch.getCall(0).returnValue.type).to.eql(
-      "application/FETCH_SYSTEM_PERMISSIONS"
-    );
-
-    expect(dispatch.getCall(0).returnValue.api).to.eql(expected);
+    expect(actionCreators.fetchSystemPermissions()).to.deep.equal(expected);
   });
 });

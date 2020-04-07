@@ -55,6 +55,7 @@ const ListIcon = ({ icon }) => {
     case "referred_cases":
       return <People />;
     case "settings":
+    case "roles":
       return <SettingsApplications />;
     default:
       return null;
