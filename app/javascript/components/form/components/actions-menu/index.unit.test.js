@@ -1,12 +1,12 @@
-import { expect } from "chai";
+import { expect } from "../../../../test";
 
 import * as index from "./index";
 
-describe("pages/admin/<RolesForm> - index", () => {
+describe("<Form />/components/<ActionsMenu /> - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
-    ["default", "NAMESPACE", "reducers"].forEach(property => {
+    ["default"].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });

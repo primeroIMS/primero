@@ -1,5 +1,3 @@
-import { fromJS } from "immutable";
-
 import {
   FieldRecord,
   FormSectionRecord,

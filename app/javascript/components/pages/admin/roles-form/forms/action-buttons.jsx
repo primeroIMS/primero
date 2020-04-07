@@ -9,7 +9,7 @@ import { getPermissionsByRecord } from "../../../../user/selectors";
 import { ACTION_BUTTONS_NAME } from "../constants";
 import { useI18n } from "../../../../i18n";
 import { getSavingRecord } from "../selectors";
-import { FormAction, ActionsMenu } from "../../../../form";
+import { ActionsMenu, FormAction } from "../../../../form";
 import bindFormSubmit from "../../../../../libs/submit-form";
 import Permission from "../../../../application/permission";
 import {

@@ -13,7 +13,6 @@ import { NAMESPACE } from "../roles-form";
 import { fetchRoles } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
 
-
 const Container = () => {
   const i18n = useI18n();
 

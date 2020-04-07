@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
@@ -30,10 +30,10 @@ import {
   groupSelectedIdsByParentForm
 } from "./utils";
 import {
-  fetchRole,
   clearSelectedRole,
-  saveRole,
-  deleteRole
+  deleteRole,
+  fetchRole,
+  saveRole
 } from "./action-creators";
 import { getRole } from "./selectors";
 import { NAME } from "./constants";

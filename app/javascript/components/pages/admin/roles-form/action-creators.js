@@ -1,5 +1,5 @@
 import { RECORD_PATH } from "../../../../config";
-import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
+import { ENQUEUE_SNACKBAR, generate, SNACKBAR_VARIANTS } from "../../../notifier";
 
 import actions from "./actions";
 
@@ -24,7 +24,7 @@ export const saveRole = ({ id, body, saveMethod, message }) => ({
       payload: {
         message,
         options: {
-          variant: "success",
+          variant: SNACKBAR_VARIANTS.success,
           key: generate.messageKey()
         }
       },
@@ -48,7 +48,7 @@ export const deleteRole = ({ id, message }) => ({
       payload: {
         message,
         options: {
-          variant: "success",
+          variant: SNACKBAR_VARIANTS.success,
           key: generate.messageKey()
         }
       },
