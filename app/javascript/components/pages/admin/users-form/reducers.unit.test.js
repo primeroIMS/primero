@@ -70,4 +70,26 @@ describe("<UsersForm /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("should handle SAVE_USER_STARTED", () => {
+    const expected = fromJS({ saving: true });
+    const action = {
+      type: actions.SAVE_USER_STARTED,
+      payload: true
+    };
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SAVE_USER_SUCCESS", () => {
+    const expected = fromJS({ saving: false });
+    const action = {
+      type: actions.SAVE_USER_SUCCESS,
+      payload: false
+    };
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });

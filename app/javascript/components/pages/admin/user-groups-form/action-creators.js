@@ -1,4 +1,4 @@
-import { RECORD_PATH } from "../../../../config";
+import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 
 import actions from "./actions";
@@ -13,14 +13,16 @@ export const fetchUserGroup = id => {
 };
 
 export const saveUserGroup = ({ id, body, saveMethod, message }) => {
+  const path =
+    saveMethod === SAVE_METHODS.update
+      ? `${RECORD_PATH.user_groups}/${id}`
+      : RECORD_PATH.user_groups;
+
   return {
     type: actions.SAVE_USER_GROUP,
     api: {
-      path:
-        saveMethod === "update"
-          ? `${RECORD_PATH.user_groups}/${id}`
-          : RECORD_PATH.user_groups,
-      method: saveMethod === "update" ? "PATCH" : "POST",
+      path,
+      method: saveMethod === SAVE_METHODS.update ? "PATCH" : "POST",
       body,
       successCallback: {
         action: ENQUEUE_SNACKBAR,
@@ -31,8 +33,8 @@ export const saveUserGroup = ({ id, body, saveMethod, message }) => {
             key: generate.messageKey()
           }
         },
-        redirectWithIdFromResponse: saveMethod !== "update",
-        redirect: `/admin/${RECORD_PATH.user_groups}`
+        redirectWithIdFromResponse: saveMethod !== SAVE_METHODS.update,
+        redirect: `/admin/${path}`
       }
     }
   };
