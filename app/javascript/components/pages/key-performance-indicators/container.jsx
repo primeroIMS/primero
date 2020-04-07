@@ -169,26 +169,18 @@ function KeyPerformanceIndicators({}) {
             <Box>
               <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.case_closure')}</h2>
               <Grid container spacing={2}>
-                <Grid item className={css.grow} xs={12} md={6}>
+                <Grid item className={css.grow} xs={12} md={12}>
                   <TimeFromCaseOpenToClose
                     dateRanges={[commonDateRanges.AllTime]}
                   />
                 </Grid>
-
-                <Grid item className={css.grow} xs={12} md={6}>
-                  <TimeFromCaseOpenToCloseHighRisk />
-                </Grid>
               </Grid>
 
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12}>
-                  <ReasonForCaseClosure />
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={2}>
-                <Grid item className={css.grow} xs={12}>
-                  <CaseClosureRate />
+                  <CaseClosureRate
+                    dateRanges={[commonDateRanges.Last3Months]}
+                  />
                 </Grid>
               </Grid>
 

@@ -1,7 +1,7 @@
-import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
-import { DashboardTable } from "components/dashboard";
 import React from "react";
 import { useI18n } from "components/i18n";
+import { DashboardTable } from "components/dashboard";
+import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
 function NumberOfCases({ data, identifier }) {
   let i18n = useI18n();

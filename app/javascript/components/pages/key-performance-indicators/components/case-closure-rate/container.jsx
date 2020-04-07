@@ -1,42 +1,33 @@
 import React from "react";
-import { fromJS } from "immutable";
-import { OptionsBox, DashboardTable } from "components/dashboard";
-import { DateRangeSelect } from "components/key-performance-indicators";
+import { useI18n } from "components/i18n";
+import { DashboardTable } from "components/dashboard";
+import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-export default function CaseClosureRate() {
-  let columns = ['Reporting Site', 'Case Closures'];
+function CaseClosureRate({ data, identifier }) {
+  let i18n = useI18n();
 
-  let rows = fromJS([
-    ['Site #1', 10],
-    ['Site #2', 2],
-    ['Site #3', 4],
-    ['Site #4', 16]
-  ]);
+  let columns = [{
+    name: 'reporting_site',
+    label: i18n.t(`key_performance_indicators.${identifier}.reporting_site`)
+  }].concat(data.get("dates").map(date => {
+    return {
+      name: date,
+      label: i18n.toTime('key_performance_indicators.date_format', date)
+    };
+  }).toJS());
 
-  let threeMonthsAgo = new Date();
-  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
-  let dateRanges = [{
-    value: '3-months',
-    name: 'Last 3 Months',
-    from: threeMonthsAgo,
-    to: new Date()
-  }]
+  let rows = data.get("data")
+    .map(row => columns.map(column => row.get(column.name)));
 
   return (
-    <OptionsBox
-      title="Case Closure Rate"
-      action={
-        <DateRangeSelect
-          ranges={dateRanges}
-          selectedRange={dateRanges[0]}
-          withCustomRange
-        />
-      }
-    >
-      <DashboardTable
-        columns={columns}
-        data={rows}
-      />
-    </OptionsBox>
+    <DashboardTable
+      columns={columns}
+      data={rows}
+    />
   );
 }
+
+export default asKeyPerformanceIndicator(
+  'case_closure_rate',
+  { dates: [], data: [] }
+)(CaseClosureRate);
