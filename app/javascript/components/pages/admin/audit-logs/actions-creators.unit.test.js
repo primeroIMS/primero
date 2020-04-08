@@ -8,10 +8,12 @@ describe("<AuditLogs /> - pages/admin/audit-logs/action-creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
-    ["fetchAuditLogs", "fetchPerformedBy"].forEach(property => {
-      expect(creators).to.have.property(property);
-      delete creators[property];
-    });
+    ["fetchAuditLogs", "fetchPerformedBy", "setAuditLogsFilters"].forEach(
+      property => {
+        expect(creators).to.have.property(property);
+        delete creators[property];
+      }
+    );
 
     expect(creators).to.be.empty;
   });
@@ -29,6 +31,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/action-creators", () => {
       expected
     );
   });
+
   it("should check that 'fetchPerformedBy' action creator returns the correct object", () => {
     const expected = {
       type: actions.FETCH_PERFORMED_BY,
@@ -41,5 +44,20 @@ describe("<AuditLogs /> - pages/admin/audit-logs/action-creators", () => {
     };
 
     expect(actionsCreators.fetchPerformedBy()).to.deep.equal(expected);
+  });
+
+  it("should check that 'setAuditLogsFilters' action creator returns the correct object", () => {
+    const payload = {
+      user_name: "test"
+    };
+
+    const expected = {
+      type: actions.SET_AUDIT_LOGS_FILTER,
+      payload
+    };
+
+    expect(actionsCreators.setAuditLogsFilters(payload)).to.deep.equal(
+      expected
+    );
   });
 });

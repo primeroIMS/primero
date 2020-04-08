@@ -16,7 +16,8 @@ describe("<AuditLogs /> - pages/admin/audit-logs/actions", () => {
       "FETCH_PERFORMED_BY_FAILURE",
       "FETCH_PERFORMED_BY_FINISHED",
       "FETCH_PERFORMED_BY_STARTED",
-      "FETCH_PERFORMED_BY_SUCCESS"
+      "FETCH_PERFORMED_BY_SUCCESS",
+      "SET_AUDIT_LOGS_FILTER"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

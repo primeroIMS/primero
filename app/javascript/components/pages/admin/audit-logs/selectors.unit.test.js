@@ -8,18 +8,16 @@ const state = fromJS({
   records: {
     admin: {
       audit_logs: {
-        filters: {
-          performed_by: {
-            data: [
-              {
-                id: 1,
-                full_name: "User Test",
-                email: "user_test@primero.com",
-                module_unique_ids: ["primeromodule-test"],
-                user_name: "user_test"
-              }
-            ]
-          }
+        users: {
+          data: [
+            {
+              id: 1,
+              full_name: "User Test",
+              email: "user_test@primero.com",
+              module_unique_ids: ["primeromodule-test"],
+              user_name: "user_test"
+            }
+          ]
         }
       }
     }

@@ -85,11 +85,9 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
 
   it("should handle FETCH_PERFORMED_BY_FAILURE", () => {
     const expected = fromJS({
-      filters: {
-        performed_by: {
-          loading: false,
-          errors: true
-        }
+      users: {
+        loading: false,
+        errors: true
       }
     });
 
@@ -104,11 +102,9 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
 
   it("should handle FETCH_PERFORMED_BY_FINISHED", () => {
     const expected = fromJS({
-      filters: {
-        performed_by: {
-          loading: false,
-          errors: false
-        }
+      users: {
+        loading: false,
+        errors: false
       }
     });
 
@@ -132,17 +128,34 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
       }
     ];
     const expected = fromJS({
-      filters: {
-        performed_by: {
-          data,
-          metadata: { per: 20 }
-        }
+      users: {
+        data,
+        metadata: { per: 20 }
       }
     });
 
     const action = {
       type: actions.FETCH_PERFORMED_BY_SUCCESS,
       payload: { data, metadata: { per: 20 } }
+    };
+
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SET_AUDIT_LOGS_FILTER", () => {
+    const payload = {
+      user_name: "test"
+    };
+
+    const expected = fromJS({
+      filters: payload
+    });
+
+    const action = {
+      type: actions.SET_AUDIT_LOGS_FILTER,
+      payload
     };
 
     const newState = reducers(fromJS({}), action);

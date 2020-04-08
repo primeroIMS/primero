@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector, batch } from "react-redux";
 import { Button, Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
@@ -15,7 +15,11 @@ import Permission from "../../../application/permission";
 import { Filters as AdminFilters } from "../components";
 
 import { AUDIT_LOG, NAME, TIMESTAMP, USER_NAME } from "./constants";
-import { fetchAuditLogs, fetchPerformedBy } from "./action-creators";
+import {
+  fetchAuditLogs,
+  fetchPerformedBy,
+  setAuditLogsFilters
+} from "./action-creators";
 import { getFilterUsers } from "./selectors";
 import { buildAuditLogsQuery, getFilters } from "./utils";
 
@@ -42,8 +46,14 @@ const Container = () => {
   const filterProps = {
     clearFields: [USER_NAME, TIMESTAMP],
     filters: getFilters(filterUsers),
-    onSubmit: data =>
-      dispatch(fetchAuditLogs({ options: buildAuditLogsQuery(data) }))
+    onSubmit: data => {
+      const filters = buildAuditLogsQuery(data);
+
+      batch(() => {
+        dispatch(setAuditLogsFilters(filters));
+        dispatch(fetchAuditLogs({ data: filters }));
+      });
+    }
   };
 
   const tableOptions = {
@@ -73,7 +83,7 @@ const Container = () => {
       }
     ],
     defaultFilters: fromJS({
-      per: 20,
+      per: 100,
       page: 1
     }),
     onTableChange: fetchAuditLogs,
@@ -81,7 +91,8 @@ const Container = () => {
       selectableRows: "none",
       onCellClick: false
     },
-    recordType: ["admin", AUDIT_LOG]
+    recordType: ["admin", AUDIT_LOG],
+    bypassInitialFetch: true
   };
 
   return (

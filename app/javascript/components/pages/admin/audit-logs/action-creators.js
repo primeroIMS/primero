@@ -4,13 +4,13 @@ import { compactFilters } from "../../../index-filters/utils";
 import actions from "./actions";
 
 export const fetchAuditLogs = params => {
-  const { options } = params;
+  const { data } = params;
 
   return {
     type: actions.FETCH_AUDIT_LOGS,
     api: {
       path: RECORD_PATH.audit_logs,
-      params: compactFilters(options || {})
+      params: compactFilters(data || {})
     }
   };
 };
@@ -21,4 +21,9 @@ export const fetchPerformedBy = () => ({
     path: RECORD_PATH.users,
     params: { per: 999 }
   }
+});
+
+export const setAuditLogsFilters = payload => ({
+  type: actions.SET_AUDIT_LOGS_FILTER,
+  payload
 });

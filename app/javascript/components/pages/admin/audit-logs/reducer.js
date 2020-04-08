@@ -5,7 +5,7 @@ import actions from "./actions";
 const DEFAULT_STATE = fromJS({});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
-  const filtersPath = key => ["filters", "performed_by", key];
+  const filtersPath = key => ["users", key];
 
   switch (type) {
     case actions.FETCH_AUDIT_LOGS_FAILURE:
@@ -30,6 +30,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state
         .setIn(filtersPath("data"), fromJS(payload.data))
         .setIn(filtersPath("metadata"), fromJS(payload.metadata));
+    case actions.SET_AUDIT_LOGS_FILTER:
+      return state.set("filters", fromJS(payload));
     default:
       return state;
   }
