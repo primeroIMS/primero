@@ -9,14 +9,13 @@
   height: 2rem;
   min-width: 14rem;
   border-radius: 1rem;
+  overflow: hidden;
   background-color: $(theme.primero.colors.lightGrey);
 }
 
 .StackedPercentageBar1Complete {
   display: inline-block;
   height: 100%;
-  border-top-left-radius: 1rem;
-  border-bottom-left-radius: 1rem;
   background-color: $(theme.palette.primary.main);
 }
 
