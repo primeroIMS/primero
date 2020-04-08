@@ -18,7 +18,7 @@ describe("pages/admin/<RolesForm> - utils", () => {
         i18n: { t: () => "" }
       });
 
-      expect(formsToRender).to.have.sizeOf(7);
+      expect(formsToRender).to.have.sizeOf(6);
     });
   });
 
