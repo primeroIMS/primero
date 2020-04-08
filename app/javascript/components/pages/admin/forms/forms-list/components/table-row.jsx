@@ -3,18 +3,24 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
 import { Draggable } from "react-beautiful-dnd";
 import findKey from "lodash/findKey";
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
+import clsx from "clsx";
 
 import { MODULES } from "../../../../../../config/constants";
 import styles from "../styles.css";
 
 import DragIndicator from "./drag-indicator";
 
-const TableRow = ({ name, modules, parentForm, uniqueID, index }) => {
+const TableRow = ({ name, modules, parentForm, uniqueID, index, editable }) => {
   const css = makeStyles(styles)();
 
   const formSectionModules = modules
     .map(module => findKey(MODULES, value => module === value))
     ?.join(", ");
+
+  const renderIcon = !editable ? (
+    <VpnKeyIcon className={css.rotateIcon} />
+  ) : null;
 
   return (
     <Draggable draggableId={uniqueID} index={index}>
@@ -27,7 +33,15 @@ const TableRow = ({ name, modules, parentForm, uniqueID, index }) => {
           <div>
             <DragIndicator {...provided.dragHandleProps} />
           </div>
-          <div>{name}</div>
+          <div
+            className={clsx({
+              [css.formName]: true,
+              [css.protected]: !editable
+            })}
+          >
+            {renderIcon}
+            {name}
+          </div>
           <div>{parentForm}</div>
           <div>{formSectionModules}</div>
         </div>
@@ -39,6 +53,7 @@ const TableRow = ({ name, modules, parentForm, uniqueID, index }) => {
 TableRow.displayName = "TableRow";
 
 TableRow.propTypes = {
+  editable: PropTypes.bool.isRequired,
   index: PropTypes.number.isRequired,
   modules: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,

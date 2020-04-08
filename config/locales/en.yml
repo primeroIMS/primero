@@ -1361,6 +1361,9 @@ en:
   form_section:
     name: "Name"
     group: "Group"
+    module: "Module"
+    record_type: "Record Type"
+    form_name: "Form Name"
     description: "Description"
     create: "New Form"
     visibility: "Visibility"

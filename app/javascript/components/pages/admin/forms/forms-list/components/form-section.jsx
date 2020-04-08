@@ -32,7 +32,8 @@ const FormSection = ({ group, collection }) => {
               name,
               module_ids: modules,
               parent_form: parentForm,
-              unique_id: uniqueID
+              unique_id: uniqueID,
+              editable
             } = formSection;
 
             return (
@@ -43,6 +44,7 @@ const FormSection = ({ group, collection }) => {
                 index={index}
                 uniqueID={uniqueID}
                 key={uniqueID}
+                editable={editable}
               />
             );
           })}

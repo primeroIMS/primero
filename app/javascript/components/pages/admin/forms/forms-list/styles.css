@@ -41,7 +41,6 @@
   & div:first-of-type {
     width: 3em;
     justify-content: center;
-    margin-right: 1em;
     border-right: 1px solid $(theme.primero.colors.lightGrey);
   }
 
@@ -49,6 +48,11 @@
     padding: .5em;
     display: flex;
     align-items: center;
+
+    &.protected {
+      padding: .5em .5em .5em 0;
+    }
+
   }
 }
 
@@ -112,4 +116,14 @@
 
 .clearBtn {
   margin-bottom: 1em;
+}
+
+.formName {
+  color: $(theme.primero.colors.blue);
+}
+
+.rotateIcon {
+  color: $(theme.primero.colors.warmGrey3);
+  transform: rotate(90deg);
+  transform-origin: 50% 50%;
 }
