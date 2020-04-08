@@ -14,6 +14,4 @@ describe("pages/admin/<RolesForm>/forms - AssociatedAgenciesForm", () => {
     expect(agencyForms[0].fields).to.have.lengthOf(1);
     expect(agencyForms[1].fields).to.have.lengthOf(1);
   });
-
 });
-
