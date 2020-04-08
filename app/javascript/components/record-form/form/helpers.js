@@ -76,9 +76,9 @@ export const handleChangeOnServiceUser = ({
 };
 
 export const translatedText = (displayText, i18n) => {
-  return typeof displayText === "string"
-    ? displayText
-    : displayText[i18n.locale];
+  return displayText instanceof Object
+    ? displayText?.[i18n.locale]
+    : displayText;
 };
 
 export const findOptionDisplayText = ({
