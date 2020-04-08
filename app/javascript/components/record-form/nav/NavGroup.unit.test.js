@@ -1,5 +1,4 @@
 import { fromJS, Map, OrderedMap } from "immutable";
-import { List, Collapse } from "@material-ui/core";
 
 import { setupMountedComponent, expect } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
