@@ -1,32 +1,22 @@
 import React from "react";
-import { OptionsBox } from "components/dashboard";
-import { DateRangeSelect } from "components/key-performance-indicators";
+import { useI18n } from "components/i18n";
 import { StackedPercentageBar } from "components/key-performance-indicators";
+import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-export default function ClientSatisfactionRate() {
-  let threeMonthsAgo = new Date();
-  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
-  let dateRanges = [{
-    value: '3-months',
-    name: 'Last 3 Months',
-    from: threeMonthsAgo,
-    to: new Date()
-  }]
+function ClientSatisfactionRate({ data, identifier }) {
+  let i18n = useI18n();
 
   return (
-    <OptionsBox
-      title="Client Satisfaction Rate"
-      action={
-        <DateRangeSelect
-          ranges={dateRanges}
-          selectedRange={dateRanges[0]}
-          withCustomRange
-        />
-      }
-    >
-      <StackedPercentageBar
-        percentages={[{ percentage: 0.88, label: "Client Satisfaction" }]}
-      />
-    </OptionsBox>
+    <StackedPercentageBar
+      percentages={[{
+        percentage: data.get('data').get('satisfaction_rate'),
+        label: i18n.t(`key_performance_indicators.${identifier}.label`)
+      }]}
+    />
   );
 }
+
+export default asKeyPerformanceIndicator(
+  'client_satisfaction_rate',
+  { data: { satisfaction_rate: 0 } }
+)(ClientSatisfactionRate);
