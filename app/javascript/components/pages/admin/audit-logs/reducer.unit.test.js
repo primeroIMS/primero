@@ -6,6 +6,36 @@ import actions from "./actions";
 import { reducers } from "./reducer";
 
 describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
+  it("should handle FETCH_AUDIT_LOGS_FAILURE", () => {
+    const expected = fromJS({
+      loading: false,
+      errors: true
+    });
+
+    const action = {
+      type: actions.FETCH_AUDIT_LOGS_FAILURE
+    };
+
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle FETCH_AUDIT_LOGS_FINISHED", () => {
+    const expected = fromJS({
+      loading: false,
+      errors: false
+    });
+
+    const action = {
+      type: actions.FETCH_AUDIT_LOGS_FINISHED
+    };
+
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
   it("should handle FETCH_AUDIT_LOGS_STARTED", () => {
     const expected = fromJS({
       loading: true,
@@ -53,65 +83,6 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
     expect(newState).to.deep.equal(expected);
   });
 
-  it("should handle FETCH_AUDIT_LOGS_FAILURE", () => {
-    const expected = fromJS({
-      loading: false,
-      errors: true
-    });
-
-    const action = {
-      type: actions.FETCH_AUDIT_LOGS_FAILURE
-    };
-
-    const newState = reducers(fromJS({}), action);
-
-    expect(newState).to.deep.equal(expected);
-  });
-
-  it("should handle FETCH_AUDIT_LOGS_FINISHED", () => {
-    const expected = fromJS({
-      loading: false,
-      errors: false
-    });
-
-    const action = {
-      type: actions.FETCH_AUDIT_LOGS_FINISHED
-    };
-
-    const newState = reducers(fromJS({}), action);
-
-    expect(newState).to.deep.equal(expected);
-  });
-
-  it("should handle FETCH_PERFORMED_BY_SUCCESS", () => {
-    const data = [
-      {
-        id: 1,
-        full_name: "User Test",
-        email: "user_test@primero.com",
-        module_unique_ids: ["primeromodule-test"],
-        user_name: "user_test"
-      }
-    ];
-    const expected = fromJS({
-      filters: {
-        performed_by: {
-          data,
-          metadata: { per: 20 }
-        }
-      }
-    });
-
-    const action = {
-      type: actions.FETCH_PERFORMED_BY_SUCCESS,
-      payload: { data, metadata: { per: 20 } }
-    };
-
-    const newState = reducers(fromJS({}), action);
-
-    expect(newState).to.deep.equal(expected);
-  });
-
   it("should handle FETCH_PERFORMED_BY_FAILURE", () => {
     const expected = fromJS({
       filters: {
@@ -143,6 +114,35 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
 
     const action = {
       type: actions.FETCH_PERFORMED_BY_FINISHED
+    };
+
+    const newState = reducers(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle FETCH_PERFORMED_BY_SUCCESS", () => {
+    const data = [
+      {
+        id: 1,
+        full_name: "User Test",
+        email: "user_test@primero.com",
+        module_unique_ids: ["primeromodule-test"],
+        user_name: "user_test"
+      }
+    ];
+    const expected = fromJS({
+      filters: {
+        performed_by: {
+          data,
+          metadata: { per: 20 }
+        }
+      }
+    });
+
+    const action = {
+      type: actions.FETCH_PERFORMED_BY_SUCCESS,
+      payload: { data, metadata: { per: 20 } }
     };
 
     const newState = reducers(fromJS({}), action);

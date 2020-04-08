@@ -68,21 +68,21 @@ export const ACTIONS = {
 export const MANAGE = [ACTIONS.MANAGE];
 
 export const RESOURCES = {
+  agencies: "agencies",
+  audit_logs: "audit_logs",
   cases: "cases",
+  contact_information: "contact_information",
   dashboards: "dashboards",
   incidents: "incidents",
+  lookups: "lookups",
+  metadata: "metadata",
   potential_matches: "potential_matches",
   reports: "reports",
-  tracing_requests: "tracing_requests",
-  users: "users",
-  agencies: "agencies",
-  user_groups: "user_groups",
-  lookups: "lookups",
-  contact_information: "contact_information",
   roles: "roles",
   systems: "systems",
-  audit_logs: "audit_logs",
-  metadata: "metadata"
+  tracing_requests: "tracing_requests",
+  user_groups: "user_groups",
+  users: "users"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {

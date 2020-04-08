@@ -2,6 +2,7 @@ import Login, {
   Admin,
   AgenciesForm,
   AgenciesList,
+  AuditLogs,
   ContactInformation,
   Dashboard,
   ExportList,
@@ -16,7 +17,6 @@ import Login, {
   Support,
   TaskList,
   UserGroupsForm,
-  AuditLogs,
   UserGroupsList,
   UsersForm,
   UsersList

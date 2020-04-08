@@ -7,7 +7,7 @@ import { fromJS } from "immutable";
 import { format, parseISO } from "date-fns";
 
 import { useI18n } from "../../../i18n";
-import { ROUTES, DATE_TIME_FORMAT } from "../../../../config";
+import { DATE_TIME_FORMAT, ROUTES } from "../../../../config";
 import { RESOURCES, SHOW_AUDIT_LOGS } from "../../../../libs/permissions";
 import { PageHeading, PageContent } from "../../../page";
 import IndexTable from "../../../index-table";
@@ -17,7 +17,7 @@ import { Filters as AdminFilters } from "../components";
 import { AUDIT_LOG, NAME, TIMESTAMP, USER_NAME } from "./constants";
 import { fetchAuditLogs, fetchPerformedBy } from "./action-creators";
 import { getFilterUsers } from "./selectors";
-import { getFilters, buildAuditLogsQuery } from "./utils";
+import { buildAuditLogsQuery, getFilters } from "./utils";
 
 const Container = () => {
   const i18n = useI18n();
@@ -47,7 +47,6 @@ const Container = () => {
   };
 
   const tableOptions = {
-    recordType: ["admin", AUDIT_LOG],
     columns: [
       {
         label: i18n.t("audit_log.timestamp"),
@@ -73,15 +72,16 @@ const Container = () => {
         name: "user_name"
       }
     ],
-    options: {
-      selectableRows: "none",
-      onCellClick: false
-    },
     defaultFilters: fromJS({
       per: 20,
       page: 1
     }),
-    onTableChange: fetchAuditLogs
+    onTableChange: fetchAuditLogs,
+    options: {
+      selectableRows: "none",
+      onCellClick: false
+    },
+    recordType: ["admin", AUDIT_LOG]
   };
 
   return (
@@ -99,7 +99,6 @@ const Container = () => {
             <IndexTable {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={3}>
-            {/* <Filters /> */}
             <AdminFilters {...filterProps} />
           </Grid>
         </Grid>

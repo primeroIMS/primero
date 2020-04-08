@@ -25,12 +25,12 @@ import { NAME } from "./constants";
 
 const Component = ({
   filter,
-  moreSectionFilters,
-  setMoreSectionFilters,
   mode,
+  moreSectionFilters,
+  multiple,
   reset,
-  setReset,
-  multiple
+  setMoreSectionFilters,
+  setReset
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
