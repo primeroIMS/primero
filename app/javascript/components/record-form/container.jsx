@@ -157,11 +157,12 @@ const Container = ({ match, mode }) => {
   };
 
   const navProps = {
-    formNav,
-    selectedForm,
     firstTab,
+    formNav,
     handleToggleNav,
+    isNew: containerMode.isNew,
     mobileDisplay,
+    selectedForm,
     selectedRecord: record ? record.get("id") : null
   };
 

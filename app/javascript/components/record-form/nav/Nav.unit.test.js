@@ -114,6 +114,7 @@ describe("<Nav />", () => {
     firstTab: {},
     formNav,
     handleToggleNav: () => {},
+    isNew: true,
     mobileDisplay: true,
     selectedForm: "",
     selectedRecord: ""
@@ -147,6 +148,7 @@ describe("<Nav />", () => {
       "firstTab",
       "formNav",
       "handleToggleNav",
+      "isNew",
       "mobileDisplay",
       "selectedForm",
       "selectedRecord"

@@ -96,14 +96,15 @@ describe("<NavItem />", () => {
 
   const props = {
     form: {},
-    isNested: false,
-    open: false,
-    handleClick: () => {},
-    selectedForm: "",
     groupItem: false,
+    handleClick: () => {},
+    isNested: false,
+    isNew: false,
+    itemsOfGroup: [],
     name: "",
+    open: false,
     recordAlerts: {},
-    itemsOfGroup: []
+    selectedForm: ""
   };
 
   beforeEach(() => {
@@ -127,6 +128,7 @@ describe("<NavItem />", () => {
       "groupItem",
       "handleClick",
       "isNested",
+      "isNew",
       "itemsOfGroup",
       "name",
       "open",

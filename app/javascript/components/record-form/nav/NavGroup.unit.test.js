@@ -1,5 +1,4 @@
 import { fromJS, Map, OrderedMap } from "immutable";
-import { List, Collapse } from "@material-ui/core";
 
 import { setupMountedComponent, expect } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
@@ -111,10 +110,11 @@ describe("<NavGroup />", () => {
 
   const props = {
     group: formNav,
-    open: {},
     handleClick: () => {},
-    selectedForm: "",
-    recordAlerts: {}
+    isNew: false,
+    open: {},
+    recordAlerts: {},
+    selectedForm: ""
   };
 
   beforeEach(() => {
@@ -129,12 +129,17 @@ describe("<NavGroup />", () => {
     const navGroupProps = { ...component.find(NavGroup).props() };
 
     expect(component.find(NavGroup)).to.have.lengthOf(1);
-    ["group", "handleClick", "open", "recordAlerts", "selectedForm"].forEach(
-      property => {
-        expect(navGroupProps).to.have.property(property);
-        delete navGroupProps[property];
-      }
-    );
+    [
+      "group",
+      "handleClick",
+      "isNew",
+      "open",
+      "recordAlerts",
+      "selectedForm"
+    ].forEach(property => {
+      expect(navGroupProps).to.have.property(property);
+      delete navGroupProps[property];
+    });
     expect(navGroupProps).to.be.empty;
   });
 });
