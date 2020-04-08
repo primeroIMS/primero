@@ -1,32 +1,22 @@
 import React from "react";
-import { OptionsBox } from "components/dashboard";
-import { DateRangeSelect, SingleAggregateMetric } from "components/key-performance-indicators";
+import { useI18n } from "components/i18n";
+import { SingleAggregateMetric } from "components/key-performance-indicators";
+import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-export default function SupervisorToCaseworkerRatio() {
-  let threeMonthsAgo = new Date();
-  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
-  let dateRanges = [{
-    value: '3-months',
-    name: 'Last 3 Months',
-    from: threeMonthsAgo,
-    to: new Date()
-  }]
+function SupervisorToCaseworkerRatio({ data, identifier }) {
+  let i18n = useI18n();
+  let supervisors = data.get('data').get('supervisors');
+  let caseWorkers = data.get('data').get('case_workers');
 
   return (
-    <OptionsBox
-      title="Supervisor To Caseworker Ratio"
-      action={
-        <DateRangeSelect
-          ranges={dateRanges}
-          selectedRange={dateRanges[0]}
-          withCustomRange
-        />
-      }
-    >
-      <SingleAggregateMetric
-        value="3.1:1"
-        label="Caseworkers per supervisor"
-      />
-    </OptionsBox>
+    <SingleAggregateMetric
+      value={`${caseWorkers}:${supervisors}`}
+      label={i18n.t(`key_performance_indicators.${identifier}.label`)}
+    />
   );
 }
+
+export default asKeyPerformanceIndicator(
+  'supervisor_to_caseworker_ratio',
+  { data: { supervisors: 0, case_workers: 0 } }
+)(SupervisorToCaseworkerRatio)
