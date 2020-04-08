@@ -105,6 +105,7 @@ Rails.application.routes.draw do
           get :goal_progress_per_need
           get :time_from_case_open_to_close
           get :case_closure_rate
+          get :client_satisfaction_rate
         end
       end
     end

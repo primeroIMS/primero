@@ -2550,6 +2550,9 @@ en:
     case_closure_rate:
       title: "Case Closure Rate"
       reporting_site: "Reporting Site"
+    client_satisfaction_rate:
+      title: "Client Satisfaction Rate"
+      label: "Client Satisfaction"
 
   reports:
     register_new_report: "Create Report"
