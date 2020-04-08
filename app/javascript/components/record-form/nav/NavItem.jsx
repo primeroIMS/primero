@@ -20,9 +20,7 @@ const NavItem = ({
   groupItem,
   name,
   recordAlerts,
-  itemsOfGroup,
-  currentUser,
-  recordOwner
+  itemsOfGroup
 }) => {
   const css = makeStyles(styles)();
 
@@ -42,15 +40,12 @@ const NavItem = ({
 
   let showJewel = false;
 
-  if (currentUser !== recordOwner) {
-    if (isNested) {
-      showJewel = itemsOfGroup?.some(
-        alert => !isEmpty(formsWithAlerts) && formsWithAlerts?.includes(alert)
-      );
-    } else {
-      showJewel =
-        !isEmpty(formsWithAlerts) && formsWithAlerts?.includes(formId);
-    }
+  if (isNested) {
+    showJewel = itemsOfGroup?.some(
+      alert => !isEmpty(formsWithAlerts) && formsWithAlerts?.includes(alert)
+    );
+  } else {
+    showJewel = !isEmpty(formsWithAlerts) && formsWithAlerts?.includes(formId);
   }
 
   const formText = showJewel ? <Jewel value={name} isForm /> : name;
@@ -77,7 +72,6 @@ const NavItem = ({
 NavItem.displayName = NAV_ITEM;
 
 NavItem.propTypes = {
-  currentUser: PropTypes.string,
   form: PropTypes.object,
   groupItem: PropTypes.bool,
   handleClick: PropTypes.func,
@@ -86,7 +80,6 @@ NavItem.propTypes = {
   name: PropTypes.string,
   open: PropTypes.bool,
   recordAlerts: PropTypes.object,
-  recordOwner: PropTypes.string,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 

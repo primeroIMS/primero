@@ -22,7 +22,6 @@ import {
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
 import { getLoadingRecordState } from "../records/selectors";
-import { currentUser } from "../user";
 
 import { NAME } from "./constants";
 import Nav from "./nav";
@@ -76,7 +75,6 @@ const Container = ({ match, mode }) => {
   );
   const errors = useSelector(state => getErrors(state));
   const selectedForm = useSelector(state => getSelectedForm(state));
-  const userName = useSelector(state => currentUser(state));
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -164,9 +162,7 @@ const Container = ({ match, mode }) => {
     firstTab,
     handleToggleNav,
     mobileDisplay,
-    selectedRecord: record ? record.get("id") : null,
-    selectedRecordOwner: record ? record.get("owned_by") : null,
-    currentUser: userName
+    selectedRecord: record ? record.get("id") : null
   };
 
   useEffect(() => {

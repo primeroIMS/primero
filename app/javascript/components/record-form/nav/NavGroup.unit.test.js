@@ -114,9 +114,7 @@ describe("<NavGroup />", () => {
     open: {},
     handleClick: () => {},
     selectedForm: "",
-    recordAlerts: {},
-    recordOwner: "",
-    currentUser: ""
+    recordAlerts: {}
   };
 
   beforeEach(() => {
@@ -131,18 +129,12 @@ describe("<NavGroup />", () => {
     const navGroupProps = { ...component.find(NavGroup).props() };
 
     expect(component.find(NavGroup)).to.have.lengthOf(1);
-    [
-      "group",
-      "open",
-      "handleClick",
-      "selectedForm",
-      "recordAlerts",
-      "recordOwner",
-      "currentUser"
-    ].forEach(property => {
-      expect(navGroupProps).to.have.property(property);
-      delete navGroupProps[property];
-    });
+    ["group", "handleClick", "open", "recordAlerts", "selectedForm"].forEach(
+      property => {
+        expect(navGroupProps).to.have.property(property);
+        delete navGroupProps[property];
+      }
+    );
     expect(navGroupProps).to.be.empty;
   });
 });

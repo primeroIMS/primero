@@ -17,9 +17,7 @@ const Nav = ({
   firstTab,
   handleToggleNav,
   mobileDisplay,
-  selectedRecord,
-  selectedRecordOwner,
-  currentUser
+  selectedRecord
 }) => {
   const [open, setOpen] = useState({});
   const dispatch = useDispatch();
@@ -69,8 +67,6 @@ const Nav = ({
           open={open}
           selectedForm={selectedForm}
           recordAlerts={recordAlerts}
-          recordOwner={selectedRecordOwner}
-          currentUser={currentUser}
         />
       );
     });

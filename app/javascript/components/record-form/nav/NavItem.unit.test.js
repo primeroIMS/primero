@@ -103,9 +103,7 @@ describe("<NavItem />", () => {
     groupItem: false,
     name: "",
     recordAlerts: {},
-    itemsOfGroup: [],
-    currentUser: "",
-    recordOwner: ""
+    itemsOfGroup: []
   };
 
   beforeEach(() => {
@@ -126,16 +124,14 @@ describe("<NavItem />", () => {
     expect(component.find(NavItem)).to.have.lengthOf(1);
     [
       "form",
-      "isNested",
-      "open",
-      "handleClick",
-      "selectedForm",
       "groupItem",
-      "name",
-      "recordAlerts",
+      "handleClick",
+      "isNested",
       "itemsOfGroup",
-      "currentUser",
-      "recordOwner"
+      "name",
+      "open",
+      "recordAlerts",
+      "selectedForm"
     ].forEach(property => {
       expect(NavItemProps).to.have.property(property);
       delete NavItemProps[property];
