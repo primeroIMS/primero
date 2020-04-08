@@ -70,6 +70,12 @@ class User < ApplicationRecord
             inclusion: { in: I18n.available_locales.map(&:to_s), message: 'errors.models.user.invalid_locale' },
             allow_nil: true
 
+  searchable do
+    string :role do
+      role.unique_id
+    end
+  end
+
   class << self
     def hidden_attributes
       %w[encrypted_password reset_password_token reset_password_sent_at]

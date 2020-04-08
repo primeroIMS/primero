@@ -12,22 +12,15 @@ import {
   NumberOfCases,
   NumberOfIncidents,
   ReportingDelay,
-  ServiceAccessDelay,
   AssessmentStatus,
   CompletedCaseSafetyPlan,
   CompletedCaseActionPlan,
   CompletedSupervisorApprovedCaseActionPlan,
   ServicesProvided,
   AverageReferrals,
-  ReferralsPerService,
-  CompletedReferralsPerService,
-  TotalFollowupMeetings,
   AverageFollowupMeetingsPerCase,
   GoalProgressPerNeed,
-  CompletedCaseClosureProcedures,
   TimeFromCaseOpenToClose,
-  TimeFromCaseOpenToCloseHighRisk,
-  ReasonForCaseClosure,
   CaseClosureRate,
   ClientSatisfactionRate,
   ActiveCaseworkers,
@@ -202,12 +195,10 @@ function KeyPerformanceIndicators({}) {
               <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.other')}</h2>
 
               <Grid container spacing={2}>
-                <Grid item className={css.grow} xs={12} md={6}>
-                  <ActiveCaseworkers />
-                </Grid>
-
-                <Grid item className={css.grow} xs={12} md={6}>
-                  <SupervisorToCaseworkerRatio />
+                <Grid item className={css.grow} xs={12} md={12}>
+                  <SupervisorToCaseworkerRatio 
+                    dateRanges={[commonDateRanges.AllTime]}
+                  />  
                 </Grid>
               </Grid>
 
