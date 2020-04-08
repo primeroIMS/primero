@@ -23,11 +23,8 @@ export const FieldRecord = Record({
   autoFocus: false,
   password: false,
   hideOnShow: false,
-  watchInput: null,
-  hideIfWatch: null,
-  helpTextIfWatch: null,
-  watchDisableInput: null,
-  watchDisable: null,
+  watchedInputs: null,
+  handleWatchedInputs: null,
   check_errors: List([])
 });
 

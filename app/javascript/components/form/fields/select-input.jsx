@@ -29,11 +29,12 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       ? data?.[1]?.map(selected =>
           typeof selected === "object" ? selected?.id : selected
         )
-      : data?.[1]?.id || defaultOption;
+      : data?.[1]?.id || "";
   };
 
   const optionEquality = (option, value) =>
     multiSelect ? option.id === value : option.id === value.id;
+
   const watchedDisableField = watchDisableInput
     ? watch(watchDisableInput, "")
     : false;

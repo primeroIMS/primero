@@ -20,7 +20,8 @@ import {
 import { fetchSystemSettings } from "../../../application";
 import bindFormSubmit from "../../../../libs/submit-form";
 
-import { form, validations } from "./form";
+import { form } from "./form";
+import validations from "./validations";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
 import { USER_CONFIRMATION_DIALOG } from "./constants";
 import {
