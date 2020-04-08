@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { expect } from "../../../../test";
 
 import actions from "./actions";
-import { reducers } from "./reducer";
+import reducer from "./reducer";
 
 describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
   it("should handle FETCH_AUDIT_LOGS_FAILURE", () => {
@@ -16,7 +16,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
       type: actions.FETCH_AUDIT_LOGS_FAILURE
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -31,7 +31,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
       type: actions.FETCH_AUDIT_LOGS_FINISHED
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -47,7 +47,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
       payload: true
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -78,7 +78,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
       payload: { data, metadata: { per: 20 } }
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -95,7 +95,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
       type: actions.FETCH_PERFORMED_BY_FAILURE
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -112,7 +112,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
       type: actions.FETCH_PERFORMED_BY_FINISHED
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -139,7 +139,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
       payload: { data, metadata: { per: 20 } }
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -158,7 +158,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
       payload
     };
 
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState).to.deep.equal(expected);
   });

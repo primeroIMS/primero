@@ -1,7 +1,7 @@
 import { dataToJS } from "../../../../libs";
 import { FILTER_TYPES } from "../../../index-filters";
 
-import { USER_NAME, TIMESTAMP } from "./constants";
+import { TIMESTAMP, USER_NAME } from "./constants";
 
 export const searchableUsers = data => {
   const users = dataToJS(data);

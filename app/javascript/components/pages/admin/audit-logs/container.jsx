@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector, batch } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 import { Button, Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
@@ -9,7 +9,7 @@ import { format, parseISO } from "date-fns";
 import { useI18n } from "../../../i18n";
 import { DATE_TIME_FORMAT, ROUTES } from "../../../../config";
 import { RESOURCES, SHOW_AUDIT_LOGS } from "../../../../libs/permissions";
-import { PageHeading, PageContent } from "../../../page";
+import { PageContent, PageHeading } from "../../../page";
 import IndexTable from "../../../index-table";
 import Permission from "../../../application/permission";
 import { Filters as AdminFilters } from "../components";
