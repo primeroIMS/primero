@@ -21,14 +21,14 @@ import PageHeading from "./page-heading";
 import styles from "./styles.css";
 
 const RecordFormToolbar = ({
+  handleFormSubmit,
+  history,
   mode,
   params,
-  recordType,
-  handleFormSubmit,
-  shortId,
-  history,
   primeroModule,
-  record
+  record,
+  recordType,
+  shortId
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();

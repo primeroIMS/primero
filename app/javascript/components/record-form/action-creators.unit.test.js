@@ -5,6 +5,8 @@ import sinonChai from "sinon-chai";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
+import { RECORD_PATH } from "../../config/constants";
+
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
 import { URL_LOOKUPS } from "./constants";
@@ -16,13 +18,14 @@ describe("<RecordForm /> - Action Creators", () => {
     const creators = clone(actionCreators);
 
     [
+      "fetchAgencies",
+      "fetchForms",
+      "fetchLookups",
+      "fetchOptions",
+      "fetchRecordsAlerts",
       "setSelectedForm",
       "setSelectedRecord",
-      "fetchForms",
-      "fetchOptions",
-      "fetchLookups",
-      "setServiceToRefer",
-      "fetchAgencies"
+      "setServiceToRefer"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -101,7 +104,7 @@ describe("<RecordForm /> - Action Creators", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
     const expected = {
-      type: "forms/SET_SERVICE_TO_REFER",
+      type: actions.SET_SERVICE_TO_REFER,
       payload: {
         service_type: "service_1",
         service_implementing_agency: "agency_1"
@@ -109,12 +112,10 @@ describe("<RecordForm /> - Action Creators", () => {
     };
 
     expect(
-      dispatch(
-        actionCreators.setServiceToRefer({
-          service_type: "service_1",
-          service_implementing_agency: "agency_1"
-        })
-      )
+      actionCreators.setServiceToRefer({
+        service_type: "service_1",
+        service_implementing_agency: "agency_1"
+      })
     ).to.deep.equals(expected);
   });
 
@@ -131,5 +132,19 @@ describe("<RecordForm /> - Action Creators", () => {
     };
 
     expect(dispatch(actionCreators.fetchAgencies())).to.deep.equals(expected);
+  });
+
+  it("should check the 'fetchRecordsAlerts' action creator to return the correct object", () => {
+    const recordId = "123abc";
+    const expected = {
+      api: {
+        path: `${RECORD_PATH.cases}/${recordId}/alerts`
+      },
+      type: actions.FETCH_RECORD_ALERTS
+    };
+
+    expect(
+      actionCreators.fetchRecordsAlerts(RECORD_PATH.cases, recordId)
+    ).be.deep.equals(expected);
   });
 });

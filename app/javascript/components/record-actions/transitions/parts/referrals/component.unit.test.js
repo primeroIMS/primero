@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import clone from "lodash/clone";
-import { Map, List, fromJS } from "immutable";
+import { fromJS, List, Map } from "immutable";
 import { Formik } from "formik";
 import { FormControlLabel } from "@material-ui/core";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";

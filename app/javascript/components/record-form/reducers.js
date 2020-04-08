@@ -16,10 +16,24 @@ const DEFAULT_STATE = Map({
 
 export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.SET_OPTIONS_SUCCESS:
-      return state.setIn(["options", "lookups"], fromJS(payload));
-    case Actions.SET_LOCATIONS_SUCCESS:
-      return state.setIn(["options", "locations"], fromJS(payload));
+    case Actions.FETCH_AGENCIES_FAILURE:
+      return state.setIn(["options", "errors"], true);
+    case Actions.FETCH_AGENCIES_FINISHED:
+      return state.setIn(["options", "loading"], false);
+    case Actions.FETCH_AGENCIES_STARTED:
+      return state.setIn(["options", "loading"], true);
+    case Actions.FETCH_AGENCIES_SUCCESS:
+      return state
+        .setIn(["options", "agencies"], fromJS(payload.data))
+        .setIn(["options", "errors"], false);
+    case Actions.FETCH_RECORD_ALERTS_SUCCESS:
+      return state.set("recordAlerts", fromJS(payload.data));
+    case Actions.RECORD_FORMS_FAILURE:
+      return state.set("errors", true);
+    case Actions.RECORD_FORMS_FINISHED:
+      return state.set("loading", false);
+    case Actions.RECORD_FORMS_STARTED:
+      return state.set("loading", true).set("errors", false);
     case Actions.RECORD_FORMS_SUCCESS:
       if (payload) {
         return state
@@ -40,28 +54,16 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       }
 
       return state;
-    case Actions.RECORD_FORMS_FAILURE:
-      return state.set("errors", true);
-    case Actions.RECORD_FORMS_STARTED:
-      return state.set("loading", true).set("errors", false);
-    case Actions.RECORD_FORMS_FINISHED:
-      return state.set("loading", false);
+    case Actions.SET_OPTIONS_SUCCESS:
+      return state.setIn(["options", "lookups"], fromJS(payload));
+    case Actions.SET_LOCATIONS_SUCCESS:
+      return state.setIn(["options", "locations"], fromJS(payload));
     case Actions.SET_SELECTED_FORM:
       return state.set("selectedForm", payload);
     case Actions.SET_SELECTED_RECORD:
       return state.set("selectedRecord", payload);
     case Actions.SET_SERVICE_TO_REFER:
       return state.set("serviceToRefer", fromJS(payload));
-    case Actions.FETCH_AGENCIES_STARTED:
-      return state.setIn(["options", "loading"], true);
-    case Actions.FETCH_AGENCIES_SUCCESS:
-      return state
-        .setIn(["options", "agencies"], fromJS(payload.data))
-        .setIn(["options", "errors"], false);
-    case Actions.FETCH_AGENCIES_FAILURE:
-      return state.setIn(["options", "errors"], true);
-    case Actions.FETCH_AGENCIES_FINISHED:
-      return state.setIn(["options", "loading"], false);
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
     default:

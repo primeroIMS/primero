@@ -13,3 +13,10 @@ export const MAIN_FORM = "ReferralsMainForm";
 
 export const PROVIDED_CONSENT_NAME = `${transition}ProvidedConsent`;
 export const PROVIDED_FORM_NAME = `${transition}ProvidedForm`;
+export const SERVICE_SECTION_FIELDS = {
+  deliveryLocation: "service_delivery_location",
+  implementingAgency: "service_implementing_agency",
+  implementingAgencyIndividual: "service_implementing_agency_individual",
+  type: "service_type",
+  uniqueId: "unique_id"
+};

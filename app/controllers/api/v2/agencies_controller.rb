@@ -7,8 +7,10 @@ class Api::V2::AgenciesController < ApplicationApiController
 
   def index
     authorize! :index, Agency
-    @total = Agency.all.size
-    @agencies = Agency.paginate(pagination)
+    filters = agency_filters(params.permit(disabled: {}))
+    filter_agencies = Agency.list(filters)
+    @total = filter_agencies.size
+    @agencies = filter_agencies.paginate(pagination)
   end
 
   def show
@@ -44,6 +46,12 @@ class Api::V2::AgenciesController < ApplicationApiController
   end
 
   protected
+
+  def agency_filters(params)
+    return if params.blank?
+
+    { disabled: params[:disabled].values }
+  end
 
   def load_agency
     @agency = Agency.find(record_id)
