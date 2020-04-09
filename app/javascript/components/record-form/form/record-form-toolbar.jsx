@@ -26,6 +26,7 @@ const RecordFormToolbar = ({
   recordType,
   handleFormSubmit,
   shortId,
+  caseIdDisplay,
   history,
   primeroModule,
   record,
@@ -92,6 +93,7 @@ const RecordFormToolbar = ({
     >
       <Box flexGrow={1} display="flex" flexDirection="column">
         <PageHeading
+          caseIdDisplay={caseIdDisplay}
           i18n={i18n}
           mode={mode}
           params={params}
@@ -149,6 +151,7 @@ const RecordFormToolbar = ({
 RecordFormToolbar.displayName = RECORD_FORM_TOOLBAR_NAME;
 
 RecordFormToolbar.propTypes = {
+  caseIdDisplay: PropTypes.string,
   handleFormSubmit: PropTypes.func.isRequired,
   history: PropTypes.object,
   mode: PropTypes.object,
