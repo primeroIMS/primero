@@ -9,12 +9,12 @@ export { ApplicationProvider, useApp } from "./provider";
 export { default as reducers } from "./reducers";
 export {
   selectAgencies,
+  getAgenciesWithService,
   selectModules,
   selectModule,
   selectLocales,
   selectUserIdle,
   selectUserModules,
-  getAgenciesWithService,
   getSystemPermissions,
   getResourceActions
 } from "./selectors";

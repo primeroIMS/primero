@@ -101,8 +101,6 @@ describe("<RecordForm /> - Action Creators", () => {
   });
 
   it("should check the 'setServiceToRefer' action creator return the correct object", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
     const expected = {
       type: actions.SET_SERVICE_TO_REFER,
       payload: {
@@ -120,10 +118,8 @@ describe("<RecordForm /> - Action Creators", () => {
   });
 
   it("should check the 'fetchAgencies' action creator return the correct object", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
     const expected = {
-      type: "forms/FETCH_AGENCIES",
+      type: actions.FETCH_AGENCIES,
       api: {
         path: "agencies",
         method: "GET",
@@ -131,7 +127,7 @@ describe("<RecordForm /> - Action Creators", () => {
       }
     };
 
-    expect(dispatch(actionCreators.fetchAgencies())).to.deep.equals(expected);
+    expect(actionCreators.fetchAgencies()).to.deep.equals(expected);
   });
 
   it("should check the 'fetchRecordsAlerts' action creator to return the correct object", () => {

@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import clone from "lodash/clone";
-import { fromJS, List, Map } from "immutable";
+import { fromJS } from "immutable";
 import { Formik } from "formik";
 import { FormControlLabel } from "@material-ui/core";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
@@ -36,7 +36,7 @@ describe("<ReferralForm />", () => {
       ]
     }
   });
-  const record = Map({
+  const record = fromJS({
     id: "03cdfdfe-a8fc-4147-b703-df976d200977",
     case_id: "1799d556-652c-4ad9-9b4c-525d487b5e7b",
     case_id_display: "9b4c525",
@@ -46,7 +46,7 @@ describe("<ReferralForm />", () => {
   });
   const props = {
     handleClose: () => {},
-    userPermissions: Map({}),
+    userPermissions: fromJS({}),
     providedConsent: false,
     recordType: "cases",
     record

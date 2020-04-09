@@ -31,7 +31,7 @@ import { getUsersByTransitionType } from "../../../record-actions/transitions/se
 import { valuesToSearchableSelect } from "../../../../libs";
 import { getReportingLocationConfig } from "../../../application/selectors";
 import SearchableSelect from "../../../searchable-select";
-import { SELECT_FIELD_NAME } from "../constants";
+import { SELECT_FIELD_NAME, CUSTOM_STRINGS_SOURCE } from "../constants";
 import styles from "../styles.css";
 import { getLoading } from "../../../index-table";
 import {
@@ -152,7 +152,12 @@ const SelectField = ({
     }
   }, [location]);
 
-  const customLookups = ["User", "Location", "Agency", "ReportingLocation"];
+  const customLookups = [
+    CUSTOM_STRINGS_SOURCE.agency,
+    CUSTOM_STRINGS_SOURCE.location,
+    CUSTOM_STRINGS_SOURCE.reportingLocation,
+    CUSTOM_STRINGS_SOURCE.user
+  ];
 
   const fieldProps = {
     component: Select,
@@ -185,9 +190,7 @@ const SelectField = ({
 
       return field.multi_select
         ? selected
-            .map(s =>
-              findOptionDisplayText({ ...displayOptions, value: s })
-            )
+            .map(s => findOptionDisplayText({ ...displayOptions, value: s }))
             .join(", ") || i18n.t("fields.select_multiple")
         : findOptionDisplayText({ ...displayOptions }) ||
             i18n.t("fields.select_single");
@@ -218,7 +221,7 @@ const SelectField = ({
       reloadReferralUsers();
     }
 
-    if (option === "Agency") {
+    if (option === CUSTOM_STRINGS_SOURCE.agency) {
       reloadAgencies();
     }
   }, []);
@@ -229,11 +232,14 @@ const SelectField = ({
     agencies,
     referralUsers,
     filterState,
-    value
+    value,
+    name
   });
 
   const selectIsLoading = fieldName => {
-    if (fieldName.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {
+    if (
+      fieldName.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
+    ) {
       return loading;
     }
     if (fieldName.endsWith(SERVICE_SECTION_FIELDS.implementingAgency)) {
@@ -261,7 +267,9 @@ const SelectField = ({
         ) {
           setFilterState({ filtersChanged: true, userIsSelected: false });
         }
-        if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {
+        if (
+          name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
+        ) {
           handleChangeOnServiceUser({
             setFilterState,
             referralUsers,
@@ -293,7 +301,9 @@ const SelectField = ({
         options: values && values,
         isLoading: selectIsLoading(name),
         onMenuOpen: () => {
-          if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {
+          if (
+            name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
+          ) {
             reloadReferralUsers();
           }
           if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgency)) {

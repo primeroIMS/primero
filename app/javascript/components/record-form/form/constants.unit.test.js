@@ -8,6 +8,7 @@ describe("Verifying config constant", () => {
 
     [
       "ATTACHMENT_FIELD_NAME",
+      "CUSTOM_STRINGS_SOURCE",
       "DATE_FIELD_NAME",
       "DOCUMENT_FIELD_NAME",
       "FORM_SECTION_FIELD_NAME",
@@ -20,6 +21,17 @@ describe("Verifying config constant", () => {
       "TEXT_FIELD_NAME",
       "TICK_FIELD_NAME"
     ].forEach(property => {
+      expect(constants).to.have.property(property);
+      delete constants[property];
+    });
+
+    expect(constants).to.deep.equal({});
+  });
+
+  it("should have known CUSTOM_STRINGS_SOURCE properties", () => {
+    const constants = { ...formConstants.CUSTOM_STRINGS_SOURCE };
+
+    ["agency", "location", "reportingLocation", "user"].forEach(property => {
       expect(constants).to.have.property(property);
       delete constants[property];
     });

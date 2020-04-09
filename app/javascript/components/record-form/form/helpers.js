@@ -1,7 +1,10 @@
 import find from "lodash/find";
 import { fromJS } from "immutable";
 
+import { SERVICE_SECTION_FIELDS } from "../../record-actions/transitions/parts/referrals";
 import { CODE_FIELD, NAME_FIELD, UNIQUE_ID_FIELD } from "../../../config";
+
+import { CUSTOM_STRINGS_SOURCE } from "./constants";
 
 export const appendDisabledAgency = (agencies, agencyUniqueId) =>
   agencyUniqueId &&
@@ -21,23 +24,21 @@ export const appendDisabledUser = (users, userName) =>
     : users;
 
 export const getConnectedFields = index => {
-  const connectedFields = {
-    service: "service_type",
-    agency: "service_implementing_agency",
-    location: "service_delivery_location",
-    user: "service_implementing_agency_individual"
-  };
-
   if (index >= 0) {
     return {
-      service: `services_section[${index}]${connectedFields.service}`,
-      agency: `services_section[${index}]${connectedFields.agency}`,
-      location: `services_section[${index}]${connectedFields.location}`,
-      user: `services_section[${index}]${connectedFields.user}`
+      service: `services_section[${index}]${SERVICE_SECTION_FIELDS.type}`,
+      agency: `services_section[${index}]${SERVICE_SECTION_FIELDS.implementingAgency}`,
+      location: `services_section[${index}]${SERVICE_SECTION_FIELDS.deliveryLocation}`,
+      user: `services_section[${index}]${SERVICE_SECTION_FIELDS.implementingAgencyIndividual}`
     };
   }
 
-  return connectedFields;
+  return {
+    service: SERVICE_SECTION_FIELDS.type,
+    agency: SERVICE_SECTION_FIELDS.implementingAgency,
+    location: SERVICE_SECTION_FIELDS.deliveryLocation,
+    user: SERVICE_SECTION_FIELDS.implementingAgencyIndividual
+  };
 };
 
 export const handleChangeOnServiceUser = ({
@@ -77,7 +78,7 @@ export const handleChangeOnServiceUser = ({
 
 export const translatedText = (displayText, i18n) => {
   return displayText instanceof Object
-    ? displayText?.[i18n.locale]
+    ? displayText?.[i18n.locale] || ""
     : displayText;
 };
 
@@ -94,7 +95,7 @@ export const findOptionDisplayText = ({
 
   if (Object.keys(foundOptions).length && !customLookups.includes(option)) {
     optionValue = translatedText(foundOptions.display_text, i18n);
-  } else if (option === "Agency") {
+  } else if (option === CUSTOM_STRINGS_SOURCE.agency) {
     optionValue = value
       ? agencies.find(a => a.get("id") === value)?.get("name")
       : value;
@@ -109,6 +110,7 @@ export const buildCustomLookupsConfig = ({
   agencies,
   filterState,
   locations,
+  name,
   referralUsers,
   reportingLocations,
   value
@@ -121,9 +123,11 @@ export const buildCustomLookupsConfig = ({
   Agency: {
     fieldLabel: NAME_FIELD,
     fieldValue: UNIQUE_ID_FIELD,
-    options: !filterState?.filtersChanged
-      ? appendDisabledAgency(agencies, value)
-      : agencies
+    options:
+      !filterState?.filtersChanged &&
+      name.endsWith(SERVICE_SECTION_FIELDS.implementingAgency)
+        ? appendDisabledAgency(agencies, value)
+        : agencies
   },
   ReportingLocation: {
     fieldLabel: NAME_FIELD,
@@ -133,8 +137,10 @@ export const buildCustomLookupsConfig = ({
   User: {
     fieldLabel: "user_name",
     fieldValue: "user_name",
-    options: !filterState?.filtersChanged
-      ? appendDisabledUser(referralUsers, value)
-      : referralUsers
+    options:
+      !filterState?.filtersChanged &&
+      name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
+        ? appendDisabledUser(referralUsers, value)
+        : referralUsers
   }
 });
