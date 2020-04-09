@@ -367,7 +367,12 @@ const SelectField = ({
         <Field {...fieldProps}>
           {options &&
             options.map(o => (
-              <MenuItem key={o.id} value={o.id}>
+              <MenuItem
+                key={o.id}
+                value={o.id}
+                alignItems="flex-start"
+                className={css.menu}
+              >
                 {field.multi_select && (
                   <Checkbox checked={value && value.indexOf(o.id) > -1} />
                 )}
