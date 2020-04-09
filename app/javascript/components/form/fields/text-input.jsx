@@ -8,13 +8,12 @@ import { TEXT_AREA } from "../constants";
 const TextInput = ({ commonInputProps, metaInputProps }) => {
   const { type, password } = metaInputProps;
   const inputType = password ? "password" : "text";
-  const { helperText, ...additionalInputProps } = commonInputProps;
 
   return (
     <Controller
       type={inputType}
       as={TextField}
-      {...additionalInputProps}
+      {...commonInputProps}
       multiline={type && type === TEXT_AREA}
       defaultValue=""
     />

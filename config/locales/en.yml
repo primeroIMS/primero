@@ -1203,6 +1203,7 @@ en:
       text_label: "Welcome Email Text"
     identity_provider: "Identity Provider"
     provider_username_help: "Example: my.username@%{domain}"
+    invalid_provider_username: "Invalid username format. Example: my.username@%{domain}"
 
   phone: "Phone"
   email: "Email"

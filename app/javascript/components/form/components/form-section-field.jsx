@@ -75,7 +75,7 @@ const FormSectionField = ({ checkErrors, field }) => {
 
   const watchedInputsValues = watchedInputs ? watch(watchedInputs) : null;
   const watchedInputProps = handleWatchedInputs
-    ? handleWatchedInputs(watchedInputsValues, name)
+    ? handleWatchedInputs(watchedInputsValues, name, { error })
     : {};
 
   const renderError = () =>
@@ -87,6 +87,7 @@ const FormSectionField = ({ checkErrors, field }) => {
 
   const commonInputProps = {
     name,
+    disabled: formMode.get("isShow") || (formMode.get("isEdit") && !editable),
     required,
     autoFocus,
     error: typeof error !== "undefined" || renderError(),
@@ -97,7 +98,6 @@ const FormSectionField = ({ checkErrors, field }) => {
     InputLabelProps: {
       shrink: true
     },
-    disabled: formMode.get("isShow") || (formMode.get("isEdit") && !editable),
     ...watchedInputProps
   };
 

@@ -16,7 +16,14 @@ export default (formMode, i18n, useIdentityProviders, providers) => {
       if (provider) {
         const regexMatch = new RegExp(`@${provider.get("user_domain")}$`);
 
-        return value.match(regexMatch);
+        return value.match(regexMatch)
+          ? true
+          : this.createError({
+              message: i18n.t("user.invalid_provider_username", {
+                domain: provider.get("user_domain")
+              }),
+              path: this.path
+            });
       }
     });
   };
@@ -61,7 +68,10 @@ export default (formMode, i18n, useIdentityProviders, providers) => {
       .required()
       .label(i18n.t("user.user_group_unique_ids")),
     user_name: useProviders
-      ? string().isIdpProvider(ref("identity_provider_id")).required()
+      ? string()
+          .required()
+          .label(i18n.t("user.user_name"))
+          .isIdpProvider(ref("identity_provider_id"))
       : string().required().label(i18n.t("user.user_name"))
   });
 };

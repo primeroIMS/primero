@@ -147,7 +147,7 @@ export const form = (
   const sharedFields = sharedUserFields(i18n, formMode);
   const identityFields = identityUserFields(i18n, identityOptions);
 
-  const providersDisable = (value, name) => {
+  const providersDisable = (value, name, { error }) => {
     const provider = providers
       ? providers.find(
           currentProvider => currentProvider.get("id") === parseInt(value, 10)
@@ -157,11 +157,13 @@ export const form = (
     return {
       disabled: value === null || value === "",
       ...(name === "user_name" && {
-        helpText: provider
-          ? i18n.t("user.provider_username_help", {
-              domain: provider.get("user_domain")
-            })
-          : null
+        helperText:
+          error?.message ||
+          (provider
+            ? i18n.t("user.provider_username_help", {
+                domain: provider?.get("user_domain")
+              })
+            : null)
       })
     };
   };
@@ -192,6 +194,4 @@ export const form = (
       fields: formFields
     })
   ]);
-
-  // return fromJS([FormSectionRecord(formData)]);
 };
