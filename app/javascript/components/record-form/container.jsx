@@ -149,6 +149,7 @@ const Container = ({ match, mode }) => {
     params,
     recordType,
     handleFormSubmit,
+    caseIdDisplay: record ? record.get("case_id_display") : null,
     shortId: record ? record.get("short_id") : null,
     primeroModule: selectedModule.primeroModule,
     record,
