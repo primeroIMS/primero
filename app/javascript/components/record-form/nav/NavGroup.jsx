@@ -7,12 +7,11 @@ import { NAV_GROUP } from "./constants";
 
 const NavGroup = ({
   group,
-  open,
   handleClick,
-  selectedForm,
+  isNew,
+  open,
   recordAlerts,
-  recordOwner,
-  currentUser
+  selectedForm
 }) => {
   const [...forms] = group.values();
   const isNested = forms.length > 1;
@@ -27,11 +26,10 @@ const NavGroup = ({
 
   const sharedProps = {
     handleClick,
-    selectedForm,
-    recordAlerts,
+    isNew,
     itemsOfGroup: forms.map(form => form.formId),
-    recordOwner,
-    currentUser
+    recordAlerts,
+    selectedForm
   };
 
   return (
@@ -62,6 +60,7 @@ NavGroup.propTypes = {
   currentUser: PropTypes.string,
   group: PropTypes.object,
   handleClick: PropTypes.func,
+  isNew: PropTypes.bool,
   open: PropTypes.object,
   recordAlerts: PropTypes.object,
   recordOwner: PropTypes.string,

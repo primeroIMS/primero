@@ -14,7 +14,7 @@ class PropertyEvaluator
         end
         property = acc.try(*particles)
         property ||= acc.data[particles[0]] if acc.respond_to?(:data) && (particles.size == 1)
-        property = property.strftime("%Y%m%d") if property.methods.include? :strftime
+        property = property.strftime("%Y%m%d") if property.methods.include?(:strftime) && !expression.include?('strftime')
         property
       end
     end

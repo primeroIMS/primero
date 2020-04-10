@@ -22,8 +22,6 @@ describe("Application - Actions", () => {
       delete cloneActions[property];
     });
 
-
     expect(cloneActions).to.be.empty;
   });
-
 });

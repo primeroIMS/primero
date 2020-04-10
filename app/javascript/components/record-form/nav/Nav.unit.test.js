@@ -114,11 +114,10 @@ describe("<Nav />", () => {
     firstTab: {},
     formNav,
     handleToggleNav: () => {},
+    isNew: true,
     mobileDisplay: true,
     selectedForm: "",
-    selectedRecord: "",
-    selectedRecordOwner: "",
-    currentUser: ""
+    selectedRecord: ""
   };
 
   beforeEach(() => {
@@ -149,11 +148,10 @@ describe("<Nav />", () => {
       "firstTab",
       "formNav",
       "handleToggleNav",
+      "isNew",
       "mobileDisplay",
       "selectedForm",
-      "selectedRecord",
-      "selectedRecordOwner",
-      "currentUser"
+      "selectedRecord"
     ].forEach(property => {
       expect(navProps).to.have.property(property);
       delete navProps[property];
