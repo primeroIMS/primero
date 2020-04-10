@@ -257,4 +257,173 @@ describe("<RecordForm /> - Reducers", () => {
 
     expect(newState).to.deep.equals(expected);
   });
+
+  it("should handle forms/FETCH_AGENCIES_FAILURE", () => {
+    const expected = fromJS({
+      selectedForm: null,
+      formSections: OrderedMap({}),
+      fields: OrderedMap({}),
+      options: {
+        errors: true
+      }
+    });
+
+    const action = {
+      type: actions.FETCH_AGENCIES_FAILURE
+    };
+
+    const newState = reducer.forms(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle forms/FETCH_AGENCIES_FINISHED", () => {
+    const expected = fromJS({
+      selectedForm: null,
+      formSections: OrderedMap({}),
+      fields: OrderedMap({}),
+      options: {
+        loading: false
+      }
+    });
+
+    const action = {
+      type: actions.FETCH_AGENCIES_FINISHED
+    };
+
+    const newState = reducer.forms(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle forms/FETCH_AGENCIES_STARTED", () => {
+    const expected = fromJS({
+      selectedForm: null,
+      formSections: OrderedMap({}),
+      fields: OrderedMap({}),
+      options: {
+        loading: true
+      }
+    });
+
+    const action = {
+      type: actions.FETCH_AGENCIES_STARTED
+    };
+
+    const newState = reducer.forms(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle forms/FETCH_AGENCIES_SUCCESS", () => {
+    const agencies = [
+      { unique_id: "agency-id-1", agency_code: "a1" },
+      { unique_id: "agency-id-2", agency_code: "a2" }
+    ];
+
+    const expected = fromJS({
+      selectedForm: null,
+      formSections: OrderedMap({}),
+      fields: OrderedMap({}),
+      options: {
+        errors: false,
+        agencies
+      }
+    });
+
+    const action = {
+      type: actions.FETCH_AGENCIES_SUCCESS,
+      payload: {
+        data: agencies
+      }
+    };
+
+    const newState = reducer.forms(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle forms/SET_SELECTED_FORM", () => {
+    const selectedForm = fromJS({
+      id: 1,
+      unique_id: "cp_incident_record_owner",
+      name: {},
+      visible: null,
+      is_first_tab: null,
+      order: null,
+      order_form_group: null,
+      parent_form: "incident",
+      editable: null,
+      module_ids: [],
+      form_group_id: "",
+      form_group_name: "",
+      fields: [1],
+      is_nested: null,
+      subform_prevent_item_removal: false,
+      collapsed_field_names: []
+    });
+
+    const expected = fromJS({
+      formSections: OrderedMap({}),
+      fields: OrderedMap({}),
+      selectedForm
+    });
+
+    const action = {
+      type: actions.SET_SELECTED_FORM,
+      payload: selectedForm
+    };
+
+    const newState = reducer.forms(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle forms/SET_SELECTED_RECORD", () => {
+    const selectedRecord = fromJS({
+      unique_id: "record-1",
+      last_name: "name_last",
+      first_name: "name_first"
+    });
+
+    const expected = fromJS({
+      selectedForm: null,
+      formSections: OrderedMap({}),
+      fields: OrderedMap({}),
+      selectedRecord
+    });
+
+    const action = {
+      type: actions.SET_SELECTED_RECORD,
+      payload: selectedRecord
+    };
+
+    const newState = reducer.forms(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle forms/SET_SERVICE_TO_REFER", () => {
+    const serviceToRefer = fromJS({
+      service_implementing_agency: "agency-1",
+      service_implementing_agency_individual: "user-1",
+      service_type: "type-1"
+    });
+
+    const expected = fromJS({
+      selectedForm: null,
+      formSections: OrderedMap({}),
+      fields: OrderedMap({}),
+      serviceToRefer
+    });
+
+    const action = {
+      type: actions.SET_SERVICE_TO_REFER,
+      payload: serviceToRefer
+    };
+
+    const newState = reducer.forms(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });

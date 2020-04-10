@@ -10,3 +10,9 @@ export const SELECT_FIELD_NAME = "SelectField";
 export const SEPERATOR_NAME = "Seperator";
 export const TEXT_FIELD_NAME = "TextField";
 export const TICK_FIELD_NAME = "TickField";
+export const CUSTOM_STRINGS_SOURCE = {
+  agency: "Agency",
+  location: "Location",
+  reportingLocation: "ReportingLocation",
+  user: "User"
+};

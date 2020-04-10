@@ -18,5 +18,6 @@ export {
   LookupsList,
   ContactInformation,
   RolesList,
+  FormsList,
   RolesForm
 } from "./admin";

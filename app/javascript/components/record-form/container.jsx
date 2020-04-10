@@ -1,7 +1,7 @@
 import React, { useEffect, memo, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
 import clsx from "clsx";
@@ -10,6 +10,7 @@ import { useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import { PageContainer } from "../page";
 import Transitions, { fetchTransitions } from "../transitions";
+import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
 import LoadingIndicator from "../loading-indicator";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
 import {
@@ -27,6 +28,7 @@ import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
+import { fetchAgencies, fetchRecordsAlerts } from "./action-creators";
 import {
   getFirstTab,
   getFormNav,
@@ -36,7 +38,6 @@ import {
   getSelectedForm
 } from "./selectors";
 import { compactValues } from "./utils";
-import { fetchRecordsAlerts } from "./action-creators";
 
 const Container = ({ match, mode }) => {
   let submitForm = null;
@@ -63,8 +64,6 @@ const Container = ({ match, mode }) => {
     recordType,
     primeroModule: record ? record.get("module_id") : params.module
   };
-
-  const [referral, setReferral] = useState({});
 
   const formNav = useSelector(state => getFormNav(state, selectedModule));
   const forms = useSelector(state => getRecordForms(state, selectedModule));
@@ -139,9 +138,7 @@ const Container = ({ match, mode }) => {
     forms,
     mode: containerMode,
     record,
-    recordType: params.recordType,
-    referral,
-    setReferral
+    recordType: params.recordType
   };
 
   const toolbarProps = {
@@ -152,9 +149,7 @@ const Container = ({ match, mode }) => {
     caseIdDisplay: record ? record.get("case_id_display") : null,
     shortId: record ? record.get("short_id") : null,
     primeroModule: selectedModule.primeroModule,
-    record,
-    referral,
-    setReferral
+    record
   };
 
   const navProps = {
@@ -182,7 +177,15 @@ const Container = ({ match, mode }) => {
 
   useEffect(() => {
     if (!containerMode.isNew) {
-      dispatch(fetchTransitions(params.recordType, params.id));
+      batch(() => {
+        dispatch(fetchTransitions(params.recordType, params.id));
+        dispatch(fetchAgencies());
+        dispatch(
+          fetchReferralUsers({
+            record_type: RECORD_TYPES[params.recordType]
+          })
+        );
+      });
     }
   }, [params.recordType, params.id]);
 

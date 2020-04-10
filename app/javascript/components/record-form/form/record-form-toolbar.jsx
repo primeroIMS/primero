@@ -21,17 +21,15 @@ import PageHeading from "./page-heading";
 import styles from "./styles.css";
 
 const RecordFormToolbar = ({
-  mode,
-  params,
-  recordType,
   handleFormSubmit,
-  shortId,
   caseIdDisplay,
   history,
+  mode,
+  params,
   primeroModule,
   record,
-  referral,
-  setReferral
+  recordType,
+  shortId
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -140,8 +138,6 @@ const RecordFormToolbar = ({
           recordType={params.recordType}
           record={record}
           mode={mode}
-          referral={referral}
-          setReferral={setReferral}
         />
       </Box>
     </Box>
@@ -159,8 +155,6 @@ RecordFormToolbar.propTypes = {
   primeroModule: PropTypes.string.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  referral: PropTypes.object,
-  setReferral: PropTypes.func.isRequired,
   shortId: PropTypes.string
 };
 

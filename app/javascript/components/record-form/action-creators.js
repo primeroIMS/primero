@@ -38,6 +38,11 @@ export const setSelectedRecord = payload => ({
   payload
 });
 
+export const setServiceToRefer = payload => ({
+  type: Actions.SET_SERVICE_TO_REFER,
+  payload
+});
+
 export const fetchRecordsAlerts = (recordType, recordId) => ({
   type: Actions.FETCH_RECORD_ALERTS,
   api: {
@@ -45,18 +50,16 @@ export const fetchRecordsAlerts = (recordType, recordId) => ({
   }
 });
 
-export const fetchForms = () => async dispatch => {
-  dispatch({
-    type: Actions.RECORD_FORMS,
-    api: {
-      path: "forms",
-      normalizeFunc: "normalizeFormData",
-      db: {
-        collection: DB_COLLECTIONS_NAMES.FORMS
-      }
+export const fetchForms = () => ({
+  type: Actions.RECORD_FORMS,
+  api: {
+    path: "forms",
+    normalizeFunc: "normalizeFormData",
+    db: {
+      collection: DB_COLLECTIONS_NAMES.FORMS
     }
-  });
-};
+  }
+});
 
 export const fetchOptions = () => async dispatch => {
   batch(() => {
@@ -64,3 +67,12 @@ export const fetchOptions = () => async dispatch => {
     dispatch(fetchLocations());
   });
 };
+
+export const fetchAgencies = params => ({
+  type: Actions.FETCH_AGENCIES,
+  api: {
+    path: "agencies",
+    method: "GET",
+    params
+  }
+});

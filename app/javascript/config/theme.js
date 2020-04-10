@@ -18,6 +18,7 @@ const colors = {
   purple: "#7c347b",
   warmGrey1: "#e0dfd7",
   warmGrey2: "#bcbcad",
+  warmGrey3: "#b9b8b3",
   midGrey: "#757472",
   grey: "#4a4a4a",
   contentGrey: "#fbfbfb",

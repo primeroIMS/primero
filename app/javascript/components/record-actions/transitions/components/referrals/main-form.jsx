@@ -1,16 +1,11 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { FormControlLabel } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 import { Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
 
-import {
-  getAgenciesWithService,
-  selectAgencies,
-  getReportingLocationConfig
-} from "../../../../application/selectors";
-import { getOption } from "../../../../record-form";
+import { getReportingLocationConfig } from "../../../../application/selectors";
 import { useI18n } from "../../../../i18n";
 import {
   RECORD_TYPES,
@@ -28,9 +23,17 @@ import {
 } from "../../selectors";
 import { fetchReferralUsers } from "../../action-creators";
 import { enqueueSnackbar } from "../../../../notifier";
-import { getReportingLocations } from "../../../../record-form/selectors";
+import {
+  fetchAgencies,
+  getEnabledAgencies,
+  getOption,
+  getOptionsAreLoading,
+  getReportingLocations,
+  getServiceToRefer
+} from "../../../../record-form";
 import { valuesToSearchableSelect } from "../../../../../libs";
 import { getLoading } from "../../../../index-table";
+import { getUserFilters } from "../utils";
 
 import ProvidedConsent from "./provided-consent";
 import FormInternal from "./form-internal";
@@ -56,9 +59,12 @@ const MainForm = ({ formProps, rest }) => {
     setDisabled,
     recordType
   } = rest;
-  const { handleSubmit, values } = formProps;
+
+  const { handleSubmit, setValues, values } = formProps;
   const { services, agency, location } = values;
   const disableControl = !providedConsent && !disabled;
+
+  const serviceToRefer = useSelector(state => getServiceToRefer(state));
 
   const serviceTypes = useSelector(state =>
     getOption(state, LOOKUPS.service_type, i18n)
@@ -73,25 +79,20 @@ const MainForm = ({ formProps, rest }) => {
     (rptLocations1, rptLocations2) => rptLocations1.equals(rptLocations2)
   );
 
+  const agenciesLoading = useSelector(state => getOptionsAreLoading(state));
+
   const NAMESPACE = ["transitions", "referral"];
 
   const loading = useSelector(state => getLoading(state, NAMESPACE));
 
-  const agencies = useSelector(state =>
-    services ? getAgenciesWithService(state, services) : selectAgencies(state)
-  );
+  const agencies = useSelector(state => getEnabledAgencies(state, services));
+
   const users = useSelector(state =>
     getUsersByTransitionType(state, transitionType)
   );
 
   const loadReferralUsers = () => {
-    const filters = Object.entries({
-      services,
-      agency,
-      location
-    }).reduce((acc, entry) => {
-      return entry[1] ? { ...acc, [entry[0]]: entry[1] } : acc;
-    }, {});
+    const filters = getUserFilters({ services, agency, location });
 
     dispatch(
       fetchReferralUsers({
@@ -101,15 +102,41 @@ const MainForm = ({ formProps, rest }) => {
     );
   };
 
+  const loadAgencies = () => {
+    dispatch(fetchAgencies());
+  };
+
+  useEffect(() => {
+    batch(() => {
+      dispatch(
+        fetchReferralUsers({
+          record_type: RECORD_TYPES[recordType],
+          ...getUserFilters({ services, agency, location })
+        })
+      );
+      dispatch(fetchAgencies());
+    });
+  }, []);
+
+  useEffect(() => {
+    const selectedUserName = serviceToRefer.get(
+      "service_implementing_agency_individual",
+      ""
+    );
+    const selectedUser = users.find(
+      user => user.get("user_name") === selectedUserName
+    );
+
+    if (selectedUser?.size) {
+      setValues({ ...values, [TRANSITIONED_TO_FIELD]: selectedUserName });
+    } else {
+      setValues({ ...values, [TRANSITIONED_TO_FIELD]: "" });
+    }
+  }, [users]);
+
   const hasErrors = useSelector(state =>
     getErrorsByTransitionType(state, transitionType)
   );
-
-  useEffect(() => {
-    if (rest.referral) {
-      loadReferralUsers();
-    }
-  }, [rest.referral]);
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -159,6 +186,8 @@ const MainForm = ({ formProps, rest }) => {
         NAME_FIELD,
         i18n.locale
       ),
+      onMenuOpen: loadAgencies,
+      isLoading: agenciesLoading,
       onChange: (data, field, form) => {
         const { value } = data;
         const dependentValues = [TRANSITIONED_TO_FIELD];
@@ -247,7 +276,7 @@ const MainForm = ({ formProps, rest }) => {
   return (
     <Form onSubmit={handleSubmit}>
       <ProvidedConsent {...providedConsentProps} />
-      {rest.referral && Object.keys(rest.referral) ? null : (
+      {serviceToRefer.size ? null : (
         <FormControlLabel
           control={
             <Field
@@ -259,20 +288,10 @@ const MainForm = ({ formProps, rest }) => {
           label={i18n.t("referral.is_remote_label")}
         />
       )}
-      <Field
-        name={SERVICE_RECORD_FIELD}
-        value={
-          rest.referral && rest.referral[SERVICE_RECORD_FIELD]
-            ? rest.referral[SERVICE_RECORD_FIELD]
-            : ""
-        }
-        type="hidden"
-      />
+      <Field name={SERVICE_RECORD_FIELD} type="hidden" />
       <FormInternal
         fields={fields}
-        disabled={
-          Boolean(rest.referral && Object.keys(rest.referral)) || disableControl
-        }
+        disabled={Boolean(serviceToRefer.size) || disableControl}
       />
     </Form>
   );

@@ -18,12 +18,14 @@ describe("<RecordForm /> - Action Creators", () => {
     const creators = clone(actionCreators);
 
     [
+      "fetchAgencies",
+      "fetchForms",
+      "fetchLookups",
+      "fetchOptions",
+      "fetchRecordsAlerts",
       "setSelectedForm",
       "setSelectedRecord",
-      "fetchForms",
-      "fetchOptions",
-      "fetchLookups",
-      "fetchRecordsAlerts"
+      "setServiceToRefer"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -58,15 +60,18 @@ describe("<RecordForm /> - Action Creators", () => {
   });
 
   it("should check the 'fetchForms' action creator to return the correct object", () => {
-    const store = configureStore([thunk])({});
+    const expected = {
+      type: actions.RECORD_FORMS,
+      api: {
+        path: "forms",
+        normalizeFunc: "normalizeFormData",
+        db: {
+          collection: "forms"
+        }
+      }
+    };
 
-    return store.dispatch(actionCreators.fetchForms()).then(() => {
-      const expectedActions = store.getActions();
-
-      expect(expectedActions[0].type).to.eql("forms/RECORD_FORMS");
-      expect(expectedActions[0].api.path).to.eql("forms");
-      expect(expectedActions[0].api.normalizeFunc).to.eql("normalizeFormData");
-    });
+    expect(actionCreators.fetchForms()).to.deep.equal(expected);
   });
 
   it("should check the 'fetchOptions' action creator to return the correct object", () => {
@@ -96,6 +101,36 @@ describe("<RecordForm /> - Action Creators", () => {
       },
       type: "forms/SET_OPTIONS"
     });
+  });
+
+  it("should check the 'setServiceToRefer' action creator return the correct object", () => {
+    const expected = {
+      type: actions.SET_SERVICE_TO_REFER,
+      payload: {
+        service_type: "service_1",
+        service_implementing_agency: "agency_1"
+      }
+    };
+
+    expect(
+      actionCreators.setServiceToRefer({
+        service_type: "service_1",
+        service_implementing_agency: "agency_1"
+      })
+    ).to.deep.equals(expected);
+  });
+
+  it("should check the 'fetchAgencies' action creator return the correct object", () => {
+    const expected = {
+      type: actions.FETCH_AGENCIES,
+      api: {
+        path: "agencies",
+        method: "GET",
+        params: undefined
+      }
+    };
+
+    expect(actionCreators.fetchAgencies()).to.deep.equals(expected);
   });
 
   it("should check the 'fetchRecordsAlerts' action creator to return the correct object", () => {
