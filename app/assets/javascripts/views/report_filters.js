@@ -8,7 +8,7 @@ _primero.Views.ReportFilters = Backbone.View.extend({
     "click .close, .open": "toggle_filter_panel",
     "click .clear_filters": "clear_filters",
     "click .submit_filters": "filter",
-    'change input[name=$"date_from_control"]': "populateTo",
+    'change input[name="date_from_control"]': "populateTo",
     "change .select_filter select": "set_select_filter",
     "change .date_filter .controls select, .date_filter .controls input":
       "set_date_filter"
