@@ -17,5 +17,6 @@ export const SERVICE_SECTION_FIELDS = {
   deliveryLocation: "service_delivery_location",
   implementingAgency: "service_implementing_agency",
   implementingAgencyIndividual: "service_implementing_agency_individual",
-  type: "service_type"
+  type: "service_type",
+  uniqueId: "unique_id"
 };

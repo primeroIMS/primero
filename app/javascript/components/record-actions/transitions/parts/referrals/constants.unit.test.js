@@ -35,6 +35,7 @@ describe("<Referral /> - Constants", () => {
       "deliveryLocation",
       "implementingAgency",
       "implementingAgencyIndividual",
+      "uniqueId",
       "type"
     ].forEach(property => {
       expect(constants).to.have.property(property);

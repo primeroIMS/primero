@@ -8,10 +8,7 @@ import { Formik } from "formik";
 import { fromJS } from "immutable";
 
 import { setServiceToRefer } from "../../../../record-form/action-creators";
-import {
-  getServiceToRefer,
-  getEnabledAgencies
-} from "../../../../record-form";
+import { getServiceToRefer, getEnabledAgencies } from "../../../../record-form";
 import { useI18n } from "../../../../i18n";
 import { saveReferral } from "../../action-creators";
 
@@ -24,6 +21,7 @@ import {
   REFERRAL_FIELD,
   REMOTE_SYSTEM_FIELD,
   SERVICE_FIELD,
+  SERVICE_RECORD_FIELD,
   SERVICE_SECTION_FIELDS,
   TRANSITIONED_TO_FIELD
 } from "./constants";
@@ -45,18 +43,23 @@ const ReferralForm = ({
   const services = serviceToRefer.get(SERVICE_SECTION_FIELDS.type, "");
   const agencies = useSelector(state => getEnabledAgencies(state, services));
 
-  const referralFromService = {
-    [SERVICE_FIELD]: serviceToRefer.get(SERVICE_SECTION_FIELDS.type),
-    [AGENCY_FIELD]: serviceToRefer.get(
-      SERVICE_SECTION_FIELDS.implementingAgency
-    ),
-    [LOCATION_FIELD]: serviceToRefer.get(
-      SERVICE_SECTION_FIELDS.deliveryLocation
-    ),
-    [TRANSITIONED_TO_FIELD]: serviceToRefer.get(
-      SERVICE_SECTION_FIELDS.implementingAgencyIndividual
-    )
-  };
+  const referralFromService = serviceToRefer?.size
+    ? {
+        [SERVICE_FIELD]: serviceToRefer.get(SERVICE_SECTION_FIELDS.type),
+        [AGENCY_FIELD]: serviceToRefer.get(
+          SERVICE_SECTION_FIELDS.implementingAgency
+        ),
+        [LOCATION_FIELD]: serviceToRefer.get(
+          SERVICE_SECTION_FIELDS.deliveryLocation
+        ),
+        [TRANSITIONED_TO_FIELD]: serviceToRefer.get(
+          SERVICE_SECTION_FIELDS.implementingAgencyIndividual
+        ),
+        [SERVICE_RECORD_FIELD]: serviceToRefer.get(
+          SERVICE_SECTION_FIELDS.uniqueId
+        )
+      }
+    : {};
 
   useEffect(() => {
     const selectedAgencyId = serviceToRefer.get(

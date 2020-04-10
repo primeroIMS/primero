@@ -116,14 +116,14 @@ describe("<Transition /> - helper", () => {
       const filters = { services: "test", agency: "agency1", location: "1234a" };
       const expected = { ...filters };
 
-      expect(helper.getUserFilters(filters)).to.be.deep.equal(expected);
+      expect(helper.getUserFilters(filters)).to.deep.equal(expected);
     });
 
     it("returns the filters with values", () => {
       const filters = { services: "test", agency: "", location: "1234a" };
       const expected = { services: "test", location: "1234a" };
 
-      expect(helper.getUserFilters(filters)).to.be.deep.equal(expected);
+      expect(helper.getUserFilters(filters)).to.deep.equal(expected);
     })
   });
 });

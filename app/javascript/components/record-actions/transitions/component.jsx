@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../i18n";

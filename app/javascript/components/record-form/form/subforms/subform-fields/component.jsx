@@ -6,11 +6,10 @@ import { Box, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 
-import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
-import Permission from "../../../../application/permission";
 import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
 import { SUBFORM_FIELDS } from "../constants";
+import { serviceHasReferFields } from "../../helpers";
 
 const Component = ({
   arrayHelpers,
@@ -90,17 +89,11 @@ const Component = ({
                   </IconButton>
                 ) : null}
                 {mode.isShow &&
-                // eslint-disable-next-line camelcase
-                values[index]?.service_is_referrable ? (
-                  <Permission
-                    resources={RESOURCES.cases}
-                    actions={REFER_FROM_SERVICE}
-                  >
-                    <SubformMenu
-                      index={index}
-                      values={values}
-                    />
-                  </Permission>
+                serviceHasReferFields(values[index]) ? (
+                  <SubformMenu
+                    index={index}
+                    values={values}
+                  />
                 ) : null}
                 <IconButton onClick={() => handleEdit(index)}>
                   <ArrowIcon />
