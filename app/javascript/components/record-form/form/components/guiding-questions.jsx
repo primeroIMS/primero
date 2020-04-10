@@ -41,6 +41,7 @@ const GuidingQuestions = ({ label, text }) => {
           horizontal: "left"
         }}
         className={css.root}
+        PaperProps={{ className: css.content }}
       >
         <Typography>{text}</Typography>
       </Popover>

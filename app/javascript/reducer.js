@@ -25,6 +25,7 @@ import { reducer as agenciesListReducer } from "./components/pages/admin/agencie
 import { reducer as agenciesFormReducer } from "./components/pages/admin/agencies-form";
 import { reducer as contactInformationReducer } from "./components/pages/admin/contact-information";
 import { reducer as rolesListReducer } from "./components/pages/admin/roles-list";
+import { reducer as rolesFormReducer } from "./components/pages/admin/roles-form";
 import { reducer as recordActionsTransitionsReducer } from "./components/record-actions/transitions";
 import { reducer as recordFormReducer } from "./components/record-form";
 import { reducer as recordsReducer } from "./components/records";
@@ -74,6 +75,7 @@ const rootReducer = {
       ...flaggingReducer,
       ...savedSearchesReducer,
       admin: combineReducers({
+        roles: reduceReducers(rolesListReducer, rolesFormReducer),
         lookups: reduceReducers(lookupsListReducer)
       })
     }),

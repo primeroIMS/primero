@@ -36,6 +36,7 @@ import {
   getSelectedForm
 } from "./selectors";
 import { compactValues } from "./utils";
+import { fetchRecordsAlerts } from "./action-creators";
 
 const Container = ({ match, mode }) => {
   let submitForm = null;
@@ -148,6 +149,7 @@ const Container = ({ match, mode }) => {
     params,
     recordType,
     handleFormSubmit,
+    caseIdDisplay: record ? record.get("case_id_display") : null,
     shortId: record ? record.get("short_id") : null,
     primeroModule: selectedModule.primeroModule,
     record,
@@ -156,17 +158,19 @@ const Container = ({ match, mode }) => {
   };
 
   const navProps = {
-    formNav,
-    selectedForm,
     firstTab,
+    formNav,
     handleToggleNav,
+    isNew: containerMode.isNew,
     mobileDisplay,
+    selectedForm,
     selectedRecord: record ? record.get("id") : null
   };
 
   useEffect(() => {
     if (params.id && (containerMode.isShow || containerMode.isEdit)) {
       dispatch(fetchRecord(params.recordType, params.id));
+      dispatch(fetchRecordsAlerts(params.recordType, params.id));
     }
   }, [
     containerMode.isEdit,

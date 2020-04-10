@@ -16,9 +16,17 @@ export const fetchSystemSettings = () => ({
   }
 });
 
+export const fetchSystemPermissions = () => ({
+  type: actions.FETCH_SYSTEM_PERMISSIONS,
+  api: {
+    path: "permissions"
+  }
+});
+
 export const loadApplicationResources = () => async dispatch => {
   batch(() => {
     dispatch(fetchSystemSettings());
+    dispatch(fetchSystemPermissions());
     dispatch(fetchForms());
     dispatch(fetchOptions());
   });

@@ -70,4 +70,26 @@ describe("<AgenciesForm /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("should handle SAVE_AGENCY_STARTED", () => {
+    const expected = fromJS({ saving: true });
+    const action = {
+      type: actions.SAVE_AGENCY_STARTED,
+      payload: true
+    };
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SAVE_AGENCY_FINISHED", () => {
+    const expected = fromJS({ saving: false });
+    const action = {
+      type: actions.SAVE_AGENCY_FINISHED,
+      payload: false
+    };
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });

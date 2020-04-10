@@ -50,6 +50,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("selectedForm", payload);
     case Actions.SET_SELECTED_RECORD:
       return state.set("selectedRecord", payload);
+    case Actions.FETCH_RECORD_ALERTS_SUCCESS:
+      return state.set("recordAlerts", fromJS(payload.data));
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
     default:

@@ -70,4 +70,26 @@ describe("<UserGroupsForm /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("should handle SAVE_USER_GROUP_STARTED", () => {
+    const expected = fromJS({ saving: true });
+    const action = {
+      type: actions.SAVE_USER_GROUP_STARTED,
+      payload: true
+    };
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SAVE_USER_GROUP_FINISHED", () => {
+    const expected = fromJS({ saving: false });
+    const action = {
+      type: actions.SAVE_USER_GROUP_FINISHED,
+      payload: false
+    };
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });
