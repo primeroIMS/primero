@@ -25,7 +25,7 @@ describe("Verifying config constant", () => {
       delete constants[property];
     });
 
-    expect(constants).to.deep.equal({});
+    expect(constants).to.be.empty;
   });
 
   it("should have known CUSTOM_STRINGS_SOURCE properties", () => {
@@ -36,6 +36,6 @@ describe("Verifying config constant", () => {
       delete constants[property];
     });
 
-    expect(constants).to.deep.equal({});
+    expect(constants).to.be.empty;
   });
 });

@@ -88,6 +88,6 @@ describe("<RecordForm />", () => {
   });
 
   afterEach(() => {
-    window.document.getElementsByClassName.restore();
+    window.document.getElementsByClassName?.restore();
   });
 });
