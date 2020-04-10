@@ -7,12 +7,12 @@ describe("<FormsList /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    actionCreators.forEach(property => {
+    ["fetchForms"].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty({});
+    expect(creators).to.be.empty;
   });
 
   it("should check the 'fetchForms' action creator to return the correct object", () => {

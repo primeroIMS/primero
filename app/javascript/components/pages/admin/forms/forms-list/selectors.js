@@ -1,5 +1,6 @@
 import { OrderedMap } from "immutable";
 
+// eslint-disable-next-line import/prefer-default-export
 export const getFormSections = (state, filter) => {
   const { primeroModule, recordType } = filter;
 

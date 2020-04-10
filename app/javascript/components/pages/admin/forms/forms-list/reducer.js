@@ -42,4 +42,4 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   }
 };
 
-export const reducers = { forms: reducer };
+export default { forms: reducer };

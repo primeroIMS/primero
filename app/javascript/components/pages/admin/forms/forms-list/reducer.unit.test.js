@@ -1,7 +1,6 @@
-import chai, { expect } from "chai";
 import { Map } from "immutable";
-import chaiImmutable from "chai-immutable";
 
+import { expect } from "../../../../../test/unit-test-helpers";
 import { mapEntriesToRecord } from "../../../../../libs";
 import { normalizeFormData } from "../../../../../schemas";
 import {
@@ -10,9 +9,7 @@ import {
 } from "../../../../record-form/records";
 
 import actions from "./actions";
-import { reducers } from "./reducers";
-
-chai.use(chaiImmutable);
+import reducer from "./reducer";
 
 describe("<FormsList /> - Reducers", () => {
   const initialState = Map({
@@ -57,7 +54,7 @@ describe("<FormsList /> - Reducers", () => {
       }
     };
 
-    const newState = reducers.forms(initialState, action);
+    const newState = reducer.forms(initialState, action);
 
     expect(newState).to.deep.equal(expectedState);
   });
@@ -74,7 +71,7 @@ describe("<FormsList /> - Reducers", () => {
       type: actions.RECORD_FORMS_STARTED
     };
 
-    const newState = reducers.forms(initialState, action);
+    const newState = reducer.forms(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -90,7 +87,7 @@ describe("<FormsList /> - Reducers", () => {
       type: actions.RECORD_FORMS_FINISHED
     };
 
-    const newState = reducers.forms(initialState, action);
+    const newState = reducer.forms(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
