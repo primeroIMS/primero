@@ -13,16 +13,15 @@ import { NAV_ITEM } from "./constants";
 
 const NavItem = ({
   form,
-  isNested,
-  open,
-  handleClick,
-  selectedForm,
   groupItem,
-  name,
-  recordAlerts,
+  handleClick,
+  isNested,
+  isNew,
   itemsOfGroup,
-  currentUser,
-  recordOwner
+  name,
+  open,
+  recordAlerts,
+  selectedForm
 }) => {
   const css = makeStyles(styles)();
 
@@ -40,20 +39,14 @@ const NavItem = ({
       alert => !isEmpty(alert)
     );
 
-  let showJewel = false;
+  const validateAlert = item =>
+    !isEmpty(formsWithAlerts) && formsWithAlerts?.includes(item);
 
-  if (currentUser !== recordOwner) {
-    if (isNested) {
-      showJewel = itemsOfGroup?.some(
-        alert => !isEmpty(formsWithAlerts) && formsWithAlerts?.includes(alert)
-      );
-    } else {
-      showJewel =
-        !isEmpty(formsWithAlerts) && formsWithAlerts?.includes(formId);
-    }
-  }
+  const showJewel = isNested
+    ? itemsOfGroup?.some(alert => validateAlert(alert))
+    : validateAlert(formId);
 
-  const formText = showJewel ? <Jewel value={name} isForm /> : name;
+  const formText = !isNew && showJewel ? <Jewel value={name} isForm /> : name;
 
   return (
     <ListItem
@@ -77,16 +70,15 @@ const NavItem = ({
 NavItem.displayName = NAV_ITEM;
 
 NavItem.propTypes = {
-  currentUser: PropTypes.string,
   form: PropTypes.object,
   groupItem: PropTypes.bool,
   handleClick: PropTypes.func,
   isNested: PropTypes.bool,
+  isNew: PropTypes.bool,
   itemsOfGroup: PropTypes.array,
   name: PropTypes.string,
   open: PropTypes.bool,
   recordAlerts: PropTypes.object,
-  recordOwner: PropTypes.string,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 

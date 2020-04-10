@@ -1,5 +1,9 @@
 import { RECORD_PATH } from "../../../../config";
-import { ENQUEUE_SNACKBAR, generate, SNACKBAR_VARIANTS } from "../../../notifier";
+import {
+  ENQUEUE_SNACKBAR,
+  generate,
+  SNACKBAR_VARIANTS
+} from "../../../notifier";
 
 import actions from "./actions";
 

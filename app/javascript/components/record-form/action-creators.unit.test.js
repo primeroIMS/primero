@@ -60,15 +60,18 @@ describe("<RecordForm /> - Action Creators", () => {
   });
 
   it("should check the 'fetchForms' action creator to return the correct object", () => {
-    const store = configureStore([thunk])({});
+    const expected = {
+      type: actions.RECORD_FORMS,
+      api: {
+        path: "forms",
+        normalizeFunc: "normalizeFormData",
+        db: {
+          collection: "forms"
+        }
+      }
+    };
 
-    return store.dispatch(actionCreators.fetchForms()).then(() => {
-      const expectedActions = store.getActions();
-
-      expect(expectedActions[0].type).to.eql("forms/RECORD_FORMS");
-      expect(expectedActions[0].api.path).to.eql("forms");
-      expect(expectedActions[0].api.normalizeFunc).to.eql("normalizeFormData");
-    });
+    expect(actionCreators.fetchForms()).to.deep.equal(expected);
   });
 
   it("should check the 'fetchOptions' action creator to return the correct object", () => {
@@ -101,8 +104,6 @@ describe("<RecordForm /> - Action Creators", () => {
   });
 
   it("should check the 'setServiceToRefer' action creator return the correct object", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
     const expected = {
       type: actions.SET_SERVICE_TO_REFER,
       payload: {
@@ -120,10 +121,8 @@ describe("<RecordForm /> - Action Creators", () => {
   });
 
   it("should check the 'fetchAgencies' action creator return the correct object", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
     const expected = {
-      type: "forms/FETCH_AGENCIES",
+      type: actions.FETCH_AGENCIES,
       api: {
         path: "agencies",
         method: "GET",
@@ -131,7 +130,7 @@ describe("<RecordForm /> - Action Creators", () => {
       }
     };
 
-    expect(dispatch(actionCreators.fetchAgencies())).to.deep.equals(expected);
+    expect(actionCreators.fetchAgencies()).to.deep.equals(expected);
   });
 
   it("should check the 'fetchRecordsAlerts' action creator to return the correct object", () => {

@@ -42,12 +42,9 @@ describe("<IndexFilters />/<Actions />", () => {
   it("renders 'Apply' button", () => {
     const { component } = setupMockFormComponent(Actions, props, {}, state);
 
-    expect(
-      component
-        .find("button")
-        .at(0)
-        .text()
-    ).to.be.equal("filters.apply_filters");
+    expect(component.find("button").at(0).text()).to.be.equal(
+      "filters.apply_filters"
+    );
   });
 
   describe("when handleSave is not part of the props", () => {
@@ -73,12 +70,9 @@ describe("<IndexFilters />/<Actions />", () => {
         state
       );
 
-      expect(
-        component
-          .find("button")
-          .at(0)
-          .text()
-      ).to.be.equal("filters.apply_filters");
+      expect(component.find("button").at(0).text()).to.be.equal(
+        "filters.apply_filters"
+      );
     });
     it("should render 'Clear' button", () => {
       const { component } = setupMockFormComponent(
@@ -88,12 +82,9 @@ describe("<IndexFilters />/<Actions />", () => {
         state
       );
 
-      expect(
-        component
-          .find("button")
-          .at(1)
-          .text()
-      ).to.be.equal("filters.clear_filters");
+      expect(component.find("button").at(1).text()).to.be.equal(
+        "filters.clear_filters"
+      );
     });
     it("should not render 'Save' button", () => {
       const { component } = setupMockFormComponent(
@@ -103,12 +94,9 @@ describe("<IndexFilters />/<Actions />", () => {
         state
       );
 
-      expect(
-        component
-          .find("button")
-          .at(0)
-          .text()
-      ).to.not.be.equal("filters.save_filters");
+      expect(component.find("button").at(0).text()).to.not.be.equal(
+        "filters.save_filters"
+      );
     });
   });
 });
