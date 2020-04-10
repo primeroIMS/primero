@@ -17,7 +17,7 @@ import { fromJS } from "immutable";
 import capitalize from "lodash/capitalize";
 
 import { ApplicationProvider } from "../../components/application/provider";
-import { I18nProvider } from "../../components/i18n";
+import I18nProvider from "../../components/i18n";
 import { theme } from "../../config";
 import { whichFormMode } from "../../components/form";
 

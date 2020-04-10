@@ -8,12 +8,14 @@ describe("<RecordForm /> - index", () => {
     [
       "constructInitialValues",
       "default",
-      "FieldRecord",
-      "FormSectionField",
+      "fetchAgencies",
       "fetchForms",
       "fetchLookups",
       "fetchOptions",
+      "FieldRecord",
+      "FormSectionField",
       "getAssignableForms",
+      "getEnabledAgencies",
       "getErrors",
       "getFirstTab",
       "getFormNav",
@@ -21,10 +23,13 @@ describe("<RecordForm /> - index", () => {
       "getLocations",
       "getLookups",
       "getOption",
+      "getOptionsAreLoading",
       "getRecordForms",
       "getRecordFormsByUniqueId",
+      "getReportingLocations",
       "getSelectedForm",
-      "reducers",
+      "reducer",
+      "getServiceToRefer",
       "setSelectedForm"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);

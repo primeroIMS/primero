@@ -8,8 +8,7 @@ import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox } from "../../../../dashboard";
 import { INDICATOR_NAMES, DASHBOARD_TYPES } from "../../constants";
 import { useI18n } from "../../../../i18n";
-import { permittedSharedWithMe } from "../../helpers";
-import dashboardType from "../../utils";
+import { permittedSharedWithMe, dashboardType } from "../../utils";
 import {
   getCasesByAssessmentLevel,
   getSharedWithMe,

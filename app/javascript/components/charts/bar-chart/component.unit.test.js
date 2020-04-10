@@ -1,6 +1,6 @@
 import { Map } from "immutable";
 
-import { buildDataForGraph } from "../../pages/report/helpers";
+import { buildDataForGraph } from "../../pages/report/utils";
 import { setupMountedThemeComponent } from "../../../test";
 
 import BarChart from "./component";

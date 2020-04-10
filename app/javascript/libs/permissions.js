@@ -80,6 +80,7 @@ export const RESOURCES = {
   lookups: "lookups",
   contact_information: "contact_information",
   roles: "roles",
+  forms: "forms",
   systems: "systems",
   metadata: "metadata"
 };

@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import reducers from "./reducer";
+import reducer from "./reducer";
 import {
   TASKS_SUCCESS,
   TASKS_STARTED,
@@ -18,7 +18,7 @@ describe("<TaskList /> - Reducer", () => {
       payload: true
     };
 
-    const newState = reducers.tasks(defaultState, action);
+    const newState = reducer.tasks(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -72,7 +72,7 @@ describe("<TaskList /> - Reducer", () => {
       }
     };
 
-    const newState = reducers.tasks(defaultState, action);
+    const newState = reducer.tasks(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -86,7 +86,7 @@ describe("<TaskList /> - Reducer", () => {
       payload: false
     };
 
-    const newState = reducers.tasks(defaultState, action);
+    const newState = reducer.tasks(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -100,7 +100,7 @@ describe("<TaskList /> - Reducer", () => {
       payload: false
     };
 
-    const newState = reducers.tasks(defaultState, action);
+    const newState = reducer.tasks(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });

@@ -1,11 +1,11 @@
 import { fromJS } from "immutable";
 
-import reducers from "./reducer";
+import reducer from "./reducer";
 import * as actions from "./actions";
 
 describe("<Nav /> - Reducers", () => {
   it("should handle FETCH_ALERTS", () => {
-    const reducer = reducers.Nav; // FIXME: Should use NAMESPACE
+    const nsReducer = reducer.Nav; // FIXME: Should use NAMESPACE
     const initialState = fromJS({});
     const data = {
       case: 2,
@@ -22,7 +22,7 @@ describe("<Nav /> - Reducers", () => {
       }
     };
 
-    const newState = reducer(initialState, action);
+    const newState = nsReducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });

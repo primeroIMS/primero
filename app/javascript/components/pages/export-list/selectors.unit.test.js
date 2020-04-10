@@ -30,7 +30,7 @@ const state = fromJS({
   }
 });
 
-describe("<ExportList /> - pages/export-list/reducers", () => {
+describe("<ExportList /> - pages/export-list/reducer", () => {
   describe("selectListHeaders", () => {
     it("should return list of bulk export headers", () => {
       const records = selectors.selectListHeaders(state, NAMESPACE);

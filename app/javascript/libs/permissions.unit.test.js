@@ -113,6 +113,7 @@ describe("Verifying config constant", () => {
       "lookups",
       "contact_information",
       "roles",
+      "forms",
       "systems",
       "metadata"
     ].forEach(property => {

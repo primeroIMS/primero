@@ -1,7 +1,7 @@
 import React, { useEffect, memo, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
-import { useSelector, useDispatch } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
 import clsx from "clsx";
@@ -9,7 +9,8 @@ import clsx from "clsx";
 import { useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import { PageContainer } from "../page";
-import { Transitions, fetchTransitions } from "../transitions";
+import Transitions, { fetchTransitions } from "../transitions";
+import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
 import LoadingIndicator from "../loading-indicator";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
 import {
@@ -22,12 +23,12 @@ import {
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
 import { getLoadingRecordState } from "../records/selectors";
-import { currentUser } from "../user";
 
 import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
+import { fetchAgencies, fetchRecordsAlerts } from "./action-creators";
 import {
   getFirstTab,
   getFormNav,
@@ -36,8 +37,7 @@ import {
   getErrors,
   getSelectedForm
 } from "./selectors";
-import { fetchRecordsAlerts } from "./action-creators";
-import { compactValues } from "./helpers";
+import { compactValues } from "./utils";
 
 const Container = ({ match, mode }) => {
   let submitForm = null;
@@ -65,8 +65,6 @@ const Container = ({ match, mode }) => {
     primeroModule: record ? record.get("module_id") : params.module
   };
 
-  const [referral, setReferral] = useState({});
-
   const formNav = useSelector(state => getFormNav(state, selectedModule));
   const forms = useSelector(state => getRecordForms(state, selectedModule));
   const firstTab = useSelector(state => getFirstTab(state, selectedModule));
@@ -76,7 +74,6 @@ const Container = ({ match, mode }) => {
   );
   const errors = useSelector(state => getErrors(state));
   const selectedForm = useSelector(state => getSelectedForm(state));
-  const userName = useSelector(state => currentUser(state));
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -141,9 +138,7 @@ const Container = ({ match, mode }) => {
     forms,
     mode: containerMode,
     record,
-    recordType: params.recordType,
-    referral,
-    setReferral
+    recordType: params.recordType
   };
 
   const toolbarProps = {
@@ -151,22 +146,20 @@ const Container = ({ match, mode }) => {
     params,
     recordType,
     handleFormSubmit,
+    caseIdDisplay: record ? record.get("case_id_display") : null,
     shortId: record ? record.get("short_id") : null,
     primeroModule: selectedModule.primeroModule,
-    record,
-    referral,
-    setReferral
+    record
   };
 
   const navProps = {
-    formNav,
-    selectedForm,
     firstTab,
+    formNav,
     handleToggleNav,
+    isNew: containerMode.isNew,
     mobileDisplay,
-    selectedRecord: record ? record.get("id") : null,
-    selectedRecordOwner: record ? record.get("owned_by") : null,
-    currentUser: userName
+    selectedForm,
+    selectedRecord: record ? record.get("id") : null
   };
 
   useEffect(() => {
@@ -184,7 +177,15 @@ const Container = ({ match, mode }) => {
 
   useEffect(() => {
     if (!containerMode.isNew) {
-      dispatch(fetchTransitions(params.recordType, params.id));
+      batch(() => {
+        dispatch(fetchTransitions(params.recordType, params.id));
+        dispatch(fetchAgencies());
+        dispatch(
+          fetchReferralUsers({
+            record_type: RECORD_TYPES[params.recordType]
+          })
+        );
+      });
     }
   }, [params.recordType, params.id]);
 

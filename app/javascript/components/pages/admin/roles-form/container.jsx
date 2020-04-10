@@ -8,7 +8,6 @@ import { useI18n } from "../../../i18n";
 import Form, { whichFormMode, PARENT_FORM } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
-import NAMESPACE from "../namespace";
 import { ROUTES } from "../../../../config";
 import {
   getSystemPermissions,
@@ -23,6 +22,7 @@ import { getAssignableForms } from "../../../record-form";
 import { compare } from "../../../../libs";
 import ActionDialog from "../../../action-dialog";
 
+import NAMESPACE from "./namespace";
 import { Validations, ActionButtons } from "./forms";
 import {
   getFormsToRender,
@@ -109,9 +109,7 @@ const Container = ({ mode }) => {
     };
   }, [id]);
 
-  const pageHeading = role?.size
-    ? `${i18n.t("roles.label")} ${role.get("name")}`
-    : i18n.t("roles.label");
+  const pageHeading = `${i18n.t("role.label")} ${role && role.get("name", "")}`;
 
   const formsToRender = getFormsToRender({
     primeroModules,

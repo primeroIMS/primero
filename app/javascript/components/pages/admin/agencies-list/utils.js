@@ -4,6 +4,7 @@ import { FILTER_TYPES } from "../../../index-filters";
 
 import { DISABLED } from "./constants";
 
+// eslint-disable-next-line import/prefer-default-export
 export const getFilters = i18n => [
   {
     name: "cases.filter_by.enabled_disabled",

@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import reducers from "./reducer";
+import reducer from "./reducer";
 import { ContactInformationRecord } from "./records";
 
 describe("<RecordList /> - Reducers", () => {
@@ -32,7 +32,7 @@ describe("<RecordList /> - Reducers", () => {
         }
       }
     };
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState.get("data")).to.deep.equal(
       ContactInformationRecord(expected)
@@ -44,7 +44,7 @@ describe("<RecordList /> - Reducers", () => {
       type: "support/FETCH_DATA_STARTED",
       payload: true
     };
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState.get("loading")).to.deep.equal(true);
     expect(newState.get("errors")).to.deep.equal(false);
@@ -55,7 +55,7 @@ describe("<RecordList /> - Reducers", () => {
       type: "support/FETCH_DATA_FINISHED",
       payload: false
     };
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState.get("loading")).to.deep.equal(false);
   });
@@ -65,7 +65,7 @@ describe("<RecordList /> - Reducers", () => {
       type: "support/FETCH_DATA_FAILURE",
       payload: false
     };
-    const newState = reducers(fromJS({}), action);
+    const newState = reducer(fromJS({}), action);
 
     expect(newState.get("errors")).to.deep.equal(true);
   });

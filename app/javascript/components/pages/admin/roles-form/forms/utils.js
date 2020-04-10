@@ -1,5 +1,4 @@
-/* eslint-disable import/prefer-default-export */
-
+// eslint-disable-next-line import/prefer-default-export
 export const buildPermissionOptions = (elements, i18n) =>
   (elements || []).map(element => ({
     id: element,

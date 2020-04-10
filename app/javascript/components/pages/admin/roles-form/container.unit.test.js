@@ -52,7 +52,7 @@ describe("<RolesForm />", () => {
     });
 
     it("renders heading with action buttons", () => {
-      expect(component.find("header h1").contains("roles.label")).to.be.true;
+      expect(component.find("header h1").contains("role.label ")).to.be.true;
       expect(component.find("header button").at(0).contains("buttons.cancel"))
         .to.be.true;
       expect(component.find("header button").at(1).contains("buttons.save")).to

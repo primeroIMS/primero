@@ -3,7 +3,7 @@ import * as records from "./records";
 describe("Approvals - records", () => {
   const recordsValues = { ...records };
 
-  ["default"].forEach(property => {
+  ["ApprovalsRecord"].forEach(property => {
     expect(recordsValues).to.have.property(property);
     expect(recordsValues[property]).to.be.a("function");
 
