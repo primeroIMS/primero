@@ -10,10 +10,11 @@ describe("<Transition /> - helper", () => {
     const cloneActions = { ...helper };
 
     [
-      "internalFieldsDirty",
+      "generatePath",
       "getInternalFields",
+      "getUserFilters",
       "hasProvidedConsent",
-      "generatePath"
+      "internalFieldsDirty"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("function");
@@ -108,5 +109,21 @@ describe("<Transition /> - helper", () => {
         ).to.deep.equal(expected);
       });
     });
+  });
+
+  describe("getUserFilters", () => {
+    it("returns all filters if all have values", () => {
+      const filters = { services: "test", agency: "agency1", location: "1234a" };
+      const expected = { ...filters };
+
+      expect(helper.getUserFilters(filters)).to.be.deep.equal(expected);
+    });
+
+    it("returns the filters with values", () => {
+      const filters = { services: "test", agency: "", location: "1234a" };
+      const expected = { services: "test", location: "1234a" };
+
+      expect(helper.getUserFilters(filters)).to.be.deep.equal(expected);
+    })
   });
 });

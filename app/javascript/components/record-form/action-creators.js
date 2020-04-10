@@ -38,6 +38,11 @@ export const setSelectedRecord = payload => ({
   payload
 });
 
+export const setServiceToRefer = payload => ({
+  type: Actions.SET_SERVICE_TO_REFER,
+  payload
+});
+
 export const fetchRecordsAlerts = (recordType, recordId) => ({
   type: Actions.FETCH_RECORD_ALERTS,
   api: {
@@ -64,3 +69,12 @@ export const fetchOptions = () => async dispatch => {
     dispatch(fetchLocations());
   });
 };
+
+export const fetchAgencies = params => ({
+  type: Actions.FETCH_AGENCIES,
+  api: {
+    path: "agencies",
+    method: "GET",
+    params
+  }
+});

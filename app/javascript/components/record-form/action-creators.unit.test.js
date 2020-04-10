@@ -18,12 +18,14 @@ describe("<RecordForm /> - Action Creators", () => {
     const creators = clone(actionCreators);
 
     [
+      "fetchAgencies",
+      "fetchForms",
+      "fetchLookups",
+      "fetchOptions",
+      "fetchRecordsAlerts",
       "setSelectedForm",
       "setSelectedRecord",
-      "fetchForms",
-      "fetchOptions",
-      "fetchLookups",
-      "fetchRecordsAlerts"
+      "setServiceToRefer"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -96,6 +98,36 @@ describe("<RecordForm /> - Action Creators", () => {
       },
       type: "forms/SET_OPTIONS"
     });
+  });
+
+  it("should check the 'setServiceToRefer' action creator return the correct object", () => {
+    const expected = {
+      type: actions.SET_SERVICE_TO_REFER,
+      payload: {
+        service_type: "service_1",
+        service_implementing_agency: "agency_1"
+      }
+    };
+
+    expect(
+      actionCreators.setServiceToRefer({
+        service_type: "service_1",
+        service_implementing_agency: "agency_1"
+      })
+    ).to.deep.equals(expected);
+  });
+
+  it("should check the 'fetchAgencies' action creator return the correct object", () => {
+    const expected = {
+      type: actions.FETCH_AGENCIES,
+      api: {
+        path: "agencies",
+        method: "GET",
+        params: undefined
+      }
+    };
+
+    expect(actionCreators.fetchAgencies()).to.deep.equals(expected);
   });
 
   it("should check the 'fetchRecordsAlerts' action creator to return the correct object", () => {

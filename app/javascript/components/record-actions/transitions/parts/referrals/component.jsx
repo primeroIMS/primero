@@ -1,24 +1,31 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { object, string } from "yup";
 import { Formik } from "formik";
+import { fromJS } from "immutable";
 
+import { setServiceToRefer } from "../../../../record-form/action-creators";
+import {
+  getServiceToRefer,
+  getEnabledAgencies
+} from "../../../../record-form";
 import { useI18n } from "../../../../i18n";
 import { saveReferral } from "../../action-creators";
 
 import MainForm from "./main-form";
 import {
+  AGENCY_FIELD,
+  LOCATION_FIELD,
+  NAME,
+  NOTES_FIELD,
   REFERRAL_FIELD,
   REMOTE_SYSTEM_FIELD,
   SERVICE_FIELD,
-  AGENCY_FIELD,
-  LOCATION_FIELD,
-  TRANSITIONED_TO_FIELD,
-  NOTES_FIELD,
-  NAME
+  SERVICE_SECTION_FIELDS,
+  TRANSITIONED_TO_FIELD
 } from "./constants";
 
 const ReferralForm = ({
@@ -34,6 +41,42 @@ const ReferralForm = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const serviceToRefer = useSelector(state => getServiceToRefer(state));
+  const services = serviceToRefer.get(SERVICE_SECTION_FIELDS.type, "");
+  const agencies = useSelector(state => getEnabledAgencies(state, services));
+
+  const referralFromService = {
+    [SERVICE_FIELD]: serviceToRefer.get(SERVICE_SECTION_FIELDS.type),
+    [AGENCY_FIELD]: serviceToRefer.get(
+      SERVICE_SECTION_FIELDS.implementingAgency
+    ),
+    [LOCATION_FIELD]: serviceToRefer.get(
+      SERVICE_SECTION_FIELDS.deliveryLocation
+    ),
+    [TRANSITIONED_TO_FIELD]: serviceToRefer.get(
+      SERVICE_SECTION_FIELDS.implementingAgencyIndividual
+    )
+  };
+
+  useEffect(() => {
+    const selectedAgencyId = serviceToRefer.get(
+      SERVICE_SECTION_FIELDS.implementingAgency,
+      ""
+    );
+    const selectedAgency = agencies.find(
+      current => current.get("unique_id") === selectedAgencyId
+    );
+
+    if (selectedAgency?.size) {
+      referralFromService[AGENCY_FIELD] = selectedAgencyId;
+    } else {
+      referralFromService[AGENCY_FIELD] = "";
+    }
+  }, [agencies]);
+
+  useEffect(() => {
+    return () => dispatch(setServiceToRefer(fromJS({})));
+  }, []);
 
   const canConsentOverride =
     userPermissions &&
@@ -65,7 +108,7 @@ const ReferralForm = ({
       [LOCATION_FIELD]: "",
       [TRANSITIONED_TO_FIELD]: "",
       [NOTES_FIELD]: "",
-      ...referral
+      ...referralFromService
     },
     ref: referralRef,
     onSubmit: (values, { setSubmitting }) => {

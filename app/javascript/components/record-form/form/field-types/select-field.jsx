@@ -15,33 +15,34 @@ import { Field, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
 import { useDispatch, useSelector } from "react-redux";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import find from "lodash/find";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
 import {
+  getEnabledAgencies,
   getLocations,
   getOption,
+  getOptionsAreLoading,
   getReportingLocations
 } from "../../selectors";
+import { fetchAgencies } from "../../action-creators";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import { getUsersByTransitionType } from "../../../record-actions/transitions/selectors";
 import { valuesToSearchableSelect } from "../../../../libs";
-import {
-  selectAgencies,
-  getAgenciesWithService,
-  getReportingLocationConfig
-} from "../../../application/selectors";
+import { getReportingLocationConfig } from "../../../application/selectors";
 import SearchableSelect from "../../../searchable-select";
-import { CODE_FIELD, NAME_FIELD, UNIQUE_ID_FIELD } from "../../../../config";
-import { SELECT_FIELD_NAME } from "../constants";
+import { SELECT_FIELD_NAME, CUSTOM_STRINGS_SOURCE } from "../constants";
 import styles from "../styles.css";
 import { getLoading } from "../../../index-table";
 import {
-  appendDisabledAgency,
-  appendDisabledUser,
-  getConnectedFields
+  buildCustomLookupsConfig,
+  findOptionDisplayText,
+  handleChangeOnServiceUser,
+  translatedText
 } from "../helpers";
+import { getUserFilters } from "../../../record-actions/transitions/parts/helpers";
+import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/parts/referrals"
+import { REFERRAL_TYPE } from "../../../record-actions/transitions"
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -85,8 +86,7 @@ const SelectField = ({
   const { filterState, setFilterState } = other?.filters || {};
 
   const agencies = useSelector(
-    state =>
-      service ? getAgenciesWithService(state, service) : selectAgencies(state),
+    state => getEnabledAgencies(state, service),
     (agencies1, agencies2) => agencies1.equals(agencies2)
   );
 
@@ -105,22 +105,17 @@ const SelectField = ({
   );
 
   const referralUsers = useSelector(
-    state => getUsersByTransitionType(state, "referral"),
+    state => getUsersByTransitionType(state, REFERRAL_TYPE),
     (users1, users2) => users1.equals(users2)
   );
 
-  const NAMESPACE = ["transitions", "referral"];
+  const NAMESPACE = ["transitions", REFERRAL_TYPE];
 
   const loading = useSelector(state => getLoading(state, NAMESPACE));
+  const agenciesLoading = useSelector(state => getOptionsAreLoading(state));
 
   const reloadReferralUsers = () => {
-    const filters = Object.entries({
-      services: service,
-      agency,
-      location
-    }).reduce((acc, entry) => {
-      return entry[1] ? { ...acc, [entry[0]]: entry[1] } : acc;
-    }, {});
+    const filters = getUserFilters({ services: service, agency, location });
 
     dispatch(
       fetchReferralUsers({
@@ -130,13 +125,17 @@ const SelectField = ({
     );
   };
 
+  const reloadAgencies = () => {
+    dispatch(fetchAgencies());
+  };
+
   useEffect(() => {
     if (
       filterState?.filtersChanged &&
       !filterState?.userIsSelected &&
       [
-        "service_implementing_agency_individual",
-        "service_implementing_agency"
+        SERVICE_SECTION_FIELDS.implementingAgencyIndividual,
+        SERVICE_SECTION_FIELDS.implementingAgency
       ].find(fieldName => name.endsWith(fieldName))
     ) {
       formik.setFieldValue(name, "", false);
@@ -147,36 +146,18 @@ const SelectField = ({
     if (
       filterState?.filtersChanged &&
       !filterState?.userIsSelected &&
-      name.endsWith("service_implementing_agency_individual")
+      name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
     ) {
       formik.setFieldValue(name, "", false);
     }
   }, [location]);
 
-  const translatedText = displayText => {
-    return typeof displayText === "string"
-      ? displayText
-      : displayText[i18n.locale];
-  };
-
-  const specialLookups = ["User", "Location", "Agency", "ReportingLocation"];
-
-  const findOptionDisplayText = v => {
-    const foundOptions = find(options, { id: v }) || {};
-    let optionValue = [];
-
-    if (Object.keys(foundOptions).length && !specialLookups.includes(option)) {
-      optionValue = translatedText(foundOptions.display_text);
-    } else if (option === "Agency") {
-      optionValue = value
-        ? agencies.find(a => a.get("id") === value)?.get("name")
-        : value;
-    } else {
-      optionValue = "";
-    }
-
-    return optionValue;
-  };
+  const customLookups = [
+    CUSTOM_STRINGS_SOURCE.agency,
+    CUSTOM_STRINGS_SOURCE.location,
+    CUSTOM_STRINGS_SOURCE.reportingLocation,
+    CUSTOM_STRINGS_SOURCE.user
+  ];
 
   const fieldProps = {
     component: Select,
@@ -198,10 +179,21 @@ const SelectField = ({
         return i18n.t("string_sources_failed");
       }
 
+      const displayOptions = {
+        agencies,
+        customLookups,
+        options,
+        option,
+        value,
+        i18n
+      };
+
       return field.multi_select
-        ? selected.map(s => findOptionDisplayText(s)).join(", ") ||
-            i18n.t("fields.select_multiple")
-        : findOptionDisplayText(selected) || i18n.t("fields.select_single");
+        ? selected
+            .map(s => findOptionDisplayText({ ...displayOptions, value: s }))
+            .join(", ") || i18n.t("fields.select_multiple")
+        : findOptionDisplayText({ ...displayOptions }) ||
+            i18n.t("fields.select_single");
     },
     MenuProps,
     multiple: field.multi_select,
@@ -225,90 +217,68 @@ const SelectField = ({
       formik.setFieldValue(name, selectedValue, false);
     }
 
-    if (name.endsWith("service_implementing_agency_individual")) {
+    if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {
       reloadReferralUsers();
+    }
+
+    if (option === CUSTOM_STRINGS_SOURCE.agency) {
+      reloadAgencies();
     }
   }, []);
 
-  const specialLookupsConfig = {
-    Location: {
-      options: locations,
-      fieldValue: CODE_FIELD,
-      fieldLabel: NAME_FIELD
-    },
-    Agency: {
-      options: !filterState?.filtersChanged
-        ? appendDisabledAgency(agencies, value)
-        : agencies,
-      fieldValue: UNIQUE_ID_FIELD,
-      fieldLabel: NAME_FIELD
-    },
-    ReportingLocation: {
-      options: reportingLocations,
-      fieldValue: CODE_FIELD,
-      fieldLabel: NAME_FIELD
-    },
-    User: {
-      options: !filterState?.filtersChanged
-        ? appendDisabledUser(referralUsers, value)
-        : referralUsers,
-      fieldValue: "user_name",
-      fieldLabel: "user_name"
+  const customLookupsConfig = buildCustomLookupsConfig({
+    locations,
+    reportingLocations,
+    agencies,
+    referralUsers,
+    filterState,
+    value,
+    name
+  });
+
+  const selectIsLoading = fieldName => {
+    if (
+      fieldName.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
+    ) {
+      return loading;
     }
+    if (fieldName.endsWith(SERVICE_SECTION_FIELDS.implementingAgency)) {
+      return agenciesLoading;
+    }
+
+    return false;
   };
 
   if (!isEmpty(formik.values)) {
-    if (specialLookups.includes(option)) {
+    if (customLookups.includes(option)) {
       const values = valuesToSearchableSelect(
-        specialLookupsConfig[option].options,
-        specialLookupsConfig[option].fieldValue,
-        specialLookupsConfig[option].fieldLabel,
+        customLookupsConfig[option].options,
+        customLookupsConfig[option].fieldValue,
+        customLookupsConfig[option].fieldLabel,
         i18n.locale
       );
       const handleChange = (data, form) => {
         form.setFieldValue(name, data ? data.value : "", false);
         if (
           [
-            "service_delivery_location",
-            "service_implementing_agency"
+            SERVICE_SECTION_FIELDS.deliveryLocation,
+            SERVICE_SECTION_FIELDS.implementingAgency
           ].find(fieldName => name.endsWith(fieldName))
         ) {
           setFilterState({ filtersChanged: true, userIsSelected: false });
         }
-
-        if (name.endsWith("service_implementing_agency_individual")) {
-          const selectedUser = referralUsers.find(
-            user => user.get("user_name") === data?.value
-          );
-
-          if (selectedUser?.size) {
-            const userAgency = selectedUser.get("agency");
-            const userLocation = selectedUser.get("location");
-
-            if (
-              agencies.find(current => current.get("unique_id") === userAgency)
-            ) {
-              form.setFieldValue(
-                getConnectedFields(index).agency,
-                userAgency,
-                false
-              );
-            }
-
-            if (
-              reportingLocations.find(
-                current => current.get("code") === userLocation
-              )
-            ) {
-              form.setFieldValue(
-                getConnectedFields(index).location,
-                userLocation,
-                false
-              );
-            }
-          }
-
-          setFilterState({ filtersChanged: true, userIsSelected: true });
+        if (
+          name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
+        ) {
+          handleChangeOnServiceUser({
+            setFilterState,
+            referralUsers,
+            data,
+            agencies,
+            reportingLocations,
+            form,
+            index
+          });
         }
       };
 
@@ -329,12 +299,15 @@ const SelectField = ({
         },
         excludeEmpty: true,
         options: values && values,
-        isLoading: name.endsWith("service_implementing_agency_individual")
-          ? loading
-          : false,
+        isLoading: selectIsLoading(name),
         onMenuOpen: () => {
-          if (name.endsWith("service_implementing_agency_individual")) {
+          if (
+            name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
+          ) {
             reloadReferralUsers();
+          }
+          if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgency)) {
+            reloadAgencies();
           }
         },
         defaultValues: value
@@ -376,7 +349,9 @@ const SelectField = ({
                 {field.multi_select && (
                   <Checkbox checked={value && value.indexOf(o.id) > -1} />
                 )}
-                <ListItemText primary={translatedText(o.display_text) || ""} />
+                <ListItemText
+                  primary={translatedText(o.display_text, i18n) || ""}
+                />
               </MenuItem>
             ))}
         </Field>

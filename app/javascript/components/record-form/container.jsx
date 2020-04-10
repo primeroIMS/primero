@@ -64,8 +64,6 @@ const Container = ({ match, mode }) => {
     primeroModule: record ? record.get("module_id") : params.module
   };
 
-  const [referral, setReferral] = useState({});
-
   const formNav = useSelector(state => getFormNav(state, selectedModule));
   const forms = useSelector(state => getRecordForms(state, selectedModule));
   const firstTab = useSelector(state => getFirstTab(state, selectedModule));
@@ -139,9 +137,7 @@ const Container = ({ match, mode }) => {
     forms,
     mode: containerMode,
     record,
-    recordType: params.recordType,
-    referral,
-    setReferral
+    recordType: params.recordType
   };
 
   const toolbarProps = {
@@ -152,9 +148,7 @@ const Container = ({ match, mode }) => {
     caseIdDisplay: record ? record.get("case_id_display") : null,
     shortId: record ? record.get("short_id") : null,
     primeroModule: selectedModule.primeroModule,
-    record,
-    referral,
-    setReferral
+    record
   };
 
   const navProps = {

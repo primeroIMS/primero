@@ -35,3 +35,8 @@ export const generatePath = (constant, recordId) => {
 
   return [recordType, recordId, transitionType].join("/");
 };
+
+export const getUserFilters = filters =>
+  Object.entries(filters).reduce((acc, entry) => {
+    return entry[1] ? { ...acc, [entry[0]]: entry[1] } : acc;
+  }, {});
