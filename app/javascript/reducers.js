@@ -37,7 +37,7 @@ import { reducers as transferRequestReducers } from "./components/record-list/vi
 import { reducers as transferApprovalReducers } from "./components/transitions/transfers/transfer-approval";
 import { reducers as revokeModalReducers } from "./components/transitions/components/revoke-modal";
 import { reducers as referralActionReducers } from "./components/transitions/referrals/referral-action";
-import { reducers as adminFormListReducers } from "./components/pages/admin/forms/forms-list/reducers";
+import { reducer as adminFormListReducers } from "./components/pages/admin/forms/forms-list";
 import { reducers as lookupsListReducers } from "./components/pages/admin/lookups-list";
 import { RECORD_TYPES } from "./config";
 
