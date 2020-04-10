@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { Map, List } from "immutable";
 
 import { mapEntriesToRecord } from "../../libs";

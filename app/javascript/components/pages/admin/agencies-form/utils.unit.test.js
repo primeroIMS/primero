@@ -1,5 +1,3 @@
-import { expect } from "../../../../test/unit-test-helpers";
-
 import { localizeData, translateFields } from "./utils";
 
 describe("<AgenciesForm /> - Helpers", () => {

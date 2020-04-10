@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
 import React from "react";
 import { NavLink } from "react-router-dom";

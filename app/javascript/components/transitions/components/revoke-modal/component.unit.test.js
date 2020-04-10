@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { expect, setupMountedComponent } from "../../../../test";
+import { setupMountedComponent } from "../../../../test";
 import ActionDialog from "../../../action-dialog";
 
 import RevokeModal from "./component";

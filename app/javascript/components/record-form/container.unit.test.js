@@ -5,7 +5,7 @@ import { Route } from "react-router-dom";
 import { fromJS, Map, List, OrderedMap } from "immutable";
 import { CircularProgress } from "@material-ui/core";
 
-import { setupMountedComponent, expect } from "../../test";
+import { setupMountedComponent } from "../../test";
 import { PageContainer } from "../page";
 import LoadingIndicator from "../loading-indicator";
 import RecordOwner from "../record-owner";

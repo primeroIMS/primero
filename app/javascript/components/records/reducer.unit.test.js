@@ -1,10 +1,6 @@
-import chai, { expect } from "chai";
 import { Map, List, fromJS } from "immutable";
-import chaiImmutable from "chai-immutable";
 
 import reducer from "./reducer";
-
-chai.use(chaiImmutable);
 
 describe("<RecordList /> - Reducers", () => {
   const nsReducer = reducer("TestRecordType");

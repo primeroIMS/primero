@@ -1,7 +1,7 @@
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
-import { expect, spy, stub } from "../../test";
+import { spy, stub } from "../../test";
 import * as idpSelection from "../pages/login/idp-selection";
 
 import Actions from "./actions";

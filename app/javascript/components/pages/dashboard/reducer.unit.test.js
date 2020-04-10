@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import * as userActions from "../../user/actions";

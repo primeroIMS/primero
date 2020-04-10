@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-expressions */
-import { expect } from "chai";
 import { Grid, FormControlLabel, Checkbox } from "@material-ui/core";
 import { Field } from "formik";
 

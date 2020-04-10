@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import { setupMountedComponent } from "../../../../../test";
 import { RECORD_TYPES } from "../../../../../config";
 

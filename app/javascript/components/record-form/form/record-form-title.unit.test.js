@@ -1,7 +1,7 @@
 import { IconButton } from "@material-ui/core";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
-import { expect, setupMountedComponent } from "../../../test";
+import { setupMountedComponent } from "../../../test";
 
 import RecordFormTitle from "./record-form-title";
 

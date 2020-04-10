@@ -1,6 +1,5 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../../../test";
 import { ACTIONS, RESOURCES } from "../../../libs/permissions";
 
 import * as utils from "./utils";

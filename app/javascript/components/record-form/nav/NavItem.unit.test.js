@@ -1,7 +1,7 @@
 import { fromJS, Map, OrderedMap } from "immutable";
 import { ListItem, ListItemText } from "@material-ui/core";
 
-import { setupMountedComponent, expect } from "../../../test";
+import { setupMountedComponent } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
 
 import NavItem from "./NavItem";

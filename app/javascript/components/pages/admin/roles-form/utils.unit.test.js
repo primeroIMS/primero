@@ -1,7 +1,5 @@
 import { fromJS, OrderedMap, Seq, Map } from "immutable";
 
-import { expect } from "../../../../test";
-
 import * as utils from "./utils";
 
 describe("pages/admin/<RolesForm> - utils", () => {

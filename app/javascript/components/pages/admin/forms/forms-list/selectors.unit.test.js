@@ -1,6 +1,5 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../../../../../test/unit-test-helpers";
 import { mapEntriesToRecord } from "../../../../../libs";
 import { FormSectionRecord } from "../../../../record-form/records";
 

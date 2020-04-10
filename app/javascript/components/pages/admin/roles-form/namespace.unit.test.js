@@ -1,5 +1,3 @@
-import { expect } from "../../../../test";
-
 import namespace from "./namespace";
 
 describe("pages/admin/<RolesForm>/ - Namespace", () => {

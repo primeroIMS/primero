@@ -1,5 +1,3 @@
-import { expect } from "../../../test/unit-test-helpers";
-
 import { headersToColumns } from "./utils";
 
 describe("headersToColumns", () => {

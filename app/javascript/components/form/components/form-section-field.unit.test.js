@@ -3,7 +3,7 @@ import Alert from "@material-ui/lab/Alert";
 import { FormContext } from "react-hook-form";
 import { fromJS } from "immutable";
 
-import { expect, setupMockFormComponent } from "../../../test";
+import { setupMockFormComponent } from "../../../test";
 import { FieldRecord } from "../records";
 
 import FormSectionField from "./form-section-field";

@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import { FormContext } from "react-hook-form";
 
-import { setupMountedComponent, expect } from "../../../../../test";
+import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../../libs/permissions";
 import Actions from "../../../../index-filters/components/actions";
 import { FILTER_TYPES } from "../../../../index-filters";

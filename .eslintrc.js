@@ -69,6 +69,9 @@ module.exports = {
     "env": {
       "mocha": true
     },
+    "globals": {
+      "expect": "readonly"
+    },
     "rules": {
       "import/no-namespace": "off",
       "no-unused-expressions": "off",

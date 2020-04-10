@@ -1,6 +1,6 @@
 import { Fab, CircularProgress } from "@material-ui/core";
 
-import { expect, setupMockFormComponent } from "../../../test";
+import { setupMockFormComponent } from "../../../test";
 
 import FormAction from "./form-action";
 

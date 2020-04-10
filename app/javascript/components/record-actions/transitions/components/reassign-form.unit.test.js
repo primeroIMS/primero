@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { Formik, Field, Form } from "formik";
 import { Map, List, fromJS } from "immutable";
 import * as keydown from "keyevent";

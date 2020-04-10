@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { Map, List } from "immutable";
 import { FormControlLabel, Checkbox, TextField } from "@material-ui/core";
 import clone from "lodash/clone";

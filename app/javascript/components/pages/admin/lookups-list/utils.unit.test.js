@@ -1,5 +1,3 @@
-import { expect } from "../../../../test";
-
 import { columns } from "./utils";
 
 describe("<LookupsList /> pages/admin/utils", () => {

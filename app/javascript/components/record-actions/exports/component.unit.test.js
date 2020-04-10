@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent, expect } from "../../../test";
+import { setupMountedComponent } from "../../../test";
 import ActionDialog from "../../action-dialog";
 import Form from "../../form";
 import { RECORD_PATH } from "../../../config";

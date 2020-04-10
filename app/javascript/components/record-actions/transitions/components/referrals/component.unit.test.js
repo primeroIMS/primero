@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import clone from "lodash/clone";
 import { fromJS } from "immutable";
 import { Formik } from "formik";

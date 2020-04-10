@@ -1,13 +1,9 @@
 import clone from "lodash/clone";
-import chai, { expect } from "chai";
 import sinon from "sinon";
-import sinonChai from "sinon-chai";
 import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
 import * as Actions from "./actions";
-
-chai.use(sinonChai);
 
 describe("<Transitions /> - Action Creators", () => {
   it("should have known action creators", () => {

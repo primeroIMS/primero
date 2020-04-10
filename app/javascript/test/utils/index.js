@@ -8,8 +8,6 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
-import { expect } from "chai";
-import { spy, useFakeTimers, stub, mock } from "sinon";
 import DateFnsUtils from "@date-io/date-fns";
 import { createMount } from "@material-ui/core/test-utils";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -18,10 +16,10 @@ import { useForm, FormContext } from "react-hook-form";
 import { fromJS } from "immutable";
 import capitalize from "lodash/capitalize";
 
-import { ApplicationProvider } from "../components/application/provider";
-import I18nProvider from "../components/i18n";
-import { theme } from "../config";
-import { whichFormMode } from "../components/form";
+import { ApplicationProvider } from "../../components/application/provider";
+import I18nProvider from "../../components/i18n";
+import { theme } from "../../config";
+import { whichFormMode } from "../../components/form";
 
 export const setupMountedComponent = (
   TestComponent,
@@ -186,5 +184,3 @@ export const setupMockFieldComponent = (
     mode
   });
 };
-
-export { expect, mock, spy, stub, useFakeTimers };

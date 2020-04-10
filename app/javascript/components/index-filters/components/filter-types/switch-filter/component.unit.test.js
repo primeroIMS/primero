@@ -1,4 +1,4 @@
-import { setupMockFormComponent, expect, spy } from "../../../../../test";
+import { setupMockFormComponent, spy } from "../../../../../test";
 
 import SwitchFilter from "./component";
 

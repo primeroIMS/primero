@@ -1,4 +1,4 @@
-import { expect, setupMountedComponent } from "../../../../test";
+import { setupMountedComponent } from "../../../../test";
 import { RECORD_TYPES } from "../../../../config";
 import { TEXT_FIELD_NAME } from "../constants";
 

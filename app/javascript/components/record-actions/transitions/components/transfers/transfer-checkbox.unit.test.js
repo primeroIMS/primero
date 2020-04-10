@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { FormControlLabel, Checkbox } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../../test";

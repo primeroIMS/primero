@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { Map } from "immutable";
 
 import { buildDataForGraph } from "../../pages/report/utils";

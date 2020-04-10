@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import React from "react";
 import { Route } from "react-router-dom";
 import { fromJS, OrderedMap } from "immutable";

@@ -1,6 +1,5 @@
 import { Map } from "immutable";
 
-import { expect } from "../../../../../test/unit-test-helpers";
 import { mapEntriesToRecord } from "../../../../../libs";
 import { normalizeFormData } from "../../../../../schemas";
 import {

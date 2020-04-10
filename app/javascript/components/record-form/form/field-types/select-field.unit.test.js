@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { expect, setupMountedComponent } from "../../../../test";
+import { setupMountedComponent } from "../../../../test";
 import { whichFormMode } from "../../../form";
 import SearchableSelect from "../../../searchable-select";
 import { CUSTOM_STRINGS_SOURCE } from "../constants";

@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as constants from "./constants";
 
 describe("<WorkflowTeamCases> - pages/dashboard/components/workflow-team-cases/constants", () => {

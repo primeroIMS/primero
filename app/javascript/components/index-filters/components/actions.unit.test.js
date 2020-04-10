@@ -1,6 +1,6 @@
 import { Button } from "@material-ui/core";
 
-import { setupMockFormComponent, expect, spy } from "../../../test";
+import { setupMockFormComponent, spy } from "../../../test";
 
 import Actions from "./actions";
 

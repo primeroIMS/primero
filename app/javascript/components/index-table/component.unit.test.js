@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { fromJS, List } from "immutable";
 import MUIDataTable from "mui-datatables";
 import { CircularProgress } from "@material-ui/core";

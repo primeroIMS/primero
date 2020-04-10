@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as transitionsConstants from "./constants";
 
 describe("<Transitions /> - Constants", () => {

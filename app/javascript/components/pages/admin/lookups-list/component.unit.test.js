@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import MUIDataTable from "mui-datatables";
 
-import { setupMountedComponent, expect } from "../../../../test";
+import { setupMountedComponent } from "../../../../test";
 import { PageHeading } from "../../../page";
 import { ACTIONS } from "../../../../libs/permissions";
 

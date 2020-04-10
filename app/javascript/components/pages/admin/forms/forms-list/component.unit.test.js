@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent, expect } from "../../../../../test";
+import { setupMountedComponent } from "../../../../../test";
 import { mapEntriesToRecord } from "../../../../../libs";
 import { FormSectionRecord } from "../../../../record-form/records";
 import { RECORD_TYPES } from "../../../../../config/constants";

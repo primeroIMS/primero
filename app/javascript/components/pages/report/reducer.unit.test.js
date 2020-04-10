@@ -1,5 +1,4 @@
 import { fromJS } from "immutable";
-import { expect } from "chai";
 
 import * as actions from "./actions";
 import reducer from "./reducer";

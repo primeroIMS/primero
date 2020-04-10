@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as constantsParts from "./constants";
 
 describe("<SearchableSelect /> - Parts - Constants", () => {

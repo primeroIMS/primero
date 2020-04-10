@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as referralConstants from "./constants";
 
 describe("<Referral /> - Constants", () => {

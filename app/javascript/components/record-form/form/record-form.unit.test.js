@@ -2,7 +2,7 @@ import { fromJS, Map } from "immutable";
 
 import { getRecordForms } from "../selectors";
 import { RECORD_TYPES } from "../../../config";
-import { expect, setupMountedComponent, stub } from "../../../test";
+import { setupMountedComponent, stub } from "../../../test";
 
 import FormSectionField from "./form-section-field";
 import { TEXT_FIELD_NAME } from "./constants";

@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent, expect } from "../../test";
+import { setupMountedComponent } from "../../test";
 
 import IndexFilters from "./component";
 import MoreSection from "./components/more-section";

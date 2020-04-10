@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { expect, mock } from "../../../test";
+import { mock } from "../../../test";
 import { SERVICE_SECTION_FIELDS } from "../../record-actions/transitions/components/referrals";
 import { CODE_FIELD, NAME_FIELD, UNIQUE_ID_FIELD } from "../../../config";
 

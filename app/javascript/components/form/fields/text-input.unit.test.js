@@ -1,5 +1,5 @@
 import { FieldRecord } from "../records";
-import { expect, setupMockFieldComponent } from "../../../test";
+import { setupMockFieldComponent } from "../../../test";
 import { TEXT_AREA } from "../constants";
 
 import TextInput from "./text-input";
