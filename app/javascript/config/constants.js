@@ -56,6 +56,7 @@ export const RECORD_PATH = {
   alerts: "alerts",
   cases: "cases",
   dashboards: "dashboards",
+  forms: "forms",
   incidents: "incidents",
   tasks: "tasks",
   tracing_requests: "tracing_requests",
@@ -108,7 +109,8 @@ export const ROUTES = {
   admin_agencies_new: "/admin/agencies/new",
   lookups: "/admin/lookups",
   admin_roles: "/admin/roles",
-  admin_roles_new: "/admin/roles/new"
+  admin_roles_new: "/admin/roles/new",
+  forms: "/admin/forms"
 };
 
 export const PERMITTED_URL = [
@@ -159,6 +161,7 @@ export const ADMIN_NAV = [
     recordType: RESOURCES.systems
   },
   { to: "/modules", label: "settings.navigation.modules", disabled: true },
+
   {
     to: "/forms-parent",
     label: "settings.navigation.forms",

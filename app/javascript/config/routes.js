@@ -5,6 +5,7 @@ import Login, {
   ContactInformation,
   Dashboard,
   ExportList,
+  FormsList,
   LookupsList,
   NotAuthorized,
   NotFound,
@@ -276,6 +277,16 @@ export default [
               path: ROUTES.admin_roles,
               component: RolesList,
               resources: RESOURCES.roles
+            },
+            {
+              path: ROUTES.admin_roles,
+              component: RolesList,
+              resources: RESOURCES.roles
+            },
+            {
+              path: ROUTES.forms,
+              component: FormsList,
+              // resources:
             }
           ]
         }

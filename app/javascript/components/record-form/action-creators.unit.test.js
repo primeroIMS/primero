@@ -60,15 +60,18 @@ describe("<RecordForm /> - Action Creators", () => {
   });
 
   it("should check the 'fetchForms' action creator to return the correct object", () => {
-    const store = configureStore([thunk])({});
+    const expected = {
+      type: actions.RECORD_FORMS,
+      api: {
+        path: "forms",
+        normalizeFunc: "normalizeFormData",
+        db: {
+          collection: "forms"
+        }
+      }
+    };
 
-    return store.dispatch(actionCreators.fetchForms()).then(() => {
-      const expectedActions = store.getActions();
-
-      expect(expectedActions[0].type).to.eql("forms/RECORD_FORMS");
-      expect(expectedActions[0].api.path).to.eql("forms");
-      expect(expectedActions[0].api.normalizeFunc).to.eql("normalizeFormData");
-    });
+    expect(actionCreators.fetchForms()).to.deep.equal(expected);
   });
 
   it("should check the 'fetchOptions' action creator to return the correct object", () => {
