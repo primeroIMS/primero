@@ -20,7 +20,7 @@ describe("<FormsList /> - Reducers", () => {
     fields: Map({})
   });
 
-  xit("should handle RECORD_FORMS_SUCCESS", () => {
+  it.skip("should handle RECORD_FORMS_SUCCESS", () => {
     const fields = [
       {
         id: 1,

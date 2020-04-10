@@ -1,9 +1,9 @@
 import { Icon } from "@material-ui/core";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 
-import { setupMountedComponent, expect } from "../../../../../../test";
+import { setupMountedComponent, expect } from "../../../../../../../test";
 
-import DragIndicator from "./drag-indicator";
+import DragIndicator from "./component";
 
 describe("<FormsList />/components/<DragIndicator />", () => {
   let component;

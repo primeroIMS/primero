@@ -3,6 +3,7 @@ import { fromJS } from "immutable";
 import { setupMountedComponent, expect } from "../../../../../test";
 import { mapEntriesToRecord } from "../../../../../libs";
 import { FormSectionRecord } from "../../../../record-form/records";
+import { RECORD_TYPES } from "../../../../../config/constants";
 
 import FormsList from "./component";
 import FormFilters from "./components/form-filters";
@@ -47,7 +48,11 @@ describe("<FormsList />", () => {
         {
           unique_id: "primeromodule-cp",
           name: "CP",
-          associated_record_types: ["case", "tracing_request", "incident"]
+          associated_record_types: [
+            RECORD_TYPES.cases,
+            RECORD_TYPES.tracing_requests,
+            RECORD_TYPES.incidents
+          ]
         }
       ]
     },

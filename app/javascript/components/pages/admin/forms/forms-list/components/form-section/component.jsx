@@ -4,12 +4,11 @@ import { makeStyles } from "@material-ui/core";
 import { Droppable } from "react-beautiful-dnd";
 import clsx from "clsx";
 
-import { useI18n } from "../../../../../i18n";
-import styles from "../styles.css";
+import { useI18n } from "../../../../../../i18n";
+import styles from "../../styles.css";
+import TableRow from "../table-row";
 
-import TableRow from "./table-row";
-
-const FormSection = ({ group, collection }) => {
+const Component = ({ group, collection }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
@@ -53,11 +52,11 @@ const FormSection = ({ group, collection }) => {
   );
 };
 
-FormSection.displayName = "FormSection";
+Component.displayName = "FormSection";
 
-FormSection.propTypes = {
+Component.propTypes = {
   collection: PropTypes.string.isRequired,
   group: PropTypes.object.isRequired
 };
 
-export default FormSection;
+export default Component;

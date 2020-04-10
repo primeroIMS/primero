@@ -2,13 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, makeStyles } from "@material-ui/core";
 
-import { RECORD_TYPES } from "../../../../../../config/constants";
-import styles from "../styles.css";
-import { useI18n } from "../../../../../i18n";
+import { RECORD_TYPES } from "../../../../../../../config/constants";
+import styles from "../../styles.css";
+import { useI18n } from "../../../../../../i18n";
+import FiltersExpansionPanel from "../filters-expansion-panel";
 
-import FiltersExpansionPanel from "./filters-expansion-panel";
-
-const FormFilters = ({
+const Component = ({
   filterValues,
   modules,
   handleSetFilterValue,
@@ -38,15 +37,11 @@ const FormFilters = ({
       id: "primeroModule",
       name: "Module",
       options: modules.reduce((prev, current) => {
-        const obj = prev;
-
-        obj.push({
+        return prev.concat({
           displayName: current.name,
           id: current.unique_id,
           recordTypes: current.associated_record_types
         });
-
-        return obj;
       }, [])
     }
   ];
@@ -76,17 +71,17 @@ const FormFilters = ({
   );
 };
 
-FormFilters.displayName = "FormFilters";
+Component.displayName = "FormFilters";
 
-FormFilters.defaultProps = {
+Component.defaultProps = {
   filterValues: {}
 };
 
-FormFilters.propTypes = {
+Component.propTypes = {
   filterValues: PropTypes.object,
   handleClearValue: PropTypes.func.isRequired,
   handleSetFilterValue: PropTypes.func.isRequired,
   modules: PropTypes.object.isRequired
 };
 
-export default FormFilters;
+export default Component;

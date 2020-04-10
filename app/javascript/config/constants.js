@@ -56,6 +56,7 @@ export const RECORD_PATH = {
   alerts: "alerts",
   cases: "cases",
   dashboards: "dashboards",
+  forms: "forms",
   incidents: "incidents",
   tasks: "tasks",
   tracing_requests: "tracing_requests",

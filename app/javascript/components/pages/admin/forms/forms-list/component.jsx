@@ -6,13 +6,12 @@ import { makeStyles } from "@material-ui/core";
 import { useI18n } from "../../../../i18n";
 import { useApp } from "../../../../application";
 import { PageHeading, PageContent } from "../../../../page";
+import { MODULES, RECORD_TYPES } from "../../../../../config/constants";
 
-import FormGroup from "./components/form-group";
-import FormSection from "./components/form-section";
+import { FormGroup, FormSection, FormFilters } from "./components";
 import { fetchForms } from "./action-creators";
 import { getFormSections } from "./selectors";
-import { getListStyle, getItemStyle } from "./utils";
-import FormFilters from "./components/form-filters";
+import { getListStyle } from "./utils";
 import styles from "./styles.css";
 
 const Component = () => {
@@ -20,8 +19,8 @@ const Component = () => {
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const defaultFilterValues = {
-    recordType: "case",
-    primeroModule: "primeromodule-cp"
+    recordType: RECORD_TYPES.cases,
+    primeroModule: MODULES.CP
   };
   const [filterValues, setFilterValues] = useState(defaultFilterValues);
   const formSectionsByGroup = useSelector(state =>
@@ -43,7 +42,8 @@ const Component = () => {
 
   // TODO: Handle sorting logic once endpoint available.
   const handleDragEnd = result => {
-    console.log(result);
+    // eslint-disable-next-line no-console
+    console.error(result);
   };
 
   const renderFormSections = () =>

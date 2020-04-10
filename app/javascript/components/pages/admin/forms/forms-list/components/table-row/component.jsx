@@ -4,12 +4,11 @@ import { makeStyles } from "@material-ui/core";
 import { Draggable } from "react-beautiful-dnd";
 import findKey from "lodash/findKey";
 
-import { MODULES } from "../../../../../../config/constants";
-import styles from "../styles.css";
+import { MODULES } from "../../../../../../../config/constants";
+import styles from "../../styles.css";
+import DragIndicator from "../drag-indicator";
 
-import DragIndicator from "./drag-indicator";
-
-const TableRow = ({ name, modules, parentForm, uniqueID, index }) => {
+const Component = ({ name, modules, parentForm, uniqueID, index }) => {
   const css = makeStyles(styles)();
 
   const formSectionModules = modules
@@ -36,9 +35,9 @@ const TableRow = ({ name, modules, parentForm, uniqueID, index }) => {
   );
 };
 
-TableRow.displayName = "TableRow";
+Component.displayName = "TableRow";
 
-TableRow.propTypes = {
+Component.propTypes = {
   index: PropTypes.number.isRequired,
   modules: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
@@ -46,4 +45,4 @@ TableRow.propTypes = {
   uniqueID: PropTypes.string.isRequired
 };
 
-export default TableRow;
+export default Component;

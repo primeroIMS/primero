@@ -7,9 +7,9 @@ import {
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-import FilterInput from "./filter-input";
+import FilterInput from "../filter-input";
 
-const FiltersExpansionPanel = ({
+const Component = ({
   name,
   handleSetFilterValue,
   options,
@@ -34,14 +34,14 @@ const FiltersExpansionPanel = ({
   );
 };
 
-FiltersExpansionPanel.displayName = "FiltersExpansionPanel";
+Component.displayName = "FiltersExpansionPanel";
 
-FiltersExpansionPanel.defaultProps = {
+Component.defaultProps = {
   filterValues: {},
   options: []
 };
 
-FiltersExpansionPanel.propTypes = {
+Component.propTypes = {
   filterValues: PropTypes.object,
   handleSetFilterValue: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
@@ -49,4 +49,4 @@ FiltersExpansionPanel.propTypes = {
   options: PropTypes.array
 };
 
-export default FiltersExpansionPanel;
+export default Component;

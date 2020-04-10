@@ -1,19 +1,12 @@
+import { RECORD_PATH } from "../../../../../config/constants";
+
 import actions from "./actions";
 
+// eslint-disable-next-line import/prefer-default-export
 export const fetchForms = () => ({
   type: actions.RECORD_FORMS,
   api: {
-    path: "forms",
+    path: RECORD_PATH.forms,
     normalizeFunc: "normalizeFormData"
   }
 });
-
-// TODO: Awaiting batch patch endpoint
-// export const saveForms = body => ({
-//   type: actions.RECORD_FORMS,
-//   api: {
-//     path: "forms",
-//     method: "PATCH",
-//     body
-//   }
-// });

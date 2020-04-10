@@ -4,9 +4,9 @@ import { makeStyles } from "@material-ui/core";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
-import styles from "../styles.css";
+import styles from "../../styles.css";
 
-const FilterInput = ({
+const Component = ({
   handleSetFilterValue,
   options,
   name,
@@ -48,14 +48,14 @@ const FilterInput = ({
   );
 };
 
-FilterInput.displayName = "FilterInput";
+Component.displayName = "FilterInput";
 
-FilterInput.defaultProps = {
+Component.defaultProps = {
   filterValues: {},
   options: []
 };
 
-FilterInput.propTypes = {
+Component.propTypes = {
   filterValues: PropTypes.object,
   handleSetFilterValue: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
@@ -63,4 +63,4 @@ FilterInput.propTypes = {
   options: PropTypes.array
 };
 
-export default FilterInput;
+export default Component;

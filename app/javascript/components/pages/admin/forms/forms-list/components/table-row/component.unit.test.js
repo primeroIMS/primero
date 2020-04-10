@@ -1,6 +1,6 @@
-import { setupMountedComponent, expect } from "../../../../../../test";
+import { setupMountedComponent, expect } from "../../../../../../../test";
 
-import TableRow from "./table-row";
+import TableRow from "./component";
 
 describe("<FormsList />/components/<TableRow />", () => {
   let component;
@@ -25,11 +25,11 @@ describe("<FormsList />/components/<TableRow />", () => {
 
   // TODO: Fill out once figure out Droppable context issue concerning testing
 
-  xit("renders Draggable component", () => {});
+  it.skip("renders Draggable component", () => {});
 
-  xit("renders <DragIndicator />", () => {});
+  it.skip("renders <DragIndicator />", () => {});
 
-  xit("renders row information", () => {
+  it.skip("renders row information", () => {
     expect(component.contains("Form Section 1")).to.equal(true);
   });
 });

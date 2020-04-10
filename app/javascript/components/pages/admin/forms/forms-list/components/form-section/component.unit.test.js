@@ -1,6 +1,6 @@
 import { setupMountedComponent, expect } from "../../../../../../test";
 
-import FormSection from "./form-section";
+import FormSection from "./component";
 
 describe("<FormsList />/components/<FormSection />", () => {
   let component;
@@ -9,7 +9,7 @@ describe("<FormsList />/components/<FormSection />", () => {
     ({ component } = setupMountedComponent(FormSection, { color: "error" }));
   });
 
-  xit("renders <Droppable/>", () => {});
+  it.skip("renders <Droppable/>", () => {});
 
-  xit("renders <TableRow/>", () => {});
+  it.skip("renders <TableRow/>", () => {});
 });

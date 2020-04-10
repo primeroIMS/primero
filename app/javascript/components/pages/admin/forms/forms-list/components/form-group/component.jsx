@@ -9,11 +9,10 @@ import {
 import { Draggable } from "react-beautiful-dnd";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-import styles from "../styles.css";
+import styles from "../../styles.css";
+import DragIndicator from "../drag-indicator";
 
-import DragIndicator from "./drag-indicator";
-
-const FormGroup = ({ name, id, index, children }) => {
+const Component = ({ name, id, index, children }) => {
   const css = makeStyles(styles)();
 
   return (
@@ -38,13 +37,13 @@ const FormGroup = ({ name, id, index, children }) => {
   );
 };
 
-FormGroup.displayName = "FormGroup";
+Component.displayName = "FormGroup";
 
-FormGroup.propTypes = {
+Component.propTypes = {
   children: PropTypes.node,
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired
 };
 
-export default FormGroup;
+export default Component;
