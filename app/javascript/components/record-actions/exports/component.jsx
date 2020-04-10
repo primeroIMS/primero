@@ -2,12 +2,12 @@ import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { List } from "immutable";
-import * as yup from "yup";
+import { object, string } from "yup";
 import { withRouter, useLocation } from "react-router-dom";
 import qs from "qs";
 
 import { useI18n } from "../../i18n";
-import { ActionDialog } from "../../action-dialog";
+import ActionDialog from "../../action-dialog";
 import Form, {
   FieldRecord,
   FormSectionRecord,
@@ -54,7 +54,7 @@ const Component = ({
     selectedRecords?.length === records.size;
 
   const handleSubmit = values => {
-    const { id, format } = ALL_EXPORT_TYPES.find(
+    const { id, format, message } = ALL_EXPORT_TYPES.find(
       e => e.id === values.export_type
     );
     const fileName = formatFileName(values.custom_export_file_name, format);
@@ -86,8 +86,8 @@ const Component = ({
     dispatch(
       saveExport(
         { data },
-        i18n.t("exports.queueing", {
-          file_name: fileName ? `: ${fileName}` : "."
+        i18n.t(message || "exports.queueing", {
+          file_name: fileName ? `: ${fileName}.` : "."
         }),
         i18n.t("exports.go_to_exports"),
         EXPORT_DIALOG
@@ -95,9 +95,9 @@ const Component = ({
     );
   };
 
-  const validationSchema = yup.object().shape({
-    export_type: yup.string().required(i18n.t("encrypt.export_type")),
-    password: yup.string().required(i18n.t("encrypt.password_label"))
+  const validationSchema = object().shape({
+    export_type: string().required(i18n.t("encrypt.export_type")),
+    password: string().required(i18n.t("encrypt.password_label"))
   });
 
   const formSections = List([

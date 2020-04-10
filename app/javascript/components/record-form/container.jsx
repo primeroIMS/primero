@@ -10,7 +10,7 @@ import { useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import { PageContainer } from "../page";
 import { Transitions, fetchTransitions } from "../transitions";
-import { LoadingIndicator } from "../loading-indicator";
+import LoadingIndicator from "../loading-indicator";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
 import {
   APPROVALS,
@@ -20,11 +20,11 @@ import {
   TRANSITION_TYPE
 } from "../../config";
 import RecordOwner from "../record-owner";
-import { Approvals } from "../approvals";
+import Approvals from "../approvals";
 import { getLoadingRecordState } from "../records/selectors";
 
 import { NAME } from "./constants";
-import { Nav } from "./nav";
+import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
 import {
@@ -35,6 +35,7 @@ import {
   getErrors,
   getSelectedForm
 } from "./selectors";
+import { fetchRecordsAlerts } from "./action-creators";
 import { compactValues } from "./helpers";
 
 const Container = ({ match, mode }) => {
@@ -148,6 +149,7 @@ const Container = ({ match, mode }) => {
     params,
     recordType,
     handleFormSubmit,
+    caseIdDisplay: record ? record.get("case_id_display") : null,
     shortId: record ? record.get("short_id") : null,
     primeroModule: selectedModule.primeroModule,
     record,
@@ -156,17 +158,19 @@ const Container = ({ match, mode }) => {
   };
 
   const navProps = {
-    formNav,
-    selectedForm,
     firstTab,
+    formNav,
     handleToggleNav,
+    isNew: containerMode.isNew,
     mobileDisplay,
+    selectedForm,
     selectedRecord: record ? record.get("id") : null
   };
 
   useEffect(() => {
     if (params.id && (containerMode.isShow || containerMode.isEdit)) {
       dispatch(fetchRecord(params.recordType, params.id));
+      dispatch(fetchRecordsAlerts(params.recordType, params.id));
     }
   }, [
     containerMode.isEdit,

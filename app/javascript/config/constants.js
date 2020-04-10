@@ -1,3 +1,5 @@
+import { MANAGE, RESOURCES } from "../libs/permissions";
+
 // Time (ms) when fetch request will timeout
 export const FETCH_TIMEOUT = 50000;
 
@@ -154,7 +156,8 @@ export const ADMIN_NAV = [
   {
     to: "/contact_information",
     label: "settings.navigation.contact_information",
-    manageRequired: true
+    permission: MANAGE,
+    recordType: RESOURCES.systems
   },
   { to: "/modules", label: "settings.navigation.modules", disabled: true },
 
@@ -168,7 +171,9 @@ export const ADMIN_NAV = [
       },
       {
         to: "/lookups",
-        label: "settings.navigation.lookups"
+        label: "settings.navigation.lookups",
+        permission: MANAGE,
+        recordType: RESOURCES.metadata
       }
     ]
   },
@@ -194,7 +199,13 @@ export const METHODS = Object.freeze({
   PUT: "PUT"
 });
 
+export const SAVE_METHODS = Object.freeze({
+  new: "new",
+  update: "update"
+});
+
 export const ACCEPTED = "accepted";
 export const ACCEPT = "accept";
 export const REJECTED = "rejected";
 export const REJECT = "reject";
+export const SAVING = "saving";

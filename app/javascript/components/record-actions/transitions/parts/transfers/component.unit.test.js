@@ -6,7 +6,7 @@ import { Formik } from "formik";
 
 import { setupMountedComponent } from "../../../../../test";
 import { MODULES } from "../../../../../config";
-import { SearchableSelect } from "../../../../searchable-select";
+import SearchableSelect from "../../../../searchable-select";
 
 import ProvidedConsent from "./provided-consent";
 import TransferForm from "./component";
@@ -67,12 +67,7 @@ describe("<TransferForm />", () => {
   });
 
   it("should accept valid props", () => {
-    const componentProps = clone(
-      component
-        .find(TransferForm)
-        .first()
-        .props()
-    );
+    const componentProps = clone(component.find(TransferForm).first().props());
 
     expect(componentProps).to.have.property("providedConsent");
     expect(componentProps).to.have.property("isBulkTransfer");

@@ -3,8 +3,8 @@ import { fromJS } from "immutable";
 
 import { mapListToObject, mapObjectPropertiesToRecords } from "../../libs";
 
-import { reducers } from "./reducers";
-import { Actions } from "./actions";
+import reducers from "./reducers";
+import Actions from "./actions";
 import { FilterRecord, ListHeaderRecord } from "./records";
 
 describe("User - Reducers", () => {

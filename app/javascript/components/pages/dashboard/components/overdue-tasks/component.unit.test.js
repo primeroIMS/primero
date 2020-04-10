@@ -3,8 +3,8 @@ import { TableHead, TableCell } from "@material-ui/core";
 
 import { expect, setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../../libs/permissions";
-import { DashboardTable } from "../../../../dashboard/dashboard-table";
-import { LoadingIndicator } from "../../../../loading-indicator";
+import DashboardTable from "../../../../dashboard/dashboard-table";
+import LoadingIndicator from "../../../../loading-indicator";
 
 import OverdueTasks from "./component";
 
@@ -82,10 +82,7 @@ describe("<OverdueTasks> - pages/dashboard/components/overdue-tasks", () => {
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(OverdueTasks, {}, state));
-    tableCells = component
-      .find(DashboardTable)
-      .find(TableHead)
-      .find(TableCell);
+    tableCells = component.find(DashboardTable).find(TableHead).find(TableCell);
   });
 
   it("should render a <DashboardTable /> component", () => {

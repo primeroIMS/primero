@@ -4,7 +4,7 @@ import { Field } from "formik";
 import { TextField } from "formik-material-ui";
 
 import { useI18n } from "../../../../i18n";
-import { SearchableSelect } from "../../../../searchable-select";
+import SearchableSelect from "../../../../searchable-select";
 
 const FormInternal = ({ fields, disabled }) => {
   const i18n = useI18n();

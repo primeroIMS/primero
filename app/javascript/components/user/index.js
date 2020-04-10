@@ -1,5 +1,5 @@
 export * from "./action-creators";
-export * from "./reducers";
-export * from "./actions";
+export { default as reducers } from "./reducers";
+export { default as Actions } from "./actions";
 export * from "./selectors";
 export { default as usePermissions } from "./provider";

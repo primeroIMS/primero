@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { reducers } from "./reducers";
+import reducers from "./reducers";
 
 describe("<LoginForm /> - Reducers", () => {
   const defaultState = fromJS({

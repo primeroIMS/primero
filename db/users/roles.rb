@@ -1419,13 +1419,8 @@ superuser_permissions = [
   Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
-      # Permission::VIEW_APPROVALS,
-      # Permission::VIEW_RESPONSE,
-      # Permission::DASH_CASE_RISK,
-      # Permission::VIEW_PROTECTION_CONCERNS_FILTER,
-      # Permission::DASH_PROTECTION_CONCERNS,
-      # Permission::DASH_TASKS,
-      Permission::DASH_SHARED_WITH_ME
+      Permission::DASH_REPORTING_LOCATION,
+      Permission::DASH_PROTECTION_CONCERNS
     ]
   )
 ]

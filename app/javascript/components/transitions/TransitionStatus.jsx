@@ -6,6 +6,7 @@ import makeStyles from "@material-ui/styles/makeStyles";
 
 import { useI18n } from "../i18n";
 
+import { TRANSITION_STATUS_NAME as NAME } from "./constants";
 import styles from "./styles.css";
 
 const TransitionStatus = ({ status }) => {
@@ -22,6 +23,8 @@ const TransitionStatus = ({ status }) => {
     </div>
   );
 };
+
+TransitionStatus.displayName = NAME;
 
 TransitionStatus.propTypes = {
   status: PropTypes.string

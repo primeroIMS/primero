@@ -53,6 +53,12 @@ class Agency < ApplicationRecord
       agency.attach_logos(agency_params)
       agency
     end
+
+    def list(params = {})
+      return enabled if params.blank?
+
+      where(params)
+    end
   end
 
   def update_properties(agency_params)

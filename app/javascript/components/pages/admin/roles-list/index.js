@@ -1,3 +1,4 @@
-export { default as RolesList } from "./container";
+export { default } from "./container";
 export { fetchRoles } from "./action-creators";
-export { reducers } from "./reducers";
+export { default as reducers } from "./reducers";
+export { NAME, LIST_HEADERS, ADMIN_NAMESPACE } from "./constants";

@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export, react/display-name */
+
 import React from "react";
 
 export const columns = (i18n, css) => [
@@ -6,9 +8,7 @@ export const columns = (i18n, css) => [
     name: "name",
     options: {
       customBodyRender: value => {
-        return (
-          <div className={css.lookupName}>{value}</div>
-        );
+        return <div className={css.lookupName}>{value}</div>;
       }
     }
   },
@@ -16,6 +16,7 @@ export const columns = (i18n, css) => [
     label: i18n.t("lookup.values"),
     name: "values",
     options: {
+      // eslint-disable-next-line react/no-multi-comp, react/display-name
       customBodyRender: value => {
         return (
           <div className={css.truncateValues}>

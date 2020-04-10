@@ -22,7 +22,8 @@ export const FieldRecord = Record({
   show_on_minify_form: false,
   autoFocus: false,
   password: false,
-  hideOnShow: false
+  hideOnShow: false,
+  check_errors: List([])
 });
 
 export const FormSectionRecord = Record({
@@ -41,7 +42,8 @@ export const FormSectionRecord = Record({
   fields: List([]),
   is_nested: null,
   subform_prevent_item_removal: false,
-  collapsed_field_names: List([])
+  collapsed_field_names: List([]),
+  check_errors: List([])
 });
 
 export const Option = Record({

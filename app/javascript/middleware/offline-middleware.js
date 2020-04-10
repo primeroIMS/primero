@@ -52,6 +52,7 @@ const retreiveData = async ({ store, db, action, type }) => {
 
     dispatchSuccess(store, action, payloadFromDB);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error, type);
   }
 };
@@ -66,6 +67,7 @@ const queueData = async ({ store, db, action, type }) => {
 
     dispatchSuccess(store, action, payloadFromDB);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error, type);
   }
 };

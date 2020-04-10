@@ -1,7 +1,6 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import UnicefLogo from "../../images/unicef.png";
 import { setupMountedComponent } from "../../test";
 import { ContactInformationRecord } from "../pages/support/records";
 
@@ -26,11 +25,9 @@ describe("<AgencyLogo />", () => {
     });
     const { component } = setupMountedComponent(AgencyLogo, {}, state);
 
-    expect(
-      component
-        .find("div")
-        .at(1)
-        .prop("style")
-    ).to.have.property("backgroundImage", "url(logo-full.png)");
+    expect(component.find("div").at(1).prop("style")).to.have.property(
+      "backgroundImage",
+      "url(logo-full.png)"
+    );
   });
 });

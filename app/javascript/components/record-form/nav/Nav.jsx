@@ -4,7 +4,7 @@ import { List } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
 
-import { getSelectedRecord } from "../selectors";
+import { getSelectedRecord, getRecordAlerts } from "../selectors";
 import { setSelectedForm, setSelectedRecord } from "../action-creators";
 
 import { NAME } from "./constants";
@@ -12,11 +12,12 @@ import NavGroup from "./NavGroup";
 import RecordInformation from "./parts/record-information";
 
 const Nav = ({
-  formNav,
-  selectedForm,
   firstTab,
+  formNav,
   handleToggleNav,
+  isNew,
   mobileDisplay,
+  selectedForm,
   selectedRecord
 }) => {
   const [open, setOpen] = useState({});
@@ -53,16 +54,20 @@ const Nav = ({
     });
   }, [firstTab]);
 
+  const recordAlerts = useSelector(state => getRecordAlerts(state));
+
   if (formNav) {
     const [...formGroups] = formNav.values();
 
     const renderFormGroups = formGroups.map(formGroup => {
       return (
         <NavGroup
-          key={formGroup.first().formId}
           group={formGroup}
           handleClick={handleClick}
+          isNew={isNew}
+          key={formGroup.first().formId}
           open={open}
+          recordAlerts={recordAlerts}
           selectedForm={selectedForm}
         />
       );
@@ -90,6 +95,7 @@ Nav.propTypes = {
   firstTab: PropTypes.object,
   formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
+  isNew: PropTypes.bool,
   mobileDisplay: PropTypes.bool.isRequired,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   selectedRecord: PropTypes.string

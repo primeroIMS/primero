@@ -32,7 +32,7 @@ import {
   getAgenciesWithService,
   getReportingLocationConfig
 } from "../../../application/selectors";
-import { SearchableSelect } from "../../../searchable-select";
+import SearchableSelect from "../../../searchable-select";
 import { CODE_FIELD, NAME_FIELD, UNIQUE_ID_FIELD } from "../../../../config";
 import { SELECT_FIELD_NAME } from "../constants";
 import styles from "../styles.css";
@@ -268,9 +268,10 @@ const SelectField = ({
       const handleChange = (data, form) => {
         form.setFieldValue(name, data ? data.value : "", false);
         if (
-          ["service_delivery_location", "service_implementing_agency"].find(
-            fieldName => name.endsWith(fieldName)
-          )
+          [
+            "service_delivery_location",
+            "service_implementing_agency"
+          ].find(fieldName => name.endsWith(fieldName))
         ) {
           setFilterState({ filtersChanged: true, userIsSelected: false });
         }
@@ -366,7 +367,12 @@ const SelectField = ({
         <Field {...fieldProps}>
           {options &&
             options.map(o => (
-              <MenuItem key={o.id} value={o.id}>
+              <MenuItem
+                key={o.id}
+                value={o.id}
+                alignItems="flex-start"
+                className={css.menu}
+              >
                 {field.multi_select && (
                   <Checkbox checked={value && value.indexOf(o.id) > -1} />
                 )}

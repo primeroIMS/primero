@@ -1,1 +1,1 @@
-export { default as PrioritySummary } from "./component";
+export { default } from "./component";

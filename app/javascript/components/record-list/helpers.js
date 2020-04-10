@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import React from "react";
 import { format, parseISO } from "date-fns";
 import TableCell from "@material-ui/core/TableCell";
@@ -11,6 +13,7 @@ import { ALERTS_COLUMNS, ALERTS } from "./constants";
 export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
   const iconColumns = Object.values(ALERTS_COLUMNS);
 
+  // eslint-disable-next-line react/display-name
   const emptyHeader = name => <th key={name} className={css.overdueHeading} />;
 
   const columns = allowedColumns
@@ -25,6 +28,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
         ...{
           ...([ALERTS_COLUMNS.photo].includes(column.get("name"))
             ? {
+                // eslint-disable-next-line react/no-multi-comp, react/display-name
                 customHeadRender: (columnMeta, handleToggleColumn) => {
                   return (
                     <TableCell
@@ -36,6 +40,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
                     </TableCell>
                   );
                 },
+                // eslint-disable-next-line react/no-multi-comp, react/display-name
                 customBodyRender: value => (
                   <div className={css.photoIcon}>
                     <Lightbox
@@ -91,8 +96,10 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
     sort: false,
     options: {
       customHeadRender: columnMeta => emptyHeader(columnMeta),
+      // eslint-disable-next-line react/no-multi-comp, react/display-name
       customBodyRender: value => {
         const alertIcon =
+          // eslint-disable-next-line camelcase
           canShowAlertIcon && value?.alert_count > 0 ? (
             <ToggleIconCell
               value={value.alert_count}
@@ -101,6 +108,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
           ) : null;
 
         const flagIcon =
+          // eslint-disable-next-line camelcase
           canShowFlagIcon && value?.flag_count > 0 ? (
             <ToggleIconCell
               value={value.flag_count}

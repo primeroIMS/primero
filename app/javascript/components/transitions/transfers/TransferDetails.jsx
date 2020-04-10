@@ -1,11 +1,12 @@
 import React from "react";
 import { Box, Divider, Grid, FormControlLabel } from "@material-ui/core";
 import PropTypes from "prop-types";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import Cancel from "@material-ui/icons/Cancel";
 
 import { useI18n } from "../../i18n";
 import TransitionUser from "../TransitionUser";
+
+import { NAME } from "./constants";
+import renderIconValue from "./render-icon-value";
 
 const TransferDetails = ({ transition, classes }) => {
   const i18n = useI18n();
@@ -23,14 +24,6 @@ const TransferDetails = ({ transition, classes }) => {
         </Box>
       </Grid>
     ) : null;
-
-  const renderIconValue = value => {
-    return value ? (
-      <CheckCircleIcon className={classes.successIcon} />
-    ) : (
-      <Cancel />
-    );
-  };
 
   return (
     <Grid container spacing={2}>
@@ -56,7 +49,10 @@ const TransferDetails = ({ transition, classes }) => {
           </div>
           <div className={classes.transtionIconValue}>
             <FormControlLabel
-              control={renderIconValue(transition.consent_overridden)}
+              control={renderIconValue(
+                transition.consent_overridden,
+                classes.successIcon
+              )}
               label={
                 <div className={classes.transtionValue}>
                   {i18n.t(
@@ -75,7 +71,10 @@ const TransferDetails = ({ transition, classes }) => {
           </div>
           <div className={classes.transtionIconValue}>
             <FormControlLabel
-              control={renderIconValue(transition.consent_individual_transfer)}
+              control={renderIconValue(
+                transition.consent_individual_transfer,
+                classes.successIcon
+              )}
               label={
                 <div className={classes.transtionValue}>
                   {i18n.t(
@@ -101,6 +100,8 @@ const TransferDetails = ({ transition, classes }) => {
     </Grid>
   );
 };
+
+TransferDetails.displayName = NAME;
 
 TransferDetails.propTypes = {
   classes: PropTypes.object.isRequired,

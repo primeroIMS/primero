@@ -1,8 +1,10 @@
-import * as actions from "./actions";
+/* eslint-disable import/prefer-default-export */
+
+import { FETCH_TRANSITIONS } from "./actions";
 
 export const fetchTransitions = (recordType, record) => async dispatch => {
   dispatch({
-    type: actions.FETCH_TRANSITIONS,
+    type: FETCH_TRANSITIONS,
     api: {
       path: `${recordType}/${record}/transitions`
     }

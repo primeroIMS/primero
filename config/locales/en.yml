@@ -1000,6 +1000,7 @@ en:
       confirmation: "Are you sure you want to delete this role? Deletion can not be undone. Click OK To Delete Role."
 
   role:
+    label: "Role"
     create: "Create Role"
     edit: "Edit Role"
     name: "Name"
@@ -1012,7 +1013,14 @@ en:
     referral_label: "Can this role be used for Referrals?"
     group_permission_label: "What records does this role affect?"
     role_ids_label: "Others roles managed by this role"
+    agency_ids_label: "Agencies managed by this role"
     manager: "Manager"
+    delete_header: "Delete Role"
+    messages:
+      created: "Role was successfully created."
+      updated: "Role was successfully updated."
+      deleted: "Role was successfully deleted."
+      confirmation: "Are you sure you want to delete this role? Deletion can not be undone. Click OK to delete the role."
 
   agencies:
     logo: 'Logo'
@@ -1313,11 +1321,32 @@ en:
       dash_cases_to_assign: "View Cases To Assign"
       dash_show_none_values: "View None Values"
       dash_tasks: "View Tasks"
+      case_overview: "My Cases"
+      case_risk: "Cases by Assessment Level"
+      approvals_assessment: "Assessment"
+      approvals_assessment_pending: "Assessment Pending"
+      approvals_case_plan: "Case Plan"
+      approvals_case_plan_pending: "Case Plan Pending"
+      approvals_closure: "Closure"
+      approvals_closure_pending: "Closure Pending"
+      workflow: "Workflow - Individual cases"
+      workflow_team: "Workflow - Teams cases"
+      cases_by_task_overdue_assessment: "View Cases By Task Overdue Assessment"
+      cases_by_task_overdue_case_plan: "View Cases By Task Overdue Case Plan"
+      cases_by_task_overdue_services: "View Cases By Task Overdue Services"
+      cases_by_task_overdue_followups: "View Cases By Task Overdue Services"
+      dash_protection_concerns_by_location: "View Protection Concerns By Location"
+      dash_shared_with_me: "Shared With Me"
+      dash_shared_with_others: "Shared With Others"
+      dash_group_overview: "My Group's Cases"
+      dash_shared_with_my_team: "Shared With My Team"
+      dash_shared_from_my_team: "Shared From My Team"
       search_owned_by_others: "Search for case records owned by other users"
       incident_from_case: "Create an incident from a case"
       incident_details_from_case: "Add Incident Details to another user's case"
       services_section_from_case: "Add Service provision to another user's case"
       create: "Create"
+      delete: "Delete"
       referral_from_service: "Refer Case from Service form"
       view_protection_concerns_filter: "View Protection Concerns Filter"
       saved_search: "Saved Search"
@@ -1335,6 +1364,10 @@ en:
       find_tracing_match: "Find tracing match from case"
       duplicate: "Duplicate Search"
       view_response: "View Responses"
+      receive_transfer: "Receive Transfer"
+      receive_referral: "Receive Referral"
+      reopen: "Reopen"
+      close: "Close"
 
   forms:
     label: "Forms"
@@ -2252,6 +2285,7 @@ en:
       all: Photo Wall
       one: Photo Wall
       selected: Selected to Photo Wall
+      success_message: "Creating Photowall%{file_name} Cases without photos will not be included."
     case_pdf:
       all: PDF
       one: PDF
