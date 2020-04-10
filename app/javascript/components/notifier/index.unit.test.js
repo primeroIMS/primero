@@ -12,8 +12,8 @@ describe("<Notifier />- index", () => {
       "ENQUEUE_SNACKBAR",
       "enqueueSnackbar",
       "generate",
-      "Notifier",
-      "reducers",
+      "default",
+      "reducer",
       "REMOVE_SNACKBAR",
       "removeSnackbar",
       "SNACKBAR_VARIANTS"

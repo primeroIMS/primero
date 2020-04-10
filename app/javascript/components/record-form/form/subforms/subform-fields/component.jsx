@@ -9,7 +9,7 @@ import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
 import { SUBFORM_FIELDS } from "../constants";
-import { serviceHasReferFields } from "../../helpers";
+import { serviceHasReferFields } from "../../utils";
 
 const Component = ({
   arrayHelpers,

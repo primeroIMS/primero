@@ -6,7 +6,7 @@ import { FormSectionRecord, FieldRecord } from "../records";
 
 import Nav from "./Nav";
 import NavGroup from "./NavGroup";
-import RecordInformation from "./parts/record-information";
+import RecordInformation from "./components/record-information";
 
 describe("<Nav />", () => {
   let component;

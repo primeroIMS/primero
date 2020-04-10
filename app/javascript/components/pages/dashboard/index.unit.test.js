@@ -11,7 +11,7 @@ describe("<Dashboard /> - index", () => {
     [
       "default",
       "namespace",
-      "reducers",
+      "reducer",
       "selectFlags",
       "selectCasesByStatus",
       "selectCasesByCaseWorker",

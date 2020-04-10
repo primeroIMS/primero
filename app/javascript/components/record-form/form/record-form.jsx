@@ -12,7 +12,7 @@ import NavigationPrompt from "react-router-navigation-prompt";
 import { useI18n } from "../../i18n";
 import { enqueueSnackbar } from "../../notifier";
 import ActionDialog from "../../action-dialog";
-import { constructInitialValues } from "../helpers";
+import { constructInitialValues } from "../utils";
 import { NUMERIC_FIELD, DATE_FIELD, SUBFORM_SECTION } from "../constants";
 
 import RecordFormTitle from "./record-form-title";

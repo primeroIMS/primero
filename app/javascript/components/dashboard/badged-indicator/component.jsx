@@ -8,7 +8,7 @@ import isEmpty from "lodash/isEmpty";
 import DashboardChip from "../dashboard-chip";
 import { useI18n } from "../../i18n";
 import { ROUTES } from "../../../config";
-import { buildFilter } from "../helpers";
+import { buildFilter } from "../utils";
 import LoadingIndicator from "../../loading-indicator";
 import NAMESPACE from "../../pages/dashboard/namespace";
 

@@ -15,7 +15,7 @@ describe("<Application /> - index", () => {
       "getResourceActions",
       "getSystemPermissions",
       "loadApplicationResources",
-      "reducers",
+      "reducer",
       "PERMISSIONS",
       "RESOURCES",
       "RESOURCE_ACTIONS",

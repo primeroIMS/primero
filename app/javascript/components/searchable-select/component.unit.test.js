@@ -2,7 +2,7 @@ import { expect } from "chai";
 
 import { setupMountedComponent } from "../../test";
 
-import CustomAutoComplete from "./parts/custom-auto-complete";
+import CustomAutoComplete from "./components/custom-auto-complete";
 import SearchableSelect from "./component";
 
 describe("<SearchableSelect />", () => {

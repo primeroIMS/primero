@@ -9,7 +9,7 @@ import { setSelectedForm, setSelectedRecord } from "../action-creators";
 
 import { NAME } from "./constants";
 import NavGroup from "./NavGroup";
-import RecordInformation from "./parts/record-information";
+import RecordInformation from "./components/record-information";
 
 const Nav = ({
   firstTab,

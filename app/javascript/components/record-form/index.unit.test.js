@@ -30,8 +30,8 @@ describe("<RecordForm /> - index", () => {
       "getRecordFormsByUniqueId",
       "getReportingLocations",
       "getSelectedForm",
+      "reducer",
       "getServiceToRefer",
-      "reducers",
       "setSelectedForm"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);

@@ -14,7 +14,7 @@ import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
 import bindFormSubmit from "../../../../libs/submit-form";
 
-import { localizeData, translateFields } from "./helpers";
+import { localizeData, translateFields } from "./utils";
 import { NAME } from "./constants";
 import { form, validations } from "./form";
 import {

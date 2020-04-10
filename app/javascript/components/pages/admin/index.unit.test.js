@@ -7,7 +7,7 @@ describe("pages/admin - index", () => {
 
   it("should have known properties", () => {
     [
-      "Admin",
+      "default",
       "AgenciesForm",
       "AgenciesList",
       "ContactInformation",

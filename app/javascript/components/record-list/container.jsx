@@ -24,7 +24,7 @@ import { applyFilters } from "../index-filters/action-creators";
 
 import { NAME } from "./constants";
 import FilterContainer from "./filter-container";
-import { buildTableColumns } from "./helpers";
+import { buildTableColumns } from "./utils";
 import RecordListToolbar from "./record-list-toolbar";
 import { getListHeaders } from "./selectors";
 import styles from "./styles.css";

@@ -1,7 +1,7 @@
 import React, { useEffect, memo, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
-import { batch, useDispatch, useSelector, } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
 import clsx from "clsx";
@@ -9,7 +9,7 @@ import clsx from "clsx";
 import { useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import { PageContainer } from "../page";
-import { Transitions, fetchTransitions } from "../transitions";
+import Transitions, { fetchTransitions } from "../transitions";
 import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
 import LoadingIndicator from "../loading-indicator";
 import { fetchRecord, saveRecord, selectRecord } from "../records";
@@ -28,7 +28,7 @@ import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { fetchAgencies } from "./action-creators";
+import { fetchAgencies, fetchRecordsAlerts } from "./action-creators";
 import {
   getFirstTab,
   getFormNav,
@@ -37,8 +37,7 @@ import {
   getErrors,
   getSelectedForm
 } from "./selectors";
-import { fetchRecordsAlerts } from "./action-creators";
-import { compactValues } from "./helpers";
+import { compactValues } from "./utils";
 
 const Container = ({ match, mode }) => {
   let submitForm = null;

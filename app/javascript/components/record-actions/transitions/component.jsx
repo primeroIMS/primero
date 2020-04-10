@@ -6,13 +6,13 @@ import submitForm from "../../../libs/submit-form";
 import { TRANSITIONS_TYPES } from "../../transitions/constants";
 
 import { NAME } from "./constants";
-import { hasProvidedConsent } from "./parts/helpers";
+import { hasProvidedConsent } from "./components/utils";
 import {
   TransitionDialog,
   ReferralForm,
   ReassignForm,
   TransferForm
-} from "./parts";
+} from "./components";
 
 const Transitions = ({
   record,

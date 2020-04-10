@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { FieldArray, connect } from "formik";
 
 import { useI18n } from "../../../i18n";
-import { constructInitialValues } from "../../helpers";
+import { constructInitialValues } from "../../utils";
 
 import SubformFieldArray from "./subform-field-array";
 import { SUBFORM_FIELD } from "./constants";

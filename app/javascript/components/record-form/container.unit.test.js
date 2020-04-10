@@ -10,7 +10,7 @@ import { PageContainer } from "../page";
 import LoadingIndicator from "../loading-indicator";
 import RecordOwner from "../record-owner";
 import { PrimeroModuleRecord } from "../application/records";
-import { Transitions } from "../transitions";
+import Transitions from "../transitions";
 import { MODES } from "../../config";
 import Approvals from "../approvals";
 import ApprovalPanel from "../approvals/components/panel";

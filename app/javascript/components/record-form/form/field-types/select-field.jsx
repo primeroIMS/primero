@@ -39,10 +39,10 @@ import {
   findOptionDisplayText,
   handleChangeOnServiceUser,
   translatedText
-} from "../helpers";
-import { getUserFilters } from "../../../record-actions/transitions/parts/helpers";
-import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/parts/referrals"
-import { REFERRAL_TYPE } from "../../../record-actions/transitions"
+} from "../utils";
+import { getUserFilters } from "../../../record-actions/transitions/components/utils";
+import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
+import { REFERRAL_TYPE } from "../../../record-actions/transitions";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;

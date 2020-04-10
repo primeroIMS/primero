@@ -9,7 +9,7 @@ describe("<IndexFilters /> - index", () => {
     expect(clone).to.be.an("object");
     [
       "default",
-      "reducers",
+      "reducer",
       "applyFilters",
       "getFiltersValuesByRecordType",
       "OR_FIELDS",

@@ -20,7 +20,7 @@ import { getRecords } from "../../index-table";
 import { EXPORT_DIALOG } from "../constants";
 
 import { NAME, ALL_EXPORT_TYPES } from "./constants";
-import { allowedExports, formatFileName, exporterFilters } from "./helpers";
+import { allowedExports, formatFileName, exporterFilters } from "./utils";
 import { saveExport } from "./action-creators";
 
 const Component = ({

@@ -6,7 +6,7 @@ export {
   fetchOptions,
   setSelectedForm
 } from "./action-creators";
-export { reducers } from "./reducers";
+export { default as reducer } from "./reducer";
 export {
   getAssignableForms,
   getEnabledAgencies,
@@ -26,4 +26,4 @@ export {
 } from "./selectors";
 export { FormSectionField } from "./form";
 export { FieldRecord } from "./records";
-export { constructInitialValues } from "./helpers";
+export { constructInitialValues } from "./utils";

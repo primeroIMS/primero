@@ -11,7 +11,7 @@ import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
 import { usePermissions, getListHeaders } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
-import { headersToColumns } from "../helper";
+import { headersToColumns } from "../utils";
 import { Filters as AdminFilters } from "../components";
 
 import { fetchAgencies } from "./action-creators";

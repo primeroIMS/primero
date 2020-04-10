@@ -12,7 +12,7 @@ import { setServiceToRefer } from "../../../action-creators";
 import { getEnabledAgencies, getOption } from "../../../selectors";
 import { setDialog } from "../../../../record-actions/action-creators";
 import { useI18n } from "../../../../i18n";
-import { serviceIsReferrable } from "../../helpers";
+import { serviceIsReferrable } from "../../utils";
 
 import { NAME } from "./constants";
 
