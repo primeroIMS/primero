@@ -10,7 +10,7 @@ import { Tabs, Tab } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { fromJS } from "immutable";
 
-import { SavedSearches, fetchSavedSearches } from "../saved-searches";
+import SavedSearches, { fetchSavedSearches } from "../saved-searches";
 import SavedSearchesForm from "../saved-searches/SavedSearchesForm";
 import { currentUser } from "../user";
 import { useI18n } from "../i18n";

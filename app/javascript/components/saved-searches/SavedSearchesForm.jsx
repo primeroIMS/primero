@@ -21,7 +21,7 @@ import { useI18n } from "../i18n";
 import { ROUTES } from "../../config";
 
 import { saveSearch } from "./action-creators";
-import { buildFiltersApi, buildFiltersState } from "./helpers";
+import { buildFiltersApi, buildFiltersState } from "./utils";
 
 const FormErrors = () => {
   const dispatch = useDispatch();

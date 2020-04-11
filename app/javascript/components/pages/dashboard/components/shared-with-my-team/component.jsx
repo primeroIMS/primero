@@ -5,7 +5,7 @@ import { Grid } from "@material-ui/core";
 
 import { getSharedWithMyTeam } from "../../selectors";
 import { useI18n } from "../../../../i18n";
-import { teamSharingTable } from "../../helpers";
+import { teamSharingTable } from "../../utils";
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";

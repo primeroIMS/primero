@@ -20,7 +20,7 @@ import { ROUTES } from "../../config";
 
 import { removeSavedSearch } from "./action-creators";
 import { selectSavedSearchesById } from "./selectors";
-import { buildFiltersState } from "./helpers";
+import { buildFiltersState } from "./utils";
 import styles from "./styles.css";
 
 const ListSavedSearches = ({

@@ -1,12 +1,12 @@
 import { fromJS } from "immutable";
 
-import { expect, setupMountedComponent } from "../../../../../test";
+import { setupMountedComponent } from "../../../../../test";
 import {
   ACTIONS,
   DASH_APPROVALS_PENDING
 } from "../../../../../libs/permissions";
 import { OverviewBox, OptionsBox } from "../../../../dashboard";
-import { LoadingIndicator } from "../../../../loading-indicator";
+import LoadingIndicator from "../../../../loading-indicator";
 
 import Approvals from "./component";
 

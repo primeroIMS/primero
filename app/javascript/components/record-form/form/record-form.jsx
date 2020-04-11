@@ -12,7 +12,7 @@ import NavigationPrompt from "react-router-navigation-prompt";
 import { useI18n } from "../../i18n";
 import { enqueueSnackbar } from "../../notifier";
 import ActionDialog from "../../action-dialog";
-import { constructInitialValues } from "../helpers";
+import { constructInitialValues } from "../utils";
 import { NUMERIC_FIELD, DATE_FIELD, SUBFORM_SECTION } from "../constants";
 
 import RecordFormTitle from "./record-form-title";
@@ -32,17 +32,15 @@ const ValidationErrors = () => {
 };
 
 const RecordForm = ({
-  selectedForm,
-  forms,
-  onSubmit,
-  mode,
   bindSubmitForm,
-  record,
+  forms,
   handleToggleNav,
   mobileDisplay,
+  mode,
+  onSubmit,
+  record,
   recordType,
-  referral,
-  setReferral
+  selectedForm
 }) => {
   const i18n = useI18n();
 
@@ -128,9 +126,7 @@ const RecordForm = ({
                 field,
                 mode,
                 recordType,
-                recordID: record?.get("id"),
-                referral,
-                setReferral
+                recordID: record?.get("id")
               };
 
               if (!field?.visible) {
@@ -209,9 +205,7 @@ RecordForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  referral: PropTypes.object,
-  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  setReferral: PropTypes.func.isRequired
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export default memo(RecordForm);

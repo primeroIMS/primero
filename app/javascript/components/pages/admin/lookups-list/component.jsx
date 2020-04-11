@@ -9,11 +9,13 @@ import { useI18n } from "../../../i18n";
 import { ROUTES } from "../../../../config";
 import { PageHeading, PageContent } from "../../../page";
 import IndexTable from "../../../index-table";
+import { MANAGE, RESOURCES } from "../../../../libs/permissions";
+import Permission from "../../../application/permission";
 
 import { NAME } from "./constants";
 import { fetchAdminLookups } from "./action-creators";
 import styles from "./styles.css";
-import { columns } from "./helpers";
+import { columns } from "./utils";
 
 const Component = () => {
   const i18n = useI18n();
@@ -45,14 +47,14 @@ const Component = () => {
   };
 
   return (
-    <>
+    <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
       <PageHeading title={i18n.t("settings.navigation.lookups")}>
         {newUserGroupBtn}
       </PageHeading>
       <PageContent>
         <IndexTable {...tableOptions} />
       </PageContent>
-    </>
+    </Permission>
   );
 };
 

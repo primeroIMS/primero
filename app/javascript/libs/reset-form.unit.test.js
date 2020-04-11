@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as constants from "./reset-form";
 
 describe("reset-form", () => {

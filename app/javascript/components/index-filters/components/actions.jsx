@@ -12,6 +12,14 @@ const Actions = ({ handleSave, handleClear }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
+  const showSave = handleSave && (
+    <DisableOffline>
+      <Button onClick={handleSave} variant="outlined">
+        {i18n.t("filters.save_filters")}
+      </Button>
+    </DisableOffline>
+  );
+
   return (
     <div className={css.actionButtons}>
       <DisableOffline>
@@ -24,11 +32,7 @@ const Actions = ({ handleSave, handleClear }) => {
           {i18n.t("filters.apply_filters")}
         </Button>
       </DisableOffline>
-      <DisableOffline>
-        <Button onClick={handleSave} variant="outlined">
-          {i18n.t("filters.save_filters")}
-        </Button>
-      </DisableOffline>
+      {showSave}
       <DisableOffline>
         <Button onClick={handleClear} variant="outlined">
           {i18n.t("filters.clear_filters")}
@@ -40,7 +44,7 @@ const Actions = ({ handleSave, handleClear }) => {
 
 Actions.propTypes = {
   handleClear: PropTypes.func.isRequired,
-  handleSave: PropTypes.func.isRequired
+  handleSave: PropTypes.func
 };
 
 Actions.displayName = "Actions";

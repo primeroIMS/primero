@@ -1,1 +1,3 @@
-export { default as NotImplemented } from "./component";
+// FIXME: Is this used?
+
+export { default } from "./component";

@@ -1,6 +1,6 @@
 import { fromJS, List } from "immutable";
 
-import { expect, setupMockFormComponent } from "../../../test";
+import { setupMockFormComponent } from "../../../test";
 
 import CheckboxFilter from "./filter-types/checkbox-filter/component";
 import MoreSection from "./more-section";

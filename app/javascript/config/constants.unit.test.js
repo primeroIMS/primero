@@ -1,5 +1,3 @@
-import { expect } from "../test";
-
 import * as configConstants from "./constants";
 
 describe("Verifying config constant", () => {
@@ -76,6 +74,8 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("REJECTED");
     expect(constants).to.have.property("REJECT");
     expect(constants).to.have.property("METHODS");
+    expect(constants).to.have.property("SAVE_METHODS");
+    expect(constants).to.have.property("SAVING");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -125,6 +125,8 @@ describe("Verifying config constant", () => {
     delete constants.REJECTED;
     delete constants.REJECT;
     delete constants.METHODS;
+    delete constants.SAVE_METHODS;
+    delete constants.SAVING;
 
     expect(constants).to.deep.equal({});
   });

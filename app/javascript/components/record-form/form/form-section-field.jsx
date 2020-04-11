@@ -14,6 +14,7 @@ import {
   DOCUMENT_FIELD
 } from "../constants";
 
+import { GuidingQuestions } from "./components";
 import { FORM_SECTION_FIELD_NAME } from "./constants";
 import DateField from "./field-types/date-field";
 import SelectField from "./field-types/select-field";
@@ -44,7 +45,8 @@ const FormSectionField = ({
     required,
     selected_value: selectedValue,
     hide_on_view_page: hideOnViewPage,
-    visible
+    visible,
+    guiding_questions: guidingQuestions
   } = field;
 
   const fieldProps = {
@@ -76,6 +78,14 @@ const FormSectionField = ({
     index
   };
 
+  const renderGuidingQuestions = guidingQuestions &&
+    (mode.isEdit || mode.isNew) && (
+      <GuidingQuestions
+        label={i18n.t("buttons.guiding_questions")}
+        text={guidingQuestions[i18n.locale]}
+      />
+    );
+
   const FieldComponent = (t => {
     switch (t) {
       case DATE_FIELD:
@@ -99,7 +109,12 @@ const FormSectionField = ({
 
   if ((mode?.isShow && hideOnViewPage) || !visible) return false;
 
-  return <FieldComponent {...fieldProps} mode={mode} />;
+  return (
+    <>
+      <FieldComponent {...fieldProps} mode={mode} />
+      {renderGuidingQuestions}
+    </>
+  );
 };
 
 FormSectionField.displayName = FORM_SECTION_FIELD_NAME;

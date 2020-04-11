@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { setMsalConfig, getLoginRequest, getTokenRequest } from "./auth-utils";

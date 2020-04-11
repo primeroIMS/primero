@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { fromJS, Map } from "immutable";
 import { Form } from "formik";
 
@@ -28,12 +27,12 @@ describe("<RecordOwner />", () => {
     status: "open"
   });
 
-  const props = {
+  const rootProps = {
     record,
     recordType: RESOURCES.cases
   };
 
-  const initialState = Map({
+  const rootInitialState = Map({
     records: fromJS({
       cases: {
         data: [record]
@@ -46,7 +45,11 @@ describe("<RecordOwner />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(RecordOwner, props, initialState));
+    ({ component } = setupMountedComponent(
+      RecordOwner,
+      rootProps,
+      rootInitialState
+    ));
   });
 
   it("renders a RecordOwner component and its fields/>", () => {

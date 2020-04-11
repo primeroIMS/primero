@@ -7,10 +7,10 @@ import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
 import { ROUTES } from "../../../config";
-import { buildFilter } from "../helpers";
-import { DoughnutChart } from "../doughnut-chart";
+import { buildFilter } from "../utils";
+import DoughnutChart from "../doughnut-chart";
 import { useI18n } from "../../i18n";
-import { LoadingIndicator } from "../../loading-indicator";
+import LoadingIndicator from "../../loading-indicator";
 import NAMESPACE from "../../pages/dashboard/namespace";
 
 import styles from "./styles.css";

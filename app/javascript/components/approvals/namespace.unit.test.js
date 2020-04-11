@@ -1,5 +1,3 @@
-import { expect } from "../../test";
-
 import * as namespace from "./namespace";
 
 describe("Approvals - namespace", () => {

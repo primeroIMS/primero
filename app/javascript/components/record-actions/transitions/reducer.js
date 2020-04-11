@@ -6,7 +6,7 @@ import Actions from "./actions";
 
 const DEFAULT_STATE = fromJS({ data: [] });
 
-const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.ASSIGN_USERS_FETCH_SUCCESS:
       return state.setIn(["reassign", "users"], fromJS(payload.data));
@@ -86,5 +86,3 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state;
   }
 };
-
-export const reducers = reducer;

@@ -3,9 +3,9 @@ import { List, Collapse } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useSelector } from "react-redux";
 
-import { getPermissionsByRecord } from "../../user/selectors";
+import { getPermissions } from "../../user/selectors";
 import { ADMIN_NAV } from "../../../config/constants";
-import { MANAGE, RESOURCES, checkPermissions } from "../../../libs/permissions";
+import { checkPermissions } from "../../../libs/permissions";
 
 import styles from "./styles.css";
 import AdminNavItem from "./admin-nav-item";
@@ -18,27 +18,43 @@ const AdminNav = () => {
     setOpen(!open);
   };
 
-  const userPermissions = useSelector(state =>
-    getPermissionsByRecord(state, RESOURCES.systems)
-  );
+  const userPermissions = useSelector(state => getPermissions(state));
 
-  const hasManagePermission = checkPermissions(userPermissions, MANAGE);
+  const hasNavPermission = (type, permission) => {
+    if (type && permission) {
+      return checkPermissions(userPermissions.get(type), permission);
+    }
+
+    return true;
+  };
 
   const renderNavItems = ADMIN_NAV.map(nav => {
     const isParent = "items" in nav;
+    const { recordType, permission } = nav;
 
-    if (!hasManagePermission && nav.manageRequired) {
+    if (!hasNavPermission(recordType, permission)) {
       return null;
     }
 
     if (isParent) {
-      const renderChildren = nav.items.map(navItem => (
-        <AdminNavItem
-          key={`${navItem.to}-child`}
-          item={navItem}
-          nestedClass={css.nestedItem}
-        />
-      ));
+      const renderChildren = nav.items.map(navItem => {
+        const {
+          recordType: navItemRecordType,
+          permission: navItemPermission
+        } = navItem;
+
+        if (!hasNavPermission(navItemRecordType, navItemPermission)) {
+          return null;
+        }
+
+        return (
+          <AdminNavItem
+            key={`${navItem.to}-child`}
+            item={navItem}
+            nestedClass={css.nestedItem}
+          />
+        );
+      });
 
       return (
         <>

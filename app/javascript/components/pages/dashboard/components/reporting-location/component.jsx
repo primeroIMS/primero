@@ -5,7 +5,7 @@ import { Grid } from "@material-ui/core";
 
 import { getReportingLocation } from "../../selectors";
 import { useI18n } from "../../../../i18n";
-import { toReportingLocationTable } from "../../helpers";
+import { toReportingLocationTable } from "../../utils";
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";

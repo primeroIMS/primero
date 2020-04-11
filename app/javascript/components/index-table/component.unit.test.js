@@ -1,9 +1,8 @@
-import { expect } from "chai";
 import { fromJS, List } from "immutable";
 import MUIDataTable from "mui-datatables";
 import { CircularProgress } from "@material-ui/core";
 
-import { LoadingIndicator } from "../loading-indicator";
+import LoadingIndicator from "../loading-indicator";
 import { setupMountedComponent, stub } from "../../test";
 import { RECORD_PATH } from "../../config";
 import { mapEntriesToRecord } from "../../libs";
@@ -151,9 +150,9 @@ describe("<IndexTable />", () => {
   });
 
   describe("When data still loading", () => {
-    let component;
+    let loadingComponent;
 
-    const initialState = fromJS({
+    const loadingInitialState = fromJS({
       records: {
         cases: {
           data: [],
@@ -175,14 +174,18 @@ describe("<IndexTable />", () => {
     });
 
     before(() => {
-      ({ component } = setupMountedComponent(IndexTable, props, initialState));
+      ({ component: loadingComponent } = setupMountedComponent(
+        IndexTable,
+        props,
+        loadingInitialState
+      ));
     });
 
     it("renders IndexTable component", () => {
-      expect(component.find(IndexTable)).to.have.lengthOf(1);
+      expect(loadingComponent.find(IndexTable)).to.have.lengthOf(1);
     });
     it("renders CircularProgress", () => {
-      expect(component.find(CircularProgress)).to.have.lengthOf(1);
+      expect(loadingComponent.find(CircularProgress)).to.have.lengthOf(1);
     });
   });
 });

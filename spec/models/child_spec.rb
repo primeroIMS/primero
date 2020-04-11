@@ -467,6 +467,40 @@ describe Child do
         child = Child.create!(data: { case_id: 'zzz', created_by: @user3.user_name })
         expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.short_id}")
       end
+
+      it 'should create a case id display with custom date format' do
+        ap1_custom_date_format = AutoPopulateInformation.new(
+          field_key: 'case_id_code',
+          format: %w[
+            created_by_user.user_location.ancestor_by_type(country).location_code
+            created_by_user.user_location.ancestor_by_type(region).location_code
+            created_by_user.agency.agency_code
+            created_at.strftime(%m/%y)
+          ],
+          separator: '-', auto_populated: true
+        )
+        SystemSettings.update(default_locale: 'en', auto_populate_list: [ap1_custom_date_format])
+        SystemSettings.current(true)
+        child = Child.create!(data: { case_id: 'zzz', created_by: @user3.user_name})
+        expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.created_at.strftime("%m/%y")}-#{child.short_id}")
+      end
+
+      it 'should create a case id display with default date format' do
+        ap1_default_date_format = AutoPopulateInformation.new(
+          field_key: 'case_id_code',
+          format: %w[
+            created_by_user.user_location.ancestor_by_type(country).location_code
+            created_by_user.user_location.ancestor_by_type(region).location_code
+            created_by_user.agency.agency_code
+            created_at
+          ],
+          separator: '-', auto_populated: true
+        )
+        SystemSettings.update(default_locale: 'en', auto_populate_list: [ap1_default_date_format])
+        SystemSettings.current(true)
+        child = Child.create!(data: { case_id: 'zzz', created_by: @user3.user_name})
+        expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.created_at.strftime("%Y%m%d")}-#{child.short_id}")
+      end
     end
   end
 

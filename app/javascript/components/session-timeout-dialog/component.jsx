@@ -19,6 +19,8 @@ import {
 } from "../../config";
 import { setUserIdle, selectUserIdle } from "../application";
 
+import { NAME } from "./constants";
+
 const SessionTimeoutDialog = () => {
   const idleRef = useRef(null);
   const logoutTimer = useRef();
@@ -126,5 +128,7 @@ const SessionTimeoutDialog = () => {
     </>
   );
 };
+
+SessionTimeoutDialog.displayName = NAME;
 
 export default SessionTimeoutDialog;

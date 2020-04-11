@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import { compactFilters } from "./utils";
 
 describe("<IndexFilters /> - Utils", () => {

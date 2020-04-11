@@ -3,7 +3,7 @@ import React from "react";
 import makeStyles from "@material-ui/styles/makeStyles";
 
 import { useI18n } from "../../i18n";
-import { DashboardChip } from "../dashboard-chip";
+import DashboardChip from "../dashboard-chip";
 
 import styles from "./styles.css";
 

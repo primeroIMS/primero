@@ -14,8 +14,13 @@ export const ACTIONS = {
   DASH_APPROVALS_CASE_PLAN_PENDING: "approvals_case_plan_pending",
   DASH_APPROVALS_CLOSURE: "approvals_closure",
   DASH_APPROVALS_CLOSURE_PENDING: "approvals_closure_pending",
-  DASH_CASE_RISK: "case_risk",
+  DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT: "cases_by_task_overdue_assessment",
+  DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN: "cases_by_task_overdue_case_plan",
+  DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS: "cases_by_task_overdue_followups",
+  DASH_CASES_BY_TASK_OVERDUE_SERVICES: "cases_by_task_overdue_services",
   DASH_CASE_OVERVIEW: "case_overview",
+  DASH_CASE_RISK: "case_risk",
+  DASH_GROUP_OVERVIEW: "dash_group_overview",
   DASH_PROTECTION_CONCERNS: "dash_protection_concerns",
   DASH_REPORTING_LOCATION: "dash_reporting_location",
   DASH_SHARED_FROM_MY_TEAM: "dash_shared_with_my_team",
@@ -25,11 +30,7 @@ export const ACTIONS = {
   DASH_TASKS: "dash_tasks",
   DASH_WORKFLOW: "workflow",
   DASH_WORKFLOW_TEAM: "workflow_team",
-  DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT: "cases_by_task_overdue_assessment",
-  DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN: "cases_by_task_overdue_case_plan",
-  DASH_CASES_BY_TASK_OVERDUE_SERVICES: "cases_by_task_overdue_services",
-  DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS: "cases_by_task_overdue_followups",
-  DASH_GROUP_OVERVIEW: "dash_group_overview",
+  DELETE: "delete",
   DISPLAY_VIEW_PAGE: "display_view_page",
   ENABLE_DISABLE_RECORD: "enable_disable_record",
   EXPORT_CASE_PDF: "export_case_pdf",
@@ -49,7 +50,10 @@ export const ACTIONS = {
   INCIDENT_DETAILS_FROM_CASE: "incident_details_from_case",
   MANAGE: "manage",
   READ: "read",
+  RECEIVE_REFERRAL: "receive_referral",
+  RECEIVE_TRANSFER: "receive_transfer",
   REFERRAL: "referral",
+  REFERRAL_FROM_SERVICE: "referral_from_service",
   REMOVE_ASSIGNED_USERS: "remove_assigned_users",
   REOPEN: "reopen",
   REQUEST_APPROVAL_BIA: "request_approval_bia",
@@ -58,10 +62,7 @@ export const ACTIONS = {
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   TRANSFER: "transfer",
-  WRITE: "write",
-  RECEIVE_REFERRAL: "receive_referral",
-  RECEIVE_TRANSFER: "receive_transfer",
-  REFERRAL_FROM_SERVICE: "referral_from_service"
+  WRITE: "write"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -79,7 +80,9 @@ export const RESOURCES = {
   lookups: "lookups",
   contact_information: "contact_information",
   roles: "roles",
-  systems: "systems"
+  forms: "forms",
+  systems: "systems",
+  metadata: "metadata"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {
@@ -186,3 +189,10 @@ export const DASH_APPROVALS = [
   ACTIONS.DASH_APPROVALS_CASE_PLAN,
   ACTIONS.DASH_APPROVALS_CLOSURE
 ];
+
+export const GROUP_PERMISSIONS = {
+  AGENCY: "agency",
+  ALL: "all",
+  GROUP: "group",
+  SELF: "self"
+};
