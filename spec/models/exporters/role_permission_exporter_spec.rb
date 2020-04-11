@@ -5,7 +5,7 @@ require 'rails_helper'
 require 'spreadsheet'
 
 module Exporters
-  describe RolePermissionsExporter do
+  xdescribe RolePermissionsExporter do
     before :each do
       clean_data(Field, FormSection, Role)
     end
