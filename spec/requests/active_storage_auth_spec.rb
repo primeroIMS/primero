@@ -3,6 +3,11 @@
 require 'rails_helper'
 
 describe ActiveStorageAuth do
+  before :all do
+    @url_expires_in_original = ActiveStorage::Service.url_expires_in
+    ActiveStorage::Service.url_expires_in = 20.minutes
+  end
+
   describe 'ActiveStorage direct upload' do
     let(:http_response) do
       checksum = Digest::MD5.base64digest('Hello')
@@ -218,5 +223,9 @@ describe ActiveStorageAuth do
     after(:each) do
       clean_data(BulkExport, User, Role)
     end
+  end
+
+  after :all do
+    ActiveStorage::Service.url_expires_in = @url_expires_in_original
   end
 end
