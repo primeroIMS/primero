@@ -13,8 +13,8 @@ Shows a paginated list of all audit_logs.
 **Parameters** :
 
 * `user_name` Optional.
-* `timestamp[from]` Optional. ISO formatted: 2020-03-02T09:06:50-06:00.
-* `timestamp[to]` Optional. ISO formatted: 2020-03-02T11:06:50-06:00.
+* `from` Optional. ISO formatted: 2020-03-02T09:06:50-06:00.
+* `to` Optional. ISO formatted: 2020-03-02T11:06:50-06:00.
 * `page` Optional. Pagination. Defaults to 1
 * `per` Optional. Records per page. Defaults to 100.
 

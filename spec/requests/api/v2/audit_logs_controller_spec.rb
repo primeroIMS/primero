@@ -83,7 +83,7 @@ describe Api::V2::AuditLogsController, type: :request do
 
     it 'list the audit logs filtering by timestamp' do
       login_for_test(permissions: [Permission.new(resource: Permission::AUDIT_LOG, actions: [Permission::READ])])
-      get '/api/v2/audit_logs?timestamp[from]=2020-03-02T09:06:50-06:00&timestamp[to]=2020-03-02T11:06:50-06:00&user_name=test_user_2'
+      get '/api/v2/audit_logs?from=2020-03-02T09:06:50-06:00&to=2020-03-02T11:06:50-06:00&user_name=test_user_2'
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)

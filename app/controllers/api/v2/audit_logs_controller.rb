@@ -15,13 +15,14 @@ class Api::V2::AuditLogsController < ApplicationApiController
   end
 
   def audit_logs_params
-    params.permit(:user_name, timestamp: {})
+    params.permit(:user_name, :from, :to)
   end
 
   protected
 
   def timestamp_param
-    range = DestringifyService.destringify(audit_logs_params[:timestamp].to_h)
-    (range['from'] || Time.at(0).to_datetime)..(range['to'] || DateTime.now.end_of_day)
+    from = params[:from].present? ? Time.zone.parse(params[:from]) : Time.at(0).to_datetime
+    to = params[:to].present? ? Time.zone.parse(params[:to]) : DateTime.now.end_of_day
+    from..to
   end
 end
