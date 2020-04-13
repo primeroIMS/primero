@@ -1,19 +1,18 @@
 import { fromJS } from "immutable";
-import * as yup from "yup";
+import { object, string } from "yup";
+import isEmpty from "lodash/isEmpty";
 
 import {
   FieldRecord,
   FormSectionRecord,
   TEXT_FIELD,
-  SELECT_FIELD,
-  LABEL_FIELD
+  SELECT_FIELD
 } from "../../../form";
 import { dataToJS } from "../../../../libs";
 
 export const validations = i18n =>
-  yup.object().shape({
-    name: yup
-      .string()
+  object().shape({
+    name: string()
       .required()
       .label(i18n.t("form_section.required_field", { field: "English Text" }))
   });
@@ -41,7 +40,7 @@ export const form = (i18n, options, hiddenClass) => {
           display_name: "Translation Text",
           name: "translated_name",
           type: TEXT_FIELD,
-          hiddenClass
+          customClass: hiddenClass
         })
         // TODO: When prim-1820 is implemented uncomment this
         // FieldRecord({
@@ -63,4 +62,19 @@ export const translateValues = (values, locale) => {
     ],
     []
   );
+};
+
+export const getInitialValues = (locales, values) => {
+  if (isEmpty(values)) {
+    return {};
+  }
+
+  return locales.reduce((acumulator, locale) => {
+    const result = values.reduce(
+      (acc, value) => ({ ...acc, [value.id]: value.display_text[locale] }),
+      {}
+    );
+
+    return { ...acumulator, [locale]: result };
+  }, {});
 };

@@ -31,16 +31,16 @@
     flex: 1;
   }
 
-  & div:first-of-type {
-    width: 3em;
-    justify-content: center;
-    margin-right: 1em;
-    border-right: 1px solid $(theme.primero.colors.lightGrey);
-  }
-
   & div {
     padding: .5em;
     display: flex;
     align-items: center;
   }
+}
+
+.dragIndicatorContainer {
+  width: 3em;
+  justify-content: center;
+  margin-right: 1em;
+  border-right: 1px solid $(theme.primero.colors.lightGrey) !important;
 }

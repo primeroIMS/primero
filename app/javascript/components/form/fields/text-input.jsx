@@ -7,7 +7,7 @@ import { TEXT_AREA } from "../constants";
 
 const TextInput = ({ commonInputProps, metaInputProps }) => {
   const { type, password } = metaInputProps;
-  const { hiddenClass } = commonInputProps;
+  const { customClass } = commonInputProps;
   const inputType = password ? "password" : "text";
 
   return (
@@ -17,7 +17,7 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
       {...commonInputProps}
       multiline={type && type === TEXT_AREA}
       defaultValue=""
-      className={hiddenClass}
+      className={customClass}
     />
   );
 };

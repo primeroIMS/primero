@@ -96,7 +96,7 @@ const Container = ({ mode }) => {
         {saveButton}
       </PageHeading>
       <PageContent>
-        <LookupForm mode={mode} lookup={lookup} />
+        <LookupForm mode={mode} formRef={formRef} lookup={lookup} />
       </PageContent>
     </LoadingIndicator>
   );

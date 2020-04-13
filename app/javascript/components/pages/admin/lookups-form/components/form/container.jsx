@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useImperativeHandle } from "react";
 import PropTypes from "prop-types";
 import { useForm, FormContext } from "react-hook-form";
 import { Grid } from "@material-ui/core";
@@ -6,32 +6,50 @@ import { makeStyles } from "@material-ui/styles";
 import { fromJS } from "immutable";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import clsx from "clsx";
+import isEmpty from "lodash/isEmpty";
 
-import { translateValues, form } from "../../utils";
-import { whichFormMode } from "../../../../../form";
+import { form, getInitialValues, translateValues } from "../../utils";
+import { FieldRecord, TEXT_FIELD, whichFormMode } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
+import FormSectionField from "../../../../../form/components/form-section-field";
 import { useI18n } from "../../../../../i18n";
 import { DragIndicator } from "../../../forms/forms-list/components";
+import { dataToJS } from "../../../../../../libs";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Container = ({ mode, lookup }) => {
+const Container = ({ formRef, mode, lookup }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const formMode = whichFormMode(mode);
-  const options = i18n.applicationLocales.toJS();
-  const firstOption = options?.[0];
-  const defaultLocale = firstOption?.id;
-  const initialValues = {
-    options: firstOption,
-    name: lookup.getIn(["name", defaultLocale]),
-    translated_name: ""
-  };
+  const locales = i18n.applicationLocales.toJS();
+  const firstLocaleOption = locales?.[0];
+  const defaultLocale = firstLocaleOption?.id;
   const formMethods = useForm();
   const watchedOption = formMethods.watch("options");
   const selectedOption = watchedOption?.id || watchedOption;
-  const isFirstOptionSelected = selectedOption === firstOption?.id;
+  const isFirstLocaleOptionSelected = selectedOption === firstLocaleOption?.id;
+
+  const initialValues = {
+    name: lookup.getIn(["name", defaultLocale]),
+    options: firstLocaleOption,
+    translated_name: "",
+    values: getInitialValues(
+      locales.map(locale => locale.id),
+      dataToJS(lookup.get("values", fromJS({})))
+    )
+  };
+
+  const onSubmit = data => console.log("ON SUBMIT", data);
+
+  useImperativeHandle(formRef, () => ({
+    submitForm(e) {
+      formMethods.handleSubmit(data => {
+        onSubmit(data);
+      })(e);
+    }
+  }));
 
   // TODO: Move somewhere else
   const translatedLookupsValues = locale => {
@@ -45,16 +63,13 @@ const Container = ({ mode, lookup }) => {
       locale ? lookup.getIn(["name", locale]) : ""
     );
   };
-
+  // DEFAULT EN OPTIONS
   const translatedDefaultOptions = translatedLookupsValues(defaultLocale);
-  let translatedOptions = [];
 
-  if (isFirstOptionSelected) {
+  if (isFirstLocaleOptionSelected) {
     setTranslatedName("");
-    translatedOptions = translatedLookupsValues("");
   } else if (watchedOption) {
     setTranslatedName(selectedOption);
-    translatedOptions = translatedLookupsValues(selectedOption);
   }
 
   useEffect(() => {
@@ -65,15 +80,17 @@ const Container = ({ mode, lookup }) => {
     background: isDraggingOver ? "lightblue" : "transparent"
   });
 
-  const hiddenTranslation = isFirstOptionSelected
-    ? css.hideTranslationsFields
-    : null;
+  const hiddenTranslation =
+    isFirstLocaleOptionSelected ||
+    (typeof selectedOption === "object" && isEmpty(selectedOption?.id))
+      ? css.hideTranslationsFields
+      : null;
 
   // TODO: Split component
   return (
     <FormContext {...formMethods} formMode={formMode}>
-      <form noValidate>
-        {form(i18n, options, hiddenTranslation).map(formSection => (
+      <form onSubmit={formMethods.handleSubmit(onSubmit)}>
+        {form(i18n, locales, hiddenTranslation).map(formSection => (
           <FormSection formSection={formSection} key={formSection.unique_id} />
         ))}
 
@@ -94,11 +111,24 @@ const Container = ({ mode, lookup }) => {
                     style={getListStyle(snapshot.isDraggingOver)}
                   >
                     <div className={clsx(css.row, css.header)}>
-                      <div />
+                      <div className={css.dragIndicatorContainer} />
                       <div>English Text</div>
                       <div className={hiddenTranslation}>Translation Text</div>
                     </div>
                     {translatedDefaultOptions.map((item, index) => {
+                      const defaultValueName = `values[${defaultLocale}][${item.id}]`;
+                      const translatedValueName = `values[${selectedOption}][${item.id}]`;
+
+                      const defaultField = FieldRecord({
+                        name: defaultValueName,
+                        type: TEXT_FIELD
+                      });
+
+                      const translatedField = FieldRecord({
+                        name: translatedValueName,
+                        type: TEXT_FIELD
+                      });
+
                       return (
                         <Draggable
                           key={item.id}
@@ -113,16 +143,22 @@ const Container = ({ mode, lookup }) => {
                               {...prov.dragHandleProps}
                               className={css.row}
                             >
-                              <div>
+                              <div className={css.dragIndicatorContainer}>
                                 <DragIndicator {...provided.dragHandleProps} />
                               </div>
-                              <div>{item.display_text}</div>
                               <div>
-                                {
-                                  translatedOptions?.find(
-                                    to => to.id === item.id
-                                  )?.display_text
-                                }
+                                <FormSectionField
+                                  field={defaultField}
+                                  key={defaultField.name}
+                                  checkErrors={fromJS({})}
+                                />
+                              </div>
+                              <div className={hiddenTranslation}>
+                                <FormSectionField
+                                  field={translatedField}
+                                  key={translatedField.name}
+                                  checkErrors={fromJS({})}
+                                />
                               </div>
                             </div>
                           )}
@@ -135,30 +171,6 @@ const Container = ({ mode, lookup }) => {
               </Droppable>
             </DragDropContext>
           </Grid>
-          {/* TODO: Remove when ready to review */}
-          <Grid hidden item xs={5}>
-            <ul>
-              {translatedDefaultOptions.map(item => {
-                return (
-                  <li>
-                    <pre>{JSON.stringify(item)}</pre>
-                  </li>
-                );
-              })}
-            </ul>
-          </Grid>
-          <Grid hidden item xs={5}>
-            <ul>
-              {translatedOptions.map(item => {
-                return (
-                  <li>
-                    <pre>{JSON.stringify(item)}</pre>
-                  </li>
-                );
-              })}
-            </ul>
-          </Grid>
-          <br />
         </Grid>
       </form>
     </FormContext>
@@ -168,6 +180,7 @@ const Container = ({ mode, lookup }) => {
 Container.displayName = NAME;
 
 Container.propTypes = {
+  formRef: PropTypes.object.isRequired,
   lookup: PropTypes.object,
   mode: PropTypes.string
 };

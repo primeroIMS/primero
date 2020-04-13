@@ -24,7 +24,7 @@ export const FieldRecord = Record({
   password: false,
   hideOnShow: false,
   check_errors: List([]),
-  hiddenClass: null
+  customClass: null
 });
 
 export const FormSectionRecord = Record({
