@@ -1,6 +1,7 @@
 <%
-  name ||= filter['name']
-  if name.blank?
+  date_field ||= filter['name']
+  date_type = ''
+  if date_field.blank?
     record_type = filter['record_type'] || 'cases'
     date_options = selectable_filter_date_options(record_type)
   end
@@ -9,17 +10,17 @@
 <div class="filter">
   <div class="date_filter">
     <h3>
-      <% if name.present? %>
+      <% if date_field.present? %>
         <%= I18n.t("report.report_filters.#{name}") %>
       <% else %>
-        <%= select_tag(name, options_for_select(date_options),
+        <%= select_tag(date_field, options_for_select(date_options),
                        'class' => 'chosen-select selectable_date',
                        'filter_type' => 'date_selectable') %>
       <% end %>
     </h3>
     <div class="row collapse">
       <div class="large-3 columns selector">
-        <%= select_tag name, options_for_select([
+        <%= select_tag date_type, options_for_select([
           [I18n.t('report.date_ranges.date'), 'day'],
           [I18n.t('report.date_ranges.year'), 'year']
         ]), prompt: I18n.t("report.report_filters.prompt") %>
@@ -28,18 +29,18 @@
         <div class="controls row collapse">
           <div class="select row hide control">
             <div class="large-12 columns">
-            <%= select_tag "#{name}_select_control", nil, prompt: I18n.t("report.report_filters.year_prompt") %>
-            <%= label_tag "#{name}_select_control", '' %>
+            <%= select_tag "#{date_field}_select_control", nil, prompt: I18n.t("report.report_filters.year_prompt") %>
+            <%= label_tag "#{date_field}_select_control", '' %>
             </div>
           </div>
           <div class="range row hide control">
             <div class="large-6 columns">
-            <%= text_field_tag "#{name}_date_from_control", '', placeholder: I18n.t("report.report_filters.date_prompt"), class: 'form_date_field' %>
-            <%= label_tag "#{name}_date_from_control", I18n.t("report.report_filters.from") %>
+            <%= text_field_tag "#{date_field}_from", '', filter_type: 'date_range', placeholder: I18n.t("report.report_filters.date_prompt"), class: 'form_date_field' %>
+            <%= label_tag "#{date_field}_date_from_control", I18n.t("report.report_filters.from") %>
             </div>
             <div class="large-6 columns">
-            <%= text_field_tag "#{name}_date_to_control", '', placeholder: I18n.t("report.report_filters.date_prompt"), class: 'form_date_field' %>
-            <%= label_tag "#{name}_date_to_control", I18n.t("report.report_filters.to") %>
+            <%= text_field_tag "#{date_field}_to", '', filter_type: 'date_range', placeholder: I18n.t("report.report_filters.date_prompt"), class: 'form_date_field' %>
+            <%= label_tag "#{date_field}_date_to_control", I18n.t("report.report_filters.to") %>
             </div>
           </div>
         </div>
