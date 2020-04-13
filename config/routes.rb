@@ -107,6 +107,7 @@ Rails.application.routes.draw do
           get :case_closure_rate
           get :client_satisfaction_rate
           get :supervisor_to_caseworker_ratio
+          get :case_load
         end
       end
     end

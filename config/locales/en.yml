@@ -2556,7 +2556,14 @@ en:
     supervisor_to_caseworker_ratio:
       title: "Supervisor To Caseworker Ratio"
       label: "Caseworkers per supervisor"
-
+    case_load:
+      title: "Case Load"
+      case_load: "Case Load"
+      percent: "Percentage of Cases with Load"
+      10cases: "< 10 Cases"
+      20cases: "< 20 Cases"
+      21-30cases: "21 - 30 Cases"
+      30cases: "> 30 Cases"
 
   reports:
     register_new_report: "Create Report"

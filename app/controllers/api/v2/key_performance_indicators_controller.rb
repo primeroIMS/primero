@@ -369,6 +369,42 @@ module Api::V2
       @case_workers = ratio.denominator
     end
 
+    def case_load
+      search = Child.search do
+        with :created_at, from..to
+
+        facet :owned_by
+      end
+
+      owners = search.facet(:owned_by).rows
+
+      @results = [{
+        case_load: '10cases', # '<10 open cases',
+        percent: nan_safe_divide(
+          owners.select { |owner| owner.count < 10 }.count,
+          owners.count
+        )
+      },{
+        case_load: '20cases', # '<20 open cases',
+        percent: nan_safe_divide(
+          owners.select { |owner| owner.count < 20 }.count,
+          owners.count
+        )
+      },{
+        case_load: '21-30cases', # '21-30 open cases',
+        percent: nan_safe_divide(
+          owners.select { |owner| 21 < owner.count && owner.count <= 30 }.count,
+          owners.count
+        )
+      },{
+        case_load: '30cases', # '>30 open cases',
+        percent: nan_safe_divide(
+          owners.select { |owner| owner.count > 30 }.count,
+          owners.count
+        )
+      }]
+    end
+
     private
 
     # TODO: Add these to permitted params

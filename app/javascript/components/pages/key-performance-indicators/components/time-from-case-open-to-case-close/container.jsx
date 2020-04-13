@@ -1,6 +1,6 @@
-import  { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
-import { DashboardTable } from "components/dashboard";
 import React from "react";
+import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
+import { DashboardTable } from "components/dashboard";
 import { useI18n } from "components/i18n";
 
 function TimeFromCaseOpenToClose({ data, identifier }) {
