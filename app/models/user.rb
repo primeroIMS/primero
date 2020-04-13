@@ -76,6 +76,7 @@ class User < ApplicationRecord
     string :role do
       role.unique_id
     end
+    string :user_name
   end
 
   class << self
