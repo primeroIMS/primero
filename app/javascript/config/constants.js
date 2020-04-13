@@ -1,3 +1,5 @@
+import { MANAGE, RESOURCES } from "../libs/permissions";
+
 // Time (ms) when fetch request will timeout
 export const FETCH_TIMEOUT = 50000;
 
@@ -54,6 +56,7 @@ export const RECORD_PATH = {
   alerts: "alerts",
   cases: "cases",
   dashboards: "dashboards",
+  forms: "forms",
   incidents: "incidents",
   tasks: "tasks",
   tracing_requests: "tracing_requests",
@@ -106,7 +109,8 @@ export const ROUTES = {
   admin_agencies_new: "/admin/agencies/new",
   lookups: "/admin/lookups",
   admin_roles: "/admin/roles",
-  admin_roles_new: "/admin/roles/new"
+  admin_roles_new: "/admin/roles/new",
+  forms: "/admin/forms"
 };
 
 export const PERMITTED_URL = [
@@ -153,9 +157,11 @@ export const ADMIN_NAV = [
   {
     to: "/contact_information",
     label: "settings.navigation.contact_information",
-    manageRequired: true
+    permission: MANAGE,
+    recordType: RESOURCES.systems
   },
   { to: "/modules", label: "settings.navigation.modules", disabled: true },
+
   {
     to: "/forms-parent",
     label: "settings.navigation.forms",
@@ -166,7 +172,9 @@ export const ADMIN_NAV = [
       },
       {
         to: "/lookups",
-        label: "settings.navigation.lookups"
+        label: "settings.navigation.lookups",
+        permission: MANAGE,
+        recordType: RESOURCES.metadata
       }
     ]
   },
@@ -192,7 +200,13 @@ export const METHODS = Object.freeze({
   PUT: "PUT"
 });
 
+export const SAVE_METHODS = Object.freeze({
+  new: "new",
+  update: "update"
+});
+
 export const ACCEPTED = "accepted";
 export const ACCEPT = "accept";
 export const REJECTED = "rejected";
 export const REJECT = "reject";
+export const SAVING = "saving";

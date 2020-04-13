@@ -5,8 +5,8 @@ import { makeStyles } from "@material-ui/styles";
 import { ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 
-import { ListIcon } from "../../../list-icon";
-import { Jewel } from "../../../jewel";
+import ListIcon from "../../../list-icon";
+import Jewel from "../../../jewel";
 import styles from "../../styles.css";
 import DisableOffline from "../../../disable-offline";
 import { getPermissions } from "../../../user/selectors";

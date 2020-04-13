@@ -11,9 +11,7 @@ import {
   TextField
 } from "@material-ui/core";
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import isEmpty from "lodash/isEmpty";
-import omitBy from "lodash/omitBy";
+import { object, string } from "yup";
 import qs from "qs";
 import { push } from "connected-react-router";
 
@@ -23,7 +21,7 @@ import { useI18n } from "../i18n";
 import { ROUTES } from "../../config";
 
 import { saveSearch } from "./action-creators";
-import { buildFiltersApi, buildFiltersState } from "./helpers";
+import { buildFiltersApi, buildFiltersState } from "./utils";
 
 const FormErrors = () => {
   const dispatch = useDispatch();
@@ -36,8 +34,8 @@ const FormErrors = () => {
   return null;
 };
 
-const validationSchema = yup.object().shape({
-  name: yup.string().required()
+const validationSchema = object().shape({
+  name: string().required()
 });
 
 const SavedSearchesForm = ({ recordType, open, setOpen, getValues }) => {

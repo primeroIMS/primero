@@ -5,6 +5,7 @@ class Header < ValueObject
   attr_accessor :name, :field_name, :id_search
 
   SHORT_ID = Header.new(name: 'id', field_name: 'short_id', id_search: true)
+  CASE_ID_DISPLAY = Header.new(name: 'id', field_name: 'case_id_display', id_search: true)
   CASE_NAME = Header.new(name: 'name', field_name: 'name')
   SURVIVOR_CODE = Header.new(name: 'survivor_code', field_name: 'survivor_code_no')
   AGE = Header.new(name: 'age', field_name: 'age', id_search: true)
@@ -61,7 +62,7 @@ class Header < ValueObject
 
     def case_headers(user)
       header_list = []
-      header_list << SHORT_ID
+      header_list << CASE_ID_DISPLAY
       # TODO: There's an id_search logic I'm not sure about
       header_list << CASE_NAME if user.has_module?(PrimeroModule::CP) && !user.is_manager?
       header_list << SURVIVOR_CODE if user.has_module?(PrimeroModule::GBV) && !user.is_manager?

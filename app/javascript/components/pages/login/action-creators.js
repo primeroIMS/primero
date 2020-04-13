@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import { DB_COLLECTIONS_NAMES } from "../../../db";
 
 import { LOGIN } from "./actions";

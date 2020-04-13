@@ -1,10 +1,9 @@
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { REFER_DIALOG, TRANSFER_DIALOG, ASSIGN_DIALOG } from "../constants";
-
-import { generatePath } from "./parts";
-import actions from "./actions";
-
 import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
+
+import { generatePath } from "./components/utils";
+import actions from "./actions";
 
 const successCallbackActions = (modalName, message) => [
   {

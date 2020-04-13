@@ -1,4 +1,4 @@
-export { default as PotentialMatches } from "./container";
+export { default } from "./container";
 export { default as namespace } from "./namespace";
-export { reducers } from "./reducer";
+export { default as reducer } from "./reducer";
 export { selectPotentialMatches } from "./selectors";

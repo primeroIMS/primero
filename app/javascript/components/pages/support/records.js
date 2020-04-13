@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import { Record, fromJS } from "immutable";
 
 export const ContactInformationRecord = Record({

@@ -1,10 +1,6 @@
 import clone from "lodash/clone";
-import chai, { expect } from "chai";
-import sinonChai from "sinon-chai";
 
 import * as recordsActions from "./actions";
-
-chai.use(sinonChai);
 
 describe("records - Actions", () => {
   it("should have known actions", () => {
@@ -48,8 +44,8 @@ describe("records - Actions", () => {
     delete actions.SAVE_RECORD_SUCCESS;
     delete actions.SAVE_RECORD_FINISHED;
     delete actions.SAVE_RECORD_FAILURE;
-    delete actions.DELETE_ATTACHMENT_SUCCESS
-    delete actions.SAVE_ATTACHMENT_SUCCESS
+    delete actions.DELETE_ATTACHMENT_SUCCESS;
+    delete actions.SAVE_ATTACHMENT_SUCCESS;
 
     expect(actions).to.deep.equal({});
   });

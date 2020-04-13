@@ -35,9 +35,9 @@ import {
 } from "./constants";
 import { NAME } from "./config";
 import Notes from "./notes";
-import { ToggleEnable } from "./toggle-enable";
-import { ToggleOpen } from "./toggle-open";
-import { Transitions } from "./transitions";
+import ToggleEnable from "./toggle-enable";
+import ToggleOpen from "./toggle-open";
+import Transitions from "./transitions";
 import AddIncident from "./add-incident";
 import AddService from "./add-service";
 import RequestApproval from "./request-approval";
@@ -50,9 +50,7 @@ const Container = ({
   record,
   mode,
   showListActions,
-  selectedRecords,
-  referral,
-  setReferral
+  selectedRecords
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -238,8 +236,6 @@ const Container = ({
     setTransitionType,
     recordType,
     userPermissions,
-    referral,
-    setReferral,
     referDialog,
     transferDialog,
     assignDialog,
@@ -296,7 +292,6 @@ const Container = ({
     {
       name: `${i18n.t("buttons.referral")} ${formRecordType}`,
       action: () => {
-        setReferral(null);
         setTransitionType("referral");
         setReferDialog(true);
       },
@@ -583,9 +578,7 @@ Container.propTypes = {
   mode: PropTypes.object,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  referral: PropTypes.object,
   selectedRecords: PropTypes.array,
-  setReferral: PropTypes.func,
   showListActions: PropTypes.bool
 };
 

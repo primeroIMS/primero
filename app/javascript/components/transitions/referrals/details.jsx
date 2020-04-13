@@ -2,14 +2,14 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Box, Divider, Grid, FormControlLabel } from "@material-ui/core";
 import PropTypes from "prop-types";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import Cancel from "@material-ui/icons/Cancel";
 
 import { getOption } from "../../record-form";
 import TransitionUser from "../TransitionUser";
 import { useI18n } from "../../i18n";
 import { REFERRAL_DETAILS_NAME, TRANSITION_STATUS } from "../constants";
 import { LOOKUPS } from "../../../config";
+
+import renderIconValue from "./render-icon-value";
 
 const Details = ({ transition, classes }) => {
   const i18n = useI18n();
@@ -37,14 +37,6 @@ const Details = ({ transition, classes }) => {
       </Grid>
     ) : null;
 
-  const renderIconValue = value => {
-    return value ? (
-      <CheckCircleIcon className={classes.successIcon} />
-    ) : (
-      <Cancel />
-    );
-  };
-
   return (
     <Grid container spacing={2}>
       <Grid item md={6} xs={12}>
@@ -69,7 +61,10 @@ const Details = ({ transition, classes }) => {
           </div>
           <div className={classes.transtionIconValue}>
             <FormControlLabel
-              control={renderIconValue(transition.consent_overridden)}
+              control={renderIconValue(
+                transition.consent_overridden,
+                classes.successIcon
+              )}
               label={
                 <div className={classes.transtionValue}>
                   {i18n.t(

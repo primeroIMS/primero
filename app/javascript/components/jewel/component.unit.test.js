@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import { setupMountedThemeComponent } from "../../test";
 
 import Jewel from "./component";

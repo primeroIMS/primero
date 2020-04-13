@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as actions from "./action-creators";
 
 describe("<UserGroupsList /> - Action Creators", () => {

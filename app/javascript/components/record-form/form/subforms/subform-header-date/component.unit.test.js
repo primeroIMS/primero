@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { parseISO, format } from "date-fns";
 
 import { setupMountedComponent } from "../../../../../test";

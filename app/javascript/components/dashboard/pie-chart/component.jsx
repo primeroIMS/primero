@@ -5,7 +5,7 @@ import Chart from "chart.js";
 import { push } from "connected-react-router";
 
 import { ROUTES } from "../../../config";
-import { buildFilter } from "../helpers";
+import { buildFilter } from "../utils";
 
 import { NAME, COLORS } from "./constants";
 

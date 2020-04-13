@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import { fromJS } from "immutable";
 
 import {

@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 
 import { useI18n } from "../i18n";
 
+import { TRANSITION_USER_NAME as NAME } from "./constants";
+
 const TransitionUser = ({ label, transitionUser, classes }) => {
   const i18n = useI18n();
 
@@ -14,6 +16,8 @@ const TransitionUser = ({ label, transitionUser, classes }) => {
     </Box>
   );
 };
+
+TransitionUser.displayName = NAME;
 
 TransitionUser.propTypes = {
   classes: PropTypes.object.isRequired,

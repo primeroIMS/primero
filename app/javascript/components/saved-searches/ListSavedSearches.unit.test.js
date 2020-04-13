@@ -1,8 +1,7 @@
 import { List, Map } from "immutable";
 import { ListItem } from "@material-ui/core";
 
-import { setupMountedComponent, expect } from "../../test";
-import { CASES_RECORDS } from "../records/actions";
+import { setupMountedComponent } from "../../test";
 
 import ListSavedSearches from "./ListSavedSearches";
 import { SavedSearchesRecord } from "./records";
@@ -60,20 +59,4 @@ describe("<ListSavedSearches /> - Component", () => {
   it("renders 2 ListItem", () => {
     expect(component.find(ListItem)).to.have.lengthOf(2);
   });
-
-  // TODO: Figure out how to fix this test. There is a bug in jsdom when using window.location.
-  // it("fetch records when a saved search is selected", () => {
-  //   component
-  //     .find(ListItem)
-  //     .first()
-  //     .find('div[role="button"]')
-  //     .simulate("click");
-
-  //   expect(
-  //     component
-  //       .props()
-  //       .store.getActions()
-  //       .filter(action => action.type === CASES_RECORDS)
-  //   ).to.have.lengthOf(1);
-  // });
 });

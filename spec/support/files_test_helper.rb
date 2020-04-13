@@ -14,6 +14,10 @@ module FilesTestHelper
     Rails.root.join('spec', 'resources', file_name)
   end
 
+  def spec_resource_io(file_name)
+    File.open(spec_resource_path(file_name), 'rb')
+  end
+
   def uploadable_audio_mp3
     file_path = Rails.root.join('spec', 'resources', 'sample.mp3')
     fixture_file_upload(file_path, 'audio/mpeg')

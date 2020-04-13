@@ -1,7 +1,7 @@
 import React from "react";
 
 import { NAME } from "./constants";
-import CustomAutoComplete from "./parts/custom-auto-complete";
+import CustomAutoComplete from "./components/custom-auto-complete";
 
 const SearchableSelect = props => {
   return <CustomAutoComplete {...{ props }} />;

@@ -1,12 +1,11 @@
-import { Map, List, fromJS } from "immutable";
+import { fromJS } from "immutable";
 import {
   ExpansionPanelDetails,
   ExpansionPanelSummary
 } from "@material-ui/core";
 
-
 import RecordFormTitle from "../record-form/form/record-form-title";
-import { setupMountedComponent, expect } from "../../test";
+import { setupMountedComponent } from "../../test";
 
 import Approvals from "./container";
 import ApprovalPanel from "./components/panel";
@@ -84,7 +83,7 @@ describe("<Approvals /> - Component", () => {
   });
 
   describe("When we don't have data", () => {
-    let component;
+    let noDataComponent;
 
     const emptyProps = {
       mobileDisplay: true,
@@ -92,16 +91,20 @@ describe("<Approvals /> - Component", () => {
     };
 
     beforeEach(() => {
-      ({ component } = setupMountedComponent(Approvals, emptyProps, {}));
+      ({ component: noDataComponent } = setupMountedComponent(
+        Approvals,
+        emptyProps,
+        {}
+      ));
     });
 
     it("renders Approvals component", () => {
-      expect(component.find(Approvals)).to.have.length(1);
+      expect(noDataComponent.find(Approvals)).to.have.length(1);
     });
     it("not renders ApprovalPanel only the title", () => {
-      expect(component.find(ApprovalPanel)).to.have.lengthOf(0);
-      expect(component.find(RecordFormTitle)).to.have.lengthOf(1);
-      expect(component.find(RecordFormTitle).text()).to.equal(
+      expect(noDataComponent.find(ApprovalPanel)).to.have.lengthOf(0);
+      expect(noDataComponent.find(RecordFormTitle)).to.have.lengthOf(1);
+      expect(noDataComponent.find(RecordFormTitle).text()).to.equal(
         "forms.record_types.approvals"
       );
     });

@@ -36,6 +36,7 @@ class GenerateLocationFilesService
     def create_directory
       FileUtils.mkdir_p(output_dir[:root]) unless File.directory?(output_dir[:root])
       FileUtils.rm_rf Dir.glob("#{output_dir[:root]}/*")
+      FileUtils.rm_rf Dir.glob("#{app_share_dir}/options/*") if use_app_share_dir?
     end
 
     def rename_output 

@@ -9,7 +9,7 @@ import {
   STATUS_APPROVED,
   STATUS_REJECTED
 } from "../../constants";
-import DisplayData from "../../../display-data/component";
+import DisplayData from "../../../display-data";
 
 const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
   const i18n = useI18n();

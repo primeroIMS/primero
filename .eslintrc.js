@@ -69,14 +69,26 @@ module.exports = {
     "env": {
       "mocha": true
     },
+    "globals": {
+      "expect": "readonly"
+    },
     "rules": {
+      "import/no-namespace": "off",
       "no-unused-expressions": "off",
       "no-unused-vars": [
         "error",
         {
           "varsIgnorePattern": "should|expect"
         }
-      ]
+      ],
+      "react/display-name": "off",
+      "react/no-multi-comp": "off",
+      "react/prop-types": "off"
+    }
+  }, {
+    "files": ["worker.js"],
+    "globals": {
+      "workbox": "readonly"
     }
   }]
 };

@@ -1,1 +1,1 @@
-export { default as DashboardTable } from "./component";
+export { default } from "./component";

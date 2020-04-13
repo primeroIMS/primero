@@ -1,7 +1,7 @@
 import React from "react";
 import { Backdrop } from "@material-ui/core";
 
-import { expect, setupMountedComponent } from "../../test";
+import { setupMountedComponent } from "../../test";
 
 import Lightbox from "./component";
 

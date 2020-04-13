@@ -14,8 +14,97 @@ Shows a paginated list of all agencies that are accessible to this user.
 
 * `page` Optional. Pagination. Defaults to 1
 * `per` Optional. Records per page. Defaults to 20.
+* `disabled` Optional. Get all the disabled or enabled agencies. Defaults get all the agencies
 
 ## Success Response
+
+**Condition** : User can see one or more agencies.
+
+**Code** : `200 OK`
+
+**Content** :
+
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "unique_id": "agency-unicef",
+      "agency_code": "UNICEF",
+      "order": 0,
+      "name": {
+        "en": "UNICEF",
+        "fr": "",
+        "ar": "",
+        "ar-LB": "",
+        "so": "",
+        "es": "",
+        "bn": ""
+      },
+      "description": {
+        "en": "",
+        "fr": "",
+        "ar": "",
+        "ar-LB": "",
+        "so": "",
+        "es": "",
+        "bn": ""
+      },
+      "telephone": null,
+      "services": [],
+      "logo_enabled": false,
+      "disabled": false
+    }
+  ]
+}
+```
+
+## Success Response with param disabled[0]=true
+
+**Condition** : User can see one or more agencies.
+
+**Code** : `200 OK`
+
+**Content** :
+
+```json
+{
+  "data": [
+    {
+      "id": 2,
+      "unique_id": "agency_test003",
+      "agency_code": "a00052",
+      "order": 5,
+      "name": {
+        "en": "Nationality",
+        "fr": "",
+        "ar": "",
+        "ar-LB": "",
+        "so": "",
+        "es": "Nacionalidad",
+        "bn": ""
+      },
+      "description": {
+        "en": "Nationality",
+        "fr": "",
+        "ar": "",
+        "ar-LB": "",
+        "so": "",
+        "es": "Nacionalidad",
+        "bn": ""
+      },
+      "telephone": "87452168",
+      "services": [
+        "services00"
+      ],
+      "logo_enabled": true,
+      "disabled": true
+    }
+  ]
+}
+```
+
+## Success Response with param disabled[0]=false&disabled[1]=true
 
 **Condition** : User can see one or more agencies.
 
@@ -87,6 +176,7 @@ Shows a paginated list of all agencies that are accessible to this user.
   ]
 }
 ```
+
 ## Error Response
 
 **Condition** : User isn't authorized to query for agencies.

@@ -1,5 +1,5 @@
 import { FieldRecord } from "../records";
-import { expect, setupMockFieldComponent } from "../../../test";
+import { setupMockFieldComponent } from "../../../test";
 
 import SwitchInput from "./switch-input";
 
@@ -13,12 +13,9 @@ describe("<Form /> - fields/<SwitchInput />", () => {
   it("renders help text", () => {
     const { component } = setupMockFieldComponent(SwitchInput, FieldRecord);
 
-    expect(
-      component
-        .find("p.MuiFormHelperText-root")
-        .at(0)
-        .text()
-    ).to.include("Test Field 2 help text");
+    expect(component.find("p.MuiFormHelperText-root").at(0).text()).to.include(
+      "Test Field 2 help text"
+    );
   });
 
   it("renders errors", () => {
@@ -30,11 +27,8 @@ describe("<Form /> - fields/<SwitchInput />", () => {
       .setError("test_field_2", "required", "Name is required");
 
     expect(component.someWhere(n => n.find("Mui-error"))).to.be.true;
-    expect(
-      component
-        .find("p.MuiFormHelperText-root")
-        .at(0)
-        .text()
-    ).to.include("Name is required");
+    expect(component.find("p.MuiFormHelperText-root").at(0).text()).to.include(
+      "Name is required"
+    );
   });
 });

@@ -5,9 +5,10 @@ import { useSelector } from "react-redux";
 
 import { DropdownDoubleIcon } from "../../images/primero-icons";
 import { useI18n } from "../i18n";
-import * as Selectors from "../application/selectors";
+import { selectLocales } from "../application/selectors";
 
 import styles from "./styles.css";
+import { NAME } from "./constants";
 
 const TranslationsToggle = () => {
   const { changeLocale, locale, ...i18n } = useI18n();
@@ -28,7 +29,7 @@ const TranslationsToggle = () => {
   };
 
   // TODO: Need better list of locales with direction from backend
-  const locales = useSelector(state => Selectors.selectLocales(state));
+  const locales = useSelector(state => selectLocales(state));
 
   return (
     <>
@@ -65,5 +66,7 @@ const TranslationsToggle = () => {
     </>
   );
 };
+
+TranslationsToggle.displayName = NAME;
 
 export default TranslationsToggle;

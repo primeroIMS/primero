@@ -10,7 +10,7 @@ import {
   getCasesByTaskOverdueFollowups
 } from "../../selectors";
 import { useI18n } from "../../../../i18n";
-import { toTasksOverdueTable, taskOverdueHasData } from "../../helpers";
+import { toTasksOverdueTable, taskOverdueHasData } from "../../utils";
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";

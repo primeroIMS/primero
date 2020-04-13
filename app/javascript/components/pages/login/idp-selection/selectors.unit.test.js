@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { selectIdentityProviders } from "./selectors";
@@ -13,24 +12,24 @@ const stateWithProviders = fromJS({
   },
   idp: {
     use_identity_provider: true,
-    "identity_providers": [
+    identity_providers: [
       {
-        "name": "unicef",
-        "type": "b2c",
-        "domain_hint": "unicef",
-        "authority": "authority",
-        "client_id": "clientid",
-        "scope": ["scope"],
-        "redirect_uri": "redirect"
+        name: "unicef",
+        type: "b2c",
+        domain_hint: "unicef",
+        authority: "authority",
+        client_id: "clientid",
+        scope: ["scope"],
+        redirect_uri: "redirect"
       },
       {
-        "name": "primero",
-        "type": "b2c",
-        "domain_hint": "primero",
-        "authority": "authority",
-        "client_id": "clientid",
-        "scope": ["scope"],
-        "redirect_uri": "redirect"
+        name: "primero",
+        type: "b2c",
+        domain_hint: "primero",
+        authority: "authority",
+        client_id: "clientid",
+        scope: ["scope"],
+        redirect_uri: "redirect"
       }
     ]
   }
@@ -42,22 +41,22 @@ describe("<LoginSelection /> - Selectors", () => {
       const providers = selectIdentityProviders(stateWithProviders);
       const expected = fromJS([
         {
-          "name": "unicef",
-          "type": "b2c",
-          "domain_hint": "unicef",
-          "authority": "authority",
-          "client_id": "clientid",
-          "scope": ["scope"],
-          "redirect_uri": "redirect"
+          name: "unicef",
+          type: "b2c",
+          domain_hint: "unicef",
+          authority: "authority",
+          client_id: "clientid",
+          scope: ["scope"],
+          redirect_uri: "redirect"
         },
         {
-          "name": "primero",
-          "type": "b2c",
-          "domain_hint": "primero",
-          "authority": "authority",
-          "client_id": "clientid",
-          "scope": ["scope"],
-          "redirect_uri": "redirect"
+          name: "primero",
+          type: "b2c",
+          domain_hint: "primero",
+          authority: "authority",
+          client_id: "clientid",
+          scope: ["scope"],
+          redirect_uri: "redirect"
         }
       ]);
 

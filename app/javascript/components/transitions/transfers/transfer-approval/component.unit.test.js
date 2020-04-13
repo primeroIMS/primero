@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
@@ -76,7 +75,8 @@ describe("<TransferApproval /> - Component", () => {
     ({ component } = setupMountedComponent(
       TransferApproval,
       props,
-      initialState));
+      initialState
+    ));
   });
 
   it("renders Transitions component", () => {

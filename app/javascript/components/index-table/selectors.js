@@ -2,19 +2,19 @@ import { Map } from "immutable";
 
 import { keyIn } from "../../libs";
 
+const getNamespacePath = namespace => ["records"].concat(namespace);
+
 export const getRecords = (state, namespace) => {
-  const defaultPath = ["records", namespace];
-  const path = Array.isArray(namespace) ? defaultPath.flat() : defaultPath;
-  const data = state.getIn(path, Map({}));
+  const data = state.getIn(getNamespacePath(namespace), Map({}));
 
   return data?.filter(keyIn("data", "metadata"));
 };
 
 export const getFilters = (state, namespace) =>
-  state.getIn(["records", namespace, "filters"].flat(), Map({}));
+  state.getIn(getNamespacePath(namespace).concat("filters"), Map({}));
 
 export const getLoading = (state, namespace) =>
-  state.getIn(["records", namespace, "loading"].flat());
+  state.getIn(getNamespacePath(namespace).concat("loading"));
 
 export const getErrors = (state, namespace) =>
-  state.getIn(["records", namespace, "errors"].flat(), false);
+  state.getIn(getNamespacePath(namespace).concat("errors"), false);

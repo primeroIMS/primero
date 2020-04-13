@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../i18n";
@@ -6,20 +6,18 @@ import submitForm from "../../../libs/submit-form";
 import { TRANSITIONS_TYPES } from "../../transitions/constants";
 
 import { NAME } from "./constants";
-import { hasProvidedConsent } from "./parts/helpers";
+import { hasProvidedConsent } from "./components/utils";
 import {
   TransitionDialog,
   ReferralForm,
   ReassignForm,
   TransferForm
-} from "./parts";
+} from "./components";
 
 const Transitions = ({
   record,
   recordType,
   userPermissions,
-  referral,
-  setReferral,
   referDialog,
   assignDialog,
   transferDialog,
@@ -37,20 +35,12 @@ const Transitions = ({
   const [disabledReferButton, setDisabledReferButton] = useState(false);
   const [disabledTransferButton, setDisabledTransferButton] = useState(false);
 
-  const transitions = { referDialog, transferDialog, assignDialog };
-
   const commonDialogProps = {
     omitCloseAfterSuccess: true,
     pending,
     record,
     recordType
   };
-
-  useEffect(() => {
-    if (referral && Object.keys(referral).length) {
-      transitions.referDialog = true;
-    }
-  }, [referral]);
 
   const commonTransitionProps = {
     userPermissions,
@@ -60,6 +50,7 @@ const Transitions = ({
     setPending
   };
 
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
   const transitionComponent = t => {
     if (t.transferDialog) {
       return (
@@ -79,8 +70,6 @@ const Transitions = ({
           referralRef={referralFormikRef}
           disabled={disabledReferButton}
           setDisabled={setDisabledReferButton}
-          referral={referral}
-          setReferral={setReferral}
         />
       );
     }
@@ -90,11 +79,11 @@ const Transitions = ({
       );
     }
 
-    return <></>;
+    return null;
   };
 
   const renderTransitionForm = () => {
-    if (transitions.referDialog) {
+    if (referDialog) {
       const referralOnClose = () => {
         setDisabledReferButton(false);
         handleReferClose();
@@ -110,7 +99,7 @@ const Transitions = ({
       };
     }
 
-    if (transitions.transferDialog) {
+    if (transferDialog) {
       const transferOnClose = () => {
         setDisabledTransferButton(false);
         handleTransferClose();
@@ -126,7 +115,7 @@ const Transitions = ({
       };
     }
 
-    if (transitions.assignDialog) {
+    if (assignDialog) {
       return {
         onClose: handleAssignClose,
         confirmButtonLabel: i18n.t("buttons.save"),
@@ -147,7 +136,7 @@ const Transitions = ({
 
   return (
     <TransitionDialog {...customProps} {...commonDialogProps}>
-      {transitionComponent(transitions)}
+      {transitionComponent({  assignDialog, referDialog, transferDialog })}
     </TransitionDialog>
   );
 };
@@ -163,9 +152,7 @@ Transitions.propTypes = {
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   referDialog: PropTypes.bool,
-  referral: PropTypes.object,
   setPending: PropTypes.func,
-  setReferral: PropTypes.func,
   transferDialog: PropTypes.bool,
   userPermissions: PropTypes.object.isRequired
 };
