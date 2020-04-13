@@ -107,6 +107,7 @@ export const ROUTES = {
   admin_user_groups_new: "/admin/user_groups/new",
   admin_agencies: "/admin/agencies",
   admin_agencies_new: "/admin/agencies/new",
+  lookups_new: "/admin/lookups/new",
   lookups: "/admin/lookups",
   admin_roles: "/admin/roles",
   admin_roles_new: "/admin/roles/new",

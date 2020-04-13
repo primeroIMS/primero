@@ -15,6 +15,7 @@ export {
   UserGroupsForm,
   AgenciesList,
   AgenciesForm,
+  LookupsForm,
   LookupsList,
   ContactInformation,
   RolesList,

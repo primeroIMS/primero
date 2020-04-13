@@ -6,6 +6,7 @@ import Login, {
   Dashboard,
   ExportList,
   FormsList,
+  LookupsForm,
   LookupsList,
   NotAuthorized,
   NotFound,
@@ -243,6 +244,30 @@ export default [
               path: ROUTES.admin_agencies,
               component: AgenciesList,
               resources: RESOURCES.agencies
+            },
+            {
+              path: `${ROUTES.lookups}/new`,
+              component: LookupsForm,
+              resources: RESOURCES.lookups,
+              extraProps: {
+                mode: MODES.new
+              }
+            },
+            {
+              path: `${ROUTES.lookups}/:id/edit`,
+              component: LookupsForm,
+              resources: RESOURCES.lookups,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.lookups}/:id`,
+              component: LookupsForm,
+              resources: RESOURCES.lookups,
+              extraProps: {
+                mode: MODES.show
+              }
             },
             {
               path: ROUTES.lookups,

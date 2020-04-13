@@ -37,7 +37,9 @@ const FormSectionField = ({ checkErrors, field }) => {
     password,
     multi_select: multiSelect,
     editable,
-    check_errors: fieldCheckErrors
+    check_errors: fieldCheckErrors,
+    disabled,
+    hiddenClass
   } = field;
   const i18n = useI18n();
   const { formMode, errors } = useFormContext();
@@ -90,7 +92,11 @@ const FormSectionField = ({ checkErrors, field }) => {
     InputLabelProps: {
       shrink: true
     },
-    disabled: formMode.get("isShow") || (formMode.get("isEdit") && !editable)
+    disabled:
+      typeof disabled === "boolean"
+        ? disabled
+        : formMode.get("isShow") || (formMode.get("isEdit") && !editable),
+    hiddenClass
   };
 
   const metaInputProps = {

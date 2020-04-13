@@ -23,7 +23,8 @@ export const FieldRecord = Record({
   autoFocus: false,
   password: false,
   hideOnShow: false,
-  check_errors: List([])
+  check_errors: List([]),
+  hiddenClass: null
 });
 
 export const FormSectionRecord = Record({

@@ -1,25 +1,44 @@
-/* eslint-disable import/prefer-default-export, react/display-name */
+/* eslint-disable
+import/prefer-default-export, react/display-name, jsx-a11y/click-events-have-key-events, react/no-multi-comp */
 
 import React from "react";
 
-export const columns = (i18n, css) => [
+export const columns = (i18n, css, onRowClick) => [
+  {
+    label: "id",
+    name: "id",
+    options: {
+      display: false
+    }
+  },
   {
     label: i18n.t("lookup.name"),
     name: "name",
     options: {
-      customBodyRender: value => {
-        return <div className={css.lookupName}>{value}</div>;
-      }
+      customBodyRender: (value, tableMeta) => (
+        <div
+          onClick={() => onRowClick(tableMeta)}
+          role="button"
+          tabIndex={tableMeta.rowIndex}
+          className={css.lookupName}
+        >
+          {value}
+        </div>
+      )
     }
   },
   {
     label: i18n.t("lookup.values"),
     name: "values",
     options: {
-      // eslint-disable-next-line react/no-multi-comp, react/display-name
-      customBodyRender: value => {
+      customBodyRender: (value, tableMeta) => {
         return (
-          <div className={css.truncateValues}>
+          <div
+            onClick={() => onRowClick(tableMeta)}
+            role="button"
+            tabIndex={tableMeta.rowIndex}
+            className={css.truncateValues}
+          >
             <div>{value}</div>
           </div>
         );
@@ -27,3 +46,4 @@ export const columns = (i18n, css) => [
     }
   }
 ];
+
