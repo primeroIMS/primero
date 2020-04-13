@@ -1,42 +1,28 @@
 import React from "react";
-import { fromJS } from "immutable";
-import { DateRangeSelect } from "components/key-performance-indicators";
-import { OptionsBox, DashboardTable } from "components/dashboard";
+import { useI18n } from "components/i18n";
+import { DashboardTable } from "components/dashboard";
+import { asKeyPerformanceIndicator } from "../../as-key-performance-indiciator";
 
-export default function CaseLoad({ }) {
-  let columns = ['Case Load', 'Percent of Cases'];
+function CaseLoad({ data, identifier }) {
+  let i18n = useI18n();
 
-  let rows = [
-    ['<10 open cases', '15%'],
-    ['<20 open cases', '65%'],
-    ['21-30 open cases', '15%'],
-    ['>30 open cases', '5%']
-  ];
+  let columns = [{
+    name: 'case_load',
+    label: i18n.t(`key_performance_indicators.${identifier}.case_load`),
+    transform: (time) => i18n.t(`key_performance_indicators.${identifier}.${time}`)
+  }, {
+    name: 'percent',
+    label: i18n.t(`key_performance_indicators.${identifier}.percent`),
+    transform: (percent) => (percent * 100).toFixed(0) + '%'
+  }];
+
+  let rows = data.get("data")
+    .map(row => columns.map(column => column.transform(row.get(column.name))))
   
-  let currentMonth = new Date();
-  currentMonth.setMonth(currentMonth.getMonth() - 3)
-  let dateRanges = [{
-    value: '1-month',
-    name: 'Current Month',
-    from: currentMonth,
-    to: new Date()
-  }]
-
-  return (
-    <OptionsBox
-      title="Case Load"
-      action={
-        <DateRangeSelect
-          ranges={dateRanges}
-          selectedRange={dateRanges[0]}
-          withCustomRange
-        />
-      }
-    >
-      <DashboardTable
-        columns={columns}
-        data={fromJS(rows)}
-      />
-    </OptionsBox>
-  );
+  return (<DashboardTable columns={columns} data={rows} />);
 }
+
+export default asKeyPerformanceIndicator(
+  'case_load',
+  { data: [] }
+)(CaseLoad);

@@ -204,7 +204,9 @@ function KeyPerformanceIndicators({}) {
 
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12}>
-                  <CaseLoad />
+                  <CaseLoad
+                    dateRanges={[commonDateRanges.AllTime]}
+                  />
                 </Grid>
               </Grid>
 

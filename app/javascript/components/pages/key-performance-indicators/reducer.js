@@ -3,10 +3,6 @@ import NAMESPACE from "./namespace";
 
 const DEFAULT_STATE = Map({});
 
-// TODO: Lots of strings here with no warn of spelling mistakes. We should
-// move these over to a core set of defined strings with language features
-// that will warn us when they are wrong.
-
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
 
   if (!type.startsWith('KeyPerformanceIndicators'))
@@ -24,4 +20,4 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   return state;
 };
 
-export const reducer = { [NAMESPACE]: reducer };
+export default { [NAMESPACE]: reducer };
