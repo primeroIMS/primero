@@ -1,1 +1,1 @@
-export { default as TranslationsToggle } from "./component";
+export { default } from "./component";

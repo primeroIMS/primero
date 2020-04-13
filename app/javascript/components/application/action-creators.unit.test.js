@@ -1,24 +1,25 @@
-import { expect } from "chai";
 import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
+import actions from "./actions";
 
 describe("Application - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    expect(creators).to.have.property("fetchSystemSettings");
-    expect(creators).to.have.property("loadApplicationResources");
-    expect(creators).to.have.property("setUserIdle");
-    expect(creators).to.have.property("setNetworkStatus");
+    [
+      "fetchSystemPermissions",
+      "fetchSystemSettings",
+      "loadApplicationResources",
+      "setNetworkStatus",
+      "setUserIdle"
+    ].forEach(property => {
+      expect(creators).to.have.property(property);
+      delete creators[property];
+    });
 
-    delete creators.fetchSystemSettings;
-    delete creators.loadApplicationResources;
-    delete creators.setUserIdle;
-    delete creators.setNetworkStatus;
-
-    expect(creators).to.deep.equal({});
+    expect(creators).to.be.empty;
   });
 
   it("should check the 'fetchSystemSettings' action creator to return the correct object", () => {
@@ -57,5 +58,16 @@ describe("Application - Action Creators", () => {
     };
 
     expect(actionCreators.setNetworkStatus(true)).to.eql(expectedAction);
+  });
+
+  it("should check the 'fetchSystemPermissions' action creator to return the correct object", () => {
+    const expected = {
+      type: actions.FETCH_SYSTEM_PERMISSIONS,
+      api: {
+        path: "permissions"
+      }
+    };
+
+    expect(actionCreators.fetchSystemPermissions()).to.deep.equal(expected);
   });
 });

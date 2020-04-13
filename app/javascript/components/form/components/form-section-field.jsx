@@ -7,19 +7,21 @@ import { useI18n } from "../../i18n";
 import TextInput from "../fields/text-input";
 import SwitchInput from "../fields/switch-input";
 import SelectInput from "../fields/select-input";
+import ErrorField from "../fields/error-field";
 import {
-  TICK_FIELD,
   CHECK_BOX_FIELD,
-  SELECT_FIELD,
+  ERROR_FIELD,
+  LABEL_FIELD,
   PHOTO_FIELD,
-  LABEL_FIELD
+  SELECT_FIELD,
+  TICK_FIELD
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
 import Label from "../fields/label";
 import { getOptions } from "../selectors";
 
-const FormSectionField = ({ field }) => {
+const FormSectionField = ({ checkErrors, field }) => {
   const {
     type,
     hideOnShow,
@@ -35,11 +37,16 @@ const FormSectionField = ({ field }) => {
     multi_select: multiSelect,
     editable,
     inlineCheckboxes,
-    freeSolo
+    freeSolo,
+    check_errors: fieldCheckErrors
   } = field;
   const i18n = useI18n();
   const { formMode, errors } = useFormContext();
-  const error = errors[name];
+  const error = errors ? errors[name] : undefined;
+
+  const errorsToCheck = checkErrors
+    ? checkErrors.concat(fieldCheckErrors)
+    : fieldCheckErrors;
 
   const optionSource = useSelector(
     state =>
@@ -52,11 +59,18 @@ const FormSectionField = ({ field }) => {
     (prev, next) => prev.equals(next)
   );
 
+  const renderError = () =>
+    checkErrors?.size && errors
+      ? Object.keys(errors).some(
+          errorKey => checkErrors.includes(errorKey) && name.includes(errorKey)
+        )
+      : false;
+
   const commonInputProps = {
     name,
     required,
     autoFocus,
-    error: typeof error !== "undefined",
+    error: typeof error !== "undefined" || renderError(),
     label: i18n.getI18nStringFromObject(displayName),
     helperText: error?.message || i18n.getI18nStringFromObject(helpText),
     fullWidth: true,
@@ -87,6 +101,8 @@ const FormSectionField = ({ field }) => {
         return AttachmentInput;
       case LABEL_FIELD:
         return Label;
+      case ERROR_FIELD:
+        return ErrorField;
       default:
         return TextInput;
     }
@@ -100,6 +116,7 @@ const FormSectionField = ({ field }) => {
           commonInputProps={commonInputProps}
           metaInputProps={metaInputProps}
           options={optionSource.toJS()}
+          errorsToCheck={errorsToCheck}
         />
       )}
     </div>
@@ -109,6 +126,7 @@ const FormSectionField = ({ field }) => {
 FormSectionField.displayName = "FormSectionField";
 
 FormSectionField.propTypes = {
+  checkErrors: PropTypes.object,
   field: PropTypes.object.isRequired
 };
 

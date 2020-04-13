@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import { useI18n } from "../../i18n";
 import TransitionUser from "../TransitionUser";
 
+import { ASSIGNMENTS_DETAILS_NAME as NAME } from "./constants";
+
 const AssignmentsDetails = ({ transition, classes }) => {
   const i18n = useI18n();
 
@@ -36,6 +38,8 @@ const AssignmentsDetails = ({ transition, classes }) => {
     </Grid>
   );
 };
+
+AssignmentsDetails.displayName = NAME;
 
 AssignmentsDetails.propTypes = {
   classes: PropTypes.object.isRequired,

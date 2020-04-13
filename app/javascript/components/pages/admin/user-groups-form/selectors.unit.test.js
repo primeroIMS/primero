@@ -1,16 +1,21 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../../../../test/unit-test-helpers";
 import NAMESPACE from "../user-groups-list/namespace";
 
-import { getUserGroup, getErrors, getServerErrors } from "./selectors";
+import {
+  getUserGroup,
+  getErrors,
+  getServerErrors,
+  getSavingRecord
+} from "./selectors";
 
 const stateWithHeaders = fromJS({
   records: {
     user_groups: {
       selectedUserGroup: { id: 1 },
       errors: true,
-      serverErrors: [{ message: "error-1" }]
+      serverErrors: [{ message: "error-1" }],
+      saving: true
     }
   }
 });
@@ -71,6 +76,20 @@ describe("<UserGroupsForm /> - Selectors", () => {
       const userGroup = getServerErrors(stateWithoutHeaders);
 
       expect(userGroup).to.deep.equal(fromJS([]));
+    });
+  });
+
+  describe("getSavingRecord", () => {
+    it("should return server errors", () => {
+      const serverErrors = getSavingRecord(stateWithHeaders);
+
+      expect(serverErrors).to.be.true;
+    });
+
+    it("should return empty object when no server errors", () => {
+      const user = getSavingRecord(stateWithoutHeaders);
+
+      expect(user).to.be.false;
     });
   });
 });

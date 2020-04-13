@@ -24,7 +24,8 @@ export const FieldRecord = Record({
   password: false,
   hideOnShow: false,
   inlineCheckboxes: false,
-  freeSolo: false
+  freeSolo: false,
+  check_errors: List([])
 });
 
 export const FormSectionRecord = Record({
@@ -43,7 +44,8 @@ export const FormSectionRecord = Record({
   fields: List([]),
   is_nested: null,
   subform_prevent_item_removal: false,
-  collapsed_field_names: List([])
+  collapsed_field_names: List([]),
+  check_errors: List([])
 });
 
 export const Option = Record({

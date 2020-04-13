@@ -4,11 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fromJS } from "immutable";
 
 import { setLocale } from "./action-creators";
-import { getLocales, getLocale } from "./selectors";
 import Context from "./context";
-
-export { default as withI18n } from "./with-i18n";
-export { default as useI18n } from "./use-i18n";
+import { getLocales, getLocale } from "./selectors";
+import useI18n from "./use-i18n";
+import withI18n from "./with-i18n";
 
 const I18nProvider = ({ children }) => {
   const locale = useSelector(state => getLocale(state));
@@ -72,4 +71,5 @@ I18nProvider.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-export { I18nProvider };
+export default I18nProvider;
+export { useI18n, withI18n };

@@ -17,8 +17,6 @@ module Serviceable
       time :service_due_dates, multiple: true
     end
 
-    before_save :update_implement_field, :mark_referrable_services
-
     def update_implement_field
       services = self.services_section || []
       services.each do |service|
@@ -106,19 +104,6 @@ module Serviceable
       service['service_implemented_day_time'].blank?
     end
 
-    def mark_referrable_services
-      return unless services_section_change?
-
-      lookup_service_type = Lookup.find_by(unique_id: 'lookup-service-type')
-      services_fields = services_implementing_fields
-      enabled_agencies = Agency.enabled.where(unique_id: services_fields[:agencies]).pluck(:unique_id, :services).to_h
-      enabled_users = User.enabled.where(user_name: services_fields[:users]).pluck(:user_name, :services).to_h
-
-      services_section.each do |service|
-        service['service_is_referrable'] = is_referrable(lookup_service_type, enabled_agencies, enabled_users, service)
-      end
-    end
-
     def services_section_change?
       hash_diff(data_change[1], data_change[0]).to_h['services_section'].present?
     end
@@ -133,25 +118,5 @@ module Serviceable
       end
     end
 
-    def services_implementing_fields
-      services_section.inject(agencies: [], users: []) do |acc, service|
-        agency = service['service_implementing_agency']
-        user = service['service_implementing_agency_individual']
-        acc[:agencies] << agency if acc[:agencies].exclude?(agency)
-        acc[:users] << user if acc[:users].exclude?(user)
-        return acc
-      end
-    end
-
-    def is_referrable(lookup_service_type, enabled_agencies, enabled_users, service)
-      service_agency = service['service_implementing_agency']
-      service_user = service['service_implementing_agency_individual']
-      service_type = service['service_type']
-
-      service_agency.present? && service_user.present? && service_type.present? &&
-        lookup_service_type&.contains_option_id?(service_type).present? &&
-        enabled_agencies[service_agency].present? && enabled_agencies[service_agency].include?(service_type) &&
-        enabled_users[service_user].present? && enabled_users[service_user].include?(service_type)
-    end
   end
 end

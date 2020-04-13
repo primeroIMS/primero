@@ -1,4 +1,4 @@
-import { expect, spy } from "../../../../test";
+import { spy } from "../../../../test";
 import { AGE_MAX } from "../../../../config";
 
 import {

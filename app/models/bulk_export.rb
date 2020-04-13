@@ -102,6 +102,10 @@ class BulkExport < ApplicationRecord
     File.join(Rails.configuration.exports_directory, "#{id}_#{file_name}")
   end
 
+  def url
+    Rails.application.routes.url_helpers.rails_blob_path(export_file, only_path: true, expires_in: EXPIRES)
+  end
+
   def process_records_in_batches(batch_size = 500, &block)
     # TODO: This is a good candidate for multi-threading, provided export buffers are thread safe.
     pagination = { page: 1, per_page: batch_size }

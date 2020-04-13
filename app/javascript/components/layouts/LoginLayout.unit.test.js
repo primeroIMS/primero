@@ -1,10 +1,9 @@
-import { expect } from "chai";
 import { Map } from "immutable";
 
 import { setupMountedComponent } from "../../test";
-import { TranslationsToggle } from "../translations-toggle";
-import { AgencyLogo } from "../agency-logo";
-import { ModuleLogo } from "../module-logo";
+import TranslationsToggle from "../translations-toggle";
+import AgencyLogo from "../agency-logo";
+import ModuleLogo from "../module-logo";
 import PrimeroWhiteLogo from "../../images/primero-logo-white.png";
 
 import LoginLayout from "./LoginLayout";

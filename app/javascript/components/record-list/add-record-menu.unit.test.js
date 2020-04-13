@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import { Menu, Button } from "@material-ui/core";
 
-import { setupMountedComponent, expect } from "../../test";
+import { setupMountedComponent } from "../../test";
 import { RECORD_PATH } from "../../config";
 import { PrimeroModuleRecord } from "../application/records";
 

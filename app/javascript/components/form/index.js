@@ -1,14 +1,17 @@
 export { default } from "./component";
 export { FieldRecord, FormSectionRecord } from "./records";
 export { default as FormAction } from "./components/form-action";
+export { default as ActionsMenu } from "./components/actions-menu";
 export {
-  FORM_MODE_DIALOG,
-  TICK_FIELD,
-  TEXT_FIELD,
   CHECK_BOX_FIELD,
+  ERROR_FIELD,
+  FORM_MODE_DIALOG,
+  LABEL_FIELD,
+  PARENT_FORM,
+  PHOTO_FIELD,
   SELECT_FIELD,
   TEXT_AREA,
-  PHOTO_FIELD,
-  LABEL_FIELD
+  TEXT_FIELD,
+  TICK_FIELD
 } from "./constants";
 export { whichFormMode } from "./utils";

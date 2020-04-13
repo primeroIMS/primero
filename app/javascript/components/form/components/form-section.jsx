@@ -7,7 +7,7 @@ import FormSectionTitle from "./form-section-title";
 import styles from "./styles.css";
 
 const FormSection = ({ formSection }) => {
-  const { fields } = formSection;
+  const { fields, check_errors: checkErrors } = formSection;
   const css = makeStyles(styles)();
   const renderFields = fieldsToRender => {
     return fieldsToRender.map(field => {
@@ -15,14 +15,19 @@ const FormSection = ({ formSection }) => {
         return <div className={css.row}>{renderFields(field)}</div>;
       }
 
-      return <FormSectionField field={field} key={field.name} />;
+      return (
+        <FormSectionField
+          field={field}
+          key={field.name}
+          checkErrors={checkErrors}
+        />
+      );
     });
   };
 
   return (
     <>
       <FormSectionTitle formSection={formSection} />
-
       {renderFields(fields)}
     </>
   );

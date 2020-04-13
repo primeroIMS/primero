@@ -71,9 +71,11 @@ const TaskList = () => {
                     value === TASK_TYPES.SERVICE
                       ? lookupServiceType.find(
                           serviceType => serviceType.id === lookupAction
+                          // eslint-disable-next-line camelcase
                         )?.display_text[i18n.locale]
                       : lookupFollowupType.find(
                           followup => followup.id === lookupAction
+                          // eslint-disable-next-line camelcase
                         )?.display_text[i18n.locale];
 
                   const renderValue = [

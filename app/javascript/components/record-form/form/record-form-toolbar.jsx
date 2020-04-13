@@ -7,7 +7,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import { useSelector } from "react-redux";
 
 import { useI18n } from "../../i18n";
-import { Flagging } from "../../flagging";
+import Flagging from "../../flagging";
 import RecordActions from "../../record-actions";
 import Permission from "../../application/permission";
 import { FLAG_RECORDS, WRITE_RECORDS } from "../../../libs/permissions";
@@ -21,16 +21,15 @@ import PageHeading from "./page-heading";
 import styles from "./styles.css";
 
 const RecordFormToolbar = ({
+  handleFormSubmit,
+  caseIdDisplay,
+  history,
   mode,
   params,
-  recordType,
-  handleFormSubmit,
-  shortId,
-  history,
   primeroModule,
   record,
-  referral,
-  setReferral
+  recordType,
+  shortId
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -92,6 +91,7 @@ const RecordFormToolbar = ({
     >
       <Box flexGrow={1} display="flex" flexDirection="column">
         <PageHeading
+          caseIdDisplay={caseIdDisplay}
           i18n={i18n}
           mode={mode}
           params={params}
@@ -138,8 +138,6 @@ const RecordFormToolbar = ({
           recordType={params.recordType}
           record={record}
           mode={mode}
-          referral={referral}
-          setReferral={setReferral}
         />
       </Box>
     </Box>
@@ -149,6 +147,7 @@ const RecordFormToolbar = ({
 RecordFormToolbar.displayName = RECORD_FORM_TOOLBAR_NAME;
 
 RecordFormToolbar.propTypes = {
+  caseIdDisplay: PropTypes.string,
   handleFormSubmit: PropTypes.func.isRequired,
   history: PropTypes.object,
   mode: PropTypes.object,
@@ -156,8 +155,6 @@ RecordFormToolbar.propTypes = {
   primeroModule: PropTypes.string.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  referral: PropTypes.object,
-  setReferral: PropTypes.func.isRequired,
   shortId: PropTypes.string
 };
 

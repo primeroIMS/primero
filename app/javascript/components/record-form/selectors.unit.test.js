@@ -1,13 +1,9 @@
-import chai, { expect } from "chai";
 import { Map, List, OrderedMap, fromJS } from "immutable";
-import chaiImmutable from "chai-immutable";
 
 import { mapEntriesToRecord } from "../../libs";
 
 import * as R from "./records";
 import * as selectors from "./selectors";
-
-chai.use(chaiImmutable);
 
 const formSections = {
   62: {
@@ -31,6 +27,39 @@ const formSections = {
     form_group_id: "identification_registration",
     form_group_name: {
       en: "Identification / Registration",
+      fr: "",
+      ar: "",
+      "ar-LB": "",
+      so: "",
+      es: ""
+    },
+    fields: [1],
+    is_nested: null
+  }
+};
+
+const invisibleFormSection = {
+  62: {
+    id: 62,
+    unique_id: "invisible_form",
+    name: {
+      en: "Invisible Form",
+      fr: "",
+      ar: "",
+      "ar-LB": "",
+      so: "",
+      es: ""
+    },
+    visible: false,
+    is_first_tab: true,
+    order: 10,
+    order_form_group: 30,
+    parent_form: "case",
+    editable: true,
+    module_ids: ["primeromodule-cp"],
+    form_group_id: "invisible",
+    form_group_name: {
+      en: "Invisible",
       fr: "",
       ar: "",
       "ar-LB": "",
@@ -85,6 +114,34 @@ const location = {
     fr: ""
   }
 };
+
+const serviceToRefer = {
+  service_type: "some_service",
+  service_implementing_agency: "some_agency",
+  service_implementing_agency_individual: "some_user"
+};
+
+const agency1 = {
+  unique_id: "agency-test-1",
+  agency_code: "test1",
+  disabled: false,
+  services: ["service_test_1"]
+};
+
+const agency2 = {
+  unique_id: "agency-test-2",
+  agency_code: "test2",
+  disabled: false,
+  services: ["service_test_1", "service_test_2"]
+};
+
+const agency3 = {
+  unique_id: "agency-test-3",
+  agency_code: "test3",
+  disabled: true,
+  services: ["service_test_1"]
+};
+
 const stateWithNoRecords = Map({});
 const stateWithRecords = fromJS({
   ui: {
@@ -95,13 +152,23 @@ const stateWithRecords = fromJS({
   },
   forms: {
     selectedForm: "basic_identity",
+    recordAlerts: [
+      {
+        alert_for: "field_change",
+        type: "notes",
+        date: "2020-04-02",
+        form_unique_id: "notes"
+      }
+    ],
+    serviceToRefer,
     formSections: mapEntriesToRecord(formSections, R.FormSectionRecord),
     fields: mapEntriesToRecord(fields, R.FieldRecord),
     loading: true,
     errors: true,
     options: {
       lookups: { data: [serviceTypeLookup] },
-      locations: [location]
+      locations: [location],
+      agencies: [agency1, agency2, agency3]
     },
     selectedRecord: {
       age: 26,
@@ -126,6 +193,11 @@ const stateWithRecords = fromJS({
     }
   }
 });
+
+const stateWithInvisibleForms = stateWithRecords.setIn(
+  ["forms", "formSections"],
+  fromJS(mapEntriesToRecord(invisibleFormSection, R.FormSectionRecord))
+);
 
 describe("<RecordForm /> - Selectors", () => {
   describe("getErrors", () => {
@@ -428,6 +500,101 @@ describe("<RecordForm /> - Selectors", () => {
       const record = selectors.getLocations(stateWithNoRecords);
 
       expect(record).to.be.empty;
+    });
+  });
+
+  describe("getRecordAlerts", () => {
+    it("should return the list of alerts", () => {
+      const expected = fromJS([
+        {
+          alert_for: "field_change",
+          type: "notes",
+          date: "2020-04-02",
+          form_unique_id: "notes"
+        }
+      ]);
+
+      expect(selectors.getRecordAlerts(stateWithRecords)).to.deep.equals(
+        expected
+      );
+    });
+
+    it("should return an empty array when there are not any options", () => {
+      const record = selectors.getRecordAlerts(stateWithNoRecords);
+
+      expect(record).to.be.empty;
+    });
+  });
+
+  describe("getAssignableForms", () => {
+    it("should return the forms that can be assigned to a role", () => {
+      const expected = fromJS(
+        mapEntriesToRecord(formSections, R.FormSectionRecord)
+      );
+      const forms = selectors.getAssignableForms(stateWithRecords);
+
+      expect(forms).to.deep.equal(expected);
+    });
+
+    it("should return empty if there are not forms to assign", () => {
+      const forms = selectors.getAssignableForms(stateWithNoRecords);
+
+      expect(forms).to.be.empty;
+    });
+
+    it("should return empty if the forms are not assignable", () => {
+      const forms = selectors.getAssignableForms(stateWithInvisibleForms);
+
+      expect(forms).to.be.empty;
+    });
+  });
+
+  describe("getServiceToRefer", () => {
+    it("should return the service to refer", () => {
+      const expected = fromJS(serviceToRefer);
+      const result = selectors.getServiceToRefer(stateWithRecords);
+
+      expect(result).to.deep.equal(expected);
+    });
+
+    it("should return empty if there is not a service to refer", () => {
+      const forms = selectors.getAssignableForms(stateWithNoRecords);
+
+      expect(forms).to.be.empty;
+    });
+  });
+
+  describe("getEnabledAgencies", () => {
+    it("should return the enabled agencies", () => {
+      const expected = fromJS([agency1, agency2]);
+      const enabledAgencies = selectors.getEnabledAgencies(stateWithRecords);
+
+      expect(enabledAgencies).to.deep.equal(expected);
+    });
+
+    it("should return enabled agencies with the selected service", () => {
+      const expected = fromJS([agency2]);
+      const agenciesWithService = selectors.getEnabledAgencies(
+        stateWithRecords,
+        "service_test_2"
+      );
+
+      expect(agenciesWithService).to.deep.equal(expected);
+    });
+
+    it("should return empty if there are no agencies with the selected service", () => {
+      const agenciesWithService = selectors.getEnabledAgencies(
+        stateWithRecords,
+        "service_test_5"
+      );
+
+      expect(agenciesWithService).to.be.empty;
+    });
+
+    it("should return empty if there are no enabled agencies", () => {
+      const enabledAgencies = selectors.getAssignableForms(stateWithNoRecords);
+
+      expect(enabledAgencies).to.be.empty;
     });
   });
 });

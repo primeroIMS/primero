@@ -1,12 +1,8 @@
 import clone from "lodash/clone";
-import chai, { expect } from "chai";
 import sinon from "sinon";
-import sinonChai from "sinon-chai";
 import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
-
-chai.use(sinonChai);
 
 describe("<RecordForm /> - Action Creators", () => {
   it("should have known action creators", () => {

@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { DASHBOARD_NAMES } from "./constants";
@@ -299,13 +298,15 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return a map when dashboard is empty", () => {
       const emptyResult = fromJS({});
 
-      const initialState = fromJS({
+      const emptyValueInitialState = fromJS({
         name: DASHBOARD_NAMES.CASE_RISK,
         type: "indicator",
         stats: {}
       });
 
-      const expected = selectors.getCasesByAssessmentLevel(initialState);
+      const expected = selectors.getCasesByAssessmentLevel(
+        emptyValueInitialState
+      );
 
       expect(emptyResult).to.deep.equal(expected);
     });

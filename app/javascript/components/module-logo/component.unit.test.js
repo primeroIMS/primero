@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import PrimeroLogo from "../../images/primero-logo.png";
 import MRMLogo from "../../images/mrm-logo.png";
 import { setupMountedThemeComponent } from "../../test";

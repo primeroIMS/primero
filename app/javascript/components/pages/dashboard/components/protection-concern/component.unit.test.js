@@ -1,10 +1,10 @@
 import { fromJS } from "immutable";
 import { TableRow, TableBody } from "@material-ui/core";
 
-import { expect, setupMountedComponent } from "../../../../../test";
+import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../../libs/permissions";
 import { DashboardTable, OptionsBox } from "../../../../dashboard";
-import { LoadingIndicator } from "../../../../loading-indicator";
+import LoadingIndicator from "../../../../loading-indicator";
 
 import ProtectionConcern from "./component";
 
