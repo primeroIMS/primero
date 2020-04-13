@@ -3,7 +3,7 @@
 # Validate basic Primero health: in this case being able to access core dependencies
 class HealthCheckService
   class << self
-    def healthy?  
+    def healthy?
       database_accessible? && solr_accessible? && beanstalkd_accessible?
     end
 
@@ -26,6 +26,8 @@ class HealthCheckService
       connection.connected?
     rescue Beaneater::NotConnected
       false
+    ensure
+      connection&.close
     end
 
     def should_test_beanstalkd?
