@@ -1,6 +1,7 @@
 <%
   date_field ||= filter['name']
-  date_type = ''
+  date_type = 'date_type'
+  date_control = 'date'
   if date_field.blank?
     record_type = filter['record_type'] || 'cases'
     date_options = selectable_filter_date_options(record_type)
@@ -29,18 +30,18 @@
         <div class="controls row collapse">
           <div class="select row hide control">
             <div class="large-12 columns">
-            <%= select_tag "#{date_field}_select_control", nil, prompt: I18n.t("report.report_filters.year_prompt") %>
-            <%= label_tag "#{date_field}_select_control", '' %>
+            <%= select_tag "#{date_control}_select_control", nil, prompt: I18n.t("report.report_filters.year_prompt") %>
+            <%= label_tag "#{date_control}_select_control", '' %>
             </div>
           </div>
           <div class="range row hide control">
             <div class="large-6 columns">
-            <%= text_field_tag "#{date_field}_from", '', filter_type: 'date_range', placeholder: I18n.t("report.report_filters.date_prompt"), class: 'form_date_field' %>
-            <%= label_tag "#{date_field}_date_from_control", I18n.t("report.report_filters.from") %>
+            <%= text_field_tag "#{date_control}_from", '', filter_type: 'date_range', placeholder: I18n.t("report.report_filters.date_prompt"), class: 'form_date_field from' %>
+            <%= label_tag "#{date_control}_date_from_control", I18n.t("report.report_filters.from") %>
             </div>
             <div class="large-6 columns">
-            <%= text_field_tag "#{date_field}_to", '', filter_type: 'date_range', placeholder: I18n.t("report.report_filters.date_prompt"), class: 'form_date_field' %>
-            <%= label_tag "#{date_field}_date_to_control", I18n.t("report.report_filters.to") %>
+            <%= text_field_tag "#{date_control}_to", '', filter_type: 'date_range', placeholder: I18n.t("report.report_filters.date_prompt"), class: 'form_date_field to' %>
+            <%= label_tag "#{date_control}_date_to_control", I18n.t("report.report_filters.to") %>
             </div>
           </div>
         </div>
