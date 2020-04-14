@@ -6,19 +6,27 @@ module ActiveStorageAuth
   extend ActiveSupport::Concern
 
   included do
-    # TODO: We need to secure ActiveStorage controllers
-    # before_action :authenticate_user!
-
     rescue_from CanCan::AccessDenied do
-      render plain: 'Forbidden', status: 403
+      forbid!
     end
   end
 
-  # TODO: So far this has been tested for BulkExports.
-  # The logic is probably good for record attachments,
-  # but will likely need to be extended for Agencies (logos)
+  def forbid!
+    render plain: 'Forbidden', status: 403
+  end
+
+  def authenticate_access!
+    authenticate_user! unless agency_logo?
+  end
+
   def authorize_blob!
     record = @blob&.attachments&.first&.record
-    authorize!(:read, record)
+    authorize!(:read, record) unless agency_logo?
+  end
+
+  def agency_logo?
+    @blob&.attachments&.all? do |att|
+      att.record_type == 'Agency' && %w[logo_full logo_icon].include?(att.name)
+    end
   end
 end

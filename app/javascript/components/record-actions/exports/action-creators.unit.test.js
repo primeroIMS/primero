@@ -1,12 +1,11 @@
-import { expect, stub } from "../../../test";
+import { stub } from "../../../test";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { EXPORT_URL } from "../../pages/export-list/constants";
 import { EXPORT_DIALOG } from "../constants";
+import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
 
 import actions from "./actions";
 import * as actionCreators from "./action-creators";
-
-import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
 
 describe("<RecordActions /> - exports/action-creators", () => {
   before(() => {

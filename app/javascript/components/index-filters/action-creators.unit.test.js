@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
@@ -33,7 +32,7 @@ describe("<IndexFilters /> - Action Creators", () => {
     ).to.deep.equal(expectedAction);
   });
 
-  it("should check the 'applyFilters' action creator to return the correct object, when applying filters/fetching records", () => {
+  it("checks 'applyFilters' action creator returns the correct object, when applying filters/fetching records", () => {
     const options = { filter1: true };
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");

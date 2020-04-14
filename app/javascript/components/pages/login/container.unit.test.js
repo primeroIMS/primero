@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
@@ -41,15 +40,15 @@ describe("<Login />", () => {
         fromJS({
           idp: {
             use_identity_provider: true,
-            "identity_providers": [
+            identity_providers: [
               {
-                "name": "UNICEF",
-                "type": "b2c",
-                "domain_hint": "unicef",
-                "authority": "authority",
-                "client_id": "clientid",
-                "scope": ["scope"],
-                "redirect_uri": "redirect"
+                name: "UNICEF",
+                type: "b2c",
+                domain_hint: "unicef",
+                authority: "authority",
+                client_id: "clientid",
+                scope: ["scope"],
+                redirect_uri: "redirect"
               }
             ]
           }

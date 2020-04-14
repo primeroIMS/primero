@@ -1,8 +1,7 @@
 import { fromJS } from "immutable";
 import MUIDataTable from "mui-datatables";
-import { TableBody, TableRow } from "@material-ui/core";
 
-import { setupMountedComponent, expect } from "../../../../test";
+import { setupMountedComponent } from "../../../../test";
 import { PageHeading } from "../../../page";
 import { ACTIONS } from "../../../../libs/permissions";
 
@@ -13,7 +12,7 @@ describe("<LookupList />", () => {
   const state = fromJS({
     user: {
       permissions: {
-        agencies: [ACTIONS.MANAGE]
+        metadata: [ACTIONS.MANAGE]
       }
     },
     forms: {
@@ -36,9 +35,7 @@ describe("<LookupList />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(LookupList, {}, state, [
-      "/admin/lookups"
-    ]));
+    ({ component } = setupMountedComponent(LookupList, {}, state));
   });
 
   it("renders a PageHeading component", () => {

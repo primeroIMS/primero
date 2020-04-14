@@ -2,14 +2,14 @@ import { Drawer, List, useMediaQuery } from "@material-ui/core";
 import React, { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { AgencyLogo } from "../agency-logo";
-import { ModuleLogo } from "../module-logo";
+import AgencyLogo from "../agency-logo";
+import ModuleLogo from "../module-logo";
 import { useI18n } from "../i18n";
 import { useThemeHelper } from "../../libs";
-import { MobileToolbar } from "../mobile-toolbar";
+import MobileToolbar from "../mobile-toolbar";
 import { useApp } from "../application";
 import Permission from "../application/permission";
-import { TranslationsToggle } from "../translations-toggle";
+import TranslationsToggle from "../translations-toggle";
 import { PERMITTED_URL, ROUTES } from "../../config";
 import {
   RECORD_RESOURCES,
@@ -24,7 +24,10 @@ import {
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
-import * as actions from "./action-creators";
+import {
+  openDrawer as openDrawerActionCreator,
+  fetchAlerts
+} from "./action-creators";
 import { selectDrawerOpen, selectUsername, selectAlerts } from "./selectors";
 import MenuEntry from "./components/menu-entry";
 
@@ -34,12 +37,13 @@ const Nav = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const openDrawer = useCallback(value => dispatch(actions.openDrawer(value)), [
-    dispatch
-  ]);
+  const openDrawer = useCallback(
+    value => dispatch(openDrawerActionCreator(value)),
+    [dispatch]
+  );
 
   useEffect(() => {
-    dispatch(actions.fetchAlerts());
+    dispatch(fetchAlerts());
   }, []);
 
   const { userModules } = useApp();

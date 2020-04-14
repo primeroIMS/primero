@@ -1,23 +1,25 @@
 import Login, {
+  Admin,
+  AgenciesForm,
+  AgenciesList,
+  ContactInformation,
   Dashboard,
-  Reports,
-  Report,
-  PotentialMatches,
-  TaskList,
   ExportList,
-  Support,
+  FormsList,
+  LookupsList,
   NotAuthorized,
   NotFound,
-  Admin,
-  UsersList,
-  UsersForm,
-  UserGroupsList,
+  PotentialMatches,
+  Report,
+  Reports,
+  RolesForm,
+  RolesList,
+  Support,
+  TaskList,
   UserGroupsForm,
-  AgenciesList,
-  AgenciesForm,
-  LookupsList,
-  ContactInformation,
-  RolesList
+  UserGroupsList,
+  UsersForm,
+  UsersList
 } from "../components/pages";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
@@ -248,9 +250,43 @@ export default [
               resources: RESOURCES.lookups
             },
             {
+              path: `${ROUTES.admin_roles}/new`,
+              component: RolesForm,
+              resources: RESOURCES.roles,
+              extraProps: {
+                mode: MODES.new
+              }
+            },
+            {
+              path: `${ROUTES.admin_roles}/:id/edit`,
+              component: RolesForm,
+              resources: RESOURCES.roles,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.admin_roles}/:id`,
+              component: RolesForm,
+              resources: RESOURCES.roles,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
               path: ROUTES.admin_roles,
               component: RolesList,
               resources: RESOURCES.roles
+            },
+            {
+              path: ROUTES.admin_roles,
+              component: RolesList,
+              resources: RESOURCES.roles
+            },
+            {
+              path: ROUTES.forms,
+              component: FormsList,
+              // resources:
             }
           ]
         }

@@ -1,4 +1,4 @@
-import { expect, stub } from "../../../../test/unit-test-helpers";
+import { stub } from "../../../../test";
 import { RECORD_PATH } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 
@@ -56,7 +56,7 @@ describe("<AgenciesForm /> - Action Creators", () => {
             }
           },
           redirectWithIdFromResponse: false,
-          redirect: `/admin/${RECORD_PATH.agencies}`
+          redirect: `/admin/${RECORD_PATH.agencies}/10`
         }
       }
     };

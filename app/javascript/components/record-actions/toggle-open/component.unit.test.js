@@ -1,7 +1,6 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { ActionDialog } from "../../action-dialog";
+import ActionDialog from "../../action-dialog";
 import { setupMountedComponent } from "../../../test";
 import { RECORD_PATH } from "../../../config";
 

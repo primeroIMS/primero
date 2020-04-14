@@ -1,13 +1,9 @@
-import chai, { expect } from "chai";
 import { Map, List, fromJS } from "immutable";
-import chaiImmutable from "chai-immutable";
 
-import { reducers } from "./reducer";
-
-chai.use(chaiImmutable);
+import reducer from "./reducer";
 
 describe("<RecordList /> - Reducers", () => {
-  const reducer = reducers("TestRecordType");
+  const nsReducer = reducer("TestRecordType");
 
   it("should handle RECORDS_STARTED", () => {
     const expected = Map({ loading: true, errors: false });
@@ -15,7 +11,7 @@ describe("<RecordList /> - Reducers", () => {
       type: "TestRecordType/RECORDS_STARTED",
       payload: true
     };
-    const newState = reducer(Map({}), action);
+    const newState = nsReducer(Map({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -26,7 +22,7 @@ describe("<RecordList /> - Reducers", () => {
       type: "TestRecordType/RECORDS_FAILURE",
       payload: ["some error"]
     };
-    const newState = reducer(Map({}), action);
+    const newState = nsReducer(Map({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -42,7 +38,7 @@ describe("<RecordList /> - Reducers", () => {
       payload: { data: [{ id: 3 }], metadata: { per: 2 } }
     };
 
-    const newState = reducer(Map({ data: List([]) }), action);
+    const newState = nsReducer(Map({ data: List([]) }), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -53,7 +49,7 @@ describe("<RecordList /> - Reducers", () => {
       type: "TestRecordType/RECORDS_FINISHED",
       payload: false
     };
-    const newState = reducer(Map({}), action);
+    const newState = nsReducer(Map({}), action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -67,7 +63,7 @@ describe("<RecordList /> - Reducers", () => {
       payload: true
     };
 
-    const newState = reducer(defaultState, action);
+    const newState = nsReducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -81,7 +77,7 @@ describe("<RecordList /> - Reducers", () => {
       payload: false
     };
 
-    const newState = reducer(defaultState, action);
+    const newState = nsReducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -95,7 +91,7 @@ describe("<RecordList /> - Reducers", () => {
       payload: false
     };
 
-    const newState = reducer(defaultState, action);
+    const newState = nsReducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });

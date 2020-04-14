@@ -1,8 +1,8 @@
 import React from "react";
 import { CircularProgress } from "@material-ui/core";
 
-import { expect, setupMountedComponent } from "../../test";
-import { ListIcon } from "../list-icon";
+import { setupMountedComponent } from "../../test";
+import ListIcon from "../list-icon";
 
 import LoadingIndicator from "./component";
 
@@ -34,7 +34,7 @@ describe("<LoadingIndicator />", () => {
   });
 
   describe("When data still loading", () => {
-    let component;
+    let loadingComponent;
 
     const propsDataLoading = {
       ...props,
@@ -43,7 +43,7 @@ describe("<LoadingIndicator />", () => {
     };
 
     before(() => {
-      ({ component } = setupMountedComponent(
+      ({ component: loadingComponent } = setupMountedComponent(
         LoadingIndicator,
         propsDataLoading,
         {}
@@ -51,20 +51,20 @@ describe("<LoadingIndicator />", () => {
     });
 
     it("renders LoadingIndicator component", () => {
-      expect(component.find(LoadingIndicator)).to.have.lengthOf(1);
+      expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);
     });
 
     it("renders CircularProgress", () => {
-      expect(component.find(CircularProgress)).to.have.lengthOf(1);
+      expect(loadingComponent.find(CircularProgress)).to.have.lengthOf(1);
     });
 
     it("doesn't render children", () => {
-      expect(component.find("h1")).to.be.empty;
+      expect(loadingComponent.find("h1")).to.be.empty;
     });
   });
 
   describe("When doesn't has data", () => {
-    let component;
+    let noDataComponent;
 
     const propsDataLoading = {
       ...props,
@@ -73,7 +73,7 @@ describe("<LoadingIndicator />", () => {
     };
 
     before(() => {
-      ({ component } = setupMountedComponent(
+      ({ component: noDataComponent } = setupMountedComponent(
         LoadingIndicator,
         propsDataLoading,
         {}
@@ -81,20 +81,20 @@ describe("<LoadingIndicator />", () => {
     });
 
     it("renders LoadingIndicator component", () => {
-      expect(component.find(LoadingIndicator)).to.have.lengthOf(1);
+      expect(noDataComponent.find(LoadingIndicator)).to.have.lengthOf(1);
     });
 
     it("renders CircularProgress", () => {
-      expect(component.find(ListIcon)).to.have.lengthOf(1);
+      expect(noDataComponent.find(ListIcon)).to.have.lengthOf(1);
     });
 
     it("doesn't render children", () => {
-      expect(component.find("h1")).to.be.empty;
+      expect(noDataComponent.find("h1")).to.be.empty;
     });
 
     it("render a message no data found", () => {
-      expect(component.find("h5").text()).to.be.equal("errors.not_found");
-      expect(component.find("h5")).to.have.lengthOf(1);
+      expect(noDataComponent.find("h5").text()).to.be.equal("errors.not_found");
+      expect(noDataComponent.find("h5")).to.have.lengthOf(1);
     });
   });
 });

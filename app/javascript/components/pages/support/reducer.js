@@ -10,7 +10,7 @@ import { ContactInformationRecord } from "./records";
 
 const DEFAULT_STATE = fromJS({});
 
-const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case FETCH_DATA_SUCCESS:
       return state.set("data", ContactInformationRecord(payload.data));
@@ -24,5 +24,3 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state;
   }
 };
-
-export const reducers = reducer;

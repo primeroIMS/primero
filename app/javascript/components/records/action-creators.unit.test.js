@@ -1,12 +1,7 @@
-import chai, { expect } from "chai";
-import sinon from "sinon";
-import sinonChai from "sinon-chai";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
 import * as actionCreators from "./action-creators";
-
-chai.use(sinonChai);
 
 describe("records - Action Creators", () => {
   it("should have known action creators", () => {

@@ -1,12 +1,10 @@
-import { expect } from "../../test";
-
 import * as index from "./index";
 
 describe("Approvals - index", () => {
   const indexValues = { ...index };
 
   it("should have known exported properties", () => {
-    ["Approvals"].forEach(property => {
+    ["default"].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });

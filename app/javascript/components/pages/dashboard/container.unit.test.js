@@ -1,4 +1,4 @@
-import { expect, setupMountedComponent } from "../../../test";
+import { setupMountedComponent } from "../../../test";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 
 import {

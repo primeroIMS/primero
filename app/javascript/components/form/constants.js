@@ -17,3 +17,5 @@ export const PHOTO_FIELD = "photo_upload_box";
 // export const DOCUMENT_FIELD = "document_upload_box";
 // export const AUDIO_FIELD = "audio_upload_box";
 // export const NAME_FIELD = "name";
+export const ERROR_FIELD = "error_field";
+export const PARENT_FORM = "parent_form";

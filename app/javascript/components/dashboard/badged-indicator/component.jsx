@@ -5,11 +5,11 @@ import makeStyles from "@material-ui/styles/makeStyles";
 import { push } from "connected-react-router";
 import isEmpty from "lodash/isEmpty";
 
-import { DashboardChip } from "../dashboard-chip";
+import DashboardChip from "../dashboard-chip";
 import { useI18n } from "../../i18n";
 import { ROUTES } from "../../../config";
-import { buildFilter } from "../helpers";
-import { LoadingIndicator } from "../../loading-indicator";
+import { buildFilter } from "../utils";
+import LoadingIndicator from "../../loading-indicator";
 import NAMESPACE from "../../pages/dashboard/namespace";
 
 import styles from "./styles.css";

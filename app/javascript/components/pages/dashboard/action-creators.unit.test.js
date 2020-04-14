@@ -1,15 +1,11 @@
 import clone from "lodash/clone";
-import chai, { expect } from "chai";
 import sinon from "sinon";
-import sinonChai from "sinon-chai";
 import configureStore from "redux-mock-store";
 
 import { RECORD_PATH } from "../../../config";
 
 import * as actionCreators from "./action-creators";
 import * as actions from "./actions";
-
-chai.use(sinonChai);
 
 describe("<Dashboard /> - Action Creators", () => {
   it("should have known action creators", () => {

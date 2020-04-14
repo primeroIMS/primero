@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as componentsConstants from "./constants";
 
 describe("Verifying config constant", () => {

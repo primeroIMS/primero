@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import * as userActions from "../../user/actions";
@@ -9,10 +8,10 @@ import {
   DASHBOARDS_FINISHED,
   DASHBOARDS_FAILURE
 } from "./actions";
-import { reducers } from "./reducer";
+import reducer from "./reducer";
 
 describe("<Dashboard /> - Reducers", () => {
-  const reducer = reducers.dashboard;
+  const nsReducer = reducer.dashboard;
   const initialState = fromJS({});
 
   it("should handle DASHBOARDS_STARTED", () => {
@@ -25,7 +24,7 @@ describe("<Dashboard /> - Reducers", () => {
       payload: true
     };
 
-    const newState = reducer(initialState, action);
+    const newState = nsReducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -60,7 +59,7 @@ describe("<Dashboard /> - Reducers", () => {
         data
       }
     };
-    const newState = reducer(initialState, action);
+    const newState = nsReducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -74,7 +73,7 @@ describe("<Dashboard /> - Reducers", () => {
       payload: false
     };
 
-    const newState = reducer(initialState, action);
+    const newState = nsReducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -88,7 +87,7 @@ describe("<Dashboard /> - Reducers", () => {
       payload: true
     };
 
-    const newState = reducer(initialState, action);
+    const newState = nsReducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -102,7 +101,7 @@ describe("<Dashboard /> - Reducers", () => {
       payload: true
     };
 
-    const newState = reducer(defaultState, action);
+    const newState = nsReducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });

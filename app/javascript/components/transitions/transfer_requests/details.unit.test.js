@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { Box, Divider } from "@material-ui/core";
 import { fromJS } from "immutable";
 
@@ -62,7 +61,6 @@ describe("<ReferralDetail />", () => {
   });
 
   describe("with status", () => {
-
     describe("when is rejected", () => {
       beforeEach(() => {
         ({ component } = setupMountedComponent(

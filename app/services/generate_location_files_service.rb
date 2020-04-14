@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Generates a JSON file of all Location objects.
+# Often, this will be too big to be served via the API.
 class GenerateLocationFilesService
   class << self
     def generate
@@ -25,49 +29,67 @@ class GenerateLocationFilesService
 
     def output_dir
       dir_path = "#{public_dir}/options"
-      { root: dir_path, locationsFile: "#{dir_path}/locations.json"}
+      { root: dir_path, locations_file: "#{dir_path}/locations.json"}
     end
 
     def fingerprint
-      file = File.open(output_dir[:locationsFile])
+      file = File.open(output_dir[:locations_file])
       Digest::MD5.hexdigest file.read
     end
 
     def create_directory
       FileUtils.mkdir_p(output_dir[:root]) unless File.directory?(output_dir[:root])
       FileUtils.rm_rf Dir.glob("#{output_dir[:root]}/*")
+      FileUtils.rm_rf Dir.glob("#{app_share_dir}/options/*") if use_app_share_dir?
     end
 
-    def rename_output 
-      File.rename(output_dir[:locationsFile], "#{output_dir[:root]}/locations-#{fingerprint}.json")
-      copy_to_production_dir
+    def format_for_output(location)
+      {
+        id: location.id,
+        code: location.location_code,
+        type: location.type,
+        admin_level: location.admin_level
+      }.merge(
+        FieldI18nService.fill_keys([:name], FieldI18nService.strip_i18n_suffix(location.slice(:name_i18n)))
+      )
     end
 
-    def copy_to_production_dir
-      if use_app_share_dir?
-        FileUtils.cp_r("#{output_dir[:root]}/.", "#{app_share_dir}/options")
+    def write_locations_to_file
+      Location.order(:location_code, :hierarchy_path).find_in_batches(batch_size: 500).each do |locations|
+        location_options = locations.map { |location| format_for_output(location) }
+        File.open(output_dir[:locations_file], 'a') do |f|
+          f.write(location_options.to_json)
+        end
+      end
+    end
+
+    def write_empty_file
+      File.open(output_dir[:locations_file], 'a') do |f|
+        f.write([].to_json)
       end
     end
 
     def write_files
-      Location.order(:location_code, :hierarchy_path).find_in_batches(batch_size: 500).each do |locations|
-        location_options = locations.map do |location|
-          {
-            id: location.id,
-            code: location.location_code,
-            type: location.type,
-            admin_level: location.admin_level
-          }.merge(
-            FieldI18nService.fill_keys([:name], FieldI18nService.strip_i18n_suffix(location.slice(:name_i18n)))
-          )
-        end
-  
-        File.open(output_dir[:locationsFile], 'a') do |f|
-          f.write(location_options.to_json)
-        end
+      if Location.count.positive?
+        write_locations_to_file
+      else
+        write_empty_file
       end
+      file = rename_output
+      copy_to_production_dir
+      file
+    end
 
-      rename_output
+    def rename_output
+      renamed_file = "#{output_dir[:root]}/locations-#{fingerprint}.json"
+      File.rename(output_dir[:locations_file], renamed_file)
+      renamed_file
+    end
+
+    def copy_to_production_dir
+      return unless use_app_share_dir?
+
+      FileUtils.cp_r("#{output_dir[:root]}/.", "#{app_share_dir}/options")
     end
   end
 end

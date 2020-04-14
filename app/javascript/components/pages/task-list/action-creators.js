@@ -1,4 +1,6 @@
-import { cleanUpFilters } from "../../records/helpers";
+/* eslint-disable import/prefer-default-export */
+
+import { cleanUpFilters } from "../../records/utils";
 import { RECORD_PATH } from "../../../config";
 
 import { TASKS } from "./actions";

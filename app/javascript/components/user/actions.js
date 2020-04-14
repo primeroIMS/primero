@@ -2,7 +2,7 @@ import { namespaceActions } from "../../libs";
 
 import NAMESPACE from "./namespace";
 
-export const Actions = namespaceActions(NAMESPACE, [
+export default namespaceActions(NAMESPACE, [
   "SET_AUTHENTICATED_USER",
   "FETCH_USER_DATA",
   "FETCH_USER_DATA_SUCCESS",

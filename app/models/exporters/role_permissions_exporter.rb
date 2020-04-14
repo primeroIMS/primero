@@ -1,5 +1,24 @@
+require 'writeexcel'
+
 module Exporters
   class RolePermissionsExporter
+    class << self
+      def id
+        'rolepermission'
+      end
+
+      def mime_type
+        'xls'
+      end
+
+      def supported_models
+        [Child]
+      end
+
+      def authorize_fields_to_user?
+        false
+      end
+    end
 
     def initialize(export_file, locale=:en)
       @export_file_name = export_file || CleansingTmpDir.temp_file_name
@@ -22,7 +41,7 @@ module Exporters
     end
 
     # Exports forms to an Excel spreadsheet
-    def export_role_permissions_to_spreadsheet
+    def export(*_args)
       @roles = Role.all.to_a.sort_by {|i| i.name }
       @role_permissions_array = @roles.map do |r|
         r.permissions.map{|p| [p.resource, p.to_h]}.to_h

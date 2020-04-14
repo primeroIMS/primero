@@ -6,7 +6,7 @@ import { push } from "connected-react-router";
 
 import { dataToJS } from "../../../libs";
 import { ROUTES } from "../../../config";
-import { buildFilter } from "../helpers";
+import { buildFilter } from "../utils";
 
 const DashboardTable = ({ columns, data, query }) => {
   const dispatch = useDispatch();

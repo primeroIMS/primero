@@ -1,32 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { CircularProgress, Fade, withStyles, Button } from "@material-ui/core";
+import { withStyles, Button } from "@material-ui/core";
 
-import { ListIcon } from "../list-icon";
+import ListIcon from "../list-icon";
 import { withI18n } from "../i18n";
 
+import Loading from "./loading";
 import styles from "./styles.css";
-
-const Loading = ({ loadingIndicator, loading, classes }) =>
-  loadingIndicator || (
-    <Fade
-      in={loading}
-      style={{
-        transitionDelay: loading ? "800ms" : "0ms"
-      }}
-      unmountOnExit
-    >
-      <div className={classes}>
-        <CircularProgress size={80} />
-      </div>
-    </Fade>
-  );
-
-Loading.propTypes = {
-  classes: PropTypes.string.isRequired,
-  loading: PropTypes.bool,
-  loadingIndicator: PropTypes.node
-};
 
 class LoadingIndicator extends React.Component {
   constructor(props) {

@@ -1,1 +1,1 @@
-export { default as BadgedIndicator } from "./component";
+export { default } from "./component";

@@ -1,23 +1,34 @@
 import { fromJS, Map, List } from "immutable";
 
-import { mergeRecord, rejectKeys } from "../../libs";
+import { mergeRecord } from "../../libs";
 import TransitionActions from "../record-actions/transitions/actions";
 
-import * as Actions from "./actions";
+import {
+  RECORDS_STARTED,
+  RECORD_STARTED,
+  RECORDS_FAILURE,
+  RECORDS_SUCCESS,
+  RECORDS_FINISHED,
+  RECORD,
+  SAVE_RECORD_STARTED,
+  SAVE_RECORD_FINISHED,
+  SAVE_RECORD_FAILURE,
+  SAVE_RECORD_SUCCESS,
+  RECORD_SUCCESS,
+  RECORD_FAILURE,
+  RECORD_FINISHED
+} from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
 
-export const reducers = namespace => (
-  state = DEFAULT_STATE,
-  { type, payload }
-) => {
+export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case `${namespace}/${Actions.RECORDS_STARTED}`:
-    case `${namespace}/${Actions.RECORD_STARTED}`:
+    case `${namespace}/${RECORDS_STARTED}`:
+    case `${namespace}/${RECORD_STARTED}`:
       return state.set("loading", fromJS(payload)).set("errors", false);
-    case `${namespace}/${Actions.RECORDS_FAILURE}`:
+    case `${namespace}/${RECORDS_FAILURE}`:
       return state.set("errors", true);
-    case `${namespace}/${Actions.RECORDS_SUCCESS}`: {
+    case `${namespace}/${RECORDS_SUCCESS}`: {
       const { data, metadata } = payload;
 
       return state
@@ -36,17 +47,17 @@ export const reducers = namespace => (
         })
         .set("metadata", fromJS(metadata));
     }
-    case `${namespace}/${Actions.RECORDS_FINISHED}`:
+    case `${namespace}/${RECORDS_FINISHED}`:
       return state.set("loading", fromJS(payload));
-    case `${namespace}/${Actions.RECORD}`:
+    case `${namespace}/${RECORD}`:
       return state.set("loading", true);
-    case `${namespace}/${Actions.SAVE_RECORD_STARTED}`:
+    case `${namespace}/${SAVE_RECORD_STARTED}`:
       return state.set("saving", true);
-    case `${namespace}/${Actions.SAVE_RECORD_FINISHED}`:
-    case `${namespace}/${Actions.SAVE_RECORD_FAILURE}`:
+    case `${namespace}/${SAVE_RECORD_FINISHED}`:
+    case `${namespace}/${SAVE_RECORD_FAILURE}`:
       return state.set("saving", false);
-    case `${namespace}/${Actions.SAVE_RECORD_SUCCESS}`:
-    case `${namespace}/${Actions.RECORD_SUCCESS}`: {
+    case `${namespace}/${SAVE_RECORD_SUCCESS}`:
+    case `${namespace}/${RECORD_SUCCESS}`: {
       const { data } = payload;
       const index = state.get("data").findIndex(r => r.get("id") === data.id);
 
@@ -62,9 +73,9 @@ export const reducers = namespace => (
         })
         .set("errors", false);
     }
-    case `${namespace}/${Actions.RECORD_FAILURE}`:
+    case `${namespace}/${RECORD_FAILURE}`:
       return state.set("errors", true);
-    case `${namespace}/${Actions.RECORD_FINISHED}`:
+    case `${namespace}/${RECORD_FINISHED}`:
       return state.set("loading", false);
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;

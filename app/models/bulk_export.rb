@@ -10,6 +10,7 @@ class BulkExport < ApplicationRecord
   ARCHIVED = 'job.status.archived'     # The job's files have been cleaned up
   ARCHIVE_CUTOFF = 30                  # days
   PASSWORD_LENGTH = 8
+  EXPIRES = 1.second # Expiry for the delegated ActiveStorage url
 
   alias_attribute :export_format, :format
 
@@ -100,6 +101,10 @@ class BulkExport < ApplicationRecord
     return unless file_name.present?
 
     File.join(Rails.configuration.exports_directory, "#{id}_#{file_name}")
+  end
+
+  def url
+    Rails.application.routes.url_helpers.rails_blob_path(export_file, only_path: true, expires_in: EXPIRES)
   end
 
   def process_records_in_batches(batch_size = 500, &block)

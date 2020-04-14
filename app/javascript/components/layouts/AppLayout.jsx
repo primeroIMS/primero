@@ -5,9 +5,9 @@ import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-import { Nav, selectDrawerOpen } from "../nav";
-import { Notifier } from "../notifier";
-import { SessionTimeoutDialog } from "../session-timeout-dialog";
+import Nav, { selectDrawerOpen } from "../nav";
+import Notifier from "../notifier";
+import SessionTimeoutDialog from "../session-timeout-dialog";
 import { hasUserPermissions } from "../user/selectors";
 import OfflineIndicator from "../offline-indicator/component";
 
@@ -41,7 +41,6 @@ const AppLayout = ({ children }) => {
       </main>
     </div>
   );
-
 };
 
 AppLayout.displayName = "AppLayout";
