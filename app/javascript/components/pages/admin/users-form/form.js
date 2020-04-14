@@ -169,7 +169,7 @@ export const form = (
   };
 
   const formFields = [
-    ...(useIdentity && identityFields),
+    ...(useIdentity ? identityFields : []),
     ...sharedFields
   ].reduce((prev, field) => {
     if (!(useIdentity && EXCLUDED_IDENITITY_FIELDS.includes(field.name))) {
