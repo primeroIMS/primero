@@ -1604,6 +1604,8 @@ en:
     remove: "Remove"
     confirm_delete: Are you sure you want to delete this lookup?
     initial_lang_help_text: "This must be entered in %{lang}."
+    english_label: "English Text"
+    translation_label: "Translation Text"
     messages:
       cannot_create: "Lookup could not be created"
       correct_errors: "Please correct the following errors and resubmit:"

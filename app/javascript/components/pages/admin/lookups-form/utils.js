@@ -42,26 +42,9 @@ export const form = (i18n, options, hiddenClass) => {
           type: TEXT_FIELD,
           customClass: hiddenClass
         })
-        // TODO: When prim-1820 is implemented uncomment this
-        // FieldRecord({
-        //   display_name: "Options",
-        //   type: LABEL_FIELD
-        // })
       ]
     })
   ]);
-};
-
-export const translateValues = (values, locale) => {
-  const data = dataToJS(values);
-
-  return data.reduce(
-    (acc, curr) => [
-      ...acc,
-      { ...curr, display_text: curr.display_text[locale] || "" }
-    ],
-    []
-  );
 };
 
 export const getInitialValues = (locales, values) => {
@@ -77,4 +60,29 @@ export const getInitialValues = (locales, values) => {
 
     return { ...acumulator, [locale]: result };
   }, {});
+};
+
+export const reorderValues = (items, startIndex, endIndex) => {
+  const result = items;
+  const [removed] = result.splice(startIndex, 1);
+
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
+export const translateValues = (values, locale) => {
+  const data = dataToJS(values);
+
+  return data.reduce(
+    (acc, curr) => {
+      return [
+        ...acc,
+
+        { ...curr, display_text: curr.display_text[locale] || "" }
+      ];
+    },
+
+    []
+  );
 };

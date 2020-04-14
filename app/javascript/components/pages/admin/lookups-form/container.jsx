@@ -3,22 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useForm, FormContext } from "react-hook-form";
-import { Grid } from "@material-ui/core";
-import isEqual from "lodash/isEqual";
 import { fromJS } from "immutable";
 
 import { PageHeading, PageContent } from "../../../page";
 import { useI18n } from "../../../i18n";
-import Form, {
-  FormAction,
-  whichFormMode,
-  FieldRecord,
-  FormSection,
-  FormSectionField,
-  SELECT_FIELD,
-  TEXT_FIELD
-} from "../../../form";
+import { FormAction, whichFormMode } from "../../../form";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
 import { fetchSystemSettings } from "../../../application";
@@ -55,6 +44,10 @@ const Container = ({ mode }) => {
   useEffect(() => {
     dispatch(fetchSystemSettings());
   }, []);
+
+  if (lookup.get("values")?.size <= 0) {
+    return null;
+  }
 
   const handleCancel = () => {
     dispatch(push(`${ROUTES.lookups}/${id}`));
