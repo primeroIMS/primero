@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------- BUILD STAGE
-FROM ruby:2.6.5-alpine3.11 AS build-env
+FROM ruby:2.6.6-alpine3.11 AS build-env
 
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git python
 ENV BUILD_DEP_PACKAGES postgresql-dev
