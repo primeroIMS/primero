@@ -34,6 +34,6 @@ class SearchFilterService
 
   def select_filter_params(params, permitted_field_names)
     filter_params = params.reject { |key, _| EXCLUDED.include?(key) }
-    filter_params.select { |key, _| permitted_field_names.include?(key) }
+    filter_params.select { |key, _| permitted_field_names.any? { |name| key.match?(/#{name}[0-5]?$/) } }
   end
 end

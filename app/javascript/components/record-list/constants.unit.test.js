@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as constants from "./constants";
 
 describe("<RecordList /> - constants", () => {
@@ -7,10 +5,12 @@ describe("<RecordList /> - constants", () => {
 
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
-    ["NAME", "ALERTS", "ALERTS_COLUMNS"].forEach(property => {
-      expect(clone).to.have.property(property);
-      delete clone[property];
-    });
+    ["NAME", "ALERTS", "ALERTS_COLUMNS", "FILTER_CONTAINER_NAME"].forEach(
+      property => {
+        expect(clone).to.have.property(property);
+        delete clone[property];
+      }
+    );
 
     expect("Deprecated RECORD_LIST_ACTIONS_NAME", clone).to.not.have.property(
       "RECORD_LIST_ACTIONS_NAME"

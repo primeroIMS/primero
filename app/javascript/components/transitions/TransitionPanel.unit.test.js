@@ -1,5 +1,4 @@
 import React from "react";
-import { expect } from "chai";
 
 import { setupMountedComponent } from "../../test";
 

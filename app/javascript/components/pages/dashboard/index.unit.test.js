@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import clone from "lodash/clone";
 
 import * as index from "./index";
@@ -9,9 +8,9 @@ describe("<Dashboard /> - index", () => {
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
     [
-      "Dashboard",
+      "default",
       "namespace",
-      "reducers",
+      "reducer",
       "selectFlags",
       "selectCasesByStatus",
       "selectCasesByCaseWorker",

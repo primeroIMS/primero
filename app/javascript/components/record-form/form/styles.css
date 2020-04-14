@@ -203,3 +203,7 @@
   font-size: $(theme.typography.pxToRem(17));
   text-transform: uppercase;
 }
+
+.menu {
+  white-space: normal
+}

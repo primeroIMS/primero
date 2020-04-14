@@ -1,4 +1,4 @@
-import { expect, setupMountedComponent } from "../../../../../test";
+import { setupMountedComponent } from "../../../../../test";
 import { FieldRecord, FormSectionRecord } from "../../../records";
 import TextField from "../../field-types/text-field";
 
@@ -97,7 +97,7 @@ describe("<SubformDialog />", () => {
       title: "Family details"
     };
 
-    const formProps = {
+    const visibleFieldFormProps = {
       initialValues: {
         relation_name: "",
         relation_child_is_in_contact: ""
@@ -110,7 +110,7 @@ describe("<SubformDialog />", () => {
         propsFieldNotVisible,
         {},
         [],
-        formProps
+        visibleFieldFormProps
       ));
     });
 

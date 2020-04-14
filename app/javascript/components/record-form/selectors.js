@@ -131,3 +131,31 @@ export const getSelectedForm = state =>
 
 export const getSelectedRecord = state =>
   state.getIn([NAMESPACE, "selectedRecord"]);
+
+export const getServiceToRefer = state =>
+  state.getIn([NAMESPACE, "serviceToRefer"], fromJS({}));
+
+export const getEnabledAgencies = (state, service) => {
+  const enabledAgencies = state
+    .getIn([NAMESPACE, "options", "agencies"], fromJS([]))
+    .filter(agency => !agency.get("disabled"));
+
+  if (service) {
+    return enabledAgencies.filter(agency =>
+      agency.get("services", fromJS([])).includes(service)
+    );
+  }
+
+  return enabledAgencies;
+};
+
+export const getOptionsAreLoading = state =>
+  state.getIn([NAMESPACE, "options", "loading"], false);
+
+export const getRecordAlerts = state =>
+  state.getIn([NAMESPACE, "recordAlerts"], fromJS([]));
+
+export const getAssignableForms = state =>
+  state
+    .getIn([NAMESPACE, "formSections"], fromJS([]))
+    .filter(form => !form.get("is_nested") && form.get("visible"));

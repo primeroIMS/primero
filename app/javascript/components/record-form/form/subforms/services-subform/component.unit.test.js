@@ -1,4 +1,4 @@
-import { expect, setupMountedComponent } from "../../../../../test";
+import { setupMountedComponent } from "../../../../../test";
 import { FieldRecord, FormSectionRecord } from "../../../records";
 import FormSectionField from "../../form-section-field";
 import TextField from "../../field-types/text-field";
@@ -84,7 +84,7 @@ describe("<ServicesSubform />", () => {
       index: 0
     };
 
-    const formProps = {
+    const visibleFieldFormProps = {
       initialValues: {
         service_implementing_agency: "",
         service_implementing_agency_individual: ""
@@ -97,7 +97,7 @@ describe("<ServicesSubform />", () => {
         propsFieldNotVisible,
         {},
         [],
-        formProps
+        visibleFieldFormProps
       ));
     });
 

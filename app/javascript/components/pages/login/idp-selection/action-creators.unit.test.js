@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as actionCreators from "./action-creators";
 
 describe("<IdpSelection /> - Action Creators", () => {

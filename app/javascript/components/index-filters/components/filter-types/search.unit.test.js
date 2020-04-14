@@ -1,7 +1,7 @@
 import { IconButton, InputBase } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 
-import { setupMockFormComponent, expect } from "../../../../test";
+import { setupMockFormComponent } from "../../../../test";
 
 import Search from "./search";
 

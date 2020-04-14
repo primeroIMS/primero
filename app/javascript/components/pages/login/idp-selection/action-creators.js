@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import { LOGIN, LOGIN_SUCCESS_CALLBACK } from "../login-form/actions";
 
 export const attemptLogin = () => {

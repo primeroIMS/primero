@@ -5,7 +5,7 @@ import {
   ExpansionPanelSummary
 } from "@material-ui/core";
 
-import { setupMountedComponent, expect } from "../../../../test";
+import { setupMountedComponent } from "../../../../test";
 import ApprovalSummary from "../summary";
 import ApprovalDetail from "../detail";
 

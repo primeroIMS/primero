@@ -1,7 +1,5 @@
 import { Map } from "immutable";
 
-import { expect } from "../../test";
-
 import {
   touchedFormData,
   whichFormMode,

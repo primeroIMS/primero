@@ -1,1 +1,2 @@
-export { default as FlagList } from "./component";
+// FIXME: Is this used?
+export { default } from "./component";

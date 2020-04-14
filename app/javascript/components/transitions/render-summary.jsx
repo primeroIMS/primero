@@ -5,6 +5,7 @@ import ReferralSummary from "./referrals/summary";
 import TransferRequestSummary from "./transfer_requests/summary";
 import TransferSummary from "./transfers/TransferSummary";
 
+// eslint-disable-next-line react/display-name
 export default (transition, css, recordType, showMode) => {
   switch (transition.type) {
     case "Assign":

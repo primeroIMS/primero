@@ -1,4 +1,4 @@
-import { setupMockFormComponent, expect, spy, stub } from "../../../test";
+import { setupMockFormComponent, spy, stub } from "../../../test";
 
 import Panel from "./panel";
 

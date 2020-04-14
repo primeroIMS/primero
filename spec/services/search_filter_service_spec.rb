@@ -147,4 +147,25 @@ describe SearchFilterService do
       expect(result[0].to).to eq(5)
     end
   end
+
+  describe 'Permitted field names with number at the end' do
+    it 'constructs valid filters from the input' do
+      params = {
+        'age2' => '0..5'
+      }
+      result = SearchFilterService.build_filters(params, %w[age])
+      expect(result.size).to eq(1)
+      expect(result[0].field_name).to eq('age2')
+      expect(result[0].from).to eq(0)
+      expect(result[0].to).to eq(5)
+    end
+
+    it 'constructs invalid filters if the number at the end is not in the range 0..5' do
+      params = {
+        'age6' => '0..5'
+      }
+      result = SearchFilterService.build_filters(params, %w[age])
+      expect(result.blank?).to eq(true)
+    end
+  end
 end

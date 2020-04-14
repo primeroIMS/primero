@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as recordConstants from "./constants";
 
 describe("Verifying config constant", () => {

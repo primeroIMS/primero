@@ -6,6 +6,12 @@
   }
 }
 
+.content {
+  max-height: 12em;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
 .link {
   cursor: pointer;
 }

@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
@@ -9,7 +8,7 @@ import {
   ReferralForm,
   ReassignForm,
   TransferForm
-} from "./parts";
+} from "./components";
 import mockUsers from "./mocked-users";
 import Transitions from "./component";
 
@@ -78,9 +77,7 @@ describe("<Transitions />", () => {
           "setPending",
           "referralRef",
           "disabled",
-          "setDisabled",
-          "referral",
-          "setReferral"
+          "setDisabled"
         ];
 
         expect(Object.keys(referralForm.props())).to.deep.equal(validProps);

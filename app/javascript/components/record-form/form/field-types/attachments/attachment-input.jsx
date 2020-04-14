@@ -5,7 +5,7 @@ import { Button, CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../../../../i18n";
-import { toBase64 } from "../../../../../libs/base64";
+import { toBase64 } from "../../../../../libs";
 import styles from "../../styles.css";
 
 import { ATTACHMENT_TYPES } from "./constants";
