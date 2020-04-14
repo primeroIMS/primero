@@ -36,13 +36,12 @@ module Exporters
     end
 
     it 'Getting the images of the children for the exporter' do
-      storage_disk_service = ActiveStorage::Service::DiskService.new(root: Rails.root.to_s + '/storage/')
       pdf_spy = spy('Prawn::Document')
       expect(pdf_spy).to receive(:image).with(
-        storage_disk_service.send(:path_for, @child_a.photo.file.blob.key), any_args
+        ActiveStorage::Blob.service.send(:path_for, @child_a.photo.file.blob.key), any_args
       )
       expect(pdf_spy).to receive(:image).with(
-        storage_disk_service.send(:path_for, @child_b.photo.file.blob.key), any_args
+        ActiveStorage::Blob.service.send(:path_for, @child_b.photo.file.blob.key), any_args
       )
       data = PhotoWallExporter.new(nil, pdf_spy).export(@records, @user)
       expect(data.present?).to be true
