@@ -19,7 +19,7 @@ describe SearchService, search: true do
     end
 
     it 'searches with filters not value' do
-      filter = SearchFilters::NotValue.new(filters: [SearchFilters::Value.new(field_name: 'sex', value: 'male')])
+      filter = SearchFilters::NotValue.new(field_name: 'sex', values: 'male')
       search = SearchService.search(Child, [filter])
 
       expect(search.total).to eq(1)

@@ -13,7 +13,7 @@ describe SearchFilters::NotValue do
     end
 
     it 'matches on string values' do
-      filter = SearchFilters::NotValue.new(filters: [SearchFilters::Value.new(field_name: 'sex', value: 'male')])
+      filter = SearchFilters::NotValue.new(field_name: 'sex', values: 'male')
 
       search = Child.search do
         filter.query_scope(self)
@@ -24,9 +24,7 @@ describe SearchFilters::NotValue do
     end
 
     it 'matches on boolean value' do
-      filter = SearchFilters::NotValue.new(
-        filters: [SearchFilters::Value.new(field_name: 'record_state', value: false)]
-      )
+      filter = SearchFilters::NotValue.new(field_name: 'record_state', values: false)
 
       search = Child.search do
         filter.query_scope(self)
@@ -37,7 +35,7 @@ describe SearchFilters::NotValue do
     end
 
     it 'matches by two values' do
-      filter = SearchFilters::NotValue.new(filters: [SearchFilters::ValueList.new(field_name: 'age', values: [8, 10])])
+      filter = SearchFilters::NotValue.new(field_name: 'age', values: [8, 10])
 
       search = Child.search do
         filter.query_scope(self)
