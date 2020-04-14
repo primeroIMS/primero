@@ -14,4 +14,4 @@ export {
   TEXT_FIELD,
   TICK_FIELD
 } from "./constants";
-export { whichFormMode } from "./utils";
+export { whichFormMode, submitHandler } from "./utils";

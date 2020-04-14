@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
+import get from "lodash/get";
 
 import { useI18n } from "../../i18n";
 import TextInput from "../fields/text-input";
@@ -42,7 +43,7 @@ const FormSectionField = ({ checkErrors, field }) => {
   } = field;
   const i18n = useI18n();
   const { formMode, errors } = useFormContext();
-  const error = errors ? errors[name] : undefined;
+  const error = errors ? get(errors, name) : undefined;
 
   const errorsToCheck = checkErrors
     ? checkErrors.concat(fieldCheckErrors)

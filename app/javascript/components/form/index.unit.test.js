@@ -16,6 +16,7 @@ describe("<Form /> - index", () => {
       "PARENT_FORM",
       "PHOTO_FIELD",
       "SELECT_FIELD",
+      "submitHandler",
       "TEXT_AREA",
       "TEXT_FIELD",
       "TICK_FIELD",

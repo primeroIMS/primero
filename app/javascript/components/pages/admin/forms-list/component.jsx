@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { push } from "connected-react-router";
+import { useLocation, useParams } from "react-router-dom";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Button } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 
+import { ROUTES } from "../../../../config";
 import { useI18n } from "../../../i18n";
 import { useApp } from "../../../application";
 import { PageHeading, PageContent } from "../../../page";
 import { MODULES, RECORD_TYPES } from "../../../../config/constants";
+import { usePermissions } from "../../../user";
+import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
+import { FormAction } from "../../../form";
 
 import { FormGroup, FormSection, FormFilters } from "./components";
 import { fetchForms } from "./action-creators";
@@ -16,6 +23,7 @@ import styles from "./styles.css";
 
 const Component = () => {
   const i18n = useI18n();
+  const { pathname } = useLocation();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const defaultFilterValues = {
@@ -35,6 +43,8 @@ const Component = () => {
   const handleClearValue = () => {
     setFilterValues(defaultFilterValues);
   };
+
+  const canAddForms = usePermissions(RESOURCES.metadata, CREATE_RECORDS);
 
   useEffect(() => {
     dispatch(fetchForms());
@@ -62,9 +72,21 @@ const Component = () => {
       );
     });
 
+  const handleNew = () => {
+    dispatch(push(`${pathname}/new`));
+  };
+
+  const newFormBtn = canAddForms ? (
+    <FormAction
+      actionHandler={handleNew}
+      text={i18n.t("buttons.add")}
+      startIcon={<AddIcon />}
+    />
+  ) : null;
+
   return (
     <>
-      <PageHeading title={i18n.t("forms.label")} />
+      <PageHeading title={i18n.t("forms.label")}>{newFormBtn}</PageHeading>
       <PageContent>
         <div className={css.indexContainer}>
           <div className={css.forms}>

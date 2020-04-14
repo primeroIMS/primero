@@ -10,9 +10,9 @@ const Label = ({ commonInputProps }) => {
 Label.displayName = "Label";
 
 Label.propTypes = {
-  commonInputProps: {
+  commonInputProps: PropTypes.shape({
     label: PropTypes.string
-  }
+  })
 };
 
 export default Label;

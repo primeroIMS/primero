@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { FormControlLabel, Checkbox } from "@material-ui/core";
 
 import { useI18n } from "../../i18n";
-import { optionText } from "../utils";
+import { optionText } from "../utils/which-options";
 
 const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
   const i18n = useI18n();

@@ -110,7 +110,8 @@ export const ROUTES = {
   lookups: "/admin/lookups",
   admin_roles: "/admin/roles",
   admin_roles_new: "/admin/roles/new",
-  forms: "/admin/forms"
+  forms: "/admin/forms",
+  forms_new: "/admin/forms/new"
 };
 
 export const PERMITTED_URL = [

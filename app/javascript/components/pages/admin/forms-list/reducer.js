@@ -11,7 +11,7 @@ const DEFAULT_STATE = Map({
   fields: OrderedMap({})
 });
 
-export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
+export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case actions.RECORD_FORMS_SUCCESS:
       if (payload) {
@@ -38,5 +38,3 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state;
   }
 };
-
-export default { forms: reducer };

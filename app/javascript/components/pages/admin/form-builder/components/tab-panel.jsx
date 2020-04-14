@@ -25,8 +25,8 @@ TabPanel.displayName = "TabPanel";
 
 TabPanel.propTypes = {
   children: PropTypes.node,
-  index: PropTypes.string,
-  tab: PropTypes.string
+  index: PropTypes.number,
+  tab: PropTypes.number
 };
 
 export default TabPanel;

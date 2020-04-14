@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import { object, string, boolean } from "yup";
 
 import { RECORD_TYPES } from "../../../../config/constants";
 import {
@@ -10,23 +11,35 @@ import {
   LABEL_FIELD
 } from "../../../form";
 
-// eslint-disable-next-line import/prefer-default-export
+export const validationSchema = object().shape({
+  description: object().shape({
+    en: string().required()
+  }),
+  form_group_id: string().required(),
+  module: string().required(),
+  name: object().shape({
+    en: string().required()
+  }),
+  record_type: string().required(),
+  visible: boolean()
+});
+
 export const settingsForm = i18n =>
   fromJS([
     FormSectionRecord({
-      unique_id: "agencies",
+      unique_id: "settings",
       name: i18n.t("forms.settings"),
       fields: [
         FieldRecord({
           display_name: i18n.t("forms.title"),
-          name: "name_en",
+          name: "name.en",
           type: TEXT_FIELD,
           required: true,
           help_text: i18n.t("forms.help_text.must_be_english")
         }),
         FieldRecord({
           display_name: i18n.t("forms.description"),
-          name: "description_en",
+          name: "description.en",
           type: TEXT_FIELD,
           required: true,
           help_text: i18n.t("forms.help_text.summariaze_purpose")
@@ -71,27 +84,18 @@ export const settingsForm = i18n =>
       ]
     }),
     FormSectionRecord({
-      unique_id: "agencies",
+      unique_id: "visibility",
       name: i18n.t("forms.visibility"),
       fields: [
         FieldRecord({
           display_name: i18n.t("forms.show_on"),
+          name: "show_on",
           type: LABEL_FIELD
         }),
         [
           FieldRecord({
             display_name: i18n.t("forms.web_app"),
             name: "visible",
-            type: TICK_FIELD
-          }),
-          FieldRecord({
-            display_name: i18n.t("forms.show_page"),
-            name: "title",
-            type: TICK_FIELD
-          }),
-          FieldRecord({
-            display_name: i18n.t("forms.short_form"),
-            name: "title",
             type: TICK_FIELD
           })
         ]
