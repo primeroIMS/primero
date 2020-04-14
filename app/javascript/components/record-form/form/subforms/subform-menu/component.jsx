@@ -29,9 +29,7 @@ const Component = ({ index, values }) => {
     getUsersByTransitionType(state, REFERRAL_TYPE)
   );
 
-  const agencies = useSelector(state =>
-    getEnabledAgencies(state, REFERRAL_TYPE)
-  );
+  const agencies = useSelector(state => getEnabledAgencies(state));
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
