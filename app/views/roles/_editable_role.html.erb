@@ -1,6 +1,9 @@
 <%
   reporting_location_options = Lookup.values_for_select('lookup-reporting-location-type')
-  show_reporting_locations = reporting_location_options.present?
+  if reporting_location_options.present?
+    show_reporting_locations = true
+    reporting_location_value = @role.reporting_location_level || @system_settings.try(:reporting_location_config).try(:label_key)
+  end
 %>
 
 <%= form_for editable_role, :html => {:class => 'default-form', :autocomplete => "off"} do |f| %>
@@ -67,7 +70,7 @@
               <%= select_tag "role[reporting_location_level]",
                              options_for_select(reporting_location_options,
                                                 editable_role.reporting_location_level),
-                             include_blank: true%>
+                             data: {value: reporting_location_value}%>
             </label>
           </div>
           <div class="medium-1 columns">
