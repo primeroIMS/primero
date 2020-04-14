@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
 
+import { RECORD_PATH } from "../../../config";
+
 import { RECORD_FORM_TOOLBAR_PAGE_HEADING_NAME } from "./constants";
 
 const Component = ({
@@ -9,6 +11,7 @@ const Component = ({
   params,
   recordType,
   shortId,
+  caseIdDisplay,
   toolbarHeading
 }) => {
   let heading = "";
@@ -17,7 +20,10 @@ const Component = ({
     heading = i18n.t(`${params.recordType}.register_new_${recordType}`);
   } else if (mode.isEdit || mode.isShow) {
     heading = i18n.t(`${params.recordType}.show_${recordType}`, {
-      short_id: shortId || "-------"
+      short_id:
+        params.recordType === RECORD_PATH.cases
+          ? caseIdDisplay
+          : shortId || "-------"
     });
   }
 
@@ -27,6 +33,7 @@ const Component = ({
 Component.displayName = RECORD_FORM_TOOLBAR_PAGE_HEADING_NAME;
 
 Component.propTypes = {
+  caseIdDisplay: PropTypes.string,
   i18n: PropTypes.shape({
     t: PropTypes.func
   }),

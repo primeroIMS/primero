@@ -1,6 +1,7 @@
 export { default } from "./component";
 export { FieldRecord, FormSectionRecord } from "./records";
 export { default as FormAction } from "./components/form-action";
+export { default as ActionsMenu } from "./components/actions-menu";
 export {
   CHECK_BOX_FIELD,
   ERROR_FIELD,

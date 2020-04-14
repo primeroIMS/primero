@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as constants from "./index";
 
 describe("<IndexFilters /> - index", () => {
@@ -9,7 +7,7 @@ describe("<IndexFilters /> - index", () => {
     expect(clone).to.be.an("object");
     [
       "default",
-      "reducers",
+      "reducer",
       "applyFilters",
       "getFiltersValuesByRecordType",
       "OR_FIELDS",

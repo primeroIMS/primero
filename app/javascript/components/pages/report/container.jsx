@@ -13,7 +13,7 @@ import LoadingIndicator from "../../loading-indicator";
 import { useI18n } from "../../i18n";
 import { PageContainer, PageContent, PageHeading } from "../../page";
 
-import { buildDataForGraph, buildDataForTable } from "./helpers";
+import { buildDataForGraph, buildDataForTable } from "./utils";
 import { getReport } from "./selectors";
 import { fetchReport } from "./action-creators";
 import namespace from "./namespace";

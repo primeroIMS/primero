@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { Map } from "immutable";
 
 import { selectSupportData } from "./selectors";

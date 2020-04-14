@@ -3,7 +3,11 @@ import uuid from "uuid/v4";
 
 import { queueIndexedDB } from "../db";
 import { METHODS } from "../config";
-import { ENQUEUE_SNACKBAR, generate } from "../components/notifier";
+import {
+  ENQUEUE_SNACKBAR,
+  generate,
+  SNACKBAR_VARIANTS
+} from "../components/notifier";
 import { SET_DIALOG_PENDING } from "../components/record-actions/actions";
 
 const generateName = (body = {}) => {
@@ -63,7 +67,7 @@ export const defaultErrorCallback = (store, response, json) => {
       payload: {
         messageKey: messages || "errors.api.internal_server",
         options: {
-          variant: "error",
+          variant: SNACKBAR_VARIANTS.error,
           key: generate.messageKey()
         }
       }

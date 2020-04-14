@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as Actions from "./actions";
 
 describe("filters-builder - Actions", () => {

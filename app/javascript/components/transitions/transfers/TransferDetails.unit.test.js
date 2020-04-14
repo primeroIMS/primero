@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { Box, Divider } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../test";

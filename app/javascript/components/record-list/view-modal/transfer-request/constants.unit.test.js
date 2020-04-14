@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as transferRequestConstants from "./constants";
 
 describe("<TransferRequest /> - Constants", () => {

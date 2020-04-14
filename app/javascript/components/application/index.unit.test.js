@@ -1,5 +1,3 @@
-import { expect } from "../../test";
-
 import * as index from "./index";
 
 describe("<Application /> - index", () => {
@@ -15,7 +13,7 @@ describe("<Application /> - index", () => {
       "getResourceActions",
       "getSystemPermissions",
       "loadApplicationResources",
-      "reducers",
+      "reducer",
       "PERMISSIONS",
       "RESOURCES",
       "RESOURCE_ACTIONS",

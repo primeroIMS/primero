@@ -1,5 +1,3 @@
-import { expect } from "../../test";
-
 import * as index from "./index";
 
 describe("<Form /> - index", () => {
@@ -7,6 +5,7 @@ describe("<Form /> - index", () => {
 
   it("should have known properties", () => {
     [
+      "ActionsMenu",
       "CHECK_BOX_FIELD",
       "default",
       "ERROR_FIELD",

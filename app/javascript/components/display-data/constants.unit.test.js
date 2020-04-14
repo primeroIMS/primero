@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as displayDataConstants from "./constants";
 
 describe("<DisplayData /> - Constants", () => {

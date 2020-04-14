@@ -1,8 +1,7 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
 import { TableRow } from "@material-ui/core";
 
-import { buildDataForTable } from "../../pages/report/helpers";
+import { buildDataForTable } from "../../pages/report/utils";
 import { setupMountedThemeComponent } from "../../../test";
 
 import TableValues from "./component";

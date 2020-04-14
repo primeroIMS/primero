@@ -1,7 +1,7 @@
 import React from "react";
 import { CircularProgress } from "@material-ui/core";
 
-import { expect, setupMountedComponent } from "../../test";
+import { setupMountedComponent } from "../../test";
 import ListIcon from "../list-icon";
 
 import LoadingIndicator from "./component";

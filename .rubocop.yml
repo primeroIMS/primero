@@ -2,7 +2,7 @@ AllCops:
   Exclude:
     - db/schema.rb
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
 
 Metrics/AbcSize:
@@ -12,8 +12,8 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Exclude:
     - Gemfile*
-    - spec/**/*
     - config/routes.rb
+    - spec/**/*
 
 Metrics/MethodLength:
   Exclude:

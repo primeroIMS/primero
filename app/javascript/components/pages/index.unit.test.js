@@ -1,5 +1,3 @@
-import { expect } from "../../test";
-
 import * as index from "./index";
 
 describe("pages/admin - index", () => {
@@ -15,6 +13,7 @@ describe("pages/admin - index", () => {
       "Dashboard",
       "default",
       "ExportList",
+      "FormsList",
       "LookupsList",
       "NotAuthorized",
       "NotFound",

@@ -1,4 +1,4 @@
-import { expect, stub } from "../../../test";
+import { stub } from "../../../test";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { EXPORT_URL } from "../../pages/export-list/constants";
 import { EXPORT_DIALOG } from "../constants";

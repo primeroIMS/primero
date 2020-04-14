@@ -1,7 +1,5 @@
 import { fromJS, OrderedMap, Seq, Map } from "immutable";
 
-import { expect } from "../../../../test";
-
 import * as utils from "./utils";
 
 describe("pages/admin/<RolesForm> - utils", () => {
@@ -18,7 +16,7 @@ describe("pages/admin/<RolesForm> - utils", () => {
         i18n: { t: () => "" }
       });
 
-      expect(formsToRender).to.have.sizeOf(7);
+      expect(formsToRender).to.have.sizeOf(6);
     });
   });
 

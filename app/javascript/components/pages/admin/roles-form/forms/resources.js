@@ -25,10 +25,9 @@ const permissionFields = (permissions, i18n) =>
       })
     );
 
-export default (resourceActions, i18n) => {
-  return FormSectionRecord({
+export default (resourceActions, i18n) =>
+  FormSectionRecord({
     unique_id: "resource_actions",
     fields: permissionFields(resourceActions, i18n),
     check_errors: fromJS(["permissions"])
   });
-};

@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import MUIDataTable from "mui-datatables";
 
 import { setupMountedComponent } from "../../../test";

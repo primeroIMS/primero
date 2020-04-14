@@ -14,7 +14,7 @@ import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "../i18n";
 
 import TitleWithClose from "./text-with-close";
-import styles from "./style.css";
+import styles from "./styles.css";
 
 const ActionDialog = ({
   open,

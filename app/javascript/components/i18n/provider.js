@@ -71,4 +71,5 @@ I18nProvider.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-export { I18nProvider, useI18n, withI18n };
+export default I18nProvider;
+export { useI18n, withI18n };

@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as constants from "./constants";
 
 describe("<IndexFilters /> - filter-types/select-filter/constants", () => {

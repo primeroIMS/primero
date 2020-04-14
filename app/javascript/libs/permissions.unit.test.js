@@ -1,7 +1,5 @@
 import { List } from "immutable";
 
-import { expect } from "../test";
-
 import * as PERMISSIONS from "./permissions";
 
 describe("Verifying config constant", () => {
@@ -40,6 +38,7 @@ describe("Verifying config constant", () => {
       "DASH_TASKS",
       "DASH_WORKFLOW",
       "DASH_WORKFLOW_TEAM",
+      "DELETE",
       "DISPLAY_VIEW_PAGE",
       "ENABLE_DISABLE_RECORD",
       "EXPORT_CASE_PDF",
@@ -114,6 +113,7 @@ describe("Verifying config constant", () => {
       "lookups",
       "contact_information",
       "roles",
+      "forms",
       "systems",
       "metadata"
     ].forEach(property => {

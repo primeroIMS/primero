@@ -1,14 +1,13 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
 import Form, { whichFormMode, PARENT_FORM } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
-import NAMESPACE from "../namespace";
 import { ROUTES } from "../../../../config";
 import {
   getSystemPermissions,
@@ -21,14 +20,21 @@ import { fetchRoles, ADMIN_NAMESPACE } from "../roles-list";
 import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
 import { compare } from "../../../../libs";
+import ActionDialog from "../../../action-dialog";
 
+import NAMESPACE from "./namespace";
 import { Validations, ActionButtons } from "./forms";
 import {
   getFormsToRender,
   mergeFormSections,
   groupSelectedIdsByParentForm
 } from "./utils";
-import { fetchRole, clearSelectedRole, saveRole } from "./action-creators";
+import {
+  clearSelectedRole,
+  deleteRole,
+  fetchRole,
+  saveRole
+} from "./action-creators";
 import { getRole } from "./selectors";
 import { NAME } from "./constants";
 
@@ -37,8 +43,8 @@ const Container = ({ mode }) => {
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
-  const { pathname } = useLocation();
   const { id } = useParams();
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const primeroModules = useSelector(state => selectModules(state), compare);
   const roles = useSelector(
@@ -83,10 +89,6 @@ const Container = ({ mode }) => {
     );
   };
 
-  const handleEdit = () => {
-    dispatch(push(`${pathname}/edit`));
-  };
-
   const handleCancel = () => {
     dispatch(push(ROUTES.admin_roles));
   };
@@ -107,9 +109,7 @@ const Container = ({ mode }) => {
     };
   }, [id]);
 
-  const pageHeading = role?.size
-    ? `${i18n.t("roles.label")} ${role.get("name")}`
-    : i18n.t("roles.label");
+  const pageHeading = `${i18n.t("role.label")} ${role && role.get("name", "")}`;
 
   const formsToRender = getFormsToRender({
     primeroModules,
@@ -127,13 +127,39 @@ const Container = ({ mode }) => {
     assignableForms
   ).toJS();
 
+  const handleSuccess = () => {
+    dispatch(
+      deleteRole({
+        id,
+        message: i18n.t("role.messages.deleted")
+      })
+    );
+    setOpenDeleteDialog(false);
+  };
+
+  const renderOpenDialog = formMode.get("isShow") ? (
+    <ActionDialog
+      open={openDeleteDialog}
+      successHandler={handleSuccess}
+      cancelHandler={() => setOpenDeleteDialog(false)}
+      dialogTitle={i18n.t("role.delete_header")}
+      dialogText={i18n.t("role.messages.confirmation")}
+      confirmButtonLabel={i18n.t("buttons.ok")}
+    />
+  ) : null;
+
   return (
     <LoadingIndicator
       hasData={formMode.get("isNew") || role?.size > 0}
       type={NAMESPACE}
     >
       <PageHeading title={pageHeading}>
-        <ActionButtons formMode={formMode} formRef={formRef} handleCancel={handleCancel} handleEdit={handleEdit} />
+        <ActionButtons
+          formMode={formMode}
+          formRef={formRef}
+          handleCancel={handleCancel}
+          setOpenDeleteDialog={setOpenDeleteDialog}
+        />
       </PageHeading>
       <PageContent>
         <Form
@@ -146,6 +172,7 @@ const Container = ({ mode }) => {
           initialValues={initialValues}
         />
       </PageContent>
+      {renderOpenDialog}
     </LoadingIndicator>
   );
 };

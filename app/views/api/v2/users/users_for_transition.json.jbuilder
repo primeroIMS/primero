@@ -7,5 +7,6 @@ json.data do
     json.location user.reporting_location&.location_code
     json.agency user.organization&.unique_id
     json.disabled user.disabled
+    json.services user.services
   end
 end

@@ -1,5 +1,3 @@
-import { expect } from "../../../test";
-
 import * as index from "./index";
 
 describe("pages/admin - index", () => {
@@ -7,10 +5,11 @@ describe("pages/admin - index", () => {
 
   it("should have known properties", () => {
     [
-      "Admin",
+      "default",
       "AgenciesForm",
       "AgenciesList",
       "ContactInformation",
+      "FormsList",
       "LookupsList",
       "RolesForm",
       "RolesList",

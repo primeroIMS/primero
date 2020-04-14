@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as pieChartConstants from "./constants";
 
 describe("<PieChart /> - Constants", () => {

@@ -1,12 +1,9 @@
-import { expect } from "chai";
-
 import * as index from "./index";
 
 describe("pages/admin/<RolesForm>/forms - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
-    expect(indexValues).to.be.an("object");
     [
       "ActionButtons",
       "AssociatedAgenciesForm",

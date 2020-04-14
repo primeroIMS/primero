@@ -1,12 +1,12 @@
 import { fromJS, Map, OrderedMap } from "immutable";
 import Divider from "@material-ui/core/Divider";
 
-import { setupMountedComponent, expect } from "../../../test";
+import { setupMountedComponent } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
 
 import Nav from "./Nav";
 import NavGroup from "./NavGroup";
-import RecordInformation from "./parts/record-information";
+import RecordInformation from "./components/record-information";
 
 describe("<Nav />", () => {
   let component;
@@ -114,6 +114,7 @@ describe("<Nav />", () => {
     firstTab: {},
     formNav,
     handleToggleNav: () => {},
+    isNew: true,
     mobileDisplay: true,
     selectedForm: "",
     selectedRecord: ""
@@ -137,5 +138,24 @@ describe("<Nav />", () => {
 
   it("renders a NavGroup component from record information and another one from the others forms groups />", () => {
     expect(component.find(NavGroup)).to.have.lengthOf(2);
+  });
+
+  it("should render valid props", () => {
+    const navProps = { ...component.find(Nav).props() };
+
+    expect(component.find(Nav)).to.have.lengthOf(1);
+    [
+      "firstTab",
+      "formNav",
+      "handleToggleNav",
+      "isNew",
+      "mobileDisplay",
+      "selectedForm",
+      "selectedRecord"
+    ].forEach(property => {
+      expect(navProps).to.have.property(property);
+      delete navProps[property];
+    });
+    expect(navProps).to.be.empty;
   });
 });

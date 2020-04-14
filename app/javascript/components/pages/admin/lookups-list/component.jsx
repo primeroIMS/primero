@@ -15,7 +15,7 @@ import Permission from "../../../application/permission";
 import { NAME } from "./constants";
 import { fetchAdminLookups } from "./action-creators";
 import styles from "./styles.css";
-import { columns } from "./helpers";
+import { columns } from "./utils";
 
 const Component = () => {
   const i18n = useI18n();
