@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.6.5'
+ruby '2.6.6'
 
 gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
 gem 'arabic-letter-connector',         # Arabic letter connector for PDF exports
@@ -65,7 +65,6 @@ group :development, :test do
   gem 'rack-test',                  '~> 1.1'
   gem 'rack_session_access',        '~> 0.2'
   gem 'rails-controller-testing',   '~> 1.0'
-  gem 'request_profiler',           '~> 0.0', git: 'https://github.com/justinweiss/request_profiler.git'
   gem 'rspec',                      '~> 3.8'
   gem 'rspec-activemodel-mocks',    '~> 1.1'
   gem 'rspec-collection_matchers',  '~> 1.1'
