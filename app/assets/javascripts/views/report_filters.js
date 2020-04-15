@@ -8,15 +8,18 @@ _primero.Views.ReportFilters = Backbone.View.extend({
     "click .close, .open": "toggle_filter_panel",
     "click .clear_filters": "clear_filters",
     "click .submit_filters": "filter",
-    'change input[name=$"date_from_control"]': "populateTo",
+    'change input[name="date_from_control"]': "populateTo",
     "change .select_filter select": "set_select_filter",
-    "change .date_filter .controls select, .date_filter .controls input":
-      "set_date_filter"
+    "change .date_filter .controls select, .date_filter .controls input": "set_date_filter",
+    'change .selectable_date': 'changed_selectable_date',
   },
 
   initialize: function() {
     this.report_filters = {};
-    _primero.chosen("#report_filter_controls .chosen-select");
+    this.date_select_options = $(".selectable_date option").map(function(){
+                                  return this.value;
+                                }).get();
+    _primero.chosen(".chosen-select");
     this.set_params();
   },
 
@@ -31,16 +34,32 @@ _primero.Views.ReportFilters = Backbone.View.extend({
   set_date_filter: function(e) {
     var date_control = $(e.target);
     var container = date_control.parents(".date_filter");
+    var selectable_date = container.find(".selectable_date").val();
     var field = container.find(".selector select");
-    var from = container
-      .find(".control input[name$='date_from_control']")
-      .val();
-    var to = container.find(".control input[name$='date_to_control']").val();
+    var from = container.find("input.from").val();
+    var to = container.find("input.to").val();
     var value = date_control.is("select")
       ? date_control.val()
       : [from, to].join(".");
+    this.report_filters[selectable_date] = [field.val(), value].join("||");
+  },
 
-    this.report_filters[field.attr("name")] = [field.val(), value].join("||");
+  changed_selectable_date: function(e) {
+    e.preventDefault();
+
+    $(e.target).parents('.date_filter')
+    .find('input.to, input.from, .selector select, .controls select').attr('name', e.target.value).val('');
+
+    this.clear_date_filters('', true)
+  },
+
+  clear_date_filters: function(filter, purge_dates) {
+    self = this;
+    if (_.contains(this.date_select_options, filter) || purge_dates) {
+      _.each(this.date_select_options, function(filter) {
+        delete self.report_filters[filter]
+      })
+    }
   },
 
   populateTo: function(e) {
@@ -97,25 +116,29 @@ _primero.Views.ReportFilters = Backbone.View.extend({
       var filter = v.split("||");
       var control = $("select#" + k);
       var value;
-
-      if (/date/.test(k)) {
+      if (self.date_select_options.includes(k)) {
+        control = $("select.date_type");
         var subValue = filter[1].split(".");
         var container = control.parents(".date_filter");
 
         value = filter[0];
+        selectable_date = $("select.selectable_date")
+        selectable_date.val(k)
+        selectable_date.trigger("chosen:updated");
         control.val(value);
         self.toggle_date_control(control);
 
         if (subValue.length > 1) {
           container
-            .find(".control input[name$='date_from_control']")
+            .find("input.from")
             .val(subValue[0]);
           container
-            .find(".control input[name$='date_to_control']")
+            .find("input.to")
             .val(subValue[1]);
         } else {
           container.find(".controls select").val(subValue[0]);
         }
+        container.find('input.to, input.from, .selector select, .controls select').attr('name', k)
       } else { 
         control.val(control.prop("multiple") ? filter : _.first(filter));
         control.trigger("chosen:updated");
