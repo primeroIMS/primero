@@ -28,7 +28,7 @@ import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { fetchAgencies, fetchRecordsAlerts } from "./action-creators";
+import { fetchRecordsAlerts } from "./action-creators";
 import {
   getFirstTab,
   getFormNav,
@@ -179,7 +179,6 @@ const Container = ({ match, mode }) => {
     if (!containerMode.isNew) {
       batch(() => {
         dispatch(fetchTransitions(params.recordType, params.id));
-        dispatch(fetchAgencies());
         dispatch(
           fetchReferralUsers({
             record_type: RECORD_TYPES[params.recordType]
