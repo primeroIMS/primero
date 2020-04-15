@@ -11,7 +11,6 @@ _primero.Views.ReportFilters = Backbone.View.extend({
     'change input[name="date_from_control"]': "populateTo",
     "change .select_filter select": "set_select_filter",
     "change .date_filter .controls select, .date_filter .controls input": "set_date_filter",
-    //'change .date_filter .controls input[type="text"]': 'change_scope',
     'change .selectable_date': 'changed_selectable_date',
   },
 
@@ -45,61 +44,13 @@ _primero.Views.ReportFilters = Backbone.View.extend({
     this.report_filters[selectable_date] = [field.val(), value].join("||");
   },
 
-  change_scope: function(e) {
-    var $target = $(e.target),
-        selected_val = $target.val(),
-        filter = $target.attr('name'),
-        filter_type = $target.attr('filter_type') || 'single',
-        match_filter = $target.attr('match_filter') || '',
-        self = this;
-
-
-    if ($target.is("input") && $target.hasClass('form_date_field')) {
-      // Date Ranges
-      var container = $target.parents(".date_filter");
-      var $date_inputs = container.find('input.to, input.from');
-      $date_inputs.attr('name', $target.parents('.controls').find('.selectable_date').val())
-      date_values = [$($date_inputs[0]).val(), $($date_inputs[1]).val()];
-      this.set_date_range(date_values, filter, filter_type);
-    } else {
-      // Everything else
-      this.set_remove_filter(filter, [filter_type, $target.val()]);
-    }
-  },
-
-  set_date_range: function(date_values, filter, filter_type) {
-    var date_from = date_values[0],
-        date_to = date_values[1],
-        date_separator = date_from && date_to ? '.': '';
-
-    if (filter) {
-      if (!date_to && !date_from) {
-        date_range = '';
-      } else {
-        date_range = [filter_type, date_from + date_separator + date_to];
-      }
-
-      this.set_remove_filter(filter, date_range);
-    }
-  },
-
   changed_selectable_date: function(e) {
     e.preventDefault();
 
     $(e.target).parents('.date_filter')
-    .find('input.to, input.from').attr('name', e.target.value).val('');
+    .find('input.to, input.from, .selector select, .controls select').attr('name', e.target.value).val('');
 
     this.clear_date_filters('', true)
-  },
-
-  set_remove_filter: function(filter, value) {
-    this.clear_date_filters(filter);
-
-    _primero.filters[filter] = _.isArray(value) ? _.uniq(value) : value;
-
-    if (_primero.filters[filter].length === 1 || _primero.filters[filter] === '') {
-      delete _primero.filters[filter];
-    }
   },
 
   clear_date_filters: function(filter, purge_dates) {
@@ -166,7 +117,7 @@ _primero.Views.ReportFilters = Backbone.View.extend({
       var control = $("select#" + k);
       var value;
       if (self.date_select_options.includes(k)) {
-        control = $("select#date_type");
+        control = $("select.date_type");
         var subValue = filter[1].split(".");
         var container = control.parents(".date_filter");
 
@@ -187,6 +138,7 @@ _primero.Views.ReportFilters = Backbone.View.extend({
         } else {
           container.find(".controls select").val(subValue[0]);
         }
+        container.find('input.to, input.from, .selector select, .controls select').attr('name', k)
       } else { 
         control.val(control.prop("multiple") ? filter : _.first(filter));
         control.trigger("chosen:updated");

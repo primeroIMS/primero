@@ -21,10 +21,10 @@
     </h3>
     <div class="row collapse">
       <div class="large-3 columns selector">
-        <%= select_tag date_type, options_for_select([
+        <%= select_tag date_field, options_for_select([
           [I18n.t('report.date_ranges.date'), 'day'],
           [I18n.t('report.date_ranges.year'), 'year']
-        ]), prompt: I18n.t("report.report_filters.prompt") %>
+        ]), prompt: I18n.t("report.report_filters.prompt"), class: date_type %>
       </div>
       <div class="large-9 columns">
         <div class="controls row collapse">
