@@ -19,17 +19,18 @@ import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
 import {
-  getEnabledAgencies,
   getLocations,
   getOption,
   getOptionsAreLoading,
   getReportingLocations
 } from "../../selectors";
-import { fetchAgencies } from "../../action-creators";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import { getUsersByTransitionType } from "../../../record-actions/transitions/selectors";
 import { valuesToSearchableSelect } from "../../../../libs";
-import { getReportingLocationConfig } from "../../../application/selectors";
+import {
+  getEnabledAgencies,
+  getReportingLocationConfig
+} from "../../../application/selectors";
 import SearchableSelect from "../../../searchable-select";
 import { SELECT_FIELD_NAME, CUSTOM_STRINGS_SOURCE } from "../constants";
 import styles from "../styles.css";
@@ -125,10 +126,6 @@ const SelectField = ({
     );
   };
 
-  const reloadAgencies = () => {
-    dispatch(fetchAgencies());
-  };
-
   useEffect(() => {
     if (
       filterState?.filtersChanged &&
@@ -220,10 +217,6 @@ const SelectField = ({
     if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {
       reloadReferralUsers();
     }
-
-    if (option === CUSTOM_STRINGS_SOURCE.agency) {
-      reloadAgencies();
-    }
   }, []);
 
   const customLookupsConfig = buildCustomLookupsConfig({
@@ -305,9 +298,6 @@ const SelectField = ({
             name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
           ) {
             reloadReferralUsers();
-          }
-          if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgency)) {
-            reloadAgencies();
           }
         },
         defaultValues: value

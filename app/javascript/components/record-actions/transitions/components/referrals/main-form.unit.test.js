@@ -144,7 +144,7 @@ describe("<MainForm />", () => {
         )
       };
 
-      [...searchableFieldProps, "isLoading", "onMenuOpen"].forEach(property => {
+      [...searchableFieldProps].forEach(property => {
         expect(agencyFieldProps).to.have.property(property);
         delete agencyFieldProps[property];
       });

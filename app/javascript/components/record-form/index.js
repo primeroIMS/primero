@@ -9,7 +9,6 @@ export {
 export { default as reducer } from "./reducer";
 export {
   getAssignableForms,
-  getEnabledAgencies,
   getErrors,
   getFirstTab,
   getFormNav,

@@ -11,7 +11,7 @@ class Attachment < ApplicationRecord
   DOCUMENT_CONTENT_TYPES = %w[application/pdf text/plain].freeze
 
   MAX_SIZE = 4.megabytes.freeze
-  EXPIRES = 1.second # Expiry for the delegated ActiveStorage url
+  EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url
 
   belongs_to :record, polymorphic: true, optional: true
   has_one_attached :file
