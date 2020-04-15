@@ -12,7 +12,11 @@ import { FieldRecord, TEXT_FIELD, whichFormMode } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import { dataToJS } from "../../../../../../libs";
-import { LOOKUP_NAME, LOOKUP_VALUES } from "../../constants";
+import {
+  LOOKUP_NAME,
+  LOOKUP_TRANSLATED_NAME,
+  LOOKUP_VALUES
+} from "../../constants";
 import HeaderValues from "../header-values";
 import DraggableRow from "../draggable-row";
 import styles from "../styles.css";
@@ -42,7 +46,7 @@ const Component = ({ formRef, mode, lookup }) => {
   const defaultValues = {
     name: lookup.getIn([LOOKUP_NAME, defaultLocale]),
     options: firstLocaleOption,
-    translated_name: lookup.getIn([LOOKUP_NAME, selectedOption]),
+    translated_name: "",
     values
   };
 
@@ -63,17 +67,15 @@ const Component = ({ formRef, mode, lookup }) => {
     formMethods.reset(defaultValues);
   }, [defaultValues.name]);
 
-  const setTranslatedName = locale => {
+  // Setting translated value
+  if (watchedOption && selectedOption !== defaultLocale) {
     formMethods.setValue(
-      "translated_name",
-      locale ? lookup.getIn([LOOKUP_NAME, locale]) : ""
+      LOOKUP_TRANSLATED_NAME,
+      selectedOption
+        ? formMethods.getValues().translated_name ||
+            lookup.getIn([LOOKUP_NAME, selectedOption])
+        : ""
     );
-  };
-
-  if (lookup.getIn([LOOKUP_NAME, selectedOption]) !== "") {
-    setTranslatedName(selectedOption);
-  } else {
-    setTranslatedName("");
   }
 
   const getListStyle = isDraggingOver => ({
