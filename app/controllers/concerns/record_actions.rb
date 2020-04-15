@@ -84,7 +84,9 @@ module RecordActions
           if params[:ids].present?
             @records = @records.map{|r| r.id}
           else
-            @records = @records.map{|r| format_json_response(r)}
+            # Since this method expect a Module record, we can get this one from the records.
+            permitted_property_names = model_class.permitted_property_names(current_user, @records.first&.module)
+            @records = @records.map{|r| format_json_response(r, permitted_property_names)}
           end
 
           render :json => @records
@@ -127,7 +129,8 @@ module RecordActions
 
       format.json do
         if @record.present?
-          @record = format_json_response(@record)
+          permitted_property_names = model_class.permitted_property_names(current_user, @record.module)
+          @record = format_json_response(@record, permitted_property_names)
           render :json => @record
         else
           render :json => '', :status => :not_found
@@ -157,8 +160,12 @@ module RecordActions
 
   def create
     authorize! :create, model_class
+     # HACK This validation should not be here, it should be a validate on the model
+    validate_primero_module  if is_remote_request?
     reindex_hash record_params
-    @record = create_or_update_record(params[:id])
+    permitted_property_names = model_class.permitted_property_names(current_user, PrimeroModule.get(record_params['module_id']))
+
+    @record = create_or_update_record(params[:id], permitted_property_names)
     initialize_created_record(@record)
     respond_to do |format|
       @form_sections = @record.class.allowed_formsections(current_user, @record.module)
@@ -167,7 +174,7 @@ module RecordActions
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
         format.json do
-          @record = format_json_response(@record)
+          @record = format_json_response(@record, permitted_property_names)
           render :json => @record, :status => :created, :location => @record
         end
       else
@@ -209,7 +216,8 @@ module RecordActions
           end
         end
         format.json do
-          @record = format_json_response(@record)
+          permitted_property_names = model_class.permitted_property_names(current_user, @record.module)
+          @record = format_json_response(@record, permitted_property_names)
           render :json => @record.slice!("_attachments", "histories")
         end
       else
@@ -429,10 +437,22 @@ module RecordActions
 
   private
 
+  def select_permitted_fields(record, permitted_property_names, is_remote_request)
+    # put here fields required if it's a mobile
+    default_fields_to_share = is_remote_request ? %w[module_id] : %w[_id _rev couchrest-type histories photo_keys document_keys case_id short_id owned_by created_by registration_date incident_id tracing_request_id inquiry_date incident_links]
+    properties_to_check = default_fields_to_share + permitted_property_names
+    record.select do |key, value|
+      properties_to_check.include?(key.to_s)
+    end
+  end
+
   #Discard nil values and empty arrays.
-  def format_json_response(record)
+  def format_json_response(record, permitted_property_names)
     record = record.as_couch_json.clone
-    if params[:mobile].present?
+
+    record = select_permitted_fields(record, permitted_property_names, is_remote_request?)
+
+    if params[:mobile].present? || is_remote_request?
       record.each do |field_key, value|
         if value.kind_of? Array
           if value.size == 0
@@ -455,10 +475,11 @@ module RecordActions
     return record
   end
 
-  def create_or_update_record(id)
+  def create_or_update_record(id, property_names=[])
     @record = model_class.by_short_id(:key => record_short_id).first if record_params[:unique_identifier]
     if @record.nil?
-      @record = model_class.new_with_user_name(current_user, record_params)
+      record_params_permitted = select_permitted_fields(record_params, property_names, is_remote_request?)
+      @record = model_class.new_with_user_name(current_user, record_params_permitted)
     else
       @record = update_record_from(id)
     end
@@ -475,6 +496,14 @@ module RecordActions
 
   def module_users(module_ids)
     @module_users = User.find_by_modules(module_ids).map(&:user_name).reject {|u| u == current_user.user_name}
+  end
+
+  def is_remote_request?
+    [true, 'true'].include?(params[:remote])
+  end
+
+  def validate_primero_module
+    raise ErrorResponse.new(422, I18n.t('errors.models.child.validate_primero_module')) if record_params['module_id'].blank?
   end
 
   protected
