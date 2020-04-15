@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import { fromJS } from "immutable";
 
 import { PageHeading, PageContent } from "../../../page";
 import { useI18n } from "../../../i18n";

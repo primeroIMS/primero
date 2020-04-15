@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import clsx from "clsx";
 
-import styles from "../form/styles.css";
+import styles from "../styles.css";
 import { useI18n } from "../../../../../i18n";
 
 import { NAME } from "./constants";
@@ -18,6 +18,9 @@ const Component = ({ hiddenClassName }) => {
       <div>{i18n.t("lookup.english_label")}</div>
       <div className={hiddenClassName}>
         {i18n.t("lookup.translation_label")}
+      </div>
+      <div className={css.dragIndicatorContainer}>
+        {i18n.t("lookup.remove")}
       </div>
     </div>
   );

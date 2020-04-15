@@ -7,12 +7,7 @@ import { fromJS } from "immutable";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import isEmpty from "lodash/isEmpty";
 
-import {
-  form,
-  getInitialValues,
-  reorderValues,
-  translateValues
-} from "../../utils";
+import { form, getInitialValues, reorderValues } from "../../utils";
 import { FieldRecord, TEXT_FIELD, whichFormMode } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
@@ -20,9 +15,9 @@ import { dataToJS } from "../../../../../../libs";
 import { LOOKUP_NAME, LOOKUP_VALUES } from "../../constants";
 import HeaderValues from "../header-values";
 import DraggableRow from "../draggable-row";
+import styles from "../styles.css";
 
 import { NAME } from "./constants";
-import styles from "./styles.css";
 
 const Component = ({ formRef, mode, lookup }) => {
   const i18n = useI18n();
@@ -37,17 +32,18 @@ const Component = ({ formRef, mode, lookup }) => {
   const isFirstLocaleOptionSelected = selectedOption === firstLocaleOption?.id;
   const keys = [...lookup.get(LOOKUP_VALUES, fromJS([])).map(t => t.get("id"))];
 
-  // const test = ["open", "closed", "transferred", "duplicate"];
   const [items, setItems] = useState(keys);
+  const [removed, setRemoved] = useState([]);
+  const values = getInitialValues(
+    locales.map(locale => locale.id),
+    dataToJS(lookup.get(LOOKUP_VALUES, fromJS([])))
+  );
 
   const defaultValues = {
     name: lookup.getIn([LOOKUP_NAME, defaultLocale]),
     options: firstLocaleOption,
     translated_name: lookup.getIn([LOOKUP_NAME, selectedOption]),
-    values: getInitialValues(
-      locales.map(locale => locale.id),
-      dataToJS(lookup.get(LOOKUP_VALUES, fromJS([])))
-    )
+    values
   };
 
   const onSubmit = data => console.log("ON SUBMIT", data, "SORT", items);
@@ -90,29 +86,9 @@ const Component = ({ formRef, mode, lookup }) => {
       ? css.hideTranslationsFields
       : null;
 
-  const renderBodyValues = () => {
-    return items.map((item, index) => {
-      const defaultField = FieldRecord({
-        name: `values[${defaultLocale}][${item}]`,
-        type: TEXT_FIELD
-      });
-
-      const translatedField = FieldRecord({
-        name: `values[${selectedOption}][${item}]`,
-        type: TEXT_FIELD
-      });
-
-      return (
-        <DraggableRow
-          defaultField={defaultField}
-          hiddenClassName={hiddenTranslation}
-          index={index}
-          isDragDisabled={!formMode.get("isEdit")}
-          translatedField={translatedField}
-          uniqueId={item}
-        />
-      );
-    });
+  const removeValue = item => {
+    setRemoved([...removed, item]);
+    setItems([...keys.filter(key => key !== item)]);
   };
 
   const onDragEnd = result => {
@@ -127,15 +103,41 @@ const Component = ({ formRef, mode, lookup }) => {
     const newItems = reorderValues(items, startIndex, endIndex);
 
     setItems(newItems);
-    const mergeOtherValues = getInitialValues(
-      locales.map(locale => locale.id),
-      dataToJS(lookup.get(LOOKUP_VALUES, fromJS([])))
-    );
     const newValues = formMethods.getValues();
 
-    console.log(newValues, mergeOtherValues);
+    formMethods.reset({ ...newValues, ...{ values } });
+  };
 
-    formMethods.reset({ ...newValues, ...{ values: mergeOtherValues } });
+  const renderValues = () => {
+    return items
+      .filter(item => !removed.includes(item))
+      .map((item, index) => {
+        const fieldName = locale => `values[${locale}][${item}]`;
+
+        const defaultField = FieldRecord({
+          name: fieldName(defaultLocale),
+          type: TEXT_FIELD
+        });
+
+        const translatedField = FieldRecord({
+          name: fieldName(
+            selectedOption === defaultLocale ? null : selectedOption
+          ),
+          type: TEXT_FIELD
+        });
+
+        return (
+          <DraggableRow
+            defaultField={defaultField}
+            hiddenClassName={hiddenTranslation}
+            index={index}
+            isDragDisabled={!formMode.get("isEdit")}
+            removeValue={removeValue}
+            translatedField={translatedField}
+            uniqueId={item}
+          />
+        );
+      });
   };
 
   return (
@@ -161,7 +163,7 @@ const Component = ({ formRef, mode, lookup }) => {
                     style={getListStyle(snapshot.isDraggingOver)}
                   >
                     <HeaderValues hiddenClassName={hiddenTranslation} />
-                    {renderBodyValues()}
+                    {renderValues()}
                     {provided.placeholder}
                   </div>
                 )}

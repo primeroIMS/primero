@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import { fromJS } from "immutable";
 import { Draggable } from "react-beautiful-dnd";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
 
-import styles from "../form/styles.css";
+import styles from "../styles.css";
 import { DragIndicator } from "../../../forms/forms-list/components";
 import FormSectionField from "../../../../../form/components/form-section-field";
 
@@ -15,6 +17,7 @@ const Component = ({
   hiddenClassName,
   index,
   isDragDisabled,
+  removeValue,
   translatedField,
   uniqueId
 }) => {
@@ -52,6 +55,16 @@ const Component = ({
                 checkErrors={fromJS({})}
               />
             </div>
+            <div className={css.dragIndicatorContainer}>
+              <IconButton
+                aria-label="delete"
+                className={css.removeIcon}
+                onClick={() => removeValue(uniqueId)}
+                disabled={isDragDisabled}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </div>
           </div>
         );
       }}
@@ -66,6 +79,7 @@ Component.propTypes = {
   hiddenClassName: PropTypes.string,
   index: PropTypes.number,
   isDragDisabled: PropTypes.bool,
+  removeValue: PropTypes.func,
   translatedField: PropTypes.object,
   uniqueId: PropTypes.number
 };
