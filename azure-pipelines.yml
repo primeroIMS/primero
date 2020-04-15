@@ -38,7 +38,7 @@ jobs:
         displayName: 'Install npm packages'
       - task: UseRubyVersion@0
         inputs:
-          versionSpec: '= 2.6.5'
+          versionSpec: '= 2.6.6'
           addToPath: true
         displayName: 'Install ruby'
       - bash: |

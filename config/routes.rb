@@ -8,21 +8,23 @@ Rails.application.routes.draw do
     get '*all', to: 'home#v2'
   end
 
-  devise_for :users,
-             class_name: 'User',
-             path: '/api/v2/tokens',
-             controllers: { sessions: 'api/v2/tokens' }, only: :sessions,
-             path_names: { sign_in: '', sign_out: '' },
-             sign_out_via: :delete,
-             defaults: { format: :json }, constraints: { format: :json }
+  devise_for(
+    :users,
+    class_name: 'User',
+    path: '/api/v2/tokens',
+    controllers: { sessions: 'api/v2/tokens' }, only: :sessions,
+    path_names: { sign_in: '', sign_out: '' },
+    sign_out_via: :delete,
+    defaults: { format: :json }, constraints: { format: :json }
+  )
 
   resources :login, only: [:index]
+  resources :health, only: [:index]
 
   namespace :api do
     namespace :v2, defaults: { format: :json },
                    constraints: { format: :json },
                    only: %i[index create show update destroy] do
-
       resources :children, as: :cases, path: :cases do
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]

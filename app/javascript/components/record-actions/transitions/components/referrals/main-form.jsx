@@ -5,7 +5,7 @@ import { batch, useDispatch, useSelector } from "react-redux";
 import { Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
 
-import { getReportingLocationConfig } from "../../../../application/selectors";
+import { getEnabledAgencies, getReportingLocationConfig } from "../../../../application/selectors";
 import { useI18n } from "../../../../i18n";
 import {
   RECORD_TYPES,
@@ -24,8 +24,6 @@ import {
 import { fetchReferralUsers } from "../../action-creators";
 import { enqueueSnackbar } from "../../../../notifier";
 import {
-  fetchAgencies,
-  getEnabledAgencies,
   getOption,
   getOptionsAreLoading,
   getReportingLocations,
@@ -79,8 +77,6 @@ const MainForm = ({ formProps, rest }) => {
     (rptLocations1, rptLocations2) => rptLocations1.equals(rptLocations2)
   );
 
-  const agenciesLoading = useSelector(state => getOptionsAreLoading(state));
-
   const NAMESPACE = ["transitions", "referral"];
 
   const loading = useSelector(state => getLoading(state, NAMESPACE));
@@ -102,10 +98,6 @@ const MainForm = ({ formProps, rest }) => {
     );
   };
 
-  const loadAgencies = () => {
-    dispatch(fetchAgencies());
-  };
-
   useEffect(() => {
     batch(() => {
       dispatch(
@@ -114,7 +106,6 @@ const MainForm = ({ formProps, rest }) => {
           ...getUserFilters({ services, agency, location })
         })
       );
-      dispatch(fetchAgencies());
     });
   }, []);
 
@@ -186,8 +177,6 @@ const MainForm = ({ formProps, rest }) => {
         NAME_FIELD,
         i18n.locale
       ),
-      onMenuOpen: loadAgencies,
-      isLoading: agenciesLoading,
       onChange: (data, field, form) => {
         const { value } = data;
         const dependentValues = [TRANSITIONED_TO_FIELD];

@@ -10,6 +10,7 @@ class BulkExport < ApplicationRecord
   ARCHIVED = 'job.status.archived'     # The job's files have been cleaned up
   ARCHIVE_CUTOFF = 30                  # days
   PASSWORD_LENGTH = 8
+  EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url
 
   alias_attribute :export_format, :format
 

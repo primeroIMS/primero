@@ -5,11 +5,12 @@ import { Menu, MenuItem, IconButton } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import Permission from "../../../../application/permission";
+import { getEnabledAgencies } from "../../../../application/selectors";
 import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
 import { getUsersByTransitionType } from "../../../../record-actions/transitions/selectors";
 import { REFERRAL_TYPE } from "../../../../record-actions/transitions";
 import { setServiceToRefer } from "../../../action-creators";
-import { getEnabledAgencies, getOption } from "../../../selectors";
+import { getOption } from "../../../selectors";
 import { setDialog } from "../../../../record-actions/action-creators";
 import { useI18n } from "../../../../i18n";
 import { serviceIsReferrable } from "../../utils";
@@ -29,9 +30,7 @@ const Component = ({ index, values }) => {
     getUsersByTransitionType(state, REFERRAL_TYPE)
   );
 
-  const agencies = useSelector(state =>
-    getEnabledAgencies(state, REFERRAL_TYPE)
-  );
+  const agencies = useSelector(state => getEnabledAgencies(state));
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);

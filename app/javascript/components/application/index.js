@@ -8,14 +8,14 @@ export {
 export { ApplicationProvider, useApp } from "./provider";
 export { default as reducer } from "./reducer";
 export {
-  selectAgencies,
-  getAgenciesWithService,
-  selectModules,
-  selectModule,
-  selectLocales,
-  selectUserIdle,
-  selectUserModules,
+  getEnabledAgencies,
+  getResourceActions,
   getSystemPermissions,
-  getResourceActions
+  selectAgencies,
+  selectLocales,
+  selectModule,
+  selectModules,
+  selectUserIdle,
+  selectUserModules
 } from "./selectors";
 export { PERMISSIONS, RESOURCES, RESOURCE_ACTIONS } from "./constants";
