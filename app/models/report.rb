@@ -273,10 +273,12 @@ class Report < CouchRest::Model::Base
     if scope.present?
       scope.each do |k, v|
         ui_filter = self.ui_filters.find {|ui| ui['name'] == k }
+        value = v.include?('-')? ['['+ v.gsub('-',' TO ')+']'] : v.split('||')
+
         if ui_filter.blank? && date_names.include?(k)
           ui_filter = self.ui_filters.find {|ui| ui['type'] == 'date' }
+          value = v.split('||')
         end
-        value = v.include?('-')? ['['+ v.gsub('-',' TO ')+']'] : v.split('||')
 
         if ui_filter['location_filter']
           locations = []
