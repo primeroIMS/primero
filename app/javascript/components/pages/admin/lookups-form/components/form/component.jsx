@@ -1,4 +1,5 @@
 import React, { useEffect, useImperativeHandle, useState } from "react";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { useForm, FormContext } from "react-hook-form";
 import { Grid } from "@material-ui/core";
@@ -6,6 +7,7 @@ import { makeStyles } from "@material-ui/styles";
 import { fromJS } from "immutable";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import isEmpty from "lodash/isEmpty";
+import { useParams } from "react-router-dom";
 
 import { form, getInitialValues, reorderValues } from "../../utils";
 import { FieldRecord, TEXT_FIELD, whichFormMode } from "../../../../../form";
@@ -20,11 +22,15 @@ import {
 import HeaderValues from "../header-values";
 import DraggableRow from "../draggable-row";
 import styles from "../styles.css";
+import { saveLookup } from "../../action-creators";
+import { SAVE_METHODS } from "../../../../../../config";
 
 import { NAME } from "./constants";
 
 const Component = ({ formRef, mode, lookup }) => {
+  const { id } = useParams();
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const formMode = whichFormMode(mode);
   const locales = i18n.applicationLocales.toJS();
@@ -50,7 +56,32 @@ const Component = ({ formRef, mode, lookup }) => {
     values
   };
 
-  const onSubmit = data => console.log("ON SUBMIT", data, "SORT", items);
+  const onSubmit = data => {
+    const body = {
+      data: {
+        name: {
+          [defaultLocale]: data.name,
+          [data.options]: data.translated_name
+        }
+      }
+    };
+
+    console.log(body);
+
+    dispatch(
+      saveLookup({
+        id,
+        saveMethod: formMode.get("isEdit")
+          ? SAVE_METHODS.update
+          : SAVE_METHODS.new,
+        body,
+        message: i18n.t(
+          `role.messages.${formMode.get("isEdit") ? "updated" : "created"}`
+        )
+      })
+    );
+    console.log("ON SUBMIT", data, "SORT", items);
+  };
 
   useImperativeHandle(formRef, () => ({
     submitForm(e) {
@@ -69,12 +100,11 @@ const Component = ({ formRef, mode, lookup }) => {
 
   // Setting translated value
   if (watchedOption && selectedOption !== defaultLocale) {
+    console.log(formMethods.getValues());
+
     formMethods.setValue(
       LOOKUP_TRANSLATED_NAME,
-      selectedOption
-        ? formMethods.getValues().translated_name ||
-            lookup.getIn([LOOKUP_NAME, selectedOption])
-        : ""
+      selectedOption ? lookup.getIn([LOOKUP_NAME, selectedOption]) : ""
     );
   }
 
