@@ -20,23 +20,21 @@ describe("<SelectField />", () => {
     };
 
     const initialState = fromJS({
-      forms: {
-        options: {
-          agencies: [
-            {
-              unique_id: "agency-test-1",
-              agency_code: "test1",
-              disabled: false,
-              services: ["service_test_1"]
-            },
-            {
-              unique_id: "agency-test-2",
-              agency_code: "test2",
-              disabled: false,
-              services: ["service_test_1", "service_test_2"]
-            }
-          ]
-        }
+      application: {
+        agencies: [
+          {
+            unique_id: "agency-test-1",
+            agency_code: "test1",
+            disabled: false,
+            services: ["service_test_1"]
+          },
+          {
+            unique_id: "agency-test-2",
+            agency_code: "test2",
+            disabled: false,
+            services: ["service_test_1", "service_test_2"]
+          }
+        ]
       }
     });
 
