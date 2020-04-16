@@ -206,9 +206,13 @@ class Location < CouchRest::Model::Base
     memoize_in_prod :display_text
 
     def all_names_reporting_locations(opts={})
-      admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
-      reporting_location_hierarchy_filter = SystemSettings.current.reporting_location_config.try(:hierarchy_filter) || nil
       locale = opts[:locale] || I18n.locale
+      system_settings = opts[:system_settings] || SystemSettings.current
+      admin_level = opts[:reporting_location_admin_level] ||
+        system_settings.reporting_location_config.try(:admin_level) ||
+        ReportingLocation::DEFAULT_ADMIN_LEVEL
+      reporting_location_hierarchy_filter = system_settings.reporting_location_config.try(:hierarchy_filter) || nil
+
       find_names_by_admin_level_enabled(admin_level, reporting_location_hierarchy_filter, { locale: locale })
     end
 
