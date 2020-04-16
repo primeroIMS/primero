@@ -8,17 +8,16 @@ import { useI18n } from "../../../../../i18n";
 
 import { NAME } from "./constants";
 
-const Component = ({ hiddenClassName }) => {
+const Component = ({ hideTranslationColumn }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
+  const hide = hideTranslationColumn ? css.hideTranslationsFields : null;
 
   return (
     <div className={clsx(css.row, css.header)}>
       <div className={css.dragIndicatorContainer} />
       <div>{i18n.t("lookup.english_label")}</div>
-      <div className={hiddenClassName}>
-        {i18n.t("lookup.translation_label")}
-      </div>
+      <div className={hide}>{i18n.t("lookup.translation_label")}</div>
       <div className={css.dragIndicatorContainer}>
         {i18n.t("lookup.remove")}
       </div>
@@ -29,7 +28,7 @@ const Component = ({ hiddenClassName }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  hiddenClassName: PropTypes.string
+  hideTranslationColumn: PropTypes.bool
 };
 
 export default Component;

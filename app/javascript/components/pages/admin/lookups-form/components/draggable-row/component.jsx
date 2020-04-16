@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
-import { fromJS } from "immutable";
 import { Draggable } from "react-beautiful-dnd";
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
@@ -9,19 +8,37 @@ import IconButton from "@material-ui/core/IconButton";
 import styles from "../styles.css";
 import { DragIndicator } from "../../../forms/forms-list/components";
 import FormSectionField from "../../../../../form/components/form-section-field";
+import { FieldRecord, TEXT_FIELD } from "../../../../../form";
 
 import { NAME } from "./constants";
 
 const Component = ({
-  defaultField,
-  hiddenClassName,
+  firstLocaleOption,
   index,
   isDragDisabled,
-  removeValue,
-  translatedField,
+  localesKeys,
+  onRemoveClick,
+  selectedOption,
   uniqueId
 }) => {
   const css = makeStyles(styles)();
+
+  const renderTranslationValues = () => {
+    return localesKeys.map(localeKey => {
+      const name = `values.${localeKey}.${uniqueId}`;
+      const show =
+        firstLocaleOption === localeKey || selectedOption === localeKey;
+
+      return (
+        <div className={!show ? css.hideTranslationsFields : null}>
+          <FormSectionField
+            field={FieldRecord({ name, type: TEXT_FIELD })}
+            key={name}
+          />
+        </div>
+      );
+    });
+  };
 
   return (
     <Draggable
@@ -41,25 +58,12 @@ const Component = ({
             <div className={css.dragIndicatorContainer}>
               <DragIndicator {...provider.dragHandleProps} />
             </div>
-            <div>
-              <FormSectionField
-                field={defaultField}
-                key={defaultField.name}
-                checkErrors={fromJS({})}
-              />
-            </div>
-            <div className={hiddenClassName}>
-              <FormSectionField
-                field={translatedField}
-                key={translatedField.name}
-                checkErrors={fromJS({})}
-              />
-            </div>
+            {renderTranslationValues()}
             <div className={css.dragIndicatorContainer}>
               <IconButton
                 aria-label="delete"
                 className={css.removeIcon}
-                onClick={() => removeValue(uniqueId)}
+                onClick={() => onRemoveClick(uniqueId)}
                 disabled={isDragDisabled}
               >
                 <DeleteIcon />
@@ -75,12 +79,12 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.propTypes = {
-  defaultField: PropTypes.object,
-  hiddenClassName: PropTypes.string,
+  firstLocaleOption: PropTypes.string,
   index: PropTypes.number,
   isDragDisabled: PropTypes.bool,
-  removeValue: PropTypes.func,
-  translatedField: PropTypes.object,
+  localesKeys: PropTypes.array,
+  onRemoveClick: PropTypes.func,
+  selectedOption: PropTypes.string,
   uniqueId: PropTypes.number
 };
 

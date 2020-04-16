@@ -14,8 +14,8 @@ import { ROUTES } from "../../../../config";
 import bindFormSubmit from "../../../../libs/submit-form";
 
 import { NAME } from "./constants";
-import { getLookup } from "./selectors";
-import { fetchLookup, clearSelectedLookup } from "./action-creators";
+import { getLookup, getSavingLookup } from "./selectors";
+import { clearSelectedLookup, fetchLookup } from "./action-creators";
 import { LookupForm } from "./components";
 
 const Container = ({ mode }) => {
@@ -27,6 +27,7 @@ const Container = ({ mode }) => {
   const { id } = useParams();
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const lookup = useSelector(state => getLookup(state));
+  const saving = useSelector(state => getSavingLookup(state));
 
   useEffect(() => {
     if (isEditOrShow) {
@@ -70,6 +71,7 @@ const Container = ({ mode }) => {
       <FormAction
         actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
+        savingRecord={saving}
       />
     </>
   );

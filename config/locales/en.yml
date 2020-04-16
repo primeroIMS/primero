@@ -1606,10 +1606,12 @@ en:
     initial_lang_help_text: "This must be entered in %{lang}."
     english_label: "English Text"
     translation_label: "Translation Text"
+    language_label: "Language"
     messages:
       cannot_create: "Lookup could not be created"
       correct_errors: "Please correct the following errors and resubmit:"
-      updated: "Lookup successfully added"
+      created: "Lookup was successfully created."
+      updated: "Lookup was successfully updated."
 
   location:
     location_code_warning: Note that if you change an existing location code, you will need to edit re-enter the location fields for any records using this location.
