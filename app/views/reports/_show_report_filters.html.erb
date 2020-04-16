@@ -7,7 +7,7 @@
             <div class="filters-selected"></div>
           </div>
           <div>
-            <div class="open btn green-button right" data-action="open"><%= I18n.t("report.report_filters.filters") %></div>
+            <div class="open button green-button right" data-action="open"><%= I18n.t("report.report_filters.filters") %></div>
           </div>
         </div>
       </div>
@@ -15,6 +15,7 @@
     <div class="panel container">
       <div class="form-row row">
         <div class="close" data-action="close"><i class="fa fa-close" data-action="close"></i></div>
+        <div class="large-12 columns">
         <form>
           <div class="report_filters">
             <% @report.ui_filters.each do |filter| %>
@@ -23,11 +24,12 @@
           </div>
           <div class="row collapse">
             <div class="large-12 columns filter-actions">
-              <a class="btn grey-button clear_filters"><%= I18n.t("report.report_filters.clear") %></a>
-              <a class="btn green-button submit_filters"><%= I18n.t("report.report_filters.filter") %></a>
+              <a class="button grey-button clear_filters"><%= I18n.t("report.report_filters.clear") %></a>
+              <a class="button green-button submit_filters"><%= I18n.t("report.report_filters.filter") %></a>
             </div>
           </div>
         </form>
+        </div>
       </div>
     </div>    
   </div>

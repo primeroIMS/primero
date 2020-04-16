@@ -1,5 +1,5 @@
 <%
-  options = report_filter_options(@options, filter['options'])
+  options = Lookup.values_for_select(filter['options'])
   multiple = filter['multiple'].present? && filter['multiple'] == true
   name = filter['name']
 %>
