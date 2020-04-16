@@ -41,6 +41,7 @@ Rails.application.routes.draw do
           post :transfers, to: 'transfers#create_bulk'
         end
         resources :approvals, only: [:update]
+        get :record_history, to: 'record_histories#index'
       end
 
       resources :incidents do
@@ -49,6 +50,7 @@ Rails.application.routes.draw do
         resources :approvals, only: [:update]
         resources :attachments, only: %i[create destroy]
         post :flags, to: 'flags#create_bulk', on: :collection
+        get :record_history, to: 'record_histories#index'
       end
 
       resources :tracing_requests do
@@ -57,6 +59,7 @@ Rails.application.routes.draw do
         resources :approvals, only: [:update]
         resources :attachments, only: %i[create destroy]
         post :flags, to: 'flags#create_bulk', on: :collection
+        get :record_history, to: 'record_histories#index'
       end
 
       resources :form_sections, as: :forms, path: :forms
