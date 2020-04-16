@@ -7,7 +7,7 @@ json.data do
     json.datetime record_history.datetime&.iso8601
     json.user_name record_history.user_name
     json.action record_history.action
-    json.record_changes record_history.record_changes.map{|key, value| {key=>value}}
+    json.record_changes (record_history.record_changes.map { |key, value| { key => value } })
   end
 end
 

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Model of the record histories
 class RecordHistory < ApplicationRecord
   belongs_to :record, polymorphic: true
 
