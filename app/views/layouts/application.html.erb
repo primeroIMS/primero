@@ -85,6 +85,7 @@
       form_message: "<%= t('errors.template.header.body_js')%>"
     };
     window._primero.options_loc = <%= available_locations %>
+    window._primero.reporting_location_admin_level = <%= reporting_location_admin_level %>
     window._primero.check_connectivity = <%= ENV['CHECK_ONLINE_STATUS'] || true %>
   }
 </script>

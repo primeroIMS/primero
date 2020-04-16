@@ -310,9 +310,13 @@ class User < CouchRest::Model::Base
   def reporting_location
     location = self.user_location
     return nil if location.blank?
-    reporting_location_admin_level = reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
-    return location if location.admin_level == reporting_location_admin_level
-    location.ancestor_by_admin_level(reporting_location_admin_level)
+    admin_level = reporting_location_admin_level
+    return location if location.admin_level == admin_level
+    location.ancestor_by_admin_level(admin_level)
+  end
+
+  def reporting_location_admin_level
+    reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
   end
 
   def reporting_location_config
