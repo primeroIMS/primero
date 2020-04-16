@@ -12,7 +12,7 @@
   <div class="date_filter">
     <h3>
       <% if date_field.present? %>
-        <%= I18n.t("report.report_filters.#{name}") %>
+        <%= I18n.t("report.report_filters.#{date_field}") %>
       <% else %>
         <%= select_tag(date_field, options_for_select(date_options),
                        'class' => 'chosen-select selectable_date',
