@@ -277,6 +277,9 @@ class Report < CouchRest::Model::Base
 
         if ui_filter.blank? && date_names.include?(k)
           ui_filter = self.ui_filters.find {|ui| ui['type'] == 'date' }
+        end
+
+        if ui_filter['type'] == 'date' 
           value = v.split('||')
         end
 

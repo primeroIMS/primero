@@ -41,7 +41,8 @@ _primero.Views.ReportFilters = Backbone.View.extend({
     var value = date_control.is("select")
       ? date_control.val()
       : [from, to].join(".");
-    this.report_filters[selectable_date] = [field.val(), value].join("||");
+    var filter = (selectable_date === undefined ? field.attr('name') :selectable_date)
+    this.report_filters[filter] = [field.val(), value].join("||");
   },
 
   changed_selectable_date: function(e) {
@@ -116,7 +117,7 @@ _primero.Views.ReportFilters = Backbone.View.extend({
       var filter = v.split("||");
       var control = $("select#" + k);
       var value;
-      if (self.date_select_options.includes(k)) {
+      if (self.date_select_options.includes(k) || /date/.test(k)) {
         control = $("select.date_type");
         var subValue = filter[1].split(".");
         var container = control.parents(".date_filter");
