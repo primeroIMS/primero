@@ -10,7 +10,7 @@ const OPTION_TYPES = {
 const formGroups = (state, locale) =>
   state
     .getIn(["forms", "formSections"], fromJS([]))
-    .filter(formSection => !formSection.is_nested)
+    .filter(formSection => !formSection.is_nested && formSection.form_group_id)
     .groupBy(item => item.get("form_group_id"))
     .reduce(
       (result, item) =>
