@@ -9,7 +9,10 @@ export const touchedFormData = (
   return Object.keys(touched).reduce((prev, current) => {
     const obj = prev;
 
-    if (Array.isArray(touched[current])) {
+    if (
+      Array.isArray(touched[current]) &&
+      data[current].find(elem => typeof elem === "object")
+    ) {
       obj[current] = [];
       touched[current].forEach((value, key) => {
         obj[current][key] = touchedFormData(

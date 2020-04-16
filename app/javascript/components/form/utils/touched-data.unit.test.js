@@ -17,7 +17,7 @@ describe("touchedFormData()", () => {
 
     const touched = {
       prop1: true,
-      prop2: true,
+      prop2: [true],
       prop4: [{ prop4a: true }]
     };
 
