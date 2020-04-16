@@ -12,6 +12,7 @@ module Ownable
     property :owned_by_groups, [String]
     property :owned_by_location, String
     property :owned_by_user_code, String
+    property :owned_by_phone, String
 
     #TODO - this field is deprecated
     #TODO - remove this in a future refactor
@@ -86,6 +87,7 @@ module Ownable
       self.owned_by_groups = self.owner.try(:user_group_ids)
       self.owned_by_location = self.owner.try(:location)
       self.owned_by_user_code = self.owner.try(:code)
+      self.owned_by_phone =  self.owner.try(:phone)
       self.previously_owned_by_agency = self.changes['owned_by_agency'].try(:fetch, 0) || owned_by_agency
       self.previously_owned_by_location = self.changes['owned_by_location'].try(:fetch, 0) || owned_by_location
     end

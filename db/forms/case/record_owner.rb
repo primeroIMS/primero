@@ -69,6 +69,13 @@ record_owner_fields = [
              "disabled" => true,
              "option_strings_source" => "Agency"
             }),
+  Field.new({"name" => "owned_by_phone",
+             "type" => "text_field",
+             "mobile_visible" => false,
+             "display_name_en" => "Caseworker Phone",
+             "editable" => false,
+             "disabled" => true
+            }),
   #TODO: Move data to hardcoded record status panel
   Field.new({"name" => "telephone_agency",
           "mobile_visible" => false,
