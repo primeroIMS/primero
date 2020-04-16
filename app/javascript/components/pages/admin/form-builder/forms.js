@@ -20,7 +20,7 @@ export const validationSchema = object().shape({
   name: object().shape({
     en: string().required()
   }),
-  record_type: string().required(),
+  parent_form: string().required(),
   visible: boolean()
 });
 
@@ -56,7 +56,7 @@ export const settingsForm = i18n =>
         [
           FieldRecord({
             display_name: i18n.t("forms.record_type"),
-            name: "record_type",
+            name: "parent_form",
             type: SELECT_FIELD,
             option_strings_text: Object.values(RECORD_TYPES).reduce(
               (results, item) => {
