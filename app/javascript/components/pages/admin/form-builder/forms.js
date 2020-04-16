@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { object, string, boolean } from "yup";
+import { array, boolean, object, string } from "yup";
 
 import { RECORD_TYPES } from "../../../../config/constants";
 import {
@@ -16,7 +16,7 @@ export const validationSchema = object().shape({
     en: string().required()
   }),
   form_group_id: string().required(),
-  module: string().required(),
+  module_ids: array().of(string().required()),
   name: object().shape({
     en: string().required()
   }),
@@ -75,7 +75,7 @@ export const settingsForm = i18n =>
           }),
           FieldRecord({
             display_name: i18n.t("forms.module"),
-            name: "module",
+            name: "module_ids[0]",
             type: SELECT_FIELD,
             option_strings_source: "Module",
             required: true

@@ -30,7 +30,6 @@ const Component = ({ mode }) => {
   const [tab, setTab] = useState(0);
   const methods = useForm({ validationSchema, defaultValues: {} });
 
-  const { dirtyFields } = methods.formState;
   // const saving = useSelector(state => getSavingRecord(state));
 
   const handleChange = (event, selectedTab) => {
