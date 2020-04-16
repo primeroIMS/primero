@@ -890,6 +890,7 @@ describe IncidentsController, :type => :controller do
                       name_given_post_separation: "No", registration_date: "01-Mar-2017", sex: "Male", age: 10,
                       system_generated_followup: false, incident_id: "56798b3e-c5b8-44d9-a8c1-2593b2b127c9",
                       incident_case_id: "79e1883aecab33011157abe3ae5cc3c3", hidden_name: false, posted_from: "Mobile"}
+      Incident.stub(:permitted_property_names).and_return(@incident_hash.keys.map &:to_s)
     end
     it "creates a GBV incident" do
 
