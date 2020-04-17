@@ -1,7 +1,8 @@
 _primero.Collections.ReportingLocationStringSources = _primero.Collections.StringSources.LocationStringSources.extend({
   findLocations: function (term) {
     var regex = new RegExp(term, 'i');
-    var model = _.first(_.filter(this.models, function(model){ return model.get('type') == 'ReportingLocation' })).attributes
+    var admin_level = _primero.reporting_location_admin_level;
+    var model = _.first(_.filter(this.models, function(model){ return model.get('type') == 'ReportingLocation' + admin_level })).attributes;
 
     return _.filter(model.options, function(opt) {
       return regex.test(opt.display_text)
@@ -13,8 +14,9 @@ _primero.Views.PopulateReportingLocationSelectBoxes = _primero.Views.PopulateLoc
   el: "form select[data-populate='ReportingLocation']",
   initialize: function() {
     var self = this;
+    var admin_level = _primero.reporting_location_admin_level;
 
-    self.option_string_sources = ['ReportingLocation']
+    self.option_string_sources = ['ReportingLocation' + admin_level];
 
     self.collection = new _primero.Collections.ReportingLocationStringSources();
 
