@@ -155,6 +155,7 @@ const Component = ({ formRef, mode, lookup }) => {
       .map((item, index) => {
         return (
           <DraggableRow
+            key={item}
             firstLocaleOption={defaultLocale}
             index={index}
             isDragDisabled={!formMode.get("isEdit")}

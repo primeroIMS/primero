@@ -30,11 +30,8 @@ const Component = ({
         firstLocaleOption === localeKey || selectedOption === localeKey;
 
       return (
-        <div className={!show ? css.hideTranslationsFields : null}>
-          <FormSectionField
-            field={FieldRecord({ name, type: TEXT_FIELD })}
-            key={name}
-          />
+        <div key={name} className={!show ? css.hideTranslationsFields : null}>
+          <FormSectionField field={FieldRecord({ name, type: TEXT_FIELD })} />
         </div>
       );
     });
@@ -85,7 +82,7 @@ Component.propTypes = {
   localesKeys: PropTypes.array,
   onRemoveClick: PropTypes.func,
   selectedOption: PropTypes.string,
-  uniqueId: PropTypes.number
+  uniqueId: PropTypes.string
 };
 
 export default Component;
