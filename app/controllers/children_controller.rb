@@ -125,7 +125,7 @@ class ChildrenController < ApplicationController
       child: @child,
       subform_section: subform_section,
       subform_name: type,
-      form_group_name: '',
+      form_group_id: '',
       form_link: child_save_subform_path(@child, subform: type, form_sidebar_id: form_sidebar_id),
       can_save_and_add_provision: can?(:services_section_from_case, model_class) &&
         can?(:service_provision_incident_details, model_class) && (type == 'incident_details'),
@@ -360,24 +360,24 @@ class ChildrenController < ApplicationController
 
   def make_new_record
     incident_id = params['incident_id']
-    individual_details_subform_section = params['individual_details_subform_section']
+    individual_victims_subform_section = params['individual_victims_subform_section']
 
     Child.new.tap do |child|
       child['module_id'] = params['module_id']
-      if incident_id.present? && individual_details_subform_section.present?
+      if incident_id.present? && individual_victims_subform_section.present?
         incident = Incident.get(incident_id)
-        individual_details = incident['individual_details_subform_section'][individual_details_subform_section.to_i]
-        child['sex'] = individual_details['sex']
+        individual_details = incident['individual_victims_subform_section'][individual_victims_subform_section.to_i]
+        child['sex'] = individual_details['individual_sex']
         child['date_of_birth'] = individual_details['date_of_birth']
-        child['age'] = individual_details['age']
-        child['estimated'] = individual_details['estimated'] = true
+        child['age'] = individual_details['individual_age']
+        child['estimated'] = individual_details['individual_age_estimated']
         child['ethnicity'] = [individual_details['ethnicity']]
         child['nationality'] = [individual_details['nationality']]
         child['religion'] = [individual_details['religion']]
         child['country_of_origin'] = individual_details['country_of_origin']
         child['displacement_status'] = individual_details['displacement_status']
         child['marital_status'] = individual_details['marital_status']
-        child['disability_type'] = individual_details['disability_type']
+        child['disability_type'] = individual_details['victim_disability_type']
       end
     end
   end

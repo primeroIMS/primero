@@ -1,4 +1,10 @@
 <%
+  #TODO this fix was made for MRM
+  #It changes the expected behavior for text boxes on GBV
+  #Which is the guiding questions should appear when you click in the text field.
+  #The reason for this fix is that functionality does not work on subforms
+  #MRM requires guiding questions on subforms
+
   gq_text = guiding_questions_text || ''
 %>
 
@@ -6,6 +12,7 @@
   <%= link_to(t('buttons.guiding_questions'), '', class: 'gq_select_popovers', tabindex: '0', role: 'button',
               data: {
                   toggle: 'popover',
+                  trigger: 'focus',
                   title: t('buttons.guiding_questions'),
                   html: true,
                   placement: 'bottom',

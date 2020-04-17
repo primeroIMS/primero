@@ -1,4 +1,4 @@
-<% @form_sections.each do |form_group_name, section_list| %>
+<% @form_sections.each do |form_group_id, section_list| %>
   <% section_list.each do |section| %>
     <fieldset id='tab_<%= section.section_name.underscore %>' class='<%= section.section_name %> tab no-border ' data-first-tab="<%= section.is_first_tab %>">
       <div class="clearfix"></div>
@@ -14,7 +14,7 @@
         <%= render 'form_section/display_alert', formObject: formObject, section: section %>
       <% end %>
       <% (section.fields.select{|field| field.showable?}).each do |field| %>
-        <%= render :partial => field_template_path(field, true), :locals=>{:field => field, :formObject => formObject, :form_group_name => form_group_name, :form_id => section.unique_id, :display_audio_delete_checkbox => false, :lookups => lookups} %>
+        <%= render :partial => field_template_path(field, true), :locals=>{:field => field, :formObject => formObject, :form_group_id => form_group_id, :form_id => section.unique_id, :display_audio_delete_checkbox => false, :lookups => lookups} %>
       <% end %>
     </fieldset>
   <% end %>

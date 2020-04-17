@@ -186,7 +186,7 @@ describe FormSection do
   end
 
   describe "group_forms" do
-    it "groups forms by the group name" do
+    it "groups forms by the group id" do
       form_section_a = FormSection.new(unique_id: "A", name: "A", parent_form: 'case', form_group_id: "x")
       form_section_b = FormSection.new(unique_id: "B", name: "B", parent_form: 'case', form_group_id: "x")
       form_section_c = FormSection.new(unique_id: "C", name: "C", parent_form: 'case', form_group_id: "y")
@@ -194,9 +194,9 @@ describe FormSection do
       result = FormSection.group_forms([form_section_a, form_section_b, form_section_c], lookups: [@lookup])
 
       expect(result).to be_a Hash
-      expect(result.keys).to match_array(["X", "Y"])
-      expect(result["X"]).to match_array([form_section_a, form_section_b])
-      expect(result["Y"]).to match_array([form_section_c])
+      expect(result.keys).to match_array(["x", "y"])
+      expect(result["x"]).to match_array([form_section_a, form_section_b])
+      expect(result["y"]).to match_array([form_section_c])
     end
   end
 
@@ -1363,7 +1363,8 @@ describe FormSection do
 
   describe "Violation forms" do
     before do
-      FormSection.all.each &:destroy
+      FormSection.all.each(&:destroy)
+      SystemSettings.all.each(&:destroy)
       @violation = FormSection.create_or_update_form_section({
         unique_id: "sexual_violence",
         name: "sexual_violence",
@@ -1385,6 +1386,18 @@ describe FormSection do
         unique_id: "other_form",
         name: "other_form",
       })
+      @system_settings = SystemSettings.create(
+        violation_config: {
+          'killing' => {'field_id' => 'weapon_type', 'lookup_id' => 'lookup-weapon-type'},
+          'maiming' => {'field_id' => 'weapon_type', 'lookup_id' => 'lookup-weapon-type'},
+          'recruitment' => {'field_id' => 'factors_of_recruitment', 'lookup_id' => 'lookup-recruitment-factors'},
+          'sexual_violence' => {'field_id' => 'sexual_violence_type', 'lookup_id' => 'lookup-mrm-sexual-violence-type'},
+          'abduction' => {'field_id' => 'abduction_purpose', 'lookup_id' => 'lookup-abduction-purpose'},
+          'attack_on' => {'field_id' => 'facility_attack_type', 'lookup_id' => 'lookup-facility-attack-type'},
+          'military_use' => {'field_id' => 'military_use_type', 'lookup_id' => 'lookup-military-use-type'},
+          'denial_humanitarian_access' => {'field_id' => 'denial_method', 'lookup_id' => 'lookup-denial-method'}
+        }
+      )
     end
 
     it "identifies a violation form" do

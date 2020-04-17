@@ -1223,6 +1223,7 @@ describe ChildrenController, :type => :controller do
                         relation_age: 40, relation_date_of_birth: "01-Jan-1977"}],
                    case_id: "56798b3e-c5b8-44d9-a8c1-2593b2b127c9", short_id: "2b127c9", hidden_name: false, posted_from: "Mobile"}
 
+      Child.stub(:permitted_property_names).and_return(gbv_case.keys.map &:to_s)
       post :create, params: {child: gbv_case, format: :json}
 
       case1 = Child.by_short_id(key: gbv_case[:short_id]).first
@@ -1246,8 +1247,10 @@ describe ChildrenController, :type => :controller do
                          relation_child_is_separated_from: "Yes", relation_nickname: "", relation_is_alive: "Unknown",
                          relation_age: 40, relation_date_of_birth: "01-Jan-1977"}], hidden_name: false})
         @gbv_user = User.new(:user_name => 'primero_gbv', :is_manager => false)
+        Child.stub(:permitted_property_names).and_return(%w[_id short_id name])
       end
       it 'returns a GBV case' do
+
         get :show, params: {id: @gbv_case.id, mobile: true, format: :json}
 
         expect(assigns['record']['_id']).to eq(@gbv_case.id)

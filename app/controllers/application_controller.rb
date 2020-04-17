@@ -18,7 +18,6 @@ class ApplicationController < ActionController::Base
   before_action :check_authentication
   before_action :load_system_settings
   before_action :set_locale
-
   around_action :with_timezone
 
   rescue_from ActionController::InvalidAuthenticityToken, :with => :redirect_to_login
@@ -145,7 +144,6 @@ class ApplicationController < ActionController::Base
   def redirect_back_or_default(default = root_path, options = {})
     redirect_to (request.referer.present? ? :back : default), options
   end
-
   class << self
     attr_accessor :model_class
   end

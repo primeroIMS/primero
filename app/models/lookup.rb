@@ -18,6 +18,7 @@ class Lookup < CouchRest::Model::Base
   #TODO: We should never assume that a lookup with a specific id exists.
   #      Refactor so that hardcoded queries against 'lookup-gender', 'lookup-protection-concerns', lookup-approval-type' etc.
   #      are gracefully handled.
+  property :editable, TrueClass, :default => true
 
   design do
     view :all

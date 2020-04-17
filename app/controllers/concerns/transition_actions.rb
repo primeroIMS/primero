@@ -215,7 +215,7 @@ module TransitionActions
   def log_to_history(records)
     records.each do |record|
       record.add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, to_user_local_status, notes,
-                            is_remote?, type_of_export, current_user.user_name, consent_overridden(record), consent_individual_transfer, service)
+                            is_remote?, type_of_export, current_user.user_name, consent_overridden(record), consent_individual_transfer, service, service_object_id)
       #TODO - should this be done here or somewhere else?
       #ONLY save the record if remote transfer/referral.  Local transfer/referral will update and save the record(s)
       record.set_service_as_referred( service_object_id )

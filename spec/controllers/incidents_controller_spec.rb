@@ -18,9 +18,21 @@ end
 describe IncidentsController, :type => :controller do
 
   before do
-    SystemSettings.all.each &:destroy
-    SystemSettings.create(default_locale: "en",
-      primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
+    SystemSettings.all.each(&:destroy)
+    SystemSettings.create(
+      default_locale: "en",
+      primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]},
+      violation_config: {
+        'killing' => {'field_id' => 'weapon_type', 'lookup_id' => 'lookup-weapon-type'},
+        'maiming' => {'field_id' => 'weapon_type', 'lookup_id' => 'lookup-weapon-type'},
+        'recruitment' => {'field_id' => 'factors_of_recruitment', 'lookup_id' => 'lookup-recruitment-factors'},
+        'sexual_violence' => {'field_id' => 'sexual_violence_type', 'lookup_id' => 'lookup-mrm-sexual-violence-type'},
+        'abduction' => {'field_id' => 'abduction_purpose', 'lookup_id' => 'lookup-abduction-purpose'},
+        'attack_on' => {'field_id' => 'facility_attack_type', 'lookup_id' => 'lookup-facility-attack-type'},
+        'military_use' => {'field_id' => 'military_use_type', 'lookup_id' => 'lookup-military-use-type'},
+        'denial_humanitarian_access' => {'field_id' => 'denial_method', 'lookup_id' => 'lookup-denial-method'}
+      }
+    )
   end
 
   before :each do |example|
@@ -879,6 +891,7 @@ describe IncidentsController, :type => :controller do
                       name_given_post_separation: "No", registration_date: "01-Mar-2017", sex: "Male", age: 10,
                       system_generated_followup: false, incident_id: "56798b3e-c5b8-44d9-a8c1-2593b2b127c9",
                       incident_case_id: "79e1883aecab33011157abe3ae5cc3c3", hidden_name: false, posted_from: "Mobile"}
+      Incident.stub(:permitted_property_names).and_return(@incident_hash.keys.map &:to_s)
     end
     it "creates a GBV incident" do
 
@@ -926,6 +939,7 @@ describe IncidentsController, :type => :controller do
                                            record_state: true, marked_for_mobile: true, consent_for_services: false, incident_status: Record::STATUS_OPEN,
                                            name: "Velma Dinkley", name_first: "Velma", name_last: "Dinkley")
         @gbv_user = User.new(:user_name => 'primero_gbv', :is_manager => false)
+        Incident.stub(:permitted_property_names).and_return(%w[_id short_id name])
       end
 
 

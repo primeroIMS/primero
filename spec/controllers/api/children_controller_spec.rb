@@ -48,6 +48,8 @@ describe ChildrenController do
       @c3 = Child.new(id: 'child3', marked_for_mobile: false, module_id: 'cp')
       children = [@c1, @c2, @c3]
       children.each{|c| c.stub(:format_json_response).and_return(c)}
+      Child.any_instance.stub(:module).and_return(PrimeroModule::cp)
+      Child.stub(:permitted_property_names).and_return(@c1.attributes.keys)
       ChildrenController.any_instance.stub(:retrieve_records_and_total).and_return([children, 3])
     end
 
@@ -98,6 +100,7 @@ describe ChildrenController do
     it "will discard empty arrays in the JSON representation if queried from the mobile client" do
       child = Child.new(:module_id => 'primeromodule-cp')
       child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', empty_array_attr: []})
+      Child.stub(:permitted_property_names).and_return(%w[module_id id empty_array_attr])
       Child.should_receive(:get).with("123").and_return(child)
       get :show, params: {:id => "123", :format => :json, :mobile => 'true'}
       expect(assigns[:record][:id]).to eq('123')
@@ -107,6 +110,7 @@ describe ChildrenController do
     it "will discard empty arrays in the nested subforms in the JSON representation if queried from the mobile client" do
       child = Child.new(:module_id => 'primeromodule-cp')
       child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', a_nested_subform: [{field1: 'A', empty_array_attr: []}]})
+      Child.stub(:permitted_property_names).and_return(%w[module_id id a_nested_subform])
       Child.should_receive(:get).with("123").and_return(child)
       get :show, params: {:id => "123", :format => :json, :mobile => 'true'}
       expect(assigns[:record][:id]).to eq('123')
@@ -116,6 +120,7 @@ describe ChildrenController do
     it "will not discard child array attributes" do
       child = Child.new(:module_id => 'primeromodule-cp')
       child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', nationality: ["Angola", "Antigua and Barbuda", "Argentina"]})
+      Child.stub(:permitted_property_names).and_return(%w[module_id id nationality])
       Child.should_receive(:get).with("123").and_return(child)
       get :show, params: {:id => "123", :format => :json, :mobile => 'true'}
       expect(assigns[:record][:id]).to eq('123')

@@ -72,7 +72,7 @@ describe FormSectionController do
   describe "get index" do
     it "populate the view with all the form sections in order ignoring enabled or disabled" do
       forms = [@form_section_a, @form_section_b, @form_section_d]
-      grouped_forms = forms.group_by{|e| e.form_group_name}
+      grouped_forms = forms.group_by{|e| e.form_group_id}
       get :index, params: {:module_id => @primero_module.id, :parent_form => 'case'}
       assigns[:form_sections].should == grouped_forms
     end
@@ -324,7 +324,7 @@ describe FormSectionController do
     it "should save update if valid" do
       form_section = FormSection.new
       params = {"some" => "params"}
-      FormSection.should_receive(:get_by_unique_id).with("form_1", true).and_return(form_section)
+      FormSection.should_receive(:get_by_unique_id).with("form_1").and_return(form_section)
       form_section.should_receive(:properties=).with(params)
       form_section.should_receive(:valid?).and_return(true)
       form_section.should_receive(:save!)
@@ -335,7 +335,7 @@ describe FormSectionController do
     it "should show errors if invalid" do
       form_section = FormSection.new
       params = {"some" => "params"}
-      FormSection.should_receive(:get_by_unique_id).with("form_1", true).and_return(form_section)
+      FormSection.should_receive(:get_by_unique_id).with("form_1").and_return(form_section)
       form_section.should_receive(:properties=).with(params)
       form_section.should_receive(:valid?).and_return(false)
       post :update, params: {:form_section => params, :id => "form_1"}

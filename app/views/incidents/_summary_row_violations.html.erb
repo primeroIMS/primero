@@ -1,6 +1,6 @@
 <%
   compact_flag = true
-  violations = incident.violations_list(compact_flag)
+  violations = incident.violations_list(compact_flag, false, lookups: @lookups)
 %>
 <% if violations.present? %>
   <ul>

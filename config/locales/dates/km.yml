@@ -1,0 +1,57 @@
+km:
+  date:
+    today: 'Today'
+    clear: 'Clear'
+    abbr_day_names_short:
+    - អា
+    - ច
+    - អ
+    - ពុ
+    - ព្រហ
+    - សុ
+    - ស
+    abbr_month_names:
+    - 
+    - មករា
+    - កុម្ភ
+    - មិនា
+    - មេសា
+    - ឧសភា
+    - មិថុនា
+    - កក្កដា
+    - សីហា
+    - កញ្ញា
+    - តុលា
+    - វិច្ឆិកា
+    - ធ្នូ
+    day_names:
+    - អាទិត្យ
+    - ចន្ទ
+    - អង្គារ
+    - ពុធ
+    - ព្រហស្បតិ៍
+    - សុក្រ
+    - សៅរ៍
+    month_names:
+    - 
+    - មករា
+    - កុម្ភៈ
+    - មិនា
+    - មេសា
+    - ឧសភា
+    - មិថុនា
+    - កក្កដា
+    - សីហា
+    - កញ្ញា
+    - តុលា
+    - វិច្ឆិកា
+    - ធ្នូ
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+  time:
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+  "true": "Yes"
+  "false": "No"
