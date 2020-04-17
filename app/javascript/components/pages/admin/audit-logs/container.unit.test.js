@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { expect, setupMountedComponent } from "../../../../test";
+import { setupMountedComponent } from "../../../../test";
 import { PageHeading } from "../../../page";
 import { ACTIONS } from "../../../../libs/permissions";
 import IndexTable from "../../../index-table";

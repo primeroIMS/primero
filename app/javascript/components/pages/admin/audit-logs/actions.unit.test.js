@@ -1,5 +1,3 @@
-import { expect } from "../../../../test";
-
 import actions from "./actions";
 
 describe("<AuditLogs /> - pages/admin/audit-logs/actions", () => {

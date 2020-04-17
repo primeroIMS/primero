@@ -1,5 +1,3 @@
-import { expect } from "../../../../test";
-
 import * as constants from "./constants";
 
 describe("<AuditLogs /> pages/admin/audit-logs/constants", () => {

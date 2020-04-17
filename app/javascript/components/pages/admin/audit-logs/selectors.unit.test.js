@@ -1,7 +1,5 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../../../../test";
-
 import { getFilterUsers } from "./selectors";
 
 const state = fromJS({

@@ -1,7 +1,5 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../../../../test";
-
 import { TIMESTAMP, USER_NAME } from "./constants";
 import * as helper from "./utils";
 

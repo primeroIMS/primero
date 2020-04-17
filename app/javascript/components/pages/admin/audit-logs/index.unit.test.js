@@ -1,5 +1,3 @@
-import { expect } from "../../../../test";
-
 import * as index from "./index";
 
 describe("<AuditLogs /> - pages/admin/audit-logs/index", () => {
