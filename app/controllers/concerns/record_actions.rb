@@ -158,8 +158,12 @@ module RecordActions
 
   def create
     authorize! :create, model_class
+     # HACK This validation should not be here, it should be a validate on the model
+    validate_primero_module  if is_remote_request?
     reindex_hash record_params
-    @record = create_or_update_record(params[:id])
+    permitted_property_names = model_class.permitted_property_names(current_user, PrimeroModule.get(record_params['module_id']))
+
+    @record = create_or_update_record(params[:id], permitted_property_names)
     initialize_created_record(@record)
     respond_to do |format|
       if @record.save
@@ -434,7 +438,7 @@ module RecordActions
 
   def select_permitted_fields(record, permitted_property_names, is_remote_request)
     # put here fields required if it's a mobile
-    default_fields_to_share = is_remote_request ? [] : %w[_id _rev couchrest-type histories photo_keys document_keys case_id short_id owned_by created_by registration_date incident_id tracing_request_id inquiry_date incident_links]
+    default_fields_to_share = is_remote_request ? %w[module_id] : %w[_id _rev couchrest-type histories photo_keys document_keys case_id short_id owned_by created_by registration_date incident_id tracing_request_id inquiry_date incident_links]
     properties_to_check = default_fields_to_share + permitted_property_names
     record.select do |key, value|
       properties_to_check.include?(key.to_s)
@@ -470,10 +474,11 @@ module RecordActions
     return record
   end
 
-  def create_or_update_record(id)
+  def create_or_update_record(id, property_names=[])
     @record = model_class.by_short_id(:key => record_short_id).first if record_params[:unique_identifier]
     if @record.nil?
-      @record = model_class.new_with_user_name(current_user, record_params)
+      record_params_permitted = select_permitted_fields(record_params, property_names, is_remote_request?)
+      @record = model_class.new_with_user_name(current_user, record_params_permitted)
     else
       @record = update_record_from(id)
     end
@@ -511,6 +516,10 @@ module RecordActions
 
   def is_remote_request?
     [true, 'true'].include?(params[:remote])
+  end
+
+  def validate_primero_module
+    raise ErrorResponse.new(422, I18n.t('errors.models.child.validate_primero_module')) if record_params['module_id'].blank?
   end
 
   protected

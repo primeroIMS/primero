@@ -1865,6 +1865,7 @@ en:
         documents_count: "You are only allowed %{documents_count} documents per case."
         document_format: "Executable files are not allowed."
         date_closure: "The Case Closure Date should be greater or equal than Case Opening Date."
+        validate_primero_module: "Primero module must not be blank"
 
       incident:
         document_size: "Please upload a document smaller than 10mb"
