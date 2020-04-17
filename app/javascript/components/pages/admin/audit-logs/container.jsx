@@ -48,10 +48,19 @@ const Container = () => {
     filters: getFilters(filterUsers),
     onSubmit: data => {
       const filters = buildAuditLogsQuery(data);
+      let queryParams = {};
+
+      if (TIMESTAMP in data) {
+        queryParams = data[TIMESTAMP];
+
+        delete filters.timestamp;
+      }
+
+      console.log({ ...filters, ...queryParams });
 
       batch(() => {
         dispatch(setAuditLogsFilters(filters));
-        dispatch(fetchAuditLogs({ data: filters }));
+        dispatch(fetchAuditLogs({ data: { ...filters, ...queryParams } }));
       });
     }
   };
