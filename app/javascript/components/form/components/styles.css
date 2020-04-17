@@ -41,6 +41,14 @@
   }
 }
 
+.row {
+  &.notEqual {
+    & > div {
+      flex: none;
+    }
+  }
+}
+
 .actionButtonText {
   position: absolute;
   margin: 0 0.5em;

@@ -53,34 +53,36 @@ export const settingsForm = i18n =>
           option_strings_source: "FormGroup",
           freeSolo: true
         }),
-        [
-          FieldRecord({
-            display_name: i18n.t("forms.record_type"),
-            name: "parent_form",
-            type: SELECT_FIELD,
-            option_strings_text: Object.values(RECORD_TYPES).reduce(
-              (results, item) => {
-                if (item !== RECORD_TYPES.all) {
-                  results.push({
-                    id: item,
-                    display_text: i18n.t(`forms.record_types.${item}`)
-                  });
-                }
+        {
+          row: [
+            FieldRecord({
+              display_name: i18n.t("forms.record_type"),
+              name: "parent_form",
+              type: SELECT_FIELD,
+              option_strings_text: Object.values(RECORD_TYPES).reduce(
+                (results, item) => {
+                  if (item !== RECORD_TYPES.all) {
+                    results.push({
+                      id: item,
+                      display_text: i18n.t(`forms.record_types.${item}`)
+                    });
+                  }
 
-                return results;
-              },
-              []
-            ),
-            required: true
-          }),
-          FieldRecord({
-            display_name: i18n.t("forms.module"),
-            name: "module_ids[0]",
-            type: SELECT_FIELD,
-            option_strings_source: "Module",
-            required: true
-          })
-        ]
+                  return results;
+                },
+                []
+              ),
+              required: true
+            }),
+            FieldRecord({
+              display_name: i18n.t("forms.module"),
+              name: "module_ids[0]",
+              type: SELECT_FIELD,
+              option_strings_source: "Module",
+              required: true
+            })
+          ]
+        }
       ]
     }),
     FormSectionRecord({
@@ -92,13 +94,21 @@ export const settingsForm = i18n =>
           name: "show_on",
           type: LABEL_FIELD
         }),
-        [
-          FieldRecord({
-            display_name: i18n.t("forms.web_app"),
-            name: "visible",
-            type: TICK_FIELD
-          })
-        ]
+        {
+          row: [
+            FieldRecord({
+              display_name: i18n.t("forms.web_app"),
+              name: "visible",
+              type: TICK_FIELD
+            }),
+            FieldRecord({
+              display_name: i18n.t("forms.mobile_app"),
+              name: "mobile_form",
+              type: TICK_FIELD
+            })
+          ],
+          equalColumns: false
+        }
       ]
     })
   ]);

@@ -1384,6 +1384,7 @@ en:
     translations: "Translations"
     visibility: "Visibility"
     web_app: "Web App"
+    mobile_app: "Mobile App"
     show_page: "Show Page"
     short_form: "Short Form"
     show_on: "Show on"

@@ -19,7 +19,10 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
         ? option
         : options?.find(opt => opt.id === option) || defaultOption;
 
-    return displayName || displayText;
+    const freeSoloDisplayText =
+      freeSolo && typeof option === "string" ? option : "";
+
+    return displayName || displayText || freeSoloDisplayText;
   };
 
   const optionsUseIntegerIds = Number.isInteger(options?.[0]?.id);
@@ -38,8 +41,6 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const optionEquality = (option, value) =>
     multiSelect ? option.id === value : option.id === value.id;
 
-  // TODO: Waiting on input from Mal/Jack to see if form group name can be dynamically added. Remove all freesolo 
-  // logic if another route is provided
   const filterOptions = {
     ...(freeSolo && {
       filterOptions: (selected, params) => {
