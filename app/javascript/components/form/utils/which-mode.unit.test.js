@@ -1,6 +1,8 @@
+import { Map } from "immutable";
+
 import { FORM_MODE_NEW } from "../constants";
 
-import { whichFormMode } from "./utils/which-mode";
+import { whichFormMode } from "./which-mode";
 
 describe("whichFormMode()", () => {
   it("should build form state object", () => {

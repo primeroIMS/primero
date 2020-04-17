@@ -1,4 +1,4 @@
-import { setupMountedComponent } from "../../../../../../../test";
+import { setupMountedComponent } from "../../../../../../test";
 
 import TableRow from "./component";
 

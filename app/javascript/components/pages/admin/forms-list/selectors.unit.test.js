@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 
-import { mapEntriesToRecord } from "../../../../../libs";
-import { FormSectionRecord } from "../../../../record-form/records";
+import { mapEntriesToRecord } from "../../../../libs";
+import { FormSectionRecord } from "../../../record-form/records";
 
 import { getFormSections } from "./selectors";
 

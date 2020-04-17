@@ -1,15 +1,15 @@
 import { fromJS } from "immutable";
+import { Tab } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../test";
 import { mapEntriesToRecord } from "../../../../libs";
 import { FormSectionRecord } from "../../../record-form/records";
 import { RECORD_TYPES } from "../../../../config/constants";
 
-import FormsList from "./component";
-import FormFilters from "./components/form-filters";
-import FormGroup from "./components/form-group";
+import FormBuilderActionButtons from "./components/action-buttons";
+import FormsBuilder from "./component";
 
-describe("<FormsList />", () => {
+describe("<FormsBuilder />", () => {
   let component;
 
   const formSections = [
@@ -70,18 +70,23 @@ describe("<FormsList />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(FormsList, {}, initialState));
+    ({ component } = setupMountedComponent(
+      FormsBuilder,
+      { mode: "new" },
+      initialState
+    ));
   });
 
-  it("renders <PageHeading />", () => {
-    expect(component.find("header h1").text()).to.equal("forms.label");
+  it("renders the Settings Tab", () => {
+    expect(
+      component
+        .find(Tab)
+        .first()
+        .text()
+    ).to.equal("forms.settings");
   });
 
-  it("renders <FormFilters />", () => {
-    expect(component.find(FormFilters)).to.have.lengthOf(1);
-  });
-
-  it("renders form sections", () => {
-    expect(component.find(FormGroup)).to.have.lengthOf(2);
+  it("renders the Action Buttons", () => {
+    expect(component.find(FormBuilderActionButtons)).to.exist;
   });
 });

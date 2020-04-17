@@ -1,4 +1,4 @@
-import { setupMountedComponent, expect } from "../../../../../../../test";
+import { setupMountedComponent, expect } from "../../../../../../test";
 
 import FormSection from "./component";
 

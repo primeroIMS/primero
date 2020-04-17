@@ -1,7 +1,7 @@
 import { Icon } from "@material-ui/core";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 
-import { setupMountedComponent } from "../../../../../../../test";
+import { setupMountedComponent } from "../../../../../../test";
 
 import DragIndicator from "./component";
 

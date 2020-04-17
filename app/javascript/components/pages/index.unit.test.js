@@ -13,6 +13,7 @@ describe("pages/admin - index", () => {
       "Dashboard",
       "default",
       "ExportList",
+      "FormBuilder",
       "FormsList",
       "LookupsList",
       "NotAuthorized",

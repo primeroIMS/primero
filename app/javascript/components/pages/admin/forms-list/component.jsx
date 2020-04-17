@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { makeStyles, Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
-import { ROUTES } from "../../../../config";
 import { useI18n } from "../../../i18n";
 import { useApp } from "../../../application";
 import { PageHeading, PageContent } from "../../../page";
