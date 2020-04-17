@@ -1,5 +1,3 @@
-import { expect } from "../../test";
-
 import * as index from "./index";
 
 describe("<Notifier />- index", () => {
@@ -12,8 +10,8 @@ describe("<Notifier />- index", () => {
       "ENQUEUE_SNACKBAR",
       "enqueueSnackbar",
       "generate",
-      "Notifier",
-      "reducers",
+      "default",
+      "reducer",
       "REMOVE_SNACKBAR",
       "removeSnackbar",
       "SNACKBAR_VARIANTS"

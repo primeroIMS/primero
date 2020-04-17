@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent, expect } from "../../../../test";
+import { setupMountedComponent } from "../../../../test";
 import { ACTIONS } from "../../../../libs/permissions";
 import { ActionsMenu } from "../../../form";
 import { ROUTES } from "../../../../config/constants";
@@ -52,19 +52,11 @@ describe("<RolesForm />", () => {
     });
 
     it("renders heading with action buttons", () => {
-      expect(component.find("header h1").contains("roles.label")).to.be.true;
-      expect(
-        component
-          .find("header button")
-          .at(0)
-          .contains("buttons.cancel")
-      ).to.be.true;
-      expect(
-        component
-          .find("header button")
-          .at(1)
-          .contains("buttons.save")
-      ).to.be.true;
+      expect(component.find("header h1").contains("role.label ")).to.be.true;
+      expect(component.find("header button").at(0).contains("buttons.cancel"))
+        .to.be.true;
+      expect(component.find("header button").at(1).contains("buttons.save")).to
+        .be.true;
     });
 
     it("will not render actions menu", () => {

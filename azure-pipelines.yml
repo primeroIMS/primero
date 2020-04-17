@@ -38,7 +38,7 @@ jobs:
         displayName: 'Install npm packages'
       - task: UseRubyVersion@0
         inputs:
-          versionSpec: '= 2.6.5'
+          versionSpec: '= 2.6.6'
           addToPath: true
         displayName: 'Install ruby'
       - bash: |
@@ -74,7 +74,7 @@ jobs:
   - job: Build
     displayName: 'Build and push'
     dependsOn: Test
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/development_v2'))
+    condition: and(succeeded(), or(startsWith(variables['Build.SourceBranch'], 'refs/tags/v2'),  in(variables['Build.SourceBranch'], 'refs/heads/development_v2', 'refs/heads/master')))
     pool:
       vmImage: $(vmImageName)
     steps:

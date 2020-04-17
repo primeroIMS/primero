@@ -1,3 +1,3 @@
-export { default as Reports } from "./container";
+export { default } from "./container";
 export { default as namespace } from "./namespace";
-export { default as reducers } from "./reducers";
+export { default as reducer } from "./reducer";

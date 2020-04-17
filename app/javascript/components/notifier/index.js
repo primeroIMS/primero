@@ -1,5 +1,5 @@
-export { default as Notifier } from "./component";
-export { reducers } from "./reducers";
+export { default } from "./component";
+export { default as reducer } from "./reducer";
 export {
   enqueueSnackbar,
   closeSnackbar,

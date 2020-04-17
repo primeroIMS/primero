@@ -24,7 +24,8 @@ export const saveRecord = (
   id,
   message,
   messageForQueue,
-  redirect
+  redirect,
+  queueAttachments = true
 ) => async dispatch => {
   await dispatch({
     type: `${recordType}/${SAVE_RECORD}`,
@@ -51,7 +52,7 @@ export const saveRecord = (
         collection: DB_COLLECTIONS_NAMES.RECORDS,
         recordType
       },
-      queueAttachments: true
+      queueAttachments
     }
   });
 };

@@ -14,6 +14,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import FormSectionField from "../../form-section-field";
 import { SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
+import SubformMenu from "../subform-menu";
+import { serviceHasReferFields } from "../../utils";
 
 const Component = ({
   index,
@@ -49,6 +51,14 @@ const Component = ({
           <Box display="flex" alignItems="center">
             <Box flexGrow={1}>{title}</Box>
             <Box>
+              {field.subform_section_id.unique_id === "services_section" &&
+              mode.isShow &&
+              serviceHasReferFields(formik.values.services_section[index]) ? (
+                <SubformMenu
+                  index={index}
+                  values={formik.values.services_section}
+                />
+              ) : null}
               <IconButton onClick={handleClose}>
                 <CloseIcon />
               </IconButton>

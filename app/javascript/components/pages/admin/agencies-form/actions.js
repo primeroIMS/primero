@@ -1,5 +1,5 @@
 import { namespaceActions } from "../../../../libs";
-import NAMESPACE from "../namespace";
+import NAMESPACE from "../agencies-list/namespace";
 
 export default namespaceActions(NAMESPACE, [
   "CLEAR_SELECTED_AGENCY",

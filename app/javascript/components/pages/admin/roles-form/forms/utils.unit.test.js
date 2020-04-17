@@ -1,5 +1,3 @@
-import { expect } from "../../../../../test";
-
 import { buildPermissionOptions } from "./utils";
 
 describe("pages/admin/<RolesForm>/forms - utils", () => {

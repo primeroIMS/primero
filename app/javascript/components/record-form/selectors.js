@@ -132,6 +132,12 @@ export const getSelectedForm = state =>
 export const getSelectedRecord = state =>
   state.getIn([NAMESPACE, "selectedRecord"]);
 
+export const getServiceToRefer = state =>
+  state.getIn([NAMESPACE, "serviceToRefer"], fromJS({}));
+
+export const getOptionsAreLoading = state =>
+  state.getIn([NAMESPACE, "options", "loading"], false);
+
 export const getRecordAlerts = state =>
   state.getIn([NAMESPACE, "recordAlerts"], fromJS([]));
 

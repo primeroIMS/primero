@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { OrderedMap, fromJS } from "immutable";
 import { Menu, MenuItem } from "@material-ui/core";
 

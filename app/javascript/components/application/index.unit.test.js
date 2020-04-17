@@ -1,5 +1,3 @@
-import { expect } from "../../test";
-
 import * as index from "./index";
 
 describe("<Application /> - index", () => {
@@ -11,12 +9,12 @@ describe("<Application /> - index", () => {
       "ApplicationProvider",
       "fetchSystemPermissions",
       "fetchSystemSettings",
-      "getAgenciesWithService",
+      "getEnabledAgencies",
       "getResourceActions",
       "getSystemPermissions",
       "loadApplicationResources",
-      "reducers",
       "PERMISSIONS",
+      "reducer",
       "RESOURCES",
       "RESOURCE_ACTIONS",
       "selectAgencies",

@@ -13,7 +13,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import { SnackbarProvider } from "notistack";
 
 import { theme, routes } from "./config";
-import { I18nProvider } from "./components/i18n";
+import I18nProvider from "./components/i18n";
 import NAMESPACE from "./components/i18n/namespace";
 import { checkUserAuthentication } from "./components/user";
 import { loginSystemSettings } from "./components/pages/login";

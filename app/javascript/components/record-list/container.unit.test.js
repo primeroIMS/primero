@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import React from "react";
 import { Route } from "react-router-dom";
 import { fromJS, OrderedMap } from "immutable";
@@ -179,12 +178,14 @@ describe("<RecordList />", () => {
     ]));
   });
 
-  it("renders record list table", () => {
+  it("renders record list table", done => {
     expect(component.find(IndexTable)).to.have.length(1);
+    done();
   });
 
-  it("renders record list table", () => {
+  it("renders record view modal", done => {
     expect(component.find(ViewModal)).to.have.lengthOf(1);
+    done();
   });
 
   it("renders filters", () => {

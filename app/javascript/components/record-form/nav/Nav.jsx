@@ -9,17 +9,16 @@ import { setSelectedForm, setSelectedRecord } from "../action-creators";
 
 import { NAME } from "./constants";
 import NavGroup from "./NavGroup";
-import RecordInformation from "./parts/record-information";
+import RecordInformation from "./components/record-information";
 
 const Nav = ({
-  formNav,
-  selectedForm,
   firstTab,
+  formNav,
   handleToggleNav,
+  isNew,
   mobileDisplay,
-  selectedRecord,
-  selectedRecordOwner,
-  currentUser
+  selectedForm,
+  selectedRecord
 }) => {
   const [open, setOpen] = useState({});
   const dispatch = useDispatch();
@@ -63,14 +62,13 @@ const Nav = ({
     const renderFormGroups = formGroups.map(formGroup => {
       return (
         <NavGroup
-          key={formGroup.first().formId}
           group={formGroup}
           handleClick={handleClick}
+          isNew={isNew}
+          key={formGroup.first().formId}
           open={open}
-          selectedForm={selectedForm}
           recordAlerts={recordAlerts}
-          recordOwner={selectedRecordOwner}
-          currentUser={currentUser}
+          selectedForm={selectedForm}
         />
       );
     });
@@ -94,14 +92,13 @@ const Nav = ({
 Nav.displayName = NAME;
 
 Nav.propTypes = {
-  currentUser: PropTypes.string,
   firstTab: PropTypes.object,
   formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
+  isNew: PropTypes.bool,
   mobileDisplay: PropTypes.bool.isRequired,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  selectedRecord: PropTypes.string,
-  selectedRecordOwner: PropTypes.string
+  selectedRecord: PropTypes.string
 };
 
 export default Nav;

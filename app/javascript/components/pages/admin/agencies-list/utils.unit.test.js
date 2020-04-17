@@ -1,5 +1,3 @@
-import { expect } from "../../../../test";
-
 import { getFilters } from "./utils";
 
 describe("<AgenciesList /> pages/admin/agencies-list/utils", () => {

@@ -1000,6 +1000,7 @@ en:
       confirmation: "Are you sure you want to delete this role? Deletion can not be undone. Click OK To Delete Role."
 
   role:
+    label: "Role"
     create: "Create Role"
     edit: "Edit Role"
     name: "Name"
@@ -1394,6 +1395,9 @@ en:
   form_section:
     name: "Name"
     group: "Group"
+    module: "Module"
+    record_type: "Record Type"
+    form_name: "Form Name"
     description: "Description"
     create: "New Form"
     visibility: "Visibility"

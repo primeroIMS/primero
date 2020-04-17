@@ -1,5 +1,4 @@
 import React from "react";
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../test";

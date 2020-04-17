@@ -59,6 +59,7 @@ export const RECORD_PATH = {
   cases: "cases",
   contact_information: "contact_information",
   dashboards: "dashboards",
+  forms: "forms",
   incidents: "incidents",
   lookups: "lookups",
   roles: "roles",
@@ -101,6 +102,7 @@ export const ROUTES = {
   contact_information: "/admin/contact_information",
   dashboard: "/dashboards",
   exports: "/exports",
+  forms: "/admin/forms",
   incidents: "/incidents",
   login: "/login",
   logout: "/logout",
@@ -161,6 +163,7 @@ export const ADMIN_NAV = [
     recordType: RESOURCES.systems
   },
   { to: "/modules", label: "settings.navigation.modules", disabled: true },
+
   {
     to: "/forms-parent",
     label: "settings.navigation.forms",

@@ -1,8 +1,10 @@
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { REFER_DIALOG, TRANSFER_DIALOG, ASSIGN_DIALOG } from "../constants";
+import { SERVICE_REFERRED_SAVE } from "../../records";
+import { RECORD_TYPES } from "../../../config"
 import { SET_DIALOG, SET_DIALOG_PENDING } from "..";
 
-import { generatePath } from "./parts/helpers";
+import { generatePath } from "./components/utils";
 import actions from "./actions";
 
 const successCallbackActions = (modalName, message) => [
@@ -90,7 +92,7 @@ export const saveReferral = (recordId, recordType, body, message) => {
   const successCallback =
     body.data && body.data.service_record_id
       ? [
-          `${recordType}/${actions.SERVICE_REFERRED_SAVE}`,
+          `${recordType}/${SERVICE_REFERRED_SAVE}`,
           successActions
         ].flat()
       : successActions;

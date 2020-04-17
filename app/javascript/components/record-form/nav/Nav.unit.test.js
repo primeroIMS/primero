@@ -1,12 +1,12 @@
 import { fromJS, Map, OrderedMap } from "immutable";
 import Divider from "@material-ui/core/Divider";
 
-import { setupMountedComponent, expect } from "../../../test";
+import { setupMountedComponent } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
 
 import Nav from "./Nav";
 import NavGroup from "./NavGroup";
-import RecordInformation from "./parts/record-information";
+import RecordInformation from "./components/record-information";
 
 describe("<Nav />", () => {
   let component;
@@ -114,11 +114,10 @@ describe("<Nav />", () => {
     firstTab: {},
     formNav,
     handleToggleNav: () => {},
+    isNew: true,
     mobileDisplay: true,
     selectedForm: "",
-    selectedRecord: "",
-    selectedRecordOwner: "",
-    currentUser: ""
+    selectedRecord: ""
   };
 
   beforeEach(() => {
@@ -149,11 +148,10 @@ describe("<Nav />", () => {
       "firstTab",
       "formNav",
       "handleToggleNav",
+      "isNew",
       "mobileDisplay",
       "selectedForm",
-      "selectedRecord",
-      "selectedRecordOwner",
-      "currentUser"
+      "selectedRecord"
     ].forEach(property => {
       expect(navProps).to.have.property(property);
       delete navProps[property];

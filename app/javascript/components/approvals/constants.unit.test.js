@@ -1,5 +1,3 @@
-import { expect } from "../../test";
-
 import * as approvalsConstants from "./constants";
 
 describe("<Approvals /> - Constants", () => {

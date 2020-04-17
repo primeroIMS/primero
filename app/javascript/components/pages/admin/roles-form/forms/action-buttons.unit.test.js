@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 import { Button, MenuItem } from "@material-ui/core";
 
 import { ACTIONS } from "../../../../../libs/permissions";
-import { setupMountedComponent, expect } from "../../../../../test";
+import { setupMountedComponent } from "../../../../../test";
 import { FormAction, whichFormMode, ActionsMenu } from "../../../../form";
 
 import ActionButtons from "./action-buttons";

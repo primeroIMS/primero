@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import actions from "./actions";
 
 describe("<ReferralAction /> - Actions", () => {

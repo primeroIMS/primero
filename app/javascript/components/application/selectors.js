@@ -6,14 +6,25 @@ import NAMESPACE from "./namespace";
 export const selectAgencies = state =>
   state.getIn([NAMESPACE, "agencies"], fromJS([]));
 
-export const getAgenciesWithService = (state, service) =>
-  selectAgencies(state).filter(agency =>
-    agency.get("services", fromJS([])).includes(service)
-  );
+export const getEnabledAgencies = (state, service) => {
+  const enabledAgencies = state
+    .getIn([NAMESPACE, "agencies"], fromJS([]))
+    .filter(agency => !agency.get("disabled"));
 
-export const selectModules = state => state.getIn([NAMESPACE, "modules"], fromJS([]));
+  if (service) {
+    return enabledAgencies.filter(agency =>
+      agency.get("services", fromJS([])).includes(service)
+    );
+  }
 
-export const selectLocales = state => state.getIn([NAMESPACE, "locales"], fromJS([]));
+  return enabledAgencies;
+};
+
+export const selectModules = state =>
+  state.getIn([NAMESPACE, "modules"], fromJS([]));
+
+export const selectLocales = state =>
+  state.getIn([NAMESPACE, "locales"], fromJS([]));
 
 export const selectUserModules = state =>
   state.getIn([NAMESPACE, "modules"], Map({})).filter(m => {

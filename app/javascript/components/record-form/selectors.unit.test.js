@@ -1,13 +1,9 @@
-import chai, { expect } from "chai";
 import { Map, List, OrderedMap, fromJS } from "immutable";
-import chaiImmutable from "chai-immutable";
 
 import { mapEntriesToRecord } from "../../libs";
 
 import * as R from "./records";
 import * as selectors from "./selectors";
-
-chai.use(chaiImmutable);
 
 const formSections = {
   62: {
@@ -118,6 +114,13 @@ const location = {
     fr: ""
   }
 };
+
+const serviceToRefer = {
+  service_type: "some_service",
+  service_implementing_agency: "some_agency",
+  service_implementing_agency_individual: "some_user"
+};
+
 const stateWithNoRecords = Map({});
 const stateWithRecords = fromJS({
   ui: {
@@ -136,6 +139,7 @@ const stateWithRecords = fromJS({
         form_unique_id: "notes"
       }
     ],
+    serviceToRefer,
     formSections: mapEntriesToRecord(formSections, R.FormSectionRecord),
     fields: mapEntriesToRecord(fields, R.FieldRecord),
     loading: true,
@@ -511,15 +515,28 @@ describe("<RecordForm /> - Selectors", () => {
     });
 
     it("should return empty if there are not forms to assign", () => {
-      const expected = fromJS([]);
       const forms = selectors.getAssignableForms(stateWithNoRecords);
 
       expect(forms).to.be.empty;
     });
 
     it("should return empty if the forms are not assignable", () => {
-      const expected = fromJS([]);
       const forms = selectors.getAssignableForms(stateWithInvisibleForms);
+
+      expect(forms).to.be.empty;
+    });
+  });
+
+  describe("getServiceToRefer", () => {
+    it("should return the service to refer", () => {
+      const expected = fromJS(serviceToRefer);
+      const result = selectors.getServiceToRefer(stateWithRecords);
+
+      expect(result).to.deep.equal(expected);
+    });
+
+    it("should return empty if there is not a service to refer", () => {
+      const forms = selectors.getAssignableForms(stateWithNoRecords);
 
       expect(forms).to.be.empty;
     });

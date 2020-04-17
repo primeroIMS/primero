@@ -1,3 +1,5 @@
+# TODO: Refactor this!!! Write some tests!
+
 class Ability
   include CanCan::Ability
 
@@ -55,6 +57,7 @@ class Ability
 
     configure_exports
     baseline_permissions
+    configure_record_attachments
 
     [Child, TracingRequest, Incident].each do |model|
       configure_flag(model)
@@ -158,14 +161,7 @@ class Ability
   def configure_resource(resource, actions, is_record=false)
     if is_record
       can actions, resource do |instance|
-        if user.group_permission? Permission::ALL
-          true
-        elsif user.group_permission? Permission::GROUP
-          allowed_groups = instance.associated_users.map{|u|u.user_group_ids}.flatten.compact
-          (user.user_group_ids & allowed_groups).size > 0
-        else
-          instance.associated_user_names.include? user.user_name
-        end
+        permitted_to_access_record?(user, instance)
       end
       if ((resource == Child) &&
           user.has_permission?(Permission::DASH_TASKS))
@@ -187,6 +183,24 @@ class Ability
 
     can [:index, :create, :read, :destroy], BulkExport do |instance|
       instance.owned_by == user.user_name
+    end
+  end
+
+  def configure_record_attachments
+    can(%i[read write destroy], Attachment) do |instance|
+      permitted_to_access_record?(user, instance.record)
+    end
+  end
+
+  # TODO: Is this missing Agency level permissions?
+  def permitted_to_access_record?(user, record)
+    if user.group_permission? Permission::ALL
+      true
+    elsif user.group_permission? Permission::GROUP
+      allowed_groups = record.associated_users.map{|u|u.user_group_ids}.flatten.compact
+      (user.user_group_ids & allowed_groups).size > 0
+    else
+      record.associated_user_names.include? user.user_name
     end
   end
 

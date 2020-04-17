@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { expect, setupMountedComponent } from "../../../../../test";
+import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../../libs/permissions";
 import { PieChart, OptionsBox } from "../../../../dashboard";
 import LoadingIndicator from "../../../../loading-indicator";

@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { Field } from "formik";
 import { fromJS } from "immutable";
 

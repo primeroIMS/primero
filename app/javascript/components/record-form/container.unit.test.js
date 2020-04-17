@@ -5,12 +5,12 @@ import { Route } from "react-router-dom";
 import { fromJS, Map, List, OrderedMap } from "immutable";
 import { CircularProgress } from "@material-ui/core";
 
-import { setupMountedComponent, expect } from "../../test";
+import { setupMountedComponent } from "../../test";
 import { PageContainer } from "../page";
 import LoadingIndicator from "../loading-indicator";
 import RecordOwner from "../record-owner";
 import { PrimeroModuleRecord } from "../application/records";
-import { Transitions } from "../transitions";
+import Transitions from "../transitions";
 import { MODES } from "../../config";
 import Approvals from "../approvals";
 import ApprovalPanel from "../approvals/components/panel";
@@ -155,8 +155,9 @@ describe("<RecordForms /> - Component", () => {
     ));
   });
 
-  it("renders the PageContainer", () => {
+  it("renders the PageContainer", done => {
     expect(component.find(PageContainer)).to.have.length(1);
+    done();
   });
 
   it("renders the LoadingIndicator", () => {

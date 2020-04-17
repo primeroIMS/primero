@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { fromJS, Map } from "immutable";
 import { Form } from "formik";
 

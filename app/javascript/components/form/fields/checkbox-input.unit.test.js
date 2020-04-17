@@ -1,5 +1,5 @@
 import { FieldRecord } from "../records";
-import { expect, setupMockFieldComponent } from "../../../test";
+import { setupMockFieldComponent } from "../../../test";
 
 import CheckboxInput from "./checkbox-input";
 

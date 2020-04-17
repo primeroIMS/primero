@@ -10,7 +10,7 @@ import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 
 import customMiddleware from "./middleware";
-import rootReducer from "./reducers";
+import rootReducer from "./reducer";
 
 export const history = createBrowserHistory({
   basename: "v2"

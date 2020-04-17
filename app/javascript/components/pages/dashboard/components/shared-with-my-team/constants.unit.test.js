@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as constants from "./constants";
 
 describe("<SharedWithMyTeam> - pages/dashboard/components/shared-with-my-team/constants", () => {

@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import { CircularProgress, Fab } from "@material-ui/core";
 
-import { expect, setupMountedComponent, stub } from "../../../test";
+import { setupMountedComponent, stub } from "../../../test";
 import { RECORD_PATH, RECORD_TYPES, MODULES } from "../../../config";
 import { ACTIONS } from "../../../libs/permissions";
 import { PrimeroModuleRecord } from "../../application/records";

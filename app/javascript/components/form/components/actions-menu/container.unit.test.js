@@ -1,6 +1,6 @@
 import { MenuItem } from "@material-ui/core";
 
-import { expect, setupMockFormComponent } from "../../../../test";
+import { setupMockFormComponent } from "../../../../test";
 
 import ActionsMenu from "./container";
 

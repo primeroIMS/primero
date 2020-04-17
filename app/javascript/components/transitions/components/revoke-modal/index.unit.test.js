@@ -1,5 +1,3 @@
-import { expect } from "../../../../test";
-
 import * as index from "./index";
 
 describe("<RevokeModal /> - transitions/components/revoke-modal/index", () => {
@@ -7,7 +5,7 @@ describe("<RevokeModal /> - transitions/components/revoke-modal/index", () => {
 
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
-    ["default", "reducers"].forEach(property => {
+    ["default", "reducer"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });

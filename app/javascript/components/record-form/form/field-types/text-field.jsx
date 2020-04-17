@@ -9,7 +9,6 @@ import { FastField, connect } from "formik";
 
 import { useI18n } from "../../../i18n";
 import { saveRecord, selectRecordAttribute } from "../../../records";
-import { GuidingQuestions } from "../components";
 import { TEXT_FIELD_NAME } from "../constants";
 
 const useStyles = makeStyles(theme => ({
@@ -24,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
   const css = useStyles();
 
-  const { type, guiding_questions: guidingQuestions } = field;
+  const { type } = field;
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -103,13 +102,6 @@ const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
                   ? i18n.t("logger.hide_name.view")
                   : i18n.t("logger.hide_name.protect")}
               </ButtonBase>
-            ) : null}
-            {guidingQuestions &&
-            (fieldProps.mode.isEdit || fieldProps.mode.isNew) ? (
-              <GuidingQuestions
-                label={i18n.t("buttons.guiding_questions")}
-                text={guidingQuestions[i18n.locale]}
-              />
             ) : null}
           </>
         );

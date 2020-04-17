@@ -1,4 +1,4 @@
-export { default as Admin } from "./container";
+export { default } from "./container";
 export { default as UsersForm } from "./users-form";
 export { default as UsersList } from "./users-list";
 export { default as UserGroupsForm } from "./user-groups-form";
@@ -10,3 +10,4 @@ export { default as LookupsList } from "./lookups-list";
 export { default as RolesList } from "./roles-list";
 export { default as ContactInformation } from "./contact-information";
 export { default as AuditLogs } from "./audit-logs";
+export { FormsList } from "./forms";

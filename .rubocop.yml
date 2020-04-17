@@ -12,8 +12,9 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Exclude:
     - Gemfile*
-    - spec/**/*
     - config/routes.rb
+    - lib/tasks/*
+    - spec/**/*
 
 Metrics/MethodLength:
   Exclude:

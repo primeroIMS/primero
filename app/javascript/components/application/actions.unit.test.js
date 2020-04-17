@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import actions from "./actions";
 
 describe("Application - Actions", () => {
@@ -22,8 +20,6 @@ describe("Application - Actions", () => {
       delete cloneActions[property];
     });
 
-
     expect(cloneActions).to.be.empty;
   });
-
 });

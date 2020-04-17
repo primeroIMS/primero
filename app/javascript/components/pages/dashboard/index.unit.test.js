@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import clone from "lodash/clone";
 
 import * as index from "./index";
@@ -11,7 +10,7 @@ describe("<Dashboard /> - index", () => {
     [
       "default",
       "namespace",
-      "reducers",
+      "reducer",
       "selectFlags",
       "selectCasesByStatus",
       "selectCasesByCaseWorker",

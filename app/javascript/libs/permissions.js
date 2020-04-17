@@ -79,6 +79,7 @@ export const RESOURCES = {
   potential_matches: "potential_matches",
   reports: "reports",
   roles: "roles",
+  forms: "forms",
   systems: "systems",
   tracing_requests: "tracing_requests",
   user_groups: "user_groups",

@@ -1,7 +1,7 @@
 import { fromJS, Map, OrderedMap } from "immutable";
 import { ListItem, ListItemText } from "@material-ui/core";
 
-import { setupMountedComponent, expect } from "../../../test";
+import { setupMountedComponent } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
 
 import NavItem from "./NavItem";
@@ -96,16 +96,15 @@ describe("<NavItem />", () => {
 
   const props = {
     form: {},
-    isNested: false,
-    open: false,
-    handleClick: () => {},
-    selectedForm: "",
     groupItem: false,
-    name: "",
-    recordAlerts: {},
+    handleClick: () => {},
+    isNested: false,
+    isNew: false,
     itemsOfGroup: [],
-    currentUser: "",
-    recordOwner: ""
+    name: "",
+    open: false,
+    recordAlerts: {},
+    selectedForm: ""
   };
 
   beforeEach(() => {
@@ -126,16 +125,15 @@ describe("<NavItem />", () => {
     expect(component.find(NavItem)).to.have.lengthOf(1);
     [
       "form",
-      "isNested",
-      "open",
-      "handleClick",
-      "selectedForm",
       "groupItem",
-      "name",
-      "recordAlerts",
+      "handleClick",
+      "isNested",
+      "isNew",
       "itemsOfGroup",
-      "currentUser",
-      "recordOwner"
+      "name",
+      "open",
+      "recordAlerts",
+      "selectedForm"
     ].forEach(property => {
       expect(NavItemProps).to.have.property(property);
       delete NavItemProps[property];

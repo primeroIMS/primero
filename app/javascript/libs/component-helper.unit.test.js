@@ -1,8 +1,10 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../test";
-
-import { compare, dataToJS, valuesToSearchableSelect } from "./component-helpers";
+import {
+  compare,
+  dataToJS,
+  valuesToSearchableSelect
+} from "./component-helpers";
 
 describe("component-helpers", () => {
   describe("dataToJS", () => {
