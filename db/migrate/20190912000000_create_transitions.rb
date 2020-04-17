@@ -1,6 +1,6 @@
-class CreateTransitions < ActiveRecord::Migration[5.0]
-  enable_extension 'pgcrypto' unless extension_enabled?('pgcrypto')
+# frozen_string_literal: true
 
+class CreateTransitions < ActiveRecord::Migration[5.0]
   def change
     create_table :transitions, id: :uuid, default: 'gen_random_uuid()' do |t|
       t.string 'type'
@@ -21,7 +21,7 @@ class CreateTransitions < ActiveRecord::Migration[5.0]
       t.boolean 'consent_individual_transfer', null: false, default: false
       t.datetime 'created_at'
     end
-    add_index :transitions, [:id, :type]
-    add_index :transitions, [:record_type, :record_id]
+    add_index :transitions, %i[id type]
+    add_index :transitions, %i[record_type record_id]
   end
 end
