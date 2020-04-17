@@ -1,24 +1,20 @@
-import React, { useState, useRef, useImperativeHandle, useEffect } from "react";
+import React, { useImperativeHandle, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Tab, Tabs } from "@material-ui/core";
-import { useForm, FormContext } from "react-hook-form";
+import { FormContext, useForm } from "react-hook-form";
 import { push } from "connected-react-router";
-import { fromJS } from "immutable";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import CheckIcon from "@material-ui/icons/Check";
-import CloseIcon from "@material-ui/icons/Close";
+import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../../i18n";
-import { PageHeading, PageContent } from "../../../page";
+import { PageContent, PageHeading } from "../../../page";
 import FormSection from "../../../form/components/form-section";
-import { FormAction, whichFormMode, submitHandler } from "../../../form";
-import bindFormSubmit from "../../../../libs/submit-form";
+import { whichFormMode, submitHandler } from "../../../form";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 
+import { TabPanel, FormBuilderActionButtons } from "./components";
 import { saveForm } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
-import TabPanel from "./components/tab-panel";
 import { NAME } from "./constants";
 
 const Component = ({ mode }) => {
@@ -29,8 +25,6 @@ const Component = ({ mode }) => {
   const i18n = useI18n();
   const [tab, setTab] = useState(0);
   const methods = useForm({ validationSchema, defaultValues: {} });
-
-  // const saving = useSelector(state => getSavingRecord(state));
 
   const handleChange = (event, selectedTab) => {
     setTab(selectedTab);
@@ -55,23 +49,6 @@ const Component = ({ mode }) => {
     );
   };
 
-  const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
-    <>
-      <FormAction
-        cancel
-        actionHandler={handleCancel}
-        text={i18n.t("buttons.cancel")}
-        startIcon={<CloseIcon />}
-      />
-      <FormAction
-        actionHandler={() => bindFormSubmit(formRef)}
-        text={i18n.t("buttons.save")}
-        startIcon={<CheckIcon />}
-        // savingRecord={saving}
-      />
-    </>
-  );
-
   useImperativeHandle(
     formRef,
     submitHandler({
@@ -86,7 +63,13 @@ const Component = ({ mode }) => {
 
   return (
     <>
-      <PageHeading title={i18n.t("forms.add")}>{saveButton}</PageHeading>
+      <PageHeading title={i18n.t("forms.add")}>
+        <FormBuilderActionButtons
+          formMode={formMode}
+          formRef={formRef}
+          handleCancel={handleCancel}
+        />
+      </PageHeading>
       <PageContent>
         <FormContext {...methods} formMode={formMode}>
           <form>
