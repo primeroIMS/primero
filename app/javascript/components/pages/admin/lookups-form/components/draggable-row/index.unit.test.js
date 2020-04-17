@@ -1,6 +1,6 @@
 import * as index from "./index";
 
-describe("<LookupForms /> - components/draggable-row/index", () => {
+describe("<DraggableRow /> - components/draggable-row/index", () => {
   const clone = { ...index };
 
   it("should have known properties", () => {

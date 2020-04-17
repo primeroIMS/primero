@@ -1,6 +1,6 @@
 import * as constants from "./constants";
 
-describe("<LookupForms /> - components/header-values/constants", () => {
+describe("<HeadersValues /> - components/header-values/constants", () => {
   it("should have known properties", () => {
     const clone = { ...constants };
 

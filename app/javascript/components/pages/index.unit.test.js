@@ -14,6 +14,7 @@ describe("pages/admin - index", () => {
       "default",
       "ExportList",
       "FormsList",
+      "LookupsForm",
       "LookupsList",
       "NotAuthorized",
       "NotFound",

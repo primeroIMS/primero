@@ -10,6 +10,7 @@ describe("pages/admin - index", () => {
       "AgenciesList",
       "ContactInformation",
       "FormsList",
+      "LookupsForm",
       "LookupsList",
       "RolesForm",
       "RolesList",

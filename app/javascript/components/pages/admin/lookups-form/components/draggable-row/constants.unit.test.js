@@ -1,6 +1,6 @@
 import * as constants from "./constants";
 
-describe("<LookupForms /> - components/draggable-row/constants", () => {
+describe("<DraggableRow /> - components/draggable-row/constants", () => {
   it("should have known properties", () => {
     const clone = { ...constants };
 

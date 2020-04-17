@@ -1,6 +1,6 @@
 import * as index from "./index";
 
-describe("<LookupForms /> - components/header-values/index", () => {
+describe("<HeadersValues /> - components/header-values/index", () => {
   const clone = { ...index };
 
   it("should have known properties", () => {

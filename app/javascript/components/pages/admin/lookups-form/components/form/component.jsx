@@ -9,10 +9,10 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 
 import {
-  form,
   getInitialValues,
   getInitialNames,
-  reorderValues
+  reorderValues,
+  validations
 } from "../../utils";
 import {
   FieldRecord,
@@ -42,7 +42,11 @@ const Component = ({ formRef, mode, lookup }) => {
   const localesKeys = locales.map(locale => locale.id);
   const firstLocaleOption = locales?.[0];
   const defaultLocale = firstLocaleOption?.id;
-  const formMethods = useForm();
+  const validationsSchema = validations(i18n);
+
+  const formMethods = useForm({
+    ...(validationsSchema && { validationSchema: validationsSchema })
+  });
   const watchedOption = formMethods.watch("options");
   const selectedOption = watchedOption?.id || watchedOption;
   const keys = [...lookup.get(LOOKUP_VALUES, fromJS([])).map(t => t.get("id"))];

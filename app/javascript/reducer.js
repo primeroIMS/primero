@@ -38,7 +38,7 @@ import { reducer as transferApprovalReducer } from "./components/transitions/tra
 import { reducer as revokeModalReducer } from "./components/transitions/components/revoke-modal";
 import { reducer as referralActionReducer } from "./components/transitions/referrals/referral-action";
 import { reducer as lookupsListReducer } from "./components/pages/admin/lookups-list";
-import { reducers as AdminLookupsFormReducers } from "./components/pages/admin/lookups-form";
+import { reducer as AdminLookupsFormReducers } from "./components/pages/admin/lookups-form";
 import { reducer as adminFormListReducers } from "./components/pages/admin/forms/forms-list";
 import { RECORD_TYPES } from "./config";
 

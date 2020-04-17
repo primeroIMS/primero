@@ -1,6 +1,6 @@
 import * as index from "./index";
 
-describe("<LookupForms /> - components/form/index", () => {
+describe("<Form /> - components/form/index", () => {
   const clone = { ...index };
 
   it("should have known properties", () => {
