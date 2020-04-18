@@ -73,11 +73,11 @@ case ${image} in
     eval "${BUILD_POSTGRES}" && tag_with_latest postgres
     ;;
   all)
-    eval "${BUILD_APP}"
-    eval "${BUILD_SOLR}"
-    eval "${BUILD_BEANSTALKD}"
-    eval "${BUILD_NGINX}"
-    eval "${BUILD_POSTGRES}"
+    eval "${BUILD_APP}" && tag_with_latest application
+    eval "${BUILD_SOLR}" && tag_with_latest solr
+    eval "${BUILD_BEANSTALKD}" && tag_with_latest beanstalkd
+    eval "${BUILD_NGINX}" && tag_with_latest nginx
+    eval "${BUILD_POSTGRES}" && tag_with_latest postgres
     ;;
   *)
     echo "${USAGE}"
