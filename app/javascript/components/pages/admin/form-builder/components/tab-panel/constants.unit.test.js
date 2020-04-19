@@ -1,6 +1,6 @@
 import * as constants from "./constants";
 
-describe("<FormBuilder /> - Constants", () => {
+describe("<FormBuilder />/components/<TabPanel /> - Constants", () => {
   it("should have known properties", () => {
     const clonedActions = { ...constants };
 

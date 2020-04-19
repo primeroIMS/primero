@@ -4,7 +4,8 @@ import { makeStyles } from "@material-ui/styles";
 import { Paper } from "@material-ui/core";
 import clsx from "clsx";
 
-import styles from "../styles.css";
+import styles from "./styles.css";
+import { NAME } from "./constants";
 
 const TabPanel = ({ tab, index, children }) => {
   const css = makeStyles(styles)();
@@ -21,7 +22,7 @@ const TabPanel = ({ tab, index, children }) => {
   );
 };
 
-TabPanel.displayName = "TabPanel";
+TabPanel.displayName = NAME;
 
 TabPanel.propTypes = {
   children: PropTypes.node,

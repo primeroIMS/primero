@@ -5,6 +5,7 @@ describe("pages/admin/<FormBuilder>/forms", () => {
 
   it("returns the forms", () => {
     const forms = settingsForm(i18n);
+
     expect(forms.find(form => form.unique_id === "settings")).to.exist;
     expect(forms.find(form => form.unique_id === "visibility")).to.exist;
   });
