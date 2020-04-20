@@ -108,7 +108,7 @@ module Indicators
 
     def not_last_updated_query_string(user)
       if user.present? && scope_to_not_last_update
-        ["!last_updated_by=#{user.user_name}"]
+        ["not[last_updated_by]=#{user.user_name}"]
       else
         []
       end

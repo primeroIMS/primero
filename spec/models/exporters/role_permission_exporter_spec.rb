@@ -5,7 +5,7 @@ require 'rails_helper'
 require 'spreadsheet'
 
 module Exporters
-  xdescribe RolePermissionsExporter do
+  describe RolePermissionsExporter do
     before :each do
       clean_data(Field, FormSection, Role)
     end
@@ -48,7 +48,7 @@ module Exporters
         form.fields << Field.new(name: 'first_name', type: Field::TEXT_FIELD, display_name: 'first_name')
         form.fields << Field.new(name: 'last_name', type: Field::TEXT_FIELD, display_name: 'last_name')
         form.save!
-        Role.create!(name: 'Admin', permissions: Permission.all_permissions_list)
+        Role.create!(name: 'Admin', permissions: Permission.all_available)
       end
 
       it 'contains roles and actions and FormSection list in the exporter file' do
@@ -57,13 +57,14 @@ module Exporters
         expect(workbook[0]).to eq(['Resource', 'Action', Role.first.name])
 
         admin_actions = workbook.map { |work| work[1] if work[2] == '✔' }.compact
-        expect(admin_actions).to eq(
-          [
-            'Access only my records or user', 'Manage', 'Manage', 'Manage', 'Read', 'Manage',
-            'Manage', 'Manage', 'Manage', 'Manage', 'Manage', 'Manage', 'Manage', 'Manage', 'Read',
-            FormSection.first.name
-          ]
-        )
+        permission_actions = Permission.all_available.map(&:actions).flatten
+        permission_actions_translation =
+          permission_actions.map { |action| I18n.t("permissions.permission.#{action}", locale: :en) }
+
+        permission_actions_translation = permission_actions_translation << FormSection.first.name
+        permission_actions_translation = permission_actions_translation << 'Access only my records or user'
+
+        expect(admin_actions.sort).to eq(permission_actions_translation.sort)
         expect(workbook.last.compact).to eq([FormSection.first.name, '✔'])
       end
     end
