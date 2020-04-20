@@ -183,12 +183,27 @@ export const toListTable = (data, localeLabels) => {
 
 export const toReportingLocationTable = (data, fieldKey, i18n, locations) => {
   const columns = [
-    i18n.t(`location.base_types.${fieldKey}`),
-    i18n.t("dashboard.open_cases"),
-    i18n.t("dashboard.new_last_week"),
-    i18n.t("dashboard.new_this_week"),
-    i18n.t("dashboard.closed_last_week"),
-    i18n.t("dashboard.closed_this_week")
+    { name: "", label: i18n.t(`location.base_types.${fieldKey}`) },
+    {
+      name: INDICATOR_NAMES.REPORTING_LOCATION_OPEN,
+      label: i18n.t("dashboard.open_cases")
+    },
+    {
+      name: INDICATOR_NAMES.REPORTING_LOCATION_OPEN_LAST_WEEK,
+      label: i18n.t("dashboard.new_last_week")
+    },
+    {
+      name: INDICATOR_NAMES.REPORTING_LOCATION_OPEN_THIS_WEEK,
+      label: i18n.t("dashboard.new_this_week")
+    },
+    {
+      name: INDICATOR_NAMES.REPORTING_LOCATION_ClOSED_LAST_WEEK,
+      label: i18n.t("dashboard.closed_last_week")
+    },
+    {
+      name: INDICATOR_NAMES.REPORTING_LOCATION_ClOSED_THIS_WEEK,
+      label: i18n.t("dashboard.closed_this_week")
+    }
   ];
 
   const indicators = [
@@ -199,8 +214,6 @@ export const toReportingLocationTable = (data, fieldKey, i18n, locations) => {
     INDICATOR_NAMES.REPORTING_LOCATION_ClOSED_THIS_WEEK
   ];
 
-  const indicatorsData = data.get("indicators") || fromJS([]);
-
   const locationsByCode = {};
 
   locations.forEach(location => {
@@ -209,24 +222,34 @@ export const toReportingLocationTable = (data, fieldKey, i18n, locations) => {
       .get(i18n.locale);
   });
 
-  const rows = indicators.reduce((acc, indicator) => {
-    const indicatorData = indicatorsData.get(indicator) || fromJS({});
+  const result = dataToJS(data);
 
-    indicatorData.keySeq().forEach(key => {
-      const count = indicatorData.get(key).get("count");
-      const locationLabel = locationsByCode[key] ? locationsByCode[key] : key;
+  if (result.length || Object.keys(result).length) {
+    const countValues = dashboardTableData(
+      locationsByCode,
+      result.indicators,
+      indicators,
+      "count"
+    );
 
-      if (key) {
-        acc[key] = acc[key] ? [...acc[key], count] : [locationLabel, count];
-      }
-    });
+    const queryValues = dashboardTableData(
+      locationsByCode,
+      result.indicators,
+      indicators,
+      "query"
+    );
 
-    return acc;
-  }, {});
+    return {
+      columns,
+      data: countValues,
+      query: queryValues
+    };
+  }
 
   return {
     columns,
-    data: Object.keys(rows).map(key => rows[key])
+    data: [],
+    query: []
   };
 };
 
