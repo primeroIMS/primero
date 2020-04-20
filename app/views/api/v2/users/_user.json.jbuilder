@@ -5,7 +5,7 @@ user_hash = user_hash.merge({
   role_unique_id: user.role.unique_id,
   user_group_unique_ids: user.user_group_unique_ids,
   identity_provider_unique_id: user.identity_provider&.unique_id
-})
+}.compact)
 
 if @extended
   user_hash = user_hash.merge(
