@@ -1,7 +1,6 @@
 import { fromJS, Map, List } from "immutable";
 
 import { mergeRecord } from "../../libs";
-import TransitionActions from "../record-actions/transitions/actions";
 
 import {
   RECORDS_STARTED,
@@ -16,7 +15,8 @@ import {
   SAVE_RECORD_SUCCESS,
   RECORD_SUCCESS,
   RECORD_FAILURE,
-  RECORD_FINISHED
+  RECORD_FINISHED,
+  SERVICE_REFERRED_SAVE
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -79,28 +79,35 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("loading", false);
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
-    case `${namespace}/${TransitionActions.SERVICE_REFERRED_SAVE}`: {
+    case `${namespace}/${SERVICE_REFERRED_SAVE}`: {
+      const serviceRecordId = payload.json.data.service_record_id;
       const {
         id: recordId,
         services_section: servicesSection
       } = payload.json.data.record;
 
-      const referredService = fromJS(servicesSection ? servicesSection[0] : []);
-      const recordIndex = state
-        .get("data")
-        .findIndex(record => record.get("id") === recordId);
-
-      const serviceIndex = state
-        .getIn(["data", recordIndex, "services_section"])
-        ?.findIndex(
-          service =>
-            service.get("unique_id") === referredService.get("unique_id")
-        );
-
-      return state.updateIn(
-        ["data", recordIndex, "services_section", serviceIndex],
-        data => data?.merge(referredService)
+      const referredService = fromJS(servicesSection || []).find(
+        service => service.get("unique_id") === serviceRecordId
       );
+
+      if(referredService?.size) {
+        const recordIndex = state
+          .get("data")
+          .findIndex(record => record.get("id") === recordId);
+
+        const serviceIndex = state
+          .getIn(["data", recordIndex, "services_section"])
+          ?.findIndex(
+            service =>
+              service.get("unique_id") === referredService.get("unique_id")
+          );
+
+        return state.updateIn(
+          ["data", recordIndex, "services_section", serviceIndex],
+          data => data?.merge(referredService)
+        );
+      }
+      return state;
     }
     default:
       return state;
