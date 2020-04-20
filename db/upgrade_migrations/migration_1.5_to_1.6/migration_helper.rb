@@ -74,7 +74,7 @@ module MigrationHelper
       else
         value = value.gsub(/_[0-9]{5}+$/, "") if value.is_a?(String)
         #The to_s is necessary to catch cases where the value is true or false
-        v = options.select{|option| option['id'] == value.to_s || option['display_text'] == value.to_s.strip || option['display_text'] == value.to_s.capitalize.strip}.first.try(:[], 'id')
+        v = options.select{|option| option['id'] == value.to_s.strip || option['display_text'] == value.to_s.strip || option['display_text'] == value.to_s.capitalize.strip}.first.try(:[], 'id')
         if v == 'true'
           v = true
         elsif v == 'false'
