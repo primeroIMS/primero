@@ -46,7 +46,6 @@ class IdentityProvider < ApplicationRecord
   end
 
   def identity_sync_connector
-    connector_type = configuration&.[]('identity_sync_connector')
     return unless connector_type
 
     "IdentitySync::#{connector_type}".constantize
@@ -54,7 +53,11 @@ class IdentityProvider < ApplicationRecord
     nil
   end
 
+  def connector_type
+    configuration&.[]('identity_sync_connector')
+  end
+
   def sync_identity?
-    configuration&.[]('identity_sync_connector').present?
+    connector_type.present?
   end
 end

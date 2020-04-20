@@ -14,7 +14,6 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string     :location
       t.string     :reporting_location_code
       t.references :role
-      t.references :identity_providers
       t.string     :time_zone, default: 'UTC'
       t.string     :locale
       t.boolean    :send_mail, default: true

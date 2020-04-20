@@ -437,7 +437,6 @@ ActiveRecord::Schema.define(version: 2020_02_15_000000) do
     t.string "location"
     t.string "reporting_location_code"
     t.integer "role_id"
-    t.integer "identity_providers_id"
     t.string "time_zone", default: "UTC"
     t.string "locale"
     t.boolean "send_mail", default: true
@@ -453,7 +452,6 @@ ActiveRecord::Schema.define(version: 2020_02_15_000000) do
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["identity_provider_id"], name: "index_users_on_identity_provider_id"
-    t.index ["identity_providers_id"], name: "index_users_on_identity_providers_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["user_name"], name: "index_users_on_user_name", unique: true

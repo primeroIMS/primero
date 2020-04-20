@@ -216,7 +216,7 @@ class User < ApplicationRecord
   def associate_identity_provider_unique_id(identity_provider_unique_id)
     return unless identity_provider_unique_id.present?
 
-    self.identity_provider = IdentityProvider.find_by(unique_id: identity_provider_unique_id)
+    self.identity_provider_id = IdentityProvider.where(unique_id: identity_provider_unique_id).pluck(:id).first
   end
 
   def user_group_unique_ids
