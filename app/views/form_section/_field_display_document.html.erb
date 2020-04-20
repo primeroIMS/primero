@@ -1,3 +1,6 @@
+<%
+  doc_type = field.upload_document_type || 'document'
+%>
 <% if formObject[form_id].present? %>
   <div class="uploaded-documents">
     <% formObject[form_id].each do |document| %>
@@ -10,44 +13,65 @@
           <%= link_to document["file_name"], document_url, :class => "document", data: { turbolinks: false } %>
         </div>
       </div>
-      <div class="row">
-        <div class="medium-4 columns">
-          <label class="key"><%= I18n.t("fields.document.current") %></label>
+      <% if doc_type == 'material' %>
+        <div class="row">
+          <div class="medium-4 columns">
+            <label class="key"><%=I18n.t("fields.file_upload_box.#{doc_type}.comment_label")%></label>
+          </div>
+          <div class="medium-8 columns">
+            <% value = document["comments"] || "" %>
+            <span class="value"><%= value %></span>
+          </div>
         </div>
-        <div class="medium-8 columns">
-          <% value = document["is_current"]
-             value = "false" if value.blank?
-             %>
-          <span class="value"><%= I18n.t(value) %></span>
+        <div class="row">
+          <div class="medium-4 columns">
+            <label class="key"><%= I18n.t("fields.file_upload_box.#{doc_type}.document_date_label")%></label>
+          </div>
+          <div class="medium-8 columns">
+            <% value = field_value_for_display document["date"] || "" %>
+            <span class="value"><%= value %></span>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="medium-4 columns">
-          <label class="key"><%= I18n.t("fields.document.name") %></label>
+      <% else %>
+        <div class="row">
+          <div class="medium-4 columns">
+            <label class="key"><%=I18n.t("fields.file_upload_box.#{doc_type}.current_document_label")%></label>
+          </div>
+          <div class="medium-8 columns">
+            <% value = document["is_current"]
+               value = "false" if value.blank?
+               %>
+            <span class="value"><%= I18n.t(value) %></span>
+          </div>
         </div>
-        <div class="medium-8 columns">
-          <% value = document["document_description"] || "" %>
-          <span class="value"><%= value %></span>
+        <div class="row">
+          <div class="medium-4 columns">
+            <label class="key"><%=I18n.t("fields.file_upload_box.#{doc_type}.document_name_label")%></label>
+          </div>
+          <div class="medium-8 columns">
+            <% value = document["document_description"] || "" %>
+            <span class="value"><%= value %></span>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="medium-4 columns">
-          <label class="key"><%= I18n.t("fields.document.date") %></label>
+        <div class="row">
+          <div class="medium-4 columns">
+            <label class="key"><%= I18n.t("fields.file_upload_box.#{doc_type}.document_date_label")%></label>
+          </div>
+          <div class="medium-8 columns">
+            <% value = field_value_for_display document["date"] || "" %>
+            <span class="value"><%= value %></span>
+          </div>
         </div>
-        <div class="medium-8 columns">
-          <% value = field_value_for_display document["date"] || "" %>
-          <span class="value"><%= value %></span>
+        <div class="row">
+          <div class="medium-4 columns">
+            <label class="key"><%=I18n.t("fields.file_upload_box.#{doc_type}.comment_label")%></label>
+          </div>
+          <div class="medium-8 columns">
+            <% value = document["comments"] || "" %>
+            <span class="value"><%= value %></span>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="medium-4 columns">
-          <label class="key"><%= I18n.t("fields.document.comments") %></label>
-        </div>
-        <div class="medium-8 columns">
-          <% value = document["comments"] || "" %>
-          <span class="value"><%= value %></span>
-        </div>
-      </div>
+      <% end %>
     <% end %>
   </div>
 <% end %>

@@ -5,7 +5,7 @@
     value_fields=[]
     caregiver = false
     collapsed_fields.each do |field|
-    fk = field_keys(subform_name, i, field.name, form_group_name)
+    fk = field_keys(subform_name, i, field.name, form_group_id)
     #view mode does not need the fields to update the header.
     unless view_mode
       #get the names of the fields that belong to the subforms header

@@ -98,5 +98,4 @@ module ReportsHelper
     end
     return grouped_fields_options
   end
-
 end

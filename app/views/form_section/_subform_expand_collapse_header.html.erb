@@ -6,12 +6,12 @@
   subform_name = subform.name
   if subform.subform_section.shared_subform.present?
     subform_name = subform.subform_section.shared_subform
-    form_group_name = subform.subform_section.shared_subform_group
+    form_group_id = subform.subform_section.shared_subform_group
   end
   collapsed_fields = subform_section.collapsed_list
 
   if subform.expose_unique_id && i != "template"
-    fk = field_keys(subform_name, i, 'unique_id', form_group_name)
+    fk = field_keys(subform_name, i, 'unique_id', form_group_id)
     unique_id = " - #{formObject.value_for_attr_keys(fk).try(:slice, 0, 5)}"
   else
     unique_id = ""
@@ -20,15 +20,15 @@
 <div class="row collapse_expand_subform_header">
   <div class="medium-7 columns">
     <% unless grouped_subforms_header.present? %>
-    <span class="subform_header">
-      <%= label_tag subform.name, subform.display_name, :class=>'key' %><%= unique_id %><%= violation_status(formObject, form_group_name, subform_name, i) %>
-    </span>
+      <span class="subform_header">
+        <%= label_tag subform.name, subform.display_name, :class=>'key' %><%= unique_id %><%= violation_status(formObject, form_group_id, subform_name, i) %>
+      </span>
     <% end %>
     <%= render :partial => "form_section/subform_header_collapsed_fields",
       locals: {
         :collapsed_fields => collapsed_fields,
         :subform_name => subform_name,
-        :form_group_name => form_group_name,
+        :form_group_id => form_group_id,
         :view_mode => view_mode,
         :i => i,
         :formObject => formObject,

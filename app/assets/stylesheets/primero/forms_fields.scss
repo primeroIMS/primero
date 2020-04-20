@@ -106,6 +106,10 @@ input[type="text"][disabled], select[disabled]{
   box-shadow: none;
 }
 
+input[type="text"][readonly] {
+  background-color: #ddd !important;
+}
+
 #ui-datepicker-div select {
   height: inherit;
   font-size: .9rem
@@ -127,9 +131,13 @@ input[type="text"][disabled], select[disabled]{
   display: none;
 }
 
-.gq_popovers {
+.gq_popovers, .gq_select_popovers {
   padding: 0;
   font-size: $thirteen_px;
+}
+
+.gq_select .arrow {
+  display: none;
 }
 
 p.help {
@@ -167,6 +175,14 @@ p.help {
   }
 
   .postfix {
+    display: block;
+    line-height: 2.3125rem;
+    height: 2.4rem;
+    overflow: hidden;
+    text-align: center;
+    border-style: solid;
+    border-width: 1px;
+    border-right: 0rem;
     font-size: $thirteen_px;
   }
 

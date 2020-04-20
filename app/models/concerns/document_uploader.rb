@@ -11,6 +11,7 @@ module DocumentUploader
     property :other_documents, [Document], default: []
     property :bia_documents, [Document], default: []
     property :bid_documents, [Document], default: []
+    property :supporting_materials, [Document], default: []
     validate :validate_documents_size
     validate :validate_documents_count
     validate :validate_documents_file_type
@@ -41,6 +42,10 @@ module DocumentUploader
 
   def upload_bid_document=(new_documents)
     upload('bid_documents', new_documents)
+  end
+
+  def upload_supporting_material=(new_documents)
+    upload('supporting_materials', new_documents)
   end
 
   def upload(form_id, new_documents)
@@ -84,6 +89,11 @@ module DocumentUploader
   def update_bid_document=(updated_documents)
     return unless updated_documents
     document_update('bid_documents', updated_documents)
+  end
+
+  def update_supporting_material=(updated_documents)
+    return unless updated_documents
+    document_update('supporting_materials', updated_documents)
   end
 
   def document_update(form_id, updated_documents)

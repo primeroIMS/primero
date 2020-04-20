@@ -20,16 +20,17 @@ _primero.Views.ViolationListReload = _primero.Views.Base.extend({
     var $violation_group = $('a[data-violation="true"]'),
       $tabs = $violation_group.parent().find('ul.sub li');
     var $empty_violations = $('.empty_violations');
+    var $violations_select = $('#incident_incident_violation_category_');
     $empty_violations.show();
 
     $empty_violations.parent().find('.subform_add').hide();
 
     selected = $('span[data-violation-categories]').data('violation-categories') ?
       $('span[data-violation-categories]').data('violation-categories').split(',') :
-      $('#incident_incident_violation_category_').val();
+      ($violations_select.val() || JSON.parse($violations_select["0"].dataset.value));
 
 
-    $("fieldset[id$='_violation_wrapper']").find('div[data-form_group_name="violations"]').hide();
+    $("fieldset[id$='_violation_wrapper']").find('div[data-form_group_id="violations"]').hide();
     $tabs.hide();
     $violation_group.parent('li').find('.sub li a').removeAttr('active-violation');
 

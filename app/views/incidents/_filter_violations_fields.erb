@@ -1,0 +1,23 @@
+<%
+  violations = violations.map{ |v| v.first }
+%>
+
+<div class="filter">
+  <h3><%= t("incidents.filter_by.violation_filters") %></h3>
+  <div class="filter-controls">
+    <%= select_tag :violations_selector, options_for_select(violations.map(&:reverse)), class: 'chosen-select', multiple: true %>
+  </div>
+  <div class="violation-fields">
+    <% violations.each do |k, v| %>
+      <% if violation_filters[k.to_sym].present? %>
+        <div class="violation hide" data-type-id="<%= k %>">
+          <h3><%= v %></h3>
+          <% violation_filters[k.to_sym].each do |f| %>
+            <%= build_filter_checkboxes(t("incidents.filter_by.#{f[:name]}"), f[:name], Lookup.values(f[:options], @lookups, locale: I18n.locale), f[:multi]) %>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+

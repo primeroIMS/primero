@@ -15,6 +15,7 @@ class SystemSettings < CouchRest::Model::Base
   property :unhcr_needs_codes_mapping, Mapping
   property :export_config_id
   property :reporting_location_config, ReportingLocation
+  property :violation_config, { String => {} }
 
   property :primero_version
   property :age_ranges, { String => [AgeRange] }
@@ -83,6 +84,16 @@ class SystemSettings < CouchRest::Model::Base
 
   def auto_populate_info(field_key = "")
     self.auto_populate_list.select{|ap| ap.field_key == field_key}.first if self.auto_populate_list.present?
+  end
+
+  def reporting_location_admin_levels
+    reporting_location_levels = ReportingLocation.reporting_location_levels
+    reporting_location_admin_levels = []
+    if reporting_location_levels.present?
+      reporting_location_admin_levels = reporting_location_levels.map{|rl| reporting_location_config.map_reporting_location_level_to_admin_level(rl)}
+    else
+      reporting_location_admin_levels << reporting_location_config.admin_level
+    end
   end
 
   def self.handle_changes
