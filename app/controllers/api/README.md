@@ -238,3 +238,9 @@ Endpoints for querying and manipulating individual primero module and related re
 Endpoint for querying all record history from a specific record
 
 * [Query for all record history from a record](v2/docs/record_history/get.md) : `GET /api/v2/:record_type/:record_id/record_history`
+
+## Audit Log Endpoints
+
+Endpoints for querying and manipulating individual audit log and related resources in Primero.
+
+* [Query for audit logs](v2/docs/audit_logs/get.md) : `GET /api/v2/audit_logs`

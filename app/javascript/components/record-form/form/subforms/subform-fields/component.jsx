@@ -88,12 +88,8 @@ const Component = ({
                     <DeleteIcon />
                   </IconButton>
                 ) : null}
-                {mode.isShow &&
-                serviceHasReferFields(values[index]) ? (
-                  <SubformMenu
-                    index={index}
-                    values={values}
-                  />
+                {mode.isShow && serviceHasReferFields(values[index]) ? (
+                  <SubformMenu index={index} values={values} />
                 ) : null}
                 <IconButton onClick={() => handleEdit(index)}>
                   <ArrowIcon />

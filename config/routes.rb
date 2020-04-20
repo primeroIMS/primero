@@ -86,6 +86,7 @@ Rails.application.routes.draw do
       resources :permissions, only: [:index]
       resources :user_groups
       resources :primero_modules, only: %i[index show update]
+      resources :audit_logs, only: [:index]
     end
   end
 end

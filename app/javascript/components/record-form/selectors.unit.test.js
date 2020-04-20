@@ -121,27 +121,6 @@ const serviceToRefer = {
   service_implementing_agency_individual: "some_user"
 };
 
-const agency1 = {
-  unique_id: "agency-test-1",
-  agency_code: "test1",
-  disabled: false,
-  services: ["service_test_1"]
-};
-
-const agency2 = {
-  unique_id: "agency-test-2",
-  agency_code: "test2",
-  disabled: false,
-  services: ["service_test_1", "service_test_2"]
-};
-
-const agency3 = {
-  unique_id: "agency-test-3",
-  agency_code: "test3",
-  disabled: true,
-  services: ["service_test_1"]
-};
-
 const stateWithNoRecords = Map({});
 const stateWithRecords = fromJS({
   ui: {
@@ -167,8 +146,7 @@ const stateWithRecords = fromJS({
     errors: true,
     options: {
       lookups: { data: [serviceTypeLookup] },
-      locations: [location],
-      agencies: [agency1, agency2, agency3]
+      locations: [location]
     },
     selectedRecord: {
       age: 26,
@@ -561,40 +539,6 @@ describe("<RecordForm /> - Selectors", () => {
       const forms = selectors.getAssignableForms(stateWithNoRecords);
 
       expect(forms).to.be.empty;
-    });
-  });
-
-  describe("getEnabledAgencies", () => {
-    it("should return the enabled agencies", () => {
-      const expected = fromJS([agency1, agency2]);
-      const enabledAgencies = selectors.getEnabledAgencies(stateWithRecords);
-
-      expect(enabledAgencies).to.deep.equal(expected);
-    });
-
-    it("should return enabled agencies with the selected service", () => {
-      const expected = fromJS([agency2]);
-      const agenciesWithService = selectors.getEnabledAgencies(
-        stateWithRecords,
-        "service_test_2"
-      );
-
-      expect(agenciesWithService).to.deep.equal(expected);
-    });
-
-    it("should return empty if there are no agencies with the selected service", () => {
-      const agenciesWithService = selectors.getEnabledAgencies(
-        stateWithRecords,
-        "service_test_5"
-      );
-
-      expect(agenciesWithService).to.be.empty;
-    });
-
-    it("should return empty if there are no enabled agencies", () => {
-      const enabledAgencies = selectors.getAssignableForms(stateWithNoRecords);
-
-      expect(enabledAgencies).to.be.empty;
     });
   });
 });

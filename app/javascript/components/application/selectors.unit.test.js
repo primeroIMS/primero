@@ -1,23 +1,44 @@
-import { Map, fromJS } from "immutable";
+import { fromJS } from "immutable";
 
 import { RECORD_TYPES } from "../../config";
 import { GROUP_PERMISSIONS, ACTIONS } from "../../libs/permissions";
 
 import * as selectors from "./selectors";
 
-const stateWithNoRecords = Map({});
-const stateWithRecords = Map({
+const agencyWithLogo = {
+  unique_id: "agency-unicef",
+  name: "UNICEF",
+  logo: {
+    small: "/rails/active_storage/blobs/jeff.png"
+  }
+};
+
+const agency1 = {
+  unique_id: "agency-test-1",
+  agency_code: "test1",
+  disabled: false,
+  services: ["service_test_1"]
+};
+
+const agency2 = {
+  unique_id: "agency-test-2",
+  agency_code: "test2",
+  disabled: false,
+  services: ["service_test_1", "service_test_2"]
+};
+
+const agency3 = {
+  unique_id: "agency-test-3",
+  agency_code: "test3",
+  disabled: true,
+  services: ["service_test_1"]
+};
+
+const stateWithNoRecords = fromJS({});
+const stateWithRecords = fromJS({
   application: {
     userIdle: true,
-    agencies: [
-      {
-        unique_id: "agency-unicef",
-        name: "UNICEF",
-        logo: {
-          small: "/rails/active_storage/blobs/jeff.png"
-        }
-      }
-    ],
+    agencies: [agencyWithLogo, agency1, agency2, agency3],
     modules: [
       {
         unique_id: "primeromodule-cp",
@@ -59,15 +80,7 @@ const stateWithRecords = Map({
 describe("Application - Selectors", () => {
   describe("selectAgencies", () => {
     it("should return records", () => {
-      const expected = [
-        {
-          unique_id: "agency-unicef",
-          name: "UNICEF",
-          logo: {
-            small: "/rails/active_storage/blobs/jeff.png"
-          }
-        }
-      ];
+      const expected = fromJS([agencyWithLogo, agency1, agency2, agency3]);
 
       const records = selectors.selectAgencies(stateWithRecords);
 
@@ -83,7 +96,7 @@ describe("Application - Selectors", () => {
 
   describe("selectModules", () => {
     it("should return records", () => {
-      const expected = [
+      const expected = fromJS([
         {
           unique_id: "primeromodule-cp",
           name: "CP",
@@ -104,7 +117,7 @@ describe("Application - Selectors", () => {
             user_group_filter: true
           }
         }
-      ];
+      ]);
 
       const records = selectors.selectModules(stateWithRecords);
 
@@ -120,7 +133,7 @@ describe("Application - Selectors", () => {
 
   describe("selectLocales", () => {
     it("should return records", () => {
-      const expected = ["en", "fr", "ar"];
+      const expected = fromJS(["en", "fr", "ar"]);
 
       const records = selectors.selectLocales(stateWithRecords);
 
@@ -145,11 +158,11 @@ describe("Application - Selectors", () => {
   describe("getReportingLocationConfig", () => {
     it("should return the reporting location config", () => {
       const selector = selectors.getReportingLocationConfig(stateWithRecords);
-      const config = {
+      const config = fromJS({
         label_key: "district",
         admin_level: 2,
         field_key: "owned_by_location"
-      };
+      });
 
       expect(selector).to.deep.equal(config);
     });
@@ -158,12 +171,12 @@ describe("Application - Selectors", () => {
   describe("getSystemPermissions", () => {
     it("should return the system permissions", () => {
       const selector = selectors.getSystemPermissions(stateWithRecords);
-      const permissions = {
+      const permissions = fromJS({
         management: [GROUP_PERMISSIONS.SELF],
         resource_actions: { case: [ACTIONS.READ] }
-      };
+      });
 
-      expect(selector).to.deep.equal(fromJS(permissions));
+      expect(selector).to.deep.equal(permissions);
     });
   });
 
@@ -175,6 +188,40 @@ describe("Application - Selectors", () => {
       );
 
       expect(selector).to.deep.equal(fromJS([ACTIONS.READ]));
+    });
+  });
+
+  describe("getEnabledAgencies", () => {
+    it("should return the enabled agencies", () => {
+      const expected = fromJS([agencyWithLogo, agency1, agency2]);
+      const enabledAgencies = selectors.getEnabledAgencies(stateWithRecords);
+
+      expect(enabledAgencies).to.deep.equal(expected);
+    });
+
+    it("should return enabled agencies with the selected service", () => {
+      const expected = fromJS([agency2]);
+      const agenciesWithService = selectors.getEnabledAgencies(
+        stateWithRecords,
+        "service_test_2"
+      );
+
+      expect(agenciesWithService).to.deep.equal(expected);
+    });
+
+    it("should return empty if there are no agencies with the selected service", () => {
+      const agenciesWithService = selectors.getEnabledAgencies(
+        stateWithRecords,
+        "service_test_5"
+      );
+
+      expect(agenciesWithService).to.be.empty;
+    });
+
+    it("should return empty if there are no enabled agencies", () => {
+      const enabledAgencies = selectors.getEnabledAgencies(stateWithNoRecords);
+
+      expect(enabledAgencies).to.be.empty;
     });
   });
 });

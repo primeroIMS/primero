@@ -1,6 +1,6 @@
-class CreateIncidents < ActiveRecord::Migration[5.0]
-  enable_extension 'pgcrypto' unless extension_enabled?('pgcrypto')
+# frozen_string_literal: true
 
+class CreateIncidents < ActiveRecord::Migration[5.0]
   def change
     create_table :incidents, id: :uuid, default: 'gen_random_uuid()' do |t|
       t.jsonb 'data', default: {}

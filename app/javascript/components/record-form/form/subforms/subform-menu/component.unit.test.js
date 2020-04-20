@@ -28,6 +28,17 @@ describe("<SubformMenu />", () => {
 
   it("render the ReferAction if service is referrable", () => {
     const initialState = fromJS({
+      application: {
+        agencies: [
+          {
+            id: 1,
+            unique_id: "agency_1",
+            agency_code: "a1",
+            name: { en: "Agency 1" },
+            services: ["service_1"]
+          }
+        ]
+      },
       forms: {
         options: {
           lookups: {
@@ -45,16 +56,7 @@ describe("<SubformMenu />", () => {
                 ]
               }
             ]
-          },
-          agencies: [
-            {
-              id: 1,
-              unique_id: "agency_1",
-              agency_code: "a1",
-              name: { en: "Agency 1" },
-              services: ["service_1"]
-            }
-          ]
+          }
         }
       },
       records: {

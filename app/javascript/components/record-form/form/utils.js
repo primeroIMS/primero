@@ -146,6 +146,10 @@ export const buildCustomLookupsConfig = ({
 });
 
 export const serviceHasReferFields = service => {
+  if (!service) {
+    return false;
+  }
+
   return (
     service.service_response_type &&
     service.service_type &&
