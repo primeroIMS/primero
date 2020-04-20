@@ -56,8 +56,6 @@ const Container = () => {
         delete filters.timestamp;
       }
 
-      console.log({ ...filters, ...queryParams });
-
       batch(() => {
         dispatch(setAuditLogsFilters(filters));
         dispatch(fetchAuditLogs({ data: { ...filters, ...queryParams } }));
