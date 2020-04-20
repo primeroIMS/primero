@@ -23,9 +23,13 @@ const Component = ({
   const {
     subform_sort_by: subformSortBy,
     display_name: displayName,
-    subform_prevent_item_removal: subformPreventItemRemoval,
-    name
+    name,
+    subform_section_id: subformField
   } = field;
+
+  const {
+    subform_prevent_item_removal: subformPreventItemRemoval
+  } = subformField;
 
   const { isEdit, isNew } = mode;
 
