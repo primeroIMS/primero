@@ -1,6 +1,6 @@
 import head from "lodash/head";
 
-import DB from "../db";
+import DB from "../db/db";
 
 import EventManager from "./messenger";
 
@@ -27,7 +27,7 @@ class Queue {
     });
 
     EventManager.subscribe(QUEUE_FAILED, () => {
-      this.tries = this.tries + 1;
+      this.tries += 1;
 
       if (this.tries === 3) {
         this.queue.shift();

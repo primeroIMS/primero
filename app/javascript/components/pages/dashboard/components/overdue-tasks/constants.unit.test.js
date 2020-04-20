@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as constants from "./constants";
 
 describe("<OverdueTasks> - pages/dashboard/components/overdue-tasks/constants", () => {

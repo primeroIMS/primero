@@ -5,7 +5,7 @@ import { Grid } from "@material-ui/core";
 
 import { getWorkflowIndividualCases } from "../../selectors";
 import { useI18n } from "../../../../i18n";
-import { toData1D } from "../../helpers";
+import { toData1D } from "../../utils";
 import Permission from "../../../../application/permission";
 import { selectModule } from "../../../../application";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";

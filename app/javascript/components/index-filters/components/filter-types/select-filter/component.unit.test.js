@@ -1,6 +1,6 @@
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import { setupMockFormComponent, expect, spy } from "../../../../../test";
+import { setupMockFormComponent, spy } from "../../../../../test";
 
 import SelectFilter from "./component";
 

@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
 import MUIDataTable, { TableBodyRow } from "mui-datatables";
 
@@ -9,7 +8,7 @@ import { setupMountedComponent } from "../../../test";
 import { FieldRecord } from "../../record-form";
 import { mapEntriesToRecord } from "../../../libs";
 
-import ExportRecord from "./records";
+import { ExportRecord } from "./records";
 import ExportList from "./container";
 
 describe("<ExportList />", () => {

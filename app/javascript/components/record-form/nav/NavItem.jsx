@@ -4,20 +4,24 @@ import { ListItem, ListItemText } from "@material-ui/core";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/styles";
+import isEmpty from "lodash/isEmpty";
 
-import { Jewel } from "../../jewel";
+import Jewel from "../../jewel";
 
 import styles from "./styles.css";
 import { NAV_ITEM } from "./constants";
 
 const NavItem = ({
   form,
-  isNested,
-  open,
-  handleClick,
-  selectedForm,
   groupItem,
-  name
+  handleClick,
+  isNested,
+  isNew,
+  itemsOfGroup,
+  name,
+  open,
+  recordAlerts,
+  selectedForm
 }) => {
   const css = makeStyles(styles)();
 
@@ -28,6 +32,21 @@ const NavItem = ({
     group: isNested ? group : false,
     parentItem: isNested
   };
+
+  const formsWithAlerts =
+    recordAlerts?.size &&
+    [...recordAlerts.map(alert => alert.get("form_unique_id"))].filter(
+      alert => !isEmpty(alert)
+    );
+
+  const validateAlert = item =>
+    !isEmpty(formsWithAlerts) && formsWithAlerts?.includes(item);
+
+  const showJewel = isNested
+    ? itemsOfGroup?.some(alert => validateAlert(alert))
+    : validateAlert(formId);
+
+  const formText = !isNew && showJewel ? <Jewel value={name} isForm /> : name;
 
   return (
     <ListItem
@@ -41,8 +60,7 @@ const NavItem = ({
       }}
     >
       <ListItemText className={groupItem ? css.nestedItem : css.item}>
-        {/* TODO: This will need to be dynamic once connected to endpoint */}
-        {name === "Case Plan" ? <Jewel value={name} isForm /> : name}
+        {formText}
       </ListItemText>
       {isNested && (open ? <ExpandMore /> : <ExpandLess />)}
     </ListItem>
@@ -56,8 +74,11 @@ NavItem.propTypes = {
   groupItem: PropTypes.bool,
   handleClick: PropTypes.func,
   isNested: PropTypes.bool,
+  isNew: PropTypes.bool,
+  itemsOfGroup: PropTypes.array,
   name: PropTypes.string,
   open: PropTypes.bool,
+  recordAlerts: PropTypes.object,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 

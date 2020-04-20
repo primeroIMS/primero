@@ -1,6 +1,6 @@
 import { Menu } from "@material-ui/core";
 
-import { expect, setupMountedComponent } from "../../../../test";
+import { setupMountedComponent } from "../../../../test";
 import { ACTIONS } from "../../../../libs/permissions";
 import { TransitionRecord } from "../../records";
 import RevokeModal from "../revoke-modal";

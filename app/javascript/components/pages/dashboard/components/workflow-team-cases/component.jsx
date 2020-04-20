@@ -5,7 +5,7 @@ import { Grid } from "@material-ui/core";
 
 import { getWorkflowTeamCases } from "../../selectors";
 import { useI18n } from "../../../../i18n";
-import { toListTable } from "../../helpers";
+import { toListTable } from "../../utils";
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";

@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as index from "./index";
 
 describe("<RecordForm /> - index", () => {
@@ -10,23 +8,28 @@ describe("<RecordForm /> - index", () => {
     [
       "constructInitialValues",
       "default",
+      "fetchAgencies",
       "fetchForms",
+      "fetchLookups",
       "fetchOptions",
       "FieldRecord",
       "FormSectionField",
+      "getAssignableForms",
       "getErrors",
       "getFirstTab",
       "getFormNav",
       "getLoadingState",
       "getLocations",
+      "getLookups",
       "getOption",
+      "getOptionsAreLoading",
       "getRecordForms",
       "getRecordFormsByUniqueId",
+      "getReportingLocations",
       "getSelectedForm",
-      "reducers",
-      "setSelectedForm",
-      "fetchLookups",
-      "getLookups"
+      "reducer",
+      "getServiceToRefer",
+      "setSelectedForm"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

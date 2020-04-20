@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { OrderedMap, fromJS } from "immutable";
 import { Menu, MenuItem } from "@material-ui/core";
 
@@ -8,10 +7,10 @@ import { FieldRecord, FormSectionRecord } from "../record-form/records";
 
 import Notes from "./notes";
 import RecordActions from "./container";
-import { ToggleEnable } from "./toggle-enable";
-import { ToggleOpen } from "./toggle-open";
+import ToggleEnable from "./toggle-enable";
+import ToggleOpen from "./toggle-open";
 import RequestApproval from "./request-approval";
-import { Transitions } from "./transitions";
+import Transitions from "./transitions";
 import Exports from "./exports";
 
 describe("<RecordActions />", () => {

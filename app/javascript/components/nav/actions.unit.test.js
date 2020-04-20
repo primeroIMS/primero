@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import clone from "lodash/clone";
 
 import * as actions from "./actions";
@@ -12,7 +11,8 @@ describe("<Nav /> - Actions", () => {
       property => {
         expect(actionsNav).to.have.property(property);
         delete actionsNav[property];
-    });
+      }
+    );
 
     expect(actionsNav).to.be.empty;
   });

@@ -2,6 +2,7 @@ import kebabCase from "lodash/kebabCase";
 
 import { ENQUEUE_SNACKBAR, CLOSE_SNACKBAR, REMOVE_SNACKBAR } from "./actions";
 import { generate } from "./utils";
+import { SNACKBAR_VARIANTS } from "./constants";
 
 export const enqueueSnackbar = (message, type) => {
   return {
@@ -10,7 +11,7 @@ export const enqueueSnackbar = (message, type) => {
       message,
       options: {
         key: message ? kebabCase(message) : generate.messageKey(),
-        variant: type || "info"
+        variant: type || SNACKBAR_VARIANTS.info
       }
     }
   };

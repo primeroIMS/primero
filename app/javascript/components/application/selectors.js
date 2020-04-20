@@ -1,18 +1,30 @@
 import { Map, fromJS } from "immutable";
 
+import { PERMISSIONS, RESOURCE_ACTIONS } from "./constants";
 import NAMESPACE from "./namespace";
 
 export const selectAgencies = state =>
   state.getIn([NAMESPACE, "agencies"], fromJS([]));
 
-export const getAgenciesWithService = (state, service) =>
-  selectAgencies(state).filter(agency =>
-    agency.get("services", fromJS([])).includes(service)
-  );
+export const getEnabledAgencies = (state, service) => {
+  const enabledAgencies = state
+    .getIn([NAMESPACE, "agencies"], fromJS([]))
+    .filter(agency => !agency.get("disabled"));
 
-export const selectModules = state => state.getIn([NAMESPACE, "modules"], []);
+  if (service) {
+    return enabledAgencies.filter(agency =>
+      agency.get("services", fromJS([])).includes(service)
+    );
+  }
 
-export const selectLocales = state => state.getIn([NAMESPACE, "locales"], []);
+  return enabledAgencies;
+};
+
+export const selectModules = state =>
+  state.getIn([NAMESPACE, "modules"], fromJS([]));
+
+export const selectLocales = state =>
+  state.getIn([NAMESPACE, "locales"], fromJS([]));
 
 export const selectUserModules = state =>
   state.getIn([NAMESPACE, "modules"], Map({})).filter(m => {
@@ -37,4 +49,10 @@ export const getReportingLocationConfig = state =>
   state.getIn([NAMESPACE, "reportingLocationConfig"], fromJS({}));
 
 export const getAgencyLogos = state =>
-  state.getIn(["records", "support", "data", "agencies"], []);
+  state.getIn(["records", "support", "data", "agencies"], fromJS([]));
+
+export const getSystemPermissions = state =>
+  state.getIn([NAMESPACE, PERMISSIONS], fromJS({}));
+
+export const getResourceActions = (state, resource) =>
+  getSystemPermissions(state).getIn([RESOURCE_ACTIONS, resource], fromJS([]));

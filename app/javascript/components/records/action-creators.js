@@ -1,11 +1,11 @@
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 
-import * as Actions from "./actions";
+import { RECORD, SAVE_RECORD } from "./actions";
 
 export const fetchRecord = (recordType, id) => async dispatch => {
   dispatch({
-    type: `${recordType}/${Actions.RECORD}`,
+    type: `${recordType}/${RECORD}`,
     api: {
       path: `${recordType}/${id}`,
       db: {
@@ -24,10 +24,11 @@ export const saveRecord = (
   id,
   message,
   messageForQueue,
-  redirect
+  redirect,
+  queueAttachments = true
 ) => async dispatch => {
   await dispatch({
-    type: `${recordType}/${Actions.SAVE_RECORD}`,
+    type: `${recordType}/${SAVE_RECORD}`,
     api: {
       id,
       recordType,
@@ -51,7 +52,7 @@ export const saveRecord = (
         collection: DB_COLLECTIONS_NAMES.RECORDS,
         recordType
       },
-      queueAttachments: true
+      queueAttachments
     }
   });
 };

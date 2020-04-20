@@ -11,6 +11,7 @@ class Attachment < ApplicationRecord
   DOCUMENT_CONTENT_TYPES = %w[application/pdf text/plain].freeze
 
   MAX_SIZE = 4.megabytes.freeze
+  EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url
 
   belongs_to :record, polymorphic: true, optional: true
   has_one_attached :file
@@ -76,9 +77,13 @@ class Attachment < ApplicationRecord
     end
   end
 
+  def url
+    Rails.application.routes.url_helpers.rails_blob_path(file, only_path: true, expires_in: EXPIRES)
+  end
+
   def to_h_api
     hash = slice(:id, :field_name, :file_name, :date, :description, :is_current, :comments)
-    hash[:attachment_url] = Rails.application.routes.url_helpers.rails_blob_path(file, only_path: true)
+    hash[:attachment_url] = url
     hash
   end
 

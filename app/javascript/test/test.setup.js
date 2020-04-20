@@ -16,6 +16,8 @@ import IDBCursor from "fake-indexeddb/lib/FDBCursor"
 chai.use(chaiImmutable);
 chai.use(sinonChai);
 
+global.expect = chai.expect;
+
 const storage = {};
 
 global.window.indexedDB = indexedDB;

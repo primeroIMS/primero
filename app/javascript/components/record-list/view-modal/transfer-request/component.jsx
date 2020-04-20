@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { Formik } from "formik";
-import * as yup from "yup";
+import { object, string } from "yup";
 
-import { ActionDialog } from "../../../action-dialog";
+import ActionDialog from "../../../action-dialog";
 import { useI18n } from "../../../i18n";
 
 import { NAME, NOTES_FIELD } from "./constants";
@@ -31,8 +31,8 @@ const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
     }
   };
 
-  const validationSchema = yup.object().shape({
-    [NOTES_FIELD]: yup.string().required()
+  const validationSchema = object().shape({
+    [NOTES_FIELD]: string().required()
   });
 
   const formikProps = {
@@ -53,6 +53,7 @@ const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
       }
     },
     ref: formikRef,
+    // eslint-disable-next-line react/no-multi-comp, react/display-name
     render: props => <RequestForm formProps={props} record={currentRecord} />,
     validateOnBlur: false,
     validateOnChange: false,

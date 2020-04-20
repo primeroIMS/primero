@@ -1,6 +1,8 @@
+/* eslint-disable import/prefer-default-export */
+
 import { Record } from "immutable";
 
-export default Record({
+export const ExportRecord = Record({
   id: "",
   status: "",
   started_on: "",

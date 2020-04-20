@@ -1,9 +1,8 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
 import { CircularProgress } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../test";
-import { DashboardChip } from "../dashboard-chip";
+import DashboardChip from "../dashboard-chip";
 import { DASHBOARD_NAMES } from "../../pages/dashboard";
 import { INDICATOR_NAMES } from "../../pages/dashboard/constants";
 
@@ -63,7 +62,7 @@ describe("<BadgedIndicator />", () => {
   });
 
   describe("When data still loading", () => {
-    let component;
+    let loadingComponent;
     const propsDataLoading = {
       ...props,
       data: fromJS({}),
@@ -71,7 +70,7 @@ describe("<BadgedIndicator />", () => {
     };
 
     before(() => {
-      ({ component } = setupMountedComponent(
+      ({ component: loadingComponent } = setupMountedComponent(
         BadgedIndicator,
         propsDataLoading,
         {}
@@ -79,10 +78,10 @@ describe("<BadgedIndicator />", () => {
     });
 
     it("renders BadgedIndicator component", () => {
-      expect(component.find(BadgedIndicator)).to.have.lengthOf(1);
+      expect(loadingComponent.find(BadgedIndicator)).to.have.lengthOf(1);
     });
     it("renders CircularProgress", () => {
-      expect(component.find(CircularProgress)).to.have.lengthOf(1);
+      expect(loadingComponent.find(CircularProgress)).to.have.lengthOf(1);
     });
   });
 });

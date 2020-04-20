@@ -1,1 +1,1 @@
-export { default as ToggleEnable } from "./component";
+export { default } from "./component";

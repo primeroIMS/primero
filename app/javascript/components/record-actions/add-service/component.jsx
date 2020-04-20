@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 
-import { ActionDialog } from "../../action-dialog";
+import ActionDialog from "../../action-dialog";
 import { useI18n } from "../../i18n";
 import {
   getRecordFormsByUniqueId,
@@ -11,7 +11,7 @@ import {
 } from "../../record-form";
 import { MODULES, RECORD_TYPES, ID_FIELD } from "../../../config";
 import { saveRecord, selectRecordsByIndexes } from "../../records";
-import { compactValues } from "../../record-form/helpers";
+import { compactValues } from "../../record-form/utils";
 import Fields from "../add-incident/fields";
 import submitForm from "../../../libs/submit-form";
 import resetForm from "../../../libs/reset-form";
@@ -100,6 +100,7 @@ const Component = ({
             body,
             id,
             i18n.t(`actions.services_from_case_creation_success`),
+            false,
             false,
             false
           )

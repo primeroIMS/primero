@@ -1,5 +1,3 @@
-import { expect } from "../../test/unit-test-helpers";
-
 import * as constants from "./constants";
 
 describe("<Form /> - Constants", () => {
@@ -8,16 +6,18 @@ describe("<Form /> - Constants", () => {
 
     expect(clonedConstants).to.be.an("object");
     [
-      "TEXT_FIELD",
-      "TEXT_AREA",
-      "FORM_MODE_SHOW",
+      "CHECK_BOX_FIELD",
+      "ERROR_FIELD",
+      "FORM_MODE_DIALOG",
       "FORM_MODE_EDIT",
       "FORM_MODE_NEW",
-      "FORM_MODE_DIALOG",
+      "FORM_MODE_SHOW",
+      "PARENT_FORM",
+      "PHOTO_FIELD",
       "SELECT_FIELD",
-      "TICK_FIELD",
-      "CHECK_BOX_FIELD",
-      "PHOTO_FIELD"
+      "TEXT_AREA",
+      "TEXT_FIELD",
+      "TICK_FIELD"
     ].forEach(property => {
       expect(clonedConstants).to.have.property(property);
       delete clonedConstants[property];

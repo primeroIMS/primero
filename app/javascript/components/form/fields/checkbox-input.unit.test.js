@@ -1,5 +1,5 @@
 import { FieldRecord } from "../records";
-import { expect, setupMockFieldComponent } from "../../../test";
+import { setupMockFieldComponent } from "../../../test";
 
 import CheckboxInput from "./checkbox-input";
 
@@ -23,12 +23,9 @@ describe("<Form /> - fields/<SelectInput />", () => {
   it("renders help text", () => {
     const { component } = setupMockFieldComponent(CheckboxInput, FieldRecord);
 
-    expect(
-      component
-        .find("p.MuiFormHelperText-root")
-        .at(0)
-        .text()
-    ).to.include("Test Field 2 help text");
+    expect(component.find("p.MuiFormHelperText-root").at(0).text()).to.include(
+      "Test Field 2 help text"
+    );
   });
 
   it("renders errors", () => {
@@ -40,22 +37,14 @@ describe("<Form /> - fields/<SelectInput />", () => {
       .setError("test_field_2", "required", "Name is required");
 
     expect(component.someWhere(n => n.find("Mui-error"))).to.be.true;
-    expect(
-      component
-        .find("p.MuiFormHelperText-root")
-        .at(0)
-        .text()
-    ).to.include("Name is required");
+    expect(component.find("p.MuiFormHelperText-root").at(0).text()).to.include(
+      "Name is required"
+    );
   });
 
   it("renders required indicator", () => {
     const { component } = setupMockFieldComponent(CheckboxInput, FieldRecord);
 
-    expect(
-      component
-        .find("span")
-        .at(0)
-        .text()
-    ).to.include("*");
+    expect(component.find("span").at(0).text()).to.include("*");
   });
 });

@@ -5,20 +5,21 @@ import { Route } from "react-router-dom";
 import { fromJS, Map, List, OrderedMap } from "immutable";
 import { CircularProgress } from "@material-ui/core";
 
-import { setupMountedComponent, expect } from "../../test";
+import { setupMountedComponent } from "../../test";
 import { PageContainer } from "../page";
-import { LoadingIndicator } from "../loading-indicator";
+import LoadingIndicator from "../loading-indicator";
 import RecordOwner from "../record-owner";
 import { PrimeroModuleRecord } from "../application/records";
-import { Transitions } from "../transitions";
+import Transitions from "../transitions";
 import { MODES } from "../../config";
-import { Approvals } from "../approvals";
+import Approvals from "../approvals";
 import ApprovalPanel from "../approvals/components/panel";
 
-import { Nav } from "./nav";
+import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import RecordForms from "./container";
 import { FormSectionRecord, FieldRecord } from "./records";
+import actions from "./actions";
 
 describe("<RecordForms /> - Component", () => {
   let component;
@@ -110,7 +111,7 @@ describe("<RecordForms /> - Component", () => {
     id: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab"
   };
 
-  const initialState = fromJS({
+  const rootInitialState = fromJS({
     records: Map({
       cases: Map({
         data: List([Map(record)]),
@@ -149,13 +150,14 @@ describe("<RecordForms /> - Component", () => {
       {
         mode: "show"
       },
-      initialState,
+      rootInitialState,
       ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
     ));
   });
 
-  it("renders the PageContainer", () => {
+  it("renders the PageContainer", done => {
     expect(component.find(PageContainer)).to.have.length(1);
+    done();
   });
 
   it("renders the LoadingIndicator", () => {
@@ -447,6 +449,68 @@ describe("<RecordForms /> - Component", () => {
     it("should render CircularProgress", () => {
       expect(component.find(RecordForms)).to.have.lengthOf(1);
       expect(component.find(CircularProgress)).to.have.lengthOf(1);
+    });
+  });
+
+  describe("when component is rendered", () => {
+    let renderedComponent;
+    const path = "cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610";
+    const renderedComponentState = fromJS({
+      records: Map({
+        cases: Map({
+          data: List([Map(record)]),
+          metadata: Map({ per: 20, page: 1, total: 1 }),
+          filters: Map({ status: "open" }),
+          loading: true
+        })
+      }),
+      forms: Map({
+        selectedForm: "basic_identity",
+        selectedRecord: null,
+        formSections: OrderedMap({}),
+        fields,
+        loading: true,
+        errors: false
+      }),
+      user: fromJS({
+        modules: ["primeromodule-cp"]
+      }),
+      application
+    });
+
+    beforeEach(() => {
+      // eslint-disable-next-line react/display-name
+      const routedComponent = initialProps => {
+        return (
+          <Route
+            path="/:recordType(cases|incidents|tracing_requests)/:id"
+            component={props => (
+              <RecordForms {...{ ...props, ...initialProps }} />
+            )}
+          />
+        );
+      };
+
+      ({ component: renderedComponent } = setupMountedComponent(
+        routedComponent,
+        {
+          mode: MODES.show
+        },
+        renderedComponentState,
+        [`/${path}`]
+      ));
+    });
+
+    it("should fetchRecordsAlerts with a valid object", () => {
+      const expected = {
+        type: actions.FETCH_RECORD_ALERTS,
+        api: {
+          path: `${path}/alerts`
+        }
+      };
+      const storeActions = renderedComponent.props().store.getActions();
+
+      expect(storeActions[1]).to.deep.equal(expected);
     });
   });
 });
