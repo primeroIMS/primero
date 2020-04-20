@@ -13,6 +13,7 @@ Metrics/BlockLength:
   Exclude:
     - Gemfile*
     - config/routes.rb
+    - lib/tasks/*
     - spec/**/*
 
 Metrics/MethodLength:

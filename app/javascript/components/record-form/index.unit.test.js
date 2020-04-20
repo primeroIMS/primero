@@ -15,7 +15,6 @@ describe("<RecordForm /> - index", () => {
       "FieldRecord",
       "FormSectionField",
       "getAssignableForms",
-      "getEnabledAgencies",
       "getErrors",
       "getFirstTab",
       "getFormNav",

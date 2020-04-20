@@ -23,12 +23,13 @@ import {
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
 import { getLoadingRecordState } from "../records/selectors";
+import { usePermissions } from "../user";
 
 import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { fetchAgencies, fetchRecordsAlerts } from "./action-creators";
+import { fetchRecordsAlerts } from "./action-creators";
 import {
   getFirstTab,
   getFormNav,
@@ -175,16 +176,20 @@ const Container = ({ match, mode }) => {
     params.recordType
   ]);
 
+  const canRefer = usePermissions(params.recordType, REFERRAL);
+
   useEffect(() => {
     if (!containerMode.isNew) {
       batch(() => {
         dispatch(fetchTransitions(params.recordType, params.id));
-        dispatch(fetchAgencies());
-        dispatch(
-          fetchReferralUsers({
-            record_type: RECORD_TYPES[params.recordType]
-          })
-        );
+
+        if (canRefer) {
+          dispatch(
+            fetchReferralUsers({
+              record_type: RECORD_TYPES[params.recordType]
+            })
+          );
+        }
       });
     }
   }, [params.recordType, params.id]);

@@ -31,6 +31,7 @@ const ToggleOpen = ({ close, openReopenDialog, record, recordType }) => {
         record.get("id"),
         i18n.t(`cases.${setValue}_success`),
         false,
+        false,
         false
       )
     );

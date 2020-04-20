@@ -4,7 +4,7 @@ config_file = File.join(Rails.root, 'config', 'backburner.yml')
 return unless File.exist?(config_file)
 
 backburner_config = YAML.load_file(config_file)[Rails.env]
-url = backburner_config['beanstalk_url']
+url = backburner_config&.[]('beanstalk_url')
 
 logfile = if ENV['RAILS_LOG_PATH'].present? && ENV['LOG_TO_STDOUT'].blank?
             "#{ENV['RAILS_LOG_PATH']}/backburner.log"
@@ -24,6 +24,6 @@ Backburner.configure do |config|
   config.respond_timeout     = 60 * 60 * 3 # Seconds. 2 hours to finish a queued job. Can't be 0!
   config.default_worker      = Backburner::Workers::Forking
   config.logger              = Logger.new(logfile, 5, 50.megabytes).tap { |l| l.level = Logger::INFO }
-  config.primary_queue       = 'export' 
+  config.primary_queue       = 'export'
   config.reserve_timeout     = nil
 end

@@ -35,6 +35,7 @@ const Component = ({ close, openNotesDialog, record, recordType }) => {
         record.get("id"),
         i18n.t(`notes.note_success`),
         false,
+        false,
         false
       )
     );

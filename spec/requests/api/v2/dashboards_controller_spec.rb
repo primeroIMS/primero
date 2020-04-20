@@ -241,7 +241,7 @@ describe Api::V2::DashboardsController, type: :request do
           %w[referred_users=user2 record_state=true status=open]
         )
         expect(shared_with_me_dashboard['shared_with_me_new_referrals']['query']).to match_array(
-          %w[referred_users=user2 !last_updated_by=user2 record_state=true status=open]
+          %w[referred_users=user2 not[last_updated_by]=user2 record_state=true status=open]
         )
         expect(shared_with_me_dashboard['shared_with_me_transfers_awaiting_acceptance']['query']).to match_array(
           %w[transferred_to_users=user2 record_state=true status=open]
