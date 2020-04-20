@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 
 module SearchFilters
+  # A SearchFilters class for the Not operator
   class NotValue < SearchFilter
     attr_accessor :field_name, :values
 
     def query_scope(sunspot)
       this = self
       sunspot.instance_eval do
-        any_of do
-          without(this.field_name, this.values)
-        end
+        without(this.field_name, this.values)
       end
     end
 
