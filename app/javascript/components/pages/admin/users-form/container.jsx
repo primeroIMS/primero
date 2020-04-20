@@ -27,7 +27,7 @@ import { USER_CONFIRMATION_DIALOG } from "./constants";
 import {
   getUser,
   getServerErrors,
-  selectIdentityProviders,
+  getIdentityProviders,
   getSavingRecord
 } from "./selectors";
 import UserConfirmation from "./user-confirmation";
@@ -41,7 +41,7 @@ const Container = ({ mode }) => {
   const { id } = useParams();
   const user = useSelector(state => getUser(state));
   const formErrors = useSelector(state => getServerErrors(state));
-  const idp = useSelector(state => selectIdentityProviders(state));
+  const idp = useSelector(state => getIdentityProviders(state));
   const useIdentityProviders = idp?.get("use_identity_provider");
   const providers = idp?.get("identity_providers");
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");

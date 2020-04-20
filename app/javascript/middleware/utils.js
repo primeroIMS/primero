@@ -3,11 +3,7 @@ import uuid from "uuid/v4";
 
 import { queueIndexedDB } from "../db";
 import { METHODS } from "../config";
-import {
-  ENQUEUE_SNACKBAR,
-  generate,
-  SNACKBAR_VARIANTS
-} from "../components/notifier";
+import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS } from "../components/notifier";
 import { SET_DIALOG_PENDING } from "../components/record-actions/actions";
 
 const generateName = (body = {}) => {
@@ -18,6 +14,16 @@ const generateName = (body = {}) => {
   }
 
   return nameFirst || nameLast ? { name: `${nameFirst} ${nameLast}` } : {};
+};
+
+export const startSignout = (store, attemptSignout, msalSignout) => {
+  const usingIdp = store.getState().getIn(["idp", "use_identity_provider"]);
+
+  if (usingIdp) {
+    msalSignout();
+  } else {
+    store.dispatch(attemptSignout());
+  }
 };
 
 export const handleRestCallback = (
@@ -68,7 +74,7 @@ export const defaultErrorCallback = (store, response, json) => {
         messageKey: messages || "errors.api.internal_server",
         options: {
           variant: SNACKBAR_VARIANTS.error,
-          key: generate.messageKey()
+          key: "internal_server"
         }
       }
     },

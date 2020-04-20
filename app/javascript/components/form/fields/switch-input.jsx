@@ -7,25 +7,10 @@ import {
   FormControlLabel,
   FormHelperText
 } from "@material-ui/core";
-import { Controller, useFormContext } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
-const SwitchInput = ({ commonInputProps, metaInputProps }) => {
+const SwitchInput = ({ commonInputProps }) => {
   const { helperText, error, disabled, name, label } = commonInputProps;
-  const { watchDisableInput, watchDisable } = metaInputProps;
-  const { watch } = useFormContext();
-  const watchedDisableField = watchDisableInput
-    ? watch(watchDisableInput, "")
-    : false;
-  let disableField = disabled;
-
-  if (
-    !disabled &&
-    watchDisableInput &&
-    watchDisable &&
-    watchedDisableField !== false
-  ) {
-    disableField = watchDisable(watchedDisableField);
-  }
 
   return (
     <FormControl error={error}>
@@ -36,7 +21,7 @@ const SwitchInput = ({ commonInputProps, metaInputProps }) => {
             <Controller
               name={name}
               as={Switch}
-              disabled={disableField}
+              disabled={disabled}
               defaultValue={false}
             />
           }
@@ -56,7 +41,6 @@ SwitchInput.propTypes = {
     error: PropTypes.bool,
     helperText: PropTypes.string,
     label: PropTypes.string,
-    metaInputProps: PropTypes.object,
     name: PropTypes.string
   })
 };
