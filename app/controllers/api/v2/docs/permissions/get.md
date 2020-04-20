@@ -8,13 +8,13 @@ It returns all the available permissions for each resource.
 
 **Authentication** : YES
 
-**Authorization** : User needs to be authorized to write roles.
+**Authorization** : None
 
 **Parameters** : No parameters
 
 ## Success Response
 
-**Condition** : A logged user who can write roles.
+**Condition** : A logged in user.
 
 **Content** :
 
@@ -34,23 +34,3 @@ It returns all the available permissions for each resource.
     }
   }
 }
-```
-## Error Response
-
-**Condition** : User isn't authorized to list permissions
-
-**Code** : `403 Forbidden`
-
-**Content** :
-
-```json
-{
-  "errors": [
-    {
-      "code": 403,
-      "resource": "/api/v2/permissions",
-      "message": "Forbidden"
-    }
-  ]
-}
-```
