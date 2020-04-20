@@ -61,7 +61,7 @@ class IdentitySync::AzureActiveDirectoryConnector < IdentitySync::AbstractConnec
       identity_provider_sync: {
         aad: {
           message: "(#{response['correlation_id']}) #{response['error_msg']}"
-        }.merge(synced_attributes(user))
+        }.merge(response['error_msg'].blank? ? synced_attributes(user) : {})
       }
     }.compact
   end
