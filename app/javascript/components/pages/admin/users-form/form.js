@@ -155,7 +155,9 @@ export const form = (
       : null;
 
     return {
-      disabled: value === null || value === "",
+      ...(formMode.get("isShow") || {
+        disabled: value === null || value === ""
+      }),
       ...(name === "user_name" && {
         helperText:
           error?.message ||
