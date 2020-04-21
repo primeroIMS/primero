@@ -80,7 +80,7 @@ class User < ApplicationRecord
     end
 
     def unique_id_parameters
-      %w[user_group_unique_ids role_unique_id]
+      %w[user_group_unique_ids role_unique_id identity_provider_unique_id]
     end
 
     def permitted_api_params
@@ -88,7 +88,7 @@ class User < ApplicationRecord
         User.attribute_names + User.password_parameters +
         [
           { user_group_ids: [] }, { user_group_unique_ids: [] },
-          { module_unique_ids: [] }, :role_unique_id
+          { module_unique_ids: [] }, :role_unique_id, :identity_provider_unique_id
         ]
       ) - User.hidden_attributes
     end
@@ -198,6 +198,7 @@ class User < ApplicationRecord
   def associate_unique_id_properties(properties)
     associate_role_unique_id(properties[:role_unique_id])
     associate_groups_unique_id(properties[:user_group_unique_ids])
+    associate_identity_provider_unique_id(properties[:identity_provider_unique_id])
   end
 
   def associate_role_unique_id(role_unique_id)
@@ -210,6 +211,12 @@ class User < ApplicationRecord
     return unless unique_ids.present?
 
     self.user_groups = UserGroup.where(unique_id: unique_ids)
+  end
+
+  def associate_identity_provider_unique_id(identity_provider_unique_id)
+    return unless identity_provider_unique_id.present?
+
+    self.identity_provider_id = IdentityProvider.where(unique_id: identity_provider_unique_id).pluck(:id).first
   end
 
   def user_group_unique_ids
