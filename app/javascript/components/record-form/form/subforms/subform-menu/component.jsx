@@ -95,7 +95,6 @@ const Component = ({ index, recordType, values }) => {
         ) : (
           loading && <CircularProgress className={css.loadingIndicator} />
         )}
-        }
       </Menu>
     </>
   );
