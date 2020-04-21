@@ -100,6 +100,7 @@ const Component = ({
     ) : null;
 
   const dialogContent = (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/click-events-have-key-events
     <form noValidate autoComplete="off" onClick={stopProp}>
       <p>{i18n.t(`${recordType}.transfer_${approvalType}`)}</p>
       {commentField}

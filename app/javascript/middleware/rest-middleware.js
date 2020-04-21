@@ -12,7 +12,8 @@ import {
   isOnline,
   partitionObject,
   processAttachments,
-  defaultErrorCallback
+  defaultErrorCallback,
+  startSignout
 } from "./utils";
 
 const defaultFetchOptions = {
@@ -155,11 +156,7 @@ function fetchPayload(action, store, options) {
         }
 
         if (response.status === 401) {
-          const usingIdp = store
-            .getState()
-            .getIn(["idp", "use_identity_provider"]);
-
-          store.dispatch(attemptSignout(usingIdp, signOut));
+          startSignout(store, attemptSignout, signOut);
         }
       } else {
         await handleSuccess(store, {

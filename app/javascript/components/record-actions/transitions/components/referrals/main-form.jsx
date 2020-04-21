@@ -5,7 +5,10 @@ import { batch, useDispatch, useSelector } from "react-redux";
 import { Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
 
-import { getEnabledAgencies, getReportingLocationConfig } from "../../../../application/selectors";
+import {
+  getEnabledAgencies,
+  getReportingLocationConfig
+} from "../../../../application/selectors";
 import { useI18n } from "../../../../i18n";
 import {
   RECORD_TYPES,
@@ -25,7 +28,6 @@ import { fetchReferralUsers } from "../../action-creators";
 import { enqueueSnackbar } from "../../../../notifier";
 import {
   getOption,
-  getOptionsAreLoading,
   getReportingLocations,
   getServiceToRefer
 } from "../../../../record-form";

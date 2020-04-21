@@ -53,7 +53,7 @@ describe("<FormsList /> - Reducers", () => {
       }
     };
 
-    const newState = reducer.forms(initialState, action);
+    const newState = reducer(initialState, action);
 
     expect(newState).to.deep.equal(expectedState);
   });
@@ -70,7 +70,7 @@ describe("<FormsList /> - Reducers", () => {
       type: actions.RECORD_FORMS_STARTED
     };
 
-    const newState = reducer.forms(initialState, action);
+    const newState = reducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -86,7 +86,7 @@ describe("<FormsList /> - Reducers", () => {
       type: actions.RECORD_FORMS_FINISHED
     };
 
-    const newState = reducer.forms(initialState, action);
+    const newState = reducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
   });

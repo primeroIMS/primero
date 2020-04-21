@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { selectIdentityProviders } from "./selectors";
+import { getIdentityProviders } from "./selectors";
 
 const stateWithNoRecords = fromJS({});
 const stateWithProviders = fromJS({
@@ -36,9 +36,9 @@ const stateWithProviders = fromJS({
 });
 
 describe("<LoginSelection /> - Selectors", () => {
-  describe("selectIdentityProviders", () => {
+  describe("getIdentityProviders", () => {
     it("should return identity providers", () => {
-      const providers = selectIdentityProviders(stateWithProviders);
+      const providers = getIdentityProviders(stateWithProviders);
       const expected = fromJS([
         {
           name: "unicef",
@@ -64,7 +64,7 @@ describe("<LoginSelection /> - Selectors", () => {
     });
 
     it("should return empty object when records empty", () => {
-      const providers = selectIdentityProviders(stateWithNoRecords);
+      const providers = getIdentityProviders(stateWithNoRecords);
 
       expect(providers).to.be.undefined;
     });

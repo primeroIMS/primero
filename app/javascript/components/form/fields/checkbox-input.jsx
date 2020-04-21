@@ -12,9 +12,8 @@ import { Controller } from "react-hook-form";
 import CheckboxGroup from "./checkbox-group";
 import styles from "./styles.css";
 
-const CheckboxInput = ({ commonInputProps, options }) => {
+const CheckboxInput = ({ commonInputProps, options, metaInputProps }) => {
   const css = makeStyles(styles)();
-
   const { name, error, required, label, helperText } = commonInputProps;
 
   return (
@@ -30,6 +29,7 @@ const CheckboxInput = ({ commonInputProps, options }) => {
           as={CheckboxGroup}
           options={options}
           commonInputProps={commonInputProps}
+          metaInputProps={metaInputProps}
           defaultValue={[]}
         />
       </FormGroup>
@@ -49,6 +49,7 @@ CheckboxInput.propTypes = {
     name: PropTypes.string.isRequired,
     required: PropTypes.bool
   }),
+  metaInputProps: PropTypes.object,
   options: PropTypes.array
 };
 

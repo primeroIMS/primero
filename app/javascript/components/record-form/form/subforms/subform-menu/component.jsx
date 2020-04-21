@@ -1,18 +1,11 @@
 import React, { useState } from "react";
 import { batch, useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import {
-  Menu,
-  MenuItem,
-  IconButton,
-  CircularProgress
-} from "@material-ui/core";
+import { Menu, IconButton, CircularProgress } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { makeStyles } from "@material-ui/styles";
 
-import Permission from "../../../../application/permission";
 import { getEnabledAgencies } from "../../../../application/selectors";
-import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
 import {
   getLoadingTransitionType,
   getUsersByTransitionType
@@ -27,6 +20,7 @@ import { fetchReferralUsers } from "../../../../record-actions/transitions/actio
 import styles from "../styles.css";
 import { RECORD_TYPES } from "../../../../../config";
 
+import ReferAction from "./components/refer-action";
 import { NAME } from "./constants";
 
 const Component = ({ index, recordType, values }) => {
@@ -66,20 +60,6 @@ const Component = ({ index, recordType, values }) => {
     setAnchorEl(null);
   };
 
-  const ReferAction = React.forwardRef((props, ref) => (
-    <Permission resources={RESOURCES.cases} actions={REFER_FROM_SERVICE}>
-      <MenuItem
-        key={`refer-option-${index}`}
-        onClick={() => handleReferral()}
-        ref={ref}
-      >
-        {values[index].service_status_referred
-          ? i18n.t("buttons.referral_again")
-          : i18n.t("buttons.referral")}
-      </MenuItem>
-    </Permission>
-  ));
-
   const ref = React.createRef();
 
   return (
@@ -107,10 +87,15 @@ const Component = ({ index, recordType, values }) => {
           agencies,
           referralUsers
         ) ? (
-          <ReferAction />
+          <ReferAction
+            index={index}
+            handleReferral={handleReferral}
+            values={values}
+          />
         ) : (
           loading && <CircularProgress className={css.loadingIndicator} />
         )}
+        }
       </Menu>
     </>
   );

@@ -101,21 +101,22 @@ describe("Verifying config constant", () => {
     const resources = { ...PERMISSIONS.RESOURCES };
 
     [
+      "agencies",
+      "audit_logs",
       "cases",
+      "contact_information",
       "dashboards",
       "incidents",
+      "lookups",
+      "metadata",
       "potential_matches",
       "reports",
-      "tracing_requests",
-      "users",
-      "agencies",
-      "user_groups",
-      "lookups",
-      "contact_information",
       "roles",
       "forms",
       "systems",
-      "metadata"
+      "tracing_requests",
+      "user_groups",
+      "users"
     ].forEach(property => {
       expect(resources).to.have.property(property);
       expect(resources[property]).to.be.a("string");
