@@ -25,10 +25,11 @@ import { NAME } from "./constants";
 
 const Component = ({
   filter,
-  moreSectionFilters,
-  setMoreSectionFilters,
   mode,
+  moreSectionFilters,
+  multiple,
   reset,
+  setMoreSectionFilters,
   setReset
 }) => {
   const i18n = useI18n();
@@ -79,7 +80,7 @@ const Component = ({
       ref: valueRef,
       defaultValue: [],
       setInputValue,
-      isMultiSelect: true
+      isMultiSelect: multiple
     });
 
     const value = lookups.filter(l =>
@@ -172,7 +173,7 @@ const Component = ({
     <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
       <Autocomplete
         classes={{ root: css.select }}
-        multiple
+        multiple={multiple}
         getOptionLabel={optionLabel}
         onChange={handleChange}
         options={filterOptions}
@@ -187,7 +188,8 @@ const Component = ({
 };
 
 Component.defaultProps = {
-  moreSectionFilters: {}
+  moreSectionFilters: {},
+  multiple: true
 };
 
 Component.displayName = NAME;
@@ -199,6 +201,7 @@ Component.propTypes = {
     secondary: PropTypes.bool
   }),
   moreSectionFilters: PropTypes.object,
+  multiple: PropTypes.bool,
   reset: PropTypes.bool,
   setMoreSectionFilters: PropTypes.func,
   setReset: PropTypes.func

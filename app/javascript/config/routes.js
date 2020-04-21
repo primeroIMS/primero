@@ -2,6 +2,7 @@ import Login, {
   Admin,
   AgenciesForm,
   AgenciesList,
+  AuditLogs,
   ContactInformation,
   Dashboard,
   ExportList,
@@ -248,6 +249,11 @@ export default [
               path: ROUTES.lookups,
               component: LookupsList,
               resources: RESOURCES.lookups
+            },
+            {
+              path: ROUTES.audit_logs,
+              component: AuditLogs,
+              resources: RESOURCES.audit_logs
             },
             {
               path: `${ROUTES.admin_roles}/new`,
