@@ -67,6 +67,10 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
 
 SelectInput.displayName = "SelectInput";
 
+SelectInput.defaultProps = {
+  options: []
+};
+
 SelectInput.propTypes = {
   commonInputProps: PropTypes.shape({
     disabled: PropTypes.bool,
