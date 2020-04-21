@@ -21,6 +21,7 @@ export const registerInput = ({
         set(data) {
           setInputValue(data || defaultValue);
 
+          // eslint-disable-next-line no-param-reassign
           ref.current =
             isMultiSelect && data ? data.map(d => d?.code || d.id) : data;
 

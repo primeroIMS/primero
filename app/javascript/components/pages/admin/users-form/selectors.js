@@ -15,5 +15,9 @@ export const getServerErrors = state => {
   return state.getIn(["records", NAMESPACE, "serverErrors"], fromJS([]));
 };
 
+export const getIdentityProviders = state => {
+  return state.get("idp", fromJS({}));
+};
+
 export const getSavingRecord = state =>
   state.getIn(["records", NAMESPACE, SAVING], false);

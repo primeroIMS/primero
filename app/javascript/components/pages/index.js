@@ -11,6 +11,7 @@ export {
   default as Admin,
   AgenciesForm,
   AgenciesList,
+  AuditLogs,
   ContactInformation,
   FormBuilder,
   FormsList,

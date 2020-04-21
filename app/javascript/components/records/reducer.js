@@ -90,7 +90,7 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
         service => service.get("unique_id") === serviceRecordId
       );
 
-      if(referredService?.size) {
+      if (referredService?.size) {
         const recordIndex = state
           .get("data")
           .findIndex(record => record.get("id") === recordId);
@@ -107,6 +107,7 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
           data => data?.merge(referredService)
         );
       }
+
       return state;
     }
     default:
