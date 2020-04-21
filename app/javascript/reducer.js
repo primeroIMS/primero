@@ -39,6 +39,7 @@ import { reducer as revokeModalReducer } from "./components/transitions/componen
 import { reducer as referralActionReducer } from "./components/transitions/referrals/referral-action";
 import { reducer as lookupsListReducer } from "./components/pages/admin/lookups-list";
 import { reducer as adminFormListReducers } from "./components/pages/admin/forms/forms-list";
+import { reducer as AuditLogsReducers } from "./components/pages/admin/audit-logs";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -77,6 +78,7 @@ const rootReducer = {
       ...savedSearchesReducer,
       admin: combineReducers({
         forms: adminFormListReducers,
+        audit_logs: reduceReducers(AuditLogsReducers),
         roles: reduceReducers(rolesListReducer, rolesFormReducer),
         lookups: reduceReducers(lookupsListReducer)
       })
