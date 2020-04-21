@@ -1,4 +1,4 @@
-import { fromJS, Map, List } from "immutable";
+import { fromJS, Map } from "immutable";
 
 import * as selectors from "./selectors";
 
