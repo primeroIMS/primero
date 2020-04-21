@@ -126,6 +126,7 @@ Report.create_or_update({
 })
 
 Report.create_or_update(
+  id: '0f5f973e546a6899bde244f12b5a4fbb',
   name: "Follow up by month by Agency",
   description: "Number of followups broken down by month and agency",
   module_ids: [ PrimeroModule::CP ],
@@ -159,6 +160,7 @@ Report.create_or_update(
 )
 
 Report.create_or_update(
+  id: '0f5f973e546a6899bde244f12b5a42fc',
   name: "Follow up by week by Agency",
   description: "Number of followups broken down by week and agency",
   module_ids: [ PrimeroModule::CP ],
