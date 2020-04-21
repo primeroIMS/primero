@@ -24,6 +24,17 @@ describe IdentitySync::AzureActiveDirectoryConnector do
       expect(response[:identity_provider_sync][:aad][:perform_sync]).to be_falsey
       expect(response[:identity_provider_sync][:aad][:message]).to include('CORR123')
     end
+
+    it 'does not include synced attributes if response error' do
+      expect(connection).to(
+        receive(:post).with('/users', user_name: 'testuser@test.org', full_name: 'Test user')
+                      .and_return([500, { 'one_time_password' => 'OTP123', 'correlation_id' => 'CORR123', 'error_msg' => 'could not sync' }])
+      )
+
+      response = connector.create(user)
+      expect(response[:identity_provider_sync][:aad][:synced_on]).to be_falsey
+      expect(response[:identity_provider_sync][:aad][:synced_values]).to be_falsey
+    end
   end
 
   describe '.update' do
@@ -37,6 +48,17 @@ describe IdentitySync::AzureActiveDirectoryConnector do
       expect(response[:one_time_password]).to be_nil
       expect(response[:identity_provider_sync][:aad][:perform_sync]).to be_falsey
       expect(response[:identity_provider_sync][:aad][:message]).to include('CORR123')
+    end
+
+    it 'does not update synced attributes if response error' do
+      expect(connection).to(
+        receive(:patch).with('/users/testuser@test.org', user_name: 'testuser@test.org', full_name: 'Test user NEW', enabled: true)
+          .and_return([500, { 'correlation_id' => 'CORR123', 'error_msg' => 'could not sync' }])
+      )
+      user.full_name = 'Test user NEW'
+      response = connector.update(user)
+      expect(response[:identity_provider_sync][:aad][:synced_on]).to be_falsey
+      expect(response[:identity_provider_sync][:aad][:synced_values]).to be_falsey
     end
   end
 

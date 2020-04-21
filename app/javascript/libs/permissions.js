@@ -68,21 +68,22 @@ export const ACTIONS = {
 export const MANAGE = [ACTIONS.MANAGE];
 
 export const RESOURCES = {
+  agencies: "agencies",
+  audit_logs: "audit_logs",
   cases: "cases",
+  contact_information: "contact_information",
   dashboards: "dashboards",
   incidents: "incidents",
+  lookups: "lookups",
+  metadata: "metadata",
   potential_matches: "potential_matches",
   reports: "reports",
-  tracing_requests: "tracing_requests",
-  users: "users",
-  agencies: "agencies",
-  user_groups: "user_groups",
-  lookups: "lookups",
-  contact_information: "contact_information",
   roles: "roles",
   forms: "forms",
   systems: "systems",
-  metadata: "metadata"
+  tracing_requests: "tracing_requests",
+  user_groups: "user_groups",
+  users: "users"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {
@@ -134,6 +135,8 @@ export const SHOW_TASKS = [...MANAGE, ACTIONS.DASH_TASKS];
 export const ADD_INCIDENT = [...MANAGE, ACTIONS.INCIDENT_DETAILS_FROM_CASE];
 
 export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
+
+export const SHOW_AUDIT_LOGS = [...MANAGE, ACTIONS.READ];
 
 export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL_FROM_SERVICE];
 

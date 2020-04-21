@@ -12,12 +12,25 @@ import NAMESPACE from "../namespace";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
+import { setDialog, setPending } from "../../../record-actions/action-creators";
+import {
+  selectDialog,
+  selectDialogPending
+} from "../../../record-actions/selectors";
 import { fetchSystemSettings } from "../../../application";
 import bindFormSubmit from "../../../../libs/submit-form";
 
-import { form, validations } from "./form";
+import { form } from "./form";
+import validations from "./validations";
 import { fetchUser, clearSelectedUser, saveUser } from "./action-creators";
-import { getUser, getServerErrors, getSavingRecord } from "./selectors";
+import { USER_CONFIRMATION_DIALOG } from "./constants";
+import {
+  getUser,
+  getServerErrors,
+  getIdentityProviders,
+  getSavingRecord
+} from "./selectors";
+import UserConfirmation from "./user-confirmation";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -28,24 +41,51 @@ const Container = ({ mode }) => {
   const { id } = useParams();
   const user = useSelector(state => getUser(state));
   const formErrors = useSelector(state => getServerErrors(state));
+  const idp = useSelector(state => getIdentityProviders(state));
+  const useIdentityProviders = idp?.get("use_identity_provider");
+  const providers = idp?.get("identity_providers");
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+  const validationSchema = validations(
+    formMode,
+    i18n,
+    useIdentityProviders,
+    providers
+  );
+  const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
+  const [userData, setUserData] = React.useState({});
   const saving = useSelector(state => getSavingRecord(state));
 
-  const validationSchema = validations(formMode, i18n);
+  const userConfirmationOpen = useSelector(state =>
+    selectDialog(USER_CONFIRMATION_DIALOG, state)
+  );
+  const setUserConfirmationOpen = open => {
+    dispatch(setDialog({ dialog: USER_CONFIRMATION_DIALOG, open }));
+  };
+  const dialogPending = useSelector(state => selectDialogPending(state));
+  const setDialogPending = pending => {
+    dispatch(setPending({ pending }));
+  };
 
-  const canEditUsers = usePermissions(NAMESPACE, WRITE_RECORDS);
+  const handleClose = () => {
+    setUserConfirmationOpen(false);
+  };
 
   const handleSubmit = data => {
+    setUserData(data);
+    setUserConfirmationOpen(true);
+  };
+
+  const handleEditSubmit = data => {
     dispatch(
       saveUser({
         id,
+        dialogName: USER_CONFIRMATION_DIALOG,
         saveMethod: formMode.get("isEdit")
           ? SAVE_METHODS.update
           : SAVE_METHODS.new,
         body: { data },
-        message: i18n.t(
-          `user.messages.${formMode.get("isEdit") ? "updated" : "created"}`
-        )
+        message: i18n.t("user.messages.updated"),
+        failureMessage: i18n.t("user.messages.failure")
       })
     );
   };
@@ -97,6 +137,12 @@ const Container = ({ mode }) => {
     ? `${i18n.t("users.label")} ${user.get("full_name")}`
     : i18n.t("users.label");
 
+  const identityOptions = providers
+    ? providers.toJS().map(provider => {
+        return { id: provider.id, display_text: provider.name };
+      })
+    : [];
+
   return (
     <LoadingIndicator
       hasData={formMode.get("isNew") || user?.size > 0}
@@ -110,12 +156,33 @@ const Container = ({ mode }) => {
         <Form
           useCancelPrompt
           mode={mode}
-          formSections={form(i18n, formMode)}
-          onSubmit={handleSubmit}
+          formSections={form(
+            i18n,
+            formMode,
+            useIdentityProviders,
+            providers,
+            identityOptions
+          )}
+          onSubmit={formMode.get("isEdit") ? handleEditSubmit : handleSubmit}
           ref={formRef}
           validations={validationSchema}
           initialValues={user.toJS()}
           formErrors={formErrors}
+        />
+        <UserConfirmation
+          userConfirmationOpen={userConfirmationOpen}
+          close={handleClose}
+          saveMethod={formMode.get("isEdit") ? "update" : "new"}
+          pending={dialogPending}
+          setPending={setDialogPending}
+          id={id}
+          isIdp={useIdentityProviders}
+          dialogName={USER_CONFIRMATION_DIALOG}
+          userData={userData}
+          userName={
+            formMode.get("isEdit") ? user.get("user_name") : userData.user_name
+          }
+          identityOptions={identityOptions}
         />
       </PageContent>
     </LoadingIndicator>

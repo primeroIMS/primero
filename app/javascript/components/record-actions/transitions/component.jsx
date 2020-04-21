@@ -136,7 +136,7 @@ const Transitions = ({
 
   return (
     <TransitionDialog {...customProps} {...commonDialogProps}>
-      {transitionComponent({  assignDialog, referDialog, transferDialog })}
+      {transitionComponent({ assignDialog, referDialog, transferDialog })}
     </TransitionDialog>
   );
 };

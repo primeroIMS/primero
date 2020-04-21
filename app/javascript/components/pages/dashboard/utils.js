@@ -454,7 +454,10 @@ export const teamSharingTable = (dashboard, i18n) => {
             return {
               [column.name]:
                 typeof indicators[column.name] !== "undefined" &&
-                indicators[column.name].hasOwnProperty(caseWorker)
+                Object.prototype.hasOwnProperty.call(
+                  indicators[column.name],
+                  caseWorker
+                )
                   ? indicators[column.name][caseWorker][key]
                   : 0
             };

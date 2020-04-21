@@ -31,7 +31,7 @@ export const setAuthenticatedUser = user => async dispatch => {
   dispatch(loadApplicationResources());
 };
 
-export const attemptSignout = (usingIdp, signOut) => async dispatch => {
+export const attemptSignout = () => async dispatch => {
   dispatch({
     type: Actions.LOGOUT,
     api: {
@@ -40,10 +40,6 @@ export const attemptSignout = (usingIdp, signOut) => async dispatch => {
       successCallback: Actions.LOGOUT_SUCCESS_CALLBACK
     }
   });
-
-  if (usingIdp) {
-    signOut();
-  }
 };
 
 export const checkUserAuthentication = () => async dispatch => {
