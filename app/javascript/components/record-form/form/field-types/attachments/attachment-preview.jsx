@@ -11,6 +11,7 @@ const AttachmentPreview = ({ attachment, attachmentUrl }) => {
 
   if (attachment === ATTACHMENT_TYPES.audio) {
     return (
+      // eslint-disable-next-line jsx-a11y/media-has-caption
       <audio controls>
         <source src={attachmentUrl} />
       </audio>

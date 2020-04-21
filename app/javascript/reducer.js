@@ -76,7 +76,7 @@ const rootReducer = {
       ...flaggingReducer,
       ...savedSearchesReducer,
       admin: combineReducers({
-        ...adminFormListReducers,
+        forms: adminFormListReducers,
         roles: reduceReducers(rolesListReducer, rolesFormReducer),
         lookups: reduceReducers(lookupsListReducer)
       })

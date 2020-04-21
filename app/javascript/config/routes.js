@@ -285,7 +285,7 @@ export default [
             },
             {
               path: ROUTES.forms,
-              component: FormsList,
+              component: FormsList
               // resources:
             }
           ]
