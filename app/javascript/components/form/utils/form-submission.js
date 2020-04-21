@@ -17,7 +17,7 @@ export const submitHandler = ({
   // https://github.com/react-hook-form/react-hook-form-website/issues/154
   const touchedFields = formMethods?.formState?.touched;
 
-  return ({
+  return {
     submitForm(e) {
       formMethods.handleSubmit(data => {
         const changedFormData = touchedFormData(
@@ -34,5 +34,5 @@ export const submitHandler = ({
         }
       })(e);
     }
-  });
+  };
 };

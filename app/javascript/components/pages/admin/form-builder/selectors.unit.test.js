@@ -28,5 +28,4 @@ describe("<FormsBuilder /> - Selectors", () => {
       expect(selectors.getSavingRecord(initialState)).to.be.true;
     });
   });
-
 });
