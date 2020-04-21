@@ -47,13 +47,15 @@ export const handleRestCallback = (
       store.dispatch(successPayload);
 
       if (isCallbackObject && successCallback.redirect && !fromQueue) {
-        store.dispatch(
-          push(
-            successCallback.redirectWithIdFromResponse
-              ? `${successCallback.redirect}/${json?.data?.id}`
-              : successCallback.redirect
-          )
-        );
+        let { redirect } = successCallback;
+
+        if (successCallback.redirectWithIdFromResponse) {
+          redirect = `${successCallback.redirect}/${json?.data?.id}`;
+        }
+        if (successCallback.redirectToEdit) {
+          redirect = `${successCallback.redirect}/${json?.data?.id}/edit`;
+        }
+        store.dispatch(push(redirect));
       }
     }
   }

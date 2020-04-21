@@ -1,21 +1,23 @@
-import React, { useImperativeHandle, useRef, useState } from "react";
+import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Tab, Tabs } from "@material-ui/core";
 import { FormContext, useForm } from "react-hook-form";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import { PageContent, PageHeading } from "../../../page";
 import FormSection from "../../../form/components/form-section";
 import { whichFormMode, submitHandler } from "../../../form";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
+import { compare } from "../../../../libs";
 
 import { TabPanel, FormBuilderActionButtons } from "./components";
-import { saveForm } from "./action-creators";
+import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
 import { NAME } from "./constants";
+import { getSelectedForm } from "./selectors";
 
 const Component = ({ mode }) => {
   const { id } = useParams();
@@ -24,7 +26,9 @@ const Component = ({ mode }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const [tab, setTab] = useState(0);
+  const selectedForm = useSelector(state => getSelectedForm(state), compare);
   const methods = useForm({ validationSchema, defaultValues: {} });
+  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
   const handleChange = (event, selectedTab) => {
     setTab(selectedTab);
@@ -48,6 +52,24 @@ const Component = ({ mode }) => {
       })
     );
   };
+
+  useEffect(() => {
+    if (isEditOrShow) {
+      dispatch(fetchForm(id));
+    }
+
+    return () => {
+      if (isEditOrShow) {
+        dispatch(clearSelectedForm());
+      }
+    };
+  }, [id]);
+
+  useEffect(() => {
+    if (selectedForm?.size) {
+      methods.reset(selectedForm.toJS());
+    }
+  }, [selectedForm]);
 
   useImperativeHandle(
     formRef,

@@ -293,6 +293,14 @@ export default [
               }
             },
             {
+              path: `${ROUTES.forms}/:id/edit`,
+              component: FormBuilder,
+              resources: RESOURCES.forms,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
               path: ROUTES.forms,
               component: FormsList,
               resources: RESOURCES.forms

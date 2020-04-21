@@ -8,7 +8,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    ["clearSelectedForm", "saveForm"].forEach(property => {
+    ["clearSelectedForm", "fetchForm", "saveForm"].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
     });
@@ -47,8 +47,8 @@ describe("<FormsBuilder /> - Action Creators", () => {
               variant: "success"
             }
           },
-          redirectWithIdFromResponse: true,
-          redirect: `/admin/forms`
+          redirectToEdit: true,
+          redirect: "/admin/forms"
         }
       }
     };
