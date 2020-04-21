@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { batch, useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { Menu, MenuItem, IconButton } from "@material-ui/core";
+import { Menu, IconButton } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-import Permission from "../../../../application/permission";
 import { getEnabledAgencies } from "../../../../application/selectors";
-import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
 import { getUsersByTransitionType } from "../../../../record-actions/transitions/selectors";
 import { REFERRAL_TYPE } from "../../../../record-actions/transitions";
 import { setServiceToRefer } from "../../../action-creators";
@@ -15,6 +13,7 @@ import { setDialog } from "../../../../record-actions/action-creators";
 import { useI18n } from "../../../../i18n";
 import { serviceIsReferrable } from "../../utils";
 
+import ReferAction from "./components/refer-action";
 import { NAME } from "./constants";
 
 const Component = ({ index, values }) => {
@@ -48,20 +47,6 @@ const Component = ({ index, values }) => {
     setAnchorEl(null);
   };
 
-  const ReferAction = React.forwardRef((props, ref) => (
-    <Permission resources={RESOURCES.cases} actions={REFER_FROM_SERVICE}>
-      <MenuItem
-        key={`refer-option-${index}`}
-        onClick={() => handleReferral()}
-        ref={ref}
-      >
-        {values[index].service_status_referred
-          ? i18n.t("buttons.referral_again")
-          : i18n.t("buttons.referral")}
-      </MenuItem>
-    </Permission>
-  ));
-
   const ref = React.createRef();
 
   return (
@@ -89,7 +74,11 @@ const Component = ({ index, values }) => {
           agencies,
           referralUsers
         ) ? (
-          <ReferAction />
+          <ReferAction
+            index={index}
+            handleReferral={handleReferral}
+            values={values}
+          />
         ) : null}
       </Menu>
     </>

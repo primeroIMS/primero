@@ -85,6 +85,7 @@ const ActionDialog = ({
   );
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
     <div onClick={stopPropagation}>
       <Dialog
         open={open}

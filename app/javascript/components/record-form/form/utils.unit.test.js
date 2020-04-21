@@ -28,7 +28,7 @@ describe("Verifying utils", () => {
 
     expect(clonedHelpers).to.deep.equal({});
   });
-})
+});
 
 describe("appendDisabledAgency", () => {
   it("should append the agency if not present in the agencies list", () => {
