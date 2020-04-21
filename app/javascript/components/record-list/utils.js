@@ -13,7 +13,7 @@ import { ALERTS_COLUMNS, ALERTS } from "./constants";
 export const buildTableColumns = (allowedColumns, i18n, recordType, css) => {
   const iconColumns = Object.values(ALERTS_COLUMNS);
 
-  // eslint-disable-next-line react/display-name
+  // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label
   const emptyHeader = name => <th key={name} className={css.overdueHeading} />;
 
   const columns = allowedColumns
