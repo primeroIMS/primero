@@ -1,25 +1,33 @@
 import React, { useState } from "react";
 import { batch, useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { Menu, IconButton } from "@material-ui/core";
+import { Menu, IconButton, CircularProgress } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { makeStyles } from "@material-ui/styles";
 
 import { getEnabledAgencies } from "../../../../application/selectors";
-import { getUsersByTransitionType } from "../../../../record-actions/transitions/selectors";
+import {
+  getLoadingTransitionType,
+  getUsersByTransitionType
+} from "../../../../record-actions/transitions/selectors";
 import { REFERRAL_TYPE } from "../../../../record-actions/transitions";
 import { setServiceToRefer } from "../../../action-creators";
 import { getOption } from "../../../selectors";
 import { setDialog } from "../../../../record-actions/action-creators";
 import { useI18n } from "../../../../i18n";
 import { serviceIsReferrable } from "../../utils";
+import { fetchReferralUsers } from "../../../../record-actions/transitions/action-creators";
+import styles from "../styles.css";
+import { RECORD_TYPES } from "../../../../../config";
 
 import ReferAction from "./components/refer-action";
 import { NAME } from "./constants";
 
-const Component = ({ index, values }) => {
+const Component = ({ index, recordType, values }) => {
   const i18n = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
+  const css = makeStyles(styles)();
 
   const services = useSelector(state =>
     getOption(state, "lookup-service-type", i18n.locale)
@@ -29,9 +37,14 @@ const Component = ({ index, values }) => {
     getUsersByTransitionType(state, REFERRAL_TYPE)
   );
 
+  const loading = useSelector(state =>
+    getLoadingTransitionType(state, REFERRAL_TYPE)
+  );
+
   const agencies = useSelector(state => getEnabledAgencies(state));
 
   const handleClick = event => {
+    dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[recordType] }));
     setAnchorEl(event.currentTarget);
   };
 
@@ -79,7 +92,9 @@ const Component = ({ index, values }) => {
             handleReferral={handleReferral}
             values={values}
           />
-        ) : null}
+        ) : (
+          loading && <CircularProgress className={css.loadingIndicator} />
+        )}
       </Menu>
     </>
   );
@@ -89,6 +104,7 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   index: PropTypes.number.isRequired,
+  recordType: PropTypes.string,
   values: PropTypes.array.isRequired
 };
 

@@ -1,4 +1,4 @@
-import { Map, fromJS } from "immutable";
+import { fromJS, Map } from "immutable";
 
 import * as selectors from "./selectors";
 
@@ -10,7 +10,8 @@ const stateWithRecords = Map({
       reassign: Map({
         users: [{ label: "primero_cp", value: "primero_cp" }],
         errors: true,
-        message: ["Test error message"]
+        message: ["Test error message"],
+        loading: true
       })
     })
   })
@@ -62,6 +63,26 @@ describe("<Transitions /> - Selectors", () => {
   describe("deprecated getAssignUsers", () => {
     it("should be undefined", () => {
       expect(selectors.getAssignUsers).to.be.equal(undefined);
+    });
+  });
+
+  describe("getLoadingTransitionType", () => {
+    it("should return error messages", () => {
+      const values = selectors.getLoadingTransitionType(
+        stateWithRecords,
+        "reassign"
+      );
+
+      expect(values).to.be.true;
+    });
+
+    it("should return undefined when there are not messages in store", () => {
+      const errors = selectors.getLoadingTransitionType(
+        stateWithNoRecords,
+        "referral"
+      );
+
+      expect(errors).to.be.false;
     });
   });
 });

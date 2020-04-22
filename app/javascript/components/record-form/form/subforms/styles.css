@@ -14,3 +14,9 @@
     $(theme.primero.colors.solidBlack), 10%, transparent 15%
   ) center center no-repeat;
 }
+
+.loadingIndicator {
+  width: 20px !important;
+  height: 20px !important;
+  margin: 0 20px;
+}
