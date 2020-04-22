@@ -207,7 +207,10 @@ module RecordActions
 
   def update
     respond_to do |format|
-      create_or_update_record(params[:id])
+      # Verify primero module if it's an create from a remote request.
+      validate_primero_module  if is_remote_request? && @record.blank?
+      permitted_property_names = model_class.permitted_property_names(current_user, PrimeroModule.get(record_params['module_id']))
+      create_or_update_record(params[:id], permitted_property_names)
       if @record.save
         format.html do
           flash[:notice] = I18n.t("#{model_class.locale_prefix}.messages.update_success", record_id: @record.short_id)
