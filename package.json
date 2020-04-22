@@ -107,7 +107,7 @@
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.13.1",
-    "react-hook-form": "^4.10.2",
+    "react-hook-form": "4.4.8",
     "react-idle-timer": "^4.2.12",
     "react-jss": "^10.1.1",
     "react-redux": "^7.2.0",
