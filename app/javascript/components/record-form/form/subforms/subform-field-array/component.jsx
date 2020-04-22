@@ -14,7 +14,8 @@ const Component = ({
   formik,
   i18n,
   initialSubformValue,
-  mode
+  mode,
+  recordType
 }) => {
   const { display_name: displayName, name } = field;
   const values = getIn(formik.values, name);
@@ -58,6 +59,7 @@ const Component = ({
         mode={mode}
         setOpen={setOpenDialog}
         setDialogIsNew={setDialogIsNew}
+        recordType={recordType}
       />
       <SubformDialog
         index={index !== null ? index : values.length - 1}
@@ -82,7 +84,8 @@ Component.propTypes = {
   formik: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
   initialSubformValue: PropTypes.object.isRequired,
-  mode: PropTypes.object.isRequired
+  mode: PropTypes.object.isRequired,
+  recordType: PropTypes.string
 };
 
 export default Component;
