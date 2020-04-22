@@ -2,5 +2,5 @@
 
 import NAMESPACE from "../namespace";
 
-export const selectIdentityProviders = state =>
+export const getIdentityProviders = state =>
   state.getIn([NAMESPACE, "identity_providers"]);

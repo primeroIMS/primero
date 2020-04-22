@@ -41,7 +41,8 @@ Shows a paginated list of all users that are accessible to this user. The user c
         "locale": "en",
         "send_mail": true,
         "created_at": "2019-08-09T19:54:36.592Z",
-        "updated_at": "2019-08-09T19:54:36.592Z"
+        "updated_at": "2019-08-09T19:54:36.592Z",
+        "identity_provider_unique_id": "primeroims_2"
     },
     "metadata": {
       "total": 1,

@@ -16,6 +16,7 @@ const Component = ({
   field,
   locale,
   mode,
+  recordType,
   setDialogIsNew,
   setOpen,
   values
@@ -89,7 +90,11 @@ const Component = ({
                   </IconButton>
                 ) : null}
                 {mode.isShow && serviceHasReferFields(values[index]) ? (
-                  <SubformMenu index={index} values={values} />
+                  <SubformMenu
+                    index={index}
+                    values={values}
+                    recordType={recordType}
+                  />
                 ) : null}
                 <IconButton onClick={() => handleEdit(index)}>
                   <ArrowIcon />
@@ -112,6 +117,7 @@ Component.propTypes = {
   field: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
+  recordType: PropTypes.string,
   setDialogIsNew: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired

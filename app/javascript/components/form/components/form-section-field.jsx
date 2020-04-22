@@ -38,13 +38,15 @@ const FormSectionField = ({ checkErrors, field }) => {
     password,
     multi_select: multiSelect,
     editable,
+    watchedInputs,
+    handleWatchedInputs,
     check_errors: fieldCheckErrors,
     disabled,
     customClass
   } = field;
   const i18n = useI18n();
-  const { formMode, errors } = useFormContext();
-  const error = errors ? get(errors, name) : undefined;
+  const { formMode, errors, watch } = useFormContext();
+  const error = errors ? errors[name] : undefined;
 
   const errorsToCheck = checkErrors
     ? checkErrors.concat(fieldCheckErrors)
@@ -74,6 +76,11 @@ const FormSectionField = ({ checkErrors, field }) => {
     i18n
   });
 
+  const watchedInputsValues = watchedInputs ? watch(watchedInputs) : null;
+  const watchedInputProps = handleWatchedInputs
+    ? handleWatchedInputs(watchedInputsValues, name, { error })
+    : {};
+
   const renderError = () =>
     checkErrors?.size && errors
       ? Object.keys(errors).some(
@@ -83,6 +90,7 @@ const FormSectionField = ({ checkErrors, field }) => {
 
   const commonInputProps = {
     name,
+    disabled: formMode.get("isShow") || (formMode.get("isEdit") && !editable),
     required,
     autoFocus,
     error: typeof error !== "undefined" || renderError(),
@@ -97,7 +105,8 @@ const FormSectionField = ({ checkErrors, field }) => {
       typeof disabled === "boolean"
         ? disabled
         : formMode.get("isShow") || (formMode.get("isEdit") && !editable),
-    customClass
+    customClass,
+    ...watchedInputProps
   };
 
   const metaInputProps = {

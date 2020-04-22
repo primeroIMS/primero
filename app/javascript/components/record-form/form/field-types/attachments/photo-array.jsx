@@ -21,6 +21,7 @@ const PhotoArray = ({ images }) => {
   if (!images) return null;
 
   const renderImages = images.map((image, index) => (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
     <div
       key={image}
       className={css.imgContainer}

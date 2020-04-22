@@ -61,6 +61,7 @@ const Component = ({
 
   const dialogContent =
     referralType === DONE ? (
+      // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
       <div onClick={stopProp}>
         <p>{i18n.t(`${recordType}.referral_done`)}</p>
       </div>

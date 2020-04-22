@@ -55,6 +55,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case Actions.REFERRAL_USERS_FETCH_STARTED:
       return state
         .setIn(["referral", "loading"], true)
+        .setIn(["referral", "users"], fromJS([]))
         .setIn(["referral", "errors"], false);
     case Actions.REFERRAL_USERS_FETCH_SUCCESS:
       return state.setIn(["referral", "users"], fromJS(payload.data));

@@ -1,4 +1,4 @@
-import { MANAGE, RESOURCES } from "../libs/permissions";
+import { MANAGE, RESOURCES, SHOW_AUDIT_LOGS } from "../libs/permissions";
 
 // Time (ms) when fetch request will timeout
 export const FETCH_TIMEOUT = 50000;
@@ -53,19 +53,20 @@ export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
 });
 
 export const RECORD_PATH = {
+  agencies: "agencies",
   alerts: "alerts",
+  audit_logs: "audit_logs",
   cases: "cases",
+  contact_information: "contact_information",
   dashboards: "dashboards",
   forms: "forms",
   incidents: "incidents",
+  lookups: "lookups",
+  roles: "roles",
   tasks: "tasks",
   tracing_requests: "tracing_requests",
-  users: "users",
   user_groups: "user_groups",
-  agencies: "agencies",
-  roles: "roles",
-  lookups: "lookups",
-  contact_information: "contact_information"
+  users: "users"
 };
 
 export const RECORD_OWNER = "record_owner";
@@ -87,31 +88,32 @@ export const RECORD_INFORMATION = [
 
 export const ROUTES = {
   account: "/account",
+  admin: "/admin",
+  admin_agencies: "/admin/agencies",
+  admin_agencies_new: "/admin/agencies/new",
+  admin_roles: "/admin/roles",
+  admin_roles_new: "/admin/roles/new",
+  admin_user_groups: "/admin/user_groups",
+  admin_user_groups_new: "/admin/user_groups/new",
+  admin_users: "/admin/users",
+  admin_users_new: "/admin/users/new",
+  audit_logs: "/admin/audit_logs",
   cases: "/cases",
+  contact_information: "/admin/contact_information",
   dashboard: "/dashboards",
   exports: "/exports",
+  forms: "/admin/forms",
   incidents: "/incidents",
   login: "/login",
   logout: "/logout",
+  lookups: "/admin/lookups",
+  lookups_new: "/admin/lookups/new",
   matches: "/matches",
   not_authorized: "/not-authorized",
   reports: "/reports",
   support: "/support",
   tasks: "/tasks",
-  tracing_requests: "/tracing_requests",
-  admin: "/admin",
-  admin_users: "/admin/users",
-  admin_users_new: "/admin/users/new",
-  admin_user_groups: "/admin/user_groups",
-  contact_information: "/admin/contact_information",
-  admin_user_groups_new: "/admin/user_groups/new",
-  admin_agencies: "/admin/agencies",
-  admin_agencies_new: "/admin/agencies/new",
-  lookups_new: "/admin/lookups/new",
-  lookups: "/admin/lookups",
-  admin_roles: "/admin/roles",
-  admin_roles_new: "/admin/roles/new",
-  forms: "/admin/forms"
+  tracing_requests: "/tracing_requests"
 };
 
 export const PERMITTED_URL = [
@@ -188,7 +190,8 @@ export const ADMIN_NAV = [
   {
     to: "/audit_logs",
     label: "settings.navigation.audit_logs",
-    disabled: true
+    permission: SHOW_AUDIT_LOGS,
+    recordType: RESOURCES.audit_logs
   },
   { to: "/matching", label: "settings.navigation.matching", disabled: true }
 ];

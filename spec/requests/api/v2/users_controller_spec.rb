@@ -4,12 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::UsersController, type: :request do
   before :each do
-    FormSection.destroy_all
-    PrimeroModule.destroy_all
-    Role.destroy_all
-    User.destroy_all
-    Agency.destroy_all
-    PrimeroProgram.destroy_all
+    clean_data(FormSection, PrimeroModule, Role, User, Agency, PrimeroProgram, IdentityProvider)
 
     SystemSettings.stub(:current).and_return(
       SystemSettings.new(
@@ -61,14 +56,37 @@ describe Api::V2::UsersController, type: :request do
 
     @user_group_a = UserGroup.create!(unique_id: 'user-group-1', name: 'user group 1')
 
+    @identity_provider_a = IdentityProvider.create!(
+      name: 'primero_1',
+      unique_id: 'primeroims_1',
+      provider_type: 'b2c_1',
+      configuration: {
+        client_id: '123_1',
+        issuer: 'https://primeroims_1.org',
+        verification_url: 'https://primeroims_1.org/verify'
+      }
+    )
+
+    @identity_provider_b = IdentityProvider.create!(
+      name: 'primero_2',
+      unique_id: 'primeroims_2',
+      provider_type: 'b2c_2',
+      configuration: {
+        client_id: '123_2',
+        issuer: 'https://primeroims_2.org',
+        verification_url: 'https://primeroims_2.org/verify'
+      }
+    )
+
     @user_a = User.create!(
       full_name: 'Test User 1',
-      user_name: 'test_user_a',
+      user_name: 'test_user_1',
       password: 'a12345678',
       password_confirmation: 'a12345678',
-      email: 'test_user_a@localhost.com',
+      email: 'test_user_1@localhost.com',
       agency_id: @agency_a.id,
-      role: @role
+      role: @role,
+      identity_provider_id: @identity_provider_a.id
     )
 
     @user_b = User.create!(
@@ -78,7 +96,8 @@ describe Api::V2::UsersController, type: :request do
       password_confirmation: 'b12345678',
       email: 'test_user_2@localhost.com',
       agency_id: @agency_a.id,
-      role: @role
+      role: @role,
+      identity_provider_id: @identity_provider_a.id
     )
 
     @user_c = User.create!(
@@ -96,16 +115,27 @@ describe Api::V2::UsersController, type: :request do
 
   describe 'GET /api/v2/users' do
     it 'list the users' do
-      login_for_test(permissions: [Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])])
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])
+        ]
+      )
 
       get '/api/v2/users'
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(3)
+      expect(json['data'].map { |user| user['identity_provider_unique_id'] }.compact).to eq(
+        [@identity_provider_a.unique_id, @identity_provider_a.unique_id]
+      )
     end
 
     it 'list the users of a specific agency' do
-      login_for_test(permissions: [Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])])
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])
+        ]
+      )
 
       get "/api/v2/users?agency=#{@agency_a.id}"
 
@@ -114,7 +144,11 @@ describe Api::V2::UsersController, type: :request do
     end
 
     it 'return modules, agencies, permissions, filters, headers for the extended version' do
-      login_for_test(permissions: [Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])])
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])
+        ]
+      )
 
       get '/api/v2/users?extended=true'
 
@@ -183,6 +217,7 @@ describe Api::V2::UsersController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@user_a.id)
+      expect(json['data']['identity_provider_unique_id']).to eq(@identity_provider_a.unique_id)
     end
 
     it "returns 403 if user isn't authorized to access" do
@@ -206,7 +241,11 @@ describe Api::V2::UsersController, type: :request do
 
   describe 'POST /api/v2/users' do
     it 'creates a new record with 200 and returns it as JSON' do
-      login_for_test(permissions: [Permission.new(resource: Permission::USER, actions: [Permission::CREATE])])
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::CREATE])
+        ]
+      )
       params = {
         data: {
           full_name: 'Test User API',
@@ -217,7 +256,8 @@ describe Api::V2::UsersController, type: :request do
           role_unique_id: @role.unique_id,
           password_confirmation: 'a12345678',
           password: 'a12345678',
-          user_group_unique_ids: ['user-group-1']
+          user_group_unique_ids: ['user-group-1'],
+          identity_provider_unique_id: @identity_provider_a.unique_id
         }
       }
 
@@ -230,13 +270,18 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data']['role_unique_id']).to eq(params[:data][:role_unique_id])
       expect(json['data']['user_group_unique_ids']).to eq(params[:data][:user_group_unique_ids])
       expect(User.find_by(id: json['data']['id'])).not_to be_nil
+      expect(json['data']['identity_provider_unique_id']).to eq(@identity_provider_a.unique_id)
     end
 
     describe 'empty response' do
       let(:json) { nil }
 
       it 'creates a new record with 204 and returns no JSON if the client generated the id' do
-        login_for_test(permissions: [Permission.new(resource: Permission::USER, actions: [Permission::CREATE])])
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::USER, actions: [Permission::CREATE])
+          ]
+        )
         id = (rand * 1000).to_i
         params = {
           data: {
@@ -283,7 +328,11 @@ describe Api::V2::UsersController, type: :request do
     end
 
     it 'returns a 409 if record already exists' do
-      login_for_test(permissions: [Permission.new(resource: Permission::USER, actions: [Permission::CREATE])])
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::CREATE])
+        ]
+      )
       params = {
         data: {
           id: @user_a.id,
@@ -306,7 +355,11 @@ describe Api::V2::UsersController, type: :request do
     end
 
     it 'returns a 422 if the case record is invalid' do
-      login_for_test(permissions: [Permission.new(resource: Permission::USER, actions: [Permission::CREATE])])
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::CREATE])
+        ]
+      )
       params = {
         data: {
           id: @user_a.id,
@@ -343,7 +396,8 @@ describe Api::V2::UsersController, type: :request do
       params = {
         data: {
           full_name: 'Updated User 1',
-          user_group_unique_ids: ['user-group-1']
+          user_group_unique_ids: ['user-group-1'],
+          identity_provider_unique_id: @identity_provider_b.unique_id
         }
       }
 
@@ -351,11 +405,10 @@ describe Api::V2::UsersController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@user_a.id)
-
       user1 = User.find_by(id: @user_a.id)
-
       expect(user1.full_name).to eq('Updated User 1')
       expect(user1.user_groups.map(&:unique_id)).to eq(params[:data][:user_group_unique_ids])
+      expect(user1.identity_provider.unique_id).to eq(@identity_provider_b.unique_id)
     end
 
     it "returns 403 if user isn't authorized to update users" do

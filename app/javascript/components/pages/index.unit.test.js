@@ -1,6 +1,6 @@
 import * as index from "./index";
 
-describe("pages/admin - index", () => {
+describe("pages - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
@@ -9,6 +9,7 @@ describe("pages/admin - index", () => {
       "Admin",
       "AgenciesForm",
       "AgenciesList",
+      "AuditLogs",
       "ContactInformation",
       "Dashboard",
       "default",
