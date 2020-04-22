@@ -142,7 +142,7 @@ const Component = ({ formRef, mode, lookup }) => {
             name: `name.${locale.id}`,
             type: TEXT_FIELD,
             required: true,
-            customClass: !show ? css.hideTranslationsFields : null
+            inputClassname: !show ? css.hideTranslationsFields : null
           })}
           key={`name.${locale.id}`}
         />

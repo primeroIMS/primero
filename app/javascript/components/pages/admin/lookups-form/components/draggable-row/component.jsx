@@ -44,7 +44,7 @@ const Component = ({
       index={index}
       isDragDisabled={isDragDisabled}
     >
-      {(provider, snap) => {
+      {provider => {
         return (
           <div
             ref={provider.innerRef}

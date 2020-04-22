@@ -23,7 +23,7 @@ export const FieldRecord = Record({
   autoFocus: false,
   password: false,
   hideOnShow: false,
-  customClass: null,
+  inputClassname: null,
   watchedInputs: null,
   handleWatchedInputs: null,
   check_errors: List([])

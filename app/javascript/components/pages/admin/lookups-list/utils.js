@@ -46,4 +46,3 @@ export const columns = (i18n, css, onRowClick) => [
     }
   }
 ];
-
