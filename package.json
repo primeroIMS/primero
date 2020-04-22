@@ -17,8 +17,8 @@
     "test:run": "NODE_ENV=test mocha",
     "jscpd": "npm run jscpd:run 'app/javascript/**'",
     "jscpd:run": "jscpd",
-    "lint": "npm run lint:run './app/javascript/**'",
-    "lint:run": "eslint --fix"
+    "lint": "npm run lint:run -- --fix",
+    "lint:run": "eslint './app/javascript/**'"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
