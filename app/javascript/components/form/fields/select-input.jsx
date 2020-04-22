@@ -21,7 +21,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
         : options?.find(opt => opt.id === option) || defaultOption;
 
     const freeSoloDisplayText =
-      freeSolo && typeof option === "string" ? option : "";
+      freeSolo && typeof option === "string" ? option : null;
 
     return displayName || displayText || freeSoloDisplayText;
   };
@@ -36,7 +36,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       ? data?.[1]?.map(selected =>
           typeof selected === "object" ? selected?.id : selected
         )
-      : data?.[1]?.id || "";
+      : data?.[1]?.id || null;
   };
 
   const optionEquality = (option, value) =>
