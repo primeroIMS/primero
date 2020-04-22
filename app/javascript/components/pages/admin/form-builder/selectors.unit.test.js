@@ -30,7 +30,7 @@ describe("<FormsBuilder /> - Selectors", () => {
   });
 
   describe("getSelectedForm", () => {
-    const selectedForm = fromJS({ id: 1 , name: { en: "Form ID 1" } });
+    const selectedForm = fromJS({ id: 1, name: { en: "Form ID 1" } });
     const initialState = fromJS({
       records: { admin: { forms: { selectedForm } } }
     });
@@ -41,5 +41,4 @@ describe("<FormsBuilder /> - Selectors", () => {
       );
     });
   });
-
 });
