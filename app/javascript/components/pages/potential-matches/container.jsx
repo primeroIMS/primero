@@ -12,9 +12,9 @@ import styles from "./styles.css";
 import { fetchPotentialMatches } from "./action-creators";
 import { selectPotentialMatches } from "./selectors";
 
-const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
+const PotentialMatches = ({ getPotentialMatches, potentialMatches }) => {
   useEffect(() => {
-    fetchPotentialMatches();
+    getPotentialMatches();
   }, []);
 
   const css = makeStyles(styles)();
@@ -97,7 +97,7 @@ const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
 PotentialMatches.displayName = "PotentialMatches";
 
 PotentialMatches.propTypes = {
-  fetchPotentialMatches: PropTypes.func.isRequired,
+  getPotentialMatches: PropTypes.func.isRequired,
   potentialMatches: PropTypes.object.isRequired
 };
 
@@ -108,7 +108,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  fetchPotentialMatches
+  getPotentialMatches: fetchPotentialMatches
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PotentialMatches);

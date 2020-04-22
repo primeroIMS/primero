@@ -29,14 +29,16 @@ describe("<FormsBuilder /> - Selectors", () => {
     });
   });
 
-   describe("getSelectedForm", () => {
+  describe("getSelectedForm", () => {
     const selectedForm = fromJS({ id: 1 , name: { en: "Form ID 1" } });
     const initialState = fromJS({
       records: { admin: { forms: { selectedForm } } }
     });
 
     it("should return the correct value", () => {
-      expect(selectors.getSelectedForm(initialState)).to.deep.equal(selectedForm);
+      expect(selectors.getSelectedForm(initialState)).to.deep.equal(
+        selectedForm
+      );
     });
   });
 

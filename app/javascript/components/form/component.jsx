@@ -46,6 +46,7 @@ const Component = ({
   );
 
   useEffect(() => {
+    // eslint-disable-next-line no-unused-expressions
     formErrors?.forEach(error => {
       formMethods.setError(
         error.get("detail"),

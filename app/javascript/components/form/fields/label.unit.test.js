@@ -11,7 +11,7 @@ describe("<Label />", () => {
   beforeEach(() => {
     ({ component } = setupMountedComponent(
       Label,
-      { commonInputProps: { label: "Some text"} },
+      { commonInputProps: { label: "Some text" } },
       initialState
     ));
   });

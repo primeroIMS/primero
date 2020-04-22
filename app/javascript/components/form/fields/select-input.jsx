@@ -29,18 +29,18 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const optionsUseIntegerIds = Number.isInteger(options?.[0]?.id);
 
   // eslint-disable-next-line no-nested-ternary
-  const defaultValue = multiSelect ? [] : optionsUseIntegerIds ? null : "";
+  const defaultValue = multiSelect ? [] : optionsUseIntegerIds ? null : null;
 
   const handleChange = data => {
     return multiSelect
       ? data?.[1]?.map(selected =>
           typeof selected === "object" ? selected?.id : selected
         )
-      : data?.[1]?.id || defaultOption;
+      : data?.[1]?.id || "";
   };
 
   const optionEquality = (option, value) =>
-    multiSelect || freeSolo ? option.id === value : option.id === value.id;
+    option.id === value || option.id === value?.id;
 
   const filterOptions = {
     ...(freeSolo && {
@@ -115,6 +115,10 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
 };
 
 SelectInput.displayName = "SelectInput";
+
+SelectInput.defaultProps = {
+  options: []
+};
 
 SelectInput.propTypes = {
   commonInputProps: PropTypes.shape({

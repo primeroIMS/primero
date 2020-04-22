@@ -86,10 +86,7 @@ describe("<SubformMenu />", () => {
       initialState
     );
 
-    component
-      .find(IconButton)
-      .find("button")
-      .simulate("click");
+    component.find(IconButton).find("button").simulate("click");
 
     expect(component.find(MenuItem)).lengthOf(1);
   });

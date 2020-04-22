@@ -25,6 +25,8 @@ export const FieldRecord = Record({
   hideOnShow: false,
   inlineCheckboxes: false,
   freeSolo: false,
+  watchedInputs: null,
+  handleWatchedInputs: null,
   check_errors: List([])
 });
 

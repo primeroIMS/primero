@@ -78,12 +78,7 @@ describe("<FormsBuilder />", () => {
   });
 
   it("renders the Settings Tab", () => {
-    expect(
-      component
-        .find(Tab)
-        .first()
-        .text()
-    ).to.equal("forms.settings");
+    expect(component.find(Tab).first().text()).to.equal("forms.settings");
   });
 
   it("renders the Action Buttons", () => {

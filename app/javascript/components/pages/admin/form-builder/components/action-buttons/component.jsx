@@ -4,11 +4,12 @@ import PropTypes from "prop-types";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 
-import { NAME } from "./constants";
 import { useI18n } from "../../../../../i18n";
 import { getSavingRecord } from "../../selectors";
 import { FormAction } from "../../../../../form";
 import bindFormSubmit from "../../../../../../libs/submit-form";
+
+import { NAME } from "./constants";
 
 const Component = ({ formMode, formRef, handleCancel }) => {
   const i18n = useI18n();

@@ -14,7 +14,6 @@ import styles from "./styles.css";
 
 const CheckboxInput = ({ commonInputProps, options, metaInputProps }) => {
   const css = makeStyles(styles)();
-
   const { name, error, required, label, helperText } = commonInputProps;
   const { inlineCheckboxes } = metaInputProps;
 
@@ -31,6 +30,7 @@ const CheckboxInput = ({ commonInputProps, options, metaInputProps }) => {
           as={CheckboxGroup}
           options={options}
           commonInputProps={commonInputProps}
+          metaInputProps={metaInputProps}
           defaultValue={[]}
         />
       </FormGroup>
