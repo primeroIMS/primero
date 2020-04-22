@@ -23,6 +23,7 @@ describe Api::V2::FlagsController, type: :request do
   end
 
   let(:json) { JSON.parse(response.body) }
+  let(:audit_params) { enqueued_jobs.select { |job| job.values.first == AuditLogJob }.first[:args].first }
 
   describe 'GET /api/v2/:recordType/:recordId/flags' do
     it 'list flags of a case' do
@@ -84,6 +85,8 @@ describe Api::V2::FlagsController, type: :request do
       expect(json['data']['message']).to eq( 'This is another flag')
       expect(json['data']['removed']).to be_falsey
       expect(json['data']['record_id']).to eq( json['data']['record']['id'])
+
+      expect(audit_params['action']).to eq('flag')
     end
 
     it 'creates a new flag to a tracing_request' do
@@ -131,7 +134,7 @@ describe Api::V2::FlagsController, type: :request do
       expect(AuditLogJob).to have_been_enqueued
         .with(record_type: 'Child',
           record_id: @case1.id,
-          action: 'create',
+          action: 'flag',
           user_id: fake_user_id, #This is technically wrong, but an artifact of the way we do tests
           resource_url: request.url,
           metadata: {user_name: fake_user_name})
@@ -150,6 +153,8 @@ describe Api::V2::FlagsController, type: :request do
       expect(json['data']['unflagged_date']).to eq(Date.today.to_s)
       expect(json['data']['unflagged_by']).to eq('faketest')
       expect(json['data']['record_id']).to eq( json['data']['record']['id'])
+
+      expect(audit_params['action']).to eq('unflag')
     end
 
     it 'unflags a tracing_request' do
@@ -204,6 +209,8 @@ describe Api::V2::FlagsController, type: :request do
       @case2.reload
       expect(@case1.flag_count).to eq(2)
       expect(@case2.flag_count).to eq(1)
+
+      expect(audit_params['action']).to eq('bulk_flag')
     end
 
     it 'flagging tracing_request in bulk' do
@@ -285,6 +292,7 @@ describe Api::V2::FlagsController, type: :request do
   end
 
   after do
+    clear_enqueued_jobs
     Flag.destroy_all
     Child.destroy_all
     TracingRequest.destroy_all
