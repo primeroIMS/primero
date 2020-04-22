@@ -9,11 +9,11 @@ module MigrationHelper
       if value.is_a?(String)
         value =
             value.gsub(/\r\n?/, "\n").split("\n")
-                .map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v}.with_indifferent_access : nil}
+                .map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v.strip}.with_indifferent_access : nil}
                 .compact
       elsif value.is_a?(Array)
         if value.first.is_a?(String)
-          value = value.map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v}.with_indifferent_access : nil}.compact
+          value = value.map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v.strip}.with_indifferent_access : nil}.compact
         elsif value.first.is_a?(Hash)
           value
         end
@@ -26,11 +26,11 @@ module MigrationHelper
     if value.is_a?(String)
       value =
         value.gsub(/\r\n?/, "\n").split("\n")
-          .map.with_index{|v, i| (v.present? && base_value[i].present?) ? {id: base_value[i][:id], display_text: v}.with_indifferent_access : nil}
+          .map.with_index{|v, i| (v.present? && base_value[i].present?) ? {id: base_value[i][:id], display_text: v.strip}.with_indifferent_access : nil}
           .compact
     elsif value.is_a?(Array)
       if value.first.is_a?(String)
-        value = value.map.with_index{|v, i| (v.present? && base_value[i].present?) ? {id: base_value[i][:id], display_text: v}.with_indifferent_access : nil}.compact
+        value = value.map.with_index{|v, i| (v.present? && base_value[i].present?) ? {id: base_value[i][:id], display_text: v.strip }.with_indifferent_access : nil}.compact
       elsif value.first.is_a?(Hash)
         value
       end
