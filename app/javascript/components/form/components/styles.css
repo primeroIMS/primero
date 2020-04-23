@@ -18,3 +18,16 @@
 .loadingMargin {
   position: absolute;
 }
+
+.heading {
+  font-size: $(theme.typography.pxToRem(15));
+  font-weight: $(theme.typography.fontWeightBold);
+
+  &.error {
+    color: red;
+  }
+}
+
+.panelContent {
+  display: block;
+}

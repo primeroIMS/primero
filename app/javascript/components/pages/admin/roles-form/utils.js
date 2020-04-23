@@ -1,22 +1,19 @@
 import { fromJS } from "immutable";
 
 import { RECORD_TYPES } from "../../../../config";
+import { ERROR_FIELD, FieldRecord, FormSectionRecord } from "../../../form";
 
 import {
-  AssociatedAgenciesForm,
   AssociatedFormSectionsForm,
-  AssociatedRolesForm,
   ResourcesForm,
   RolesMainForm
 } from "./forms";
+import { FORM_CHECK_ERRORS } from "./constants";
 
 export const getFormsToRender = ({
   primeroModules,
   systemPermissions,
   roles,
-  agencies,
-  roleActions,
-  agencyActions,
   formSections,
   i18n,
   formMode
@@ -29,15 +26,26 @@ export const getFormsToRender = ({
         i18n,
         formMode
       ),
-      AssociatedRolesForm(roles, roleActions, i18n, formMode),
-      AssociatedAgenciesForm(agencies, agencyActions, i18n, formMode),
+      FormSectionRecord({
+        unique_id: "permissions_label",
+        name: { [i18n.locale]: i18n.t("permissions.label") },
+        check_errors: fromJS(FORM_CHECK_ERRORS),
+        fields: [
+          FieldRecord({
+            type: ERROR_FIELD,
+            check_errors: fromJS(FORM_CHECK_ERRORS)
+          })
+        ]
+      }),
       ResourcesForm(
-        systemPermissions
-          .get("resource_actions", fromJS({}))
-          .filterNot((v, k) => ["role", "agency"].includes(k)),
-        i18n,
-        formMode
+        systemPermissions.get("resource_actions", fromJS({})),
+        roles,
+        i18n
       ),
+      FormSectionRecord({
+        unique_id: "forms_label",
+        name: { [i18n.locale]: i18n.t("forms.label") }
+      }),
       AssociatedFormSectionsForm(formSections, i18n, formMode)
     ].flat()
   );

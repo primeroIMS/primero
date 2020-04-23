@@ -21,7 +21,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const optionsUseIntegerIds = Number.isInteger(options?.[0]?.id);
 
   // eslint-disable-next-line no-nested-ternary
-  const defaultValue = multiSelect ? [] : optionsUseIntegerIds ? null : "";
+  const defaultValue = multiSelect ? [] : optionsUseIntegerIds ? null : null;
 
   const handleChange = data => {
     return multiSelect
@@ -32,7 +32,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   };
 
   const optionEquality = (option, value) =>
-    multiSelect ? option.id === value : option.id === value.id;
+    option.id === value || option.id === value?.id;
 
   return (
     <Controller

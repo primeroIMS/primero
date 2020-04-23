@@ -9,13 +9,7 @@ import Form, { whichFormMode, PARENT_FORM } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import { ROUTES } from "../../../../config";
-import {
-  getSystemPermissions,
-  getResourceActions,
-  selectAgencies,
-  selectModules,
-  RESOURCES
-} from "../../../application";
+import { getSystemPermissions, selectModules } from "../../../application";
 import { fetchRoles, ADMIN_NAMESPACE } from "../roles-list";
 import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
@@ -52,17 +46,8 @@ const Container = ({ mode }) => {
     compare
   );
   const role = useSelector(state => getRole(state), compare);
-  const agencies = useSelector(state => selectAgencies(state), compare);
   const systemPermissions = useSelector(
     state => getSystemPermissions(state),
-    compare
-  );
-  const roleActions = useSelector(
-    state => getResourceActions(state, RESOURCES.role),
-    compare
-  );
-  const agencyActions = useSelector(
-    state => getResourceActions(state, RESOURCES.agency),
     compare
   );
   const assignableForms = useSelector(
@@ -114,12 +99,10 @@ const Container = ({ mode }) => {
   const formsToRender = getFormsToRender({
     primeroModules,
     systemPermissions,
-    i18n,
     roles,
-    agencies,
-    roleActions,
-    agencyActions,
-    formSections: formsByParentForm
+    formSections: formsByParentForm,
+    i18n,
+    formMode
   });
 
   const initialValues = groupSelectedIdsByParentForm(
