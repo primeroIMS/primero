@@ -24,12 +24,12 @@ import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
 import { getLoadingRecordState } from "../records/selectors";
 import { usePermissions } from "../user";
+import { fetchRecordsAlerts } from "../records/action-creators";
 
 import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { fetchRecordsAlerts } from "./action-creators";
 import {
   getFirstTab,
   getFormNav,
@@ -159,6 +159,7 @@ const Container = ({ match, mode }) => {
     handleToggleNav,
     isNew: containerMode.isNew,
     mobileDisplay,
+    recordType,
     selectedForm,
     selectedRecord: record ? record.get("id") : null
   };

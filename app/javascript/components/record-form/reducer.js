@@ -26,8 +26,6 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state
         .setIn(["options", "agencies"], fromJS(payload.data))
         .setIn(["options", "errors"], false);
-    case Actions.FETCH_RECORD_ALERTS_SUCCESS:
-      return state.set("recordAlerts", fromJS(payload.data));
     case Actions.RECORD_FORMS_FAILURE:
       return state.set("errors", true);
     case Actions.RECORD_FORMS_FINISHED:
