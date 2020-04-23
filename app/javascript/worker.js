@@ -1,9 +1,5 @@
 /* eslint-disable no-restricted-globals */
 
-workbox.setConfig({
-  clientsClaim: true
-});
-
 workbox.core.clientsClaim();
 workbox.core.skipWaiting();
 workbox.precaching.cleanupOutdatedCaches();
