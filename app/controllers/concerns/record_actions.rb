@@ -165,7 +165,6 @@ module RecordActions
     permitted_property_names = model_class.permitted_property_names(current_user, PrimeroModule.get(record_params['module_id']))
 
     @record = create_or_update_record(params[:id], permitted_property_names)
-    initialize_created_record(@record)
     respond_to do |format|
       if @record.save
         post_save_processing @record
@@ -444,7 +443,7 @@ module RecordActions
 
   def select_permitted_fields(record, permitted_property_names, is_remote_request)
     # put here fields required if it's a mobile
-    default_fields_to_share = is_remote_request ? %w[module_id] : %w[_id _rev couchrest-type histories photo_keys document_keys case_id short_id owned_by created_by registration_date incident_id tracing_request_id inquiry_date incident_links]
+    default_fields_to_share = is_remote_request ? %w[module_id] : %w[_id _rev couchrest-type histories photo_keys document_keys case_id short_id owned_by created_by registration_date incident_id tracing_request_id inquiry_date incident_links module_id]
     properties_to_check = default_fields_to_share + permitted_property_names
     record.select do |key, value|
       properties_to_check.include?(key.to_s)
@@ -485,6 +484,7 @@ module RecordActions
     if @record.nil?
       record_params_permitted = select_permitted_fields(record_params, property_names, is_remote_request?)
       @record = model_class.new_with_user_name(current_user, record_params_permitted)
+      initialize_created_record(@record)
     else
       @record = update_record_from(id)
     end
