@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, IconButton, FormLabel } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
+import { fetchAlerts } from "../../nav/action-creators";
+import { getRecordAlerts } from "../../records";
 
 import { approvalRecord } from "./action-creators";
 import ApprovalForm from "./approval-form";
@@ -32,6 +34,8 @@ const Component = ({
   const [requestType, setRequestType] = useState(startRequestType);
   const [approval, setApproval] = React.useState("approved");
   const [comment, setComment] = React.useState("");
+
+  const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
 
   const handleChangeType = event => {
     setRequestType(event.target.value);
@@ -65,17 +69,22 @@ const Component = ({
   const handleOk = () => {
     setPending(true);
 
-    dispatch(
-      approvalRecord({
-        recordType,
-        recordId: record.get("id"),
-        approvalId: requestType,
-        body: actionBody,
-        message: i18n.t(message),
-        failureMessage: i18n.t(`${recordType}.request_approval_failure`),
-        dialogName
-      })
-    );
+    batch(() => {
+      dispatch(
+        approvalRecord({
+          recordType,
+          recordId: record.get("id"),
+          approvalId: requestType,
+          body: actionBody,
+          message: i18n.t(message),
+          failureMessage: i18n.t(`${recordType}.request_approval_failure`),
+          dialogName
+        })
+      );
+      if (recordAlerts.size <= 0) {
+        dispatch(fetchAlerts());
+      }
+    });
   };
 
   const selectOptions = subMenuItems.map(option => (

@@ -159,7 +159,7 @@ const Container = ({ match, mode }) => {
     handleToggleNav,
     isNew: containerMode.isNew,
     mobileDisplay,
-    recordType,
+    recordType: params.recordType,
     selectedForm,
     selectedRecord: record ? record.get("id") : null
   };
