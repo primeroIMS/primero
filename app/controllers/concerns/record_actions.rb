@@ -159,6 +159,7 @@ module RecordActions
   def create
     authorize! :create, model_class
      # HACK This validation should not be here, it should be a validate on the model
+     # It is necessary because we need validate only if it is a remote request
     validate_primero_module  if is_remote_request?
     reindex_hash record_params
     permitted_property_names = model_class.permitted_property_names(current_user, PrimeroModule.get(record_params['module_id']))
@@ -207,6 +208,8 @@ module RecordActions
 
   def update
     respond_to do |format|
+      # HACK This validation should not be here, it should be a validate on the model
+      # It is necessary because we need validate only if it is a remote request
       # Verify primero module if it's an create from a remote request.
       validate_primero_module  if is_remote_request? && @record.blank?
       permitted_property_names = model_class.permitted_property_names(current_user, PrimeroModule.get(record_params['module_id']))
