@@ -61,8 +61,7 @@ protection_concern_detail_subform_section = FormSection.create_or_update_form_se
   :initial_subforms => 0,
   "name_en" => "Nested Protection Concerns Subform",
   "description_en" => "Nested Protection Concerns Subform",
-  "collapsed_field_names" => ["protection_concern_type"],
-  "subform_prevent_item_removal" => true
+  "collapsed_field_names" => ["protection_concern_type"]
 })
 
 protection_concern_detail_fields = [

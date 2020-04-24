@@ -114,8 +114,7 @@ services_section = FormSection.create_or_update_form_section({
   :initial_subforms => 0,
   "name_en" => "Nested Services",
   "description_en" => "Services Subform",
-  "collapsed_field_names" => ["service_type", "service_appointment_date"],
-  "subform_prevent_item_removal" => true
+  "collapsed_field_names" => ["service_type", "service_appointment_date"]
 })
 
 services_fields = [
