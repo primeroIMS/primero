@@ -6,7 +6,6 @@ describe("pages/admin/<RolesForm>/forms - index", () => {
   it("should have known properties", () => {
     [
       "ActionButtons",
-      "AssociatedAgenciesForm",
       "AssociatedFormSectionsForm",
       "AssociatedRolesForm",
       "ResourcesForm",

@@ -87,12 +87,14 @@ prim_bootstrap() {
   # shellcheck disable=SC2034
   bin/rails db:create
   bin/rails db:migrate
+  set +u
   if [[ -n "${PRIMERO_CONFIGURATION_FILE}" ]]
   then
     bin/rails r "${PRIMERO_CONFIGURATION_FILE}"
   else
     bin/rails db:seed
   fi
+  set -u
   prim_generate_locations
   return 0
 }
