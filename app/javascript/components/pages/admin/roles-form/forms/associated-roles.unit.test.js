@@ -8,8 +8,7 @@ describe("pages/admin/<RolesForm>/forms - AssociatedRolesForm", () => {
   it("returns the AssociatedRolesForm with fields", () => {
     const roleForms = AssociatedRolesForm(fromJS([]), fromJS([]), i18n);
 
-    expect(roleForms).to.have.lengthOf(2);
-    expect(roleForms[0].fields).to.have.lengthOf(2);
-    expect(roleForms[1].fields).to.have.lengthOf(1);
+    expect(roleForms).to.exist;
+    expect(roleForms.fields).to.have.lengthOf(2);
   });
 });
