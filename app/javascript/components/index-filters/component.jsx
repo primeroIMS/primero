@@ -15,6 +15,7 @@ import SavedSearchesForm from "../saved-searches/SavedSearchesForm";
 import { currentUser } from "../user";
 import { useI18n } from "../i18n";
 import { RECORD_PATH } from "../../config";
+import { getReportingLocationConfig } from "../application/selectors";
 
 import { filterType, compactFilters } from "./utils";
 import {
@@ -46,6 +47,14 @@ const Component = ({ recordType, defaultFilters }) => {
   const methods = useForm({
     defaultValues: isEmpty(queryParams) ? defaultFilters.toJS() : queryParams
   });
+
+  const reportingLocationConfig = useSelector(state =>
+    getReportingLocationConfig(state)
+  );
+
+  const ownedByLocation = `${reportingLocationConfig.get(
+    "field_key"
+  )}${reportingLocationConfig.get("admin_level")}`;
 
   const filters = useSelector(state =>
     getFiltersByRecordType(state, recordType)
@@ -148,12 +157,16 @@ const Component = ({ recordType, defaultFilters }) => {
   };
 
   useEffect(() => {
-    HIDDEN_FIELDS.forEach(field => methods.register({ name: field }));
+    [...HIDDEN_FIELDS, ownedByLocation].forEach(field =>
+      methods.register({ name: field })
+    );
 
     methods.setValue("fields", "short");
 
     return () => {
-      HIDDEN_FIELDS.forEach(field => methods.unregister({ name: field }));
+      [...HIDDEN_FIELDS, ownedByLocation].forEach(field =>
+        methods.unregister({ name: field })
+      );
     };
   }, []);
 

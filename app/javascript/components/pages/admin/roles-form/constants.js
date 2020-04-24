@@ -9,3 +9,21 @@ export const FIELD_NAMES = {
   groupPermission: "group_permission"
 };
 export const ACTION_BUTTONS_NAME = "ActionButtons";
+
+export const RESOURCES = [
+  "case",
+  "incident",
+  "tracing_request",
+  "potential_match",
+  "role",
+  "user",
+  "user_group",
+  "agency",
+  "metadata",
+  "system",
+  "report",
+  "dashboard",
+  "audit_log",
+  "matching_configuration",
+  "duplicate"
+];

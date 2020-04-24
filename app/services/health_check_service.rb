@@ -9,7 +9,7 @@ class HealthCheckService
 
     def database_accessible?
       ActiveRecord::Base.connection.execute('SELECT 1;')
-    rescue ActiveRecord::StatementInvalid
+    rescue ActiveRecord::StatementInvalid, PG::ConnectionBad
       false
     end
 
