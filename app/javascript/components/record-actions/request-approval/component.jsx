@@ -9,6 +9,7 @@ import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { fetchAlerts } from "../../nav/action-creators";
 import { getRecordAlerts } from "../../records";
+import { fetchRecordsAlerts } from "../../records/action-creators";
 
 import { approvalRecord } from "./action-creators";
 import ApprovalForm from "./approval-form";
@@ -81,6 +82,8 @@ const Component = ({
           dialogName
         })
       );
+
+      dispatch(fetchRecordsAlerts(recordType, record.get("id")));
       if (recordAlerts.size <= 0) {
         dispatch(fetchAlerts());
       }

@@ -59,7 +59,6 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("saving", false);
     case `${namespace}/${SAVE_RECORD_SUCCESS}`:
     case `${namespace}/${RECORD_SUCCESS}`: {
-      // TODO: Implement subforms forms saving (ALERTS)
       const { data } = payload;
       const index = state.get("data").findIndex(r => r.get("id") === data.id);
 
