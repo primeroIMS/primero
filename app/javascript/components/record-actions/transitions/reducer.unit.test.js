@@ -348,4 +348,22 @@ describe("<Transitions /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("case Actions.REFERRAL_USERS_FETCH_STARTED", () => {
+    const expected = fromJS({
+      data: [],
+      referral: {
+        loading: true,
+        users: [],
+        errors: false
+      }
+    });
+    const action = {
+      type: actions.REFERRAL_USERS_FETCH_STARTED
+    };
+
+    const newState = reducer(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });

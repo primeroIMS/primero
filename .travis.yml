@@ -30,6 +30,7 @@ script:
 - bundle exec rails db:migrate
 - bundle exec rspec spec
 - npm run test:all
+- npm run lint:run
 services:
 - postgresql
 branches:

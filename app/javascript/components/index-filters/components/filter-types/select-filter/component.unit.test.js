@@ -45,6 +45,7 @@ describe("<SelectFilter>", () => {
       "filter",
       "mode",
       "moreSectionFilters",
+      "multiple",
       "reset",
       "setMoreSectionFilters",
       "setReset"

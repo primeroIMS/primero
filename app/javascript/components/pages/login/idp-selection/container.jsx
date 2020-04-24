@@ -7,7 +7,7 @@ import { PageHeading } from "../../../page";
 import { useI18n } from "../../../i18n";
 
 import { attemptLogin } from "./action-creators";
-import { selectIdentityProviders } from "./selectors";
+import { getIdentityProviders } from "./selectors";
 import { signIn } from "./auth-provider";
 import { NAME } from "./config";
 import styles from "./styles.css";
@@ -35,9 +35,7 @@ const showIdps = (identityProviders, i18n, dispatch) => {
 };
 
 const Container = () => {
-  const identityProviders = useSelector(state =>
-    selectIdentityProviders(state)
-  );
+  const identityProviders = useSelector(state => getIdentityProviders(state));
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();

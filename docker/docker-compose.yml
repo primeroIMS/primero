@@ -45,7 +45,7 @@ services:
       - public:/share/public
     env_file:
       - docker/defaults.env
-    command: ["bundle", "exec", "rails", "backburner:work"]
+    command: ["bundle", "exec", "rails", "backburner:wait_then_work"]
   scheduler:
     image: 'primero/application:${PRIMERO_TAG:-latest}'
     depends_on:

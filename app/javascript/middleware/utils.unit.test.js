@@ -18,7 +18,8 @@ describe("middleware/utils", () => {
       "handleRestCallback",
       "isOnline",
       "partitionObject",
-      "processAttachments"
+      "processAttachments",
+      "startSignout"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(moduleToTest).to.have.property(property);
