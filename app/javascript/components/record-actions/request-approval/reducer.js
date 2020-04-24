@@ -1,10 +1,8 @@
 import { fromJS } from "immutable";
-import last from "lodash/last";
 
 import { mergeRecord } from "../../../libs";
 
 import { APPROVE_RECORD_SUCCESS } from "./actions";
-import { APPROVAL_FORM_TYPES } from "./constants";
 
 const DEFAULT_STATE = fromJS({ data: [] });
 

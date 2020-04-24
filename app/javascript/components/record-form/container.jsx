@@ -89,7 +89,7 @@ const Container = ({ match, mode }) => {
   };
 
   const formProps = {
-    onSubmit: async (initialValues, values) => {
+    onSubmit: (initialValues, values) => {
       const saveMethod = containerMode.isEdit ? "update" : "save";
       const body = {
         data: {
@@ -116,19 +116,20 @@ const Container = ({ match, mode }) => {
         ? `/${params.recordType}`
         : `/${params.recordType}/${params.id}`;
 
-      await dispatch(
-        saveRecord(
-          params.recordType,
-          saveMethod,
-          body,
-          params.id,
-          message(),
-          message(true),
-          redirect
-        )
-      );
-
-      dispatch(fetchRecordsAlerts(params.recordType, params.id));
+      batch(async () => {
+        await dispatch(
+          saveRecord(
+            params.recordType,
+            saveMethod,
+            body,
+            params.id,
+            message(),
+            message(true),
+            redirect
+          )
+        );
+        dispatch(fetchRecordsAlerts(params.recordType, params.id));
+      });
       // TODO: Set this if there are any errors on validations
       // setSubmitting(false);
     },

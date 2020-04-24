@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { List } from "immutable";
-import { useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 import { object, string } from "yup";
 
 import { useI18n } from "../../i18n";
@@ -29,25 +29,25 @@ const Component = ({ close, openNotesDialog, record, recordType }) => {
   const dispatch = useDispatch();
   const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
 
-  const handleSubmit = async data => {
-    await dispatch(
-      saveRecord(
-        recordType,
-        "update",
-        { data: { notes_section: [data] }, record_action: ACTIONS.ADD_NOTE },
-        record.get("id"),
-        i18n.t(`notes.note_success`),
-        false,
-        false,
-        false
-      )
-    );
-
-    dispatch(fetchRecordsAlerts(recordType, record.get("id")));
+  const handleSubmit = data => {
+    batch(async () => {
+      await dispatch(
+        saveRecord(
+          recordType,
+          "update",
+          { data: { notes_section: [data] }, record_action: ACTIONS.ADD_NOTE },
+          record.get("id"),
+          i18n.t(`notes.note_success`),
+          false,
+          false,
+          false
+        )
+      );
+      dispatch(fetchRecordsAlerts(recordType, record.get("id")));
+    });
     if (recordAlerts.size <= 0) {
       dispatch(fetchAlerts());
     }
-
     close();
   };
 
