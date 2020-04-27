@@ -1,11 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { TextField, Chip } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import Autocomplete, {
+  createFilterOptions
+} from "@material-ui/lab/Autocomplete";
 import { Controller } from "react-hook-form";
 
+const filter = createFilterOptions();
+
 const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
-  const { multiSelect } = metaInputProps;
+  const { multiSelect, freeSolo } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
 
@@ -15,7 +19,10 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
         ? option
         : options?.find(opt => opt.id === option) || defaultOption;
 
-    return displayName || displayText;
+    const freeSoloDisplayText =
+      freeSolo && typeof option === "string" ? option : "";
+
+    return displayName || displayText || freeSoloDisplayText;
   };
 
   const optionsUseIntegerIds = Number.isInteger(options?.[0]?.id);
@@ -34,6 +41,23 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const optionEquality = (option, value) =>
     option.id === value || option.id === value?.id;
 
+  const filterOptions = {
+    ...(freeSolo && {
+      filterOptions: (selected, params) => {
+        const filtered = filter(selected, params);
+
+        if (params.inputValue !== "") {
+          filtered.push({
+            id: params.inputValue,
+            display_name: `Add "${params.inputValue}"`
+          });
+        }
+
+        return filtered;
+      }
+    })
+  };
+
   return (
     <Controller
       name={name}
@@ -47,6 +71,8 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
           getOptionSelected={optionEquality}
           disabled={disabled}
           filterSelectedOptions
+          freeSolo={freeSolo}
+          {...filterOptions}
           renderInput={params => (
             <TextField {...params} margin="normal" {...commonProps} />
           )}
