@@ -14,6 +14,7 @@ describe("pages - index", () => {
       "Dashboard",
       "default",
       "ExportList",
+      "FormBuilder",
       "FormsList",
       "LookupsList",
       "NotAuthorized",

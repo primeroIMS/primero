@@ -1377,10 +1377,32 @@ en:
 
   forms:
     label: "Forms"
+    add: "Add Form"
     save: "Save Form"
     save_details: "Save"
+    title: "Form Title"
+    description: "Form Description"
+    form_group: "Form Group"
+    record_type: "Record Type"
+    module: "Module"
+    settings: "Settings"
+    fields: "Fields"
+    translations: "Translations"
+    visibility: "Visibility"
+    web_app: "Web App"
+    mobile_app: "Mobile App"
+    show_page: "Show Page"
+    short_form: "Short Form"
+    show_on: "Show on"
+    help_text:
+      must_be_english: "Must be entered in English"
+      summariaze_purpose: "Summarize form purpose. Must be entered in English"
+      related_groups: "Place form into a related group for users"
+      english_first: "Form must be created in English before translation can be added"
     messages:
       use_existing: "We encourage you to use the existing forms as this makes data sharing and data merging between institutions easier."
+      updated: "Form section successfully updated"
+      created: "Form section successfully created"
     initial_language: "Initial Language"
     cannot_be_edited: "Fields on this form cannot be edited."
     record_types:

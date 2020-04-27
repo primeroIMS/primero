@@ -1,11 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import clsx from "clsx";
 import { Fab, CircularProgress } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "./styles.css";
 
-const FormAction = ({ actionHandler, text, cancel, savingRecord }) => {
+const FormAction = ({
+  actionHandler,
+  cancel,
+  savingRecord,
+  startIcon,
+  text
+}) => {
   const css = makeStyles(styles)();
 
   const renderCircularProgress = savingRecord && !cancel && (
@@ -21,7 +28,10 @@ const FormAction = ({ actionHandler, text, cancel, savingRecord }) => {
       disabled={savingRecord}
     >
       {renderCircularProgress}
-      {text}
+      {startIcon}
+      <span className={clsx({ [css.actionButtonText]: Boolean(startIcon) })}>
+        {text}
+      </span>
     </Fab>
   );
 };
@@ -36,6 +46,7 @@ FormAction.propTypes = {
   actionHandler: PropTypes.func.isRequired,
   cancel: PropTypes.bool,
   savingRecord: PropTypes.bool,
+  startIcon: PropTypes.object,
   text: PropTypes.string.isRequired
 };
 

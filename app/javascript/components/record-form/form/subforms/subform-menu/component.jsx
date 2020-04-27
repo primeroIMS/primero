@@ -19,6 +19,9 @@ import { serviceIsReferrable } from "../../utils";
 import { fetchReferralUsers } from "../../../../record-actions/transitions/action-creators";
 import styles from "../styles.css";
 import { RECORD_TYPES } from "../../../../../config";
+import Permission from "../../../../application/permission";
+import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
+import { currentUser } from "../../../../user";
 
 import ReferAction from "./components/refer-action";
 import { NAME } from "./constants";
@@ -41,6 +44,8 @@ const Component = ({ index, recordType, values }) => {
     getLoadingTransitionType(state, REFERRAL_TYPE)
   );
 
+  const userName = useSelector(state => currentUser(state));
+
   const agencies = useSelector(state => getEnabledAgencies(state));
 
   const handleClick = event => {
@@ -62,8 +67,12 @@ const Component = ({ index, recordType, values }) => {
 
   const ref = React.createRef();
 
+  if (userName === values[index].service_implementing_agency_individual) {
+    return null;
+  }
+
   return (
-    <>
+    <Permission resources={RESOURCES.cases} actions={REFER_FROM_SERVICE}>
       <IconButton
         aria-label="more"
         aria-controls="long-menu"
@@ -96,7 +105,7 @@ const Component = ({ index, recordType, values }) => {
           loading && <CircularProgress className={css.loadingIndicator} />
         )}
       </Menu>
-    </>
+    </Permission>
   );
 };
 

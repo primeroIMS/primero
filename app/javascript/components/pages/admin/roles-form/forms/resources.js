@@ -5,29 +5,33 @@ import {
   FormSectionRecord,
   CHECK_BOX_FIELD
 } from "../../../../form";
+import { RESOURCES, FORM_CHECK_ERRORS } from "../constants";
 
 import { buildPermissionOptions } from "./utils";
+import AssociatedRolesForm from "./associated-roles";
 
-const permissionFields = (permissions, i18n) =>
-  (permissions || fromJS({}))
-    .keySeq()
-    .toJS()
-    .map(key =>
-      FieldRecord({
-        display_name: i18n.t(`permissions.permission.${key}`),
-        name: `permissions[${key}]`,
-        disabled: true,
-        type: CHECK_BOX_FIELD,
-        option_strings_text: buildPermissionOptions(
-          permissions.get(key),
-          i18n
-        ).toJS()
-      })
-    );
+export default (resourceActions, roles, i18n) =>
+  RESOURCES.filter(resource => resourceActions.has(resource)).map(resource => {
+    const actions = (resourceActions || fromJS({})).get(resource, fromJS([]));
 
-export default (resourceActions, i18n) =>
-  FormSectionRecord({
-    unique_id: "resource_actions",
-    fields: permissionFields(resourceActions, i18n),
-    check_errors: fromJS(["permissions"])
+    if (resource === "role") {
+      return AssociatedRolesForm(roles, actions, i18n);
+    }
+
+    return FormSectionRecord({
+      unique_id: `resource_actions_${resource}`,
+      name: i18n.t(`permissions.permission.${resource}`),
+      fields: [
+        FieldRecord({
+          name: `permissions[${resource}]`,
+          disabled: true,
+          type: CHECK_BOX_FIELD,
+          option_strings_text:
+            buildPermissionOptions(actions, i18n)?.toJS() || []
+        })
+      ],
+      expandable: true,
+      expanded: true,
+      check_errors: fromJS(FORM_CHECK_ERRORS)
+    });
   });

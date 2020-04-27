@@ -103,6 +103,7 @@ export const ROUTES = {
   dashboard: "/dashboards",
   exports: "/exports",
   forms: "/admin/forms",
+  forms_new: "/admin/forms/new",
   incidents: "/incidents",
   login: "/login",
   logout: "/logout",
