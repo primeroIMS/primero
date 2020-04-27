@@ -16,7 +16,6 @@ import submitForm from "../../../libs/submit-form";
 import resetForm from "../../../libs/reset-form";
 import { ACTIONS } from "../../../libs/permissions";
 import { fetchRecordsAlerts } from "../../records/action-creators";
-import { getRecordAlerts } from "../../records/selectors";
 import { fetchAlerts } from "../../nav/action-creators";
 
 import { NAME, INCIDENT_SUBFORM } from "./constants";
