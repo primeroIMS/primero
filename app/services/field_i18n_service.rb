@@ -10,7 +10,7 @@ class FieldI18nService
   def self.convert_i18n_properties(klass, params)
     localized_props = klass.localized_properties.map(&:to_s)
     unlocalized_params = params.reject { |k,_| localized_props.include?(k) }
-    localized_fields = localized_props.select { |prop| params[prop].present? }.map do |prop| 
+    localized_fields = localized_props.select { |prop| params[prop].present? }.map do |prop|
       { "#{prop}_i18n" => params[prop] }
     end.inject(&:merge)
 
@@ -195,4 +195,55 @@ class FieldI18nService
     final_options
   end
 
+
+  #  Given the options
+  # [
+  #  {
+  #    "id"=>"1",
+  #    "display_text" => {
+  #      "en"=>"Country",
+  #      "es"=>"Pais",
+  #      "fr"=>""
+  #    }
+  #  },
+  #  {
+  #    "id"=>"2",
+  #    "display_text" => {
+  #      "en"=>"City",
+  #      "es"=>"Ciudad",
+  #      "fr"=>""
+  #    }
+  #   }
+  # ]
+  #  Returns
+  #    {
+  #      "en" => [
+  #        { "id"=>"1", "display_text"=>"Country" },
+  #        { "id"=>"2", "display_text"=>"City" }
+  #      ],
+  #      "es" => [
+  #        { "id"=>"1", "display_text"=>"Pais" },
+  #        { "id"=>"2", "display_text"=>"Ciudad" }
+  #      ]
+  #    }
+
+  def self.revert_fill_lookups_options(options)
+    language_keys = []
+    options.each do |option|
+      language_keys += option['display_text'].select { |_, value| value.present? }.keys
+    end
+
+    lookups_options = {}
+    language_keys.uniq.each do |language|
+      lookups_values = []
+      options.each do |option|
+        lookups_values << option.select { |key, _| key == 'id' }.merge(
+          'display_text' => option['display_text'][language]
+        )
+      end
+      lookups_options.merge!(language => lookups_values)
+    end
+
+    lookups_options
+  end
 end
