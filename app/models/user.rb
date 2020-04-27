@@ -333,7 +333,7 @@ class User < CouchRest::Model::Base
   def set_secondary_reporting_location(ss_reporting_location_config)
     rolz = roles
     Rails.logger.info "**DEBUGGING USER** Role Count #{rolz.count}"
-    if rolz.count > 1
+    if rolz.count.present?
       rol = rolz.first
       Rails.logger.info "**DEBUGGING USER** Role ID #{rol.id}"
       Rails.logger.info "**DEBUGGING USER** Role Location Level #{rol.reporting_location_level}"
