@@ -325,28 +325,24 @@ class User < CouchRest::Model::Base
     ss_reporting_location_config = @system_settings.try(:reporting_location_config)
     return nil if ss_reporting_location_config.blank?
     reporting_location_config = set_secondary_reporting_location(ss_reporting_location_config)
-    Rails.logger.info "**DEBUGGING USER** Reporting Location admin level #{reporting_location_config.admin_level}"
+    Rails.logger.info "***DEBUGGING USER*** Reporting Location admin level #{reporting_location_config.admin_level}"
     reporting_location_config
   end
 
   # If the user's Role has a secondary reporting location (indicated by reporting_location_level), override the reporting location from SystemSettings
   def set_secondary_reporting_location(ss_reporting_location_config)
-    rolz = roles
-    Rails.logger.info "**DEBUGGING USER** Role Count #{rolz.count}"
-    if rolz.count > 0
-      rol = rolz.first
-      Rails.logger.info "**DEBUGGING USER** Role ID #{rol.try(:id)}"
-      Rails.logger.info "**DEBUGGING USER** Role Location Level #{rol.try(:reporting_location_level)}"
-    end
     role_reporting_location_level = roles.compact.collect(&:reporting_location_level).flatten.uniq.first
     Rails.logger.info "**DEBUGGING USER** Role Reporting Location Level #{role_reporting_location_level}"
     return ss_reporting_location_config if role_reporting_location_level.blank?
     admin_level = ss_reporting_location_config.map_reporting_location_level_to_admin_level(role_reporting_location_level)
     Rails.logger.info "**DEBUGGING USER** Role admin level #{admin_level}"
     return ss_reporting_location_config if admin_level == ss_reporting_location_config.admin_level
-    ss_reporting_location_config.admin_level = admin_level
-    ss_reporting_location_config.label_key = role_reporting_location_level
-    ss_reporting_location_config
+    reporting_location = ReportingLocation.new(admin_level: admin_level,
+                                               label_key: role_reporting_location_level,
+                                               field_key: ss_reporting_location_config.field_key,
+                                               hierarchy_filter: ss_reporting_location_config.hierarchy_filter,
+                                               admin_level_map: ss_reporting_location_config.admin_level_map)
+    reporting_location
   end
 
   def agency
