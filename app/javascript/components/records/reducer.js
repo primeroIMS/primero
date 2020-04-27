@@ -63,8 +63,27 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       const index = state.get("data").findIndex(r => r.get("id") === data.id);
 
       if (index !== -1) {
+        const {
+          incident_details: incidents,
+          services_section: services
+        } = data;
+
+        const stateWithAlertCount = {
+          ...data,
+          alert_count: incidents?.length || 0 + services?.length || 0
+        };
+
         return state
-          .updateIn(["data", index], u => mergeRecord(u, fromJS(data)))
+          .updateIn(["data", index], u =>
+            mergeRecord(
+              u,
+              fromJS(
+                incidents?.length || services?.length
+                  ? stateWithAlertCount
+                  : data
+              )
+            )
+          )
           .set("errors", false);
       }
 
