@@ -325,13 +325,17 @@ class User < CouchRest::Model::Base
     ss_reporting_location_config = @system_settings.try(:reporting_location_config)
     return nil if ss_reporting_location_config.blank?
     reporting_location_config = set_secondary_reporting_location(ss_reporting_location_config)
+    Rails.logger.info "**DEBUGGING USER** Reporting Location admin level #{reporting_location_config.admin_level}"
+    reporting_location_config
   end
 
   # If the user's Role has a secondary reporting location (indicated by reporting_location_level), override the reporting location from SystemSettings
   def set_secondary_reporting_location(ss_reporting_location_config)
     role_reporting_location_level = roles.compact.collect(&:reporting_location_level).flatten.uniq.first
+    Rails.logger.info "**DEBUGGING USER** Role Reporting Location Level #{role_reporting_location_level}"
     return ss_reporting_location_config if role_reporting_location_level.blank?
     admin_level = ss_reporting_location_config.map_reporting_location_level_to_admin_level(role_reporting_location_level)
+    Rails.logger.info "**DEBUGGING USER** Role admin level #{admin_level}"
     return ss_reporting_location_config if admin_level == ss_reporting_location_config.admin_level
     ss_reporting_location_config.admin_level = admin_level
     ss_reporting_location_config.label_key = role_reporting_location_level
