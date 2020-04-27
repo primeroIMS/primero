@@ -49,11 +49,16 @@ describe Lookup do
       name: {
         en: 'Lookup Test1 '
       },
-      values: {
-        'en' => [
-          { 'id'=> 'option1', 'display_text' => 'Option 1'}
-        ]
-      }
+      values: [
+        {
+          'id' => 'option1',
+          'display_text' => {
+            'en' => 'Option 1',
+            'fr' => '',
+            'es' => ''
+          }
+        }
+      ]
     }
     lookup_test = Lookup.new_with_properties(params)
     expect(lookup_test).to be_valid
@@ -66,11 +71,16 @@ describe Lookup do
     some_lookup = Lookup.create!(:unique_id => unique_id, :name => "some_lookup", :lookup_values => [{:id => "value1", :display_text => "value1"}])
 
     params = {
-      values: {
-        'en' => [
-          {'id' => "value2", 'display_text' => "value2"}
-        ]
-      }
+      values: [
+        {
+          'id' => 'value2',
+          'display_text' => {
+            'en' => 'value2',
+            'fr' => '',
+            'es' => ''
+          }
+        }
+      ]
     }
 
     some_lookup.update_properties(params)

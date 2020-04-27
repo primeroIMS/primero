@@ -228,6 +228,8 @@ class FieldI18nService
   #    }
 
   def self.revert_fill_lookups_options(options)
+    return if options.nil?
+
     language_keys = []
     options.each do |option|
       language_keys += option['display_text'].select { |_, value| value.present? }.keys

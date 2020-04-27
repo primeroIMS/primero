@@ -97,33 +97,24 @@ describe Api::V2::LookupsController, type: :request do
     end
   end
 
-  describe "POST /api/v2/lookups" do
-    it "creates a new lookup and returns 200 and json" do
-      login_for_test({
-        permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
-        ]
-      })
+  describe 'POST /api/v2/lookups' do
+    it 'creates a new lookup and returns 200 and json' do
+      login_for_test(
+        permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])]
+      )
 
-      params = { 
+      params = {
         data: {
           unique_id: 'lookup-api-created',
           name: {
             en: 'Lookup Created By Api',
-            es: "Lookup Creado Por Api"
+            es: 'Lookup Creado Por Api'
           },
-          values: {
-            en: [
-              { id: 'option_1', display_text: 'Option 1' },
-              { id: 'option_2', display_text: 'Option 2' },
-              { id: 'option_3', display_text: 'Option 3' },
-            ], 
-            es: [
-              { id: 'option_1', display_text: 'Opción 1' },
-              { id: 'option_2', display_text: 'Opción 2' },
-              { id: 'option_3', display_text: 'Opción 3' },
-            ]
-          }
+          values: [
+            { 'id' => 'Option_1', 'display_text' => { 'en' => 'option 1', 'es' => 'opcion 1' } },
+            { 'id' => 'Option_2', 'display_text' => { 'en' => 'option 2', 'es' => 'opcion 2' } },
+            { 'id' => 'Option_3', 'display_text' => { 'en' => 'option 3', 'es' => 'opcion 3' } }
+          ]
         }
       }
 
@@ -144,7 +135,7 @@ describe Api::V2::LookupsController, type: :request do
 
       unique_id = 'lookup-api-2'
 
-      params = { 
+      params = {
         data: {
           unique_id: unique_id,
           name: {
@@ -214,19 +205,22 @@ describe Api::V2::LookupsController, type: :request do
 
   describe 'PATCH /api/v2/lookups/:id' do
     it 'updates an existing record with 200' do
-      login_for_test({
-        permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
-        ]
-      })
+      login_for_test(
+        permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])]
+      )
 
       params = {
-        data: { 
-          values: { 
-            en: [
-              { id: 'country3', display_text: 'Country 3' }
-            ]
-          }
+        data: {
+          values: [
+            {
+              'id': 'country3',
+              'display_text': {
+                'en': 'Country 3',
+                'fr': '',
+                'es': ''
+              }
+            }
+          ]
         }
       }
 
@@ -236,24 +230,33 @@ describe Api::V2::LookupsController, type: :request do
       expect(json['data']['id']).to eq(@lookup_country.id)
       expect(@lookup_country.reload.lookup_values_en.size).to eq(3)
       expect(@lookup_country.lookup_values.map{ |value| value['id'] }).to include('country3')
-
     end
 
     it 'updates translations for an existing lookup with 200' do
-      login_for_test({
-        permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
-        ]
-      })
+      login_for_test(
+        permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])]
+      )
 
       params = {
-        data: { 
-          values: { 
-            es: [
-              { id: 'country1', display_text: 'País 1' },
-              { id: 'country2', display_text: 'País 2' }
-            ]
-          }
+        'data' => {
+          'values' => [
+            {
+              'id' => 'country1',
+              'display_text' => {
+                'en' => '',
+                'fr' => '',
+                'es' => 'País 1'
+              }
+            },
+            {
+              'id' => 'country2',
+              'display_text' => {
+                'en' => '',
+                'fr' => '',
+                'es' => 'País 2'
+              }
+            }
+          ]
         }
       }
 
@@ -269,8 +272,8 @@ describe Api::V2::LookupsController, type: :request do
     it "returns 403 if user isn't authorized to update lookups" do
       login_for_test(permissions: [])
       params = {
-        data: { 
-          values: { 
+        data: {
+          values: {
             en: [
               { id: 'country3', display_text: 'Country 3' }
             ]
@@ -292,8 +295,8 @@ describe Api::V2::LookupsController, type: :request do
       })
 
       params = {
-        data: { 
-          values: { 
+        data: {
+          values: {
             en: [
               { id: 'country3', display_text: 'Country 3' }
             ]
@@ -308,14 +311,12 @@ describe Api::V2::LookupsController, type: :request do
     end
 
     it 'returns a 422 if the case lookup is invalid' do
-      login_for_test({
-        permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
-        ]
-      })
+      login_for_test(
+        permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])]
+      )
 
       params = {
-          data: { name: { en: '' } }
+        data: { name: { en: '' } }
       }
 
       patch "/api/v2/lookups/#{@lookup_country.id}", params: params
@@ -323,7 +324,7 @@ describe Api::V2::LookupsController, type: :request do
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq("/api/v2/lookups/#{@lookup_country.id}")
-      expect(json['errors'][0]['detail']).to eq("name")
+      expect(json['errors'][0]['detail']).to eq('name')
     end
   end
 
