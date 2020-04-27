@@ -331,6 +331,13 @@ class User < CouchRest::Model::Base
 
   # If the user's Role has a secondary reporting location (indicated by reporting_location_level), override the reporting location from SystemSettings
   def set_secondary_reporting_location(ss_reporting_location_config)
+    rolz = roles
+    Rails.logger.info "**DEBUGGING USER** Role Count #{rolz.count}"
+    if rolz.count > 1
+      rol = rolz.first
+      Rails.logger.info "**DEBUGGING USER** Role ID #{rol.id}"
+      Rails.logger.info "**DEBUGGING USER** Role Location Level #{rol.reporting_location_level}"
+    end
     role_reporting_location_level = roles.compact.collect(&:reporting_location_level).flatten.uniq.first
     Rails.logger.info "**DEBUGGING USER** Role Reporting Location Level #{role_reporting_location_level}"
     return ss_reporting_location_config if role_reporting_location_level.blank?
