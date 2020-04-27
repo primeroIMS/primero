@@ -32,7 +32,8 @@ const Component = ({ group, collection }) => {
               module_ids: modules,
               parent_form: parentForm,
               unique_id: uniqueID,
-              editable
+              editable,
+              id
             } = formSection;
 
             return (
@@ -44,6 +45,7 @@ const Component = ({ group, collection }) => {
                 uniqueID={uniqueID}
                 key={uniqueID}
                 editable={editable}
+                id={id}
               />
             );
           })}

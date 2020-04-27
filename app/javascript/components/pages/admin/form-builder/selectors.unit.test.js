@@ -6,7 +6,7 @@ describe("<FormsBuilder /> - Selectors", () => {
   it("should know the selectors", () => {
     const clonedSelectors = { ...selectors };
 
-    ["getSavingRecord"].forEach(property => {
+    ["getSavingRecord", "getSelectedForm"].forEach(property => {
       expect(clonedSelectors).to.have.property(property);
       delete clonedSelectors[property];
     });
@@ -26,6 +26,19 @@ describe("<FormsBuilder /> - Selectors", () => {
 
     it("should return the correct value", () => {
       expect(selectors.getSavingRecord(initialState)).to.be.true;
+    });
+  });
+
+  describe("getSelectedForm", () => {
+    const selectedForm = fromJS({ id: 1, name: { en: "Form ID 1" } });
+    const initialState = fromJS({
+      records: { admin: { forms: { selectedForm } } }
+    });
+
+    it("should return the correct value", () => {
+      expect(selectors.getSelectedForm(initialState)).to.deep.equal(
+        selectedForm
+      );
     });
   });
 });

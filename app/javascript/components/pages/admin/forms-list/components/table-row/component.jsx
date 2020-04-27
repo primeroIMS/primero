@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import { Draggable } from "react-beautiful-dnd";
 import findKey from "lodash/findKey";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import clsx from "clsx";
 
-import { MODULES } from "../../../../../../config/constants";
+import { MODULES, RECORD_PATH } from "../../../../../../config/constants";
 import styles from "../../styles.css";
 import DragIndicator from "../drag-indicator";
 
@@ -15,6 +16,7 @@ const Component = ({
   modules,
   parentForm,
   uniqueID,
+  id,
   index,
   editable
 }) => {
@@ -45,7 +47,7 @@ const Component = ({
           </div>
           <div className={nameStyles}>
             {renderIcon}
-            {name}
+            <Link to={`${RECORD_PATH.forms}/${id}/edit`}>{name}</Link>
           </div>
           <div>{parentForm}</div>
           <div>{formSectionModules}</div>
@@ -59,6 +61,7 @@ Component.displayName = "TableRow";
 
 Component.propTypes = {
   editable: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
   modules: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,

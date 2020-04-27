@@ -7,6 +7,11 @@ describe("<FormBuilder /> - Actions", () => {
     expect(clonedActions).to.be.an("object");
     [
       "CLEAR_SELECTED_FORM",
+      "FETCH_FORM",
+      "FETCH_FORM_FAILURE",
+      "FETCH_FORM_FINISHED",
+      "FETCH_FORM_STARTED",
+      "FETCH_FORM_SUCCESS",
       "SAVE_FORM",
       "SAVE_FORM_STARTED",
       "SAVE_FORM_FINISHED",
