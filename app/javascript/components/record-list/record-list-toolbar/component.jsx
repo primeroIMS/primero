@@ -18,7 +18,8 @@ const Component = ({
   recordType,
   handleDrawer,
   mobileDisplay,
-  selectedRecords
+  selectedRecords,
+  currentPage
 }) => {
   const css = makeStyles(styles)();
 
@@ -37,6 +38,7 @@ const Component = ({
           <AddRecordMenu recordType={recordType} />
         </Permission>
         <RecordActions
+          currentPage={currentPage}
           selectedRecords={selectedRecords}
           recordType={recordType}
           iconColor="primary"
@@ -49,10 +51,11 @@ const Component = ({
 };
 
 Component.propTypes = {
+  currentPage: PropTypes.number,
   handleDrawer: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
   recordType: PropTypes.string.isRequired,
-  selectedRecords: PropTypes.array,
+  selectedRecords: PropTypes.object,
   title: PropTypes.string.isRequired
 };
 

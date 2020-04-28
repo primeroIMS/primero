@@ -30,6 +30,7 @@ const Component = ({
   userPermissions,
   match,
   record,
+  currentPage,
   selectedRecords,
   pending,
   setPending
@@ -48,10 +49,14 @@ const Component = ({
   );
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
+
+  const selectedRecordsLength = Object.values(selectedRecords || {}).flat()
+    ?.length;
+
   const allCurrentRowsSelected =
-    selectedRecords?.length > 0 &&
+    selectedRecordsLength > 0 &&
     records.size > 0 &&
-    selectedRecords?.length === records.size;
+    selectedRecordsLength === records.size;
 
   const handleSubmit = values => {
     const { id, format, message } = ALL_EXPORT_TYPES.find(
@@ -60,7 +65,7 @@ const Component = ({
     const fileName = formatFileName(values.custom_export_file_name, format);
     const shortIds = records
       .toJS()
-      .filter((_r, i) => selectedRecords?.includes(i))
+      .filter((_r, i) => selectedRecords[currentPage]?.includes(i))
       .map(r => r.short_id);
 
     const filters = exporterFilters(
@@ -164,12 +169,13 @@ Component.defaultProps = {
 
 Component.propTypes = {
   close: PropTypes.func,
+  currentPage: PropTypes.number,
   match: PropTypes.object,
   openExportsDialog: PropTypes.bool,
   pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  selectedRecords: PropTypes.array,
+  selectedRecords: PropTypes.object,
   setPending: PropTypes.func,
   userPermissions: PropTypes.object
 };
