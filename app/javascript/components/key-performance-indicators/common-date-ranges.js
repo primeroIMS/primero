@@ -13,8 +13,7 @@ const CommonDateRanges = {
       AllTime: new DateRange(
         'all-time',
         i18n.t('key_performance_indicators.time_periods.all_time'),
-        // earliest date representable
-        new Date(-8640000000000000),
+        new Date(Date.parse('01/01/2000')),
         endOfMonth(today)),
       CurrentMonth: new DateRange(
         'current-month',
