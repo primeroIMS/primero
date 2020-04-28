@@ -227,25 +227,13 @@ class FieldI18nService
   #      ]
   #    }
 
-  def self.revert_fill_lookups_options(options)
-    return if options.nil?
+  def self.to_localized_options(options)
+    return if options.blank?
 
-    language_keys = []
-    options.each do |option|
-      language_keys += option['display_text'].select { |_, value| value.present? }.keys
+    I18n.available_locales.inject({}) do |acc, locale|
+      locale_options = options.select { |option| option['display_text'][locale.to_s].present? }
+                              .map { |option| option.merge('display_text' => option['display_text'][locale.to_s]) }
+      locale_options.present? ? acc.merge(locale.to_s => locale_options) : acc
     end
-
-    lookups_options = {}
-    language_keys.uniq.each do |language|
-      lookups_values = []
-      options.each do |option|
-        lookups_values << option.select { |key, _| key == 'id' }.merge(
-          'display_text' => option['display_text'][language]
-        )
-      end
-      lookups_options.merge!(language => lookups_values)
-    end
-
-    lookups_options
   end
 end

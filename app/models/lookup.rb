@@ -26,7 +26,7 @@ class Lookup < ApplicationRecord
         id: lookup_properties[:id],
         unique_id: lookup_properties[:unique_id],
         name_i18n: lookup_properties[:name],
-        lookup_values_i18n: FieldI18nService.revert_fill_lookups_options(lookup_properties[:values])
+        lookup_values_i18n: FieldI18nService.to_localized_options(lookup_properties[:values])
       )
     end
 
@@ -218,7 +218,7 @@ class Lookup < ApplicationRecord
 
     self.lookup_values_i18n = FieldI18nService.merge_i18n_options(
       self.lookup_values_i18n,
-      FieldI18nService.revert_fill_lookups_options(lookup_properties[:values])
+      FieldI18nService.to_localized_options(lookup_properties[:values])
     )
 
     self.lookup_values_i18n.keys.each do |key|

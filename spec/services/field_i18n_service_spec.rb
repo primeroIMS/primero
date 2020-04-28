@@ -108,17 +108,17 @@ describe FieldI18nService do
     end
   end
 
-  describe 'revert_fill_lookups_options' do
+  describe 'to_localized_options' do
     it 'revert fill the lookups options with all the available locales' do
       options = [
         { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => '', 'fr' => '' } },
         { 'id' => '2', 'display_text' => { 'en' => 'City', 'es' => '', 'fr' => 'prueba' } }
       ]
-      lookups_options = FieldI18nService.revert_fill_lookups_options(options)
+      lookups_options = FieldI18nService.to_localized_options(options)
 
       expected_lookups_options = {
         'en' => [{ 'id' => '1', 'display_text' => 'Country' }, { 'id' => '2', 'display_text' => 'City' }],
-        'fr' => [{ 'id' => '1', 'display_text' => '' }, { 'id' => '2', 'display_text' => 'prueba' }]
+        'fr' => [{ 'id' => '2', 'display_text' => 'prueba' }]
       }
 
       expect(lookups_options).to eq(expected_lookups_options)
