@@ -111,6 +111,7 @@ export const ROUTES = {
   matches: "/matches",
   not_authorized: "/not-authorized",
   reports: "/reports",
+  reports_new: "/reports/new",
   support: "/support",
   tasks: "/tasks",
   tracing_requests: "/tracing_requests"

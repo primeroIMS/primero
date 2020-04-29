@@ -21,7 +21,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         default_locale: defaultLocale,
         base_language: baseLanguage,
         primero_version: primeroVersion,
-        reporting_location_config: reportingLocationConfig
+        reporting_location_config: reportingLocationConfig,
+        age_ranges: ageRanges
       } = payload;
 
       return state.merge(
@@ -32,7 +33,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           defaultLocale,
           baseLanguage,
           primeroVersion,
-          reportingLocationConfig
+          reportingLocationConfig,
+          ageRanges
         })
       );
     }

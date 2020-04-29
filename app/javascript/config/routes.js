@@ -23,11 +23,13 @@ import Login, {
   UsersList
 } from "../components/pages";
 import Reports from "../components/reports-list";
+import ReportsForm from "../components/reports-form";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
 import { AppLayout, LoginLayout } from "../components/layouts";
 import {
   CREATE_RECORDS,
+  CREATE_REPORTS,
   RECORD_RESOURCES,
   READ_RECORDS,
   READ_REPORTS,
@@ -102,14 +104,23 @@ export default [
         actions: READ_RECORDS
       },
       {
+        path: `${ROUTES.reports}/new`,
+        component: ReportsForm,
+        resources: RESOURCES.reports,
+        extraProps: {
+          mode: MODES.new
+        },
+        actions: CREATE_REPORTS
+      },
+      // {
+      //   path: `${ROUTES.reports}/:id`,
+      //   component: Report,
+      //   resources: RESOURCES.reports,
+      //   actions: READ_REPORTS
+      // },
+      {
         path: ROUTES.reports,
         component: Reports,
-        resources: RESOURCES.reports,
-        actions: READ_REPORTS
-      },
-      {
-        path: `${ROUTES.reports}/:id`,
-        component: Report,
         resources: RESOURCES.reports,
         actions: READ_REPORTS
       },

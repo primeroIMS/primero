@@ -41,7 +41,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     handleWatchedInputs,
     inlineCheckboxes,
     freeSolo,
-    check_errors: fieldCheckErrors
+    check_errors: fieldCheckErrors,
+    disabled
   } = field;
   const i18n = useI18n();
   const { formMode, errors, watch } = useFormContext();
@@ -76,7 +77,10 @@ const FormSectionField = ({ checkErrors, field }) => {
 
   const commonInputProps = {
     name,
-    disabled: formMode.get("isShow") || (formMode.get("isEdit") && !editable),
+    disabled:
+      typeof disabled === "boolean"
+        ? disabled
+        : formMode.get("isShow") || (formMode.get("isEdit") && !editable),
     required,
     autoFocus,
     error: typeof error !== "undefined" || renderError(),

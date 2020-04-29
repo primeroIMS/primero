@@ -1705,6 +1705,7 @@ en:
 
   report:
     name: "Name"
+    name_mandatory: "Name is required"
     description: "Description"
     heading: "Primero Reports"
     type: "Type"
@@ -1741,6 +1742,8 @@ en:
     messages:
       delete_success: "Report was successfully deleted."
     edit: "Edit"
+    empty_rows: "Do not display empty rows?"
+    empty_rows_help_text: "Excludes rows from the report table if all values are zero"
 
   encrypt:
     password_title: "Create Password"

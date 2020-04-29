@@ -56,3 +56,6 @@ export const getSystemPermissions = state =>
 
 export const getResourceActions = (state, resource) =>
   getSystemPermissions(state).getIn([RESOURCE_ACTIONS, resource], fromJS([]));
+
+export const getAgeRanges = (state, name = "primero") =>
+  state.getIn([NAMESPACE, "ageRanges", name], fromJS([]));
