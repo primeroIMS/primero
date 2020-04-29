@@ -20,6 +20,7 @@ import { ALERTS_COLUMNS } from "../record-list/constants";
 
 import { NAME } from "./config";
 import { getRecords, getLoading, getErrors, getFilters } from "./selectors";
+import CustomToolbarSelect from "./custom-toolbar-select";
 
 const Component = ({
   columns,
@@ -219,6 +220,26 @@ const Component = ({
     }
   };
 
+  const currentPage = page - 1;
+
+  const selectedRecordsOnCurrentPage =
+    selectedRecords &&
+    Object.keys(selectedRecords).length &&
+    selectedRecords[currentPage];
+
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
+  const custonToolbarSelect = (selectedRows, displayData) => (
+    <CustomToolbarSelect
+      displayData={displayData}
+      recordType={recordType}
+      perPage={per}
+      selectedRecords={selectedRecords}
+      selectedRows={selectedRows}
+      setSelectedRecords={setSelectedRecords}
+      totalRecords={total}
+    />
+  );
+
   const options = {
     responsive: "stacked",
     count: total,
@@ -235,14 +256,18 @@ const Component = ({
     serverSide: true,
     customToolbar: () => null,
     selectableRows: "multiple",
-    rowsSelected: selectedRecords?.length ? selectedRecords : [],
+    rowsSelected: selectedRecordsOnCurrentPage?.length
+      ? selectedRecordsOnCurrentPage
+      : [],
     onRowsSelect: (currentRowsSelected, allRowsSelected) => {
-      setSelectedRecords(allRowsSelected.map(ars => ars.dataIndex));
+      setSelectedRecords({
+        [currentPage]: allRowsSelected.map(ars => ars.dataIndex)
+      });
     },
-    onColumnSortChange: () => selectedRecords && setSelectedRecords([]),
+    onColumnSortChange: () => selectedRecords && setSelectedRecords({}),
     onTableChange: handleTableChange,
     rowsPerPageOptions: [20, 50, 75, 100],
-    page: page - 1,
+    page: currentPage,
     onCellClick: (colData, cellMeta) => {
       const { dataIndex } = cellMeta;
 
@@ -254,6 +279,7 @@ const Component = ({
         }
       }
     },
+    customToolbarSelect: custonToolbarSelect,
     ...tableOptionsProps
   };
 
@@ -319,7 +345,7 @@ Component.propTypes = {
   onTableChange: PropTypes.func.isRequired,
   options: PropTypes.object,
   recordType: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
-  selectedRecords: PropTypes.arrayOf(PropTypes.number),
+  selectedRecords: PropTypes.object,
   setSelectedRecords: PropTypes.func,
   targetRecordType: PropTypes.string
 };

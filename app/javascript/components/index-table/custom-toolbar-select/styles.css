@@ -1,0 +1,25 @@
+.customToolbarFull {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.selectAllButton {
+  padding-top: 5;
+  font-size: 10;
+  color: $(theme.primero.colors.blue);
+}
+
+.customToolbarTitle {
+  float: left;
+  color: $(theme.primero.colors.black);
+}
+
+.customToolbarAll {
+  float: right;
+}
+
+@media $(theme.breakpoints.down('sm')) {
+  .customToolbarAll {
+    float: left;
+  }
+}
