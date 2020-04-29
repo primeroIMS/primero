@@ -95,6 +95,7 @@ en:
     transfer_request_alert: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
     loading: "Loading..."
     no_changes: "You made no field changes"
+    dashboard_offline: "You're offline. The dashboard will be fully functional when you are back online"
 
   data_base:
     delete_all_documents: "Deleted all child documents"

@@ -184,3 +184,5 @@ export const setupMockFieldComponent = (
     mode
   });
 };
+
+export const createSimpleMount = component => createMount()(component);
