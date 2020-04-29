@@ -24,12 +24,12 @@ import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
 import { getLoadingRecordState } from "../records/selectors";
 import { usePermissions } from "../user";
+import { fetchRecordsAlerts } from "../records/action-creators";
 
 import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { fetchRecordsAlerts } from "./action-creators";
 import {
   getFirstTab,
   getFormNav,
@@ -116,17 +116,20 @@ const Container = ({ match, mode }) => {
         ? `/${params.recordType}`
         : `/${params.recordType}/${params.id}`;
 
-      dispatch(
-        saveRecord(
-          params.recordType,
-          saveMethod,
-          body,
-          params.id,
-          message(),
-          message(true),
-          redirect
-        )
-      );
+      batch(async () => {
+        await dispatch(
+          saveRecord(
+            params.recordType,
+            saveMethod,
+            body,
+            params.id,
+            message(),
+            message(true),
+            redirect
+          )
+        );
+        dispatch(fetchRecordsAlerts(params.recordType, params.id));
+      });
       // TODO: Set this if there are any errors on validations
       // setSubmitting(false);
     },
@@ -159,6 +162,7 @@ const Container = ({ match, mode }) => {
     handleToggleNav,
     isNew: containerMode.isNew,
     mobileDisplay,
+    recordType: params.recordType,
     selectedForm,
     selectedRecord: record ? record.get("id") : null
   };
