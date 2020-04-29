@@ -43,83 +43,22 @@ module AuditLogActions
   end
 
   def index_action_message
-    case request.controller_class.name.demodulize
-    when 'TransferRequestsController'
-      'list_transfer_requests'
-    when 'AlertsController'
-      'show_alerts'
-    when 'TransfersController'
-      'show_transfers'
-    when 'ReferralsController'
-      'show_referrals'
-    else
-      request.query_parameters.blank? ? 'list' : action_name
-    end
+    request.query_parameters.blank? ? 'list' : action_name
   end
 
   def create_action_message
-    case request.controller_class.name.demodulize
-    when 'TokensController'
-      'login'
-    when 'AssignsController'
-      'assign'
-    when 'AttachmentsController'
-      'attach'
-    when 'FlagsController'
-      'flag'
-    when 'TransferRequestsController'
-      'transfer_request'
-    when 'TransfersController'
-      'transfer'
-    when 'ReferralsController'
-      'refer'
-    else
-      action_name
-    end
+    action_name
   end
 
   def update_action_message
-    case request.controller_class.name.demodulize
-    when 'FlagsController'
-      'unflag'
-    when 'ApprovalsController'
-      "#{approval_params[:approval_type]}_#{approval_params[:approval_status]}"
-    when 'TransferRequestsController'
-      "transfer_#{params[:data][:status]}"
-    when 'TransfersController'
-      "transfer_#{params[:data][:status]}"
-    when 'ReferralsController'
-      "refer_#{params[:data][:status]}"
-    else
-      action_name
-    end
+    action_name
   end
 
   def destroy_action_message
-    case request.controller_class.name.demodulize
-    when 'TokensController'
-      'logout'
-    when 'AssignsController'
-      'unassign'
-    when 'AttachmentsController'
-      'detach'
-    when 'ReferralsController'
-      'refer_revoke'
-    else
-      request.query_parameters.blank? ? 'delete' : action_name
-    end
+    request.query_parameters.blank? ? 'delete' : action_name
   end
 
   def create_bulk_record_resource
-    case request.controller_class.name.demodulize
-    when 'FlagsController'
-      'bulk_flag'
-    when 'AssignsController'
-      'bulk_assign'
-    when 'TransfersController'
-      'bulk_transfer'
-    else
-      action_name
-    end
+    action_name
   end
 end

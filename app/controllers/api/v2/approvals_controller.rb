@@ -9,6 +9,10 @@ module Api::V2
       updates_for_record(@record)
     end
 
+    def update_action_message
+      "#{approval_params[:approval_type]}_#{approval_params[:approval_status]}"
+    end
+
     private
 
     def approval_params
