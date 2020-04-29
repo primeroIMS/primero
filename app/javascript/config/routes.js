@@ -13,7 +13,6 @@ import Login, {
   NotFound,
   PotentialMatches,
   Report,
-  Reports,
   RolesForm,
   RolesList,
   Support,
@@ -23,6 +22,7 @@ import Login, {
   UsersForm,
   UsersList
 } from "../components/pages";
+import Reports from "../components/reports-list";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
 import { AppLayout, LoginLayout } from "../components/layouts";

@@ -10,9 +10,9 @@ import { withRouter, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import makeStyles from "@material-ui/styles/makeStyles";
 
-import { PageContainer, PageHeading, PageContent } from "../../page";
-import { useI18n } from "../../i18n";
-import LoadingIndicator from "../../loading-indicator";
+import { PageContainer, PageHeading, PageContent } from "../page";
+import { useI18n } from "../i18n";
+import LoadingIndicator from "../loading-indicator";
 
 import { fetchReports } from "./action-creators";
 import styles from "./styles.css";
