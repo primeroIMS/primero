@@ -1,6 +1,6 @@
 import { fromJS, List } from "immutable";
 import MUIDataTable from "mui-datatables";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, Typography, Checkbox } from "@material-ui/core";
 
 import LoadingIndicator from "../loading-indicator";
 import { setupMountedComponent, stub } from "../../test";
@@ -9,6 +9,7 @@ import { mapEntriesToRecord } from "../../libs";
 import { FieldRecord } from "../record-form";
 
 import IndexTable from "./component";
+import CustomToolbarSelect from "./custom-toolbar-select";
 
 describe("<IndexTable />", () => {
   let component;
@@ -62,7 +63,7 @@ describe("<IndexTable />", () => {
         options: {}
       }
     ]),
-    selectedRecords: [],
+    selectedRecords: {},
     setSelectedRecords: () => {}
   };
 
@@ -186,6 +187,80 @@ describe("<IndexTable />", () => {
     });
     it("renders CircularProgress", () => {
       expect(loadingComponent.find(CircularProgress)).to.have.lengthOf(1);
+    });
+  });
+
+  describe("when records are selected", () => {
+    let recordsSelectedComponent;
+
+    const propsRecordsSelected = {
+      ...props,
+      selectedRecords: { 0: [0] }
+    };
+
+    before(() => {
+      ({ component: recordsSelectedComponent } = setupMountedComponent(
+        IndexTable,
+        propsRecordsSelected,
+        initialState
+      ));
+    });
+
+    it("renders CustomToolbarSelect component", () => {
+      expect(
+        recordsSelectedComponent.find(CustomToolbarSelect)
+      ).to.have.lengthOf(1);
+    });
+    it("renders Typography component", () => {
+      const customToolbarSelect = recordsSelectedComponent.find(
+        CustomToolbarSelect
+      );
+      const label = customToolbarSelect.find(Typography);
+
+      expect(label).to.have.lengthOf(1);
+      expect(label.text()).to.eql("cases.selected_records");
+    });
+  });
+
+  describe("when no records are selected", () => {
+    let noRecordsSelectedComponent;
+
+    before(() => {
+      ({ component: noRecordsSelectedComponent } = setupMountedComponent(
+        IndexTable,
+        props,
+        initialState
+      ));
+    });
+
+    it("should not render CustomToolbarSelect component", () => {
+      expect(
+        noRecordsSelectedComponent.find(CustomToolbarSelect)
+      ).to.have.lengthOf(0);
+    });
+  });
+
+  describe("when selectableRows options is none", () => {
+    let nonSelectableRowsComponent;
+
+    const propsNonSelectableRowsComponent = {
+      ...props,
+      selectedRecords: { 0: [0] },
+      options: {
+        selectableRows: "none"
+      }
+    };
+
+    before(() => {
+      ({ component: nonSelectableRowsComponent } = setupMountedComponent(
+        IndexTable,
+        propsNonSelectableRowsComponent,
+        initialState
+      ));
+    });
+
+    it("should not render any checkbox", () => {
+      expect(nonSelectableRowsComponent.find(Checkbox)).to.have.lengthOf(0);
     });
   });
 });

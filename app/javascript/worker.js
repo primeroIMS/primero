@@ -1,17 +1,22 @@
 /* eslint-disable no-restricted-globals */
 
-const CACHE_ADDITIONAL = [
-  "/",
-  "/primero-pictorial-144.png",
-  "/primero-pictorial-192.png",
-  "/primero-pictorial-512.png",
-  "/javascripts/i18n.js",
-  "/manifest.json"
-].map(cache => ({ url: cache }));
+workbox.core.clientsClaim();
+workbox.core.skipWaiting();
+workbox.precaching.cleanupOutdatedCaches();
 
 self.__precacheManifest = []
   .concat(self.__precacheManifest || [])
-  .concat(CACHE_ADDITIONAL);
+  .map(entry => {
+    const { url } = entry;
+
+    if (/\b[A-Fa-f0-9]{32}|[A-Fa-f0-9]{20}\b/.test(url)) {
+      // eslint-disable-next-line no-param-reassign
+      delete entry.revision;
+    }
+
+    return entry;
+  });
+
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
 const onFetch = event => {
@@ -29,7 +34,7 @@ const onFetch = event => {
           (request.method === "GET" &&
             request.headers.get("accept").includes("text/html"))
         ) {
-          return caches.match("/");
+          return caches.match(workbox.precaching.getCacheKeyForURL("/"));
         }
 
         return true;
@@ -44,4 +49,11 @@ workbox.routing.registerRoute(
   /translations-*.js$/,
   new workbox.strategies.CacheFirst(),
   "GET"
+);
+
+workbox.routing.registerNavigationRoute(
+  workbox.precaching.getCacheKeyForURL("/"),
+  {
+    whitelist: [/^(\/)$/, /^\/v2\//]
+  }
 );

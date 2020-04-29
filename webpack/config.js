@@ -54,7 +54,16 @@ const DEV_SERVER_CONFIG = {
   }
 };
 
-const ADDITIONAL_PRECACHE_MANIFEST_FILES = ["^translations-.*.js$"];
+const TRANSLATION_MANIFEST_FILES = ["^translations-.*.js$"];
+
+const ADDITIONAL_PRECACHE_MANIFEST_FILES = [
+  "/",
+  "primero-pictorial-144.png",
+  "primero-pictorial-192.png",
+  "primero-pictorial-512.png",
+  "manifest.json",
+  "javascripts/i18n.js"
+];
 
 const MANIFEST_OUTPUT_PATH = name =>
   path.join(projectPath, "public/manifests", `${name}.json`);
@@ -72,10 +81,7 @@ const chunkOutput = (hashMethod, data) => {
 };
 
 const svgPrefix = {
-  toString: () =>
-    `${Math.random()
-      .toString(36)
-      .substring(2, 8)}_`
+  toString: () => `${Math.random().toString(36).substring(2, 8)}_`
 };
 
 module.exports = {
@@ -86,6 +92,7 @@ module.exports = {
     isProduction
   },
   ADDITIONAL_PRECACHE_MANIFEST_FILES,
+  TRANSLATION_MANIFEST_FILES,
   APPLICATION_DIR,
   DEV_SERVER_CONFIG,
   ENTRIES,

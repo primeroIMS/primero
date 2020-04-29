@@ -3,8 +3,6 @@ import sinon from "sinon";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
-import { RECORD_PATH } from "../../config/constants";
-
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
 import { URL_LOOKUPS } from "./constants";
@@ -18,7 +16,6 @@ describe("<RecordForm /> - Action Creators", () => {
       "fetchForms",
       "fetchLookups",
       "fetchOptions",
-      "fetchRecordsAlerts",
       "setSelectedForm",
       "setSelectedRecord",
       "setServiceToRefer"
@@ -127,19 +124,5 @@ describe("<RecordForm /> - Action Creators", () => {
     };
 
     expect(actionCreators.fetchAgencies()).to.deep.equals(expected);
-  });
-
-  it("should check the 'fetchRecordsAlerts' action creator to return the correct object", () => {
-    const recordId = "123abc";
-    const expected = {
-      api: {
-        path: `${RECORD_PATH.cases}/${recordId}/alerts`
-      },
-      type: actions.FETCH_RECORD_ALERTS
-    };
-
-    expect(
-      actionCreators.fetchRecordsAlerts(RECORD_PATH.cases, recordId)
-    ).be.deep.equals(expected);
   });
 });
