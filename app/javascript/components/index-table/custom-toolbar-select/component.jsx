@@ -34,7 +34,7 @@ const Component = ({
         total_records: totalRecords
       });
 
-  const onClickFn = () => {
+  const handleClick = () => {
     if (allRecordsSelected) {
       setSelectedRecords({});
 
@@ -46,7 +46,7 @@ const Component = ({
   const selectAllButton =
     selectedRows.data.length === displayData?.length ? (
       <div className={css.customToolbarAll}>
-        <ButtonBase className={css.selectAllButton} onClick={onClickFn}>
+        <ButtonBase className={css.selectAllButton} onClick={handleClick}>
           {selectAllMessage}
         </ButtonBase>
       </div>
