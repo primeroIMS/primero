@@ -13,7 +13,6 @@
         else
           value = field_value_for_display((formObject.try(field.name) || formObject.try(:[],field.name)), field, @lookups)
         end
-        value = field.selected_value if (field.type == 'select_box' && field.disabled && field.selected_value.present?)
         value = I18n.t("cases.hidden_text_field_text") if formObject[:hidden_name] && field.hidden_text_field
       %>
       <span class="value"

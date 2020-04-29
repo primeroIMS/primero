@@ -9,11 +9,11 @@ module MigrationHelper
       if value.is_a?(String)
         value =
             value.gsub(/\r\n?/, "\n").split("\n")
-                .map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v}.with_indifferent_access : nil}
+                .map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v.strip}.with_indifferent_access : nil}
                 .compact
       elsif value.is_a?(Array)
         if value.first.is_a?(String)
-          value = value.map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v}.with_indifferent_access : nil}.compact
+          value = value.map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v.strip}.with_indifferent_access : nil}.compact
         elsif value.first.is_a?(Hash)
           value
         end
@@ -26,11 +26,11 @@ module MigrationHelper
     if value.is_a?(String)
       value =
         value.gsub(/\r\n?/, "\n").split("\n")
-          .map.with_index{|v, i| (v.present? && base_value[i].present?) ? {id: base_value[i][:id], display_text: v}.with_indifferent_access : nil}
+          .map.with_index{|v, i| (v.present? && base_value[i].present?) ? {id: base_value[i][:id], display_text: v.strip}.with_indifferent_access : nil}
           .compact
     elsif value.is_a?(Array)
       if value.first.is_a?(String)
-        value = value.map.with_index{|v, i| (v.present? && base_value[i].present?) ? {id: base_value[i][:id], display_text: v}.with_indifferent_access : nil}.compact
+        value = value.map.with_index{|v, i| (v.present? && base_value[i].present?) ? {id: base_value[i][:id], display_text: v.strip }.with_indifferent_access : nil}.compact
       elsif value.first.is_a?(Hash)
         value
       end
@@ -70,10 +70,12 @@ module MigrationHelper
         #look for value iin either the ids or in the display text
         #If it has already been converted, it should be in one of the id's
         #If it hasn't yet been converted, it should be in one of the display_text
-        v = options.select{|o| value.include?(o['id']) || value.include?(o['display_text'])}.map{|option| option['id']}
+        values = value.map{|val| val.to_s.strip}
+        v = options.select{|o| values.include?(o['id']) || values.include?(o['display_text'].strip)}.map{|option| option['id']}.uniq
       else
+        value = value.gsub(/_[0-9]{5}+$/, "") if value.is_a?(String)
         #The to_s is necessary to catch cases where the value is true or false
-        v = options.select{|option| option['id'] == value.to_s || option['display_text'] == value.to_s.strip}.first.try(:[], 'id')
+        v = options.select{|option| option['id'] == value.to_s.strip || option['display_text'].strip == value.to_s.strip || option['display_text'].strip == value.to_s.capitalize.strip}.first.try(:[], 'id')
         if v == 'true'
           v = true
         elsif v == 'false'

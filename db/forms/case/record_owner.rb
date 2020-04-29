@@ -72,7 +72,7 @@ record_owner_fields = [
   Field.new({"name" => "owned_by_phone",
              "type" => "text_field",
              "mobile_visible" => false,
-             "display_name_en" => "Caseworker Phone",
+             "display_name_en" => "Caseworker Mobile Phone",
              "editable" => false,
              "disabled" => true
             }),

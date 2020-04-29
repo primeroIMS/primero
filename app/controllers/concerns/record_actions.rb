@@ -159,12 +159,12 @@ module RecordActions
   def create
     authorize! :create, model_class
      # HACK This validation should not be here, it should be a validate on the model
+     # It is necessary because we need validate only if it is a remote request
     validate_primero_module  if is_remote_request?
     reindex_hash record_params
     permitted_property_names = model_class.permitted_property_names(current_user, PrimeroModule.get(record_params['module_id']))
 
     @record = create_or_update_record(params[:id], permitted_property_names)
-    initialize_created_record(@record)
     respond_to do |format|
       if @record.save
         post_save_processing @record
@@ -207,7 +207,12 @@ module RecordActions
 
   def update
     respond_to do |format|
-      create_or_update_record(params[:id])
+      # HACK This validation should not be here, it should be a validate on the model
+      # It is necessary because we need validate only if it is a remote request
+      # Verify primero module if it's an create from a remote request.
+      validate_primero_module  if is_remote_request? && @record.blank?
+      permitted_property_names = model_class.permitted_property_names(current_user, PrimeroModule.get(record_params['module_id']))
+      create_or_update_record(params[:id], permitted_property_names)
       if @record.save
         format.html do
           flash[:notice] = I18n.t("#{model_class.locale_prefix}.messages.update_success", record_id: @record.short_id)
@@ -438,7 +443,7 @@ module RecordActions
 
   def select_permitted_fields(record, permitted_property_names, is_remote_request)
     # put here fields required if it's a mobile
-    default_fields_to_share = is_remote_request ? %w[module_id] : %w[_id _rev couchrest-type histories photo_keys document_keys case_id short_id owned_by created_by registration_date incident_id tracing_request_id inquiry_date incident_links]
+    default_fields_to_share = is_remote_request ? %w[module_id] : %w[_id _rev couchrest-type histories photo_keys document_keys case_id short_id owned_by created_by registration_date incident_id tracing_request_id inquiry_date incident_links module_id]
     properties_to_check = default_fields_to_share + permitted_property_names
     record.select do |key, value|
       properties_to_check.include?(key.to_s)
@@ -479,6 +484,7 @@ module RecordActions
     if @record.nil?
       record_params_permitted = select_permitted_fields(record_params, property_names, is_remote_request?)
       @record = model_class.new_with_user_name(current_user, record_params_permitted)
+      initialize_created_record(@record)
     else
       @record = update_record_from(id)
     end
