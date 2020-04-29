@@ -6,7 +6,7 @@ import { setupMountedComponent } from "../../test";
 
 import DisableOffline from "./component";
 
-describe("components/disable-offline/component", () => {
+describe("components/disable-offline - DisableOffline", () => {
   const component = online =>
     setupMountedComponent(
       () => (

@@ -5,7 +5,7 @@ import { setupMountedComponent } from "../../../../test";
 
 import OfflineAlert from "./component";
 
-describe("components/disable-offline/components/offline-alert/component", () => {
+describe("components/disable-offline/components/offline-alert - OfflineAlert", () => {
   const component = online =>
     setupMountedComponent(
       OfflineAlert,
