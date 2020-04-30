@@ -22,6 +22,18 @@ module Api::V2
       render 'api/v2/transitions/update'
     end
 
+    def index_action_message
+      'list_transfer_requests'
+    end
+
+    def create_action_message
+      'transfer_request'
+    end
+
+    def update_action_message
+      "transfer_#{params[:data][:status]}"
+    end
+
     private
 
     def transfer_request(record)
