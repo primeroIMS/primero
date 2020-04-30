@@ -1426,6 +1426,7 @@ en:
       transfers_assignments: "Transfers / Assignments"
       referrals: "Referrals"
       approvals: "Approvals"
+    required_field: "%{field} is a required field"
 
   form_section:
     name: "Name"

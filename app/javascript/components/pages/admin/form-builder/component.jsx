@@ -6,18 +6,20 @@ import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
 import { PageContent, PageHeading } from "../../../page";
 import FormSection from "../../../form/components/form-section";
 import { whichFormMode, submitHandler } from "../../../form";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { compare } from "../../../../libs";
+import NAMESPACE from "../forms-list/namespace";
 
 import { TabPanel, FormBuilderActionButtons } from "./components";
 import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
 import { NAME } from "./constants";
-import { getSelectedForm } from "./selectors";
+import { getSelectedForm, getIsLoading } from "./selectors";
 
 const Component = ({ mode }) => {
   const { id } = useParams();
@@ -27,7 +29,11 @@ const Component = ({ mode }) => {
   const i18n = useI18n();
   const [tab, setTab] = useState(0);
   const selectedForm = useSelector(state => getSelectedForm(state), compare);
-  const methods = useForm({ validationSchema, defaultValues: {} });
+  const isLoading = useSelector(state => getIsLoading(state));
+  const methods = useForm({
+    validationSchema: validationSchema(i18n),
+    defaultValues: {}
+  });
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
   const handleChange = (event, selectedTab) => {
@@ -84,7 +90,13 @@ const Component = ({ mode }) => {
   );
 
   return (
-    <>
+    <LoadingIndicator
+      hasData={
+        formMode.get("isNew") || (formMode.get("isEdit") && selectedForm?.size)
+      }
+      loading={isLoading}
+      type={NAMESPACE}
+    >
       <PageHeading title={i18n.t("forms.add")}>
         <FormBuilderActionButtons
           formMode={formMode}
@@ -117,7 +129,7 @@ const Component = ({ mode }) => {
           </form>
         </FormContext>
       </PageContent>
-    </>
+    </LoadingIndicator>
   );
 };
 

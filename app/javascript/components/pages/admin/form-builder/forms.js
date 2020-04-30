@@ -11,18 +11,39 @@ import {
   LABEL_FIELD
 } from "../../../form";
 
-export const validationSchema = object().shape({
-  description: object().shape({
-    en: string().required()
-  }),
-  form_group_id: string().required(),
-  module_ids: array().of(string().required()),
-  name: object().shape({
-    en: string().required()
-  }),
-  parent_form: string().required(),
-  visible: boolean()
-});
+export const validationSchema = i18n =>
+  object().shape({
+    description: object().shape({
+      en: string().required(
+        i18n.t("forms.required_field", { field: i18n.t("forms.description") })
+      )
+    }),
+    form_group_id: string()
+      .nullable()
+      .required(
+        i18n.t("forms.required_field", { field: i18n.t("forms.form_group") })
+      ),
+    module_ids: array()
+      .of(
+        string()
+          .nullable()
+          .required(
+            i18n.t("forms.required_field", { field: i18n.t("forms.module") })
+          )
+      )
+      .nullable(),
+    name: object().shape({
+      en: string().required(
+        i18n.t("forms.required_field", { field: i18n.t("forms.title") })
+      )
+    }),
+    parent_form: string()
+      .nullable()
+      .required(
+        i18n.t("forms.required_field", { field: i18n.t("forms.record_type") })
+      ),
+    visible: boolean()
+  });
 
 export const settingsForm = i18n =>
   fromJS([
