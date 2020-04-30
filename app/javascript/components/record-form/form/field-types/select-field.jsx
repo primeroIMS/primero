@@ -286,6 +286,7 @@ const SelectField = ({
           label,
           margin: "dense",
           fullWidth: true,
+          helperText,
           InputLabelProps: {
             htmlFor: name,
             shrink: true
