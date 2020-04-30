@@ -13,7 +13,7 @@ import { PageContainer, PageContent, PageHeading } from "../page";
 import bindFormSubmit from "../../libs/submit-form";
 import { ROUTES } from "../../config";
 import FormSection from "../form/components/form-section";
-import { getAgeRanges } from "../application/selectors";
+import { getAgeRanges, getReportableTypes } from "../application/selectors";
 
 import { NAME, NAME_FIELD, DESCRIPTION_FIELD } from "./constants";
 import NAMESPACE from "./namespace";
@@ -28,18 +28,22 @@ const Container = ({ mode }) => {
   const validationSchema = validations(i18n);
   const methods = useForm({ validationSchema, defaultValues: {} });
   const selectedModule = methods.watch("modules");
+  const selectedRecordType = methods.watch("record_type");
   const emptyModule = isEmpty(selectedModule);
+  const emptyRecordType = isEmpty(selectedRecordType);
   const isModuleTouched = Object.keys(
     methods.control.formState.touched
   ).includes("modules");
   const primeroAgeRanges = useSelector(state => getAgeRanges(state));
+  const reportableTypes = useSelector(state => getReportableTypes(state));
   const report = useSelector(state => getReport(state));
-  const saving = false; // TODO: Create selector
 
   const formSections = form(
     i18n,
     emptyModule,
-    formatAgeRange(primeroAgeRanges)
+    emptyModule || emptyRecordType,
+    formatAgeRange(primeroAgeRanges),
+    reportableTypes
   );
 
   // const defaultFilters = [
@@ -69,7 +73,7 @@ const Container = ({ mode }) => {
     }
   }
 
-  const onSubmit = data => console.log("DATA TO SUBMIT", data);
+  const onSubmit = data => console.log(data);
 
   const handleCancel = () => {
     dispatch(push(ROUTES.reports));
@@ -101,7 +105,7 @@ const Container = ({ mode }) => {
       <FormAction
         actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
-        savingRecord={saving}
+        savingRecord={false}
       />
     </>
   );

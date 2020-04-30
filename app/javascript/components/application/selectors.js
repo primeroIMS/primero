@@ -59,3 +59,6 @@ export const getResourceActions = (state, resource) =>
 
 export const getAgeRanges = (state, name = "primero") =>
   state.getIn([NAMESPACE, "ageRanges", name], fromJS([]));
+
+export const getReportableTypes = state =>
+  state.getIn([NAMESPACE, "reportableTypes"], fromJS([]));
