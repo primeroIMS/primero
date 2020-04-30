@@ -6,7 +6,7 @@ describe("<FormsBuilder /> - Selectors", () => {
   it("should know the selectors", () => {
     const clonedSelectors = { ...selectors };
 
-    ["getIsLoading", "getSavingRecord", "getSelectedForm"].forEach(property => {
+    ["getSavingRecord", "getSelectedForm"].forEach(property => {
       expect(clonedSelectors).to.have.property(property);
       delete clonedSelectors[property];
     });
@@ -39,24 +39,6 @@ describe("<FormsBuilder /> - Selectors", () => {
       expect(selectors.getSelectedForm(initialState)).to.deep.equal(
         selectedForm
       );
-    });
-  });
-
-  describe("getIsLoading", () => {
-    it("should return true if the forms are loading", () => {
-      const isLoading = selectors.getIsLoading(
-        fromJS({
-          records: {
-            admin: {
-              forms: {
-                loading: true
-              }
-            }
-          }
-        })
-      );
-
-      expect(isLoading).to.be.true;
     });
   });
 });

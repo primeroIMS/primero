@@ -14,12 +14,13 @@ import { whichFormMode, submitHandler } from "../../../form";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { compare } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
+import { getIsLoading } from "../forms-list/selectors";
 
 import { TabPanel, FormBuilderActionButtons } from "./components";
 import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
 import { NAME } from "./constants";
-import { getSelectedForm, getIsLoading } from "./selectors";
+import { getSelectedForm } from "./selectors";
 
 const Component = ({ mode }) => {
   const { id } = useParams();
