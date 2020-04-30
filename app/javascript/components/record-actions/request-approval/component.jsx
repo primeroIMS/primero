@@ -70,8 +70,8 @@ const Component = ({
   const handleOk = () => {
     setPending(true);
 
-    batch(() => {
-      dispatch(
+    batch(async () => {
+      await dispatch(
         approvalRecord({
           recordType,
           recordId: record.get("id"),
