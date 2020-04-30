@@ -23,7 +23,7 @@ class Task
     self.parent_case = record
     self.priority = record.risk_level
     self.case_id = record.case_id_display
-    self.name = record.hidden_name.present? ? '*******' : record.name
+    self.name = RecordDataService.visible_name(record)
   end
 
   def type
