@@ -102,5 +102,11 @@ module Serviceable
         times[0].to_i.send(times[1])
       end
     end
+
+
+    def services_implemented_day_time_changed?
+      return false if self.changes["services_section"].blank?
+      self.changes["services_section"].first.map(&:service_implemented_day_time) != self.changes["services_section"].last.map(&:service_implemented_day_time)
+    end
   end
 end

@@ -141,4 +141,8 @@ module Transitionable
     transitions.map(&:created_at).compact
   end
 
+  def update_transition_change_at
+    self.transitions_changed_at = DateTime.now if owned_attributes_changed? || services_implemented_day_time_changed?
+  end
+
 end
