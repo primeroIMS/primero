@@ -19,6 +19,7 @@ import { getReportingLocationConfig } from "../application/selectors";
 
 import { filterType, compactFilters } from "./utils";
 import {
+  DEFAULT_SELECTED_RECORDS_VALUE,
   HIDDEN_FIELDS,
   PRIMARY_FILTERS,
   MY_CASES_FILTER_NAME,
@@ -44,6 +45,9 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   const [reset, setReset] = useState(false);
   const dispatch = useDispatch();
 
+  const resetSelectedRecords = () => {
+    setSelectedRecords(DEFAULT_SELECTED_RECORDS_VALUE);
+  };
   const methods = useForm({
     defaultValues: isEmpty(queryParams) ? defaultFilters.toJS() : queryParams
   });
@@ -189,7 +193,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
       });
       setMoreSectionFilters({});
       methods.reset(filtersToApply);
-      setSelectedRecords({});
+      resetSelectedRecords();
       dispatch(
         applyFilters({ recordType, data: compactFilters(filtersToApply) })
       );
@@ -206,7 +210,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   const handleSubmit = useCallback(data => {
     const payload = compactFilters(data);
 
-    setSelectedRecords({});
+    resetSelectedRecords();
     dispatch(applyFilters({ recordType, data: payload }));
   }, []);
 
@@ -215,7 +219,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   };
 
   const handleClear = useCallback(() => {
-    setSelectedRecords({});
+    resetSelectedRecords();
     methods.reset(defaultFilters.toJS());
     dispatch(setFilters({ recordType, data: defaultFilters.toJS() }));
 
