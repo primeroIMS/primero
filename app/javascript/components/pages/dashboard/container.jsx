@@ -6,6 +6,7 @@ import { useI18n } from "../../i18n";
 import { PageContainer, PageHeading, PageContent } from "../../page";
 import { getPermissions } from "../../user/selectors";
 import { getLoading, getErrors } from "../../index-table";
+import { OfflineAlert } from "../../disable-offline";
 
 import {
   Overview,
@@ -45,6 +46,7 @@ const Dashboard = () => {
     <PageContainer>
       <PageHeading title={i18n.t("navigation.home")} />
       <PageContent>
+        <OfflineAlert text={i18n.t("messages.dashboard_offline")} />
         <Grid container spacing={3}>
           <Overview
             loadingIndicator={indicatorProps}
