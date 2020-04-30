@@ -109,4 +109,10 @@ module Ownable
     self.last_updated_organization = current_user.agency
     self.last_updated_at = DateTime.now
   end
+
+  def owned_attributes_changed?
+    %w[owned_by owned_by_phone owned_by_agency].inject(false) do |acc, field|
+      acc || (self.changes[field].present? && !self.changes[field].eql?([nil, ""]))
+    end
+  end
 end

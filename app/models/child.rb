@@ -79,6 +79,7 @@ class Child < CouchRest::Model::Base
 
   before_save :sync_protection_concerns
   before_save :auto_populate_name
+  before_save :update_transition_change_at
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -163,6 +164,9 @@ class Child < CouchRest::Model::Base
     time :service_due_dates, :multiple => true
     date :transitions_created_at, :multiple => true
     string :service_response_types, :multiple => true
+    time :transitions_changed_at, as: 'transitions_changed_at_d' do
+      self.transitions_changed_at if self.transitions_changed_at.present?
+    end
 
     string :workflow_status, as: 'workflow_status_sci'
     string :workflow, as: 'workflow_sci'
