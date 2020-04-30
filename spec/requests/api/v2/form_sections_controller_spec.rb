@@ -62,7 +62,6 @@ describe Api::V2::FormSectionsController, type: :request do
     ]
 
     @form_3.save!
-
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -167,6 +166,7 @@ describe Api::V2::FormSectionsController, type: :request do
             {
               'name': 'custom_field_by_api',
               'type': 'separator',
+              'order': 777,
               'display_name': {
                 'en': 'Custom Field by API'
               }
@@ -183,6 +183,7 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(form_section.name_en).to eq(params[:data][:name][:en])
       expect(form_section.fields.size).to eq(1)
       expect(form_section.fields.first.name).to eq(params[:data][:fields][0][:name])
+      expect(json['data']['fields'][0]['order']).to eq(777)
     end
 
     it "creates a new form with 200 and correctly sets the localized properties" do
@@ -395,7 +396,6 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(@form_1.fields.size).to eq(2)
     end
 
-
     it "deletes fields if they are not part of the request" do
       login_for_test({
         permissions: [
@@ -451,6 +451,7 @@ describe Api::V2::FormSectionsController, type: :request do
             {
               name: 'fs1_field_2',
               type: 'text_field',
+              order: 777,
               display_name: {
                 en: 'Second field in form section 1'
               }
@@ -472,6 +473,8 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(@form_1.name_en).to eq(params[:data][:name][:en])
       expect(field.name).to eq(params[:data][:fields][0][:name])
       expect(@form_1.fields.size).to eq(2)
+      # Validate the order
+      expect(@form_1.fields.map(&:order).sort).to eq([0, 777])
     end
 
     it "returns 403 if user isn't authorized to update records" do
