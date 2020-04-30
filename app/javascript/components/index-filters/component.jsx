@@ -31,7 +31,7 @@ import Actions from "./components/actions";
 import styles from "./components/styles.css";
 import MoreSection from "./components/more-section";
 
-const Component = ({ recordType, defaultFilters }) => {
+const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
@@ -189,6 +189,7 @@ const Component = ({ recordType, defaultFilters }) => {
       });
       setMoreSectionFilters({});
       methods.reset(filtersToApply);
+      setSelectedRecords({});
       dispatch(
         applyFilters({ recordType, data: compactFilters(filtersToApply) })
       );
@@ -205,6 +206,7 @@ const Component = ({ recordType, defaultFilters }) => {
   const handleSubmit = useCallback(data => {
     const payload = compactFilters(data);
 
+    setSelectedRecords({});
     dispatch(applyFilters({ recordType, data: payload }));
   }, []);
 
@@ -213,6 +215,7 @@ const Component = ({ recordType, defaultFilters }) => {
   };
 
   const handleClear = useCallback(() => {
+    setSelectedRecords({});
     methods.reset(defaultFilters.toJS());
     dispatch(setFilters({ recordType, data: defaultFilters.toJS() }));
 
@@ -294,7 +297,8 @@ Component.displayName = "IndexFilters";
 
 Component.propTypes = {
   defaultFilters: PropTypes.object,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  setSelectedRecords: PropTypes.func
 };
 
 export default Component;
