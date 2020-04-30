@@ -278,7 +278,8 @@ const SelectField = ({
       const searchableSelectProps = {
         id: name,
         name,
-        isDisabled: mode.isShow,
+        isDisabled: mode.isShow || disabled,
+        helperText,
         isClearable: true,
         menuPosition: "absolute",
         TextFieldProps: {

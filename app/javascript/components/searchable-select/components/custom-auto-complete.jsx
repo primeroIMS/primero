@@ -25,7 +25,18 @@ const CustomAutoComplete = ({ props }) => {
   const theme = useTheme();
 
   const i18n = useI18n();
-  const { id, options, excludeEmpty, defaultValues, ...rest } = props;
+  const {
+    id,
+    options,
+    excludeEmpty,
+    defaultValues,
+    helperText,
+    ...rest
+  } = props;
+
+  const showHelperText = helperText ? (
+    <p className="MuiFormHelperText-root">{helperText}</p>
+  ) : null;
 
   const components = {
     Control,
@@ -63,6 +74,7 @@ const CustomAutoComplete = ({ props }) => {
         value={excludeEmpty ? defaultValues : searchOptions[0]}
         {...rest}
       />
+      {showHelperText}
     </NoSsr>
   );
 };
@@ -73,6 +85,7 @@ CustomAutoComplete.propTypes = {
   components: PropTypes.object,
   defaultValues: PropTypes.object,
   excludeEmpty: PropTypes.bool,
+  helperText: PropTypes.string,
   id: PropTypes.string,
   options: PropTypes.object,
   props: PropTypes.object
