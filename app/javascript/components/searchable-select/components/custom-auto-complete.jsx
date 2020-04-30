@@ -73,6 +73,7 @@ CustomAutoComplete.propTypes = {
   components: PropTypes.object,
   defaultValues: PropTypes.object,
   excludeEmpty: PropTypes.bool,
+  helperText: PropTypes.string,
   id: PropTypes.string,
   options: PropTypes.object,
   props: PropTypes.object
