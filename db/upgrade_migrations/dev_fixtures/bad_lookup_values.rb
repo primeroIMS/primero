@@ -1,7 +1,6 @@
 #This script will search through records and report on fields that use a lookup but have a value not in that lookup's options
-#Goal: Keep this simple enough to run in the old pre-migrated system (ex. 1.3)
-#Much of this was based on migration_helper.rb in the migrations below
-#TODO determine if we can re-use migration helper.  There are some tweaks here...
+#Much of this was based on migration_helper.rb and record migrations in the migrations below
+#There is a lot of borrowed code from those scripts with some tweaks... but trying to closely replicate the process used by the migrations
 
 
 #Only get the fields that potentially use lookups
