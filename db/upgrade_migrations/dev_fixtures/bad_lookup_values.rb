@@ -24,6 +24,7 @@ def get_lookup_fields(record_type, locations)
     fields.each do |field|
       if field.subform_section.present?
         lookup_fields[field.name] = {} if lookup_fields[field.name].blank?
+        lookup_fields[field.name][:is_subform] = true
         sub_fields = get_fields(field.subform_section)
         sub_fields.each do |sf|
           sub_options = get_option_list(sf, locations)
@@ -80,6 +81,7 @@ record_classes = [Child, TracingRequest, Incident]
 record_classes.each do |record_type|
   puts "------------------------------------------------------------------"
   puts "Searching #{record_type} records..."
+  puts "------------------------------------------------------------------"
 
   lookup_fields = get_lookup_fields(record_type.locale_prefix, locations)
 
@@ -90,35 +92,43 @@ record_classes.each do |record_type|
         #use the value from the datbase if v is blank
         #Sometimes yes/no values can get screwed up by the record model
         v ||= db_records[rec_index][k]
-        if v.present? && field_options[k].present?
-          if field_options[k].is_a?(Hash)
+        if v.present? && lookup_fields[k].present?
+          if lookup_fields[k][:is_subform].present?
             v.each_with_index do |sf, index|
-              field_options[k].each do |sub_key, sub_options|
+              lookup_fields[k].each do |sub_key, sub_value|
+                next unless sub_value.is_a?(Hash)
                 # Get the data from the raw db query...
                 # to handle case where field type changed which could cause new model to step all over old data
                 # EXAMPLE 'Yes' 'No' now handled as a boolean true/false... old 'Yes' 'No' vales seen as nil by the model
                 subform_field_value = db_records[rec_index][k][index][sub_key]
+                next if subform_field_value.blank?
+                sub_options = sub_value[:lookup] == 'Location' ? locations : sub_value[:options]
                 new_value = get_value(subform_field_value, sub_options)
 
-                if new_vlaue.blank? && new_value != false
-                  #TODO print log
-                  binding.pry
-                  x=0
-                  puts "#{subform_field_value}"
+                if new_value.blank? && new_value != false
+                  if sub_value[:lookup].present?
+                    puts "#{record.display_id}   SUBFORM: #{k}  INDEX: #{index}  FIELD: #{sub_key}   VALUE: #{subform_field_value}   LOOKUP: #{sub_value[:lookup]}"
+                  else
+                    puts "#{record.display_id}   SUBFORM: #{k}  INDEX: #{index}  FIELD: #{sub_key}   VALUE: #{subform_field_value}   OPTIONS: #{sub_value[:options]}"
+                  end
+                  puts '------'
                 end
                 # record[k][index][sub_key] = new_value if new_value.present? || new_value == false
               end
             end
-          elsif field_options[k].is_a?(Array)
-            options = field_options[k]
+          elsif lookup_fields[k][:options].is_a?(Array)
+            next if lookup_fields[k][:lookup] == 'User'
+            options = lookup_fields[k][:lookup] == 'Location' ? locations : lookup_fields[k][:options]
             value = get_value(v, options)
 
             if value.blank? && value != false
-              #TODO print log
-              binding.pry
-              x=0
+              if lookup_fields[k][:lookup].present?
+                puts "#{record.display_id}   FIELD: #{k}   VALUE: #{v}   LOOKUP: #{lookup_fields[k][:lookup]}"
+              else
+                puts "#{record.display_id}   FIELD: #{k}   VALUE: #{v}   OPTIONS: #{lookup_fields[k][:options]}"
+              end
+              puts '------'
             end
-            # record[k] = value if value.present? || value == false
           end
         end
       end
