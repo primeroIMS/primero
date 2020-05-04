@@ -45,3 +45,4 @@ export const OR_FIELDS = ["owned_by", "assigned_user_names"];
 export const MY_CASES_FILTER_NAME = "my_cases";
 
 export const OR_FILTER_NAME = "or";
+export const DEFAULT_SELECTED_RECORDS_VALUE = {};

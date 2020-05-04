@@ -100,7 +100,7 @@ class Header < ValueObject
     end
 
     def task_headers
-      [CASE_ID, PRIORITY, TYPE_DISPLAY, DUE_DATE, STATUS]
+      [CASE_ID, CASE_NAME, PRIORITY, TYPE_DISPLAY, DUE_DATE, STATUS]
     end
 
     def bulk_export_headers
