@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# Spec for the PhotoWallExporter
 module Exporters
   describe PhotoWallExporter do
     before :each do

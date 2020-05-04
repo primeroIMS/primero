@@ -4,6 +4,7 @@ require 'prawn/document'
 require 'prawn/measurement_extensions'
 
 module Exporters
+  # Bulk export for PhotoWall
   class PhotoWallExporter < BaseExporter
     class << self
       def id
@@ -35,21 +36,19 @@ module Exporters
     end
 
     def export(child_data, _, *_args)
-      child_with_photo = child_data.map { |child| child if child.has_photo }.compact
-      return no_photo_available(@pdf) if child_with_photo.empty?
+      cases_with_photo = child_data.select(&:has_photo)
+      return no_photo_available(@pdf) if cases_with_photo.empty?
 
-      child_with_photo.each do |child|
+      cases_with_photo.each do |child|
         add_child_photo(@pdf, child, true)
-        @pdf.start_new_page unless child_with_photo.last == child
-      rescue StandardError => e
-        Rails.logger.error e
+        @pdf.start_new_page unless cases_with_photo.last == child
       end
     end
 
     private
 
     def no_photo_available(pdf)
-      pdf.text 'No photos available', size: 40, align: :center, style: :bold
+      pdf.text I18n.t('exports.photowall.no_photos_available'), size: 40, align: :center, style: :bold
     end
 
     def add_child_photo(pdf, child, with_full_id = false)
@@ -71,11 +70,11 @@ module Exporters
     end
 
     def flag_if_suspected(pdf, child)
-      pdf.text('Flagged as Suspect Record', style: :bold) if child.flag?
+      pdf.text(I18n.t('exports.photowall.flag_suspect_record'), style: :bold) if child.flag?
     end
 
     def flag_if_reunited(pdf, child)
-      pdf.text('Reunited', style: :bold) if child.reunited?
+      pdf.text(I18n.t('exports.photowall.reunited'), style: :bold) if child.reunited?
     end
   end
 end
