@@ -145,6 +145,7 @@ const Container = ({ match, location }) => {
   const filterProps = {
     recordType,
     defaultFilters,
+    setSelectedRecords,
     fromDashboard: Boolean(searchParams.get("fromDashboard"))
   };
 

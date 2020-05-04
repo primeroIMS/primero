@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Api::V2::AssignsController, type: :request do
-
+  include ActiveJob::TestHelper
   before :each do
     PrimeroModule.destroy_all
     @primero_module = PrimeroModule.new(name: 'CP')
@@ -27,6 +27,7 @@ describe Api::V2::AssignsController, type: :request do
   end
 
   let(:json) { JSON.parse(response.body) }
+  let(:audit_params) { enqueued_jobs.select { |job| job.values.first == AuditLogJob }.first[:args].first }
 
   describe 'GET /api/v2/case/:id/assigns' do
 
@@ -69,6 +70,8 @@ describe Api::V2::AssignsController, type: :request do
       expect(json['data']['transitioned_to']).to eq('user2')
       expect(json['data']['transitioned_by']).to eq('user1')
       expect(json['data']['notes']).to eq('Test Notes')
+
+      expect(audit_params['action']).to eq('assign')
     end
 
     it "get a forbidden message if the user doesn't have assign permission" do
@@ -107,11 +110,14 @@ describe Api::V2::AssignsController, type: :request do
       expect(json['data'][1]['record_id']).to eq(@case2.id.to_s)
       expect(json['data'][1]['transitioned_to']).to eq('user2')
       expect(json['data'][1]['transitioned_by']).to eq('user1')
+
+      expect(audit_params['action']).to eq('bulk_assign')
     end
 
   end
 
   after :each do
+    clear_enqueued_jobs
     PrimeroModule.destroy_all
     UserGroup.destroy_all
     Role.destroy_all
@@ -119,7 +125,4 @@ describe Api::V2::AssignsController, type: :request do
     Child.destroy_all
     Transition.destroy_all
   end
-
-
-
 end
