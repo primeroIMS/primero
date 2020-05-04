@@ -6,19 +6,27 @@ import { denormalizeFormData } from "../../schemas";
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
 
-const forms = (state, { recordType, primeroModule }) => {
+export const forms = (state, { recordType, primeroModule }) => {
   const formSections = state.getIn([NAMESPACE, "formSections"]);
 
   if (isEmpty(formSections)) return null;
 
+  if (isEmpty(recordType) && isEmpty(primeroModule)) {
+    return formSections;
+  }
+
   return formSections.filter(
     fs =>
-      fs.module_ids.includes(primeroModule) &&
+      (Array.isArray(primeroModule)
+        ? fs.module_ids.some(mod => primeroModule.includes(mod))
+        : fs.module_ids.includes(primeroModule)) &&
       fs.parent_form === recordType &&
       fs.visible &&
       !fs.is_nested
   );
 };
+
+export const allForms = state => state.getIn([NAMESPACE, "formSections"]);
 
 export const getFirstTab = (state, query) => {
   const selectedForms = forms(state, query);

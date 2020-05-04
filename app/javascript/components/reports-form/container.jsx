@@ -13,7 +13,9 @@ import { PageContainer, PageContent, PageHeading } from "../page";
 import bindFormSubmit from "../../libs/submit-form";
 import { ROUTES } from "../../config";
 import FormSection from "../form/components/form-section";
-import { getAgeRanges, getReportableTypes } from "../application/selectors";
+import { getAgeRanges } from "../application/selectors";
+import { forms } from "../record-form/selectors";
+import { dataToJS } from "../../libs";
 
 import { NAME, NAME_FIELD, DESCRIPTION_FIELD } from "./constants";
 import NAMESPACE from "./namespace";
@@ -35,15 +37,38 @@ const Container = ({ mode }) => {
     methods.control.formState.touched
   ).includes("modules");
   const primeroAgeRanges = useSelector(state => getAgeRanges(state));
-  const reportableTypes = useSelector(state => getReportableTypes(state));
   const report = useSelector(state => getReport(state));
+
+  const filteredForms = useSelector(state =>
+    forms(state, {
+      recordType: selectedRecordType,
+      primeroModule: selectedModule
+    })
+  );
+
+  console.log(dataToJS(filteredForms));
+
+  useImperativeHandle(
+    formRef,
+    submitHandler({
+      dispatch,
+      formMethods: methods,
+      formMode,
+      i18n,
+      initialValues: {},
+      onSubmit: data => console.log(data)
+    })
+  );
+
+  // if (!primeroAgeRanges.size) {
+  //   return null;
+  // }
 
   const formSections = form(
     i18n,
     emptyModule,
     emptyModule || emptyRecordType,
-    formatAgeRange(primeroAgeRanges),
-    reportableTypes
+    formatAgeRange(primeroAgeRanges)
   );
 
   // const defaultFilters = [
@@ -73,23 +98,9 @@ const Container = ({ mode }) => {
     }
   }
 
-  const onSubmit = data => console.log(data);
-
   const handleCancel = () => {
     dispatch(push(ROUTES.reports));
   };
-
-  useImperativeHandle(
-    formRef,
-    submitHandler({
-      dispatch,
-      formMethods: methods,
-      formMode,
-      i18n,
-      initialValues: {},
-      onSubmit
-    })
-  );
 
   const pageHeading = report?.size
     ? `${i18n.t("reports.label")} ${report.getIn(["name", i18n.locale])}`

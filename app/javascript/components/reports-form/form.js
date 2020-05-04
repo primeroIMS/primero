@@ -1,6 +1,5 @@
 import { fromJS } from "immutable";
 import { object, string } from "yup";
-import isEmpty from "lodash/isEmpty";
 
 import {
   FieldRecord,
@@ -10,7 +9,6 @@ import {
   TEXT_AREA,
   SELECT_FIELD
 } from "../form";
-import { dataToJS } from "../../libs";
 
 import {
   NAME_FIELD,
@@ -22,7 +20,8 @@ import {
   GROUP_AGES_FIELD,
   GROUP_DATES_BY_FIELD,
   IS_GRAPH_FIELD,
-  EMPTY_ROWS_FIELD
+  EMPTY_ROWS_FIELD,
+  REPORTABLE_TYPES
 } from "./constants";
 
 export const validations = i18n =>
@@ -39,8 +38,7 @@ export const form = (
   i18n,
   disabledByModule,
   disabledByModuleAndRecordType,
-  ageHelpText,
-  reportableTypes
+  ageHelpText
 ) => {
   return fromJS([
     FormSectionRecord({
@@ -72,10 +70,14 @@ export const form = (
           type: SELECT_FIELD,
           required: true,
           disabled: disabledByModule,
-          option_strings_text: dataToJS(reportableTypes).map(item => ({
-            id: item,
-            display_text: i18n.t(`forms.record_types.${item}`)
-          }))
+          option_strings_text: Object.values(REPORTABLE_TYPES).map(item => {
+            const { id } = item;
+
+            return {
+              id,
+              display_text: i18n.t(`forms.record_types.${id}`)
+            };
+          })
         }),
         FieldRecord({
           display_name: i18n.t("report.aggregate_by"),
