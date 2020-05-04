@@ -303,7 +303,7 @@ describe("<RecordActions />", () => {
           component
             .find("li")
             .map(l => l.text())
-            .includes("buttons.referral orms.record_types.case")
+            .includes("buttons.referral forms.record_types.case")
         ).to.be.false;
       });
 
@@ -346,18 +346,95 @@ describe("<RecordActions />", () => {
       expect(component.find(Exports)).to.have.lengthOf(1);
       [
         "close",
+        "currentPage",
         "openExportsDialog",
+        "pending",
         "record",
         "recordType",
         "selectedRecords",
-        "userPermissions",
-        "pending",
-        "setPending"
+        "setPending",
+        "userPermissions"
       ].forEach(property => {
         expect(exportProps).to.have.property(property);
         delete exportProps[property];
       });
       expect(exportProps).to.be.empty;
+    });
+  });
+
+  describe("when record is selected", () => {
+    const propsRecordSelected = {
+      ...props,
+      showListActions: true,
+      currentPage: 0,
+      selectedRecords: { 0: [0] }
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        propsRecordSelected,
+        defaultState
+      ));
+    });
+
+    it("renders add incident menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(0);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add service section menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add export menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(2);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+  });
+
+  describe("when no record is selected", () => {
+    const propsRecordSelected = {
+      ...props,
+      showListActions: true,
+      currentPage: 0,
+      selectedRecords: {}
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        propsRecordSelected,
+        defaultState
+      ));
+    });
+
+    it("renders add incident menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(0);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add service section menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add export menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(2);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItemProps.disabled).to.be.true;
     });
   });
 });

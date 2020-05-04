@@ -54,4 +54,36 @@ describe("<RecordActions /> - <Exports />", () => {
 
     expect(component.find(Form)).to.have.lengthOf(1);
   });
+
+  it("should accept valid props", () => {
+    const validProps = {
+      ...props,
+      currentPage: 0,
+      pending: true,
+      record: {},
+      selectedRecords: { 0: [0] },
+      setPending: () => {}
+    };
+    const { component } = setupMountedComponent(Exports, validProps, state);
+    const exportProps = {
+      ...component.find(Exports).props()
+    };
+
+    expect(component.find(Exports)).to.have.lengthOf(1);
+    [
+      "close",
+      "currentPage",
+      "openExportsDialog",
+      "pending",
+      "record",
+      "recordType",
+      "selectedRecords",
+      "setPending",
+      "userPermissions"
+    ].forEach(property => {
+      expect(exportProps).to.have.property(property);
+      delete exportProps[property];
+    });
+    expect(exportProps).to.be.empty;
+  });
 });

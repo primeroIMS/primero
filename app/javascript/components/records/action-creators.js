@@ -1,7 +1,7 @@
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 
-import { RECORD, SAVE_RECORD } from "./actions";
+import { RECORD, SAVE_RECORD, FETCH_RECORD_ALERTS } from "./actions";
 
 export const fetchRecord = (recordType, id) => async dispatch => {
   dispatch({
@@ -56,3 +56,10 @@ export const saveRecord = (
     }
   });
 };
+
+export const fetchRecordsAlerts = (recordType, recordId) => ({
+  type: `${recordType}/${FETCH_RECORD_ALERTS}`,
+  api: {
+    path: `${recordType}/${recordId}/alerts`
+  }
+});

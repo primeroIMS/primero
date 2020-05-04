@@ -58,12 +58,12 @@ const additionalFiles = originalManifest => {
       const revision = crypto.createHash("sha256");
       const isIndexFile = file === "/";
 
-      if (!isIndexFile) {
-        revision.update(
-          fs.readFileSync(path.join(projectPath, "public", file), "utf8"),
-          "utf8"
-        );
-      }
+      revision.update(
+        !isIndexFile
+          ? fs.readFileSync(path.join(projectPath, "public", file), "utf8")
+          : new Date().valueOf().toString() + Math.random().toString(),
+        "utf8"
+      );
       manifest.push({
         url: isIndexFile ? file : `/${file}`,
         revision: revision.digest("hex")

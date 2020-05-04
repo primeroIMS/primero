@@ -1,4 +1,4 @@
-import { Map, List, fromJS } from "immutable";
+import { Map, List, fromJS, OrderedMap } from "immutable";
 
 import reducer from "./reducer";
 
@@ -94,5 +94,38 @@ describe("<RecordList /> - Reducers", () => {
     const newState = nsReducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle FETCH_RECORD_ALERTS", () => {
+    const defaultState = fromJS({
+      selectedForm: null,
+      formSections: OrderedMap({}),
+      fields: OrderedMap({})
+    });
+    const data = [
+      {
+        alert_for: "field_change",
+        type: "notes",
+        date: "2020-04-02",
+        form_unique_id: "notes"
+      }
+    ];
+    const expected = fromJS({
+      selectedForm: null,
+      formSections: OrderedMap({}),
+      fields: OrderedMap({}),
+      recordAlerts: fromJS(data)
+    });
+
+    const action = {
+      type: "TestRecordType/FETCH_RECORD_ALERTS_SUCCESS",
+      payload: {
+        data
+      }
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).to.deep.equals(expected);
   });
 });
