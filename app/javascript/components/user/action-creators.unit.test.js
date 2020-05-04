@@ -57,7 +57,7 @@ describe("User - Action Creators", () => {
         path: "nullundefined",
         external: true,
         db: {
-          alwaysCache: true,
+          alwaysCache: false,
           collection: "locations",
           manifest: undefined
         }

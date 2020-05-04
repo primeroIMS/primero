@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/label-has-for */
+/* eslint-disable jsx-a11y/media-has-caption, jsx-a11y/label-has-for */
 
 import React, { useState } from "react";
 import PropTypes from "prop-types";

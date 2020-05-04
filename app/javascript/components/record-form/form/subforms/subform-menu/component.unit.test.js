@@ -21,7 +21,14 @@ describe("<SubformMenu />", () => {
   };
 
   it("renders the subform menu", () => {
-    const { component } = setupMountedComponent(SubformMenu, props, {});
+    const state = {
+      user: {
+        permissions: {
+          cases: [ACTIONS.REFERRAL_FROM_SERVICE]
+        }
+      }
+    };
+    const { component } = setupMountedComponent(SubformMenu, props, state);
 
     expect(component.find(Menu)).lengthOf(1);
   });
@@ -86,10 +93,7 @@ describe("<SubformMenu />", () => {
       initialState
     );
 
-    component
-      .find(IconButton)
-      .find("button")
-      .simulate("click");
+    component.find(IconButton).find("button").simulate("click");
 
     expect(component.find(MenuItem)).lengthOf(1);
   });

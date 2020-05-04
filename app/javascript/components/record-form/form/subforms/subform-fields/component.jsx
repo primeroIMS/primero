@@ -16,6 +16,7 @@ const Component = ({
   field,
   locale,
   mode,
+  recordType,
   setDialogIsNew,
   setOpen,
   values
@@ -23,9 +24,13 @@ const Component = ({
   const {
     subform_sort_by: subformSortBy,
     display_name: displayName,
-    subform_prevent_item_removal: subformPreventItemRemoval,
-    name
+    name,
+    subform_section_id: subformField
   } = field;
+
+  const {
+    subform_prevent_item_removal: subformPreventItemRemoval
+  } = subformField;
 
   const { isEdit, isNew } = mode;
 
@@ -89,7 +94,11 @@ const Component = ({
                   </IconButton>
                 ) : null}
                 {mode.isShow && serviceHasReferFields(values[index]) ? (
-                  <SubformMenu index={index} values={values} />
+                  <SubformMenu
+                    index={index}
+                    values={values}
+                    recordType={recordType}
+                  />
                 ) : null}
                 <IconButton onClick={() => handleEdit(index)}>
                   <ArrowIcon />
@@ -112,6 +121,7 @@ Component.propTypes = {
   field: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
+  recordType: PropTypes.string,
   setDialogIsNew: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired

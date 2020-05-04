@@ -232,6 +232,7 @@ en:
     add_note: "Add Notes"
     add: "Add"
     update: "Update"
+    clear_selection: "Clear selection"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -365,6 +366,8 @@ en:
     revoke_success_message: "Case %{case_id} %{transition_type} to %{recipient_username} revoked."
     referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
     referral_done_success: "Referral done."
+    selected_records: "%{select_records} case(s) selected"
+    selected_all_records: "Select all %{total_records} cases that match this query."
 
     order_by:
       most_recently: "Most recently"
@@ -514,6 +517,7 @@ en:
 
   task:
     id: "ID#"
+    name: "Name"
     priority: "Priority Level"
     type: "Type of Action"
     due_date: "Due Date"
@@ -683,6 +687,8 @@ en:
     export: "Export"
     referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
     referral_done_success: "Referral done."
+    selected_records: "%{select_records} incident(s) selected"
+    selected_all_records: "Select all %{total_records} incidents that match this query."
 
   incident:
     label: "Incident ID"
@@ -843,6 +849,8 @@ en:
     request_approval_success_case_plan: "Approval requested for Case Plan form."
     request_approval_success_closure: "Approval requested for Closure form."
     request_approval_failure: "An error occurred, please contact support."
+    selected_records: "%{select_records} tracing request(s) selected"
+    selected_all_records: "Select all %{total_records} tracing requests that match this query."
 
   potential_matches:
     empty: "Please access matching through Tracing Requests"
@@ -913,8 +921,8 @@ en:
       relation_telephone: "Relative's Telephone"
 
   audit_log:
-    timestamp: "Timestamp - UTC"
-    user_name: "User Name"
+    timestamp: "Time"
+    user_name: "Performed By"
     action: "Action"
     description: "Description"
     record_owner: "Record Owner"
@@ -1175,6 +1183,9 @@ en:
       passwords_do_not_match: "does not match current password"
       password_changed_successfully: "Password changed successfully"
       time_zone_updated: "The change was successfully updated."
+      new_confirm_non_identity_html: "You are about to invite the user <b>%{username}</b> with the role <b>%{role}</b> to use Primero. A confirmation email will be sent to <b>%{email}</b>. Would you like to proceed?"
+      new_confirm_html: "You are about to invite the user <b>%{username}</b> from <b>%{identity}</b> with the role <b>%{role}</b> to use Primero. A confirmation email will be sent to <b>%{email}</b>. Would you like to proceed?"
+      failure: "An error occurred, please contact support."
     update: "Update"
     verify: "Verify"
     create: "Create"
@@ -1202,6 +1213,9 @@ en:
       url_label: "Primero"
       enabled_label: "Send Welcome Email?"
       text_label: "Welcome Email Text"
+    identity_provider: "Identity Provider"
+    provider_username_help: "Example: my.username@%{domain}"
+    invalid_provider_username: "Invalid username format. Example: my.username@%{domain}"
 
   phone: "Phone"
   email: "Email"
@@ -1371,10 +1385,32 @@ en:
 
   forms:
     label: "Forms"
+    add: "Add Form"
     save: "Save Form"
     save_details: "Save"
+    title: "Form Title"
+    description: "Form Description"
+    form_group: "Form Group"
+    record_type: "Record Type"
+    module: "Module"
+    settings: "Settings"
+    fields: "Fields"
+    translations: "Translations"
+    visibility: "Visibility"
+    web_app: "Web App"
+    mobile_app: "Mobile App"
+    show_page: "Show Page"
+    short_form: "Short Form"
+    show_on: "Show on"
+    help_text:
+      must_be_english: "Must be entered in English"
+      summariaze_purpose: "Summarize form purpose. Must be entered in English"
+      related_groups: "Place form into a related group for users"
+      english_first: "Form must be created in English before translation can be added"
     messages:
       use_existing: "We encourage you to use the existing forms as this makes data sharing and data merging between institutions easier."
+      updated: "Form section successfully updated"
+      created: "Form section successfully created"
     initial_language: "Initial Language"
     cannot_be_edited: "Fields on this form cannot be edited."
     record_types:
@@ -1391,6 +1427,7 @@ en:
       transfers_assignments: "Transfers / Assignments"
       referrals: "Referrals"
       approvals: "Approvals"
+    required_field: "%{field} is a required field"
 
   form_section:
     name: "Name"

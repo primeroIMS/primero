@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Api::V2::TransfersController, type: :request do
-
+  include ActiveJob::TestHelper
   before :each do
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
@@ -30,6 +30,7 @@ describe Api::V2::TransfersController, type: :request do
   end
 
   let(:json) { JSON.parse(response.body) }
+  let(:audit_params) { enqueued_jobs.select { |job| job.values.first == AuditLogJob }.first[:args].first }
 
   describe 'GET /api/v2/case/:id/transfers' do
 
@@ -46,6 +47,8 @@ describe Api::V2::TransfersController, type: :request do
       expect(json['data'][0]['record_id']).to eq(@case.id.to_s)
       expect(json['data'][0]['transitioned_to']).to eq('user2')
       expect(json['data'][0]['transitioned_by']).to eq('user1')
+
+      expect(audit_params['action']).to eq('show_transfers')
     end
 
     it "get a forbidden message if the user doesn't have view permission" do
@@ -73,6 +76,8 @@ describe Api::V2::TransfersController, type: :request do
       expect(json['data']['transitioned_to']).to eq('user2')
       expect(json['data']['transitioned_by']).to eq('user1')
       expect(json['data']['notes']).to eq('Test Notes')
+
+      expect(audit_params['action']).to eq('transfer')
     end
 
     it "get a forbidden message if the user doesn't have transfer permission" do
@@ -114,6 +119,8 @@ describe Api::V2::TransfersController, type: :request do
       expect(json['data'][1]['transitioned_to']).to eq('user2')
       expect(json['data'][1]['transitioned_by']).to eq('user1')
       expect(json['data'][1]['status']).to eq(Transition::STATUS_INPROGRESS)
+
+      expect(audit_params['action']).to eq('bulk_transfer')
     end
 
   end
@@ -139,6 +146,8 @@ describe Api::V2::TransfersController, type: :request do
       expect(json['data']['transitioned_to']).to eq('user2')
       expect(json['data']['transitioned_by']).to eq('user1')
 
+      expect(audit_params['action']).to eq("transfer_#{Transition::STATUS_ACCEPTED}")
+
       @case.reload
       expect(@case.owned_by).to eq('user2')
     end
@@ -158,6 +167,8 @@ describe Api::V2::TransfersController, type: :request do
       expect(json['data']['transitioned_to']).to eq('user2')
       expect(json['data']['transitioned_by']).to eq('user1')
 
+      expect(audit_params['action']).to eq("transfer_#{Transition::STATUS_REJECTED}")
+
       @case.reload
       expect(@case.owned_by).to eq('user1')
       expect(@case.assigned_user_names).not_to include('user2')
@@ -166,9 +177,7 @@ describe Api::V2::TransfersController, type: :request do
   end
 
   after :each do
+    clear_enqueued_jobs
     clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition)
   end
-
-
-
 end

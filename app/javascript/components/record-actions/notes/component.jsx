@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { List } from "immutable";
-import { useDispatch } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 import { object, string } from "yup";
 
 import { useI18n } from "../../i18n";
@@ -11,8 +11,10 @@ import Form, {
   FormSectionRecord,
   FORM_MODE_DIALOG
 } from "../../form";
-import { saveRecord } from "../../records";
+import { getRecordAlerts, saveRecord } from "../../records";
 import { ACTIONS } from "../../../libs/permissions";
+import { fetchRecordsAlerts } from "../../records/action-creators";
+import { fetchAlerts } from "../../nav/action-creators";
 
 import { NAME } from "./constants";
 
@@ -25,21 +27,27 @@ const Component = ({ close, openNotesDialog, record, recordType }) => {
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
+  const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
 
   const handleSubmit = data => {
-    dispatch(
-      saveRecord(
-        recordType,
-        "update",
-        { data: { notes_section: [data] }, record_action: ACTIONS.ADD_NOTE },
-        record.get("id"),
-        i18n.t(`notes.note_success`),
-        false,
-        false,
-        false
-      )
-    );
-
+    batch(async () => {
+      await dispatch(
+        saveRecord(
+          recordType,
+          "update",
+          { data: { notes_section: [data] }, record_action: ACTIONS.ADD_NOTE },
+          record.get("id"),
+          i18n.t(`notes.note_success`),
+          false,
+          false,
+          false
+        )
+      );
+      dispatch(fetchRecordsAlerts(recordType, record.get("id")));
+    });
+    if (recordAlerts.size <= 0) {
+      dispatch(fetchAlerts());
+    }
     close();
   };
 

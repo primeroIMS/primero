@@ -33,6 +33,8 @@ services:
     env_file:
       - docker/defaults.env
       - docker/local.env
+    ports:
+      - "11300:11300"
   backburner:
     env_file:
       - docker/defaults.env

@@ -17,6 +17,13 @@ const field = FieldRecord({
   name: "test_field_1",
   type: "text_field"
 });
+
+const metadata = fromJS({
+  total: 24,
+  per: 20,
+  page: 1
+});
+
 const stateWithoutRecords = fromJS({});
 const stateWithRecords = fromJS({
   user: {
@@ -26,6 +33,11 @@ const stateWithRecords = fromJS({
   },
   forms: {
     fields: field
+  },
+  records: {
+    cases: {
+      metadata
+    }
   }
 });
 
@@ -54,6 +66,20 @@ describe("<RecordList /> - Selectors", () => {
 
     it("should return undefined when there are not messages in store", () => {
       const values = selectors.getFields(stateWithoutRecords);
+
+      expect(values).to.be.empty;
+    });
+  });
+
+  describe("getMetadata", () => {
+    it("should return all metadata", () => {
+      const values = selectors.getMetadata(stateWithRecords, "cases");
+
+      expect(values).to.deep.equal(metadata);
+    });
+
+    it("should return an empty object when there are not metadata in store", () => {
+      const values = selectors.getMetadata(stateWithoutRecords);
 
       expect(values).to.be.empty;
     });

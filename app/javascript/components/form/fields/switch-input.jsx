@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Switch,
+  Checkbox,
   FormControl,
   FormGroup,
   FormControlLabel,
@@ -20,7 +20,7 @@ const SwitchInput = ({ commonInputProps }) => {
           control={
             <Controller
               name={name}
-              as={Switch}
+              as={Checkbox}
               disabled={disabled}
               defaultValue={false}
             />

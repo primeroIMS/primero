@@ -2,10 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { useSelector } from "react-redux";
-import isEmpty from "lodash/isEmpty";
+import get from "lodash/get";
 
 import { useI18n } from "../../i18n";
-import { getLocations, getOption } from "../../record-form";
 import TextInput from "../fields/text-input";
 import SwitchInput from "../fields/switch-input";
 import SelectInput from "../fields/select-input";
@@ -13,14 +12,15 @@ import ErrorField from "../fields/error-field";
 import {
   CHECK_BOX_FIELD,
   ERROR_FIELD,
+  LABEL_FIELD,
   PHOTO_FIELD,
   SELECT_FIELD,
   TICK_FIELD
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
-import { whichOptions } from "../utils";
-import { selectAgencies } from "../../application";
+import Label from "../fields/label";
+import { getOptions } from "../selectors";
 
 const FormSectionField = ({ checkErrors, field }) => {
   const {
@@ -37,39 +37,35 @@ const FormSectionField = ({ checkErrors, field }) => {
     password,
     multi_select: multiSelect,
     editable,
+    watchedInputs,
+    handleWatchedInputs,
+    inlineCheckboxes,
+    freeSolo,
     check_errors: fieldCheckErrors
   } = field;
   const i18n = useI18n();
-  const { formMode, errors } = useFormContext();
-  const error = errors ? errors[name] : undefined;
+  const { formMode, errors, watch } = useFormContext();
+  const error = errors ? get(errors, name) : undefined;
 
   const errorsToCheck = checkErrors
     ? checkErrors.concat(fieldCheckErrors)
     : fieldCheckErrors;
 
-  const lookups = useSelector(
-    state => getOption(state, optionStringsSource, i18n.locale),
-    !isEmpty(optionStringsSource)
+  const optionSource = useSelector(
+    state =>
+      getOptions(
+        state,
+        optionStringsSource,
+        i18n.locale,
+        options || optionsStringsText
+      ),
+    (prev, next) => prev.equals(next)
   );
 
-  const agencies = useSelector(
-    state => selectAgencies(state),
-    (agencies1, agencies2) => agencies1.equals(agencies2)
-  );
-
-  const locations = useSelector(
-    state => getLocations(state),
-    (locations1, locations2) => locations1.equals(locations2)
-  );
-
-  const inputOptions = whichOptions({
-    optionStringsSource,
-    lookups,
-    agencies,
-    locations,
-    options: options || optionsStringsText,
-    i18n
-  });
+  const watchedInputsValues = watchedInputs ? watch(watchedInputs) : null;
+  const watchedInputProps = handleWatchedInputs
+    ? handleWatchedInputs(watchedInputsValues, name, { error })
+    : {};
 
   const renderError = () =>
     checkErrors?.size && errors
@@ -80,6 +76,7 @@ const FormSectionField = ({ checkErrors, field }) => {
 
   const commonInputProps = {
     name,
+    disabled: formMode.get("isShow") || (formMode.get("isEdit") && !editable),
     required,
     autoFocus,
     error: typeof error !== "undefined" || renderError(),
@@ -90,13 +87,15 @@ const FormSectionField = ({ checkErrors, field }) => {
     InputLabelProps: {
       shrink: true
     },
-    disabled: formMode.get("isShow") || (formMode.get("isEdit") && !editable)
+    ...watchedInputProps
   };
 
   const metaInputProps = {
     type,
     password,
-    multiSelect
+    multiSelect,
+    inlineCheckboxes,
+    freeSolo
   };
 
   const Field = (fieldType => {
@@ -109,6 +108,8 @@ const FormSectionField = ({ checkErrors, field }) => {
         return SelectInput;
       case PHOTO_FIELD:
         return AttachmentInput;
+      case LABEL_FIELD:
+        return Label;
       case ERROR_FIELD:
         return ErrorField;
       default:
@@ -123,7 +124,7 @@ const FormSectionField = ({ checkErrors, field }) => {
           field={field}
           commonInputProps={commonInputProps}
           metaInputProps={metaInputProps}
-          options={inputOptions}
+          options={optionSource.toJS()}
           errorsToCheck={errorsToCheck}
         />
       )}

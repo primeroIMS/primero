@@ -16,7 +16,8 @@ import {
   RECORD_SUCCESS,
   RECORD_FAILURE,
   RECORD_FINISHED,
-  SERVICE_REFERRED_SAVE
+  SERVICE_REFERRED_SAVE,
+  FETCH_RECORD_ALERTS_SUCCESS
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -62,8 +63,27 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       const index = state.get("data").findIndex(r => r.get("id") === data.id);
 
       if (index !== -1) {
+        const {
+          incident_details: incidents,
+          services_section: services
+        } = data;
+
+        const stateWithAlertCount = {
+          ...data,
+          alert_count: incidents?.length || 0 + services?.length || 0
+        };
+
         return state
-          .updateIn(["data", index], u => mergeRecord(u, fromJS(data)))
+          .updateIn(["data", index], u =>
+            mergeRecord(
+              u,
+              fromJS(
+                incidents?.length || services?.length
+                  ? stateWithAlertCount
+                  : data
+              )
+            )
+          )
           .set("errors", false);
       }
 
@@ -77,6 +97,8 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("errors", true);
     case `${namespace}/${RECORD_FINISHED}`:
       return state.set("loading", false);
+    case `${namespace}/${FETCH_RECORD_ALERTS_SUCCESS}`:
+      return state.set("recordAlerts", fromJS(payload.data));
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
     case `${namespace}/${SERVICE_REFERRED_SAVE}`: {
@@ -90,7 +112,7 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
         service => service.get("unique_id") === serviceRecordId
       );
 
-      if(referredService?.size) {
+      if (referredService?.size) {
         const recordIndex = state
           .get("data")
           .findIndex(record => record.get("id") === recordId);
@@ -107,6 +129,7 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
           data => data?.merge(referredService)
         );
       }
+
       return state;
     }
     default:

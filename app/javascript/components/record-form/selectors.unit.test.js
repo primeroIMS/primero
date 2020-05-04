@@ -481,29 +481,6 @@ describe("<RecordForm /> - Selectors", () => {
     });
   });
 
-  describe("getRecordAlerts", () => {
-    it("should return the list of alerts", () => {
-      const expected = fromJS([
-        {
-          alert_for: "field_change",
-          type: "notes",
-          date: "2020-04-02",
-          form_unique_id: "notes"
-        }
-      ]);
-
-      expect(selectors.getRecordAlerts(stateWithRecords)).to.deep.equals(
-        expected
-      );
-    });
-
-    it("should return an empty array when there are not any options", () => {
-      const record = selectors.getRecordAlerts(stateWithNoRecords);
-
-      expect(record).to.be.empty;
-    });
-  });
-
   describe("getAssignableForms", () => {
     it("should return the forms that can be assigned to a role", () => {
       const expected = fromJS(

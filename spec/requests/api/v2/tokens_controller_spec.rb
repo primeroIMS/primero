@@ -49,7 +49,7 @@ describe Api::V2::TokensController, type: :request do
       expect(AuditLogJob).to have_been_enqueued
         .with(record_type: 'User',
               record_id: @user.id,
-              action: 'create',
+              action: 'login',
               user_id: @user.id,
               resource_url: request.url,
               metadata: {user_name: @user.user_name})

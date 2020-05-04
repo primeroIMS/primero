@@ -22,7 +22,8 @@ const Component = ({ field, values, locale, displayName, index }) => {
       const {
         type,
         date_include_time: includeTime,
-        option_strings_source: optionsStringSource
+        option_strings_source: optionsStringSource,
+        option_strings_text: optionsStringText
       } = fields.find(f => f.get(NAME_FIELD) === collapsedFieldName);
       const value = val[collapsedFieldName];
 
@@ -40,7 +41,8 @@ const Component = ({ field, values, locale, displayName, index }) => {
           const lookupComponentProps = {
             value,
             key: collapsedFieldName,
-            optionsStringSource
+            optionsStringSource,
+            optionsStringText
           };
 
           return <SubformLookupHeader {...lookupComponentProps} />;
