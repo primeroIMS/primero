@@ -1,4 +1,9 @@
-import { MANAGE, RESOURCES, SHOW_AUDIT_LOGS } from "../libs/permissions";
+import {
+  MANAGE,
+  RESOURCES,
+  SHOW_AUDIT_LOGS,
+  ADMIN_ACTIONS
+} from "../libs/permissions";
 
 // Time (ms) when fetch request will timeout
 export const FETCH_TIMEOUT = 50000;
@@ -150,12 +155,29 @@ export const LOOKUPS = {
 };
 
 export const ADMIN_NAV = [
-  { to: "/users", label: "settings.navigation.users" },
-  { to: "/agencies", label: "settings.navigation.agencies" },
-  { to: "/roles", label: "settings.navigation.roles" },
+  {
+    to: "/users",
+    label: "settings.navigation.users",
+    permission: ADMIN_ACTIONS,
+    recordType: RESOURCES.users
+  },
+  {
+    to: "/agencies",
+    label: "settings.navigation.agencies",
+    permission: ADMIN_ACTIONS,
+    recordType: RESOURCES.agencies
+  },
+  {
+    to: "/roles",
+    label: "settings.navigation.roles",
+    permission: ADMIN_ACTIONS,
+    recordType: RESOURCES.roles
+  },
   {
     to: "/user_groups",
-    label: "settings.navigation.user_groups"
+    label: "settings.navigation.user_groups",
+    permission: ADMIN_ACTIONS,
+    recordType: RESOURCES.user_groups
   },
   {
     to: "/contact_information",
