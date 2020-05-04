@@ -10,12 +10,7 @@ import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
 import { usePermissions } from "../../../user";
 import NAMESPACE from "../namespace";
-import {
-  CREATE_RECORDS,
-  RESOURCES,
-  ADMIN_ACTIONS
-} from "../../../../libs/permissions";
-import Permission from "../../../application/permission";
+import { CREATE_RECORDS } from "../../../../libs/permissions";
 
 import { fetchUsers } from "./action-creators";
 import { LIST_HEADERS } from "./constants";
@@ -55,12 +50,12 @@ const Container = () => {
   );
 
   return (
-    <Permission resources={RESOURCES.users} actions={ADMIN_ACTIONS} redirect>
+    <>
       <PageHeading title={i18n.t("users.label")}>{newUserBtn}</PageHeading>
       <PageContent>
         <IndexTable {...tableOptions} />
       </PageContent>
-    </Permission>
+    </>
   );
 };
 
