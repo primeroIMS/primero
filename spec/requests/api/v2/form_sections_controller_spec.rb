@@ -186,6 +186,59 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(json['data']['fields'][0]['order']).to eq(777)
     end
 
+    it 'Creates a new form with several fields and validates their order by index' do
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
+      params = {
+        data: {
+          unique_id: 'client_created_form_1', name: { en: 'Client Created Form 1' },
+          fields: [
+            {
+              'name': 'custom_field_0', 'type': 'separator', 'display_name': { 'en': 'Custom Field 1' }
+            },
+            {
+              'name': 'custom_field_1', 'type': 'separator', 'display_name': { 'en': 'Custom Field 2' }
+            },
+            {
+              'name': 'custom_field_2', 'type': 'separator', 'display_name': { 'en': 'Custom Field 3' }
+            }
+          ]
+        }
+      }
+      post '/api/v2/forms', params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['fields'].map { |field| [field['name'], field['order']] }.sort).to eq(
+        [['custom_field_0', 0], ['custom_field_1', 1], ['custom_field_2', 2]]
+      )
+    end
+
+    it 'Creates a new form with several fields and adding a customised order' do
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
+      params = {
+        data: {
+          unique_id: 'client_created_form_1', name: { en: 'Client Created Form 1' },
+          fields: [
+            {
+              'name': 'custom_field_0', 'type': 'separator', 'display_name': { 'en': 'Custom Field 1' }
+            },
+            {
+              'name': 'custom_field_1', 'type': 'separator', 'display_name': { 'en': 'Custom Field 2' },
+              order: 777
+            },
+            {
+              'name': 'custom_field_2', 'type': 'separator', 'display_name': { 'en': 'Custom Field 3' }
+            }
+          ]
+        }
+      }
+      post '/api/v2/forms', params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['fields'].map { |field| [field['name'], field['order']] }.sort).to eq(
+        [['custom_field_0', 0], ['custom_field_1', 777], ['custom_field_2', 2]]
+      )
+    end
+
     it "creates a new form with 200 and correctly sets the localized properties" do
       login_for_test({
         permissions: [
@@ -334,7 +387,8 @@ describe Api::V2::FormSectionsController, type: :request do
               type: 'separator',
               display_name: {
                 es: 'Traduccion del campo'
-              }
+              },
+              order: 777
             }
           ]
         }
@@ -351,6 +405,7 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(field.display_name_en).to eq(display_name_en)
       expect(field.display_name_es).to eq(params[:data][:fields][0][:display_name][:es])
       expect(field.type).to eq(params[:data][:fields][0][:type])
+      expect(field.order).to eq(params[:data][:fields][0][:order])
     end
 
     it "add fields if they dont exist in the form" do
@@ -451,7 +506,6 @@ describe Api::V2::FormSectionsController, type: :request do
             {
               name: 'fs1_field_2',
               type: 'text_field',
-              order: 777,
               display_name: {
                 en: 'Second field in form section 1'
               }
@@ -473,8 +527,6 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(@form_1.name_en).to eq(params[:data][:name][:en])
       expect(field.name).to eq(params[:data][:fields][0][:name])
       expect(@form_1.fields.size).to eq(2)
-      # Validate the order
-      expect(@form_1.fields.map(&:order).sort).to eq([0, 777])
     end
 
     it "returns 403 if user isn't authorized to update records" do
