@@ -1,20 +1,24 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { Tab, Tabs, makeStyles } from "@material-ui/core";
+import { makeStyles, Tab, Tabs } from "@material-ui/core";
 import { FormContext, useForm } from "react-hook-form";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fromJS } from "immutable";
 
 import { useI18n } from "../../../i18n";
 import { PageContent, PageHeading } from "../../../page";
 import FormSection from "../../../form/components/form-section";
-import { whichFormMode, submitHandler } from "../../../form";
+import { submitHandler, whichFormMode } from "../../../form";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { compare } from "../../../../libs";
 
-import { FieldsList, FormBuilderActionButtons, TabPanel  } from "./components";
+import {
+  FieldDialog,
+  FieldsList,
+  FormBuilderActionButtons,
+  TabPanel
+} from "./components";
 import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
 import { NAME } from "./constants";
@@ -91,6 +95,17 @@ const Component = ({ mode }) => {
     })
   );
 
+  const onSuccess = data => {
+    Object.entries(data).forEach(entry =>
+      Object.entries(entry[1]).forEach(valueEntry => {
+        if (!methods.control[`fields.${entry[0]}.${valueEntry[0]}`]) {
+          methods.register({ name: `fields.${entry[0]}.${valueEntry[0]}` });
+        }
+        methods.setValue(`fields.${entry[0]}.${valueEntry[0]}`, valueEntry[1]);
+      })
+    );
+  };
+
   return (
     <>
       <PageHeading title={i18n.t("forms.add")}>
@@ -122,7 +137,8 @@ const Component = ({ mode }) => {
               <div className={css.tabContent}>
                 <h1>{i18n.t("forms.fields")}</h1>
               </div>
-              <FieldsList fields={selectedForm.get("fields", fromJS([]))} />
+              <FieldsList />
+              <FieldDialog onSuccess={onSuccess} />
             </TabPanel>
             <TabPanel tab={tab} index={2}>
               Item Three

@@ -8,7 +8,13 @@ describe("<FormsBuilder /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    ["clearSelectedForm", "fetchForm", "saveForm"].forEach(property => {
+    [
+      "clearSelectedForm",
+      "fetchForm",
+      "saveForm",
+      "setSelectedField",
+      "updateSelectedField"
+    ].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
     });

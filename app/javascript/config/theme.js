@@ -20,6 +20,7 @@ const colors = {
   warmGrey1: "#e0dfd7",
   warmGrey2: "#bcbcad",
   warmGrey3: "#b9b8b3",
+  warmGrey4: "#9a988f",
   midGrey: "#757472",
   grey: "#4a4a4a",
   contentGrey: "#fbfbfb",
