@@ -64,6 +64,9 @@ describe("Application - Reducers", () => {
         label_key: "district",
         admin_level: 2,
         field_key: "owned_by_location"
+      },
+      ageRanges: {
+        primero: ["0..5", "6..11", "12..17", "18..999"]
       }
     });
 
@@ -109,6 +112,9 @@ describe("Application - Reducers", () => {
           label_key: "district",
           admin_level: 2,
           field_key: "owned_by_location"
+        },
+        age_ranges: {
+          primero: ["0..5", "6..11", "12..17", "18..999"]
         }
       }
     };

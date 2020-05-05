@@ -6,14 +6,10 @@ import { denormalizeFormData } from "../../schemas";
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
 
-export const forms = (state, { recordType, primeroModule }) => {
+const forms = (state, { recordType, primeroModule }) => {
   const formSections = state.getIn([NAMESPACE, "formSections"]);
 
   if (isEmpty(formSections)) return null;
-
-  if (isEmpty(recordType) && isEmpty(primeroModule)) {
-    return formSections;
-  }
 
   return formSections.filter(
     fs =>
