@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+
 import React, { useRef, useImperativeHandle } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,15 +13,23 @@ import { FormAction, whichFormMode, submitHandler } from "../form";
 import { getReport } from "../pages/report/selectors";
 import { PageContainer, PageContent, PageHeading } from "../page";
 import bindFormSubmit from "../../libs/submit-form";
-import { ROUTES } from "../../config";
+import { RECORD_TYPES, ROUTES } from "../../config";
 import FormSection from "../form/components/form-section";
 import { getAgeRanges } from "../application/selectors";
-import { getRecordForms } from "../record-form/selectors";
+import {
+  getRecordForms,
+  getRecordFormsByUniqueId
+} from "../record-form/selectors";
 
-import { NAME, NAME_FIELD, DESCRIPTION_FIELD } from "./constants";
+import { DESCRIPTION_FIELD, NAME, NAME_FIELD } from "./constants";
 import NAMESPACE from "./namespace";
 import { form, validations } from "./form";
-import { buildFields, dependantFields, formatAgeRange } from "./utils";
+import {
+  buildFields,
+  dependantFields,
+  formatAgeRange,
+  getFormName
+} from "./utils";
 
 const Container = ({ mode }) => {
   const i18n = useI18n();
@@ -38,12 +48,20 @@ const Container = ({ mode }) => {
   const primeroAgeRanges = useSelector(state => getAgeRanges(state));
   const report = useSelector(state => getReport(state));
 
-  const filteredForms = useSelector(state =>
+  const recordTypesForms = useSelector(state =>
     getRecordForms(state, {
       recordType: selectedRecordType,
       primeroModule: selectedModule
     })
   );
+
+  const reportableForm = useSelector(state =>
+    getRecordFormsByUniqueId(state, {
+      recordType: RECORD_TYPES.cases,
+      primeroModule: selectedModule,
+      formName: getFormName(selectedRecordType)
+    })
+  )?.toJS()?.[0]?.fields?.[0]?.subform_section_id;
 
   useImperativeHandle(
     formRef,
@@ -53,7 +71,7 @@ const Container = ({ mode }) => {
       formMode,
       i18n,
       initialValues: {},
-      onSubmit: data => console.log(data)
+      onSubmit: () => {}
     })
   );
 
@@ -62,17 +80,17 @@ const Container = ({ mode }) => {
     emptyModule,
     emptyModule || emptyRecordType,
     formatAgeRange(primeroAgeRanges),
-    buildFields(filteredForms, i18n.locale)
+    buildFields(
+      getFormName(selectedRecordType) ? reportableForm : recordTypesForms,
+      i18n.locale,
+      Boolean(getFormName(selectedRecordType))
+    )
   );
 
   // const defaultFilters = [
   //   { "value"=> ["open"], "attribute"=> "status" },
   //   { "value"=> ["true"], "attribute"=> "record_state" }
   // ];
-
-  // useEffect(() => {
-  //   dispatch(fetchReport(params.id));
-  // }, []);
 
   if (isModuleTouched && emptyModule) {
     const name = methods.getValues()[NAME_FIELD];

@@ -112,12 +112,12 @@ export default [
         },
         actions: CREATE_REPORTS
       },
-      // {
-      //   path: `${ROUTES.reports}/:id`,
-      //   component: Report,
-      //   resources: RESOURCES.reports,
-      //   actions: READ_REPORTS
-      // },
+      {
+        path: `${ROUTES.reports}/:id`,
+        component: Report,
+        resources: RESOURCES.reports,
+        actions: READ_REPORTS
+      },
       {
         path: ROUTES.reports,
         component: Reports,

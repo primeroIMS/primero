@@ -10,32 +10,11 @@ export const GROUP_DATES_BY_FIELD = "group_dates_by";
 export const IS_GRAPH_FIELD = "is_graph";
 export const EMPTY_ROWS_FIELD = "empty_rows";
 export const REPORTABLE_TYPES = {
-  case: {
-    id: "case",
-    parentRecordType: "case"
-  },
-  incident: {
-    id: "incident",
-    parentRecordType: "incident"
-  },
-  tracing_request: {
-    id: "tracing_request",
-    parentRecordType: "tracing_request"
-  },
-  violation: {
-    id: "violation",
-    parentRecordType: "incident"
-  },
-  reportable_protection_concern: {
-    id: "reportable_protection_concern",
-    parentRecordType: "case"
-  },
-  reportable_service: {
-    id: "reportable_service",
-    parentRecordType: "case"
-  },
-  reportable_follow_up: {
-    id: "reportable_follow_up",
-    parentRecordType: "case"
-  }
+  case: "case",
+  incident: "incident",
+  tracing_request: "tracing_request",
+  violation: "violation",
+  reportable_protection_concern: "protection_concern_details",
+  reportable_service: "services",
+  reportable_follow_up: "followup"
 };

@@ -1,3 +1,5 @@
+import isEmpty from "lodash/isEmpty";
+
 import { TICK_FIELD } from "../form";
 import { dataToJS } from "../../libs";
 import { AGE_MAX } from "../../config";
@@ -8,6 +10,8 @@ import {
   SEPERATOR,
   SUBFORM_SECTION
 } from "../record-form/constants";
+
+import { REPORTABLE_TYPES } from "./constants";
 
 export const dependantFields = formSections => {
   const data = dataToJS(formSections);
@@ -29,7 +33,26 @@ export const dependantFields = formSections => {
 export const formatAgeRange = data =>
   data.join(", ").replace(/\../g, "-").replace(`-${AGE_MAX}`, "+");
 
-export const buildFields = (data, locale) => {
+export const getFormName = selectedRecordType => {
+  return /(\w*reportable\w*)$/.test(selectedRecordType)
+    ? REPORTABLE_TYPES[selectedRecordType]
+    : "";
+};
+
+export const buildFields = (data, locale, isReportable) => {
+  if (isReportable) {
+    if (isEmpty(data)) {
+      return [];
+    }
+    const formSection = data.name?.[locale];
+
+    return data.fields.map(field => ({
+      id: field.name,
+      display_text: field.display_name[locale],
+      formSection
+    }));
+  }
+
   const excludeFieldTypes = [
     AUDIO_FIELD,
     DOCUMENT_FIELD,
@@ -37,7 +60,8 @@ export const buildFields = (data, locale) => {
     SEPERATOR,
     SUBFORM_SECTION
   ];
-  const result = data
+
+  return data
     .reduce((acc, form) => {
       // eslint-disable-next-line camelcase
       const { name, fields } = form;
@@ -55,6 +79,4 @@ export const buildFields = (data, locale) => {
       return [...acc, filteredFields];
     }, [])
     .flat();
-
-  return result;
 };

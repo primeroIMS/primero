@@ -71,8 +71,8 @@ export const form = (
           type: SELECT_FIELD,
           required: true,
           disabled: disabledByModule,
-          option_strings_text: Object.values(REPORTABLE_TYPES).map(item => {
-            const { id } = item;
+          option_strings_text: Object.entries(REPORTABLE_TYPES).map(item => {
+            const [id] = item;
 
             return {
               id,
@@ -95,6 +95,7 @@ export const form = (
           name: DISAGGREGATE_BY_FIELD,
           type: SELECT_FIELD,
           multi_select: true,
+          required: true,
           disabled: disabledByModuleAndRecordType,
           groupBy: "formSection",
           option_strings_text: fields
