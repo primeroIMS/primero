@@ -14,13 +14,12 @@ import bindFormSubmit from "../../libs/submit-form";
 import { ROUTES } from "../../config";
 import FormSection from "../form/components/form-section";
 import { getAgeRanges } from "../application/selectors";
-import { forms } from "../record-form/selectors";
-import { dataToJS } from "../../libs";
+import { getRecordForms } from "../record-form/selectors";
 
 import { NAME, NAME_FIELD, DESCRIPTION_FIELD } from "./constants";
 import NAMESPACE from "./namespace";
 import { form, validations } from "./form";
-import { dependantFields, formatAgeRange } from "./utils";
+import { buildFields, dependantFields, formatAgeRange } from "./utils";
 
 const Container = ({ mode }) => {
   const i18n = useI18n();
@@ -40,13 +39,11 @@ const Container = ({ mode }) => {
   const report = useSelector(state => getReport(state));
 
   const filteredForms = useSelector(state =>
-    forms(state, {
+    getRecordForms(state, {
       recordType: selectedRecordType,
       primeroModule: selectedModule
     })
   );
-
-  console.log(dataToJS(filteredForms));
 
   useImperativeHandle(
     formRef,
@@ -60,15 +57,12 @@ const Container = ({ mode }) => {
     })
   );
 
-  // if (!primeroAgeRanges.size) {
-  //   return null;
-  // }
-
   const formSections = form(
     i18n,
     emptyModule,
     emptyModule || emptyRecordType,
-    formatAgeRange(primeroAgeRanges)
+    formatAgeRange(primeroAgeRanges),
+    buildFields(filteredForms, i18n.locale)
   );
 
   // const defaultFilters = [

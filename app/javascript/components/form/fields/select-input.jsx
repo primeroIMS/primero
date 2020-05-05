@@ -11,7 +11,7 @@ const filter = createFilterOptions();
 
 const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const { multiSelect, freeSolo } = metaInputProps;
-  const { name, disabled, ...commonProps } = commonInputProps;
+  const { name, disabled, groupBy, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
 
   const optionLabel = option => {
@@ -98,6 +98,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       onChange={handleChange}
       as={
         <Autocomplete
+          groupBy={option => option[groupBy]}
           options={options}
           multiple={multiSelect}
           getOptionLabel={optionLabel}
@@ -123,6 +124,7 @@ SelectInput.defaultProps = {
 SelectInput.propTypes = {
   commonInputProps: PropTypes.shape({
     disabled: PropTypes.bool,
+    groupBy: PropTypes.string,
     helperText: PropTypes.string,
     name: PropTypes.string.isRequired
   }),

@@ -27,7 +27,8 @@ export const FieldRecord = Record({
   freeSolo: false,
   watchedInputs: null,
   handleWatchedInputs: null,
-  check_errors: List([])
+  check_errors: List([]),
+  groupBy: null
 });
 
 export const FormSectionRecord = Record({

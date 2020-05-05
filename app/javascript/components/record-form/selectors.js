@@ -26,8 +26,6 @@ export const forms = (state, { recordType, primeroModule }) => {
   );
 };
 
-export const allForms = state => state.getIn([NAMESPACE, "formSections"]);
-
 export const getFirstTab = (state, query) => {
   const selectedForms = forms(state, query);
 

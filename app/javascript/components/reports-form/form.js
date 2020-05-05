@@ -38,7 +38,8 @@ export const form = (
   i18n,
   disabledByModule,
   disabledByModuleAndRecordType,
-  ageHelpText
+  ageHelpText,
+  fields
 ) => {
   return fromJS([
     FormSectionRecord({
@@ -86,12 +87,8 @@ export const form = (
           multi_select: true,
           required: true,
           disabled: disabledByModuleAndRecordType,
-          option_strings_text: ["date", "week", "month", "year"].map(
-            dateRange => ({
-              id: dateRange,
-              display_text: i18n.t(`report.date_ranges.${dateRange}`)
-            })
-          )
+          groupBy: "formSection",
+          option_strings_text: fields
         }),
         FieldRecord({
           display_name: i18n.t("report.disaggregate_by"),
@@ -99,7 +96,8 @@ export const form = (
           type: SELECT_FIELD,
           multi_select: true,
           disabled: disabledByModuleAndRecordType,
-          option_strings_source: "lookup-service-type"
+          groupBy: "formSection",
+          option_strings_text: fields
         }),
         FieldRecord({
           display_name: i18n.t("report.group_ages"),
