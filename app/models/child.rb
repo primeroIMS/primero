@@ -129,6 +129,7 @@ class Child < ApplicationRecord
 
   before_save :sync_protection_concerns
   before_save :auto_populate_name
+  before_save :update_implement_field
   before_create :hide_name
 
   alias super_defaults defaults
