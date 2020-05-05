@@ -71,7 +71,12 @@ registerRoute(
 registerRoute(
   /\/options\/locations-.*.json$/,
   new CacheFirst({
-    cacheName: "locations"
+    cacheName: "locations",
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 1
+      })
+    ]
   }),
   METHODS.GET
 );
