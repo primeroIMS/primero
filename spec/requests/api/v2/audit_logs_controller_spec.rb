@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::AuditLogsController, type: :request do
   before :each do
-    clean_data(User, Agency, Role)
+    clean_data(User, Agency, Role, AuditLog)
     role = Role.create!(
       name: 'Test Role 1',
       unique_id: 'test-role-1',
@@ -92,7 +92,59 @@ describe Api::V2::AuditLogsController, type: :request do
     end
   end
 
+  describe 'The action message from audit logs' do
+    include ActiveJob::TestHelper
+
+    after do
+      clear_enqueued_jobs
+    end
+
+    let(:audit_params) { enqueued_jobs.first[:args].first }
+
+    it 'Index without parameters' do
+      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])])
+      get '/api/v2/cases'
+      expect(audit_params['resource_url']).to eq('http://www.example.com/api/v2/cases')
+      expect(audit_params['action']).to eq('list')
+    end
+
+    it 'Destroy without parameters' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE]),
+          Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE]),
+          Permission.new(resource: Permission::USER_GROUP, actions: [Permission::MANAGE]),
+          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE]),
+          Permission.new(resource: Permission::SYSTEM, actions: [Permission::MANAGE]),
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
+        ],
+        group_permission: Permission::ADMIN_ONLY
+      )
+
+      delete "/api/v2/users/#{@user_a.id}"
+      expect(audit_params['resource_url']).to eq("http://www.example.com/api/v2/users/#{@user_a.id}")
+      expect(audit_params['action']).to eq('delete')
+    end
+
+    it 'Login action message' do
+      params = {
+        'user': { 'user_name': @user_a.user_name, 'password': @user_a.password },
+        'token': { 'user': { 'user_name': @user_a.user_name, 'password': @user_a.password } }
+      }
+      post '/api/v2/tokens', params: params
+      expect(audit_params['resource_url']).to eq('http://www.example.com/api/v2/tokens')
+      expect(audit_params['action']).to eq('login')
+    end
+
+    it 'Logout action message' do
+      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])])
+      delete '/api/v2/tokens'
+      expect(audit_params['resource_url']).to eq('http://www.example.com/api/v2/tokens')
+      expect(audit_params['action']).to eq('logout')
+    end
+  end
+
   after :each do
-    clean_data(User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
+    clean_data(User, Agency, Role, AuditLog)
   end
 end

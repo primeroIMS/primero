@@ -11,7 +11,8 @@ describe("<IndexFilters /> - Constants", () => {
       "OR_FIELDS",
       "MY_CASES_FILTER_NAME",
       "OR_FILTER_NAME",
-      "DEFAULT_FILTERS"
+      "DEFAULT_FILTERS",
+      "DEFAULT_SELECTED_RECORDS_VALUE"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

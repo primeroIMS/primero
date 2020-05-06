@@ -232,6 +232,7 @@ en:
     add_note: "Add Notes"
     add: "Add"
     update: "Update"
+    clear_selection: "Clear selection"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -365,6 +366,8 @@ en:
     revoke_success_message: "Case %{case_id} %{transition_type} to %{recipient_username} revoked."
     referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
     referral_done_success: "Referral done."
+    selected_records: "%{select_records} case(s) selected"
+    selected_all_records: "Select all %{total_records} cases that match this query."
 
     order_by:
       most_recently: "Most recently"
@@ -514,6 +517,7 @@ en:
 
   task:
     id: "ID#"
+    name: "Name"
     priority: "Priority Level"
     type: "Type of Action"
     due_date: "Due Date"
@@ -683,6 +687,8 @@ en:
     export: "Export"
     referral_done: "Clicking 'Done' signifies that you have completed the referral work associated with this case. Once you click 'Done' you will no longer have access to this record."
     referral_done_success: "Referral done."
+    selected_records: "%{select_records} incident(s) selected"
+    selected_all_records: "Select all %{total_records} incidents that match this query."
 
   incident:
     label: "Incident ID"
@@ -843,6 +849,8 @@ en:
     request_approval_success_case_plan: "Approval requested for Case Plan form."
     request_approval_success_closure: "Approval requested for Closure form."
     request_approval_failure: "An error occurred, please contact support."
+    selected_records: "%{select_records} tracing request(s) selected"
+    selected_all_records: "Select all %{total_records} tracing requests that match this query."
 
   potential_matches:
     empty: "Please access matching through Tracing Requests"
@@ -1419,6 +1427,7 @@ en:
       transfers_assignments: "Transfers / Assignments"
       referrals: "Referrals"
       approvals: "Approvals"
+    required_field: "%{field} is a required field"
 
   form_section:
     name: "Name"

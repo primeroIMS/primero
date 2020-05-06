@@ -7,6 +7,8 @@ gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before
 gem 'arabic-letter-connector',         # Arabic letter connector for PDF exports
     git: 'https://github.com/Quoin/arabic-letter-connector',
     branch: 'support-lam-alef-ligatures'
+gem 'azure-storage',       '0.15.0.preview',
+    require: false                     # Deprecated MS interface for Azure Block Storage, compatible with Rails 5.2
 gem 'backburner',          '~> 1.5'    # Ruby client for the Beanstalkd queue
 gem 'cancancan',           '3.0.1'     # Endpoint user authorization
 gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for merging params to existing records.

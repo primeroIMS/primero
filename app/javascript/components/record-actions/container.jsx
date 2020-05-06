@@ -50,6 +50,7 @@ const Container = ({
   record,
   mode,
   showListActions,
+  currentPage,
   selectedRecords
 }) => {
   const i18n = useI18n();
@@ -405,7 +406,10 @@ const Container = ({
   const filteredActions = filterItems(actions);
   const actionItems = filteredActions?.map(action => {
     const disabled =
-      showListActions && !selectedRecords.length && action.name !== "Export";
+      showListActions &&
+      selectedRecords &&
+      !Object.keys(selectedRecords).length &&
+      action.name !== "Export";
 
     return (
       <DisableOffline>
@@ -465,6 +469,11 @@ const Container = ({
 
   const allowedRequestsApproval = filterItems(requestsApproval);
   const allowedApprovals = filterItems(approvals);
+  const selectedRecordsOnCurrentPage =
+    (selectedRecords &&
+      Boolean(Object.keys(selectedRecords).length) &&
+      selectedRecords[currentPage]) ||
+    [];
 
   return (
     <>
@@ -503,7 +512,7 @@ const Container = ({
           close={() => setIncidentDialog(false)}
           recordType={recordType}
           records={[]}
-          selectedRowsIndex={selectedRecords}
+          selectedRowsIndex={selectedRecordsOnCurrentPage}
         />
       </Permission>
 
@@ -512,7 +521,7 @@ const Container = ({
           openServiceDialog={serviceDialog}
           close={() => setServiceDialog(false)}
           recordType={recordType}
-          selectedRowsIndex={selectedRecords}
+          selectedRowsIndex={selectedRecordsOnCurrentPage}
         />
       </Permission>
 
@@ -562,6 +571,7 @@ const Container = ({
           recordType={recordType}
           userPermissions={userPermissions}
           record={record}
+          currentPage={currentPage}
           selectedRecords={selectedRecords}
           pending={dialogPending}
           setPending={setDialogPending}
@@ -574,11 +584,12 @@ const Container = ({
 Container.displayName = NAME;
 
 Container.propTypes = {
+  currentPage: PropTypes.number,
   iconColor: PropTypes.string,
   mode: PropTypes.object,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  selectedRecords: PropTypes.array,
+  selectedRecords: PropTypes.object,
   showListActions: PropTypes.bool
 };
 
