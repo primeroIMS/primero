@@ -71,6 +71,7 @@ class Child < CouchRest::Model::Base
   #To hold the list of GBV Incidents created from a GBV Case.
   property :incident_links, [], :default => []
   property :matched_tracing_request_id
+  property :family_number
 
   validate :validate_date_of_birth
   validate :validate_registration_date
@@ -173,6 +174,7 @@ class Child < CouchRest::Model::Base
     string :workflow, as: 'workflow_sci'
     string :child_status, as: 'child_status_sci'
     string :created_agency_office, as: 'created_agency_office_sci'
+    string :family_number, as: 'family_number_sci'
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
     end
