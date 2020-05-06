@@ -465,31 +465,7 @@ describe Api::V2::ChildrenController, type: :request do
         expect(json['data']['services_section'].first['service_type']).to eq('Test type')
         expect(json['data']['name']).to be_nil
         @case1.reload
-        expect(@case1.services_section[0]['service_implemented']).to eq('not_implemented')
         expect(@case1.name).to eq('Test1')
-      end
-
-      it 'Set Implemented if Service Implemented On field is present' do
-        login_for_test(
-          group_permission: Permission::SELF,
-          permissions: [
-            Permission.new(resource: Permission::CASE, actions: [Permission::SERVICES_SECTION_FROM_CASE])
-          ]
-        )
-
-        params = {
-          data: { name: 'Tester 1', services_section: [
-            { service_type: 'Test type', service_implemented_day_time: '2020-02-06 22:16:00 UTC' }
-          ] },
-          record_action: Permission::SERVICES_SECTION_FROM_CASE
-        }
-
-        patch "/api/v2/cases/#{@case1.id}", params: params
-        @case1.reload
-
-        expect(response).to have_http_status(200)
-        expect(@case1.services_section[0]['service_implemented_day_time'].present?).to be_truthy
-        expect(@case1.services_section[0]['service_implemented']).to eq('implemented')
       end
 
       it 'returns 403 if the user is not authorized' do
