@@ -53,7 +53,8 @@ export const exporterFilters = (
   shortIds,
   appliedFilters,
   queryParams,
-  record
+  record,
+  allRecordsSelected
 ) => {
   let filters = {};
   const defaultFilters = {
@@ -74,7 +75,7 @@ export const exporterFilters = (
       return acc;
     }, {});
 
-    if (allCurrentRowsSelected || shortIds.length) {
+    if (!allRecordsSelected && (allCurrentRowsSelected || shortIds.length)) {
       filters = { short_id: shortIds };
     } else if (
       Object.keys(queryParams || {}).length ||

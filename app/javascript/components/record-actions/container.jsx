@@ -21,6 +21,7 @@ import {
 } from "../../libs/permissions";
 import Permission from "../application/permission";
 import DisableOffline from "../disable-offline";
+import { getMetadata } from "../record-list/selectors";
 
 import { setDialog, setPending } from "./action-creators";
 import {
@@ -31,7 +32,10 @@ import {
   REFER_DIALOG,
   TRANSFER_DIALOG,
   ASSIGN_DIALOG,
-  EXPORT_DIALOG
+  EXPORT_DIALOG,
+  ENABLED_FOR_ONE,
+  ENABLED_FOR_ONE_MANY,
+  ENABLED_FOR_ONE_MANY_ALL
 } from "./constants";
 import { NAME } from "./config";
 import Notes from "./notes";
@@ -43,6 +47,7 @@ import AddService from "./add-service";
 import RequestApproval from "./request-approval";
 import Exports from "./exports";
 import { selectDialog, selectDialogPending } from "./selectors";
+import { isDisabledAction } from "./utils";
 
 const Container = ({
   recordType,
@@ -99,6 +104,9 @@ const Container = ({
   const setOpenExportsDialog = open => {
     dispatch(setDialog({ dialog: EXPORT_DIALOG, open }));
   };
+
+  const metadata = useSelector(state => getMetadata(state, recordType));
+  const totalRecords = metadata?.get("total", 0);
 
   const enableState =
     record && record.get("record_state") ? "disable" : "enable";
@@ -297,18 +305,24 @@ const Container = ({
         setReferDialog(true);
       },
       recordType,
+      recordListAction: true,
+      enabledFor: ENABLED_FOR_ONE_MANY,
       condition: canRefer
     },
     {
       name: `${i18n.t("buttons.reassign")} ${formRecordType}`,
       action: () => setAssignDialog(true),
       recordType,
+      recordListAction: true,
+      enabledFor: ENABLED_FOR_ONE_MANY,
       condition: canAssign
     },
     {
       name: `${i18n.t("buttons.transfer")} ${formRecordType}`,
       action: () => setTransferDialog(true),
       recordType: ["cases", "incidents"],
+      recordListAction: true,
+      enabledFor: ENABLED_FOR_ONE_MANY,
       condition: canTransfer
     },
     {
@@ -316,6 +330,7 @@ const Container = ({
       action: handleIncidentDialog,
       recordType: RECORD_PATH.cases,
       recordListAction: true,
+      enabledFor: ENABLED_FOR_ONE,
       condition: showListActions
         ? canAddIncident
         : canAddIncident && Boolean(isSearchFromList)
@@ -325,6 +340,7 @@ const Container = ({
       action: handleServiceDialog,
       recordType: RECORD_PATH.cases,
       recordListAction: true,
+      enabledFor: ENABLED_FOR_ONE,
       condition: showListActions
         ? canAddService
         : canAddService && Boolean(isSearchFromList)
@@ -364,6 +380,7 @@ const Container = ({
       action: () => setOpenExportsDialog(true),
       recordType: RECORD_TYPES.all,
       recordListAction: true,
+      enabledFor: ENABLED_FOR_ONE_MANY_ALL,
       condition: canShowExports
     }
   ];
@@ -407,9 +424,7 @@ const Container = ({
   const actionItems = filteredActions?.map(action => {
     const disabled =
       showListActions &&
-      selectedRecords &&
-      !Object.keys(selectedRecords).length &&
-      action.name !== "Export";
+      isDisabledAction(action.enabledFor, selectedRecords, totalRecords);
 
     return (
       <DisableOffline>

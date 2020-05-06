@@ -201,5 +201,26 @@ describe("<RecordActions /> - exports/utils", () => {
         ).to.be.deep.equals(expected);
       }
     );
+
+    it("should return and object with default filter if allRecordsSelected are selected", () => {
+      const expected = {
+        filters: {
+          status: ["open"],
+          record_state: ["true"]
+        }
+      };
+
+      expect(
+        utils.exporterFilters(
+          false,
+          false,
+          shortIds,
+          fromJS({}),
+          {},
+          record,
+          true
+        )
+      ).to.be.deep.equals(expected);
+    });
   });
 });
