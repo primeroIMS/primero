@@ -10,8 +10,9 @@ describe("app/javascript/test/utils/index", () => {
   [
     "setupMockFieldComponent",
     "setupMockFormComponent",
-    'setupMountedComponent',
+    "setupMountedComponent",
     "setupMountedThemeComponent",
+    "createSimpleMount",
     "tick"
   ].forEach(property => {
     it(`exports property '${property}'`, () => {
