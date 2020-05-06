@@ -12,7 +12,6 @@ import Login, {
   NotAuthorized,
   NotFound,
   PotentialMatches,
-  Report,
   RolesForm,
   RolesList,
   Support,
@@ -22,6 +21,7 @@ import Login, {
   UsersForm,
   UsersList
 } from "../components/pages";
+import Report from "../components/report";
 import Reports from "../components/reports-list";
 import ReportsForm from "../components/reports-form";
 import RecordForm from "../components/record-form";
@@ -116,7 +116,19 @@ export default [
         path: `${ROUTES.reports}/:id`,
         component: Report,
         resources: RESOURCES.reports,
-        actions: READ_REPORTS
+        actions: READ_REPORTS,
+        extraProps: {
+          mode: MODES.show
+        }
+      },
+      {
+        path: `${ROUTES.reports}/:id/edit`,
+        component: ReportsForm,
+        resources: RESOURCES.reports,
+        actions: READ_REPORTS,
+        extraProps: {
+          mode: MODES.edit
+        }
       },
       {
         path: ROUTES.reports,

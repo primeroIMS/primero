@@ -20,7 +20,6 @@ describe("pages - index", () => {
       "NotAuthorized",
       "NotFound",
       "PotentialMatches",
-      "Report",
       "RolesForm",
       "RolesList",
       "Support",

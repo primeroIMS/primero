@@ -1,16 +1,18 @@
 /* eslint-disable camelcase */
 
-import React, { useRef, useImperativeHandle } from "react";
+import React, { useRef, useImperativeHandle, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { FormContext, useForm } from "react-hook-form";
 import isEmpty from "lodash/isEmpty";
+import { useParams } from "react-router-dom";
 
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
 import { FormAction, whichFormMode, submitHandler } from "../form";
-import { getReport } from "../pages/report/selectors";
+import { fetchReport } from "../report/action-creators";
+import { getReport } from "../report/selectors";
 import { PageContainer, PageContent, PageHeading } from "../page";
 import bindFormSubmit from "../../libs/submit-form";
 import { RECORD_TYPES, ROUTES } from "../../config";
@@ -37,7 +39,12 @@ const Container = ({ mode }) => {
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);
   const validationSchema = validations(i18n);
-  const methods = useForm({ validationSchema, defaultValues: {} });
+  const { id } = useParams();
+  const methods = useForm({
+    validationSchema,
+    defaultValues: { name: { en: "holi" } }
+  });
+  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const selectedModule = methods.watch("modules");
   const selectedRecordType = methods.watch("record_type");
   const emptyModule = isEmpty(selectedModule);
@@ -62,6 +69,18 @@ const Container = ({ mode }) => {
       formName: getFormName(selectedRecordType)
     })
   )?.toJS()?.[0]?.fields?.[0]?.subform_section_id;
+
+  useEffect(() => {
+    if (isEditOrShow) {
+      dispatch(fetchReport(id));
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (report.size) {
+      methods.reset(report.toJS());
+    }
+  }, [report.size]);
 
   useImperativeHandle(
     formRef,
@@ -115,10 +134,10 @@ const Container = ({ mode }) => {
   };
 
   const pageHeading = report?.size
-    ? `${i18n.t("reports.label")} ${report.getIn(["name", i18n.locale])}`
+    ? report.getIn(["name", i18n.locale])
     : i18n.t("reports.register_new_report");
 
-  const saveButton = formMode.get("isNew") && (
+  const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>
       <FormAction
         cancel
