@@ -20,6 +20,11 @@ export const updateSelectedField = data => ({
   payload: { data }
 });
 
+export const reorderFields = (name, order) => ({
+  type: actions.REORDER_FIELDS,
+  payload: { name, order }
+});
+
 export const saveForm = ({ id, body, saveMethod, message }) => {
   const path =
     saveMethod === SAVE_METHODS.update

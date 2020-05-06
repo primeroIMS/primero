@@ -11,6 +11,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
     [
       "clearSelectedForm",
       "fetchForm",
+      "reorderFields",
       "saveForm",
       "setSelectedField",
       "updateSelectedField"

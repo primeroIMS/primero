@@ -1,6 +1,7 @@
 /* eslint-disable react/no-multi-comp */
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useFormContext } from "react-hook-form";
 import clsx from "clsx";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { makeStyles } from "@material-ui/core";
@@ -9,20 +10,33 @@ import { compare } from "../../../../../../libs";
 import { useI18n } from "../../../../../i18n";
 import { getListStyle } from "../../../forms-list/utils";
 import FieldListItem from "../field-list-item";
+import { reorderFields } from "../../action-creators";
 import { getSelectedFields } from "../../selectors";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
 const Component = () => {
+  const methods = useFormContext();
+  const dispatch = useDispatch();
   const fields = useSelector(state => getSelectedFields(state), compare);
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
-  // TODO: Handle sorting logic once endpoint available.
+  useEffect(() => {
+    fields.forEach(field => {
+      const name = field.get("name");
+
+      if (!methods.control[`fields.${name}.order`]) {
+        methods.register({ name: `fields.${name}.order` });
+      }
+
+      methods.setValue(`fields.${name}.order`, field.get("order"));
+    });
+  }, [fields]);
+
   const handleDragEnd = result => {
-    // eslint-disable-next-line no-console
-    console.error(result);
+    dispatch(reorderFields(result.draggableId, result.destination.index));
   };
 
   return (
