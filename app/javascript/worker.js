@@ -40,13 +40,6 @@ registerRoute(
   })
 );
 
-// workbox.routing.registerNavigationRoute(
-//   workbox.precaching.getCacheKeyForURL("/"),
-//   {
-//     whitelist: [/^(\/)$/, /^\/v2\//]
-//   }
-// );
-
 // I18n
 registerRoute(/translations-*.js$/, new CacheFirst(), METHODS.GET);
 
