@@ -100,7 +100,7 @@ class Lookup < ApplicationRecord
 
     def display_value(lookup_id, option_id, lookups = nil, opts = {})
       opts[:locale] ||= I18n.locale
-      Lookup.values(lookup_id, lookups, opts).find { |l| l['id'] == option_id }.try(:[], 'display_text')
+      Lookup.values(lookup_id, lookups, opts).find { |l| l['id'] == option_id }&.[]('display_text')
     end
 
     def get_location_types
@@ -153,7 +153,7 @@ class Lookup < ApplicationRecord
     lh = localized_hash(locale)
     lvh = {}
 
-    lookup_values(locale).try(:each) { |lv| lvh[lv['id']] = lv['display_text'] }
+    lookup_values(locale)&.each { |lv| lvh[lv['id']] = lv['display_text'] }
     lh['lookup_values'] = lvh
     lh
   end
@@ -163,12 +163,12 @@ class Lookup < ApplicationRecord
   end
 
   def validate_values_keys_match
-    default_ids = lookup_values_en.try(:map) { |lv| lv['id'] }
+    default_ids = lookup_values_en&.map { |lv| lv['id'] }
     if default_ids.present?
       Primero::Application.locales.each do |locale|
         next if locale == Primero::Application::BASE_LANGUAGE || send("lookup_values_#{locale}").blank?
 
-        locale_ids = send("lookup_values_#{locale}").try(:map) { |lv| lv['id'] }
+        locale_ids = send("lookup_values_#{locale}")&.map { |lv| lv['id'] }
         if (default_ids - locale_ids).present? || (locale_ids - default_ids).present?
           return errors.add(:lookup_values, I18n.t('errors.models.field.translated_options_do_not_match'))
         end
@@ -188,7 +188,7 @@ class Lookup < ApplicationRecord
   end
 
   def valid?(context = :default)
-    self.name = name.try(:titleize)
+    self.name = name&.titleize
     sanitize_lookup_values
     super(context)
   end
@@ -277,21 +277,21 @@ class Lookup < ApplicationRecord
 
   def sync_lookup_values
     #Do not create any new lookup values that do not have a matching lookup value in the default language
-    default_ids = send('lookup_values_en').try(:map) { |lv| lv['id'] }
+    default_ids = lookup_values_en&.map { |lv| lv['id'] }
 
     return unless default_ids.present?
 
     Primero::Application.locales.each do |locale|
       next if locale == Primero::Application::BASE_LANGUAGE
 
-      send("lookup_values_#{locale}").try(:reject!) { |lv| default_ids.exclude?(lv['id']) }
+      send("lookup_values_#{locale}")&.reject! { |lv| default_ids.exclude?(lv['id']) }
     end
   end
 
   def update_lookup_values_translations(lookup_values_hash, locale)
     options = (send("lookup_values_#{locale}").present? ? send("lookup_values_#{locale}") : [])
     lookup_values_hash.each do |key, value|
-      lookup_value = options.try(:find) { |lv| lv['id'] == key }
+      lookup_value = options&.find { |lv| lv['id'] == key }
       if lookup_value.present?
         lookup_value['display_text'] = value
       else
