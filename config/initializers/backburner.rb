@@ -21,7 +21,7 @@ Backburner.configure do |config|
   config.beanstalk_url       = url if url.present?
   config.tube_namespace      = Rails.env
   config.namespace_separator = '_'
-  config.max_startup_retries = 12 # monkeypatched, default 1 retry
+  config.max_startup_retries = 36 # monkeypatched, default 1 retry
   config.startup_delay       = 5 # monkeypatched, default 5 seconds
   config.max_job_retries     = 3 # default 0 retries
   config.retry_delay         = 5 # default 5 seconds
