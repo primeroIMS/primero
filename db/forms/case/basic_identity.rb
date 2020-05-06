@@ -240,6 +240,11 @@ basic_identity_fields = [
   Field.new({"name" => "telephone_current",
              "type" => "text_field",
              "display_name_en" => "Current Telephone"
+            }),
+  Field.new({"name" => "family_number",
+             "type" => "text_field",
+             "display_name_en" => "Family ID",
+             "visible" => false
             })
 ]
 
