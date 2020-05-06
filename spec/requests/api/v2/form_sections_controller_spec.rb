@@ -207,7 +207,7 @@ describe Api::V2::FormSectionsController, type: :request do
       post '/api/v2/forms', params: params
 
       expect(response).to have_http_status(200)
-      expect(json['data']['fields'].map { |field| [field['name'], field['order']] }.sort).to eq(
+      expect(json['data']['fields'].map { |field| [field['name'], field['order']] }).to eq(
         [['custom_field_0', 0], ['custom_field_1', 1], ['custom_field_2', 2]]
       )
     end
@@ -234,7 +234,7 @@ describe Api::V2::FormSectionsController, type: :request do
       post '/api/v2/forms', params: params
 
       expect(response).to have_http_status(200)
-      expect(json['data']['fields'].map { |field| [field['name'], field['order']] }.sort).to eq(
+      expect(json['data']['fields'].map { |field| [field['name'], field['order']] }).to eq(
         [['custom_field_0', 0], ['custom_field_1', 777], ['custom_field_2', 2]]
       )
     end
