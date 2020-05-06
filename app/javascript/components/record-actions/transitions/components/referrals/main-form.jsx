@@ -57,7 +57,8 @@ const MainForm = ({ formProps, rest }) => {
     canConsentOverride,
     disabled,
     setDisabled,
-    recordType
+    recordType,
+    isReferralFromService
   } = rest;
 
   const { handleSubmit, setValues, values } = formProps;
@@ -283,6 +284,7 @@ const MainForm = ({ formProps, rest }) => {
       <FormInternal
         fields={fields}
         disabled={Boolean(serviceToRefer.size) || disableControl}
+        isReferralFromService={isReferralFromService}
       />
     </Form>
   );

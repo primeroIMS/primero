@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe Api::V2::ApprovalsController, type: :request do
+  include ActiveJob::TestHelper
   before :each do
     clean_data(PrimeroModule, SystemSettings)
     SystemSettings.create!(
@@ -48,6 +49,7 @@ describe Api::V2::ApprovalsController, type: :request do
       expect(json['data']['record']['approval_subforms'][0]['approval_date']).to eq(Date.today.to_s)
       if approval_id == Approval::CASE_PLAN
         expect(json['data']['record']['approval_subforms'][0]['approval_for_type']).to eq(approval_type)
+        expect(audit_params['action']).to eq([approval_type, Approval::APPROVAL_STATUS_REQUESTED].join('_'))
       else
         expect(json['data']['record']['approval_subforms'][0]['approval_for_type']).to be_nil
       end
@@ -208,6 +210,7 @@ describe Api::V2::ApprovalsController, type: :request do
 
   let(:json) { JSON.parse(response.body) }
   let(:approval_type) { nil }
+  let(:audit_params) { enqueued_jobs.select { |job| job.values.first == AuditLogJob }.first[:args].first }
 
   describe 'PATCH /api/v2/case/:id/:approval_id' do
     context 'when the approval_id is BIA' do
@@ -338,6 +341,7 @@ describe Api::V2::ApprovalsController, type: :request do
   end
 
   after :each do
+    clear_enqueued_jobs
     clean_data(SystemSettings, PrimeroModule, UserGroup, Role, User, Child)
   end
 end

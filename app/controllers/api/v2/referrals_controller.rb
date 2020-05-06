@@ -29,6 +29,22 @@ module Api::V2
       render 'api/v2/transitions/destroy'
     end
 
+    def index_action_message
+      'show_referrals'
+    end
+
+    def create_action_message
+      'refer'
+    end
+
+    def update_action_message
+      "refer_#{params[:data][:status]}"
+    end
+
+    def destroy_action_message
+      'refer_revoke'
+    end
+
     private
 
     def refer(record)
@@ -42,6 +58,5 @@ module Api::V2
       referral.record = record
       referral.save! && referral
     end
-
   end
 end

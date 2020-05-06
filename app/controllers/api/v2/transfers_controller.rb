@@ -38,6 +38,22 @@ module Api::V2
       render 'api/v2/transitions/update'
     end
 
+    def index_action_message
+      'show_transfers'
+    end
+
+    def create_action_message
+      'transfer'
+    end
+
+    def update_action_message
+      "transfer_#{params[:data][:status]}"
+    end
+
+    def create_bulk_record_resource
+      'bulk_transfer'
+    end
+
     private
 
     def transfer(record)

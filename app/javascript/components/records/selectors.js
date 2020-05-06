@@ -34,3 +34,6 @@ export const getSavingRecord = (state, recordType) =>
 
 export const getLoadingRecordState = (state, recordType) =>
   state.getIn(["records", recordType, "loading"], false);
+
+export const getRecordAlerts = (state, recordType) =>
+  state.getIn(["records", recordType, "recordAlerts"], List([]));

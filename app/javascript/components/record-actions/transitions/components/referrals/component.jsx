@@ -94,7 +94,8 @@ const ReferralForm = ({
     disabled,
     setDisabled,
     recordType,
-    referral
+    referral,
+    isReferralFromService: Object.keys(referralFromService).length > 0
   };
 
   const validationSchema = object().shape({

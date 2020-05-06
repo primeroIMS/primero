@@ -85,14 +85,20 @@ prim_generate_locations() {
 prim_bootstrap() {
   printf "Starting bootstrap\\n"
   # shellcheck disable=SC2034
-  bin/rails db:create
+  set +u
+  if [[ -z "${PRIMERO_PG_APP_ROLE}" ]] ; then
+    # Create the database only if the db user is known to have the privilege
+    bin/rails db:create
+  fi
   bin/rails db:migrate
+
   if [[ -n "${PRIMERO_CONFIGURATION_FILE}" ]]
   then
     bin/rails r "${PRIMERO_CONFIGURATION_FILE}"
   else
     bin/rails db:seed
   fi
+  set -u
   prim_generate_locations
   return 0
 }

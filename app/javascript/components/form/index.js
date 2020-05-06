@@ -7,6 +7,7 @@ export {
   CHECK_BOX_FIELD,
   ERROR_FIELD,
   FORM_MODE_DIALOG,
+  LABEL_FIELD,
   PARENT_FORM,
   PHOTO_FIELD,
   SELECT_FIELD,
@@ -14,4 +15,4 @@ export {
   TEXT_FIELD,
   TICK_FIELD
 } from "./constants";
-export { whichFormMode } from "./utils";
+export { whichFormMode, submitHandler } from "./utils";

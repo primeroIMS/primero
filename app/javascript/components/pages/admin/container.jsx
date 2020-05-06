@@ -15,9 +15,9 @@ const Container = ({ routes }) => {
 
   return (
     <PageContainer>
-      <PageHeading title={i18n.t("settings.title")} />
       <div className={css.container}>
         <div className={css.nav}>
+          <PageHeading title={i18n.t("settings.title")} />
           <AdminNav />
         </div>
         <div className={css.content}>
