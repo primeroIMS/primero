@@ -5,7 +5,7 @@
 Rails.application.config.before_initialize do
   break unless ENV['PRIMERO_WAIT_FOR_DB']
 
-  max_attempts = 12
+  max_attempts = 36
   wait_seconds = 5
   Rails.logger.info('Waiting for database to accept connections')
   attempts = 0
