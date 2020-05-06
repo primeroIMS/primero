@@ -16,7 +16,7 @@ import { REPORTABLE_TYPES } from "./constants";
 export const dependantFields = formSections => {
   const data = dataToJS(formSections);
 
-  const result = data[0].fields.reduce((acc, field) => {
+  return data[0].fields.reduce((acc, field) => {
     if (["name.en", "description.en"].includes(field.name)) {
       return acc;
     }
@@ -26,8 +26,6 @@ export const dependantFields = formSections => {
       [field.name]: field.type === TICK_FIELD ? false : []
     };
   }, {});
-
-  return result;
 };
 
 export const formatAgeRange = data =>

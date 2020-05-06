@@ -92,7 +92,6 @@ const FormSectionField = ({ checkErrors, field }) => {
     InputLabelProps: {
       shrink: true
     },
-    groupBy,
     ...watchedInputProps
   };
 
@@ -101,7 +100,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     password,
     multiSelect,
     inlineCheckboxes,
-    freeSolo
+    freeSolo,
+    groupBy
   };
 
   const Field = (fieldType => {

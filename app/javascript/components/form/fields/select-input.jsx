@@ -10,8 +10,8 @@ import { Controller } from "react-hook-form";
 const filter = createFilterOptions();
 
 const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
-  const { multiSelect, freeSolo } = metaInputProps;
-  const { name, disabled, groupBy, ...commonProps } = commonInputProps;
+  const { multiSelect, freeSolo, groupBy } = metaInputProps;
+  const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
 
   const optionLabel = option => {
