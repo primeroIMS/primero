@@ -88,29 +88,31 @@ const Component = () => {
   ) : null;
 
   return (
-    <LoadingIndicator
-      hasData={formSectionsByGroup?.size}
-      loading={isLoading}
-      type={NAMESPACE}
-    >
+    <>
       <PageHeading title={i18n.t("forms.label")}>{newFormBtn}</PageHeading>
       <PageContent>
         <div className={css.indexContainer}>
           <div className={css.forms}>
-            <DragDropContext onDragEnd={handleDragEnd}>
-              <Droppable droppableId="droppable" type="formGroup">
-                {(provided, snapshot) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={getListStyle(snapshot.isDraggingOver)}
-                  >
-                    {renderFormSections()}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
+            <LoadingIndicator
+              hasData={formSectionsByGroup?.size}
+              loading={isLoading}
+              type={NAMESPACE}
+            >
+              <DragDropContext onDragEnd={handleDragEnd}>
+                <Droppable droppableId="droppable" type="formGroup">
+                  {(provided, snapshot) => (
+                    <div
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      style={getListStyle(snapshot.isDraggingOver)}
+                    >
+                      {renderFormSections()}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            </LoadingIndicator>
           </div>
           <div className={css.filters}>
             <FormFilters
@@ -122,7 +124,7 @@ const Component = () => {
           </div>
         </div>
       </PageContent>
-    </LoadingIndicator>
+    </>
   );
 };
 

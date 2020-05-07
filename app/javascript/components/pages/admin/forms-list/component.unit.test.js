@@ -84,4 +84,27 @@ describe("<FormsList />", () => {
   it("renders form sections", () => {
     expect(component.find(FormGroup)).to.have.lengthOf(2);
   });
+
+  describe("when there are no records", () => {
+    const stateWithoutRecords = initialState.setIn(
+      ["records", "admin", "forms", "formSections"],
+      fromJS([])
+    );
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        FormsList,
+        {},
+        stateWithoutRecords
+      ));
+    });
+
+    it("renders <FormFilters/>", () => {
+      expect(component.find(FormFilters)).to.have.lengthOf(1);
+    });
+
+    it("does not renders form sections", () => {
+      expect(component.find(FormGroup)).to.have.lengthOf(0);
+    });
+  });
 });
