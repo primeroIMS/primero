@@ -148,10 +148,10 @@ class User < CouchRest::Model::Base
     string :organization
     string :location
     boolean :disabled
-    string :reporting_location do
-      self.reporting_location.try(:location_code)
+    string :reporting_location, multiple: true do
+      self.reporting_hierarchy
     end
-    string :services, :multiple => true
+    string :services, multiple: true
     boolean :can_receive_referrals do
        self.has_permission_by_permission_type?(Permission::CASE, Permission::RECEIVE_REFERRAL)
     end
@@ -306,6 +306,12 @@ class User < CouchRest::Model::Base
   end
   # Hack to allow backward-compatibility. The Location method must not be used.
   alias_method :Location, :user_location
+
+  def reporting_hierarchy
+    lct = reporting_location
+    reporting_hierarchy = lct.present? ? lct.hierarchy + [lct.location_code] : []
+    reporting_hierarchy
+  end
 
   def reporting_location
     location = self.user_location
