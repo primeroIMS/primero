@@ -1,6 +1,25 @@
 import * as utils from "./utils";
 
 describe("<LookupsForm> - utils", () => {
+  describe("with exposed properties", () => {
+    it("should have known methods", () => {
+      const clone = { ...utils };
+
+      [
+        "buildValues",
+        "getInitialNames",
+        "getInitialValues",
+        "reorderValues",
+        "validations"
+      ].forEach(property => {
+        expect(clone).to.have.property(property);
+        expect(clone[property]).to.be.a("function");
+        delete clone[property];
+      });
+      expect(clone).to.be.empty;
+    });
+  });
+
   describe("validations", () => {
     it("should return an array of fields that has validations", () => {
       const i18n = { t: () => {} };
@@ -78,6 +97,59 @@ describe("<LookupsForm> - utils", () => {
       const expected = ["transferred", "open", "closed", "duplicate"];
 
       expect(utils.reorderValues(items, 2, 0)).to.deep.equal(expected);
+    });
+  });
+
+  describe("buildValues", () => {
+    it("should return values for a lookup", () => {
+      const values = {
+        en: { test: "Test", test_1: "Test 1" },
+        es: { test: "Prueba", test_1: "Prueba 1" }
+      };
+
+      const expected = [
+        {
+          id: "test",
+          display_text: {
+            en: "Test",
+            es: "Prueba"
+          }
+        },
+        {
+          id: "test_1",
+          display_text: {
+            en: "Test 1",
+            es: "Prueba 1"
+          }
+        }
+      ];
+
+      expect(utils.buildValues(values, "en", [])).to.deep.equal(expected);
+    });
+    it("should return values with _delete key if there are removed values", () => {
+      const values = {
+        en: { test: "Test" },
+        es: { test: "Prueba" }
+      };
+
+      const removed = ["test_1"];
+
+      const expected = [
+        {
+          id: "test",
+          display_text: {
+            en: "Test",
+            es: "Prueba"
+          }
+        },
+        {
+          id: "test_1",
+          display_text: {},
+          _delete: true
+        }
+      ];
+
+      expect(utils.buildValues(values, "en", removed)).to.deep.equal(expected);
     });
   });
 });
