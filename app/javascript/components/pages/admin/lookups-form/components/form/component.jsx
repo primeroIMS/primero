@@ -9,6 +9,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 
 import {
+  buildValues,
   getInitialValues,
   getInitialNames,
   reorderValues,
@@ -52,6 +53,7 @@ const Component = ({ formRef, mode, lookup }) => {
   const keys = [...lookup.get(LOOKUP_VALUES, fromJS([])).map(t => t.get("id"))];
   const [items, setItems] = useState(keys);
   const [removed, setRemoved] = useState([]);
+
   const values = getInitialValues(
     localesKeys,
     dataToJS(lookup.get(LOOKUP_VALUES, fromJS([])))
@@ -64,11 +66,12 @@ const Component = ({ formRef, mode, lookup }) => {
   };
 
   const onSubmit = data => {
-    const { name } = data;
+    const { name, values: lookupValues } = data;
 
     const body = {
       data: {
-        name
+        name,
+        values: buildValues(lookupValues, i18n.locale, removed)
       }
     };
 

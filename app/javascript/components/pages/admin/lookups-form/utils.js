@@ -41,3 +41,22 @@ export const reorderValues = (items, startIndex, endIndex) => {
 
   return result;
 };
+
+export const buildValues = (values, defaultLocale, removedValues) => {
+  const locales = Object.keys(values);
+  const displayTextKeys = Object.keys(values[defaultLocale]);
+
+  return [...displayTextKeys, ...removedValues].map(key => {
+    if (removedValues.includes(key)) {
+      return { id: key, display_text: {}, _delete: true };
+    }
+
+    return {
+      id: key,
+      display_text: locales.reduce(
+        (acc, locale) => ({ ...acc, [locale]: values[locale][key] }),
+        {}
+      )
+    };
+  });
+};

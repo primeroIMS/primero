@@ -6,7 +6,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 
 import styles from "../styles.css";
-import DragIndicator from "../../../forms-list/components";
+import { DragIndicator } from "../../../forms-list/components";
 import FormSectionField from "../../../../../form/components/form-section-field";
 import { FieldRecord, TEXT_FIELD } from "../../../../../form";
 
