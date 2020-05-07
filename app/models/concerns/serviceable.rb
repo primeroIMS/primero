@@ -103,10 +103,14 @@ module Serviceable
       end
     end
 
-
     def services_implemented_day_time_changed?
-      return false if self.changes["services_section"].blank?
-      self.changes["services_section"].first.map(&:service_implemented_day_time) != self.changes["services_section"].last.map(&:service_implemented_day_time)
+      services_section_changes = self.changes["services_section"]
+      return false if services_section_changes.blank? || services_section_changes.first.length != services_section_changes.last.length
+
+      old_values = services_section_changes.first.reduce({}){ |acc, service| acc[service.unique_id] = service.service_implemented_day_time; acc }
+      new_values = services_section_changes.last.reduce({}){ |acc, service| acc[service.unique_id] = service.service_implemented_day_time; acc }
+
+      old_values != new_values
     end
   end
 end
