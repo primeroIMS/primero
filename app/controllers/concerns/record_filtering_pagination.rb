@@ -80,7 +80,7 @@ module RecordFilteringPagination
       values = sanitize_date_range_filter(date_range_value.split("."))
     when "or_op"
       values = values.reduce({}) do |acc, (key, value)|
-        values_to_build = value.first === "date_range" ? value.last : value
+        values_to_build = value.first == "date_range" ? value.last : value
         acc[key] = build_filter_value(filter, value.first, values_to_build, model_class)
         acc
       end
