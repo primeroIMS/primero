@@ -6,16 +6,12 @@ export const isDisabledAction = (enabledFor, selectedRecords, totaRecords) => {
   const forMany = enabledFor?.includes("many");
   const forAll = enabledFor?.includes("all");
 
-  if (
+  return !(
     selectedRecordsLength > 0 &&
     ((selectedRecordsLength === 1 && forOne) ||
       (selectedRecordsLength > 1 &&
         selectedRecordsLength !== totaRecords &&
         forMany) ||
       (selectedRecordsLength === totaRecords && forAll))
-  ) {
-    return false;
-  }
-
-  return true;
+  );
 };
