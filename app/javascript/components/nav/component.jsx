@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AgencyLogo from "../agency-logo";
 import ModuleLogo from "../module-logo";
 import { useI18n } from "../i18n";
-import { useThemeHelper } from "../../libs";
+import { useThemeHelper, dataToJS } from "../../libs";
 import MobileToolbar from "../mobile-toolbar";
 import { useApp } from "../application";
 import Permission from "../application/permission";
@@ -21,6 +21,7 @@ import {
   ADMIN_RESOURCES,
   ADMIN_ACTIONS
 } from "../../libs/permissions";
+import { getPermissions } from "../user";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -53,6 +54,12 @@ const Nav = () => {
   const username = useSelector(state => selectUsername(state));
   const drawerOpen = useSelector(state => selectDrawerOpen(state));
   const dataAlerts = useSelector(state => selectAlerts(state));
+  const permissions = useSelector(state => getPermissions(state));
+  const adminResources = ADMIN_RESOURCES.filter(adminResource =>
+    Object.keys(dataToJS(permissions)).includes(adminResource)
+  );
+  const to = `/admin/${adminResources[0]}`;
+
   const nav = [
     {
       name: i18n.t("navigation.home"),
@@ -129,7 +136,7 @@ const Nav = () => {
     { name: username, to: ROUTES.account, icon: "account", disabled: true },
     {
       name: i18n.t("navigation.settings"),
-      to: ROUTES.admin_users,
+      to,
       icon: "settings",
       resources: ADMIN_RESOURCES,
       actions: ADMIN_ACTIONS,
