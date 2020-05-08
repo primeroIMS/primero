@@ -25,9 +25,6 @@ check_required_variables() {
 
 # This method is called to bootstrap the database on a new instance of Primero
 primero_bootstrap() {
-  set +u && [[ "$PRIMERO_RUN_CONFIG_SCRIPTS" != "true" ]] && echo "Skipping Bootstrap" && set -u && return 0
-  set -u
-
   printf "Starting database and configuration bootstrap\\n"
   # shellcheck disable=SC2034
   set +u

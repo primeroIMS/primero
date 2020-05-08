@@ -20,22 +20,12 @@ services:
       - docker/defaults.env
     volumes:
       - beanstalkd:/var/lib/beanstalkd
-  configuration:
+  application:
     image: 'primero/application:${PRIMERO_TAG:-latest}'
     depends_on:
       - solr
       - beanstalkd
       - postgres
-    volumes:
-      - ${CONFIGURATION_PATH:-configuration}:/primero-configuration
-      - storage:/srv/primero/application/storage
-    env_file:
-      - docker/defaults.env
-    command: ["primero-bootstrap"]
-  application:
-    image: 'primero/application:${PRIMERO_TAG:-latest}'
-    depends_on:
-      - configuration
     volumes:
       - log:/srv/primero/application/log
       - public:/share/public
@@ -47,7 +37,9 @@ services:
   backburner:
     image: 'primero/application:${PRIMERO_TAG:-latest}'
     depends_on:
-      - configuration
+      - solr
+      - beanstalkd
+      - postgres
     volumes:
       - log:/srv/primero/application/log
       - storage:/srv/primero/application/storage
@@ -57,7 +49,9 @@ services:
   scheduler:
     image: 'primero/application:${PRIMERO_TAG:-latest}'
     depends_on:
-      - configuration
+      - solr
+      - beanstalkd
+      - postgres
     volumes:
       - log:/srv/primero/application/logs
       - storage:/srv/primero/application/storage
@@ -75,4 +69,3 @@ volumes:
   public:
   solr_cores:
   storage:
-  configuration:

@@ -18,10 +18,6 @@ services:
       - docker/local.env
     depends_on:
       - application
-  configuration:
-    env_file:
-      - docker/defaults.env
-      - docker/local.env
   application:
     env_file:
       - docker/defaults.env

@@ -121,17 +121,10 @@ To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' 
 PRIMERO_SECRET_KEY_BASE - Required. A secure random number.
 To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`
 
-PRIMERO_RUN_CONFIG_SCRIPTS - Optional, but recommended. Values can be `true|false`.
-If `true`, the application will attempt to create and migrate the database. Only set this to `true`
-when you want to apply new migrations or update the configuration from seeds.
-
 PRIMERO_CONFIGURATION_FILE - Optional. If you would like to run a custom configuration instead of
-the default application seeds when you have set `PRIMERO_RUN_CONFIG_SCRIPTS=true`,
-you need to bindmount a path on the application container that contains the script.
-The default value is `/primero-configuration/load_configuration.rb` where `/primero-configuration`
+the default application seeds, you need to bindmount a path on the application container that contains the script.
+The recommended value is `/primero-configuration/load_configuration.rb` where `/primero-configuration`
 is bind mounted from the host system.
-Run `CONFIGURATION_PATH=/path/to/root/config/dir ./compose.prod.sh up -d` to start
-the containers with a custom configuration mounted
 
 APP_ROOT - file path - this is where Primero gets copied to in the app container.
 Default is `strv/primero/application`. Changing this parameter has not been tested.
@@ -182,17 +175,10 @@ default.
 ## Primero application configuration
 
 If you want to run Ruby configuration scripts other than the default Primero seeds,
-you can run the script below. Make sure you have set `PRIMERO_RUN_CONFIG_SCRIPTS=true`.
+you can run the script below.
 It's assumed that a Primero configuration directory will have a script named `load_configuration.rb`.
 
 ```
 cd docker
 ./compose.configure.sh /path/to/primero/config/directory
-```
-
-To run a custom configuration on Docker Compose start:
-
-```
-cd docker
-CONFIGURATION_PATH=/path/to/root/config/dir ./compose.prod.sh up -d
 ```
