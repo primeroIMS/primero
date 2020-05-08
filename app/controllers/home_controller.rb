@@ -326,6 +326,10 @@ class HomeController < ApplicationController
     @display_services_implemented ||= PrimeroModule.cp.use_workflow_service_implemented?
   end
 
+  def display_national_admin_dashboard?
+    @display_national_admin_dashboard ||= can?(:dash_national_admin_summary, Dashboard)
+  end
+
   def manager_case_query(query = {})
     module_ids = @module_ids
     risk_levels = @risk_levels
