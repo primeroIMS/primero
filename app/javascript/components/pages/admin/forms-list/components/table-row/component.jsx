@@ -7,6 +7,7 @@ import findKey from "lodash/findKey";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import clsx from "clsx";
 
+import { useI18n } from "../../../../../i18n";
 import { MODULES, RECORD_PATH } from "../../../../../../config/constants";
 import styles from "../../styles.css";
 import DragIndicator from "../drag-indicator";
@@ -20,6 +21,7 @@ const Component = ({
   index,
   editable
 }) => {
+  const i18n = useI18n();
   const css = makeStyles(styles)();
   const nameStyles = clsx({
     [css.formName]: true,
@@ -49,7 +51,7 @@ const Component = ({
             {renderIcon}
             <Link to={`${RECORD_PATH.forms}/${id}/edit`}>{name}</Link>
           </div>
-          <div>{parentForm}</div>
+          <div>{i18n.t(`forms.record_types.${parentForm}`)}</div>
           <div>{formSectionModules}</div>
         </div>
       )}
