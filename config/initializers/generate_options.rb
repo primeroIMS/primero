@@ -2,7 +2,7 @@
 
 # This has to be after initialize because we need to load first the locale first
 Rails.application.config.after_initialize do
-  break unless ENV['PRIMERO_GENERATE_LOCATIONS']
+  next unless ENV['PRIMERO_GENERATE_LOCATIONS']
 
   begin
     if ActiveRecord::Base.connection.table_exists?(:locations) &&
