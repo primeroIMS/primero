@@ -4,6 +4,7 @@
 Rails.application.config.after_initialize do
   next unless ENV['PRIMERO_GENERATE_LOCATIONS']
 
+  Rails.logger.info 'Generating locations JSON file on server boot'
   begin
     if ActiveRecord::Base.connection.table_exists?(:locations) &&
        ActiveRecord::Base.connection.table_exists?(:system_settings)
