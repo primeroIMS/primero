@@ -96,7 +96,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     password,
     multiSelect,
     inlineCheckboxes,
-    freeSolo
+    freeSolo,
+    hint
   };
 
   const Field = (fieldType => {
@@ -127,7 +128,6 @@ const FormSectionField = ({ checkErrors, field }) => {
           metaInputProps={metaInputProps}
           options={optionSource.toJS()}
           errorsToCheck={errorsToCheck}
-          hint={hint}
         />
       )}
     </div>
