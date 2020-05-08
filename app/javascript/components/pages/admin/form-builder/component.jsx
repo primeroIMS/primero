@@ -14,7 +14,7 @@ import { whichFormMode, submitHandler } from "../../../form";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { compare } from "../../../../libs";
 
-import { FieldsList, FormBuilderActionButtons, TabPanel  } from "./components";
+import { FieldsList, FormBuilderActionButtons, TabPanel } from "./components";
 import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
 import { NAME } from "./constants";

@@ -1,3 +1,5 @@
+/* eslint-disable react/no-multi-comp */
+/* eslint-disable react/display-name */
 import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
@@ -13,6 +15,7 @@ import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { useI18n } from "../../../../../i18n";
 import SwitchInput from "../../../../../form/fields/switch-input";
 import DragIndicator from "../../../forms-list/components/drag-indicator";
+import { getFiedListItemTheme } from "../utils";
 import styles from "../fields-list/styles.css";
 
 import { NAME } from "./constants";
@@ -22,34 +25,22 @@ const Component = ({ field, index }) => {
   const i18n = useI18n();
   const currentTheme = useTheme();
 
-  const themeOverrides = createMuiTheme({
-    ...currentTheme,
-    overrides: {
-      ...currentTheme.overrides,
-      MuiFormControl: {
-        ...currentTheme.overrides.MuiFormControl,
-        root: {
-          ...currentTheme.overrides.MuiFormControl.root,
-          marginBottom: 0
-        }
-      },
-      MuiCheckbox: {
-        ...currentTheme.overrides.MuiCheckbox,
-        root: {
-          ...currentTheme.overrides.MuiCheckbox.root,
-          padding: "0 0.2em",
-          margin: "0 0.4em"
-        }
-      },
-      MuiFormControlLabel: {
-        root: {
-          ...currentTheme.overrides.MuiFormControlLabel.root,
-          marginLeft: 0,
-          marginRight: 0
-        }
-      }
-    }
-  });
+  const themeOverrides = createMuiTheme(getFiedListItemTheme(currentTheme));
+
+  const renderFieldName = () => {
+    const icon = !field.get("editable") ? (
+      <VpnKeyIcon className={css.rotateIcon} />
+    ) : (
+      <span />
+    );
+
+    return (
+      <>
+        {icon}
+        {field.getIn(["display_name", i18n.locale])}
+      </>
+    );
+  };
 
   return (
     <Draggable draggableId={field.get("name")} index={index}>
@@ -60,12 +51,7 @@ const Component = ({ field, index }) => {
               <DragIndicator {...provided.dragHandleProps} />
             </div>
             <div className={clsx([css.fieldColumn, css.fieldName])}>
-              {!field.get("editable") ? (
-                <VpnKeyIcon className={css.rotateIcon} />
-              ) : (
-                <span />
-              )}
-              {field.getIn(["display_name", i18n.locale])}
+              {renderFieldName(field)}
             </div>
             <div className={css.fieldColumn}>
               {i18n.t(`fields.${field.get("type")}`)}
