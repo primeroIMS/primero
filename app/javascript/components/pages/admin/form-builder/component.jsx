@@ -15,6 +15,7 @@ import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { compare } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
+import { fetchForms } from "../forms-list/action-creators";
 
 import { TabPanel, FormBuilderActionButtons } from "./components";
 import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
@@ -59,6 +60,10 @@ const Component = ({ mode }) => {
       })
     );
   };
+
+  useEffect(() => {
+    dispatch(fetchForms());
+  }, []);
 
   useEffect(() => {
     if (isEditOrShow) {
