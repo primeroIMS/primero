@@ -104,13 +104,24 @@ module Serviceable
     end
 
     def services_implemented_day_time_changed?
-      services_section_changes = self.changes["services_section"]
-      return false if services_section_changes.blank? || services_section_changes.first.length != services_section_changes.last.length
+      services_section_changes = self.changes['services_section']
+      transitions_service_section_unique_ids = self.transitions.map(&:service_section_unique_id)
 
-      old_values = services_section_changes.first.reduce({}){ |acc, service| acc[service.unique_id] = service.service_implemented_day_time; acc }
-      new_values = services_section_changes.last.reduce({}){ |acc, service| acc[service.unique_id] = service.service_implemented_day_time; acc }
+      return false if services_section_changes.blank? || transitions_service_section_unique_ids.blank?
 
-      old_values != new_values
+      service_with_implemented_day_time_before = services_with_transitions(services_section_changes.first, transitions_service_section_unique_ids)
+      service_with_implemented_day_time_after = services_with_transitions(services_section_changes.last, transitions_service_section_unique_ids)
+
+      service_with_implemented_day_time_before != service_with_implemented_day_time_after
+    end
+
+    def services_with_transitions(services_section, transitions_service_section_unique_ids)
+      services_section.reduce({}) do |acc, service|
+        if transitions_service_section_unique_ids.include?(service.unique_id)
+          acc[service.unique_id] = service.service_implemented_day_time
+        end
+        acc
+      end
     end
   end
 end
