@@ -28,19 +28,20 @@ Build your container images and tag with `latest`:
 ```
 
 Create a `local.env` environment configuration file by
-copying one of the sample files and modifying it accordingly. 
-The file `local.env.sample.production` represents the settings that 
-are recommended for production-like environments. 
-See below for configuration environment variables. 
+copying one of the sample files and modifying it accordingly.
+The file `local.env.sample.production` represents the settings that
+are recommended for production-like environments.
+See below for configuration environment variables.
 
 ```
 cp local.env.sample.production local.env
 vi local.env
-```   
+```
 
 Start Primero.
 
 ```
+./compose.configure.sh
 ./compose.prod.sh up -d
 ```
 
@@ -78,7 +79,7 @@ the application and solr containers, which rely on configurations outside of the
 docker dir, are set to include the entire project in their build context.
 
 ## Building - Instructions
-Make sure you have created the file `docker/local.env`. At the very least it requires 
+Make sure you have created the file `docker/local.env`. At the very least it requires
 an entry for `POSTGRES_PASSWORD`.
 
 To build simply run: `./build.sh all`
@@ -109,23 +110,33 @@ config option - parameter - description
 PRIMERO_HOST - Required. Set this to the server domain hostname.
 If Let's Encrypt is used, this value should match LETS_ENCRYPT_DOMAIN.
 
-PRIMERO_SECRET_KEY_BASE - Required. A secure random number. 
-To generate, can use the command `rails secret`
+PRIMERO_SECRET_KEY_BASE - Required. A secure random number.
+To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`
 
-DEVISE_SECRET_KEY - Required. A secure random number. 
-To generate, can use the command `rails secret`
+DEVISE_SECRET_KEY - Required. A secure random number.
+To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`
 
-DEVISE_JWT_SECRET_KEY - Required. A secure random number. 
-To generate, can use the command `rails secret`
+DEVISE_JWT_SECRET_KEY - Required. A secure random number.
+To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`
 
-APP_ROOT - file path - this is where Primero gets copied to in the app
-container. Changing this parameter has not been tested.
+PRIMERO_SECRET_KEY_BASE - Required. A secure random number.
+To generate, can use the command `LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"`
 
-BEANSTALK_URL - address which Primero should try to access beanstalk
+PRIMERO_CONFIGURATION_FILE - Optional. If you would like to run a custom configuration instead of
+the default application seeds, you need to bindmount a path on the application container that contains the script.
+The recommended value is `/primero-configuration/load_configuration.rb` where `/primero-configuration`
+is bind mounted from the host system.
+
+APP_ROOT - file path - this is where Primero gets copied to in the app container.
+Default is `strv/primero/application`. Changing this parameter has not been tested.
+
+BEANSTALK_URL - address which Primero should try to access beanstalk.
 this should be set to the container name and port
 
 RAILS_ENV - production / development - sets the build / run mode for Primero.
-RAILS_LOG_PATH - path - where Primero will store its logs
+
+RAILS_LOG_PATH - path - where Primero will store its logs. Set when you want the output logged
+to a specific file instead of to the container's standard out.
 
 NGINX_SERVER_HOST - name to put in the self signed certificate. if letsencrypt
 is used, then we will store the host name received from CertBot here.
@@ -165,10 +176,10 @@ default.
 ## Primero application configuration
 
 If you want to run Ruby configuration scripts other than the default Primero seeds,
-you can run the script below. It's assumed that a Primero configuration directory 
-will have a script named `load_configuration.rb`.
+you can run the script below.
+It's assumed that a Primero configuration directory will have a script named `load_configuration.rb`.
 
 ```
 cd docker
 ./compose.configure.sh /path/to/primero/config/directory
-``` 
+```
