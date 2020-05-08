@@ -41,6 +41,7 @@ vi local.env
 Start Primero.
 
 ```
+./compose.configure.sh
 ./compose.prod.sh up -d
 ```
 
