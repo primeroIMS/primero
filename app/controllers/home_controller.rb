@@ -32,9 +32,6 @@ class HomeController < ApplicationController
       load_admin_information if display_admin_dashboard? | display_reporting_location? | @display_protection_concerns
       #TODO: All this needs to be heavily refactored
 
-      @national_admin_stats = {}   #TODO
-
-
       display_national_admin_dashboard?
       display_case_worker_dashboard?
       display_approvals?

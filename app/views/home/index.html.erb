@@ -30,7 +30,7 @@
             %>
           <% end %>
           <% if @display_national_admin_dashboard %>
-            <%= render 'case_national_admin_case_totals', records: @national_admin_stats, model: Child %>
+            <%= render 'case_national_admin_case_totals', model: Child %>
           <% end %>
           <% if @display_matching_results_dashboard %>
             <%= render 'match_result_statistics', match_stats: @match_stats, model: PotentialMatch %>
