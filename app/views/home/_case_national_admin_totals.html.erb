@@ -8,23 +8,23 @@
                    stat: stats[:new_last_week],
                    model: model,
                    text: t('dashboard.new_last_week'),
-                   filters: ["child_status=#{Record::STATUS_OPEN}", 'record_state=true']
+                   filters: ["child_status=#{Record::STATUS_OPEN}", 'record_state=true', "created_at=#{last_week}"]
                  }) %>
 <%= display_stat({
                    stat: stats[:new_this_week],
                    model: model,
                    text: t('dashboard.new_this_week'),
-                   filters: ["child_status=#{Record::STATUS_OPEN}", 'record_state=true']
+                   filters: ["child_status=#{Record::STATUS_OPEN}", 'record_state=true', "created_at=#{this_week}"]
                  }) %>
 <%= display_stat({
                    stat: stats[:closed_last_week],
                    model: model,
                    text: t('dashboard.closed_last_week'),
-                   filters: ["child_status=#{Record::STATUS_CLOSED}", 'record_state=true']
+                   filters: ["child_status=#{Record::STATUS_CLOSED}", 'record_state=true', "date_closure=#{last_week}"]
                  }) %>
 <%= display_stat({
                    stat: stats[:closed_this_week],
                    model: model,
                    text: t('dashboard.closed_this_week'),
-                   filters: ["child_status=#{Record::STATUS_CLOSED}", 'record_state=true']
+                   filters: ["child_status=#{Record::STATUS_CLOSED}", 'record_state=true', "date_closure=#{this_week}"]
                  }) %>
