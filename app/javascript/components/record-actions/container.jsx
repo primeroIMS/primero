@@ -412,9 +412,8 @@ const Container = ({
       action.name !== "Export";
 
     return (
-      <DisableOffline>
+      <DisableOffline button key={action.name}>
         <MenuItem
-          key={action.name}
           selected={action.name === "Pyxis"}
           onClick={() => handleItemAction(action.action)}
           disabled={disabled}

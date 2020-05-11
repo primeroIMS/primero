@@ -2,6 +2,12 @@ import {
   MANAGE,
   RESOURCES,
   SHOW_AUDIT_LOGS,
+  RECORD_RESOURCES,
+  READ_RECORDS,
+  READ_REPORTS,
+  SHOW_EXPORTS,
+  SHOW_TASKS,
+  ADMIN_RESOURCES,
   ADMIN_ACTIONS
 } from "../libs/permissions";
 
@@ -217,6 +223,97 @@ export const ADMIN_NAV = [
   },
   { to: "/matching", label: "settings.navigation.matching", disabled: true }
 ];
+
+export const APPLICATION_NAV = permissions => {
+  const adminResources = ADMIN_RESOURCES.filter(adminResource =>
+    permissions.keySeq().includes(adminResource)
+  );
+  const adminSettingsOption = `/admin/${adminResources[0]}`;
+
+  return [
+    {
+      name: "navigation.home",
+      to: ROUTES.dashboard,
+      icon: "home",
+      validateWithUserPermissions: true
+    },
+    {
+      name: "navigation.tasks",
+      to: ROUTES.tasks,
+      icon: "tasks",
+      resources: RESOURCES.dashboards,
+      actions: SHOW_TASKS
+    },
+    {
+      name: "navigation.cases",
+      to: ROUTES.cases,
+      icon: "cases",
+      jewelCount: "case",
+      resources: RESOURCES.cases,
+      actions: READ_RECORDS,
+      validateWithUserPermissions: true
+    },
+    {
+      name: "navigation.incidents",
+      to: ROUTES.incidents,
+      icon: "incidents",
+      jewelCount: "incident",
+      resources: RESOURCES.incidents,
+      actions: READ_RECORDS,
+      validateWithUserPermissions: true
+    },
+    {
+      name: "navigation.tracing_request",
+      to: ROUTES.tracing_requests,
+      icon: "tracing_request",
+      jewelCount: "tracing_request",
+      resources: RESOURCES.tracing_requests,
+      actions: READ_RECORDS,
+      validateWithUserPermissions: true
+    },
+    // {
+    //   name: "navigation.potential_match",
+    //   to: ROUTES.matches,
+    //   icon: "matches",
+    //   resources: RESOURCES.potential_matches,
+    //   actions: READ_RECORDS,
+    //   disableOffline: true
+    // },
+    {
+      name: "navigation.reports",
+      to: ROUTES.reports,
+      icon: "reports",
+      resources: RESOURCES.reports,
+      actions: READ_REPORTS,
+      disableOffline: true,
+      validateWithUserPermissions: true
+    },
+    {
+      name: "navigation.bulk_exports",
+      to: ROUTES.exports,
+      icon: "exports",
+      resources: RECORD_RESOURCES,
+      actions: SHOW_EXPORTS,
+      disableOffline: true
+    },
+    {
+      name: "navigation.support",
+      to: ROUTES.support,
+      icon: "support",
+      divider: true
+    },
+    { name: "username", to: ROUTES.account, icon: "account", disabled: true },
+    {
+      name: "navigation.settings",
+      to: adminSettingsOption,
+      icon: "settings",
+      resources: ADMIN_RESOURCES,
+      actions: ADMIN_ACTIONS,
+      disableOffline: true
+    },
+    { name: "navigation.logout", to: ROUTES.logout, icon: "logout" }
+  ];
+};
 
 export const METHODS = Object.freeze({
   DELETE: "DELETE",
