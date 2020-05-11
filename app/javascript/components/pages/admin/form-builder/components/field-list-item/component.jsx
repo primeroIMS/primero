@@ -1,3 +1,5 @@
+/* eslint-disable react/no-multi-comp */
+/* eslint-disable react/display-name */
 import React from "react";
 import { useDispatch, batch } from "react-redux";
 import PropTypes from "prop-types";
@@ -16,6 +18,7 @@ import { setDialog } from "../../../../../record-actions/action-creators";
 import { useI18n } from "../../../../../i18n";
 import SwitchInput from "../../../../../form/fields/switch-input";
 import DragIndicator from "../../../forms-list/components/drag-indicator";
+import { getFiedListItemTheme } from "../utils";
 import styles from "../fields-list/styles.css";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 
@@ -27,40 +30,33 @@ const Component = ({ field, index }) => {
   const i18n = useI18n();
   const currentTheme = useTheme();
 
-  const themeOverrides = createMuiTheme({
-    ...currentTheme,
-    overrides: {
-      ...currentTheme.overrides,
-      MuiFormControl: {
-        ...currentTheme.overrides.MuiFormControl,
-        root: {
-          ...currentTheme.overrides.MuiFormControl.root,
-          marginBottom: 0
-        }
-      },
-      MuiCheckbox: {
-        ...currentTheme.overrides.MuiCheckbox,
-        root: {
-          ...currentTheme.overrides.MuiCheckbox.root,
-          padding: "0 0.2em",
-          margin: "0 0.4em"
-        }
-      },
-      MuiFormControlLabel: {
-        root: {
-          ...currentTheme.overrides.MuiFormControlLabel.root,
-          marginLeft: 0,
-          marginRight: 0
-        }
-      }
-    }
-  });
+  const themeOverrides = createMuiTheme(getFiedListItemTheme(currentTheme));
 
   const handleClick = fieldName => {
     batch(() => {
       dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: true }));
       dispatch(setSelectedField(fieldName));
     });
+  };
+
+  const renderFieldName = () => {
+    const icon = !field.get("editable") ? (
+      <VpnKeyIcon className={css.rotateIcon} />
+    ) : (
+      <span />
+    );
+
+    return (
+      <>
+        {icon}
+        <Button
+          className={clsx({ [css.editable]: field.get("editable") })}
+          onClick={() => handleClick(field.get("name"))}
+        >
+          {field.getIn(["display_name", i18n.locale])}
+        </Button>
+      </>
+    );
   };
 
   return (
@@ -72,17 +68,7 @@ const Component = ({ field, index }) => {
               <DragIndicator {...provided.dragHandleProps} />
             </div>
             <div className={clsx([css.fieldColumn, css.fieldName])}>
-              {!field.get("editable") ? (
-                <VpnKeyIcon className={css.rotateIcon} />
-              ) : (
-                <span />
-              )}
-              <Button
-                className={clsx({ [css.editable]: field.get("editable") })}
-                onClick={() => handleClick(field.get("name"))}
-              >
-                {field.getIn(["display_name", i18n.locale])}
-              </Button>
+              {renderFieldName(field)}
             </div>
             <div className={css.fieldColumn}>
               {i18n.t(`fields.${field.get("type")}`)}

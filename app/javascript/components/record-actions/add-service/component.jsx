@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { batch, useSelector, useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 
 import ActionDialog from "../../action-dialog";
@@ -16,6 +16,8 @@ import Fields from "../add-incident/fields";
 import submitForm from "../../../libs/submit-form";
 import resetForm from "../../../libs/reset-form";
 import { ACTIONS } from "../../../libs/permissions";
+import { fetchRecordsAlerts } from "../../records/action-creators";
+import { fetchAlerts } from "../../nav/action-creators";
 
 import { NAME, SERVICES_SUBFORM } from "./constants";
 
@@ -92,20 +94,24 @@ const Component = ({
         record_action: ACTIONS.SERVICES_SECTION_FROM_CASE
       };
 
-      selectedIds.map(id =>
-        dispatch(
-          saveRecord(
-            recordType,
-            "update",
-            body,
-            id,
-            i18n.t(`actions.services_from_case_creation_success`),
-            false,
-            false,
-            false
-          )
-        )
-      );
+      selectedIds.forEach(id => {
+        batch(async () => {
+          await dispatch(
+            saveRecord(
+              recordType,
+              "update",
+              body,
+              id,
+              i18n.t(`actions.services_from_case_creation_success`),
+              false,
+              false,
+              false
+            )
+          );
+          dispatch(fetchRecordsAlerts(recordType, id));
+        });
+      });
+      dispatch(fetchAlerts());
       setSubmitting(false);
     }
   };

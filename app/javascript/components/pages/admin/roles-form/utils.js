@@ -11,7 +11,6 @@ import {
 import { FORM_CHECK_ERRORS } from "./constants";
 
 export const getFormsToRender = ({
-  primeroModules,
   systemPermissions,
   roles,
   formSections,
@@ -21,7 +20,6 @@ export const getFormsToRender = ({
   fromJS(
     [
       RolesMainForm(
-        primeroModules,
         systemPermissions.get("management", fromJS([])),
         i18n,
         formMode

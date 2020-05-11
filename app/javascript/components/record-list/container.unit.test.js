@@ -10,6 +10,7 @@ import { FieldRecord, FormSectionRecord } from "../record-form/records";
 
 import ViewModal from "./view-modal";
 import RecordList from "./container";
+import RecordListToolbar from "./record-list-toolbar";
 
 describe("<RecordList />", () => {
   let component;
@@ -190,5 +191,25 @@ describe("<RecordList />", () => {
 
   it("renders filters", () => {
     expect(component.find(Filters)).to.have.lengthOf(1);
+  });
+
+  it("renders valid props for RecordListToolbar components", () => {
+    const recordListToolbarProps = {
+      ...component.find(RecordListToolbar).props()
+    };
+
+    expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
+    [
+      "title",
+      "recordType",
+      "handleDrawer",
+      "mobileDisplay",
+      "currentPage",
+      "selectedRecords"
+    ].forEach(property => {
+      expect(recordListToolbarProps).to.have.property(property);
+      delete recordListToolbarProps[property];
+    });
+    expect(recordListToolbarProps).to.be.empty;
   });
 });

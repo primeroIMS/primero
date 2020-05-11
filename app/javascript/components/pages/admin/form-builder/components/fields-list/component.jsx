@@ -25,6 +25,11 @@ const Component = () => {
     console.error(result);
   };
 
+  const renderFields = () =>
+    fields.map((field, index) => (
+      <FieldListItem field={field} index={index} key={field.get("name")} />
+    ));
+
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId="droppable" type="field">
@@ -57,13 +62,7 @@ const Component = () => {
                 {i18n.t("fields.show")}
               </div>
             </div>
-            {fields.map((field, index) => (
-              <FieldListItem
-                field={field}
-                index={index}
-                key={field.get("name")}
-              />
-            ))}
+            {renderFields()}
             {provided.placeholder}
           </div>
         )}

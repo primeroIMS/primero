@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 describe Api::V2::AttachmentsController, type: :request do
+  include ActiveJob::TestHelper
   before :each do
     allow_any_instance_of(PermittedFieldService).to(
       receive(:permitted_field_names).and_return(%w[photos])
@@ -11,6 +12,7 @@ describe Api::V2::AttachmentsController, type: :request do
   end
 
   let(:json) { JSON.parse(response.body) }
+  let(:audit_params) { enqueued_jobs.select { |job| job.values.first == AuditLogJob }.first[:args].first }
 
   describe 'POST /api/v2/:record/:id/attachments' do
     it 'attaches a file to an existing record' do
@@ -26,6 +28,8 @@ describe Api::V2::AttachmentsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['file_name']).to eq('jorge.jpg')
       expect(json['data']['record']['id']).to eq(@case.id)
+
+      expect(audit_params['action']).to eq('attach')
     end
 
     context '`photos` is a forbidden field' do
@@ -69,6 +73,8 @@ describe Api::V2::AttachmentsController, type: :request do
 
       expect(response).to have_http_status(204)
       expect(@case.attachments.count).to eq(0)
+
+      expect(audit_params['action']).to eq('detach')
     end
 
     context '`photos` is a forbidden field' do
@@ -92,6 +98,7 @@ describe Api::V2::AttachmentsController, type: :request do
   end
 
   after :each do
+    clear_enqueued_jobs
     clean_data(Attachment, Child)
   end
 end

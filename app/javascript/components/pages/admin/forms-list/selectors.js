@@ -14,6 +14,9 @@ export const getFormSections = (state, filter) => {
     )
     .sortBy(fs => fs.order)
     .groupBy(fs => fs.form_group_id)
-    .sort(formSection => formSection.order_form_group)
+    .sortBy(group => group.first().order_form_group)
     .toList();
 };
+
+export const getIsLoading = state =>
+  state.getIn(["records", "admin", "forms", "loading"], false);

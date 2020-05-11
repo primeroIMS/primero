@@ -9,7 +9,7 @@ import { FIELD_NAMES } from "../constants";
 
 import { buildPermissionOptions } from "./utils";
 
-export default (primeroModules, groupPermissions, i18n) => {
+export default (groupPermissions, i18n) => {
   return FormSectionRecord({
     unique_id: "roles",
     fields: [
@@ -39,12 +39,8 @@ export default (primeroModules, groupPermissions, i18n) => {
         display_name: i18n.t("primero_modules.label"),
         name: FIELD_NAMES.moduleIds,
         type: SELECT_FIELD,
-        option_strings_text: primeroModules
-          .map(primeroModule => ({
-            id: primeroModule.unique_id,
-            display_text: primeroModule.name
-          }))
-          .toJS()
+        option_strings_source: "Module",
+        multi_select: true
       }),
       FieldRecord({
         display_name: i18n.t("role.group_permission_label"),

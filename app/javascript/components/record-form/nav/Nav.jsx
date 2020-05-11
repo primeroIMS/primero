@@ -4,7 +4,8 @@ import { List } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
 
-import { getSelectedRecord, getRecordAlerts } from "../selectors";
+import { getRecordAlerts } from "../../records/selectors";
+import { getSelectedRecord } from "../selectors";
 import { setSelectedForm, setSelectedRecord } from "../action-creators";
 
 import { NAME } from "./constants";
@@ -17,6 +18,7 @@ const Nav = ({
   handleToggleNav,
   isNew,
   mobileDisplay,
+  recordType,
   selectedForm,
   selectedRecord
 }) => {
@@ -54,7 +56,7 @@ const Nav = ({
     });
   }, [firstTab]);
 
-  const recordAlerts = useSelector(state => getRecordAlerts(state));
+  const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
 
   if (formNav) {
     const [...formGroups] = formNav.values();
@@ -97,6 +99,7 @@ Nav.propTypes = {
   handleToggleNav: PropTypes.func.isRequired,
   isNew: PropTypes.bool,
   mobileDisplay: PropTypes.bool.isRequired,
+  recordType: PropTypes.string,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   selectedRecord: PropTypes.string
 };

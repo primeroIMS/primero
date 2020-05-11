@@ -26,7 +26,7 @@ import { NAME } from "./constants";
 import FilterContainer from "./filter-container";
 import { buildTableColumns } from "./utils";
 import RecordListToolbar from "./record-list-toolbar";
-import { getListHeaders } from "./selectors";
+import { getListHeaders, getMetadata } from "./selectors";
 import styles from "./styles.css";
 import ViewModal from "./view-modal";
 
@@ -43,9 +43,10 @@ const Container = ({ match, location }) => {
   const recordType = url.replace("/", "");
   const dispatch = useDispatch();
   const headers = useSelector(state => getListHeaders(state, recordType));
+  const metadata = useSelector(state => getMetadata(state, recordType));
   const [openViewModal, setOpenViewModal] = useState(false);
   const [currentRecord, setCurrentRecord] = useState(null);
-  const [selectedRecords, setSelectedRecords] = useState([]);
+  const [selectedRecords, setSelectedRecords] = useState({});
 
   const userPermissions = useSelector(state =>
     getPermissionsByRecord(state, recordType)
@@ -129,17 +130,22 @@ const Container = ({ match, location }) => {
     handleDrawer
   };
 
+  const page = metadata?.get("page", 1);
+  const currentPage = page - 1;
+
   const recordListToolbarProps = {
     title: i18n.t(`${recordType}.label`),
     recordType,
     handleDrawer,
     mobileDisplay,
+    currentPage,
     selectedRecords
   };
 
   const filterProps = {
     recordType,
     defaultFilters,
+    setSelectedRecords,
     fromDashboard: Boolean(searchParams.get("fromDashboard"))
   };
 

@@ -8,7 +8,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case actions.FETCH_ROLE_STARTED:
       return state
-        .set("loading", fromJS(payload))
+        .set("loading", true)
         .set("errors", false)
         .set("serverErrors", fromJS([]));
     case actions.FETCH_ROLE_SUCCESS:
@@ -17,7 +17,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .set("errors", false)
         .set("serverErrors", fromJS([]));
     case actions.FETCH_ROLE_FINISHED:
-      return state.set("loading", fromJS(payload));
+      return state.set("loading", false);
     case actions.FETCH_ROLE_FAILURE:
     case actions.SAVE_ROLE_FAILURE:
       return state

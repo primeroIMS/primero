@@ -1,6 +1,8 @@
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
+import { RECORD_PATH } from "../../config/constants";
+
 import * as actionCreators from "./action-creators";
 
 describe("records - Action Creators", () => {
@@ -21,14 +23,16 @@ describe("records - Action Creators", () => {
     );
     expect(creators).to.have.property("fetchRecord");
     expect(creators).to.have.property("saveRecord");
+    expect(creators).to.have.property("fetchRecordsAlerts");
     delete creators.setFilters;
     delete creators.fetchCases;
     delete creators.fetchIncidents;
     delete creators.fetchTracingRequests;
     delete creators.fetchRecord;
+    delete creators.fetchRecordsAlerts;
     delete creators.saveRecord;
 
-    expect(creators).to.deep.equal({});
+    expect(creators).to.be.empty;
   });
 
   it("should check the 'fetchRecord' action creator to return the correct object", () => {
@@ -91,5 +95,19 @@ describe("records - Action Creators", () => {
           expect(actions[0].api.body).to.eql(body);
         });
     });
+  });
+
+  it("should check the 'fetchRecordsAlerts' action creator to return the correct object", () => {
+    const recordId = "123abc";
+    const expected = {
+      api: {
+        path: `${RECORD_PATH.cases}/${recordId}/alerts`
+      },
+      type: `${RECORD_PATH.cases}/FETCH_RECORD_ALERTS`
+    };
+
+    expect(
+      actionCreators.fetchRecordsAlerts(RECORD_PATH.cases, recordId)
+    ).be.deep.equals(expected);
   });
 });

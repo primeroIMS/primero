@@ -3,6 +3,7 @@
 require 'rails_helper'
 
 describe Api::V2::AlertsController, type: :request do
+  include ActiveJob::TestHelper
   before :each do
     role = Role.create!(
       name: 'Test Role 1',
@@ -82,6 +83,7 @@ describe Api::V2::AlertsController, type: :request do
   end
 
   let(:json) { JSON.parse(response.body) }
+  let(:audit_params) { enqueued_jobs.select { |job| job.values.first == AuditLogJob }.first[:args].first }
 
   describe 'GET /api/v2/alerts' do
     it 'accept the request with the User a' do
@@ -129,6 +131,8 @@ describe Api::V2::AlertsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data'].count).to eq(3)
+
+      expect(audit_params['action']).to eq('show_alerts')
     end
 
     it 'lists of all alerts from a incident' do
@@ -143,6 +147,8 @@ describe Api::V2::AlertsController, type: :request do
       get "/api/v2/incidents/#{@test_incident.id}/alerts"
       expect(response).to have_http_status(200)
       expect(json['data'].count).to eq(3)
+
+      expect(audit_params['action']).to eq('show_alerts')
     end
 
     it 'lists of all alerts from a tracing_request' do
@@ -159,6 +165,8 @@ describe Api::V2::AlertsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].count).to eq(1)
       expect(json['data'][0]['date']).to eq('2019-03-01')
+
+      expect(audit_params['action']).to eq('show_alerts')
     end
 
     it 'get a forbidden message if the user does not have read permission' do
@@ -189,6 +197,7 @@ describe Api::V2::AlertsController, type: :request do
   end
 
   after :each do
+    clear_enqueued_jobs
     clean_data(User, Alert, Child, Incident, TracingRequest, Role, Agency)
   end
 end

@@ -108,7 +108,17 @@ export const ADMIN_ACTIONS = [
   ACTIONS.CREATE
 ];
 
-export const ADMIN_RESOURCES = [RESOURCES.users];
+export const ADMIN_RESOURCES = [
+  RESOURCES.agencies,
+  RESOURCES.audit_logs,
+  RESOURCES.contact_information,
+  RESOURCES.lookups,
+  RESOURCES.roles,
+  RESOURCES.forms,
+  RESOURCES.systems,
+  RESOURCES.user_groups,
+  RESOURCES.users
+];
 
 export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
 
