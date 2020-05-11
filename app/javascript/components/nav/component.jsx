@@ -10,6 +10,7 @@ import { useApp } from "../application";
 import Permission from "../application/permission";
 import TranslationsToggle from "../translations-toggle";
 import { PERMITTED_URL, APPLICATION_NAV } from "../../config";
+import { getPermissions } from "../user";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -41,6 +42,7 @@ const Nav = () => {
   const username = useSelector(state => selectUsername(state));
   const drawerOpen = useSelector(state => selectDrawerOpen(state));
   const dataAlerts = useSelector(state => selectAlerts(state));
+  const permissions = useSelector(state => getPermissions(state));
 
   useEffect(() => {
     if (!mobileDisplay && !drawerOpen) {
@@ -97,7 +99,7 @@ const Nav = () => {
           />
         )}
         <List className={css.navList}>
-          {permittedMenuEntries(APPLICATION_NAV)}
+          {permittedMenuEntries(APPLICATION_NAV(permissions))}
         </List>
         <div className={css.navAgencies}>
           <AgencyLogo />

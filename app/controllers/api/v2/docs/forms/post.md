@@ -10,7 +10,7 @@ Create a new form
 
 **Authorization** : The user must be authorized to create forms in Primero.
 
-**Parameters** : 
+**Parameters** :
 
 * `data` A JSON representation of the forms to be created.
 ```json
@@ -23,6 +23,7 @@ Create a new form
       "fields": [
         {
           "name": "field_1",
+          "order": 777,
           "display_name": {
             "en": "Field 1"
           }
@@ -34,7 +35,7 @@ Create a new form
 
 ## Success Response
 
-**Condition** : User can create forms. 
+**Condition** : User can create forms.
 No `id` attribute is provided in the `data` hash.
 
 **Code** : `200 OK`
@@ -51,6 +52,7 @@ No `id` attribute is provided in the `data` hash.
       "fields": [
         {
           "name": "field_1",
+          "order": 777,
           "display_name": {
             "en": "Field 1"
           }
@@ -63,7 +65,7 @@ No `id` attribute is provided in the `data` hash.
 ---
 
 **Condition** : User can create forms.
-A client generated `id` attribute is provided in the `data` hash. 
+A client generated `id` attribute is provided in the `data` hash.
 This can be used to minimize the amount of data exchanged for low bandwidth scenarios.
 
 **Code** : `204 No Content`
@@ -72,7 +74,7 @@ This can be used to minimize the amount of data exchanged for low bandwidth scen
 
 ## Error Response
 
-**Condition** : User isn't authorized to create forms. 
+**Condition** : User isn't authorized to create forms.
 
 **Code** : `403 Forbidden`
 

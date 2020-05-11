@@ -5,7 +5,7 @@ export const FIELD_NAMES = {
   description: "description",
   transfer: "transfer",
   referral: "referral",
-  moduleIds: "module_ids",
+  moduleIds: "module_unique_ids",
   groupPermission: "group_permission"
 };
 export const ACTION_BUTTONS_NAME = "ActionButtons";

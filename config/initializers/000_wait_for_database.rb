@@ -3,9 +3,9 @@
 # This initializer gets executed early in the Rails boot sequence to check that
 # the database is accepting connections or to wait 1 minute until it does.
 Rails.application.config.before_initialize do
-  break unless ENV['PRIMERO_WAIT_FOR_DB']
+  next unless ENV['PRIMERO_WAIT_FOR_DB']
 
-  max_attempts = 12
+  max_attempts = 36
   wait_seconds = 5
   Rails.logger.info('Waiting for database to accept connections')
   attempts = 0

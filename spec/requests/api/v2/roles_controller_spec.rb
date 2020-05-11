@@ -411,6 +411,33 @@ describe Api::V2::RolesController, type: :request do
       expect(json).to eq(params.deep_stringify_keys)
     end
 
+    it 'Updates an existing role with 200 without permissions in the params' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
+        ]
+      )
+      params = {
+        data: {
+          id: @role_a.id,
+          unique_id: 'role_test_01',
+          name: 'CP Administrator 00',
+          description: 'Administrator_description',
+          group_permission: 'all',
+          referral: false,
+          transfer: false,
+          is_manager: true,
+          form_section_unique_ids: %w[C],
+          module_unique_ids: [@cp_b.unique_id]
+        }
+      }
+
+      patch "/api/v2/roles/#{@role_a.id}", params: params
+      expect(response).to have_http_status(200)
+      expect(json['data'].except('permissions')).to eq(params[:data].deep_stringify_keys)
+      expect(json['data']['permissions']).to eq(Permission::PermissionSerializer.dump(@role_a.permissions))
+    end
+
     it 'updates an non-existing role' do
       login_for_test(
         permissions: [

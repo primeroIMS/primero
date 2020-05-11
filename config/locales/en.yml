@@ -518,6 +518,7 @@ en:
 
   task:
     id: "ID#"
+    name: "Name"
     priority: "Priority Level"
     type: "Type of Action"
     due_date: "Due Date"
