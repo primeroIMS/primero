@@ -24,6 +24,7 @@ import handleFilterChange from "../value-handlers";
 import { NAME } from "./constants";
 
 const Component = ({
+  addFilterToList,
   filter,
   mode,
   moreSectionFilters,
@@ -71,6 +72,7 @@ const Component = ({
       moreSectionFilters,
       setMoreSectionFilters
     );
+    addFilterToList({ [fieldName]: undefined });
   };
 
   useEffect(() => {
@@ -145,6 +147,7 @@ const Component = ({
         getValues()[fieldName]
       );
     }
+    addFilterToList({ [fieldName]: getValues()[fieldName] || undefined });
   };
 
   const optionLabel = option => {
@@ -195,6 +198,7 @@ Component.defaultProps = {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  addFilterToList: PropTypes.func.isRequired,
   filter: PropTypes.object.isRequired,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,

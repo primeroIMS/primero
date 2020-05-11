@@ -20,6 +20,7 @@ import {
 import { NAME } from "./constants";
 
 const Component = ({
+  addFilterToList,
   filter,
   mode,
   moreSectionFilters,
@@ -51,6 +52,7 @@ const Component = ({
     if (mode?.secondary) {
       setMoreSectionFilters({ ...moreSectionFilters, [selectedField]: value });
     }
+    addFilterToList({ [selectedField]: value || undefined });
   };
 
   const handleSelectedField = event => {
@@ -71,6 +73,7 @@ const Component = ({
         {}
       );
     }
+    addFilterToList({ [fieldName]: value || undefined });
   };
 
   const handleReset = () => {
@@ -85,6 +88,7 @@ const Component = ({
         moreSectionFilters,
         setMoreSectionFilters
       );
+      addFilterToList({ [fieldName]: undefined });
     }
   };
 
@@ -200,6 +204,7 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
+  addFilterToList: PropTypes.func.isRequired,
   filter: PropTypes.object.isRequired,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,

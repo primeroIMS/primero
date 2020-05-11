@@ -20,6 +20,7 @@ import handleFilterChange from "../value-handlers";
 import { NAME } from "./constants";
 
 const Component = ({
+  addFilterToList,
   filter,
   moreSectionFilters,
   setMoreSectionFilters,
@@ -46,14 +47,19 @@ const Component = ({
       fieldName
     });
 
+    const value = getValues()[fieldName];
+
     if (mode?.secondary) {
       handleMoreFiltersChange(
         moreSectionFilters,
         setMoreSectionFilters,
         fieldName,
-        getValues()[fieldName]
+        value
       );
     }
+
+    // TODO: Move value to helper
+    addFilterToList({ [fieldName]: value ? [value.toString()] : undefined });
   };
 
   const handleReset = () => {
@@ -65,6 +71,7 @@ const Component = ({
       moreSectionFilters,
       setMoreSectionFilters
     );
+    addFilterToList({ [fieldName]: undefined });
   };
 
   useEffect(() => {
@@ -127,6 +134,7 @@ Component.defaultProps = {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  addFilterToList: PropTypes.func.isRequired,
   filter: PropTypes.object.isRequired,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,

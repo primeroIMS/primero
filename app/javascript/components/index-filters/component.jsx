@@ -4,6 +4,7 @@ import { useForm, FormContext } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
+import merge from "lodash/merge";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
 import { Tabs, Tab } from "@material-ui/core";
@@ -16,6 +17,7 @@ import { currentUser } from "../user";
 import { useI18n } from "../i18n";
 import { RECORD_PATH } from "../../config";
 import { getReportingLocationConfig } from "../application/selectors";
+import { DEFAULT_FILTERS } from "../record-list/constants";
 
 import { filterType, compactFilters } from "./utils";
 import {
@@ -43,13 +45,26 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   const queryParams = qs.parse(location.search.replace("?", ""));
   const [more, setMore] = useState(false);
   const [reset, setReset] = useState(false);
+  // Default filters by default
+  // Clear this out when APPLY, SAVE or CLEAR
+  const [filterToList, setFilterToList] = useState(DEFAULT_FILTERS);
   const dispatch = useDispatch();
 
   const resetSelectedRecords = () => {
     setSelectedRecords(DEFAULT_SELECTED_RECORDS_VALUE);
   };
+
+  console.log(
+    "Default Filter",
+    isEmpty(queryParams)
+      ? merge(defaultFilters.toJS(), filterToList)
+      : queryParams
+  );
   const methods = useForm({
-    defaultValues: isEmpty(queryParams) ? defaultFilters.toJS() : queryParams
+    // TODO: Must include data from filterToList
+    defaultValues: isEmpty(queryParams)
+      ? merge(defaultFilters.toJS(), filterToList)
+      : queryParams
   });
 
   const reportingLocationConfig = useSelector(state =>
@@ -65,6 +80,10 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   );
 
   const userName = useSelector(state => currentUser(state));
+
+  const addFilterToList = data => {
+    setFilterToList({ ...filterToList, ...data });
+  };
 
   const allPrimaryFilters = filters.filter(f =>
     PRIMARY_FILTERS.includes(f.field_name)
@@ -155,6 +174,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
           reset={reset}
           setReset={setReset}
           mode={mode}
+          addFilterToList={addFilterToList}
         />
       );
     });
@@ -175,6 +195,15 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   }, []);
 
   useEffect(() => {
+    if (tabIndex === 0) {
+      console.log("APPLY: ", filterToList);
+
+      Object.entries(filterToList).forEach(filterList => {
+        const [key, value] = filterList;
+
+        methods.setValue(key, value);
+      });
+    }
     if (tabIndex === 1) {
       dispatch(fetchSavedSearches());
     }
@@ -185,6 +214,8 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
       const filtersToApply = isEmpty(queryParams)
         ? defaultFilters.toJS()
         : queryParams;
+
+      // TODO: SET FILTERS WHEN CLICK FROM DASHBOARD
 
       Object.keys(methods.getValues()).forEach(value => {
         if (!Object.keys(filtersToApply).includes(value) && !isEmpty(value)) {
