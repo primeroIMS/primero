@@ -4,6 +4,14 @@ workbox.core.clientsClaim();
 workbox.core.skipWaiting();
 workbox.precaching.cleanupOutdatedCaches();
 
+const METHODS = {
+  GET: "GET",
+  PATCH: "PATCH",
+  PUT: "PUT",
+  POST: "POST",
+  DELETE: "DELETE"
+};
+
 self.__precacheManifest = []
   .concat(self.__precacheManifest || [])
   .map(entry => {
@@ -19,41 +27,44 @@ self.__precacheManifest = []
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-const onFetch = event => {
-  const request = event.request.clone();
-
-  event.respondWith(
-    fetch(request).catch(() => {
-      return caches.match(request).then(response => {
-        if (response) {
-          return response;
-        }
-
-        if (
-          request.mode === "navigate" ||
-          (request.method === "GET" &&
-            request.headers.get("accept").includes("text/html"))
-        ) {
-          return caches.match(workbox.precaching.getCacheKeyForURL("/"));
-        }
-
-        return true;
-      });
-    })
-  );
-};
-
-self.addEventListener("fetch", onFetch);
-
-workbox.routing.registerRoute(
-  /translations-*.js$/,
-  new workbox.strategies.CacheFirst(),
-  "GET"
-);
-
 workbox.routing.registerNavigationRoute(
   workbox.precaching.getCacheKeyForURL("/"),
   {
     whitelist: [/^(\/)$/, /^\/v2\//]
   }
 );
+
+workbox.routing.registerRoute(
+  /translations-*.js$/,
+  new workbox.strategies.CacheFirst(),
+  METHODS.GET
+);
+
+workbox.routing.registerRoute(
+  /.*\.(?:png|jpg|jpeg|svg|gif)/,
+  new workbox.strategies.CacheFirst({
+    cacheName: "images",
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 60,
+        maxAgeSeconds: 30 * 24 * 60 * 60 // 30 Days
+      })
+    ]
+  })
+);
+
+workbox.routing.registerRoute(
+  /\/options\/locations-.*.json$/,
+  new workbox.strategies.CacheFirst({
+    cacheName: "locations"
+  }),
+  METHODS.GET
+);
+
+Object.values(METHODS).forEach(method => {
+  workbox.routing.registerRoute(
+    /\/api\/.*/,
+    new workbox.strategies.NetworkOnly(),
+    method
+  );
+});

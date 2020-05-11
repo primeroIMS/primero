@@ -13,6 +13,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { makeStyles } from "@material-ui/styles";
 import get from "lodash/get";
 
+import { FORM_SECTION_NAME } from "./constants";
 import FormSectionField from "./form-section-field";
 import FormSectionTitle from "./form-section-title";
 import styles from "./styles.css";
@@ -23,6 +24,32 @@ const FormSection = ({ formSection }) => {
   const { fields, check_errors: checkErrors, expandable } = formSection;
   const [expanded, setExpanded] = useState(formSection.expanded);
 
+  const renderFields = fieldsToRender => {
+    return fieldsToRender.map(field => {
+      if (field?.row) {
+        return (
+          <div
+            key={`${formSection.unique_id}-row`}
+            className={clsx({
+              [css.notEqual]: field.equalColumns === false,
+              [css.row]: true
+            })}
+          >
+            {renderFields(field.row)}
+          </div>
+        );
+      }
+
+      return (
+        <FormSectionField
+          field={field}
+          key={field.name}
+          checkErrors={checkErrors}
+        />
+      );
+    });
+  };
+
   const renderError = () =>
     checkErrors?.size &&
     checkErrors.find(checkError => get(errors, checkError));
@@ -30,14 +57,6 @@ const FormSection = ({ formSection }) => {
   const handleChange = () => {
     setExpanded(!expanded);
   };
-
-  const fieldsToRender = fields.map(field => (
-    <FormSectionField
-      field={field}
-      key={field.name}
-      checkErrors={checkErrors}
-    />
-  ));
 
   // eslint-disable-next-line react/display-name
   const renderExpandableFormSection = () => (
@@ -50,7 +69,7 @@ const FormSection = ({ formSection }) => {
         </Typography>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails classes={{ root: css.panelContent }}>
-        {fieldsToRender}
+        {renderFields(fields)}
       </ExpansionPanelDetails>
     </ExpansionPanel>
   );
@@ -59,14 +78,14 @@ const FormSection = ({ formSection }) => {
   const renderFormSection = () => (
     <>
       <FormSectionTitle formSection={formSection} />
-      {fieldsToRender}
+      {renderFields(fields)}
     </>
   );
 
   return expandable ? renderExpandableFormSection() : renderFormSection();
 };
 
-FormSection.displayName = "FormSection";
+FormSection.displayName = FORM_SECTION_NAME;
 
 FormSection.propTypes = {
   formSection: PropTypes.object

@@ -12,7 +12,7 @@ const fetchLocations = () => ({
     external: true,
     db: {
       collection: DB_COLLECTIONS_NAMES.LOCATIONS,
-      alwaysCache: true,
+      alwaysCache: false,
       manifest: window.locationManifest
     }
   }
@@ -41,13 +41,6 @@ export const setSelectedRecord = payload => ({
 export const setServiceToRefer = payload => ({
   type: Actions.SET_SERVICE_TO_REFER,
   payload
-});
-
-export const fetchRecordsAlerts = (recordType, recordId) => ({
-  type: Actions.FETCH_RECORD_ALERTS,
-  api: {
-    path: `${recordType}/${recordId}/alerts`
-  }
 });
 
 export const fetchForms = () => ({

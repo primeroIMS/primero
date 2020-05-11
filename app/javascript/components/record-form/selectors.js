@@ -138,9 +138,6 @@ export const getServiceToRefer = state =>
 export const getOptionsAreLoading = state =>
   state.getIn([NAMESPACE, "options", "loading"], false);
 
-export const getRecordAlerts = state =>
-  state.getIn([NAMESPACE, "recordAlerts"], fromJS([]));
-
 export const getAssignableForms = state =>
   state
     .getIn([NAMESPACE, "formSections"], fromJS([]))

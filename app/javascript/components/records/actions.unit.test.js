@@ -7,6 +7,11 @@ describe("records - Actions", () => {
     [
       "CASES_RECORDS",
       "DELETE_ATTACHMENT_SUCCESS",
+      "FETCH_RECORD_ALERTS",
+      "FETCH_RECORD_ALERTS_FAILURE",
+      "FETCH_RECORD_ALERTS_FINISHED",
+      "FETCH_RECORD_ALERTS_STARTED",
+      "FETCH_RECORD_ALERTS_SUCCESS",
       "INCIDENTS_RECORDS",
       "RECORD",
       "RECORDS",

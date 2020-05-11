@@ -15,6 +15,7 @@ import styles from "./styles.css";
 const CheckboxInput = ({ commonInputProps, options, metaInputProps }) => {
   const css = makeStyles(styles)();
   const { name, error, required, label, helperText } = commonInputProps;
+  const { inlineCheckboxes } = metaInputProps;
 
   return (
     <FormControl
@@ -23,7 +24,7 @@ const CheckboxInput = ({ commonInputProps, options, metaInputProps }) => {
       className={css.checkboxContainer}
     >
       <FormLabel required={required}>{label}</FormLabel>
-      <FormGroup>
+      <FormGroup row={inlineCheckboxes}>
         <Controller
           name={name}
           as={CheckboxGroup}
@@ -49,7 +50,9 @@ CheckboxInput.propTypes = {
     name: PropTypes.string.isRequired,
     required: PropTypes.bool
   }),
-  metaInputProps: PropTypes.object,
+  metaInputProps: PropTypes.shape({
+    inlineCheckboxes: PropTypes.bool
+  }),
   options: PropTypes.array
 };
 

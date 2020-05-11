@@ -4,6 +4,7 @@ module Api::V2
     respond_to :json
 
     skip_before_action :verify_authenticity_token
+    before_action :write_audit_log, only: [:respond_to_on_destroy]
 
     # This method overrides the deprecated ActionController::MimeResponds#respond_with
     # that Devise unfortunately still uses. We are overriding it to return a JSON object
@@ -39,6 +40,14 @@ module Api::V2
 
     def record_id
       current_user.try(:id)
+    end
+
+    def create_action_message
+      'login'
+    end
+
+    def destroy_action_message
+      'logout'
     end
 
     private

@@ -6,6 +6,7 @@ import Login, {
   ContactInformation,
   Dashboard,
   ExportList,
+  FormBuilder,
   FormsList,
   LookupsList,
   NotAuthorized,
@@ -169,7 +170,8 @@ export default [
             {
               path: ROUTES.admin_users,
               component: UsersList,
-              resources: RESOURCES.users
+              resources: RESOURCES.users,
+              actions: ADMIN_ACTIONS
             },
             {
               path: `${ROUTES.admin_user_groups}/new`,
@@ -290,9 +292,25 @@ export default [
               resources: RESOURCES.roles
             },
             {
+              path: `${ROUTES.forms}/new`,
+              component: FormBuilder,
+              resources: RESOURCES.forms,
+              extraProps: {
+                mode: MODES.new
+              }
+            },
+            {
+              path: `${ROUTES.forms}/:id/edit`,
+              component: FormBuilder,
+              resources: RESOURCES.forms,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
               path: ROUTES.forms,
-              component: FormsList
-              // resources:
+              component: FormsList,
+              resources: RESOURCES.forms
             }
           ]
         }

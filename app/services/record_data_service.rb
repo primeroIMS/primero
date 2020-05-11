@@ -27,9 +27,9 @@ class RecordDataService
     end
 
     def embed_hidden_name(data, record, selected_field_names)
-      return data unless record.try(:hidden_name) && selected_field_names.include?('name')
+      return data unless selected_field_names.include?('name')
 
-      data['name'] = '*******'
+      data['name'] = visible_name(record)
       data
     end
 
@@ -65,6 +65,10 @@ class RecordDataService
 
       data['alert_count'] = record.alert_count
       data
+    end
+
+    def visible_name(record)
+      record.try(:hidden_name) ? '*******' : record.try(:name)
     end
   end
 end
