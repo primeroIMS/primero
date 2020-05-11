@@ -819,6 +819,16 @@ class HomeController < ApplicationController
         closed_last_week: get_admin_stat({ status: Record::STATUS_CLOSED, closed: true, date_range: last_week, locations: locations, by_reporting_location: true }),
         closed_this_week: get_admin_stat({ status: Record::STATUS_CLOSED, closed: true, date_range: this_week, locations: locations, by_reporting_location: true })
       })
+
+      @reporting_location_total_stats = {open: 0, new_last_week: 0, new_this_week: 0, closed_last_week: 0, closed_this_week: 0}
+
+      @reporting_location_stats.each do |key, val|
+        @reporting_location_total_stats[:open] += val[:totals] if val[:totals].present?
+        @reporting_location_total_stats[:new_last_week] += val[:new_last_week] if val[:new_last_week].present?
+        @reporting_location_total_stats[:new_this_week] += val[:new_this_week] if val[:new_this_week].present?
+        @reporting_location_total_stats[:closed_last_week] += val[:closed_last_week] if val[:closed_last_week].present?
+        @reporting_location_total_stats[:closed_this_week] += val[:closed_this_week] if val[:closed_this_week].present?
+      end
     end
 
     protection_concerns_location = params[:protection_concerns_location] if @display_protection_concerns_by_location

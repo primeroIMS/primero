@@ -1,17 +1,8 @@
-<%
-  #
-  #TODO... just need totals of the reporting location columns
-  #TODO    Open Cases,  New Last Week,  New This Week,  Closed Last Week,  Closed This Week
-  #TODO pull these status from solr
-  #TODO this is just test data...
-  national_admin_stats = {}
-  national_admin_stats[:manager_totals] = {"open"=>15, "new_last_week"=>4, "new_this_week"=>3, "closed_last_week"=>6, "closed_this_week"=>5}
-%>
 <div class="dashboard-group">
   <h4 class="stat_heading"><%= t("dashboard.national_admin_stats") %></h4>
-  <% if @stats.present? %>
+  <% if @reporting_location_total_stats.present? %>
     <div class="row align-middle large-up-5">
-      <%= render 'case_national_admin_totals', stats: national_admin_stats[:manager_totals], model: model %>
+      <%= render 'case_national_admin_totals', stats: @reporting_location_total_stats, model: model %>
     </div>
   <% else %>
     <p class="no-content"><%= t('dashboard.no_case_stats') %></p>
