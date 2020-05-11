@@ -8,9 +8,9 @@ import { TEXT_AREA } from "../constants";
 
 import styles from "./styles.css";
 
-const TextInput = ({ commonInputProps, metaInputProps, hint }) => {
+const TextInput = ({ commonInputProps, metaInputProps }) => {
   const css = makeStyles(styles)();
-  const { type, password } = metaInputProps;
+  const { type, password, hint } = metaInputProps;
   const inputType = password ? "password" : "text";
 
   const renderHint = hint ? <span className={css.hint}>{hint}</span> : null;
@@ -40,7 +40,6 @@ TextInput.displayName = "TextInput";
 
 TextInput.propTypes = {
   commonInputProps: PropTypes.object.isRequired,
-  hint: PropTypes.string,
   metaInputProps: PropTypes.object
 };
 

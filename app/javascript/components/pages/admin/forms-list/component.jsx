@@ -6,6 +6,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { makeStyles } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
+import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
 import { useApp } from "../../../application";
 import { PageHeading, PageContent } from "../../../page";
@@ -14,9 +15,10 @@ import { usePermissions } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { FormAction } from "../../../form";
 
+import NAMESPACE from "./namespace";
 import { FormGroup, FormSection, FormFilters } from "./components";
 import { fetchForms } from "./action-creators";
-import { getFormSections } from "./selectors";
+import { getFormSections, getIsLoading } from "./selectors";
 import { getListStyle } from "./utils";
 import styles from "./styles.css";
 
@@ -30,6 +32,7 @@ const Component = () => {
     primeroModule: MODULES.CP
   };
   const [filterValues, setFilterValues] = useState(defaultFilterValues);
+  const isLoading = useSelector(state => getIsLoading(state));
   const formSectionsByGroup = useSelector(state =>
     getFormSections(state, filterValues)
   );
@@ -57,11 +60,12 @@ const Component = () => {
 
   const renderFormSections = () =>
     formSectionsByGroup.map((group, index) => {
-      const { name, form_group_id: formGroupID } = group.first() || {};
+      const { form_group_name: formGroupName, form_group_id: formGroupID } =
+        group.first() || {};
 
       return (
         <FormGroup
-          name={i18n.getI18nStringFromObject(name)}
+          name={i18n.getI18nStringFromObject(formGroupName)}
           index={index}
           key={formGroupID}
           id={formGroupID}
@@ -89,20 +93,26 @@ const Component = () => {
       <PageContent>
         <div className={css.indexContainer}>
           <div className={css.forms}>
-            <DragDropContext onDragEnd={handleDragEnd}>
-              <Droppable droppableId="droppable" type="formGroup">
-                {(provided, snapshot) => (
-                  <div
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={getListStyle(snapshot.isDraggingOver)}
-                  >
-                    {renderFormSections()}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
+            <LoadingIndicator
+              hasData={formSectionsByGroup?.size}
+              loading={isLoading}
+              type={NAMESPACE}
+            >
+              <DragDropContext onDragEnd={handleDragEnd}>
+                <Droppable droppableId="droppable" type="formGroup">
+                  {(provided, snapshot) => (
+                    <div
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      style={getListStyle(snapshot.isDraggingOver)}
+                    >
+                      {renderFormSections()}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            </LoadingIndicator>
           </div>
           <div className={css.filters}>
             <FormFilters

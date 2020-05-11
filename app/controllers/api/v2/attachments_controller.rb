@@ -18,6 +18,14 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
     updates_for_record(@record)
   end
 
+  def create_action_message
+    'attach'
+  end
+
+  def destroy_action_message
+    'detach'
+  end
+
   private
 
   def authorize_attach!(field_name)

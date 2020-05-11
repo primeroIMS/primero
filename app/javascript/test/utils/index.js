@@ -28,9 +28,14 @@ export const setupMountedComponent = (
   initialEntries = [],
   formProps = {}
 ) => {
+  const defaultState = fromJS({
+    application: {
+      online: true
+    }
+  });
   const history = createBrowserHistory();
   const mockStore = configureStore([routerMiddleware(history), thunk]);
-  const store = mockStore(fromJS(initialState));
+  const store = mockStore(defaultState.merge(fromJS(initialState)));
 
   const FormikComponent = ({ formikProps, componentProps }) => {
     if (isEmpty(formikProps)) {
@@ -184,3 +189,5 @@ export const setupMockFieldComponent = (
     mode
   });
 };
+
+export const createSimpleMount = component => createMount()(component);

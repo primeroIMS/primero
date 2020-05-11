@@ -14,5 +14,9 @@ module Api::V2
       authorize! :read, @record
       @alerts = @record.alerts
     end
+
+    def index_action_message
+      'show_alerts'
+    end
   end
 end

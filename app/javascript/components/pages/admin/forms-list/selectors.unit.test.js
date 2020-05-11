@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { mapEntriesToRecord } from "../../../../libs";
 import { FormSectionRecord } from "../../../record-form/records";
 
-import { getFormSections } from "./selectors";
+import { getFormSections, getIsLoading } from "./selectors";
 
 const formSections = [
   {
@@ -74,9 +74,9 @@ describe("<FormList /> - Selectors", () => {
         recordType: "case"
       });
 
-      expect(formGroups.getIn([0, 0, "id"])).to.equal(1);
-      expect(formGroups.getIn([0, 1, "id"])).to.equal(2);
-      expect(formGroups.getIn([1, 0, "id"])).to.equal(5);
+      expect(formGroups.getIn([0, 0, "id"])).to.equal(5);
+      expect(formGroups.getIn([1, 0, "id"])).to.equal(1);
+      expect(formGroups.getIn([1, 1, "id"])).to.equal(2);
     });
 
     it("should filter out subforms", () => {
@@ -96,6 +96,24 @@ describe("<FormList /> - Selectors", () => {
       });
 
       expect(formGroups).to.deep.equal(fromJS([]));
+    });
+  });
+
+  describe("getIsLoading", () => {
+    it("should return true if the forms are loading", () => {
+      const isLoading = getIsLoading(
+        fromJS({
+          records: {
+            admin: {
+              forms: {
+                loading: true
+              }
+            }
+          }
+        })
+      );
+
+      expect(isLoading).to.be.true;
     });
   });
 });

@@ -31,6 +31,16 @@ module Api::V2
                      transitioned_by: transitioned_by, notes: notes)
     end
 
+    def create_action_message
+      'assign'
+    end
+
+    def destroy_action_message
+      'unassign'
+    end
+
+    def create_bulk_record_resource
+      'bulk_assign'
+    end
   end
 end
-

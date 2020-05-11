@@ -21,6 +21,7 @@ import {
 } from "../../libs/permissions";
 import Permission from "../application/permission";
 import DisableOffline from "../disable-offline";
+import { ConditionalWrapper } from "../../libs";
 
 import { setDialog, setPending } from "./action-creators";
 import {
@@ -50,6 +51,7 @@ const Container = ({
   record,
   mode,
   showListActions,
+  currentPage,
   selectedRecords
 }) => {
   const i18n = useI18n();
@@ -296,19 +298,22 @@ const Container = ({
         setReferDialog(true);
       },
       recordType,
-      condition: canRefer
+      condition: canRefer,
+      disableOffline: true
     },
     {
       name: `${i18n.t("buttons.reassign")} ${formRecordType}`,
       action: () => setAssignDialog(true),
       recordType,
-      condition: canAssign
+      condition: canAssign,
+      disableOffline: true
     },
     {
       name: `${i18n.t("buttons.transfer")} ${formRecordType}`,
       action: () => setTransferDialog(true),
       recordType: ["cases", "incidents"],
-      condition: canTransfer
+      condition: canTransfer,
+      disableOffline: true
     },
     {
       name: i18n.t("actions.incident_details_from_case"),
@@ -317,7 +322,8 @@ const Container = ({
       recordListAction: true,
       condition: showListActions
         ? canAddIncident
-        : canAddIncident && Boolean(isSearchFromList)
+        : canAddIncident && Boolean(isSearchFromList),
+      disableOffline: true
     },
     {
       name: i18n.t("actions.services_section_from_case"),
@@ -326,7 +332,8 @@ const Container = ({
       recordListAction: true,
       condition: showListActions
         ? canAddService
-        : canAddService && Boolean(isSearchFromList)
+        : canAddService && Boolean(isSearchFromList),
+      disableOffline: true
     },
     {
       name: i18n.t(`actions.${openState}`),
@@ -344,26 +351,30 @@ const Container = ({
       name: i18n.t("actions.notes"),
       action: handleNotesOpen,
       recordType: RECORD_TYPES.all,
-      condition: canAddNotes
+      condition: canAddNotes,
+      disableOffline: true
     },
     {
       name: i18n.t("actions.request_approval"),
       action: handleRequestOpen,
       recordType: "all",
-      condition: canRequest
+      condition: canRequest,
+      disableOffline: true
     },
     {
       name: i18n.t("actions.approvals"),
       action: handleApprovalOpen,
       recordType: "all",
-      condition: canApprove
+      condition: canApprove,
+      disableOffline: true
     },
     {
       name: i18n.t(`${recordType}.export`),
       action: () => setOpenExportsDialog(true),
       recordType: RECORD_TYPES.all,
       recordListAction: true,
-      condition: canShowExports
+      condition: canShowExports,
+      disableOffline: true
     }
   ];
 
@@ -405,19 +416,26 @@ const Container = ({
   const filteredActions = filterItems(actions);
   const actionItems = filteredActions?.map(action => {
     const disabled =
-      showListActions && !selectedRecords.length && action.name !== "Export";
+      showListActions &&
+      selectedRecords &&
+      !Object.keys(selectedRecords).length &&
+      action.name !== "Export";
 
     return (
-      <DisableOffline>
+      <ConditionalWrapper
+        condition={action.disableOffline}
+        wrapper={DisableOffline}
+        button
+        key={action.name}
+      >
         <MenuItem
-          key={action.name}
           selected={action.name === "Pyxis"}
           onClick={() => handleItemAction(action.action)}
           disabled={disabled}
         >
           {action.name}
         </MenuItem>
-      </DisableOffline>
+      </ConditionalWrapper>
     );
   });
 
@@ -465,6 +483,11 @@ const Container = ({
 
   const allowedRequestsApproval = filterItems(requestsApproval);
   const allowedApprovals = filterItems(approvals);
+  const selectedRecordsOnCurrentPage =
+    (selectedRecords &&
+      Boolean(Object.keys(selectedRecords).length) &&
+      selectedRecords[currentPage]) ||
+    [];
 
   return (
     <>
@@ -503,7 +526,7 @@ const Container = ({
           close={() => setIncidentDialog(false)}
           recordType={recordType}
           records={[]}
-          selectedRowsIndex={selectedRecords}
+          selectedRowsIndex={selectedRecordsOnCurrentPage}
         />
       </Permission>
 
@@ -512,7 +535,7 @@ const Container = ({
           openServiceDialog={serviceDialog}
           close={() => setServiceDialog(false)}
           recordType={recordType}
-          selectedRowsIndex={selectedRecords}
+          selectedRowsIndex={selectedRecordsOnCurrentPage}
         />
       </Permission>
 
@@ -562,6 +585,7 @@ const Container = ({
           recordType={recordType}
           userPermissions={userPermissions}
           record={record}
+          currentPage={currentPage}
           selectedRecords={selectedRecords}
           pending={dialogPending}
           setPending={setDialogPending}
@@ -574,11 +598,12 @@ const Container = ({
 Container.displayName = NAME;
 
 Container.propTypes = {
+  currentPage: PropTypes.number,
   iconColor: PropTypes.string,
   mode: PropTypes.object,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  selectedRecords: PropTypes.array,
+  selectedRecords: PropTypes.object,
   showListActions: PropTypes.bool
 };
 

@@ -29,6 +29,9 @@ const syncIndexedDB = async (
       case DB_COLLECTIONS_NAMES.IDP: {
         return collections.Idp;
       }
+      case DB_COLLECTIONS_NAMES.DASHBOARDS: {
+        return collections.Dashboards;
+      }
       default: {
         return false;
       }

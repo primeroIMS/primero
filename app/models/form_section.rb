@@ -518,10 +518,10 @@ class FormSection < ApplicationRecord
   end
 
   def calculate_fields_order
-    if self.fields.present?
-      self.fields.each_with_index do |field, index|
-        field.order = index
-      end
+    return if fields.blank?
+
+    fields.each_with_index do |field, index|
+      field.order = index if field.order.nil?
     end
   end
 

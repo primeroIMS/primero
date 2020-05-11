@@ -65,6 +65,11 @@ const Component = ({ onClose, onSuccess }) => {
     });
   };
 
+  const renderForms = () =>
+    fieldsForm(selectedField.get("name"), i18n).map(formSection => (
+      <FormSection formSection={formSection} key={formSection.unique_id} />
+    ));
+
   useEffect(() => {
     if (selectedField?.size) {
       formMethods.reset({ [selectedField.get("name")]: selectedField.toJS() });
@@ -92,14 +97,7 @@ const Component = ({ onClose, onSuccess }) => {
   return (
     <ActionDialog {...modalProps}>
       <FormContext {...formMethods} formMode={formMode}>
-        <form className={css.fieldDialog}>
-          {fieldsForm(selectedField.get("name"), i18n).map(formSection => (
-            <FormSection
-              formSection={formSection}
-              key={formSection.unique_id}
-            />
-          ))}
-        </form>
+        <form className={css.fieldDialog}>{renderForms()}</form>
       </FormContext>
     </ActionDialog>
   );

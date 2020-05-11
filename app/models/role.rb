@@ -1,5 +1,7 @@
-class Role < ApplicationRecord
+# frozen_string_literal: true
 
+# The model for Role
+class Role < ApplicationRecord
   #include Importable #TODO: This will need to be rewritten
   # include Memoizable
   include Cloneable
@@ -171,7 +173,9 @@ class Role < ApplicationRecord
   def update_properties(role_properties)
     assign_attributes(role_properties.except(:permissions, :form_section_unique_ids, :module_unique_ids))
     self.form_sections = FormSection.where(unique_id: role_properties[:form_section_unique_ids])
-    self.permissions = Permission::PermissionSerializer.load(role_properties[:permissions].to_h)
+    if role_properties[:permissions].present?
+      self.permissions = Permission::PermissionSerializer.load(role_properties[:permissions].to_h)
+    end
     self.modules = PrimeroModule.where(unique_id: role_properties[:module_unique_ids])
   end
 
