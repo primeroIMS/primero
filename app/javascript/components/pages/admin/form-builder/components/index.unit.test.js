@@ -4,7 +4,7 @@ describe("pages/admin/<FormBuilder>/components/<TabPanel/> - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
-    ["FormBuilderActionButtons", "TabPanel"].forEach(property => {
+    ["FieldsList", "FormBuilderActionButtons", "TabPanel"].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });

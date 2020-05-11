@@ -96,7 +96,8 @@ entry.plugins.push(
     swDest: path.join(projectPath, "public/worker.js"),
     swSrc: path.join(projectPath, "app/javascript/worker.js"),
     exclude: [/\*.json$/],
-    manifestTransforms: [additionalFiles]
+    manifestTransforms: [additionalFiles],
+    maximumFileSizeToCacheInBytes: 100 * 1024 * 1024
   })
 );
 

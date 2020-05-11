@@ -518,6 +518,7 @@ en:
 
   task:
     id: "ID#"
+    name: "Name"
     priority: "Priority Level"
     type: "Type of Action"
     due_date: "Due Date"
@@ -1536,6 +1537,9 @@ en:
   fields:
     label: "Fields"
     field_name: "Field Name"
+    name: "Name"
+    type: "Type"
+    show: "Show?"
     display_name: "Display Name"
     db_name: "DB Name"
     help_text: "Help Text"
@@ -1574,7 +1578,7 @@ en:
     updated: "Field updated"
     deleted: "Field %{display_name} has been deleted."
     add: "Add"
-    type: "Field type"
+    field_type: "Field type"
     move_to: "Move to"
     select_single: "(Select...)"
     select_multiple: "Select all that apply"

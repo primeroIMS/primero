@@ -12,6 +12,7 @@ const colors = {
   blue: "#0093ba",
   yellow: "#f2c317",
   moonYellow: "#f2b417",
+  goldYellow: "#f4ac22",
   red: "#d0021b",
   green: "#839e3c",
   orange: "#e7712d",

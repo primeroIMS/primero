@@ -12,7 +12,7 @@ const fetchLocations = () => ({
     external: true,
     db: {
       collection: DB_COLLECTIONS_NAMES.LOCATIONS,
-      alwaysCache: true,
+      alwaysCache: false,
       manifest: window.locationManifest
     }
   }
