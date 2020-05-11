@@ -1,10 +1,11 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { Tab, Tabs } from "@material-ui/core";
+import { Tab, Tabs, makeStyles } from "@material-ui/core";
 import { FormContext, useForm } from "react-hook-form";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { fromJS } from "immutable";
 
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
@@ -17,13 +18,16 @@ import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
 
-import { TabPanel, FormBuilderActionButtons } from "./components";
+import { FieldsList, FormBuilderActionButtons, TabPanel } from "./components";
 import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
 import { NAME } from "./constants";
 import { getSelectedForm } from "./selectors";
+import { convertToFieldsArray, convertToFieldsObject } from "./utils";
+import styles from "./styles.css";
 
 const Component = ({ mode }) => {
+  const css = makeStyles(styles)();
   const { id } = useParams();
   const formMode = whichFormMode(mode);
   const formRef = useRef();
@@ -53,7 +57,7 @@ const Component = ({ mode }) => {
         saveMethod: formMode.get("isEdit")
           ? SAVE_METHODS.update
           : SAVE_METHODS.new,
-        body: { data },
+        body: { data: { ...data, fields: convertToFieldsArray(data.fields) } },
         message: i18n.t(
           `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
         )
@@ -79,7 +83,11 @@ const Component = ({ mode }) => {
 
   useEffect(() => {
     if (selectedForm?.size) {
-      methods.reset(selectedForm.toJS());
+      const fieldTree = convertToFieldsObject(
+        selectedForm.get("fields").toJS()
+      );
+
+      methods.reset(selectedForm.set("fields", fieldTree).toJS());
     }
   }, [selectedForm]);
 
@@ -119,15 +127,20 @@ const Component = ({ mode }) => {
               <Tab label={i18n.t("forms.translations")} />
             </Tabs>
             <TabPanel tab={tab} index={0}>
-              {settingsForm(i18n).map(formSection => (
-                <FormSection
-                  formSection={formSection}
-                  key={formSection.unique_id}
-                />
-              ))}
+              <div className={css.tabContent}>
+                {settingsForm(i18n).map(formSection => (
+                  <FormSection
+                    formSection={formSection}
+                    key={formSection.unique_id}
+                  />
+                ))}
+              </div>
             </TabPanel>
             <TabPanel tab={tab} index={1}>
-              Item Two
+              <div className={css.tabContent}>
+                <h1>{i18n.t("forms.fields")}</h1>
+              </div>
+              <FieldsList fields={selectedForm.get("fields", fromJS([]))} />
             </TabPanel>
             <TabPanel tab={tab} index={2}>
               Item Three

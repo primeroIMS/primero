@@ -1,10 +1,10 @@
 import * as index from "./index";
 
-describe("pages/admin/<FormBuilder>/components/<TabPanel/> - index", () => {
+describe("pages/admin/<FormBuilder>/components/<FieldListItem/> - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
-    ["FieldsList", "FormBuilderActionButtons", "TabPanel"].forEach(property => {
+    ["default"].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });
