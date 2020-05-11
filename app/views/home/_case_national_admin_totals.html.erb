@@ -1,0 +1,30 @@
+<%= display_stat({
+                   stat: stats['open'],
+                   model: model,
+                   text: t('dashboard.open'),
+                   filters: ["child_status=#{Record::STATUS_OPEN}", 'record_state=true']
+                 }) %>
+<%= display_stat({
+                   stat: stats['new_last_week'],
+                   model: model,
+                   text: t('dashboard.new_last_week'),
+                   filters: ["child_status=#{Record::STATUS_OPEN}", 'record_state=true']
+                 }) %>
+<%= display_stat({
+                   stat: stats['new_this_week'],
+                   model: model,
+                   text: t('dashboard.new_this_week'),
+                   filters: ["child_status=#{Record::STATUS_OPEN}", 'record_state=true']
+                 }) %>
+<%= display_stat({
+                   stat: stats['closed_last_week'],
+                   model: model,
+                   text: t('dashboard.closed_last_week'),
+                   filters: ["child_status=#{Record::STATUS_CLOSED}", 'record_state=true']
+                 }) %>
+<%= display_stat({
+                   stat: stats['closed_this_week'],
+                   model: model,
+                   text: t('dashboard.closed_this_week'),
+                   filters: ["child_status=#{Record::STATUS_CLOSED}", 'record_state=true']
+                 }) %>

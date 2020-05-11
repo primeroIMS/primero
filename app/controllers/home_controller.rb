@@ -32,7 +32,10 @@ class HomeController < ApplicationController
       load_admin_information if display_admin_dashboard? | display_reporting_location? | @display_protection_concerns
       #TODO: All this needs to be heavily refactored
 
+      @national_admin_stats = {}   #TODO
 
+
+      display_national_admin_dashboard?
       display_case_worker_dashboard?
       display_approvals?
       display_response?
@@ -831,12 +834,12 @@ class HomeController < ApplicationController
 
   def build_admin_stats(stats)
     admin_stats = {}
-    protection_concerns = Lookup.values('lookup-protection-concerns', @lookups, locale: I18n.locale)
+    @protection_concerns ||= Lookup.values('lookup-protection-concerns', @lookups, locale: I18n.locale)
     stats.each do |k, v|
       stat_facet = v.facet("#{@reporting_location}#{@admin_level}".to_sym) || v.facet(:protection_concerns)
       stat_facet.rows.each do |l|
         admin_stats[l.value] = {} unless admin_stats[l.value].present?
-        protection_concern = protection_concerns.select{|pc| pc['id'] == l.value}
+        protection_concern = @protection_concerns.select{|pc| pc['id'] == l.value}
         admin_stats[l.value][k] = l.count ||= 0
         admin_stats[l.value][:display_text] = protection_concern.first['display_text'] if protection_concern.present?
         if v.facet(:protection_concerns).present? && !protection_concern.present?
