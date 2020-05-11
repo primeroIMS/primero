@@ -21,6 +21,7 @@ import {
 } from "../../libs/permissions";
 import Permission from "../application/permission";
 import DisableOffline from "../disable-offline";
+import { ConditionalWrapper } from "../../libs";
 
 import { setDialog, setPending } from "./action-creators";
 import {
@@ -297,19 +298,22 @@ const Container = ({
         setReferDialog(true);
       },
       recordType,
-      condition: canRefer
+      condition: canRefer,
+      disableOffline: true
     },
     {
       name: `${i18n.t("buttons.reassign")} ${formRecordType}`,
       action: () => setAssignDialog(true),
       recordType,
-      condition: canAssign
+      condition: canAssign,
+      disableOffline: true
     },
     {
       name: `${i18n.t("buttons.transfer")} ${formRecordType}`,
       action: () => setTransferDialog(true),
       recordType: ["cases", "incidents"],
-      condition: canTransfer
+      condition: canTransfer,
+      disableOffline: true
     },
     {
       name: i18n.t("actions.incident_details_from_case"),
@@ -318,7 +322,8 @@ const Container = ({
       recordListAction: true,
       condition: showListActions
         ? canAddIncident
-        : canAddIncident && Boolean(isSearchFromList)
+        : canAddIncident && Boolean(isSearchFromList),
+      disableOffline: true
     },
     {
       name: i18n.t("actions.services_section_from_case"),
@@ -327,7 +332,8 @@ const Container = ({
       recordListAction: true,
       condition: showListActions
         ? canAddService
-        : canAddService && Boolean(isSearchFromList)
+        : canAddService && Boolean(isSearchFromList),
+      disableOffline: true
     },
     {
       name: i18n.t(`actions.${openState}`),
@@ -345,26 +351,30 @@ const Container = ({
       name: i18n.t("actions.notes"),
       action: handleNotesOpen,
       recordType: RECORD_TYPES.all,
-      condition: canAddNotes
+      condition: canAddNotes,
+      disableOffline: true
     },
     {
       name: i18n.t("actions.request_approval"),
       action: handleRequestOpen,
       recordType: "all",
-      condition: canRequest
+      condition: canRequest,
+      disableOffline: true
     },
     {
       name: i18n.t("actions.approvals"),
       action: handleApprovalOpen,
       recordType: "all",
-      condition: canApprove
+      condition: canApprove,
+      disableOffline: true
     },
     {
       name: i18n.t(`${recordType}.export`),
       action: () => setOpenExportsDialog(true),
       recordType: RECORD_TYPES.all,
       recordListAction: true,
-      condition: canShowExports
+      condition: canShowExports,
+      disableOffline: true
     }
   ];
 
@@ -412,7 +422,12 @@ const Container = ({
       action.name !== "Export";
 
     return (
-      <DisableOffline button key={action.name}>
+      <ConditionalWrapper
+        condition={action.disableOffline}
+        wrapper={DisableOffline}
+        button
+        key={action.name}
+      >
         <MenuItem
           selected={action.name === "Pyxis"}
           onClick={() => handleItemAction(action.action)}
@@ -420,7 +435,7 @@ const Container = ({
         >
           {action.name}
         </MenuItem>
-      </DisableOffline>
+      </ConditionalWrapper>
     );
   });
 
