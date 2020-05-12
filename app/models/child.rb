@@ -71,6 +71,7 @@ class Child < CouchRest::Model::Base
   #To hold the list of GBV Incidents created from a GBV Case.
   property :incident_links, [], :default => []
   property :matched_tracing_request_id
+  property :family_number
 
   validate :validate_date_of_birth
   validate :validate_registration_date
@@ -79,6 +80,7 @@ class Child < CouchRest::Model::Base
 
   before_save :sync_protection_concerns
   before_save :auto_populate_name
+  before_save :update_transition_change_at
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -116,11 +118,12 @@ class Child < CouchRest::Model::Base
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
     # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
     # The fields oscar_number and mosvy_number are hacked in only because of Cambodia
+    # The field family_number is hacked in only because of Jordan TSFV
     [
       'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
       'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no',
       'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no', 'biometrics_id',
-      'family_count_no', 'dss_id', 'camp_id', 'tent_number', 'nfi_distribution_id',
+      'family_count_no', 'dss_id', 'camp_id', 'tent_number', 'nfi_distribution_id', 'family_number',
       'oscar_number', 'mosvy_number'
     ]
   end
@@ -163,11 +166,15 @@ class Child < CouchRest::Model::Base
     time :service_due_dates, :multiple => true
     date :transitions_created_at, :multiple => true
     string :service_response_types, :multiple => true
+    time :transitions_changed_at, as: 'transitions_changed_at_d' do
+      self.transitions_changed_at if self.transitions_changed_at.present?
+    end
 
     string :workflow_status, as: 'workflow_status_sci'
     string :workflow, as: 'workflow_sci'
     string :child_status, as: 'child_status_sci'
     string :created_agency_office, as: 'created_agency_office_sci'
+    string :family_number, as: 'family_number_sci'
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
     end

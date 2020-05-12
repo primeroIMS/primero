@@ -62,21 +62,33 @@ module RecordFilteringPagination
             [param_k, values]
           end.to_h
         end
-        case filter_type
-        when "range"
-          filter_values = filter_values.map{|filter| filter.split "-"}
-        when "date_range"
-          filter_values = sanitize_date_range_filter(filter_values.first.split("."))
-        else
-          filter_values = filter_values.map{|value| value == 'true' } if model_class.properties_by_name[key].try(:type) == TrueClass
-          filter_values = filter_values.first if ["single", "location"].include? filter_type
-        end
+        filter_values = build_filter_value(key, filter_type, filter_values, model_class)
         filter_scope[key] = {:type => filter_type, :value => filter_values} if filter_values.present? || filter_values == false
       end
       flash.now[:error] = I18n.t("messages.invalid_date_filter_value") if @invalid_date_filter_value
     end
 
     filter_scope
+  end
+
+  def build_filter_value(filter, type, values, model_class)
+    case type
+    when "range"
+      values = values.map{|filter| filter.split "-"}
+    when "date_range"
+      date_range_value = values.is_a?(Array) ? values.first : values
+      values = sanitize_date_range_filter(date_range_value.split("."))
+    when "or_op"
+      values = values.reduce({}) do |acc, (key, value)|
+        values_to_build = value.first == "date_range" ? value.last : value
+        acc[key] = build_filter_value(filter, value.first, values_to_build, model_class)
+        acc
+      end
+    else
+      values = values.map{|value| value == 'true' } if model_class.properties_by_name[filter].try(:type) == TrueClass
+      values = values.first if ["single", "location"].include?(type)
+    end
+    values
   end
 
   def associated_users

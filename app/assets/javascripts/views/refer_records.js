@@ -276,7 +276,11 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
         var $referral_modal = $("#referral-modal");
         $referral_modal.find("#agency_hidden").val(selected_user.organization);
         this.populate_agency_filter(selected_user.organization);
-        this.populate_location_filter(selected_user.reporting_location_code);
+
+        var location_value = $referral_modal.find("select#location").chosen().val();
+        if(location_value == null || location_value == undefined || location_value.trim() == "") {
+          this.populate_location_filter(selected_user.reporting_location_code);
+        }
       }
     }
   },
