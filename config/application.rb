@@ -44,8 +44,8 @@ module Primero
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += %w(password encrypted_password data location phone
-        email code full_name reporting_location_code, 
-        agency_office, reset_password_token)
+        email code full_name reporting_location_code
+        agency_office reset_password_token)
 
     LOCALE_ENGLISH = 'en'
     LOCALE_FRENCH = 'fr'
