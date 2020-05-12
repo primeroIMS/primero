@@ -126,9 +126,11 @@ const Container = ({
     getPermissionsByRecord(state, recordType)
   );
 
-  const isSearchFromList = useSelector(state =>
+  const idSearch = useSelector(state =>
     getFiltersValuesByRecordType(state, recordType).get("id_search")
   );
+
+  const isSearchFromList = Boolean(idSearch);
 
   const canAddNotes = checkPermissions(userPermissions, [
     ACTIONS.MANAGE,
@@ -337,8 +339,9 @@ const Container = ({
       enabledFor: ENABLED_FOR_ONE,
       condition: showListActions
         ? canAddIncident
-        : canAddIncident && Boolean(isSearchFromList),
-      disableOffline: true
+        : canAddIncident && isSearchFromList,
+      disableOffline: true,
+      enabledOnSearch: true
     },
     {
       name: i18n.t("actions.services_section_from_case"),
@@ -348,8 +351,9 @@ const Container = ({
       enabledFor: ENABLED_FOR_ONE,
       condition: showListActions
         ? canAddService
-        : canAddService && Boolean(isSearchFromList),
-      disableOffline: true
+        : canAddService && isSearchFromList,
+      disableOffline: true,
+      enabledOnSearch: true
     },
     {
       name: i18n.t(`actions.${openState}`),
@@ -434,7 +438,13 @@ const Container = ({
   const actionItems = filteredActions?.map(action => {
     const disabled =
       showListActions &&
-      isDisabledAction(action.enabledFor, selectedRecords, totalRecords);
+      isDisabledAction(
+        action.enabledFor,
+        action.enabledOnSearch,
+        isSearchFromList,
+        selectedRecords,
+        totalRecords
+      );
 
     return (
       <ConditionalWrapper

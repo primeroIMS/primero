@@ -408,6 +408,116 @@ describe("<RecordActions />", () => {
       expect(incidentItemProps.disabled).to.be.false;
     });
 
+    it("renders add incident menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "actions.incident_details_from_case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add service menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(4);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "actions.services_section_from_case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add export menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(5);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal("cases.export");
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+  });
+
+  describe("when record is selected from a search,  id_search: true", () => {
+    const defaultStateFromSearch = fromJS({
+      records: {
+        cases: {
+          data: [
+            {
+              sex: "female",
+              owned_by_agency_id: 1,
+              record_in_scope: true,
+              created_at: "2020-01-29T21:57:00.274Z",
+              name: "User 1",
+              alert_count: 0,
+              case_id_display: "b575f47",
+              owned_by: "primero_cp_ar",
+              status: "open",
+              registration_date: "2020-01-29",
+              id: "b342c488-578e-4f5c-85bc-35ece34cccdf",
+              flag_count: 0,
+              short_id: "b575f47",
+              age: 15,
+              workflow: "new"
+            }
+          ],
+          filters: {
+            status: ["true"],
+            id_search: true
+          }
+        }
+      },
+      user: {
+        permissions: {
+          cases: [ACTIONS.MANAGE]
+        }
+      },
+      forms
+    });
+    const propsRecordSelected = {
+      ...props,
+      showListActions: true,
+      currentPage: 0,
+      selectedRecords: { 0: [0] }
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        propsRecordSelected,
+        defaultStateFromSearch
+      ));
+    });
+
+    it("renders add refer menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(0);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.referral forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add reassign menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.reassign forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add transfer menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(2);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.transfer forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
     it("renders add incident menu enabled", () => {
       const incidentItem = component.find(MenuItem).at(3);
       const incidentItemProps = incidentItem.props();
