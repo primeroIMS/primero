@@ -47,16 +47,19 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
       return state.set(
         "selectedFields",
-        selectedFields.map(field => {
-          if (field.get("name") === name) {
-            return field.set("order", order);
-          }
-          if (affectedRange.includes(field.get("order"))) {
-            return orderUpdater(field);
-          }
+        selectedFields
+          .sortBy(field => field.get("order"))
+          .map((field, index) => field.set("order", index))
+          .map(field => {
+            if (field.get("name") === name) {
+              return field.set("order", order);
+            }
+            if (affectedRange.includes(field.get("order"))) {
+              return orderUpdater(field);
+            }
 
-          return field;
-        })
+            return field;
+          })
       );
     }
     case actions.SAVE_FORM_FAILURE:

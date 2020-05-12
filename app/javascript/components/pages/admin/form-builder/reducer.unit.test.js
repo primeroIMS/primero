@@ -184,5 +184,32 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       expect(newState).to.deep.equal(expected);
     });
+
+    it("should handle a fields with the same order", () => {
+      const stateWithSameOrder = fromJS({
+        selectedFields: [
+          { name: "field_1", order: 0 },
+          { name: "field_2", order: 0 },
+          { name: "field_3", order: 2 }
+        ]
+      });
+
+      const expected = fromJS({
+        selectedFields: [
+          { name: "field_1", order: 1 },
+          { name: "field_2", order: 0 },
+          { name: "field_3", order: 2 }
+        ]
+      });
+
+      const action = {
+        type: actions.REORDER_FIELDS,
+        payload: { name: "field_1", order: 1 }
+      };
+
+      const newState = reducer(stateWithSameOrder, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
   });
 });
