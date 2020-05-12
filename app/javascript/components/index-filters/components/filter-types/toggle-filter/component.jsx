@@ -25,10 +25,10 @@ import { NAME } from "./constants";
 const Component = ({
   addFilterToList,
   filter,
-  moreSectionFilters,
-  setMoreSectionFilters,
   mode,
+  moreSectionFilters,
   reset,
+  setMoreSectionFilters,
   setReset
 }) => {
   const i18n = useI18n();

@@ -13,6 +13,7 @@ describe("<ChipsFilter>", () => {
   };
 
   const props = {
+    addFilterToList: () => {},
     filter
   };
 
@@ -32,13 +33,14 @@ describe("<ChipsFilter>", () => {
 
   it("renders chip as secondary filter, with valid pros in the more section", () => {
     const newProps = {
+      addFilterToList: () => {},
+      filter,
       mode: {
         secondary: true
       },
       moreSectionFilters: {},
-      setMoreSectionFilters: () => {},
-      filter,
       reset: false,
+      setMoreSectionFilters: () => {},
       setReset: () => {}
     };
     const { component } = setupMockFormComponent(ChipsFilter, newProps);
@@ -50,6 +52,7 @@ describe("<ChipsFilter>", () => {
     const clone = { ...component.find(ChipsFilter).props() };
 
     [
+      "addFilterToList",
       "commonInputProps",
       "filter",
       "mode",
@@ -67,13 +70,14 @@ describe("<ChipsFilter>", () => {
 
   it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
     const newProps = {
+      addFilterToList: () => {},
+      filter,
       mode: {
         secondary: false
       },
       moreSectionFilters: {},
-      setMoreSectionFilters: spy(),
-      filter,
       reset: false,
+      setMoreSectionFilters: spy(),
       setReset: () => {}
     };
 

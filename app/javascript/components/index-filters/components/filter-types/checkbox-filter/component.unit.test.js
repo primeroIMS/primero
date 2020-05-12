@@ -12,7 +12,7 @@ describe("<CheckboxFilter>", () => {
     ]
   };
 
-  const props = { filter };
+  const props = { addFilterToList: () => {}, filter };
 
   it("renders panel", () => {
     const { component } = setupMockFormComponent(CheckboxFilter, props);
@@ -30,13 +30,14 @@ describe("<CheckboxFilter>", () => {
 
   it("renders checkbox with valid pros in the more section", () => {
     const newProps = {
+      addFilterToList: () => {},
+      filter,
       mode: {
         secondary: true
       },
       moreSectionFilters: {},
-      setMoreSectionFilters: spy(),
-      filter,
       reset: false,
+      setMoreSectionFilters: () => {},
       setReset: () => {}
     };
     const { component } = setupMockFormComponent(CheckboxFilter, newProps);
@@ -48,6 +49,7 @@ describe("<CheckboxFilter>", () => {
     const clone = { ...component.find(CheckboxFilter).props() };
 
     [
+      "addFilterToList",
       "commonInputProps",
       "filter",
       "mode",
@@ -65,13 +67,14 @@ describe("<CheckboxFilter>", () => {
 
   it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
     const newProps = {
+      addFilterToList: () => {},
+      filter,
       mode: {
         secondary: false
       },
       moreSectionFilters: {},
-      setMoreSectionFilters: spy(),
-      filter,
       reset: false,
+      setMoreSectionFilters: spy(),
       setReset: () => {}
     };
 

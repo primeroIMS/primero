@@ -132,7 +132,7 @@ const Component = ({
 
       setSelectedField(selectValue);
       setInputValue(datesValue);
-    } else if (!isEmpty(Object.keys(filterToList))) {
+    } else if (filterToList && !isEmpty(Object.keys(filterToList))) {
       const data = filter?.options?.[i18n.locale].find(option =>
         Object.keys(filterToList).includes(option.id)
       );
