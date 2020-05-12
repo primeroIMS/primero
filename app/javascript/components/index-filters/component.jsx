@@ -45,8 +45,6 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   const queryParams = qs.parse(location.search.replace("?", ""));
   const [more, setMore] = useState(false);
   const [reset, setReset] = useState(false);
-  // Default filters by default
-  // Clear this out when APPLY, SAVE or CLEAR
   const [filterToList, setFilterToList] = useState(DEFAULT_FILTERS);
   const dispatch = useDispatch();
 
@@ -55,7 +53,6 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   };
 
   const methods = useForm({
-    // TODO: Must include data from filterToList
     defaultValues: isEmpty(queryParams)
       ? merge(defaultFilters.toJS(), filterToList)
       : queryParams
@@ -188,9 +185,8 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   }, []);
 
   useEffect(() => {
-    if (tabIndex === 0 /* && isEmpty(queryParams) --> ? */) {
-      console.log("APPLY: ", filterToList); // Should merge with queryParams
-      methods.reset(filterToList);
+    if (tabIndex === 0) {
+      methods.reset(merge(queryParams, filterToList));
     }
     if (tabIndex === 1) {
       dispatch(fetchSavedSearches());
@@ -282,13 +278,15 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
               <Actions handleSave={handleSave} handleClear={handleClear} />
               {renderFilters()}
               <MoreSection
-                recordType={recordType}
-                more={more}
-                setMore={setMore}
+                addFilterToList={addFilterToList}
                 allAvailable={filters}
-                primaryFilters={allPrimaryFilters}
                 defaultFilters={allDefaultFilters}
+                filterToList={filterToList}
+                more={more}
                 moreSectionFilters={moreSectionFilters}
+                primaryFilters={allPrimaryFilters}
+                recordType={recordType}
+                setMore={setMore}
                 setMoreSectionFilters={setMoreSectionFilters}
               />
             </>

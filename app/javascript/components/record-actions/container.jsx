@@ -412,7 +412,7 @@ const Container = ({
       action.name !== "Export";
 
     return (
-      <DisableOffline>
+      <DisableOffline key={action.name}>
         <MenuItem
           key={action.name}
           selected={action.name === "Pyxis"}
