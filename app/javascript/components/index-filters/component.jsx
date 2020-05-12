@@ -54,12 +54,6 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
     setSelectedRecords(DEFAULT_SELECTED_RECORDS_VALUE);
   };
 
-  console.log(
-    "Default Filter",
-    isEmpty(queryParams)
-      ? merge(defaultFilters.toJS(), filterToList)
-      : queryParams
-  );
   const methods = useForm({
     // TODO: Must include data from filterToList
     defaultValues: isEmpty(queryParams)
@@ -81,9 +75,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
 
   const userName = useSelector(state => currentUser(state));
 
-  const addFilterToList = data => {
-    setFilterToList({ ...filterToList, ...data });
-  };
+  const addFilterToList = data => setFilterToList({ ...filterToList, ...data });
 
   const allPrimaryFilters = filters.filter(f =>
     PRIMARY_FILTERS.includes(f.field_name)
@@ -175,6 +167,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
           setReset={setReset}
           mode={mode}
           addFilterToList={addFilterToList}
+          filterToList={filterToList}
         />
       );
     });
@@ -195,14 +188,9 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   }, []);
 
   useEffect(() => {
-    if (tabIndex === 0) {
-      console.log("APPLY: ", filterToList);
-
-      Object.entries(filterToList).forEach(filterList => {
-        const [key, value] = filterList;
-
-        methods.setValue(key, value);
-      });
+    if (tabIndex === 0 /* && isEmpty(queryParams) --> ? */) {
+      console.log("APPLY: ", filterToList); // Should merge with queryParams
+      methods.reset(filterToList);
     }
     if (tabIndex === 1) {
       dispatch(fetchSavedSearches());
@@ -214,8 +202,6 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
       const filtersToApply = isEmpty(queryParams)
         ? defaultFilters.toJS()
         : queryParams;
-
-      // TODO: SET FILTERS WHEN CLICK FROM DASHBOARD
 
       Object.keys(methods.getValues()).forEach(value => {
         if (!Object.keys(filtersToApply).includes(value) && !isEmpty(value)) {
@@ -230,6 +216,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
       );
 
       setRerender(false);
+      setFilterToList(DEFAULT_FILTERS);
     }
   }, [rerender]);
 
@@ -260,6 +247,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
     setMoreSectionFilters({});
     setReset(true);
     setMore(false);
+    setFilterToList(DEFAULT_FILTERS);
   });
 
   return (

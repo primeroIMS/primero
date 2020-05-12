@@ -6,6 +6,7 @@ import { DatePicker, DateTimePicker } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/styles";
 import { useLocation } from "react-router-dom";
 import qs from "qs";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../../i18n";
 import Panel from "../../panel";
@@ -22,6 +23,7 @@ import { NAME } from "./constants";
 const Component = ({
   addFilterToList,
   filter,
+  filterToList,
   mode,
   moreSectionFilters,
   setMoreSectionFilters,
@@ -52,6 +54,7 @@ const Component = ({
     if (mode?.secondary) {
       setMoreSectionFilters({ ...moreSectionFilters, [selectedField]: value });
     }
+
     addFilterToList({ [selectedField]: value || undefined });
   };
 
@@ -65,6 +68,8 @@ const Component = ({
     setSelectedField(value);
     setValue(value, undefined);
 
+    addFilterToList({ [value]: undefined });
+
     if (mode?.secondary) {
       handleMoreFiltersChange(
         moreSectionFilters,
@@ -73,7 +78,6 @@ const Component = ({
         {}
       );
     }
-    addFilterToList({ [fieldName]: value || undefined });
   };
 
   const handleReset = () => {
@@ -125,6 +129,15 @@ const Component = ({
       );
       const selectValue = data?.id;
       const datesValue = queryParams?.[selectValue];
+
+      setSelectedField(selectValue);
+      setInputValue(datesValue);
+    } else if (!isEmpty(Object.keys(filterToList))) {
+      const data = filter?.options?.[i18n.locale].find(option =>
+        Object.keys(filterToList).includes(option.id)
+      );
+      const selectValue = data?.id;
+      const datesValue = filterToList?.[selectValue];
 
       setSelectedField(selectValue);
       setInputValue(datesValue);
@@ -206,6 +219,7 @@ Component.defaultProps = {
 Component.propTypes = {
   addFilterToList: PropTypes.func.isRequired,
   filter: PropTypes.object.isRequired,
+  filterToList: PropTypes.object.isRequired,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,
     secondary: PropTypes.bool
