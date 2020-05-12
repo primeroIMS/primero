@@ -95,6 +95,7 @@ en:
     transfer_request_alert: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
     loading: "Loading..."
     no_changes: "You made no field changes"
+    dashboard_offline: "You're offline. The dashboard will be fully functional when you are back online"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -1536,6 +1537,9 @@ en:
   fields:
     label: "Fields"
     field_name: "Field Name"
+    name: "Name"
+    type: "Type"
+    show: "Show?"
     display_name: "Display Name"
     db_name: "DB Name"
     help_text: "Help Text"
@@ -1574,7 +1578,7 @@ en:
     updated: "Field updated"
     deleted: "Field %{display_name} has been deleted."
     add: "Add"
-    type: "Field type"
+    field_type: "Field type"
     move_to: "Move to"
     select_single: "(Select...)"
     select_multiple: "Select all that apply"

@@ -4,23 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 import AgencyLogo from "../agency-logo";
 import ModuleLogo from "../module-logo";
-import { useI18n } from "../i18n";
-import { useThemeHelper, dataToJS } from "../../libs";
+import { useThemeHelper } from "../../libs";
 import MobileToolbar from "../mobile-toolbar";
 import { useApp } from "../application";
 import Permission from "../application/permission";
 import TranslationsToggle from "../translations-toggle";
-import { PERMITTED_URL, ROUTES } from "../../config";
-import {
-  RECORD_RESOURCES,
-  READ_RECORDS,
-  READ_REPORTS,
-  RESOURCES,
-  SHOW_EXPORTS,
-  SHOW_TASKS,
-  ADMIN_RESOURCES,
-  ADMIN_ACTIONS
-} from "../../libs/permissions";
+import { PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import { getPermissions } from "../user";
 
 import { NAME } from "./constants";
@@ -35,7 +24,6 @@ import MenuEntry from "./components/menu-entry";
 const Nav = () => {
   const { css, theme } = useThemeHelper(styles);
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
-  const i18n = useI18n();
   const dispatch = useDispatch();
 
   const openDrawer = useCallback(
@@ -55,95 +43,6 @@ const Nav = () => {
   const drawerOpen = useSelector(state => selectDrawerOpen(state));
   const dataAlerts = useSelector(state => selectAlerts(state));
   const permissions = useSelector(state => getPermissions(state));
-  const adminResources = ADMIN_RESOURCES.filter(adminResource =>
-    Object.keys(dataToJS(permissions)).includes(adminResource)
-  );
-  const to = `/admin/${adminResources[0]}`;
-
-  const nav = [
-    {
-      name: i18n.t("navigation.home"),
-      to: ROUTES.dashboard,
-      icon: "home",
-      disableOffline: true,
-      validateWithUserPermissions: true
-    },
-    {
-      name: i18n.t("navigation.tasks"),
-      to: ROUTES.tasks,
-      icon: "tasks",
-      resources: RESOURCES.dashboards,
-      actions: SHOW_TASKS
-    },
-    {
-      name: i18n.t("navigation.cases"),
-      to: ROUTES.cases,
-      icon: "cases",
-      jewelCount: dataAlerts.get("case"),
-      resources: RESOURCES.cases,
-      actions: READ_RECORDS,
-      validateWithUserPermissions: true
-    },
-    {
-      name: i18n.t("navigation.incidents"),
-      to: ROUTES.incidents,
-      icon: "incidents",
-      jewelCount: dataAlerts.get("incident"),
-      resources: RESOURCES.incidents,
-      actions: READ_RECORDS,
-      validateWithUserPermissions: true
-    },
-    {
-      name: i18n.t("navigation.tracing_request"),
-      to: ROUTES.tracing_requests,
-      icon: "tracing_request",
-      jewelCount: dataAlerts.get("tracing_request"),
-      resources: RESOURCES.tracing_requests,
-      actions: READ_RECORDS,
-      validateWithUserPermissions: true
-    },
-    // {
-    //   name: i18n.t("navigation.potential_match"),
-    //   to: ROUTES.matches,
-    //   icon: "matches",
-    //   resources: RESOURCES.potential_matches,
-    //   actions: READ_RECORDS,
-    //   disableOffline: true
-    // },
-    {
-      name: i18n.t("navigation.reports"),
-      to: ROUTES.reports,
-      icon: "reports",
-      resources: RESOURCES.reports,
-      actions: READ_REPORTS,
-      disableOffline: true,
-      validateWithUserPermissions: true
-    },
-    {
-      name: i18n.t("navigation.bulk_exports"),
-      to: ROUTES.exports,
-      icon: "exports",
-      resources: RECORD_RESOURCES,
-      actions: SHOW_EXPORTS,
-      disableOffline: true
-    },
-    {
-      name: i18n.t("navigation.support"),
-      to: ROUTES.support,
-      icon: "support",
-      divider: true
-    },
-    { name: username, to: ROUTES.account, icon: "account", disabled: true },
-    {
-      name: i18n.t("navigation.settings"),
-      to,
-      icon: "settings",
-      resources: ADMIN_RESOURCES,
-      actions: ADMIN_ACTIONS,
-      disableOffline: true
-    },
-    { name: i18n.t("navigation.logout"), to: ROUTES.logout, icon: "logout" }
-  ];
 
   useEffect(() => {
     if (!mobileDisplay && !drawerOpen) {
@@ -153,11 +52,14 @@ const Nav = () => {
 
   const permittedMenuEntries = menuEntries => {
     return menuEntries.map(menuEntry => {
+      const jewel = dataAlerts.get(menuEntry?.jewelCount, null);
       const renderedMenuEntries = (
         <MenuEntry
           key={menuEntry.to}
           menuEntry={menuEntry}
           mobileDisplay={mobileDisplay}
+          jewel={jewel}
+          username={username}
         />
       );
 
@@ -196,7 +98,9 @@ const Nav = () => {
             username={username}
           />
         )}
-        <List className={css.navList}>{permittedMenuEntries(nav)}</List>
+        <List className={css.navList}>
+          {permittedMenuEntries(APPLICATION_NAV(permissions))}
+        </List>
         <div className={css.navAgencies}>
           <AgencyLogo />
         </div>
