@@ -89,3 +89,10 @@ Things to verify in the generated config scripts and correct if necessary
 - Agencies and users must to have associated services for selecting them in a services form
 
 - Users must to associate a location
+
+Additional cleanup / patches
+------------------------------
+You can run the script db/upgrade_migrations/dev_fixtures/bad_lookup_values.rb to identify field values that do not
+get migrated because they do not match any of the options in their lookup.
+The output of this can be used to identify any cleanup patch scripts needed to map these values to the correct value
+or to determine if any modifications to the lookups are required.
