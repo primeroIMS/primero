@@ -101,6 +101,55 @@ describe Lookup do
     expect(Lookup.find_by(unique_id: unique_id).lookup_values_en.size).to eq(2)
   end
 
+  it 'should re-order lookup values from order params' do
+    unique_id = 'lookup-some-lookup'
+    some_lookup = Lookup.create!(
+      unique_id: unique_id, name: 'some_lookup', lookup_values: [
+        { id: 'value1', display_text: 'value1' },
+        { id: 'value2', display_text: 'value2' }
+      ]
+    )
+
+    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n['en'][0]['id']).to eq('value1')
+    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n['en'][1]['id']).to eq('value2')
+
+    params = {
+      values: [
+        { 'id' => 'value2', 'display_text' => { 'en' => 'value2' } },
+        { 'id' => 'value1', 'display_text' => { 'en' => 'value1' } }
+      ]
+    }
+
+    some_lookup.update_properties(params)
+    expect(some_lookup).to be_valid
+    some_lookup.save!
+    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n['en'][0]['id']).to eq('value2')
+    expect(Lookup.find_by(unique_id: unique_id).lookup_values_i18n['en'][1]['id']).to eq('value1')
+  end
+
+  it 'should delete a lookup value' do
+    unique_id = 'lookup-some-lookup'
+    some_lookup = Lookup.create!(
+      unique_id: unique_id, name: 'some_lookup', lookup_values: [
+        { id: 'value1', display_text: 'value1' },
+        { id: 'value2', display_text: 'value2' }
+      ]
+    )
+
+    expect(Lookup.find_by(unique_id: unique_id).lookup_values_en.size).to eq(2)
+
+    params = {
+      values: [
+        { 'id' => 'value1', 'display_text' => { 'en' => 'value1' }, '_delete' => true }
+      ]
+    }
+
+    some_lookup.update_properties(params)
+    expect(some_lookup).to be_valid
+    some_lookup.save!
+    expect(Lookup.find_by(unique_id: unique_id).lookup_values_en.size).to eq(1)
+  end
+
   describe 'get_location_types' do
     before do
       create :lookup, unique_id: 'lookup-location-type', lookup_values: [

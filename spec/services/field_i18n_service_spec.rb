@@ -75,9 +75,10 @@ describe FieldI18nService do
         { 'en' => [{ 'id' => 'true', 'display_name' => 'Valid' }] },
         { 'en' => [{ 'id' => 'false', 'display_name' => 'Invalid' }] }
       )
-      expected_hash = { 'en' => [
-          { 'id' => "true", 'display_name' => "Valid" },
-          { 'id' => "false", 'display_name' => "Invalid" }
+      expected_hash = {
+        'en' => [
+          { 'id' => 'false', 'display_name' => 'Invalid' },
+          { 'id' => 'true', 'display_name' => 'Valid' }
         ]
       }
 

@@ -42,21 +42,28 @@ class FieldI18nService
   #  { en: [{ 'id' => 'false', 'display_name' => 'Invalid' }] }
   #  Returns
   #  { en: [{ 'id' => 'true', 'display_name' => 'Valid' }, { 'id' => 'false', 'display_name' => 'Invalid' } ] }
-  def self.merge_i18n_options(options1, options2)
+  def self.merge_i18n_options(options1, options2 = {})
     merged_props = (options1 || {}).deep_dup
-    options2 = options2 || {}
+    return merged_props unless options2.present?
 
-    if options2.present?
-      options2.keys.each do |key|
-        if options2[key].present?
-          if options1[key].present?
-            options1_by_id = options1[key].inject({}){ |acc, val| acc.merge({ val['id']  => val }) }
-            options2_by_id = options2[key].inject({}){ |acc, val| acc.merge({ val['id']  => val }) }
-            merged_props[key] = options1_by_id.merge(options2_by_id).values
+    options2.keys.each do |key|
+      next unless options2[key].present?
+
+      if options1[key].present?
+        options1_by_id = options1[key].inject({}) { |acc, val| acc.merge(val['id']  => val) }
+        options2_by_id = options2[key].inject({}) { |acc, val| acc.merge(val['id']  => val) }
+
+        options2_by_id.keys.each_with_index do |key_order, index|
+          if options1_by_id[key_order].nil?
+            merged_props[key][index] = options2_by_id[key_order]
           else
-            merged_props[key] = options2[key]
+            merged_props[key][index] = options1_by_id[key_order].merge(options2_by_id[key_order])
           end
         end
+        old_values = options1_by_id.except(*merged_props[key].map { |old_id| old_id['id'] }).values
+        merged_props[key] = merged_props[key] + old_values
+      else
+        merged_props[key] = options2[key]
       end
     end
 
