@@ -1,0 +1,10 @@
+<div class="dashboard-group">
+  <h4 class="stat_heading"><%= t("dashboard.national_admin_stats") %></h4>
+  <% if @reporting_location_total_stats.present? %>
+    <div class="row align-middle large-up-5">
+      <%= render 'case_national_admin_totals', stats: @reporting_location_total_stats, model: model %>
+    </div>
+  <% else %>
+    <p class="no-content"><%= t('dashboard.no_case_stats') %></p>
+  <% end %>
+</div>
