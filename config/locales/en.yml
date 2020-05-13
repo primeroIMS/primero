@@ -234,6 +234,8 @@ en:
     add: "Add"
     update: "Update"
     clear_selection: "Clear selection"
+    reorder: "Reorder"
+    save_changes: "Save changes"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"

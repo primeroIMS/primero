@@ -11,18 +11,18 @@ export const convertToFieldsArray = fields =>
 export const getOrderDirection = (currentOrder, newOrder) =>
   newOrder - currentOrder;
 
-export const affectedOrderRange = (currentOrder, newOrder) => {
+export const affectedOrderRange = (currentOrder, newOrder, step = 1) => {
   const orderDirection = getOrderDirection(currentOrder, newOrder);
 
   if (orderDirection > 0) {
-    return range(currentOrder, newOrder + 1);
+    return range(currentOrder, newOrder + step, step);
   }
 
   if (orderDirection === 0) {
     return [];
   }
 
-  return range(newOrder, currentOrder + 1);
+  return range(newOrder, currentOrder + step, step);
 };
 
 export const buildOrderUpdater = (currentOrder, newOrder) => {
