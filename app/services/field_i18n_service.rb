@@ -238,8 +238,13 @@ class FieldI18nService
     return if options.blank?
 
     I18n.available_locales.inject({}) do |acc, locale|
-      locale_options = options.select { |option| option['display_text'][locale.to_s].present? }
+      locale_options = options.select { |option| option['display_text']&.[](locale.to_s).present? }
                               .map { |option| option.merge('display_text' => option['display_text'][locale.to_s]) }
+
+      locale_options_id = locale_options.map { |option| option['id'] }
+      delete_values = options.select { |option| option['_delete'].present? && locale_options_id.exclude?(option['id']) }
+      locale_options += delete_values
+
       locale_options.present? ? acc.merge(locale.to_s => locale_options) : acc
     end
   end

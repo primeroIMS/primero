@@ -279,11 +279,6 @@ describe Api::V2::LookupsController, type: :request do
           'values' => [
             {
               'id' => 'country1',
-              'display_text' => {
-                'en' => 'Country 1',
-                'fr' => '',
-                'es' => ''
-              },
               '_delete' => true
             }
           ]
