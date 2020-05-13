@@ -378,8 +378,7 @@ const Container = ({
       name: i18n.t("actions.request_approval"),
       action: handleRequestOpen,
       recordType: "all",
-      condition: canRequest,
-      disableOffline: true
+      condition: canRequest
     },
     {
       name: i18n.t("actions.approvals"),
