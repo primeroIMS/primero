@@ -1,0 +1,7 @@
+.fieldDialog {
+  & h1 {
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+}

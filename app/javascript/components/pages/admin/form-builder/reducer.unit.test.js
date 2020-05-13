@@ -123,6 +123,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const expected = fromJS({
       selectedForm,
+      selectedFields: selectedForm.fields,
       errors: false,
       serverErrors: []
     });

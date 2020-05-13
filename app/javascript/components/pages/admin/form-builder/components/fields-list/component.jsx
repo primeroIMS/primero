@@ -1,18 +1,21 @@
 /* eslint-disable react/no-multi-comp */
 import React from "react";
-import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import clsx from "clsx";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { makeStyles } from "@material-ui/core";
 
+import { compare } from "../../../../../../libs";
 import { useI18n } from "../../../../../i18n";
 import { getListStyle } from "../../../forms-list/utils";
 import FieldListItem from "../field-list-item";
+import { getSelectedFields } from "../../selectors";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ fields }) => {
+const Component = () => {
+  const fields = useSelector(state => getSelectedFields(state), compare);
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -69,9 +72,5 @@ const Component = ({ fields }) => {
 };
 
 Component.displayName = NAME;
-
-Component.propTypes = {
-  fields: PropTypes.object.isRequired
-};
 
 export default Component;
