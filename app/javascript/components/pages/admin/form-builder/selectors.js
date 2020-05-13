@@ -5,7 +5,9 @@ export const getSelectedForm = state =>
   state.getIn(["records", "admin", "forms", "selectedForm"], fromJS({}));
 
 export const getSelectedFields = state =>
-  state.getIn(["records", "admin", "forms", "selectedFields"], fromJS([]));
+  state
+    .getIn(["records", "admin", "forms", "selectedFields"], fromJS([]))
+    .sortBy(field => field.get("order"));
 
 export const getSelectedField = state =>
   state.getIn(["records", "admin", "forms", "selectedField"], fromJS({}));

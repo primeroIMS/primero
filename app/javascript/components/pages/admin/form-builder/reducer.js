@@ -1,6 +1,7 @@
 import { fromJS } from "immutable";
 
 import actions from "./actions";
+import { affectedOrderRange, buildOrderUpdater } from "./utils";
 
 const DEFAULT_STATE = fromJS({});
 
@@ -28,6 +29,39 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .set("selectedFields", fromJS(payload.data.fields))
         .set("errors", false)
         .set("serverErrors", fromJS([]));
+    case actions.REORDER_FIELDS: {
+      const { name, order } = payload;
+      const selectedFields = state.get("selectedFields", fromJS([]));
+      const reorderedField = selectedFields.find(
+        field => field.get("name") === name
+      );
+      const currentOrder = reorderedField.get("order");
+
+      const affectedRange = affectedOrderRange(currentOrder, order);
+
+      if (affectedRange.length === 0) {
+        return state;
+      }
+
+      const orderUpdater = buildOrderUpdater(currentOrder, order);
+
+      return state.set(
+        "selectedFields",
+        selectedFields
+          .sortBy(field => field.get("order"))
+          .map((field, index) => field.set("order", index))
+          .map(field => {
+            if (field.get("name") === name) {
+              return field.set("order", order);
+            }
+            if (affectedRange.includes(field.get("order"))) {
+              return orderUpdater(field);
+            }
+
+            return field;
+          })
+      );
+    }
     case actions.SAVE_FORM_FAILURE:
       return state
         .set("errors", true)

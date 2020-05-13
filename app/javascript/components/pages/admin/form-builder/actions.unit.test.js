@@ -12,6 +12,7 @@ describe("<FormBuilder /> - Actions", () => {
       "FETCH_FORM_FINISHED",
       "FETCH_FORM_STARTED",
       "FETCH_FORM_SUCCESS",
+      "REORDER_FIELDS",
       "SAVE_FORM",
       "SAVE_FORM_STARTED",
       "SAVE_FORM_FINISHED",
