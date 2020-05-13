@@ -32,7 +32,7 @@ class HomeController < ApplicationController
       load_admin_information if display_admin_dashboard? | display_reporting_location? | @display_protection_concerns
       #TODO: All this needs to be heavily refactored
 
-
+      display_national_admin_dashboard?
       display_case_worker_dashboard?
       display_approvals?
       display_response?
@@ -324,6 +324,10 @@ class HomeController < ApplicationController
 
   def display_services_implemented?
     @display_services_implemented ||= PrimeroModule.cp.use_workflow_service_implemented?
+  end
+
+  def display_national_admin_dashboard?
+    @display_national_admin_dashboard ||= can?(:dash_national_admin_summary, Dashboard)
   end
 
   def manager_case_query(query = {})
@@ -812,6 +816,16 @@ class HomeController < ApplicationController
         closed_last_week: get_admin_stat({ status: Record::STATUS_CLOSED, closed: true, date_range: last_week, locations: locations, by_reporting_location: true }),
         closed_this_week: get_admin_stat({ status: Record::STATUS_CLOSED, closed: true, date_range: this_week, locations: locations, by_reporting_location: true })
       })
+
+      @reporting_location_total_stats = {open: 0, new_last_week: 0, new_this_week: 0, closed_last_week: 0, closed_this_week: 0}
+
+      @reporting_location_stats.each do |key, val|
+        @reporting_location_total_stats[:open] += val[:totals] if val[:totals].present?
+        @reporting_location_total_stats[:new_last_week] += val[:new_last_week] if val[:new_last_week].present?
+        @reporting_location_total_stats[:new_this_week] += val[:new_this_week] if val[:new_this_week].present?
+        @reporting_location_total_stats[:closed_last_week] += val[:closed_last_week] if val[:closed_last_week].present?
+        @reporting_location_total_stats[:closed_this_week] += val[:closed_this_week] if val[:closed_this_week].present?
+      end
     end
 
     protection_concerns_location = params[:protection_concerns_location] if @display_protection_concerns_by_location
@@ -827,12 +841,12 @@ class HomeController < ApplicationController
 
   def build_admin_stats(stats)
     admin_stats = {}
-    protection_concerns = Lookup.values('lookup-protection-concerns', @lookups, locale: I18n.locale)
+    @protection_concerns ||= Lookup.values('lookup-protection-concerns', @lookups, locale: I18n.locale)
     stats.each do |k, v|
       stat_facet = v.facet("#{@reporting_location}#{@admin_level}".to_sym) || v.facet(:protection_concerns)
       stat_facet.rows.each do |l|
         admin_stats[l.value] = {} unless admin_stats[l.value].present?
-        protection_concern = protection_concerns.select{|pc| pc['id'] == l.value}
+        protection_concern = @protection_concerns.select{|pc| pc['id'] == l.value}
         admin_stats[l.value][k] = l.count ||= 0
         admin_stats[l.value][:display_text] = protection_concern.first['display_text'] if protection_concern.present?
         if v.facet(:protection_concerns).present? && !protection_concern.present?

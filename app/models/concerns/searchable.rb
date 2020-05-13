@@ -133,6 +133,7 @@ module Searchable
 
     #This method controls filtering logic
     def build_filters(sunspot, filters={})
+      this = self
       sunspot.instance_eval do
         #TODO: pop off the locations filter and perform a fulltext search
         filters.each do |filter,filter_value|
@@ -151,20 +152,15 @@ module Searchable
                 end
               end
             when 'date_range'
-              if values.count > 1
-                to, from = values.first, values.last
-                with(filter).between(to..from)
-              else
-                with(filter, values.first)
-              end
+              this.build_filter_dates(self, filter, values)
             when 'list'
               with(filter).any_of(values)
             when 'neg'
               without(filter, values)
             when 'or_op'
               any_of do
-                values.each do |k, v|
-                  with(k, v)
+                values.each do |key, value|
+                  this.build_filter_dates(self, key, value)
                 end
               end
             else
@@ -173,6 +169,17 @@ module Searchable
           end
 
         end
+      end
+    end
+
+    def build_filter_dates(sunspot_instance, filter, values)
+      return sunspot_instance.with(filter, values) if values.first.is_a?(String) && values.first != 'date_range'
+      current_value = values.first.is_a?(String) ? values.last : values
+      if current_value.count > 1
+        to, from = current_value.first, current_value.last
+        sunspot_instance.with(filter).between(to..from)
+      else
+        sunspot_instance.with(filter, current_value.first)
       end
     end
 

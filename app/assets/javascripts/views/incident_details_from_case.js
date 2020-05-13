@@ -74,9 +74,13 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
           var $agency_select = $form.find('select[id$="service_implementing_agency"]');
           var $location_select = $form.find('select[id$="service_delivery_location"]');
           var $user_select = $form.find('select[id$="service_implementing_agency_individual"]');
+          var $location_select_boxes = $form.find('select[data-populate="Location"]');
 
           var location_select_id = "#" + $location_select.attr('id');
           new _primero.Views.PopulateReportingLocationSelectBoxes({ el: location_select_id }).initAutoComplete($location_select);
+
+          var location_select_box_id = "#" + $location_select_boxes.attr('id');
+          new _primero.Views.PopulateLocationSelectBoxes({ el: location_select_box_id }).initAutoComplete($location_select_boxes);
 
           var user_select_id = "#" + $user_select.attr('id');
           new _primero.Views.PopulateUserSelectBoxes({ el: user_select_id }).initAutoComplete($user_select);
