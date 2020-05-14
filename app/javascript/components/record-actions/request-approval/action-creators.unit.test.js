@@ -34,6 +34,13 @@ describe("<RequestApproval /> - Action Creators", () => {
         path: "cases/10/approvals/bia",
         method: "PATCH",
         body: args.body,
+        db: {
+          recordType: null
+        },
+        queueOffline: true,
+        responseRecordArray: true,
+        responseRecordID: 10,
+        responseRecordKey: "approval_subforms",
         successCallback: [
           {
             action: ENQUEUE_SNACKBAR,
