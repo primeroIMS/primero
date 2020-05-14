@@ -238,6 +238,22 @@ class Report < CouchRest::Model::Base
       self.data[:graph_value_range] = graph_value_range if is_graph
       self.load_translations
       self.data = self.translate_data(self.data)
+
+      if self.has_data?
+        total_values = self.data[:disaggregate_value_range].map do |disaggregate|
+          key = [I18n.t("report.total"), disaggregate[0]].compact
+
+          value = self.data[:aggregate_value_range].map do |aggregate|
+            self.data[:values].select{|k,v| (k == [ aggregate[0] , disaggregate[0] ]) || (k == aggregate && disaggregate.empty?) }
+          end.inject(&:merge).values.reduce(0){ |sum,x| x.nil? ? sum : sum + x }
+          
+          {key => value }
+        end.inject(&:merge)
+
+        self.data[:values] = self.data[:values].merge(total_values)
+        self.data[:aggregate_value_range] << [I18n.t("report.total")]
+      end
+
       ""
     end
   end
