@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { Map, OrderedMap, fromJS } from "immutable";
 
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
@@ -9,7 +8,8 @@ import {
   selectRecordAttribute,
   selectRecordsByIndexes,
   getSavingRecord,
-  getLoadingRecordState
+  getLoadingRecordState,
+  getRecordAlerts
 } from "./selectors";
 
 const record = {
@@ -235,6 +235,45 @@ describe("Records - Selectors", () => {
       );
 
       expect(loadingState).to.be.false;
+    });
+  });
+
+  describe("getRecordAlerts", () => {
+    const stateWithRecordAlerts = fromJS({
+      records: {
+        cases: {
+          selectedForm: "basic_identity",
+          recordAlerts: [
+            {
+              alert_for: "field_change",
+              type: "notes",
+              date: "2020-04-02",
+              form_unique_id: "notes"
+            }
+          ]
+        }
+      }
+    });
+
+    it("should return the list of alerts", () => {
+      const expected = fromJS([
+        {
+          alert_for: "field_change",
+          type: "notes",
+          date: "2020-04-02",
+          form_unique_id: "notes"
+        }
+      ]);
+
+      expect(
+        getRecordAlerts(stateWithRecordAlerts, RECORD_PATH.cases)
+      ).to.deep.equals(expected);
+    });
+
+    it("should return an empty array when there are not any options", () => {
+      const recordAlert = getRecordAlerts(fromJS({}));
+
+      expect(recordAlert).to.be.empty;
     });
   });
 });

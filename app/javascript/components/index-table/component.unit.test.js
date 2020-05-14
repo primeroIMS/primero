@@ -1,15 +1,15 @@
-import { expect } from "chai";
 import { fromJS, List } from "immutable";
 import MUIDataTable from "mui-datatables";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, Typography, Checkbox } from "@material-ui/core";
 
-import { LoadingIndicator } from "../loading-indicator";
+import LoadingIndicator from "../loading-indicator";
 import { setupMountedComponent, stub } from "../../test";
 import { RECORD_PATH } from "../../config";
 import { mapEntriesToRecord } from "../../libs";
 import { FieldRecord } from "../record-form";
 
 import IndexTable from "./component";
+import CustomToolbarSelect from "./custom-toolbar-select";
 
 describe("<IndexTable />", () => {
   let component;
@@ -63,7 +63,7 @@ describe("<IndexTable />", () => {
         options: {}
       }
     ]),
-    selectedRecords: [],
+    selectedRecords: {},
     setSelectedRecords: () => {}
   };
 
@@ -102,7 +102,21 @@ describe("<IndexTable />", () => {
       }
     },
     forms: {
-      fields: mapEntriesToRecord(fields, FieldRecord)
+      fields: mapEntriesToRecord(fields, FieldRecord),
+      options: {
+        lookups: {
+          data: [
+            {
+              id: 1,
+              unique_id: "lookup-location-type",
+              values: [
+                { id: "country", display_text: "Country" },
+                { id: "region", display_text: "Region" }
+              ]
+            }
+          ]
+        }
+      }
     }
   });
 
@@ -127,30 +141,19 @@ describe("<IndexTable />", () => {
     const table = component.find(IndexTable);
 
     expect(table.find("tbody tr")).to.have.lengthOf(1);
-    expect(
-      table
-        .find("div")
-        .last()
-        .text()
-    ).to.be.empty;
+    expect(table.find("div").last().text()).to.be.empty;
 
-    table
-      .find("thead th span")
-      .at(nameColumnIndex)
-      .simulate("click");
+    table.find("thead th span").at(nameColumnIndex).simulate("click");
 
-    expect(
-      table
-        .find("div")
-        .last()
-        .text()
-    ).to.be.be.equals("Table now sorted by name : descending");
+    expect(table.find("div").last().text()).to.be.be.equals(
+      "Table now sorted by name : descending"
+    );
   });
 
   describe("When data still loading", () => {
-    let component;
+    let loadingComponent;
 
-    const initialState = fromJS({
+    const loadingInitialState = fromJS({
       records: {
         cases: {
           data: [],
@@ -172,15 +175,92 @@ describe("<IndexTable />", () => {
     });
 
     before(() => {
-      ({ component } = setupMountedComponent(IndexTable, props, initialState));
+      ({ component: loadingComponent } = setupMountedComponent(
+        IndexTable,
+        props,
+        loadingInitialState
+      ));
     });
 
     it("renders IndexTable component", () => {
-      expect(component.find(IndexTable)).to.have.lengthOf(1);
+      expect(loadingComponent.find(IndexTable)).to.have.lengthOf(1);
     });
     it("renders CircularProgress", () => {
-      expect(component.find(CircularProgress)).to.have.lengthOf(1);
+      expect(loadingComponent.find(CircularProgress)).to.have.lengthOf(1);
     });
   });
 
+  describe("when records are selected", () => {
+    let recordsSelectedComponent;
+
+    const propsRecordsSelected = {
+      ...props,
+      selectedRecords: { 0: [0] }
+    };
+
+    before(() => {
+      ({ component: recordsSelectedComponent } = setupMountedComponent(
+        IndexTable,
+        propsRecordsSelected,
+        initialState
+      ));
+    });
+
+    it("renders CustomToolbarSelect component", () => {
+      expect(
+        recordsSelectedComponent.find(CustomToolbarSelect)
+      ).to.have.lengthOf(1);
+    });
+    it("renders Typography component", () => {
+      const customToolbarSelect = recordsSelectedComponent.find(
+        CustomToolbarSelect
+      );
+      const label = customToolbarSelect.find(Typography);
+
+      expect(label).to.have.lengthOf(1);
+      expect(label.text()).to.eql("cases.selected_records");
+    });
+  });
+
+  describe("when no records are selected", () => {
+    let noRecordsSelectedComponent;
+
+    before(() => {
+      ({ component: noRecordsSelectedComponent } = setupMountedComponent(
+        IndexTable,
+        props,
+        initialState
+      ));
+    });
+
+    it("should not render CustomToolbarSelect component", () => {
+      expect(
+        noRecordsSelectedComponent.find(CustomToolbarSelect)
+      ).to.have.lengthOf(0);
+    });
+  });
+
+  describe("when selectableRows options is none", () => {
+    let nonSelectableRowsComponent;
+
+    const propsNonSelectableRowsComponent = {
+      ...props,
+      selectedRecords: { 0: [0] },
+      options: {
+        selectableRows: "none"
+      }
+    };
+
+    before(() => {
+      ({ component: nonSelectableRowsComponent } = setupMountedComponent(
+        IndexTable,
+        propsNonSelectableRowsComponent,
+        initialState
+      ));
+    });
+
+    it("should not render any checkbox", () => {
+      expect(nonSelectableRowsComponent.find(Checkbox)).to.have.lengthOf(0);
+    });
+  });
 });

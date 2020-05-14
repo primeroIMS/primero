@@ -30,6 +30,7 @@ export const signIn = async (idp, tokenCallback) => {
 
   if (loginResponse) {
     const tokenResponse = await getToken(tokenRequest).catch(error => {
+      // eslint-disable-next-line no-console
       console.log(error);
     });
 
@@ -40,5 +41,7 @@ export const signIn = async (idp, tokenCallback) => {
 };
 
 export const signOut = () => {
-  msalApp.logout();
+  if (msalApp) {
+    msalApp.logout();
+  }
 };

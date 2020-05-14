@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as transitionsConstants from "./constants";
 
 describe("<Transitions /> - Constants - RecordActions", () => {
@@ -15,6 +13,7 @@ describe("<Transitions /> - Constants - RecordActions", () => {
     expect(constants).to.have.property("NAME");
 
     delete constants.NAME;
+    delete constants.REFERRAL_TYPE;
 
     expect(constants).to.be.empty;
   });

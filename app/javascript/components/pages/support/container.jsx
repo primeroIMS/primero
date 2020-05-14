@@ -1,58 +1,41 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Card, CardContent } from "@material-ui/core";
 import makeStyles from "@material-ui/styles/makeStyles";
 
 import { useI18n } from "../../i18n";
-import { PageContainer } from "../../page";
+import { PageContainer, PageContent } from "../../page";
+import DisplayData from "../../display-data";
 
 import styles from "./styles.css";
-import { fetchData } from "./action-creators";
 import { selectSupportData } from "./selectors";
 
-const DisplayData = ({ title, value }) => {
-  const css = makeStyles(styles)();
-
-  return (
-    <p key={title}>
-      <span className={css.Title}> {title}: </span>
-      {value}
-    </p>
-  );
-};
-
-DisplayData.propTypes = {
-  title: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired
-};
-
-const Support = ({ supportData, fetchSupportData }) => {
+const Support = ({ supportData }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
-  useEffect(() => {
-    fetchSupportData();
-  }, [fetchSupportData]);
+  const renderInformation =
+    supportData.toSeq().size > 0 &&
+    supportData._keys.map(x => {
+      if (["agencies", "id"].includes(x)) {
+        return null;
+      }
+
+      return (
+        <DisplayData
+          key={x}
+          {...{
+            label: i18n.t(`contact.field.${x}`),
+            value: supportData[x]
+          }}
+        />
+      );
+    });
 
   return (
     <PageContainer>
       <h1 className={css.PageTitle}>{i18n.t("contact.info_label")}</h1>
-      <Card className={css.Card}>
-        <CardContent>
-          {supportData.toSeq().size > 0 &&
-            supportData._keys.map(x => {
-              return (
-                <DisplayData
-                  {...{
-                    title: i18n.t(`contact.field.${x}`),
-                    value: supportData[x]
-                  }}
-                />
-              );
-            })}
-        </CardContent>
-      </Card>
+      <PageContent>{renderInformation}</PageContent>
     </PageContainer>
   );
 };
@@ -70,11 +53,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = {
-  fetchSupportData: fetchData
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Support);
+export default connect(mapStateToProps)(Support);

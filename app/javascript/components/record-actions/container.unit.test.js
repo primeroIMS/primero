@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { OrderedMap, fromJS } from "immutable";
 import { Menu, MenuItem } from "@material-ui/core";
 
@@ -8,10 +7,10 @@ import { FieldRecord, FormSectionRecord } from "../record-form/records";
 
 import Notes from "./notes";
 import RecordActions from "./container";
-import { ToggleEnable } from "./toggle-enable";
-import { ToggleOpen } from "./toggle-open";
+import ToggleEnable from "./toggle-enable";
+import ToggleOpen from "./toggle-open";
 import RequestApproval from "./request-approval";
-import { Transitions } from "./transitions";
+import Transitions from "./transitions";
 import Exports from "./exports";
 
 describe("<RecordActions />", () => {
@@ -304,7 +303,7 @@ describe("<RecordActions />", () => {
           component
             .find("li")
             .map(l => l.text())
-            .includes("buttons.referral orms.record_types.case")
+            .includes("buttons.referral forms.record_types.case")
         ).to.be.false;
       });
 
@@ -347,16 +346,559 @@ describe("<RecordActions />", () => {
       expect(component.find(Exports)).to.have.lengthOf(1);
       [
         "close",
+        "currentPage",
         "openExportsDialog",
+        "pending",
         "record",
         "recordType",
         "selectedRecords",
+        "setPending",
         "userPermissions"
       ].forEach(property => {
         expect(exportProps).to.have.property(property);
         delete exportProps[property];
       });
       expect(exportProps).to.be.empty;
+    });
+  });
+
+  describe("when record is selected", () => {
+    const propsRecordSelected = {
+      ...props,
+      showListActions: true,
+      currentPage: 0,
+      selectedRecords: { 0: [0] }
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        propsRecordSelected,
+        defaultState
+      ));
+    });
+
+    it("renders add refer menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(0);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.referral forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add reassign menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.reassign forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add transfer menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(2);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.transfer forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add incident menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "actions.incident_details_from_case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add service menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(4);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "actions.services_section_from_case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add export menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(5);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal("cases.export");
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+  });
+
+  describe("when record is selected from a search,  id_search: true", () => {
+    const defaultStateFromSearch = fromJS({
+      records: {
+        cases: {
+          data: [
+            {
+              sex: "female",
+              owned_by_agency_id: 1,
+              record_in_scope: true,
+              created_at: "2020-01-29T21:57:00.274Z",
+              name: "User 1",
+              alert_count: 0,
+              case_id_display: "b575f47",
+              owned_by: "primero_cp_ar",
+              status: "open",
+              registration_date: "2020-01-29",
+              id: "b342c488-578e-4f5c-85bc-35ece34cccdf",
+              flag_count: 0,
+              short_id: "b575f47",
+              age: 15,
+              workflow: "new"
+            }
+          ],
+          filters: {
+            status: ["true"],
+            id_search: true
+          }
+        }
+      },
+      user: {
+        permissions: {
+          cases: [ACTIONS.MANAGE]
+        }
+      },
+      forms
+    });
+    const propsRecordSelected = {
+      ...props,
+      showListActions: true,
+      currentPage: 0,
+      selectedRecords: { 0: [0] }
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        propsRecordSelected,
+        defaultStateFromSearch
+      ));
+    });
+
+    it("renders add refer menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(0);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.referral forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add reassign menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.reassign forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add transfer menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(2);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.transfer forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add incident menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "actions.incident_details_from_case"
+      );
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add service menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(4);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "actions.services_section_from_case"
+      );
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add export menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(5);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal("cases.export");
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+  });
+
+  describe("when no record is selected", () => {
+    const propsRecordSelected = {
+      ...props,
+      showListActions: true,
+      currentPage: 0,
+      selectedRecords: {}
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        propsRecordSelected,
+        defaultState
+      ));
+    });
+
+    it("renders add refer menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(0);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.referral forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add reassign menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.reassign forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add transfer menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(2);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.transfer forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add incident menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "actions.incident_details_from_case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add service menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(4);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "actions.services_section_from_case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add export menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(5);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal("cases.export");
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+  });
+
+  describe("when many records are selected", () => {
+    const propsRecordSelected = {
+      ...props,
+      showListActions: true,
+      currentPage: 0,
+      selectedRecords: { 0: [0, 1] }
+    };
+
+    const defaultStateRecordSelected = fromJS({
+      records: {
+        cases: {
+          data: [
+            {
+              sex: "female",
+              owned_by_agency_id: 1,
+              record_in_scope: true,
+              created_at: "2020-01-29T21:57:00.274Z",
+              name: "User 1",
+              alert_count: 0,
+              case_id_display: "b575f47",
+              owned_by: "primero_cp_ar",
+              status: "open",
+              registration_date: "2020-01-29",
+              id: "b342c488-578e-4f5c-85bc-35ece34cccdf",
+              flag_count: 0,
+              short_id: "b575f47",
+              age: 15,
+              workflow: "new"
+            },
+            {
+              sex: "male",
+              owned_by_agency_id: 1,
+              record_in_scope: true,
+              created_at: "2020-02-29T21:57:00.274Z",
+              name: "User 1",
+              alert_count: 0,
+              case_id_display: "c23a5fca",
+              owned_by: "primero_cp",
+              status: "open",
+              registration_date: "2020-05-02",
+              id: "b342c488-578e-4f5c-85bc-35ecec23a5fca",
+              flag_count: 0,
+              short_id: "c23a5fca",
+              age: 5,
+              workflow: "new"
+            }
+          ],
+          metadata: {
+            total: 3,
+            per: 20,
+            page: 1
+          },
+          filters: {
+            status: ["true"]
+          }
+        }
+      },
+      user: {
+        permissions: {
+          cases: [ACTIONS.MANAGE]
+        }
+      },
+      forms
+    });
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        propsRecordSelected,
+        defaultStateRecordSelected
+      ));
+    });
+
+    it("renders add refer menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(0);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.referral forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add reassign menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.reassign forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add transfer menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(2);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.transfer forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+
+    it("renders add incident menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "actions.incident_details_from_case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add service menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(4);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "actions.services_section_from_case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add export menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(5);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal("cases.export");
+      expect(incidentItemProps.disabled).to.be.false;
+    });
+  });
+
+  describe("when all the records are selected", () => {
+    const propsRecordSelected = {
+      ...props,
+      showListActions: true,
+      currentPage: 0,
+      selectedRecords: { 0: [0, 1, 2] }
+    };
+    const defaultStateAllRecordSelected = fromJS({
+      records: {
+        cases: {
+          data: [
+            {
+              sex: "female",
+              owned_by_agency_id: 1,
+              record_in_scope: true,
+              created_at: "2020-01-29T21:57:00.274Z",
+              name: "User 1",
+              alert_count: 0,
+              case_id_display: "b575f47",
+              owned_by: "primero_cp_ar",
+              status: "open",
+              registration_date: "2020-01-29",
+              id: "b342c488-578e-4f5c-85bc-35ece34cccdf",
+              flag_count: 0,
+              short_id: "b575f47",
+              age: 15,
+              workflow: "new"
+            },
+            {
+              sex: "male",
+              owned_by_agency_id: 1,
+              record_in_scope: true,
+              created_at: "2020-02-29T21:57:00.274Z",
+              name: "User 1",
+              alert_count: 0,
+              case_id_display: "c23a5fca",
+              owned_by: "primero_cp",
+              status: "open",
+              registration_date: "2020-05-02",
+              id: "b342c488-578e-4f5c-85bc-35ecec23a5fca",
+              flag_count: 0,
+              short_id: "c23a5fca",
+              age: 5,
+              workflow: "new"
+            },
+            {
+              sex: "female",
+              owned_by_agency_id: 1,
+              record_in_scope: true,
+              created_at: "2020-03-18T21:57:00.274Z",
+              name: "User 1",
+              alert_count: 0,
+              case_id_display: "9C68741",
+              owned_by: "primero_cp",
+              status: "open",
+              registration_date: "2020-04-18",
+              id: "d861c56c-8dc9-41c9-974b-2b24299b70a2",
+              flag_count: 0,
+              short_id: "9C68741",
+              age: 7,
+              workflow: "new"
+            }
+          ],
+          metadata: {
+            total: 3,
+            per: 20,
+            page: 1
+          },
+          filters: {
+            status: ["true"]
+          }
+        }
+      },
+      user: {
+        permissions: {
+          cases: [ACTIONS.MANAGE]
+        }
+      },
+      forms
+    });
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        RecordActions,
+        propsRecordSelected,
+        defaultStateAllRecordSelected
+      ));
+    });
+
+    it("renders add refer menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(0);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.referral forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add reassign menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.reassign forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add transfer menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(2);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "buttons.transfer forms.record_types.case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add incident menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "actions.incident_details_from_case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add service menu disabled", () => {
+      const incidentItem = component.find(MenuItem).at(4);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal(
+        "actions.services_section_from_case"
+      );
+      expect(incidentItemProps.disabled).to.be.true;
+    });
+
+    it("renders add export menu enabled", () => {
+      const incidentItem = component.find(MenuItem).at(5);
+      const incidentItemProps = incidentItem.props();
+
+      expect(incidentItem.text()).to.be.equal("cases.export");
+      expect(incidentItemProps.disabled).to.be.false;
     });
   });
 });

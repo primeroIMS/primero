@@ -6,14 +6,17 @@ import { Box, IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
 
+import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
 import { SUBFORM_FIELDS } from "../constants";
+import { serviceHasReferFields } from "../../utils";
 
 const Component = ({
   arrayHelpers,
   field,
   locale,
   mode,
+  recordType,
   setDialogIsNew,
   setOpen,
   values
@@ -21,9 +24,13 @@ const Component = ({
   const {
     subform_sort_by: subformSortBy,
     display_name: displayName,
-    subform_prevent_item_removal: subformPreventItemRemoval,
-    name
+    name,
+    subform_section_id: subformField
   } = field;
+
+  const {
+    subform_prevent_item_removal: subformPreventItemRemoval
+  } = subformField;
 
   const { isEdit, isNew } = mode;
 
@@ -86,6 +93,13 @@ const Component = ({
                     <DeleteIcon />
                   </IconButton>
                 ) : null}
+                {mode.isShow && serviceHasReferFields(values[index]) ? (
+                  <SubformMenu
+                    index={index}
+                    values={values}
+                    recordType={recordType}
+                  />
+                ) : null}
                 <IconButton onClick={() => handleEdit(index)}>
                   <ArrowIcon />
                 </IconButton>
@@ -107,6 +121,7 @@ Component.propTypes = {
   field: PropTypes.object.isRequired,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
+  recordType: PropTypes.string,
   setDialogIsNew: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired

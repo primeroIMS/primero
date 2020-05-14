@@ -1,3 +1,16 @@
+import {
+  MANAGE,
+  RESOURCES,
+  SHOW_AUDIT_LOGS,
+  RECORD_RESOURCES,
+  READ_RECORDS,
+  READ_REPORTS,
+  SHOW_EXPORTS,
+  SHOW_TASKS,
+  ADMIN_RESOURCES,
+  ADMIN_ACTIONS
+} from "../libs/permissions";
+
 // Time (ms) when fetch request will timeout
 export const FETCH_TIMEOUT = 50000;
 
@@ -51,15 +64,20 @@ export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
 });
 
 export const RECORD_PATH = {
+  agencies: "agencies",
   alerts: "alerts",
+  audit_logs: "audit_logs",
   cases: "cases",
+  contact_information: "contact_information",
   dashboards: "dashboards",
+  forms: "forms",
   incidents: "incidents",
+  lookups: "lookups",
+  roles: "roles",
   tasks: "tasks",
   tracing_requests: "tracing_requests",
-  users: "users",
   user_groups: "user_groups",
-  agencies: "agencies"
+  users: "users"
 };
 
 export const RECORD_OWNER = "record_owner";
@@ -81,25 +99,32 @@ export const RECORD_INFORMATION = [
 
 export const ROUTES = {
   account: "/account",
+  admin: "/admin",
+  admin_agencies: "/admin/agencies",
+  admin_agencies_new: "/admin/agencies/new",
+  admin_roles: "/admin/roles",
+  admin_roles_new: "/admin/roles/new",
+  admin_user_groups: "/admin/user_groups",
+  admin_user_groups_new: "/admin/user_groups/new",
+  admin_users: "/admin/users",
+  admin_users_new: "/admin/users/new",
+  audit_logs: "/admin/audit_logs",
   cases: "/cases",
-  dashboard: "/dashboard",
+  contact_information: "/admin/contact_information",
+  dashboard: "/dashboards",
   exports: "/exports",
+  forms: "/admin/forms",
+  forms_new: "/admin/forms/new",
   incidents: "/incidents",
   login: "/login",
   logout: "/logout",
+  lookups: "/admin/lookups",
   matches: "/matches",
   not_authorized: "/not-authorized",
   reports: "/reports",
   support: "/support",
   tasks: "/tasks",
-  tracing_requests: "/tracing_requests",
-  admin: "/admin",
-  admin_users: "/admin/users",
-  admin_users_new: "/admin/users/new",
-  admin_user_groups: "/admin/user_groups",
-  admin_user_groups_new: "/admin/user_groups/new",
-  admin_agencies: "/admin/agencies",
-  admin_agencies_new: "/admin/agencies/new"
+  tracing_requests: "/tracing_requests"
 };
 
 export const PERMITTED_URL = [
@@ -131,19 +156,59 @@ export const LOOKUPS = {
   risk_level: "lookup-risk-level",
   workflow: "lookup-workflow",
   service_type: "lookup-service-type",
-  protection_concerns: "lookup-protection-concerns"
+  protection_concerns: "lookup-protection-concerns",
+  followup_type: "lookup-followup-type"
 };
 
 export const ADMIN_NAV = [
-  { to: "/users", label: "settings.navigation.users" },
-  { to: "/agencies", label: "settings.navigation.agencies" },
-  { to: "/roles", label: "settings.navigation.roles", disabled: true },
+  {
+    to: "/users",
+    label: "settings.navigation.users",
+    permission: ADMIN_ACTIONS,
+    recordType: RESOURCES.users
+  },
+  {
+    to: "/agencies",
+    label: "settings.navigation.agencies",
+    permission: ADMIN_ACTIONS,
+    recordType: RESOURCES.agencies
+  },
+  {
+    to: "/roles",
+    label: "settings.navigation.roles",
+    permission: ADMIN_ACTIONS,
+    recordType: RESOURCES.roles
+  },
   {
     to: "/user_groups",
-    label: "settings.navigation.user_groups"
+    label: "settings.navigation.user_groups",
+    permission: ADMIN_ACTIONS,
+    recordType: RESOURCES.user_groups
+  },
+  {
+    to: "/contact_information",
+    label: "settings.navigation.contact_information",
+    permission: MANAGE,
+    recordType: RESOURCES.systems
   },
   { to: "/modules", label: "settings.navigation.modules", disabled: true },
-  { to: "/forms", label: "settings.navigation.forms", disabled: true },
+
+  {
+    to: "/forms-parent",
+    label: "settings.navigation.forms",
+    items: [
+      {
+        to: "/forms",
+        label: "settings.navigation.forms"
+      },
+      {
+        to: "/lookups",
+        label: "settings.navigation.lookups",
+        permission: MANAGE,
+        recordType: RESOURCES.metadata
+      }
+    ]
+  },
   { to: "/locations", label: "settings.navigation.locations", disabled: true },
   {
     to: "/system_settings",
@@ -153,12 +218,118 @@ export const ADMIN_NAV = [
   {
     to: "/audit_logs",
     label: "settings.navigation.audit_logs",
-    disabled: true
+    permission: SHOW_AUDIT_LOGS,
+    recordType: RESOURCES.audit_logs
   },
   { to: "/matching", label: "settings.navigation.matching", disabled: true }
 ];
+
+export const APPLICATION_NAV = permissions => {
+  const adminResources = ADMIN_RESOURCES.filter(adminResource =>
+    permissions.keySeq().includes(adminResource)
+  );
+  const adminSettingsOption = `/admin/${adminResources[0]}`;
+
+  return [
+    {
+      name: "navigation.home",
+      to: ROUTES.dashboard,
+      icon: "home",
+      validateWithUserPermissions: true
+    },
+    {
+      name: "navigation.tasks",
+      to: ROUTES.tasks,
+      icon: "tasks",
+      resources: RESOURCES.dashboards,
+      actions: SHOW_TASKS
+    },
+    {
+      name: "navigation.cases",
+      to: ROUTES.cases,
+      icon: "cases",
+      jewelCount: "case",
+      resources: RESOURCES.cases,
+      actions: READ_RECORDS,
+      validateWithUserPermissions: true
+    },
+    {
+      name: "navigation.incidents",
+      to: ROUTES.incidents,
+      icon: "incidents",
+      jewelCount: "incident",
+      resources: RESOURCES.incidents,
+      actions: READ_RECORDS,
+      validateWithUserPermissions: true
+    },
+    {
+      name: "navigation.tracing_request",
+      to: ROUTES.tracing_requests,
+      icon: "tracing_request",
+      jewelCount: "tracing_request",
+      resources: RESOURCES.tracing_requests,
+      actions: READ_RECORDS,
+      validateWithUserPermissions: true
+    },
+    // {
+    //   name: "navigation.potential_match",
+    //   to: ROUTES.matches,
+    //   icon: "matches",
+    //   resources: RESOURCES.potential_matches,
+    //   actions: READ_RECORDS,
+    //   disableOffline: true
+    // },
+    {
+      name: "navigation.reports",
+      to: ROUTES.reports,
+      icon: "reports",
+      resources: RESOURCES.reports,
+      actions: READ_REPORTS,
+      disableOffline: true,
+      validateWithUserPermissions: true
+    },
+    {
+      name: "navigation.bulk_exports",
+      to: ROUTES.exports,
+      icon: "exports",
+      resources: RECORD_RESOURCES,
+      actions: SHOW_EXPORTS,
+      disableOffline: true
+    },
+    {
+      name: "navigation.support",
+      to: ROUTES.support,
+      icon: "support",
+      divider: true
+    },
+    { name: "username", to: ROUTES.account, icon: "account", disabled: true },
+    {
+      name: "navigation.settings",
+      to: adminSettingsOption,
+      icon: "settings",
+      resources: ADMIN_RESOURCES,
+      actions: ADMIN_ACTIONS,
+      disableOffline: true
+    },
+    { name: "navigation.logout", to: ROUTES.logout, icon: "logout" }
+  ];
+};
+
+export const METHODS = Object.freeze({
+  DELETE: "DELETE",
+  GET: "GET",
+  PATCH: "PATCH",
+  POST: "POST",
+  PUT: "PUT"
+});
+
+export const SAVE_METHODS = Object.freeze({
+  new: "new",
+  update: "update"
+});
 
 export const ACCEPTED = "accepted";
 export const ACCEPT = "accept";
 export const REJECTED = "rejected";
 export const REJECT = "reject";
+export const SAVING = "saving";

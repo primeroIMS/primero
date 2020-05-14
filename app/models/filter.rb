@@ -26,7 +26,7 @@ class Filter < ValueObject
   APPROVALS_STATUS_BIA = Filter.new(name: 'approvals.bia', field_name: 'approval_status_bia')
   APPROVALS_STATUS_CASE_PLAN = Filter.new(name: 'approvals.case_plan', field_name: 'approval_status_case_plan')
   APPROVALS_STATUS_CLOSURE = Filter.new(name: 'approvals.closure', field_name: 'approval_status_closure')
-  AGENCY =  Filter.new(name: 'cases.filter_by.agency', field_name: 'owned_by_agency')
+  AGENCY =  Filter.new(name: 'cases.filter_by.agency', field_name: 'owned_by_agency_id', type: 'checkbox')
   STATUS =  Filter.new(
     name: 'cases.filter_by.status',
     field_name: 'status',
@@ -76,7 +76,7 @@ class Filter < ValueObject
   CURRENT_LOCATION = Filter.new(
     name: 'cases.filter_by.current_location',
     field_name: 'location_current',
-    option_strings_source: 'location',
+    option_strings_source: 'Location',
     type: 'multi_select'
   )
   AGENCY_OFFICE = Filter.new(
@@ -89,7 +89,7 @@ class Filter < ValueObject
     Filter.new(
       name: "location.base_types.#{label}",
       field_name: "#{admin_level}",
-      option_strings_source: 'reporting_location',
+      option_strings_source: 'ReportingLocation',
       type: 'multi_select'
     )
   end
@@ -144,7 +144,7 @@ class Filter < ValueObject
   INCIDENT_LOCATION = Filter.new(
     name: 'incidents.filter_by.incident_location',
     field_name: 'incident_location',
-    option_strings_source: 'location',
+    option_strings_source: 'Location',
     type: 'multi_select'
   )
   INCIDENT_DATE = Filter.new(
@@ -176,7 +176,7 @@ class Filter < ValueObject
   SEPARATION_LOCATION = Filter.new(
     name: 'tracing_requests.filter_by.location_separation',
     field_name: 'location_separation',
-    option_strings_source: 'location',
+    option_strings_source: 'Location',
     type: 'multi_select'
   )
   SEPARATION_CAUSE = Filter.new(
@@ -307,7 +307,7 @@ class Filter < ValueObject
       end
     when 'workflow'
       self.options = Child.workflow_statuses(user_modules)
-    when 'owned_by_agency'
+    when 'owned_by_agency_id'
       agencies = User.agencies_for_user_names(managed_user_names)
       self.options = I18n.available_locales.map do |locale|
         locale_options = agencies.map do |agency|

@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
 import {
   Card,
@@ -78,9 +77,10 @@ describe("<Reports /> - Component", () => {
     expect(component.find(TablePagination)).to.have.lengthOf(1);
   });
 
-  it("should render <AddIcon>", () => {
-    expect(component.find(AddIcon)).to.have.lengthOf(1);
-  });
+  // TODO: Should test if we have a clickable button, but removing button temporarly till this feature is implemented
+  // it("should render <AddIcon>", () => {
+  //   expect(component.find(AddIcon)).to.have.lengthOf(1);
+  // });
 
   describe("When doesn't have permission to create report", () => {
     beforeEach(() => {

@@ -6,7 +6,7 @@ import { push } from "connected-react-router";
 
 import { dataToJS } from "../../../libs";
 import { ROUTES } from "../../../config";
-import { buildFilter } from "../helpers";
+import { buildFilter } from "../utils";
 
 const DashboardTable = ({ columns, data, query }) => {
   const dispatch = useDispatch();
@@ -29,15 +29,18 @@ const DashboardTable = ({ columns, data, query }) => {
     onCellClick: (colData, cellMeta) => {
       const { colIndex, rowIndex } = cellMeta;
       const columnName = columns[colIndex].name;
-      const clickedCellQuery = query[rowIndex][columnName];
 
-      if (Array.isArray(clickedCellQuery)) {
-        dispatch(
-          push({
-            pathname: ROUTES.cases,
-            search: buildFilter(clickedCellQuery, true)
-          })
-        );
+      if (typeof query[rowIndex] !== "undefined") {
+        const clickedCellQuery = query[rowIndex][columnName];
+
+        if (Array.isArray(clickedCellQuery)) {
+          dispatch(
+            push({
+              pathname: ROUTES.cases,
+              search: buildFilter(clickedCellQuery, true)
+            })
+          );
+        }
       }
     }
   };

@@ -40,24 +40,31 @@ describe SearchFilterService do
     end
 
     it 'builds a not value filter from numeric values' do
-      filter = service.build_filters('!age' => 10).first
+      filter = service.build_filters('not' => { 'age' => 10 }).first
       expect(filter).to be_instance_of(SearchFilters::NotValue)
       expect(filter.field_name).to eq('age')
-      expect(filter.value).to eq(10)
+      expect(filter.values).to eq(10)
     end
 
     it 'builds a not value filter from string values' do
-      filter = service.build_filters('!sex' => 'male').first
+      filter = service.build_filters('not' => { 'sex' => 'male' }).first
       expect(filter).to be_instance_of(SearchFilters::NotValue)
       expect(filter.field_name).to eq('sex')
-      expect(filter.value).to eq('male')
+      expect(filter.values).to eq('male')
     end
 
     it 'builds a not value filter from boolean values' do
-      filter = service.build_filters('!valid' => true).first
+      filter = service.build_filters('not' => { 'valid' => true }).first
       expect(filter).to be_instance_of(SearchFilters::NotValue)
       expect(filter.field_name).to eq('valid')
-      expect(filter.value).to be true
+      expect(filter.values).to eq(true)
+    end
+
+    it 'builds a not value filter with two values' do
+      filter = service.build_filters('not' => { 'age' => [10, 8] }).first
+      expect(filter).to be_instance_of(SearchFilters::NotValue)
+      expect(filter.field_name).to eq('age')
+      expect(filter.values).to eq([10, 8])
     end
 
     it 'builds a date range filter from date range values' do
@@ -89,7 +96,7 @@ describe SearchFilterService do
       params = { 'or' => {
         'age' => { 'from' => 0, 'to' => 5 },
         'sex' => 'female',
-        '!sex' => 'female'
+        'not' => { 'sex' => 'female' }
       } }
       filter = service.build_filters(params).first
       expect(filter).to be_instance_of(SearchFilters::Or)
@@ -102,14 +109,14 @@ describe SearchFilterService do
       expect(filter.filters[1].value).to eq('female')
       expect(filter.filters[2]).to be_instance_of(SearchFilters::NotValue)
       expect(filter.filters[2].field_name).to eq('sex')
-      expect(filter.filters[2].value).to eq('female')
+      expect(filter.filters[2].values).to eq('female')
     end
 
     it 'builds an or filter from or values if they are specified as a hash' do
       params = { 'or' => [
         { 'age' => { 'from' => 0, 'to' => 5 } },
         { 'sex' => 'female' },
-        { '!sex' => 'female' }
+        'not' => { 'sex' => 'female' }
       ] }
       filter = service.build_filters(params).first
       expect(filter).to be_instance_of(SearchFilters::Or)
@@ -122,7 +129,7 @@ describe SearchFilterService do
       expect(filter.filters[1].value).to eq('female')
       expect(filter.filters[2]).to be_instance_of(SearchFilters::NotValue)
       expect(filter.filters[2].field_name).to eq('sex')
-      expect(filter.filters[2].value).to eq('female')
+      expect(filter.filters[2].values).to eq('female')
     end
   end
 
@@ -138,6 +145,27 @@ describe SearchFilterService do
       expect(result[0].field_name).to eq('age')
       expect(result[0].from).to eq(0)
       expect(result[0].to).to eq(5)
+    end
+  end
+
+  describe 'Permitted field names with number at the end' do
+    it 'constructs valid filters from the input' do
+      params = {
+        'age2' => '0..5'
+      }
+      result = SearchFilterService.build_filters(params, %w[age])
+      expect(result.size).to eq(1)
+      expect(result[0].field_name).to eq('age2')
+      expect(result[0].from).to eq(0)
+      expect(result[0].to).to eq(5)
+    end
+
+    it 'constructs invalid filters if the number at the end is not in the range 0..5' do
+      params = {
+        'age6' => '0..5'
+      }
+      result = SearchFilterService.build_filters(params, %w[age])
+      expect(result.blank?).to eq(true)
     end
   end
 end

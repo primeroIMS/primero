@@ -5,6 +5,8 @@ import { Grid } from "@material-ui/core";
 
 import { useI18n } from "../../i18n";
 
+import { ASSIGNMENTS_SUMMARY_NAME as NAME } from "./constants";
+
 const AssignmentsSummary = ({ transition, classes }) => {
   const i18n = useI18n();
 
@@ -34,6 +36,8 @@ const AssignmentsSummary = ({ transition, classes }) => {
     </Grid>
   );
 };
+
+AssignmentsSummary.displayName = NAME;
 
 AssignmentsSummary.propTypes = {
   classes: PropTypes.object.isRequired,

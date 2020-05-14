@@ -10,7 +10,6 @@ import { getPermissionsByRecord } from "../user/selectors";
 import { getFiltersValuesByRecordType } from "../index-filters/selectors";
 import {
   ACTIONS,
-  EXPORT_CUSTOM,
   ENABLE_DISABLE_RECORD,
   ADD_NOTE,
   ADD_INCIDENT,
@@ -21,24 +20,35 @@ import {
   checkPermissions
 } from "../../libs/permissions";
 import Permission from "../application/permission";
+import DisableOffline from "../disable-offline";
+import { ConditionalWrapper } from "../../libs";
+import { getMetadata } from "../record-list/selectors";
 
 import { setDialog, setPending } from "./action-creators";
 import {
   REQUEST_APPROVAL_DIALOG,
   APPROVAL_DIALOG,
   APPROVAL_TYPE,
-  REQUEST_TYPE
+  REQUEST_TYPE,
+  REFER_DIALOG,
+  TRANSFER_DIALOG,
+  ASSIGN_DIALOG,
+  EXPORT_DIALOG,
+  ENABLED_FOR_ONE,
+  ENABLED_FOR_ONE_MANY,
+  ENABLED_FOR_ONE_MANY_ALL
 } from "./constants";
 import { NAME } from "./config";
 import Notes from "./notes";
-import { ToggleEnable } from "./toggle-enable";
-import { ToggleOpen } from "./toggle-open";
-import { Transitions } from "./transitions";
+import ToggleEnable from "./toggle-enable";
+import ToggleOpen from "./toggle-open";
+import Transitions from "./transitions";
 import AddIncident from "./add-incident";
 import AddService from "./add-service";
 import RequestApproval from "./request-approval";
 import Exports from "./exports";
 import { selectDialog, selectDialogPending } from "./selectors";
+import { isDisabledAction } from "./utils";
 
 const Container = ({
   recordType,
@@ -46,6 +56,7 @@ const Container = ({
   record,
   mode,
   showListActions,
+  currentPage,
   selectedRecords
 }) => {
   const i18n = useI18n();
@@ -58,23 +69,45 @@ const Container = ({
   const [openEnableDialog, setOpenEnableDialog] = useState(false);
   const [incidentDialog, setIncidentDialog] = useState(false);
   const [serviceDialog, setServiceDialog] = useState(false);
-  const [openExportsDialog, setOpenExportsDialog] = useState(false);
   const requestDialog = useSelector(state =>
     selectDialog(REQUEST_APPROVAL_DIALOG, state)
   );
-  const setRequestDialog = open => {
-    dispatch(setDialog({ dialog: REQUEST_APPROVAL_DIALOG, open: open }));
-  };
   const dialogPending = useSelector(state => selectDialogPending(state));
-  const setDialogPending = pending => {
-    dispatch(setPending({ pending: pending }));
-  };
   const approveDialog = useSelector(state =>
     selectDialog(APPROVAL_DIALOG, state)
   );
-  const setApproveDialog = open => {
-    dispatch(setDialog({ dialog: APPROVAL_DIALOG, open: open }));
+  const referDialog = useSelector(state => selectDialog(REFER_DIALOG, state));
+  const transferDialog = useSelector(state =>
+    selectDialog(TRANSFER_DIALOG, state)
+  );
+  const assignDialog = useSelector(state => selectDialog(ASSIGN_DIALOG, state));
+  const openExportsDialog = useSelector(state =>
+    selectDialog(EXPORT_DIALOG, state)
+  );
+  const setRequestDialog = open => {
+    dispatch(setDialog({ dialog: REQUEST_APPROVAL_DIALOG, open }));
   };
+  const setDialogPending = pending => {
+    dispatch(setPending({ pending }));
+  };
+  const setApproveDialog = open => {
+    dispatch(setDialog({ dialog: APPROVAL_DIALOG, open }));
+  };
+  const setReferDialog = open => {
+    dispatch(setDialog({ dialog: REFER_DIALOG, open }));
+  };
+  const setTransferDialog = open => {
+    dispatch(setDialog({ dialog: TRANSFER_DIALOG, open }));
+  };
+  const setAssignDialog = open => {
+    dispatch(setDialog({ dialog: ASSIGN_DIALOG, open }));
+  };
+  const setOpenExportsDialog = open => {
+    dispatch(setDialog({ dialog: EXPORT_DIALOG, open }));
+  };
+
+  const metadata = useSelector(state => getMetadata(state, recordType));
+  const totalRecords = metadata?.get("total", 0);
 
   const enableState =
     record && record.get("record_state") ? "disable" : "enable";
@@ -93,9 +126,11 @@ const Container = ({
     getPermissionsByRecord(state, recordType)
   );
 
-  const isSearchFromList = useSelector(state =>
+  const idSearch = useSelector(state =>
     getFiltersValuesByRecordType(state, recordType).get("id_search")
   );
+
+  const isSearchFromList = Boolean(idSearch);
 
   const canAddNotes = checkPermissions(userPermissions, [
     ACTIONS.MANAGE,
@@ -212,7 +247,15 @@ const Container = ({
     transitionType,
     setTransitionType,
     recordType,
-    userPermissions
+    userPermissions,
+    referDialog,
+    transferDialog,
+    assignDialog,
+    handleReferClose: () => setReferDialog(false),
+    handleTransferClose: () => setTransferDialog(false),
+    handleAssignClose: () => setAssignDialog(false),
+    pending: dialogPending,
+    setPending: setDialogPending
   };
 
   const handleNotesClose = () => {
@@ -253,10 +296,6 @@ const Container = ({
     (canReopen && openState === "reopen") ||
     (canClose && openState === "close");
 
-  const handleExportsOpen = () => {
-    setOpenExportsDialog(true);
-  };
-
   const formRecordType = i18n.t(
     `forms.record_types.${RECORD_TYPES[recordType]}`
   );
@@ -264,39 +303,57 @@ const Container = ({
   const actions = [
     {
       name: `${i18n.t("buttons.referral")} ${formRecordType}`,
-      action: () => setTransitionType("referral"),
+      action: () => {
+        setTransitionType("referral");
+        setReferDialog(true);
+      },
       recordType,
-      condition: canRefer
+      recordListAction: true,
+      enabledFor: ENABLED_FOR_ONE_MANY,
+      condition: canRefer,
+      disableOffline: true
     },
     {
       name: `${i18n.t("buttons.reassign")} ${formRecordType}`,
-      action: () => setTransitionType("reassign"),
+      action: () => setAssignDialog(true),
       recordType,
-      condition: canAssign
+      recordListAction: true,
+      enabledFor: ENABLED_FOR_ONE_MANY,
+      condition: canAssign,
+      disableOffline: true
     },
     {
       name: `${i18n.t("buttons.transfer")} ${formRecordType}`,
-      action: () => setTransitionType("transfer"),
+      action: () => setTransferDialog(true),
       recordType: ["cases", "incidents"],
-      condition: canTransfer
+      recordListAction: true,
+      enabledFor: ENABLED_FOR_ONE_MANY,
+      condition: canTransfer,
+      disableOffline: true
     },
     {
       name: i18n.t("actions.incident_details_from_case"),
       action: handleIncidentDialog,
       recordType: RECORD_PATH.cases,
       recordListAction: true,
+      enabledFor: ENABLED_FOR_ONE,
       condition: showListActions
         ? canAddIncident
-        : canAddIncident && Boolean(isSearchFromList)
+        : canAddIncident && isSearchFromList,
+      disableOffline: true,
+      enabledOnSearch: true
     },
     {
       name: i18n.t("actions.services_section_from_case"),
       action: handleServiceDialog,
       recordType: RECORD_PATH.cases,
       recordListAction: true,
+      enabledFor: ENABLED_FOR_ONE,
       condition: showListActions
         ? canAddService
-        : canAddService && Boolean(isSearchFromList)
+        : canAddService && isSearchFromList,
+      disableOffline: true,
+      enabledOnSearch: true
     },
     {
       name: i18n.t(`actions.${openState}`),
@@ -314,7 +371,8 @@ const Container = ({
       name: i18n.t("actions.notes"),
       action: handleNotesOpen,
       recordType: RECORD_TYPES.all,
-      condition: canAddNotes
+      condition: canAddNotes,
+      disableOffline: true
     },
     {
       name: i18n.t("actions.request_approval"),
@@ -326,14 +384,17 @@ const Container = ({
       name: i18n.t("actions.approvals"),
       action: handleApprovalOpen,
       recordType: "all",
-      condition: canApprove
+      condition: canApprove,
+      disableOffline: true
     },
     {
       name: i18n.t(`${recordType}.export`),
-      action: handleExportsOpen,
+      action: () => setOpenExportsDialog(true),
       recordType: RECORD_TYPES.all,
       recordListAction: true,
-      condition: canShowExports
+      enabledFor: ENABLED_FOR_ONE_MANY_ALL,
+      condition: canShowExports,
+      disableOffline: true
     }
   ];
 
@@ -355,9 +416,10 @@ const Container = ({
     />
   );
 
-  const filterItems = items => items.filter(
-    item => {
-      const actionCondition = typeof item.condition === "undefined" || item.condition;
+  const filterItems = items =>
+    items.filter(item => {
+      const actionCondition =
+        typeof item.condition === "undefined" || item.condition;
 
       if (showListActions) {
         return item.recordListAction && actionCondition;
@@ -365,25 +427,39 @@ const Container = ({
 
       return (
         ([RECORD_TYPES.all, recordType].includes(item.recordType) ||
-          (Array.isArray(item.recordType) && item.recordType.includes(recordType))) &&
-          actionCondition
+          (Array.isArray(item.recordType) &&
+            item.recordType.includes(recordType))) &&
+        actionCondition
       );
-    }
-  );
+    });
 
   const filteredActions = filterItems(actions);
   const actionItems = filteredActions?.map(action => {
-    const disabled = showListActions && !selectedRecords.length;
+    const disabled =
+      showListActions &&
+      isDisabledAction(
+        action.enabledFor,
+        action.enabledOnSearch,
+        isSearchFromList,
+        selectedRecords,
+        totalRecords
+      );
 
     return (
-      <MenuItem
+      <ConditionalWrapper
+        condition={action.disableOffline}
+        wrapper={DisableOffline}
+        button
         key={action.name}
-        selected={action.name === "Pyxis"}
-        onClick={() => handleItemAction(action.action)}
-        disabled={disabled}
       >
-        {action.name}
-      </MenuItem>
+        <MenuItem
+          selected={action.name === "Pyxis"}
+          onClick={() => handleItemAction(action.action)}
+          disabled={disabled}
+        >
+          {action.name}
+        </MenuItem>
+      </ConditionalWrapper>
     );
   });
 
@@ -431,6 +507,11 @@ const Container = ({
 
   const allowedRequestsApproval = filterItems(requestsApproval);
   const allowedApprovals = filterItems(approvals);
+  const selectedRecordsOnCurrentPage =
+    (selectedRecords &&
+      Boolean(Object.keys(selectedRecords).length) &&
+      selectedRecords[currentPage]) ||
+    [];
 
   return (
     <>
@@ -469,7 +550,7 @@ const Container = ({
           close={() => setIncidentDialog(false)}
           recordType={recordType}
           records={[]}
-          selectedRowsIndex={selectedRecords}
+          selectedRowsIndex={selectedRecordsOnCurrentPage}
         />
       </Permission>
 
@@ -478,7 +559,7 @@ const Container = ({
           openServiceDialog={serviceDialog}
           close={() => setServiceDialog(false)}
           recordType={recordType}
-          selectedRowsIndex={selectedRecords}
+          selectedRowsIndex={selectedRecordsOnCurrentPage}
         />
       </Permission>
 
@@ -524,11 +605,14 @@ const Container = ({
       <Permission resources={recordType} actions={SHOW_EXPORTS}>
         <Exports
           openExportsDialog={openExportsDialog}
-          close={setOpenExportsDialog}
+          close={() => setOpenExportsDialog(false)}
           recordType={recordType}
           userPermissions={userPermissions}
           record={record}
+          currentPage={currentPage}
           selectedRecords={selectedRecords}
+          pending={dialogPending}
+          setPending={setDialogPending}
         />
       </Permission>
     </>
@@ -538,11 +622,12 @@ const Container = ({
 Container.displayName = NAME;
 
 Container.propTypes = {
+  currentPage: PropTypes.number,
   iconColor: PropTypes.string,
   mode: PropTypes.object,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  selectedRecords: PropTypes.array,
+  selectedRecords: PropTypes.object,
   showListActions: PropTypes.bool
 };
 

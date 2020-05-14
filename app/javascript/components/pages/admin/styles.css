@@ -3,10 +3,15 @@
 }
 
 .nav {
-  width: 230px;
-  padding-right: 2em;
+  width: 195px;
+  padding-right: 1em;
 }
 
 .content {
   flex: 1;
+}
+
+.nestedItem {
+  padding: 0 1em;
+  font-size: 0.875rem;
 }

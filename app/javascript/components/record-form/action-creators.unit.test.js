@@ -1,30 +1,31 @@
 import clone from "lodash/clone";
-import chai, { expect } from "chai";
 import sinon from "sinon";
-import sinonChai from "sinon-chai";
 import configureStore from "redux-mock-store";
+import thunk from "redux-thunk";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
 import { URL_LOOKUPS } from "./constants";
 
-chai.use(sinonChai);
-
 describe("<RecordForm /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = clone(actionCreators);
 
-    expect(creators).to.have.property("setSelectedForm");
-    expect(creators).to.have.property("setSelectedRecord");
-    expect(creators).to.have.property("fetchForms");
-    expect(creators).to.have.property("fetchOptions");
+    [
+      "fetchAgencies",
+      "fetchForms",
+      "fetchLookups",
+      "fetchOptions",
+      "setSelectedForm",
+      "setSelectedRecord",
+      "setServiceToRefer"
+    ].forEach(property => {
+      expect(creators).to.have.property(property);
+      expect(creators[property]).to.be.a("function");
+      delete creators[property];
+    });
 
-    delete creators.setSelectedForm;
-    delete creators.setSelectedRecord;
-    delete creators.fetchForms;
-    delete creators.fetchOptions;
-
-    expect(creators).to.deep.equal({});
+    expect(creators).to.be.empty;
   });
 
   it("should check the 'setSelectedForm' action creator to return the correct object", () => {
@@ -52,29 +53,76 @@ describe("<RecordForm /> - Action Creators", () => {
   });
 
   it("should check the 'fetchForms' action creator to return the correct object", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const expected = {
+      type: actions.RECORD_FORMS,
+      api: {
+        path: "forms",
+        normalizeFunc: "normalizeFormData",
+        db: {
+          collection: "forms"
+        }
+      }
+    };
 
-    actionCreators.fetchForms()(dispatch);
-
-    expect(dispatch.getCall(0).returnValue.type).to.eql("forms/RECORD_FORMS");
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql("forms");
-    expect(typeof dispatch.getCall(0).returnValue.api.normalizeFunc).to.eql(
-      "string"
-    );
+    expect(actionCreators.fetchForms()).to.deep.equal(expected);
   });
 
   it("should check the 'fetchOptions' action creator to return the correct object", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const store = configureStore([thunk])({});
 
-    actionCreators.fetchOptions()(dispatch);
+    return store.dispatch(actionCreators.fetchOptions()).then(() => {
+      const expectedActions = store.getActions();
 
-    const firstCallReturnValue = dispatch.getCall(0).returnValue;
-    const secondCallReturnValue = dispatch.getCall(1).returnValue;
+      expect(expectedActions[0].type).to.eql(actions.SET_OPTIONS);
+      expect(expectedActions[0].api.path).to.eql(URL_LOOKUPS);
+      expect(expectedActions[1].type).to.eql(actions.SET_LOCATIONS);
+    });
+  });
 
-    expect(firstCallReturnValue.type).to.eql(actions.SET_OPTIONS);
-    expect(firstCallReturnValue.api.path).to.eql(URL_LOOKUPS);
-    expect(secondCallReturnValue.type).to.eql(actions.SET_LOCATIONS);
+  it("should check the 'fetchLookups' action creator to return the correct object", () => {
+    const dispatch = sinon.spy(actionCreators, "fetchLookups");
+
+    actionCreators.fetchLookups();
+
+    expect(dispatch.getCall(0).returnValue).to.eql({
+      api: {
+        params: {
+          page: 1,
+          per: 999
+        },
+        path: "lookups"
+      },
+      type: "forms/SET_OPTIONS"
+    });
+  });
+
+  it("should check the 'setServiceToRefer' action creator return the correct object", () => {
+    const expected = {
+      type: actions.SET_SERVICE_TO_REFER,
+      payload: {
+        service_type: "service_1",
+        service_implementing_agency: "agency_1"
+      }
+    };
+
+    expect(
+      actionCreators.setServiceToRefer({
+        service_type: "service_1",
+        service_implementing_agency: "agency_1"
+      })
+    ).to.deep.equals(expected);
+  });
+
+  it("should check the 'fetchAgencies' action creator return the correct object", () => {
+    const expected = {
+      type: actions.FETCH_AGENCIES,
+      api: {
+        path: "agencies",
+        method: "GET",
+        params: undefined
+      }
+    };
+
+    expect(actionCreators.fetchAgencies()).to.deep.equals(expected);
   });
 });

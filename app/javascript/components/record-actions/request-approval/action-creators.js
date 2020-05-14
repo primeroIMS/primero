@@ -1,3 +1,5 @@
+/* eslint-disable import/prefer-default-export */
+
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { SET_DIALOG, SET_DIALOG_PENDING } from "../actions";
 
@@ -17,6 +19,13 @@ export const approvalRecord = ({
     api: {
       path: `${recordType}/${recordId}/approvals/${approvalId}`,
       method: "PATCH",
+      queueOffline: true,
+      responseRecordKey: "approval_subforms",
+      responseRecordArray: true,
+      responseRecordID: recordId,
+      db: {
+        recordType: null
+      },
       body,
       successCallback: [
         {

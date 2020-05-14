@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CreateLocations < ActiveRecord::Migration[5.0]
-  enable_extension 'ltree' unless extension_enabled?('ltree')
+  enable_extension 'ltree' unless ENV['PRIMERO_PG_APP_ROLE'] || extension_enabled?('ltree')
   def change
     create_table :locations do |t|
       t.jsonb   'name_i18n'

@@ -97,11 +97,11 @@ RSpec.configure do |config|
   config.before(:suite) do
     FactoryBot.find_definitions
     if OptionsQueueStats.options_not_generated?
+      SystemSettings.destroy_all && Location.destroy_all
       FactoryBot.create(:system_settings)
       FactoryBot.create(:location)
-      OptionsJob.perform_now
+      GenerateLocationFilesJob.perform_now
     end
-
   end
 
   # Delete db if needed.

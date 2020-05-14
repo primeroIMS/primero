@@ -9,12 +9,14 @@ import {
   DialogContentText,
   CircularProgress
 } from "@material-ui/core";
+import CheckIcon from "@material-ui/icons/Check";
+import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../i18n";
 
 import TitleWithClose from "./text-with-close";
-import styles from "./style.css";
+import styles from "./styles.css";
 
 const ActionDialog = ({
   open,
@@ -29,14 +31,19 @@ const ActionDialog = ({
   confirmButtonProps,
   omitCloseAfterSuccess,
   maxSize,
-  pending
+  pending,
+  enabledSuccessButton
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
   const handleClose = event => {
     event.stopPropagation();
-    cancelHandler ? cancelHandler() : onClose();
+    if (cancelHandler) {
+      cancelHandler();
+    } else {
+      onClose();
+    }
   };
 
   const handleSuccess = event => {
@@ -44,6 +51,8 @@ const ActionDialog = ({
     successHandler();
     if (!omitCloseAfterSuccess) handleClose(event);
   };
+
+  const stopPropagation = event => event.stopPropagation();
 
   const defaultSuccessButtonProps = {
     color: "primary",
@@ -62,20 +71,25 @@ const ActionDialog = ({
       closeHandler={handleClose}
     />
   ) : (
-    <DialogTitle>{dialogTitle}</DialogTitle>
+    <DialogTitle className={css.dialogTitle}>{dialogTitle}</DialogTitle>
   );
 
   const submitButton = (
     <div className={css.submitButtonWrapper}>
-      <Button {...{ ...successButtonProps, onClick: handleSuccess }} disabled={pending}>
-        {confirmButtonLabel}
+      <Button
+        {...{ ...successButtonProps, onClick: handleSuccess }}
+        disabled={pending || !enabledSuccessButton}
+      >
+        <CheckIcon />
+        <span>{confirmButtonLabel}</span>
       </Button>
       {pending && <CircularProgress size={24} className={css.buttonProgress} />}
     </div>
   );
 
   return (
-    <div>
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events
+    <div onClick={stopPropagation}>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -95,8 +109,13 @@ const ActionDialog = ({
         <DialogActions>
           {submitButton}
           {cancelHandler ? (
-            <Button onClick={cancelHandler} color="primary">
-              {i18n.t("cancel")}
+            <Button
+              onClick={cancelHandler}
+              color="primary"
+              className={css.actionButtonCancel}
+            >
+              <CloseIcon />
+              <span>{i18n.t("cancel")}</span>
             </Button>
           ) : null}
         </DialogActions>
@@ -106,6 +125,10 @@ const ActionDialog = ({
 };
 
 ActionDialog.displayName = "ActionDialog";
+
+ActionDialog.defaultProps = {
+  enabledSuccessButton: true
+};
 
 ActionDialog.propTypes = {
   cancelHandler: PropTypes.func,
@@ -118,6 +141,7 @@ ActionDialog.propTypes = {
   dialogSubtitle: PropTypes.string,
   dialogText: PropTypes.string,
   dialogTitle: PropTypes.string,
+  enabledSuccessButton: PropTypes.bool,
   maxSize: PropTypes.string,
   omitCloseAfterSuccess: PropTypes.bool,
   onClose: PropTypes.func,

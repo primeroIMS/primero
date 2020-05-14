@@ -1,4 +1,11 @@
-export const REQUEST_APPROVAL_DIALOG = "requestApproval";
 export const APPROVAL_DIALOG = "approve";
 export const APPROVAL_TYPE = "approval";
+export const ASSIGN_DIALOG = "assign";
+export const EXPORT_DIALOG = "export";
+export const ENABLED_FOR_ONE = ["one"];
+export const ENABLED_FOR_ONE_MANY = ["one", "many"];
+export const ENABLED_FOR_ONE_MANY_ALL = ["one", "many", "all"];
+export const REFER_DIALOG = "referral";
+export const REQUEST_APPROVAL_DIALOG = "requestApproval";
 export const REQUEST_TYPE = "request";
+export const TRANSFER_DIALOG = "transfer";

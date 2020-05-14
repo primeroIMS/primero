@@ -1,9 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { batch, useSelector, useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 
-import { ActionDialog } from "../../action-dialog";
+import ActionDialog from "../../action-dialog";
 import { useI18n } from "../../i18n";
 import {
   getRecordFormsByUniqueId,
@@ -11,10 +11,12 @@ import {
 } from "../../record-form";
 import { MODULES, RECORD_TYPES, ID_FIELD } from "../../../config";
 import { saveRecord, selectRecordsByIndexes } from "../../records";
-import { compactValues } from "../../record-form/helpers";
-import submitForm from "../../../submit-form";
-import resetForm from "../../../reset-form";
+import { compactValues } from "../../record-form/utils";
+import submitForm from "../../../libs/submit-form";
+import resetForm from "../../../libs/reset-form";
 import { ACTIONS } from "../../../libs/permissions";
+import { fetchRecordsAlerts } from "../../records/action-creators";
+import { fetchAlerts } from "../../nav/action-creators";
 
 import { NAME, INCIDENT_SUBFORM } from "./constants";
 import Fields from "./fields";
@@ -94,19 +96,24 @@ const Component = ({
         record_action: ACTIONS.INCIDENT_DETAILS_FROM_CASE
       };
 
-      selectedIds.map(id =>
-        dispatch(
-          saveRecord(
-            recordType,
-            "update",
-            body,
-            id,
-            i18n.t(`incident.messages.creation_success`),
-            false,
-            false
-          )
-        )
-      );
+      selectedIds.forEach(id => {
+        batch(async () => {
+          await dispatch(
+            saveRecord(
+              recordType,
+              "update",
+              body,
+              id,
+              i18n.t(`incident.messages.creation_success`),
+              false,
+              false,
+              false
+            )
+          );
+          dispatch(fetchRecordsAlerts(recordType, id));
+        });
+      });
+      dispatch(fetchAlerts());
       setSubmitting(false);
     }
   };

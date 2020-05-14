@@ -1,11 +1,11 @@
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 
-import * as Actions from "./actions";
+import { RECORD, SAVE_RECORD, FETCH_RECORD_ALERTS } from "./actions";
 
 export const fetchRecord = (recordType, id) => async dispatch => {
   dispatch({
-    type: `${recordType}/${Actions.RECORD}`,
+    type: `${recordType}/${RECORD}`,
     api: {
       path: `${recordType}/${id}`,
       db: {
@@ -24,13 +24,17 @@ export const saveRecord = (
   id,
   message,
   messageForQueue,
-  redirect
+  redirect,
+  queueAttachments = true
 ) => async dispatch => {
   await dispatch({
-    type: `${recordType}/${Actions.SAVE_RECORD}`,
+    type: `${recordType}/${SAVE_RECORD}`,
     api: {
+      id,
+      recordType,
       path: saveMethod === "update" ? `${recordType}/${id}` : `${recordType}`,
       method: saveMethod === "update" ? "PATCH" : "POST",
+      queueOffline: true,
       body,
       successCallback: {
         action: ENQUEUE_SNACKBAR,
@@ -48,7 +52,15 @@ export const saveRecord = (
       db: {
         collection: DB_COLLECTIONS_NAMES.RECORDS,
         recordType
-      }
+      },
+      queueAttachments
     }
   });
 };
+
+export const fetchRecordsAlerts = (recordType, recordId) => ({
+  type: `${recordType}/${FETCH_RECORD_ALERTS}`,
+  api: {
+    path: `${recordType}/${recordId}/alerts`
+  }
+});

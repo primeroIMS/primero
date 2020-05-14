@@ -1,11 +1,9 @@
-import chai, { expect } from "chai";
-import sinon from "sinon";
-import sinonChai from "sinon-chai";
 import configureStore from "redux-mock-store";
+import thunk from "redux-thunk";
+
+import { RECORD_PATH } from "../../config/constants";
 
 import * as actionCreators from "./action-creators";
-
-chai.use(sinonChai);
 
 describe("records - Action Creators", () => {
   it("should have known action creators", () => {
@@ -25,24 +23,29 @@ describe("records - Action Creators", () => {
     );
     expect(creators).to.have.property("fetchRecord");
     expect(creators).to.have.property("saveRecord");
+    expect(creators).to.have.property("fetchRecordsAlerts");
     delete creators.setFilters;
     delete creators.fetchCases;
     delete creators.fetchIncidents;
     delete creators.fetchTracingRequests;
     delete creators.fetchRecord;
+    delete creators.fetchRecordsAlerts;
     delete creators.saveRecord;
 
-    expect(creators).to.deep.equal({});
+    expect(creators).to.be.empty;
   });
 
   it("should check the 'fetchRecord' action creator to return the correct object", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const store = configureStore([thunk])({});
 
-    actionCreators.fetchRecord("cases", "123")(dispatch);
+    return store
+      .dispatch(actionCreators.fetchRecord("cases", "123"))
+      .then(() => {
+        const actions = store.getActions();
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql("cases/RECORD");
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql("cases/123");
+        expect(actions[0].type).to.eql("cases/RECORD");
+        expect(actions[0].api.path).to.eql("cases/123");
+      });
   });
 
   describe("should check the 'saveRecord' action creator", () => {
@@ -60,31 +63,51 @@ describe("records - Action Creators", () => {
     };
 
     it("when path it's 'update' should return the correct object", () => {
-      const store = configureStore()({});
-      const dispatch = sinon.spy(store, "dispatch");
+      const store = configureStore([thunk])({});
 
-      actionCreators.saveRecord("cases", "update", body, "123", () => {})(
-        dispatch
-      );
+      return store
+        .dispatch(
+          actionCreators.saveRecord("cases", "update", body, "123", () => {})
+        )
+        .then(() => {
+          const actions = store.getActions();
 
-      expect(dispatch.getCall(0).returnValue.type).to.eql("cases/SAVE_RECORD");
-      expect(dispatch.getCall(0).returnValue.api.path).to.eql("cases/123");
-      expect(dispatch.getCall(0).returnValue.api.method).to.eql("PATCH");
-      expect(dispatch.getCall(0).returnValue.api.body).to.eql(body);
+          expect(actions[0].type).to.eql("cases/SAVE_RECORD");
+          expect(actions[0].api.path).to.eql("cases/123");
+          expect(actions[0].api.method).to.eql("PATCH");
+          expect(actions[0].api.body).to.eql(body);
+        });
     });
 
     it("when path it's not 'update', the path and method should be different", () => {
-      const store = configureStore()({});
-      const dispatch = sinon.spy(store, "dispatch");
+      const store = configureStore([thunk])({});
 
-      actionCreators.saveRecord("cases", "edit", body, "123", () => {})(
-        dispatch
-      );
+      return store
+        .dispatch(
+          actionCreators.saveRecord("cases", "update", body, "123", () => {})
+        )
+        .then(() => {
+          const actions = store.getActions();
 
-      expect(dispatch.getCall(0).returnValue.type).to.eql("cases/SAVE_RECORD");
-      expect(dispatch.getCall(0).returnValue.api.path).to.eql("cases");
-      expect(dispatch.getCall(0).returnValue.api.method).to.eql("POST");
-      expect(dispatch.getCall(0).returnValue.api.body).to.eql(body);
+          expect(actions[0].type).to.eql("cases/SAVE_RECORD");
+          expect(actions[0].api.path).to.eql("cases/123");
+          expect(actions[0].api.method).to.eql("PATCH");
+          expect(actions[0].api.body).to.eql(body);
+        });
     });
+  });
+
+  it("should check the 'fetchRecordsAlerts' action creator to return the correct object", () => {
+    const recordId = "123abc";
+    const expected = {
+      api: {
+        path: `${RECORD_PATH.cases}/${recordId}/alerts`
+      },
+      type: `${RECORD_PATH.cases}/FETCH_RECORD_ALERTS`
+    };
+
+    expect(
+      actionCreators.fetchRecordsAlerts(RECORD_PATH.cases, recordId)
+    ).be.deep.equals(expected);
   });
 });

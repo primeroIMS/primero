@@ -4,33 +4,50 @@ import { openDB } from "idb";
 
 import { DATABASE_NAME } from "../config/constants";
 
-import { DB_COLLECTIONS_NAMES, DB_COLLECTIONS } from "./constants";
+import {
+  DB_COLLECTIONS_NAMES,
+  DB_COLLECTIONS_V1,
+  DB_COLLECTIONS_V2
+} from "./constants";
 
 class DB {
   constructor() {
     if (!DB.instance) {
+      const self = this;
+
       this._db = openDB(DATABASE_NAME, 2, {
-        upgrade(db) {
-          DB_COLLECTIONS.forEach(collection => {
-            if (Array.isArray(collection)) {
-              const [name, options, index] = collection;
-
-              const store = db.createObjectStore(name, options);
-
-              if (index) store.createIndex(...index);
-            } else {
-              db.createObjectStore(collection, {
-                keyPath: "id",
-                autoIncrement: true
-              });
-            }
-          });
+        upgrade(db, oldVersion) {
+          if (oldVersion < 1) {
+            DB_COLLECTIONS_V1.forEach(collection =>
+              self.createCollections(collection, db)
+            );
+          }
+          if (oldVersion < 2) {
+            DB_COLLECTIONS_V2.forEach(collection =>
+              self.createCollections(collection, db)
+            );
+          }
         }
       });
       DB.instance = this;
     }
 
     return DB.instance;
+  }
+
+  createCollections(collection, db) {
+    if (Array.isArray(collection)) {
+      const [name, options, index] = collection;
+
+      const store = db.createObjectStore(name, options);
+
+      if (index) store.createIndex(...index);
+    } else {
+      db.createObjectStore(collection, {
+        keyPath: "id",
+        autoIncrement: true
+      });
+    }
   }
 
   async clearDB() {

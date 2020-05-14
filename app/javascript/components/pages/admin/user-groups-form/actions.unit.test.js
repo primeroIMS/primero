@@ -1,5 +1,3 @@
-import { expect } from "../../../../test/unit-test-helpers";
-
 import actions from "./actions";
 
 describe("<UserGroupsForm /> - Actions", () => {

@@ -1,2 +1,3 @@
-export { default as Transitions } from "./component";
-export * from "./reducer";
+export { default } from "./component";
+export { default as reducer } from "./reducer";
+export * from "./constants";

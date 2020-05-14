@@ -88,6 +88,7 @@ class Permission < ValueObject
   DASH_PROTECTION_CONCERNS_BY_LOCATION = 'dash_protection_concerns_by_location'
   DASH_SHARED_WITH_ME = 'dash_shared_with_me'
   DASH_GROUP_OVERVIEW = 'dash_group_overview'
+  DASH_SHARED_FROM_MY_TEAM = 'dash_shared_from_my_team'
   DASH_SHARED_WITH_MY_TEAM = 'dash_shared_with_my_team'
   SEARCH_OWNED_BY_OTHERS = 'search_owned_by_others'
   DISPLAY_VIEW_PAGE = 'display_view_page'
@@ -146,11 +147,12 @@ class Permission < ValueObject
       DASH_CASE_OVERVIEW, DASH_CASE_RISK, DASH_APPROVALS_ASSESSMENT, DASH_APPROVALS_ASSESSMENT_PENDING,
       DASH_APPROVALS_CASE_PLAN, DASH_APPROVALS_CASE_PLAN_PENDING, DASH_APPROVALS_CLOSURE,
       DASH_APPROVALS_CLOSURE_PENDING, VIEW_RESPONSE, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS,
-      DASH_MATCHING_RESULTS, MANAGE, DASH_SERVICE_PROVISIONS, DASH_CASES_TO_ASSIGN, DASH_WORKFLOW,
+      DASH_MATCHING_RESULTS, DASH_SERVICE_PROVISIONS, DASH_CASES_TO_ASSIGN, DASH_WORKFLOW,
       DASH_WORKFLOW_TEAM, DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT, DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
       DASH_CASES_BY_TASK_OVERDUE_SERVICES, DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS, DASH_CASES_BY_SOCIAL_WORKER,
       VIEW_PROTECTION_CONCERNS_FILTER, DASH_PROTECTION_CONCERNS_BY_LOCATION, DASH_SHOW_NONE_VALUES,
-      DASH_TASKS, DASH_SHARED_WITH_ME, DASH_SHARED_WITH_OTHERS, DASH_GROUP_OVERVIEW, DASH_SHARED_WITH_MY_TEAM
+      DASH_TASKS, DASH_SHARED_WITH_ME, DASH_SHARED_WITH_OTHERS, DASH_GROUP_OVERVIEW,
+      DASH_SHARED_WITH_MY_TEAM, DASH_SHARED_FROM_MY_TEAM
     ],
     AUDIT_LOG => [READ],
     MATCHING_CONFIGURATION => [MANAGE]
@@ -242,6 +244,7 @@ class Permission < ValueObject
       DASH_SHARED_WITH_ME,
       DASH_SHARED_WITH_OTHERS,
       DASH_GROUP_OVERVIEW,
+      DASH_SHARED_FROM_MY_TEAM,
       DASH_SHARED_WITH_MY_TEAM
     ]
   end
@@ -273,26 +276,6 @@ class Permission < ValueObject
 
   def self.all_available
     resources.map { |r| Permission.new(resource: r, actions: RESOURCE_ACTIONS[r]) }
-  end
-
-  def self.all_permissions_list
-    [
-      self.new(:resource => CASE, :actions => [MANAGE]),
-      self.new(:resource => INCIDENT, :actions => [MANAGE]),
-      self.new(:resource => TRACING_REQUEST, :actions => [MANAGE]),
-      self.new(:resource => POTENTIAL_MATCH, :actions => [READ]),
-      self.new(:resource => DUPLICATE, :actions => [READ]),
-      self.new(:resource => REPORT, :actions => [MANAGE]),
-      self.new(:resource => ROLE, :actions => [MANAGE]),
-      self.new(:resource => USER, :actions => [MANAGE]),
-      self.new(:resource => USER_GROUP, :actions => [MANAGE]),
-      self.new(:resource => AGENCY, :actions => [MANAGE]),
-      self.new(:resource => METADATA, :actions => [MANAGE]),
-      self.new(:resource => SYSTEM, :actions => [MANAGE]),
-      self.new(:resource => DASHBOARD, :actions => [MANAGE]),
-      self.new(:resource => AUDIT_LOG, :actions => [MANAGE]),
-      self.new(:resource => MATCHING_CONFIGURATION, :actions => [MANAGE])
-    ]
   end
 
   def is_record?

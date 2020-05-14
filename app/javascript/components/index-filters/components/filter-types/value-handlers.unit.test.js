@@ -1,4 +1,4 @@
-import { expect, spy, useFakeTimers } from "../../../../test";
+import { spy, useFakeTimers } from "../../../../test";
 
 import handleFilterChange, {
   valueParser,

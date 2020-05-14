@@ -1,52 +1,41 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, IconButton, Fab, CircularProgress } from "@material-ui/core";
+import { Box, Button, Fab, CircularProgress } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import CreateIcon from "@material-ui/icons/Create";
 import { useSelector } from "react-redux";
 
 import { useI18n } from "../../i18n";
-import { Flagging } from "../../flagging";
+import Flagging from "../../flagging";
 import RecordActions from "../../record-actions";
 import Permission from "../../application/permission";
 import { FLAG_RECORDS, WRITE_RECORDS } from "../../../libs/permissions";
 import { getSavingRecord } from "../../records/selectors";
 import { RECORD_PATH } from "../../../config";
+import DisableOffline from "../../disable-offline";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
+import PageHeading from "./page-heading";
 import styles from "./styles.css";
 
 const RecordFormToolbar = ({
+  handleFormSubmit,
+  caseIdDisplay,
+  history,
   mode,
   params,
-  recordType,
-  handleFormSubmit,
-  shortId,
-  history,
   primeroModule,
-  record
+  record,
+  recordType,
+  shortId
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const savingRecord = useSelector(state =>
     getSavingRecord(state, params.recordType)
   );
-
-  const PageHeading = () => {
-    let heading = "";
-
-    if (mode.isNew) {
-      heading = i18n.t(`${params.recordType}.register_new_${recordType}`);
-    } else if (mode.isEdit || mode.isShow) {
-      heading = i18n.t(`${params.recordType}.show_${recordType}`, {
-        short_id: shortId || "-------"
-      });
-    }
-
-    return <h2 className={css.toolbarHeading}>{heading}</h2>;
-  };
 
   const goBack = () => {
     history.goBack();
@@ -101,13 +90,23 @@ const RecordFormToolbar = ({
       alignItems="center"
     >
       <Box flexGrow={1} display="flex" flexDirection="column">
-        <PageHeading />
+        <PageHeading
+          caseIdDisplay={caseIdDisplay}
+          i18n={i18n}
+          mode={mode}
+          params={params}
+          recordType={recordType}
+          shortId={shortId}
+          toolbarHeading={css.toolbarHeading}
+        />
         {renderRecordStatusIndicator}
       </Box>
-      <Box>
+      <Box display="flex">
         {mode.isShow && params && (
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
-            <Flagging recordType={params.recordType} record={params.id} />
+            <DisableOffline button>
+              <Flagging recordType={params.recordType} record={params.id} />
+            </DisableOffline>
           </Permission>
         )}
         {(mode.isEdit || mode.isNew) && (
@@ -125,12 +124,14 @@ const RecordFormToolbar = ({
         )}
         {mode.isShow && (
           <Permission resources={params.recordType} actions={WRITE_RECORDS}>
-            <IconButton
+            <Button
               to={`/${params.recordType}/${params.id}/edit`}
               component={Link}
+              startIcon={<CreateIcon />}
+              size="small"
             >
-              <CreateIcon />
-            </IconButton>
+              {i18n.t("buttons.edit")}
+            </Button>
           </Permission>
         )}
         <RecordActions
@@ -146,6 +147,7 @@ const RecordFormToolbar = ({
 RecordFormToolbar.displayName = RECORD_FORM_TOOLBAR_NAME;
 
 RecordFormToolbar.propTypes = {
+  caseIdDisplay: PropTypes.string,
   handleFormSubmit: PropTypes.func.isRequired,
   history: PropTypes.object,
   mode: PropTypes.object,

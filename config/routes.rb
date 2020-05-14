@@ -8,21 +8,23 @@ Rails.application.routes.draw do
     get '*all', to: 'home#v2'
   end
 
-  devise_for :users,
-             class_name: 'User',
-             path: '/api/v2/tokens',
-             controllers: { sessions: 'api/v2/tokens' }, only: :sessions,
-             path_names: { sign_in: '', sign_out: '' },
-             sign_out_via: :delete,
-             defaults: { format: :json }, constraints: { format: :json }
+  devise_for(
+    :users,
+    class_name: 'User',
+    path: '/api/v2/tokens',
+    controllers: { sessions: 'api/v2/tokens' }, only: :sessions,
+    path_names: { sign_in: '', sign_out: '' },
+    sign_out_via: :delete,
+    defaults: { format: :json }, constraints: { format: :json }
+  )
 
   resources :login, only: [:index]
+  resources :health, only: [:index]
 
   namespace :api do
     namespace :v2, defaults: { format: :json },
                    constraints: { format: :json },
                    only: %i[index create show update destroy] do
-
       resources :children, as: :cases, path: :cases do
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
@@ -32,13 +34,14 @@ Rails.application.routes.draw do
         resources :transfer_requests, only: %i[index create update]
         resources :transitions, only: [:index]
         resources :attachments, only: %i[create destroy]
+        resources :approvals, only: [:update]
+        get :record_history, to: 'record_histories#index'
         collection do
           post :flags, to: 'flags#create_bulk'
           post :assigns, to: 'assigns#create_bulk'
           post :referrals, to: 'referrals#create_bulk'
           post :transfers, to: 'transfers#create_bulk'
         end
-        resources :approvals, only: [:update]
       end
 
       resources :incidents do
@@ -47,6 +50,7 @@ Rails.application.routes.draw do
         resources :approvals, only: [:update]
         resources :attachments, only: %i[create destroy]
         post :flags, to: 'flags#create_bulk', on: :collection
+        get :record_history, to: 'record_histories#index'
       end
 
       resources :tracing_requests do
@@ -55,6 +59,7 @@ Rails.application.routes.draw do
         resources :approvals, only: [:update]
         resources :attachments, only: %i[create destroy]
         post :flags, to: 'flags#create_bulk', on: :collection
+        get :record_history, to: 'record_histories#index'
       end
 
       resources :form_sections, as: :forms, path: :forms
@@ -67,7 +72,7 @@ Rails.application.routes.draw do
       end
       resources :identity_providers, only: [:index]
       resources :dashboards, only: [:index]
-      resources :contact_information, only: [:index]
+      resource :contact_information, only: %i[show update], controller: 'contact_information'
       resources :system_settings, only: [:index]
       resources :tasks, only: [:index]
       resources :saved_searches, only: %i[index create destroy]
@@ -81,6 +86,7 @@ Rails.application.routes.draw do
       resources :permissions, only: [:index]
       resources :user_groups
       resources :primero_modules, only: %i[index show update]
+      resources :audit_logs, only: [:index]
     end
   end
 end

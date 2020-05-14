@@ -29,9 +29,15 @@ export const valuesToSearchableSelect = (
         obj.label = typeof val === "object" ? val[locale] : val;
       }
 
+      if (key === "isDisabled") {
+        obj.isDisabled = val;
+      }
+
       return obj;
     }, {});
   });
 
   return result;
 };
+
+export const compare = (prev, next) => prev.equals(next);

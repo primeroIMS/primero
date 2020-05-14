@@ -5,14 +5,6 @@ GIT
   specs:
     arabic-letter-connector (0.1.1)
 
-GIT
-  remote: https://github.com/justinweiss/request_profiler.git
-  revision: c1621e9aa4088940925254747a9eb6bc622d2417
-  specs:
-    request_profiler (0.0.4)
-      rack
-      ruby-prof
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -63,6 +55,15 @@ GEM
       public_suffix (>= 2.0.2, < 4.0)
     arel (9.0.0)
     ast (2.4.0)
+    azure-core (0.1.15)
+      faraday (~> 0.9)
+      faraday_middleware (~> 0.10)
+      nokogiri (~> 1.6)
+    azure-storage (0.15.0.preview)
+      azure-core (~> 0.1)
+      faraday (~> 0.9)
+      faraday_middleware (~> 0.10)
+      nokogiri (~> 1.6, >= 1.6.8)
     backburner (1.5.0)
       beaneater (~> 1.0)
       concurrent-ruby (~> 1.0, >= 1.0.1)
@@ -116,6 +117,8 @@ GEM
       activesupport (>= 4.2.0)
     faraday (0.17.3)
       multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.14.0)
+      faraday (>= 0.7.4, < 1.0)
     ffi (1.11.1)
     file_validators (2.3.0)
       activemodel (>= 3.2)
@@ -363,6 +366,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-nulldb-adapter
   arabic-letter-connector!
+  azure-storage (= 0.15.0.preview)
   backburner (~> 1.5)
   binding_of_caller (~> 0.8)
   bundler-audit (~> 0.6)
@@ -400,7 +404,6 @@ DEPENDENCIES
   rails-controller-testing (~> 1.0)
   rake (~> 12.3)
   rbnacl (>= 7.1.1)
-  request_profiler (~> 0.0)!
   rspec (~> 3.8)
   rspec-activemodel-mocks (~> 1.1)
   rspec-collection_matchers (~> 1.1)
@@ -424,7 +427,7 @@ DEPENDENCIES
   writeexcel (~> 1.0)
 
 RUBY VERSION
-   ruby 2.6.5p114
+   ruby 2.6.6p146
 
 BUNDLED WITH
    1.17.3

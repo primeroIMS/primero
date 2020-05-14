@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import NavigationPrompt from "react-router-navigation-prompt";
 import { useFormContext } from "react-hook-form";
 
-import { ActionDialog } from "../../action-dialog";
+import ActionDialog from "../../action-dialog";
 import { useI18n } from "../../i18n";
 
 const CancelPrompt = ({ useCancelPrompt }) => {

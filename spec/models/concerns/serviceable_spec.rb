@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Serviceable do
   before do
-    @date_time = DateTime.parse("2017/11/01 12:54:55 -0400")
+    @date_time = DateTime.parse('2017/11/01 12:54:55 -0400')
     DateTime.stub(:now).and_return(@date_time)
     @sys_settings = SystemSettings.new
     @case1 = Child.new
@@ -11,7 +13,7 @@ describe Serviceable do
   describe 'service_due_date' do
     before do
       @service_appointment_date = (@date_time + 7.days).to_date
-      @service = {'service_response_day_time' => @date_time, 'service_appointment_date' => @service_appointment_date}
+      @service = { 'service_response_day_time' => @date_time, 'service_appointment_date' => @service_appointment_date }
     end
     context 'when system is configured for due_date_from_appointment_date' do
       before do
@@ -20,7 +22,9 @@ describe Serviceable do
       end
 
       it 'returns the appointment_date' do
-        expect(@case1.service_due_date(@service)).to eq(@service_appointment_date.end_of_day.strftime("%Y-%m-%d %H:%M:%S %z"))
+        expect(@case1.service_due_date(@service)).to eq(
+          @service_appointment_date.end_of_day.strftime('%Y-%m-%d %H:%M:%S %z')
+        )
       end
     end
 

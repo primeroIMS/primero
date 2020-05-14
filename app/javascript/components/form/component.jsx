@@ -4,16 +4,15 @@
 import React, { useImperativeHandle, forwardRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, FormContext } from "react-hook-form";
-import isEmpty from "lodash/isEmpty";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 
 import { useI18n } from "../i18n";
-import { enqueueSnackbar } from "../notifier";
 
 import CancelPrompt from "./components/cancel-prompt";
 import FormSection from "./components/form-section";
-import { whichFormMode, touchedFormData } from "./utils";
+import { whichFormMode } from "./utils/which-mode";
+import { submitHandler } from "./utils/form-submission";
 
 const Component = ({
   formSections,
@@ -34,28 +33,20 @@ const Component = ({
 
   const formMode = whichFormMode(mode);
 
-  const touchedFields = formMethods?.formState?.touched;
-
-  useImperativeHandle(formRef, () => ({
-    submitForm(e) {
-      formMethods.handleSubmit(data => {
-        const changedFormData = touchedFormData(
-          touchedFields,
-          data,
-          formMode.get("isEdit"),
-          initialValues
-        );
-
-        if (!isEmpty(changedFormData)) {
-          onSubmit(changedFormData);
-        } else {
-          dispatch(enqueueSnackbar(i18n.t("messages.no_changes"), "error"));
-        }
-      })(e);
-    }
-  }));
+  useImperativeHandle(
+    formRef,
+    submitHandler({
+      dispatch,
+      formMethods,
+      formMode,
+      i18n,
+      initialValues,
+      onSubmit
+    })
+  );
 
   useEffect(() => {
+    // eslint-disable-next-line no-unused-expressions
     formErrors?.forEach(error => {
       formMethods.setError(
         error.get("detail"),

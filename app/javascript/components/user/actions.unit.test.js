@@ -1,6 +1,4 @@
-import { expect } from "chai";
-
-import { Actions } from "./actions";
+import Actions from "./actions";
 
 describe("User - Actions", () => {
   it("should have known actions", () => {

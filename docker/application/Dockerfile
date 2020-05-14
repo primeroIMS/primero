@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------- BUILD STAGE
-FROM ruby:2.6.5-alpine3.11 AS build-env
+FROM ruby:2.6.6-alpine3.11 AS build-env
 
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git python
 ENV BUILD_DEP_PACKAGES postgresql-dev
@@ -63,6 +63,7 @@ RUN set -euox pipefail \
 COPY [ ".", "$APP_ROOT" ]
 
 RUN set -euox pipefail \
+        ; mkdir -p "$APP_ROOT/tmp/export" "$RAILS_LOG_PATH" \
         ; mkdir -p "$APP_ROOT/tmp/exports" "$RAILS_LOG_PATH" \
         ; rake primero:i18n_js
 
@@ -85,7 +86,7 @@ RUN set -euox pipefail \
 
 # -------------------------------------------------------------------- FINAL
 
-FROM ruby:2.6.5-alpine3.11
+FROM ruby:2.6.6-alpine3.11
 
 ENV BUILD_PACKAGES bash
 ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip

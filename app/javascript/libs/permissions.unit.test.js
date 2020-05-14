@@ -1,7 +1,5 @@
 import { List } from "immutable";
 
-import { expect } from "../test";
-
 import * as PERMISSIONS from "./permissions";
 
 describe("Verifying config constant", () => {
@@ -10,6 +8,9 @@ describe("Verifying config constant", () => {
 
     [
       "ADD_NOTE",
+      "APPROVE_BIA",
+      "APPROVE_CASE_PLAN",
+      "APPROVE_CLOSURE",
       "ASSIGN",
       "ASSIGN_WITHIN_AGENCY_PERMISSIONS",
       "ASSIGN_WITHIN_USER_GROUP",
@@ -21,20 +22,23 @@ describe("Verifying config constant", () => {
       "DASH_APPROVALS_CASE_PLAN_PENDING",
       "DASH_APPROVALS_CLOSURE",
       "DASH_APPROVALS_CLOSURE_PENDING",
+      "DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT",
+      "DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN",
+      "DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS",
+      "DASH_CASES_BY_TASK_OVERDUE_SERVICES",
       "DASH_CASE_OVERVIEW",
       "DASH_CASE_RISK",
+      "DASH_GROUP_OVERVIEW",
       "DASH_PROTECTION_CONCERNS",
       "DASH_REPORTING_LOCATION",
+      "DASH_SHARED_FROM_MY_TEAM",
+      "DASH_SHARED_WITH_ME",
+      "DASH_SHARED_WITH_MY_TEAM",
+      "DASH_SHARED_WITH_OTHERS",
       "DASH_TASKS",
       "DASH_WORKFLOW",
       "DASH_WORKFLOW_TEAM",
-      "DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT",
-      "DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN",
-      "DASH_CASES_BY_TASK_OVERDUE_SERVICES",
-      "DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS",
-      "DASH_SHARED_WITH_ME",
-      "DASH_SHARED_WITH_OTHERS",
-      "DASH_GROUP_OVERVIEW",
+      "DELETE",
       "DISPLAY_VIEW_PAGE",
       "ENABLE_DISABLE_RECORD",
       "EXPORT_CASE_PDF",
@@ -54,7 +58,11 @@ describe("Verifying config constant", () => {
       "INCIDENT_DETAILS_FROM_CASE",
       "MANAGE",
       "READ",
+      "RECEIVE_REFERRAL",
+      "RECEIVE_TRANSFER",
       "REFERRAL",
+      "REFERRAL_FROM_SERVICE",
+      "REMOVE_ASSIGNED_USERS",
       "REOPEN",
       "REQUEST_APPROVAL_BIA",
       "REQUEST_APPROVAL_CASE_PLAN",
@@ -62,12 +70,7 @@ describe("Verifying config constant", () => {
       "SEARCH_OWNED_BY_OTHERS",
       "SERVICES_SECTION_FROM_CASE",
       "TRANSFER",
-      "WRITE",
-      "APPROVE_BIA",
-      "APPROVE_CASE_PLAN",
-      "APPROVE_CLOSURE",
-      "RECEIVE_TRANSFER",
-      "RECEIVE_REFERRAL"
+      "WRITE"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
       expect(permissions[property]).to.be.a("string");
@@ -98,15 +101,22 @@ describe("Verifying config constant", () => {
     const resources = { ...PERMISSIONS.RESOURCES };
 
     [
+      "agencies",
+      "audit_logs",
       "cases",
+      "contact_information",
       "dashboards",
       "incidents",
+      "lookups",
+      "metadata",
       "potential_matches",
       "reports",
+      "roles",
+      "forms",
+      "systems",
       "tracing_requests",
-      "users",
-      "agencies",
-      "user_groups"
+      "user_groups",
+      "users"
     ].forEach(property => {
       expect(resources).to.have.property(property);
       expect(resources[property]).to.be.a("string");
@@ -312,5 +322,16 @@ describe("Verifying config constant", () => {
       permissions.splice(permissions.indexOf(element), 1);
     });
     expect(permissions).to.be.empty;
+  });
+
+  it("should have GROUP_PERMISSIONS", () => {
+    const groupPermissions = { ...PERMISSIONS.GROUP_PERMISSIONS };
+
+    ["AGENCY", "ALL", "GROUP", "SELF"].forEach(property => {
+      expect(groupPermissions).to.have.property(property);
+      expect(groupPermissions[property]).to.be.a("string");
+      delete groupPermissions[property];
+    });
+    expect(groupPermissions).to.be.empty;
   });
 });

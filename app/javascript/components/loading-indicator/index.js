@@ -1,1 +1,1 @@
-export { default as LoadingIndicator } from "./component";
+export { default } from "./component";

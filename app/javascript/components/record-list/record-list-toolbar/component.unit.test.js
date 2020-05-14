@@ -1,5 +1,4 @@
 import React from "react";
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
@@ -18,7 +17,9 @@ describe("<RecordListToolbar />", () => {
     title: "This is a record list toolbar",
     recordType: RECORD_PATH.cases,
     handleDrawer: () => {},
-    mobileDisplay: false
+    mobileDisplay: false,
+    currentPage: 0,
+    selectedRecords: { 0: [0, 1] }
   };
   const initialState = fromJS({
     application: {
@@ -69,6 +70,24 @@ describe("<RecordListToolbar />", () => {
     expect(component.find(RecordActions)).to.have.lengthOf(1);
   });
 
+  it("renders valid props for RecordActions components", () => {
+    const recordActionsProps = { ...component.find(RecordActions).props() };
+
+    expect(component.find(RecordActions)).to.have.lengthOf(1);
+    [
+      "currentPage",
+      "selectedRecords",
+      "recordType",
+      "iconColor",
+      "mode",
+      "showListActions"
+    ].forEach(property => {
+      expect(recordActionsProps).to.have.property(property);
+      delete recordActionsProps[property];
+    });
+    expect(recordActionsProps).to.be.empty;
+  });
+
   describe("if doesn't have permission to create", () => {
     beforeEach(() => {
       ({ component } = setupMountedComponent(
@@ -88,5 +107,25 @@ describe("<RecordListToolbar />", () => {
       expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
       expect(component.find(AddRecordMenu)).to.have.lengthOf(0);
     });
+  });
+
+  it("should accept valid props", () => {
+    const recordListToolbarProps = {
+      ...component.find(RecordListToolbar).props()
+    };
+
+    expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
+    [
+      "currentPage",
+      "handleDrawer",
+      "mobileDisplay",
+      "recordType",
+      "selectedRecords",
+      "title"
+    ].forEach(property => {
+      expect(recordListToolbarProps).to.have.property(property);
+      delete recordListToolbarProps[property];
+    });
+    expect(recordListToolbarProps).to.be.empty;
   });
 });

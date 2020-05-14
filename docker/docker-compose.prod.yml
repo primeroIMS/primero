@@ -12,7 +12,7 @@ services:
       - certbot_var:/var/lib/letsencrypt
       - certbot_etc:/etc/letsencrypt
       - log:/var/log/nginx
-      - public:/srv/primero/application/public #TODO:readonly later
+      - public:/srv/primero/application/public
     env_file:
       - docker/defaults.env
       - docker/local.env

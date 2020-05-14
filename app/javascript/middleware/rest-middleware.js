@@ -4,8 +4,17 @@ import { attemptSignout } from "../components/user";
 import { FETCH_TIMEOUT } from "../config";
 import DB, { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
 import { signOut } from "../components/pages/login/idp-selection";
+import EventManager from "../libs/messenger";
+import { QUEUE_FAILED, QUEUE_SKIP } from "../libs/queue";
 
-import { handleSuccessCallback, isOnline } from "./utils";
+import {
+  handleRestCallback,
+  isOnline,
+  partitionObject,
+  processAttachments,
+  defaultErrorCallback,
+  startSignout
+} from "./utils";
 
 const defaultFetchOptions = {
   method: "GET",
@@ -36,13 +45,17 @@ function buildPath(path, options, params, external) {
   return `${endpoint}${params ? `?${queryParams.toString(params)}` : ""}`;
 }
 
+const deleteFromQueue = fromQueue => {
+  if (fromQueue) {
+    queueIndexedDB.delete(fromQueue);
+  }
+};
+
 async function handleSuccess(store, payload) {
   const { type, json, db, fromQueue } = payload;
   const payloadFromDB = await syncIndexedDB(db, json);
 
-  if (fromQueue) {
-    queueIndexedDB.delete(fromQueue);
-  }
+  deleteFromQueue(fromQueue);
 
   store.dispatch({
     type: `${type}_SUCCESS`,
@@ -52,6 +65,18 @@ async function handleSuccess(store, payload) {
 
 const getToken = () => {
   return sessionStorage.getItem("msal.idtoken");
+};
+
+const messageQueueFailed = fromQueue => {
+  if (fromQueue) {
+    EventManager.publish(QUEUE_FAILED);
+  }
+};
+
+const messageQueueSkip = fromQueue => {
+  if (fromQueue) {
+    EventManager.publish(QUEUE_SKIP);
+  }
 };
 
 function fetchPayload(action, store, options) {
@@ -64,6 +89,8 @@ function fetchPayload(action, store, options) {
   const {
     type,
     api: {
+      id,
+      recordType,
       path,
       body,
       params,
@@ -72,16 +99,25 @@ function fetchPayload(action, store, options) {
       successCallback,
       failureCallback,
       db,
-      external
+      external,
+      queueAttachments
     },
     fromQueue
   } = action;
+
+  const [attachments, formData] = queueAttachments
+    ? partitionObject(body?.data, (value, key) =>
+        store.getState().getIn(["forms", "attachmentFields"], []).includes(key)
+      )
+    : [false, false];
 
   const fetchOptions = {
     ...defaultFetchOptions,
     method,
     signal: controller.signal,
-    ...(body && { body: JSON.stringify(body) })
+    ...((formData || body) && {
+      body: JSON.stringify(formData ? { data: formData } : body)
+    })
   };
 
   const token = getToken();
@@ -108,14 +144,20 @@ function fetchPayload(action, store, options) {
       if (!response.ok) {
         fetchStatus({ store, type }, "FAILURE", json);
 
-        if (response.status === 401) {
-          const usingIdp = store
-            .getState()
-            .getIn(["idp", "use_identity_provider"]);
-
-          store.dispatch(attemptSignout(usingIdp, signOut));
+        if (response.status === 404) {
+          deleteFromQueue(fromQueue);
+          messageQueueSkip();
+        } else if (failureCallback) {
+          messageQueueFailed(fromQueue);
+          handleRestCallback(store, failureCallback, response, json);
+        } else {
+          messageQueueFailed(fromQueue);
+          defaultErrorCallback(store, response, json);
         }
-        handleSuccessCallback(store, failureCallback, response, json);
+
+        if (response.status === 401) {
+          startSignout(store, attemptSignout, signOut);
+        }
       } else {
         await handleSuccess(store, {
           type,
@@ -125,20 +167,31 @@ function fetchPayload(action, store, options) {
           db,
           fromQueue
         });
-        handleSuccessCallback(
-          store,
-          successCallback,
-          response,
-          json,
-          fromQueue
-        );
+
+        if (attachments) {
+          processAttachments({
+            attachments,
+            id: id || json?.data?.id,
+            recordType
+          });
+        }
+
+        handleRestCallback(store, successCallback, response, json, fromQueue);
       }
       fetchStatus({ store, type }, "FINISHED", false);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.warn(e);
+
+      messageQueueFailed(fromQueue);
+
       fetchStatus({ store, type }, "FAILURE", false);
-      handleSuccessCallback(store, failureCallback, {}, {});
+
+      if (failureCallback) {
+        handleRestCallback(store, failureCallback, {}, {});
+      } else {
+        defaultErrorCallback(store, {}, {});
+      }
     }
   };
 

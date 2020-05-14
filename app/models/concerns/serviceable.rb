@@ -17,8 +17,6 @@ module Serviceable
       time :service_due_dates, multiple: true
     end
 
-    before_save :update_implement_field
-
     def update_implement_field
       services = self.services_section || []
       services.each do |service|
@@ -106,6 +104,10 @@ module Serviceable
       service['service_implemented_day_time'].blank?
     end
 
+    def services_section_change?
+      hash_diff(data_change[1], data_change[0]).to_h['services_section'].present?
+    end
+
     private
 
     def convert_time(string)
@@ -115,5 +117,6 @@ module Serviceable
         times[0].to_i.send(times[1])
       end
     end
+
   end
 end

@@ -1,5 +1,3 @@
-import { expect } from "../../../test";
-
 import { EXPORT_URL } from "./constants";
 import actions from "./actions";
 import * as actionCreators from "./action-creators";

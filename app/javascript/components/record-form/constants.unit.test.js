@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as recordConstants from "./constants";
 
 describe("Verifying config constant", () => {
@@ -21,8 +19,8 @@ describe("Verifying config constant", () => {
       "TEXT_AREA",
       "TEXT_FIELD",
       "TICK_FIELD",
-      "URL_LOOKUPS",
-    ].forEach((property) => {
+      "URL_LOOKUPS"
+    ].forEach(property => {
       expect(constants).to.have.property(property);
       delete constants[property];
     });

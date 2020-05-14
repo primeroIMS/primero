@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as index from "./index";
 
 describe("User - index", () => {
@@ -15,7 +13,7 @@ describe("User - index", () => {
       "getPermissions",
       "getPermissionsByRecord",
       "hasUserPermissions",
-      "reducers",
+      "reducer",
       "refreshToken",
       "setAuthenticatedUser",
       "setUser",

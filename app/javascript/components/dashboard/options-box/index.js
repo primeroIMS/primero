@@ -1,1 +1,1 @@
-export { default as OptionsBox } from "./component";
+export { default } from "./component";

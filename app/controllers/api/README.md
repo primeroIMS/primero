@@ -116,7 +116,8 @@ The API behavior is similar to that of cases.
 
 Endpoints for querying contact information
 
-* [Query for contact informationg](v2/docs/contact_information/get.md) : `GET /api/v2/contact_information`
+* [Query for contact information](v2/docs/contact_information/get.md) : `GET /api/v2/contact_information`
+* [Update the current contact information](v2/docs/contact_information/patch.md) : `PATCH /api/v2/contact_information`
 
 
 ## System Setting Endpoints
@@ -231,3 +232,15 @@ Endpoints for querying and manipulating individual primero module and related re
 * [Query for primero modules](v2/docs/primero_modules/get.md) : `GET /api/v2/primero_modules`
 * [Fetch an individual primero module](v2/docs/primero_modules/id/get.md) : `GET /api/v2/primero_modules/:id`
 * [Update an existing primero module](v2/docs/primero_modules/id/patch.md) : `PATCH /api/v2/primero_modules/:id`
+
+## Record History Endpoints
+
+Endpoint for querying all record history from a specific record
+
+* [Query for all record history from a record](v2/docs/record_history/get.md) : `GET /api/v2/:record_type/:record_id/record_history`
+
+## Audit Log Endpoints
+
+Endpoints for querying and manipulating individual audit log and related resources in Primero.
+
+* [Query for audit logs](v2/docs/audit_logs/get.md) : `GET /api/v2/audit_logs`

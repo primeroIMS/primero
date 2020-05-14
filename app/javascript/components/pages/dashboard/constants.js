@@ -1,3 +1,5 @@
+export const NAME = "Dashboard";
+
 export const DASHBOARD_NAMES = Object.freeze({
   APPROVALS_ASSESSMENT_PENDING: "dashboard.approvals_assessment_pending",
   APPROVALS_ASSESSMENT: "dashboard.approvals_assessment",
@@ -15,7 +17,9 @@ export const DASHBOARD_NAMES = Object.freeze({
   GROUP_OVERVIEW: "dashboard.dash_group_overview",
   PROTECTION_CONCERNS: "dashboard.dash_protection_concerns",
   REPORTING_LOCATION: "dashboard.reporting_location",
+  SHARED_FROM_MY_TEAM: "dashboard.dash_shared_from_my_team",
   SHARED_WITH_ME: "dashboard.dash_shared_with_me",
+  SHARED_WITH_MY_TEAM: "dashboard.dash_shared_with_my_team",
   SHARED_WITH_OTHERS: "dashboard.dash_shared_with_others",
   WORKFLOW_TEAM: "dashboard.workflow_team",
   WORKFLOW: "dashboard.workflow"
@@ -36,20 +40,14 @@ export const INDICATOR_NAMES = Object.freeze({
   PROTECTION_CONCERNS_CLOSED_THIS_WEEK: "protection_concerns_closed_this_week"
 });
 
-export const WORKFLOW_ORDER_NAMES = Object.freeze([
-  "new",
-  "reopened",
-  "case_plan",
-  "care_plan",
-  "action_plan",
-  "service_provision",
-  "services_implemented",
-  "closed"
-]);
-
 export const PROTECTION_CONCERNS_ORDER_NAMES = Object.freeze([
   INDICATOR_NAMES.PROTECTION_CONCERNS_ALL_CASES,
   INDICATOR_NAMES.PROTECTION_CONCERNS_OPEN_CASES,
   INDICATOR_NAMES.PROTECTION_CONCERNS_NEW_THIS_WEEK,
   INDICATOR_NAMES.PROTECTION_CONCERNS_CLOSED_THIS_WEEK
 ]);
+
+export const DASHBOARD_TYPES = Object.freeze({
+  BADGED_INDICATOR: "badged_indicator",
+  OVERVIEW_BOX: "overview_box"
+});

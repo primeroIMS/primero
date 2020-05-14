@@ -38,7 +38,8 @@ cp_admin_permissions = [
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::ENABLE_DISABLE_RECORD,
       Permission::REOPEN,
-      Permission::CLOSE
+      Permission::CLOSE,
+      Permission::VIEW_PHOTO
     ]
   ),
   Permission.new(
@@ -175,7 +176,8 @@ cp_caseworker_permissions = [
       Permission::REMOVE_ASSIGNED_USERS,
       Permission::ENABLE_DISABLE_RECORD,
       Permission::DISPLAY_VIEW_PAGE,
-      Permission::INCIDENT_DETAILS_FROM_CASE
+      Permission::INCIDENT_DETAILS_FROM_CASE,
+      Permission::VIEW_PHOTO
     ]
   ),
   Permission.new(
@@ -257,7 +259,8 @@ cp_manager_permissions = [
       Permission::REOPEN,
       Permission::CLOSE,
       Permission::DISPLAY_VIEW_PAGE,
-      Permission::RECEIVE_TRANSFER
+      Permission::RECEIVE_TRANSFER,
+      Permission::VIEW_PHOTO
     ]
   ),
   Permission.new(
@@ -328,6 +331,7 @@ cp_manager_permissions = [
         Permission::DASH_SHARED_WITH_ME,
         Permission::DASH_SHARED_WITH_OTHERS,
         Permission::DASH_GROUP_OVERVIEW,
+        Permission::DASH_SHARED_FROM_MY_TEAM,
         Permission::DASH_SHARED_WITH_MY_TEAM
       ]
   )
@@ -360,7 +364,8 @@ cp_user_manager_permissions = [
             Permission::EXPORT_UNHCR,
             Permission::SYNC_MOBILE,
             Permission::APPROVE_CASE_PLAN,
-            Permission::VIEW_PROTECTION_CONCERNS_FILTER
+            Permission::VIEW_PROTECTION_CONCERNS_FILTER,
+            Permission::VIEW_PHOTO
         ]
     ),
     Permission.new(
@@ -570,6 +575,7 @@ gbv_manager_permissions = [
       Permission::DASH_APPROVALS_CLOSURE_PENDING,
       Permission::DASH_REPORTING_LOCATION,
       Permission::DASH_GROUP_OVERVIEW,
+      Permission::DASH_SHARED_FROM_MY_TEAM,
       Permission::DASH_SHARED_WITH_MY_TEAM
     ]
   ),
@@ -854,6 +860,7 @@ gbv_cm_supervisor_permissions = [
       resource: Permission::DASHBOARD,
       actions: [
         Permission::DASH_GROUP_OVERVIEW,
+        Permission::DASH_SHARED_FROM_MY_TEAM,
         Permission::DASH_SHARED_WITH_MY_TEAM
       ]
     )
@@ -988,6 +995,7 @@ gbv_organization_focal_point_permissions = [
       resource: Permission::DASHBOARD,
       actions: [
         Permission::DASH_GROUP_OVERVIEW,
+        Permission::DASH_SHARED_FROM_MY_TEAM,
         Permission::DASH_SHARED_WITH_MY_TEAM
       ]
     )
@@ -1411,13 +1419,8 @@ superuser_permissions = [
   Permission.new(
     resource: Permission::DASHBOARD,
     actions: [
-      # Permission::VIEW_APPROVALS,
-      # Permission::VIEW_RESPONSE,
-      # Permission::DASH_CASE_RISK,
-      # Permission::VIEW_PROTECTION_CONCERNS_FILTER,
-      # Permission::DASH_PROTECTION_CONCERNS,
-      # Permission::DASH_TASKS,
-      Permission::DASH_SHARED_WITH_ME
+      Permission::DASH_REPORTING_LOCATION,
+      Permission::DASH_PROTECTION_CONCERNS
     ]
   )
 ]

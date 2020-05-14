@@ -1,10 +1,10 @@
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
-import { expect, spy, stub } from "../../test";
+import { spy, stub } from "../../test";
 import * as idpSelection from "../pages/login/idp-selection";
 
-import { Actions } from "./actions";
+import Actions from "./actions";
 import * as actionCreators from "./action-creators";
 
 describe("User - Action Creators", () => {
@@ -31,6 +31,12 @@ describe("User - Action Creators", () => {
       }
     },
     {
+      type: "application/FETCH_SYSTEM_PERMISSIONS",
+      api: {
+        path: "permissions"
+      }
+    },
+    {
       type: "forms/RECORD_FORMS",
       api: {
         path: "forms",
@@ -42,8 +48,7 @@ describe("User - Action Creators", () => {
       type: "forms/SET_OPTIONS",
       api: {
         path: "lookups",
-        params: { page: 1, per: 999 },
-        db: { collection: "options" }
+        params: { page: 1, per: 999 }
       }
     },
     {
@@ -52,7 +57,7 @@ describe("User - Action Creators", () => {
         path: "nullundefined",
         external: true,
         db: {
-          alwaysCache: true,
+          alwaysCache: false,
           collection: "locations",
           manifest: undefined
         }
@@ -92,7 +97,7 @@ describe("User - Action Creators", () => {
       .then(() => {
         const actions = store.getActions();
 
-        expect(actions).to.have.lengthOf(6);
+        expect(actions).to.have.lengthOf(7);
         expect(actions).to.be.deep.equal(expectedAsyncActions);
       });
   });
@@ -175,7 +180,7 @@ describe("User - Action Creators", () => {
     return store.dispatch(actionCreators.checkUserAuthentication()).then(() => {
       const actions = store.getActions();
 
-      expect(actions).to.have.lengthOf(6);
+      expect(actions).to.have.lengthOf(7);
       expect(actions).to.be.deep.equal(expectedAsyncActions);
     });
   });

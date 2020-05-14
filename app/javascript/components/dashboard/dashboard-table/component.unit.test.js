@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import MUIDataTable from "mui-datatables";
 
 import { setupMountedComponent } from "../../../test";
@@ -24,7 +23,7 @@ describe("<DashboardTable />", () => {
   it("renders a MUIDataTable with valid Props", () => {
     const muiDataTableProps = { ...component.find(MUIDataTable).props() };
 
-    ["columns", "options", "data", "title"].forEach(property => {
+    ["columns", "options", "data"].forEach(property => {
       expect(muiDataTableProps).to.have.property(property);
       delete muiDataTableProps[property];
     });

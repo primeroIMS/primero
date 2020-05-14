@@ -1,10 +1,10 @@
 import uuid from "uuid/v4";
 
 import { syncIndexedDB, queueIndexedDB, METHODS } from "../db";
-import { QUEUEABLE_ACTIONS, DB_STORES } from "../db/constants";
+import { DB_STORES } from "../db/constants";
 
 import {
-  handleSuccessCallback,
+  handleRestCallback,
   generateRecordProperties,
   isOnline
 } from "./utils";
@@ -18,7 +18,8 @@ const withGeneratedProperties = (action, store, db) => {
     store,
     api,
     recordType,
-    isRecord
+    isRecord,
+    api?.isSubform
   );
 
   return {
@@ -35,10 +36,21 @@ const dispatchSuccess = (store, action, payload) => {
 
   store.dispatch({
     type: `${type}_SUCCESS`,
-    payload
+    payload: api?.responseRecordKey
+      ? {
+          data: {
+            record: {
+              id: api?.responseRecordID,
+              [api?.responseRecordKey]: api?.responseRecordArray
+                ? [{ ...payload?.data }]
+                : { ...payload?.data }
+            }
+          }
+        }
+      : payload
   });
 
-  handleSuccessCallback(store, api?.successCallback, null, payload, fromQueue);
+  handleRestCallback(store, api?.successCallback, null, payload, fromQueue);
 
   store.dispatch({
     type: `${type}_FINISHED`,
@@ -52,6 +64,7 @@ const retreiveData = async ({ store, db, action, type }) => {
 
     dispatchSuccess(store, action, payloadFromDB);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error, type);
   }
 };
@@ -66,6 +79,7 @@ const queueData = async ({ store, db, action, type }) => {
 
     dispatchSuccess(store, action, payloadFromDB);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error, type);
   }
 };
@@ -77,7 +91,7 @@ const offlineMiddleware = store => next => action => {
 
   const {
     type,
-    api: { method, db },
+    api: { method, db, queueOffline },
     fromQueue
   } = action;
   const dataArgs = { store, db, action, type };
@@ -89,10 +103,7 @@ const offlineMiddleware = store => next => action => {
     return next(action);
   }
 
-  if (
-    QUEUEABLE_ACTIONS.some(item => new RegExp(`^${item}/`).test(type)) &&
-    !fromQueue
-  ) {
+  if (queueOffline && !fromQueue) {
     queueData(dataArgs);
   }
 

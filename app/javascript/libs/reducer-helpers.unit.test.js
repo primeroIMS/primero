@@ -1,7 +1,5 @@
 import { fromJS } from "immutable";
 
-import { expect } from "../test";
-
 import { mergeRecord } from "./reducer-helpers";
 
 describe("reducer-helpers", () => {
@@ -11,6 +9,10 @@ describe("reducer-helpers", () => {
         id: 1,
         first_name: "Josh",
         middle_name: "Fren",
+        photos: [
+          { id: 1, attachment_url: "url 1" },
+          { id: 2, attachment_url: "url 2" }
+        ],
         locations: [],
         countries: ["united_states"],
         nationality: ["american"],
@@ -35,6 +37,7 @@ describe("reducer-helpers", () => {
         last_name: "James",
         countries: ["united_states", "spain"],
         nationality: ["brazillian", "british"],
+        photos: [{ id: 3, attachment_url: "url 3" }],
         followups: [
           {
             unique_id: 2,
@@ -61,6 +64,11 @@ describe("reducer-helpers", () => {
         locations: [],
         countries: ["united_states", "spain"],
         nationality: ["brazillian", "british"],
+        photos: [
+          { id: 1, attachment_url: "url 1" },
+          { id: 2, attachment_url: "url 2" },
+          { id: 3, attachment_url: "url 3" }
+        ],
         followups: [
           {
             unique_id: 1,

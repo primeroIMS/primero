@@ -1,9 +1,8 @@
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { TransitionRecord } from "../../transitions/records";
 
-import { reducers } from "./reducer";
+import reducer from "./reducer";
 import actions from "./actions";
 
 describe("<Transitions /> - Reducers", () => {
@@ -32,7 +31,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = reducers(defaultState, action);
+    const newState = reducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -60,7 +59,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = reducers(defaultState, action);
+    const newState = reducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -77,7 +76,7 @@ describe("<Transitions /> - Reducers", () => {
       payload: false
     };
 
-    const newState = reducers(defaultState, action);
+    const newState = reducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -95,7 +94,7 @@ describe("<Transitions /> - Reducers", () => {
       payload: true
     };
 
-    const newState = reducers(defaultState, action);
+    const newState = reducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -129,7 +128,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = reducers(defaultState, action);
+    const newState = reducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -147,7 +146,7 @@ describe("<Transitions /> - Reducers", () => {
       payload: "transfer"
     };
 
-    const newState = reducers(defaultState, action);
+    const newState = reducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -167,7 +166,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = reducers(defaultState, action);
+    const newState = reducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -195,7 +194,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = reducers(defaultState, action);
+    const newState = reducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -212,7 +211,7 @@ describe("<Transitions /> - Reducers", () => {
       payload: true
     };
 
-    const newState = reducers(defaultState, action);
+    const newState = reducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -246,7 +245,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = reducers(defaultState, action);
+    const newState = reducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -266,7 +265,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = reducers(defaultState, action);
+    const newState = reducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -294,7 +293,7 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = reducers(defaultState, action);
+    const newState = reducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -311,7 +310,7 @@ describe("<Transitions /> - Reducers", () => {
       payload: true
     };
 
-    const newState = reducers(defaultState, action);
+    const newState = reducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -345,7 +344,25 @@ describe("<Transitions /> - Reducers", () => {
       payload
     };
 
-    const newState = reducers(defaultState, action);
+    const newState = reducer(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("case Actions.REFERRAL_USERS_FETCH_STARTED", () => {
+    const expected = fromJS({
+      data: [],
+      referral: {
+        loading: true,
+        users: [],
+        errors: false
+      }
+    });
+    const action = {
+      type: actions.REFERRAL_USERS_FETCH_STARTED
+    };
+
+    const newState = reducer(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });

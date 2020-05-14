@@ -25,10 +25,11 @@ import { NAME } from "./constants";
 
 const Component = ({
   filter,
-  moreSectionFilters,
-  setMoreSectionFilters,
   mode,
+  moreSectionFilters,
+  multiple,
   reset,
+  setMoreSectionFilters,
   setReset
 }) => {
   const i18n = useI18n();
@@ -49,12 +50,10 @@ const Component = ({
   );
 
   const locations = useSelector(state =>
-    getLocations(state, optionStringsSource, i18n.locale)
+    getLocations(state, optionStringsSource === "Location")
   );
 
-  const lookups = ["location", "reporting_location"].includes(
-    optionStringsSource
-  )
+  const lookups = ["Location"].includes(optionStringsSource)
     ? locations?.toJS()
     : lookup;
 
@@ -81,7 +80,7 @@ const Component = ({
       ref: valueRef,
       defaultValue: [],
       setInputValue,
-      isMultiSelect: true
+      isMultiSelect: multiple
     });
 
     const value = lookups.filter(l =>
@@ -158,9 +157,13 @@ const Component = ({
     }
 
     return (
+      // eslint-disable-next-line camelcase
       foundOption?.display_name ||
+      // eslint-disable-next-line camelcase
       foundOption?.display_text ||
+      // eslint-disable-next-line camelcase
       foundOption?.display_name?.[i18n.locale] ||
+      // eslint-disable-next-line camelcase
       foundOption?.display_text?.[i18n.locale] ||
       foundOption?.name?.[i18n.locale]
     );
@@ -170,7 +173,7 @@ const Component = ({
     <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
       <Autocomplete
         classes={{ root: css.select }}
-        multiple
+        multiple={multiple}
         getOptionLabel={optionLabel}
         onChange={handleChange}
         options={filterOptions}
@@ -185,7 +188,8 @@ const Component = ({
 };
 
 Component.defaultProps = {
-  moreSectionFilters: {}
+  moreSectionFilters: {},
+  multiple: true
 };
 
 Component.displayName = NAME;
@@ -197,6 +201,7 @@ Component.propTypes = {
     secondary: PropTypes.bool
   }),
   moreSectionFilters: PropTypes.object,
+  multiple: PropTypes.bool,
   reset: PropTypes.bool,
   setMoreSectionFilters: PropTypes.func,
   setReset: PropTypes.func

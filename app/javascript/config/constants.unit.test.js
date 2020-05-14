@@ -1,5 +1,3 @@
-import { expect } from "../test";
-
 import * as configConstants from "./constants";
 
 describe("Verifying config constant", () => {
@@ -75,6 +73,10 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("ACCEPT");
     expect(constants).to.have.property("REJECTED");
     expect(constants).to.have.property("REJECT");
+    expect(constants).to.have.property("METHODS");
+    expect(constants).to.have.property("SAVE_METHODS");
+    expect(constants).to.have.property("SAVING");
+    expect(constants).to.have.property("APPLICATION_NAV");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -123,6 +125,10 @@ describe("Verifying config constant", () => {
     delete constants.ACCEPT;
     delete constants.REJECTED;
     delete constants.REJECT;
+    delete constants.METHODS;
+    delete constants.SAVE_METHODS;
+    delete constants.SAVING;
+    delete constants.APPLICATION_NAV;
 
     expect(constants).to.deep.equal({});
   });
@@ -174,7 +180,8 @@ describe("Verifying config constant", () => {
       "risk_level",
       "workflow",
       "service_type",
-      "protection_concerns"
+      "protection_concerns",
+      "followup_type"
     );
     expect(constants.RECORD_INFORMATION).to.be.an("array");
     expect(constants.APPROVALS).to.be.an("string");

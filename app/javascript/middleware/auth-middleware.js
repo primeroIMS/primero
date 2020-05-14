@@ -9,6 +9,9 @@ import {
   setAuthenticatedUser
 } from "../components/user";
 import DB from "../db";
+import { ROUTES } from "../config";
+
+import { startSignout } from "./utils";
 
 function redirectTo(store, path) {
   store.dispatch(push(path));
@@ -30,7 +33,7 @@ async function loginSuccessHandler(store, user) {
 
   localStorage.setItem("user", JSON.stringify({ username, id }));
   store.dispatch(setAuthenticatedUser({ username, id }));
-  redirectTo(store, "/dashboard");
+  redirectTo(store, ROUTES.dashboard);
 }
 
 const authMiddleware = store => next => action => {
@@ -44,20 +47,20 @@ const authMiddleware = store => next => action => {
     .getIn(["user", "isAuthenticated"], false);
 
   if (routeChanged && location === "/logout") {
-    const usingIdp = store.getState().getIn(["idp", "use_identity_provider"]);
-
-    store.dispatch(attemptSignout(usingIdp, signOut));
+    startSignout(store, attemptSignout, signOut);
   }
 
   if (["/login", "/"].includes(location) && isAuthenticated) {
-    redirectTo(store, "/dashboard");
+    redirectTo(store, ROUTES.dashboard);
   }
 
   if (action.type === LOGIN_SUCCESS_CALLBACK) {
     loginSuccessHandler(store, action.payload.json);
   }
 
-  if (action.type === Actions.LOGOUT_FINISHED) logoutSuccessHandler(store);
+  if ([Actions.LOGOUT_FINISHED, Actions.LOGOUT_FAILURE].includes(action.type)) {
+    logoutSuccessHandler(store);
+  }
 
   const searchPattern = /^\/login/;
 

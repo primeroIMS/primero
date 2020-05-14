@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Alertable
   extend ActiveSupport::Concern
 
@@ -18,8 +20,39 @@ module Alertable
     before_save :add_alert_on_field_change
     before_update :remove_alert_on_save
 
-    def self.alert_count(current_user)
-      joins(:alerts).owned_by(current_user.user_name).distinct.count
+    class << self
+      def alert_count(current_user)
+        query_scope = current_user.record_query_scope(self.class)[:user]
+        if query_scope.blank?
+          open_enabled_records.distinct.count
+        elsif query_scope[Permission::AGENCY].present?
+          alert_count_agency(current_user.agency.unique_id)
+        elsif query_scope[Permission::GROUP].present?
+          alert_count_group(current_user.user_groups.pluck(:unique_id))
+        else
+          alert_count_self(current_user.user_name)
+        end
+      end
+
+      def alert_count_agency(agency_unique_id)
+        open_enabled_records.where("data -> 'associated_user_agencies' ? :agency", agency: agency_unique_id)
+                            .distinct.count
+      end
+
+      def alert_count_group(user_groups_unique_id)
+        open_enabled_records.where(
+          "data -> 'associated_user_groups' ?& array[:group]",
+          group: user_groups_unique_id
+        ).distinct.count
+      end
+
+      def alert_count_self(current_user_name)
+        open_enabled_records.owned_by(current_user_name).distinct.count
+      end
+
+      def open_enabled_records
+        joins(:alerts).where('data @> ?', { record_state: true, status: Record::STATUS_OPEN }.to_json)
+      end
     end
 
     def alert_count
@@ -78,7 +111,7 @@ module Alertable
     #TODO: Is this necessary? This methods is called in add_approval_alert then in Approvable concern
     def get_alert(approval_type, system_settings)
       system_settings ||= SystemSettings.current
-      system_settings.approval_forms_to_alert.dig(approval_type)
+      system_settings.approval_forms_to_alert.key(approval_type)
     end
 
     #TODO: Is this necessary? This methods is called in Approvable concern

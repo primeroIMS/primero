@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
@@ -27,6 +26,4 @@ describe("<Nav /> - Action Creators", () => {
     expect(dispatch.getCall(0).returnValue.type).to.eql(actions.FETCH_ALERTS);
     expect(dispatch.getCall(0).returnValue.api.path).to.eql(RECORD_PATH.alerts);
   });
-
-
 });

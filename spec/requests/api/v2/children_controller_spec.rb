@@ -6,7 +6,36 @@ describe Api::V2::ChildrenController, type: :request do
   include ActiveJob::TestHelper
 
   before :each do
-    clean_data(Alert, Flag, Attachment, Child)
+    clean_data(Alert, Flag, Attachment, Child, Agency, User, Role, Lookup)
+    @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
+    role_self = Role.create!(
+      name: 'Test Role 3',
+      unique_id: 'test-role-3',
+      group_permission: Permission::SELF,
+      permissions: [
+        Permission.new(
+          resource: Permission::CASE,
+          actions: [Permission::MANAGE]
+        )
+      ]
+    )
+    @user = User.create!(
+      full_name: 'Test User 2',
+      user_name: 'test_user_2',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'test_user_2@localhost.com',
+      agency_id: @agency.id,
+      role: role_self,
+      services: ['Test type']
+    )
+    Lookup.create!(
+      unique_id: 'lookup-service-type',
+      name_en: 'Service Type',
+      lookup_values_en: [
+        { id: 'Test type', display_text: 'Safehouse Service' }.with_indifferent_access
+      ]
+    )
     @case1 = Child.create!(
       data: { name: 'Test1', age: 5, sex: 'male' }
     )
@@ -101,6 +130,26 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['data'].find { |r| r['name'] == @case1.name }['alert_count']).to eq(1)
       expect(json['data'].find { |r| r['name'] == @case2.name }['alert_count']).to eq(2)
       expect(json['data'].find { |r| r['name'] == @case3.name }['alert_count']).to eq(1)
+    end
+
+    it 'Search flagged children' do
+      @case1.add_flag('This is a flag', Date.today, 'faketest')
+
+      login_for_test(permissions: permission_flag_record)
+      get '/api/v2/cases?flagged=true'
+
+      expect(response).to have_http_status(200)
+      expect(json['data'][0]['flag_count']).to eq(1)
+      expect(json['data'][0]['id']).to eq(@case1.id)
+    end
+
+    it 'Search through photo' do
+      login_for_test(permissions: permission_flag_record)
+
+      get '/api/v2/cases?has_photo=true'
+      expect(response).to have_http_status(200)
+      expect(json['data'].count).to eq(1)
+      expect(json['data'][0]['id']).to eq(@case1.id)
     end
   end
 
@@ -575,7 +624,7 @@ describe Api::V2::ChildrenController, type: :request do
   end
 
   after :each do
-    clean_data(Alert, Flag, Attachment, Child)
+    clean_data(Alert, Flag, Attachment, Child, Agency, User, Role, Lookup)
     clear_performed_jobs
     clear_enqueued_jobs
   end

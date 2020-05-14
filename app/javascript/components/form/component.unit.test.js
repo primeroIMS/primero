@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 import { createRef } from "react";
 import * as yup from "yup";
 
-import { setupMountedComponent, expect, spy, tick } from "../../test";
+import { setupMountedComponent, spy, tick } from "../../test";
 
 import Form from "./component";
 import { FORM_MODE_DIALOG } from "./constants";
@@ -62,11 +62,7 @@ describe("<Form>", () => {
     });
 
     expect(
-      component
-        .find("FormContext")
-        .first()
-        .props()
-        .getValues().test_field_2
+      component.find("FormContext").first().props().getValues().test_field_2
     ).to.equal("Hello");
   });
 

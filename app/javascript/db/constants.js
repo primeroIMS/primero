@@ -9,10 +9,11 @@ export const DB_STORES = Object.freeze({
   SYSTEM_SETTINGS: "system_settings",
   LOCATIONS: "locations",
   IDP: "idp",
-  OFFLINE_REQUESTS: "offline_requests"
+  OFFLINE_REQUESTS: "offline_requests",
+  DASHBOARDS: "dashboards"
 });
 
-export const DB_COLLECTIONS = [
+export const DB_COLLECTIONS_V1 = [
   ["records", { keyPath: "id" }, ["type", "type", { multiEntry: true }]],
   ["user", { keyPath: "user_name" }],
   ["offline_requests", { keyPath: "fromQueue" }],
@@ -25,11 +26,9 @@ export const DB_COLLECTIONS = [
   "idp"
 ];
 
-export const QUEUEABLE_ACTIONS = [
-  RECORD_PATH.cases,
-  RECORD_PATH.incidents,
-  RECORD_PATH.tracing_requests
-];
+export const DB_COLLECTIONS_V2 = ["dashboards"];
+
+export const DB_COLLECTIONS = [...DB_COLLECTIONS_V1, ...DB_COLLECTIONS_V2];
 
 export const DB_COLLECTIONS_NAMES = DB_COLLECTIONS.reduce((prev, current) => {
   const obj = prev;

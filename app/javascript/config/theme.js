@@ -12,12 +12,15 @@ const colors = {
   blue: "#0093ba",
   yellow: "#f2c317",
   moonYellow: "#f2b417",
+  goldYellow: "#f4ac22",
   red: "#d0021b",
   green: "#839e3c",
   orange: "#e7712d",
   purple: "#7c347b",
   warmGrey1: "#e0dfd7",
   warmGrey2: "#bcbcad",
+  warmGrey3: "#b9b8b3",
+  warmGrey4: "#9a988f",
   midGrey: "#757472",
   grey: "#4a4a4a",
   contentGrey: "#fbfbfb",
@@ -116,6 +119,11 @@ const overrides = {
   },
   MUIDataTableToolbarSelect: {
     root: {
+      paddingLeft: "26px",
+      paddingRight: "26px",
+      justifyContent: "flex-start"
+    },
+    title: {
       display: "none"
     }
   },
@@ -140,7 +148,7 @@ const overrides = {
         }
       }
     },
-    cellStacked: {
+    stackedCommon: {
       [muiTheme.breakpoints.down("sm")]: {
         width: "50%",
         height: "40px",
@@ -153,7 +161,7 @@ const overrides = {
         padding: "2em 10px"
       }
     },
-    responsiveStacked: {
+    responsiveStackedSmall: {
       [muiTheme.breakpoints.down("sm")]: {
         width: "50%",
         height: "40px",

@@ -4,7 +4,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { AppBar, Toolbar, IconButton, makeStyles } from "@material-ui/core";
 import PropTypes from "prop-types";
 
-import { ModuleLogo } from "../module-logo";
+import OfflineIndicator from "../offline-indicator";
+import ModuleLogo from "../module-logo";
 
 import styles from "./styles.css";
 
@@ -23,24 +24,27 @@ const MobileToolbar = ({ drawerOpen, openDrawer, mobileDisplay }) => {
 
   if (mobileDisplay) {
     return (
-      <AppBar
-        position="fixed"
-        className={clsx(css.appBar, {
-          [css.appBarShift]: drawerOpen
-        })}
-      >
-        <Toolbar className={css.toolbar}>
-          <IconButton
-            edge="start"
-            color="default"
-            aria-label="Menu"
-            onClick={handleToggleDrawer}
-          >
-            <MenuIcon />
-          </IconButton>
-          <ModuleLogo className={css.logo} />
-        </Toolbar>
-      </AppBar>
+      <>
+        <AppBar
+          position="fixed"
+          className={clsx(css.appBar, {
+            [css.appBarShift]: drawerOpen
+          })}
+        >
+          <OfflineIndicator mobile />
+          <Toolbar className={css.toolbar}>
+            <IconButton
+              edge="start"
+              color="default"
+              aria-label="Menu"
+              onClick={handleToggleDrawer}
+            >
+              <MenuIcon />
+            </IconButton>
+            <ModuleLogo className={css.logo} />
+          </Toolbar>
+        </AppBar>
+      </>
     );
   }
 

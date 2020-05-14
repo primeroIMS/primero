@@ -1,1 +1,1 @@
-export { default as ActionMenu } from "./component";
+export { default } from "./component";

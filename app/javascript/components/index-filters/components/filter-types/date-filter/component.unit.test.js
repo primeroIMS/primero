@@ -1,6 +1,7 @@
 import { Select } from "@material-ui/core";
+import { DatePicker, DateTimePicker } from "@material-ui/pickers";
 
-import { setupMockFormComponent, expect, spy } from "../../../../../test";
+import { setupMockFormComponent, spy } from "../../../../../test";
 
 import DateFilter from "./component";
 
@@ -24,6 +25,22 @@ describe("<DateFilter>", () => {
     const { component } = setupMockFormComponent(DateFilter, props);
 
     expect(component.exists("Panel")).to.be.true;
+  });
+
+  it("renders 2 DatePicker component", () => {
+    const { component } = setupMockFormComponent(DateFilter, props);
+
+    expect(component.find(DateTimePicker)).to.have.lengthOf(0);
+    expect(component.find(DatePicker)).to.have.lengthOf(2);
+  });
+
+  it("renders 2 DateTimePicker component if we pass the prop dateIncludeTime = true", () => {
+    const { component } = setupMockFormComponent(DateFilter, {
+      filter: { ...filter, dateIncludeTime: true }
+    });
+
+    expect(component.find(DatePicker)).to.have.lengthOf(0);
+    expect(component.find(DateTimePicker)).to.have.lengthOf(2);
   });
 
   it("renders date-filter as secondary filter, with valid pros in the more section", () => {

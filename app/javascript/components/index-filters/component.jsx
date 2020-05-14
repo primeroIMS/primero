@@ -10,14 +10,16 @@ import { Tabs, Tab } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { fromJS } from "immutable";
 
-import { SavedSearches, fetchSavedSearches } from "../saved-searches";
+import SavedSearches, { fetchSavedSearches } from "../saved-searches";
 import SavedSearchesForm from "../saved-searches/SavedSearchesForm";
 import { currentUser } from "../user";
 import { useI18n } from "../i18n";
 import { RECORD_PATH } from "../../config";
+import { getReportingLocationConfig } from "../application/selectors";
 
 import { filterType, compactFilters } from "./utils";
 import {
+  DEFAULT_SELECTED_RECORDS_VALUE,
   HIDDEN_FIELDS,
   PRIMARY_FILTERS,
   MY_CASES_FILTER_NAME,
@@ -30,7 +32,7 @@ import Actions from "./components/actions";
 import styles from "./components/styles.css";
 import MoreSection from "./components/more-section";
 
-const Component = ({ recordType, defaultFilters }) => {
+const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
@@ -43,9 +45,20 @@ const Component = ({ recordType, defaultFilters }) => {
   const [reset, setReset] = useState(false);
   const dispatch = useDispatch();
 
+  const resetSelectedRecords = () => {
+    setSelectedRecords(DEFAULT_SELECTED_RECORDS_VALUE);
+  };
   const methods = useForm({
     defaultValues: isEmpty(queryParams) ? defaultFilters.toJS() : queryParams
   });
+
+  const reportingLocationConfig = useSelector(state =>
+    getReportingLocationConfig(state)
+  );
+
+  const ownedByLocation = `${reportingLocationConfig.get(
+    "field_key"
+  )}${reportingLocationConfig.get("admin_level")}`;
 
   const filters = useSelector(state =>
     getFiltersByRecordType(state, recordType)
@@ -148,12 +161,16 @@ const Component = ({ recordType, defaultFilters }) => {
   };
 
   useEffect(() => {
-    HIDDEN_FIELDS.forEach(field => methods.register({ name: field }));
+    [...HIDDEN_FIELDS, ownedByLocation].forEach(field =>
+      methods.register({ name: field })
+    );
 
     methods.setValue("fields", "short");
 
     return () => {
-      HIDDEN_FIELDS.forEach(field => methods.unregister({ name: field }));
+      [...HIDDEN_FIELDS, ownedByLocation].forEach(field =>
+        methods.unregister({ name: field })
+      );
     };
   }, []);
 
@@ -176,6 +193,7 @@ const Component = ({ recordType, defaultFilters }) => {
       });
       setMoreSectionFilters({});
       methods.reset(filtersToApply);
+      resetSelectedRecords();
       dispatch(
         applyFilters({ recordType, data: compactFilters(filtersToApply) })
       );
@@ -192,6 +210,7 @@ const Component = ({ recordType, defaultFilters }) => {
   const handleSubmit = useCallback(data => {
     const payload = compactFilters(data);
 
+    resetSelectedRecords();
     dispatch(applyFilters({ recordType, data: payload }));
   }, []);
 
@@ -200,6 +219,7 @@ const Component = ({ recordType, defaultFilters }) => {
   };
 
   const handleClear = useCallback(() => {
+    resetSelectedRecords();
     methods.reset(defaultFilters.toJS());
     dispatch(setFilters({ recordType, data: defaultFilters.toJS() }));
 
@@ -215,7 +235,7 @@ const Component = ({ recordType, defaultFilters }) => {
     <div className={css.root}>
       <FormContext {...methods} user={userName}>
         <form onSubmit={methods.handleSubmit(handleSubmit)}>
-          <Search />
+          <Search handleReset={handleClear} />
           <Tabs
             value={tabIndex}
             onChange={(event, value) => setTabIndex(value)}
@@ -281,7 +301,8 @@ Component.displayName = "IndexFilters";
 
 Component.propTypes = {
   defaultFilters: PropTypes.object,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  setSelectedRecords: PropTypes.func
 };
 
 export default Component;

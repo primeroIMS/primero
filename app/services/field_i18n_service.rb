@@ -10,7 +10,7 @@ class FieldI18nService
   def self.convert_i18n_properties(klass, params)
     localized_props = klass.localized_properties.map(&:to_s)
     unlocalized_params = params.reject { |k,_| localized_props.include?(k) }
-    localized_fields = localized_props.select { |prop| params[prop].present? }.map do |prop| 
+    localized_fields = localized_props.select { |prop| params[prop].present? }.map do |prop|
       { "#{prop}_i18n" => params[prop] }
     end.inject(&:merge)
 
@@ -195,4 +195,45 @@ class FieldI18nService
     final_options
   end
 
+
+  #  Given the options
+  # [
+  #  {
+  #    "id"=>"1",
+  #    "display_text" => {
+  #      "en"=>"Country",
+  #      "es"=>"Pais",
+  #      "fr"=>""
+  #    }
+  #  },
+  #  {
+  #    "id"=>"2",
+  #    "display_text" => {
+  #      "en"=>"City",
+  #      "es"=>"Ciudad",
+  #      "fr"=>""
+  #    }
+  #   }
+  # ]
+  #  Returns
+  #    {
+  #      "en" => [
+  #        { "id"=>"1", "display_text"=>"Country" },
+  #        { "id"=>"2", "display_text"=>"City" }
+  #      ],
+  #      "es" => [
+  #        { "id"=>"1", "display_text"=>"Pais" },
+  #        { "id"=>"2", "display_text"=>"Ciudad" }
+  #      ]
+  #    }
+
+  def self.to_localized_options(options)
+    return if options.blank?
+
+    I18n.available_locales.inject({}) do |acc, locale|
+      locale_options = options.select { |option| option['display_text'][locale.to_s].present? }
+                              .map { |option| option.merge('display_text' => option['display_text'][locale.to_s]) }
+      locale_options.present? ? acc.merge(locale.to_s => locale_options) : acc
+    end
+  end
 end

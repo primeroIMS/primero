@@ -1,0 +1,41 @@
+.disabled {
+  position: relative
+}
+
+.disabledLink {
+  cursor: not-allowed;
+
+  & a {
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+  }
+
+  & button {
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+  }
+
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.disabledElement {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background: rgba(255, 255, 255, .45);
+  z-index: 999;
+
+  & a {
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+  }
+
+  & button {
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+  }
+}

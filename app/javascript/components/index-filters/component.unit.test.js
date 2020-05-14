@@ -1,10 +1,11 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent, expect } from "../../test";
+import { setupMountedComponent } from "../../test";
 
 import IndexFilters from "./component";
 import MoreSection from "./components/more-section";
 import FilterActions from "./components/actions";
+import { Search } from "./components/filter-types";
 
 describe("<IndexFitlers>", () => {
   const state = fromJS({
@@ -30,6 +31,18 @@ describe("<IndexFitlers>", () => {
     const { component } = setupMountedComponent(IndexFilters, props, state);
 
     expect(component.exists("input#search-input")).to.be.true;
+  });
+
+  it("renders search bar with valid props", () => {
+    const { component } = setupMountedComponent(IndexFilters, props, state);
+    const clone = { ...component.find(Search).props() };
+
+    ["handleReset"].forEach(property => {
+      expect(clone).to.have.property(property);
+      delete clone[property];
+    });
+
+    expect(clone).to.be.empty;
   });
 
   it("renders MoreSection filters", () => {

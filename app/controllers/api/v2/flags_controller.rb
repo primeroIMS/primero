@@ -22,6 +22,16 @@ module Api::V2
       model_class.batch_flag(@records, params['data']['message'], params['data']['date'].to_date, current_user.user_name)
     end
 
-  end
+    def create_action_message
+      'flag'
+    end
 
+    def update_action_message
+      'unflag'
+    end
+
+    def create_bulk_record_resource
+      'bulk_flag'
+    end
+  end
 end

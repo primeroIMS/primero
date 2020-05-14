@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../i18n";
-import { ActionDialog } from "../../action-dialog";
+import ActionDialog from "../../action-dialog";
 import { saveRecord } from "../../records";
 import { ACTIONS } from "../../../libs/permissions";
 
@@ -30,6 +30,7 @@ const ToggleOpen = ({ close, openReopenDialog, record, recordType }) => {
         body,
         record.get("id"),
         i18n.t(`cases.${setValue}_success`),
+        false,
         false,
         false
       )

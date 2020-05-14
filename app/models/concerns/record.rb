@@ -40,7 +40,7 @@ module Record
       record = new
       record.id = id if id.present?
       record.data = Utils.merge_data(record.data, data)
-      record.set_creation_fields_for(user)
+      record.creation_fields_for(user)
       record.set_owner_fields_for(user)
       record
     end
