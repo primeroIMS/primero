@@ -241,10 +241,14 @@ class Report < CouchRest::Model::Base
 
       if self.has_data?
         total_values = self.data[:disaggregate_value_range].map do |disaggregate|
-          key = [I18n.t("report.total"), disaggregate[0]].compact
+          key = [I18n.t("report.total"), disaggregate].flatten
 
           value = self.data[:aggregate_value_range].map do |aggregate|
-            self.data[:values].select{|k,v| (k == [ aggregate[0] , disaggregate[0] ]) || (k == aggregate && disaggregate.empty?) }
+            if aggregate.is_a?(Array) && aggregate.length > 1
+              self.data[:values].select{|k,v| (k == (aggregate + disaggregate)) && (k.reject(&:empty?).length > 1) }
+            else
+              self.data[:values].select{|k,v| (k == (aggregate + disaggregate)) || (k == aggregate && disaggregate.empty?) }
+            end
           end.inject(&:merge).values.reduce(0){ |sum,x| x.nil? ? sum : sum + x }
           
           {key => value }
