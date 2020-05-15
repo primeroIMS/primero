@@ -114,17 +114,37 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         state.get("formSections").merge(reorderedForms)
       );
     }
-    case actions.SAVE_FORM_ORDER_SUCCESS: {
+    case actions.SAVE_FORMS_REORDER_FINISHED: {
+      const results = payload
+        .filter(data => data.ok)
+        .reduce(
+          (acc, current) =>
+            acc.merge(
+              fromJS({
+                [`fs-${current.json.data.id}`]: {
+                  reordered: true,
+                  loading: false
+                }
+              })
+            ),
+          fromJS({})
+        );
+
+      const errors = payload
+        .filter(data => data.ok === false)
+        .map(data => data.json);
+
+      const data = state
+        .getIn(["reorderedForms", "data"], fromJS({}))
+        .merge(results);
+
       return state
-        .setIn(["reorderedForms", `fs-${payload.data.id}`, "reordered"], true)
-        .setIn(["reorderedForms", `fs-${payload.data.id}`, "loading"], false);
-    }
-    case actions.SAVE_FORM_ORDER_FAILURE: {
-      return state.setIn(["reorderedForms", "errors", "true"], false);
+        .setIn(["reorderedForms", "data"], data)
+        .setIn(["reorderedForms", "errors"], errors);
     }
     case actions.SET_REORDERED_FORMS:
-      return state.set(
-        "reorderedForms",
+      return state.setIn(
+        ["reorderedForms", "data"],
         payload.ids
           .map(id => ({ [`fs-${id}`]: { reordered: false, loading: true } }))
           .reduce((acc, current) => acc.merge(fromJS(current)), fromJS({}))

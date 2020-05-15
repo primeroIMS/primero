@@ -137,7 +137,7 @@ const Component = () => {
     const formsIdsToReorder = forms.map(form => form.get("id"));
 
     dispatch(reorderedForms(formsIdsToReorder.toJS()));
-    dispatch(saveFormsReorder(forms));
+    dispatch(saveFormsReorder(forms.toJS()));
   };
 
   return (

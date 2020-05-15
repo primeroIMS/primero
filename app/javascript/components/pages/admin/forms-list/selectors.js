@@ -27,13 +27,13 @@ export const getFormSectionsByFormGroup = (state, filter) =>
 export const getIsLoading = state =>
   state.getIn(["records", "admin", "forms", "loading"], false);
 
-export const getReorderedForms = state =>
-  state.getIn(["records", "admin", "forms", "reorderedForms"], fromJS({}));
-
 export const getIsReorderCompleted = state =>
   Boolean(
     state
-      .getIn(["records", "admin", "forms", "reorderedForms"], fromJS({}))
+      .getIn(
+        ["records", "admin", "forms", "reorderedForms", "data"],
+        fromJS({})
+      )
       .valueSeq()
       .find(status => status.get("reordered") === false)
   ) === false;

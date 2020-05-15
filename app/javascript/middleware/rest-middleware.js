@@ -79,7 +79,74 @@ const messageQueueSkip = fromQueue => {
   }
 };
 
-function fetchPayload(action, store, options) {
+const fetchParamsBuilder = (api, options, controller) => {
+  const { path, body, params, method, external } = api;
+
+  const fetchOptions = {
+    ...defaultFetchOptions,
+    method,
+    signal: controller.signal,
+    body: JSON.stringify(body)
+  };
+
+  const token = getToken();
+
+  const headers = {};
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  fetchOptions.headers = new Headers(
+    Object.assign(fetchOptions.headers, headers)
+  );
+
+  const fetchPath = buildPath(path, options, params, external);
+
+  return { fetchOptions, fetchPath };
+};
+
+const fetchMultiPayload = (action, store, options) => {
+  const controller = new AbortController();
+
+  setTimeout(() => {
+    controller.abort();
+  }, FETCH_TIMEOUT);
+
+  const { type } = action;
+
+  const fetchParams = action.api.map(apiParams =>
+    fetchParamsBuilder(apiParams, options, controller)
+  );
+
+  const fetch = async () => {
+    fetchStatus({ store, type }, "STARTED", true);
+
+    const results = await Promise.allSettled(
+      fetchParams.map(fetchParam =>
+        window
+          .fetch(fetchParam.fetchPath, fetchParam.fetchOptions)
+          .then(response =>
+            response.json().then(json => ({
+              path: fetchParam.fetchPath,
+              status: response.status,
+              ok: response.ok,
+              json
+            }))
+          )
+      )
+    );
+
+    store.dispatch({
+      type: `${type}_FINISHED`,
+      payload: results.map(result => result.value)
+    });
+  };
+
+  return fetch();
+};
+
+const fetchSinglePayload = (action, store, options) => {
   const controller = new AbortController();
 
   setTimeout(() => {
@@ -196,6 +263,14 @@ function fetchPayload(action, store, options) {
   };
 
   return fetch();
+};
+
+function fetchPayload(action, store, options) {
+  if (Array.isArray(action.api)) {
+    return fetchMultiPayload(action, store, options);
+  }
+
+  return fetchSinglePayload(action, store, options);
 }
 
 const fetchFromCache = (action, store, options, next) => {
@@ -231,7 +306,10 @@ const fetchFromCache = (action, store, options, next) => {
 };
 
 const restMiddleware = options => store => next => action => {
-  if (!(action.api && "path" in action.api) || !isOnline(store)) {
+  if (
+    !(action.api && (Array.isArray(action.api) || "path" in action.api)) ||
+    !isOnline(store)
+  ) {
     return next(action);
   }
 

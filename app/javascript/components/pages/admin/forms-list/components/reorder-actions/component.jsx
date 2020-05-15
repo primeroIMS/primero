@@ -12,7 +12,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { useI18n } from "../../../../../i18n";
-import { getIsReorderCompleted, getReorderedForms } from "../../selectors";
+import { getIsReorderCompleted } from "../../selectors";
 
 import styles from "./styles.css";
 import { NAME } from "./constants";
@@ -21,6 +21,8 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const reorderCompleted = useSelector(state => getIsReorderCompleted(state));
+
+  console.log("reorderedCompleted", reorderCompleted);
 
   return (
     <Dialog

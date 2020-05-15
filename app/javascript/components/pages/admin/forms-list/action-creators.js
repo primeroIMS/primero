@@ -1,5 +1,3 @@
-import { batch } from "react-redux";
-
 import { RECORD_PATH } from "../../../../config/constants";
 
 import actions from "./actions";
@@ -44,20 +42,16 @@ export const reorderedForms = ids => ({
   payload: { ids }
 });
 
-export const saveFormsReorder = forms => async dispatch => {
-  batch(() => {
-    forms.forEach(form => {
-      dispatch(
-        saveFormOrder({
-          id: form.get("id"),
-          body: {
-            data: {
-              order_form_group: form.get("order_form_group"),
-              order: form.get("order")
-            }
-          }
-        })
-      );
-    });
-  });
-};
+export const saveFormsReorder = forms => ({
+  type: actions.SAVE_FORMS_REORDER,
+  api: forms.map(form => ({
+    path: `${RECORD_PATH.forms}/${form.id}`,
+    method: "PATCH",
+    body: {
+      data: {
+        order_form_group: form.order_form_group,
+        order: form.order
+      }
+    }
+  }))
+});
