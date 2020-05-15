@@ -233,9 +233,11 @@ describe Api::V2::ChildrenController, type: :request do
   end
 
   describe 'POST /api/v2/cases' do
+    let(:params) { { data: { name: 'Test', age: 12, sex: 'female' } } }
+
     it 'creates a new record with 200 and returns it as JSON' do
       login_for_test
-      params = { data: { name: 'Test', age: 12, sex: 'female' } }
+
       post '/api/v2/cases', params: params
 
       expect(response).to have_http_status(200)
@@ -244,6 +246,18 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['data']['age']).to eq(params[:data][:age])
       expect(json['data']['sex']).to eq(params[:data][:sex])
       expect(Child.find_by(id: json['data']['id'])).not_to be_nil
+    end
+
+    it 'filters sensitive information from logs' do
+      allow(Rails.logger).to receive(:debug).and_return(nil)
+
+      login_for_test
+
+      post '/api/v2/cases', params: params
+
+      %w[data].each do |fp|
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
+      end
     end
 
     describe 'empty response' do
@@ -316,6 +330,17 @@ describe Api::V2::ChildrenController, type: :request do
       case1 = Child.find_by(id: @case1.id)
       expect(case1.data['age']).to eq(10)
       expect(case1.data['sex']).to eq('female')
+    end
+
+    it 'filters sensitive information from logs' do
+      allow(Rails.logger).to receive(:debug).and_return(nil)
+      login_for_test
+      params = { data: { name: 'Tester', age: 10, sex: 'female' } }
+      patch "/api/v2/cases/#{@case1.id}", params: params
+
+      %w[data].each do |fp|
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
+      end
     end
 
     it 'appends to rather than replaces nested forms' do
