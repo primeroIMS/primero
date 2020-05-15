@@ -539,36 +539,16 @@ $dashboard_table_counts:85px;
   }
 }
 
-.card-container {
-  max-width: 1240px;
-  margin: 0 auto;
-
-  display: grid;
-
-  grid-template-columns: 1fr;
-  grid-template-rows: auto;
-  grid-gap: 20px;
-}
-
-  @media only screen and (min-width: 500px) {
-    .card-container {
-      grid-template-columns: 1fr 1fr;
-    }  
-  }
-
-  @media only screen and (min-width: 850px) {
-    .card-container {
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    }
-
-  > a.column {
+@media only screen and (max-width: 639px) {
+  .card-container {
     display: flex;
     flex-direction: column;
-    min-height: 100%;
-    max-width: none;
-    position: relative;
-    top: 0;
-    transition: all .1s ease-in;
   }
-
+  /*Temporal hack to fix mobile responsive in table dasboards*/
+  table.table-counts {
+    width: auto;
+  }
+  #sidebar{
+    display: none;
+  }
 }
