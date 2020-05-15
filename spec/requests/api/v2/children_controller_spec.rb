@@ -233,11 +233,11 @@ describe Api::V2::ChildrenController, type: :request do
   end
 
   describe 'POST /api/v2/cases' do
-    let(:params) {{ data: { name: 'Test', age: 12, sex: 'female' }}}
+    let(:params) { { data: { name: 'Test', age: 12, sex: 'female' } } }
 
     it 'creates a new record with 200 and returns it as JSON' do
       login_for_test
-      
+
       post '/api/v2/cases', params: params
 
       expect(response).to have_http_status(200)
@@ -250,13 +250,13 @@ describe Api::V2::ChildrenController, type: :request do
 
     it 'filters sensitive information from logs' do
       allow(Rails.logger).to receive(:debug).and_return(nil)
-      
+
       login_for_test
-      
+
       post '/api/v2/cases', params: params
-      
-      %w(data).each do |fp|
-        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/) 
+
+      %w[data].each do |fp|
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
       end
     end
 
@@ -337,9 +337,9 @@ describe Api::V2::ChildrenController, type: :request do
       login_for_test
       params = { data: { name: 'Tester', age: 10, sex: 'female' } }
       patch "/api/v2/cases/#{@case1.id}", params: params
-      
-      %w(data).each do |fp|
-        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/) 
+
+      %w[data].each do |fp|
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
       end
     end
 
