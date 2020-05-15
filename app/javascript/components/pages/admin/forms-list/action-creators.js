@@ -10,6 +10,11 @@ export const fetchForms = () => ({
   }
 });
 
+export const enableReorder = enable => ({
+  type: actions.ENABLE_REORDER,
+  payload: enable
+});
+
 export const reorderFormGroups = (formGroupId, order, filter) => ({
   type: actions.REORDER_FORM_GROUPS,
   payload: {
@@ -53,5 +58,6 @@ export const saveFormsReorder = forms => ({
         order: form.order
       }
     }
-  }))
+  })),
+  finishedCallback: enableReorder(false)
 });

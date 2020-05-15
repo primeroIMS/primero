@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   makeStyles,
@@ -11,8 +11,14 @@ import {
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 
+import { ENQUEUE_SNACKBAR, generate } from "../../../../../notifier";
 import { useI18n } from "../../../../../i18n";
-import { getIsReorderCompleted } from "../../selectors";
+import { compare } from "../../../../../../libs";
+import {
+  getReorderIsLoading,
+  getReorderErrors,
+  getReorderPendings
+} from "../../selectors";
 
 import styles from "./styles.css";
 import { NAME } from "./constants";
@@ -20,9 +26,37 @@ import { NAME } from "./constants";
 const Component = ({ handleCancel, handleSuccess, open }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
-  const reorderCompleted = useSelector(state => getIsReorderCompleted(state));
+  const dispatch = useDispatch();
+  const reorderLoading = useSelector(state => getReorderIsLoading(state));
+  const errors = useSelector(state => getReorderErrors(state), compare);
+  const reorderPendings = useSelector(
+    state => getReorderPendings(state),
+    compare
+  );
 
-  console.log("reorderedCompleted", reorderCompleted);
+  useEffect(() => {
+    if (open && !reorderLoading) {
+      const successful = !errors?.size && !reorderPendings?.size;
+      dispatch({
+        type: ENQUEUE_SNACKBAR,
+        payload: {
+          message: successful
+            ? "Everything was saved correctly"
+            : "Not all forms could be saved.",
+          options: {
+            variant: successful ? "success" : "error",
+            key: generate.messageKey()
+          }
+        }
+      });
+    }
+  }, [reorderLoading]);
+
+  const icon = !reorderLoading ? (
+    <CheckIcon />
+  ) : (
+    <CircularProgress size={24} className={css.buttonProgress} />
+  );
 
   return (
     <Dialog
@@ -31,14 +65,14 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
       open={open}
       style={{ top: "auto", left: "auto" }}
       disableBackdropClick
-      hideBackdrop={Boolean(reorderCompleted === true)}
+      hideBackdrop={!reorderLoading}
     >
       <DialogActions classes={{ root: css.reorderActions }}>
         <Button
           color="primary"
           className={css.actionButtonCancel}
           onClick={handleCancel}
-          disabled={Boolean(reorderCompleted) === false}
+          disabled={reorderLoading}
         >
           <CloseIcon />
           <span>{i18n.t("buttons.cancel")}</span>
@@ -47,13 +81,9 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
           color="primary"
           variant="contained"
           onClick={handleSuccess}
-          disabled={Boolean(reorderCompleted) === false}
+          disabled={reorderLoading}
         >
-          {reorderCompleted ? (
-            <CheckIcon />
-          ) : (
-            <CircularProgress size={24} className={css.buttonProgress} />
-          )}
+          {icon}
           <span>{i18n.t("buttons.save_changes")}</span>
         </Button>
       </DialogActions>

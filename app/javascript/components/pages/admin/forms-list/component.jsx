@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -24,13 +24,14 @@ import {
   ReorderActions
 } from "./components";
 import {
+  enableReorder,
   fetchForms,
   reorderFormGroups,
   reorderFormSections,
   reorderedForms,
   saveFormsReorder
 } from "./action-creators";
-import { getFormSectionsByFormGroup, getIsLoading } from "./selectors";
+import { getFormSectionsByFormGroup, getIsLoading, getReorderEnabled } from "./selectors";
 import { getListStyle } from "./utils";
 import { NAME, FORM_GROUP_PREFIX, ORDER_TYPE } from "./constants";
 import styles from "./styles.css";
@@ -45,9 +46,8 @@ const Component = () => {
     primeroModule: MODULES.CP
   };
   const [filterValues, setFilterValues] = useState(defaultFilterValues);
-  const [dragDisabled, setDragDisabled] = useState(true);
-  const [openReorderActions, setOpenReorderActions] = useState(false);
   const isLoading = useSelector(state => getIsLoading(state));
+  const isReorderEnabled = useSelector(state => getReorderEnabled(state));
   const formSectionsByGroup = useSelector(state =>
     getFormSectionsByFormGroup(state, filterValues)
   );
@@ -98,12 +98,12 @@ const Component = () => {
           index={index}
           key={formGroupID}
           id={formGroupID}
-          isDragDisabled={dragDisabled}
+          isDragDisabled={!isReorderEnabled}
         >
           <FormSection
             group={group}
             collection={formGroupID}
-            isDragDisabled={dragDisabled}
+            isDragDisabled={!isReorderEnabled}
           />
         </FormGroup>
       );
@@ -122,13 +122,11 @@ const Component = () => {
   ) : null;
 
   const onClickReorder = () => {
-    setDragDisabled(false);
-    setOpenReorderActions(true);
+    dispatch(enableReorder(true));
   };
 
   const closeReoderActions = () => {
-    setDragDisabled(true);
-    setOpenReorderActions(false);
+    dispatch(enableReorder(false));
     dispatch(fetchForms());
   };
 
@@ -136,8 +134,10 @@ const Component = () => {
     const forms = formSectionsByGroup.valueSeq().flatten();
     const formsIdsToReorder = forms.map(form => form.get("id"));
 
-    dispatch(reorderedForms(formsIdsToReorder.toJS()));
-    dispatch(saveFormsReorder(forms.toJS()));
+    batch(() => {
+      dispatch(reorderedForms(formsIdsToReorder.toJS()));
+      dispatch(saveFormsReorder(forms.toJS()));
+    });
   };
 
   return (
@@ -146,19 +146,19 @@ const Component = () => {
       <PageContent>
         <div className={css.indexContainer}>
           <div className={css.forms}>
-            <Button
-              className={css.reorderButton}
-              startIcon={<ListIcon />}
-              size="small"
-              onClick={onClickReorder}
-            >
-              {i18n.t("buttons.reorder")}
-            </Button>
             <LoadingIndicator
               hasData={Boolean(formSectionsByGroup?.size)}
               loading={isLoading}
               type={NAMESPACE}
             >
+              <Button
+                className={css.reorderButton}
+                startIcon={<ListIcon />}
+                size="small"
+                onClick={onClickReorder}
+              >
+                {i18n.t("buttons.reorder")}
+              </Button>
               <DragDropContext onDragEnd={handleDragEnd}>
                 <Droppable droppableId="droppable" type="formGroup">
                   {(provided, snapshot) => (
@@ -181,11 +181,11 @@ const Component = () => {
               modules={modules}
               handleSetFilterValue={handleSetFilterValue}
               handleClearValue={handleClearValue}
-              disabled={!dragDisabled}
+              disabled={isReorderEnabled}
             />
           </div>
           <ReorderActions
-            open={openReorderActions}
+            open={isReorderEnabled}
             handleCancel={closeReoderActions}
             handleSuccess={saveReorder}
           />

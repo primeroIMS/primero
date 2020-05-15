@@ -3,6 +3,8 @@ import { namespaceActions } from "../../../../libs";
 import NAMESPACE from "./namespace";
 
 export default namespaceActions(NAMESPACE, [
+  "CLEAR_FORMS_REORDER",
+  "ENABLE_REORDER",
   "RECORD_FORMS",
   "RECORD_FORMS_FAILURE",
   "RECORD_FORMS_FINISHED",
@@ -11,6 +13,7 @@ export default namespaceActions(NAMESPACE, [
   "REORDER_FORM_GROUPS",
   "REORDER_FORM_SECTIONS",
   "SAVE_FORMS_REORDER",
+  "SAVE_FORMS_REORDER_SUCCESS",
   "SAVE_FORMS_REORDER_STARTED",
   "SAVE_FORMS_REORDER_FINISHED",
   "SET_REORDERED_FORMS"

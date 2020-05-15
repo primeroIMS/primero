@@ -40,7 +40,9 @@ const setInitialGroupOrder = (state, filter) =>
 
 export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case actions.RECORD_FORMS_SUCCESS:
+    case actions.ENABLE_REORDER:
+      return state.setIn(["reorderedForms", "enabled"], payload);
+    case actions.RECORD_FORMS_SUCCESS: {
       if (payload) {
         const { fields, formSections } = normalizeFormData(
           payload.data
@@ -55,6 +57,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       }
 
       return state;
+    }
     case actions.RECORD_FORMS_FAILURE:
       return state.set("errors", true);
     case actions.RECORD_FORMS_STARTED:
@@ -114,41 +117,28 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         state.get("formSections").merge(reorderedForms)
       );
     }
-    case actions.SAVE_FORMS_REORDER_FINISHED: {
-      const results = payload
-        .filter(data => data.ok)
-        .reduce(
-          (acc, current) =>
-            acc.merge(
-              fromJS({
-                [`fs-${current.json.data.id}`]: {
-                  reordered: true,
-                  loading: false
-                }
-              })
-            ),
-          fromJS({})
-        );
+    case actions.SAVE_FORMS_REORDER_STARTED:
+      return state.setIn(["reorderedForms", "loading"], true);
+    case actions.SAVE_FORMS_REORDER_SUCCESS: {
+      const reordered = payload.filter(data => data.ok)
+        .map(data => data.json.data.id);
 
       const errors = payload
         .filter(data => data.ok === false)
         .map(data => data.json);
 
-      const data = state
-        .getIn(["reorderedForms", "data"], fromJS({}))
-        .merge(results);
+      const pending = state
+        .getIn(["reorderedForms", "pending"], fromJS([]))
+        .filter(id => !reordered.includes(id));
 
       return state
-        .setIn(["reorderedForms", "data"], data)
-        .setIn(["reorderedForms", "errors"], errors);
+        .setIn(["reorderedForms", "pending"], pending)
+        .setIn(["reorderedForms", "errors"], fromJS(errors));
     }
+    case actions.SAVE_FORMS_REORDER_FINISHED:
+      return state.setIn(["reorderedForms", "loading"], payload);
     case actions.SET_REORDERED_FORMS:
-      return state.setIn(
-        ["reorderedForms", "data"],
-        payload.ids
-          .map(id => ({ [`fs-${id}`]: { reordered: false, loading: true } }))
-          .reduce((acc, current) => acc.merge(fromJS(current)), fromJS({}))
-      );
+      return state.setIn(["reorderedForms", "pending"], fromJS(payload.ids));
     default:
       return state;
   }

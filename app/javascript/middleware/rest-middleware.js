@@ -113,7 +113,7 @@ const fetchMultiPayload = (action, store, options) => {
     controller.abort();
   }, FETCH_TIMEOUT);
 
-  const { type } = action;
+  const { type, finishedCallback } = action;
 
   const fetchParams = action.api.map(apiParams =>
     fetchParamsBuilder(apiParams, options, controller)
@@ -121,26 +121,46 @@ const fetchMultiPayload = (action, store, options) => {
 
   const fetch = async () => {
     fetchStatus({ store, type }, "STARTED", true);
-
-    const results = await Promise.allSettled(
+    const responses = await Promise.allSettled(
       fetchParams.map(fetchParam =>
         window
           .fetch(fetchParam.fetchPath, fetchParam.fetchOptions)
           .then(response =>
-            response.json().then(json => ({
-              path: fetchParam.fetchPath,
-              status: response.status,
-              ok: response.ok,
-              json
-            }))
+            response
+              .json()
+              .then(json => ({
+                path: fetchParam.fetchPath,
+                status: response.status,
+                ok: response.ok,
+                json
+              }))
+              .catch(error => ({
+                path: fetchParam.fetchPath,
+                status: response.status,
+                ok: response.ok,
+                error
+              }))
           )
       )
     );
 
-    store.dispatch({
-      type: `${type}_FINISHED`,
-      payload: results.map(result => result.value)
-    });
+    const results = responses.map(result => result.value);
+
+    if (results.find(result => result.status === 401)) {
+      fetchStatus({ store, type }, "FAILURE", results);
+
+      startSignout(store, attemptSignout, signOut);
+
+    } else {
+      store.dispatch({
+        type: `${type}_SUCCESS`,
+        payload: responses.map(result => result.value)
+      });
+
+      fetchStatus({ store, type }, "FINISHED", false);
+
+      store.dispatch(finishedCallback);
+    }
   };
 
   return fetch();
