@@ -37,10 +37,10 @@ describe Api::V2::ChildrenController, type: :request do
       ]
     )
     @case1 = Child.create!(
-      data: { name: 'Test1', age: 5, sex: 'male' }
+      data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false }
     )
     @case2 = Child.create!(
-      data: { name: 'Test2', age: 10, sex: 'female' },
+      data: { name: 'Test2', age: 10, sex: 'female', urgent_protection_concern: true },
       alerts: [
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request'),
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request')
@@ -150,6 +150,26 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].count).to eq(1)
       expect(json['data'][0]['id']).to eq(@case1.id)
+    end
+
+    it 'Filter by urgent_protection_concern true' do
+      login_for_test(permitted_field_names: ['urgent_protection_concern'])
+      get '/api/v2/cases?urgent_protection_concern=true'
+
+      expect(json['data'].count).to eq(1)
+      expect(json['data'][0]['id']).to eq(@case2.id)
+      expect(json['data'][0]['urgent_protection_concern']).to be_truthy
+      expect(response).to have_http_status(200)
+    end
+
+    it 'Filter by urgent_protection_concern false' do
+      login_for_test(permitted_field_names: ['urgent_protection_concern'])
+      get '/api/v2/cases?urgent_protection_concern=false'
+
+      expect(json['data'].count).to eq(1)
+      expect(json['data'][0]['id']).to eq(@case1.id)
+      expect(json['data'][0]['urgent_protection_concern']).to be_falsey
+      expect(response).to have_http_status(200)
     end
   end
 
