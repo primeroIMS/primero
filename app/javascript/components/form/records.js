@@ -28,7 +28,8 @@ export const FieldRecord = Record({
   watchedInputs: null,
   handleWatchedInputs: null,
   check_errors: List([]),
-  hint: ""
+  hint: "",
+  inputClassname: null
 });
 
 export const FormSectionRecord = Record({

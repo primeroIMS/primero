@@ -42,7 +42,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     inlineCheckboxes,
     freeSolo,
     check_errors: fieldCheckErrors,
-    hint
+    hint,
+    inputClassname
   } = field;
   const i18n = useI18n();
   const { formMode, errors, watch } = useFormContext();
@@ -88,6 +89,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     InputLabelProps: {
       shrink: true
     },
+    className: inputClassname,
     ...watchedInputProps
   };
 

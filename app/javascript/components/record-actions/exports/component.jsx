@@ -1,17 +1,20 @@
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { List } from "immutable";
 import { object, string } from "yup";
 import { withRouter, useLocation } from "react-router-dom";
 import qs from "qs";
+import { useForm, FormContext } from "react-hook-form";
+import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
-import Form, {
+import {
   FieldRecord,
   FormSectionRecord,
-  FORM_MODE_DIALOG
+  SELECT_FIELD,
+  FORM_MODE_DIALOG,
+  whichFormMode
 } from "../../form";
 import submitForm from "../../../libs/submit-form";
 import { RECORD_TYPES } from "../../../config";
@@ -19,10 +22,13 @@ import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
 import { getRecords } from "../../index-table";
 import { EXPORT_DIALOG } from "../constants";
 import { getMetadata } from "../../record-list/selectors";
+import FormSectionField from "../../form/components/form-section-field";
+import { TEXT_FIELD, TEXT_AREA } from "../../record-form/constants";
 
 import { NAME, ALL_EXPORT_TYPES } from "./constants";
 import { allowedExports, formatFileName, exporterFilters } from "./utils";
 import { saveExport } from "./action-creators";
+import styles from "./styles.css";
 
 const Component = ({
   openExportsDialog,
@@ -39,8 +45,19 @@ const Component = ({
   const i18n = useI18n();
   const formRef = useRef();
   const dispatch = useDispatch();
+  const formMode = whichFormMode("edit");
   const { params } = match;
+  const css = makeStyles(styles)();
   const isShowPage = Object.keys(params).length > 0;
+  const validationSchema = object().shape({
+    export_type: string().required(i18n.t("encrypt.export_type")),
+    password: string().required(i18n.t("encrypt.password_label"))
+  });
+  const formMethods = useForm({
+    ...(validationSchema && { validationSchema })
+  });
+
+  const isCustomExport = formMethods.watch("export_type") === "custom_exports";
 
   const records = useSelector(state => getRecords(state, recordType)).get(
     "data"
@@ -62,6 +79,7 @@ const Component = ({
     selectedRecordsLength === records.size;
 
   const allRecordsSelected = selectedRecordsLength === totalRecords;
+
   const handleSubmit = values => {
     const { id, format, message } = ALL_EXPORT_TYPES.find(
       e => e.id === values.export_type
@@ -105,44 +123,66 @@ const Component = ({
     );
   };
 
-  const validationSchema = object().shape({
-    export_type: string().required(i18n.t("encrypt.export_type")),
-    password: string().required(i18n.t("encrypt.password_label"))
-  });
-
-  const formSections = List([
-    FormSectionRecord({
-      unique_id: "exports",
-      fields: List([
-        FieldRecord({
-          display_name: i18n.t("encrypt.export_type"),
-          name: "export_type",
-          type: "select_box",
-          option_strings_text: {
-            [i18n.locale]: allowedExports(userPermissions, i18n, isShowPage)
-          },
-          multi_select: false,
-          required: true
-        }),
-        FieldRecord({
-          display_name: i18n.t("encrypt.password_label"),
-          name: "password",
-          type: "text_field",
-          required: true,
-          autoFocus: true,
-          help_text: {
-            [i18n.locale]: i18n.t("encrypt.password_extra_info")
-          },
-          password: true
-        }),
-        FieldRecord({
-          display_name: i18n.t("encrypt.file_name"),
-          name: "custom_export_file_name",
-          type: "textarea"
-        })
-      ])
+  const formSections = [
+    FieldRecord({
+      display_name: i18n.t("encrypt.export_type"),
+      name: "export_type",
+      type: SELECT_FIELD,
+      option_strings_text: {
+        [i18n.locale]: allowedExports(userPermissions, i18n, isShowPage)
+      },
+      multi_select: false,
+      required: true
+    }),
+    FieldRecord({
+      display_name: i18n.t("exports.custom_exports.format_label"),
+      type: TEXT_FIELD,
+      inputClassname: !isCustomExport ? css.hideCustomExportFields : null
+    }),
+    FieldRecord({
+      display_name: i18n.t("exports.custom_exports.choose_fields"),
+      type: TEXT_FIELD,
+      inputClassname: !isCustomExport ? css.hideCustomExportFields : null
+    }),
+    FieldRecord({
+      display_name: i18n.t("exports.custom_exports.forms"),
+      name: "form_to_export",
+      type: SELECT_FIELD,
+      option_strings_text: {
+        [i18n.locale]: allowedExports(userPermissions, i18n, isShowPage)
+      },
+      multi_select: true,
+      inputClassname: !isCustomExport ? css.hideCustomExportFields : null
+    }),
+    FieldRecord({
+      display_name: i18n.t("exports.custom_exports.fields"),
+      name: "fields_to_export",
+      type: SELECT_FIELD,
+      option_strings_text: {
+        [i18n.locale]: allowedExports(userPermissions, i18n, isShowPage)
+      },
+      multi_select: true,
+      inputClassname: !isCustomExport ? css.hideCustomExportFields : null
+    }),
+    FieldRecord({
+      display_name: i18n.t("encrypt.password_label"),
+      name: "password",
+      type: TEXT_FIELD,
+      required: true,
+      autoFocus: true,
+      help_text: {
+        [i18n.locale]: i18n.t("encrypt.password_extra_info")
+      },
+      password: true
+    }),
+    FieldRecord({
+      display_name: i18n.t("encrypt.file_name"),
+      name: "custom_export_file_name",
+      type: TEXT_AREA
     })
-  ]);
+  ];
+
+  console.log(isCustomExport);
 
   return (
     <ActionDialog
@@ -155,13 +195,11 @@ const Component = ({
       cancelHandler={close}
       pending={pending}
     >
-      <Form
-        mode={FORM_MODE_DIALOG}
-        formSections={formSections}
-        onSubmit={handleSubmit}
-        ref={formRef}
-        validations={validationSchema}
-      />
+      <FormContext {...formMethods} formMode={formMode}>
+        {formSections.map(field => {
+          return <FormSectionField field={field} />;
+        })}
+      </FormContext>
     </ActionDialog>
   );
 };

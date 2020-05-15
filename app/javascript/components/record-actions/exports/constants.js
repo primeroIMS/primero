@@ -46,5 +46,10 @@ export const ALL_EXPORT_TYPES = Object.freeze([
     permission: ACTIONS.EXPORT_DUPLICATE_ID,
     format: EXPORT_FORMAT.CSV,
     showOnlyOnList: true
+  }),
+  Object.freeze({
+    id: "custom_exports",
+    permission: ACTIONS.EXPORT_CUSTOM,
+    format: EXPORT_FORMAT.CSV
   })
 ]);
