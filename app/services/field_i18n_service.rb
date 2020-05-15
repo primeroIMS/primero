@@ -42,7 +42,7 @@ class FieldI18nService
   #  { en: [{ 'id' => 'false', 'display_name' => 'Invalid' }] }
   #  Returns
   #  { en: [{ 'id' => 'true', 'display_name' => 'Valid' }, { 'id' => 'false', 'display_name' => 'Invalid' } ] }
-  def self.merge_i18n_options(options1, options2 = {})
+  def self.merge_i18n_options(options1, options2)
     merged_props = (options1 || {}).deep_dup
     return merged_props unless options2.present?
 
@@ -238,7 +238,7 @@ class FieldI18nService
     return if options.blank?
 
     I18n.available_locales.inject({}) do |acc, locale|
-      locale_options = options.select { |option| option['display_text']&.[](locale.to_s).present? }
+      locale_options = options.select { |option| option.dig('display_text', locale.to_s).present? }
                               .map { |option| option.merge('display_text' => option['display_text'][locale.to_s]) }
 
       locale_options_id = locale_options.map { |option| option['id'] }

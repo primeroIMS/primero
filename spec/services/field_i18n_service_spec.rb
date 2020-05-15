@@ -124,5 +124,25 @@ describe FieldI18nService do
 
       expect(lookups_options).to eq(expected_lookups_options)
     end
+
+    it 'revert fill the lookups options if the value does not have display_text bit it have _delete: true' do
+      options = [
+        { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => '', 'fr' => '' } },
+        { 'id' => '2', '_delete' => true }
+      ]
+      lookups_options = FieldI18nService.to_localized_options(options)
+
+      expected_lookups_options = {
+        'en' => [{ 'id' => '1', 'display_text' => 'Country' }, { 'id' => '2', '_delete' => true }],
+        'fr' => [{ 'id' => '2', '_delete' => true }],
+        'ar' => [{ 'id' => '2', '_delete' => true }],
+        'ar-LB' => [{ 'id' => '2', '_delete' => true }],
+        'so' => [{ 'id' => '2', '_delete' => true }],
+        'es' => [{ 'id' => '2', '_delete' => true }],
+        'bn' => [{ 'id' => '2', '_delete' => true }]
+      }
+
+      expect(lookups_options).to eq(expected_lookups_options)
+    end
   end
 end
