@@ -38,7 +38,7 @@ const Component = ({ name, id, index, children, isDragDisabled }) => {
 
   return (
     <Draggable
-      draggableId={`${FORM_GROUP_PREFIX}${id}`}
+      draggableId={`${FORM_GROUP_PREFIX}-${id}`}
       index={index}
       isDragDisabled={isDragDisabled}
     >

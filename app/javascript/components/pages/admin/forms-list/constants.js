@@ -6,4 +6,4 @@ export const ORDER_TYPE = {
   formGroup: "formGroup"
 };
 export const NAME = "FormList";
-export const FORM_GROUP_PREFIX = "form-group-";
+export const FORM_GROUP_PREFIX = "form-group";
