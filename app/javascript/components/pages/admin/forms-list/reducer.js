@@ -40,6 +40,8 @@ const setInitialGroupOrder = (state, filter) =>
 
 export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
+    case actions.CLEAR_FORMS_REORDER:
+      return state.set("reorderedForms", fromJS({}));
     case actions.ENABLE_REORDER:
       return state.setIn(["reorderedForms", "enabled"], payload);
     case actions.RECORD_FORMS_SUCCESS: {
@@ -126,7 +128,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
       const errors = payload
         .filter(data => data.ok === false)
-        .map(data => data.json);
+        .map(data => data.json || data.error);
 
       const pending = state
         .getIn(["reorderedForms", "pending"], fromJS([]))

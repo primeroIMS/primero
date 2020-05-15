@@ -24,6 +24,7 @@ import {
   ReorderActions
 } from "./components";
 import {
+  clearFormsReorder,
   enableReorder,
   fetchForms,
   reorderFormGroups,
@@ -68,7 +69,10 @@ const Component = () => {
   const canAddForms = usePermissions(RESOURCES.metadata, CREATE_RECORDS);
 
   useEffect(() => {
-    dispatch(fetchForms());
+    batch(() => {
+      dispatch(clearFormsReorder());
+      dispatch(fetchForms());
+    });
   }, []);
 
   const handleDragEnd = result => {

@@ -61,3 +61,7 @@ export const saveFormsReorder = forms => ({
   })),
   finishedCallback: enableReorder(false)
 });
+
+export const clearFormsReorder = () => ({
+  type: actions.CLEAR_FORMS_REORDER
+});

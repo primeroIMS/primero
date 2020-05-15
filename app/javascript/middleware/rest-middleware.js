@@ -141,12 +141,17 @@ const fetchMultiPayload = (action, store, options) => {
                 error
               }))
           )
+          .catch(error => ({
+            path: fetchParam.fetchPath,
+            ok: false,
+            error: error?.message
+          }))
       )
     );
 
     const results = responses.map(result => result.value);
 
-    if (results.find(result => result.status === 401)) {
+    if (results.find(result => result && result.status === 401)) {
       fetchStatus({ store, type }, "FAILURE", results);
 
       startSignout(store, attemptSignout, signOut);

@@ -42,8 +42,8 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
         type: ENQUEUE_SNACKBAR,
         payload: {
           message: successful
-            ? "Everything was saved correctly"
-            : "Not all forms could be saved.",
+            ? i18n.t("forms.messages.save_success")
+            : i18n.t("forms.messages.save_with_errors"),
           options: {
             variant: successful ? "success" : "error",
             key: generate.messageKey()
