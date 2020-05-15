@@ -120,7 +120,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.SAVE_FORMS_REORDER_STARTED:
       return state.setIn(["reorderedForms", "loading"], true);
     case actions.SAVE_FORMS_REORDER_SUCCESS: {
-      const reordered = payload.filter(data => data.ok)
+      const reordered = payload
+        .filter(data => data.ok)
         .map(data => data.json.data.id);
 
       const errors = payload

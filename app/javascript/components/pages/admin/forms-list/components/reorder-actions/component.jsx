@@ -37,6 +37,7 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
   useEffect(() => {
     if (open && !reorderLoading) {
       const successful = !errors?.size && !reorderPendings?.size;
+
       dispatch({
         type: ENQUEUE_SNACKBAR,
         payload: {

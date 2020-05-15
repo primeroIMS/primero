@@ -31,7 +31,11 @@ import {
   reorderedForms,
   saveFormsReorder
 } from "./action-creators";
-import { getFormSectionsByFormGroup, getIsLoading, getReorderEnabled } from "./selectors";
+import {
+  getFormSectionsByFormGroup,
+  getIsLoading,
+  getReorderEnabled
+} from "./selectors";
 import { getListStyle } from "./utils";
 import { NAME, FORM_GROUP_PREFIX, ORDER_TYPE } from "./constants";
 import styles from "./styles.css";

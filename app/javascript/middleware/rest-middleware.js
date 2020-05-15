@@ -150,7 +150,6 @@ const fetchMultiPayload = (action, store, options) => {
       fetchStatus({ store, type }, "FAILURE", results);
 
       startSignout(store, attemptSignout, signOut);
-
     } else {
       store.dispatch({
         type: `${type}_SUCCESS`,
