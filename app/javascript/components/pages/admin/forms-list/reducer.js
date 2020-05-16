@@ -139,7 +139,9 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .setIn(["reorderedForms", "errors"], fromJS(errors));
     }
     case actions.SAVE_FORMS_REORDER_FINISHED:
-      return state.setIn(["reorderedForms", "loading"], payload);
+      return state
+        .setIn(["reorderedForms", "loading"], payload)
+        .setIn(["reorderedForms", "finished"], true);
     case actions.SET_REORDERED_FORMS:
       return state.setIn(["reorderedForms", "pending"], fromJS(payload.ids));
     default:

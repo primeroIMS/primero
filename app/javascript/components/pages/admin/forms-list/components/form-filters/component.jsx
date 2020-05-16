@@ -66,7 +66,7 @@ const Component = ({
         onClick={handleClearValue}
         className={css.clearBtn}
       >
-        Clear
+        {i18n.t("clear")}
       </Button>
       {renderExpansionPanels()}
     </div>

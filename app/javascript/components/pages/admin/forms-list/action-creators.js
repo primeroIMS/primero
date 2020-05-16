@@ -33,15 +33,6 @@ export const reorderFormSections = (id, order, filter) => ({
   }
 });
 
-export const saveFormOrder = ({ id, body }) => ({
-  type: actions.SAVE_FORM_ORDER,
-  api: {
-    path: `${RECORD_PATH.forms}/${id}`,
-    method: "PATCH",
-    body
-  }
-});
-
 export const reorderedForms = ids => ({
   type: actions.SET_REORDERED_FORMS,
   payload: { ids }

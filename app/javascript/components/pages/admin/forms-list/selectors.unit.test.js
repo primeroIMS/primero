@@ -3,7 +3,15 @@ import { fromJS } from "immutable";
 import { mapEntriesToRecord } from "../../../../libs";
 import { FormSectionRecord } from "../../../record-form/records";
 
-import { getFormSections, getIsLoading } from "./selectors";
+import {
+  getFormSections,
+  getFormSectionsByFormGroup,
+  getIsLoading,
+  getReorderIsLoading,
+  getReorderErrors,
+  getReorderPendings,
+  getReorderEnabled
+} from "./selectors";
 
 const formSections = [
   {
@@ -64,12 +72,31 @@ const stateWithHeaders = fromJS({
   }
 });
 
+const pending = fromJS([1, 2, 3]);
+
+const errors = fromJS([{ message: "Error 1" }]);
+
+const stateWithReorderHeaders = fromJS({
+  records: {
+    admin: {
+      forms: {
+        reorderedForms: {
+          loading: true,
+          errors,
+          pending,
+          enabled: false
+        }
+      }
+    }
+  }
+});
+
 const stateWithoutHeaders = fromJS({});
 
 describe("<FormList /> - Selectors", () => {
-  describe("getFormSections", () => {
+  describe("getFormSectionsByFormGroup", () => {
     it("should return filtered form sections by group", () => {
-      const formGroups = getFormSections(stateWithHeaders, {
+      const formGroups = getFormSectionsByFormGroup(stateWithHeaders, {
         primeroModule: "primeromodule-cp",
         recordType: "case"
       });
@@ -80,7 +107,7 @@ describe("<FormList /> - Selectors", () => {
     });
 
     it("should filter out subforms", () => {
-      const formGroups = getFormSections(stateWithHeaders, {
+      const formGroups = getFormSectionsByFormGroup(stateWithHeaders, {
         primeroModule: "primeromodule-gbv",
         recordType: "incident"
       });
@@ -90,12 +117,23 @@ describe("<FormList /> - Selectors", () => {
     });
 
     it("should return empty object when form sections empty", () => {
-      const formGroups = getFormSections(stateWithoutHeaders, {
+      const formGroups = getFormSectionsByFormGroup(stateWithoutHeaders, {
         primeroModule: "primeromodule-cp",
         recordType: "incident"
       });
 
       expect(formGroups).to.deep.equal(fromJS([]));
+    });
+  });
+
+  describe("getFormSections", () => {
+    it("should return the filtered form sections", () => {
+      const forms = getFormSections(stateWithHeaders, {
+        primeroModule: "primeromodule-cp",
+        recordType: "case"
+      });
+
+      expect(forms.size).to.equal(3);
     });
   });
 
@@ -114,6 +152,38 @@ describe("<FormList /> - Selectors", () => {
       );
 
       expect(isLoading).to.be.true;
+    });
+  });
+
+  describe("getReorderIsLoading", () => {
+    it("should return true if the reorder is loading", () => {
+      const isLoading = getReorderIsLoading(stateWithReorderHeaders);
+
+      expect(isLoading).to.be.true;
+    });
+  });
+
+  describe("getReorderErrors", () => {
+    it("should return an array of errors", () => {
+      const reorderErrors = getReorderErrors(stateWithReorderHeaders);
+
+      expect(reorderErrors).to.deep.equal(errors);
+    });
+  });
+
+  describe("getReorderPendings", () => {
+    it("should return an array of pending ids to be reordered", () => {
+      const pendingForms = getReorderPendings(stateWithReorderHeaders);
+
+      expect(pendingForms).to.deep.equal(pending);
+    });
+  });
+
+  describe("getReorderEnabled", () => {
+    it("should return if the reorder functionality is enabled", () => {
+      const enabled = getReorderEnabled(stateWithReorderHeaders);
+
+      expect(enabled).to.deep.equal(false);
     });
   });
 });
