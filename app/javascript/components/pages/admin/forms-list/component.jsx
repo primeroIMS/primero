@@ -73,6 +73,8 @@ const Component = () => {
       dispatch(clearFormsReorder());
       dispatch(fetchForms());
     });
+
+    return () => dispatch(clearFormsReorder());
   }, []);
 
   const handleDragEnd = result => {
