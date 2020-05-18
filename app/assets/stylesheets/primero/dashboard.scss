@@ -543,6 +543,11 @@ $dashboard_table_counts:85px;
   .card-container {
     display: flex;
     flex-direction: column;
+    .column{
+      flex: 0 1 auto;
+      -webkit-flex: 0;
+      flex-shrink: 0;
+    }
   }
   /*Temporal hack to fix mobile responsive in table dasboards*/
   table.table-counts {
@@ -550,5 +555,39 @@ $dashboard_table_counts:85px;
   }
   #sidebar{
     display: none;
+  }
+
+  ul.menu.simple.align-right.links {
+    justify-content: flex-end;
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    li {
+      flex: 1 1;
+      flex-basis: 150px;
+      margin-left: 0px;
+      margin-right: 2.5px;
+      padding-right: 0px;
+      padding-left: 2.5px;
+    }
+  }
+}
+
+@media only screen and (min-width: 640px) and (max-width: 1023px) {
+  ul.menu.simple.align-right.links {
+    justify-content: flex-end;
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    li {
+      flex: 1 1;
+      flex-basis: 150px;
+      margin-left: 0px;
+      margin-right: 5px;
+      padding-right: 5px;
+      padding-left: 5px;
+    }
   }
 }
