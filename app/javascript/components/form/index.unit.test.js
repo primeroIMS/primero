@@ -14,6 +14,7 @@ describe("<Form /> - index", () => {
       "FormAction",
       "FormSectionRecord",
       "LABEL_FIELD",
+      "NUMERIC_FIELD",
       "PARENT_FORM",
       "PHOTO_FIELD",
       "SELECT_FIELD",
