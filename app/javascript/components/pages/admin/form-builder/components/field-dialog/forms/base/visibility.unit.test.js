@@ -1,11 +1,9 @@
-import { FieldRecord, TEXT_FIELD } from "../../../../../../../form";
-
 import { visibilityFields, visibilityForm } from "./visibility";
 
 describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - visibility", () => {
   const i18n = { t: value => value };
 
-   describe("visibilityFields", () => {
+  describe("visibilityFields", () => {
     it("should return the options fields", () => {
       const fields = visibilityFields("test_1", i18n);
 
@@ -22,9 +20,9 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - v
   describe("visibilityForm", () => {
     it("should return the visibility form with default fields", () => {
       const form = visibilityForm("test_1", i18n);
-      const fieldNames = form.fields.map(field =>
-        field.name || field.row.map( rowField => rowField.name)
-      ).flat();
+      const fieldNames = form.fields
+        .map(field => field.name || field.row.map(rowField => rowField.name))
+        .flat();
 
       expect(form.unique_id).to.equal("field_visibility");
       expect(fieldNames).to.deep.equal([
@@ -51,5 +49,4 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - v
       ]);
     });
   });
-
 });

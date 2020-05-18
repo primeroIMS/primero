@@ -5,7 +5,7 @@ import {
   generalForm,
   optionsForm,
   visibilityForm
-} from "./basic";
+} from "./base";
 
 /* eslint-disable import/prefer-default-export */
 export const textFieldForm = (fieldName, i18n) => ({

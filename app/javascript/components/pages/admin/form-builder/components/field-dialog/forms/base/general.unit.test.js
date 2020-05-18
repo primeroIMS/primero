@@ -4,7 +4,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - g
   const i18n = { t: value => value };
 
   describe("generalFields", () => {
-    it ("should return the general fields", () => {
+    it("should return the general fields", () => {
       const fields = generalFields("test_1", i18n);
 
       expect(fields.displayName.name).to.equal("test_1.display_name.en");
@@ -14,7 +14,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - g
   });
 
   describe("generalForm", () => {
-    it ("should return the general form with default fields", () => {
+    it("should return the general form with default fields", () => {
       const form = generalForm("test_1", i18n);
       const fieldNames = form.fields.map(field => field.name);
 
@@ -26,7 +26,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - g
       ]);
     });
 
-    it ("should return the general form with passed fields", () => {
+    it("should return the general form with passed fields", () => {
       const fields = generalFields("test_1", i18n);
       const form = generalForm("test_1", i18n, [fields.displayName]);
       const fieldNames = form.fields.map(field => field.name);
