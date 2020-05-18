@@ -53,3 +53,6 @@ export const ALL_EXPORT_TYPES = Object.freeze([
     format: EXPORT_FORMAT.CSV
   })
 ]);
+
+export const FIELD_ID = "field";
+export const FORMS_ID = "forms";

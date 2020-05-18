@@ -9,13 +9,17 @@ import TextInput from "../fields/text-input";
 import SwitchInput from "../fields/switch-input";
 import SelectInput from "../fields/select-input";
 import ErrorField from "../fields/error-field";
+import RadioField from "../fields/radio-input";
+import ToggleField from "../fields/toggle-input";
 import {
   CHECK_BOX_FIELD,
   ERROR_FIELD,
   LABEL_FIELD,
   PHOTO_FIELD,
   SELECT_FIELD,
-  TICK_FIELD
+  TICK_FIELD,
+  RADIO_FIELD,
+  TOGGLE_FIELD
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
@@ -116,6 +120,10 @@ const FormSectionField = ({ checkErrors, field }) => {
         return Label;
       case ERROR_FIELD:
         return ErrorField;
+      case RADIO_FIELD:
+        return RadioField;
+      case TOGGLE_FIELD:
+        return ToggleField;
       default:
         return TextInput;
     }
@@ -128,7 +136,7 @@ const FormSectionField = ({ checkErrors, field }) => {
           field={field}
           commonInputProps={commonInputProps}
           metaInputProps={metaInputProps}
-          options={optionSource.toJS()}
+          options={optionSource?.toJS()}
           errorsToCheck={errorsToCheck}
         />
       )}

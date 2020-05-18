@@ -12,6 +12,8 @@ export {
   SELECT_FIELD,
   TEXT_AREA,
   TEXT_FIELD,
-  TICK_FIELD
+  TICK_FIELD,
+  RADIO_FIELD,
+  TOGGLE_FIELD
 } from "./constants";
 export { whichFormMode, submitHandler } from "./utils";

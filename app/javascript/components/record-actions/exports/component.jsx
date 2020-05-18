@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useImperativeHandle } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { object, string } from "yup";
@@ -6,6 +6,7 @@ import { withRouter, useLocation } from "react-router-dom";
 import qs from "qs";
 import { useForm, FormContext } from "react-hook-form";
 import { makeStyles } from "@material-ui/styles";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
@@ -13,8 +14,13 @@ import {
   FieldRecord,
   FormSectionRecord,
   SELECT_FIELD,
+  RADIO_FIELD,
   FORM_MODE_DIALOG,
-  whichFormMode
+  whichFormMode,
+  TEXT_AREA,
+  TEXT_FIELD,
+  TICK_FIELD,
+  TOGGLE_FIELD
 } from "../../form";
 import submitForm from "../../../libs/submit-form";
 import { RECORD_TYPES } from "../../../config";
@@ -23,10 +29,11 @@ import { getRecords } from "../../index-table";
 import { EXPORT_DIALOG } from "../constants";
 import { getMetadata } from "../../record-list/selectors";
 import FormSectionField from "../../form/components/form-section-field";
-import { TEXT_FIELD, TEXT_AREA } from "../../record-form/constants";
+import { submitHandler } from "../../form/utils/form-submission";
 
-import { NAME, ALL_EXPORT_TYPES } from "./constants";
-import { allowedExports, formatFileName, exporterFilters } from "./utils";
+import { NAME, ALL_EXPORT_TYPES, FIELD_ID, FORMS_ID } from "./constants";
+import { formatFileName, exporterFilters } from "./utils";
+import form from "./form";
 import { saveExport } from "./action-creators";
 import styles from "./styles.css";
 
@@ -53,11 +60,40 @@ const Component = ({
     export_type: string().required(i18n.t("encrypt.export_type")),
     password: string().required(i18n.t("encrypt.password_label"))
   });
+
+  // TODO: Make constants
+  const defaultValues = {
+    export_type: "",
+    custom_format_type: "",
+    individual_fields: false,
+    form_to_export: [],
+    fields_to_export: [],
+    password: "",
+    custom_export_file_name: ""
+  };
+
   const formMethods = useForm({
-    ...(validationSchema && { validationSchema })
+    ...(validationSchema && { validationSchema }),
+    defaultValues
   });
 
   const isCustomExport = formMethods.watch("export_type") === "custom_exports";
+  const showFormSelect = formMethods.watch("custom_format_type") === FORMS_ID;
+  const showFieldSelect =
+    formMethods.watch("custom_format_type") === FIELD_ID ||
+    formMethods.watch("individual_fields");
+
+  const hideFieldSelect =
+    !isCustomExport ||
+    (isCustomExport && isEmpty(formMethods.watch("custom_format_type"))) ||
+    (!formMethods.watch("individual_fields") &&
+      formMethods.watch("custom_format_type") === FORMS_ID);
+
+  const hideFormSelect =
+    !isCustomExport ||
+    (isCustomExport && isEmpty(formMethods.watch("custom_format_type"))) ||
+    formMethods.watch("individual_fields") ||
+    formMethods.watch("custom_format_type") === FIELD_ID;
 
   const records = useSelector(state => getRecords(state, recordType)).get(
     "data"
@@ -87,7 +123,7 @@ const Component = ({
     const fileName = formatFileName(values.custom_export_file_name, format);
     const shortIds = records
       .toJS()
-      .filter((_r, i) => selectedRecords[currentPage]?.includes(i))
+      .filter((_r, i) => selectedRecords?.[currentPage]?.includes(i))
       .map(r => r.short_id);
 
     const filters = exporterFilters(
@@ -107,82 +143,47 @@ const Component = ({
       password: values.password
     };
 
+    console.log("SUBMIT", values);
+
     const data = { ...body, ...filters };
 
-    setPending(true);
+    // setPending(true);
 
-    dispatch(
-      saveExport(
-        { data },
-        i18n.t(message || "exports.queueing", {
-          file_name: fileName ? `: ${fileName}.` : "."
-        }),
-        i18n.t("exports.go_to_exports"),
-        EXPORT_DIALOG
-      )
-    );
+    // dispatch(
+    //   saveExport(
+    //     { data },
+    //     i18n.t(message || "exports.queueing", {
+    //       file_name: fileName ? `: ${fileName}.` : "."
+    //     }),
+    //     i18n.t("exports.go_to_exports"),
+    //     EXPORT_DIALOG
+    //   )
+    // );
   };
 
-  const formSections = [
-    FieldRecord({
-      display_name: i18n.t("encrypt.export_type"),
-      name: "export_type",
-      type: SELECT_FIELD,
-      option_strings_text: {
-        [i18n.locale]: allowedExports(userPermissions, i18n, isShowPage)
-      },
-      multi_select: false,
-      required: true
-    }),
-    FieldRecord({
-      display_name: i18n.t("exports.custom_exports.format_label"),
-      type: TEXT_FIELD,
-      inputClassname: !isCustomExport ? css.hideCustomExportFields : null
-    }),
-    FieldRecord({
-      display_name: i18n.t("exports.custom_exports.choose_fields"),
-      type: TEXT_FIELD,
-      inputClassname: !isCustomExport ? css.hideCustomExportFields : null
-    }),
-    FieldRecord({
-      display_name: i18n.t("exports.custom_exports.forms"),
-      name: "form_to_export",
-      type: SELECT_FIELD,
-      option_strings_text: {
-        [i18n.locale]: allowedExports(userPermissions, i18n, isShowPage)
-      },
-      multi_select: true,
-      inputClassname: !isCustomExport ? css.hideCustomExportFields : null
-    }),
-    FieldRecord({
-      display_name: i18n.t("exports.custom_exports.fields"),
-      name: "fields_to_export",
-      type: SELECT_FIELD,
-      option_strings_text: {
-        [i18n.locale]: allowedExports(userPermissions, i18n, isShowPage)
-      },
-      multi_select: true,
-      inputClassname: !isCustomExport ? css.hideCustomExportFields : null
-    }),
-    FieldRecord({
-      display_name: i18n.t("encrypt.password_label"),
-      name: "password",
-      type: TEXT_FIELD,
-      required: true,
-      autoFocus: true,
-      help_text: {
-        [i18n.locale]: i18n.t("encrypt.password_extra_info")
-      },
-      password: true
-    }),
-    FieldRecord({
-      display_name: i18n.t("encrypt.file_name"),
-      name: "custom_export_file_name",
-      type: TEXT_AREA
+  useImperativeHandle(
+    formRef,
+    submitHandler({
+      dispatch,
+      formMethods,
+      formMode,
+      i18n,
+      initialValues: defaultValues,
+      onSubmit: handleSubmit
     })
-  ];
+  );
 
-  console.log(isCustomExport);
+  const formSections = form(
+    i18n,
+    userPermissions,
+    isCustomExport,
+    isShowPage,
+    showFormSelect,
+    showFieldSelect,
+    css,
+    hideFieldSelect,
+    hideFormSelect
+  );
 
   return (
     <ActionDialog
@@ -196,9 +197,11 @@ const Component = ({
       pending={pending}
     >
       <FormContext {...formMethods} formMode={formMode}>
-        {formSections.map(field => {
-          return <FormSectionField field={field} />;
-        })}
+        <form onSubmit={formMethods.handleSubmit(handleSubmit)}>
+          {formSections.map(field => {
+            return <FormSectionField field={field} />;
+          })}
+        </form>
       </FormContext>
     </ActionDialog>
   );
