@@ -255,7 +255,9 @@ const Container = ({
     handleTransferClose: () => setTransferDialog(false),
     handleAssignClose: () => setAssignDialog(false),
     pending: dialogPending,
-    setPending: setDialogPending
+    setPending: setDialogPending,
+    currentPage,
+    selectedRecords
   };
 
   const handleNotesClose = () => {

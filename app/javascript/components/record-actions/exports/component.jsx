@@ -18,7 +18,7 @@ import { RECORD_TYPES } from "../../../config";
 import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
 import { getRecords } from "../../index-table";
 import { EXPORT_DIALOG } from "../constants";
-import { getMetadata } from "../../record-list/selectors";
+import { getMetadata } from "../../record-list";
 
 import { NAME, ALL_EXPORT_TYPES } from "./constants";
 import { allowedExports, formatFileName, exporterFilters } from "./utils";

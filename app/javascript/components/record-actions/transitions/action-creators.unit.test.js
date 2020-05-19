@@ -123,6 +123,59 @@ describe("<Transitions /> - Action Creators", () => {
     ).to.deep.equals(expected);
   });
 
+  it("should check the 'saveAssignedUser' action creator for bulk assign to return the correct object", () => {
+    const body = {
+      data: {
+        trasitioned_to: "primero_cp",
+        notes: "Some notes",
+        recordsIds: [12345, 67890]
+      }
+    };
+    const store = configureStore()({});
+    const dispatch = sinon.spy(store, "dispatch");
+    const expected = {
+      type: actions.ASSIGN_USER_SAVE,
+      api: {
+        body,
+        method: "POST",
+        path: "cases/assigns",
+        successCallback: [
+          {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              message: "Success Message",
+              options: {
+                key: 4,
+                variant: "success"
+              }
+            }
+          },
+          {
+            action: SET_DIALOG,
+            payload: {
+              dialog: ASSIGN_DIALOG,
+              open: false
+            }
+          },
+          {
+            action: SET_DIALOG_PENDING,
+            payload: {
+              pending: false
+            }
+          }
+        ]
+      }
+    };
+
+    expect(
+      dispatch(
+        actionCreators.saveAssignedUser("123abc", body, "Success Message", [
+          12345,
+          67890
+        ])
+      )
+    ).to.deep.equals(expected);
+  });
   it("should check the 'saveTransferUser' action creator to return the correct object", () => {
     const body = {
       data: {

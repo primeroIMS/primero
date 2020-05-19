@@ -8,6 +8,7 @@ import {
 import { Map } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
+import ActionDialog from "../../../action-dialog";
 
 import TransitionDialog from "./transition-dialog";
 
@@ -55,7 +56,7 @@ describe("<TransitionDialog />", () => {
 
     it("should render 'Referral Case No.' as title", () => {
       expect(component.find(DialogTitle).text()).to.equals(
-        "Referral Case 1234abc"
+        "transition.type.referral forms.record_types.case 1234abc"
       );
     });
   });
@@ -72,7 +73,7 @@ describe("<TransitionDialog />", () => {
 
     it("should render 'Assign Case No.' as title", () => {
       expect(component.find(DialogTitle).text()).to.equals(
-        "Assign Case 1234abc"
+        "transition.type.reassign forms.record_types.case 1234abc"
       );
     });
   });
@@ -89,8 +90,105 @@ describe("<TransitionDialog />", () => {
 
     it("should render 'Transfer Case No.' as title", () => {
       expect(component.find(DialogTitle).text()).to.equals(
-        "Transfer Case 1234abc"
+        "transition.type.transfer forms.record_types.case 1234abc"
       );
+    });
+  });
+
+  describe("when transitionType is 'reassign' for bulk operations", () => {
+    const transitionType = "reassign";
+    const propsForBulk = {
+      ...props,
+      record: undefined,
+      selectedIds: [12345, 67890]
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(TransitionDialog, {
+        ...propsForBulk,
+        transitionType
+      }));
+    });
+
+    it("should render 'Assign Cases' as title", () => {
+      expect(component.find(DialogTitle).text()).to.equals(
+        "transition.type.reassign cases.label "
+      );
+    });
+  });
+
+  describe("when TransitionDialog is rendered", () => {
+    const propsRendered = {
+      children: <p>Hello world</p>,
+      confirmButtonLabel: "Confirm Button",
+      enabledSuccessButton: false,
+      omitCloseAfterSuccess: false,
+      onClose: () => {},
+      open: true,
+      pending: false,
+      record: undefined,
+      recordType: "cases",
+      selectedIds: [],
+      successHandler: () => {},
+      transitionType: "assign"
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        TransitionDialog,
+        propsRendered,
+        {}
+      ));
+    });
+
+    it("should accept valid props", () => {
+      const transitionDialogProps = {
+        ...component.find(TransitionDialog).props()
+      };
+
+      expect(component.find(TransitionDialog)).to.have.lengthOf(1);
+      [
+        "children",
+        "confirmButtonLabel",
+        "enabledSuccessButton",
+        "omitCloseAfterSuccess",
+        "onClose",
+        "open",
+        "pending",
+        "record",
+        "recordType",
+        "selectedIds",
+        "successHandler",
+        "transitionType"
+      ].forEach(property => {
+        expect(transitionDialogProps).to.have.property(property);
+        delete transitionDialogProps[property];
+      });
+      expect(transitionDialogProps).to.be.empty;
+    });
+
+    it("renders valid props for ActionDialog components", () => {
+      const actionDialogProps = { ...component.find(ActionDialog).props() };
+
+      expect(component.find(ActionDialog)).to.have.lengthOf(1);
+      [
+        "maxWidth",
+        "onClose",
+        "confirmButtonLabel",
+        "omitCloseAfterSuccess",
+        "open",
+        "pending",
+        "successHandler",
+        "dialogTitle",
+        "cancelHandler",
+        "enabledSuccessButton",
+        "dialogSubHeader",
+        "children"
+      ].forEach(property => {
+        expect(actionDialogProps).to.have.property(property);
+        delete actionDialogProps[property];
+      });
+      expect(actionDialogProps).to.be.empty;
     });
   });
 });

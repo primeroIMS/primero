@@ -191,6 +191,33 @@ describe("<RecordActions />", () => {
     it("renders Transitions", () => {
       expect(component.find(Transitions)).to.have.length(1);
     });
+
+    it("renders valid props for Transitions components", () => {
+      const transitionsProps = { ...component.find(Transitions).props() };
+
+      expect(component.find(Transitions)).to.have.lengthOf(1);
+      [
+        "record",
+        "transitionType",
+        "setTransitionType",
+        "recordType",
+        "userPermissions",
+        "referDialog",
+        "transferDialog",
+        "assignDialog",
+        "handleReferClose",
+        "handleTransferClose",
+        "handleAssignClose",
+        "pending",
+        "setPending",
+        "currentPage",
+        "selectedRecords"
+      ].forEach(property => {
+        expect(transitionsProps).to.have.property(property);
+        delete transitionsProps[property];
+      });
+      expect(transitionsProps).to.be.empty;
+    });
   });
 
   describe("Component Notes", () => {

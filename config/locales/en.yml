@@ -2492,6 +2492,7 @@ en:
     users_label: "Recipient"
     user_mandatory_label: "Recipient is required"
     successfully: "Successfully reassigned"
+    multiple_successfully: "%{select_records} case(s) successfully assigned"
 
   transfer:
     type_label: "Type of Transfer"
@@ -2558,6 +2559,7 @@ en:
       transfer: "Transfer"
       transferRequest: "Transfer Request"
       referral: "Referral"
+      reassign: "Assign"
     notes: "Notes"
     recipient: "Recipient"
     assigned_by: "Assigned By"

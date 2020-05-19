@@ -4,6 +4,7 @@ import { object, string } from "yup";
 import { Formik, Field, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { TextField } from "formik-material-ui";
+import isEmpty from "lodash/isEmpty";
 
 import { RECORD_TYPES, USER_NAME_FIELD } from "../../../../config";
 import {
@@ -19,7 +20,13 @@ import { REASSIGN_FORM_NAME } from "./constants";
 
 const initialValues = { transitioned_to: "", notes: "" };
 
-const ReassignForm = ({ record, recordType, setPending, assignRef }) => {
+const ReassignForm = ({
+  record,
+  recordType,
+  setPending,
+  assignRef,
+  selectedIds
+}) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const transitionType = "reassign";
@@ -92,13 +99,19 @@ const ReassignForm = ({ record, recordType, setPending, assignRef }) => {
   };
 
   const handleAssign = (values, { setSubmitting }) => {
+    const data = isEmpty(selectedIds)
+      ? values
+      : { ...values, ids: selectedIds };
+
+    const messageSuccess = isEmpty(selectedIds)
+      ? i18n.t("reassign.successfully")
+      : i18n.t("reassign.multiple_successfully", {
+          select_records: selectedIds.length
+        });
+
     setPending(true);
     dispatch(
-      saveAssignedUser(
-        record.get("id"),
-        { data: values },
-        i18n.t("reassign.successfully")
-      )
+      saveAssignedUser(record?.get("id"), { data }, messageSuccess, selectedIds)
     );
     setSubmitting(false);
   };
@@ -155,6 +168,7 @@ ReassignForm.propTypes = {
   formik: PropTypes.object,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  selectedIds: PropTypes.array,
   setPending: PropTypes.func
 };
 
