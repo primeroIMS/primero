@@ -576,7 +576,16 @@ $dashboard_table_counts:85px;
           padding: 0.25rem 0.25rem 0.25rem;
         }
         th:not(:first-child) {
-          font-size: .60em
+          font-size: 9px;
+          span{
+            font-size: 8px;
+          }
+        }
+        th:first-child{
+          font-size: 10px;
+        }
+        td:first-child{
+          font-size: 13px;
         }
       }
     }
