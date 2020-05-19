@@ -58,7 +58,6 @@ const Component = ({
       );
     }
 
-    // TODO: Move value to helper
     addFilterToList({ [fieldName]: value ? [value.toString()] : undefined });
   };
 
