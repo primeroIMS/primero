@@ -30,12 +30,6 @@ export const DB_COLLECTIONS_V2 = ["dashboards"];
 
 export const DB_COLLECTIONS = [...DB_COLLECTIONS_V1, ...DB_COLLECTIONS_V2];
 
-export const QUEUEABLE_ACTIONS = [
-  RECORD_PATH.cases,
-  RECORD_PATH.incidents,
-  RECORD_PATH.tracing_requests
-];
-
 export const DB_COLLECTIONS_NAMES = DB_COLLECTIONS.reduce((prev, current) => {
   const obj = prev;
   const name = Array.isArray(current) ? current[0] : current;

@@ -19,6 +19,13 @@ export const approvalRecord = ({
     api: {
       path: `${recordType}/${recordId}/approvals/${approvalId}`,
       method: "PATCH",
+      queueOffline: true,
+      responseRecordKey: "approval_subforms",
+      responseRecordArray: true,
+      responseRecordID: recordId,
+      db: {
+        recordType: null
+      },
       body,
       successCallback: [
         {

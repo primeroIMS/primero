@@ -12,11 +12,14 @@ describe("<FormBuilder /> - Actions", () => {
       "FETCH_FORM_FINISHED",
       "FETCH_FORM_STARTED",
       "FETCH_FORM_SUCCESS",
+      "REORDER_FIELDS",
       "SAVE_FORM",
       "SAVE_FORM_STARTED",
       "SAVE_FORM_FINISHED",
       "SAVE_FORM_SUCCESS",
-      "SAVE_FORM_FAILURE"
+      "SAVE_FORM_FAILURE",
+      "SET_SELECTED_FIELD",
+      "UPDATE_SELECTED_FIELD"
     ].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];

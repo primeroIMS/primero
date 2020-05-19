@@ -12,9 +12,7 @@ describe Api::V2::BulkExportsController, type: :request do
 
     @export_permission = Permission.new(
       resource: Permission::CASE,
-      actions: [
-        Permission::EXPORT_JSON
-      ]
+      actions: [Permission::EXPORT_JSON, Permission::EXPORT_CUSTOM]
     )
     @export1 = BulkExport.create!(
       status: BulkExport::COMPLETE, record_type: 'case', format: 'json', file_name: 'export1', owned_by: fake_user_name
@@ -39,17 +37,18 @@ describe Api::V2::BulkExportsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(3)
-      expect(json['data'].map { |c| c['file_name'] }).to include(@export1.file_name, @export2.file_name, @export4.file_name)
+      expect(json['data'].map { |c| c['file_name'] }).to(
+        include(@export1.file_name, @export2.file_name, @export4.file_name)
+      )
       expect(json['metadata']['total']).to eq(3)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
     end
 
-
     it 'lists only csv permitted exports and accompanying metadata' do
       login_for_test(permissions: [@export_permission])
 
-      get '/api/v2/exports', params: { export_format: 'csv'}
+      get '/api/v2/exports', params: { export_format: 'csv' }
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
@@ -125,6 +124,31 @@ describe Api::V2::BulkExportsController, type: :request do
         expect(BulkExportJob).to have_been_enqueued
           .with(json['data']['id'], @password_encrypted)
           .at_least(:once)
+      end
+    end
+
+    describe 'custom export request' do
+      before do
+        login_for_test(permissions: [@export_permission])
+        params = {
+          data: {
+            record_type: 'case',
+            export_format: 'custom',
+            file_name: 'test.xls',
+            password: @password,
+            custom_export_params: { field_names: %w[age sex] }
+          }
+        }
+        post '/api/v2/exports', params: params
+      end
+
+      it 'creates a custom bulk export' do
+        expect(response).to have_http_status(200)
+        bulk_export = BulkExport.find(json['data']['id'])
+
+        expect(bulk_export.exporter.class).to eq(Exporters::SelectedFieldsExcelExporter)
+        expect(bulk_export.custom_export_params).to eq('field_names' => %w[age sex])
+        expect(bulk_export.file_name).to eq('test.xls')
       end
     end
 

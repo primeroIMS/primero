@@ -154,7 +154,7 @@ describe("<RecordForms /> - Component", () => {
     ));
   });
 
-  it.skip("renders the PageContainer", done => {
+  it("renders the PageContainer", done => {
     expect(component.find(PageContainer)).to.have.length(1);
     done();
   });
