@@ -32,6 +32,10 @@ describe("<RequestApproval /> - Action Creators", () => {
       type: `cases/${APPROVE_RECORD}`,
       api: {
         path: "cases/10/approvals/bia",
+        queueOffline: true,
+        responseRecordArray: true,
+        responseRecordID: 10,
+        responseRecordKey: "approval_subforms",
         method: "PATCH",
         body: args.body,
         successCallback: [

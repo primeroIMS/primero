@@ -33,6 +33,10 @@ const withGeneratedProperties = (action, store, db) => {
 
 const dispatchSuccess = (store, action, payload) => {
   const { type, api, fromQueue } = action;
+  const data = {
+    ...payload?.data,
+    ...(api?.responseExtraParams && { ...api?.responseExtraParams })
+  };
 
   store.dispatch({
     type: `${type}_SUCCESS`,
@@ -41,9 +45,7 @@ const dispatchSuccess = (store, action, payload) => {
           data: {
             record: {
               id: api?.responseRecordID,
-              [api?.responseRecordKey]: api?.responseRecordArray
-                ? [{ ...payload?.data }]
-                : { ...payload?.data }
+              [api?.responseRecordKey]: api?.responseRecordArray ? [data] : data
             }
           }
         }
