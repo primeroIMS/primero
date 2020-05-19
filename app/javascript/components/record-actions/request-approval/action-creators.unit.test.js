@@ -33,6 +33,10 @@ describe("<RequestApproval /> - Action Creators", () => {
       api: {
         path: "cases/10/approvals/bia",
         method: "PATCH",
+        queueOffline: true,
+        responseRecordArray: true,
+        responseRecordID: 10,
+        responseRecordKey: "approval_subforms",
         body: args.body,
         successCallback: [
           {
@@ -59,6 +63,9 @@ describe("<RequestApproval /> - Action Creators", () => {
             }
           }
         ],
+        db: {
+          recordType: null
+        },
         failureCallback: [
           {
             action: ENQUEUE_SNACKBAR,
