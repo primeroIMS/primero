@@ -29,7 +29,8 @@ export const FieldRecord = Record({
   handleWatchedInputs: null,
   check_errors: List([]),
   hint: "",
-  inputClassname: null
+  inputClassname: null,
+  groupBy: null
 });
 
 export const FormSectionRecord = Record({

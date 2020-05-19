@@ -1,4 +1,5 @@
 import isEmpty from "lodash/isEmpty";
+import uniqBy from "lodash/uniqBy";
 
 import {
   FieldRecord,
@@ -19,7 +20,8 @@ export default (
   isShowPage,
   formatType,
   individualFields,
-  css
+  css,
+  fields
 ) => [
   FieldRecord({
     display_name: i18n.t("encrypt.export_type"),
@@ -64,7 +66,13 @@ export default (
     name: "form_to_export",
     type: SELECT_FIELD,
     multi_select: true,
-    option_strings_source: "Module",
+    option_strings_text: uniqBy(
+      fields.map(field => ({
+        id: field.formSectionId,
+        display_text: field.formSectionName
+      })),
+      "id"
+    ),
     inputClassname:
       !isCustomExport ||
       (isCustomExport && isEmpty(formatType)) ||
@@ -78,7 +86,8 @@ export default (
     name: "fields_to_export",
     type: SELECT_FIELD,
     multi_select: true,
-    option_strings_source: "",
+    groupBy: "formSectionName",
+    option_strings_text: fields,
     inputClassname:
       !isCustomExport ||
       (isCustomExport && isEmpty(formatType)) ||

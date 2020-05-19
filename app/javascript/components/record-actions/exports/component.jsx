@@ -1,4 +1,4 @@
-import React, { useRef, useImperativeHandle, useEffect } from "react";
+import React, { useEffect, useImperativeHandle, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { object, string } from "yup";
@@ -6,22 +6,10 @@ import { withRouter, useLocation } from "react-router-dom";
 import qs from "qs";
 import { useForm, FormContext } from "react-hook-form";
 import { makeStyles } from "@material-ui/styles";
-import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
-import {
-  FieldRecord,
-  FormSectionRecord,
-  SELECT_FIELD,
-  RADIO_FIELD,
-  FORM_MODE_DIALOG,
-  whichFormMode,
-  TEXT_AREA,
-  TEXT_FIELD,
-  TICK_FIELD,
-  TOGGLE_FIELD
-} from "../../form";
+import { whichFormMode } from "../../form";
 import submitForm from "../../../libs/submit-form";
 import { RECORD_TYPES } from "../../../config";
 import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
@@ -30,24 +18,37 @@ import { EXPORT_DIALOG } from "../constants";
 import { getMetadata } from "../../record-list/selectors";
 import FormSectionField from "../../form/components/form-section-field";
 import { submitHandler } from "../../form/utils/form-submission";
+import { getRecordForms } from "../../record-form/selectors";
 
-import { NAME, ALL_EXPORT_TYPES, FIELD_ID, FORMS_ID } from "./constants";
-import { formatFileName, exporterFilters } from "./utils";
+import {
+  ALL_EXPORT_TYPES,
+  CUSTOM_EXPORT_FILE_NAME_FIELD,
+  CUSTOM_FORMAT_TYPE_FIELD,
+  EXPORT_TYPE_FIELD,
+  FIELDS_TO_EXPORT_FIELD,
+  FIELD_ID,
+  FORMS_ID,
+  FORM_TO_EXPORT_FIELD,
+  INDIVIDUAL_FIELDS_FIELD,
+  NAME,
+  PASSWORD_FIELD
+} from "./constants";
+import { buildFields, exporterFilters, formatFileName } from "./utils";
 import form from "./form";
 import { saveExport } from "./action-creators";
 import styles from "./styles.css";
 
 const Component = ({
-  openExportsDialog,
   close,
-  recordType,
-  userPermissions,
-  match,
-  record,
   currentPage,
-  selectedRecords,
+  match,
+  openExportsDialog,
   pending,
-  setPending
+  record,
+  recordType,
+  selectedRecords,
+  setPending,
+  userPermissions
 }) => {
   const i18n = useI18n();
   const formRef = useRef();
@@ -61,15 +62,14 @@ const Component = ({
     password: string().required(i18n.t("encrypt.password_label"))
   });
 
-  // TODO: Make constants
   const defaultValues = {
-    export_type: "",
-    custom_format_type: "",
-    individual_fields: false,
-    form_to_export: [],
-    fields_to_export: [],
-    password: "",
-    custom_export_file_name: ""
+    [EXPORT_TYPE_FIELD]: "",
+    [CUSTOM_FORMAT_TYPE_FIELD]: "",
+    [INDIVIDUAL_FIELDS_FIELD]: false,
+    [FORM_TO_EXPORT_FIELD]: [],
+    [FIELDS_TO_EXPORT_FIELD]: [],
+    [PASSWORD_FIELD]: "",
+    [CUSTOM_EXPORT_FILE_NAME_FIELD]: ""
   };
 
   const formMethods = useForm({
@@ -77,30 +77,36 @@ const Component = ({
     defaultValues
   });
 
-  const formatType = formMethods.watch("custom_format_type");
-  const individualFields = formMethods.watch("individual_fields");
-  const isCustomExport = formMethods.watch("export_type") === "custom_exports";
-
   const records = useSelector(state => getRecords(state, recordType)).get(
     "data"
   );
   const metadata = useSelector(state => getMetadata(state, recordType));
-  const totalRecords = metadata?.get("total", 0);
   const appliedFilters = useSelector(state =>
     getFiltersValuesByRecordType(state, recordType)
   );
+
+  const totalRecords = metadata?.get("total", 0);
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
-
   const selectedRecordsLength = Object.values(selectedRecords || {}).flat()
     ?.length;
-
   const allCurrentRowsSelected =
     selectedRecordsLength > 0 &&
     records.size > 0 &&
     selectedRecordsLength === records.size;
-
   const allRecordsSelected = selectedRecordsLength === totalRecords;
+
+  const formatType = formMethods.watch(CUSTOM_FORMAT_TYPE_FIELD);
+  const individualFields = formMethods.watch(INDIVIDUAL_FIELDS_FIELD);
+  const isCustomExport =
+    formMethods.watch(EXPORT_TYPE_FIELD) === "custom_exports";
+  const recordTypesForms = useSelector(state =>
+    getRecordForms(state, {
+      recordType: RECORD_TYPES[recordType],
+      primeroModule: record?.get("module_id")
+    })
+  );
+  const fields = buildFields(recordTypesForms, i18n.locale);
 
   const handleSubmit = values => {
     const { id, format, message } = ALL_EXPORT_TYPES.find(
@@ -129,28 +135,29 @@ const Component = ({
       password: values.password
     };
 
-    console.log("SUBMIT", values);
-
     const data = { ...body, ...filters };
 
-    // setPending(true);
+    setPending(true);
 
-    // dispatch(
-    //   saveExport(
-    //     { data },
-    //     i18n.t(message || "exports.queueing", {
-    //       file_name: fileName ? `: ${fileName}.` : "."
-    //     }),
-    //     i18n.t("exports.go_to_exports"),
-    //     EXPORT_DIALOG
-    //   )
-    // );
+    dispatch(
+      saveExport(
+        { data },
+        i18n.t(message || "exports.queueing", {
+          file_name: fileName ? `: ${fileName}.` : "."
+        }),
+        i18n.t("exports.go_to_exports"),
+        EXPORT_DIALOG
+      )
+    );
   };
 
   useEffect(() => {
     if (formatType === FIELD_ID) {
-      formMethods.setValue("individual_fields", false);
-      formMethods.setValue("form_to_export", []);
+      formMethods.setValue(INDIVIDUAL_FIELDS_FIELD, false);
+      formMethods.setValue(FORM_TO_EXPORT_FIELD, []);
+    }
+    if (formatType === FORMS_ID) {
+      formMethods.setValue(FIELDS_TO_EXPORT_FIELD, []);
     }
   }, [formatType]);
 
@@ -173,20 +180,21 @@ const Component = ({
     isShowPage,
     formatType,
     individualFields,
-    css
+    css,
+    fields
   );
 
   return (
     <ActionDialog
-      open={openExportsDialog}
-      successHandler={() => submitForm(formRef)}
-      dialogTitle={i18n.t("cases.export")}
-      confirmButtonLabel={i18n.t("buttons.export")}
-      onClose={close}
-      omitCloseAfterSuccess
       cancelHandler={close}
-      pending={pending}
+      confirmButtonLabel={i18n.t("buttons.export")}
+      dialogTitle={i18n.t("cases.export")}
       enabledSuccessButton={!isCustomExport || formatType !== ""}
+      omitCloseAfterSuccess
+      onClose={close}
+      open={openExportsDialog}
+      pending={pending}
+      successHandler={() => submitForm(formRef)}
     >
       <FormContext {...formMethods} formMode={formMode}>
         <form onSubmit={formMethods.handleSubmit(handleSubmit)}>

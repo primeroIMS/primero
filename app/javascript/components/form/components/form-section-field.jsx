@@ -48,7 +48,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     check_errors: fieldCheckErrors,
     hint,
     disabled,
-    inputClassname
+    inputClassname,
+    groupBy
   } = field;
   const i18n = useI18n();
   const { formMode, errors, watch } = useFormContext();
@@ -107,7 +108,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     multiSelect,
     inlineCheckboxes,
     freeSolo,
-    hint
+    hint,
+    groupBy
   };
 
   const Field = (fieldType => {
