@@ -54,24 +54,6 @@ describe Api::V2::ApprovalsController, type: :request do
         expect(json['data']['record']['approval_subforms'][0]['approval_for_type']).to be_nil
       end
     end
-
-    it 'should successfully be requested' do
-      login_for_test(
-        permissions: [Permission.new(resource: Permission::CASE, actions: ['request_approval_' + approval_id])]
-      )
-      params = { data: { approval_status: Approval::APPROVAL_STATUS_REQUESTED, approval_type: approval_type } }
-
-      patch "/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params: params
-      expect(response).to have_http_status(200)
-      expect(@case.alerts.count).to eq(1)
-
-      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: ['approve_' + approval_id])])
-      params = { data: { approval_status: Approval::APPROVAL_STATUS_APPROVED, notes: 'some notes' } }
-
-      patch "/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params: params
-      expect(response).to have_http_status(200)
-      expect(@case.alerts.count).to eq(0)
-    end
   end
 
   shared_examples 'approve for the record' do

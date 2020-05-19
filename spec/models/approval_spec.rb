@@ -65,17 +65,23 @@ describe Approval do
   describe 'when performing an approval' do
     context 'and the alert_for is "case_plan"' do
       before do
-        approval = Approval.get!(
+        @approval = Approval.get!(
           Approval::CASE_PLAN,
           @case,
           @user1.user_name,
           approval_status: Approval::APPROVAL_STATUS_REQUESTED
         )
-        approval.perform!(Approval::APPROVAL_STATUS_REQUESTED)
+        @approval.perform!(Approval::APPROVAL_STATUS_REQUESTED)
       end
 
       it 'should return the correct form for case plan type' do
         expect(Alert.last.form_sidebar_id).to eq('cp_case_plan')
+      end
+
+      it 'should delete the alert when the case get successfully requested' do
+        expect(Alert.count).to eq(1)
+        @approval.perform!(Approval::APPROVAL_STATUS_APPROVED)
+        expect(Alert.count).to eq(0)
       end
     end
 
