@@ -5,6 +5,7 @@ import { fromJS } from "immutable";
 
 import { setupMockFormComponent } from "../../../test";
 import { FieldRecord } from "../records";
+import { RADIO_FIELD, TOGGLE_FIELD } from "../constants";
 
 import FormSectionField from "./form-section-field";
 
@@ -43,5 +44,34 @@ describe("<Form /> - components/<FormSectionField />", () => {
     ));
 
     expect(component.find(Alert)).to.be.empty;
+  });
+
+  it("renders a radio button field", () => {
+    const field = FieldRecord({
+      name: "radio_test_field",
+      type: RADIO_FIELD,
+      option_strings_text: {
+        en: [
+          {
+            id: "yes",
+            label: "Yes"
+          },
+          {
+            id: "no",
+            label: "No"
+          }
+        ]
+      }
+    });
+    const { component } = setupMockFormComponent(FormSectionField, { field });
+
+    expect(component.exists("input[name='radio_test_field']")).to.be.true;
+  });
+
+  it("renders a toggle field", () => {
+    const field = FieldRecord({ name: "test_field", type: TOGGLE_FIELD });
+    const { component } = setupMockFormComponent(FormSectionField, { field });
+
+    expect(component.exists("input[name='test_field']")).to.be.true;
   });
 });

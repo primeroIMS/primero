@@ -11,13 +11,16 @@ describe("<RecordActions /> - exports/utils", () => {
     it("should have known methods", () => {
       const clone = { ...utils };
 
-      ["allowedExports", "formatFileName", "exporterFilters"].forEach(
-        property => {
-          expect(clone).to.have.property(property);
-          expect(clone[property]).to.be.a("function");
-          delete clone[property];
-        }
-      );
+      [
+        "allowedExports",
+        "buildFields",
+        "formatFileName",
+        "exporterFilters"
+      ].forEach(property => {
+        expect(clone).to.have.property(property);
+        expect(clone[property]).to.be.a("function");
+        delete clone[property];
+      });
       expect(clone).to.be.empty;
     });
   });
