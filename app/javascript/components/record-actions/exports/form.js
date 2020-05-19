@@ -1,3 +1,5 @@
+import isEmpty from "lodash/isEmpty";
+
 import {
   FieldRecord,
   SELECT_FIELD,
@@ -15,11 +17,9 @@ export default (
   userPermissions,
   isCustomExport,
   isShowPage,
-  showFormSelect,
-  showFieldSelect,
-  css,
-  hideFieldSelect,
-  hideFormSelect
+  formatType,
+  individualFields,
+  css
 ) => [
   FieldRecord({
     display_name: i18n.t("encrypt.export_type"),
@@ -54,7 +54,10 @@ export default (
     display_name: i18n.t("exports.custom_exports.choose_fields"),
     type: TOGGLE_FIELD,
     inputClassname:
-      !isCustomExport || !showFormSelect ? css.hideCustomExportFields : null
+      !isCustomExport || formatType === FIELD_ID
+        ? css.hideCustomExportFields
+        : null,
+    disabled: formatType === ""
   }),
   FieldRecord({
     display_name: i18n.t("exports.custom_exports.forms"),
@@ -62,7 +65,13 @@ export default (
     type: SELECT_FIELD,
     multi_select: true,
     option_strings_source: "Module",
-    inputClassname: hideFormSelect ? css.hideCustomExportFields : null
+    inputClassname:
+      !isCustomExport ||
+      (isCustomExport && isEmpty(formatType)) ||
+      individualFields ||
+      formatType === FIELD_ID
+        ? css.hideCustomExportFields
+        : null
   }),
   FieldRecord({
     display_name: i18n.t("exports.custom_exports.fields"),
@@ -70,7 +79,12 @@ export default (
     type: SELECT_FIELD,
     multi_select: true,
     option_strings_source: "",
-    inputClassname: hideFieldSelect ? css.hideCustomExportFields : null
+    inputClassname:
+      !isCustomExport ||
+      (isCustomExport && isEmpty(formatType)) ||
+      (!individualFields && formatType === FORMS_ID)
+        ? css.hideCustomExportFields
+        : null
   }),
   FieldRecord({
     display_name: i18n.t("encrypt.password_label"),

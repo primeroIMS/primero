@@ -1,4 +1,4 @@
-import React, { useRef, useImperativeHandle } from "react";
+import React, { useRef, useImperativeHandle, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { object, string } from "yup";
@@ -77,23 +77,9 @@ const Component = ({
     defaultValues
   });
 
+  const formatType = formMethods.watch("custom_format_type");
+  const individualFields = formMethods.watch("individual_fields");
   const isCustomExport = formMethods.watch("export_type") === "custom_exports";
-  const showFormSelect = formMethods.watch("custom_format_type") === FORMS_ID;
-  const showFieldSelect =
-    formMethods.watch("custom_format_type") === FIELD_ID ||
-    formMethods.watch("individual_fields");
-
-  const hideFieldSelect =
-    !isCustomExport ||
-    (isCustomExport && isEmpty(formMethods.watch("custom_format_type"))) ||
-    (!formMethods.watch("individual_fields") &&
-      formMethods.watch("custom_format_type") === FORMS_ID);
-
-  const hideFormSelect =
-    !isCustomExport ||
-    (isCustomExport && isEmpty(formMethods.watch("custom_format_type"))) ||
-    formMethods.watch("individual_fields") ||
-    formMethods.watch("custom_format_type") === FIELD_ID;
 
   const records = useSelector(state => getRecords(state, recordType)).get(
     "data"
@@ -161,6 +147,13 @@ const Component = ({
     // );
   };
 
+  useEffect(() => {
+    if (formatType === FIELD_ID) {
+      formMethods.setValue("individual_fields", false);
+      formMethods.setValue("form_to_export", []);
+    }
+  }, [formatType]);
+
   useImperativeHandle(
     formRef,
     submitHandler({
@@ -178,11 +171,9 @@ const Component = ({
     userPermissions,
     isCustomExport,
     isShowPage,
-    showFormSelect,
-    showFieldSelect,
-    css,
-    hideFieldSelect,
-    hideFormSelect
+    formatType,
+    individualFields,
+    css
   );
 
   return (
@@ -195,6 +186,7 @@ const Component = ({
       omitCloseAfterSuccess
       cancelHandler={close}
       pending={pending}
+      enabledSuccessButton={!isCustomExport || formatType !== ""}
     >
       <FormContext {...formMethods} formMode={formMode}>
         <form onSubmit={formMethods.handleSubmit(handleSubmit)}>

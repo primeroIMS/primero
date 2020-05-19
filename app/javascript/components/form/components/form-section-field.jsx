@@ -47,6 +47,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     freeSolo,
     check_errors: fieldCheckErrors,
     hint,
+    disabled,
     inputClassname
   } = field;
   const i18n = useI18n();
@@ -82,7 +83,10 @@ const FormSectionField = ({ checkErrors, field }) => {
 
   const commonInputProps = {
     name,
-    disabled: formMode.get("isShow") || (formMode.get("isEdit") && !editable),
+    disabled:
+      typeof disabled === "boolean"
+        ? disabled
+        : formMode.get("isShow") || (formMode.get("isEdit") && !editable),
     required,
     autoFocus,
     error: typeof error !== "undefined" || renderError(),

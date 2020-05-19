@@ -23,15 +23,9 @@ const ToggleInput = ({ commonInputProps }) => {
     <FormControl error={error} className={className}>
       <FormGroup>
         <FormControlLabel
+          disabled={disabled}
           labelPlacement="end"
-          control={
-            <Controller
-              name={name}
-              as={Switch}
-              disabled={disabled}
-              defaultValue={false}
-            />
-          }
+          control={<Controller name={name} as={Switch} defaultValue={false} />}
           label={label}
         />
       </FormGroup>
