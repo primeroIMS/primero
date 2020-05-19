@@ -542,7 +542,7 @@ $dashboard_table_counts:85px;
 @media only screen and (max-width: 1023px){
   #dashboard {
     #content {
-      table.table-counts{
+      table.table-counts {
         th:not(:first-child), td:not(:first-child) {
           width: 50px !important;
         }
@@ -558,7 +558,7 @@ $dashboard_table_counts:85px;
   .card-container {
     display: flex;
     flex-direction: column;
-    .column{
+    .column {
       flex: 0 1 auto;
       -webkit-flex: 0;
       flex-shrink: 0;
@@ -567,6 +567,19 @@ $dashboard_table_counts:85px;
 
   #sidebar{
     display: none;
+  }
+
+  #dashboard {
+    #content {
+      table.table-counts {
+        th {
+          padding: 0.25rem 0.25rem 0.25rem;
+        }
+        th:not(:first-child) {
+          font-size: .60em
+        }
+      }
+    }
   }
 
   ul.menu.simple.align-right.links {
