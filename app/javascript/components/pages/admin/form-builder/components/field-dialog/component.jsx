@@ -16,7 +16,7 @@ import { getSelectedField } from "../../selectors";
 import { updateSelectedField } from "../../action-creators";
 
 import styles from "./styles.css";
-import { fieldsForm, validationSchema } from "./forms";
+import { getFormField } from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 
 const Component = ({ onClose, onSuccess }) => {
@@ -28,9 +28,11 @@ const Component = ({ onClose, onSuccess }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
   const selectedField = useSelector(state => getSelectedField(state), compare);
-  const formMethods = useForm({
-    validationSchema: validationSchema(selectedField.get("name"), i18n)
-  });
+  const { forms: fieldsForm, validationSchema } = getFormField(
+    selectedField,
+    i18n
+  );
+  const formMethods = useForm({ validationSchema });
   const formMode = whichFormMode("edit");
 
   const handleClose = () => {
@@ -66,7 +68,7 @@ const Component = ({ onClose, onSuccess }) => {
   };
 
   const renderForms = () =>
-    fieldsForm(selectedField.get("name"), i18n).map(formSection => (
+    fieldsForm.map(formSection => (
       <FormSection formSection={formSection} key={formSection.unique_id} />
     ));
 
