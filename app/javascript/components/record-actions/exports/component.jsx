@@ -18,6 +18,7 @@ import { RECORD_TYPES } from "../../../config";
 import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
 import { getRecords } from "../../index-table";
 import { EXPORT_DIALOG } from "../constants";
+import { getMetadata } from "../../record-list/selectors";
 
 import { NAME, ALL_EXPORT_TYPES } from "./constants";
 import { allowedExports, formatFileName, exporterFilters } from "./utils";
@@ -44,6 +45,8 @@ const Component = ({
   const records = useSelector(state => getRecords(state, recordType)).get(
     "data"
   );
+  const metadata = useSelector(state => getMetadata(state, recordType));
+  const totalRecords = metadata?.get("total", 0);
   const appliedFilters = useSelector(state =>
     getFiltersValuesByRecordType(state, recordType)
   );
@@ -58,6 +61,7 @@ const Component = ({
     records.size > 0 &&
     selectedRecordsLength === records.size;
 
+  const allRecordsSelected = selectedRecordsLength === totalRecords;
   const handleSubmit = values => {
     const { id, format, message } = ALL_EXPORT_TYPES.find(
       e => e.id === values.export_type
@@ -74,7 +78,8 @@ const Component = ({
       shortIds,
       appliedFilters,
       queryParams,
-      record
+      record,
+      allRecordsSelected
     );
 
     const body = {

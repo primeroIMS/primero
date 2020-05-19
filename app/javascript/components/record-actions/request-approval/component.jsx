@@ -67,7 +67,8 @@ const Component = ({
     approvalType === "request"
       ? `${recordType}.request_approval_success_${requestType}`
       : `${recordType}.${approval}_success_${requestType}`;
-  const handleOk = () => {
+
+  const handleSubmit = () => {
     setPending(true);
 
     batch(async () => {
@@ -84,7 +85,8 @@ const Component = ({
       );
 
       dispatch(fetchRecordsAlerts(recordType, record.get("id")));
-      if (recordAlerts.size <= 0) {
+
+      if (recordAlerts?.size <= 0) {
         dispatch(fetchAlerts());
       }
     });
@@ -143,7 +145,7 @@ const Component = ({
     <ActionDialog
       open={openRequestDialog}
       dialogTitle=""
-      successHandler={handleOk}
+      successHandler={handleSubmit}
       cancelHandler={handleCancel}
       omitCloseAfterSuccess
       maxSize="xs"

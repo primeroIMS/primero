@@ -58,6 +58,17 @@ describe Api::V2::IncidentsController, type: :request do
       expect(json['data']['description']).to eq(params[:data][:description])
       expect(Incident.find_by(id: json['data']['id'])).not_to be_nil
     end
+
+    it 'filters sensitive information from logs' do
+      allow(Rails.logger).to receive(:debug).and_return(nil)
+      login_for_test
+      params = {data: {incident_date: '2019-04-01', description: 'Test' }}
+      post '/api/v2/incidents', params: params
+      
+      %w(data).each do |fp|
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/) 
+      end
+    end
   end
 
   describe 'PATCH /api/v2/incidents/:id' do
@@ -72,6 +83,17 @@ describe Api::V2::IncidentsController, type: :request do
       incident1 = Incident.find_by(id: @incident1.id)
       expect(incident1.data['incident_date'].iso8601).to eq(params[:data][:incident_date])
       expect(incident1.data['description']).to eq(params[:data][:description])
+    end
+
+    it 'filters sensitive information from logs' do
+      allow(Rails.logger).to receive(:debug).and_return(nil)
+      login_for_test
+      params = {data: {incident_date: '2019-04-01', description: 'Tester' }}
+      patch "/api/v2/incidents/#{@incident1.id}", params: params
+      
+      %w(data).each do |fp|
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/) 
+      end
     end
   end
 

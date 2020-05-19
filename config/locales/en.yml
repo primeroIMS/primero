@@ -1541,8 +1541,9 @@ en:
     type: "Type"
     show: "Show?"
     display_name: "Display Name"
-    db_name: "DB Name"
+    db_name: "Database Name"
     help_text: "Help Text"
+    must_be_english: "Must be entered in English"
     actions: "Actions"
     option_strings_text: "Options"
     option_strings_text_key: "Option Key"
@@ -1611,6 +1612,16 @@ en:
       current: "Is this the current document?"
     audio:
       current: "Current Audio"
+    edit_label: "Edit Field"
+    required: "Required"
+    guiding_questions: "Guiding questions"
+    visibility: "Visibility"
+    show_on_minify_form: "Short form"
+    hide_on_view_page: "Show page"
+    web_app: "Web app"
+    show_on: "Show on"
+    mobile_visible: "Mobile app"
+
 
   replication:
     label: Replication
