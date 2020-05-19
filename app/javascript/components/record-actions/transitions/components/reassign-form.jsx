@@ -15,6 +15,8 @@ import { saveAssignedUser, fetchAssignUsers } from "../action-creators";
 import SearchableSelect from "../../../searchable-select";
 import { enqueueSnackbar } from "../../../notifier";
 import { useI18n } from "../../../i18n";
+import { applyFilters } from "../../../index-filters/action-creators";
+import { DEFAULT_FILTERS } from "../../../record-list/constants";
 
 import { REASSIGN_FORM_NAME } from "./constants";
 
@@ -114,6 +116,12 @@ const ReassignForm = ({
       saveAssignedUser(record?.get("id"), { data }, messageSuccess, selectedIds)
     );
     setSubmitting(false);
+    dispatch(
+      applyFilters({
+        recordType,
+        data: DEFAULT_FILTERS
+      })
+    );
   };
 
   const formProps = {
