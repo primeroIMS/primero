@@ -146,7 +146,7 @@ describe Api::V2::BulkExportsController, type: :request do
         expect(response).to have_http_status(200)
         bulk_export = BulkExport.find(json['data']['id'])
 
-        expect(bulk_export.exporter.class).to eq(Exporters::SelectedFieldsExcelExporter)
+        expect(bulk_export.exporter_type).to eq(Exporters::SelectedFieldsExcelExporter)
         expect(bulk_export.custom_export_params).to eq('field_names' => %w[age sex])
         expect(bulk_export.file_name).to eq('test.xls')
       end
