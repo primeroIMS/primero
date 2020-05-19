@@ -123,6 +123,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const expected = fromJS({
       selectedForm,
+      selectedFields: selectedForm.fields,
       errors: false,
       serverErrors: []
     });
@@ -135,5 +136,80 @@ describe("<FormsBuilder /> - Reducers", () => {
     const newState = reducer(initialState, action);
 
     expect(newState).to.deep.equal(expected);
+  });
+
+  describe("REORDER_FIELDS", () => {
+    const stateWithFields = fromJS({
+      selectedFields: [
+        { name: "field_1", order: 0 },
+        { name: "field_2", order: 1 },
+        { name: "field_3", order: 2 }
+      ]
+    });
+
+    it("should handle a field going down in the order", () => {
+      const expected = fromJS({
+        selectedFields: [
+          { name: "field_1", order: 2 },
+          { name: "field_2", order: 0 },
+          { name: "field_3", order: 1 }
+        ]
+      });
+
+      const action = {
+        type: actions.REORDER_FIELDS,
+        payload: { name: "field_1", order: 2 }
+      };
+
+      const newState = reducer(stateWithFields, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+
+    it("should handle a field going up in the order", () => {
+      const expected = fromJS({
+        selectedFields: [
+          { name: "field_1", order: 1 },
+          { name: "field_2", order: 0 },
+          { name: "field_3", order: 2 }
+        ]
+      });
+
+      const action = {
+        type: actions.REORDER_FIELDS,
+        payload: { name: "field_2", order: 0 }
+      };
+
+      const newState = reducer(stateWithFields, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
+
+    it("should handle a fields with the same order", () => {
+      const stateWithSameOrder = fromJS({
+        selectedFields: [
+          { name: "field_1", order: 0 },
+          { name: "field_2", order: 0 },
+          { name: "field_3", order: 2 }
+        ]
+      });
+
+      const expected = fromJS({
+        selectedFields: [
+          { name: "field_1", order: 1 },
+          { name: "field_2", order: 0 },
+          { name: "field_3", order: 2 }
+        ]
+      });
+
+      const action = {
+        type: actions.REORDER_FIELDS,
+        payload: { name: "field_1", order: 1 }
+      };
+
+      const newState = reducer(stateWithSameOrder, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
   });
 });

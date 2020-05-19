@@ -9,6 +9,8 @@ import {
   DialogContentText,
   CircularProgress
 } from "@material-ui/core";
+import CheckIcon from "@material-ui/icons/Check";
+import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../i18n";
@@ -69,7 +71,7 @@ const ActionDialog = ({
       closeHandler={handleClose}
     />
   ) : (
-    <DialogTitle>{dialogTitle}</DialogTitle>
+    <DialogTitle className={css.dialogTitle}>{dialogTitle}</DialogTitle>
   );
 
   const submitButton = (
@@ -78,7 +80,8 @@ const ActionDialog = ({
         {...{ ...successButtonProps, onClick: handleSuccess }}
         disabled={pending || !enabledSuccessButton}
       >
-        {confirmButtonLabel}
+        <CheckIcon />
+        <span>{confirmButtonLabel}</span>
       </Button>
       {pending && <CircularProgress size={24} className={css.buttonProgress} />}
     </div>
@@ -106,8 +109,13 @@ const ActionDialog = ({
         <DialogActions>
           {submitButton}
           {cancelHandler ? (
-            <Button onClick={cancelHandler} color="primary">
-              {i18n.t("cancel")}
+            <Button
+              onClick={cancelHandler}
+              color="primary"
+              className={css.actionButtonCancel}
+            >
+              <CloseIcon />
+              <span>{i18n.t("cancel")}</span>
             </Button>
           ) : null}
         </DialogActions>

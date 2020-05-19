@@ -30,3 +30,10 @@
   margin-top: -12;
   margin-left: -12;
 }
+
+.hint {
+  display: block;
+  margin-top: 0.5em;
+  color:  $(theme.primero.colors.warmGrey4);
+  font-weight: bold;
+}

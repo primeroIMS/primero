@@ -1,10 +1,11 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
 import React from "react";
+import { useDispatch, batch } from "react-redux";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Draggable } from "react-beautiful-dnd";
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Button } from "@material-ui/core";
 import {
   createMuiTheme,
   MuiThemeProvider,
@@ -12,20 +13,31 @@ import {
 } from "@material-ui/core/styles";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
+import { setSelectedField } from "../../action-creators";
+import { setDialog } from "../../../../../record-actions/action-creators";
 import { useI18n } from "../../../../../i18n";
 import SwitchInput from "../../../../../form/fields/switch-input";
 import DragIndicator from "../../../forms-list/components/drag-indicator";
 import { getFiedListItemTheme } from "../utils";
 import styles from "../fields-list/styles.css";
+import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 
 import { NAME } from "./constants";
 
 const Component = ({ field, index }) => {
   const css = makeStyles(styles)();
+  const dispatch = useDispatch();
   const i18n = useI18n();
   const currentTheme = useTheme();
 
   const themeOverrides = createMuiTheme(getFiedListItemTheme(currentTheme));
+
+  const handleClick = fieldName => {
+    batch(() => {
+      dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: true }));
+      dispatch(setSelectedField(fieldName));
+    });
+  };
 
   const renderFieldName = () => {
     const icon = !field.get("editable") ? (
@@ -37,7 +49,12 @@ const Component = ({ field, index }) => {
     return (
       <>
         {icon}
-        {field.getIn(["display_name", i18n.locale])}
+        <Button
+          className={clsx({ [css.editable]: field.get("editable") })}
+          onClick={() => handleClick(field.get("name"))}
+        >
+          {field.getIn(["display_name", i18n.locale])}
+        </Button>
       </>
     );
   };

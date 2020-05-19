@@ -8,17 +8,21 @@ import FieldsList from "./component";
 describe("<FieldsList />", () => {
   let component;
 
+  const initialState = fromJS({
+    records: {
+      admin: {
+        forms: {
+          selectedFields: [
+            { name: "field_1", editable: false },
+            { name: "field_2", editable: true }
+          ]
+        }
+      }
+    }
+  });
+
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(
-      FieldsList,
-      {
-        fields: fromJS([
-          { name: "field_1", editable: false },
-          { name: "field_2", editable: true }
-        ])
-      },
-      fromJS({})
-    ));
+    ({ component } = setupMockFormComponent(FieldsList, {}, {}, initialState));
   });
 
   it("should render the list items", () => {

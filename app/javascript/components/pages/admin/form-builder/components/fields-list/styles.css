@@ -17,13 +17,17 @@
 
   &.fieldName {
     flex: 2 1;
-    color: $(theme.primero.colors.blue);
 
     &.fieldHeader {
       padding-left: 2.5em;
     }
-    & span {
-      margin-left: 1.7em;
+    & button {
+      color: $(theme.primero.colors.blue);
+      text-transform: none;
+
+      &.editable {
+        margin-left: 1.7em;
+      }
     }
   }
 

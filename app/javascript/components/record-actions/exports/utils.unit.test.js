@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { stub } from "../../../test";
+import { fake } from "../../../test";
 import { ACTIONS } from "../../../libs/permissions";
 
 import { ALL_EXPORT_TYPES, EXPORT_FORMAT } from "./constants";
@@ -24,13 +24,11 @@ describe("<RecordActions /> - exports/utils", () => {
 
   describe("allowedExports", () => {
     const i18n = {
-      t: stub()
+      t: fake.returns("test.label")
     };
 
     it("should return all export types if userPermission contains manage permission", () => {
       const userPermission = fromJS(["manage"]);
-
-      i18n.t.returns("test.label");
 
       const expected = ALL_EXPORT_TYPES.map(a => {
         return {
@@ -201,5 +199,26 @@ describe("<RecordActions /> - exports/utils", () => {
         ).to.be.deep.equals(expected);
       }
     );
+
+    it("should return and object with default filter if allRecordsSelected are selected", () => {
+      const expected = {
+        filters: {
+          status: ["open"],
+          record_state: ["true"]
+        }
+      };
+
+      expect(
+        utils.exporterFilters(
+          false,
+          false,
+          shortIds,
+          fromJS({}),
+          {},
+          record,
+          true
+        )
+      ).to.be.deep.equals(expected);
+    });
   });
 });
