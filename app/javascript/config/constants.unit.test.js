@@ -76,6 +76,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("METHODS");
     expect(constants).to.have.property("SAVE_METHODS");
     expect(constants).to.have.property("SAVING");
+    expect(constants).to.have.property("APPLICATION_NAV");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -127,6 +128,7 @@ describe("Verifying config constant", () => {
     delete constants.METHODS;
     delete constants.SAVE_METHODS;
     delete constants.SAVING;
+    delete constants.APPLICATION_NAV;
 
     expect(constants).to.deep.equal({});
   });

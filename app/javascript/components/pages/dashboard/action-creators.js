@@ -1,4 +1,5 @@
 import { RECORD_PATH } from "../../../config";
+import { DB_COLLECTIONS_NAMES } from "../../../db";
 
 import {
   DASHBOARD_FLAGS,
@@ -139,6 +140,9 @@ export const openPageActions = payload => {
 export const fetchDashboards = () => ({
   type: DASHBOARDS,
   api: {
-    path: RECORD_PATH.dashboards
+    path: RECORD_PATH.dashboards,
+    db: {
+      collection: DB_COLLECTIONS_NAMES.DASHBOARDS
+    }
   }
 });

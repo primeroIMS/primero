@@ -73,7 +73,10 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
           <Box className={css.spaceGrid}>
             <DisplayData
               label={renderApprovedByLabel}
-              value={approvalSubform.get("approved_by")}
+              value={
+                approvalSubform.get("approved_by", false) ||
+                approvalSubform.get("requested_by")
+              }
             />
           </Box>
         </Grid>

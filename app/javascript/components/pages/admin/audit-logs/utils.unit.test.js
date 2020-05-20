@@ -67,6 +67,7 @@ describe("<AuditLogs /> - Helpers", () => {
           field_name: "audit_log_date",
           type: "dates",
           option_strings_source: null,
+          dateIncludeTime: true,
           options: { en: [{ id: TIMESTAMP, display_name: "Timestamp" }] }
         },
         {

@@ -124,7 +124,7 @@
 }
 
 .rotateIcon {
-  color: $(theme.primero.colors.warmGrey3);
+  color: $(theme.primero.colors.goldYellow);
   transform: rotate(90deg);
   transform-origin: 50% 50%;
 }

@@ -31,7 +31,8 @@ describe("libs/index", () => {
       "rejectKeys",
       "toBase64",
       "useThemeHelper",
-      "valuesToSearchableSelect"
+      "valuesToSearchableSelect",
+      "ConditionalWrapper"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(moduleToTest).to.have.property(property);
