@@ -43,10 +43,6 @@ describe("<RequestApproval /> - Action Creators", () => {
         responseRecordID: 10,
         responseRecordKey: "approval_subforms",
         method: "PATCH",
-        queueOffline: true,
-        responseRecordArray: true,
-        responseRecordID: 10,
-        responseRecordKey: "approval_subforms",
         body: args.body,
         successCallback: [
           {
