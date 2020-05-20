@@ -1,4 +1,9 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
 import { setupMountedComponent } from "../../../../../../test";
+import DragIndicator from "../drag-indicator";
 
 import TableRow from "./component";
 
@@ -16,20 +21,36 @@ describe("<FormsList />/components/<TableRow />", () => {
     ],
     parentForm: "case",
     index: 1,
-    uniqueID: "form"
+    uniqueID: "form",
+    editable: true,
+    id: 1
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(TableRow, props));
+    const RenderTableRow = () => (
+      <DragDropContext>
+        <Droppable droppableId="droppable" type="formSection">
+          {provided => (
+            <div ref={provided.innerRef}>
+              <TableRow {...props} />
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+    );
+
+    ({ component } = setupMountedComponent(RenderTableRow, {}));
   });
 
-  // TODO: Fill out once figure out Droppable context issue concerning testing
+  it("renders Draggable component", () => {
+    expect(component.find(Draggable)).to.have.lengthOf(1);
+  });
 
-  it.skip("renders Draggable component", () => {});
+  it("renders <DragIndicator />", () => {
+    expect(component.find(DragIndicator)).to.have.lengthOf(1);
+  });
 
-  it.skip("renders <DragIndicator />", () => {});
-
-  it.skip("renders row information", () => {
-    expect(component.contains("Form Section 1")).to.equal(true);
+  it("renders row information", () => {
+    expect(component.find(Link).text()).to.equal("Form Section 1");
   });
 });
