@@ -8,6 +8,21 @@ describe HealthController, type: :request do
       get '/health'
       expect(response).to have_http_status(204)
     end
+
+    it 'returns 204 when testing just the server' do
+      get '/health/server'
+      expect(response).to have_http_status(204)
+    end
+
+    it 'returns 204 when testing just the database' do
+      get '/health/database'
+      expect(response).to have_http_status(204)
+    end
+
+    it 'returns 204 when testing just solr' do
+      get '/health/solr'
+      expect(response).to have_http_status(204)
+    end
   end
 
   context 'database is down' do
@@ -17,6 +32,11 @@ describe HealthController, type: :request do
 
     it 'returns 503 when that databse is down' do
       get '/health'
+      expect(response).to have_http_status(503)
+    end
+
+    it 'returns 503 when that databse is down' do
+      get '/health/database'
       expect(response).to have_http_status(503)
     end
   end
