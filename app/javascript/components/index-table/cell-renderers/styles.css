@@ -1,3 +1,17 @@
 .iconButton {
   padding: 0;
 }
+
+.iconValue {
+  position: absolute;
+  padding-top: 0.40em;
+  padding-left: 0.60em;
+  color: $(theme.primero.colors.white);
+  font-size: $(theme.typography.pxToRem(10));
+  z-index: 999;
+  font-weight: bold;
+}
+
+.flagIcon {
+  font-size: 1.7rem;
+}
