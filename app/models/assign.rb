@@ -1,5 +1,8 @@
-class Assign < Transition
+# frozen_string_literal: true
 
+# Represents a transition of record ownership  from one user to another
+# without any system workflows.
+class Assign < Transition
   def perform
     return if transitioned_to_user.nil?
 
@@ -11,7 +14,9 @@ class Assign < Transition
     record.save!
   end
 
-  def consent_given? ; true ; end
+  def consent_given?
+    true
+  end
 
   def user_can_receive?
     super &&
@@ -25,5 +30,4 @@ class Assign < Transition
         false
       end
   end
-
 end
