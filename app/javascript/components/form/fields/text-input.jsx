@@ -11,7 +11,6 @@ import styles from "./styles.css";
 const TextInput = ({ commonInputProps, metaInputProps }) => {
   const css = makeStyles(styles)();
   const { type, password, hint } = metaInputProps;
-  const { inputClassname } = commonInputProps;
   const inputType = password ? "password" : "text";
 
   const renderHint = hint ? <span className={css.hint}>{hint}</span> : null;
@@ -29,7 +28,6 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
       }
       multiline={type && type === TEXT_AREA}
       defaultValue=""
-      className={inputClassname}
     />
   );
 };

@@ -30,7 +30,6 @@ export const FieldRecord = Record({
   handleWatchedInputs: null,
   check_errors: List([]),
   hint: "",
-  inputClassname: null,
   groupBy: null
 });
 
