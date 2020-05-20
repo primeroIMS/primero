@@ -72,12 +72,17 @@ describe FieldI18nService do
   describe 'merge_i18n_options' do
     it 'merges the localized options of the hashes' do
       merged_hash = FieldI18nService.merge_i18n_options(
-        { 'en' => [{ 'id' => 'true', 'display_name' => 'Valid' }] },
-        { 'en' => [{ 'id' => 'false', 'display_name' => 'Invalid' }] }
+        {
+          'en' => [
+            { 'id' => 'true', 'display_name' => 'Valid' },
+            { 'id' => 'false', 'display_name' => 'Valid' }
+          ]
+        },
+        'en' => [{ 'id' => 'false', 'display_name' => 'false' }]
       )
       expected_hash = {
         'en' => [
-          { 'id' => 'false', 'display_name' => 'Invalid' },
+          { 'id' => 'false', 'display_name' => 'false' },
           { 'id' => 'true', 'display_name' => 'Valid' }
         ]
       }

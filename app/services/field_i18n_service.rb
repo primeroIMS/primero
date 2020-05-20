@@ -54,6 +54,7 @@ class FieldI18nService
         options2_by_id = options2[key].inject({}) { |acc, val| acc.merge(val['id']  => val) }
 
         options2_by_id.keys.each_with_index do |key_order, index|
+          merged_props[key].reject!{|prop| prop['id'] == key_order}
           if options1_by_id[key_order].nil?
             merged_props[key][index] = options2_by_id[key_order]
           else
