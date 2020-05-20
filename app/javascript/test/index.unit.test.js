@@ -14,6 +14,7 @@ describe("app/javascript/test/index", () => {
     "setupMountedThemeComponent",
     "spy",
     "stub",
+    "fake",
     "tick",
     "useFakeTimers",
     "mock",

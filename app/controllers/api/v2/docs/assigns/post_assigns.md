@@ -10,7 +10,7 @@ Assign cases in bulk to a single user.
 
 **Authorization** : The user must be authorized to assign each individual record.
 
-**Parameters** : 
+**Parameters** :
 
 * `data` A JSON representation of the assignment. Only the `transitioned_to` and `notes` are used.
 ```json
@@ -25,9 +25,9 @@ Assign cases in bulk to a single user.
 
 ## Success Response
 
-**Code** : `200 OK`
+**Code** : `200 OK`. Note that the response code will still be 200 even if every assignment in the batch fails.
 
-**Content** : The created assignment records.
+**Content** : The created assignment records, and an error object per failed assignment.
 
 ```json
 {
@@ -45,13 +45,21 @@ Assign cases in bulk to a single user.
         {
             "id": "dcea6052-07d9-4cfa-9abf-9a36987cdd25",
             "type": "Assign",
-            "record_id": "437189fc-cd1c-46ee-8d56-2891fc73605f",
+            "record_id": "437189fc-cd1c-46ee-8d56-2891fc73605a",
             "record_type": "Child",
             "transitioned_to": "primero_cp",
             "transitioned_by": "primero",
             "notes": "This is a bulk assignment",
             "created_at": "2019-09-16T18:37:16.078Z"
         }
+    ],
+    "errors": [
+        {
+            "status": 422,
+            "resource": "/api/v2/cases/assigns",
+            "detail": "transitioned_to",
+            "message": [ "transition.errors.to_user_can_receive" ]
+         }
     ]
 }
 
@@ -59,7 +67,7 @@ Assign cases in bulk to a single user.
 
 ## Error Response
 
-**Condition** : User isn't authorized to assign. 
+**Condition** : User isn't authorized to assign.
 
 **Code** : `403 Forbidden`
 
