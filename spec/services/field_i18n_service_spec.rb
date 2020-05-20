@@ -131,6 +131,7 @@ describe FieldI18nService do
     end
 
     it 'revert fill the lookups options if the value does not have display_text bit it have _delete: true' do
+      I18n.stub(:available_locales).and_return([:en, :es, :fr])
       options = [
         { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => '', 'fr' => '' } },
         { 'id' => '2', '_delete' => true }
@@ -140,11 +141,7 @@ describe FieldI18nService do
       expected_lookups_options = {
         'en' => [{ 'id' => '1', 'display_text' => 'Country' }, { 'id' => '2', '_delete' => true }],
         'fr' => [{ 'id' => '2', '_delete' => true }],
-        'ar' => [{ 'id' => '2', '_delete' => true }],
-        'ar-LB' => [{ 'id' => '2', '_delete' => true }],
-        'so' => [{ 'id' => '2', '_delete' => true }],
-        'es' => [{ 'id' => '2', '_delete' => true }],
-        'bn' => [{ 'id' => '2', '_delete' => true }]
+        'es' => [{ 'id' => '2', '_delete' => true }]
       }
 
       expect(lookups_options).to eq(expected_lookups_options)
