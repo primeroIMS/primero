@@ -31,8 +31,8 @@ class Child < ApplicationRecord
   include UNHCRMapping
   include Ownable
   include AutoPopulatable
-  include Serviceable #TODO: refactor with nested
   include Workflow
+  include Serviceable #TODO: refactor with nested
   include Flaggable
   include Transitionable
   include Reopenable
@@ -131,7 +131,6 @@ class Child < ApplicationRecord
 
   before_save :sync_protection_concerns
   before_save :auto_populate_name
-  before_save :update_implement_field
   before_create :hide_name
 
   alias super_defaults defaults

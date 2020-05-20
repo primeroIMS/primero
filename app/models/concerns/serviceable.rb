@@ -17,6 +17,8 @@ module Serviceable
       time :service_due_dates, multiple: true
     end
 
+    before_save :update_implement_field
+
     def update_implement_field
       services_section&.each do |service|
         if service_implemented?(service)
