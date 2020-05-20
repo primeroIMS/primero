@@ -23,6 +23,11 @@ describe HealthController, type: :request do
       get '/health/solr'
       expect(response).to have_http_status(204)
     end
+
+    it 'returns a 503 when testing a non-existant Primero backend' do
+      get '/health/abcd'
+      expect(response).to have_http_status(503)
+    end
   end
 
   context 'database is down' do
