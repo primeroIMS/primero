@@ -12,16 +12,13 @@ services:
       - certbot_var:/var/lib/letsencrypt
       - certbot_etc:/etc/letsencrypt
       - log:/var/log/nginx
-      - public:/srv/primero/application/public #TODO:readonly later
-      - storage:/srv/primero/application/storage
+      - public:/srv/primero/application/public
     env_file:
       - docker/defaults.env
       - docker/local.env
     depends_on:
       - application
   application:
-    volumes:
-      - storage:/srv/primero/application/storage
     env_file:
       - docker/defaults.env
       - docker/local.env
@@ -34,8 +31,6 @@ services:
       - docker/defaults.env
       - docker/local.env
   backburner:
-    volumes:
-      - storage:/srv/primero/application/storage
     env_file:
       - docker/defaults.env
       - docker/local.env

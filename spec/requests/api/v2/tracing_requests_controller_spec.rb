@@ -62,6 +62,17 @@ describe Api::V2::TracingRequestsController, type: :request do
       expect(json['data']['relation_name']).to eq(params[:data][:relation_name])
       expect(TracingRequest.find_by(id: json['data']['id'])).not_to be_nil
     end
+
+    it 'filters sensitive information from logs' do
+      allow(Rails.logger).to receive(:debug).and_return(nil)
+      login_for_test
+      params = { data: { inquiry_date: '2019-04-01', relation_name: 'Test' } }
+      post '/api/v2/tracing_requests', params: params
+
+      %w(data).each do |fp|
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/) 
+      end
+    end
   end
 
   describe 'PATCH /api/v2/tracing_requests/:id' do
@@ -76,6 +87,17 @@ describe Api::V2::TracingRequestsController, type: :request do
       tracing_request1 = TracingRequest.find_by(id: @tracing_request1.id)
       expect(tracing_request1.data['inquiry_date'].iso8601).to eq(params[:data][:inquiry_date])
       expect(tracing_request1.data['relation_name']).to eq(params[:data][:relation_name])
+    end
+
+    it 'filters sensitive information from logs' do
+      allow(Rails.logger).to receive(:debug).and_return(nil)
+      login_for_test
+      params = { data: { inquiry_date: '2019-04-01', relation_name: 'Tester' } }
+      patch "/api/v2/tracing_requests/#{@tracing_request1.id}", params: params
+
+      %w(data).each do |fp|
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/) 
+      end
     end
   end
 

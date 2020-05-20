@@ -39,7 +39,7 @@ module Api::V2
     end
 
     def lookup_params
-      params.require(:data).permit(:id, :unique_id, name: {}, values: [:id, display_text: {}])
+      params.require(:data).permit(:id, :unique_id, name: {}, values: [:id, :_delete, display_text: {}])
     end
   end
 end

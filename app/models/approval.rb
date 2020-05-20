@@ -82,6 +82,7 @@ class Approval < ValueObject
       user_name,
       comments
     )
+    delete_approval_alerts
   end
 
   def reject!
@@ -131,5 +132,13 @@ class Approval < ValueObject
     end
 
     action.compact
+  end
+
+  def delete_approval_alerts
+    return if record.alerts.blank?
+
+    record.alerts.each do |alert|
+      alert.destroy if alert.alert_for == Alertable::APPROVAL
+    end
   end
 end

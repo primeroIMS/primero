@@ -72,12 +72,18 @@ describe FieldI18nService do
   describe 'merge_i18n_options' do
     it 'merges the localized options of the hashes' do
       merged_hash = FieldI18nService.merge_i18n_options(
-        { 'en' => [{ 'id' => 'true', 'display_name' => 'Valid' }] },
-        { 'en' => [{ 'id' => 'false', 'display_name' => 'Invalid' }] }
+        {
+          'en' => [
+            { 'id' => 'true', 'display_name' => 'Valid' },
+            { 'id' => 'false', 'display_name' => 'Valid' }
+          ]
+        },
+        'en' => [{ 'id' => 'false', 'display_name' => 'false' }]
       )
-      expected_hash = { 'en' => [
-          { 'id' => "true", 'display_name' => "Valid" },
-          { 'id' => "false", 'display_name' => "Invalid" }
+      expected_hash = {
+        'en' => [
+          { 'id' => 'false', 'display_name' => 'false' },
+          { 'id' => 'true', 'display_name' => 'Valid' }
         ]
       }
 
@@ -119,6 +125,26 @@ describe FieldI18nService do
       expected_lookups_options = {
         'en' => [{ 'id' => '1', 'display_text' => 'Country' }, { 'id' => '2', 'display_text' => 'City' }],
         'fr' => [{ 'id' => '2', 'display_text' => 'prueba' }]
+      }
+
+      expect(lookups_options).to eq(expected_lookups_options)
+    end
+
+    it 'revert fill the lookups options if the value does not have display_text bit it have _delete: true' do
+      options = [
+        { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => '', 'fr' => '' } },
+        { 'id' => '2', '_delete' => true }
+      ]
+      lookups_options = FieldI18nService.to_localized_options(options)
+
+      expected_lookups_options = {
+        'en' => [{ 'id' => '1', 'display_text' => 'Country' }, { 'id' => '2', '_delete' => true }],
+        'fr' => [{ 'id' => '2', '_delete' => true }],
+        'ar' => [{ 'id' => '2', '_delete' => true }],
+        'ar-LB' => [{ 'id' => '2', '_delete' => true }],
+        'so' => [{ 'id' => '2', '_delete' => true }],
+        'es' => [{ 'id' => '2', '_delete' => true }],
+        'bn' => [{ 'id' => '2', '_delete' => true }]
       }
 
       expect(lookups_options).to eq(expected_lookups_options)

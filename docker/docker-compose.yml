@@ -29,7 +29,7 @@ services:
     volumes:
       - log:/srv/primero/application/log
       - public:/share/public
-      - storage:/srv/primero/storage
+      - storage:/srv/primero/application/storage
     env_file:
       - docker/defaults.env
     stdin_open: true
@@ -42,7 +42,7 @@ services:
       - postgres
     volumes:
       - log:/srv/primero/application/log
-      - public:/share/public
+      - storage:/srv/primero/application/storage
     env_file:
       - docker/defaults.env
     command: ["bundle", "exec", "rails", "backburner:wait_then_work"]
@@ -53,8 +53,8 @@ services:
       - beanstalkd
       - postgres
     volumes:
-      - log:/srv/primero/application/log
-      - public:/share/public
+      - log:/srv/primero/application/logs
+      - storage:/srv/primero/application/storage
     env_file:
       - docker/defaults.env
     command: ["bundle", "exec", "rails", "scheduler:run"]

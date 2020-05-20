@@ -1,6 +1,6 @@
 FROM solr:5-alpine
 
-ENV SOLR_PACKAGES gettext libintl
+ENV SOLR_PACKAGES gettext libintl curl
 ENV SOLR_USER=solr
 
 USER root

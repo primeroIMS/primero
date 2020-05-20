@@ -1,13 +1,46 @@
 import { fromJS } from "immutable";
+import { FormContext } from "react-hook-form";
 
 import { setupMountedComponent } from "../../../test";
 import ActionDialog from "../../action-dialog";
-import Form from "../../form";
 import { RECORD_PATH } from "../../../config";
+import { ACTIONS } from "../../../libs/permissions";
+import { mapEntriesToRecord } from "../../../libs";
+import { FormSectionRecord } from "../../record-form/records";
 
 import Exports from "./component";
 
 describe("<RecordActions /> - <Exports />", () => {
+  const formSections = [
+    {
+      id: 1,
+      unique_id: "form_section_1",
+      parent_form: "case",
+      module_ids: ["primeromodule-cp"],
+      order: 1,
+      form_group_id: "group_1",
+      order_form_group: 2
+    },
+    {
+      id: 2,
+      unique_id: "form_section_2",
+      parent_form: "case",
+      module_ids: ["primeromodule-cp"],
+      order: 2,
+      form_group_id: "group_1",
+      order_form_group: 2
+    },
+    {
+      id: 5,
+      unique_id: "form_section_5",
+      parent_form: "case",
+      module_ids: ["primeromodule-cp"],
+      order: 1,
+      form_group_id: "group_2",
+      order_form_group: 1
+    }
+  ];
+
   const state = fromJS({
     records: {
       cases: {
@@ -34,6 +67,14 @@ describe("<RecordActions /> - <Exports />", () => {
           status: ["true"]
         }
       }
+    },
+    user: {
+      permissions: {
+        reports: [ACTIONS.MANAGE]
+      }
+    },
+    forms: {
+      formSections: mapEntriesToRecord(formSections, FormSectionRecord, true)
     }
   });
   const props = {
@@ -49,10 +90,10 @@ describe("<RecordActions /> - <Exports />", () => {
     expect(component.find(ActionDialog)).to.have.lengthOf(1);
   });
 
-  it("renders Form", () => {
+  it("renders FormContext", () => {
     const { component } = setupMountedComponent(Exports, props, state);
 
-    expect(component.find(Form)).to.have.lengthOf(1);
+    expect(component.find(FormContext)).to.have.lengthOf(1);
   });
 
   it("should accept valid props", () => {
@@ -60,7 +101,7 @@ describe("<RecordActions /> - <Exports />", () => {
       ...props,
       currentPage: 0,
       pending: true,
-      record: {},
+      record: fromJS({}),
       selectedRecords: { 0: [0] },
       setPending: () => {}
     };

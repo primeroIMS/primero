@@ -171,7 +171,8 @@ export default [
             {
               path: ROUTES.admin_users,
               component: UsersList,
-              resources: RESOURCES.users
+              resources: RESOURCES.users,
+              actions: ADMIN_ACTIONS
             },
             {
               path: `${ROUTES.admin_user_groups}/new`,

@@ -9,6 +9,7 @@ const stateWithHeaders = fromJS({
       roles: {
         selectedRole: { id: 1 },
         errors: true,
+        loading: false,
         serverErrors: [{ message: "error-1" }],
         saving: false
       }
@@ -22,10 +23,12 @@ describe("<RolesForm /> - Selectors", () => {
   it("should have known the selectors", () => {
     const creators = { ...selectors };
 
-    ["getRole", "getServerErrors", "getSavingRecord"].forEach(property => {
-      expect(creators).to.have.property(property);
-      delete creators[property];
-    });
+    ["getLoading", "getRole", "getServerErrors", "getSavingRecord"].forEach(
+      property => {
+        expect(creators).to.have.property(property);
+        delete creators[property];
+      }
+    );
 
     expect(creators).to.be.empty;
   });
@@ -84,6 +87,21 @@ describe("<RolesForm /> - Selectors", () => {
       const saving = selectors.getSavingRecord(stateWithHeaders);
 
       expect(saving).to.deep.equal(expected);
+    });
+  });
+
+  describe("getLoading", () => {
+    it("should return loading", () => {
+      const expected = stateWithHeaders.getIn([
+        "records",
+        "admin",
+        NAMESPACE,
+        "loading"
+      ]);
+
+      const loading = selectors.getLoading(stateWithHeaders);
+
+      expect(loading).to.deep.equal(expected);
     });
   });
 });

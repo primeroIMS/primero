@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import React from "react";
 
 import LoadingIndicator from "../../loading-indicator";
+import DisableOffline from "../../disable-offline";
+import { ConditionalWrapper } from "../../../libs";
 
 import styles from "./styles.css";
 
@@ -48,10 +50,14 @@ const OptionsBox = ({
 
   return (
     <Card className={css.card} elevation={flat ? 0 : 3}>
-      {cardTitle}
-      <LoadingIndicator {...loadingIndicatorProps}>
-        <CardContent className={css.content}>{children}</CardContent>
-      </LoadingIndicator>
+      <ConditionalWrapper condition={!flat} wrapper={DisableOffline}>
+        <>
+          {cardTitle}
+          <LoadingIndicator {...loadingIndicatorProps}>
+            <CardContent className={css.content}>{children}</CardContent>
+          </LoadingIndicator>
+        </>
+      </ConditionalWrapper>
     </Card>
   );
 };
