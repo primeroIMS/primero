@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   )
 
   resources :login, only: [:index]
-  resources :health, only: [:index]
+  resources :health, only: %i[index show]
 
   namespace :api do
     namespace :v2, defaults: { format: :json },
