@@ -126,7 +126,13 @@ const Component = ({ mode }) => {
       loading={isLoading}
       type={NAMESPACE}
     >
-      <PageHeading title={i18n.t("forms.add")}>
+      <PageHeading
+        title={
+          formMode.get("isNew")
+            ? i18n.t("forms.add")
+            : selectedForm.getIn(["name", i18n.locale])
+        }
+      >
         <FormBuilderActionButtons
           formMode={formMode}
           formRef={formRef}
