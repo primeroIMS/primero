@@ -1,6 +1,6 @@
 import { ButtonBase, Typography } from "@material-ui/core";
 
-import { setupMountedComponent, stub } from "../../../test";
+import { setupMountedComponent } from "../../../test";
 import { RECORD_PATH } from "../../../config";
 
 import CustomToolbarSelect from "./component";
@@ -15,7 +15,6 @@ describe("<CustomToolbarSelect />", () => {
     perPage: 4,
     selectedRecords: { 0: arrayIndex },
     selectedRows: { data: { length: 4 } },
-    setSelectedRecords: stub(),
     totalRecords: 7
   };
 

@@ -3,7 +3,7 @@ import MUIDataTable from "mui-datatables";
 import { CircularProgress, Typography, Checkbox } from "@material-ui/core";
 
 import LoadingIndicator from "../loading-indicator";
-import { setupMountedComponent, stub } from "../../test";
+import { setupMountedComponent, fake } from "../../test";
 import { RECORD_PATH } from "../../config";
 import { mapEntriesToRecord } from "../../libs";
 import { FieldRecord } from "../record-form";
@@ -39,7 +39,10 @@ describe("<IndexTable />", () => {
     }
   };
   const props = {
-    onTableChange: stub(),
+    onTableChange: fake.returns({
+      type: "test",
+      payload: []
+    }),
     recordType: RECORD_PATH.cases,
     defaultFilters: fromJS({}),
     bypassInitialFetch: true,
@@ -133,10 +136,6 @@ describe("<IndexTable />", () => {
   });
 
   it("should change sort order to descending if user clicks on a column", () => {
-    props.onTableChange.returns({
-      type: "test",
-      payload: []
-    });
     const nameColumnIndex = 3;
     const table = component.find(IndexTable);
 

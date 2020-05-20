@@ -97,13 +97,22 @@ export const isOnline = store => {
   return store.getState().getIn(["application", "online"], false);
 };
 
-export const generateRecordProperties = (store, api, recordType, isRecord) => {
+export const generateRecordProperties = (
+  store,
+  api,
+  recordType,
+  isRecord,
+  subform
+) => {
   const username = store.getState().getIn(["user", "username"], "false");
   const id = uuid();
   const shortID = id.substr(id.length - 7);
 
   return {
-    ...(!api?.body?.id && { id, short_id: shortID, case_id_display: shortID }),
+    // eslint-disable-next-line camelcase
+    ...(subform && !api?.body?.unique_id && { unique_id: id }),
+    ...(!api?.body?.id &&
+      isRecord && { id, short_id: shortID, case_id_display: shortID }),
     // eslint-disable-next-line camelcase
     ...(!api?.body?.owned_by && isRecord && { owned_by: username }),
     ...(!api?.body?.type && isRecord && { type: recordType }),

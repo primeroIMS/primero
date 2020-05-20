@@ -61,7 +61,8 @@ class Child < ApplicationRecord
     :tent_number, :nfi_distribution_id,
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
-    :duplicate, :location_current, :tracing_status, :name_caregiver
+    :duplicate, :location_current, :tracing_status, :name_caregiver,
+    :urgent_protection_concern
 
   has_many :incidents
   belongs_to :matched_tracing_request, class_name: 'TracingRequest', optional: true
@@ -107,6 +108,7 @@ class Child < ApplicationRecord
     string :sex, as: 'sex_sci'
     string :national_id_no, as: 'national_id_no_sci'
     string :protection_concerns, multiple: true
+    boolean :urgent_protection_concern, as: 'urgent_protection_concern_b'
 
 
     date :assessment_due_dates, multiple: true do

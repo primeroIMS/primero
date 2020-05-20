@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::V2::LookupsController, type: :request do
@@ -5,13 +7,13 @@ describe Api::V2::LookupsController, type: :request do
     Field.destroy_all
     Lookup.destroy_all
 
-   @lookup_yes_no = Lookup.create!(
+    @lookup_yes_no = Lookup.create!(
       unique_id: 'lookup-yes-no',
       name_i18n: { en: 'Yes / No' },
       lookup_values_i18n: {
         en: [
-          { id: 'true', display_text: 'Yes'},
-          { id: 'false', display_text: 'No'},
+          { id: 'true', display_text: 'Yes' },
+          { id: 'false', display_text: 'No' }
         ]
       }
     )
@@ -21,8 +23,8 @@ describe Api::V2::LookupsController, type: :request do
       name_i18n: { en: 'Sex' },
       lookup_values_i18n: {
         en: [
-          { id: 'male', display_text: 'Male'},
-          { id: 'female', display_text: 'Female'},
+          { id: 'male', display_text: 'Male' },
+          { id: 'female', display_text: 'Female' }
         ]
       }
     )
@@ -32,8 +34,8 @@ describe Api::V2::LookupsController, type: :request do
       name_i18n: { en: 'Country' },
       lookup_values_i18n: {
         en: [
-          { id: 'country1', display_text: 'Country 1'},
-          { id: 'country2', display_text: 'Country 2'},
+          { id: 'country1', display_text: 'Country 1' },
+          { id: 'country2', display_text: 'Country 2' }
         ]
       }
     )
@@ -41,29 +43,29 @@ describe Api::V2::LookupsController, type: :request do
 
   let(:json) { JSON.parse(response.body) }
 
-  describe "GET /api/v2/lookups" do
-    it "list the lookups" do
-      login_for_test({
+  describe 'GET /api/v2/lookups' do
+    it 'list the lookups' do
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::READ])
+          Permission.new(resource: Permission::METADATA, actions: [Permission::READ])
         ]
-      })
+      )
 
       get '/api/v2/lookups'
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(3)
-      expect(json['data'].map{|c| c['unique_id']}).to include(@lookup_yes_no.unique_id, @lookup_sex.unique_id)
+      expect(json['data'].map { |c| c['unique_id'] }).to include(@lookup_yes_no.unique_id, @lookup_sex.unique_id)
     end
   end
 
-  describe "GET /api/v2/lookups/:id" do
-    it "fetches the correct lookup with code 200" do
-      login_for_test({
+  describe 'GET /api/v2/lookups/:id' do
+    it 'fetches the correct lookup with code 200' do
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::READ])
+          Permission.new(resource: Permission::METADATA, actions: [Permission::READ])
         ]
-      })
+      )
 
       get "/api/v2/lookups/#{@lookup_yes_no.id}"
 
@@ -82,12 +84,12 @@ describe Api::V2::LookupsController, type: :request do
       expect(json['errors'][0]['resource']).to eq("/api/v2/lookups/#{@lookup_yes_no.id}")
     end
 
-    it "returns a 404 when trying to fetch a lookup with a non-existant id" do
-      login_for_test({
+    it 'returns a 404 when trying to fetch a lookup with a non-existant id' do
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
         ]
-      })
+      )
 
       get '/api/v2/lookups/thisdoesntexist'
 
@@ -97,33 +99,24 @@ describe Api::V2::LookupsController, type: :request do
     end
   end
 
-  describe "POST /api/v2/lookups" do
-    it "creates a new lookup and returns 200 and json" do
-      login_for_test({
-        permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
-        ]
-      })
+  describe 'POST /api/v2/lookups' do
+    it 'creates a new lookup and returns 200 and json' do
+      login_for_test(
+        permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])]
+      )
 
-      params = { 
+      params = {
         data: {
           unique_id: 'lookup-api-created',
           name: {
             en: 'Lookup Created By Api',
-            es: "Lookup Creado Por Api"
+            es: 'Lookup Creado Por Api'
           },
-          values: {
-            en: [
-              { id: 'option_1', display_text: 'Option 1' },
-              { id: 'option_2', display_text: 'Option 2' },
-              { id: 'option_3', display_text: 'Option 3' },
-            ], 
-            es: [
-              { id: 'option_1', display_text: 'Opción 1' },
-              { id: 'option_2', display_text: 'Opción 2' },
-              { id: 'option_3', display_text: 'Opción 3' },
-            ]
-          }
+          values: [
+            { 'id' => 'Option_1', 'display_text' => { 'en' => 'option 1', 'es' => 'opcion 1' } },
+            { 'id' => 'Option_2', 'display_text' => { 'en' => 'option 2', 'es' => 'opcion 2' } },
+            { 'id' => 'Option_3', 'display_text' => { 'en' => 'option 3', 'es' => 'opcion 3' } }
+          ]
         }
       }
 
@@ -144,11 +137,11 @@ describe Api::V2::LookupsController, type: :request do
 
       unique_id = 'lookup-api-2'
 
-      params = { 
+      params = {
         data: {
           unique_id: unique_id,
           name: {
-            en: 'Lookup API 2',
+            en: 'Lookup API 2'
           },
           values: {
             en: [
@@ -166,16 +159,16 @@ describe Api::V2::LookupsController, type: :request do
       expect(Lookup.find_by(unique_id: unique_id)).to be_nil
     end
 
-    it "returns a 409 if record already exists" do
-      login_for_test({
+    it 'returns a 409 if record already exists' do
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
         ]
-      })
+      )
       params = {
         data: {
           id: @lookup_yes_no.id,
-          unique_id: "lookup-yes-no-duplicated",
+          unique_id: 'lookup-yes-no-duplicated',
           name: {
             en: 'Lookup Yes / No'
           },
@@ -194,12 +187,12 @@ describe Api::V2::LookupsController, type: :request do
       expect(json['errors'][0]['resource']).to eq('/api/v2/lookups')
     end
 
-    it "returns a 422 if the lookup is invalid" do
-      login_for_test({
+    it 'returns a 422 if the lookup is invalid' do
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
         ]
-      })
+      )
 
       params = { data: { name: { en: '' }, values: { en: [] } } }
 
@@ -214,19 +207,22 @@ describe Api::V2::LookupsController, type: :request do
 
   describe 'PATCH /api/v2/lookups/:id' do
     it 'updates an existing record with 200' do
-      login_for_test({
-        permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
-        ]
-      })
+      login_for_test(
+        permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])]
+      )
 
       params = {
-        data: { 
-          values: { 
-            en: [
-              { id: 'country3', display_text: 'Country 3' }
-            ]
-          }
+        data: {
+          values: [
+            {
+              'id': 'country3',
+              'display_text': {
+                'en': 'Country 3',
+                'fr': '',
+                'es': ''
+              }
+            }
+          ]
         }
       }
 
@@ -235,25 +231,34 @@ describe Api::V2::LookupsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@lookup_country.id)
       expect(@lookup_country.reload.lookup_values_en.size).to eq(3)
-      expect(@lookup_country.lookup_values.map{ |value| value['id'] }).to include('country3')
-
+      expect(@lookup_country.lookup_values.map { |value| value['id'] }).to include('country3')
     end
 
     it 'updates translations for an existing lookup with 200' do
-      login_for_test({
-        permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
-        ]
-      })
+      login_for_test(
+        permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])]
+      )
 
       params = {
-        data: { 
-          values: { 
-            es: [
-              { id: 'country1', display_text: 'País 1' },
-              { id: 'country2', display_text: 'País 2' }
-            ]
-          }
+        'data' => {
+          'values' => [
+            {
+              'id' => 'country1',
+              'display_text' => {
+                'en' => '',
+                'fr' => '',
+                'es' => 'País 1'
+              }
+            },
+            {
+              'id' => 'country2',
+              'display_text' => {
+                'en' => '',
+                'fr' => '',
+                'es' => 'País 2'
+              }
+            }
+          ]
         }
       }
 
@@ -263,14 +268,13 @@ describe Api::V2::LookupsController, type: :request do
       expect(json['data']['id']).to eq(@lookup_country.id)
       expect(@lookup_country.reload.lookup_values_es.size).to eq(2)
       expect(@lookup_country.reload.lookup_values_en.size).to eq(2)
-
     end
 
     it "returns 403 if user isn't authorized to update lookups" do
       login_for_test(permissions: [])
       params = {
-        data: { 
-          values: { 
+        data: {
+          values: {
             en: [
               { id: 'country3', display_text: 'Country 3' }
             ]
@@ -285,15 +289,15 @@ describe Api::V2::LookupsController, type: :request do
     end
 
     it 'returns a 404 when trying to update a lookup with a non-existant id' do
-      login_for_test({
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
         ]
-      })
+      )
 
       params = {
-        data: { 
-          values: { 
+        data: {
+          values: {
             en: [
               { id: 'country3', display_text: 'Country 3' }
             ]
@@ -308,14 +312,12 @@ describe Api::V2::LookupsController, type: :request do
     end
 
     it 'returns a 422 if the case lookup is invalid' do
-      login_for_test({
-        permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
-        ]
-      })
+      login_for_test(
+        permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])]
+      )
 
       params = {
-          data: { name: { en: '' } }
+        data: { name: { en: '' } }
       }
 
       patch "/api/v2/lookups/#{@lookup_country.id}", params: params
@@ -323,17 +325,17 @@ describe Api::V2::LookupsController, type: :request do
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq("/api/v2/lookups/#{@lookup_country.id}")
-      expect(json['errors'][0]['detail']).to eq("name")
+      expect(json['errors'][0]['detail']).to eq('name')
     end
   end
 
-  describe "DELETE /api/v2/lookups/:id" do
-    it "successfully deletes a lookup with a code of 200" do
-      login_for_test({
+  describe 'DELETE /api/v2/lookups/:id' do
+    it 'successfully deletes a lookup with a code of 200' do
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
         ]
-      })
+      )
 
       delete "/api/v2/lookups/#{@lookup_yes_no.id}"
 
@@ -350,12 +352,12 @@ describe Api::V2::LookupsController, type: :request do
       expect(json['errors'][0]['resource']).to eq("/api/v2/lookups/#{@lookup_yes_no.id}")
     end
 
-    it "returns a 404 when trying to delete a lookup with a non-existant id" do
-      login_for_test({
+    it 'returns a 404 when trying to delete a lookup with a non-existant id' do
+      login_for_test(
         permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
+          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
         ]
-      })
+      )
 
       delete '/api/v2/lookups/thisdoesntexist'
 
@@ -364,5 +366,4 @@ describe Api::V2::LookupsController, type: :request do
       expect(json['errors'][0]['resource']).to eq('/api/v2/lookups/thisdoesntexist')
     end
   end
-
 end

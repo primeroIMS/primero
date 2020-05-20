@@ -154,5 +154,7 @@ FormSection.create_or_update_form_section({
   :fields => incident_details_fields,
   "name_en" => "Incident Details",
   "description_en" => "Incident details information about a child.",
-  :mobile_form => true
+  :mobile_form => true,
+  :core_form => true,
+  :editable => false
 })
