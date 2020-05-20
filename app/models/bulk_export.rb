@@ -34,7 +34,7 @@ class BulkExport < ApplicationRecord
 
   def export(password)
     process_records_in_batches(500) do |records_batch|
-      exporter.export(records_batch, owner, custom_export_params || {})
+      exporter.export(records_batch, owner, custom_export_params&.with_indifferent_access || {})
     end
     exporter.complete
     zipped_file = ZipService.zip(stored_file_name, password)

@@ -1,4 +1,4 @@
-import { setupMockFormComponent, spy, stub } from "../../../test";
+import { setupMockFormComponent, spy, fake } from "../../../test";
 
 import Panel from "./panel";
 
@@ -13,7 +13,7 @@ describe("<IndexFilters />/<Panel />", () => {
         options: [{ id: "true", display_name: "Filter 1" }],
         type: "checkbox"
       },
-      getValues: stub(),
+      getValues: fake.returns({ filter1: "option-1" }),
       handleReset: spy(),
       children: "Child Component"
     };
@@ -26,14 +26,12 @@ describe("<IndexFilters />/<Panel />", () => {
   });
 
   it("opens if field has value", () => {
-    props.getValues.returns({ filter1: "option-1" });
     const { component } = setupMockFormComponent(Panel, props);
 
     expect(component.find("Panel").childAt(0).prop("expanded")).to.be.true;
   });
 
   it("closes if field has value on click", () => {
-    props.getValues.returns({ filter1: "option-1" });
     const { component } = setupMockFormComponent(Panel, props);
 
     component.find("Panel button").simulate("click");

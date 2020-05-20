@@ -1,6 +1,7 @@
 # Update an existing lookup
 
 Merge the values submitted in this call into an existing lookup.
+If a nested values has a true value for a key '_delete', then the value will be deleted from the server.
 
 **URL** : `/api/v2/lookups/:id`
 
@@ -19,23 +20,32 @@ Merge the values submitted in this call into an existing lookup.
   "data": {
     "unique_id": "lookup-nationality",
     "name": {
-        "en": "Nationality"
+      "en": "Nationality"
     },
     "values": [
       {
-      "id": "nationality1",
-      "display_text": {
-        "en": "Nationality",
-        "fr": "",
-        "es": ""
+        "id": "nationality1",
+        "display_text": {
+          "en": "Nationality",
+          "fr": "",
+          "es": ""
+        },
+        "_delete": true
+      },
+      {
+        "id": "nationality3",
+        "display_text": {
+          "en": "Nationality3",
+          "fr": "",
+          "es": ""
         }
       },
       {
-      "id": "nationality2",
-      "display_text": {
-        "en": "Nationality2",
-        "fr": "",
-        "es": ""
+        "id": "nationality2",
+        "display_text": {
+          "en": "Nationality2",
+          "fr": "",
+          "es": ""
         }
       }
     ]
@@ -57,17 +67,17 @@ Merge the values submitted in this call into an existing lookup.
     "id": 10,
     "unique_id": "lookup-nationality",
     "name": {
-        "en": "Nationality"
+     "en": "Nationality"
     },
     "values": {
       "en": [
         {
-            "id": "nationality1",
-            "display_text": "Nationality1"
+          "id": "nationality3",
+          "display_text": "Nationality3"
         },
         {
-            "id": "nationality2",
-            "display_text": "Nationality2"
+          "id": "nationality2",
+          "display_text": "Nationality2"
         }
       ]
     }

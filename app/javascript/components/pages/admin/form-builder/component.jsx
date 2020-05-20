@@ -1,6 +1,6 @@
 import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { Tab, Tabs } from "@material-ui/core";
+import { makeStyles, Tab, Tabs } from "@material-ui/core";
 import { FormContext, useForm } from "react-hook-form";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
@@ -10,19 +10,28 @@ import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
 import { PageContent, PageHeading } from "../../../page";
 import FormSection from "../../../form/components/form-section";
-import { whichFormMode, submitHandler } from "../../../form";
+import { submitHandler, whichFormMode } from "../../../form";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { compare } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
+import { fetchForms } from "../forms-list/action-creators";
 
-import { TabPanel, FormBuilderActionButtons } from "./components";
+import {
+  FieldDialog,
+  FieldsList,
+  FormBuilderActionButtons,
+  TabPanel
+} from "./components";
 import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
 import { NAME } from "./constants";
 import { getSelectedForm } from "./selectors";
+import { convertToFieldsArray, convertToFieldsObject } from "./utils";
+import styles from "./styles.css";
 
 const Component = ({ mode }) => {
+  const css = makeStyles(styles)();
   const { id } = useParams();
   const formMode = whichFormMode(mode);
   const formRef = useRef();
@@ -52,13 +61,17 @@ const Component = ({ mode }) => {
         saveMethod: formMode.get("isEdit")
           ? SAVE_METHODS.update
           : SAVE_METHODS.new,
-        body: { data },
+        body: { data: { ...data, fields: convertToFieldsArray(data.fields) } },
         message: i18n.t(
           `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
         )
       })
     );
   };
+
+  useEffect(() => {
+    dispatch(fetchForms());
+  }, []);
 
   useEffect(() => {
     if (isEditOrShow) {
@@ -74,7 +87,11 @@ const Component = ({ mode }) => {
 
   useEffect(() => {
     if (selectedForm?.size) {
-      methods.reset(selectedForm.toJS());
+      const fieldTree = convertToFieldsObject(
+        selectedForm.get("fields").toJS()
+      );
+
+      methods.reset(selectedForm.set("fields", fieldTree).toJS());
     }
   }, [selectedForm]);
 
@@ -89,6 +106,17 @@ const Component = ({ mode }) => {
       onSubmit
     })
   );
+
+  const onSuccess = data => {
+    Object.entries(data).forEach(entry =>
+      Object.entries(entry[1]).forEach(valueEntry => {
+        if (!methods.control[`fields.${entry[0]}.${valueEntry[0]}`]) {
+          methods.register({ name: `fields.${entry[0]}.${valueEntry[0]}` });
+        }
+        methods.setValue(`fields.${entry[0]}.${valueEntry[0]}`, valueEntry[1]);
+      })
+    );
+  };
 
   return (
     <LoadingIndicator
@@ -114,15 +142,21 @@ const Component = ({ mode }) => {
               <Tab label={i18n.t("forms.translations")} />
             </Tabs>
             <TabPanel tab={tab} index={0}>
-              {settingsForm(i18n).map(formSection => (
-                <FormSection
-                  formSection={formSection}
-                  key={formSection.unique_id}
-                />
-              ))}
+              <div className={css.tabContent}>
+                {settingsForm(i18n).map(formSection => (
+                  <FormSection
+                    formSection={formSection}
+                    key={formSection.unique_id}
+                  />
+                ))}
+              </div>
             </TabPanel>
             <TabPanel tab={tab} index={1}>
-              Item Two
+              <div className={css.tabContent}>
+                <h1>{i18n.t("forms.fields")}</h1>
+              </div>
+              <FieldsList />
+              <FieldDialog onSuccess={onSuccess} />
             </TabPanel>
             <TabPanel tab={tab} index={2}>
               Item Three

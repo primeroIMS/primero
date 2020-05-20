@@ -10,11 +10,14 @@ import { Controller } from "react-hook-form";
 const filter = createFilterOptions();
 
 const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
-  const { multiSelect, freeSolo } = metaInputProps;
+  const { multiSelect, freeSolo, groupBy } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
 
   const optionLabel = option => {
+    if (typeof option === "string" && option === "") {
+      return "";
+    }
     const { display_name: displayName, display_text: displayText } =
       typeof option === "object"
         ? option
@@ -98,6 +101,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
       onChange={handleChange}
       as={
         <Autocomplete
+          groupBy={option => option[groupBy]}
           options={options}
           multiple={multiSelect}
           getOptionLabel={optionLabel}
@@ -123,6 +127,7 @@ SelectInput.defaultProps = {
 SelectInput.propTypes = {
   commonInputProps: PropTypes.shape({
     disabled: PropTypes.bool,
+    groupBy: PropTypes.string,
     helperText: PropTypes.string,
     name: PropTypes.string.isRequired
   }),

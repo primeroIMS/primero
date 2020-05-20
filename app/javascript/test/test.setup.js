@@ -3,15 +3,15 @@ import Enzyme from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import sinonChai from "sinon-chai";
 import chaiImmutable from "chai-immutable";
-import 'mutationobserver-shim'
-import indexedDB from "fake-indexeddb"
-import IDBKeyRange from "fake-indexeddb/lib/FDBKeyRange"
-import IDBRequest from "fake-indexeddb/lib/FDBRequest"
-import IDBTransaction from "fake-indexeddb/lib/FDBTransaction"
-import IDBDatabase from "fake-indexeddb/lib/FDBDatabase"
-import IDBObjectStore from "fake-indexeddb/lib/FDBObjectStore"
-import IDBIndex from "fake-indexeddb/lib/FDBIndex"
-import IDBCursor from "fake-indexeddb/lib/FDBCursor"
+import "mutationobserver-shim";
+import indexedDB from "fake-indexeddb";
+import IDBKeyRange from "fake-indexeddb/lib/FDBKeyRange";
+import IDBRequest from "fake-indexeddb/lib/FDBRequest";
+import IDBTransaction from "fake-indexeddb/lib/FDBTransaction";
+import IDBDatabase from "fake-indexeddb/lib/FDBDatabase";
+import IDBObjectStore from "fake-indexeddb/lib/FDBObjectStore";
+import IDBIndex from "fake-indexeddb/lib/FDBIndex";
+import IDBCursor from "fake-indexeddb/lib/FDBCursor";
 
 chai.use(chaiImmutable);
 chai.use(sinonChai);
@@ -72,9 +72,9 @@ global.document.createRange = () => ({
   setStart: () => {},
   setEnd: () => {},
   commonAncestorContainer: {
-    nodeName: 'BODY',
-    ownerDocument: document,
-  },
+    nodeName: "BODY",
+    ownerDocument: document
+  }
 });
 
 global.HTMLCanvasElement.prototype.getContext = () => {

@@ -34,6 +34,7 @@ export const saveRecord = (
       recordType,
       path: saveMethod === "update" ? `${recordType}/${id}` : `${recordType}`,
       method: saveMethod === "update" ? "PATCH" : "POST",
+      queueOffline: true,
       body,
       successCallback: {
         action: ENQUEUE_SNACKBAR,

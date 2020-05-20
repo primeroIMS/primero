@@ -34,6 +34,16 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
     </Grid>
   ) : null;
 
+  const renderApprovalDate = () => {
+    const approvalDate = approvalSubform.get("approval_date", false);
+
+    if (!approvalDate) {
+      return false;
+    }
+
+    return format(new Date(approvalDate), "MMM dd,yyyy");
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid item md={10} xs={8}>
@@ -43,10 +53,7 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
           <div className={(css.approvalsValueSummary, css.separator)}>-</div>
           {/* TODO: The date should be localized */}
           <div className={css.approvalsValueSummary}>
-            {format(
-              new Date(approvalSubform.get("approval_date")),
-              "MMM dd,yyyy"
-            )}
+            {renderApprovalDate()}
           </div>
         </div>
       </Grid>
