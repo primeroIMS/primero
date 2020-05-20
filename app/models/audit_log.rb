@@ -13,7 +13,7 @@ class AuditLog < ApplicationRecord
     self.timestamp ||= DateTime.now
   end
 
-  def self.for_user(user_name, date_range)
+  def self.logs(user_name, date_range)
     return AuditLog.where(timestamp: date_range) unless user_name.present?
 
     joins(:user).where('users.user_name': user_name, timestamp: date_range)
