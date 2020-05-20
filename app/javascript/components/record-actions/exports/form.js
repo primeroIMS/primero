@@ -12,15 +12,16 @@ import {
 
 import { allowedExports } from "./utils";
 import {
+  CUSTOM_EXPORT_FILE_NAME_FIELD,
+  CUSTOM_FORMAT_TYPE_FIELD,
+  EXPORT_TYPE_FIELD,
+  FIELDS_TO_EXPORT_FIELD,
   FIELD_ID,
   FORMS_ID,
-  EXPORT_TYPE_FIELD,
-  CUSTOM_FORMAT_TYPE_FIELD,
-  INDIVIDUAL_FIELDS_FIELD,
   FORM_TO_EXPORT_FIELD,
-  FIELDS_TO_EXPORT_FIELD,
-  PASSWORD_FIELD,
-  CUSTOM_EXPORT_FILE_NAME_FIELD
+  INDIVIDUAL_FIELDS_FIELD,
+  MODULE_FIELD,
+  PASSWORD_FIELD
 } from "./constants";
 
 export default (
@@ -31,6 +32,7 @@ export default (
   formatType,
   individualFields,
   css,
+  modules,
   fields
 ) => [
   FieldRecord({
@@ -42,6 +44,16 @@ export default (
     },
     multi_select: false,
     required: true
+  }),
+  FieldRecord({
+    display_name: i18n.t("report.modules"),
+    name: MODULE_FIELD,
+    type: SELECT_FIELD,
+    option_strings_text: modules,
+    editable: modules.length > 1,
+    inputClassname:
+      !isCustomExport || isShowPage ? css.hideCustomExportFields : null,
+    required: isCustomExport && !isShowPage
   }),
   FieldRecord({
     name: CUSTOM_FORMAT_TYPE_FIELD,

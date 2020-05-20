@@ -20,6 +20,7 @@ import { getMetadata } from "../../record-list/selectors";
 import FormSectionField from "../../form/components/form-section-field";
 import { submitHandler } from "../../form/utils/form-submission";
 import { getRecordForms } from "../../record-form/selectors";
+import { useApp } from "../../application";
 
 import {
   ALL_EXPORT_TYPES,
@@ -31,6 +32,7 @@ import {
   FORMS_ID,
   FORM_TO_EXPORT_FIELD,
   INDIVIDUAL_FIELDS_FIELD,
+  MODULE_FIELD,
   NAME,
   PASSWORD_FIELD
 } from "./constants";
@@ -65,6 +67,7 @@ const Component = ({
 
   const defaultValues = {
     [EXPORT_TYPE_FIELD]: "",
+    [MODULE_FIELD]: "",
     [CUSTOM_FORMAT_TYPE_FIELD]: "",
     [INDIVIDUAL_FIELDS_FIELD]: false,
     [FORM_TO_EXPORT_FIELD]: [],
@@ -97,15 +100,26 @@ const Component = ({
     selectedRecordsLength === records.size;
   const allRecordsSelected = selectedRecordsLength === totalRecords;
 
+  const exportType = formMethods.watch(EXPORT_TYPE_FIELD);
   const formatType = formMethods.watch(CUSTOM_FORMAT_TYPE_FIELD);
   const individualFields = formMethods.watch(INDIVIDUAL_FIELDS_FIELD);
   const formsToExport = formMethods.watch(FORM_TO_EXPORT_FIELD);
   const fieldsToExport = formMethods.watch(FIELDS_TO_EXPORT_FIELD);
-  const isCustomExport = formMethods.watch(EXPORT_TYPE_FIELD) === "custom";
+  const selectedModule = formMethods.watch(MODULE_FIELD);
+  const isCustomExport = exportType === "custom";
+
+  const { userModules } = useApp();
+  const modules = userModules
+    // eslint-disable-next-line camelcase
+    .map(({ unique_id, name }) => ({
+      id: unique_id,
+      display_text: name
+    }))
+    .toJS();
   const recordTypesForms = useSelector(state =>
     getRecordForms(state, {
       recordType: RECORD_TYPES[recordType],
-      primeroModule: record?.get("module_id")
+      primeroModule: selectedModule || record?.get("module_id")
     })
   );
   const fields = buildFields(recordTypesForms, i18n.locale);
@@ -172,6 +186,12 @@ const Component = ({
   };
 
   useEffect(() => {
+    if (isCustomExport && modules.length === 1) {
+      formMethods.setValue(MODULE_FIELD, modules[0].id);
+    }
+  }, [exportType]);
+
+  useEffect(() => {
     if (formatType === FIELD_ID) {
       formMethods.setValue(INDIVIDUAL_FIELDS_FIELD, false);
       formMethods.setValue(FORM_TO_EXPORT_FIELD, []);
@@ -207,6 +227,7 @@ const Component = ({
     formatType,
     individualFields,
     css,
+    modules,
     fields
   );
 
