@@ -16,7 +16,7 @@ describe("middleware/utils/start-signout.js", () => {
     );
 
   it("triggers msal signout if using identity provider", () => {
-    const msalSignout = spy();
+    const msalSignout = fake();
 
     startSignout(store(), null, msalSignout);
 
@@ -32,5 +32,7 @@ describe("middleware/utils/start-signout.js", () => {
     startSignout(configuredStore, attemptSignout, null);
 
     expect(dispatch).to.have.been.calledOnceWith(attemptSignout());
+
+    dispatch.restore();
   });
 });

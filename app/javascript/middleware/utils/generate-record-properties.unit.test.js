@@ -31,7 +31,12 @@ describe("middleware/utils/generate-record-properties.js", () => {
   describe("subforms", () => {
     it("generates unique_id for new subforms", () => {
       expect(
-        generateRecordProperties(store, {}, null, false, true)
+        generateRecordProperties(
+          store,
+          { method: "POST", subform: true },
+          null,
+          false
+        )
       ).to.deep.equal({ unique_id: "dd3b8e93-0cce-415b-ad2b-d06bb454b66f" });
     });
   });
@@ -83,8 +88,7 @@ describe("middleware/utils/generate-record-properties.js", () => {
         store,
         payload,
         "testRecordType",
-        true,
-        false
+        true
       );
 
       expect(results).to.deep.equal({});
@@ -100,10 +104,9 @@ describe("middleware/utils/generate-record-properties.js", () => {
       };
       const results = generateRecordProperties(
         store,
-        {},
+        { method: "POST" },
         "testRecordType",
-        true,
-        false
+        true
       );
 
       expect(results).to.deep.equal(expected);
@@ -114,10 +117,9 @@ describe("middleware/utils/generate-record-properties.js", () => {
         // eslint-disable-next-line camelcase
         const { case_id_display } = generateRecordProperties(
           store,
-          { db: { recordType: "cases" } },
+          { method: "POST", db: { recordType: "cases" } },
           "testRecordType",
-          true,
-          false
+          true
         );
 
         expect(case_id_display).to.equal("454b66f");

@@ -7,6 +7,15 @@ import * as handleRestCallback from "./handle-rest-callback";
 
 describe("middleware/utils/default-error-callback.js", () => {
   const store = configureStore()();
+  let handleRestCallbackSpy;
+
+  beforeEach(() => {
+    handleRestCallbackSpy = spy(handleRestCallback, "default");
+  });
+
+  afterEach(() => {
+    handleRestCallbackSpy.restore();
+  });
 
   it("calls handleRestCallback if response not 401", () => {
     const response = { status: 500 };
@@ -29,8 +38,6 @@ describe("middleware/utils/default-error-callback.js", () => {
         }
       }
     ];
-
-    const handleRestCallbackSpy = spy(handleRestCallback, "default");
 
     defaultErrorCallback(store, response, {});
     expect(handleRestCallbackSpy).to.have.been.calledOnceWith(
@@ -73,8 +80,6 @@ describe("middleware/utils/default-error-callback.js", () => {
       }
     ];
 
-    const handleRestCallbackSpy = spy(handleRestCallback, "default");
-
     defaultErrorCallback(store, response, json);
     expect(handleRestCallbackSpy).to.have.been.calledOnceWith(
       store,
@@ -86,8 +91,6 @@ describe("middleware/utils/default-error-callback.js", () => {
 
   it("does not call handleRestCallback if response 401", () => {
     const response = { status: 401 };
-
-    const handleRestCallbackSpy = spy(handleRestCallback, "default");
 
     defaultErrorCallback(store, response, {});
     expect(handleRestCallbackSpy).to.not.have.been.called;

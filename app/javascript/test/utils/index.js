@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name, react/no-multi-comp, react/prop-types */
 import { routerMiddleware } from "connected-react-router/immutable";
 import { Form, Formik } from "formik";
 import { createBrowserHistory } from "history";
@@ -15,11 +16,53 @@ import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import { useForm, FormContext } from "react-hook-form";
 import { fromJS } from "immutable";
 import capitalize from "lodash/capitalize";
+import { spy } from "sinon";
 
 import { ApplicationProvider } from "../../components/application/provider";
 import I18nProvider from "../../components/i18n";
 import { theme } from "../../config";
 import { whichFormMode } from "../../components/form";
+
+const setupFormFieldRecord = (FieldRecord, field = {}) => {
+  return FieldRecord({
+    display_name: "Test Field 2",
+    name: "test_field_2",
+    type: "text_field",
+    help_text: "Test Field 2 help text",
+    required: true,
+    autoFocus: true,
+    ...field
+  });
+};
+
+const setupFormInputProps = (field = {}, props = {}, mode, errors = []) => {
+  const formMode = whichFormMode(props.mode);
+  const error = errors?.[field.name];
+
+  return {
+    name: field.name,
+    error: typeof error !== "undefined",
+    required: field.required,
+    autoFocus: field.autoFocus,
+    autoComplete: "new-password",
+    disabled: formMode.get(`is${capitalize(mode)}`),
+    label: field.display_name,
+    helperText: error?.message || field.help_text,
+    fullWidth: true,
+    InputLabelProps: {
+      shrink: true
+    },
+    ...props
+  };
+};
+
+export const createMockStore = (defaultState = fromJS({}), initialState) => {
+  const history = createBrowserHistory();
+  const mockStore = configureStore([routerMiddleware(history), thunk]);
+  const store = mockStore(defaultState.merge(fromJS(initialState)));
+
+  return store;
+};
 
 export const setupMountedComponent = (
   TestComponent,
@@ -33,9 +76,8 @@ export const setupMountedComponent = (
       online: true
     }
   });
-  const history = createBrowserHistory();
-  const mockStore = configureStore([routerMiddleware(history), thunk]);
-  const store = mockStore(defaultState.merge(fromJS(initialState)));
+
+  const store = createMockStore(defaultState, initialState);
 
   const FormikComponent = ({ formikProps, componentProps }) => {
     if (isEmpty(formikProps)) {
@@ -107,39 +149,6 @@ export const tick = () =>
     setTimeout(resolve, 100);
   });
 
-const setupFormFieldRecord = (FieldRecord, field = {}) => {
-  return FieldRecord({
-    display_name: "Test Field 2",
-    name: "test_field_2",
-    type: "text_field",
-    help_text: "Test Field 2 help text",
-    required: true,
-    autoFocus: true,
-    ...field
-  });
-};
-
-const setupFormInputProps = (field = {}, props = {}, mode, errors = []) => {
-  const formMode = whichFormMode(props.mode);
-  const error = errors?.[field.name];
-
-  return {
-    name: field.name,
-    error: typeof error !== "undefined",
-    required: field.required,
-    autoFocus: field.autoFocus,
-    autoComplete: "new-password",
-    disabled: formMode.get(`is${capitalize(mode)}`),
-    label: field.display_name,
-    helperText: error?.message || field.help_text,
-    fullWidth: true,
-    InputLabelProps: {
-      shrink: true
-    },
-    ...props
-  };
-};
-
 export const setupMockFormComponent = (
   Component,
   props = {},
@@ -191,3 +200,13 @@ export const setupMockFieldComponent = (
 };
 
 export const createSimpleMount = component => createMount()(component);
+
+export const createMiddleware = (middleware, initialState) => {
+  const store = createMockStore(fromJS({}), initialState);
+
+  const next = spy();
+
+  const invoke = action => middleware(store)(next)(action);
+
+  return { store, next, invoke };
+};

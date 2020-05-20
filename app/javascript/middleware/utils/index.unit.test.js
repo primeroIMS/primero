@@ -19,7 +19,9 @@ describe("middleware/utils/index.js", () => {
       "isOnline",
       "partitionObject",
       "processAttachments",
-      "startSignout"
+      "startSignout",
+      "retrieveData",
+      "queueData"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(modules).to.have.property(property);

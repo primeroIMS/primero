@@ -5,6 +5,8 @@ import startSignout from "./start-signout";
 import generateRecordProperties from "./generate-record-properties";
 import handleRestCallback from "./handle-rest-callback";
 import defaultErrorCallback from "./default-error-callback";
+import retrieveData from "./retrieve-data";
+import queueData from "./queue-data";
 
 export {
   defaultErrorCallback,
@@ -13,5 +15,7 @@ export {
   isOnline,
   partitionObject,
   processAttachments,
-  startSignout
+  startSignout,
+  queueData,
+  retrieveData
 };

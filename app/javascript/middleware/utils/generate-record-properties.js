@@ -1,6 +1,6 @@
 import uuid from "uuid";
 
-import { RECORD_PATH } from "../../config";
+import { RECORD_PATH, METHODS } from "../../config";
 
 const generateName = (body = {}) => {
   const { name_first: nameFirst, name_last: nameLast, name } = body;
@@ -12,27 +12,30 @@ const generateName = (body = {}) => {
   return nameFirst || nameLast ? { name: `${nameFirst} ${nameLast}` } : {};
 };
 
-export default (store, api, recordType, isRecord, subform) => {
+export default (store, api, recordType, isRecord) => {
+  const { subform = false, id, db, body, method } = api;
   const username = store.getState().getIn(["user", "username"], "false");
-  const id = uuid.v4();
-  const shortID = id.substr(id.length - 7);
+  const generatedID = uuid.v4();
+  const shortID = generatedID.substr(generatedID.length - 7);
 
   return {
-    // eslint-disable-next-line camelcase
-    ...(subform && !api?.body?.unique_id && { unique_id: id }),
-    ...(!api?.id &&
-      isRecord && {
-        id,
-        short_id: shortID,
-        ...(api?.db?.recordType === RECORD_PATH.cases && {
-          case_id_display: shortID
-        })
-      }),
-    // eslint-disable-next-line camelcase
-    ...(!api?.body?.owned_by && isRecord && { owned_by: username }),
-    ...(!api?.body?.type && isRecord && { type: recordType }),
-    // eslint-disable-next-line camelcase
-    ...(!api?.body?.created_at && isRecord && { created_at: new Date() }),
-    ...(isRecord && generateName(api?.body))
+    ...(method === METHODS.POST && {
+      // eslint-disable-next-line camelcase
+      ...(subform && !body?.unique_id && { unique_id: generatedID }),
+      ...(!id &&
+        isRecord && {
+          id: generatedID,
+          short_id: shortID,
+          ...(db?.recordType === RECORD_PATH.cases && {
+            case_id_display: shortID
+          })
+        }),
+      // eslint-disable-next-line camelcase
+      ...(!body?.owned_by && isRecord && { owned_by: username }),
+      ...(!body?.type && isRecord && { type: recordType }),
+      // eslint-disable-next-line camelcase
+      ...(!body?.created_at && isRecord && { created_at: new Date() })
+    }),
+    ...(isRecord && generateName(body))
   };
 };
