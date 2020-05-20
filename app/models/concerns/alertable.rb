@@ -47,13 +47,7 @@ module Alertable
       end
 
       def alert_count_self(current_user_name)
-        return open_enabled_records.owned_by(current_user_name).distinct.count unless self == Child
-
-        records_owned_by = open_enabled_records.owned_by(current_user_name)
-        records_referred_users =
-          open_enabled_records.select { |record| record.referred_users.include?(current_user_name) }
-
-        (records_referred_users + records_owned_by).uniq.count
+        open_enabled_records.owned_by(current_user_name).distinct.count
       end
 
       def open_enabled_records
