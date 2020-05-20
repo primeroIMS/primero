@@ -5,3 +5,14 @@
     font-weight: bold;
   }
 }
+
+.cancelButton {
+  background: $(theme.primero.colors.grey);
+  color: $(theme.primero.colors.white);
+  margin: 0 .5em;
+
+  &:hover {
+    color: $(theme.primero.colors.black);
+    background-color: $(theme.primero.colors.warmGrey5);
+  }
+}

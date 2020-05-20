@@ -21,6 +21,7 @@ const colors = {
   warmGrey2: "#bcbcad",
   warmGrey3: "#b9b8b3",
   warmGrey4: "#9a988f",
+  warmGrey5: "#d5d5d5",
   midGrey: "#757472",
   grey: "#4a4a4a",
   contentGrey: "#fbfbfb",

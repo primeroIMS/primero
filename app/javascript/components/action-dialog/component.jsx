@@ -32,7 +32,8 @@ const ActionDialog = ({
   omitCloseAfterSuccess,
   maxSize,
   pending,
-  enabledSuccessButton
+  enabledSuccessButton,
+  cancelButtonProps
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -57,6 +58,11 @@ const ActionDialog = ({
   const defaultSuccessButtonProps = {
     color: "primary",
     autoFocus: true
+  };
+
+  const defaulCancelButtonProps = {
+    color: "primary",
+    autoFocus: false
   };
 
   const successButtonProps =
@@ -110,9 +116,8 @@ const ActionDialog = ({
           {submitButton}
           {cancelHandler ? (
             <Button
+              {...{ ...defaulCancelButtonProps, ...cancelButtonProps }}
               onClick={cancelHandler}
-              color="primary"
-              className={css.actionButtonCancel}
             >
               <CloseIcon />
               <span>{i18n.t("cancel")}</span>
@@ -127,10 +132,12 @@ const ActionDialog = ({
 ActionDialog.displayName = "ActionDialog";
 
 ActionDialog.defaultProps = {
+  cancelButtonProps: {},
   enabledSuccessButton: true
 };
 
 ActionDialog.propTypes = {
+  cancelButtonProps: PropTypes.object,
   cancelHandler: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
