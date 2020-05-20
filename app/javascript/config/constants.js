@@ -119,6 +119,7 @@ export const ROUTES = {
   login: "/login",
   logout: "/logout",
   lookups: "/admin/lookups",
+  lookups_new: "/admin/lookups/new",
   matches: "/matches",
   not_authorized: "/not-authorized",
   reports: "/reports",

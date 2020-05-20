@@ -94,7 +94,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     label: i18n.getI18nStringFromObject(displayName),
     helperText: error?.message || i18n.getI18nStringFromObject(helpText),
     fullWidth: true,
-    autoComplete: "new-password",
+    autoComplete: "off",
     InputLabelProps: {
       shrink: true
     },

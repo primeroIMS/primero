@@ -12,6 +12,7 @@ describe("<Form /> - index", () => {
       "FORM_MODE_DIALOG",
       "FieldRecord",
       "FormAction",
+      "FormSectionField",
       "FormSectionRecord",
       "LABEL_FIELD",
       "NUMERIC_FIELD",
