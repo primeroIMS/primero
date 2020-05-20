@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Button, makeStyles } from "@material-ui/core";
+import clsx from "clsx";
 
 import { RECORD_TYPES } from "../../../../../../config/constants";
 import styles from "../../styles.css";
@@ -11,7 +12,8 @@ const Component = ({
   filterValues,
   modules,
   handleSetFilterValue,
-  handleClearValue
+  handleClearValue,
+  disabled
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -57,14 +59,14 @@ const Component = ({
     ));
 
   return (
-    <div>
+    <div className={clsx({ [css.disabledFilters]: disabled })}>
       <Button
         fullWidth
         variant="outlined"
         onClick={handleClearValue}
         className={css.clearBtn}
       >
-        Clear
+        {i18n.t("clear")}
       </Button>
       {renderExpansionPanels()}
     </div>
@@ -74,10 +76,12 @@ const Component = ({
 Component.displayName = "FormFilters";
 
 Component.defaultProps = {
+  disabled: false,
   filterValues: {}
 };
 
 Component.propTypes = {
+  disabled: PropTypes.bool,
   filterValues: PropTypes.object,
   handleClearValue: PropTypes.func.isRequired,
   handleSetFilterValue: PropTypes.func.isRequired,

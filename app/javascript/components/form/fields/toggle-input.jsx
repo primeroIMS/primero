@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Checkbox,
+  Switch,
   FormControl,
   FormGroup,
   FormControlLabel,
@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { Controller } from "react-hook-form";
 
-const SwitchInput = ({ commonInputProps }) => {
+const ToggleInput = ({ commonInputProps }) => {
   const {
     helperText,
     error,
@@ -20,20 +20,13 @@ const SwitchInput = ({ commonInputProps }) => {
   } = commonInputProps;
 
   return (
-    <FormControl error={error}>
+    <FormControl error={error} className={className}>
       <FormGroup>
         <FormControlLabel
+          disabled={disabled}
           labelPlacement="end"
-          control={
-            <Controller
-              name={name}
-              as={Checkbox}
-              disabled={disabled}
-              defaultValue={false}
-            />
-          }
+          control={<Controller name={name} as={Switch} defaultValue={false} />}
           label={label}
-          className={className}
         />
       </FormGroup>
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
@@ -41,9 +34,9 @@ const SwitchInput = ({ commonInputProps }) => {
   );
 };
 
-SwitchInput.displayName = "SwitchInput";
+ToggleInput.displayName = "ToggleInput";
 
-SwitchInput.propTypes = {
+ToggleInput.propTypes = {
   commonInputProps: PropTypes.shape({
     className: PropTypes.string,
     disabled: PropTypes.bool,
@@ -54,4 +47,4 @@ SwitchInput.propTypes = {
   })
 };
 
-export default SwitchInput;
+export default ToggleInput;

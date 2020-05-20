@@ -234,6 +234,8 @@ en:
     add: "Add"
     update: "Update"
     clear_selection: "Clear selection"
+    reorder: "Reorder"
+    save_changes: "Save changes"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -1412,6 +1414,8 @@ en:
       use_existing: "We encourage you to use the existing forms as this makes data sharing and data merging between institutions easier."
       updated: "Form section successfully updated"
       created: "Form section successfully created"
+      save_with_errors: "There was a problem and some form sections were not updated."
+      save_success: "Form sections successfully updated"
     initial_language: "Initial Language"
     cannot_be_edited: "Fields on this form cannot be edited."
     record_types:
@@ -2418,6 +2422,7 @@ en:
       one: MRM Violations
       selected: Selected to MRM Violations
     custom_exports:
+      all: Custom
       label: Custom Exports
       format_label: Select Format
       field_label: Field
@@ -2432,6 +2437,8 @@ en:
       empty_fields_forms: Please select some forms or fields to export.
       empty_format: Please select a format to export.
       empty_module: Please select a module to export.
+    custom:
+      all: "Custom"
     pdf_exports:
       label: PDF
     forms:

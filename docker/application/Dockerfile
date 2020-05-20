@@ -89,7 +89,7 @@ RUN set -euox pipefail \
 FROM ruby:2.6.6-alpine3.11
 
 ENV BUILD_PACKAGES bash
-ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip
+ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip curl
 
 ARG APP_ROOT
 ENV APP_ROOT=${APP_ROOT}

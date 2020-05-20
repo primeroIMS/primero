@@ -37,3 +37,7 @@
   color:  $(theme.primero.colors.warmGrey4);
   font-weight: bold;
 }
+
+.rowDirection {
+  flex-direction: row;
+}
