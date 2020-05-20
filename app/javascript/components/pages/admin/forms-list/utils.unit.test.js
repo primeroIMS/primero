@@ -1,6 +1,8 @@
 import { fromJS } from "immutable";
 
-import { DRAGGING_IDLE_COLOR, DRAGGING_COLOR } from "./constants";
+import { FormSectionRecord } from "../../../record-form/records";
+
+import { DRAGGING_COLOR } from "./constants";
 import * as utils from "./utils";
 
 describe("<FormsList /> - Utils", () => {
@@ -62,6 +64,173 @@ describe("<FormsList /> - Utils", () => {
       });
 
       expect(reorderedForms).to.deep.equal(expected);
+    });
+  });
+
+  describe("formSectionFilter", () => {
+    it("should return true if form section matches the filter", () => {
+      const formSection = FormSectionRecord({
+        unique_id: "form_section_1",
+        is_nested: false,
+        parent_form: "parent",
+        module_ids: ["module_1"]
+      });
+
+      const filter = { primeroModule: "module_1", recordType: "parent" };
+
+      expect(utils.formSectionFilter(formSection, filter)).to.be.true;
+    });
+  });
+
+  describe("getFormGroupId", () => {
+    it("should return the correct formGroupId", () => {
+      const formSections = fromJS([
+        FormSectionRecord({
+          unique_id: "form_1",
+          form_group_id: "group_1"
+        }),
+        FormSectionRecord({
+          unique_id: "form_2",
+          form_group_id: "group_2"
+        })
+      ]);
+
+      expect(utils.getFormGroupId(formSections, "form_1")).to.be.equal(
+        "group_1"
+      );
+    });
+  });
+
+  describe("filterFormSections", () => {
+    it("should return the form sections that matches the filter", () => {
+      const formSection1 = FormSectionRecord({
+        unique_id: "form_1",
+        form_group_id: "group_1",
+        parent_form: "parent_1",
+        module_ids: ["module_1"]
+      });
+      const formSection2 = FormSectionRecord({
+        unique_id: "form_2",
+        form_group_id: "group_2",
+        parent_form: "parent_2",
+        module_ids: ["module_1"]
+      });
+      const formSections = fromJS([formSection1, formSection2]);
+
+      const expected = fromJS([formSection2]);
+
+      const filter = { primeroModule: "module_1", recordType: "parent_2" };
+
+      expect(utils.filterFormSections(formSections, filter)).to.deep.equal(
+        expected
+      );
+    });
+  });
+
+  describe("groupByFormGroup", () => {
+    const formSection1 = FormSectionRecord({
+      unique_id: "form_1",
+      form_group_id: "group_1",
+      parent_form: "parent_1",
+      module_ids: ["module_1"]
+    });
+    const formSection2 = FormSectionRecord({
+      unique_id: "form_2",
+      form_group_id: "group_2",
+      parent_form: "parent_1",
+      module_ids: ["module_1"]
+    });
+
+    const formSectionsByGroup = utils.groupByFormGroup(
+      fromJS([formSection1, formSection2])
+    );
+
+    expect(formSectionsByGroup.keySeq()).to.deep.equal(
+      fromJS(["group_1", "group_2"])
+    );
+  });
+
+  describe("setInitialFormOrder", () => {
+    it("should return the correct order", () => {
+      const formSection1 = {
+        unique_id: "form_1",
+        form_group_id: "group_1",
+        parent_form: "parent_1",
+        module_ids: ["module_1"]
+      };
+
+      const formSection2 = {
+        unique_id: "form_2",
+        form_group_id: "group_1",
+        parent_form: "parent_1",
+        module_ids: ["module_1"]
+      };
+
+      const formSections = fromJS([
+        FormSectionRecord({ ...formSection1 }),
+        FormSectionRecord({ ...formSection2 })
+      ]);
+
+      const expected = fromJS([
+        FormSectionRecord({ ...formSection1, order: 0 }),
+        FormSectionRecord({ ...formSection2, order: 10 })
+      ]);
+
+      const filter = { primeroModule: "module_1", recordType: "parent_1" };
+
+      expect(
+        utils
+          .setInitialFormOrder(formSections, filter)
+          .map(formSection =>
+            fromJS([formSection.unique_id, formSection.order])
+          )
+      ).to.deep.equal(
+        expected.map(formSection =>
+          fromJS([formSection.unique_id, formSection.order])
+        )
+      );
+    });
+  });
+
+  describe("setInitialGroupOrder", () => {
+    it("should return the correct order", () => {
+      const formSection1 = {
+        unique_id: "form_1",
+        form_group_id: "group_1",
+        parent_form: "parent_1",
+        module_ids: ["module_1"]
+      };
+
+      const formSection2 = {
+        unique_id: "form_2",
+        form_group_id: "group_2",
+        parent_form: "parent_1",
+        module_ids: ["module_1"]
+      };
+
+      const formSections = fromJS([
+        FormSectionRecord({ ...formSection1 }),
+        FormSectionRecord({ ...formSection2 })
+      ]);
+
+      const expected = fromJS([
+        FormSectionRecord({ ...formSection1, order_form_group: 0 }),
+        FormSectionRecord({ ...formSection2, order_form_group: 10 })
+      ]);
+
+      const filter = { primeroModule: "module_1", recordType: "parent_1" };
+
+      expect(
+        utils
+          .setInitialGroupOrder(formSections, filter)
+          .map(formSection =>
+            fromJS([formSection.unique_id, formSection.order_form_group])
+          )
+      ).to.deep.equal(
+        expected.map(formSection =>
+          fromJS([formSection.unique_id, formSection.order_form_group])
+        )
+      );
     });
   });
 });

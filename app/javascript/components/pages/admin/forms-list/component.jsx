@@ -88,7 +88,7 @@ const Component = () => {
       if (result.type === ORDER_TYPE.formGroup) {
         dispatch(
           reorderFormGroups(
-            result.draggableId.replace(FORM_GROUP_PREFIX, ""),
+            result.draggableId.replace(`${FORM_GROUP_PREFIX}-`, ""),
             order,
             filterValues
           )
@@ -150,6 +150,8 @@ const Component = () => {
     });
   };
 
+  const hasFormSectionsByGroup = Boolean(formSectionsByGroup?.size);
+
   return (
     <>
       <PageHeading title={i18n.t("forms.label")}>{newFormBtn}</PageHeading>
@@ -157,7 +159,7 @@ const Component = () => {
         <div className={css.indexContainer}>
           <div className={css.forms}>
             <LoadingIndicator
-              hasData={Boolean(formSectionsByGroup?.size)}
+              hasData={hasFormSectionsByGroup}
               loading={isLoading}
               type={NAMESPACE}
             >

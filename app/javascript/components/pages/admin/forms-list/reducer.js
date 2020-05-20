@@ -4,8 +4,12 @@ import { mapEntriesToRecord } from "../../../../libs";
 import { normalizeFormData } from "../../../../schemas";
 import { FieldRecord, FormSectionRecord } from "../../../record-form/records";
 
-import { formSectionFilter } from "./selectors";
-import { reorderElems } from "./utils";
+import {
+  reorderElems,
+  getFormGroupId,
+  setInitialFormOrder,
+  setInitialGroupOrder
+} from "./utils";
 import { ORDER_STEP } from "./constants";
 import actions from "./actions";
 
@@ -13,30 +17,6 @@ const DEFAULT_STATE = Map({
   formSections: OrderedMap({}),
   fields: OrderedMap({})
 });
-
-const getFormGroupId = (state, formUniqueId) =>
-  state.get("formSections").find(form => form.get("unique_id") === formUniqueId)
-    .form_group_id;
-
-const setInitialFormOrder = (state, filter) =>
-  state
-    .get("formSections")
-    .filter(formSection => formSectionFilter(formSection, filter))
-    .sortBy(formSection => formSection.order)
-    .valueSeq()
-    .map((formSection, index) => formSection.set("order", index * 10));
-
-const setInitialGroupOrder = (state, filter) =>
-  state
-    .get("formSections")
-    .filter(formSection => formSectionFilter(formSection, filter))
-    .sortBy(formSection => formSection.order_form_group)
-    .groupBy(fs => fs.form_group_id)
-    .entrySeq()
-    .map((entry, index) =>
-      entry[1].map(form => form.set("order_form_group", index * 10))
-    )
-    .flatten();
 
 export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
@@ -69,7 +49,10 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.REORDER_FORM_GROUPS: {
       const { filter, formGroupId, order } = payload;
 
-      const formSections = setInitialGroupOrder(state, filter);
+      const formSections = setInitialGroupOrder(
+        state.get("formSections"),
+        filter
+      );
 
       const reorderedForms = reorderElems({
         fieldsMeta: {
@@ -93,9 +76,11 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.REORDER_FORM_SECTIONS: {
       const { filter, id, order } = payload;
 
-      const formGroupId = getFormGroupId(state, id);
+      const formSections = state.get("formSections");
 
-      const formSections = setInitialFormOrder(state, {
+      const formGroupId = getFormGroupId(formSections, id);
+
+      const initialFormSections = setInitialFormOrder(formSections, {
         ...filter,
         formGroupId
       });
@@ -111,7 +96,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           target: order
         },
         elemId: id,
-        elems: formSections
+        elems: initialFormSections
       });
 
       return state.set(

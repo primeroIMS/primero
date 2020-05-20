@@ -1,28 +1,15 @@
 import { OrderedMap, fromJS } from "immutable";
 
-export const formSectionFilter = (formSection, filter) => {
-  const { primeroModule, recordType, formGroupId } = filter;
+import { filterFormSections, groupByFormGroup } from "./utils";
 
-  return (
-    !formSection.is_nested &&
-    formSection.module_ids.includes(primeroModule) &&
-    formSection.parent_form === recordType &&
-    (formGroupId ? formSection.form_group_id === formGroupId : true)
+export const getFormSections = (state, filter) =>
+  filterFormSections(
+    state.getIn(["records", "admin", "forms", "formSections"], OrderedMap({})),
+    filter
   );
-};
-
-export const getFormSections = (state, filter) => {
-  return state
-    .getIn(["records", "admin", "forms", "formSections"], OrderedMap({}))
-    .filter(formSection => formSectionFilter(formSection, filter));
-};
 
 export const getFormSectionsByFormGroup = (state, filter) =>
-  getFormSections(state, filter)
-    .sortBy(fs => fs.order)
-    .groupBy(fs => fs.form_group_id)
-    .sortBy(group => group.first().order_form_group)
-    .toList();
+  groupByFormGroup(getFormSections(state, filter)).toList();
 
 export const getIsLoading = state =>
   state.getIn(["records", "admin", "forms", "loading"], false);
