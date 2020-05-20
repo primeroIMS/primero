@@ -50,6 +50,11 @@ const Component = ({ onClose, onSuccess }) => {
       variant: "contained",
       autoFocus: true
     },
+    cancelButtonProps: {
+      color: "primary",
+      variant: "contained",
+      className: css.cancelButton
+    },
     dialogTitle: i18n.t("fields.edit_label"),
     open: openFieldDialog,
     successHandler: () => bindFormSubmit(formRef),

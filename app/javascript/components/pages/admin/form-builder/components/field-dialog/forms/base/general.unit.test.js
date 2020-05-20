@@ -1,6 +1,6 @@
 import { generalFields, generalForm } from "./general";
 
-describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - general", () => {
+describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - general", () => {
   const i18n = { t: value => value };
 
   describe("generalFields", () => {
@@ -22,6 +22,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - g
       expect(fieldNames).to.deep.equal([
         "test_1.display_name.en",
         "test_1.help_text.en",
+        "test_1.guiding_questions.en",
         "test_1.required"
       ]);
     });
