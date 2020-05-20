@@ -5,6 +5,30 @@ require 'rails_helper'
 describe Alertable do
   context 'when a transfer_request alert exists' do
     before do
+      clean_data(
+        SystemSettings, Role, Agency, User, Child, Alert, UserGroup,
+        PrimeroProgram, PrimeroModule, Referral, FormSection
+      )
+      program = PrimeroProgram.create!(
+        unique_id: 'primeroprogram-primero',
+        name: 'Primero',
+        description: 'Default Primero Program'
+      )
+      form_section = FormSection.create!(
+        unique_id: 'test_form',
+        name: 'Test Form',
+        fields: [
+          Field.new(name: 'national_id_no', type: 'text_field', display_name: 'National ID No'),
+        ]
+      )
+      cp = PrimeroModule.create!(
+        unique_id: PrimeroModule::CP,
+        name: 'CP',
+        description: 'Child Protection',
+        associated_record_types: %w[case tracing_request incident],
+        primero_program: program,
+        form_sections: [form_section]
+      )
       role = Role.create!(
         name: 'Test Role 1',
         unique_id: 'test-role-1',
@@ -12,9 +36,10 @@ describe Alertable do
         permissions: [
           Permission.new(
             resource: Permission::CASE,
-            actions: [Permission::MANAGE]
+            actions: [Permission::MANAGE, Permission::REFERRAL, Permission::RECEIVE_REFERRAL]
           )
-        ]
+        ],
+        modules: [cp]
       )
       role_group = Role.create!(
         name: 'Test Role 2',
@@ -23,9 +48,10 @@ describe Alertable do
         permissions: [
           Permission.new(
             resource: Permission::CASE,
-            actions: [Permission::MANAGE]
+            actions: [Permission::MANAGE, Permission::REFERRAL, Permission::RECEIVE_REFERRAL]
           )
-        ]
+        ],
+        modules: [cp]
       )
       role_self = Role.create!(
         name: 'Test Role 3',
@@ -34,9 +60,10 @@ describe Alertable do
         permissions: [
           Permission.new(
             resource: Permission::CASE,
-            actions: [Permission::MANAGE]
+            actions: [Permission::MANAGE, Permission::REFERRAL, Permission::RECEIVE_REFERRAL]
           )
-        ]
+        ],
+        modules: [cp]
       )
       agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
       agency_b = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
@@ -85,12 +112,12 @@ describe Alertable do
       )
       @test_class = Child.create(
         name: 'bar',
-        data: { owned_by: @user_a.user_name },
+        data: { owned_by: @user_a.user_name, module_id: 'primeromodule-cp' },
         alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_a.id)]
       )
       @test_class_b = Child.create(
         name: 'foo',
-        data: { owned_by: @user_b.user_name },
+        data: { owned_by: @user_b.user_name, module_id: 'primeromodule-cp' },
         alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_b.id)]
       )
       @test_class_c = Child.create(
@@ -164,6 +191,36 @@ describe Alertable do
         end
       end
     end
+
+    context 'Count alert from referrals cases' do
+      before do
+        Referral.create!(
+          transitioned_by: 'test_user_2', transitioned_to: 'test_user_4', record: @test_class,
+          type: Referral.name, consent_overridden: true
+        )
+        child_referral = Child.create(
+          name: 'bar',
+          data: { owned_by: @user_c.user_name, module_id: 'primeromodule-cp' },
+          alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_c.id)]
+        )
+        Referral.create!(
+          transitioned_by: 'test_user_3', transitioned_to: 'test_user_1', record: child_referral,
+          type: Referral.name, consent_overridden: true
+        )
+      end
+
+      it 'count alert from self permissions users' do
+        expect(Child.alert_count(@user_d)).to eq(1)
+      end
+
+      it 'count alert from user group' do
+        expect(Child.alert_count(@user_c)).to eq(3)
+      end
+
+      it 'count alert from user agency' do
+        expect(Child.alert_count(@user_b)).to eq(3)
+      end
+    end
   end
 
   describe 'alert on record update' do
@@ -195,6 +252,9 @@ describe Alertable do
   end
 
   after :each do
-    clean_data(SystemSettings, Role, Agency, User, Child, Alert, UserGroup)
+    clean_data(
+      SystemSettings, Role, Agency, User, Child, Alert, UserGroup,
+      PrimeroProgram, PrimeroModule, Referral, FormSection
+    )
   end
 end
