@@ -2418,6 +2418,7 @@ en:
       one: MRM Violations
       selected: Selected to MRM Violations
     custom_exports:
+      all: Custom
       label: Custom Exports
       format_label: Select Format
       field_label: Field
@@ -2432,6 +2433,8 @@ en:
       empty_fields_forms: Please select some forms or fields to export.
       empty_format: Please select a format to export.
       empty_module: Please select a module to export.
+    custom:
+      all: "Custom"
     pdf_exports:
       label: PDF
     forms:
