@@ -6,6 +6,7 @@ import { withRouter, useLocation } from "react-router-dom";
 import qs from "qs";
 import { useForm, FormContext } from "react-hook-form";
 import { makeStyles } from "@material-ui/styles";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
@@ -98,8 +99,9 @@ const Component = ({
 
   const formatType = formMethods.watch(CUSTOM_FORMAT_TYPE_FIELD);
   const individualFields = formMethods.watch(INDIVIDUAL_FIELDS_FIELD);
-  const isCustomExport =
-    formMethods.watch(EXPORT_TYPE_FIELD) === "custom_exports";
+  const formsToExport = formMethods.watch(FORM_TO_EXPORT_FIELD);
+  const fieldsToExport = formMethods.watch(FIELDS_TO_EXPORT_FIELD);
+  const isCustomExport = formMethods.watch(EXPORT_TYPE_FIELD) === "custom";
   const recordTypesForms = useSelector(state =>
     getRecordForms(state, {
       recordType: RECORD_TYPES[recordType],
@@ -109,6 +111,7 @@ const Component = ({
   const fields = buildFields(recordTypesForms, i18n.locale);
 
   const handleSubmit = values => {
+    const { form_unique_ids: formUniqueIds, field_names: fieldNames } = values;
     const { id, format, message } = ALL_EXPORT_TYPES.find(
       e => e.id === values.export_type
     );
@@ -128,12 +131,29 @@ const Component = ({
       allRecordsSelected
     );
 
-    const body = {
+    const defaultBody = {
       export_format: id,
       record_type: RECORD_TYPES[recordType],
       file_name: fileName,
       password: values.password
     };
+
+    let exportParams = {};
+
+    if (!isEmpty(formUniqueIds)) {
+      exportParams = { ...exportParams, [FORM_TO_EXPORT_FIELD]: formUniqueIds };
+    }
+
+    if (!isEmpty(fieldNames)) {
+      exportParams = { ...exportParams, [FIELDS_TO_EXPORT_FIELD]: fieldNames };
+    }
+
+    const body = isCustomExport
+      ? {
+          ...defaultBody,
+          custom_export_params: exportParams
+        }
+      : defaultBody;
 
     const data = { ...body, ...filters };
 
@@ -161,6 +181,12 @@ const Component = ({
     }
   }, [formatType]);
 
+  useEffect(() => {
+    if (individualFields) {
+      formMethods.setValue(FORM_TO_EXPORT_FIELD, []);
+    }
+  }, [individualFields]);
+
   useImperativeHandle(
     formRef,
     submitHandler({
@@ -184,12 +210,17 @@ const Component = ({
     fields
   );
 
+  const enabledSuccessButton =
+    !isCustomExport ||
+    (formatType !== "" &&
+      (!isEmpty(formsToExport) || !isEmpty(fieldsToExport)));
+
   return (
     <ActionDialog
       cancelHandler={close}
       confirmButtonLabel={i18n.t("buttons.export")}
       dialogTitle={i18n.t("cases.export")}
-      enabledSuccessButton={!isCustomExport || formatType !== ""}
+      enabledSuccessButton={enabledSuccessButton}
       omitCloseAfterSuccess
       onClose={close}
       open={openExportsDialog}

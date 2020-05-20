@@ -11,7 +11,17 @@ import {
 } from "../../form";
 
 import { allowedExports } from "./utils";
-import { FIELD_ID, FORMS_ID } from "./constants";
+import {
+  FIELD_ID,
+  FORMS_ID,
+  EXPORT_TYPE_FIELD,
+  CUSTOM_FORMAT_TYPE_FIELD,
+  INDIVIDUAL_FIELDS_FIELD,
+  FORM_TO_EXPORT_FIELD,
+  FIELDS_TO_EXPORT_FIELD,
+  PASSWORD_FIELD,
+  CUSTOM_EXPORT_FILE_NAME_FIELD
+} from "./constants";
 
 export default (
   i18n,
@@ -25,7 +35,7 @@ export default (
 ) => [
   FieldRecord({
     display_name: i18n.t("encrypt.export_type"),
-    name: "export_type",
+    name: EXPORT_TYPE_FIELD,
     type: SELECT_FIELD,
     option_strings_text: {
       [i18n.locale]: allowedExports(userPermissions, i18n, isShowPage)
@@ -34,7 +44,7 @@ export default (
     required: true
   }),
   FieldRecord({
-    name: "custom_format_type",
+    name: CUSTOM_FORMAT_TYPE_FIELD,
     display_name: i18n.t("exports.custom_exports.format_label"),
     type: RADIO_FIELD,
     inputClassname: !isCustomExport ? css.hideCustomExportFields : null,
@@ -52,7 +62,7 @@ export default (
     }
   }),
   FieldRecord({
-    name: "individual_fields",
+    name: INDIVIDUAL_FIELDS_FIELD,
     display_name: i18n.t("exports.custom_exports.choose_fields"),
     type: TOGGLE_FIELD,
     inputClassname:
@@ -63,7 +73,7 @@ export default (
   }),
   FieldRecord({
     display_name: i18n.t("exports.custom_exports.forms"),
-    name: "form_to_export",
+    name: FORM_TO_EXPORT_FIELD,
     type: SELECT_FIELD,
     multi_select: true,
     option_strings_text: uniqBy(
@@ -83,7 +93,7 @@ export default (
   }),
   FieldRecord({
     display_name: i18n.t("exports.custom_exports.fields"),
-    name: "fields_to_export",
+    name: FIELDS_TO_EXPORT_FIELD,
     type: SELECT_FIELD,
     multi_select: true,
     groupBy: "formSectionName",
@@ -97,7 +107,7 @@ export default (
   }),
   FieldRecord({
     display_name: i18n.t("encrypt.password_label"),
-    name: "password",
+    name: PASSWORD_FIELD,
     type: TEXT_FIELD,
     required: true,
     autoFocus: true,
@@ -108,7 +118,7 @@ export default (
   }),
   FieldRecord({
     display_name: i18n.t("encrypt.file_name"),
-    name: "custom_export_file_name",
+    name: CUSTOM_EXPORT_FILE_NAME_FIELD,
     type: TEXT_AREA
   })
 ];

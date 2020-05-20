@@ -2433,6 +2433,8 @@ en:
       empty_fields_forms: Please select some forms or fields to export.
       empty_format: Please select a format to export.
       empty_module: Please select a module to export.
+    custom:
+      all: "Custom"
     pdf_exports:
       label: PDF
     forms:
