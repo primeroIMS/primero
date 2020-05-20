@@ -11,7 +11,6 @@ import {
 export const textFieldForm = (fieldName, i18n) => ({
   forms: fromJS([
     generalForm(fieldName, i18n),
-    optionsForm(fieldName, i18n),
     visibilityForm(fieldName, i18n)
   ]),
   validationSchema: validationSchema(fieldName, i18n)
