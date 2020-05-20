@@ -52,7 +52,7 @@ class FieldI18nService
       if merged_props[key].nil?
         merged_props[key] = options1[key]
       else
-        options1_by_id = options1[key].inject({}) { |acc, val| acc.merge(val['id'] => val) }
+        options1_by_id = options1[key]&.inject({}) { |acc, val| acc.merge(val['id'] => val) }
         options2_by_id = options2[key]&.inject({}) { |acc, val| acc.merge(val['id'] => val) }
         options1_by_id.keys.each do |option_id|
           next unless options2_by_id&.dig(option_id).nil?
