@@ -1,4 +1,4 @@
 export { generalForm, generalFields } from "./general";
-export { optionsForm, optionsFields } from "./options";
+export { optionsForm } from "./options";
 export { visibilityForm, visibilityFields } from "./visibility";
 export { validationSchema } from "./validation-schema";

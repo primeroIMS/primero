@@ -130,7 +130,7 @@ const Component = ({ mode }) => {
         title={
           formMode.get("isNew")
             ? i18n.t("forms.add")
-            : selectedForm.getIn(["name", i18n.locale])
+            : selectedForm.getIn(["name", i18n.locale], i18n.t("forms.label"))
         }
       >
         <FormBuilderActionButtons

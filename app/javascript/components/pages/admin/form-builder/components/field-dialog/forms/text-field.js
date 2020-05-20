@@ -1,11 +1,6 @@
 import { fromJS } from "immutable";
 
-import {
-  validationSchema,
-  generalForm,
-  optionsForm,
-  visibilityForm
-} from "./base";
+import { validationSchema, generalForm, visibilityForm } from "./base";
 
 /* eslint-disable import/prefer-default-export */
 export const textFieldForm = (fieldName, i18n) => ({
