@@ -10,6 +10,7 @@ import ActionDialog from "../../action-dialog";
 import { fetchAlerts } from "../../nav/action-creators";
 import { getRecordAlerts } from "../../records";
 import { fetchRecordsAlerts } from "../../records/action-creators";
+import { currentUser } from "../../user";
 
 import { approvalRecord } from "./action-creators";
 import ApprovalForm from "./approval-form";
@@ -37,6 +38,7 @@ const Component = ({
   const [comment, setComment] = React.useState("");
 
   const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
+  const username = useSelector(state => currentUser(state));
 
   const handleChangeType = event => {
     setRequestType(event.target.value);
@@ -80,7 +82,8 @@ const Component = ({
           body: actionBody,
           message: i18n.t(message),
           failureMessage: i18n.t(`${recordType}.request_approval_failure`),
-          dialogName
+          dialogName,
+          username
         })
       );
 

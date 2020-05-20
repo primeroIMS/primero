@@ -13,7 +13,9 @@ describe("app/javascript/test/utils/index", () => {
     "setupMountedComponent",
     "setupMountedThemeComponent",
     "tick",
-    "createSimpleMount"
+    "createSimpleMount",
+    "createMiddleware",
+    "createMockStore"
   ].forEach(property => {
     it(`exports property '${property}'`, () => {
       expect(clone).to.have.property(property);

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     get '/', to: 'home#v2'
     get '*all', to: 'home#v2'
   end
-
+  
   devise_for(
     :users,
     class_name: 'User',
