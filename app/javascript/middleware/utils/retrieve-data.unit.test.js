@@ -23,7 +23,6 @@ describe("middleware/utils/retrieve-data.js", () => {
     await retrieveData(store, action);
 
     expect(success).to.have.been.calledWith(store, action, resolvedData);
-
     syncDB.restore();
     success.restore();
   });

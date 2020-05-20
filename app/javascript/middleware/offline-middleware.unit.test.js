@@ -38,10 +38,9 @@ describe("middleware/offline-middleware.js", () => {
         api: { path: "/" }
       };
       const retrieveDataSpy = spy(retrieveData, "default");
-      const expected = { store, action };
 
       invoke(action);
-      expect(retrieveDataSpy).to.have.been.calledWith(expected);
+      expect(retrieveDataSpy).to.have.been.calledWith(store, action);
     });
   });
 
@@ -71,10 +70,9 @@ describe("middleware/offline-middleware.js", () => {
 
       testMethods(method => {
         const action = buildAction(method);
-        const expected = { store, action };
 
         invoke(action);
-        expect(queueDataSpy).to.have.been.calledWith(expected);
+        expect(queueDataSpy).to.have.been.calledWith(store, action);
       });
     });
 
