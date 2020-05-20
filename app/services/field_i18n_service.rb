@@ -49,14 +49,14 @@ class FieldI18nService
     options1.keys.each do |key|
       next unless options1[key].present?
 
-      options1_by_id = options1[key].inject({}) { |acc, val| acc.merge(val['id'] => val) }
-      options2_by_id = options2[key]&.inject({}) { |acc, val| acc.merge(val['id'] => val) }
-      options1_by_id.keys.each do |option_id|
-        next unless options2_by_id&.dig(option_id).nil?
+      if merged_props[key].nil?
+        merged_props[key] = options1[key]
+      else
+        options1_by_id = options1[key].inject({}) { |acc, val| acc.merge(val['id'] => val) }
+        options2_by_id = options2[key]&.inject({}) { |acc, val| acc.merge(val['id'] => val) }
+        options1_by_id.keys.each do |option_id|
+          next unless options2_by_id&.dig(option_id).nil?
 
-        if merged_props[key].nil?
-          merged_props[key] = [options1_by_id[option_id]]
-        else
           merged_props[key] << options1_by_id[option_id]
         end
       end
