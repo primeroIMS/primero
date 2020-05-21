@@ -1,20 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { batch, useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { TextField, IconButton, FormLabel } from "@material-ui/core";
+import { IconButton, InputLabel, MenuItem, Select } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { fetchAlerts } from "../../nav/action-creators";
-import { getRecordAlerts } from "../../records";
+import { getRecordAlerts, saveRecord } from "../../records";
 import { fetchRecordsAlerts } from "../../records/action-creators";
 import { currentUser } from "../../user";
+import { getOptions } from "../../form/selectors";
+import { useApp } from "../../application";
 
 import { approvalRecord } from "./action-creators";
 import ApprovalForm from "./approval-form";
-import { NAME } from "./constants";
+import { APPROVAL_TYPE_LOOKUP, CASE_PLAN, NAME } from "./constants";
 import styles from "./styles.css";
 
 const Component = ({
@@ -34,11 +36,30 @@ const Component = ({
   const css = makeStyles(styles)();
   const startRequestType = subMenuItems?.[0]?.value;
   const [requestType, setRequestType] = useState(startRequestType);
-  const [approval, setApproval] = React.useState("approved");
-  const [comment, setComment] = React.useState("");
+  const [approval, setApproval] = useState("approved");
+  const [comment, setComment] = useState("");
+  const [renderCasePlan, setRenderCasePlan] = useState(false);
+  const [typeOfCasePlan, setTypeOfCasePlan] = useState("");
 
+  const { userModules } = useApp();
   const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
   const username = useSelector(state => currentUser(state));
+  const showTypeOfCasePlan = userModules
+    .filter(t => t.unique_id === "primeromodule-cp")
+    // eslint-disable-next-line camelcase
+    ?.first()?.options?.selectable_approval_types;
+  const alertTypes = useSelector(state =>
+    getOptions(state, APPROVAL_TYPE_LOOKUP, i18n.locale)
+  );
+
+  useEffect(() => {
+    if (requestType === CASE_PLAN) {
+      setRenderCasePlan(true);
+      setTypeOfCasePlan("");
+    } else {
+      setRenderCasePlan(false);
+    }
+  }, [requestType]);
 
   const handleChangeType = event => {
     setRequestType(event.target.value);
@@ -49,6 +70,8 @@ const Component = ({
   const handleChangeComment = event => {
     setComment(event.target.value);
   };
+  const handleChangeTypeOfCasePlan = event =>
+    setTypeOfCasePlan(event.target.value);
   const handleCancel = () => {
     close();
     setRequestType(startRequestType);
@@ -87,6 +110,21 @@ const Component = ({
         })
       );
 
+      if (typeOfCasePlan) {
+        await dispatch(
+          saveRecord(
+            recordType,
+            "update",
+            { data: { case_plan_approval_type: typeOfCasePlan } },
+            record.get("id"),
+            "",
+            false,
+            false,
+            false
+          )
+        );
+      }
+
       dispatch(fetchRecordsAlerts(recordType, record.get("id")));
 
       if (recordAlerts?.size <= 0) {
@@ -96,10 +134,32 @@ const Component = ({
   };
 
   const selectOptions = subMenuItems.map(option => (
-    <option key={option.value} value={option.value}>
+    <MenuItem key={option.value} value={option.value}>
       {option.name}
-    </option>
+    </MenuItem>
   ));
+
+  const typeOfCasePlanOptions = alertTypes.map(alertType => (
+    <MenuItem key={alertType.get("id")} value={alertType.get("id")}>
+      {alertType.get("display_text")}
+    </MenuItem>
+  ));
+  const selectTypeOfCasePlan = showTypeOfCasePlan && renderCasePlan && (
+    <>
+      <InputLabel>
+        {i18n.t("cases.request_approval_type_of_case_plan")}
+      </InputLabel>
+      <Select
+        id="outlined-select-case-plan-type"
+        fullWidth
+        value={typeOfCasePlan}
+        onChange={handleChangeTypeOfCasePlan}
+        className={css.selectApprovalType}
+      >
+        {typeOfCasePlanOptions}
+      </Select>
+    </>
+  );
 
   const requestDialogContent = (
     <>
@@ -111,22 +171,19 @@ const Component = ({
         <CloseIcon />
       </IconButton>
       <form noValidate autoComplete="off" className={css.centerForm}>
-        <FormLabel component="legend">
+        <InputLabel>
           {i18n.t(`${recordType}.request_approval_select`)}
-        </FormLabel>
-        <TextField
+        </InputLabel>
+        <Select
           id="outlined-select-approval-native"
-          select
           fullWidth
           value={requestType}
           onChange={handleChangeType}
           className={css.selectApprovalType}
-          SelectProps={{
-            native: true
-          }}
         >
           {selectOptions}
-        </TextField>
+        </Select>
+        {selectTypeOfCasePlan}
       </form>
     </>
   );
