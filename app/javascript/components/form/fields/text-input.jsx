@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
@@ -9,6 +9,7 @@ import { TEXT_AREA } from "../constants";
 import styles from "./styles.css";
 
 const TextInput = ({ commonInputProps, metaInputProps }) => {
+  const { control } = useFormContext();
   const css = makeStyles(styles)();
   const { type, password, hint } = metaInputProps;
   const inputType = password ? "password" : "text";
@@ -27,6 +28,7 @@ const TextInput = ({ commonInputProps, metaInputProps }) => {
         </>
       }
       multiline={type && type === TEXT_AREA}
+      control={control}
       defaultValue=""
     />
   );

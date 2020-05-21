@@ -162,7 +162,7 @@ const Component = ({ mode }) => {
                 <h1>{i18n.t("forms.fields")}</h1>
               </div>
               <FieldsList />
-              <FieldDialog onSuccess={onSuccess} />
+              <FieldDialog onSuccess={onSuccess} mode={mode} />
             </TabPanel>
             <TabPanel tab={tab} index={2}>
               Item Three
