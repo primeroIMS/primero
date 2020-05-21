@@ -2349,6 +2349,9 @@ en:
       one: Photo Wall
       selected: Selected to Photo Wall
       success_message: "Creating Photowall%{file_name} Cases without photos will not be included."
+      no_photos_available: No photos available
+      flag_suspect_record: Flagged as Suspect Record
+      reunited: Reunited
     case_pdf:
       all: PDF
       one: PDF
