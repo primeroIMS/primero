@@ -36,10 +36,10 @@ const Component = ({
   const css = makeStyles(styles)();
   const startRequestType = subMenuItems?.[0]?.value;
   const [requestType, setRequestType] = useState(startRequestType);
-  const [approval, setApproval] = React.useState("approved");
-  const [comment, setComment] = React.useState("");
-  const [renderCasePlan, setRenderCasePlan] = React.useState(false);
-  const [typeOfCasePlan, setTypeOfCasePlan] = React.useState("");
+  const [approval, setApproval] = useState("approved");
+  const [comment, setComment] = useState("");
+  const [renderCasePlan, setRenderCasePlan] = useState(false);
+  const [typeOfCasePlan, setTypeOfCasePlan] = useState("");
 
   const { userModules } = useApp();
   const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
