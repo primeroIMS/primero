@@ -31,8 +31,8 @@ class Child < ApplicationRecord
   include UNHCRMapping
   include Ownable
   include AutoPopulatable
-  include Serviceable #TODO: refactor with nested
   include Workflow
+  include Serviceable #TODO: refactor with nested
   include Flaggable
   include Transitionable
   include Reopenable
