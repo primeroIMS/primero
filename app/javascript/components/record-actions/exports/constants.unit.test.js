@@ -16,6 +16,7 @@ describe("<RecordActions /> - exports/constants", () => {
       "FORMS_ID",
       "FORM_TO_EXPORT_FIELD",
       "INDIVIDUAL_FIELDS_FIELD",
+      "MODULE_FIELD",
       "NAME",
       "PASSWORD_FIELD"
     ].forEach(property => {
