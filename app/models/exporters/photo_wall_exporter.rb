@@ -52,7 +52,7 @@ module Exporters
     end
 
     def add_child_photo(pdf, child, with_full_id = false)
-      storage = ActiveStorage::Blob.service.send(:path_for, child.photo.file.blob.key)
+      storage = ActiveStorage::Blob.service.path_for(child&.photo&.file&.blob&.key)
       render_image(pdf, storage)
       pdf.move_down 25
       pdf.text child.short_id, size: 40, align: :center, style: :bold if with_full_id
