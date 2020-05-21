@@ -82,7 +82,7 @@ const FormSectionField = ({
     guidingQuestions[i18n.locale] &&
     (mode.isEdit || mode.isNew) && (
       <GuidingQuestions
-        label={i18n.t("buttons.guiding_questions")}
+        label={i18n.t("buttons.guidance")}
         text={guidingQuestions[i18n.locale]}
       />
     );
