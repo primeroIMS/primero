@@ -16,7 +16,7 @@ import { useApp } from "../../application";
 
 import { approvalRecord } from "./action-creators";
 import ApprovalForm from "./approval-form";
-import { NAME } from "./constants";
+import { APPROVAL_TYPE_LOOKUP, CASE_PLAN, NAME } from "./constants";
 import styles from "./styles.css";
 
 const Component = ({
@@ -49,11 +49,11 @@ const Component = ({
     // eslint-disable-next-line camelcase
     ?.first()?.options?.selectable_approval_types;
   const alertTypes = useSelector(state =>
-    getOptions(state, "lookup-approval-type", i18n.locale)
+    getOptions(state, APPROVAL_TYPE_LOOKUP, i18n.locale)
   );
 
   useEffect(() => {
-    if (requestType === "case_plan") {
+    if (requestType === CASE_PLAN) {
       setRenderCasePlan(true);
       setTypeOfCasePlan("");
     } else {
@@ -145,21 +145,22 @@ const Component = ({
     </MenuItem>
   ));
 
-  const selectTypeOfCasePlan =
-    showTypeOfCasePlan && renderCasePlan ? (
-      <div className={css.typeOfCasePlan}>
-        <InputLabel>Type of Case Plan Approval</InputLabel>
-        <Select
-          id="outlined-select-case-plan-type"
-          fullWidth
-          value={typeOfCasePlan}
-          onChange={handleChangeTypeOfCasePlan}
-          className={css.selectApprovalType}
-        >
-          {typeOfCasePlanOptions}
-        </Select>
-      </div>
-    ) : null;
+  const selectTypeOfCasePlan = showTypeOfCasePlan && renderCasePlan && (
+    <div className={css.typeOfCasePlan}>
+      <InputLabel>
+        {i18n.t("cases.request_approval_type_of_case_plan")}
+      </InputLabel>
+      <Select
+        id="outlined-select-case-plan-type"
+        fullWidth
+        value={typeOfCasePlan}
+        onChange={handleChangeTypeOfCasePlan}
+        className={css.selectApprovalType}
+      >
+        {typeOfCasePlanOptions}
+      </Select>
+    </div>
+  );
 
   const requestDialogContent = (
     <>
