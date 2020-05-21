@@ -378,7 +378,7 @@ describe("<RecordActions />", () => {
       ));
     });
 
-    it("renders add refer menu enabled", () => {
+    it.skip("renders add refer menu enabled", () => {
       const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
@@ -389,7 +389,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add reassign menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal(
@@ -398,7 +398,7 @@ describe("<RecordActions />", () => {
       expect(incidentItemProps.disabled).to.be.false;
     });
 
-    it("renders add transfer menu enabled", () => {
+    it.skip("renders add transfer menu enabled", () => {
       const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
@@ -409,7 +409,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add incident menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItem = component.find(MenuItem).at(1);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal(
@@ -419,7 +419,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add service menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(4);
+      const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal(
@@ -429,7 +429,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add export menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(5);
+      const incidentItem = component.find(MenuItem).at(3);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("cases.export");
@@ -488,7 +488,7 @@ describe("<RecordActions />", () => {
       ));
     });
 
-    it("renders add refer menu enabled", () => {
+    it.skip("renders add refer menu enabled", () => {
       const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
@@ -499,7 +499,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add reassign menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal(
@@ -508,7 +508,7 @@ describe("<RecordActions />", () => {
       expect(incidentItemProps.disabled).to.be.false;
     });
 
-    it("renders add transfer menu enabled", () => {
+    it.skip("renders add transfer menu enabled", () => {
       const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
@@ -519,7 +519,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add incident menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItem = component.find(MenuItem).at(1);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal(
@@ -529,7 +529,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add service menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(4);
+      const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal(
@@ -539,7 +539,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add export menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(5);
+      const incidentItem = component.find(MenuItem).at(3);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("cases.export");
@@ -563,7 +563,7 @@ describe("<RecordActions />", () => {
       ));
     });
 
-    it("renders add refer menu disabled", () => {
+    it.skip("renders add refer menu disabled", () => {
       const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
@@ -574,7 +574,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add reassign menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal(
@@ -583,7 +583,7 @@ describe("<RecordActions />", () => {
       expect(incidentItemProps.disabled).to.be.true;
     });
 
-    it("renders add transfer menu disabled", () => {
+    it.skip("renders add transfer menu disabled", () => {
       const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
@@ -594,7 +594,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add incident menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItem = component.find(MenuItem).at(1);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal(
@@ -604,7 +604,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add service menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(4);
+      const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal(
@@ -614,7 +614,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add export menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(5);
+      const incidentItem = component.find(MenuItem).at(3);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("cases.export");
@@ -695,7 +695,7 @@ describe("<RecordActions />", () => {
       ));
     });
 
-    it("renders add refer menu enabled", () => {
+    it.skip("renders add refer menu enabled", () => {
       const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
@@ -706,7 +706,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add reassign menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal(
@@ -715,7 +715,7 @@ describe("<RecordActions />", () => {
       expect(incidentItemProps.disabled).to.be.false;
     });
 
-    it("renders add transfer menu enabled", () => {
+    it.skip("renders add transfer menu enabled", () => {
       const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
@@ -726,7 +726,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add incident menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItem = component.find(MenuItem).at(1);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal(
@@ -736,7 +736,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add service menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(4);
+      const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal(
@@ -746,7 +746,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add export menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(5);
+      const incidentItem = component.find(MenuItem).at(3);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("cases.export");
@@ -843,7 +843,7 @@ describe("<RecordActions />", () => {
       ));
     });
 
-    it("renders add refer menu disabled", () => {
+    it.skip("renders add refer menu disabled", () => {
       const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
@@ -854,7 +854,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add reassign menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(1);
+      const incidentItem = component.find(MenuItem).at(0);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal(
@@ -863,7 +863,7 @@ describe("<RecordActions />", () => {
       expect(incidentItemProps.disabled).to.be.true;
     });
 
-    it("renders add transfer menu disabled", () => {
+    it.skip("renders add transfer menu disabled", () => {
       const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
@@ -874,7 +874,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add incident menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItem = component.find(MenuItem).at(1);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal(
@@ -884,7 +884,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add service menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(4);
+      const incidentItem = component.find(MenuItem).at(2);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal(
@@ -894,7 +894,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add export menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(5);
+      const incidentItem = component.find(MenuItem).at(3);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("cases.export");
