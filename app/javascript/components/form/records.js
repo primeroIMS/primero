@@ -23,11 +23,14 @@ export const FieldRecord = Record({
   autoFocus: false,
   password: false,
   hideOnShow: false,
+  inputClassname: null,
   inlineCheckboxes: false,
   freeSolo: false,
   watchedInputs: null,
   handleWatchedInputs: null,
-  check_errors: List([])
+  check_errors: List([]),
+  hint: "",
+  groupBy: null
 });
 
 export const FormSectionRecord = Record({

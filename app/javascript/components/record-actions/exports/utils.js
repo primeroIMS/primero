@@ -1,6 +1,13 @@
 import isEmpty from "lodash/isEmpty";
 
 import { ACTIONS } from "../../../libs/permissions";
+import {
+  AUDIO_FIELD,
+  DOCUMENT_FIELD,
+  PHOTO_FIELD,
+  SEPERATOR,
+  SUBFORM_SECTION
+} from "../../record-form/constants";
 
 import { ALL_EXPORT_TYPES } from "./constants";
 
@@ -53,7 +60,8 @@ export const exporterFilters = (
   shortIds,
   appliedFilters,
   queryParams,
-  record
+  record,
+  allRecordsSelected
 ) => {
   let filters = {};
   const defaultFilters = {
@@ -74,7 +82,7 @@ export const exporterFilters = (
       return acc;
     }, {});
 
-    if (allCurrentRowsSelected || shortIds.length) {
+    if (!allRecordsSelected && (allCurrentRowsSelected || shortIds.length)) {
       filters = { short_id: shortIds };
     } else if (
       Object.keys(queryParams || {}).length ||
@@ -99,4 +107,34 @@ export const exporterFilters = (
   return {
     filters: returnFilters
   };
+};
+
+export const buildFields = (data, locale) => {
+  const excludeFieldTypes = [
+    AUDIO_FIELD,
+    DOCUMENT_FIELD,
+    PHOTO_FIELD,
+    SEPERATOR,
+    SUBFORM_SECTION
+  ];
+
+  return data
+    .reduce((acc, form) => {
+      // eslint-disable-next-line camelcase
+      const { unique_id, name, fields } = form;
+
+      const filteredFields = fields
+        .filter(
+          field => !excludeFieldTypes.includes(field.type) && field.visible
+        )
+        .map(field => ({
+          id: field.name,
+          display_text: field.display_name[locale],
+          formSectionId: unique_id,
+          formSectionName: name[locale]
+        }));
+
+      return [...acc, filteredFields];
+    }, [])
+    .flat();
 };

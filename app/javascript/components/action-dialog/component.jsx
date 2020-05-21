@@ -9,6 +9,8 @@ import {
   DialogContentText,
   CircularProgress
 } from "@material-ui/core";
+import CheckIcon from "@material-ui/icons/Check";
+import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../i18n";
@@ -30,7 +32,8 @@ const ActionDialog = ({
   omitCloseAfterSuccess,
   maxSize,
   pending,
-  enabledSuccessButton
+  enabledSuccessButton,
+  cancelButtonProps
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -57,6 +60,11 @@ const ActionDialog = ({
     autoFocus: true
   };
 
+  const defaulCancelButtonProps = {
+    color: "primary",
+    autoFocus: false
+  };
+
   const successButtonProps =
     confirmButtonProps && Object.keys(confirmButtonProps)
       ? confirmButtonProps
@@ -69,7 +77,7 @@ const ActionDialog = ({
       closeHandler={handleClose}
     />
   ) : (
-    <DialogTitle>{dialogTitle}</DialogTitle>
+    <DialogTitle className={css.dialogTitle}>{dialogTitle}</DialogTitle>
   );
 
   const submitButton = (
@@ -78,7 +86,8 @@ const ActionDialog = ({
         {...{ ...successButtonProps, onClick: handleSuccess }}
         disabled={pending || !enabledSuccessButton}
       >
-        {confirmButtonLabel}
+        <CheckIcon />
+        <span>{confirmButtonLabel}</span>
       </Button>
       {pending && <CircularProgress size={24} className={css.buttonProgress} />}
     </div>
@@ -106,8 +115,12 @@ const ActionDialog = ({
         <DialogActions>
           {submitButton}
           {cancelHandler ? (
-            <Button onClick={cancelHandler} color="primary">
-              {i18n.t("cancel")}
+            <Button
+              {...{ ...defaulCancelButtonProps, ...cancelButtonProps }}
+              onClick={cancelHandler}
+            >
+              <CloseIcon />
+              <span>{i18n.t("cancel")}</span>
             </Button>
           ) : null}
         </DialogActions>
@@ -119,10 +132,12 @@ const ActionDialog = ({
 ActionDialog.displayName = "ActionDialog";
 
 ActionDialog.defaultProps = {
+  cancelButtonProps: {},
   enabledSuccessButton: true
 };
 
 ActionDialog.propTypes = {
+  cancelButtonProps: PropTypes.object,
   cancelHandler: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),

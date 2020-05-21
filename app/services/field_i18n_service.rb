@@ -10,7 +10,7 @@ class FieldI18nService
   def self.convert_i18n_properties(klass, params)
     localized_props = klass.localized_properties.map(&:to_s)
     unlocalized_params = params.reject { |k,_| localized_props.include?(k) }
-    localized_fields = localized_props.select { |prop| params[prop].present? }.map do |prop| 
+    localized_fields = localized_props.select { |prop| params[prop].present? }.map do |prop|
       { "#{prop}_i18n" => params[prop] }
     end.inject(&:merge)
 
@@ -43,23 +43,24 @@ class FieldI18nService
   #  Returns
   #  { en: [{ 'id' => 'true', 'display_name' => 'Valid' }, { 'id' => 'false', 'display_name' => 'Invalid' } ] }
   def self.merge_i18n_options(options1, options2)
-    merged_props = (options1 || {}).deep_dup
-    options2 = options2 || {}
+    return options1 unless options2.present?
 
-    if options2.present?
-      options2.keys.each do |key|
-        if options2[key].present?
-          if options1[key].present?
-            options1_by_id = options1[key].inject({}){ |acc, val| acc.merge({ val['id']  => val }) }
-            options2_by_id = options2[key].inject({}){ |acc, val| acc.merge({ val['id']  => val }) }
-            merged_props[key] = options1_by_id.merge(options2_by_id).values
-          else
-            merged_props[key] = options2[key]
-          end
+    merged_props = (options2 || {}).deep_dup
+    options1.keys.each do |key|
+      next unless options1[key].present?
+
+      if merged_props[key].nil?
+        merged_props[key] = options1[key]
+      else
+        options1_by_id = options1[key]&.inject({}) { |acc, val| acc.merge(val['id'] => val) }
+        options2_by_id = options2[key]&.inject({}) { |acc, val| acc.merge(val['id'] => val) }
+        options1_by_id.keys.each do |option_id|
+          next unless options2_by_id&.dig(option_id).nil?
+
+          merged_props[key] << options1_by_id[option_id]
         end
       end
     end
-
     merged_props
   end
 
@@ -195,4 +196,50 @@ class FieldI18nService
     final_options
   end
 
+
+  #  Given the options
+  # [
+  #  {
+  #    "id"=>"1",
+  #    "display_text" => {
+  #      "en"=>"Country",
+  #      "es"=>"Pais",
+  #      "fr"=>""
+  #    }
+  #  },
+  #  {
+  #    "id"=>"2",
+  #    "display_text" => {
+  #      "en"=>"City",
+  #      "es"=>"Ciudad",
+  #      "fr"=>""
+  #    }
+  #   }
+  # ]
+  #  Returns
+  #    {
+  #      "en" => [
+  #        { "id"=>"1", "display_text"=>"Country" },
+  #        { "id"=>"2", "display_text"=>"City" }
+  #      ],
+  #      "es" => [
+  #        { "id"=>"1", "display_text"=>"Pais" },
+  #        { "id"=>"2", "display_text"=>"Ciudad" }
+  #      ]
+  #    }
+
+  def self.to_localized_options(options)
+    return if options.blank?
+
+    I18n.available_locales.inject({}) do |acc, locale|
+      locale_options = options.select { |option| option.dig('display_text', locale.to_s).present? }
+                              .map { |option| option.merge('display_text' => option['display_text'][locale.to_s]) }
+
+      locale_options_id = locale_options.map { |option| option['id'] }
+      delete_values = options.select { |option| option['_delete'].present? && locale_options_id.exclude?(option['id']) }
+      locale_options += delete_values
+
+      locale_options.present? ? acc.merge(locale.to_s => locale_options) : acc
+    end
+  end
 end

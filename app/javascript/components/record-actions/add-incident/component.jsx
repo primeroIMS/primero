@@ -35,7 +35,8 @@ const Component = ({
     getRecordFormsByUniqueId(state, {
       recordType: RECORD_TYPES[recordType],
       primeroModule: MODULES.CP,
-      formName: INCIDENT_SUBFORM
+      formName: INCIDENT_SUBFORM,
+      checkVisible: false
     })
   );
 

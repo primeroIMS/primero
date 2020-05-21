@@ -4,6 +4,7 @@ import { useForm, FormContext } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
+import merge from "lodash/merge";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
 import { Tabs, Tab } from "@material-ui/core";
@@ -16,6 +17,7 @@ import { currentUser } from "../user";
 import { useI18n } from "../i18n";
 import { RECORD_PATH } from "../../config";
 import { getReportingLocationConfig } from "../application/selectors";
+import { DEFAULT_FILTERS } from "../record-list/constants";
 
 import { filterType, compactFilters } from "./utils";
 import {
@@ -43,13 +45,17 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   const queryParams = qs.parse(location.search.replace("?", ""));
   const [more, setMore] = useState(false);
   const [reset, setReset] = useState(false);
+  const [filterToList, setFilterToList] = useState(DEFAULT_FILTERS);
   const dispatch = useDispatch();
 
   const resetSelectedRecords = () => {
     setSelectedRecords(DEFAULT_SELECTED_RECORDS_VALUE);
   };
+
   const methods = useForm({
-    defaultValues: isEmpty(queryParams) ? defaultFilters.toJS() : queryParams
+    defaultValues: isEmpty(queryParams)
+      ? merge(defaultFilters.toJS(), filterToList)
+      : queryParams
   });
 
   const reportingLocationConfig = useSelector(state =>
@@ -65,6 +71,8 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   );
 
   const userName = useSelector(state => currentUser(state));
+
+  const addFilterToList = data => setFilterToList({ ...filterToList, ...data });
 
   const allPrimaryFilters = filters.filter(f =>
     PRIMARY_FILTERS.includes(f.field_name)
@@ -155,6 +163,8 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
           reset={reset}
           setReset={setReset}
           mode={mode}
+          addFilterToList={addFilterToList}
+          filterToList={filterToList}
         />
       );
     });
@@ -175,6 +185,9 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   }, []);
 
   useEffect(() => {
+    if (tabIndex === 0) {
+      methods.reset(merge(queryParams, filterToList));
+    }
     if (tabIndex === 1) {
       dispatch(fetchSavedSearches());
     }
@@ -199,6 +212,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
       );
 
       setRerender(false);
+      setFilterToList(DEFAULT_FILTERS);
     }
   }, [rerender]);
 
@@ -229,6 +243,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
     setMoreSectionFilters({});
     setReset(true);
     setMore(false);
+    setFilterToList(DEFAULT_FILTERS);
   });
 
   return (
@@ -263,13 +278,15 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
               <Actions handleSave={handleSave} handleClear={handleClear} />
               {renderFilters()}
               <MoreSection
-                recordType={recordType}
-                more={more}
-                setMore={setMore}
+                addFilterToList={addFilterToList}
                 allAvailable={filters}
-                primaryFilters={allPrimaryFilters}
                 defaultFilters={allDefaultFilters}
+                filterToList={filterToList}
+                more={more}
                 moreSectionFilters={moreSectionFilters}
+                primaryFilters={allPrimaryFilters}
+                recordType={recordType}
+                setMore={setMore}
                 setMoreSectionFilters={setMoreSectionFilters}
               />
             </>

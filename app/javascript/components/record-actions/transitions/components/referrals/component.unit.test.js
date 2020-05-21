@@ -191,13 +191,13 @@ describe("<ReferralForm />", () => {
     it("renders Formik with initial values from the service", () => {
       const formikProps = { ...component.find(Formik).props() };
       const {
-        services,
+        service,
         agency,
         location,
         service_record_id: serviceRecordId
       } = formikProps.initialValues;
 
-      expect(services).to.be.equal(serviceToRefer.service_type);
+      expect(service).to.be.equal(serviceToRefer.service_type);
       expect(agency).to.be.equal(serviceToRefer.service_implementing_agency);
       expect(location).to.be.equal(serviceToRefer.service_delivery_location);
       expect(serviceRecordId).to.be.equal(serviceToRefer.unique_id);

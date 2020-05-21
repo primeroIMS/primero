@@ -23,7 +23,7 @@ describe DuplicateBulkExport, search: true do
       ]
     )
     primero_module = create(:primero_module)
-    role = create(:role, form_sections: [@form_section], modules: [primero_module])
+    role = create(:role, form_sections: [@form_section], modules: [primero_module], group_permission: Permission::ALL)
     @user = create(:user, role: role)
 
     @bulk_exporter = DuplicateBulkExport.new(
@@ -60,5 +60,10 @@ describe DuplicateBulkExport, search: true do
           'Child Name', 'Age', 'Sex', 'Family Size']]
       )
     end
+  end
+
+  after :each do
+    clean_data(BulkExport, Agency, Location, UserGroup, Role, User, Field,
+               FormSection, Child, PrimeroModule, PrimeroProgram, SystemSettings)
   end
 end

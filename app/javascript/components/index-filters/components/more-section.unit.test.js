@@ -23,13 +23,15 @@ describe("<MoreSection>", () => {
   });
 
   const props = {
-    recordType: "cases",
-    more: true,
-    setMore: () => {},
+    addFilterToList: () => {},
     allAvailable: List(checkboxFilter),
-    primaryFilters: fromJS([]),
     defaultFilters: fromJS([]),
+    filterToList: {},
+    more: true,
     moreSectionFilters: {},
+    primaryFilters: fromJS([]),
+    recordType: "cases",
+    setMore: () => {},
     setMoreSectionFilters: () => {}
   };
 
@@ -48,15 +50,17 @@ describe("<MoreSection>", () => {
     const clone = { ...component.find(MoreSection).props() };
 
     [
-      "recordType",
-      "more",
-      "setMore",
+      "addFilterToList",
       "allAvailable",
-      "primaryFilters",
+      "commonInputProps",
       "defaultFilters",
+      "filterToList",
+      "more",
       "moreSectionFilters",
-      "setMoreSectionFilters",
-      "commonInputProps"
+      "primaryFilters",
+      "recordType",
+      "setMore",
+      "setMoreSectionFilters"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
@@ -70,12 +74,17 @@ describe("<MoreSection>", () => {
 
     const clone = { ...component.find(CheckboxFilter).props() };
 
-    ["filter", "moreSectionFilters", "setMoreSectionFilters", "mode"].forEach(
-      property => {
-        expect(clone).to.have.property(property);
-        delete clone[property];
-      }
-    );
+    [
+      "addFilterToList",
+      "filter",
+      "filterToList",
+      "mode",
+      "moreSectionFilters",
+      "setMoreSectionFilters"
+    ].forEach(property => {
+      expect(clone).to.have.property(property);
+      delete clone[property];
+    });
 
     expect(clone).to.be.empty;
   });

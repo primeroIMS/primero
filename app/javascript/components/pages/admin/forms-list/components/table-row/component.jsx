@@ -7,6 +7,7 @@ import findKey from "lodash/findKey";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import clsx from "clsx";
 
+import { useI18n } from "../../../../../i18n";
 import { MODULES, RECORD_PATH } from "../../../../../../config/constants";
 import styles from "../../styles.css";
 import DragIndicator from "../drag-indicator";
@@ -18,8 +19,10 @@ const Component = ({
   uniqueID,
   id,
   index,
-  editable
+  editable,
+  isDragDisabled
 }) => {
+  const i18n = useI18n();
   const css = makeStyles(styles)();
   const nameStyles = clsx({
     [css.formName]: true,
@@ -35,7 +38,11 @@ const Component = ({
   ) : null;
 
   return (
-    <Draggable draggableId={uniqueID} index={index}>
+    <Draggable
+      draggableId={uniqueID}
+      index={index}
+      isDragDisabled={isDragDisabled}
+    >
       {provided => (
         <div
           ref={provided.innerRef}
@@ -43,13 +50,16 @@ const Component = ({
           className={css.row}
         >
           <div>
-            <DragIndicator {...provided.dragHandleProps} />
+            <DragIndicator
+              {...provided.dragHandleProps}
+              isDragDisabled={isDragDisabled}
+            />
           </div>
           <div className={nameStyles}>
             {renderIcon}
             <Link to={`${RECORD_PATH.forms}/${id}/edit`}>{name}</Link>
           </div>
-          <div>{parentForm}</div>
+          <div>{i18n.t(`forms.record_types.${parentForm}`)}</div>
           <div>{formSectionModules}</div>
         </div>
       )}
@@ -59,10 +69,15 @@ const Component = ({
 
 Component.displayName = "TableRow";
 
+Component.defaultProps = {
+  isDragDisabled: false
+};
+
 Component.propTypes = {
   editable: PropTypes.bool.isRequired,
   id: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
+  isDragDisabled: PropTypes.bool,
   modules: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
   parentForm: PropTypes.string.isRequired,
