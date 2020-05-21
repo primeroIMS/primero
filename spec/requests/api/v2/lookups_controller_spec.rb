@@ -270,6 +270,28 @@ describe Api::V2::LookupsController, type: :request do
       expect(@lookup_country.reload.lookup_values_en.size).to eq(2)
     end
 
+    it 'Should delete a lookup value' do
+      login_for_test(
+        permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])]
+      )
+      params = {
+        'data' => {
+          'values' => [
+            {
+              'id' => 'country1',
+              '_delete' => true
+            }
+          ]
+        }
+      }
+      patch "/api/v2/lookups/#{@lookup_country.id}", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['values'].count).to eq(1)
+      expect(@lookup_country.reload.lookup_values_en.size).to eq(1)
+      expect(json['data']['values'][0]['id']).to eq('country2')
+    end
+
     it "returns 403 if user isn't authorized to update lookups" do
       login_for_test(permissions: [])
       params = {

@@ -7,4 +7,12 @@ class HealthController < ApplicationController
 
     head :service_unavailable
   end
+
+  def show
+    if HealthCheckService::BACKENDS.include?(params[:id]) && HealthCheckService.healthy?(params[:id])
+      return head :no_content
+    end
+
+    head :service_unavailable
+  end
 end

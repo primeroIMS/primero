@@ -19,7 +19,8 @@ const Component = ({
   uniqueID,
   id,
   index,
-  editable
+  editable,
+  isDragDisabled
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -37,7 +38,11 @@ const Component = ({
   ) : null;
 
   return (
-    <Draggable draggableId={uniqueID} index={index}>
+    <Draggable
+      draggableId={uniqueID}
+      index={index}
+      isDragDisabled={isDragDisabled}
+    >
       {provided => (
         <div
           ref={provided.innerRef}
@@ -45,7 +50,10 @@ const Component = ({
           className={css.row}
         >
           <div>
-            <DragIndicator {...provided.dragHandleProps} />
+            <DragIndicator
+              {...provided.dragHandleProps}
+              isDragDisabled={isDragDisabled}
+            />
           </div>
           <div className={nameStyles}>
             {renderIcon}
@@ -61,10 +69,15 @@ const Component = ({
 
 Component.displayName = "TableRow";
 
+Component.defaultProps = {
+  isDragDisabled: false
+};
+
 Component.propTypes = {
   editable: PropTypes.bool.isRequired,
   id: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
+  isDragDisabled: PropTypes.bool,
   modules: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
   parentForm: PropTypes.string.isRequired,

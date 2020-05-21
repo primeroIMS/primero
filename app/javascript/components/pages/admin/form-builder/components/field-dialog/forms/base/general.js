@@ -20,6 +20,12 @@ export const generalFields = (fieldName, i18n) => ({
     type: TEXT_FIELD,
     help_text: i18n.t("fields.must_be_english")
   }),
+  guidingQuestions: FieldRecord({
+    display_name: i18n.t("fields.guiding_questions"),
+    name: `${fieldName}.guiding_questions.en`,
+    type: TEXT_FIELD,
+    help_text: i18n.t("fields.must_be_english")
+  }),
   required: FieldRecord({
     display_name: i18n.t("fields.required"),
     name: `${fieldName}.required`,

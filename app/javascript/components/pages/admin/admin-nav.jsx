@@ -57,9 +57,8 @@ const AdminNav = () => {
       });
 
       return (
-        <>
+        <React.Fragment key={`${nav.to}-parent`}>
           <AdminNavItem
-            key={`${nav.to}-parent`}
             item={nav}
             open={open}
             handleClick={handleClick}
@@ -70,7 +69,7 @@ const AdminNav = () => {
               {renderChildren}
             </List>
           </Collapse>
-        </>
+        </React.Fragment>
       );
     }
 

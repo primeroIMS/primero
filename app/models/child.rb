@@ -31,8 +31,8 @@ class Child < ApplicationRecord
   include UNHCRMapping
   include Ownable
   include AutoPopulatable
-  include Serviceable #TODO: refactor with nested
   include Workflow
+  include Serviceable #TODO: refactor with nested
   include Flaggable
   include Transitionable
   include Reopenable
@@ -86,6 +86,13 @@ class Child < ApplicationRecord
       case_id_display name survivor_code_no age sex registration_date
       hidden_name workflow case_status_reopened
     ]
+  end
+
+  def self.alert_count_self(current_user_name)
+    records_owned_by = open_enabled_records.owned_by(current_user_name)
+    records_referred_users =
+      open_enabled_records.select { |record| record.referred_users.include?(current_user_name) }
+    (records_referred_users + records_owned_by).uniq.count
   end
 
   searchable do

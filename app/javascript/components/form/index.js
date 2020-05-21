@@ -1,5 +1,6 @@
 export { default } from "./component";
 export { FieldRecord, FormSectionRecord } from "./records";
+export { default as FormSectionField } from "./components/form-section-field";
 export { default as FormAction } from "./components/form-action";
 export { default as ActionsMenu } from "./components/actions-menu";
 export {
@@ -10,9 +11,11 @@ export {
   LABEL_FIELD,
   PARENT_FORM,
   PHOTO_FIELD,
+  RADIO_FIELD,
   SELECT_FIELD,
   TEXT_AREA,
   TEXT_FIELD,
-  TICK_FIELD
+  TICK_FIELD,
+  TOGGLE_FIELD
 } from "./constants";
 export { whichFormMode, submitHandler } from "./utils";

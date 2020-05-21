@@ -41,6 +41,7 @@ const Component = ({
       onChange={(event, value) => handleSetFilterValue(filterID, value)}
       size="small"
       exclusive
+      disabled
       classes={{ root: css.toggleContainer }}
     >
       {renderOptions()}

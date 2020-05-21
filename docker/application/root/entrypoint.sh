@@ -23,25 +23,39 @@ check_required_variables() {
   return $result
 }
 
-# This method is called to bootstrap the database on a new instance of Primero
-primero_bootstrap() {
-  printf "Starting database and configuration bootstrap\\n"
-  # shellcheck disable=SC2034
+# Idempotently migrate the database to the latest and greatest state
+primero_migrate() {
+  printf "Migrating the database\\n"
   set +u
   if [[ -z "${PRIMERO_PG_APP_ROLE}" ]]
   then
     # Create the database only if the db user is known to have the privilege
     bin/rails db:create
   fi
+  set -u
   bin/rails db:migrate
+}
 
+# Apply a known configuration template
+primero_configure() {
+  set +u
   if [[ -n "${PRIMERO_CONFIGURATION_FILE}" ]]
   then
+    printf "Applying configuration template\\n"
     bin/rails r "${PRIMERO_CONFIGURATION_FILE}"
   else
+    printf "Applying seed configuration\\n"
     bin/rails db:seed
   fi
   set -u
+}
+
+# This method is called to bootstrap the database on a new instance of Primero
+primero_bootstrap() {
+  printf "Starting database and configuration bootstrap\\n"
+  # shellcheck disable=SC2034
+  primero_migrate
+  primero_configure
 }
 
 # Start the Rails server
@@ -78,6 +92,12 @@ primero_entrypoint() {
       ;;
     primero-start)
       primero_start
+      ;;
+    primero-migrate)
+      primero_migrate
+      ;;
+    primero-configure)
+      primero_configure
       ;;
     *)
       exec "$@"

@@ -12,7 +12,8 @@ export const approvalRecord = ({
   body,
   message,
   failureMessage,
-  dialogName
+  dialogName,
+  currentUser
 }) => {
   return {
     type: `${recordType}/${APPROVE_RECORD}`,
@@ -23,6 +24,11 @@ export const approvalRecord = ({
       responseRecordKey: "approval_subforms",
       responseRecordArray: true,
       responseRecordID: recordId,
+      responseExtraParams: {
+        approval_date: new Date(),
+        approval_requested_for: approvalId,
+        requested_by: currentUser
+      },
       db: {
         recordType: null
       },

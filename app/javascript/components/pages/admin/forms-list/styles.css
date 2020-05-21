@@ -18,6 +18,11 @@
   min-width: 25%;
 }
 
+.disabledFilters {
+  opacity: 0.25;
+  pointer-events: none;
+}
+
 .draggingFormSections {
   & div {
     width: 100%;
@@ -82,6 +87,10 @@
   }
 }
 
+.dragIndicator {
+  opacity: 0.25;
+}
+
 .details {
   padding: 0;
 }
@@ -127,4 +136,8 @@
   color: $(theme.primero.colors.goldYellow);
   transform: rotate(90deg);
   transform-origin: 50% 50%;
+}
+
+.reorderButton {
+  margin: 1em 0;
 }

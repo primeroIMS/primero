@@ -6,11 +6,11 @@ describe("<RecordList /> - constants", () => {
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
     [
-      "NAME",
       "ALERTS",
       "ALERTS_COLUMNS",
+      "DEFAULT_FILTERS",
       "FILTER_CONTAINER_NAME",
-      "DEFAULT_FILTERS"
+      "NAME"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

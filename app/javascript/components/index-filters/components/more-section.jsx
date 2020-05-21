@@ -12,13 +12,15 @@ import styles from "./styles.css";
 import { NAME } from "./constants";
 
 const MoreSection = ({
-  recordType,
-  more,
-  setMore,
+  addFilterToList,
   allAvailable,
-  primaryFilters,
   defaultFilters,
+  filterToList,
+  more,
   moreSectionFilters,
+  primaryFilters,
+  recordType,
+  setMore,
   setMoreSectionFilters
 }) => {
   const i18n = useI18n();
@@ -53,11 +55,13 @@ const MoreSection = ({
 
       return (
         <Filter
+          addFilterToList={addFilterToList}
           filter={filter}
+          filterToList={filterToList}
           key={filter.field_name}
+          mode={mode}
           moreSectionFilters={moreSectionFilters}
           setMoreSectionFilters={setMoreSectionFilters}
-          mode={mode}
         />
       );
     });
@@ -89,8 +93,10 @@ const MoreSection = ({
 MoreSection.displayName = NAME;
 
 MoreSection.propTypes = {
+  addFilterToList: PropTypes.func.isRequired,
   allAvailable: PropTypes.object,
   defaultFilters: PropTypes.object,
+  filterToList: PropTypes.object,
   more: PropTypes.bool,
   moreSectionFilters: PropTypes.object,
   primaryFilters: PropTypes.object,

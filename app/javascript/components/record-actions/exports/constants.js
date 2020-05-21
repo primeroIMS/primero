@@ -46,5 +46,20 @@ export const ALL_EXPORT_TYPES = Object.freeze([
     permission: ACTIONS.EXPORT_DUPLICATE_ID,
     format: EXPORT_FORMAT.CSV,
     showOnlyOnList: true
+  }),
+  Object.freeze({
+    id: "custom",
+    permission: ACTIONS.EXPORT_CUSTOM,
+    format: EXPORT_FORMAT.EXCEL
   })
 ]);
+
+export const FIELD_ID = "field";
+export const FORMS_ID = "forms";
+export const EXPORT_TYPE_FIELD = "export_type";
+export const CUSTOM_FORMAT_TYPE_FIELD = "custom_format_type";
+export const INDIVIDUAL_FIELDS_FIELD = "individual_fields";
+export const FORM_TO_EXPORT_FIELD = "form_unique_ids";
+export const FIELDS_TO_EXPORT_FIELD = "field_names";
+export const PASSWORD_FIELD = "password";
+export const CUSTOM_EXPORT_FILE_NAME_FIELD = "custom_export_file_name";

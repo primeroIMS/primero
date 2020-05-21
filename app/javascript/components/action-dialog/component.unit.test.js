@@ -70,6 +70,7 @@ describe("<ActionDialog />", () => {
       "confirmButtonLabel",
       "children",
       "onClose",
+      "cancelButtonProps",
       "confirmButtonProps",
       "omitCloseAfterSuccess",
       "dialogSubtitle",

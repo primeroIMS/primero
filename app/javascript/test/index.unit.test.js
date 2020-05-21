@@ -18,7 +18,9 @@ describe("app/javascript/test/index", () => {
     "tick",
     "useFakeTimers",
     "mock",
-    "createSimpleMount"
+    "createSimpleMount",
+    "createMockStore",
+    "createMiddleware"
   ].forEach(property => {
     it(`exports property '${property}'`, () => {
       expect(clone).to.have.property(property);

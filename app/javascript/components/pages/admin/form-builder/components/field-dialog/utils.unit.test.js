@@ -16,6 +16,6 @@ describe("getFormField", () => {
       i18n
     );
 
-    expect(formSections.forms.size).to.be.equal(3);
+    expect(formSections.forms.size).to.be.equal(2);
   });
 });

@@ -22,7 +22,7 @@ import Permission from "../application/permission";
 import { useThemeHelper } from "../../libs";
 import { applyFilters } from "../index-filters/action-creators";
 
-import { NAME } from "./constants";
+import { NAME, DEFAULT_FILTERS } from "./constants";
 import FilterContainer from "./filter-container";
 import { buildTableColumns } from "./utils";
 import RecordListToolbar from "./record-list-toolbar";
@@ -70,11 +70,7 @@ const Container = ({ match, location }) => {
     getPermissionsByRecord(state, recordType)
   );
 
-  const defaultFilters = fromJS({
-    fields: "short",
-    status: ["open"],
-    record_state: ["true"]
-  });
+  const defaultFilters = fromJS(DEFAULT_FILTERS);
 
   useEffect(() => {
     dispatch(

@@ -1,7 +1,18 @@
 .fieldDialog {
   & h1 {
-    font-size: 1.25rem;
+    font-size: 1rem;
     text-transform: uppercase;
     font-weight: bold;
+  }
+}
+
+.cancelButton {
+  background: $(theme.primero.colors.grey);
+  color: $(theme.primero.colors.white);
+  margin: 0 .5em;
+
+  &:hover {
+    color: $(theme.primero.colors.black);
+    background-color: $(theme.primero.colors.warmGrey5);
   }
 }
