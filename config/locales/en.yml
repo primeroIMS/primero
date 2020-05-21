@@ -1619,6 +1619,7 @@ en:
     edit_label: "Edit Field"
     required: "Required"
     guiding_questions: "Guiding questions"
+    guidance: "Guidance"
     visibility: "Visibility"
     show_on_minify_form: "Short form"
     hide_on_view_page: "Show page"
