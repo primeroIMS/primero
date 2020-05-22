@@ -49,7 +49,8 @@ const TextField = ({ name, field, formik, recordType, recordID, ...rest }) => {
     const matches = name.match(/(.*)age$/);
 
     if (matches && value) {
-      const diff = subYears(new Date(), value);
+      const currentYear = new Date().getFullYear();
+      const diff = subYears(new Date(currentYear, 0, 1), value);
 
       form.setFieldValue(`${matches[1]}date_of_birth`, diff, true);
     }
