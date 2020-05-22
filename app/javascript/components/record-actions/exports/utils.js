@@ -109,13 +109,12 @@ export const exporterFilters = (
   };
 };
 
-export const buildFields = (data, locale) => {
+export const buildFields = (data, locale, individualFields) => {
   const excludeFieldTypes = [
     AUDIO_FIELD,
     DOCUMENT_FIELD,
     PHOTO_FIELD,
-    SEPERATOR,
-    SUBFORM_SECTION
+    SEPERATOR
   ];
 
   return data
@@ -127,14 +126,34 @@ export const buildFields = (data, locale) => {
         .filter(
           field => !excludeFieldTypes.includes(field.type) && field.visible
         )
-        .map(field => ({
-          id: field.name,
-          display_text: field.display_name[locale],
-          formSectionId: unique_id,
-          formSectionName: name[locale]
-        }));
+        .map(field => {
+          if (field.type === SUBFORM_SECTION && !individualFields) {
+            const subFormSectionFields = field.subform_section_id.fields
+              .filter(subformField => subformField.visible)
+              .map(subformField => {
+                const subFormSection = field.subform_section_id;
 
-      return [...acc, filteredFields];
+                return {
+                  id: `${subFormSection.unique_id}:${subformField.name}`,
+                  display_text: subformField.display_name[locale],
+                  formSectionId: subFormSection.unique_id,
+                  formSectionName: subFormSection.name[locale],
+                  type: SUBFORM_SECTION
+                };
+              });
+
+            return subFormSectionFields;
+          }
+
+          return {
+            id: field.name,
+            display_text: field.display_name[locale],
+            formSectionId: unique_id,
+            formSectionName: name[locale]
+          };
+        });
+
+      return [...acc, filteredFields.flat()];
     }, [])
     .flat();
 };

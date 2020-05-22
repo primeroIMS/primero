@@ -122,7 +122,7 @@ const Component = ({
       primeroModule: selectedModule || record?.get("module_id")
     })
   );
-  const fields = buildFields(recordTypesForms, i18n.locale);
+  const fields = buildFields(recordTypesForms, i18n.locale, individualFields);
 
   const handleSubmit = values => {
     const { form_unique_ids: formUniqueIds, field_names: fieldNames } = values;
@@ -160,6 +160,16 @@ const Component = ({
 
     if (!isEmpty(fieldNames)) {
       exportParams = { ...exportParams, [FIELDS_TO_EXPORT_FIELD]: fieldNames };
+    }
+
+    // If we selected individual fields, we should pass forms and fields
+    if (individualFields) {
+      exportParams = {
+        ...exportParams,
+        [FORM_TO_EXPORT_FIELD]: fields
+          .filter(f => fieldNames.includes(f.id))
+          .map(f => f.formSectionId)
+      };
     }
 
     const body = isCustomExport
