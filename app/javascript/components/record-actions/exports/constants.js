@@ -57,6 +57,7 @@ export const ALL_EXPORT_TYPES = Object.freeze([
 export const FIELD_ID = "field";
 export const FORMS_ID = "forms";
 export const EXPORT_TYPE_FIELD = "export_type";
+export const MODULE_FIELD = "module";
 export const CUSTOM_FORMAT_TYPE_FIELD = "custom_format_type";
 export const INDIVIDUAL_FIELDS_FIELD = "individual_fields";
 export const FORM_TO_EXPORT_FIELD = "form_unique_ids";

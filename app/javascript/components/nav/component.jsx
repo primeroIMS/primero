@@ -58,7 +58,7 @@ const Nav = () => {
           key={menuEntry.to}
           menuEntry={menuEntry}
           mobileDisplay={mobileDisplay}
-          jewel={jewel}
+          jewelCount={jewel}
           username={username}
         />
       );

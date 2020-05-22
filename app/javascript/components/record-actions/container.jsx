@@ -310,7 +310,6 @@ const Container = ({
         setReferDialog(true);
       },
       recordType,
-      recordListAction: true,
       enabledFor: ENABLED_FOR_ONE_MANY,
       condition: canRefer,
       disableOffline: true
@@ -328,7 +327,6 @@ const Container = ({
       name: `${i18n.t("buttons.transfer")} ${formRecordType}`,
       action: () => setTransferDialog(true),
       recordType: ["cases", "incidents"],
-      recordListAction: true,
       enabledFor: ENABLED_FOR_ONE_MANY,
       condition: canTransfer,
       disableOffline: true

@@ -21,7 +21,7 @@ export const generalFields = (fieldName, i18n) => ({
     help_text: i18n.t("fields.must_be_english")
   }),
   guidingQuestions: FieldRecord({
-    display_name: i18n.t("fields.guiding_questions"),
+    display_name: i18n.t("fields.guidance"),
     name: `${fieldName}.guiding_questions.en`,
     type: TEXT_FIELD,
     help_text: i18n.t("fields.must_be_english")

@@ -236,6 +236,7 @@ en:
     clear_selection: "Clear selection"
     reorder: "Reorder"
     save_changes: "Save changes"
+    guidance: "Guidance"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -346,7 +347,7 @@ en:
     request_approve_bia: "Approve Assessment?"
     request_approve_case_plan: "Approve Case Plan?"
     request_approve_closure: "Approve Closure?"
-    request_approval_success_bia: "Approval requested for Assessment form."
+    request_approval_success_bia: "Approval requested for SER form."
     request_approval_success_case_plan: "Approval requested for Case Plan form."
     request_approval_success_closure: "Approval requested for Closure form."
     request_approval_failure: "An error occurred, please contact support."
@@ -355,14 +356,14 @@ en:
     rejected_success_closure: "Closure - Not Approved"
     approved_success_case_plan: "Case Plan - Approved"
     rejected_success_case_plan: "Case Plan - Not Approved"
-    approved_success_bia: "Assessment - Approved"
-    rejected_success_bia: "Assessment - Not Approved"
+    approved_success_bia: "SER - Approved"
+    rejected_success_bia: "SER - Not Approved"
     approval_select: "The form for"
     approval_radio: "I would like to"
     approval_radio_accept: "Approve"
     approval_radio_reject: "Not Approve"
     approval_comments: "Comments"
-    assessment: "Assessment"
+    assessment: "SER"
     case_plan: "Case Plan"
     closure: "Closure"
     revoke_message: "By clicking ‘Revoke’, you will remove the %{transition_type} recipient’s access to the case."
@@ -1311,10 +1312,10 @@ en:
       referral: "Referral"
       sync_mobile: "Sync with mobile device"
       request_approval: "Request for approval"
-      request_approval_bia: "Request BIA approval"
+      request_approval_bia: "Request SER approval"
       request_approval_case_plan: "Request Case Plan approval"
       request_approval_closure: "Request Closure approval"
-      approve_bia: "Approve BIA form"
+      approve_bia: "Approve SER form"
       approve_case_plan: "Approve Case Plan"
       approve_closure: "Approve Closure form"
       copy: "Copy"
@@ -1340,8 +1341,8 @@ en:
       dash_tasks: "View Tasks"
       case_overview: "My Cases"
       case_risk: "Cases by Assessment Level"
-      approvals_assessment: "Assessment"
-      approvals_assessment_pending: "Assessment Pending"
+      approvals_assessment: "SER"
+      approvals_assessment_pending: "SER Pending"
       approvals_case_plan: "Case Plan"
       approvals_case_plan_pending: "Case Plan Pending"
       approvals_closure: "Closure"
@@ -1619,6 +1620,7 @@ en:
     edit_label: "Edit Field"
     required: "Required"
     guiding_questions: "Guiding questions"
+    guidance: "Guidance"
     visibility: "Visibility"
     show_on_minify_form: "Short form"
     hide_on_view_page: "Show page"
@@ -1893,7 +1895,7 @@ en:
     services_implemented: 'Services Implemented'
     cases_by_workflow: 'Cases By Workflow'
     cases_by_task_overdue: 'Overdue Tasks'
-    assessment: 'Assessment'
+    assessment: 'SER'
     case_plan: 'Case Plan'
     follow_up: 'Follow Up'
     services: 'Services'
@@ -2043,12 +2045,12 @@ en:
     approval_case_plan_pending: "Pending"
     approval_case_plan_rejected: "Rejected"
     approval_case_plan_approved: "Approved"
-    approvals_assessment: "Assessment"
+    approvals_assessment: "SER"
     approval_assessment_pending: "Pending"
     approval_assessment_rejected: "Rejected"
     approval_assessment_approved: "Approved"
     pending_approvals: "Pending Approvals"
-    approval_assessment_pending_group: "Assessment"
+    approval_assessment_pending_group: "SER"
     approval_case_plan_pending_group: "Case Plan"
     approval_closure_pending_group: "Closure"
     dash_shared_with_me: "Shared With Me"
@@ -2349,6 +2351,9 @@ en:
       one: Photo Wall
       selected: Selected to Photo Wall
       success_message: "Creating Photowall%{file_name} Cases without photos will not be included."
+      no_photos_available: No photos available
+      flag_suspect_record: Flagged as Suspect Record
+      reunited: Reunited
     case_pdf:
       all: PDF
       one: PDF
@@ -2620,10 +2625,10 @@ en:
     approve_case_plan_with_selectable_type: "Request Approval for the Case Plan?"
     approve_closure: "Request Approval for the Closure form?"
     approve_closure_label: "Approve Closure Form"
-    bia: "Assessment"
+    bia: "SER"
     case_plan: "Case Plan"
     closure: "Closure"
-    assessment: "Assessment"
+    assessment: "SER"
     comments_label: "Comments"
     error_select_an_approval_type: "Please select an approval type"
     case_plan_type_label: "Case plan type"
