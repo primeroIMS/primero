@@ -48,8 +48,8 @@ module Exporters
       end
       permissions_all = Permission.all_available
       header = ["Resource", "Action"] + @roles.map{|r| r.name}
-      write_row header
-
+      write_row(header, true)
+      add_format(header.count)
       write_general_permissions
 
       permissions_all.each do |permission_group|
@@ -133,13 +133,21 @@ module Exporters
       write_row form_row
     end
 
-    def write_row(row_data)
-      @worksheet.write(@row, 0, row_data)
+    def write_row(row_data, bold = false)
+      format = @workbook.add_format(bold: 1, text_wrap: 1) if bold
+
+      @worksheet.write(@row, 0, row_data, format)
       @row+=1
     end
 
     def get_check(cell_attr)
       return cell_attr ? '✔' : ''
+    end
+
+    def add_format(col_count)
+      @worksheet.set_column('A:A', 35, @workbook.add_format(bold: 1, text_wrap: 1))
+      @worksheet.set_column('B:B', 50, @workbook.add_format(text_wrap: 1))
+      @worksheet.set_column(2, (col_count - 1), 32, @workbook.add_format(text_wrap: 1))
     end
 
   end
