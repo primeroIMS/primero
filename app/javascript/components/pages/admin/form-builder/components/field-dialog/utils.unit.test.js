@@ -19,3 +19,12 @@ describe("getFormField", () => {
     expect(formSections.forms.size).to.be.equal(2);
   });
 });
+
+describe("addWithIndex", () => {
+  it("should add an element on an specific index array", () => {
+    const original = ["a", "b", "c"];
+    const expected = ["a", "b", "d", "c"];
+
+    expect(utils.addWithIndex(original, 2, "d")).to.deep.equals(expected);
+  });
+});
