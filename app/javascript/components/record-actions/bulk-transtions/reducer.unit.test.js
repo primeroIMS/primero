@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { TransitionRecord } from "../../transitions/records";
+import { RECORD_PATH, RECORD_TYPES } from "../../../config";
 
 import reducer from "./reducer";
 import actions from "./actions";
@@ -27,11 +27,11 @@ describe("bulk-transitons - Reducers", () => {
       }
     });
     const action = {
-      type: actions.BULK_ASSIGN_USER_SAVE_FAILURE,
+      type: `${RECORD_PATH.cases}/${actions.BULK_ASSIGN_USER_SAVE_FAILURE}`,
       payload
     };
 
-    const newState = reducer("cases")(defaultState, action);
+    const newState = reducer(RECORD_PATH.cases)(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -43,11 +43,11 @@ describe("bulk-transitons - Reducers", () => {
       }
     });
     const action = {
-      type: actions.BULK_ASSIGN_USER_SAVE_FINISHED,
+      type: `${RECORD_PATH.cases}/${actions.BULK_ASSIGN_USER_SAVE_FINISHED}`,
       payload: false
     };
 
-    const newState = reducer("cases")(defaultState, action);
+    const newState = reducer(RECORD_PATH.cases)(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -61,11 +61,11 @@ describe("bulk-transitons - Reducers", () => {
       }
     });
     const action = {
-      type: actions.BULK_ASSIGN_USER_SAVE_STARTED,
+      type: `${RECORD_PATH.cases}/${actions.BULK_ASSIGN_USER_SAVE_STARTED}`,
       payload: true
     };
 
-    const newState = reducer("cases")(defaultState, action);
+    const newState = reducer(RECORD_PATH.cases)(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });
@@ -78,7 +78,7 @@ describe("bulk-transitons - Reducers", () => {
           type: "Assign",
           status: "done",
           record_id: "c6f7f95a-3bc9-446d-9d2e-11b1726f38b1",
-          record_type: "case",
+          record_type: RECORD_TYPES.cases,
           transitioned_to: "primero_cp",
           notes: "",
           transitioned_by: "primero",
@@ -115,7 +115,7 @@ describe("bulk-transitons - Reducers", () => {
             transitioned_by: "primero",
             remote: false,
             transitioned_to: "primero_cp",
-            record_type: "case",
+            record_type: RECORD_TYPES.cases,
             record_access_denied: false,
             record_id: "c6f7f95a-3bc9-446d-9d2e-11b1726f38b1",
             created_at: "2020-05-26T00:46:24.355Z",
@@ -146,11 +146,11 @@ describe("bulk-transitons - Reducers", () => {
       }
     });
     const action = {
-      type: actions.BULK_ASSIGN_USER_SAVE_SUCCESS,
+      type: `${RECORD_PATH.cases}/${actions.BULK_ASSIGN_USER_SAVE_SUCCESS}`,
       payload
     };
 
-    const newState = reducer("cases")(defaultState, action);
+    const newState = reducer(RECORD_PATH.cases)(defaultState, action);
 
     expect(newState).to.deep.equal(expected);
   });

@@ -116,7 +116,7 @@ const ReassignForm = ({
         )
       );
     } else {
-      dispatch(saveBulkAssignedUser(selectedIds, { data }));
+      dispatch(saveBulkAssignedUser(recordType, selectedIds, { data }));
     }
     setSubmitting(false);
     dispatch(
