@@ -65,10 +65,10 @@ export const removeFormErrors = payload => {
   };
 };
 
-export const saveAssignedUser = (recordId, body, message, recordsIds = []) => ({
+export const saveAssignedUser = (recordId, body, message) => ({
   type: actions.ASSIGN_USER_SAVE,
   api: {
-    path: generatePath(actions.CASES_ASSIGNS, recordId, recordsIds),
+    path: generatePath(actions.CASES_ASSIGNS, recordId),
     method: "POST",
     body,
     successCallback: successCallbackActions(ASSIGN_DIALOG, message)

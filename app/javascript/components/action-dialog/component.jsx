@@ -82,11 +82,11 @@ const ActionDialog = ({
     <DialogTitle className={css.dialogTitle}>{dialogTitle}</DialogTitle>
   );
 
-  const subHeader = dialogSubHeader ? (
+  const subHeader = dialogSubHeader && (
     <Typography component="h6" className={css.subHeader}>
       {dialogSubHeader}
     </Typography>
-  ) : null;
+  );
 
   const submitButton = (
     <div className={css.submitButtonWrapper}>

@@ -12,6 +12,7 @@ import {
   getErrorsByTransitionType
 } from "../selectors";
 import { saveAssignedUser, fetchAssignUsers } from "../action-creators";
+import { saveBulkAssignedUser } from "../../bulk-transtions/action-creators";
 import SearchableSelect from "../../../searchable-select";
 import { enqueueSnackbar } from "../../../notifier";
 import { useI18n } from "../../../i18n";
@@ -105,16 +106,18 @@ const ReassignForm = ({
       ? values
       : { ...values, ids: selectedIds };
 
-    const messageSuccess = isEmpty(selectedIds)
-      ? i18n.t("reassign.successfully")
-      : i18n.t("reassign.multiple_successfully", {
-          select_records: selectedIds.length
-        });
-
     setPending(true);
-    dispatch(
-      saveAssignedUser(record?.get("id"), { data }, messageSuccess, selectedIds)
-    );
+    if (record) {
+      dispatch(
+        saveAssignedUser(
+          record.get("id"),
+          { data },
+          i18n.t("reassign.successfully")
+        )
+      );
+    } else {
+      dispatch(saveBulkAssignedUser(selectedIds, { data }));
+    }
     setSubmitting(false);
     dispatch(
       applyFilters({
