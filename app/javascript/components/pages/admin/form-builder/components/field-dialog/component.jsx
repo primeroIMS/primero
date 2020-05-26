@@ -16,7 +16,7 @@ import { getSelectedField } from "../../selectors";
 import { updateSelectedField } from "../../action-creators";
 
 import styles from "./styles.css";
-import { getFormField } from "./utils";
+import { getFormField, transformValues } from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 
 const Component = ({ onClose, onSuccess }) => {
@@ -30,7 +30,8 @@ const Component = ({ onClose, onSuccess }) => {
   const selectedField = useSelector(state => getSelectedField(state), compare);
   const { forms: fieldsForm, validationSchema } = getFormField(
     selectedField,
-    i18n
+    i18n,
+    css
   );
   const formMethods = useForm({ validationSchema });
   const formMode = whichFormMode("edit");
@@ -79,7 +80,11 @@ const Component = ({ onClose, onSuccess }) => {
 
   useEffect(() => {
     if (selectedField?.size) {
-      formMethods.reset({ [selectedField.get("name")]: selectedField.toJS() });
+      formMethods.reset({
+        [selectedField.get("name")]: {
+          ...transformValues(selectedField.toJS())
+        }
+      });
     }
   }, [selectedField]);
 
