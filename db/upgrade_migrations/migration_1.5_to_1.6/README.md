@@ -24,7 +24,15 @@ Example:   (If your config is using English & French locales)
 development:
   :default_locale: 'en'
   :locales: ["en", "fr"]
-  
+
+
+To extract a json config file from an old production system (Such as v1.3)
+---------------------------------------------------------------------------
+- Copy script export_config.rb from the upgrade_migrations/dev_fixtures to the application directory of the target system
+- On that system as the primero user, run the export_config.rb script and redirect to a json file
+
+Example:  RAILS_ENV=production bundle exec rails r export_config.rb > config_jo_20200526.json
+
 
 To remove Locations from the old json config before importing it (optional)
 ---------------------------------------------------------------------------
