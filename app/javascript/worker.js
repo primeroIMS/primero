@@ -1,8 +1,19 @@
 /* eslint-disable no-restricted-globals */
 
-workbox.core.clientsClaim();
-workbox.core.skipWaiting();
-workbox.precaching.cleanupOutdatedCaches();
+import {
+  precacheAndRoute,
+  getCacheKeyForURL,
+  cleanupOutdatedCaches
+} from "workbox-precaching";
+import { setCatchHandler, registerRoute } from "workbox-routing";
+import { NetworkOnly, CacheFirst, NetworkFirst } from "workbox-strategies";
+import { clientsClaim, skipWaiting, cacheNames } from "workbox-core";
+import { ExpirationPlugin } from "workbox-expiration";
+import { CacheableResponsePlugin } from "workbox-cacheable-response";
+
+clientsClaim();
+skipWaiting();
+cleanupOutdatedCaches();
 
 const METHODS = {
   GET: "GET",
@@ -12,59 +23,77 @@ const METHODS = {
   DELETE: "DELETE"
 };
 
-self.__precacheManifest = []
-  .concat(self.__precacheManifest || [])
-  .map(entry => {
-    const { url } = entry;
+const isNav = event => event.request.mode === "navigate";
 
-    if (/\b[A-Fa-f0-9]{32}|[A-Fa-f0-9]{20}\b/.test(url)) {
-      // eslint-disable-next-line no-param-reassign
-      delete entry.revision;
-    }
-
-    return entry;
-  });
-
-workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
-
-workbox.routing.registerNavigationRoute(
-  workbox.precaching.getCacheKeyForURL("/"),
-  {
-    whitelist: [/^(\/)$/, /^\/v2\//]
-  }
-);
-
-workbox.routing.registerRoute(
-  /translations-*.js$/,
-  new workbox.strategies.CacheFirst(),
-  METHODS.GET
-);
-
-workbox.routing.registerRoute(
-  /.*\.(?:png|jpg|jpeg|svg|gif)/,
-  new workbox.strategies.CacheFirst({
-    cacheName: "images",
+// TODO: This pr would allow passing strategies to workbox way of handling navigation routes
+// https://github.com/GoogleChrome/workbox/pull/2459
+registerRoute(
+  ({ event }) => isNav(event),
+  new NetworkFirst({
+    cacheName: cacheNames.precache,
+    networkTimeoutSeconds: 5,
     plugins: [
-      new workbox.expiration.Plugin({
-        maxEntries: 60,
-        maxAgeSeconds: 30 * 24 * 60 * 60 // 30 Days
+      new CacheableResponsePlugin({
+        statuses: [200]
       })
     ]
   })
 );
 
-workbox.routing.registerRoute(
+// I18n
+registerRoute(/translations-*.js$/, new CacheFirst(), METHODS.GET);
+
+// Images
+registerRoute(
+  /.*\.(?:png|jpg|jpeg|svg|gif)/,
+  new CacheFirst({
+    cacheName: "images",
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 60,
+        maxAgeSeconds: 30 * 24 * 60 * 60 // 30 Days
+      }),
+      new CacheableResponsePlugin({
+        statuses: [0, 200]
+      })
+    ]
+  })
+);
+
+// Location Json
+registerRoute(
   /\/options\/locations-.*.json$/,
-  new workbox.strategies.CacheFirst({
-    cacheName: "locations"
+  new CacheFirst({
+    cacheName: "locations",
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 1
+      })
+    ]
   }),
   METHODS.GET
 );
 
+// Api Endpoints
 Object.values(METHODS).forEach(method => {
-  workbox.routing.registerRoute(
-    /\/api\/.*/,
-    new workbox.strategies.NetworkOnly(),
-    method
-  );
+  registerRoute(/\/api\/.*/, new NetworkOnly(), method);
+});
+
+const manifest = self.__WB_MANIFEST.map(entry => {
+  const { url } = entry;
+
+  if (/\b[A-Fa-f0-9]{32}|[A-Fa-f0-9]{20}\b/.test(url)) {
+    // eslint-disable-next-line no-param-reassign
+    entry.revision = null;
+  }
+
+  return entry;
+});
+
+precacheAndRoute(manifest);
+
+setCatchHandler(({ event }) => {
+  if (isNav(event)) return caches.match(getCacheKeyForURL("/"));
+
+  return Response.error();
 });

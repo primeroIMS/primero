@@ -6,7 +6,12 @@ describe("<FormsBuilder /> - Selectors", () => {
   it("should know the selectors", () => {
     const clonedSelectors = { ...selectors };
 
-    ["getSavingRecord", "getSelectedForm"].forEach(property => {
+    [
+      "getSavingRecord",
+      "getSelectedField",
+      "getSelectedFields",
+      "getSelectedForm"
+    ].forEach(property => {
       expect(clonedSelectors).to.have.property(property);
       delete clonedSelectors[property];
     });

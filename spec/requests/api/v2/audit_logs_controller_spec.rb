@@ -52,12 +52,15 @@ describe Api::V2::AuditLogsController, type: :request do
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/audit_logs' do
-    it 'empty list' do
+    it 'Get a list of all the audit logs' do
       login_for_test(permissions: [Permission.new(resource: Permission::AUDIT_LOG, actions: [Permission::READ])])
       get '/api/v2/audit_logs'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(0)
+      expect(json['data'].size).to eq(4)
+      expect(json['data'].map { |audit| audit['id'] }.sort).to eq(
+        [@audit_log_a.id, @audit_log_b.id, @audit_log_c.id, @audit_log_d.id].sort
+      )
     end
 
     it 'returns 403 if user is not authorized' do
@@ -81,12 +84,23 @@ describe Api::V2::AuditLogsController, type: :request do
       expect(json['data'].map { |audit| audit['id'] }).to include(@audit_log_d.id)
     end
 
-    it 'list the audit logs filtering by timestamp' do
+    it 'list the audit logs filtering by timestamp and user_name' do
       login_for_test(permissions: [Permission.new(resource: Permission::AUDIT_LOG, actions: [Permission::READ])])
       get '/api/v2/audit_logs?from=2020-03-02T09:06:50-06:00&to=2020-03-02T11:06:50-06:00&user_name=test_user_2'
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
+      expect(json['data'].map { |audit| audit['id'] }).to include(@audit_log_c.id)
+      expect(json['data'].map { |audit| audit['id'] }).to include(@audit_log_d.id)
+    end
+
+    it 'list the audit logs filtering by timestamp' do
+      login_for_test(permissions: [Permission.new(resource: Permission::AUDIT_LOG, actions: [Permission::READ])])
+      get '/api/v2/audit_logs?from=2020-03-02T09:06:50-06:00&to=2020-03-02T11:06:50-06:00'
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(3)
+      expect(json['data'].map { |audit| audit['id'] }).to include(@audit_log_a.id)
       expect(json['data'].map { |audit| audit['id'] }).to include(@audit_log_c.id)
       expect(json['data'].map { |audit| audit['id'] }).to include(@audit_log_d.id)
     end

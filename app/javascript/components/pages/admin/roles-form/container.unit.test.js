@@ -1,8 +1,13 @@
 import { fromJS } from "immutable";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import { setupMountedComponent } from "../../../../test";
+import {
+  setupMountedComponent,
+  setupMockFormComponent
+} from "../../../../test";
 import { ACTIONS } from "../../../../libs/permissions";
 import { ActionsMenu } from "../../../form";
+import FormSection from "../../../form/components/form-section";
 import { ROUTES } from "../../../../config/constants";
 
 import RolesForm from "./container";
@@ -68,34 +73,74 @@ describe("<RolesForm />", () => {
     beforeEach(() => {
       const initialState = fromJS({
         records: {
-          roles: {
-            selectedRole: {
-              id: 1,
-              name: "Test Role"
+          admin: {
+            roles: {
+              selectedRole: {
+                id: 10,
+                name: "Test Role",
+                module_unique_ids: ["primeromodule-cp"]
+              },
+              loading: false,
+              errors: false,
+              serverErrors: []
             }
           }
+        },
+        forms: {
+          formSections: [
+            {
+              unique_id: "form_1",
+              fields: [
+                {
+                  name: "field_1"
+                }
+              ]
+            }
+          ]
         },
         user: {
           permissions: {
             roles: [ACTIONS.MANAGE]
           }
+        },
+        application: {
+          modules: [
+            {
+              unique_id: "primeromodule-cp"
+            }
+          ]
         }
       });
 
-      ({ component } = setupMountedComponent(
+      ({ component } = setupMockFormComponent(
         RolesForm,
         { mode: "show" },
+        {},
         initialState,
         ["/admin/roles/10"]
       ));
     });
 
-    it("renders role form", () => {
-      expect(component.find("form")).to.have.lengthOf(1);
+    it("renders role form sections", () => {
+      expect(component.find(FormSection)).to.have.lengthOf(6);
     });
 
     it("renders heading with action menu", () => {
       expect(component.find(ActionsMenu)).to.have.lengthOf(1);
+    });
+
+    it("renders the selected modules", () => {
+      const autocomplete = component.find(Autocomplete);
+
+      expect(
+        autocomplete
+          .map(current => current.props())
+          .find(
+            props =>
+              props.name === "module_unique_ids" &&
+              props.value.includes("primeromodule-cp")
+          )
+      ).to.exist;
     });
   });
 });

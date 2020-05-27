@@ -5,6 +5,7 @@
 class Api::V2::RecordResourceController < ApplicationApiController
   before_action :find_record, only: %i[index create update destroy]
   before_action :find_records, only: [:create_bulk]
+  before_action :initialize_errors, only: [:create_bulk]
 
   protected
 
@@ -33,10 +34,18 @@ class Api::V2::RecordResourceController < ApplicationApiController
   end
 
   def updates_for_records(records)
-    @updated_field_names_hash = records.inject({}) do |hash, record|
+    @updated_field_names_hash = records.each_with_object({}) do |record, hash|
       hash[record.id] = record_updated_fields(record)
-      hash
     end
+  end
+
+  def initialize_errors
+    @errors = []
+  end
+
+  def handle_bulk_error(error, request)
+    _, errors = ErrorService.handle(error, request)
+    @errors += errors
   end
 
   private

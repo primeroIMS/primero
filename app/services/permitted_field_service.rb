@@ -28,6 +28,7 @@ class PermittedFieldService
     @permitted_field_names += %w[id record_in_scope]
     @permitted_field_names += user.permitted_field_names_from_forms(model_class.parent_form)
     @permitted_field_names << 'or'
+    @permitted_field_names << 'not'
     @permitted_field_names << 'cases_by_date'
     @permitted_field_names << 'alert_count'
     @permitted_field_names += PERMITTED_FILTER_FIELD_NAMES

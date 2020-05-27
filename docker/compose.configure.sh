@@ -1,11 +1,14 @@
-#! /bin/sh
+#! /bin/bash
 
-set -euox
+set -eux
 
-CONFIGURATION_PATH=${1:-"../primero-configuration"}
-CONFIGURATION_FILE=${2:-"load_configuration.rb"}
+CONFIGURATION_MOUNT=""
+ENV_PRIMERO_CONFIGURATION_FILE=""
 
-./compose.prod.sh run \
-    -v "${CONFIGURATION_PATH}:/primero-configuration" \
-    -e PRIMERO_CONFIGURATION_FILE="/primero-configuration/${CONFIGURATION_FILE}" \
-    application primero-bootstrap
+if [[ "$#" != 0 ]]
+then
+  CONFIGURATION_MOUNT="-v ${1}:/primero-configuration"
+  ENV_PRIMERO_CONFIGURATION_FILE="-e PRIMERO_CONFIGURATION_FILE=/primero-configuration/${2:-"load_configuration.rb"}"
+fi
+
+./compose.prod.sh run $CONFIGURATION_MOUNT $ENV_PRIMERO_CONFIGURATION_FILE application primero-configure

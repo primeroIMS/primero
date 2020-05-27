@@ -15,6 +15,7 @@ describe("<SelectFilter>", () => {
   };
 
   const props = {
+    addFilterToList: () => {},
     filter
   };
 
@@ -26,13 +27,14 @@ describe("<SelectFilter>", () => {
 
   it("renders select as secondary filter, with valid pros in the more section", () => {
     const newProps = {
+      addFilterToList: () => {},
+      filter,
       mode: {
         secondary: true
       },
       moreSectionFilters: {},
-      setMoreSectionFilters: () => {},
-      filter,
       reset: false,
+      setMoreSectionFilters: () => {},
       setReset: () => {}
     };
     const { component } = setupMockFormComponent(SelectFilter, newProps);
@@ -41,6 +43,7 @@ describe("<SelectFilter>", () => {
     expect(component.exists("Panel")).to.be.true;
 
     [
+      "addFilterToList",
       "commonInputProps",
       "filter",
       "mode",
@@ -59,15 +62,16 @@ describe("<SelectFilter>", () => {
 
   it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
     const newProps = {
+      addFilterToList: () => {},
+      filter,
       mode: {
         secondary: false
       },
+      isDateFieldSelectable: true,
       moreSectionFilters: {},
-      setMoreSectionFilters: spy(),
-      filter,
       reset: false,
-      setReset: () => {},
-      isDateFieldSelectable: true
+      setMoreSectionFilters: spy(),
+      setReset: () => {}
     };
 
     const { component } = setupMockFormComponent(SelectFilter, newProps);

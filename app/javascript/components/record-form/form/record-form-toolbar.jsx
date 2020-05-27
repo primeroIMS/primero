@@ -104,7 +104,7 @@ const RecordFormToolbar = ({
       <Box display="flex">
         {mode.isShow && params && (
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
-            <DisableOffline>
+            <DisableOffline button>
               <Flagging recordType={params.recordType} record={params.id} />
             </DisableOffline>
           </Permission>

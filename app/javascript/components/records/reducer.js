@@ -49,7 +49,7 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
         .set("metadata", fromJS(metadata));
     }
     case `${namespace}/${RECORDS_FINISHED}`:
-      return state.set("loading", fromJS(payload));
+      return state.set("loading", false);
     case `${namespace}/${RECORD}`:
       return state.set("loading", true);
     case `${namespace}/${SAVE_RECORD_STARTED}`:

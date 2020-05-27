@@ -17,6 +17,7 @@ describe("<SwitchFilter>", () => {
   };
 
   const props = {
+    addFilterToList: () => {},
     filter
   };
 
@@ -34,13 +35,14 @@ describe("<SwitchFilter>", () => {
 
   it("renders switch as secondary filter, with valid pros in the more section", () => {
     const newProps = {
+      addFilterToList: () => {},
+      filter,
       mode: {
         secondary: true
       },
       moreSectionFilters: {},
-      setMoreSectionFilters: () => {},
-      filter,
       reset: false,
+      setMoreSectionFilters: () => {},
       setReset: () => {}
     };
     const { component } = setupMockFormComponent(SwitchFilter, newProps);
@@ -49,6 +51,7 @@ describe("<SwitchFilter>", () => {
     expect(component.exists("input[type='checkbox']")).to.be.true;
 
     [
+      "addFilterToList",
       "commonInputProps",
       "filter",
       "mode",
@@ -66,13 +69,14 @@ describe("<SwitchFilter>", () => {
 
   it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
     const newProps = {
+      addFilterToList: () => {},
+      filter,
       mode: {
         secondary: false
       },
       moreSectionFilters: {},
-      setMoreSectionFilters: spy(),
-      filter,
       reset: false,
+      setMoreSectionFilters: spy(),
       setReset: () => {}
     };
 

@@ -13,7 +13,7 @@ const Actions = ({ handleSave, handleClear }) => {
   const i18n = useI18n();
 
   const showSave = handleSave && (
-    <DisableOffline>
+    <DisableOffline button>
       <Button onClick={handleSave} variant="outlined">
         {i18n.t("filters.save_filters")}
       </Button>
@@ -22,7 +22,7 @@ const Actions = ({ handleSave, handleClear }) => {
 
   return (
     <div className={css.actionButtons}>
-      <DisableOffline>
+      <DisableOffline button>
         <Button
           type="submit"
           variant="contained"
@@ -33,7 +33,7 @@ const Actions = ({ handleSave, handleClear }) => {
         </Button>
       </DisableOffline>
       {showSave}
-      <DisableOffline>
+      <DisableOffline button>
         <Button onClick={handleClear} variant="outlined">
           {i18n.t("filters.clear_filters")}
         </Button>

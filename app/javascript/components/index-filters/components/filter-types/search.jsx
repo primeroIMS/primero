@@ -63,7 +63,7 @@ const Search = ({ handleReset }) => {
   return (
     <div className={css.searchContainer}>
       <div className={css.searchInputContainer}>
-        <DisableOffline>
+        <DisableOffline button>
           <IconButton
             className={css.iconSearchButton}
             aria-label="menu"

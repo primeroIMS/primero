@@ -1,12 +1,14 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 import { fromJS } from "immutable";
 import { makeStyles } from "@material-ui/core/styles";
+import { push } from "connected-react-router";
 
 import { useI18n } from "../../../i18n";
-import { ROUTES } from "../../../../config";
+import { ROUTES, RECORD_PATH } from "../../../../config";
 import { PageHeading, PageContent } from "../../../page";
 import IndexTable from "../../../index-table";
 import { MANAGE, RESOURCES } from "../../../../libs/permissions";
@@ -19,11 +21,12 @@ import { columns } from "./utils";
 
 const Component = () => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const css = makeStyles(styles)();
 
   const newUserGroupBtn = (
     <Button
-      to={ROUTES.lookups}
+      to={ROUTES.lookups_new}
       component={Link}
       color="primary"
       startIcon={<AddIcon />}
@@ -32,9 +35,12 @@ const Component = () => {
     </Button>
   );
 
+  const onRowClick = data =>
+    dispatch(push(`${RECORD_PATH.lookups}/${data?.rowData[0]}`));
+
   const tableOptions = {
     recordType: ["admin", "lookups"],
-    columns: columns(i18n, css),
+    columns: columns(i18n, css, onRowClick),
     options: {
       selectableRows: "none"
     },
@@ -43,7 +49,8 @@ const Component = () => {
       page: 1
     }),
     onTableChange: fetchAdminLookups,
-    localizedFields: ["name", "values"]
+    localizedFields: ["name", "values"],
+    targetRecordType: "lookups"
   };
 
   return (

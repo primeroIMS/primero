@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import { CircularProgress, Fab } from "@material-ui/core";
 
-import { setupMountedComponent, stub } from "../../../test";
+import { setupMountedComponent } from "../../../test";
 import { RECORD_PATH, RECORD_TYPES, MODULES } from "../../../config";
 import { ACTIONS } from "../../../libs/permissions";
 import { PrimeroModuleRecord } from "../../application/records";
@@ -65,7 +65,7 @@ describe("<RecordFormToolbar />", () => {
     recordType: RECORD_TYPES[RECORD_PATH.cases],
     shortId: record.get("short_id"),
     primeroModule: MODULES.CP,
-    handleFormSubmit: stub()
+    handleFormSubmit: () => {}
   };
 
   const initialState = {

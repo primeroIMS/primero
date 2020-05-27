@@ -15,6 +15,9 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
   const defaultOption = { id: "", display_text: "" };
 
   const optionLabel = option => {
+    if (typeof option === "string" && option === "") {
+      return "";
+    }
     const { display_name: displayName, display_text: displayText } =
       typeof option === "object"
         ? option

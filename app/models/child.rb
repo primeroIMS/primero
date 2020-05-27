@@ -31,8 +31,8 @@ class Child < ApplicationRecord
   include UNHCRMapping
   include Ownable
   include AutoPopulatable
-  include Serviceable #TODO: refactor with nested
   include Workflow
+  include Serviceable #TODO: refactor with nested
   include Flaggable
   include Transitionable
   include Reopenable
@@ -61,7 +61,8 @@ class Child < ApplicationRecord
     :tent_number, :nfi_distribution_id,
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
-    :duplicate, :location_current, :tracing_status, :name_caregiver
+    :duplicate, :location_current, :tracing_status, :name_caregiver,
+    :urgent_protection_concern
 
   has_many :incidents
   belongs_to :matched_tracing_request, class_name: 'TracingRequest', optional: true
@@ -87,6 +88,13 @@ class Child < ApplicationRecord
     ]
   end
 
+  def self.alert_count_self(current_user_name)
+    records_owned_by = open_enabled_records.owned_by(current_user_name)
+    records_referred_users =
+      open_enabled_records.select { |record| record.referred_users.include?(current_user_name) }
+    (records_referred_users + records_owned_by).uniq.count
+  end
+
   searchable do
     extend Matchable::Searchable
     configure_searchable(Child)
@@ -107,6 +115,7 @@ class Child < ApplicationRecord
     string :sex, as: 'sex_sci'
     string :national_id_no, as: 'national_id_no_sci'
     string :protection_concerns, multiple: true
+    boolean :urgent_protection_concern, as: 'urgent_protection_concern_b'
 
 
     date :assessment_due_dates, multiple: true do

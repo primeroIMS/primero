@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     get '/', to: 'home#v2'
     get '*all', to: 'home#v2'
   end
-
+  
   devise_for(
     :users,
     class_name: 'User',
@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   )
 
   resources :login, only: [:index]
-  resources :health, only: [:index]
+  resources :health, only: %i[index show]
 
   namespace :api do
     namespace :v2, defaults: { format: :json },

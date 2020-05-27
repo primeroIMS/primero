@@ -368,6 +368,79 @@ describe("<RecordForm /> - Selectors", () => {
 
       expect(record).to.be.equal(List([]));
     });
+
+    it("should return form with visible false", () => {
+      const expected = R.FormSectionRecord({
+        id: 62,
+        unique_id: "invisible_form",
+        name: {
+          en: "Invisible Form",
+          fr: "",
+          ar: "",
+          "ar-LB": "",
+          so: "",
+          es: ""
+        },
+        visible: false,
+        is_first_tab: true,
+        order: 10,
+        order_form_group: 30,
+        parent_form: "case",
+        editable: true,
+        module_ids: ["primeromodule-cp"],
+        form_group_id: "invisible",
+        form_group_name: {
+          en: "Invisible",
+          fr: "",
+          ar: "",
+          "ar-LB": "",
+          so: "",
+          es: ""
+        },
+        fields: [
+          {
+            date_include_time: false,
+            date_validation: "default_date_validation",
+            disabled: null,
+            display_name: {
+              ar: "",
+              "ar-LB": "",
+              en: "First Name",
+              es: "",
+              fr: "",
+              so: ""
+            },
+            editable: true,
+            guiding_questions: "",
+            help_text: {},
+            hide_on_view_page: false,
+            multi_select: null,
+            name: "name_first",
+            option_strings_source: null,
+            option_strings_text: null,
+            required: true,
+            selected_value: "",
+            show_on_minify_form: false,
+            subform_section_id: null,
+            subform_sort_by: "",
+            type: "text_field",
+            visible: true
+          }
+        ],
+        is_nested: null
+      });
+      const forms = selectors.getRecordFormsByUniqueId(
+        stateWithInvisibleForms,
+        {
+          primeroModule: "primeromodule-cp",
+          recordType: "case",
+          formName: "invisible_form",
+          checkVisible: false
+        }
+      );
+
+      expect(forms.toJS()[0]).to.deep.equal(expected.toJS());
+    });
   });
 
   describe("getFormNav", () => {

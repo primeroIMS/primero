@@ -9,7 +9,7 @@ import Form, { whichFormMode, PARENT_FORM } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import { ROUTES } from "../../../../config";
-import { getSystemPermissions, selectModules } from "../../../application";
+import { getSystemPermissions } from "../../../application";
 import { fetchRoles, ADMIN_NAMESPACE } from "../roles-list";
 import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
@@ -29,7 +29,7 @@ import {
   fetchRole,
   saveRole
 } from "./action-creators";
-import { getRole } from "./selectors";
+import { getRole, getLoading } from "./selectors";
 import { NAME } from "./constants";
 
 const Container = ({ mode }) => {
@@ -40,7 +40,7 @@ const Container = ({ mode }) => {
   const { id } = useParams();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  const primeroModules = useSelector(state => selectModules(state), compare);
+  const loading = useSelector(state => getLoading(state));
   const roles = useSelector(
     state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]),
     compare
@@ -97,7 +97,6 @@ const Container = ({ mode }) => {
   const pageHeading = `${i18n.t("role.label")} ${role && role.get("name", "")}`;
 
   const formsToRender = getFormsToRender({
-    primeroModules,
     systemPermissions,
     roles,
     formSections: formsByParentForm,
@@ -134,6 +133,7 @@ const Container = ({ mode }) => {
   return (
     <LoadingIndicator
       hasData={formMode.get("isNew") || role?.size > 0}
+      loading={loading}
       type={NAMESPACE}
     >
       <PageHeading title={pageHeading}>

@@ -1,0 +1,53 @@
+.hideTranslationsFields {
+  display: none !important;
+}
+
+.showColor {
+  color: #9b9c9e;
+}
+
+.optionsLabel {
+  color: $(theme.primero.colors.black);
+  margin-left: 5px;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.header {
+  font-weight: bold;
+  text-tranform: uppercase;
+
+  & div:first-of-type {
+    border-right: none;
+  }
+}
+
+.row {
+  border-bottom: 1px solid $(theme.primero.colors.lightGrey);
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  text-transform: uppercase;
+
+  & div:not(:first-of-type) {
+    flex: 1;
+  }
+
+  & div {
+    padding: .2em;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.dragIndicatorContainer {
+  width: 3em;
+  justify-content: center;
+  margin-right: 1em;
+  border-right: 1px solid $(theme.primero.colors.lightGrey) !important;
+}
+
+.removeIcon {
+  color: $(theme.primero.colors.red);
+}
