@@ -94,7 +94,15 @@ class Primero::Application < Rails::Application
 
   config.beginning_of_week = :sunday
 
-  config.logger = Logger.new(config.paths['log'].first, 1, 50.megabytes)
+  config.log_level = :debug
+
+  if ENV["LOG_TO_STDOUT"].present?
+    STDOUT.sync = true
+    logger = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = Logger::Formatter.new
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
+  end
+  
   config.action_view.logger = nil
 
   config.exceptions_app = routes
