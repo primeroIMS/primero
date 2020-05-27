@@ -96,12 +96,7 @@ class Primero::Application < Rails::Application
 
   config.log_level = :debug
 
-  if ENV["LOG_TO_STDOUT"].present?
-    STDOUT.sync = true
-    logger = ActiveSupport::Logger.new(STDOUT)
-    logger.formatter = Logger::Formatter.new
-    config.logger = ActiveSupport::TaggedLogging.new(logger)
-  end
+  config.logger = Logger.new(config.paths['log'].first, 1, 50.megabytes)
   
   config.action_view.logger = nil
 
