@@ -1,0 +1,16 @@
+.filtersHeading {
+  color: #000000;
+  font-size: 1.1rem;
+  margin: .75em 0;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.row {
+  align-items: center;
+  margin: 0 2em;
+}
+
+.addFilter {
+  font-size: .8rem;
+}

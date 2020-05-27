@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
-import { FormAction, whichFormMode, submitHandler } from "../form";
+import { FormAction, whichFormMode } from "../form";
 import { fetchReport } from "../report/action-creators";
 import { getReport } from "../report/selectors";
 import { PageContainer, PageContent, PageHeading } from "../page";
@@ -23,7 +23,18 @@ import {
   getRecordFormsByUniqueId
 } from "../record-form/selectors";
 
-import { DESCRIPTION_FIELD, NAME, NAME_FIELD } from "./constants";
+import {
+  NAME,
+  NAME_FIELD,
+  DESCRIPTION_FIELD,
+  MODULES_FIELD,
+  RECORD_TYPE_FIELD,
+  AGGREGATE_BY_FIELD,
+  DISAGGREGATE_BY_FIELD,
+  GROUP_AGES_FIELD,
+  GROUP_DATES_BY_FIELD,
+  IS_GRAPH_FIELD
+} from "./constants";
 import NAMESPACE from "./namespace";
 import { form, validations } from "./form";
 import {
@@ -32,6 +43,7 @@ import {
   formatAgeRange,
   getFormName
 } from "./utils";
+import ReportFilters from "./components/filters";
 
 const Container = ({ mode }) => {
   const i18n = useI18n();
@@ -41,8 +53,7 @@ const Container = ({ mode }) => {
   const validationSchema = validations(i18n);
   const { id } = useParams();
   const methods = useForm({
-    validationSchema,
-    defaultValues: { name: { en: "holi" } }
+    validationSchema
   });
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
   const selectedModule = methods.watch("modules");
@@ -76,22 +87,50 @@ const Container = ({ mode }) => {
     }
   }, [id]);
 
+  const defaultFilters = [
+    { attribute: "status", constraint: "=", value: ["open"] },
+    { attribute: "record_state", constraint: "=", value: ["true"] }
+  ];
+
   useEffect(() => {
     if (report.size) {
-      methods.reset(report.toJS());
+      methods.register({ name: "filters" });
+
+      console.log("Registered values", methods.getValues());
+
+      // TODO: Should be returned by API
+      const valueFromSelector = {
+        name: {
+          en: "Registration CP"
+        },
+        description: {
+          en: "Case registrations over time"
+        },
+        modules: ["primeromodule-cp"],
+        record_type: "case",
+        aggregate_by: ["age"],
+        disaggregate_by: ["sex"],
+        filters: defaultFilters
+      };
+
+      methods.reset(valueFromSelector);
     }
   }, [report.size]);
 
-  useImperativeHandle(
-    formRef,
-    submitHandler({
-      dispatch,
-      formMethods: methods,
-      formMode,
-      i18n,
-      initialValues: {},
-      onSubmit: () => {}
-    })
+  const onSubmit = data => console.log("ON SUBMIT", data);
+
+  useImperativeHandle(formRef, () => ({
+    submitForm(e) {
+      methods.handleSubmit(data => {
+        onSubmit(data);
+      })(e);
+    }
+  }));
+
+  const fields = buildFields(
+    getFormName(selectedRecordType) ? reportableForm : recordTypesForms,
+    i18n.locale,
+    Boolean(getFormName(selectedRecordType))
   );
 
   const formSections = form(
@@ -99,17 +138,8 @@ const Container = ({ mode }) => {
     emptyModule,
     emptyModule || emptyRecordType,
     formatAgeRange(primeroAgeRanges),
-    buildFields(
-      getFormName(selectedRecordType) ? reportableForm : recordTypesForms,
-      i18n.locale,
-      Boolean(getFormName(selectedRecordType))
-    )
+    fields
   );
-
-  // const defaultFilters = [
-  //   { "value"=> ["open"], "attribute"=> "status" },
-  //   { "value"=> ["true"], "attribute"=> "record_state" }
-  // ];
 
   if (isModuleTouched && emptyModule) {
     const name = methods.getValues()[NAME_FIELD];
@@ -168,6 +198,13 @@ const Container = ({ mode }) => {
                   key={formSection.unique_id}
                 />
               ))}
+              <ReportFilters
+                defaultFilters={defaultFilters}
+                attributes={fields}
+                register={methods.register}
+                formMode={formMode}
+                methods={methods}
+              />
             </form>
           </FormContext>
         </PageContent>

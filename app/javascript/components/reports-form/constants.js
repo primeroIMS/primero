@@ -8,7 +8,6 @@ export const DISAGGREGATE_BY_FIELD = "disaggregate_by";
 export const GROUP_AGES_FIELD = "group_ages";
 export const GROUP_DATES_BY_FIELD = "group_dates_by";
 export const IS_GRAPH_FIELD = "is_graph";
-export const EMPTY_ROWS_FIELD = "empty_rows";
 export const REPORTABLE_TYPES = {
   case: "case",
   incident: "incident",

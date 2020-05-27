@@ -8,7 +8,6 @@ describe("<ReportsForm /> - Constants", () => {
       "AGGREGATE_BY_FIELD",
       "DESCRIPTION_FIELD",
       "DISAGGREGATE_BY_FIELD",
-      "EMPTY_ROWS_FIELD",
       "GROUP_AGES_FIELD",
       "GROUP_DATES_BY_FIELD",
       "IS_GRAPH_FIELD",
