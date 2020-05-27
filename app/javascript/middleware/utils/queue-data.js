@@ -7,7 +7,7 @@ import offlineDispatchSuccess from "./offline-dispatch-success";
 
 export default async (store, action) => {
   const { api, type } = action;
-  const touchedAction = withGeneratedProperties(action, store, db);
+  const touchedAction = withGeneratedProperties(action, store);
 
   await queueIndexedDB.add({ ...touchedAction, fromQueue: uuid.v4() });
 

@@ -74,7 +74,7 @@ describe("middleware/utils/generate-record-properties.js", () => {
 
       const results = generateRecordProperties(store, payload, true);
 
-      expect(results).to.deep.equal({});
+      expect(results).to.deep.equal({ id: "1234" });
     });
 
     it("generates missing record properties", () => {
