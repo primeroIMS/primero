@@ -34,7 +34,6 @@ describe("middleware/utils/generate-record-properties.js", () => {
         generateRecordProperties(
           store,
           { method: "POST", subform: true },
-          null,
           false
         )
       ).to.deep.equal({ unique_id: "dd3b8e93-0cce-415b-ad2b-d06bb454b66f" });
@@ -44,13 +43,7 @@ describe("middleware/utils/generate-record-properties.js", () => {
   describe("records", () => {
     it("generates full name if no name", () => {
       const payload = { body: { name_first: "Josh", name_last: "Anon" } };
-      const { name } = generateRecordProperties(
-        store,
-        payload,
-        null,
-        true,
-        false
-      );
+      const { name } = generateRecordProperties(store, payload, true);
 
       expect(name).to.equal("Josh Anon");
     });
@@ -63,20 +56,15 @@ describe("middleware/utils/generate-record-properties.js", () => {
           name: "James Tob"
         }
       };
-      const { name } = generateRecordProperties(
-        store,
-        payload,
-        null,
-        true,
-        true
-      );
+      const { name } = generateRecordProperties(store, payload, true);
 
       expect(name).to.deep.equal("James Tob");
     });
 
-    it("does not generate new id if present", () => {
+    it("returns existing id", () => {
       const payload = {
         id: "1234",
+        recordType: "testRecordType",
         body: {
           type: "testRecordType",
           owned_by: "aa",
@@ -84,12 +72,7 @@ describe("middleware/utils/generate-record-properties.js", () => {
         }
       };
 
-      const results = generateRecordProperties(
-        store,
-        payload,
-        "testRecordType",
-        true
-      );
+      const results = generateRecordProperties(store, payload, true);
 
       expect(results).to.deep.equal({});
     });
@@ -104,8 +87,7 @@ describe("middleware/utils/generate-record-properties.js", () => {
       };
       const results = generateRecordProperties(
         store,
-        { method: "POST" },
-        "testRecordType",
+        { method: "POST", recordType: "testRecordType" },
         true
       );
 
@@ -117,8 +99,7 @@ describe("middleware/utils/generate-record-properties.js", () => {
         // eslint-disable-next-line camelcase
         const { case_id_display } = generateRecordProperties(
           store,
-          { method: "POST", db: { recordType: "cases" } },
-          "testRecordType",
+          { method: "POST", recordType: "cases" },
           true
         );
 
