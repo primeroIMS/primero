@@ -106,7 +106,7 @@ class Role < ApplicationRecord
 
   def permitted_role_unique_ids
     role_permission = permissions.find { |permission| permission.resource == Permission::ROLE }
-    return [] if role_permission.blank?
+    return [] if role_permission.role_unique_ids.blank?
 
     role_permission.role_unique_ids
   end

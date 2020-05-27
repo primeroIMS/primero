@@ -2,6 +2,24 @@ require 'writeexcel'
 
 module Exporters
   class RolePermissionsExporter
+    CASE = %w[referral transfer read create write enable_disable_record flag manage add_note reopen close]
+    CASE_EXPORTS = %w[
+      export_list_view_csv export_csv export_xls export_photowall export_unhcr_csv consent_override
+      export_case_pdf export_duplicate_id_csv export_json export_custom import sync_mobile
+    ]
+    CASE_APPROVALS = %w[
+      request_approval_bia request_approval_case_plan request_approval_closure
+      approve_bia approve_case_plan approve_closure
+    ]
+    CASE_MANAGED_OTHER_USERS = %w[
+      search_owned_by_others display_view_page view_photo incident_from_case
+      incident_details_from_case service_provision_incident_details services_section_from_case
+    ]
+    CASE_ASSIGNMENT_REFERRALS_TRANSFERS = %w[
+      assign assign_within_agency assign_within_user_group remove_assigned_users
+      receive_transfer receive_referral request_transfer referral_from_service find_tracing_match
+    ]
+
     class << self
       def id
         'rolepermission'
@@ -51,8 +69,9 @@ module Exporters
       write_row(header, true)
       add_format(header.count)
       write_general_permissions
+      write_case_permission(permissions_all.first)
 
-      permissions_all.each do |permission_group|
+      permissions_all.drop(1).each do |permission_group|
         write_out_permissions_by_resource(permission_group)
       end
       @forms_by_record_type = FormSection.all_forms_grouped_by_parent
@@ -85,12 +104,23 @@ module Exporters
 
     end
 
-    def write_out_permissions_by_resource(permission_group)
+    def write_case_permission(permission)
+      case_permissions = [
+        Permission.new(resource: Permission::CASE, actions: permission.actions.select { |action| CASE.include?(action) }),
+        Permission.new(resource: 'case_exports', actions: permission.actions.select { |action| CASE_EXPORTS.include?(action) }),
+        Permission.new(resource: 'case_approvals', actions: permission.actions.select { |action| CASE_APPROVALS.include?(action) }),
+        Permission.new(resource: 'cases_managed_other_users', actions: permission.actions.select { |action| CASE_MANAGED_OTHER_USERS.include?(action) }),
+        Permission.new(resource: 'case_assignments_referrals_transfers', actions: permission.actions.select { |action| CASE_ASSIGNMENT_REFERRALS_TRANSFERS.include?(action) })
+      ]
+      case_permissions.each { |case_permission| write_out_permissions_by_resource(case_permission, Permission::CASE) }
+    end
+
+    def write_out_permissions_by_resource(permission_group, permission_resource = nil)
       resource_label = I18n.t("permissions.permission.#{permission_group.resource}", locale: @locale)
       write_row resource_label
       permission_group.actions.each do |action|
         permissions = @role_permissions_array.map do |p|
-          permission_entry = p[permission_group.resource]
+          permission_entry = permission_resource.nil? ? p[permission_group.resource] : p[permission_resource]
           has_action = (permission_entry && permission_entry['actions'] && (permission_entry['actions'].include? action))
           get_check has_action
         end
@@ -105,10 +135,7 @@ module Exporters
       write_row resource_label
       for i in (0..@roles.length-1)
         role = @roles[i]
-        managed_roles_array = @role_permissions_array.map do |p|
-          role_managed = p[:role_ids] && (p[:role_ids].include? role.id)
-          get_check role_managed
-        end
+        managed_roles_array = @role_permissions_array.map{ |p| '✔' if p.dig('role')&.dig('role_unique_ids')&.include? role.unique_id }
         role_row = ["", role.name] + managed_roles_array
         write_row role_row
       end
@@ -149,6 +176,5 @@ module Exporters
       @worksheet.set_column('B:B', 50, @workbook.add_format(text_wrap: 1))
       @worksheet.set_column(2, (col_count - 1), 32, @workbook.add_format(text_wrap: 1))
     end
-
   end
 end
