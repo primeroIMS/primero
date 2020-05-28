@@ -4,6 +4,7 @@ import { object, string } from "yup";
 import { Formik, Field, Form } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { TextField } from "formik-material-ui";
+import isEmpty from "lodash/isEmpty";
 
 import { RECORD_TYPES, USER_NAME_FIELD } from "../../../../config";
 import {
@@ -11,15 +12,24 @@ import {
   getErrorsByTransitionType
 } from "../selectors";
 import { saveAssignedUser, fetchAssignUsers } from "../action-creators";
+import { saveBulkAssignedUser } from "../../bulk-transtions/action-creators";
 import SearchableSelect from "../../../searchable-select";
 import { enqueueSnackbar } from "../../../notifier";
 import { useI18n } from "../../../i18n";
+import { applyFilters } from "../../../index-filters/action-creators";
+import { DEFAULT_FILTERS } from "../../../record-list/constants";
 
 import { REASSIGN_FORM_NAME } from "./constants";
 
 const initialValues = { transitioned_to: "", notes: "" };
 
-const ReassignForm = ({ record, recordType, setPending, assignRef }) => {
+const ReassignForm = ({
+  record,
+  recordType,
+  setPending,
+  assignRef,
+  selectedIds
+}) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const transitionType = "reassign";
@@ -92,15 +102,29 @@ const ReassignForm = ({ record, recordType, setPending, assignRef }) => {
   };
 
   const handleAssign = (values, { setSubmitting }) => {
+    const data = isEmpty(selectedIds)
+      ? values
+      : { ...values, ids: selectedIds };
+
     setPending(true);
-    dispatch(
-      saveAssignedUser(
-        record.get("id"),
-        { data: values },
-        i18n.t("reassign.successfully")
-      )
-    );
+    if (record) {
+      dispatch(
+        saveAssignedUser(
+          record.get("id"),
+          { data },
+          i18n.t("reassign.successfully")
+        )
+      );
+    } else {
+      dispatch(saveBulkAssignedUser(recordType, selectedIds, { data }));
+    }
     setSubmitting(false);
+    dispatch(
+      applyFilters({
+        recordType,
+        data: DEFAULT_FILTERS
+      })
+    );
   };
 
   const formProps = {
@@ -155,6 +179,7 @@ ReassignForm.propTypes = {
   formik: PropTypes.object,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  selectedIds: PropTypes.array,
   setPending: PropTypes.func
 };
 

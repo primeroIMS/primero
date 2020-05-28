@@ -3,6 +3,8 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import ActionDialog from "../../../action-dialog";
+import { useI18n } from "../../../i18n";
+import { RECORD_TYPES } from "../../../../config";
 
 const TransitionDialog = ({
   onClose,
@@ -15,36 +17,36 @@ const TransitionDialog = ({
   recordType,
   successHandler,
   transitionType,
-  enabledSuccessButton
+  enabledSuccessButton,
+  selectedIds
 }) => {
-  const recordName = {
-    cases: "Case",
-    tracing_requests: "Tracing request",
-    incidents: "Incident"
-  };
+  const i18n = useI18n();
 
   const title = (type => {
-    if (record) {
-      const {
-        case_id_display: caseId,
-        incident_code: incidentId
-      } = record.toJS();
-      const recordWithId = `${recordName[recordType]} ${caseId || incidentId}`;
+    const recordSelected = record ? record.toJS() : {};
+    const {
+      case_id_display: caseId,
+      incident_code: incidentId
+    } = recordSelected;
+    const recordId = caseId || incidentId || "";
 
-      switch (type) {
-        case "referral":
-          return `Referral ${recordWithId}`;
-        case "reassign":
-          return `Assign ${recordWithId}`;
-        case "transfer":
-          return `Transfer ${recordWithId}`;
-        default:
-          return null;
-      }
-    }
+    const recordTypeLabel =
+      selectedIds && selectedIds.length
+        ? i18n.t(`${recordType}.label`)
+        : i18n.t(`forms.record_types.${RECORD_TYPES[recordType]}`);
+    const recordWithId = `${recordTypeLabel} ${recordId}`;
 
-    return "";
+    const typeLabel = i18n.t(`transition.type.${type}`);
+
+    return `${typeLabel} ${recordWithId}`;
   })(transitionType);
+
+  const dialogSubHeader =
+    selectedIds && selectedIds.length
+      ? i18n.t(`${recordType}.selected_records`, {
+          select_records: selectedIds.length
+        })
+      : null;
 
   const dialogProps = {
     maxWidth: "sm",
@@ -56,7 +58,8 @@ const TransitionDialog = ({
     successHandler,
     dialogTitle: title,
     cancelHandler: onClose,
-    enabledSuccessButton
+    enabledSuccessButton,
+    dialogSubHeader
   };
 
   return <ActionDialog {...dialogProps}>{children}</ActionDialog>;
@@ -72,6 +75,7 @@ TransitionDialog.propTypes = {
   pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
+  selectedIds: PropTypes.array,
   successHandler: PropTypes.func.isRequired,
   transitionType: PropTypes.string
 };
