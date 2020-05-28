@@ -1,18 +1,18 @@
 export const NAME = "FieldDialog";
 export const ADMIN_FIELDS_DIALOG = "admin_fields_dialog";
-export const DATE_FIELD_CUSTOM_VALUES = {
-  date_validation: {
+export const DATE_FIELD_CUSTOM_VALUES = Object.freeze({
+  date_validation: Object.freeze({
     not_future_date: true,
     default_date_validation: false
-  },
-  selected_value: {
-    withTime: {
+  }),
+  selected_value: Object.freeze({
+    withTime: Object.freeze({
       now: true,
       "": false
-    },
-    withoutTime: {
+    }),
+    withoutTime: Object.freeze({
       today: true,
       f: false
-    }
-  }
-};
+    })
+  })
+});

@@ -32,13 +32,9 @@ const getSelectedDateValue = (field, isSubmit) => {
       : selectedValue.withoutTime[field.selected_value];
   }
 
-  return field.date_include_time
-    ? Object.entries(selectedValue.withTime).find(
-        obj => obj[1] === field.selected_value
-      )[0]
-    : Object.entries(selectedValue.withoutTime).find(
-        obj => obj[1] === field.selected_value
-      )[0];
+  return Object.entries(
+    field.date_include_time ? selectedValue.withTime : selectedValue.withoutTime
+  ).find(obj => obj[1] === field.selected_value)[0];
 };
 
 export const getFormField = (field, i18n, css) => {
