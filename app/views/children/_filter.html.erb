@@ -40,8 +40,8 @@
         <%
           approval_filters =  []
           approval_filters << {:approval_status_bia => {:id => "#{status}_bia", :label => t("approvals.bia"), :value => status}} if filters_to_show.include? 'cp_bia_form'
-          approval_filters << {:approval_status_case_plan => {:id => "#{status}_case_plan", :label => t("approvals.case_plan"), :value => status}} if filters_to_show.include? 'cp_case_plan'
-          approval_filters << {:approval_status_closure => {:id => "#{status}_closure", :label => t("approvals.closure"), :value => status}} if filters_to_show.include? 'closure_form'
+          approval_filters << {:approval_status_case_plan => {:id => "#{status}_case_plan", :label => t("approvals.case_plan"), :value => status}} if (filters_to_show & ['cp_case_plan', 'action_plan_form']).present?
+          approval_filters << {:approval_status_closure => {:id => "#{status}_closure", :label => t("approvals.closure"), :value => status}} if (filters_to_show & ['closure_form', 'gbv_case_closure_form']).present?
         %>
         <%= build_filter_checkboxes_group(t("cases.filter_by.approvals.#{status}"), approval_filters, "approval_status") %>
       <% end %>

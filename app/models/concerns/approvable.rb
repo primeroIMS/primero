@@ -15,4 +15,8 @@ module Approvable
     #TODO: When you do this, you can remove the FormSection setup in the Request Approval Mailer specs in children_controller_spec
     # property :approval_subforms, [], default: []
   end
+
+  def self.approval_forms
+    ['cp_case_plan', 'closure_form', 'cp_bia_form', 'action_plan_form', 'gbv_case_closure_form']
+  end
 end
