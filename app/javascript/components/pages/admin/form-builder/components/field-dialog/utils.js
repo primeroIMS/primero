@@ -7,7 +7,6 @@ import {
 
 import { separatorFieldForm, textFieldForm } from "./forms";
 
-/* eslint-disable import/prefer-default-export */
 export const getFormField = (field, i18n) => {
   const type = field.get("type");
   const name = field.get("name");
@@ -23,3 +22,10 @@ export const getFormField = (field, i18n) => {
       return textFieldForm(name, i18n);
   }
 };
+
+export const toggleHideOnViewPage = (fieldName, fieldData) => ({
+  [fieldName]: {
+    ...fieldData,
+    hide_on_view_page: !fieldData.hide_on_view_page
+  }
+});

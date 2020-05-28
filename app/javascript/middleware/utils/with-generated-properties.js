@@ -2,17 +2,12 @@ import { DB_STORES } from "../../db/constants";
 
 import generateRecordProperties from "./generate-record-properties";
 
-export default (action, store, db) => {
+export default (action, store) => {
   const { api } = action;
-  const { recordType, collection } = db;
+  const { collection } = api?.db || {};
   const isRecord = collection === DB_STORES.RECORDS;
 
-  const generatedProperties = generateRecordProperties(
-    store,
-    api,
-    recordType,
-    isRecord
-  );
+  const generatedProperties = generateRecordProperties(store, api, isRecord);
 
   return {
     ...action,
