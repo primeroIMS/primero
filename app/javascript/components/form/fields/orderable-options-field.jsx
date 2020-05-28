@@ -50,7 +50,7 @@ const OrderableOptionsField = ({
 
   useEffect(() => {
     fieldOptions.forEach((option, index) => {
-      register({ name: `${fieldName}.option_strings_text.en[${index}].id` });
+      register(`${fieldName}.option_strings_text.en[${index}].id`);
       setValue(`${fieldName}.option_strings_text.en[${index}].id`, option.id);
     });
 
@@ -81,10 +81,14 @@ const OrderableOptionsField = ({
 
     fieldOptions.forEach((option, index) => {
       if (!control.fields[`${fieldName}.option_strings_text.en[${index}].id`]) {
-        register({ name: `${fieldName}.option_strings_text.en[${index}].id` });
+        register(`${fieldName}.option_strings_text.en[${index}].id`);
       }
       setValue(`${fieldName}.option_strings_text.en[${index}].id`, option.id);
     });
+
+    unregister(`${fieldName}.selected_value`);
+    register(`${fieldName}.selected_value`);
+    setValue(`${fieldName}.selected_value`, watchSelectedValue);
   }, [fieldOptions]);
 
   const handleDisplayTextChange = (event, index) => {
