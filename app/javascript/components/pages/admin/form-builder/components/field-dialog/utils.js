@@ -1,4 +1,4 @@
-import { SELECT_FIELD, TICK_FIELD } from "../../../../../form";
+import { RADIO_FIELD, SELECT_FIELD, TICK_FIELD } from "../../../../../form";
 
 import { textFieldForm, tickboxFieldForm, selectFieldForm } from "./forms";
 
@@ -6,6 +6,7 @@ export const getFormField = ({ field, i18n, mode }) => {
   const type = field.get("type");
 
   switch (type) {
+    case RADIO_FIELD:
     case SELECT_FIELD:
       return selectFieldForm({ field, i18n, mode });
     case TICK_FIELD:
