@@ -41,7 +41,9 @@ create_or_update_system_setting(
   approval_forms_to_alert: {
     "cp_bia_form" => "bia",
     "cp_case_plan" => "case_plan",
-    "closure_form" => "closure"
+    "closure_form" => "closure",
+    "action_plan_form" => "case_plan_gbv",
+    "gbv_case_closure_form" => "closure_gbv"
   },
   due_date_from_appointment_date: false,
   notification_email_enabled: true,

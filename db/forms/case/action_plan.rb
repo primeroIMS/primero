@@ -263,7 +263,7 @@ action_plan_subform_section = FormSection.create_or_update_form_section({
 })
 
 action_plan_fields = [
-  Field.new({"name" => "case_plan_approval_type_gbv",
+  Field.new({"name" => "case_plan_approval_type",
             "type" => "select_box",
             "editable" => false,
             "disabled" => true,
@@ -271,26 +271,26 @@ action_plan_fields = [
             "option_strings_source" => "lookup lookup-approval-type",
             "help_text_en"=> "Case Plan, Action Plan, Service Provision"
           }),
-  Field.new({"name" => "case_plan_approved_gbv",
+  Field.new({"name" => "case_plan_approved",
              "type" => "tick_box",
              "editable" => false,
              "disabled" => true,
              "tick_box_label_en" => "Yes",
              "display_name_en" => "Approved by Manager"
             }),
-  Field.new({"name" => "case_plan_approved_date_gbv",
+  Field.new({"name" => "case_plan_approved_date",
              "type" => "date_field",
              "editable" => false,
              "disabled" => true,
              "display_name_en" => "Date"
             }),
-  Field.new({"name" => "case_plan_approved_comments_gbv",
+  Field.new({"name" => "case_plan_approved_comments",
              "type" => "textarea",
              "editable" => false,
              "disabled" => true,
              "display_name_en" => "Manager Comments"
             }),
-  Field.new({"name" => "approval_status_case_plan_gbv",
+  Field.new({"name" => "approval_status_case_plan",
              "type" => "select_box",
              "editable" => false,
              "disabled" => true,
