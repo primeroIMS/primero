@@ -4,10 +4,12 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms - index",
   const indexValues = { ...index };
 
   it("should have known properties", () => {
-    ["textFieldForm", "separatorFieldForm"].forEach(property => {
-      expect(indexValues).to.have.property(property);
-      delete indexValues[property];
-    });
+    ["textFieldForm", "separatorFieldForm", "tickboxFieldForm"].forEach(
+      property => {
+        expect(indexValues).to.have.property(property);
+        delete indexValues[property];
+      }
+    );
     expect(indexValues).to.be.empty;
   });
 });

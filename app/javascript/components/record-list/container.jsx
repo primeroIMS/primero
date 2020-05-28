@@ -21,6 +21,12 @@ import {
 import Permission from "../application/permission";
 import { useThemeHelper } from "../../libs";
 import { applyFilters } from "../index-filters/action-creators";
+import {
+  getNumberErrorsBulkAssign,
+  getNumberBulkAssign
+} from "../record-actions/bulk-transtions/selectors";
+import { removeBulkAssignMessages } from "../record-actions/bulk-transtions";
+import { enqueueSnackbar } from "../notifier";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
 import FilterContainer from "./filter-container";
@@ -82,6 +88,35 @@ const Container = ({ match, location }) => {
       })
     );
   }, []);
+
+  const numberErrorsBulkAssign = useSelector(state =>
+    getNumberErrorsBulkAssign(state, recordType)
+  );
+
+  const numberRecordsBulkAssign = useSelector(state =>
+    getNumberBulkAssign(state, recordType)
+  );
+
+  useEffect(() => {
+    const errorMessages = i18n.t("reassign.multiple_error", {
+      select_records: numberErrorsBulkAssign
+    });
+
+    const successMessages = i18n.t("reassign.multiple_successfully", {
+      select_records: numberRecordsBulkAssign
+    });
+
+    if (numberErrorsBulkAssign) {
+      dispatch(enqueueSnackbar(errorMessages, "error"));
+    }
+    if (numberRecordsBulkAssign) {
+      dispatch(enqueueSnackbar(successMessages, "success"));
+    }
+
+    return () => {
+      dispatch(removeBulkAssignMessages(recordType));
+    };
+  }, [numberErrorsBulkAssign, numberRecordsBulkAssign]);
 
   const canSearchOthers =
     permissions.includes(ACTIONS.MANAGE) ||

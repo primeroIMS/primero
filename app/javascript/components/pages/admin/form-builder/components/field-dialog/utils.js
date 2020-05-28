@@ -2,10 +2,11 @@ import {
   TEXT_AREA,
   TEXT_FIELD,
   NUMERIC_FIELD,
+  TICK_FIELD,
   SEPARATOR
 } from "../../../../../form";
 
-import { separatorFieldForm, textFieldForm } from "./forms";
+import { separatorFieldForm, textFieldForm, tickboxFieldForm } from "./forms";
 
 export const getFormField = (field, i18n) => {
   const type = field.get("type");
@@ -18,10 +19,20 @@ export const getFormField = (field, i18n) => {
       return textFieldForm(name, i18n);
     case SEPARATOR:
       return separatorFieldForm(name, i18n);
+    case TICK_FIELD:
+      return tickboxFieldForm(name, i18n);
     default:
       return textFieldForm(name, i18n);
   }
 };
+
+export const addWithIndex = (arr, index, newItem) => [
+  ...arr.slice(0, index),
+
+  newItem,
+
+  ...arr.slice(index)
+];
 
 export const toggleHideOnViewPage = (fieldName, fieldData) => ({
   [fieldName]: {

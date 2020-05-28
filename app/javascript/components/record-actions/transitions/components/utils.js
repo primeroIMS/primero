@@ -30,8 +30,12 @@ export const hasProvidedConsent = record => {
   );
 };
 
-export const generatePath = (constant, recordId) => {
+export const generatePath = (constant, recordId, recordsIds) => {
   const [recordType, transitionType] = constant.split("/");
+
+  if (!isEmpty(recordsIds)) {
+    return constant;
+  }
 
   return [recordType, recordId, transitionType].join("/");
 };
