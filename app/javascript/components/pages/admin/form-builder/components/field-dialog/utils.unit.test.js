@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { TEXT_FIELD } from "../../../../../form";
+import { TEXT_FIELD, SEPARATOR } from "../../../../../form";
 
 import * as utils from "./utils";
 
@@ -37,6 +37,19 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog /> - index", () =>
           hide_on_view_page: true
         })
       ).to.deep.equal(expected);
+    });
+
+    it("should return the form sections for SEPARATOR type", () => {
+      const i18n = { t: value => value };
+      const formSections = utils.getFormField(
+        fromJS({
+          type: SEPARATOR,
+          name: "test"
+        }),
+        i18n
+      );
+
+      expect(formSections.forms.size).to.be.equal(2);
     });
   });
 });

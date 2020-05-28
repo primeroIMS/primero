@@ -18,6 +18,7 @@ describe("<Form /> - Constants", () => {
       "PHOTO_FIELD",
       "RADIO_FIELD",
       "SELECT_FIELD",
+      "SEPARATOR",
       "TEXT_AREA",
       "TEXT_FIELD",
       "TICK_FIELD",
