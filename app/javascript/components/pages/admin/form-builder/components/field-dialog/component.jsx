@@ -16,7 +16,7 @@ import { getSelectedField } from "../../selectors";
 import { updateSelectedField } from "../../action-creators";
 
 import styles from "./styles.css";
-import { getFormField } from "./utils";
+import { getFormField, toggleHideOnViewPage } from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 
 const Component = ({ mode, onClose, onSuccess }) => {
@@ -66,9 +66,15 @@ const Component = ({ mode, onClose, onSuccess }) => {
   };
 
   const onSubmit = data => {
+    const fieldName = selectedField.get("name");
+    const fieldData =
+      data[fieldName].hide_on_view_page !== undefined
+        ? toggleHideOnViewPage(fieldName, data[fieldName])
+        : data;
+
     batch(() => {
-      onSuccess(data);
-      dispatch(updateSelectedField(data));
+      onSuccess(fieldData);
+      dispatch(updateSelectedField(fieldData));
       handleClose();
     });
   };
@@ -80,9 +86,9 @@ const Component = ({ mode, onClose, onSuccess }) => {
 
   useEffect(() => {
     if (selectedField?.size) {
-      const fieldName = selectedField.get("name");
-
-      formMethods.reset({ [fieldName]: selectedField.toJS() });
+      formMethods.reset(
+        toggleHideOnViewPage(selectedField.get("name"), selectedField.toJS())
+      );
     }
   }, [selectedField]);
 
