@@ -78,7 +78,10 @@ const Component = () => {
   }, []);
 
   const handleDragEnd = result => {
-    if (result.destination) {
+    if (
+      result.destination &&
+      result.destination.droppableId === result.source.droppableId
+    ) {
       const order = result.destination.index * 10;
 
       if (result.type === ORDER_TYPE.formSection) {

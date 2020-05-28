@@ -30,3 +30,10 @@ export const addWithIndex = (arr, index, newItem) => [
 
   ...arr.slice(index)
 ];
+
+export const toggleHideOnViewPage = (fieldName, fieldData) => ({
+  [fieldName]: {
+    ...fieldData,
+    hide_on_view_page: !fieldData.hide_on_view_page
+  }
+});
