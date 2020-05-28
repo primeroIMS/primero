@@ -1,14 +1,6 @@
 import { fromJS, Map } from "immutable";
 
-const OPTION_TYPES = {
-  AGENCY: "Agency",
-  LOCATION: "Location",
-  MODULE: "Module",
-  FORM_GROUP: "FormGroup",
-  LOOKUPS: "Lookups"
-};
-
-const CUSTOM_LOOKUPS = ["User", "Agency", "Location"];
+import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 
 const formGroups = (state, i18n) =>
   state
