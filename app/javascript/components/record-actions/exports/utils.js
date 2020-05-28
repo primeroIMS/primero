@@ -128,6 +128,7 @@ export const buildFields = (data, locale, individualFields) => {
         )
         .map(field => {
           if (field.type === SUBFORM_SECTION && !individualFields) {
+            // console.log("SUBFROM", field);
             const subFormSectionFields = field.subform_section_id.fields
               .filter(subformField => subformField.visible)
               .map(subformField => {
