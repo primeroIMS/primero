@@ -34,7 +34,7 @@ export const selectFieldForm = ({ field, i18n, mode }) => {
     );
 
     extraValidations = {
-      selected_value: string(),
+      selected_value: string().nullable(),
       option_strings_text: object().shape({
         en: array().of(
           object().shape({
@@ -67,7 +67,7 @@ export const selectFieldForm = ({ field, i18n, mode }) => {
 
     extraValidations = {
       option_strings_source: string().required(),
-      selected_value: string()
+      selected_value: string().nullable()
     };
   }
 

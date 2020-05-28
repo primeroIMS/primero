@@ -9,13 +9,13 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog /> - index", () =>
     const i18n = { t: value => value };
 
     it("should return the form sections", () => {
-      const formSections = utils.getFormField(
-        fromJS({
+      const formSections = utils.getFormField({
+        field: fromJS({
           type: TEXT_FIELD,
           name: "owned_by"
         }),
         i18n
-      );
+      });
 
       expect(formSections.forms.size).to.be.equal(2);
     });

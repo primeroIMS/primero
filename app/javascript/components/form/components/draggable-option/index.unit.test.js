@@ -1,10 +1,10 @@
 import * as index from "./index";
 
-describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms - index", () => {
+describe("<Form />/components/<DraggableOption /> - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
-    ["selectFieldForm", "textFieldForm"].forEach(property => {
+    ["default"].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });

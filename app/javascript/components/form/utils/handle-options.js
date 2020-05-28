@@ -1,5 +1,4 @@
-export const generateIdForNewOption = () =>
-  `new_option_${new Date().getTime()}`;
+export const generateIdForNewOption = () => `new_option_${Date.now()}`;
 
 export const generateIdFromDisplayText = displayText =>
   displayText.toLowerCase().replace(/\s/g, "_");
