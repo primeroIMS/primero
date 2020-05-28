@@ -97,4 +97,38 @@ describe("<ReassignForm />", () => {
     });
     expect(reactSelectProps).to.be.empty;
   });
+
+  describe(" when component is mounted ", () => {
+    const propsComponent = {
+      assignRef: {},
+      record,
+      recordType: "cases",
+      selectedIds: [],
+      setPending: () => {}
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        ReassignForm,
+        propsComponent,
+        initialState
+      ));
+    });
+    it("should accept valid props", () => {
+      const reassignFormProps = { ...component.find(ReassignForm).props() };
+
+      expect(component.find(ReassignForm)).to.have.lengthOf(1);
+      [
+        "assignRef",
+        "record",
+        "recordType",
+        "selectedIds",
+        "setPending"
+      ].forEach(property => {
+        expect(reassignFormProps).to.have.property(property);
+        delete reassignFormProps[property];
+      });
+      expect(reassignFormProps).to.be.empty;
+    });
+  });
 });
