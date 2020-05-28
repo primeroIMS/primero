@@ -12,6 +12,7 @@ import { reducer as loginFormReducer } from "./components/pages/login/login-form
 import { reducer as loginReducer } from "./components/pages/login";
 import { reducer as recordActionsReducer } from "./components/record-actions";
 import { reducer as requestApprovalReducer } from "./components/record-actions/request-approval";
+import { reducer as bulkTranstionsReducer } from "./components/record-actions/bulk-transtions";
 import { reducer as potentialMatchesReducer } from "./components/pages/potential-matches";
 import { reducer as reportReducer } from "./components/pages/report";
 import { reducer as reportsListReducer } from "./components/pages/reports-list";
@@ -54,7 +55,8 @@ const rootReducer = {
           o[i] = reduceReducers(
             recordsReducer(i),
             indexFiltersReducer(i),
-            requestApprovalReducer(i)
+            requestApprovalReducer(i),
+            bulkTranstionsReducer(i)
           );
 
           return o;
