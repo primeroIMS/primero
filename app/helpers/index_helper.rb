@@ -363,11 +363,13 @@ module IndexHelper
     filters << "Social Worker" if @is_manager
     filters << "My Cases"
     filters << "Workflow" if display_workflow_filter
-    filters << "Approvals" if @can_approvals && (allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) })
+    filters << "Approvals" if @can_approvals && (allowed_form_ids.any?{|fs_id| Approvable::approval_forms.include?(fs_id) })
     #Check independently the checkboxes on the view.
     filters << "cp_bia_form" if allowed_form_ids.include?("cp_bia_form") && @can_approval_bia
     filters << "cp_case_plan" if allowed_form_ids.include?("cp_case_plan") && @can_approval_case_plan
     filters << "closure_form" if allowed_form_ids.include?("closure_form") && @can_approval_closure
+    filters << "action_plan_form" if allowed_form_ids.include?("action_plan_form") && @can_approval_case_plan
+    filters << "gbv_case_closure_form" if allowed_form_ids.include?("gbv_case_closure_form") && @can_approval_closure
 
     filters << "Agency" if @is_admin || @is_manager
     filters << "Status"
