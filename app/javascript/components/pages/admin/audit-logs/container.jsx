@@ -98,8 +98,7 @@ const Container = () => {
       selectableRows: "none",
       onCellClick: false
     },
-    recordType: ["admin", AUDIT_LOG],
-    bypassInitialFetch: true
+    recordType: ["admin", AUDIT_LOG]
   };
 
   return (

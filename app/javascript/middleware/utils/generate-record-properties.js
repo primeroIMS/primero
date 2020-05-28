@@ -12,13 +12,14 @@ const generateName = (body = {}) => {
   return nameFirst || nameLast ? { name: `${nameFirst} ${nameLast}` } : {};
 };
 
-export default (store, api, recordType, isRecord) => {
-  const { subform = false, id, db, body, method } = api;
+export default (store, api, isRecord) => {
+  const { subform = false, id, body, method, recordType } = api;
   const username = store.getState().getIn(["user", "username"], "false");
   const generatedID = uuid.v4();
   const shortID = generatedID.substr(generatedID.length - 7);
 
   return {
+    ...(isRecord && { id }),
     ...(method === METHODS.POST && {
       // eslint-disable-next-line camelcase
       ...(subform && !body?.unique_id && { unique_id: generatedID }),
@@ -26,7 +27,7 @@ export default (store, api, recordType, isRecord) => {
         isRecord && {
           id: generatedID,
           short_id: shortID,
-          ...(db?.recordType === RECORD_PATH.cases && {
+          ...(recordType === RECORD_PATH.cases && {
             case_id_display: shortID
           })
         }),

@@ -14,7 +14,7 @@ describe("middleware/utils/with-generated-properties.js", () => {
       test: "hello"
     });
 
-    expect(withGeneratedProperties(action, null, {})).to.deep.equal(expected);
+    expect(withGeneratedProperties(action, null)).to.deep.equal(expected);
 
     generateRecordPropertiesStub.restore();
   });

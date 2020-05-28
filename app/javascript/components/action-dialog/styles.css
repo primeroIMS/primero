@@ -20,3 +20,18 @@
     font-weight: bold;
   }
 }
+
+.actionButtonCancel {
+  background: $(theme.primero.colors.grey);
+  color: $(theme.primero.colors.white);
+  margin: 0 .5em;
+
+  &:hover {
+    color: $(theme.primero.colors.black);
+  }
+}
+
+.subHeader {
+  font-size: 0.8rem;
+  margin-left: 1.5rem;
+}

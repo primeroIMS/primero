@@ -1,12 +1,12 @@
-/* eslint-disable import/prefer-default-export */
 import {
   DATE_FIELD,
   TEXT_AREA,
   TEXT_FIELD,
-  NUMERIC_FIELD
+  NUMERIC_FIELD,
+  TICK_FIELD
 } from "../../../../../form";
 
-import { dateFieldForm, textFieldForm } from "./forms";
+import { dateFieldForm, textFieldForm, tickboxFieldForm } from "./forms";
 import { DATE_FIELD_CUSTOM_VALUES } from "./constants";
 
 const getDateValidation = (field, isSubmit) => {
@@ -52,6 +52,8 @@ export const getFormField = (field, i18n, css) => {
       return textFieldForm(name, i18n);
     case DATE_FIELD:
       return dateFieldForm(field, i18n, css);
+    case TICK_FIELD:
+      return tickboxFieldForm(name, i18n);
     default:
       return textFieldForm(name, i18n);
   }
@@ -75,3 +77,10 @@ export const transformValues = (field, isSubmit = false) => {
       return { ...field };
   }
 };
+
+export const toggleHideOnViewPage = (fieldName, fieldData) => ({
+  [fieldName]: {
+    ...fieldData,
+    hide_on_view_page: !fieldData.hide_on_view_page
+  }
+});
