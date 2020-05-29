@@ -16,7 +16,7 @@ import { getSelectedField } from "../../selectors";
 import { updateSelectedField } from "../../action-creators";
 
 import styles from "./styles.css";
-import { getFormField, toggleHideOnViewPage } from "./utils";
+import { getFormField, transformValues, toggleHideOnViewPage } from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 
 const Component = ({ mode, onClose, onSuccess }) => {
@@ -32,8 +32,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
   const { forms: fieldsForm, validationSchema } = getFormField({
     field: selectedField,
     i18n,
-    mode: formMode
+    mode: formMode,
+    css
   });
+
   const formMethods = useForm({ validationSchema });
 
   const handleClose = () => {
@@ -87,7 +89,10 @@ const Component = ({ mode, onClose, onSuccess }) => {
   useEffect(() => {
     if (selectedField?.size) {
       formMethods.reset(
-        toggleHideOnViewPage(selectedField.get("name"), selectedField.toJS())
+        toggleHideOnViewPage(
+          selectedField.get("name"),
+          transformValues(selectedField.toJS())
+        )
       );
     }
   }, [selectedField]);

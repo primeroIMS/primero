@@ -8,6 +8,7 @@ describe("<Form /> - Constants", () => {
     [
       "CHECK_BOX_FIELD",
       "CUSTOM_LOOKUPS",
+      "DATE_FIELD",
       "ERROR_FIELD",
       "FORM_MODE_DIALOG",
       "FORM_MODE_EDIT",
@@ -21,6 +22,7 @@ describe("<Form /> - Constants", () => {
       "PHOTO_FIELD",
       "RADIO_FIELD",
       "SELECT_FIELD",
+      "SEPARATOR",
       "TEXT_AREA",
       "TEXT_FIELD",
       "TICK_FIELD",

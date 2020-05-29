@@ -52,7 +52,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     disabled,
     inputClassname,
     groupBy,
-    selected_value: selectedValue
+    selected_value: selectedValue,
+    visible
   } = field;
   const i18n = useI18n();
   const { formMode, errors, watch } = useFormContext();
@@ -72,6 +73,10 @@ const FormSectionField = ({ checkErrors, field }) => {
       ),
     (prev, next) => prev.equals(next)
   );
+
+  if (typeof visible === "boolean" && !visible) {
+    return null;
+  }
 
   const watchedInputsValues = watchedInputs ? watch(watchedInputs) : null;
   const watchedInputProps = handleWatchedInputs
