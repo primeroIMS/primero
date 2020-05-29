@@ -1763,6 +1763,7 @@ en:
       year: "Year"
     filters:
       label: "Report filters"
+      label_new: "New report filter"
       attribute: "Filter"
       value: "With"
       not_null: "Form value is not blank"
@@ -1778,6 +1779,9 @@ en:
     edit: "Edit"
     empty_rows: "Do not display empty rows?"
     empty_rows_help_text: "Excludes rows from the report table if all values are zero"
+    attribute: "Attribute"
+    constraint: "Constraint"
+    value: "Value"
 
   encrypt:
     password_title: "Create Password"

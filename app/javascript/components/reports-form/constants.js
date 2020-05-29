@@ -17,3 +17,9 @@ export const REPORTABLE_TYPES = {
   reportable_service: "services",
   reportable_follow_up: "followup"
 };
+export const CONSTRAINTS = Object.freeze({
+  "<": "Less Than",
+  ">": "Greater Than",
+  "=": "Equal To",
+  not_null: "Not Blank"
+});

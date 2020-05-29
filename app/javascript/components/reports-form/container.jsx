@@ -89,14 +89,12 @@ const Container = ({ mode }) => {
 
   const defaultFilters = [
     { attribute: "status", constraint: "=", value: ["open"] },
-    { attribute: "record_state", constraint: "=", value: ["true"] }
+    { attribute: "age", constraint: "not_null", value: ["male"] }
   ];
 
   useEffect(() => {
     if (report.size) {
       methods.register({ name: "filters" });
-
-      console.log("Registered values", methods.getValues());
 
       // TODO: Should be returned by API
       const valueFromSelector = {
@@ -113,9 +111,22 @@ const Container = ({ mode }) => {
         filters: defaultFilters
       };
 
+      console.log("RESET");
       methods.reset(valueFromSelector);
     }
-  }, [report.size]);
+  }, [report]);
+
+  const onSuccess = data => {
+    console.log("onSuccess data", data);
+    // Object.entries(data).forEach(entry =>
+    //   Object.entries(entry[1]).forEach(valueEntry => {
+    //     if (!methods.control[`fields.${entry[0]}.${valueEntry[0]}`]) {
+    //       methods.register({ name: `fields.${entry[0]}.${valueEntry[0]}` });
+    //     }
+    //     methods.setValue(`fields.${entry[0]}.${valueEntry[0]}`, valueEntry[1]);
+    //   })
+    // );
+  };
 
   const onSubmit = data => console.log("ON SUBMIT", data);
 
@@ -184,7 +195,8 @@ const Container = ({ mode }) => {
 
   return (
     <LoadingIndicator
-      hasData={formMode.get("isNew") || report?.size > 0}
+      hasData={formMode.get("isNew") || (report?.size > 0 && fields.length)}
+      loading={!fields.length}
       type={NAMESPACE}
     >
       <PageContainer>
@@ -200,10 +212,11 @@ const Container = ({ mode }) => {
               ))}
               <ReportFilters
                 defaultFilters={defaultFilters}
-                attributes={fields}
+                fields={fields}
                 register={methods.register}
                 formMode={formMode}
                 methods={methods}
+                onSuccess={onSuccess}
               />
             </form>
           </FormContext>
