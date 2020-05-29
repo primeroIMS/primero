@@ -93,14 +93,14 @@ const OrderableOptionsField = ({
 
   const handleDisplayTextChange = (event, index) => {
     const { value } = event.currentTarget;
+    const currentOptions = [...fieldOptions];
 
-    if (value) {
-      fieldOptions[index] = {
-        id: generateIdFromDisplayText(value),
-        display_text: value
-      };
-      setFieldOptions([...fieldOptions]);
-    }
+    currentOptions.splice(index, 1, {
+      id: value ? generateIdFromDisplayText(value) : currentOptions[index].id,
+      display_text: value
+    });
+
+    setFieldOptions(currentOptions);
 
     return value;
   };
