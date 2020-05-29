@@ -32,19 +32,17 @@ Create a new report and return the entire record.
         "name": 'owned_by_location',
         "position": {
           "type": 'horizontal',
-          "order": 1
+          "order": 2
         }
       },
       {
         "name": 'protection_concerns',
         "position": {
           "type": 'horizontal',
-          "order": 2
+          "order": 1
         }
       }
     ],
-    "aggregate_by": ['owned_by_location'],
-    "disaggregate_by": ['protection_concerns'],
     "aggregate_counts_from": 'protection_concerns',
     "group_ages": false,
     "group_dates_by": 'date',
@@ -78,12 +76,12 @@ Create a new report and return the entire record.
     "graph_type": "bar",
     "fields": [
       {
-        "name": "owned_by_location", "display_name": {"en": "Owned by location", "es": "", "fr": ""},
-        "position": {"type": "horizontal", "order": 0}, "option_strings_source": "Location", "admin_level": 0
+        "name": "protection_concerns", "display_name": {"en": "Protection Concerns", "es": "", "fr": ""},
+        "position": {"type": "horizontal", "order": 0}
       },
       {
-        "name": "protection_concerns", "display_name": {"en": "Protection Concerns", "es": "", "fr": ""},
-        "position": {"type": "vertical", "order": 0}
+        "name": "owned_by_location", "display_name": {"en": "Owned by location", "es": "", "fr": ""},
+        "position": {"type": "horizontal", "order": 1}, "option_strings_source": "Location", "admin_level": 0
       }
     ],
     "report_data": {

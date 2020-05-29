@@ -92,11 +92,11 @@ class Report < ApplicationRecord
     end
 
     def new_with_properties(report_params)
-      Field.change_position(report_params[:fields])
       report = Report.new(report_params.except(:name, :description, :graph, :fields))
       report.name_i18n = report_params[:name]
       report.description_i18n = report_params[:description]
       report.is_graph = report_params[:graph]
+      report.add_fields(report_params[:fields])
       report
     end
   end
@@ -165,6 +165,7 @@ class Report < ApplicationRecord
   #TODO: Break up into self contained, testable methods
   def build_report
     # Prepopulates pivot fields
+    return if errors.present?
     pivot_fields
 
     sys = SystemSettings.current
@@ -375,6 +376,16 @@ class Report < ApplicationRecord
 
   def pivot_comparator(a,b)
     (a <=> b) || (a.to_s <=> b.to_s)
+  end
+
+  def add_fields(params_fields)
+    params_fields.sort_by { |field| field[:position][:order] }.each do |field|
+      if field[:position][:type] == ReportFieldService::HORIZONTAL
+        aggregate_by << field[:name]
+      elsif field[:position][:type] == ReportFieldService::VERTICAL
+        disaggregate_by << field[:name]
+      end
+    end
   end
 
   private
