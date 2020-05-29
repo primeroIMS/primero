@@ -90,6 +90,15 @@ class Report < ApplicationRecord
       end
       record_types
     end
+
+    def new_with_properties(report_params)
+      Field.change_position(report_params[:fields])
+      report = Report.new(report_params.except(:name, :description, :graph, :fields))
+      report.name_i18n = report_params[:name]
+      report.description_i18n = report_params[:description]
+      report.is_graph = report_params[:graph]
+      report
+    end
   end
 
   def modules

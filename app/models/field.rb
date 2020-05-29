@@ -62,6 +62,12 @@ class Field < ApplicationRecord
     ]
   end
 
+  def self.change_position(fields)
+    fields.each do |field|
+      find_by(name: field[:name])&.update(type: field[:position][:type], order: field[:position][:order])
+    end
+  end
+
   #TODO: Move to migration
   def defaults
     self.date_validation ||= 'default_date_validation'

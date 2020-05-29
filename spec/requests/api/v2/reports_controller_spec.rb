@@ -53,7 +53,6 @@ describe Api::V2::ReportsController, type: :request do
     )
 
     @report_1 = Report.create({
-      id: 1,
       name_en: 'Protection Concerns By Location',
       description_en: '',
       module_id: PrimeroModule::CP,
@@ -182,6 +181,96 @@ describe Api::V2::ReportsController, type: :request do
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/reports/thisdoesntexist')
+    end
+  end
+
+  describe 'POST /api/v2/reports', search: true do
+    it 'refuses unauthorized access' do
+      login_for_test
+
+      post '/api/v2/reports'
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/reports')
+    end
+
+    it 'creates a new report and returns 200 and json' do
+      I18n.stub(:available_locales).and_return(%i[en es fr])
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
+        ],
+        modules: [@cp]
+      )
+      params = {
+        data: {
+          name: {
+            en: 'Test report',
+            fr: 'Test report in French'
+          },
+          description: {
+            en: 'Description',
+            fr: 'Description in French'
+          },
+          record_type: 'case',
+          module_id: PrimeroModule::CP,
+          graph: false,
+          fields: [
+            {
+              name: 'owned_by_location',
+              position: {
+                type: 'horizontal',
+                order: 1
+              }
+            },
+            {
+              name: 'protection_concerns',
+              position: {
+                type: 'horizontal',
+                order: 2
+              }
+            }
+          ],
+          aggregate_by: ['owned_by_location'],
+          disaggregate_by: ['protection_concerns'],
+          aggregate_counts_from: 'protection_concerns',
+          group_ages: false,
+          group_dates_by: 'date',
+          add_default_filters: true,
+          filters: [
+            {
+              attribute: 'status',
+              constraint: '',
+              value: [Record::STATUS_OPEN]
+            }
+          ]
+        }
+      }
+
+      post '/api/v2/reports', params: params
+
+      report_data = {
+        'name' => { 'en' => 'Test report', 'fr' => 'Test report in French', 'es' => '' },
+        'description' => { 'en' => 'Description', 'fr' => 'Description in French', 'es' => '' },
+        'graph' => false, 'graph_type' => 'bar',
+        'fields' => [
+          {
+            'name' => 'owned_by_location',
+            'display_name' => { 'en' => 'Owned by location', 'fr' => '', 'es' => '' },
+            'position' => { 'type' => 'horizontal', 'order' => 0 },
+            'option_strings_source' => 'Location',
+            'admin_level' => 0
+          },
+          {
+            'name' => 'protection_concerns',
+            'display_name' => { 'en' => 'Protection Concerns', 'fr' => '', 'es' => '' },
+            'position' => { 'type' => 'vertical', 'order' => 0 }
+          }
+        ]
+      }
+      expect(response).to have_http_status(200)
+      expect(json['data'].except('report_data', 'id')).to eq(report_data)
     end
   end
 

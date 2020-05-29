@@ -16,6 +16,24 @@ module Api::V2
       @report.build_report
     end
 
+    def create
+      authorize! :create, Report
+      @report = Report.new_with_properties(report_params)
+      @report.save
+      @report.permission_filter = report_permission_filter(current_user)
+      @report.build_report
+      status = params[:data][:id].present? ? 204 : 200
+      render :create, status: status
+    end
+
+    def report_params
+      params.require(:data).permit(
+        :record_type, :module_id, :graph, :aggregate_counts_from, :group_ages, :group_dates_by, :add_default_filters,
+        disaggregate_by: [], aggregate_by: [], name: {}, description: {}, fields: [:name, position: {}],
+        filters: [:attribute, :constraint, value: []]
+      )
+    end
+
     private
 
     def report_permission_filter(user)
