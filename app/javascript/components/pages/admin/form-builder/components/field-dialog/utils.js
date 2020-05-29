@@ -1,6 +1,11 @@
-import { TEXT_AREA, TEXT_FIELD, NUMERIC_FIELD } from "../../../../../form";
+import {
+  TEXT_AREA,
+  TEXT_FIELD,
+  NUMERIC_FIELD,
+  SUBFORM_SECTION
+} from "../../../../../form";
 
-import { textFieldForm } from "./forms";
+import { textFieldForm, subformField } from "./forms";
 
 /* eslint-disable import/prefer-default-export */
 export const getFormField = (field, i18n) => {
@@ -12,6 +17,8 @@ export const getFormField = (field, i18n) => {
     case TEXT_AREA:
     case NUMERIC_FIELD:
       return textFieldForm(name, i18n);
+    case SUBFORM_SECTION:
+      return subformField(name, i18n);
     default:
       return textFieldForm(name, i18n);
   }
