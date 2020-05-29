@@ -21,6 +21,7 @@ describe("<Form /> - index", () => {
       "PHOTO_FIELD",
       "RADIO_FIELD",
       "SELECT_FIELD",
+      "SEPARATOR",
       "submitHandler",
       "TEXT_AREA",
       "TEXT_FIELD",

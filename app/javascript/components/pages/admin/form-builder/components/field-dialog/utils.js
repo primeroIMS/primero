@@ -3,10 +3,16 @@ import {
   TEXT_AREA,
   TEXT_FIELD,
   NUMERIC_FIELD,
-  TICK_FIELD
+  TICK_FIELD,
+  SEPARATOR
 } from "../../../../../form";
 
-import { dateFieldForm, textFieldForm, tickboxFieldForm } from "./forms";
+import {
+  dateFieldForm,
+  textFieldForm,
+  tickboxFieldForm,
+  separatorFieldForm
+} from "./forms";
 import { DATE_FIELD_CUSTOM_VALUES } from "./constants";
 
 const getDateValidation = (field, isSubmit) => {
@@ -46,6 +52,8 @@ export const getFormField = (field, i18n, css) => {
     case TEXT_AREA:
     case NUMERIC_FIELD:
       return textFieldForm(name, i18n);
+    case SEPARATOR:
+      return separatorFieldForm(name, i18n);
     case DATE_FIELD:
       return dateFieldForm(field, i18n, css);
     case TICK_FIELD:
