@@ -8,6 +8,7 @@ describe("<Form /> - index", () => {
       "ActionsMenu",
       "CHECK_BOX_FIELD",
       "default",
+      "DATE_FIELD",
       "ERROR_FIELD",
       "FORM_MODE_DIALOG",
       "FieldRecord",

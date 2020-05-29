@@ -7,7 +7,7 @@ export const FORM_MODE_DIALOG = "dialog";
 // TODO: types below need to be implemented;
 export const NUMERIC_FIELD = "numeric_field";
 // export const SUBFORM_SECTION = "subform";
-// export const DATE_FIELD = "date_field";
+export const DATE_FIELD = "date_field";
 export const SELECT_FIELD = "select_box";
 export const TICK_FIELD = "tick_box";
 export const CHECK_BOX_FIELD = "check_boxes";

@@ -17,6 +17,7 @@ export {
   TEXT_AREA,
   TEXT_FIELD,
   TICK_FIELD,
-  TOGGLE_FIELD
+  TOGGLE_FIELD,
+  DATE_FIELD
 } from "./constants";
 export { whichFormMode, submitHandler } from "./utils";
