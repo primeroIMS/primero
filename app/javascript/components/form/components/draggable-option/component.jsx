@@ -9,13 +9,19 @@ import get from "lodash/get";
 import TextInput from "../../fields/text-input";
 import styles from "../../fields/styles.css";
 import DragIndicator from "../../../pages/admin/forms-list/components/drag-indicator";
+import { generateIdFromDisplayText } from "../../utils/handle-options";
 
 import { NAME } from "./constants";
 
-const Component = ({ defaultOptionId, handleChange, index, name, option }) => {
+const Component = ({ defaultOptionId, index, name, option }) => {
   const css = makeStyles(styles)();
-  const { errors } = useFormContext();
+  const { errors, setValue, watch } = useFormContext();
   const displayTextName = `${name}.option_strings_text.en[${index}].display_text`;
+  const optionId = watch(
+    `${name}.option_strings_text.en[${index}].id`,
+    option.id
+  );
+  const selectedValue = watch(`${name}.selected_value`, defaultOptionId);
   const error = errors ? get(errors, displayTextName) : undefined;
   const classes = makeStyles({
     disabled: {
@@ -27,6 +33,17 @@ const Component = ({ defaultOptionId, handleChange, index, name, option }) => {
       }
     }
   })();
+
+  const handleChange = event => {
+    const { value } = event.currentTarget;
+    const newOptionId = generateIdFromDisplayText(value);
+
+    if (value && option.isNew) {
+      setValue(`${name}.option_strings_text.en[${index}].id`, newOptionId);
+    }
+
+    return value;
+  };
 
   return (
     <Draggable draggableId={option.id} index={index}>
@@ -53,8 +70,8 @@ const Component = ({ defaultOptionId, handleChange, index, name, option }) => {
             <div className={css.fieldColumn}>
               <Controller
                 as={<Radio />}
-                inputProps={{ value: option.id }}
-                checked={option.id === defaultOptionId}
+                inputProps={{ value: optionId }}
+                checked={optionId === selectedValue}
                 name={`${name}.selected_value`}
               />
             </div>
@@ -75,7 +92,6 @@ Component.defaultProps = {
 Component.propTypes = {
   defaultOptionId: PropTypes.string,
   disabled: PropTypes.bool,
-  handleChange: PropTypes.func,
   index: PropTypes.number,
   name: PropTypes.string.isRequired,
   option: PropTypes.object

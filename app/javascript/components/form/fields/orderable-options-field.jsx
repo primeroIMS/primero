@@ -12,11 +12,7 @@ import { useI18n } from "../../i18n";
 import { getListStyle } from "../../pages/admin/forms-list/utils";
 import DraggableOption from "../components/draggable-option";
 import FormAction from "../components/form-action";
-import {
-  generateIdFromDisplayText,
-  generateIdForNewOption,
-  mergeOptions
-} from "../utils/handle-options";
+import { generateIdForNewOption, mergeOptions } from "../utils/handle-options";
 
 import { ORDERABLE_OPTIONS_FIELD_NAME } from "./constants";
 import styles from "./styles.css";
@@ -65,7 +61,6 @@ const OrderableOptionsField = ({
     reset(
       {
         [fieldName]: {
-          selected_value: watchSelectedValue,
           option_strings_text: {
             en: [...fieldOptions]
           }
@@ -79,31 +74,8 @@ const OrderableOptionsField = ({
       }
     );
 
-    fieldOptions.forEach((option, index) => {
-      if (!control.fields[`${fieldName}.option_strings_text.en[${index}].id`]) {
-        register(`${fieldName}.option_strings_text.en[${index}].id`);
-      }
-      setValue(`${fieldName}.option_strings_text.en[${index}].id`, option.id);
-    });
-
-    unregister(`${fieldName}.selected_value`);
-    register(`${fieldName}.selected_value`);
     setValue(`${fieldName}.selected_value`, watchSelectedValue);
   }, [fieldOptions]);
-
-  const handleDisplayTextChange = (event, index) => {
-    const { value } = event.currentTarget;
-    const currentOptions = [...fieldOptions];
-
-    currentOptions.splice(index, 1, {
-      id: value ? generateIdFromDisplayText(value) : currentOptions[index].id,
-      display_text: value
-    });
-
-    setFieldOptions(currentOptions);
-
-    return value;
-  };
 
   const handleDragEnd = result => {
     const currentOptionValues = getValues({ nest: true })[fieldName]
@@ -116,6 +88,15 @@ const OrderableOptionsField = ({
       const sourceOption = reorderedOptions.splice(sourceIndex, 1)[0];
 
       reorderedOptions.splice(targetIndex, 0, sourceOption);
+
+      reorderedOptions.forEach((option, index) => {
+        if (
+          !control.fields[`${fieldName}.option_strings_text.en[${index}].id`]
+        ) {
+          register(`${fieldName}.option_strings_text.en[${index}].id`);
+        }
+        setValue(`${fieldName}.option_strings_text.en[${index}].id`, option.id);
+      });
 
       setFieldOptions([...reorderedOptions]);
     }
@@ -138,7 +119,6 @@ const OrderableOptionsField = ({
   const renderOptions = () =>
     fieldOptions.map((option, index) => (
       <DraggableOption
-        handleChange={handleDisplayTextChange}
         defaultOptionId={watchSelectedValue}
         name={fieldName}
         option={option}
