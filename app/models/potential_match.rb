@@ -4,7 +4,6 @@
 # and a case (Child). It contains logic for comparing the two records and pass judgement
 # on how likely it is that they represent the same person.
 class PotentialMatch < ValueObject
-
   ALL_FILTER = 'all'
   POTENTIAL = 'POTENTIAL'
   DELETED = 'DELETED'
@@ -31,75 +30,11 @@ class PotentialMatch < ValueObject
     self.likelihood = Matchable::Utils.calculate_likelihood(score, aggregate_average_score)
   end
 
-  def case_id_display
-    child&.case_id_display
-  end
-
-  def child_age
-    child&.age
-  end
-
-  def child_date_of_birth
-    child&.date_of_birth
-  end
-
-  def child_sex
-    child&.sex
-  end
-
-  def inquirer_id
-    tracing_request&.inquirer_id
-  end
-
   def trace
     return @trace if @trace.present?
 
     traces = tracing_request&.tracing_request_subform_section
     @trace = traces&.find { |t| t['unique_id'] == tr_subform_id } || {}
-  end
-
-  def tracing_request_age
-    trace&.[]('age')
-  end
-
-  def tracing_request_sex
-    trace&.[]('sex')
-  end
-
-  def case_name
-    child&.name
-  end
-
-  def case_registration_date
-    child&.registration_date
-  end
-
-  def case_owned_by
-    child&.owned_by
-  end
-
-  def case_owned_by_agency
-    @case_owned_by_agency ||= child&.owned_by_agency
-  end
-
-  def tracing_request_inquiry_date
-    tracing_request&.inquiry_date
-  end
-
-  def tracing_request_relation_name
-    tracing_request&.relation_name
-  end
-
-  def tracing_request_name
-    trace&.[]('name')
-  end
-
-  def tracing_request_owned_by
-    tracing_request&.owned_by
-  end
-
-  def tracing_request_date_of_birth
-    trace&.[]('date_of_birth')
   end
 
   def case_and_trace_matched?
@@ -123,7 +58,7 @@ class PotentialMatch < ValueObject
     end.compact
 
     case_nested_field_values = MatchingConfiguration.matchable_fields_by_form('case', true).map do |form, fields|
-      nested_data = child&.data[form.unique_id] || [{}]
+      nested_data = child&.data&.[](form.unique_id) || [{}]
       nested_data.map do |nested_values|
         values = fields.map { |f| case_to_trace_values(f, nested_values) }
         values.present? ? { case_values: values, form_name: form.name } : nil
@@ -154,7 +89,6 @@ class PotentialMatch < ValueObject
   end
 
   class << self
-
     def group_match_records(match_records, type)
       grouped_records = []
       if type == 'case'
@@ -170,17 +104,17 @@ class PotentialMatch < ValueObject
       potential_matches.sort_by { |pm| -find_max_score_element(pm.last).try(:average_rating) }
     end
 
-    # TODO: Ugly code. Technically this stuff doesn't belong on the model. Certainly not on this model.
-    # TODO: Refactor UIUX
-    def format_list_for_json(potential_matches, type)
-      if type == 'case'
-        format_case_list_for_json(potential_matches)
-      else
-        format_tr_list_for_json(potential_matches)
-      end
-    end
+    # # TODO: Ugly code. Technically this stuff doesn't belong on the model. Certainly not on this model.
+    # # TODO: Refactor UIUX
+    # def format_list_for_json(potential_matches, type)
+    #   if type == 'case'
+    #     format_case_list_for_json(potential_matches)
+    #   else
+    #     format_tr_list_for_json(potential_matches)
+    #   end
+    # end
 
-    # TODO MATCHING: Consider thresholding and normalizing in separate testable methods
+    # TODO: MATCHING: Consider thresholding and normalizing in separate testable methods
     # Consider taking out the PM generation methods from matchable concern, case and TRs and putting them all here
     def matches_from_search(search_result)
       return [] unless search_result.present?
@@ -218,73 +152,69 @@ class PotentialMatch < ValueObject
       potential_match_detail_list.max_by(&:average_rating)
     end
 
-    def format_case_list_for_json(potential_matches)
-      potential_matches.map do |record|
-        # record.first is the key [child_id]
-        # record.last is the list of potential_match records
-        # use the first potential_match record to build the header
-        match1 = record.last.first
-        {
-          'case_id' => match1.case_id,
-          'child_id' => match1.child_id,
-          'age' => match1.child_age,
-          'sex' => match1.case_sex,
-          'registration_date' => match1.case_registration_date,
-          'match_details' => format_case_match_details(record.last)
-        }
-      end
-    end
+    # def format_case_list_for_json(potential_matches)
+    #   potential_matches.map do |record|
+    #     # record.first is the key [child_id]
+    #     # record.last is the list of potential_match records
+    #     # use the first potential_match record to build the header
+    #     match1 = record.last.first
+    #     {
+    #       'case_id' => match1.case_id, 'child_id' => match1.child_id,
+    #       'age' => match1&.child&.age, 'sex' => match1&.case&.sex,
+    #       'registration_date' => match1.case_registration_date,
+    #       'match_details' => format_case_match_details(record.last)
+    #     }
+    #   end
+    # end
 
-    def format_case_match_details(potential_match_list)
-      potential_match_list.map do |potential_match|
-        {
-          'tracing_request_id' => potential_match.tr_id,
-          'tr_uuid' => potential_match.tracing_request.id,
-          'subform_tracing_request_name' => potential_match.tracing_request_name,
-          'inquiry_date' => potential_match.tracing_request_inquiry_date,
-          'relation_name' => potential_match.tracing_request_relation_name,
-          # 'visible' => potential_match.visible,
-          'average_rating' => potential_match.average_rating,
-          'owned_by' => potential_match.case_owned_by
-        }
-      end
-    end
+    # def format_case_match_details(potential_match_list)
+    #   potential_match_list.map do |potential_match|
+    #     {
+    #       'tracing_request_id' => potential_match.tr_id,
+    #       'tr_uuid' => potential_match.tracing_request.id,
+    #       'subform_tracing_request_name' => potential_match.tracing_request_name,
+    #       'inquiry_date' => potential_match.tracing_request_inquiry_date,
+    #       'relation_name' => potential_match.tracing_request_relation_name,
+    #       # 'visible' => potential_match.visible,
+    #       'average_rating' => potential_match.average_rating,
+    #       'owned_by' => potential_match.case_owned_by
+    #     }
+    #   end
+    # end
 
-    #TODO: Refactor for UIUX. Move to presentation layer
-    def format_tr_list_for_json(potential_matches)
-      potential_matches.map do |record|
-        # record.first is the key [tracing_request_id, tr_subform_id]
-        # record.last is the list of potential_match records
-        # use the first potential_match record to build the header
-        match1 = record.last.first
-        {
-          'tracing_request_id' => match1.tr_id,
-          'tr_uuid' => match1.tracing_request.id,
-          'relation_name' => match1.tracing_request_relation_name,
-          'inquiry_date' => match1.tracing_request_inquiry_date,
-          'subform_tracing_request_id' => match1.tr_subform_id,
-          'subform_tracing_request_name' => match1.tracing_request_name,
-          'match_details' => format_tr_match_details(record.last)
-        }
-      end
-    end
+    # #TODO: Refactor for UIUX. Move to presentation layer
+    # def format_tr_list_for_json(potential_matches)
+    #   potential_matches.map do |record|
+    #     # record.first is the key [tracing_request_id, tr_subform_id]
+    #     # record.last is the list of potential_match records
+    #     # use the first potential_match record to build the header
+    #     match1 = record.last.first
+    #     {
+    #       'tracing_request_id' => match1.tr_id,
+    #       'tr_uuid' => match1.tracing_request.id,
+    #       'relation_name' => match1.tracing_request_relation_name,
+    #       'inquiry_date' => match1.tracing_request_inquiry_date,
+    #       'subform_tracing_request_id' => match1.tr_subform_id,
+    #       'subform_tracing_request_name' => match1.tracing_request_name,
+    #       'match_details' => format_tr_match_details(record.last)
+    #     }
+    #   end
+    # end
 
-    #TODO: Refactor for UIUX. Move to presentation layer
-    def format_tr_match_details(potential_match_list)
-      potential_match_list.map do |potential_match|
-        {
-          'child_id' => potential_match.child_id,
-          'case_id' => potential_match.case_id,
-          'age' => potential_match.case_age,
-          'sex' => potential_match.case_sex,
-          'registration_date' => potential_match.case_registration_date,
-          'owned_by' => potential_match.case_owned_by,
-          # 'visible' => potential_match.visible,
-          'average_rating' => potential_match.average_rating
-        }
-      end
-    end
-
+    # #TODO: Refactor for UIUX. Move to presentation layer
+    # def format_tr_match_details(potential_match_list)
+    #   potential_match_list.map do |potential_match|
+    #     {
+    #       'child_id' => potential_match.child_id,
+    #       'case_id' => potential_match.case_id,
+    #       'age' => potential_match.case_age,
+    #       'sex' => potential_match.case_sex,
+    #       'registration_date' => potential_match.case_registration_date,
+    #       'owned_by' => potential_match.case_owned_by,
+    #       # 'visible' => potential_match.visible,
+    #       'average_rating' => potential_match.average_rating
+    #     }
+    #   end
+    # end
   end
-
 end
