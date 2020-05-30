@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# The central Primero model object that represents an individual's case.
+# In spite of the name, this will represent adult cases as well.
 class Child < ApplicationRecord
   self.table_name = 'cases'
 
@@ -32,7 +34,7 @@ class Child < ApplicationRecord
   include Ownable
   include AutoPopulatable
   include Workflow
-  include Serviceable #TODO: refactor with nested
+  include Serviceable
   include Flaggable
   include Transitionable
   include Reopenable
@@ -44,17 +46,18 @@ class Child < ApplicationRecord
 
   # include Importable #TODO: Refactor with Imports and Exports
 
-  store_accessor :data,
+  store_accessor(
+    :data,
     :case_id, :case_id_code, :case_id_display,
     :nickname, :name, :protection_concerns, :consent_for_tracing, :hidden_name,
     :name_first, :name_middle, :name_last, :name_nickname, :name_other,
     :registration_date, :age, :estimated, :date_of_birth, :sex, :address_last,
-    :reunited, :reunited_message, :investigated, :verified, #TODO: These are RapidFTR attributes and should be removed
+    :reunited, :reunited_message, :investigated, :verified, # TODO: These are RapidFTR attributes and should be removed
     :risk_level, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
     :date_closure,
     :system_generated_followup,
     :assessment_due_date, :assessment_requested_on,
-    :followup_subform_section, :protection_concern_detail_subform_section, #TODO: Do we need followups, protection_concern_details aliases?
+    :followup_subform_section, :protection_concern_detail_subform_section,
     :disclosure_other_orgs,
     :ration_card_no, :icrc_ref_no, :unhcr_id_no, :unhcr_individual_no, :un_no, :other_agency_id,
     :survivor_code_no, :national_id_no, :other_id_no, :biometrics_id, :family_count_no, :dss_id, :camp_id, :cpims_id,
@@ -62,7 +65,8 @@ class Child < ApplicationRecord
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
     :duplicate, :location_current, :tracing_status, :name_caregiver,
-    :urgent_protection_concern
+    :urgent_protection_concern, :child_preferences_section, :family_details_section
+  )
 
   has_many :incidents
   belongs_to :matched_tracing_request, class_name: 'TracingRequest', optional: true
@@ -117,7 +121,6 @@ class Child < ApplicationRecord
     string :protection_concerns, multiple: true
     boolean :urgent_protection_concern, as: 'urgent_protection_concern_b'
 
-
     date :assessment_due_dates, multiple: true do
       Tasks::AssessmentTask.from_case(self).map(&:due_date)
     end
@@ -130,7 +133,6 @@ class Child < ApplicationRecord
       Tasks::FollowUpTask.from_case(self).map(&:due_date)
     end
   end
-
 
   validate :validate_date_of_birth
   validate :validate_registration_date
@@ -152,27 +154,27 @@ class Child < ApplicationRecord
   end
 
   def family_detail_values(field)
-    data['family_details_section'].map { |fds| fds[field] }.compact.uniq.join(' ') if self.data['family_details_section'].present?
+    family_details_section&.map { |fds| fds[field] }&.compact&.uniq&.join(' ')
   end
 
   def self.report_filters
     [
-        {'attribute' => 'status', 'value' => [STATUS_OPEN]},
-        {'attribute' => 'record_state', 'value' => ['true']}
+      { 'attribute' => 'status', 'value' => [STATUS_OPEN] },
+      { 'attribute' => 'record_state', 'value' => ['true'] }
     ]
   end
 
-  #TODO - does this need reporting location???
-  #TODO - does this need the reporting_location_config field key
+  # TODO: does this need reporting location???
+  # TODO: does this need the reporting_location_config field key
   # TODO: refactor with nested
   def self.minimum_reportable_fields
     {
-        'boolean' => ['record_state'],
-         'string' => ['status', 'sex', 'risk_level', 'owned_by_agency_id', 'owned_by', 'workflow', 'workflow_status', 'risk_level'],
-    'multistring' => ['associated_user_names', 'owned_by_groups'],
-           'date' => ['registration_date'],
-        'integer' => ['age'],
-       'location' => ['owned_by_location', 'location_current']
+      'boolean' => ['record_state'],
+      'string' => %w[status sex risk_level owned_by_agency_id owned_by workflow workflow_status risk_level],
+      'multistring' => %w[associated_user_names owned_by_groups],
+      'date' => ['registration_date'],
+      'integer' => ['age'],
+      'location' => %w[owned_by_location location_current]
     }
   end
 
@@ -181,19 +183,18 @@ class Child < ApplicationRecord
   end
 
   def self.by_date_of_birth_range(start_date, end_date)
-    if start_date.is_a?(Date) && end_date.is_a?(Date)
-      start_yday = normal_yday(start_date)
-      end_yday = normal_yday(end_date)
-      Child.search do
-        with(:day_of_birth, start_yday..end_yday)
-      end.results
-    end
+    return [] unless start_date.is_a?(Date) && end_date.is_a?(Date)
+
+    start_yday = normal_yday(start_date)
+    end_yday = normal_yday(end_date)
+    Child.search do
+      with(:day_of_birth, start_yday..end_yday)
+    end.results
   end
 
   def validate_date_of_birth
     if date_of_birth.present? && (!date_of_birth.is_a?(Date) || date_of_birth.year > Date.today.year)
-      errors.add(:date_of_birth, I18n.t("errors.models.child.date_of_birth"))
-      #error_with_section(:date_of_birth, I18n.t("errors.models.child.date_of_birth")) #TODO: Remove with UIUIX?
+      errors.add(:date_of_birth, I18n.t('errors.models.child.date_of_birth'))
       false
     else
       true
@@ -202,8 +203,7 @@ class Child < ApplicationRecord
 
   def validate_registration_date
     if registration_date.present? && (!registration_date.is_a?(Date) || registration_date.year > Date.today.year)
-      errors.add(:registration_date, I18n.t("messages.enter_valid_date"))
-      #error_with_section(:registration_date, I18n.t("messages.enter_valid_date")) #TODO: Remove with UIUIX?
+      errors.add(:registration_date, I18n.t('messages.enter_valid_date'))
       false
     else
       true
@@ -211,29 +211,30 @@ class Child < ApplicationRecord
   end
 
   def validate_child_wishes
-    return true if data['child_preferences_section'].nil? || data['child_preferences_section'].size <= CHILD_PREFERENCE_MAX
+    return true if child_preferences_section.nil? || child_preferences_section.size <= CHILD_PREFERENCE_MAX
 
-    errors.add(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", preferences_count: CHILD_PREFERENCE_MAX))
-    #TODO: Remove with UIUIX?
-    #error_with_section(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
+    errors.add(
+      :child_preferences_section,
+      I18n.t('errors.models.child.wishes_preferences_count', preferences_count: CHILD_PREFERENCE_MAX)
+    )
   end
 
   def to_s
-    if self.name.present?
-      "#{self.name} (#{self.unique_identifier})"
+    if name.present?
+      "#{name} (#{unique_identifier})"
     else
-      self.unique_identifier
+      unique_identifier
     end
   end
 
   def auto_populate_name
-    #This 2 step process is necessary because you don't want to overwrite self.name if auto_populate is off
+    # This 2 step process is necessary because you don't want to overwrite self.name if auto_populate is off
     a_name = auto_populate('name')
     self.name = a_name if a_name.present?
   end
 
   def hide_name
-    self.hidden_name = true if self.module_id == PrimeroModule::GBV
+    self.hidden_name = true if module_id == PrimeroModule::GBV
   end
 
   def set_instance_id
@@ -244,7 +245,7 @@ class Child < ApplicationRecord
   end
 
   def create_case_id_code(system_settings)
-    separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
+    separator = system_settings&.case_code_separator.present? ? system_settings.case_code_separator : ''
     id_code_parts = []
     if system_settings.present? && system_settings.case_code_format.present?
       system_settings.case_code_format.each { |cf| id_code_parts << PropertyEvaluator.evaluate(self, cf) }
@@ -256,57 +257,54 @@ class Child < ApplicationRecord
     [case_id_code, short_id].compact.join(auto_populate_separator('case_id_code', system_settings))
   end
 
-  def family(relation=nil)
-    result = self.data['family_details_section'] || []
+  def family(relation = nil)
+    result = family_details_section || []
     if relation.present?
       result = result.select do |member|
         member['relation'] == relation
       end
     end
-    return result
+    result
   end
 
   def fathers_name
-    self.family('father').first.try(:[], 'relation_name')
+    family('father').first.try(:[], 'relation_name')
   end
 
   def mothers_name
-    self.family('mother').first.try(:[], 'relation_name')
+    family('mother').first.try(:[], 'relation_name')
   end
 
   def caregivers_name
-    self.data['name_caregiver'] || self.family.select { |fd| fd['relation_is_caregiver'] }.first.try(:[], 'relation_name')
+    data['name_caregiver'] || family.select { |fd| fd['relation_is_caregiver'] }.first.try(:[], 'relation_name')
   end
 
   def day_of_birth
-    if self.date_of_birth.is_a? Date
-      Child.normal_yday(self.date_of_birth)
-    end
+    return nil unless date_of_birth.is_a? Date
+
+    Child.normal_yday(date_of_birth)
   end
 
   def self.normal_yday(date)
     yday = date.yday
-    if date.leap? && (yday >= 60)
-      yday -= 1
-    end
-    return yday
+    yday -= 1 if date.leap? && (yday >= 60)
+    yday
   end
 
-  # Solution below taken from...
-  # http://stackoverflow.com/questions/819263/get-persons-age-in-ruby
   def calculated_age
-    if self.date_of_birth.present? && self.date_of_birth.is_a?(Date)
-      now = Date.current
-      now.year - date_of_birth.year - ((now.month > date_of_birth.month || (now.month == date_of_birth.month && now.day >= date_of_birth.day)) ? 0 : 1)
-    end
+    return nil unless date_of_birth.present? && date_of_birth.is_a?(Date)
+
+    now = Date.current
+    born_later_this_month = (now.month == date_of_birth.month) && (now.day >= date_of_birth.day)
+    born_later_this_year = now.month > date_of_birth.month
+    offset = born_later_this_month || born_later_this_year ? 0 : 1
+    now.year - date_of_birth.year - offset
   end
 
   def sync_protection_concerns
-    protection_concerns = self.protection_concerns
-    protection_concern_subforms = self.data['protection_concern_detail_subform_section']
-    if protection_concerns.present? && protection_concern_subforms.present?
-      self.protection_concerns = (protection_concerns + protection_concern_subforms.map { |pc| pc['protection_concern_type'] }).compact.uniq
-    end
+    protection_concerns = self.protection_concerns || []
+    from_subforms = protection_concern_detail_subform_section&.map { |pc| pc['protection_concern_type'] }&.compact || []
+    self.protection_concerns = (protection_concerns + from_subforms).uniq
   end
 
   def mark_as_duplicate(parent_id)
@@ -320,12 +318,12 @@ class Child < ApplicationRecord
   end
 
   def matched_to_trace?(tracing_request, trace)
-    self.matched_tracing_request_id.present? && self.matched_trace_id.present? &&
-        (self.matched_trace_id == trace['unique_id']) && (self.matched_tracing_request_id == tracing_request.id)
+    matched_tracing_request_id.present? && matched_trace_id.present? &&
+      (matched_trace_id == trace['unique_id']) && (matched_tracing_request_id == tracing_request.id)
   end
 
   def matching_tracing_requests(case_fields = {})
-    matching_criteria = match_criteria(self.data, case_fields)
+    matching_criteria = match_criteria(data, case_fields)
     match_result = Child.find_match_records(matching_criteria, TracingRequest, nil)
     PotentialMatch.matches_from_search(match_result) do |tr_id, score, average_score|
       tracing_request = TracingRequest.find_by(id: tr_id)
@@ -336,14 +334,14 @@ class Child < ApplicationRecord
     end.flatten
   end
 
-  alias :inherited_match_criteria :match_criteria
-  def match_criteria(match_request=nil, case_fields=nil)
+  alias inherited_match_criteria match_criteria
+  def match_criteria(match_request = nil, case_fields = nil)
     match_criteria = inherited_match_criteria(match_request, case_fields)
     match_criteria_subform = {}
     Child.subform_matchable_fields(case_fields).each do |field|
       match_values = []
       match_field = nil
-      self.family.map do |member|
+      family.map do |member|
         match_field, match_value = Child.match_multi_criteria(field, member)
         match_values += match_value
       end
@@ -352,9 +350,7 @@ class Child < ApplicationRecord
     match_criteria.merge(match_criteria_subform) { |_key, v1, v2| v1 + v2 }.compact
   end
 
-  #Override method in record concern
   def display_id
     case_id_display
   end
-
 end
