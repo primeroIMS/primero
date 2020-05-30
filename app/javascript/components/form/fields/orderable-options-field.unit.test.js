@@ -30,7 +30,7 @@ describe("<Form /> - fields/<OrderableOptionsField />", () => {
 
   it("render the values for the field", () => {
     const expected = {
-      "field_1.selected_value": "option_2",
+      "field_1.selected_value": undefined,
       "field_1.option_strings_text.en[0].display_text": "Display text 1",
       "field_1.option_strings_text.en[0].id": "option_1",
       "field_1.option_strings_text.en[1].display_text": "Display text 2",

@@ -15,7 +15,7 @@ import { NAME } from "./constants";
 
 const Component = ({ defaultOptionId, index, name, option }) => {
   const css = makeStyles(styles)();
-  const { errors, setValue, watch } = useFormContext();
+  const { errors, setValue, watch, formState } = useFormContext();
   const displayTextName = `${name}.option_strings_text.en[${index}].display_text`;
   const optionId = watch(
     `${name}.option_strings_text.en[${index}].id`,
@@ -38,8 +38,12 @@ const Component = ({ defaultOptionId, index, name, option }) => {
     const { value } = event.currentTarget;
     const newOptionId = generateIdFromDisplayText(value);
 
-    if (value && option.isNew) {
+    if (formState.dirty && value && option.isNew) {
       setValue(`${name}.option_strings_text.en[${index}].id`, newOptionId);
+
+      if (selectedValue === optionId) {
+        setValue(`${name}.selected_value`, newOptionId);
+      }
     }
 
     return value;

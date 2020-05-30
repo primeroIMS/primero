@@ -78,10 +78,9 @@ const OrderableOptionsField = ({
   }, [fieldOptions]);
 
   const handleDragEnd = result => {
-    const currentOptionValues = getValues({ nest: true })[fieldName]
-      .option_strings_text.en;
-
     if (result && result.source && result.destination) {
+      const currentOptionValues = getValues({ nest: true })[fieldName]
+        .option_strings_text.en;
       const reorderedOptions = mergeOptions(fieldOptions, currentOptionValues);
       const sourceIndex = result.source.index;
       const targetIndex = result.destination.index;
@@ -107,8 +106,12 @@ const OrderableOptionsField = ({
   };
 
   const onAddOption = () => {
+    const currentOptionValues = getValues({ nest: true })[fieldName]
+      .option_strings_text.en;
+    const reorderedOptions = mergeOptions(fieldOptions, currentOptionValues);
+
     setFieldOptions(
-      fieldOptions.concat({
+      reorderedOptions.concat({
         id: generateIdForNewOption(),
         isNew: true,
         display_text: ""

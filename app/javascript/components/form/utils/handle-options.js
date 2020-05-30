@@ -12,8 +12,7 @@ export const mergeOptions = (options1, options2) =>
 
       return {
         ...option,
-        ...newOption,
-        id: generateIdFromDisplayText(newOption.display_text)
+        ...newOption
       };
     }
 

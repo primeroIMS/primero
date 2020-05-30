@@ -21,9 +21,16 @@ describe("form/utils/handle-options", () => {
 
   describe("generateIdFromDisplayText()", () => {
     it("returns an id for the diplay_text", () => {
+      stub(Math, "random").returns(0.522234);
       expect(
         handleOptions.generateIdFromDisplayText("Display Text 1")
-      ).to.equal("display_text_1");
+      ).to.equal("display_text_1_522234");
+    });
+
+    afterEach(() => {
+      if (Math.random.restore) {
+        Math.random.restore();
+      }
     });
   });
 
