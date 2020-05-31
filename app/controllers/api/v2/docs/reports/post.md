@@ -115,5 +115,3 @@ Create a new report and return the entire record.
   ]
 }
 ```
-
----

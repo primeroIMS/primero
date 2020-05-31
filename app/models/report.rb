@@ -101,6 +101,14 @@ class Report < ApplicationRecord
     end
   end
 
+  def update_properties(report_params)
+    converted_params = FieldI18nService.convert_i18n_properties(Report, report_params)
+    merged_props = FieldI18nService.merge_i18n_properties(attributes, converted_params)
+    assign_attributes(report_params.except(:name, :description, :graph, :fields).merge(merged_props))
+    self.is_graph = report_params[:graph] unless report_params[:graph].nil?
+    add_fields(report_params[:fields]) if report_params[:fields].present?
+  end
+
   def modules
     @modules ||= PrimeroModule.all(keys: [self.module_id]).all if self.module_id.present?
   end
@@ -379,6 +387,8 @@ class Report < ApplicationRecord
   end
 
   def add_fields(params_fields)
+    self.aggregate_by = []
+    self.disaggregate_by = []
     params_fields.sort_by { |field| field[:position][:order] }.each do |field|
       if field[:position][:type] == ReportFieldService::HORIZONTAL
         aggregate_by << field[:name]

@@ -270,6 +270,148 @@ describe Api::V2::ReportsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].except('report_data', 'id')).to eq(report_data)
     end
+
+    describe 'PATCH /api/v2/reports/:id' do
+      it 'updates an non-existing report' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
+          ],
+          modules: [@cp]
+        )
+        params = {}
+
+        patch '/api/v2/reports/thisdoesntexist', params: params
+
+        expect(response).to have_http_status(404)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['resource']).to eq('/api/v2/reports/thisdoesntexist')
+      end
+
+      it 'refuses unauthorized access' do
+        login_for_test
+        params = {}
+
+        patch "/api/v2/reports/#{@report_1.id}", params: params
+
+        expect(response).to have_http_status(403)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['resource']).to eq("/api/v2/reports/#{@report_1.id}")
+      end
+
+      it 'updates an existing report with 200' do
+        I18n.stub(:available_locales).and_return(%i[en es fr])
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
+          ],
+          modules: [@cp]
+        )
+        params = {
+          data: {
+            name: {
+              en: 'Protection Concerns By Location',
+              es: 'Preocupaciones de protección por ubicación'
+            },
+            description: {
+              en: 'Description test',
+              es: 'Prueba de la descripcion'
+            },
+            aggregate_counts_from: 'protection_concerns',
+            filters: [{ attribute: 'status', constraint: '', value: [Record::STATUS_OPEN] }],
+            group_ages: true,
+            group_dates_by: 'year',
+            graph: true,
+            editable: true,
+            fields: [
+              {
+                name: 'owned_by_location',
+                position: {
+                  type: 'vertical',
+                  order: 2
+                }
+              },
+              {
+                name: 'protection_concerns',
+                position: {
+                  type: 'vertical',
+                  order: 1
+                }
+              }
+            ]
+          }
+        }
+        Report.first.update(editable: true)
+
+        patch "/api/v2/reports/#{@report_1.id}", params: params
+
+        report_data = {
+          'id' => @report_1.id,
+          'name' => {
+            'en' => 'Protection Concerns By Location', 'es' => 'Preocupaciones de protección por ubicación', 'fr' => ''
+          },
+          'description' => { 'en' => 'Description test', 'es' => 'Prueba de la descripcion', 'fr' => '' },
+          'graph' => true,
+          'graph_type' => 'bar',
+          'fields' => [
+            {
+              'name' => 'protection_concerns',
+              'display_name' => { 'en' => 'Protection Concerns', 'es' => '', 'fr' => '' },
+              'position' => { 'type' => 'vertical', 'order' => 0 }
+            },
+            {
+              'name' => 'owned_by_location',
+              'display_name' => { 'en' => 'Owned by location', 'es' => '', 'fr' => '' },
+              'position' => { 'type' => 'vertical', 'order' => 1 },
+              'option_strings_source' => 'Location', 'admin_level' => 0
+            }
+          ]
+        }
+        expect(response).to have_http_status(200)
+        expect(json['data']).to eq(report_data)
+      end
+    end
+
+    describe 'DELETE /api/v2/reports/:id' do
+      it 'delete an non-existing report' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
+          ],
+          modules: [@cp]
+        )
+
+        delete '/api/v2/reports/thisdoesntexist'
+
+        expect(response).to have_http_status(404)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['resource']).to eq('/api/v2/reports/thisdoesntexist')
+      end
+
+      it 'refuses unauthorized access' do
+        login_for_test
+
+        delete "/api/v2/reports/#{@report_1.id}"
+
+        expect(response).to have_http_status(403)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['resource']).to eq("/api/v2/reports/#{@report_1.id}")
+      end
+
+      it 'successfully delete an report with a code of 200' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
+          ],
+          modules: [@cp]
+        )
+
+        delete "/api/v2/reports/#{@report_1.id}"
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['id']).to eq(@report_1.id)
+      end
+    end
   end
 
   after :each do

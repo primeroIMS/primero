@@ -76,7 +76,7 @@ Rails.application.routes.draw do
       resources :system_settings, only: [:index]
       resources :tasks, only: [:index]
       resources :saved_searches, only: %i[index create destroy]
-      resources :reports, only: %i[index show create]
+      resources :reports
       resources :lookups
       resources :locations
       resources :bulk_exports, as: :exports, path: :exports, only: %i[index show create destroy]

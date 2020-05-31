@@ -26,6 +26,21 @@ module Api::V2
       render :create, status: status
     end
 
+    def update
+      @report = Report.find(params[:id])
+      authorize! :update, @report
+      @report.update_properties(report_params)
+      @report.save
+      @report.permission_filter = report_permission_filter(current_user)
+      @report.build_report
+    end
+
+    def destroy
+      @report = Report.find(params[:id])
+      authorize! :destroy, @report
+      @report.destroy!
+    end
+
     def report_params
       params.require(:data).permit(
         :record_type, :module_id, :graph, :aggregate_counts_from, :group_ages, :group_dates_by, :add_default_filters,
