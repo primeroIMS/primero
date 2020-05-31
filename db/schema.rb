@@ -381,6 +381,7 @@ ActiveRecord::Schema.define(version: 2020_02_15_000000) do
     t.string "duplicate_export_field"
     t.string "primero_version"
     t.jsonb "system_options"
+    t.jsonb "approvals_labels_i18n"
   end
 
   create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

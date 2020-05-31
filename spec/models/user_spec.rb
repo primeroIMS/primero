@@ -507,7 +507,7 @@ describe User do
     before :each do
       clean_data(Agency, Role, User, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
       @permission_list = [
-                           Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::SYNC_MOBILE, Permission::APPROVE_CASE_PLAN]),
+                           Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::SYNC_MOBILE, Permission::APPROVE_CASE_PLAN, Permission::APPROVE_ASSESSMENT]),
                            Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ]),
                          ]
       @role = create(:role, permissions: @permission_list, group_permission: Permission::SELF)
@@ -528,6 +528,10 @@ describe User do
 
     it "should not have WRITE permission" do
       expect(@user_perm.has_permission? Permission::WRITE).to be_falsey
+    end
+
+    it "should can_approve_assessment? equals true" do
+      expect(@user_perm.can_approve_assessment?).to be_truthy
     end
   end
 
