@@ -334,3 +334,9 @@ export const ACCEPT = "accept";
 export const REJECTED = "rejected";
 export const REJECT = "reject";
 export const SAVING = "saving";
+
+export const APPROVALS_TYPES = Object.freeze({
+  assessment: "assessment",
+  case_plan: "case_plan",
+  closure: "closure"
+});
