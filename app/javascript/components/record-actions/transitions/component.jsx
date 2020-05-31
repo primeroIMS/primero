@@ -1,9 +1,11 @@
 import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 import { useI18n } from "../../i18n";
 import submitForm from "../../../libs/submit-form";
 import { TRANSITIONS_TYPES } from "../../transitions/constants";
+import { getRecords } from "../../index-table";
 
 import { NAME } from "./constants";
 import { hasProvidedConsent } from "./components/utils";
@@ -25,7 +27,9 @@ const Transitions = ({
   handleAssignClose,
   handleTransferClose,
   pending,
-  setPending
+  setPending,
+  currentPage,
+  selectedRecords
 }) => {
   const i18n = useI18n();
   const providedConsent = (record && hasProvidedConsent(record)) || false;
@@ -35,11 +39,24 @@ const Transitions = ({
   const [disabledReferButton, setDisabledReferButton] = useState(false);
   const [disabledTransferButton, setDisabledTransferButton] = useState(false);
 
+  const records = useSelector(state => getRecords(state, recordType)).get(
+    "data"
+  );
+
+  const selectedIds =
+    selectedRecords && records
+      ? records
+          .toJS()
+          .filter((_r, i) => selectedRecords[currentPage]?.includes(i))
+          .map(r => r.id)
+      : [];
+
   const commonDialogProps = {
     omitCloseAfterSuccess: true,
     pending,
     record,
-    recordType
+    recordType,
+    selectedIds
   };
 
   const commonTransitionProps = {
@@ -47,7 +64,8 @@ const Transitions = ({
     providedConsent,
     recordType,
     record,
-    setPending
+    setPending,
+    selectedIds
   };
 
   // eslint-disable-next-line react/no-multi-comp, react/display-name
@@ -145,6 +163,7 @@ Transitions.displayName = NAME;
 
 Transitions.propTypes = {
   assignDialog: PropTypes.bool,
+  currentPage: PropTypes.number,
   handleAssignClose: PropTypes.func,
   handleReferClose: PropTypes.func,
   handleTransferClose: PropTypes.func,
@@ -152,6 +171,7 @@ Transitions.propTypes = {
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   referDialog: PropTypes.bool,
+  selectedRecords: PropTypes.object,
   setPending: PropTypes.func,
   transferDialog: PropTypes.bool,
   userPermissions: PropTypes.object.isRequired

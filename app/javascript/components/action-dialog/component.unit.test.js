@@ -4,7 +4,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  IconButton
+  IconButton,
+  Typography
 } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
@@ -24,7 +25,8 @@ describe("<ActionDialog />", () => {
     children: [],
     onClose: () => {},
     confirmButtonProps: {},
-    omitCloseAfterSuccess: false
+    omitCloseAfterSuccess: false,
+    dialogSubHeader: "Test SubHeader"
   };
 
   beforeEach(() => {
@@ -72,7 +74,8 @@ describe("<ActionDialog />", () => {
       "confirmButtonProps",
       "omitCloseAfterSuccess",
       "dialogSubtitle",
-      "enabledSuccessButton"
+      "enabledSuccessButton",
+      "dialogSubHeader"
     ].forEach(property => {
       expect(actionDialogProps).to.have.property(property);
       delete actionDialogProps[property];
@@ -84,6 +87,12 @@ describe("<ActionDialog />", () => {
     expect(component.find(DialogTitle).text()).to.be.equal("Test Subtitle");
   });
 
+  it("should render dialogSubHeader with it's correct value ", () => {
+    expect(component.find(Typography).last().text()).to.be.equal(
+      "Test SubHeader"
+    );
+  });
+
   it("should not render DialogSubtitle because isn't passed in props ", () => {
     delete props.dialogSubtitle;
     const { component: componentWithoutSubtitle } = setupMountedComponent(
@@ -93,5 +102,16 @@ describe("<ActionDialog />", () => {
     );
 
     expect(componentWithoutSubtitle.find(DialogTitle).text()).to.be.empty;
+  });
+
+  it("should not render dialogSubHeader because isn't passed in props ", () => {
+    delete props.dialogSubHeader;
+    const { component: componentWithoutSubtitle } = setupMountedComponent(
+      ActionDialog,
+      props,
+      {}
+    );
+
+    expect(componentWithoutSubtitle.find(Typography)).to.be.empty;
   });
 });

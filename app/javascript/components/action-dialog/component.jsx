@@ -7,7 +7,8 @@ import {
   DialogContent,
   DialogTitle,
   DialogContentText,
-  CircularProgress
+  CircularProgress,
+  Typography
 } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
@@ -33,6 +34,7 @@ const ActionDialog = ({
   maxSize,
   pending,
   enabledSuccessButton,
+  dialogSubHeader,
   cancelButtonProps
 }) => {
   const i18n = useI18n();
@@ -80,6 +82,12 @@ const ActionDialog = ({
     <DialogTitle className={css.dialogTitle}>{dialogTitle}</DialogTitle>
   );
 
+  const subHeader = dialogSubHeader && (
+    <Typography component="h6" className={css.subHeader}>
+      {dialogSubHeader}
+    </Typography>
+  );
+
   const submitButton = (
     <div className={css.submitButtonWrapper}>
       <Button
@@ -105,6 +113,7 @@ const ActionDialog = ({
         aria-describedby="action-dialog-description"
       >
         {dialogHeader}
+        {subHeader}
         <DialogContent>
           {dialogText ? (
             <DialogContentText>{dialogText}</DialogContentText>
@@ -145,6 +154,7 @@ ActionDialog.propTypes = {
   ]),
   confirmButtonLabel: PropTypes.string,
   confirmButtonProps: PropTypes.object,
+  dialogSubHeader: PropTypes.string,
   dialogSubtitle: PropTypes.string,
   dialogText: PropTypes.string,
   dialogTitle: PropTypes.string,
