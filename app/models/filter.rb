@@ -231,9 +231,9 @@ class Filter < ValueObject
       filters << STATUS
       filters << AGE_RANGE
       filters << SEX
-      filters << APPROVALS_STATUS_ASSESSMENT if permitted_form_ids.include?('cp_bia_form') && user.can_approve_assessment?
-      filters << APPROVALS_STATUS_CASE_PLAN if permitted_form_ids.include?('cp_case_plan') && user.can_approve_case_plan?
-      filters << APPROVALS_STATUS_CLOSURE if permitted_form_ids.include?('closure_form') && user.can_approve_closure?
+      filters << APPROVALS_STATUS_ASSESSMENT if user.can_approve_assessment?
+      filters << APPROVALS_STATUS_CASE_PLAN if user.can_approve_case_plan?
+      filters << APPROVALS_STATUS_CLOSURE if user.can_approve_closure?
       filters << PROTECTION_CONCERNS if user.can?(:view_protection_concerns_filter, model_class) && visible?('protection_concerns', filter_fields)
       filters << GBV_DISPLACEMENT_STATUS if user.has_module?(PrimeroModule::GBV) && visible?('gbv_displacement_status', filter_fields)
       filters << PROTECTION_STATUS if visible?('protection_status', filter_fields)

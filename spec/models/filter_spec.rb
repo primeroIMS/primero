@@ -16,7 +16,7 @@ describe Filter do
       description: 'Gender Based Violence',
       associated_record_types: %w[case tracing_request incident],
       primero_program: @program,
-      form_sections: [FormSection.create!(parent_form: 'case', name: 'form_2')]
+      form_sections: [FormSection.create!(name: 'form_2')]
     )
     @cp = PrimeroModule.create!(
       unique_id: 'primeromodule-cp',
@@ -24,7 +24,7 @@ describe Filter do
       description: 'Child Protection',
       associated_record_types: %w[case tracing_request incident],
       primero_program: @program,
-      form_sections: [FormSection.create!(parent_form: 'case', name: 'form_1'), FormSection.create!(parent_form: 'case', name: 'cp_bia_form')]
+      form_sections: [FormSection.create!(name: 'form_1')]
     )
     @role_a = Role.create!(
       name: 'Test Role 1',
@@ -37,7 +37,6 @@ describe Filter do
       ],
       modules: [@cp]
     )
-    @role_a.associate_all_forms
     @role_b = Role.create!(
       name: 'Test Role 2',
       unique_id: 'test-role-2',
@@ -49,7 +48,6 @@ describe Filter do
       ],
       modules: [@cp, @gbv]
     )
-    @role_b.associate_all_forms
     @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
     @user_a = User.create!(
       full_name: 'Test User 1',
@@ -87,7 +85,7 @@ describe Filter do
       { id: 'date_closure', display_name: 'Date of Case Closure ' },
       { id: 'created_at', display_name: 'Date of Creation' }
     ]
-    expect(filters_cp[0]['cases'][11].options[:en]).to eq(filter_by_date_cp)
+    expect(filters_cp[0]['cases'][13].options[:en]).to eq(filter_by_date_cp)
     filters_cp_gbv = %w[case incident tracing_request].map { |record_type| { record_type.pluralize => Filter.filters(@user_b, record_type) } }
     filter_by_date_cp_gbv = [
       { id: 'registration_date', display_name: 'Date of Registration' },
@@ -96,7 +94,7 @@ describe Filter do
       { id: 'date_closure', display_name: 'Date of Case Closure ' },
       { id: 'created_at', display_name: 'Case Open Date' }
     ]
-    expect(filters_cp_gbv[0]['cases'][12].options[:en]).to eq(filter_by_date_cp_gbv)
+    expect(filters_cp_gbv[0]['cases'][14].options[:en]).to eq(filter_by_date_cp_gbv)
   end
 
   it 'approvals.assessment will be present on filters' do

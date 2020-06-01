@@ -1,4 +1,4 @@
-import { Map, fromJS } from "immutable";
+import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
 import Chip from "@material-ui/core/Chip";
 
@@ -10,15 +10,32 @@ describe("<ApprovalSummary /> - Component", () => {
   let component;
   const props = {
     approvalSubform: fromJS({
-      approval_date: "2020-01-01"
+      approval_date: "2020-01-01",
+      approval_response_for: "assessment"
     }),
-    css: {},
+    css: {
+      approvalsValueSummary: "approvalsValueSummary"
+    },
     isRequest: false,
     isResponse: true
   };
 
+  const initialState = fromJS({
+    application: {
+      approvalsLabels: {
+        assessment: {
+          en: "Assessment"
+        }
+      }
+    }
+  });
+
   beforeEach(() => {
-    ({ component } = setupMountedComponent(ApprovalSummary, props, Map({})));
+    ({ component } = setupMountedComponent(
+      ApprovalSummary,
+      props,
+      initialState
+    ));
   });
 
   it("render ApprovalSummary component", () => {
@@ -31,6 +48,12 @@ describe("<ApprovalSummary /> - Component", () => {
 
   it("render a Chip", () => {
     expect(component.find(Chip)).to.have.lengthOf(1);
+  });
+
+  it("render the correct approvals label value", () => {
+    expect(
+      component.find("div.approvalsValueSummary").first().text()
+    ).to.be.equal("Assessment");
   });
 
   it("renders component with valid props", () => {
