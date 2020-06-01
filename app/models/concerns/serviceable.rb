@@ -74,7 +74,7 @@ module Serviceable
     end
 
   def service_response_types
-    return [] if services_section.blank?
+    return [] if services_section.blank? || services_section.any?{|service| service.try(:service_response_type).present? }.blank?
     services_section.map(&:service_response_type).compact
   end
 
