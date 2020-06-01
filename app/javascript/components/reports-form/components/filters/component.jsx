@@ -14,11 +14,13 @@ import {
   TEXT_FIELD
 } from "../../../form";
 import FiltersDialog from "../filters-dialog";
+import { CONSTRAINTS } from "../../constants";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
+import { registerValues } from "./utils";
 
-const Container = ({ fields, defaultFilters, methods, onSuccess }) => {
+const Container = ({ fields, defaultFilters, methods }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [indexes, setIndexes] = useState(
@@ -26,6 +28,21 @@ const Container = ({ fields, defaultFilters, methods, onSuccess }) => {
   );
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [open, setOpen] = useState(false);
+
+  const onSuccess = (index, data) => {
+    // TODO: data should be validated
+    if (Object.is(index, null)) {
+      setIndexes([...indexes, { index: indexes.length, data }]);
+      registerValues(indexes.length, data, indexes, methods);
+    } else {
+      const indexesCopy = [...indexes].slice();
+
+      indexesCopy[index] = { ...indexesCopy[index], data };
+
+      setIndexes(indexesCopy);
+      registerValues(index, data, indexes, methods);
+    }
+  };
 
   if (!fields.length) {
     return null;
@@ -36,7 +53,6 @@ const Container = ({ fields, defaultFilters, methods, onSuccess }) => {
   };
 
   const handleEdit = index => {
-    console.log(indexes);
     setSelectedIndex(index.toString());
     setOpen(true);
   };
@@ -59,17 +75,18 @@ const Container = ({ fields, defaultFilters, methods, onSuccess }) => {
       ) : (
         Object.entries(indexes).map(filter => {
           const [index, { data }] = filter;
-          // const { attribute, constraint, value } = defaultFilters[index];
-          // const filterDisplayName = [
-          //   attribute,
-          //   "is",
-          //   constraint,
-          //   value.join(", ")
-          // ].join(" ");
+          const { attribute, constraint, value } = data;
+
+          const formattedReportFilterName = [
+            fields.find(f => f.id === attribute)?.display_text || "",
+            "is",
+            CONSTRAINTS[constraint],
+            value
+          ].join(" ");
 
           return (
             <Box key={index} display="flex" alignItems="center">
-              <Box flexGrow={1}>{`${index}/${JSON.stringify(data)}`}</Box>
+              <Box flexGrow={1}>{formattedReportFilterName}</Box>
               <Box>
                 <IconButton onClick={() => handleDelete(index)}>
                   <DeleteIcon />
@@ -88,9 +105,8 @@ const Container = ({ fields, defaultFilters, methods, onSuccess }) => {
         setSelectedIndex={setSelectedIndex}
         open={open}
         setOpen={setOpen}
-        setIndexes={() => console.log(methods.getValues())}
+        indexes={indexes}
         fields={fields}
-        methods={methods}
         onSuccess={onSuccess}
       />
     </>
@@ -102,8 +118,7 @@ Container.displayName = NAME;
 Container.propTypes = {
   defaultFilters: PropTypes.array,
   fields: PropTypes.object,
-  methods: PropTypes.object,
-  onSuccess: PropTypes.func
+  methods: PropTypes.object
 };
 
 export default Container;

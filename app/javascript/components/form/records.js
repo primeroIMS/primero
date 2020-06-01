@@ -30,7 +30,8 @@ export const FieldRecord = Record({
   handleWatchedInputs: null,
   check_errors: List([]),
   hint: "",
-  groupBy: null
+  groupBy: null,
+  tick_box_label: Map({})
 });
 
 export const FormSectionRecord = Record({

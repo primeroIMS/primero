@@ -1,3 +1,11 @@
+import {
+  DATE_FIELD,
+  NUMERIC_FIELD,
+  RADIO_FIELD,
+  SELECT_FIELD,
+  TICK_FIELD
+} from "../form";
+
 export const NAME = "ReportsForm";
 export const NAME_FIELD = "name.en";
 export const DESCRIPTION_FIELD = "description.en";
@@ -23,3 +31,11 @@ export const CONSTRAINTS = Object.freeze({
   "=": "Equal To",
   not_null: "Not Blank"
 });
+
+export const ALLOWED_FIELD_TYPES = [
+  DATE_FIELD,
+  NUMERIC_FIELD,
+  RADIO_FIELD,
+  SELECT_FIELD,
+  TICK_FIELD
+];

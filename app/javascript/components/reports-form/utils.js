@@ -3,15 +3,8 @@ import isEmpty from "lodash/isEmpty";
 import { TICK_FIELD } from "../form";
 import { dataToJS } from "../../libs";
 import { AGE_MAX } from "../../config";
-import {
-  AUDIO_FIELD,
-  DOCUMENT_FIELD,
-  PHOTO_FIELD,
-  SEPERATOR,
-  SUBFORM_SECTION
-} from "../record-form/constants";
 
-import { REPORTABLE_TYPES } from "./constants";
+import { REPORTABLE_TYPES, ALLOWED_FIELD_TYPES } from "./constants";
 
 export const dependantFields = formSections => {
   const data = dataToJS(formSections);
@@ -47,17 +40,16 @@ export const buildFields = (data, locale, isReportable) => {
     return data.fields.map(field => ({
       id: field.name,
       display_text: field.display_name[locale],
-      formSection
+      formSection,
+      type: field.type,
+      option_strings_source: field.option_strings_source?.replace(
+        /lookup /,
+        ""
+      ),
+      option_strings_text: field.option_strings_text,
+      tick_box_label: field.tick_box_label?.[locale]
     }));
   }
-
-  const excludeFieldTypes = [
-    AUDIO_FIELD,
-    DOCUMENT_FIELD,
-    PHOTO_FIELD,
-    SEPERATOR,
-    SUBFORM_SECTION
-  ];
 
   return data
     .reduce((acc, form) => {
@@ -66,12 +58,19 @@ export const buildFields = (data, locale, isReportable) => {
 
       const filteredFields = fields
         .filter(
-          field => !excludeFieldTypes.includes(field.type) && field.visible
+          field => ALLOWED_FIELD_TYPES.includes(field.type) && field.visible
         )
         .map(field => ({
           id: field.name,
           display_text: field.display_name[locale],
-          formSection: name[locale]
+          formSection: name[locale],
+          type: field.type,
+          option_strings_source: field.option_strings_source?.replace(
+            /lookup /,
+            ""
+          ),
+          option_strings_text: field.option_strings_text,
+          tick_box_label: field.tick_box_label?.[locale]
         }));
 
       return [...acc, filteredFields];

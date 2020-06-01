@@ -27,13 +27,7 @@ import {
   NAME,
   NAME_FIELD,
   DESCRIPTION_FIELD,
-  MODULES_FIELD,
-  RECORD_TYPE_FIELD,
-  AGGREGATE_BY_FIELD,
-  DISAGGREGATE_BY_FIELD,
-  GROUP_AGES_FIELD,
-  GROUP_DATES_BY_FIELD,
-  IS_GRAPH_FIELD
+  ALLOWED_FIELD_TYPES
 } from "./constants";
 import NAMESPACE from "./namespace";
 import { form, validations } from "./form";
@@ -88,8 +82,8 @@ const Container = ({ mode }) => {
   }, [id]);
 
   const defaultFilters = [
-    { attribute: "status", constraint: "=", value: ["open"] },
-    { attribute: "age", constraint: "not_null", value: ["male"] }
+    { attribute: "status", constraint: false, value: ["open"] },
+    { attribute: "age", constraint: ">", value: 5 }
   ];
 
   useEffect(() => {
@@ -111,22 +105,9 @@ const Container = ({ mode }) => {
         filters: defaultFilters
       };
 
-      console.log("RESET");
       methods.reset(valueFromSelector);
     }
   }, [report]);
-
-  const onSuccess = data => {
-    console.log("onSuccess data", data);
-    // Object.entries(data).forEach(entry =>
-    //   Object.entries(entry[1]).forEach(valueEntry => {
-    //     if (!methods.control[`fields.${entry[0]}.${valueEntry[0]}`]) {
-    //       methods.register({ name: `fields.${entry[0]}.${valueEntry[0]}` });
-    //     }
-    //     methods.setValue(`fields.${entry[0]}.${valueEntry[0]}`, valueEntry[1]);
-    //   })
-    // );
-  };
 
   const onSubmit = data => console.log("ON SUBMIT", data);
 
@@ -216,7 +197,6 @@ const Container = ({ mode }) => {
                 register={methods.register}
                 formMode={formMode}
                 methods={methods}
-                onSuccess={onSuccess}
               />
             </form>
           </FormContext>

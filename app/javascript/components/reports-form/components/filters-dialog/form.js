@@ -4,41 +4,118 @@ import {
   FormSectionRecord,
   FieldRecord,
   SELECT_FIELD,
-  TEXT_FIELD
+  TEXT_FIELD,
+  TICK_FIELD,
+  RADIO_FIELD
 } from "../../../form";
 import { CONSTRAINTS } from "../../constants";
 
-export default (i18n, fieldName, fields) =>
-  fromJS([
+import { ATTRIBUTE, CONSTRAINT, VALUE } from "./constants";
+
+// TODO: Move to util's file
+const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
+  if (typeof currentField === "undefined") {
+    return {
+      type: TEXT_FIELD
+    };
+  }
+
+  const commonProps = {
+    inputClassname: isConstraintNotNull ? css.hideValue : null
+  };
+
+  switch (currentField.type) {
+    case SELECT_FIELD:
+    case RADIO_FIELD: {
+      if (currentField.option_strings_source) {
+        return {
+          ...commonProps,
+          type: SELECT_FIELD,
+          multi_select: true,
+          option_strings_source: currentField.option_strings_source
+        };
+      }
+
+      return {
+        ...commonProps,
+        type: SELECT_FIELD,
+        multi_select: true,
+        option_strings_text: currentField.option_strings_text[i18n.locale]
+      };
+    }
+    case TICK_FIELD:
+      return {
+        ...commonProps,
+        type: SELECT_FIELD,
+        multi_select: true,
+        option_strings_text: [
+          // {
+          //   id: true,
+          //   display_text: currentField.tick_box_label
+          // },
+          {
+            id: false,
+            display_text: "Not Selected"
+          }
+        ]
+      };
+    default:
+      return commonProps;
+  }
+};
+
+// TODO: Move to util's file
+const constraintInputType = (currentField, i18n) => {
+  const allowedTickboxConstraint = [SELECT_FIELD, TICK_FIELD];
+
+  if (allowedTickboxConstraint.includes(currentField?.type)) {
+    return {
+      display_name: "Is not blank?",
+      type: TICK_FIELD
+    };
+  }
+
+  return {
+    display_name: i18n.t("report.constraint"),
+    type: SELECT_FIELD,
+    option_strings_text: Object.entries(CONSTRAINTS).map(value => {
+      // eslint-disable-next-line camelcase
+      const [id, display_text] = value;
+
+      return {
+        id,
+        display_text
+      };
+    })
+  };
+};
+
+export default (i18n, fields, currentField, isConstraintNotNull, css) => {
+  // const restValues = {
+  //   ...valueFieldType(currentField, isConstraintNotNull, css, i18n)
+  // };
+
+  return fromJS([
     FormSectionRecord({
       unique_id: "reportFilter",
       fields: [
         FieldRecord({
           display_name: i18n.t("report.attribute"),
-          name: `${fieldName}.attribute`,
+          name: ATTRIBUTE,
           type: SELECT_FIELD,
           groupBy: "formSection",
           option_strings_text: fields
         }),
         FieldRecord({
-          display_name: i18n.t("report.constraint"),
-          name: `${fieldName}.constraint`,
-          type: SELECT_FIELD,
-          option_strings_text: Object.entries(CONSTRAINTS).map(value => {
-            // eslint-disable-next-line camelcase
-            const [id, display_text] = value;
-
-            return {
-              id,
-              display_text
-            };
-          })
+          name: CONSTRAINT,
+          ...constraintInputType(currentField, i18n)
         }),
         FieldRecord({
           display_name: i18n.t("report.value"),
-          name: `${fieldName}.value`,
-          type: TEXT_FIELD
+          name: VALUE,
+          ...valueFieldType(currentField, isConstraintNotNull, css, i18n)
         })
       ]
     })
   ]);
+};
