@@ -200,7 +200,9 @@ export const ADMIN_NAV = [
     items: [
       {
         to: "/forms",
-        label: "settings.navigation.forms"
+        label: "settings.navigation.forms",
+        permission: MANAGE,
+        recordType: RESOURCES.metadata
       },
       {
         to: "/lookups",
@@ -208,7 +210,9 @@ export const ADMIN_NAV = [
         permission: MANAGE,
         recordType: RESOURCES.metadata
       }
-    ]
+    ],
+    permission: MANAGE,
+    recordType: RESOURCES.metadata
   },
   { to: "/locations", label: "settings.navigation.locations", disabled: true },
   {
