@@ -2,6 +2,7 @@ import { fromJS } from "immutable";
 
 import actions from "./actions";
 import { affectedOrderRange, buildOrderUpdater } from "./utils";
+import { transformValues } from "./components/field-dialog/utils";
 
 const DEFAULT_STATE = fromJS({});
 
@@ -88,7 +89,9 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
       return state.setIn(
         selectedFieldPath,
-        selectedField.merge(fromJS(payload.data[fieldName]))
+        selectedField.merge(
+          fromJS(transformValues(payload.data[fieldName], true))
+        )
       );
     }
     default:

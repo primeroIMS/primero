@@ -1577,7 +1577,9 @@ en:
     not_future_date: "Is not a future date"
     default_date_validation: "Default date validation"
     date_not_valid: "This date is not valid."
-    future_date_not_valid: "This date cannot be in future."
+    future_date_not_valid: "Cannot be in future."
+    default_to_current_date: "Defaults to current date?"
+    default_to_current_datetime: "Defaults to current date and time?"
     number_not_valid: "Please enter numeric data"
     separator: "Separator"
     successfully_added: "Field successfully added"
@@ -2508,6 +2510,8 @@ en:
     users_label: "Recipient"
     user_mandatory_label: "Recipient is required"
     successfully: "Successfully reassigned"
+    multiple_successfully: "%{select_records} case(s) successfully assigned"
+    multiple_error: "An error occurred. %{select_records} case(s) not assigned."
 
   transfer:
     type_label: "Type of Transfer"
@@ -2574,6 +2578,7 @@ en:
       transfer: "Transfer"
       transferRequest: "Transfer Request"
       referral: "Referral"
+      reassign: "Assign"
     notes: "Notes"
     recipient: "Recipient"
     assigned_by: "Assigned By"
