@@ -6,7 +6,8 @@ import {
   SELECT_FIELD,
   TEXT_FIELD,
   TICK_FIELD,
-  RADIO_FIELD
+  RADIO_FIELD,
+  DATE_FIELD
 } from "../../../form";
 import { CONSTRAINTS } from "../../constants";
 
@@ -14,19 +15,19 @@ import { ATTRIBUTE, CONSTRAINT, VALUE } from "./constants";
 
 // TODO: Move to util's file
 const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
-  if (typeof currentField === "undefined") {
-    return {
-      type: TEXT_FIELD
-    };
-  }
-
+  // console.log("FIELD", currentField);
   const commonProps = {
-    inputClassname: isConstraintNotNull ? css.hideValue : null
+    type: TEXT_FIELD,
+    inputClassname: isConstraintNotNull ? css.hideValue : ""
   };
 
+  if (typeof currentField === "undefined") {
+    return commonProps;
+  }
+
   switch (currentField.type) {
-    case SELECT_FIELD:
-    case RADIO_FIELD: {
+    case RADIO_FIELD:
+    case SELECT_FIELD: {
       if (currentField.option_strings_source) {
         return {
           ...commonProps,
@@ -43,21 +44,32 @@ const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
         option_strings_text: currentField.option_strings_text[i18n.locale]
       };
     }
-    case TICK_FIELD:
+    case TICK_FIELD: {
+      const options = [
+        {
+          id: false,
+          display_text: "Not Selected"
+        }
+      ];
+
+      if (currentField.tick_box_label) {
+        options.push({
+          id: true,
+          display_text: currentField.tick_box_label
+        });
+      }
+
       return {
         ...commonProps,
         type: SELECT_FIELD,
         multi_select: true,
-        option_strings_text: [
-          // {
-          //   id: true,
-          //   display_text: currentField.tick_box_label
-          // },
-          {
-            id: false,
-            display_text: "Not Selected"
-          }
-        ]
+        option_strings_text: options
+      };
+    }
+    case DATE_FIELD:
+      return {
+        ...commonProps,
+        type: DATE_FIELD
       };
     default:
       return commonProps;
@@ -66,7 +78,7 @@ const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
 
 // TODO: Move to util's file
 const constraintInputType = (currentField, i18n) => {
-  const allowedTickboxConstraint = [SELECT_FIELD, TICK_FIELD];
+  const allowedTickboxConstraint = [SELECT_FIELD, TICK_FIELD, RADIO_FIELD];
 
   if (allowedTickboxConstraint.includes(currentField?.type)) {
     return {
@@ -91,10 +103,6 @@ const constraintInputType = (currentField, i18n) => {
 };
 
 export default (i18n, fields, currentField, isConstraintNotNull, css) => {
-  // const restValues = {
-  //   ...valueFieldType(currentField, isConstraintNotNull, css, i18n)
-  // };
-
   return fromJS([
     FormSectionRecord({
       unique_id: "reportFilter",

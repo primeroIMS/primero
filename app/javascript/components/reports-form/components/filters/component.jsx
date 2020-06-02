@@ -30,6 +30,7 @@ const Container = ({ fields, defaultFilters, methods }) => {
   const [open, setOpen] = useState(false);
 
   const onSuccess = (index, data) => {
+    console.log("DATA", data);
     // TODO: data should be validated
     if (Object.is(index, null)) {
       setIndexes([...indexes, { index: indexes.length, data }]);
@@ -57,6 +58,7 @@ const Container = ({ fields, defaultFilters, methods }) => {
     setOpen(true);
   };
 
+  // TODO: OnSuccess here!!
   const handleDelete = index =>
     setIndexes(indexes.filter(i => i.index.toString() !== index));
 

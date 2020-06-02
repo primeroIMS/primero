@@ -8,7 +8,7 @@ import ActionDialog from "../../../action-dialog";
 import bindFormSubmit from "../../../../libs/submit-form";
 import { useI18n } from "../../../i18n";
 import FormSection from "../../../form/components/form-section";
-import { whichFormMode, SELECT_FIELD } from "../../../form";
+import { whichFormMode, SELECT_FIELD, RADIO_FIELD, TICK_FIELD } from "../../../form";
 
 import { ATTRIBUTE, CONSTRAINT, NAME, VALUE } from "./constants";
 import styles from "./styles.css";
@@ -42,13 +42,20 @@ const Component = ({
     (typeof watchedConstraint === "boolean" && watchedConstraint);
 
   const currentField = fields.find(f => f.id === watchedAttribute);
+  const selectedReportFilter = indexes.find(
+    i => i.index.toString() === selectedIndex
+  )?.data;
 
   // Cleans value filter if is not blank
-  if (isConstraintNotNullOrTrue && currentField.type === SELECT_FIELD) {
-    if (!isEmpty(formMethods.getValues()[VALUE])) {
-      formMethods.setValue(VALUE, []);
-    }
-  }
+  // if (
+  //   (isConstraintNotNullOrTrue ||
+  //     watchedAttribute !== selectedReportFilter?.attribute) &&
+  //   [SELECT_FIELD, RADIO_FIELD].includes(currentField?.type)
+  // ) {
+  //   if (!isEmpty(formMethods.getValues()[VALUE])) {
+  //     formMethods.setValue(VALUE, []);
+  //   }
+  // }
 
   const onClose = () => {
     setOpen(false);
@@ -62,14 +69,32 @@ const Component = ({
 
   useEffect(() => {
     if (selectedIndex !== null) {
-      formMethods.reset(
-        indexes.find(i => i.index.toString() === selectedIndex)?.data
-      );
+      formMethods.reset(selectedReportFilter);
     }
     if (selectedIndex === null && open) {
       formMethods.reset({ attribute: "", constraint: "", value: "" });
     }
   }, [open]);
+
+  useEffect(() => {
+    if (watchedAttribute) {
+      // TODO: Move this to util's file
+      // Input constraint === TICK_BOX
+      if ([TICK_FIELD, SELECT_FIELD, RADIO_FIELD].includes(currentField.type)) {
+        formMethods.reset({
+          attribute: formMethods.getValues()[ATTRIBUTE],
+          constraint: isNew ? false : formMethods.getValues()[CONSTRAINT],
+          value: isNew ? [] : formMethods.getValues()[VALUE]
+        });
+      } else {
+        formMethods.reset({
+          attribute: formMethods.getValues()[ATTRIBUTE],
+          constraint: isNew ? "" : formMethods.getValues()[CONSTRAINT],
+          value: isNew ? [] : formMethods.getValues()[VALUE]
+        });
+      }
+    }
+  }, [watchedAttribute]);
 
   useImperativeHandle(formRef, () => ({
     submitForm(e) {
