@@ -96,7 +96,8 @@ class Report < ApplicationRecord
       report.name_i18n = report_params[:name]
       report.description_i18n = report_params[:description]
       report.is_graph = report_params[:graph]
-      report.add_fields(report_params[:fields])
+      report.aggregate_by = ReportFieldService.add_fields(report_params, ReportFieldService::HORIZONTAL)
+      report.disaggregate_by = ReportFieldService.add_fields(report_params, ReportFieldService::VERTICAL)
       report
     end
   end
@@ -106,7 +107,8 @@ class Report < ApplicationRecord
     merged_props = FieldI18nService.merge_i18n_properties(attributes, converted_params)
     assign_attributes(report_params.except(:name, :description, :graph, :fields).merge(merged_props))
     self.is_graph = report_params[:graph] unless report_params[:graph].nil?
-    add_fields(report_params[:fields]) if report_params[:fields].present?
+    self.aggregate_by = ReportFieldService.add_fields(report_params, ReportFieldService::HORIZONTAL)
+    self.disaggregate_by = ReportFieldService.add_fields(report_params, ReportFieldService::VERTICAL)
   end
 
   def modules
@@ -173,7 +175,6 @@ class Report < ApplicationRecord
   #TODO: Break up into self contained, testable methods
   def build_report
     # Prepopulates pivot fields
-    return if errors.present?
     pivot_fields
 
     sys = SystemSettings.current
@@ -384,18 +385,6 @@ class Report < ApplicationRecord
 
   def pivot_comparator(a,b)
     (a <=> b) || (a.to_s <=> b.to_s)
-  end
-
-  def add_fields(params_fields)
-    self.aggregate_by = []
-    self.disaggregate_by = []
-    params_fields.sort_by { |field| field[:position][:order] }.each do |field|
-      if field[:position][:type] == ReportFieldService::HORIZONTAL
-        aggregate_by << field[:name]
-      elsif field[:position][:type] == ReportFieldService::VERTICAL
-        disaggregate_by << field[:name]
-      end
-    end
   end
 
   private

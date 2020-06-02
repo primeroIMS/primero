@@ -16,6 +16,8 @@ class ReportFieldService
   end
 
   def self.report_field(field, pivot_name, type, order)
+    return pivot_name if field.nil?
+
     report_field_hash = {
       name: field.name,
       display_name: field.display_name_i18n,
@@ -41,5 +43,10 @@ class ReportFieldService
         end
       end
     end
+  end
+
+  def self.add_fields(params, position_type)
+    report_params = params[:fields]&.select { |param| param['position']['type'] == position_type }
+    report_params&.sort_by { |field| field[:position][:order] }
   end
 end

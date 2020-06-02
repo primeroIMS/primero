@@ -115,3 +115,66 @@ Create a new report and return the entire record.
   ]
 }
 ```
+
+---
+
+**Condition** : A report without name in english in the params.
+
+**Code** : `422`
+
+**Content** :
+
+```json
+{
+  "errors": [
+    {
+      "status": 422,
+      "resource": "/api/v2/reports",
+      "detail": "name",
+      "message": ["Name must not be blank"]
+    }
+  ]
+}
+```
+
+---
+
+**Condition** : A report without record_type in the params.
+
+**Code** : `422`
+
+**Content** :
+
+```json
+{
+  "errors": [
+    {
+      "status": 422,
+      "resource": "/api/v2/reports",
+      "detail": "record_type",
+      "message": ["can't be blank"]
+    }
+  ]
+}
+```
+
+---
+
+**Condition** : A report without fields in the params.
+
+**Code** : `422`
+
+**Content** :
+
+```json
+{
+  "errors": [
+    {
+      "status": 422,
+      "resource": "/api/v2/reports",
+      "detail": "aggregate_by",
+      "message": ["can't be blank"]
+    }
+  ]
+}
+```

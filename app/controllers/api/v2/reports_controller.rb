@@ -1,6 +1,7 @@
 module Api::V2
   class ReportsController < ApplicationApiController
     include Concerns::Pagination
+    before_action :load_report, only: %i[show update destroy]
 
     def index
       authorize! :index, Report
@@ -10,7 +11,6 @@ module Api::V2
     end
 
     def show
-      @report = Report.find(params[:id])
       authorize! :read_reports, @report
       @report.permission_filter = report_permission_filter(current_user)
       @report.build_report
@@ -19,24 +19,18 @@ module Api::V2
     def create
       authorize! :create, Report
       @report = Report.new_with_properties(report_params)
-      @report.save
-      @report.permission_filter = report_permission_filter(current_user)
-      @report.build_report
+      @report.save!
       status = params[:data][:id].present? ? 204 : 200
       render :create, status: status
     end
 
     def update
-      @report = Report.find(params[:id])
       authorize! :update, @report
       @report.update_properties(report_params)
-      @report.save
-      @report.permission_filter = report_permission_filter(current_user)
-      @report.build_report
+      @report.save!
     end
 
     def destroy
-      @report = Report.find(params[:id])
       authorize! :destroy, @report
       @report.destroy!
     end
@@ -44,9 +38,14 @@ module Api::V2
     def report_params
       params.require(:data).permit(
         :record_type, :module_id, :graph, :aggregate_counts_from, :group_ages, :group_dates_by, :add_default_filters,
-        disaggregate_by: [], aggregate_by: [], name: {}, description: {}, fields: [:name, position: {}],
-        filters: [:attribute, :constraint, value: []]
+        name: {}, description: {}, fields: [:name, position: {}], filters: [:attribute, :constraint, value: []]
       )
+    end
+
+    protected
+
+    def load_report
+      @report = Report.find(params[:id])
     end
 
     private
