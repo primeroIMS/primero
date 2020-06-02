@@ -1,0 +1,12 @@
+.inputPreviewContainer {
+  display: flex;
+}
+
+.label span {
+  display: flex;
+  align-items: center;
+
+  & div:first-of-type {
+    width: 9em;
+  }
+}

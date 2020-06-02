@@ -6,7 +6,8 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   Button,
-  List
+  List,
+  makeStyles
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 
@@ -22,17 +23,25 @@ import {
 } from "../../../../../form";
 import { setDialog } from "../../../../../record-actions/action-creators";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
-import { FieldTypeDate } from "../../../../../../images/primero-icons";
 import { useI18n } from "../../../../../i18n";
+import RadioImg from "../../../../../../images/field-types/radio.png";
+import DateImg from "../../../../../../images/field-types/date.png";
+import TextImg from "../../../../../../images/field-types/line.png";
+import TextAreaImg from "../../../../../../images/field-types/textarea.png";
+import TickboxImg from "../../../../../../images/field-types/tickbox.png";
+import SeperatorImg from "../../../../../../images/field-types/seperator.png";
+import NumericImg from "../../../../../../images/field-types/numeric.png";
+
+import styles from "./styles.css";
 
 const fields = [
-  [TEXT_FIELD, FieldTypeDate],
-  [TEXT_AREA, FieldTypeDate],
-  [TICK_FIELD, FieldTypeDate],
-  [DATE_FIELD, FieldTypeDate],
-  [SEPARATOR, FieldTypeDate],
-  [NUMERIC_FIELD, FieldTypeDate],
-  [RADIO_FIELD, FieldTypeDate]
+  [TEXT_FIELD, TextImg],
+  [TEXT_AREA, TextAreaImg],
+  [TICK_FIELD, TickboxImg],
+  [DATE_FIELD, DateImg],
+  [SEPARATOR, SeperatorImg],
+  [NUMERIC_FIELD, NumericImg],
+  [RADIO_FIELD, RadioImg]
 ];
 
 const Component = ({ onOpen }) => {
@@ -40,7 +49,7 @@ const Component = ({ onOpen }) => {
   const [selectedItem, setSelectedItem] = useState(undefined);
   const dispatch = useDispatch();
   const i18n = useI18n();
-
+  const css = makeStyles(styles)();
   const handleDialog = () => {
     if (open) {
       onOpen();
@@ -87,9 +96,14 @@ const Component = ({ onOpen }) => {
                 selected={isItemSelected(index)}
                 onClick={() => handleListItem(index)}
               >
-                <ListItemText primary={i18n.t(`fields.${name}`)} />
-                <ListItemText primary={<Icon />} />
-
+                <ListItemText
+                  className={css.label}
+                >
+                  <div>{i18n.t(`fields.${name}`)}</div>
+                  <div className={css.inputPreviewContainer}>
+                    <img src={Icon} alt={name} className={css.inputPreview} />
+                  </div>
+                </ListItemText>
                 <ListItemSecondaryAction>
                   <Radio
                     checked={isItemSelected(index)}
