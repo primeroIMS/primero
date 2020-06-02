@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import { describe } from "mocha";
 
 import { RECORD_TYPES } from "../../config";
 import { GROUP_PERMISSIONS, ACTIONS } from "../../libs/permissions";
@@ -73,7 +74,24 @@ const stateWithRecords = fromJS({
     locales: ["en", "fr", "ar"],
     defaultLocale: "en",
     baseLanguage: "en",
-    primeroVersion: "2.0.0.1"
+    primeroVersion: "2.0.0.1",
+    approvalsLabels: {
+      closure: {
+        en: "Closure",
+        fr: "",
+        ar: "Closure-AR"
+      },
+      case_plan: {
+        en: "Case Plan",
+        fr: "",
+        ar: "Case Plan-AR"
+      },
+      assessment: {
+        en: "Assessment",
+        fr: "",
+        ar: "Assessment-AR"
+      }
+    }
   }
 });
 
@@ -222,6 +240,22 @@ describe("Application - Selectors", () => {
       const enabledAgencies = selectors.getEnabledAgencies(stateWithNoRecords);
 
       expect(enabledAgencies).to.be.empty;
+    });
+  });
+
+  describe("getApprovalsLabels", () => {
+    it("should return the approvalsLabels", () => {
+      const expectedApprovalsLabels = {
+        closure: "Closure",
+        case_plan: "Case Plan",
+        assessment: "Assessment"
+      };
+      const approvalsLabels = selectors.getApprovalsLabels(
+        stateWithRecords,
+        "en"
+      );
+
+      expect(approvalsLabels).to.deep.equal(expectedApprovalsLabels);
     });
   });
 });

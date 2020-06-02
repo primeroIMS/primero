@@ -26,7 +26,7 @@ describe Incident do
     before(:all) do
       clean_data(FormSection, Field)
       form = create(:form_section, parent_form: "incident", is_nested: false)
-      %w(approval_status_bia
+      %w(approval_status_assessment
          approval_status_case_plan
          approval_status_closure
          transfer_status).each {|f| create(:select_field, name: f, multi_select: false, form_section_id: form.id) }
