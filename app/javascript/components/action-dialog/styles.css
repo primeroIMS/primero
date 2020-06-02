@@ -1,5 +1,8 @@
 .submitButtonWrapper {
   position: relative;
+  & button {
+    padding-left: 5px;
+  }
 }
 
 .buttonProgress {
@@ -8,4 +11,27 @@
   left: 50%;
   margin-top: -13px;
   margin-left: -16px;
+}
+
+.dialogTitle {
+  & h2 {
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+}
+
+.actionButtonCancel {
+  background: $(theme.primero.colors.grey);
+  color: $(theme.primero.colors.white);
+  margin: 0 .5em;
+
+  &:hover {
+    color: $(theme.primero.colors.black);
+  }
+}
+
+.subHeader {
+  font-size: 0.8rem;
+  margin-left: 1.5rem;
 }

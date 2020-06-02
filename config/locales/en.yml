@@ -95,6 +95,7 @@ en:
     transfer_request_alert: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
     loading: "Loading..."
     no_changes: "You made no field changes"
+    dashboard_offline: "You're offline. The dashboard will be fully functional when you are back online"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -233,6 +234,9 @@ en:
     add: "Add"
     update: "Update"
     clear_selection: "Clear selection"
+    reorder: "Reorder"
+    save_changes: "Save changes"
+    guidance: "Guidance"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -343,17 +347,17 @@ en:
     request_approve_bia: "Approve Assessment?"
     request_approve_case_plan: "Approve Case Plan?"
     request_approve_closure: "Approve Closure?"
-    request_approval_success_bia: "Approval requested for Assessment form."
-    request_approval_success_case_plan: "Approval requested for Case Plan form."
-    request_approval_success_closure: "Approval requested for Closure form."
+    request_approval_success_assessment: "Approval requested for %{approval_label} form."
+    request_approval_success_case_plan: "Approval requested for %{approval_label} form."
+    request_approval_success_closure: "Approval requested for %{approval_label} form."
     request_approval_failure: "An error occurred, please contact support."
     revoke_failure: "An error occurred while revoking the %{transition_type}, please contact support."
-    approved_success_closure: "Closure - Approved"
-    rejected_success_closure: "Closure - Not Approved"
-    approved_success_case_plan: "Case Plan - Approved"
-    rejected_success_case_plan: "Case Plan - Not Approved"
-    approved_success_bia: "Assessment - Approved"
-    rejected_success_bia: "Assessment - Not Approved"
+    approved_success_closure: "%{approval_label} - Approved"
+    rejected_success_closure: "%{approval_label} - Not Approved"
+    approved_success_case_plan: "%{approval_label} - Approved"
+    rejected_success_case_plan: "%{approval_label} - Not Approved"
+    approved_success_bia: "%{approval_label} - Approved"
+    rejected_success_bia: "%{approval_label} - Not Approved"
     approval_select: "The form for"
     approval_radio: "I would like to"
     approval_radio_accept: "Approve"
@@ -1308,12 +1312,12 @@ en:
       referral: "Referral"
       sync_mobile: "Sync with mobile device"
       request_approval: "Request for approval"
-      request_approval_bia: "Request BIA approval"
-      request_approval_case_plan: "Request Case Plan approval"
-      request_approval_closure: "Request Closure approval"
-      approve_bia: "Approve BIA form"
-      approve_case_plan: "Approve Case Plan"
-      approve_closure: "Approve Closure form"
+      request_approval_assessment: "Request %{approval_label} approval"
+      request_approval_case_plan: "Request %{approval_label} approval"
+      request_approval_closure: "Request %{approval_label} approval"
+      approve_assessment: "Approve %{approval_label} form"
+      approve_case_plan: "Approve %{approval_label}"
+      approve_closure: "Approve %{approval_label} form"
       copy: "Copy"
       manage: "Manage"
       administrator_read: "Administrator Read"
@@ -1337,12 +1341,12 @@ en:
       dash_tasks: "View Tasks"
       case_overview: "My Cases"
       case_risk: "Cases by Assessment Level"
-      approvals_assessment: "Assessment"
-      approvals_assessment_pending: "Assessment Pending"
-      approvals_case_plan: "Case Plan"
-      approvals_case_plan_pending: "Case Plan Pending"
-      approvals_closure: "Closure"
-      approvals_closure_pending: "Closure Pending"
+      approvals_assessment: "%{approval_label}"
+      approvals_assessment_pending: "%{approval_label} Pending"
+      approvals_case_plan: "%{approval_label}"
+      approvals_case_plan_pending: "%{approval_label} Pending"
+      approvals_closure: "%{approval_label}"
+      approvals_closure_pending: "%{approval_label} Pending"
       workflow: "Workflow - Individual cases"
       workflow_team: "Workflow - Teams cases"
       cases_by_task_overdue_assessment: "View Cases By Task Overdue Assessment"
@@ -1411,6 +1415,8 @@ en:
       use_existing: "We encourage you to use the existing forms as this makes data sharing and data merging between institutions easier."
       updated: "Form section successfully updated"
       created: "Form section successfully created"
+      save_with_errors: "There was a problem and some form sections were not updated."
+      save_success: "Form sections successfully updated"
     initial_language: "Initial Language"
     cannot_be_edited: "Fields on this form cannot be edited."
     record_types:
@@ -1536,9 +1542,13 @@ en:
   fields:
     label: "Fields"
     field_name: "Field Name"
+    name: "Name"
+    type: "Type"
+    show: "Show?"
     display_name: "Display Name"
-    db_name: "DB Name"
+    db_name: "Database Name"
     help_text: "Help Text"
+    must_be_english: "Must be entered in English"
     actions: "Actions"
     option_strings_text: "Options"
     option_strings_text_key: "Option Key"
@@ -1567,14 +1577,16 @@ en:
     not_future_date: "Is not a future date"
     default_date_validation: "Default date validation"
     date_not_valid: "This date is not valid."
-    future_date_not_valid: "This date cannot be in future."
+    future_date_not_valid: "Cannot be in future."
+    default_to_current_date: "Defaults to current date?"
+    default_to_current_datetime: "Defaults to current date and time?"
     number_not_valid: "Please enter numeric data"
     separator: "Separator"
     successfully_added: "Field successfully added"
     updated: "Field updated"
     deleted: "Field %{display_name} has been deleted."
     add: "Add"
-    type: "Field type"
+    field_type: "Field type"
     move_to: "Move to"
     select_single: "(Select...)"
     select_multiple: "Select all that apply"
@@ -1607,6 +1619,17 @@ en:
       current: "Is this the current document?"
     audio:
       current: "Current Audio"
+    edit_label: "Edit Field"
+    required: "Required"
+    guiding_questions: "Guiding questions"
+    guidance: "Guidance"
+    visibility: "Visibility"
+    show_on_minify_form: "Short form"
+    hide_on_view_page: "Show page"
+    web_app: "Web app"
+    show_on: "Show on"
+    mobile_visible: "Mobile app"
+
 
   replication:
     label: Replication
@@ -1641,10 +1664,14 @@ en:
     remove: "Remove"
     confirm_delete: Are you sure you want to delete this lookup?
     initial_lang_help_text: "This must be entered in %{lang}."
+    english_label: "English Text"
+    translation_label: "Translation Text"
+    language_label: "Language"
     messages:
       cannot_create: "Lookup could not be created"
       correct_errors: "Please correct the following errors and resubmit:"
-      updated: "Lookup successfully added"
+      created: "Lookup was successfully created."
+      updated: "Lookup was successfully updated."
 
   location:
     location_code_warning: Note that if you change an existing location code, you will need to edit re-enter the location fields for any records using this location.
@@ -2329,6 +2356,9 @@ en:
       one: Photo Wall
       selected: Selected to Photo Wall
       success_message: "Creating Photowall%{file_name} Cases without photos will not be included."
+      no_photos_available: No photos available
+      flag_suspect_record: Flagged as Suspect Record
+      reunited: Reunited
     case_pdf:
       all: PDF
       one: PDF
@@ -2406,6 +2436,7 @@ en:
       one: MRM Violations
       selected: Selected to MRM Violations
     custom_exports:
+      all: Custom
       label: Custom Exports
       format_label: Select Format
       field_label: Field
@@ -2420,6 +2451,8 @@ en:
       empty_fields_forms: Please select some forms or fields to export.
       empty_format: Please select a format to export.
       empty_module: Please select a module to export.
+    custom:
+      all: "Custom"
     pdf_exports:
       label: PDF
     forms:
@@ -2480,6 +2513,8 @@ en:
     users_label: "Recipient"
     user_mandatory_label: "Recipient is required"
     successfully: "Successfully reassigned"
+    multiple_successfully: "%{select_records} case(s) successfully assigned"
+    multiple_error: "An error occurred. %{select_records} case(s) not assigned."
 
   transfer:
     type_label: "Type of Transfer"
@@ -2546,6 +2581,7 @@ en:
       transfer: "Transfer"
       transferRequest: "Transfer Request"
       referral: "Referral"
+      reassign: "Assign"
     notes: "Notes"
     recipient: "Recipient"
     assigned_by: "Assigned By"

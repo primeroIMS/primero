@@ -1,0 +1,16 @@
+.reorderActions {
+  /*bottom: 1em;
+  right: 5em;
+  padding: 0.5em;*/
+  padding: 0;
+}
+
+.actionButtonCancel {
+  background: $(theme.primero.colors.grey);
+  color: $(theme.primero.colors.white);
+  margin: 0 .5em;
+
+  &:hover {
+    color: $(theme.primero.colors.black);
+  }
+}

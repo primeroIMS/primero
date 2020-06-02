@@ -2,7 +2,7 @@
 class Approval < ValueObject
   attr_accessor :record, :fields, :user_name, :approval_type, :approval_id, :comments
 
-  BIA = 'bia'
+  ASSESSMENT = 'assessment'
   CASE_PLAN = 'case_plan'
   CLOSURE = 'closure'
 
@@ -11,11 +11,11 @@ class Approval < ValueObject
   APPROVAL_STATUS_APPROVED = 'approved'
   APPROVAL_STATUS_REJECTED = 'rejected'
 
-  BIA_FIELDS = {
-    approved: 'bia_approved',
-    approval_status: 'approval_status_bia',
-    approved_date: 'bia_approved_date',
-    approved_comments: 'bia_approved_comments',
+  ASSESSMENT_FIELDS = {
+    approved: 'assessment_approved',
+    approval_status: 'approval_status_assessment',
+    approved_date: 'assessment_approved_date',
+    approved_comments: 'assessment_approved_comments',
   }.freeze
 
   CASE_PLAN_FIELDS = {
@@ -35,7 +35,7 @@ class Approval < ValueObject
 
   def self.get!(approval_id, record, user_name, params = {})
     raise Errors::UnknownPrimeroEntityType, 'approvals.error_invalid_approval' if [
-      Approval::BIA, Approval::CLOSURE, Approval::CASE_PLAN
+      Approval::ASSESSMENT, Approval::CLOSURE, Approval::CASE_PLAN
     ].exclude?(approval_id)
 
     Approval.new(
@@ -82,6 +82,7 @@ class Approval < ValueObject
       user_name,
       comments
     )
+    delete_approval_alerts
   end
 
   def reject!
@@ -131,5 +132,13 @@ class Approval < ValueObject
     end
 
     action.compact
+  end
+
+  def delete_approval_alerts
+    return if record.alerts.blank?
+
+    record.alerts.each do |alert|
+      alert.destroy if alert.alert_for == Alertable::APPROVAL
+    end
   end
 end

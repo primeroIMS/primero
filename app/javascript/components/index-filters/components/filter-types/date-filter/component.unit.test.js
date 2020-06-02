@@ -1,4 +1,5 @@
 import { Select } from "@material-ui/core";
+import { DatePicker, DateTimePicker } from "@material-ui/pickers";
 
 import { setupMockFormComponent, spy } from "../../../../../test";
 
@@ -17,7 +18,9 @@ describe("<DateFilter>", () => {
   };
 
   const props = {
-    filter
+    addFilterToList: () => {},
+    filter,
+    filterToList: {}
   };
 
   it("renders panel", () => {
@@ -26,15 +29,36 @@ describe("<DateFilter>", () => {
     expect(component.exists("Panel")).to.be.true;
   });
 
+  it("renders 2 DatePicker component", () => {
+    const { component } = setupMockFormComponent(DateFilter, props);
+
+    expect(component.find(DateTimePicker)).to.have.lengthOf(0);
+    expect(component.find(DatePicker)).to.have.lengthOf(2);
+  });
+
+  it("renders 2 DateTimePicker component if we pass the prop dateIncludeTime = true", () => {
+    const newProps = {
+      addFilterToList: () => {},
+      filter: { ...filter, dateIncludeTime: true },
+      filterToList: {}
+    };
+    const { component } = setupMockFormComponent(DateFilter, newProps);
+
+    expect(component.find(DatePicker)).to.have.lengthOf(0);
+    expect(component.find(DateTimePicker)).to.have.lengthOf(2);
+  });
+
   it("renders date-filter as secondary filter, with valid pros in the more section", () => {
     const newProps = {
+      addFilterToList: () => {},
+      filter,
+      filterToList: {},
       mode: {
         secondary: true
       },
       moreSectionFilters: {},
-      setMoreSectionFilters: () => {},
-      filter,
       reset: false,
+      setMoreSectionFilters: () => {},
       setReset: () => {}
     };
     const { component } = setupMockFormComponent(DateFilter, newProps);
@@ -43,8 +67,10 @@ describe("<DateFilter>", () => {
     expect(component.exists("Panel")).to.be.true;
 
     [
+      "addFilterToList",
       "commonInputProps",
       "filter",
+      "filterToList",
       "mode",
       "moreSectionFilters",
       "reset",
@@ -60,15 +86,17 @@ describe("<DateFilter>", () => {
 
   it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
     const newProps = {
+      addFilterToList: () => {},
+      filter,
+      filterToList: {},
+      isDateFieldSelectable: true,
       mode: {
         secondary: false
       },
       moreSectionFilters: {},
-      setMoreSectionFilters: spy(),
-      filter,
       reset: false,
-      setReset: () => {},
-      isDateFieldSelectable: true
+      setMoreSectionFilters: spy(),
+      setReset: () => {}
     };
 
     const { component } = setupMockFormComponent(DateFilter, newProps);

@@ -28,6 +28,7 @@ class PermittedFieldService
     @permitted_field_names += %w[id record_in_scope]
     @permitted_field_names += user.permitted_field_names_from_forms(model_class.parent_form)
     @permitted_field_names << 'or'
+    @permitted_field_names << 'not'
     @permitted_field_names << 'cases_by_date'
     @permitted_field_names << 'alert_count'
     @permitted_field_names += PERMITTED_FILTER_FIELD_NAMES
@@ -43,7 +44,7 @@ class PermittedFieldService
 
   def permitted_approval_field_names
     approval_field_names = []
-    [Approval::BIA, Approval::CASE_PLAN, Approval::CLOSURE].each do |approval_id|
+    [Approval::ASSESSMENT, Approval::CASE_PLAN, Approval::CLOSURE].each do |approval_id|
       if user.can?(:"request_approval_#{approval_id}", model_class) ||
          user.can?(:"approve_#{approval_id}", model_class)
         approval_field_names << 'approval_subforms'

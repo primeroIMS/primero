@@ -1,6 +1,6 @@
 import * as index from "./index";
 
-describe("pages/admin/<FormBuilder> - index", () => {
+describe("pages/admin/<FormList> - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {

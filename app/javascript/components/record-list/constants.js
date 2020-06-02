@@ -6,3 +6,8 @@ export const ALERTS_COLUMNS = Object.freeze({
   photo: "photo"
 });
 export const FILTER_CONTAINER_NAME = `${NAME}FilterContainer`;
+export const DEFAULT_FILTERS = {
+  fields: "short",
+  status: ["open"],
+  record_state: ["true"]
+};

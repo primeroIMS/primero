@@ -8,7 +8,7 @@ import { useI18n } from "../../../../../i18n";
 import styles from "../../styles.css";
 import TableRow from "../table-row";
 
-const Component = ({ group, collection }) => {
+const Component = ({ group, collection, isDragDisabled }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
@@ -26,29 +26,33 @@ const Component = ({ group, collection }) => {
             <div>{i18n.t("form_section.record_type")}</div>
             <div>{i18n.t("form_section.module")}</div>
           </div>
-          {group.toList().map((formSection, index) => {
-            const {
-              name,
-              module_ids: modules,
-              parent_form: parentForm,
-              unique_id: uniqueID,
-              editable,
-              id
-            } = formSection;
+          {group
+            .toList()
+            .sortBy(form => form.order)
+            .map((formSection, index) => {
+              const {
+                name,
+                module_ids: modules,
+                parent_form: parentForm,
+                unique_id: uniqueID,
+                editable,
+                id
+              } = formSection;
 
-            return (
-              <TableRow
-                name={i18n.getI18nStringFromObject(name)}
-                modules={modules}
-                parentForm={parentForm}
-                index={index}
-                uniqueID={uniqueID}
-                key={uniqueID}
-                editable={editable}
-                id={id}
-              />
-            );
-          })}
+              return (
+                <TableRow
+                  name={i18n.getI18nStringFromObject(name)}
+                  modules={modules}
+                  parentForm={parentForm}
+                  index={index}
+                  uniqueID={uniqueID}
+                  key={uniqueID}
+                  editable={editable}
+                  id={id}
+                  isDragDisabled={isDragDisabled}
+                />
+              );
+            })}
           {provided.placeholder}
         </div>
       )}
@@ -58,9 +62,14 @@ const Component = ({ group, collection }) => {
 
 Component.displayName = "FormSection";
 
+Component.defaultProps = {
+  isDragDisabled: false
+};
+
 Component.propTypes = {
   collection: PropTypes.string.isRequired,
-  group: PropTypes.object.isRequired
+  group: PropTypes.object.isRequired,
+  isDragDisabled: PropTypes.bool
 };
 
 export default Component;

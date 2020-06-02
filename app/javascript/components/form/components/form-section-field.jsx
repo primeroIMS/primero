@@ -9,13 +9,17 @@ import TextInput from "../fields/text-input";
 import SwitchInput from "../fields/switch-input";
 import SelectInput from "../fields/select-input";
 import ErrorField from "../fields/error-field";
+import RadioField from "../fields/radio-input";
+import ToggleField from "../fields/toggle-input";
 import {
   CHECK_BOX_FIELD,
   ERROR_FIELD,
   LABEL_FIELD,
   PHOTO_FIELD,
   SELECT_FIELD,
-  TICK_FIELD
+  TICK_FIELD,
+  RADIO_FIELD,
+  TOGGLE_FIELD
 } from "../constants";
 import CheckboxInput from "../fields/checkbox-input";
 import AttachmentInput from "../fields/attachment-input";
@@ -34,7 +38,6 @@ const FormSectionField = ({ checkErrors, field }) => {
     option_strings_source: optionStringsSource,
     option_strings_text: optionsStringsText,
     options,
-    groupBy,
     password,
     multi_select: multiSelect,
     editable,
@@ -43,7 +46,11 @@ const FormSectionField = ({ checkErrors, field }) => {
     inlineCheckboxes,
     freeSolo,
     check_errors: fieldCheckErrors,
-    disabled
+    hint,
+    disabled,
+    inputClassname,
+    groupBy,
+    visible
   } = field;
   const i18n = useI18n();
   const { formMode, errors, watch } = useFormContext();
@@ -63,6 +70,10 @@ const FormSectionField = ({ checkErrors, field }) => {
       ),
     (prev, next) => prev.equals(next)
   );
+
+  if (typeof visible === "boolean" && !visible) {
+    return null;
+  }
 
   const watchedInputsValues = watchedInputs ? watch(watchedInputs) : null;
   const watchedInputProps = handleWatchedInputs
@@ -88,10 +99,11 @@ const FormSectionField = ({ checkErrors, field }) => {
     label: i18n.getI18nStringFromObject(displayName),
     helperText: error?.message || i18n.getI18nStringFromObject(helpText),
     fullWidth: true,
-    autoComplete: "new-password",
+    autoComplete: "off",
     InputLabelProps: {
       shrink: true
     },
+    className: inputClassname,
     ...watchedInputProps
   };
 
@@ -101,6 +113,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     multiSelect,
     inlineCheckboxes,
     freeSolo,
+    hint,
     groupBy
   };
 
@@ -118,6 +131,10 @@ const FormSectionField = ({ checkErrors, field }) => {
         return Label;
       case ERROR_FIELD:
         return ErrorField;
+      case RADIO_FIELD:
+        return RadioField;
+      case TOGGLE_FIELD:
+        return ToggleField;
       default:
         return TextInput;
     }
@@ -130,7 +147,7 @@ const FormSectionField = ({ checkErrors, field }) => {
           field={field}
           commonInputProps={commonInputProps}
           metaInputProps={metaInputProps}
-          options={optionSource.toJS()}
+          options={optionSource?.toJS()}
           errorsToCheck={errorsToCheck}
         />
       )}

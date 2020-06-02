@@ -34,13 +34,14 @@ describe("<ToggleFilter>", () => {
 
   it("renders select as secondary filter, with valid pros in the more section", () => {
     const newProps = {
+      addFilterToList: () => {},
+      filter,
       mode: {
         secondary: true
       },
       moreSectionFilters: {},
-      setMoreSectionFilters: () => {},
-      filter,
       reset: false,
+      setMoreSectionFilters: () => {},
       setReset: () => {}
     };
     const { component } = setupMockFormComponent(ToggleFilter, newProps);
@@ -51,6 +52,7 @@ describe("<ToggleFilter>", () => {
     );
 
     [
+      "addFilterToList",
       "commonInputProps",
       "filter",
       "mode",
@@ -68,13 +70,14 @@ describe("<ToggleFilter>", () => {
 
   it("should have not call setMoreSectionFilters if mode.secondary is false when changing value", () => {
     const newProps = {
+      addFilterToList: () => {},
+      filter,
       mode: {
         secondary: true
       },
       moreSectionFilters: {},
-      setMoreSectionFilters: spy(),
-      filter,
       reset: false,
+      setMoreSectionFilters: spy(),
       setReset: () => {}
     };
 

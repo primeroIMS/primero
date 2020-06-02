@@ -6,6 +6,7 @@ import { FormSectionRecord } from "../../../record-form/records";
 import { RECORD_TYPES } from "../../../../config/constants";
 
 import FormsList from "./component";
+import ReorderActions from "./components/reorder-actions";
 import FormFilters from "./components/form-filters";
 import FormGroup from "./components/form-group";
 
@@ -83,5 +84,51 @@ describe("<FormsList />", () => {
 
   it("renders form sections", () => {
     expect(component.find(FormGroup)).to.have.lengthOf(2);
+  });
+
+  describe("when there are no records", () => {
+    const stateWithoutRecords = initialState.setIn(
+      ["records", "admin", "forms", "formSections"],
+      fromJS([])
+    );
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        FormsList,
+        {},
+        stateWithoutRecords
+      ));
+    });
+
+    it("renders <FormFilters/>", () => {
+      expect(component.find(FormFilters)).to.have.lengthOf(1);
+    });
+
+    it("does not renders form sections", () => {
+      expect(component.find(FormGroup)).to.have.lengthOf(0);
+    });
+  });
+
+  describe("when there reorder is enabled", () => {
+    const stateReorderEnabled = initialState.setIn(
+      ["records", "admin", "forms", "reorderedForms", "enabled"],
+      true
+    );
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        FormsList,
+        {},
+        stateReorderEnabled
+      ));
+    });
+
+    it("renders the <RorderActions />", () => {
+      expect(component.find(ReorderActions)).to.have.lengthOf(1);
+    });
+
+    it("disable the <FormFilters/>", () => {
+      expect(component.find(FormFilters).props().disabled).to.be.true;
+    });
   });
 });
