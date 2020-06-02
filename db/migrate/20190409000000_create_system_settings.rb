@@ -20,7 +20,6 @@ class CreateSystemSettings < ActiveRecord::Migration[5.0]
       t.string 'duplicate_export_field'
       t.string 'primero_version'
       t.jsonb 'system_options'
-      t.jsonb 'approvals_labels_i18n'
     end
   end
 end
