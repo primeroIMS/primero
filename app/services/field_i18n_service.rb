@@ -86,6 +86,8 @@ class FieldI18nService
   #  Returns
   #  { 'name' => { 'en' => "Lastname", 'es' => "Apellido", 'fr' => "" } }
   def self.fill_keys(keys, source)
+    return source if source.is_a?(String)
+
     keys = keys.map(&:to_s) if source.keys.first.is_a?(String)
 
     keys.each do |key|

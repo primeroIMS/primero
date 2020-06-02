@@ -1,20 +1,20 @@
-# Disable an existing agency
+# Delete an existing report
 
-Disable an agency with the specified id.
+Delete an report with the specified id.
 
-**URL** : `/api/v2/agencies/:id`
+**URL** : `/api/v2/reports/:id`
 
 **Method** : `DELETE`
 
 **Authentication** : YES
 
-**Authorization** : The user must be authorized to disable agencies in Primero.
+**Authorization** : The user must be authorized to delete reports in Primero.
 
 **Parameters** : No parameters
 
 ## Success Response
 
-**Condition** : User can disable agencies.
+**Condition** : User can delete reports.
 
 **Code** : `200 OK`
 
@@ -30,7 +30,7 @@ Disable an agency with the specified id.
 
 ## Error Response
 
-**Condition** : User isn't authorized to disable agency.
+**Condition** : User isn't authorized to delete report.
 
 **Code** : `403 Forbidden`
 
@@ -41,7 +41,7 @@ Disable an agency with the specified id.
   "errors": [
     {
       "code": 403,
-      "resource": "/api/v2/agencies/200",
+      "resource": "/api/v2/reports/200",
       "message": "Forbidden"
     }
   ]
@@ -50,7 +50,7 @@ Disable an agency with the specified id.
 
 ---
 
-**Condition** : A agency with the provided id doesn't exist in the database.
+**Condition** : A report with the provided id doesn't exist in the database.
 
 **Code** : `404 Not Found`
 
@@ -61,7 +61,7 @@ Disable an agency with the specified id.
   "errors": [
     {
       "code": 404,
-      "resource": "/api/v2/agencies/thisdoesntexist",
+      "resource": "/api/v2/reports/thisdoesntexist",
       "message": "Not Found"
     }
   ]
