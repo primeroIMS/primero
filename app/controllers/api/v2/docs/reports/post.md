@@ -75,23 +75,9 @@ Create a new report and return the entire record.
     "graph": false,
     "graph_type": "bar",
     "fields": [
-      {
-        "name": "protection_concerns", "display_name": {"en": "Protection Concerns", "es": "", "fr": ""},
-        "position": {"type": "horizontal", "order": 0}
-      },
-      {
-        "name": "owned_by_location", "display_name": {"en": "Owned by location", "es": "", "fr": ""},
-        "position": {"type": "horizontal", "order": 1}, "option_strings_source": "Location", "admin_level": 0
-      }
-    ],
-    "report_data": {
-      "cn": {
-        "migrant": {"_total": 1, "migrant": {"_total": 1}, "sexually_exploited": {"_total": 1}, "trafficked_smuggled": {"_total": 1}},
-        "sexually_exploited": {"migrant": {"_total": 1}, "sexually_exploited": {"_total": 1}, "trafficked_smuggled": {"_total": 1}, "_total": 1},
-        "trafficked_smuggled": {"migrant": {"_total": 1}, "sexually_exploited": {"_total": 1}, "trafficked_smuggled": {"_total": 1}, "_total": 1},
-        "_total": 1
-      }
-    }
+      "{\"name\"=>\"protection_concerns\", \"position\"=><ActionController::Parameters {\"type\"=>\"horizontal\", \"order\"=>\"1\"} permitted: true>}",
+      "{\"name\"=>\"owned_by_location\", \"position\"=><ActionController::Parameters {\"type\"=>\"horizontal\", \"order\"=>\"2\"} permitted: true>}"
+    ]
   }
 }
 ```

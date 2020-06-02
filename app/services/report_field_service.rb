@@ -1,17 +1,19 @@
-class ReportFieldService
+# frozen_string_literal: true
 
+# ReportFieldService
+class ReportFieldService
   HORIZONTAL = 'horizontal'
   VERTICAL = 'vertical'
 
   def self.horizontal_fields(report)
     report.aggregate_by.each_with_index.map do |f,i|
-      self.report_field(report.pivots_map[f], f, HORIZONTAL, i)
+      report_field(report.pivots_map[f], f, HORIZONTAL, i)
     end
   end
 
   def self.vertical_fields(report)
     report.disaggregate_by.each_with_index.map do |f,i|
-      self.report_field(report.pivots_map[f], f, VERTICAL, i)
+      report_field(report.pivots_map[f], f, VERTICAL, i)
     end
   end
 
@@ -45,8 +47,13 @@ class ReportFieldService
     end
   end
 
-  def self.add_fields(params, position_type)
-    report_params = params[:fields]&.select { |param| param['position']['type'] == position_type }
+  def self.aggregate_by_from_params(params)
+    report_params = params[:fields]&.select { |param| param['position']['type'] == HORIZONTAL }
+    report_params&.sort_by { |field| field[:position][:order] }
+  end
+
+  def self.disaggregate_by_from_params(params)
+    report_params = params[:fields]&.select { |param| param['position']['type'] == VERTICAL }
     report_params&.sort_by { |field| field[:position][:order] }
   end
 end

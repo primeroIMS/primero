@@ -42,7 +42,7 @@ Merge the values submitted in this call into an existing report.
       {
         "name": "protection_concerns",
         "position": {
-          "type": "vertical",
+          "type": "horizontal",
           "order": 1
         }
       }
@@ -68,18 +68,8 @@ Merge the values submitted in this call into an existing report.
     "graph": true,
     "graph_type": "bar",
     "fields": [
-      {
-        "name": "protection_concerns",
-        "display_name": {"en": "Protection Concerns", "es": "", "fr": ""},
-        "position": {"type": "vertical", "order": 0}
-      },
-      {
-        "name": "owned_by_location",
-        "display_name": {"en": "Owned by location", "es": "", "fr": ""},
-        "position": {"type": "vertical", "order": 1},
-        "option_strings_source": "Location",
-        "admin_level": 0
-      }
+      "{\"name\"=>\"protection_concerns\", \"position\"=><ActionController::Parameters {\"type\"=>\"horizontal\", \"order\"=>\"1\"} permitted: true>}",
+      "{\"name\"=>\"owned_by_location\", \"position\"=><ActionController::Parameters {\"type\"=>\"vertical\", \"order\"=>\"2\"} permitted: true>}"
     ]
   }
 }

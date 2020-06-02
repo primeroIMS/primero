@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Api::V2
+  # Controller for the reports
   class ReportsController < ApplicationApiController
     include Concerns::Pagination
     before_action :load_report, only: %i[show update destroy]
@@ -51,9 +54,7 @@ module Api::V2
     private
 
     def report_permission_filter(user)
-      unless can?(:read, @report)
-        { "attribute" => "owned_by_groups", "value" => user.user_group_ids }
-      end
+      { 'attribute' => 'owned_by_groups', 'value' => user.user_group_ids } unless can?(:read, @report)
     end
   end
 end

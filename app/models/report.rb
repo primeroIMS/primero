@@ -96,8 +96,8 @@ class Report < ApplicationRecord
       report.name_i18n = report_params[:name]
       report.description_i18n = report_params[:description]
       report.is_graph = report_params[:graph]
-      report.aggregate_by = ReportFieldService.add_fields(report_params, ReportFieldService::HORIZONTAL)
-      report.disaggregate_by = ReportFieldService.add_fields(report_params, ReportFieldService::VERTICAL)
+      report.aggregate_by = ReportFieldService.aggregate_by_from_params(report_params)
+      report.disaggregate_by = ReportFieldService.disaggregate_by_from_params(report_params)
       report
     end
   end
@@ -107,8 +107,8 @@ class Report < ApplicationRecord
     merged_props = FieldI18nService.merge_i18n_properties(attributes, converted_params)
     assign_attributes(report_params.except(:name, :description, :graph, :fields).merge(merged_props))
     self.is_graph = report_params[:graph] unless report_params[:graph].nil?
-    self.aggregate_by = ReportFieldService.add_fields(report_params, ReportFieldService::HORIZONTAL)
-    self.disaggregate_by = ReportFieldService.add_fields(report_params, ReportFieldService::VERTICAL)
+    self.aggregate_by = ReportFieldService.aggregate_by_from_params(report_params)
+    self.disaggregate_by = ReportFieldService.disaggregate_by_from_params(report_params)
   end
 
   def modules
