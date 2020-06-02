@@ -1,10 +1,10 @@
 import * as constants from "./constants";
 
-describe("<Form />/fields - Constants", () => {
+describe("<Form />/components/<DraggableOption /> - constants", () => {
   it("should have known properties", () => {
     const clonedConstants = { ...constants };
 
-    ["ERROR_FIELD_NAME", "ORDERABLE_OPTIONS_FIELD_NAME"].forEach(property => {
+    ["NAME"].forEach(property => {
       expect(clonedConstants).to.have.property(property);
       delete clonedConstants[property];
     });

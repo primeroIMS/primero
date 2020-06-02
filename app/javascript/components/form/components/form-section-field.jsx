@@ -11,10 +11,12 @@ import SelectInput from "../fields/select-input";
 import ErrorField from "../fields/error-field";
 import RadioField from "../fields/radio-input";
 import ToggleField from "../fields/toggle-input";
+import OrderableOptionsField from "../fields/orderable-options-field";
 import {
   CHECK_BOX_FIELD,
   ERROR_FIELD,
   LABEL_FIELD,
+  ORDERABLE_OPTIONS_FIELD,
   PHOTO_FIELD,
   SELECT_FIELD,
   TICK_FIELD,
@@ -50,6 +52,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     disabled,
     inputClassname,
     groupBy,
+    selected_value: selectedValue,
     visible
   } = field;
   const i18n = useI18n();
@@ -65,7 +68,7 @@ const FormSectionField = ({ checkErrors, field }) => {
       getOptions(
         state,
         optionStringsSource,
-        i18n.locale,
+        i18n,
         options || optionsStringsText
       ),
     (prev, next) => prev.equals(next)
@@ -114,7 +117,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     inlineCheckboxes,
     freeSolo,
     hint,
-    groupBy
+    groupBy,
+    selectedValue
   };
 
   const Field = (fieldType => {
@@ -135,6 +139,8 @@ const FormSectionField = ({ checkErrors, field }) => {
         return RadioField;
       case TOGGLE_FIELD:
         return ToggleField;
+      case ORDERABLE_OPTIONS_FIELD:
+        return OrderableOptionsField;
       default:
         return TextInput;
     }
