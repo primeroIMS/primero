@@ -17,6 +17,7 @@ import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
 
+import CustomFieldDialog from "./components/custom-field-dialog";
 import {
   FieldDialog,
   FieldsList,
@@ -163,6 +164,7 @@ const Component = ({ mode }) => {
             <TabPanel tab={tab} index={1}>
               <div className={css.tabContent}>
                 <h1>{i18n.t("forms.fields")}</h1>
+                <CustomFieldDialog />
               </div>
               <FieldsList />
               <FieldDialog onSuccess={onSuccess} />
