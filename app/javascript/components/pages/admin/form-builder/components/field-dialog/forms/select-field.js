@@ -58,7 +58,7 @@ export const selectFieldForm = ({ field, i18n, mode }) => {
         disabled: mode.get("isEdit")
       }),
       FieldRecord({
-        display_name: i18n.t("fields.default"),
+        display_name: i18n.t("fields.default_value"),
         name: `${fieldName}.selected_value`,
         type: SELECT_FIELD,
         option_strings_source: field.get("option_strings_source")
