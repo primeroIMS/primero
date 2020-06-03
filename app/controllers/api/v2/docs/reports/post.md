@@ -75,8 +75,15 @@ Create a new report and return the entire record.
     "graph": false,
     "graph_type": "bar",
     "fields": [
-      "{\"name\"=>\"protection_concerns\", \"position\"=><ActionController::Parameters {\"type\"=>\"horizontal\", \"order\"=>\"1\"} permitted: true>}",
-      "{\"name\"=>\"owned_by_location\", \"position\"=><ActionController::Parameters {\"type\"=>\"horizontal\", \"order\"=>\"2\"} permitted: true>}"
+      {
+        "name": "protection_concerns", "display_name": { "en": "Protection Concerns", "es": "", "fr": "" },
+        "position": { "type": "horizontal", "order": 0 }
+      },
+      {
+        "name": "owned_by_location", "display_name": { "en": "Owned by location", "es": "", "fr": "" },
+        "position": { "type": "horizontal", "order": 1 }, "option_strings_source": "Location",
+        "admin_level": 0
+      }
     ]
   }
 }
@@ -160,6 +167,48 @@ Create a new report and return the entire record.
       "resource": "/api/v2/reports",
       "detail": "aggregate_by",
       "message": ["can't be blank"]
+    }
+  ]
+}
+```
+
+---
+
+**Condition** : A report without module_id in the params.
+
+**Code** : `422`
+
+**Content** :
+
+```json
+{
+  "errors": [
+    {
+      "status": 422,
+      "resource": "/api/v2/reports",
+      "detail": "module_id",
+      "message": ["Module must not be blank"]
+    }
+  ]
+}
+```
+
+---
+
+**Condition** : A report with syntax error for module_id in the params.
+
+**Code** : `422`
+
+**Content** :
+
+```json
+{
+  "errors": [
+    {
+      "status": 422,
+      "resource": "/api/v2/reports",
+      "detail": "module_id",
+      "message": ["All report modules must already exist"]
     }
   ]
 }
