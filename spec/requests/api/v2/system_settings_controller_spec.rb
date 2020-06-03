@@ -50,7 +50,12 @@ describe Api::V2::SystemSettingsController, type: :request do
        },
       primary_age_range: 'primero',
       location_limit_for_api: 150,
-      welcome_email_text: 'Welcome to Primero'
+      welcome_email_text: 'Welcome to Primero',
+      approvals_labels_en: {
+        assessment: 'Assessment',
+        case_plan: 'Case Plan',
+        closure: 'Closure'
+      }
     )
   end
 
@@ -61,7 +66,7 @@ describe Api::V2::SystemSettingsController, type: :request do
       login_for_test
       get '/api/v2/system_settings'
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(11)
+      expect(json['data'].size).to eq(12)
       expect(json['data']['default_locale']).to eq(@system_settings.default_locale)
       expect(json['data']['primero_version']).to eq(@system_settings.primero_version)
     end
@@ -70,7 +75,7 @@ describe Api::V2::SystemSettingsController, type: :request do
       login_for_test
       get '/api/v2/system_settings?extended=true'
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(13)
+      expect(json['data'].size).to eq(14)
       expect(json['data']['agencies'][0]['name']).to eq('Agency test')
       expect(json['data']['modules'].size).to eq(1)
       expect(json['data']['modules'][0]['name']).to eq('CP')

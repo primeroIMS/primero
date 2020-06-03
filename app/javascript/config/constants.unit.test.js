@@ -77,6 +77,7 @@ describe("Verifying config constant", () => {
     expect(constants).to.have.property("SAVE_METHODS");
     expect(constants).to.have.property("SAVING");
     expect(constants).to.have.property("APPLICATION_NAV");
+    expect(constants).to.have.property("APPROVALS_TYPES");
 
     delete constants.FETCH_TIMEOUT;
     delete constants.DATABASE_NAME;
@@ -129,6 +130,7 @@ describe("Verifying config constant", () => {
     delete constants.SAVE_METHODS;
     delete constants.SAVING;
     delete constants.APPLICATION_NAV;
+    delete constants.APPROVALS_TYPES;
 
     expect(constants).to.deep.equal({});
   });
@@ -185,5 +187,11 @@ describe("Verifying config constant", () => {
     );
     expect(constants.RECORD_INFORMATION).to.be.an("array");
     expect(constants.APPROVALS).to.be.an("string");
+    expect(constants.APPROVALS_TYPES).to.be.an("object");
+    expect(constants.APPROVALS_TYPES).to.have.all.keys(
+      "assessment",
+      "case_plan",
+      "closure"
+    );
   });
 });

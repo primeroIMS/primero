@@ -1,17 +1,17 @@
 import {
   DATE_FIELD,
-  TEXT_AREA,
-  TEXT_FIELD,
-  NUMERIC_FIELD,
-  TICK_FIELD,
+  RADIO_FIELD,
+  SELECT_FIELD,
   SEPARATOR,
-  SUBFORM_SECTION
+  SUBFORM_SECTION,
+  TICK_FIELD
 } from "../../../../../form";
 
 import {
   dateFieldForm,
   textFieldForm,
   tickboxFieldForm,
+  selectFieldForm,
   separatorFieldForm
 } from "./forms";
 import { DATE_FIELD_CUSTOM_VALUES } from "./constants";
@@ -44,25 +44,24 @@ const getSelectedDateValue = (field, isSubmit) => {
   ).find(obj => obj[1] === field.selected_value)[0];
 };
 
-export const getFormField = (field, i18n, css) => {
+export const getFormField = ({ field, i18n, mode, css }) => {
   const type = field.get("type");
   const name = field.get("name");
 
   switch (type) {
-    case TEXT_FIELD:
-    case TEXT_AREA:
-    case NUMERIC_FIELD:
-      return textFieldForm(name, i18n);
-    case SUBFORM_SECTION:
-      return subformField(name, i18n);
-    case SEPARATOR:
-      return separatorFieldForm(name, i18n);
     case DATE_FIELD:
       return dateFieldForm(field, i18n, css);
+    case RADIO_FIELD:
+    case SELECT_FIELD:
+      return selectFieldForm({ field, i18n, mode });
+    case SEPARATOR:
+      return separatorFieldForm(name, i18n);
+    case SUBFORM_SECTION:
+      return subformField(name, i18n);
     case TICK_FIELD:
       return tickboxFieldForm(name, i18n);
     default:
-      return textFieldForm(name, i18n);
+      return textFieldForm({ field, i18n });
   }
 };
 

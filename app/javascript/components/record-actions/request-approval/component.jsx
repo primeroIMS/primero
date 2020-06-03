@@ -11,6 +11,7 @@ import { fetchAlerts } from "../../nav/action-creators";
 import { getRecordAlerts } from "../../records";
 import { fetchRecordsAlerts } from "../../records/action-creators";
 import { currentUser } from "../../user";
+import { useApp } from "../../application";
 
 import { approvalRecord } from "./action-creators";
 import ApprovalForm from "./approval-form";
@@ -30,6 +31,7 @@ const Component = ({
   dialogName
 }) => {
   const i18n = useI18n();
+  const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const startRequestType = subMenuItems?.[0]?.value;
@@ -80,7 +82,9 @@ const Component = ({
           recordId: record.get("id"),
           approvalId: requestType,
           body: actionBody,
-          message: i18n.t(message),
+          message: i18n.t(message, {
+            approval_label: approvalsLabels[requestType]
+          }),
           failureMessage: i18n.t(`${recordType}.request_approval_failure`),
           dialogName,
           username
