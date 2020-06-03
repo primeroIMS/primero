@@ -8,7 +8,6 @@ describe("<ReportsForm /> - Constants", () => {
       "AGGREGATE_BY_FIELD",
       "DESCRIPTION_FIELD",
       "DISAGGREGATE_BY_FIELD",
-      "EMPTY_ROWS_FIELD",
       "GROUP_AGES_FIELD",
       "GROUP_DATES_BY_FIELD",
       "IS_GRAPH_FIELD",
@@ -16,6 +15,7 @@ describe("<ReportsForm /> - Constants", () => {
       "NAME",
       "NAME_FIELD",
       "RECORD_TYPE_FIELD",
+      "REPORT_FIELD_TYPES",
       "REPORTABLE_TYPES"
     ].forEach(property => {
       expect(clone).to.have.property(property);

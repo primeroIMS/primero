@@ -20,14 +20,13 @@ import {
   GROUP_AGES_FIELD,
   GROUP_DATES_BY_FIELD,
   IS_GRAPH_FIELD,
-  EMPTY_ROWS_FIELD,
   REPORTABLE_TYPES
 } from "./constants";
 
 export const validations = i18n =>
   object().shape({
     aggregate_by: string().required(),
-    modules: string().required(),
+    module_id: string().required(),
     name: object().shape({
       en: string().required(i18n.t("report.name_mandatory"))
     }),
@@ -124,13 +123,6 @@ export const form = (
           name: IS_GRAPH_FIELD,
           type: TICK_FIELD,
           disabled: disabledByModule
-        }),
-        FieldRecord({
-          display_name: i18n.t("report.empty_rows"),
-          name: EMPTY_ROWS_FIELD,
-          type: TICK_FIELD,
-          disabled: disabledByModule,
-          help_text: i18n.t("report.empty_rows_help_text")
         })
       ]
     })

@@ -78,3 +78,20 @@ export const buildFields = (data, locale, isReportable) => {
     }, [])
     .flat();
 };
+
+export const buildReportFields = (data, type) => {
+  const result = [...(typeof data === "string" ? data.split(",") : data)];
+
+  return result.reduce((acc, name, order) => {
+    return [
+      ...acc,
+      {
+        name,
+        position: {
+          type,
+          order
+        }
+      }
+    ];
+  }, []);
+};

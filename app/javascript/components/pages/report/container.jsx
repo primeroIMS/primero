@@ -26,7 +26,9 @@ const Report = ({ match }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchReport(params.id));
+    if (params.id !== "new") {
+      dispatch(fetchReport(params.id));
+    }
   }, []);
 
   const errors = useSelector(state => getErrors(state, namespace));
