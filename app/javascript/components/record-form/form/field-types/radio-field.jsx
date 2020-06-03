@@ -64,7 +64,7 @@ const RadioField = ({
   const fieldTouched = getIn(formik.touched, name);
 
   useEffect(() => {
-  if (mode.isNew && selectedValue && value === "") {
+    if (mode.isNew && selectedValue && value === "") {
       formik.setFieldValue(name, selectedValue, false);
     }
   }, []);

@@ -212,7 +212,7 @@ const SelectField = ({
   const fieldTouched = getIn(formik.touched, name);
 
   useEffect(() => {
-    if (mode.isNew && selectedValue && (value === "" || value.length == 0)) {
+    if (mode.isNew && selectedValue && (value === "" || value.length === 0)) {
       formik.setFieldValue(name, selectedValue, false);
     }
 
