@@ -114,7 +114,7 @@ export default [
         actions: CREATE_REPORTS
       },
       {
-        path: `${ROUTES.reports}/:id`,
+        path: `${ROUTES.reports}/:id(\\d+)`,
         component: Report,
         resources: RESOURCES.reports,
         actions: READ_REPORTS
