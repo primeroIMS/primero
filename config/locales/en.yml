@@ -360,6 +360,8 @@ en:
     rejected_success_case_plan: "%{approval_label} - Not Approved"
     approved_success_bia: "%{approval_label} - Approved"
     rejected_success_bia: "%{approval_label} - Not Approved"
+    approved_success_assessment: "%{approval_label} - Approved"
+    rejected_success_assessment: "%{approval_label} - Not Approved"
     approval_select: "The form for"
     approval_radio: "I would like to"
     approval_radio_accept: "Approve"
