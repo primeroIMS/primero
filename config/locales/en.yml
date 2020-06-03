@@ -1637,6 +1637,7 @@ en:
     english_text: "English Text"
     enabled: "Enabled?"
     default: "Default?"
+    default_value: "Default Value"
 
   replication:
     label: Replication
