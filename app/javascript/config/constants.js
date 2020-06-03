@@ -200,7 +200,9 @@ export const ADMIN_NAV = [
     items: [
       {
         to: "/forms",
-        label: "settings.navigation.forms"
+        label: "settings.navigation.forms",
+        permission: MANAGE,
+        recordType: RESOURCES.metadata
       },
       {
         to: "/lookups",
@@ -208,7 +210,9 @@ export const ADMIN_NAV = [
         permission: MANAGE,
         recordType: RESOURCES.metadata
       }
-    ]
+    ],
+    permission: MANAGE,
+    recordType: RESOURCES.metadata
   },
   { to: "/locations", label: "settings.navigation.locations", disabled: true },
   {
@@ -334,3 +338,9 @@ export const ACCEPT = "accept";
 export const REJECTED = "rejected";
 export const REJECT = "reject";
 export const SAVING = "saving";
+
+export const APPROVALS_TYPES = Object.freeze({
+  assessment: "assessment",
+  case_plan: "case_plan",
+  closure: "closure"
+});

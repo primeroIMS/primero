@@ -7,9 +7,11 @@ import clsx from "clsx";
 
 import { useI18n } from "../../../i18n";
 import { NAME_SUMMARY } from "../../constants";
+import { useApp } from "../../../application";
 
 const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
   const i18n = useI18n();
+  const { approvalsLabels } = useApp();
   const status = approvalSubform.get("approval_status");
 
   const title =
@@ -19,8 +21,8 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
 
   const renderApprovalValue =
     isRequest && !isResponse
-      ? i18n.t(`approvals.${approvalSubform.get("approval_requested_for")}`)
-      : i18n.t(`approvals.${approvalSubform.get("approval_response_for")}`);
+      ? approvalsLabels[approvalSubform.get("approval_requested_for")]
+      : approvalsLabels[approvalSubform.get("approval_response_for")];
 
   const renderStatus = isResponse ? (
     <Grid item md={2} xs={4}>

@@ -4,6 +4,7 @@ import { merge } from "lodash";
 const muiTheme = createMuiTheme();
 
 const colors = {
+  darkBrown: "#5a5549",
   lightGrey: "#f0f0f0",
   white: "#ffffff",
   black: "#231f20",

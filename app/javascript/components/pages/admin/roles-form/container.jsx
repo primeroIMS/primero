@@ -9,7 +9,7 @@ import Form, { whichFormMode, PARENT_FORM } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import { ROUTES } from "../../../../config";
-import { getSystemPermissions } from "../../../application";
+import { getSystemPermissions, useApp } from "../../../application";
 import { fetchRoles, ADMIN_NAMESPACE } from "../roles-list";
 import { getRecords } from "../../../index-table";
 import { getAssignableForms } from "../../../record-form";
@@ -36,6 +36,7 @@ const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
   const formRef = useRef();
+  const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
   const { id } = useParams();
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -101,7 +102,8 @@ const Container = ({ mode }) => {
     roles,
     formSections: formsByParentForm,
     i18n,
-    formMode
+    formMode,
+    approvalsLabels
   });
 
   const initialValues = groupSelectedIdsByParentForm(
