@@ -237,6 +237,8 @@ en:
     reorder: "Reorder"
     save_changes: "Save changes"
     guidance: "Guidance"
+    add_another_option: "Add another option"
+    clear_default: "Clear default"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -1058,6 +1060,7 @@ en:
     error_in_updating: "Error in updating the Agency details."
 
   agency:
+    label: "Agency"
     edit: "Edit Agency"
     name: "Agency Name"
     code: "Agency Code"
@@ -1157,7 +1160,7 @@ en:
       updated: "User Group was successfully updated."
 
   user:
-    label: "user"
+    label: "User"
     full_name: "Full Name"
     code: "User Code"
     history_of: "History of %{user_name}"
@@ -1550,6 +1553,7 @@ en:
     help_text: "Help Text"
     must_be_english: "Must be entered in English"
     actions: "Actions"
+    find_lookup: "Find Lookup"
     option_strings_text: "Options"
     option_strings_text_key: "Option Key"
     option_strings_text_display: "Option Text"
@@ -1590,7 +1594,7 @@ en:
     move_to: "Move to"
     select_single: "(Select...)"
     select_multiple: "Select all that apply"
-    multi_select: "Multiple Selection"
+    multi_select: "Can select multiple options"
     date_help: "dd-mmm-yyyy"
     date_help_with_time: "dd-mmm-yyyy hh:mm"
     date_range:
@@ -1621,6 +1625,7 @@ en:
       current: "Current Audio"
     edit_label: "Edit Field"
     required: "Required"
+    required_field: "%{field} is required"
     guiding_questions: "Guiding questions"
     guidance: "Guidance"
     visibility: "Visibility"
@@ -1629,7 +1634,9 @@ en:
     web_app: "Web app"
     show_on: "Show on"
     mobile_visible: "Mobile app"
-
+    english_text: "English Text"
+    enabled: "Enabled?"
+    default: "Default?"
 
   replication:
     label: Replication

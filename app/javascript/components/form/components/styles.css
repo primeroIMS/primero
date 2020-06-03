@@ -2,7 +2,7 @@
   box-shadow: none;
   color: $(theme.primero.colors.white);
   background: $(theme.primero.colors.blue);
-  width: 8em;
+  min-width: 8em;
   height: 32px;
 
   &:hover {
@@ -10,8 +10,7 @@
   }
 
   & svg {
-    position: absolute;
-    left: 0.3em;
+    margin-left: -10px;
   }
 }
 
@@ -50,7 +49,6 @@
 }
 
 .actionButtonText {
-  position: absolute;
   margin: 0 0.5em;
 }
 

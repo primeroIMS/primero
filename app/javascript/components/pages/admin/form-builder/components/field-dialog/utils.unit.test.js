@@ -9,25 +9,25 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog /> - index", () =>
     const i18n = { t: value => value };
 
     it("should return the form sections for TEXT_FIELD type", () => {
-      const formSections = utils.getFormField(
-        fromJS({
+      const formSections = utils.getFormField({
+        field: fromJS({
           type: TEXT_FIELD,
           name: "owned_by"
         }),
         i18n
-      );
+      });
 
       expect(formSections.forms.size).to.be.equal(2);
     });
 
     it("should return the form sections for TICK_FIELD type", () => {
-      const formSections = utils.getFormField(
-        fromJS({
+      const formSections = utils.getFormField({
+        field: fromJS({
           type: TICK_FIELD,
           name: "test"
         }),
         i18n
-      );
+      });
 
       expect(formSections.forms.size).to.be.equal(2);
     });
@@ -53,13 +53,13 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog /> - index", () =>
 
     it("should return the form sections for SEPARATOR type", () => {
       const i18n = { t: value => value };
-      const formSections = utils.getFormField(
-        fromJS({
+      const formSections = utils.getFormField({
+        field: fromJS({
           type: SEPARATOR,
           name: "test"
         }),
         i18n
-      );
+      });
 
       expect(formSections.forms.size).to.be.equal(2);
     });
