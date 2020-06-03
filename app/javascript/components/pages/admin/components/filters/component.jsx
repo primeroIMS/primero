@@ -46,7 +46,6 @@ const Component = ({ filters, onSubmit, clearFields, defaultFilters }) => {
           key={filter.field_name}
           filter={filter}
           multiple={filter.multiple}
-          addFilterToList={() => {}}
         />
       );
     });

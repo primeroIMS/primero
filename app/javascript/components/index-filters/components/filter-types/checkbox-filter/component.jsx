@@ -61,7 +61,10 @@ const Component = ({
       moreSectionFilters,
       setMoreSectionFilters
     );
-    addFilterToList({ [fieldName]: undefined });
+
+    if (addFilterToList) {
+      addFilterToList({ [fieldName]: undefined });
+    }
   };
 
   useEffect(() => {
@@ -121,7 +124,10 @@ const Component = ({
         getValues()[fieldName]
       );
     }
-    addFilterToList({ [fieldName]: getValues()[fieldName] || undefined });
+
+    if (addFilterToList) {
+      addFilterToList({ [fieldName]: getValues()[fieldName] || undefined });
+    }
   };
 
   const renderOptions = () =>
