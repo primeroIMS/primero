@@ -1899,7 +1899,7 @@ en:
             label: "Cases by Reporting Location"
             explanation: "Table which shows how many cases there are at each location (at a single level of specificity such
                 as \"Province\" or \"District\"). Each row of the table is a location, and the columns indicate different
-                statuses for the cases (\"OPEN CASES,\" \"NEW(LAST WEEK),\" \"NEW(THIS WEEK)," "CLOSED(LAST WEEK),\" \"CLOSED(THIS WEEK)\").
+                statuses for the cases (\"OPEN CASES,\" \"NEW(LAST WEEK),\" \"NEW(THIS WEEK),\" \"CLOSED(LAST WEEK),\" \"CLOSED(THIS WEEK)\").
                 Usually used for manager or administrator accounts."
           view_protection_concerns:
             label: "Cases by Protection Concerns"
