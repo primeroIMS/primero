@@ -78,7 +78,9 @@ const SelectField = ({
 
   const value = getIn(formik.values, name);
 
-  const selectedValue = field.selected_value;
+  const selectedValue = field.multi_select
+    ? [field.selected_value]
+    : field.selected_value;
 
   const options = useSelector(state => getOption(state, option, i18n.locale));
 
@@ -210,7 +212,7 @@ const SelectField = ({
   const fieldTouched = getIn(formik.touched, name);
 
   useEffect(() => {
-    if (mode.isNew && selectedValue && value === "") {
+    if (mode.isNew && selectedValue && (value === "" || value.length == 0)) {
       formik.setFieldValue(name, selectedValue, false);
     }
 

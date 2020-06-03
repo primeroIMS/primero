@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   FormControlLabel,
@@ -26,11 +26,13 @@ const RadioField = ({
   disabled,
   field,
   formik,
+  mode,
   ...rest
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
+  const selectedValue = field.selected_value;
   const option = field.option_strings_source || field.option_strings_text;
 
   const value = getIn(formik.values, name);
@@ -60,6 +62,12 @@ const RadioField = ({
 
   const fieldError = getIn(formik.errors, name);
   const fieldTouched = getIn(formik.touched, name);
+
+  useEffect(() => {
+  if (mode.isNew && selectedValue && value === "") {
+      formik.setFieldValue(name, selectedValue, false);
+    }
+  }, []);
 
   return (
     <FormControl fullWidth error={!!(fieldError && fieldTouched)}>
@@ -107,6 +115,7 @@ RadioField.propTypes = {
   formik: PropTypes.object.isRequired,
   helperText: PropTypes.string,
   label: PropTypes.string.isRequired,
+  mode: PropTypes.object,
   name: PropTypes.string.isRequired
 };
 
