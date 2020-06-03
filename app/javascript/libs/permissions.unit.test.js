@@ -8,7 +8,7 @@ describe("Verifying config constant", () => {
 
     [
       "ADD_NOTE",
-      "APPROVE_BIA",
+      "APPROVE_ASSESSMENT",
       "APPROVE_CASE_PLAN",
       "APPROVE_CLOSURE",
       "ASSIGN",
@@ -64,7 +64,7 @@ describe("Verifying config constant", () => {
       "REFERRAL_FROM_SERVICE",
       "REMOVE_ASSIGNED_USERS",
       "REOPEN",
-      "REQUEST_APPROVAL_BIA",
+      "REQUEST_APPROVAL_ASSESSMENT",
       "REQUEST_APPROVAL_CASE_PLAN",
       "REQUEST_APPROVAL_CLOSURE",
       "SEARCH_OWNED_BY_OTHERS",
@@ -333,5 +333,56 @@ describe("Verifying config constant", () => {
       delete groupPermissions[property];
     });
     expect(groupPermissions).to.be.empty;
+  });
+
+  it("should have REQUEST_APPROVAL", () => {
+    const permissions = [...PERMISSIONS.REQUEST_APPROVAL];
+
+    expect(permissions).to.be.a("array");
+    [
+      PERMISSIONS.ACTIONS.MANAGE,
+      PERMISSIONS.ACTIONS.REQUEST_APPROVAL_ASSESSMENT,
+      PERMISSIONS.ACTIONS.REQUEST_APPROVAL_CASE_PLAN,
+      PERMISSIONS.ACTIONS.REQUEST_APPROVAL_CLOSURE
+    ].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have APPROVAL", () => {
+    const permissions = [...PERMISSIONS.APPROVAL];
+
+    expect(permissions).to.be.a("array");
+    [
+      PERMISSIONS.ACTIONS.APPROVE_ASSESSMENT,
+      PERMISSIONS.ACTIONS.APPROVE_CASE_PLAN,
+      PERMISSIONS.ACTIONS.APPROVE_CLOSURE,
+      PERMISSIONS.ACTIONS.MANAGE
+    ].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have SHOW_APPROVALS", () => {
+    const permissions = [...PERMISSIONS.SHOW_APPROVALS];
+
+    expect(permissions).to.be.a("array");
+    [
+      PERMISSIONS.ACTIONS.APPROVE_ASSESSMENT,
+      PERMISSIONS.ACTIONS.APPROVE_CASE_PLAN,
+      PERMISSIONS.ACTIONS.APPROVE_CLOSURE,
+      PERMISSIONS.ACTIONS.MANAGE,
+      PERMISSIONS.ACTIONS.REQUEST_APPROVAL_ASSESSMENT,
+      PERMISSIONS.ACTIONS.REQUEST_APPROVAL_CASE_PLAN,
+      PERMISSIONS.ACTIONS.REQUEST_APPROVAL_CLOSURE
+    ].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
   });
 });

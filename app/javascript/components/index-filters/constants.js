@@ -9,7 +9,7 @@ export const FILTER_TYPES = Object.freeze({
 });
 
 export const HIDDEN_FIELDS = [
-  "approval_status_bia",
+  "approval_status_assessment",
   "approval_status_closure",
   "assessment_due_dates",
   "associated_user_names",

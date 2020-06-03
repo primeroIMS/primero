@@ -73,9 +73,26 @@ Retrieve the current Primero system settings as JSON
         },
         "primary_age_range": "primero",
         "approval_forms_to_alert": {
-            "cp_bia_form": "bia",
+            "cp_bia_form": "assessment",
             "closure_form": "closure",
             "cp_case_plan": "case_plan"
+        },
+        "approvals_labels": {
+            "closure": {
+                "en": "Closure",
+                "fr":"",
+                "es":""
+            },
+            "case_plan": {
+                "en":"Case Plan",
+                "fr":"",
+                "es":""
+            },
+            "assessment": {
+                "en":"Assessment",
+                "fr":"",
+                "es":""
+            }
         },
         "export_config_id": {
             "unhcr": "export-unhcr-csv",

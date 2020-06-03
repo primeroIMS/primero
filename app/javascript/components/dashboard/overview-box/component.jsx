@@ -12,6 +12,7 @@ import DoughnutChart from "../doughnut-chart";
 import { useI18n } from "../../i18n";
 import LoadingIndicator from "../../loading-indicator";
 import NAMESPACE from "../../pages/dashboard/namespace";
+import { useApp } from "../../application";
 
 import styles from "./styles.css";
 
@@ -25,6 +26,7 @@ const OverviewBox = ({
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
   const indicators = items.get("indicators", fromJS({}));
   const indicatorsKeys = indicators.keySeq();
@@ -53,6 +55,19 @@ const OverviewBox = ({
     );
   };
 
+  const buildLabelItem = item => {
+    switch (item) {
+      case "approval_assessment_pending_group":
+        return approvalsLabels.assessment;
+      case "approval_case_plan_pending_group":
+        return approvalsLabels.case_plan;
+      case "approval_closure_pending_group":
+        return approvalsLabels.closure;
+      default:
+        return i18n.t(`dashboard.${item}`);
+    }
+  };
+
   const statItems = () => {
     return indicators.keySeq().map(item => {
       return (
@@ -62,7 +77,7 @@ const OverviewBox = ({
             type="button"
             onClick={() => handleClick(indicators.getIn([item, "query"], []))}
           >
-            {indicators.getIn([item, "count"])} {i18n.t(`dashboard.${item}`)}
+            {indicators.getIn([item, "count"])} {buildLabelItem(item)}
           </button>
         </li>
       );
