@@ -109,7 +109,7 @@ export const exporterFilters = (
   };
 };
 
-export const buildFields = (data, locale, individualFields) => {
+export const buildFields = (data, locale) => {
   const excludeFieldTypes = [
     AUDIO_FIELD,
     DOCUMENT_FIELD,
