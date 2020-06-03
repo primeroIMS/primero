@@ -172,7 +172,7 @@ Component.defaultProps = {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  addFilterToList: PropTypes.func.isRequired,
+  addFilterToList: PropTypes.func,
   filter: PropTypes.object.isRequired,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,
