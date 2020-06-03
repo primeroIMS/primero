@@ -167,8 +167,8 @@ const Component = ({
       exportParams = {
         ...exportParams,
         [FORM_TO_EXPORT_FIELD]: fields
-          .filter(f => fieldNames.includes(f.id))
-          .map(f => f.formSectionId)
+          .filter(field => fieldNames.includes(field.id))
+          .map(field => field.formSectionId)
       };
     }
 
