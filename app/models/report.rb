@@ -45,7 +45,7 @@ class Report < ApplicationRecord
   validate :modules_present
   validate :validate_name_in_base_language
 
-  # before_save :apply_default_filters
+  before_save :apply_default_filters
 
   def validate_name_in_base_language
     return if send("name_#{Primero::Application::BASE_LANGUAGE}").present?
