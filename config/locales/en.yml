@@ -1737,7 +1737,7 @@ en:
           delete:
             label: "Delete"
             explanation: "Ability to delete a role."
-          other_roles:
+          permitted_roles:
             label: "Other roles managed by this role"
             explanation: "If a role has the ability to perform any of the above actions on a role, they will be able to
                 perform those actions on the roles specified in this list. So, for instance, if a role has the \"Read\" and
