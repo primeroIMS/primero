@@ -1,16 +1,16 @@
 import {
   DATE_FIELD,
-  TEXT_AREA,
-  TEXT_FIELD,
-  NUMERIC_FIELD,
-  TICK_FIELD,
-  SEPARATOR
+  RADIO_FIELD,
+  SELECT_FIELD,
+  SEPARATOR,
+  TICK_FIELD
 } from "../../../../../form";
 
 import {
   dateFieldForm,
   textFieldForm,
   tickboxFieldForm,
+  selectFieldForm,
   separatorFieldForm
 } from "./forms";
 import { DATE_FIELD_CUSTOM_VALUES } from "./constants";
@@ -43,15 +43,14 @@ const getSelectedDateValue = (field, isSubmit) => {
   ).find(obj => obj[1] === field.selected_value)[0];
 };
 
-export const getFormField = (field, i18n, css) => {
+export const getFormField = ({ field, i18n, mode, css }) => {
   const type = field.get("type");
   const name = field.get("name");
 
   switch (type) {
-    case TEXT_FIELD:
-    case TEXT_AREA:
-    case NUMERIC_FIELD:
-      return textFieldForm(name, i18n);
+    case RADIO_FIELD:
+    case SELECT_FIELD:
+      return selectFieldForm({ field, i18n, mode });
     case SEPARATOR:
       return separatorFieldForm(name, i18n);
     case DATE_FIELD:
@@ -59,7 +58,7 @@ export const getFormField = (field, i18n, css) => {
     case TICK_FIELD:
       return tickboxFieldForm(name, i18n);
     default:
-      return textFieldForm(name, i18n);
+      return textFieldForm({ field, i18n });
   }
 };
 

@@ -90,6 +90,25 @@ class Report < ApplicationRecord
       end
       record_types
     end
+
+    def new_with_properties(report_params)
+      report = Report.new(report_params.except(:name, :description, :graph, :fields))
+      report.name_i18n = report_params[:name]
+      report.description_i18n = report_params[:description]
+      report.is_graph = report_params[:graph]
+      report.aggregate_by = ReportFieldService.aggregate_by_from_params(report_params)
+      report.disaggregate_by = ReportFieldService.disaggregate_by_from_params(report_params)
+      report
+    end
+  end
+
+  def update_properties(report_params)
+    converted_params = FieldI18nService.convert_i18n_properties(Report, report_params)
+    merged_props = FieldI18nService.merge_i18n_properties(attributes, converted_params)
+    assign_attributes(report_params.except(:name, :description, :graph, :fields).merge(merged_props))
+    self.is_graph = report_params[:graph] unless report_params[:graph].nil?
+    self.aggregate_by = ReportFieldService.aggregate_by_from_params(report_params)
+    self.disaggregate_by = ReportFieldService.disaggregate_by_from_params(report_params)
   end
 
   def modules

@@ -8,7 +8,6 @@ default_case_filters = [
 ]
 
 Report.create_or_update({
-  id: 1,
   name_all: 'Registration CP',
   description_all: 'Case registrations over time',
   module_id: PrimeroModule::CP,
@@ -21,7 +20,6 @@ Report.create_or_update({
 })
 
 Report.create_or_update({
-  id: 2,
   name_all: 'Registration GBV',
   description_all: 'Case registrations over time',
   module_id: PrimeroModule::GBV,
@@ -35,7 +33,6 @@ Report.create_or_update({
 
 #TODO: This doesn't account for referrals
 Report.create_or_update({
-  id: 3,
   name_all: 'Caseload Summary CP',
   description_all: 'Number of cases for each case worker',
   module_id: PrimeroModule::CP,
@@ -47,7 +44,6 @@ Report.create_or_update({
 })
 
 Report.create_or_update({
-  id: 4,
   name_all: 'Caseload Summary GBV',
   description_all: 'Number of cases for each case worker',
   module_id: PrimeroModule::GBV,
@@ -59,7 +55,6 @@ Report.create_or_update({
 })
 
 Report.create_or_update({
-  id: 5,
   name_all: 'Case status by case worker CP',
   description_all: 'Status of cases held by case workers',
   module_id: PrimeroModule::CP,
@@ -72,7 +67,6 @@ Report.create_or_update({
 })
 
 Report.create_or_update({
-  id: 6,
   name_all: 'Case status by case worker GBV',
   description_all: 'Status of cases held by case workers',
   module_id: PrimeroModule::GBV,
@@ -85,7 +79,6 @@ Report.create_or_update({
 })
 
 Report.create_or_update({
-  id: 7,
   name_all: 'Cases by Agency CP',
   description_all: 'Number of cases broken down by agency',
   module_id: PrimeroModule::CP,
@@ -97,7 +90,6 @@ Report.create_or_update({
 })
 
 Report.create_or_update({
-  id: 8,
   name_all: 'Cases by Agency GBV',
   description_all: 'Number of cases broken down by agency',
   module_id: PrimeroModule::GBV,
@@ -109,7 +101,6 @@ Report.create_or_update({
 })
 
 Report.create_or_update({
-  id: 9,
   name_all: 'Cases by Nationality',
   description_all: 'Number of cases broken down by nationality',
   module_id: PrimeroModule::CP,
@@ -121,7 +112,6 @@ Report.create_or_update({
 })
 
 Report.create_or_update({
-  id: 10,
   name_all: 'Cases by Age and Sex',
   description_all: 'Number of cases broken down by age and sex',
   module_id: PrimeroModule::CP,
@@ -135,7 +125,6 @@ Report.create_or_update({
 })
 
 Report.create_or_update({
-  id: 11,
   name_all: 'Cases by Protection Concern',
   description_all: 'Number of cases broken down by protection concern and sex',
   module_id: PrimeroModule::CP,
@@ -148,7 +137,6 @@ Report.create_or_update({
 })
 
 Report.create_or_update({
-  id: 12,
   name_all: 'Current Care Arrangements',
   description_all: 'The care arrangements broken down by age and sex',
   module_id: PrimeroModule::CP,
@@ -162,7 +150,6 @@ Report.create_or_update({
 })
 
 Report.create_or_update({
-  id: 13,
   name_all: 'Workflow Status',
   description_all: 'Cases broken down by current workflow status',
   module_id: PrimeroModule::CP,
@@ -175,7 +162,6 @@ Report.create_or_update({
 })
 
 Report.create_or_update(
-  id: 14,
   name_all: "Follow up by month by Agency",
   description_all: "Number of followups broken down by month and agency",
   module_id:  PrimeroModule::CP,
@@ -209,7 +195,6 @@ Report.create_or_update(
 )
 
 Report.create_or_update(
-  id: 15,
   name_all: "Follow up by week by Agency",
   description_all: "Number of followups broken down by week and agency",
   module_id:  PrimeroModule::CP,
@@ -243,7 +228,6 @@ Report.create_or_update(
 )
 
 Report.create_or_update(
-  id: 16,
   name_all: "Cases per Month",
   description_all: " Number of newly registered cases per month per location ",
   module_id:  PrimeroModule::CP,
@@ -258,7 +242,6 @@ Report.create_or_update(
 )
 
 Report.create_or_update({
-  id: 17,
   name_all: 'Cases with case plans',
   description_all: 'How many registered cases have case plans?',
   module_id: PrimeroModule::CP,

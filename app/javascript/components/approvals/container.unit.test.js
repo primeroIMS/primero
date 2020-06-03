@@ -55,7 +55,9 @@ describe("<Approvals /> - Component", () => {
         approval_requested_for: "case_plan",
         approval_manager_comments: "This is the last comment"
       }
-    ])
+    ]),
+    handleToggleNav: () => {},
+    mobileDisplay: false
   };
 
   beforeEach(() => {
@@ -75,7 +77,7 @@ describe("<Approvals /> - Component", () => {
   it("renders component with valid props", () => {
     const approvalsProps = { ...component.find(Approvals).props() };
 
-    ["approvals"].forEach(property => {
+    ["approvals", "handleToggleNav", "mobileDisplay"].forEach(property => {
       expect(approvalsProps).to.have.property(property);
       delete approvalsProps[property];
     });

@@ -167,7 +167,7 @@ const Component = ({ mode }) => {
                 <CustomFieldDialog />
               </div>
               <FieldsList />
-              <FieldDialog onSuccess={onSuccess} />
+              <FieldDialog onSuccess={onSuccess} mode={mode} />
             </TabPanel>
             <TabPanel tab={tab} index={2}>
               Item Three

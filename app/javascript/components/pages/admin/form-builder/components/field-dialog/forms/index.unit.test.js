@@ -6,6 +6,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms - index",
   it("should have known properties", () => {
     [
       "dateFieldForm",
+      "selectFieldForm",
       "separatorFieldForm",
       "textFieldForm",
       "tickboxFieldForm"
@@ -13,6 +14,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms - index",
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });
+
     expect(indexValues).to.be.empty;
   });
 });

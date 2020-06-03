@@ -86,6 +86,8 @@ class FieldI18nService
   #  Returns
   #  { 'name' => { 'en' => "Lastname", 'es' => "Apellido", 'fr' => "" } }
   def self.fill_keys(keys, source)
+    return source if source.is_a?(String)
+
     keys = keys.map(&:to_s) if source.keys.first.is_a?(String)
 
     keys.each do |key|
@@ -129,14 +131,6 @@ class FieldI18nService
     locales = I18n.available_locales.map do |locale|
       locale = locale.to_s if options.keys.first.is_a?(String)
       { locale => [] }
-    end.inject(&:merge)
-    locales.merge(options)
-  end
-
-    def self.fill_options2(options)
-    locales = I18n.available_locales.map do |locale|
-      locale = locale.to_s if options.keys.first.is_a?(String)
-      { locale => '' }
     end.inject(&:merge)
     locales.merge(options)
   end
@@ -241,5 +235,48 @@ class FieldI18nService
 
       locale_options.present? ? acc.merge(locale.to_s => locale_options) : acc
     end
+  end
+
+  #  Assumming the languages [ :en, :ar, :fr ] are available.
+  #  Given the value
+  # {
+  #   "ar": {
+  #     "closure": "Closure-AR",
+  #     "case_plan": "Case Plan-AR",
+  #     "assessment": "SER-AR"
+  #   },
+  #   "en": {
+  #     "closure": "Closure",
+  #     "case_plan": "Case Plan",
+  #     "assessment": "SER"
+  #   }
+  # }
+  #  Returns
+  # {
+  #   "closure"=>{
+  #     "en"=>"Closure",
+  #     "fr"=>"",
+  #     "ar"=>"Closure-AR"
+  #   },
+  #   "case_plan"=>{
+  #     "en"=>"Case Plan",
+  #     "fr"=>"",
+  #     "ar"=>"Case Plan-AR"
+  #   },
+  #   "assessment"=>{
+  #     "en"=>"SER",
+  #     "fr"=>"",
+  #     "ar"=>"SER-AR",
+  #   }
+  # }
+  def self.to_localized_values(field)
+    values_localized = field.inject({}) do |acc, (locale, values)|
+      values.map do |key, value|
+        acc[key] ||= I18n.available_locales.collect { |l| [l.to_s, ''] }.to_h
+        acc[key][locale] = value
+      end
+      acc
+    end
+    values_localized
   end
 end

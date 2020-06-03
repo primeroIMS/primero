@@ -9,6 +9,7 @@ import {
   TEXT_FIELD,
   TOGGLE_FIELD
 } from "../../form";
+import { SUBFORM_SECTION } from "../../record-form/constants";
 
 import { allowedExports } from "./utils";
 import {
@@ -89,10 +90,12 @@ export default (
     type: SELECT_FIELD,
     multi_select: true,
     option_strings_text: uniqBy(
-      fields.map(field => ({
-        id: field.formSectionId,
-        display_text: field.formSectionName
-      })),
+      fields
+        .filter(field => field?.type !== SUBFORM_SECTION)
+        .map(field => ({
+          id: field.formSectionId,
+          display_text: field.formSectionName
+        })),
       "id"
     ),
     inputClassname:
