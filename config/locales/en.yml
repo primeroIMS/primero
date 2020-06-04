@@ -1637,6 +1637,14 @@ en:
     english_text: "English Text"
     enabled: "Enabled?"
     default: "Default?"
+    subform_sort_by: "Sort by"
+    subform_group_by: "Group by"
+    subform_section:
+      name: "Subform Title"
+      description: "Subform Description"
+      subform_append_only: "Selective Syncing on Mobile"
+      subform_prevent_item_removal: "Prevent subform entry removal?"
+      starts_with_one_entry: "Start with one subform entry?"
 
   replication:
     label: Replication

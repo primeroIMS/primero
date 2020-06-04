@@ -15,14 +15,35 @@ export const setSelectedField = name => ({
   payload: { name }
 });
 
+export const setSelectedSubform = id => ({
+  type: actions.SET_SELECTED_SUBFORM,
+  payload: { id }
+});
+
 export const updateSelectedField = data => ({
   type: actions.UPDATE_SELECTED_FIELD,
   payload: { data }
 });
 
-export const reorderFields = (name, order) => ({
+export const updateSelectedSubform = data => ({
+  type: actions.UPDATE_SELECTED_SUBFORM,
+  payload: { data }
+});
+
+export const reorderFields = (name, order, isSubform) => ({
   type: actions.REORDER_FIELDS,
-  payload: { name, order }
+  payload: { name, order, isSubform }
+});
+
+export const saveSubforms = subforms => ({
+  type: actions.SAVE_SUBFORMS,
+  api: subforms.map(subform => ({
+    path: `${RECORD_PATH.forms}/${subform.id}`,
+    method: "PATCH",
+    body: {
+      data: subform
+    }
+  }))
 });
 
 export const saveForm = ({ id, body, saveMethod, message }) => {

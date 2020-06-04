@@ -4,7 +4,7 @@ import { makeStyles, Tab, Tabs } from "@material-ui/core";
 import { FormContext, useForm } from "react-hook-form";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
@@ -23,10 +23,15 @@ import {
   FormBuilderActionButtons,
   TabPanel
 } from "./components";
-import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
+import {
+  clearSelectedForm,
+  fetchForm,
+  saveForm,
+  saveSubforms
+} from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
 import { NAME } from "./constants";
-import { getSelectedForm } from "./selectors";
+import { getSelectedForm, getSelectedSubforms } from "./selectors";
 import { convertToFieldsArray, convertToFieldsObject } from "./utils";
 import styles from "./styles.css";
 import { transformValues } from "./components/field-dialog/utils";
@@ -40,6 +45,10 @@ const Component = ({ mode }) => {
   const i18n = useI18n();
   const [tab, setTab] = useState(0);
   const selectedForm = useSelector(state => getSelectedForm(state), compare);
+  const selectedSubforms = useSelector(
+    state => getSelectedSubforms(state),
+    compare
+  );
   const isLoading = useSelector(state => getIsLoading(state));
   const methods = useForm({
     validationSchema: validationSchema(i18n),
@@ -56,18 +65,23 @@ const Component = ({ mode }) => {
   };
 
   const onSubmit = data => {
-    dispatch(
-      saveForm({
-        id,
-        saveMethod: formMode.get("isEdit")
-          ? SAVE_METHODS.update
-          : SAVE_METHODS.new,
-        body: { data: { ...data, fields: convertToFieldsArray(data.fields) } },
-        message: i18n.t(
-          `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
-        )
-      })
-    );
+    batch(() => {
+      dispatch(
+        saveForm({
+          id,
+          saveMethod: formMode.get("isEdit")
+            ? SAVE_METHODS.update
+            : SAVE_METHODS.new,
+          body: {
+            data: { ...data, fields: convertToFieldsArray(data.fields) }
+          },
+          message: i18n.t(
+            `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
+          )
+        })
+      );
+      dispatch(saveSubforms(selectedSubforms.toJS()));
+    });
   };
 
   useEffect(() => {
@@ -109,14 +123,14 @@ const Component = ({ mode }) => {
   );
 
   const onSuccess = data => {
-    Object.entries(data).forEach(entry => {
-      const transformedFieldValues = transformValues(entry[1], true);
+    Object.entries(data).forEach(([fieldName, fieldData]) => {
+      const transformedFieldValues = transformValues(fieldData, true);
 
-      Object.entries(transformedFieldValues).forEach(valueEntry => {
-        if (!methods.control[`fields.${entry[0]}.${valueEntry[0]}`]) {
-          methods.register({ name: `fields.${entry[0]}.${valueEntry[0]}` });
+      Object.entries(transformedFieldValues).forEach(([key, value]) => {
+        if (!methods.control[`fields.${fieldName}.${key}`]) {
+          methods.register({ name: `fields.${fieldName}.${key}` });
         }
-        methods.setValue(`fields.${entry[0]}.${valueEntry[0]}`, valueEntry[1]);
+        methods.setValue(`fields.${fieldName}.${key}`, value);
       });
     });
   };
@@ -161,9 +175,6 @@ const Component = ({ mode }) => {
               </div>
             </TabPanel>
             <TabPanel tab={tab} index={1}>
-              <div className={css.tabContent}>
-                <h1>{i18n.t("forms.fields")}</h1>
-              </div>
               <FieldsList />
               <FieldDialog onSuccess={onSuccess} mode={mode} />
             </TabPanel>

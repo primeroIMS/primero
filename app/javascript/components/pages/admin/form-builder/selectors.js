@@ -4,10 +4,25 @@ import { fromJS } from "immutable";
 export const getSelectedForm = state =>
   state.getIn(["records", "admin", "forms", "selectedForm"], fromJS({}));
 
-export const getSelectedFields = state =>
-  state
-    .getIn(["records", "admin", "forms", "selectedFields"], fromJS([]))
-    .sortBy(field => field.get("order"));
+export const getSelectedSubform = state =>
+  state.getIn(
+    ["records", "admin", "forms", "selectedFieldSubform"],
+    fromJS({})
+  );
+
+export const getSelectedSubforms = state =>
+  state.getIn(["records", "admin", "forms", "selectedSubforms"], fromJS([]));
+
+export const getSelectedFields = (state, subform) => {
+  const fields = subform
+    ? state.getIn(
+        ["records", "admin", "forms", "selectedFieldSubform", "fields"],
+        fromJS([])
+      )
+    : state.getIn(["records", "admin", "forms", "selectedFields"], fromJS([]));
+
+  return fields.sortBy(field => field.get("order"));
+};
 
 export const getSelectedField = state =>
   state.getIn(["records", "admin", "forms", "selectedField"], fromJS({}));

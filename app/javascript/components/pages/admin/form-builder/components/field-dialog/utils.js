@@ -6,13 +6,15 @@ import {
   SUBFORM_SECTION,
   TICK_FIELD
 } from "../../../../../form";
+import { convertToFieldsObject } from "../../utils";
 
 import {
   dateFieldForm,
   textFieldForm,
   tickboxFieldForm,
   selectFieldForm,
-  separatorFieldForm
+  separatorFieldForm,
+  subformField
 } from "./forms";
 import { DATE_FIELD_CUSTOM_VALUES } from "./constants";
 
@@ -84,9 +86,48 @@ export const transformValues = (field, isSubmit = false) => {
   }
 };
 
-export const toggleHideOnViewPage = (fieldName, fieldData) => ({
-  [fieldName]: {
-    ...fieldData,
-    hide_on_view_page: !fieldData.hide_on_view_page
+export const toggleHideOnViewPage = fieldData => {
+  // eslint-disable-next-line camelcase
+  if (fieldData?.hide_on_view_page !== undefined) {
+    return {
+      ...fieldData,
+      hide_on_view_page: !fieldData.hide_on_view_page
+    }
   }
+
+  return fieldData;
+};
+
+export const isSubformField = field => field.get("type") === SUBFORM_SECTION;
+
+export const setInitialForms = subform => ({
+  ...subform,
+  initial_subforms: subform.starts_with_one_entry ? 1 : 0
 });
+
+export const setStartsWithOneEntry = subform => ({
+  ...subform,
+  starts_with_one_entry: Boolean(subform.initial_subforms)
+});
+
+export const getSubformValues = subform => {
+  const subformData = subform.toJS();
+
+  return {
+    subform_section: {
+      ...subformData,
+      fields: convertToFieldsObject(subformData.fields)
+    }
+  };
+};
+
+export const setSubformName = (field, subform) => {
+  if (subform) {
+    return {
+      ...field,
+      display_name: { en: subform?.name?.en || "" }
+    }
+  }
+
+  return field;
+}

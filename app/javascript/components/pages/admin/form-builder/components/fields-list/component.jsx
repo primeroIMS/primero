@@ -1,5 +1,7 @@
 /* eslint-disable react/no-multi-comp */
+/* eslint-disable react/display-name */
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormContext } from "react-hook-form";
 import clsx from "clsx";
@@ -12,79 +14,117 @@ import { getListStyle } from "../../../forms-list/utils";
 import FieldListItem from "../field-list-item";
 import { reorderFields } from "../../action-creators";
 import { getSelectedFields } from "../../selectors";
+import { getFieldsAttribute } from "../utils";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = () => {
+const Component = ({ subformField }) => {
   const methods = useFormContext();
   const dispatch = useDispatch();
-  const fields = useSelector(state => getSelectedFields(state), compare);
+  const isNested = Boolean(subformField?.size);
+  const fields = useSelector(
+    state => getSelectedFields(state, isNested),
+    compare
+  );
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const fieldsAttribute = getFieldsAttribute(isNested);
 
   useEffect(() => {
     fields.forEach(field => {
       const name = field.get("name");
 
-      if (!methods.control[`fields.${name}.order`]) {
-        methods.register({ name: `fields.${name}.order` });
+      if (!methods.control[`${fieldsAttribute}.${name}.order`]) {
+        methods.register({ name: `${fieldsAttribute}.${name}.order` });
       }
 
-      methods.setValue(`fields.${name}.order`, field.get("order"));
+      methods.setValue(`${fieldsAttribute}.${name}.order`, field.get("order"));
     });
   }, [fields]);
 
   const handleDragEnd = result => {
-    dispatch(reorderFields(result.draggableId, result.destination.index));
+    dispatch(
+      reorderFields(result.draggableId, result.destination.index, isNested)
+    );
   };
 
   const renderFields = () =>
     fields.map((field, index) => (
-      <FieldListItem field={field} index={index} key={field.get("name")} />
+      <FieldListItem
+        subformField={subformField}
+        field={field}
+        index={index}
+        key={field.get("name")}
+      />
     ));
 
+  const renderSortColumn = () =>
+    isNested ? (
+      <div className={clsx([css.fieldColumn, css.fieldHeader])}>
+        {i18n.t("fields.subform_sort_by")}
+      </div>
+    ) : null;
+
+  const renderGroupColumn = () =>
+    isNested ? (
+      <div className={clsx([css.fieldColumn, css.fieldHeader])}>
+        {i18n.t("fields.subform_group_by")}
+      </div>
+    ) : null;
+
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
-      <Droppable droppableId="droppable" type="field">
-        {(provided, snapshot) => (
-          <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            style={getListStyle(snapshot.isDraggingOver)}
-          >
-            <div className={css.fieldRow}>
-              <div
-                className={clsx([
-                  css.fieldColumn,
-                  css.fieldName,
-                  css.fieldHeader
-                ])}
-              >
-                {i18n.t("fields.name")}
+    <>
+      <div className={css.tabContent}>
+        <h1>{i18n.t("forms.fields")}</h1>
+      </div>
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="droppable" type="field">
+          {(provided, snapshot) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              style={getListStyle(snapshot.isDraggingOver)}
+            >
+              <div className={css.fieldRow}>
+                <div
+                  className={clsx([
+                    css.fieldColumn,
+                    css.fieldName,
+                    css.fieldHeader
+                  ])}
+                >
+                  {i18n.t("fields.name")}
+                </div>
+                <div className={clsx([css.fieldColumn, css.fieldHeader])}>
+                  {i18n.t("fields.type")}
+                </div>
+                {renderSortColumn()}
+                {renderGroupColumn()}
+                <div
+                  className={clsx([
+                    css.fieldColumn,
+                    css.fieldHeader,
+                    css.fieldShow
+                  ])}
+                >
+                  {i18n.t("fields.show")}
+                </div>
               </div>
-              <div className={clsx([css.fieldColumn, css.fieldHeader])}>
-                {i18n.t("fields.type")}
-              </div>
-              <div
-                className={clsx([
-                  css.fieldColumn,
-                  css.fieldHeader,
-                  css.fieldShow
-                ])}
-              >
-                {i18n.t("fields.show")}
-              </div>
+              {renderFields()}
+              {provided.placeholder}
             </div>
-            {renderFields()}
-            {provided.placeholder}
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
+          )}
+        </Droppable>
+      </DragDropContext>
+    </>
   );
 };
 
 Component.displayName = NAME;
+
+Component.propTypes = {
+  subformField: PropTypes.object
+};
 
 export default Component;
