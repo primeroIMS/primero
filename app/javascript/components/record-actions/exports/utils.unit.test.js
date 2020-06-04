@@ -279,11 +279,7 @@ describe("<RecordActions /> - exports/utils", () => {
     ];
 
     it("should return fields from forms and subforms when individual fields is false", () => {
-      expect(utils.buildFields(data, "en", false)).to.have.lengthOf(3);
-    });
-
-    it("should return fields from forms when individual fields is true", () => {
-      expect(utils.buildFields(data, "en", true)).to.have.lengthOf(2);
+      expect(utils.buildFields(data, "en")).to.have.lengthOf(3);
     });
   });
 });
