@@ -8,8 +8,8 @@ import {
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
-import { setupMountedComponent } from "../../../test";
-import { ACTIONS } from "../../../libs/permissions";
+import { setupMountedComponent } from "../../test";
+import { ACTIONS } from "../../libs/permissions";
 
 import Reports from "./container";
 

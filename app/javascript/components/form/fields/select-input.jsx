@@ -26,7 +26,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options }) => {
     const freeSoloDisplayText =
       freeSolo && typeof option === "string" ? option : null;
 
-    return displayName || displayText || freeSoloDisplayText;
+    return displayName || displayText || freeSoloDisplayText || "";
   };
 
   const optionsUseIntegerIds = Number.isInteger(options?.[0]?.id);

@@ -56,7 +56,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     visible
   } = field;
   const i18n = useI18n();
-  const { formMode, errors, watch } = useFormContext();
+  const methods = useFormContext();
+  const { formMode, errors, watch } = methods;
   const error = errors ? get(errors, name) : undefined;
 
   const errorsToCheck = checkErrors
@@ -80,7 +81,7 @@ const FormSectionField = ({ checkErrors, field }) => {
 
   const watchedInputsValues = watchedInputs ? watch(watchedInputs) : null;
   const watchedInputProps = handleWatchedInputs
-    ? handleWatchedInputs(watchedInputsValues, name, { error })
+    ? handleWatchedInputs(watchedInputsValues, name, { error, methods })
     : {};
 
   const renderError = () =>
@@ -117,7 +118,7 @@ const FormSectionField = ({ checkErrors, field }) => {
     inlineCheckboxes,
     freeSolo,
     hint,
-    groupBy,
+    groupBy: watchedInputProps?.groupBy || groupBy,
     selectedValue
   };
 
@@ -153,7 +154,7 @@ const FormSectionField = ({ checkErrors, field }) => {
           field={field}
           commonInputProps={commonInputProps}
           metaInputProps={metaInputProps}
-          options={optionSource?.toJS()}
+          options={watchedInputProps?.options || optionSource?.toJS()}
           errorsToCheck={errorsToCheck}
         />
       )}

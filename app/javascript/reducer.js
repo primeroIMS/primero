@@ -15,7 +15,7 @@ import { reducer as requestApprovalReducer } from "./components/record-actions/r
 import { reducer as bulkTranstionsReducer } from "./components/record-actions/bulk-transtions";
 import { reducer as potentialMatchesReducer } from "./components/pages/potential-matches";
 import { reducer as reportReducer } from "./components/pages/report";
-import { reducer as reportsListReducer } from "./components/pages/reports-list";
+import { reducer as reportsListReducer } from "./components/reports-list";
 import { reducer as supportReducer } from "./components/pages/support";
 import { reducer as taskListReducer } from "./components/pages/task-list";
 import { reducer as usersListReducer } from "./components/pages/admin/users-list";

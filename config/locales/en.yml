@@ -2481,6 +2481,7 @@ en:
 
   report:
     name: "Name"
+    name_mandatory: "Name is required"
     description: "Description"
     heading: "Primero Reports"
     type: "Type"
@@ -2515,8 +2516,11 @@ en:
     successfully_updated: "Report configuration is successfully updated."
     error_in_updating: "Error in updating the Report configuration."
     messages:
+      success: "Report was successfully created."
       delete_success: "Report was successfully deleted."
     edit: "Edit"
+    empty_rows: "Do not display empty rows?"
+    empty_rows_help_text: "Excludes rows from the report table if all values are zero"
 
   encrypt:
     password_title: "Create Password"

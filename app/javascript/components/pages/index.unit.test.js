@@ -22,7 +22,6 @@ describe("pages - index", () => {
       "NotFound",
       "PotentialMatches",
       "Report",
-      "Reports",
       "RolesForm",
       "RolesList",
       "Support",
