@@ -24,7 +24,7 @@ export const saveReport = ({ id, body, saveMethod, message }) => {
             key: generate.messageKey()
           }
         },
-        redirectWithIdFromResponse: false,
+        redirectWithIdFromResponse: saveMethod !== SAVE_METHODS.update,
         redirect: `/${path}`
       }
     }

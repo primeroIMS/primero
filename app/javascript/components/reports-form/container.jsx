@@ -97,9 +97,10 @@ const Container = ({ mode }) => {
     dispatch(push(ROUTES.reports));
   };
 
-  const pageHeading = report?.size
-    ? report.getIn(["name", i18n.locale])
-    : i18n.t("reports.register_new_report");
+  const pageHeading =
+    report?.size && !formMode.get("isNew")
+      ? report.getIn(["name", i18n.locale])
+      : i18n.t("reports.register_new_report");
 
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>
@@ -116,6 +117,10 @@ const Container = ({ mode }) => {
     </>
   );
 
+  const initialValues = formMode.get("isNew")
+    ? {}
+    : formatReport(report.toJS());
+
   return (
     <LoadingIndicator
       hasData={formMode.get("isNew") || report?.size > 0}
@@ -125,13 +130,14 @@ const Container = ({ mode }) => {
         <PageHeading title={pageHeading}>{saveButton}</PageHeading>
         <PageContent>
           <Form
+            submitAllFields
             useCancelPrompt
             mode={mode}
             formSections={formSections}
             onSubmit={onSubmit}
             ref={formRef}
             validations={validations(i18n)}
-            initialValues={formatReport(report.toJS())}
+            initialValues={initialValues}
           />
         </PageContent>
       </PageContainer>
