@@ -5,8 +5,7 @@ import {
   AUDIO_FIELD,
   DOCUMENT_FIELD,
   PHOTO_FIELD,
-  SEPERATOR,
-  SUBFORM_SECTION
+  SEPERATOR
 } from "../../record-form/constants";
 
 import { ALL_EXPORT_TYPES } from "./constants";

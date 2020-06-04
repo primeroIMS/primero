@@ -21,3 +21,7 @@ export const REPORT_FIELD_TYPES = Object.freeze({
   horizontal: "horizontal",
   vertical: "vertical"
 });
+export const DEFAULT_FILTERS = [
+  Object.freeze({ attribute: "status", value: ["open"] }),
+  Object.freeze({ attribute: "record_state", value: ["true"] })
+];
