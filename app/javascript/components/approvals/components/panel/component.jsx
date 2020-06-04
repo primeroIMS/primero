@@ -29,7 +29,7 @@ const Component = ({ approvalSubform, css }) => {
   };
 
   return (
-    <div key={approvalSubform.get("unique-id")}>
+    <div key={approvalSubform.get("unique_id")}>
       <ExpansionPanel
         expanded={expanded}
         onChange={handleExpanded}
@@ -38,7 +38,7 @@ const Component = ({ approvalSubform, css }) => {
         <ExpansionPanelSummary
           expandIcon={<ArrowIcon />}
           aria-controls="filter-controls-content"
-          id={approvalSubform.get("unique-id")}
+          id={approvalSubform.get("unique_id")}
         >
           <ApprovalSummary {...sharedProps} />
         </ExpansionPanelSummary>

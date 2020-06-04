@@ -2,10 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { Select, MenuItem } from "@material-ui/core";
-import { DatePicker } from "@material-ui/pickers";
+import { DatePicker, DateTimePicker } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/styles";
 import { useLocation } from "react-router-dom";
 import qs from "qs";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../../i18n";
 import Panel from "../../panel";
@@ -20,7 +21,9 @@ import {
 import { NAME } from "./constants";
 
 const Component = ({
+  addFilterToList,
   filter,
+  filterToList,
   mode,
   moreSectionFilters,
   setMoreSectionFilters,
@@ -32,7 +35,7 @@ const Component = ({
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState();
   const valueRef = useRef();
-  const { options, field_name: fieldName } = filter;
+  const { options, field_name: fieldName, dateIncludeTime } = filter;
   const isDateFieldSelectable = Object.keys?.(options)?.length > 0;
   const valueSelectedField = options?.[i18n.locale]?.filter(option =>
     Object.keys(getValues({ nest: true })).includes(option.id)
@@ -51,6 +54,10 @@ const Component = ({
     if (mode?.secondary) {
       setMoreSectionFilters({ ...moreSectionFilters, [selectedField]: value });
     }
+
+    if (addFilterToList) {
+      addFilterToList({ [selectedField]: value || undefined });
+    }
   };
 
   const handleSelectedField = event => {
@@ -62,6 +69,10 @@ const Component = ({
 
     setSelectedField(value);
     setValue(value, undefined);
+
+    if (addFilterToList) {
+      addFilterToList({ [value]: undefined });
+    }
 
     if (mode?.secondary) {
       handleMoreFiltersChange(
@@ -85,6 +96,10 @@ const Component = ({
         moreSectionFilters,
         setMoreSectionFilters
       );
+
+      if (addFilterToList) {
+        addFilterToList({ [fieldName]: undefined });
+      }
     }
   };
 
@@ -124,6 +139,15 @@ const Component = ({
 
       setSelectedField(selectValue);
       setInputValue(datesValue);
+    } else if (filterToList && !isEmpty(Object.keys(filterToList))) {
+      const data = filter?.options?.[i18n.locale].find(option =>
+        Object.keys(filterToList).includes(option.id)
+      );
+      const selectValue = data?.id;
+      const datesValue = filterToList?.[selectValue];
+
+      setSelectedField(selectValue);
+      setInputValue(datesValue);
     }
 
     return () => {
@@ -142,6 +166,30 @@ const Component = ({
         {option.display_name}
       </MenuItem>
     ));
+
+  const pickerFormat = dateIncludeTime ? "dd-MMM-yyyy HH:mm" : "dd-MMM-yyyy";
+
+  const renderPickers = ["from", "to"].map(picker => {
+    const props = {
+      fullWidth: true,
+      margin: "normal",
+      format: pickerFormat,
+      label: i18n.t(`fields.date_range.${picker}`),
+      value: inputValue?.[picker],
+      onChange: date => handleDatePicker(picker, date),
+      disabled: !selectedField
+    };
+
+    return (
+      <div key={picker} className={css.dateInput}>
+        {dateIncludeTime ? (
+          <DateTimePicker {...props} />
+        ) : (
+          <DatePicker {...props} />
+        )}
+      </div>
+    );
+  });
 
   return (
     <Panel
@@ -165,28 +213,7 @@ const Component = ({
             </Select>
           </div>
         )}
-        <div className={css.dateInput}>
-          <DatePicker
-            margin="normal"
-            format="dd-MMM-yyyy"
-            label={i18n.t(`fields.date_range.from`)}
-            value={inputValue?.from}
-            onChange={date => handleDatePicker("from", date)}
-            disabled={!selectedField}
-            fullWidth
-          />
-        </div>
-        <div className={css.dateInput}>
-          <DatePicker
-            fullWidth
-            margin="normal"
-            format="dd-MMM-yyyy"
-            label={i18n.t(`fields.date_range.to`)}
-            value={inputValue?.to}
-            onChange={date => handleDatePicker("to", date)}
-            disabled={!selectedField}
-          />
-        </div>
+        {renderPickers}
       </div>
     </Panel>
   );
@@ -197,7 +224,9 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
+  addFilterToList: PropTypes.func,
   filter: PropTypes.object.isRequired,
+  filterToList: PropTypes.object.isRequired,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,
     secondary: PropTypes.bool

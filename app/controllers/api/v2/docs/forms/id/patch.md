@@ -1,6 +1,6 @@
 # Update an existing form
 
-Merge the values submitted in this call into an existing form. Fields in the request will be merged with the existing fields. Fields not specified in this request will be deleted. 
+Merge the values submitted in this call into an existing form. Fields in the request will be merged with the existing fields. Fields not specified in this request will be deleted.
 
 i18n fields will be updated only if the specific locale is part of the request.
 
@@ -13,7 +13,7 @@ i18n fields will be updated only if the specific locale is part of the request.
 
 **Authorization** : The user must be authorized to edit forms in Primero.
 
-**Parameters** : 
+**Parameters** :
 
 * `data` A JSON representation of the form that will be updated.
 ```json
@@ -26,6 +26,7 @@ i18n fields will be updated only if the specific locale is part of the request.
       "fields": [
         {
           "name": "field_1",
+          "order": 777,
           "display_name": {
             "en": "Field 1"
           }
@@ -54,6 +55,7 @@ i18n fields will be updated only if the specific locale is part of the request.
       "fields": [
         {
           "name": "field_1",
+          "order": 777,
           "display_name": {
             "en": "Field 1"
           }
@@ -65,7 +67,7 @@ i18n fields will be updated only if the specific locale is part of the request.
 
 ## Error Response
 
-**Condition** : User isn't authorized to update forms. 
+**Condition** : User isn't authorized to update forms.
 
 **Code** : `403 Forbidden`
 

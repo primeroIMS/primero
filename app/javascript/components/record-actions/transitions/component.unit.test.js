@@ -39,6 +39,53 @@ describe("<Transitions />", () => {
     consent_for_services: true
   });
 
+  describe("when Transitions is rendered", () => {
+    const props = {
+      assignDialog: true,
+      currentPage: 0,
+      handleAssignClose: () => {},
+      handleReferClose: () => {},
+      handleTransferClose: () => {},
+      pending: false,
+      record,
+      recordType: "cases",
+      referDialog: false,
+      selectedRecords: {},
+      setPending: () => {},
+      transferDialog: false,
+      userPermissions: {}
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(Transitions, props, initialState));
+    });
+
+    it("should accept valid props", () => {
+      const transitionsProps = { ...component.find(Transitions).props() };
+
+      expect(component.find(Transitions)).to.have.lengthOf(1);
+      [
+        "assignDialog",
+        "currentPage",
+        "handleAssignClose",
+        "handleReferClose",
+        "handleTransferClose",
+        "pending",
+        "record",
+        "recordType",
+        "referDialog",
+        "selectedRecords",
+        "setPending",
+        "transferDialog",
+        "userPermissions"
+      ].forEach(property => {
+        expect(transitionsProps).to.have.property(property);
+        delete transitionsProps[property];
+      });
+      expect(transitionsProps).to.be.empty;
+    });
+  });
+
   describe("when transitionType is 'referral'", () => {
     const props = {
       record,
@@ -75,6 +122,7 @@ describe("<Transitions />", () => {
           "recordType",
           "record",
           "setPending",
+          "selectedIds",
           "referralRef",
           "disabled",
           "setDisabled"
@@ -155,6 +203,21 @@ describe("<Transitions />", () => {
     it("renders ReassignForm", () => {
       expect(component.find(ReassignForm)).to.have.lengthOf(1);
     });
+
+    it("should check the allowed props", () => {
+      const reassignForm = component.find(ReassignForm);
+      const validProps = [
+        "userPermissions",
+        "providedConsent",
+        "recordType",
+        "record",
+        "setPending",
+        "selectedIds",
+        "assignRef"
+      ];
+
+      expect(Object.keys(reassignForm.props())).to.deep.equal(validProps);
+    });
   });
 
   describe("when transitionType is 'transfer'", () => {
@@ -197,6 +260,7 @@ describe("<Transitions />", () => {
           "recordType",
           "record",
           "setPending",
+          "selectedIds",
           "isBulkTransfer",
           "transferRef",
           "disabled",

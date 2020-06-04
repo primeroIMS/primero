@@ -72,12 +72,18 @@ describe FieldI18nService do
   describe 'merge_i18n_options' do
     it 'merges the localized options of the hashes' do
       merged_hash = FieldI18nService.merge_i18n_options(
-        { 'en' => [{ 'id' => 'true', 'display_name' => 'Valid' }] },
-        { 'en' => [{ 'id' => 'false', 'display_name' => 'Invalid' }] }
+        {
+          'en' => [
+            { 'id' => 'true', 'display_name' => 'Valid' },
+            { 'id' => 'false', 'display_name' => 'Valid' }
+          ]
+        },
+        'en' => [{ 'id' => 'false', 'display_name' => 'false' }]
       )
-      expected_hash = { 'en' => [
-          { 'id' => "true", 'display_name' => "Valid" },
-          { 'id' => "false", 'display_name' => "Invalid" }
+      expected_hash = {
+        'en' => [
+          { 'id' => 'false', 'display_name' => 'false' },
+          { 'id' => 'true', 'display_name' => 'Valid' }
         ]
       }
 
@@ -105,6 +111,77 @@ describe FieldI18nService do
       ]
 
       expect(lookups_options).to eq(expected_lookups_options)
+    end
+  end
+
+  describe 'to_localized_options' do
+    it 'revert fill the lookups options with all the available locales' do
+      options = [
+        { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => '', 'fr' => '' } },
+        { 'id' => '2', 'display_text' => { 'en' => 'City', 'es' => '', 'fr' => 'prueba' } }
+      ]
+      lookups_options = FieldI18nService.to_localized_options(options)
+
+      expected_lookups_options = {
+        'en' => [{ 'id' => '1', 'display_text' => 'Country' }, { 'id' => '2', 'display_text' => 'City' }],
+        'fr' => [{ 'id' => '2', 'display_text' => 'prueba' }]
+      }
+
+      expect(lookups_options).to eq(expected_lookups_options)
+    end
+
+    it 'revert fill the lookups options if the value does not have display_text bit it have _delete: true' do
+      I18n.stub(:available_locales).and_return([:en, :es, :fr])
+      options = [
+        { 'id' => '1', 'display_text' => { 'en' => 'Country', 'es' => '', 'fr' => '' } },
+        { 'id' => '2', '_delete' => true }
+      ]
+      lookups_options = FieldI18nService.to_localized_options(options)
+
+      expected_lookups_options = {
+        'en' => [{ 'id' => '1', 'display_text' => 'Country' }, { 'id' => '2', '_delete' => true }],
+        'fr' => [{ 'id' => '2', '_delete' => true }],
+        'es' => [{ 'id' => '2', '_delete' => true }]
+      }
+
+      expect(lookups_options).to eq(expected_lookups_options)
+    end
+  end
+
+  describe 'to_localized_values' do
+    it 'return the field with all the availables locales and the requiered order' do
+      I18n.stub(:available_locales).and_return([:en, :ar, :fr])
+      field = {
+        'ar' => {
+          'closure' => 'Closure-AR',
+          'case_plan'=>'Case Plan-AR',
+          'assessment'=>'SER-AR'
+          },
+        'en' => {
+          'closure' => 'Closure',
+          'case_plan' => 'Case Plan',
+          'assessment' => 'SER'
+        }
+      }
+      expect_field = {
+        "assessment"=>{
+          "en"=>"SER",
+          "fr"=>"",
+          "ar"=>"SER-AR",
+        },
+        "case_plan"=>{
+          "en"=>"Case Plan",
+          "fr"=>"",
+          "ar"=>"Case Plan-AR"
+        },
+        "closure"=>{
+          "en"=>"Closure",
+          "fr"=>"",
+          "ar"=>"Closure-AR"
+        }
+        
+      }
+      expect(FieldI18nService.to_localized_values(field)).to eq(expect_field)
     end
   end
 end

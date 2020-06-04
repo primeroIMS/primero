@@ -10,7 +10,14 @@ import {
 import { Controller } from "react-hook-form";
 
 const SwitchInput = ({ commonInputProps }) => {
-  const { helperText, error, disabled, name, label } = commonInputProps;
+  const {
+    helperText,
+    error,
+    disabled,
+    name,
+    label,
+    className
+  } = commonInputProps;
 
   return (
     <FormControl error={error}>
@@ -26,6 +33,7 @@ const SwitchInput = ({ commonInputProps }) => {
             />
           }
           label={label}
+          className={className}
         />
       </FormGroup>
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
@@ -37,6 +45,7 @@ SwitchInput.displayName = "SwitchInput";
 
 SwitchInput.propTypes = {
   commonInputProps: PropTypes.shape({
+    className: PropTypes.string,
     disabled: PropTypes.bool,
     error: PropTypes.bool,
     helperText: PropTypes.string,

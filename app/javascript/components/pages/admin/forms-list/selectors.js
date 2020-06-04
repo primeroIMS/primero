@@ -1,22 +1,39 @@
-import { OrderedMap } from "immutable";
+import { OrderedMap, fromJS } from "immutable";
 
-// eslint-disable-next-line import/prefer-default-export
-export const getFormSections = (state, filter) => {
-  const { primeroModule, recordType } = filter;
+import { filterFormSections, groupByFormGroup } from "./utils";
 
-  return state
-    .getIn(["records", "admin", "forms", "formSections"], OrderedMap({}))
-    .filter(
-      formSection =>
-        !formSection.is_nested &&
-        formSection.module_ids.includes(primeroModule) &&
-        formSection.parent_form === recordType
-    )
-    .sortBy(fs => fs.order)
-    .groupBy(fs => fs.form_group_id)
-    .sortBy(group => group.first().order_form_group)
-    .toList();
-};
+export const getFormSections = (state, filter) =>
+  filterFormSections(
+    state.getIn(["records", "admin", "forms", "formSections"], OrderedMap({})),
+    filter
+  );
+
+export const getFormSectionsByFormGroup = (state, filter) =>
+  groupByFormGroup(getFormSections(state, filter)).toList();
 
 export const getIsLoading = state =>
   state.getIn(["records", "admin", "forms", "loading"], false);
+
+export const getReorderIsLoading = state =>
+  state.getIn(
+    ["records", "admin", "forms", "reorderedForms", "loading"],
+    false
+  );
+
+export const getReorderErrors = state =>
+  state.getIn(
+    ["records", "admin", "forms", "reorderedForms", "errors"],
+    fromJS([])
+  );
+
+export const getReorderPendings = state =>
+  state.getIn(
+    ["records", "admin", "forms", "reorderedForms", "pending"],
+    fromJS({})
+  );
+
+export const getReorderEnabled = state =>
+  state.getIn(
+    ["records", "admin", "forms", "reorderedForms", "enabled"],
+    false
+  );

@@ -179,7 +179,7 @@ describe("<RecordList />", () => {
     ]));
   });
 
-  it.skip("renders record list table", done => {
+  it("renders record list table", done => {
     expect(component.find(IndexTable)).to.have.length(1);
     done();
   });

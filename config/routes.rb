@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   )
 
   resources :login, only: [:index]
-  resources :health, only: [:index]
+  resources :health, only: %i[index show]
 
   namespace :api do
     namespace :v2, defaults: { format: :json },
@@ -76,7 +76,7 @@ Rails.application.routes.draw do
       resources :system_settings, only: [:index]
       resources :tasks, only: [:index]
       resources :saved_searches, only: %i[index create destroy]
-      resources :reports, only: %i[index show]
+      resources :reports, only: %i[index show create update destroy]
       resources :lookups
       resources :locations
       resources :bulk_exports, as: :exports, path: :exports, only: %i[index show create destroy]

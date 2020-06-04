@@ -10,9 +10,11 @@ import {
   STATUS_REJECTED
 } from "../../constants";
 import DisplayData from "../../../display-data";
+import { useApp } from "../../../application";
 
 const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
   const i18n = useI18n();
+  const { approvalsLabels } = useApp();
 
   const renderApprovalLabel =
     isRequest && !isResponse
@@ -21,8 +23,8 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
 
   const renderApprovalValue =
     isRequest && !isResponse
-      ? i18n.t(`approvals.${approvalSubform.get("approval_requested_for")}`)
-      : i18n.t(`approvals.${approvalSubform.get("approval_response_for")}`);
+      ? approvalsLabels[approvalSubform.get("approval_requested_for")]
+      : approvalsLabels[approvalSubform.get("approval_response_for")];
 
   const renderCasePlanType =
     approvalSubform.get("approval_response_for") === CASE_PLAN ||
@@ -73,7 +75,10 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
           <Box className={css.spaceGrid}>
             <DisplayData
               label={renderApprovedByLabel}
-              value={approvalSubform.get("approved_by")}
+              value={
+                approvalSubform.get("approved_by", false) ||
+                approvalSubform.get("requested_by")
+              }
             />
           </Box>
         </Grid>

@@ -12,6 +12,7 @@ import { reducer as loginFormReducer } from "./components/pages/login/login-form
 import { reducer as loginReducer } from "./components/pages/login";
 import { reducer as recordActionsReducer } from "./components/record-actions";
 import { reducer as requestApprovalReducer } from "./components/record-actions/request-approval";
+import { reducer as bulkTranstionsReducer } from "./components/record-actions/bulk-transtions";
 import { reducer as potentialMatchesReducer } from "./components/pages/potential-matches";
 import { reducer as reportReducer } from "./components/report";
 import { reducer as reportsListReducer } from "./components/reports-list";
@@ -38,6 +39,7 @@ import { reducer as transferApprovalReducer } from "./components/transitions/tra
 import { reducer as revokeModalReducer } from "./components/transitions/components/revoke-modal";
 import { reducer as referralActionReducer } from "./components/transitions/referrals/referral-action";
 import { reducer as lookupsListReducer } from "./components/pages/admin/lookups-list";
+import { reducer as AdminLookupsFormReducers } from "./components/pages/admin/lookups-form";
 import { reducer as adminFormListReducer } from "./components/pages/admin/forms-list";
 import { reducer as adminFormBuilderReducer } from "./components/pages/admin/form-builder";
 import { reducer as AuditLogsReducers } from "./components/pages/admin/audit-logs";
@@ -53,7 +55,8 @@ const rootReducer = {
           o[i] = reduceReducers(
             recordsReducer(i),
             indexFiltersReducer(i),
-            requestApprovalReducer(i)
+            requestApprovalReducer(i),
+            bulkTranstionsReducer(i)
           );
 
           return o;
@@ -81,7 +84,7 @@ const rootReducer = {
         forms: reduceReducers(adminFormListReducer, adminFormBuilderReducer),
         audit_logs: reduceReducers(AuditLogsReducers),
         roles: reduceReducers(rolesListReducer, rolesFormReducer),
-        lookups: reduceReducers(lookupsListReducer)
+        lookups: reduceReducers(lookupsListReducer, AdminLookupsFormReducers)
       })
     }),
     transferApprovalReducer,

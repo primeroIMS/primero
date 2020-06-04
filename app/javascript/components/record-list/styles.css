@@ -48,10 +48,3 @@
   width: 45px;
   text-align: center;
 }
-
-.alerts {
-
-  & span {
-    margin-left: 5px;
-  }
-}

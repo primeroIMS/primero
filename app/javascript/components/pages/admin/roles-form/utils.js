@@ -11,17 +11,16 @@ import {
 import { FORM_CHECK_ERRORS } from "./constants";
 
 export const getFormsToRender = ({
-  primeroModules,
   systemPermissions,
   roles,
   formSections,
   i18n,
-  formMode
+  formMode,
+  approvalsLabels
 }) =>
   fromJS(
     [
       RolesMainForm(
-        primeroModules,
         systemPermissions.get("management", fromJS([])),
         i18n,
         formMode
@@ -40,7 +39,8 @@ export const getFormsToRender = ({
       ResourcesForm(
         systemPermissions.get("resource_actions", fromJS({})),
         roles,
-        i18n
+        i18n,
+        approvalsLabels
       ),
       FormSectionRecord({
         unique_id: "forms_label",

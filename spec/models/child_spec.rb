@@ -984,6 +984,30 @@ describe Child do
     end
   end
 
+  context 'testing service_implemented field' do
+    it 'not_implemented in service_implemented field' do
+      data = {
+        data: { services_section: [{ service_type: 'Test type' }] }
+      }
+      child = Child.create(data)
+
+      expect(child.data['services_section'][0]['service_implemented_day_time'].present?).to be_falsey
+      expect(child.data['services_section'][0]['service_implemented']).to eq('not_implemented')
+    end
+
+    it 'implemented in service_implemented field' do
+      data = {
+        data: {
+          services_section: [{ service_type: 'Test type', service_implemented_day_time: '2020-02-06 22:16:00 UTC' }]
+        }
+      }
+      child = Child.create(data)
+
+      expect(child.data['services_section'][0]['service_implemented_day_time'].present?).to be_truthy
+      expect(child.data['services_section'][0]['service_implemented']).to eq('implemented')
+    end
+  end
+
   after :all do
     Child.destroy_all
     Field.destroy_all

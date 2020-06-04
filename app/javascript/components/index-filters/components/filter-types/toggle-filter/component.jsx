@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import { makeStyles } from "@material-ui/styles";
+import isEmpty from "lodash/isEmpty";
 
 import Panel from "../../panel";
 import { getOption } from "../../../../record-form";
@@ -22,11 +23,12 @@ import handleFilterChange, { valueParser } from "../value-handlers";
 import { NAME } from "./constants";
 
 const Component = ({
+  addFilterToList,
   filter,
-  moreSectionFilters,
-  setMoreSectionFilters,
   mode,
+  moreSectionFilters,
   reset,
+  setMoreSectionFilters,
   setReset
 }) => {
   const i18n = useI18n();
@@ -54,6 +56,10 @@ const Component = ({
       moreSectionFilters,
       setMoreSectionFilters
     );
+
+    if (addFilterToList) {
+      addFilterToList({ [fieldName]: undefined });
+    }
   };
 
   useEffect(() => {
@@ -113,6 +119,10 @@ const Component = ({
         getValues()[fieldName]
       );
     }
+
+    if (addFilterToList) {
+      addFilterToList({ [fieldName]: !isEmpty(value) ? value : [] });
+    }
   };
 
   const renderOptions = () =>
@@ -156,6 +166,7 @@ Component.defaultProps = {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  addFilterToList: PropTypes.func,
   filter: PropTypes.object.isRequired,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,

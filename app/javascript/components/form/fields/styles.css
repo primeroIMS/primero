@@ -30,3 +30,99 @@
   margin-top: -12;
   margin-left: -12;
 }
+
+.hint {
+  display: block;
+  margin-top: 0.5em;
+  color:  $(theme.primero.colors.warmGrey4);
+  font-weight: bold;
+}
+
+.rowDirection {
+  flex-direction: row;
+}
+
+.fieldHeaderRow {
+  display: flex;
+}
+
+.fieldRow {
+  display: flex;
+  border-bottom: 1px solid #efefef;
+}
+
+.fieldColumn {
+  flex: 1 1;
+  padding: 0.5em 0 0 0.5em;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  &.dragIndicatorColumn{
+    flex: 0 0 auto;
+    padding: 0;
+  }
+
+  &.fieldInput {
+    flex: 3 1;
+
+    &.fieldHeader {
+      padding-left: 2em;
+      justify-content: left;
+    }
+    & button {
+      color: $(theme.primero.colors.blue);
+      text-transform: none;
+
+      &.editable {
+        margin-left: 1.7em;
+      }
+    }
+  }
+
+  &.fieldShow {
+    flex: 0 0 auto;
+    border-left: 1px solid #efefef;
+  }
+
+  &.fieldHeader {
+    justify-content: center;
+    color: $(theme.primero.colors.black);
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+  }
+}
+
+.clearDefaultButton {
+  color: $(theme.primero.colors.darkBrown);
+  font-weight: bold;
+}
+
+.optionsFieldActions {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5em 0 1.5em 0;
+
+  & button {
+    font-weight: bold;
+    font-size: 0.8rem;
+    height: 25px;
+  }
+
+  & button:not(.clearDefaultButton) {
+    color: #0093ba;
+    background: #ffffff;
+    border: 1px solid #0093ba;
+
+    &:hover {
+      color: #ffffff;
+      background: #0093ba;
+    }
+  }
+}
+
+.inputOptionField {
+  width: 100%;
+  margin-bottom: 0.5em;
+}

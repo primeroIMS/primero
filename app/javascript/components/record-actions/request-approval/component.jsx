@@ -10,6 +10,8 @@ import ActionDialog from "../../action-dialog";
 import { fetchAlerts } from "../../nav/action-creators";
 import { getRecordAlerts } from "../../records";
 import { fetchRecordsAlerts } from "../../records/action-creators";
+import { currentUser } from "../../user";
+import { useApp } from "../../application";
 
 import { approvalRecord } from "./action-creators";
 import ApprovalForm from "./approval-form";
@@ -29,6 +31,7 @@ const Component = ({
   dialogName
 }) => {
   const i18n = useI18n();
+  const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const startRequestType = subMenuItems?.[0]?.value;
@@ -37,6 +40,7 @@ const Component = ({
   const [comment, setComment] = React.useState("");
 
   const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
+  const username = useSelector(state => currentUser(state));
 
   const handleChangeType = event => {
     setRequestType(event.target.value);
@@ -67,7 +71,8 @@ const Component = ({
     approvalType === "request"
       ? `${recordType}.request_approval_success_${requestType}`
       : `${recordType}.${approval}_success_${requestType}`;
-  const handleOk = () => {
+
+  const handleSubmit = () => {
     setPending(true);
 
     batch(async () => {
@@ -77,14 +82,18 @@ const Component = ({
           recordId: record.get("id"),
           approvalId: requestType,
           body: actionBody,
-          message: i18n.t(message),
+          message: i18n.t(message, {
+            approval_label: approvalsLabels[requestType]
+          }),
           failureMessage: i18n.t(`${recordType}.request_approval_failure`),
-          dialogName
+          dialogName,
+          username
         })
       );
 
       dispatch(fetchRecordsAlerts(recordType, record.get("id")));
-      if (recordAlerts.size <= 0) {
+
+      if (recordAlerts?.size <= 0) {
         dispatch(fetchAlerts());
       }
     });
@@ -143,7 +152,7 @@ const Component = ({
     <ActionDialog
       open={openRequestDialog}
       dialogTitle=""
-      successHandler={handleOk}
+      successHandler={handleSubmit}
       cancelHandler={handleCancel}
       omitCloseAfterSuccess
       maxSize="xs"

@@ -108,6 +108,16 @@ describe("<Transition /> - utils", () => {
         ).to.deep.equal(expected);
       });
     });
+    describe("when path is bulk assigns", () => {
+      const expected = "cases/assigns";
+      const recordsIds = [12345, 67890];
+
+      it("should return correct path 'cases/assigns'", () => {
+        expect(
+          utils.generatePath(actions.CASES_ASSIGNS, recordId, recordsIds)
+        ).to.deep.equal(expected);
+      });
+    });
   });
 
   describe("getUserFilters", () => {

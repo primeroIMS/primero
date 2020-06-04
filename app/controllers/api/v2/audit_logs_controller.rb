@@ -5,7 +5,7 @@ class Api::V2::AuditLogsController < ApplicationApiController
 
   def index
     authorize! :read, AuditLog
-    @audit_logs = AuditLog.for_user(audit_logs_params[:user_name], timestamp_param)
+    @audit_logs = AuditLog.logs(audit_logs_params[:user_name], timestamp_param)
     @total = @audit_logs.size
     @audit_logs = @audit_logs.paginate(pagination)
   end

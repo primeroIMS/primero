@@ -62,3 +62,15 @@ export const getAgeRanges = (state, name = "primero") =>
 
 export const getReportableTypes = state =>
   state.getIn([NAMESPACE, "reportableTypes"], fromJS([]));
+
+export const getApprovalsLabels = (state, locale) => {
+  const approvalsLabels = Object.entries(
+    state.getIn([NAMESPACE, "approvalsLabels"], fromJS({})).toJS()
+  ).reduce((acc, entry) => {
+    const [key, value] = entry;
+
+    return { ...acc, [key]: value[locale] };
+  }, {});
+
+  return approvalsLabels;
+};

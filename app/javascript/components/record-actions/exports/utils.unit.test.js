@@ -1,7 +1,8 @@
 import { fromJS } from "immutable";
 
-import { stub } from "../../../test";
+import { fake } from "../../../test";
 import { ACTIONS } from "../../../libs/permissions";
+import { TEXT_FIELD, SUBFORM_SECTION } from "../../record-form/constants";
 
 import { ALL_EXPORT_TYPES, EXPORT_FORMAT } from "./constants";
 import * as utils from "./utils";
@@ -11,26 +12,27 @@ describe("<RecordActions /> - exports/utils", () => {
     it("should have known methods", () => {
       const clone = { ...utils };
 
-      ["allowedExports", "formatFileName", "exporterFilters"].forEach(
-        property => {
-          expect(clone).to.have.property(property);
-          expect(clone[property]).to.be.a("function");
-          delete clone[property];
-        }
-      );
+      [
+        "allowedExports",
+        "buildFields",
+        "formatFileName",
+        "exporterFilters"
+      ].forEach(property => {
+        expect(clone).to.have.property(property);
+        expect(clone[property]).to.be.a("function");
+        delete clone[property];
+      });
       expect(clone).to.be.empty;
     });
   });
 
   describe("allowedExports", () => {
     const i18n = {
-      t: stub()
+      t: fake.returns("test.label")
     };
 
     it("should return all export types if userPermission contains manage permission", () => {
       const userPermission = fromJS(["manage"]);
-
-      i18n.t.returns("test.label");
 
       const expected = ALL_EXPORT_TYPES.map(a => {
         return {
@@ -201,5 +203,87 @@ describe("<RecordActions /> - exports/utils", () => {
         ).to.be.deep.equals(expected);
       }
     );
+
+    it("should return and object with default filter if allRecordsSelected are selected", () => {
+      const expected = {
+        filters: {
+          status: ["open"],
+          record_state: ["true"]
+        }
+      };
+
+      expect(
+        utils.exporterFilters(
+          false,
+          false,
+          shortIds,
+          fromJS({}),
+          {},
+          record,
+          true
+        )
+      ).to.be.deep.equals(expected);
+    });
+  });
+
+  describe("buildFields", () => {
+    const data = [
+      {
+        unique_id: "test_form",
+        name: {
+          en: "Test Form"
+        },
+        fields: [
+          {
+            name: "field_form",
+            display_name: { en: "Field Form" },
+            type: TEXT_FIELD,
+            visible: true
+          }
+        ]
+      },
+      {
+        unique_id: "test_subform",
+        name: {
+          en: "Test Subform"
+        },
+        fields: [
+          {
+            name: "field_subform",
+            display_name: { en: "Field Subform" },
+            type: SUBFORM_SECTION,
+            visible: true,
+            subform_section_id: {
+              unique_id: "field_subform_section",
+              name: {
+                en: "Field Subform Section"
+              },
+              fields: [
+                {
+                  name: "field_subform_section_test",
+                  display_name: { en: "Field from Subform" },
+                  type: TEXT_FIELD,
+                  visible: true
+                },
+                {
+                  name: "field_subform_section_test1",
+                  display_name: { en: "Field from Subform 1" },
+                  type: TEXT_FIELD,
+                  visible: true
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ];
+
+    it("should return fields from forms and subforms when individual fields is false", () => {
+      expect(utils.buildFields(data, "en", false)).to.have.lengthOf(3);
+    });
+
+    it("should return fields from forms when individual fields is true", () => {
+      expect(utils.buildFields(data, "en", true)).to.have.lengthOf(2);
+    });
   });
 });

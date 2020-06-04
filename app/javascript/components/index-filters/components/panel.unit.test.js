@@ -1,4 +1,7 @@
-import { setupMockFormComponent, spy, stub } from "../../../test";
+import { fromJS } from "immutable";
+import { ExpansionPanelSummary } from "@material-ui/core";
+
+import { setupMockFormComponent, spy, fake } from "../../../test";
 
 import Panel from "./panel";
 
@@ -13,7 +16,7 @@ describe("<IndexFilters />/<Panel />", () => {
         options: [{ id: "true", display_name: "Filter 1" }],
         type: "checkbox"
       },
-      getValues: stub(),
+      getValues: fake.returns({ filter1: "option-1" }),
       handleReset: spy(),
       children: "Child Component"
     };
@@ -26,14 +29,12 @@ describe("<IndexFilters />/<Panel />", () => {
   });
 
   it("opens if field has value", () => {
-    props.getValues.returns({ filter1: "option-1" });
     const { component } = setupMockFormComponent(Panel, props);
 
     expect(component.find("Panel").childAt(0).prop("expanded")).to.be.true;
   });
 
   it("closes if field has value on click", () => {
-    props.getValues.returns({ filter1: "option-1" });
     const { component } = setupMockFormComponent(Panel, props);
 
     component.find("Panel button").simulate("click");
@@ -66,5 +67,44 @@ describe("<IndexFilters />/<Panel />", () => {
     });
 
     expect(clone).to.be.empty;
+  });
+
+  it("render the correct label if the filter is for approval", () => {
+    const propsApprovals = {
+      filter: {
+        name: "approvals.case_plan",
+        field_name: "approval_status_case_plan",
+        options: {
+          en: [
+            { id: "pending", display_name: "Pending" },
+            { id: "approved", display_name: "Approved" },
+            { id: "rejected", display_name: "Rejected" }
+          ]
+        },
+        type: "multi_toggle"
+      },
+      getValues: fake.returns({ filter1: "option-1" }),
+      handleReset: spy(),
+      children: "Child Component"
+    };
+    const initialStateApprovals = fromJS({
+      application: {
+        approvalsLabels: {
+          case_plan: {
+            en: "Case Plan"
+          }
+        }
+      }
+    });
+    const { component } = setupMockFormComponent(
+      Panel,
+      propsApprovals,
+      {},
+      initialStateApprovals
+    );
+
+    expect(component.find(ExpansionPanelSummary).text()).to.be.equal(
+      "Case Plan"
+    );
   });
 });
