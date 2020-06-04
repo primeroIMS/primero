@@ -55,7 +55,9 @@ const Component = ({
       setMoreSectionFilters({ ...moreSectionFilters, [selectedField]: value });
     }
 
-    addFilterToList({ [selectedField]: value || undefined });
+    if (addFilterToList) {
+      addFilterToList({ [selectedField]: value || undefined });
+    }
   };
 
   const handleSelectedField = event => {
@@ -68,7 +70,9 @@ const Component = ({
     setSelectedField(value);
     setValue(value, undefined);
 
-    addFilterToList({ [value]: undefined });
+    if (addFilterToList) {
+      addFilterToList({ [value]: undefined });
+    }
 
     if (mode?.secondary) {
       handleMoreFiltersChange(
@@ -92,7 +96,10 @@ const Component = ({
         moreSectionFilters,
         setMoreSectionFilters
       );
-      addFilterToList({ [fieldName]: undefined });
+
+      if (addFilterToList) {
+        addFilterToList({ [fieldName]: undefined });
+      }
     }
   };
 
@@ -217,7 +224,7 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
-  addFilterToList: PropTypes.func.isRequired,
+  addFilterToList: PropTypes.func,
   filter: PropTypes.object.isRequired,
   filterToList: PropTypes.object.isRequired,
   mode: PropTypes.shape({

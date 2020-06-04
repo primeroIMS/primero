@@ -58,7 +58,9 @@ const Component = ({
       );
     }
 
-    addFilterToList({ [fieldName]: value ? [value.toString()] : undefined });
+    if (addFilterToList) {
+      addFilterToList({ [fieldName]: value ? [value.toString()] : undefined });
+    }
   };
 
   const handleReset = () => {
@@ -70,7 +72,10 @@ const Component = ({
       moreSectionFilters,
       setMoreSectionFilters
     );
-    addFilterToList({ [fieldName]: undefined });
+
+    if (addFilterToList) {
+      addFilterToList({ [fieldName]: undefined });
+    }
   };
 
   useEffect(() => {
@@ -133,7 +138,7 @@ Component.defaultProps = {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  addFilterToList: PropTypes.func.isRequired,
+  addFilterToList: PropTypes.func,
   filter: PropTypes.object.isRequired,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,
