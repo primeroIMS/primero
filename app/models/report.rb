@@ -48,9 +48,9 @@ class Report < ApplicationRecord
   before_save :apply_default_filters
 
   def validate_name_in_base_language
-    return true if self.send("name_#{Primero::Application::BASE_LANGUAGE}").present?
-    errors.add(:name, I18n.t("errors.models.report.name_presence"))
-    return false
+    return if send("name_#{Primero::Application::BASE_LANGUAGE}").present?
+
+    errors.add(:name, I18n.t('errors.models.report.name_presence'))
   end
 
   class << self
@@ -95,7 +95,7 @@ class Report < ApplicationRecord
       report = Report.new(report_params.except(:name, :description, :graph, :fields))
       report.name_i18n = report_params[:name]
       report.description_i18n = report_params[:description]
-      report.is_graph = report_params[:graph]
+      report.is_graph = report_params[:graph] unless report_params[:graph].nil?
       report.aggregate_by = ReportFieldService.aggregate_by_from_params(report_params)
       report.disaggregate_by = ReportFieldService.disaggregate_by_from_params(report_params)
       report
@@ -107,6 +107,8 @@ class Report < ApplicationRecord
     merged_props = FieldI18nService.merge_i18n_properties(attributes, converted_params)
     assign_attributes(report_params.except(:name, :description, :graph, :fields).merge(merged_props))
     self.is_graph = report_params[:graph] unless report_params[:graph].nil?
+    return if report_params[:fields].nil?
+
     self.aggregate_by = ReportFieldService.aggregate_by_from_params(report_params)
     self.disaggregate_by = ReportFieldService.disaggregate_by_from_params(report_params)
   end
@@ -275,11 +277,13 @@ class Report < ApplicationRecord
   # end
 
   def modules_present
-    if self.module_id.present? && self.module_id.length >= 1
-      return I18n.t("errors.models.report.module_syntax") if module_id.split('-').first != 'primeromodule'
-      return true
+    if module_id.present? && module_id.length >= 1
+      if module_id.split('-').first != 'primeromodule'
+        errors.add(:module_id, I18n.t('errors.models.report.module_syntax'))
+      end
+    else
+      errors.add(:module_id, I18n.t('errors.models.report.module_presence'))
     end
-    return I18n.t("errors.models.report.module_presence")
   end
 
   def has_data?

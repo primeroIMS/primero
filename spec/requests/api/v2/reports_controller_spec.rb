@@ -253,15 +253,92 @@ describe Api::V2::ReportsController, type: :request do
         'description' => { 'en' => 'Description', 'fr' => 'Description in French', 'es' => '' },
         'graph' => false, 'graph_type' => 'bar',
         'fields' => [
-          "{\"name\"=>\"protection_concerns\", \"position\"=><ActionController::Parameters {\"type\"=>\"horizontal\", \"order\"=>\"1\"} permitted: true>}",
-          "{\"name\"=>\"owned_by_location\", \"position\"=><ActionController::Parameters {\"type\"=>\"horizontal\", \"order\"=>\"2\"} permitted: true>}"
+          {
+            'name' => 'protection_concerns', 'display_name' => { 'en' => 'Protection Concerns', 'es' => '', 'fr' => '' },
+            'position' => { 'type' => 'horizontal', 'order' => 0 }
+          },
+          {
+            'name' => 'owned_by_location', 'display_name' => { 'en' => 'Owned by location', 'es' => '', 'fr' => '' },
+            'position' => { 'type' => 'horizontal', 'order' => 1 }, 'option_strings_source' => 'Location',
+            'admin_level' => 0
+          }
         ]
       }
       expect(response).to have_http_status(200)
-      expect(json['data'].except('report_data', 'id')).to eq(report_data)
+      expect(json['data'].except('id')).to eq(report_data)
     end
 
-    it 'creates a new report and returns 200 and json' do
+    it 'creates a new report and returns 200 and fetch it with the GET' do
+      I18n.stub(:available_locales).and_return(%i[en es fr])
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
+        ],
+        modules: [@cp]
+      )
+      params = {
+        data: {
+          name: {
+            en: 'Test report',
+            fr: 'Test report in French'
+          },
+          description: {
+            en: 'Description',
+            fr: 'Description in French'
+          },
+          record_type: 'case',
+          module_id: PrimeroModule::CP,
+          fields: [
+            {
+              name: 'owned_by_location',
+              position: {
+                type: 'horizontal',
+                order: 2
+              }
+            },
+            {
+              name: 'protection_concerns',
+              position: {
+                type: 'horizontal',
+                order: 1
+              }
+            }
+          ],
+          aggregate_counts_from: 'protection_concerns',
+          group_ages: false,
+          group_dates_by: 'date',
+          add_default_filters: true,
+          filters: [
+            {
+              attribute: 'status',
+              constraint: '',
+              value: [Record::STATUS_OPEN]
+            }
+          ]
+        }
+      }
+
+      post '/api/v2/reports', params: params
+      json = JSON.parse(response.body)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['report_data'].present?).to be_falsey
+
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
+        ],
+        modules: [@cp]
+      )
+
+      get "/api/v2/reports/#{Report.last.id}"
+      json = JSON.parse(response.body)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['report_data'].present?).to be_truthy
+    end
+
+    it 'Errors 422 save without aggregate_by, name, module_id and record_type' do
       I18n.stub(:available_locales).and_return(%i[en es fr])
       login_for_test(
         permissions: [
@@ -297,11 +374,63 @@ describe Api::V2::ReportsController, type: :request do
 
       expect(response).to have_http_status(422)
 
-      expect(json['errors'].count).to eq(3)
-      expect(json['errors'].map { |error| error['detail'] }.sort).to eq(%w[aggregate_by name record_type])
+      expect(json['errors'].count).to eq(4)
+      expect(json['errors'].map { |error| error['detail'] }.sort).to eq(%w[aggregate_by module_id name record_type])
       expect(json['errors'].map { |error| error['message'] }.sort).to eq(
-        [['Name must not be blank'], ["can't be blank"], ["can't be blank"]]
+        [['Module must not be blank'], ['Name must not be blank'], ["can't be blank"], ["can't be blank"]]
       )
+    end
+
+    it 'Errors 422 module_syntax error for module_id' do
+      I18n.stub(:available_locales).and_return(%i[en es fr])
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
+        ],
+        modules: [@cp]
+      )
+      params = {
+        data: {
+          name: {
+            en: 'Test',
+            fr: 'Test report in French'
+          },
+          description: {
+            en: 'Description',
+            fr: 'Description in French'
+          },
+          record_type: 'case',
+          aggregate_counts_from: 'protection_concerns',
+          group_ages: false,
+          group_dates_by: 'date',
+          add_default_filters: true,
+          module_id: 'doesnt-exist',
+          filters: [
+            {
+              attribute: 'status',
+              constraint: '',
+              value: [Record::STATUS_OPEN]
+            }
+          ],
+          fields: [
+            {
+              name: 'owned_by_location',
+              position: {
+                type: 'horizontal',
+                order: 2
+              }
+            }
+          ]
+        }
+      }
+
+      post '/api/v2/reports', params: params
+
+      expect(response).to have_http_status(422)
+
+      expect(json['errors'].count).to eq(1)
+      expect(json['errors'][0]['detail']).to eq('module_id')
+      expect(json['errors'][0]['message']).to eq(['All report modules must already exist'])
     end
   end
 
@@ -333,7 +462,7 @@ describe Api::V2::ReportsController, type: :request do
       expect(json['errors'][0]['resource']).to eq("/api/v2/reports/#{@report_1.id}")
     end
 
-    it 'updates an existing report with 200' do
+    it 'updates an existing report with 200', search: true do
       I18n.stub(:available_locales).and_return(%i[en es fr])
       login_for_test(
         permissions: [
@@ -378,6 +507,7 @@ describe Api::V2::ReportsController, type: :request do
       Report.first.update(editable: true)
 
       patch "/api/v2/reports/#{@report_1.id}", params: params
+      json = JSON.parse(response.body)
 
       report_data = {
         'id' => @report_1.id,
@@ -388,12 +518,35 @@ describe Api::V2::ReportsController, type: :request do
         'graph' => true,
         'graph_type' => 'bar',
         'fields' => [
-          "{\"name\"=>\"protection_concerns\", \"position\"=><ActionController::Parameters {\"type\"=>\"horizontal\", \"order\"=>\"1\"} permitted: true>}",
-          "{\"name\"=>\"owned_by_location\", \"position\"=><ActionController::Parameters {\"type\"=>\"vertical\", \"order\"=>\"2\"} permitted: true>}"
+          {
+            'name' => 'protection_concerns',
+            'display_name' => { 'en' => 'Protection Concerns', 'es' => '', 'fr' => '' },
+            'position' => { 'type' => 'horizontal', 'order' => 0 }
+          },
+          {
+            'name' => 'owned_by_location', 'display_name' => { 'en' => 'Owned by location', 'es' => '', 'fr' => '' },
+            'position' => { 'type' => 'vertical', 'order' => 0 }, 'option_strings_source' => 'Location',
+            'admin_level' => 0
+          }
         ]
       }
+
       expect(response).to have_http_status(200)
       expect(json['data']).to eq(report_data)
+      expect(json['data']['report_data'].present?).to be_falsey
+
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE])
+        ],
+        modules: [@cp]
+      )
+
+      get "/api/v2/reports/#{@report_1.id}"
+      json = JSON.parse(response.body)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['report_data'].present?).to be_truthy
     end
   end
 
@@ -443,7 +596,5 @@ describe Api::V2::ReportsController, type: :request do
       PrimeroModule, PrimeroProgram, Report, User,
       Role, Agency, Child, Location, FormSection
     ].each(&:destroy_all)
-
   end
-
 end
