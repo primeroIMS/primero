@@ -22,6 +22,7 @@ import {
   NAME,
   AGGREGATE_BY_FIELD,
   DISAGGREGATE_BY_FIELD,
+  DEFAULT_FILTERS,
   REPORT_FIELD_TYPES
 } from "./constants";
 import NAMESPACE from "./namespace";
@@ -55,11 +56,6 @@ const Container = ({ mode }) => {
     };
   }, [id]);
 
-  const defaultFilters = [
-    { attribute: "status", constraint: "", value: ["true"] },
-    { attribute: "record_state", constraint: "", value: ["enabled"] }
-  ];
-
   const onSubmit = data => {
     const { aggregate_by, disaggregate_by } = data;
 
@@ -72,7 +68,7 @@ const Container = ({ mode }) => {
       data: {
         ...omit(data, [AGGREGATE_BY_FIELD, DISAGGREGATE_BY_FIELD]),
         fields,
-        filters: defaultFilters
+        filters: DEFAULT_FILTERS
       }
     };
 
