@@ -40,7 +40,12 @@ therefore the report data is not available in the response.
                 "ar": "Case registrations over time"
             },
             "graph": true,
-            "graph_type": "bar"
+            "graph_type": "bar",
+            "editable": false,
+            "record_type": "case",
+            "module_id": ["primeromodule-cp"],
+            "group_dates_by": "month",
+            "group_ages": false,
         },
     ],
     "metadata": {

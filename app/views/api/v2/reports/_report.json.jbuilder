@@ -11,7 +11,7 @@ report_hash = FieldI18nService.fill_keys(
     graph: report.is_graph,
     graph_type: 'bar',
     record_type: report.record_type,
-    module_id: [report.module_id],
+    module_id: report.module_id.split(","),
     group_dates_by: report.group_dates_by,
     group_ages: report.group_ages,
     editable: report.editable,
