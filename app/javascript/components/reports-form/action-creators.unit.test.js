@@ -46,7 +46,7 @@ describe("<ReportsForm /> - action-creators", () => {
               variant: "success"
             }
           },
-          redirectWithIdFromResponse: false,
+          redirectWithIdFromResponse: true,
           redirect: `/${RECORD_PATH.reports}`
         }
       }
