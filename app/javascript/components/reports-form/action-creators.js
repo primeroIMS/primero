@@ -1,15 +1,18 @@
-/* eslint-disable import/prefer-default-export */
-
 import { RECORD_PATH, SAVE_METHODS, METHODS } from "../../config";
 import { ENQUEUE_SNACKBAR, generate, SNACKBAR_VARIANTS } from "../notifier";
 
 import actions from "./actions";
 
-export const saveReport = ({ body, saveMethod, message }) => {
+export const saveReport = ({ id, body, saveMethod, message }) => {
+  const path =
+    saveMethod === SAVE_METHODS.update
+      ? `${RECORD_PATH.reports}/${id}`
+      : RECORD_PATH.reports;
+
   return {
     type: actions.SAVE_REPORT,
     api: {
-      path: RECORD_PATH.reports,
+      path,
       method: saveMethod === SAVE_METHODS.update ? METHODS.PATCH : METHODS.POST,
       body,
       successCallback: {
@@ -22,8 +25,12 @@ export const saveReport = ({ body, saveMethod, message }) => {
           }
         },
         redirectWithIdFromResponse: false,
-        redirect: `/${RECORD_PATH.reports}`
+        redirect: `/${path}`
       }
     }
   };
 };
+
+export const clearSelectedReport = () => ({
+  type: actions.CLEAR_SELECTED_REPORT
+});

@@ -38,13 +38,7 @@ export const validations = i18n =>
     record_type: string().required().nullable()
   });
 
-export const form = (
-  i18n,
-  disabledByModule,
-  disabledByModuleAndRecordType,
-  ageHelpText,
-  allRecordForms
-) => {
+export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
   // eslint-disable-next-line no-unused-vars
   const checkModuleField = (value, name, { methods }) => {
     const emptyModule = isEmpty(value[MODULES_FIELD]);
@@ -67,7 +61,7 @@ export const form = (
       }
     }
 
-    return { disabled: emptyModule };
+    return { disabled: isNew && emptyModule };
   };
 
   const checkModuleAndRecordType = value => {
@@ -89,7 +83,8 @@ export const form = (
 
     return {
       disabled:
-        isEmpty(value[MODULES_FIELD]) || isEmpty(value[RECORD_TYPE_FIELD]),
+        isNew &&
+        (isEmpty(value[MODULES_FIELD]) || isEmpty(value[RECORD_TYPE_FIELD])),
       groupBy: "formSection",
       options: buildFields(
         formName ? reportableForm : recordTypesForms,
