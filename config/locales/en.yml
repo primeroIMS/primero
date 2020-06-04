@@ -2517,6 +2517,7 @@ en:
     error_in_updating: "Error in updating the Report configuration."
     messages:
       success: "Report was successfully created."
+      updated: "Report was successfully updated."
       delete_success: "Report was successfully deleted."
     edit: "Edit"
     empty_rows: "Do not display empty rows?"

@@ -32,6 +32,7 @@ const Component = ({
   });
 
   const formMode = whichFormMode(mode);
+  const submitAllFields = true;
 
   useImperativeHandle(
     formRef,
@@ -41,7 +42,8 @@ const Component = ({
       formMode,
       i18n,
       initialValues,
-      onSubmit
+      onSubmit,
+      submitAllFields
     })
   );
 

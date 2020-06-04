@@ -9,7 +9,7 @@ describe("<ReportsForm /> - action-creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
-    ["saveReport"].forEach(property => {
+    ["saveReport", "clearReportData"].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
     });
@@ -17,7 +17,7 @@ describe("<ReportsForm /> - action-creators", () => {
     expect(creators).to.be.empty;
   });
 
-  it("should check that 'saveLookup' action creator returns the correct object", () => {
+  it("should check that 'saveReport' action creator returns the correct object", () => {
     stub(generate, "messageKey").returns(4);
 
     const args = {

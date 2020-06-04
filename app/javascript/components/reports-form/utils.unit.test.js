@@ -13,7 +13,8 @@ describe("<IndexFilters /> - Utils", () => {
         "buildReportFields",
         "dependantFields",
         "formatAgeRange",
-        "getFormName"
+        "getFormName",
+        "formatReport"
       ].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");

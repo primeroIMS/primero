@@ -52,7 +52,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     disabled,
     inputClassname,
     selected_value: selectedValue,
-    visible
+    visible,
+    groupBy
   } = field;
   const i18n = useI18n();
   const methods = useFormContext();

@@ -81,6 +81,10 @@ export const buildFields = (data, locale, isReportable) => {
 };
 
 export const buildReportFields = (data, type) => {
+  if (isEmpty(data)) {
+    return [];
+  }
+
   const result = [...(isString(data) ? data.split(",") : data)];
 
   return result.reduce((acc, name, order) => {
@@ -95,4 +99,27 @@ export const buildReportFields = (data, type) => {
       }
     ];
   }, []);
+};
+
+export const formatReport = report => {
+  return Object.entries(report).reduce((acc, curr) => {
+    const [key, value] = curr;
+
+    switch (key) {
+      case "description":
+        return { ...acc, [key]: value === null ? "" : value };
+      case "fields": {
+        const rows = value
+          .filter(({ position }) => position.type === "horizontal")
+          .map(({ name }) => name);
+        const columns = value
+          .filter(({ position }) => position.type === "vertical")
+          .map(({ name }) => name);
+
+        return { ...acc, aggregate_by: rows, disaggregate_by: columns };
+      }
+      default:
+        return { ...acc, [key]: value };
+    }
+  }, {});
 };

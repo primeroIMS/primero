@@ -5,6 +5,7 @@ describe("<ReportsForm /> - actions", () => {
     const clone = { ...actions };
 
     [
+      "CLEAR_REPORT_DATA",
       "SAVE_REPORT",
       "SAVE_REPORT_FAILURE",
       "SAVE_REPORT_FINISHED",
