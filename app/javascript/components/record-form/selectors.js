@@ -6,10 +6,14 @@ import { denormalizeFormData } from "../../schemas";
 import { NavRecord } from "./records";
 import NAMESPACE from "./namespace";
 
-const forms = (state, { recordType, primeroModule, checkVisible }) => {
+const forms = (state, { recordType, primeroModule, checkVisible, all }) => {
   const allFormSections = state.getIn([NAMESPACE, "formSections"]);
 
   if (isEmpty(allFormSections)) return null;
+
+  if (all) {
+    return allFormSections;
+  }
 
   const formSections = allFormSections.filter(
     fs =>
@@ -71,7 +75,6 @@ export const getRecordForms = (state, query) => {
   const selectedForms = forms(state, query);
 
   if (!selectedForms) return null;
-
   const denormalizedForms = denormalizeFormData(
     OrderedMap(selectedForms.map(f => f.id)),
     state.getIn(["forms"])

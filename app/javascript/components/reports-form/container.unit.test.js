@@ -1,47 +1,46 @@
-import { fromJS } from "immutable";
+import { fromJS, OrderedMap } from "immutable";
 import { FormContext } from "react-hook-form";
 
 import { PageContent, PageHeading } from "../page";
 import { setupMountedComponent } from "../../test";
 import { ACTIONS } from "../../libs/permissions";
-import FormSection from "../form/components/form-section";
-import { mapEntriesToRecord } from "../../libs";
-import { FormSectionRecord } from "../record-form/records";
+import { FormSectionRecord, FieldRecord } from "../record-form/records";
+import Form from "../form";
 
 import ReportsForm from "./container";
 
 describe("<ReportsForm /> - Container", () => {
   let component;
 
-  const formSections = [
-    {
-      id: 1,
-      unique_id: "form_section_1",
-      parent_form: "case",
-      module_ids: ["primeromodule-cp"],
-      order: 1,
-      form_group_id: "group_1",
-      order_form_group: 2
-    },
-    {
-      id: 2,
-      unique_id: "form_section_2",
-      parent_form: "case",
-      module_ids: ["primeromodule-cp"],
-      order: 2,
-      form_group_id: "group_1",
-      order_form_group: 2
-    },
-    {
-      id: 5,
-      unique_id: "form_section_5",
-      parent_form: "case",
-      module_ids: ["primeromodule-cp"],
-      order: 1,
-      form_group_id: "group_2",
-      order_form_group: 1
-    }
-  ];
+  const forms = {
+    formSections: OrderedMap({
+      1: FormSectionRecord({
+        id: 1,
+        unique_id: "incident_details_subform_section",
+        name: { en: "Nested Incident Details Subform" },
+        visible: false,
+        fields: [2]
+      }),
+      2: FormSectionRecord({
+        id: 2,
+        unique_id: "incident_details_container",
+        name: { en: "Incident Details" },
+        visible: true,
+        parent_form: "case",
+        fields: [1]
+      })
+    }),
+    fields: OrderedMap({
+      1: FieldRecord({
+        name: "incident_details",
+        type: "subform"
+      }),
+      2: FieldRecord({
+        name: "cp_incident_location_type_other",
+        type: "text_field"
+      })
+    })
+  };
 
   const initialState = fromJS({
     user: {
@@ -49,9 +48,7 @@ describe("<ReportsForm /> - Container", () => {
         reports: [ACTIONS.MANAGE]
       }
     },
-    forms: {
-      formSections: mapEntriesToRecord(formSections, FormSectionRecord, true)
-    },
+    forms,
     application: {
       ageRanges: {
         primero: ["0..5", "6..11", "12..17", "18..999"]
@@ -60,7 +57,11 @@ describe("<ReportsForm /> - Container", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(ReportsForm, {}, initialState));
+    ({ component } = setupMountedComponent(
+      ReportsForm,
+      { mode: "new" },
+      initialState
+    ));
   });
 
   it("should render <PageHeading>", () => {
@@ -75,7 +76,7 @@ describe("<ReportsForm /> - Container", () => {
     expect(component.find(FormContext)).to.have.lengthOf(1);
   });
 
-  it("should render <FormSection>", () => {
-    expect(component.find(FormSection)).to.have.lengthOf(1);
+  it("should render <Form>", () => {
+    expect(component.find(Form)).to.have.lengthOf(1);
   });
 });

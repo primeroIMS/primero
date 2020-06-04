@@ -1,31 +1,25 @@
 /* eslint-disable camelcase */
 
-import React, { useRef, useImperativeHandle } from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
-import { FormContext, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import isEmpty from "lodash/isEmpty";
 import omit from "lodash/omit";
 
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
-import { FormAction, whichFormMode, submitHandler } from "../form";
+import Form, { FormAction, whichFormMode } from "../form";
 import { getReport } from "../pages/report/selectors";
 import { PageContainer, PageContent, PageHeading } from "../page";
 import bindFormSubmit from "../../libs/submit-form";
-import { RECORD_TYPES, ROUTES, SAVE_METHODS } from "../../config";
-import FormSection from "../form/components/form-section";
+import { ROUTES, SAVE_METHODS } from "../../config";
 import { getAgeRanges } from "../application/selectors";
-import {
-  getRecordForms,
-  getRecordFormsByUniqueId
-} from "../record-form/selectors";
+import { getRecordForms } from "../record-form/selectors";
 
 import {
-  DESCRIPTION_FIELD,
   NAME,
-  NAME_FIELD,
   AGGREGATE_BY_FIELD,
   DISAGGREGATE_BY_FIELD,
   REPORT_FIELD_TYPES,
@@ -33,13 +27,7 @@ import {
 } from "./constants";
 import NAMESPACE from "./namespace";
 import { form, validations } from "./form";
-import {
-  buildFields,
-  buildReportFields,
-  dependantFields,
-  formatAgeRange,
-  getFormName
-} from "./utils";
+import { buildReportFields, formatAgeRange } from "./utils";
 import { saveReport } from "./action-creators";
 
 const Container = ({ mode }) => {
@@ -53,26 +41,12 @@ const Container = ({ mode }) => {
   const selectedRecordType = methods.watch("record_type");
   const emptyModule = isEmpty(selectedModule);
   const emptyRecordType = isEmpty(selectedRecordType);
-  const isModuleTouched = Object.keys(
-    methods.control.formState.touched
-  ).includes(MODULES_FIELD);
   const primeroAgeRanges = useSelector(state => getAgeRanges(state));
   const report = useSelector(state => getReport(state));
 
-  const recordTypesForms = useSelector(state =>
-    getRecordForms(state, {
-      recordType: selectedRecordType,
-      primeroModule: selectedModule
-    })
+  const allRecordForms = useSelector(state =>
+    getRecordForms(state, { all: true })
   );
-
-  const reportableForm = useSelector(state =>
-    getRecordFormsByUniqueId(state, {
-      recordType: RECORD_TYPES.cases,
-      primeroModule: selectedModule,
-      formName: getFormName(selectedRecordType)
-    })
-  )?.toJS()?.[0]?.fields?.[0]?.subform_section_id;
 
   const defaultFilters = [
     { attribute: "status", constraint: "", value: ["true"] },
@@ -104,47 +78,13 @@ const Container = ({ mode }) => {
     );
   };
 
-  useImperativeHandle(
-    formRef,
-    submitHandler({
-      dispatch,
-      formMethods: methods,
-      formMode,
-      i18n,
-      initialValues: {},
-      onSubmit
-    })
-  );
-
   const formSections = form(
     i18n,
     emptyModule,
     emptyModule || emptyRecordType,
     formatAgeRange(primeroAgeRanges),
-    buildFields(
-      getFormName(selectedRecordType) ? reportableForm : recordTypesForms,
-      i18n.locale,
-      Boolean(getFormName(selectedRecordType))
-    )
+    allRecordForms
   );
-
-  if (isModuleTouched && emptyModule) {
-    const name = methods.getValues()[NAME_FIELD];
-    const description = methods.getValues()[DESCRIPTION_FIELD];
-
-    methods.reset({
-      ...methods.getValues(),
-      ...dependantFields(formSections)
-    });
-
-    if (name) {
-      methods.setValue(NAME_FIELD, name);
-    }
-
-    if (description) {
-      methods.setValue(DESCRIPTION_FIELD, description);
-    }
-  }
 
   const handleCancel = () => {
     dispatch(push(ROUTES.reports));
@@ -177,16 +117,14 @@ const Container = ({ mode }) => {
       <PageContainer>
         <PageHeading title={pageHeading}>{saveButton}</PageHeading>
         <PageContent>
-          <FormContext {...methods} formMode={formMode}>
-            <form>
-              {formSections.map(formSection => (
-                <FormSection
-                  formSection={formSection}
-                  key={formSection.unique_id}
-                />
-              ))}
-            </form>
-          </FormContext>
+          <Form
+            useCancelPrompt
+            mode={mode}
+            formSections={formSections}
+            onSubmit={onSubmit}
+            ref={formRef}
+            validations={validations(i18n)}
+          />
         </PageContent>
       </PageContainer>
     </LoadingIndicator>
