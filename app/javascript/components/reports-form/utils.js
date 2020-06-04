@@ -1,4 +1,5 @@
 import isEmpty from "lodash/isEmpty";
+import isString from "lodash/isString";
 
 import { TICK_FIELD } from "../form";
 import { dataToJS } from "../../libs";
@@ -11,13 +12,13 @@ import {
   SUBFORM_SECTION
 } from "../record-form/constants";
 
-import { REPORTABLE_TYPES } from "./constants";
+import { DESCRIPTION_FIELD, NAME_FIELD, REPORTABLE_TYPES } from "./constants";
 
 export const dependantFields = formSections => {
   const data = dataToJS(formSections);
 
   return data[0].fields.reduce((acc, field) => {
-    if (["name.en", "description.en"].includes(field.name)) {
+    if ([NAME_FIELD, DESCRIPTION_FIELD].includes(field.name)) {
       return acc;
     }
 
@@ -77,4 +78,21 @@ export const buildFields = (data, locale, isReportable) => {
       return [...acc, filteredFields];
     }, [])
     .flat();
+};
+
+export const buildReportFields = (data, type) => {
+  const result = [...(isString(data) ? data.split(",") : data)];
+
+  return result.reduce((acc, name, order) => {
+    return [
+      ...acc,
+      {
+        name,
+        position: {
+          type,
+          order
+        }
+      }
+    ];
+  }, []);
 };

@@ -40,7 +40,6 @@ const FormSectionField = ({ checkErrors, field }) => {
     option_strings_source: optionStringsSource,
     option_strings_text: optionsStringsText,
     options,
-    groupBy,
     password,
     multi_select: multiSelect,
     editable,
