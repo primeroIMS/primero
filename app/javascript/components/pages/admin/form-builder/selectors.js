@@ -29,3 +29,9 @@ export const getSelectedField = state =>
 
 export const getSavingRecord = state =>
   state.getIn(["records", "admin", "forms", "saving"], false);
+
+export const getServerErrors = state =>
+  state.getIn(["records", "admin", "forms", "serverErrors"], false);
+
+export const getUpdatedFormIds = state =>
+  state.getIn(["records", "admin", "forms", "updatedFormIds"], fromJS([]));

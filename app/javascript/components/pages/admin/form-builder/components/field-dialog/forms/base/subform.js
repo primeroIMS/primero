@@ -7,7 +7,7 @@ import {
 
 export const subformFields = i18n => ({
   name: FieldRecord({
-    display_name: i18n.t("fields.subform_section.description"),
+    display_name: i18n.t("fields.subform_section.name"),
     name: "subform_section.name.en",
     type: TEXT_FIELD,
     help_text: i18n.t("fields.must_be_english")

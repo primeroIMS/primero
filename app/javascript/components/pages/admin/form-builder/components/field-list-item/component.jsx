@@ -45,7 +45,7 @@ const Component = ({ field, index, subformField }) => {
   const themeOverrides = createMuiTheme(getFiedListItemTheme(currentTheme));
 
   const handleClick = fieldName => {
-    if(isNested) {
+    if (isNested) {
       return;
     }
 

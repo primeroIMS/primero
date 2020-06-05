@@ -6,6 +6,7 @@ import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import { batch, useDispatch, useSelector } from "react-redux";
 
+import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
 import { PageContent, PageHeading } from "../../../page";
@@ -23,15 +24,16 @@ import {
   FormBuilderActionButtons,
   TabPanel
 } from "./components";
-import {
-  clearSelectedForm,
-  fetchForm,
-  saveForm,
-  saveSubforms
-} from "./action-creators";
+import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
 import { NAME } from "./constants";
-import { getSelectedForm, getSelectedSubforms } from "./selectors";
+import {
+  getSavingRecord,
+  getSelectedForm,
+  getSelectedSubforms,
+  getServerErrors,
+  getUpdatedFormIds
+} from "./selectors";
 import { convertToFieldsArray, convertToFieldsObject } from "./utils";
 import styles from "./styles.css";
 import { transformValues } from "./components/field-dialog/utils";
@@ -44,6 +46,12 @@ const Component = ({ mode }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const [tab, setTab] = useState(0);
+  const saving = useSelector(state => getSavingRecord(state), compare);
+  const errors = useSelector(state => getServerErrors(state), compare);
+  const updatedFormIds = useSelector(
+    state => getUpdatedFormIds(state),
+    compare
+  );
   const selectedForm = useSelector(state => getSelectedForm(state), compare);
   const selectedSubforms = useSelector(
     state => getSelectedSubforms(state),
@@ -77,12 +85,31 @@ const Component = ({ mode }) => {
           },
           message: i18n.t(
             `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
-          )
+          ),
+          subforms: selectedSubforms.toJS()
         })
       );
-      dispatch(saveSubforms(selectedSubforms.toJS()));
     });
   };
+
+  useEffect(() => {
+    if (saving && (errors?.size || updatedFormIds?.size)) {
+      const successful = !errors?.size && updatedFormIds?.size;
+
+      dispatch({
+        type: ENQUEUE_SNACKBAR,
+        payload: {
+          message: successful
+            ? i18n.t("forms.messages.save_success")
+            : i18n.t("forms.messages.save_with_errors"),
+          options: {
+            variant: successful ? "success" : "error",
+            key: generate.messageKey()
+          }
+        }
+      });
+    }
+  }, [updatedFormIds]);
 
   useEffect(() => {
     dispatch(fetchForms());

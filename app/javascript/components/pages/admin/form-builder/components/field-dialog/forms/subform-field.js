@@ -1,11 +1,7 @@
 import { fromJS } from "immutable";
+import { object, string } from "yup";
 
-import {
-  subform,
-  validationSchema,
-  visibilityFields,
-  visibilityForm
-} from "./base";
+import { subform, visibilityFields, visibilityForm } from "./base";
 
 /* eslint-disable import/prefer-default-export */
 export const subformField = (fieldName, i18n) => {
@@ -21,7 +17,17 @@ export const subformField = (fieldName, i18n) => {
         showOn,
         { row: [visible, mobileVisible, hideOnViewPage] }
       ])
-    ])
-    // validationSchema: validationSchema(fieldName, i18n)
+    ]),
+    validationSchema: object().shape({
+      subform_section: object().shape({
+        name: object({
+          en: string().required(
+            i18n.t("forms.required_field", {
+              field: i18n.t("fields.subform_section.name")
+            })
+          )
+        })
+      })
+    })
   };
 };

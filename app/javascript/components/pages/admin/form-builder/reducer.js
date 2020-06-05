@@ -74,7 +74,26 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.SAVE_FORM_FINISHED:
       return state.set("saving", false);
     case actions.SAVE_FORM_STARTED:
-      return state.set("saving", true);
+      return state
+        .set("saving", true)
+        .set("errors", false)
+        .set("serverErrors", fromJS([]))
+        .set("updatedFormIds", fromJS([]));
+    case actions.SAVE_FORM_SUCCESS: {
+      const formIds = payload
+        .filter(data => data.ok)
+        .map(data => data.json.data.id);
+
+      const errors = payload
+        .filter(data => data.ok === false)
+        .map(data => data.json || data.error);
+
+      if (errors.length) {
+        return state.set("errors", true).set("serverErrors", fromJS(errors));
+      }
+
+      return state.set("updatedFormIds", fromJS(formIds));
+    }
     case actions.SET_SELECTED_FIELD: {
       const selectedField = state
         .get("selectedFields", fromJS([]))
