@@ -36,3 +36,12 @@
     background-color: $(theme.primero.colors.warmGrey5);
   }
 }
+
+.listHeader {
+    color: $(theme.primero.colors.black);
+    text-transform: uppercase;
+    font-weight: bold;
+  & span {
+    font-weight: bold;
+  }
+}
