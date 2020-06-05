@@ -4,7 +4,7 @@ describe("<CustomFieldDialog /> - Constants", () => {
   it("should have known properties", () => {
     const clonedActions = { ...constants };
 
-    ["NAME"].forEach(property => {
+    ["CUSTOM_FIELD_DIALOG", "NAME"].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];
     });

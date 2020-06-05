@@ -1,17 +1,15 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useEffect } from "react";
 import {
   Radio,
   ListItem,
   ListItemSecondaryAction,
   ListItemText,
-  Button,
   List,
+  ListSubheader,
+  Divider,
   makeStyles
 } from "@material-ui/core";
-import { useDispatch } from "react-redux";
-import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
-import { fromJS } from "immutable";
+import { useDispatch, useSelector, batch } from "react-redux";
 
 import ActionDialog from "../../../../../action-dialog";
 import {
@@ -35,9 +33,11 @@ import SeperatorImg from "../../../../../../images/field-types/seperator.png";
 import NumericImg from "../../../../../../images/field-types/numeric.png";
 import { NEW_FIELD } from "../../constants";
 import { setNewField } from "../../action-creators";
+import { selectDialog } from "../../../../../record-actions/selectors";
+import { CUSTOM_FIELD_DIALOG } from "../custom-field-dialog/constants";
 
 import styles from "./styles.css";
-import { NAME } from "./constants";
+import { NAME, CUSTOM_FIELD_SELECTOR_DIALOG } from "./constants";
 
 const fields = [
   [TEXT_FIELD, TextImg],
@@ -49,18 +49,18 @@ const fields = [
   [RADIO_FIELD, RadioImg]
 ];
 
-const Component = ({ onOpen }) => {
-  const [open, setOpen] = useState(false);
+const Component = () => {
   const [selectedItem, setSelectedItem] = useState("");
   const dispatch = useDispatch();
   const i18n = useI18n();
   const css = makeStyles(styles)();
-  const handleDialog = () => {
-    if (open) {
-      onOpen();
-    }
-    setOpen(!open);
-  };
+  const openFieldSelectorDialog = useSelector(state =>
+    selectDialog(CUSTOM_FIELD_SELECTOR_DIALOG, state)
+  );
+
+  useEffect(() => {
+    setSelectedItem("");
+  }, [openFieldSelectorDialog]);
 
   const handleListItem = item => {
     setSelectedItem(item);
@@ -69,14 +69,32 @@ const Component = ({ onOpen }) => {
   const isItemSelected = item => selectedItem === item;
 
   const handleSelected = () => {
-    dispatch(
-      setDialog({
-        dialog: ADMIN_FIELDS_DIALOG,
-        open: true,
-        mode: fromJS({ isNew: true })
-      })
-    );
-    dispatch(setNewField(NEW_FIELD, selectedItem));
+    batch(() => {
+      dispatch(
+        setDialog({
+          dialog: CUSTOM_FIELD_SELECTOR_DIALOG,
+          open: false
+        })
+      );
+      dispatch(
+        setDialog({
+          dialog: ADMIN_FIELDS_DIALOG,
+          open: true
+        })
+      );
+      dispatch(setNewField(NEW_FIELD, selectedItem));
+    });
+  };
+
+  const handleClose = () => {
+    batch(() => {
+      dispatch(
+        setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: false })
+      );
+      if (selectedItem === "") {
+        dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: true }));
+      }
+    });
   };
 
   const confirmButtonProps = {
@@ -92,51 +110,52 @@ const Component = ({ onOpen }) => {
 
   return (
     <>
-      <Button
-        fullWidth
-        color="primary"
-        variant="contained"
-        disableElevation
-        onClick={handleDialog}
-        className={css.addCustomFieldButton}
-      >
-        <FormatListBulletedIcon />
-        <span>{i18n.t("fields.add_custom_field")}</span>
-      </Button>
       <ActionDialog
         dialogTitle={i18n.t("fields.create_field")}
-        open={open}
+        open={openFieldSelectorDialog}
         enabledSuccessButton={selectedItem !== ""}
         confirmButtonLabel={i18n.t("buttons.select")}
         successHandler={handleSelected}
-        cancelHandler={handleDialog}
+        cancelHandler={handleClose}
         confirmButtonProps={confirmButtonProps}
         cancelButtonProps={cancelButtonProps}
       >
         <List>
+          <ListSubheader>
+            <ListItemText className={css.listHeader}>
+              {i18n.t("forms.type_label")}
+            </ListItemText>
+            <ListItemSecondaryAction className={css.listHeader}>
+              {i18n.t("forms.select_label")}
+            </ListItemSecondaryAction>
+          </ListSubheader>
+          <Divider />
           {fields.map((field, index) => {
             const [name, Icon] = field;
 
             return (
-              <ListItem
-                key={field}
-                selected={isItemSelected(name)}
-                onClick={() => handleListItem(index)}
-              >
-                <ListItemText className={css.label}>
-                  <div>{i18n.t(`fields.${name}`)}</div>
-                  <div className={css.inputPreviewContainer}>
-                    <img src={Icon} alt={name} className={css.inputPreview} />
-                  </div>
-                </ListItemText>
-                <ListItemSecondaryAction>
-                  <Radio
-                    value={name}
-                    checked={isItemSelected(name)}
-                    onChange={() => handleListItem(name)}
-                  />
-                </ListItemSecondaryAction>
-              </ListItem>
+              <>
+                <ListItem
+                  key={field}
+                  selected={isItemSelected(name)}
+                  onClick={() => handleListItem(index)}
+                >
+                  <ListItemText className={css.label}>
+                    <div>{i18n.t(`fields.${name}`)}</div>
+                    <div className={css.inputPreviewContainer}>
+                      <img src={Icon} alt={name} className={css.inputPreview} />
+                    </div>
+                  </ListItemText>
+                  <ListItemSecondaryAction>
+                    <Radio
+                      value={name}
+                      checked={isItemSelected(name)}
+                      onChange={() => handleListItem(name)}
+                    />
+                  </ListItemSecondaryAction>
+                </ListItem>
+                <Divider />
+              </>
             );
           })}
         </List>
@@ -146,9 +165,5 @@ const Component = ({ onOpen }) => {
 };
 
 Component.displayName = NAME;
-
-Component.propTypes = {
-  onOpen: PropTypes.func.isRequired
-};
 
 export default Component;

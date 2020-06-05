@@ -2170,6 +2170,8 @@ en:
       referrals: "Referrals"
       approvals: "Approvals"
     required_field: "%{field} is a required field"
+    type_label: "Type"
+    select_label: "Select"
 
   form_section:
     name: "Name"
