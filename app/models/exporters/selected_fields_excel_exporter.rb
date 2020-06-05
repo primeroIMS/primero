@@ -59,13 +59,14 @@ module Exporters
 
     def constrain_forms_and_fields(records, user, options)
       forms = forms_to_export(records, user)
+      forms_dup = forms.map(&:dup)
       field_names = fields_to_export(forms, options).map(&:name)
-      forms.each do |form|
+      forms.each_with_index do |form, i|
         fields = form.fields.select { |f| field_names.include?(f.name) }
-        form.fields = fields
+        forms_dup[i].fields = fields
       end
-      forms = forms.select { |f| f.fields.size.positive? }
-      self.forms = forms
+      forms_dup = forms_dup.select { |f| f.fields.size.positive? }
+      self.forms = forms_dup
     end
 
     private

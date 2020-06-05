@@ -125,7 +125,7 @@ module Exporters
     end
 
     def fields_to_export(forms, options = {})
-      fields = forms.map(&:fields).flatten.uniq(&:name)
+      fields = forms.map(&:fields).map(&:dup).flatten.uniq(&:name)
       reject_these = self.class.excluded_field_names
       fields = fields.reject { |f| reject_these.include?(f.name) } if reject_these.present?
       return fields unless options[:field_names].present?
