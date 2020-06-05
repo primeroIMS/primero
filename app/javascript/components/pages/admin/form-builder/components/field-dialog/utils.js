@@ -5,6 +5,7 @@ import {
   SEPARATOR,
   TICK_FIELD
 } from "../../../../../form";
+import { NEW_FIELD } from "../../constants";
 
 import {
   dateFieldForm,
@@ -52,13 +53,13 @@ export const getFormField = ({ field, i18n, mode, css }) => {
     case SELECT_FIELD:
       return selectFieldForm({ field, i18n, mode });
     case SEPARATOR:
-      return separatorFieldForm(name, i18n);
+      return separatorFieldForm(name, i18n, mode);
     case DATE_FIELD:
-      return dateFieldForm(field, i18n, css);
+      return dateFieldForm(field, i18n, css, mode);
     case TICK_FIELD:
-      return tickboxFieldForm(name, i18n);
+      return tickboxFieldForm(name, i18n, mode);
     default:
-      return textFieldForm({ field, i18n });
+      return textFieldForm({ field, i18n, mode });
   }
 };
 
@@ -87,3 +88,22 @@ export const toggleHideOnViewPage = (fieldName, fieldData) => ({
     hide_on_view_page: !fieldData.hide_on_view_page
   }
 });
+
+export const buildDataToSave = (fieldName, data, type, locale) => {
+  const dataToSave =
+    data[fieldName].hide_on_view_page !== undefined
+      ? toggleHideOnViewPage(fieldName, data[fieldName])
+      : data;
+
+  if (fieldName !== NEW_FIELD) {
+    return dataToSave;
+  }
+  const newFieldName = data[fieldName].display_name[locale]
+    .split(" ")
+    .join("_")
+    .toLowerCase();
+
+  return {
+    [newFieldName]: { ...dataToSave[fieldName], type, name: newFieldName }
+  };
+};

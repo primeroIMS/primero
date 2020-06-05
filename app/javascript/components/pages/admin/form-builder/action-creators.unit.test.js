@@ -10,9 +10,11 @@ describe("<FormsBuilder /> - Action Creators", () => {
 
     [
       "clearSelectedForm",
+      "createSelectedField",
       "fetchForm",
       "reorderFields",
       "saveForm",
+      "setNewField",
       "setSelectedField",
       "updateSelectedField"
     ].forEach(property => {
@@ -61,6 +63,48 @@ describe("<FormsBuilder /> - Action Creators", () => {
     };
 
     expect(actionCreators.saveForm(args)).to.deep.equal(expected);
+  });
+
+  it("should check the 'setNewField' action creator to return the correct object", () => {
+    const expected = {
+      type: actions.SET_NEW_FIELD,
+      payload: { name: "new_field", type: "text_box" }
+    };
+
+    expect(actionCreators.setNewField("new_field", "text_box")).to.deep.equal(
+      expected
+    );
+  });
+
+  it("should check the 'setNewField' action creator to return the correct object", () => {
+    const data = {
+      this_is_text_area_3: {
+        display_name: {
+          en: "this is text area 3"
+        },
+        help_text: {
+          en: ""
+        },
+        guiding_questions: {
+          en: ""
+        },
+        required: false,
+        visible: true,
+        mobile_visible: false,
+        hide_on_view_page: false,
+        show_on_minify_form: false,
+        type: "textarea",
+        name: "this_is_text_area_3"
+      }
+    };
+    const expected = {
+      type: actions.CREATE_SELECTED_FIELD,
+      payload: {
+        data
+      }
+    };
+
+    expect(actionCreators.createSelectedField(data)).to.deep.equal(expected);
   });
 
   afterEach(() => {

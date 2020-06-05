@@ -1,8 +1,14 @@
+import { fromJS } from "immutable";
+
 import { tickboxFieldForm } from "./tick-box-field";
 
 describe("tickboxFieldForm", () => {
   const i18n = { t: value => value };
-  const tickboxContainer = tickboxFieldForm("test_name", i18n);
+  const formMode = fromJS({
+    isNew: false,
+    isEdit: true
+  });
+  const tickboxContainer = tickboxFieldForm("test_name", i18n, formMode);
   const generalSection = tickboxContainer.forms.first().fields;
   const visibilitySection = tickboxContainer.forms.last().fields[1].row;
 

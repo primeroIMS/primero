@@ -1,7 +1,10 @@
 import { fromJS } from "immutable";
 
+import { RADIO_FIELD } from "../../../form";
+
 import actions from "./actions";
 import reducer from "./reducer";
+import { NEW_FIELD } from "./constants";
 
 describe("<FormsBuilder /> - Reducers", () => {
   const initialState = fromJS({});
@@ -134,6 +137,63 @@ describe("<FormsBuilder /> - Reducers", () => {
     };
 
     const newState = reducer(initialState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SET_NEW_FIELD", () => {
+    const data = {
+      name: NEW_FIELD,
+      type: RADIO_FIELD
+    };
+    const expected = fromJS({
+      selectedField: data
+    });
+
+    const action = {
+      type: actions.SET_NEW_FIELD,
+      payload: data
+    };
+
+    const newState = reducer(initialState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle CREATE_SELECTED_FIELD", () => {
+    const initialStateCreateField = fromJS({ selectedFields: []});
+    const objectData = {
+      display_name: {
+        en: "test 4"
+      },
+      help_text: {
+        en: "test 4"
+      },
+      guiding_questions: {
+        en: ""
+      },
+      required: false,
+      visible: false,
+      mobile_visible: false,
+      hide_on_view_page: false,
+      show_on_minify_form: false,
+      type: RADIO_FIELD,
+      name: "test_4"
+    };
+    const expected = fromJS({
+      selectedFields: [objectData]
+    });
+
+    const action = {
+      type: actions.CREATE_SELECTED_FIELD,
+      payload: {
+        data: {
+          test_4: objectData
+        }
+      }
+    };
+
+    const newState = reducer(initialStateCreateField, action);
 
     expect(newState).to.deep.equal(expected);
   });

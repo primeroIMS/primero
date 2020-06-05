@@ -11,7 +11,7 @@ import { useI18n } from "../../../i18n";
 import { PageContent, PageHeading } from "../../../page";
 import FormSection from "../../../form/components/form-section";
 import { submitHandler, whichFormMode } from "../../../form";
-import { ROUTES, SAVE_METHODS } from "../../../../config";
+import { ROUTES, SAVE_METHODS, MODES } from "../../../../config";
 import { compare } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
@@ -26,8 +26,8 @@ import {
 } from "./components";
 import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
-import { NAME } from "./constants";
-import { getSelectedForm } from "./selectors";
+import { NAME, NEW_FIELD } from "./constants";
+import { getSelectedForm, getSelectedField } from "./selectors";
 import { convertToFieldsArray, convertToFieldsObject } from "./utils";
 import styles from "./styles.css";
 import { transformValues } from "./components/field-dialog/utils";
@@ -41,6 +41,7 @@ const Component = ({ mode }) => {
   const i18n = useI18n();
   const [tab, setTab] = useState(0);
   const selectedForm = useSelector(state => getSelectedForm(state), compare);
+  const selectedField = useSelector(state => getSelectedField(state), compare);
   const isLoading = useSelector(state => getIsLoading(state));
   const methods = useForm({
     validationSchema: validationSchema(i18n),
@@ -55,6 +56,9 @@ const Component = ({ mode }) => {
   const handleCancel = () => {
     dispatch(push(ROUTES.forms));
   };
+
+  const modeForFieldDialog =
+    selectedField.get("name") === NEW_FIELD ? MODES.new : mode;
 
   const onSubmit = data => {
     dispatch(
@@ -162,12 +166,12 @@ const Component = ({ mode }) => {
               </div>
             </TabPanel>
             <TabPanel tab={tab} index={1}>
-              <div className={css.tabContent}>
-                <h1>{i18n.t("forms.fields")}</h1>
+              <div className={css.tabFields}>
+                <h1 className={css.heading}>{i18n.t("forms.fields")}</h1>
                 <CustomFieldDialog />
               </div>
               <FieldsList />
-              <FieldDialog onSuccess={onSuccess} mode={mode} />
+              <FieldDialog onSuccess={onSuccess} mode={modeForFieldDialog} />
             </TabPanel>
             <TabPanel tab={tab} index={2}>
               Item Three

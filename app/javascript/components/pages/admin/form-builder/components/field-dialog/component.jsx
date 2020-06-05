@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { batch, useSelector, useDispatch } from "react-redux";
 import { FormContext, useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/styles";
+import Add from "@material-ui/icons/Add";
+import CheckIcon from "@material-ui/icons/Check";
 
 import { selectDialog } from "../../../../../record-actions/selectors";
 import { setDialog } from "../../../../../record-actions/action-creators";
@@ -13,10 +15,19 @@ import { useI18n } from "../../../../../i18n";
 import ActionDialog from "../../../../../action-dialog";
 import { compare } from "../../../../../../libs";
 import { getSelectedField } from "../../selectors";
-import { updateSelectedField } from "../../action-creators";
+import {
+  createSelectedField,
+  updateSelectedField
+} from "../../action-creators";
+import { NEW_FIELD } from "../../constants";
 
 import styles from "./styles.css";
-import { getFormField, transformValues, toggleHideOnViewPage } from "./utils";
+import {
+  getFormField,
+  transformValues,
+  toggleHideOnViewPage,
+  buildDataToSave
+} from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 
 const Component = ({ mode, onClose, onSuccess }) => {
@@ -35,9 +46,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
     mode: formMode,
     css
   });
-
   const formMethods = useForm({ validationSchema });
-
   const handleClose = () => {
     if (onClose) {
       onClose();
@@ -46,19 +55,33 @@ const Component = ({ mode, onClose, onSuccess }) => {
     dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
   };
 
+  const typeField = selectedField.get("type");
+
+  const dialogTitle = formMode.get("isEdit")
+    ? i18n.t("fields.edit_label")
+    : i18n.t("fields.add_field_type", {
+        file_type: i18n.t(`fields.${typeField}`)
+      });
+
+  const confirmButtonLabel = formMode.get("isEdit")
+    ? i18n.t("buttons.update")
+    : i18n.t("buttons.add");
+  const confirmButtonIcon = formMode.get("isNew") ? <Add /> : <CheckIcon />;
+
   const modalProps = {
-    confirmButtonLabel: i18n.t("buttons.update"),
+    confirmButtonLabel,
     confirmButtonProps: {
       color: "primary",
       variant: "contained",
-      autoFocus: true
+      autoFocus: true,
+      icon: confirmButtonIcon
     },
     cancelButtonProps: {
       color: "primary",
       variant: "contained",
       className: css.cancelButton
     },
-    dialogTitle: i18n.t("fields.edit_label"),
+    dialogTitle,
     open: openFieldDialog,
     successHandler: () => bindFormSubmit(formRef),
     cancelHandler: () => {
@@ -67,16 +90,22 @@ const Component = ({ mode, onClose, onSuccess }) => {
     omitCloseAfterSuccess: true
   };
 
+  const addOrUpdatedSelectedField = fieldData => {
+    if (selectedField.get("name") === NEW_FIELD) {
+      dispatch(createSelectedField(fieldData));
+    } else {
+      dispatch(updateSelectedField(fieldData));
+    }
+  };
+
   const onSubmit = data => {
     const fieldName = selectedField.get("name");
-    const fieldData =
-      data[fieldName].hide_on_view_page !== undefined
-        ? toggleHideOnViewPage(fieldName, data[fieldName])
-        : data;
+
+    const fieldData = buildDataToSave(fieldName, data, typeField, i18n.locale);
 
     batch(() => {
       onSuccess(fieldData);
-      dispatch(updateSelectedField(fieldData));
+      addOrUpdatedSelectedField(fieldData);
       handleClose();
     });
   };

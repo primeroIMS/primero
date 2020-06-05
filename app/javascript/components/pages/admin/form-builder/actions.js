@@ -3,6 +3,7 @@ import NAMESPACE from "../forms-list/namespace";
 
 export default namespaceActions(NAMESPACE, [
   "CLEAR_SELECTED_FORM",
+  "CREATE_SELECTED_FIELD",
   "FETCH_FORM",
   "FETCH_FORM_FAILURE",
   "FETCH_FORM_FINISHED",
@@ -15,5 +16,6 @@ export default namespaceActions(NAMESPACE, [
   "SAVE_FORM_STARTED",
   "SAVE_FORM_SUCCESS",
   "SET_SELECTED_FIELD",
+  "SET_NEW_FIELD",
   "UPDATE_SELECTED_FIELD"
 ]);

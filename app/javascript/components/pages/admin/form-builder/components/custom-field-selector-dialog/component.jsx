@@ -10,6 +10,8 @@ import {
   makeStyles
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
+import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
+import { fromJS } from "immutable";
 
 import ActionDialog from "../../../../../action-dialog";
 import {
@@ -31,8 +33,11 @@ import TextAreaImg from "../../../../../../images/field-types/textarea.png";
 import TickboxImg from "../../../../../../images/field-types/tickbox.png";
 import SeperatorImg from "../../../../../../images/field-types/seperator.png";
 import NumericImg from "../../../../../../images/field-types/numeric.png";
+import { NEW_FIELD } from "../../constants";
+import { setNewField } from "../../action-creators";
 
 import styles from "./styles.css";
+import { NAME } from "./constants";
 
 const fields = [
   [TEXT_FIELD, TextImg],
@@ -46,7 +51,7 @@ const fields = [
 
 const Component = ({ onOpen }) => {
   const [open, setOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(undefined);
+  const [selectedItem, setSelectedItem] = useState("");
   const dispatch = useDispatch();
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -64,7 +69,25 @@ const Component = ({ onOpen }) => {
   const isItemSelected = item => selectedItem === item;
 
   const handleSelected = () => {
-    dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: true }));
+    dispatch(
+      setDialog({
+        dialog: ADMIN_FIELDS_DIALOG,
+        open: true,
+        mode: fromJS({ isNew: true })
+      })
+    );
+    dispatch(setNewField(NEW_FIELD, selectedItem));
+  };
+
+  const confirmButtonProps = {
+    color: "primary",
+    variant: "contained",
+    autoFocus: true
+  };
+  const cancelButtonProps = {
+    color: "primary",
+    variant: "contained",
+    className: css.cancelButton
   };
 
   return (
@@ -75,16 +98,20 @@ const Component = ({ onOpen }) => {
         variant="contained"
         disableElevation
         onClick={handleDialog}
+        className={css.addCustomFieldButton}
       >
-        Create Custom Field
+        <FormatListBulletedIcon />
+        <span>{i18n.t("fields.add_custom_field")}</span>
       </Button>
       <ActionDialog
-        dialogTitle="Create Field" // TODO: I18n
+        dialogTitle={i18n.t("fields.create_field")}
         open={open}
-        enabledSuccessButton={selectedItem !== undefined}
-        confirmButtonLabel="Select" // TODO: I18n
+        enabledSuccessButton={selectedItem !== ""}
+        confirmButtonLabel={i18n.t("buttons.select")}
         successHandler={handleSelected}
         cancelHandler={handleDialog}
+        confirmButtonProps={confirmButtonProps}
+        cancelButtonProps={cancelButtonProps}
       >
         <List>
           {fields.map((field, index) => {
@@ -93,12 +120,10 @@ const Component = ({ onOpen }) => {
             return (
               <ListItem
                 key={field}
-                selected={isItemSelected(index)}
+                selected={isItemSelected(name)}
                 onClick={() => handleListItem(index)}
               >
-                <ListItemText
-                  className={css.label}
-                >
+                <ListItemText className={css.label}>
                   <div>{i18n.t(`fields.${name}`)}</div>
                   <div className={css.inputPreviewContainer}>
                     <img src={Icon} alt={name} className={css.inputPreview} />
@@ -106,8 +131,9 @@ const Component = ({ onOpen }) => {
                 </ListItemText>
                 <ListItemSecondaryAction>
                   <Radio
-                    checked={isItemSelected(index)}
-                    onChange={() => handleListItem(index)}
+                    value={name}
+                    checked={isItemSelected(name)}
+                    onChange={() => handleListItem(name)}
                   />
                 </ListItemSecondaryAction>
               </ListItem>
@@ -119,7 +145,7 @@ const Component = ({ onOpen }) => {
   );
 };
 
-Component.displayName = "CustomFieldSelectorDialog";
+Component.displayName = NAME;
 
 Component.propTypes = {
   onOpen: PropTypes.func.isRequired

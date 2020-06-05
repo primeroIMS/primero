@@ -239,6 +239,7 @@ en:
     guidance: "Guidance"
     add_another_option: "Add another option"
     clear_default: "Clear default"
+    select: "Select"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -2370,6 +2371,12 @@ en:
     enabled: "Enabled?"
     default: "Default?"
     default_value: "Default Value"
+    add_field: "Add Field"
+    create_field: "Create Field"
+    add_custom_field: "Create Custom Field"
+    add_existing_field: "Add Existing Field"
+    add_field_type: "Add %{file_type}"
+
 
   replication:
     label: Replication

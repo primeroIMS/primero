@@ -89,13 +89,19 @@ const ActionDialog = ({
     </Typography>
   );
 
+  const iconConfirmButtom =
+    confirmButtonProps && confirmButtonProps.icon ? (
+      confirmButtonProps.icon
+    ) : (
+      <CheckIcon />
+    );
   const submitButton = (
     <div className={css.submitButtonWrapper}>
       <Button
         {...{ ...successButtonProps, onClick: handleSuccess }}
         disabled={pending || !enabledSuccessButton}
       >
-        <CheckIcon />
+        {iconConfirmButtom}
         <span>{confirmButtonLabel}</span>
       </Button>
       {pending && <CircularProgress size={24} className={css.buttonProgress} />}
