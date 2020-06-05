@@ -1,7 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable react/display-name */
 import React from "react";
-import { fromJS } from "immutable";
 import { useDispatch, batch } from "react-redux";
 import { Controller, useFormContext } from "react-hook-form";
 import PropTypes from "prop-types";
@@ -46,6 +45,10 @@ const Component = ({ field, index, subformField }) => {
   const themeOverrides = createMuiTheme(getFiedListItemTheme(currentTheme));
 
   const handleClick = fieldName => {
+    if(isNested) {
+      return;
+    }
+
     batch(() => {
       dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: true }));
       dispatch(setSelectedField(fieldName));

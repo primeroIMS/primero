@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import { batch, useSelector, useDispatch } from "react-redux";
 import { FormContext, useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/styles";
-import { fromJS } from "immutable";
 
 import { selectDialog } from "../../../../../record-actions/selectors";
 import { setDialog } from "../../../../../record-actions/action-creators";
@@ -21,6 +20,7 @@ import {
   updateSelectedSubform
 } from "../../action-creators";
 import FieldsList from "../fields-list";
+import ClearButtons from "../clear-buttons";
 
 import styles from "./styles.css";
 import {
@@ -28,7 +28,6 @@ import {
   getSubformValues,
   isSubformField,
   setInitialForms,
-  setStartsWithOneEntry,
   setSubformName,
   transformValues,
   toggleHideOnViewPage
@@ -49,6 +48,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
     state => getSelectedSubform(state),
     compare
   );
+  const selectedFieldName = selectedField?.get("name");
   const { forms: fieldsForm, validationSchema } = getFormField({
     field: selectedField,
     i18n,
@@ -90,17 +90,16 @@ const Component = ({ mode, onClose, onSuccess }) => {
   };
 
   const onSubmit = data => {
-    const fieldName = selectedField.get("name");
     const subformData = setInitialForms(data.subform_section);
     const fieldData = setSubformName(
-      toggleHideOnViewPage(data[fieldName]),
+      toggleHideOnViewPage(data[selectedFieldName]),
       subformData
     );
 
     batch(() => {
-      onSuccess({ [fieldName]: fieldData });
+      onSuccess({ [selectedFieldName]: fieldData });
       if (fieldData) {
-        dispatch(updateSelectedField({ [fieldName]: fieldData }));
+        dispatch(updateSelectedField({ [selectedFieldName]: fieldData }));
       }
       if (isSubformField(selectedField)) {
         dispatch(updateSelectedSubform(subformData));
@@ -119,19 +118,23 @@ const Component = ({ mode, onClose, onSuccess }) => {
       <FieldsList subformField={selectedField} />
     ) : null;
 
+  const renderClearButtons = () =>
+    isSubformField(selectedField) ? (
+      <ClearButtons subformField={selectedField} />
+    ) : null;
+
   useEffect(() => {
     if (selectedField?.size) {
-      const name = selectedField.get("name");
       const fieldData = toggleHideOnViewPage(
         transformValues(selectedField.toJS())
       );
 
       const subform =
         isSubformField(selectedField) && selectedSubform
-          ? setStartsWithOneEntry(getSubformValues(selectedSubform))
+          ? getSubformValues(selectedSubform)
           : {};
 
-      formMethods.reset({ [name]: { ...fieldData }, ...subform });
+      formMethods.reset({ [selectedFieldName]: { ...fieldData }, ...subform });
     }
   }, [selectedField]);
 
@@ -159,6 +162,7 @@ const Component = ({ mode, onClose, onSuccess }) => {
         <form className={css.fieldDialog}>
           {renderForms()}
           {renderFieldsList()}
+          {renderClearButtons()}
         </form>
       </FormContext>
     </ActionDialog>

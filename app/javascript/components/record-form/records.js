@@ -27,6 +27,7 @@ export const FormSectionRecord = Record({
   id: "",
   unique_id: "",
   name: {},
+  description: {},
   visible: null,
   is_first_tab: null,
   order: null,
@@ -39,7 +40,10 @@ export const FormSectionRecord = Record({
   fields: [],
   is_nested: null,
   subform_prevent_item_removal: false,
-  collapsed_field_names: []
+  collapsed_field_names: [],
+  subform_append_only: false,
+  subform_prevent_item_removal: false,
+  initial_subforms: 0
 });
 
 export const Option = Record({

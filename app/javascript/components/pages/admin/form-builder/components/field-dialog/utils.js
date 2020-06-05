@@ -47,6 +47,10 @@ const getSelectedDateValue = (field, isSubmit) => {
 };
 
 export const getFormField = ({ field, i18n, mode, css }) => {
+  if (!field?.size) {
+    return { forms: [], validationSchema: {} };
+  }
+
   const type = field.get("type");
   const name = field.get("name");
 
@@ -92,23 +96,24 @@ export const toggleHideOnViewPage = fieldData => {
     return {
       ...fieldData,
       hide_on_view_page: !fieldData.hide_on_view_page
-    }
+    };
   }
 
   return fieldData;
 };
 
-export const isSubformField = field => field.get("type") === SUBFORM_SECTION;
+export const isSubformField = field => field?.get("type") === SUBFORM_SECTION;
 
-export const setInitialForms = subform => ({
-  ...subform,
-  initial_subforms: subform.starts_with_one_entry ? 1 : 0
-});
+export const setInitialForms = subform => {
+  if (subform) {
+    return {
+      ...subform,
+      initial_subforms: subform.starts_with_one_entry ? 1 : 0
+    }
+  }
 
-export const setStartsWithOneEntry = subform => ({
-  ...subform,
-  starts_with_one_entry: Boolean(subform.initial_subforms)
-});
+  return subform;
+};
 
 export const getSubformValues = subform => {
   const subformData = subform.toJS();
@@ -116,6 +121,7 @@ export const getSubformValues = subform => {
   return {
     subform_section: {
       ...subformData,
+      starts_with_one_entry: Boolean(subform.initial_subforms),
       fields: convertToFieldsObject(subformData.fields)
     }
   };
@@ -126,8 +132,8 @@ export const setSubformName = (field, subform) => {
     return {
       ...field,
       display_name: { en: subform?.name?.en || "" }
-    }
+    };
   }
 
   return field;
-}
+};
