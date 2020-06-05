@@ -312,6 +312,8 @@ class Child < ApplicationRecord
     self.duplicate_case_id = parent_id
   end
 
+  # TODO: Matching methods. Refactor!!!!
+
   def match_to_trace(tracing_request, trace)
     self.matched_tracing_request_id = tracing_request.id
     self.matched_trace_id = trace['unique_id']
