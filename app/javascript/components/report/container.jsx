@@ -1,32 +1,33 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { IconButton, Paper } from "@material-ui/core";
-import { withRouter, Link } from "react-router-dom";
-import TableChartIcon from "@material-ui/icons/TableChart";
-import BarChartIcon from "@material-ui/icons/BarChart";
-import makeStyles from "@material-ui/styles/makeStyles";
+import { Paper } from "@material-ui/core";
+import { push } from "connected-react-router";
+import { useLocation, useParams } from "react-router-dom";
 
-import { BarChart as BarChartGraphic, TableValues } from "../../charts";
-import { getLoading, getErrors } from "../../index-table/selectors";
-import LoadingIndicator from "../../loading-indicator";
-import { useI18n } from "../../i18n";
-import { PageContainer, PageContent, PageHeading } from "../../page";
+import { BarChart as BarChartGraphic, TableValues } from "../charts";
+import { getLoading, getErrors } from "../index-table/selectors";
+import LoadingIndicator from "../loading-indicator";
+import { useI18n } from "../i18n";
+import { PageContainer, PageContent, PageHeading } from "../page";
+import { FormAction, whichFormMode } from "../form";
+import { usePermissions } from "../user";
+import { WRITE_RECORDS } from "../../libs/permissions";
 
 import { buildDataForGraph, buildDataForTable } from "./utils";
 import { getReport } from "./selectors";
 import { fetchReport } from "./action-creators";
 import namespace from "./namespace";
-import styles from "./styles.css";
 
-const Report = ({ match }) => {
-  const css = makeStyles(styles)();
-  const { params } = match;
+const Report = ({ mode }) => {
+  const { id } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const formMode = whichFormMode(mode);
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    dispatch(fetchReport(params.id));
+    dispatch(fetchReport(id));
   }, []);
 
   const errors = useSelector(state => getErrors(state, namespace));
@@ -42,17 +43,23 @@ const Report = ({ match }) => {
     errors
   };
 
+  const canEditReport =
+    usePermissions(namespace, WRITE_RECORDS) && report.get("editable");
+
+  const handleEdit = () => {
+    dispatch(push(`${pathname}/edit`));
+  };
+
+  const editButton = formMode.get("isShow") && canEditReport && (
+    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} />
+  );
+
   return (
     <PageContainer>
       <PageHeading
         title={report.get("name") ? report.get("name").get(i18n.locale) : ""}
       >
-        <IconButton to="/reports" component={Link} className={css.exportButton}>
-          <BarChartIcon />
-        </IconButton>
-        <IconButton to="/reports" component={Link} className={css.exportButton}>
-          <TableChartIcon />
-        </IconButton>
+        {editButton}
       </PageHeading>
       <PageContent>
         <LoadingIndicator {...loadingIndicatorProps}>
@@ -74,7 +81,7 @@ const Report = ({ match }) => {
 Report.displayName = "Report";
 
 Report.propTypes = {
-  match: PropTypes.object.isRequired
+  mode: PropTypes.string.isRequired
 };
 
-export default withRouter(Report);
+export default Report;

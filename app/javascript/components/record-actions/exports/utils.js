@@ -5,8 +5,7 @@ import {
   AUDIO_FIELD,
   DOCUMENT_FIELD,
   PHOTO_FIELD,
-  SEPERATOR,
-  SUBFORM_SECTION
+  SEPERATOR
 } from "../../record-form/constants";
 
 import { ALL_EXPORT_TYPES } from "./constants";
@@ -109,7 +108,7 @@ export const exporterFilters = (
   };
 };
 
-export const buildFields = (data, locale, individualFields) => {
+export const buildFields = (data, locale) => {
   const excludeFieldTypes = [
     AUDIO_FIELD,
     DOCUMENT_FIELD,
@@ -127,24 +126,25 @@ export const buildFields = (data, locale, individualFields) => {
           field => !excludeFieldTypes.includes(field.type) && field.visible
         )
         .map(field => {
-          if (field.type === SUBFORM_SECTION && !individualFields) {
-            // console.log("SUBFROM", field);
-            const subFormSectionFields = field.subform_section_id.fields
-              .filter(subformField => subformField.visible)
-              .map(subformField => {
-                const subFormSection = field.subform_section_id;
+          // TODO: REMOVING SUBFORMS FOR THE TIME BEING UNTIL ISSUE WHERE SUBFORMS ARE
+          // DELETED IS RESOLVED ON BACKEND
+          // if (field.type === SUBFORM_SECTION) {
+          //   const subFormSectionFields = field.subform_section_id.fields
+          //     .filter(subformField => subformField.visible)
+          //     .map(subformField => {
+          //       const subFormSection = field.subform_section_id;
 
-                return {
-                  id: `${subFormSection.unique_id}:${subformField.name}`,
-                  display_text: subformField.display_name[locale],
-                  formSectionId: subFormSection.unique_id,
-                  formSectionName: subFormSection.name[locale],
-                  type: SUBFORM_SECTION
-                };
-              });
+          //       return {
+          //         id: `${subFormSection.unique_id}:${subformField.name}`,
+          //         display_text: subformField.display_name[locale],
+          //         formSectionId: subFormSection.unique_id,
+          //         formSectionName: subFormSection.name[locale],
+          //         type: SUBFORM_SECTION
+          //       };
+          //     });
 
-            return subFormSectionFields;
-          }
+          //   return subFormSectionFields;
+          // }
 
           return {
             id: field.name,
