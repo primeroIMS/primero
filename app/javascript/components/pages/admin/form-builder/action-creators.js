@@ -35,7 +35,7 @@ export const reorderFields = (name, order, isSubform) => ({
   payload: { name, order, isSubform }
 });
 
-export const saveForm = ({ id, body, saveMethod, subforms }) => {
+export const saveForm = ({ id, body, saveMethod, subforms = [] }) => {
   const method = saveMethod === SAVE_METHODS.update ? "PATCH" : "POST";
 
   return {

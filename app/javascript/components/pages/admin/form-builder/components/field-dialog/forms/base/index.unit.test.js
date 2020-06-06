@@ -9,6 +9,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - i
       "generalForm",
       "optionsForm",
       "subform",
+      "subformFields",
       "validationSchema",
       "visibilityFields",
       "visibilityForm"

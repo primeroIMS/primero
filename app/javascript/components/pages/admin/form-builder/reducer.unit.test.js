@@ -26,7 +26,10 @@ describe("<FormsBuilder /> - Reducers", () => {
 
   it("should handle SAVE_FORM_STARTED", () => {
     const expected = fromJS({
-      saving: true
+      saving: true,
+      errors: false,
+      serverErrors: [],
+      updatedFormIds: []
     });
 
     const action = {

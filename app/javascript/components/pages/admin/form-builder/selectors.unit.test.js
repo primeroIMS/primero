@@ -10,7 +10,11 @@ describe("<FormsBuilder /> - Selectors", () => {
       "getSavingRecord",
       "getSelectedField",
       "getSelectedFields",
-      "getSelectedForm"
+      "getSelectedForm",
+      "getSelectedSubform",
+      "getSelectedSubforms",
+      "getServerErrors",
+      "getUpdatedFormIds"
     ].forEach(property => {
       expect(clonedSelectors).to.have.property(property);
       delete clonedSelectors[property];

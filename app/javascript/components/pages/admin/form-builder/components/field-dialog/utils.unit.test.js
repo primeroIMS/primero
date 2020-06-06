@@ -36,15 +36,10 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog /> - index", () =>
   describe("toggleHideOnViewPage", () => {
     it("should toggle the value of hide_on_view_page property", () => {
       const field1 = { name: "field_1", visible: true };
-      const expected = {
-        field_1: {
-          ...field1,
-          hide_on_view_page: false
-        }
-      };
+      const expected = { ...field1, hide_on_view_page: false };
 
       expect(
-        utils.toggleHideOnViewPage("field_1", {
+        utils.toggleHideOnViewPage({
           ...field1,
           hide_on_view_page: true
         })

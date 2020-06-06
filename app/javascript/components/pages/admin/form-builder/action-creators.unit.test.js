@@ -14,7 +14,9 @@ describe("<FormsBuilder /> - Action Creators", () => {
       "reorderFields",
       "saveForm",
       "setSelectedField",
-      "updateSelectedField"
+      "setSelectedSubform",
+      "updateSelectedField",
+      "updateSelectedSubform"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
@@ -41,23 +43,11 @@ describe("<FormsBuilder /> - Action Creators", () => {
 
     const expected = {
       type: actions.SAVE_FORM,
-      api: {
+      api: [{
         path: "forms",
         method: "POST",
         body: args.body,
-        successCallback: {
-          action: ENQUEUE_SNACKBAR,
-          payload: {
-            message: args.message,
-            options: {
-              key: 4,
-              variant: "success"
-            }
-          },
-          redirectToEdit: true,
-          redirect: "/admin/forms"
-        }
-      }
+      }]
     };
 
     expect(actionCreators.saveForm(args)).to.deep.equal(expected);
