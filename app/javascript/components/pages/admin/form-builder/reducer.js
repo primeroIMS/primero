@@ -154,7 +154,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .map(field => fromJS({ [field.get("name")]: field }))
         .reduce((acc, field) => acc.merge(field), fromJS({}))
         .mergeDeep(data.get("fields"))
-        .valueSeq();
+        .valueSeq()
+        .toList();
 
       const subformIndex = state
         .get("selectedSubforms", fromJS([]))

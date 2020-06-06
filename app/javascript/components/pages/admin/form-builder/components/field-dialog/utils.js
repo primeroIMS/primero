@@ -63,7 +63,7 @@ export const getFormField = ({ field, i18n, mode, css }) => {
     case SEPARATOR:
       return separatorFieldForm(name, i18n);
     case SUBFORM_SECTION:
-      return subformField(name, i18n);
+      return subformField({ name, i18n });
     case TICK_FIELD:
       return tickboxFieldForm(name, i18n);
     default:
