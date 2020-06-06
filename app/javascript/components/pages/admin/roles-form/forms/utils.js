@@ -12,8 +12,14 @@ const buildLabelPermission = (element, i18n, approvalsLabel) => {
   });
 };
 
-export const buildPermissionOptions = (elements, i18n, approvalsLabel = {}) =>
+export const buildPermissionOptions = (
+  elements,
+  i18n,
+  approvalsLabel = {},
+  recordType
+) =>
   (elements || []).map(element => ({
     id: element,
-    display_text: buildLabelPermission(element, i18n, approvalsLabel)
+    display_text: buildLabelPermission(element, i18n, approvalsLabel),
+    tooltip: `permissions.resource.${recordType}.actions.${element}.explanation`
   }));

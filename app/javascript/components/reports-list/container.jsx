@@ -4,15 +4,20 @@ import {
   CardContent,
   CardActionArea,
   TablePagination,
-  Box
+  Box,
+  Button
 } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import makeStyles from "@material-ui/styles/makeStyles";
+import AddIcon from "@material-ui/icons/Add";
 
-import { PageContainer, PageHeading, PageContent } from "../../page";
-import { useI18n } from "../../i18n";
-import LoadingIndicator from "../../loading-indicator";
+import { PageContainer, PageHeading, PageContent } from "../page";
+import { useI18n } from "../i18n";
+import LoadingIndicator from "../loading-indicator";
+import { ROUTES } from "../../config";
+import { usePermissions } from "../user";
+import { CREATE_RECORDS } from "../../libs/permissions";
 
 import { fetchReports } from "./action-creators";
 import styles from "./styles.css";
@@ -21,6 +26,7 @@ import {
   selectReports,
   selectLoading
 } from "./selectors";
+import NAMESPACE from "./namespace";
 
 const Reports = () => {
   const css = makeStyles(styles)();
@@ -32,6 +38,7 @@ const Reports = () => {
   const reportsPagination = useSelector(state =>
     selectReportsPagination(state)
   );
+  const canAddReport = usePermissions(NAMESPACE, CREATE_RECORDS);
 
   // const actionMenuItems = fromJS([
   //   {
@@ -63,7 +70,7 @@ const Reports = () => {
   const paginationProps = {
     count: reportsPagination.get("total"),
     onChangePage: (e, page) => {
-      dispatch(fetchReports({ options: { page } }));
+      dispatch(fetchReports({ options: { page: page + 1 } }));
     },
     page: reportsPagination.get("page") - 1,
     rowsPerPage: reportsPagination.get("per"),
@@ -71,10 +78,23 @@ const Reports = () => {
     component: "div"
   };
 
+  const newReportBtn = canAddReport ? (
+    <Button
+      to={ROUTES.reports_new}
+      component={Link}
+      color="primary"
+      startIcon={<AddIcon />}
+    >
+      {i18n.t("buttons.new")}
+    </Button>
+  ) : null;
+
   return (
     <div>
       <PageContainer>
-        <PageHeading title={i18n.t("reports.label")} />
+        <PageHeading title={i18n.t("reports.label")}>
+          {newReportBtn}
+        </PageHeading>
         <PageContent>
           <LoadingIndicator
             hasData={reports.size > 0}
