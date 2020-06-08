@@ -16,11 +16,12 @@ import { getSelectedField } from "../../selectors";
 import { updateSelectedField } from "../../action-creators";
 
 import styles from "./styles.css";
-import { getFormField, toggleHideOnViewPage } from "./utils";
+import { getFormField, transformValues, toggleHideOnViewPage } from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG } from "./constants";
 
-const Component = ({ onClose, onSuccess }) => {
+const Component = ({ mode, onClose, onSuccess }) => {
   const css = makeStyles(styles)();
+  const formMode = whichFormMode(mode);
   const openFieldDialog = useSelector(state =>
     selectDialog(ADMIN_FIELDS_DIALOG, state)
   );
@@ -28,12 +29,14 @@ const Component = ({ onClose, onSuccess }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
   const selectedField = useSelector(state => getSelectedField(state), compare);
-  const { forms: fieldsForm, validationSchema } = getFormField(
-    selectedField,
-    i18n
-  );
+  const { forms: fieldsForm, validationSchema } = getFormField({
+    field: selectedField,
+    i18n,
+    mode: formMode,
+    css
+  });
+
   const formMethods = useForm({ validationSchema });
-  const formMode = whichFormMode("edit");
 
   const handleClose = () => {
     if (onClose) {
@@ -86,7 +89,10 @@ const Component = ({ onClose, onSuccess }) => {
   useEffect(() => {
     if (selectedField?.size) {
       formMethods.reset(
-        toggleHideOnViewPage(selectedField.get("name"), selectedField.toJS())
+        toggleHideOnViewPage(
+          selectedField.get("name"),
+          transformValues(selectedField.toJS())
+        )
       );
     }
   }, [selectedField]);
@@ -121,6 +127,7 @@ const Component = ({ onClose, onSuccess }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  mode: PropTypes.string.isRequired,
   onClose: PropTypes.func,
   onSuccess: PropTypes.func
 };

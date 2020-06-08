@@ -147,4 +147,41 @@ describe FieldI18nService do
       expect(lookups_options).to eq(expected_lookups_options)
     end
   end
+
+  describe 'to_localized_values' do
+    it 'return the field with all the availables locales and the requiered order' do
+      I18n.stub(:available_locales).and_return([:en, :ar, :fr])
+      field = {
+        'ar' => {
+          'closure' => 'Closure-AR',
+          'case_plan'=>'Case Plan-AR',
+          'assessment'=>'SER-AR'
+          },
+        'en' => {
+          'closure' => 'Closure',
+          'case_plan' => 'Case Plan',
+          'assessment' => 'SER'
+        }
+      }
+      expect_field = {
+        "assessment"=>{
+          "en"=>"SER",
+          "fr"=>"",
+          "ar"=>"SER-AR",
+        },
+        "case_plan"=>{
+          "en"=>"Case Plan",
+          "fr"=>"",
+          "ar"=>"Case Plan-AR"
+        },
+        "closure"=>{
+          "en"=>"Closure",
+          "fr"=>"",
+          "ar"=>"Closure-AR"
+        }
+        
+      }
+      expect(FieldI18nService.to_localized_values(field)).to eq(expect_field)
+    end
+  end
 end

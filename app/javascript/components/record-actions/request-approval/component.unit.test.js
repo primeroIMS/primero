@@ -1,85 +1,84 @@
-import { fromJS, List } from "immutable";
-import { Select } from "@material-ui/core";
+import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
-import { RECORD_TYPES } from "../../../config/constants";
+import ActionDialog from "../../action-dialog";
+import { APPROVAL_TYPE, APPROVAL_DIALOG } from "../constants";
+import { RECORD_TYPES, RECORD_PATH, APPROVALS_TYPES } from "../../../config";
 
 import RequestApproval from "./component";
 
-describe("<RequestApproval /> - components/record-actions/request-approval", () => {
-  const state = fromJS({
-    records: {
-      cases: {
-        recordAlerts: []
-      }
-    },
-    user: {
-      username: "testUser",
-      modules: ["primeromodule-cp"]
-    },
-    options: {
-      lookups: {
-        data: [
-          {
-            id: 1,
-            unique_id: "lookup-approval-type",
-            values: [
-              { id: "country", display_text: "Country" },
-              { id: "region", display_text: "Region" }
-            ]
-          }
-        ]
-      }
-    },
+describe("<RequestApproval />", () => {
+  let component;
+  const initialState = fromJS({
     application: {
-      modules: List([
-        {
-          unique_id: "primeromodule-cp",
-          name: "CP",
-          associated_record_types: [
-            RECORD_TYPES.cases,
-            RECORD_TYPES.tracing_requests,
-            RECORD_TYPES.incidents
-          ],
-          options: {
-            selectable_approval_types: true
-          }
+      online: true,
+      approvalsLabels: {
+        assessment: {
+          en: "Assessment"
+        },
+        case_plan: {
+          en: "Case plan"
+        },
+        closure: {
+          en: "Closure"
         }
-      ])
+      }
     }
   });
-
   const props = {
-    approvalType: "approval",
+    approvalType: APPROVAL_TYPE,
     close: () => {},
-    confirmButtonLabel: "",
-    dialogName: "Request Approval",
-    openRequestDialog: () => {},
+    confirmButtonLabel: "buttons.submit",
+    dialogName: APPROVAL_DIALOG,
+    openRequestDialog: true,
     pending: false,
-    record: fromJS({}),
-    recordType: "cases",
+    record: {},
+    recordType: RECORD_PATH.cases,
     setPending: () => {},
     subMenuItems: [
-      { name: "SER", condition: true, recordType: "all", value: "bia" },
       {
-        name: "Case Plan",
+        name: "assessment",
         condition: true,
-        recordType: "all",
-        value: "case_plan"
-      },
-      { name: "Closure", condition: true, recordType: "all", value: "closure" }
+        recordType: RECORD_TYPES.all,
+        value: APPROVALS_TYPES.assessment
+      }
     ]
   };
 
-  it("renders request approval for Select input", () => {
-    const { component } = setupMountedComponent(RequestApproval, props, state);
-
-    expect(component.find(Select)).to.have.lengthOf(1);
+  beforeEach(() => {
+    ({ component } = setupMountedComponent(
+      RequestApproval,
+      props,
+      initialState
+    ));
   });
 
-  it("renders 3 MenuItem", () => {
-    const { component } = setupMountedComponent(RequestApproval, props, state);
+  it("renders RequestApproval", () => {
+    expect(component.find(RequestApproval)).to.have.lengthOf(1);
+  });
 
-    expect(component.find(Select).props().children).to.have.lengthOf(3);
+  it("renders ActionDialog", () => {
+    expect(component.find(ActionDialog)).to.have.lengthOf(1);
+  });
+
+  it("renders component with valid props", () => {
+    const requestApproval = { ...component.find(RequestApproval).props() };
+
+    [
+      "approvalType",
+      "close",
+      "confirmButtonLabel",
+      "dialogName",
+      "openRequestDialog",
+      "pending",
+      "record",
+      "recordType",
+      "setPending",
+      "subMenuItems"
+    ].forEach(property => {
+      expect(requestApproval).to.have.property(property);
+      delete requestApproval[property];
+    });
+    expect(requestApproval).to.be.empty;
   });
 });

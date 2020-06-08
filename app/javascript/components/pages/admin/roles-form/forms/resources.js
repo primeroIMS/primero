@@ -10,7 +10,7 @@ import { RESOURCES, FORM_CHECK_ERRORS } from "../constants";
 import { buildPermissionOptions } from "./utils";
 import AssociatedRolesForm from "./associated-roles";
 
-export default (resourceActions, roles, i18n) =>
+export default (resourceActions, roles, i18n, approvalsLabels) =>
   RESOURCES.filter(resource => resourceActions.has(resource)).map(resource => {
     const actions = (resourceActions || fromJS({})).get(resource, fromJS([]));
 
@@ -26,7 +26,12 @@ export default (resourceActions, roles, i18n) =>
           name: `permissions[${resource}]`,
           type: CHECK_BOX_FIELD,
           option_strings_text:
-            buildPermissionOptions(actions, i18n)?.toJS() || []
+            buildPermissionOptions(
+              actions,
+              i18n,
+              approvalsLabels,
+              resource
+            )?.toJS() || []
         })
       ],
       expandable: true,

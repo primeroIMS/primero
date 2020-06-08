@@ -11,10 +11,12 @@ import SelectInput from "../fields/select-input";
 import ErrorField from "../fields/error-field";
 import RadioField from "../fields/radio-input";
 import ToggleField from "../fields/toggle-input";
+import OrderableOptionsField from "../fields/orderable-options-field";
 import {
   CHECK_BOX_FIELD,
   ERROR_FIELD,
   LABEL_FIELD,
+  ORDERABLE_OPTIONS_FIELD,
   PHOTO_FIELD,
   SELECT_FIELD,
   TICK_FIELD,
@@ -49,10 +51,13 @@ const FormSectionField = ({ checkErrors, field }) => {
     hint,
     disabled,
     inputClassname,
+    selected_value: selectedValue,
+    visible,
     groupBy
   } = field;
   const i18n = useI18n();
-  const { formMode, errors, watch } = useFormContext();
+  const methods = useFormContext();
+  const { formMode, errors, watch } = methods;
   const error = errors ? get(errors, name) : undefined;
 
   const errorsToCheck = checkErrors
@@ -64,15 +69,19 @@ const FormSectionField = ({ checkErrors, field }) => {
       getOptions(
         state,
         optionStringsSource,
-        i18n.locale,
+        i18n,
         options || optionsStringsText
       ),
     (prev, next) => prev.equals(next)
   );
 
+  if (typeof visible === "boolean" && !visible) {
+    return null;
+  }
+
   const watchedInputsValues = watchedInputs ? watch(watchedInputs) : null;
   const watchedInputProps = handleWatchedInputs
-    ? handleWatchedInputs(watchedInputsValues, name, { error })
+    ? handleWatchedInputs(watchedInputsValues, name, { error, methods })
     : {};
 
   const renderError = () =>
@@ -109,7 +118,8 @@ const FormSectionField = ({ checkErrors, field }) => {
     inlineCheckboxes,
     freeSolo,
     hint,
-    groupBy
+    groupBy: watchedInputProps?.groupBy || groupBy,
+    selectedValue
   };
 
   const Field = (fieldType => {
@@ -130,6 +140,8 @@ const FormSectionField = ({ checkErrors, field }) => {
         return RadioField;
       case TOGGLE_FIELD:
         return ToggleField;
+      case ORDERABLE_OPTIONS_FIELD:
+        return OrderableOptionsField;
       default:
         return TextInput;
     }
@@ -142,7 +154,7 @@ const FormSectionField = ({ checkErrors, field }) => {
           field={field}
           commonInputProps={commonInputProps}
           metaInputProps={metaInputProps}
-          options={optionSource?.toJS()}
+          options={watchedInputProps?.options || optionSource?.toJS()}
           errorsToCheck={errorsToCheck}
         />
       )}

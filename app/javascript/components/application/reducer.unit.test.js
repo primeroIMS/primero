@@ -64,6 +64,26 @@ describe("Application - Reducers", () => {
         label_key: "district",
         admin_level: 2,
         field_key: "owned_by_location"
+      },
+      ageRanges: {
+        primero: ["0..5", "6..11", "12..17", "18..999"]
+      },
+      approvalsLabels: {
+        closure: {
+          en: "Closure",
+          fr: "",
+          ar: "Closure-AR"
+        },
+        case_plan: {
+          en: "Case Plan",
+          fr: "",
+          ar: "Case Plan-AR"
+        },
+        assessment: {
+          en: "Assessment",
+          fr: "",
+          ar: "Assessment-AR"
+        }
       }
     });
 
@@ -109,6 +129,26 @@ describe("Application - Reducers", () => {
           label_key: "district",
           admin_level: 2,
           field_key: "owned_by_location"
+        },
+        age_ranges: {
+          primero: ["0..5", "6..11", "12..17", "18..999"]
+        },
+        approvals_labels: {
+          closure: {
+            en: "Closure",
+            fr: "",
+            ar: "Closure-AR"
+          },
+          case_plan: {
+            en: "Case Plan",
+            fr: "",
+            ar: "Case Plan-AR"
+          },
+          assessment: {
+            en: "Assessment",
+            fr: "",
+            ar: "Assessment-AR"
+          }
         }
       }
     };

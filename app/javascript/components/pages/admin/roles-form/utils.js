@@ -15,7 +15,8 @@ export const getFormsToRender = ({
   roles,
   formSections,
   i18n,
-  formMode
+  formMode,
+  approvalsLabels
 }) =>
   fromJS(
     [
@@ -38,7 +39,8 @@ export const getFormsToRender = ({
       ResourcesForm(
         systemPermissions.get("resource_actions", fromJS({})),
         roles,
-        i18n
+        i18n,
+        approvalsLabels
       ),
       FormSectionRecord({
         unique_id: "forms_label",

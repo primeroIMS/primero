@@ -29,6 +29,7 @@ import { NAME } from "./constants";
 import { getSelectedForm } from "./selectors";
 import { convertToFieldsArray, convertToFieldsObject } from "./utils";
 import styles from "./styles.css";
+import { transformValues } from "./components/field-dialog/utils";
 
 const Component = ({ mode }) => {
   const css = makeStyles(styles)();
@@ -108,14 +109,16 @@ const Component = ({ mode }) => {
   );
 
   const onSuccess = data => {
-    Object.entries(data).forEach(entry =>
-      Object.entries(entry[1]).forEach(valueEntry => {
+    Object.entries(data).forEach(entry => {
+      const transformedFieldValues = transformValues(entry[1], true);
+
+      Object.entries(transformedFieldValues).forEach(valueEntry => {
         if (!methods.control[`fields.${entry[0]}.${valueEntry[0]}`]) {
           methods.register({ name: `fields.${entry[0]}.${valueEntry[0]}` });
         }
         methods.setValue(`fields.${entry[0]}.${valueEntry[0]}`, valueEntry[1]);
-      })
-    );
+      });
+    });
   };
 
   return (
@@ -162,7 +165,7 @@ const Component = ({ mode }) => {
                 <h1>{i18n.t("forms.fields")}</h1>
               </div>
               <FieldsList />
-              <FieldDialog onSuccess={onSuccess} />
+              <FieldDialog onSuccess={onSuccess} mode={mode} />
             </TabPanel>
             <TabPanel tab={tab} index={2}>
               Item Three

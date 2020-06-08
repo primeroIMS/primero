@@ -462,8 +462,8 @@ class User < ApplicationRecord
     { total: tasks.size, tasks: tasks.paginate(pagination) }
   end
 
-  def can_approve_bia?
-    can?(:approve_bia, Child) || can?(:request_approval_bia, Child)
+  def can_approve_assessment?
+    can?(:approve_assessment, Child) || can?(:request_approval_assessment, Child)
   end
 
   def can_approve_case_plan?

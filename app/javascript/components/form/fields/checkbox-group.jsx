@@ -4,6 +4,8 @@ import { FormControlLabel, Checkbox } from "@material-ui/core";
 
 import { useI18n } from "../../i18n";
 import { optionText } from "../utils/which-options";
+import { ConditionalWrapper } from "../../../libs";
+import Tooltip from "../../tooltip";
 
 const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
   const i18n = useI18n();
@@ -27,19 +29,25 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
 
   const renderCheckboxes = () =>
     options?.map(option => (
-      <FormControlLabel
+      <ConditionalWrapper
+        condition={option?.tooltip}
+        wrapper={Tooltip}
+        title={option?.tooltip}
         key={`${name}-${option.id}`}
-        control={
-          <Checkbox
-            as={Checkbox}
-            onChange={handleChange}
-            value={option.id}
-            checked={checked.includes(option.id)}
-            disabled={disabled}
-          />
-        }
-        label={optionText(option, i18n.locale)}
-      />
+      >
+        <FormControlLabel
+          control={
+            <Checkbox
+              as={Checkbox}
+              onChange={handleChange}
+              value={option.id}
+              checked={checked.includes(option.id)}
+              disabled={disabled}
+            />
+          }
+          label={optionText(option, i18n.locale)}
+        />
+      </ConditionalWrapper>
     ));
 
   return <>{renderCheckboxes()}</>;
