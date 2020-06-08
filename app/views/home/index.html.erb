@@ -10,7 +10,10 @@
   <% else %>
     <% if @display_cases_dashboard %>
       <div class="row">
-        <div id="content" class="large-9 small-9 columns dashboards">
+        <div id="content" class="large-9 medium-9 small-12 columns dashboards">
+          <% if @display_national_admin_dashboard %>
+            <%= render 'case_national_admin_case_totals', model: Child %>
+          <% end %>
           <% if @display_reporting_location %>
             <%= render 'case_admin_reporting_location_totals', reporting_location_stats: @reporting_location_stats,
                        model: Child, reporting_location: @reporting_location, admin_level: @admin_level%>
@@ -29,14 +32,11 @@
                        model: Child
             %>
           <% end %>
-          <% if @display_national_admin_dashboard %>
-            <%= render 'case_national_admin_case_totals', model: Child %>
-          <% end %>
           <% if @display_matching_results_dashboard %>
             <%= render 'match_result_statistics', match_stats: @match_stats, model: PotentialMatch %>
           <% end %>
         </div>
-        <div id="sidebar" class="large-3 small-3 columns">
+        <div id="sidebar" class="large-3 medium-3 small-12 columns">
           <%= render 'flagged_by_me', flagged_by_me: @flagged_by_me, model: Child %>
           <% unless @display_manager_dashboard %>
             <%= render 'flagged_by_others', flagged_by_others: @flagged_by_others, model: Child %>
@@ -47,10 +47,10 @@
 
     <% if @display_incidents_dashboard %>
         <div class="row">
-          <div id="content" class="large-9 small-9 columns dashboards">
+          <div id="content" class="large-9 medium-9 small-12 columns dashboards">
             <%= render 'open_incidents', open_incidents: @open_incidents %>
           </div>
-          <div id="sidebar" class="large-3 small-3 columns no-padding-left">
+          <div id="sidebar" class="large-3 medium-3 small-12 columns no-padding-left">
             <%= render 'flagged_by_me', flagged_by_me: @incidents_recently_flagged, model: Incident %>
           </div>
         </div>
@@ -58,10 +58,10 @@
 
     <% if @display_gbv_incidents_dashboard %>
         <div class="row">
-          <div id="content" class="large-9 small-9 columns dashboards">
+          <div id="content" class="large-9 medium-9 small-12 columns dashboards">
             <%= render 'open_gbv_incidents', open_incidents: @open_gbv_incidents %>
           </div>
-          <div id="sidebar" class="large-3 small-3 columns no-padding-left">
+          <div id="sidebar" class="large-3 medium-3 small-12 columns no-padding-left">
             <%= render 'flagged_by_me', flagged_by_me: @gbv_incidents_recently_flagged, model: Incident %>
           </div>
         </div>

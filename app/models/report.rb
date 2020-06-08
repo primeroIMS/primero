@@ -238,6 +238,26 @@ class Report < CouchRest::Model::Base
       self.data[:graph_value_range] = graph_value_range if is_graph
       self.load_translations
       self.data = self.translate_data(self.data)
+
+      if self.has_data?
+        total_values = self.data[:disaggregate_value_range].map do |disaggregate|
+          key = [I18n.t("report.total"), disaggregate].flatten
+
+          value = self.data[:aggregate_value_range].map do |aggregate|
+            if aggregate.is_a?(Array) && aggregate.length > 1
+              self.data[:values].select{|k,v| (k == (aggregate + disaggregate)) && (k.reject(&:empty?).length > 1) }
+            else
+              self.data[:values].select{|k,v| (k == (aggregate + disaggregate)) || (k == aggregate && disaggregate.empty?) }
+            end
+          end.inject(&:merge).values.reduce(0){ |sum,x| x.nil? ? sum : sum + x }
+          
+          {key => value }
+        end.inject(&:merge)
+
+        self.data[:values] = self.data[:values].merge(total_values)
+        self.data[:aggregate_value_range] << [I18n.t("report.total")]
+      end
+
       ""
     end
   end
@@ -571,7 +591,7 @@ class Report < CouchRest::Model::Base
         :rows => 0,
         :facet => 'on',
         :'facet.pivot' => pivots_string,
-        :'facet.pivot.mincount' => 1,
+        :'facet.pivot.mincount' => -1,
         :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
