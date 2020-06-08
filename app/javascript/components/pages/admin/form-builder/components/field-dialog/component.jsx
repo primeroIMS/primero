@@ -46,7 +46,9 @@ const Component = ({ mode, onClose, onSuccess }) => {
     mode: formMode,
     css
   });
+
   const formMethods = useForm({ validationSchema });
+
   const handleClose = () => {
     if (onClose) {
       onClose();
