@@ -14,36 +14,54 @@ import {
   TEXT_FIELD
 } from "../../../form";
 import FiltersDialog from "../filters-dialog";
-import { CONSTRAINTS } from "../../constants";
+import {
+  CONSTRAINTS,
+  DEFAULT_FILTERS,
+  MODULES_FIELD,
+  RECORD_TYPE_FIELD,
+  FILTERS_FIELD
+} from "../../constants";
+import { formattedFields } from "../../utils";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
 import { registerValues } from "./utils";
 
-const Container = ({ fields, defaultFilters, methods }) => {
+const Container = ({ allRecordForms, parentFormMethods, selectedReport }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const [indexes, setIndexes] = useState(
-    defaultFilters.map((d, i) => ({ index: i, data: d }))
+    (
+      selectedReport.get(FILTERS_FIELD).toJS() || DEFAULT_FILTERS
+    ).map((d, i) => ({ index: i, data: d }))
   );
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [open, setOpen] = useState(false);
 
   const onSuccess = (index, data) => {
-    console.log("DATA", data);
     // TODO: data should be validated
     if (Object.is(index, null)) {
       setIndexes([...indexes, { index: indexes.length, data }]);
-      registerValues(indexes.length, data, indexes, methods);
+      registerValues(indexes.length, data, indexes, parentFormMethods);
     } else {
       const indexesCopy = [...indexes].slice();
 
       indexesCopy[index] = { ...indexesCopy[index], data };
 
       setIndexes(indexesCopy);
-      registerValues(index, data, indexes, methods);
+      registerValues(index, data, indexes, parentFormMethods);
     }
   };
+
+  const selectedModules = parentFormMethods.getValues()[MODULES_FIELD];
+  const selectedRecordType = parentFormMethods.getValues()[RECORD_TYPE_FIELD];
+
+  const fields = formattedFields(
+    allRecordForms,
+    selectedModules,
+    selectedRecordType,
+    i18n.locale
+  );
 
   if (!fields.length) {
     return null;
@@ -60,7 +78,10 @@ const Container = ({ fields, defaultFilters, methods }) => {
 
   // TODO: OnSuccess here!!
   const handleDelete = index =>
-    setIndexes(indexes.filter(i => i.index.toString() !== index));
+    setIndexes([
+      ...indexes.slice(0, index),
+      ...indexes.slice(index + 1, indexes.length)
+    ]);
 
   return (
     <>
@@ -71,7 +92,6 @@ const Container = ({ fields, defaultFilters, methods }) => {
           {i18n.t("buttons.new")}
         </IconButton>
       </Typography>
-
       {isEmpty(indexes) ? (
         <> No filters added </>
       ) : (
@@ -118,9 +138,9 @@ const Container = ({ fields, defaultFilters, methods }) => {
 Container.displayName = NAME;
 
 Container.propTypes = {
-  defaultFilters: PropTypes.array,
-  fields: PropTypes.object,
-  methods: PropTypes.object
+  allRecordForms: PropTypes.object.isRequired,
+  parentFormMethods: PropTypes.object.isRequired,
+  selectedReport: PropTypes.array
 };
 
 export default Container;

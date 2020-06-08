@@ -127,3 +127,24 @@ export const formatReport = report => {
     }
   }, {});
 };
+
+export const formattedFields = (allFields, modules, recordType, locale) => {
+  const formsByModuleAndRecordType = dataToJS(allFields).filter(formSection =>
+    Array.isArray(modules)
+      ? formSection.module_ids.some(mod => modules.includes(mod))
+      : formSection.module_ids.includes(modules)
+  );
+  const formName = getFormName(recordType);
+  const recordTypesForms = formsByModuleAndRecordType.filter(
+    formSection => formSection.parent_form === recordType
+  );
+  const reportableForm = formsByModuleAndRecordType
+    .filter(formSection => formSection.unique_id === formName)
+    ?.toJS()?.[0]?.fields?.[0]?.subform_section_id;
+
+  return buildFields(
+    formName ? reportableForm : recordTypesForms,
+    locale,
+    Boolean(formName)
+  );
+};

@@ -26,7 +26,7 @@ import {
   IS_GRAPH_FIELD,
   REPORTABLE_TYPES
 } from "./constants";
-import { buildFields, getFormName } from "./utils";
+import { formattedFields } from "./utils";
 
 export const validations = i18n =>
   object().shape({
@@ -64,35 +64,18 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
     return { disabled: isNew && emptyModule };
   };
 
-  const checkModuleAndRecordType = value => {
-    const formName = getFormName(value[RECORD_TYPE_FIELD]);
-    const formsByModuleAndRecordType = dataToJS(
-      allRecordForms
-    ).filter(formSection =>
-      Array.isArray(value[MODULES_FIELD])
-        ? formSection.module_ids.some(mod => value[MODULES_FIELD].includes(mod))
-        : formSection.module_ids.includes(value[MODULES_FIELD])
-    );
-
-    const recordTypesForms = formsByModuleAndRecordType.filter(
-      formSection => formSection.parent_form === value[RECORD_TYPE_FIELD]
-    );
-    const reportableForm = formsByModuleAndRecordType
-      .filter(formSection => formSection.unique_id === formName)
-      ?.toJS()?.[0]?.fields?.[0]?.subform_section_id;
-
-    return {
-      disabled:
-        isNew &&
-        (isEmpty(value[MODULES_FIELD]) || isEmpty(value[RECORD_TYPE_FIELD])),
-      groupBy: "formSection",
-      options: buildFields(
-        formName ? reportableForm : recordTypesForms,
-        i18n.locale,
-        Boolean(formName)
-      )
-    };
-  };
+  const checkModuleAndRecordType = value => ({
+    disabled:
+      isNew &&
+      (isEmpty(value[MODULES_FIELD]) || isEmpty(value[RECORD_TYPE_FIELD])),
+    groupBy: "formSection",
+    options: formattedFields(
+      allRecordForms,
+      value[MODULES_FIELD],
+      value[RECORD_TYPE_FIELD],
+      i18n.locale
+    )
+  });
 
   return fromJS([
     FormSectionRecord({

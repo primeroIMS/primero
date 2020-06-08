@@ -15,7 +15,6 @@ import { ATTRIBUTE, CONSTRAINT, VALUE } from "./constants";
 
 // TODO: Move to util's file
 const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
-  // console.log("FIELD", currentField);
   const commonProps = {
     type: TEXT_FIELD,
     inputClassname: isConstraintNotNull ? css.hideValue : ""

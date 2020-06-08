@@ -8,7 +8,12 @@ import ActionDialog from "../../../action-dialog";
 import bindFormSubmit from "../../../../libs/submit-form";
 import { useI18n } from "../../../i18n";
 import FormSection from "../../../form/components/form-section";
-import { whichFormMode, SELECT_FIELD, RADIO_FIELD, TICK_FIELD } from "../../../form";
+import {
+  whichFormMode,
+  SELECT_FIELD,
+  RADIO_FIELD,
+  TICK_FIELD
+} from "../../../form";
 
 import { ATTRIBUTE, CONSTRAINT, NAME, VALUE } from "./constants";
 import styles from "./styles.css";

@@ -1,15 +1,16 @@
 /* eslint-disable camelcase */
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useImperativeHandle } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import omit from "lodash/omit";
+import { FormContext, useForm } from "react-hook-form";
 
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
-import Form, { FormAction, whichFormMode } from "../form";
+import { FormAction, FormSection, whichFormMode } from "../form";
 import { fetchReport } from "../report/action-creators";
 import { getReport } from "../report/selectors";
 import { PageContainer, PageContent, PageHeading } from "../page";
@@ -23,7 +24,8 @@ import {
   AGGREGATE_BY_FIELD,
   DISAGGREGATE_BY_FIELD,
   DEFAULT_FILTERS,
-  REPORT_FIELD_TYPES
+  REPORT_FIELD_TYPES,
+  FILTERS_FIELD
 } from "./constants";
 import NAMESPACE from "./namespace";
 import { form, validations } from "./form";
@@ -41,6 +43,10 @@ const Container = ({ mode }) => {
   const primeroAgeRanges = useSelector(state => getAgeRanges(state));
   const report = useSelector(state => getReport(state));
 
+  const methods = useForm({
+    validationSchema: validations(i18n)
+  });
+
   const allRecordForms = useSelector(state =>
     getRecordForms(state, { all: true })
   );
@@ -57,6 +63,18 @@ const Container = ({ mode }) => {
     };
   }, [id]);
 
+  useEffect(() => {
+    if (report.size) {
+      methods.register({ name: FILTERS_FIELD });
+
+      const selectedReport = {
+        ...formatReport(report.toJS())
+      };
+
+      methods.reset(selectedReport);
+    }
+  }, [report]);
+
   const onSubmit = data => {
     const { aggregate_by, disaggregate_by } = data;
 
@@ -69,9 +87,17 @@ const Container = ({ mode }) => {
       data: {
         ...omit(data, [AGGREGATE_BY_FIELD, DISAGGREGATE_BY_FIELD]),
         fields,
-        filters: DEFAULT_FILTERS
+        filters: data?.filters?.map(filter => ({
+          ...filter,
+          value:
+            typeof filter.value === "boolean" && filter.value
+              ? ["not_null"]
+              : filter.value
+        }))
       }
     };
+
+    console.log("BODY", body);
 
     dispatch(
       saveReport({
@@ -86,6 +112,14 @@ const Container = ({ mode }) => {
       })
     );
   };
+
+  useImperativeHandle(formRef, () => ({
+    submitForm(e) {
+      methods.handleSubmit(data => {
+        onSubmit(data);
+      })(e);
+    }
+  }));
 
   const formSections = form(
     i18n,
@@ -118,38 +152,32 @@ const Container = ({ mode }) => {
     </>
   );
 
-  const initialValues = formMode.get("isNew")
-    ? { filters: DEFAULT_FILTERS }
-    : formatReport(report.toJS());
+  const renderFormSections = () =>
+    formSections.map(formSection => (
+      <FormSection formSection={formSection} key={formSection.unique_id} />
+    ));
 
   return (
     <LoadingIndicator
       hasData={
-        formMode.get("isNew") || (report?.size > 0 && allRecordForms.size)
+        formMode.get("isNew") || (report?.size > 0 && allRecordForms.size > 0)
       }
-      loading={!allRecordForms.size}
+      loading={!report.size}
       type={NAMESPACE}
     >
       <PageContainer>
         <PageHeading title={pageHeading}>{saveButton}</PageHeading>
         <PageContent>
-          <Form
-            submitAllFields
-            useCancelPrompt
-            mode={mode}
-            formSections={formSections}
-            onSubmit={onSubmit}
-            ref={formRef}
-            validations={validations(i18n)}
-            initialValues={initialValues}
-          />
-          <ReportFilters
-            defaultFilters={DEFAULT_FILTERS}
-            fields={fields}
-            register={methods.register}
-            formMode={formMode}
-            methods={methods}
-          />
+          <FormContext {...methods} formMode={formMode}>
+            <form>
+              {renderFormSections()}
+              <ReportFilters
+                allRecordForms={allRecordForms}
+                parentFormMethods={methods}
+                selectedReport={report}
+              />
+            </form>
+          </FormContext>
         </PageContent>
       </PageContainer>
     </LoadingIndicator>
