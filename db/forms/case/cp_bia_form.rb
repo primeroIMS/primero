@@ -1,24 +1,24 @@
 bia_fields = [
-    Field.new({"name" => "bia_approved",
+    Field.new({"name" => "assessment_approved",
                "type" => "tick_box",
                "tick_box_label_en" => "Yes",
                "display_name_en" => "Approved by Manager",
                "disabled" => true,
                "editable" => false
               }),
-    Field.new({"name" => "bia_approved_date",
+    Field.new({"name" => "assessment_approved_date",
                "type" => "date_field",
                "display_name_en" => "Date",
                "disabled" => true,
                "editable" => false
               }),
-    Field.new({"name" => "bia_approved_comments",
+    Field.new({"name" => "assessment_approved_comments",
                "type" => "textarea",
                "display_name_en" => "Manager Comments",
                "disabled" => true,
                "editable" => false
               }),
-    Field.new({"name" => "approval_status_bia",
+    Field.new({"name" => "approval_status_assessment",
                "type" => "select_box",
                "display_name_en" => "Approval Status",
                "option_strings_source" => "lookup lookup-approval-status",
@@ -31,7 +31,7 @@ bia_fields = [
                "disabled" => true,
                "editable" => false
               }),
-    Field.new({"name" => "bia_header",
+    Field.new({"name" => "assessment_header",
                "type" => "separator",
                "display_name_en" => "ASSESSMENT FORM (for completion for all Child Protection cases including UASC)",
                "disabled" => true,

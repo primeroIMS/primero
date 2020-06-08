@@ -1,6 +1,7 @@
 import { fromJS, List } from "immutable";
 
 import * as utils from "./utils";
+import { REPORT_FIELD_TYPES } from "./constants";
 
 describe("<IndexFilters /> - Utils", () => {
   describe("with exposed properties", () => {
@@ -9,9 +10,11 @@ describe("<IndexFilters /> - Utils", () => {
 
       [
         "buildFields",
+        "buildReportFields",
         "dependantFields",
         "formatAgeRange",
-        "getFormName"
+        "getFormName",
+        "formatReport"
       ].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
@@ -101,6 +104,24 @@ describe("<IndexFilters /> - Utils", () => {
 
     it("returns empty string if the selectedRecordType does not starts with the word reportable", () => {
       expect(utils.getFormName("test")).to.be.empty;
+    });
+  });
+
+  describe("buildReportFields()", () => {
+    it("returns the form name if the selectedRecordType starts with the word reportable", () => {
+      const expected = [
+        {
+          name: "test",
+          position: {
+            type: REPORT_FIELD_TYPES.horizontal,
+            order: 0
+          }
+        }
+      ];
+
+      expect(
+        utils.buildReportFields(["test"], REPORT_FIELD_TYPES.horizontal)
+      ).to.deep.equal(expected);
     });
   });
 });

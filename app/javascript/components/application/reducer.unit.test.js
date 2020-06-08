@@ -67,6 +67,23 @@ describe("Application - Reducers", () => {
       },
       ageRanges: {
         primero: ["0..5", "6..11", "12..17", "18..999"]
+      },
+      approvalsLabels: {
+        closure: {
+          en: "Closure",
+          fr: "",
+          ar: "Closure-AR"
+        },
+        case_plan: {
+          en: "Case Plan",
+          fr: "",
+          ar: "Case Plan-AR"
+        },
+        assessment: {
+          en: "Assessment",
+          fr: "",
+          ar: "Assessment-AR"
+        }
       }
     });
 
@@ -115,6 +132,23 @@ describe("Application - Reducers", () => {
         },
         age_ranges: {
           primero: ["0..5", "6..11", "12..17", "18..999"]
+        },
+        approvals_labels: {
+          closure: {
+            en: "Closure",
+            fr: "",
+            ar: "Closure-AR"
+          },
+          case_plan: {
+            en: "Case Plan",
+            fr: "",
+            ar: "Case Plan-AR"
+          },
+          assessment: {
+            en: "Assessment",
+            fr: "",
+            ar: "Assessment-AR"
+          }
         }
       }
     };

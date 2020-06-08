@@ -70,7 +70,7 @@ const Reports = () => {
   const paginationProps = {
     count: reportsPagination.get("total"),
     onChangePage: (e, page) => {
-      dispatch(fetchReports({ options: { page } }));
+      dispatch(fetchReports({ options: { page: page + 1 } }));
     },
     page: reportsPagination.get("page") - 1,
     rowsPerPage: reportsPagination.get("per"),

@@ -1,42 +1,34 @@
 /* eslint-disable camelcase */
 
-import React, { useRef, useImperativeHandle, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
-import { FormContext, useForm } from "react-hook-form";
-import isEmpty from "lodash/isEmpty";
 import { useParams } from "react-router-dom";
+import omit from "lodash/omit";
 
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
-import { FormAction, whichFormMode } from "../form";
+import Form, { FormAction, whichFormMode } from "../form";
 import { fetchReport } from "../report/action-creators";
 import { getReport } from "../report/selectors";
 import { PageContainer, PageContent, PageHeading } from "../page";
 import bindFormSubmit from "../../libs/submit-form";
-import { RECORD_TYPES, ROUTES } from "../../config";
-import FormSection from "../form/components/form-section";
+import { ROUTES, SAVE_METHODS } from "../../config";
 import { getAgeRanges } from "../application/selectors";
-import {
-  getRecordForms,
-  getRecordFormsByUniqueId
-} from "../record-form/selectors";
+import { getRecordForms } from "../record-form/selectors";
 
 import {
   NAME,
-  NAME_FIELD,
-  DESCRIPTION_FIELD,
-  ALLOWED_FIELD_TYPES
+  AGGREGATE_BY_FIELD,
+  DISAGGREGATE_BY_FIELD,
+  DEFAULT_FILTERS,
+  REPORT_FIELD_TYPES
 } from "./constants";
 import NAMESPACE from "./namespace";
 import { form, validations } from "./form";
-import {
-  buildFields,
-  dependantFields,
-  formatAgeRange,
-  getFormName
-} from "./utils";
+import { buildReportFields, formatAgeRange, formatReport } from "./utils";
+import { clearSelectedReport, saveReport } from "./action-creators";
 import ReportFilters from "./components/filters";
 
 const Container = ({ mode }) => {
@@ -44,120 +36,72 @@ const Container = ({ mode }) => {
   const formRef = useRef();
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);
-  const validationSchema = validations(i18n);
   const { id } = useParams();
-  const methods = useForm({
-    validationSchema
-  });
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  const selectedModule = methods.watch("modules");
-  const selectedRecordType = methods.watch("record_type");
-  const emptyModule = isEmpty(selectedModule);
-  const emptyRecordType = isEmpty(selectedRecordType);
-  const isModuleTouched = Object.keys(
-    methods.control.formState.touched
-  ).includes("modules");
   const primeroAgeRanges = useSelector(state => getAgeRanges(state));
   const report = useSelector(state => getReport(state));
 
-  const recordTypesForms = useSelector(state =>
-    getRecordForms(state, {
-      recordType: selectedRecordType,
-      primeroModule: selectedModule
-    })
+  const allRecordForms = useSelector(state =>
+    getRecordForms(state, { all: true })
   );
-
-  const reportableForm = useSelector(state =>
-    getRecordFormsByUniqueId(state, {
-      recordType: RECORD_TYPES.cases,
-      primeroModule: selectedModule,
-      formName: getFormName(selectedRecordType)
-    })
-  )?.toJS()?.[0]?.fields?.[0]?.subform_section_id;
 
   useEffect(() => {
     if (isEditOrShow) {
       dispatch(fetchReport(id));
     }
+
+    return () => {
+      if (isEditOrShow) {
+        dispatch(clearSelectedReport());
+      }
+    };
   }, [id]);
 
-  const defaultFilters = [
-    { attribute: "status", constraint: false, value: ["open"] },
-    { attribute: "age", constraint: ">", value: 5 }
-  ];
+  const onSubmit = data => {
+    const { aggregate_by, disaggregate_by } = data;
 
-  useEffect(() => {
-    if (report.size) {
-      methods.register({ name: "filters" });
+    const fields = [
+      ...buildReportFields(aggregate_by, REPORT_FIELD_TYPES.horizontal),
+      ...buildReportFields(disaggregate_by, REPORT_FIELD_TYPES.vertical)
+    ];
 
-      // TODO: Should be returned by API
-      const valueFromSelector = {
-        name: {
-          en: "Registration CP"
-        },
-        description: {
-          en: "Case registrations over time"
-        },
-        modules: ["primeromodule-cp"],
-        record_type: "case",
-        aggregate_by: ["age"],
-        disaggregate_by: ["sex"],
-        filters: defaultFilters
-      };
+    const body = {
+      data: {
+        ...omit(data, [AGGREGATE_BY_FIELD, DISAGGREGATE_BY_FIELD]),
+        fields,
+        filters: DEFAULT_FILTERS
+      }
+    };
 
-      methods.reset(valueFromSelector);
-    }
-  }, [report]);
-
-  const onSubmit = data => console.log("ON SUBMIT", data);
-
-  useImperativeHandle(formRef, () => ({
-    submitForm(e) {
-      methods.handleSubmit(data => {
-        onSubmit(data);
-      })(e);
-    }
-  }));
-
-  const fields = buildFields(
-    getFormName(selectedRecordType) ? reportableForm : recordTypesForms,
-    i18n.locale,
-    Boolean(getFormName(selectedRecordType))
-  );
+    dispatch(
+      saveReport({
+        id,
+        saveMethod: formMode.get("isEdit")
+          ? SAVE_METHODS.update
+          : SAVE_METHODS.new,
+        body,
+        message: formMode.get("isEdit")
+          ? i18n.t("report.messages.updated")
+          : i18n.t("report.messages.success")
+      })
+    );
+  };
 
   const formSections = form(
     i18n,
-    emptyModule,
-    emptyModule || emptyRecordType,
     formatAgeRange(primeroAgeRanges),
-    fields
+    allRecordForms,
+    formMode.get("isNew")
   );
-
-  if (isModuleTouched && emptyModule) {
-    const name = methods.getValues()[NAME_FIELD];
-    const description = methods.getValues()[DESCRIPTION_FIELD];
-
-    methods.reset({
-      ...methods.getValues(),
-      ...dependantFields(formSections)
-    });
-
-    if (name) {
-      methods.setValue(NAME_FIELD, name);
-    }
-
-    if (description) {
-      methods.setValue(DESCRIPTION_FIELD, description);
-    }
-  }
 
   const handleCancel = () => {
     dispatch(push(ROUTES.reports));
   };
 
-  const pageHeading = report?.size
-    ? report.getIn(["name", i18n.locale])
-    : i18n.t("reports.register_new_report");
+  const pageHeading =
+    report?.size && !formMode.get("isNew")
+      ? report.getIn(["name", i18n.locale])
+      : i18n.t("reports.register_new_report");
 
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>
@@ -174,32 +118,38 @@ const Container = ({ mode }) => {
     </>
   );
 
+  const initialValues = formMode.get("isNew")
+    ? { filters: DEFAULT_FILTERS }
+    : formatReport(report.toJS());
+
   return (
     <LoadingIndicator
-      hasData={formMode.get("isNew") || (report?.size > 0 && fields.length)}
-      loading={!fields.length}
+      hasData={
+        formMode.get("isNew") || (report?.size > 0 && allRecordForms.size)
+      }
+      loading={!allRecordForms.size}
       type={NAMESPACE}
     >
       <PageContainer>
         <PageHeading title={pageHeading}>{saveButton}</PageHeading>
         <PageContent>
-          <FormContext {...methods} formMode={formMode}>
-            <form>
-              {formSections.map(formSection => (
-                <FormSection
-                  formSection={formSection}
-                  key={formSection.unique_id}
-                />
-              ))}
-              <ReportFilters
-                defaultFilters={defaultFilters}
-                fields={fields}
-                register={methods.register}
-                formMode={formMode}
-                methods={methods}
-              />
-            </form>
-          </FormContext>
+          <Form
+            submitAllFields
+            useCancelPrompt
+            mode={mode}
+            formSections={formSections}
+            onSubmit={onSubmit}
+            ref={formRef}
+            validations={validations(i18n)}
+            initialValues={initialValues}
+          />
+          <ReportFilters
+            defaultFilters={DEFAULT_FILTERS}
+            fields={fields}
+            register={methods.register}
+            formMode={formMode}
+            methods={methods}
+          />
         </PageContent>
       </PageContainer>
     </LoadingIndicator>

@@ -1,6 +1,6 @@
 # Approvals for a record
 
-Perform approvals on records. Currently there are three approvals: BIA, CASE_PLAN and CLOSURE
+Perform approvals on records. Currently there are three approvals: ASSESSMENT, CASE_PLAN and CLOSURE
 
 **URL** : `/api/v2/cases/:id/approvals/:approval_id`
 
@@ -45,10 +45,10 @@ If the __approval_status__ is either "rejected" or "approved", an optional __not
             "requested_by": "primero_user",
             "approval_date": "2020-01-15",
             "approval_status": "requested",
-            "approval_requested_for": "bia"
+            "approval_requested_for": "assessment"
         }
       ],
-      "approval_status_bia": "pending"
+      "approval_status_assessment": "pending"
     }
   }
 }
@@ -129,7 +129,7 @@ If the __approval_status__ is either "rejected" or "approved", an optional __not
   "errors": [
     {
       "code": 422,
-      "resource": "/api/v2/cases/b3222e84-a5d7-4692-a643-1ab3d41f17d6/approvals/bia",
+      "resource": "/api/v2/cases/b3222e84-a5d7-4692-a643-1ab3d41f17d6/approvals/assessment",
       "message": "approvals.error_invalid_status"
     }
   ]

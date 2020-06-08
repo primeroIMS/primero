@@ -16,3 +16,7 @@
     background-color: $(theme.primero.colors.warmGrey5);
   }
 }
+
+.hiddenField {
+  display: none;
+}

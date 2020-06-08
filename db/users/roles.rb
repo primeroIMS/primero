@@ -712,7 +712,7 @@ gbv_caseworker_permissions = [
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_PDF,
             Permission::REQUEST_APPROVAL_CASE_PLAN,
-            Permission::REQUEST_APPROVAL_BIA,
+            Permission::REQUEST_APPROVAL_ASSESSMENT,
             Permission::REQUEST_APPROVAL_CLOSURE,
             Permission::APPROVE_CASE_PLAN,
             Permission::APPROVE_CLOSURE
@@ -765,7 +765,7 @@ gbv_mobile_caseworker_permissions = [
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_PDF,
             Permission::REQUEST_APPROVAL_CASE_PLAN,
-            Permission::REQUEST_APPROVAL_BIA,
+            Permission::REQUEST_APPROVAL_ASSESSMENT,
             Permission::REQUEST_APPROVAL_CLOSURE,
             Permission::SYNC_MOBILE
         ]
@@ -816,7 +816,7 @@ gbv_cm_supervisor_permissions = [
             Permission::EXPORT_PDF,
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_PDF,
-            Permission::APPROVE_BIA,
+            Permission::APPROVE_ASSESSMENT,
             Permission::APPROVE_CASE_PLAN,
             Permission::APPROVE_CLOSURE
         ]
