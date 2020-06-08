@@ -39,8 +39,10 @@ const Component = ({ field, index }) => {
     });
   };
 
+  const isNotEditable = field.get("editable") === false;
+
   const renderFieldName = () => {
-    const icon = !field.get("editable") ? (
+    const icon = isNotEditable ? (
       <VpnKeyIcon className={css.rotateIcon} />
     ) : (
       <span />
@@ -50,7 +52,7 @@ const Component = ({ field, index }) => {
       <>
         {icon}
         <Button
-          className={clsx({ [css.editable]: field.get("editable") })}
+          className={clsx({ [css.editable]: !isNotEditable })}
           onClick={() => handleClick(field.get("name"))}
         >
           {field.getIn(["display_name", i18n.locale])}
@@ -78,7 +80,7 @@ const Component = ({ field, index }) => {
                 <SwitchInput
                   commonInputProps={{
                     name: `fields.${field.get("name")}.visible`,
-                    disabled: !field.get("editable")
+                    disabled: isNotEditable
                   }}
                 />
               </MuiThemeProvider>

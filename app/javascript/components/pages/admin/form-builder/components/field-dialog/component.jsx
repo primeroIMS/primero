@@ -20,6 +20,8 @@ import {
   updateSelectedField
 } from "../../action-creators";
 import { NEW_FIELD } from "../../constants";
+import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
+import { CUSTOM_FIELD_DIALOG } from "../custom-field-dialog/constants";
 
 import styles from "./styles.css";
 import {
@@ -55,6 +57,12 @@ const Component = ({ mode, onClose, onSuccess }) => {
     }
 
     dispatch(setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: false }));
+    if (selectedField.get("name") === NEW_FIELD) {
+      dispatch(
+        setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: false })
+      );
+      dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: false }));
+    }
   };
 
   const typeField = selectedField.get("type");
