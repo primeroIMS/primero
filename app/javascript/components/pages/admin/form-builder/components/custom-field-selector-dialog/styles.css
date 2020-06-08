@@ -45,3 +45,12 @@
     font-weight: bold;
   }
 }
+
+.inputIcon {
+  width: inherit;
+  font-size: 1.5em;
+}
+
+.inputIconTickBox {
+  font-size: 1.2em !important;
+}

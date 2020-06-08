@@ -10,6 +10,7 @@ import {
   makeStyles
 } from "@material-ui/core";
 import { useDispatch, useSelector, batch } from "react-redux";
+import clsx from "clsx";
 
 import ActionDialog from "../../../../../action-dialog";
 import {
@@ -24,29 +25,32 @@ import {
 import { setDialog } from "../../../../../record-actions/action-creators";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { useI18n } from "../../../../../i18n";
-import RadioImg from "../../../../../../images/field-types/radio.png";
-import DateImg from "../../../../../../images/field-types/date.png";
-import TextImg from "../../../../../../images/field-types/line.png";
-import TextAreaImg from "../../../../../../images/field-types/textarea.png";
-import TickboxImg from "../../../../../../images/field-types/tickbox.png";
-import SeperatorImg from "../../../../../../images/field-types/seperator.png";
-import NumericImg from "../../../../../../images/field-types/numeric.png";
 import { NEW_FIELD } from "../../constants";
 import { setNewField } from "../../action-creators";
 import { selectDialog } from "../../../../../record-actions/selectors";
 import { CUSTOM_FIELD_DIALOG } from "../custom-field-dialog/constants";
+import {
+  DateInput,
+  Seperator,
+  TickBoxInput,
+  TextAreaInput,
+  TextInput,
+  NumericInput,
+  RadioInput
+} from "../../../../../../images/primero-icons";
 
 import styles from "./styles.css";
 import { NAME, CUSTOM_FIELD_SELECTOR_DIALOG } from "./constants";
 
 const fields = [
-  [TEXT_FIELD, TextImg],
-  [TEXT_AREA, TextAreaImg],
-  [TICK_FIELD, TickboxImg],
-  [DATE_FIELD, DateImg],
-  [SEPARATOR, SeperatorImg],
-  [NUMERIC_FIELD, NumericImg],
-  [RADIO_FIELD, RadioImg]
+  [TEXT_FIELD, TextInput],
+  [TEXT_AREA, TextAreaInput],
+  [TICK_FIELD, TickBoxInput],
+  [DATE_FIELD, DateInput],
+  [SEPARATOR, Seperator],
+  [NUMERIC_FIELD, NumericInput],
+  [RADIO_FIELD, RadioInput]
+  // [SUBFORM_SECTION, SubformField]
 ];
 
 const Component = () => {
@@ -143,7 +147,14 @@ const Component = () => {
                   <ListItemText className={css.label}>
                     <div>{i18n.t(`fields.${name}`)}</div>
                     <div className={css.inputPreviewContainer}>
-                      <img src={Icon} alt={name} className={css.inputPreview} />
+                      <Icon
+                        className={clsx(css.inputIcon, {
+                          [css.inputIconTickBox]: [
+                            RADIO_FIELD,
+                            TICK_FIELD
+                          ].includes(name)
+                        })}
+                      />
                     </div>
                   </ListItemText>
                   <ListItemSecondaryAction>
