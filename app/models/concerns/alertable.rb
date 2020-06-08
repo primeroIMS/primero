@@ -46,6 +46,7 @@ module Alertable
   end
 
   def get_alert(approval_type, system_settings)
+    approval_type = "#{approval_type}_gbv" if self.module_id == PrimeroModule::GBV
     alert_form = nil
     system_settings ||= SystemSettings.current
     if system_settings.present?
