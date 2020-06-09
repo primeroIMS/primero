@@ -2470,7 +2470,6 @@ en:
 
   key_performance_indicators:
     label: "Pulse/KPIs"
-    introduction_and_engagement: "Introduction & Engagement"
     case_assessment: "Case Assessment"
     case_action_planning: "Case Action Planning"
     case_action_plan_implementation: "Case Action Plan Implementation"
@@ -2496,47 +2495,47 @@ en:
       7-months: "> 6 Months"
 
     number_of_cases:
-      title: "Number of Cases"
+      title: "1. Number of Cases"
       reporting_site: "Reporting Site"
     number_of_incidents:
-      title: "Number of Incidents"
+      title: "2. Number of Incidents"
       reporting_site: "Reporting Site"
     reporting_delay:
-      title: "Reporting Delay"
+      title: "3. Reporting Delay"
       delay: "Delay"
       total_incidents: "Total Incidents"
     service_access_delay:
-      title: "Service Access Delay"
+      title: "4. Service Access Delay"
       delay: "Delay"
       total_incidents: "Total Incidents"
     assessment_status:
-      title: "Assessment Status"
+      title: "5. Assessment Status"
       completed: "Completed"
       completed_supervisor_approved: "Completed & Supervisor Approved"
     completed_case_safety_plans:
-      title: "Completed Case Safety Plans"
+      title: "7. Completed Case Safety Plans"
       completed: "Completed Case Safety Plan"
     completed_case_action_plans:
-      title: "Completed Case Action Plans"
+      title: "8. Completed Case Action Plans"
       completed: "Completed Case Action Plan"
       label: "Completed Case Action Plan"
     completed_supervisor_approved_case_action_plans:
-      title: "Completed Action Plans Approved by Supervisor"
+      title: "9. Completed Action Plans Approved by Supervisor"
       completed_and_approved: "Completed Case Action Plans Approved by Supervisor"
     services_provided:
-      title: "Services Provided"
+      title: "10. Services Provided"
       service: "Service"
       count: "Times Provided"
     average_referrals:
-      title: "Average Referrals"
+      title: "11.1. Average Referrals"
       label: "Average referrals per case"
     referrals_per_service:
-      title: "Referrals Per Service"
+      title: "12. Referrals Per Service"
     average_followup_meetings_per_case:
-      title: "Average Follow-Up Meetings per Case"
+      title: "15. Average Follow-Up Meetings per Case"
       label: "Average follow-up meetings per case"
     goal_progress_per_need:
-      title: "Goal Progress per Need"
+      title: "16.1. Goal Progress per Need"
       need: "Need"
       safety: "Safety"
       health: "Health"
@@ -2544,20 +2543,20 @@ en:
       justice: "Justice"
       other: "Other"
     time_from_case_open_to_close:
-      title: "Time From Case Open To Case Close"
+      title: "18. Time From Case Open To Case Close"
       time: "Time"
       percent: "Percentage of Cases"
     case_closure_rate:
-      title: "Case Closure Rate"
+      title: "21. Case Closure Rate"
       reporting_site: "Reporting Site"
     client_satisfaction_rate:
-      title: "Client Satisfaction Rate"
+      title: "22. Client Satisfaction Rate"
       label: "Client Satisfaction"
     supervisor_to_caseworker_ratio:
-      title: "Supervisor To Caseworker Ratio"
+      title: "23. Supervisor To Caseworker Ratio"
       label: "Caseworkers per supervisor"
     case_load:
-      title: "Case Load"
+      title: "24. Case Load"
       case_load: "Case Load"
       percent: "Percentage of Cases with Load"
       10cases: "< 10 Cases"
