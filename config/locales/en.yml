@@ -2495,10 +2495,10 @@ en:
       7-months: "> 6 Months"
 
     number_of_cases:
-      title: "1. Number of Cases"
+      title: "1. Number of recorded Cases"
       reporting_site: "Reporting Site"
     number_of_incidents:
-      title: "2. Number of Incidents"
+      title: "2. Number of recorded Incidents"
       reporting_site: "Reporting Site"
     reporting_delay:
       title: "3. Reporting Delay"
