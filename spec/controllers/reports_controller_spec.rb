@@ -141,6 +141,7 @@ describe ReportsController do
       expected_results = {
           ["bobby"] => 2,
           ["fred"] =>1 ,
+          ["Total"] => 3,
           [""] => nil
       }
       session = fake_login @owner
@@ -153,6 +154,7 @@ describe ReportsController do
       expected_results = {
           ["fred"] => 1 ,
           ["bobby"] => 0,
+          ["Total"] => 1,
           [""] => nil
       }
       session = fake_login @owner2
@@ -414,6 +416,7 @@ describe ReportsController do
         ['case_worker_1'] => 2,
         ['case_worker_2'] => 1,
         ['case_worker_3'] => 0,
+        ['Total'] => 3,
         [''] => nil
       }
       expect(assigns[:report].data[:values]).to eq(expected_report)
@@ -427,6 +430,7 @@ describe ReportsController do
       expected_report = {
         ['case_worker_1'] => 2,
         ['case_worker_2'] => 1,
+        ['Total'] => 3,
         [''] => nil
       }
       expect(assigns[:report].data[:values]).to eq(expected_report)

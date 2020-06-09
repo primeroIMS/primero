@@ -14,6 +14,9 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
     var form = $(event.target).parents('form');
 
     _primero.loading_screen_indicator('show');
+    form.on("forminvalid.zf.abide", function (ev, el) {
+      _primero.loading_screen_indicator('hide');
+    });
 
     $('html').attr('style', '');
 

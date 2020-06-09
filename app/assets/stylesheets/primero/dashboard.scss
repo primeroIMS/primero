@@ -538,3 +538,83 @@ $dashboard_table_counts:85px;
     }
   }
 }
+
+@media only screen and (max-width: 1023px){
+  #dashboard {
+    #content {
+      table.table-counts {
+        th:not(:first-child), td:not(:first-child) {
+          width: 50px !important;
+        }
+        th:first-child, td:first-child {
+          width: 80px !important;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 639px) {
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    .column {
+      flex: 0 1 auto;
+      -webkit-flex: 0;
+      flex-shrink: 0;
+    }
+  }
+
+  #sidebar{
+    display: none;
+  }
+
+  #dashboard {
+    #content {
+      table.table-counts {
+        th {
+          padding: 0.25rem 0.25rem 0.25rem;
+        }
+        th:not(:first-child) {
+          font-size: 9px;
+          span{
+            font-size: 8px;
+          }
+        }
+        th:first-child{
+          font-size: 10px;
+        }
+        td:first-child{
+          font-size: 13px;
+        }
+      }
+    }
+  }
+
+  ul.menu.simple.align-right.links {
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-bottom: 10px;
+    li {
+      flex: 1 1;
+      flex-basis: 150px;
+      margin-left: 2.5px;
+      padding-right: 2.5px;
+    }
+  }
+}
+
+@media only screen and (min-width: 640px) and (max-width: 1023px) {
+  ul.menu.simple.align-right.links {
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    li {
+      flex: 1 1;
+      flex-basis: 150px;
+      margin-left: 5px;
+      padding-right: 5px;
+      padding-left: 5px;
+    }
+  }
+}
