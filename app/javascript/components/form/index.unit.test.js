@@ -23,6 +23,7 @@ describe("<Form /> - index", () => {
       "RADIO_FIELD",
       "SELECT_FIELD",
       "SEPARATOR",
+      "SUBFORM_SECTION",
       "submitHandler",
       "TEXT_AREA",
       "TEXT_FIELD",

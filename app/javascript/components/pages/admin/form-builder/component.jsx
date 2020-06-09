@@ -4,8 +4,9 @@ import { makeStyles, Tab, Tabs } from "@material-ui/core";
 import { FormContext, useForm } from "react-hook-form";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch, useSelector } from "react-redux";
 
+import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
 import { PageContent, PageHeading } from "../../../page";
@@ -28,7 +29,14 @@ import {
 import { clearSelectedForm, fetchForm, saveForm } from "./action-creators";
 import { settingsForm, validationSchema } from "./forms";
 import { NAME, NEW_FIELD } from "./constants";
-import { getSelectedForm, getSelectedField } from "./selectors";
+import {
+  getSavingRecord,
+  getSelectedField,
+  getSelectedForm,
+  getSelectedSubforms,
+  getServerErrors,
+  getUpdatedFormIds
+} from "./selectors";
 import { convertToFieldsArray, convertToFieldsObject } from "./utils";
 import styles from "./styles.css";
 import { transformValues } from "./components/field-dialog/utils";
@@ -42,8 +50,18 @@ const Component = ({ mode }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const [tab, setTab] = useState(0);
+  const saving = useSelector(state => getSavingRecord(state), compare);
+  const errors = useSelector(state => getServerErrors(state), compare);
+  const updatedFormIds = useSelector(
+    state => getUpdatedFormIds(state),
+    compare
+  );
   const selectedForm = useSelector(state => getSelectedForm(state), compare);
   const selectedField = useSelector(state => getSelectedField(state), compare);
+  const selectedSubforms = useSelector(
+    state => getSelectedSubforms(state),
+    compare
+  );
   const isLoading = useSelector(state => getIsLoading(state));
   const methods = useForm({
     validationSchema: validationSchema(i18n),
@@ -63,18 +81,23 @@ const Component = ({ mode }) => {
     selectedField.get("name") === NEW_FIELD ? MODES.new : mode;
 
   const onSubmit = data => {
-    dispatch(
-      saveForm({
-        id,
-        saveMethod: formMode.get("isEdit")
-          ? SAVE_METHODS.update
-          : SAVE_METHODS.new,
-        body: { data: { ...data, fields: convertToFieldsArray(data.fields) } },
-        message: i18n.t(
-          `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
-        )
-      })
-    );
+    batch(() => {
+      dispatch(
+        saveForm({
+          id,
+          saveMethod: formMode.get("isEdit")
+            ? SAVE_METHODS.update
+            : SAVE_METHODS.new,
+          body: {
+            data: { ...data, fields: convertToFieldsArray(data.fields) }
+          },
+          message: i18n.t(
+            `forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`
+          ),
+          subforms: selectedSubforms.toJS()
+        })
+      );
+    });
   };
 
   const onClose = () => {
@@ -82,6 +105,25 @@ const Component = ({ mode }) => {
       dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true }));
     }
   };
+
+  useEffect(() => {
+    if (saving && (errors?.size || updatedFormIds?.size)) {
+      const successful = !errors?.size && updatedFormIds?.size;
+
+      dispatch({
+        type: ENQUEUE_SNACKBAR,
+        payload: {
+          message: successful
+            ? i18n.t("forms.messages.save_success")
+            : i18n.t("forms.messages.save_with_errors"),
+          options: {
+            variant: successful ? "success" : "error",
+            key: generate.messageKey()
+          }
+        }
+      });
+    }
+  }, [updatedFormIds]);
 
   useEffect(() => {
     dispatch(fetchForms());
@@ -122,14 +164,14 @@ const Component = ({ mode }) => {
   );
 
   const onSuccess = data => {
-    Object.entries(data).forEach(entry => {
-      const transformedFieldValues = transformValues(entry[1], true);
+    Object.entries(data).forEach(([fieldName, fieldData]) => {
+      const transformedFieldValues = transformValues(fieldData, true);
 
-      Object.entries(transformedFieldValues).forEach(valueEntry => {
-        if (!methods.control[`fields.${entry[0]}.${valueEntry[0]}`]) {
-          methods.register({ name: `fields.${entry[0]}.${valueEntry[0]}` });
+      Object.entries(transformedFieldValues).forEach(([key, value]) => {
+        if (!methods.control[`fields.${fieldName}.${key}`]) {
+          methods.register({ name: `fields.${fieldName}.${key}` });
         }
-        methods.setValue(`fields.${entry[0]}.${valueEntry[0]}`, valueEntry[1]);
+        methods.setValue(`fields.${fieldName}.${key}`, value);
       });
     });
   };

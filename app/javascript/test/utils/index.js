@@ -153,11 +153,12 @@ export const setupMockFormComponent = (
   Component,
   props = {},
   parentProps = {},
-  state = {}
+  state = {},
+  defaultValues = {}
 ) => {
   const MockFormComponent = () => {
     const { inputProps, field, mode } = props;
-    const formMethods = useForm();
+    const formMethods = useForm({ defaultValues });
     const formMode = whichFormMode(mode);
 
     const commonInputProps = setupFormInputProps(
