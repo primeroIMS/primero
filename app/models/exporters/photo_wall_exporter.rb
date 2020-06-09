@@ -52,7 +52,7 @@ module Exporters
     end
 
     def add_child_photo(pdf, child, with_full_id = false)
-      storage = StringIO.new(child.photo.file.blob.download)
+      storage = StringIO.new(child&.photo&.file&.blob&.download)
       render_image(pdf, storage)
       pdf.move_down 25
       pdf.text child.short_id, size: 40, align: :center, style: :bold if with_full_id
