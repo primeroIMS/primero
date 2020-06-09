@@ -140,7 +140,7 @@ en:
     lookups: "Lookups"
     users: "Settings"
     replications: "Sync"
-    key_performance_indicators: "Pulse"
+    key_performance_indicators: "Pulse/KPIs"
     reports: "Reports"
     advanced_search: "Advanced Search"
     go: "Go"
@@ -2469,7 +2469,7 @@ en:
     no_token_in_header: "no session token in headers or cookies"
 
   key_performance_indicators:
-    label: "Pulse"
+    label: "Pulse/KPIs"
     introduction_and_engagement: "Introduction & Engagement"
     case_assessment: "Case Assessment"
     case_action_planning: "Case Action Planning"
