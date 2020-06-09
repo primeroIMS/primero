@@ -11,7 +11,7 @@ export default function TablePercentageBar({ percentage, className}) {
   const percentageValue = Math.max(5, percentage * 100);
   const isZero = percentage === 0;
 
-  const barClassNames = [css.TablePercentageBar, className].join(" ");
+  const barClassNames = [css.TablePercentageBarContainer, className].join(" ");
   const fillingClassNames = [
     css.TablePercentageBarComplete,
     isZero ? css.emptyColor : css.filledColor
@@ -19,9 +19,11 @@ export default function TablePercentageBar({ percentage, className}) {
 
   return (
     <div className={barClassNames}>
-      <div
-        className={fillingClassNames}
-        style={{ width: percentageValue + "%" }}></div>
+      <div class={css.TablePercentageBar}>
+        <div
+          className={fillingClassNames}
+          style={{ width: percentageValue + "%" }}></div>
+      </div>
     </div>
   )
 }
