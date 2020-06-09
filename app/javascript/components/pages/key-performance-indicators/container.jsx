@@ -42,8 +42,6 @@ function KeyPerformanceIndicators({}) {
         <PageContent>
           <Grid>
             <Box>
-              <h2 className={css.subtitle}>{i18n.t('key_performance_indicators.introduction_and_engagement')}</h2>
-
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={6}>
                   <NumberOfCases 
