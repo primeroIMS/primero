@@ -1,4 +1,4 @@
-import { Record } from "immutable";
+import { Record, fromJS } from "immutable";
 
 export const FieldRecord = Record({
   name: "",
@@ -25,6 +25,7 @@ export const FieldRecord = Record({
 export const FormSectionRecord = Record({
   id: "",
   unique_id: "",
+  description: fromJS({}),
   name: {},
   visible: null,
   is_first_tab: null,
