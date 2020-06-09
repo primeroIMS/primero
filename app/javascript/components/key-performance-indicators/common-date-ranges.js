@@ -32,7 +32,7 @@ const CommonDateRanges = {
         endOfMonth(today)),
       LastYear: new DateRange(
         '12-months',
-        i18n.t('key_performance_indicators.time_periods.last_year'),
+        i18n.t('key_performance_indicators.time_periods.last_1_year'),
         startOfMonth(subMonths(today, 11)),
         endOfMonth(today)),
     }
