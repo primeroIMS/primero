@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../../../../../i18n";
 
-import { NAME } from "./constants";
+import { NAME, GROUP_BY, SORT_BY } from "./constants";
 import styles from "./styles.css";
 
 const Component = ({ subformField }) => {
@@ -28,26 +28,23 @@ const Component = ({ subformField }) => {
     setValue(`${fieldName}.subform_group_by`, "");
   };
 
-  const renderSortBy = () =>
-    subformSortBy ? (
-      <Button className={css.clearButton} onClick={onClearSortBy}>
+  const renderClearButton = (fieldBy, onClick) =>
+    ((fieldBy === SORT_BY && subformSortBy) ||
+      (fieldBy === GROUP_BY && subformGroupBy)) && (
+      <Button className={css.clearButton} onClick={onClick}>
         <CloseIcon />
-        {i18n.t("fields.clear_sort_by")}
+        {i18n.t(`fields.clear_${fieldBy}`)}
       </Button>
-    ) : null;
-
-  const renderGroupBy = () =>
-    subformGroupBy ? (
-      <Button className={css.clearButton} onClick={onClearGroupBy}>
-        <CloseIcon />
-        {i18n.t("fields.clear_group_by")}
-      </Button>
-    ) : null;
+    );
 
   return (
     <div className={css.fieldRow}>
-      <div className={css.fieldColumn}>{renderSortBy()}</div>
-      <div className={css.fieldColumn}>{renderGroupBy()}</div>
+      <div className={css.fieldColumn}>
+        {renderClearButton(SORT_BY, onClearSortBy)}
+      </div>
+      <div className={css.fieldColumn}>
+        {renderClearButton(GROUP_BY, onClearGroupBy)}
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
+import { METHODS, RECORD_PATH, SAVE_METHODS } from "../../../../config";
 
 import { getFormRequestPath } from "./utils";
 import actions from "./actions";
@@ -36,7 +36,8 @@ export const reorderFields = (name, order, isSubform) => ({
 });
 
 export const saveForm = ({ id, body, saveMethod, subforms = [] }) => {
-  const method = saveMethod === SAVE_METHODS.update ? "PATCH" : "POST";
+  const method =
+    saveMethod === SAVE_METHODS.update ? METHODS.PATCH : METHODS.POST;
 
   return {
     type: actions.SAVE_FORM,

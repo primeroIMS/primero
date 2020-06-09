@@ -59,19 +59,10 @@ const Component = ({ subformField }) => {
       />
     ));
 
-  const renderSortColumn = () =>
-    isNested ? (
-      <div className={clsx([css.fieldColumn, css.fieldHeader])}>
-        {i18n.t("fields.subform_sort_by")}
-      </div>
-    ) : null;
-
-  const renderGroupColumn = () =>
-    isNested ? (
-      <div className={clsx([css.fieldColumn, css.fieldHeader])}>
-        {i18n.t("fields.subform_group_by")}
-      </div>
-    ) : null;
+  const renderColumn = text =>
+    isNested && (
+      <div className={clsx([css.fieldColumn, css.fieldHeader])}>{text}</div>
+    );
 
   return (
     <>
@@ -99,8 +90,8 @@ const Component = ({ subformField }) => {
                 <div className={clsx([css.fieldColumn, css.fieldHeader])}>
                   {i18n.t("fields.type")}
                 </div>
-                {renderSortColumn()}
-                {renderGroupColumn()}
+                {renderColumn(i18n.t("fields.subform_sort_by"))}
+                {renderColumn(i18n.t("fields.subform_group_by"))}
                 <div
                   className={clsx([
                     css.fieldColumn,

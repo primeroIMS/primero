@@ -1,5 +1,4 @@
-/* eslint-disable react/no-multi-comp */
-/* eslint-disable react/display-name */
+/* eslint-disable react/display-name, react/no-multi-comp */
 import React from "react";
 import { useDispatch, batch } from "react-redux";
 import { Controller, useFormContext } from "react-hook-form";
@@ -24,7 +23,7 @@ import { getFieldsAttribute, getFiedListItemTheme } from "../utils";
 import styles from "../fields-list/styles.css";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 
-import { NAME } from "./constants";
+import { NAME, SUBFORM_GROUP_BY, SUBFORM_SORT_BY } from "./constants";
 
 const Component = ({ field, index, subformField }) => {
   const css = makeStyles(styles)();
@@ -36,10 +35,10 @@ const Component = ({ field, index, subformField }) => {
   const parentFieldName = subformField?.get("name", "");
   const fieldsAttribute = getFieldsAttribute(isNested);
   const subformSortBy = isNested
-    ? watch(`${parentFieldName}.subform_sort_by`, "")
+    ? watch(`${parentFieldName}.${SUBFORM_SORT_BY}`, "")
     : null;
   const subformGroupBy = isNested
-    ? watch(`${parentFieldName}.subform_group_by`, "")
+    ? watch(`${parentFieldName}.${SUBFORM_GROUP_BY}`, "")
     : null;
 
   const themeOverrides = createMuiTheme(getFiedListItemTheme(currentTheme));
@@ -78,29 +77,24 @@ const Component = ({ field, index, subformField }) => {
     );
   };
 
-  const renderSortColumn = () =>
-    isNested ? (
-      <div className={css.fieldColumn}>
-        <Controller
-          as={<Radio />}
-          inputProps={{ value: field.get("name") }}
-          checked={subformSortBy === field.get("name")}
-          name={`${parentFieldName}.subform_sort_by`}
-        />
-      </div>
-    ) : null;
+  const renderColumn = column => {
+    const checked =
+      (SUBFORM_SORT_BY === column && subformSortBy === field.get("name")) ||
+      (SUBFORM_GROUP_BY === column && subformGroupBy === field.get("name"));
 
-  const renderGroupColumn = () =>
-    isNested ? (
-      <div className={css.fieldColumn}>
-        <Controller
-          as={<Radio />}
-          inputProps={{ value: field.get("name") }}
-          checked={subformGroupBy === field.get("name")}
-          name={`${parentFieldName}.subform_group_by`}
-        />
-      </div>
-    ) : null;
+    return (
+      isNested && (
+        <div className={css.fieldColumn}>
+          <Controller
+            as={<Radio />}
+            inputProps={{ value: field.get("name") }}
+            checked={checked}
+            name={`${parentFieldName}.${column}`}
+          />
+        </div>
+      )
+    );
+  };
 
   return (
     <Draggable draggableId={field.get("name")} index={index}>
@@ -116,8 +110,8 @@ const Component = ({ field, index, subformField }) => {
             <div className={css.fieldColumn}>
               {i18n.t(`fields.${field.get("type")}`)}
             </div>
-            {renderSortColumn()}
-            {renderGroupColumn()}
+            {renderColumn(SUBFORM_SORT_BY)}
+            {renderColumn(SUBFORM_GROUP_BY)}
             <div className={clsx([css.fieldColumn, css.fieldShow])}>
               <MuiThemeProvider theme={themeOverrides}>
                 <SwitchInput

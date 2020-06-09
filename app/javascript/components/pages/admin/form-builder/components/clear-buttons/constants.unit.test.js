@@ -4,7 +4,7 @@ describe("pages/admin/<FormBuilder />/components/<ClearButtons /> - Constants", 
   it("should have known properties", () => {
     const clonedConstants = { ...constants };
 
-    ["NAME"].forEach(property => {
+    ["GROUP_BY", "NAME", "SORT_BY"].forEach(property => {
       expect(clonedConstants).to.have.property(property);
       delete clonedConstants[property];
     });

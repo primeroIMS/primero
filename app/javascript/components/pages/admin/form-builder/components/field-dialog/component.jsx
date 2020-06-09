@@ -1,5 +1,4 @@
-/* eslint-disable react/display-name */
-/* eslint-disable react/no-multi-comp */
+/* eslint-disable react/display-name, react/no-multi-comp */
 import React, { useEffect, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
 import { batch, useSelector, useDispatch } from "react-redux";
@@ -114,14 +113,14 @@ const Component = ({ mode, onClose, onSuccess }) => {
     ));
 
   const renderFieldsList = () =>
-    isSubformField(selectedField) ? (
+    isSubformField(selectedField) && (
       <FieldsList subformField={selectedField} />
-    ) : null;
+    );
 
   const renderClearButtons = () =>
-    isSubformField(selectedField) ? (
+    isSubformField(selectedField) && (
       <ClearButtons subformField={selectedField} />
-    ) : null;
+    );
 
   useEffect(() => {
     if (selectedField?.size) {
