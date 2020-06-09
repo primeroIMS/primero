@@ -41,7 +41,7 @@ module Api::V2
     def report_params
       params.require(:data).permit(
         :record_type, :module_id, :graph, :aggregate_counts_from, :group_ages, :group_dates_by, :add_default_filters,
-        name: {}, description: {}, fields: [:name, position: {}], filters: [:attribute, :constraint, value: []]
+        name: {}, description: {}, fields: [:name, position: {}], filters: [[:attribute, :constraint, value: []], [:attribute, :constraint, :value]]
       )
     end
 

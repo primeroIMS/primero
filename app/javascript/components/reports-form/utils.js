@@ -162,8 +162,10 @@ export const checkValue = filter => {
     return [format(value, DATE_FORMAT)];
   }
 
-  if (isNumber(value)) {
-    return [value.toString()];
+  if (/^\d+$/.test(value)) {
+    console.log("NUMBER", value);
+
+    return value;
   }
 
   return value;
